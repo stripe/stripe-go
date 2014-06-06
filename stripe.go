@@ -19,18 +19,22 @@ type Client struct {
 	Charges *ChargeClient
 }
 
-type s struct{}
+type s struct {
+	httpClient *http.Client
+}
 
 const uri = "https://api.stripe.com/v1"
 
-var httpClient = &http.Client{}
-
-func (c *Client) Init(token string, api Api) {
-	if api == nil {
-		api = &s{}
+func (c *Client) Init(token string, client *http.Client, api Api) {
+	if client == nil {
+		client = http.DefaultClient
 	}
 
+	if api == nil {
+		api = &s{httpClient: client}
+	}
 	c.api = api
+
 	c.Token = token
 
 	c.Charges = &ChargeClient{api: c.api, token: c.Token}
@@ -57,7 +61,7 @@ func (s *s) Call(method, path, token string, body *url.Values) ([]byte, error) {
 
 	log.Printf("Requesting %v %q\n", method, path)
 
-	res, err := httpClient.Do(req)
+	res, err := s.httpClient.Do(req)
 	if err != nil {
 		log.Printf("Request to Stripe failed: %v\n", err)
 		return nil, err

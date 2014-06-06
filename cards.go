@@ -29,7 +29,7 @@ type Card struct {
 	Type        CardType `json:"type"`
 	Month       uint8    `json:"exp_month"`
 	Year        uint16   `json:"exp_year"`
-	Last4       string   `json:"last4"`
+	LastFour    string   `json:"last4"`
 	Fingerprint string   `json:"fingerprint"`
 	CardCountry string   `json:"country,omitempty"`
 	Customer    string   `json:"customer,omitempty"`

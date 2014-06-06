@@ -6,7 +6,7 @@ import (
 
 func TestCreate(t *testing.T) {
 	c := &Client{}
-	c.Init(key, nil)
+	c.Init(key, nil, nil)
 
 	charge := &ChargeParams{
 		Amount:   1000,
@@ -43,7 +43,7 @@ func TestCreate(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	c := &Client{}
-	c.Init(key, nil)
+	c.Init(key, nil, nil)
 
 	charge := &ChargeParams{
 		Amount:   1001,
@@ -69,7 +69,7 @@ func TestGet(t *testing.T) {
 
 func TestUpdate(t *testing.T) {
 	c := &Client{}
-	c.Init(key, nil)
+	c.Init(key, nil, nil)
 
 	charge := &ChargeParams{
 		Amount:   1002,
@@ -108,7 +108,7 @@ func TestUpdate(t *testing.T) {
 
 func TestRefund(t *testing.T) {
 	c := &Client{}
-	c.Init(key, nil)
+	c.Init(key, nil, nil)
 
 	charge := &ChargeParams{
 		Amount:   1003,
@@ -163,7 +163,7 @@ func TestRefund(t *testing.T) {
 
 func TestCapture(t *testing.T) {
 	c := &Client{}
-	c.Init(key, nil)
+	c.Init(key, nil, nil)
 
 	charge := &ChargeParams{
 		Amount:   1004,
