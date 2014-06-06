@@ -33,7 +33,7 @@ type Card struct {
 	Fingerprint string   `json:"fingerprint"`
 	CardCountry string   `json:"country,omitempty"`
 	Customer    string   `json:"customer,omitempty"`
-	Recipient   string   `json:recipient,omitempty"`
+	Recipient   string   `json:"recipient,omitempty"`
 	Address1    string   `json:"address_line1,omitempty"`
 	Address2    string   `json:"address_line2,omitempty"`
 	Country     string   `json:"address_country,omitempty"`
