@@ -194,7 +194,7 @@ type Charge struct {
 	Invoice        string            `json:"invoice,omitempty"`
 	Desc           string            `json:"description,omitempty"`
 	Dispute        string            `json:"dispute,omitempty"`
-	Metadata       map[string]string `json:"metadata"`
+	Metadata       map[string]string `json:"metadata,omitempty"`
 }
 
 type Refund struct {
