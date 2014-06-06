@@ -176,17 +176,17 @@ type CaptureParams struct {
 }
 
 type Charge struct {
-	Id       string   `json:"id"`
-	Created  int64    `json:"created"`
-	Live     bool     `json:"livemode"`
-	Paid     bool     `json:"paid"`
-	Amount   uint64   `json:"amount"`
-	Currency Currency `json:"currency"`
-	Refunded bool     `json:"refunded"`
-	Card     Card     `json: "card"`
-	Captured bool     `json:"captured"`
-	Customer string   `json:"customer"`
-	//Refunds
+	Id             string            `json:"id"`
+	Created        int64             `json:"created"`
+	Live           bool              `json:"livemode"`
+	Paid           bool              `json:"paid"`
+	Amount         uint64            `json:"amount"`
+	Currency       Currency          `json:"currency"`
+	Refunded       bool              `json:"refunded"`
+	Card           Card              `json: "card"`
+	Captured       bool              `json:"captured"`
+	Customer       string            `json:"customer"`
+	Refunds        []Refund          `json:"refunds",omitempty`
 	Balance        string            `json:"balance_transaction"`
 	FailMsg        string            `json:"failure_message,omitempty"`
 	FailCode       string            `json:"failure_code,omitempty"`
@@ -195,6 +195,12 @@ type Charge struct {
 	Desc           string            `json:"description,omitempty"`
 	Dispute        string            `json:"dispute,omitempty"`
 	Metadata       map[string]string `json:"metadata"`
+}
+
+type Refund struct {
+	Amount   uint64   `json:"amount"`
+	Created  int64    `json:"created"`
+	Currency Currency `json:"currency"`
 }
 
 type ChargeClient struct {

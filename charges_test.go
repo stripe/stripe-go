@@ -136,6 +136,18 @@ func TestRefund(t *testing.T) {
 		t.Errorf("Expected to have refunded this charge\n")
 	}
 
+	if len(target.Refunds) != 1 {
+		t.Errorf("Expected to have a refund, but instead have %v\n", len(target.Refunds))
+	}
+
+	if target.Refunds[0].Amount != target.AmountRefunded {
+		t.Errorf("Refunded amount %v does not match amount refunded %v\n", target.Refunds[0].Amount, target.AmountRefunded)
+	}
+
+	if target.Refunds[0].Currency != target.Currency {
+		t.Errorf("Refunded currency %q does not match charge currency %q\n", target.Refunds[0].Currency, target.Currency)
+	}
+
 	res, err = c.Charges.Create(charge)
 
 	// partial refund
