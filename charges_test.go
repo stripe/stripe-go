@@ -1,7 +1,6 @@
 package stripe
 
 import (
-	//	"fmt"
 	"testing"
 )
 
