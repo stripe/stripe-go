@@ -183,10 +183,10 @@ type Charge struct {
 	Amount         uint64            `json:"amount"`
 	Currency       Currency          `json:"currency"`
 	Refunded       bool              `json:"refunded"`
-	Card           Card              `json: "card"`
+	Card           *Card             `json: "card"`
 	Captured       bool              `json:"captured"`
 	Customer       string            `json:"customer"`
-	Refunds        []Refund          `json:"refunds",omitempty`
+	Refunds        []*Refund         `json:"refunds",omitempty`
 	Balance        string            `json:"balance_transaction"`
 	FailMsg        string            `json:"failure_message,omitempty"`
 	FailCode       string            `json:"failure_code,omitempty"`
