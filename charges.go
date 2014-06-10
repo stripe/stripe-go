@@ -153,15 +153,14 @@ const (
 )
 
 type ChargeParams struct {
-	Amount    uint64
-	Currency  Currency
-	Customer  string
-	Token     string
-	Card      *CardParams
-	Desc      string
-	Meta      map[string]string
-	NoCapture bool
-	Statement string
+	Amount          uint64
+	Currency        Currency
+	Customer, Token string
+	Card            *CardParams
+	Desc            string
+	Meta            map[string]string
+	NoCapture       bool
+	Statement       string
 	//Fee       uint
 }
 
@@ -219,9 +218,9 @@ func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
 	} else if len(params.Token) > 0 {
 		body.Add("card", params.Token)
 	} else if params.Card != nil {
-		params.Card.appendTo(body)
+		params.Card.appendTo(body, true)
 	} else {
-		err := errors.New("Invalid charge params: Either customer, card token or card need to be set")
+		err := errors.New("Invalid charge params: either customer, card token or card need to be set")
 		return nil, err
 	}
 

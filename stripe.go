@@ -19,6 +19,7 @@ type Client struct {
 	api       Api
 	Charges   *ChargeClient
 	Customers *CustomerClient
+	Cards     *CardClient
 }
 
 type s struct {
@@ -41,6 +42,7 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 
 	c.Charges = &ChargeClient{api: c.api, token: c.Token}
 	c.Customers = &CustomerClient{api: c.api, token: c.Token}
+	c.Cards = &CardClient{api: c.api, token: c.Token}
 }
 
 func (s *s) Call(method, path, token string, body *url.Values) ([]byte, error) {

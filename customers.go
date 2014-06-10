@@ -8,17 +8,15 @@ import (
 )
 
 type CustomerParams struct {
-	Balance     int64
-	Token       string
-	Card        *CardParams
-	Coupon      string
-	Desc        string
-	Email       string
-	Meta        map[string]string
-	Plan        string
-	Quantity    uint64
-	End         int64
-	DefaultCard string
+	Balance       int64
+	Token, Coupon string
+	Card          *CardParams
+	Desc, Email   string
+	Meta          map[string]string
+	Plan          string
+	Quantity      uint64
+	End           int64
+	DefaultCard   string
 }
 
 type Customer struct {
@@ -52,7 +50,7 @@ func (c *CustomerClient) Create(params *CustomerParams) (*Customer, error) {
 	if len(params.Token) > 0 {
 		body.Add("card", params.Token)
 	} else if params.Card != nil {
-		params.Card.appendTo(body)
+		params.Card.appendTo(body, true)
 	}
 
 	if len(params.Desc) > 0 {
@@ -123,7 +121,7 @@ func (c *CustomerClient) Update(id string, params *CustomerParams) (*Customer, e
 	if len(params.Token) > 0 {
 		body.Add("card", params.Token)
 	} else if params.Card != nil {
-		params.Card.appendTo(body)
+		params.Card.appendTo(body, true)
 	}
 
 	if len(params.Desc) > 0 {

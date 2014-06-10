@@ -1,6 +1,9 @@
 package stripe
 
 import (
+	"encoding/json"
+	"errors"
+	"fmt"
 	"net/url"
 )
 
@@ -52,40 +55,170 @@ type CardList struct {
 	Data  []*Card `json:"data"`
 }
 
-func (c *CardParams) appendTo(values *url.Values) {
-	values.Add("card[number]", c.Number)
-	values.Add("card[exp_month]", c.Month)
-	values.Add("card[exp_year]", c.Year)
+type CardClient struct {
+	api   Api
+	token string
+}
 
-	if len(c.Name) > 0 {
-		values.Add("card[name]", c.Name)
+func (c *CardClient) Create(params *CardParams) (*Card, error) {
+	body := &url.Values{}
+	params.appendTo(body, true)
+
+	var res []byte
+	var err error
+
+	if len(params.Customer) > 0 {
+		res, err = c.api.Call("POST", fmt.Sprintf("/customers/%v/cards", params.Customer), c.token, body)
+	} else if len(params.Recipient) > 0 {
+		res, err = c.api.Call("POST", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.token, body)
+	} else {
+		err = errors.New("Invalid card params: either customer or recipient need to be set")
 	}
 
-	if len(c.CVC) > 0 {
-		values.Add("card[cvc]", c.CVC)
+	if err != nil {
+		return nil, err
+	}
+
+	var card Card
+	err = json.Unmarshal(res, &card)
+	if err != nil {
+		return nil, err
+	}
+
+	return &card, nil
+}
+
+func (c *CardClient) Get(id string, params *CardParams) (*Card, error) {
+	var res []byte
+	var err error
+
+	if len(params.Customer) > 0 {
+		res, err = c.api.Call("GET", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.token, nil)
+	} else if len(params.Recipient) > 0 {
+		res, err = c.api.Call("GET", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.token, nil)
+	} else {
+		err = errors.New("Invalid card params: either customer or recipient need to be set")
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	var card Card
+	err = json.Unmarshal(res, &card)
+	if err != nil {
+		return nil, err
+	}
+
+	return &card, nil
+}
+
+func (c *CardClient) Update(id string, params *CardParams) (*Card, error) {
+	body := &url.Values{}
+	params.appendTo(body, false)
+
+	var res []byte
+	var err error
+
+	if len(params.Customer) > 0 {
+		res, err = c.api.Call("POST", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.token, body)
+	} else if len(params.Recipient) > 0 {
+		res, err = c.api.Call("POST", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.token, body)
+	} else {
+		err = errors.New("Invalid card params: either customer or recipient need to be set")
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	var card Card
+	err = json.Unmarshal(res, &card)
+	if err != nil {
+		return nil, err
+	}
+
+	return &card, nil
+}
+
+func (c *CardClient) Delete(id string, params *CardParams) error {
+	var err error
+
+	if len(params.Customer) > 0 {
+		_, err = c.api.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.token, nil)
+	} else if len(params.Recipient) > 0 {
+		_, err = c.api.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.token, nil)
+	} else {
+		err = errors.New("Invalid card params: either customer or recipient need to be set")
+	}
+
+	return err
+}
+
+func (c *CardParams) appendTo(values *url.Values, creating bool) {
+	if creating {
+		values.Add("card[number]", c.Number)
+		values.Add("card[exp_month]", c.Month)
+		values.Add("card[exp_year]", c.Year)
+
+		if len(c.CVC) > 0 {
+			values.Add("card[cvc]", c.CVC)
+		}
+	}
+
+	if len(c.Name) > 0 {
+		if creating {
+			values.Add("card[name]", c.Name)
+		} else {
+			values.Add("name", c.Name)
+		}
 	}
 
 	if len(c.Address1) > 0 {
-		values.Add("card[address1]", c.Address1)
+		if creating {
+			values.Add("card[address_line1]", c.Address1)
+		} else {
+			values.Add("address_line1", c.Address1)
+		}
 	}
 
 	if len(c.Address2) > 0 {
-		values.Add("card[address2]", c.Address2)
+		if creating {
+			values.Add("card[address_line2]", c.Address2)
+		} else {
+			values.Add("address_line2", c.Address2)
+		}
 	}
 
 	if len(c.City) > 0 {
-		values.Add("card[address_city]", c.City)
+		if creating {
+			values.Add("card[address_city]", c.City)
+		} else {
+			values.Add("address_city", c.City)
+		}
 	}
 
 	if len(c.State) > 0 {
-		values.Add("card[address_state", c.State)
+		if creating {
+			values.Add("card[address_state]", c.State)
+		} else {
+			values.Add("address_state", c.State)
+		}
 	}
 
 	if len(c.Zip) > 0 {
-		values.Add("card[address_zip]", c.Zip)
+		if creating {
+			values.Add("card[address_zip]", c.Zip)
+		} else {
+			values.Add("address_zip", c.Zip)
+		}
 	}
 
 	if len(c.Country) > 0 {
-		values.Add("card[address_country]", c.Country)
+		if creating {
+			values.Add("card[address_country]", c.Country)
+		} else {
+			values.Add("address_country", c.Country)
+		}
 	}
 }

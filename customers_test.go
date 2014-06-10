@@ -105,10 +105,7 @@ func TestCustomerUpdate(t *testing.T) {
 		Email: "first@b.com",
 	}
 
-	original, err := c.Customers.Create(customer)
-	if err != nil {
-		t.Error(err)
-	}
+	original, _ := c.Customers.Create(customer)
 
 	updated := &CustomerParams{
 		Balance: -10,
