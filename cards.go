@@ -45,6 +45,13 @@ type Card struct {
 	CVCCheck    string   `json:"cvc_check,omitempty"`
 }
 
+type CardList struct {
+	Count uint16  `json:"total_count"`
+	More  bool    `json:"has_more"`
+	Url   string  `json:"url"`
+	Data  []*Card `json:"data"`
+}
+
 func (c *CardParams) appendTo(values *url.Values) {
 	values.Add("card[number]", c.Number)
 	values.Add("card[exp_month]", c.Month)

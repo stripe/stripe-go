@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestCreate(t *testing.T) {
+func TestChargeCreate(t *testing.T) {
 	c := &Client{}
 	c.Init(key, nil, nil)
 
@@ -41,7 +41,7 @@ func TestCreate(t *testing.T) {
 	}
 }
 
-func TestGet(t *testing.T) {
+func TestChargeGet(t *testing.T) {
 	c := &Client{}
 	c.Init(key, nil, nil)
 
@@ -67,7 +67,7 @@ func TestGet(t *testing.T) {
 	}
 }
 
-func TestUpdate(t *testing.T) {
+func TestChargeUpdate(t *testing.T) {
 	c := &Client{}
 	c.Init(key, nil, nil)
 
@@ -106,7 +106,7 @@ func TestUpdate(t *testing.T) {
 	}
 }
 
-func TestRefund(t *testing.T) {
+func TestChargeRefund(t *testing.T) {
 	c := &Client{}
 	c.Init(key, nil, nil)
 
@@ -173,7 +173,7 @@ func TestRefund(t *testing.T) {
 	}
 }
 
-func TestCapture(t *testing.T) {
+func TestChargeCapture(t *testing.T) {
 	c := &Client{}
 	c.Init(key, nil, nil)
 

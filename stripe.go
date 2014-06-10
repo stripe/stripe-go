@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
 
 type Api interface {
@@ -14,9 +15,10 @@ type Api interface {
 }
 
 type Client struct {
-	Token   string
-	api     Api
-	Charges *ChargeClient
+	Token     string
+	api       Api
+	Charges   *ChargeClient
+	Customers *CustomerClient
 }
 
 type s struct {
@@ -38,6 +40,7 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 	c.Token = token
 
 	c.Charges = &ChargeClient{api: c.api, token: c.Token}
+	c.Customers = &CustomerClient{api: c.api, token: c.Token}
 }
 
 func (s *s) Call(method, path, token string, body *url.Values) ([]byte, error) {
@@ -60,8 +63,12 @@ func (s *s) Call(method, path, token string, body *url.Values) ([]byte, error) {
 	req.SetBasicAuth(token, "")
 
 	log.Printf("Requesting %v %q\n", method, path)
+	start := time.Now()
 
 	res, err := s.httpClient.Do(req)
+
+	log.Printf("Completed in %v\n", time.Since(start))
+
 	if err != nil {
 		log.Printf("Request to Stripe failed: %v\n", err)
 		return nil, err
@@ -79,8 +86,6 @@ func (s *s) Call(method, path, token string, body *url.Values) ([]byte, error) {
 		log.Printf("Error encountered from Stripe: %v\n", err)
 		return nil, err
 	}
-
-	//log.Printf("Response %q", ret)
 
 	return ret, nil
 }
