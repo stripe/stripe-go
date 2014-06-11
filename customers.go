@@ -89,11 +89,7 @@ func (c *CustomerClient) Create(params *CustomerParams) (*Customer, error) {
 
 	var cust Customer
 	err = json.Unmarshal(res, &cust)
-	if err != nil {
-		return nil, err
-	}
-
-	return &cust, nil
+	return &cust, err
 }
 
 func (c *CustomerClient) Get(id string) (*Customer, error) {
@@ -104,11 +100,7 @@ func (c *CustomerClient) Get(id string) (*Customer, error) {
 
 	var cust Customer
 	err = json.Unmarshal(res, &cust)
-	if err != nil {
-		return nil, err
-	}
-
-	return &cust, nil
+	return &cust, err
 }
 
 func (c *CustomerClient) Update(id string, params *CustomerParams) (*Customer, error) {
@@ -151,11 +143,7 @@ func (c *CustomerClient) Update(id string, params *CustomerParams) (*Customer, e
 
 	var cust Customer
 	err = json.Unmarshal(res, &cust)
-	if err != nil {
-		return nil, err
-	}
-
-	return &cust, nil
+	return &cust, err
 }
 
 func (c *CustomerClient) Delete(id string) error {

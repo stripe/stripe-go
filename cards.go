@@ -81,11 +81,7 @@ func (c *CardClient) Create(params *CardParams) (*Card, error) {
 
 	var card Card
 	err = json.Unmarshal(res, &card)
-	if err != nil {
-		return nil, err
-	}
-
-	return &card, nil
+	return &card, err
 }
 
 func (c *CardClient) Get(id string, params *CardParams) (*Card, error) {
@@ -106,11 +102,7 @@ func (c *CardClient) Get(id string, params *CardParams) (*Card, error) {
 
 	var card Card
 	err = json.Unmarshal(res, &card)
-	if err != nil {
-		return nil, err
-	}
-
-	return &card, nil
+	return &card, err
 }
 
 func (c *CardClient) Update(id string, params *CardParams) (*Card, error) {
@@ -134,11 +126,7 @@ func (c *CardClient) Update(id string, params *CardParams) (*Card, error) {
 
 	var card Card
 	err = json.Unmarshal(res, &card)
-	if err != nil {
-		return nil, err
-	}
-
-	return &card, nil
+	return &card, err
 }
 
 func (c *CardClient) Delete(id string, params *CardParams) error {
