@@ -49,8 +49,8 @@ func TestCustomerCreate(t *testing.T) {
 		t.Errorf("Unexpected number of cards %v\n", target.Cards.Count)
 	}
 
-	if target.Cards.Data[0].Name != customer.Card.Name {
-		t.Errorf("Card name %q does not match expected name %q\n", target.Cards.Data[0].Name, customer.Card.Name)
+	if target.Cards.Values[0].Name != customer.Card.Name {
+		t.Errorf("Card name %q does not match expected name %q\n", target.Cards.Values[0].Name, customer.Card.Name)
 	}
 
 	c.Customers.Delete(target.Id)

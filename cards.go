@@ -49,10 +49,10 @@ type Card struct {
 }
 
 type CardList struct {
-	Count uint16  `json:"total_count"`
-	More  bool    `json:"has_more"`
-	Url   string  `json:"url"`
-	Data  []*Card `json:"data"`
+	Count  uint16  `json:"total_count"`
+	More   bool    `json:"has_more"`
+	Url    string  `json:"url"`
+	Values []*Card `json:"data"`
 }
 
 type CardClient struct {

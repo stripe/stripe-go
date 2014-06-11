@@ -10,6 +10,8 @@ import (
 	"time"
 )
 
+var debug bool
+
 type Api interface {
 	Call(method, path, token string, body *url.Values) ([]byte, error)
 }
@@ -20,6 +22,8 @@ type Client struct {
 	Charges   *ChargeClient
 	Customers *CustomerClient
 	Cards     *CardClient
+	Subs      *SubscriptionClient
+	Plans     *PlanClient
 }
 
 type s struct {
@@ -43,6 +47,12 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 	c.Charges = &ChargeClient{api: c.api, token: c.Token}
 	c.Customers = &CustomerClient{api: c.api, token: c.Token}
 	c.Cards = &CardClient{api: c.api, token: c.Token}
+	c.Subs = &SubscriptionClient{api: c.api, token: c.Token}
+	c.Plans = &PlanClient{api: c.api, token: c.Token}
+}
+
+func (c *Client) SetDebug(value bool) {
+	debug = value
 }
 
 func (s *s) Call(method, path, token string, body *url.Values) ([]byte, error) {
@@ -69,7 +79,9 @@ func (s *s) Call(method, path, token string, body *url.Values) ([]byte, error) {
 
 	res, err := s.httpClient.Do(req)
 
-	log.Printf("Completed in %v\n", time.Since(start))
+	if debug {
+		log.Printf("Completed in %v\n", time.Since(start))
+	}
 
 	if err != nil {
 		log.Printf("Request to Stripe failed: %v\n", err)
@@ -87,6 +99,10 @@ func (s *s) Call(method, path, token string, body *url.Values) ([]byte, error) {
 		err = errors.New(string(ret))
 		log.Printf("Error encountered from Stripe: %v\n", err)
 		return nil, err
+	}
+
+	if debug {
+		log.Printf("Stripe Response: %q\n", ret)
 	}
 
 	return ret, nil

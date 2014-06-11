@@ -20,19 +20,19 @@ type CustomerParams struct {
 }
 
 type Customer struct {
-	Id          string            `json:"id"`
-	Live        bool              `json:"livemode"`
-	Cards       *CardList         `json:"cards"`
-	Created     int64             `json:"created"`
-	Balance     int64             `json:"account_balance"`
-	Currency    Currency          `json:"currency"`
-	Delinquent  bool              `json:"delinquent"`
-	DefaultCard string            `json:"default_card,omitempty"`
-	Desc        string            `json:"description,omitempty"`
-	Email       string            `json:"email,omitempty"`
-	Meta        map[string]string `json:"metadata,omitempty"`
+	Id            string            `json:"id"`
+	Live          bool              `json:"livemode"`
+	Cards         *CardList         `json:"cards"`
+	Created       int64             `json:"created"`
+	Balance       int64             `json:"account_balance"`
+	Currency      Currency          `json:"currency"`
+	Delinquent    bool              `json:"delinquent"`
+	DefaultCard   string            `json:"default_card,omitempty"`
+	Desc          string            `json:"description,omitempty"`
+	Email         string            `json:"email,omitempty"`
+	Meta          map[string]string `json:"metadata,omitempty"`
+	Subscriptions *SubscriptionList `json:"subscriptions,omitempty"`
 	//Discount
-	//Subscriptions
 }
 
 type CustomerClient struct {
