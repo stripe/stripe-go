@@ -145,3 +145,47 @@ func TestCustomerUpdate(t *testing.T) {
 
 	c.Customers.Delete(target.Id)
 }
+
+func TestCustomerDiscount(t *testing.T) {
+	c := &Client{}
+	c.Init(key, nil, nil)
+
+	coupon := &CouponParams{
+		Duration: Forever,
+		Id:       "customer_coupon",
+		Percent:  99,
+	}
+
+	c.Coupons.Create(coupon)
+
+	customer := &CustomerParams{
+		Coupon: "customer_coupon",
+	}
+
+	target, err := c.Customers.Create(customer)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Discount == nil {
+		t.Errorf("Discount not found, but one was expected\n")
+	}
+
+	if target.Discount.Coupon == nil {
+		t.Errorf("Coupon not found, but one was expected\n")
+	}
+
+	if target.Discount.Coupon.Id != customer.Coupon {
+		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.Id, customer.Coupon)
+	}
+
+	err = c.Discounts.Delete(target.Id)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	c.Customers.Delete(target.Id)
+	c.Coupons.Delete("customer_coupon")
+}

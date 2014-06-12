@@ -191,3 +191,69 @@ func TestSubscriptionUpdate(t *testing.T) {
 	c.Customers.Delete(cust.Id)
 	c.Plans.Delete("test")
 }
+
+func TestSubscriptionDiscount(t *testing.T) {
+	c := &Client{}
+	c.Init(key, nil, nil)
+
+	coupon := &CouponParams{
+		Duration: Forever,
+		Id:       "sub_coupon",
+		Percent:  99,
+	}
+	c.Coupons.Create(coupon)
+
+	customer := &CustomerParams{
+		Card: &CardParams{
+			Number: "378282246310005",
+			Month:  "06",
+			Year:   "20",
+		},
+		Coupon: "sub_coupon",
+	}
+	cust, _ := c.Customers.Create(customer)
+
+	plan := &PlanParams{
+		Id:       "test",
+		Name:     "Test Plan",
+		Amount:   99,
+		Currency: USD,
+		Interval: Month,
+	}
+	c.Plans.Create(plan)
+
+	sub := &SubscriptionParams{
+		Customer: cust.Id,
+		Plan:     "test",
+		Quantity: 10,
+		Coupon:   "sub_coupon",
+	}
+
+	target, err := c.Subs.Create(sub)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Discount == nil {
+		t.Errorf("Discount not found, but one was expected\n")
+	}
+
+	if target.Discount.Coupon == nil {
+		t.Errorf("Coupon not found, but one was expected\n")
+	}
+
+	if target.Discount.Coupon.Id != sub.Coupon {
+		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.Id, sub.Coupon)
+	}
+
+	err = c.Discounts.DeleteSubscription(cust.Id, target.Id)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	c.Customers.Delete(cust.Id)
+	c.Plans.Delete("test")
+	c.Coupons.Delete("sub_coupon")
+}
