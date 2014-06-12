@@ -24,6 +24,7 @@ type Client struct {
 	Cards     *CardClient
 	Subs      *SubscriptionClient
 	Plans     *PlanClient
+	Coupons   *CouponClient
 }
 
 type s struct {
@@ -49,6 +50,7 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 	c.Cards = &CardClient{api: c.api, token: c.Token}
 	c.Subs = &SubscriptionClient{api: c.api, token: c.Token}
 	c.Plans = &PlanClient{api: c.api, token: c.Token}
+	c.Coupons = &CouponClient{api: c.api, token: c.Token}
 }
 
 func (c *Client) SetDebug(value bool) {
