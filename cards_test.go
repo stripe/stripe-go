@@ -53,26 +53,28 @@ func TestCardGet(t *testing.T) {
 	c := &Client{}
 	c.Init(key, nil, nil)
 
-	customer := &CustomerParams{
+	recipient := &RecipientParams{
+		Name: "Test Recipient",
+		Type: Corp,
 		Card: &CardParams{
-			Number: "378282246310005",
+			Number: "5200828282828210",
 			Month:  "06",
 			Year:   "20",
 		},
 	}
 
-	cust, _ := c.Customers.Create(customer)
+	rec, _ := c.Recipients.Create(recipient)
 
-	target, err := c.Cards.Get(cust.DefaultCard, &CardParams{Customer: cust.Id})
+	target, err := c.Cards.Get(rec.DefaultCard, &CardParams{Recipient: rec.Id})
 	if err != nil {
 		t.Error(err)
 	}
 
-	if target.LastFour != "0005" {
-		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, customer.Card.Number)
+	if target.LastFour != "8210" {
+		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, recipient.Card.Number)
 	}
 
-	c.Customers.Delete(cust.Id)
+	c.Recipients.Delete(rec.Id)
 }
 
 func TestCardDelete(t *testing.T) {
