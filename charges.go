@@ -185,15 +185,15 @@ type Charge struct {
 	Card           *Card             `json: "card"`
 	Captured       bool              `json:"captured"`
 	Customer       string            `json:"customer"`
-	Refunds        []*Refund         `json:"refunds",omitempty`
+	Refunds        []*Refund         `json:"refunds"`
 	Balance        string            `json:"balance_transaction"`
-	FailMsg        string            `json:"failure_message,omitempty"`
-	FailCode       string            `json:"failure_code,omitempty"`
-	AmountRefunded uint64            `json:"amount_refunded,omitempty"`
-	Invoice        string            `json:"invoice,omitempty"`
-	Desc           string            `json:"description,omitempty"`
-	Dispute        string            `json:"dispute,omitempty"`
-	Meta           map[string]string `json:"metadata,omitempty"`
+	FailMsg        string            `json:"failure_message"`
+	FailCode       string            `json:"failure_code"`
+	AmountRefunded uint64            `json:"amount_refunded"`
+	Invoice        string            `json:"invoice"`
+	Desc           string            `json:"description"`
+	Dispute        string            `json:"dispute"`
+	Meta           map[string]string `json:"metadata"`
 }
 
 type Refund struct {

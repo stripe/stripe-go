@@ -35,9 +35,9 @@ type Plan struct {
 	Interval      PlanInternval     `json:"interval"`
 	IntervalCount uint64            `json:"interval_count"`
 	Name          string            `json:"name"`
-	Meta          map[string]string `json:"metadata,omitempty"`
+	Meta          map[string]string `json:"metadata"`
 	TrialPeriod   uint64            `json:"trial_period_days"`
-	Statement     string            `json:"statement_description,omitempty"`
+	Statement     string            `json:"statement_description"`
 }
 
 type PlanClient struct {

@@ -27,12 +27,12 @@ type Customer struct {
 	Balance     int64             `json:"account_balance"`
 	Currency    Currency          `json:"currency"`
 	Delinquent  bool              `json:"delinquent"`
-	DefaultCard string            `json:"default_card,omitempty"`
-	Desc        string            `json:"description,omitempty"`
-	Email       string            `json:"email,omitempty"`
-	Meta        map[string]string `json:"metadata,omitempty"`
-	Subs        *SubscriptionList `json:"subscriptions,omitempty"`
-	Discount    *Discount         `json:"discount,omitempty"`
+	DefaultCard string            `json:"default_card"`
+	Desc        string            `json:"description"`
+	Email       string            `json:"email"`
+	Meta        map[string]string `json:"metadata"`
+	Subs        *SubscriptionList `json:"subscriptions"`
+	Discount    *Discount         `json:"discount"`
 }
 
 type CustomerClient struct {

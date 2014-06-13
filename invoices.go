@@ -39,15 +39,15 @@ type Invoice struct {
 	Subtotal    int64             `json:"subtotal"`
 	Total       int64             `json:"total"`
 	Fee         uint64            `json:"application_fee"`
-	Charge      string            `json:"charge,omitempty"`
-	Desc        string            `json:"description,omitempty"`
-	Discount    *Discount         `json:"discount,omitempty"`
+	Charge      string            `json:"charge"`
+	Desc        string            `json:"description"`
+	Discount    *Discount         `json:"discount"`
 	Balance     int64             `json:"ending_balance"`
 	NextAttempt int64             `json:"next_payment_attempt"`
-	Statement   string            `json:"statement_description,omitempty"`
-	Sub         string            `json:"subscription,omitempty"`
+	Statement   string            `json:"statement_description"`
+	Sub         string            `json:"subscription"`
 	Webhook     int64             `json:"webhooks_delivered_at"`
-	Meta        map[string]string `json:"metadata,omitempty"`
+	Meta        map[string]string `json:"metadata"`
 }
 
 type InvoiceLine struct {
@@ -58,9 +58,9 @@ type InvoiceLine struct {
 	Period    *Period           `json:"period"`
 	Proration bool              `json:"proration"`
 	Type      InvoiceLineType   `json:"type"`
-	Desc      string            `json:"description,omitempty"`
-	Meta      map[string]string `json:"metadata,omitempty"`
-	Plan      *Plan             `json:"plan,omitempty"`
+	Desc      string            `json:"description"`
+	Meta      map[string]string `json:"metadata"`
+	Plan      *Plan             `json:"plan"`
 	Quantity  int64             `json:"quantity"`
 }
 

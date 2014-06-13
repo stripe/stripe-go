@@ -23,10 +23,10 @@ type InvoiceItem struct {
 	Customer  string            `json:"customer"`
 	Date      int64             `json:"date"`
 	Proration bool              `json:"proration"`
-	Desc      string            `json:"description,omitempty"`
-	Invoice   string            `json:invoice,omitempty"`
-	Sub       string            `json:"subscription,omitempty"`
-	Meta      map[string]string `json:"metadata,omitempty"`
+	Desc      string            `json:"description"`
+	Invoice   string            `json:invoice"`
+	Sub       string            `json:"subscription"`
+	Meta      map[string]string `json:"metadata"`
 }
 
 type InvoiceItemClient struct {

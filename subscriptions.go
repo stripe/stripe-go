@@ -40,9 +40,9 @@ type Subscription struct {
 	Canceled    int64              `json:"canceled_at"`
 	PeriodEnd   int64              `json:"current_period_end"`
 	PeriodStart int64              `json:"current_period_start"`
-	Discount    *Discount          `json:"discount,omitempty"`
+	Discount    *Discount          `json:"discount"`
 	Ended       int64              `json:"ended_at"`
-	Meta        map[string]string  `json:"metadata,omitempty"`
+	Meta        map[string]string  `json:"metadata"`
 	TrialEnd    int64              `json:"trial_end"`
 	TrialStart  int64              `json:"trial_start"`
 }

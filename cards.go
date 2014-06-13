@@ -28,24 +28,24 @@ type CardParams struct {
 
 type Card struct {
 	Id          string   `json:"id"`
-	Name        string   `json:"name,omitempty"`
+	Name        string   `json:"name"`
 	Type        CardType `json:"type"`
 	Month       uint8    `json:"exp_month"`
 	Year        uint16   `json:"exp_year"`
 	LastFour    string   `json:"last4"`
 	Fingerprint string   `json:"fingerprint"`
-	CardCountry string   `json:"country,omitempty"`
-	Customer    string   `json:"customer,omitempty"`
-	Recipient   string   `json:"recipient,omitempty"`
-	Address1    string   `json:"address_line1,omitempty"`
-	Address2    string   `json:"address_line2,omitempty"`
-	Country     string   `json:"address_country,omitempty"`
-	State       string   `json:"address_state,omitempty"`
-	Zip         string   `json:"address_zip,omitempty"`
+	CardCountry string   `json:"country"`
+	Customer    string   `json:"customer"`
+	Recipient   string   `json:"recipient"`
+	Address1    string   `json:"address_line1"`
+	Address2    string   `json:"address_line2"`
+	Country     string   `json:"address_country"`
+	State       string   `json:"address_state"`
+	Zip         string   `json:"address_zip"`
 	City        string   `json:"address_city"`
-	Line1Check  string   `json:"address_line1_check,omitempty"`
-	ZipCheck    string   `json:"address_zip_check,omitempty"`
-	CVCCheck    string   `json:"cvc_check,omitempty"`
+	Line1Check  string   `json:"address_line1_check"`
+	ZipCheck    string   `json:"address_zip_check"`
+	CVCCheck    string   `json:"cvc_check"`
 }
 
 type CardList struct {

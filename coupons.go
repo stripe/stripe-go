@@ -31,10 +31,10 @@ type Coupon struct {
 	Created        int64             `json:"created"`
 	Duration       CouponDuration    `json:"duration"`
 	Amount         uint64            `json:"amount_off"`
-	Currency       Currency          `json:"currency,omitempty"`
+	Currency       Currency          `json:"currency"`
 	DurationPeriod uint64            `json:"duration_in_months"`
 	Redemptions    uint64            `json:"max_redemptions"`
-	Meta           map[string]string `json:"metadata,omitempty"`
+	Meta           map[string]string `json:"metadata"`
 	Percent        uint64            `json:"percent_off"`
 	RedeemBy       int64             `json:"redeem_by"`
 	Redeemed       uint64            `json:"times_redeemed"`
