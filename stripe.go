@@ -17,15 +17,17 @@ type Api interface {
 }
 
 type Client struct {
-	Token     string
-	api       Api
-	Charges   *ChargeClient
-	Customers *CustomerClient
-	Cards     *CardClient
-	Subs      *SubscriptionClient
-	Plans     *PlanClient
-	Coupons   *CouponClient
-	Discounts *DiscountClient
+	Token        string
+	api          Api
+	Charges      *ChargeClient
+	Customers    *CustomerClient
+	Cards        *CardClient
+	Subs         *SubscriptionClient
+	Plans        *PlanClient
+	Coupons      *CouponClient
+	Discounts    *DiscountClient
+	Invoices     *InvoiceClient
+	InvoiceItems *InvoiceItemClient
 }
 
 type s struct {
@@ -53,6 +55,8 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 	c.Plans = &PlanClient{api: c.api, token: c.Token}
 	c.Coupons = &CouponClient{api: c.api, token: c.Token}
 	c.Discounts = &DiscountClient{api: c.api, token: c.Token}
+	c.Invoices = &InvoiceClient{api: c.api, token: c.Token}
+	c.InvoiceItems = &InvoiceItemClient{api: c.api, token: c.Token}
 }
 
 func (c *Client) SetDebug(value bool) {
