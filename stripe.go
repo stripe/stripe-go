@@ -28,6 +28,7 @@ type Client struct {
 	Discounts    *DiscountClient
 	Invoices     *InvoiceClient
 	InvoiceItems *InvoiceItemClient
+	Disputes     *DisputeClient
 }
 
 type s struct {
@@ -57,6 +58,7 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 	c.Discounts = &DiscountClient{api: c.api, token: c.Token}
 	c.Invoices = &InvoiceClient{api: c.api, token: c.Token}
 	c.InvoiceItems = &InvoiceItemClient{api: c.api, token: c.Token}
+	c.Disputes = &DisputeClient{api: c.api, token: c.Token}
 }
 
 func (c *Client) SetDebug(value bool) {
