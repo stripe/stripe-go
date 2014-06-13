@@ -24,10 +24,6 @@ func TestCouponCreate(t *testing.T) {
 		t.Error(err)
 	}
 
-	if target == nil {
-		t.Errorf("No coupon returned\n")
-	}
-
 	if target.Amount != coupon.Amount {
 		t.Errorf("Amount %v does not match expected amount %v\n", target.Amount, coupon.Amount)
 	}
@@ -74,10 +70,6 @@ func TestCouponGet(t *testing.T) {
 
 	if err != nil {
 		t.Error(err)
-	}
-
-	if target == nil {
-		t.Errorf("No coupon returned\n")
 	}
 
 	if target.Id != coupon.Id {

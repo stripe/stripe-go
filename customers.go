@@ -1,7 +1,6 @@
 package stripe
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -82,25 +81,17 @@ func (c *CustomerClient) Create(params *CustomerParams) (*Customer, error) {
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
-	res, err := c.api.Call("POST", "/customers", c.token, body)
-	if err != nil {
-		return nil, err
-	}
+	cust := &Customer{}
+	err := c.api.Call("POST", "/customers", c.token, body, cust)
 
-	var cust Customer
-	err = json.Unmarshal(res, &cust)
-	return &cust, err
+	return cust, err
 }
 
 func (c *CustomerClient) Get(id string) (*Customer, error) {
-	res, err := c.api.Call("GET", "/customers/"+id, c.token, nil)
-	if err != nil {
-		return nil, err
-	}
+	cust := &Customer{}
+	err := c.api.Call("GET", "/customers/"+id, c.token, nil, cust)
 
-	var cust Customer
-	err = json.Unmarshal(res, &cust)
-	return &cust, err
+	return cust, err
 }
 
 func (c *CustomerClient) Update(id string, params *CustomerParams) (*Customer, error) {
@@ -136,17 +127,12 @@ func (c *CustomerClient) Update(id string, params *CustomerParams) (*Customer, e
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
-	res, err := c.api.Call("POST", "/customers/"+id, c.token, body)
-	if err != nil {
-		return nil, err
-	}
+	cust := &Customer{}
+	err := c.api.Call("POST", "/customers/"+id, c.token, body, cust)
 
-	var cust Customer
-	err = json.Unmarshal(res, &cust)
-	return &cust, err
+	return cust, err
 }
 
 func (c *CustomerClient) Delete(id string) error {
-	_, err := c.api.Call("DELETE", "/customers/"+id, c.token, nil)
-	return err
+	return c.api.Call("DELETE", "/customers/"+id, c.token, nil, nil)
 }

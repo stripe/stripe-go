@@ -1,7 +1,6 @@
 package stripe
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -70,27 +69,17 @@ func (c *PlanClient) Create(params *PlanParams) (*Plan, error) {
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
-	res, err := c.api.Call("POST", "/plans", c.token, body)
+	plan := &Plan{}
+	err := c.api.Call("POST", "/plans", c.token, body, plan)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var plan Plan
-	err = json.Unmarshal(res, &plan)
-	return &plan, err
+	return plan, err
 }
 
 func (c *PlanClient) Get(id string) (*Plan, error) {
-	res, err := c.api.Call("GET", "/plans/"+id, c.token, nil)
+	plan := &Plan{}
+	err := c.api.Call("GET", "/plans/"+id, c.token, nil, plan)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var plan Plan
-	err = json.Unmarshal(res, &plan)
-	return &plan, err
+	return plan, err
 }
 
 func (c *PlanClient) Update(id string, params *PlanParams) (*Plan, error) {
@@ -108,18 +97,12 @@ func (c *PlanClient) Update(id string, params *PlanParams) (*Plan, error) {
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
-	res, err := c.api.Call("POST", "/plans/"+id, c.token, body)
+	plan := &Plan{}
+	err := c.api.Call("POST", "/plans/"+id, c.token, body, plan)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var plan Plan
-	err = json.Unmarshal(res, &plan)
-	return &plan, err
+	return plan, err
 }
 
 func (c *PlanClient) Delete(id string) error {
-	_, err := c.api.Call("DELETE", "/plans/"+id, c.token, nil)
-	return err
+	return c.api.Call("DELETE", "/plans/"+id, c.token, nil, nil)
 }

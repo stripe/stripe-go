@@ -1,7 +1,6 @@
 package stripe
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -90,27 +89,17 @@ func (c *SubscriptionClient) Create(params *SubscriptionParams) (*Subscription, 
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
-	res, err := c.api.Call("POST", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.token, body)
+	sub := &Subscription{}
+	err := c.api.Call("POST", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.token, body, sub)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var sub Subscription
-	err = json.Unmarshal(res, &sub)
-	return &sub, err
+	return sub, err
 }
 
 func (c *SubscriptionClient) Get(id string, params *SubscriptionParams) (*Subscription, error) {
-	res, err := c.api.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, nil)
+	sub := &Subscription{}
+	err := c.api.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, nil, sub)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var sub Subscription
-	err = json.Unmarshal(res, &sub)
-	return &sub, err
+	return sub, err
 }
 
 func (c *SubscriptionClient) Update(id string, params *SubscriptionParams) (*Subscription, error) {
@@ -150,15 +139,10 @@ func (c *SubscriptionClient) Update(id string, params *SubscriptionParams) (*Sub
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
-	res, err := c.api.Call("POST", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, body)
+	sub := &Subscription{}
+	err := c.api.Call("POST", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, body, sub)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var sub Subscription
-	err = json.Unmarshal(res, &sub)
-	return &sub, err
+	return sub, err
 }
 
 func (c *SubscriptionClient) Cancel(id string, params *SubscriptionParams) error {
@@ -168,7 +152,5 @@ func (c *SubscriptionClient) Cancel(id string, params *SubscriptionParams) error
 		body.Add("at_period_end", strconv.FormatBool(true))
 	}
 
-	_, err := c.api.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, body)
-
-	return err
+	return c.api.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, body, nil)
 }

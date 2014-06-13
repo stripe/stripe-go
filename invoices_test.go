@@ -34,10 +34,6 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Error(err)
 	}
 
-	if targetItem == nil {
-		t.Errorf("No invoice item returned\n")
-	}
-
 	if targetItem.Customer != item.Customer {
 		t.Errorf("Item customer %q does not match expected customer %q\n", targetItem.Customer, item.Customer)
 	}
@@ -68,10 +64,6 @@ func TestAllInvoicesScenarios(t *testing.T) {
 
 	if err != nil {
 		t.Error(err)
-	}
-
-	if targetInvoice == nil {
-		t.Errorf("No invoice returned\n")
 	}
 
 	if targetInvoice.Customer != invoice.Customer {
@@ -161,10 +153,6 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Error(err)
 	}
 
-	if targetItemUpdated == nil {
-		t.Errorf("No updated item returned\n")
-	}
-
 	if targetItemUpdated.Desc != updatedItem.Desc {
 		t.Errorf("Updated item description %q does not match expected description %q\n", targetItemUpdated.Desc, updatedItem.Desc)
 	}
@@ -182,10 +170,6 @@ func TestAllInvoicesScenarios(t *testing.T) {
 
 	if err != nil {
 		t.Error(err)
-	}
-
-	if targetInvoiceUpdated == nil {
-		t.Errorf("No updated invoice returned\n")
 	}
 
 	if targetInvoiceUpdated.Desc != updatedInvoice.Desc {

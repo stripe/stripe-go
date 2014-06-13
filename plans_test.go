@@ -25,10 +25,6 @@ func TestPlanCreate(t *testing.T) {
 		t.Error(err)
 	}
 
-	if target == nil {
-		t.Errorf("No plan returned\n")
-	}
-
 	if target.Id != plan.Id {
 		t.Errorf("Id %q does not match expected id %q\n", target.Id, plan.Id)
 	}
@@ -83,8 +79,8 @@ func TestPlanGet(t *testing.T) {
 		t.Error(err)
 	}
 
-	if target == nil {
-		t.Errorf("No plan returned\n")
+	if target.Id != plan.Id {
+		t.Errorf("Plan id %q does not match expected id %q\n", target.Id, plan.Id)
 	}
 
 	c.Plans.Delete(plan.Id)
@@ -116,10 +112,6 @@ func TestPlanUpdate(t *testing.T) {
 
 	if err != nil {
 		t.Error(err)
-	}
-
-	if target == nil {
-		t.Errorf("No plan returned\n")
 	}
 
 	if target.Name != updatedPlan.Name {

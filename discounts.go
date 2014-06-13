@@ -18,11 +18,9 @@ type DiscountClient struct {
 }
 
 func (c *DiscountClient) Delete(customerId string) error {
-	_, err := c.api.Call("DELETE", fmt.Sprintf("/customers/%v/discount", customerId), c.token, nil)
-	return err
+	return c.api.Call("DELETE", fmt.Sprintf("/customers/%v/discount", customerId), c.token, nil, nil)
 }
 
 func (c *DiscountClient) DeleteSubscription(customerId, subscriptionid string) error {
-	_, err := c.api.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v/discount", customerId, subscriptionid), c.token, nil)
-	return err
+	return c.api.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v/discount", customerId, subscriptionid), c.token, nil, nil)
 }

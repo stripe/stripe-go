@@ -1,7 +1,6 @@
 package stripe
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/url"
 )
@@ -54,25 +53,15 @@ func (c *DisputeClient) Update(id string, params *DisputeParams) (*Dispute, erro
 		body.Add("evidence", params.Evidence)
 	}
 
-	res, err := c.api.Call("POST", fmt.Sprintf("/charges/%v/dispute", id), c.token, body)
+	dispute := &Dispute{}
+	err := c.api.Call("POST", fmt.Sprintf("/charges/%v/dispute", id), c.token, body, dispute)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var dispute Dispute
-	err = json.Unmarshal(res, &dispute)
-	return &dispute, err
+	return dispute, err
 }
 
 func (c *DisputeClient) Close(id string) (*Dispute, error) {
-	res, err := c.api.Call("POST", fmt.Sprintf("/charges/%v/dispute/close", id), c.token, nil)
+	dispute := &Dispute{}
+	err := c.api.Call("POST", fmt.Sprintf("/charges/%v/dispute/close", id), c.token, nil, dispute)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var dispute Dispute
-	err = json.Unmarshal(res, &dispute)
-	return &dispute, err
+	return dispute, err
 }

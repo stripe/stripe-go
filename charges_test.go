@@ -24,10 +24,6 @@ func TestChargeCreate(t *testing.T) {
 		t.Error(err)
 	}
 
-	if target == nil {
-		t.Errorf("No charge returned\n")
-	}
-
 	if target.Amount != charge.Amount {
 		t.Errorf("Amount %v does not match expected amount %v\n", target.Amount, charge.Amount)
 	}
@@ -58,12 +54,13 @@ func TestChargeGet(t *testing.T) {
 	res, _ := c.Charges.Create(charge)
 
 	target, err := c.Charges.Get(res.Id)
+
 	if err != nil {
 		t.Error(err)
 	}
 
-	if target == nil {
-		t.Errorf("No card returned\n")
+	if target.Id != res.Id {
+		t.Errorf("Charge id %q does not match expected id %q\n", target.Id, res.Id)
 	}
 }
 
@@ -93,12 +90,9 @@ func TestChargeUpdate(t *testing.T) {
 	}
 
 	target, err := c.Charges.Update(res.Id, updated)
+
 	if err != nil {
 		t.Error(err)
-	}
-
-	if target == nil {
-		t.Errorf("No charge returned\n")
 	}
 
 	if target.Desc != updated.Desc {
@@ -124,12 +118,9 @@ func TestChargeRefund(t *testing.T) {
 
 	// full refund
 	target, err := c.Charges.Refund(res.Id, nil)
+
 	if err != nil {
 		t.Error(err)
-	}
-
-	if target == nil {
-		t.Errorf("No charge returned\n")
 	}
 
 	if !target.Refunded {
@@ -156,12 +147,9 @@ func TestChargeRefund(t *testing.T) {
 	}
 
 	target, err = c.Charges.Refund(res.Id, refund)
+
 	if err != nil {
 		t.Error(err)
-	}
-
-	if target == nil {
-		t.Errorf("No charge returned\n")
 	}
 
 	if target.Refunded {
@@ -196,12 +184,9 @@ func TestChargeCapture(t *testing.T) {
 
 	// full capture
 	target, err := c.Charges.Capture(res.Id, nil)
+
 	if err != nil {
 		t.Error(err)
-	}
-
-	if target == nil {
-		t.Errorf("No charge returned\n")
 	}
 
 	if !target.Captured {
@@ -216,12 +201,9 @@ func TestChargeCapture(t *testing.T) {
 	}
 
 	target, err = c.Charges.Capture(res.Id, capture)
+
 	if err != nil {
 		t.Error(err)
-	}
-
-	if target == nil {
-		t.Errorf("No charge returned\n")
 	}
 
 	if !target.Captured {

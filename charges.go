@@ -1,7 +1,6 @@
 package stripe
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"net/url"
@@ -238,33 +237,17 @@ func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
 		body.Add("statement_description", params.Desc)
 	}
 
-	res, err := c.api.Call("POST", "/charges", c.token, body)
-	if err != nil {
-		return nil, err
-	}
+	charge := &Charge{}
+	err := c.api.Call("POST", "/charges", c.token, body, charge)
 
-	var charge Charge
-	err = json.Unmarshal(res, &charge)
-	if err != nil {
-		return nil, err
-	}
-
-	return &charge, nil
+	return charge, err
 }
 
 func (c *ChargeClient) Get(id string) (*Charge, error) {
-	res, err := c.api.Call("GET", "/charges/"+id, c.token, nil)
-	if err != nil {
-		return nil, err
-	}
+	charge := &Charge{}
+	err := c.api.Call("GET", "/charges/"+id, c.token, nil, charge)
 
-	var charge Charge
-	err = json.Unmarshal(res, &charge)
-	if err != nil {
-		return nil, err
-	}
-
-	return &charge, nil
+	return charge, err
 }
 
 func (c *ChargeClient) Update(id string, params *ChargeParams) (*Charge, error) {
@@ -276,18 +259,10 @@ func (c *ChargeClient) Update(id string, params *ChargeParams) (*Charge, error) 
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
-	res, err := c.api.Call("POST", "/charges/"+id, c.token, body)
-	if err != nil {
-		return nil, err
-	}
+	charge := &Charge{}
+	err := c.api.Call("POST", "/charges/"+id, c.token, body, charge)
 
-	var charge Charge
-	err = json.Unmarshal(res, &charge)
-	if err != nil {
-		return nil, err
-	}
-
-	return &charge, nil
+	return charge, err
 }
 
 func (c *ChargeClient) Refund(id string, params *RefundParams) (*Charge, error) {
@@ -303,18 +278,10 @@ func (c *ChargeClient) Refund(id string, params *RefundParams) (*Charge, error) 
 		}
 	}
 
-	res, err := c.api.Call("POST", "/charges/"+id+"/refund", c.token, body)
-	if err != nil {
-		return nil, err
-	}
+	charge := &Charge{}
+	err := c.api.Call("POST", "/charges/"+id+"/refund", c.token, body, charge)
 
-	var charge Charge
-	err = json.Unmarshal(res, &charge)
-	if err != nil {
-		return nil, err
-	}
-
-	return &charge, nil
+	return charge, err
 }
 
 func (c *ChargeClient) Capture(id string, params *CaptureParams) (*Charge, error) {
@@ -330,16 +297,8 @@ func (c *ChargeClient) Capture(id string, params *CaptureParams) (*Charge, error
 		}
 	}
 
-	res, err := c.api.Call("POST", "/charges/"+id+"/capture", c.token, body)
-	if err != nil {
-		return nil, err
-	}
+	charge := &Charge{}
+	err := c.api.Call("POST", "/charges/"+id+"/capture", c.token, body, charge)
 
-	var charge Charge
-	err = json.Unmarshal(res, &charge)
-	if err != nil {
-		return nil, err
-	}
-
-	return &charge, nil
+	return charge, err
 }

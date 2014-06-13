@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"errors"
 	"io/ioutil"
 	"log"
@@ -13,7 +14,7 @@ import (
 var debug bool
 
 type Api interface {
-	Call(method, path, token string, body *url.Values) ([]byte, error)
+	Call(method, path, token string, body *url.Values, v interface{}) error
 }
 
 type Client struct {
@@ -65,7 +66,7 @@ func (c *Client) SetDebug(value bool) {
 	debug = value
 }
 
-func (s *s) Call(method, path, token string, body *url.Values) ([]byte, error) {
+func (s *s) Call(method, path, token string, body *url.Values, v interface{}) error {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
@@ -79,7 +80,7 @@ func (s *s) Call(method, path, token string, body *url.Values) ([]byte, error) {
 	req, err := http.NewRequest(method, path, nil)
 	if err != nil {
 		log.Printf("Cannot create Stripe request: %v\n", err)
-		return nil, err
+		return err
 	}
 
 	req.SetBasicAuth(token, "")
@@ -95,25 +96,29 @@ func (s *s) Call(method, path, token string, body *url.Values) ([]byte, error) {
 
 	if err != nil {
 		log.Printf("Request to Stripe failed: %v\n", err)
-		return nil, err
+		return err
 	}
 	defer res.Body.Close()
 
-	ret, err := ioutil.ReadAll(res.Body)
+	resBody, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		log.Printf("Cannot parse Stripe response: %v\n", err)
-		return nil, err
+		return err
 	}
 
 	if res.StatusCode >= 400 {
-		err = errors.New(string(ret))
+		err = errors.New(string(resBody))
 		log.Printf("Error encountered from Stripe: %v\n", err)
-		return nil, err
+		return err
 	}
 
 	if debug {
-		log.Printf("Stripe Response: %q\n", ret)
+		log.Printf("Stripe Response: %q\n", resBody)
 	}
 
-	return ret, nil
+	if v != nil {
+		return json.Unmarshal(resBody, v)
+	}
+
+	return nil
 }

@@ -1,7 +1,6 @@
 package stripe
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -57,27 +56,17 @@ func (c *InvoiceItemClient) Create(params *InvoiceItemParams) (*InvoiceItem, err
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
-	res, err := c.api.Call("POST", "/invoiceitems", c.token, body)
+	invoiceItem := &InvoiceItem{}
+	err := c.api.Call("POST", "/invoiceitems", c.token, body, invoiceItem)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var invoiceItem InvoiceItem
-	err = json.Unmarshal(res, &invoiceItem)
-	return &invoiceItem, err
+	return invoiceItem, err
 }
 
 func (c *InvoiceItemClient) Get(id string) (*InvoiceItem, error) {
-	res, err := c.api.Call("GET", "/invoiceitems/"+id, c.token, nil)
+	invoiceItem := &InvoiceItem{}
+	err := c.api.Call("GET", "/invoiceitems/"+id, c.token, nil, invoiceItem)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var invoiceItem InvoiceItem
-	err = json.Unmarshal(res, &invoiceItem)
-	return &invoiceItem, err
+	return invoiceItem, err
 }
 
 func (c *InvoiceItemClient) Update(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
@@ -95,18 +84,12 @@ func (c *InvoiceItemClient) Update(id string, params *InvoiceItemParams) (*Invoi
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
-	res, err := c.api.Call("POST", "/invoiceitems/"+id, c.token, body)
+	invoiceItem := &InvoiceItem{}
+	err := c.api.Call("POST", "/invoiceitems/"+id, c.token, body, invoiceItem)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var invoiceItem InvoiceItem
-	err = json.Unmarshal(res, &invoiceItem)
-	return &invoiceItem, err
+	return invoiceItem, err
 }
 
 func (c *InvoiceItemClient) Delete(id string) error {
-	_, err := c.api.Call("DELETE", "/invoiceitems/"+id, c.token, nil)
-	return err
+	return c.api.Call("DELETE", "/invoiceitems/"+id, c.token, nil, nil)
 }

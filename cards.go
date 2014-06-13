@@ -1,7 +1,6 @@
 package stripe
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"net/url"
@@ -64,83 +63,61 @@ func (c *CardClient) Create(params *CardParams) (*Card, error) {
 	body := &url.Values{}
 	params.appendTo(body, true)
 
-	var res []byte
+	card := &Card{}
 	var err error
 
 	if len(params.Customer) > 0 {
-		res, err = c.api.Call("POST", fmt.Sprintf("/customers/%v/cards", params.Customer), c.token, body)
+		err = c.api.Call("POST", fmt.Sprintf("/customers/%v/cards", params.Customer), c.token, body, card)
 	} else if len(params.Recipient) > 0 {
-		res, err = c.api.Call("POST", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.token, body)
+		err = c.api.Call("POST", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.token, body, card)
 	} else {
 		err = errors.New("Invalid card params: either customer or recipient need to be set")
 	}
 
-	if err != nil {
-		return nil, err
-	}
-
-	var card Card
-	err = json.Unmarshal(res, &card)
-	return &card, err
+	return card, err
 }
 
 func (c *CardClient) Get(id string, params *CardParams) (*Card, error) {
-	var res []byte
+	card := &Card{}
 	var err error
 
 	if len(params.Customer) > 0 {
-		res, err = c.api.Call("GET", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.token, nil)
+		err = c.api.Call("GET", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.token, nil, card)
 	} else if len(params.Recipient) > 0 {
-		res, err = c.api.Call("GET", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.token, nil)
+		err = c.api.Call("GET", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.token, nil, card)
 	} else {
 		err = errors.New("Invalid card params: either customer or recipient need to be set")
 	}
 
-	if err != nil {
-		return nil, err
-	}
-
-	var card Card
-	err = json.Unmarshal(res, &card)
-	return &card, err
+	return card, err
 }
 
 func (c *CardClient) Update(id string, params *CardParams) (*Card, error) {
 	body := &url.Values{}
 	params.appendTo(body, false)
 
-	var res []byte
+	card := &Card{}
 	var err error
 
 	if len(params.Customer) > 0 {
-		res, err = c.api.Call("POST", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.token, body)
+		err = c.api.Call("POST", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.token, body, card)
 	} else if len(params.Recipient) > 0 {
-		res, err = c.api.Call("POST", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.token, body)
+		err = c.api.Call("POST", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.token, body, card)
 	} else {
 		err = errors.New("Invalid card params: either customer or recipient need to be set")
 	}
 
-	if err != nil {
-		return nil, err
-	}
-
-	var card Card
-	err = json.Unmarshal(res, &card)
-	return &card, err
+	return card, err
 }
 
 func (c *CardClient) Delete(id string, params *CardParams) error {
-	var err error
-
 	if len(params.Customer) > 0 {
-		_, err = c.api.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.token, nil)
+		return c.api.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.token, nil, nil)
 	} else if len(params.Recipient) > 0 {
-		_, err = c.api.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.token, nil)
+		return c.api.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.token, nil, nil)
 	} else {
-		err = errors.New("Invalid card params: either customer or recipient need to be set")
+		return errors.New("Invalid card params: either customer or recipient need to be set")
 	}
-
-	return err
 }
 
 func (c *CardParams) appendTo(values *url.Values, creating bool) {

@@ -21,12 +21,9 @@ func TestCustomerCreate(t *testing.T) {
 	}
 
 	target, err := c.Customers.Create(customer)
+
 	if err != nil {
 		t.Error(err)
-	}
-
-	if target == nil {
-		t.Errorf("No customer returned\n")
 	}
 
 	if target.Balance != customer.Balance {
@@ -65,12 +62,13 @@ func TestCustomerGet(t *testing.T) {
 	res, _ := c.Customers.Create(customer)
 
 	target, err := c.Customers.Get(res.Id)
+
 	if err != nil {
 		t.Error(err)
 	}
 
-	if target == nil {
-		t.Errorf("No customer returned\n")
+	if target.Id != res.Id {
+		t.Errorf("Customer id %q does not match expected id %q\n", target.Id, res.Id)
 	}
 
 	c.Customers.Delete(res.Id)
@@ -85,6 +83,7 @@ func TestCustomerDelete(t *testing.T) {
 	res, _ := c.Customers.Create(customer)
 
 	err := c.Customers.Delete(res.Id)
+
 	if err != nil {
 		t.Error(err)
 	}
@@ -119,12 +118,9 @@ func TestCustomerUpdate(t *testing.T) {
 	}
 
 	target, err := c.Customers.Update(original.Id, updated)
+
 	if err != nil {
 		t.Error(err)
-	}
-
-	if target == nil {
-		t.Errorf("No customer returned\n")
 	}
 
 	if target.Balance != updated.Balance {

@@ -1,7 +1,6 @@
 package stripe
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -106,39 +105,24 @@ func (c *InvoiceClient) Create(params *InvoiceParams) (*Invoice, error) {
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
-	res, err := c.api.Call("POST", "/invoices", c.token, body)
+	invoice := &Invoice{}
+	err := c.api.Call("POST", "/invoices", c.token, body, invoice)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var invoice Invoice
-	err = json.Unmarshal(res, &invoice)
-	return &invoice, err
+	return invoice, err
 }
 
 func (c *InvoiceClient) Get(id string) (*Invoice, error) {
-	res, err := c.api.Call("GET", "/invoices/"+id, c.token, nil)
+	invoice := &Invoice{}
+	err := c.api.Call("GET", "/invoices/"+id, c.token, nil, invoice)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var invoice Invoice
-	err = json.Unmarshal(res, &invoice)
-	return &invoice, err
+	return invoice, err
 }
 
 func (c *InvoiceClient) Pay(id string) (*Invoice, error) {
-	res, err := c.api.Call("POST", fmt.Sprintf("/invoices/%v/pay", id), c.token, nil)
+	invoice := &Invoice{}
+	err := c.api.Call("POST", fmt.Sprintf("/invoices/%v/pay", id), c.token, nil, invoice)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var invoice Invoice
-	err = json.Unmarshal(res, &invoice)
-	return &invoice, err
+	return invoice, err
 }
 
 func (c *InvoiceClient) Update(id string, params *InvoiceParams) (*Invoice, error) {
@@ -168,15 +152,10 @@ func (c *InvoiceClient) Update(id string, params *InvoiceParams) (*Invoice, erro
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
-	res, err := c.api.Call("POST", "/invoices/"+id, c.token, body)
+	invoice := &Invoice{}
+	err := c.api.Call("POST", "/invoices/"+id, c.token, body, invoice)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var invoice Invoice
-	err = json.Unmarshal(res, &invoice)
-	return &invoice, err
+	return invoice, err
 }
 
 func (c *InvoiceClient) GetNext(params *InvoiceParams) (*Invoice, error) {
@@ -188,13 +167,8 @@ func (c *InvoiceClient) GetNext(params *InvoiceParams) (*Invoice, error) {
 		body.Add("subscription", params.Sub)
 	}
 
-	res, err := c.api.Call("GET", "/invoices", c.token, body)
+	invoice := &Invoice{}
+	err := c.api.Call("GET", "/invoices", c.token, body, invoice)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var invoice Invoice
-	err = json.Unmarshal(res, &invoice)
-	return &invoice, err
+	return invoice, err
 }

@@ -1,7 +1,6 @@
 package stripe
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"net/url"
@@ -81,30 +80,19 @@ func (c *CouponClient) Create(params *CouponParams) (*Coupon, error) {
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
-	res, err := c.api.Call("POST", "/coupons", c.token, body)
+	coupon := &Coupon{}
+	err := c.api.Call("POST", "/coupons", c.token, body, coupon)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var coupon Coupon
-	err = json.Unmarshal(res, &coupon)
-	return &coupon, err
+	return coupon, err
 }
 
 func (c *CouponClient) Get(id string) (*Coupon, error) {
-	res, err := c.api.Call("GET", "/coupons/"+id, c.token, nil)
+	coupon := &Coupon{}
+	err := c.api.Call("GET", "/coupons/"+id, c.token, nil, coupon)
 
-	if err != nil {
-		return nil, err
-	}
-
-	var coupon Coupon
-	err = json.Unmarshal(res, &coupon)
-	return &coupon, err
+	return coupon, err
 }
 
 func (c *CouponClient) Delete(id string) error {
-	_, err := c.api.Call("DELETE", "/coupons/"+id, c.token, nil)
-	return err
+	return c.api.Call("DELETE", "/coupons/"+id, c.token, nil, nil)
 }

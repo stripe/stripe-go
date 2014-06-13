@@ -33,10 +33,6 @@ func TestCardCreate(t *testing.T) {
 		t.Error(err)
 	}
 
-	if target == nil {
-		t.Errorf("No card returned\n")
-	}
-
 	if target.LastFour != "4242" {
 		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, card.Number)
 	}
@@ -70,10 +66,6 @@ func TestCardGet(t *testing.T) {
 	target, err := c.Cards.Get(cust.DefaultCard, &CardParams{Customer: cust.Id})
 	if err != nil {
 		t.Error(err)
-	}
-
-	if target == nil {
-		t.Errorf("No card returned\n")
 	}
 
 	if target.LastFour != "0005" {
@@ -131,10 +123,6 @@ func TestCardUpdate(t *testing.T) {
 	target, err := c.Cards.Update(cust.DefaultCard, card)
 	if err != nil {
 		t.Error(err)
-	}
-
-	if target == nil {
-		t.Errorf("No card returned\n")
 	}
 
 	if target.Name != card.Name {

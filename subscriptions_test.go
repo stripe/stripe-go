@@ -34,12 +34,9 @@ func TestSubscriptionCreate(t *testing.T) {
 	}
 
 	target, err := c.Subs.Create(sub)
+
 	if err != nil {
 		t.Error(err)
-	}
-
-	if target == nil {
-		t.Errorf("No subscription returned\n")
 	}
 
 	if target.Plan.Id != sub.Plan {
@@ -90,8 +87,8 @@ func TestSubscriptionGet(t *testing.T) {
 		t.Error(err)
 	}
 
-	if target == nil {
-		t.Errorf("No subscription returned\n")
+	if target.Id != subscription.Id {
+		t.Errorf("Subscription id %q does not match expected id %q\n", target.Id, subscription.Id)
 	}
 
 	c.Customers.Delete(cust.Id)
@@ -178,10 +175,6 @@ func TestSubscriptionUpdate(t *testing.T) {
 
 	if err != nil {
 		t.Error(err)
-	}
-
-	if target == nil {
-		t.Errorf("No subscription returned\n")
 	}
 
 	if target.Quantity != updatedSub.Quantity {
