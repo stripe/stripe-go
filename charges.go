@@ -185,7 +185,7 @@ type Charge struct {
 	Captured       bool              `json:"captured"`
 	Customer       string            `json:"customer"`
 	Refunds        []*Refund         `json:"refunds"`
-	Balance        string            `json:"balance_transaction"`
+	Tx             string            `json:"balance_transaction"`
 	FailMsg        string            `json:"failure_message"`
 	FailCode       string            `json:"failure_code"`
 	AmountRefunded uint64            `json:"amount_refunded"`

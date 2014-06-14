@@ -36,7 +36,7 @@ type Dispute struct {
 	Created  int64         `json:"created"`
 	Reason   DisputeReason `json:"reason"`
 	Status   DisputeStatus `json:"status"`
-	Balance  string        `json:"balance_transaction"`
+	Tx       string        `json:"balance_transaction"`
 	Evidence string        `json:"evidence"`
 	Due      int64         `json:"evidence_due_by"`
 }

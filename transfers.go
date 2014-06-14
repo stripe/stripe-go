@@ -36,7 +36,7 @@ type Transfer struct {
 	Date      int64             `json:"date"`
 	Status    TransferStatus    `json:"status"`
 	Type      TransferType      `json:"type"`
-	Balance   string            `json:"balance_transaction"`
+	Tx        string            `json:"balance_transaction"`
 	Desc      string            `json:"description"`
 	Meta      map[string]string `json:"metadata"`
 	Bank      *BankAccount      `json:"bank_account"`
