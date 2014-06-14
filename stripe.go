@@ -117,9 +117,36 @@ func (s *s) Call(method, path, token string, body *url.Values, v interface{}) er
 	}
 
 	if res.StatusCode >= 400 {
-		err = errors.New(string(resBody))
-		log.Printf("Error encountered from Stripe: %v\n", err)
-		return err
+		// for some odd reason, the Erro structure doesn't unmarshal
+		// initially I thought it was because it's a struct inside of a struct
+		// but even after trying that, it still didn't work
+		// so unmarshalling to a map for now and parsing the results manually
+		// but should investigate later
+		var errMap map[string]interface{}
+		json.Unmarshal(resBody, &errMap)
+
+		if e, found := errMap["error"]; !found {
+			err := errors.New(string(resBody))
+			log.Printf("Unparsable error returned from Stripe: %v\n", err)
+			return err
+		} else {
+			root := e.(map[string]interface{})
+			err := &Error{
+				Type: ErrorType(root["type"].(string)),
+				Msg:  root["message"].(string),
+			}
+
+			if code, found := root["code"]; found {
+				err.Code = ErrorCode(code.(string))
+			}
+
+			if param, found := root["param"]; found {
+				err.Param = param.(string)
+			}
+
+			log.Printf("Error encountered from Stripe: %v\n", err)
+			return err
+		}
 	}
 
 	if debug {
