@@ -160,7 +160,7 @@ type ChargeParams struct {
 	Meta            map[string]string
 	NoCapture       bool
 	Statement       string
-	//Fee       uint
+	Fee             uint64
 }
 
 type ChargeListParams struct {
@@ -177,7 +177,7 @@ type RefundParams struct {
 
 type CaptureParams struct {
 	Amount uint64
-	Fee    bool
+	Fee    uint64
 }
 
 type Charge struct {
@@ -239,6 +239,10 @@ func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
 
 	if len(params.Desc) > 0 {
 		body.Add("description", params.Desc)
+	}
+
+	if params.Fee > 0 {
+		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 	}
 
 	for k, v := range params.Meta {
@@ -306,8 +310,8 @@ func (c *ChargeClient) Capture(id string, params *CaptureParams) (*Charge, error
 			body.Add("amount", strconv.FormatUint(params.Amount, 10))
 		}
 
-		if params.Fee {
-			body.Add("refund_application_fee", strconv.FormatBool(params.Fee))
+		if params.Fee > 0 {
+			body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 		}
 	}
 
