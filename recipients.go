@@ -117,40 +117,44 @@ func (c *RecipientClient) Get(id string) (*Recipient, error) {
 }
 
 func (c *RecipientClient) Update(id string, params *RecipientParams) (*Recipient, error) {
-	body := &url.Values{}
+	var body *url.Values
 
-	if len(params.Name) > 0 {
-		body.Add("name", params.Name)
-	}
+	if params != nil {
+		body = &url.Values{}
 
-	if params.Bank != nil {
-		params.Bank.appendTo(body)
-	}
+		if len(params.Name) > 0 {
+			body.Add("name", params.Name)
+		}
 
-	if len(params.Token) > 0 {
-		body.Add("card", params.Token)
-	} else if params.Card != nil {
-		params.Card.appendTo(body, true)
-	}
+		if params.Bank != nil {
+			params.Bank.appendTo(body)
+		}
 
-	if len(params.TaxId) > 0 {
-		body.Add("tax_id", params.TaxId)
-	}
+		if len(params.Token) > 0 {
+			body.Add("card", params.Token)
+		} else if params.Card != nil {
+			params.Card.appendTo(body, true)
+		}
 
-	if len(params.DefaultCard) > 0 {
-		body.Add("default_card", params.DefaultCard)
-	}
+		if len(params.TaxId) > 0 {
+			body.Add("tax_id", params.TaxId)
+		}
 
-	if len(params.Email) > 0 {
-		body.Add("email", params.Email)
-	}
+		if len(params.DefaultCard) > 0 {
+			body.Add("default_card", params.DefaultCard)
+		}
 
-	if len(params.Desc) > 0 {
-		body.Add("description", params.Desc)
-	}
+		if len(params.Email) > 0 {
+			body.Add("email", params.Email)
+		}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
+		if len(params.Desc) > 0 {
+			body.Add("description", params.Desc)
+		}
+
+		for k, v := range params.Meta {
+			body.Add(fmt.Sprintf("metadata[%v]", k), v)
+		}
 	}
 
 	recipient := &Recipient{}
@@ -164,9 +168,11 @@ func (c *RecipientClient) Delete(id string) error {
 }
 
 func (c *RecipientClient) List(params *RecipientListParams) (*RecipientList, error) {
-	body := &url.Values{}
+	var body *url.Values
 
 	if params != nil {
+		body = &url.Values{}
+
 		if params.Verified {
 			body.Add("verified", strconv.FormatBool(true))
 		}
@@ -197,6 +203,7 @@ func (c *RecipientClient) List(params *RecipientListParams) (*RecipientList, err
 
 	return list, err
 }
+
 func (b *BankAccountParams) appendTo(values *url.Values) {
 	values.Add("bank_account[country]", b.Country)
 	values.Add("bank_account[routing_number]", b.Routing)

@@ -104,14 +104,18 @@ func (c *TransferClient) Get(id string) (*Transfer, error) {
 }
 
 func (c *TransferClient) Update(id string, params *TransferParams) (*Transfer, error) {
-	body := &url.Values{}
+	var body *url.Values
 
-	if len(params.Desc) > 0 {
-		body.Add("description", params.Desc)
-	}
+	if params != nil {
+		body = &url.Values{}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
+		if len(params.Desc) > 0 {
+			body.Add("description", params.Desc)
+		}
+
+		for k, v := range params.Meta {
+			body.Add(fmt.Sprintf("metadata[%v]", k), v)
+		}
 	}
 
 	transfer := &Transfer{}
@@ -128,9 +132,11 @@ func (c *TransferClient) Cancel(id string) (*Transfer, error) {
 }
 
 func (c *TransferClient) List(params *TransferListParams) (*TransferList, error) {
-	body := &url.Values{}
+	var body *url.Values
 
 	if params != nil {
+		body = &url.Values{}
+
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
 		}

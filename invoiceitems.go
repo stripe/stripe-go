@@ -84,18 +84,22 @@ func (c *InvoiceItemClient) Get(id string) (*InvoiceItem, error) {
 }
 
 func (c *InvoiceItemClient) Update(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
-	body := &url.Values{}
+	var body *url.Values
 
-	if params.Amount != 0 {
-		body.Add("amount", strconv.FormatInt(params.Amount, 10))
-	}
+	if params != nil {
+		body = &url.Values{}
 
-	if len(params.Desc) > 0 {
-		body.Add("description", params.Desc)
-	}
+		if params.Amount != 0 {
+			body.Add("amount", strconv.FormatInt(params.Amount, 10))
+		}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
+		if len(params.Desc) > 0 {
+			body.Add("description", params.Desc)
+		}
+
+		for k, v := range params.Meta {
+			body.Add(fmt.Sprintf("metadata[%v]", k), v)
+		}
 	}
 
 	invoiceItem := &InvoiceItem{}
@@ -109,9 +113,11 @@ func (c *InvoiceItemClient) Delete(id string) error {
 }
 
 func (c *InvoiceItemClient) List(params *InvoiceItemListParams) (*InvoiceItemList, error) {
-	body := &url.Values{}
+	var body *url.Values
 
 	if params != nil {
+		body = &url.Values{}
+
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
 		}

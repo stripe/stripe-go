@@ -47,10 +47,14 @@ type DisputeClient struct {
 }
 
 func (c *DisputeClient) Update(id string, params *DisputeParams) (*Dispute, error) {
-	body := &url.Values{}
+	var body *url.Values
 
-	if len(params.Evidence) > 0 {
-		body.Add("evidence", params.Evidence)
+	if params != nil {
+		body = &url.Values{}
+
+		if len(params.Evidence) > 0 {
+			body.Add("evidence", params.Evidence)
+		}
 	}
 
 	dispute := &Dispute{}

@@ -91,9 +91,11 @@ func (c *BalanceClient) GetTx(id string) (*Transaction, error) {
 }
 
 func (c *BalanceClient) List(params *TxListParams) (*TransactionList, error) {
-	body := &url.Values{}
+	var body *url.Values
 
 	if params != nil {
+		body = &url.Values{}
+
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
 		}

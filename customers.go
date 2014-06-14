@@ -54,45 +54,47 @@ type CustomerClient struct {
 }
 
 func (c *CustomerClient) Create(params *CustomerParams) (*Customer, error) {
-	body := &url.Values{}
+	var body *url.Values
 
-	if params.Balance != 0 {
-		body.Add("account_balance", strconv.FormatInt(params.Balance, 10))
-	}
-
-	if len(params.Token) > 0 {
-		body.Add("card", params.Token)
-	} else if params.Card != nil {
-		params.Card.appendTo(body, true)
-	}
-
-	if len(params.Desc) > 0 {
-		body.Add("description", params.Desc)
-	}
-
-	if len(params.Coupon) > 0 {
-		body.Add("coupon", params.Coupon)
-	}
-
-	if len(params.Email) > 0 {
-		body.Add("email", params.Email)
-	}
-
-	if len(params.Plan) > 0 {
-		body.Add("plan", params.Plan)
-
-		if params.Quantity > 0 {
-			body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
+	if params != nil {
+		body = &url.Values{}
+		if params.Balance != 0 {
+			body.Add("account_balance", strconv.FormatInt(params.Balance, 10))
 		}
 
-		if params.End > 0 {
-			body.Add("trial_end", strconv.FormatInt(params.End, 10))
+		if len(params.Token) > 0 {
+			body.Add("card", params.Token)
+		} else if params.Card != nil {
+			params.Card.appendTo(body, true)
 		}
 
-	}
+		if len(params.Desc) > 0 {
+			body.Add("description", params.Desc)
+		}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
+		if len(params.Coupon) > 0 {
+			body.Add("coupon", params.Coupon)
+		}
+
+		if len(params.Email) > 0 {
+			body.Add("email", params.Email)
+		}
+
+		if len(params.Plan) > 0 {
+			body.Add("plan", params.Plan)
+
+			if params.Quantity > 0 {
+				body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
+			}
+
+			if params.End > 0 {
+				body.Add("trial_end", strconv.FormatInt(params.End, 10))
+			}
+		}
+
+		for k, v := range params.Meta {
+			body.Add(fmt.Sprintf("metadata[%v]", k), v)
+		}
 	}
 
 	cust := &Customer{}
@@ -109,36 +111,40 @@ func (c *CustomerClient) Get(id string) (*Customer, error) {
 }
 
 func (c *CustomerClient) Update(id string, params *CustomerParams) (*Customer, error) {
-	body := &url.Values{}
+	var body *url.Values
 
-	if params.Balance != 0 {
-		body.Add("account_balance", strconv.FormatInt(params.Balance, 10))
-	}
+	if params != nil {
+		body = &url.Values{}
 
-	if len(params.Token) > 0 {
-		body.Add("card", params.Token)
-	} else if params.Card != nil {
-		params.Card.appendTo(body, true)
-	}
+		if params.Balance != 0 {
+			body.Add("account_balance", strconv.FormatInt(params.Balance, 10))
+		}
 
-	if len(params.Desc) > 0 {
-		body.Add("description", params.Desc)
-	}
+		if len(params.Token) > 0 {
+			body.Add("card", params.Token)
+		} else if params.Card != nil {
+			params.Card.appendTo(body, true)
+		}
 
-	if len(params.Coupon) > 0 {
-		body.Add("coupon", params.Coupon)
-	}
+		if len(params.Desc) > 0 {
+			body.Add("description", params.Desc)
+		}
 
-	if len(params.Email) > 0 {
-		body.Add("email", params.Email)
-	}
+		if len(params.Coupon) > 0 {
+			body.Add("coupon", params.Coupon)
+		}
 
-	if len(params.DefaultCard) > 0 {
-		body.Add("default_card", params.DefaultCard)
-	}
+		if len(params.Email) > 0 {
+			body.Add("email", params.Email)
+		}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
+		if len(params.DefaultCard) > 0 {
+			body.Add("default_card", params.DefaultCard)
+		}
+
+		for k, v := range params.Meta {
+			body.Add(fmt.Sprintf("metadata[%v]", k), v)
+		}
 	}
 
 	cust := &Customer{}
@@ -152,9 +158,11 @@ func (c *CustomerClient) Delete(id string) error {
 }
 
 func (c *CustomerClient) List(params *CustomerListParams) (*CustomerList, error) {
-	body := &url.Values{}
+	var body *url.Values
 
 	if params != nil {
+		body = &url.Values{}
+
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
 		}

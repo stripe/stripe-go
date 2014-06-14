@@ -277,12 +277,18 @@ func (c *ChargeClient) Get(id string) (*Charge, error) {
 }
 
 func (c *ChargeClient) Update(id string, params *ChargeParams) (*Charge, error) {
-	body := &url.Values{
-		"description": {params.Desc},
-	}
+	var body *url.Values
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
+	if params != nil {
+		body = &url.Values{}
+
+		if len(params.Desc) > 0 {
+			body.Add("description", params.Desc)
+		}
+
+		for k, v := range params.Meta {
+			body.Add(fmt.Sprintf("metadata[%v]", k), v)
+		}
 	}
 
 	charge := &Charge{}
@@ -292,9 +298,11 @@ func (c *ChargeClient) Update(id string, params *ChargeParams) (*Charge, error) 
 }
 
 func (c *ChargeClient) Refund(id string, params *RefundParams) (*Charge, error) {
-	body := &url.Values{}
+	var body *url.Values
 
 	if params != nil {
+		body = &url.Values{}
+
 		if params.Amount > 0 {
 			body.Add("amount", strconv.FormatUint(params.Amount, 10))
 		}
@@ -311,10 +319,12 @@ func (c *ChargeClient) Refund(id string, params *RefundParams) (*Charge, error) 
 }
 
 func (c *ChargeClient) Capture(id string, params *CaptureParams) (*Charge, error) {
-	body := &url.Values{}
+	var body *url.Values
 	token := c.token
 
 	if params != nil {
+		body = &url.Values{}
+
 		if params.Amount > 0 {
 			body.Add("amount", strconv.FormatUint(params.Amount, 10))
 		}
@@ -334,9 +344,11 @@ func (c *ChargeClient) Capture(id string, params *CaptureParams) (*Charge, error
 }
 
 func (c *ChargeClient) List(params *ChargeListParams) (*ChargeList, error) {
-	body := &url.Values{}
+	var body *url.Values
 
 	if params != nil {
+		body = &url.Values{}
+
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
 		}

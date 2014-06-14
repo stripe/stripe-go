@@ -111,9 +111,11 @@ func (c *CouponClient) Delete(id string) error {
 }
 
 func (c *CouponClient) List(params *CouponListParams) (*CouponList, error) {
-	body := &url.Values{}
+	var body *url.Values
 
 	if params != nil {
+		body = &url.Values{}
+
 		if len(params.Filters.f) > 0 {
 			params.Filters.appendTo(body)
 		}

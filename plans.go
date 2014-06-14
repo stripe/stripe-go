@@ -96,18 +96,22 @@ func (c *PlanClient) Get(id string) (*Plan, error) {
 }
 
 func (c *PlanClient) Update(id string, params *PlanParams) (*Plan, error) {
-	body := &url.Values{}
+	var body *url.Values
 
-	if len(params.Name) > 0 {
-		body.Add("name", params.Name)
-	}
+	if params != nil {
+		body = &url.Values{}
 
-	if len(params.Statement) > 0 {
-		body.Add("statement_description", params.Statement)
-	}
+		if len(params.Name) > 0 {
+			body.Add("name", params.Name)
+		}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
+		if len(params.Statement) > 0 {
+			body.Add("statement_description", params.Statement)
+		}
+
+		for k, v := range params.Meta {
+			body.Add(fmt.Sprintf("metadata[%v]", k), v)
+		}
 	}
 
 	plan := &Plan{}
@@ -121,9 +125,11 @@ func (c *PlanClient) Delete(id string) error {
 }
 
 func (c *PlanClient) List(params *PlanListParams) (*PlanList, error) {
-	body := &url.Values{}
+	var body *url.Values
 
 	if params != nil {
+		body = &url.Values{}
+
 		if len(params.Filters.f) > 0 {
 			params.Filters.appendTo(body)
 		}

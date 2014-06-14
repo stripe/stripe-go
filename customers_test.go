@@ -57,9 +57,7 @@ func TestCustomerGet(t *testing.T) {
 	c := &Client{}
 	c.Init(key, nil, nil)
 
-	customer := &CustomerParams{}
-
-	res, _ := c.Customers.Create(customer)
+	res, _ := c.Customers.Create(nil)
 
 	target, err := c.Customers.Get(res.Id)
 
@@ -78,9 +76,7 @@ func TestCustomerDelete(t *testing.T) {
 	c := &Client{}
 	c.Init(key, nil, nil)
 
-	customer := &CustomerParams{}
-
-	res, _ := c.Customers.Create(customer)
+	res, _ := c.Customers.Create(nil)
 
 	err := c.Customers.Delete(res.Id)
 
@@ -193,7 +189,7 @@ func TestCustomerList(t *testing.T) {
 	customers := make([]string, 5)
 
 	for i := 0; i < 5; i++ {
-		cust, _ := c.Customers.Create(&CustomerParams{})
+		cust, _ := c.Customers.Create(nil)
 		customers[i] = cust.Id
 	}
 

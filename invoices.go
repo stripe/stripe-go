@@ -155,37 +155,41 @@ func (c *InvoiceClient) Pay(id string) (*Invoice, error) {
 }
 
 func (c *InvoiceClient) Update(id string, params *InvoiceParams) (*Invoice, error) {
-	body := &url.Values{}
-
-	if len(params.Desc) > 0 {
-		body.Add("description", params.Desc)
-	}
-
-	if len(params.Statement) > 0 {
-		body.Add("statement_description", params.Statement)
-	}
-
-	if len(params.Sub) > 0 {
-		body.Add("subscription", params.Sub)
-	}
-
-	if params.Closed {
-		body.Add("closed", strconv.FormatBool(true))
-	}
-
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
-	}
-
+	var body *url.Values
 	token := c.token
-	if params.Fee > 0 {
-		if len(params.AccessToken) == 0 {
-			err := errors.New("Invalid invoice params: an access token is required for application fees")
-			return nil, err
+
+	if params != nil {
+		body = &url.Values{}
+
+		if len(params.Desc) > 0 {
+			body.Add("description", params.Desc)
 		}
 
-		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
-		token = params.AccessToken
+		if len(params.Statement) > 0 {
+			body.Add("statement_description", params.Statement)
+		}
+
+		if len(params.Sub) > 0 {
+			body.Add("subscription", params.Sub)
+		}
+
+		if params.Closed {
+			body.Add("closed", strconv.FormatBool(true))
+		}
+
+		for k, v := range params.Meta {
+			body.Add(fmt.Sprintf("metadata[%v]", k), v)
+		}
+
+		if params.Fee > 0 {
+			if len(params.AccessToken) == 0 {
+				err := errors.New("Invalid invoice params: an access token is required for application fees")
+				return nil, err
+			}
+
+			body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
+			token = params.AccessToken
+		}
 	}
 
 	invoice := &Invoice{}
@@ -210,9 +214,11 @@ func (c *InvoiceClient) GetNext(params *InvoiceParams) (*Invoice, error) {
 }
 
 func (c *InvoiceClient) List(params *InvoiceListParams) (*InvoiceList, error) {
-	body := &url.Values{}
+	var body *url.Values
 
 	if params != nil {
+		body = &url.Values{}
+
 		if len(params.Customer) > 0 {
 			body.Add("customer", params.Customer)
 		}

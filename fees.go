@@ -52,9 +52,11 @@ func (c *AppFeeClient) Get(id string) (*AppFee, error) {
 }
 
 func (c *AppFeeClient) Refund(id string, params *AppFeeParams) (*AppFee, error) {
-	body := &url.Values{}
+	var body *url.Values
 
 	if params != nil {
+		body = &url.Values{}
+
 		if params.Amount > 0 {
 			body.Add("amount", strconv.FormatUint(params.Amount, 10))
 		}
@@ -67,9 +69,11 @@ func (c *AppFeeClient) Refund(id string, params *AppFeeParams) (*AppFee, error) 
 }
 
 func (c *AppFeeClient) List(params *AppFeeListParams) (*AppFeeList, error) {
-	body := &url.Values{}
+	var body *url.Values
 
 	if params != nil {
+		body = &url.Values{}
+
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
 		}
