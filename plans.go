@@ -25,6 +25,12 @@ type PlanParams struct {
 	Statement                  string
 }
 
+type PlanListParams struct {
+	Filters    Filters
+	Start, End string
+	Limit      uint64
+}
+
 type Plan struct {
 	Id            string            `json:"id"`
 	Live          bool              `json:"livemode"`
@@ -37,6 +43,13 @@ type Plan struct {
 	Meta          map[string]string `json:"metadata"`
 	TrialPeriod   uint64            `json:"trial_period_days"`
 	Statement     string            `json:"statement_description"`
+}
+
+type PlanList struct {
+	Count  uint16  `json:"total_count"`
+	More   bool    `json:"has_more"`
+	Url    string  `json:"url"`
+	Values []*Plan `json:"data"`
 }
 
 type PlanClient struct {
@@ -105,4 +118,35 @@ func (c *PlanClient) Update(id string, params *PlanParams) (*Plan, error) {
 
 func (c *PlanClient) Delete(id string) error {
 	return c.api.Call("DELETE", "/plans/"+id, c.token, nil, nil)
+}
+
+func (c *PlanClient) List(params *PlanListParams) (*PlanList, error) {
+	body := &url.Values{}
+
+	if params != nil {
+		if len(params.Filters.f) > 0 {
+			params.Filters.appendTo(body)
+		}
+
+		if len(params.Start) > 0 {
+			body.Add("starting_after", params.Start)
+		}
+
+		if len(params.End) > 0 {
+			body.Add("ending_before", params.End)
+		}
+
+		if params.Limit > 0 {
+			if params.Limit > 100 {
+				params.Limit = 100
+			}
+
+			body.Add("limit", strconv.FormatUint(params.Limit, 10))
+		}
+	}
+
+	list := &PlanList{}
+	err := c.api.Call("GET", "/plans", c.token, body, list)
+
+	return list, err
 }

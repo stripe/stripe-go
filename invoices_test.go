@@ -185,6 +185,36 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Error(err)
 	}
 
+	targetInvoiceItemList, err := c.InvoiceItems.List(&InvoiceItemListParams{Customer: cust.Id})
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(targetInvoiceItemList.Values) == 0 {
+		t.Errorf("Invoice item list is empty\n")
+	}
+
+	targetInvoiceList, err := c.Invoices.List(&InvoiceListParams{Customer: cust.Id})
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(targetInvoiceList.Values) == 0 {
+		t.Errorf("Invoice list is empty\n")
+	}
+
+	targetInvoiceLineList, err := c.Invoices.ListLines(&InvoiceLineListParams{Id: targetInvoice.Id, Customer: cust.Id})
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(targetInvoiceLineList.Values) == 0 {
+		t.Errorf("Invoice line list is empty\n")
+	}
+
 	err = c.InvoiceItems.Delete(targetItem.Id)
 
 	if err != nil {

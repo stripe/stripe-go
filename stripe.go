@@ -3,6 +3,7 @@ package stripe
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -39,6 +40,14 @@ type Client struct {
 
 type s struct {
 	httpClient *http.Client
+}
+
+type Filters struct {
+	f []*filter
+}
+
+type filter struct {
+	Key, Op, Val string
 }
 
 const uri = "https://api.stripe.com/v1"
@@ -158,4 +167,15 @@ func (s *s) Call(method, path, token string, body *url.Values, v interface{}) er
 	}
 
 	return nil
+}
+
+func (f *Filters) AddFilter(key, op, value string) {
+	filter := &filter{Key: key, Op: op, Val: value}
+	f.f = append(f.f, filter)
+}
+
+func (f *Filters) appendTo(values *url.Values) {
+	for _, v := range f.f {
+		values.Add(fmt.Sprintf("%v[%v]", v.Key, v.Op), v.Val)
+	}
 }

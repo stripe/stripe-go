@@ -214,3 +214,27 @@ func TestChargeCapture(t *testing.T) {
 		t.Errorf("Refunded amount %v does not match expected amount %v\n", target.AmountRefunded, charge.Amount-capture.Amount)
 	}
 }
+
+func TestChargeList(t *testing.T) {
+	c := &Client{}
+	c.Init(key, nil, nil)
+
+	params := &ChargeListParams{}
+	params.Filters.AddFilter("include", "", "total_count")
+	params.Filters.AddFilter("created", "gte", "1402729261")
+	target, err := c.Charges.List(params)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Count == 0 {
+		t.Errorf("Count is not set\n")
+	}
+
+	for _, v := range target.Values {
+		if v.Amount == 0 {
+			t.Errorf("Amount is not set\n")
+		}
+	}
+}

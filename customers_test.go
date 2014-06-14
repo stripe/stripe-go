@@ -185,3 +185,29 @@ func TestCustomerDiscount(t *testing.T) {
 	c.Customers.Delete(target.Id)
 	c.Coupons.Delete("customer_coupon")
 }
+
+func TestCustomerList(t *testing.T) {
+	c := &Client{}
+	c.Init(key, nil, nil)
+
+	customers := make([]string, 5)
+
+	for i := 0; i < 5; i++ {
+		cust, _ := c.Customers.Create(&CustomerParams{})
+		customers[i] = cust.Id
+	}
+
+	target, err := c.Customers.List(nil)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(target.Values) != len(customers) {
+		t.Errorf("Count %v does not match expected value\n", len(target.Values))
+	}
+
+	for _, v := range customers {
+		c.Customers.Delete(v)
+	}
+}

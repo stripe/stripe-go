@@ -16,10 +16,7 @@ func TestCardCreate(t *testing.T) {
 		},
 	}
 
-	cust, err := c.Customers.Create(customer)
-	if err != nil {
-		t.Error(err)
-	}
+	cust, _ := c.Customers.Create(customer)
 
 	card := &CardParams{
 		Number:   "4242424242424242",
@@ -29,6 +26,7 @@ func TestCardCreate(t *testing.T) {
 	}
 
 	target, err := c.Cards.Create(card)
+
 	if err != nil {
 		t.Error(err)
 	}
@@ -129,6 +127,42 @@ func TestCardUpdate(t *testing.T) {
 
 	if target.Name != card.Name {
 		t.Errorf("Card name %q does not match expected name %q\n", target.Name, card.Name)
+	}
+
+	c.Customers.Delete(cust.Id)
+}
+
+func TestCardList(t *testing.T) {
+	c := &Client{}
+	c.Init(key, nil, nil)
+
+	customer := &CustomerParams{
+		Card: &CardParams{
+			Number: "378282246310005",
+			Month:  "06",
+			Year:   "20",
+		},
+	}
+
+	cust, _ := c.Customers.Create(customer)
+
+	card := &CardParams{
+		Number:   "4242424242424242",
+		Month:    "10",
+		Year:     "20",
+		Customer: cust.Id,
+	}
+
+	c.Cards.Create(card)
+
+	target, err := c.Cards.List(&CardListParams{Customer: cust.Id})
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(target.Values) != 2 {
+		t.Errorf("Number of cards %v does not match expected value\n", len(target.Values))
 	}
 
 	c.Customers.Delete(cust.Id)

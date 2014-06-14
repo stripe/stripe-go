@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"fmt"
 	"testing"
 	"time"
 )
@@ -81,4 +82,33 @@ func TestCouponGet(t *testing.T) {
 	}
 
 	c.Coupons.Delete(target.Id)
+}
+
+func TestCouponList(t *testing.T) {
+	c := &Client{}
+	c.Init(key, nil, nil)
+
+	for i := 0; i < 5; i++ {
+		coupon := &CouponParams{
+			Id:       fmt.Sprintf("test_%v", i),
+			Duration: Once,
+			Percent:  50,
+		}
+
+		c.Coupons.Create(coupon)
+	}
+
+	target, err := c.Coupons.List(nil)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(target.Values) != 5 {
+		t.Errorf("Count %v does not match expected value\n", len(target.Values))
+	}
+
+	for i := 0; i < 5; i++ {
+		c.Coupons.Delete(fmt.Sprintf("test_%v", i))
+	}
 }

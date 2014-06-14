@@ -14,6 +14,13 @@ type InvoiceItemParams struct {
 	Meta               map[string]string
 }
 
+type InvoiceItemListParams struct {
+	Created              int64
+	Filters              Filters
+	Customer, Start, End string
+	Limit                uint64
+}
+
 type InvoiceItem struct {
 	Id        string            `json:"id"`
 	Live      bool              `json:"livemode"`
@@ -26,6 +33,13 @@ type InvoiceItem struct {
 	Invoice   string            `json:invoice"`
 	Sub       string            `json:"subscription"`
 	Meta      map[string]string `json:"metadata"`
+}
+
+type InvoiceItemList struct {
+	Count  uint16         `json:"total_count"`
+	More   bool           `json:"has_more"`
+	Url    string         `json:"url"`
+	Values []*InvoiceItem `json:"data"`
 }
 
 type InvoiceItemClient struct {
@@ -92,4 +106,43 @@ func (c *InvoiceItemClient) Update(id string, params *InvoiceItemParams) (*Invoi
 
 func (c *InvoiceItemClient) Delete(id string) error {
 	return c.api.Call("DELETE", "/invoiceitems/"+id, c.token, nil, nil)
+}
+
+func (c *InvoiceItemClient) List(params *InvoiceItemListParams) (*InvoiceItemList, error) {
+	body := &url.Values{}
+
+	if params != nil {
+		if params.Created > 0 {
+			body.Add("created", strconv.FormatInt(params.Created, 10))
+		}
+
+		if len(params.Filters.f) > 0 {
+			params.Filters.appendTo(body)
+		}
+
+		if len(params.Customer) > 0 {
+			body.Add("customer", params.Customer)
+		}
+
+		if len(params.Start) > 0 {
+			body.Add("starting_after", params.Start)
+		}
+
+		if len(params.End) > 0 {
+			body.Add("ending_before", params.End)
+		}
+
+		if params.Limit > 0 {
+			if params.Limit > 100 {
+				params.Limit = 100
+			}
+
+			body.Add("limit", strconv.FormatUint(params.Limit, 10))
+		}
+	}
+
+	list := &InvoiceItemList{}
+	err := c.api.Call("GET", "/invoiceitems", c.token, body, list)
+
+	return list, err
 }

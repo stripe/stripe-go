@@ -163,6 +163,13 @@ type ChargeParams struct {
 	//Fee       uint
 }
 
+type ChargeListParams struct {
+	Created              int64
+	Filters              Filters
+	Customer, Start, End string
+	Limit                uint64
+}
+
 type RefundParams struct {
 	Amount uint64
 	Fee    bool
@@ -193,6 +200,13 @@ type Charge struct {
 	Desc           string            `json:"description"`
 	Dispute        string            `json:"dispute"`
 	Meta           map[string]string `json:"metadata"`
+}
+
+type ChargeList struct {
+	Count  uint16    `json:"total_count"`
+	More   bool      `json:"has_more"`
+	Url    string    `json:"url"`
+	Values []*Charge `json:"data"`
 }
 
 type Refund struct {
@@ -301,4 +315,43 @@ func (c *ChargeClient) Capture(id string, params *CaptureParams) (*Charge, error
 	err := c.api.Call("POST", "/charges/"+id+"/capture", c.token, body, charge)
 
 	return charge, err
+}
+
+func (c *ChargeClient) List(params *ChargeListParams) (*ChargeList, error) {
+	body := &url.Values{}
+
+	if params != nil {
+		if params.Created > 0 {
+			body.Add("created", strconv.FormatInt(params.Created, 10))
+		}
+
+		if len(params.Filters.f) > 0 {
+			params.Filters.appendTo(body)
+		}
+
+		if len(params.Customer) > 0 {
+			body.Add("customer", params.Customer)
+		}
+
+		if len(params.Start) > 0 {
+			body.Add("starting_after", params.Start)
+		}
+
+		if len(params.End) > 0 {
+			body.Add("ending_before", params.End)
+		}
+
+		if params.Limit > 0 {
+			if params.Limit > 100 {
+				params.Limit = 100
+			}
+
+			body.Add("limit", strconv.FormatUint(params.Limit, 10))
+		}
+	}
+
+	list := &ChargeList{}
+	err := c.api.Call("GET", "/charges", c.token, body, list)
+
+	return list, err
 }

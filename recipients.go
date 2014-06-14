@@ -3,6 +3,7 @@ package stripe
 import (
 	"fmt"
 	"net/url"
+	"strconv"
 )
 
 type RecipientType string
@@ -20,6 +21,13 @@ type RecipientParams struct {
 	Card                      *CardParams
 	Meta                      map[string]string
 	DefaultCard               string
+}
+
+type RecipientListParams struct {
+	Filters    Filters
+	Start, End string
+	Limit      uint64
+	Verified   bool
 }
 
 type BankAccountParams struct {
@@ -49,6 +57,13 @@ type BankAccount struct {
 	Disabled    bool     `json:"disabled"`
 	Fingerprint string   `json:"fingerprint"`
 	Valid       bool     `json:"validated"`
+}
+
+type RecipientList struct {
+	Count  uint16       `json:"total_count"`
+	More   bool         `json:"has_more"`
+	Url    string       `json:"url"`
+	Values []*Recipient `json:"data"`
 }
 
 type RecipientClient struct {
@@ -148,6 +163,40 @@ func (c *RecipientClient) Delete(id string) error {
 	return c.api.Call("DELETE", "/recipients/"+id, c.token, nil, nil)
 }
 
+func (c *RecipientClient) List(params *RecipientListParams) (*RecipientList, error) {
+	body := &url.Values{}
+
+	if params != nil {
+		if params.Verified {
+			body.Add("verified", strconv.FormatBool(true))
+		}
+
+		if len(params.Filters.f) > 0 {
+			params.Filters.appendTo(body)
+		}
+
+		if len(params.Start) > 0 {
+			body.Add("starting_after", params.Start)
+		}
+
+		if len(params.End) > 0 {
+			body.Add("ending_before", params.End)
+		}
+
+		if params.Limit > 0 {
+			if params.Limit > 100 {
+				params.Limit = 100
+			}
+
+			body.Add("limit", strconv.FormatUint(params.Limit, 10))
+		}
+	}
+
+	list := &RecipientList{}
+	err := c.api.Call("GET", "/recipients", c.token, body, list)
+
+	return list, err
+}
 func (b *BankAccountParams) appendTo(values *url.Values) {
 	values.Add("bank_account[country]", b.Country)
 	values.Add("bank_account[routing_number]", b.Routing)

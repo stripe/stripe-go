@@ -27,7 +27,7 @@ func TestSubscriptionCreate(t *testing.T) {
 	}
 	c.Plans.Create(plan)
 
-	sub := &SubscriptionParams{
+	sub := &SubParams{
 		Customer: cust.Id,
 		Plan:     "test",
 		Quantity: 10,
@@ -74,14 +74,14 @@ func TestSubscriptionGet(t *testing.T) {
 	}
 	c.Plans.Create(plan)
 
-	sub := &SubscriptionParams{
+	sub := &SubParams{
 		Customer: cust.Id,
 		Plan:     "test",
 		Quantity: 10,
 	}
 
 	subscription, _ := c.Subs.Create(sub)
-	target, err := c.Subs.Get(subscription.Id, &SubscriptionParams{Customer: cust.Id})
+	target, err := c.Subs.Get(subscription.Id, &SubParams{Customer: cust.Id})
 
 	if err != nil {
 		t.Error(err)
@@ -118,14 +118,14 @@ func TestSubscriptionCancel(t *testing.T) {
 	}
 	c.Plans.Create(plan)
 
-	sub := &SubscriptionParams{
+	sub := &SubParams{
 		Customer: cust.Id,
 		Plan:     "test",
 		Quantity: 10,
 	}
 
 	subscription, _ := c.Subs.Create(sub)
-	err := c.Subs.Cancel(subscription.Id, &SubscriptionParams{Customer: cust.Id})
+	err := c.Subs.Cancel(subscription.Id, &SubParams{Customer: cust.Id})
 
 	if err != nil {
 		t.Error(err)
@@ -158,14 +158,14 @@ func TestSubscriptionUpdate(t *testing.T) {
 	}
 	c.Plans.Create(plan)
 
-	sub := &SubscriptionParams{
+	sub := &SubParams{
 		Customer: cust.Id,
 		Plan:     "test",
 		Quantity: 10,
 	}
 
 	subscription, _ := c.Subs.Create(sub)
-	updatedSub := &SubscriptionParams{
+	updatedSub := &SubParams{
 		Customer:  cust.Id,
 		NoProrate: true,
 		Quantity:  13,
@@ -215,7 +215,7 @@ func TestSubscriptionDiscount(t *testing.T) {
 	}
 	c.Plans.Create(plan)
 
-	sub := &SubscriptionParams{
+	sub := &SubParams{
 		Customer: cust.Id,
 		Plan:     "test",
 		Quantity: 10,
@@ -249,4 +249,51 @@ func TestSubscriptionDiscount(t *testing.T) {
 	c.Customers.Delete(cust.Id)
 	c.Plans.Delete("test")
 	c.Coupons.Delete("sub_coupon")
+}
+
+func TestSubscriptionList(t *testing.T) {
+	c := &Client{}
+	c.Init(key, nil, nil)
+
+	customer := &CustomerParams{
+		Card: &CardParams{
+			Number: "378282246310005",
+			Month:  "06",
+			Year:   "20",
+		},
+	}
+
+	cust, _ := c.Customers.Create(customer)
+
+	plan := &PlanParams{
+		Id:       "test",
+		Name:     "Test Plan",
+		Amount:   99,
+		Currency: USD,
+		Interval: Month,
+	}
+	c.Plans.Create(plan)
+
+	sub := &SubParams{
+		Customer: cust.Id,
+		Plan:     "test",
+		Quantity: 10,
+	}
+
+	for i := 0; i < 5; i++ {
+		c.Subs.Create(sub)
+	}
+
+	target, err := c.Subs.List(&SubListParams{Customer: cust.Id})
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(target.Values) != 5 {
+		t.Errorf("Count %v does not match expected value\n", len(target.Values))
+	}
+
+	c.Customers.Delete(cust.Id)
+	c.Plans.Delete("test")
 }

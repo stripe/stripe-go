@@ -160,3 +160,43 @@ func TestTransferUpdate(t *testing.T) {
 
 	c.Recipients.Delete(rec.Id)
 }
+
+func TestTransferList(t *testing.T) {
+	c := &Client{}
+	c.Init(key, nil, nil)
+
+	recipient := &RecipientParams{
+		Name: "Recipient Name",
+		Type: Individual,
+		Card: &CardParams{
+			Name:   "Test Debit",
+			Number: "4000056655665556",
+			Month:  "10",
+			Year:   "20",
+		},
+	}
+
+	rec, _ := c.Recipients.Create(recipient)
+
+	transfer := &TransferParams{
+		Amount:    100,
+		Currency:  USD,
+		Recipient: rec.Id,
+	}
+
+	for i := 0; i < 5; i++ {
+		c.Transfers.Create(transfer)
+	}
+
+	target, err := c.Transfers.List(&TransferListParams{Recipient: rec.Id})
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(target.Values) != 5 {
+		t.Errorf("Count %v does not match expected value\n", len(target.Values))
+	}
+
+	c.Recipients.Delete(rec.Id)
+}

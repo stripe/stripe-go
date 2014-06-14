@@ -147,3 +147,34 @@ func TestRecipientUpdate(t *testing.T) {
 
 	c.Recipients.Delete(target.Id)
 }
+
+func TestRecipientList(t *testing.T) {
+	c := &Client{}
+	c.Init(key, nil, nil)
+
+	recipient := &RecipientParams{
+		Name: "Recipient Name",
+		Type: Individual,
+	}
+
+	recipients := make([]string, 5)
+
+	for i := 0; i < 5; i++ {
+		rec, _ := c.Recipients.Create(recipient)
+		recipients[i] = rec.Id
+	}
+
+	target, err := c.Recipients.List(nil)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(target.Values) != len(recipients) {
+		t.Errorf("Count %v does not match expected value\n", len(target.Values))
+	}
+
+	for _, v := range recipients {
+		c.Recipients.Delete(v)
+	}
+}

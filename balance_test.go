@@ -118,3 +118,18 @@ func TestBalanceGetTx(t *testing.T) {
 		t.Errorf("Source %q does not match expeted value %q\n", target.Src, res.Id)
 	}
 }
+
+func TestBalanceList(t *testing.T) {
+	c := &Client{}
+	c.Init(key, nil, nil)
+
+	target, err := c.Balance.List(nil)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(target.Values) == 0 {
+		t.Errorf("Balance list is empty\n")
+	}
+}

@@ -24,6 +24,12 @@ type CouponParams struct {
 	RedeemBy                                     int64
 }
 
+type CouponListParams struct {
+	Filters    Filters
+	Start, End string
+	Limit      uint64
+}
+
 type Coupon struct {
 	Id             string            `json:"id"`
 	Live           bool              `json:"livemode"`
@@ -38,6 +44,13 @@ type Coupon struct {
 	RedeemBy       int64             `json:"redeem_by"`
 	Redeemed       uint64            `json:"times_redeemed"`
 	Valid          bool              `json:"valid"`
+}
+
+type CouponList struct {
+	Count  uint16    `json:"total_count"`
+	More   bool      `json:"has_more"`
+	Url    string    `json:"url"`
+	Values []*Coupon `json:"data"`
 }
 
 type CouponClient struct {
@@ -95,4 +108,35 @@ func (c *CouponClient) Get(id string) (*Coupon, error) {
 
 func (c *CouponClient) Delete(id string) error {
 	return c.api.Call("DELETE", "/coupons/"+id, c.token, nil, nil)
+}
+
+func (c *CouponClient) List(params *CouponListParams) (*CouponList, error) {
+	body := &url.Values{}
+
+	if params != nil {
+		if len(params.Filters.f) > 0 {
+			params.Filters.appendTo(body)
+		}
+
+		if len(params.Start) > 0 {
+			body.Add("starting_after", params.Start)
+		}
+
+		if len(params.End) > 0 {
+			body.Add("ending_before", params.End)
+		}
+
+		if params.Limit > 0 {
+			if params.Limit > 100 {
+				params.Limit = 100
+			}
+
+			body.Add("limit", strconv.FormatUint(params.Limit, 10))
+		}
+	}
+
+	list := &CouponList{}
+	err := c.api.Call("GET", "/coupons", c.token, body, list)
+
+	return list, err
 }

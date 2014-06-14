@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -123,4 +124,36 @@ func TestPlanUpdate(t *testing.T) {
 	}
 
 	c.Plans.Delete(plan.Id)
+}
+
+func TestPlanList(t *testing.T) {
+	c := &Client{}
+	c.Init(key, nil, nil)
+
+	for i := 0; i < 5; i++ {
+
+		plan := &PlanParams{
+			Id:       fmt.Sprintf("test_%v", i),
+			Name:     fmt.Sprintf("test_%v", i),
+			Amount:   99,
+			Currency: USD,
+			Interval: Month,
+		}
+
+		c.Plans.Create(plan)
+	}
+
+	target, err := c.Plans.List(nil)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(target.Values) != 5 {
+		t.Errorf("Count %v does not match expected value\n", len(target.Values))
+	}
+
+	for i := 0; i < 5; i++ {
+		c.Plans.Delete(fmt.Sprintf("test_%v", i))
+	}
 }

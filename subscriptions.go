@@ -16,7 +16,7 @@ const (
 	Unpaid   SubscriptionStatus = "unpaid"
 )
 
-type SubscriptionParams struct {
+type SubParams struct {
 	Customer             string
 	Plan                 string
 	Coupon, Token        string
@@ -26,6 +26,13 @@ type SubscriptionParams struct {
 	Fee                  float64
 	Meta                 map[string]string
 	NoProrate, EndCancel bool
+}
+
+type SubListParams struct {
+	Customer   string
+	Filters    Filters
+	Start, End string
+	Limit      uint64
 }
 
 type Subscription struct {
@@ -58,7 +65,7 @@ type SubscriptionClient struct {
 	token string
 }
 
-func (c *SubscriptionClient) Create(params *SubscriptionParams) (*Subscription, error) {
+func (c *SubscriptionClient) Create(params *SubParams) (*Subscription, error) {
 	body := &url.Values{
 		"plan": {params.Plan},
 	}
@@ -95,14 +102,14 @@ func (c *SubscriptionClient) Create(params *SubscriptionParams) (*Subscription, 
 	return sub, err
 }
 
-func (c *SubscriptionClient) Get(id string, params *SubscriptionParams) (*Subscription, error) {
+func (c *SubscriptionClient) Get(id string, params *SubParams) (*Subscription, error) {
 	sub := &Subscription{}
 	err := c.api.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, nil, sub)
 
 	return sub, err
 }
 
-func (c *SubscriptionClient) Update(id string, params *SubscriptionParams) (*Subscription, error) {
+func (c *SubscriptionClient) Update(id string, params *SubParams) (*Subscription, error) {
 	body := &url.Values{}
 
 	if len(params.Plan) > 0 {
@@ -145,7 +152,7 @@ func (c *SubscriptionClient) Update(id string, params *SubscriptionParams) (*Sub
 	return sub, err
 }
 
-func (c *SubscriptionClient) Cancel(id string, params *SubscriptionParams) error {
+func (c *SubscriptionClient) Cancel(id string, params *SubParams) error {
 	body := &url.Values{}
 
 	if params.EndCancel {
@@ -153,4 +160,33 @@ func (c *SubscriptionClient) Cancel(id string, params *SubscriptionParams) error
 	}
 
 	return c.api.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, body, nil)
+}
+
+func (c *SubscriptionClient) List(params *SubListParams) (*SubscriptionList, error) {
+	body := &url.Values{}
+
+	if len(params.Filters.f) > 0 {
+		params.Filters.appendTo(body)
+	}
+
+	if len(params.Start) > 0 {
+		body.Add("starting_after", params.Start)
+	}
+
+	if len(params.End) > 0 {
+		body.Add("ending_before", params.End)
+	}
+
+	if params.Limit > 0 {
+		if params.Limit > 100 {
+			params.Limit = 100
+		}
+
+		body.Add("limit", strconv.FormatUint(params.Limit, 10))
+	}
+
+	list := &SubscriptionList{}
+	err := c.api.Call("GET", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.token, body, list)
+
+	return list, err
 }

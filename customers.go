@@ -18,6 +18,13 @@ type CustomerParams struct {
 	DefaultCard   string
 }
 
+type CustomerListParams struct {
+	Created    int64
+	Filters    Filters
+	Start, End string
+	Limit      uint64
+}
+
 type Customer struct {
 	Id          string            `json:"id"`
 	Live        bool              `json:"livemode"`
@@ -32,6 +39,13 @@ type Customer struct {
 	Meta        map[string]string `json:"metadata"`
 	Subs        *SubscriptionList `json:"subscriptions"`
 	Discount    *Discount         `json:"discount"`
+}
+
+type CustomerList struct {
+	Count  uint16      `json:"total_count"`
+	More   bool        `json:"has_more"`
+	Url    string      `json:"url"`
+	Values []*Customer `json:"data"`
 }
 
 type CustomerClient struct {
@@ -135,4 +149,39 @@ func (c *CustomerClient) Update(id string, params *CustomerParams) (*Customer, e
 
 func (c *CustomerClient) Delete(id string) error {
 	return c.api.Call("DELETE", "/customers/"+id, c.token, nil, nil)
+}
+
+func (c *CustomerClient) List(params *CustomerListParams) (*CustomerList, error) {
+	body := &url.Values{}
+
+	if params != nil {
+		if params.Created > 0 {
+			body.Add("created", strconv.FormatInt(params.Created, 10))
+		}
+
+		if len(params.Filters.f) > 0 {
+			params.Filters.appendTo(body)
+		}
+
+		if len(params.Start) > 0 {
+			body.Add("starting_after", params.Start)
+		}
+
+		if len(params.End) > 0 {
+			body.Add("ending_before", params.End)
+		}
+
+		if params.Limit > 0 {
+			if params.Limit > 100 {
+				params.Limit = 100
+			}
+
+			body.Add("limit", strconv.FormatUint(params.Limit, 10))
+		}
+	}
+
+	list := &CustomerList{}
+	err := c.api.Call("GET", "/customers", c.token, body, list)
+
+	return list, err
 }
