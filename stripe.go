@@ -34,6 +34,7 @@ type Client struct {
 	Recipients   *RecipientClient
 	Account      *AccountClient
 	Balance      *BalanceClient
+	Tokens       *TokenClient
 }
 
 type s struct {
@@ -68,6 +69,7 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 	c.Recipients = &RecipientClient{api: c.api, token: c.Token}
 	c.Account = &AccountClient{api: c.api, token: c.Token}
 	c.Balance = &BalanceClient{api: c.api, token: c.Token}
+	c.Tokens = &TokenClient{api: c.api, token: c.Token}
 }
 
 func (c *Client) SetDebug(value bool) {
