@@ -33,6 +33,7 @@ type Client struct {
 	Disputes     *DisputeClient
 	Transfers    *TransferClient
 	Recipients   *RecipientClient
+	Fees         *AppFeeClient
 	Account      *AccountClient
 	Balance      *BalanceClient
 	Tokens       *TokenClient
@@ -76,6 +77,7 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 	c.Disputes = &DisputeClient{api: c.api, token: c.Token}
 	c.Transfers = &TransferClient{api: c.api, token: c.Token}
 	c.Recipients = &RecipientClient{api: c.api, token: c.Token}
+	c.Fees = &AppFeeClient{api: c.api, token: c.Token}
 	c.Account = &AccountClient{api: c.api, token: c.Token}
 	c.Balance = &BalanceClient{api: c.api, token: c.Token}
 	c.Tokens = &TokenClient{api: c.api, token: c.Token}
