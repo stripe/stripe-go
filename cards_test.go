@@ -23,6 +23,7 @@ func TestCardCreate(t *testing.T) {
 		Month:    "10",
 		Year:     "20",
 		Customer: cust.Id,
+		CVC:      "1234",
 	}
 
 	target, err := c.Cards.Create(card)
@@ -33,6 +34,10 @@ func TestCardCreate(t *testing.T) {
 
 	if target.LastFour != "4242" {
 		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, card.Number)
+	}
+
+	if target.CVCCheck != Pass {
+		t.Errorf("CVC check %q does not match expected status\n", target.ZipCheck)
 	}
 
 	targetCust, err := c.Customers.Get(cust.Id)
