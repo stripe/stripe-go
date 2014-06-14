@@ -8,6 +8,7 @@ import (
 )
 
 type CardType string
+type Verification string
 
 const (
 	Unknown    CardType = "Unknown"
@@ -17,6 +18,10 @@ const (
 	Discover   CardType = "Discover"
 	JCB        CardType = "JCB"
 	DinersClub CardType = "Diners Club"
+
+	Pass      Verification = "pass"
+	Fail      Verification = "fail"
+	Unchecked Verification = "unchecked"
 )
 
 type CardParams struct {
@@ -34,25 +39,25 @@ type CardListParams struct {
 }
 
 type Card struct {
-	Id          string   `json:"id"`
-	Name        string   `json:"name"`
-	Type        CardType `json:"type"`
-	Month       uint8    `json:"exp_month"`
-	Year        uint16   `json:"exp_year"`
-	LastFour    string   `json:"last4"`
-	Fingerprint string   `json:"fingerprint"`
-	CardCountry string   `json:"country"`
-	Customer    string   `json:"customer"`
-	Recipient   string   `json:"recipient"`
-	Address1    string   `json:"address_line1"`
-	Address2    string   `json:"address_line2"`
-	Country     string   `json:"address_country"`
-	State       string   `json:"address_state"`
-	Zip         string   `json:"address_zip"`
-	City        string   `json:"address_city"`
-	Line1Check  string   `json:"address_line1_check"`
-	ZipCheck    string   `json:"address_zip_check"`
-	CVCCheck    string   `json:"cvc_check"`
+	Id          string       `json:"id"`
+	Name        string       `json:"name"`
+	Type        CardType     `json:"type"`
+	Month       uint8        `json:"exp_month"`
+	Year        uint16       `json:"exp_year"`
+	LastFour    string       `json:"last4"`
+	Fingerprint string       `json:"fingerprint"`
+	CardCountry string       `json:"country"`
+	Customer    string       `json:"customer"`
+	Recipient   string       `json:"recipient"`
+	Address1    string       `json:"address_line1"`
+	Address2    string       `json:"address_line2"`
+	Country     string       `json:"address_country"`
+	State       string       `json:"address_state"`
+	Zip         string       `json:"address_zip"`
+	City        string       `json:"address_city"`
+	Line1Check  Verification `json:"address_line1_check"`
+	ZipCheck    Verification `json:"address_zip_check"`
+	CVCCheck    Verification `json:"cvc_check"`
 }
 
 type CardList struct {

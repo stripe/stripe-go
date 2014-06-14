@@ -221,7 +221,6 @@ func TestChargeList(t *testing.T) {
 
 	params := &ChargeListParams{}
 	params.Filters.AddFilter("include", "", "total_count")
-	params.Filters.AddFilter("created", "gte", "1402729261")
 	target, err := c.Charges.List(params)
 
 	if err != nil {
