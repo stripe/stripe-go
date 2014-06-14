@@ -198,7 +198,7 @@ type Charge struct {
 	AmountRefunded uint64            `json:"amount_refunded"`
 	Invoice        string            `json:"invoice"`
 	Desc           string            `json:"description"`
-	Dispute        string            `json:"dispute"`
+	Dispute        *Dispute          `json:"dispute"`
 	Meta           map[string]string `json:"metadata"`
 }
 
