@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"errors"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -14,11 +15,11 @@ const (
 )
 
 type InvoiceParams struct {
-	Customer             string
-	Desc, Statement, Sub string
-	Fee                  uint64
-	Meta                 map[string]string
-	Closed               bool
+	Customer                          string
+	Desc, Statement, Sub, AccessToken string
+	Fee                               uint64
+	Meta                              map[string]string
+	Closed                            bool
 }
 
 type InvoiceListParams struct {
@@ -118,16 +119,23 @@ func (c *InvoiceClient) Create(params *InvoiceParams) (*Invoice, error) {
 		body.Add("subscription", params.Sub)
 	}
 
-	if params.Fee > 0 {
-		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
-	}
-
 	for k, v := range params.Meta {
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
+	token := c.token
+	if params.Fee > 0 {
+		if len(params.AccessToken) == 0 {
+			err := errors.New("Invalid invoice params: an access token is required for application fees")
+			return nil, err
+		}
+
+		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
+		token = params.AccessToken
+	}
+
 	invoice := &Invoice{}
-	err := c.api.Call("POST", "/invoices", c.token, body, invoice)
+	err := c.api.Call("POST", "/invoices", token, body, invoice)
 
 	return invoice, err
 }
@@ -161,10 +169,6 @@ func (c *InvoiceClient) Update(id string, params *InvoiceParams) (*Invoice, erro
 		body.Add("subscription", params.Sub)
 	}
 
-	if params.Fee > 0 {
-		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
-	}
-
 	if params.Closed {
 		body.Add("closed", strconv.FormatBool(true))
 	}
@@ -173,8 +177,19 @@ func (c *InvoiceClient) Update(id string, params *InvoiceParams) (*Invoice, erro
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
+	token := c.token
+	if params.Fee > 0 {
+		if len(params.AccessToken) == 0 {
+			err := errors.New("Invalid invoice params: an access token is required for application fees")
+			return nil, err
+		}
+
+		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
+		token = params.AccessToken
+	}
+
 	invoice := &Invoice{}
-	err := c.api.Call("POST", "/invoices/"+id, c.token, body, invoice)
+	err := c.api.Call("POST", "/invoices/"+id, token, body, invoice)
 
 	return invoice, err
 }

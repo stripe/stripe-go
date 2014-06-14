@@ -152,15 +152,14 @@ const (
 )
 
 type ChargeParams struct {
-	Amount          uint64
-	Currency        Currency
-	Customer, Token string
-	Card            *CardParams
-	Desc            string
-	Meta            map[string]string
-	NoCapture       bool
-	Statement       string
-	Fee             uint64
+	Amount                       uint64
+	Currency                     Currency
+	Customer, Token              string
+	Card                         *CardParams
+	Desc, Statement, AccessToken string
+	Meta                         map[string]string
+	NoCapture                    bool
+	Fee                          uint64
 }
 
 type ChargeListParams struct {
@@ -176,8 +175,8 @@ type RefundParams struct {
 }
 
 type CaptureParams struct {
-	Amount uint64
-	Fee    uint64
+	Amount, Fee uint64
+	AccessToken string
 }
 
 type Charge struct {
@@ -241,8 +240,8 @@ func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
 		body.Add("description", params.Desc)
 	}
 
-	if params.Fee > 0 {
-		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
+	if len(params.Statement) > 0 {
+		body.Add("statement_description", params.Desc)
 	}
 
 	for k, v := range params.Meta {
@@ -251,12 +250,19 @@ func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
 
 	body.Add("capture", strconv.FormatBool(!params.NoCapture))
 
-	if len(params.Statement) > 0 {
-		body.Add("statement_description", params.Desc)
+	token := c.token
+	if params.Fee > 0 {
+		if len(params.AccessToken) == 0 {
+			err := errors.New("Invalid charge params: an access token is required for application fees")
+			return nil, err
+		}
+
+		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
+		token = params.AccessToken
 	}
 
 	charge := &Charge{}
-	err := c.api.Call("POST", "/charges", c.token, body, charge)
+	err := c.api.Call("POST", "/charges", token, body, charge)
 
 	return charge, err
 }
@@ -297,13 +303,14 @@ func (c *ChargeClient) Refund(id string, params *RefundParams) (*Charge, error) 
 	}
 
 	charge := &Charge{}
-	err := c.api.Call("POST", "/charges/"+id+"/refund", c.token, body, charge)
+	err := c.api.Call("POST", fmt.Sprintf("/charges/%v/refund", id), c.token, body, charge)
 
 	return charge, err
 }
 
 func (c *ChargeClient) Capture(id string, params *CaptureParams) (*Charge, error) {
 	body := &url.Values{}
+	token := c.token
 
 	if params != nil {
 		if params.Amount > 0 {
@@ -311,12 +318,15 @@ func (c *ChargeClient) Capture(id string, params *CaptureParams) (*Charge, error
 		}
 
 		if params.Fee > 0 {
-			body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
+			if len(params.AccessToken) == 0 {
+				err := errors.New("Invalid charge params: an access token is required for application fees")
+				return nil, err
+			}
 		}
 	}
 
 	charge := &Charge{}
-	err := c.api.Call("POST", "/charges/"+id+"/capture", c.token, body, charge)
+	err := c.api.Call("POST", fmt.Sprintf("/charges/%v/capture", id), token, body, charge)
 
 	return charge, err
 }

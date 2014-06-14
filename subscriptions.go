@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"errors"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -17,15 +18,14 @@ const (
 )
 
 type SubParams struct {
-	Customer             string
-	Plan                 string
-	Coupon, Token        string
-	TrialEnd             int64
-	Card                 *CardParams
-	Quantity             uint64
-	Fee                  float64
-	Meta                 map[string]string
-	NoProrate, EndCancel bool
+	Customer, Plan             string
+	Coupon, Token, AccessToken string
+	TrialEnd                   int64
+	Card                       *CardParams
+	Quantity                   uint64
+	Fee                        float64
+	Meta                       map[string]string
+	NoProrate, EndCancel       bool
 }
 
 type SubListParams struct {
@@ -88,16 +88,23 @@ func (c *SubscriptionClient) Create(params *SubParams) (*Subscription, error) {
 		body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
 	}
 
-	if params.Fee > 0 {
-		body.Add("application_fee_percent", strconv.FormatFloat(params.Fee, 'f', 2, 64))
-	}
-
 	for k, v := range params.Meta {
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
+	token := c.token
+	if params.Fee > 0 {
+		if len(params.AccessToken) == 0 {
+			err := errors.New("Invalid sub params: an access token is required for application fees")
+			return nil, err
+		}
+
+		body.Add("application_fee_percent", strconv.FormatFloat(params.Fee, 'f', 2, 64))
+		token = params.AccessToken
+	}
+
 	sub := &Subscription{}
-	err := c.api.Call("POST", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.token, body, sub)
+	err := c.api.Call("POST", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), token, body, sub)
 
 	return sub, err
 }
@@ -138,16 +145,23 @@ func (c *SubscriptionClient) Update(id string, params *SubParams) (*Subscription
 		body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
 	}
 
-	if params.Fee > 0 {
-		body.Add("application_fee_percent", strconv.FormatFloat(params.Fee, 'f', 2, 64))
-	}
-
 	for k, v := range params.Meta {
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
 
+	token := c.token
+	if params.Fee > 0 {
+		if len(params.AccessToken) == 0 {
+			err := errors.New("Invalid sub params: an access token is required for application fees")
+			return nil, err
+		}
+
+		body.Add("application_fee_percent", strconv.FormatFloat(params.Fee, 'f', 2, 64))
+		token = params.AccessToken
+	}
+
 	sub := &Subscription{}
-	err := c.api.Call("POST", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, body, sub)
+	err := c.api.Call("POST", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), token, body, sub)
 
 	return sub, err
 }
