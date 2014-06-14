@@ -212,6 +212,8 @@ type Refund struct {
 	Amount   uint64   `json:"amount"`
 	Created  int64    `json:"created"`
 	Currency Currency `json:"currency"`
+	Tx       string   `json:"balance_transaction"`
+	Charge   string   `json:"charge"`
 }
 
 type ChargeClient struct {

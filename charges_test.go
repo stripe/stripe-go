@@ -139,6 +139,14 @@ func TestChargeRefund(t *testing.T) {
 		t.Errorf("Refunded currency %q does not match charge currency %q\n", target.Refunds[0].Currency, target.Currency)
 	}
 
+	if len(target.Refunds[0].Tx) == 0 {
+		t.Errorf("Refund transaction not set\n")
+	}
+
+	if target.Refunds[0].Charge != target.Id {
+		t.Errorf("Refund charge %q does not match expected value %v\n", target.Refunds[0].Charge, target.Id)
+	}
+
 	res, err = c.Charges.Create(charge)
 
 	// partial refund
