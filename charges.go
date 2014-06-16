@@ -7,6 +7,8 @@ import (
 	"strconv"
 )
 
+// Currency is the list of supported currencies.
+// For more details see https://support.stripe.com/questions/which-currencies-does-stripe-support.
 type Currency string
 
 const (
@@ -151,17 +153,21 @@ const (
 	ZMW Currency = "zmw" // Zambian Kwacha
 )
 
+// ChargeParams is the set of parameters that can be used when creating or updating a charge,
+// For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
 type ChargeParams struct {
-	Amount                       uint64
-	Currency                     Currency
-	Customer, Token              string
-	Card                         *CardParams
-	Desc, Statement, AccessToken string
-	Meta                         map[string]string
-	NoCapture                    bool
-	Fee                          uint64
+	Amount                              uint64
+	Currency                            Currency
+	Customer, Token                     string
+	Card                                *CardParams
+	Desc, Statement, AccessToken, Email string
+	Meta                                map[string]string
+	NoCapture                           bool
+	Fee                                 uint64
 }
 
+// ChargeListParams is the set of parameters that can be used when listing charges.
+// For more details see https://stripe.com/docs/api#list_charges.
 type ChargeListParams struct {
 	Created              int64
 	Filters              Filters
@@ -169,38 +175,47 @@ type ChargeListParams struct {
 	Limit                uint64
 }
 
+// RefundParams is the set of parameters that can be used when refunding a charge.
+// For more details see https://stripe.com/docs/api#refund_charge.
 type RefundParams struct {
 	Amount uint64
 	Fee    bool
 }
 
+// CaptureParams is the set of parameters that can be used when capturing a charge.
+// For more details see https://stripe.com/docs/api#charge_capture.
 type CaptureParams struct {
-	Amount, Fee uint64
-	AccessToken string
+	Amount, Fee        uint64
+	Email, AccessToken string
 }
 
+// Charge is the resource repreenting a Stripe charge.
+// For more details see https://stripe.com/docs/api#charges.
 type Charge struct {
 	Id             string            `json:"id"`
-	Created        int64             `json:"created"`
 	Live           bool              `json:"livemode"`
-	Paid           bool              `json:"paid"`
 	Amount         uint64            `json:"amount"`
-	Currency       Currency          `json:"currency"`
-	Refunded       bool              `json:"refunded"`
-	Card           *Card             `json: "card"`
 	Captured       bool              `json:"captured"`
-	Customer       string            `json:"customer"`
+	Card           *Card             `json:"card"`
+	Created        int64             `json:"created"`
+	Currency       Currency          `json:"currency"`
+	Paid           bool              `json:"paid"`
+	Refunded       bool              `json:"refunded"`
 	Refunds        []*Refund         `json:"refunds"`
-	Tx             string            `json:"balance_transaction"`
-	FailMsg        string            `json:"failure_message"`
-	FailCode       string            `json:"failure_code"`
 	AmountRefunded uint64            `json:"amount_refunded"`
-	Invoice        string            `json:"invoice"`
+	Tx             string            `json:"balance_transaction"`
+	Customer       string            `json:"customer"`
 	Desc           string            `json:"description"`
 	Dispute        *Dispute          `json:"dispute"`
+	FailMsg        string            `json:"failure_message"`
+	FailCode       string            `json:"failure_code"`
+	Invoice        string            `json:"invoice"`
 	Meta           map[string]string `json:"metadata"`
+	Email          string            `json:"receipt_email"`
+	Statement      string            `json:"statement_description"`
 }
 
+// ChargeList is a list object for charges.
 type ChargeList struct {
 	Count  uint16    `json:"total_count"`
 	More   bool      `json:"has_more"`
@@ -208,6 +223,7 @@ type ChargeList struct {
 	Values []*Charge `json:"data"`
 }
 
+// Refund is the structure for a refund.
 type Refund struct {
 	Amount   uint64   `json:"amount"`
 	Created  int64    `json:"created"`
@@ -216,11 +232,14 @@ type Refund struct {
 	Charge   string   `json:"charge"`
 }
 
+// ChargeClient is hte client used to invoke /charges APIs.
 type ChargeClient struct {
 	api   Api
 	token string
 }
 
+// Create POSTs new charges.
+// For more details see https://stripe.com/docs/api#create_charge.
 func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
 	body := &url.Values{
 		"amount":   {strconv.FormatUint(params.Amount, 10)},
@@ -243,7 +262,11 @@ func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
 	}
 
 	if len(params.Statement) > 0 {
-		body.Add("statement_description", params.Desc)
+		body.Add("statement_description", params.Statement)
+	}
+
+	if len(params.Email) > 0 {
+		body.Add("receipt_email", params.Email)
 	}
 
 	for k, v := range params.Meta {
@@ -269,6 +292,8 @@ func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
 	return charge, err
 }
 
+// Get returns the details of a charge.
+// For more details see https://stripe.com/docs/api#retrieve_charge.
 func (c *ChargeClient) Get(id string) (*Charge, error) {
 	charge := &Charge{}
 	err := c.api.Call("GET", "/charges/"+id, c.token, nil, charge)
@@ -276,6 +301,8 @@ func (c *ChargeClient) Get(id string) (*Charge, error) {
 	return charge, err
 }
 
+// Update updates a charge's properties.
+// For more details see https://stripe.com/docs/api#update_charge.
 func (c *ChargeClient) Update(id string, params *ChargeParams) (*Charge, error) {
 	var body *url.Values
 
@@ -297,6 +324,8 @@ func (c *ChargeClient) Update(id string, params *ChargeParams) (*Charge, error) 
 	return charge, err
 }
 
+// Refund refunds a charge previously created.
+// For more details see https://stripe.com/docs/api#refund_charge.
 func (c *ChargeClient) Refund(id string, params *RefundParams) (*Charge, error) {
 	var body *url.Values
 
@@ -318,6 +347,8 @@ func (c *ChargeClient) Refund(id string, params *RefundParams) (*Charge, error) 
 	return charge, err
 }
 
+// Capture captures a previously created charge with NoCapture set to true.
+// For more details see https://stripe.com/docs/api#charge_capture.
 func (c *ChargeClient) Capture(id string, params *CaptureParams) (*Charge, error) {
 	var body *url.Values
 	token := c.token
@@ -329,11 +360,18 @@ func (c *ChargeClient) Capture(id string, params *CaptureParams) (*Charge, error
 			body.Add("amount", strconv.FormatUint(params.Amount, 10))
 		}
 
+		if len(params.Email) > 0 {
+			body.Add("receipt_email", params.Email)
+		}
+
 		if params.Fee > 0 {
 			if len(params.AccessToken) == 0 {
 				err := errors.New("Invalid charge params: an access token is required for application fees")
 				return nil, err
 			}
+
+			body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
+			token = params.AccessToken
 		}
 	}
 
@@ -343,6 +381,8 @@ func (c *ChargeClient) Capture(id string, params *CaptureParams) (*Charge, error
 	return charge, err
 }
 
+// List returns a list of charges.
+// For more details see https://stripe.com/docs/api#list_charges.
 func (c *ChargeClient) List(params *ChargeListParams) (*ChargeList, error) {
 	var body *url.Values
 

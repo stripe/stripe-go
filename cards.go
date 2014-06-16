@@ -7,7 +7,13 @@ import (
 	"strconv"
 )
 
+// CardType is the list of allowed values for the card's type.
+// Allowed values are "Unknown", "Visa", "American Express", "MasterCard", "Discover"
+// "JCB", "Diners Club".
 type CardType string
+
+// Verification is the list of allowed verification responses.
+// Allowed values are "pass", "fail", "unchecked".
 type Verification string
 
 const (
@@ -24,6 +30,8 @@ const (
 	Unchecked Verification = "unchecked"
 )
 
+// CardParams is the set of parameters that can be used when creating or updating a card.
+// For more details see https://stripe.com/docs/api#create_card and https://stripe.com/docs/api#update_card.
 type CardParams struct {
 	Token                                         string
 	Customer, Recipient                           string
@@ -31,6 +39,8 @@ type CardParams struct {
 	Address1, Address2, City, State, Zip, Country string
 }
 
+// CardListParams is the set of paramaters that can be used when listing cards.
+// For more details see https://stripe.com/docs/api#list_cards.
 type CardListParams struct {
 	Customer, Recipient string
 	Filters             Filters
@@ -38,28 +48,31 @@ type CardListParams struct {
 	Limit               uint64
 }
 
+// Card is the resource representing a Stripe credit/debit card.
+// For more details see https://stripe.com/docs/api#cards.
 type Card struct {
-	Id          string       `json:"id"`
-	Name        string       `json:"name"`
-	Type        CardType     `json:"type"`
-	Month       uint8        `json:"exp_month"`
-	Year        uint16       `json:"exp_year"`
-	LastFour    string       `json:"last4"`
-	Fingerprint string       `json:"fingerprint"`
-	CardCountry string       `json:"country"`
-	Customer    string       `json:"customer"`
-	Recipient   string       `json:"recipient"`
-	Address1    string       `json:"address_line1"`
-	Address2    string       `json:"address_line2"`
-	Country     string       `json:"address_country"`
-	State       string       `json:"address_state"`
-	Zip         string       `json:"address_zip"`
-	City        string       `json:"address_city"`
-	Line1Check  Verification `json:"address_line1_check"`
-	ZipCheck    Verification `json:"address_zip_check"`
-	CVCCheck    Verification `json:"cvc_check"`
+	Id            string       `json:"id"`
+	Month         uint8        `json:"exp_month"`
+	Year          uint16       `json:"exp_year"`
+	Fingerprint   string       `json:"fingerprint"`
+	LastFour      string       `json:"last4"`
+	Type          CardType     `json:"type"`
+	City          string       `json:"address_city"`
+	Country       string       `json:"address_country"`
+	Address1      string       `json:"address_line1"`
+	Address1Check Verification `json:"address_line1_check"`
+	Address2      string       `json:"address_line2"`
+	State         string       `json:"address_state"`
+	Zip           string       `json:"address_zip"`
+	ZipCheck      Verification `json:"address_zip_check"`
+	CardCountry   string       `json:"country"`
+	Customer      string       `json:"customer"`
+	CVCCheck      Verification `json:"cvc_check"`
+	Name          string       `json:"name"`
+	Recipient     string       `json:"recipient"`
 }
 
+// CardList is a list object for cards.
 type CardList struct {
 	Count  uint16  `json:"total_count"`
 	More   bool    `json:"has_more"`
@@ -67,11 +80,14 @@ type CardList struct {
 	Values []*Card `json:"data"`
 }
 
+// CardClient is the client used to invoke /cards APIs.
 type CardClient struct {
 	api   Api
 	token string
 }
 
+// Create POSTs new cards either for a customer or recipient.
+// For more details see https://stripe.com/docs/api#create_card.
 func (c *CardClient) Create(params *CardParams) (*Card, error) {
 	body := &url.Values{}
 	params.appendTo(body, true)
@@ -90,6 +106,8 @@ func (c *CardClient) Create(params *CardParams) (*Card, error) {
 	return card, err
 }
 
+// Get returns the details of a card.
+// For more details see https://stripe.com/docs/api#retrieve_card.
 func (c *CardClient) Get(id string, params *CardParams) (*Card, error) {
 	card := &Card{}
 	var err error
@@ -105,6 +123,8 @@ func (c *CardClient) Get(id string, params *CardParams) (*Card, error) {
 	return card, err
 }
 
+// Update updates a card's properties.
+// For more details see	https://stripe.com/docs/api#update_card.
 func (c *CardClient) Update(id string, params *CardParams) (*Card, error) {
 	body := &url.Values{}
 	params.appendTo(body, false)
@@ -123,6 +143,8 @@ func (c *CardClient) Update(id string, params *CardParams) (*Card, error) {
 	return card, err
 }
 
+// Delete remotes a card.
+// For more details see https://stripe.com/docs/api#delete_card.
 func (c *CardClient) Delete(id string, params *CardParams) error {
 	if len(params.Customer) > 0 {
 		return c.api.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.token, nil, nil)
@@ -133,6 +155,8 @@ func (c *CardClient) Delete(id string, params *CardParams) error {
 	}
 }
 
+// List returns a list of cards.
+// For more details see https://stripe.com/docs/api#list_cards.
 func (c *CardClient) List(params *CardListParams) (*CardList, error) {
 	body := &url.Values{}
 
@@ -170,6 +194,9 @@ func (c *CardClient) List(params *CardListParams) (*CardList, error) {
 	return list, err
 }
 
+// appendTo adds the card's details to the querey string values.
+// When creating a new card, the parameters are passed as a dictionary, but
+// on updates they are simply the parameter name.
 func (c *CardParams) appendTo(values *url.Values, creating bool) {
 	if creating {
 		values.Add("card[number]", c.Number)

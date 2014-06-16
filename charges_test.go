@@ -17,6 +17,8 @@ func TestChargeCreate(t *testing.T) {
 			Month:  "06",
 			Year:   "20",
 		},
+		Statement: "statement",
+		Email:     "a@b.com",
 	}
 
 	target, err := c.Charges.Create(charge)
@@ -34,6 +36,14 @@ func TestChargeCreate(t *testing.T) {
 
 	if target.Card.Name != charge.Card.Name {
 		t.Errorf("Card name %q does not match expected name %q\n", target.Card.Name, charge.Card.Name)
+	}
+
+	if target.Statement != charge.Statement {
+		t.Errorf("Statement description %q does not match expected description %v\n", target.Statement, charge.Statement)
+	}
+
+	if target.Email != charge.Email {
+		t.Errorf("Email %q does not match expected email %v\n", target.Email, charge.Email)
 	}
 }
 
@@ -206,6 +216,7 @@ func TestChargeCapture(t *testing.T) {
 	// partial capture
 	capture := &CaptureParams{
 		Amount: 554,
+		Email:  "a@b.com",
 	}
 
 	target, err = c.Charges.Capture(res.Id, capture)
@@ -220,6 +231,10 @@ func TestChargeCapture(t *testing.T) {
 
 	if target.AmountRefunded != charge.Amount-capture.Amount {
 		t.Errorf("Refunded amount %v does not match expected amount %v\n", target.AmountRefunded, charge.Amount-capture.Amount)
+	}
+
+	if target.Email != capture.Email {
+		t.Errorf("Email %q does not match expected email %v\n", target.Email, capture.Email)
 	}
 }
 

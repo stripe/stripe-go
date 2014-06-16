@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+// PlanInterval is the list of allowed values for a plan's interval.
+// Allowed values are "day", "week", "month", "year".
 type PlanInternval string
 
 const (
@@ -15,6 +17,8 @@ const (
 	Year  PlanInternval = "year"
 )
 
+// PlanParams is the set of parameters that can be used when creating or updating a plan.
+// For more details see https://stripe.com/docs/api#create_plan and https://stripe.com/docs/api#update_plan.
 type PlanParams struct {
 	Id, Name                   string
 	Currency                   Currency
@@ -25,12 +29,16 @@ type PlanParams struct {
 	Statement                  string
 }
 
+// PlanListParams is the set of parameters that can be used when listing plans.
+// For more details see https://stripe.com/docs/api#list_plans.
 type PlanListParams struct {
 	Filters    Filters
 	Start, End string
 	Limit      uint64
 }
 
+// Plan is the resource representing a Stripe plan.
+// For more details see https://stripe.com/docs/api#plans.
 type Plan struct {
 	Id            string            `json:"id"`
 	Live          bool              `json:"livemode"`
@@ -45,6 +53,7 @@ type Plan struct {
 	Statement     string            `json:"statement_description"`
 }
 
+// PlanList is a list object for plans.
 type PlanList struct {
 	Count  uint16  `json:"total_count"`
 	More   bool    `json:"has_more"`
@@ -52,11 +61,14 @@ type PlanList struct {
 	Values []*Plan `json:"data"`
 }
 
+// PlanClient is the client used to invoke /plans APIs.
 type PlanClient struct {
 	api   Api
 	token string
 }
 
+// Create POSTs a new plan.
+// For more details see https://stripe.com/docs/api#create_plan.
 func (c *PlanClient) Create(params *PlanParams) (*Plan, error) {
 	body := &url.Values{
 		"id":       {params.Id},
@@ -88,6 +100,8 @@ func (c *PlanClient) Create(params *PlanParams) (*Plan, error) {
 	return plan, err
 }
 
+// Get returns the details of a plan.
+// For more details see https://stripe.com/docs/api#retrieve_plan.
 func (c *PlanClient) Get(id string) (*Plan, error) {
 	plan := &Plan{}
 	err := c.api.Call("GET", "/plans/"+id, c.token, nil, plan)
@@ -95,6 +109,8 @@ func (c *PlanClient) Get(id string) (*Plan, error) {
 	return plan, err
 }
 
+// Update updates a plan's properties.
+// For more details see https://stripe.com/docs/api#update_plan.
 func (c *PlanClient) Update(id string, params *PlanParams) (*Plan, error) {
 	var body *url.Values
 
@@ -120,10 +136,14 @@ func (c *PlanClient) Update(id string, params *PlanParams) (*Plan, error) {
 	return plan, err
 }
 
+// Delete removes a plan.
+// For more details see https://stripe.com/docs/api#delete_plan.
 func (c *PlanClient) Delete(id string) error {
 	return c.api.Call("DELETE", "/plans/"+id, c.token, nil, nil)
 }
 
+// List returns a list of plans.
+// For more details see https://stripe.com/docs/api#list_plans.
 func (c *PlanClient) List(params *PlanListParams) (*PlanList, error) {
 	var body *url.Values
 

@@ -5,13 +5,13 @@ import (
 	"strconv"
 )
 
-type Balance struct {
-	Live      bool     `json:"livemode"`
-	Available []Amount `json:"available"`
-	Pending   []Amount `json:"pending"`
-}
-
+// TransactionStatus is the list of allowed values for the transaction's status.
+// Allowed values are "available", "pending".
 type TransactionStatus string
+
+// TransactionType is the list of allowed values for the transaction's type.
+// Allowed values are "charge", "refund", "adjustment", "application_fee",
+// "application_fee_refund", "transfer", "transfer_cancel", "transfer_failure".
 type TransactionType string
 
 const (
@@ -28,6 +28,8 @@ const (
 	TxTransferFail   TransactionType = "transfer_failure"
 )
 
+// TxListParams is the set of parameters that can be used when listing balance transactions.
+// For more details see https://stripe.com/docs/api/#balance_history.
 type TxListParams struct {
 	Created, Available                  int64
 	Filters                             Filters
@@ -36,6 +38,17 @@ type TxListParams struct {
 	Limit                               uint64
 }
 
+// Balance is the resource representing your Stripe balance.
+// For more details see https://stripe.com/docs/api/#balance.
+type Balance struct {
+	// Live indicates the live mode.
+	Live      bool     `json:"livemode"`
+	Available []Amount `json:"available"`
+	Pending   []Amount `json:"pending"`
+}
+
+// Transaction is the resource representing the balance transaction.
+// For more details see https://stripe.com/docs/api/#balance.
 type Transaction struct {
 	Id         string            `json:"id"`
 	Amount     int64             `json:"amount"`
@@ -52,18 +65,22 @@ type Transaction struct {
 	Recipient  string            `json:"recipient"`
 }
 
+// Amount is a structure wrapping an amount value and its currency.
 type Amount struct {
 	Value    int64    `json:"amount"`
 	Currency Currency `json:"currency"`
 }
 
+// Fee is a structure that breaks down the fees in a transaction.
 type Fee struct {
 	Amount      int64    `json:"amount"`
 	Currency    Currency `json:"currency"`
+	Type        string   `json:"type"`
 	Desc        string   `json:"description"`
 	Application string   `json:"application"`
 }
 
+// TransactionList is a list object for transactions.
 type TransactionList struct {
 	Count  uint16         `json:"total_count"`
 	More   bool           `json:"has_more"`
@@ -71,11 +88,14 @@ type TransactionList struct {
 	Values []*Transaction `json:"data"`
 }
 
+// BalaneClient is the client used to invoke /balance and transaction-related APIs.
 type BalanceClient struct {
 	api   Api
 	token string
 }
 
+// Get returns the details of your balance.
+// For more details see https://stripe.com/docs/api#retrieve_balance.
 func (c *BalanceClient) Get() (*Balance, error) {
 	balance := &Balance{}
 	err := c.api.Call("GET", "/balance", c.token, nil, balance)
@@ -83,6 +103,8 @@ func (c *BalanceClient) Get() (*Balance, error) {
 	return balance, err
 }
 
+// GetTx returns the details of a balance transaction.
+// For more details see	https://stripe.com/docs/api#retrieve_balance_transaction.
 func (c *BalanceClient) GetTx(id string) (*Transaction, error) {
 	balance := &Transaction{}
 	err := c.api.Call("GET", "/balance/history/"+id, c.token, nil, balance)
@@ -90,6 +112,8 @@ func (c *BalanceClient) GetTx(id string) (*Transaction, error) {
 	return balance, err
 }
 
+// List returns a list of balance transactions.
+// For more details see https://stripe.com/docs/api#balance_history.
 func (c *BalanceClient) List(params *TxListParams) (*TransactionList, error) {
 	var body *url.Values
 

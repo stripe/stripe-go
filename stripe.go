@@ -1,3 +1,4 @@
+// Package stripe provides a client for Stripe REST APIs.
 package stripe
 
 import (
@@ -12,47 +13,93 @@ import (
 	"time"
 )
 
+// uri is the public Stripe URL for APIs.
+const uri = "https://api.stripe.com/v1"
+
+// debug is a global variable that enables additional tracing
+// to help with troubleshooting while testing.
 var debug bool
 
+// Api is an interface for making calls against a Stripe service.
+// This interface exists to enable mocking for during testing if needed.
 type Api interface {
 	Call(method, path, token string, body *url.Values, v interface{}) error
 }
 
+// Client is the Stripe client. It contains all the different resources available.
 type Client struct {
-	Token        string
-	api          Api
-	Charges      *ChargeClient
-	Customers    *CustomerClient
-	Cards        *CardClient
-	Subs         *SubscriptionClient
-	Plans        *PlanClient
-	Coupons      *CouponClient
-	Discounts    *DiscountClient
-	Invoices     *InvoiceClient
+	// Token is the secret key used for authentication.
+	Token string
+	// api is the Api implementation used to invoke Stripe APIs.
+	api Api
+	// Charges is the client used to invoke /charges APIs.
+	// For more details see https://stripe.com/docs/api/#charges.
+	Charges *ChargeClient
+	// Customers is the client used to invoke /customers APIs.
+	// For more details see https://stripe.com/docs/api/#customers.
+	Customers *CustomerClient
+	// Cards is the client used to invoke /cards APIs.
+	// For more details see https://stripe.com/docs/api/#cards.
+	Cards *CardClient
+	// Subs is the client used to invoke /subscriptions APIs.
+	// For more details see https://stripe.com/docs/api/#subscriptions.
+	Subs *SubscriptionClient
+	// Plans is the client used to invoke /plans APIs.
+	// For more details see https://stripe.com/docs/api/#plans.
+	Plans *PlanClient
+	// Coupons is the client used to invoke /coupons APIs.
+	// For more details see https://stripe.com/docs/api/#coupons.
+	Coupons *CouponClient
+	// Discounts is the client used to invoke discount-related APIs.
+	// For mode details see https://stripe.com/docs/api/#discounts.
+	Discounts *DiscountClient
+	// Invoices is the client used to invoke /invoices APIs.
+	// For more details see https://stripe.com/docs/api/#invoices.
+	Invoices *InvoiceClient
+	// InvoiceItems is the client used to invoke /invoiceitems APIs.
+	// For more details see https://stripe.com/docs/api/#invoiceitems.
 	InvoiceItems *InvoiceItemClient
-	Disputes     *DisputeClient
-	Transfers    *TransferClient
-	Recipients   *RecipientClient
-	Fees         *AppFeeClient
-	Account      *AccountClient
-	Balance      *BalanceClient
-	Tokens       *TokenClient
+	// Disputes is the client used to invoke dispute-related APIs.
+	// For more details see https://stripe.com/docs/api/#disputes.
+	Disputes *DisputeClient
+	// Transfers is the client used to invoke /transfers APIs.
+	// For more details see https://stripe.com/docs/api/#transfers.
+	Transfers *TransferClient
+	// Recipients is the client used to invoke /recipients APIs.
+	// For more details see https://stripe.com/docs/api/#recipients.
+	Recipients *RecipientClient
+	// Fees is the client used to invoke /application_fees APIs.
+	// For more details see https://stripe.com/docs/api/#application_fees.
+	Fees *AppFeeClient
+	// Account is the client used to invoke /account APIs.
+	// For more details see https://stripe.com/docs/api/#account.
+	Account *AccountClient
+	// Balance is the client used to invoke /balance and transaction-related APIs.
+	// For more details see https://stripe.com/docs/api/#balance.
+	Balance *BalanceClient
+	// Tokens is the client used to invoke /tokens APIs.
+	// For more details see https://stripe.com/docs/api/#tokens.
+	Tokens *TokenClient
 }
 
+// s is the internal implementation for making HTTP calls to Stripe.
 type s struct {
 	httpClient *http.Client
 }
 
+// Filters is a structure that contains a collection of filters for list-related APIs.
 type Filters struct {
 	f []*filter
 }
 
+// filter is the structure that contains a filter for list-related APIs.
+// It ends up passing query string parameters in the format key[op]=value.
 type filter struct {
 	Key, Op, Val string
 }
 
-const uri = "https://api.stripe.com/v1"
-
+// Init initializes the Stripe client with the approriate token secret key
+// as well as providing the ability to override the HTTP client and api used.
 func (c *Client) Init(token string, client *http.Client, api Api) {
 	if client == nil {
 		client = http.DefaultClient
@@ -62,7 +109,6 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 		api = &s{httpClient: client}
 	}
 	c.api = api
-
 	c.Token = token
 
 	c.Charges = &ChargeClient{api: c.api, token: c.Token}
@@ -83,10 +129,13 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 	c.Tokens = &TokenClient{api: c.api, token: c.Token}
 }
 
+// SetDebug enables additional tracing globally.
+// The method is designed for used during testing.
 func (c *Client) SetDebug(value bool) {
 	debug = value
 }
 
+// Call is the Api.Call implementation for invoking Stripe APIs.
 func (s *s) Call(method, path, token string, body *url.Values, v interface{}) error {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
@@ -171,11 +220,13 @@ func (s *s) Call(method, path, token string, body *url.Values, v interface{}) er
 	return nil
 }
 
+// AddFilter adds a new filter with a given key, op and value.
 func (f *Filters) AddFilter(key, op, value string) {
 	filter := &filter{Key: key, Op: op, Val: value}
 	f.f = append(f.f, filter)
 }
 
+// appendTo adds the list of filters to the query string values.
 func (f *Filters) appendTo(values *url.Values) {
 	for _, v := range f.f {
 		values.Add(fmt.Sprintf("%v[%v]", v.Key, v.Op), v.Val)

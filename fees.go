@@ -6,10 +6,14 @@ import (
 	"strconv"
 )
 
+// AppFeeParams is the set of parameters that can be used when refunding an application fee.
+// For more details see https://stripe.com/docs/api#refund_application_fee.
 type AppFeeParams struct {
 	Amount uint64
 }
 
+// AppFeeListParams is the set of parameters that can be used when listing application fees.
+// For more details see https://stripe.com/docs/api#list_application_fees.
 type AppFeeListParams struct {
 	Created            int64
 	Filters            Filters
@@ -17,6 +21,8 @@ type AppFeeListParams struct {
 	Limit              uint64
 }
 
+// AppFee is the resource representing a Stripe application fee.
+// For more details see https://stripe.com/docs/api#application_fees.
 type AppFee struct {
 	Id             string    `json:"id"`
 	Live           bool      `json:"livemode"`
@@ -32,6 +38,7 @@ type AppFee struct {
 	AmountRefunded uint64    `json:"amount_refunded"`
 }
 
+// AppFeeList is a list object for application fees.
 type AppFeeList struct {
 	Count  uint16    `json:"total_count"`
 	More   bool      `json:"has_more"`
@@ -39,11 +46,14 @@ type AppFeeList struct {
 	Values []*AppFee `json:"data"`
 }
 
+// AppFeeClient is the client used to invoke application_fees APIs.
 type AppFeeClient struct {
 	api   Api
 	token string
 }
 
+// Get returns the details of an application fee.
+// For more details see https://stripe.com/docs/api#retrieve_application_fee.
 func (c *AppFeeClient) Get(id string) (*AppFee, error) {
 	fee := &AppFee{}
 	err := c.api.Call("POST", fmt.Sprintf("application_fees/%v/refund", id), c.token, nil, fee)
@@ -51,6 +61,8 @@ func (c *AppFeeClient) Get(id string) (*AppFee, error) {
 	return fee, err
 }
 
+// Refund refunds the application fee collected.
+// For more details see https://stripe.com/docs/api#refund_application_fee.
 func (c *AppFeeClient) Refund(id string, params *AppFeeParams) (*AppFee, error) {
 	var body *url.Values
 
@@ -68,6 +80,8 @@ func (c *AppFeeClient) Refund(id string, params *AppFeeParams) (*AppFee, error) 
 	return fee, err
 }
 
+// List returns a list of application fees.
+// For more details see https://stripe.com/docs/api#list_application_fees.
 func (c *AppFeeClient) List(params *AppFeeListParams) (*AppFeeList, error) {
 	var body *url.Values
 

@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+// RecipientType is the list of allowed values for the recipient's type.
+// Allowed values are "individual", "corporation".
 type RecipientType string
 
 const (
@@ -13,6 +15,8 @@ const (
 	Corp       RecipientType = "corporation"
 )
 
+// RecipientParams is the set of parameters that can be used when creating or updating recipients.
+// For more details see https://stripe.com/docs/api#create_recipient and https://stripe.com/docs/api#update_recipient.
 type RecipientParams struct {
 	Name                      string
 	Type                      RecipientType
@@ -23,6 +27,8 @@ type RecipientParams struct {
 	DefaultCard               string
 }
 
+// RecipientListParams is the set of parameters that can be used when listing recipients.
+// For more details see https://stripe.com/docs/api#list_recipients.
 type RecipientListParams struct {
 	Filters    Filters
 	Start, End string
@@ -30,10 +36,13 @@ type RecipientListParams struct {
 	Verified   bool
 }
 
+// BankAccountParams is the set of parameters that can be used when creating or updating a bank account.
 type BankAccountParams struct {
 	Country, Routing, Account string
 }
 
+// Recipient is the resource representing a Stripe recipient.
+// For more details see https://stripe.com/docs/api#recipients.
 type Recipient struct {
 	Id          string            `json:"id"`
 	Live        bool              `json:"livemode"`
@@ -48,6 +57,7 @@ type Recipient struct {
 	DefaultCard string            `json:"default_card"`
 }
 
+// BankAccount represents a Stripe bank account.
 type BankAccount struct {
 	Id          string   `json:"id"`
 	Name        string   `json:"bank_name"`
@@ -59,6 +69,7 @@ type BankAccount struct {
 	Valid       bool     `json:"validated"`
 }
 
+// RecipientList is a list object for recipients.
 type RecipientList struct {
 	Count  uint16       `json:"total_count"`
 	More   bool         `json:"has_more"`
@@ -66,11 +77,14 @@ type RecipientList struct {
 	Values []*Recipient `json:"data"`
 }
 
+// RecipientClient is the client used to invoke /recipients APIs.
 type RecipientClient struct {
 	api   Api
 	token string
 }
 
+// Create POSTs a new recipient.
+// For more details see https://stripe.com/docs/api#create_recipient.
 func (c *RecipientClient) Create(params *RecipientParams) (*Recipient, error) {
 	body := &url.Values{
 		"name": {params.Name},
@@ -109,6 +123,8 @@ func (c *RecipientClient) Create(params *RecipientParams) (*Recipient, error) {
 	return recipient, err
 }
 
+// Get returns the details of a recipient.
+// For more details see https://stripe.com/docs/api#retrieve_recipient.
 func (c *RecipientClient) Get(id string) (*Recipient, error) {
 	recipient := &Recipient{}
 	err := c.api.Call("GET", "/recipients/"+id, c.token, nil, recipient)
@@ -116,6 +132,8 @@ func (c *RecipientClient) Get(id string) (*Recipient, error) {
 	return recipient, err
 }
 
+// Update updates a recipient's properties.
+// For more details see https://stripe.com/docs/api#update_recipient.
 func (c *RecipientClient) Update(id string, params *RecipientParams) (*Recipient, error) {
 	var body *url.Values
 
@@ -163,10 +181,14 @@ func (c *RecipientClient) Update(id string, params *RecipientParams) (*Recipient
 	return recipient, err
 }
 
+// Delete removes a recipient.
+// For more details see https://stripe.com/docs/api#delete_recipient.
 func (c *RecipientClient) Delete(id string) error {
 	return c.api.Call("DELETE", "/recipients/"+id, c.token, nil, nil)
 }
 
+// List returns a list of recipients.
+// For more details see https://stripe.com/docs/api#list_recipients.
 func (c *RecipientClient) List(params *RecipientListParams) (*RecipientList, error) {
 	var body *url.Values
 
@@ -204,6 +226,7 @@ func (c *RecipientClient) List(params *RecipientListParams) (*RecipientList, err
 	return list, err
 }
 
+// appendTo adds the bank account's details to the query string values.
 func (b *BankAccountParams) appendTo(values *url.Values) {
 	values.Add("bank_account[country]", b.Country)
 	values.Add("bank_account[routing_number]", b.Routing)

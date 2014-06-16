@@ -7,6 +7,8 @@ import (
 	"strconv"
 )
 
+// CouponDuration is the list of allowed values for the coupon's duration.
+// Allowed values are "forever", "once", "repeating".
 type CouponDuration string
 
 const (
@@ -15,6 +17,8 @@ const (
 	Repeating CouponDuration = "repeating"
 )
 
+// CouponParams is the set of parameters that can be used when creating a coupon.
+// For more details see https://stripe.com/docs/api#create_coupon.
 type CouponParams struct {
 	Duration                                     CouponDuration
 	Id                                           string
@@ -24,12 +28,16 @@ type CouponParams struct {
 	RedeemBy                                     int64
 }
 
+// CouponListParams is the set of parameters that can be used when listing coupons.
+// For more detail see https://stripe.com/docs/api#list_coupons.
 type CouponListParams struct {
 	Filters    Filters
 	Start, End string
 	Limit      uint64
 }
 
+// Coupon is the resource representing a Stripe coupon.
+// For more details see https://stripe.com/docs/api#coupons.
 type Coupon struct {
 	Id             string            `json:"id"`
 	Live           bool              `json:"livemode"`
@@ -46,6 +54,7 @@ type Coupon struct {
 	Valid          bool              `json:"valid"`
 }
 
+// CouponList is a list object for coupons.
 type CouponList struct {
 	Count  uint16    `json:"total_count"`
 	More   bool      `json:"has_more"`
@@ -53,11 +62,14 @@ type CouponList struct {
 	Values []*Coupon `json:"data"`
 }
 
+// CouponClient is the client used to invoke /coupons APIs.
 type CouponClient struct {
 	api   Api
 	token string
 }
 
+// Create POSTs new coupons.
+// For more details see https://stripe.com/docs/api#create_coupon.
 func (c *CouponClient) Create(params *CouponParams) (*Coupon, error) {
 	body := &url.Values{
 		"duration": {string(params.Duration)},
@@ -99,6 +111,8 @@ func (c *CouponClient) Create(params *CouponParams) (*Coupon, error) {
 	return coupon, err
 }
 
+// Get returns the details of a coupon.
+// For more details see https://stripe.com/docs/api#retrieve_coupon.
 func (c *CouponClient) Get(id string) (*Coupon, error) {
 	coupon := &Coupon{}
 	err := c.api.Call("GET", "/coupons/"+id, c.token, nil, coupon)
@@ -106,10 +120,14 @@ func (c *CouponClient) Get(id string) (*Coupon, error) {
 	return coupon, err
 }
 
+// Delete removes a coupon.
+// For more details see https://stripe.com/docs/api#delete_coupon.
 func (c *CouponClient) Delete(id string) error {
 	return c.api.Call("DELETE", "/coupons/"+id, c.token, nil, nil)
 }
 
+// List returns a list of coupons.
+// For more details see https://stripe.com/docs/api#list_coupons.
 func (c *CouponClient) List(params *CouponListParams) (*CouponList, error) {
 	var body *url.Values
 

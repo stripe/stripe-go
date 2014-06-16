@@ -6,7 +6,12 @@ import (
 	"strconv"
 )
 
+// TransferStatus is the list of allowed values for the transfer's status.
+// Allowed values are "paid", "pending", "failed", "canceled".
 type TransferStatus string
+
+// TransferType is the list of allowed values for the transfer's type.
+// Allowed values are "card", "bank_account"
 type TransferType string
 
 const (
@@ -19,6 +24,8 @@ const (
 	BankTransfer TransferType = "bank_account"
 )
 
+// TransferParams is the set of parameters that can be used when creating or updating a transfer.
+// For more details see https://stripe.com/docs/api#create_transfer and https://stripe.com/docs/api#update_transfer.
 type TransferParams struct {
 	Amount                      int64
 	Currency                    Currency
@@ -27,6 +34,8 @@ type TransferParams struct {
 	Meta                        map[string]string
 }
 
+// TransferListParams is the set of parameters that can be ued when listing transfers.
+// For more details see https://stripe.com/docs/api#list_transfers.
 type TransferListParams struct {
 	Created, Date         int64
 	Filters               Filters
@@ -35,6 +44,8 @@ type TransferListParams struct {
 	Limit                 uint64
 }
 
+// Transfer is the resource representing a Stripe transfer.
+// For more details see https://stripe.com/docs/api#transfers.
 type Transfer struct {
 	Id        string            `json:"id"`
 	Live      bool              `json:"livemode"`
@@ -53,6 +64,7 @@ type Transfer struct {
 	Statement string            `json:"statement_description"`
 }
 
+// TransferList is a list object for transfers.
 type TransferList struct {
 	Count  uint16      `json:"total_count"`
 	More   bool        `json:"has_more"`
@@ -60,11 +72,14 @@ type TransferList struct {
 	Values []*Transfer `json:"data"`
 }
 
+// TransferClient is the client used to invoke /transfers APIs.
 type TransferClient struct {
 	api   Api
 	token string
 }
 
+// Create POSTs a new transfer.
+// For more details see https://stripe.com/docs/api#create_transfer.
 func (c *TransferClient) Create(params *TransferParams) (*Transfer, error) {
 	body := &url.Values{
 		"amount":    {strconv.FormatInt(params.Amount, 10)},
@@ -96,6 +111,8 @@ func (c *TransferClient) Create(params *TransferParams) (*Transfer, error) {
 	return transfer, err
 }
 
+// Get returns the details of a transfer.
+// For more details see https://stripe.com/docs/api#retrieve_transfer.
 func (c *TransferClient) Get(id string) (*Transfer, error) {
 	transfer := &Transfer{}
 	err := c.api.Call("GET", "/transfers/"+id, c.token, nil, transfer)
@@ -103,6 +120,8 @@ func (c *TransferClient) Get(id string) (*Transfer, error) {
 	return transfer, err
 }
 
+// Update updates a transfer's properties.
+// For more details see https://stripe.com/docs/api#update_transfer.
 func (c *TransferClient) Update(id string, params *TransferParams) (*Transfer, error) {
 	var body *url.Values
 
@@ -124,6 +143,8 @@ func (c *TransferClient) Update(id string, params *TransferParams) (*Transfer, e
 	return transfer, err
 }
 
+// Cancel cancels a pending transfer.
+// For more details see https://stripe.com/docs/api#cancel_transfer.
 func (c *TransferClient) Cancel(id string) (*Transfer, error) {
 	transfer := &Transfer{}
 	err := c.api.Call("POST", fmt.Sprintf("/transfers/%v/cancel", id), c.token, nil, transfer)
@@ -131,6 +152,8 @@ func (c *TransferClient) Cancel(id string) (*Transfer, error) {
 	return transfer, err
 }
 
+// List returns a list of transfers.
+// For more details see https://stripe.com/docs/api#list_transfers.
 func (c *TransferClient) List(params *TransferListParams) (*TransferList, error) {
 	var body *url.Values
 

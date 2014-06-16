@@ -7,6 +7,8 @@ import (
 	"strconv"
 )
 
+// SubscriptionStatus is the list of allowed values for the subscription's status.
+// Allowed values are "trialing", "active", "past_due", "canceled", "unpaid".
 type SubscriptionStatus string
 
 const (
@@ -17,17 +19,21 @@ const (
 	Unpaid   SubscriptionStatus = "unpaid"
 )
 
+// SubParams is the set of parameters that can be used when creating or updating a subscription.
+// For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubParams struct {
 	Customer, Plan             string
 	Coupon, Token, AccessToken string
 	TrialEnd                   int64
 	Card                       *CardParams
 	Quantity                   uint64
-	Fee                        float64
+	FeePercent                 float64
 	Meta                       map[string]string
 	NoProrate, EndCancel       bool
 }
 
+// SubListParams is the set of parameters that can be used when listing active subscriptions.
+// For more details see https://stripe.com/docs/api#list_subscriptions.
 type SubListParams struct {
 	Customer   string
 	Filters    Filters
@@ -35,14 +41,16 @@ type SubListParams struct {
 	Limit      uint64
 }
 
+// Subscription is the resource representing a Stripe subscription.
+// For more details see https://stripe.com/docs/api#subscriptions.
 type Subscription struct {
 	Id          string             `json:"id"`
-	EndCancel   bool               `json"cancel_at_period_end"`
+	EndCancel   bool               `json:"cancel_at_period_end"`
 	Customer    string             `json:"customer"`
 	Plan        *Plan              `json:"plan"`
 	Quantity    uint64             `json:"quantity"`
 	Status      SubscriptionStatus `json:"status"`
-	Fee         float64            `json:"application_fee_percent"`
+	FeePercent  float64            `json:"application_fee_percent"`
 	Canceled    int64              `json:"canceled_at"`
 	PeriodEnd   int64              `json:"current_period_end"`
 	PeriodStart int64              `json:"current_period_start"`
@@ -53,6 +61,7 @@ type Subscription struct {
 	TrialStart  int64              `json:"trial_start"`
 }
 
+// SubscriptionList is a list object for subscriptions.
 type SubscriptionList struct {
 	Count  uint16          `json:"total_count"`
 	More   bool            `json:"has_more"`
@@ -60,11 +69,14 @@ type SubscriptionList struct {
 	Values []*Subscription `json:"data"`
 }
 
+// SubscriptionClient is the client used to invoke /subscriptions APIs.
 type SubscriptionClient struct {
 	api   Api
 	token string
 }
 
+// Craete POSTS a new subscription for a customer.
+// For more details see https://stripe.com/docs/api#create_subscription.
 func (c *SubscriptionClient) Create(params *SubParams) (*Subscription, error) {
 	body := &url.Values{
 		"plan": {params.Plan},
@@ -93,13 +105,13 @@ func (c *SubscriptionClient) Create(params *SubParams) (*Subscription, error) {
 	}
 
 	token := c.token
-	if params.Fee > 0 {
+	if params.FeePercent > 0 {
 		if len(params.AccessToken) == 0 {
 			err := errors.New("Invalid sub params: an access token is required for application fees")
 			return nil, err
 		}
 
-		body.Add("application_fee_percent", strconv.FormatFloat(params.Fee, 'f', 2, 64))
+		body.Add("application_fee_percent", strconv.FormatFloat(params.FeePercent, 'f', 2, 64))
 		token = params.AccessToken
 	}
 
@@ -109,6 +121,8 @@ func (c *SubscriptionClient) Create(params *SubParams) (*Subscription, error) {
 	return sub, err
 }
 
+// Get returns the details of a subscription.
+// For more details see https://stripe.com/docs/api#retrieve_subscription.
 func (c *SubscriptionClient) Get(id string, params *SubParams) (*Subscription, error) {
 	sub := &Subscription{}
 	err := c.api.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, nil, sub)
@@ -116,6 +130,8 @@ func (c *SubscriptionClient) Get(id string, params *SubParams) (*Subscription, e
 	return sub, err
 }
 
+// Update updates a subscription's properties.
+// For more details see https://stripe.com/docs/api#update_subscription.
 func (c *SubscriptionClient) Update(id string, params *SubParams) (*Subscription, error) {
 	body := &url.Values{}
 
@@ -150,13 +166,13 @@ func (c *SubscriptionClient) Update(id string, params *SubParams) (*Subscription
 	}
 
 	token := c.token
-	if params.Fee > 0 {
+	if params.FeePercent > 0 {
 		if len(params.AccessToken) == 0 {
 			err := errors.New("Invalid sub params: an access token is required for application fees")
 			return nil, err
 		}
 
-		body.Add("application_fee_percent", strconv.FormatFloat(params.Fee, 'f', 2, 64))
+		body.Add("application_fee_percent", strconv.FormatFloat(params.FeePercent, 'f', 2, 64))
 		token = params.AccessToken
 	}
 
@@ -166,6 +182,8 @@ func (c *SubscriptionClient) Update(id string, params *SubParams) (*Subscription
 	return sub, err
 }
 
+// Cancel removes a subscription.
+// For more details see https://stripe.com/docs/api#cancel_subscription.
 func (c *SubscriptionClient) Cancel(id string, params *SubParams) error {
 	body := &url.Values{}
 
@@ -176,6 +194,8 @@ func (c *SubscriptionClient) Cancel(id string, params *SubParams) error {
 	return c.api.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, body, nil)
 }
 
+// List returns a list of subscriptions.
+// For more details see https://stripe.com/docs/api#list_subscriptions.
 func (c *SubscriptionClient) List(params *SubListParams) (*SubscriptionList, error) {
 	body := &url.Values{}
 

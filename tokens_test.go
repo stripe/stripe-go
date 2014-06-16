@@ -44,10 +44,10 @@ func TestTokenGet(t *testing.T) {
 	c.Init(key, nil, nil)
 
 	token := &TokenParams{
-		Card: &CardParams{
-			Number: "4242424242424242",
-			Month:  "10",
-			Year:   "20",
+		Bank: &BankAccountParams{
+			Country: "US",
+			Routing: "110000000",
+			Account: "000123456789",
 		},
 	}
 
@@ -59,7 +59,11 @@ func TestTokenGet(t *testing.T) {
 		t.Error(err)
 	}
 
-	if target.Card.LastFour != "4242" {
-		t.Errorf("Unexpected last four %q for card number %v\n", target.Card.LastFour, token.Card.Number)
+	if target.Type != BankToken {
+		t.Errorf("Type %v does not match expected value\n", target.Type)
+	}
+
+	if target.Bank == nil {
+		t.Errorf("Bank account is not set\n")
 	}
 }

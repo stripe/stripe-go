@@ -7,6 +7,8 @@ import (
 	"strconv"
 )
 
+// InvoiceLineType is the list of allowed values for the invoice line's type.
+// Allowed values are "invoiceitem", "subscription".
 type InvoiceLineType string
 
 const (
@@ -14,6 +16,8 @@ const (
 	TypeSubscription InvoiceLineType = "subscription"
 )
 
+// InvoiceParams is the set of parameters that can be used when creating or updating an invoice.
+// For more details see https://stripe.com/docs/api#create_invoice, https://stripe.com/docs/api#update_invoice.
 type InvoiceParams struct {
 	Customer                          string
 	Desc, Statement, Sub, AccessToken string
@@ -22,6 +26,8 @@ type InvoiceParams struct {
 	Closed                            bool
 }
 
+// InvoiceListParams is the set of parameters that can be used when listing invoices.
+// For more details see https://stripe.com/docs/api#list_customer_invoices.
 type InvoiceListParams struct {
 	Date                 int64
 	Filters              Filters
@@ -29,6 +35,8 @@ type InvoiceListParams struct {
 	Limit                uint64
 }
 
+// InvoiceLineListParams is the set of parameters that can be used when listing invoice line items.
+// For more details see https://stripe.com/docs/api#invoice_lines.
 type InvoiceLineListParams struct {
 	Id                        string
 	Filters                   Filters
@@ -36,34 +44,39 @@ type InvoiceLineListParams struct {
 	Limit                     uint64
 }
 
+// Invoice is the resource representing a Stripe invoice.
+// For more details see https://stripe.com/docs/api#invoice_object.
 type Invoice struct {
-	Id          string            `json:"id"`
-	Live        bool              `json:"livemode"`
-	Amount      int64             `json:"amount_due"`
-	Attempts    uint64            `json:"attempt_count"`
-	Attempted   bool              `json:"attempted"`
-	Closed      bool              `json:"closed"`
-	Currency    Currency          `json:"currency"`
-	Customer    string            `json:"customer"`
-	Date        int64             `json:"date"`
-	Lines       *InvoiceLineList  `json:lines"`
-	Paid        bool              `json:"paid"`
-	End         int64             `json:"period_end"`
-	Start       int64             `json:"period_start"`
-	Subtotal    int64             `json:"subtotal"`
-	Total       int64             `json:"total"`
-	Fee         uint64            `json:"application_fee"`
-	Charge      string            `json:"charge"`
-	Desc        string            `json:"description"`
-	Discount    *Discount         `json:"discount"`
-	Balance     int64             `json:"ending_balance"`
-	NextAttempt int64             `json:"next_payment_attempt"`
-	Statement   string            `json:"statement_description"`
-	Sub         string            `json:"subscription"`
-	Webhook     int64             `json:"webhooks_delivered_at"`
-	Meta        map[string]string `json:"metadata"`
+	Id           string            `json:"id"`
+	Live         bool              `json:"livemode"`
+	Amount       int64             `json:"amount_due"`
+	Attempts     uint64            `json:"attempt_count"`
+	Attempted    bool              `json:"attempted"`
+	Closed       bool              `json:"closed"`
+	Currency     Currency          `json:"currency"`
+	Customer     string            `json:"customer"`
+	Date         int64             `json:"date"`
+	Lines        *InvoiceLineList  `json:"lines"`
+	Paid         bool              `json:"paid"`
+	End          int64             `json:"period_end"`
+	Start        int64             `json:"period_start"`
+	StartBalance int64             `json:"starting_balance"`
+	Subtotal     int64             `json:"subtotal"`
+	Total        int64             `json:"total"`
+	Fee          uint64            `json:"application_fee"`
+	Charge       string            `json:"charge"`
+	Desc         string            `json:"description"`
+	Discount     *Discount         `json:"discount"`
+	EndBalance   int64             `json:"ending_balance"`
+	NextAttempt  int64             `json:"next_payment_attempt"`
+	Statement    string            `json:"statement_description"`
+	Sub          string            `json:"subscription"`
+	Webhook      int64             `json:"webhooks_delivered_at"`
+	Meta         map[string]string `json:"metadata"`
 }
 
+// InvoiceLine is the resource representing a Stripe invoice line item.
+// For more details see https://stripe.com/docs/api#invoice_line_item_object.
 type InvoiceLine struct {
 	Id        string            `json:"id"`
 	Live      bool              `json:"live_mode"`
@@ -78,11 +91,13 @@ type InvoiceLine struct {
 	Quantity  int64             `json:"quantity"`
 }
 
+// Period is a structure representing a start and end dates.
 type Period struct {
 	Start int64 `json:"start"`
 	End   int64 `json:"end"`
 }
 
+// InvoiceList is a list object for invoices.
 type InvoiceList struct {
 	Count  uint16     `json:"total_count"`
 	More   bool       `json:"has_more"`
@@ -90,6 +105,7 @@ type InvoiceList struct {
 	Values []*Invoice `json:"data"`
 }
 
+// InvoiceLineList is a list object for invoice line items.
 type InvoiceLineList struct {
 	Count  uint16         `json:"total_count"`
 	More   bool           `json:"has_more"`
@@ -97,11 +113,14 @@ type InvoiceLineList struct {
 	Values []*InvoiceLine `json:"data"`
 }
 
+// InvoiceClient is the client used to invoke /invoices APIs.
 type InvoiceClient struct {
 	api   Api
 	token string
 }
 
+// Create POSTs new invoices.
+// For more details see https://stripe.com/docs/api#create_invoice.
 func (c *InvoiceClient) Create(params *InvoiceParams) (*Invoice, error) {
 	body := &url.Values{
 		"customer": {params.Customer},
@@ -140,6 +159,8 @@ func (c *InvoiceClient) Create(params *InvoiceParams) (*Invoice, error) {
 	return invoice, err
 }
 
+// Get returns the details of an invoice.
+// For more details see https://stripe.com/docs/api#retrieve_invoice.
 func (c *InvoiceClient) Get(id string) (*Invoice, error) {
 	invoice := &Invoice{}
 	err := c.api.Call("GET", "/invoices/"+id, c.token, nil, invoice)
@@ -147,6 +168,8 @@ func (c *InvoiceClient) Get(id string) (*Invoice, error) {
 	return invoice, err
 }
 
+// Pay pays an invoice.
+// For more details see https://stripe.com/docs/api#pay_invoice.
 func (c *InvoiceClient) Pay(id string) (*Invoice, error) {
 	invoice := &Invoice{}
 	err := c.api.Call("POST", fmt.Sprintf("/invoices/%v/pay", id), c.token, nil, invoice)
@@ -154,6 +177,8 @@ func (c *InvoiceClient) Pay(id string) (*Invoice, error) {
 	return invoice, err
 }
 
+// Update updates an invoice's properties.
+// For more details see https://stripe.com/docs/api#update_invoice.
 func (c *InvoiceClient) Update(id string, params *InvoiceParams) (*Invoice, error) {
 	var body *url.Values
 	token := c.token
@@ -198,6 +223,8 @@ func (c *InvoiceClient) Update(id string, params *InvoiceParams) (*Invoice, erro
 	return invoice, err
 }
 
+// GetNext returns the upcoming invoice's properties.
+// For more details see https://stripe.com/docs/api#retrieve_customer_invoice.
 func (c *InvoiceClient) GetNext(params *InvoiceParams) (*Invoice, error) {
 	body := &url.Values{
 		"customer": {params.Customer},
@@ -213,6 +240,8 @@ func (c *InvoiceClient) GetNext(params *InvoiceParams) (*Invoice, error) {
 	return invoice, err
 }
 
+// List returns a list of invoices.
+// For more details see https://stripe.com/docs/api#list_customer_invoices.
 func (c *InvoiceClient) List(params *InvoiceListParams) (*InvoiceList, error) {
 	var body *url.Values
 
@@ -254,6 +283,8 @@ func (c *InvoiceClient) List(params *InvoiceListParams) (*InvoiceList, error) {
 	return list, err
 }
 
+// ListLines returns a list of line items.
+// For more details see https://stripe.com/docs/api#invoice_lines.
 func (c *InvoiceClient) ListLines(params *InvoiceLineListParams) (*InvoiceLineList, error) {
 	body := &url.Values{}
 

@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+// CustomerParams is the set of parameters that can be used when creating or updating a customer.
+// For more details see https://stripe.com/docs/api#create_customer and https://stripe.com/docs/api#update_customer.
 type CustomerParams struct {
 	Balance       int64
 	Token, Coupon string
@@ -14,10 +16,12 @@ type CustomerParams struct {
 	Meta          map[string]string
 	Plan          string
 	Quantity      uint64
-	End           int64
+	TrialEnd      int64
 	DefaultCard   string
 }
 
+// CustomerListParams is the set of parameters that can be used when listing customers.
+// For more details see https://stripe.com/docs/api#list_customers.
 type CustomerListParams struct {
 	Created    int64
 	Filters    Filters
@@ -25,6 +29,8 @@ type CustomerListParams struct {
 	Limit      uint64
 }
 
+// Customer is the resource representing a Stripe customer.
+// For more details see https://stripe.com/docs/api#customers.
 type Customer struct {
 	Id          string            `json:"id"`
 	Live        bool              `json:"livemode"`
@@ -32,15 +38,16 @@ type Customer struct {
 	Created     int64             `json:"created"`
 	Balance     int64             `json:"account_balance"`
 	Currency    Currency          `json:"currency"`
-	Delinquent  bool              `json:"delinquent"`
 	DefaultCard string            `json:"default_card"`
+	Delinquent  bool              `json:"delinquent"`
 	Desc        string            `json:"description"`
+	Discount    *Discount         `json:"discount"`
 	Email       string            `json:"email"`
 	Meta        map[string]string `json:"metadata"`
 	Subs        *SubscriptionList `json:"subscriptions"`
-	Discount    *Discount         `json:"discount"`
 }
 
+// CustomerList is a list object for customers.
 type CustomerList struct {
 	Count  uint16      `json:"total_count"`
 	More   bool        `json:"has_more"`
@@ -48,11 +55,14 @@ type CustomerList struct {
 	Values []*Customer `json:"data"`
 }
 
+// CustomerClient is the client used to invoke /customers APIs.
 type CustomerClient struct {
 	api   Api
 	token string
 }
 
+// Create POSTs new customers.
+// For more details see https://stripe.com/docs/api#create_customer.
 func (c *CustomerClient) Create(params *CustomerParams) (*Customer, error) {
 	var body *url.Values
 
@@ -87,8 +97,8 @@ func (c *CustomerClient) Create(params *CustomerParams) (*Customer, error) {
 				body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
 			}
 
-			if params.End > 0 {
-				body.Add("trial_end", strconv.FormatInt(params.End, 10))
+			if params.TrialEnd > 0 {
+				body.Add("trial_end", strconv.FormatInt(params.TrialEnd, 10))
 			}
 		}
 
@@ -103,6 +113,8 @@ func (c *CustomerClient) Create(params *CustomerParams) (*Customer, error) {
 	return cust, err
 }
 
+// Get returns the details of a customer.
+// For more details see https://stripe.com/docs/api#retrieve_customer.
 func (c *CustomerClient) Get(id string) (*Customer, error) {
 	cust := &Customer{}
 	err := c.api.Call("GET", "/customers/"+id, c.token, nil, cust)
@@ -110,6 +122,8 @@ func (c *CustomerClient) Get(id string) (*Customer, error) {
 	return cust, err
 }
 
+// Update updates a customer's properties.
+// For more details see	https://stripe.com/docs/api#update_customer.
 func (c *CustomerClient) Update(id string, params *CustomerParams) (*Customer, error) {
 	var body *url.Values
 
@@ -153,10 +167,14 @@ func (c *CustomerClient) Update(id string, params *CustomerParams) (*Customer, e
 	return cust, err
 }
 
+// Delete removes a customer.
+// For more details see https://stripe.com/docs/api#delete_customer.
 func (c *CustomerClient) Delete(id string) error {
 	return c.api.Call("DELETE", "/customers/"+id, c.token, nil, nil)
 }
 
+// List returns a list of customers.
+// For more details see https://stripe.com/docs/api#list_customers.
 func (c *CustomerClient) List(params *CustomerListParams) (*CustomerList, error) {
 	var body *url.Values
 
