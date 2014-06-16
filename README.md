@@ -65,7 +65,7 @@ resource, err := stripe.Resources.Get(ResourceParams)
 err := stripe.Resources.Delete(id)
 
 // List
-resourceList, err := stripe.Resources.Get(ResourceListParams)
+resourceList, err := stripe.Resources.List(ResourceListParams)
 ```
 
 ## Documentation
