@@ -98,7 +98,7 @@ type filter struct {
 	Key, Op, Val string
 }
 
-// Init initializes the Stripe client with the approriate token secret key
+// Init initializes the Stripe client with the appropriate token secret key
 // as well as providing the ability to override the HTTP client and api used.
 func (c *Client) Init(token string, client *http.Client, api Api) {
 	if client == nil {

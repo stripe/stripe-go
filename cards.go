@@ -39,7 +39,7 @@ type CardParams struct {
 	Address1, Address2, City, State, Zip, Country string
 }
 
-// CardListParams is the set of paramaters that can be used when listing cards.
+// CardListParams is the set of parameters that can be used when listing cards.
 // For more details see https://stripe.com/docs/api#list_cards.
 type CardListParams struct {
 	Customer, Recipient string

@@ -49,7 +49,7 @@ The third parameter can be used to inject a mock Api implementation so calls are
 
 ### APIs
 
-While some resources may contain more/less APIs, the following pattern is applied througout the library for a given `resource`:
+While some resources may contain more/less APIs, the following pattern is applied throughout the library for a given `resource`:
 
 ```go
 # Create 
@@ -102,5 +102,14 @@ for _, charge := range(charges.Values) {
    // perform an action on each charge
 }
 ```
+
+## TODO
+
+Below are the known work and imporvements planned in the near future:
+
+- Events resource APIs
+- Add support for expanding of properties
+
+For any other requests, bug or comments, please open an issue. Pull requests are also welcome.
 
 For more details about the Stripe, see the [Stripe official documentation](https://stripe.com/docs).

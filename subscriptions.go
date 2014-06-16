@@ -75,7 +75,7 @@ type SubscriptionClient struct {
 	token string
 }
 
-// Craete POSTS a new subscription for a customer.
+// Create POSTS a new subscription for a customer.
 // For more details see https://stripe.com/docs/api#create_subscription.
 func (c *SubscriptionClient) Create(params *SubParams) (*Subscription, error) {
 	body := &url.Values{

@@ -3,7 +3,7 @@ package stripe
 import "encoding/json"
 
 // ErrorType is the list of allowed values for the error's type.
-// Allowed values are "invalid_request_error", "api_error", "card_error".e
+// Allowed values are "invalid_request_error", "api_error", "card_error".
 type ErrorType string
 
 // ErrorCode is the list of allowed values for the error's code.

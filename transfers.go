@@ -34,7 +34,7 @@ type TransferParams struct {
 	Meta                        map[string]string
 }
 
-// TransferListParams is the set of parameters that can be ued when listing transfers.
+// TransferListParams is the set of parameters that can be used when listing transfers.
 // For more details see https://stripe.com/docs/api#list_transfers.
 type TransferListParams struct {
 	Created, Date         int64

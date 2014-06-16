@@ -153,7 +153,7 @@ const (
 	ZMW Currency = "zmw" // Zambian Kwacha
 )
 
-// ChargeParams is the set of parameters that can be used when creating or updating a charge,
+// ChargeParams is the set of parameters that can be used when creating or updating a charge.
 // For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
 type ChargeParams struct {
 	Amount                              uint64
@@ -232,7 +232,7 @@ type Refund struct {
 	Charge   string   `json:"charge"`
 }
 
-// ChargeClient is hte client used to invoke /charges APIs.
+// ChargeClient is the  client used to invoke /charges APIs.
 type ChargeClient struct {
 	api   Api
 	token string
