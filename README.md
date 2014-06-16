@@ -105,11 +105,12 @@ for _, charge := range(charges.Values) {
 
 ## TODO
 
-Below are the known work and imporvements planned in the near future:
+Below are the known imporvements planned in the near future:
 
 - Events resource APIs
 - Add support for expanding of properties
 
-For any other requests, bug or comments, please open an issue. Pull requests are also welcome.
+For any other requests, bug or comments, please [open an issue](https://github.com/cosn/stripe/issues/new). 
+Pull requests are welcome.
 
 For more details about the Stripe, see the [Stripe official documentation](https://stripe.com/docs).
