@@ -80,6 +80,9 @@ type Client struct {
 	// Balance is the client used to invoke /balance and transaction-related APIs.
 	// For more details see https://stripe.com/docs/api/#balance.
 	Balance *BalanceClient
+	// Events is the client used to invoke /events APIs.
+	// For more details see https://stripe.com/docs/api#events.
+	Events *EventClient
 	// Tokens is the client used to invoke /tokens APIs.
 	// For more details see https://stripe.com/docs/api/#tokens.
 	Tokens *TokenClient
@@ -129,6 +132,7 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 	c.Fees = &AppFeeClient{api: c.api, token: c.Token}
 	c.Account = &AccountClient{api: c.api, token: c.Token}
 	c.Balance = &BalanceClient{api: c.api, token: c.Token}
+	c.Events = &EventClient{api: c.api, token: c.Token}
 	c.Tokens = &TokenClient{api: c.api, token: c.Token}
 }
 

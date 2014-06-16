@@ -70,7 +70,7 @@ resourceList, err := stripe.Resources.List(ResourceListParams)
 
 ## Documentation
 
-Below are a couple of simple examples. For details on all the functionality in this library, see the [GoDoc](http://godoc.org/github.com/cosn/stripe) documentation.
+Below are a few simple examples. For details on all the functionality in this library, see the [GoDoc](http://godoc.org/github.com/cosn/stripe) documentation.
 
 ### Customers
 
@@ -102,12 +102,24 @@ for _, charge := range(charges.Values) {
    // perform an action on each charge
 }
 ```
+### Events
+
+```go
+events, err := stripe.Events.List(nil)
+
+for _, e := range(events.Values) {
+  // access event data via e.GetObjValue("resource_name_based_on_type", "resource_property_name")
+  // alternatively you can access values via e.Data.Obj["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
+
+  // access previous attributes via e.GetPrevValue("resource_name_based_on_type", "resource_property_name")
+  // alternatively you can access values via e.Data.Prev["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
+}
+```
 
 ## TODO
 
 Below are the known imporvements planned in the near future:
 
-- Events resource APIs
 - Add support for expanding of properties
 
 For any other requests, bug or comments, please [open an issue](https://github.com/cosn/stripe/issues/new). 
