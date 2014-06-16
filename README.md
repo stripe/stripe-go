@@ -52,19 +52,19 @@ The third parameter can be used to inject a mock Api implementation so calls are
 While some resources may contain more/less APIs, the following pattern is applied throughout the library for a given `resource`:
 
 ```go
-# Create 
+// Create 
 resource, err := stripe.Resources.Create(ResourceParams)
 
-# Get
+// Get
 resource, err := stripe.Resources.Get(id)
 
-# Update
+// Update
 resource, err := stripe.Resources.Get(ResourceParams)
 
-# Delete
+// Delete
 err := stripe.Resources.Delete(id)
 
-# List
+// List
 resourceList, err := stripe.Resources.Get(ResourceListParams)
 ```
 
