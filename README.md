@@ -72,6 +72,8 @@ resourceList, err := stripe.Resources.List(ResourceListParams)
 
 Below are a few simple examples. For details on all the functionality in this library, see the [GoDoc](http://godoc.org/github.com/cosn/stripe) documentation.
 
+For more details about the Stripe, see the [Stripe official documentation](https://stripe.com/docs).
+
 ### Customers
 
 ```go
@@ -124,5 +126,3 @@ Below are the known imporvements planned in the near future:
 
 For any other requests, bug or comments, please [open an issue](https://github.com/cosn/stripe/issues/new). 
 Pull requests are welcome.
-
-For more details about the Stripe, see the [Stripe official documentation](https://stripe.com/docs).
