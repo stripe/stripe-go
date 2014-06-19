@@ -68,9 +68,8 @@ func TestCardGet(t *testing.T) {
 
 	rec, _ := c.Recipients.Create(recipient)
 
-	c.SetDebug(true)
 	target, err := c.Cards.Get(rec.DefaultCard, &CardParams{Recipient: rec.Id})
-	c.SetDebug(false)
+
 	if err != nil {
 		t.Error(err)
 	}

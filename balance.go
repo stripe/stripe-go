@@ -55,7 +55,7 @@ type Transaction struct {
 	Currency   Currency          `json:"currency"`
 	Available  int64             `json:"available_on"`
 	Created    int64             `json:"created"`
-	Fee        uint64            `json:"fee"`
+	Fee        int64             `json:"fee"`
 	FeeDetails []Fee             `json:"fee_details"`
 	Net        int64             `json:"net"`
 	Status     TransactionStatus `json:"status"`

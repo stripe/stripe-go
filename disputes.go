@@ -35,21 +35,23 @@ const (
 // For more details see https://stripe.com/docs/api#update_dispute.
 type DisputeParams struct {
 	Evidence string
+	Meta     map[string]string
 }
 
 // Dispute is the resource representing a Stripe dispute.
 // For more details see https://stripe.com/docs/api#disputes.
 type Dispute struct {
-	Live     bool          `json:"livemode"`
-	Amount   uint64        `json:"amount"`
-	Currency Currency      `json:"currency"`
-	Charge   string        `json:"charge"`
-	Created  int64         `json:"created"`
-	Reason   DisputeReason `json:"reason"`
-	Status   DisputeStatus `json:"status"`
-	Tx       string        `json:"balance_transaction"`
-	Evidence string        `json:"evidence"`
-	DueDate  int64         `json:"evidence_due_by"`
+	Live     bool              `json:"livemode"`
+	Amount   uint64            `json:"amount"`
+	Currency Currency          `json:"currency"`
+	Charge   string            `json:"charge"`
+	Created  int64             `json:"created"`
+	Reason   DisputeReason     `json:"reason"`
+	Status   DisputeStatus     `json:"status"`
+	Tx       string            `json:"balance_transaction"`
+	Evidence string            `json:"evidence"`
+	DueDate  int64             `json:"evidence_due_by"`
+	Meta     map[string]string `json:"metadata"`
 }
 
 // DisputeClient is the client used to invoke dispute-related APIs.
@@ -68,6 +70,10 @@ func (c *DisputeClient) Update(id string, params *DisputeParams) (*Dispute, erro
 
 		if len(params.Evidence) > 0 {
 			body.Add("evidence", params.Evidence)
+		}
+
+		for k, v := range params.Meta {
+			body.Add(fmt.Sprintf("metadata[%v]", k), v)
 		}
 	}
 

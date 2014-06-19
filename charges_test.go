@@ -127,48 +127,53 @@ func TestChargeRefund(t *testing.T) {
 	res, _ := c.Charges.Create(charge)
 
 	// full refund
-	target, err := c.Charges.Refund(res.Id, nil)
+	ref, err := c.Charges.Refund(&RefundParams{Charge: res.Id})
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	if !target.Refunded {
+	if ref.Charge != res.Id {
+		t.Errorf("Refund charge %q does not match expected value %v\n", ref.Charge, res.Id)
+	}
+
+	target, _ := c.Charges.Get(res.Id)
+
+	if !target.Refunded || target.Refunds == nil {
 		t.Errorf("Expected to have refunded this charge\n")
 	}
 
-	if len(target.Refunds) != 1 {
-		t.Errorf("Expected to have a refund, but instead have %v\n", len(target.Refunds))
+	if len(target.Refunds.Values) != 1 {
+		t.Errorf("Expected to have a refund, but instead have %v\n", len(target.Refunds.Values))
 	}
 
-	if target.Refunds[0].Amount != target.AmountRefunded {
-		t.Errorf("Refunded amount %v does not match amount refunded %v\n", target.Refunds[0].Amount, target.AmountRefunded)
+	if target.Refunds.Values[0].Amount != target.AmountRefunded {
+		t.Errorf("Refunded amount %v does not match amount refunded %v\n", target.Refunds.Values[0].Amount, target.AmountRefunded)
 	}
 
-	if target.Refunds[0].Currency != target.Currency {
-		t.Errorf("Refunded currency %q does not match charge currency %q\n", target.Refunds[0].Currency, target.Currency)
+	if target.Refunds.Values[0].Currency != target.Currency {
+		t.Errorf("Refunded currency %q does not match charge currency %q\n", target.Refunds.Values[0].Currency, target.Currency)
 	}
 
-	if len(target.Refunds[0].Tx) == 0 {
+	if len(target.Refunds.Values[0].Tx) == 0 {
 		t.Errorf("Refund transaction not set\n")
 	}
 
-	if target.Refunds[0].Charge != target.Id {
-		t.Errorf("Refund charge %q does not match expected value %v\n", target.Refunds[0].Charge, target.Id)
+	if target.Refunds.Values[0].Charge != target.Id {
+		t.Errorf("Refund charge %q does not match expected value %v\n", target.Refunds.Values[0].Charge, target.Id)
 	}
 
 	res, err = c.Charges.Create(charge)
 
 	// partial refund
 	refund := &RefundParams{
+		Charge: res.Id,
 		Amount: 253,
 	}
 
-	target, err = c.Charges.Refund(res.Id, refund)
+	c.Charges.Refund(refund)
 
-	if err != nil {
-		t.Error(err)
-	}
+	target, _ = c.Charges.Get(res.Id)
 
 	if target.Refunded {
 		t.Errorf("Partial refund should not be marked as Refunded\n")

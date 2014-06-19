@@ -17,7 +17,7 @@ import (
 const uri = "https://api.stripe.com/v1"
 
 // version is the currently supported API version
-const version = "2014-06-13"
+const version = "2014-06-17"
 
 // debug is a global variable that enables additional tracing
 // to help with troubleshooting while testing.
@@ -71,6 +71,9 @@ type Client struct {
 	// Recipients is the client used to invoke /recipients APIs.
 	// For more details see https://stripe.com/docs/api/#recipients.
 	Recipients *RecipientClient
+	// Refunds is the client used to invoke /refunds APIs.
+	// For more details see https://stripe.com/docs/api#refunds.
+	Refunds *RefundClient
 	// Fees is the client used to invoke /application_fees APIs.
 	// For more details see https://stripe.com/docs/api/#application_fees.
 	Fees *AppFeeClient
@@ -129,6 +132,7 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 	c.Disputes = &DisputeClient{api: c.api, token: c.Token}
 	c.Transfers = &TransferClient{api: c.api, token: c.Token}
 	c.Recipients = &RecipientClient{api: c.api, token: c.Token}
+	c.Refunds = &RefundClient{api: c.api, token: c.Token}
 	c.Fees = &AppFeeClient{api: c.api, token: c.Token}
 	c.Account = &AccountClient{api: c.api, token: c.Token}
 	c.Balance = &BalanceClient{api: c.api, token: c.Token}

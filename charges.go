@@ -175,13 +175,6 @@ type ChargeListParams struct {
 	Limit                uint64
 }
 
-// RefundParams is the set of parameters that can be used when refunding a charge.
-// For more details see https://stripe.com/docs/api#refund_charge.
-type RefundParams struct {
-	Amount uint64
-	Fee    bool
-}
-
 // CaptureParams is the set of parameters that can be used when capturing a charge.
 // For more details see https://stripe.com/docs/api#charge_capture.
 type CaptureParams struct {
@@ -189,7 +182,7 @@ type CaptureParams struct {
 	Email, AccessToken string
 }
 
-// Charge is the resource repreenting a Stripe charge.
+// Charge is the resource representing a Stripe charge.
 // For more details see https://stripe.com/docs/api#charges.
 type Charge struct {
 	Id             string            `json:"id"`
@@ -201,7 +194,7 @@ type Charge struct {
 	Currency       Currency          `json:"currency"`
 	Paid           bool              `json:"paid"`
 	Refunded       bool              `json:"refunded"`
-	Refunds        []*Refund         `json:"refunds"`
+	Refunds        *RefundList       `json:"refunds"`
 	AmountRefunded uint64            `json:"amount_refunded"`
 	Tx             string            `json:"balance_transaction"`
 	Customer       string            `json:"customer"`
@@ -221,15 +214,6 @@ type ChargeList struct {
 	More   bool      `json:"has_more"`
 	Url    string    `json:"url"`
 	Values []*Charge `json:"data"`
-}
-
-// Refund is the structure for a refund.
-type Refund struct {
-	Amount   uint64   `json:"amount"`
-	Created  int64    `json:"created"`
-	Currency Currency `json:"currency"`
-	Tx       string   `json:"balance_transaction"`
-	Charge   string   `json:"charge"`
 }
 
 // ChargeClient is the  client used to invoke /charges APIs.
@@ -326,25 +310,25 @@ func (c *ChargeClient) Update(id string, params *ChargeParams) (*Charge, error) 
 
 // Refund refunds a charge previously created.
 // For more details see https://stripe.com/docs/api#refund_charge.
-func (c *ChargeClient) Refund(id string, params *RefundParams) (*Charge, error) {
-	var body *url.Values
+func (c *ChargeClient) Refund(params *RefundParams) (*Refund, error) {
+	body := &url.Values{}
 
-	if params != nil {
-		body = &url.Values{}
-
-		if params.Amount > 0 {
-			body.Add("amount", strconv.FormatUint(params.Amount, 10))
-		}
-
-		if params.Fee {
-			body.Add("refund_application_fee", strconv.FormatBool(params.Fee))
-		}
+	if params.Amount > 0 {
+		body.Add("amount", strconv.FormatUint(params.Amount, 10))
 	}
 
-	charge := &Charge{}
-	err := c.api.Call("POST", fmt.Sprintf("/charges/%v/refund", id), c.token, body, charge)
+	if params.Fee {
+		body.Add("refund_application_fee", strconv.FormatBool(params.Fee))
+	}
 
-	return charge, err
+	for k, v := range params.Meta {
+		body.Add(fmt.Sprintf("metadata[%v]", k), v)
+	}
+
+	refund := &Refund{}
+	err := c.api.Call("POST", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.token, body, refund)
+
+	return refund, err
 }
 
 // Capture captures a previously created charge with NoCapture set to true.
