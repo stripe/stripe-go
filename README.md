@@ -5,9 +5,23 @@ Go Stripe
 
 A [Stripe](https://stripe.com) client library written in Go.
 
-### Version
+### Versioning
 
-Currently, the library adheres to Stripe API version **2014-05-19**.
+Currently, the library adheres to Stripe API version **2014-06-17**. 
+For more details on changes between versions, see the [API changelog](https://stripe.com/docs/upgrades).
+
+With the addition of a new version, the previous version is tagged.
+This allows consumers on older API versions to be able to use a specific version of the client.
+
+To see the list of past versions, run `git tag`. 
+In order to use an older version of the client, clone this repo, checkout the specific tag and build the library manually:
+
+```sh
+git clone https://github.com/cosn/stripe.git
+cd stripe
+git checkout api_version_tag
+go build
+```
 
 ## Installation
 
