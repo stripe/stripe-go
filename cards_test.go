@@ -68,13 +68,23 @@ func TestCardGet(t *testing.T) {
 
 	rec, _ := c.Recipients.Create(recipient)
 
+	c.SetDebug(true)
 	target, err := c.Cards.Get(rec.DefaultCard, &CardParams{Recipient: rec.Id})
+	c.SetDebug(false)
 	if err != nil {
 		t.Error(err)
 	}
 
 	if target.LastFour != "8210" {
 		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, recipient.Card.Number)
+	}
+
+	if target.Brand != MasterCard {
+		t.Errorf("Card brand %q does not match expected value\n", target.Brand)
+	}
+
+	if target.Funding != DebitFunding {
+		t.Errorf("Card funding %q does not match expected value\n", target.Funding)
 	}
 
 	c.Recipients.Delete(rec.Id)

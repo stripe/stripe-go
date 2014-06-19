@@ -17,7 +17,7 @@ import (
 const uri = "https://api.stripe.com/v1"
 
 // version is the currently supported API version
-const version = "2014-05-19"
+const version = "2014-06-13"
 
 // debug is a global variable that enables additional tracing
 // to help with troubleshooting while testing.

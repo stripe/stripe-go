@@ -7,27 +7,36 @@ import (
 	"strconv"
 )
 
-// CardType is the list of allowed values for the card's type.
+// CardBrand is the list of allowed values for the card's brand.
 // Allowed values are "Unknown", "Visa", "American Express", "MasterCard", "Discover"
 // "JCB", "Diners Club".
-type CardType string
+type CardBrand string
 
 // Verification is the list of allowed verification responses.
 // Allowed values are "pass", "fail", "unchecked".
 type Verification string
 
+// CardFunding is the list of allowed values for the card's funding.
+// Allowed values are "credit", "debit", "prepaid", "unknown".
+type CardFunding string
+
 const (
-	Unknown    CardType = "Unknown"
-	Visa       CardType = "Visa"
-	Amex       CardType = "American Express"
-	MasterCard CardType = "MasterCard"
-	Discover   CardType = "Discover"
-	JCB        CardType = "JCB"
-	DinersClub CardType = "Diners Club"
+	Unknown    CardBrand = "Unknown"
+	Visa       CardBrand = "Visa"
+	Amex       CardBrand = "American Express"
+	MasterCard CardBrand = "MasterCard"
+	Discover   CardBrand = "Discover"
+	JCB        CardBrand = "JCB"
+	DinersClub CardBrand = "Diners Club"
 
 	Pass      Verification = "pass"
 	Fail      Verification = "fail"
 	Unchecked Verification = "unchecked"
+
+	CreditFunding  CardFunding = "credit"
+	DebitFunding   CardFunding = "debit"
+	PrepaidFunding CardFunding = "prepaid"
+	UnknownFunding CardFunding = "unknown"
 )
 
 // CardParams is the set of parameters that can be used when creating or updating a card.
@@ -55,8 +64,9 @@ type Card struct {
 	Month         uint8        `json:"exp_month"`
 	Year          uint16       `json:"exp_year"`
 	Fingerprint   string       `json:"fingerprint"`
+	Funding       CardFunding  `json:"funding"`
 	LastFour      string       `json:"last4"`
-	Type          CardType     `json:"type"`
+	Brand         CardBrand    `json:"brand"`
 	City          string       `json:"address_city"`
 	Country       string       `json:"address_country"`
 	Address1      string       `json:"address_line1"`
