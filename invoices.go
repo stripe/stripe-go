@@ -23,7 +23,7 @@ type InvoiceParams struct {
 	Desc, Statement, Sub, AccessToken string
 	Fee                               uint64
 	Meta                              map[string]string
-	Closed                            bool
+	Closed, Forgive                   bool
 }
 
 // InvoiceListParams is the set of parameters that can be used when listing invoices.
@@ -56,6 +56,7 @@ type Invoice struct {
 	Currency     Currency          `json:"currency"`
 	Customer     string            `json:"customer"`
 	Date         int64             `json:"date"`
+	Forgive      bool              `json:"forgiven"`
 	Lines        *InvoiceLineList  `json:"lines"`
 	Paid         bool              `json:"paid"`
 	End          int64             `json:"period_end"`
@@ -200,6 +201,10 @@ func (c *InvoiceClient) Update(id string, params *InvoiceParams) (*Invoice, erro
 
 		if params.Closed {
 			body.Add("closed", strconv.FormatBool(true))
+		}
+
+		if params.Forgive {
+			body.Add("forgiven", strconv.FormatBool(true))
 		}
 
 		for k, v := range params.Meta {
