@@ -11,8 +11,14 @@ import (
 type TransferStatus string
 
 // TransferType is the list of allowed values for the transfer's type.
-// Allowed values are "card", "bank_account"
+// Allowed values are "card", "bank_account".
 type TransferType string
+
+// TransferFailCode is the list of allowed values for the transfer's failure code.
+// Allowed values are "insufficient_funds", "account_closed", "no_account",
+// "invalid_account_number", "debit_not_authorized", "bank_ownership_changed",
+// "account_frozen", "could_not_process", "bank_account_restricted", "invalid_currency".
+type TransferFailCode string
 
 const (
 	Paid             TransferStatus = "paid"
@@ -22,6 +28,17 @@ const (
 
 	CardTransfer TransferType = "card"
 	BankTransfer TransferType = "bank_account"
+
+	InsufficientFunds    TransferFailCode = "insufficient_funds"
+	AccountClosed        TransferFailCode = "account_closed"
+	NoAccount            TransferFailCode = "no_account"
+	InvalidAccountNumber TransferFailCode = "invalid_account_number"
+	DebitNotAuth         TransferFailCode = "debit_not_authorized"
+	BankOwnerChanged     TransferFailCode = "bank_ownership_changed"
+	AccountFrozen        TransferFailCode = "account_frozen"
+	CouldNotProcess      TransferFailCode = "could_not_process"
+	BankAccountRestrict  TransferFailCode = "bank_account_restricted"
+	InvalidCurrency      TransferFailCode = "invalid_currency"
 )
 
 // TransferParams is the set of parameters that can be used when creating or updating a transfer.
@@ -53,10 +70,12 @@ type Transfer struct {
 	Currency  Currency          `json:"currency"`
 	Created   int64             `json:"created"`
 	Date      int64             `json:"date"`
+	Desc      string            `json:"description"`
+	FailCode  TransferFailCode  `json:"failure_code"`
+	FailMsg   string            `json:"failure_message"`
 	Status    TransferStatus    `json:"status"`
 	Type      TransferType      `json:"type"`
 	Tx        string            `json:"balance_transaction"`
-	Desc      string            `json:"description"`
 	Meta      map[string]string `json:"metadata"`
 	Bank      *BankAccount      `json:"bank_account"`
 	Card      *Card             `json:"card"`
