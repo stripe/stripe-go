@@ -6,8 +6,8 @@ import (
 	"strconv"
 )
 
-// RefundParams is the set of parameters that can be used when refunding a refund.
-// For more details see https://stripe.com/docs/api#refund_refund.
+// RefundParams is the set of parameters that can be used when refunding a charge.
+// For more details see https://stripe.com/docs/api#refund.
 type RefundParams struct {
 	Charge string
 	Amount uint64
@@ -16,7 +16,7 @@ type RefundParams struct {
 }
 
 // RefundListParams is the set of parameters that can be used when listing refunds.
-// For more details see https://stripe.com/docs/api#list_refunds..
+// For more details see https://stripe.com/docs/api#list_refunds.
 type RefundListParams struct {
 	Charge     string
 	Filters    Filters
