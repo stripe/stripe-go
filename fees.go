@@ -24,18 +24,18 @@ type AppFeeListParams struct {
 // AppFee is the resource representing a Stripe application fee.
 // For more details see https://stripe.com/docs/api#application_fees.
 type AppFee struct {
-	Id             string    `json:"id"`
-	Live           bool      `json:"livemode"`
-	Account        string    `json:"account"`
-	Amount         uint64    `json:"amount"`
-	App            string    `json:"application"`
-	Tx             string    `json:"balance_transaction"`
-	Charge         string    `json:"charge"`
-	Created        int64     `json:"created"`
-	Currency       Currency  `json:"currency"`
-	Refunded       bool      `json:"refunded"`
-	Refunds        []*Refund `json:"refunds"`
-	AmountRefunded uint64    `json:"amount_refunded"`
+	Id             string         `json:"id"`
+	Live           bool           `json:"livemode"`
+	Account        string         `json:"account"`
+	Amount         uint64         `json:"amount"`
+	App            string         `json:"application"`
+	Tx             string         `json:"balance_transaction"`
+	Charge         string         `json:"charge"`
+	Created        int64          `json:"created"`
+	Currency       Currency       `json:"currency"`
+	Refunded       bool           `json:"refunded"`
+	Refunds        *FeeRefundList `json:"refunds"`
+	AmountRefunded uint64         `json:"amount_refunded"`
 }
 
 // AppFeeList is a list object for application fees.
@@ -63,7 +63,7 @@ func (c *AppFeeClient) Get(id string) (*AppFee, error) {
 
 // Refund refunds the application fee collected.
 // For more details see https://stripe.com/docs/api#refund_application_fee.
-func (c *AppFeeClient) Refund(id string, params *AppFeeParams) (*AppFee, error) {
+func (c *AppFeeClient) Refund(id string, params *AppFeeParams) (*FeeRefund, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -74,10 +74,10 @@ func (c *AppFeeClient) Refund(id string, params *AppFeeParams) (*AppFee, error) 
 		}
 	}
 
-	fee := &AppFee{}
-	err := c.api.Call("POST", fmt.Sprintf("application_fees/%v/refund", id), c.token, body, fee)
+	refund := &FeeRefund{}
+	err := c.api.Call("POST", fmt.Sprintf("application_fees/%v/refunds", id), c.token, body, refund)
 
-	return fee, err
+	return refund, err
 }
 
 // List returns a list of application fees.
