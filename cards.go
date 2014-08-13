@@ -209,12 +209,16 @@ func (c *CardClient) List(params *CardListParams) (*CardList, error) {
 // on updates they are simply the parameter name.
 func (c *CardParams) appendTo(values *url.Values, creating bool) {
 	if creating {
-		values.Add("card[number]", c.Number)
-		values.Add("card[exp_month]", c.Month)
-		values.Add("card[exp_year]", c.Year)
+		if len(c.Token) > 0 {
+			values.Add("card", c.Token)
+		} else {
+			values.Add("card[number]", c.Number)
+			values.Add("card[exp_month]", c.Month)
+			values.Add("card[exp_year]", c.Year)
 
-		if len(c.CVC) > 0 {
-			values.Add("card[cvc]", c.CVC)
+			if len(c.CVC) > 0 {
+				values.Add("card[cvc]", c.CVC)
+			}
 		}
 	}
 
