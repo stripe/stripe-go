@@ -1,4 +1,4 @@
-Go Stripe
+Go Stripe (BETA)
 ========
 
 ## Summary
@@ -17,10 +17,10 @@ To see the list of past versions, run `git tag`.
 In order to use an older version of the client, clone this repo, checkout the specific tag and build the library manually:
 
 ```sh
-git clone https://github.com/cosn/stripe.git
-cd stripe
+git clone https://github.com/stripe/stripe-go.git
+cd stripe-go
 git checkout api_version_tag
-go build
+make build
 ```
 
 ## Installation
@@ -28,7 +28,7 @@ go build
 ### Build
 
 ```sh
-go get github.com/cosn/stripe
+go get github.com/stripe/stripe-go
 ```
 
 ### Test
@@ -40,7 +40,7 @@ export STRIPE_KEY=YOUR_API_KEY
 
 Then run:
 ```sh
-go test github.com/cosn/stripe...
+make test
 ```
 
 ## Usage
@@ -48,7 +48,7 @@ go test github.com/cosn/stripe...
 First import the package into your code:
 ```go
 import (
-    "github.com/cosn/stripe"
+    "github.com/stripe/stripe-go/stripe"
 )
 ```
 
@@ -58,8 +58,11 @@ stripe := &stripe.Client{}
 stripe.Init(YOUR_API_KEY, nil, nil)
 ```
 
-The second parameter can be used to set a different http.Client (by default, http.DefaultClient is used). 
-The third parameter can be used to inject a mock Api implementation so calls aren't actually made to Stripe. This can be useful for writing your own unit tests.
+The second parameter can be used to set a different http.Client (by default,
+http.DefaultClient is used). 
+The third parameter can be used to inject a mock Api implementation so calls
+aren't actually made to Stripe. This can be useful for writing your own unit
+tests.
 
 ### APIs
 
@@ -84,7 +87,8 @@ resourceList, err := stripe.Resources.List(ResourceListParams)
 
 ## Documentation
 
-Below are a few simple examples. For details on all the functionality in this library, see the [GoDoc](http://godoc.org/github.com/cosn/stripe) documentation.
+Below are a few simple examples. For details on all the functionality in this
+library, see the [GoDoc](http://godoc.org/github.com/stripe/stripe-go) documentation.
 
 For more details about the Stripe, see the [Stripe official documentation](https://stripe.com/docs).
 
@@ -138,5 +142,4 @@ Below are the known imporvements planned in the near future:
 
 - Add support for expanding of properties
 
-For any other requests, bug or comments, please [open an issue](https://github.com/cosn/stripe/issues/new). 
-Pull requests are welcome.
+For any other requests, bug or comments, please [open an issue](https://github.com/stripe/stripe-go/issues/new). 
