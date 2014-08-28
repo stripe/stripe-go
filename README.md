@@ -28,7 +28,7 @@ make build
 ### Build
 
 ```sh
-go get github.com/stripe/stripe-go
+go get github.com/stripe/stripe-go/stripe
 ```
 
 ### Test
