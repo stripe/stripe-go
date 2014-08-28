@@ -103,8 +103,8 @@ params := &CustomerParams{
 			Month:  "06",
 			Year:   "15",
 		},
-		Desc:  "Stripe Dev",
-		Email: "dev@stripe.com",
+		Desc:  "Stripe Developer",
+		Email: "gostripe@stripe.com",
 	}
 
 customer, err := stripe.Customers.Create(params)
