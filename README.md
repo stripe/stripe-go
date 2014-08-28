@@ -7,7 +7,6 @@ A [Stripe](https://stripe.com) client library written in Go.
 
 ### Versioning
 
-Currently, the library adheres to Stripe API version **2014-08-20**. 
 For more details on changes between versions, see the [API changelog](https://stripe.com/docs/upgrades).
 
 With the addition of a new version, the previous version is tagged.
