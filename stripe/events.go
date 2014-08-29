@@ -5,17 +5,6 @@ import (
 	"strconv"
 )
 
-// EventListParams is the set of parameters that can be used when listing events.
-// For more details see https://stripe.com/docs/api#list_events.
-type EventListParams struct {
-	Created    int64
-	Filters    Filters
-	Start, End string
-	Limit      uint64
-	// Type is one of the values documented at https://stripe.com/docs/api#event_types.
-	Type string
-}
-
 // Event is the resource representing a Stripe event.
 // For more details see https://stripe.com/docs/api#events.
 type Event struct {
@@ -34,11 +23,18 @@ type EventData struct {
 	Prev map[string]interface{} `json:"previous_attributes"`
 }
 
+// EventListParams is the set of parameters that can be used when listing events.
+// For more details see https://stripe.com/docs/api#list_events.
+type EventListParams struct {
+	ListParams
+	Created int64
+	// Type is one of the values documented at https://stripe.com/docs/api#event_types.
+	Type string
+}
+
 // EventList is a list object for events.
 type EventList struct {
-	Count  uint16   `json:"total_count"`
-	More   bool     `json:"has_more"`
-	Url    string   `json:"url"`
+	ListResponse
 	Values []*Event `json:"data"`
 }
 

@@ -10,19 +10,17 @@ import (
 // RefundParams is the set of parameters that can be used when refunding a charge.
 // For more details see https://stripe.com/docs/api#refund.
 type RefundParams struct {
+	Params
 	Charge string
 	Amount uint64
 	Fee    bool
-	Meta   map[string]string
 }
 
 // RefundListParams is the set of parameters that can be used when listing refunds.
 // For more details see https://stripe.com/docs/api#list_refunds.
 type RefundListParams struct {
-	Charge     string
-	Filters    Filters
-	Start, End string
-	Limit      uint64
+	ListParams
+	Charge string
 }
 
 // Refund is the resource representing a Stripe refund.
@@ -39,9 +37,7 @@ type Refund struct {
 
 // Refundist is a list object for refunds.
 type RefundList struct {
-	Count  uint16    `json:"total_count"`
-	More   bool      `json:"has_more"`
-	Url    string    `json:"url"`
+	ListResponse
 	Values []*Refund `json:"data"`
 }
 

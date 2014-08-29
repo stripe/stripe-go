@@ -157,23 +157,22 @@ const (
 // ChargeParams is the set of parameters that can be used when creating or updating a charge.
 // For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
 type ChargeParams struct {
-	Amount                              uint64
-	Currency                            Currency
-	Customer, Token                     string
-	Card                                *CardParams
-	Desc, Statement, AccessToken, Email string
-	Meta                                map[string]string
-	NoCapture                           bool
-	Fee                                 uint64
+	Params
+	Amount                 uint64
+	Currency               Currency
+	Customer, Token        string
+	Card                   *CardParams
+	Desc, Statement, Email string
+	NoCapture              bool
+	Fee                    uint64
 }
 
 // ChargeListParams is the set of parameters that can be used when listing charges.
 // For more details see https://stripe.com/docs/api#list_charges.
 type ChargeListParams struct {
-	Created              int64
-	Filters              Filters
-	Customer, Start, End string
-	Limit                uint64
+	ListParams
+	Created  int64
+	Customer string
 }
 
 // CaptureParams is the set of parameters that can be used when capturing a charge.
@@ -211,9 +210,7 @@ type Charge struct {
 
 // ChargeList is a list object for charges.
 type ChargeList struct {
-	Count  uint16    `json:"total_count"`
-	More   bool      `json:"has_more"`
-	Url    string    `json:"url"`
+	ListResponse
 	Values []*Charge `json:"data"`
 }
 

@@ -18,10 +18,8 @@ type FeeRefundParams struct {
 // FeeRefundListParams is the set of parameters that can be used when listing fee refunds.
 // For more details see https://stripe.com/docs/api#list_fee_refunds.
 type FeeRefundListParams struct {
-	Fee        string
-	Filters    Filters
-	Start, End string
-	Limit      uint64
+	ListParams
+	Fee string
 }
 
 // FeeRefund is the resource representing a Stripe fee refund.
@@ -38,9 +36,7 @@ type FeeRefund struct {
 
 // FeeRefundist is a list object for fee refunds.
 type FeeRefundList struct {
-	Count  uint16       `json:"total_count"`
-	More   bool         `json:"has_more"`
-	Url    string       `json:"url"`
+	ListResponse
 	Values []*FeeRefund `json:"data"`
 }
 

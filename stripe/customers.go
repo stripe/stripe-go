@@ -10,11 +10,11 @@ import (
 // CustomerParams is the set of parameters that can be used when creating or updating a customer.
 // For more details see https://stripe.com/docs/api#create_customer and https://stripe.com/docs/api#update_customer.
 type CustomerParams struct {
+	Params
 	Balance       int64
 	Token, Coupon string
 	Card          *CardParams
 	Desc, Email   string
-	Meta          map[string]string
 	Plan          string
 	Quantity      uint64
 	TrialEnd      int64
@@ -24,10 +24,8 @@ type CustomerParams struct {
 // CustomerListParams is the set of parameters that can be used when listing customers.
 // For more details see https://stripe.com/docs/api#list_customers.
 type CustomerListParams struct {
-	Created    int64
-	Filters    Filters
-	Start, End string
-	Limit      uint64
+	ListParams
+	Created int64
 }
 
 // Customer is the resource representing a Stripe customer.
@@ -50,9 +48,7 @@ type Customer struct {
 
 // CustomerList is a list object for customers.
 type CustomerList struct {
-	Count  uint16      `json:"total_count"`
-	More   bool        `json:"has_more"`
-	Url    string      `json:"url"`
+	ListResponse
 	Values []*Customer `json:"data"`
 }
 

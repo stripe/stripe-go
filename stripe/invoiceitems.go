@@ -10,20 +10,19 @@ import (
 // InvoiceItemParams is the set of parameters that can be used when creating or updating an invoice item.
 // For more details see https://stripe.com/docs/api#create_invoiceitem and https://stripe.com/docs/api#update_invoiceitem.
 type InvoiceItemParams struct {
+	Params
 	Customer           string
 	Amount             int64
 	Currency           Currency
 	Invoice, Desc, Sub string
-	Meta               map[string]string
 }
 
 // InvoiceItemListparams is the set of parameters that can be used when listing invoice items.
 // For more details see https://stripe.com/docs/api#list_invoiceitems.
 type InvoiceItemListParams struct {
-	Created              int64
-	Filters              Filters
-	Customer, Start, End string
-	Limit                uint64
+	ListParams
+	Created  int64
+	Customer string
 }
 
 // InvoiceItem is the resource represneting a Stripe invoice item.
@@ -44,9 +43,7 @@ type InvoiceItem struct {
 
 // InvoiceItemList represents a list object for invoice items.
 type InvoiceItemList struct {
-	Count  uint16         `json:"total_count"`
-	More   bool           `json:"has_more"`
-	Url    string         `json:"url"`
+	ListResponse
 	Values []*InvoiceItem `json:"data"`
 }
 

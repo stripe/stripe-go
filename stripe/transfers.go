@@ -44,21 +44,20 @@ const (
 // TransferParams is the set of parameters that can be used when creating or updating a transfer.
 // For more details see https://stripe.com/docs/api#create_transfer and https://stripe.com/docs/api#update_transfer.
 type TransferParams struct {
+	Params
 	Amount                      int64
 	Currency                    Currency
 	Recipient                   string
 	Desc, Statement, Bank, Card string
-	Meta                        map[string]string
 }
 
 // TransferListParams is the set of parameters that can be used when listing transfers.
 // For more details see https://stripe.com/docs/api#list_transfers.
 type TransferListParams struct {
-	Created, Date         int64
-	Filters               Filters
-	Recipient, Start, End string
-	Status                TransferStatus
-	Limit                 uint64
+	ListParams
+	Created, Date int64
+	Recipient     string
+	Status        TransferStatus
 }
 
 // Transfer is the resource representing a Stripe transfer.
@@ -85,9 +84,7 @@ type Transfer struct {
 
 // TransferList is a list object for transfers.
 type TransferList struct {
-	Count  uint16      `json:"total_count"`
-	More   bool        `json:"has_more"`
-	Url    string      `json:"url"`
+	ListResponse
 	Values []*Transfer `json:"data"`
 }
 

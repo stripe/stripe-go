@@ -21,20 +21,18 @@ const (
 // CouponParams is the set of parameters that can be used when creating a coupon.
 // For more details see https://stripe.com/docs/api#create_coupon.
 type CouponParams struct {
+	Params
 	Duration                                     CouponDuration
 	Id                                           string
 	Currency                                     Currency
 	Amount, Percent, DurationPeriod, Redemptions uint64
-	Meta                                         map[string]string
 	RedeemBy                                     int64
 }
 
 // CouponListParams is the set of parameters that can be used when listing coupons.
 // For more detail see https://stripe.com/docs/api#list_coupons.
 type CouponListParams struct {
-	Filters    Filters
-	Start, End string
-	Limit      uint64
+	ListParams
 }
 
 // Coupon is the resource representing a Stripe coupon.
@@ -57,9 +55,7 @@ type Coupon struct {
 
 // CouponList is a list object for coupons.
 type CouponList struct {
-	Count  uint16    `json:"total_count"`
-	More   bool      `json:"has_more"`
-	Url    string    `json:"url"`
+	ListResponse
 	Values []*Coupon `json:"data"`
 }
 

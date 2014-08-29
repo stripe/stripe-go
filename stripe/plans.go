@@ -20,21 +20,19 @@ const (
 // PlanParams is the set of parameters that can be used when creating or updating a plan.
 // For more details see https://stripe.com/docs/api#create_plan and https://stripe.com/docs/api#update_plan.
 type PlanParams struct {
+	Params
 	Id, Name                   string
 	Currency                   Currency
 	Amount                     uint64
 	Interval                   PlanInternval
 	IntervalCount, TrialPeriod uint64
-	Meta                       map[string]string
 	Statement                  string
 }
 
 // PlanListParams is the set of parameters that can be used when listing plans.
 // For more details see https://stripe.com/docs/api#list_plans.
 type PlanListParams struct {
-	Filters    Filters
-	Start, End string
-	Limit      uint64
+	ListParams
 }
 
 // Plan is the resource representing a Stripe plan.
@@ -55,9 +53,7 @@ type Plan struct {
 
 // PlanList is a list object for plans.
 type PlanList struct {
-	Count  uint16  `json:"total_count"`
-	More   bool    `json:"has_more"`
-	Url    string  `json:"url"`
+	ListResponse
 	Values []*Plan `json:"data"`
 }
 

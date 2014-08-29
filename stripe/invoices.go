@@ -20,29 +20,27 @@ const (
 // InvoiceParams is the set of parameters that can be used when creating or updating an invoice.
 // For more details see https://stripe.com/docs/api#create_invoice, https://stripe.com/docs/api#update_invoice.
 type InvoiceParams struct {
-	Customer                          string
-	Desc, Statement, Sub, AccessToken string
-	Fee                               uint64
-	Meta                              map[string]string
-	Closed, Forgive                   bool
+	Params
+	Customer             string
+	Desc, Statement, Sub string
+	Fee                  uint64
+	Closed, Forgive      bool
 }
 
 // InvoiceListParams is the set of parameters that can be used when listing invoices.
 // For more details see https://stripe.com/docs/api#list_customer_invoices.
 type InvoiceListParams struct {
-	Date                 int64
-	Filters              Filters
-	Customer, Start, End string
-	Limit                uint64
+	ListParams
+	Date     int64
+	Customer string
 }
 
 // InvoiceLineListParams is the set of parameters that can be used when listing invoice line items.
 // For more details see https://stripe.com/docs/api#invoice_lines.
 type InvoiceLineListParams struct {
-	Id                        string
-	Filters                   Filters
-	Customer, Sub, Start, End string
-	Limit                     uint64
+	ListParams
+	Id            string
+	Customer, Sub string
 }
 
 // Invoice is the resource representing a Stripe invoice.
@@ -101,17 +99,13 @@ type Period struct {
 
 // InvoiceList is a list object for invoices.
 type InvoiceList struct {
-	Count  uint16     `json:"total_count"`
-	More   bool       `json:"has_more"`
-	Url    string     `json:"url"`
+	ListResponse
 	Values []*Invoice `json:"data"`
 }
 
 // InvoiceLineList is a list object for invoice line items.
 type InvoiceLineList struct {
-	Count  uint16         `json:"total_count"`
-	More   bool           `json:"has_more"`
-	Url    string         `json:"url"`
+	ListResponse
 	Values []*InvoiceLine `json:"data"`
 }
 

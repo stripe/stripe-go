@@ -32,11 +32,10 @@ const (
 // TxListParams is the set of parameters that can be used when listing balance transactions.
 // For more details see https://stripe.com/docs/api/#balance_history.
 type TxListParams struct {
-	Created, Available                  int64
-	Filters                             Filters
-	Currency, Src, Transfer, Start, End string
-	Type                                TransactionType
-	Limit                               uint64
+	ListParams
+	Created, Available      int64
+	Currency, Src, Transfer string
+	Type                    TransactionType
 }
 
 // Balance is the resource representing your Stripe balance.
@@ -83,9 +82,7 @@ type Fee struct {
 
 // TransactionList is a list object for transactions.
 type TransactionList struct {
-	Count  uint16         `json:"total_count"`
-	More   bool           `json:"has_more"`
-	Url    string         `json:"url"`
+	ListResponse
 	Values []*Transaction `json:"data"`
 }
 

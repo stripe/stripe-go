@@ -38,8 +38,8 @@ const (
 // DisputeParams is the set of parameters that can be used when updating a dispute.
 // For more details see https://stripe.com/docs/api#update_dispute.
 type DisputeParams struct {
+	Params
 	Evidence string
-	Meta     map[string]string
 }
 
 // Dispute is the resource representing a Stripe dispute.

@@ -19,22 +19,20 @@ const (
 // RecipientParams is the set of parameters that can be used when creating or updating recipients.
 // For more details see https://stripe.com/docs/api#create_recipient and https://stripe.com/docs/api#update_recipient.
 type RecipientParams struct {
+	Params
 	Name                      string
 	Type                      RecipientType
 	TaxId, Token, Email, Desc string
 	Bank                      *BankAccountParams
 	Card                      *CardParams
-	Meta                      map[string]string
 	DefaultCard               string
 }
 
 // RecipientListParams is the set of parameters that can be used when listing recipients.
 // For more details see https://stripe.com/docs/api#list_recipients.
 type RecipientListParams struct {
-	Filters    Filters
-	Start, End string
-	Limit      uint64
-	Verified   bool
+	ListParams
+	Verified bool
 }
 
 // BankAccountParams is the set of parameters that can be used when creating or updating a bank account.
@@ -72,9 +70,7 @@ type BankAccount struct {
 
 // RecipientList is a list object for recipients.
 type RecipientList struct {
-	Count  uint16       `json:"total_count"`
-	More   bool         `json:"has_more"`
-	Url    string       `json:"url"`
+	ListResponse
 	Values []*Recipient `json:"data"`
 }
 

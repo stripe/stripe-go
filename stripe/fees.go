@@ -10,16 +10,16 @@ import (
 // AppFeeParams is the set of parameters that can be used when refunding an application fee.
 // For more details see https://stripe.com/docs/api#refund_application_fee.
 type AppFeeParams struct {
+	Params
 	Amount uint64
 }
 
 // AppFeeListParams is the set of parameters that can be used when listing application fees.
 // For more details see https://stripe.com/docs/api#list_application_fees.
 type AppFeeListParams struct {
-	Created            int64
-	Filters            Filters
-	Charge, Start, End string
-	Limit              uint64
+	ListParams
+	Created int64
+	Charge  string
 }
 
 // AppFee is the resource representing a Stripe application fee.
@@ -41,9 +41,7 @@ type AppFee struct {
 
 // AppFeeList is a list object for application fees.
 type AppFeeList struct {
-	Count  uint16    `json:"total_count"`
-	More   bool      `json:"has_more"`
-	Url    string    `json:"url"`
+	ListResponse
 	Values []*AppFee `json:"data"`
 }
 

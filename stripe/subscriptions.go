@@ -23,23 +23,21 @@ const (
 // SubParams is the set of parameters that can be used when creating or updating a subscription.
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubParams struct {
-	Customer, Plan             string
-	Coupon, Token, AccessToken string
-	TrialEnd                   int64
-	Card                       *CardParams
-	Quantity                   uint64
-	FeePercent                 float64
-	Meta                       map[string]string
-	NoProrate, EndCancel       bool
+	Params
+	Customer, Plan       string
+	Coupon, Token        string
+	TrialEnd             int64
+	Card                 *CardParams
+	Quantity             uint64
+	FeePercent           float64
+	NoProrate, EndCancel bool
 }
 
 // SubListParams is the set of parameters that can be used when listing active subscriptions.
 // For more details see https://stripe.com/docs/api#list_subscriptions.
 type SubListParams struct {
-	Customer   string
-	Filters    Filters
-	Start, End string
-	Limit      uint64
+	ListParams
+	Customer string
 }
 
 // Subscription is the resource representing a Stripe subscription.
@@ -64,9 +62,7 @@ type Subscription struct {
 
 // SubscriptionList is a list object for subscriptions.
 type SubscriptionList struct {
-	Count  uint16          `json:"total_count"`
-	More   bool            `json:"has_more"`
-	Url    string          `json:"url"`
+	ListResponse
 	Values []*Subscription `json:"data"`
 }
 

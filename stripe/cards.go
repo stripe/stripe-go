@@ -43,6 +43,7 @@ const (
 // CardParams is the set of parameters that can be used when creating or updating a card.
 // For more details see https://stripe.com/docs/api#create_card and https://stripe.com/docs/api#update_card.
 type CardParams struct {
+	Params
 	Token                                         string
 	Customer, Recipient                           string
 	Name, Number, Month, Year, CVC                string
@@ -52,10 +53,8 @@ type CardParams struct {
 // CardListParams is the set of parameters that can be used when listing cards.
 // For more details see https://stripe.com/docs/api#list_cards.
 type CardListParams struct {
+	ListParams
 	Customer, Recipient string
-	Filters             Filters
-	Start, End          string
-	Limit               uint64
 }
 
 // Card is the resource representing a Stripe credit/debit card.
@@ -85,9 +84,7 @@ type Card struct {
 
 // CardList is a list object for cards.
 type CardList struct {
-	Count  uint16  `json:"total_count"`
-	More   bool    `json:"has_more"`
-	Url    string  `json:"url"`
+	ListResponse
 	Values []*Card `json:"data"`
 }
 

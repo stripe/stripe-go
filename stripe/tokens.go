@@ -17,9 +17,10 @@ const (
 // TokenParams is the set of parameters that can be used when creating a token.
 // For more details see https://stripe.com/docs/api#create_card_token and https://stripe.com/docs/api#create_bank_account_token.
 type TokenParams struct {
-	Card                  *CardParams
-	Bank                  *BankAccountParams
-	Customer, AccessToken string
+	Params
+	Card     *CardParams
+	Bank     *BankAccountParams
+	Customer string
 }
 
 // Token is the resource representing a Stripe token.

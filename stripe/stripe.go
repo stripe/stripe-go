@@ -110,6 +110,30 @@ type filter struct {
 	Key, Op, Val string
 }
 
+// ListResponse is the structure that contains the common properties
+// of any *List structure.
+type ListResponse struct {
+	Count uint16 `json:"total_count"`
+	More  bool   `json:"has_more"`
+	Url   string `json:"url"`
+}
+
+// ListParams is the structure that contains the common properties
+// of any *ListParams structure.
+type ListParams struct {
+	Start, End string
+	Limit      uint64
+	Filters    Filters
+}
+
+// Params is the structure that contains the common properties
+// of any *Params structure.
+type Params struct {
+	Expand      []string
+	Meta        map[string]string
+	AccessToken string
+}
+
 // Init initializes the Stripe client with the appropriate token secret key
 // as well as providing the ability to override the HTTP client and api used.
 func (c *Client) Init(token string, client *http.Client, api Api) {
