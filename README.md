@@ -1,4 +1,4 @@
-Go Stripe (BETA) [![Build Status](https://travis-ci.org/stripe/stripe-go.svg?branch=master)](https://travis-ci.org/stripe/stripe-go)
+Go Stripe (BETA) [![Build Status](https://travis-ci.org/stripe/stripe.svg?branch=master)](https://travis-ci.org/stripe/stripe)
 ========
 
 ## Summary
@@ -16,8 +16,8 @@ To see the list of past versions, run `git tag`.
 In order to use an older version of the client, clone this repo, checkout the specific tag and build the library manually:
 
 ```sh
-git clone https://github.com/stripe/stripe-go.git
-cd stripe-go
+git clone https://github.com/stripe/stripe.git
+cd stripe
 git checkout api_version_tag
 make build
 ```
@@ -27,7 +27,7 @@ make build
 ### Build
 
 ```sh
-go get github.com/stripe/stripe-go/stripe
+go get github.com/stripe/stripe
 ```
 
 ### Test
@@ -47,7 +47,7 @@ make test
 First import the package into your code:
 ```go
 import (
-    "github.com/stripe/stripe-go/stripe"
+    "github.com/stripe/stripe"
 )
 ```
 
