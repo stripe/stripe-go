@@ -135,10 +135,4 @@ for _, e := range(events.Values) {
 }
 ```
 
-## TODO
-
-Below are the known imporvements planned in the near future:
-
-- Add support for expanding of properties
-
-For any other requests, bug or comments, please [open an issue](https://github.com/stripe/stripe-go/issues/new). 
+For any requests, bug or comments, please [open an issue](https://github.com/stripe/stripe-go/issues/new). 
