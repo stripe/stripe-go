@@ -118,22 +118,6 @@ type ListResponse struct {
 	Url   string `json:"url"`
 }
 
-// ListParams is the structure that contains the common properties
-// of any *ListParams structure.
-type ListParams struct {
-	Start, End string
-	Limit      uint64
-	Filters    Filters
-}
-
-// Params is the structure that contains the common properties
-// of any *Params structure.
-type Params struct {
-	Expand      []string
-	Meta        map[string]string
-	AccessToken string
-}
-
 // Init initializes the Stripe client with the appropriate token secret key
 // as well as providing the ability to override the HTTP client and api used.
 func (c *Client) Init(token string, client *http.Client, api Api) {
