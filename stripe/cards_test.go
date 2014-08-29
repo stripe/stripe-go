@@ -68,7 +68,7 @@ func TestCardGet(t *testing.T) {
 
 	rec, _ := c.Recipients.Create(recipient)
 
-	target, err := c.Cards.Get(rec.DefaultCard, &CardParams{Recipient: rec.Id})
+	target, err := c.Cards.Get(rec.DefaultCard.Id, &CardParams{Recipient: rec.Id})
 
 	if err != nil {
 		t.Error(err)
@@ -103,7 +103,7 @@ func TestCardDelete(t *testing.T) {
 
 	cust, _ := c.Customers.Create(customer)
 
-	err := c.Cards.Delete(cust.DefaultCard, &CardParams{Customer: cust.Id})
+	err := c.Cards.Delete(cust.DefaultCard.Id, &CardParams{Customer: cust.Id})
 	if err != nil {
 		t.Error(err)
 	}
@@ -134,7 +134,7 @@ func TestCardUpdate(t *testing.T) {
 		Name:     "Updated Name",
 	}
 
-	target, err := c.Cards.Update(cust.DefaultCard, card)
+	target, err := c.Cards.Update(cust.DefaultCard.Id, card)
 	if err != nil {
 		t.Error(err)
 	}

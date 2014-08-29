@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -38,7 +39,7 @@ type Customer struct {
 	Created     int64             `json:"created"`
 	Balance     int64             `json:"account_balance"`
 	Currency    Currency          `json:"currency"`
-	DefaultCard string            `json:"default_card"`
+	DefaultCard *Card             `json:"default_card"`
 	Delinquent  bool              `json:"delinquent"`
 	Desc        string            `json:"description"`
 	Discount    *Discount         `json:"discount"`
@@ -210,4 +211,17 @@ func (c *CustomerClient) List(params *CustomerListParams) (*CustomerList, error)
 	err := c.api.Call("GET", "/customers", c.token, body, list)
 
 	return list, err
+}
+
+func (c *Customer) UnmarshalJSON(data []byte) error {
+	type customer Customer
+	var cc customer
+	err := json.Unmarshal(data, &cc)
+	if err == nil {
+		*c = Customer(cc)
+	} else {
+		c.Id = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }

@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/url"
@@ -159,4 +160,18 @@ func (c *CouponClient) List(params *CouponListParams) (*CouponList, error) {
 	err := c.api.Call("GET", "/coupons", c.token, body, list)
 
 	return list, err
+}
+
+func (c *Coupon) UnmarshalJSON(data []byte) error {
+	type coupon Coupon
+	var cc coupon
+	err := json.Unmarshal(data, &cc)
+	if err == nil {
+		*c = Coupon(cc)
+	} else {
+		// the id is surrounded by escaped \, so ignore those
+		c.Id = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }

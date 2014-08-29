@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -54,7 +55,7 @@ type Recipient struct {
 	Meta        map[string]string `json:"metadata"`
 	Name        string            `json:"name"`
 	Cards       *CardList         `json:"cards"`
-	DefaultCard string            `json:"default_card"`
+	DefaultCard *Card             `json:"default_card"`
 }
 
 // BankAccount represents a Stripe bank account.
@@ -231,4 +232,18 @@ func (b *BankAccountParams) appendTo(values *url.Values) {
 	values.Add("bank_account[country]", b.Country)
 	values.Add("bank_account[routing_number]", b.Routing)
 	values.Add("bank_account[account_number]", b.Account)
+}
+
+func (r *Recipient) UnmarshalJSON(data []byte) error {
+	type recipient Recipient
+	var rr recipient
+	err := json.Unmarshal(data, &rr)
+	if err == nil {
+		*r = Recipient(rr)
+	} else {
+		// the id is surrounded by escaped \, so ignore those
+		r.Id = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }

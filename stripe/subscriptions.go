@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/url"
@@ -46,7 +47,7 @@ type SubListParams struct {
 type Subscription struct {
 	Id          string             `json:"id"`
 	EndCancel   bool               `json:"cancel_at_period_end"`
-	Customer    string             `json:"customer"`
+	Customer    *Customer          `json:"customer"`
 	Plan        *Plan              `json:"plan"`
 	Quantity    uint64             `json:"quantity"`
 	Status      SubscriptionStatus `json:"status"`
@@ -223,4 +224,18 @@ func (c *SubscriptionClient) List(params *SubListParams) (*SubscriptionList, err
 	err := c.api.Call("GET", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.token, body, list)
 
 	return list, err
+}
+
+func (s *Subscription) UnmarshalJSON(data []byte) error {
+	type sub Subscription
+	var ss sub
+	err := json.Unmarshal(data, &ss)
+	if err == nil {
+		*s = Subscription(ss)
+	} else {
+		// the id is surrounded by escaped \, so ignore those
+		s.Id = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }

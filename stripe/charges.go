@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/url"
@@ -196,13 +197,13 @@ type Charge struct {
 	Refunded       bool              `json:"refunded"`
 	Refunds        *RefundList       `json:"refunds"`
 	AmountRefunded uint64            `json:"amount_refunded"`
-	Tx             string            `json:"balance_transaction"`
-	Customer       string            `json:"customer"`
+	Tx             *Transaction      `json:"balance_transaction"`
+	Customer       *Customer         `json:"customer"`
 	Desc           string            `json:"description"`
 	Dispute        *Dispute          `json:"dispute"`
 	FailMsg        string            `json:"failure_message"`
 	FailCode       string            `json:"failure_code"`
-	Invoice        string            `json:"invoice"`
+	Invoice        *Invoice          `json:"invoice"`
 	Meta           map[string]string `json:"metadata"`
 	Email          string            `json:"receipt_email"`
 	Statement      string            `json:"statement_description"`
@@ -406,4 +407,18 @@ func (c *ChargeClient) List(params *ChargeListParams) (*ChargeList, error) {
 	err := c.api.Call("GET", "/charges", c.token, body, list)
 
 	return list, err
+}
+
+func (c *Charge) UnmarshalJSON(data []byte) error {
+	type charge Charge
+	var cc charge
+	err := json.Unmarshal(data, &cc)
+	if err == nil {
+		*c = Charge(cc)
+	} else {
+		// the id is surrounded by escaped \, so ignore those
+		c.Id = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }

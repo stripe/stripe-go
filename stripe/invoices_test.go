@@ -34,8 +34,8 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Error(err)
 	}
 
-	if targetItem.Customer != item.Customer {
-		t.Errorf("Item customer %q does not match expected customer %q\n", targetItem.Customer, item.Customer)
+	if targetItem.Customer.Id != item.Customer {
+		t.Errorf("Item customer %q does not match expected customer %q\n", targetItem.Customer.Id, item.Customer)
 	}
 
 	if targetItem.Desc != item.Desc {
@@ -66,8 +66,8 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Error(err)
 	}
 
-	if targetInvoice.Customer != invoice.Customer {
-		t.Errorf("Invoice customer %q does not match expected customer %q\n", targetInvoice.Customer, invoice.Customer)
+	if targetInvoice.Customer.Id != invoice.Customer {
+		t.Errorf("Invoice customer %q does not match expected customer %q\n", targetInvoice.Customer.Id, invoice.Customer)
 	}
 
 	if targetInvoice.Amount != targetItem.Amount {

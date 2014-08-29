@@ -77,7 +77,7 @@ func TestRecipientCreate(t *testing.T) {
 		t.Errorf("Recipient cards not set\n")
 	}
 
-	if len(target.DefaultCard) == 0 {
+	if len(target.DefaultCard.Id) == 0 {
 		t.Errorf("Recipient default card is not set\n")
 	}
 

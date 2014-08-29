@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -32,11 +33,11 @@ type InvoiceItem struct {
 	Live      bool              `json:"livemode"`
 	Amount    int64             `json:"amount"`
 	Currency  Currency          `json:"currency"`
-	Customer  string            `json:"customer"`
+	Customer  *Customer         `json:"customer"`
 	Date      int64             `json:"date"`
 	Proration bool              `json:"proration"`
 	Desc      string            `json:"description"`
-	Invoice   string            `json:"invoice"`
+	Invoice   *Invoice          `json:"invoice"`
 	Meta      map[string]string `json:"metadata"`
 	Sub       string            `json:"subscription"`
 }
@@ -169,4 +170,18 @@ func (c *InvoiceItemClient) List(params *InvoiceItemListParams) (*InvoiceItemLis
 	err := c.api.Call("GET", "/invoiceitems", c.token, body, list)
 
 	return list, err
+}
+
+func (i *InvoiceItem) UnmarshalJSON(data []byte) error {
+	type invoiceitem InvoiceItem
+	var ii invoiceitem
+	err := json.Unmarshal(data, &ii)
+	if err == nil {
+		*i = InvoiceItem(ii)
+	} else {
+		// the id is surrounded by escaped \, so ignore those
+		i.Id = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }

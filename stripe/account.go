@@ -1,5 +1,7 @@
 package stripe
 
+import "encoding/json"
+
 // Account is the resource representing youe Stripe account.
 // For more details see https://stripe.com/docs/api/#account.
 type Account struct {
@@ -30,4 +32,18 @@ func (c *AccountClient) Get() (*Account, error) {
 	err := c.api.Call("GET", "/account", c.token, nil, account)
 
 	return account, err
+}
+
+func (a *Account) UnmarshalJSON(data []byte) error {
+	type account Account
+	var aa account
+	err := json.Unmarshal(data, &aa)
+	if err == nil {
+		*a = Account(aa)
+	} else {
+		// the id is surrounded by escaped \, so ignore those
+		a.Id = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }

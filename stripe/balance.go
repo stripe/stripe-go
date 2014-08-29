@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"net/url"
 	"strconv"
 )
@@ -169,4 +170,18 @@ func (c *BalanceClient) List(params *TxListParams) (*TransactionList, error) {
 	err := c.api.Call("GET", "/balance/history", c.token, body, list)
 
 	return list, err
+}
+
+func (t *Transaction) UnmarshalJSON(data []byte) error {
+	type transaction Transaction
+	var tt transaction
+	err := json.Unmarshal(data, &tt)
+	if err == nil {
+		*t = Transaction(tt)
+	} else {
+		// the id is surrounded by escaped \, so ignore those
+		t.Id = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }

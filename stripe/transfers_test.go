@@ -54,8 +54,8 @@ func TestTransferCreate(t *testing.T) {
 		t.Errorf("Description %q does not match expected description %q\n", target.Desc, target.Desc)
 	}
 
-	if target.Recipient != transfer.Recipient {
-		t.Errorf("Recipient %q does not match expected recipient %q\n", target.Recipient, target.Recipient)
+	if target.Recipient.Id != transfer.Recipient {
+		t.Errorf("Recipient %q does not match expected recipient %q\n", target.Recipient.Id, target.Recipient)
 	}
 
 	if target.Statement != transfer.Statement {

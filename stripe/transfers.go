@@ -75,11 +75,11 @@ type Transfer struct {
 	FailMsg   string            `json:"failure_message"`
 	Status    TransferStatus    `json:"status"`
 	Type      TransferType      `json:"type"`
-	Tx        string            `json:"balance_transaction"`
+	Tx        *Transaction      `json:"balance_transaction"`
 	Meta      map[string]string `json:"metadata"`
 	Bank      *BankAccount      `json:"bank_account"`
 	Card      *Card             `json:"card"`
-	Recipient string            `json:"recipient"`
+	Recipient *Recipient        `json:"recipient"`
 	Statement string            `json:"statement_description"`
 }
 

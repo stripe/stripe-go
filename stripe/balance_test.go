@@ -56,7 +56,7 @@ func TestBalanceGetTx(t *testing.T) {
 
 	res, _ := c.Charges.Create(charge)
 
-	target, err := c.Balance.GetTx(res.Tx)
+	target, err := c.Balance.GetTx(res.Tx.Id)
 
 	if err != nil {
 		t.Error(err)

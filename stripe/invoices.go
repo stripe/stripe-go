@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/url"
@@ -54,7 +55,7 @@ type Invoice struct {
 	Attempted    bool              `json:"attempted"`
 	Closed       bool              `json:"closed"`
 	Currency     Currency          `json:"currency"`
-	Customer     string            `json:"customer"`
+	Customer     *Customer         `json:"customer"`
 	Date         int64             `json:"date"`
 	Forgive      bool              `json:"forgiven"`
 	Lines        *InvoiceLineList  `json:"lines"`
@@ -65,7 +66,7 @@ type Invoice struct {
 	Subtotal     int64             `json:"subtotal"`
 	Total        int64             `json:"total"`
 	Fee          uint64            `json:"application_fee"`
-	Charge       string            `json:"charge"`
+	Charge       *Charge           `json:"charge"`
 	Desc         string            `json:"description"`
 	Discount     *Discount         `json:"discount"`
 	EndBalance   int64             `json:"ending_balance"`
@@ -325,4 +326,18 @@ func (c *InvoiceClient) ListLines(params *InvoiceLineListParams) (*InvoiceLineLi
 	err := c.api.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.Id), c.token, body, list)
 
 	return list, err
+}
+
+func (i *Invoice) UnmarshalJSON(data []byte) error {
+	type invoice Invoice
+	var ii invoice
+	err := json.Unmarshal(data, &ii)
+	if err == nil {
+		*i = Invoice(ii)
+	} else {
+		// the id is surrounded by escaped \, so ignore those
+		i.Id = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }

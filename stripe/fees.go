@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -26,11 +27,11 @@ type AppFeeListParams struct {
 type AppFee struct {
 	Id             string         `json:"id"`
 	Live           bool           `json:"livemode"`
-	Account        string         `json:"account"`
+	Account        *Account       `json:"account"`
 	Amount         uint64         `json:"amount"`
 	App            string         `json:"application"`
-	Tx             string         `json:"balance_transaction"`
-	Charge         string         `json:"charge"`
+	Tx             *Transaction   `json:"balance_transaction"`
+	Charge         *Charge        `json:"charge"`
 	Created        int64          `json:"created"`
 	Currency       Currency       `json:"currency"`
 	Refunded       bool           `json:"refunded"`
@@ -121,4 +122,18 @@ func (c *AppFeeClient) List(params *AppFeeListParams) (*AppFeeList, error) {
 	err := c.api.Call("GET", "/application_fees", c.token, body, list)
 
 	return list, err
+}
+
+func (f *AppFee) UnmarshalJSON(data []byte) error {
+	type appfee AppFee
+	var ff appfee
+	err := json.Unmarshal(data, &ff)
+	if err == nil {
+		*f = AppFee(ff)
+	} else {
+		// the id is surrounded by escaped \, so ignore those
+		f.Id = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }

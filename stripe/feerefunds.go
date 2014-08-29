@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -30,7 +31,7 @@ type FeeRefund struct {
 	Amount   uint64            `json:"amount"`
 	Created  int64             `json:"created"`
 	Currency Currency          `json:"currency"`
-	Tx       string            `json:"balance_transaction"`
+	Tx       *Transaction      `json:"balance_transaction"`
 	Fee      string            `json:"fee"`
 	Meta     map[string]string `json:"metadata"`
 }
@@ -101,4 +102,18 @@ func (c *FeeRefundClient) List(params *FeeRefundListParams) (*FeeRefundList, err
 	err := c.api.Call("GET", fmt.Sprintf("/application_fees/%v/refunds", params.Fee), c.token, body, list)
 
 	return list, err
+}
+
+func (f *FeeRefund) UnmarshalJSON(data []byte) error {
+	type feerefund FeeRefund
+	var ff feerefund
+	err := json.Unmarshal(data, &ff)
+	if err == nil {
+		*f = FeeRefund(ff)
+	} else {
+		// the id is surrounded by escaped \, so ignore those
+		f.Id = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }

@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/url"
@@ -76,10 +77,10 @@ type Card struct {
 	Zip           string       `json:"address_zip"`
 	ZipCheck      Verification `json:"address_zip_check"`
 	CardCountry   string       `json:"country"`
-	Customer      string       `json:"customer"`
+	Customer      *Customer    `json:"customer"`
 	CVCCheck      Verification `json:"cvc_check"`
 	Name          string       `json:"name"`
-	Recipient     string       `json:"recipient"`
+	Recipient     *Recipient   `json:"recipient"`
 }
 
 // CardList is a list object for cards.
@@ -273,4 +274,18 @@ func (c *CardParams) appendTo(values *url.Values, creating bool) {
 			values.Add("address_country", c.Country)
 		}
 	}
+}
+
+func (c *Card) UnmarshalJSON(data []byte) error {
+	type card Card
+	var cc card
+	err := json.Unmarshal(data, &cc)
+	if err == nil {
+		*c = Card(cc)
+	} else {
+		// the id is surrounded by escaped \, so ignore those
+		c.Id = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }
