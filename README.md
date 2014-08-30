@@ -7,7 +7,7 @@ A [Stripe](https://stripe.com) client library written in Go.
 
 ### Versioning
 
-For more details on changes between versions, see the [API changelog](https://stripe.com/docs/upgrades).
+For more details on changes between versions, see the [binding changelog](CHANGELOG) and [API changelog](https://stripe.com/docs/upgrades).
 
 With the addition of a new version, the previous version is tagged.
 This allows consumers on older API versions to be able to use a specific version of the client.
