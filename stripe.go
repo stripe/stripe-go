@@ -16,8 +16,11 @@ import (
 // uri is the public Stripe URL for APIs.
 const uri = "https://api.stripe.com/v1"
 
-// version is the currently supported API version
-const version = "2014-08-20"
+// apiversion is the currently supported API version
+const apiversion = "2014-08-20"
+
+// clientversion is the binding version
+const clientversion = "1.0"
 
 // debug is a global variable that enables additional tracing
 // to help with troubleshooting while testing.
@@ -177,7 +180,8 @@ func (s *s) Call(method, path, token string, body *url.Values, v interface{}) er
 	}
 
 	req.SetBasicAuth(token, "")
-	req.Header.Add("Stripe-Version", version)
+	req.Header.Add("Stripe-Version", apiversion)
+	req.Header.Add("X-Stripe-Client-User-Agent", "Stripe.Go-"+clientversion)
 
 	log.Printf("Requesting %v %q\n", method, path)
 	start := time.Now()
