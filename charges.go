@@ -233,7 +233,11 @@ func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
 	} else if len(params.Token) > 0 {
 		body.Add("card", params.Token)
 	} else if params.Card != nil {
-		params.Card.appendTo(body, true)
+		if len(params.Card.Token) > 0 {
+			body.Add("card", params.Card.Token)
+		} else {
+			params.Card.appendTo(body, true)
+		}
 	} else {
 		err := errors.New("Invalid charge params: either customer, card token or card need to be set")
 		return nil, err

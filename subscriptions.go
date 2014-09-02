@@ -143,7 +143,11 @@ func (c *SubscriptionClient) Update(id string, params *SubParams) (*Subscription
 	if len(params.Token) > 0 {
 		body.Add("card", params.Token)
 	} else if params.Card != nil {
-		params.Card.appendTo(body, true)
+		if len(params.Card.Token) > 0 {
+			body.Add("card", params.Card.Token)
+		} else {
+			params.Card.appendTo(body, true)
+		}
 	}
 
 	if len(params.Coupon) > 0 {
