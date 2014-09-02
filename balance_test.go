@@ -22,16 +22,8 @@ func TestBalanceGet(t *testing.T) {
 		t.Errorf("Pending array is not set\n")
 	}
 
-	if target.Available[0].Value == 0 {
-		t.Errorf("Avaialble amount is not set\n")
-	}
-
 	if len(target.Available[0].Currency) == 0 {
 		t.Errorf("Available currency is not set\n")
-	}
-
-	if target.Pending[0].Value == 0 {
-		t.Errorf("Pending amount is not set\n")
 	}
 
 	if len(target.Pending[0].Currency) == 0 {
