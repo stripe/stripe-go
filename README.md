@@ -135,4 +135,4 @@ for _, e := range(events.Values) {
 }
 ```
 
-For any requests, bug or comments, please [open an issue](https://github.com/stripe/stripe-go/issues/new). 
+For any requests, bug or comments, please [open an issue](https://github.com/stripe/stripe/issues/new). 
