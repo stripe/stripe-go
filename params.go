@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"log"
 	"net/url"
 	"reflect"
 	"strconv"
@@ -90,7 +91,19 @@ func parseBool(params interface{}, fieldName string) string {
 	val := getParameterValue(params, fieldName).Bool()
 
 	if val {
-		return strconv.FormatBool(val)
+		tag := getTag(params, "opposite", fieldName)
+		opp, err := strconv.ParseBool(tag)
+
+		if err != nil {
+			log.Printf("Opposite tag for %v set to non boolean value %v\n", fieldName, tag)
+			return ""
+		}
+
+		if opp {
+			return strconv.FormatBool(!val)
+		} else {
+			return strconv.FormatBool(val)
+		}
 	} else {
 		return ""
 	}
