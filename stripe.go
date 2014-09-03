@@ -114,7 +114,8 @@ type filter struct {
 }
 
 // ListResponse is the structure that contains the common properties
-// of any *List structure.
+// of any *List structure. The Count property is only populated if the
+// total_count include option is passed in (see tests for example).
 type ListResponse struct {
 	Count uint16 `json:"total_count"`
 	More  bool   `json:"has_more"`
