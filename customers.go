@@ -72,11 +72,7 @@ func (c *CustomerClient) Create(params *CustomerParams) (*Customer, error) {
 		if len(params.Token) > 0 {
 			body.Add("card", params.Token)
 		} else if params.Card != nil {
-			if len(params.Card.Token) > 0 {
-				body.Add("card", params.Card.Token)
-			} else {
-				params.Card.appendTo(body, true)
-			}
+			params.Card.appendTo(body, true)
 		}
 
 		if len(params.Desc) > 0 {
