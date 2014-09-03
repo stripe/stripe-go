@@ -23,7 +23,7 @@ type Params struct {
 }
 
 // getTag gets the tagName tag from an element in a struct. It takes a struct
-// and a fieldName (string), and returns the tag named tagName ("stripe_field",
+// and a fieldName (string), and returns the tag named tagName ("stripe",
 // etc) for that fieldName.
 func getTag(m interface{}, tagName, fieldName string) string {
 	f, _ := reflect.TypeOf(m).Elem().FieldByName(fieldName)
@@ -51,8 +51,8 @@ func parseParams(params interface{}, values *url.Values) {
 			val = parseBool(params, fieldName)
 		}
 
-		if val != "" {
-			values.Add(getTag(params, "stripe_field", fieldName), val)
+		if len(val) > 0 {
+			values.Add(getTag(params, "stripe", fieldName), val)
 		}
 	}
 }

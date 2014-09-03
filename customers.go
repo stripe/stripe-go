@@ -12,15 +12,15 @@ import (
 type CustomerParams struct {
 	Params
 	Card        *CardParams
-	Balance     int64  `stripe_field:"account_balance"`
-	Token       string `stripe_field:"token"`
-	Coupon      string `stripe_field:"coupon"`
-	Desc        string `stripe_field:"description"`
-	Email       string `stripe_field:"email"`
-	Plan        string `stripe_field:"plan"`
-	Quantity    uint64 `stripe_field:"quantity"`
-	TrialEnd    int64  `stripe_field:"trial_end"`
-	DefaultCard string `stripe_field:"default_card"`
+	Balance     int64  `stripe:"account_balance"`
+	Token       string `stripe:"token"`
+	Coupon      string `stripe:"coupon"`
+	Desc        string `stripe:"description"`
+	Email       string `stripe:"email"`
+	Plan        string `stripe:"plan"`
+	Quantity    uint64 `stripe:"quantity"`
+	TrialEnd    int64  `stripe:"trial_end"`
+	DefaultCard string `stripe:"default_card"`
 }
 
 // CustomerListParams is the set of parameters that can be used when listing customers.
