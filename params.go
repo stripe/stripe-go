@@ -40,7 +40,7 @@ func parseParams(params interface{}, values *url.Values) {
 		name := reflection.Name()
 		switch name {
 		case "string":
-			val = getField(params, fieldName).String()
+			val = getParameterValue(params, fieldName).String()
 		case "int64":
 			val = parseInt64(params, fieldName)
 		case "uint64":
@@ -77,8 +77,8 @@ func getFieldTypes(m interface{}) map[string]reflect.Type {
 	return attrs
 }
 
-// getValue gets the reflect.Value of fieldName in the struct m.
-func getValue(m interface{}, fieldName string) reflect.Value {
+// getParameterValue gets the reflect.Value of fieldName in the struct m.
+func getParameterValue(m interface{}, fieldName string) reflect.Value {
 	val := reflect.ValueOf(m)
 	return reflect.Indirect(val).FieldByName(fieldName)
 }
@@ -87,7 +87,7 @@ func getValue(m interface{}, fieldName string) reflect.Value {
 // a string, and returns the result. If the value is the zero value (false), it
 // returns a blank string.
 func parseBool(m interface{}, fieldName string) string {
-	val := getValue(m, fieldName).Bool()
+	val := getParameterValue(m, fieldName).Bool()
 
 	if val {
 		return strconv.FormatBool(val)
@@ -100,7 +100,7 @@ func parseBool(m interface{}, fieldName string) string {
 // string, and returns the result. If the value is the zero value (0), it
 // returns a blank string.
 func parseInt64(m interface{}, fieldName string) string {
-	val := getValue(m, fieldName).Int()
+	val := getParameterValue(m, fieldName).Int()
 
 	if val == 0 {
 		return ""
@@ -110,7 +110,7 @@ func parseInt64(m interface{}, fieldName string) string {
 }
 
 func parseUInt64(m interface{}, fieldName string) string {
-	val := getValue(m, fieldName).Uint()
+	val := getParameterValue(m, fieldName).Uint()
 
 	if val == 0 {
 		return ""
@@ -123,7 +123,7 @@ func parseUInt64(m interface{}, fieldName string) string {
 // it to a string, and returns the result. If the value is the zero value (0.0),
 // it returns a blank string.
 func parseFloat64(m interface{}, fieldName string) string {
-	val := getValue(m, fieldName).Float()
+	val := getParameterValue(m, fieldName).Float()
 
 	if val == 0.0 {
 		return ""
