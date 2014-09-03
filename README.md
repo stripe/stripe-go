@@ -44,8 +44,7 @@ the following guidelines in mind:
 
 ### Test
 
-For running additional tests, follow the steps below. This is usefu if you're
-performing any refactoring.
+For running additional tests, follow the steps below:
 
 Set the STRIPE_KEY environment variable to match your test private key:
 ```sh
