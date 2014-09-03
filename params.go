@@ -25,8 +25,8 @@ type Params struct {
 // getTag gets the tagName tag from an element in a struct. It takes a struct
 // and a fieldName (string), and returns the tag named tagName ("stripe",
 // etc) for that fieldName.
-func getTag(m interface{}, tagName, fieldName string) string {
-	f, _ := reflect.TypeOf(m).Elem().FieldByName(fieldName)
+func getTag(params interface{}, tagName, fieldName string) string {
+	f, _ := reflect.TypeOf(params).Elem().FieldByName(fieldName)
 	return f.Tag.Get(tagName)
 }
 
@@ -36,8 +36,8 @@ func getTag(m interface{}, tagName, fieldName string) string {
 func parseParams(params interface{}, values *url.Values) {
 	var val string
 
-	for fieldName, reflection := range getFieldTypes(params) {
-		name := reflection.Name()
+	for fieldName, reflectType := range getFieldTypes(params) {
+		name := reflectType.Name()
 		switch name {
 		case "string":
 			val = getParameterValue(params, fieldName).String()
@@ -57,10 +57,10 @@ func parseParams(params interface{}, values *url.Values) {
 	}
 }
 
-// getFieldTypes takes a struct m and returns a map of strings (field names) to
+// getFieldTypes takes a struct params and returns a map of strings (field names) to
 // reflect.Types (field types).
-func getFieldTypes(m interface{}) map[string]reflect.Type {
-	typ := reflect.TypeOf(m)
+func getFieldTypes(params interface{}) map[string]reflect.Type {
+	typ := reflect.TypeOf(params)
 
 	if typ.Kind() == reflect.Ptr {
 		typ = typ.Elem()
@@ -77,17 +77,17 @@ func getFieldTypes(m interface{}) map[string]reflect.Type {
 	return attrs
 }
 
-// getParameterValue gets the reflect.Value of fieldName in the struct m.
-func getParameterValue(m interface{}, fieldName string) reflect.Value {
-	val := reflect.ValueOf(m)
-	return reflect.Indirect(val).FieldByName(fieldName)
+// getParameterValue gets the reflect.Value of fieldName in the struct params.
+func getParameterValue(params interface{}, fieldName string) reflect.Value {
+	val := reflect.ValueOf(params)
+	return val.Elem().FieldByName(fieldName)
 }
 
-// parseBool gets the value of fieldName in the struct m (bool), converts it to
-// a string, and returns the result. If the value is the zero value (false), it
-// returns a blank string.
-func parseBool(m interface{}, fieldName string) string {
-	val := getParameterValue(m, fieldName).Bool()
+// parseBool gets the value of fieldName in the struct params (bool), converts
+// it to a string, and returns the result. If the value is the zero value
+// (false), it returns a blank string.
+func parseBool(params interface{}, fieldName string) string {
+	val := getParameterValue(params, fieldName).Bool()
 
 	if val {
 		return strconv.FormatBool(val)
@@ -96,11 +96,11 @@ func parseBool(m interface{}, fieldName string) string {
 	}
 }
 
-// parseInt64 gets the value of fieldName in the struct m (int), converts it to a
-// string, and returns the result. If the value is the zero value (0), it
-// returns a blank string.
-func parseInt64(m interface{}, fieldName string) string {
-	val := getParameterValue(m, fieldName).Int()
+// parseInt64 gets the value of fieldName in the struct params (int), converts
+// it to a string, and returns the result. If the value is the zero value (0),
+// it returns a blank string.
+func parseInt64(params interface{}, fieldName string) string {
+	val := getParameterValue(params, fieldName).Int()
 
 	if val == 0 {
 		return ""
@@ -109,8 +109,8 @@ func parseInt64(m interface{}, fieldName string) string {
 	}
 }
 
-func parseUInt64(m interface{}, fieldName string) string {
-	val := getParameterValue(m, fieldName).Uint()
+func parseUInt64(params interface{}, fieldName string) string {
+	val := getParameterValue(params, fieldName).Uint()
 
 	if val == 0 {
 		return ""
@@ -119,11 +119,11 @@ func parseUInt64(m interface{}, fieldName string) string {
 	}
 }
 
-// parseFloat64 gets the value of fieldName in the struct m (float64), converts
-// it to a string, and returns the result. If the value is the zero value (0.0),
-// it returns a blank string.
-func parseFloat64(m interface{}, fieldName string) string {
-	val := getParameterValue(m, fieldName).Float()
+// parseFloat64 gets the value of fieldName in the struct params (float64),
+// converts it to a string, and returns the result. If the value is the zero
+// value (0.0), it returns a blank string.
+func parseFloat64(params interface{}, fieldName string) string {
+	val := getParameterValue(params, fieldName).Float()
 
 	if val == 0.0 {
 		return ""
