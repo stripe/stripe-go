@@ -61,6 +61,11 @@ func (c *TokenClient) Create(params *TokenParams) (*Token, error) {
 		}
 	} else if params.Bank != nil {
 		params.Bank.appendTo(body)
+	} else if len(params.Customer) > 0 && len(params.AccessToken) > 0 {
+
+		// Shared customer scenario where card ID is optional. https://stripe.com/docs/connect/shared-customers
+		body.Add("customer", params.Customer)
+		token = params.AccessToken
 	} else {
 		err := errors.New("Invalid token params: either Card or Bank need to be set")
 		return nil, err
