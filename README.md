@@ -7,13 +7,16 @@ The official [Stripe](https://stripe.com) Go client library.
 
 ### Versioning
 
-For more details on changes between versions, see the [binding changelog](CHANGELOG) and [API changelog](https://stripe.com/docs/upgrades).
+For more details on changes between versions, see the [binding
+changelog](CHANGELOG) and [API changelog](https://stripe.com/docs/upgrades).
 
-With the addition of a new version, the previous version is tagged.
-This allows consumers on older API versions to be able to use a specific version of the client.
+With the addition of a new version, the previous version is tagged. This
+allows consumers on older API versions to be able to use a specific version of
+the client.
 
-To see the list of past versions, run `git tag`. 
-In order to use an older version of the client, clone this repo, checkout the specific tag and build the library manually:
+To see the list of past versions, run `git tag`. In order to use an older
+version of the client, clone this repo, checkout the specific tag and build the
+library manually:
 
 ```sh
 git clone https://github.com/stripe/stripe.git
@@ -30,7 +33,19 @@ make build
 go get github.com/stripe/stripe
 ```
 
+## Development
+
+Pull requests from the community are welcome. If you submit one, please keep
+the following guidelines in mind:
+
+1. Code should be go fmt compliant.
+2. All types, structs and funcs should be documented.
+3. Ensure that `make checkin` succeeds.
+
 ### Test
+
+For running additional tests, follow the steps below. This is usefu if you're
+performing any refactoring.
 
 Set the STRIPE_KEY environment variable to match your test private key:
 ```sh
@@ -58,14 +73,14 @@ stripe.Init(YOUR_API_KEY, nil, nil)
 ```
 
 The second parameter can be used to set a different http.Client (by default,
-http.DefaultClient is used). 
-The third parameter can be used to inject a mock Api implementation so calls
-aren't actually made to Stripe. This can be useful for writing your own unit
-tests.
+http.DefaultClient is used).  The third parameter can be used to inject a mock
+Api implementation so calls aren't actually made to Stripe. This can be useful
+for writing your own unit tests.
 
 ### APIs
 
-While some resources may contain more/less APIs, the following pattern is applied throughout the library for a given `resource`:
+While some resources may contain more/less APIs, the following pattern is
+applied throughout the library for a given `resource`:
 
 ```go
 // Create 
