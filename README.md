@@ -3,7 +3,7 @@ Go Stripe (BETA) [![Build Status](https://travis-ci.org/stripe/stripe.svg?branch
 
 ## Summary
 
-A [Stripe](https://stripe.com) client library written in Go.
+The official [Stripe](https://stripe.com) Go client library.
 
 ### Versioning
 
