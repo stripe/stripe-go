@@ -11,14 +11,16 @@ import (
 // For more details see https://stripe.com/docs/api#create_customer and https://stripe.com/docs/api#update_customer.
 type CustomerParams struct {
 	Params
-	Balance       int64
-	Token, Coupon string
-	Card          *CardParams
-	Desc, Email   string
-	Plan          string
-	Quantity      uint64
-	TrialEnd      int64
-	DefaultCard   string
+	Card        *CardParams
+	Balance     int64  `stripe_field:"account_balance"`
+	Token       string `stripe_field:"token"`
+	Coupon      string `stripe_field:"coupon"`
+	Desc        string `stripe_field:"description"`
+	Email       string `stripe_field:"email"`
+	Plan        string `stripe_field:"plan"`
+	Quantity    uint64 `stripe_field:"quantity"`
+	TrialEnd    int64  `stripe_field:"trial_end"`
+	DefaultCard string `stripe_field:"default_card"`
 }
 
 // CustomerListParams is the set of parameters that can be used when listing customers.
@@ -65,38 +67,12 @@ func (c *CustomerClient) Create(params *CustomerParams) (*Customer, error) {
 
 	if params != nil {
 		body = &url.Values{}
-		if params.Balance != 0 {
-			body.Add("account_balance", strconv.FormatInt(params.Balance, 10))
-		}
+		parseParams(params, body)
 
 		if len(params.Token) > 0 {
 			body.Add("card", params.Token)
 		} else if params.Card != nil {
 			params.Card.appendTo(body, true)
-		}
-
-		if len(params.Desc) > 0 {
-			body.Add("description", params.Desc)
-		}
-
-		if len(params.Coupon) > 0 {
-			body.Add("coupon", params.Coupon)
-		}
-
-		if len(params.Email) > 0 {
-			body.Add("email", params.Email)
-		}
-
-		if len(params.Plan) > 0 {
-			body.Add("plan", params.Plan)
-
-			if params.Quantity > 0 {
-				body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
-			}
-
-			if params.TrialEnd > 0 {
-				body.Add("trial_end", strconv.FormatInt(params.TrialEnd, 10))
-			}
 		}
 
 		for k, v := range params.Meta {
@@ -126,31 +102,12 @@ func (c *CustomerClient) Update(id string, params *CustomerParams) (*Customer, e
 
 	if params != nil {
 		body = &url.Values{}
-
-		if params.Balance != 0 {
-			body.Add("account_balance", strconv.FormatInt(params.Balance, 10))
-		}
+		parseParams(params, body)
 
 		if len(params.Token) > 0 {
 			body.Add("card", params.Token)
 		} else if params.Card != nil {
 			params.Card.appendTo(body, true)
-		}
-
-		if len(params.Desc) > 0 {
-			body.Add("description", params.Desc)
-		}
-
-		if len(params.Coupon) > 0 {
-			body.Add("coupon", params.Coupon)
-		}
-
-		if len(params.Email) > 0 {
-			body.Add("email", params.Email)
-		}
-
-		if len(params.DefaultCard) > 0 {
-			body.Add("default_card", params.DefaultCard)
 		}
 
 		for k, v := range params.Meta {
