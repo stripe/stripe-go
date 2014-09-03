@@ -30,7 +30,7 @@ func getTag(m interface{}, tagName, fieldName string) string {
 	return f.Tag.Get(tagName)
 }
 
-// addParamsToValues takes an interface (usually *SomeTypeParams) and a pointer
+// parseParams takes an interface (usually *SomeTypeParams) and a pointer
 // to a url.Values. It iterates over each field in the interface (using the
 // getFieldTypes method), and adds the value of each field to the url.Values.
 func parseParams(params interface{}, values *url.Values) {
