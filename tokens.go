@@ -47,21 +47,21 @@ func (c *TokenClient) Create(params *TokenParams) (*Token, error) {
 	body := &url.Values{}
 	token := c.token
 
+	if len(params.Customer) > 0 {
+		if len(params.AccessToken) == 0 {
+			err := errors.New("Invalid token params: an access token is required for customer")
+			return nil, err
+		}
+
+		body.Add("customer", params.Customer)
+		token = params.AccessToken
+	}
+
 	if params.Card != nil {
 		params.Card.appendTo(body, true)
-
-		if len(params.Customer) > 0 {
-			if len(params.AccessToken) == 0 {
-				err := errors.New("Invalid token params: an access token is required for customer")
-				return nil, err
-			}
-
-			body.Add("customer", params.Customer)
-			token = params.AccessToken
-		}
 	} else if params.Bank != nil {
 		params.Bank.appendTo(body)
-	} else {
+	} else if len(params.Customer) == 0 {
 		err := errors.New("Invalid token params: either Card or Bank need to be set")
 		return nil, err
 	}
