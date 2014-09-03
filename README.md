@@ -38,7 +38,7 @@ go get github.com/stripe/stripe
 Pull requests from the community are welcome. If you submit one, please keep
 the following guidelines in mind:
 
-1. Code should be go fmt compliant.
+1. Code should be `go fmt` compliant.
 2. All types, structs and funcs should be documented.
 3. Ensure that `make checkin` succeeds.
 
