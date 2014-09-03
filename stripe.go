@@ -258,6 +258,10 @@ func (f *Filters) AddFilter(key, op, value string) {
 // appendTo adds the list of filters to the query string values.
 func (f *Filters) appendTo(values *url.Values) {
 	for _, v := range f.f {
-		values.Add(fmt.Sprintf("%v[%v]", v.Key, v.Op), v.Val)
+		if len(v.Op) > 0 {
+			values.Add(fmt.Sprintf("%v[%v]", v.Key, v.Op), v.Val)
+		} else {
+			values.Add(v.Key, v.Val)
+		}
 	}
 }

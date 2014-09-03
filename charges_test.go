@@ -20,6 +20,7 @@ func TestChargeCreate(t *testing.T) {
 	}
 
 	target, err := c.Charges.Create(charge)
+
 	if err != nil {
 		t.Error(err)
 	}

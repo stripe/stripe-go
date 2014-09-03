@@ -131,7 +131,6 @@ func TestPlanList(t *testing.T) {
 	c.Init(key, nil, nil)
 
 	for i := 0; i < 5; i++ {
-
 		plan := &PlanParams{
 			Id:       fmt.Sprintf("test_%v", i),
 			Name:     fmt.Sprintf("test_%v", i),
