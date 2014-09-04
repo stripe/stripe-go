@@ -1,11 +1,11 @@
 Go Stripe (BETA) [![Build Status](https://travis-ci.org/stripe/stripe.svg?branch=master)](https://travis-ci.org/stripe/stripe)
 ========
 
-### Summary
+## Summary
 
 The official [Stripe](https://stripe.com) Go client library.
 
-### Versioning
+## Versioning
 
 Each revision of the binding is tagged and the version is updated accordingly.
 
@@ -27,7 +27,7 @@ make build
 For more details on changes between versions, see the [binding changelog](CHANGELOG) 
 and [API changelog](https://stripe.com/docs/upgrades).
 
-### Installation
+## Installation
 
 ```sh
 go get github.com/stripe/stripe
@@ -42,7 +42,7 @@ the following guidelines in mind:
 2. All types, structs and funcs should be documented.
 3. Ensure that `make checkin` succeeds.
 
-### Test
+## Test
 
 For running additional tests, follow the steps below:
 
@@ -56,7 +56,7 @@ Then run:
 make test
 ```
 
-### Usage
+## Usage
 
 First import the package into your code:
 ```go
@@ -76,7 +76,7 @@ http.DefaultClient is used).  The third parameter can be used to inject a mock
 Api implementation so calls aren't actually made to Stripe. This can be useful
 for writing your own unit tests.
 
-### APIs
+## APIs
 
 While some resources may contain more/less APIs, the following pattern is
 applied throughout the library for a given `resource`:
