@@ -1,22 +1,21 @@
 Go Stripe (BETA) [![Build Status](https://travis-ci.org/stripe/stripe.svg?branch=master)](https://travis-ci.org/stripe/stripe)
 ========
 
-## Summary
+### Summary
 
 The official [Stripe](https://stripe.com) Go client library.
 
 ### Versioning
 
-For more details on changes between versions, see the [binding
-changelog](CHANGELOG) and [API changelog](https://stripe.com/docs/upgrades).
+Each revision of the binding is tagged and the version is updated accordingly.
 
-With the addition of a new version, the previous version is tagged. This
-allows consumers on older API versions to be able to use a specific version of
-the client.
+Given Go's lack of built-in versioning, it is highly recommended you use a
+[package mangement tool](https://code.google.com/p/go-wiki/wiki/PackageManagementTools) in order
+to ensure a newer version of the binding do not affect backwards compatibility.
 
-To see the list of past versions, run `git tag`. In order to use an older
+To see the list of past versions, run `git tag`. To manuall get an older
 version of the client, clone this repo, checkout the specific tag and build the
-library manually:
+library:
 
 ```sh
 git clone https://github.com/stripe/stripe.git
@@ -25,15 +24,16 @@ git checkout api_version_tag
 make build
 ```
 
-## Installation
+For more details on changes between versions, see the [binding changelog](CHANGELOG) 
+and [API changelog](https://stripe.com/docs/upgrades).
 
-### Build
+### Installation
 
 ```sh
 go get github.com/stripe/stripe
 ```
 
-## Development
+### Development
 
 Pull requests from the community are welcome. If you submit one, please keep
 the following guidelines in mind:
@@ -56,7 +56,7 @@ Then run:
 make test
 ```
 
-## Usage
+### Usage
 
 First import the package into your code:
 ```go
