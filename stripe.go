@@ -4,7 +4,6 @@ package stripe
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -100,17 +99,6 @@ type Client struct {
 // s is the internal implementation for making HTTP calls to Stripe.
 type s struct {
 	httpClient *http.Client
-}
-
-// Filters is a structure that contains a collection of filters for list-related APIs.
-type Filters struct {
-	f []*filter
-}
-
-// filter is the structure that contains a filter for list-related APIs.
-// It ends up passing query string parameters in the format key[op]=value.
-type filter struct {
-	Key, Op, Val string
 }
 
 // ListResponse is the structure that contains the common properties
@@ -247,21 +235,4 @@ func (s *s) Call(method, path, token string, body *url.Values, v interface{}) er
 	}
 
 	return nil
-}
-
-// AddFilter adds a new filter with a given key, op and value.
-func (f *Filters) AddFilter(key, op, value string) {
-	filter := &filter{Key: key, Op: op, Val: value}
-	f.f = append(f.f, filter)
-}
-
-// appendTo adds the list of filters to the query string values.
-func (f *Filters) appendTo(values *url.Values) {
-	for _, v := range f.f {
-		if len(v.Op) > 0 {
-			values.Add(fmt.Sprintf("%v[%v]", v.Key, v.Op), v.Val)
-		} else {
-			values.Add(v.Key, v.Val)
-		}
-	}
 }
