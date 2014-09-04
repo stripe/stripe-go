@@ -15,7 +15,7 @@ func (pa *Post) Call(method, path, token string, body *url.Values, v interface{}
 	return nil
 }
 
-func ExamplePost() {
+func ExampleClient_post() {
 	client := &stripe.Client{}
 	client.Init("key", nil, &Post{})
 
@@ -48,7 +48,7 @@ func (pa *Get) Call(method, path, token string, body *url.Values, v interface{})
 	return nil
 }
 
-func ExampleGet() {
+func ExampleClient_get() {
 	client := &stripe.Client{}
 	client.Init("key", nil, &Get{})
 
@@ -70,7 +70,7 @@ func (pa *Update) Call(method, path, token string, body *url.Values, v interface
 	return nil
 }
 
-func ExampleUpdate() {
+func ExampleClient_update() {
 	client := &stripe.Client{}
 	client.Init("key", nil, &Update{})
 
@@ -95,7 +95,7 @@ func (pa *Delete) Call(method, path, token string, body *url.Values, v interface
 	return nil
 }
 
-func ExampleDelete() {
+func ExampleClient_delete() {
 	client := &stripe.Client{}
 	client.Init("key", nil, &Delete{})
 
@@ -115,7 +115,7 @@ func (pa *List) Call(method, path, token string, body *url.Values, v interface{}
 	return nil
 }
 
-func ExampleList() {
+func ExampleClient_list() {
 	client := &stripe.Client{}
 	client.Init("key", nil, &List{})
 
