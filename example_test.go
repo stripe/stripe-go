@@ -5,10 +5,9 @@ import (
 	"time"
 )
 
-type PostApi struct
-postApi := &PostApi{}
+type Post struct
 
-func (pa *PostApi) Call(method, path, token string, body *url.Values, v interface{}) error {
+func (pa *Post) Call(method, path, token string, body *url.Values, v interface{}) error {
 	v := &Charge{
 		Id: "ch_example_id",
 		Card: &Card {
@@ -32,7 +31,7 @@ func (pa *PostApi) Call(method, path, token string, body *url.Values, v interfac
 }
 
 client := &Client{}
-client.Init("key", nil, postApi)
+client.Init("key", nil, &Post{})
 
 func ExamplePostCharge() {
 	params := &ChargeParams{
