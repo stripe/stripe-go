@@ -12,7 +12,6 @@ type ListParams struct {
 	Start, End string
 	Limit      uint64
 	Filters    Filters
-	Stop       bool
 }
 
 // Params is the structure that contains the common properties
