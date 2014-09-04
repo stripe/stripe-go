@@ -1,4 +1,4 @@
-Go Stripe (BETA) [![Build Status](https://travis-ci.org/stripe/stripe.svg?branch=master)](https://travis-ci.org/stripe/stripe)
+Go Stripe [![Build Status](https://travis-ci.org/stripe/stripe.svg?branch=master)](https://travis-ci.org/stripe/stripe)
 ========
 
 ## Summary
