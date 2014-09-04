@@ -11,7 +11,7 @@ Each revision of the binding is tagged and the version is updated accordingly.
 
 Given Go's lack of built-in versioning, it is highly recommended you use a
 [package mangement tool](https://code.google.com/p/go-wiki/wiki/PackageManagementTools) in order
-to ensure a newer version of the binding do not affect backwards compatibility.
+to ensure a newer version of the binding does not affect backwards compatibility.
 
 To see the list of past versions, run `git tag`. To manuall get an older
 version of the client, clone this repo, checkout the specific tag and build the
