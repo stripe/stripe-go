@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/url"
 
-	"github.com/stripe/stripe"
+	"github.com/stripe/stripe-go"
 )
 
 type Post struct{}

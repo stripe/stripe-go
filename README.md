@@ -18,7 +18,7 @@ version of the client, clone this repo, checkout the specific tag and build the
 library:
 
 ```sh
-git clone https://github.com/stripe/stripe.git
+git clone https://github.com/stripe/stripe-go.git
 cd stripe
 git checkout api_version_tag
 make build
@@ -30,7 +30,7 @@ and [API changelog](https://stripe.com/docs/upgrades).
 ## Installation
 
 ```sh
-go get github.com/stripe/stripe
+go get github.com/stripe/stripe-go
 ```
 
 ### Development
@@ -61,7 +61,7 @@ make test
 First import the package into your code:
 ```go
 import (
-    "github.com/stripe/stripe"
+    "github.com/stripe/stripe-go"
 )
 ```
 
@@ -101,7 +101,7 @@ resourceList, err := stripe.Resources.List(ResourceListParams)
 ## Documentation
 
 Below are a few simple examples. For details on all the functionality in this
-library, see the [GoDoc](http://godoc.org/github.com/stripe/stripe) documentation.
+library, see the [GoDoc](http://godoc.org/github.com/stripe/stripe-go) documentation.
 
 For more details about Stripe, check out the [documentation](https://stripe.com/docs).
 
@@ -149,4 +149,4 @@ for _, e := range(events.Values) {
 }
 ```
 
-For any requests, bug or comments, please [open an issue](https://github.com/stripe/stripe/issues/new). 
+For any requests, bug or comments, please [open an issue](https://github.com/stripe/stripe-go/issues/new). 
