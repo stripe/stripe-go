@@ -1,4 +1,4 @@
-package stripe
+package stripe_test
 
 import (
 	"fmt"
