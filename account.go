@@ -19,15 +19,15 @@ type Account struct {
 	Timezone         string   `json:"timezone"`
 }
 
-// AccountClient is the client used to invoke /account APIs.
-type AccountClient struct {
+// accountClient is the client used to invoke /account APIs.
+type accountClient struct {
 	api   Api
 	token string
 }
 
 // Get returns the details of your account.
 // For more details see https://stripe.com/docs/api/#retrieve_account.
-func (c *AccountClient) Get() (*Account, error) {
+func (c *accountClient) Get() (*Account, error) {
 	account := &Account{}
 	err := c.api.Call("GET", "/account", c.token, nil, account)
 

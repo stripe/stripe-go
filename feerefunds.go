@@ -40,15 +40,15 @@ type FeeRefundList struct {
 	Values []*FeeRefund `json:"data"`
 }
 
-// FeeRefundClient is the  client used to invoke /application_fees/refunds APIs.
-type FeeRefundClient struct {
+// feeRefundClient is the  client used to invoke /application_fees/refunds APIs.
+type feeRefundClient struct {
 	api   Api
 	token string
 }
 
 // Get returns the details of a fee refund.
 // For more details see https://stripe.com/docs/api#retrieve_fee_refund.
-func (c *FeeRefundClient) Get(id string, params *FeeRefundParams) (*FeeRefund, error) {
+func (c *feeRefundClient) Get(id string, params *FeeRefundParams) (*FeeRefund, error) {
 	refund := &FeeRefund{}
 	err := c.api.Call("GET", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.token, nil, refund)
 
@@ -57,7 +57,7 @@ func (c *FeeRefundClient) Get(id string, params *FeeRefundParams) (*FeeRefund, e
 
 // Update updates a refund's properties.
 // For more details see https://stripe.com/docs/api#update_refund.
-func (c *FeeRefundClient) Update(id string, params *FeeRefundParams) (*FeeRefund, error) {
+func (c *feeRefundClient) Update(id string, params *FeeRefundParams) (*FeeRefund, error) {
 	body := &url.Values{}
 
 	for k, v := range params.Meta {
@@ -72,7 +72,7 @@ func (c *FeeRefundClient) Update(id string, params *FeeRefundParams) (*FeeRefund
 
 // List returns a list of fee refunds.
 // For more details see https://stripe.com/docs/api#list_fee_refunds.
-func (c *FeeRefundClient) List(params *FeeRefundListParams) (*FeeRefundList, error) {
+func (c *feeRefundClient) List(params *FeeRefundListParams) (*FeeRefundList, error) {
 	body := &url.Values{}
 	if len(params.Filters.f) > 0 {
 		params.Filters.appendTo(body)

@@ -58,15 +58,15 @@ type Dispute struct {
 	Meta         map[string]string `json:"metadata"`
 }
 
-// DisputeClient is the client used to invoke dispute-related APIs.
-type DisputeClient struct {
+// disputeClient is the client used to invoke dispute-related APIs.
+type disputeClient struct {
 	api   Api
 	token string
 }
 
 // Update updates a charge's dispute.
 // For more details see https://stripe.com/docs/api#update_dispute.
-func (c *DisputeClient) Update(id string, params *DisputeParams) (*Dispute, error) {
+func (c *disputeClient) Update(id string, params *DisputeParams) (*Dispute, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -89,7 +89,7 @@ func (c *DisputeClient) Update(id string, params *DisputeParams) (*Dispute, erro
 
 // Close dismisses a dispute in the customer's favor.
 // For more details see https://stripe.com/docs/api#close_dispute.
-func (c *DisputeClient) Close(id string) (*Dispute, error) {
+func (c *disputeClient) Close(id string) (*Dispute, error) {
 	dispute := &Dispute{}
 	err := c.api.Call("POST", fmt.Sprintf("/charges/%v/dispute/close", id), c.token, nil, dispute)
 

@@ -88,15 +88,15 @@ type CardList struct {
 	Values []*Card `json:"data"`
 }
 
-// CardClient is the client used to invoke /cards APIs.
-type CardClient struct {
+// cardClient is the client used to invoke /cards APIs.
+type cardClient struct {
 	api   Api
 	token string
 }
 
 // Create POSTs new cards either for a customer or recipient.
 // For more details see https://stripe.com/docs/api#create_card.
-func (c *CardClient) Create(params *CardParams) (*Card, error) {
+func (c *cardClient) Create(params *CardParams) (*Card, error) {
 	body := &url.Values{}
 	params.appendTo(body, true)
 
@@ -116,7 +116,7 @@ func (c *CardClient) Create(params *CardParams) (*Card, error) {
 
 // Get returns the details of a card.
 // For more details see https://stripe.com/docs/api#retrieve_card.
-func (c *CardClient) Get(id string, params *CardParams) (*Card, error) {
+func (c *cardClient) Get(id string, params *CardParams) (*Card, error) {
 	card := &Card{}
 	var err error
 
@@ -133,7 +133,7 @@ func (c *CardClient) Get(id string, params *CardParams) (*Card, error) {
 
 // Update updates a card's properties.
 // For more details see	https://stripe.com/docs/api#update_card.
-func (c *CardClient) Update(id string, params *CardParams) (*Card, error) {
+func (c *cardClient) Update(id string, params *CardParams) (*Card, error) {
 	body := &url.Values{}
 	params.appendTo(body, false)
 
@@ -153,7 +153,7 @@ func (c *CardClient) Update(id string, params *CardParams) (*Card, error) {
 
 // Delete remotes a card.
 // For more details see https://stripe.com/docs/api#delete_card.
-func (c *CardClient) Delete(id string, params *CardParams) error {
+func (c *cardClient) Delete(id string, params *CardParams) error {
 	if len(params.Customer) > 0 {
 		return c.api.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.token, nil, nil)
 	} else if len(params.Recipient) > 0 {
@@ -165,7 +165,7 @@ func (c *CardClient) Delete(id string, params *CardParams) error {
 
 // List returns a list of cards.
 // For more details see https://stripe.com/docs/api#list_cards.
-func (c *CardClient) List(params *CardListParams) (*CardList, error) {
+func (c *cardClient) List(params *CardListParams) (*CardList, error) {
 	body := &url.Values{}
 
 	if len(params.Filters.f) > 0 {

@@ -109,15 +109,15 @@ type InvoiceLineList struct {
 	Values []*InvoiceLine `json:"data"`
 }
 
-// InvoiceClient is the client used to invoke /invoices APIs.
-type InvoiceClient struct {
+// invoiceClient is the client used to invoke /invoices APIs.
+type invoiceClient struct {
 	api   Api
 	token string
 }
 
 // Create POSTs new invoices.
 // For more details see https://stripe.com/docs/api#create_invoice.
-func (c *InvoiceClient) Create(params *InvoiceParams) (*Invoice, error) {
+func (c *invoiceClient) Create(params *InvoiceParams) (*Invoice, error) {
 	body := &url.Values{
 		"customer": {params.Customer},
 	}
@@ -157,7 +157,7 @@ func (c *InvoiceClient) Create(params *InvoiceParams) (*Invoice, error) {
 
 // Get returns the details of an invoice.
 // For more details see https://stripe.com/docs/api#retrieve_invoice.
-func (c *InvoiceClient) Get(id string) (*Invoice, error) {
+func (c *invoiceClient) Get(id string) (*Invoice, error) {
 	invoice := &Invoice{}
 	err := c.api.Call("GET", "/invoices/"+id, c.token, nil, invoice)
 
@@ -166,7 +166,7 @@ func (c *InvoiceClient) Get(id string) (*Invoice, error) {
 
 // Pay pays an invoice.
 // For more details see https://stripe.com/docs/api#pay_invoice.
-func (c *InvoiceClient) Pay(id string) (*Invoice, error) {
+func (c *invoiceClient) Pay(id string) (*Invoice, error) {
 	invoice := &Invoice{}
 	err := c.api.Call("POST", fmt.Sprintf("/invoices/%v/pay", id), c.token, nil, invoice)
 
@@ -175,7 +175,7 @@ func (c *InvoiceClient) Pay(id string) (*Invoice, error) {
 
 // Update updates an invoice's properties.
 // For more details see https://stripe.com/docs/api#update_invoice.
-func (c *InvoiceClient) Update(id string, params *InvoiceParams) (*Invoice, error) {
+func (c *invoiceClient) Update(id string, params *InvoiceParams) (*Invoice, error) {
 	var body *url.Values
 	token := c.token
 
@@ -225,7 +225,7 @@ func (c *InvoiceClient) Update(id string, params *InvoiceParams) (*Invoice, erro
 
 // GetNext returns the upcoming invoice's properties.
 // For more details see https://stripe.com/docs/api#retrieve_customer_invoice.
-func (c *InvoiceClient) GetNext(params *InvoiceParams) (*Invoice, error) {
+func (c *invoiceClient) GetNext(params *InvoiceParams) (*Invoice, error) {
 	body := &url.Values{
 		"customer": {params.Customer},
 	}
@@ -242,7 +242,7 @@ func (c *InvoiceClient) GetNext(params *InvoiceParams) (*Invoice, error) {
 
 // List returns a list of invoices.
 // For more details see https://stripe.com/docs/api#list_customer_invoices.
-func (c *InvoiceClient) List(params *InvoiceListParams) (*InvoiceList, error) {
+func (c *invoiceClient) List(params *InvoiceListParams) (*InvoiceList, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -285,7 +285,7 @@ func (c *InvoiceClient) List(params *InvoiceListParams) (*InvoiceList, error) {
 
 // ListLines returns a list of line items.
 // For more details see https://stripe.com/docs/api#invoice_lines.
-func (c *InvoiceClient) ListLines(params *InvoiceLineListParams) (*InvoiceLineList, error) {
+func (c *invoiceClient) ListLines(params *InvoiceLineListParams) (*InvoiceLineList, error) {
 	body := &url.Values{}
 
 	if len(params.Customer) > 0 {

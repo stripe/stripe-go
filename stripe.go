@@ -40,61 +40,61 @@ type Client struct {
 	api Api
 	// Charges is the client used to invoke /charges APIs.
 	// For more details see https://stripe.com/docs/api/#charges.
-	Charges *ChargeClient
+	Charges *chargeClient
 	// Customers is the client used to invoke /customers APIs.
 	// For more details see https://stripe.com/docs/api/#customers.
-	Customers *CustomerClient
+	Customers *customerClient
 	// Cards is the client used to invoke /cards APIs.
 	// For more details see https://stripe.com/docs/api/#cards.
-	Cards *CardClient
+	Cards *cardClient
 	// Subs is the client used to invoke /subscriptions APIs.
 	// For more details see https://stripe.com/docs/api/#subscriptions.
-	Subs *SubscriptionClient
+	Subs *subscriptionClient
 	// Plans is the client used to invoke /plans APIs.
 	// For more details see https://stripe.com/docs/api/#plans.
-	Plans *PlanClient
+	Plans *planClient
 	// Coupons is the client used to invoke /coupons APIs.
 	// For more details see https://stripe.com/docs/api/#coupons.
-	Coupons *CouponClient
+	Coupons *couponClient
 	// Discounts is the client used to invoke discount-related APIs.
 	// For mode details see https://stripe.com/docs/api/#discounts.
-	Discounts *DiscountClient
+	Discounts *discountClient
 	// Invoices is the client used to invoke /invoices APIs.
 	// For more details see https://stripe.com/docs/api/#invoices.
-	Invoices *InvoiceClient
+	Invoices *invoiceClient
 	// InvoiceItems is the client used to invoke /invoiceitems APIs.
 	// For more details see https://stripe.com/docs/api/#invoiceitems.
-	InvoiceItems *InvoiceItemClient
+	InvoiceItems *invoiceItemClient
 	// Disputes is the client used to invoke dispute-related APIs.
 	// For more details see https://stripe.com/docs/api/#disputes.
-	Disputes *DisputeClient
+	Disputes *disputeClient
 	// Transfers is the client used to invoke /transfers APIs.
 	// For more details see https://stripe.com/docs/api/#transfers.
-	Transfers *TransferClient
+	Transfers *transferClient
 	// Recipients is the client used to invoke /recipients APIs.
 	// For more details see https://stripe.com/docs/api/#recipients.
-	Recipients *RecipientClient
+	Recipients *recipientClient
 	// Refunds is the client used to invoke /refunds APIs.
 	// For more details see https://stripe.com/docs/api#refunds.
-	Refunds *RefundClient
+	Refunds *refundClient
 	// Fees is the client used to invoke /application_fees APIs.
 	// For more details see https://stripe.com/docs/api/#application_fees.
-	Fees *AppFeeClient
+	Fees *appFeeClient
 	// FeeRefunds is the client used to invoke /application_fees/refunds APIs.
 	// For more details see https://stripe.com/docs/api/#fee_refundss.
-	FeeRefunds *FeeRefundClient
+	FeeRefunds *feeRefundClient
 	// Account is the client used to invoke /account APIs.
 	// For more details see https://stripe.com/docs/api/#account.
-	Account *AccountClient
+	Account *accountClient
 	// Balance is the client used to invoke /balance and transaction-related APIs.
 	// For more details see https://stripe.com/docs/api/#balance.
-	Balance *BalanceClient
+	Balance *balanceClient
 	// Events is the client used to invoke /events APIs.
 	// For more details see https://stripe.com/docs/api#events.
-	Events *EventClient
+	Events *eventClient
 	// Tokens is the client used to invoke /tokens APIs.
 	// For more details see https://stripe.com/docs/api/#tokens.
-	Tokens *TokenClient
+	Tokens *tokenClient
 }
 
 // s is the internal implementation for making HTTP calls to Stripe.
@@ -135,25 +135,25 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 	c.api = api
 	c.Token = token
 
-	c.Charges = &ChargeClient{api: c.api, token: c.Token}
-	c.Customers = &CustomerClient{api: c.api, token: c.Token}
-	c.Cards = &CardClient{api: c.api, token: c.Token}
-	c.Subs = &SubscriptionClient{api: c.api, token: c.Token}
-	c.Plans = &PlanClient{api: c.api, token: c.Token}
-	c.Coupons = &CouponClient{api: c.api, token: c.Token}
-	c.Discounts = &DiscountClient{api: c.api, token: c.Token}
-	c.Invoices = &InvoiceClient{api: c.api, token: c.Token}
-	c.InvoiceItems = &InvoiceItemClient{api: c.api, token: c.Token}
-	c.Disputes = &DisputeClient{api: c.api, token: c.Token}
-	c.Transfers = &TransferClient{api: c.api, token: c.Token}
-	c.Recipients = &RecipientClient{api: c.api, token: c.Token}
-	c.Refunds = &RefundClient{api: c.api, token: c.Token}
-	c.Fees = &AppFeeClient{api: c.api, token: c.Token}
-	c.FeeRefunds = &FeeRefundClient{api: c.api, token: c.Token}
-	c.Account = &AccountClient{api: c.api, token: c.Token}
-	c.Balance = &BalanceClient{api: c.api, token: c.Token}
-	c.Events = &EventClient{api: c.api, token: c.Token}
-	c.Tokens = &TokenClient{api: c.api, token: c.Token}
+	c.Charges = &chargeClient{api: c.api, token: c.Token}
+	c.Customers = &customerClient{api: c.api, token: c.Token}
+	c.Cards = &cardClient{api: c.api, token: c.Token}
+	c.Subs = &subscriptionClient{api: c.api, token: c.Token}
+	c.Plans = &planClient{api: c.api, token: c.Token}
+	c.Coupons = &couponClient{api: c.api, token: c.Token}
+	c.Discounts = &discountClient{api: c.api, token: c.Token}
+	c.Invoices = &invoiceClient{api: c.api, token: c.Token}
+	c.InvoiceItems = &invoiceItemClient{api: c.api, token: c.Token}
+	c.Disputes = &disputeClient{api: c.api, token: c.Token}
+	c.Transfers = &transferClient{api: c.api, token: c.Token}
+	c.Recipients = &recipientClient{api: c.api, token: c.Token}
+	c.Refunds = &refundClient{api: c.api, token: c.Token}
+	c.Fees = &appFeeClient{api: c.api, token: c.Token}
+	c.FeeRefunds = &feeRefundClient{api: c.api, token: c.Token}
+	c.Account = &accountClient{api: c.api, token: c.Token}
+	c.Balance = &balanceClient{api: c.api, token: c.Token}
+	c.Events = &eventClient{api: c.api, token: c.Token}
+	c.Tokens = &tokenClient{api: c.api, token: c.Token}
 }
 
 // SetDebug enables additional tracing globally.

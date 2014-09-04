@@ -41,15 +41,15 @@ type RefundList struct {
 	Values []*Refund `json:"data"`
 }
 
-// RefundClient is the  client used to invoke /refunds APIs.
-type RefundClient struct {
+// refundClient is the  client used to invoke /refunds APIs.
+type refundClient struct {
 	api   Api
 	token string
 }
 
 // Get returns the details of a refund.
 // For more details see https://stripe.com/docs/api#retrieve_refund.
-func (c *RefundClient) Get(id string, params *RefundParams) (*Refund, error) {
+func (c *refundClient) Get(id string, params *RefundParams) (*Refund, error) {
 	refund := &Refund{}
 	err := c.api.Call("GET", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.token, nil, refund)
 
@@ -58,7 +58,7 @@ func (c *RefundClient) Get(id string, params *RefundParams) (*Refund, error) {
 
 // Update updates a refund's properties.
 // For more details see https://stripe.com/docs/api#update_refund.
-func (c *RefundClient) Update(id string, params *RefundParams) (*Refund, error) {
+func (c *refundClient) Update(id string, params *RefundParams) (*Refund, error) {
 	body := &url.Values{}
 
 	for k, v := range params.Meta {
@@ -73,7 +73,7 @@ func (c *RefundClient) Update(id string, params *RefundParams) (*Refund, error) 
 
 // List returns a list of refunds.
 // For more details see https://stripe.com/docs/api#list_refunds.
-func (c *RefundClient) List(params *RefundListParams) (*RefundList, error) {
+func (c *refundClient) List(params *RefundListParams) (*RefundList, error) {
 	body := &url.Values{}
 	if len(params.Filters.f) > 0 {
 		params.Filters.appendTo(body)

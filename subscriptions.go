@@ -66,15 +66,15 @@ type SubscriptionList struct {
 	Values []*Subscription `json:"data"`
 }
 
-// SubscriptionClient is the client used to invoke /subscriptions APIs.
-type SubscriptionClient struct {
+// subscriptionClient is the client used to invoke /subscriptions APIs.
+type subscriptionClient struct {
 	api   Api
 	token string
 }
 
 // Create POSTS a new subscription for a customer.
 // For more details see https://stripe.com/docs/api#create_subscription.
-func (c *SubscriptionClient) Create(params *SubParams) (*Subscription, error) {
+func (c *subscriptionClient) Create(params *SubParams) (*Subscription, error) {
 	body := &url.Values{
 		"plan": {params.Plan},
 	}
@@ -120,7 +120,7 @@ func (c *SubscriptionClient) Create(params *SubParams) (*Subscription, error) {
 
 // Get returns the details of a subscription.
 // For more details see https://stripe.com/docs/api#retrieve_subscription.
-func (c *SubscriptionClient) Get(id string, params *SubParams) (*Subscription, error) {
+func (c *subscriptionClient) Get(id string, params *SubParams) (*Subscription, error) {
 	sub := &Subscription{}
 	err := c.api.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, nil, sub)
 
@@ -129,7 +129,7 @@ func (c *SubscriptionClient) Get(id string, params *SubParams) (*Subscription, e
 
 // Update updates a subscription's properties.
 // For more details see https://stripe.com/docs/api#update_subscription.
-func (c *SubscriptionClient) Update(id string, params *SubParams) (*Subscription, error) {
+func (c *subscriptionClient) Update(id string, params *SubParams) (*Subscription, error) {
 	body := &url.Values{}
 
 	if len(params.Plan) > 0 {
@@ -185,7 +185,7 @@ func (c *SubscriptionClient) Update(id string, params *SubParams) (*Subscription
 
 // Cancel removes a subscription.
 // For more details see https://stripe.com/docs/api#cancel_subscription.
-func (c *SubscriptionClient) Cancel(id string, params *SubParams) error {
+func (c *subscriptionClient) Cancel(id string, params *SubParams) error {
 	body := &url.Values{}
 
 	if params.EndCancel {
@@ -197,7 +197,7 @@ func (c *SubscriptionClient) Cancel(id string, params *SubParams) error {
 
 // List returns a list of subscriptions.
 // For more details see https://stripe.com/docs/api#list_subscriptions.
-func (c *SubscriptionClient) List(params *SubListParams) (*SubscriptionList, error) {
+func (c *subscriptionClient) List(params *SubListParams) (*SubscriptionList, error) {
 	body := &url.Values{}
 
 	if len(params.Filters.f) > 0 {

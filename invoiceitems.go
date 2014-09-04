@@ -47,15 +47,15 @@ type InvoiceItemList struct {
 	Values []*InvoiceItem `json:"data"`
 }
 
-// InvoiceItemClient is the client used to invoke /invoiceitems APIs.
-type InvoiceItemClient struct {
+// invoiceItemClient is the client used to invoke /invoiceitems APIs.
+type invoiceItemClient struct {
 	api   Api
 	token string
 }
 
 // Create POSTs new invoice items.
 // For more details see https://stripe.com/docs/api#create_invoiceitem.
-func (c *InvoiceItemClient) Create(params *InvoiceItemParams) (*InvoiceItem, error) {
+func (c *invoiceItemClient) Create(params *InvoiceItemParams) (*InvoiceItem, error) {
 	body := &url.Values{
 		"customer": {params.Customer},
 		"amount":   {strconv.FormatInt(params.Amount, 10)},
@@ -86,7 +86,7 @@ func (c *InvoiceItemClient) Create(params *InvoiceItemParams) (*InvoiceItem, err
 
 // Get returns the details of an invoice item.
 // For more details see https://stripe.com/docs/api#retrieve_invoiceitem.
-func (c *InvoiceItemClient) Get(id string) (*InvoiceItem, error) {
+func (c *invoiceItemClient) Get(id string) (*InvoiceItem, error) {
 	invoiceItem := &InvoiceItem{}
 	err := c.api.Call("GET", "/invoiceitems/"+id, c.token, nil, invoiceItem)
 
@@ -95,7 +95,7 @@ func (c *InvoiceItemClient) Get(id string) (*InvoiceItem, error) {
 
 // Update updates an invoice item's properties.
 // For more details see https://stripe.com/docs/api#update_invoiceitem.
-func (c *InvoiceItemClient) Update(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
+func (c *invoiceItemClient) Update(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -122,13 +122,13 @@ func (c *InvoiceItemClient) Update(id string, params *InvoiceItemParams) (*Invoi
 
 // Delete removes an invoice item.
 // For more details see https://stripe.com/docs/api#delete_invoiceitem.
-func (c *InvoiceItemClient) Delete(id string) error {
+func (c *invoiceItemClient) Delete(id string) error {
 	return c.api.Call("DELETE", "/invoiceitems/"+id, c.token, nil, nil)
 }
 
 // List returns a list of invoice items.
 // For more details see https://stripe.com/docs/api#list_invoiceitems.
-func (c *InvoiceItemClient) List(params *InvoiceItemListParams) (*InvoiceItemList, error) {
+func (c *invoiceItemClient) List(params *InvoiceItemListParams) (*InvoiceItemList, error) {
 	var body *url.Values
 
 	if params != nil {

@@ -35,15 +35,15 @@ type Token struct {
 	Card    *Card        `json:"card"`
 }
 
-// TokenClient is the client used to invoke /tokens APIs.
-type TokenClient struct {
+// tokenClient is the client used to invoke /tokens APIs.
+type tokenClient struct {
 	api   Api
 	token string
 }
 
 // Create POSTs a new card or bank account.
 // For more details see https://stripe.com/docs/api#create_card_token and https://stripe.com/docs/api#create_bank_account_token.
-func (c *TokenClient) Create(params *TokenParams) (*Token, error) {
+func (c *tokenClient) Create(params *TokenParams) (*Token, error) {
 	body := &url.Values{}
 	token := c.token
 
@@ -74,7 +74,7 @@ func (c *TokenClient) Create(params *TokenParams) (*Token, error) {
 
 // Get returns the details of a token.
 // For more details see https://stripe.com/docs/api#retrieve_token.
-func (c *TokenClient) Get(id string) (*Token, error) {
+func (c *tokenClient) Get(id string) (*Token, error) {
 	token := &Token{}
 	err := c.api.Call("GET", "/tokens/"+id, c.token, nil, token)
 

@@ -57,15 +57,15 @@ type PlanList struct {
 	Values []*Plan `json:"data"`
 }
 
-// PlanClient is the client used to invoke /plans APIs.
-type PlanClient struct {
+// planClient is the client used to invoke /plans APIs.
+type planClient struct {
 	api   Api
 	token string
 }
 
 // Create POSTs a new plan.
 // For more details see https://stripe.com/docs/api#create_plan.
-func (c *PlanClient) Create(params *PlanParams) (*Plan, error) {
+func (c *planClient) Create(params *PlanParams) (*Plan, error) {
 	body := &url.Values{
 		"id":       {params.Id},
 		"name":     {params.Name},
@@ -98,7 +98,7 @@ func (c *PlanClient) Create(params *PlanParams) (*Plan, error) {
 
 // Get returns the details of a plan.
 // For more details see https://stripe.com/docs/api#retrieve_plan.
-func (c *PlanClient) Get(id string) (*Plan, error) {
+func (c *planClient) Get(id string) (*Plan, error) {
 	plan := &Plan{}
 	err := c.api.Call("GET", "/plans/"+id, c.token, nil, plan)
 
@@ -107,7 +107,7 @@ func (c *PlanClient) Get(id string) (*Plan, error) {
 
 // Update updates a plan's properties.
 // For more details see https://stripe.com/docs/api#update_plan.
-func (c *PlanClient) Update(id string, params *PlanParams) (*Plan, error) {
+func (c *planClient) Update(id string, params *PlanParams) (*Plan, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -134,13 +134,13 @@ func (c *PlanClient) Update(id string, params *PlanParams) (*Plan, error) {
 
 // Delete removes a plan.
 // For more details see https://stripe.com/docs/api#delete_plan.
-func (c *PlanClient) Delete(id string) error {
+func (c *planClient) Delete(id string) error {
 	return c.api.Call("DELETE", "/plans/"+id, c.token, nil, nil)
 }
 
 // List returns a list of plans.
 // For more details see https://stripe.com/docs/api#list_plans.
-func (c *PlanClient) List(params *PlanListParams) (*PlanList, error) {
+func (c *planClient) List(params *PlanListParams) (*PlanList, error) {
 	var body *url.Values
 
 	if params != nil {

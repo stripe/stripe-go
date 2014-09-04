@@ -214,15 +214,15 @@ type ChargeList struct {
 	Values []*Charge `json:"data"`
 }
 
-// ChargeClient is the  client used to invoke /charges APIs.
-type ChargeClient struct {
+// chargeClient is the  client used to invoke /charges APIs.
+type chargeClient struct {
 	api   Api
 	token string
 }
 
 // Create POSTs new charges.
 // For more details see https://stripe.com/docs/api#create_charge.
-func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
+func (c *chargeClient) Create(params *ChargeParams) (*Charge, error) {
 	body := &url.Values{
 		"amount":   {strconv.FormatUint(params.Amount, 10)},
 		"currency": {string(params.Currency)},
@@ -280,7 +280,7 @@ func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
 
 // Get returns the details of a charge.
 // For more details see https://stripe.com/docs/api#retrieve_charge.
-func (c *ChargeClient) Get(id string) (*Charge, error) {
+func (c *chargeClient) Get(id string) (*Charge, error) {
 	charge := &Charge{}
 	err := c.api.Call("GET", "/charges/"+id, c.token, nil, charge)
 
@@ -289,7 +289,7 @@ func (c *ChargeClient) Get(id string) (*Charge, error) {
 
 // Update updates a charge's properties.
 // For more details see https://stripe.com/docs/api#update_charge.
-func (c *ChargeClient) Update(id string, params *ChargeParams) (*Charge, error) {
+func (c *chargeClient) Update(id string, params *ChargeParams) (*Charge, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -312,7 +312,7 @@ func (c *ChargeClient) Update(id string, params *ChargeParams) (*Charge, error) 
 
 // Refund refunds a charge previously created.
 // For more details see https://stripe.com/docs/api#refund_charge.
-func (c *ChargeClient) Refund(params *RefundParams) (*Refund, error) {
+func (c *chargeClient) Refund(params *RefundParams) (*Refund, error) {
 	body := &url.Values{}
 
 	if params.Amount > 0 {
@@ -335,7 +335,7 @@ func (c *ChargeClient) Refund(params *RefundParams) (*Refund, error) {
 
 // Capture captures a previously created charge with NoCapture set to true.
 // For more details see https://stripe.com/docs/api#charge_capture.
-func (c *ChargeClient) Capture(id string, params *CaptureParams) (*Charge, error) {
+func (c *chargeClient) Capture(id string, params *CaptureParams) (*Charge, error) {
 	var body *url.Values
 	token := c.token
 
@@ -369,7 +369,7 @@ func (c *ChargeClient) Capture(id string, params *CaptureParams) (*Charge, error
 
 // List returns a list of charges.
 // For more details see https://stripe.com/docs/api#list_charges.
-func (c *ChargeClient) List(params *ChargeListParams) (*ChargeList, error) {
+func (c *chargeClient) List(params *ChargeListParams) (*ChargeList, error) {
 	var body *url.Values
 
 	if params != nil {
