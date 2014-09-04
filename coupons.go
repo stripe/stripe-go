@@ -59,15 +59,15 @@ type CouponList struct {
 	Values []*Coupon `json:"data"`
 }
 
-// couponClient is the client used to invoke /coupons APIs.
-type couponClient struct {
+// CouponClient is the client used to invoke /coupons APIs.
+type CouponClient struct {
 	api   Api
 	token string
 }
 
 // Create POSTs new coupons.
 // For more details see https://stripe.com/docs/api#create_coupon.
-func (c *couponClient) Create(params *CouponParams) (*Coupon, error) {
+func (c *CouponClient) Create(params *CouponParams) (*Coupon, error) {
 	body := &url.Values{
 		"duration": {string(params.Duration)},
 	}
@@ -110,7 +110,7 @@ func (c *couponClient) Create(params *CouponParams) (*Coupon, error) {
 
 // Get returns the details of a coupon.
 // For more details see https://stripe.com/docs/api#retrieve_coupon.
-func (c *couponClient) Get(id string) (*Coupon, error) {
+func (c *CouponClient) Get(id string) (*Coupon, error) {
 	coupon := &Coupon{}
 	err := c.api.Call("GET", "/coupons/"+id, c.token, nil, coupon)
 
@@ -119,13 +119,13 @@ func (c *couponClient) Get(id string) (*Coupon, error) {
 
 // Delete removes a coupon.
 // For more details see https://stripe.com/docs/api#delete_coupon.
-func (c *couponClient) Delete(id string) error {
+func (c *CouponClient) Delete(id string) error {
 	return c.api.Call("DELETE", "/coupons/"+id, c.token, nil, nil)
 }
 
 // List returns a list of coupons.
 // For more details see https://stripe.com/docs/api#list_coupons.
-func (c *couponClient) List(params *CouponListParams) (*CouponList, error) {
+func (c *CouponClient) List(params *CouponListParams) (*CouponList, error) {
 	var body *url.Values
 
 	if params != nil {

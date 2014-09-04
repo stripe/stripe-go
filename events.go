@@ -38,15 +38,15 @@ type EventList struct {
 	Values []*Event `json:"data"`
 }
 
-// eventClient is the client used to invoke /events APIs.
-type eventClient struct {
+// EventClient is the client used to invoke /events APIs.
+type EventClient struct {
 	api   Api
 	token string
 }
 
 // Get returns the details of an event
 // For more details see https://stripe.com/docs/api#retrieve_event.
-func (c *eventClient) Get(id string) (*Event, error) {
+func (c *EventClient) Get(id string) (*Event, error) {
 	event := &Event{}
 	err := c.api.Call("GET", "/events/"+id, c.token, nil, event)
 
@@ -55,7 +55,7 @@ func (c *eventClient) Get(id string) (*Event, error) {
 
 // List returns a list of events.
 // For more details see https://stripe.com/docs/api#list_events
-func (c *eventClient) List(params *EventListParams) (*EventList, error) {
+func (c *EventClient) List(params *EventListParams) (*EventList, error) {
 	var body *url.Values
 
 	if params != nil {

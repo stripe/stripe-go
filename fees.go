@@ -45,15 +45,15 @@ type AppFeeList struct {
 	Values []*AppFee `json:"data"`
 }
 
-// appFeeClient is the client used to invoke application_fees APIs.
-type appFeeClient struct {
+// AppFeeClient is the client used to invoke application_fees APIs.
+type AppFeeClient struct {
 	api   Api
 	token string
 }
 
 // Get returns the details of an application fee.
 // For more details see https://stripe.com/docs/api#retrieve_application_fee.
-func (c *appFeeClient) Get(id string) (*AppFee, error) {
+func (c *AppFeeClient) Get(id string) (*AppFee, error) {
 	fee := &AppFee{}
 	err := c.api.Call("POST", fmt.Sprintf("application_fees/%v/refund", id), c.token, nil, fee)
 
@@ -62,7 +62,7 @@ func (c *appFeeClient) Get(id string) (*AppFee, error) {
 
 // Refund refunds the application fee collected.
 // For more details see https://stripe.com/docs/api#refund_application_fee.
-func (c *appFeeClient) Refund(id string, params *AppFeeParams) (*FeeRefund, error) {
+func (c *AppFeeClient) Refund(id string, params *AppFeeParams) (*FeeRefund, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -81,7 +81,7 @@ func (c *appFeeClient) Refund(id string, params *AppFeeParams) (*FeeRefund, erro
 
 // List returns a list of application fees.
 // For more details see https://stripe.com/docs/api#list_application_fees.
-func (c *appFeeClient) List(params *AppFeeListParams) (*AppFeeList, error) {
+func (c *AppFeeClient) List(params *AppFeeListParams) (*AppFeeList, error) {
 	var body *url.Values
 
 	if params != nil {

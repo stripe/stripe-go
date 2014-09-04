@@ -74,15 +74,15 @@ type RecipientList struct {
 	Values []*Recipient `json:"data"`
 }
 
-// recipientClient is the client used to invoke /recipients APIs.
-type recipientClient struct {
+// RecipientClient is the client used to invoke /recipients APIs.
+type RecipientClient struct {
 	api   Api
 	token string
 }
 
 // Create POSTs a new recipient.
 // For more details see https://stripe.com/docs/api#create_recipient.
-func (c *recipientClient) Create(params *RecipientParams) (*Recipient, error) {
+func (c *RecipientClient) Create(params *RecipientParams) (*Recipient, error) {
 	body := &url.Values{
 		"name": {params.Name},
 		"type": {string(params.Type)},
@@ -122,7 +122,7 @@ func (c *recipientClient) Create(params *RecipientParams) (*Recipient, error) {
 
 // Get returns the details of a recipient.
 // For more details see https://stripe.com/docs/api#retrieve_recipient.
-func (c *recipientClient) Get(id string) (*Recipient, error) {
+func (c *RecipientClient) Get(id string) (*Recipient, error) {
 	recipient := &Recipient{}
 	err := c.api.Call("GET", "/recipients/"+id, c.token, nil, recipient)
 
@@ -131,7 +131,7 @@ func (c *recipientClient) Get(id string) (*Recipient, error) {
 
 // Update updates a recipient's properties.
 // For more details see https://stripe.com/docs/api#update_recipient.
-func (c *recipientClient) Update(id string, params *RecipientParams) (*Recipient, error) {
+func (c *RecipientClient) Update(id string, params *RecipientParams) (*Recipient, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -180,13 +180,13 @@ func (c *recipientClient) Update(id string, params *RecipientParams) (*Recipient
 
 // Delete removes a recipient.
 // For more details see https://stripe.com/docs/api#delete_recipient.
-func (c *recipientClient) Delete(id string) error {
+func (c *RecipientClient) Delete(id string) error {
 	return c.api.Call("DELETE", "/recipients/"+id, c.token, nil, nil)
 }
 
 // List returns a list of recipients.
 // For more details see https://stripe.com/docs/api#list_recipients.
-func (c *recipientClient) List(params *RecipientListParams) (*RecipientList, error) {
+func (c *RecipientClient) List(params *RecipientListParams) (*RecipientList, error) {
 	var body *url.Values
 
 	if params != nil {

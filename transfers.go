@@ -88,15 +88,15 @@ type TransferList struct {
 	Values []*Transfer `json:"data"`
 }
 
-// transferClient is the client used to invoke /transfers APIs.
-type transferClient struct {
+// TransferClient is the client used to invoke /transfers APIs.
+type TransferClient struct {
 	api   Api
 	token string
 }
 
 // Create POSTs a new transfer.
 // For more details see https://stripe.com/docs/api#create_transfer.
-func (c *transferClient) Create(params *TransferParams) (*Transfer, error) {
+func (c *TransferClient) Create(params *TransferParams) (*Transfer, error) {
 	body := &url.Values{
 		"amount":    {strconv.FormatInt(params.Amount, 10)},
 		"currency":  {string(params.Currency)},
@@ -129,7 +129,7 @@ func (c *transferClient) Create(params *TransferParams) (*Transfer, error) {
 
 // Get returns the details of a transfer.
 // For more details see https://stripe.com/docs/api#retrieve_transfer.
-func (c *transferClient) Get(id string) (*Transfer, error) {
+func (c *TransferClient) Get(id string) (*Transfer, error) {
 	transfer := &Transfer{}
 	err := c.api.Call("GET", "/transfers/"+id, c.token, nil, transfer)
 
@@ -138,7 +138,7 @@ func (c *transferClient) Get(id string) (*Transfer, error) {
 
 // Update updates a transfer's properties.
 // For more details see https://stripe.com/docs/api#update_transfer.
-func (c *transferClient) Update(id string, params *TransferParams) (*Transfer, error) {
+func (c *TransferClient) Update(id string, params *TransferParams) (*Transfer, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -161,7 +161,7 @@ func (c *transferClient) Update(id string, params *TransferParams) (*Transfer, e
 
 // Cancel cancels a pending transfer.
 // For more details see https://stripe.com/docs/api#cancel_transfer.
-func (c *transferClient) Cancel(id string) (*Transfer, error) {
+func (c *TransferClient) Cancel(id string) (*Transfer, error) {
 	transfer := &Transfer{}
 	err := c.api.Call("POST", fmt.Sprintf("/transfers/%v/cancel", id), c.token, nil, transfer)
 
@@ -170,7 +170,7 @@ func (c *transferClient) Cancel(id string) (*Transfer, error) {
 
 // List returns a list of transfers.
 // For more details see https://stripe.com/docs/api#list_transfers.
-func (c *transferClient) List(params *TransferListParams) (*TransferList, error) {
+func (c *TransferClient) List(params *TransferListParams) (*TransferList, error) {
 	var body *url.Values
 
 	if params != nil {

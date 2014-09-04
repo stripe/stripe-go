@@ -87,14 +87,14 @@ type TransactionList struct {
 }
 
 // BalaneClient is the client used to invoke /balance and transaction-related APIs.
-type balanceClient struct {
+type BalanceClient struct {
 	api   Api
 	token string
 }
 
 // Get returns the details of your balance.
 // For more details see https://stripe.com/docs/api#retrieve_balance.
-func (c *balanceClient) Get() (*Balance, error) {
+func (c *BalanceClient) Get() (*Balance, error) {
 	balance := &Balance{}
 	err := c.api.Call("GET", "/balance", c.token, nil, balance)
 
@@ -103,7 +103,7 @@ func (c *balanceClient) Get() (*Balance, error) {
 
 // GetTx returns the details of a balance transaction.
 // For more details see	https://stripe.com/docs/api#retrieve_balance_transaction.
-func (c *balanceClient) GetTx(id string) (*Transaction, error) {
+func (c *BalanceClient) GetTx(id string) (*Transaction, error) {
 	balance := &Transaction{}
 	err := c.api.Call("GET", "/balance/history/"+id, c.token, nil, balance)
 
@@ -112,7 +112,7 @@ func (c *balanceClient) GetTx(id string) (*Transaction, error) {
 
 // List returns a list of balance transactions.
 // For more details see https://stripe.com/docs/api#balance_history.
-func (c *balanceClient) List(params *TxListParams) (*TransactionList, error) {
+func (c *BalanceClient) List(params *TxListParams) (*TransactionList, error) {
 	var body *url.Values
 
 	if params != nil {

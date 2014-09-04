@@ -14,20 +14,20 @@ type Discount struct {
 	Sub      string  `json:"subscription"`
 }
 
-// discountClient is the client used to invoke discount-related APIs.
-type discountClient struct {
+// DiscountClient is the client used to invoke discount-related APIs.
+type DiscountClient struct {
 	api   Api
 	token string
 }
 
 // Delete removes a discount from a customer.
 // For more details see https://stripe.com/docs/api#delete_discount.
-func (c *discountClient) Delete(customerId string) error {
+func (c *DiscountClient) Delete(customerId string) error {
 	return c.api.Call("DELETE", fmt.Sprintf("/customers/%v/discount", customerId), c.token, nil, nil)
 }
 
 // DeleteSubscription removes a discount from a customer's subscription.
 // For more details see https://stripe.com/docs/api#delete_subscription_discount.
-func (c *discountClient) DeleteSubscription(customerId, subscriptionid string) error {
+func (c *DiscountClient) DeleteSubscription(customerId, subscriptionid string) error {
 	return c.api.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v/discount", customerId, subscriptionid), c.token, nil, nil)
 }
