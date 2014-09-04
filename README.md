@@ -103,7 +103,7 @@ resourceList, err := stripe.Resources.List(ResourceListParams)
 Below are a few simple examples. For details on all the functionality in this
 library, see the [GoDoc](http://godoc.org/github.com/stripe/stripe) documentation.
 
-For more details about Stripe, see the [documentation](https://stripe.com/docs).
+For more details about Stripe, check out the [documentation](https://stripe.com/docs).
 
 ### Customers
 
