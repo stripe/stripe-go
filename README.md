@@ -13,7 +13,7 @@ Given Go's lack of built-in versioning, it is highly recommended you use a
 [package mangement tool](https://code.google.com/p/go-wiki/wiki/PackageManagementTools) in order
 to ensure a newer version of the binding does not affect backwards compatibility.
 
-To see the list of past versions, run `git tag`. To manuall get an older
+To see the list of past versions, run `git tag`. To manually get an older
 version of the client, clone this repo, checkout the specific tag and build the
 library:
 
