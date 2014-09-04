@@ -117,9 +117,7 @@ func (c *TransferClient) Create(params *TransferParams) (*Transfer, error) {
 		body.Add("statement_description", params.Statement)
 	}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
-	}
+	params.appendTo(body)
 
 	transfer := &Transfer{}
 	err := c.api.Call("POST", "/transfers", c.token, body, transfer)
@@ -129,9 +127,16 @@ func (c *TransferClient) Create(params *TransferParams) (*Transfer, error) {
 
 // Get returns the details of a transfer.
 // For more details see https://stripe.com/docs/api#retrieve_transfer.
-func (c *TransferClient) Get(id string) (*Transfer, error) {
+func (c *TransferClient) Get(id string, params *TransferParams) (*Transfer, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	transfer := &Transfer{}
-	err := c.api.Call("GET", "/transfers/"+id, c.token, nil, transfer)
+	err := c.api.Call("GET", "/transfers/"+id, c.token, body, transfer)
 
 	return transfer, err
 }
@@ -148,9 +153,7 @@ func (c *TransferClient) Update(id string, params *TransferParams) (*Transfer, e
 			body.Add("description", params.Desc)
 		}
 
-		for k, v := range params.Meta {
-			body.Add(fmt.Sprintf("metadata[%v]", k), v)
-		}
+		params.appendTo(body)
 	}
 
 	transfer := &Transfer{}
@@ -161,9 +164,16 @@ func (c *TransferClient) Update(id string, params *TransferParams) (*Transfer, e
 
 // Cancel cancels a pending transfer.
 // For more details see https://stripe.com/docs/api#cancel_transfer.
-func (c *TransferClient) Cancel(id string) (*Transfer, error) {
+func (c *TransferClient) Cancel(id string, params *TransferParams) (*Transfer, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	transfer := &Transfer{}
-	err := c.api.Call("POST", fmt.Sprintf("/transfers/%v/cancel", id), c.token, nil, transfer)
+	err := c.api.Call("POST", fmt.Sprintf("/transfers/%v/cancel", id), c.token, body, transfer)
 
 	return transfer, err
 }

@@ -53,7 +53,7 @@ func TestTokenGet(t *testing.T) {
 
 	tok, _ := c.Tokens.Create(token)
 
-	target, err := c.Tokens.Get(tok.Id)
+	target, err := c.Tokens.Get(tok.Id, nil)
 
 	if err != nil {
 		t.Error(err)

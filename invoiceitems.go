@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/url"
 	"strconv"
 )
@@ -74,9 +73,7 @@ func (c *InvoiceItemClient) Create(params *InvoiceItemParams) (*InvoiceItem, err
 		body.Add("subscription", params.Sub)
 	}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
-	}
+	params.appendTo(body)
 
 	invoiceItem := &InvoiceItem{}
 	err := c.api.Call("POST", "/invoiceitems", c.token, body, invoiceItem)
@@ -86,9 +83,16 @@ func (c *InvoiceItemClient) Create(params *InvoiceItemParams) (*InvoiceItem, err
 
 // Get returns the details of an invoice item.
 // For more details see https://stripe.com/docs/api#retrieve_invoiceitem.
-func (c *InvoiceItemClient) Get(id string) (*InvoiceItem, error) {
+func (c *InvoiceItemClient) Get(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	invoiceItem := &InvoiceItem{}
-	err := c.api.Call("GET", "/invoiceitems/"+id, c.token, nil, invoiceItem)
+	err := c.api.Call("GET", "/invoiceitems/"+id, c.token, body, invoiceItem)
 
 	return invoiceItem, err
 }
@@ -109,9 +113,7 @@ func (c *InvoiceItemClient) Update(id string, params *InvoiceItemParams) (*Invoi
 			body.Add("description", params.Desc)
 		}
 
-		for k, v := range params.Meta {
-			body.Add(fmt.Sprintf("metadata[%v]", k), v)
-		}
+		params.appendTo(body)
 	}
 
 	invoiceItem := &InvoiceItem{}

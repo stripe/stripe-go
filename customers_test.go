@@ -59,7 +59,7 @@ func TestCustomerGet(t *testing.T) {
 
 	res, _ := c.Customers.Create(nil)
 
-	target, err := c.Customers.Get(res.Id)
+	target, err := c.Customers.Get(res.Id, nil)
 
 	if err != nil {
 		t.Error(err)

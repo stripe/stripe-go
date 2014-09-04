@@ -40,7 +40,7 @@ func TestCardCreate(t *testing.T) {
 		t.Errorf("CVC check %q does not match expected status\n", target.ZipCheck)
 	}
 
-	targetCust, err := c.Customers.Get(cust.Id)
+	targetCust, err := c.Customers.Get(cust.Id, nil)
 	if err != nil {
 		t.Error(err)
 	}

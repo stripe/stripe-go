@@ -74,7 +74,7 @@ func TestPlanGet(t *testing.T) {
 	}
 
 	c.Plans.Create(plan)
-	target, err := c.Plans.Get(plan.Id)
+	target, err := c.Plans.Get(plan.Id, nil)
 
 	if err != nil {
 		t.Error(err)

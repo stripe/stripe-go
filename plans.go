@@ -1,7 +1,6 @@
 package stripe
 
 import (
-	"fmt"
 	"net/url"
 	"strconv"
 )
@@ -86,9 +85,7 @@ func (c *PlanClient) Create(params *PlanParams) (*Plan, error) {
 		body.Add("statement_description", params.Statement)
 	}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
-	}
+	params.appendTo(body)
 
 	plan := &Plan{}
 	err := c.api.Call("POST", "/plans", c.token, body, plan)
@@ -98,9 +95,16 @@ func (c *PlanClient) Create(params *PlanParams) (*Plan, error) {
 
 // Get returns the details of a plan.
 // For more details see https://stripe.com/docs/api#retrieve_plan.
-func (c *PlanClient) Get(id string) (*Plan, error) {
+func (c *PlanClient) Get(id string, params *PlanParams) (*Plan, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	plan := &Plan{}
-	err := c.api.Call("GET", "/plans/"+id, c.token, nil, plan)
+	err := c.api.Call("GET", "/plans/"+id, c.token, body, plan)
 
 	return plan, err
 }
@@ -121,9 +125,7 @@ func (c *PlanClient) Update(id string, params *PlanParams) (*Plan, error) {
 			body.Add("statement_description", params.Statement)
 		}
 
-		for k, v := range params.Meta {
-			body.Add(fmt.Sprintf("metadata[%v]", k), v)
-		}
+		params.appendTo(body)
 	}
 
 	plan := &Plan{}

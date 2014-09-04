@@ -134,9 +134,7 @@ func (c *InvoiceClient) Create(params *InvoiceParams) (*Invoice, error) {
 		body.Add("subscription", params.Sub)
 	}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
-	}
+	params.appendTo(body)
 
 	token := c.token
 	if params.Fee > 0 {
@@ -157,18 +155,32 @@ func (c *InvoiceClient) Create(params *InvoiceParams) (*Invoice, error) {
 
 // Get returns the details of an invoice.
 // For more details see https://stripe.com/docs/api#retrieve_invoice.
-func (c *InvoiceClient) Get(id string) (*Invoice, error) {
+func (c *InvoiceClient) Get(id string, params *InvoiceParams) (*Invoice, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	invoice := &Invoice{}
-	err := c.api.Call("GET", "/invoices/"+id, c.token, nil, invoice)
+	err := c.api.Call("GET", "/invoices/"+id, c.token, body, invoice)
 
 	return invoice, err
 }
 
 // Pay pays an invoice.
 // For more details see https://stripe.com/docs/api#pay_invoice.
-func (c *InvoiceClient) Pay(id string) (*Invoice, error) {
+func (c *InvoiceClient) Pay(id string, params *InvoiceParams) (*Invoice, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	invoice := &Invoice{}
-	err := c.api.Call("POST", fmt.Sprintf("/invoices/%v/pay", id), c.token, nil, invoice)
+	err := c.api.Call("POST", fmt.Sprintf("/invoices/%v/pay", id), c.token, body, invoice)
 
 	return invoice, err
 }
@@ -202,10 +214,6 @@ func (c *InvoiceClient) Update(id string, params *InvoiceParams) (*Invoice, erro
 			body.Add("forgiven", strconv.FormatBool(true))
 		}
 
-		for k, v := range params.Meta {
-			body.Add(fmt.Sprintf("metadata[%v]", k), v)
-		}
-
 		if params.Fee > 0 {
 			if len(params.AccessToken) == 0 {
 				err := errors.New("Invalid invoice params: an access token is required for application fees")
@@ -215,6 +223,8 @@ func (c *InvoiceClient) Update(id string, params *InvoiceParams) (*Invoice, erro
 			body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 			token = params.AccessToken
 		}
+
+		params.appendTo(body)
 	}
 
 	invoice := &Invoice{}
@@ -233,6 +243,8 @@ func (c *InvoiceClient) GetNext(params *InvoiceParams) (*Invoice, error) {
 	if len(params.Sub) > 0 {
 		body.Add("subscription", params.Sub)
 	}
+
+	params.appendTo(body)
 
 	invoice := &Invoice{}
 	err := c.api.Call("GET", "/invoices", c.token, body, invoice)

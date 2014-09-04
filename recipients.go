@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/url"
 	"strconv"
 )
@@ -89,13 +88,13 @@ func (c *RecipientClient) Create(params *RecipientParams) (*Recipient, error) {
 	}
 
 	if params.Bank != nil {
-		params.Bank.appendTo(body)
+		params.Bank.appendDetails(body)
 	}
 
 	if len(params.Token) > 0 {
 		body.Add("card", params.Token)
 	} else if params.Card != nil {
-		params.Card.appendTo(body, true)
+		params.Card.appendDetails(body, true)
 	}
 
 	if len(params.TaxId) > 0 {
@@ -110,9 +109,7 @@ func (c *RecipientClient) Create(params *RecipientParams) (*Recipient, error) {
 		body.Add("description", params.Desc)
 	}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
-	}
+	params.appendTo(body)
 
 	recipient := &Recipient{}
 	err := c.api.Call("POST", "/recipients", c.token, body, recipient)
@@ -122,9 +119,16 @@ func (c *RecipientClient) Create(params *RecipientParams) (*Recipient, error) {
 
 // Get returns the details of a recipient.
 // For more details see https://stripe.com/docs/api#retrieve_recipient.
-func (c *RecipientClient) Get(id string) (*Recipient, error) {
+func (c *RecipientClient) Get(id string, params *RecipientParams) (*Recipient, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	recipient := &Recipient{}
-	err := c.api.Call("GET", "/recipients/"+id, c.token, nil, recipient)
+	err := c.api.Call("GET", "/recipients/"+id, c.token, body, recipient)
 
 	return recipient, err
 }
@@ -142,13 +146,13 @@ func (c *RecipientClient) Update(id string, params *RecipientParams) (*Recipient
 		}
 
 		if params.Bank != nil {
-			params.Bank.appendTo(body)
+			params.Bank.appendDetails(body)
 		}
 
 		if len(params.Token) > 0 {
 			body.Add("card", params.Token)
 		} else if params.Card != nil {
-			params.Card.appendTo(body, true)
+			params.Card.appendDetails(body, true)
 		}
 
 		if len(params.TaxId) > 0 {
@@ -167,9 +171,7 @@ func (c *RecipientClient) Update(id string, params *RecipientParams) (*Recipient
 			body.Add("description", params.Desc)
 		}
 
-		for k, v := range params.Meta {
-			body.Add(fmt.Sprintf("metadata[%v]", k), v)
-		}
+		params.appendTo(body)
 	}
 
 	recipient := &Recipient{}
@@ -223,8 +225,8 @@ func (c *RecipientClient) List(params *RecipientListParams) (*RecipientList, err
 	return list, err
 }
 
-// appendTo adds the bank account's details to the query string values.
-func (b *BankAccountParams) appendTo(values *url.Values) {
+// appendDetails adds the bank account's details to the query string values.
+func (b *BankAccountParams) appendDetails(values *url.Values) {
 	values.Add("bank_account[country]", b.Country)
 	values.Add("bank_account[routing_number]", b.Routing)
 	values.Add("bank_account[account_number]", b.Account)

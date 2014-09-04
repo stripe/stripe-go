@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/url"
 	"strconv"
 )
@@ -72,7 +71,7 @@ func (c *CustomerClient) Create(params *CustomerParams) (*Customer, error) {
 		if len(params.Token) > 0 {
 			body.Add("card", params.Token)
 		} else if params.Card != nil {
-			params.Card.appendTo(body, true)
+			params.Card.appendDetails(body, true)
 		}
 
 		if len(params.Desc) > 0 {
@@ -99,9 +98,7 @@ func (c *CustomerClient) Create(params *CustomerParams) (*Customer, error) {
 			}
 		}
 
-		for k, v := range params.Meta {
-			body.Add(fmt.Sprintf("metadata[%v]", k), v)
-		}
+		params.appendTo(body)
 	}
 
 	cust := &Customer{}
@@ -112,9 +109,16 @@ func (c *CustomerClient) Create(params *CustomerParams) (*Customer, error) {
 
 // Get returns the details of a customer.
 // For more details see https://stripe.com/docs/api#retrieve_customer.
-func (c *CustomerClient) Get(id string) (*Customer, error) {
+func (c *CustomerClient) Get(id string, params *CustomerParams) (*Customer, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	cust := &Customer{}
-	err := c.api.Call("GET", "/customers/"+id, c.token, nil, cust)
+	err := c.api.Call("GET", "/customers/"+id, c.token, body, cust)
 
 	return cust, err
 }
@@ -137,7 +141,7 @@ func (c *CustomerClient) Update(id string, params *CustomerParams) (*Customer, e
 			if len(params.Card.Token) > 0 {
 				body.Add("card", params.Card.Token)
 			} else {
-				params.Card.appendTo(body, true)
+				params.Card.appendDetails(body, true)
 			}
 		}
 
@@ -157,9 +161,7 @@ func (c *CustomerClient) Update(id string, params *CustomerParams) (*Customer, e
 			body.Add("default_card", params.DefaultCard)
 		}
 
-		for k, v := range params.Meta {
-			body.Add(fmt.Sprintf("metadata[%v]", k), v)
-		}
+		params.appendTo(body)
 	}
 
 	cust := &Customer{}

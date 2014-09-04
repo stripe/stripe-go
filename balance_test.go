@@ -8,7 +8,7 @@ func TestBalanceGet(t *testing.T) {
 	c := &Client{}
 	c.Init(key, nil, nil)
 
-	target, err := c.Balance.Get()
+	target, err := c.Balance.Get(nil)
 
 	if err != nil {
 		t.Error(err)
@@ -48,7 +48,7 @@ func TestBalanceGetTx(t *testing.T) {
 
 	res, _ := c.Charges.Create(charge)
 
-	target, err := c.Balance.GetTx(res.Tx.Id)
+	target, err := c.Balance.GetTx(res.Tx.Id, nil)
 
 	if err != nil {
 		t.Error(err)

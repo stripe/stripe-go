@@ -52,7 +52,11 @@ func ExampleClient_get() {
 	client := &stripe.Client{}
 	client.Init("key", nil, &Get{})
 
-	charge, err := client.Charges.Get("ch_example_id")
+	params := &stripe.ChargeParams{}
+	params.Expand("customer")
+	params.Expand("balance_transaction")
+
+	charge, err := client.Charges.Get("ch_example_id", params)
 
 	if err != nil {
 		log.Fatal(err)

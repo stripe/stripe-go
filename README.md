@@ -86,10 +86,10 @@ applied throughout the library for a given `resource`:
 resource, err := stripe.Resources.Create(ResourceParams)
 
 // Get
-resource, err := stripe.Resources.Get(id)
+resource, err := stripe.Resources.Get(id, ResourceParams)
 
 // Update
-resource, err := stripe.Resources.Get(ResourceParams)
+resource, err := stripe.Resources.Update(ResourceParams)
 
 // Delete
 err := stripe.Resources.Delete(id)

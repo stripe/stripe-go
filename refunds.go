@@ -50,8 +50,12 @@ type RefundClient struct {
 // Get returns the details of a refund.
 // For more details see https://stripe.com/docs/api#retrieve_refund.
 func (c *RefundClient) Get(id string, params *RefundParams) (*Refund, error) {
+	body := &url.Values{}
+
+	params.appendTo(body)
+
 	refund := &Refund{}
-	err := c.api.Call("GET", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.token, nil, refund)
+	err := c.api.Call("GET", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.token, body, refund)
 
 	return refund, err
 }
@@ -61,9 +65,7 @@ func (c *RefundClient) Get(id string, params *RefundParams) (*Refund, error) {
 func (c *RefundClient) Update(id string, params *RefundParams) (*Refund, error) {
 	body := &url.Values{}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
-	}
+	params.appendTo(body)
 
 	refund := &Refund{}
 	err := c.api.Call("POST", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.token, body, refund)

@@ -10,6 +10,7 @@ import (
 // FeeRefundParams is the set of parameters that can be used when refunding a fee.
 // For more details see https://stripe.com/docs/api#fee_refund.
 type FeeRefundParams struct {
+	Params
 	Fee    string
 	Amount uint64
 	Meta   map[string]string
@@ -49,8 +50,15 @@ type FeeRefundClient struct {
 // Get returns the details of a fee refund.
 // For more details see https://stripe.com/docs/api#retrieve_fee_refund.
 func (c *FeeRefundClient) Get(id string, params *FeeRefundParams) (*FeeRefund, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	refund := &FeeRefund{}
-	err := c.api.Call("GET", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.token, nil, refund)
+	err := c.api.Call("GET", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.token, body, refund)
 
 	return refund, err
 }
@@ -60,9 +68,7 @@ func (c *FeeRefundClient) Get(id string, params *FeeRefundParams) (*FeeRefund, e
 func (c *FeeRefundClient) Update(id string, params *FeeRefundParams) (*FeeRefund, error) {
 	body := &url.Values{}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
-	}
+	params.appendTo(body)
 
 	refund := &FeeRefund{}
 	err := c.api.Call("POST", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.token, body, refund)

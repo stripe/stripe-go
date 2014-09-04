@@ -58,13 +58,15 @@ func (c *TokenClient) Create(params *TokenParams) (*Token, error) {
 	}
 
 	if params.Card != nil {
-		params.Card.appendTo(body, true)
+		params.Card.appendDetails(body, true)
 	} else if params.Bank != nil {
-		params.Bank.appendTo(body)
+		params.Bank.appendDetails(body)
 	} else if len(params.Customer) == 0 {
 		err := errors.New("Invalid token params: either Card or Bank need to be set")
 		return nil, err
 	}
+
+	params.appendTo(body)
 
 	tok := &Token{}
 	err := c.api.Call("POST", "/tokens", token, body, tok)
@@ -74,9 +76,16 @@ func (c *TokenClient) Create(params *TokenParams) (*Token, error) {
 
 // Get returns the details of a token.
 // For more details see https://stripe.com/docs/api#retrieve_token.
-func (c *TokenClient) Get(id string) (*Token, error) {
+func (c *TokenClient) Get(id string, params *TokenParams) (*Token, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	token := &Token{}
-	err := c.api.Call("GET", "/tokens/"+id, c.token, nil, token)
+	err := c.api.Call("GET", "/tokens/"+id, c.token, body, token)
 
 	return token, err
 }

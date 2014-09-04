@@ -53,9 +53,16 @@ type AppFeeClient struct {
 
 // Get returns the details of an application fee.
 // For more details see https://stripe.com/docs/api#retrieve_application_fee.
-func (c *AppFeeClient) Get(id string) (*AppFee, error) {
+func (c *AppFeeClient) Get(id string, params *AppFeeParams) (*AppFee, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	fee := &AppFee{}
-	err := c.api.Call("POST", fmt.Sprintf("application_fees/%v/refund", id), c.token, nil, fee)
+	err := c.api.Call("POST", fmt.Sprintf("application_fees/%v/refund", id), c.token, body, fee)
 
 	return fee, err
 }
@@ -71,6 +78,8 @@ func (c *AppFeeClient) Refund(id string, params *AppFeeParams) (*FeeRefund, erro
 		if params.Amount > 0 {
 			body.Add("amount", strconv.FormatUint(params.Amount, 10))
 		}
+
+		params.appendTo(body)
 	}
 
 	refund := &FeeRefund{}

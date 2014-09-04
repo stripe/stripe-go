@@ -180,7 +180,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Errorf("Updated invoice statement %q does not match expected statement %q\n", targetInvoiceUpdated.Statement, updatedInvoice.Statement)
 	}
 
-	_, err = c.InvoiceItems.Get(targetItem.Id)
+	_, err = c.InvoiceItems.Get(targetItem.Id, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -221,7 +221,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Error(err)
 	}
 
-	_, err = c.Invoices.Get(targetInvoice.Id)
+	_, err = c.Invoices.Get(targetInvoice.Id, nil)
 
 	if err != nil {
 		t.Error(err)

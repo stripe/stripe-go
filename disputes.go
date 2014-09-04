@@ -76,9 +76,7 @@ func (c *DisputeClient) Update(id string, params *DisputeParams) (*Dispute, erro
 			body.Add("evidence", params.Evidence)
 		}
 
-		for k, v := range params.Meta {
-			body.Add(fmt.Sprintf("metadata[%v]", k), v)
-		}
+		params.appendTo(body)
 	}
 
 	dispute := &Dispute{}

@@ -62,7 +62,7 @@ func TestChargeGet(t *testing.T) {
 
 	res, _ := c.Charges.Create(charge)
 
-	target, err := c.Charges.Get(res.Id)
+	target, err := c.Charges.Get(res.Id, nil)
 
 	if err != nil {
 		t.Error(err)
@@ -136,7 +136,7 @@ func TestChargeRefund(t *testing.T) {
 		t.Errorf("Refund charge %q does not match expected value %v\n", ref.Charge, res.Id)
 	}
 
-	target, _ := c.Charges.Get(res.Id)
+	target, _ := c.Charges.Get(res.Id, nil)
 
 	if !target.Refunded || target.Refunds == nil {
 		t.Errorf("Expected to have refunded this charge\n")
@@ -172,7 +172,7 @@ func TestChargeRefund(t *testing.T) {
 
 	c.Charges.Refund(refund)
 
-	target, _ = c.Charges.Get(res.Id)
+	target, _ = c.Charges.Get(res.Id, nil)
 
 	if target.Refunded {
 		t.Errorf("Partial refund should not be marked as Refunded\n")

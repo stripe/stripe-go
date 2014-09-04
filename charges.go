@@ -178,6 +178,7 @@ type ChargeListParams struct {
 // CaptureParams is the set of parameters that can be used when capturing a charge.
 // For more details see https://stripe.com/docs/api#charge_capture.
 type CaptureParams struct {
+	Params
 	Amount, Fee        uint64
 	Email, AccessToken string
 }
@@ -236,7 +237,7 @@ func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
 		if len(params.Card.Token) > 0 {
 			body.Add("card", params.Card.Token)
 		} else {
-			params.Card.appendTo(body, true)
+			params.Card.appendDetails(body, true)
 		}
 	} else {
 		err := errors.New("Invalid charge params: either customer, card token or card need to be set")
@@ -255,10 +256,6 @@ func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
 		body.Add("receipt_email", params.Email)
 	}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
-	}
-
 	body.Add("capture", strconv.FormatBool(!params.NoCapture))
 
 	token := c.token
@@ -272,6 +269,8 @@ func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
 		token = params.AccessToken
 	}
 
+	params.appendTo(body)
+
 	charge := &Charge{}
 	err := c.api.Call("POST", "/charges", token, body, charge)
 
@@ -280,9 +279,16 @@ func (c *ChargeClient) Create(params *ChargeParams) (*Charge, error) {
 
 // Get returns the details of a charge.
 // For more details see https://stripe.com/docs/api#retrieve_charge.
-func (c *ChargeClient) Get(id string) (*Charge, error) {
+func (c *ChargeClient) Get(id string, params *ChargeParams) (*Charge, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	charge := &Charge{}
-	err := c.api.Call("GET", "/charges/"+id, c.token, nil, charge)
+	err := c.api.Call("GET", "/charges/"+id, c.token, body, charge)
 
 	return charge, err
 }
@@ -299,9 +305,7 @@ func (c *ChargeClient) Update(id string, params *ChargeParams) (*Charge, error) 
 			body.Add("description", params.Desc)
 		}
 
-		for k, v := range params.Meta {
-			body.Add(fmt.Sprintf("metadata[%v]", k), v)
-		}
+		params.appendTo(body)
 	}
 
 	charge := &Charge{}
@@ -323,9 +327,7 @@ func (c *ChargeClient) Refund(params *RefundParams) (*Refund, error) {
 		body.Add("refund_application_fee", strconv.FormatBool(params.Fee))
 	}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
-	}
+	params.appendTo(body)
 
 	refund := &Refund{}
 	err := c.api.Call("POST", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.token, body, refund)
@@ -359,6 +361,8 @@ func (c *ChargeClient) Capture(id string, params *CaptureParams) (*Charge, error
 			body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 			token = params.AccessToken
 		}
+
+		params.appendTo(body)
 	}
 
 	charge := &Charge{}

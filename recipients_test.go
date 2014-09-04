@@ -95,7 +95,7 @@ func TestRecipientGet(t *testing.T) {
 
 	rec, _ := c.Recipients.Create(recipient)
 
-	target, err := c.Recipients.Get(rec.Id)
+	target, err := c.Recipients.Get(rec.Id, nil)
 
 	if err != nil {
 		t.Error(err)

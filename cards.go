@@ -98,7 +98,8 @@ type CardClient struct {
 // For more details see https://stripe.com/docs/api#create_card.
 func (c *CardClient) Create(params *CardParams) (*Card, error) {
 	body := &url.Values{}
-	params.appendTo(body, true)
+	params.appendDetails(body, true)
+	params.appendTo(body)
 
 	card := &Card{}
 	var err error
@@ -117,13 +118,20 @@ func (c *CardClient) Create(params *CardParams) (*Card, error) {
 // Get returns the details of a card.
 // For more details see https://stripe.com/docs/api#retrieve_card.
 func (c *CardClient) Get(id string, params *CardParams) (*Card, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	card := &Card{}
 	var err error
 
 	if len(params.Customer) > 0 {
-		err = c.api.Call("GET", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.token, nil, card)
+		err = c.api.Call("GET", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.token, body, card)
 	} else if len(params.Recipient) > 0 {
-		err = c.api.Call("GET", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.token, nil, card)
+		err = c.api.Call("GET", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.token, body, card)
 	} else {
 		err = errors.New("Invalid card params: either customer or recipient need to be set")
 	}
@@ -135,7 +143,8 @@ func (c *CardClient) Get(id string, params *CardParams) (*Card, error) {
 // For more details see	https://stripe.com/docs/api#update_card.
 func (c *CardClient) Update(id string, params *CardParams) (*Card, error) {
 	body := &url.Values{}
-	params.appendTo(body, false)
+	params.appendDetails(body, false)
+	params.appendTo(body)
 
 	card := &Card{}
 	var err error
@@ -202,10 +211,10 @@ func (c *CardClient) List(params *CardListParams) (*CardList, error) {
 	return list, err
 }
 
-// appendTo adds the card's details to the querey string values.
+// appendDetails adds the card's details to the query string values.
 // When creating a new card, the parameters are passed as a dictionary, but
 // on updates they are simply the parameter name.
-func (c *CardParams) appendTo(values *url.Values, creating bool) {
+func (c *CardParams) appendDetails(values *url.Values, creating bool) {
 	if creating {
 		if len(c.Token) > 0 {
 			values.Add("card", c.Token)

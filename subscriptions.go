@@ -82,7 +82,7 @@ func (c *SubscriptionClient) Create(params *SubParams) (*Subscription, error) {
 	if len(params.Token) > 0 {
 		body.Add("card", params.Token)
 	} else if params.Card != nil {
-		params.Card.appendTo(body, true)
+		params.Card.appendDetails(body, true)
 	}
 
 	if len(params.Coupon) > 0 {
@@ -97,10 +97,6 @@ func (c *SubscriptionClient) Create(params *SubParams) (*Subscription, error) {
 		body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
 	}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
-	}
-
 	token := c.token
 	if params.FeePercent > 0 {
 		if len(params.AccessToken) == 0 {
@@ -112,6 +108,8 @@ func (c *SubscriptionClient) Create(params *SubParams) (*Subscription, error) {
 		token = params.AccessToken
 	}
 
+	params.appendTo(body)
+
 	sub := &Subscription{}
 	err := c.api.Call("POST", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), token, body, sub)
 
@@ -121,8 +119,12 @@ func (c *SubscriptionClient) Create(params *SubParams) (*Subscription, error) {
 // Get returns the details of a subscription.
 // For more details see https://stripe.com/docs/api#retrieve_subscription.
 func (c *SubscriptionClient) Get(id string, params *SubParams) (*Subscription, error) {
+	body := &url.Values{}
+
+	params.appendTo(body)
+
 	sub := &Subscription{}
-	err := c.api.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, nil, sub)
+	err := c.api.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, body, sub)
 
 	return sub, err
 }
@@ -146,7 +148,7 @@ func (c *SubscriptionClient) Update(id string, params *SubParams) (*Subscription
 		if len(params.Card.Token) > 0 {
 			body.Add("card", params.Card.Token)
 		} else {
-			params.Card.appendTo(body, true)
+			params.Card.appendDetails(body, true)
 		}
 	}
 
@@ -162,10 +164,6 @@ func (c *SubscriptionClient) Update(id string, params *SubParams) (*Subscription
 		body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
 	}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
-	}
-
 	token := c.token
 	if params.FeePercent > 0 {
 		if len(params.AccessToken) == 0 {
@@ -176,6 +174,8 @@ func (c *SubscriptionClient) Update(id string, params *SubParams) (*Subscription
 		body.Add("application_fee_percent", strconv.FormatFloat(params.FeePercent, 'f', 2, 64))
 		token = params.AccessToken
 	}
+
+	params.appendTo(body)
 
 	sub := &Subscription{}
 	err := c.api.Call("POST", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), token, body, sub)
@@ -191,6 +191,8 @@ func (c *SubscriptionClient) Cancel(id string, params *SubParams) error {
 	if params.EndCancel {
 		body.Add("at_period_end", strconv.FormatBool(true))
 	}
+
+	params.appendTo(body)
 
 	return c.api.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.token, body, nil)
 }

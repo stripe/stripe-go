@@ -102,7 +102,7 @@ func TestTransferGet(t *testing.T) {
 
 	trans, _ := c.Transfers.Create(transfer)
 
-	target, err := c.Transfers.Get(trans.Id)
+	target, err := c.Transfers.Get(trans.Id, nil)
 
 	if err != nil {
 		t.Error(err)

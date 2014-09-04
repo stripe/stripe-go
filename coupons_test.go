@@ -67,7 +67,7 @@ func TestCouponGet(t *testing.T) {
 	}
 
 	c.Coupons.Create(coupon)
-	target, err := c.Coupons.Get(coupon.Id)
+	target, err := c.Coupons.Get(coupon.Id, nil)
 
 	if err != nil {
 		t.Error(err)

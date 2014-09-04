@@ -3,7 +3,6 @@ package stripe
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/url"
 	"strconv"
 )
@@ -98,9 +97,7 @@ func (c *CouponClient) Create(params *CouponParams) (*Coupon, error) {
 		body.Add("redeem_by", strconv.FormatInt(params.RedeemBy, 10))
 	}
 
-	for k, v := range params.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
-	}
+	params.appendTo(body)
 
 	coupon := &Coupon{}
 	err := c.api.Call("POST", "/coupons", c.token, body, coupon)
@@ -110,9 +107,16 @@ func (c *CouponClient) Create(params *CouponParams) (*Coupon, error) {
 
 // Get returns the details of a coupon.
 // For more details see https://stripe.com/docs/api#retrieve_coupon.
-func (c *CouponClient) Get(id string) (*Coupon, error) {
+func (c *CouponClient) Get(id string, params *CouponParams) (*Coupon, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	coupon := &Coupon{}
-	err := c.api.Call("GET", "/coupons/"+id, c.token, nil, coupon)
+	err := c.api.Call("GET", "/coupons/"+id, c.token, body, coupon)
 
 	return coupon, err
 }

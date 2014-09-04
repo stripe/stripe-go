@@ -29,6 +29,18 @@ const (
 	TxTransferFail   TransactionType = "transfer_failure"
 )
 
+// BalanceParams is the set of parameters that can be used when retrieving a balance.
+// For more details see https://stripe.com/docs/api#balance.
+type BalanceParams struct {
+	Params
+}
+
+// TxParams is the set of parameters that can be used when retrieving a transaction.
+// For more details see https://stripe.com/docs/api#retrieve_balance_transaction.
+type TxParams struct {
+	Params
+}
+
 // TxListParams is the set of parameters that can be used when listing balance transactions.
 // For more details see https://stripe.com/docs/api/#balance_history.
 type TxListParams struct {
@@ -94,18 +106,32 @@ type BalanceClient struct {
 
 // Get returns the details of your balance.
 // For more details see https://stripe.com/docs/api#retrieve_balance.
-func (c *BalanceClient) Get() (*Balance, error) {
+func (c *BalanceClient) Get(params *BalanceParams) (*Balance, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	balance := &Balance{}
-	err := c.api.Call("GET", "/balance", c.token, nil, balance)
+	err := c.api.Call("GET", "/balance", c.token, body, balance)
 
 	return balance, err
 }
 
 // GetTx returns the details of a balance transaction.
 // For more details see	https://stripe.com/docs/api#retrieve_balance_transaction.
-func (c *BalanceClient) GetTx(id string) (*Transaction, error) {
+func (c *BalanceClient) GetTx(id string, params *TxParams) (*Transaction, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+		params.appendTo(body)
+	}
+
 	balance := &Transaction{}
-	err := c.api.Call("GET", "/balance/history/"+id, c.token, nil, balance)
+	err := c.api.Call("GET", "/balance/history/"+id, c.token, body, balance)
 
 	return balance, err
 }
