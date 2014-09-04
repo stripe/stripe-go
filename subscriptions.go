@@ -202,25 +202,7 @@ func (c *SubscriptionClient) Cancel(id string, params *SubParams) error {
 func (c *SubscriptionClient) List(params *SubListParams) (*SubscriptionList, error) {
 	body := &url.Values{}
 
-	if len(params.Filters.f) > 0 {
-		params.Filters.appendTo(body)
-	}
-
-	if len(params.Start) > 0 {
-		body.Add("starting_after", params.Start)
-	}
-
-	if len(params.End) > 0 {
-		body.Add("ending_before", params.End)
-	}
-
-	if params.Limit > 0 {
-		if params.Limit > 100 {
-			params.Limit = 100
-		}
-
-		body.Add("limit", strconv.FormatUint(params.Limit, 10))
-	}
+	params.appendTo(body)
 
 	list := &SubscriptionList{}
 	err := c.api.Call("GET", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.token, body, list)

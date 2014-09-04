@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/url"
-	"strconv"
 )
 
 // RefundParams is the set of parameters that can be used when refunding a charge.
@@ -77,25 +76,8 @@ func (c *RefundClient) Update(id string, params *RefundParams) (*Refund, error) 
 // For more details see https://stripe.com/docs/api#list_refunds.
 func (c *RefundClient) List(params *RefundListParams) (*RefundList, error) {
 	body := &url.Values{}
-	if len(params.Filters.f) > 0 {
-		params.Filters.appendTo(body)
-	}
 
-	if len(params.Start) > 0 {
-		body.Add("starting_after", params.Start)
-	}
-
-	if len(params.End) > 0 {
-		body.Add("ending_before", params.End)
-	}
-
-	if params.Limit > 0 {
-		if params.Limit > 100 {
-			params.Limit = 100
-		}
-
-		body.Add("limit", strconv.FormatUint(params.Limit, 10))
-	}
+	params.appendTo(body)
 
 	list := &RefundList{}
 	err := c.api.Call("GET", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.token, body, list)

@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/url"
-	"strconv"
 )
 
 // FeeRefundParams is the set of parameters that can be used when refunding a fee.
@@ -80,25 +79,8 @@ func (c *FeeRefundClient) Update(id string, params *FeeRefundParams) (*FeeRefund
 // For more details see https://stripe.com/docs/api#list_fee_refunds.
 func (c *FeeRefundClient) List(params *FeeRefundListParams) (*FeeRefundList, error) {
 	body := &url.Values{}
-	if len(params.Filters.f) > 0 {
-		params.Filters.appendTo(body)
-	}
 
-	if len(params.Start) > 0 {
-		body.Add("starting_after", params.Start)
-	}
-
-	if len(params.End) > 0 {
-		body.Add("ending_before", params.End)
-	}
-
-	if params.Limit > 0 {
-		if params.Limit > 100 {
-			params.Limit = 100
-		}
-
-		body.Add("limit", strconv.FormatUint(params.Limit, 10))
-	}
+	params.appendTo(body)
 
 	list := &FeeRefundList{}
 	err := c.api.Call("GET", fmt.Sprintf("/application_fees/%v/refunds", params.Fee), c.token, body, list)

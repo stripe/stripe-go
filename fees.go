@@ -100,29 +100,11 @@ func (c *AppFeeClient) List(params *AppFeeListParams) (*AppFeeList, error) {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
 		}
 
-		if len(params.Filters.f) > 0 {
-			params.Filters.appendTo(body)
-		}
-
 		if len(params.Charge) > 0 {
 			body.Add("charge", params.Charge)
 		}
 
-		if len(params.Start) > 0 {
-			body.Add("starting_after", params.Start)
-		}
-
-		if len(params.End) > 0 {
-			body.Add("ending_before", params.End)
-		}
-
-		if params.Limit > 0 {
-			if params.Limit > 100 {
-				params.Limit = 100
-			}
-
-			body.Add("limit", strconv.FormatUint(params.Limit, 10))
-		}
+		params.appendTo(body)
 	}
 
 	list := &AppFeeList{}

@@ -152,10 +152,6 @@ func (c *BalanceClient) List(params *TxListParams) (*TransactionList, error) {
 			body.Add("available_on", strconv.FormatInt(params.Available, 10))
 		}
 
-		if len(params.Filters.f) > 0 {
-			params.Filters.appendTo(body)
-		}
-
 		if len(params.Currency) > 0 {
 			body.Add("currency", params.Currency)
 		}
@@ -172,21 +168,7 @@ func (c *BalanceClient) List(params *TxListParams) (*TransactionList, error) {
 			body.Add("type", string(params.Type))
 		}
 
-		if len(params.Start) > 0 {
-			body.Add("starting_after", params.Start)
-		}
-
-		if len(params.End) > 0 {
-			body.Add("ending_before", params.End)
-		}
-
-		if params.Limit > 0 {
-			if params.Limit > 100 {
-				params.Limit = 100
-			}
-
-			body.Add("limit", strconv.FormatUint(params.Limit, 10))
-		}
+		params.appendTo(body)
 	}
 
 	list := &TransactionList{}

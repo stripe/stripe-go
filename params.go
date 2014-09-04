@@ -3,6 +3,7 @@ package stripe
 import (
 	"fmt"
 	"net/url"
+	"strconv"
 )
 
 // ListParams is the structure that contains the common properties
@@ -52,6 +53,29 @@ func (p *Params) appendTo(body *url.Values) {
 
 	for _, v := range p.Exp {
 		body.Add("expand[]", v)
+	}
+}
+
+// appendTo adds the common parameters to the query string values.
+func (p *ListParams) appendTo(body *url.Values) {
+	if len(p.Filters.f) > 0 {
+		p.Filters.appendTo(body)
+	}
+
+	if len(p.Start) > 0 {
+		body.Add("starting_after", p.Start)
+	}
+
+	if len(p.End) > 0 {
+		body.Add("ending_before", p.End)
+	}
+
+	if p.Limit > 0 {
+		if p.Limit > 100 {
+			p.Limit = 100
+		}
+
+		body.Add("limit", strconv.FormatUint(p.Limit, 10))
 	}
 }
 

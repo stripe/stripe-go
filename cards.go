@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
-	"strconv"
 )
 
 // CardBrand is the list of allowed values for the card's brand.
@@ -177,25 +176,7 @@ func (c *CardClient) Delete(id string, params *CardParams) error {
 func (c *CardClient) List(params *CardListParams) (*CardList, error) {
 	body := &url.Values{}
 
-	if len(params.Filters.f) > 0 {
-		params.Filters.appendTo(body)
-	}
-
-	if len(params.Start) > 0 {
-		body.Add("starting_after", params.Start)
-	}
-
-	if len(params.End) > 0 {
-		body.Add("ending_before", params.End)
-	}
-
-	if params.Limit > 0 {
-		if params.Limit > 100 {
-			params.Limit = 100
-		}
-
-		body.Add("limit", strconv.FormatUint(params.Limit, 10))
-	}
+	params.appendTo(body)
 
 	list := &CardList{}
 	var err error
