@@ -9,9 +9,8 @@ import (
 // Params is the structure that contains the common properties
 // of any *Params structure.
 type Params struct {
-	Exp         []string
-	Meta        map[string]string
-	AccessToken string
+	Exp  []string
+	Meta map[string]string
 }
 
 // ListParams is the structure that contains the common properties
