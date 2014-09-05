@@ -16,6 +16,9 @@ type TokenParams struct {
 	Card     *CardParams
 	Bank     *BankAccountParams
 	Customer string
+	// Email is an undocumented parameter used by Stripe Checkout
+	// It may be removed from the API without notice.
+	Email string
 }
 
 // Token is the resource representing a Stripe token.
@@ -28,4 +31,7 @@ type Token struct {
 	Used    bool         `json:"used"`
 	Bank    *BankAccount `json:"bank_account"`
 	Card    *Card        `json:"card"`
+	// Email is an undocumented field but included for all tokens created
+	// with Stripe Checkout.
+	Email string `json:"email"`
 }
