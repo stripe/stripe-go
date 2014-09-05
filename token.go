@@ -33,5 +33,5 @@ type Token struct {
 	Card    *Card        `json:"card"`
 	// Email is an undocumented field but included for all tokens created
 	// with Stripe Checkout.
-	Email string `json:"email,omitempty"`
+	Email string `json:"email"`
 }
