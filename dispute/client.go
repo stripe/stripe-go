@@ -1,0 +1,64 @@
+package dispute
+
+import (
+	"fmt"
+	"net/url"
+
+	. "github.com/stripe/stripe-go"
+)
+
+// Client is used to invoke dispute-related APIs.
+type Client struct {
+	B     Backend
+	Token string
+}
+
+var c *Client
+
+// Update updates a charge's dispute.
+// For more details see https://stripe.com/docs/api#update_dispute.
+func Update(id string, params *DisputeParams) (*Dispute, error) {
+	refresh()
+	return c.Update(id, params)
+}
+
+func (c *Client) Update(id string, params *DisputeParams) (*Dispute, error) {
+	var body *url.Values
+
+	if params != nil {
+		body = &url.Values{}
+
+		if len(params.Evidence) > 0 {
+			body.Add("evidence", params.Evidence)
+		}
+
+		params.AppendTo(body)
+	}
+
+	dispute := &Dispute{}
+	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/dispute", id), c.Token, body, dispute)
+
+	return dispute, err
+}
+
+// Close dismisses a dispute in the customer's favor.
+// For more details see https://stripe.com/docs/api#close_dispute.
+func Close(id string) (*Dispute, error) {
+	refresh()
+	return c.Close(id)
+}
+
+func (c *Client) Close(id string) (*Dispute, error) {
+	dispute := &Dispute{}
+	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/dispute/close", id), c.Token, nil, dispute)
+
+	return dispute, err
+}
+
+func refresh() {
+	if c == nil {
+		c = &Client{B: GetBackend()}
+	}
+
+	c.Token = Key
+}

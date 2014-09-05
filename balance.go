@@ -1,10 +1,6 @@
 package stripe
 
-import (
-	"encoding/json"
-	"net/url"
-	"strconv"
-)
+import "encoding/json"
 
 // TransactionStatus is the list of allowed values for the transaction's status.
 // Allowed values are "available", "pending".
@@ -96,85 +92,6 @@ type Fee struct {
 type TransactionList struct {
 	ListResponse
 	Values []*Transaction `json:"data"`
-}
-
-// BalaneClient is the client used to invoke /balance and transaction-related APIs.
-type BalanceClient struct {
-	api   Api
-	token string
-}
-
-// Get returns the details of your balance.
-// For more details see https://stripe.com/docs/api#retrieve_balance.
-func (c *BalanceClient) Get(params *BalanceParams) (*Balance, error) {
-	var body *url.Values
-
-	if params != nil {
-		body = &url.Values{}
-		params.appendTo(body)
-	}
-
-	balance := &Balance{}
-	err := c.api.Call("GET", "/balance", c.token, body, balance)
-
-	return balance, err
-}
-
-// GetTx returns the details of a balance transaction.
-// For more details see	https://stripe.com/docs/api#retrieve_balance_transaction.
-func (c *BalanceClient) GetTx(id string, params *TxParams) (*Transaction, error) {
-	var body *url.Values
-
-	if params != nil {
-		body = &url.Values{}
-		params.appendTo(body)
-	}
-
-	balance := &Transaction{}
-	err := c.api.Call("GET", "/balance/history/"+id, c.token, body, balance)
-
-	return balance, err
-}
-
-// List returns a list of balance transactions.
-// For more details see https://stripe.com/docs/api#balance_history.
-func (c *BalanceClient) List(params *TxListParams) (*TransactionList, error) {
-	var body *url.Values
-
-	if params != nil {
-		body = &url.Values{}
-
-		if params.Created > 0 {
-			body.Add("created", strconv.FormatInt(params.Created, 10))
-		}
-
-		if params.Available > 0 {
-			body.Add("available_on", strconv.FormatInt(params.Available, 10))
-		}
-
-		if len(params.Currency) > 0 {
-			body.Add("currency", params.Currency)
-		}
-
-		if len(params.Src) > 0 {
-			body.Add("source", params.Src)
-		}
-
-		if len(params.Transfer) > 0 {
-			body.Add("transfer", params.Transfer)
-		}
-
-		if len(params.Type) > 0 {
-			body.Add("type", string(params.Type))
-		}
-
-		params.appendTo(body)
-	}
-
-	list := &TransactionList{}
-	err := c.api.Call("GET", "/balance/history", c.token, body, list)
-
-	return list, err
 }
 
 func (t *Transaction) UnmarshalJSON(data []byte) error {
