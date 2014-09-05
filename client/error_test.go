@@ -21,4 +21,8 @@ func TestErrors(t *testing.T) {
 	if stripeErr.Type != InvalidRequest {
 		t.Errorf("Type %v does not match expected type\n", stripeErr.Type)
 	}
+
+	if stripeErr.HttpStatusCode != 401 {
+		t.Errorf("HttpStatusCode %q does not match expected value of \"401\"", stripeErr.HttpStatusCode)
+	}
 }

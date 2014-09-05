@@ -34,10 +34,11 @@ const (
 // Error is the response returned when a call is unsuccessful.
 // For more details see  https://stripe.com/docs/api#errors.
 type Error struct {
-	Type  ErrorType `json:"type"`
-	Msg   string    `json:"message"`
-	Code  ErrorCode `json:"code,omitempty"`
-	Param string    `json:"param,omitempty"`
+	Type           ErrorType `json:"type"`
+	Msg            string    `json:"message"`
+	Code           ErrorCode `json:"code,omitempty"`
+	Param          string    `json:"param,omitempty"`
+	HttpStatusCode int       `json:"-"`
 }
 
 // Error serializes the Error object and prints the JSON string.
