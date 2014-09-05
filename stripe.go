@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-// url is the public Stripe URL for APIs.
+// defaultUrl is the public Stripe URL for APIs.
 const defaultUrl = "https://api.stripe.com/v1"
 
 // apiversion is the currently supported API version
@@ -34,13 +34,13 @@ type InternalBackend struct {
 }
 
 func NewInternalBackend(httpClient *http.Client, url string) *InternalBackend {
-	if url == "" {
+	if len(url) == 0 {
 		url = defaultUrl
 	}
 
 	return &InternalBackend{
 		url:        url,
-		httpClient: GetHttpClient(),
+		httpClient: httpClient,
 	}
 }
 
