@@ -96,9 +96,10 @@ type Client struct {
 	Tokens *TokenClient
 }
 
-// s is the internal implementation for making HTTP calls to Stripe.
-type s struct {
-	httpClient *http.Client
+// RawApiClient is the internal implementation for making HTTP calls to Stripe.
+// You will usually want to use a Client instance instead
+type RawApiClient struct {
+	HttpClient *http.Client
 }
 
 // ListResponse is the structure that contains the common properties
@@ -118,7 +119,7 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 	}
 
 	if api == nil {
-		api = &s{httpClient: client}
+		api = &RawApiClient{HttpClient: client}
 	}
 	c.api = api
 	c.Token = token
@@ -151,7 +152,7 @@ func (c *Client) SetDebug(value bool) {
 }
 
 // Call is the Api.Call implementation for invoking Stripe APIs.
-func (s *s) Call(method, path, token string, body *url.Values, v interface{}) error {
+func (s *RawApiClient) Call(method, path, token string, body *url.Values, v interface{}) error {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
@@ -175,7 +176,7 @@ func (s *s) Call(method, path, token string, body *url.Values, v interface{}) er
 	log.Printf("Requesting %v %q\n", method, path)
 	start := time.Now()
 
-	res, err := s.httpClient.Do(req)
+	res, err := s.HttpClient.Do(req)
 
 	if debug {
 		log.Printf("Completed in %v\n", time.Since(start))
