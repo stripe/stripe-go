@@ -6,6 +6,14 @@ import (
 	"strconv"
 )
 
+// Params is the structure that contains the common properties
+// of any *Params structure.
+type Params struct {
+	Exp         []string
+	Meta        map[string]string
+	AccessToken string
+}
+
 // ListParams is the structure that contains the common properties
 // of any *ListParams structure.
 type ListParams struct {
@@ -14,12 +22,13 @@ type ListParams struct {
 	Filters    Filters
 }
 
-// Params is the structure that contains the common properties
-// of any *Params structure.
-type Params struct {
-	Exp         []string
-	Meta        map[string]string
-	AccessToken string
+// ListResponse is the structure that contains the common properties
+// of any *List structure. The Count property is only populated if the
+// total_count include option is passed in (see tests for example).
+type ListResponse struct {
+	Count uint16 `json:"total_count"`
+	More  bool   `json:"has_more"`
+	Url   string `json:"url"`
 }
 
 // Filters is a structure that contains a collection of filters for list-related APIs.
@@ -44,8 +53,8 @@ func (f *Filters) AddFilter(key, op, value string) {
 	f.f = append(f.f, filter)
 }
 
-// appendTo adds the common parameters to the query string values.
-func (p *Params) appendTo(body *url.Values) {
+// AppendTo adds the common parameters to the query string values.
+func (p *Params) AppendTo(body *url.Values) {
 	for k, v := range p.Meta {
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
@@ -55,10 +64,10 @@ func (p *Params) appendTo(body *url.Values) {
 	}
 }
 
-// appendTo adds the common parameters to the query string values.
-func (p *ListParams) appendTo(body *url.Values) {
+// AppendTo adds the common parameters to the query string values.
+func (p *ListParams) AppendTo(body *url.Values) {
 	if len(p.Filters.f) > 0 {
-		p.Filters.appendTo(body)
+		p.Filters.AppendTo(body)
 	}
 
 	if len(p.Start) > 0 {
@@ -78,8 +87,8 @@ func (p *ListParams) appendTo(body *url.Values) {
 	}
 }
 
-// appendTo adds the list of filters to the query string values.
-func (f *Filters) appendTo(values *url.Values) {
+// AppendTo adds the list of filters to the query string values.
+func (f *Filters) AppendTo(values *url.Values) {
 	for _, v := range f.f {
 		if len(v.Op) > 0 {
 			values.Add(fmt.Sprintf("%v[%v]", v.Key, v.Op), v.Val)

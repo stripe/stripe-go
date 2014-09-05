@@ -21,79 +21,10 @@ const apiversion = "2014-08-20"
 // clientversion is the binding version
 const clientversion = "1.0"
 
-// debug is a global variable that enables additional tracing
-// to help with troubleshooting while testing.
-var debug bool
-
-// Api is an interface for making calls against a Stripe service.
+// Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
-type Api interface {
+type Backend interface {
 	Call(method, path, token string, body *url.Values, v interface{}) error
-}
-
-// Client is the Stripe client. It contains all the different resources available.
-type Client struct {
-	// Token is the secret key used for authentication.
-	Token string
-	// api is the Api implementation used to invoke Stripe APIs.
-	api Api
-	// Charges is the client used to invoke /charges APIs.
-	// For more details see https://stripe.com/docs/api/#charges.
-	Charges *ChargeClient
-	// Customers is the client used to invoke /customers APIs.
-	// For more details see https://stripe.com/docs/api/#customers.
-	Customers *CustomerClient
-	// Cards is the client used to invoke /cards APIs.
-	// For more details see https://stripe.com/docs/api/#cards.
-	Cards *CardClient
-	// Subs is the client used to invoke /subscriptions APIs.
-	// For more details see https://stripe.com/docs/api/#subscriptions.
-	Subs *SubscriptionClient
-	// Plans is the client used to invoke /plans APIs.
-	// For more details see https://stripe.com/docs/api/#plans.
-	Plans *PlanClient
-	// Coupons is the client used to invoke /coupons APIs.
-	// For more details see https://stripe.com/docs/api/#coupons.
-	Coupons *CouponClient
-	// Discounts is the client used to invoke discount-related APIs.
-	// For mode details see https://stripe.com/docs/api/#discounts.
-	Discounts *DiscountClient
-	// Invoices is the client used to invoke /invoices APIs.
-	// For more details see https://stripe.com/docs/api/#invoices.
-	Invoices *InvoiceClient
-	// InvoiceItems is the client used to invoke /invoiceitems APIs.
-	// For more details see https://stripe.com/docs/api/#invoiceitems.
-	InvoiceItems *InvoiceItemClient
-	// Disputes is the client used to invoke dispute-related APIs.
-	// For more details see https://stripe.com/docs/api/#disputes.
-	Disputes *DisputeClient
-	// Transfers is the client used to invoke /transfers APIs.
-	// For more details see https://stripe.com/docs/api/#transfers.
-	Transfers *TransferClient
-	// Recipients is the client used to invoke /recipients APIs.
-	// For more details see https://stripe.com/docs/api/#recipients.
-	Recipients *RecipientClient
-	// Refunds is the client used to invoke /refunds APIs.
-	// For more details see https://stripe.com/docs/api#refunds.
-	Refunds *RefundClient
-	// Fees is the client used to invoke /application_fees APIs.
-	// For more details see https://stripe.com/docs/api/#application_fees.
-	Fees *AppFeeClient
-	// FeeRefunds is the client used to invoke /application_fees/refunds APIs.
-	// For more details see https://stripe.com/docs/api/#fee_refundss.
-	FeeRefunds *FeeRefundClient
-	// Account is the client used to invoke /account APIs.
-	// For more details see https://stripe.com/docs/api/#account.
-	Account *AccountClient
-	// Balance is the client used to invoke /balance and transaction-related APIs.
-	// For more details see https://stripe.com/docs/api/#balance.
-	Balance *BalanceClient
-	// Events is the client used to invoke /events APIs.
-	// For more details see https://stripe.com/docs/api#events.
-	Events *EventClient
-	// Tokens is the client used to invoke /tokens APIs.
-	// For more details see https://stripe.com/docs/api/#tokens.
-	Tokens *TokenClient
 }
 
 // s is the internal implementation for making HTTP calls to Stripe.
@@ -101,56 +32,48 @@ type s struct {
 	httpClient *http.Client
 }
 
-// ListResponse is the structure that contains the common properties
-// of any *List structure. The Count property is only populated if the
-// total_count include option is passed in (see tests for example).
-type ListResponse struct {
-	Count uint16 `json:"total_count"`
-	More  bool   `json:"has_more"`
-	Url   string `json:"url"`
-}
+// Key is the Stripe API key used globally in the binding.
+var Key string
 
-// Init initializes the Stripe client with the appropriate token secret key
-// as well as providing the ability to override the HTTP client and api used.
-func (c *Client) Init(token string, client *http.Client, api Api) {
-	if client == nil {
-		client = http.DefaultClient
-	}
-
-	if api == nil {
-		api = &s{httpClient: client}
-	}
-	c.api = api
-	c.Token = token
-
-	c.Charges = &ChargeClient{api: c.api, token: c.Token}
-	c.Customers = &CustomerClient{api: c.api, token: c.Token}
-	c.Cards = &CardClient{api: c.api, token: c.Token}
-	c.Subs = &SubscriptionClient{api: c.api, token: c.Token}
-	c.Plans = &PlanClient{api: c.api, token: c.Token}
-	c.Coupons = &CouponClient{api: c.api, token: c.Token}
-	c.Discounts = &DiscountClient{api: c.api, token: c.Token}
-	c.Invoices = &InvoiceClient{api: c.api, token: c.Token}
-	c.InvoiceItems = &InvoiceItemClient{api: c.api, token: c.Token}
-	c.Disputes = &DisputeClient{api: c.api, token: c.Token}
-	c.Transfers = &TransferClient{api: c.api, token: c.Token}
-	c.Recipients = &RecipientClient{api: c.api, token: c.Token}
-	c.Refunds = &RefundClient{api: c.api, token: c.Token}
-	c.Fees = &AppFeeClient{api: c.api, token: c.Token}
-	c.FeeRefunds = &FeeRefundClient{api: c.api, token: c.Token}
-	c.Account = &AccountClient{api: c.api, token: c.Token}
-	c.Balance = &BalanceClient{api: c.api, token: c.Token}
-	c.Events = &EventClient{api: c.api, token: c.Token}
-	c.Tokens = &TokenClient{api: c.api, token: c.Token}
-}
+var debug bool
+var backend Backend
+var httpClient *http.Client
 
 // SetDebug enables additional tracing globally.
 // The method is designed for used during testing.
-func (c *Client) SetDebug(value bool) {
+func SetDebug(value bool) {
 	debug = value
 }
 
-// Call is the Api.Call implementation for invoking Stripe APIs.
+// GetBackend returns the currently used backend in the binding.
+func GetBackend() Backend {
+	if backend == nil {
+		backend = &s{GetHttpClient()}
+	}
+
+	return backend
+}
+
+// SetBackend sets the backend used in the binding.
+func SetBackend(b Backend) {
+	backend = b
+}
+
+// SetHttpClient sets the HTTP client used in the binding.
+func SetHttpClient(c *http.Client) {
+	httpClient = c
+}
+
+// GetHttpClient returns the HTTP client used in the binding.
+func GetHttpClient() *http.Client {
+	if httpClient == nil {
+		httpClient = http.DefaultClient
+	}
+
+	return httpClient
+}
+
+// Call is the Backend.Call implementation for invoking Stripe APIs.
 func (s *s) Call(method, path, token string, body *url.Values, v interface{}) error {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path

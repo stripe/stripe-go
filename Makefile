@@ -1,8 +1,8 @@
 all: checkin
 
 checkin:
-	go test -v -run "TestCheckin*"
+	go test -run "TestCheckin*" ./client
 test:
-	go test ./... -v
+	go test ./... -p=1
 build:
 	go build ./...

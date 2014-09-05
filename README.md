@@ -81,8 +81,54 @@ for writing your own unit tests.
 While some resources may contain more/less APIs, the following pattern is
 applied throughout the library for a given `resource`:
 
+### Without a Client
+
+If you're only dealing with a single key, you can simply import the packages
+required for the resources you're interacting with without the need to create a
+client.
+
 ```go
-// Create 
+import (
+  "github.com/stripe/stripe-go"
+  "github.com/stripe/stripe-go/resource"
+)
+
+// Setup
+stripe.Key = "sk_key"
+
+// Create
+resource, err := resource.Create(ResourceParams)
+
+// Get
+resource, err := resource.Get(id, ResourceParams)
+
+// Update
+resource, err := resource.Update(ResourceParams)
+
+// Delete
+err := resource.Delete(id)
+
+// List
+resourceList, err := resource.List(ResourceListParams)
+```
+
+### With a Client
+
+If you're dealing with multiple keys, it is recommended you use the
+`client.Api`.  This allows you to create as many clients as needed, each with
+their own individual key.
+
+```go
+import (
+  "github.com/stripe/stripe-go"
+  "github.com/stripe/stripe-go/client"
+)
+
+// Setup
+stripe := &client.Api{}
+stripe.Init("sk_key", nil, nil)
+
+// Create
 resource, err := stripe.Resources.Create(ResourceParams)
 
 // Get
