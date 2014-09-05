@@ -27,9 +27,9 @@ type Backend interface {
 	Call(method, path, token string, body *url.Values, v interface{}) error
 }
 
-// s is the internal implementation for making HTTP calls to Stripe.
-type s struct {
-	httpClient *http.Client
+// InternalBackend is the internal implementation for making HTTP calls to Stripe.
+type InternalBackend struct {
+	HttpClient *http.Client
 }
 
 // Key is the Stripe API key used globally in the binding.
@@ -48,7 +48,7 @@ func SetDebug(value bool) {
 // GetBackend returns the currently used backend in the binding.
 func GetBackend() Backend {
 	if backend == nil {
-		backend = &s{GetHttpClient()}
+		backend = &InternalBackend{GetHttpClient()}
 	}
 
 	return backend
@@ -74,7 +74,7 @@ func GetHttpClient() *http.Client {
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s *s) Call(method, path, token string, body *url.Values, v interface{}) error {
+func (s *InternalBackend) Call(method, path, token string, body *url.Values, v interface{}) error {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
@@ -98,7 +98,7 @@ func (s *s) Call(method, path, token string, body *url.Values, v interface{}) er
 	log.Printf("Requesting %v %q\n", method, path)
 	start := time.Now()
 
-	res, err := s.httpClient.Do(req)
+	res, err := s.HttpClient.Do(req)
 
 	if debug {
 		log.Printf("Completed in %v\n", time.Since(start))
