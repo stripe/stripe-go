@@ -12,8 +12,8 @@ import (
 	"time"
 )
 
-// uri is the public Stripe URL for APIs.
-const uri = "https://api.stripe.com/v1"
+// defaultUrl is the public Stripe URL for APIs.
+const defaultUrl = "https://api.stripe.com/v1"
 
 // apiversion is the currently supported API version
 const apiversion = "2014-08-20"
@@ -29,7 +29,19 @@ type Backend interface {
 
 // InternalBackend is the internal implementation for making HTTP calls to Stripe.
 type InternalBackend struct {
-	HttpClient *http.Client
+	url        string
+	httpClient *http.Client
+}
+
+func NewInternalBackend(httpClient *http.Client, url string) *InternalBackend {
+	if len(url) == 0 {
+		url = defaultUrl
+	}
+
+	return &InternalBackend{
+		url:        url,
+		httpClient: httpClient,
+	}
 }
 
 // Key is the Stripe API key used globally in the binding.
@@ -48,7 +60,7 @@ func SetDebug(value bool) {
 // GetBackend returns the currently used backend in the binding.
 func GetBackend() Backend {
 	if backend == nil {
-		backend = &InternalBackend{GetHttpClient()}
+		backend = NewInternalBackend(GetHttpClient(), "")
 	}
 
 	return backend
@@ -79,7 +91,7 @@ func (s *InternalBackend) Call(method, path, token string, body *url.Values, v i
 		path = "/" + path
 	}
 
-	path = uri + path
+	path = s.url + path
 
 	if body != nil && len(*body) > 0 {
 		path += "?" + body.Encode()
@@ -98,7 +110,7 @@ func (s *InternalBackend) Call(method, path, token string, body *url.Values, v i
 	log.Printf("Requesting %v %q\n", method, path)
 	start := time.Now()
 
-	res, err := s.HttpClient.Do(req)
+	res, err := s.httpClient.Do(req)
 
 	if debug {
 		log.Printf("Completed in %v\n", time.Since(start))
