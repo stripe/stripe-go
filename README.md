@@ -5,6 +5,9 @@ Go Stripe (BETA) [![Build Status](https://travis-ci.org/stripe/stripe-go.svg?bra
 
 The official [Stripe](https://stripe.com) Go client library.
 
+**NOTE**: This library is still in beta.  We may make significant API changes between
+minor versions until the 1.0 release.  We will not make breaking changes in patch versions.
+
 ## Versioning
 
 Each revision of the binding is tagged and the version is updated accordingly.
