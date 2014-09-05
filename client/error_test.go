@@ -8,7 +8,7 @@ import (
 
 func TestErrors(t *testing.T) {
 	c := &Api{}
-	c.Init("bad_key", nil, nil)
+	c.Init("bad_key", nil)
 
 	_, err := c.Account.Get()
 

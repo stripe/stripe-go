@@ -11,7 +11,7 @@ const testKey = "tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I"
 
 func TestCheckinConnectivity(t *testing.T) {
 	c := &Api{}
-	c.Init(testKey, nil, nil)
+	c.Init(testKey, nil)
 
 	target, err := c.Account.Get()
 
@@ -34,7 +34,7 @@ func TestCheckinConnectivity(t *testing.T) {
 
 func TestCheckinError(t *testing.T) {
 	c := &Api{}
-	c.Init("bad_key", nil, nil)
+	c.Init("bad_key", nil)
 
 	_, err := c.Account.Get()
 
@@ -51,7 +51,7 @@ func TestCheckinError(t *testing.T) {
 
 func TestCheckinPost(t *testing.T) {
 	c := &Api{}
-	c.Init(testKey, nil, nil)
+	c.Init(testKey, nil)
 
 	charge := &ChargeParams{
 		Amount:   100,
@@ -85,7 +85,7 @@ func TestCheckinPost(t *testing.T) {
 
 func TestCheckinDelete(t *testing.T) {
 	c := &Api{}
-	c.Init(testKey, nil, nil)
+	c.Init(testKey, nil)
 
 	plan := &PlanParams{
 		Id:       "go_binding",
@@ -111,7 +111,7 @@ func TestCheckinDelete(t *testing.T) {
 func TestCheckinList(t *testing.T) {
 	const runs = 4
 	c := &Api{}
-	c.Init(testKey, nil, nil)
+	c.Init(testKey, nil)
 
 	for i := 0; i < runs; i++ {
 		plan := &PlanParams{

@@ -33,6 +33,10 @@ type InternalBackend struct {
 	httpClient *http.Client
 }
 
+// NewInternalBackend returns a customized backend used for making calls in this binding.
+// This method should be called in one of two scenarios:
+//	1. You're running in a Google AppEngine environment where the http.DefaultClient is not available.
+//  2. You're doing internal development at Stripe.
 func NewInternalBackend(httpClient *http.Client, url string) *InternalBackend {
 	if len(url) == 0 {
 		url = defaultUrl
@@ -49,7 +53,6 @@ var Key string
 
 var debug bool
 var backend Backend
-var httpClient *http.Client
 
 // SetDebug enables additional tracing globally.
 // The method is designed for used during testing.
@@ -60,7 +63,7 @@ func SetDebug(value bool) {
 // GetBackend returns the currently used backend in the binding.
 func GetBackend() Backend {
 	if backend == nil {
-		backend = NewInternalBackend(GetHttpClient(), "")
+		backend = NewInternalBackend(http.DefaultClient, "")
 	}
 
 	return backend
@@ -69,20 +72,6 @@ func GetBackend() Backend {
 // SetBackend sets the backend used in the binding.
 func SetBackend(b Backend) {
 	backend = b
-}
-
-// SetHttpClient sets the HTTP client used in the binding.
-func SetHttpClient(c *http.Client) {
-	httpClient = c
-}
-
-// GetHttpClient returns the HTTP client used in the binding.
-func GetHttpClient() *http.Client {
-	if httpClient == nil {
-		httpClient = http.DefaultClient
-	}
-
-	return httpClient
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.

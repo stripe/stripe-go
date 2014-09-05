@@ -2,8 +2,6 @@
 package client
 
 import (
-	"net/http"
-
 	. "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/account"
 	"github.com/stripe/stripe-go/balance"
@@ -92,14 +90,8 @@ type Api struct {
 }
 
 // Init initializes the Stripe client with the appropriate token secret key
-// as well as providing the ability to override the HTTP client and backend used.
-func (a *Api) Init(tok string, client *http.Client, backend Backend) {
-	if client == nil {
-		client = GetHttpClient()
-	} else {
-		SetHttpClient(client)
-	}
-
+// as well as providing the ability to override the backend as needed.
+func (a *Api) Init(tok string, backend Backend) {
 	if backend == nil {
 		backend = GetBackend()
 	}
