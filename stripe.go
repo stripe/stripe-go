@@ -29,8 +29,19 @@ type Backend interface {
 
 // InternalBackend is the internal implementation for making HTTP calls to Stripe.
 type InternalBackend struct {
-	Url        string
-	HttpClient *http.Client
+	url        string
+	httpClient *http.Client
+}
+
+func NewInternalBackend(httpClient *http.Client, url string) *InternalBackend {
+	if url == "" {
+		url = defaultUrl
+	}
+
+	return &InternalBackend{
+		url:        url,
+		httpClient: GetHttpClient(),
+	}
 }
 
 // Key is the Stripe API key used globally in the binding.
@@ -49,10 +60,7 @@ func SetDebug(value bool) {
 // GetBackend returns the currently used backend in the binding.
 func GetBackend() Backend {
 	if backend == nil {
-		backend = &InternalBackend{
-			Url:        defaultUrl,
-			HttpClient: GetHttpClient(),
-		}
+		backend = NewInternalBackend(GetHttpClient(), "")
 	}
 
 	return backend
@@ -83,7 +91,7 @@ func (s *InternalBackend) Call(method, path, token string, body *url.Values, v i
 		path = "/" + path
 	}
 
-	path = s.Url + path
+	path = s.url + path
 
 	if body != nil && len(*body) > 0 {
 		path += "?" + body.Encode()
@@ -102,7 +110,7 @@ func (s *InternalBackend) Call(method, path, token string, body *url.Values, v i
 	log.Printf("Requesting %v %q\n", method, path)
 	start := time.Now()
 
-	res, err := s.HttpClient.Do(req)
+	res, err := s.httpClient.Do(req)
 
 	if debug {
 		log.Printf("Completed in %v\n", time.Since(start))
