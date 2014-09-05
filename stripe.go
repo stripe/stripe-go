@@ -1,4 +1,4 @@
-// Package stripe provides a client for Stripe REST APIs.
+// Package stripe provides the binding for Stripe REST APIs.
 package stripe
 
 import (

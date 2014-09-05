@@ -1,3 +1,4 @@
+// package token provides the /tokens APIs
 package token
 
 import (
@@ -7,7 +8,7 @@ import (
 	. "github.com/stripe/stripe-go"
 )
 
-// Client is used to invoke /Tokens APIs.
+// Client is used to invoke /tokens APIs.
 type Client struct {
 	B   Backend
 	Tok string
@@ -50,8 +51,8 @@ func (c Client) Create(params *TokenParams) (*Token, error) {
 	return tok, err
 }
 
-// Get returns the details of a Token.
-// For more details see https://stripe.com/docs/api#retrieve_Token.
+// Get returns the details of a token.
+// For more details see https://stripe.com/docs/api#retrieve_token.
 func Get(id string, params *TokenParams) (*Token, error) {
 	return getC().Get(id, params)
 }

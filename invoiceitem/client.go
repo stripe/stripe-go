@@ -1,3 +1,4 @@
+// package invoiceitem provides the /invoiceitems APIs
 package invoiceitem
 
 import (

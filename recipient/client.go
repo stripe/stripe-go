@@ -1,3 +1,4 @@
+// package recipient provides the /recipients APIs
 package recipient
 
 import (

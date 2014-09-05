@@ -1,3 +1,4 @@
+// package sub provides the /subscriptions APIs
 package sub
 
 import (

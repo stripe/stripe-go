@@ -1,3 +1,4 @@
+// package event provides the /events APIs
 package event
 
 import (

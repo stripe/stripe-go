@@ -1,3 +1,4 @@
+// package transfer provides the /transfers APIs
 package transfer
 
 import (

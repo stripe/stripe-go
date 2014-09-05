@@ -1,3 +1,4 @@
+// package feerefund provides the /application_fees/refunds APIs
 package feerefund
 
 import (

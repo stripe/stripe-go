@@ -1,3 +1,4 @@
+// package coupon provides the /coupons APIs
 package coupon
 
 import (

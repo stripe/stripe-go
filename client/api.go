@@ -1,3 +1,4 @@
+// package client provides a Stripe client for invoking APIs across all resources
 package client
 
 import (

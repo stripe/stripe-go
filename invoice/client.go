@@ -1,3 +1,4 @@
+// package invoice provides the /invoices APIs
 package invoice
 
 import (

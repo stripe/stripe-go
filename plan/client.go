@@ -1,3 +1,4 @@
+// package plan provides the /plans APIs
 package plan
 
 import (

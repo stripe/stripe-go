@@ -1,3 +1,4 @@
+// package balance provides the /balance APIs
 package balance
 
 import (

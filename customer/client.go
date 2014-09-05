@@ -1,3 +1,4 @@
+// package customer provides the /customes APIs
 package customer
 
 import (

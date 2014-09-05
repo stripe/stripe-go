@@ -1,3 +1,4 @@
+// package fee provides the /application_fees APIs
 package fee
 
 import (

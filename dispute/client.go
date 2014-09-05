@@ -1,3 +1,4 @@
+// package dispute provides the dispute-related APIs
 package dispute
 
 import (

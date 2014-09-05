@@ -1,3 +1,4 @@
+// package charge provides the /charges APIs
 package charge
 
 import (

@@ -1,3 +1,4 @@
+// package discount provides the discount-related APIs
 package discount
 
 import (
