@@ -125,7 +125,8 @@ func TestPlanUpdate(t *testing.T) {
 }
 
 func TestPlanList(t *testing.T) {
-	for i := 0; i < 5; i++ {
+	const runs = 3
+	for i := 0; i < runs; i++ {
 		planParams := &PlanParams{
 			Id:       fmt.Sprintf("test_%v", i),
 			Name:     fmt.Sprintf("test_%v", i),
@@ -137,17 +138,24 @@ func TestPlanList(t *testing.T) {
 		Create(planParams)
 	}
 
-	target, err := List(nil)
+	i := List(nil)
+	for !i.End() {
+		target, meta, err := i.Next()
 
-	if err != nil {
-		t.Error(err)
+		if err != nil {
+			t.Error(err)
+		}
+
+		if meta == nil {
+			t.Error("No metadata returned")
+		}
+
+		if target.Amount != 99 {
+			t.Errorf("Amount %v does not match expected value\n", target.Amount)
+		}
 	}
 
-	if len(target.Values) != 5 {
-		t.Errorf("Count %v does not match expected value\n", len(target.Values))
-	}
-
-	for i := 0; i < 5; i++ {
+	for i := 0; i < runs; i++ {
 		Delete(fmt.Sprintf("test_%v", i))
 	}
 }

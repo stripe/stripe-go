@@ -110,23 +110,32 @@ func (c Client) Delete(id string) error {
 
 // List returns a list of plans.
 // For more details see https://stripe.com/docs/api#list_plans.
-func List(params *PlanListParams) (*PlanList, error) {
+func List(params *PlanListParams) *PlanIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *PlanListParams) (*PlanList, error) {
+func (c Client) List(params *PlanListParams) *PlanIter {
 	var body *url.Values
+	var lp *ListParams
 
 	if params != nil {
 		body = &url.Values{}
 
 		params.AppendTo(body)
+		lp = &params.ListParams
 	}
 
-	list := &PlanList{}
-	err := c.B.Call("GET", "/plans", c.Tok, body, list)
+	return &PlanIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListResponse, error) {
+		list := &PlanList{}
+		err := c.B.Call("GET", "/plans", c.Tok, &b, list)
 
-	return list, err
+		ret := make([]interface{}, len(list.Values))
+		for i, v := range list.Values {
+			ret[i] = v
+		}
+
+		return ret, list.ListResponse, err
+	})}
 }
 
 func getC() Client {

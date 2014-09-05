@@ -50,3 +50,16 @@ type PlanList struct {
 	ListResponse
 	Values []*Plan `json:"data"`
 }
+
+type PlanIter struct {
+	Iter *Iter
+}
+
+func (i *PlanIter) Next() (*Plan, *ListResponse, error) {
+	p, meta, err := i.Iter.Next()
+	return p.(*Plan), meta, err
+}
+
+func (i *PlanIter) End() bool {
+	return i.Iter.End()
+}
