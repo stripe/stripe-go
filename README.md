@@ -139,9 +139,9 @@ For more details about Stripe, check out the [documentation](https://stripe.com/
 ### Customers
 
 ```go
-params := &CustomerParams{
+params := &stripe.CustomerParams{
 		Balance: -123,
-		Card: &CardParams{
+		Card: &stripe.CardParams{
 			Name:   "Go Stripe",
 			Number: "378282246310005",
 			Month:  "06",
@@ -151,16 +151,16 @@ params := &CustomerParams{
 		Email: "gostripe@stripe.com",
 	}
 
-customer, err := stripe.Customers.Create(params)
+customer, err := customer.Create(params)
 ```
 
 ### Charges
 
 ```go
-params := &ChargeListParams{Customer: customer.Id}
+params := &stripe.ChargeListParams{Customer: customer.Id}
 params.Filters.AddFilter("include", "", "total_count")
 
-charges, err := stripe.Charges.List(params)
+charges, err := charge.List(params)
 
 for _, charge := range(charges.Values) {
    // perform an action on each charge
@@ -169,7 +169,7 @@ for _, charge := range(charges.Values) {
 ### Events
 
 ```go
-events, err := stripe.Events.List(nil)
+events, err := event.List(nil)
 
 for _, e := range(events.Values) {
   // access event data via e.GetObjValue("resource_name_based_on_type", "resource_property_name")
