@@ -59,13 +59,7 @@ func (c Client) Create(params *ChargeParams) (*Charge, error) {
 
 	token := c.Tok
 	if params.Fee > 0 {
-		if len(params.AccessToken) == 0 {
-			err := errors.New("Invalid charge params: an access token is required for application fees")
-			return nil, err
-		}
-
 		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
-		token = params.AccessToken
 	}
 
 	params.AppendTo(body)
@@ -168,13 +162,7 @@ func (c Client) Capture(id string, params *CaptureParams) (*Charge, error) {
 		}
 
 		if params.Fee > 0 {
-			if len(params.AccessToken) == 0 {
-				err := errors.New("Invalid charge params: an access token is required for application fees")
-				return nil, err
-			}
-
 			body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
-			token = params.AccessToken
 		}
 
 		params.AppendTo(body)
