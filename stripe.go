@@ -144,8 +144,9 @@ func (s *InternalBackend) Call(method, path, token string, body *url.Values, v i
 		} else {
 			root := e.(map[string]interface{})
 			err := &Error{
-				Type: ErrorType(root["type"].(string)),
-				Msg:  root["message"].(string),
+				Type:           ErrorType(root["type"].(string)),
+				Msg:            root["message"].(string),
+				HttpStatusCode: res.StatusCode,
 			}
 
 			if code, found := root["code"]; found {
