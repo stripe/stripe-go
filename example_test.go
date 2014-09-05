@@ -19,7 +19,7 @@ func (self *Post) Call(method, path, token string, body *url.Values, v interface
 	return nil
 }
 
-func ExampleClient_post() {
+func ExampleCharge_post() {
 	stripe.Key = "sk_key"
 	stripe.SetBackend(&Post{}) // mocking backend for example
 
@@ -52,7 +52,7 @@ func (self *Get) Call(method, path, token string, body *url.Values, v interface{
 	return nil
 }
 
-func ExampleClient_get() {
+func ExampleCharge_get() {
 	stripe.Key = "sk_key"
 	stripe.SetBackend(&Get{}) // mocking backend for example
 
@@ -78,7 +78,7 @@ func (self *Update) Call(method, path, token string, body *url.Values, v interfa
 	return nil
 }
 
-func ExampleClient_update() {
+func ExampleInvoice_update() {
 	stripe.Key = "sk_key"
 	stripe.SetBackend(&Update{}) // mocking backend for example
 
@@ -103,7 +103,7 @@ func (self *Delete) Call(method, path, token string, body *url.Values, v interfa
 	return nil
 }
 
-func ExampleClient_delete() {
+func ExampleCustomer_delete() {
 	stripe.Key = "sk_key"
 	stripe.SetBackend(&Delete{}) // mocking backend for example
 
@@ -123,7 +123,7 @@ func (self *List) Call(method, path, token string, body *url.Values, v interface
 	return nil
 }
 
-func ExampleClient_list() {
+func ExampleInvoiceItem_list() {
 	stripe.Key = "sk_key"
 	stripe.SetBackend(&List{}) // mocking backend for example
 
