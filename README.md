@@ -58,26 +58,6 @@ make test
 
 ## Usage
 
-First import the package into your code:
-```go
-import (
-    "github.com/stripe/stripe-go"
-)
-```
-
-To use the client, initialize it and before making any requests:
-```go
-stripe := &stripe.Client{}
-stripe.Init(YOUR_API_KEY, nil, nil)
-```
-
-The second parameter can be used to set a different http.Client (by default,
-http.DefaultClient is used).  The third parameter can be used to inject a mock
-Api implementation so calls aren't actually made to Stripe. This can be useful
-for writing your own unit tests.
-
-## APIs
-
 While some resources may contain more/less APIs, the following pattern is
 applied throughout the library for a given `resource`:
 
@@ -95,6 +75,9 @@ import (
 
 // Setup
 stripe.Key = "sk_key"
+
+stripe.SetBackend(backend) // optional, useful for mocking
+stripe.SetHttpClient(http.Client) // optional, useful for Google AppEngine
 
 // Create
 resource, err := resource.Create(ResourceParams)
@@ -127,6 +110,7 @@ import (
 // Setup
 stripe := &client.Api{}
 stripe.Init("sk_key", nil, nil)
+// similarly, the second parameter represents the http.Client used and the third parameter is the Backend used by the binding, which is useful for mocking for tests
 
 // Create
 resource, err := stripe.Resources.Create(ResourceParams)
