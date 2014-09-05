@@ -35,10 +35,8 @@ type Api interface {
 type Client struct {
 	// Token is the secret key used for authentication.
 	Token string
-	// Api is the raw Api implementation used to invoke Stripe APIs.
-	// It is generally better to access the API using the resource specific
-	// attributes such as Charges.
-	Api Api
+	// api is the Api implementation used to invoke Stripe APIs.
+	api Api
 	// Charges is the client used to invoke /charges APIs.
 	// For more details see https://stripe.com/docs/api/#charges.
 	Charges *ChargeClient
@@ -98,9 +96,10 @@ type Client struct {
 	Tokens *TokenClient
 }
 
-// s is the internal implementation for making HTTP calls to Stripe.
-type s struct {
-	httpClient *http.Client
+// RawApiClient is the internal implementation for making HTTP calls to Stripe.
+// You will usually want to use a Client instance instead
+type RawApiClient struct {
+	HttpClient *http.Client
 }
 
 // ListResponse is the structure that contains the common properties
@@ -120,30 +119,30 @@ func (c *Client) Init(token string, client *http.Client, api Api) {
 	}
 
 	if api == nil {
-		api = &s{httpClient: client}
+		api = &RawApiClient{HttpClient: client}
 	}
-	c.Api = api
+	c.api = api
 	c.Token = token
 
-	c.Charges = &ChargeClient{api: c.Api, token: c.Token}
-	c.Customers = &CustomerClient{api: c.Api, token: c.Token}
-	c.Cards = &CardClient{api: c.Api, token: c.Token}
-	c.Subs = &SubscriptionClient{api: c.Api, token: c.Token}
-	c.Plans = &PlanClient{api: c.Api, token: c.Token}
-	c.Coupons = &CouponClient{api: c.Api, token: c.Token}
-	c.Discounts = &DiscountClient{api: c.Api, token: c.Token}
-	c.Invoices = &InvoiceClient{api: c.Api, token: c.Token}
-	c.InvoiceItems = &InvoiceItemClient{api: c.Api, token: c.Token}
-	c.Disputes = &DisputeClient{api: c.Api, token: c.Token}
-	c.Transfers = &TransferClient{api: c.Api, token: c.Token}
-	c.Recipients = &RecipientClient{api: c.Api, token: c.Token}
-	c.Refunds = &RefundClient{api: c.Api, token: c.Token}
-	c.Fees = &AppFeeClient{api: c.Api, token: c.Token}
-	c.FeeRefunds = &FeeRefundClient{api: c.Api, token: c.Token}
-	c.Account = &AccountClient{api: c.Api, token: c.Token}
-	c.Balance = &BalanceClient{api: c.Api, token: c.Token}
-	c.Events = &EventClient{api: c.Api, token: c.Token}
-	c.Tokens = &TokenClient{api: c.Api, token: c.Token}
+	c.Charges = &ChargeClient{api: c.api, token: c.Token}
+	c.Customers = &CustomerClient{api: c.api, token: c.Token}
+	c.Cards = &CardClient{api: c.api, token: c.Token}
+	c.Subs = &SubscriptionClient{api: c.api, token: c.Token}
+	c.Plans = &PlanClient{api: c.api, token: c.Token}
+	c.Coupons = &CouponClient{api: c.api, token: c.Token}
+	c.Discounts = &DiscountClient{api: c.api, token: c.Token}
+	c.Invoices = &InvoiceClient{api: c.api, token: c.Token}
+	c.InvoiceItems = &InvoiceItemClient{api: c.api, token: c.Token}
+	c.Disputes = &DisputeClient{api: c.api, token: c.Token}
+	c.Transfers = &TransferClient{api: c.api, token: c.Token}
+	c.Recipients = &RecipientClient{api: c.api, token: c.Token}
+	c.Refunds = &RefundClient{api: c.api, token: c.Token}
+	c.Fees = &AppFeeClient{api: c.api, token: c.Token}
+	c.FeeRefunds = &FeeRefundClient{api: c.api, token: c.Token}
+	c.Account = &AccountClient{api: c.api, token: c.Token}
+	c.Balance = &BalanceClient{api: c.api, token: c.Token}
+	c.Events = &EventClient{api: c.api, token: c.Token}
+	c.Tokens = &TokenClient{api: c.api, token: c.Token}
 }
 
 // SetDebug enables additional tracing globally.
@@ -153,7 +152,7 @@ func (c *Client) SetDebug(value bool) {
 }
 
 // Call is the Api.Call implementation for invoking Stripe APIs.
-func (s *s) Call(method, path, token string, body *url.Values, v interface{}) error {
+func (s *RawApiClient) Call(method, path, token string, body *url.Values, v interface{}) error {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
@@ -177,7 +176,7 @@ func (s *s) Call(method, path, token string, body *url.Values, v interface{}) er
 	log.Printf("Requesting %v %q\n", method, path)
 	start := time.Now()
 
-	res, err := s.httpClient.Do(req)
+	res, err := s.HttpClient.Do(req)
 
 	if debug {
 		log.Printf("Completed in %v\n", time.Since(start))
