@@ -10,20 +10,17 @@ import (
 
 // Client is used to invoke /coupons APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Create POSTs new coupons.
 // For more details see https://stripe.com/docs/api#create_coupon.
 func Create(params *CouponParams) (*Coupon, error) {
-	refresh()
-	return c.Create(params)
+	return getC().Create(params)
 }
 
-func (c *Client) Create(params *CouponParams) (*Coupon, error) {
+func (c Client) Create(params *CouponParams) (*Coupon, error) {
 	body := &url.Values{
 		"duration": {string(params.Duration)},
 	}
@@ -57,7 +54,7 @@ func (c *Client) Create(params *CouponParams) (*Coupon, error) {
 	params.AppendTo(body)
 
 	coupon := &Coupon{}
-	err := c.B.Call("POST", "/coupons", c.Token, body, coupon)
+	err := c.B.Call("POST", "/coupons", c.Tok, body, coupon)
 
 	return coupon, err
 }
@@ -65,11 +62,10 @@ func (c *Client) Create(params *CouponParams) (*Coupon, error) {
 // Get returns the details of a coupon.
 // For more details see https://stripe.com/docs/api#retrieve_coupon.
 func Get(id string, params *CouponParams) (*Coupon, error) {
-	refresh()
-	return c.Get(id, params)
+	return getC().Get(id, params)
 }
 
-func (c *Client) Get(id string, params *CouponParams) (*Coupon, error) {
+func (c Client) Get(id string, params *CouponParams) (*Coupon, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -78,7 +74,7 @@ func (c *Client) Get(id string, params *CouponParams) (*Coupon, error) {
 	}
 
 	coupon := &Coupon{}
-	err := c.B.Call("GET", "/coupons/"+id, c.Token, body, coupon)
+	err := c.B.Call("GET", "/coupons/"+id, c.Tok, body, coupon)
 
 	return coupon, err
 }
@@ -86,22 +82,20 @@ func (c *Client) Get(id string, params *CouponParams) (*Coupon, error) {
 // Delete removes a coupon.
 // For more details see https://stripe.com/docs/api#delete_coupon.
 func Delete(id string) error {
-	refresh()
-	return c.Delete(id)
+	return getC().Delete(id)
 }
 
-func (c *Client) Delete(id string) error {
-	return c.B.Call("DELETE", "/coupons/"+id, c.Token, nil, nil)
+func (c Client) Delete(id string) error {
+	return c.B.Call("DELETE", "/coupons/"+id, c.Tok, nil, nil)
 }
 
 // List returns a list of coupons.
 // For more details see https://stripe.com/docs/api#list_coupons.
 func List(params *CouponListParams) (*CouponList, error) {
-	refresh()
-	return c.List(params)
+	return getC().List(params)
 }
 
-func (c *Client) List(params *CouponListParams) (*CouponList, error) {
+func (c Client) List(params *CouponListParams) (*CouponList, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -111,15 +105,11 @@ func (c *Client) List(params *CouponListParams) (*CouponList, error) {
 	}
 
 	list := &CouponList{}
-	err := c.B.Call("GET", "/coupons", c.Token, body, list)
+	err := c.B.Call("GET", "/coupons", c.Tok, body, list)
 
 	return list, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }

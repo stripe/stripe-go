@@ -9,20 +9,17 @@ import (
 
 // Client is used to invoke /application_fees/refunds APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Get returns the details of a fee refund.
 // For more details see https://stripe.com/docs/api#retrieve_fee_refund.
 func Get(id string, params *FeeRefundParams) (*FeeRefund, error) {
-	refresh()
-	return c.Get(id, params)
+	return getC().Get(id, params)
 }
 
-func (c *Client) Get(id string, params *FeeRefundParams) (*FeeRefund, error) {
+func (c Client) Get(id string, params *FeeRefundParams) (*FeeRefund, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -31,7 +28,7 @@ func (c *Client) Get(id string, params *FeeRefundParams) (*FeeRefund, error) {
 	}
 
 	refund := &FeeRefund{}
-	err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.Token, body, refund)
+	err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.Tok, body, refund)
 
 	return refund, err
 }
@@ -39,17 +36,16 @@ func (c *Client) Get(id string, params *FeeRefundParams) (*FeeRefund, error) {
 // Update updates a refund's properties.
 // For more details see https://stripe.com/docs/api#update_refund.
 func Update(id string, params *FeeRefundParams) (*FeeRefund, error) {
-	refresh()
-	return c.Update(id, params)
+	return getC().Update(id, params)
 }
 
-func (c *Client) Update(id string, params *FeeRefundParams) (*FeeRefund, error) {
+func (c Client) Update(id string, params *FeeRefundParams) (*FeeRefund, error) {
 	body := &url.Values{}
 
 	params.AppendTo(body)
 
 	refund := &FeeRefund{}
-	err := c.B.Call("POST", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.Token, body, refund)
+	err := c.B.Call("POST", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.Tok, body, refund)
 
 	return refund, err
 }
@@ -57,25 +53,20 @@ func (c *Client) Update(id string, params *FeeRefundParams) (*FeeRefund, error) 
 // List returns a list of fee refunds.
 // For more details see https://stripe.com/docs/api#list_fee_refunds.
 func List(params *FeeRefundListParams) (*FeeRefundList, error) {
-	refresh()
-	return c.List(params)
+	return getC().List(params)
 }
 
-func (c *Client) List(params *FeeRefundListParams) (*FeeRefundList, error) {
+func (c Client) List(params *FeeRefundListParams) (*FeeRefundList, error) {
 	body := &url.Values{}
 
 	params.AppendTo(body)
 
 	list := &FeeRefundList{}
-	err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds", params.Fee), c.Token, body, list)
+	err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds", params.Fee), c.Tok, body, list)
 
 	return list, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }

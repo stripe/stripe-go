@@ -10,20 +10,17 @@ import (
 
 // Client is used to invoke /transfers APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Create POSTs a new transfer.
 // For more details see https://stripe.com/docs/api#create_transfer.
 func Create(params *TransferParams) (*Transfer, error) {
-	refresh()
-	return c.Create(params)
+	return getC().Create(params)
 }
 
-func (c *Client) Create(params *TransferParams) (*Transfer, error) {
+func (c Client) Create(params *TransferParams) (*Transfer, error) {
 	body := &url.Values{
 		"amount":    {strconv.FormatInt(params.Amount, 10)},
 		"currency":  {string(params.Currency)},
@@ -47,7 +44,7 @@ func (c *Client) Create(params *TransferParams) (*Transfer, error) {
 	params.AppendTo(body)
 
 	transfer := &Transfer{}
-	err := c.B.Call("POST", "/transfers", c.Token, body, transfer)
+	err := c.B.Call("POST", "/transfers", c.Tok, body, transfer)
 
 	return transfer, err
 }
@@ -55,11 +52,10 @@ func (c *Client) Create(params *TransferParams) (*Transfer, error) {
 // Get returns the details of a transfer.
 // For more details see https://stripe.com/docs/api#retrieve_transfer.
 func Get(id string, params *TransferParams) (*Transfer, error) {
-	refresh()
-	return c.Get(id, params)
+	return getC().Get(id, params)
 }
 
-func (c *Client) Get(id string, params *TransferParams) (*Transfer, error) {
+func (c Client) Get(id string, params *TransferParams) (*Transfer, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -68,7 +64,7 @@ func (c *Client) Get(id string, params *TransferParams) (*Transfer, error) {
 	}
 
 	transfer := &Transfer{}
-	err := c.B.Call("GET", "/transfers/"+id, c.Token, body, transfer)
+	err := c.B.Call("GET", "/transfers/"+id, c.Tok, body, transfer)
 
 	return transfer, err
 }
@@ -76,11 +72,10 @@ func (c *Client) Get(id string, params *TransferParams) (*Transfer, error) {
 // Update updates a transfer's properties.
 // For more details see https://stripe.com/docs/api#update_transfer.
 func Update(id string, params *TransferParams) (*Transfer, error) {
-	refresh()
-	return c.Update(id, params)
+	return getC().Update(id, params)
 }
 
-func (c *Client) Update(id string, params *TransferParams) (*Transfer, error) {
+func (c Client) Update(id string, params *TransferParams) (*Transfer, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -94,7 +89,7 @@ func (c *Client) Update(id string, params *TransferParams) (*Transfer, error) {
 	}
 
 	transfer := &Transfer{}
-	err := c.B.Call("POST", "/transfers/"+id, c.Token, body, transfer)
+	err := c.B.Call("POST", "/transfers/"+id, c.Tok, body, transfer)
 
 	return transfer, err
 }
@@ -102,11 +97,10 @@ func (c *Client) Update(id string, params *TransferParams) (*Transfer, error) {
 // Cancel cancels a pending transfer.
 // For more details see https://stripe.com/docs/api#cancel_transfer.
 func Cancel(id string, params *TransferParams) (*Transfer, error) {
-	refresh()
-	return c.Cancel(id, params)
+	return getC().Cancel(id, params)
 }
 
-func (c *Client) Cancel(id string, params *TransferParams) (*Transfer, error) {
+func (c Client) Cancel(id string, params *TransferParams) (*Transfer, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -115,7 +109,7 @@ func (c *Client) Cancel(id string, params *TransferParams) (*Transfer, error) {
 	}
 
 	transfer := &Transfer{}
-	err := c.B.Call("POST", fmt.Sprintf("/transfers/%v/cancel", id), c.Token, body, transfer)
+	err := c.B.Call("POST", fmt.Sprintf("/transfers/%v/cancel", id), c.Tok, body, transfer)
 
 	return transfer, err
 }
@@ -123,11 +117,10 @@ func (c *Client) Cancel(id string, params *TransferParams) (*Transfer, error) {
 // List returns a list of transfers.
 // For more details see https://stripe.com/docs/api#list_transfers.
 func List(params *TransferListParams) (*TransferList, error) {
-	refresh()
-	return c.List(params)
+	return getC().List(params)
 }
 
-func (c *Client) List(params *TransferListParams) (*TransferList, error) {
+func (c Client) List(params *TransferListParams) (*TransferList, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -153,15 +146,11 @@ func (c *Client) List(params *TransferListParams) (*TransferList, error) {
 	}
 
 	list := &TransferList{}
-	err := c.B.Call("GET", "/transfers", c.Token, body, list)
+	err := c.B.Call("GET", "/transfers", c.Tok, body, list)
 
 	return list, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }

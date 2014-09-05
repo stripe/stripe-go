@@ -9,20 +9,17 @@ import (
 
 // Client is used to invoke /plans APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Create POSTs a new plan.
 // For more details see https://stripe.com/docs/api#create_plan.
 func Create(params *PlanParams) (*Plan, error) {
-	refresh()
-	return c.Create(params)
+	return getC().Create(params)
 }
 
-func (c *Client) Create(params *PlanParams) (*Plan, error) {
+func (c Client) Create(params *PlanParams) (*Plan, error) {
 	body := &url.Values{
 		"id":       {params.Id},
 		"name":     {params.Name},
@@ -46,7 +43,7 @@ func (c *Client) Create(params *PlanParams) (*Plan, error) {
 	params.AppendTo(body)
 
 	plan := &Plan{}
-	err := c.B.Call("POST", "/plans", c.Token, body, plan)
+	err := c.B.Call("POST", "/plans", c.Tok, body, plan)
 
 	return plan, err
 }
@@ -54,11 +51,10 @@ func (c *Client) Create(params *PlanParams) (*Plan, error) {
 // Get returns the details of a plan.
 // For more details see https://stripe.com/docs/api#retrieve_plan.
 func Get(id string, params *PlanParams) (*Plan, error) {
-	refresh()
-	return c.Get(id, params)
+	return getC().Get(id, params)
 }
 
-func (c *Client) Get(id string, params *PlanParams) (*Plan, error) {
+func (c Client) Get(id string, params *PlanParams) (*Plan, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -67,7 +63,7 @@ func (c *Client) Get(id string, params *PlanParams) (*Plan, error) {
 	}
 
 	plan := &Plan{}
-	err := c.B.Call("GET", "/plans/"+id, c.Token, body, plan)
+	err := c.B.Call("GET", "/plans/"+id, c.Tok, body, plan)
 
 	return plan, err
 }
@@ -75,11 +71,10 @@ func (c *Client) Get(id string, params *PlanParams) (*Plan, error) {
 // Update updates a plan's properties.
 // For more details see https://stripe.com/docs/api#update_plan.
 func Update(id string, params *PlanParams) (*Plan, error) {
-	refresh()
-	return c.Update(id, params)
+	return getC().Update(id, params)
 }
 
-func (c *Client) Update(id string, params *PlanParams) (*Plan, error) {
+func (c Client) Update(id string, params *PlanParams) (*Plan, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -97,7 +92,7 @@ func (c *Client) Update(id string, params *PlanParams) (*Plan, error) {
 	}
 
 	plan := &Plan{}
-	err := c.B.Call("POST", "/plans/"+id, c.Token, body, plan)
+	err := c.B.Call("POST", "/plans/"+id, c.Tok, body, plan)
 
 	return plan, err
 }
@@ -105,22 +100,20 @@ func (c *Client) Update(id string, params *PlanParams) (*Plan, error) {
 // Delete removes a plan.
 // For more details see https://stripe.com/docs/api#delete_plan.
 func Delete(id string) error {
-	refresh()
-	return c.Delete(id)
+	return getC().Delete(id)
 }
 
-func (c *Client) Delete(id string) error {
-	return c.B.Call("DELETE", "/plans/"+id, c.Token, nil, nil)
+func (c Client) Delete(id string) error {
+	return c.B.Call("DELETE", "/plans/"+id, c.Tok, nil, nil)
 }
 
 // List returns a list of plans.
 // For more details see https://stripe.com/docs/api#list_plans.
 func List(params *PlanListParams) (*PlanList, error) {
-	refresh()
-	return c.List(params)
+	return getC().List(params)
 }
 
-func (c *Client) List(params *PlanListParams) (*PlanList, error) {
+func (c Client) List(params *PlanListParams) (*PlanList, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -130,15 +123,11 @@ func (c *Client) List(params *PlanListParams) (*PlanList, error) {
 	}
 
 	list := &PlanList{}
-	err := c.B.Call("GET", "/plans", c.Token, body, list)
+	err := c.B.Call("GET", "/plans", c.Tok, body, list)
 
 	return list, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }

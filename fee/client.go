@@ -10,20 +10,17 @@ import (
 
 // Client is used to invoke application_fees APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Get returns the details of an application fee.
 // For more details see https://stripe.com/docs/api#retrieve_application_fee.
 func Get(id string, params *AppFeeParams) (*AppFee, error) {
-	refresh()
-	return c.Get(id, params)
+	return getC().Get(id, params)
 }
 
-func (c *Client) Get(id string, params *AppFeeParams) (*AppFee, error) {
+func (c Client) Get(id string, params *AppFeeParams) (*AppFee, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -32,7 +29,7 @@ func (c *Client) Get(id string, params *AppFeeParams) (*AppFee, error) {
 	}
 
 	fee := &AppFee{}
-	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refund", id), c.Token, body, fee)
+	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refund", id), c.Tok, body, fee)
 
 	return fee, err
 }
@@ -40,11 +37,10 @@ func (c *Client) Get(id string, params *AppFeeParams) (*AppFee, error) {
 // RefundFee refunds the application fee collected.
 // For more details see https://stripe.com/docs/api#refund_application_fee.
 func RefundFee(id string, params *AppFeeParams) (*FeeRefund, error) {
-	refresh()
-	return c.Refund(id, params)
+	return getC().Refund(id, params)
 }
 
-func (c *Client) Refund(id string, params *AppFeeParams) (*FeeRefund, error) {
+func (c Client) Refund(id string, params *AppFeeParams) (*FeeRefund, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -58,7 +54,7 @@ func (c *Client) Refund(id string, params *AppFeeParams) (*FeeRefund, error) {
 	}
 
 	refund := &FeeRefund{}
-	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refunds", id), c.Token, body, refund)
+	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refunds", id), c.Tok, body, refund)
 
 	return refund, err
 }
@@ -66,11 +62,10 @@ func (c *Client) Refund(id string, params *AppFeeParams) (*FeeRefund, error) {
 // List returns a list of application fees.
 // For more details see https://stripe.com/docs/api#list_application_fees.
 func List(params *AppFeeListParams) (*AppFeeList, error) {
-	refresh()
-	return c.List(params)
+	return getC().List(params)
 }
 
-func (c *Client) List(params *AppFeeListParams) (*AppFeeList, error) {
+func (c Client) List(params *AppFeeListParams) (*AppFeeList, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -88,15 +83,11 @@ func (c *Client) List(params *AppFeeListParams) (*AppFeeList, error) {
 	}
 
 	list := &AppFeeList{}
-	err := c.B.Call("GET", "/application_fees", c.Token, body, list)
+	err := c.B.Call("GET", "/application_fees", c.Tok, body, list)
 
 	return list, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }

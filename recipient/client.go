@@ -9,20 +9,17 @@ import (
 
 // Client is used to invoke /recipients APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Create POSTs a new recipient.
 // For more details see https://stripe.com/docs/api#create_recipient.
 func Create(params *RecipientParams) (*Recipient, error) {
-	refresh()
-	return c.Create(params)
+	return getC().Create(params)
 }
 
-func (c *Client) Create(params *RecipientParams) (*Recipient, error) {
+func (c Client) Create(params *RecipientParams) (*Recipient, error) {
 	body := &url.Values{
 		"name": {params.Name},
 		"type": {string(params.Type)},
@@ -53,7 +50,7 @@ func (c *Client) Create(params *RecipientParams) (*Recipient, error) {
 	params.AppendTo(body)
 
 	recipient := &Recipient{}
-	err := c.B.Call("POST", "/recipients", c.Token, body, recipient)
+	err := c.B.Call("POST", "/recipients", c.Tok, body, recipient)
 
 	return recipient, err
 }
@@ -61,11 +58,10 @@ func (c *Client) Create(params *RecipientParams) (*Recipient, error) {
 // Get returns the details of a recipient.
 // For more details see https://stripe.com/docs/api#retrieve_recipient.
 func Get(id string, params *RecipientParams) (*Recipient, error) {
-	refresh()
-	return c.Get(id, params)
+	return getC().Get(id, params)
 }
 
-func (c *Client) Get(id string, params *RecipientParams) (*Recipient, error) {
+func (c Client) Get(id string, params *RecipientParams) (*Recipient, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -74,7 +70,7 @@ func (c *Client) Get(id string, params *RecipientParams) (*Recipient, error) {
 	}
 
 	recipient := &Recipient{}
-	err := c.B.Call("GET", "/recipients/"+id, c.Token, body, recipient)
+	err := c.B.Call("GET", "/recipients/"+id, c.Tok, body, recipient)
 
 	return recipient, err
 }
@@ -82,11 +78,10 @@ func (c *Client) Get(id string, params *RecipientParams) (*Recipient, error) {
 // Update updates a recipient's properties.
 // For more details see https://stripe.com/docs/api#update_recipient.
 func Update(id string, params *RecipientParams) (*Recipient, error) {
-	refresh()
-	return c.Update(id, params)
+	return getC().Update(id, params)
 }
 
-func (c *Client) Update(id string, params *RecipientParams) (*Recipient, error) {
+func (c Client) Update(id string, params *RecipientParams) (*Recipient, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -126,7 +121,7 @@ func (c *Client) Update(id string, params *RecipientParams) (*Recipient, error) 
 	}
 
 	recipient := &Recipient{}
-	err := c.B.Call("POST", "/recipients/"+id, c.Token, body, recipient)
+	err := c.B.Call("POST", "/recipients/"+id, c.Tok, body, recipient)
 
 	return recipient, err
 }
@@ -134,22 +129,20 @@ func (c *Client) Update(id string, params *RecipientParams) (*Recipient, error) 
 // Delete removes a recipient.
 // For more details see https://stripe.com/docs/api#delete_recipient.
 func Delete(id string) error {
-	refresh()
-	return c.Delete(id)
+	return getC().Delete(id)
 }
 
-func (c *Client) Delete(id string) error {
-	return c.B.Call("DELETE", "/recipients/"+id, c.Token, nil, nil)
+func (c Client) Delete(id string) error {
+	return c.B.Call("DELETE", "/recipients/"+id, c.Tok, nil, nil)
 }
 
 // List returns a list of recipients.
 // For more details see https://stripe.com/docs/api#list_recipients.
 func List(params *RecipientListParams) (*RecipientList, error) {
-	refresh()
-	return c.List(params)
+	return getC().List(params)
 }
 
-func (c *Client) List(params *RecipientListParams) (*RecipientList, error) {
+func (c Client) List(params *RecipientListParams) (*RecipientList, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -163,15 +156,11 @@ func (c *Client) List(params *RecipientListParams) (*RecipientList, error) {
 	}
 
 	list := &RecipientList{}
-	err := c.B.Call("GET", "/recipients", c.Token, body, list)
+	err := c.B.Call("GET", "/recipients", c.Tok, body, list)
 
 	return list, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }

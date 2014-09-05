@@ -9,20 +9,17 @@ import (
 
 // Client is used to invoke /customers APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Create POSTs new customers.
 // For more details see https://stripe.com/docs/api#create_customer.
 func Create(params *CustomerParams) (*Customer, error) {
-	refresh()
-	return c.Create(params)
+	return getC().Create(params)
 }
 
-func (c *Client) Create(params *CustomerParams) (*Customer, error) {
+func (c Client) Create(params *CustomerParams) (*Customer, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -65,7 +62,7 @@ func (c *Client) Create(params *CustomerParams) (*Customer, error) {
 	}
 
 	cust := &Customer{}
-	err := c.B.Call("POST", "/customers", c.Token, body, cust)
+	err := c.B.Call("POST", "/customers", c.Tok, body, cust)
 
 	return cust, err
 }
@@ -73,11 +70,10 @@ func (c *Client) Create(params *CustomerParams) (*Customer, error) {
 // Get returns the details of a customer.
 // For more details see https://stripe.com/docs/api#retrieve_customer.
 func Get(id string, params *CustomerParams) (*Customer, error) {
-	refresh()
-	return c.Get(id, params)
+	return getC().Get(id, params)
 }
 
-func (c *Client) Get(id string, params *CustomerParams) (*Customer, error) {
+func (c Client) Get(id string, params *CustomerParams) (*Customer, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -86,7 +82,7 @@ func (c *Client) Get(id string, params *CustomerParams) (*Customer, error) {
 	}
 
 	cust := &Customer{}
-	err := c.B.Call("GET", "/customers/"+id, c.Token, body, cust)
+	err := c.B.Call("GET", "/customers/"+id, c.Tok, body, cust)
 
 	return cust, err
 }
@@ -94,11 +90,10 @@ func (c *Client) Get(id string, params *CustomerParams) (*Customer, error) {
 // Update updates a customer's properties.
 // For more details see	https://stripe.com/docs/api#update_customer.
 func Update(id string, params *CustomerParams) (*Customer, error) {
-	refresh()
-	return c.Update(id, params)
+	return getC().Update(id, params)
 }
 
-func (c *Client) Update(id string, params *CustomerParams) (*Customer, error) {
+func (c Client) Update(id string, params *CustomerParams) (*Customer, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -138,7 +133,7 @@ func (c *Client) Update(id string, params *CustomerParams) (*Customer, error) {
 	}
 
 	cust := &Customer{}
-	err := c.B.Call("POST", "/customers/"+id, c.Token, body, cust)
+	err := c.B.Call("POST", "/customers/"+id, c.Tok, body, cust)
 
 	return cust, err
 }
@@ -146,22 +141,20 @@ func (c *Client) Update(id string, params *CustomerParams) (*Customer, error) {
 // Delete removes a customer.
 // For more details see https://stripe.com/docs/api#delete_customer.
 func Delete(id string) error {
-	refresh()
-	return c.Delete(id)
+	return getC().Delete(id)
 }
 
-func (c *Client) Delete(id string) error {
-	return c.B.Call("DELETE", "/customers/"+id, c.Token, nil, nil)
+func (c Client) Delete(id string) error {
+	return c.B.Call("DELETE", "/customers/"+id, c.Tok, nil, nil)
 }
 
 // List returns a list of customers.
 // For more details see https://stripe.com/docs/api#list_customers.
 func List(params *CustomerListParams) (*CustomerList, error) {
-	refresh()
-	return c.List(params)
+	return getC().List(params)
 }
 
-func (c *Client) List(params *CustomerListParams) (*CustomerList, error) {
+func (c Client) List(params *CustomerListParams) (*CustomerList, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -175,15 +168,11 @@ func (c *Client) List(params *CustomerListParams) (*CustomerList, error) {
 	}
 
 	list := &CustomerList{}
-	err := c.B.Call("GET", "/customers", c.Token, body, list)
+	err := c.B.Call("GET", "/customers", c.Tok, body, list)
 
 	return list, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }

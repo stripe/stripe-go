@@ -9,20 +9,17 @@ import (
 
 // Client is used to invoke /balance and transaction-related APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Get returns the details of your balance.
 // For more details see https://stripe.com/docs/api#retrieve_balance.
 func Get(params *BalanceParams) (*Balance, error) {
-	refresh()
-	return c.Get(params)
+	return getC().Get(params)
 }
 
-func (c *Client) Get(params *BalanceParams) (*Balance, error) {
+func (c Client) Get(params *BalanceParams) (*Balance, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -31,7 +28,7 @@ func (c *Client) Get(params *BalanceParams) (*Balance, error) {
 	}
 
 	balance := &Balance{}
-	err := c.B.Call("GET", "/balance", c.Token, body, balance)
+	err := c.B.Call("GET", "/balance", c.Tok, body, balance)
 
 	return balance, err
 }
@@ -39,11 +36,10 @@ func (c *Client) Get(params *BalanceParams) (*Balance, error) {
 // GetTx returns the details of a balance transaction.
 // For more details see	https://stripe.com/docs/api#retrieve_balance_transaction.
 func GetTx(id string, params *TxParams) (*Transaction, error) {
-	refresh()
-	return c.GetTx(id, params)
+	return getC().GetTx(id, params)
 }
 
-func (c *Client) GetTx(id string, params *TxParams) (*Transaction, error) {
+func (c Client) GetTx(id string, params *TxParams) (*Transaction, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -52,7 +48,7 @@ func (c *Client) GetTx(id string, params *TxParams) (*Transaction, error) {
 	}
 
 	balance := &Transaction{}
-	err := c.B.Call("GET", "/balance/history/"+id, c.Token, body, balance)
+	err := c.B.Call("GET", "/balance/history/"+id, c.Tok, body, balance)
 
 	return balance, err
 }
@@ -60,11 +56,10 @@ func (c *Client) GetTx(id string, params *TxParams) (*Transaction, error) {
 // List returns a list of balance transactions.
 // For more details see https://stripe.com/docs/api#balance_history.
 func List(params *TxListParams) (*TransactionList, error) {
-	refresh()
-	return c.List(params)
+	return getC().List(params)
 }
 
-func (c *Client) List(params *TxListParams) (*TransactionList, error) {
+func (c Client) List(params *TxListParams) (*TransactionList, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -98,15 +93,11 @@ func (c *Client) List(params *TxListParams) (*TransactionList, error) {
 	}
 
 	list := &TransactionList{}
-	err := c.B.Call("GET", "/balance/history", c.Token, body, list)
+	err := c.B.Call("GET", "/balance/history", c.Tok, body, list)
 
 	return list, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }

@@ -9,26 +9,23 @@ import (
 
 // Client is used to invoke /refunds APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Get returns the details of a refund.
 // For more details see https://stripe.com/docs/api#retrieve_refund.
 func Get(id string, params *RefundParams) (*Refund, error) {
-	refresh()
-	return c.Get(id, params)
+	return getC().Get(id, params)
 }
 
-func (c *Client) Get(id string, params *RefundParams) (*Refund, error) {
+func (c Client) Get(id string, params *RefundParams) (*Refund, error) {
 	body := &url.Values{}
 
 	params.AppendTo(body)
 
 	refund := &Refund{}
-	err := c.B.Call("GET", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.Token, body, refund)
+	err := c.B.Call("GET", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.Tok, body, refund)
 
 	return refund, err
 }
@@ -36,17 +33,16 @@ func (c *Client) Get(id string, params *RefundParams) (*Refund, error) {
 // Update updates a refund's properties.
 // For more details see https://stripe.com/docs/api#update_refund.
 func Update(id string, params *RefundParams) (*Refund, error) {
-	refresh()
-	return c.Update(id, params)
+	return getC().Update(id, params)
 }
 
-func (c *Client) Update(id string, params *RefundParams) (*Refund, error) {
+func (c Client) Update(id string, params *RefundParams) (*Refund, error) {
 	body := &url.Values{}
 
 	params.AppendTo(body)
 
 	refund := &Refund{}
-	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.Token, body, refund)
+	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.Tok, body, refund)
 
 	return refund, err
 }
@@ -54,25 +50,20 @@ func (c *Client) Update(id string, params *RefundParams) (*Refund, error) {
 // List returns a list of refunds.
 // For more details see https://stripe.com/docs/api#list_refunds.
 func List(params *RefundListParams) (*RefundList, error) {
-	refresh()
-	return c.List(params)
+	return getC().List(params)
 }
 
-func (c *Client) List(params *RefundListParams) (*RefundList, error) {
+func (c Client) List(params *RefundListParams) (*RefundList, error) {
 	body := &url.Values{}
 
 	params.AppendTo(body)
 
 	list := &RefundList{}
-	err := c.B.Call("GET", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.Token, body, list)
+	err := c.B.Call("GET", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.Tok, body, list)
 
 	return list, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }

@@ -11,20 +11,17 @@ import (
 
 // Client is used to invoke /subscriptions APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Create POSTS a new subscription for a customer.
 // For more details see https://stripe.com/docs/api#create_subscription.
 func Create(params *SubParams) (*Subscription, error) {
-	refresh()
-	return c.Create(params)
+	return getC().Create(params)
 }
 
-func (c *Client) Create(params *SubParams) (*Subscription, error) {
+func (c Client) Create(params *SubParams) (*Subscription, error) {
 	body := &url.Values{
 		"plan": {params.Plan},
 	}
@@ -47,10 +44,10 @@ func (c *Client) Create(params *SubParams) (*Subscription, error) {
 		body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
 	}
 
-	token := c.Token
+	token := c.Tok
 	if params.FeePercent > 0 {
 		if len(params.AccessToken) == 0 {
-			err := errors.New("Invalid sub params: an access Token is required for application fees")
+			err := errors.New("Invalid sub params: an access token is required for application fees")
 			return nil, err
 		}
 
@@ -69,17 +66,16 @@ func (c *Client) Create(params *SubParams) (*Subscription, error) {
 // Get returns the details of a subscription.
 // For more details see https://stripe.com/docs/api#retrieve_subscription.
 func Get(id string, params *SubParams) (*Subscription, error) {
-	refresh()
-	return c.Get(id, params)
+	return getC().Get(id, params)
 }
 
-func (c *Client) Get(id string, params *SubParams) (*Subscription, error) {
+func (c Client) Get(id string, params *SubParams) (*Subscription, error) {
 	body := &url.Values{}
 
 	params.AppendTo(body)
 
 	sub := &Subscription{}
-	err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Token, body, sub)
+	err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Tok, body, sub)
 
 	return sub, err
 }
@@ -87,11 +83,10 @@ func (c *Client) Get(id string, params *SubParams) (*Subscription, error) {
 // Update updates a subscription's properties.
 // For more details see https://stripe.com/docs/api#update_subscription.
 func Update(id string, params *SubParams) (*Subscription, error) {
-	refresh()
-	return c.Update(id, params)
+	return getC().Update(id, params)
 }
 
-func (c *Client) Update(id string, params *SubParams) (*Subscription, error) {
+func (c Client) Update(id string, params *SubParams) (*Subscription, error) {
 	body := &url.Values{}
 
 	if len(params.Plan) > 0 {
@@ -124,10 +119,10 @@ func (c *Client) Update(id string, params *SubParams) (*Subscription, error) {
 		body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
 	}
 
-	token := c.Token
+	token := c.Tok
 	if params.FeePercent > 0 {
 		if len(params.AccessToken) == 0 {
-			err := errors.New("Invalid sub params: an access Token is required for application fees")
+			err := errors.New("Invalid sub params: an access token is required for application fees")
 			return nil, err
 		}
 
@@ -146,11 +141,10 @@ func (c *Client) Update(id string, params *SubParams) (*Subscription, error) {
 // Cancel removes a subscription.
 // For more details see https://stripe.com/docs/api#cancel_subscription.
 func Cancel(id string, params *SubParams) error {
-	refresh()
-	return c.Cancel(id, params)
+	return getC().Cancel(id, params)
 }
 
-func (c *Client) Cancel(id string, params *SubParams) error {
+func (c Client) Cancel(id string, params *SubParams) error {
 	body := &url.Values{}
 
 	if params.EndCancel {
@@ -159,31 +153,26 @@ func (c *Client) Cancel(id string, params *SubParams) error {
 
 	params.AppendTo(body)
 
-	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Token, body, nil)
+	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Tok, body, nil)
 }
 
 // List returns a list of subscriptions.
 // For more details see https://stripe.com/docs/api#list_subscriptions.
 func List(params *SubListParams) (*SubscriptionList, error) {
-	refresh()
-	return c.List(params)
+	return getC().List(params)
 }
 
-func (c *Client) List(params *SubListParams) (*SubscriptionList, error) {
+func (c Client) List(params *SubListParams) (*SubscriptionList, error) {
 	body := &url.Values{}
 
 	params.AppendTo(body)
 
 	list := &SubscriptionList{}
-	err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.Token, body, list)
+	err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.Tok, body, list)
 
 	return list, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }

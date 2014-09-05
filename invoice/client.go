@@ -11,20 +11,17 @@ import (
 
 // Client is the client used to invoke /invoices APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Create POSTs new invoices.
 // For more details see https://stripe.com/docs/api#create_invoice.
 func Create(params *InvoiceParams) (*Invoice, error) {
-	refresh()
-	return c.Create(params)
+	return getC().Create(params)
 }
 
-func (c *Client) Create(params *InvoiceParams) (*Invoice, error) {
+func (c Client) Create(params *InvoiceParams) (*Invoice, error) {
 	body := &url.Values{
 		"customer": {params.Customer},
 	}
@@ -43,10 +40,10 @@ func (c *Client) Create(params *InvoiceParams) (*Invoice, error) {
 
 	params.AppendTo(body)
 
-	token := c.Token
+	token := c.Tok
 	if params.Fee > 0 {
 		if len(params.AccessToken) == 0 {
-			err := errors.New("Invalid invoice params: an access Token is required for application fees")
+			err := errors.New("Invalid invoice params: an access token is required for application fees")
 			return nil, err
 		}
 
@@ -63,11 +60,10 @@ func (c *Client) Create(params *InvoiceParams) (*Invoice, error) {
 // Get returns the details of an invoice.
 // For more details see https://stripe.com/docs/api#retrieve_invoice.
 func Get(id string, params *InvoiceParams) (*Invoice, error) {
-	refresh()
-	return c.Get(id, params)
+	return getC().Get(id, params)
 }
 
-func (c *Client) Get(id string, params *InvoiceParams) (*Invoice, error) {
+func (c Client) Get(id string, params *InvoiceParams) (*Invoice, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -76,7 +72,7 @@ func (c *Client) Get(id string, params *InvoiceParams) (*Invoice, error) {
 	}
 
 	invoice := &Invoice{}
-	err := c.B.Call("GET", "/invoices/"+id, c.Token, body, invoice)
+	err := c.B.Call("GET", "/invoices/"+id, c.Tok, body, invoice)
 
 	return invoice, err
 }
@@ -84,11 +80,10 @@ func (c *Client) Get(id string, params *InvoiceParams) (*Invoice, error) {
 // Pay pays an invoice.
 // For more details see https://stripe.com/docs/api#pay_invoice.
 func Pay(id string, params *InvoiceParams) (*Invoice, error) {
-	refresh()
-	return c.Pay(id, params)
+	return getC().Pay(id, params)
 }
 
-func (c *Client) Pay(id string, params *InvoiceParams) (*Invoice, error) {
+func (c Client) Pay(id string, params *InvoiceParams) (*Invoice, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -97,7 +92,7 @@ func (c *Client) Pay(id string, params *InvoiceParams) (*Invoice, error) {
 	}
 
 	invoice := &Invoice{}
-	err := c.B.Call("POST", fmt.Sprintf("/invoices/%v/pay", id), c.Token, body, invoice)
+	err := c.B.Call("POST", fmt.Sprintf("/invoices/%v/pay", id), c.Tok, body, invoice)
 
 	return invoice, err
 }
@@ -105,13 +100,12 @@ func (c *Client) Pay(id string, params *InvoiceParams) (*Invoice, error) {
 // Update updates an invoice's properties.
 // For more details see https://stripe.com/docs/api#update_invoice.
 func Update(id string, params *InvoiceParams) (*Invoice, error) {
-	refresh()
-	return c.Update(id, params)
+	return getC().Update(id, params)
 }
 
-func (c *Client) Update(id string, params *InvoiceParams) (*Invoice, error) {
+func (c Client) Update(id string, params *InvoiceParams) (*Invoice, error) {
 	var body *url.Values
-	token := c.Token
+	token := c.Tok
 
 	if params != nil {
 		body = &url.Values{}
@@ -138,7 +132,7 @@ func (c *Client) Update(id string, params *InvoiceParams) (*Invoice, error) {
 
 		if params.Fee > 0 {
 			if len(params.AccessToken) == 0 {
-				err := errors.New("Invalid invoice params: an access Token is required for application fees")
+				err := errors.New("Invalid invoice params: an access token is required for application fees")
 				return nil, err
 			}
 
@@ -158,11 +152,10 @@ func (c *Client) Update(id string, params *InvoiceParams) (*Invoice, error) {
 // GetNext returns the upcoming invoice's properties.
 // For more details see https://stripe.com/docs/api#retrieve_customer_invoice.
 func GetNext(params *InvoiceParams) (*Invoice, error) {
-	refresh()
-	return c.GetNext(params)
+	return getC().GetNext(params)
 }
 
-func (c *Client) GetNext(params *InvoiceParams) (*Invoice, error) {
+func (c Client) GetNext(params *InvoiceParams) (*Invoice, error) {
 	body := &url.Values{
 		"customer": {params.Customer},
 	}
@@ -174,7 +167,7 @@ func (c *Client) GetNext(params *InvoiceParams) (*Invoice, error) {
 	params.AppendTo(body)
 
 	invoice := &Invoice{}
-	err := c.B.Call("GET", "/invoices", c.Token, body, invoice)
+	err := c.B.Call("GET", "/invoices", c.Tok, body, invoice)
 
 	return invoice, err
 }
@@ -182,11 +175,10 @@ func (c *Client) GetNext(params *InvoiceParams) (*Invoice, error) {
 // List returns a list of invoices.
 // For more details see https://stripe.com/docs/api#list_customer_invoices.
 func List(params *InvoiceListParams) (*InvoiceList, error) {
-	refresh()
-	return c.List(params)
+	return getC().List(params)
 }
 
-func (c *Client) List(params *InvoiceListParams) (*InvoiceList, error) {
+func (c Client) List(params *InvoiceListParams) (*InvoiceList, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -204,7 +196,7 @@ func (c *Client) List(params *InvoiceListParams) (*InvoiceList, error) {
 	}
 
 	list := &InvoiceList{}
-	err := c.B.Call("GET", "/invoices", c.Token, body, list)
+	err := c.B.Call("GET", "/invoices", c.Tok, body, list)
 
 	return list, err
 }
@@ -212,11 +204,10 @@ func (c *Client) List(params *InvoiceListParams) (*InvoiceList, error) {
 // ListLines returns a list of line items.
 // For more details see https://stripe.com/docs/api#invoice_lines.
 func ListLines(params *InvoiceLineListParams) (*InvoiceLineList, error) {
-	refresh()
-	return c.ListLines(params)
+	return getC().ListLines(params)
 }
 
-func (c *Client) ListLines(params *InvoiceLineListParams) (*InvoiceLineList, error) {
+func (c Client) ListLines(params *InvoiceLineListParams) (*InvoiceLineList, error) {
 	body := &url.Values{}
 
 	if len(params.Customer) > 0 {
@@ -230,15 +221,11 @@ func (c *Client) ListLines(params *InvoiceLineListParams) (*InvoiceLineList, err
 	params.AppendTo(body)
 
 	list := &InvoiceLineList{}
-	err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.Id), c.Token, body, list)
+	err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.Id), c.Tok, body, list)
 
 	return list, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }

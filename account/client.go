@@ -6,30 +6,23 @@ import (
 
 // Client is used to invoke /account APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Get returns the details of your account.
 // For more details see https://stripe.com/docs/api/#retrieve_account.
 func Get() (*Account, error) {
-	refresh()
-	return c.Get()
+	return getC().Get()
 }
 
-func (c *Client) Get() (*Account, error) {
+func (c Client) Get() (*Account, error) {
 	account := &Account{}
-	err := c.B.Call("GET", "/account", c.Token, nil, account)
+	err := c.B.Call("GET", "/account", c.Tok, nil, account)
 
 	return account, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }

@@ -9,20 +9,17 @@ import (
 
 // Client is used to invoke /invoiceitems APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Create POSTs new invoice items.
 // For more details see https://stripe.com/docs/api#create_invoiceitem.
 func Create(params *InvoiceItemParams) (*InvoiceItem, error) {
-	refresh()
-	return c.Create(params)
+	return getC().Create(params)
 }
 
-func (c *Client) Create(params *InvoiceItemParams) (*InvoiceItem, error) {
+func (c Client) Create(params *InvoiceItemParams) (*InvoiceItem, error) {
 	body := &url.Values{
 		"customer": {params.Customer},
 		"amount":   {strconv.FormatInt(params.Amount, 10)},
@@ -44,7 +41,7 @@ func (c *Client) Create(params *InvoiceItemParams) (*InvoiceItem, error) {
 	params.AppendTo(body)
 
 	invoiceItem := &InvoiceItem{}
-	err := c.B.Call("POST", "/invoiceitems", c.Token, body, invoiceItem)
+	err := c.B.Call("POST", "/invoiceitems", c.Tok, body, invoiceItem)
 
 	return invoiceItem, err
 }
@@ -52,11 +49,10 @@ func (c *Client) Create(params *InvoiceItemParams) (*InvoiceItem, error) {
 // Get returns the details of an invoice item.
 // For more details see https://stripe.com/docs/api#retrieve_invoiceitem.
 func Get(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
-	refresh()
-	return c.Get(id, params)
+	return getC().Get(id, params)
 }
 
-func (c *Client) Get(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
+func (c Client) Get(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -65,7 +61,7 @@ func (c *Client) Get(id string, params *InvoiceItemParams) (*InvoiceItem, error)
 	}
 
 	invoiceItem := &InvoiceItem{}
-	err := c.B.Call("GET", "/invoiceitems/"+id, c.Token, body, invoiceItem)
+	err := c.B.Call("GET", "/invoiceitems/"+id, c.Tok, body, invoiceItem)
 
 	return invoiceItem, err
 }
@@ -73,11 +69,10 @@ func (c *Client) Get(id string, params *InvoiceItemParams) (*InvoiceItem, error)
 // Update updates an invoice item's properties.
 // For more details see https://stripe.com/docs/api#update_invoiceitem.
 func Update(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
-	refresh()
-	return c.Update(id, params)
+	return getC().Update(id, params)
 }
 
-func (c *Client) Update(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
+func (c Client) Update(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -95,7 +90,7 @@ func (c *Client) Update(id string, params *InvoiceItemParams) (*InvoiceItem, err
 	}
 
 	invoiceItem := &InvoiceItem{}
-	err := c.B.Call("POST", "/invoiceitems/"+id, c.Token, body, invoiceItem)
+	err := c.B.Call("POST", "/invoiceitems/"+id, c.Tok, body, invoiceItem)
 
 	return invoiceItem, err
 }
@@ -103,22 +98,20 @@ func (c *Client) Update(id string, params *InvoiceItemParams) (*InvoiceItem, err
 // Delete removes an invoice item.
 // For more details see https://stripe.com/docs/api#delete_invoiceitem.
 func Delete(id string) error {
-	refresh()
-	return c.Delete(id)
+	return getC().Delete(id)
 }
 
-func (c *Client) Delete(id string) error {
-	return c.B.Call("DELETE", "/invoiceitems/"+id, c.Token, nil, nil)
+func (c Client) Delete(id string) error {
+	return c.B.Call("DELETE", "/invoiceitems/"+id, c.Tok, nil, nil)
 }
 
 // List returns a list of invoice items.
 // For more details see https://stripe.com/docs/api#list_invoiceitems.
 func List(params *InvoiceItemListParams) (*InvoiceItemList, error) {
-	refresh()
-	return c.List(params)
+	return getC().List(params)
 }
 
-func (c *Client) List(params *InvoiceItemListParams) (*InvoiceItemList, error) {
+func (c Client) List(params *InvoiceItemListParams) (*InvoiceItemList, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -136,15 +129,11 @@ func (c *Client) List(params *InvoiceItemListParams) (*InvoiceItemList, error) {
 	}
 
 	list := &InvoiceItemList{}
-	err := c.B.Call("GET", "/invoiceitems", c.Token, body, list)
+	err := c.B.Call("GET", "/invoiceitems", c.Tok, body, list)
 
 	return list, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }

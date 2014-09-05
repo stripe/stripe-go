@@ -11,20 +11,17 @@ import (
 
 // Client is used to invoke /charges APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Create POSTs new charges.
 // For more details see https://stripe.com/docs/api#create_charge.
 func Create(params *ChargeParams) (*Charge, error) {
-	refresh()
-	return c.Create(params)
+	return getC().Create(params)
 }
 
-func (c *Client) Create(params *ChargeParams) (*Charge, error) {
+func (c Client) Create(params *ChargeParams) (*Charge, error) {
 	body := &url.Values{
 		"amount":   {strconv.FormatUint(params.Amount, 10)},
 		"currency": {string(params.Currency)},
@@ -41,7 +38,7 @@ func (c *Client) Create(params *ChargeParams) (*Charge, error) {
 			params.Card.AppendDetails(body, true)
 		}
 	} else {
-		err := errors.New("Invalid charge params: either customer, card Token or card need to be set")
+		err := errors.New("Invalid charge params: either customer, card Tok or card need to be set")
 		return nil, err
 	}
 
@@ -59,10 +56,10 @@ func (c *Client) Create(params *ChargeParams) (*Charge, error) {
 
 	body.Add("capture", strconv.FormatBool(!params.NoCapture))
 
-	token := c.Token
+	token := c.Tok
 	if params.Fee > 0 {
 		if len(params.AccessToken) == 0 {
-			err := errors.New("Invalid charge params: an access Token is required for application fees")
+			err := errors.New("Invalid charge params: an access token is required for application fees")
 			return nil, err
 		}
 
@@ -81,11 +78,10 @@ func (c *Client) Create(params *ChargeParams) (*Charge, error) {
 // Get returns the details of a charge.
 // For more details see https://stripe.com/docs/api#retrieve_charge.
 func Get(id string, params *ChargeParams) (*Charge, error) {
-	refresh()
-	return c.Get(id, params)
+	return getC().Get(id, params)
 }
 
-func (c *Client) Get(id string, params *ChargeParams) (*Charge, error) {
+func (c Client) Get(id string, params *ChargeParams) (*Charge, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -94,7 +90,7 @@ func (c *Client) Get(id string, params *ChargeParams) (*Charge, error) {
 	}
 
 	charge := &Charge{}
-	err := c.B.Call("GET", "/charges/"+id, c.Token, body, charge)
+	err := c.B.Call("GET", "/charges/"+id, c.Tok, body, charge)
 
 	return charge, err
 }
@@ -102,11 +98,10 @@ func (c *Client) Get(id string, params *ChargeParams) (*Charge, error) {
 // Update updates a charge's properties.
 // For more details see https://stripe.com/docs/api#update_charge.
 func Update(id string, params *ChargeParams) (*Charge, error) {
-	refresh()
-	return c.Update(id, params)
+	return getC().Update(id, params)
 }
 
-func (c *Client) Update(id string, params *ChargeParams) (*Charge, error) {
+func (c Client) Update(id string, params *ChargeParams) (*Charge, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -120,7 +115,7 @@ func (c *Client) Update(id string, params *ChargeParams) (*Charge, error) {
 	}
 
 	charge := &Charge{}
-	err := c.B.Call("POST", "/charges/"+id, c.Token, body, charge)
+	err := c.B.Call("POST", "/charges/"+id, c.Tok, body, charge)
 
 	return charge, err
 }
@@ -128,11 +123,10 @@ func (c *Client) Update(id string, params *ChargeParams) (*Charge, error) {
 // RefundCharge refunds a charge previously created.
 // For more details see https://stripe.com/docs/api#refund_charge.
 func RefundCharge(params *RefundParams) (*Refund, error) {
-	refresh()
-	return c.Refund(params)
+	return getC().Refund(params)
 }
 
-func (c *Client) Refund(params *RefundParams) (*Refund, error) {
+func (c Client) Refund(params *RefundParams) (*Refund, error) {
 	body := &url.Values{}
 
 	if params.Amount > 0 {
@@ -146,7 +140,7 @@ func (c *Client) Refund(params *RefundParams) (*Refund, error) {
 	params.AppendTo(body)
 
 	refund := &Refund{}
-	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.Token, body, refund)
+	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.Tok, body, refund)
 
 	return refund, err
 }
@@ -154,13 +148,12 @@ func (c *Client) Refund(params *RefundParams) (*Refund, error) {
 // Capture captures a previously created charge with NoCapture set to true.
 // For more details see https://stripe.com/docs/api#charge_capture.
 func Capture(id string, params *CaptureParams) (*Charge, error) {
-	refresh()
-	return c.Capture(id, params)
+	return getC().Capture(id, params)
 }
 
-func (c *Client) Capture(id string, params *CaptureParams) (*Charge, error) {
+func (c Client) Capture(id string, params *CaptureParams) (*Charge, error) {
 	var body *url.Values
-	token := c.Token
+	token := c.Tok
 
 	if params != nil {
 		body = &url.Values{}
@@ -175,7 +168,7 @@ func (c *Client) Capture(id string, params *CaptureParams) (*Charge, error) {
 
 		if params.Fee > 0 {
 			if len(params.AccessToken) == 0 {
-				err := errors.New("Invalid charge params: an access Token is required for application fees")
+				err := errors.New("Invalid charge params: an access token is required for application fees")
 				return nil, err
 			}
 
@@ -195,11 +188,10 @@ func (c *Client) Capture(id string, params *CaptureParams) (*Charge, error) {
 // List returns a list of charges.
 // For more details see https://stripe.com/docs/api#list_charges.
 func List(params *ChargeListParams) (*ChargeList, error) {
-	refresh()
-	return c.List(params)
+	return getC().List(params)
 }
 
-func (c *Client) List(params *ChargeListParams) (*ChargeList, error) {
+func (c Client) List(params *ChargeListParams) (*ChargeList, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -217,15 +209,11 @@ func (c *Client) List(params *ChargeListParams) (*ChargeList, error) {
 	}
 
 	list := &ChargeList{}
-	err := c.B.Call("GET", "/charges", c.Token, body, list)
+	err := c.B.Call("GET", "/charges", c.Tok, body, list)
 
 	return list, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }

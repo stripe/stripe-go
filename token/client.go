@@ -9,22 +9,19 @@ import (
 
 // Client is used to invoke /Tokens APIs.
 type Client struct {
-	B     Backend
-	Token string
+	B   Backend
+	Tok string
 }
-
-var c *Client
 
 // Create POSTs a new card or bank account.
 // For more details see https://stripe.com/docs/api#create_card_Token and https://stripe.com/docs/api#create_bank_account_token.
 func Create(params *TokenParams) (*Token, error) {
-	refresh()
-	return c.Create(params)
+	return getC().Create(params)
 }
 
-func (c *Client) Create(params *TokenParams) (*Token, error) {
+func (c Client) Create(params *TokenParams) (*Token, error) {
 	body := &url.Values{}
-	token := c.Token
+	token := c.Tok
 
 	if len(params.Customer) > 0 {
 		if len(params.AccessToken) == 0 {
@@ -56,11 +53,10 @@ func (c *Client) Create(params *TokenParams) (*Token, error) {
 // Get returns the details of a Token.
 // For more details see https://stripe.com/docs/api#retrieve_Token.
 func Get(id string, params *TokenParams) (*Token, error) {
-	refresh()
-	return c.Get(id, params)
+	return getC().Get(id, params)
 }
 
-func (c *Client) Get(id string, params *TokenParams) (*Token, error) {
+func (c Client) Get(id string, params *TokenParams) (*Token, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -69,15 +65,11 @@ func (c *Client) Get(id string, params *TokenParams) (*Token, error) {
 	}
 
 	token := &Token{}
-	err := c.B.Call("GET", "/tokens/"+id, c.Token, body, token)
+	err := c.B.Call("GET", "/tokens/"+id, c.Tok, body, token)
 
 	return token, err
 }
 
-func refresh() {
-	if c == nil {
-		c = &Client{B: GetBackend()}
-	}
-
-	c.Token = Key
+func getC() Client {
+	return Client{GetBackend(), Key}
 }
