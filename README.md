@@ -110,7 +110,8 @@ import (
 // Setup
 stripe := &client.Api{}
 stripe.Init("sk_key", nil, nil)
-// similarly, the second parameter represents the http.Client used and the third parameter is the Backend used by the binding, which is useful for mocking for tests
+// similarly, the second parameter represents the http.Client used and the third
+// parameter is the Backend used by the binding, which is useful for mocking in tests
 
 // Create
 resource, err := stripe.Resources.Create(ResourceParams)
