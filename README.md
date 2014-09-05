@@ -1,4 +1,4 @@
-Go Stripe [![Build Status](https://travis-ci.org/stripe/stripe-go.svg?branch=master)](https://travis-ci.org/stripe/stripe-go)
+Go Stripe (BETA) [![Build Status](https://travis-ci.org/stripe/stripe-go.svg?branch=master)](https://travis-ci.org/stripe/stripe-go)
 ========
 
 ## Summary
@@ -24,7 +24,7 @@ git checkout api_version_tag
 make build
 ```
 
-For more details on changes between versions, see the [binding changelog](CHANGELOG) 
+For more details on changes between versions, see the [binding changelog](CHANGELOG)
 and [API changelog](https://stripe.com/docs/upgrades).
 
 ## Installation
@@ -180,4 +180,4 @@ for _, e := range(events.Values) {
 }
 ```
 
-For any requests, bug or comments, please [open an issue](https://github.com/stripe/stripe-go/issues/new). 
+For any requests, bug or comments, please [open an issue](https://github.com/stripe/stripe-go/issues/new).
