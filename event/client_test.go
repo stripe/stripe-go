@@ -12,56 +12,62 @@ func init() {
 }
 
 func TestEvent(t *testing.T) {
-	targetList, err := List(&EventListParams{Type: "charge.*"})
+	params := &EventListParams{}
+	params.Filters.AddFilter("limit", "", "5")
+	params.Single = true
+	params.Type = "charge.*"
 
-	if err != nil {
-		t.Error(err)
-	}
+	i := List(params)
+	for !i.Stop() {
+		e, err := i.Next()
 
-	if len(targetList.Values) == 0 {
-		t.Fatalf("No events returned\n")
-	}
+		if err != nil {
+			t.Error(err)
+		}
 
-	e := targetList.Values[0]
+		if e == nil {
+			t.Error("No nil values expected")
+		}
 
-	if len(e.Id) == 0 {
-		t.Errorf("Id is not set\n")
-	}
+		if len(e.Id) == 0 {
+			t.Errorf("Id is not set\n")
+		}
 
-	if e.Created == 0 {
-		t.Errorf("Created date is not set\n")
-	}
+		if e.Created == 0 {
+			t.Errorf("Created date is not set\n")
+		}
 
-	if len(e.Type) == 0 {
-		t.Errorf("Type is not set\n")
-	}
+		if len(e.Type) == 0 {
+			t.Errorf("Type is not set\n")
+		}
 
-	if len(e.Req) == 0 {
-		t.Errorf("Request is not set\n")
-	}
+		if len(e.Req) == 0 {
+			t.Errorf("Request is not set\n")
+		}
 
-	if e.Data == nil {
-		t.Errorf("Data is not set\n")
-	}
+		if e.Data == nil {
+			t.Errorf("Data is not set\n")
+		}
 
-	if len(e.Data.Obj) == 0 {
-		t.Errorf("Object is empty\n")
-	}
+		if len(e.Data.Obj) == 0 {
+			t.Errorf("Object is empty\n")
+		}
 
-	target, err := Get(e.Id)
+		target, err := Get(e.Id)
 
-	if err != nil {
-		t.Error(err)
-	}
+		if err != nil {
+			t.Error(err)
+		}
 
-	if e.Id != target.Id {
-		t.Errorf("Id %q does not match expected id %q\n", e.Id, target.Id)
-	}
+		if e.Id != target.Id {
+			t.Errorf("Id %q does not match expected id %q\n", e.Id, target.Id)
+		}
 
-	targetVal := e.GetObjValue("card", "last4")
-	val := target.Data.Obj["card"].(map[string]interface{})["last4"]
+		targetVal := e.GetObjValue("card", "last4")
+		val := target.Data.Obj["card"].(map[string]interface{})["last4"]
 
-	if targetVal != val {
-		t.Errorf("Value %q does not match expected value %q\n", targetVal, val)
+		if targetVal != val {
+			t.Errorf("Value %q does not match expected value %q\n", targetVal, val)
+		}
 	}
 }

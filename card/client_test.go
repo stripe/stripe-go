@@ -166,14 +166,21 @@ func TestCardList(t *testing.T) {
 
 	Create(card)
 
-	target, err := List(&CardListParams{Customer: cust.Id})
+	i := List(&CardListParams{Customer: cust.Id})
+	for !i.Stop() {
+		target, err := i.Next()
 
-	if err != nil {
-		t.Error(err)
-	}
+		if err != nil {
+			t.Error(err)
+		}
 
-	if len(target.Values) != 2 {
-		t.Errorf("Number of cards %v does not match expected value\n", len(target.Values))
+		if target == nil {
+			t.Error("No nil values expected")
+		}
+
+		if i.Meta() == nil {
+			t.Error("No metadata returned")
+		}
 	}
 
 	customer.Delete(cust.Id)

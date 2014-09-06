@@ -188,12 +188,18 @@ func (c Client) Capture(id string, params *CaptureParams) (*Charge, error) {
 
 // List returns a list of charges.
 // For more details see https://stripe.com/docs/api#list_charges.
-func List(params *ChargeListParams) (*ChargeList, error) {
+func List(params *ChargeListParams) *ChargeIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *ChargeListParams) (*ChargeList, error) {
+func (c Client) List(params *ChargeListParams) *ChargeIter {
+	type chargeList struct {
+		ListMeta
+		Values []*Charge `json:"data"`
+	}
+
 	var body *url.Values
+	var lp *ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -207,12 +213,20 @@ func (c Client) List(params *ChargeListParams) (*ChargeList, error) {
 		}
 
 		params.AppendTo(body)
+		lp = &params.ListParams
 	}
 
-	list := &ChargeList{}
-	err := c.B.Call("GET", "/charges", c.Tok, body, list)
+	return &ChargeIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+		list := &chargeList{}
+		err := c.B.Call("GET", "/charges", c.Tok, &b, list)
 
-	return list, err
+		ret := make([]interface{}, len(list.Values))
+		for i, v := range list.Values {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
 }
 
 func getC() Client {

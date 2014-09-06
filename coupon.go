@@ -47,10 +47,29 @@ type Coupon struct {
 	Valid          bool              `json:"valid"`
 }
 
-// CouponList is a list object for coupons.
-type CouponList struct {
-	ListResponse
-	Values []*Coupon `json:"data"`
+// CouponIter is a iterator for list responses.
+type CouponIter struct {
+	Iter *Iter
+}
+
+// Next returns the next value in the list.
+func (i *CouponIter) Next() (*Coupon, error) {
+	c, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return c.(*Coupon), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *CouponIter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *CouponIter) Meta() *ListMeta {
+	return i.Iter.Meta()
 }
 
 func (c *Coupon) UnmarshalJSON(data []byte) error {

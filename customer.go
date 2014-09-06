@@ -38,15 +38,33 @@ type Customer struct {
 	Discount    *Discount         `json:"discount"`
 	Email       string            `json:"email"`
 	Meta        map[string]string `json:"metadata"`
-	Subs        *SubscriptionList `json:"subscriptions"`
+	Subs        *SubList          `json:"subscriptions"`
 }
 
-// CustomerList is a list object for customers.
-type CustomerList struct {
-	ListResponse
-	Values []*Customer `json:"data"`
+// CustomerIter is a iterator for list responses.
+type CustomerIter struct {
+	Iter *Iter
 }
 
+// Next returns the next value in the list.
+func (i *CustomerIter) Next() (*Customer, error) {
+	c, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return c.(*Customer), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *CustomerIter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *CustomerIter) Meta() *ListMeta {
+	return i.Iter.Meta()
+}
 func (c *Customer) UnmarshalJSON(data []byte) error {
 	type customer Customer
 	var cc customer

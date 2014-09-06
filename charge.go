@@ -203,10 +203,29 @@ type Charge struct {
 	Statement      string            `json:"statement_description"`
 }
 
-// ChargeList is a list object for charges.
-type ChargeList struct {
-	ListResponse
-	Values []*Charge `json:"data"`
+// ChargeIter is a iterator for list responses.
+type ChargeIter struct {
+	Iter *Iter
+}
+
+// Next returns the next value in the list.
+func (i *ChargeIter) Next() (*Charge, error) {
+	c, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return c.(*Charge), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *ChargeIter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *ChargeIter) Meta() *ListMeta {
+	return i.Iter.Meta()
 }
 
 func (c *Charge) UnmarshalJSON(data []byte) error {

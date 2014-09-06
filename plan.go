@@ -45,20 +45,18 @@ type Plan struct {
 	Statement     string            `json:"statement_description"`
 }
 
-// PlanList is a list object for plans.
-type PlanList struct {
-	ListResponse
-	Values []*Plan `json:"data"`
-}
-
-// Plan iter is a iterator for list plan responses.
+// Plan iter is a iterator for list responses.
 type PlanIter struct {
 	Iter *Iter
 }
 
-// Next returns the next plan in the list.
+// Next returns the next value in the list.
 func (i *PlanIter) Next() (*Plan, error) {
 	p, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
 	return p.(*Plan), err
 }
 
@@ -68,6 +66,6 @@ func (i *PlanIter) Stop() bool {
 }
 
 // Meta returns the list metadata.
-func (i *PlanIter) Meta() *ListResponse {
+func (i *PlanIter) Meta() *ListMeta {
 	return i.Iter.Meta()
 }

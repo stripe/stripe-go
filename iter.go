@@ -6,17 +6,17 @@ import (
 )
 
 // Query is the function used to get a page listing.
-type Query func(url.Values) ([]interface{}, ListResponse, error)
+type Query func(url.Values) ([]interface{}, ListMeta, error)
 
 // Iter represents an interator used for list pagination.
-// Iterators are not thread-safe at this time, so they should not be consumed
+// Iterators are not thread-safe, so they should not be consumed
 // across multiple goroutines.
 type Iter struct {
 	stop   bool
 	query  Query
 	qs     url.Values
 	values []interface{}
-	meta   ListResponse
+	meta   ListMeta
 	params ListParams
 	cur    int
 	err    error
@@ -102,6 +102,6 @@ func (i *Iter) Stop() bool {
 }
 
 // Meta returns the list metadata.
-func (i *Iter) Meta() *ListResponse {
+func (i *Iter) Meta() *ListMeta {
 	return &i.meta
 }

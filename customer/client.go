@@ -151,12 +151,18 @@ func (c Client) Delete(id string) error {
 
 // List returns a list of customers.
 // For more details see https://stripe.com/docs/api#list_customers.
-func List(params *CustomerListParams) (*CustomerList, error) {
+func List(params *CustomerListParams) *CustomerIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *CustomerListParams) (*CustomerList, error) {
+func (c Client) List(params *CustomerListParams) *CustomerIter {
+	type customerList struct {
+		ListMeta
+		Values []*Customer `json:"data"`
+	}
+
 	var body *url.Values
+	var lp *ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -166,12 +172,20 @@ func (c Client) List(params *CustomerListParams) (*CustomerList, error) {
 		}
 
 		params.AppendTo(body)
+		lp = &params.ListParams
 	}
 
-	list := &CustomerList{}
-	err := c.B.Call("GET", "/customers", c.Tok, body, list)
+	return &CustomerIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+		list := &customerList{}
+		err := c.B.Call("GET", "/customers", c.Tok, &b, list)
 
-	return list, err
+		ret := make([]interface{}, len(list.Values))
+		for i, v := range list.Values {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
 }
 
 func getC() Client {

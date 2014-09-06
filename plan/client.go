@@ -115,6 +115,11 @@ func List(params *PlanListParams) *PlanIter {
 }
 
 func (c Client) List(params *PlanListParams) *PlanIter {
+	type planList struct {
+		ListMeta
+		Values []*Plan `json:"data"`
+	}
+
 	var body *url.Values
 	var lp *ListParams
 
@@ -125,8 +130,8 @@ func (c Client) List(params *PlanListParams) *PlanIter {
 		lp = &params.ListParams
 	}
 
-	return &PlanIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListResponse, error) {
-		list := &PlanList{}
+	return &PlanIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+		list := &planList{}
 		err := c.B.Call("GET", "/plans", c.Tok, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
@@ -134,7 +139,7 @@ func (c Client) List(params *PlanListParams) *PlanIter {
 			ret[i] = v
 		}
 
-		return ret, list.ListResponse, err
+		return ret, list.ListMeta, err
 	})}
 }
 

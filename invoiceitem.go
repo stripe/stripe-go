@@ -36,10 +36,29 @@ type InvoiceItem struct {
 	Sub       string            `json:"subscription"`
 }
 
-// InvoiceItemList represents a list object for invoice items.
-type InvoiceItemList struct {
-	ListResponse
-	Values []*InvoiceItem `json:"data"`
+// InvoiceItemIter is a iterator for list responses.
+type InvoiceItemIter struct {
+	Iter *Iter
+}
+
+// Next returns the next value in the list.
+func (i *InvoiceItemIter) Next() (*InvoiceItem, error) {
+	ii, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return ii.(*InvoiceItem), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *InvoiceItemIter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *InvoiceItemIter) Meta() *ListMeta {
+	return i.Iter.Meta()
 }
 
 func (i *InvoiceItem) UnmarshalJSON(data []byte) error {

@@ -191,34 +191,55 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Error(err)
 	}
 
-	targetInvoiceItemList, err := invoiceitem.List(&InvoiceItemListParams{Customer: cust.Id})
+	ii := invoiceitem.List(&InvoiceItemListParams{Customer: cust.Id})
+	for !ii.Stop() {
+		targetInvoiceItemList, err := ii.Next()
 
-	if err != nil {
-		t.Error(err)
+		if err != nil {
+			t.Error(err)
+		}
+
+		if targetInvoiceItemList == nil {
+			t.Error("No nil values expected")
+		}
+
+		if ii.Meta() == nil {
+			t.Error("No metadata returned")
+		}
 	}
 
-	if len(targetInvoiceItemList.Values) == 0 {
-		t.Errorf("Invoice item list is empty\n")
+	i := List(&InvoiceListParams{Customer: cust.Id})
+	for !i.Stop() {
+		targetInvoiceList, err := i.Next()
+
+		if err != nil {
+			t.Error(err)
+		}
+
+		if targetInvoiceList == nil {
+			t.Error("No nil values expected")
+		}
+
+		if i.Meta() == nil {
+			t.Error("No metadata returned")
+		}
 	}
 
-	targetInvoiceList, err := List(&InvoiceListParams{Customer: cust.Id})
+	il := ListLines(&InvoiceLineListParams{Id: targetInvoice.Id, Customer: cust.Id})
+	for !il.Stop() {
+		targetLineList, err := il.Next()
 
-	if err != nil {
-		t.Error(err)
-	}
+		if err != nil {
+			t.Error(err)
+		}
 
-	if len(targetInvoiceList.Values) == 0 {
-		t.Errorf("Invoice list is empty\n")
-	}
+		if targetLineList == nil {
+			t.Error("No nil values expected")
+		}
 
-	targetInvoiceLineList, err := ListLines(&InvoiceLineListParams{Id: targetInvoice.Id, Customer: cust.Id})
-
-	if err != nil {
-		t.Error(err)
-	}
-
-	if len(targetInvoiceLineList.Values) == 0 {
-		t.Errorf("Invoice line list is empty\n")
+		if il.Meta() == nil {
+			t.Error("No metadata returned")
+		}
 	}
 
 	err = invoiceitem.Delete(targetItem.Id)

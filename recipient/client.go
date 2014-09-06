@@ -139,12 +139,18 @@ func (c Client) Delete(id string) error {
 
 // List returns a list of recipients.
 // For more details see https://stripe.com/docs/api#list_recipients.
-func List(params *RecipientListParams) (*RecipientList, error) {
+func List(params *RecipientListParams) *RecipientIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *RecipientListParams) (*RecipientList, error) {
+func (c Client) List(params *RecipientListParams) *RecipientIter {
+	type recipientList struct {
+		ListMeta
+		Values []*Recipient `json:"data"`
+	}
+
 	var body *url.Values
+	var lp *ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -154,12 +160,20 @@ func (c Client) List(params *RecipientListParams) (*RecipientList, error) {
 		}
 
 		params.AppendTo(body)
+		lp = &params.ListParams
 	}
 
-	list := &RecipientList{}
-	err := c.B.Call("GET", "/recipients", c.Tok, body, list)
+	return &RecipientIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+		list := &recipientList{}
+		err := c.B.Call("GET", "/recipients", c.Tok, &b, list)
 
-	return list, err
+		ret := make([]interface{}, len(list.Values))
+		for i, v := range list.Values {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
 }
 
 func getC() Client {

@@ -108,12 +108,18 @@ func (c Client) Delete(id string) error {
 
 // List returns a list of invoice items.
 // For more details see https://stripe.com/docs/api#list_invoiceitems.
-func List(params *InvoiceItemListParams) (*InvoiceItemList, error) {
+func List(params *InvoiceItemListParams) *InvoiceItemIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *InvoiceItemListParams) (*InvoiceItemList, error) {
+func (c Client) List(params *InvoiceItemListParams) *InvoiceItemIter {
+	type invoiceItemList struct {
+		ListMeta
+		Values []*InvoiceItem `json:"data"`
+	}
+
 	var body *url.Values
+	var lp *ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -127,12 +133,20 @@ func (c Client) List(params *InvoiceItemListParams) (*InvoiceItemList, error) {
 		}
 
 		params.AppendTo(body)
+		lp = &params.ListParams
 	}
 
-	list := &InvoiceItemList{}
-	err := c.B.Call("GET", "/invoiceitems", c.Tok, body, list)
+	return &InvoiceItemIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+		list := &invoiceItemList{}
+		err := c.B.Call("GET", "/invoiceitems", c.Tok, &b, list)
 
-	return list, err
+		ret := make([]interface{}, len(list.Values))
+		for i, v := range list.Values {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
 }
 
 func getC() Client {

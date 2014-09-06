@@ -56,12 +56,13 @@ func (c Client) GetTx(id string, params *TxParams) (*Transaction, error) {
 
 // List returns a list of balance transactions.
 // For more details see https://stripe.com/docs/api#balance_history.
-func List(params *TxListParams) (*TransactionList, error) {
+func List(params *TxListParams) *TransactionIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *TxListParams) (*TransactionList, error) {
+func (c Client) List(params *TxListParams) *TransactionIter {
 	var body *url.Values
+	var lp *ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -91,12 +92,25 @@ func (c Client) List(params *TxListParams) (*TransactionList, error) {
 		}
 
 		params.AppendTo(body)
+		lp = &params.ListParams
 	}
 
-	list := &TransactionList{}
-	err := c.B.Call("GET", "/balance/history", c.Tok, body, list)
+	return &TransactionIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+		type transactionList struct {
+			ListMeta
+			Values []*Transaction `json:"data"`
+		}
 
-	return list, err
+		list := &transactionList{}
+		err := c.B.Call("GET", "/balance/history", c.Tok, &b, list)
+
+		ret := make([]interface{}, len(list.Values))
+		for i, v := range list.Values {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
 }
 
 func getC() Client {

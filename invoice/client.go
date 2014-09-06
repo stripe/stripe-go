@@ -175,12 +175,18 @@ func (c Client) GetNext(params *InvoiceParams) (*Invoice, error) {
 
 // List returns a list of invoices.
 // For more details see https://stripe.com/docs/api#list_customer_invoices.
-func List(params *InvoiceListParams) (*InvoiceList, error) {
+func List(params *InvoiceListParams) *InvoiceIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *InvoiceListParams) (*InvoiceList, error) {
+func (c Client) List(params *InvoiceListParams) *InvoiceIter {
+	type invoiceList struct {
+		ListMeta
+		Values []*Invoice `json:"data"`
+	}
+
 	var body *url.Values
+	var lp *ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -194,22 +200,31 @@ func (c Client) List(params *InvoiceListParams) (*InvoiceList, error) {
 		}
 
 		params.AppendTo(body)
+		lp = &params.ListParams
 	}
 
-	list := &InvoiceList{}
-	err := c.B.Call("GET", "/invoices", c.Tok, body, list)
+	return &InvoiceIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+		list := &invoiceList{}
+		err := c.B.Call("GET", "/invoices", c.Tok, &b, list)
 
-	return list, err
+		ret := make([]interface{}, len(list.Values))
+		for i, v := range list.Values {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
 }
 
 // ListLines returns a list of line items.
 // For more details see https://stripe.com/docs/api#invoice_lines.
-func ListLines(params *InvoiceLineListParams) (*InvoiceLineList, error) {
+func ListLines(params *InvoiceLineListParams) *InvoiceLineIter {
 	return getC().ListLines(params)
 }
 
-func (c Client) ListLines(params *InvoiceLineListParams) (*InvoiceLineList, error) {
+func (c Client) ListLines(params *InvoiceLineListParams) *InvoiceLineIter {
 	body := &url.Values{}
+	var lp *ListParams
 
 	if len(params.Customer) > 0 {
 		body.Add("customer", params.Customer)
@@ -220,11 +235,19 @@ func (c Client) ListLines(params *InvoiceLineListParams) (*InvoiceLineList, erro
 	}
 
 	params.AppendTo(body)
+	lp = &params.ListParams
 
-	list := &InvoiceLineList{}
-	err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.Id), c.Tok, body, list)
+	return &InvoiceLineIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+		list := &InvoiceLineList{}
+		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.Id), c.Tok, &b, list)
 
-	return list, err
+		ret := make([]interface{}, len(list.Values))
+		for i, v := range list.Values {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
 }
 
 func getC() Client {

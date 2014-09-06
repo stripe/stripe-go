@@ -53,19 +53,28 @@ func (c Client) Update(id string, params *FeeRefundParams) (*FeeRefund, error) {
 
 // List returns a list of fee refunds.
 // For more details see https://stripe.com/docs/api#list_fee_refunds.
-func List(params *FeeRefundListParams) (*FeeRefundList, error) {
+func List(params *FeeRefundListParams) *FeeRefundIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *FeeRefundListParams) (*FeeRefundList, error) {
+func (c Client) List(params *FeeRefundListParams) *FeeRefundIter {
 	body := &url.Values{}
+	var lp *ListParams
 
 	params.AppendTo(body)
+	lp = &params.ListParams
 
-	list := &FeeRefundList{}
-	err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds", params.Fee), c.Tok, body, list)
+	return &FeeRefundIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+		list := &FeeRefundList{}
+		err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds", params.Fee), c.Tok, &b, list)
 
-	return list, err
+		ret := make([]interface{}, len(list.Values))
+		for i, v := range list.Values {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
 }
 
 func getC() Client {

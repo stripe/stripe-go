@@ -76,8 +76,27 @@ type Transfer struct {
 	Statement string            `json:"statement_description"`
 }
 
-// TransferList is a list object for transfers.
-type TransferList struct {
-	ListResponse
-	Values []*Transfer `json:"data"`
+// TransferIter is a iterator for list responses.
+type TransferIter struct {
+	Iter *Iter
+}
+
+// Next returns the next value in the list.
+func (i *TransferIter) Next() (*Transfer, error) {
+	t, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return t.(*Transfer), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *TransferIter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *TransferIter) Meta() *ListMeta {
+	return i.Iter.Meta()
 }

@@ -114,13 +114,24 @@ func TestBalanceGetTx(t *testing.T) {
 }
 
 func TestBalanceList(t *testing.T) {
-	target, err := List(nil)
+	params := &TxListParams{}
+	params.Filters.AddFilter("limit", "", "5")
+	params.Single = true
 
-	if err != nil {
-		t.Error(err)
-	}
+	i := List(params)
+	for !i.Stop() {
+		target, err := i.Next()
 
-	if len(target.Values) == 0 {
-		t.Errorf("Balance list is empty\n")
+		if err != nil {
+			t.Error(err)
+		}
+
+		if target == nil {
+			t.Error("No nil values expected")
+		}
+
+		if i.Meta() == nil {
+			t.Error("No metadata returned")
+		}
 	}
 }
