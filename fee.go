@@ -2,24 +2,24 @@ package stripe
 
 import "encoding/json"
 
-// AppFeeParams is the set of parameters that can be used when refunding an application fee.
+// FeeParams is the set of parameters that can be used when refunding an application fee.
 // For more details see https://stripe.com/docs/api#refund_application_fee.
-type AppFeeParams struct {
+type FeeParams struct {
 	Params
 	Amount uint64
 }
 
-// AppFeeListParams is the set of parameters that can be used when listing application fees.
+// FeeListParams is the set of parameters that can be used when listing application fees.
 // For more details see https://stripe.com/docs/api#list_application_fees.
-type AppFeeListParams struct {
+type FeeListParams struct {
 	ListParams
 	Created int64
 	Charge  string
 }
 
-// AppFee is the resource representing a Stripe application fee.
+// Fee is the resource representing a Stripe application fee.
 // For more details see https://stripe.com/docs/api#application_fees.
-type AppFee struct {
+type Fee struct {
 	Id             string         `json:"id"`
 	Live           bool           `json:"livemode"`
 	Account        *Account       `json:"account"`
@@ -34,18 +34,36 @@ type AppFee struct {
 	AmountRefunded uint64         `json:"amount_refunded"`
 }
 
-// AppFeeList is a list object for application fees.
-type AppFeeList struct {
-	ListResponse
-	Values []*AppFee `json:"data"`
+// FeeIter is a iterator for list responses.
+type FeeIter struct {
+	Iter *Iter
 }
 
-func (f *AppFee) UnmarshalJSON(data []byte) error {
-	type appfee AppFee
+// Next returns the next value in the list.
+func (i *FeeIter) Next() (*Fee, error) {
+	f, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return f.(*Fee), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *FeeIter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *FeeIter) Meta() *ListMeta {
+	return i.Iter.Meta()
+}
+func (f *Fee) UnmarshalJSON(data []byte) error {
+	type appfee Fee
 	var ff appfee
 	err := json.Unmarshal(data, &ff)
 	if err == nil {
-		*f = AppFee(ff)
+		*f = Fee(ff)
 	} else {
 		// the id is surrounded by escaped \, so ignore those
 		f.Id = string(data[1 : len(data)-1])

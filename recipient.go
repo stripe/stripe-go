@@ -66,10 +66,29 @@ type BankAccount struct {
 	Valid       bool     `json:"validated"`
 }
 
-// RecipientList is a list object for recipients.
-type RecipientList struct {
-	ListResponse
-	Values []*Recipient `json:"data"`
+// RecipientIter is a iterator for list responses.
+type RecipientIter struct {
+	Iter *Iter
+}
+
+// Next returns the next value in the list.
+func (i *RecipientIter) Next() (*Recipient, error) {
+	r, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.(*Recipient), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *RecipientIter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *RecipientIter) Meta() *ListMeta {
+	return i.Iter.Meta()
 }
 
 // AppendDetails adds the bank account's details to the query string values.

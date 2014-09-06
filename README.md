@@ -95,7 +95,10 @@ resource, err := resource.Update(ResourceParams)
 err := resource.Delete(id)
 
 // List
-resourceList, err := resource.List(ResourceListParams)
+i := resource.List(ResourceListParams)
+for !i.Stop() {
+  resource, err := i.Next()
+}
 ```
 
 ### With a Client
@@ -129,7 +132,10 @@ resource, err := stripe.Resources.Update(ResourceParams)
 err := stripe.Resources.Delete(id)
 
 // List
-resourceList, err := stripe.Resources.List(ResourceListParams)
+i := stripe.Resources.List(ResourceListParams)
+for !i.Stop() {
+  resource, err := i.Next()
+}
 ```
 
 ## Documentation

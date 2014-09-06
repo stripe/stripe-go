@@ -239,19 +239,23 @@ func TestChargeCapture(t *testing.T) {
 func TestChargeList(t *testing.T) {
 	params := &ChargeListParams{}
 	params.Filters.AddFilter("include[]", "", "total_count")
-	target, err := List(params)
+	params.Filters.AddFilter("limit", "", "5")
+	params.Single = true
 
-	if err != nil {
-		t.Error(err)
-	}
+	i := List(params)
+	for !i.Stop() {
+		target, err := i.Next()
 
-	if target.Count == 0 {
-		t.Errorf("Count is not set\n")
-	}
+		if err != nil {
+			t.Error(err)
+		}
 
-	for _, v := range target.Values {
-		if v.Amount == 0 {
-			t.Errorf("Amount is not set\n")
+		if target == nil {
+			t.Error("No nil values expected")
+		}
+
+		if i.Meta() == nil {
+			t.Error("No metadata returned")
 		}
 	}
 }

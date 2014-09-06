@@ -127,21 +127,23 @@ func TestCheckinList(t *testing.T) {
 
 	params := &PlanListParams{}
 	params.Filters.AddFilter("limit", "", "2")
-	target, err := c.Plans.List(params)
+	params.Single = true
 
-	if err != nil {
-		t.Error(err)
-	}
+	i := c.Plans.List(params)
+	for !i.Stop() {
+		target, err := i.Next()
 
-	if len(target.Values) != runs/2 {
-		t.Errorf("Count %v does not match expected value\n", len(target.Values))
-	}
+		if err != nil {
+			t.Error(err)
+		}
 
-	params.Filters.AddFilter("starting_after", "", target.Values[len(target.Values)-1].Id)
-	target, err = c.Plans.List(params)
+		if i.Meta() == nil {
+			t.Error("No metadata returned")
+		}
 
-	if len(target.Values) != runs/2 {
-		t.Errorf("Count %v does not match expected value\n", len(target.Values))
+		if target.Amount != 100 {
+			t.Errorf("Amount %v does not match expected value\n", target.Amount)
+		}
 	}
 
 	for i := 0; i < runs; i++ {

@@ -1,27 +1,17 @@
 package stripe_test
 
 import (
-	"fmt"
 	"log"
-	"net/url"
 
 	"github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/charge"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/invoice"
-	"github.com/stripe/stripe-go/invoiceitem"
+	"github.com/stripe/stripe-go/plan"
 )
-
-type Post struct{}
-
-func (self *Post) Call(method, path, token string, body *url.Values, v interface{}) error {
-	fmt.Println("ch_example_id")
-	return nil
-}
 
 func ExampleCharge_post() {
 	stripe.Key = "sk_key"
-	stripe.SetBackend(&Post{}) // mocking backend for example
 
 	params := &stripe.ChargeParams{
 		Amount:   1000,
@@ -41,20 +31,10 @@ func ExampleCharge_post() {
 	}
 
 	log.Printf("%v\n", ch.Id)
-	// Output:
-	// ch_example_id
-}
-
-type Get struct{}
-
-func (self *Get) Call(method, path, token string, body *url.Values, v interface{}) error {
-	fmt.Println("ch_example_id")
-	return nil
 }
 
 func ExampleCharge_get() {
 	stripe.Key = "sk_key"
-	stripe.SetBackend(&Get{}) // mocking backend for example
 
 	params := &stripe.ChargeParams{}
 	params.Expand("customer")
@@ -67,20 +47,10 @@ func ExampleCharge_get() {
 	}
 
 	log.Printf("%v\n", ch.Id)
-	// Output:
-	// ch_example_id
-}
-
-type Update struct{}
-
-func (self *Update) Call(method, path, token string, body *url.Values, v interface{}) error {
-	fmt.Println("updated description")
-	return nil
 }
 
 func ExampleInvoice_update() {
 	stripe.Key = "sk_key"
-	stripe.SetBackend(&Update{}) // mocking backend for example
 
 	params := &stripe.InvoiceParams{
 		Desc: "updated description",
@@ -93,50 +63,32 @@ func ExampleInvoice_update() {
 	}
 
 	log.Printf("%v\n", inv.Desc)
-	// Output:
-	// updated description
-}
-
-type Delete struct{}
-
-func (self *Delete) Call(method, path, token string, body *url.Values, v interface{}) error {
-	return nil
 }
 
 func ExampleCustomer_delete() {
 	stripe.Key = "sk_key"
-	stripe.SetBackend(&Delete{}) // mocking backend for example
 
 	err := customer.Delete("acct_example_id")
 
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// Output:
 }
 
-type List struct{}
-
-func (self *List) Call(method, path, token string, body *url.Values, v interface{}) error {
-	fmt.Println("7")
-	return nil
-}
-
-func ExampleInvoiceItem_list() {
+func ExamplePlan_list() {
 	stripe.Key = "sk_key"
-	stripe.SetBackend(&List{}) // mocking backend for example
 
-	params := &stripe.InvoiceItemListParams{}
-	params.Filters.AddFilter("limit", "", "7")
+	params := &stripe.PlanListParams{}
+	params.Filters.AddFilter("limit", "", "3")
+	params.Single = true
 
-	items, err := invoiceitem.List(params)
+	i := plan.List(params)
+	for !i.Stop() {
+		target, err := i.Next()
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	if err != nil {
-		log.Fatal(err)
+		log.Printf("%v ", target.Name)
 	}
-
-	log.Printf("%v\n", len(items.Values))
-	// Output:
-	// 7
 }

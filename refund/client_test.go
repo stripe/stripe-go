@@ -53,23 +53,24 @@ func TestRefundList(t *testing.T) {
 		charge.RefundCharge(&RefundParams{Charge: ch.Id, Amount: 200})
 	}
 
-	target, err := List(&RefundListParams{Charge: ch.Id})
+	i := List(&RefundListParams{Charge: ch.Id})
+	for !i.Stop() {
+		target, err := i.Next()
 
-	if err != nil {
-		t.Error(err)
-	}
-
-	if len(target.Values) != 4 {
-		t.Errorf("The number of refunds %v does not match expected value\n", len(target.Values))
-	}
-
-	for _, r := range target.Values {
-		if r.Amount != 200 {
-			t.Errorf("Refund amount %v does not match expected value\n", r.Amount)
+		if err != nil {
+			t.Error(err)
 		}
 
-		if r.Charge != ch.Id {
-			t.Errorf("Refund charge %q does not match expected value %q\n", r.Charge, ch.Id)
+		if target.Amount != 200 {
+			t.Error("Amount %v does not match expected value\n", target.Amount)
+		}
+
+		if target.Charge != ch.Id {
+			t.Errorf("Refund charge %q does not match expected value %q\n", target.Charge, ch.Id)
+		}
+
+		if i.Meta() == nil {
+			t.Error("No metadata returned")
 		}
 	}
 }

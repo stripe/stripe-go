@@ -111,27 +111,36 @@ func (c Client) Delete(id string, params *CardParams) error {
 
 // List returns a list of cards.
 // For more details see https://stripe.com/docs/api#list_cards.
-func List(params *CardListParams) (*CardList, error) {
+func List(params *CardListParams) *CardIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *CardListParams) (*CardList, error) {
+func (c Client) List(params *CardListParams) *CardIter {
 	body := &url.Values{}
+	var lp *ListParams
 
 	params.AppendTo(body)
+	lp = &params.ListParams
 
-	list := &CardList{}
-	var err error
+	return &CardIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+		list := &CardList{}
+		var err error
 
-	if len(params.Customer) > 0 {
-		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/cards", params.Customer), c.Tok, body, list)
-	} else if len(params.Recipient) > 0 {
-		err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.Tok, body, list)
-	} else {
-		err = errors.New("Invalid card params: either customer or recipient need to be set")
-	}
+		if len(params.Customer) > 0 {
+			err = c.B.Call("GET", fmt.Sprintf("/customers/%v/cards", params.Customer), c.Tok, &b, list)
+		} else if len(params.Recipient) > 0 {
+			err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.Tok, &b, list)
+		} else {
+			err = errors.New("Invalid card params: either customer or recipient need to be set")
+		}
 
-	return list, err
+		ret := make([]interface{}, len(list.Values))
+		for i, v := range list.Values {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
 }
 
 func getC() Client {

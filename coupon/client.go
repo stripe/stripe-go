@@ -92,23 +92,37 @@ func (c Client) Delete(id string) error {
 
 // List returns a list of coupons.
 // For more details see https://stripe.com/docs/api#list_coupons.
-func List(params *CouponListParams) (*CouponList, error) {
+func List(params *CouponListParams) *CouponIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *CouponListParams) (*CouponList, error) {
+func (c Client) List(params *CouponListParams) *CouponIter {
+	type couponList struct {
+		ListMeta
+		Values []*Coupon `json:"data"`
+	}
+
 	var body *url.Values
+	var lp *ListParams
 
 	if params != nil {
 		body = &url.Values{}
 
 		params.AppendTo(body)
+		lp = &params.ListParams
 	}
 
-	list := &CouponList{}
-	err := c.B.Call("GET", "/coupons", c.Tok, body, list)
+	return &CouponIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+		list := &couponList{}
+		err := c.B.Call("GET", "/coupons", c.Tok, &b, list)
 
-	return list, err
+		ret := make([]interface{}, len(list.Values))
+		for i, v := range list.Values {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
 }
 
 func getC() Client {

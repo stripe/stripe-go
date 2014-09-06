@@ -6,6 +6,11 @@ import (
 	"strconv"
 )
 
+const (
+	startafter = "starting_after"
+	endbefore  = "ending_before"
+)
+
 // Params is the structure that contains the common properties
 // of any *Params structure.
 type Params struct {
@@ -18,14 +23,18 @@ type Params struct {
 // of any *ListParams structure.
 type ListParams struct {
 	Start, End string
-	Limit      uint64
+	Limit      int
 	Filters    Filters
+	// By default, listing through an iterator will automatically grab
+	// additional pages as the query progresses. To change this behavior
+	// and just load a single page, set this to true.
+	Single bool
 }
 
-// ListResponse is the structure that contains the common properties
-// of any *List structure. The Count property is only populated if the
+// ListMeta is the structure that contains the common properties
+// of List iterators. The Count property is only populated if the
 // total_count include option is passed in (see tests for example).
-type ListResponse struct {
+type ListMeta struct {
 	Count uint16 `json:"total_count"`
 	More  bool   `json:"has_more"`
 	Url   string `json:"url"`
@@ -71,11 +80,11 @@ func (p *ListParams) AppendTo(body *url.Values) {
 	}
 
 	if len(p.Start) > 0 {
-		body.Add("starting_after", p.Start)
+		body.Add(startafter, p.Start)
 	}
 
 	if len(p.End) > 0 {
-		body.Add("ending_before", p.End)
+		body.Add(endbefore, p.End)
 	}
 
 	if p.Limit > 0 {
@@ -83,7 +92,7 @@ func (p *ListParams) AppendTo(body *url.Values) {
 			p.Limit = 100
 		}
 
-		body.Add("limit", strconv.FormatUint(p.Limit, 10))
+		body.Add("limit", strconv.Itoa(p.Limit))
 	}
 }
 

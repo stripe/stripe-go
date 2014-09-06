@@ -117,12 +117,18 @@ func (c Client) Cancel(id string, params *TransferParams) (*Transfer, error) {
 
 // List returns a list of transfers.
 // For more details see https://stripe.com/docs/api#list_transfers.
-func List(params *TransferListParams) (*TransferList, error) {
+func List(params *TransferListParams) *TransferIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *TransferListParams) (*TransferList, error) {
+func (c Client) List(params *TransferListParams) *TransferIter {
+	type transferList struct {
+		ListMeta
+		Values []*Transfer `json:"data"`
+	}
+
 	var body *url.Values
+	var lp *ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -144,12 +150,20 @@ func (c Client) List(params *TransferListParams) (*TransferList, error) {
 		}
 
 		params.AppendTo(body)
+		lp = &params.ListParams
 	}
 
-	list := &TransferList{}
-	err := c.B.Call("GET", "/transfers", c.Tok, body, list)
+	return &TransferIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+		list := &transferList{}
+		err := c.B.Call("GET", "/transfers", c.Tok, &b, list)
 
-	return list, err
+		ret := make([]interface{}, len(list.Values))
+		for i, v := range list.Values {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
 }
 
 func getC() Client {

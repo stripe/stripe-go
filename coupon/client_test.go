@@ -96,14 +96,21 @@ func TestCouponList(t *testing.T) {
 		Create(couponParams)
 	}
 
-	target, err := List(nil)
+	i := List(nil)
+	for !i.Stop() {
+		target, err := i.Next()
 
-	if err != nil {
-		t.Error(err)
-	}
+		if err != nil {
+			t.Error(err)
+		}
 
-	if len(target.Values) != 5 {
-		t.Errorf("Count %v does not match expected value\n", len(target.Values))
+		if target == nil {
+			t.Error("No nil values expected")
+		}
+
+		if i.Meta() == nil {
+			t.Error("No metadata returned")
+		}
 	}
 
 	for i := 0; i < 5; i++ {

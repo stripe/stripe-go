@@ -18,11 +18,11 @@ type Client struct {
 
 // Create POSTS a new subscription for a customer.
 // For more details see https://stripe.com/docs/api#create_subscription.
-func Create(params *SubParams) (*Subscription, error) {
+func Create(params *SubParams) (*Sub, error) {
 	return getC().Create(params)
 }
 
-func (c Client) Create(params *SubParams) (*Subscription, error) {
+func (c Client) Create(params *SubParams) (*Sub, error) {
 	body := &url.Values{
 		"plan": {params.Plan},
 	}
@@ -58,7 +58,7 @@ func (c Client) Create(params *SubParams) (*Subscription, error) {
 
 	params.AppendTo(body)
 
-	sub := &Subscription{}
+	sub := &Sub{}
 	err := c.B.Call("POST", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), token, body, sub)
 
 	return sub, err
@@ -66,16 +66,16 @@ func (c Client) Create(params *SubParams) (*Subscription, error) {
 
 // Get returns the details of a subscription.
 // For more details see https://stripe.com/docs/api#retrieve_subscription.
-func Get(id string, params *SubParams) (*Subscription, error) {
+func Get(id string, params *SubParams) (*Sub, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *SubParams) (*Subscription, error) {
+func (c Client) Get(id string, params *SubParams) (*Sub, error) {
 	body := &url.Values{}
 
 	params.AppendTo(body)
 
-	sub := &Subscription{}
+	sub := &Sub{}
 	err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Tok, body, sub)
 
 	return sub, err
@@ -83,11 +83,11 @@ func (c Client) Get(id string, params *SubParams) (*Subscription, error) {
 
 // Update updates a subscription's properties.
 // For more details see https://stripe.com/docs/api#update_subscription.
-func Update(id string, params *SubParams) (*Subscription, error) {
+func Update(id string, params *SubParams) (*Sub, error) {
 	return getC().Update(id, params)
 }
 
-func (c Client) Update(id string, params *SubParams) (*Subscription, error) {
+func (c Client) Update(id string, params *SubParams) (*Sub, error) {
 	body := &url.Values{}
 
 	if len(params.Plan) > 0 {
@@ -133,7 +133,7 @@ func (c Client) Update(id string, params *SubParams) (*Subscription, error) {
 
 	params.AppendTo(body)
 
-	sub := &Subscription{}
+	sub := &Sub{}
 	err := c.B.Call("POST", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), token, body, sub)
 
 	return sub, err
@@ -159,19 +159,28 @@ func (c Client) Cancel(id string, params *SubParams) error {
 
 // List returns a list of subscriptions.
 // For more details see https://stripe.com/docs/api#list_subscriptions.
-func List(params *SubListParams) (*SubscriptionList, error) {
+func List(params *SubListParams) *SubIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *SubListParams) (*SubscriptionList, error) {
+func (c Client) List(params *SubListParams) *SubIter {
 	body := &url.Values{}
+	var lp *ListParams
 
 	params.AppendTo(body)
+	lp = &params.ListParams
 
-	list := &SubscriptionList{}
-	err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.Tok, body, list)
+	return &SubIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+		list := &SubList{}
+		err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.Tok, &b, list)
 
-	return list, err
+		ret := make([]interface{}, len(list.Values))
+		for i, v := range list.Values {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
 }
 
 func getC() Client {

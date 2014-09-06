@@ -184,14 +184,21 @@ func TestTransferList(t *testing.T) {
 		Create(transferParams)
 	}
 
-	target, err := List(&TransferListParams{Recipient: rec.Id})
+	i := List(&TransferListParams{Recipient: rec.Id})
+	for !i.Stop() {
+		target, err := i.Next()
 
-	if err != nil {
-		t.Error(err)
-	}
+		if err != nil {
+			t.Error(err)
+		}
 
-	if len(target.Values) != 5 {
-		t.Errorf("Count %v does not match expected value\n", len(target.Values))
+		if target == nil {
+			t.Error("No nil values expected")
+		}
+
+		if i.Meta() == nil {
+			t.Error("No metadata returned")
+		}
 	}
 
 	recipient.Delete(rec.Id)

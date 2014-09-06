@@ -29,12 +29,18 @@ func (c Client) Get(id string) (*Event, error) {
 
 // List returns a list of events.
 // For more details see https://stripe.com/docs/api#list_events
-func List(params *EventListParams) (*EventList, error) {
+func List(params *EventListParams) *EventIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *EventListParams) (*EventList, error) {
+func (c Client) List(params *EventListParams) *EventIter {
+	type eventList struct {
+		ListMeta
+		Values []*Event `json:"data"`
+	}
+
 	var body *url.Values
+	var lp *ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -48,12 +54,20 @@ func (c Client) List(params *EventListParams) (*EventList, error) {
 		}
 
 		params.AppendTo(body)
+		lp = &params.ListParams
 	}
 
-	list := &EventList{}
-	err := c.B.Call("GET", "/events", c.Tok, body, list)
+	return &EventIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+		list := &eventList{}
+		err := c.B.Call("GET", "/events", c.Tok, &b, list)
 
-	return list, err
+		ret := make([]interface{}, len(list.Values))
+		for i, v := range list.Values {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
 }
 
 func getC() Client {

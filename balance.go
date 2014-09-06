@@ -18,7 +18,7 @@ const (
 	TxCharge         TransactionType = "charge"
 	TxRefund         TransactionType = "refund"
 	TxAdjust         TransactionType = "adjustment"
-	TxFee            TransactionType = "application_fee"
+	TxAppFee         TransactionType = "application_fee"
 	TxFeeRefund      TransactionType = "application_fee_refund"
 	TxTransfer       TransactionType = "transfer"
 	TxTransferCancel TransactionType = "transfer_cancel"
@@ -64,7 +64,7 @@ type Transaction struct {
 	Available  int64             `json:"available_on"`
 	Created    int64             `json:"created"`
 	Fee        int64             `json:"fee"`
-	FeeDetails []Fee             `json:"fee_details"`
+	FeeDetails []TxFee           `json:"fee_details"`
 	Net        int64             `json:"net"`
 	Status     TransactionStatus `json:"status"`
 	Type       TransactionType   `json:"type"`
@@ -80,7 +80,7 @@ type Amount struct {
 }
 
 // Fee is a structure that breaks down the fees in a transaction.
-type Fee struct {
+type TxFee struct {
 	Amount      int64    `json:"amount"`
 	Currency    Currency `json:"currency"`
 	Type        string   `json:"type"`
@@ -88,10 +88,29 @@ type Fee struct {
 	Application string   `json:"application"`
 }
 
-// TransactionList is a list object for transactions.
-type TransactionList struct {
-	ListResponse
-	Values []*Transaction `json:"data"`
+// TransactionIter is a iterator for list responses.
+type TransactionIter struct {
+	Iter *Iter
+}
+
+// Next returns the next value in the list.
+func (i *TransactionIter) Next() (*Transaction, error) {
+	t, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return t.(*Transaction), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *TransactionIter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *TransactionIter) Meta() *ListMeta {
+	return i.Iter.Meta()
 }
 
 func (t *Transaction) UnmarshalJSON(data []byte) error {
