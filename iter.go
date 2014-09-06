@@ -65,32 +65,35 @@ func (i *Iter) Next() (interface{}, error) {
 	ret := i.values[i.cur]
 	i.cur += 1
 
-	// we've reached the end of the page
-	if i.cur == len(i.values) {
-		// if there are no more results or we're supposed to stop after a
-		// single page just bail
-		if i.params.Single || !i.meta.More {
-			i.stop = true
+	// we haven't reached the end of the page
+	if i.cur != len(i.values) {
+		return ret, i.err
+	}
+
+	// otherwise we may need to fetch the next page
+	// if there are no more results or we're supposed to stop after a
+	// single page just bail
+	if i.params.Single || !i.meta.More {
+		i.stop = true
+	} else {
+		// determine if we're moving forward or backwards in paging
+		if len(i.params.End) != 0 {
+			i.params.End = reflect.ValueOf(i.values[0]).Elem().FieldByName("Id").String()
+			i.qs.Set(endbefore, i.params.End)
 		} else {
-			// determine if we're moving forward or backwards in paging
-			if len(i.params.End) != 0 {
-				i.params.End = reflect.ValueOf(i.values[0]).Elem().FieldByName("Id").String()
-				i.qs.Set(endbefore, i.params.End)
-			} else {
-				i.params.Start = reflect.ValueOf(i.values[i.cur-1]).Elem().FieldByName("Id").String()
-				i.qs.Set(startafter, i.params.Start)
-			}
-
-			// now actually load the next page
-			i.values, i.meta, i.err = i.query(i.qs)
-
-			if i.err != nil {
-				i.stop = true
-				return nil, i.err
-			}
-
-			i.cur = 0
+			i.params.Start = reflect.ValueOf(i.values[i.cur-1]).Elem().FieldByName("Id").String()
+			i.qs.Set(startafter, i.params.Start)
 		}
+
+		// now actually load the next page
+		i.values, i.meta, i.err = i.query(i.qs)
+
+		if i.err != nil {
+			i.stop = true
+			return nil, i.err
+		}
+
+		i.cur = 0
 	}
 
 	return ret, i.err
