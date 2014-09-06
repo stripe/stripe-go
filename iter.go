@@ -12,14 +12,14 @@ type Query func(url.Values) ([]interface{}, ListResponse, error)
 // Iterators are not thread-safe at this time, so they should not be consumed
 // across multiple goroutines.
 type Iter struct {
-	end         bool
-	query       Query
-	qs          url.Values
-	values      []interface{}
-	meta        ListResponse
-	params      ListParams
-	cur, pstart int
-	err         error
+	stop   bool
+	query  Query
+	qs     url.Values
+	values []interface{}
+	meta   ListResponse
+	params ListParams
+	cur    int
+	err    error
 }
 
 // GetIter returns a new iterator for a given query and its options.
@@ -44,11 +44,11 @@ func GetIter(params *ListParams, qs *url.Values, query Query) *Iter {
 
 // Next returns the next entry in the page.
 // By default, this loads a new page each time it's done with the current one.
-func (i *Iter) Next() (interface{}, *ListResponse, error) {
+func (i *Iter) Next() (interface{}, error) {
 	// if the previous invocation resulted in us being complete,
 	// no point in doing any work
-	if i.end {
-		return nil, nil, i.err
+	if i.stop {
+		return nil, i.err
 	}
 
 	// initial run when we have no page loaded
@@ -58,8 +58,8 @@ func (i *Iter) Next() (interface{}, *ListResponse, error) {
 
 	// either there was a failure or no results were returned
 	if i.err != nil || i.cur == len(i.values) {
-		i.end = true
-		return nil, nil, i.err
+		i.stop = true
+		return nil, i.err
 	}
 
 	ret := i.values[i.cur]
@@ -70,11 +70,11 @@ func (i *Iter) Next() (interface{}, *ListResponse, error) {
 		// if there are no more results or we're supposed to stop after a
 		// single page just bail
 		if i.params.Single || !i.meta.More {
-			i.end = true
+			i.stop = true
 		} else {
 			// determine if we're moving forward or backwards in paging
 			if len(i.params.End) != 0 {
-				i.params.End = reflect.ValueOf(i.values[i.pstart]).Elem().FieldByName("Id").String()
+				i.params.End = reflect.ValueOf(i.values[0]).Elem().FieldByName("Id").String()
 				i.qs.Set(endbefore, i.params.End)
 			} else {
 				i.params.Start = reflect.ValueOf(i.values[i.cur-1]).Elem().FieldByName("Id").String()
@@ -82,23 +82,26 @@ func (i *Iter) Next() (interface{}, *ListResponse, error) {
 			}
 
 			// now actually load the next page
-			var page []interface{}
-			page, i.meta, i.err = i.query(i.qs)
+			i.values, i.meta, i.err = i.query(i.qs)
 
 			if i.err != nil {
-				i.end = true
-				return nil, nil, i.err
+				i.stop = true
+				return nil, i.err
 			}
 
-			i.pstart = len(i.values)
-			i.values = append(i.values, page...)
+			i.cur = 0
 		}
 	}
 
-	return ret, &i.meta, i.err
+	return ret, i.err
 }
 
-// End returns true if there are no more iterations to be performed.
-func (i *Iter) End() bool {
-	return i.end
+// Stop returns true if there are no more iterations to be performed.
+func (i *Iter) Stop() bool {
+	return i.stop
+}
+
+// Meta returns the list metadata.
+func (i *Iter) Meta() *ListResponse {
+	return &i.meta
 }

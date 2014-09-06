@@ -138,15 +138,18 @@ func TestPlanList(t *testing.T) {
 		Create(planParams)
 	}
 
-	i := List(nil)
-	for !i.End() {
-		target, meta, err := i.Next()
+	params := &PlanListParams{}
+	params.Filters.AddFilter("limit", "", "1")
+
+	i := List(params)
+	for !i.Stop() {
+		target, err := i.Next()
 
 		if err != nil {
 			t.Error(err)
 		}
 
-		if meta == nil {
+		if i.Meta() == nil {
 			t.Error("No metadata returned")
 		}
 

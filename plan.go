@@ -51,15 +51,23 @@ type PlanList struct {
 	Values []*Plan `json:"data"`
 }
 
+// Plan iter is a iterator for list plan responses.
 type PlanIter struct {
 	Iter *Iter
 }
 
-func (i *PlanIter) Next() (*Plan, *ListResponse, error) {
-	p, meta, err := i.Iter.Next()
-	return p.(*Plan), meta, err
+// Next returns the next plan in the list.
+func (i *PlanIter) Next() (*Plan, error) {
+	p, err := i.Iter.Next()
+	return p.(*Plan), err
 }
 
-func (i *PlanIter) End() bool {
-	return i.Iter.End()
+// Stop returns true if there are no more iterations to be performed.
+func (i *PlanIter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *PlanIter) Meta() *ListResponse {
+	return i.Iter.Meta()
 }
