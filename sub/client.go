@@ -2,6 +2,7 @@
 package sub
 
 import (
+	"errors"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -46,7 +47,13 @@ func (c Client) Create(params *SubParams) (*Sub, error) {
 
 	token := c.Tok
 	if params.FeePercent > 0 {
+		if len(params.AccessToken) == 0 {
+			err := errors.New("Invalid sub params: an access token is required for application fees")
+			return nil, err
+		}
+
 		body.Add("application_fee_percent", strconv.FormatFloat(params.FeePercent, 'f', 2, 64))
+		token = params.AccessToken
 	}
 
 	params.AppendTo(body)
@@ -115,7 +122,13 @@ func (c Client) Update(id string, params *SubParams) (*Sub, error) {
 
 	token := c.Tok
 	if params.FeePercent > 0 {
+		if len(params.AccessToken) == 0 {
+			err := errors.New("Invalid sub params: an access token is required for application fees")
+			return nil, err
+		}
+
 		body.Add("application_fee_percent", strconv.FormatFloat(params.FeePercent, 'f', 2, 64))
+		token = params.AccessToken
 	}
 
 	params.AppendTo(body)

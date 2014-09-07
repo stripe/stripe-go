@@ -14,8 +14,9 @@ const (
 // Params is the structure that contains the common properties
 // of any *Params structure.
 type Params struct {
-	Exp  []string
-	Meta map[string]string
+	Exp         []string
+	Meta        map[string]string
+	AccessToken string
 }
 
 // ListParams is the structure that contains the common properties

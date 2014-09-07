@@ -173,8 +173,8 @@ type ChargeListParams struct {
 // For more details see https://stripe.com/docs/api#charge_capture.
 type CaptureParams struct {
 	Params
-	Amount, Fee uint64
-	Email       string
+	Amount, Fee        uint64
+	Email, AccessToken string
 }
 
 // Charge is the resource representing a Stripe charge.
