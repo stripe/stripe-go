@@ -25,7 +25,13 @@ func (c Client) Create(params *TokenParams) (*Token, error) {
 	token := c.Tok
 
 	if len(params.Customer) > 0 {
+		if len(params.AccessToken) == 0 {
+			err := errors.New("Invalid Token params: an access token is required for customer")
+			return nil, err
+		}
+
 		body.Add("customer", params.Customer)
+		token = params.AccessToken
 	}
 
 	if params.Card != nil {
