@@ -94,7 +94,7 @@ func (s *InternalBackend) Call(method, path, token string, body *url.Values, v i
 
 	req.SetBasicAuth(token, "")
 	req.Header.Add("Stripe-Version", apiversion)
-	req.Header.Add("X-Stripe-Client-User-Agent", "Stripe.Go-"+clientversion)
+	req.Header.Add("User-Agent", "Stripe.Go-"+clientversion)
 
 	log.Printf("Requesting %v %q\n", method, path)
 	start := time.Now()
