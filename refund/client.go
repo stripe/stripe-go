@@ -4,6 +4,7 @@ package refund
 import (
 	"fmt"
 	"net/url"
+	"strconv"
 
 	. "github.com/stripe/stripe-go"
 )
@@ -12,6 +13,31 @@ import (
 type Client struct {
 	B   Backend
 	Key string
+}
+
+// Create refunds a charge previously created.
+// For more details see https://stripe.com/docs/api#refund_charge.
+func Create(params *RefundParams) (*Refund, error) {
+	return getC().Create(params)
+}
+
+func (c Client) Create(params *RefundParams) (*Refund, error) {
+	body := &url.Values{}
+
+	if params.Amount > 0 {
+		body.Add("amount", strconv.FormatUint(params.Amount, 10))
+	}
+
+	if params.Fee {
+		body.Add("refund_application_fee", strconv.FormatBool(params.Fee))
+	}
+
+	params.AppendTo(body)
+
+	refund := &Refund{}
+	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.Key, body, refund)
+
+	return refund, err
 }
 
 // Get returns the details of a refund.
