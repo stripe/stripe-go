@@ -13,7 +13,7 @@ import (
 // Client is used to invoke /charges APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Create POSTs new charges.
@@ -57,7 +57,7 @@ func (c Client) Create(params *ChargeParams) (*Charge, error) {
 
 	body.Add("capture", strconv.FormatBool(!params.NoCapture))
 
-	token := c.Tok
+	token := c.Key
 	if params.Fee > 0 {
 		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 	}
@@ -85,7 +85,7 @@ func (c Client) Get(id string, params *ChargeParams) (*Charge, error) {
 	}
 
 	charge := &Charge{}
-	err := c.B.Call("GET", "/charges/"+id, c.Tok, body, charge)
+	err := c.B.Call("GET", "/charges/"+id, c.Key, body, charge)
 
 	return charge, err
 }
@@ -110,7 +110,7 @@ func (c Client) Update(id string, params *ChargeParams) (*Charge, error) {
 	}
 
 	charge := &Charge{}
-	err := c.B.Call("POST", "/charges/"+id, c.Tok, body, charge)
+	err := c.B.Call("POST", "/charges/"+id, c.Key, body, charge)
 
 	return charge, err
 }
@@ -135,7 +135,7 @@ func (c Client) Refund(params *RefundParams) (*Refund, error) {
 	params.AppendTo(body)
 
 	refund := &Refund{}
-	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.Tok, body, refund)
+	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.Key, body, refund)
 
 	return refund, err
 }
@@ -148,7 +148,7 @@ func Capture(id string, params *CaptureParams) (*Charge, error) {
 
 func (c Client) Capture(id string, params *CaptureParams) (*Charge, error) {
 	var body *url.Values
-	token := c.Tok
+	token := c.Key
 
 	if params != nil {
 		body = &url.Values{}
@@ -206,7 +206,7 @@ func (c Client) List(params *ChargeListParams) *ChargeIter {
 
 	return &ChargeIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
 		list := &chargeList{}
-		err := c.B.Call("GET", "/charges", c.Tok, &b, list)
+		err := c.B.Call("GET", "/charges", c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

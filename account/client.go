@@ -8,7 +8,7 @@ import (
 // Client is used to invoke /account APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Get returns the details of your account.
@@ -19,7 +19,7 @@ func Get() (*Account, error) {
 
 func (c Client) Get() (*Account, error) {
 	account := &Account{}
-	err := c.B.Call("GET", "/account", c.Tok, nil, account)
+	err := c.B.Call("GET", "/account", c.Key, nil, account)
 
 	return account, err
 }

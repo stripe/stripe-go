@@ -12,7 +12,7 @@ import (
 // Client is used to invoke /subscriptions APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Create POSTS a new subscription for a customer.
@@ -44,7 +44,7 @@ func (c Client) Create(params *SubParams) (*Sub, error) {
 		body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
 	}
 
-	token := c.Tok
+	token := c.Key
 	if params.FeePercent > 0 {
 		body.Add("application_fee_percent", strconv.FormatFloat(params.FeePercent, 'f', 2, 64))
 	}
@@ -69,7 +69,7 @@ func (c Client) Get(id string, params *SubParams) (*Sub, error) {
 	params.AppendTo(body)
 
 	sub := &Sub{}
-	err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Tok, body, sub)
+	err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Key, body, sub)
 
 	return sub, err
 }
@@ -113,7 +113,7 @@ func (c Client) Update(id string, params *SubParams) (*Sub, error) {
 		body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
 	}
 
-	token := c.Tok
+	token := c.Key
 	if params.FeePercent > 0 {
 		body.Add("application_fee_percent", strconv.FormatFloat(params.FeePercent, 'f', 2, 64))
 	}
@@ -141,7 +141,7 @@ func (c Client) Cancel(id string, params *SubParams) error {
 
 	params.AppendTo(body)
 
-	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Tok, body, nil)
+	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Key, body, nil)
 }
 
 // List returns a list of subscriptions.
@@ -159,7 +159,7 @@ func (c Client) List(params *SubListParams) *SubIter {
 
 	return &SubIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
 		list := &SubList{}
-		err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.Tok, &b, list)
+		err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

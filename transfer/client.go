@@ -12,7 +12,7 @@ import (
 // Client is used to invoke /transfers APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Create POSTs a new transfer.
@@ -45,7 +45,7 @@ func (c Client) Create(params *TransferParams) (*Transfer, error) {
 	params.AppendTo(body)
 
 	transfer := &Transfer{}
-	err := c.B.Call("POST", "/transfers", c.Tok, body, transfer)
+	err := c.B.Call("POST", "/transfers", c.Key, body, transfer)
 
 	return transfer, err
 }
@@ -65,7 +65,7 @@ func (c Client) Get(id string, params *TransferParams) (*Transfer, error) {
 	}
 
 	transfer := &Transfer{}
-	err := c.B.Call("GET", "/transfers/"+id, c.Tok, body, transfer)
+	err := c.B.Call("GET", "/transfers/"+id, c.Key, body, transfer)
 
 	return transfer, err
 }
@@ -90,7 +90,7 @@ func (c Client) Update(id string, params *TransferParams) (*Transfer, error) {
 	}
 
 	transfer := &Transfer{}
-	err := c.B.Call("POST", "/transfers/"+id, c.Tok, body, transfer)
+	err := c.B.Call("POST", "/transfers/"+id, c.Key, body, transfer)
 
 	return transfer, err
 }
@@ -110,7 +110,7 @@ func (c Client) Cancel(id string, params *TransferParams) (*Transfer, error) {
 	}
 
 	transfer := &Transfer{}
-	err := c.B.Call("POST", fmt.Sprintf("/transfers/%v/cancel", id), c.Tok, body, transfer)
+	err := c.B.Call("POST", fmt.Sprintf("/transfers/%v/cancel", id), c.Key, body, transfer)
 
 	return transfer, err
 }
@@ -155,7 +155,7 @@ func (c Client) List(params *TransferListParams) *TransferIter {
 
 	return &TransferIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
 		list := &transferList{}
-		err := c.B.Call("GET", "/transfers", c.Tok, &b, list)
+		err := c.B.Call("GET", "/transfers", c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

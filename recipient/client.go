@@ -11,7 +11,7 @@ import (
 // Client is used to invoke /recipients APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Create POSTs a new recipient.
@@ -51,7 +51,7 @@ func (c Client) Create(params *RecipientParams) (*Recipient, error) {
 	params.AppendTo(body)
 
 	recipient := &Recipient{}
-	err := c.B.Call("POST", "/recipients", c.Tok, body, recipient)
+	err := c.B.Call("POST", "/recipients", c.Key, body, recipient)
 
 	return recipient, err
 }
@@ -71,7 +71,7 @@ func (c Client) Get(id string, params *RecipientParams) (*Recipient, error) {
 	}
 
 	recipient := &Recipient{}
-	err := c.B.Call("GET", "/recipients/"+id, c.Tok, body, recipient)
+	err := c.B.Call("GET", "/recipients/"+id, c.Key, body, recipient)
 
 	return recipient, err
 }
@@ -122,7 +122,7 @@ func (c Client) Update(id string, params *RecipientParams) (*Recipient, error) {
 	}
 
 	recipient := &Recipient{}
-	err := c.B.Call("POST", "/recipients/"+id, c.Tok, body, recipient)
+	err := c.B.Call("POST", "/recipients/"+id, c.Key, body, recipient)
 
 	return recipient, err
 }
@@ -134,7 +134,7 @@ func Delete(id string) error {
 }
 
 func (c Client) Delete(id string) error {
-	return c.B.Call("DELETE", "/recipients/"+id, c.Tok, nil, nil)
+	return c.B.Call("DELETE", "/recipients/"+id, c.Key, nil, nil)
 }
 
 // List returns a list of recipients.
@@ -165,7 +165,7 @@ func (c Client) List(params *RecipientListParams) *RecipientIter {
 
 	return &RecipientIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
 		list := &recipientList{}
-		err := c.B.Call("GET", "/recipients", c.Tok, &b, list)
+		err := c.B.Call("GET", "/recipients", c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

@@ -11,7 +11,7 @@ import (
 // Client is used to invoke /plans APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Create POSTs a new plan.
@@ -44,7 +44,7 @@ func (c Client) Create(params *PlanParams) (*Plan, error) {
 	params.AppendTo(body)
 
 	plan := &Plan{}
-	err := c.B.Call("POST", "/plans", c.Tok, body, plan)
+	err := c.B.Call("POST", "/plans", c.Key, body, plan)
 
 	return plan, err
 }
@@ -64,7 +64,7 @@ func (c Client) Get(id string, params *PlanParams) (*Plan, error) {
 	}
 
 	plan := &Plan{}
-	err := c.B.Call("GET", "/plans/"+id, c.Tok, body, plan)
+	err := c.B.Call("GET", "/plans/"+id, c.Key, body, plan)
 
 	return plan, err
 }
@@ -93,7 +93,7 @@ func (c Client) Update(id string, params *PlanParams) (*Plan, error) {
 	}
 
 	plan := &Plan{}
-	err := c.B.Call("POST", "/plans/"+id, c.Tok, body, plan)
+	err := c.B.Call("POST", "/plans/"+id, c.Key, body, plan)
 
 	return plan, err
 }
@@ -105,7 +105,7 @@ func Delete(id string) error {
 }
 
 func (c Client) Delete(id string) error {
-	return c.B.Call("DELETE", "/plans/"+id, c.Tok, nil, nil)
+	return c.B.Call("DELETE", "/plans/"+id, c.Key, nil, nil)
 }
 
 // List returns a list of plans.
@@ -132,7 +132,7 @@ func (c Client) List(params *PlanListParams) *PlanIter {
 
 	return &PlanIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
 		list := &planList{}
-		err := c.B.Call("GET", "/plans", c.Tok, &b, list)
+		err := c.B.Call("GET", "/plans", c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

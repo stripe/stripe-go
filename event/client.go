@@ -11,7 +11,7 @@ import (
 // Client is used to invoke /events APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Get returns the details of an event
@@ -22,7 +22,7 @@ func Get(id string) (*Event, error) {
 
 func (c Client) Get(id string) (*Event, error) {
 	event := &Event{}
-	err := c.B.Call("GET", "/events/"+id, c.Tok, nil, event)
+	err := c.B.Call("GET", "/events/"+id, c.Key, nil, event)
 
 	return event, err
 }
@@ -59,7 +59,7 @@ func (c Client) List(params *EventListParams) *EventIter {
 
 	return &EventIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
 		list := &eventList{}
-		err := c.B.Call("GET", "/events", c.Tok, &b, list)
+		err := c.B.Call("GET", "/events", c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

@@ -11,7 +11,7 @@ import (
 // Client is used to invoke /balance and transaction-related APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Get returns the details of your balance.
@@ -29,7 +29,7 @@ func (c Client) Get(params *BalanceParams) (*Balance, error) {
 	}
 
 	balance := &Balance{}
-	err := c.B.Call("GET", "/balance", c.Tok, body, balance)
+	err := c.B.Call("GET", "/balance", c.Key, body, balance)
 
 	return balance, err
 }
@@ -49,7 +49,7 @@ func (c Client) GetTx(id string, params *TxParams) (*Transaction, error) {
 	}
 
 	balance := &Transaction{}
-	err := c.B.Call("GET", "/balance/history/"+id, c.Tok, body, balance)
+	err := c.B.Call("GET", "/balance/history/"+id, c.Key, body, balance)
 
 	return balance, err
 }
@@ -102,7 +102,7 @@ func (c Client) List(params *TxListParams) *TransactionIter {
 		}
 
 		list := &transactionList{}
-		err := c.B.Call("GET", "/balance/history", c.Tok, &b, list)
+		err := c.B.Call("GET", "/balance/history", c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

@@ -11,7 +11,7 @@ import (
 // Client is used to invoke /tokens APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Create POSTs a new card or bank account.
@@ -22,7 +22,7 @@ func Create(params *TokenParams) (*Token, error) {
 
 func (c Client) Create(params *TokenParams) (*Token, error) {
 	body := &url.Values{}
-	token := c.Tok
+	token := c.Key
 
 	if len(params.Customer) > 0 {
 		body.Add("customer", params.Customer)
@@ -60,7 +60,7 @@ func (c Client) Get(id string, params *TokenParams) (*Token, error) {
 	}
 
 	token := &Token{}
-	err := c.B.Call("GET", "/tokens/"+id, c.Tok, body, token)
+	err := c.B.Call("GET", "/tokens/"+id, c.Key, body, token)
 
 	return token, err
 }

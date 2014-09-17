@@ -24,7 +24,7 @@ const clientversion = "1.0"
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
 type Backend interface {
-	Call(method, path, token string, body *url.Values, v interface{}) error
+	Call(method, path, key string, body *url.Values, v interface{}) error
 }
 
 // InternalBackend is the internal implementation for making HTTP calls to Stripe.
@@ -75,7 +75,7 @@ func SetBackend(b Backend) {
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s *InternalBackend) Call(method, path, token string, body *url.Values, v interface{}) error {
+func (s *InternalBackend) Call(method, path, key string, body *url.Values, v interface{}) error {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
@@ -92,7 +92,7 @@ func (s *InternalBackend) Call(method, path, token string, body *url.Values, v i
 		return err
 	}
 
-	req.SetBasicAuth(token, "")
+	req.SetBasicAuth(key, "")
 	req.Header.Add("Stripe-Version", apiversion)
 	req.Header.Add("User-Agent", "Stripe.Go-"+clientversion)
 

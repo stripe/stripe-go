@@ -12,7 +12,7 @@ import (
 // Client is used to invoke application_fees APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Get returns the details of an application fee.
@@ -30,7 +30,7 @@ func (c Client) Get(id string, params *FeeParams) (*Fee, error) {
 	}
 
 	fee := &Fee{}
-	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refund", id), c.Tok, body, fee)
+	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refund", id), c.Key, body, fee)
 
 	return fee, err
 }
@@ -55,7 +55,7 @@ func (c Client) Refund(id string, params *FeeParams) (*FeeRefund, error) {
 	}
 
 	refund := &FeeRefund{}
-	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refunds", id), c.Tok, body, refund)
+	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refunds", id), c.Key, body, refund)
 
 	return refund, err
 }
@@ -92,7 +92,7 @@ func (c Client) List(params *FeeListParams) *FeeIter {
 
 	return &FeeIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
 		list := &feeList{}
-		err := c.B.Call("GET", "/application_fees", c.Tok, &b, list)
+		err := c.B.Call("GET", "/application_fees", c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

@@ -11,7 +11,7 @@ import (
 // Client is used to invoke /customers APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Create POSTs new customers.
@@ -63,7 +63,7 @@ func (c Client) Create(params *CustomerParams) (*Customer, error) {
 	}
 
 	cust := &Customer{}
-	err := c.B.Call("POST", "/customers", c.Tok, body, cust)
+	err := c.B.Call("POST", "/customers", c.Key, body, cust)
 
 	return cust, err
 }
@@ -83,7 +83,7 @@ func (c Client) Get(id string, params *CustomerParams) (*Customer, error) {
 	}
 
 	cust := &Customer{}
-	err := c.B.Call("GET", "/customers/"+id, c.Tok, body, cust)
+	err := c.B.Call("GET", "/customers/"+id, c.Key, body, cust)
 
 	return cust, err
 }
@@ -134,7 +134,7 @@ func (c Client) Update(id string, params *CustomerParams) (*Customer, error) {
 	}
 
 	cust := &Customer{}
-	err := c.B.Call("POST", "/customers/"+id, c.Tok, body, cust)
+	err := c.B.Call("POST", "/customers/"+id, c.Key, body, cust)
 
 	return cust, err
 }
@@ -146,7 +146,7 @@ func Delete(id string) error {
 }
 
 func (c Client) Delete(id string) error {
-	return c.B.Call("DELETE", "/customers/"+id, c.Tok, nil, nil)
+	return c.B.Call("DELETE", "/customers/"+id, c.Key, nil, nil)
 }
 
 // List returns a list of customers.
@@ -177,7 +177,7 @@ func (c Client) List(params *CustomerListParams) *CustomerIter {
 
 	return &CustomerIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
 		list := &customerList{}
-		err := c.B.Call("GET", "/customers", c.Tok, &b, list)
+		err := c.B.Call("GET", "/customers", c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

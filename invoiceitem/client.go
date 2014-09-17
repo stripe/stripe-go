@@ -11,7 +11,7 @@ import (
 // Client is used to invoke /invoiceitems APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Create POSTs new invoice items.
@@ -42,7 +42,7 @@ func (c Client) Create(params *InvoiceItemParams) (*InvoiceItem, error) {
 	params.AppendTo(body)
 
 	invoiceItem := &InvoiceItem{}
-	err := c.B.Call("POST", "/invoiceitems", c.Tok, body, invoiceItem)
+	err := c.B.Call("POST", "/invoiceitems", c.Key, body, invoiceItem)
 
 	return invoiceItem, err
 }
@@ -62,7 +62,7 @@ func (c Client) Get(id string, params *InvoiceItemParams) (*InvoiceItem, error) 
 	}
 
 	invoiceItem := &InvoiceItem{}
-	err := c.B.Call("GET", "/invoiceitems/"+id, c.Tok, body, invoiceItem)
+	err := c.B.Call("GET", "/invoiceitems/"+id, c.Key, body, invoiceItem)
 
 	return invoiceItem, err
 }
@@ -91,7 +91,7 @@ func (c Client) Update(id string, params *InvoiceItemParams) (*InvoiceItem, erro
 	}
 
 	invoiceItem := &InvoiceItem{}
-	err := c.B.Call("POST", "/invoiceitems/"+id, c.Tok, body, invoiceItem)
+	err := c.B.Call("POST", "/invoiceitems/"+id, c.Key, body, invoiceItem)
 
 	return invoiceItem, err
 }
@@ -103,7 +103,7 @@ func Delete(id string) error {
 }
 
 func (c Client) Delete(id string) error {
-	return c.B.Call("DELETE", "/invoiceitems/"+id, c.Tok, nil, nil)
+	return c.B.Call("DELETE", "/invoiceitems/"+id, c.Key, nil, nil)
 }
 
 // List returns a list of invoice items.
@@ -138,7 +138,7 @@ func (c Client) List(params *InvoiceItemListParams) *InvoiceItemIter {
 
 	return &InvoiceItemIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
 		list := &invoiceItemList{}
-		err := c.B.Call("GET", "/invoiceitems", c.Tok, &b, list)
+		err := c.B.Call("GET", "/invoiceitems", c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

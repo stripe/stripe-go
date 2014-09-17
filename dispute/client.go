@@ -11,7 +11,7 @@ import (
 // Client is used to invoke dispute-related APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Update updates a charge's dispute.
@@ -34,7 +34,7 @@ func (c Client) Update(id string, params *DisputeParams) (*Dispute, error) {
 	}
 
 	dispute := &Dispute{}
-	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/dispute", id), c.Tok, body, dispute)
+	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/dispute", id), c.Key, body, dispute)
 
 	return dispute, err
 }
@@ -47,7 +47,7 @@ func Close(id string) (*Dispute, error) {
 
 func (c Client) Close(id string) (*Dispute, error) {
 	dispute := &Dispute{}
-	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/dispute/close", id), c.Tok, nil, dispute)
+	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/dispute/close", id), c.Key, nil, dispute)
 
 	return dispute, err
 }

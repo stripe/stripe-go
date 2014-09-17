@@ -10,7 +10,7 @@ import (
 // Client is used to invoke discount-related APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Delete removes a discount from a customer.
@@ -20,7 +20,7 @@ func Delete(customerId string) error {
 }
 
 func (c Client) Delete(customerId string) error {
-	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/discount", customerId), c.Tok, nil, nil)
+	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/discount", customerId), c.Key, nil, nil)
 }
 
 // DeleteSubscription removes a discount from a customer's subscription.
@@ -30,7 +30,7 @@ func DeleteSubscription(customerId, subscriptionId string) error {
 }
 
 func (c Client) DeleteSubscription(customerId, subscriptionId string) error {
-	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v/discount", customerId, subscriptionId), c.Tok, nil, nil)
+	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v/discount", customerId, subscriptionId), c.Key, nil, nil)
 }
 
 func getC() Client {

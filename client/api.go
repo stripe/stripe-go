@@ -26,9 +26,9 @@ import (
 
 // Client is the Stripe client. It contains all the different resources available.
 type Api struct {
-	// Token is the secret key used for authentication.
-	token string
-	// B is the Backend implementation used to invoke Stripe APIs.
+	// key is the secret key used for authentication.
+	key string
+	// backend is the Backend implementation used to invoke Stripe APIs.
 	backend Backend
 	// Charges is the client used to invoke /charges APIs.
 	// For more details see https://stripe.com/docs/api/#charges.
@@ -89,33 +89,33 @@ type Api struct {
 	Tokens *token.Client
 }
 
-// Init initializes the Stripe client with the appropriate token secret key
+// Init initializes the Stripe client with the appropriate secret key
 // as well as providing the ability to override the backend as needed.
-func (a *Api) Init(tok string, backend Backend) {
+func (a *Api) Init(key string, backend Backend) {
 	if backend == nil {
 		backend = GetBackend()
 	}
 
 	a.backend = backend
-	a.token = tok
+	a.key = key
 
-	a.Charges = &charge.Client{B: a.backend, Tok: a.token}
-	a.Customers = &customer.Client{B: a.backend, Tok: a.token}
-	a.Cards = &card.Client{B: a.backend, Tok: a.token}
-	a.Subs = &sub.Client{B: a.backend, Tok: a.token}
-	a.Plans = &plan.Client{B: a.backend, Tok: a.token}
-	a.Coupons = &coupon.Client{B: a.backend, Tok: a.token}
-	a.Discounts = &discount.Client{B: a.backend, Tok: a.token}
-	a.Invoices = &invoice.Client{B: a.backend, Tok: a.token}
-	a.InvoiceItems = &invoiceitem.Client{B: a.backend, Tok: a.token}
-	a.Disputes = &dispute.Client{B: a.backend, Tok: a.token}
-	a.Transfers = &transfer.Client{B: a.backend, Tok: a.token}
-	a.Recipients = &recipient.Client{B: a.backend, Tok: a.token}
-	a.Refunds = &refund.Client{B: a.backend, Tok: a.token}
-	a.Fees = &fee.Client{B: a.backend, Tok: a.token}
-	a.FeeRefunds = &feerefund.Client{B: a.backend, Tok: a.token}
-	a.Account = &account.Client{B: a.backend, Tok: a.token}
-	a.Balance = &balance.Client{B: a.backend, Tok: a.token}
-	a.Events = &event.Client{B: a.backend, Tok: a.token}
-	a.Tokens = &token.Client{B: a.backend, Tok: a.token}
+	a.Charges = &charge.Client{B: a.backend, Key: a.key}
+	a.Customers = &customer.Client{B: a.backend, Key: a.key}
+	a.Cards = &card.Client{B: a.backend, Key: a.key}
+	a.Subs = &sub.Client{B: a.backend, Key: a.key}
+	a.Plans = &plan.Client{B: a.backend, Key: a.key}
+	a.Coupons = &coupon.Client{B: a.backend, Key: a.key}
+	a.Discounts = &discount.Client{B: a.backend, Key: a.key}
+	a.Invoices = &invoice.Client{B: a.backend, Key: a.key}
+	a.InvoiceItems = &invoiceitem.Client{B: a.backend, Key: a.key}
+	a.Disputes = &dispute.Client{B: a.backend, Key: a.key}
+	a.Transfers = &transfer.Client{B: a.backend, Key: a.key}
+	a.Recipients = &recipient.Client{B: a.backend, Key: a.key}
+	a.Refunds = &refund.Client{B: a.backend, Key: a.key}
+	a.Fees = &fee.Client{B: a.backend, Key: a.key}
+	a.FeeRefunds = &feerefund.Client{B: a.backend, Key: a.key}
+	a.Account = &account.Client{B: a.backend, Key: a.key}
+	a.Balance = &balance.Client{B: a.backend, Key: a.key}
+	a.Events = &event.Client{B: a.backend, Key: a.key}
+	a.Tokens = &token.Client{B: a.backend, Key: a.key}
 }

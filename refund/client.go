@@ -11,7 +11,7 @@ import (
 // Client is used to invoke /refunds APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Get returns the details of a refund.
@@ -26,7 +26,7 @@ func (c Client) Get(id string, params *RefundParams) (*Refund, error) {
 	params.AppendTo(body)
 
 	refund := &Refund{}
-	err := c.B.Call("GET", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.Tok, body, refund)
+	err := c.B.Call("GET", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.Key, body, refund)
 
 	return refund, err
 }
@@ -43,7 +43,7 @@ func (c Client) Update(id string, params *RefundParams) (*Refund, error) {
 	params.AppendTo(body)
 
 	refund := &Refund{}
-	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.Tok, body, refund)
+	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.Key, body, refund)
 
 	return refund, err
 }
@@ -63,7 +63,7 @@ func (c Client) List(params *RefundListParams) *RefundIter {
 
 	return &RefundIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
 		list := &RefundList{}
-		err := c.B.Call("GET", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.Tok, &b, list)
+		err := c.B.Call("GET", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

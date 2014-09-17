@@ -12,7 +12,7 @@ import (
 // Client is used to invoke /coupons APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Create POSTs new coupons.
@@ -55,7 +55,7 @@ func (c Client) Create(params *CouponParams) (*Coupon, error) {
 	params.AppendTo(body)
 
 	coupon := &Coupon{}
-	err := c.B.Call("POST", "/coupons", c.Tok, body, coupon)
+	err := c.B.Call("POST", "/coupons", c.Key, body, coupon)
 
 	return coupon, err
 }
@@ -75,7 +75,7 @@ func (c Client) Get(id string, params *CouponParams) (*Coupon, error) {
 	}
 
 	coupon := &Coupon{}
-	err := c.B.Call("GET", "/coupons/"+id, c.Tok, body, coupon)
+	err := c.B.Call("GET", "/coupons/"+id, c.Key, body, coupon)
 
 	return coupon, err
 }
@@ -87,7 +87,7 @@ func Delete(id string) error {
 }
 
 func (c Client) Delete(id string) error {
-	return c.B.Call("DELETE", "/coupons/"+id, c.Tok, nil, nil)
+	return c.B.Call("DELETE", "/coupons/"+id, c.Key, nil, nil)
 }
 
 // List returns a list of coupons.
@@ -114,7 +114,7 @@ func (c Client) List(params *CouponListParams) *CouponIter {
 
 	return &CouponIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
 		list := &couponList{}
-		err := c.B.Call("GET", "/coupons", c.Tok, &b, list)
+		err := c.B.Call("GET", "/coupons", c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

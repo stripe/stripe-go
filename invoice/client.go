@@ -12,7 +12,7 @@ import (
 // Client is the client used to invoke /invoices APIs.
 type Client struct {
 	B   Backend
-	Tok string
+	Key string
 }
 
 // Create POSTs new invoices.
@@ -40,7 +40,7 @@ func (c Client) Create(params *InvoiceParams) (*Invoice, error) {
 
 	params.AppendTo(body)
 
-	token := c.Tok
+	token := c.Key
 	if params.Fee > 0 {
 		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 	}
@@ -66,7 +66,7 @@ func (c Client) Get(id string, params *InvoiceParams) (*Invoice, error) {
 	}
 
 	invoice := &Invoice{}
-	err := c.B.Call("GET", "/invoices/"+id, c.Tok, body, invoice)
+	err := c.B.Call("GET", "/invoices/"+id, c.Key, body, invoice)
 
 	return invoice, err
 }
@@ -86,7 +86,7 @@ func (c Client) Pay(id string, params *InvoiceParams) (*Invoice, error) {
 	}
 
 	invoice := &Invoice{}
-	err := c.B.Call("POST", fmt.Sprintf("/invoices/%v/pay", id), c.Tok, body, invoice)
+	err := c.B.Call("POST", fmt.Sprintf("/invoices/%v/pay", id), c.Key, body, invoice)
 
 	return invoice, err
 }
@@ -99,7 +99,7 @@ func Update(id string, params *InvoiceParams) (*Invoice, error) {
 
 func (c Client) Update(id string, params *InvoiceParams) (*Invoice, error) {
 	var body *url.Values
-	token := c.Tok
+	token := c.Key
 
 	if params != nil {
 		body = &url.Values{}
@@ -155,7 +155,7 @@ func (c Client) GetNext(params *InvoiceParams) (*Invoice, error) {
 	params.AppendTo(body)
 
 	invoice := &Invoice{}
-	err := c.B.Call("GET", "/invoices", c.Tok, body, invoice)
+	err := c.B.Call("GET", "/invoices", c.Key, body, invoice)
 
 	return invoice, err
 }
@@ -192,7 +192,7 @@ func (c Client) List(params *InvoiceListParams) *InvoiceIter {
 
 	return &InvoiceIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
 		list := &invoiceList{}
-		err := c.B.Call("GET", "/invoices", c.Tok, &b, list)
+		err := c.B.Call("GET", "/invoices", c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
@@ -226,7 +226,7 @@ func (c Client) ListLines(params *InvoiceLineListParams) *InvoiceLineIter {
 
 	return &InvoiceLineIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
 		list := &InvoiceLineList{}
-		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.Id), c.Tok, &b, list)
+		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.Id), c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
