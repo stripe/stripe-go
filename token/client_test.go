@@ -67,4 +67,8 @@ func TestTokenGet(t *testing.T) {
 	if target.Bank == nil {
 		t.Errorf("Bank account is not set\n")
 	}
+
+	if target.Bank.Status != NewAccount {
+		t.Errorf("Bank account status %q does not match expected value\n", target.Bank.Status)
+	}
 }

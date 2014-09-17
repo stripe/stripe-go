@@ -9,9 +9,18 @@ import (
 // Allowed values are "individual", "corporation".
 type RecipientType string
 
+// BankAccountStatus is the list of allowed values for the bank account's status.
+// Allowed values are "new", "verified", "validated", "errored".
+type BankAccountStatus string
+
 const (
 	Individual RecipientType = "individual"
 	Corp       RecipientType = "corporation"
+
+	NewAccount       BankAccountStatus = "new"
+	VerifiedAccount  BankAccountStatus = "verified"
+	ValidatedAccount BankAccountStatus = "validated"
+	ErroredAccount   BankAccountStatus = "errored"
 )
 
 // RecipientParams is the set of parameters that can be used when creating or updating recipients.
@@ -56,14 +65,13 @@ type Recipient struct {
 
 // BankAccount represents a Stripe bank account.
 type BankAccount struct {
-	Id          string   `json:"id"`
-	Name        string   `json:"bank_name"`
-	Country     string   `json:"country"`
-	Currency    Currency `json:"currency"`
-	LastFour    string   `json:"last4"`
-	Disabled    bool     `json:"disabled"`
-	Fingerprint string   `json:"fingerprint"`
-	Valid       bool     `json:"validated"`
+	Id          string            `json:"id"`
+	Name        string            `json:"bank_name"`
+	Country     string            `json:"country"`
+	Currency    Currency          `json:"currency"`
+	LastFour    string            `json:"last4"`
+	Fingerprint string            `json:"fingerprint"`
+	Status      BankAccountStatus `json:"status"`
 }
 
 // RecipientIter is a iterator for list responses.
