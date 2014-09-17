@@ -115,8 +115,9 @@ import (
 // Setup
 stripe := &client.Api{}
 stripe.Init("sk_key", nil)
-// the second parameter represents the `Backend` used by the client. It can be useful
-// to set one explicitly to either get a custom `http.Client` or mock it entirely in tests.
+// the second parameter represents the Backend used by the client. It can be
+// useful to set one explicitly to either get a custom http.Client or mock it
+// entirely in tests.
 
 // Create
 resource, err := stripe.Resources.Create(ResourceParams)
