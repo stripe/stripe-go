@@ -80,7 +80,6 @@ import (
 stripe.Key = "sk_key"
 
 stripe.SetBackend(backend) // optional, useful for mocking
-stripe.SetHttpClient(http.Client) // optional, useful for Google AppEngine
 
 // Create
 resource, err := resource.Create(ResourceParams)
@@ -115,9 +114,10 @@ import (
 
 // Setup
 stripe := &client.Api{}
-stripe.Init("sk_key", nil, nil)
-// similarly, the second parameter represents the http.Client used and the third
-// parameter is the Backend used by the binding, which is useful for mocking in tests
+stripe.Init("sk_key", nil)
+// the second parameter represents the Backend used by the client. It can be
+// useful to set one explicitly to either get a custom http.Client or mock it
+// entirely in tests.
 
 // Create
 resource, err := stripe.Resources.Create(ResourceParams)
@@ -136,6 +136,22 @@ i := stripe.Resources.List(ResourceListParams)
 for !i.Stop() {
   resource, err := i.Next()
 }
+```
+
+### Connect Flows
+
+If you're using an `access token` you will need to use a client. Simply pass
+the `access token` value as the `tok` when initalizing the client.
+
+```go
+
+import (
+  "github.com/stripe/stripe-go"
+  "github.com/stripe/stripe-go/client"
+)
+
+stripe := &client.Api{}
+stripe.Init("access_token", nil)
 ```
 
 ## Documentation
