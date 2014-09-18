@@ -13,16 +13,6 @@ type RecipientType string
 // Allowed values are "new", "verified", "validated", "errored".
 type BankAccountStatus string
 
-const (
-	Individual RecipientType = "individual"
-	Corp       RecipientType = "corporation"
-
-	NewAccount       BankAccountStatus = "new"
-	VerifiedAccount  BankAccountStatus = "verified"
-	ValidatedAccount BankAccountStatus = "validated"
-	ErroredAccount   BankAccountStatus = "errored"
-)
-
 // RecipientParams is the set of parameters that can be used when creating or updating recipients.
 // For more details see https://stripe.com/docs/api#create_recipient and https://stripe.com/docs/api#update_recipient.
 type RecipientParams struct {

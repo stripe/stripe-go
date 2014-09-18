@@ -132,7 +132,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Errorf("Invoice line description %q does not match expected description %q\n", targetInvoice.Lines.Values[0].Desc, targetItem.Desc)
 	}
 
-	if targetInvoice.Lines.Values[0].Type != stripe.TypeInvoiceItem {
+	if targetInvoice.Lines.Values[0].Type != TypeInvoiceItem {
 		t.Errorf("Invoice line type %q does not match expected type\n", targetInvoice.Lines.Values[0].Type)
 	}
 

@@ -17,7 +17,7 @@ func TestCouponNew(t *testing.T) {
 	couponParams := &stripe.CouponParams{
 		Amount:         99,
 		Currency:       stripe.USD,
-		Duration:       stripe.Repeating,
+		Duration:       Repeating,
 		DurationPeriod: 3,
 		Redemptions:    1,
 		RedeemBy:       time.Now().AddDate(0, 0, 30).Unix(),
@@ -63,7 +63,7 @@ func TestCouponNew(t *testing.T) {
 func TestCouponGet(t *testing.T) {
 	couponParams := &stripe.CouponParams{
 		Id:       "test_coupon",
-		Duration: stripe.Once,
+		Duration: Once,
 		Percent:  50,
 	}
 
@@ -89,7 +89,7 @@ func TestCouponList(t *testing.T) {
 	for i := 0; i < 5; i++ {
 		couponParams := &stripe.CouponParams{
 			Id:       fmt.Sprintf("test_%v", i),
-			Duration: stripe.Once,
+			Duration: Once,
 			Percent:  50,
 		}
 

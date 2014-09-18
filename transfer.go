@@ -14,27 +14,6 @@ type TransferType string
 // "account_frozen", "could_not_process", "bank_account_restricted", "invalid_currency".
 type TransferFailCode string
 
-const (
-	Paid             TransferStatus = "paid"
-	Pending          TransferStatus = "pending"
-	Failed           TransferStatus = "failed"
-	TransferCanceled TransferStatus = "canceled"
-
-	CardTransfer TransferType = "card"
-	BankTransfer TransferType = "bank_account"
-
-	InsufficientFunds    TransferFailCode = "insufficient_funds"
-	AccountClosed        TransferFailCode = "account_closed"
-	NoAccount            TransferFailCode = "no_account"
-	InvalidAccountNumber TransferFailCode = "invalid_account_number"
-	DebitNotAuth         TransferFailCode = "debit_not_authorized"
-	BankOwnerChanged     TransferFailCode = "bank_ownership_changed"
-	AccountFrozen        TransferFailCode = "account_frozen"
-	CouldNotProcess      TransferFailCode = "could_not_process"
-	BankAccountRestrict  TransferFailCode = "bank_account_restricted"
-	InvalidCurrency      TransferFailCode = "invalid_currency"
-)
-
 // TransferParams is the set of parameters that can be used when creating or updating a transfer.
 // For more details see https://stripe.com/docs/api#create_transfer and https://stripe.com/docs/api#update_transfer.
 type TransferParams struct {

@@ -8,6 +8,13 @@ import (
 	stripe "github.com/stripe/stripe-go"
 )
 
+const (
+	Day   stripe.PlanInternval = "day"
+	Week  stripe.PlanInternval = "week"
+	Month stripe.PlanInternval = "month"
+	Year  stripe.PlanInternval = "year"
+)
+
 // Client is used to invoke /plans APIs.
 type Client struct {
 	B   stripe.Backend

@@ -42,7 +42,7 @@ func TestCardNew(t *testing.T) {
 		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, cardParams.Number)
 	}
 
-	if target.CVCCheck != stripe.Pass {
+	if target.CVCCheck != Pass {
 		t.Errorf("CVC check %q does not match expected status\n", target.ZipCheck)
 	}
 
@@ -62,7 +62,7 @@ func TestCardNew(t *testing.T) {
 func TestCardGet(t *testing.T) {
 	recipientParams := &stripe.RecipientParams{
 		Name: "Test Recipient",
-		Type: stripe.Corp,
+		Type: recipient.Corp,
 		Card: &stripe.CardParams{
 			Number: "5200828282828210",
 			Month:  "06",
@@ -82,11 +82,11 @@ func TestCardGet(t *testing.T) {
 		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, recipientParams.Card.Number)
 	}
 
-	if target.Brand != stripe.MasterCard {
+	if target.Brand != MasterCard {
 		t.Errorf("Card brand %q does not match expected value\n", target.Brand)
 	}
 
-	if target.Funding != stripe.DebitFunding {
+	if target.Funding != Debit {
 		t.Errorf("Card funding %q does not match expected value\n", target.Funding)
 	}
 

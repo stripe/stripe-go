@@ -15,7 +15,7 @@ func init() {
 func TestTransferNew(t *testing.T) {
 	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",
-		Type: stripe.Individual,
+		Type: recipient.Individual,
 		Bank: &stripe.BankAccountParams{
 			Country: "US",
 			Routing: "110000000",
@@ -71,11 +71,11 @@ func TestTransferNew(t *testing.T) {
 		t.Errorf("Bank account is not set\n")
 	}
 
-	if target.Status != stripe.Pending {
+	if target.Status != Pending {
 		t.Errorf("Unexpected status %q\n", target.Status)
 	}
 
-	if target.Type != stripe.BankTransfer {
+	if target.Type != Bank {
 		t.Errorf("Unexpected type %q\n", target.Type)
 	}
 
@@ -85,7 +85,7 @@ func TestTransferNew(t *testing.T) {
 func TestTransferGet(t *testing.T) {
 	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",
-		Type: stripe.Individual,
+		Type: recipient.Individual,
 		Card: &stripe.CardParams{
 			Name:   "Test Debit",
 			Number: "4000056655665556",
@@ -114,7 +114,7 @@ func TestTransferGet(t *testing.T) {
 		t.Errorf("Card is not set\n")
 	}
 
-	if target.Type != stripe.CardTransfer {
+	if target.Type != Card {
 		t.Errorf("Unexpected type %q\n", target.Type)
 	}
 
@@ -124,7 +124,7 @@ func TestTransferGet(t *testing.T) {
 func TestTransferUpdate(t *testing.T) {
 	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",
-		Type: stripe.Corp,
+		Type: recipient.Corp,
 		Bank: &stripe.BankAccountParams{
 			Country: "US",
 			Routing: "110000000",
@@ -163,7 +163,7 @@ func TestTransferUpdate(t *testing.T) {
 func TestTransferList(t *testing.T) {
 	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",
-		Type: stripe.Individual,
+		Type: recipient.Individual,
 		Card: &stripe.CardParams{
 			Name:   "Test Debit",
 			Number: "4000056655665556",

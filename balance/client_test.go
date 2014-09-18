@@ -100,11 +100,11 @@ func TestBalanceGetTx(t *testing.T) {
 		t.Errorf("Net is not set\n")
 	}
 
-	if target.Status != stripe.TxPending {
+	if target.Status != TxPending {
 		t.Errorf("Status %v does not match expected value\n", target.Status)
 	}
 
-	if target.Type != stripe.TxCharge {
+	if target.Type != TxCharge {
 		t.Errorf("Type %v does not match expected value\n", target.Type)
 	}
 

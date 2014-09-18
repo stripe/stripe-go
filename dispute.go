@@ -11,25 +11,6 @@ type DisputeReason string
 // "warning_needs_response", "warning_under_review", "charge_refunded".
 type DisputeStatus string
 
-const (
-	Duplicate    DisputeReason = "duplicate"
-	Fraudulent   DisputeReason = "fraudulent"
-	SubCanceled  DisputeReason = "subscription_canceled"
-	Unacceptable DisputeReason = "product_unacceptable"
-	NotReceived  DisputeReason = "product_not_received"
-	Unrecognized DisputeReason = "unrecognized"
-	Credit       DisputeReason = "credit_not_processed"
-	General      DisputeReason = "general"
-
-	Won             DisputeStatus = "won"
-	Lost            DisputeStatus = "lost"
-	Response        DisputeStatus = "needs_response"
-	Review          DisputeStatus = "under_review"
-	WarningResponse DisputeStatus = "warning_needs_response"
-	WarningReview   DisputeStatus = "warning_under_review"
-	ChargeRefunded  DisputeStatus = "charge_refunded"
-)
-
 // DisputeParams is the set of parameters that can be used when updating a dispute.
 // For more details see https://stripe.com/docs/api#update_dispute.
 type DisputeParams struct {

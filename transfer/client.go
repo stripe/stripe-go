@@ -9,6 +9,27 @@ import (
 	stripe "github.com/stripe/stripe-go"
 )
 
+const (
+	Paid     stripe.TransferStatus = "paid"
+	Pending  stripe.TransferStatus = "pending"
+	Failed   stripe.TransferStatus = "failed"
+	Canceled stripe.TransferStatus = "canceled"
+
+	Card stripe.TransferType = "card"
+	Bank stripe.TransferType = "bank_account"
+
+	InsufficientFunds    stripe.TransferFailCode = "insufficient_funds"
+	AccountClosed        stripe.TransferFailCode = "account_closed"
+	NoAccount            stripe.TransferFailCode = "no_account"
+	InvalidAccountNumber stripe.TransferFailCode = "invalid_account_number"
+	DebitNotAuth         stripe.TransferFailCode = "debit_not_authorized"
+	BankOwnerChanged     stripe.TransferFailCode = "bank_ownership_changed"
+	AccountFrozen        stripe.TransferFailCode = "account_frozen"
+	CouldNotProcess      stripe.TransferFailCode = "could_not_process"
+	BankAccountRestrict  stripe.TransferFailCode = "bank_account_restricted"
+	InvalidCurrency      stripe.TransferFailCode = "invalid_currency"
+)
+
 // Client is used to invoke /transfers APIs.
 type Client struct {
 	B   stripe.Backend

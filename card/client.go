@@ -9,6 +9,25 @@ import (
 	stripe "github.com/stripe/stripe-go"
 )
 
+const (
+	BrandUnknown stripe.CardBrand = "Unknown"
+	Visa         stripe.CardBrand = "Visa"
+	Amex         stripe.CardBrand = "American Express"
+	MasterCard   stripe.CardBrand = "MasterCard"
+	Discover     stripe.CardBrand = "Discover"
+	JCB          stripe.CardBrand = "JCB"
+	DinersClub   stripe.CardBrand = "Diners Club"
+
+	Pass      stripe.Verification = "pass"
+	Fail      stripe.Verification = "fail"
+	Unchecked stripe.Verification = "unchecked"
+
+	Credit         stripe.CardFunding = "credit"
+	Debit          stripe.CardFunding = "debit"
+	Prepaid        stripe.CardFunding = "prepaid"
+	FundingUnknown stripe.CardFunding = "unknown"
+)
+
 // Client is used to invoke /cards APIs.
 type Client struct {
 	B   stripe.Backend

@@ -9,6 +9,12 @@ import (
 	stripe "github.com/stripe/stripe-go"
 )
 
+const (
+	Forever   stripe.CouponDuration = "forever"
+	Once      stripe.CouponDuration = "once"
+	Repeating stripe.CouponDuration = "repeating"
+)
+
 // Client is used to invoke /coupons APIs.
 type Client struct {
 	B   stripe.Backend
@@ -40,7 +46,7 @@ func (c Client) New(params *stripe.CouponParams) (*stripe.Coupon, error) {
 		return nil, err
 	}
 
-	if params.Duration == stripe.Repeating {
+	if params.Duration == Repeating {
 		body.Add("duration_in_months", strconv.FormatUint(params.DurationPeriod, 10))
 	}
 

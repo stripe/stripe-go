@@ -6,11 +6,6 @@ import "encoding/json"
 // Allowed values are "invoiceitem", "subscription".
 type InvoiceLineType string
 
-const (
-	TypeInvoiceItem  InvoiceLineType = "invoiceitem"
-	TypeSubscription InvoiceLineType = "subscription"
-)
-
 // InvoiceParams is the set of parameters that can be used when creating or updating an invoice.
 // For more details see https://stripe.com/docs/api#create_invoice, https://stripe.com/docs/api#update_invoice.
 type InvoiceParams struct {

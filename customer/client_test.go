@@ -137,7 +137,7 @@ func TestCustomerUpdate(t *testing.T) {
 
 func TestCustomerDiscount(t *testing.T) {
 	couponParams := &stripe.CouponParams{
-		Duration: stripe.Forever,
+		Duration: coupon.Forever,
 		Id:       "customer_coupon",
 		Percent:  99,
 	}

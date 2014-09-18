@@ -18,7 +18,7 @@ func TestPlanNew(t *testing.T) {
 		Name:          "Test Plan",
 		Amount:        99,
 		Currency:      stripe.USD,
-		Interval:      stripe.Month,
+		Interval:      Month,
 		IntervalCount: 3,
 		TrialPeriod:   30,
 		Statement:     "Test Plan",
@@ -71,7 +71,7 @@ func TestPlanGet(t *testing.T) {
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: stripe.USD,
-		Interval: stripe.Month,
+		Interval: Month,
 	}
 
 	New(planParams)
@@ -94,7 +94,7 @@ func TestPlanUpdate(t *testing.T) {
 		Name:          "Original Name",
 		Amount:        99,
 		Currency:      stripe.USD,
-		Interval:      stripe.Month,
+		Interval:      Month,
 		IntervalCount: 3,
 		TrialPeriod:   30,
 		Statement:     "Original Plan",
@@ -132,7 +132,7 @@ func TestPlanList(t *testing.T) {
 			Name:     fmt.Sprintf("test_%v", i),
 			Amount:   99,
 			Currency: stripe.USD,
-			Interval: stripe.Month,
+			Interval: Month,
 		}
 
 		New(planParams)

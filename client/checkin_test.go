@@ -4,13 +4,15 @@ import (
 	"fmt"
 	"testing"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/client"
+	"github.com/stripe/stripe-go/plan"
 )
 
 const testKey = "tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I"
 
 func TestCheckinConnectivity(t *testing.T) {
-	c := &Api{}
+	c := &client.Api{}
 	c.Init(testKey, nil)
 
 	target, err := c.Account.Get()
@@ -33,7 +35,7 @@ func TestCheckinConnectivity(t *testing.T) {
 }
 
 func TestCheckinError(t *testing.T) {
-	c := &Api{}
+	c := &client.Api{}
 	c.Init("bad_key", nil)
 
 	_, err := c.Account.Get()
@@ -42,21 +44,21 @@ func TestCheckinError(t *testing.T) {
 		t.Errorf("Expected an error")
 	}
 
-	stripeErr := err.(*Error)
+	stripeErr := err.(*stripe.Error)
 
-	if stripeErr.Type != InvalidRequest {
+	if stripeErr.Type != stripe.InvalidRequest {
 		t.Errorf("Type %v does not match expected type\n", stripeErr.Type)
 	}
 }
 
 func TestCheckinPost(t *testing.T) {
-	c := &Api{}
+	c := &client.Api{}
 	c.Init(testKey, nil)
 
-	charge := &ChargeParams{
+	charge := &stripe.ChargeParams{
 		Amount:   100,
-		Currency: USD,
-		Card: &CardParams{
+		Currency: stripe.USD,
+		Card: &stripe.CardParams{
 			Name:   "Go Bindings Cardholder",
 			Number: "4242424242424242",
 			Month:  "12",
@@ -84,15 +86,15 @@ func TestCheckinPost(t *testing.T) {
 }
 
 func TestCheckinDel(t *testing.T) {
-	c := &Api{}
+	c := &client.Api{}
 	c.Init(testKey, nil)
 
-	plan := &PlanParams{
+	plan := &stripe.PlanParams{
 		Id:       "go_binding",
 		Name:     "Go Test Plan",
 		Amount:   100,
-		Currency: USD,
-		Interval: Month,
+		Currency: stripe.USD,
+		Interval: plan.Month,
 	}
 
 	_, err := c.Plans.New(plan)
@@ -110,22 +112,22 @@ func TestCheckinDel(t *testing.T) {
 
 func TestCheckinList(t *testing.T) {
 	const runs = 4
-	c := &Api{}
+	c := &client.Api{}
 	c.Init(testKey, nil)
 
 	for i := 0; i < runs; i++ {
-		plan := &PlanParams{
+		plan := &stripe.PlanParams{
 			Id:       fmt.Sprintf("go_binding_%v", i),
 			Name:     fmt.Sprintf("Go Test Plan %v", i),
 			Amount:   100,
-			Currency: USD,
-			Interval: Month,
+			Currency: stripe.USD,
+			Interval: plan.Month,
 		}
 
 		c.Plans.New(plan)
 	}
 
-	params := &PlanListParams{}
+	params := &stripe.PlanListParams{}
 	params.Filters.AddFilter("limit", "", "2")
 	params.Single = true
 

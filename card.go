@@ -19,25 +19,6 @@ type Verification string
 // Allowed values are "credit", "debit", "prepaid", "unknown".
 type CardFunding string
 
-const (
-	Unknown    CardBrand = "Unknown"
-	Visa       CardBrand = "Visa"
-	Amex       CardBrand = "American Express"
-	MasterCard CardBrand = "MasterCard"
-	Discover   CardBrand = "Discover"
-	JCB        CardBrand = "JCB"
-	DinersClub CardBrand = "Diners Club"
-
-	Pass      Verification = "pass"
-	Fail      Verification = "fail"
-	Unchecked Verification = "unchecked"
-
-	CreditFunding  CardFunding = "credit"
-	DebitFunding   CardFunding = "debit"
-	PrepaidFunding CardFunding = "prepaid"
-	UnknownFunding CardFunding = "unknown"
-)
-
 // CardParams is the set of parameters that can be used when creating or updating a card.
 // For more details see https://stripe.com/docs/api#create_card and https://stripe.com/docs/api#update_card.
 type CardParams struct {

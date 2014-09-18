@@ -8,6 +8,16 @@ import (
 	stripe "github.com/stripe/stripe-go"
 )
 
+const (
+	Individual stripe.RecipientType = "individual"
+	Corp       stripe.RecipientType = "corporation"
+
+	NewAccount       stripe.BankAccountStatus = "new"
+	VerifiedAccount  stripe.BankAccountStatus = "verified"
+	ValidatedAccount stripe.BankAccountStatus = "validated"
+	ErroredAccount   stripe.BankAccountStatus = "errored"
+)
+
 // Client is used to invoke /recipients APIs.
 type Client struct {
 	B   stripe.Backend

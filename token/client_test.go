@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/recipient"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -30,7 +31,7 @@ func TestTokenNew(t *testing.T) {
 		t.Errorf("Created date is not set\n")
 	}
 
-	if target.Type != stripe.CardToken {
+	if target.Type != Card {
 		t.Errorf("Type %v does not match expected value\n", target.Type)
 	}
 
@@ -60,7 +61,7 @@ func TestTokenGet(t *testing.T) {
 		t.Error(err)
 	}
 
-	if target.Type != stripe.BankToken {
+	if target.Type != Bank {
 		t.Errorf("Type %v does not match expected value\n", target.Type)
 	}
 
@@ -68,7 +69,7 @@ func TestTokenGet(t *testing.T) {
 		t.Errorf("Bank account is not set\n")
 	}
 
-	if target.Bank.Status != stripe.NewAccount {
+	if target.Bank.Status != recipient.NewAccount {
 		t.Errorf("Bank account status %q does not match expected value\n", target.Bank.Status)
 	}
 }

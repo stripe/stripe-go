@@ -6,12 +6,6 @@ import "encoding/json"
 // Allowed values are "forever", "once", "repeating".
 type CouponDuration string
 
-const (
-	Forever   CouponDuration = "forever"
-	Once      CouponDuration = "once"
-	Repeating CouponDuration = "repeating"
-)
-
 // CouponParams is the set of parameters that can be used when creating a coupon.
 // For more details see https://stripe.com/docs/api#create_coupon.
 type CouponParams struct {

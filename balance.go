@@ -11,20 +11,6 @@ type TransactionStatus string
 // "application_fee_refund", "transfer", "transfer_cancel", "transfer_failure".
 type TransactionType string
 
-const (
-	TxAvailable TransactionStatus = "available"
-	TxPending   TransactionStatus = "pending"
-
-	TxCharge         TransactionType = "charge"
-	TxRefund         TransactionType = "refund"
-	TxAdjust         TransactionType = "adjustment"
-	TxAppFee         TransactionType = "application_fee"
-	TxFeeRefund      TransactionType = "application_fee_refund"
-	TxTransfer       TransactionType = "transfer"
-	TxTransferCancel TransactionType = "transfer_cancel"
-	TxTransferFail   TransactionType = "transfer_failure"
-)
-
 // BalanceParams is the set of parameters that can be used when retrieving a balance.
 // For more details see https://stripe.com/docs/api#balance.
 type BalanceParams struct {

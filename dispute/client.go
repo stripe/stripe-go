@@ -8,6 +8,25 @@ import (
 	stripe "github.com/stripe/stripe-go"
 )
 
+const (
+	Duplicate    stripe.DisputeReason = "duplicate"
+	Fraudulent   stripe.DisputeReason = "fraudulent"
+	SubCanceled  stripe.DisputeReason = "subscription_canceled"
+	Unacceptable stripe.DisputeReason = "product_unacceptable"
+	NotReceived  stripe.DisputeReason = "product_not_received"
+	Unrecognized stripe.DisputeReason = "unrecognized"
+	Credit       stripe.DisputeReason = "credit_not_processed"
+	General      stripe.DisputeReason = "general"
+
+	Won             stripe.DisputeStatus = "won"
+	Lost            stripe.DisputeStatus = "lost"
+	Response        stripe.DisputeStatus = "needs_response"
+	Review          stripe.DisputeStatus = "under_review"
+	WarningResponse stripe.DisputeStatus = "warning_needs_response"
+	WarningReview   stripe.DisputeStatus = "warning_under_review"
+	ChargeRefunded  stripe.DisputeStatus = "charge_refunded"
+)
+
 // Client is used to invoke dispute-related APIs.
 type Client struct {
 	B   stripe.Backend

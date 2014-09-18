@@ -9,6 +9,14 @@ import (
 	stripe "github.com/stripe/stripe-go"
 )
 
+const (
+	Trialing stripe.SubStatus = "trialing"
+	Active   stripe.SubStatus = "active"
+	PastDue  stripe.SubStatus = "past_due"
+	Canceled stripe.SubStatus = "canceled"
+	Unpaid   stripe.SubStatus = "unpaid"
+)
+
 // Client is used to invoke /subscriptions APIs.
 type Client struct {
 	B   stripe.Backend

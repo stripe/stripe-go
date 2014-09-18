@@ -14,7 +14,7 @@ func init() {
 func TestRecipientNew(t *testing.T) {
 	recipientParams := &stripe.RecipientParams{
 		Name:  "Recipient Name",
-		Type:  stripe.Individual,
+		Type:  Individual,
 		TaxId: "000000000",
 		Email: "a@b.com",
 		Desc:  "Recipient Desc",
@@ -91,7 +91,7 @@ func TestRecipientNew(t *testing.T) {
 func TestRecipientGet(t *testing.T) {
 	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",
-		Type: stripe.Individual,
+		Type: Individual,
 	}
 
 	rec, _ := New(recipientParams)
@@ -112,7 +112,7 @@ func TestRecipientGet(t *testing.T) {
 func TestRecipientUpdate(t *testing.T) {
 	recipientParams := &stripe.RecipientParams{
 		Name:  "Original Name",
-		Type:  stripe.Individual,
+		Type:  Individual,
 		Email: "original@b.com",
 		Desc:  "Original Desc",
 	}
@@ -149,7 +149,7 @@ func TestRecipientUpdate(t *testing.T) {
 func TestRecipientList(t *testing.T) {
 	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",
-		Type: stripe.Individual,
+		Type: Individual,
 	}
 
 	recipients := make([]string, 5)

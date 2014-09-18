@@ -6,14 +6,6 @@ import "encoding/json"
 // Allowed values are "trialing", "active", "past_due", "canceled", "unpaid".
 type SubStatus string
 
-const (
-	Trialing SubStatus = "trialing"
-	Active   SubStatus = "active"
-	PastDue  SubStatus = "past_due"
-	Canceled SubStatus = "canceled"
-	Unpaid   SubStatus = "unpaid"
-)
-
 // SubParams is the set of parameters that can be used when creating or updating a subscription.
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubParams struct {

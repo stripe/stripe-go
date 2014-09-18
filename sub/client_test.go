@@ -31,7 +31,7 @@ func TestSubscriptionNew(t *testing.T) {
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: stripe.USD,
-		Interval: stripe.Month,
+		Interval: plan.Month,
 	}
 
 	plan.New(planParams)
@@ -76,7 +76,7 @@ func TestSubscriptionGet(t *testing.T) {
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: stripe.USD,
-		Interval: stripe.Month,
+		Interval: plan.Month,
 	}
 
 	plan.New(planParams)
@@ -118,7 +118,7 @@ func TestSubscriptionCancel(t *testing.T) {
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: stripe.USD,
-		Interval: stripe.Month,
+		Interval: plan.Month,
 	}
 
 	plan.New(planParams)
@@ -156,7 +156,7 @@ func TestSubscriptionUpdate(t *testing.T) {
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: stripe.USD,
-		Interval: stripe.Month,
+		Interval: plan.Month,
 	}
 
 	plan.New(planParams)
@@ -190,7 +190,7 @@ func TestSubscriptionUpdate(t *testing.T) {
 
 func TestSubscriptionDiscount(t *testing.T) {
 	couponParams := &stripe.CouponParams{
-		Duration: stripe.Forever,
+		Duration: coupon.Forever,
 		Id:       "sub_coupon",
 		Percent:  99,
 	}
@@ -213,7 +213,7 @@ func TestSubscriptionDiscount(t *testing.T) {
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: stripe.USD,
-		Interval: stripe.Month,
+		Interval: plan.Month,
 	}
 
 	plan.New(planParams)
@@ -270,7 +270,7 @@ func TestSubscriptionList(t *testing.T) {
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: stripe.USD,
-		Interval: stripe.Month,
+		Interval: plan.Month,
 	}
 
 	plan.New(planParams)

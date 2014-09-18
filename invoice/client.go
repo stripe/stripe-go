@@ -9,6 +9,11 @@ import (
 	stripe "github.com/stripe/stripe-go"
 )
 
+const (
+	TypeInvoiceItem  stripe.InvoiceLineType = "invoiceitem"
+	TypeSubscription stripe.InvoiceLineType = "subscription"
+)
+
 // Client is the client used to invoke /invoices APIs.
 type Client struct {
 	B   stripe.Backend
