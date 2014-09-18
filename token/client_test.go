@@ -3,17 +3,17 @@ package token
 import (
 	"testing"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 	. "github.com/stripe/stripe-go/utils"
 )
 
 func init() {
-	Key = GetTestKey()
+	stripe.Key = GetTestKey()
 }
 
 func TestTokenNew(t *testing.T) {
-	tokenParams := &TokenParams{
-		Card: &CardParams{
+	tokenParams := &stripe.TokenParams{
+		Card: &stripe.CardParams{
 			Number: "4242424242424242",
 			Month:  "10",
 			Year:   "20",
@@ -30,7 +30,7 @@ func TestTokenNew(t *testing.T) {
 		t.Errorf("Created date is not set\n")
 	}
 
-	if target.Type != CardToken {
+	if target.Type != stripe.CardToken {
 		t.Errorf("Type %v does not match expected value\n", target.Type)
 	}
 
@@ -44,8 +44,8 @@ func TestTokenNew(t *testing.T) {
 }
 
 func TestTokenGet(t *testing.T) {
-	tokenParams := &TokenParams{
-		Bank: &BankAccountParams{
+	tokenParams := &stripe.TokenParams{
+		Bank: &stripe.BankAccountParams{
 			Country: "US",
 			Routing: "110000000",
 			Account: "000123456789",
@@ -60,7 +60,7 @@ func TestTokenGet(t *testing.T) {
 		t.Error(err)
 	}
 
-	if target.Type != BankToken {
+	if target.Type != stripe.BankToken {
 		t.Errorf("Type %v does not match expected value\n", target.Type)
 	}
 
@@ -68,7 +68,7 @@ func TestTokenGet(t *testing.T) {
 		t.Errorf("Bank account is not set\n")
 	}
 
-	if target.Bank.Status != NewAccount {
+	if target.Bank.Status != stripe.NewAccount {
 		t.Errorf("Bank account status %q does not match expected value\n", target.Bank.Status)
 	}
 }

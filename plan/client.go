@@ -110,11 +110,11 @@ func (c Client) Del(id string) error {
 
 // List returns a list of plans.
 // For more details see https://stripe.com/docs/api#list_plans.
-func List(params *stripe.PlanListParams) *stripe.PlanIter {
+func List(params *stripe.PlanListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.PlanListParams) *stripe.PlanIter {
+func (c Client) List(params *stripe.PlanListParams) *Iter {
 	type planList struct {
 		stripe.ListMeta
 		Values []*stripe.Plan `json:"data"`
@@ -130,7 +130,7 @@ func (c Client) List(params *stripe.PlanListParams) *stripe.PlanIter {
 		lp = &params.ListParams
 	}
 
-	return &stripe.PlanIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &planList{}
 		err := c.B.Call("GET", "/plans", c.Key, &b, list)
 
@@ -143,6 +143,30 @@ func (c Client) List(params *stripe.PlanListParams) *stripe.PlanIter {
 	})}
 }
 
+// Plan iter is a iterator for list responses.
+type Iter struct {
+	Iter *stripe.Iter
+}
+
+// Next returns the next value in the list.
+func (i *Iter) Next() (*stripe.Plan, error) {
+	p, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return p.(*stripe.Plan), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *Iter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *Iter) Meta() *stripe.ListMeta {
+	return i.Iter.Meta()
+}
 func getC() Client {
 	return Client{stripe.GetBackend(), stripe.Key}
 }

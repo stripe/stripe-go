@@ -3,7 +3,7 @@ package sub
 import (
 	"testing"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/coupon"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/discount"
@@ -12,12 +12,12 @@ import (
 )
 
 func init() {
-	Key = GetTestKey()
+	stripe.Key = GetTestKey()
 }
 
 func TestSubscriptionNew(t *testing.T) {
-	customerParams := &CustomerParams{
-		Card: &CardParams{
+	customerParams := &stripe.CustomerParams{
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -26,17 +26,17 @@ func TestSubscriptionNew(t *testing.T) {
 
 	cust, _ := customer.New(customerParams)
 
-	planParams := &PlanParams{
+	planParams := &stripe.PlanParams{
 		Id:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
-		Currency: USD,
-		Interval: Month,
+		Currency: stripe.USD,
+		Interval: stripe.Month,
 	}
 
 	plan.New(planParams)
 
-	subParams := &SubParams{
+	subParams := &stripe.SubParams{
 		Customer: cust.Id,
 		Plan:     "test",
 		Quantity: 10,
@@ -61,8 +61,8 @@ func TestSubscriptionNew(t *testing.T) {
 }
 
 func TestSubscriptionGet(t *testing.T) {
-	customerParams := &CustomerParams{
-		Card: &CardParams{
+	customerParams := &stripe.CustomerParams{
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -71,24 +71,24 @@ func TestSubscriptionGet(t *testing.T) {
 
 	cust, _ := customer.New(customerParams)
 
-	planParams := &PlanParams{
+	planParams := &stripe.PlanParams{
 		Id:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
-		Currency: USD,
-		Interval: Month,
+		Currency: stripe.USD,
+		Interval: stripe.Month,
 	}
 
 	plan.New(planParams)
 
-	subParams := &SubParams{
+	subParams := &stripe.SubParams{
 		Customer: cust.Id,
 		Plan:     "test",
 		Quantity: 10,
 	}
 
 	subscription, _ := New(subParams)
-	target, err := Get(subscription.Id, &SubParams{Customer: cust.Id})
+	target, err := Get(subscription.Id, &stripe.SubParams{Customer: cust.Id})
 
 	if err != nil {
 		t.Error(err)
@@ -103,8 +103,8 @@ func TestSubscriptionGet(t *testing.T) {
 }
 
 func TestSubscriptionCancel(t *testing.T) {
-	customerParams := &CustomerParams{
-		Card: &CardParams{
+	customerParams := &stripe.CustomerParams{
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -113,24 +113,24 @@ func TestSubscriptionCancel(t *testing.T) {
 
 	cust, _ := customer.New(customerParams)
 
-	planParams := &PlanParams{
+	planParams := &stripe.PlanParams{
 		Id:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
-		Currency: USD,
-		Interval: Month,
+		Currency: stripe.USD,
+		Interval: stripe.Month,
 	}
 
 	plan.New(planParams)
 
-	subParams := &SubParams{
+	subParams := &stripe.SubParams{
 		Customer: cust.Id,
 		Plan:     "test",
 		Quantity: 10,
 	}
 
 	subscription, _ := New(subParams)
-	err := Cancel(subscription.Id, &SubParams{Customer: cust.Id})
+	err := Cancel(subscription.Id, &stripe.SubParams{Customer: cust.Id})
 
 	if err != nil {
 		t.Error(err)
@@ -141,8 +141,8 @@ func TestSubscriptionCancel(t *testing.T) {
 }
 
 func TestSubscriptionUpdate(t *testing.T) {
-	customerParams := &CustomerParams{
-		Card: &CardParams{
+	customerParams := &stripe.CustomerParams{
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -151,24 +151,24 @@ func TestSubscriptionUpdate(t *testing.T) {
 
 	cust, _ := customer.New(customerParams)
 
-	planParams := &PlanParams{
+	planParams := &stripe.PlanParams{
 		Id:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
-		Currency: USD,
-		Interval: Month,
+		Currency: stripe.USD,
+		Interval: stripe.Month,
 	}
 
 	plan.New(planParams)
 
-	subParams := &SubParams{
+	subParams := &stripe.SubParams{
 		Customer: cust.Id,
 		Plan:     "test",
 		Quantity: 10,
 	}
 
 	subscription, _ := New(subParams)
-	updatedSub := &SubParams{
+	updatedSub := &stripe.SubParams{
 		Customer:  cust.Id,
 		NoProrate: true,
 		Quantity:  13,
@@ -189,16 +189,16 @@ func TestSubscriptionUpdate(t *testing.T) {
 }
 
 func TestSubscriptionDiscount(t *testing.T) {
-	couponParams := &CouponParams{
-		Duration: Forever,
+	couponParams := &stripe.CouponParams{
+		Duration: stripe.Forever,
 		Id:       "sub_coupon",
 		Percent:  99,
 	}
 
 	coupon.New(couponParams)
 
-	customerParams := &CustomerParams{
-		Card: &CardParams{
+	customerParams := &stripe.CustomerParams{
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -208,17 +208,17 @@ func TestSubscriptionDiscount(t *testing.T) {
 
 	cust, _ := customer.New(customerParams)
 
-	planParams := &PlanParams{
+	planParams := &stripe.PlanParams{
 		Id:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
-		Currency: USD,
-		Interval: Month,
+		Currency: stripe.USD,
+		Interval: stripe.Month,
 	}
 
 	plan.New(planParams)
 
-	subParams := &SubParams{
+	subParams := &stripe.SubParams{
 		Customer: cust.Id,
 		Plan:     "test",
 		Quantity: 10,
@@ -255,8 +255,8 @@ func TestSubscriptionDiscount(t *testing.T) {
 }
 
 func TestSubscriptionList(t *testing.T) {
-	customerParams := &CustomerParams{
-		Card: &CardParams{
+	customerParams := &stripe.CustomerParams{
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -265,17 +265,17 @@ func TestSubscriptionList(t *testing.T) {
 
 	cust, _ := customer.New(customerParams)
 
-	planParams := &PlanParams{
+	planParams := &stripe.PlanParams{
 		Id:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
-		Currency: USD,
-		Interval: Month,
+		Currency: stripe.USD,
+		Interval: stripe.Month,
 	}
 
 	plan.New(planParams)
 
-	subParams := &SubParams{
+	subParams := &stripe.SubParams{
 		Customer: cust.Id,
 		Plan:     "test",
 		Quantity: 10,
@@ -285,7 +285,7 @@ func TestSubscriptionList(t *testing.T) {
 		New(subParams)
 	}
 
-	i := List(&SubListParams{Customer: cust.Id})
+	i := List(&stripe.SubListParams{Customer: cust.Id})
 	for !i.Stop() {
 		target, err := i.Next()
 

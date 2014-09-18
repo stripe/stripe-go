@@ -4,21 +4,21 @@ import (
 	"fmt"
 	"testing"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 	. "github.com/stripe/stripe-go/utils"
 )
 
 func init() {
-	Key = GetTestKey()
+	stripe.Key = GetTestKey()
 }
 
 func TestPlanNew(t *testing.T) {
-	planParams := &PlanParams{
+	planParams := &stripe.PlanParams{
 		Id:            "test_plan",
 		Name:          "Test Plan",
 		Amount:        99,
-		Currency:      USD,
-		Interval:      Month,
+		Currency:      stripe.USD,
+		Interval:      stripe.Month,
 		IntervalCount: 3,
 		TrialPeriod:   30,
 		Statement:     "Test Plan",
@@ -66,12 +66,12 @@ func TestPlanNew(t *testing.T) {
 }
 
 func TestPlanGet(t *testing.T) {
-	planParams := &PlanParams{
+	planParams := &stripe.PlanParams{
 		Id:       "test_plan",
 		Name:     "Test Plan",
 		Amount:   99,
-		Currency: USD,
-		Interval: Month,
+		Currency: stripe.USD,
+		Interval: stripe.Month,
 	}
 
 	New(planParams)
@@ -89,12 +89,12 @@ func TestPlanGet(t *testing.T) {
 }
 
 func TestPlanUpdate(t *testing.T) {
-	planParams := &PlanParams{
+	planParams := &stripe.PlanParams{
 		Id:            "test_plan",
 		Name:          "Original Name",
 		Amount:        99,
-		Currency:      USD,
-		Interval:      Month,
+		Currency:      stripe.USD,
+		Interval:      stripe.Month,
 		IntervalCount: 3,
 		TrialPeriod:   30,
 		Statement:     "Original Plan",
@@ -102,7 +102,7 @@ func TestPlanUpdate(t *testing.T) {
 
 	New(planParams)
 
-	updatedPlan := &PlanParams{
+	updatedPlan := &stripe.PlanParams{
 		Name:      "Updated Name",
 		Statement: "Updated Plan",
 	}
@@ -127,18 +127,18 @@ func TestPlanUpdate(t *testing.T) {
 func TestPlanList(t *testing.T) {
 	const runs = 3
 	for i := 0; i < runs; i++ {
-		planParams := &PlanParams{
+		planParams := &stripe.PlanParams{
 			Id:       fmt.Sprintf("test_%v", i),
 			Name:     fmt.Sprintf("test_%v", i),
 			Amount:   99,
-			Currency: USD,
-			Interval: Month,
+			Currency: stripe.USD,
+			Interval: stripe.Month,
 		}
 
 		New(planParams)
 	}
 
-	params := &PlanListParams{}
+	params := &stripe.PlanListParams{}
 	params.Filters.AddFilter("limit", "", "1")
 
 	i := List(params)

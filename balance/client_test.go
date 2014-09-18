@@ -3,13 +3,13 @@ package balance
 import (
 	"testing"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/charge"
 	. "github.com/stripe/stripe-go/utils"
 )
 
 func init() {
-	Key = GetTestKey()
+	stripe.Key = GetTestKey()
 }
 
 func TestBalanceGet(t *testing.T) {
@@ -37,10 +37,10 @@ func TestBalanceGet(t *testing.T) {
 }
 
 func TestBalanceGetTx(t *testing.T) {
-	chargeParams := &ChargeParams{
+	chargeParams := &stripe.ChargeParams{
 		Amount:   1002,
-		Currency: USD,
-		Card: &CardParams{
+		Currency: stripe.USD,
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -100,11 +100,11 @@ func TestBalanceGetTx(t *testing.T) {
 		t.Errorf("Net is not set\n")
 	}
 
-	if target.Status != TxPending {
+	if target.Status != stripe.TxPending {
 		t.Errorf("Status %v does not match expected value\n", target.Status)
 	}
 
-	if target.Type != TxCharge {
+	if target.Type != stripe.TxCharge {
 		t.Errorf("Type %v does not match expected value\n", target.Type)
 	}
 
@@ -114,7 +114,7 @@ func TestBalanceGetTx(t *testing.T) {
 }
 
 func TestBalanceList(t *testing.T) {
-	params := &TxListParams{}
+	params := &stripe.TxListParams{}
 	params.Filters.AddFilter("limit", "", "5")
 	params.Single = true
 

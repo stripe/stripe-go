@@ -3,19 +3,19 @@ package card
 import (
 	"testing"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/recipient"
 	. "github.com/stripe/stripe-go/utils"
 )
 
 func init() {
-	Key = GetTestKey()
+	stripe.Key = GetTestKey()
 }
 
 func TestCardNew(t *testing.T) {
-	customerParams := &CustomerParams{
-		Card: &CardParams{
+	customerParams := &stripe.CustomerParams{
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -24,7 +24,7 @@ func TestCardNew(t *testing.T) {
 
 	cust, _ := customer.New(customerParams)
 
-	cardParams := &CardParams{
+	cardParams := &stripe.CardParams{
 		Number:   "4242424242424242",
 		Month:    "10",
 		Year:     "20",
@@ -42,7 +42,7 @@ func TestCardNew(t *testing.T) {
 		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, cardParams.Number)
 	}
 
-	if target.CVCCheck != Pass {
+	if target.CVCCheck != stripe.Pass {
 		t.Errorf("CVC check %q does not match expected status\n", target.ZipCheck)
 	}
 
@@ -60,10 +60,10 @@ func TestCardNew(t *testing.T) {
 }
 
 func TestCardGet(t *testing.T) {
-	recipientParams := &RecipientParams{
+	recipientParams := &stripe.RecipientParams{
 		Name: "Test Recipient",
-		Type: Corp,
-		Card: &CardParams{
+		Type: stripe.Corp,
+		Card: &stripe.CardParams{
 			Number: "5200828282828210",
 			Month:  "06",
 			Year:   "20",
@@ -72,7 +72,7 @@ func TestCardGet(t *testing.T) {
 
 	rec, _ := recipient.New(recipientParams)
 
-	target, err := Get(rec.DefaultCard.Id, &CardParams{Recipient: rec.Id})
+	target, err := Get(rec.DefaultCard.Id, &stripe.CardParams{Recipient: rec.Id})
 
 	if err != nil {
 		t.Error(err)
@@ -82,11 +82,11 @@ func TestCardGet(t *testing.T) {
 		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, recipientParams.Card.Number)
 	}
 
-	if target.Brand != MasterCard {
+	if target.Brand != stripe.MasterCard {
 		t.Errorf("Card brand %q does not match expected value\n", target.Brand)
 	}
 
-	if target.Funding != DebitFunding {
+	if target.Funding != stripe.DebitFunding {
 		t.Errorf("Card funding %q does not match expected value\n", target.Funding)
 	}
 
@@ -94,8 +94,8 @@ func TestCardGet(t *testing.T) {
 }
 
 func TestCardDel(t *testing.T) {
-	customerParams := &CustomerParams{
-		Card: &CardParams{
+	customerParams := &stripe.CustomerParams{
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -104,7 +104,7 @@ func TestCardDel(t *testing.T) {
 
 	cust, _ := customer.New(customerParams)
 
-	err := Del(cust.DefaultCard.Id, &CardParams{Customer: cust.Id})
+	err := Del(cust.DefaultCard.Id, &stripe.CardParams{Customer: cust.Id})
 	if err != nil {
 		t.Error(err)
 	}
@@ -113,8 +113,8 @@ func TestCardDel(t *testing.T) {
 }
 
 func TestCardUpdate(t *testing.T) {
-	customerParams := &CustomerParams{
-		Card: &CardParams{
+	customerParams := &stripe.CustomerParams{
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -128,7 +128,7 @@ func TestCardUpdate(t *testing.T) {
 		t.Error(err)
 	}
 
-	cardParams := &CardParams{
+	cardParams := &stripe.CardParams{
 		Customer: cust.Id,
 		Name:     "Updated Name",
 	}
@@ -147,8 +147,8 @@ func TestCardUpdate(t *testing.T) {
 }
 
 func TestCardList(t *testing.T) {
-	customerParams := &CustomerParams{
-		Card: &CardParams{
+	customerParams := &stripe.CustomerParams{
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -157,7 +157,7 @@ func TestCardList(t *testing.T) {
 
 	cust, _ := customer.New(customerParams)
 
-	card := &CardParams{
+	card := &stripe.CardParams{
 		Number:   "4242424242424242",
 		Month:    "10",
 		Year:     "20",
@@ -166,7 +166,7 @@ func TestCardList(t *testing.T) {
 
 	New(card)
 
-	i := List(&CardListParams{Customer: cust.Id})
+	i := List(&stripe.CardListParams{Customer: cust.Id})
 	for !i.Stop() {
 		target, err := i.Next()
 

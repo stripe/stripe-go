@@ -5,19 +5,19 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 	. "github.com/stripe/stripe-go/utils"
 )
 
 func init() {
-	Key = GetTestKey()
+	stripe.Key = GetTestKey()
 }
 
 func TestCouponNew(t *testing.T) {
-	couponParams := &CouponParams{
+	couponParams := &stripe.CouponParams{
 		Amount:         99,
-		Currency:       USD,
-		Duration:       Repeating,
+		Currency:       stripe.USD,
+		Duration:       stripe.Repeating,
 		DurationPeriod: 3,
 		Redemptions:    1,
 		RedeemBy:       time.Now().AddDate(0, 0, 30).Unix(),
@@ -61,9 +61,9 @@ func TestCouponNew(t *testing.T) {
 }
 
 func TestCouponGet(t *testing.T) {
-	couponParams := &CouponParams{
+	couponParams := &stripe.CouponParams{
 		Id:       "test_coupon",
-		Duration: Once,
+		Duration: stripe.Once,
 		Percent:  50,
 	}
 
@@ -87,9 +87,9 @@ func TestCouponGet(t *testing.T) {
 
 func TestCouponList(t *testing.T) {
 	for i := 0; i < 5; i++ {
-		couponParams := &CouponParams{
+		couponParams := &stripe.CouponParams{
 			Id:       fmt.Sprintf("test_%v", i),
-			Duration: Once,
+			Duration: stripe.Once,
 			Percent:  50,
 		}
 

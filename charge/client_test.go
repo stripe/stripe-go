@@ -3,19 +3,19 @@ package charge
 import (
 	"testing"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 	. "github.com/stripe/stripe-go/utils"
 )
 
 func init() {
-	Key = GetTestKey()
+	stripe.Key = GetTestKey()
 }
 
 func TestChargeNew(t *testing.T) {
-	chargeParams := &ChargeParams{
+	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
-		Currency: USD,
-		Card: &CardParams{
+		Currency: stripe.USD,
+		Card: &stripe.CardParams{
 			Name:   "Stripe Tester",
 			Number: "378282246310005",
 			Month:  "06",
@@ -53,10 +53,10 @@ func TestChargeNew(t *testing.T) {
 }
 
 func TestChargeGet(t *testing.T) {
-	chargeParams := &ChargeParams{
+	chargeParams := &stripe.ChargeParams{
 		Amount:   1001,
-		Currency: USD,
-		Card: &CardParams{
+		Currency: stripe.USD,
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -77,10 +77,10 @@ func TestChargeGet(t *testing.T) {
 }
 
 func TestChargeUpdate(t *testing.T) {
-	chargeParams := &ChargeParams{
+	chargeParams := &stripe.ChargeParams{
 		Amount:   1002,
-		Currency: USD,
-		Card: &CardParams{
+		Currency: stripe.USD,
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -94,7 +94,7 @@ func TestChargeUpdate(t *testing.T) {
 		t.Errorf("Original description %q does not match expected description %q\n", res.Desc, chargeParams.Desc)
 	}
 
-	updated := &ChargeParams{
+	updated := &stripe.ChargeParams{
 		Desc: "updated description",
 	}
 
@@ -110,10 +110,10 @@ func TestChargeUpdate(t *testing.T) {
 }
 
 func TestChargeCapture(t *testing.T) {
-	chargeParams := &ChargeParams{
+	chargeParams := &stripe.ChargeParams{
 		Amount:   1004,
-		Currency: USD,
-		Card: &CardParams{
+		Currency: stripe.USD,
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -141,7 +141,7 @@ func TestChargeCapture(t *testing.T) {
 	res, err = New(chargeParams)
 
 	// partial capture
-	capture := &CaptureParams{
+	capture := &stripe.CaptureParams{
 		Amount: 554,
 		Email:  "a@b.com",
 	}
@@ -166,7 +166,7 @@ func TestChargeCapture(t *testing.T) {
 }
 
 func TestChargeList(t *testing.T) {
-	params := &ChargeListParams{}
+	params := &stripe.ChargeListParams{}
 	params.Filters.AddFilter("include[]", "", "total_count")
 	params.Filters.AddFilter("limit", "", "5")
 	params.Single = true

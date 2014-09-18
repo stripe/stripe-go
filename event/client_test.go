@@ -3,16 +3,16 @@ package event
 import (
 	"testing"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 	. "github.com/stripe/stripe-go/utils"
 )
 
 func init() {
-	Key = GetTestKey()
+	stripe.Key = GetTestKey()
 }
 
 func TestEvent(t *testing.T) {
-	params := &EventListParams{}
+	params := &stripe.EventListParams{}
 	params.Filters.AddFilter("limit", "", "5")
 	params.Single = true
 	params.Type = "charge.*"

@@ -3,20 +3,20 @@ package refund
 import (
 	"testing"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/charge"
 	. "github.com/stripe/stripe-go/utils"
 )
 
 func init() {
-	Key = GetTestKey()
+	stripe.Key = GetTestKey()
 }
 
 func TestRefundNew(t *testing.T) {
-	chargeParams := &ChargeParams{
+	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
-		Currency: USD,
-		Card: &CardParams{
+		Currency: stripe.USD,
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -26,7 +26,7 @@ func TestRefundNew(t *testing.T) {
 	res, _ := charge.New(chargeParams)
 
 	// full refund
-	ref, err := New(&RefundParams{Charge: res.Id})
+	ref, err := New(&stripe.RefundParams{Charge: res.Id})
 
 	if err != nil {
 		t.Error(err)
@@ -65,7 +65,7 @@ func TestRefundNew(t *testing.T) {
 	res, err = charge.New(chargeParams)
 
 	// partial refund
-	refundParams := &RefundParams{
+	refundParams := &stripe.RefundParams{
 		Charge: res.Id,
 		Amount: 253,
 	}
@@ -84,10 +84,10 @@ func TestRefundNew(t *testing.T) {
 }
 
 func TestRefundGet(t *testing.T) {
-	chargeParams := &ChargeParams{
+	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
-		Currency: USD,
-		Card: &CardParams{
+		Currency: stripe.USD,
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -95,9 +95,9 @@ func TestRefundGet(t *testing.T) {
 	}
 
 	ch, _ := charge.New(chargeParams)
-	ref, _ := New(&RefundParams{Charge: ch.Id})
+	ref, _ := New(&stripe.RefundParams{Charge: ch.Id})
 
-	target, err := Get(ref.Id, &RefundParams{Charge: ch.Id})
+	target, err := Get(ref.Id, &stripe.RefundParams{Charge: ch.Id})
 
 	if err != nil {
 		t.Error(err)
@@ -109,10 +109,10 @@ func TestRefundGet(t *testing.T) {
 }
 
 func TestRefundList(t *testing.T) {
-	chargeParams := &ChargeParams{
+	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
-		Currency: USD,
-		Card: &CardParams{
+		Currency: stripe.USD,
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -121,10 +121,10 @@ func TestRefundList(t *testing.T) {
 
 	ch, _ := charge.New(chargeParams)
 	for i := 0; i < 4; i++ {
-		New(&RefundParams{Charge: ch.Id, Amount: 200})
+		New(&stripe.RefundParams{Charge: ch.Id, Amount: 200})
 	}
 
-	i := List(&RefundListParams{Charge: ch.Id})
+	i := List(&stripe.RefundListParams{Charge: ch.Id})
 	for !i.Stop() {
 		target, err := i.Next()
 

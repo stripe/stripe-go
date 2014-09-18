@@ -3,20 +3,20 @@ package customer
 import (
 	"testing"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/coupon"
 	"github.com/stripe/stripe-go/discount"
 	. "github.com/stripe/stripe-go/utils"
 )
 
 func init() {
-	Key = GetTestKey()
+	stripe.Key = GetTestKey()
 }
 
 func TestCustomerNew(t *testing.T) {
-	customerParams := &CustomerParams{
+	customerParams := &stripe.CustomerParams{
 		Balance: -123,
-		Card: &CardParams{
+		Card: &stripe.CardParams{
 			Name:   "Test Card",
 			Number: "378282246310005",
 			Month:  "06",
@@ -86,9 +86,9 @@ func TestCustomerDel(t *testing.T) {
 }
 
 func TestCustomerUpdate(t *testing.T) {
-	customerParams := &CustomerParams{
+	customerParams := &stripe.CustomerParams{
 		Balance: 7,
-		Card: &CardParams{
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -99,9 +99,9 @@ func TestCustomerUpdate(t *testing.T) {
 
 	original, _ := New(customerParams)
 
-	updated := &CustomerParams{
+	updated := &stripe.CustomerParams{
 		Balance: -10,
-		Card: &CardParams{
+		Card: &stripe.CardParams{
 			Number: "4242424242424242",
 			Month:  "10",
 			Year:   "20",
@@ -136,15 +136,15 @@ func TestCustomerUpdate(t *testing.T) {
 }
 
 func TestCustomerDiscount(t *testing.T) {
-	couponParams := &CouponParams{
-		Duration: Forever,
+	couponParams := &stripe.CouponParams{
+		Duration: stripe.Forever,
 		Id:       "customer_coupon",
 		Percent:  99,
 	}
 
 	coupon.New(couponParams)
 
-	customerParams := &CustomerParams{
+	customerParams := &stripe.CustomerParams{
 		Coupon: "customer_coupon",
 	}
 

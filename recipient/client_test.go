@@ -3,27 +3,27 @@ package recipient
 import (
 	"testing"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 	. "github.com/stripe/stripe-go/utils"
 )
 
 func init() {
-	Key = GetTestKey()
+	stripe.Key = GetTestKey()
 }
 
 func TestRecipientNew(t *testing.T) {
-	recipientParams := &RecipientParams{
+	recipientParams := &stripe.RecipientParams{
 		Name:  "Recipient Name",
-		Type:  Individual,
+		Type:  stripe.Individual,
 		TaxId: "000000000",
 		Email: "a@b.com",
 		Desc:  "Recipient Desc",
-		Bank: &BankAccountParams{
+		Bank: &stripe.BankAccountParams{
 			Country: "US",
 			Routing: "110000000",
 			Account: "000123456789",
 		},
-		Card: &CardParams{
+		Card: &stripe.CardParams{
 			Name:   "Test Debit",
 			Number: "4000056655665556",
 			Month:  "10",
@@ -65,7 +65,7 @@ func TestRecipientNew(t *testing.T) {
 		t.Errorf("Bank country %q does not match expected country %q\n", target.Bank.Country, recipientParams.Bank.Country)
 	}
 
-	if target.Bank.Currency != USD {
+	if target.Bank.Currency != stripe.USD {
 		t.Errorf("Bank currency %q does not match expected value\n", target.Bank.Currency)
 	}
 
@@ -89,9 +89,9 @@ func TestRecipientNew(t *testing.T) {
 }
 
 func TestRecipientGet(t *testing.T) {
-	recipientParams := &RecipientParams{
+	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",
-		Type: Individual,
+		Type: stripe.Individual,
 	}
 
 	rec, _ := New(recipientParams)
@@ -110,16 +110,16 @@ func TestRecipientGet(t *testing.T) {
 }
 
 func TestRecipientUpdate(t *testing.T) {
-	recipientParams := &RecipientParams{
+	recipientParams := &stripe.RecipientParams{
 		Name:  "Original Name",
-		Type:  Individual,
+		Type:  stripe.Individual,
 		Email: "original@b.com",
 		Desc:  "Original Desc",
 	}
 
 	original, _ := New(recipientParams)
 
-	updated := &RecipientParams{
+	updated := &stripe.RecipientParams{
 		Name:  "Updated Name",
 		Email: "updated@b.com",
 		Desc:  "Updated Desc",
@@ -147,9 +147,9 @@ func TestRecipientUpdate(t *testing.T) {
 }
 
 func TestRecipientList(t *testing.T) {
-	recipientParams := &RecipientParams{
+	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",
-		Type: Individual,
+		Type: stripe.Individual,
 	}
 
 	recipients := make([]string, 5)

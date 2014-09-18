@@ -3,22 +3,22 @@ package invoice
 import (
 	"testing"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/invoiceitem"
 	. "github.com/stripe/stripe-go/utils"
 )
 
 func init() {
-	Key = GetTestKey()
+	stripe.Key = GetTestKey()
 }
 
 // Invoices are somewhat painful to test since you need
 // to first have some items, so test everything together to
 // avoid unnecessary duplication
 func TestAllInvoicesScenarios(t *testing.T) {
-	customerParams := &CustomerParams{
-		Card: &CardParams{
+	customerParams := &stripe.CustomerParams{
+		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
 			Year:   "20",
@@ -27,10 +27,10 @@ func TestAllInvoicesScenarios(t *testing.T) {
 
 	cust, _ := customer.New(customerParams)
 
-	item := &InvoiceItemParams{
+	item := &stripe.InvoiceItemParams{
 		Customer: cust.Id,
 		Amount:   100,
-		Currency: USD,
+		Currency: stripe.USD,
 		Desc:     "Test Item",
 	}
 
@@ -60,7 +60,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Errorf("Item date is not set\n")
 	}
 
-	invoiceParams := &InvoiceParams{
+	invoiceParams := &stripe.InvoiceParams{
 		Customer:  cust.Id,
 		Desc:      "Desc",
 		Statement: "Statement",
@@ -132,7 +132,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Errorf("Invoice line description %q does not match expected description %q\n", targetInvoice.Lines.Values[0].Desc, targetItem.Desc)
 	}
 
-	if targetInvoice.Lines.Values[0].Type != TypeInvoiceItem {
+	if targetInvoice.Lines.Values[0].Type != stripe.TypeInvoiceItem {
 		t.Errorf("Invoice line type %q does not match expected type\n", targetInvoice.Lines.Values[0].Type)
 	}
 
@@ -148,7 +148,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Errorf("Invoice line period end is not set\n")
 	}
 
-	updatedItem := &InvoiceItemParams{
+	updatedItem := &stripe.InvoiceItemParams{
 		Amount: 99,
 		Desc:   "Updated Desc",
 	}
@@ -167,7 +167,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Errorf("Updated item amount %v does not match expected amount %v\n", targetItemUpdated.Amount, updatedItem.Amount)
 	}
 
-	updatedInvoice := &InvoiceParams{
+	updatedInvoice := &stripe.InvoiceParams{
 		Desc:      "Updated Desc",
 		Statement: "Updated",
 	}
@@ -191,7 +191,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Error(err)
 	}
 
-	ii := invoiceitem.List(&InvoiceItemListParams{Customer: cust.Id})
+	ii := invoiceitem.List(&stripe.InvoiceItemListParams{Customer: cust.Id})
 	for !ii.Stop() {
 		targetInvoiceItemList, err := ii.Next()
 
@@ -208,7 +208,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		}
 	}
 
-	i := List(&InvoiceListParams{Customer: cust.Id})
+	i := List(&stripe.InvoiceListParams{Customer: cust.Id})
 	for !i.Stop() {
 		targetInvoiceList, err := i.Next()
 
@@ -225,7 +225,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		}
 	}
 
-	il := ListLines(&InvoiceLineListParams{Id: targetInvoice.Id, Customer: cust.Id})
+	il := ListLines(&stripe.InvoiceLineListParams{Id: targetInvoice.Id, Customer: cust.Id})
 	for !il.Stop() {
 		targetLineList, err := il.Next()
 
