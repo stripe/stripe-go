@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/recipient"
 	. "github.com/stripe/stripe-go/utils"
 )
@@ -27,7 +28,7 @@ func TestTransferNew(t *testing.T) {
 
 	transferParams := &stripe.TransferParams{
 		Amount:    100,
-		Currency:  stripe.USD,
+		Currency:  currency.USD,
 		Recipient: rec.Id,
 		Desc:      "Transfer Desc",
 		Statement: "Transfer",
@@ -98,7 +99,7 @@ func TestTransferGet(t *testing.T) {
 
 	transferParams := &stripe.TransferParams{
 		Amount:    100,
-		Currency:  stripe.USD,
+		Currency:  currency.USD,
 		Recipient: rec.Id,
 	}
 
@@ -136,7 +137,7 @@ func TestTransferUpdate(t *testing.T) {
 
 	transferParams := &stripe.TransferParams{
 		Amount:    100,
-		Currency:  stripe.USD,
+		Currency:  currency.USD,
 		Recipient: rec.Id,
 		Desc:      "Original",
 	}
@@ -176,7 +177,7 @@ func TestTransferList(t *testing.T) {
 
 	transferParams := &stripe.TransferParams{
 		Amount:    100,
-		Currency:  stripe.USD,
+		Currency:  currency.USD,
 		Recipient: rec.Id,
 	}
 

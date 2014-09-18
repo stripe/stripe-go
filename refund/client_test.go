@@ -5,6 +5,7 @@ import (
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/charge"
+	"github.com/stripe/stripe-go/currency"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -15,7 +16,7 @@ func init() {
 func TestRefundNew(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
@@ -86,7 +87,7 @@ func TestRefundNew(t *testing.T) {
 func TestRefundGet(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
@@ -111,7 +112,7 @@ func TestRefundGet(t *testing.T) {
 func TestRefundList(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",

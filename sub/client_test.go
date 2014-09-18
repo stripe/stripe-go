@@ -5,6 +5,7 @@ import (
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/coupon"
+	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/discount"
 	"github.com/stripe/stripe-go/plan"
@@ -30,7 +31,7 @@ func TestSubscriptionNew(t *testing.T) {
 		Id:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Interval: plan.Month,
 	}
 
@@ -75,7 +76,7 @@ func TestSubscriptionGet(t *testing.T) {
 		Id:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Interval: plan.Month,
 	}
 
@@ -117,7 +118,7 @@ func TestSubscriptionCancel(t *testing.T) {
 		Id:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Interval: plan.Month,
 	}
 
@@ -155,7 +156,7 @@ func TestSubscriptionUpdate(t *testing.T) {
 		Id:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Interval: plan.Month,
 	}
 
@@ -212,7 +213,7 @@ func TestSubscriptionDiscount(t *testing.T) {
 		Id:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Interval: plan.Month,
 	}
 
@@ -269,7 +270,7 @@ func TestSubscriptionList(t *testing.T) {
 		Id:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Interval: plan.Month,
 	}
 

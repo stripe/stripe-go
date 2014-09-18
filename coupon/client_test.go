@@ -6,6 +6,7 @@ import (
 	"time"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/currency"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -16,7 +17,7 @@ func init() {
 func TestCouponNew(t *testing.T) {
 	couponParams := &stripe.CouponParams{
 		Amount:         99,
-		Currency:       stripe.USD,
+		Currency:       currency.USD,
 		Duration:       Repeating,
 		DurationPeriod: 3,
 		Redemptions:    1,

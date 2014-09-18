@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/currency"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -65,7 +66,7 @@ func TestRecipientNew(t *testing.T) {
 		t.Errorf("Bank country %q does not match expected country %q\n", target.Bank.Country, recipientParams.Bank.Country)
 	}
 
-	if target.Bank.Currency != stripe.USD {
+	if target.Bank.Currency != currency.USD {
 		t.Errorf("Bank currency %q does not match expected value\n", target.Bank.Currency)
 	}
 

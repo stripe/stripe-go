@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/currency"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -14,7 +15,7 @@ func init() {
 func TestChargeNew(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Card: &stripe.CardParams{
 			Name:   "Stripe Tester",
 			Number: "378282246310005",
@@ -55,7 +56,7 @@ func TestChargeNew(t *testing.T) {
 func TestChargeGet(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1001,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
@@ -79,7 +80,7 @@ func TestChargeGet(t *testing.T) {
 func TestChargeUpdate(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1002,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",
@@ -112,7 +113,7 @@ func TestChargeUpdate(t *testing.T) {
 func TestChargeCapture(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1004,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",

@@ -5,14 +5,14 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/client"
+	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/plan"
 )
 
 const testKey = "tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I"
 
 func TestCheckinConnectivity(t *testing.T) {
-	c := &client.Api{}
+	c := &Api{}
 	c.Init(testKey, nil)
 
 	target, err := c.Account.Get()
@@ -35,7 +35,7 @@ func TestCheckinConnectivity(t *testing.T) {
 }
 
 func TestCheckinError(t *testing.T) {
-	c := &client.Api{}
+	c := &Api{}
 	c.Init("bad_key", nil)
 
 	_, err := c.Account.Get()
@@ -52,12 +52,12 @@ func TestCheckinError(t *testing.T) {
 }
 
 func TestCheckinPost(t *testing.T) {
-	c := &client.Api{}
+	c := &Api{}
 	c.Init(testKey, nil)
 
 	charge := &stripe.ChargeParams{
 		Amount:   100,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Card: &stripe.CardParams{
 			Name:   "Go Bindings Cardholder",
 			Number: "4242424242424242",
@@ -86,14 +86,14 @@ func TestCheckinPost(t *testing.T) {
 }
 
 func TestCheckinDel(t *testing.T) {
-	c := &client.Api{}
+	c := &Api{}
 	c.Init(testKey, nil)
 
 	plan := &stripe.PlanParams{
 		Id:       "go_binding",
 		Name:     "Go Test Plan",
 		Amount:   100,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Interval: plan.Month,
 	}
 
@@ -112,7 +112,7 @@ func TestCheckinDel(t *testing.T) {
 
 func TestCheckinList(t *testing.T) {
 	const runs = 4
-	c := &client.Api{}
+	c := &Api{}
 	c.Init(testKey, nil)
 
 	for i := 0; i < runs; i++ {
@@ -120,7 +120,7 @@ func TestCheckinList(t *testing.T) {
 			Id:       fmt.Sprintf("go_binding_%v", i),
 			Name:     fmt.Sprintf("Go Test Plan %v", i),
 			Amount:   100,
-			Currency: stripe.USD,
+			Currency: currency.USD,
 			Interval: plan.Month,
 		}
 

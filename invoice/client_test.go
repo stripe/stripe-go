@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/invoiceitem"
 	. "github.com/stripe/stripe-go/utils"
@@ -30,7 +31,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 	item := &stripe.InvoiceItemParams{
 		Customer: cust.Id,
 		Amount:   100,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Desc:     "Test Item",
 	}
 

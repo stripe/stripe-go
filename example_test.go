@@ -5,6 +5,7 @@ import (
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/charge"
+	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/invoice"
 	"github.com/stripe/stripe-go/plan"
@@ -15,7 +16,7 @@ func ExampleCharge_new() {
 
 	params := &stripe.ChargeParams{
 		Amount:   1000,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Card: &stripe.CardParams{
 			Name:   "Go Stripe",
 			Number: "4242424242424242",

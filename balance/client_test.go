@@ -5,6 +5,7 @@ import (
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/charge"
+	"github.com/stripe/stripe-go/currency"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -39,7 +40,7 @@ func TestBalanceGet(t *testing.T) {
 func TestBalanceGetTx(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1002,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Card: &stripe.CardParams{
 			Number: "378282246310005",
 			Month:  "06",

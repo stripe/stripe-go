@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/currency"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -17,7 +18,7 @@ func TestPlanNew(t *testing.T) {
 		Id:            "test_plan",
 		Name:          "Test Plan",
 		Amount:        99,
-		Currency:      stripe.USD,
+		Currency:      currency.USD,
 		Interval:      Month,
 		IntervalCount: 3,
 		TrialPeriod:   30,
@@ -70,7 +71,7 @@ func TestPlanGet(t *testing.T) {
 		Id:       "test_plan",
 		Name:     "Test Plan",
 		Amount:   99,
-		Currency: stripe.USD,
+		Currency: currency.USD,
 		Interval: Month,
 	}
 
@@ -93,7 +94,7 @@ func TestPlanUpdate(t *testing.T) {
 		Id:            "test_plan",
 		Name:          "Original Name",
 		Amount:        99,
-		Currency:      stripe.USD,
+		Currency:      currency.USD,
 		Interval:      Month,
 		IntervalCount: 3,
 		TrialPeriod:   30,
@@ -131,7 +132,7 @@ func TestPlanList(t *testing.T) {
 			Id:       fmt.Sprintf("test_%v", i),
 			Name:     fmt.Sprintf("test_%v", i),
 			Amount:   99,
-			Currency: stripe.USD,
+			Currency: currency.USD,
 			Interval: Month,
 		}
 
