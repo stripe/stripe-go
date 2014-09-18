@@ -4,12 +4,12 @@ package discount
 import (
 	"fmt"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke discount-related APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
@@ -34,5 +34,5 @@ func (c Client) DelSub(customerId, subscriptionId string) error {
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }

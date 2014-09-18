@@ -6,22 +6,22 @@ import (
 	"net/url"
 	"strconv"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke /subscriptions APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
 // New POSTS a new subscription for a customer.
 // For more details see https://stripe.com/docs/api#create_subscription.
-func New(params *SubParams) (*Sub, error) {
+func New(params *stripe.SubParams) (*stripe.Sub, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *SubParams) (*Sub, error) {
+func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 	body := &url.Values{
 		"plan": {params.Plan},
 	}
@@ -51,7 +51,7 @@ func (c Client) New(params *SubParams) (*Sub, error) {
 
 	params.AppendTo(body)
 
-	sub := &Sub{}
+	sub := &stripe.Sub{}
 	err := c.B.Call("POST", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), token, body, sub)
 
 	return sub, err
@@ -59,16 +59,16 @@ func (c Client) New(params *SubParams) (*Sub, error) {
 
 // Get returns the details of a subscription.
 // For more details see https://stripe.com/docs/api#retrieve_subscription.
-func Get(id string, params *SubParams) (*Sub, error) {
+func Get(id string, params *stripe.SubParams) (*stripe.Sub, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *SubParams) (*Sub, error) {
+func (c Client) Get(id string, params *stripe.SubParams) (*stripe.Sub, error) {
 	body := &url.Values{}
 
 	params.AppendTo(body)
 
-	sub := &Sub{}
+	sub := &stripe.Sub{}
 	err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Key, body, sub)
 
 	return sub, err
@@ -76,11 +76,11 @@ func (c Client) Get(id string, params *SubParams) (*Sub, error) {
 
 // Update updates a subscription's properties.
 // For more details see https://stripe.com/docs/api#update_subscription.
-func Update(id string, params *SubParams) (*Sub, error) {
+func Update(id string, params *stripe.SubParams) (*stripe.Sub, error) {
 	return getC().Update(id, params)
 }
 
-func (c Client) Update(id string, params *SubParams) (*Sub, error) {
+func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error) {
 	body := &url.Values{}
 
 	if len(params.Plan) > 0 {
@@ -120,7 +120,7 @@ func (c Client) Update(id string, params *SubParams) (*Sub, error) {
 
 	params.AppendTo(body)
 
-	sub := &Sub{}
+	sub := &stripe.Sub{}
 	err := c.B.Call("POST", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), token, body, sub)
 
 	return sub, err
@@ -128,11 +128,11 @@ func (c Client) Update(id string, params *SubParams) (*Sub, error) {
 
 // Cancel removes a subscription.
 // For more details see https://stripe.com/docs/api#cancel_subscription.
-func Cancel(id string, params *SubParams) error {
+func Cancel(id string, params *stripe.SubParams) error {
 	return getC().Cancel(id, params)
 }
 
-func (c Client) Cancel(id string, params *SubParams) error {
+func (c Client) Cancel(id string, params *stripe.SubParams) error {
 	body := &url.Values{}
 
 	if params.EndCancel {
@@ -146,19 +146,19 @@ func (c Client) Cancel(id string, params *SubParams) error {
 
 // List returns a list of subscriptions.
 // For more details see https://stripe.com/docs/api#list_subscriptions.
-func List(params *SubListParams) *SubIter {
+func List(params *stripe.SubListParams) *stripe.SubIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *SubListParams) *SubIter {
+func (c Client) List(params *stripe.SubListParams) *stripe.SubIter {
 	body := &url.Values{}
-	var lp *ListParams
+	var lp *stripe.ListParams
 
 	params.AppendTo(body)
 	lp = &params.ListParams
 
-	return &SubIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
-		list := &SubList{}
+	return &stripe.SubIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+		list := &stripe.SubList{}
 		err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
@@ -171,5 +171,5 @@ func (c Client) List(params *SubListParams) *SubIter {
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }

@@ -5,22 +5,22 @@ import (
 	"net/url"
 	"strconv"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke /balance and transaction-related APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
 // Get returns the details of your balance.
 // For more details see https://stripe.com/docs/api#retrieve_balance.
-func Get(params *BalanceParams) (*Balance, error) {
+func Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 	return getC().Get(params)
 }
 
-func (c Client) Get(params *BalanceParams) (*Balance, error) {
+func (c Client) Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -28,7 +28,7 @@ func (c Client) Get(params *BalanceParams) (*Balance, error) {
 		params.AppendTo(body)
 	}
 
-	balance := &Balance{}
+	balance := &stripe.Balance{}
 	err := c.B.Call("GET", "/balance", c.Key, body, balance)
 
 	return balance, err
@@ -36,11 +36,11 @@ func (c Client) Get(params *BalanceParams) (*Balance, error) {
 
 // GetTx returns the details of a balance transaction.
 // For more details see	https://stripe.com/docs/api#retrieve_balance_transaction.
-func GetTx(id string, params *TxParams) (*Transaction, error) {
+func GetTx(id string, params *stripe.TxParams) (*stripe.Transaction, error) {
 	return getC().GetTx(id, params)
 }
 
-func (c Client) GetTx(id string, params *TxParams) (*Transaction, error) {
+func (c Client) GetTx(id string, params *stripe.TxParams) (*stripe.Transaction, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -48,7 +48,7 @@ func (c Client) GetTx(id string, params *TxParams) (*Transaction, error) {
 		params.AppendTo(body)
 	}
 
-	balance := &Transaction{}
+	balance := &stripe.Transaction{}
 	err := c.B.Call("GET", "/balance/history/"+id, c.Key, body, balance)
 
 	return balance, err
@@ -56,13 +56,13 @@ func (c Client) GetTx(id string, params *TxParams) (*Transaction, error) {
 
 // List returns a list of balance transactions.
 // For more details see https://stripe.com/docs/api#balance_history.
-func List(params *TxListParams) *TransactionIter {
+func List(params *stripe.TxListParams) *stripe.TransactionIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *TxListParams) *TransactionIter {
+func (c Client) List(params *stripe.TxListParams) *stripe.TransactionIter {
 	var body *url.Values
-	var lp *ListParams
+	var lp *stripe.ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -95,10 +95,10 @@ func (c Client) List(params *TxListParams) *TransactionIter {
 		lp = &params.ListParams
 	}
 
-	return &TransactionIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+	return &stripe.TransactionIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		type transactionList struct {
-			ListMeta
-			Values []*Transaction `json:"data"`
+			stripe.ListMeta
+			Values []*stripe.Transaction `json:"data"`
 		}
 
 		list := &transactionList{}
@@ -114,5 +114,5 @@ func (c Client) List(params *TxListParams) *TransactionIter {
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }

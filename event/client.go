@@ -5,23 +5,23 @@ import (
 	"net/url"
 	"strconv"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke /events APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
 // Get returns the details of an event
 // For more details see https://stripe.com/docs/api#retrieve_event.
-func Get(id string) (*Event, error) {
+func Get(id string) (*stripe.Event, error) {
 	return getC().Get(id)
 }
 
-func (c Client) Get(id string) (*Event, error) {
-	event := &Event{}
+func (c Client) Get(id string) (*stripe.Event, error) {
+	event := &stripe.Event{}
 	err := c.B.Call("GET", "/events/"+id, c.Key, nil, event)
 
 	return event, err
@@ -29,18 +29,18 @@ func (c Client) Get(id string) (*Event, error) {
 
 // List returns a list of events.
 // For more details see https://stripe.com/docs/api#list_events
-func List(params *EventListParams) *EventIter {
+func List(params *stripe.EventListParams) *stripe.EventIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *EventListParams) *EventIter {
+func (c Client) List(params *stripe.EventListParams) *stripe.EventIter {
 	type eventList struct {
-		ListMeta
-		Values []*Event `json:"data"`
+		stripe.ListMeta
+		Values []*stripe.Event `json:"data"`
 	}
 
 	var body *url.Values
-	var lp *ListParams
+	var lp *stripe.ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -57,7 +57,7 @@ func (c Client) List(params *EventListParams) *EventIter {
 		lp = &params.ListParams
 	}
 
-	return &EventIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+	return &stripe.EventIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &eventList{}
 		err := c.B.Call("GET", "/events", c.Key, &b, list)
 
@@ -71,5 +71,5 @@ func (c Client) List(params *EventListParams) *EventIter {
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }

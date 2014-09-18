@@ -6,27 +6,27 @@ import (
 	"fmt"
 	"net/url"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke /cards APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
 // New POSTs new cards either for a customer or recipient.
 // For more details see https://stripe.com/docs/api#create_card.
-func New(params *CardParams) (*Card, error) {
+func New(params *stripe.CardParams) (*stripe.Card, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *CardParams) (*Card, error) {
+func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	body := &url.Values{}
 	params.AppendDetails(body, true)
 	params.AppendTo(body)
 
-	card := &Card{}
+	card := &stripe.Card{}
 	var err error
 
 	if len(params.Customer) > 0 {
@@ -42,11 +42,11 @@ func (c Client) New(params *CardParams) (*Card, error) {
 
 // Get returns the details of a card.
 // For more details see https://stripe.com/docs/api#retrieve_card.
-func Get(id string, params *CardParams) (*Card, error) {
+func Get(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *CardParams) (*Card, error) {
+func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -54,7 +54,7 @@ func (c Client) Get(id string, params *CardParams) (*Card, error) {
 		params.AppendTo(body)
 	}
 
-	card := &Card{}
+	card := &stripe.Card{}
 	var err error
 
 	if len(params.Customer) > 0 {
@@ -70,16 +70,16 @@ func (c Client) Get(id string, params *CardParams) (*Card, error) {
 
 // Update updates a card's properties.
 // For more details see	https://stripe.com/docs/api#update_card.
-func Update(id string, params *CardParams) (*Card, error) {
+func Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	return getC().Update(id, params)
 }
 
-func (c Client) Update(id string, params *CardParams) (*Card, error) {
+func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	body := &url.Values{}
 	params.AppendDetails(body, false)
 	params.AppendTo(body)
 
-	card := &Card{}
+	card := &stripe.Card{}
 	var err error
 
 	if len(params.Customer) > 0 {
@@ -95,11 +95,11 @@ func (c Client) Update(id string, params *CardParams) (*Card, error) {
 
 // Del remotes a card.
 // For more details see https://stripe.com/docs/api#delete_card.
-func Del(id string, params *CardParams) error {
+func Del(id string, params *stripe.CardParams) error {
 	return getC().Del(id, params)
 }
 
-func (c Client) Del(id string, params *CardParams) error {
+func (c Client) Del(id string, params *stripe.CardParams) error {
 	if len(params.Customer) > 0 {
 		return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, nil, nil)
 	} else if len(params.Recipient) > 0 {
@@ -111,19 +111,19 @@ func (c Client) Del(id string, params *CardParams) error {
 
 // List returns a list of cards.
 // For more details see https://stripe.com/docs/api#list_cards.
-func List(params *CardListParams) *CardIter {
+func List(params *stripe.CardListParams) *stripe.CardIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *CardListParams) *CardIter {
+func (c Client) List(params *stripe.CardListParams) *stripe.CardIter {
 	body := &url.Values{}
-	var lp *ListParams
+	var lp *stripe.ListParams
 
 	params.AppendTo(body)
 	lp = &params.ListParams
 
-	return &CardIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
-		list := &CardList{}
+	return &stripe.CardIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+		list := &stripe.CardList{}
 		var err error
 
 		if len(params.Customer) > 0 {
@@ -144,5 +144,5 @@ func (c Client) List(params *CardListParams) *CardIter {
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }

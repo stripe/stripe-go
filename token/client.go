@@ -5,22 +5,22 @@ import (
 	"errors"
 	"net/url"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke /tokens APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
 // New POSTs a new card or bank account.
 // For more details see https://stripe.com/docs/api#create_card_Token and https://stripe.com/docs/api#create_bank_account_token.
-func New(params *TokenParams) (*Token, error) {
+func New(params *stripe.TokenParams) (*stripe.Token, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *TokenParams) (*Token, error) {
+func (c Client) New(params *stripe.TokenParams) (*stripe.Token, error) {
 	body := &url.Values{}
 	token := c.Key
 
@@ -39,7 +39,7 @@ func (c Client) New(params *TokenParams) (*Token, error) {
 
 	params.AppendTo(body)
 
-	tok := &Token{}
+	tok := &stripe.Token{}
 	err := c.B.Call("POST", "/tokens", token, body, tok)
 
 	return tok, err
@@ -47,11 +47,11 @@ func (c Client) New(params *TokenParams) (*Token, error) {
 
 // Get returns the details of a token.
 // For more details see https://stripe.com/docs/api#retrieve_token.
-func Get(id string, params *TokenParams) (*Token, error) {
+func Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *TokenParams) (*Token, error) {
+func (c Client) Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -59,12 +59,12 @@ func (c Client) Get(id string, params *TokenParams) (*Token, error) {
 		params.AppendTo(body)
 	}
 
-	token := &Token{}
+	token := &stripe.Token{}
 	err := c.B.Call("GET", "/tokens/"+id, c.Key, body, token)
 
 	return token, err
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }

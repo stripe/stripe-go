@@ -7,22 +7,22 @@ import (
 	"net/url"
 	"strconv"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke /charges APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
 // New POSTs new charges.
 // For more details see https://stripe.com/docs/api#create_charge.
-func New(params *ChargeParams) (*Charge, error) {
+func New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *ChargeParams) (*Charge, error) {
+func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 	body := &url.Values{
 		"amount":   {strconv.FormatUint(params.Amount, 10)},
 		"currency": {string(params.Currency)},
@@ -64,7 +64,7 @@ func (c Client) New(params *ChargeParams) (*Charge, error) {
 
 	params.AppendTo(body)
 
-	charge := &Charge{}
+	charge := &stripe.Charge{}
 	err := c.B.Call("POST", "/charges", token, body, charge)
 
 	return charge, err
@@ -72,11 +72,11 @@ func (c Client) New(params *ChargeParams) (*Charge, error) {
 
 // Get returns the details of a charge.
 // For more details see https://stripe.com/docs/api#retrieve_charge.
-func Get(id string, params *ChargeParams) (*Charge, error) {
+func Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *ChargeParams) (*Charge, error) {
+func (c Client) Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -84,7 +84,7 @@ func (c Client) Get(id string, params *ChargeParams) (*Charge, error) {
 		params.AppendTo(body)
 	}
 
-	charge := &Charge{}
+	charge := &stripe.Charge{}
 	err := c.B.Call("GET", "/charges/"+id, c.Key, body, charge)
 
 	return charge, err
@@ -92,11 +92,11 @@ func (c Client) Get(id string, params *ChargeParams) (*Charge, error) {
 
 // Update updates a charge's properties.
 // For more details see https://stripe.com/docs/api#update_charge.
-func Update(id string, params *ChargeParams) (*Charge, error) {
+func Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	return getC().Update(id, params)
 }
 
-func (c Client) Update(id string, params *ChargeParams) (*Charge, error) {
+func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -109,7 +109,7 @@ func (c Client) Update(id string, params *ChargeParams) (*Charge, error) {
 		params.AppendTo(body)
 	}
 
-	charge := &Charge{}
+	charge := &stripe.Charge{}
 	err := c.B.Call("POST", "/charges/"+id, c.Key, body, charge)
 
 	return charge, err
@@ -117,11 +117,11 @@ func (c Client) Update(id string, params *ChargeParams) (*Charge, error) {
 
 // Capture captures a previously created charge with NoCapture set to true.
 // For more details see https://stripe.com/docs/api#charge_capture.
-func Capture(id string, params *CaptureParams) (*Charge, error) {
+func Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 	return getC().Capture(id, params)
 }
 
-func (c Client) Capture(id string, params *CaptureParams) (*Charge, error) {
+func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 	var body *url.Values
 	token := c.Key
 
@@ -143,7 +143,7 @@ func (c Client) Capture(id string, params *CaptureParams) (*Charge, error) {
 		params.AppendTo(body)
 	}
 
-	charge := &Charge{}
+	charge := &stripe.Charge{}
 	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/capture", id), token, body, charge)
 
 	return charge, err
@@ -151,18 +151,18 @@ func (c Client) Capture(id string, params *CaptureParams) (*Charge, error) {
 
 // List returns a list of charges.
 // For more details see https://stripe.com/docs/api#list_charges.
-func List(params *ChargeListParams) *ChargeIter {
+func List(params *stripe.ChargeListParams) *stripe.ChargeIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *ChargeListParams) *ChargeIter {
+func (c Client) List(params *stripe.ChargeListParams) *stripe.ChargeIter {
 	type chargeList struct {
-		ListMeta
-		Values []*Charge `json:"data"`
+		stripe.ListMeta
+		Values []*stripe.Charge `json:"data"`
 	}
 
 	var body *url.Values
-	var lp *ListParams
+	var lp *stripe.ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -179,7 +179,7 @@ func (c Client) List(params *ChargeListParams) *ChargeIter {
 		lp = &params.ListParams
 	}
 
-	return &ChargeIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+	return &stripe.ChargeIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &chargeList{}
 		err := c.B.Call("GET", "/charges", c.Key, &b, list)
 
@@ -193,5 +193,5 @@ func (c Client) List(params *ChargeListParams) *ChargeIter {
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }

@@ -6,22 +6,22 @@ import (
 	"net/url"
 	"strconv"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke /transfers APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
 // New POSTs a new transfer.
 // For more details see https://stripe.com/docs/api#create_transfer.
-func New(params *TransferParams) (*Transfer, error) {
+func New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *TransferParams) (*Transfer, error) {
+func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 	body := &url.Values{
 		"amount":    {strconv.FormatInt(params.Amount, 10)},
 		"currency":  {string(params.Currency)},
@@ -44,7 +44,7 @@ func (c Client) New(params *TransferParams) (*Transfer, error) {
 
 	params.AppendTo(body)
 
-	transfer := &Transfer{}
+	transfer := &stripe.Transfer{}
 	err := c.B.Call("POST", "/transfers", c.Key, body, transfer)
 
 	return transfer, err
@@ -52,11 +52,11 @@ func (c Client) New(params *TransferParams) (*Transfer, error) {
 
 // Get returns the details of a transfer.
 // For more details see https://stripe.com/docs/api#retrieve_transfer.
-func Get(id string, params *TransferParams) (*Transfer, error) {
+func Get(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *TransferParams) (*Transfer, error) {
+func (c Client) Get(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -64,7 +64,7 @@ func (c Client) Get(id string, params *TransferParams) (*Transfer, error) {
 		params.AppendTo(body)
 	}
 
-	transfer := &Transfer{}
+	transfer := &stripe.Transfer{}
 	err := c.B.Call("GET", "/transfers/"+id, c.Key, body, transfer)
 
 	return transfer, err
@@ -72,11 +72,11 @@ func (c Client) Get(id string, params *TransferParams) (*Transfer, error) {
 
 // Update updates a transfer's properties.
 // For more details see https://stripe.com/docs/api#update_transfer.
-func Update(id string, params *TransferParams) (*Transfer, error) {
+func Update(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	return getC().Update(id, params)
 }
 
-func (c Client) Update(id string, params *TransferParams) (*Transfer, error) {
+func (c Client) Update(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -89,7 +89,7 @@ func (c Client) Update(id string, params *TransferParams) (*Transfer, error) {
 		params.AppendTo(body)
 	}
 
-	transfer := &Transfer{}
+	transfer := &stripe.Transfer{}
 	err := c.B.Call("POST", "/transfers/"+id, c.Key, body, transfer)
 
 	return transfer, err
@@ -97,11 +97,11 @@ func (c Client) Update(id string, params *TransferParams) (*Transfer, error) {
 
 // Cancel cancels a pending transfer.
 // For more details see https://stripe.com/docs/api#cancel_transfer.
-func Cancel(id string, params *TransferParams) (*Transfer, error) {
+func Cancel(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	return getC().Cancel(id, params)
 }
 
-func (c Client) Cancel(id string, params *TransferParams) (*Transfer, error) {
+func (c Client) Cancel(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -109,7 +109,7 @@ func (c Client) Cancel(id string, params *TransferParams) (*Transfer, error) {
 		params.AppendTo(body)
 	}
 
-	transfer := &Transfer{}
+	transfer := &stripe.Transfer{}
 	err := c.B.Call("POST", fmt.Sprintf("/transfers/%v/cancel", id), c.Key, body, transfer)
 
 	return transfer, err
@@ -117,18 +117,18 @@ func (c Client) Cancel(id string, params *TransferParams) (*Transfer, error) {
 
 // List returns a list of transfers.
 // For more details see https://stripe.com/docs/api#list_transfers.
-func List(params *TransferListParams) *TransferIter {
+func List(params *stripe.TransferListParams) *stripe.TransferIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *TransferListParams) *TransferIter {
+func (c Client) List(params *stripe.TransferListParams) *stripe.TransferIter {
 	type transferList struct {
-		ListMeta
-		Values []*Transfer `json:"data"`
+		stripe.ListMeta
+		Values []*stripe.Transfer `json:"data"`
 	}
 
 	var body *url.Values
-	var lp *ListParams
+	var lp *stripe.ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -153,7 +153,7 @@ func (c Client) List(params *TransferListParams) *TransferIter {
 		lp = &params.ListParams
 	}
 
-	return &TransferIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+	return &stripe.TransferIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &transferList{}
 		err := c.B.Call("GET", "/transfers", c.Key, &b, list)
 
@@ -167,5 +167,5 @@ func (c Client) List(params *TransferListParams) *TransferIter {
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }

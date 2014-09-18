@@ -6,22 +6,22 @@ import (
 	"net/url"
 	"strconv"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke application_fees APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
 // Get returns the details of an application fee.
 // For more details see https://stripe.com/docs/api#retrieve_application_fee.
-func Get(id string, params *FeeParams) (*Fee, error) {
+func Get(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *FeeParams) (*Fee, error) {
+func (c Client) Get(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -29,7 +29,7 @@ func (c Client) Get(id string, params *FeeParams) (*Fee, error) {
 		params.AppendTo(body)
 	}
 
-	fee := &Fee{}
+	fee := &stripe.Fee{}
 	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refund", id), c.Key, body, fee)
 
 	return fee, err
@@ -37,18 +37,18 @@ func (c Client) Get(id string, params *FeeParams) (*Fee, error) {
 
 // List returns a list of application fees.
 // For more details see https://stripe.com/docs/api#list_application_fees.
-func List(params *FeeListParams) *FeeIter {
+func List(params *stripe.FeeListParams) *stripe.FeeIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *FeeListParams) *FeeIter {
+func (c Client) List(params *stripe.FeeListParams) *stripe.FeeIter {
 	type feeList struct {
-		ListMeta
-		Values []*Fee `json:"data"`
+		stripe.ListMeta
+		Values []*stripe.Fee `json:"data"`
 	}
 
 	var body *url.Values
-	var lp *ListParams
+	var lp *stripe.ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -65,7 +65,7 @@ func (c Client) List(params *FeeListParams) *FeeIter {
 		lp = &params.ListParams
 	}
 
-	return &FeeIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+	return &stripe.FeeIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &feeList{}
 		err := c.B.Call("GET", "/application_fees", c.Key, &b, list)
 
@@ -79,5 +79,5 @@ func (c Client) List(params *FeeListParams) *FeeIter {
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }

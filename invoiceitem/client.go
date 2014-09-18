@@ -5,22 +5,22 @@ import (
 	"net/url"
 	"strconv"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke /invoiceitems APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
 // New POSTs new invoice items.
 // For more details see https://stripe.com/docs/api#create_invoiceitem.
-func New(params *InvoiceItemParams) (*InvoiceItem, error) {
+func New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *InvoiceItemParams) (*InvoiceItem, error) {
+func (c Client) New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	body := &url.Values{
 		"customer": {params.Customer},
 		"amount":   {strconv.FormatInt(params.Amount, 10)},
@@ -41,7 +41,7 @@ func (c Client) New(params *InvoiceItemParams) (*InvoiceItem, error) {
 
 	params.AppendTo(body)
 
-	invoiceItem := &InvoiceItem{}
+	invoiceItem := &stripe.InvoiceItem{}
 	err := c.B.Call("POST", "/invoiceitems", c.Key, body, invoiceItem)
 
 	return invoiceItem, err
@@ -49,11 +49,11 @@ func (c Client) New(params *InvoiceItemParams) (*InvoiceItem, error) {
 
 // Get returns the details of an invoice item.
 // For more details see https://stripe.com/docs/api#retrieve_invoiceitem.
-func Get(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
+func Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
+func (c Client) Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -61,7 +61,7 @@ func (c Client) Get(id string, params *InvoiceItemParams) (*InvoiceItem, error) 
 		params.AppendTo(body)
 	}
 
-	invoiceItem := &InvoiceItem{}
+	invoiceItem := &stripe.InvoiceItem{}
 	err := c.B.Call("GET", "/invoiceitems/"+id, c.Key, body, invoiceItem)
 
 	return invoiceItem, err
@@ -69,11 +69,11 @@ func (c Client) Get(id string, params *InvoiceItemParams) (*InvoiceItem, error) 
 
 // Update updates an invoice item's properties.
 // For more details see https://stripe.com/docs/api#update_invoiceitem.
-func Update(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
+func Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	return getC().Update(id, params)
 }
 
-func (c Client) Update(id string, params *InvoiceItemParams) (*InvoiceItem, error) {
+func (c Client) Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -90,7 +90,7 @@ func (c Client) Update(id string, params *InvoiceItemParams) (*InvoiceItem, erro
 		params.AppendTo(body)
 	}
 
-	invoiceItem := &InvoiceItem{}
+	invoiceItem := &stripe.InvoiceItem{}
 	err := c.B.Call("POST", "/invoiceitems/"+id, c.Key, body, invoiceItem)
 
 	return invoiceItem, err
@@ -108,18 +108,18 @@ func (c Client) Del(id string) error {
 
 // List returns a list of invoice items.
 // For more details see https://stripe.com/docs/api#list_invoiceitems.
-func List(params *InvoiceItemListParams) *InvoiceItemIter {
+func List(params *stripe.InvoiceItemListParams) *stripe.InvoiceItemIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *InvoiceItemListParams) *InvoiceItemIter {
+func (c Client) List(params *stripe.InvoiceItemListParams) *stripe.InvoiceItemIter {
 	type invoiceItemList struct {
-		ListMeta
-		Values []*InvoiceItem `json:"data"`
+		stripe.ListMeta
+		Values []*stripe.InvoiceItem `json:"data"`
 	}
 
 	var body *url.Values
-	var lp *ListParams
+	var lp *stripe.ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -136,7 +136,7 @@ func (c Client) List(params *InvoiceItemListParams) *InvoiceItemIter {
 		lp = &params.ListParams
 	}
 
-	return &InvoiceItemIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+	return &stripe.InvoiceItemIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &invoiceItemList{}
 		err := c.B.Call("GET", "/invoiceitems", c.Key, &b, list)
 
@@ -150,5 +150,5 @@ func (c Client) List(params *InvoiceItemListParams) *InvoiceItemIter {
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }

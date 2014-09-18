@@ -6,25 +6,23 @@ import (
 	"net/url"
 	"strconv"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke /application_fees/refunds APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
 // New refunds the application fee collected.
 // For more details see https://stripe.com/docs/api#refund_application_fee.
-func New(params *FeeRefundParams) (*FeeRefund, error) {
+func New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *FeeRefundParams) (*FeeRefund, error) {
+func (c Client) New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	body := &url.Values{}
-
-	body = &url.Values{}
 
 	if params.Amount > 0 {
 		body.Add("amount", strconv.FormatUint(params.Amount, 10))
@@ -32,7 +30,7 @@ func (c Client) New(params *FeeRefundParams) (*FeeRefund, error) {
 
 	params.AppendTo(body)
 
-	refund := &FeeRefund{}
+	refund := &stripe.FeeRefund{}
 	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refunds", params.Fee), c.Key, body, refund)
 
 	return refund, err
@@ -40,11 +38,11 @@ func (c Client) New(params *FeeRefundParams) (*FeeRefund, error) {
 
 // Get returns the details of a fee refund.
 // For more details see https://stripe.com/docs/api#retrieve_fee_refund.
-func Get(id string, params *FeeRefundParams) (*FeeRefund, error) {
+func Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *FeeRefundParams) (*FeeRefund, error) {
+func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -52,7 +50,7 @@ func (c Client) Get(id string, params *FeeRefundParams) (*FeeRefund, error) {
 		params.AppendTo(body)
 	}
 
-	refund := &FeeRefund{}
+	refund := &stripe.FeeRefund{}
 	err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.Key, body, refund)
 
 	return refund, err
@@ -60,16 +58,16 @@ func (c Client) Get(id string, params *FeeRefundParams) (*FeeRefund, error) {
 
 // Update updates a refund's properties.
 // For more details see https://stripe.com/docs/api#update_refund.
-func Update(id string, params *FeeRefundParams) (*FeeRefund, error) {
+func Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	return getC().Update(id, params)
 }
 
-func (c Client) Update(id string, params *FeeRefundParams) (*FeeRefund, error) {
+func (c Client) Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	body := &url.Values{}
 
 	params.AppendTo(body)
 
-	refund := &FeeRefund{}
+	refund := &stripe.FeeRefund{}
 	err := c.B.Call("POST", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.Key, body, refund)
 
 	return refund, err
@@ -77,19 +75,19 @@ func (c Client) Update(id string, params *FeeRefundParams) (*FeeRefund, error) {
 
 // List returns a list of fee refunds.
 // For more details see https://stripe.com/docs/api#list_fee_refunds.
-func List(params *FeeRefundListParams) *FeeRefundIter {
+func List(params *stripe.FeeRefundListParams) *stripe.FeeRefundIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *FeeRefundListParams) *FeeRefundIter {
+func (c Client) List(params *stripe.FeeRefundListParams) *stripe.FeeRefundIter {
 	body := &url.Values{}
-	var lp *ListParams
+	var lp *stripe.ListParams
 
 	params.AppendTo(body)
 	lp = &params.ListParams
 
-	return &FeeRefundIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
-		list := &FeeRefundList{}
+	return &stripe.FeeRefundIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+		list := &stripe.FeeRefundList{}
 		err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds", params.Fee), c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
@@ -102,5 +100,5 @@ func (c Client) List(params *FeeRefundListParams) *FeeRefundIter {
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }

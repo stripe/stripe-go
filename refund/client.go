@@ -6,22 +6,22 @@ import (
 	"net/url"
 	"strconv"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke /refunds APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
 // New refunds a charge previously created.
 // For more details see https://stripe.com/docs/api#refund_charge.
-func New(params *RefundParams) (*Refund, error) {
+func New(params *stripe.RefundParams) (*stripe.Refund, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *RefundParams) (*Refund, error) {
+func (c Client) New(params *stripe.RefundParams) (*stripe.Refund, error) {
 	body := &url.Values{}
 
 	if params.Amount > 0 {
@@ -34,7 +34,7 @@ func (c Client) New(params *RefundParams) (*Refund, error) {
 
 	params.AppendTo(body)
 
-	refund := &Refund{}
+	refund := &stripe.Refund{}
 	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.Key, body, refund)
 
 	return refund, err
@@ -42,16 +42,16 @@ func (c Client) New(params *RefundParams) (*Refund, error) {
 
 // Get returns the details of a refund.
 // For more details see https://stripe.com/docs/api#retrieve_refund.
-func Get(id string, params *RefundParams) (*Refund, error) {
+func Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *RefundParams) (*Refund, error) {
+func (c Client) Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	body := &url.Values{}
 
 	params.AppendTo(body)
 
-	refund := &Refund{}
+	refund := &stripe.Refund{}
 	err := c.B.Call("GET", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.Key, body, refund)
 
 	return refund, err
@@ -59,16 +59,16 @@ func (c Client) Get(id string, params *RefundParams) (*Refund, error) {
 
 // Update updates a refund's properties.
 // For more details see https://stripe.com/docs/api#update_refund.
-func Update(id string, params *RefundParams) (*Refund, error) {
+func Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	return getC().Update(id, params)
 }
 
-func (c Client) Update(id string, params *RefundParams) (*Refund, error) {
+func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	body := &url.Values{}
 
 	params.AppendTo(body)
 
-	refund := &Refund{}
+	refund := &stripe.Refund{}
 	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.Key, body, refund)
 
 	return refund, err
@@ -76,19 +76,19 @@ func (c Client) Update(id string, params *RefundParams) (*Refund, error) {
 
 // List returns a list of refunds.
 // For more details see https://stripe.com/docs/api#list_refunds.
-func List(params *RefundListParams) *RefundIter {
+func List(params *stripe.RefundListParams) *stripe.RefundIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *RefundListParams) *RefundIter {
+func (c Client) List(params *stripe.RefundListParams) *stripe.RefundIter {
 	body := &url.Values{}
-	var lp *ListParams
+	var lp *stripe.ListParams
 
 	params.AppendTo(body)
 	lp = &params.ListParams
 
-	return &RefundIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
-		list := &RefundList{}
+	return &stripe.RefundIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+		list := &stripe.RefundList{}
 		err := c.B.Call("GET", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
@@ -101,5 +101,5 @@ func (c Client) List(params *RefundListParams) *RefundIter {
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }

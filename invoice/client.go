@@ -6,22 +6,22 @@ import (
 	"net/url"
 	"strconv"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is the client used to invoke /invoices APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
 // New POSTs new invoices.
 // For more details see https://stripe.com/docs/api#create_invoice.
-func New(params *InvoiceParams) (*Invoice, error) {
+func New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *InvoiceParams) (*Invoice, error) {
+func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	body := &url.Values{
 		"customer": {params.Customer},
 	}
@@ -45,7 +45,7 @@ func (c Client) New(params *InvoiceParams) (*Invoice, error) {
 		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 	}
 
-	invoice := &Invoice{}
+	invoice := &stripe.Invoice{}
 	err := c.B.Call("POST", "/invoices", token, body, invoice)
 
 	return invoice, err
@@ -53,11 +53,11 @@ func (c Client) New(params *InvoiceParams) (*Invoice, error) {
 
 // Get returns the details of an invoice.
 // For more details see https://stripe.com/docs/api#retrieve_invoice.
-func Get(id string, params *InvoiceParams) (*Invoice, error) {
+func Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *InvoiceParams) (*Invoice, error) {
+func (c Client) Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -65,7 +65,7 @@ func (c Client) Get(id string, params *InvoiceParams) (*Invoice, error) {
 		params.AppendTo(body)
 	}
 
-	invoice := &Invoice{}
+	invoice := &stripe.Invoice{}
 	err := c.B.Call("GET", "/invoices/"+id, c.Key, body, invoice)
 
 	return invoice, err
@@ -73,11 +73,11 @@ func (c Client) Get(id string, params *InvoiceParams) (*Invoice, error) {
 
 // Pay pays an invoice.
 // For more details see https://stripe.com/docs/api#pay_invoice.
-func Pay(id string, params *InvoiceParams) (*Invoice, error) {
+func Pay(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	return getC().Pay(id, params)
 }
 
-func (c Client) Pay(id string, params *InvoiceParams) (*Invoice, error) {
+func (c Client) Pay(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -85,7 +85,7 @@ func (c Client) Pay(id string, params *InvoiceParams) (*Invoice, error) {
 		params.AppendTo(body)
 	}
 
-	invoice := &Invoice{}
+	invoice := &stripe.Invoice{}
 	err := c.B.Call("POST", fmt.Sprintf("/invoices/%v/pay", id), c.Key, body, invoice)
 
 	return invoice, err
@@ -93,11 +93,11 @@ func (c Client) Pay(id string, params *InvoiceParams) (*Invoice, error) {
 
 // Update updates an invoice's properties.
 // For more details see https://stripe.com/docs/api#update_invoice.
-func Update(id string, params *InvoiceParams) (*Invoice, error) {
+func Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	return getC().Update(id, params)
 }
 
-func (c Client) Update(id string, params *InvoiceParams) (*Invoice, error) {
+func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	var body *url.Values
 	token := c.Key
 
@@ -131,7 +131,7 @@ func (c Client) Update(id string, params *InvoiceParams) (*Invoice, error) {
 		params.AppendTo(body)
 	}
 
-	invoice := &Invoice{}
+	invoice := &stripe.Invoice{}
 	err := c.B.Call("POST", "/invoices/"+id, token, body, invoice)
 
 	return invoice, err
@@ -139,11 +139,11 @@ func (c Client) Update(id string, params *InvoiceParams) (*Invoice, error) {
 
 // GetNext returns the upcoming invoice's properties.
 // For more details see https://stripe.com/docs/api#retrieve_customer_invoice.
-func GetNext(params *InvoiceParams) (*Invoice, error) {
+func GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	return getC().GetNext(params)
 }
 
-func (c Client) GetNext(params *InvoiceParams) (*Invoice, error) {
+func (c Client) GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	body := &url.Values{
 		"customer": {params.Customer},
 	}
@@ -154,7 +154,7 @@ func (c Client) GetNext(params *InvoiceParams) (*Invoice, error) {
 
 	params.AppendTo(body)
 
-	invoice := &Invoice{}
+	invoice := &stripe.Invoice{}
 	err := c.B.Call("GET", "/invoices", c.Key, body, invoice)
 
 	return invoice, err
@@ -162,18 +162,18 @@ func (c Client) GetNext(params *InvoiceParams) (*Invoice, error) {
 
 // List returns a list of invoices.
 // For more details see https://stripe.com/docs/api#list_customer_invoices.
-func List(params *InvoiceListParams) *InvoiceIter {
+func List(params *stripe.InvoiceListParams) *stripe.InvoiceIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *InvoiceListParams) *InvoiceIter {
+func (c Client) List(params *stripe.InvoiceListParams) *stripe.InvoiceIter {
 	type invoiceList struct {
-		ListMeta
-		Values []*Invoice `json:"data"`
+		stripe.ListMeta
+		Values []*stripe.Invoice `json:"data"`
 	}
 
 	var body *url.Values
-	var lp *ListParams
+	var lp *stripe.ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -190,7 +190,7 @@ func (c Client) List(params *InvoiceListParams) *InvoiceIter {
 		lp = &params.ListParams
 	}
 
-	return &InvoiceIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+	return &stripe.InvoiceIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &invoiceList{}
 		err := c.B.Call("GET", "/invoices", c.Key, &b, list)
 
@@ -205,13 +205,13 @@ func (c Client) List(params *InvoiceListParams) *InvoiceIter {
 
 // ListLines returns a list of line items.
 // For more details see https://stripe.com/docs/api#invoice_lines.
-func ListLines(params *InvoiceLineListParams) *InvoiceLineIter {
+func ListLines(params *stripe.InvoiceLineListParams) *stripe.InvoiceLineIter {
 	return getC().ListLines(params)
 }
 
-func (c Client) ListLines(params *InvoiceLineListParams) *InvoiceLineIter {
+func (c Client) ListLines(params *stripe.InvoiceLineListParams) *stripe.InvoiceLineIter {
 	body := &url.Values{}
-	var lp *ListParams
+	var lp *stripe.ListParams
 
 	if len(params.Customer) > 0 {
 		body.Add("customer", params.Customer)
@@ -224,8 +224,8 @@ func (c Client) ListLines(params *InvoiceLineListParams) *InvoiceLineIter {
 	params.AppendTo(body)
 	lp = &params.ListParams
 
-	return &InvoiceLineIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
-		list := &InvoiceLineList{}
+	return &stripe.InvoiceLineIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+		list := &stripe.InvoiceLineList{}
 		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.Id), c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
@@ -238,5 +238,5 @@ func (c Client) ListLines(params *InvoiceLineListParams) *InvoiceLineIter {
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }

@@ -5,22 +5,22 @@ import (
 	"net/url"
 	"strconv"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke /recipients APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
 // New POSTs a new recipient.
 // For more details see https://stripe.com/docs/api#create_recipient.
-func New(params *RecipientParams) (*Recipient, error) {
+func New(params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *RecipientParams) (*Recipient, error) {
+func (c Client) New(params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	body := &url.Values{
 		"name": {params.Name},
 		"type": {string(params.Type)},
@@ -50,7 +50,7 @@ func (c Client) New(params *RecipientParams) (*Recipient, error) {
 
 	params.AppendTo(body)
 
-	recipient := &Recipient{}
+	recipient := &stripe.Recipient{}
 	err := c.B.Call("POST", "/recipients", c.Key, body, recipient)
 
 	return recipient, err
@@ -58,11 +58,11 @@ func (c Client) New(params *RecipientParams) (*Recipient, error) {
 
 // Get returns the details of a recipient.
 // For more details see https://stripe.com/docs/api#retrieve_recipient.
-func Get(id string, params *RecipientParams) (*Recipient, error) {
+func Get(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *RecipientParams) (*Recipient, error) {
+func (c Client) Get(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -70,7 +70,7 @@ func (c Client) Get(id string, params *RecipientParams) (*Recipient, error) {
 		params.AppendTo(body)
 	}
 
-	recipient := &Recipient{}
+	recipient := &stripe.Recipient{}
 	err := c.B.Call("GET", "/recipients/"+id, c.Key, body, recipient)
 
 	return recipient, err
@@ -78,11 +78,11 @@ func (c Client) Get(id string, params *RecipientParams) (*Recipient, error) {
 
 // Update updates a recipient's properties.
 // For more details see https://stripe.com/docs/api#update_recipient.
-func Update(id string, params *RecipientParams) (*Recipient, error) {
+func Update(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	return getC().Update(id, params)
 }
 
-func (c Client) Update(id string, params *RecipientParams) (*Recipient, error) {
+func (c Client) Update(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -121,7 +121,7 @@ func (c Client) Update(id string, params *RecipientParams) (*Recipient, error) {
 		params.AppendTo(body)
 	}
 
-	recipient := &Recipient{}
+	recipient := &stripe.Recipient{}
 	err := c.B.Call("POST", "/recipients/"+id, c.Key, body, recipient)
 
 	return recipient, err
@@ -139,18 +139,18 @@ func (c Client) Del(id string) error {
 
 // List returns a list of recipients.
 // For more details see https://stripe.com/docs/api#list_recipients.
-func List(params *RecipientListParams) *RecipientIter {
+func List(params *stripe.RecipientListParams) *stripe.RecipientIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *RecipientListParams) *RecipientIter {
+func (c Client) List(params *stripe.RecipientListParams) *stripe.RecipientIter {
 	type recipientList struct {
-		ListMeta
-		Values []*Recipient `json:"data"`
+		stripe.ListMeta
+		Values []*stripe.Recipient `json:"data"`
 	}
 
 	var body *url.Values
-	var lp *ListParams
+	var lp *stripe.ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -163,7 +163,7 @@ func (c Client) List(params *RecipientListParams) *RecipientIter {
 		lp = &params.ListParams
 	}
 
-	return &RecipientIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+	return &stripe.RecipientIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &recipientList{}
 		err := c.B.Call("GET", "/recipients", c.Key, &b, list)
 
@@ -177,5 +177,5 @@ func (c Client) List(params *RecipientListParams) *RecipientIter {
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }

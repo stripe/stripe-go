@@ -5,22 +5,22 @@ import (
 	"net/url"
 	"strconv"
 
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke /plans APIs.
 type Client struct {
-	B   Backend
+	B   stripe.Backend
 	Key string
 }
 
 // New POSTs a new plan.
 // For more details see https://stripe.com/docs/api#create_plan.
-func New(params *PlanParams) (*Plan, error) {
+func New(params *stripe.PlanParams) (*stripe.Plan, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *PlanParams) (*Plan, error) {
+func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
 	body := &url.Values{
 		"id":       {params.Id},
 		"name":     {params.Name},
@@ -43,7 +43,7 @@ func (c Client) New(params *PlanParams) (*Plan, error) {
 
 	params.AppendTo(body)
 
-	plan := &Plan{}
+	plan := &stripe.Plan{}
 	err := c.B.Call("POST", "/plans", c.Key, body, plan)
 
 	return plan, err
@@ -51,11 +51,11 @@ func (c Client) New(params *PlanParams) (*Plan, error) {
 
 // Get returns the details of a plan.
 // For more details see https://stripe.com/docs/api#retrieve_plan.
-func Get(id string, params *PlanParams) (*Plan, error) {
+func Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *PlanParams) (*Plan, error) {
+func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -63,7 +63,7 @@ func (c Client) Get(id string, params *PlanParams) (*Plan, error) {
 		params.AppendTo(body)
 	}
 
-	plan := &Plan{}
+	plan := &stripe.Plan{}
 	err := c.B.Call("GET", "/plans/"+id, c.Key, body, plan)
 
 	return plan, err
@@ -71,11 +71,11 @@ func (c Client) Get(id string, params *PlanParams) (*Plan, error) {
 
 // Update updates a plan's properties.
 // For more details see https://stripe.com/docs/api#update_plan.
-func Update(id string, params *PlanParams) (*Plan, error) {
+func Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	return getC().Update(id, params)
 }
 
-func (c Client) Update(id string, params *PlanParams) (*Plan, error) {
+func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	var body *url.Values
 
 	if params != nil {
@@ -92,7 +92,7 @@ func (c Client) Update(id string, params *PlanParams) (*Plan, error) {
 		params.AppendTo(body)
 	}
 
-	plan := &Plan{}
+	plan := &stripe.Plan{}
 	err := c.B.Call("POST", "/plans/"+id, c.Key, body, plan)
 
 	return plan, err
@@ -110,18 +110,18 @@ func (c Client) Del(id string) error {
 
 // List returns a list of plans.
 // For more details see https://stripe.com/docs/api#list_plans.
-func List(params *PlanListParams) *PlanIter {
+func List(params *stripe.PlanListParams) *stripe.PlanIter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *PlanListParams) *PlanIter {
+func (c Client) List(params *stripe.PlanListParams) *stripe.PlanIter {
 	type planList struct {
-		ListMeta
-		Values []*Plan `json:"data"`
+		stripe.ListMeta
+		Values []*stripe.Plan `json:"data"`
 	}
 
 	var body *url.Values
-	var lp *ListParams
+	var lp *stripe.ListParams
 
 	if params != nil {
 		body = &url.Values{}
@@ -130,7 +130,7 @@ func (c Client) List(params *PlanListParams) *PlanIter {
 		lp = &params.ListParams
 	}
 
-	return &PlanIter{GetIter(lp, body, func(b url.Values) ([]interface{}, ListMeta, error) {
+	return &stripe.PlanIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &planList{}
 		err := c.B.Call("GET", "/plans", c.Key, &b, list)
 
@@ -144,5 +144,5 @@ func (c Client) List(params *PlanListParams) *PlanIter {
 }
 
 func getC() Client {
-	return Client{GetBackend(), Key}
+	return Client{stripe.GetBackend(), stripe.Key}
 }
