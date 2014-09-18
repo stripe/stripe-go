@@ -88,31 +88,6 @@ type TxFee struct {
 	Application string   `json:"application"`
 }
 
-// TransactionIter is a iterator for list responses.
-type TransactionIter struct {
-	Iter *Iter
-}
-
-// Next returns the next value in the list.
-func (i *TransactionIter) Next() (*Transaction, error) {
-	t, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return t.(*Transaction), err
-}
-
-// Stop returns true if there are no more iterations to be performed.
-func (i *TransactionIter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *TransactionIter) Meta() *ListMeta {
-	return i.Iter.Meta()
-}
-
 func (t *Transaction) UnmarshalJSON(data []byte) error {
 	type transaction Transaction
 	var tt transaction

@@ -29,11 +29,11 @@ func (c Client) Get(id string) (*stripe.Event, error) {
 
 // List returns a list of events.
 // For more details see https://stripe.com/docs/api#list_events
-func List(params *stripe.EventListParams) *stripe.EventIter {
+func List(params *stripe.EventListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.EventListParams) *stripe.EventIter {
+func (c Client) List(params *stripe.EventListParams) *Iter {
 	type eventList struct {
 		stripe.ListMeta
 		Values []*stripe.Event `json:"data"`
@@ -57,7 +57,7 @@ func (c Client) List(params *stripe.EventListParams) *stripe.EventIter {
 		lp = &params.ListParams
 	}
 
-	return &stripe.EventIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &eventList{}
 		err := c.B.Call("GET", "/events", c.Key, &b, list)
 
@@ -68,6 +68,31 @@ func (c Client) List(params *stripe.EventListParams) *stripe.EventIter {
 
 		return ret, list.ListMeta, err
 	})}
+}
+
+// Iter is a iterator for list responses.
+type Iter struct {
+	Iter *stripe.Iter
+}
+
+// Next returns the next value in the list.
+func (i *Iter) Next() (*stripe.Event, error) {
+	e, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return e.(*stripe.Event), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *Iter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *Iter) Meta() *stripe.ListMeta {
+	return i.Iter.Meta()
 }
 
 func getC() Client {

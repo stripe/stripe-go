@@ -97,56 +97,6 @@ type InvoiceLineList struct {
 	Values []*InvoiceLine `json:"data"`
 }
 
-// InvoiceIter is a iterator for list responses.
-type InvoiceIter struct {
-	Iter *Iter
-}
-
-// Next returns the next value in the list.
-func (i *InvoiceIter) Next() (*Invoice, error) {
-	ii, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return ii.(*Invoice), err
-}
-
-// Stop returns true if there are no more iterations to be performed.
-func (i *InvoiceIter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *InvoiceIter) Meta() *ListMeta {
-	return i.Iter.Meta()
-}
-
-// InvoiceLineIter is a iterator for list responses.
-type InvoiceLineIter struct {
-	Iter *Iter
-}
-
-// Next returns the next value in the list.
-func (i *InvoiceLineIter) Next() (*InvoiceLine, error) {
-	ii, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return ii.(*InvoiceLine), err
-}
-
-// Stop returns true if there are no more iterations to be performed.
-func (i *InvoiceLineIter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *InvoiceLineIter) Meta() *ListMeta {
-	return i.Iter.Meta()
-}
-
 func (i *Invoice) UnmarshalJSON(data []byte) error {
 	type invoice Invoice
 	var ii invoice

@@ -36,31 +36,6 @@ type RefundList struct {
 	Values []*Refund `json:"data"`
 }
 
-// RefundIter is a iterator for list responses.
-type RefundIter struct {
-	Iter *Iter
-}
-
-// Next returns the next value in the list.
-func (i *RefundIter) Next() (*Refund, error) {
-	r, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return r.(*Refund), err
-}
-
-// Stop returns true if there are no more iterations to be performed.
-func (i *RefundIter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *RefundIter) Meta() *ListMeta {
-	return i.Iter.Meta()
-}
-
 func (r *Refund) UnmarshalJSON(data []byte) error {
 	type refund Refund
 	var rr refund

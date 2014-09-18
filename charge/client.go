@@ -151,11 +151,11 @@ func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge
 
 // List returns a list of charges.
 // For more details see https://stripe.com/docs/api#list_charges.
-func List(params *stripe.ChargeListParams) *stripe.ChargeIter {
+func List(params *stripe.ChargeListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.ChargeListParams) *stripe.ChargeIter {
+func (c Client) List(params *stripe.ChargeListParams) *Iter {
 	type chargeList struct {
 		stripe.ListMeta
 		Values []*stripe.Charge `json:"data"`
@@ -179,7 +179,7 @@ func (c Client) List(params *stripe.ChargeListParams) *stripe.ChargeIter {
 		lp = &params.ListParams
 	}
 
-	return &stripe.ChargeIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &chargeList{}
 		err := c.B.Call("GET", "/charges", c.Key, &b, list)
 
@@ -190,6 +190,31 @@ func (c Client) List(params *stripe.ChargeListParams) *stripe.ChargeIter {
 
 		return ret, list.ListMeta, err
 	})}
+}
+
+// Iter is a iterator for list responses.
+type Iter struct {
+	Iter *stripe.Iter
+}
+
+// Next returns the next value in the list.
+func (i *Iter) Next() (*stripe.Charge, error) {
+	c, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return c.(*stripe.Charge), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *Iter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *Iter) Meta() *stripe.ListMeta {
+	return i.Iter.Meta()
 }
 
 func getC() Client {

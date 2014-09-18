@@ -76,18 +76,18 @@ func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, 
 
 // List returns a list of refunds.
 // For more details see https://stripe.com/docs/api#list_refunds.
-func List(params *stripe.RefundListParams) *stripe.RefundIter {
+func List(params *stripe.RefundListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.RefundListParams) *stripe.RefundIter {
+func (c Client) List(params *stripe.RefundListParams) *Iter {
 	body := &url.Values{}
 	var lp *stripe.ListParams
 
 	params.AppendTo(body)
 	lp = &params.ListParams
 
-	return &stripe.RefundIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.RefundList{}
 		err := c.B.Call("GET", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.Key, &b, list)
 
@@ -98,6 +98,31 @@ func (c Client) List(params *stripe.RefundListParams) *stripe.RefundIter {
 
 		return ret, list.ListMeta, err
 	})}
+}
+
+// Iter is a iterator for list responses.
+type Iter struct {
+	Iter *stripe.Iter
+}
+
+// Next returns the next value in the list.
+func (i *Iter) Next() (*stripe.Refund, error) {
+	r, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.(*stripe.Refund), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *Iter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *Iter) Meta() *stripe.ListMeta {
+	return i.Iter.Meta()
 }
 
 func getC() Client {

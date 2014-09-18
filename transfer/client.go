@@ -117,11 +117,11 @@ func (c Client) Cancel(id string, params *stripe.TransferParams) (*stripe.Transf
 
 // List returns a list of transfers.
 // For more details see https://stripe.com/docs/api#list_transfers.
-func List(params *stripe.TransferListParams) *stripe.TransferIter {
+func List(params *stripe.TransferListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.TransferListParams) *stripe.TransferIter {
+func (c Client) List(params *stripe.TransferListParams) *Iter {
 	type transferList struct {
 		stripe.ListMeta
 		Values []*stripe.Transfer `json:"data"`
@@ -153,7 +153,7 @@ func (c Client) List(params *stripe.TransferListParams) *stripe.TransferIter {
 		lp = &params.ListParams
 	}
 
-	return &stripe.TransferIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &transferList{}
 		err := c.B.Call("GET", "/transfers", c.Key, &b, list)
 
@@ -164,6 +164,31 @@ func (c Client) List(params *stripe.TransferListParams) *stripe.TransferIter {
 
 		return ret, list.ListMeta, err
 	})}
+}
+
+// Iter is a iterator for list responses.
+type Iter struct {
+	Iter *stripe.Iter
+}
+
+// Next returns the next value in the list.
+func (i *Iter) Next() (*stripe.Transfer, error) {
+	t, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return t.(*stripe.Transfer), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *Iter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *Iter) Meta() *stripe.ListMeta {
+	return i.Iter.Meta()
 }
 
 func getC() Client {

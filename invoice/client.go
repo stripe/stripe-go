@@ -162,11 +162,11 @@ func (c Client) GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 
 // List returns a list of invoices.
 // For more details see https://stripe.com/docs/api#list_customer_invoices.
-func List(params *stripe.InvoiceListParams) *stripe.InvoiceIter {
+func List(params *stripe.InvoiceListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.InvoiceListParams) *stripe.InvoiceIter {
+func (c Client) List(params *stripe.InvoiceListParams) *Iter {
 	type invoiceList struct {
 		stripe.ListMeta
 		Values []*stripe.Invoice `json:"data"`
@@ -190,7 +190,7 @@ func (c Client) List(params *stripe.InvoiceListParams) *stripe.InvoiceIter {
 		lp = &params.ListParams
 	}
 
-	return &stripe.InvoiceIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &invoiceList{}
 		err := c.B.Call("GET", "/invoices", c.Key, &b, list)
 
@@ -205,11 +205,11 @@ func (c Client) List(params *stripe.InvoiceListParams) *stripe.InvoiceIter {
 
 // ListLines returns a list of line items.
 // For more details see https://stripe.com/docs/api#invoice_lines.
-func ListLines(params *stripe.InvoiceLineListParams) *stripe.InvoiceLineIter {
+func ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 	return getC().ListLines(params)
 }
 
-func (c Client) ListLines(params *stripe.InvoiceLineListParams) *stripe.InvoiceLineIter {
+func (c Client) ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 	body := &url.Values{}
 	var lp *stripe.ListParams
 
@@ -224,7 +224,7 @@ func (c Client) ListLines(params *stripe.InvoiceLineListParams) *stripe.InvoiceL
 	params.AppendTo(body)
 	lp = &params.ListParams
 
-	return &stripe.InvoiceLineIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &LineIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceLineList{}
 		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.Id), c.Key, &b, list)
 
@@ -235,6 +235,56 @@ func (c Client) ListLines(params *stripe.InvoiceLineListParams) *stripe.InvoiceL
 
 		return ret, list.ListMeta, err
 	})}
+}
+
+// Iter is a iterator for list responses.
+type Iter struct {
+	Iter *stripe.Iter
+}
+
+// Next returns the next value in the list.
+func (i *Iter) Next() (*stripe.Invoice, error) {
+	ii, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return ii.(*stripe.Invoice), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *Iter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *Iter) Meta() *stripe.ListMeta {
+	return i.Iter.Meta()
+}
+
+// LineIter is a iterator for list responses.
+type LineIter struct {
+	Iter *stripe.Iter
+}
+
+// Next returns the next value in the list.
+func (i *LineIter) Next() (*stripe.InvoiceLine, error) {
+	ii, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return ii.(*stripe.InvoiceLine), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *LineIter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *LineIter) Meta() *stripe.ListMeta {
+	return i.Iter.Meta()
 }
 
 func getC() Client {

@@ -37,11 +37,11 @@ func (c Client) Get(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
 
 // List returns a list of application fees.
 // For more details see https://stripe.com/docs/api#list_application_fees.
-func List(params *stripe.FeeListParams) *stripe.FeeIter {
+func List(params *stripe.FeeListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.FeeListParams) *stripe.FeeIter {
+func (c Client) List(params *stripe.FeeListParams) *Iter {
 	type feeList struct {
 		stripe.ListMeta
 		Values []*stripe.Fee `json:"data"`
@@ -65,7 +65,7 @@ func (c Client) List(params *stripe.FeeListParams) *stripe.FeeIter {
 		lp = &params.ListParams
 	}
 
-	return &stripe.FeeIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &feeList{}
 		err := c.B.Call("GET", "/application_fees", c.Key, &b, list)
 
@@ -76,6 +76,31 @@ func (c Client) List(params *stripe.FeeListParams) *stripe.FeeIter {
 
 		return ret, list.ListMeta, err
 	})}
+}
+
+// Iter is a iterator for list responses.
+type Iter struct {
+	Iter *stripe.Iter
+}
+
+// Next returns the next value in the list.
+func (i *Iter) Next() (*stripe.Fee, error) {
+	f, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return f.(*stripe.Fee), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *Iter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *Iter) Meta() *stripe.ListMeta {
+	return i.Iter.Meta()
 }
 
 func getC() Client {

@@ -60,31 +60,6 @@ type SubList struct {
 	Values []*Sub `json:"data"`
 }
 
-// SubIter is a iterator for list responses.
-type SubIter struct {
-	Iter *Iter
-}
-
-// Next returns the next value in the list.
-func (i *SubIter) Next() (*Sub, error) {
-	s, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return s.(*Sub), err
-}
-
-// Stop returns true if there are no more iterations to be performed.
-func (i *SubIter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *SubIter) Meta() *ListMeta {
-	return i.Iter.Meta()
-}
-
 func (s *Sub) UnmarshalJSON(data []byte) error {
 	type sub Sub
 	var ss sub

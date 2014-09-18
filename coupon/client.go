@@ -92,11 +92,11 @@ func (c Client) Del(id string) error {
 
 // List returns a list of coupons.
 // For more details see https://stripe.com/docs/api#list_coupons.
-func List(params *stripe.CouponListParams) *stripe.CouponIter {
+func List(params *stripe.CouponListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.CouponListParams) *stripe.CouponIter {
+func (c Client) List(params *stripe.CouponListParams) *Iter {
 	type couponList struct {
 		stripe.ListMeta
 		Values []*stripe.Coupon `json:"data"`
@@ -112,7 +112,7 @@ func (c Client) List(params *stripe.CouponListParams) *stripe.CouponIter {
 		lp = &params.ListParams
 	}
 
-	return &stripe.CouponIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &couponList{}
 		err := c.B.Call("GET", "/coupons", c.Key, &b, list)
 
@@ -123,6 +123,31 @@ func (c Client) List(params *stripe.CouponListParams) *stripe.CouponIter {
 
 		return ret, list.ListMeta, err
 	})}
+}
+
+// Iter is a iterator for list responses.
+type Iter struct {
+	Iter *stripe.Iter
+}
+
+// Next returns the next value in the list.
+func (i *Iter) Next() (*stripe.Coupon, error) {
+	c, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return c.(*stripe.Coupon), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *Iter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *Iter) Meta() *stripe.ListMeta {
+	return i.Iter.Meta()
 }
 
 func getC() Client {

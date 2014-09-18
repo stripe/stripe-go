@@ -56,11 +56,11 @@ func (c Client) GetTx(id string, params *stripe.TxParams) (*stripe.Transaction, 
 
 // List returns a list of balance transactions.
 // For more details see https://stripe.com/docs/api#balance_history.
-func List(params *stripe.TxListParams) *stripe.TransactionIter {
+func List(params *stripe.TxListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.TxListParams) *stripe.TransactionIter {
+func (c Client) List(params *stripe.TxListParams) *Iter {
 	var body *url.Values
 	var lp *stripe.ListParams
 
@@ -95,7 +95,7 @@ func (c Client) List(params *stripe.TxListParams) *stripe.TransactionIter {
 		lp = &params.ListParams
 	}
 
-	return &stripe.TransactionIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		type transactionList struct {
 			stripe.ListMeta
 			Values []*stripe.Transaction `json:"data"`
@@ -111,6 +111,31 @@ func (c Client) List(params *stripe.TxListParams) *stripe.TransactionIter {
 
 		return ret, list.ListMeta, err
 	})}
+}
+
+// Iter is a iterator for list responses.
+type Iter struct {
+	Iter *stripe.Iter
+}
+
+// Next returns the next value in the list.
+func (i *Iter) Next() (*stripe.Transaction, error) {
+	t, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return t.(*stripe.Transaction), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *Iter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *Iter) Meta() *stripe.ListMeta {
+	return i.Iter.Meta()
 }
 
 func getC() Client {

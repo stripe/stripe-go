@@ -151,11 +151,11 @@ func (c Client) Del(id string) error {
 
 // List returns a list of customers.
 // For more details see https://stripe.com/docs/api#list_customers.
-func List(params *stripe.CustomerListParams) *stripe.CustomerIter {
+func List(params *stripe.CustomerListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.CustomerListParams) *stripe.CustomerIter {
+func (c Client) List(params *stripe.CustomerListParams) *Iter {
 	type customerList struct {
 		stripe.ListMeta
 		Values []*stripe.Customer `json:"data"`
@@ -175,7 +175,7 @@ func (c Client) List(params *stripe.CustomerListParams) *stripe.CustomerIter {
 		lp = &params.ListParams
 	}
 
-	return &stripe.CustomerIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &customerList{}
 		err := c.B.Call("GET", "/customers", c.Key, &b, list)
 
@@ -186,6 +186,31 @@ func (c Client) List(params *stripe.CustomerListParams) *stripe.CustomerIter {
 
 		return ret, list.ListMeta, err
 	})}
+}
+
+// Iter is a iterator for list responses.
+type Iter struct {
+	Iter *stripe.Iter
+}
+
+// Next returns the next value in the list.
+func (i *Iter) Next() (*stripe.Customer, error) {
+	c, err := i.Iter.Next()
+	if err != nil {
+		return nil, err
+	}
+
+	return c.(*stripe.Customer), err
+}
+
+// Stop returns true if there are no more iterations to be performed.
+func (i *Iter) Stop() bool {
+	return i.Iter.Stop()
+}
+
+// Meta returns the list metadata.
+func (i *Iter) Meta() *stripe.ListMeta {
+	return i.Iter.Meta()
 }
 
 func getC() Client {

@@ -27,31 +27,6 @@ type EventListParams struct {
 	Type string
 }
 
-// EventIter is a iterator for list responses.
-type EventIter struct {
-	Iter *Iter
-}
-
-// Next returns the next value in the list.
-func (i *EventIter) Next() (*Event, error) {
-	e, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return e.(*Event), err
-}
-
-// Stop returns true if there are no more iterations to be performed.
-func (i *EventIter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *EventIter) Meta() *ListMeta {
-	return i.Iter.Meta()
-}
-
 // GetObjValue returns the value from the e.Data.Obj bag based on the keys hierarchy.
 func (e *Event) GetObjValue(keys ...string) string {
 	return getValue(e.Data.Obj, keys)

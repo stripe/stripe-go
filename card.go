@@ -86,31 +86,6 @@ type CardList struct {
 	Values []*Card `json:"data"`
 }
 
-// CardIter is a iterator for list responses.
-type CardIter struct {
-	Iter *Iter
-}
-
-// Next returns the next value in the list.
-func (i *CardIter) Next() (*Card, error) {
-	c, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return c.(*Card), err
-}
-
-// Stop returns true if there are no more iterations to be performed.
-func (i *CardIter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *CardIter) Meta() *ListMeta {
-	return i.Iter.Meta()
-}
-
 // AppendDetails adds the card's details to the query string values.
 // When creating a new card, the parameters are passed as a dictionary, but
 // on updates they are simply the parameter name.

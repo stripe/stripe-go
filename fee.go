@@ -34,30 +34,6 @@ type Fee struct {
 	AmountRefunded uint64         `json:"amount_refunded"`
 }
 
-// FeeIter is a iterator for list responses.
-type FeeIter struct {
-	Iter *Iter
-}
-
-// Next returns the next value in the list.
-func (i *FeeIter) Next() (*Fee, error) {
-	f, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return f.(*Fee), err
-}
-
-// Stop returns true if there are no more iterations to be performed.
-func (i *FeeIter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *FeeIter) Meta() *ListMeta {
-	return i.Iter.Meta()
-}
 func (f *Fee) UnmarshalJSON(data []byte) error {
 	type appfee Fee
 	var ff appfee
