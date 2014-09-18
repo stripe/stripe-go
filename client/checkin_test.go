@@ -83,7 +83,7 @@ func TestCheckinPost(t *testing.T) {
 	}
 }
 
-func TestCheckinDelete(t *testing.T) {
+func TestCheckinDel(t *testing.T) {
 	c := &Api{}
 	c.Init(testKey, nil)
 
@@ -101,7 +101,7 @@ func TestCheckinDelete(t *testing.T) {
 		t.Error(err)
 	}
 
-	err = c.Plans.Delete(plan.Id)
+	err = c.Plans.Del(plan.Id)
 
 	if err != nil {
 		t.Error(err)
@@ -147,6 +147,6 @@ func TestCheckinList(t *testing.T) {
 	}
 
 	for i := 0; i < runs; i++ {
-		c.Plans.Delete(fmt.Sprintf("go_binding_%v", i))
+		c.Plans.Del(fmt.Sprintf("go_binding_%v", i))
 	}
 }

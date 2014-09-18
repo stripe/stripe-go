@@ -85,7 +85,7 @@ func TestRecipientCreate(t *testing.T) {
 		t.Errorf("Recipient default card is not set\n")
 	}
 
-	Delete(target.Id)
+	Del(target.Id)
 }
 
 func TestRecipientGet(t *testing.T) {
@@ -106,7 +106,7 @@ func TestRecipientGet(t *testing.T) {
 		t.Errorf("Recipient not found\n")
 	}
 
-	Delete(target.Id)
+	Del(target.Id)
 }
 
 func TestRecipientUpdate(t *testing.T) {
@@ -143,7 +143,7 @@ func TestRecipientUpdate(t *testing.T) {
 		t.Errorf("Description %q does not match expected description %q\n", target.Desc, updated.Desc)
 	}
 
-	Delete(target.Id)
+	Del(target.Id)
 }
 
 func TestRecipientList(t *testing.T) {

@@ -91,7 +91,7 @@ resource, err := resource.Get(id, ResourceParams)
 resource, err := resource.Update(ResourceParams)
 
 // Delete
-err := resource.Delete(id)
+err := resource.Del(id)
 
 // List
 i := resource.List(ResourceListParams)
@@ -129,7 +129,7 @@ resource, err := stripe.Resources.Get(id, ResourceParams)
 resource, err := stripe.Resources.Update(ResourceParams)
 
 // Delete
-err := stripe.Resources.Delete(id)
+err := stripe.Resources.Del(id)
 
 // List
 i := stripe.Resources.List(ResourceListParams)

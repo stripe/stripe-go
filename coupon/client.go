@@ -80,13 +80,13 @@ func (c Client) Get(id string, params *CouponParams) (*Coupon, error) {
 	return coupon, err
 }
 
-// Delete removes a coupon.
+// Del removes a coupon.
 // For more details see https://stripe.com/docs/api#delete_coupon.
-func Delete(id string) error {
-	return getC().Delete(id)
+func Del(id string) error {
+	return getC().Del(id)
 }
 
-func (c Client) Delete(id string) error {
+func (c Client) Del(id string) error {
 	return c.B.Call("DELETE", "/coupons/"+id, c.Key, nil, nil)
 }
 

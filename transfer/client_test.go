@@ -79,7 +79,7 @@ func TestTransferCreate(t *testing.T) {
 		t.Errorf("Unexpected type %q\n", target.Type)
 	}
 
-	recipient.Delete(rec.Id)
+	recipient.Del(rec.Id)
 }
 
 func TestTransferGet(t *testing.T) {
@@ -118,7 +118,7 @@ func TestTransferGet(t *testing.T) {
 		t.Errorf("Unexpected type %q\n", target.Type)
 	}
 
-	recipient.Delete(rec.Id)
+	recipient.Del(rec.Id)
 }
 
 func TestTransferUpdate(t *testing.T) {
@@ -157,7 +157,7 @@ func TestTransferUpdate(t *testing.T) {
 		t.Errorf("Description %q does not match expected description %q\n", target.Desc, updated.Desc)
 	}
 
-	recipient.Delete(rec.Id)
+	recipient.Del(rec.Id)
 }
 
 func TestTransferList(t *testing.T) {
@@ -201,5 +201,5 @@ func TestTransferList(t *testing.T) {
 		}
 	}
 
-	recipient.Delete(rec.Id)
+	recipient.Del(rec.Id)
 }

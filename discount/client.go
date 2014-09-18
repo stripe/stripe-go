@@ -13,23 +13,23 @@ type Client struct {
 	Key string
 }
 
-// Delete removes a discount from a customer.
+// Del removes a discount from a customer.
 // For more details see https://stripe.com/docs/api#delete_discount.
-func Delete(customerId string) error {
-	return getC().Delete(customerId)
+func Del(customerId string) error {
+	return getC().Del(customerId)
 }
 
-func (c Client) Delete(customerId string) error {
+func (c Client) Del(customerId string) error {
 	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/discount", customerId), c.Key, nil, nil)
 }
 
-// DeleteSubscription removes a discount from a customer's subscription.
+// DelSubscription removes a discount from a customer's subscription.
 // For more details see https://stripe.com/docs/api#delete_subscription_discount.
-func DeleteSubscription(customerId, subscriptionId string) error {
-	return getC().DeleteSubscription(customerId, subscriptionId)
+func DelSubscription(customerId, subscriptionId string) error {
+	return getC().DelSubscription(customerId, subscriptionId)
 }
 
-func (c Client) DeleteSubscription(customerId, subscriptionId string) error {
+func (c Client) DelSubscription(customerId, subscriptionId string) error {
 	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v/discount", customerId, subscriptionId), c.Key, nil, nil)
 }
 

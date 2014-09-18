@@ -93,13 +93,13 @@ func (c Client) Update(id string, params *CardParams) (*Card, error) {
 	return card, err
 }
 
-// Delete remotes a card.
+// Del remotes a card.
 // For more details see https://stripe.com/docs/api#delete_card.
-func Delete(id string, params *CardParams) error {
-	return getC().Delete(id, params)
+func Del(id string, params *CardParams) error {
+	return getC().Del(id, params)
 }
 
-func (c Client) Delete(id string, params *CardParams) error {
+func (c Client) Del(id string, params *CardParams) error {
 	if len(params.Customer) > 0 {
 		return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, nil, nil)
 	} else if len(params.Recipient) > 0 {

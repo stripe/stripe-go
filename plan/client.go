@@ -98,13 +98,13 @@ func (c Client) Update(id string, params *PlanParams) (*Plan, error) {
 	return plan, err
 }
 
-// Delete removes a plan.
+// Del removes a plan.
 // For more details see https://stripe.com/docs/api#delete_plan.
-func Delete(id string) error {
-	return getC().Delete(id)
+func Del(id string) error {
+	return getC().Del(id)
 }
 
-func (c Client) Delete(id string) error {
+func (c Client) Del(id string) error {
 	return c.B.Call("DELETE", "/plans/"+id, c.Key, nil, nil)
 }
 

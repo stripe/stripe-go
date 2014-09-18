@@ -242,7 +242,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		}
 	}
 
-	err = invoiceitem.Delete(targetItem.Id)
+	err = invoiceitem.Del(targetItem.Id)
 
 	if err != nil {
 		t.Error(err)
@@ -254,5 +254,5 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Error(err)
 	}
 
-	customer.Delete(cust.Id)
+	customer.Del(cust.Id)
 }

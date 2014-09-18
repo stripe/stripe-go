@@ -139,13 +139,13 @@ func (c Client) Update(id string, params *CustomerParams) (*Customer, error) {
 	return cust, err
 }
 
-// Delete removes a customer.
+// Del removes a customer.
 // For more details see https://stripe.com/docs/api#delete_customer.
-func Delete(id string) error {
-	return getC().Delete(id)
+func Del(id string) error {
+	return getC().Del(id)
 }
 
-func (c Client) Delete(id string) error {
+func (c Client) Del(id string) error {
 	return c.B.Call("DELETE", "/customers/"+id, c.Key, nil, nil)
 }
 

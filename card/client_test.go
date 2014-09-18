@@ -56,7 +56,7 @@ func TestCardCreate(t *testing.T) {
 		t.Errorf("Unexpected number of cards %v\n", targetCust.Cards.Count)
 	}
 
-	customer.Delete(cust.Id)
+	customer.Del(cust.Id)
 }
 
 func TestCardGet(t *testing.T) {
@@ -90,10 +90,10 @@ func TestCardGet(t *testing.T) {
 		t.Errorf("Card funding %q does not match expected value\n", target.Funding)
 	}
 
-	recipient.Delete(rec.Id)
+	recipient.Del(rec.Id)
 }
 
-func TestCardDelete(t *testing.T) {
+func TestCardDel(t *testing.T) {
 	customerParams := &CustomerParams{
 		Card: &CardParams{
 			Number: "378282246310005",
@@ -104,12 +104,12 @@ func TestCardDelete(t *testing.T) {
 
 	cust, _ := customer.Create(customerParams)
 
-	err := Delete(cust.DefaultCard.Id, &CardParams{Customer: cust.Id})
+	err := Del(cust.DefaultCard.Id, &CardParams{Customer: cust.Id})
 	if err != nil {
 		t.Error(err)
 	}
 
-	customer.Delete(cust.Id)
+	customer.Del(cust.Id)
 }
 
 func TestCardUpdate(t *testing.T) {
@@ -143,7 +143,7 @@ func TestCardUpdate(t *testing.T) {
 		t.Errorf("Card name %q does not match expected name %q\n", target.Name, cardParams.Name)
 	}
 
-	customer.Delete(cust.Id)
+	customer.Del(cust.Id)
 }
 
 func TestCardList(t *testing.T) {
@@ -183,5 +183,5 @@ func TestCardList(t *testing.T) {
 		}
 	}
 
-	customer.Delete(cust.Id)
+	customer.Del(cust.Id)
 }

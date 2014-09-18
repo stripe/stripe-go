@@ -56,8 +56,8 @@ func TestSubscriptionCreate(t *testing.T) {
 		t.Errorf("Quantity %v does not match expected quantity %v\n", target.Quantity, subParams.Quantity)
 	}
 
-	customer.Delete(cust.Id)
-	plan.Delete("test")
+	customer.Del(cust.Id)
+	plan.Del("test")
 }
 
 func TestSubscriptionGet(t *testing.T) {
@@ -98,8 +98,8 @@ func TestSubscriptionGet(t *testing.T) {
 		t.Errorf("Subscription id %q does not match expected id %q\n", target.Id, subscription.Id)
 	}
 
-	customer.Delete(cust.Id)
-	plan.Delete("test")
+	customer.Del(cust.Id)
+	plan.Del("test")
 }
 
 func TestSubscriptionCancel(t *testing.T) {
@@ -136,8 +136,8 @@ func TestSubscriptionCancel(t *testing.T) {
 		t.Error(err)
 	}
 
-	customer.Delete(cust.Id)
-	plan.Delete("test")
+	customer.Del(cust.Id)
+	plan.Del("test")
 }
 
 func TestSubscriptionUpdate(t *testing.T) {
@@ -184,8 +184,8 @@ func TestSubscriptionUpdate(t *testing.T) {
 		t.Errorf("Quantity %v does not match expected quantity $v\n", target.Quantity, updatedSub.Quantity)
 	}
 
-	customer.Delete(cust.Id)
-	plan.Delete("test")
+	customer.Del(cust.Id)
+	plan.Del("test")
 }
 
 func TestSubscriptionDiscount(t *testing.T) {
@@ -243,15 +243,15 @@ func TestSubscriptionDiscount(t *testing.T) {
 		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.Id, subParams.Coupon)
 	}
 
-	err = discount.DeleteSubscription(cust.Id, target.Id)
+	err = discount.DelSubscription(cust.Id, target.Id)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	customer.Delete(cust.Id)
-	plan.Delete("test")
-	coupon.Delete("sub_coupon")
+	customer.Del(cust.Id)
+	plan.Del("test")
+	coupon.Del("sub_coupon")
 }
 
 func TestSubscriptionList(t *testing.T) {
@@ -302,6 +302,6 @@ func TestSubscriptionList(t *testing.T) {
 		}
 	}
 
-	customer.Delete(cust.Id)
-	plan.Delete("test")
+	customer.Del(cust.Id)
+	plan.Del("test")
 }

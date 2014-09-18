@@ -56,7 +56,7 @@ func TestCustomerCreate(t *testing.T) {
 		t.Errorf("Card name %q does not match expected name %q\n", target.Cards.Values[0].Name, customerParams.Card.Name)
 	}
 
-	Delete(target.Id)
+	Del(target.Id)
 }
 
 func TestCustomerGet(t *testing.T) {
@@ -72,13 +72,13 @@ func TestCustomerGet(t *testing.T) {
 		t.Errorf("Customer id %q does not match expected id %q\n", target.Id, res.Id)
 	}
 
-	Delete(res.Id)
+	Del(res.Id)
 }
 
-func TestCustomerDelete(t *testing.T) {
+func TestCustomerDel(t *testing.T) {
 	res, _ := Create(nil)
 
-	err := Delete(res.Id)
+	err := Del(res.Id)
 
 	if err != nil {
 		t.Error(err)
@@ -132,7 +132,7 @@ func TestCustomerUpdate(t *testing.T) {
 		t.Errorf("No cards recorded\n")
 	}
 
-	Delete(target.Id)
+	Del(target.Id)
 }
 
 func TestCustomerDiscount(t *testing.T) {
@@ -166,14 +166,14 @@ func TestCustomerDiscount(t *testing.T) {
 		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.Id, customerParams.Coupon)
 	}
 
-	err = discount.Delete(target.Id)
+	err = discount.Del(target.Id)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	Delete(target.Id)
-	coupon.Delete("customer_coupon")
+	Del(target.Id)
+	coupon.Del("customer_coupon")
 }
 
 func TestCustomerList(t *testing.T) {
@@ -202,6 +202,6 @@ func TestCustomerList(t *testing.T) {
 	}
 
 	for _, v := range customers {
-		Delete(v)
+		Del(v)
 	}
 }

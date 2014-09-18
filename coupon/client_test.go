@@ -57,7 +57,7 @@ func TestCouponCreate(t *testing.T) {
 		t.Errorf("Coupon is not valid, but was expecting it to be\n")
 	}
 
-	Delete(target.Id)
+	Del(target.Id)
 }
 
 func TestCouponGet(t *testing.T) {
@@ -82,7 +82,7 @@ func TestCouponGet(t *testing.T) {
 		t.Errorf("Percent %v does not match expected percent %v\n", target.Percent, couponParams.Percent)
 	}
 
-	Delete(target.Id)
+	Del(target.Id)
 }
 
 func TestCouponList(t *testing.T) {
@@ -114,6 +114,6 @@ func TestCouponList(t *testing.T) {
 	}
 
 	for i := 0; i < 5; i++ {
-		Delete(fmt.Sprintf("test_%v", i))
+		Del(fmt.Sprintf("test_%v", i))
 	}
 }
