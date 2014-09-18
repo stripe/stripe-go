@@ -15,13 +15,13 @@ type Client struct {
 	Key string
 }
 
-// Create POSTS a new subscription for a customer.
+// New POSTS a new subscription for a customer.
 // For more details see https://stripe.com/docs/api#create_subscription.
-func Create(params *SubParams) (*Sub, error) {
-	return getC().Create(params)
+func New(params *SubParams) (*Sub, error) {
+	return getC().New(params)
 }
 
-func (c Client) Create(params *SubParams) (*Sub, error) {
+func (c Client) New(params *SubParams) (*Sub, error) {
 	body := &url.Values{
 		"plan": {params.Plan},
 	}

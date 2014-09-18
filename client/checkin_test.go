@@ -64,7 +64,7 @@ func TestCheckinPost(t *testing.T) {
 		},
 	}
 
-	target, err := c.Charges.Create(charge)
+	target, err := c.Charges.New(charge)
 
 	if err != nil {
 		t.Error(err)
@@ -95,7 +95,7 @@ func TestCheckinDel(t *testing.T) {
 		Interval: Month,
 	}
 
-	_, err := c.Plans.Create(plan)
+	_, err := c.Plans.New(plan)
 
 	if err != nil {
 		t.Error(err)
@@ -122,7 +122,7 @@ func TestCheckinList(t *testing.T) {
 			Interval: Month,
 		}
 
-		c.Plans.Create(plan)
+		c.Plans.New(plan)
 	}
 
 	params := &PlanListParams{}

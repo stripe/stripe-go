@@ -15,7 +15,7 @@ func init() {
 	Key = GetTestKey()
 }
 
-func TestSubscriptionCreate(t *testing.T) {
+func TestSubscriptionNew(t *testing.T) {
 	customerParams := &CustomerParams{
 		Card: &CardParams{
 			Number: "378282246310005",
@@ -24,7 +24,7 @@ func TestSubscriptionCreate(t *testing.T) {
 		},
 	}
 
-	cust, _ := customer.Create(customerParams)
+	cust, _ := customer.New(customerParams)
 
 	planParams := &PlanParams{
 		Id:       "test",
@@ -34,7 +34,7 @@ func TestSubscriptionCreate(t *testing.T) {
 		Interval: Month,
 	}
 
-	plan.Create(planParams)
+	plan.New(planParams)
 
 	subParams := &SubParams{
 		Customer: cust.Id,
@@ -42,7 +42,7 @@ func TestSubscriptionCreate(t *testing.T) {
 		Quantity: 10,
 	}
 
-	target, err := Create(subParams)
+	target, err := New(subParams)
 
 	if err != nil {
 		t.Error(err)
@@ -69,7 +69,7 @@ func TestSubscriptionGet(t *testing.T) {
 		},
 	}
 
-	cust, _ := customer.Create(customerParams)
+	cust, _ := customer.New(customerParams)
 
 	planParams := &PlanParams{
 		Id:       "test",
@@ -79,7 +79,7 @@ func TestSubscriptionGet(t *testing.T) {
 		Interval: Month,
 	}
 
-	plan.Create(planParams)
+	plan.New(planParams)
 
 	subParams := &SubParams{
 		Customer: cust.Id,
@@ -87,7 +87,7 @@ func TestSubscriptionGet(t *testing.T) {
 		Quantity: 10,
 	}
 
-	subscription, _ := Create(subParams)
+	subscription, _ := New(subParams)
 	target, err := Get(subscription.Id, &SubParams{Customer: cust.Id})
 
 	if err != nil {
@@ -111,7 +111,7 @@ func TestSubscriptionCancel(t *testing.T) {
 		},
 	}
 
-	cust, _ := customer.Create(customerParams)
+	cust, _ := customer.New(customerParams)
 
 	planParams := &PlanParams{
 		Id:       "test",
@@ -121,7 +121,7 @@ func TestSubscriptionCancel(t *testing.T) {
 		Interval: Month,
 	}
 
-	plan.Create(planParams)
+	plan.New(planParams)
 
 	subParams := &SubParams{
 		Customer: cust.Id,
@@ -129,7 +129,7 @@ func TestSubscriptionCancel(t *testing.T) {
 		Quantity: 10,
 	}
 
-	subscription, _ := Create(subParams)
+	subscription, _ := New(subParams)
 	err := Cancel(subscription.Id, &SubParams{Customer: cust.Id})
 
 	if err != nil {
@@ -149,7 +149,7 @@ func TestSubscriptionUpdate(t *testing.T) {
 		},
 	}
 
-	cust, _ := customer.Create(customerParams)
+	cust, _ := customer.New(customerParams)
 
 	planParams := &PlanParams{
 		Id:       "test",
@@ -159,7 +159,7 @@ func TestSubscriptionUpdate(t *testing.T) {
 		Interval: Month,
 	}
 
-	plan.Create(planParams)
+	plan.New(planParams)
 
 	subParams := &SubParams{
 		Customer: cust.Id,
@@ -167,7 +167,7 @@ func TestSubscriptionUpdate(t *testing.T) {
 		Quantity: 10,
 	}
 
-	subscription, _ := Create(subParams)
+	subscription, _ := New(subParams)
 	updatedSub := &SubParams{
 		Customer:  cust.Id,
 		NoProrate: true,
@@ -195,7 +195,7 @@ func TestSubscriptionDiscount(t *testing.T) {
 		Percent:  99,
 	}
 
-	coupon.Create(couponParams)
+	coupon.New(couponParams)
 
 	customerParams := &CustomerParams{
 		Card: &CardParams{
@@ -206,7 +206,7 @@ func TestSubscriptionDiscount(t *testing.T) {
 		Coupon: "sub_coupon",
 	}
 
-	cust, _ := customer.Create(customerParams)
+	cust, _ := customer.New(customerParams)
 
 	planParams := &PlanParams{
 		Id:       "test",
@@ -216,7 +216,7 @@ func TestSubscriptionDiscount(t *testing.T) {
 		Interval: Month,
 	}
 
-	plan.Create(planParams)
+	plan.New(planParams)
 
 	subParams := &SubParams{
 		Customer: cust.Id,
@@ -225,7 +225,7 @@ func TestSubscriptionDiscount(t *testing.T) {
 		Coupon:   "sub_coupon",
 	}
 
-	target, err := Create(subParams)
+	target, err := New(subParams)
 
 	if err != nil {
 		t.Error(err)
@@ -263,7 +263,7 @@ func TestSubscriptionList(t *testing.T) {
 		},
 	}
 
-	cust, _ := customer.Create(customerParams)
+	cust, _ := customer.New(customerParams)
 
 	planParams := &PlanParams{
 		Id:       "test",
@@ -273,7 +273,7 @@ func TestSubscriptionList(t *testing.T) {
 		Interval: Month,
 	}
 
-	plan.Create(planParams)
+	plan.New(planParams)
 
 	subParams := &SubParams{
 		Customer: cust.Id,
@@ -282,7 +282,7 @@ func TestSubscriptionList(t *testing.T) {
 	}
 
 	for i := 0; i < 5; i++ {
-		Create(subParams)
+		New(subParams)
 	}
 
 	i := List(&SubListParams{Customer: cust.Id})

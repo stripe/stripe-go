@@ -15,13 +15,13 @@ type Client struct {
 	Key string
 }
 
-// Create POSTs new cards either for a customer or recipient.
+// New POSTs new cards either for a customer or recipient.
 // For more details see https://stripe.com/docs/api#create_card.
-func Create(params *CardParams) (*Card, error) {
-	return getC().Create(params)
+func New(params *CardParams) (*Card, error) {
+	return getC().New(params)
 }
 
-func (c Client) Create(params *CardParams) (*Card, error) {
+func (c Client) New(params *CardParams) (*Card, error) {
 	body := &url.Values{}
 	params.AppendDetails(body, true)
 	params.AppendTo(body)

@@ -12,7 +12,7 @@ func init() {
 	Key = GetTestKey()
 }
 
-func TestTransferCreate(t *testing.T) {
+func TestTransferNew(t *testing.T) {
 	recipientParams := &RecipientParams{
 		Name: "Recipient Name",
 		Type: Individual,
@@ -23,7 +23,7 @@ func TestTransferCreate(t *testing.T) {
 		},
 	}
 
-	rec, _ := recipient.Create(recipientParams)
+	rec, _ := recipient.New(recipientParams)
 
 	transferParams := &TransferParams{
 		Amount:    100,
@@ -33,7 +33,7 @@ func TestTransferCreate(t *testing.T) {
 		Statement: "Transfer",
 	}
 
-	target, err := Create(transferParams)
+	target, err := New(transferParams)
 
 	if err != nil {
 		t.Error(err)
@@ -94,7 +94,7 @@ func TestTransferGet(t *testing.T) {
 		},
 	}
 
-	rec, _ := recipient.Create(recipientParams)
+	rec, _ := recipient.New(recipientParams)
 
 	transferParams := &TransferParams{
 		Amount:    100,
@@ -102,7 +102,7 @@ func TestTransferGet(t *testing.T) {
 		Recipient: rec.Id,
 	}
 
-	trans, _ := Create(transferParams)
+	trans, _ := New(transferParams)
 
 	target, err := Get(trans.Id, nil)
 
@@ -132,7 +132,7 @@ func TestTransferUpdate(t *testing.T) {
 		},
 	}
 
-	rec, _ := recipient.Create(recipientParams)
+	rec, _ := recipient.New(recipientParams)
 
 	transferParams := &TransferParams{
 		Amount:    100,
@@ -141,7 +141,7 @@ func TestTransferUpdate(t *testing.T) {
 		Desc:      "Original",
 	}
 
-	trans, _ := Create(transferParams)
+	trans, _ := New(transferParams)
 
 	updated := &TransferParams{
 		Desc: "Updated",
@@ -172,7 +172,7 @@ func TestTransferList(t *testing.T) {
 		},
 	}
 
-	rec, _ := recipient.Create(recipientParams)
+	rec, _ := recipient.New(recipientParams)
 
 	transferParams := &TransferParams{
 		Amount:    100,
@@ -181,7 +181,7 @@ func TestTransferList(t *testing.T) {
 	}
 
 	for i := 0; i < 5; i++ {
-		Create(transferParams)
+		New(transferParams)
 	}
 
 	i := List(&TransferListParams{Recipient: rec.Id})

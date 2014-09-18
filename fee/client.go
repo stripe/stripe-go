@@ -35,31 +35,6 @@ func (c Client) Get(id string, params *FeeParams) (*Fee, error) {
 	return fee, err
 }
 
-// RefundFee refunds the application fee collected.
-// For more details see https://stripe.com/docs/api#refund_application_fee.
-func RefundFee(id string, params *FeeParams) (*FeeRefund, error) {
-	return getC().Refund(id, params)
-}
-
-func (c Client) Refund(id string, params *FeeParams) (*FeeRefund, error) {
-	var body *url.Values
-
-	if params != nil {
-		body = &url.Values{}
-
-		if params.Amount > 0 {
-			body.Add("amount", strconv.FormatUint(params.Amount, 10))
-		}
-
-		params.AppendTo(body)
-	}
-
-	refund := &FeeRefund{}
-	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refunds", id), c.Key, body, refund)
-
-	return refund, err
-}
-
 // List returns a list of application fees.
 // For more details see https://stripe.com/docs/api#list_application_fees.
 func List(params *FeeListParams) *FeeIter {

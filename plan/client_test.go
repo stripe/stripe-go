@@ -12,7 +12,7 @@ func init() {
 	Key = GetTestKey()
 }
 
-func TestPlanCreate(t *testing.T) {
+func TestPlanNew(t *testing.T) {
 	planParams := &PlanParams{
 		Id:            "test_plan",
 		Name:          "Test Plan",
@@ -24,7 +24,7 @@ func TestPlanCreate(t *testing.T) {
 		Statement:     "Test Plan",
 	}
 
-	target, err := Create(planParams)
+	target, err := New(planParams)
 
 	if err != nil {
 		t.Error(err)
@@ -74,7 +74,7 @@ func TestPlanGet(t *testing.T) {
 		Interval: Month,
 	}
 
-	Create(planParams)
+	New(planParams)
 	target, err := Get(planParams.Id, nil)
 
 	if err != nil {
@@ -100,7 +100,7 @@ func TestPlanUpdate(t *testing.T) {
 		Statement:     "Original Plan",
 	}
 
-	Create(planParams)
+	New(planParams)
 
 	updatedPlan := &PlanParams{
 		Name:      "Updated Name",
@@ -135,7 +135,7 @@ func TestPlanList(t *testing.T) {
 			Interval: Month,
 		}
 
-		Create(planParams)
+		New(planParams)
 	}
 
 	params := &PlanListParams{}

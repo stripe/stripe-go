@@ -14,13 +14,13 @@ type Client struct {
 	Key string
 }
 
-// Create POSTs new customers.
+// New POSTs new customers.
 // For more details see https://stripe.com/docs/api#create_customer.
-func Create(params *CustomerParams) (*Customer, error) {
-	return getC().Create(params)
+func New(params *CustomerParams) (*Customer, error) {
+	return getC().New(params)
 }
 
-func (c Client) Create(params *CustomerParams) (*Customer, error) {
+func (c Client) New(params *CustomerParams) (*Customer, error) {
 	var body *url.Values
 
 	if params != nil {

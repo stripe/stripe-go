@@ -14,13 +14,13 @@ type Client struct {
 	Key string
 }
 
-// Create POSTs a new recipient.
+// New POSTs a new recipient.
 // For more details see https://stripe.com/docs/api#create_recipient.
-func Create(params *RecipientParams) (*Recipient, error) {
-	return getC().Create(params)
+func New(params *RecipientParams) (*Recipient, error) {
+	return getC().New(params)
 }
 
-func (c Client) Create(params *RecipientParams) (*Recipient, error) {
+func (c Client) New(params *RecipientParams) (*Recipient, error) {
 	body := &url.Values{
 		"name": {params.Name},
 		"type": {string(params.Type)},

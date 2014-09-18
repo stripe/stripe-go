@@ -15,13 +15,13 @@ type Client struct {
 	Key string
 }
 
-// Create POSTs new coupons.
+// New POSTs new coupons.
 // For more details see https://stripe.com/docs/api#create_coupon.
-func Create(params *CouponParams) (*Coupon, error) {
-	return getC().Create(params)
+func New(params *CouponParams) (*Coupon, error) {
+	return getC().New(params)
 }
 
-func (c Client) Create(params *CouponParams) (*Coupon, error) {
+func (c Client) New(params *CouponParams) (*Coupon, error) {
 	body := &url.Values{
 		"duration": {string(params.Duration)},
 	}

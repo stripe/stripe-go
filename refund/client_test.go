@@ -12,7 +12,7 @@ func init() {
 	Key = GetTestKey()
 }
 
-func TestRefundCreate(t *testing.T) {
+func TestRefundNew(t *testing.T) {
 	chargeParams := &ChargeParams{
 		Amount:   1000,
 		Currency: USD,
@@ -23,10 +23,10 @@ func TestRefundCreate(t *testing.T) {
 		},
 	}
 
-	res, _ := charge.Create(chargeParams)
+	res, _ := charge.New(chargeParams)
 
 	// full refund
-	ref, err := Create(&RefundParams{Charge: res.Id})
+	ref, err := New(&RefundParams{Charge: res.Id})
 
 	if err != nil {
 		t.Error(err)
@@ -62,7 +62,7 @@ func TestRefundCreate(t *testing.T) {
 		t.Errorf("Refund charge %q does not match expected value %v\n", target.Refunds.Values[0].Charge, target.Id)
 	}
 
-	res, err = charge.Create(chargeParams)
+	res, err = charge.New(chargeParams)
 
 	// partial refund
 	refundParams := &RefundParams{
@@ -70,7 +70,7 @@ func TestRefundCreate(t *testing.T) {
 		Amount: 253,
 	}
 
-	Create(refundParams)
+	New(refundParams)
 
 	target, _ = charge.Get(res.Id, nil)
 
@@ -94,8 +94,8 @@ func TestRefundGet(t *testing.T) {
 		},
 	}
 
-	ch, _ := charge.Create(chargeParams)
-	ref, _ := Create(&RefundParams{Charge: ch.Id})
+	ch, _ := charge.New(chargeParams)
+	ref, _ := New(&RefundParams{Charge: ch.Id})
 
 	target, err := Get(ref.Id, &RefundParams{Charge: ch.Id})
 
@@ -119,9 +119,9 @@ func TestRefundList(t *testing.T) {
 		},
 	}
 
-	ch, _ := charge.Create(chargeParams)
+	ch, _ := charge.New(chargeParams)
 	for i := 0; i < 4; i++ {
-		Create(&RefundParams{Charge: ch.Id, Amount: 200})
+		New(&RefundParams{Charge: ch.Id, Amount: 200})
 	}
 
 	i := List(&RefundListParams{Charge: ch.Id})

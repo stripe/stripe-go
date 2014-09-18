@@ -14,13 +14,13 @@ type Client struct {
 	Key string
 }
 
-// Create POSTs a new card or bank account.
+// New POSTs a new card or bank account.
 // For more details see https://stripe.com/docs/api#create_card_Token and https://stripe.com/docs/api#create_bank_account_token.
-func Create(params *TokenParams) (*Token, error) {
-	return getC().Create(params)
+func New(params *TokenParams) (*Token, error) {
+	return getC().New(params)
 }
 
-func (c Client) Create(params *TokenParams) (*Token, error) {
+func (c Client) New(params *TokenParams) (*Token, error) {
 	body := &url.Values{}
 	token := c.Key
 

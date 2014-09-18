@@ -11,7 +11,7 @@ func init() {
 	Key = GetTestKey()
 }
 
-func TestRecipientCreate(t *testing.T) {
+func TestRecipientNew(t *testing.T) {
 	recipientParams := &RecipientParams{
 		Name:  "Recipient Name",
 		Type:  Individual,
@@ -31,7 +31,7 @@ func TestRecipientCreate(t *testing.T) {
 		},
 	}
 
-	target, err := Create(recipientParams)
+	target, err := New(recipientParams)
 
 	if err != nil {
 		t.Error(err)
@@ -94,7 +94,7 @@ func TestRecipientGet(t *testing.T) {
 		Type: Individual,
 	}
 
-	rec, _ := Create(recipientParams)
+	rec, _ := New(recipientParams)
 
 	target, err := Get(rec.Id, nil)
 
@@ -117,7 +117,7 @@ func TestRecipientUpdate(t *testing.T) {
 		Desc:  "Original Desc",
 	}
 
-	original, _ := Create(recipientParams)
+	original, _ := New(recipientParams)
 
 	updated := &RecipientParams{
 		Name:  "Updated Name",
@@ -155,7 +155,7 @@ func TestRecipientList(t *testing.T) {
 	recipients := make([]string, 5)
 
 	for i := 0; i < 5; i++ {
-		rec, _ := Create(recipientParams)
+		rec, _ := New(recipientParams)
 		recipients[i] = rec.Id
 	}
 

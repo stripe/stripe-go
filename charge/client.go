@@ -16,13 +16,13 @@ type Client struct {
 	Key string
 }
 
-// Create POSTs new charges.
+// New POSTs new charges.
 // For more details see https://stripe.com/docs/api#create_charge.
-func Create(params *ChargeParams) (*Charge, error) {
-	return getC().Create(params)
+func New(params *ChargeParams) (*Charge, error) {
+	return getC().New(params)
 }
 
-func (c Client) Create(params *ChargeParams) (*Charge, error) {
+func (c Client) New(params *ChargeParams) (*Charge, error) {
 	body := &url.Values{
 		"amount":   {strconv.FormatUint(params.Amount, 10)},
 		"currency": {string(params.Currency)},

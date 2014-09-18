@@ -14,13 +14,13 @@ type Client struct {
 	Key string
 }
 
-// Create POSTs a new plan.
+// New POSTs a new plan.
 // For more details see https://stripe.com/docs/api#create_plan.
-func Create(params *PlanParams) (*Plan, error) {
-	return getC().Create(params)
+func New(params *PlanParams) (*Plan, error) {
+	return getC().New(params)
 }
 
-func (c Client) Create(params *PlanParams) (*Plan, error) {
+func (c Client) New(params *PlanParams) (*Plan, error) {
 	body := &url.Values{
 		"id":       {params.Id},
 		"name":     {params.Name},

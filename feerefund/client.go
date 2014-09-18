@@ -4,6 +4,7 @@ package feerefund
 import (
 	"fmt"
 	"net/url"
+	"strconv"
 
 	. "github.com/stripe/stripe-go"
 )
@@ -12,6 +13,29 @@ import (
 type Client struct {
 	B   Backend
 	Key string
+}
+
+// New refunds the application fee collected.
+// For more details see https://stripe.com/docs/api#refund_application_fee.
+func New(params *FeeRefundParams) (*FeeRefund, error) {
+	return getC().New(params)
+}
+
+func (c Client) New(params *FeeRefundParams) (*FeeRefund, error) {
+	body := &url.Values{}
+
+	body = &url.Values{}
+
+	if params.Amount > 0 {
+		body.Add("amount", strconv.FormatUint(params.Amount, 10))
+	}
+
+	params.AppendTo(body)
+
+	refund := &FeeRefund{}
+	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refunds", params.Fee), c.Key, body, refund)
+
+	return refund, err
 }
 
 // Get returns the details of a fee refund.

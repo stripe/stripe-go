@@ -25,7 +25,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		},
 	}
 
-	cust, _ := customer.Create(customerParams)
+	cust, _ := customer.New(customerParams)
 
 	item := &InvoiceItemParams{
 		Customer: cust.Id,
@@ -34,7 +34,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		Desc:     "Test Item",
 	}
 
-	targetItem, err := invoiceitem.Create(item)
+	targetItem, err := invoiceitem.New(item)
 
 	if err != nil {
 		t.Error(err)
@@ -66,7 +66,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		Statement: "Statement",
 	}
 
-	targetInvoice, err := Create(invoiceParams)
+	targetInvoice, err := New(invoiceParams)
 
 	if err != nil {
 		t.Error(err)

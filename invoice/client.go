@@ -15,13 +15,13 @@ type Client struct {
 	Key string
 }
 
-// Create POSTs new invoices.
+// New POSTs new invoices.
 // For more details see https://stripe.com/docs/api#create_invoice.
-func Create(params *InvoiceParams) (*Invoice, error) {
-	return getC().Create(params)
+func New(params *InvoiceParams) (*Invoice, error) {
+	return getC().New(params)
 }
 
-func (c Client) Create(params *InvoiceParams) (*Invoice, error) {
+func (c Client) New(params *InvoiceParams) (*Invoice, error) {
 	body := &url.Values{
 		"customer": {params.Customer},
 	}

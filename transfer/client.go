@@ -15,13 +15,13 @@ type Client struct {
 	Key string
 }
 
-// Create POSTs a new transfer.
+// New POSTs a new transfer.
 // For more details see https://stripe.com/docs/api#create_transfer.
-func Create(params *TransferParams) (*Transfer, error) {
-	return getC().Create(params)
+func New(params *TransferParams) (*Transfer, error) {
+	return getC().New(params)
 }
 
-func (c Client) Create(params *TransferParams) (*Transfer, error) {
+func (c Client) New(params *TransferParams) (*Transfer, error) {
 	body := &url.Values{
 		"amount":    {strconv.FormatInt(params.Amount, 10)},
 		"currency":  {string(params.Currency)},

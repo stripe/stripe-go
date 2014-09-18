@@ -13,7 +13,7 @@ func init() {
 	Key = GetTestKey()
 }
 
-func TestCustomerCreate(t *testing.T) {
+func TestCustomerNew(t *testing.T) {
 	customerParams := &CustomerParams{
 		Balance: -123,
 		Card: &CardParams{
@@ -26,7 +26,7 @@ func TestCustomerCreate(t *testing.T) {
 		Email: "a@b.com",
 	}
 
-	target, err := Create(customerParams)
+	target, err := New(customerParams)
 
 	if err != nil {
 		t.Error(err)
@@ -60,7 +60,7 @@ func TestCustomerCreate(t *testing.T) {
 }
 
 func TestCustomerGet(t *testing.T) {
-	res, _ := Create(nil)
+	res, _ := New(nil)
 
 	target, err := Get(res.Id, nil)
 
@@ -76,7 +76,7 @@ func TestCustomerGet(t *testing.T) {
 }
 
 func TestCustomerDel(t *testing.T) {
-	res, _ := Create(nil)
+	res, _ := New(nil)
 
 	err := Del(res.Id)
 
@@ -97,7 +97,7 @@ func TestCustomerUpdate(t *testing.T) {
 		Email: "first@b.com",
 	}
 
-	original, _ := Create(customerParams)
+	original, _ := New(customerParams)
 
 	updated := &CustomerParams{
 		Balance: -10,
@@ -142,13 +142,13 @@ func TestCustomerDiscount(t *testing.T) {
 		Percent:  99,
 	}
 
-	coupon.Create(couponParams)
+	coupon.New(couponParams)
 
 	customerParams := &CustomerParams{
 		Coupon: "customer_coupon",
 	}
 
-	target, err := Create(customerParams)
+	target, err := New(customerParams)
 
 	if err != nil {
 		t.Error(err)
@@ -180,7 +180,7 @@ func TestCustomerList(t *testing.T) {
 	customers := make([]string, 5)
 
 	for i := 0; i < 5; i++ {
-		cust, _ := Create(nil)
+		cust, _ := New(nil)
 		customers[i] = cust.Id
 	}
 

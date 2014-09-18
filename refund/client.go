@@ -15,13 +15,13 @@ type Client struct {
 	Key string
 }
 
-// Create refunds a charge previously created.
+// New refunds a charge previously created.
 // For more details see https://stripe.com/docs/api#refund_charge.
-func Create(params *RefundParams) (*Refund, error) {
-	return getC().Create(params)
+func New(params *RefundParams) (*Refund, error) {
+	return getC().New(params)
 }
 
-func (c Client) Create(params *RefundParams) (*Refund, error) {
+func (c Client) New(params *RefundParams) (*Refund, error) {
 	body := &url.Values{}
 
 	if params.Amount > 0 {

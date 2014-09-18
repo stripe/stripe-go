@@ -11,7 +11,7 @@ func init() {
 	Key = GetTestKey()
 }
 
-func TestTokenCreate(t *testing.T) {
+func TestTokenNew(t *testing.T) {
 	tokenParams := &TokenParams{
 		Card: &CardParams{
 			Number: "4242424242424242",
@@ -20,7 +20,7 @@ func TestTokenCreate(t *testing.T) {
 		},
 	}
 
-	target, err := Create(tokenParams)
+	target, err := New(tokenParams)
 
 	if err != nil {
 		t.Error(err)
@@ -52,7 +52,7 @@ func TestTokenGet(t *testing.T) {
 		},
 	}
 
-	tok, _ := Create(tokenParams)
+	tok, _ := New(tokenParams)
 
 	target, err := Get(tok.Id, nil)
 

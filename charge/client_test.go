@@ -11,7 +11,7 @@ func init() {
 	Key = GetTestKey()
 }
 
-func TestChargeCreate(t *testing.T) {
+func TestChargeNew(t *testing.T) {
 	chargeParams := &ChargeParams{
 		Amount:   1000,
 		Currency: USD,
@@ -25,7 +25,7 @@ func TestChargeCreate(t *testing.T) {
 		Email:     "a@b.com",
 	}
 
-	target, err := Create(chargeParams)
+	target, err := New(chargeParams)
 
 	if err != nil {
 		t.Error(err)
@@ -63,7 +63,7 @@ func TestChargeGet(t *testing.T) {
 		},
 	}
 
-	res, _ := Create(chargeParams)
+	res, _ := New(chargeParams)
 
 	target, err := Get(res.Id, nil)
 
@@ -88,7 +88,7 @@ func TestChargeUpdate(t *testing.T) {
 		Desc: "original description",
 	}
 
-	res, _ := Create(chargeParams)
+	res, _ := New(chargeParams)
 
 	if res.Desc != chargeParams.Desc {
 		t.Errorf("Original description %q does not match expected description %q\n", res.Desc, chargeParams.Desc)
@@ -121,7 +121,7 @@ func TestChargeCapture(t *testing.T) {
 		NoCapture: true,
 	}
 
-	res, _ := Create(chargeParams)
+	res, _ := New(chargeParams)
 
 	if res.Captured {
 		t.Errorf("The charge should not have been captured\n")
@@ -138,7 +138,7 @@ func TestChargeCapture(t *testing.T) {
 		t.Errorf("Expected to have captured this charge after full capture\n")
 	}
 
-	res, err = Create(chargeParams)
+	res, err = New(chargeParams)
 
 	// partial capture
 	capture := &CaptureParams{

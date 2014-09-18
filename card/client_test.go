@@ -13,7 +13,7 @@ func init() {
 	Key = GetTestKey()
 }
 
-func TestCardCreate(t *testing.T) {
+func TestCardNew(t *testing.T) {
 	customerParams := &CustomerParams{
 		Card: &CardParams{
 			Number: "378282246310005",
@@ -22,7 +22,7 @@ func TestCardCreate(t *testing.T) {
 		},
 	}
 
-	cust, _ := customer.Create(customerParams)
+	cust, _ := customer.New(customerParams)
 
 	cardParams := &CardParams{
 		Number:   "4242424242424242",
@@ -32,7 +32,7 @@ func TestCardCreate(t *testing.T) {
 		CVC:      "1234",
 	}
 
-	target, err := Create(cardParams)
+	target, err := New(cardParams)
 
 	if err != nil {
 		t.Error(err)
@@ -70,7 +70,7 @@ func TestCardGet(t *testing.T) {
 		},
 	}
 
-	rec, _ := recipient.Create(recipientParams)
+	rec, _ := recipient.New(recipientParams)
 
 	target, err := Get(rec.DefaultCard.Id, &CardParams{Recipient: rec.Id})
 
@@ -102,7 +102,7 @@ func TestCardDel(t *testing.T) {
 		},
 	}
 
-	cust, _ := customer.Create(customerParams)
+	cust, _ := customer.New(customerParams)
 
 	err := Del(cust.DefaultCard.Id, &CardParams{Customer: cust.Id})
 	if err != nil {
@@ -122,7 +122,7 @@ func TestCardUpdate(t *testing.T) {
 		},
 	}
 
-	cust, err := customer.Create(customerParams)
+	cust, err := customer.New(customerParams)
 
 	if err != nil {
 		t.Error(err)
@@ -155,7 +155,7 @@ func TestCardList(t *testing.T) {
 		},
 	}
 
-	cust, _ := customer.Create(customerParams)
+	cust, _ := customer.New(customerParams)
 
 	card := &CardParams{
 		Number:   "4242424242424242",
@@ -164,7 +164,7 @@ func TestCardList(t *testing.T) {
 		Customer: cust.Id,
 	}
 
-	Create(card)
+	New(card)
 
 	i := List(&CardListParams{Customer: cust.Id})
 	for !i.Stop() {

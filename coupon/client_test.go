@@ -13,7 +13,7 @@ func init() {
 	Key = GetTestKey()
 }
 
-func TestCouponCreate(t *testing.T) {
+func TestCouponNew(t *testing.T) {
 	couponParams := &CouponParams{
 		Amount:         99,
 		Currency:       USD,
@@ -23,7 +23,7 @@ func TestCouponCreate(t *testing.T) {
 		RedeemBy:       time.Now().AddDate(0, 0, 30).Unix(),
 	}
 
-	target, err := Create(couponParams)
+	target, err := New(couponParams)
 
 	if err != nil {
 		t.Error(err)
@@ -67,7 +67,7 @@ func TestCouponGet(t *testing.T) {
 		Percent:  50,
 	}
 
-	Create(couponParams)
+	New(couponParams)
 	target, err := Get(couponParams.Id, nil)
 
 	if err != nil {
@@ -93,7 +93,7 @@ func TestCouponList(t *testing.T) {
 			Percent:  50,
 		}
 
-		Create(couponParams)
+		New(couponParams)
 	}
 
 	i := List(nil)

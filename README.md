@@ -82,7 +82,7 @@ stripe.Key = "sk_key"
 stripe.SetBackend(backend) // optional, useful for mocking
 
 // Create
-resource, err := resource.Create(ResourceParams)
+resource, err := resource.New(ResourceParams)
 
 // Get
 resource, err := resource.Get(id, ResourceParams)
@@ -120,7 +120,7 @@ stripe.Init("sk_key", nil)
 // entirely in tests.
 
 // Create
-resource, err := stripe.Resources.Create(ResourceParams)
+resource, err := stripe.Resources.New(ResourceParams)
 
 // Get
 resource, err := stripe.Resources.Get(id, ResourceParams)
@@ -176,7 +176,7 @@ params := &stripe.CustomerParams{
 		Email: "gostripe@stripe.com",
 	}
 
-customer, err := customer.Create(params)
+customer, err := customer.New(params)
 ```
 
 ### Charges
@@ -185,18 +185,19 @@ customer, err := customer.Create(params)
 params := &stripe.ChargeListParams{Customer: customer.Id}
 params.Filters.AddFilter("include", "", "total_count")
 
-charges, err := charge.List(params)
-
-for _, charge := range(charges.Values) {
-   // perform an action on each charge
+i := charge.List(params)
+for !i.Stop() {
+  c, err := i.Next()
+  // perform an action on each charge
 }
 ```
 ### Events
 
 ```go
-events, err := event.List(nil)
+i := event.List(nil)
+for !i.Stop() {
+  e, err := i.Next()
 
-for _, e := range(events.Values) {
   // access event data via e.GetObjValue("resource_name_based_on_type", "resource_property_name")
   // alternatively you can access values via e.Data.Obj["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
 

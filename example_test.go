@@ -10,7 +10,7 @@ import (
 	"github.com/stripe/stripe-go/plan"
 )
 
-func ExampleCharge_post() {
+func ExampleCharge_new() {
 	stripe.Key = "sk_key"
 
 	params := &stripe.ChargeParams{
@@ -24,7 +24,7 @@ func ExampleCharge_post() {
 		},
 	}
 
-	ch, err := charge.Create(params)
+	ch, err := charge.New(params)
 
 	if err != nil {
 		log.Fatal(err)

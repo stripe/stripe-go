@@ -48,7 +48,7 @@ func TestBalanceGetTx(t *testing.T) {
 		Desc: "charge transaction",
 	}
 
-	res, _ := charge.Create(chargeParams)
+	res, _ := charge.New(chargeParams)
 
 	target, err := GetTx(res.Tx.Id, nil)
 
