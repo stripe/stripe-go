@@ -243,7 +243,7 @@ func TestSubscriptionDiscount(t *testing.T) {
 		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.Id, subParams.Coupon)
 	}
 
-	err = discount.DelSubscription(cust.Id, target.Id)
+	err = discount.DelSub(cust.Id, target.Id)
 
 	if err != nil {
 		t.Error(err)
