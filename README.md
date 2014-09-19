@@ -36,29 +36,6 @@ and [API changelog](https://stripe.com/docs/upgrades).
 go get github.com/stripe/stripe-go
 ```
 
-### Development
-
-Pull requests from the community are welcome. If you submit one, please keep
-the following guidelines in mind:
-
-1. Code should be `go fmt` compliant.
-2. All types, structs and funcs should be documented.
-3. Ensure that `make checkin` succeeds.
-
-## Test
-
-For running additional tests, follow the steps below:
-
-Set the STRIPE_KEY environment variable to match your test private key:
-```sh
-export STRIPE_KEY=YOUR_API_KEY
-```
-
-Then run:
-```sh
-make test
-```
-
 ## Usage
 
 While some resources may contain more/less APIs, the following pattern is
@@ -206,4 +183,28 @@ for !i.Stop() {
 }
 ```
 
-For any requests, bug or comments, please [open an issue](https://github.com/stripe/stripe-go/issues/new) or [submit a pull request](https://github.com/stripe/stripe-go/pulls).
+## Development
+
+Pull requests from the community are welcome. If you submit one, please keep
+the following guidelines in mind:
+
+1. Code should be `go fmt` compliant.
+2. All types, structs and funcs should be documented.
+3. Ensure that `make checkin` succeeds.
+
+## Test
+
+For running additional tests, follow the steps below:
+
+Set the STRIPE_KEY environment variable to match your test private key:
+```sh
+export STRIPE_KEY=YOUR_API_KEY
+```
+
+Then run:
+```sh
+make test
+```
+
+For any requests, bug or comments, please [open an issue](https://github.com/stripe/stripe-go/issues/new)
+or [submit a pull request](https://github.com/stripe/stripe-go/pulls).
