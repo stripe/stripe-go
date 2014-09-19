@@ -82,19 +82,19 @@ stripe.Key = "sk_key"
 stripe.SetBackend(backend) // optional, useful for mocking
 
 // Create
-resource, err := resource.New(ResourceParams)
+resource, err := resource.New(stripe.ResourceParams)
 
 // Get
-resource, err := resource.Get(id, ResourceParams)
+resource, err := resource.Get(id, stripe.ResourceParams)
 
 // Update
-resource, err := resource.Update(ResourceParams)
+resource, err := resource.Update(stripe.ResourceParams)
 
 // Delete
 err := resource.Del(id)
 
 // List
-i := resource.List(ResourceListParams)
+i := resource.List(stripe.ResourceListParams)
 for !i.Stop() {
   resource, err := i.Next()
 }
@@ -120,19 +120,19 @@ stripe.Init("sk_key", nil)
 // entirely in tests.
 
 // Create
-resource, err := stripe.Resources.New(ResourceParams)
+resource, err := stripe.Resources.New(stripe.ResourceParams)
 
 // Get
-resource, err := stripe.Resources.Get(id, ResourceParams)
+resource, err := stripe.Resources.Get(id, stripe.ResourceParams)
 
 // Update
-resource, err := stripe.Resources.Update(ResourceParams)
+resource, err := stripe.Resources.Update(stripe.ResourceParams)
 
 // Delete
 err := stripe.Resources.Del(id)
 
 // List
-i := stripe.Resources.List(ResourceListParams)
+i := stripe.Resources.List(stripe.ResourceListParams)
 for !i.Stop() {
   resource, err := i.Next()
 }
