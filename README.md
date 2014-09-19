@@ -206,4 +206,4 @@ for !i.Stop() {
 }
 ```
 
-For any requests, bug or comments, please [open an issue](https://github.com/stripe/stripe-go/issues/new).
+For any requests, bug or comments, please [open an issue](https://github.com/stripe/stripe-go/issues/new) or [submit a pull request](https://github.com/stripe/stripe-go/pulls).
