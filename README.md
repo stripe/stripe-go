@@ -113,26 +113,26 @@ import (
 )
 
 // Setup
-stripe := &client.Api{}
-stripe.Init("sk_key", nil)
+sc := &client.Api{}
+sc.Init("sk_key", nil)
 // the second parameter represents the Backend used by the client. It can be
 // useful to set one explicitly to either get a custom http.Client or mock it
 // entirely in tests.
 
 // Create
-resource, err := stripe.Resources.New(stripe.ResourceParams)
+resource, err := sc.Resources.New(stripe.ResourceParams)
 
 // Get
-resource, err := stripe.Resources.Get(id, stripe.ResourceParams)
+resource, err := sc.Resources.Get(id, stripe.ResourceParams)
 
 // Update
-resource, err := stripe.Resources.Update(stripe.ResourceParams)
+resource, err := sc.Resources.Update(stripe.ResourceParams)
 
 // Delete
-err := stripe.Resources.Del(id)
+err := sc.Resources.Del(id)
 
 // List
-i := stripe.Resources.List(stripe.ResourceListParams)
+i := sc.Resources.List(stripe.ResourceListParams)
 for !i.Stop() {
   resource, err := i.Next()
 }
