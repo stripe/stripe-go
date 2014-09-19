@@ -16,7 +16,7 @@ import (
 const defaultUrl = "https://api.stripe.com/v1"
 
 // apiversion is the currently supported API version
-const apiversion = "2014-08-20"
+const apiversion = "2014-09-08"
 
 // clientversion is the binding version
 const clientversion = "1.0"
@@ -94,7 +94,7 @@ func (s *InternalBackend) Call(method, path, key string, body *url.Values, v int
 
 	req.SetBasicAuth(key, "")
 	req.Header.Add("Stripe-Version", apiversion)
-	req.Header.Add("User-Agent", "Stripe.Go-"+clientversion)
+	req.Header.Add("User-Agent", "Stripe/v1 GoBindings/"+clientversion)
 
 	log.Printf("Requesting %v %q\n", method, path)
 	start := time.Now()
