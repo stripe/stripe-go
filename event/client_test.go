@@ -69,5 +69,8 @@ func TestEvent(t *testing.T) {
 		if targetVal != val {
 			t.Errorf("Value %q does not match expected value %q\n", targetVal, val)
 		}
+
+		// no need to actually check the value, we're just validating this doesn't bomb
+		e.GetObjValue("does not exist")
 	}
 }
