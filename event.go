@@ -44,6 +44,8 @@ func getValue(m map[string]interface{}, keys []string) string {
 	for i := 1; i < len(keys); i++ {
 		node = node.(map[string]interface{})[keys[i]]
 	}
-
+	if node == nil {
+		return ""
+	}
 	return node.(string)
 }
