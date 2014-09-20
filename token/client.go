@@ -42,6 +42,22 @@ func (c Client) New(params *stripe.TokenParams) (*stripe.Token, error) {
 		return nil, err
 	}
 
+	if len(params.PaymentUserAgent) > 0 {
+		body.Add("payment_user_agent", params.PaymentUserAgent)
+	}
+
+	if len(params.UserAgent) > 0 {
+		body.Add("user_agent", params.UserAgent)
+	}
+
+	if len(params.Referrer) > 0 {
+		body.Add("referrer", params.Referrer)
+	}
+
+	if len(params.Ip) > 0 {
+		body.Add("ip", params.Ip)
+	}
+
 	params.AppendTo(body)
 
 	tok := &stripe.Token{}
