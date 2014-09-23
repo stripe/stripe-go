@@ -130,10 +130,11 @@ stripe.Init("access_token", nil)
 
 ## Documentation
 
-Below are a few simple examples. For details on all the functionality in this
-library, see the [GoDoc](http://godoc.org/github.com/stripe/stripe-go) documentation.
+For a comprehensive list of example, check out the [API documentation](https://stripe.com/docs/go).
 
-For more details about Stripe, check out the [documentation](https://stripe.com/docs).
+For details on all the functionality in this library, see the [GoDoc](http://godoc.org/github.com/stripe/stripe-go) documentation.
+
+Below are a few simple examples.
 
 ### Customers
 
