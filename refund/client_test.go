@@ -134,7 +134,7 @@ func TestRefundList(t *testing.T) {
 		}
 
 		if target.Amount != 200 {
-			t.Error("Amount %v does not match expected value\n", target.Amount)
+			t.Errorf("Amount %v does not match expected value\n", target.Amount)
 		}
 
 		if target.Charge != ch.ID {
