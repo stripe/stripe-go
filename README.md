@@ -134,7 +134,7 @@ For a comprehensive list of examples, check out the [API documentation](https://
 
 For details on all the functionality in this library, see the [GoDoc](http://godoc.org/github.com/stripe/stripe-go) documentation.
 
-Below are a few simple examples.
+Below are a few simple examples:
 
 ### Customers
 
