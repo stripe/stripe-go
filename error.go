@@ -14,7 +14,7 @@ type ErrorCode string
 
 const (
 	InvalidRequest ErrorType = "invalid_request_error"
-	ApiErr         ErrorType = "api_error"
+	APIErr         ErrorType = "api_error"
 	CardErr        ErrorType = "card_error"
 
 	IncorrectNum  ErrorCode = "incorrect_number"
@@ -38,7 +38,7 @@ type Error struct {
 	Msg            string    `json:"message"`
 	Code           ErrorCode `json:"code,omitempty"`
 	Param          string    `json:"param,omitempty"`
-	HttpStatusCode int       `json:"-"`
+	HTTPStatusCode int       `json:"-"`
 }
 
 // Error serializes the Error object and prints the JSON string.

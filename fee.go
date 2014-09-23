@@ -20,7 +20,7 @@ type FeeListParams struct {
 // Fee is the resource representing a Stripe application fee.
 // For more details see https://stripe.com/docs/api#application_fees.
 type Fee struct {
-	Id             string         `json:"id"`
+	ID             string         `json:"id"`
 	Live           bool           `json:"livemode"`
 	Account        *Account       `json:"account"`
 	Amount         uint64         `json:"amount"`
@@ -42,7 +42,7 @@ func (f *Fee) UnmarshalJSON(data []byte) error {
 		*f = Fee(ff)
 	} else {
 		// the id is surrounded by escaped \, so ignore those
-		f.Id = string(data[1 : len(data)-1])
+		f.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil

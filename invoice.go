@@ -28,14 +28,14 @@ type InvoiceListParams struct {
 // For more details see https://stripe.com/docs/api#invoice_lines.
 type InvoiceLineListParams struct {
 	ListParams
-	Id            string
+	ID            string
 	Customer, Sub string
 }
 
 // Invoice is the resource representing a Stripe invoice.
 // For more details see https://stripe.com/docs/api#invoice_object.
 type Invoice struct {
-	Id           string            `json:"id"`
+	ID           string            `json:"id"`
 	Live         bool              `json:"livemode"`
 	Amount       int64             `json:"amount_due"`
 	Attempts     uint64            `json:"attempt_count"`
@@ -67,7 +67,7 @@ type Invoice struct {
 // InvoiceLine is the resource representing a Stripe invoice line item.
 // For more details see https://stripe.com/docs/api#invoice_line_item_object.
 type InvoiceLine struct {
-	Id        string            `json:"id"`
+	ID        string            `json:"id"`
 	Live      bool              `json:"live_mode"`
 	Amount    int64             `json:"amount"`
 	Currency  Currency          `json:"currency"`
@@ -100,7 +100,7 @@ func (i *Invoice) UnmarshalJSON(data []byte) error {
 		*i = Invoice(ii)
 	} else {
 		// the id is surrounded by escaped \, so ignore those
-		i.Id = string(data[1 : len(data)-1])
+		i.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil

@@ -63,7 +63,7 @@ func (i *Iter) Next() (interface{}, error) {
 	}
 
 	ret := i.values[i.cur]
-	i.cur += 1
+	i.cur++
 
 	// we haven't reached the end of the page
 	if i.cur != len(i.values) {
@@ -78,10 +78,10 @@ func (i *Iter) Next() (interface{}, error) {
 	} else {
 		// determine if we're moving forward or backwards in paging
 		if len(i.params.End) != 0 {
-			i.params.End = reflect.ValueOf(i.values[0]).Elem().FieldByName("Id").String()
+			i.params.End = reflect.ValueOf(i.values[0]).Elem().FieldByName("ID").String()
 			i.qs.Set(endbefore, i.params.End)
 		} else {
-			i.params.Start = reflect.ValueOf(i.values[i.cur-1]).Elem().FieldByName("Id").String()
+			i.params.Start = reflect.ValueOf(i.values[i.cur-1]).Elem().FieldByName("ID").String()
 			i.qs.Set(startafter, i.params.Start)
 		}
 

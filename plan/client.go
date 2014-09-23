@@ -1,4 +1,4 @@
-// package plan provides the /plans APIs
+// Package plan provides the /plans APIs
 package plan
 
 import (
@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	Day   stripe.PlanInternval = "day"
-	Week  stripe.PlanInternval = "week"
-	Month stripe.PlanInternval = "month"
-	Year  stripe.PlanInternval = "year"
+	Day   stripe.PlanInterval = "day"
+	Week  stripe.PlanInterval = "week"
+	Month stripe.PlanInterval = "month"
+	Year  stripe.PlanInterval = "year"
 )
 
 // Client is used to invoke /plans APIs.
@@ -29,7 +29,7 @@ func New(params *stripe.PlanParams) (*stripe.Plan, error) {
 
 func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
 	body := &url.Values{
-		"id":       {params.Id},
+		"id":       {params.ID},
 		"name":     {params.Name},
 		"amount":   {strconv.FormatUint(params.Amount, 10)},
 		"currency": {string(params.Currency)},
@@ -150,7 +150,7 @@ func (c Client) List(params *stripe.PlanListParams) *Iter {
 	})}
 }
 
-// Plan iter is a iterator for list responses.
+// Iter is a iterator for list responses.
 type Iter struct {
 	Iter *stripe.Iter
 }

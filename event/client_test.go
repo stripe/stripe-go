@@ -29,8 +29,8 @@ func TestEvent(t *testing.T) {
 			t.Error("No nil values expected")
 		}
 
-		if len(e.Id) == 0 {
-			t.Errorf("Id is not set\n")
+		if len(e.ID) == 0 {
+			t.Errorf("ID is not set\n")
 		}
 
 		if e.Created == 0 {
@@ -53,14 +53,14 @@ func TestEvent(t *testing.T) {
 			t.Errorf("Object is empty\n")
 		}
 
-		target, err := Get(e.Id)
+		target, err := Get(e.ID)
 
 		if err != nil {
 			t.Error(err)
 		}
 
-		if e.Id != target.Id {
-			t.Errorf("Id %q does not match expected id %q\n", e.Id, target.Id)
+		if e.ID != target.ID {
+			t.Errorf("ID %q does not match expected id %q\n", e.ID, target.ID)
 		}
 
 		targetVal := e.GetObjValue("card", "last4")

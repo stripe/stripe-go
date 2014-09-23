@@ -28,7 +28,7 @@ func TestSubscriptionNew(t *testing.T) {
 	cust, _ := customer.New(customerParams)
 
 	planParams := &stripe.PlanParams{
-		Id:       "test",
+		ID:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: currency.USD,
@@ -38,7 +38,7 @@ func TestSubscriptionNew(t *testing.T) {
 	plan.New(planParams)
 
 	subParams := &stripe.SubParams{
-		Customer: cust.Id,
+		Customer: cust.ID,
 		Plan:     "test",
 		Quantity: 10,
 	}
@@ -49,7 +49,7 @@ func TestSubscriptionNew(t *testing.T) {
 		t.Error(err)
 	}
 
-	if target.Plan.Id != subParams.Plan {
+	if target.Plan.ID != subParams.Plan {
 		t.Errorf("Plan %q does not match expected plan %q\n", target.Plan, subParams.Plan)
 	}
 
@@ -57,7 +57,7 @@ func TestSubscriptionNew(t *testing.T) {
 		t.Errorf("Quantity %v does not match expected quantity %v\n", target.Quantity, subParams.Quantity)
 	}
 
-	customer.Del(cust.Id)
+	customer.Del(cust.ID)
 	plan.Del("test")
 }
 
@@ -73,7 +73,7 @@ func TestSubscriptionGet(t *testing.T) {
 	cust, _ := customer.New(customerParams)
 
 	planParams := &stripe.PlanParams{
-		Id:       "test",
+		ID:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: currency.USD,
@@ -83,23 +83,23 @@ func TestSubscriptionGet(t *testing.T) {
 	plan.New(planParams)
 
 	subParams := &stripe.SubParams{
-		Customer: cust.Id,
+		Customer: cust.ID,
 		Plan:     "test",
 		Quantity: 10,
 	}
 
 	subscription, _ := New(subParams)
-	target, err := Get(subscription.Id, &stripe.SubParams{Customer: cust.Id})
+	target, err := Get(subscription.ID, &stripe.SubParams{Customer: cust.ID})
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	if target.Id != subscription.Id {
-		t.Errorf("Subscription id %q does not match expected id %q\n", target.Id, subscription.Id)
+	if target.ID != subscription.ID {
+		t.Errorf("Subscription id %q does not match expected id %q\n", target.ID, subscription.ID)
 	}
 
-	customer.Del(cust.Id)
+	customer.Del(cust.ID)
 	plan.Del("test")
 }
 
@@ -115,7 +115,7 @@ func TestSubscriptionCancel(t *testing.T) {
 	cust, _ := customer.New(customerParams)
 
 	planParams := &stripe.PlanParams{
-		Id:       "test",
+		ID:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: currency.USD,
@@ -125,19 +125,19 @@ func TestSubscriptionCancel(t *testing.T) {
 	plan.New(planParams)
 
 	subParams := &stripe.SubParams{
-		Customer: cust.Id,
+		Customer: cust.ID,
 		Plan:     "test",
 		Quantity: 10,
 	}
 
 	subscription, _ := New(subParams)
-	err := Cancel(subscription.Id, &stripe.SubParams{Customer: cust.Id})
+	err := Cancel(subscription.ID, &stripe.SubParams{Customer: cust.ID})
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	customer.Del(cust.Id)
+	customer.Del(cust.ID)
 	plan.Del("test")
 }
 
@@ -153,7 +153,7 @@ func TestSubscriptionUpdate(t *testing.T) {
 	cust, _ := customer.New(customerParams)
 
 	planParams := &stripe.PlanParams{
-		Id:       "test",
+		ID:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: currency.USD,
@@ -163,19 +163,19 @@ func TestSubscriptionUpdate(t *testing.T) {
 	plan.New(planParams)
 
 	subParams := &stripe.SubParams{
-		Customer: cust.Id,
+		Customer: cust.ID,
 		Plan:     "test",
 		Quantity: 10,
 	}
 
 	subscription, _ := New(subParams)
 	updatedSub := &stripe.SubParams{
-		Customer:  cust.Id,
+		Customer:  cust.ID,
 		NoProrate: true,
 		Quantity:  13,
 	}
 
-	target, err := Update(subscription.Id, updatedSub)
+	target, err := Update(subscription.ID, updatedSub)
 
 	if err != nil {
 		t.Error(err)
@@ -185,14 +185,14 @@ func TestSubscriptionUpdate(t *testing.T) {
 		t.Errorf("Quantity %v does not match expected quantity $v\n", target.Quantity, updatedSub.Quantity)
 	}
 
-	customer.Del(cust.Id)
+	customer.Del(cust.ID)
 	plan.Del("test")
 }
 
 func TestSubscriptionDiscount(t *testing.T) {
 	couponParams := &stripe.CouponParams{
 		Duration: coupon.Forever,
-		Id:       "sub_coupon",
+		ID:       "sub_coupon",
 		Percent:  99,
 	}
 
@@ -210,7 +210,7 @@ func TestSubscriptionDiscount(t *testing.T) {
 	cust, _ := customer.New(customerParams)
 
 	planParams := &stripe.PlanParams{
-		Id:       "test",
+		ID:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: currency.USD,
@@ -220,7 +220,7 @@ func TestSubscriptionDiscount(t *testing.T) {
 	plan.New(planParams)
 
 	subParams := &stripe.SubParams{
-		Customer: cust.Id,
+		Customer: cust.ID,
 		Plan:     "test",
 		Quantity: 10,
 		Coupon:   "sub_coupon",
@@ -240,17 +240,17 @@ func TestSubscriptionDiscount(t *testing.T) {
 		t.Errorf("Coupon not found, but one was expected\n")
 	}
 
-	if target.Discount.Coupon.Id != subParams.Coupon {
-		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.Id, subParams.Coupon)
+	if target.Discount.Coupon.ID != subParams.Coupon {
+		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.ID, subParams.Coupon)
 	}
 
-	err = discount.DelSub(cust.Id, target.Id)
+	err = discount.DelSub(cust.ID, target.ID)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	customer.Del(cust.Id)
+	customer.Del(cust.ID)
 	plan.Del("test")
 	coupon.Del("sub_coupon")
 }
@@ -267,7 +267,7 @@ func TestSubscriptionList(t *testing.T) {
 	cust, _ := customer.New(customerParams)
 
 	planParams := &stripe.PlanParams{
-		Id:       "test",
+		ID:       "test",
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: currency.USD,
@@ -277,7 +277,7 @@ func TestSubscriptionList(t *testing.T) {
 	plan.New(planParams)
 
 	subParams := &stripe.SubParams{
-		Customer: cust.Id,
+		Customer: cust.ID,
 		Plan:     "test",
 		Quantity: 10,
 	}
@@ -286,7 +286,7 @@ func TestSubscriptionList(t *testing.T) {
 		New(subParams)
 	}
 
-	i := List(&stripe.SubListParams{Customer: cust.Id})
+	i := List(&stripe.SubListParams{Customer: cust.ID})
 	for !i.Stop() {
 		target, err := i.Next()
 
@@ -303,6 +303,6 @@ func TestSubscriptionList(t *testing.T) {
 		}
 	}
 
-	customer.Del(cust.Id)
+	customer.Del(cust.ID)
 	plan.Del("test")
 }

@@ -19,7 +19,7 @@ type TokenParams struct {
 // Token is the resource representing a Stripe token.
 // For more details see https://stripe.com/docs/api#tokens.
 type Token struct {
-	Id      string       `json:"id"`
+	ID      string       `json:"id"`
 	Live    bool         `json:"livemode"`
 	Created int64        `json:"created"`
 	Type    TokenType    `json:"type"`

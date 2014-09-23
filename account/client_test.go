@@ -18,7 +18,7 @@ func TestAccountGet(t *testing.T) {
 		t.Error(err)
 	}
 
-	if len(target.Id) == 0 {
+	if len(target.ID) == 0 {
 		t.Errorf("Account is missing id\n")
 	}
 

@@ -38,7 +38,7 @@ type CaptureParams struct {
 // Charge is the resource representing a Stripe charge.
 // For more details see https://stripe.com/docs/api#charges.
 type Charge struct {
-	Id             string            `json:"id"`
+	ID             string            `json:"id"`
 	Live           bool              `json:"livemode"`
 	Amount         uint64            `json:"amount"`
 	Captured       bool              `json:"captured"`
@@ -69,7 +69,7 @@ func (c *Charge) UnmarshalJSON(data []byte) error {
 		*c = Charge(cc)
 	} else {
 		// the id is surrounded by escaped \, so ignore those
-		c.Id = string(data[1 : len(data)-1])
+		c.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil

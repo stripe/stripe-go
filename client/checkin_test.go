@@ -12,7 +12,7 @@ import (
 const testKey = "tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I"
 
 func TestCheckinConnectivity(t *testing.T) {
-	c := &Api{}
+	c := &API{}
 	c.Init(testKey, nil)
 
 	target, err := c.Account.Get()
@@ -21,8 +21,8 @@ func TestCheckinConnectivity(t *testing.T) {
 		t.Error(err)
 	}
 
-	if target.Id != "cuD9Rwx8pgmRZRpVe02lsuR9cwp2Bzf7" {
-		t.Errorf("Invalid account id: %q\n", target.Id)
+	if target.ID != "cuD9Rwx8pgmRZRpVe02lsuR9cwp2Bzf7" {
+		t.Errorf("Invalid account id: %q\n", target.ID)
 	}
 
 	if target.Name != "Stripe Test" {
@@ -35,7 +35,7 @@ func TestCheckinConnectivity(t *testing.T) {
 }
 
 func TestCheckinError(t *testing.T) {
-	c := &Api{}
+	c := &API{}
 	c.Init("bad_key", nil)
 
 	_, err := c.Account.Get()
@@ -52,7 +52,7 @@ func TestCheckinError(t *testing.T) {
 }
 
 func TestCheckinPost(t *testing.T) {
-	c := &Api{}
+	c := &API{}
 	c.Init(testKey, nil)
 
 	charge := &stripe.ChargeParams{
@@ -86,11 +86,11 @@ func TestCheckinPost(t *testing.T) {
 }
 
 func TestCheckinDel(t *testing.T) {
-	c := &Api{}
+	c := &API{}
 	c.Init(testKey, nil)
 
 	plan := &stripe.PlanParams{
-		Id:       "go_binding",
+		ID:       "go_binding",
 		Name:     "Go Test Plan",
 		Amount:   100,
 		Currency: currency.USD,
@@ -103,7 +103,7 @@ func TestCheckinDel(t *testing.T) {
 		t.Error(err)
 	}
 
-	err = c.Plans.Del(plan.Id)
+	err = c.Plans.Del(plan.ID)
 
 	if err != nil {
 		t.Error(err)
@@ -112,12 +112,12 @@ func TestCheckinDel(t *testing.T) {
 
 func TestCheckinList(t *testing.T) {
 	const runs = 4
-	c := &Api{}
+	c := &API{}
 	c.Init(testKey, nil)
 
 	for i := 0; i < runs; i++ {
 		plan := &stripe.PlanParams{
-			Id:       fmt.Sprintf("go_binding_%v", i),
+			ID:       fmt.Sprintf("go_binding_%v", i),
 			Name:     fmt.Sprintf("Go Test Plan %v", i),
 			Amount:   100,
 			Currency: currency.USD,

@@ -1,4 +1,4 @@
-// package recipient provides the /recipients APIs
+// Package recipient provides the /recipients APIs
 package recipient
 
 import (
@@ -46,8 +46,8 @@ func (c Client) New(params *stripe.RecipientParams) (*stripe.Recipient, error) {
 		params.Card.AppendDetails(body, true)
 	}
 
-	if len(params.TaxId) > 0 {
-		body.Add("tax_id", params.TaxId)
+	if len(params.TaxID) > 0 {
+		body.Add("tax_id", params.TaxID)
 	}
 
 	if len(params.Email) > 0 {
@@ -112,8 +112,8 @@ func (c Client) Update(id string, params *stripe.RecipientParams) (*stripe.Recip
 			params.Card.AppendDetails(body, true)
 		}
 
-		if len(params.TaxId) > 0 {
-			body.Add("tax_id", params.TaxId)
+		if len(params.TaxID) > 0 {
+			body.Add("tax_id", params.TaxID)
 		}
 
 		if len(params.DefaultCard) > 0 {

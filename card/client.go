@@ -1,4 +1,4 @@
-// package card provides the /cards APIs
+// Package card provides the /cards APIs
 package card
 
 import (

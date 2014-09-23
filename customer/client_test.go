@@ -56,29 +56,29 @@ func TestCustomerNew(t *testing.T) {
 		t.Errorf("Card name %q does not match expected name %q\n", target.Cards.Values[0].Name, customerParams.Card.Name)
 	}
 
-	Del(target.Id)
+	Del(target.ID)
 }
 
 func TestCustomerGet(t *testing.T) {
 	res, _ := New(nil)
 
-	target, err := Get(res.Id, nil)
+	target, err := Get(res.ID, nil)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	if target.Id != res.Id {
-		t.Errorf("Customer id %q does not match expected id %q\n", target.Id, res.Id)
+	if target.ID != res.ID {
+		t.Errorf("Customer id %q does not match expected id %q\n", target.ID, res.ID)
 	}
 
-	Del(res.Id)
+	Del(res.ID)
 }
 
 func TestCustomerDel(t *testing.T) {
 	res, _ := New(nil)
 
-	err := Del(res.Id)
+	err := Del(res.ID)
 
 	if err != nil {
 		t.Error(err)
@@ -110,7 +110,7 @@ func TestCustomerUpdate(t *testing.T) {
 		Email: "desc@b.com",
 	}
 
-	target, err := Update(original.Id, updated)
+	target, err := Update(original.ID, updated)
 
 	if err != nil {
 		t.Error(err)
@@ -132,13 +132,13 @@ func TestCustomerUpdate(t *testing.T) {
 		t.Errorf("No cards recorded\n")
 	}
 
-	Del(target.Id)
+	Del(target.ID)
 }
 
 func TestCustomerDiscount(t *testing.T) {
 	couponParams := &stripe.CouponParams{
 		Duration: coupon.Forever,
-		Id:       "customer_coupon",
+		ID:       "customer_coupon",
 		Percent:  99,
 	}
 
@@ -162,17 +162,17 @@ func TestCustomerDiscount(t *testing.T) {
 		t.Errorf("Coupon not found, but one was expected\n")
 	}
 
-	if target.Discount.Coupon.Id != customerParams.Coupon {
-		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.Id, customerParams.Coupon)
+	if target.Discount.Coupon.ID != customerParams.Coupon {
+		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.ID, customerParams.Coupon)
 	}
 
-	err = discount.Del(target.Id)
+	err = discount.Del(target.ID)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	Del(target.Id)
+	Del(target.ID)
 	coupon.Del("customer_coupon")
 }
 
@@ -181,7 +181,7 @@ func TestCustomerList(t *testing.T) {
 
 	for i := 0; i < 5; i++ {
 		cust, _ := New(nil)
-		customers[i] = cust.Id
+		customers[i] = cust.ID
 	}
 
 	i := List(nil)

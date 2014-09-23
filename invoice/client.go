@@ -1,4 +1,4 @@
-// package invoice provides the /invoices APIs
+// Package invoice provides the /invoices APIs
 package invoice
 
 import (
@@ -231,7 +231,7 @@ func (c Client) ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 
 	return &LineIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceLineList{}
-		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.Id), c.Key, &b, list)
+		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.ID), c.Key, &b, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

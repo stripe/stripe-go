@@ -26,7 +26,7 @@ type CustomerListParams struct {
 // Customer is the resource representing a Stripe customer.
 // For more details see https://stripe.com/docs/api#customers.
 type Customer struct {
-	Id          string            `json:"id"`
+	ID          string            `json:"id"`
 	Live        bool              `json:"livemode"`
 	Cards       *CardList         `json:"cards"`
 	Created     int64             `json:"created"`
@@ -48,7 +48,7 @@ func (c *Customer) UnmarshalJSON(data []byte) error {
 	if err == nil {
 		*c = Customer(cc)
 	} else {
-		c.Id = string(data[1 : len(data)-1])
+		c.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil

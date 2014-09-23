@@ -1,4 +1,4 @@
-// package currency provides the list of currency codes
+// Package currency provides the list of currency codes
 package currency
 
 import (

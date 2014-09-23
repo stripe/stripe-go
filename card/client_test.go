@@ -28,7 +28,7 @@ func TestCardNew(t *testing.T) {
 		Number:   "4242424242424242",
 		Month:    "10",
 		Year:     "20",
-		Customer: cust.Id,
+		Customer: cust.ID,
 		CVC:      "1234",
 	}
 
@@ -46,7 +46,7 @@ func TestCardNew(t *testing.T) {
 		t.Errorf("CVC check %q does not match expected status\n", target.ZipCheck)
 	}
 
-	targetCust, err := customer.Get(cust.Id, nil)
+	targetCust, err := customer.Get(cust.ID, nil)
 
 	if err != nil {
 		t.Error(err)
@@ -56,7 +56,7 @@ func TestCardNew(t *testing.T) {
 		t.Errorf("Unexpected number of cards %v\n", targetCust.Cards.Count)
 	}
 
-	customer.Del(cust.Id)
+	customer.Del(cust.ID)
 }
 
 func TestCardGet(t *testing.T) {
@@ -72,7 +72,7 @@ func TestCardGet(t *testing.T) {
 
 	rec, _ := recipient.New(recipientParams)
 
-	target, err := Get(rec.DefaultCard.Id, &stripe.CardParams{Recipient: rec.Id})
+	target, err := Get(rec.DefaultCard.ID, &stripe.CardParams{Recipient: rec.ID})
 
 	if err != nil {
 		t.Error(err)
@@ -90,7 +90,7 @@ func TestCardGet(t *testing.T) {
 		t.Errorf("Card funding %q does not match expected value\n", target.Funding)
 	}
 
-	recipient.Del(rec.Id)
+	recipient.Del(rec.ID)
 }
 
 func TestCardDel(t *testing.T) {
@@ -104,12 +104,12 @@ func TestCardDel(t *testing.T) {
 
 	cust, _ := customer.New(customerParams)
 
-	err := Del(cust.DefaultCard.Id, &stripe.CardParams{Customer: cust.Id})
+	err := Del(cust.DefaultCard.ID, &stripe.CardParams{Customer: cust.ID})
 	if err != nil {
 		t.Error(err)
 	}
 
-	customer.Del(cust.Id)
+	customer.Del(cust.ID)
 }
 
 func TestCardUpdate(t *testing.T) {
@@ -129,11 +129,11 @@ func TestCardUpdate(t *testing.T) {
 	}
 
 	cardParams := &stripe.CardParams{
-		Customer: cust.Id,
+		Customer: cust.ID,
 		Name:     "Updated Name",
 	}
 
-	target, err := Update(cust.DefaultCard.Id, cardParams)
+	target, err := Update(cust.DefaultCard.ID, cardParams)
 
 	if err != nil {
 		t.Error(err)
@@ -143,7 +143,7 @@ func TestCardUpdate(t *testing.T) {
 		t.Errorf("Card name %q does not match expected name %q\n", target.Name, cardParams.Name)
 	}
 
-	customer.Del(cust.Id)
+	customer.Del(cust.ID)
 }
 
 func TestCardList(t *testing.T) {
@@ -161,12 +161,12 @@ func TestCardList(t *testing.T) {
 		Number:   "4242424242424242",
 		Month:    "10",
 		Year:     "20",
-		Customer: cust.Id,
+		Customer: cust.ID,
 	}
 
 	New(card)
 
-	i := List(&stripe.CardListParams{Customer: cust.Id})
+	i := List(&stripe.CardListParams{Customer: cust.ID})
 	for !i.Stop() {
 		target, err := i.Next()
 
@@ -183,5 +183,5 @@ func TestCardList(t *testing.T) {
 		}
 	}
 
-	customer.Del(cust.Id)
+	customer.Del(cust.ID)
 }

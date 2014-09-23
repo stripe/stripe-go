@@ -1,4 +1,4 @@
-// package client provides a Stripe client for invoking APIs across all resources
+// Package client provides a Stripe client for invoking APIs across all resources
 package client
 
 import (
@@ -24,8 +24,8 @@ import (
 	"github.com/stripe/stripe-go/transfer"
 )
 
-// Client is the Stripe client. It contains all the different resources available.
-type Api struct {
+// API is the Stripe client. It contains all the different resources available.
+type API struct {
 	// key is the secret key used for authentication.
 	key string
 	// backend is the Backend implementation used to invoke Stripe APIs.
@@ -91,7 +91,7 @@ type Api struct {
 
 // Init initializes the Stripe client with the appropriate secret key
 // as well as providing the ability to override the backend as needed.
-func (a *Api) Init(key string, backend Backend) {
+func (a *API) Init(key string, backend Backend) {
 	if backend == nil {
 		backend = GetBackend()
 	}

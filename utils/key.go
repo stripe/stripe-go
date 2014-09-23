@@ -1,4 +1,4 @@
-// package utils provides internal utilities
+// Package utils provides internal utilities
 package utils
 
 import "os"

@@ -3,7 +3,7 @@ package stripe
 // Event is the resource representing a Stripe event.
 // For more details see https://stripe.com/docs/api#events.
 type Event struct {
-	Id       string     `json:"id"`
+	ID       string     `json:"id"`
 	Live     bool       `json:"livemode"`
 	Created  int64      `json:"created"`
 	Data     *EventData `json:"data"`

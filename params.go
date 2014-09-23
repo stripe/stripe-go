@@ -36,7 +36,7 @@ type ListParams struct {
 type ListMeta struct {
 	Count uint16 `json:"total_count"`
 	More  bool   `json:"has_more"`
-	Url   string `json:"url"`
+	URL   string `json:"url"`
 }
 
 // Filters is a structure that contains a collection of filters for list-related APIs.

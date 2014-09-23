@@ -39,7 +39,7 @@ type CardListParams struct {
 // Card is the resource representing a Stripe credit/debit card.
 // For more details see https://stripe.com/docs/api#cards.
 type Card struct {
-	Id            string       `json:"id"`
+	ID            string       `json:"id"`
 	Month         uint8        `json:"exp_month"`
 	Year          uint16       `json:"exp_year"`
 	Fingerprint   string       `json:"fingerprint"`
@@ -150,7 +150,7 @@ func (c *Card) UnmarshalJSON(data []byte) error {
 		*c = Card(cc)
 	} else {
 		// the id is surrounded by escaped \, so ignore those
-		c.Id = string(data[1 : len(data)-1])
+		c.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil

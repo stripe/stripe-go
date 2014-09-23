@@ -1,4 +1,4 @@
-// package account provides the /account APIs
+// Package account provides the /account APIs
 package account
 
 import (

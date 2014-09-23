@@ -1,4 +1,4 @@
-// package customer provides the /customes APIs
+// Package customer provides the /customes APIs
 package customer
 
 import (

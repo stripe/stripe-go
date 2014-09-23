@@ -16,7 +16,7 @@ func TestRecipientNew(t *testing.T) {
 	recipientParams := &stripe.RecipientParams{
 		Name:  "Recipient Name",
 		Type:  Individual,
-		TaxId: "000000000",
+		TaxID: "000000000",
 		Email: "a@b.com",
 		Desc:  "Recipient Desc",
 		Bank: &stripe.BankAccountParams{
@@ -82,11 +82,11 @@ func TestRecipientNew(t *testing.T) {
 		t.Errorf("Recipient cards not set\n")
 	}
 
-	if len(target.DefaultCard.Id) == 0 {
+	if len(target.DefaultCard.ID) == 0 {
 		t.Errorf("Recipient default card is not set\n")
 	}
 
-	Del(target.Id)
+	Del(target.ID)
 }
 
 func TestRecipientGet(t *testing.T) {
@@ -97,17 +97,17 @@ func TestRecipientGet(t *testing.T) {
 
 	rec, _ := New(recipientParams)
 
-	target, err := Get(rec.Id, nil)
+	target, err := Get(rec.ID, nil)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	if len(target.Id) == 0 {
+	if len(target.ID) == 0 {
 		t.Errorf("Recipient not found\n")
 	}
 
-	Del(target.Id)
+	Del(target.ID)
 }
 
 func TestRecipientUpdate(t *testing.T) {
@@ -126,7 +126,7 @@ func TestRecipientUpdate(t *testing.T) {
 		Desc:  "Updated Desc",
 	}
 
-	target, err := Update(original.Id, updated)
+	target, err := Update(original.ID, updated)
 
 	if err != nil {
 		t.Error(err)
@@ -144,7 +144,7 @@ func TestRecipientUpdate(t *testing.T) {
 		t.Errorf("Description %q does not match expected description %q\n", target.Desc, updated.Desc)
 	}
 
-	Del(target.Id)
+	Del(target.ID)
 }
 
 func TestRecipientList(t *testing.T) {
@@ -157,7 +157,7 @@ func TestRecipientList(t *testing.T) {
 
 	for i := 0; i < 5; i++ {
 		rec, _ := New(recipientParams)
-		recipients[i] = rec.Id
+		recipients[i] = rec.ID
 	}
 
 	i := List(nil)

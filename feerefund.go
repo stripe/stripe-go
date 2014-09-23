@@ -21,7 +21,7 @@ type FeeRefundListParams struct {
 // FeeRefund is the resource representing a Stripe fee refund.
 // For more details see https://stripe.com/docs/api#fee_refunds.
 type FeeRefund struct {
-	Id       string            `json:"id"`
+	ID       string            `json:"id"`
 	Amount   uint64            `json:"amount"`
 	Created  int64             `json:"created"`
 	Currency Currency          `json:"currency"`
@@ -30,7 +30,7 @@ type FeeRefund struct {
 	Meta     map[string]string `json:"metadata"`
 }
 
-// FeeRefundist is a list object for fee refunds.
+// FeeRefundList is a list object for fee refunds.
 type FeeRefundList struct {
 	ListMeta
 	Values []*FeeRefund `json:"data"`
@@ -44,7 +44,7 @@ func (f *FeeRefund) UnmarshalJSON(data []byte) error {
 		*f = FeeRefund(ff)
 	} else {
 		// the id is surrounded by escaped \, so ignore those
-		f.Id = string(data[1 : len(data)-1])
+		f.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil

@@ -15,7 +15,7 @@ func init() {
 
 func TestPlanNew(t *testing.T) {
 	planParams := &stripe.PlanParams{
-		Id:            "test_plan",
+		ID:            "test_plan",
 		Name:          "Test Plan",
 		Amount:        99,
 		Currency:      currency.USD,
@@ -31,8 +31,8 @@ func TestPlanNew(t *testing.T) {
 		t.Error(err)
 	}
 
-	if target.Id != planParams.Id {
-		t.Errorf("Id %q does not match expected id %q\n", target.Id, planParams.Id)
+	if target.ID != planParams.ID {
+		t.Errorf("ID %q does not match expected id %q\n", target.ID, planParams.ID)
 	}
 
 	if target.Name != planParams.Name {
@@ -63,12 +63,12 @@ func TestPlanNew(t *testing.T) {
 		t.Errorf("Statement %q does not match expected statement %q\n", target.Statement, planParams.Statement)
 	}
 
-	Del(planParams.Id)
+	Del(planParams.ID)
 }
 
 func TestPlanGet(t *testing.T) {
 	planParams := &stripe.PlanParams{
-		Id:       "test_plan",
+		ID:       "test_plan",
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: currency.USD,
@@ -76,22 +76,22 @@ func TestPlanGet(t *testing.T) {
 	}
 
 	New(planParams)
-	target, err := Get(planParams.Id, nil)
+	target, err := Get(planParams.ID, nil)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	if target.Id != planParams.Id {
-		t.Errorf("Plan id %q does not match expected id %q\n", target.Id, planParams.Id)
+	if target.ID != planParams.ID {
+		t.Errorf("Plan id %q does not match expected id %q\n", target.ID, planParams.ID)
 	}
 
-	Del(planParams.Id)
+	Del(planParams.ID)
 }
 
 func TestPlanUpdate(t *testing.T) {
 	planParams := &stripe.PlanParams{
-		Id:            "test_plan",
+		ID:            "test_plan",
 		Name:          "Original Name",
 		Amount:        99,
 		Currency:      currency.USD,
@@ -108,7 +108,7 @@ func TestPlanUpdate(t *testing.T) {
 		Statement: "Updated Plan",
 	}
 
-	target, err := Update(planParams.Id, updatedPlan)
+	target, err := Update(planParams.ID, updatedPlan)
 
 	if err != nil {
 		t.Error(err)
@@ -122,14 +122,14 @@ func TestPlanUpdate(t *testing.T) {
 		t.Errorf("Statement %q does not match expected statement %q\n", target.Statement, updatedPlan.Statement)
 	}
 
-	Del(planParams.Id)
+	Del(planParams.ID)
 }
 
 func TestPlanList(t *testing.T) {
 	const runs = 3
 	for i := 0; i < runs; i++ {
 		planParams := &stripe.PlanParams{
-			Id:       fmt.Sprintf("test_%v", i),
+			ID:       fmt.Sprintf("test_%v", i),
 			Name:     fmt.Sprintf("test_%v", i),
 			Amount:   99,
 			Currency: currency.USD,

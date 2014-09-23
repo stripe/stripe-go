@@ -27,17 +27,17 @@ func TestRefundNew(t *testing.T) {
 	res, _ := charge.New(chargeParams)
 
 	// full refund
-	ref, err := New(&stripe.RefundParams{Charge: res.Id})
+	ref, err := New(&stripe.RefundParams{Charge: res.ID})
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	if ref.Charge != res.Id {
-		t.Errorf("Refund charge %q does not match expected value %v\n", ref.Charge, res.Id)
+	if ref.Charge != res.ID {
+		t.Errorf("Refund charge %q does not match expected value %v\n", ref.Charge, res.ID)
 	}
 
-	target, _ := charge.Get(res.Id, nil)
+	target, _ := charge.Get(res.ID, nil)
 
 	if !target.Refunded || target.Refunds == nil {
 		t.Errorf("Expected to have refunded this charge\n")
@@ -55,25 +55,25 @@ func TestRefundNew(t *testing.T) {
 		t.Errorf("Refunded currency %q does not match charge currency %q\n", target.Refunds.Values[0].Currency, target.Currency)
 	}
 
-	if len(target.Refunds.Values[0].Tx.Id) == 0 {
+	if len(target.Refunds.Values[0].Tx.ID) == 0 {
 		t.Errorf("Refund transaction not set\n")
 	}
 
-	if target.Refunds.Values[0].Charge != target.Id {
-		t.Errorf("Refund charge %q does not match expected value %v\n", target.Refunds.Values[0].Charge, target.Id)
+	if target.Refunds.Values[0].Charge != target.ID {
+		t.Errorf("Refund charge %q does not match expected value %v\n", target.Refunds.Values[0].Charge, target.ID)
 	}
 
 	res, err = charge.New(chargeParams)
 
 	// partial refund
 	refundParams := &stripe.RefundParams{
-		Charge: res.Id,
+		Charge: res.ID,
 		Amount: 253,
 	}
 
 	New(refundParams)
 
-	target, _ = charge.Get(res.Id, nil)
+	target, _ = charge.Get(res.ID, nil)
 
 	if target.Refunded {
 		t.Errorf("Partial refund should not be marked as Refunded\n")
@@ -96,16 +96,16 @@ func TestRefundGet(t *testing.T) {
 	}
 
 	ch, _ := charge.New(chargeParams)
-	ref, _ := New(&stripe.RefundParams{Charge: ch.Id})
+	ref, _ := New(&stripe.RefundParams{Charge: ch.ID})
 
-	target, err := Get(ref.Id, &stripe.RefundParams{Charge: ch.Id})
+	target, err := Get(ref.ID, &stripe.RefundParams{Charge: ch.ID})
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	if target.Charge != ch.Id {
-		t.Errorf("Refund charge %q does not match expected value %v\n", target.Charge, ch.Id)
+	if target.Charge != ch.ID {
+		t.Errorf("Refund charge %q does not match expected value %v\n", target.Charge, ch.ID)
 	}
 }
 
@@ -122,10 +122,10 @@ func TestRefundList(t *testing.T) {
 
 	ch, _ := charge.New(chargeParams)
 	for i := 0; i < 4; i++ {
-		New(&stripe.RefundParams{Charge: ch.Id, Amount: 200})
+		New(&stripe.RefundParams{Charge: ch.ID, Amount: 200})
 	}
 
-	i := List(&stripe.RefundListParams{Charge: ch.Id})
+	i := List(&stripe.RefundListParams{Charge: ch.ID})
 	for !i.Stop() {
 		target, err := i.Next()
 
@@ -137,8 +137,8 @@ func TestRefundList(t *testing.T) {
 			t.Error("Amount %v does not match expected value\n", target.Amount)
 		}
 
-		if target.Charge != ch.Id {
-			t.Errorf("Refund charge %q does not match expected value %q\n", target.Charge, ch.Id)
+		if target.Charge != ch.ID {
+			t.Errorf("Refund charge %q does not match expected value %q\n", target.Charge, ch.ID)
 		}
 
 		if i.Meta() == nil {

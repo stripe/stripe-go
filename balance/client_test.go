@@ -51,7 +51,7 @@ func TestBalanceGetTx(t *testing.T) {
 
 	res, _ := charge.New(chargeParams)
 
-	target, err := GetTx(res.Tx.Id, nil)
+	target, err := GetTx(res.Tx.ID, nil)
 
 	if err != nil {
 		t.Error(err)
@@ -109,8 +109,8 @@ func TestBalanceGetTx(t *testing.T) {
 		t.Errorf("Type %v does not match expected value\n", target.Type)
 	}
 
-	if target.Src != res.Id {
-		t.Errorf("Source %q does not match expeted value %q\n", target.Src, res.Id)
+	if target.Src != res.ID {
+		t.Errorf("Source %q does not match expeted value %q\n", target.Src, res.ID)
 	}
 }
 

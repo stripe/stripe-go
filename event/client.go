@@ -1,4 +1,4 @@
-// package event provides the /events APIs
+// Package event provides the /events APIs
 package event
 
 import (

@@ -31,7 +31,7 @@ func ExampleCharge_new() {
 		log.Fatal(err)
 	}
 
-	log.Printf("%v\n", ch.Id)
+	log.Printf("%v\n", ch.ID)
 }
 
 func ExampleCharge_get() {
@@ -47,7 +47,7 @@ func ExampleCharge_get() {
 		log.Fatal(err)
 	}
 
-	log.Printf("%v\n", ch.Id)
+	log.Printf("%v\n", ch.ID)
 }
 
 func ExampleInvoice_update() {

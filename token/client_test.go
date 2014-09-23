@@ -55,7 +55,7 @@ func TestTokenGet(t *testing.T) {
 
 	tok, _ := New(tokenParams)
 
-	target, err := Get(tok.Id, nil)
+	target, err := Get(tok.ID, nil)
 
 	if err != nil {
 		t.Error(err)

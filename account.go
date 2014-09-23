@@ -5,7 +5,7 @@ import "encoding/json"
 // Account is the resource representing youe Stripe account.
 // For more details see https://stripe.com/docs/api/#account.
 type Account struct {
-	Id            string `json:"id"`
+	ID            string `json:"id"`
 	ChargeEnabled bool   `json:"charge_enabled"`
 	Country       string `json:"country"`
 	// Currencies is the list of supported currencies.
@@ -27,7 +27,7 @@ func (a *Account) UnmarshalJSON(data []byte) error {
 		*a = Account(aa)
 	} else {
 		// the id is surrounded by escaped \, so ignore those
-		a.Id = string(data[1 : len(data)-1])
+		a.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil

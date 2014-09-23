@@ -58,38 +58,38 @@ func TestCouponNew(t *testing.T) {
 		t.Errorf("Coupon is not valid, but was expecting it to be\n")
 	}
 
-	Del(target.Id)
+	Del(target.ID)
 }
 
 func TestCouponGet(t *testing.T) {
 	couponParams := &stripe.CouponParams{
-		Id:       "test_coupon",
+		ID:       "test_coupon",
 		Duration: Once,
 		Percent:  50,
 	}
 
 	New(couponParams)
-	target, err := Get(couponParams.Id, nil)
+	target, err := Get(couponParams.ID, nil)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	if target.Id != couponParams.Id {
-		t.Errorf("Id %q does not match expected id %q\n", target.Id, couponParams.Id)
+	if target.ID != couponParams.ID {
+		t.Errorf("ID %q does not match expected id %q\n", target.ID, couponParams.ID)
 	}
 
 	if target.Percent != couponParams.Percent {
 		t.Errorf("Percent %v does not match expected percent %v\n", target.Percent, couponParams.Percent)
 	}
 
-	Del(target.Id)
+	Del(target.ID)
 }
 
 func TestCouponList(t *testing.T) {
 	for i := 0; i < 5; i++ {
 		couponParams := &stripe.CouponParams{
-			Id:       fmt.Sprintf("test_%v", i),
+			ID:       fmt.Sprintf("test_%v", i),
 			Duration: Once,
 			Percent:  50,
 		}

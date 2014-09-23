@@ -12,14 +12,14 @@ import (
 	"time"
 )
 
-// defaultUrl is the public Stripe URL for APIs.
-const defaultUrl = "https://api.stripe.com/v1"
+// defaultURL is the public Stripe URL for APIs.
+const defaultURL = "https://api.stripe.com/v1"
 
 // apiversion is the currently supported API version
 const apiversion = "2014-09-08"
 
 // clientversion is the binding version
-const clientversion = "1.0.0"
+const clientversion = "1.0.1"
 
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
@@ -39,7 +39,7 @@ type InternalBackend struct {
 //  2. You're doing internal development at Stripe.
 func NewInternalBackend(httpClient *http.Client, url string) *InternalBackend {
 	if len(url) == 0 {
-		url = defaultUrl
+		url = defaultURL
 	}
 
 	return &InternalBackend{
@@ -135,7 +135,7 @@ func (s *InternalBackend) Call(method, path, key string, body *url.Values, v int
 			err := &Error{
 				Type:           ErrorType(root["type"].(string)),
 				Msg:            root["message"].(string),
-				HttpStatusCode: res.StatusCode,
+				HTTPStatusCode: res.StatusCode,
 			}
 
 			if code, found := root["code"]; found {

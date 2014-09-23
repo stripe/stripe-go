@@ -29,7 +29,7 @@ type SubListParams struct {
 // Sub is the resource representing a Stripe subscription.
 // For more details see https://stripe.com/docs/api#subscriptions.
 type Sub struct {
-	Id          string            `json:"id"`
+	ID          string            `json:"id"`
 	EndCancel   bool              `json:"cancel_at_period_end"`
 	Customer    *Customer         `json:"customer"`
 	Plan        *Plan             `json:"plan"`
@@ -60,7 +60,7 @@ func (s *Sub) UnmarshalJSON(data []byte) error {
 		*s = Sub(ss)
 	} else {
 		// the id is surrounded by escaped \, so ignore those
-		s.Id = string(data[1 : len(data)-1])
+		s.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil

@@ -1,4 +1,4 @@
-// package coupon provides the /coupons APIs
+// Package coupon provides the /coupons APIs
 package coupon
 
 import (
@@ -32,8 +32,8 @@ func (c Client) New(params *stripe.CouponParams) (*stripe.Coupon, error) {
 		"duration": {string(params.Duration)},
 	}
 
-	if len(params.Id) > 0 {
-		body.Add("id", params.Id)
+	if len(params.ID) > 0 {
+		body.Add("id", params.ID)
 	}
 
 	if params.Percent > 0 {

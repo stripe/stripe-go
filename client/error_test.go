@@ -7,7 +7,7 @@ import (
 )
 
 func TestErrors(t *testing.T) {
-	c := &Api{}
+	c := &API{}
 	c.Init("bad_key", nil)
 
 	_, err := c.Account.Get()
@@ -22,7 +22,7 @@ func TestErrors(t *testing.T) {
 		t.Errorf("Type %v does not match expected type\n", stripeErr.Type)
 	}
 
-	if stripeErr.HttpStatusCode != 401 {
-		t.Errorf("HttpStatusCode %q does not match expected value of \"401\"", stripeErr.HttpStatusCode)
+	if stripeErr.HTTPStatusCode != 401 {
+		t.Errorf("HTTPStatusCode %q does not match expected value of \"401\"", stripeErr.HTTPStatusCode)
 	}
 }

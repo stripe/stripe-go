@@ -19,7 +19,7 @@ type RecipientParams struct {
 	Params
 	Name                      string
 	Type                      RecipientType
-	TaxId, Token, Email, Desc string
+	TaxID, Token, Email, Desc string
 	Bank                      *BankAccountParams
 	Card                      *CardParams
 	DefaultCard               string
@@ -40,7 +40,7 @@ type BankAccountParams struct {
 // Recipient is the resource representing a Stripe recipient.
 // For more details see https://stripe.com/docs/api#recipients.
 type Recipient struct {
-	Id          string            `json:"id"`
+	ID          string            `json:"id"`
 	Live        bool              `json:"livemode"`
 	Created     int64             `json:"created"`
 	Type        RecipientType     `json:"type"`
@@ -55,7 +55,7 @@ type Recipient struct {
 
 // BankAccount represents a Stripe bank account.
 type BankAccount struct {
-	Id          string            `json:"id"`
+	ID          string            `json:"id"`
 	Name        string            `json:"bank_name"`
 	Country     string            `json:"country"`
 	Currency    Currency          `json:"currency"`
@@ -79,7 +79,7 @@ func (r *Recipient) UnmarshalJSON(data []byte) error {
 		*r = Recipient(rr)
 	} else {
 		// the id is surrounded by escaped \, so ignore those
-		r.Id = string(data[1 : len(data)-1])
+		r.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil

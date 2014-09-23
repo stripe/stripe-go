@@ -21,7 +21,7 @@ type RefundListParams struct {
 // Refund is the resource representing a Stripe refund.
 // For more details see https://stripe.com/docs/api#refunds.
 type Refund struct {
-	Id       string            `json:"id"`
+	ID       string            `json:"id"`
 	Amount   uint64            `json:"amount"`
 	Created  int64             `json:"created"`
 	Currency Currency          `json:"currency"`
@@ -30,7 +30,7 @@ type Refund struct {
 	Meta     map[string]string `json:"metadata"`
 }
 
-// Refundist is a list object for refunds.
+// RefundList is a list object for refunds.
 type RefundList struct {
 	ListMeta
 	Values []*Refund `json:"data"`
@@ -44,7 +44,7 @@ func (r *Refund) UnmarshalJSON(data []byte) error {
 		*r = Refund(rr)
 	} else {
 		// the id is surrounded by escaped \, so ignore those
-		r.Id = string(data[1 : len(data)-1])
+		r.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil

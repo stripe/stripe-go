@@ -29,7 +29,7 @@ func TestTransferNew(t *testing.T) {
 	transferParams := &stripe.TransferParams{
 		Amount:    100,
 		Currency:  currency.USD,
-		Recipient: rec.Id,
+		Recipient: rec.ID,
 		Desc:      "Transfer Desc",
 		Statement: "Transfer",
 	}
@@ -60,8 +60,8 @@ func TestTransferNew(t *testing.T) {
 		t.Errorf("Description %q does not match expected description %q\n", target.Desc, transferParams.Desc)
 	}
 
-	if target.Recipient.Id != transferParams.Recipient {
-		t.Errorf("Recipient %q does not match expected recipient %q\n", target.Recipient.Id, transferParams.Recipient)
+	if target.Recipient.ID != transferParams.Recipient {
+		t.Errorf("Recipient %q does not match expected recipient %q\n", target.Recipient.ID, transferParams.Recipient)
 	}
 
 	if target.Statement != transferParams.Statement {
@@ -80,7 +80,7 @@ func TestTransferNew(t *testing.T) {
 		t.Errorf("Unexpected type %q\n", target.Type)
 	}
 
-	recipient.Del(rec.Id)
+	recipient.Del(rec.ID)
 }
 
 func TestTransferGet(t *testing.T) {
@@ -100,12 +100,12 @@ func TestTransferGet(t *testing.T) {
 	transferParams := &stripe.TransferParams{
 		Amount:    100,
 		Currency:  currency.USD,
-		Recipient: rec.Id,
+		Recipient: rec.ID,
 	}
 
 	trans, _ := New(transferParams)
 
-	target, err := Get(trans.Id, nil)
+	target, err := Get(trans.ID, nil)
 
 	if err != nil {
 		t.Error(err)
@@ -119,7 +119,7 @@ func TestTransferGet(t *testing.T) {
 		t.Errorf("Unexpected type %q\n", target.Type)
 	}
 
-	recipient.Del(rec.Id)
+	recipient.Del(rec.ID)
 }
 
 func TestTransferUpdate(t *testing.T) {
@@ -138,7 +138,7 @@ func TestTransferUpdate(t *testing.T) {
 	transferParams := &stripe.TransferParams{
 		Amount:    100,
 		Currency:  currency.USD,
-		Recipient: rec.Id,
+		Recipient: rec.ID,
 		Desc:      "Original",
 	}
 
@@ -148,7 +148,7 @@ func TestTransferUpdate(t *testing.T) {
 		Desc: "Updated",
 	}
 
-	target, err := Update(trans.Id, updated)
+	target, err := Update(trans.ID, updated)
 
 	if err != nil {
 		t.Error(err)
@@ -158,7 +158,7 @@ func TestTransferUpdate(t *testing.T) {
 		t.Errorf("Description %q does not match expected description %q\n", target.Desc, updated.Desc)
 	}
 
-	recipient.Del(rec.Id)
+	recipient.Del(rec.ID)
 }
 
 func TestTransferList(t *testing.T) {
@@ -178,14 +178,14 @@ func TestTransferList(t *testing.T) {
 	transferParams := &stripe.TransferParams{
 		Amount:    100,
 		Currency:  currency.USD,
-		Recipient: rec.Id,
+		Recipient: rec.ID,
 	}
 
 	for i := 0; i < 5; i++ {
 		New(transferParams)
 	}
 
-	i := List(&stripe.TransferListParams{Recipient: rec.Id})
+	i := List(&stripe.TransferListParams{Recipient: rec.ID})
 	for !i.Stop() {
 		target, err := i.Next()
 
@@ -202,5 +202,5 @@ func TestTransferList(t *testing.T) {
 		}
 	}
 
-	recipient.Del(rec.Id)
+	recipient.Del(rec.ID)
 }

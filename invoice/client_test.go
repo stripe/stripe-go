@@ -29,7 +29,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 	cust, _ := customer.New(customerParams)
 
 	item := &stripe.InvoiceItemParams{
-		Customer: cust.Id,
+		Customer: cust.ID,
 		Amount:   100,
 		Currency: currency.USD,
 		Desc:     "Test Item",
@@ -41,8 +41,8 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Error(err)
 	}
 
-	if targetItem.Customer.Id != item.Customer {
-		t.Errorf("Item customer %q does not match expected customer %q\n", targetItem.Customer.Id, item.Customer)
+	if targetItem.Customer.ID != item.Customer {
+		t.Errorf("Item customer %q does not match expected customer %q\n", targetItem.Customer.ID, item.Customer)
 	}
 
 	if targetItem.Desc != item.Desc {
@@ -62,7 +62,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 	}
 
 	invoiceParams := &stripe.InvoiceParams{
-		Customer:  cust.Id,
+		Customer:  cust.ID,
 		Desc:      "Desc",
 		Statement: "Statement",
 	}
@@ -73,8 +73,8 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Error(err)
 	}
 
-	if targetInvoice.Customer.Id != invoiceParams.Customer {
-		t.Errorf("Invoice customer %q does not match expected customer %q\n", targetInvoice.Customer.Id, invoiceParams.Customer)
+	if targetInvoice.Customer.ID != invoiceParams.Customer {
+		t.Errorf("Invoice customer %q does not match expected customer %q\n", targetInvoice.Customer.ID, invoiceParams.Customer)
 	}
 
 	if targetInvoice.Amount != targetItem.Amount {
@@ -154,7 +154,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		Desc:   "Updated Desc",
 	}
 
-	targetItemUpdated, err := invoiceitem.Update(targetItem.Id, updatedItem)
+	targetItemUpdated, err := invoiceitem.Update(targetItem.ID, updatedItem)
 
 	if err != nil {
 		t.Error(err)
@@ -173,7 +173,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		Statement: "Updated",
 	}
 
-	targetInvoiceUpdated, err := Update(targetInvoice.Id, updatedInvoice)
+	targetInvoiceUpdated, err := Update(targetInvoice.ID, updatedInvoice)
 
 	if err != nil {
 		t.Error(err)
@@ -187,12 +187,12 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Errorf("Updated invoice statement %q does not match expected statement %q\n", targetInvoiceUpdated.Statement, updatedInvoice.Statement)
 	}
 
-	_, err = invoiceitem.Get(targetItem.Id, nil)
+	_, err = invoiceitem.Get(targetItem.ID, nil)
 	if err != nil {
 		t.Error(err)
 	}
 
-	ii := invoiceitem.List(&stripe.InvoiceItemListParams{Customer: cust.Id})
+	ii := invoiceitem.List(&stripe.InvoiceItemListParams{Customer: cust.ID})
 	for !ii.Stop() {
 		targetInvoiceItemList, err := ii.Next()
 
@@ -209,7 +209,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		}
 	}
 
-	i := List(&stripe.InvoiceListParams{Customer: cust.Id})
+	i := List(&stripe.InvoiceListParams{Customer: cust.ID})
 	for !i.Stop() {
 		targetInvoiceList, err := i.Next()
 
@@ -226,7 +226,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		}
 	}
 
-	il := ListLines(&stripe.InvoiceLineListParams{Id: targetInvoice.Id, Customer: cust.Id})
+	il := ListLines(&stripe.InvoiceLineListParams{ID: targetInvoice.ID, Customer: cust.ID})
 	for !il.Stop() {
 		targetLineList, err := il.Next()
 
@@ -243,17 +243,17 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		}
 	}
 
-	err = invoiceitem.Del(targetItem.Id)
+	err = invoiceitem.Del(targetItem.ID)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	_, err = Get(targetInvoice.Id, nil)
+	_, err = Get(targetInvoice.ID, nil)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	customer.Del(cust.Id)
+	customer.Del(cust.ID)
 }

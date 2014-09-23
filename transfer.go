@@ -36,7 +36,7 @@ type TransferListParams struct {
 // Transfer is the resource representing a Stripe transfer.
 // For more details see https://stripe.com/docs/api#transfers.
 type Transfer struct {
-	Id        string            `json:"id"`
+	ID        string            `json:"id"`
 	Live      bool              `json:"livemode"`
 	Amount    int64             `json:"amount"`
 	Currency  Currency          `json:"currency"`

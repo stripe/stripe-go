@@ -44,7 +44,7 @@ type Balance struct {
 // Transaction is the resource representing the balance transaction.
 // For more details see https://stripe.com/docs/api/#balance.
 type Transaction struct {
-	Id         string            `json:"id"`
+	ID         string            `json:"id"`
 	Amount     int64             `json:"amount"`
 	Currency   Currency          `json:"currency"`
 	Available  int64             `json:"available_on"`
@@ -65,7 +65,7 @@ type Amount struct {
 	Currency Currency `json:"currency"`
 }
 
-// Fee is a structure that breaks down the fees in a transaction.
+// TxFee is a structure that breaks down the fees in a transaction.
 type TxFee struct {
 	Amount      int64    `json:"amount"`
 	Currency    Currency `json:"currency"`
@@ -82,7 +82,7 @@ func (t *Transaction) UnmarshalJSON(data []byte) error {
 		*t = Transaction(tt)
 	} else {
 		// the id is surrounded by escaped \, so ignore those
-		t.Id = string(data[1 : len(data)-1])
+		t.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil

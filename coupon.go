@@ -11,7 +11,7 @@ type CouponDuration string
 type CouponParams struct {
 	Params
 	Duration                                     CouponDuration
-	Id                                           string
+	ID                                           string
 	Currency                                     Currency
 	Amount, Percent, DurationPeriod, Redemptions uint64
 	RedeemBy                                     int64
@@ -26,7 +26,7 @@ type CouponListParams struct {
 // Coupon is the resource representing a Stripe coupon.
 // For more details see https://stripe.com/docs/api#coupons.
 type Coupon struct {
-	Id             string            `json:"id"`
+	ID             string            `json:"id"`
 	Live           bool              `json:"livemode"`
 	Created        int64             `json:"created"`
 	Duration       CouponDuration    `json:"duration"`
@@ -49,7 +49,7 @@ func (c *Coupon) UnmarshalJSON(data []byte) error {
 		*c = Coupon(cc)
 	} else {
 		// the id is surrounded by escaped \, so ignore those
-		c.Id = string(data[1 : len(data)-1])
+		c.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil

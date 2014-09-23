@@ -1,4 +1,4 @@
-// package token provides the /tokens APIs
+// Package token provides the /tokens APIs
 package token
 
 import (

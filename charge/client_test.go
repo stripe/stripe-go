@@ -66,14 +66,14 @@ func TestChargeGet(t *testing.T) {
 
 	res, _ := New(chargeParams)
 
-	target, err := Get(res.Id, nil)
+	target, err := Get(res.ID, nil)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	if target.Id != res.Id {
-		t.Errorf("Charge id %q does not match expected id %q\n", target.Id, res.Id)
+	if target.ID != res.ID {
+		t.Errorf("Charge id %q does not match expected id %q\n", target.ID, res.ID)
 	}
 }
 
@@ -99,7 +99,7 @@ func TestChargeUpdate(t *testing.T) {
 		Desc: "updated description",
 	}
 
-	target, err := Update(res.Id, updated)
+	target, err := Update(res.ID, updated)
 
 	if err != nil {
 		t.Error(err)
@@ -129,7 +129,7 @@ func TestChargeCapture(t *testing.T) {
 	}
 
 	// full capture
-	target, err := Capture(res.Id, nil)
+	target, err := Capture(res.ID, nil)
 
 	if err != nil {
 		t.Error(err)
@@ -147,7 +147,7 @@ func TestChargeCapture(t *testing.T) {
 		Email:  "a@b.com",
 	}
 
-	target, err = Capture(res.Id, capture)
+	target, err = Capture(res.ID, capture)
 
 	if err != nil {
 		t.Error(err)

@@ -12,7 +12,7 @@ type InvoiceItemParams struct {
 	Invoice, Desc, Sub string
 }
 
-// InvoiceItemListparams is the set of parameters that can be used when listing invoice items.
+// InvoiceItemListParams is the set of parameters that can be used when listing invoice items.
 // For more details see https://stripe.com/docs/api#list_invoiceitems.
 type InvoiceItemListParams struct {
 	ListParams
@@ -23,7 +23,7 @@ type InvoiceItemListParams struct {
 // InvoiceItem is the resource represneting a Stripe invoice item.
 // For more details see https://stripe.com/docs/api#invoiceitems.
 type InvoiceItem struct {
-	Id        string            `json:"id"`
+	ID        string            `json:"id"`
 	Live      bool              `json:"livemode"`
 	Amount    int64             `json:"amount"`
 	Currency  Currency          `json:"currency"`
@@ -44,7 +44,7 @@ func (i *InvoiceItem) UnmarshalJSON(data []byte) error {
 		*i = InvoiceItem(ii)
 	} else {
 		// the id is surrounded by escaped \, so ignore those
-		i.Id = string(data[1 : len(data)-1])
+		i.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil
