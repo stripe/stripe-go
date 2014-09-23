@@ -182,7 +182,7 @@ func TestSubscriptionUpdate(t *testing.T) {
 	}
 
 	if target.Quantity != updatedSub.Quantity {
-		t.Errorf("Quantity %v does not match expected quantity $v\n", target.Quantity, updatedSub.Quantity)
+		t.Errorf("Quantity %v does not match expected quantity %v\n", target.Quantity, updatedSub.Quantity)
 	}
 
 	customer.Del(cust.ID)
