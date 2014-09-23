@@ -77,7 +77,7 @@ for !i.Stop() {
 ### With a Client
 
 If you're dealing with multiple keys, it is recommended you use the
-`client.Api`.  This allows you to create as many clients as needed, each with
+`client.API`.  This allows you to create as many clients as needed, each with
 their own individual key.
 
 ```go
@@ -87,7 +87,7 @@ import (
 )
 
 // Setup
-sc := &client.Api{}
+sc := &client.API{}
 sc.Init("sk_key", nil)
 // the second parameter represents the Backend used by the client. It can be
 // useful to set one explicitly to either get a custom http.Client or mock it
@@ -124,7 +124,7 @@ import (
   "github.com/stripe/stripe-go/client"
 )
 
-stripe := &client.Api{}
+stripe := &client.API{}
 stripe.Init("access_token", nil)
 ```
 
