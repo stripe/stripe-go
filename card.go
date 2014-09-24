@@ -142,6 +142,9 @@ func (c *CardParams) AppendDetails(values *url.Values, creating bool) {
 	}
 }
 
+// UnmarshalJSON handles deserialization of a Card.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
 func (c *Card) UnmarshalJSON(data []byte) error {
 	type card Card
 	var cc card
@@ -149,7 +152,7 @@ func (c *Card) UnmarshalJSON(data []byte) error {
 	if err == nil {
 		*c = Card(cc)
 	} else {
-		// the id is surrounded by escaped \, so ignore those
+		// the id is surrounded by "\" characters, so strip them
 		c.ID = string(data[1 : len(data)-1])
 	}
 

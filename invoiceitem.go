@@ -36,6 +36,9 @@ type InvoiceItem struct {
 	Sub       string            `json:"subscription"`
 }
 
+// UnmarshalJSON handles deserialization of an InvoiceItem.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
 func (i *InvoiceItem) UnmarshalJSON(data []byte) error {
 	type invoiceitem InvoiceItem
 	var ii invoiceitem
@@ -43,7 +46,7 @@ func (i *InvoiceItem) UnmarshalJSON(data []byte) error {
 	if err == nil {
 		*i = InvoiceItem(ii)
 	} else {
-		// the id is surrounded by escaped \, so ignore those
+		// the id is surrounded by "\" characters, so strip them
 		i.ID = string(data[1 : len(data)-1])
 	}
 

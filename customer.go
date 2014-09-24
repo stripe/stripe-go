@@ -41,6 +41,9 @@ type Customer struct {
 	Subs        *SubList          `json:"subscriptions"`
 }
 
+// UnmarshalJSON handles deserialization of a Customer.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
 func (c *Customer) UnmarshalJSON(data []byte) error {
 	type customer Customer
 	var cc customer
@@ -48,6 +51,7 @@ func (c *Customer) UnmarshalJSON(data []byte) error {
 	if err == nil {
 		*c = Customer(cc)
 	} else {
+		// the id is surrounded by "\" characters, so strip them
 		c.ID = string(data[1 : len(data)-1])
 	}
 

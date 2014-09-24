@@ -74,6 +74,9 @@ type TxFee struct {
 	Application string   `json:"application"`
 }
 
+// UnmarshalJSON handles deserialization of a Transaction.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
 func (t *Transaction) UnmarshalJSON(data []byte) error {
 	type transaction Transaction
 	var tt transaction
@@ -81,7 +84,7 @@ func (t *Transaction) UnmarshalJSON(data []byte) error {
 	if err == nil {
 		*t = Transaction(tt)
 	} else {
-		// the id is surrounded by escaped \, so ignore those
+		// the id is surrounded by "\" characters, so strip them
 		t.ID = string(data[1 : len(data)-1])
 	}
 

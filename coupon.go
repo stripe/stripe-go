@@ -41,6 +41,9 @@ type Coupon struct {
 	Valid          bool              `json:"valid"`
 }
 
+// UnmarshalJSON handles deserialization of a Coupon.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
 func (c *Coupon) UnmarshalJSON(data []byte) error {
 	type coupon Coupon
 	var cc coupon
@@ -48,7 +51,7 @@ func (c *Coupon) UnmarshalJSON(data []byte) error {
 	if err == nil {
 		*c = Coupon(cc)
 	} else {
-		// the id is surrounded by escaped \, so ignore those
+		// the id is surrounded by "\" characters, so strip them
 		c.ID = string(data[1 : len(data)-1])
 	}
 

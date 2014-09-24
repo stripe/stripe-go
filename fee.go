@@ -34,6 +34,9 @@ type Fee struct {
 	AmountRefunded uint64         `json:"amount_refunded"`
 }
 
+// UnmarshalJSON handles deserialization of a Fee.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
 func (f *Fee) UnmarshalJSON(data []byte) error {
 	type appfee Fee
 	var ff appfee
@@ -41,7 +44,7 @@ func (f *Fee) UnmarshalJSON(data []byte) error {
 	if err == nil {
 		*f = Fee(ff)
 	} else {
-		// the id is surrounded by escaped \, so ignore those
+		// the id is surrounded by "\" characters, so strip them
 		f.ID = string(data[1 : len(data)-1])
 	}
 

@@ -71,6 +71,9 @@ func (b *BankAccountParams) AppendDetails(values *url.Values) {
 	values.Add("bank_account[account_number]", b.Account)
 }
 
+// UnmarshalJSON handles deserialization of a Recipient.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
 func (r *Recipient) UnmarshalJSON(data []byte) error {
 	type recipient Recipient
 	var rr recipient
@@ -78,7 +81,7 @@ func (r *Recipient) UnmarshalJSON(data []byte) error {
 	if err == nil {
 		*r = Recipient(rr)
 	} else {
-		// the id is surrounded by escaped \, so ignore those
+		// the id is surrounded by "\" characters, so strip them
 		r.ID = string(data[1 : len(data)-1])
 	}
 

@@ -52,6 +52,9 @@ type SubList struct {
 	Values []*Sub `json:"data"`
 }
 
+// UnmarshalJSON handles deserialization of a Sub.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
 func (s *Sub) UnmarshalJSON(data []byte) error {
 	type sub Sub
 	var ss sub
@@ -59,7 +62,7 @@ func (s *Sub) UnmarshalJSON(data []byte) error {
 	if err == nil {
 		*s = Sub(ss)
 	} else {
-		// the id is surrounded by escaped \, so ignore those
+		// the id is surrounded by "\" characters, so strip them
 		s.ID = string(data[1 : len(data)-1])
 	}
 

@@ -61,6 +61,9 @@ type Charge struct {
 	Statement      string            `json:"statement_description"`
 }
 
+// UnmarshalJSON handles deserialization of a Charge.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
 func (c *Charge) UnmarshalJSON(data []byte) error {
 	type charge Charge
 	var cc charge
@@ -68,7 +71,7 @@ func (c *Charge) UnmarshalJSON(data []byte) error {
 	if err == nil {
 		*c = Charge(cc)
 	} else {
-		// the id is surrounded by escaped \, so ignore those
+		// the id is surrounded by "\" characters, so strip them
 		c.ID = string(data[1 : len(data)-1])
 	}
 
