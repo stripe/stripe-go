@@ -10,7 +10,7 @@ The official [Stripe](https://stripe.com) Go client library.
 Each revision of the binding is tagged and the version is updated accordingly.
 
 Given Go's lack of built-in versioning, it is highly recommended you use a
-[package mangement tool](https://code.google.com/p/go-wiki/wiki/PackageManagementTools) in order
+[package management tool](https://code.google.com/p/go-wiki/wiki/PackageManagementTools) in order
 to ensure a newer version of the binding does not affect backwards compatibility.
 
 To see the list of past versions, run `git tag`. To manually get an older
@@ -115,7 +115,7 @@ for !i.Stop() {
 ### Connect Flows
 
 If you're using an `access token` you will need to use a client. Simply pass
-the `access token` value as the `tok` when initalizing the client.
+the `access token` value as the `tok` when initializing the client.
 
 ```go
 
