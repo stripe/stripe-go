@@ -158,7 +158,7 @@ customer, err := customer.New(params)
 
 ```go
 params := &stripe.ChargeListParams{Customer: customer.Id}
-params.Filters.AddFilter("include", "", "total_count")
+params.Filters.AddFilter("include[]", "", "total_count")
 
 i := charge.List(params)
 for !i.Stop() {
