@@ -24,6 +24,7 @@ func ExampleCharge_new() {
 			Year:   "20",
 		},
 	}
+	params.AddMeta("key", "value")
 
 	ch, err := charge.New(params)
 

@@ -59,11 +59,6 @@ func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 			}
 		}
 
-		// add metadata, if specified
-		for k, v := range params.Meta {
-			body.Add("metadata["+k+"]", v)
-		}
-
 		params.AppendTo(body)
 	}
 

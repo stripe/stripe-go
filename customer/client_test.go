@@ -24,9 +24,9 @@ func TestCustomerNew(t *testing.T) {
 		},
 		Desc:  "Test Customer",
 		Email: "a@b.com",
-		Meta:  map[string]string{"id": "a"},
 	}
 
+	customerParams.AddMeta("key", "value")
 	target, err := New(customerParams)
 
 	if err != nil {

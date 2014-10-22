@@ -55,6 +55,14 @@ func (p *Params) Expand(f string) {
 	p.Exp = append(p.Exp, f)
 }
 
+func (p *Params) AddMeta(key, value string) {
+	if p.Meta == nil {
+		p.Meta = make(map[string]string)
+	}
+
+	p.Meta[key] = value
+}
+
 // AddFilter adds a new filter with a given key, op and value.
 func (f *Filters) AddFilter(key, op, value string) {
 	filter := &filter{Key: key, Op: op, Val: value}
