@@ -14,6 +14,7 @@ type CustomerParams struct {
 	Quantity      uint64
 	TrialEnd      int64
 	DefaultCard   string
+	Meta          map[string]string
 }
 
 // CustomerListParams is the set of parameters that can be used when listing customers.
