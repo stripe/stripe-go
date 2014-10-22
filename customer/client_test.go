@@ -24,6 +24,7 @@ func TestCustomerNew(t *testing.T) {
 		},
 		Desc:  "Test Customer",
 		Email: "a@b.com",
+		Meta:  map[string]string{"id": "a"},
 	}
 
 	target, err := New(customerParams)
@@ -42,6 +43,10 @@ func TestCustomerNew(t *testing.T) {
 
 	if target.Email != customerParams.Email {
 		t.Errorf("Email %q does not match expected email %q\n", target.Email, customerParams.Email)
+	}
+
+	if target.Meta["id"] != customerParams.Meta["id"] {
+		t.Errorf("Meta %v does not match expected Meta %v\n", target.Meta, customerParams.Meta)
 	}
 
 	if target.Cards == nil {
