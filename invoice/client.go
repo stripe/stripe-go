@@ -242,54 +242,30 @@ func (c Client) ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 	})}
 }
 
-// Iter is a iterator for list responses.
+// Iter is an iterator for lists of Invoices.
+// The embedded Iter carries methods with it;
+// see its documentation for details.
 type Iter struct {
-	Iter *stripe.Iter
+	*stripe.Iter
 }
 
-// Next returns the next value in the list.
-func (i *Iter) Next() (*stripe.Invoice, error) {
-	ii, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return ii.(*stripe.Invoice), err
+// Invoice returns the most recent Invoice
+// visited by a call to Next.
+func (i *Iter) Invoice() *stripe.Invoice {
+	return i.Current().(*stripe.Invoice)
 }
 
-// Stop returns true if there are no more iterations to be performed.
-func (i *Iter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *Iter) Meta() *stripe.ListMeta {
-	return i.Iter.Meta()
-}
-
-// LineIter is a iterator for list responses.
+// LineIter is an iterator for lists of InvoiceLines.
+// The embedded Iter carries methods with it;
+// see its documentation for details.
 type LineIter struct {
-	Iter *stripe.Iter
+	*stripe.Iter
 }
 
-// Next returns the next value in the list.
-func (i *LineIter) Next() (*stripe.InvoiceLine, error) {
-	ii, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return ii.(*stripe.InvoiceLine), err
-}
-
-// Stop returns true if there are no more iterations to be performed.
-func (i *LineIter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *LineIter) Meta() *stripe.ListMeta {
-	return i.Iter.Meta()
+// InvoiceLine returns the most recent InvoiceLine
+// visited by a call to Next.
+func (i *LineIter) InvoiceLine() *stripe.InvoiceLine {
+	return i.Current().(*stripe.InvoiceLine)
 }
 
 func getC() Client {

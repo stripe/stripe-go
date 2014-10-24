@@ -186,29 +186,17 @@ func (c Client) List(params *stripe.RecipientListParams) *Iter {
 	})}
 }
 
-// Iter is a iterator for list responses.
+// Iter is an iterator for lists of Recipients.
+// The embedded Iter carries methods with it;
+// see its documentation for details.
 type Iter struct {
-	Iter *stripe.Iter
+	*stripe.Iter
 }
 
-// Next returns the next value in the list.
-func (i *Iter) Next() (*stripe.Recipient, error) {
-	r, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return r.(*stripe.Recipient), err
-}
-
-// Stop returns true if there are no more iterations to be performed.
-func (i *Iter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *Iter) Meta() *stripe.ListMeta {
-	return i.Iter.Meta()
+// Recipient returns the most recent Recipient
+// visited by a call to Next.
+func (i *Iter) Recipient() *stripe.Recipient {
+	return i.Current().(*stripe.Recipient)
 }
 
 func getC() Client {

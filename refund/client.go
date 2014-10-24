@@ -100,29 +100,17 @@ func (c Client) List(params *stripe.RefundListParams) *Iter {
 	})}
 }
 
-// Iter is a iterator for list responses.
+// Iter is an iterator for lists of Refunds.
+// The embedded Iter carries methods with it;
+// see its documentation for details.
 type Iter struct {
-	Iter *stripe.Iter
+	*stripe.Iter
 }
 
-// Next returns the next value in the list.
-func (i *Iter) Next() (*stripe.Refund, error) {
-	r, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return r.(*stripe.Refund), err
-}
-
-// Stop returns true if there are no more iterations to be performed.
-func (i *Iter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *Iter) Meta() *stripe.ListMeta {
-	return i.Iter.Meta()
+// Refund returns the most recent Refund
+// visited by a call to Next.
+func (i *Iter) Refund() *stripe.Refund {
+	return i.Current().(*stripe.Refund)
 }
 
 func getC() Client {

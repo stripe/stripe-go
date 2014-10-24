@@ -187,29 +187,17 @@ func (c Client) List(params *stripe.TransferListParams) *Iter {
 	})}
 }
 
-// Iter is a iterator for list responses.
+// Iter is an iterator for lists of Transfers.
+// The embedded Iter carries methods with it;
+// see its documentation for details.
 type Iter struct {
-	Iter *stripe.Iter
+	*stripe.Iter
 }
 
-// Next returns the next value in the list.
-func (i *Iter) Next() (*stripe.Transfer, error) {
-	t, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return t.(*stripe.Transfer), err
-}
-
-// Stop returns true if there are no more iterations to be performed.
-func (i *Iter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *Iter) Meta() *stripe.ListMeta {
-	return i.Iter.Meta()
+// Transfer returns the most recent Transfer
+// visited by a call to Next.
+func (i *Iter) Transfer() *stripe.Transfer {
+	return i.Current().(*stripe.Transfer)
 }
 
 func getC() Client {

@@ -287,20 +287,17 @@ func TestSubscriptionList(t *testing.T) {
 	}
 
 	i := List(&stripe.SubListParams{Customer: cust.ID})
-	for !i.Stop() {
-		target, err := i.Next()
-
-		if err != nil {
-			t.Error(err)
-		}
-
-		if target == nil {
+	for i.Next() {
+		if i.Sub() == nil {
 			t.Error("No nil values expected")
 		}
 
 		if i.Meta() == nil {
 			t.Error("No metadata returned")
 		}
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
 	}
 
 	customer.Del(cust.ID)

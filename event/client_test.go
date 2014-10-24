@@ -18,12 +18,8 @@ func TestEvent(t *testing.T) {
 	params.Type = "charge.*"
 
 	i := List(params)
-	for !i.Stop() {
-		e, err := i.Next()
-
-		if err != nil {
-			t.Error(err)
-		}
+	for i.Next() {
+		e := i.Event()
 
 		if e == nil {
 			t.Error("No nil values expected")
@@ -72,5 +68,8 @@ func TestEvent(t *testing.T) {
 
 		// no need to actually check the value, we're just validating this doesn't bomb
 		e.GetObjValue("does not exist")
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
 	}
 }
