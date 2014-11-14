@@ -78,6 +78,21 @@ func SetBackend(b Backend) {
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
 func (s *InternalBackend) Call(method, path, key string, form *url.Values, v interface{}) error {
+	req, err := s.NewRequest(method, path, key, form)
+	if err != nil {
+		return err
+	}
+
+	if err := s.Do(req, v); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// NewRequest is used by Call to generate an http.Request. It handles encoding
+// parameters and attaching the Authorization header.
+func (s *InternalBackend) NewRequest(method, path, key string, form *url.Values) (*http.Request, error) {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
@@ -97,7 +112,7 @@ func (s *InternalBackend) Call(method, path, key string, form *url.Values, v int
 	req, err := http.NewRequest(method, path, body)
 	if err != nil {
 		log.Printf("Cannot create Stripe request: %v\n", err)
-		return err
+		return nil, err
 	}
 
 	req.SetBasicAuth(key, "")
@@ -107,7 +122,14 @@ func (s *InternalBackend) Call(method, path, key string, form *url.Values, v int
 		req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	}
 
-	log.Printf("Requesting %v %q\n", method, path)
+	return req, nil
+}
+
+// Do is used by Call to execute an API request and parse the response. It uses
+// the backend's HTTP client to execute the request and unmarshals the response
+// into v. It also handles unmarshaling errors returned by the API.
+func (s *InternalBackend) Do(req *http.Request, v interface{}) error {
+	log.Printf("Requesting %v %q\n", req.Method, req.URL.Path)
 	start := time.Now()
 
 	res, err := s.httpClient.Do(req)
