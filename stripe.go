@@ -2,8 +2,10 @@
 package stripe
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -75,18 +77,24 @@ func SetBackend(b Backend) {
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s *InternalBackend) Call(method, path, key string, body *url.Values, v interface{}) error {
+func (s *InternalBackend) Call(method, path, key string, form *url.Values, v interface{}) error {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
 
 	path = s.url + path
 
-	if body != nil && len(*body) > 0 {
-		path += "?" + body.Encode()
+	var body io.Reader
+	if form != nil && len(*form) > 0 {
+		data := form.Encode()
+		if strings.ToUpper(method) == "GET" {
+			path += "?" + data
+		} else {
+			body = bytes.NewBufferString(data)
+		}
 	}
 
-	req, err := http.NewRequest(method, path, nil)
+	req, err := http.NewRequest(method, path, body)
 	if err != nil {
 		log.Printf("Cannot create Stripe request: %v\n", err)
 		return err
@@ -95,6 +103,9 @@ func (s *InternalBackend) Call(method, path, key string, body *url.Values, v int
 	req.SetBasicAuth(key, "")
 	req.Header.Add("Stripe-Version", apiversion)
 	req.Header.Add("User-Agent", "Stripe/v1 GoBindings/"+clientversion)
+	if body != nil {
+		req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	}
 
 	log.Printf("Requesting %v %q\n", method, path)
 	start := time.Now()
