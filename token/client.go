@@ -42,6 +42,10 @@ func (c Client) New(params *stripe.TokenParams) (*stripe.Token, error) {
 		return nil, err
 	}
 
+	if len(params.Email) > 0 {
+		body.Add("email", params.Email)
+	}
+
 	params.AppendTo(body)
 
 	tok := &stripe.Token{}
