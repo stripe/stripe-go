@@ -43,12 +43,12 @@ func Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 }
 
 func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
-	var body *url.Values
-
-	if params != nil {
-		body = &url.Values{}
-		params.AppendTo(body)
+	if params == nil {
+		return nil, fmt.Errorf("params cannot be nil, and params.Fee must be set")
 	}
+
+	body := &url.Values{}
+	params.AppendTo(body)
 
 	refund := &stripe.FeeRefund{}
 	err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.Key, body, refund)

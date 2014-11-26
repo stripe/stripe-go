@@ -47,8 +47,11 @@ func Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 }
 
 func (c Client) Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
-	body := &url.Values{}
+	if params == nil {
+		return nil, fmt.Errorf("params cannot be nil, and params.Charge must be set")
+	}
 
+	body := &url.Values{}
 	params.AppendTo(body)
 
 	refund := &stripe.Refund{}

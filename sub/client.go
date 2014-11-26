@@ -72,8 +72,11 @@ func Get(id string, params *stripe.SubParams) (*stripe.Sub, error) {
 }
 
 func (c Client) Get(id string, params *stripe.SubParams) (*stripe.Sub, error) {
-	body := &url.Values{}
+	if params == nil {
+		return nil, fmt.Errorf("params cannot be nil, and params.Customer must be set")
+	}
 
+	body := &url.Values{}
 	params.AppendTo(body)
 
 	sub := &stripe.Sub{}
