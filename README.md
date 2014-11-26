@@ -69,8 +69,9 @@ err := resource.Del(id)
 
 // List
 i := resource.List(stripe.ResourceListParams)
-for !i.Stop() {
-  resource, err := i.Next()
+for i.Next() {
+  resource := i.Resource()
+  err := i.Err()
 }
 ```
 
@@ -107,8 +108,9 @@ err := sc.Resources.Del(id)
 
 // List
 i := sc.Resources.List(stripe.ResourceListParams)
-for !i.Stop() {
-  resource, err := i.Next()
+for i.Next() {
+  resource := i.Resource()
+  err := i.Err()
 }
 ```
 
