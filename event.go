@@ -1,5 +1,7 @@
 package stripe
 
+import "encoding/json"
+
 // Event is the resource representing a Stripe event.
 // For more details see https://stripe.com/docs/api#events.
 type Event struct {
@@ -14,8 +16,9 @@ type Event struct {
 
 // EventData is the unmarshalled object as a map.
 type EventData struct {
-	Obj  map[string]interface{} `json:"object"`
+	Raw  json.RawMessage        `json:"object"`
 	Prev map[string]interface{} `json:"previous_attributes"`
+	Obj  map[string]interface{}
 }
 
 // EventListParams is the set of parameters that can be used when listing events.
@@ -35,6 +38,20 @@ func (e *Event) GetObjValue(keys ...string) string {
 // GetPrevValue returns the value from the e.Data.Prev bag based on the keys hierarchy.
 func (e *Event) GetPrevValue(keys ...string) string {
 	return getValue(e.Data.Prev, keys)
+}
+
+// UnmarshalJSON handles deserialization of the EventData.
+// This custom unmarshaling exists so that we can keep both the map and raw data.
+func (e *EventData) UnmarshalJSON(data []byte) error {
+	type eventdata EventData
+	var ee eventdata
+	err := json.Unmarshal(data, &ee)
+	if err != nil {
+		return err
+	}
+
+	*e = EventData(ee)
+	return json.Unmarshal(e.Raw, &e.Obj)
 }
 
 // getValue returns the value from the m map based on the keys.
