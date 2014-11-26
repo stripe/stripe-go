@@ -161,19 +161,16 @@ func TestRecipientList(t *testing.T) {
 	}
 
 	i := List(nil)
-	for !i.Stop() {
-		target, err := i.Next()
-
-		if err != nil {
-			t.Error(err)
-		}
-
-		if target == nil {
+	for i.Next() {
+		if i.Recipient() == nil {
 			t.Error("No nil values expected")
 		}
 
 		if i.Meta() == nil {
 			t.Error("No metadata returned")
 		}
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
 	}
 }

@@ -149,29 +149,17 @@ func (c Client) List(params *stripe.InvoiceItemListParams) *Iter {
 	})}
 }
 
-// Iter is a iterator for list responses.
+// Iter is an iterator for lists of InvoiceItems.
+// The embedded Iter carries methods with it;
+// see its documentation for details.
 type Iter struct {
-	Iter *stripe.Iter
+	*stripe.Iter
 }
 
-// Next returns the next value in the list.
-func (i *Iter) Next() (*stripe.InvoiceItem, error) {
-	ii, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return ii.(*stripe.InvoiceItem), err
-}
-
-// Stop returns true if there are no more iterations to be performed.
-func (i *Iter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *Iter) Meta() *stripe.ListMeta {
-	return i.Iter.Meta()
+// InvoiceItem returns the most recent InvoiceItem
+// visited by a call to Next.
+func (i *Iter) InvoiceItem() *stripe.InvoiceItem {
+	return i.Current().(*stripe.InvoiceItem)
 }
 
 func getC() Client {

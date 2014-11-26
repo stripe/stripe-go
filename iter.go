@@ -8,21 +8,25 @@ import (
 // Query is the function used to get a page listing.
 type Query func(url.Values) ([]interface{}, ListMeta, error)
 
-// Iter represents an interator used for list pagination.
+// Iter provides a convenient interface
+// for iterating over the elements
+// returned from paginated list API calls.
+// Successive calls to the Next method
+// will step through each item in the list,
+// fetching pages of items as needed.
 // Iterators are not thread-safe, so they should not be consumed
 // across multiple goroutines.
 type Iter struct {
-	stop   bool
 	query  Query
 	qs     url.Values
 	values []interface{}
 	meta   ListMeta
 	params ListParams
-	cur    int
 	err    error
+	cur    interface{}
 }
 
-// GetIter returns a new iterator for a given query and its options.
+// GetIter returns a new Iter for a given query and its options.
 func GetIter(params *ListParams, qs *url.Values, query Query) *Iter {
 	iter := &Iter{}
 	iter.query = query
@@ -39,72 +43,69 @@ func GetIter(params *ListParams, qs *url.Values, query Query) *Iter {
 	}
 	iter.qs = *q
 
+	iter.getPage()
 	return iter
 }
 
-// Next returns the next entry in the page.
-// By default, this loads a new page each time it's done with the current one.
-func (i *Iter) Next() (interface{}, error) {
-	// if the previous invocation resulted in us being complete,
-	// no point in doing any work
-	if i.stop {
-		return nil, i.err
+func (it *Iter) getPage() {
+	it.values, it.meta, it.err = it.query(it.qs)
+	if it.params.End != "" {
+		// We are moving backward,
+		// but items arrive in forward order.
+		reverse(it.values)
 	}
-
-	// initial run when we have no page loaded
-	if len(i.values) == 0 {
-		i.values, i.meta, i.err = i.query(i.qs)
-	}
-
-	// either there was a failure or no results were returned
-	if i.err != nil || i.cur == len(i.values) {
-		i.stop = true
-		return nil, i.err
-	}
-
-	ret := i.values[i.cur]
-	i.cur++
-
-	// we haven't reached the end of the page
-	if i.cur != len(i.values) {
-		return ret, i.err
-	}
-
-	// otherwise we may need to fetch the next page
-	// if there are no more results or we're supposed to stop after a
-	// single page just bail
-	if i.params.Single || !i.meta.More {
-		i.stop = true
-	} else {
-		// determine if we're moving forward or backwards in paging
-		if len(i.params.End) != 0 {
-			i.params.End = reflect.ValueOf(i.values[0]).Elem().FieldByName("ID").String()
-			i.qs.Set(endbefore, i.params.End)
-		} else {
-			i.params.Start = reflect.ValueOf(i.values[i.cur-1]).Elem().FieldByName("ID").String()
-			i.qs.Set(startafter, i.params.Start)
-		}
-
-		// now actually load the next page
-		i.values, i.meta, i.err = i.query(i.qs)
-
-		if i.err != nil {
-			i.stop = true
-			return nil, i.err
-		}
-
-		i.cur = 0
-	}
-
-	return ret, i.err
 }
 
-// Stop returns true if there are no more iterations to be performed.
-func (i *Iter) Stop() bool {
-	return i.stop
+// Next advances the Iter to the next item in the list,
+// which will then be available
+// through the Current method.
+// It returns false when the iterator stops
+// at the end of the list.
+func (it *Iter) Next() bool {
+	if len(it.values) == 0 && it.meta.More && !it.params.Single {
+		// determine if we're moving forward or backwards in paging
+		if it.params.End != "" {
+			it.params.End = listItemID(it.cur)
+			it.qs.Set(endbefore, it.params.End)
+		} else {
+			it.params.Start = listItemID(it.cur)
+			it.qs.Set(startafter, it.params.Start)
+		}
+		it.getPage()
+	}
+	if len(it.values) == 0 {
+		return false
+	}
+	it.cur = it.values[0]
+	it.values = it.values[1:]
+	return true
+}
+
+// Current returns the most recent item
+// visited by a call to Next.
+func (it *Iter) Current() interface{} {
+	return it.cur
+}
+
+// Err returns the error, if any,
+// that caused the Iter to stop.
+// It must be inspected
+// after Next returns false.
+func (it *Iter) Err() error {
+	return it.err
 }
 
 // Meta returns the list metadata.
-func (i *Iter) Meta() *ListMeta {
-	return &i.meta
+func (it *Iter) Meta() *ListMeta {
+	return &it.meta
+}
+
+func listItemID(x interface{}) string {
+	return reflect.ValueOf(x).Elem().FieldByName("ID").String()
+}
+
+func reverse(a []interface{}) {
+	for i := 0; i < len(a)/2; i++ {
+		a[i], a[len(a)-i-1] = a[len(a)-i-1], a[i]
+	}
 }

@@ -150,30 +150,19 @@ func (c Client) List(params *stripe.PlanListParams) *Iter {
 	})}
 }
 
-// Iter is a iterator for list responses.
+// Iter is an iterator for lists of Plans.
+// The embedded Iter carries methods with it;
+// see its documentation for details.
 type Iter struct {
-	Iter *stripe.Iter
+	*stripe.Iter
 }
 
-// Next returns the next value in the list.
-func (i *Iter) Next() (*stripe.Plan, error) {
-	p, err := i.Iter.Next()
-	if err != nil {
-		return nil, err
-	}
-
-	return p.(*stripe.Plan), err
+// Plan returns the most recent Plan
+// visited by a call to Next.
+func (i *Iter) Plan() *stripe.Plan {
+	return i.Current().(*stripe.Plan)
 }
 
-// Stop returns true if there are no more iterations to be performed.
-func (i *Iter) Stop() bool {
-	return i.Iter.Stop()
-}
-
-// Meta returns the list metadata.
-func (i *Iter) Meta() *stripe.ListMeta {
-	return i.Iter.Meta()
-}
 func getC() Client {
 	return Client{stripe.GetBackend(), stripe.Key}
 }

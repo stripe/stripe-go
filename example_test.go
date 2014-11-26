@@ -84,13 +84,11 @@ func ExamplePlan_list() {
 	params.Filters.AddFilter("limit", "", "3")
 	params.Single = true
 
-	i := plan.List(params)
-	for !i.Stop() {
-		target, err := i.Next()
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		log.Printf("%v ", target.Name)
+	it := plan.List(params)
+	for it.Next() {
+		log.Printf("%v ", it.Plan().Name)
+	}
+	if err := it.Err(); err != nil {
+		log.Fatal(err)
 	}
 }

@@ -126,12 +126,8 @@ func TestRefundList(t *testing.T) {
 	}
 
 	i := List(&stripe.RefundListParams{Charge: ch.ID})
-	for !i.Stop() {
-		target, err := i.Next()
-
-		if err != nil {
-			t.Error(err)
-		}
+	for i.Next() {
+		target := i.Refund()
 
 		if target.Amount != 200 {
 			t.Errorf("Amount %v does not match expected value\n", target.Amount)
@@ -144,5 +140,8 @@ func TestRefundList(t *testing.T) {
 		if i.Meta() == nil {
 			t.Error("No metadata returned")
 		}
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
 	}
 }
