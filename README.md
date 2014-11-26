@@ -130,6 +130,17 @@ stripe := &client.API{}
 stripe.Init("access_token", nil)
 ```
 
+### Google AppEngine
+
+If you're running the client in a Google AppEngine environment, you
+will need to create your own backend since the `http.DefaultClient` is
+not available:
+
+```go
+gb := stripe.NewInternalBackend(urlfetch.Client(appengine.NewContext(req)), "")
+stripe.SetBackend(gb)
+```
+
 ## Documentation
 
 For a comprehensive list of examples, check out the [API documentation](https://stripe.com/docs/api/go).
