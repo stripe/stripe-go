@@ -61,6 +61,51 @@ func TestSubscriptionNew(t *testing.T) {
 	plan.Del("test")
 }
 
+func TestSubscriptionZeroQuantity(t *testing.T) {
+	customerParams := &stripe.CustomerParams{
+		Card: &stripe.CardParams{
+			Number: "378282246310005",
+			Month:  "06",
+			Year:   "20",
+		},
+	}
+
+	cust, _ := customer.New(customerParams)
+
+	planParams := &stripe.PlanParams{
+		ID:       "test",
+		Name:     "Test Plan",
+		Amount:   99,
+		Currency: currency.USD,
+		Interval: plan.Month,
+	}
+
+	plan.New(planParams)
+
+	subParams := &stripe.SubParams{
+		Customer:     cust.ID,
+		Plan:         "test",
+		QuantityZero: true,
+	}
+
+	target, err := New(subParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Plan.ID != subParams.Plan {
+		t.Errorf("Plan %q does not match expected plan %q\n", target.Plan, subParams.Plan)
+	}
+
+	if target.Quantity != 0 {
+		t.Errorf("Quantity %v does not match expected quantity %v\n", target.Quantity, 0)
+	}
+
+	customer.Del(cust.ID)
+	plan.Del("test")
+}
+
 func TestSubscriptionGet(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
 		Card: &stripe.CardParams{
