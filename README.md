@@ -194,6 +194,8 @@ for !i.Stop() {
 }
 ```
 
+Alternatively, you can use the `even.Data.Raw` property to unmarshal to the appropriate struct.
+
 ## Development
 
 Pull requests from the community are welcome. If you submit one, please keep
