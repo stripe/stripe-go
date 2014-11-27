@@ -1,3 +1,9 @@
+2.0.0 2014-11-26
+	Change List interface to .Next() and .Resource()
+	Better error messages for Get() methods
+	EventData.Raw contains the raw event message
+	SubParams.QuantityZero can be used for free subscriptions
+
 1.0.3 2014-10-22
 	Add AddMeta method
 
