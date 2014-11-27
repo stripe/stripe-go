@@ -70,8 +70,11 @@ err := resource.Del(id)
 // List
 i := resource.List(stripe.ResourceListParams)
 for i.Next() {
+  if err := i.Err(); err != nil {
+    // handle
+  }
+
   resource := i.Resource()
-  err := i.Err()
 }
 ```
 
@@ -109,8 +112,11 @@ err := sc.Resources.Del(id)
 // List
 i := sc.Resources.List(stripe.ResourceListParams)
 for i.Next() {
+  if err := i.Err(); err != nil {
+    // handle
+  }
+
   resource := i.Resource()
-  err := i.Err()
 }
 ```
 
@@ -183,8 +189,8 @@ for !i.Stop() {
 
 ```go
 i := event.List(nil)
-for !i.Stop() {
-  e, err := i.Next()
+for i.Next() {
+  e := i.Event()
 
   // access event data via e.GetObjValue("resource_name_based_on_type", "resource_property_name")
   // alternatively you can access values via e.Data.Obj["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
