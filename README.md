@@ -70,12 +70,14 @@ err := resource.Del(id)
 // List
 i := resource.List(stripe.ResourceListParams)
 for i.Next() {
-  if err := i.Err(); err != nil {
-    // handle
-  }
-
   resource := i.Resource()
 }
+
+if err := i.Err(); err != nil {
+  // handle
+}
+
+
 ```
 
 ### With a Client
@@ -112,11 +114,11 @@ err := sc.Resources.Del(id)
 // List
 i := sc.Resources.List(stripe.ResourceListParams)
 for i.Next() {
-  if err := i.Err(); err != nil {
-    // handle
-  }
-
   resource := i.Resource()
+}
+
+if err := i.Err(); err != nil {
+  // handle
 }
 ```
 
