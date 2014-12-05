@@ -30,7 +30,8 @@ type DisputeEvidenceParams struct {
 	ShippingAddress, ShippingDate, ShippingTracking, ShippingDoc                               string
 	RefundPolicy, RefundPolicyDisclosure, RefundRefusalReason                                  string
 	CancellationPolicy, CancellationPolicyDisclsoure, CancellationRebuttal                     string
-	ActivityLog, ServiceDate, ServiceDoc                                                       string
+	ActivityLog                                                                                string
+	ServiceDate, ServiceDoc                                                                    string
 	DuplicateCharge, DuplicateChargeReason, DuplicateChargeDoc                                 string
 	CustomerComm, UncategorizedText, UncategorizedFile                                         string
 }
