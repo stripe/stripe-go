@@ -18,10 +18,10 @@ import (
 const defaultURL = "https://api.stripe.com/v1"
 
 // apiversion is the currently supported API version
-const apiversion = "2014-11-20"
+const apiversion = "2014-12-08"
 
 // clientversion is the binding version
-const clientversion = "2.0.0"
+const clientversion = "3.0.0"
 
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.

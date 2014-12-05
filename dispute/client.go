@@ -45,8 +45,8 @@ func (c Client) Update(id string, params *stripe.DisputeParams) (*stripe.Dispute
 	if params != nil {
 		body = &url.Values{}
 
-		if len(params.Evidence) > 0 {
-			body.Add("evidence", params.Evidence)
+		if params.Evidence != nil {
+			params.Evidence.AppendDetails(body)
 		}
 
 		params.AppendTo(body)
