@@ -65,7 +65,7 @@ func SetDebug(value bool) {
 // GetBackend returns the currently used backend in the binding.
 func GetBackend() Backend {
 	if backend == nil {
-		backend = NewInternalBackend(&http.Client{Timeout: 80}, "")
+		backend = NewInternalBackend(&http.Client{Timeout: 80 * time.Second}, "")
 	}
 
 	return backend
