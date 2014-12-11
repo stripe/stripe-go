@@ -23,6 +23,11 @@ const apiversion = "2014-11-20"
 // clientversion is the binding version
 const clientversion = "2.0.0"
 
+// Default timeout on the http.Client used by the bindings.
+// This is chosen to be consistent with the other Stripe language bindings and
+// to coordinate with other timeouts configured in the Stripe infrastructure.
+const defaultHTTPTimeout = 80 * time.Second
+
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
 type Backend interface {
@@ -65,7 +70,7 @@ func SetDebug(value bool) {
 // GetBackend returns the currently used backend in the binding.
 func GetBackend() Backend {
 	if backend == nil {
-		backend = NewInternalBackend(&http.Client{Timeout: 80 * time.Second}, "")
+		backend = NewInternalBackend(&http.Client{Timeout: defaultHTTPTimeout}, "")
 	}
 
 	return backend
