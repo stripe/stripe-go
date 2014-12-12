@@ -9,6 +9,12 @@ import (
 	stripe "github.com/stripe/stripe-go"
 )
 
+const (
+	RefundFraudulent          stripe.RefundReason = "fraudulent"
+	RefundDuplicate           stripe.RefundReason = "duplicate"
+	RefundRequestedByCustomer stripe.RefundReason = "requested_by_customer"
+)
+
 // Client is used to invoke /refunds APIs.
 type Client struct {
 	B   stripe.Backend
@@ -30,6 +36,10 @@ func (c Client) New(params *stripe.RefundParams) (*stripe.Refund, error) {
 
 	if params.Fee {
 		body.Add("refund_application_fee", strconv.FormatBool(params.Fee))
+	}
+
+	if len(params.Reason) > 0 {
+		body.Add("reason", string(params.Reason))
 	}
 
 	params.AppendTo(body)

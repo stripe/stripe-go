@@ -10,6 +10,11 @@ import (
 	stripe "github.com/stripe/stripe-go"
 )
 
+const (
+	ReportFraudulent stripe.FraudReport = "fraudulent"
+	ReportSafe       stripe.FraudReport = "safe"
+)
+
 // Client is used to invoke /charges APIs.
 type Client struct {
 	B   stripe.Backend
@@ -106,6 +111,10 @@ func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, 
 			body.Add("description", params.Desc)
 		}
 
+		if len(params.FraudUserReport) > 0 {
+			body.Add("fraud_details[user_report]", string(params.FraudUserReport))
+		}
+
 		params.AppendTo(body)
 	}
 
@@ -190,6 +199,30 @@ func (c Client) List(params *stripe.ChargeListParams) *Iter {
 
 		return ret, list.ListMeta, err
 	})}
+}
+
+func MarkFraudulent(id string) (*stripe.Charge, error) {
+	return getC().Update(
+		id,
+		&stripe.ChargeParams{FraudUserReport: ReportFraudulent})
+}
+
+func (c Client) MarkFraudulent(id string) (*stripe.Charge, error) {
+	return c.Update(
+		id,
+		&stripe.ChargeParams{FraudUserReport: ReportSafe})
+}
+
+func MarkSafe(id string) (*stripe.Charge, error) {
+	return getC().Update(
+		id,
+		&stripe.ChargeParams{FraudUserReport: ReportSafe})
+}
+
+func (c Client) MarkSafe(id string) (*stripe.Charge, error) {
+	return c.Update(
+		id,
+		&stripe.ChargeParams{FraudUserReport: ReportSafe})
 }
 
 // Iter is an iterator for lists of Charges.
