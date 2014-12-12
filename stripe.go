@@ -8,6 +8,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"net/url"
 	"strings"
@@ -130,15 +131,27 @@ func (s *InternalBackend) NewRequest(method, path, key string, form *url.Values)
 	return req, nil
 }
 
+func generateIdempotencyKey() string {
+	// TODO: replace this with uuids
+	randomChar := func(x rune) rune {
+		return int32(rand.Int63() & 0xff)
+	}
+	return strings.Map(randomChar, strings.Repeat(" ", 25))
+}
+
 // Do is used by Call to execute an API request and parse the response. It uses
 // the backend's HTTP client to execute the request and unmarshals the response
 // into v. It also handles unmarshaling errors returned by the API.
 func (s *InternalBackend) Do(req *http.Request, v interface{}) error {
-	log.Printf("Requesting %v %q\n", req.Method, req.URL.Path)
+	var idempotencyKey string
+	idempotencyKey = generateIdempotencyKey()
+	log.Printf("Requesting %v %q %s \n", req.Method, req.URL.Path, idempotencyKey)
 	start := time.Now()
 	requestNumber := 0
 
 	var resBody []byte
+
+	req.Header.Add("Idempotency-Key", idempotencyKey)
 
 	requestOperation := func() (retryable, unretryable error) {
 		res, err := s.httpClient.Do(req)
