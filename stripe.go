@@ -31,22 +31,27 @@ type Backend interface {
 
 // InternalBackend is the internal implementation for making HTTP calls to Stripe.
 type InternalBackend struct {
-	url        string
-	httpClient *http.Client
+	url             string
+	httpClient      *http.Client
+	backoffStrategy UnsuccessfulResponseStrategy
 }
 
 // NewInternalBackend returns a customized backend used for making calls in this binding.
 // This method should be called in one of two scenarios:
 //	1. You're running in a Google AppEngine environment where the http.DefaultClient is not available.
 //  2. You're doing internal development at Stripe.
-func NewInternalBackend(httpClient *http.Client, url string) *InternalBackend {
+func NewInternalBackend(httpClient *http.Client, url string, backoffStrategy UnsuccessfulResponseStrategy) *InternalBackend {
 	if len(url) == 0 {
 		url = defaultURL
 	}
+	if backoffStrategy == nil {
+		backoffStrategy = &ExponentialBackoffStrategy{}
+	}
 
 	return &InternalBackend{
-		url:        url,
-		httpClient: httpClient,
+		url:             url,
+		httpClient:      httpClient,
+		backoffStrategy: backoffStrategy,
 	}
 }
 
@@ -65,7 +70,7 @@ func SetDebug(value bool) {
 // GetBackend returns the currently used backend in the binding.
 func GetBackend() Backend {
 	if backend == nil {
-		backend = NewInternalBackend(http.DefaultClient, "")
+		backend = NewInternalBackend(http.DefaultClient, "", nil)
 	}
 
 	return backend
@@ -131,57 +136,73 @@ func (s *InternalBackend) NewRequest(method, path, key string, form *url.Values)
 func (s *InternalBackend) Do(req *http.Request, v interface{}) error {
 	log.Printf("Requesting %v %q\n", req.Method, req.URL.Path)
 	start := time.Now()
+	requestNumber := 0
 
-	res, err := s.httpClient.Do(req)
+	var resBody []byte
 
-	if debug {
-		log.Printf("Completed in %v\n", time.Since(start))
-	}
+	requestOperation := func() (retryable, unretryable error) {
+		res, err := s.httpClient.Do(req)
 
-	if err != nil {
-		log.Printf("Request to Stripe failed: %v\n", err)
-		return err
-	}
-	defer res.Body.Close()
-
-	resBody, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		log.Printf("Cannot parse Stripe response: %v\n", err)
-		return err
-	}
-
-	if res.StatusCode >= 400 {
-		// for some odd reason, the Erro structure doesn't unmarshal
-		// initially I thought it was because it's a struct inside of a struct
-		// but even after trying that, it still didn't work
-		// so unmarshalling to a map for now and parsing the results manually
-		// but should investigate later
-		var errMap map[string]interface{}
-		json.Unmarshal(resBody, &errMap)
-
-		if e, found := errMap["error"]; !found {
-			err := errors.New(string(resBody))
-			log.Printf("Unparsable error returned from Stripe: %v\n", err)
-			return err
-		} else {
-			root := e.(map[string]interface{})
-			err := &Error{
-				Type:           ErrorType(root["type"].(string)),
-				Msg:            root["message"].(string),
-				HTTPStatusCode: res.StatusCode,
-			}
-
-			if code, found := root["code"]; found {
-				err.Code = ErrorCode(code.(string))
-			}
-
-			if param, found := root["param"]; found {
-				err.Param = param.(string)
-			}
-
-			log.Printf("Error encountered from Stripe: %v\n", err)
-			return err
+		if debug {
+			log.Printf("Completed request %d in %v\n", requestNumber, time.Since(start))
 		}
+
+		if err != nil {
+			log.Printf("Request to Stripe failed: %v\n", err)
+			return err, nil
+		}
+		defer res.Body.Close()
+
+		resBody, err = ioutil.ReadAll(res.Body)
+		if err != nil {
+			log.Printf("Cannot parse Stripe response: %v\n", err)
+			return err, nil
+		}
+
+		if res.StatusCode >= 400 {
+			// for some odd reason, the Erro structure doesn't unmarshal
+			// initially I thought it was because it's a struct inside of a struct
+			// but even after trying that, it still didn't work
+			// so unmarshalling to a map for now and parsing the results manually
+			// but should investigate later
+			var errMap map[string]interface{}
+			json.Unmarshal(resBody, &errMap)
+
+			if e, found := errMap["error"]; !found {
+				err := errors.New(string(resBody))
+				log.Printf("Unparsable error returned from Stripe: %v\n", err)
+				return err, nil
+			} else {
+				root := e.(map[string]interface{})
+				err := &Error{
+					Type:           ErrorType(root["type"].(string)),
+					Msg:            root["message"].(string),
+					HTTPStatusCode: res.StatusCode,
+				}
+
+				if code, found := root["code"]; found {
+					err.Code = ErrorCode(code.(string))
+				}
+
+				if param, found := root["param"]; found {
+					err.Param = param.(string)
+				}
+
+				log.Printf("Error encountered from Stripe: %v\n", err)
+
+				// we only want to retry if we encounter an error that has a status code ≥ 500
+				if res.StatusCode >= 500 {
+					return err, nil
+				} else {
+					return nil, err
+				}
+			}
+		}
+		return nil, nil
+	}
+	err := s.backoffStrategy.Submit(requestOperation)
+	if err != nil {
+		return err
 	}
 
 	if debug {
