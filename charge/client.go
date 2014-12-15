@@ -30,6 +30,11 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 
 	if len(params.Customer) > 0 {
 		body.Add("customer", params.Customer)
+		if params.Card != nil && params.Meta != nil {
+			if val, ok := params.Meta["card_id"]; ok {
+				body.Add("card", val)
+			}
+		}
 	} else if len(params.Token) > 0 {
 		body.Add("card", params.Token)
 	} else if params.Card != nil {
