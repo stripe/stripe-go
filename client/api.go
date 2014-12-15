@@ -14,6 +14,7 @@ import (
 	"github.com/stripe/stripe-go/event"
 	"github.com/stripe/stripe-go/fee"
 	"github.com/stripe/stripe-go/feerefund"
+	"github.com/stripe/stripe-go/fileupload"
 	"github.com/stripe/stripe-go/invoice"
 	"github.com/stripe/stripe-go/invoiceitem"
 	"github.com/stripe/stripe-go/plan"
