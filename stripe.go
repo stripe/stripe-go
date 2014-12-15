@@ -27,6 +27,7 @@ const clientversion = "3.0.0"
 // This interface exists to enable mocking for during testing if needed.
 type Backend interface {
 	Call(method, path, key string, body *url.Values, v interface{}) error
+	AbstractCall(method, fullURL, key string, body io.Reader, headers map[string]string, v interface{}) error
 }
 
 // InternalBackend is the internal implementation for making HTTP calls to Stripe.
@@ -76,11 +77,16 @@ func SetBackend(b Backend) {
 	backend = b
 }
 
-// Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s *InternalBackend) Call(method, path, key string, form *url.Values, v interface{}) error {
-	req, err := s.NewRequest(method, path, key, form)
+// AbstractCall is a generalized version of the Backend.Call method for invoking
+// Stripe APIs.
+func (s *InternalBackend) AbstractCall(method, fullURL, key string, body io.Reader, headers map[string]string, v interface{}) error {
+	req, err := s.NewRequest(method, fullURL, key, body, headers)
 	if err != nil {
 		return err
+	}
+
+	for k, v := range headers {
+		req.Header.Set(k, v)
 	}
 
 	if err := s.Do(req, v); err != nil {
@@ -90,9 +96,8 @@ func (s *InternalBackend) Call(method, path, key string, form *url.Values, v int
 	return nil
 }
 
-// NewRequest is used by Call to generate an http.Request. It handles encoding
-// parameters and attaching the Authorization header.
-func (s *InternalBackend) NewRequest(method, path, key string, form *url.Values) (*http.Request, error) {
+// Call is the Backend.Call implementation for invoking Stripe APIs.
+func (s *InternalBackend) Call(method, path, key string, form *url.Values, v interface{}) error {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
@@ -109,6 +114,13 @@ func (s *InternalBackend) NewRequest(method, path, key string, form *url.Values)
 		}
 	}
 
+	var headers map[string]string
+	return s.AbstractCall(method, path, key, body, headers, v)
+}
+
+// NewRequest is used by Call to generate an http.Request. It handles encoding
+// parameters and attaching the Authorization header.
+func (s *InternalBackend) NewRequest(method, path, key string, body io.Reader) (*http.Request, error) {
 	req, err := http.NewRequest(method, path, body)
 	if err != nil {
 		log.Printf("Cannot create Stripe request: %v\n", err)

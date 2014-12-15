@@ -65,42 +65,32 @@ type EvidenceDetails struct {
 // Almost all fields are strings since there structures (i.e. address)
 // do not typically get parsed by anyone and are thus presented as-received.
 type DisputeEvidence struct {
-	ProductDesc                  string `json:"product_description"`
-	CustomerName                 string `json:"customer_name"`
-	CustomerEmail                string `json:"customer_email_address"`
-	CustomerIP                   string `json:"customer_purchase_ip"`
-	CustomerSig                  *File  `json:"customer_signature"`
-	BillingAddress               string `json:"billing_address"`
-	Receipt                      *File  `json:"receipt"`
-	ShippingAddress              string `json:"shipping_address"`
-	ShippingDate                 string `json:"shipping_date"`
-	ShippingTracking             string `json:"shipping_tracking_number"`
-	ShippingDoc                  *File  `json:"shipping_documentation"`
-	RefundPolicy                 *File  `json:"refund_policy"`
-	RefundPolicyDisclosure       string `json:"refund_policy_disclosure"`
-	RefundRefusalReason          string `json:"refund_refusal_explanation"`
-	CancellationPolicy           *File  `json:"cancellation_policy"`
-	CancellationPolicyDisclosure string `json:"cancellation_policy_disclosure"`
-	CancellationRebuttal         string `json:"cancellation_rebuttal"`
-	ActivityLog                  string `json:"access_activity_log"`
-	ServiceDate                  string `json:"service_date"`
-	ServiceDoc                   *File  `json:"service_documentation"`
-	DuplicateCharge              string `json:"duplicate_charge_id"`
-	DuplicateChargeReason        string `json:"duplicate_charge_explanation"`
-	DuplicateChargeDoc           *File  `json:"duplicate_charge_documentation"`
-	CustomerComm                 *File  `json:"customer_communication"`
-	UncategorizedText            string `json:"uncategorized_text"`
-	UncategorizedFile            *File  `json:"uncategorized_file"`
-}
-
-// File represents a link to downloadable content.
-type File struct {
-	ID      string `json:"id"`
-	Created int64  `json:"created"`
-	Size    int    `json:"size"`
-	Purpose string `json:"purpose"`
-	URL     string `json:"url"`
-	Mime    string `json:"mime_type"`
+	ProductDesc                  string      `json:"product_description"`
+	CustomerName                 string      `json:"customer_name"`
+	CustomerEmail                string      `json:"customer_email_address"`
+	CustomerIP                   string      `json:"customer_purchase_ip"`
+	CustomerSig                  *FileUpload `json:"customer_signature"`
+	BillingAddress               string      `json:"billing_address"`
+	Receipt                      *FileUpload `json:"receipt"`
+	ShippingAddress              string      `json:"shipping_address"`
+	ShippingDate                 string      `json:"shipping_date"`
+	ShippingTracking             string      `json:"shipping_tracking_number"`
+	ShippingDoc                  *FileUpload `json:"shipping_documentation"`
+	RefundPolicy                 *FileUpload `json:"refund_policy"`
+	RefundPolicyDisclosure       string      `json:"refund_policy_disclosure"`
+	RefundRefusalReason          string      `json:"refund_refusal_explanation"`
+	CancellationPolicy           *FileUpload `json:"cancellation_policy"`
+	CancellationPolicyDisclosure string      `json:"cancellation_policy_disclosure"`
+	CancellationRebuttal         string      `json:"cancellation_rebuttal"`
+	ActivityLog                  string      `json:"access_activity_log"`
+	ServiceDate                  string      `json:"service_date"`
+	ServiceDoc                   *FileUpload `json:"service_documentation"`
+	DuplicateCharge              string      `json:"duplicate_charge_id"`
+	DuplicateChargeReason        string      `json:"duplicate_charge_explanation"`
+	DuplicateChargeDoc           *FileUpload `json:"duplicate_charge_documentation"`
+	CustomerComm                 *FileUpload `json:"customer_communication"`
+	UncategorizedText            string      `json:"uncategorized_text"`
+	UncategorizedFile            *FileUpload `json:"uncategorized_file"`
 }
 
 // AppendDetails adds the dispute evidence details to the query string values.
@@ -208,21 +198,4 @@ func (e *DisputeEvidenceParams) AppendDetails(values *url.Values) {
 	if len(e.UncategorizedFile) > 0 {
 		values.Add("evidence[uncategorized_file]", e.UncategorizedFile)
 	}
-}
-
-// UnmarshalJSON handles deserialization of a File.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (f *File) UnmarshalJSON(data []byte) error {
-	type file File
-	var ff file
-	err := json.Unmarshal(data, &ff)
-	if err == nil {
-		*f = File(ff)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		f.ID = string(data[1 : len(data)-1])
-	}
-
-	return nil
 }

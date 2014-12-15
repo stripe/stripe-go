@@ -87,6 +87,9 @@ type API struct {
 	// Tokens is the client used to invoke /tokens APIs.
 	// For more details see https://stripe.com/docs/api/#Tokens.
 	Tokens *token.Client
+	// FileUploads is the client used to invoke the uploads /files APIs.
+	// For more details see https://stripe.com/docs/api#file_uploads.
+	FileUploads *fileupload.Client
 }
 
 // Init initializes the Stripe client with the appropriate secret key
@@ -118,4 +121,5 @@ func (a *API) Init(key string, backend Backend) {
 	a.Balance = &balance.Client{B: a.backend, Key: a.key}
 	a.Events = &event.Client{B: a.backend, Key: a.key}
 	a.Tokens = &token.Client{B: a.backend, Key: a.key}
+	a.FileUploads = &fileupload.Client{B: a.backend, Key: a.key}
 }
