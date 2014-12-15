@@ -80,7 +80,7 @@ func SetBackend(b Backend) {
 // AbstractCall is a generalized version of the Backend.Call method for invoking
 // Stripe APIs.
 func (s *InternalBackend) AbstractCall(method, fullURL, key string, body io.Reader, headers map[string]string, v interface{}) error {
-	req, err := s.NewRequest(method, fullURL, key, body, headers)
+	req, err := s.NewRequest(method, fullURL, key, body)
 	if err != nil {
 		return err
 	}

@@ -3,6 +3,8 @@ package fileupload
 
 import (
 	"bytes"
+	"fmt"
+	"io"
 	"net/url"
 
 	stripe "github.com/stripe/stripe-go"
@@ -51,7 +53,7 @@ func (c Client) Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpl
 
 	if params != nil {
 		form = &url.Values{}
-		params.Appendto(form)
+		params.AppendTo(form)
 	}
 	if form != nil && len(*form) > 0 {
 		data := form.Encode()

@@ -12,8 +12,9 @@ import (
 // file upload.
 // For more details see https://stripe.com/docs/api#create_file_upload.
 type FileUploadParams struct {
+	Params
 	Purpose FileUploadPurpose
-	File    os.File
+	File    *os.File
 }
 
 // FileUploadPurpose is the purpose of a particular file upload. Allowed values
@@ -31,26 +32,32 @@ type FileUpload struct {
 	Mime    string            `json:"mimetype"`
 }
 
-func (f *FileUploadParams) AppendDetails(body io.Reader) error {
+func (f *FileUploadParams) AppendDetails(body io.ReadWriter) error {
 	writer := multipart.NewWriter(body)
-	part, err := writer.CreateFormFile(paramName, filepath.Base(f.Name()))
-	if err != nil {
-		return nil, err
+	var err error
+
+	if f.File != nil {
+		part, err := writer.CreateFormFile("file", filepath.Base(f.File.Name()))
+		if err != nil {
+			return err
+		}
+
+		_, err = io.Copy(part, f.File)
+		if err != nil {
+			return err
+		}
 	}
 
-	_, err = io.Copy(part, f.File)
-	if err != nil {
-		return nil, err
-	}
-
-	err = writer.WriteField("purpose", f.Purpose)
-	if err != nil {
-		return nil, err
+	if len(f.Purpose) > 0 {
+		err = writer.WriteField("purpose", string(f.Purpose))
+		if err != nil {
+			return err
+		}
 	}
 
 	err = writer.Close()
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	return nil
