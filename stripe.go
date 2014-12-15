@@ -21,7 +21,7 @@ const defaultURL = "https://api.stripe.com/v1"
 const apiversion = "2014-12-08"
 
 // clientversion is the binding version
-const clientversion = "3.0.0"
+const clientversion = "3.0.1"
 
 // Default timeout on the http.Client used by the bindings.
 // This is chosen to be consistent with the other Stripe language bindings and
