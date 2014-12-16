@@ -32,6 +32,9 @@ type FileUpload struct {
 	Mime    string            `json:"mimetype"`
 }
 
+// AppendDetails adds the file upload details to an io.ReadWriter. It returns
+// the boundary string for a multipart/form-data request and an error (if one
+// exists).
 func (f *FileUploadParams) AppendDetails(body io.ReadWriter) (string, error) {
 	writer := multipart.NewWriter(body)
 	var err error

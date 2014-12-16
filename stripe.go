@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -86,7 +85,6 @@ func (s *InternalBackend) AbstractCall(method, fullURL, key string, body io.Read
 		return err
 	}
 
-	fmt.Println(req.Header)
 	for k, v := range headers {
 		req.Header.Set(k, v)
 	}
