@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	expectedSize = 12412
+	expectedSize = 739
 	expectedMime = "application/pdf"
 )
 
@@ -17,8 +17,8 @@ func init() {
 	stripe.Key = GetTestKey()
 }
 
-func TestFileUploadNew(t *testing.T) {
-  f, err := os.Open("./data/minimal.pdf")
+func TestFileUploadNewThenGet(t *testing.T) {
+	f, err := os.Open("./data/minimal.pdf")
 	if err != nil {
 		t.Errorf("Unable to open test file upload file %v\n", err)
 	}
@@ -33,14 +33,24 @@ func TestFileUploadNew(t *testing.T) {
 	}
 
 	if target.Size != expectedSize {
-		t.Errorf("Size %v does not match expected size %v\n", target.Size, expectedSize)
+		t.Errorf("(POST) Size %v does not match expected size %v\n", target.Size, expectedSize)
 	}
 
 	if target.Purpose != uploadParams.Purpose {
-		t.Errorf("Purpose %v does not match expected purpose %v\n", target.Purpose, uploadParams.Purpose)
+		t.Errorf("(POST) Purpose %v does not match expected purpose %v\n", target.Purpose, uploadParams.Purpose)
 	}
 
 	if target.Mime != expectedMime {
-		t.Errorf("Mime %v does not match expected mime %v\n", target.Mime, expectedMime)
+		t.Errorf("(POST) Mime %v does not match expected mime %v\n", target.Mime, expectedMime)
+	}
+
+	res, err := Get(target.ID, nil)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.ID != res.ID {
+		t.Errorf("(GET) File upload id %q does not match expected id %q\n", target.ID, res.ID)
 	}
 }
