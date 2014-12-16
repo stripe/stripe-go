@@ -31,61 +31,61 @@ type API struct {
 	// backend is the Backend implementation used to invoke Stripe APIs.
 	backend Backend
 	// Charges is the client used to invoke /charges APIs.
-	// For more details see https://stripe.com/docs/api/#charges.
+	// For more details see https://stripe.com/docs/api#charges.
 	Charges *charge.Client
 	// Customers is the client used to invoke /customers APIs.
-	// For more details see https://stripe.com/docs/api/#customers.
+	// For more details see https://stripe.com/docs/api#customers.
 	Customers *customer.Client
 	// Cards is the client used to invoke /cards APIs.
-	// For more details see https://stripe.com/docs/api/#cards.
+	// For more details see https://stripe.com/docs/api#cards.
 	Cards *card.Client
 	// Subs is the client used to invoke /subscriptions APIs.
-	// For more details see https://stripe.com/docs/api/#subscriptions.
+	// For more details see https://stripe.com/docs/api#subscriptions.
 	Subs *sub.Client
 	// Plans is the client used to invoke /plans APIs.
-	// For more details see https://stripe.com/docs/api/#plans.
+	// For more details see https://stripe.com/docs/api#plans.
 	Plans *plan.Client
 	// Coupons is the client used to invoke /coupons APIs.
-	// For more details see https://stripe.com/docs/api/#coupons.
+	// For more details see https://stripe.com/docs/api#coupons.
 	Coupons *coupon.Client
 	// Discounts is the client used to invoke discount-related APIs.
-	// For mode details see https://stripe.com/docs/api/#discounts.
+	// For mode details see https://stripe.com/docs/api#discounts.
 	Discounts *discount.Client
 	// Invoices is the client used to invoke /invoices APIs.
-	// For more details see https://stripe.com/docs/api/#invoices.
+	// For more details see https://stripe.com/docs/api#invoices.
 	Invoices *invoice.Client
 	// InvoiceItems is the client used to invoke /invoiceitems APIs.
-	// For more details see https://stripe.com/docs/api/#invoiceitems.
+	// For more details see https://stripe.com/docs/api#invoiceitems.
 	InvoiceItems *invoiceitem.Client
 	// Disputes is the client used to invoke dispute-related APIs.
-	// For more details see https://stripe.com/docs/api/#disputes.
+	// For more details see https://stripe.com/docs/api#disputes.
 	Disputes *dispute.Client
 	// Transfers is the client used to invoke /transfers APIs.
-	// For more details see https://stripe.com/docs/api/#transfers.
+	// For more details see https://stripe.com/docs/api#transfers.
 	Transfers *transfer.Client
 	// Recipients is the client used to invoke /recipients APIs.
-	// For more details see https://stripe.com/docs/api/#recipients.
+	// For more details see https://stripe.com/docs/api#recipients.
 	Recipients *recipient.Client
 	// Refunds is the client used to invoke /refunds APIs.
 	// For more details see https://stripe.com/docs/api#refunds.
 	Refunds *refund.Client
 	// Fees is the client used to invoke /application_fees APIs.
-	// For more details see https://stripe.com/docs/api/#application_fees.
+	// For more details see https://stripe.com/docs/api#application_fees.
 	Fees *fee.Client
 	// FeeRefunds is the client used to invoke /application_fees/refunds APIs.
-	// For more details see https://stripe.com/docs/api/#fee_refundss.
+	// For more details see https://stripe.com/docs/api#fee_refundss.
 	FeeRefunds *feerefund.Client
 	// Account is the client used to invoke /account APIs.
-	// For more details see https://stripe.com/docs/api/#account.
+	// For more details see https://stripe.com/docs/api#account.
 	Account *account.Client
 	// Balance is the client used to invoke /balance and transaction-related APIs.
-	// For more details see https://stripe.com/docs/api/#balance.
+	// For more details see https://stripe.com/docs/api#balance.
 	Balance *balance.Client
 	// Events is the client used to invoke /events APIs.
 	// For more details see https://stripe.com/docs/api#events.
 	Events *event.Client
 	// Tokens is the client used to invoke /tokens APIs.
-	// For more details see https://stripe.com/docs/api/#Tokens.
+	// For more details see https://stripe.com/docs/api#tokens.
 	Tokens *token.Client
 }
 
