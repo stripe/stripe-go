@@ -18,7 +18,7 @@ func init() {
 }
 
 func TestFileUploadNew(t *testing.T) {
-	f, err := os.Open("/home/wangjohn/Documents/PebbleBeach.pdf")
+  f, err := os.Open("./data/minimal.pdf")
 	if err != nil {
 		t.Errorf("Unable to open test file upload file %v\n", err)
 	}

@@ -28,12 +28,17 @@ func New(params *stripe.FileUploadParams) (*stripe.FileUpload, error) {
 
 func (c Client) New(params *stripe.FileUploadParams) (*stripe.FileUpload, error) {
 	body := &bytes.Buffer{}
+	contentType := "multipart/form-data"
 	if params != nil {
-		params.AppendDetails(body)
+		boundary, err := params.AppendDetails(body)
+		if err != nil {
+			return nil, err
+		}
+		contentType = fmt.Sprintf("%v; boundary=%v", contentType, boundary)
 	}
 
 	headers := make(map[string]string)
-	headers["Content-Type"] = "multipart/form-data"
+	headers["Content-Type"] = contentType
 
 	upload := &stripe.FileUpload{}
 	err := c.B.AbstractCall("POST", uploadsURL+"/files", c.Key, body, headers, upload)

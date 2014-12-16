@@ -32,35 +32,35 @@ type FileUpload struct {
 	Mime    string            `json:"mimetype"`
 }
 
-func (f *FileUploadParams) AppendDetails(body io.ReadWriter) error {
+func (f *FileUploadParams) AppendDetails(body io.ReadWriter) (string, error) {
 	writer := multipart.NewWriter(body)
 	var err error
-
-	if f.File != nil {
-		part, err := writer.CreateFormFile("file", filepath.Base(f.File.Name()))
-		if err != nil {
-			return err
-		}
-
-		_, err = io.Copy(part, f.File)
-		if err != nil {
-			return err
-		}
-	}
 
 	if len(f.Purpose) > 0 {
 		err = writer.WriteField("purpose", string(f.Purpose))
 		if err != nil {
-			return err
+			return "", err
+		}
+	}
+
+	if f.File != nil {
+		part, err := writer.CreateFormFile("file", filepath.Base(f.File.Name()))
+		if err != nil {
+			return "", err
+		}
+
+		_, err = io.Copy(part, f.File)
+		if err != nil {
+			return "", err
 		}
 	}
 
 	err = writer.Close()
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	return nil
+	return writer.Boundary(), nil
 }
 
 // UnmarshalJSON handles deserialization of a File.
