@@ -209,7 +209,7 @@ func MarkFraudulent(id string) (*stripe.Charge, error) {
 func (c Client) MarkFraudulent(id string) (*stripe.Charge, error) {
 	return c.Update(
 		id,
-		&stripe.ChargeParams{Fraud: ReportSafe})
+		&stripe.ChargeParams{Fraud: ReportFraudulent})
 }
 
 // MarkSafe reports the charge as not-fraudulent.
