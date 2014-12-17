@@ -6,6 +6,13 @@ import "encoding/json"
 // For more details see https://support.stripe.com/questions/which-currencies-does-stripe-support.
 type Currency string
 
+type FraudReport string
+
+type FraudDetails struct {
+	UserReport   FraudReport `json:"user_report"`
+	StripeReport FraudReport `json:"stripe_report"`
+}
+
 // ChargeParams is the set of parameters that can be used when creating or updating a charge.
 // For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
 type ChargeParams struct {
@@ -17,6 +24,7 @@ type ChargeParams struct {
 	Desc, Statement, Email string
 	NoCapture              bool
 	Fee                    uint64
+	FraudUserReport        FraudReport
 }
 
 // ChargeListParams is the set of parameters that can be used when listing charges.
@@ -59,6 +67,7 @@ type Charge struct {
 	Meta           map[string]string `json:"metadata"`
 	Email          string            `json:"receipt_email"`
 	Statement      string            `json:"statement_description"`
+	FraudDetails   *FraudDetails     `json:"fraud_details"`
 }
 
 // UnmarshalJSON handles deserialization of a Charge.

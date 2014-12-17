@@ -2,6 +2,10 @@ package stripe
 
 import "encoding/json"
 
+// RefundReason, if set, is the reason the refund is being made--allowed values
+// are "fraudulent", "duplicate", and "requested_by_customer".
+type RefundReason string
+
 // RefundParams is the set of parameters that can be used when refunding a charge.
 // For more details see https://stripe.com/docs/api#refund.
 type RefundParams struct {
@@ -9,6 +13,7 @@ type RefundParams struct {
 	Charge string
 	Amount uint64
 	Fee    bool
+	Reason RefundReason
 }
 
 // RefundListParams is the set of parameters that can be used when listing refunds.
@@ -28,6 +33,7 @@ type Refund struct {
 	Tx       *Transaction      `json:"balance_transaction"`
 	Charge   string            `json:"charge"`
 	Meta     map[string]string `json:"metadata"`
+	Reason   RefundReason      `json:"reason"`
 }
 
 // RefundList is a list object for refunds.
