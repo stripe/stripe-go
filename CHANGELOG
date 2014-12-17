@@ -1,3 +1,7 @@
+4.0.0 2014-12-16
+	Add FileUpload resource. This brings in a new endpoint (uploads.stripe.com) and thus makes changes to some of the existing interfaces.
+	This also adds support for multipart content.
+
 3.1.0 2014-12-16
 	Add Charge.FraudDetails
 

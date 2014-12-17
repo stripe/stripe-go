@@ -176,5 +176,5 @@ func (i *Iter) Card() *stripe.Card {
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(), stripe.Key}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

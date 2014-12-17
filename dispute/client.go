@@ -72,5 +72,5 @@ func (c Client) Close(id string) (*stripe.Dispute, error) {
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(), stripe.Key}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

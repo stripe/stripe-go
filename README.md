@@ -53,7 +53,7 @@ import (
 // Setup
 stripe.Key = "sk_key"
 
-stripe.SetBackend(backend) // optional, useful for mocking
+stripe.SetBackend("api", backend) // optional, useful for mocking
 
 // Create
 resource, err := resource.New(stripe.ResourceParams)
@@ -94,10 +94,7 @@ import (
 
 // Setup
 sc := &client.API{}
-sc.Init("sk_key", nil)
-// the second parameter represents the Backend used by the client. It can be
-// useful to set one explicitly to either get a custom http.Client or mock it
-// entirely in tests.
+sc.Init("sk_key", nil) // the second parameter overrides the backends used if needed for mocking
 
 // Create
 resource, err := sc.Resources.New(stripe.ResourceParams)
@@ -141,12 +138,11 @@ stripe.Init("access_token", nil)
 ### Google AppEngine
 
 If you're running the client in a Google AppEngine environment, you
-will need to create your own backend since the `http.DefaultClient` is
-not available:
+can override the HTTP client used internally since the
+`http.DefaultClient` is not available:
 
 ```go
-gb := stripe.NewInternalBackend(urlfetch.Client(appengine.NewContext(req)), "")
-stripe.SetBackend(gb)
+stripe.SetHTTPClient(urlfetch.Client(appengine.NewContext(req)))
 ```
 
 ## Documentation
