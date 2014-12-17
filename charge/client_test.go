@@ -204,7 +204,9 @@ func TestMarkFraudulent(t *testing.T) {
 
 	target, _ := New(chargeParams)
 	refund.New(&stripe.RefundParams{Charge: target.ID})
+
 	ch, _ := MarkFraudulent(target.ID)
+
 	if ch.FraudDetails.UserReport != ReportFraudulent {
 		t.Error("UserReport was not fraudulent for a charge marked as fraudulent")
 	}
@@ -225,7 +227,9 @@ func TestMarkSafe(t *testing.T) {
 	}
 
 	target, _ := New(chargeParams)
+
 	ch, _ := MarkSafe(target.ID)
+
 	if ch.FraudDetails.UserReport != ReportSafe {
 		t.Error("UserReport was not safe for a charge marked as safe: ",
 			ch.FraudDetails.UserReport)

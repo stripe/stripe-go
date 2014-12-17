@@ -111,8 +111,8 @@ func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, 
 			body.Add("description", params.Desc)
 		}
 
-		if len(params.FraudUserReport) > 0 {
-			body.Add("fraud_details[user_report]", string(params.FraudUserReport))
+		if len(params.Fraud) > 0 {
+			body.Add("fraud_details[user_report]", string(params.Fraud))
 		}
 
 		params.AppendTo(body)
@@ -201,28 +201,26 @@ func (c Client) List(params *stripe.ChargeListParams) *Iter {
 	})}
 }
 
+// MarkFraudulent reports the charge as fraudulent.
 func MarkFraudulent(id string) (*stripe.Charge, error) {
-	return getC().Update(
-		id,
-		&stripe.ChargeParams{FraudUserReport: ReportFraudulent})
+	return getC().MarkFraudulent(id)
 }
 
 func (c Client) MarkFraudulent(id string) (*stripe.Charge, error) {
 	return c.Update(
 		id,
-		&stripe.ChargeParams{FraudUserReport: ReportSafe})
+		&stripe.ChargeParams{Fraud: ReportSafe})
 }
 
+// MarkSafe reports the charge as not-fraudulent.
 func MarkSafe(id string) (*stripe.Charge, error) {
-	return getC().Update(
-		id,
-		&stripe.ChargeParams{FraudUserReport: ReportSafe})
+	return getC().MarkSafe(id)
 }
 
 func (c Client) MarkSafe(id string) (*stripe.Charge, error) {
 	return c.Update(
 		id,
-		&stripe.ChargeParams{FraudUserReport: ReportSafe})
+		&stripe.ChargeParams{Fraud: ReportSafe})
 }
 
 // Iter is an iterator for lists of Charges.
