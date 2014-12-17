@@ -25,7 +25,7 @@ const apiversion = "2014-12-08"
 // clientversion is the binding version
 const clientversion = "4.0.0"
 
-// dfaultHTTPTimeout is the default timeout on the http.Client used by the bindings.
+// defaultHTTPTimeout is the default timeout on the http.Client used by the bindings.
 // This is chosen to be consistent with the other Stripe language bindings and
 // to coordinate with other timeouts configured in the Stripe infrastructure.
 const defaultHTTPTimeout = 80 * time.Second
@@ -56,12 +56,16 @@ const (
 	UploadsBackend SupportedBackend = "uploads"
 )
 
+type StripeBackends struct {
+	API, Uploads Backend
+}
+
 // Key is the Stripe API key used globally in the binding.
 var Key string
 
 var debug bool
 var httpClient = &http.Client{Timeout: defaultHTTPTimeout}
-var backends = make(map[SupportedBackend]Backend, TotalBackends)
+var backends StripeBackends
 
 // SetHTTPClient overrides the default HTTP client.
 // This is useful if you're running in a Google AppEngine environment
@@ -72,24 +76,32 @@ func SetHTTPClient(client *http.Client) {
 
 // GetBackend returns the currently used backend in the binding.
 func GetBackend(backend SupportedBackend) Backend {
-	if _, ok := backends[backend]; !ok {
-		var url string
-		switch backend {
-		case APIBackend:
-			url = apiURL
-		case UploadsBackend:
-			url = uploadsURL
+	var ret Backend
+	switch backend {
+	case APIBackend:
+		if backends.API == nil {
+			backends.API = BackendConfiguration{backend, apiURL, httpClient}
 		}
 
-		backends[backend] = BackendConfiguration{backend, url, httpClient}
+		ret = backends.API
+	case UploadsBackend:
+		if backends.Uploads == nil {
+			backends.Uploads = BackendConfiguration{backend, uploadsURL, httpClient}
+		}
+		ret = backends.Uploads
 	}
 
-	return backends[backend]
+	return ret
 }
 
 // SetBackend sets the backend used in the binding.
 func SetBackend(backend SupportedBackend, b Backend) {
-	backends[backend] = b
+	switch backend {
+	case APIBackend:
+		backends.API = b
+	case UploadsBackend:
+		backends.Uploads = b
+	}
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.

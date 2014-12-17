@@ -91,31 +91,29 @@ type API struct {
 
 // Init initializes the Stripe client with the appropriate secret key
 // as well as providing the ability to override the backend as needed.
-func (a *API) Init(key string, backends map[SupportedBackend]Backend) {
+func (a *API) Init(key string, backends *StripeBackends) {
 	if backends == nil {
-		backends = make(map[SupportedBackend]Backend, TotalBackends)
-		backends[APIBackend] = GetBackend(APIBackend)
-		backends[UploadsBackend] = GetBackend(UploadsBackend)
+		backends = &StripeBackends{GetBackend(APIBackend), GetBackend(UploadsBackend)}
 	}
 
-	a.Charges = &charge.Client{B: backends[APIBackend], Key: key}
-	a.Customers = &customer.Client{B: backends[APIBackend], Key: key}
-	a.Cards = &card.Client{B: backends[APIBackend], Key: key}
-	a.Subs = &sub.Client{B: backends[APIBackend], Key: key}
-	a.Plans = &plan.Client{B: backends[APIBackend], Key: key}
-	a.Coupons = &coupon.Client{B: backends[APIBackend], Key: key}
-	a.Discounts = &discount.Client{B: backends[APIBackend], Key: key}
-	a.Invoices = &invoice.Client{B: backends[APIBackend], Key: key}
-	a.InvoiceItems = &invoiceitem.Client{B: backends[APIBackend], Key: key}
-	a.Disputes = &dispute.Client{B: backends[APIBackend], Key: key}
-	a.Transfers = &transfer.Client{B: backends[APIBackend], Key: key}
-	a.Recipients = &recipient.Client{B: backends[APIBackend], Key: key}
-	a.Refunds = &refund.Client{B: backends[APIBackend], Key: key}
-	a.Fees = &fee.Client{B: backends[APIBackend], Key: key}
-	a.FeeRefunds = &feerefund.Client{B: backends[APIBackend], Key: key}
-	a.Account = &account.Client{B: backends[APIBackend], Key: key}
-	a.Balance = &balance.Client{B: backends[APIBackend], Key: key}
-	a.Events = &event.Client{B: backends[APIBackend], Key: key}
-	a.Tokens = &token.Client{B: backends[APIBackend], Key: key}
-	a.FileUploads = &fileupload.Client{B: backends[UploadsBackend], Key: key}
+	a.Charges = &charge.Client{B: backends.API, Key: key}
+	a.Customers = &customer.Client{B: backends.API, Key: key}
+	a.Cards = &card.Client{B: backends.API, Key: key}
+	a.Subs = &sub.Client{B: backends.API, Key: key}
+	a.Plans = &plan.Client{B: backends.API, Key: key}
+	a.Coupons = &coupon.Client{B: backends.API, Key: key}
+	a.Discounts = &discount.Client{B: backends.API, Key: key}
+	a.Invoices = &invoice.Client{B: backends.API, Key: key}
+	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}
+	a.Disputes = &dispute.Client{B: backends.API, Key: key}
+	a.Transfers = &transfer.Client{B: backends.API, Key: key}
+	a.Recipients = &recipient.Client{B: backends.API, Key: key}
+	a.Refunds = &refund.Client{B: backends.API, Key: key}
+	a.Fees = &fee.Client{B: backends.API, Key: key}
+	a.FeeRefunds = &feerefund.Client{B: backends.API, Key: key}
+	a.Account = &account.Client{B: backends.API, Key: key}
+	a.Balance = &balance.Client{B: backends.API, Key: key}
+	a.Events = &event.Client{B: backends.API, Key: key}
+	a.Tokens = &token.Client{B: backends.API, Key: key}
+	a.FileUploads = &fileupload.Client{B: backends.Uploads, Key: key}
 }
