@@ -164,5 +164,5 @@ func (i *Iter) Plan() *stripe.Plan {
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(), stripe.Key}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

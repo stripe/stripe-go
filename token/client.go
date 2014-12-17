@@ -75,5 +75,5 @@ func (c Client) Get(id string, params *stripe.TokenParams) (*stripe.Token, error
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(), stripe.Key}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

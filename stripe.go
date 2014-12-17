@@ -14,76 +14,113 @@ import (
 	"time"
 )
 
-// defaultURL is the public Stripe URL for APIs.
-const defaultURL = "https://api.stripe.com/v1"
+const (
+	apiURL     = "https://api.stripe.com/v1"
+	uploadsURL = "https://uploads.stripe.com/v1"
+)
 
 // apiversion is the currently supported API version
 const apiversion = "2014-12-08"
 
 // clientversion is the binding version
-const clientversion = "3.1.0"
+const clientversion = "4.0.0"
 
-// Default timeout on the http.Client used by the bindings.
+// dfaultHTTPTimeout is the default timeout on the http.Client used by the bindings.
 // This is chosen to be consistent with the other Stripe language bindings and
 // to coordinate with other timeouts configured in the Stripe infrastructure.
 const defaultHTTPTimeout = 80 * time.Second
+
+// Totalbackends is the total number of Stripe API endpoints supported by the binding.
+const TotalBackends = 2
 
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
 type Backend interface {
 	Call(method, path, key string, body *url.Values, v interface{}) error
+	CallMultipart(method, path, key, boundary string, body io.Reader, v interface{}) error
 }
 
-// InternalBackend is the internal implementation for making HTTP calls to Stripe.
-type InternalBackend struct {
-	url        string
-	httpClient *http.Client
+// BackendConfiguration is the internal implementation for making HTTP calls to Stripe.
+type BackendConfiguration struct {
+	Type       SupportedBackend
+	URL        string
+	HTTPClient *http.Client
 }
 
-// NewInternalBackend returns a customized backend used for making calls in this binding.
-// This method should be called in one of two scenarios:
-//	1. You're running in a Google AppEngine environment where the http.DefaultClient is not available.
-//  2. You're doing internal development at Stripe.
-func NewInternalBackend(httpClient *http.Client, url string) *InternalBackend {
-	if len(url) == 0 {
-		url = defaultURL
-	}
+// SupportedBackend is an enumeration of supported Stripe endpoints.
+// Currently supported valuesa are "api" and "uploads".
+type SupportedBackend string
 
-	return &InternalBackend{
-		url:        url,
-		httpClient: httpClient,
-	}
-}
+const (
+	APIBackend     SupportedBackend = "api"
+	UploadsBackend SupportedBackend = "uploads"
+)
 
 // Key is the Stripe API key used globally in the binding.
 var Key string
 
 var debug bool
-var backend Backend
+var httpClient = &http.Client{Timeout: defaultHTTPTimeout}
+var backends = make(map[SupportedBackend]Backend, TotalBackends)
 
-// SetDebug enables additional tracing globally.
-// The method is designed for used during testing.
-func SetDebug(value bool) {
-	debug = value
+// SetHTTPClient overrides the default HTTP client.
+// This is useful if you're running in a Google AppEngine environment
+// where the http.DefaultClient is not available.
+func SetHTTPClient(client *http.Client) {
+	httpClient = client
 }
 
 // GetBackend returns the currently used backend in the binding.
-func GetBackend() Backend {
-	if backend == nil {
-		backend = NewInternalBackend(&http.Client{Timeout: defaultHTTPTimeout}, "")
+func GetBackend(backend SupportedBackend) Backend {
+	if _, ok := backends[backend]; !ok {
+		var url string
+		switch backend {
+		case APIBackend:
+			url = apiURL
+		case UploadsBackend:
+			url = uploadsURL
+		}
+
+		backends[backend] = BackendConfiguration{backend, url, httpClient}
 	}
 
-	return backend
+	return backends[backend]
 }
 
 // SetBackend sets the backend used in the binding.
-func SetBackend(b Backend) {
-	backend = b
+func SetBackend(backend SupportedBackend, b Backend) {
+	backends[backend] = b
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s *InternalBackend) Call(method, path, key string, form *url.Values, v interface{}) error {
-	req, err := s.NewRequest(method, path, key, form)
+func (s BackendConfiguration) Call(method, path, key string, form *url.Values, v interface{}) error {
+	var body io.Reader
+	if form != nil && len(*form) > 0 {
+		data := form.Encode()
+		if strings.ToUpper(method) == "GET" {
+			path += "?" + data
+		} else {
+			body = bytes.NewBufferString(data)
+		}
+	}
+
+	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", body)
+	if err != nil {
+		return err
+	}
+
+	if err := s.Do(req, v); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
+func (s BackendConfiguration) CallMultipart(method, path, key, boudary string, body io.Reader, v interface{}) error {
+	contentType := "multipart/form-data; boundary=" + boudary
+
+	req, err := s.NewRequest(method, path, key, contentType, body)
 	if err != nil {
 		return err
 	}
@@ -97,22 +134,12 @@ func (s *InternalBackend) Call(method, path, key string, form *url.Values, v int
 
 // NewRequest is used by Call to generate an http.Request. It handles encoding
 // parameters and attaching the Authorization header.
-func (s *InternalBackend) NewRequest(method, path, key string, form *url.Values) (*http.Request, error) {
+func (s *BackendConfiguration) NewRequest(method, path, key, contentType string, body io.Reader) (*http.Request, error) {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
 
-	path = s.url + path
-
-	var body io.Reader
-	if form != nil && len(*form) > 0 {
-		data := form.Encode()
-		if strings.ToUpper(method) == "GET" {
-			path += "?" + data
-		} else {
-			body = bytes.NewBufferString(data)
-		}
-	}
+	path = s.URL + path
 
 	req, err := http.NewRequest(method, path, body)
 	if err != nil {
@@ -123,9 +150,7 @@ func (s *InternalBackend) NewRequest(method, path, key string, form *url.Values)
 	req.SetBasicAuth(key, "")
 	req.Header.Add("Stripe-Version", apiversion)
 	req.Header.Add("User-Agent", "Stripe/v1 GoBindings/"+clientversion)
-	if body != nil {
-		req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-	}
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -133,11 +158,11 @@ func (s *InternalBackend) NewRequest(method, path, key string, form *url.Values)
 // Do is used by Call to execute an API request and parse the response. It uses
 // the backend's HTTP client to execute the request and unmarshals the response
 // into v. It also handles unmarshaling errors returned by the API.
-func (s *InternalBackend) Do(req *http.Request, v interface{}) error {
-	log.Printf("Requesting %v %q\n", req.Method, req.URL.Path)
+func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
+	log.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
 	start := time.Now()
 
-	res, err := s.httpClient.Do(req)
+	res, err := s.HTTPClient.Do(req)
 
 	if debug {
 		log.Printf("Completed in %v\n", time.Since(start))
@@ -198,4 +223,10 @@ func (s *InternalBackend) Do(req *http.Request, v interface{}) error {
 	}
 
 	return nil
+}
+
+// SetDebug enables additional tracing globally.
+// The method is designed for used during testing.
+func SetDebug(value bool) {
+	debug = value
 }
