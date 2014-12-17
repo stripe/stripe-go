@@ -62,7 +62,6 @@ func (c Client) Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpl
 	err := c.B.Call("GET", "/files/"+id, c.Key, body, upload)
 
 	return upload, err
-
 }
 
 func getC() Client {
