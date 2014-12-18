@@ -217,14 +217,9 @@ the following guidelines in mind:
 
 For running additional tests, follow the steps below:
 
-Set the STRIPE_KEY environment variable to match your test private key:
+Set the STRIPE_KEY environment variable to match your test private key, then run `make test`:
 ```sh
-export STRIPE_KEY=YOUR_API_KEY
-```
-
-Then run:
-```sh
-make test
+STRIPE_KEY=YOUR_API_KEY make test
 ```
 
 For any requests, bug or comments, please [open an issue](https://github.com/stripe/stripe-go/issues/new)
