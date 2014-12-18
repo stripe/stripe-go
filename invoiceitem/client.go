@@ -42,7 +42,7 @@ func (c Client) New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 	params.AppendTo(body)
 
 	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call("POST", "/invoiceitems", c.Key, body, invoiceItem)
+	err := c.B.Call("POST", "/invoiceitems", c.Key, body, &params.Params, invoiceItem)
 
 	return invoiceItem, err
 }
@@ -55,14 +55,16 @@ func Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 
 func (c Client) Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 		params.AppendTo(body)
 	}
 
 	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call("GET", "/invoiceitems/"+id, c.Key, body, invoiceItem)
+	err := c.B.Call("GET", "/invoiceitems/"+id, c.Key, body, commonParams, invoiceItem)
 
 	return invoiceItem, err
 }
@@ -75,8 +77,10 @@ func Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, e
 
 func (c Client) Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 
 		if params.Amount != 0 {
@@ -91,7 +95,7 @@ func (c Client) Update(id string, params *stripe.InvoiceItemParams) (*stripe.Inv
 	}
 
 	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call("POST", "/invoiceitems/"+id, c.Key, body, invoiceItem)
+	err := c.B.Call("POST", "/invoiceitems/"+id, c.Key, body, commonParams, invoiceItem)
 
 	return invoiceItem, err
 }
@@ -103,7 +107,7 @@ func Del(id string) error {
 }
 
 func (c Client) Del(id string) error {
-	return c.B.Call("DELETE", "/invoiceitems/"+id, c.Key, nil, nil)
+	return c.B.Call("DELETE", "/invoiceitems/"+id, c.Key, nil, nil, nil)
 }
 
 // List returns a list of invoice items.
@@ -138,7 +142,7 @@ func (c Client) List(params *stripe.InvoiceItemListParams) *Iter {
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &invoiceItemList{}
-		err := c.B.Call("GET", "/invoiceitems", c.Key, &b, list)
+		err := c.B.Call("GET", "/invoiceitems", c.Key, &b, nil, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

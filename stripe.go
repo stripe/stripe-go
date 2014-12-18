@@ -36,8 +36,8 @@ const TotalBackends = 2
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
 type Backend interface {
-	Call(method, path, key string, body *url.Values, v interface{}) error
-	CallMultipart(method, path, key, boundary string, body io.Reader, v interface{}) error
+	Call(method, path, key string, body *url.Values, params *Params, v interface{}) error
+	CallMultipart(method, path, key, boundary string, body io.Reader, params *Params, v interface{}) error
 }
 
 // BackendConfiguration is the internal implementation for making HTTP calls to Stripe.
@@ -105,7 +105,7 @@ func SetBackend(backend SupportedBackend, b Backend) {
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s BackendConfiguration) Call(method, path, key string, form *url.Values, v interface{}) error {
+func (s BackendConfiguration) Call(method, path, key string, form *url.Values, params *Params, v interface{}) error {
 	var body io.Reader
 	if form != nil && len(*form) > 0 {
 		data := form.Encode()
@@ -116,7 +116,7 @@ func (s BackendConfiguration) Call(method, path, key string, form *url.Values, v
 		}
 	}
 
-	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", body)
+	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", body, params)
 	if err != nil {
 		return err
 	}
@@ -129,10 +129,10 @@ func (s BackendConfiguration) Call(method, path, key string, form *url.Values, v
 }
 
 // CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
-func (s BackendConfiguration) CallMultipart(method, path, key, boudary string, body io.Reader, v interface{}) error {
+func (s BackendConfiguration) CallMultipart(method, path, key, boudary string, body io.Reader, params *Params, v interface{}) error {
 	contentType := "multipart/form-data; boundary=" + boudary
 
-	req, err := s.NewRequest(method, path, key, contentType, body)
+	req, err := s.NewRequest(method, path, key, contentType, body, params)
 	if err != nil {
 		return err
 	}
@@ -146,7 +146,8 @@ func (s BackendConfiguration) CallMultipart(method, path, key, boudary string, b
 
 // NewRequest is used by Call to generate an http.Request. It handles encoding
 // parameters and attaching the Authorization header.
-func (s *BackendConfiguration) NewRequest(method, path, key, contentType string, body io.Reader) (*http.Request, error) {
+
+func (s *BackendConfiguration) NewRequest(method, path, key, contentType string, body io.Reader, params *Params) (*http.Request, error) {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
@@ -160,6 +161,13 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 	}
 
 	req.SetBasicAuth(key, "")
+
+	if params != nil {
+		if idempotencyKey := strings.TrimSpace(params.IdempotencyKey); idempotencyKey != "" {
+			req.Header.Add("Idempotency-Key", idempotencyKey)
+		}
+	}
+
 	req.Header.Add("Stripe-Version", apiversion)
 	req.Header.Add("User-Agent", "Stripe/v1 GoBindings/"+clientversion)
 	req.Header.Add("Content-Type", contentType)

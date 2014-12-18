@@ -28,6 +28,7 @@ func New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 }
 
 func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
+	// TODO: this method doesn't check for params being nil
 	body := &url.Values{
 		"amount":   {strconv.FormatUint(params.Amount, 10)},
 		"currency": {string(params.Currency)},
@@ -70,7 +71,7 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 	params.AppendTo(body)
 
 	charge := &stripe.Charge{}
-	err := c.B.Call("POST", "/charges", token, body, charge)
+	err := c.B.Call("POST", "/charges", token, body, &params.Params, charge)
 
 	return charge, err
 }
@@ -83,14 +84,16 @@ func Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 
 func (c Client) Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 		params.AppendTo(body)
 	}
 
 	charge := &stripe.Charge{}
-	err := c.B.Call("GET", "/charges/"+id, c.Key, body, charge)
+	err := c.B.Call("GET", "/charges/"+id, c.Key, body, commonParams, charge)
 
 	return charge, err
 }
@@ -103,8 +106,10 @@ func Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 
 func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 
 		if len(params.Desc) > 0 {
@@ -119,7 +124,7 @@ func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, 
 	}
 
 	charge := &stripe.Charge{}
-	err := c.B.Call("POST", "/charges/"+id, c.Key, body, charge)
+	err := c.B.Call("POST", "/charges/"+id, c.Key, body, commonParams, charge)
 
 	return charge, err
 }
@@ -133,8 +138,10 @@ func Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 	var body *url.Values
 	token := c.Key
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 
 		if params.Amount > 0 {
@@ -153,7 +160,8 @@ func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge
 	}
 
 	charge := &stripe.Charge{}
-	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/capture", id), token, body, charge)
+
+	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/capture", id), token, body, commonParams, charge)
 
 	return charge, err
 }
@@ -190,7 +198,7 @@ func (c Client) List(params *stripe.ChargeListParams) *Iter {
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &chargeList{}
-		err := c.B.Call("GET", "/charges", c.Key, &b, list)
+		err := c.B.Call("GET", "/charges", c.Key, &b, nil, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

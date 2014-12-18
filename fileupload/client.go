@@ -38,7 +38,7 @@ func (c Client) New(params *stripe.FileUploadParams) (*stripe.FileUpload, error)
 	}
 
 	upload := &stripe.FileUpload{}
-	err = c.B.CallMultipart("POST", "/files", c.Key, boundary, body, upload)
+	err = c.B.CallMultipart("POST", "/files", c.Key, boundary, body, &params.Params, upload)
 
 	return upload, err
 }
@@ -52,14 +52,17 @@ func Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpload, error)
 
 func (c Client) Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpload, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
+
 		body = &url.Values{}
 		params.AppendTo(body)
 	}
 
 	upload := &stripe.FileUpload{}
-	err := c.B.Call("GET", "/files/"+id, c.Key, body, upload)
+	err := c.B.Call("GET", "/files/"+id, c.Key, body, commonParams, upload)
 
 	return upload, err
 }

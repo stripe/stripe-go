@@ -36,14 +36,16 @@ func Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 
 func (c Client) Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 		params.AppendTo(body)
 	}
 
 	balance := &stripe.Balance{}
-	err := c.B.Call("GET", "/balance", c.Key, body, balance)
+	err := c.B.Call("GET", "/balance", c.Key, body, commonParams, balance)
 
 	return balance, err
 }
@@ -56,14 +58,16 @@ func GetTx(id string, params *stripe.TxParams) (*stripe.Transaction, error) {
 
 func (c Client) GetTx(id string, params *stripe.TxParams) (*stripe.Transaction, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 		params.AppendTo(body)
 	}
 
 	balance := &stripe.Transaction{}
-	err := c.B.Call("GET", "/balance/history/"+id, c.Key, body, balance)
+	err := c.B.Call("GET", "/balance/history/"+id, c.Key, body, commonParams, balance)
 
 	return balance, err
 }
@@ -116,7 +120,7 @@ func (c Client) List(params *stripe.TxListParams) *Iter {
 		}
 
 		list := &transactionList{}
-		err := c.B.Call("GET", "/balance/history", c.Key, &b, list)
+		err := c.B.Call("GET", "/balance/history", c.Key, &b, nil, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
