@@ -58,7 +58,7 @@ type Invoice struct {
 	Discount     *Discount         `json:"discount"`
 	EndBalance   int64             `json:"ending_balance"`
 	NextAttempt  int64             `json:"next_payment_attempt"`
-	Statement    string            `json:"statement_description"`
+	Statement    string            `json:"statement_descriptor"`
 	Sub          string            `json:"subscription"`
 	Webhook      int64             `json:"webhooks_delivered_at"`
 	Meta         map[string]string `json:"metadata"`

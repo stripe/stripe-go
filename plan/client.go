@@ -45,7 +45,7 @@ func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
 	}
 
 	if len(params.Statement) > 0 {
-		body.Add("statement_description", params.Statement)
+		body.Add("statement_descriptor", params.Statement)
 	}
 
 	params.AppendTo(body)
@@ -93,7 +93,7 @@ func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, erro
 		}
 
 		if len(params.Statement) > 0 {
-			body.Add("statement_description", params.Statement)
+			body.Add("statement_descriptor", params.Statement)
 		}
 
 		params.AppendTo(body)

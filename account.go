@@ -15,7 +15,7 @@ type Account struct {
 	TransferEnabled  bool     `json:"transfer_enabled"`
 	Name             string   `json:"display_name"`
 	Email            string   `json:"email"`
-	Statement        string   `json:"statement_description"`
+	Statement        string   `json:"statement_descriptor"`
 	Timezone         string   `json:"timezone"`
 }
 
