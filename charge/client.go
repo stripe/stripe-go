@@ -28,20 +28,16 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 		"currency": {string(params.Currency)},
 	}
 
-	if len(params.Customer) > 0 {
-		body.Add("customer", params.Customer)
-		if params.Card != nil && params.Meta != nil {
-			if val, ok := params.Meta["card_id"]; ok {
-				body.Add("card", val)
-			}
-		}
-	} else if len(params.Token) > 0 {
+	if len(params.Token) > 0 {
 		body.Add("card", params.Token)
-	} else if params.Card != nil {
-		if len(params.Card.Token) > 0 {
-			body.Add("card", params.Card.Token)
-		} else {
-			params.Card.AppendDetails(body, true)
+	} else if len(params.Customer) > 0 {
+		body.Add("customer", params.Customer)
+		if params.Card != nil {
+			if len(params.Card.Token) > 0 {
+				body.Add("card", params.Card.Token)
+			} else {
+				params.Card.AppendDetails(body, true)
+			}
 		}
 	} else {
 		err := errors.New("Invalid charge params: either customer, card Tok or card need to be set")
