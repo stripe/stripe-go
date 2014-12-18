@@ -53,7 +53,7 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 	}
 
 	if len(params.Statement) > 0 {
-		body.Add("statement_description", params.Statement)
+		body.Add("statement_descriptor", params.Statement)
 	}
 
 	if len(params.Email) > 0 {

@@ -52,5 +52,5 @@ type Transfer struct {
 	Bank      *BankAccount      `json:"bank_account"`
 	Card      *Card             `json:"card"`
 	Recipient *Recipient        `json:"recipient"`
-	Statement string            `json:"statement_description"`
+	Statement string            `json:"statement_descriptor"`
 }

@@ -60,7 +60,7 @@ func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 	}
 
 	if len(params.Statement) > 0 {
-		body.Add("statement_description", params.Statement)
+		body.Add("statement_descriptor", params.Statement)
 	}
 
 	params.AppendTo(body)

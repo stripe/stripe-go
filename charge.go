@@ -63,7 +63,7 @@ type Charge struct {
 	Invoice        *Invoice          `json:"invoice"`
 	Meta           map[string]string `json:"metadata"`
 	Email          string            `json:"receipt_email"`
-	Statement      string            `json:"statement_description"`
+	Statement      string            `json:"statement_descriptor"`
 	FraudDetails   *FraudDetails     `json:"fraud_details"`
 }
 

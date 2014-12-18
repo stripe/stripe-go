@@ -36,7 +36,7 @@ func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	}
 
 	if len(params.Statement) > 0 {
-		body.Add("statement_description", params.Statement)
+		body.Add("statement_descriptor", params.Statement)
 	}
 
 	if len(params.Sub) > 0 {
@@ -114,7 +114,7 @@ func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice
 		}
 
 		if len(params.Statement) > 0 {
-			body.Add("statement_description", params.Statement)
+			body.Add("statement_descriptor", params.Statement)
 		}
 
 		if len(params.Sub) > 0 {
