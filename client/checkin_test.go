@@ -11,6 +11,58 @@ import (
 
 const testKey = "tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I"
 
+func TestCheckinIdempotentDefaults(t *testing.T) {
+	chargeParams := &stripe.ChargeParams{
+		Amount:   100,
+		Currency: currency.USD,
+		Card: &stripe.CardParams{
+			Name:   "Go Bindings Cardholder",
+			Number: "4242424242424242",
+			Month:  "12",
+			Year:   "24",
+		},
+	}
+
+	if chargeParams.Params.IdempotencyKey != "" {
+		t.Errorf("The default value of a Params.IdempotencyKey was not the empty string (%q).\n", chargeParams.Params.IdempotencyKey)
+	}
+
+	chargeParams.Params.GenerateIdempotencyKey()
+
+	if chargeParams.Params.IdempotencyKey == "" {
+		t.Error("Callind GenerateIdempotencyKey on Params generated an empty idempotency key.")
+	}
+}
+
+func TestCheckinIdempotentSetter(t *testing.T) {
+	foo := &stripe.Params{}
+	if foo.IdempotencyKey != "" {
+		t.Errorf("The default value of a Params.IdempotencyKey was not the empty string (%q).\n", foo.IdempotencyKey)
+	}
+	err := foo.SetIdempotencyKey("hello")
+	if err != nil {
+		t.Error(err)
+	}
+	err = foo.SetIdempotencyKey("  ")
+	if err == nil {
+		t.Errorf("Expected a blank idempotency key to fail, even if it had spaces.\n")
+	}
+	err = foo.SetIdempotencyKey(" h ")
+	if err != nil {
+		t.Error(err)
+	}
+	if foo.IdempotencyKey != "h" {
+		t.Errorf("Expected the idempotency key submitted as ' h ' to be reduced to 'h'.\n")
+	}
+	err = foo.SetIdempotencyKey("")
+	if err != nil {
+		t.Error(err)
+	}
+	if foo.IdempotencyKey != "" {
+		t.Errorf("After clearing the idempotency key, it should be blank.\n")
+	}
+}
+
 func TestCheckinConnectivity(t *testing.T) {
 	c := &API{}
 	c.Init(testKey, nil)

@@ -49,9 +49,9 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	var err error
 
 	if len(params.Customer) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards", params.Customer), c.Key, body, card)
+		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards", params.Customer), c.Key, body, &params.Params, card)
 	} else if len(params.Recipient) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.Key, body, card)
+		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.Key, body, &params.Params, card)
 	} else {
 		err = errors.New("Invalid card params: either customer or recipient need to be set")
 	}
@@ -67,8 +67,10 @@ func Get(id string, params *stripe.CardParams) (*stripe.Card, error) {
 
 func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 		params.AppendTo(body)
 	}
@@ -77,9 +79,9 @@ func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	var err error
 
 	if len(params.Customer) > 0 {
-		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, card)
+		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, commonParams, card)
 	} else if len(params.Recipient) > 0 {
-		err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, body, card)
+		err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, body, commonParams, card)
 	} else {
 		err = errors.New("Invalid card params: either customer or recipient need to be set")
 	}
@@ -102,9 +104,9 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 	var err error
 
 	if len(params.Customer) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, card)
+		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, &params.Params, card)
 	} else if len(params.Recipient) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, body, card)
+		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, body, &params.Params, card)
 	} else {
 		err = errors.New("Invalid card params: either customer or recipient need to be set")
 	}
@@ -119,10 +121,11 @@ func Del(id string, params *stripe.CardParams) error {
 }
 
 func (c Client) Del(id string, params *stripe.CardParams) error {
+
 	if len(params.Customer) > 0 {
-		return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, nil, nil)
+		return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, nil, &params.Params, nil)
 	} else if len(params.Recipient) > 0 {
-		return c.B.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, nil, nil)
+		return c.B.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, nil, &params.Params, nil)
 	} else {
 		return errors.New("Invalid card params: either customer or recipient need to be set")
 	}
@@ -146,9 +149,9 @@ func (c Client) List(params *stripe.CardListParams) *Iter {
 		var err error
 
 		if len(params.Customer) > 0 {
-			err = c.B.Call("GET", fmt.Sprintf("/customers/%v/cards", params.Customer), c.Key, &b, list)
+			err = c.B.Call("GET", fmt.Sprintf("/customers/%v/cards", params.Customer), c.Key, &b, nil, list)
 		} else if len(params.Recipient) > 0 {
-			err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.Key, &b, list)
+			err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.Key, &b, nil, list)
 		} else {
 			err = errors.New("Invalid card params: either customer or recipient need to be set")
 		}

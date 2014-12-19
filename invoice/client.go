@@ -51,7 +51,7 @@ func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	}
 
 	invoice := &stripe.Invoice{}
-	err := c.B.Call("POST", "/invoices", token, body, invoice)
+	err := c.B.Call("POST", "/invoices", token, body, &params.Params, invoice)
 
 	return invoice, err
 }
@@ -64,14 +64,16 @@ func Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 
 func (c Client) Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 		params.AppendTo(body)
 	}
 
 	invoice := &stripe.Invoice{}
-	err := c.B.Call("GET", "/invoices/"+id, c.Key, body, invoice)
+	err := c.B.Call("GET", "/invoices/"+id, c.Key, body, commonParams, invoice)
 
 	return invoice, err
 }
@@ -84,14 +86,16 @@ func Pay(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 
 func (c Client) Pay(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 		params.AppendTo(body)
 	}
 
 	invoice := &stripe.Invoice{}
-	err := c.B.Call("POST", fmt.Sprintf("/invoices/%v/pay", id), c.Key, body, invoice)
+	err := c.B.Call("POST", fmt.Sprintf("/invoices/%v/pay", id), c.Key, body, commonParams, invoice)
 
 	return invoice, err
 }
@@ -105,8 +109,10 @@ func Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	var body *url.Values
 	token := c.Key
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 
 		if len(params.Desc) > 0 {
@@ -137,7 +143,7 @@ func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice
 	}
 
 	invoice := &stripe.Invoice{}
-	err := c.B.Call("POST", "/invoices/"+id, token, body, invoice)
+	err := c.B.Call("POST", "/invoices/"+id, token, body, commonParams, invoice)
 
 	return invoice, err
 }
@@ -160,7 +166,7 @@ func (c Client) GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	params.AppendTo(body)
 
 	invoice := &stripe.Invoice{}
-	err := c.B.Call("GET", "/invoices", c.Key, body, invoice)
+	err := c.B.Call("GET", "/invoices", c.Key, body, &params.Params, invoice)
 
 	return invoice, err
 }
@@ -197,7 +203,7 @@ func (c Client) List(params *stripe.InvoiceListParams) *Iter {
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &invoiceList{}
-		err := c.B.Call("GET", "/invoices", c.Key, &b, list)
+		err := c.B.Call("GET", "/invoices", c.Key, &b, nil, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
@@ -231,7 +237,7 @@ func (c Client) ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 
 	return &LineIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceLineList{}
-		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.ID), c.Key, &b, list)
+		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.ID), c.Key, &b, nil, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

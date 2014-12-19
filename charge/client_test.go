@@ -54,6 +54,39 @@ func TestChargeNew(t *testing.T) {
 	}
 }
 
+func TestWithoutIdempotentTwoDifferentCharges(t *testing.T) {
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Card: &stripe.CardParams{
+			Name:   "Stripe Tester",
+			Number: "378282246310005",
+			Month:  "06",
+			Year:   "20",
+		},
+		Statement: "statement",
+		Email:     "a@b.com",
+	}
+
+	if chargeParams.Params.IdempotencyKey != "" {
+		t.Errorf("The default value of a Params.IdempotencyKey was not blank, and it needs to be. (%q).", chargeParams.Params.IdempotencyKey)
+	}
+
+	first, err := New(chargeParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	second, err := New(chargeParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if first.ID == second.ID {
+		t.Errorf("Created two charges with no Idempotency Key (%s), but they resulted in charges with the same IDs (%q and %q).\n", chargeParams.Params.IdempotencyKey, first.ID, second.ID)
+	}
+}
+
 func TestChargeGet(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1001,

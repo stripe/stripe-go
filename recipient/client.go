@@ -57,11 +57,10 @@ func (c Client) New(params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	if len(params.Desc) > 0 {
 		body.Add("description", params.Desc)
 	}
-
 	params.AppendTo(body)
 
 	recipient := &stripe.Recipient{}
-	err := c.B.Call("POST", "/recipients", c.Key, body, recipient)
+	err := c.B.Call("POST", "/recipients", c.Key, body, &params.Params, recipient)
 
 	return recipient, err
 }
@@ -74,14 +73,16 @@ func Get(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 
 func (c Client) Get(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 		params.AppendTo(body)
 	}
 
 	recipient := &stripe.Recipient{}
-	err := c.B.Call("GET", "/recipients/"+id, c.Key, body, recipient)
+	err := c.B.Call("GET", "/recipients/"+id, c.Key, body, commonParams, recipient)
 
 	return recipient, err
 }
@@ -94,8 +95,10 @@ func Update(id string, params *stripe.RecipientParams) (*stripe.Recipient, error
 
 func (c Client) Update(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 
 		if len(params.Name) > 0 {
@@ -132,7 +135,7 @@ func (c Client) Update(id string, params *stripe.RecipientParams) (*stripe.Recip
 	}
 
 	recipient := &stripe.Recipient{}
-	err := c.B.Call("POST", "/recipients/"+id, c.Key, body, recipient)
+	err := c.B.Call("POST", "/recipients/"+id, c.Key, body, commonParams, recipient)
 
 	return recipient, err
 }
@@ -144,7 +147,7 @@ func Del(id string) error {
 }
 
 func (c Client) Del(id string) error {
-	return c.B.Call("DELETE", "/recipients/"+id, c.Key, nil, nil)
+	return c.B.Call("DELETE", "/recipients/"+id, c.Key, nil, nil, nil)
 }
 
 // List returns a list of recipients.
@@ -175,7 +178,7 @@ func (c Client) List(params *stripe.RecipientListParams) *Iter {
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &recipientList{}
-		err := c.B.Call("GET", "/recipients", c.Key, &b, list)
+		err := c.B.Call("GET", "/recipients", c.Key, &b, nil, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
