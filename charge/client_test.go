@@ -5,6 +5,8 @@ import (
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/currency"
+	"github.com/stripe/stripe-go/customer"
+	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -50,6 +52,90 @@ func TestChargeNew(t *testing.T) {
 
 	if target.Email != chargeParams.Email {
 		t.Errorf("Email %q does not match expected email %v\n", target.Email, chargeParams.Email)
+	}
+}
+
+func TestChargeNewWithCustomerAndCard(t *testing.T) {
+	customerParams := &stripe.CustomerParams{
+		Card: &stripe.CardParams{
+			Number: "378282246310005",
+			Month:  "06",
+			Year:   "20",
+		},
+	}
+
+	cust, _ := customer.New(customerParams)
+
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Customer: cust.ID,
+		Card: &stripe.CardParams{
+			Token: cust.Cards.Values[0].ID,
+		},
+		Statement: "statement",
+		Email:     "a@b.com",
+	}
+
+	target, err := New(chargeParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Amount != chargeParams.Amount {
+		t.Errorf("Amount %v does not match expected amount %v\n", target.Amount, chargeParams.Amount)
+	}
+
+	if target.Currency != chargeParams.Currency {
+		t.Errorf("Currency %q does not match expected currency %q\n", target.Currency, chargeParams.Currency)
+	}
+
+	if target.Customer.ID != cust.ID {
+		t.Errorf("Customer ID %q doesn't match expected customer ID %q", target.Customer.ID, cust.ID)
+	}
+
+	if target.Card.ID != cust.Cards.Values[0].ID {
+		t.Errorf("Card ID %q doesn't match expected card ID %q", target.Card.ID, cust.Cards.Values[0].ID)
+	}
+
+}
+
+func TestChargeNewWithToken(t *testing.T) {
+	tokenParams := &stripe.TokenParams{
+		Card: &stripe.CardParams{
+			Number: "4242424242424242",
+			Month:  "10",
+			Year:   "20",
+		},
+	}
+
+	tok, _ := token.New(tokenParams)
+
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Card: &stripe.CardParams{
+			Token: tok.ID,
+		},
+	}
+
+	target, err := New(chargeParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Amount != chargeParams.Amount {
+		t.Errorf("Amount %v does not match expected amount %v\n", target.Amount, chargeParams.Amount)
+	}
+
+	if target.Currency != chargeParams.Currency {
+		t.Errorf("Currency %q does not match expected currency %q\n", target.Currency, chargeParams.Currency)
+	}
+
+	if target.Card.ID != tok.Card.ID {
+		t.Errorf("Card Id %q doesn't match card id %q of token %q", target.Card.ID, tok.Card.ID, tok.ID)
 	}
 }
 

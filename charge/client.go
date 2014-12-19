@@ -32,13 +32,15 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 		body.Add("card", params.Token)
 	} else if len(params.Customer) > 0 { // If customer is present
 		body.Add("customer", params.Customer)
-		if params.Card != nil {
-			if len(params.Card.Token) > 0 {
-				body.Add("card", params.Card.Token) // If card.Token is card ID
-			}
+		if params.Card != nil && len(params.Card.Token) > 0 {
+			body.Add("card", params.Card.Token) // If card.Token is card ID
 		}
 	} else if params.Card != nil {
-		params.Card.AppendDetails(body, true) // If neither token nor customer present, card is credit card details
+		if len(params.Card.Token) > 0 {
+			body.Add("card", params.Card.Token) // If card.Token is an actual Token
+		} else {
+			params.Card.AppendDetails(body, true) // If neither token nor customer present, card is credit card details
+		}
 	} else {
 		err := errors.New("Invalid charge params: either customer, card Tok or card need to be set")
 		return nil, err
