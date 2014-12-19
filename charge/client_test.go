@@ -73,11 +73,13 @@ func TestWithoutIdempotentTwoDifferentCharges(t *testing.T) {
 	}
 
 	first, err := New(chargeParams)
+
 	if err != nil {
 		t.Error(err)
 	}
 
 	second, err := New(chargeParams)
+
 	if err != nil {
 		t.Error(err)
 	}

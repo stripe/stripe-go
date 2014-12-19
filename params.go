@@ -1,12 +1,10 @@
 package stripe
 
 import (
-	"errors"
 	"fmt"
 	"math/rand"
 	"net/url"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -55,34 +53,25 @@ type filter struct {
 	Key, Op, Val string
 }
 
+// NewIdempotencyKey generates a new idempotency key that
+// can be used on a request.
+func NewIdempotencyKey() string {
+	now := time.Now().UnixNano()
+	return fmt.Sprintf("%v_%v", now, rand.Int63())
+}
+
 // Expand appends a new field to expand.
 func (p *Params) Expand(f string) {
 	p.Exp = append(p.Exp, f)
 }
 
+// AddMeta adds a new key-value pair to the Metadata.
 func (p *Params) AddMeta(key, value string) {
 	if p.Meta == nil {
 		p.Meta = make(map[string]string)
 	}
 
 	p.Meta[key] = value
-}
-
-func (p *Params) GenerateIdempotencyKey() {
-	now := time.Now().UnixNano()
-	p.IdempotencyKey = fmt.Sprintf("%v_%v", now, rand.Int63())
-}
-
-func (p *Params) SetIdempotencyKey(key string) error {
-	trimmed := strings.TrimSpace(key)
-	if trimmed == "" && key != "" {
-		return errors.New("IdempotencyKey consisted solely of whitespace passed in, which means it would've been unset.")
-	}
-	if len(trimmed) > 255 {
-		return errors.New("Cannot use an IdempotencyKey longer than 255 characters long.")
-	}
-	p.IdempotencyKey = trimmed
-	return nil
 }
 
 // AddFilter adds a new filter with a given key, op and value.

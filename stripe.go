@@ -56,6 +56,7 @@ const (
 	UploadsBackend SupportedBackend = "uploads"
 )
 
+// StripeBackends are the currently supported endpoints.
 type StripeBackends struct {
 	API, Uploads Backend
 }
@@ -145,8 +146,7 @@ func (s BackendConfiguration) CallMultipart(method, path, key, boudary string, b
 }
 
 // NewRequest is used by Call to generate an http.Request. It handles encoding
-// parameters and attaching the Authorization header.
-
+// parameters and attaching the appropriate headers.
 func (s *BackendConfiguration) NewRequest(method, path, key, contentType string, body io.Reader, params *Params) (*http.Request, error) {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
@@ -163,8 +163,12 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 	req.SetBasicAuth(key, "")
 
 	if params != nil {
-		if idempotencyKey := strings.TrimSpace(params.IdempotencyKey); idempotencyKey != "" {
-			req.Header.Add("Idempotency-Key", idempotencyKey)
+		if idempotency := strings.TrimSpace(params.IdempotencyKey); idempotency != "" {
+			if len(idempotency) > 255 {
+				return nil, errors.New("Cannot use an IdempotencyKey longer than 255 characters long.")
+			}
+
+			req.Header.Add("Idempotency-Key", idempotency)
 		}
 	}
 
