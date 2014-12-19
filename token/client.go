@@ -49,7 +49,7 @@ func (c Client) New(params *stripe.TokenParams) (*stripe.Token, error) {
 	params.AppendTo(body)
 
 	tok := &stripe.Token{}
-	err := c.B.Call("POST", "/tokens", token, body, tok)
+	err := c.B.Call("POST", "/tokens", token, body, &params.Params, tok)
 
 	return tok, err
 }
@@ -62,18 +62,20 @@ func Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
 
 func (c Client) Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 		params.AppendTo(body)
 	}
 
 	token := &stripe.Token{}
-	err := c.B.Call("GET", "/tokens/"+id, c.Key, body, token)
+	err := c.B.Call("GET", "/tokens/"+id, c.Key, body, commonParams, token)
 
 	return token, err
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(), stripe.Key}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

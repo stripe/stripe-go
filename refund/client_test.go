@@ -82,6 +82,16 @@ func TestRefundNew(t *testing.T) {
 	if target.AmountRefunded != refundParams.Amount {
 		t.Errorf("Refunded amount %v does not match expected amount %v\n", target.AmountRefunded, refundParams.Amount)
 	}
+
+	// refund with reason
+	res, err = charge.New(chargeParams)
+	New(&stripe.RefundParams{Charge: res.ID, Reason: RefundFraudulent})
+	target, _ = charge.Get(res.ID, nil)
+
+	if target.FraudDetails.UserReport != "fraudulent" {
+		t.Errorf("Expected a fraudulent UserReport for charge refunded with reason=fraudulent",
+			target.FraudDetails.UserReport)
+	}
 }
 
 func TestRefundGet(t *testing.T) {

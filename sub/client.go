@@ -62,7 +62,7 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 	params.AppendTo(body)
 
 	sub := &stripe.Sub{}
-	err := c.B.Call("POST", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), token, body, sub)
+	err := c.B.Call("POST", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), token, body, &params.Params, sub)
 
 	return sub, err
 }
@@ -82,7 +82,7 @@ func (c Client) Get(id string, params *stripe.SubParams) (*stripe.Sub, error) {
 	params.AppendTo(body)
 
 	sub := &stripe.Sub{}
-	err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Key, body, sub)
+	err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Key, body, &params.Params, sub)
 
 	return sub, err
 }
@@ -134,7 +134,7 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 	params.AppendTo(body)
 
 	sub := &stripe.Sub{}
-	err := c.B.Call("POST", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), token, body, sub)
+	err := c.B.Call("POST", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), token, body, &params.Params, sub)
 
 	return sub, err
 }
@@ -154,7 +154,7 @@ func (c Client) Cancel(id string, params *stripe.SubParams) error {
 
 	params.AppendTo(body)
 
-	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Key, body, nil)
+	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Key, body, &params.Params, nil)
 }
 
 // List returns a list of subscriptions.
@@ -172,7 +172,7 @@ func (c Client) List(params *stripe.SubListParams) *Iter {
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SubList{}
-		err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.Key, &b, list)
+		err := c.B.Call("GET", fmt.Sprintf("/customers/%v/subscriptions", params.Customer), c.Key, &b, nil, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
@@ -197,5 +197,5 @@ func (i *Iter) Sub() *stripe.Sub {
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(), stripe.Key}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

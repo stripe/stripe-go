@@ -53,7 +53,7 @@ import (
 // Setup
 stripe.Key = "sk_key"
 
-stripe.SetBackend(backend) // optional, useful for mocking
+stripe.SetBackend("api", backend) // optional, useful for mocking
 
 // Create
 resource, err := resource.New(stripe.ResourceParams)
@@ -94,10 +94,7 @@ import (
 
 // Setup
 sc := &client.API{}
-sc.Init("sk_key", nil)
-// the second parameter represents the Backend used by the client. It can be
-// useful to set one explicitly to either get a custom http.Client or mock it
-// entirely in tests.
+sc.Init("sk_key", nil) // the second parameter overrides the backends used if needed for mocking
 
 // Create
 resource, err := sc.Resources.New(stripe.ResourceParams)
@@ -141,12 +138,11 @@ stripe.Init("access_token", nil)
 ### Google AppEngine
 
 If you're running the client in a Google AppEngine environment, you
-will need to create your own backend since the `http.DefaultClient` is
-not available:
+can override the HTTP client used internally since the
+`http.DefaultClient` is not available:
 
 ```go
-gb := stripe.NewInternalBackend(urlfetch.Client(appengine.NewContext(req)), "")
-stripe.SetBackend(gb)
+stripe.SetHTTPClient(urlfetch.Client(appengine.NewContext(req)))
 ```
 
 ## Documentation
@@ -181,12 +177,16 @@ customer, err := customer.New(params)
 params := &stripe.ChargeListParams{Customer: customer.Id}
 params.Filters.AddFilter("include[]", "", "total_count")
 
+// set this so you can easily retry your request in case of a timeout
+params.Params.IdempotencyKey = stripe.NewIdempotencyKey()
+
 i := charge.List(params)
 for !i.Stop() {
   c, err := i.Next()
   // perform an action on each charge
 }
 ```
+
 ### Events
 
 ```go
@@ -217,14 +217,9 @@ the following guidelines in mind:
 
 For running additional tests, follow the steps below:
 
-Set the STRIPE_KEY environment variable to match your test private key:
+Set the STRIPE_KEY environment variable to match your test private key, then run `make test`:
 ```sh
-export STRIPE_KEY=YOUR_API_KEY
-```
-
-Then run:
-```sh
-make test
+STRIPE_KEY=YOUR_API_KEY make test
 ```
 
 For any requests, bug or comments, please [open an issue](https://github.com/stripe/stripe-go/issues/new)

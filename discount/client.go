@@ -20,7 +20,7 @@ func Del(customerID string) error {
 }
 
 func (c Client) Del(customerID string) error {
-	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/discount", customerID), c.Key, nil, nil)
+	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/discount", customerID), c.Key, nil, nil, nil)
 }
 
 // DelSub removes a discount from a customer's subscription.
@@ -30,9 +30,9 @@ func DelSub(customerID, subscriptionID string) error {
 }
 
 func (c Client) DelSub(customerID, subscriptionID string) error {
-	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v/discount", customerID, subscriptionID), c.Key, nil, nil)
+	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v/discount", customerID, subscriptionID), c.Key, nil, nil, nil)
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(), stripe.Key}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

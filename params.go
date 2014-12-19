@@ -2,8 +2,10 @@ package stripe
 
 import (
 	"fmt"
+	"math/rand"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 const (
@@ -14,8 +16,9 @@ const (
 // Params is the structure that contains the common properties
 // of any *Params structure.
 type Params struct {
-	Exp  []string
-	Meta map[string]string
+	Exp            []string
+	Meta           map[string]string
+	IdempotencyKey string
 }
 
 // ListParams is the structure that contains the common properties
@@ -50,11 +53,19 @@ type filter struct {
 	Key, Op, Val string
 }
 
+// NewIdempotencyKey generates a new idempotency key that
+// can be used on a request.
+func NewIdempotencyKey() string {
+	now := time.Now().UnixNano()
+	return fmt.Sprintf("%v_%v", now, rand.Int63())
+}
+
 // Expand appends a new field to expand.
 func (p *Params) Expand(f string) {
 	p.Exp = append(p.Exp, f)
 }
 
+// AddMeta adds a new key-value pair to the Metadata.
 func (p *Params) AddMeta(key, value string) {
 	if p.Meta == nil {
 		p.Meta = make(map[string]string)

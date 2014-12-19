@@ -11,6 +11,41 @@ import (
 
 const testKey = "tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I"
 
+func TestCheckinIdempotency(t *testing.T) {
+	c := &API{}
+	c.Init(testKey, nil)
+
+	charge := &stripe.ChargeParams{
+		Amount:   100,
+		Currency: currency.USD,
+		Card: &stripe.CardParams{
+			Name:   "Go Bindings Cardholder",
+			Number: "4242424242424242",
+			Month:  "12",
+			Year:   "24",
+		},
+	}
+
+	charge.Params.IdempotencyKey = stripe.NewIdempotencyKey()
+
+	first, err := c.Charges.New(charge)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	retry, err := c.Charges.New(charge)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if first.ID != retry.ID {
+		t.Errorf("First charge ID %q does not match retry charge ID %q", first.ID, retry.ID)
+	}
+
+}
+
 func TestCheckinConnectivity(t *testing.T) {
 	c := &API{}
 	c.Init(testKey, nil)

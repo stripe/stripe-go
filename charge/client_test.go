@@ -6,6 +6,7 @@ import (
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/customer"
+	"github.com/stripe/stripe-go/refund"
 	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
@@ -52,6 +53,41 @@ func TestChargeNew(t *testing.T) {
 
 	if target.Email != chargeParams.Email {
 		t.Errorf("Email %q does not match expected email %v\n", target.Email, chargeParams.Email)
+	}
+}
+
+func TestWithoutIdempotentTwoDifferentCharges(t *testing.T) {
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Card: &stripe.CardParams{
+			Name:   "Stripe Tester",
+			Number: "378282246310005",
+			Month:  "06",
+			Year:   "20",
+		},
+		Statement: "statement",
+		Email:     "a@b.com",
+	}
+
+	if chargeParams.Params.IdempotencyKey != "" {
+		t.Errorf("The default value of a Params.IdempotencyKey was not blank, and it needs to be. (%q).", chargeParams.Params.IdempotencyKey)
+	}
+
+	first, err := New(chargeParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	second, err := New(chargeParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if first.ID == second.ID {
+		t.Errorf("Created two charges with no Idempotency Key (%s), but they resulted in charges with the same IDs (%q and %q).\n", chargeParams.Params.IdempotencyKey, first.ID, second.ID)
 	}
 }
 
@@ -270,5 +306,53 @@ func TestChargeList(t *testing.T) {
 	}
 	if err := i.Err(); err != nil {
 		t.Error(err)
+	}
+}
+
+func TestMarkFraudulent(t *testing.T) {
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Card: &stripe.CardParams{
+			Name:   "Stripe Tester",
+			Number: "378282246310005",
+			Month:  "06",
+			Year:   "20",
+		},
+		Statement: "statement",
+		Email:     "a@b.com",
+	}
+
+	target, _ := New(chargeParams)
+	refund.New(&stripe.RefundParams{Charge: target.ID})
+
+	ch, _ := MarkFraudulent(target.ID)
+
+	if ch.FraudDetails.UserReport != ReportFraudulent {
+		t.Error("UserReport was not fraudulent for a charge marked as fraudulent")
+	}
+}
+
+func TestMarkSafe(t *testing.T) {
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Card: &stripe.CardParams{
+			Name:   "Stripe Tester",
+			Number: "378282246310005",
+			Month:  "06",
+			Year:   "20",
+		},
+		Statement: "statement",
+		Email:     "a@b.com",
+	}
+
+	target, _ := New(chargeParams)
+
+	ch, _ := MarkSafe(target.ID)
+
+	if ch.FraudDetails.UserReport != ReportSafe {
+		t.Error("UserReport was not safe for a charge marked as safe: ",
+			ch.FraudDetails.UserReport)
 	}
 }

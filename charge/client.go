@@ -10,6 +10,11 @@ import (
 	stripe "github.com/stripe/stripe-go"
 )
 
+const (
+	ReportFraudulent stripe.FraudReport = "fraudulent"
+	ReportSafe       stripe.FraudReport = "safe"
+)
+
 // Client is used to invoke /charges APIs.
 type Client struct {
 	B   stripe.Backend
@@ -23,6 +28,7 @@ func New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 }
 
 func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
+	// TODO: this method doesn't check for params being nil
 	body := &url.Values{
 		"amount":   {strconv.FormatUint(params.Amount, 10)},
 		"currency": {string(params.Currency)},
@@ -51,7 +57,7 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 	}
 
 	if len(params.Statement) > 0 {
-		body.Add("statement_description", params.Statement)
+		body.Add("statement_descriptor", params.Statement)
 	}
 
 	if len(params.Email) > 0 {
@@ -68,7 +74,7 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 	params.AppendTo(body)
 
 	charge := &stripe.Charge{}
-	err := c.B.Call("POST", "/charges", token, body, charge)
+	err := c.B.Call("POST", "/charges", token, body, &params.Params, charge)
 
 	return charge, err
 }
@@ -81,14 +87,16 @@ func Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 
 func (c Client) Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 		params.AppendTo(body)
 	}
 
 	charge := &stripe.Charge{}
-	err := c.B.Call("GET", "/charges/"+id, c.Key, body, charge)
+	err := c.B.Call("GET", "/charges/"+id, c.Key, body, commonParams, charge)
 
 	return charge, err
 }
@@ -101,19 +109,25 @@ func Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 
 func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 
 		if len(params.Desc) > 0 {
 			body.Add("description", params.Desc)
 		}
 
+		if len(params.Fraud) > 0 {
+			body.Add("fraud_details[user_report]", string(params.Fraud))
+		}
+
 		params.AppendTo(body)
 	}
 
 	charge := &stripe.Charge{}
-	err := c.B.Call("POST", "/charges/"+id, c.Key, body, charge)
+	err := c.B.Call("POST", "/charges/"+id, c.Key, body, commonParams, charge)
 
 	return charge, err
 }
@@ -127,8 +141,10 @@ func Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 	var body *url.Values
 	token := c.Key
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 
 		if params.Amount > 0 {
@@ -147,7 +163,8 @@ func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge
 	}
 
 	charge := &stripe.Charge{}
-	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/capture", id), token, body, charge)
+
+	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/capture", id), token, body, commonParams, charge)
 
 	return charge, err
 }
@@ -184,7 +201,7 @@ func (c Client) List(params *stripe.ChargeListParams) *Iter {
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &chargeList{}
-		err := c.B.Call("GET", "/charges", c.Key, &b, list)
+		err := c.B.Call("GET", "/charges", c.Key, &b, nil, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
@@ -193,6 +210,28 @@ func (c Client) List(params *stripe.ChargeListParams) *Iter {
 
 		return ret, list.ListMeta, err
 	})}
+}
+
+// MarkFraudulent reports the charge as fraudulent.
+func MarkFraudulent(id string) (*stripe.Charge, error) {
+	return getC().MarkFraudulent(id)
+}
+
+func (c Client) MarkFraudulent(id string) (*stripe.Charge, error) {
+	return c.Update(
+		id,
+		&stripe.ChargeParams{Fraud: ReportFraudulent})
+}
+
+// MarkSafe reports the charge as not-fraudulent.
+func MarkSafe(id string) (*stripe.Charge, error) {
+	return getC().MarkSafe(id)
+}
+
+func (c Client) MarkSafe(id string) (*stripe.Charge, error) {
+	return c.Update(
+		id,
+		&stripe.ChargeParams{Fraud: ReportSafe})
 }
 
 // Iter is an iterator for lists of Charges.
@@ -209,5 +248,5 @@ func (i *Iter) Charge() *stripe.Charge {
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(), stripe.Key}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

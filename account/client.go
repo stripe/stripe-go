@@ -19,11 +19,11 @@ func Get() (*stripe.Account, error) {
 
 func (c Client) Get() (*stripe.Account, error) {
 	account := &stripe.Account{}
-	err := c.B.Call("GET", "/account", c.Key, nil, account)
+	err := c.B.Call("GET", "/account", c.Key, nil, nil, account)
 
 	return account, err
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(), stripe.Key}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

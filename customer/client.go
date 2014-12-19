@@ -22,6 +22,7 @@ func New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 
 func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
 		body = &url.Values{}
@@ -58,12 +59,13 @@ func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 				body.Add("trial_end", strconv.FormatInt(params.TrialEnd, 10))
 			}
 		}
+		commonParams = &params.Params
 
 		params.AppendTo(body)
 	}
 
 	cust := &stripe.Customer{}
-	err := c.B.Call("POST", "/customers", c.Key, body, cust)
+	err := c.B.Call("POST", "/customers", c.Key, body, commonParams, cust)
 
 	return cust, err
 }
@@ -76,14 +78,16 @@ func Get(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 
 func (c Client) Get(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
 		body = &url.Values{}
+		commonParams = &params.Params
 		params.AppendTo(body)
 	}
 
 	cust := &stripe.Customer{}
-	err := c.B.Call("GET", "/customers/"+id, c.Key, body, cust)
+	err := c.B.Call("GET", "/customers/"+id, c.Key, body, commonParams, cust)
 
 	return cust, err
 }
@@ -96,8 +100,10 @@ func Update(id string, params *stripe.CustomerParams) (*stripe.Customer, error) 
 
 func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 	var body *url.Values
+	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &url.Values{}
 
 		if params.Balance != 0 {
@@ -129,12 +135,11 @@ func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Custom
 		if len(params.DefaultCard) > 0 {
 			body.Add("default_card", params.DefaultCard)
 		}
-
 		params.AppendTo(body)
 	}
 
 	cust := &stripe.Customer{}
-	err := c.B.Call("POST", "/customers/"+id, c.Key, body, cust)
+	err := c.B.Call("POST", "/customers/"+id, c.Key, body, commonParams, cust)
 
 	return cust, err
 }
@@ -146,7 +151,7 @@ func Del(id string) error {
 }
 
 func (c Client) Del(id string) error {
-	return c.B.Call("DELETE", "/customers/"+id, c.Key, nil, nil)
+	return c.B.Call("DELETE", "/customers/"+id, c.Key, nil, nil, nil)
 }
 
 // List returns a list of customers.
@@ -177,7 +182,7 @@ func (c Client) List(params *stripe.CustomerListParams) *Iter {
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &customerList{}
-		err := c.B.Call("GET", "/customers", c.Key, &b, list)
+		err := c.B.Call("GET", "/customers", c.Key, &b, nil, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
@@ -202,5 +207,5 @@ func (i *Iter) Customer() *stripe.Customer {
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(), stripe.Key}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }
