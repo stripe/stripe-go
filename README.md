@@ -177,12 +177,16 @@ customer, err := customer.New(params)
 params := &stripe.ChargeListParams{Customer: customer.Id}
 params.Filters.AddFilter("include[]", "", "total_count")
 
+// set this so you can easily retry your request in case of a timeout
+params.Params.IdempotencyKey = stripe.NewIdempotencyKey()
+
 i := charge.List(params)
 for !i.Stop() {
   c, err := i.Next()
   // perform an action on each charge
 }
 ```
+
 ### Events
 
 ```go
