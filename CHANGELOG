@@ -1,3 +1,6 @@
+4.2.1 2014-12-28
+	Handle charges with customer card tokens
+
 4.2.0 2014-12-18
 	Add idempotency support
 

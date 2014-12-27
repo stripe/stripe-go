@@ -28,24 +28,23 @@ func New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 }
 
 func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
-	// TODO: this method doesn't check for params being nil
 	body := &url.Values{
 		"amount":   {strconv.FormatUint(params.Amount, 10)},
 		"currency": {string(params.Currency)},
 	}
 
-	if len(params.Token) > 0 { // If card is token
+	if len(params.Token) > 0 {
 		body.Add("card", params.Token)
-	} else if len(params.Customer) > 0 { // If customer is present
+	} else if len(params.Customer) > 0 {
 		body.Add("customer", params.Customer)
 		if params.Card != nil && len(params.Card.Token) > 0 {
-			body.Add("card", params.Card.Token) // If card.Token is card ID
+			body.Add("card", params.Card.Token)
 		}
 	} else if params.Card != nil {
 		if len(params.Card.Token) > 0 {
-			body.Add("card", params.Card.Token) // If card.Token is an actual Token
+			body.Add("card", params.Card.Token)
 		} else {
-			params.Card.AppendDetails(body, true) // If neither token nor customer present, card is credit card details
+			params.Card.AppendDetails(body, true)
 		}
 	} else {
 		err := errors.New("Invalid charge params: either customer, card Tok or card need to be set")
