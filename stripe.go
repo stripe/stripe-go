@@ -48,7 +48,7 @@ type BackendConfiguration struct {
 }
 
 // SupportedBackend is an enumeration of supported Stripe endpoints.
-// Currently supported valuesa are "api" and "uploads".
+// Currently supported values are "api" and "uploads".
 type SupportedBackend string
 
 const (
