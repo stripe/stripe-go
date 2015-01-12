@@ -17,6 +17,13 @@ type FileUploadParams struct {
 	File    *os.File
 }
 
+// FileUploadListParams is the set of parameters that can be used when listing
+// file uploads. For more details see https://stripe.com/docs/api#list_file_uploads.
+type FileUploadListParams struct {
+	Purpose FileUploadPurpose
+	ListParams
+}
+
 // FileUploadPurpose is the purpose of a particular file upload. Allowed values
 // are "dispute_evidence" and "identity_document".
 type FileUploadPurpose string
