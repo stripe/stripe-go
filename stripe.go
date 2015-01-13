@@ -20,10 +20,10 @@ const (
 )
 
 // apiversion is the currently supported API version
-const apiversion = "2014-12-17"
+const apiversion = "2015-01-11"
 
 // clientversion is the binding version
-const clientversion = "4.2.1"
+const clientversion = "4.3.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the bindings.
 // This is chosen to be consistent with the other Stripe language bindings and
