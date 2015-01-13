@@ -36,7 +36,7 @@ type FileUpload struct {
 	Size    int64             `json:"size"`
 	Purpose FileUploadPurpose `json:"purpose"`
 	URL     string            `json:"url"`
-	Mime    string            `json:"mimetype"`
+	Type    string            `json:"type"`
 }
 
 // AppendDetails adds the file upload details to an io.ReadWriter. It returns

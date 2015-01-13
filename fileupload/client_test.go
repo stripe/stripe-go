@@ -10,7 +10,7 @@ import (
 
 const (
 	expectedSize = 734
-	expectedMime = "application/pdf"
+	expectedType = "pdf"
 )
 
 func init() {
@@ -41,8 +41,8 @@ func TestFileUploadNewThenGet(t *testing.T) {
 		t.Errorf("(POST) Purpose %v does not match expected purpose %v\n", target.Purpose, uploadParams.Purpose)
 	}
 
-	if target.Mime != expectedMime {
-		t.Errorf("(POST) Mime %v does not match expected mime %v\n", target.Mime, expectedMime)
+	if target.Type != expectedType {
+		t.Errorf("(POST) Type %v does not match expected type %v\n", target.Type, expectedType)
 	}
 
 	res, err := Get(target.ID, nil)
