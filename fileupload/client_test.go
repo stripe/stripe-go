@@ -67,19 +67,19 @@ func TestFileUploadList(t *testing.T) {
 		File:    f,
 	}
 
-	target, err := New(uploadParams)
+	_, err = New(uploadParams)
 	if err != nil {
 		t.Error(err)
 	}
 
-	params := &stripe.FileUploadParams{}
+	params := &stripe.FileUploadListParams{}
 	params.Filters.AddFilter("include[]", "", "total_count")
 	params.Filters.AddFilter("limit", "", "5")
 	params.Single = true
 
 	i := List(params)
 	for i.Next() {
-		if i.Transaction() == nil {
+		if i.FileUpload() == nil {
 			t.Error("No nil values expected")
 		}
 
