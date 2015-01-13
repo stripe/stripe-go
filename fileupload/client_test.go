@@ -10,7 +10,7 @@ import (
 
 const (
 	expectedSize = 734
-	expectedMime = "application/pdf"
+	expectedType = "pdf"
 )
 
 func init() {
@@ -41,8 +41,8 @@ func TestFileUploadNewThenGet(t *testing.T) {
 		t.Errorf("(POST) Purpose %v does not match expected purpose %v\n", target.Purpose, uploadParams.Purpose)
 	}
 
-	if target.Mime != expectedMime {
-		t.Errorf("(POST) Mime %v does not match expected mime %v\n", target.Mime, expectedMime)
+	if target.Type != expectedType {
+		t.Errorf("(POST) Type %v does not match expected type %v\n", target.Type, expectedType)
 	}
 
 	res, err := Get(target.ID, nil)
@@ -53,5 +53,42 @@ func TestFileUploadNewThenGet(t *testing.T) {
 
 	if target.ID != res.ID {
 		t.Errorf("(GET) File upload id %q does not match expected id %q\n", target.ID, res.ID)
+	}
+}
+
+func TestFileUploadList(t *testing.T) {
+	f, err := os.Open("test_data.pdf")
+	if err != nil {
+		t.Errorf("Unable to open test file upload file %v\n", err)
+	}
+
+	uploadParams := &stripe.FileUploadParams{
+		Purpose: "dispute_evidence",
+		File:    f,
+	}
+
+	target, err := New(uploadParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	params := &stripe.FileUploadParams{}
+	params.Filters.AddFilter("include[]", "", "total_count")
+	params.Filters.AddFilter("limit", "", "5")
+	params.Single = true
+
+	i := List(params)
+	for i.Next() {
+		if i.Transaction() == nil {
+			t.Error("No nil values expected")
+		}
+
+		if i.Meta() == nil {
+			t.Error("No metadata returned")
+		}
+	}
+
+	if err := i.Err(); err != nil {
+		t.Error(err)
 	}
 }
