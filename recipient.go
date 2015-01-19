@@ -34,7 +34,7 @@ type RecipientListParams struct {
 
 // BankAccountParams is the set of parameters that can be used when creating or updating a bank account.
 type BankAccountParams struct {
-	Country, Routing, Account string
+	Token, Country, Routing, Account string
 }
 
 // Recipient is the resource representing a Stripe recipient.
