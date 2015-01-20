@@ -68,7 +68,7 @@ type Charge struct {
 	FraudDetails   *FraudDetails     `json:"fraud_details"`
 	Status         string            `json:"status"`
 	SourceData     json.RawMessage   `json:"source"`
-	Source         Chargeable        `json:"-"`
+	Source         *PaymentSource    `json:"-"`
 }
 
 // FraudDetails is the structure detailing fraud status.
@@ -99,13 +99,18 @@ func (c *Charge) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(cc.SourceData, sObject)
 
 		if err == nil {
+			cc.Source = &PaymentSource{
+				Type: sObject.Object,
+			}
+
 			switch sObject.Object {
 			case "bitcoin_receiver":
-				cc.Source = &BitcoinReceiver{}
+				cc.Source.BitcoinReceiver = &BitcoinReceiver{}
+				json.Unmarshal(cc.SourceData, cc.Source.BitcoinReceiver)
 			case "card":
-				cc.Source = &Card{}
+				cc.Source.Card = &Card{}
+				json.Unmarshal(cc.SourceData, cc.Source.Card)
 			}
-			json.Unmarshal(cc.SourceData, cc.Source)
 		}
 
 		*c = Charge(cc)

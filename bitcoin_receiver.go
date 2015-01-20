@@ -19,7 +19,6 @@ type BitcoinReceiverParams struct {
 	Currency Currency
 	Desc     string
 	Email    string
-	Meta     map[string]string `json:"metadata"`
 }
 
 // BitcoinReceiver is the resource representing a Stripe bitcoin receiver.
@@ -44,10 +43,6 @@ type BitcoinReceiver struct {
 	Payment               string                  `json:"payment"`
 	Customer              string                  `json:"customer"`
 	Transactions          *BitcoinTransactionList `json:"transactions"`
-}
-
-func (br BitcoinReceiver) PaymentType() string {
-	return "bitcoin_receiver"
 }
 
 // UnmarshalJSON handles deserialization of a BitcoinReceiver.
