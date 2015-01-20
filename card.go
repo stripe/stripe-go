@@ -142,6 +142,10 @@ func (c *CardParams) AppendDetails(values *url.Values, creating bool) {
 	}
 }
 
+func (c Card) PaymentType() string {
+	return "card"
+}
+
 // UnmarshalJSON handles deserialization of a Card.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.

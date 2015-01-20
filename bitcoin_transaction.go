@@ -2,6 +2,12 @@ package stripe
 
 import "encoding/json"
 
+type BitcoinTransactionListParams struct {
+	ListParams
+	Receiver string
+	Customer string
+}
+
 // BitcoinTransactionList is a list object for BitcoinTransactions.
 // It is a child object of BitcoinRecievers
 // For more details see https://stripe.com/docs/api/#retrieve_bitcoin_receiver

@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/bitcoinreceiver"
 	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/refund"
@@ -354,5 +355,108 @@ func TestMarkSafe(t *testing.T) {
 	if ch.FraudDetails.UserReport != ReportSafe {
 		t.Error("UserReport was not safe for a charge marked as safe: ",
 			ch.FraudDetails.UserReport)
+	}
+}
+
+func TestChargeSourceForCard(t *testing.T) {
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Name:   "Stripe Tester",
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
+		},
+		Statement: "statement",
+		Email:     "a@b.com",
+	}
+
+	ch, _ := New(chargeParams)
+
+	if ch.Source == nil {
+		t.Error("Source is nil for Charge `source` property created by a Card")
+	}
+
+	card := ch.Source.(*stripe.Card)
+
+	if len(card.ID) == 0 {
+		t.Error("Source ID is nil for Charge `source` Card property")
+	}
+}
+
+func TestChargeSourceForBitcoinReceiver(t *testing.T) {
+	bitcoinReceiverParams := &stripe.BitcoinReceiverParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Email:    "do+fill_now@stripe.com",
+		Desc:     "some details",
+	}
+
+	receiver, _ := bitcoinreceiver.New(bitcoinReceiverParams)
+
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Source: &stripe.SourceParams{
+			ID: receiver.ID,
+		},
+		Email: "do+fill_now@stripe.com",
+	}
+
+	ch, _ := New(chargeParams)
+
+	if len(ch.ID) == 0 {
+		t.Error("ID is nil for Charge")
+	}
+
+	if ch.Source == nil {
+		t.Error("Source is nil for Charge, should be BitcoinReceiver property")
+	}
+
+	rreceiver := ch.Source.(*stripe.BitcoinReceiver)
+
+	if len(rreceiver.ID) == 0 {
+		t.Error("Source ID is nil for Charge `source` BitcoinReceiver property")
+	}
+
+	if rreceiver.Amount == 0 {
+		t.Error("Amount is empty for Charge `source` BitcoinReceiver property")
+	}
+}
+
+func TestChargeSourceCanTypeSwitchSource(t *testing.T) {
+	bitcoinReceiverParams := &stripe.BitcoinReceiverParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Email:    "do+fill_now@stripe.com",
+		Desc:     "some details",
+	}
+
+	receiver, _ := bitcoinreceiver.New(bitcoinReceiverParams)
+
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Source: &stripe.SourceParams{
+			ID: receiver.ID,
+		},
+		Email: "do+fill_now@stripe.com",
+	}
+
+	ch, _ := New(chargeParams)
+
+	switch ch.Source.(type) {
+	case *stripe.BitcoinReceiver:
+		source := ch.Source.(*stripe.BitcoinReceiver)
+		if source.Filled == false {
+			t.Error("Unexpected value for BitcoinReceiver source property: Filled should be false")
+		}
+	case *stripe.Card:
+		t.Error("Source type Charge is unexpected")
+	default:
+		t.Error("Source type is not recognized")
 	}
 }

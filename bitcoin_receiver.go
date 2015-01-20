@@ -46,6 +46,10 @@ type BitcoinReceiver struct {
 	Transactions          *BitcoinTransactionList `json:"transactions"`
 }
 
+func (br BitcoinReceiver) PaymentType() string {
+	return "bitcoin_receiver"
+}
+
 // UnmarshalJSON handles deserialization of a BitcoinReceiver.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
