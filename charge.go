@@ -67,8 +67,7 @@ type Charge struct {
 	Statement      string            `json:"statement_descriptor"`
 	FraudDetails   *FraudDetails     `json:"fraud_details"`
 	Status         string            `json:"status"`
-	SourceData     json.RawMessage   `json:"source"`
-	Source         *PaymentSource    `json:"-"`
+	Source         *PaymentSource    `json:"source"`
 }
 
 // FraudDetails is the structure detailing fraud status.
@@ -77,42 +76,14 @@ type FraudDetails struct {
 	StripeReport FraudReport `json:"stripe_report"`
 }
 
-// sourceObject is used to find out the type of a Charge source in order
-// to unmarshal to the correct source struct (eg. Card, BitcoinReceiver)
-type sourceObject struct {
-	Object string `json:"object"`
-}
-
 // UnmarshalJSON handles deserialization of a Charge.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-// Additionally, the type of the source property is variable.
 func (c *Charge) UnmarshalJSON(data []byte) error {
 	type charge Charge
 	var cc charge
 	err := json.Unmarshal(data, &cc)
 	if err == nil {
-
-		// unmarshal to temporary sourceObject instance
-		// to find out what kind of source we're working with
-		sObject := &sourceObject{}
-		err = json.Unmarshal(cc.SourceData, sObject)
-
-		if err == nil {
-			cc.Source = &PaymentSource{
-				Type: sObject.Object,
-			}
-
-			switch sObject.Object {
-			case "bitcoin_receiver":
-				cc.Source.BitcoinReceiver = &BitcoinReceiver{}
-				json.Unmarshal(cc.SourceData, cc.Source.BitcoinReceiver)
-			case "card":
-				cc.Source.Card = &Card{}
-				json.Unmarshal(cc.SourceData, cc.Source.Card)
-			}
-		}
-
 		*c = Charge(cc)
 	} else {
 		// the id is surrounded by "\" characters, so strip them

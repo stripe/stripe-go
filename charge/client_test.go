@@ -7,6 +7,7 @@ import (
 	"github.com/stripe/stripe-go/bitcoinreceiver"
 	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/customer"
+	"github.com/stripe/stripe-go/paymentsource"
 	"github.com/stripe/stripe-go/refund"
 	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
@@ -380,7 +381,7 @@ func TestChargeSourceForCard(t *testing.T) {
 		t.Error("Source is nil for Charge `source` property created by a Card")
 	}
 
-	if ch.Source.Type != "card" {
+	if ch.Source.Type != paymentsource.Card {
 		t.Error("Source Type for Charge created by Card should be `card`")
 	}
 
@@ -388,6 +389,10 @@ func TestChargeSourceForCard(t *testing.T) {
 
 	if len(card.ID) == 0 {
 		t.Error("Source ID is nil for Charge `source` Card property")
+	}
+
+	if card.Display() != "American Express (Last Four: 0005)" {
+		t.Error("Display value did not match expectation")
 	}
 }
 
@@ -420,7 +425,7 @@ func TestChargeSourceForBitcoinReceiver(t *testing.T) {
 		t.Error("Source is nil for Charge, should be BitcoinReceiver property")
 	}
 
-	if ch.Source.Type != "bitcoin_receiver" {
+	if ch.Source.Type != paymentsource.BitcoinReceiver {
 		t.Error("Source Type for Charge created by BitcoinReceiver should be `bitcoin_receiver`")
 	}
 
@@ -432,5 +437,9 @@ func TestChargeSourceForBitcoinReceiver(t *testing.T) {
 
 	if rreceiver.Amount == 0 {
 		t.Error("Amount is empty for Charge `source` BitcoinReceiver property")
+	}
+
+	if rreceiver.Display() != "Filled bitcoin receiver (1000/1000 usd)" {
+		t.Error("Display value did not match expectation")
 	}
 }

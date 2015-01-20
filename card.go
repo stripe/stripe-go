@@ -3,6 +3,7 @@ package stripe
 import (
 	"encoding/json"
 
+	"fmt"
 	"net/url"
 )
 
@@ -140,6 +141,11 @@ func (c *CardParams) AppendDetails(values *url.Values, creating bool) {
 			values.Add("address_country", c.Country)
 		}
 	}
+}
+
+// Human readable/displayable way of inspecting a Card
+func (c *Card) Display() string {
+	return fmt.Sprintf("%s (Last Four: %s)", c.Brand, c.LastFour)
 }
 
 // UnmarshalJSON handles deserialization of a Card.

@@ -1,6 +1,9 @@
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // BitcoinReceiverListParams is the set of parameters that can be used when listing BitcoinReceivers.
 // For more details see https://stripe.com/docs/api/#list_bitcoin_receivers.
@@ -43,6 +46,19 @@ type BitcoinReceiver struct {
 	Payment               string                  `json:"payment"`
 	Customer              string                  `json:"customer"`
 	Transactions          *BitcoinTransactionList `json:"transactions"`
+}
+
+// Human readable/displayable way of inspecting a BitcoinReceiver
+func (br *BitcoinReceiver) Display() string {
+	var filled string
+	if br.Filled {
+		filled = "Filled"
+	} else if br.BitcoinAmountReceived > 0 {
+		filled = "Partially filled"
+	} else {
+		filled = "Unfilled"
+	}
+	return fmt.Sprintf("%s bitcoin receiver (%d/%d %s)", filled, br.AmountReceived, br.Amount, br.Currency)
 }
 
 // UnmarshalJSON handles deserialization of a BitcoinReceiver.
