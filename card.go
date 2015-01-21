@@ -143,9 +143,9 @@ func (c *CardParams) AppendDetails(values *url.Values, creating bool) {
 	}
 }
 
-// Human readable/displayable way of inspecting a Card
+// Display human readable representation of a Card.
 func (c *Card) Display() string {
-	return fmt.Sprintf("%s (Last Four: %s)", c.Brand, c.LastFour)
+	return fmt.Sprintf("%s ending in %s", c.Brand, c.LastFour)
 }
 
 // UnmarshalJSON handles deserialization of a Card.

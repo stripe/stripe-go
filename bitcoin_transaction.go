@@ -2,10 +2,10 @@ package stripe
 
 import "encoding/json"
 
+// BitcoinTransactionListParams is the set of parameters that can be used when listing BitcoinTransactions.
 type BitcoinTransactionListParams struct {
 	ListParams
-	Receiver string
-	Customer string
+	Receiver, Customer string
 }
 
 // BitcoinTransactionList is a list object for BitcoinTransactions.

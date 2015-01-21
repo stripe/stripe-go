@@ -9,19 +9,16 @@ import (
 // For more details see https://stripe.com/docs/api/#list_bitcoin_receivers.
 type BitcoinReceiverListParams struct {
 	ListParams
-	NotFilled  bool
-	NotActive  bool
-	Uncaptured bool
+	NotFilled, NotActive, Uncaptured bool
 }
 
 // BitcoinReceiverParams is the set of parameters that can be used when creating a BitcoinReceiver.
 // For more details see https://stripe.com/docs/api/#create_bitcoin_receiver.
 type BitcoinReceiverParams struct {
 	Params
-	Amount   uint64
-	Currency Currency
-	Desc     string
-	Email    string
+	Amount      uint64
+	Currency    Currency
+	Desc, Email string
 }
 
 // BitcoinReceiver is the resource representing a Stripe bitcoin receiver.
@@ -48,7 +45,7 @@ type BitcoinReceiver struct {
 	Transactions          *BitcoinTransactionList `json:"transactions"`
 }
 
-// Human readable/displayable way of inspecting a BitcoinReceiver
+// Display human readable representation of a BitcoinReceiver.
 func (br *BitcoinReceiver) Display() string {
 	var filled string
 	if br.Filled {

@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/paymentsource"
 )
 
 // SourceParams is the set of parameters that can be used to describe the source
@@ -16,27 +15,35 @@ type SourceParams struct {
 	Card  *CardParams
 }
 
-// Interface to provide a human readable representation of a struct
+// Displayer provides a human readable representation of a struct
 type Displayer interface {
 	Display() string
 }
+
+// PaymentSourceType consts represent valid payment sources
+type PaymentSourceType string
+
+const (
+	PaymentSourceBitcoinReceiver PaymentSourceType = "bitcoin_receiver"
+	PaymentSourceCard            PaymentSourceType = "card"
+)
 
 // PaymentSource describes the payment source used to make a Charge.
 // The Type should indicate which object is fleshed out (eg. BitcoinReceiver or Card)
 // For more details see https://stripe.com/docs/api#retrieve_charge
 type PaymentSource struct {
-	Type            string `json:"object"`
-	ID              string `json:"id"`
-	Card            *Card
-	BitcoinReceiver *BitcoinReceiver
+	Type            PaymentSourceType `json:"object"`
+	ID              string            `json:"id"`
+	Card            *Card             `json:"-"`
+	BitcoinReceiver *BitcoinReceiver  `json:"-"`
 }
 
-// Human readable/displayable value for any payment type
+// Display human readable representation of source.
 func (s *PaymentSource) Display() string {
 	switch s.Type {
-	case paymentsource.BitcoinReceiver:
+	case PaymentSourceBitcoinReceiver:
 		return s.BitcoinReceiver.Display()
-	case paymentsource.Card:
+	case PaymentSourceCard:
 		return s.Card.Display()
 	}
 
@@ -54,12 +61,10 @@ func (s *PaymentSource) UnmarshalJSON(data []byte) error {
 		*s = PaymentSource(ss)
 
 		switch s.Type {
-		case paymentsource.BitcoinReceiver:
-			s.BitcoinReceiver = &BitcoinReceiver{}
-			json.Unmarshal(data, s.BitcoinReceiver)
-		case paymentsource.Card:
-			s.Card = &Card{}
-			json.Unmarshal(data, s.Card)
+		case PaymentSourceBitcoinReceiver:
+			json.Unmarshal(data, &s.BitcoinReceiver)
+		case PaymentSourceCard:
+			json.Unmarshal(data, &s.Card)
 		}
 	}
 

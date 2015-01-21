@@ -1,4 +1,4 @@
-// Package bitcoinreceiver provides the /bitcoin/receivers APIs
+// Package bitcoinreceiver provides the /bitcoin/receivers APIs.
 package bitcoinreceiver
 
 import (
