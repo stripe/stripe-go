@@ -33,118 +33,6 @@ and [API changelog](https://stripe.com/docs/upgrades).
 go get github.com/stripe/stripe-go
 ```
 
-## Usage
-
-While some resources may contain more/less APIs, the following pattern is
-applied throughout the library for a given `resource`:
-
-### Without a Client
-
-If you're only dealing with a single key, you can simply import the packages
-required for the resources you're interacting with without the need to create a
-client.
-
-```go
-import (
-  "github.com/stripe/stripe-go"
-  "github.com/stripe/stripe-go/resource"
-)
-
-// Setup
-stripe.Key = "sk_key"
-
-stripe.SetBackend("api", backend) // optional, useful for mocking
-
-// Create
-resource, err := resource.New(stripe.ResourceParams)
-
-// Get
-resource, err := resource.Get(id, stripe.ResourceParams)
-
-// Update
-resource, err := resource.Update(stripe.ResourceParams)
-
-// Delete
-err := resource.Del(id)
-
-// List
-i := resource.List(stripe.ResourceListParams)
-for i.Next() {
-  resource := i.Resource()
-}
-
-if err := i.Err(); err != nil {
-  // handle
-}
-
-
-```
-
-### With a Client
-
-If you're dealing with multiple keys, it is recommended you use the
-`client.API`.  This allows you to create as many clients as needed, each with
-their own individual key.
-
-```go
-import (
-  "github.com/stripe/stripe-go"
-  "github.com/stripe/stripe-go/client"
-)
-
-// Setup
-sc := &client.API{}
-sc.Init("sk_key", nil) // the second parameter overrides the backends used if needed for mocking
-
-// Create
-resource, err := sc.Resources.New(stripe.ResourceParams)
-
-// Get
-resource, err := sc.Resources.Get(id, stripe.ResourceParams)
-
-// Update
-resource, err := sc.Resources.Update(stripe.ResourceParams)
-
-// Delete
-err := sc.Resources.Del(id)
-
-// List
-i := sc.Resources.List(stripe.ResourceListParams)
-for i.Next() {
-  resource := i.Resource()
-}
-
-if err := i.Err(); err != nil {
-  // handle
-}
-```
-
-### Connect Flows
-
-If you're using an `access token` you will need to use a client. Simply pass
-the `access token` value as the `tok` when initializing the client.
-
-```go
-
-import (
-  "github.com/stripe/stripe-go"
-  "github.com/stripe/stripe-go/client"
-)
-
-stripe := &client.API{}
-stripe.Init("access_token", nil)
-```
-
-### Google AppEngine
-
-If you're running the client in a Google AppEngine environment, you
-can override the HTTP client used internally since the
-`http.DefaultClient` is not available:
-
-```go
-stripe.SetHTTPClient(urlfetch.Client(appengine.NewContext(req)))
-```
-
 ## Documentation
 
 For a comprehensive list of examples, check out the [API documentation](https://stripe.com/docs/api/go).
@@ -181,9 +69,12 @@ params.Filters.AddFilter("include[]", "", "total_count")
 params.Params.IdempotencyKey = stripe.NewIdempotencyKey()
 
 i := charge.List(params)
-for !i.Stop() {
-  c, err := i.Next()
-  // perform an action on each charge
+for i.Next() {
+  charge := i.Charge()
+}
+
+if err := i.Err(); err != nil {
+  // handle
 }
 ```
 
@@ -203,6 +94,118 @@ for i.Next() {
 ```
 
 Alternatively, you can use the `even.Data.Raw` property to unmarshal to the appropriate struct.
+
+### Connect Flows
+
+If you're using an `access token` you will need to use a client. Simply pass
+the `access token` value as the `tok` when initializing the client.
+
+```go
+
+import (
+  "github.com/stripe/stripe-go"
+  "github.com/stripe/stripe-go/client"
+)
+
+stripe := &client.API{}
+stripe.Init("access_token", nil)
+```
+
+### Google AppEngine
+
+If you're running the client in a Google AppEngine environment, you
+can override the HTTP client used internally since the
+`http.DefaultClient` is not available:
+
+```go
+stripe.SetHTTPClient(urlfetch.Client(appengine.NewContext(req)))
+```
+
+## Usage
+
+While some resources may contain more/less APIs, the following pattern is
+applied throughout the library for a given `$resource$`:
+
+### Without a Client
+
+If you're only dealing with a single key, you can simply import the packages
+required for the resources you're interacting with without the need to create a
+client.
+
+```go
+import (
+  "github.com/stripe/stripe-go"
+  "github.com/stripe/stripe-go/$resource$"
+)
+
+// Setup
+stripe.Key = "sk_key"
+
+stripe.SetBackend("api", backend) // optional, useful for mocking
+
+// Create
+$resource$, err := $resource$.New(stripe.$Resource$Params)
+
+// Get
+$resource$, err := $resource$.Get(id, stripe.$Resource$Params)
+
+// Update
+$resource$, err := $resource$.Update(stripe.$Resource$Params)
+
+// Delete
+err := $resource$.Del(id)
+
+// List
+i := $resource$.List(stripe.$Resource$ListParams)
+for i.Next() {
+  $resource$ := i.$Resource$()
+}
+
+if err := i.Err(); err != nil {
+  // handle
+}
+
+
+```
+
+### With a Client
+
+If you're dealing with multiple keys, it is recommended you use the
+`client.API`.  This allows you to create as many clients as needed, each with
+their own individual key.
+
+```go
+import (
+  "github.com/stripe/stripe-go"
+  "github.com/stripe/stripe-go/client"
+)
+
+// Setup
+sc := &client.API{}
+sc.Init("sk_key", nil) // the second parameter overrides the backends used if needed for mocking
+
+// Create
+$resource$, err := sc.$Resource$s.New(stripe.$Resource$Params)
+
+// Get
+$resource$, err := sc.$Resource$s.Get(id, stripe.$Resource$Params)
+
+// Update
+$resource$, err := sc.$Resource$s.Update(stripe.$Resource$Params)
+
+// Delete
+err := sc.$Resource$s.Del(id)
+
+// List
+i := sc.$Resource$s.List(stripe.$Resource$ListParams)
+for i.Next() {
+  resource := i.$Resource$()
+}
+
+if err := i.Err(); err != nil {
+  // handle
+}
+```
 
 ## Development
 
