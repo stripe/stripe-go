@@ -5,6 +5,8 @@ import (
 	. "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/account"
 	"github.com/stripe/stripe-go/balance"
+	"github.com/stripe/stripe-go/bitcoinreceiver"
+	"github.com/stripe/stripe-go/bitcointransaction"
 	"github.com/stripe/stripe-go/card"
 	"github.com/stripe/stripe-go/charge"
 	"github.com/stripe/stripe-go/coupon"
@@ -87,6 +89,12 @@ type API struct {
 	// FileUploads is the client used to invoke the uploads /files APIs.
 	// For more details see https://stripe.com/docs/api#file_uploads.
 	FileUploads *fileupload.Client
+	// BitcoinReceivers is the client used to invoke /bitcoin/receivers APIs.
+	// For more details see https://stripe.com/docs/api#bitcoin_receivers.
+	BitcoinReceivers *bitcoinreceiver.Client
+	// BitcoinTransactions is the client used to invoke /bitcoin/transactions APIs.
+	// For more details see https://stripe.com/docs/api#bitcoin_receivers.
+	BitcoinTransactions *bitcointransaction.Client
 }
 
 // Init initializes the Stripe client with the appropriate secret key
@@ -116,4 +124,6 @@ func (a *API) Init(key string, backends *StripeBackends) {
 	a.Events = &event.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
 	a.FileUploads = &fileupload.Client{B: backends.Uploads, Key: key}
+	a.BitcoinReceivers = &bitcoinreceiver.Client{B: backends.API, Key: key}
+	a.BitcoinTransactions = &bitcointransaction.Client{B: backends.API, Key: key}
 }

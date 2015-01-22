@@ -22,6 +22,7 @@ type ChargeParams struct {
 	NoCapture              bool
 	Fee                    uint64
 	Fraud                  FraudReport
+	Source                 *SourceParams
 }
 
 // ChargeListParams is the set of parameters that can be used when listing charges.
@@ -65,6 +66,8 @@ type Charge struct {
 	Email          string            `json:"receipt_email"`
 	Statement      string            `json:"statement_descriptor"`
 	FraudDetails   *FraudDetails     `json:"fraud_details"`
+	Status         string            `json:"status"`
+	Source         *PaymentSource    `json:"source"`
 }
 
 // FraudDetails is the structure detailing fraud status.

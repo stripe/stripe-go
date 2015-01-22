@@ -1,6 +1,9 @@
+4.4.0 2014-01-20
+	Add Bitcoin support
+
 4.3.0 2015-01-13
-  Added support for listing FileUploads
-  Mime parameter on FileUpload has been changed to Type
+	Added support for listing FileUploads
+	Mime parameter on FileUpload has been changed to Type
 
 4.2.1 2014-12-28
 	Handle charges with customer card tokens
