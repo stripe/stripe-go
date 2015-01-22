@@ -130,8 +130,8 @@ func (s BackendConfiguration) Call(method, path, key string, form *url.Values, p
 }
 
 // CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
-func (s BackendConfiguration) CallMultipart(method, path, key, boudary string, body io.Reader, params *Params, v interface{}) error {
-	contentType := "multipart/form-data; boundary=" + boudary
+func (s BackendConfiguration) CallMultipart(method, path, key, boundary string, body io.Reader, params *Params, v interface{}) error {
+	contentType := "multipart/form-data; boundary=" + boundary
 
 	req, err := s.NewRequest(method, path, key, contentType, body, params)
 	if err != nil {
