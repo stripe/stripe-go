@@ -5,6 +5,7 @@ import (
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/currency"
+	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -64,6 +65,92 @@ func TestRecipientNew(t *testing.T) {
 
 	if target.Bank.Country != recipientParams.Bank.Country {
 		t.Errorf("Bank country %q does not match expected country %q\n", target.Bank.Country, recipientParams.Bank.Country)
+	}
+
+	if target.Bank.Currency != currency.USD {
+		t.Errorf("Bank currency %q does not match expected value\n", target.Bank.Currency)
+	}
+
+	if target.Bank.LastFour != "6789" {
+		t.Errorf("Bank last four %q does not match expected value\n", target.Bank.LastFour)
+	}
+
+	if len(target.Bank.Name) == 0 {
+		t.Errorf("Bank name is not set\n")
+	}
+
+	if target.Cards == nil || target.Cards.Count != 1 {
+		t.Errorf("Recipient cards not set\n")
+	}
+
+	if len(target.DefaultCard.ID) == 0 {
+		t.Errorf("Recipient default card is not set\n")
+	}
+
+	Del(target.ID)
+}
+
+func TestRecipientNewToken(t *testing.T) {
+
+	tokenParams := &stripe.TokenParams{
+		Bank: &stripe.BankAccountParams{
+			Country: "US",
+			Routing: "110000000",
+			Account: "000123456789",
+		},
+	}
+
+	tok, _ := token.New(tokenParams)
+
+	recipientParams := &stripe.RecipientParams{
+		Name:  "Recipient Name",
+		Type:  Individual,
+		TaxID: "000000000",
+		Email: "a@b.com",
+		Desc:  "Recipient Desc",
+		Bank: &stripe.BankAccountParams{
+			Token: tok.ID,
+		},
+		Card: &stripe.CardParams{
+			Name:   "Test Debit",
+			Number: "4000056655665556",
+			Month:  "10",
+			Year:   "20",
+		},
+	}
+
+	target, err := New(recipientParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Name != recipientParams.Name {
+		t.Errorf("Name %q does not match expected name %q\n", target.Name, recipientParams.Name)
+	}
+
+	if target.Type != recipientParams.Type {
+		t.Errorf("Type %q does not match expected type %q\n", target.Type, recipientParams.Type)
+	}
+
+	if target.Email != recipientParams.Email {
+		t.Errorf("Email %q does not match expected email %q\n", target.Email, recipientParams.Email)
+	}
+
+	if target.Desc != recipientParams.Desc {
+		t.Errorf("Description %q does not match expected description %q\n", target.Desc, recipientParams.Desc)
+	}
+
+	if target.Created == 0 {
+		t.Errorf("Created date is not set\n")
+	}
+
+	if target.Bank == nil {
+		t.Errorf("Bank account is not set\n")
+	}
+
+	if target.Bank.Country != tokenParams.Bank.Country {
+		t.Errorf("Bank country %q does not match expected country %q\n", target.Bank.Country, tokenParams.Bank.Country)
 	}
 
 	if target.Bank.Currency != currency.USD {
