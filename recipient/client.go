@@ -36,10 +36,12 @@ func (c Client) New(params *stripe.RecipientParams) (*stripe.Recipient, error) {
 		"type": {string(params.Type)},
 	}
 
-	if params.Bank != nil && len(params.Bank.Token) > 0 {
-		body.Add("bank_account", params.Bank.Token)
-	} else if params.Bank != nil {
-		params.Bank.AppendDetails(body)
+	if params.Bank != nil {
+		if len(params.Bank.Token) > 0 {
+			body.Add("bank_account", params.Bank.Token)
+		} else {
+			params.Bank.AppendDetails(body)
+		}
 	}
 
 	if len(params.Token) > 0 {

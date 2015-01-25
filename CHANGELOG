@@ -1,3 +1,7 @@
+4.4.1 2014-01-24
+	Add BankAccountParams.Token
+	Add Token.ClientIP
+
 4.4.0 2014-01-20
 	Add Bitcoin support
 

@@ -19,13 +19,14 @@ type TokenParams struct {
 // Token is the resource representing a Stripe token.
 // For more details see https://stripe.com/docs/api#tokens.
 type Token struct {
-	ID      string       `json:"id"`
-	Live    bool         `json:"livemode"`
-	Created int64        `json:"created"`
-	Type    TokenType    `json:"type"`
-	Used    bool         `json:"used"`
-	Bank    *BankAccount `json:"bank_account"`
-	Card    *Card        `json:"card"`
+	ID       string       `json:"id"`
+	Live     bool         `json:"livemode"`
+	Created  int64        `json:"created"`
+	Type     TokenType    `json:"type"`
+	Used     bool         `json:"used"`
+	Bank     *BankAccount `json:"bank_account"`
+	Card     *Card        `json:"card"`
+	ClientIP string       `json:"client_ip"`
 	// Email is an undocumented field but included for all tokens created
 	// with Stripe Checkout.
 	Email string `json:"email"`
