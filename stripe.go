@@ -56,8 +56,8 @@ const (
 	UploadsBackend SupportedBackend = "uploads"
 )
 
-// StripeBackends are the currently supported endpoints.
-type StripeBackends struct {
+// Backends are the currently supported endpoints.
+type Backends struct {
 	API, Uploads Backend
 }
 
@@ -72,7 +72,7 @@ var Key string
 var LogLevel = 2
 
 var httpClient = &http.Client{Timeout: defaultHTTPTimeout}
-var backends StripeBackends
+var backends Backends
 
 // SetHTTPClient overrides the default HTTP client.
 // This is useful if you're running in a Google AppEngine environment
