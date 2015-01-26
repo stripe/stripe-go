@@ -89,7 +89,7 @@ func TestRefundNew(t *testing.T) {
 	target, _ = charge.Get(res.ID, nil)
 
 	if target.FraudDetails.UserReport != "fraudulent" {
-		t.Errorf("Expected a fraudulent UserReport for charge refunded with reason=fraudulent",
+		t.Errorf("Expected a fraudulent UserReport for charge refunded with reason=fraudulent but got: %s",
 			target.FraudDetails.UserReport)
 	}
 }

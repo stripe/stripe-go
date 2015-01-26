@@ -50,7 +50,7 @@ func TestSubscriptionNew(t *testing.T) {
 	}
 
 	if target.Plan.ID != subParams.Plan {
-		t.Errorf("Plan %q does not match expected plan %q\n", target.Plan, subParams.Plan)
+		t.Errorf("Plan %v does not match expected plan %v\n", target.Plan, subParams.Plan)
 	}
 
 	if target.Quantity != subParams.Quantity {
@@ -95,7 +95,7 @@ func TestSubscriptionZeroQuantity(t *testing.T) {
 	}
 
 	if target.Plan.ID != subParams.Plan {
-		t.Errorf("Plan %q does not match expected plan %q\n", target.Plan, subParams.Plan)
+		t.Errorf("Plan %v does not match expected plan %v\n", target.Plan, subParams.Plan)
 	}
 
 	if target.Quantity != 0 {
