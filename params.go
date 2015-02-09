@@ -1,8 +1,9 @@
 package stripe
 
 import (
+	"crypto/rand"
+	"encoding/base64"
 	"fmt"
-	"math/rand"
 	"net/url"
 	"strconv"
 	"time"
@@ -57,7 +58,9 @@ type filter struct {
 // can be used on a request.
 func NewIdempotencyKey() string {
 	now := time.Now().UnixNano()
-	return fmt.Sprintf("%v_%v", now, rand.Int63())
+	buf := make([]byte, 4)
+	rand.Read(buf)
+	return fmt.Sprintf("%v_%v", now, base64.URLEncoding.EncodeToString(buf)[:6])
 }
 
 // Expand appends a new field to expand.
