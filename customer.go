@@ -9,6 +9,7 @@ type CustomerParams struct {
 	Balance       int64
 	Token, Coupon string
 	Card          *CardParams
+	Source        *SourceParams
 	Desc, Email   string
 	Plan          string
 	Quantity      uint64
@@ -26,19 +27,20 @@ type CustomerListParams struct {
 // Customer is the resource representing a Stripe customer.
 // For more details see https://stripe.com/docs/api#customers.
 type Customer struct {
-	ID          string            `json:"id"`
-	Live        bool              `json:"livemode"`
-	Cards       *CardList         `json:"cards"`
-	Created     int64             `json:"created"`
-	Balance     int64             `json:"account_balance"`
-	Currency    Currency          `json:"currency"`
-	DefaultCard *Card             `json:"default_card"`
-	Delinquent  bool              `json:"delinquent"`
-	Desc        string            `json:"description"`
-	Discount    *Discount         `json:"discount"`
-	Email       string            `json:"email"`
-	Meta        map[string]string `json:"metadata"`
-	Subs        *SubList          `json:"subscriptions"`
+	ID            string            `json:"id"`
+	Live          bool              `json:"livemode"`
+	Cards         *CardList         `json:"cards"`
+	Created       int64             `json:"created"`
+	Balance       int64             `json:"account_balance"`
+	Currency      Currency          `json:"currency"`
+	DefaultCard   *Card             `json:"default_card"`
+	DefaultSource *PaymentSource    `json:"default_source"`
+	Delinquent    bool              `json:"delinquent"`
+	Desc          string            `json:"description"`
+	Discount      *Discount         `json:"discount"`
+	Email         string            `json:"email"`
+	Meta          map[string]string `json:"metadata"`
+	Subs          *SubList          `json:"subscriptions"`
 }
 
 // UnmarshalJSON handles deserialization of a Customer.

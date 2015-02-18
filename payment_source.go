@@ -2,6 +2,7 @@ package stripe
 
 import (
 	"encoding/json"
+	"net/url"
 )
 
 // SourceParams is the set of parameters that can be used to describe the source
@@ -10,9 +11,10 @@ import (
 // For more details see https://stripe.com/docs/api#create_charge
 type SourceParams struct {
 	Params
-	ID    string
-	Token string
-	Card  *CardParams
+	ID       string
+	Token    string
+	Card     *CardParams
+	Customer string
 }
 
 // Displayer provides a human readable representation of a struct
@@ -36,6 +38,36 @@ type PaymentSource struct {
 	ID              string            `json:"id"`
 	Card            *Card             `json:"-"`
 	BitcoinReceiver *BitcoinReceiver  `json:"-"`
+}
+
+// SourceList is a list object for cards.
+type SourceList struct {
+	ListMeta
+	Values []*PaymentSource `json:"data"`
+}
+
+// AppendDetails adds the source's details to the query string values.
+// When creating a new source, the parameters are passed as a dictionary, but
+// on updates they are simply the parameter name.
+func (s *SourceParams) AppendDetails(values *url.Values, creating bool) {
+	if s.Card != nil {
+		s.Card.AppendDetails(values, creating)
+	}
+
+	if len(s.ID) > 0 {
+		values.Add("source", s.ID)
+	}
+
+	if len(s.Token) > 0 {
+		values.Add("source", s.Token)
+	}
+}
+
+// PaymentSourceListParams are used to enumerate the payment sources
+// that are attached to a Customer.
+type SourceListParams struct {
+	ListParams
+	Customer string
 }
 
 // Display human readable representation of source.
@@ -66,6 +98,9 @@ func (s *PaymentSource) UnmarshalJSON(data []byte) error {
 		case PaymentSourceCard:
 			json.Unmarshal(data, &s.Card)
 		}
+	} else {
+		// the id is surrounded by "\" characters, so strip them
+		s.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil

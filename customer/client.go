@@ -31,7 +31,7 @@ func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 		}
 
 		if len(params.Token) > 0 {
-			body.Add("card", params.Token)
+			body.Add("source", params.Token)
 		} else if params.Card != nil {
 			params.Card.AppendDetails(body, true)
 		}
