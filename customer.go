@@ -29,12 +29,10 @@ type CustomerListParams struct {
 type Customer struct {
 	ID            string            `json:"id"`
 	Live          bool              `json:"livemode"`
-	Cards         *CardList         `json:"cards"`
 	Sources       *SourceList       `json:"sources"`
 	Created       int64             `json:"created"`
 	Balance       int64             `json:"account_balance"`
 	Currency      Currency          `json:"currency"`
-	DefaultCard   *Card             `json:"default_card"`
 	DefaultSource *PaymentSource    `json:"default_source"`
 	Delinquent    bool              `json:"delinquent"`
 	Desc          string            `json:"description"`

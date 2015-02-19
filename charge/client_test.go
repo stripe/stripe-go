@@ -138,8 +138,8 @@ func TestChargeNewWithCustomerAndCard(t *testing.T) {
 		t.Errorf("Customer ID %q doesn't match expected customer ID %q", target.Customer.ID, cust.ID)
 	}
 
-	if target.Card.ID != cust.Cards.Values[0].ID {
-		t.Errorf("Card ID %q doesn't match expected card ID %q", target.Card.ID, cust.Cards.Values[0].ID)
+	if target.Source.Card.ID != cust.Sources.Values[0].Card.ID {
+		t.Errorf("Card ID %q doesn't match expected card ID %q", target.Source.Card.ID, cust.Sources.Values[0].Card.ID)
 	}
 
 }
@@ -179,8 +179,8 @@ func TestChargeNewWithToken(t *testing.T) {
 		t.Errorf("Currency %q does not match expected currency %q\n", target.Currency, chargeParams.Currency)
 	}
 
-	if target.Card.ID != tok.Card.ID {
-		t.Errorf("Card Id %q doesn't match card id %q of token %q", target.Card.ID, tok.Card.ID, tok.ID)
+	if target.Source.Card.ID != tok.Card.ID {
+		t.Errorf("Card Id %q doesn't match card id %q of token %q", target.Source.Card.ID, tok.Card.ID, tok.ID)
 	}
 }
 

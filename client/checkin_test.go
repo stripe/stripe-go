@@ -120,7 +120,7 @@ func TestCheckinPost(t *testing.T) {
 	}
 
 	if target.Source.Card.Name != charge.Source.Card.Name {
-		t.Errorf("Card name %q does not match expected name %q\n", target.Card.Name, charge.Source.Card.Name)
+		t.Errorf("Card name %q does not match expected name %q\n", target.Source.Card.Name, charge.Source.Card.Name)
 	}
 }
 

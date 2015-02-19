@@ -48,7 +48,6 @@ type Charge struct {
 	Live           bool              `json:"livemode"`
 	Amount         uint64            `json:"amount"`
 	Captured       bool              `json:"captured"`
-	Card           *Card             `json:"card"`
 	Created        int64             `json:"created"`
 	Currency       Currency          `json:"currency"`
 	Paid           bool              `json:"paid"`
