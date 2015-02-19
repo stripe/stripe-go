@@ -19,10 +19,12 @@ func init() {
 // avoid unnecessary duplication
 func TestAllInvoicesScenarios(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 	}
 

@@ -53,8 +53,8 @@ func TestSourceNew(t *testing.T) {
 		t.Error(err)
 	}
 
-	if targetCust.Cards.Count != 1 {
-		t.Errorf("Unexpected number of cards %v\n", targetCust.Cards.Count)
+	if targetCust.Sources.Count != 1 {
+		t.Errorf("Unexpected number of sources %v\n", targetCust.Sources.Count)
 	}
 
 	customer.Del(cust.ID)
@@ -67,8 +67,13 @@ func TestSourceGet(t *testing.T) {
 			Month:  "06",
 			Year:   "20",
 		},
+		Email: "SomethingIdentifiable@gmail.om",
 	}
-	cust, _ := customer.New(customerParams)
+	cust, err := customer.New(customerParams)
+
+	if err != nil {
+		t.Error(err)
+	}
 
 	source, err := Get(cust.DefaultSource.ID, &stripe.SourceParams{Customer: cust.ID})
 
@@ -91,10 +96,12 @@ func TestSourceGet(t *testing.T) {
 
 func TestSourceDel(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 	}
 
@@ -149,10 +156,12 @@ func TestSourceUpdate(t *testing.T) {
 
 func TestSourceList(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 	}
 

@@ -17,10 +17,12 @@ func TestRefundNew(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 	}
 
@@ -98,10 +100,12 @@ func TestRefundGet(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 	}
 
@@ -123,10 +127,12 @@ func TestRefundList(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 	}
 

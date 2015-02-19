@@ -52,8 +52,8 @@ func TestCardNew(t *testing.T) {
 		t.Error(err)
 	}
 
-	if targetCust.Cards.Count != 2 {
-		t.Errorf("Unexpected number of cards %v\n", targetCust.Cards.Count)
+	if targetCust.Sources.Count != 2 {
+		t.Errorf("Unexpected number of sources %v\n", targetCust.Sources.Count)
 	}
 
 	customer.Del(cust.ID)
@@ -95,16 +95,18 @@ func TestCardGet(t *testing.T) {
 
 func TestCardDel(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 	}
 
 	cust, _ := customer.New(customerParams)
 
-	err := Del(cust.DefaultCard.ID, &stripe.CardParams{Customer: cust.ID})
+	err := Del(cust.DefaultSource.ID, &stripe.CardParams{Customer: cust.ID})
 	if err != nil {
 		t.Error(err)
 	}
@@ -114,11 +116,13 @@ func TestCardDel(t *testing.T) {
 
 func TestCardUpdate(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
-			Name:   "Original Name",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+				Name:   "Original Name",
+			},
 		},
 	}
 
@@ -133,7 +137,7 @@ func TestCardUpdate(t *testing.T) {
 		Name:     "Updated Name",
 	}
 
-	target, err := Update(cust.DefaultCard.ID, cardParams)
+	target, err := Update(cust.DefaultSource.ID, cardParams)
 
 	if err != nil {
 		t.Error(err)

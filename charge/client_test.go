@@ -20,11 +20,13 @@ func TestChargeNew(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Name:   "Stripe Tester",
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Name:   "Stripe Tester",
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 		Statement: "statement",
 		Email:     "a@b.com",
@@ -44,8 +46,8 @@ func TestChargeNew(t *testing.T) {
 		t.Errorf("Currency %q does not match expected currency %q\n", target.Currency, chargeParams.Currency)
 	}
 
-	if target.Card.Name != chargeParams.Card.Name {
-		t.Errorf("Card name %q does not match expected name %q\n", target.Card.Name, chargeParams.Card.Name)
+	if target.Source.Card.Name != chargeParams.Source.Card.Name {
+		t.Errorf("Card name %q does not match expected name %q\n", target.Source.Card.Name, chargeParams.Source.Card.Name)
 	}
 
 	if target.Statement != chargeParams.Statement {
@@ -61,11 +63,13 @@ func TestWithoutIdempotentTwoDifferentCharges(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Name:   "Stripe Tester",
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Name:   "Stripe Tester",
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 		Statement: "statement",
 		Email:     "a@b.com",
@@ -94,10 +98,12 @@ func TestWithoutIdempotentTwoDifferentCharges(t *testing.T) {
 
 func TestChargeNewWithCustomerAndCard(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 	}
 
@@ -108,7 +114,7 @@ func TestChargeNewWithCustomerAndCard(t *testing.T) {
 		Currency: currency.USD,
 		Customer: cust.ID,
 		Card: &stripe.CardParams{
-			Token: cust.Cards.Values[0].ID,
+			Token: cust.Sources.Values[0].Card.ID,
 		},
 		Statement: "statement",
 		Email:     "a@b.com",
@@ -152,8 +158,10 @@ func TestChargeNewWithToken(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Token: tok.ID,
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Token: tok.ID,
+			},
 		},
 	}
 
@@ -180,10 +188,12 @@ func TestChargeGet(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1001,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 	}
 
@@ -204,10 +214,12 @@ func TestChargeUpdate(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1002,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 		Desc: "original description",
 	}
@@ -314,11 +326,13 @@ func TestMarkFraudulent(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Name:   "Stripe Tester",
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Name:   "Stripe Tester",
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 		Statement: "statement",
 		Email:     "a@b.com",
@@ -338,11 +352,13 @@ func TestMarkSafe(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Name:   "Stripe Tester",
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Name:   "Stripe Tester",
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 		Statement: "statement",
 		Email:     "a@b.com",

@@ -34,6 +34,8 @@ func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 			body.Add("source", params.Token)
 		} else if params.Card != nil {
 			params.Card.AppendDetails(body, true)
+		} else if params.Source != nil {
+			params.Source.AppendDetails(body, true)
 		}
 
 		if len(params.Desc) > 0 {
@@ -117,6 +119,16 @@ func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Custom
 				body.Add("card", params.Card.Token)
 			} else {
 				params.Card.AppendDetails(body, true)
+			}
+		} else if params.Source != nil {
+			if len(params.Source.ID) > 0 {
+				body.Add("source", params.Source.ID)
+			} else if params.Source.Card != nil {
+				if len(params.Source.Card.Token) > 0 {
+					body.Add("card", params.Source.Card.Token)
+				}
+			} else {
+				params.Source.AppendDetails(body, true)
 			}
 		}
 

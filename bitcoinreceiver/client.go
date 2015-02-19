@@ -2,9 +2,9 @@
 package bitcoinreceiver
 
 import (
+	"fmt"
 	"net/url"
 	"strconv"
-	"fmt"
 
 	stripe "github.com/stripe/stripe-go"
 )

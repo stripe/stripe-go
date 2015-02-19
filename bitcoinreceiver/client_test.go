@@ -108,7 +108,7 @@ func TestBitcoinReceiverUpdate(t *testing.T) {
 	}
 
 	updateParams := &stripe.BitcoinReceiverUpdateParams{
-		Desc:     "some other details",
+		Desc: "some other details",
 	}
 
 	target, err := Update(receiver.ID, updateParams)
