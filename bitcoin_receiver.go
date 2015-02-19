@@ -21,6 +21,13 @@ type BitcoinReceiverParams struct {
 	Desc, Email string
 }
 
+// BitcoinReceiverParams is the set of parameters that can be used when updating a BitcoinReceiver.
+// For more details see https://stripe.com/docs/api/#update_bitcoin_receiver.
+type BitcoinReceiverUpdateParams struct {
+	Params
+	Desc, Email, RefundAddr string
+}
+
 // BitcoinReceiver is the resource representing a Stripe bitcoin receiver.
 // For more details see https://stripe.com/docs/api/#bitcoin_receivers
 type BitcoinReceiver struct {

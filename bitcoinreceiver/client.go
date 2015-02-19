@@ -4,6 +4,7 @@ package bitcoinreceiver
 import (
 	"net/url"
 	"strconv"
+	"fmt"
 
 	stripe "github.com/stripe/stripe-go"
 )
@@ -61,6 +62,35 @@ func (c Client) Get(id string, params *stripe.BitcoinReceiverParams) (*stripe.Bi
 	err := c.B.Call("GET", "/bitcoin/receivers/"+id, c.Key, nil, commonParams, bitcoinReceiver)
 
 	return bitcoinReceiver, err
+}
+
+// Update updates a bitcoin receiver's properties.
+// For more details see	https://stripe.com/docs/api#update_bitcoin_receiver.
+func Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.BitcoinReceiver, error) {
+	return getC().Update(id, params)
+}
+
+func (c Client) Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.BitcoinReceiver, error) {
+	body := &url.Values{}
+
+	if len(params.Desc) > 0 {
+		body.Add("description", params.Desc)
+	}
+
+	if len(params.Email) > 0 {
+		body.Add("email", params.Email)
+	}
+
+	if len(params.RefundAddr) > 0 {
+		body.Add("refund_address", params.RefundAddr)
+	}
+
+	receiver := &stripe.BitcoinReceiver{}
+	var err error
+
+	err = c.B.Call("POST", fmt.Sprintf("/bitcoin/receivers/%v", id), c.Key, body, &params.Params, receiver)
+
+	return receiver, err
 }
 
 // List returns a list of bitcoin receivers.
