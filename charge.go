@@ -17,12 +17,19 @@ type ChargeParams struct {
 	Amount                 uint64
 	Currency               Currency
 	Customer, Token        string
-	Card                   *CardParams
 	Desc, Statement, Email string
 	NoCapture              bool
 	Fee                    uint64
 	Fraud                  FraudReport
 	Source                 *SourceParams
+}
+
+// SetSource adds valid sources to a ChargeParams object,
+// returning an error for unsupported sources.
+func (cp *ChargeParams) SetSource(sp interface{}) (error) {
+	source, err := SourceParamsFor(sp)
+	cp.Source = source
+	return err
 }
 
 // ChargeListParams is the set of parameters that can be used when listing charges.

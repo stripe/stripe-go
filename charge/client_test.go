@@ -20,17 +20,15 @@ func TestChargeNew(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Name:   "Stripe Tester",
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
+	chargeParams.SetSource(&stripe.CardParams{
+		Name:   "Stripe Tester",
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	target, err := New(chargeParams)
 
@@ -63,17 +61,15 @@ func TestWithoutIdempotentTwoDifferentCharges(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Name:   "Stripe Tester",
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
+	chargeParams.SetSource(&stripe.CardParams{
+		Name:   "Stripe Tester",
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	if chargeParams.Params.IdempotencyKey != "" {
 		t.Errorf("The default value of a Params.IdempotencyKey was not blank, and it needs to be. (%q).", chargeParams.Params.IdempotencyKey)
@@ -97,15 +93,12 @@ func TestWithoutIdempotentTwoDifferentCharges(t *testing.T) {
 }
 
 func TestChargeNewWithCustomerAndCard(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource(&stripe.CardParams{
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	cust, _ := customer.New(customerParams)
 
@@ -113,12 +106,10 @@ func TestChargeNewWithCustomerAndCard(t *testing.T) {
 		Amount:   1000,
 		Currency: currency.USD,
 		Customer: cust.ID,
-		Card: &stripe.CardParams{
-			Token: cust.Sources.Values[0].Card.ID,
-		},
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
+	chargeParams.SetSource(cust.Sources.Values[0].Card.ID)
 
 	target, err := New(chargeParams)
 
@@ -158,12 +149,9 @@ func TestChargeNewWithToken(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Token: tok.ID,
-			},
-		},
 	}
+
+	chargeParams.SetSource(tok.ID)
 
 	target, err := New(chargeParams)
 
@@ -188,14 +176,13 @@ func TestChargeGet(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1001,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 	}
+
+	chargeParams.SetSource(&stripe.CardParams{
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	res, _ := New(chargeParams)
 
@@ -214,15 +201,14 @@ func TestChargeUpdate(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1002,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 		Desc: "original description",
 	}
+
+	chargeParams.SetSource(&stripe.CardParams{
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	res, _ := New(chargeParams)
 
@@ -249,13 +235,14 @@ func TestChargeCapture(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1004,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
-		},
 		NoCapture: true,
 	}
+
+	chargeParams.SetSource(&stripe.CardParams{
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	res, _ := New(chargeParams)
 
@@ -326,17 +313,15 @@ func TestMarkFraudulent(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Name:   "Stripe Tester",
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
+	chargeParams.SetSource(&stripe.CardParams{
+		Name:   "Stripe Tester",
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	target, _ := New(chargeParams)
 	refund.New(&stripe.RefundParams{Charge: target.ID})
@@ -352,17 +337,15 @@ func TestMarkSafe(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Name:   "Stripe Tester",
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
+	chargeParams.SetSource(&stripe.CardParams{
+		Name:   "Stripe Tester",
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	target, _ := New(chargeParams)
 
@@ -378,17 +361,15 @@ func TestChargeSourceForCard(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Name:   "Stripe Tester",
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
+	chargeParams.SetSource(&stripe.CardParams{
+		Name:   "Stripe Tester",
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	ch, _ := New(chargeParams)
 
@@ -424,11 +405,10 @@ func TestChargeSourceForBitcoinReceiver(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			ID: receiver.ID,
-		},
 		Email: "do+fill_now@stripe.com",
 	}
+
+	chargeParams.SetSource(receiver.ID)
 
 	ch, _ := New(chargeParams)
 

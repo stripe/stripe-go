@@ -17,13 +17,13 @@ type Client struct {
 
 // New POSTs new sources for a customer.
 // For more details see https://stripe.com/docs/api#create_source.
-func New(params *stripe.SourceParams) (*stripe.PaymentSource, error) {
+func New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	return getC().New(params)
 }
 
-func (s Client) New(params *stripe.SourceParams) (*stripe.PaymentSource, error) {
+func (s Client) New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	body := &url.Values{}
-	params.AppendDetails(body, true)
+	params.Source.AppendDetails(body, true)
 	params.AppendTo(body)
 
 	source := &stripe.PaymentSource{}
@@ -40,11 +40,11 @@ func (s Client) New(params *stripe.SourceParams) (*stripe.PaymentSource, error) 
 
 // Get returns the details of a source.
 // For more details see https://stripe.com/docs/api#retrieve_source.
-func Get(id string, params *stripe.SourceParams) (*stripe.PaymentSource, error) {
+func Get(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	return getC().Get(id, params)
 }
 
-func (s Client) Get(id string, params *stripe.SourceParams) (*stripe.PaymentSource, error) {
+func (s Client) Get(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	var body *url.Values
 	var commonParams *stripe.Params
 
@@ -68,13 +68,13 @@ func (s Client) Get(id string, params *stripe.SourceParams) (*stripe.PaymentSour
 
 // Update updates a source's properties.
 // For more details see https://stripe.com/docs/api#update_source.
-func Update(id string, params *stripe.SourceParams) (*stripe.PaymentSource, error) {
+func Update(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	return getC().Update(id, params)
 }
 
-func (s Client) Update(id string, params *stripe.SourceParams) (*stripe.PaymentSource, error) {
+func (s Client) Update(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	body := &url.Values{}
-	params.AppendDetails(body, false)
+	params.Source.AppendDetails(body, false)
 	params.AppendTo(body)
 
 	source := &stripe.PaymentSource{}
@@ -89,13 +89,13 @@ func (s Client) Update(id string, params *stripe.SourceParams) (*stripe.PaymentS
 	return source, err
 }
 
-// Del remotes a source.
+// Del removes a source.
 // For more details see https://stripe.com/docs/api#delete_source.
-func Del(id string, params *stripe.SourceParams) error {
+func Del(id string, params *stripe.CustomerSourceParams) error {
 	return getC().Del(id, params)
 }
 
-func (s Client) Del(id string, params *stripe.SourceParams) error {
+func (s Client) Del(id string, params *stripe.CustomerSourceParams) error {
 
 	if len(params.Customer) > 0 {
 		return s.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", params.Customer, id), s.Key, nil, &params.Params, nil)

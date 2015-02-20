@@ -46,17 +46,15 @@ Below are a few simple examples:
 ```go
 params := &stripe.CustomerParams{
 	Balance: -123,
-	Source: &stripe.SourceParams{
-		Card: &stripe.CardParams{
-			Name:   "Go Stripe",
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "15",
-		},
-	},
 	Desc:  "Stripe Developer",
 	Email: "gostripe@stripe.com",
 }
+params.SetSource(&stripe.CardParams{
+	Name:   "Go Stripe",
+	Number: "378282246310005",
+	Month:  "06",
+	Year:   "15",
+})
 
 customer, err := customer.New(params)
 ```

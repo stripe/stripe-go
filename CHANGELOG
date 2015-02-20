@@ -1,3 +1,9 @@
+5.0.0 2014-02-19
+	Bump to API version 2014-02-18
+	Change Card, DefaultCard, Cards to Source, DefaultSource, Sources in Stripe response objects
+	Add paymentsource package for manipulating Customer's sources
+	Support Update action for Bitcoin Recievers
+
 4.4.3 2014-02-08
 	Modify NewIdempotencyKey() algorithm to increase likelihood of randomness
 

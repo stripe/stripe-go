@@ -21,15 +21,15 @@ func TestSourceNew(t *testing.T) {
 		t.Error(err)
 	}
 
-	sourceParams := &stripe.SourceParams{
-		Card: &stripe.CardParams{
-			Number: "4242424242424242",
-			Month:  "10",
-			Year:   "20",
-			CVC:    "1234",
-		},
+	sourceParams := &stripe.CustomerSourceParams{
 		Customer: cust.ID,
 	}
+	sourceParams.SetSource(&stripe.CardParams{
+		Number: "4242424242424242",
+		Month:  "10",
+		Year:   "20",
+		CVC:    "1234",
+	})
 
 	source, err := New(sourceParams)
 
@@ -40,7 +40,7 @@ func TestSourceNew(t *testing.T) {
 	target := source.Card
 
 	if target.LastFour != "4242" {
-		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, sourceParams.Card.Number)
+		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, sourceParams.Source.Card.Number)
 	}
 
 	if target.CVCCheck != card.Pass {
@@ -62,20 +62,20 @@ func TestSourceNew(t *testing.T) {
 
 func TestSourceGet(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
-		Card: &stripe.CardParams{
-			Number: "4242424242424242",
-			Month:  "06",
-			Year:   "20",
-		},
 		Email: "SomethingIdentifiable@gmail.om",
 	}
+	customerParams.SetSource(&stripe.CardParams{
+		Number: "4242424242424242",
+		Month:  "06",
+		Year:   "20",
+	})
 	cust, err := customer.New(customerParams)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	source, err := Get(cust.DefaultSource.ID, &stripe.SourceParams{Customer: cust.ID})
+	source, err := Get(cust.DefaultSource.ID, &stripe.CustomerSourceParams{Customer: cust.ID})
 
 	if err != nil {
 		t.Error(err)
@@ -84,7 +84,7 @@ func TestSourceGet(t *testing.T) {
 	target := source.Card
 
 	if target.LastFour != "4242" {
-		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, customerParams.Card.Number)
+		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, customerParams.Source.Card.Number)
 	}
 
 	if target.Brand != card.Visa {
@@ -95,19 +95,16 @@ func TestSourceGet(t *testing.T) {
 }
 
 func TestSourceDel(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource(&stripe.CardParams{
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	cust, _ := customer.New(customerParams)
 
-	err := Del(cust.DefaultSource.ID, &stripe.SourceParams{Customer: cust.ID})
+	err := Del(cust.DefaultSource.ID, &stripe.CustomerSourceParams{Customer: cust.ID})
 	if err != nil {
 		t.Error(err)
 	}
@@ -116,14 +113,13 @@ func TestSourceDel(t *testing.T) {
 }
 
 func TestSourceUpdate(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
-			Name:   "Original Name",
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource(&stripe.CardParams{
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+		Name:   "Original Name",
+	})
 
 	cust, err := customer.New(customerParams)
 
@@ -131,12 +127,12 @@ func TestSourceUpdate(t *testing.T) {
 		t.Error(err)
 	}
 
-	sourceParams := &stripe.SourceParams{
+	sourceParams := &stripe.CustomerSourceParams{
 		Customer: cust.ID,
-		Card: &stripe.CardParams{
-			Name: "Updated Name",
-		},
 	}
+	sourceParams.SetSource(&stripe.CardParams{
+		Name: "Updated Name",
+	})
 
 	source, err := Update(cust.DefaultSource.ID, sourceParams)
 
@@ -147,36 +143,33 @@ func TestSourceUpdate(t *testing.T) {
 
 	target := source.Card
 
-	if target.Name != sourceParams.Card.Name {
-		t.Errorf("Card name %q does not match expected name %q\n", target.Name, sourceParams.Card.Name)
+	if target.Name != sourceParams.Source.Card.Name {
+		t.Errorf("Card name %q does not match expected name %q\n", target.Name, sourceParams.Source.Card.Name)
 	}
 
 	customer.Del(cust.ID)
 }
 
 func TestSourceList(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource(&stripe.CardParams{
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	cust, _ := customer.New(customerParams)
 
-	source := &stripe.SourceParams{
-		Card: &stripe.CardParams{
-			Number: "4242424242424242",
-			Month:  "10",
-			Year:   "20",
-		},
+	sourceParams := &stripe.CustomerSourceParams{
 		Customer: cust.ID,
 	}
+	sourceParams.SetSource(&stripe.CardParams{
+		Number: "4242424242424242",
+		Month:  "10",
+		Year:   "20",
+	})
 
-	New(source)
+	New(sourceParams)
 
 	i := List(&stripe.SourceListParams{Customer: cust.ID})
 	for i.Next() {

@@ -41,13 +41,13 @@ func TestBalanceGetTx(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1002,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
-		},
 		Desc: "charge transaction",
 	}
+	chargeParams.SetSource(&stripe.CardParams{
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	res, _ := charge.New(chargeParams)
 

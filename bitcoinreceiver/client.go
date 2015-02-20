@@ -65,7 +65,7 @@ func (c Client) Get(id string, params *stripe.BitcoinReceiverParams) (*stripe.Bi
 }
 
 // Update updates a bitcoin receiver's properties.
-// For more details see	https://stripe.com/docs/api#update_bitcoin_receiver.
+// For more details see https://stripe.com/docs/api#update_bitcoin_receiver.
 func Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.BitcoinReceiver, error) {
 	return getC().Update(id, params)
 }

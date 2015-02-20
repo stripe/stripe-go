@@ -8,13 +8,20 @@ type CustomerParams struct {
 	Params
 	Balance       int64
 	Token, Coupon string
-	Card          *CardParams
 	Source        *SourceParams
 	Desc, Email   string
 	Plan          string
 	Quantity      uint64
 	TrialEnd      int64
 	DefaultCard   string
+}
+
+// SetSource adds valid sources to a CustomerParams object,
+// returning an error for unsupported sources.
+func (cp *CustomerParams) SetSource(sp interface{}) (error) {
+	source, err := SourceParamsFor(sp)
+	cp.Source = source
+	return err
 }
 
 // CustomerListParams is the set of parameters that can be used when listing customers.

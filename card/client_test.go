@@ -14,13 +14,12 @@ func init() {
 }
 
 func TestCardNew(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource(&stripe.CardParams{
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	cust, _ := customer.New(customerParams)
 
@@ -94,15 +93,12 @@ func TestCardGet(t *testing.T) {
 }
 
 func TestCardDel(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource(&stripe.CardParams{
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	cust, _ := customer.New(customerParams)
 
@@ -115,16 +111,13 @@ func TestCardDel(t *testing.T) {
 }
 
 func TestCardUpdate(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-				Name:   "Original Name",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource(&stripe.CardParams{
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+		Name:   "Original Name",
+	})
 
 	cust, err := customer.New(customerParams)
 
@@ -151,13 +144,12 @@ func TestCardUpdate(t *testing.T) {
 }
 
 func TestCardList(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource(&stripe.CardParams{
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	cust, _ := customer.New(customerParams)
 
