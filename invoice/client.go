@@ -166,7 +166,7 @@ func (c Client) GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	params.AppendTo(body)
 
 	invoice := &stripe.Invoice{}
-	err := c.B.Call("GET", "/invoices", c.Key, body, &params.Params, invoice)
+	err := c.B.Call("GET", "/invoices/upcoming", c.Key, body, &params.Params, invoice)
 
 	return invoice, err
 }
