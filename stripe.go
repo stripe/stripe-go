@@ -71,7 +71,8 @@ var Key string
 // 3: errors + informational + debug
 var LogLevel = 2
 
-var httpClient = &http.Client{Timeout: defaultHTTPTimeout}
+// var httpClient = &http.Client{Timeout: defaultHTTPTimeout}
+var httpClient = &http.Client{}
 var backends Backends
 
 // SetHTTPClient overrides the default HTTP client.
