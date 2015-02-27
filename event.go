@@ -19,9 +19,10 @@ type Event struct {
 
 // EventData is the unmarshalled object as a map.
 type EventData struct {
-	Raw  json.RawMessage        `json:"object"`
-	Prev map[string]interface{} `json:"previous_attributes"`
-	Obj  map[string]interface{}
+	Raw     json.RawMessage        `json:"object"`
+	PrevRaw json.RawMessage        `json:"previous_attributes"`
+	Prev    map[string]interface{} `json:"-"`
+	Obj     map[string]interface{} `json:"-"`
 }
 
 // EventListParams is the set of parameters that can be used when listing events.
@@ -53,17 +54,32 @@ func (e *Event) EventData() interface{} {
 	}
 }
 
+// PrevEventData returns an interface that represents the correct struct for this event type. If no struct is matched, a map[string]interface{} is returned.
+func (e *Event) PrevEventData() interface{} {
+	eventData := parseEventType(e.Type)
+	if err := json.Unmarshal(e.Data.PrevRaw, &eventData); err == nil {
+		return eventData
+	} else {
+		return nil
+	}
+}
+
 // UnmarshalJSON handles deserialization of the EventData.
 // This custom unmarshaling exists so that we can keep both the map and raw data.
 func (e *EventData) UnmarshalJSON(data []byte) error {
 	type eventdata EventData
 	var ee eventdata
-	err := json.Unmarshal(data, &ee)
-	if err != nil {
+	if err := json.Unmarshal(data, &ee); err != nil {
 		return err
 	}
 
 	*e = EventData(ee)
+
+	if e.PrevRaw != nil {
+		if err := json.Unmarshal(e.PrevRaw, &e.Prev); err != nil {
+			return err
+		}
+	}
 	return json.Unmarshal(e.Raw, &e.Obj)
 }
 
