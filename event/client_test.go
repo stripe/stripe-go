@@ -70,6 +70,20 @@ func TestEvent(t *testing.T) {
 			val = target.Data.Obj["source"].(map[string]interface{})["currency"].(string)
 		}
 
+		if charge, ok := e.EventData().(*stripe.Charge); ok {
+			if charge.Source.Type == stripe.PaymentSourceCard {
+				if charge.Source.Card.LastFour != val {
+					t.Errorf("Value %q does not match expected value %q\n", charge.Source.Card.LastFour, val)
+				}
+			} else if charge.Source.Type == stripe.PaymentSourceBitcoinReceiver {
+				if string(charge.Source.BitcoinReceiver.Currency) != val {
+					t.Errorf("Value %q does not match expected value %q\n", charge.Source.BitcoinReceiver.Currency, val)
+				}
+			}
+		} else {
+			t.Errorf("Source object was a charge, but failed to unmarshal into *stripe.Charge")
+		}
+
 		if targetVal != val {
 			t.Errorf("Value %q does not match expected value %q\n", targetVal, val)
 		}

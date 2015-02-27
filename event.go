@@ -1,6 +1,9 @@
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"strings"
+)
 
 // Event is the resource representing a Stripe event.
 // For more details see https://stripe.com/docs/api#events.
@@ -40,6 +43,16 @@ func (e *Event) GetPrevValue(keys ...string) string {
 	return getValue(e.Data.Prev, keys)
 }
 
+// EventData returns an interface that represents the correct struct for this event type. If no struct is matched, a map[string]interface{} is returned.
+func (e *Event) EventData() interface{} {
+	eventData := parseEventType(e.Type)
+	if err := json.Unmarshal(e.Data.Raw, &eventData); err == nil {
+		return eventData
+	} else {
+		return nil
+	}
+}
+
 // UnmarshalJSON handles deserialization of the EventData.
 // This custom unmarshaling exists so that we can keep both the map and raw data.
 func (e *EventData) UnmarshalJSON(data []byte) error {
@@ -67,4 +80,54 @@ func getValue(m map[string]interface{}, keys []string) string {
 	}
 
 	return node.(string)
+}
+
+func parseEventType(eventTypeName string) interface{} {
+	switch eventTypeName {
+	case "bitcoin.receiver.created":
+		return &BitcoinReceiver{}
+	case "bitcoin.receiver.transaction.created":
+		return &BitcoinReceiver{}
+	case "bitcoin.receiver.filled":
+		return &BitcoinReceiver{}
+	case "ping":
+		return make(map[string]interface{})
+	default:
+		if parts := strings.Split(eventTypeName, "."); len(parts) > 1 {
+			resourceType := parts[len(parts)-2]
+			switch resourceType {
+			case "account":
+				return &Account{}
+			case "application_fee":
+				return &Fee{}
+			case "balance":
+				return &Balance{}
+			case "charge":
+				return &Charge{}
+			case "dispute":
+				return &Dispute{}
+			case "customer":
+				return &Customer{}
+			case "card":
+				return &Card{}
+			case "subscription":
+				return &Sub{}
+			case "discount":
+				return &Discount{}
+			case "invoice":
+				return &Invoice{}
+			case "invoiceitem":
+				return &InvoiceItem{}
+			case "plan":
+				return &Plan{}
+			case "coupon":
+				return &Coupon{}
+			case "recipient":
+				return &Recipient{}
+			case "transfer":
+				return &Transfer{}
+			}
+		}
+	}
+	return make(map[string]interface{})
 }
