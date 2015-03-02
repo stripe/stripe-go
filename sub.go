@@ -10,13 +10,13 @@ type SubStatus string
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubParams struct {
 	Params
-	Customer, Plan                     string
-	Coupon, Token                      string
-	TrialEnd                           int64
-	Card                               *CardParams
-	Quantity                           uint64
-	FeePercent                         float64
-	NoProrate, EndCancel, QuantityZero bool
+	Customer, Plan                                  string
+	Coupon, Token                                   string
+	TrialEnd                                        int64
+	Card                                            *CardParams
+	Quantity                                        uint64
+	FeePercent                                      float64
+	NoProrate, EndCancel, QuantityZero, TrialEndNow bool
 }
 
 // SubListParams is the set of parameters that can be used when listing active subscriptions.

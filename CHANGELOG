@@ -1,5 +1,6 @@
 5.1.0 2014-02-25
 	Add new dispute status `warning_closed`
+	Add SubParams.TrialEndNow to support `trial_end = "now"`
 
 5.0.1 2014-02-25
 	Fix URL for upcoming invoices

@@ -218,9 +218,10 @@ func TestSubscriptionUpdate(t *testing.T) {
 	plan.New(planParams)
 
 	subParams := &stripe.SubParams{
-		Customer: cust.ID,
-		Plan:     "test",
-		Quantity: 10,
+		Customer:    cust.ID,
+		Plan:        "test",
+		Quantity:    10,
+		TrialEndNow: true,
 	}
 
 	subscription, _ := New(subParams)
