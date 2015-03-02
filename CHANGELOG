@@ -1,3 +1,6 @@
+5.1.0 2014-02-25
+	Add new dispute status `warning_closed`
+
 5.0.1 2014-02-25
 	Fix URL for upcoming invoices
 

@@ -25,6 +25,7 @@ const (
 	WarningResponse stripe.DisputeStatus = "warning_needs_response"
 	WarningReview   stripe.DisputeStatus = "warning_under_review"
 	ChargeRefunded  stripe.DisputeStatus = "charge_refunded"
+	WarningClosed   stripe.DisputeStatus = "warning_closed"
 )
 
 // Client is used to invoke dispute-related APIs.
