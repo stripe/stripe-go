@@ -2,7 +2,8 @@
 package currency
 
 import (
-	stripe "github.com/stripe/stripe-go"
+	// stripe "github.com/stripe/stripe-go"
+	stripe "github.com/spiffylabs/stripe-go"
 )
 
 const (
