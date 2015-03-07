@@ -108,6 +108,7 @@ type Account struct {
 		IP        string `json:"ip"`
 		UserAgent string `json:"user_agent"`
 	} `json:"tos_acceptance"`
+	SupportAddress *Address `json:"support_address"`
 }
 
 // LegalEntity is the structure for properties related to an account's legal state.
