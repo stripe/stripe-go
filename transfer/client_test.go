@@ -3,11 +3,11 @@ package transfer
 import (
 	"testing"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/charge"
-	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/recipient"
-	. "github.com/stripe/stripe-go/utils"
+	stripe "github.com/stripe-internal/stripe-go"
+	"github.com/stripe-internal/stripe-go/charge"
+	"github.com/stripe-internal/stripe-go/currency"
+	"github.com/stripe-internal/stripe-go/recipient"
+	. "github.com/stripe-internal/stripe-go/utils"
 )
 
 func init() {

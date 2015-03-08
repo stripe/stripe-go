@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
-	. "github.com/stripe/stripe-go/utils"
+	stripe "github.com/stripe-internal/stripe-go"
+	"github.com/stripe-internal/stripe-go/currency"
+	. "github.com/stripe-internal/stripe-go/utils"
 )
 
 func init() {

@@ -3,13 +3,13 @@ package charge
 import (
 	"testing"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/bitcoinreceiver"
-	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/customer"
-	"github.com/stripe/stripe-go/refund"
-	"github.com/stripe/stripe-go/token"
-	. "github.com/stripe/stripe-go/utils"
+	stripe "github.com/stripe-internal/stripe-go"
+	"github.com/stripe-internal/stripe-go/bitcoinreceiver"
+	"github.com/stripe-internal/stripe-go/currency"
+	"github.com/stripe-internal/stripe-go/customer"
+	"github.com/stripe-internal/stripe-go/refund"
+	"github.com/stripe-internal/stripe-go/token"
+	. "github.com/stripe-internal/stripe-go/utils"
 )
 
 func init() {

@@ -3,7 +3,7 @@ package bitcointransaction
 
 import (
 	"fmt"
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/stripe-internal/stripe-go"
 	"net/url"
 )
 

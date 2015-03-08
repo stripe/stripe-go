@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/stripe-internal/stripe-go"
 )
 
 func init() {
