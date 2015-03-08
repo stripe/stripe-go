@@ -11,16 +11,22 @@ type SKUParams struct {
 }
 
 type SKU struct {
-	Id       string            `json:"id"`
-	Live     bool              `json:"livemode"`
-	Active   bool              `json:"active"`
-	Name     string            `json:"name"`
-	Desc     string            `json:"description"`
-	Attrs    map[string]string `json:"attributes"`
-	Amount   int64             `json:"price"`
-	currency string            `json:"currency"`
-	Product  Product           `json:"product"`
-	Meta     map[string]string `json:"metadata"`
+	Id        string            `json:"id"`
+	Live      bool              `json:"livemode"`
+	Active    bool              `json:"active"`
+	Name      string            `json:"name"`
+	Desc      string            `json:"description"`
+	Attrs     map[string]string `json:"attributes"`
+	Price     int64             `json:"price"`
+	Currency  string            `json:"currency"`
+	Inventory int64             `json:"inventory"`
+	Product   Product           `json:"product"`
+	Meta      map[string]string `json:"metadata"`
+}
+
+type SKUList struct {
+	ListMeta
+	Values []*SKU `json:"data"`
 }
 
 type SKUListParams struct {

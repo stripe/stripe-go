@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strconv"
 
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/stripe-internal/stripe-go"
 )
 
 // Client is used to invoke /account APIs.

@@ -2,31 +2,32 @@
 package client
 
 import (
-	. "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/account"
-	"github.com/stripe/stripe-go/balance"
-	"github.com/stripe/stripe-go/bankaccount"
-	"github.com/stripe/stripe-go/bitcoinreceiver"
-	"github.com/stripe/stripe-go/bitcointransaction"
-	"github.com/stripe/stripe-go/card"
-	"github.com/stripe/stripe-go/charge"
-	"github.com/stripe/stripe-go/coupon"
-	"github.com/stripe/stripe-go/customer"
-	"github.com/stripe/stripe-go/discount"
-	"github.com/stripe/stripe-go/dispute"
-	"github.com/stripe/stripe-go/event"
-	"github.com/stripe/stripe-go/fee"
-	"github.com/stripe/stripe-go/feerefund"
-	"github.com/stripe/stripe-go/fileupload"
-	"github.com/stripe/stripe-go/invoice"
-	"github.com/stripe/stripe-go/invoiceitem"
-	"github.com/stripe/stripe-go/plan"
-	"github.com/stripe/stripe-go/recipient"
-	"github.com/stripe/stripe-go/refund"
-	"github.com/stripe/stripe-go/reversal"
-	"github.com/stripe/stripe-go/sub"
-	"github.com/stripe/stripe-go/token"
-	"github.com/stripe/stripe-go/transfer"
+	. "github.com/stripe-internal/stripe-go"
+	"github.com/stripe-internal/stripe-go/account"
+	"github.com/stripe-internal/stripe-go/balance"
+	"github.com/stripe-internal/stripe-go/bankaccount"
+	"github.com/stripe-internal/stripe-go/bitcoinreceiver"
+	"github.com/stripe-internal/stripe-go/bitcointransaction"
+	"github.com/stripe-internal/stripe-go/card"
+	"github.com/stripe-internal/stripe-go/charge"
+	"github.com/stripe-internal/stripe-go/coupon"
+	"github.com/stripe-internal/stripe-go/customer"
+	"github.com/stripe-internal/stripe-go/discount"
+	"github.com/stripe-internal/stripe-go/dispute"
+	"github.com/stripe-internal/stripe-go/event"
+	"github.com/stripe-internal/stripe-go/fee"
+	"github.com/stripe-internal/stripe-go/feerefund"
+	"github.com/stripe-internal/stripe-go/fileupload"
+	"github.com/stripe-internal/stripe-go/invoice"
+	"github.com/stripe-internal/stripe-go/invoiceitem"
+	"github.com/stripe-internal/stripe-go/plan"
+	"github.com/stripe-internal/stripe-go/product"
+	"github.com/stripe-internal/stripe-go/recipient"
+	"github.com/stripe-internal/stripe-go/refund"
+	"github.com/stripe-internal/stripe-go/reversal"
+	"github.com/stripe-internal/stripe-go/sub"
+	"github.com/stripe-internal/stripe-go/token"
+	"github.com/stripe-internal/stripe-go/transfer"
 )
 
 // API is the Stripe client. It contains all the different resources available.
@@ -101,6 +102,9 @@ type API struct {
 	Reversals *reversal.Client
 	// BankAccounts is the client used to invoke /accounts/bank_accounts APIs.
 	BankAccounts *bankaccount.Client
+	// Products is the client used to invoke /products APIs.
+	// For more details see https://stripe.com/docs/api#products.
+	Products *product.Client
 }
 
 // Init initializes the Stripe client with the appropriate secret key
@@ -134,4 +138,5 @@ func (a *API) Init(key string, backends *Backends) {
 	a.BitcoinTransactions = &bitcointransaction.Client{B: backends.API, Key: key}
 	a.Reversals = &reversal.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
+	a.Products = &product.Client{B: backends.API, Key: key}
 }

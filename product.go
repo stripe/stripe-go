@@ -12,13 +12,14 @@ type ProductParams struct {
 
 type Product struct {
 	Id        string            `json:"id"`
+	Name      string            `json:"name"`
 	Live      bool              `json:"livemode"`
 	Active    bool              `json:"active"`
 	Desc      string            `json:"description"`
 	Attrs     []string          `json:"attributes"`
 	Shippable bool              `json:"shippable"`
 	Meta      map[string]string `json:"metdata"`
-	//Skus      []Sku          `json:"skus"`
+	Skus      *SKUList          `json:"skus"`
 }
 
 type ProductListParams struct {
