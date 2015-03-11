@@ -178,6 +178,10 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 
 			req.Header.Add("Idempotency-Key", idempotency)
 		}
+
+		if account := strings.TrimSpace(params.Account); account != "" {
+			req.Header.Add("Stripe-Account", account)
+		}
 	}
 
 	req.Header.Add("Stripe-Version", apiversion)
