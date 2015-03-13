@@ -40,9 +40,9 @@ func TestSubscriptionNew(t *testing.T) {
 	plan.New(planParams)
 
 	subParams := &stripe.SubParams{
-		Customer: cust.ID,
-		Plan:     "test",
-		Quantity: 10,
+		Customer:   cust.ID,
+		Plan:       "test",
+		Quantity:   10,
 		TaxPercent: 20.0,
 	}
 
@@ -231,9 +231,9 @@ func TestSubscriptionUpdate(t *testing.T) {
 
 	subscription, _ := New(subParams)
 	updatedSub := &stripe.SubParams{
-		Customer:  cust.ID,
-		NoProrate: true,
-		Quantity:  13,
+		Customer:   cust.ID,
+		NoProrate:  true,
+		Quantity:   13,
 		TaxPercent: 20.0,
 	}
 

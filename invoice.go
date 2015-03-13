@@ -14,6 +14,7 @@ type InvoiceParams struct {
 	Desc, Statement, Sub string
 	Fee                  uint64
 	Closed, Forgive      bool
+	TaxPercent           float64
 }
 
 // InvoiceListParams is the set of parameters that can be used when listing invoices.
@@ -52,6 +53,8 @@ type Invoice struct {
 	StartBalance int64             `json:"starting_balance"`
 	Subtotal     int64             `json:"subtotal"`
 	Total        int64             `json:"total"`
+	Tax          int64             `json:"tax"`
+	TaxPercent   float64           `json:"tax_percent"`
 	Fee          uint64            `json:"application_fee"`
 	Charge       *Charge           `json:"charge"`
 	Desc         string            `json:"description"`
