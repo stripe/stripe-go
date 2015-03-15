@@ -14,19 +14,19 @@ type FraudReport string
 // For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
 type ChargeParams struct {
 	Params
-	Amount                 uint64
-	Currency               Currency
-	Customer, Token        string
-	Desc, Statement, Email string
-	NoCapture              bool
-	Fee                    uint64
-	Fraud                  FraudReport
-	Source                 *SourceParams
+	Amount                       uint64
+	Currency                     Currency
+	Customer, Token              string
+	Desc, Statement, Email, Dest string
+	NoCapture                    bool
+	Fee                          uint64
+	Fraud                        FraudReport
+	Source                       *SourceParams
 }
 
 // SetSource adds valid sources to a ChargeParams object,
 // returning an error for unsupported sources.
-func (cp *ChargeParams) SetSource(sp interface{}) (error) {
+func (cp *ChargeParams) SetSource(sp interface{}) error {
 	source, err := SourceParamsFor(sp)
 	cp.Source = source
 	return err
