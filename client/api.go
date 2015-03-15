@@ -22,6 +22,7 @@ import (
 	"github.com/stripe/stripe-go/plan"
 	"github.com/stripe/stripe-go/recipient"
 	"github.com/stripe/stripe-go/refund"
+	"github.com/stripe/stripe-go/reversal"
 	"github.com/stripe/stripe-go/sub"
 	"github.com/stripe/stripe-go/token"
 	"github.com/stripe/stripe-go/transfer"
@@ -95,6 +96,7 @@ type API struct {
 	// BitcoinTransactions is the client used to invoke /bitcoin/transactions APIs.
 	// For more details see https://stripe.com/docs/api#bitcoin_receivers.
 	BitcoinTransactions *bitcointransaction.Client
+	Reversals           *reversal.Client
 }
 
 // Init initializes the Stripe client with the appropriate secret key
@@ -126,4 +128,5 @@ func (a *API) Init(key string, backends *Backends) {
 	a.FileUploads = &fileupload.Client{B: backends.Uploads, Key: key}
 	a.BitcoinReceivers = &bitcoinreceiver.Client{B: backends.API, Key: key}
 	a.BitcoinTransactions = &bitcointransaction.Client{B: backends.API, Key: key}
+	a.Reversals = &reversal.Client{B: backends.API, Key: key}
 }
