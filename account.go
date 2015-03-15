@@ -14,16 +14,12 @@ type IdentityVerificationStatus string
 type Interval string
 
 const (
-	Individual  LegalEntityType = "individual"
-	SoleProp    LegalEntityType = "sole_prop"
-	LLC         LegalEntityType = "llc"
-	Partnership LegalEntityType = "partnership"
-	Corp        LegalEntityType = "corporation"
+	Individual LegalEntityType = "individual"
+	Corp       LegalEntityType = "corporation"
 
-	IdentityVerificationWaiting  IdentityVerificationStatus = "waiting"
-	IdentityVerificationPending  IdentityVerificationStatus = "pending"
-	IdentityVerificationVerified IdentityVerificationStatus = "verified"
-	IdentityVerificationFailed   IdentityVerificationStatus = "failed"
+	IdentityVerificationPending    IdentityVerificationStatus = "pending"
+	IdentityVerificationVerified   IdentityVerificationStatus = "verified"
+	IdentityVerificationUnverified IdentityVerificationStatus = "unverified"
 
 	Manual Interval = "manual"
 	Day    Interval = "daily"
@@ -61,6 +57,7 @@ type Account struct {
 	SupportPhone     string   `json:"support_phone"`
 	ProductDesc      string   `json:"product_description"`
 	Managed          bool     `json:"managed"`
+	DebitNegativeBal bool     `json:"debit_negative_balances"`
 	Keys             *struct {
 		Secret  string `json:"secret"`
 		Publish string `json:"publishable"`
