@@ -7,10 +7,16 @@ import (
 	"strconv"
 )
 
+// LegalEntityType describes the types for a legal entity.
+// Current values are "individual", "corporation".
 type LegalEntityType string
 
+// IdentityVerificationStatus describes the different statuses for identity verification.
+// Current values are "pending", "verified", "unverified".
 type IdentityVerificationStatus string
 
+// Interval describes the payout interval.
+// Current values are "manual", "daily", "weekly", "monthly".
 type Interval string
 
 const (
@@ -27,6 +33,7 @@ const (
 	Month  Interval = "monthly"
 )
 
+// AccountParams are the parameters allowed during account creation/updates.
 type AccountParams struct {
 	Params
 	Country, Email, DefaultCurrency, Statement, BusinessName, SupportPhone string
@@ -34,6 +41,7 @@ type AccountParams struct {
 	Managed                                                                bool
 }
 
+// AccountListParams are the parameters allowed during account listing.
 type AccountListParams struct {
 	ListParams
 }
@@ -71,6 +79,7 @@ type Account struct {
 	TransferSchedule *TransferSchedule `json:"transfer_schedule"`
 }
 
+// LegalEntity is the structure for properties related to an account's legal state.
 type LegalEntity struct {
 	Type             LegalEntityType      `json:"type"`
 	BusinessName     string               `json:"business_name"`
@@ -87,6 +96,7 @@ type LegalEntity struct {
 	BusinessVatID    string               `json:"business_vat_id"`
 }
 
+// Address is the structure for an account address.
 type Address struct {
 	Line1   string `json:"line1"`
 	Line2   string `json:"line2"`
@@ -96,12 +106,14 @@ type Address struct {
 	Country string `json:"country"`
 }
 
+// DOB is a structure for an account owner's date of birth.
 type DOB struct {
 	Day   int `json:"day"`
 	Month int `json:"month"`
 	Year  int `json:"year"`
 }
 
+// Owner is the structure for an account owner.
 type Owner struct {
 	First        string               `json:"first_name"`
 	Last         string               `json:"last_name"`
@@ -110,6 +122,7 @@ type Owner struct {
 	Verification IdentityVerification `json:"verification"`
 }
 
+// IdentityVerification is the structure for an account's verification.
 type IdentityVerification struct {
 	Status   IdentityVerificationStatus `json:"status"`
 	Document *struct {
@@ -120,16 +133,13 @@ type IdentityVerification struct {
 	Details *string `json:"details"`
 }
 
+// TransferSchedule is the structure for an account's transfer schedule.
 type TransferSchedule struct {
 	Delay    int      `json:"delay_days"`
 	Interval Interval `json:"interval"`
 }
 
-type AccountList struct {
-	ListMeta
-	Values []*Account `json:"data"`
-}
-
+// AppendDetails adds the legal entity to the query string.
 func (a *AccountParams) AppendDetails(values *url.Values) {
 	if a.LegalEntity != nil {
 		values.Add("legal_entity[type]", string(a.LegalEntity.Type))

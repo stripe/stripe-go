@@ -2,17 +2,20 @@ package stripe
 
 import "encoding/json"
 
+// ReversalParams is the set of parameters that can be used when reversing a transfer.
 type ReversalParams struct {
 	Params
 	Transfer string
 	Amount   uint64
 }
 
+// ReversalListParams is the set of parameters that can be used when listing reversals.
 type ReversalListParams struct {
 	ListParams
 	Transfer string
 }
 
+// Reversal represents a transfer reversal.
 type Reversal struct {
 	ID       string            `json:"id"`
 	Amount   uint64            `json:"amount"`
@@ -22,6 +25,7 @@ type Reversal struct {
 	Meta     map[string]string `json:"metadata"`
 }
 
+// ReversalList is a list of object for reversals.
 type ReversalList struct {
 	ListMeta
 	Values []*Reversal `json:"data"`

@@ -14,6 +14,7 @@ type Client struct {
 	Key string
 }
 
+// New creates a new account.
 func New(params *stripe.AccountParams) (*stripe.Account, error) {
 	return getC().New(params)
 }
@@ -56,8 +57,7 @@ func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 	return acct, err
 }
 
-// Get returns the details of your account.
-// For more details see https://stripe.com/docs/api/#retrieve_account.
+// Get returns the details of an account.
 func Get() (*stripe.Account, error) {
 	return getC().Get()
 }
@@ -69,8 +69,7 @@ func (c Client) Get() (*stripe.Account, error) {
 	return account, err
 }
 
-// Get returns the details of your account.
-// For more details see https://stripe.com/docs/api/#retrieve_account.
+// GetByID returns the details of your account.
 func GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	return getC().GetByID(id, params)
 }
@@ -91,6 +90,7 @@ func (c Client) GetByID(id string, params *stripe.AccountParams) (*stripe.Accoun
 	return account, err
 }
 
+// Update updates the details of an account.
 func Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	return getC().Update(id, params)
 }
@@ -131,6 +131,7 @@ func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account
 	return acct, err
 }
 
+// List lists your accounts.
 func List(params *stripe.AccountListParams) *Iter {
 	return getC().List(params)
 }
@@ -171,6 +172,8 @@ type Iter struct {
 	*stripe.Iter
 }
 
+// Account returns the most recent Account
+// visited by a call to Next.
 func (i *Iter) Account() *stripe.Account {
 	return i.Current().(*stripe.Account)
 }

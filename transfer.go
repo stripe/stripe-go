@@ -53,4 +53,5 @@ type Transfer struct {
 	Card      *Card             `json:"card"`
 	Recipient *Recipient        `json:"recipient"`
 	Statement string            `json:"statement_descriptor"`
+	Reversals *ReversalList     `json:"reversals"`
 }

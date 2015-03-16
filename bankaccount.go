@@ -13,6 +13,7 @@ type BankAccountParams struct {
 	Default                                               bool
 }
 
+// BankAccountListParams is the set of parameters that can be used when listing bank accounts.
 type BankAccountListParams struct {
 	ListParams
 	AccountID string
@@ -38,9 +39,4 @@ func (b *BankAccountParams) AppendDetails(values *url.Values) {
 	if len(b.Currency) > 0 {
 		values.Add("bank_account[currency]", b.Currency)
 	}
-}
-
-type BankAccountList struct {
-	ListMeta
-	Values []*BankAccount `json:"data"`
 }

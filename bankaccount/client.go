@@ -46,6 +46,7 @@ func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 	return ba, err
 }
 
+// Get returns the details of a bank account.
 func Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	return getC().Get(id, params)
 }
@@ -66,6 +67,7 @@ func (c Client) Get(id string, params *stripe.BankAccountParams) (*stripe.BankAc
 	return ba, err
 }
 
+// Update updates a bank account.
 func Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	return getC().Update(id, params)
 }
@@ -106,6 +108,11 @@ func List(params *stripe.BankAccountListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.BankAccountListParams) *Iter {
+	type bankAccountList struct {
+		stripe.ListMeta
+		Values []*stripe.BankAccount `json:"data"`
+	}
+
 	body := &url.Values{}
 	var lp *stripe.ListParams
 
@@ -113,7 +120,7 @@ func (c Client) List(params *stripe.BankAccountListParams) *Iter {
 	lp = &params.ListParams
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
-		list := &stripe.BankAccountList{}
+		list := &bankAccountList{}
 		err := c.B.Call("GET", fmt.Sprintf("/accounts/%v/bank_accounts", params.AccountID), c.Key, &b, nil, list)
 
 		ret := make([]interface{}, len(list.Values))
@@ -125,14 +132,14 @@ func (c Client) List(params *stripe.BankAccountListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of bank accounts.
+// Iter is an iterator for lists of BankAccount.
 // The embedded Iter carries methods with it;
 // see its documentation for details.
 type Iter struct {
 	*stripe.Iter
 }
 
-// BankAccount returns the most recent bank account
+// BankAccount returns the most recent BankAccount
 // visited by a call to Next.
 func (i *Iter) BankAccount() *stripe.BankAccount {
 	return i.Current().(*stripe.BankAccount)

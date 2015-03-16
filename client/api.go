@@ -97,8 +97,10 @@ type API struct {
 	// BitcoinTransactions is the client used to invoke /bitcoin/transactions APIs.
 	// For more details see https://stripe.com/docs/api#bitcoin_receivers.
 	BitcoinTransactions *bitcointransaction.Client
-	Reversals           *reversal.Client
-	BankAccounts        *bankaccount.Client
+	// Reversals is the client used to invoke /transfers/reversals APIs.
+	Reversals *reversal.Client
+	// BankAccounts is the client used to invoke /accounts/bank_accounts APIs.
+	BankAccounts *bankaccount.Client
 }
 
 // Init initializes the Stripe client with the appropriate secret key

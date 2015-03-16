@@ -1,4 +1,4 @@
-// Package reversal provides the /reversals APIs
+// Package reversal provides the /transfers/reversals APIs
 package reversal
 
 import (
@@ -9,12 +9,13 @@ import (
 	stripe "github.com/stripe/stripe-go"
 )
 
-// Client is used to invoke /reversals APIs.
+// Client is used to invoke /transfers/reversals APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
 }
 
+// New POSTs a new transfer reversal.
 func New(params *stripe.ReversalParams) (*stripe.Reversal, error) {
 	return getC().New(params)
 }
@@ -34,6 +35,7 @@ func (c Client) New(params *stripe.ReversalParams) (*stripe.Reversal, error) {
 	return reversal, err
 }
 
+// Get returns the details of a transfer reversal.
 func Get(id string, params *stripe.ReversalParams) (*stripe.Reversal, error) {
 	return getC().Get(id, params)
 }
@@ -52,6 +54,7 @@ func (c Client) Get(id string, params *stripe.ReversalParams) (*stripe.Reversal,
 	return reversal, err
 }
 
+// Update updates a transfer reversal's properties.
 func Update(id string, params *stripe.ReversalParams) (*stripe.Reversal, error) {
 	return getC().Update(id, params)
 }
@@ -67,6 +70,7 @@ func (c Client) Update(id string, params *stripe.ReversalParams) (*stripe.Revers
 	return reversal, err
 }
 
+// List returns a list of transfer reversals.
 func List(params *stripe.ReversalListParams) *Iter {
 	return getC().List(params)
 }
