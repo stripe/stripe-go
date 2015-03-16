@@ -8,7 +8,7 @@ import (
 )
 
 // LegalEntityType describes the types for a legal entity.
-// Current values are "individual", "corporation".
+// Current values are "individual", "company".
 type LegalEntityType string
 
 // IdentityVerificationStatus describes the different statuses for identity verification.
@@ -21,7 +21,7 @@ type Interval string
 
 const (
 	Individual LegalEntityType = "individual"
-	Corp       LegalEntityType = "corporation"
+	Company    LegalEntityType = "company"
 
 	IdentityVerificationPending    IdentityVerificationStatus = "pending"
 	IdentityVerificationVerified   IdentityVerificationStatus = "verified"
