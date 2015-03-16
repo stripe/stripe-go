@@ -5,6 +5,7 @@ import (
 	. "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/account"
 	"github.com/stripe/stripe-go/balance"
+	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/bitcoinreceiver"
 	"github.com/stripe/stripe-go/bitcointransaction"
 	"github.com/stripe/stripe-go/card"
@@ -97,6 +98,7 @@ type API struct {
 	// For more details see https://stripe.com/docs/api#bitcoin_receivers.
 	BitcoinTransactions *bitcointransaction.Client
 	Reversals           *reversal.Client
+	BankAccounts        *bankaccount.Client
 }
 
 // Init initializes the Stripe client with the appropriate secret key
@@ -129,4 +131,5 @@ func (a *API) Init(key string, backends *Backends) {
 	a.BitcoinReceivers = &bitcoinreceiver.Client{B: backends.API, Key: key}
 	a.BitcoinTransactions = &bitcointransaction.Client{B: backends.API, Key: key}
 	a.Reversals = &reversal.Client{B: backends.API, Key: key}
+	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 }
