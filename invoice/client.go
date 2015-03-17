@@ -50,6 +50,10 @@ func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 	}
 
+	if params.TaxPercent > 0 {
+		body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
+	}
+
 	invoice := &stripe.Invoice{}
 	err := c.B.Call("POST", "/invoices", token, body, &params.Params, invoice)
 
@@ -137,6 +141,10 @@ func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice
 
 		if params.Fee > 0 {
 			body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
+		}
+
+		if params.TaxPercent > 0 {
+			body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
 		}
 
 		params.AppendTo(body)

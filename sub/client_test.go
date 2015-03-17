@@ -40,9 +40,10 @@ func TestSubscriptionNew(t *testing.T) {
 	plan.New(planParams)
 
 	subParams := &stripe.SubParams{
-		Customer: cust.ID,
-		Plan:     "test",
-		Quantity: 10,
+		Customer:   cust.ID,
+		Plan:       "test",
+		Quantity:   10,
+		TaxPercent: 20.0,
 	}
 
 	target, err := New(subParams)
@@ -57,6 +58,10 @@ func TestSubscriptionNew(t *testing.T) {
 
 	if target.Quantity != subParams.Quantity {
 		t.Errorf("Quantity %v does not match expected quantity %v\n", target.Quantity, subParams.Quantity)
+	}
+
+	if target.TaxPercent != subParams.TaxPercent {
+		t.Errorf("TaxPercent %f does not match expected TaxPercent %f\n", target.TaxPercent, subParams.TaxPercent)
 	}
 
 	customer.Del(cust.ID)
@@ -226,9 +231,10 @@ func TestSubscriptionUpdate(t *testing.T) {
 
 	subscription, _ := New(subParams)
 	updatedSub := &stripe.SubParams{
-		Customer:  cust.ID,
-		NoProrate: true,
-		Quantity:  13,
+		Customer:   cust.ID,
+		NoProrate:  true,
+		Quantity:   13,
+		TaxPercent: 20.0,
 	}
 
 	target, err := Update(subscription.ID, updatedSub)
@@ -239,6 +245,10 @@ func TestSubscriptionUpdate(t *testing.T) {
 
 	if target.Quantity != updatedSub.Quantity {
 		t.Errorf("Quantity %v does not match expected quantity %v\n", target.Quantity, updatedSub.Quantity)
+	}
+
+	if target.TaxPercent != updatedSub.TaxPercent {
+		t.Errorf("TaxPercent %f does not match expected tax_percent %f\n", target.TaxPercent, updatedSub.TaxPercent)
 	}
 
 	customer.Del(cust.ID)

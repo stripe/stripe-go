@@ -15,7 +15,7 @@ type SubParams struct {
 	TrialEnd                                        int64
 	Card                                            *CardParams
 	Quantity                                        uint64
-	FeePercent                                      float64
+	FeePercent, TaxPercent                          float64
 	NoProrate, EndCancel, QuantityZero, TrialEndNow bool
 }
 
@@ -42,6 +42,7 @@ type Sub struct {
 	Discount    *Discount         `json:"discount"`
 	Ended       int64             `json:"ended_at"`
 	Meta        map[string]string `json:"metadata"`
+	TaxPercent  float64           `json:"tax_percent"`
 	TrialEnd    int64             `json:"trial_end"`
 	TrialStart  int64             `json:"trial_start"`
 }
