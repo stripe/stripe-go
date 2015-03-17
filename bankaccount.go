@@ -1,6 +1,9 @@
 package stripe
 
-import "net/url"
+import (
+	"encoding/json"
+	"net/url"
+)
 
 // BankAccountStatus is the list of allowed values for the bank account's status.
 // Allowed values are "new", "verified", "validated", "errored".
@@ -28,6 +31,13 @@ type BankAccount struct {
 	LastFour    string            `json:"last4"`
 	Fingerprint string            `json:"fingerprint"`
 	Status      BankAccountStatus `json:"status"`
+	Routing     string            `json:"routing_number"`
+}
+
+// BankAccountList is a list object for bank accounts.
+type BankAccountList struct {
+	ListMeta
+	Values []*BankAccount `json:"data"`
 }
 
 // AppendDetails adds the bank account's details to the query string values.
@@ -39,4 +49,21 @@ func (b *BankAccountParams) AppendDetails(values *url.Values) {
 	if len(b.Currency) > 0 {
 		values.Add("bank_account[currency]", b.Currency)
 	}
+}
+
+// UnmarshalJSON handles deserialization of a BankAccount.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (b *BankAccount) UnmarshalJSON(data []byte) error {
+	type bankAccount BankAccount
+	var bb bankAccount
+	err := json.Unmarshal(data, &bb)
+	if err == nil {
+		*b = BankAccount(bb)
+	} else {
+		// the id is surrounded by "\" characters, so strip them
+		b.ID = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }

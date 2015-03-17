@@ -27,6 +27,10 @@ func (c Client) New(params *stripe.ReversalParams) (*stripe.Reversal, error) {
 		body.Add("amount", strconv.FormatUint(params.Amount, 10))
 	}
 
+	if params.Fee {
+		body.Add("refund_application_fee", strconv.FormatBool(params.Fee))
+	}
+
 	params.AppendTo(body)
 
 	reversal := &stripe.Reversal{}

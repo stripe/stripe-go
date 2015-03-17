@@ -7,6 +7,7 @@ type ReversalParams struct {
 	Params
 	Transfer string
 	Amount   uint64
+	Fee      bool
 }
 
 // ReversalListParams is the set of parameters that can be used when listing reversals.

@@ -38,12 +38,22 @@ type AccountParams struct {
 	Params
 	Country, Email, DefaultCurrency, Statement, BusinessName, SupportPhone string
 	LegalEntity                                                            *LegalEntity
+	TransferSchedule                                                       *TransferScheduleParams
 	Managed                                                                bool
+	BankAccount                                                            *BankAccountParams
 }
 
 // AccountListParams are the parameters allowed during account listing.
 type AccountListParams struct {
 	ListParams
+}
+
+// TransferScheduleParams are the parameters allowed for transfer schedules.
+type TransferScheduleParams struct {
+	Delay, MonthAnchor uint64
+	WeekAnchor         string
+	Interval           Interval
+	MinimumDelay       bool
 }
 
 // Account is the resource representing youe Stripe account.
@@ -77,6 +87,7 @@ type Account struct {
 	} `json:"verification"`
 	LegalEntity      *LegalEntity      `json:"legal_entity"`
 	TransferSchedule *TransferSchedule `json:"transfer_schedule"`
+	BankAccounts     *BankAccountList  `json:"bank_accounts"`
 }
 
 // LegalEntity is the structure for properties related to an account's legal state.
@@ -125,142 +136,160 @@ type Owner struct {
 // IdentityVerification is the structure for an account's verification.
 type IdentityVerification struct {
 	Status   IdentityVerificationStatus `json:"status"`
-	Document *struct {
-		ID      string `json:"id"`
-		Created int64  `json:"created"`
-		Size    int64  `json:"size"`
-	} `json:"document"`
-	Details *string `json:"details"`
+	Document *IdentityDocument          `json:"document"`
+	Details  *string                    `json:"details"`
+}
+
+type IdentityDocument struct {
+	ID      string `json:"id"`
+	Created int64  `json:"created"`
+	Size    int64  `json:"size"`
 }
 
 // TransferSchedule is the structure for an account's transfer schedule.
 type TransferSchedule struct {
-	Delay    int      `json:"delay_days"`
-	Interval Interval `json:"interval"`
+	Delay       uint64   `json:"delay_days"`
+	Interval    Interval `json:"interval"`
+	WeekAnchor  string   `json:"weekly_anchor"`
+	MonthAnchor uint64   `json:"monthly_anchor"`
 }
 
 // AppendDetails adds the legal entity to the query string.
-func (a *AccountParams) AppendDetails(values *url.Values) {
-	if a.LegalEntity != nil {
-		values.Add("legal_entity[type]", string(a.LegalEntity.Type))
+func (l *LegalEntity) AppendDetails(values *url.Values) {
+	values.Add("legal_entity[type]", string(l.Type))
 
-		if len(a.LegalEntity.BusinessName) > 0 {
-			values.Add("legal_entity[business_name]", a.LegalEntity.BusinessName)
+	if len(l.BusinessName) > 0 {
+		values.Add("legal_entity[business_name]", l.BusinessName)
+	}
+
+	if len(l.First) > 0 {
+		values.Add("legal_entity[first_name]", l.First)
+	}
+
+	if len(l.Last) > 0 {
+		values.Add("legal_entity[last_name]", l.Last)
+	}
+
+	values.Add("legal_entity[dob][day]", strconv.Itoa(l.DOB.Day))
+	values.Add("legal_entity[dob][month]", strconv.Itoa(l.DOB.Month))
+	values.Add("legal_entity[dob][year]", strconv.Itoa(l.DOB.Year))
+
+	if len(l.SSN) > 0 {
+		values.Add("legal_entity[ssn_last_4]", l.SSN)
+	}
+
+	if len(l.PersonalID) > 0 {
+		values.Add("legal_entity[personal_id_number]", l.PersonalID)
+	}
+
+	if len(l.BusinessTaxID) > 0 {
+		values.Add("legal_entity[business_tax_id]", l.BusinessTaxID)
+	}
+
+	if len(l.BusinessVatID) > 0 {
+		values.Add("legal_entity[business_vat_id]", l.BusinessVatID)
+	}
+
+	if len(l.Address.Line1) > 0 {
+		values.Add("legal_entity[address][line1]", l.Address.Line1)
+	}
+
+	if len(l.Address.Line2) > 0 {
+		values.Add("legal_entity[address][line2]", l.Address.Line2)
+	}
+
+	if len(l.Address.City) > 0 {
+		values.Add("legal_entity[address][city]", l.Address.City)
+	}
+
+	if len(l.Address.State) > 0 {
+		values.Add("legal_entity[address][state]", l.Address.State)
+	}
+
+	if len(l.Address.Zip) > 0 {
+		values.Add("legal_entity[address][postal_code]", l.Address.Zip)
+	}
+
+	if len(l.Address.Country) > 0 {
+		values.Add("legal_entity[address][country]", l.Address.Country)
+	}
+
+	if len(l.PersonalAddress.Line1) > 0 {
+		values.Add("legal_entity[personal_address][line1]", l.PersonalAddress.Line1)
+	}
+
+	if len(l.PersonalAddress.Line2) > 0 {
+		values.Add("legal_entity[personal_address][line2]", l.PersonalAddress.Line2)
+	}
+
+	if len(l.PersonalAddress.City) > 0 {
+		values.Add("legal_entity[personal_address][city]", l.PersonalAddress.City)
+	}
+
+	if len(l.PersonalAddress.State) > 0 {
+		values.Add("legal_entity[personal_address][state]", l.PersonalAddress.State)
+	}
+
+	if len(l.PersonalAddress.Zip) > 0 {
+		values.Add("legal_entity[personal_address][postal_code]", l.PersonalAddress.Zip)
+	}
+
+	if len(l.PersonalAddress.Country) > 0 {
+		values.Add("legal_entity[personal_address][country]", l.PersonalAddress.Country)
+	}
+
+	for i, owner := range l.AdditionalOwners {
+		if len(owner.First) > 0 {
+			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][first_name]", i), owner.First)
 		}
 
-		if len(a.LegalEntity.First) > 0 {
-			values.Add("legal_entity[first_name]", a.LegalEntity.First)
+		if len(owner.Last) > 0 {
+			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][last_name]", i), owner.Last)
 		}
 
-		if len(a.LegalEntity.Last) > 0 {
-			values.Add("legal_entity[last_name]", a.LegalEntity.Last)
+		values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][day]", i), strconv.Itoa(owner.DOB.Day))
+		values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][month]", i), strconv.Itoa(owner.DOB.Month))
+		values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][year]", i), strconv.Itoa(owner.DOB.Year))
+
+		if len(owner.Address.Line1) > 0 {
+			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][line1]", i), owner.Address.Line1)
 		}
 
-		values.Add("legal_entity[dob][day]", strconv.Itoa(a.LegalEntity.DOB.Day))
-		values.Add("legal_entity[dob][month]", strconv.Itoa(a.LegalEntity.DOB.Month))
-		values.Add("legal_entity[dob][year]", strconv.Itoa(a.LegalEntity.DOB.Year))
-
-		if len(a.LegalEntity.SSN) > 0 {
-			values.Add("legal_entity[ssn_last_4]", a.LegalEntity.SSN)
+		if len(owner.Address.Line2) > 0 {
+			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][line2]", i), owner.Address.Line2)
 		}
 
-		if len(a.LegalEntity.PersonalID) > 0 {
-			values.Add("legal_entity[personal_id_number]", a.LegalEntity.PersonalID)
+		if len(owner.Address.City) > 0 {
+			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][city]", i), owner.Address.City)
 		}
 
-		if len(a.LegalEntity.BusinessTaxID) > 0 {
-			values.Add("legal_entity[business_tax_id]", a.LegalEntity.BusinessTaxID)
+		if len(owner.Address.State) > 0 {
+			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][state]", i), owner.Address.State)
 		}
 
-		if len(a.LegalEntity.BusinessVatID) > 0 {
-			values.Add("legal_entity[business_vat_id]", a.LegalEntity.BusinessVatID)
+		if len(owner.Address.Zip) > 0 {
+			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][postal_code]", i), owner.Address.Zip)
 		}
 
-		if len(a.LegalEntity.Address.Line1) > 0 {
-			values.Add("legal_entity[address][line1]", a.LegalEntity.Address.Line1)
+		if len(owner.Address.Country) > 0 {
+			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][country]", i), owner.Address.Country)
 		}
+	}
+}
 
-		if len(a.LegalEntity.Address.Line2) > 0 {
-			values.Add("legal_entity[address][line2]", a.LegalEntity.Address.Line2)
-		}
+// AppendDetails adds the transfer schedule to the query string.
+func (t *TransferScheduleParams) AppendDetails(values *url.Values) {
+	if t.Delay > 0 {
+		values.Add("tranfer_schedule[delay_days]", strconv.FormatUint(t.Delay, 10))
+	} else if t.MinimumDelay {
+		values.Add("transfer_schedule[delay_days]", "minimum")
+	}
 
-		if len(a.LegalEntity.Address.City) > 0 {
-			values.Add("legal_entity[address][city]", a.LegalEntity.Address.City)
-		}
-
-		if len(a.LegalEntity.Address.State) > 0 {
-			values.Add("legal_entity[address][state]", a.LegalEntity.Address.State)
-		}
-
-		if len(a.LegalEntity.Address.Zip) > 0 {
-			values.Add("legal_entity[address][postal_code]", a.LegalEntity.Address.Zip)
-		}
-
-		if len(a.LegalEntity.Address.Country) > 0 {
-			values.Add("legal_entity[address][country]", a.LegalEntity.Address.Country)
-		}
-
-		if len(a.LegalEntity.PersonalAddress.Line1) > 0 {
-			values.Add("legal_entity[personal_address][line1]", a.LegalEntity.PersonalAddress.Line1)
-		}
-
-		if len(a.LegalEntity.PersonalAddress.Line2) > 0 {
-			values.Add("legal_entity[personal_address][line2]", a.LegalEntity.PersonalAddress.Line2)
-		}
-
-		if len(a.LegalEntity.PersonalAddress.City) > 0 {
-			values.Add("legal_entity[personal_address][city]", a.LegalEntity.PersonalAddress.City)
-		}
-
-		if len(a.LegalEntity.PersonalAddress.State) > 0 {
-			values.Add("legal_entity[personal_address][state]", a.LegalEntity.PersonalAddress.State)
-		}
-
-		if len(a.LegalEntity.PersonalAddress.Zip) > 0 {
-			values.Add("legal_entity[personal_address][postal_code]", a.LegalEntity.PersonalAddress.Zip)
-		}
-
-		if len(a.LegalEntity.PersonalAddress.Country) > 0 {
-			values.Add("legal_entity[personal_address][country]", a.LegalEntity.PersonalAddress.Country)
-		}
-
-		for i, owner := range a.LegalEntity.AdditionalOwners {
-			if len(owner.First) > 0 {
-				values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][first_name]", i), owner.First)
-			}
-
-			if len(owner.Last) > 0 {
-				values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][last_name]", i), owner.Last)
-			}
-
-			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][day]", i), strconv.Itoa(owner.DOB.Day))
-			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][month]", i), strconv.Itoa(owner.DOB.Month))
-			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][year]", i), strconv.Itoa(owner.DOB.Year))
-
-			if len(owner.Address.Line1) > 0 {
-				values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][line1]", i), owner.Address.Line1)
-			}
-
-			if len(owner.Address.Line2) > 0 {
-				values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][line2]", i), owner.Address.Line2)
-			}
-
-			if len(owner.Address.City) > 0 {
-				values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][city]", i), owner.Address.City)
-			}
-
-			if len(owner.Address.State) > 0 {
-				values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][state]", i), owner.Address.State)
-			}
-
-			if len(owner.Address.Zip) > 0 {
-				values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][postal_code]", i), owner.Address.Zip)
-			}
-
-			if len(owner.Address.Country) > 0 {
-				values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][country]", i), owner.Address.Country)
-			}
-		}
+	values.Add("transfer_schedule[interval]", string(t.Interval))
+	if t.Interval == Week && len(t.WeekAnchor) > 0 {
+		values.Add("transfer_schedule[weekly_anchor]", t.WeekAnchor)
+	} else if t.Interval == Month && t.MonthAnchor > 0 {
+		values.Add("transfer_schedule[monthly_anchor]", strconv.FormatUint(t.MonthAnchor, 10))
 	}
 }
 
@@ -277,6 +306,24 @@ func (a *Account) UnmarshalJSON(data []byte) error {
 	} else {
 		// the id is surrounded by "\" characters, so strip them
 		a.ID = string(data[1 : len(data)-1])
+	}
+
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of an IdentityDocument.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (d *IdentityDocument) UnmarshalJSON(data []byte) error {
+	type identityDocument IdentityDocument
+	var doc identityDocument
+	err := json.Unmarshal(data, &doc)
+
+	if err == nil {
+		*d = IdentityDocument(doc)
+	} else {
+		// the id is surrounded by "\" characters, so strip them
+		d.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil

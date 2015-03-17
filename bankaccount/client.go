@@ -108,11 +108,6 @@ func List(params *stripe.BankAccountListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.BankAccountListParams) *Iter {
-	type bankAccountList struct {
-		stripe.ListMeta
-		Values []*stripe.BankAccount `json:"data"`
-	}
-
 	body := &url.Values{}
 	var lp *stripe.ListParams
 
@@ -120,7 +115,7 @@ func (c Client) List(params *stripe.BankAccountListParams) *Iter {
 	lp = &params.ListParams
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
-		list := &bankAccountList{}
+		list := &stripe.BankAccountList{}
 		err := c.B.Call("GET", fmt.Sprintf("/accounts/%v/bank_accounts", params.AccountID), c.Key, &b, nil, list)
 
 		ret := make([]interface{}, len(list.Values))

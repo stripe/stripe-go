@@ -48,7 +48,18 @@ func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 		body.Add("support_phone", params.SupportPhone)
 	}
 
-	params.AppendDetails(body)
+	if params.LegalEntity != nil {
+		params.LegalEntity.AppendDetails(body)
+	}
+
+	if params.TransferSchedule != nil {
+		params.TransferSchedule.AppendDetails(body)
+	}
+
+	if params.BankAccount != nil {
+		params.BankAccount.AppendDetails(body)
+	}
+
 	params.AppendTo(body)
 
 	acct := &stripe.Account{}
@@ -122,6 +133,19 @@ func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account
 		if len(params.SupportPhone) > 0 {
 			body.Add("support_phone", params.SupportPhone)
 		}
+
+		if params.LegalEntity != nil {
+			params.LegalEntity.AppendDetails(body)
+		}
+
+		if params.TransferSchedule != nil {
+			params.TransferSchedule.AppendDetails(body)
+		}
+
+		if params.BankAccount != nil {
+			params.BankAccount.AppendDetails(body)
+		}
+
 		params.AppendTo(body)
 	}
 
