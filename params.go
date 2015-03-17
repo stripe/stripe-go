@@ -17,9 +17,9 @@ const (
 // Params is the structure that contains the common properties
 // of any *Params structure.
 type Params struct {
-	Exp            []string
-	Meta           map[string]string
-	IdempotencyKey string
+	Exp                     []string
+	Meta                    map[string]string
+	IdempotencyKey, Account string
 }
 
 // ListParams is the structure that contains the common properties
@@ -61,6 +61,11 @@ func NewIdempotencyKey() string {
 	buf := make([]byte, 4)
 	rand.Read(buf)
 	return fmt.Sprintf("%v_%v", now, base64.URLEncoding.EncodeToString(buf)[:6])
+}
+
+// SetAccount sets a value for the Stripe-Account header.
+func (p *Params) SetAccount(val string) {
+	p.Account = val
 }
 
 // Expand appends a new field to expand.

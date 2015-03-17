@@ -18,10 +18,10 @@ type TransferFailCode string
 // For more details see https://stripe.com/docs/api#create_transfer and https://stripe.com/docs/api#update_transfer.
 type TransferParams struct {
 	Params
-	Amount                      int64
-	Currency                    Currency
-	Recipient                   string
-	Desc, Statement, Bank, Card string
+	Amount                                                 int64
+	Fee                                                    uint64
+	Currency                                               Currency
+	Recipient, Desc, Statement, Bank, Card, SourceTx, Dest string
 }
 
 // TransferListParams is the set of parameters that can be used when listing transfers.
@@ -53,4 +53,5 @@ type Transfer struct {
 	Card      *Card             `json:"card"`
 	Recipient *Recipient        `json:"recipient"`
 	Statement string            `json:"statement_descriptor"`
+	Reversals *ReversalList     `json:"reversals"`
 }

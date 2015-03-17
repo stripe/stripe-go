@@ -58,6 +58,10 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 		body.Add("receipt_email", params.Email)
 	}
 
+	if len(params.Dest) > 0 {
+		body.Add("destination", params.Dest)
+	}
+
 	body.Add("capture", strconv.FormatBool(!params.NoCapture))
 
 	token := c.Key

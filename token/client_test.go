@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/recipient"
+	"github.com/stripe/stripe-go/bankaccount"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -69,7 +69,7 @@ func TestTokenGet(t *testing.T) {
 		t.Errorf("Bank account is not set\n")
 	}
 
-	if target.Bank.Status != recipient.NewAccount {
+	if target.Bank.Status != bankaccount.NewAccount {
 		t.Errorf("Bank account status %q does not match expected value\n", target.Bank.Status)
 	}
 }

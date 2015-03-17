@@ -44,9 +44,12 @@ func New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 
 func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 	body := &url.Values{
-		"amount":    {strconv.FormatInt(params.Amount, 10)},
-		"currency":  {string(params.Currency)},
-		"recipient": {params.Recipient},
+		"amount":   {strconv.FormatInt(params.Amount, 10)},
+		"currency": {string(params.Currency)},
+	}
+
+	if len(params.Recipient) > 0 {
+		body.Add("recipient", params.Recipient)
 	}
 
 	if len(params.Bank) > 0 {
@@ -61,6 +64,18 @@ func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 
 	if len(params.Statement) > 0 {
 		body.Add("statement_descriptor", params.Statement)
+	}
+
+	if len(params.Dest) > 0 {
+		body.Add("destination", params.Dest)
+	}
+
+	if len(params.SourceTx) > 0 {
+		body.Add("source_transaction", params.SourceTx)
+	}
+
+	if params.Fee > 0 {
+		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 	}
 	params.AppendTo(body)
 
