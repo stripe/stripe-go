@@ -1,3 +1,7 @@
+6.1.0 2014-03-17
+	Add TaxPercent for subscriptions
+	Event bug fixes
+
 6.0.0 2014-03-15
 	Add more operations for /accounts endpoint
 	Add /transfers/reversals endpoint

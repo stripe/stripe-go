@@ -1,6 +1,9 @@
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // Event is the resource representing a Stripe event.
 // For more details see https://stripe.com/docs/api#events.
@@ -12,6 +15,7 @@ type Event struct {
 	Webhooks uint64     `json:"pending_webhooks"`
 	Type     string     `json:"type"`
 	Req      string     `json:"request"`
+	UserID   string     `json:"user_id"`
 }
 
 // EventData is the unmarshalled object as a map.
@@ -66,5 +70,5 @@ func getValue(m map[string]interface{}, keys []string) string {
 		return ""
 	}
 
-	return node.(string)
+	return fmt.Sprintf("%v", node)
 }
