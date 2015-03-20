@@ -98,4 +98,40 @@ func TestAccountGet(t *testing.T) {
 	if len(target.Timezone) == 0 {
 		t.Errorf("Account is missing timezone\n")
 	}
+
+	if len(target.Statement) == 0 {
+		t.Errorf("Account is missing Statement\n")
+	}
+
+	if len(target.BusinessLogo) == 0 {
+		t.Errorf("Account is missing business logo\n")
+	}
+
+	if len(target.BusinessName) == 0 {
+		t.Errorf("Account is missing business name\n")
+	}
+
+	if len(target.BusinessPrimaryColor) == 0 {
+		t.Errorf("Account is missing business primary color\n")
+	}
+
+	if len(target.BusinessURL) == 0 {
+		t.Errorf("Account is missing business URL\n")
+	}
+
+	if len(target.DefaultCurrency) == 0 {
+		t.Errorf("Account is missing default currency\n")
+	}
+
+	if len(target.Name) == 0 {
+		t.Errorf("Account is missing name\n")
+	}
+
+	if len(target.Email) == 0 {
+		t.Errorf("Account is missing email\n")
+	}
+
+	if len(target.Timezone) == 0 {
+		t.Errorf("Account is missing timezone\n")
+	}
 }
