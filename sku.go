@@ -19,9 +19,12 @@ type SKU struct {
 	Attrs     map[string]string `json:"attributes"`
 	Price     int64             `json:"price"`
 	Currency  string            `json:"currency"`
-	Inventory int64             `json:"inventory"`
-	Product   Product           `json:"product"`
-	Meta      map[string]string `json:"metadata"`
+	Inventory struct {
+		Type     string `json:"type"`
+		Quantity int64  `json:"quantity"`
+	} `json:"inventory"`
+	Product Product           `json:"product"`
+	Meta    map[string]string `json:"metadata"`
 }
 
 type SKUList struct {
