@@ -10,6 +10,11 @@ type SKUParams struct {
 	Attributes  []string
 }
 
+type Inventory struct {
+	Type     string `json:"type"`
+	Quantity int64  `json:"quantity"`
+}
+
 type SKU struct {
 	Id        string            `json:"id"`
 	Live      bool              `json:"livemode"`
@@ -19,12 +24,9 @@ type SKU struct {
 	Attrs     map[string]string `json:"attributes"`
 	Price     int64             `json:"price"`
 	Currency  string            `json:"currency"`
-	Inventory struct {
-		Type     string `json:"type"`
-		Quantity int64  `json:"quantity"`
-	} `json:"inventory"`
-	Product Product           `json:"product"`
-	Meta    map[string]string `json:"metadata"`
+	Inventory Inventory         `json:"inventory"`
+	Product   Product           `json:"product"`
+	Meta      map[string]string `json:"metadata"`
 }
 
 type SKUList struct {
