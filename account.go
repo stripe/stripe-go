@@ -88,6 +88,7 @@ type Account struct {
 	LegalEntity      *LegalEntity      `json:"legal_entity"`
 	TransferSchedule *TransferSchedule `json:"transfer_schedule"`
 	BankAccounts     *BankAccountList  `json:"bank_accounts"`
+	SupportAddress   *Address          `json:"support_address"`
 }
 
 // LegalEntity is the structure for properties related to an account's legal state.
