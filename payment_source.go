@@ -137,3 +137,33 @@ func (s *PaymentSource) UnmarshalJSON(data []byte) error {
 
 	return nil
 }
+
+// MarshalJSON handles serialization of a PaymentSource.
+// This custom marshaling is needed because the specific type
+// of payment instrument it represents is specified by the PaymentSourceType
+func (s *PaymentSource) MarshalJSON() ([]byte, error) {
+	var target interface{}
+
+	switch s.Type {
+	case PaymentSourceBitcoinReceiver:
+		target = struct {
+			Type PaymentSourceType `json:"object"`
+			*BitcoinReceiver
+		}{
+			Type:            s.Type,
+			BitcoinReceiver: s.BitcoinReceiver,
+		}
+	case PaymentSourceCard:
+		target = struct {
+			Type     PaymentSourceType `json:"object"`
+			Customer string            `json:"customer"`
+			*Card
+		}{
+			Type:     s.Type,
+			Customer: s.Card.Customer.ID,
+			Card:     s.Card,
+		}
+	}
+
+	return json.Marshal(target)
+}
