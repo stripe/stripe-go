@@ -142,7 +142,6 @@ func (s *PaymentSource) UnmarshalJSON(data []byte) error {
 // This custom marshaling is needed because the specific type
 // of payment instrument it represents is specified by the PaymentSourceType
 func (s *PaymentSource) MarshalJSON() ([]byte, error) {
-	type source PaymentSource
 	var target interface{}
 
 	switch s.Type {
@@ -164,8 +163,8 @@ func (s *PaymentSource) MarshalJSON() ([]byte, error) {
 			Customer: s.Card.Customer.ID,
 			Card:     s.Card,
 		}
-	default:
-		target = source(*s)
+	case "":
+		target = s.ID
 	}
 
 	return json.Marshal(target)
