@@ -2,16 +2,16 @@ package stripe
 
 import (
 	"encoding/json"
-	"net/url"
 	"errors"
 	"fmt"
+	"net/url"
 )
 
 // SourceParams is a union struct used to describe an
 // arbitrary payment source.
 type SourceParams struct {
-	Token	string
-	Card	*CardParams
+	Token string
+	Card  *CardParams
 }
 
 // AppendDetails adds the source's details to the query string values.
@@ -31,12 +31,12 @@ func (sp *SourceParams) AppendDetails(values *url.Values, creating bool) {
 type CustomerSourceParams struct {
 	Params
 	Customer string
-	Source *SourceParams
+	Source   *SourceParams
 }
 
 // SetSource adds valid sources to a CustomerSourceParams object,
 // returning an error for unsupported sources.
-func (cp *CustomerSourceParams) SetSource(sp interface{}) (error) {
+func (cp *CustomerSourceParams) SetSource(sp interface{}) error {
 	source, err := SourceParamsFor(sp)
 	cp.Source = source
 	return err
@@ -52,16 +52,16 @@ func SourceParamsFor(obj interface{}) (*SourceParams, error) {
 	var sp *SourceParams
 	var err error
 	switch p := obj.(type) {
-		case *CardParams:
-			sp = &SourceParams{
-				Card: p,
-			}
-		case string:
-			sp = &SourceParams{
-				Token: p,
-			}
-		default:
-			err = errors.New(fmt.Sprintf("Unsupported source type %s", p))
+	case *CardParams:
+		sp = &SourceParams{
+			Card: p,
+		}
+	case string:
+		sp = &SourceParams{
+			Token: p,
+		}
+	default:
+		err = errors.New(fmt.Sprintf("Unsupported source type %s", p))
 	}
 	return sp, err
 }
@@ -136,4 +136,36 @@ func (s *PaymentSource) UnmarshalJSON(data []byte) error {
 	}
 
 	return nil
+}
+
+// MarshalJSON handles serialization of a PaymentSource.
+// This custom marshaling is needed because the specific type
+// of payment instrument it represents is specified by the PaymentSourceType
+func (s *PaymentSource) MarshalJSON() ([]byte, error) {
+	var target interface{}
+
+	switch s.Type {
+	case PaymentSourceBitcoinReceiver:
+		target = struct {
+			Type PaymentSourceType `json:"object"`
+			*BitcoinReceiver
+		}{
+			Type:            s.Type,
+			BitcoinReceiver: s.BitcoinReceiver,
+		}
+	case PaymentSourceCard:
+		target = struct {
+			Type     PaymentSourceType `json:"object"`
+			Customer string            `json:"customer"`
+			*Card
+		}{
+			Type:     s.Type,
+			Customer: s.Card.Customer.ID,
+			Card:     s.Card,
+		}
+	case "":
+		target = s.ID
+	}
+
+	return json.Marshal(target)
 }
