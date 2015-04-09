@@ -19,6 +19,7 @@ const (
 type Params struct {
 	Exp                     []string
 	Meta                    map[string]string
+	Extra                   url.Values
 	IdempotencyKey, Account string
 }
 
@@ -82,6 +83,15 @@ func (p *Params) AddMeta(key, value string) {
 	p.Meta[key] = value
 }
 
+// AddExtra adds a new arbitrary key-value pair to the request data
+func (p *Params) AddExtra(key, value string) {
+	if p.Extra == nil {
+		p.Extra = make(url.Values)
+	}
+
+	p.Extra.Add(key, value)
+}
+
 // AddFilter adds a new filter with a given key, op and value.
 func (f *Filters) AddFilter(key, op, value string) {
 	filter := &filter{Key: key, Op: op, Val: value}
@@ -96,6 +106,12 @@ func (p *Params) AppendTo(body *url.Values) {
 
 	for _, v := range p.Exp {
 		body.Add("expand[]", v)
+	}
+
+	for k, vs := range p.Extra {
+		for _, v := range vs {
+			body.Add(k, v)
+		}
 	}
 }
 
