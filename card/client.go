@@ -114,7 +114,7 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 	return card, err
 }
 
-// Del remotes a card.
+// Del removes a card.
 // For more details see https://stripe.com/docs/api#delete_card.
 func Del(id string, params *stripe.CardParams) error {
 	return getC().Del(id, params)

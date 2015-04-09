@@ -13,7 +13,7 @@ import (
 type CardBrand string
 
 // Verification is the list of allowed verification responses.
-// Allowed values are "pass", "fail", "unchecked".
+// Allowed values are "pass", "fail", "unchecked", "unavailabe".
 type Verification string
 
 // CardFunding is the list of allowed values for the card's funding.
@@ -76,6 +76,7 @@ func (c *CardParams) AppendDetails(values *url.Values, creating bool) {
 		if len(c.Token) > 0 {
 			values.Add("card", c.Token)
 		} else {
+			values.Add("card[object]", "card")
 			values.Add("card[number]", c.Number)
 			values.Add("card[exp_month]", c.Month)
 			values.Add("card[exp_year]", c.Year)

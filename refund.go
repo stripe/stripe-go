@@ -10,10 +10,10 @@ type RefundReason string
 // For more details see https://stripe.com/docs/api#refund.
 type RefundParams struct {
 	Params
-	Charge string
-	Amount uint64
-	Fee    bool
-	Reason RefundReason
+	Charge        string
+	Amount        uint64
+	Fee, Transfer bool
+	Reason        RefundReason
 }
 
 // RefundListParams is the set of parameters that can be used when listing refunds.

@@ -1,4 +1,4 @@
-Go Stripe [![Build Status](https://travis-ci.org/stripe/stripe-go.svg?branch=master)](https://travis-ci.org/stripe/stripe-go)
+Go Stripe [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/stripe/stripe-go) [![Build Status](https://travis-ci.org/stripe/stripe-go.svg?branch=master)](https://travis-ci.org/stripe/stripe-go)
 ========
 
 ## Summary
@@ -45,16 +45,16 @@ Below are a few simple examples:
 
 ```go
 params := &stripe.CustomerParams{
-		Balance: -123,
-		Card: &stripe.CardParams{
-			Name:   "Go Stripe",
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "15",
-		},
-		Desc:  "Stripe Developer",
-		Email: "gostripe@stripe.com",
-	}
+	Balance: -123,
+	Desc:  "Stripe Developer",
+	Email: "gostripe@stripe.com",
+}
+params.SetSource(&stripe.CardParams{
+	Name:   "Go Stripe",
+	Number: "378282246310005",
+	Month:  "06",
+	Year:   "15",
+})
 
 customer, err := customer.New(params)
 ```
@@ -212,9 +212,9 @@ if err := i.Err(); err != nil {
 Pull requests from the community are welcome. If you submit one, please keep
 the following guidelines in mind:
 
-1. Code should be `go fmt` compliant.
+1. Code must be `go fmt` compliant.
 2. All types, structs and funcs should be documented.
-3. Ensure that `make checkin` succeeds.
+3. Ensure that `make test` succeeds.
 
 ## Test
 

@@ -93,6 +93,35 @@ func TestBitcoinReceiverTransactionsGet(t *testing.T) {
 	}
 }
 
+func TestBitcoinReceiverUpdate(t *testing.T) {
+	bitcoinReceiverParams := &stripe.BitcoinReceiverParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Email:    "do+fill_now@stripe.com",
+		Desc:     "some details",
+	}
+
+	receiver, err := New(bitcoinReceiverParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	updateParams := &stripe.BitcoinReceiverUpdateParams{
+		Desc: "some other details",
+	}
+
+	target, err := Update(receiver.ID, updateParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Desc != updateParams.Desc {
+		t.Errorf("Description %q does not match expected name %q\n", target.Desc, updateParams.Desc)
+	}
+}
+
 func TestBitcoinReceiverList(t *testing.T) {
 	params := &stripe.BitcoinReceiverListParams{}
 	params.Filters.AddFilter("include[]", "", "total_count")

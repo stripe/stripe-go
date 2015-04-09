@@ -5,6 +5,7 @@ import (
 	. "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/account"
 	"github.com/stripe/stripe-go/balance"
+	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/bitcoinreceiver"
 	"github.com/stripe/stripe-go/bitcointransaction"
 	"github.com/stripe/stripe-go/card"
@@ -22,6 +23,7 @@ import (
 	"github.com/stripe/stripe-go/plan"
 	"github.com/stripe/stripe-go/recipient"
 	"github.com/stripe/stripe-go/refund"
+	"github.com/stripe/stripe-go/reversal"
 	"github.com/stripe/stripe-go/sub"
 	"github.com/stripe/stripe-go/token"
 	"github.com/stripe/stripe-go/transfer"
@@ -95,13 +97,17 @@ type API struct {
 	// BitcoinTransactions is the client used to invoke /bitcoin/transactions APIs.
 	// For more details see https://stripe.com/docs/api#bitcoin_receivers.
 	BitcoinTransactions *bitcointransaction.Client
+	// Reversals is the client used to invoke /transfers/reversals APIs.
+	Reversals *reversal.Client
+	// BankAccounts is the client used to invoke /accounts/bank_accounts APIs.
+	BankAccounts *bankaccount.Client
 }
 
 // Init initializes the Stripe client with the appropriate secret key
 // as well as providing the ability to override the backend as needed.
-func (a *API) Init(key string, backends *StripeBackends) {
+func (a *API) Init(key string, backends *Backends) {
 	if backends == nil {
-		backends = &StripeBackends{GetBackend(APIBackend), GetBackend(UploadsBackend)}
+		backends = &Backends{GetBackend(APIBackend), GetBackend(UploadsBackend)}
 	}
 
 	a.Charges = &charge.Client{B: backends.API, Key: key}
@@ -126,4 +132,6 @@ func (a *API) Init(key string, backends *StripeBackends) {
 	a.FileUploads = &fileupload.Client{B: backends.Uploads, Key: key}
 	a.BitcoinReceivers = &bitcoinreceiver.Client{B: backends.API, Key: key}
 	a.BitcoinTransactions = &bitcointransaction.Client{B: backends.API, Key: key}
+	a.Reversals = &reversal.Client{B: backends.API, Key: key}
+	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 }

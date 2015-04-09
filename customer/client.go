@@ -30,10 +30,8 @@ func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 			body.Add("account_balance", strconv.FormatInt(params.Balance, 10))
 		}
 
-		if len(params.Token) > 0 {
-			body.Add("card", params.Token)
-		} else if params.Card != nil {
-			params.Card.AppendDetails(body, true)
+		if params.Source != nil {
+			params.Source.AppendDetails(body, true)
 		}
 
 		if len(params.Desc) > 0 {
@@ -110,14 +108,8 @@ func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Custom
 			body.Add("account_balance", strconv.FormatInt(params.Balance, 10))
 		}
 
-		if len(params.Token) > 0 {
-			body.Add("card", params.Token)
-		} else if params.Card != nil {
-			if len(params.Card.Token) > 0 {
-				body.Add("card", params.Card.Token)
-			} else {
-				params.Card.AppendDetails(body, true)
-			}
+		if params.Source != nil {
+			params.Source.AppendDetails(body, true)
 		}
 
 		if len(params.Desc) > 0 {

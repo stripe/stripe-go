@@ -44,7 +44,9 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 		body.Add("coupon", params.Coupon)
 	}
 
-	if params.TrialEnd > 0 {
+	if params.TrialEndNow {
+		body.Add("trial_end", "now")
+	} else if params.TrialEnd > 0 {
 		body.Add("trial_end", strconv.FormatInt(params.TrialEnd, 10))
 	}
 
@@ -57,6 +59,10 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 	token := c.Key
 	if params.FeePercent > 0 {
 		body.Add("application_fee_percent", strconv.FormatFloat(params.FeePercent, 'f', 2, 64))
+	}
+
+	if params.TaxPercent > 0 {
+		body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
 	}
 
 	params.AppendTo(body)
@@ -129,6 +135,10 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 	token := c.Key
 	if params.FeePercent > 0 {
 		body.Add("application_fee_percent", strconv.FormatFloat(params.FeePercent, 'f', 2, 64))
+	}
+
+	if params.TaxPercent > 0 {
+		body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
 	}
 
 	params.AppendTo(body)

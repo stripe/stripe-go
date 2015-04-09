@@ -11,11 +11,6 @@ import (
 const (
 	Individual stripe.RecipientType = "individual"
 	Corp       stripe.RecipientType = "corporation"
-
-	NewAccount       stripe.BankAccountStatus = "new"
-	VerifiedAccount  stripe.BankAccountStatus = "verified"
-	ValidatedAccount stripe.BankAccountStatus = "validated"
-	ErroredAccount   stripe.BankAccountStatus = "errored"
 )
 
 // Client is used to invoke /recipients APIs.
@@ -37,7 +32,11 @@ func (c Client) New(params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	}
 
 	if params.Bank != nil {
-		params.Bank.AppendDetails(body)
+		if len(params.Bank.Token) > 0 {
+			body.Add("bank_account", params.Bank.Token)
+		} else {
+			params.Bank.AppendDetails(body)
+		}
 	}
 
 	if len(params.Token) > 0 {

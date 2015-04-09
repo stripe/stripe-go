@@ -18,11 +18,13 @@ func TestCheckinIdempotency(t *testing.T) {
 	charge := &stripe.ChargeParams{
 		Amount:   100,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Name:   "Go Bindings Cardholder",
-			Number: "4242424242424242",
-			Month:  "12",
-			Year:   "24",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Name:   "Go Bindings Cardholder",
+				Number: "4242424242424242",
+				Month:  "12",
+				Year:   "24",
+			},
 		},
 	}
 
@@ -93,11 +95,13 @@ func TestCheckinPost(t *testing.T) {
 	charge := &stripe.ChargeParams{
 		Amount:   100,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Name:   "Go Bindings Cardholder",
-			Number: "4242424242424242",
-			Month:  "12",
-			Year:   "24",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Name:   "Go Bindings Cardholder",
+				Number: "4242424242424242",
+				Month:  "12",
+				Year:   "24",
+			},
 		},
 	}
 
@@ -115,8 +119,8 @@ func TestCheckinPost(t *testing.T) {
 		t.Errorf("Currency %q does not match expected currency %q\n", target.Currency, charge.Currency)
 	}
 
-	if target.Card.Name != charge.Card.Name {
-		t.Errorf("Card name %q does not match expected name %q\n", target.Card.Name, charge.Card.Name)
+	if target.Source.Card.Name != charge.Source.Card.Name {
+		t.Errorf("Card name %q does not match expected name %q\n", target.Source.Card.Name, charge.Source.Card.Name)
 	}
 }
 

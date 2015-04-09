@@ -16,15 +16,15 @@ func init() {
 func TestCustomerNew(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
 		Balance: -123,
-		Card: &stripe.CardParams{
-			Name:   "Test Card",
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
-		},
 		Desc:  "Test Customer",
 		Email: "a@b.com",
 	}
+	customerParams.SetSource(&stripe.CardParams{
+		Name:   "Test Card",
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	customerParams.AddMeta("key", "value")
 	target, err := New(customerParams)
@@ -49,16 +49,16 @@ func TestCustomerNew(t *testing.T) {
 		t.Errorf("Meta %v does not match expected Meta %v\n", target.Meta, customerParams.Meta)
 	}
 
-	if target.Cards == nil {
-		t.Errorf("No cards recorded\n")
+	if target.Sources == nil {
+		t.Errorf("No sources recorded\n")
 	}
 
-	if target.Cards.Count != 1 {
-		t.Errorf("Unexpected number of cards %v\n", target.Cards.Count)
+	if target.Sources.Count != 1 {
+		t.Errorf("Unexpected number of cards %v\n", target.Sources.Count)
 	}
 
-	if target.Cards.Values[0].Name != customerParams.Card.Name {
-		t.Errorf("Card name %q does not match expected name %q\n", target.Cards.Values[0].Name, customerParams.Card.Name)
+	if target.Sources.Values[0].Card.Name != customerParams.Source.Card.Name {
+		t.Errorf("Card name %q does not match expected name %q\n", target.Sources.Values[0].Card.Name, customerParams.Source.Card.Name)
 	}
 
 	Del(target.ID)
@@ -93,27 +93,27 @@ func TestCustomerDel(t *testing.T) {
 func TestCustomerUpdate(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
 		Balance: 7,
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
-		},
 		Desc:  "Original Desc",
 		Email: "first@b.com",
 	}
+	customerParams.SetSource(&stripe.CardParams{
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
 
 	original, _ := New(customerParams)
 
 	updated := &stripe.CustomerParams{
 		Balance: -10,
-		Card: &stripe.CardParams{
-			Number: "4242424242424242",
-			Month:  "10",
-			Year:   "20",
-		},
 		Desc:  "Updated Desc",
 		Email: "desc@b.com",
 	}
+	updated.SetSource(&stripe.CardParams{
+		Number: "4242424242424242",
+		Month:  "10",
+		Year:   "20",
+	})
 
 	target, err := Update(original.ID, updated)
 
@@ -133,8 +133,8 @@ func TestCustomerUpdate(t *testing.T) {
 		t.Errorf("Email %q does not match expected email %q\n", target.Email, updated.Email)
 	}
 
-	if target.Cards == nil {
-		t.Errorf("No cards recorded\n")
+	if target.Sources == nil {
+		t.Errorf("No sources recorded\n")
 	}
 
 	Del(target.ID)

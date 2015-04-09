@@ -17,13 +17,13 @@ func ExampleCharge_new() {
 	params := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Card: &stripe.CardParams{
-			Name:   "Go Stripe",
-			Number: "4242424242424242",
-			Month:  "10",
-			Year:   "20",
-		},
 	}
+	params.SetSource(&stripe.CardParams{
+		Name:   "Go Stripe",
+		Number: "4242424242424242",
+		Month:  "10",
+		Year:   "20",
+	})
 	params.AddMeta("key", "value")
 
 	ch, err := charge.New(params)

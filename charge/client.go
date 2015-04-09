@@ -33,53 +33,17 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 		"currency": {string(params.Currency)},
 	}
 
-	// Handle multiple ways of specifying the Chargeable object:
-	// 1) Passed card details in Card params.Card
-	// 2) Passed card token in params.Token
-	// 3) Passed card details in params.Source.Card
-	// 4) Passed card token in params.Source.Token
-	// 5) Passed source ID in params.Source.ID
-
-	var tokenParam string
-	var card *stripe.CardParams
-	var sourceId string
-
-	if len(params.Token) > 0 {
-		tokenParam = params.Token
-	} else if params.Source != nil && len(params.Source.Token) > 0 {
-		tokenParam = params.Source.Token
-	}
-
-	if params.Card != nil {
-		card = params.Card
-	} else if params.Source != nil && params.Source.Card != nil {
-		card = params.Source.Card
-	}
-
-	if params.Source != nil && len(params.Source.ID) > 0 {
-		sourceId = params.Source.ID
-	}
-
-	isCard := !(len(sourceId) > 0)
-
-	if len(tokenParam) > 0 {
-		body.Add("source", tokenParam)
-	} else if len(params.Customer) > 0 {
-		body.Add("customer", params.Customer)
-		if card != nil && len(card.Token) > 0 {
-			body.Add("source", card.Token)
-		}
-	} else if card != nil {
-		if len(card.Token) > 0 {
-			body.Add("card", card.Token)
-		} else {
-			card.AppendDetails(body, true)
-		}
-	} else if len(sourceId) > 0 {
-		body.Add("source", sourceId)
-	} else {
-		err := errors.New("Invalid charge params: either customer, card Tok, card, source Tok, or source need to be set")
+	if params.Source == nil && len(params.Customer) == 0 {
+		err := errors.New("Invalid charge params: either customer or a source must be set")
 		return nil, err
+	}
+
+	if params.Source != nil {
+		params.Source.AppendDetails(body, true)
+	}
+
+	if len(params.Customer) > 0 {
+		body.Add("customer", params.Customer)
 	}
 
 	if len(params.Desc) > 0 {
@@ -94,9 +58,11 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 		body.Add("receipt_email", params.Email)
 	}
 
-	if isCard {
-		body.Add("capture", strconv.FormatBool(!params.NoCapture))
+	if len(params.Dest) > 0 {
+		body.Add("destination", params.Dest)
 	}
+
+	body.Add("capture", strconv.FormatBool(!params.NoCapture))
 
 	token := c.Key
 	if params.Fee > 0 {

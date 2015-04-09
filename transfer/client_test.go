@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/charge"
 	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/recipient"
 	. "github.com/stripe/stripe-go/utils"
@@ -14,6 +15,20 @@ func init() {
 }
 
 func TestTransferNew(t *testing.T) {
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "4000000000000077",
+				Month:  "06",
+				Year:   "20",
+			},
+		},
+	}
+
+	charge.New(chargeParams)
+
 	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",
 		Type: recipient.Individual,
@@ -84,6 +99,20 @@ func TestTransferNew(t *testing.T) {
 }
 
 func TestTransferGet(t *testing.T) {
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "4000000000000077",
+				Month:  "06",
+				Year:   "20",
+			},
+		},
+	}
+
+	charge.New(chargeParams)
+
 	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",
 		Type: recipient.Individual,
@@ -123,6 +152,20 @@ func TestTransferGet(t *testing.T) {
 }
 
 func TestTransferUpdate(t *testing.T) {
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "4000000000000077",
+				Month:  "06",
+				Year:   "20",
+			},
+		},
+	}
+
+	charge.New(chargeParams)
+
 	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",
 		Type: recipient.Corp,
@@ -162,6 +205,20 @@ func TestTransferUpdate(t *testing.T) {
 }
 
 func TestTransferList(t *testing.T) {
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "4000000000000077",
+				Month:  "06",
+				Year:   "20",
+			},
+		},
+	}
+
+	charge.New(chargeParams)
+
 	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",
 		Type: recipient.Individual,

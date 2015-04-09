@@ -19,10 +19,12 @@ func init() {
 // avoid unnecessary duplication
 func TestAllInvoicesScenarios(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
-		Card: &stripe.CardParams{
-			Number: "378282246310005",
-			Month:  "06",
-			Year:   "20",
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
 		},
 	}
 
@@ -62,9 +64,10 @@ func TestAllInvoicesScenarios(t *testing.T) {
 	}
 
 	invoiceParams := &stripe.InvoiceParams{
-		Customer:  cust.ID,
-		Desc:      "Desc",
-		Statement: "Statement",
+		Customer:   cust.ID,
+		Desc:       "Desc",
+		Statement:  "Statement",
+		TaxPercent: 20.0,
 	}
 
 	targetInvoice, err := New(invoiceParams)
@@ -77,8 +80,16 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Errorf("Invoice customer %q does not match expected customer %q\n", targetInvoice.Customer.ID, invoiceParams.Customer)
 	}
 
-	if targetInvoice.Amount != targetItem.Amount {
-		t.Errorf("Invoice amount %v does not match expected amount %v\n", targetInvoice.Amount, targetItem.Amount)
+	if targetInvoice.TaxPercent != invoiceParams.TaxPercent {
+		t.Errorf("Invoice tax percent %f does not match expected tax percent %f\n", targetInvoice.TaxPercent, invoiceParams.TaxPercent)
+	}
+
+	if targetInvoice.Tax != 20 {
+		t.Errorf("Invoice tax  %v does not match expected tax 20\n", targetInvoice.Tax)
+	}
+
+	if targetInvoice.Amount != targetItem.Amount+targetInvoice.Tax {
+		t.Errorf("Invoice amount %v does not match expected amount %v + tax %v\n", targetInvoice.Amount, targetItem.Amount, targetInvoice.Tax)
 	}
 
 	if targetInvoice.Currency != targetItem.Currency {
@@ -97,7 +108,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Errorf("Invoice end is not set\n")
 	}
 
-	if targetInvoice.Total != targetInvoice.Amount || targetInvoice.Subtotal != targetInvoice.Amount {
+	if targetInvoice.Total != targetInvoice.Amount || targetInvoice.Subtotal != targetInvoice.Amount-targetInvoice.Tax {
 		t.Errorf("Invoice total %v and subtotal %v do not match expected amount %v\n", targetInvoice.Total, targetInvoice.Subtotal, targetInvoice.Amount)
 	}
 

@@ -20,13 +20,13 @@ const (
 )
 
 // apiversion is the currently supported API version
-const apiversion = "2015-01-11"
+const apiversion = "2015-02-18"
 
 // clientversion is the binding version
-const clientversion = "4.4.0"
+const clientversion = "6.1.0"
 
-// defaultHTTPTimeout is the default timeout on the http.Client used by the bindings.
-// This is chosen to be consistent with the other Stripe language bindings and
+// defaultHTTPTimeout is the default timeout on the http.Client used by the library.
+// This is chosen to be consistent with the other Stripe language libraries and
 // to coordinate with other timeouts configured in the Stripe infrastructure.
 const defaultHTTPTimeout = 80 * time.Second
 
@@ -56,17 +56,23 @@ const (
 	UploadsBackend SupportedBackend = "uploads"
 )
 
-// StripeBackends are the currently supported endpoints.
-type StripeBackends struct {
+// Backends are the currently supported endpoints.
+type Backends struct {
 	API, Uploads Backend
 }
 
 // Key is the Stripe API key used globally in the binding.
 var Key string
 
-var debug bool
+// LogLevel is the logging level for this library.
+// 0: no logging
+// 1: errors only
+// 2: errors + informational (default)
+// 3: errors + informational + debug
+var LogLevel = 2
+
 var httpClient = &http.Client{Timeout: defaultHTTPTimeout}
-var backends StripeBackends
+var backends Backends
 
 // SetHTTPClient overrides the default HTTP client.
 // This is useful if you're running in a Google AppEngine environment
@@ -130,8 +136,8 @@ func (s BackendConfiguration) Call(method, path, key string, form *url.Values, p
 }
 
 // CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
-func (s BackendConfiguration) CallMultipart(method, path, key, boudary string, body io.Reader, params *Params, v interface{}) error {
-	contentType := "multipart/form-data; boundary=" + boudary
+func (s BackendConfiguration) CallMultipart(method, path, key, boundary string, body io.Reader, params *Params, v interface{}) error {
+	contentType := "multipart/form-data; boundary=" + boundary
 
 	req, err := s.NewRequest(method, path, key, contentType, body, params)
 	if err != nil {
@@ -156,7 +162,9 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 
 	req, err := http.NewRequest(method, path, body)
 	if err != nil {
-		log.Printf("Cannot create Stripe request: %v\n", err)
+		if LogLevel > 0 {
+			log.Printf("Cannot create Stripe request: %v\n", err)
+		}
 		return nil, err
 	}
 
@@ -169,6 +177,10 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 			}
 
 			req.Header.Add("Idempotency-Key", idempotency)
+		}
+
+		if account := strings.TrimSpace(params.Account); account != "" {
+			req.Header.Add("Stripe-Account", account)
 		}
 	}
 
@@ -183,24 +195,31 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 // the backend's HTTP client to execute the request and unmarshals the response
 // into v. It also handles unmarshaling errors returned by the API.
 func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
-	log.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
+	if LogLevel > 1 {
+		log.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
+	}
+
 	start := time.Now()
 
 	res, err := s.HTTPClient.Do(req)
 
-	if debug {
+	if LogLevel > 2 {
 		log.Printf("Completed in %v\n", time.Since(start))
 	}
 
 	if err != nil {
-		log.Printf("Request to Stripe failed: %v\n", err)
+		if LogLevel > 0 {
+			log.Printf("Request to Stripe failed: %v\n", err)
+		}
 		return err
 	}
 	defer res.Body.Close()
 
 	resBody, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		log.Printf("Cannot parse Stripe response: %v\n", err)
+		if LogLevel > 0 {
+			log.Printf("Cannot parse Stripe response: %v\n", err)
+		}
 		return err
 	}
 
@@ -215,7 +234,9 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 
 		if e, found := errMap["error"]; !found {
 			err := errors.New(string(resBody))
-			log.Printf("Unparsable error returned from Stripe: %v\n", err)
+			if LogLevel > 0 {
+				log.Printf("Unparsable error returned from Stripe: %v\n", err)
+			}
 			return err
 		} else {
 			root := e.(map[string]interface{})
@@ -233,12 +254,14 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 				err.Param = param.(string)
 			}
 
-			log.Printf("Error encountered from Stripe: %v\n", err)
+			if LogLevel > 0 {
+				log.Printf("Error encountered from Stripe: %v\n", err)
+			}
 			return err
 		}
 	}
 
-	if debug {
+	if LogLevel > 2 {
 		log.Printf("Stripe Response: %q\n", resBody)
 	}
 
@@ -247,10 +270,4 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 	}
 
 	return nil
-}
-
-// SetDebug enables additional tracing globally.
-// The method is designed for used during testing.
-func SetDebug(value bool) {
-	debug = value
 }
