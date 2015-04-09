@@ -24,6 +24,7 @@ type Reversal struct {
 	Currency Currency          `json:"currency"`
 	Transfer string            `json:"transfer"`
 	Meta     map[string]string `json:"metadata"`
+	Tx       *Transaction      `json:"balance_transaction"`
 }
 
 // ReversalList is a list of object for reversals.
