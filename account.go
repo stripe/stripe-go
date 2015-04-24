@@ -41,6 +41,7 @@ type AccountParams struct {
 	TransferSchedule                                                       *TransferScheduleParams
 	Managed                                                                bool
 	BankAccount                                                            *BankAccountParams
+	TOSAcceptance                                                          *TOSAcceptanceParams
 }
 
 // AccountListParams are the parameters allowed during account listing.
@@ -89,6 +90,11 @@ type Account struct {
 	TransferSchedule *TransferSchedule `json:"transfer_schedule"`
 	BankAccounts     *BankAccountList  `json:"bank_accounts"`
 	SupportAddress   *Address          `json:"support_address"`
+	TOSAcceptance    *struct {
+		Date      int64  `json:"date"`
+		IP        string `json:"ip"`
+		UserAgent string `json:"user_agent"`
+	} `json:"tos_acceptance"`
 }
 
 // LegalEntity is the structure for properties related to an account's legal state.
@@ -153,6 +159,12 @@ type TransferSchedule struct {
 	Interval    Interval `json:"interval"`
 	WeekAnchor  string   `json:"weekly_anchor"`
 	MonthAnchor uint64   `json:"monthly_anchor"`
+}
+
+type TOSAcceptanceParams struct {
+	Date      int64  `json:"date"`
+	IP        string `json:"ip"`
+	UserAgent string `json:"user_agent"`
 }
 
 // AppendDetails adds the legal entity to the query string.
@@ -291,6 +303,19 @@ func (t *TransferScheduleParams) AppendDetails(values *url.Values) {
 		values.Add("transfer_schedule[weekly_anchor]", t.WeekAnchor)
 	} else if t.Interval == Month && t.MonthAnchor > 0 {
 		values.Add("transfer_schedule[monthly_anchor]", strconv.FormatUint(t.MonthAnchor, 10))
+	}
+}
+
+// AppendDetails adds the terms of service acceptance to the query string.
+func (t *TOSAcceptanceParams) AppendDetails(values *url.Values) {
+	if t.Date > 0 {
+		values.Add("tos_acceptance[date]", strconv.FormatInt(t.Date, 10))
+	}
+	if len(t.IP) > 0 {
+		values.Add("tos_acceptance[ip]", t.IP)
+	}
+	if len(t.UserAgent) > 0 {
+		values.Add("tos_acceptance[user_agent]", t.UserAgent)
 	}
 }
 
