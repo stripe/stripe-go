@@ -16,8 +16,8 @@ func init() {
 func TestCustomerNew(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
 		Balance: -123,
-		Desc:  "Test Customer",
-		Email: "a@b.com",
+		Desc:    "Test Customer",
+		Email:   "a@b.com",
 	}
 	customerParams.SetSource(&stripe.CardParams{
 		Name:   "Test Card",
@@ -88,13 +88,22 @@ func TestCustomerDel(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+
+	target, err := Get(res.ID, nil)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Deleted != true {
+		t.Errorf("Customer id %q expected to be marked as deleted\n", target.ID)
+	}
 }
 
 func TestCustomerUpdate(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
 		Balance: 7,
-		Desc:  "Original Desc",
-		Email: "first@b.com",
+		Desc:    "Original Desc",
+		Email:   "first@b.com",
 	}
 	customerParams.SetSource(&stripe.CardParams{
 		Number: "378282246310005",
@@ -106,13 +115,14 @@ func TestCustomerUpdate(t *testing.T) {
 
 	updated := &stripe.CustomerParams{
 		Balance: -10,
-		Desc:  "Updated Desc",
-		Email: "desc@b.com",
+		Desc:    "Updated Desc",
+		Email:   "desc@b.com",
 	}
 	updated.SetSource(&stripe.CardParams{
 		Number: "4242424242424242",
 		Month:  "10",
 		Year:   "20",
+		CVC:    "123",
 	})
 
 	target, err := Update(original.ID, updated)
