@@ -3,10 +3,10 @@ package paymentsource
 import (
 	"testing"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/card"
-	"github.com/stripe/stripe-go/customer"
-	. "github.com/stripe/stripe-go/utils"
+	stripe "github.com/getbread/stripe-go"
+	"github.com/getbread/stripe-go/card"
+	"github.com/getbread/stripe-go/customer"
+	. "github.com/getbread/stripe-go/utils"
 )
 
 func init() {

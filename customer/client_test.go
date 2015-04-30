@@ -3,10 +3,10 @@ package customer
 import (
 	"testing"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/coupon"
-	"github.com/stripe/stripe-go/discount"
-	. "github.com/stripe/stripe-go/utils"
+	stripe "github.com/getbread/stripe-go"
+	"github.com/getbread/stripe-go/coupon"
+	"github.com/getbread/stripe-go/discount"
+	. "github.com/getbread/stripe-go/utils"
 )
 
 func init() {
@@ -16,8 +16,8 @@ func init() {
 func TestCustomerNew(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
 		Balance: -123,
-		Desc:  "Test Customer",
-		Email: "a@b.com",
+		Desc:    "Test Customer",
+		Email:   "a@b.com",
 	}
 	customerParams.SetSource(&stripe.CardParams{
 		Name:   "Test Card",
@@ -93,8 +93,8 @@ func TestCustomerDel(t *testing.T) {
 func TestCustomerUpdate(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
 		Balance: 7,
-		Desc:  "Original Desc",
-		Email: "first@b.com",
+		Desc:    "Original Desc",
+		Email:   "first@b.com",
 	}
 	customerParams.SetSource(&stripe.CardParams{
 		Number: "378282246310005",
@@ -106,8 +106,8 @@ func TestCustomerUpdate(t *testing.T) {
 
 	updated := &stripe.CustomerParams{
 		Balance: -10,
-		Desc:  "Updated Desc",
-		Email: "desc@b.com",
+		Desc:    "Updated Desc",
+		Email:   "desc@b.com",
 	}
 	updated.SetSource(&stripe.CardParams{
 		Number: "4242424242424242",
