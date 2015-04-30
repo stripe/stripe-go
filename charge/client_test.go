@@ -3,13 +3,13 @@ package charge
 import (
 	"testing"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/bitcoinreceiver"
-	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/customer"
-	"github.com/stripe/stripe-go/refund"
-	"github.com/stripe/stripe-go/token"
-	. "github.com/stripe/stripe-go/utils"
+	stripe "github.com/getbread/stripe-go"
+	"github.com/getbread/stripe-go/bitcoinreceiver"
+	"github.com/getbread/stripe-go/currency"
+	"github.com/getbread/stripe-go/customer"
+	"github.com/getbread/stripe-go/refund"
+	"github.com/getbread/stripe-go/token"
+	. "github.com/getbread/stripe-go/utils"
 )
 
 func init() {
@@ -18,8 +18,8 @@ func init() {
 
 func TestChargeNew(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
+		Amount:    1000,
+		Currency:  currency.USD,
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
@@ -59,8 +59,8 @@ func TestChargeNew(t *testing.T) {
 
 func TestWithoutIdempotentTwoDifferentCharges(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
+		Amount:    1000,
+		Currency:  currency.USD,
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
@@ -103,9 +103,9 @@ func TestChargeNewWithCustomerAndCard(t *testing.T) {
 	cust, _ := customer.New(customerParams)
 
 	chargeParams := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
-		Customer: cust.ID,
+		Amount:    1000,
+		Currency:  currency.USD,
+		Customer:  cust.ID,
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
@@ -201,7 +201,7 @@ func TestChargeUpdate(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1002,
 		Currency: currency.USD,
-		Desc: "original description",
+		Desc:     "original description",
 	}
 
 	chargeParams.SetSource(&stripe.CardParams{
@@ -233,8 +233,8 @@ func TestChargeUpdate(t *testing.T) {
 
 func TestChargeCapture(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
-		Amount:   1004,
-		Currency: currency.USD,
+		Amount:    1004,
+		Currency:  currency.USD,
 		NoCapture: true,
 	}
 
@@ -311,8 +311,8 @@ func TestChargeList(t *testing.T) {
 
 func TestMarkFraudulent(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
+		Amount:    1000,
+		Currency:  currency.USD,
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
@@ -335,8 +335,8 @@ func TestMarkFraudulent(t *testing.T) {
 
 func TestMarkSafe(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
+		Amount:    1000,
+		Currency:  currency.USD,
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
@@ -359,8 +359,8 @@ func TestMarkSafe(t *testing.T) {
 
 func TestChargeSourceForCard(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
+		Amount:    1000,
+		Currency:  currency.USD,
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
@@ -405,7 +405,7 @@ func TestChargeSourceForBitcoinReceiver(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Email: "do+fill_now@stripe.com",
+		Email:    "do+fill_now@stripe.com",
 	}
 
 	chargeParams.SetSource(receiver.ID)

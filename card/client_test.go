@@ -3,10 +3,10 @@ package card
 import (
 	"testing"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/customer"
-	"github.com/stripe/stripe-go/recipient"
-	. "github.com/stripe/stripe-go/utils"
+	stripe "github.com/getbread/stripe-go"
+	"github.com/getbread/stripe-go/customer"
+	"github.com/getbread/stripe-go/recipient"
+	. "github.com/getbread/stripe-go/utils"
 )
 
 func init() {
