@@ -245,14 +245,20 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 				Msg:            root["message"].(string),
 				HTTPStatusCode: res.StatusCode,
 			}
+			delete(root, "type")
+			delete(root, "message")
 
 			if code, found := root["code"]; found {
 				err.Code = ErrorCode(code.(string))
+				delete(root, "code")
 			}
 
 			if param, found := root["param"]; found {
 				err.Param = param.(string)
+				delete(root, "param")
 			}
+
+			err.Extra = root
 
 			if LogLevel > 0 {
 				log.Printf("Error encountered from Stripe: %v\n", err)
