@@ -76,6 +76,7 @@ type Charge struct {
 	FraudDetails   *FraudDetails     `json:"fraud_details"`
 	Status         string            `json:"status"`
 	Source         *PaymentSource    `json:"source"`
+	ApplicationFee *Fee              `json:"application_fee"`
 }
 
 // FraudDetails is the structure detailing fraud status.
