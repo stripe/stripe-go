@@ -72,6 +72,7 @@ type Account struct {
 	Statement        string   `json:"statement_descriptor"`
 	Timezone         string   `json:"timezone"`
 	BusinessName     string   `json:"business_name"`
+	BusinessUrl      string   `json:"business_url"`
 	SupportPhone     string   `json:"support_phone"`
 	ProductDesc      string   `json:"product_description"`
 	Managed          bool     `json:"managed"`
