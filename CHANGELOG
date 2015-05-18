@@ -1,39 +1,39 @@
-6.2.0 2014-04-09
+6.2.0 2015-04-09
 	Bug fixes
 	Add Extra to parameters
 
-6.1.0 2014-03-17
+6.1.0 2015-03-17
 	Add TaxPercent for subscriptions
 	Event bug fixes
 
-6.0.0 2014-03-15
+6.0.0 2015-03-15
 	Add more operations for /accounts endpoint
 	Add /transfers/reversals endpoint
 	Add /accounts/bank_accounts endpoint
 	Add support for Stripe-Account header
 
-5.1.0 2014-02-25
+5.1.0 2015-02-25
 	Add new dispute status `warning_closed`
 	Add SubParams.TrialEndNow to support `trial_end = "now"`
 
-5.0.1 2014-02-25
+5.0.1 2015-02-25
 	Fix URL for upcoming invoices
 
-5.0.0 2014-02-19
+5.0.0 2015-02-19
 	Bump to API version 2014-02-18
 	Change Card, DefaultCard, Cards to Source, DefaultSource, Sources in Stripe response objects
 	Add paymentsource package for manipulating Customer's sources
 	Support Update action for Bitcoin Recievers
 
-4.4.3 2014-02-08
+4.4.3 2015-02-08
 	Modify NewIdempotencyKey() algorithm to increase likelihood of randomness
 
-4.4.2 2014-01-24
+4.4.2 2015-01-24
 	Add BankAccountParams.Token
 	Add Token.ClientIP
 	Add LogLevel
 
-4.4.0 2014-01-20
+4.4.0 2015-01-20
 	Add Bitcoin support
 
 4.3.0 2015-01-13
