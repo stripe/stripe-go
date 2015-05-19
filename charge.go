@@ -1,6 +1,9 @@
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"net/url"
+)
 
 // Currency is the list of supported currencies.
 // For more details see https://support.stripe.com/questions/which-currencies-does-stripe-support.
@@ -22,6 +25,7 @@ type ChargeParams struct {
 	Fee                          uint64
 	Fraud                        FraudReport
 	Source                       *SourceParams
+	Shipping                     *ShippingDetails
 }
 
 // SetSource adds valid sources to a ChargeParams object,
@@ -74,12 +78,55 @@ type Charge struct {
 	FraudDetails   *FraudDetails     `json:"fraud_details"`
 	Status         string            `json:"status"`
 	Source         *PaymentSource    `json:"source"`
+	Shipping       *ShippingDetails  `json:"shipping"`
 }
 
 // FraudDetails is the structure detailing fraud status.
 type FraudDetails struct {
 	UserReport   FraudReport `json:"user_report"`
 	StripeReport FraudReport `json:"stripe_report"`
+}
+
+// ShippingDetails is the structure containing shipping information.
+type ShippingDetails struct {
+	Name     string  `json:"name"`
+	Address  Address `json:"address"`
+	Phone    string  `json:"phone"`
+	Tracking string  `json:"tracking_number"`
+	Carrier  string  `json:"carrier"`
+}
+
+// AppendDetails adds the shipping details to the query string.
+func (s *ShippingDetails) AppendDetails(values *url.Values) {
+	values.Add("shipping[name]", s.Name)
+
+	values.Add("shipping[address][line1]", s.Address.Line1)
+	if len(s.Address.Line2) > 0 {
+		values.Add("shipping[address][line2]", s.Address.Line2)
+	}
+	if len(s.Address.City) > 0 {
+		values.Add("shipping[address][city]", s.Address.City)
+	}
+
+	if len(s.Address.State) > 0 {
+		values.Add("shipping[address][state]", s.Address.State)
+	}
+
+	if len(s.Address.Zip) > 0 {
+		values.Add("shipping[address][zip]", s.Address.Zip)
+	}
+
+	if len(s.Phone) > 0 {
+		values.Add("shipping[phone]", s.Phone)
+	}
+
+	if len(s.Tracking) > 0 {
+		values.Add("shipping[tracking_number]", s.Tracking)
+	}
+
+	if len(s.Carrier) > 0 {
+		values.Add("shipping[carrier]", s.Carrier)
+	}
 }
 
 // UnmarshalJSON handles deserialization of a Charge.
