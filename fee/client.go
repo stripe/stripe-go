@@ -32,7 +32,7 @@ func (c Client) Get(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
 	}
 
 	fee := &stripe.Fee{}
-	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refund", id), c.Key, body, commonParams, fee)
+	err := c.B.Call("GET", fmt.Sprintf("application_fees/%v/refund", id), c.Key, body, commonParams, fee)
 
 	return fee, err
 }
