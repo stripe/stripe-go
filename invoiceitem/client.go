@@ -39,6 +39,10 @@ func (c Client) New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 		body.Add("subscription", params.Sub)
 	}
 
+	if params.Discountable {
+		body.Add("discountable", strconv.FormatBool(true))
+	}
+
 	params.AppendTo(body)
 
 	invoiceItem := &stripe.InvoiceItem{}
@@ -89,6 +93,10 @@ func (c Client) Update(id string, params *stripe.InvoiceItemParams) (*stripe.Inv
 
 		if len(params.Desc) > 0 {
 			body.Add("description", params.Desc)
+		}
+
+		if params.Discountable {
+			body.Add("discountable", strconv.FormatBool(true))
 		}
 
 		params.AppendTo(body)
