@@ -161,8 +161,9 @@ func TestAllInvoicesScenarios(t *testing.T) {
 	}
 
 	updatedItem := &stripe.InvoiceItemParams{
-		Amount: 99,
-		Desc:   "Updated Desc",
+		Amount:       99,
+		Desc:         "Updated Desc",
+		Discountable: true,
 	}
 
 	targetItemUpdated, err := invoiceitem.Update(targetItem.ID, updatedItem)
@@ -177,6 +178,10 @@ func TestAllInvoicesScenarios(t *testing.T) {
 
 	if targetItemUpdated.Amount != updatedItem.Amount {
 		t.Errorf("Updated item amount %v does not match expected amount %v\n", targetItemUpdated.Amount, updatedItem.Amount)
+	}
+
+	if !targetItemUpdated.Discountable {
+		t.Errorf("Updated item is not discountable")
 	}
 
 	updatedInvoice := &stripe.InvoiceParams{

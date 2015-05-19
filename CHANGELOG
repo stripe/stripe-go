@@ -1,3 +1,10 @@
+6.3.0 2015-05-19
+	Add shipping address to charges
+	Expose card.dynamic_last_four
+	Expose account.tos_acceptance
+	Bug fixes
+	Bump API version to most recent one
+
 6.2.0 2015-04-09
 	Bug fixes
 	Add Extra to parameters
