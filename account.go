@@ -146,6 +146,7 @@ type IdentityVerification struct {
 	Details  *string                    `json:"details"`
 }
 
+// IdentityDocument is the structure for an identity document.
 type IdentityDocument struct {
 	ID      string `json:"id"`
 	Created int64  `json:"created"`
@@ -160,6 +161,7 @@ type TransferSchedule struct {
 	MonthAnchor uint64   `json:"monthly_anchor"`
 }
 
+// TOSAcceptanceParams is the structure for TOS acceptance.
 type TOSAcceptanceParams struct {
 	Date      int64  `json:"date"`
 	IP        string `json:"ip"`
