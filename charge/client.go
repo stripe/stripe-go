@@ -69,6 +69,10 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 	}
 
+	if params.Shipping != nil {
+		params.Shipping.AppendDetails(body)
+	}
+
 	params.AppendTo(body)
 
 	charge := &stripe.Charge{}

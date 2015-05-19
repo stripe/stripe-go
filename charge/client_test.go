@@ -18,10 +18,16 @@ func init() {
 
 func TestChargeNew(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
+		Amount:    1000,
+		Currency:  currency.USD,
 		Statement: "statement",
 		Email:     "a@b.com",
+		Shipping: &stripe.ShippingDetails{
+			Name: "Shipping Name",
+			Address: stripe.Address{
+				Line1: "One Street",
+			},
+		},
 	}
 	chargeParams.SetSource(&stripe.CardParams{
 		Name:   "Stripe Tester",
@@ -55,12 +61,16 @@ func TestChargeNew(t *testing.T) {
 	if target.Email != chargeParams.Email {
 		t.Errorf("Email %q does not match expected email %v\n", target.Email, chargeParams.Email)
 	}
+
+	if target.Shipping.Name != chargeParams.Shipping.Name {
+		t.Errorf("Shipping name %q does not match expected name %v\n", target.Shipping.Name, chargeParams.Shipping.Name)
+	}
 }
 
 func TestWithoutIdempotentTwoDifferentCharges(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
+		Amount:    1000,
+		Currency:  currency.USD,
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
@@ -103,9 +113,9 @@ func TestChargeNewWithCustomerAndCard(t *testing.T) {
 	cust, _ := customer.New(customerParams)
 
 	chargeParams := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
-		Customer: cust.ID,
+		Amount:    1000,
+		Currency:  currency.USD,
+		Customer:  cust.ID,
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
@@ -201,7 +211,7 @@ func TestChargeUpdate(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1002,
 		Currency: currency.USD,
-		Desc: "original description",
+		Desc:     "original description",
 	}
 
 	chargeParams.SetSource(&stripe.CardParams{
@@ -233,8 +243,8 @@ func TestChargeUpdate(t *testing.T) {
 
 func TestChargeCapture(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
-		Amount:   1004,
-		Currency: currency.USD,
+		Amount:    1004,
+		Currency:  currency.USD,
 		NoCapture: true,
 	}
 
@@ -311,8 +321,8 @@ func TestChargeList(t *testing.T) {
 
 func TestMarkFraudulent(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
+		Amount:    1000,
+		Currency:  currency.USD,
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
@@ -335,8 +345,8 @@ func TestMarkFraudulent(t *testing.T) {
 
 func TestMarkSafe(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
+		Amount:    1000,
+		Currency:  currency.USD,
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
@@ -359,8 +369,8 @@ func TestMarkSafe(t *testing.T) {
 
 func TestChargeSourceForCard(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
+		Amount:    1000,
+		Currency:  currency.USD,
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
@@ -405,7 +415,7 @@ func TestChargeSourceForBitcoinReceiver(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Email: "do+fill_now@stripe.com",
+		Email:    "do+fill_now@stripe.com",
 	}
 
 	chargeParams.SetSource(receiver.ID)
