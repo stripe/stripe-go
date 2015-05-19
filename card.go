@@ -40,26 +40,27 @@ type CardListParams struct {
 // Card is the resource representing a Stripe credit/debit card.
 // For more details see https://stripe.com/docs/api#cards.
 type Card struct {
-	ID            string       `json:"id"`
-	Month         uint8        `json:"exp_month"`
-	Year          uint16       `json:"exp_year"`
-	Fingerprint   string       `json:"fingerprint"`
-	Funding       CardFunding  `json:"funding"`
-	LastFour      string       `json:"last4"`
-	Brand         CardBrand    `json:"brand"`
-	City          string       `json:"address_city"`
-	Country       string       `json:"address_country"`
-	Address1      string       `json:"address_line1"`
-	Address1Check Verification `json:"address_line1_check"`
-	Address2      string       `json:"address_line2"`
-	State         string       `json:"address_state"`
-	Zip           string       `json:"address_zip"`
-	ZipCheck      Verification `json:"address_zip_check"`
-	CardCountry   string       `json:"country"`
-	Customer      *Customer    `json:"customer"`
-	CVCCheck      Verification `json:"cvc_check"`
-	Name          string       `json:"name"`
-	Recipient     *Recipient   `json:"recipient"`
+	ID              string       `json:"id"`
+	Month           uint8        `json:"exp_month"`
+	Year            uint16       `json:"exp_year"`
+	Fingerprint     string       `json:"fingerprint"`
+	Funding         CardFunding  `json:"funding"`
+	LastFour        string       `json:"last4"`
+	Brand           CardBrand    `json:"brand"`
+	City            string       `json:"address_city"`
+	Country         string       `json:"address_country"`
+	Address1        string       `json:"address_line1"`
+	Address1Check   Verification `json:"address_line1_check"`
+	Address2        string       `json:"address_line2"`
+	State           string       `json:"address_state"`
+	Zip             string       `json:"address_zip"`
+	ZipCheck        Verification `json:"address_zip_check"`
+	CardCountry     string       `json:"country"`
+	Customer        *Customer    `json:"customer"`
+	CVCCheck        Verification `json:"cvc_check"`
+	Name            string       `json:"name"`
+	Recipient       *Recipient   `json:"recipient"`
+	DynamicLastFour string       `json:"dynamic_last4,omitempty"`
 }
 
 // CardList is a list object for cards.
