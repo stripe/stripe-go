@@ -32,6 +32,26 @@ func (c Client) Get(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
 	}
 
 	fee := &stripe.Fee{}
+	err := c.B.Call("GET", fmt.Sprintf("application_fees/%v", id), c.Key, body, commonParams, fee)
+
+	return fee, err
+}
+
+func Refund(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
+	return getC().Refund(id, params)
+}
+
+func (c Client) Refund(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
+	var body *url.Values
+	var commonParams *stripe.Params
+
+	if params != nil {
+		commonParams = &params.Params
+		body = &url.Values{}
+		params.AppendTo(body)
+	}
+
+	fee := &stripe.Fee{}
 	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refund", id), c.Key, body, commonParams, fee)
 
 	return fee, err
