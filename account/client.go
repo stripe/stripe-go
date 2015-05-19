@@ -60,6 +60,10 @@ func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 		params.BankAccount.AppendDetails(body)
 	}
 
+	if params.TOSAcceptance != nil {
+		params.TOSAcceptance.AppendDetails(body)
+	}
+
 	params.AppendTo(body)
 
 	acct := &stripe.Account{}
