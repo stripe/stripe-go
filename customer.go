@@ -47,6 +47,7 @@ type Customer struct {
 	Email         string            `json:"email"`
 	Meta          map[string]string `json:"metadata"`
 	Subs          *SubList          `json:"subscriptions"`
+	Deleted       bool              `json:"deleted"`
 }
 
 // UnmarshalJSON handles deserialization of a Customer.
