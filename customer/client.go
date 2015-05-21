@@ -124,8 +124,8 @@ func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Custom
 			body.Add("email", params.Email)
 		}
 
-		if len(params.DefaultCard) > 0 {
-			body.Add("default_card", params.DefaultCard)
+		if len(params.DefaultSource) > 0 {
+			body.Add("default_source", params.DefaultSource)
 		}
 		params.AppendTo(body)
 	}
