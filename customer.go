@@ -13,7 +13,7 @@ type CustomerParams struct {
 	Plan          string
 	Quantity      uint64
 	TrialEnd      int64
-	DefaultCard   string
+	DefaultSource string
 }
 
 // SetSource adds valid sources to a CustomerParams object,
