@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 	"time"
 )
@@ -70,6 +71,16 @@ var Key string
 // 2: errors + informational (default)
 // 3: errors + informational + debug
 var LogLevel = 2
+
+// Logger controls how stripe performs logging at a package level. It is useful
+// to customise if you need it prefixed for your application to meet other
+// requirements
+var Logger *log.Logger
+
+func init() {
+	// setup the logger
+	Logger = log.New(os.Stderr, "", log.LstdFlags)
+}
 
 var httpClient = &http.Client{Timeout: defaultHTTPTimeout}
 var backends Backends
@@ -163,7 +174,7 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 	req, err := http.NewRequest(method, path, body)
 	if err != nil {
 		if LogLevel > 0 {
-			log.Printf("Cannot create Stripe request: %v\n", err)
+			Logger.Printf("Cannot create Stripe request: %v\n", err)
 		}
 		return nil, err
 	}
@@ -196,7 +207,7 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 // into v. It also handles unmarshaling errors returned by the API.
 func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 	if LogLevel > 1 {
-		log.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
+		Logger.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
 	}
 
 	start := time.Now()
@@ -204,12 +215,12 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 	res, err := s.HTTPClient.Do(req)
 
 	if LogLevel > 2 {
-		log.Printf("Completed in %v\n", time.Since(start))
+		Logger.Printf("Completed in %v\n", time.Since(start))
 	}
 
 	if err != nil {
 		if LogLevel > 0 {
-			log.Printf("Request to Stripe failed: %v\n", err)
+			Logger.Printf("Request to Stripe failed: %v\n", err)
 		}
 		return err
 	}
@@ -218,7 +229,7 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 	resBody, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		if LogLevel > 0 {
-			log.Printf("Cannot parse Stripe response: %v\n", err)
+			Logger.Printf("Cannot parse Stripe response: %v\n", err)
 		}
 		return err
 	}
@@ -235,7 +246,7 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 		if e, found := errMap["error"]; !found {
 			err := errors.New(string(resBody))
 			if LogLevel > 0 {
-				log.Printf("Unparsable error returned from Stripe: %v\n", err)
+				Logger.Printf("Unparsable error returned from Stripe: %v\n", err)
 			}
 			return err
 		} else {
@@ -255,14 +266,14 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 			}
 
 			if LogLevel > 0 {
-				log.Printf("Error encountered from Stripe: %v\n", err)
+				Logger.Printf("Error encountered from Stripe: %v\n", err)
 			}
 			return err
 		}
 	}
 
 	if LogLevel > 2 {
-		log.Printf("Stripe Response: %q\n", resBody)
+		Logger.Printf("Stripe Response: %q\n", resBody)
 	}
 
 	if v != nil {
