@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"testing"
+	"time"
 
 	stripe "github.com/stripe-internal/stripe-go"
 	. "github.com/stripe-internal/stripe-go/utils"
@@ -11,6 +12,7 @@ import (
 
 func init() {
 	stripe.Key = GetTestKey()
+	rand.Seed(time.Now().UTC().UnixNano())
 }
 
 func TestProduct(t *testing.T) {
@@ -73,6 +75,27 @@ func TestProductWithCustomID(t *testing.T) {
 
 	if p.ID != randID {
 		t.Errorf("Expected ID to be %v, but got back %v", randID, p.ID)
+	}
+}
+
+func TestProductUpdate(t *testing.T) {
+	randID := fmt.Sprintf("TEST-PRODUCT-%v", randSeq(16))
+	p, err := New(&stripe.ProductParams{
+		ID:   randID,
+		Name: "Test product name",
+		Desc: "Test description",
+	})
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+	p, err = Update(p.ID, &stripe.ProductParams{
+		Desc: "new description",
+	})
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+	if p.Desc != "new description" {
+		t.Errorf("Invalid description: %v", p.Desc)
 	}
 }
 
