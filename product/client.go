@@ -13,10 +13,14 @@ type Client struct {
 	Key string
 }
 
+// New POSTs a new product.
+// For more details see https://stripe.com/docs/api#create_product.
 func New(params *stripe.ProductParams) (*stripe.Product, error) {
 	return getC().New(params)
 }
 
+// New POSTs a new product.
+// For more details see https://stripe.com/docs/api#create_product.
 func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 	var body *url.Values
 	var commonParams *stripe.Params
@@ -32,17 +36,31 @@ func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 		if params.ID != "" {
 			body.Add("id", params.ID)
 		}
+
 		if params.Active != nil {
 			body.Add("active", strconv.FormatBool(*(params.Active)))
 		}
+
 		if params.Caption != "" {
 			body.Add("caption", params.Caption)
 		}
+
 		if len(params.Attrs) > 0 {
 			for _, v := range params.Attrs {
 				body.Add("attributes[]", v)
 			}
 		}
+
+		if len(params.Images) > 0 {
+			for _, v := range params.Images {
+				body.Add("images[]", v)
+			}
+		}
+
+		if len(params.URL) > 0 {
+			body.Add("url", params.URL)
+		}
+
 		if params.Shippable != nil {
 			body.Add("shippable", strconv.FormatBool(*(params.Shippable)))
 		}
@@ -52,6 +70,52 @@ func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 
 	p := &stripe.Product{}
 	err := c.B.Call("POST", "/products", c.Key, body, commonParams, p)
+
+	return p, err
+}
+
+// Update updates a product's properties.
+// For more details see https://stripe.com/docs/api#update_product.
+func Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
+	return getC().Update(id, params)
+}
+
+// Update updates a product's properties.
+// For more details see https://stripe.com/docs/api#update_product.
+func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
+	var body *url.Values
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &url.Values{}
+
+		if len(params.Name) > 0 {
+			body.Add("name", params.Name)
+		}
+
+		if len(params.Desc) > 0 {
+			body.Add("description", params.Desc)
+		}
+
+		if params.Active != nil {
+			body.Add("active", strconv.FormatBool(*(params.Active)))
+		}
+
+		if len(params.Images) > 0 {
+			for _, v := range params.Images {
+				body.Add("images[]", v)
+			}
+		}
+
+		if len(params.URL) > 0 {
+			body.Add("url", params.URL)
+		}
+
+		params.AppendTo(body)
+	}
+
+	p := &stripe.Product{}
+	err := c.B.Call("POST", "/products/"+id, c.Key, body, commonParams, p)
 
 	return p, err
 }
