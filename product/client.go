@@ -57,6 +57,10 @@ func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 			}
 		}
 
+		if len(params.URL) > 0 {
+			body.Add("url", params.URL)
+		}
+
 		if params.Shippable != nil {
 			body.Add("shippable", strconv.FormatBool(*(params.Shippable)))
 		}
@@ -101,6 +105,10 @@ func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product
 			for _, v := range params.Images {
 				body.Add("images[]", v)
 			}
+		}
+
+		if len(params.URL) > 0 {
+			body.Add("url", params.URL)
 		}
 
 		params.AppendTo(body)

@@ -14,7 +14,8 @@ type ProductParams struct {
 	Caption   string
 	Desc      string
 	Attrs     []string
-	Images    []string `json:"images"`
+	Images    []string
+	URL       string
 	Shippable *bool
 }
 
@@ -33,6 +34,7 @@ type Product struct {
 	Shippable bool              `json:"shippable"`
 	Images    []string          `json:"images"`
 	Meta      map[string]string `json:"metdata"`
+	URL       string            `json:"url"`
 	Skus      *SKUList          `json:"skus"`
 }
 

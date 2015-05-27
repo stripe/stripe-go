@@ -25,6 +25,7 @@ func TestProduct(t *testing.T) {
 		Desc:      "This is a description",
 		Caption:   "This is a caption",
 		Attrs:     []string{"attr1", "attr2"},
+		URL:       "http://example.com",
 		Shippable: &shippable,
 	})
 
@@ -58,6 +59,10 @@ func TestProduct(t *testing.T) {
 
 	if p.Desc != "This is a description" {
 		t.Errorf("Description is invalid: %v", p.Desc)
+	}
+
+	if p.URL != "http://example.com" {
+		t.Errorf("URL is invalid: %v", p.URL)
 	}
 }
 
