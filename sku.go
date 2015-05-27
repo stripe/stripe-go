@@ -4,19 +4,27 @@ import "encoding/json"
 
 type SKUParams struct {
 	Params
-	Active      bool
-	Description string
-	Name        string
-	Attributes  []string
+	ID        string
+	Active    *bool
+	Desc      string
+	Name      string
+	Attrs     map[string]string
+	Price     int64
+	Currency  string
+	Inventory Inventory
+	Product   string
 }
 
 type Inventory struct {
 	Type     string `json:"type"`
 	Quantity int64  `json:"quantity"`
+	Value    string `json:"value"`
 }
 
 type SKU struct {
-	Id        string            `json:"id"`
+	ID        string            `json:"id"`
+	Created   int64             `json:"created"`
+	Updated   int64             `json:"updated"`
 	Live      bool              `json:"livemode"`
 	Active    bool              `json:"active"`
 	Name      string            `json:"name"`
@@ -46,7 +54,7 @@ func (s *SKU) UnmarshalJSON(data []byte) error {
 	if err == nil {
 		*s = SKU(sk)
 	} else {
-		sk.Id = string(data[1 : len(data)-1])
+		sk.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil
