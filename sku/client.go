@@ -1,6 +1,7 @@
 package sku
 
 import (
+	"fmt"
 	"net/url"
 	"strconv"
 
@@ -11,6 +12,114 @@ import (
 type Client struct {
 	B   stripe.Backend
 	Key string
+}
+
+// New POSTs a new SKU.
+// For more details see https://stripe.com/docs/api#create_sku.
+func New(params *stripe.SKUParams) (*stripe.SKU, error) {
+	return getC().New(params)
+}
+
+// New POSTs a new SKU.
+// For more details see https://stripe.com/docs/api#create_sku.
+func (c Client) New(params *stripe.SKUParams) (*stripe.SKU, error) {
+	var body *url.Values
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &url.Values{}
+
+		// Required fields
+		body.Add("price", strconv.FormatInt(params.Price, 10))
+		body.Add("currency", params.Currency)
+		body.Add("product", params.Product)
+
+		// Optional fields
+		if params.ID != "" {
+			body.Add("id", params.ID)
+		}
+
+		if params.Active != nil {
+			body.Add("active", strconv.FormatBool(*(params.Active)))
+		}
+
+		if len(params.Desc) > 0 {
+			body.Add("description", params.Desc)
+		}
+
+		if len(params.Attrs) > 0 {
+			for k, v := range params.Attrs {
+				body.Add(fmt.Sprintf("attributes[%v]", k), v)
+			}
+		}
+
+		inventory := params.Inventory
+
+		if len(inventory.Type) > 0 {
+			body.Add("inventory[type]", inventory.Type)
+		}
+
+		if inventory.Quantity > 0 {
+			body.Add("inventory[quantity]", strconv.FormatInt(inventory.Quantity, 10))
+		}
+
+		if len(inventory.Value) > 0 {
+			body.Add("inventory[value]", inventory.Value)
+		}
+
+		params.AppendTo(body)
+	}
+
+	p := &stripe.SKU{}
+	err := c.B.Call("POST", "/skus", c.Key, body, commonParams, p)
+
+	return p, err
+}
+
+// Update updates a SKU's properties.
+// For more details see https://stripe.com/docs/api#update_sku.
+func Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
+	return getC().Update(id, params)
+}
+
+// Update updates a SKU's properties.
+// For more details see https://stripe.com/docs/api#update_sku.
+func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
+	var body *url.Values
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &url.Values{}
+
+		// Required fields
+		if params.Price > 0 {
+			body.Add("price", strconv.FormatInt(params.Price, 10))
+		}
+
+		if len(params.Currency) > 0 {
+			body.Add("currency", params.Currency)
+		}
+
+		// Optional fields
+		if params.ID != "" {
+			body.Add("id", params.ID)
+		}
+
+		if params.Active != nil {
+			body.Add("active", strconv.FormatBool(*(params.Active)))
+		}
+
+		if len(params.Desc) > 0 {
+			body.Add("description", params.Desc)
+		}
+
+		params.AppendTo(body)
+	}
+
+	p := &stripe.SKU{}
+	err := c.B.Call("POST", "/skus/"+id, c.Key, body, commonParams, p)
+
+	return p, err
 }
 
 // Get returns the details of an sku

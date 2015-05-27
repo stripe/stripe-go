@@ -67,7 +67,7 @@ func TestProduct(t *testing.T) {
 }
 
 func TestProductWithCustomID(t *testing.T) {
-	randID := fmt.Sprintf("TEST-PRODUCT-%v", randSeq(16))
+	randID := fmt.Sprintf("TEST-PRODUCT-%v", RandSeq(16))
 	p, err := New(&stripe.ProductParams{
 		ID:   randID,
 		Name: "Test product name",
@@ -84,7 +84,7 @@ func TestProductWithCustomID(t *testing.T) {
 }
 
 func TestProductUpdate(t *testing.T) {
-	randID := fmt.Sprintf("TEST-PRODUCT-%v", randSeq(16))
+	randID := fmt.Sprintf("TEST-PRODUCT-%v", RandSeq(16))
 	p, err := New(&stripe.ProductParams{
 		ID:   randID,
 		Name: "Test product name",
@@ -102,15 +102,4 @@ func TestProductUpdate(t *testing.T) {
 	if p.Desc != "new description" {
 		t.Errorf("Invalid description: %v", p.Desc)
 	}
-}
-
-// h/t: http://stackoverflow.com/questions/22892120/how-to-generate-a-random-string-of-a-fixed-length-in-golang
-func randSeq(n int) string {
-	letters := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-
-	b := make([]rune, n)
-	for i := range b {
-		b[i] = letters[rand.Intn(len(letters))]
-	}
-	return string(b)
 }
