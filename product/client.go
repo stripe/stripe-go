@@ -13,6 +13,49 @@ type Client struct {
 	Key string
 }
 
+func New(params *stripe.ProductParams) (*stripe.Product, error) {
+	return getC().New(params)
+}
+
+func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
+	var body *url.Values
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &url.Values{}
+
+		// Required fields
+		body.Add("name", params.Name)
+		body.Add("description", params.Desc)
+
+		// Optional fields
+		if params.ID != "" {
+			body.Add("id", params.ID)
+		}
+		if params.Active != nil {
+			body.Add("active", strconv.FormatBool(*(params.Active)))
+		}
+		if params.Caption != "" {
+			body.Add("caption", params.Caption)
+		}
+		if len(params.Attrs) > 0 {
+			for _, v := range params.Attrs {
+				body.Add("attributes[]", v)
+			}
+		}
+		if params.Shippable != nil {
+			body.Add("shippable", strconv.FormatBool(*(params.Shippable)))
+		}
+
+		params.AppendTo(body)
+	}
+
+	p := &stripe.Product{}
+	err := c.B.Call("POST", "/products", c.Key, body, commonParams, p)
+
+	return p, err
+}
+
 // Get returns the details of an product
 // For more details see https://stripe.com/docs/api#retrieve_product.
 func Get(id string) (*stripe.Product, error) {
