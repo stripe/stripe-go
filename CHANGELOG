@@ -1,3 +1,6 @@
+6.4.0 2015-05-28
+	Rename customer.default_card -> default_source
+
 6.3.0 2015-05-19
 	Add shipping address to charges
 	Expose card.dynamic_last_four
