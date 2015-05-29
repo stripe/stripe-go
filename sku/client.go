@@ -101,10 +101,6 @@ func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error)
 		}
 
 		// Optional fields
-		if params.ID != "" {
-			body.Add("id", params.ID)
-		}
-
 		if params.Active != nil {
 			body.Add("active", strconv.FormatBool(*(params.Active)))
 		}
