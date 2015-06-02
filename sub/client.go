@@ -65,6 +65,12 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 		body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
 	}
 
+	if params.BillingCycleAnchorNow {
+		body.Add("billing_cycle_anchor", "now")
+	} else if params.BillingCycleAnchor > 0 {
+		body.Add("billing_cycle_anchor", strconv.FormatInt(params.BillingCycleAnchor, 10))
+	}
+
 	params.AppendTo(body)
 
 	sub := &stripe.Sub{}
