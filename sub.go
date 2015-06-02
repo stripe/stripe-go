@@ -18,6 +18,8 @@ type SubParams struct {
 	ProrationDate                                   int64
 	FeePercent, TaxPercent                          float64
 	NoProrate, EndCancel, QuantityZero, TrialEndNow bool
+	BillingCycleAnchor                              int64
+	BillingCycleAnchorNow                           bool
 }
 
 // SubListParams is the set of parameters that can be used when listing active subscriptions.
