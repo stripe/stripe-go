@@ -15,6 +15,7 @@ type SubParams struct {
 	TrialEnd                                        int64
 	Card                                            *CardParams
 	Quantity                                        uint64
+	ProrationDate                                   int64
 	FeePercent, TaxPercent                          float64
 	NoProrate, EndCancel, QuantityZero, TrialEndNow bool
 }
