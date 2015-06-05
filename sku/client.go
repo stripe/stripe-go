@@ -43,6 +43,10 @@ func (c Client) New(params *stripe.SKUParams) (*stripe.SKU, error) {
 			body.Add("active", strconv.FormatBool(*(params.Active)))
 		}
 
+		if len(params.Image) > 0 {
+			body.Add("image", params.Image)
+		}
+
 		if len(params.Desc) > 0 {
 			body.Add("description", params.Desc)
 		}
@@ -107,6 +111,10 @@ func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error)
 
 		if len(params.Desc) > 0 {
 			body.Add("description", params.Desc)
+		}
+
+		if len(params.Image) > 0 {
+			body.Add("image", params.Image)
 		}
 
 		params.AppendTo(body)

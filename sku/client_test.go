@@ -42,6 +42,7 @@ func TestSKUCreate(t *testing.T) {
 		Currency:  "usd",
 		Inventory: stripe.Inventory{Type: "bucket", Value: "scant"},
 		Product:   p.ID,
+		Image:     "http://example.com/foo.png",
 	})
 
 	if err != nil {
@@ -82,5 +83,9 @@ func TestSKUCreate(t *testing.T) {
 
 	if sku.Inventory.Value != "scant" {
 		t.Errorf("Invalid inventory type: %v", sku.Inventory.Value)
+	}
+
+	if sku.Image != "http://example.com/foo.png" {
+		t.Errorf("invalid image: %v", sku.Image)
 	}
 }

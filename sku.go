@@ -11,6 +11,7 @@ type SKUParams struct {
 	Attrs     map[string]string
 	Price     int64
 	Currency  string
+	Image     string
 	Inventory Inventory
 	Product   string
 }
