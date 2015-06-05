@@ -70,17 +70,19 @@ type Invoice struct {
 // InvoiceLine is the resource representing a Stripe invoice line item.
 // For more details see https://stripe.com/docs/api#invoice_line_item_object.
 type InvoiceLine struct {
-	ID        string            `json:"id"`
-	Live      bool              `json:"live_mode"`
-	Amount    int64             `json:"amount"`
-	Currency  Currency          `json:"currency"`
-	Period    *Period           `json:"period"`
-	Proration bool              `json:"proration"`
-	Type      InvoiceLineType   `json:"type"`
-	Desc      string            `json:"description"`
-	Meta      map[string]string `json:"metadata"`
-	Plan      *Plan             `json:"plan"`
-	Quantity  int64             `json:"quantity"`
+	ID           string            `json:"id"`
+	Live         bool              `json:"live_mode"`
+	Amount       int64             `json:"amount"`
+	Currency     Currency          `json:"currency"`
+	Period       *Period           `json:"period"`
+	Proration    bool              `json:"proration"`
+	Type         InvoiceLineType   `json:"type"`
+	Desc         string            `json:"description"`
+	Meta         map[string]string `json:"metadata"`
+	Plan         *Plan             `json:"plan"`
+	Quantity     int64             `json:"quantity"`
+	Sub          string            `json:"subscription"`
+	Discountable bool              `json:"discountable"`
 }
 
 // Period is a structure representing a start and end dates.
