@@ -83,6 +83,20 @@ func TestProductWithCustomID(t *testing.T) {
 	}
 }
 
+func TestProductWithoutDescription(t *testing.T) {
+	name := RandSeq(16)
+	p, err := New(&stripe.ProductParams{
+		Name: name,
+	})
+
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	if p.Name != name {
+		t.Errorf("Expected name to be %v, but got back %v", name, p.Name)
+	}
+}
 func TestProductUpdate(t *testing.T) {
 	randID := fmt.Sprintf("TEST-PRODUCT-%v", RandSeq(16))
 	p, err := New(&stripe.ProductParams{

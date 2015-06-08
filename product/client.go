@@ -30,9 +30,12 @@ func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 
 		// Required fields
 		body.Add("name", params.Name)
-		body.Add("description", params.Desc)
 
 		// Optional fields
+		if len(params.Desc) > 0 {
+			body.Add("description", params.Desc)
+		}
+
 		if params.ID != "" {
 			body.Add("id", params.ID)
 		}
