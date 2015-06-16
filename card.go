@@ -60,7 +60,7 @@ type Card struct {
 	CVCCheck      Verification `json:"cvc_check"`
 	Name          string       `json:"name"`
 	Recipient     *Recipient   `json:"recipient"`
-	DynLastFour   string       `json:"dynamic_last_four"`
+	DynLastFour   string       `json:"dynamic_last4"`
 }
 
 // CardList is a list object for cards.
