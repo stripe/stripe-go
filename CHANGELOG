@@ -1,3 +1,6 @@
+6.4.1 2015-06-16
+	Change card.dynamic_last_four to card.dynamic_last4
+
 6.4.0 2015-05-28
 	Rename customer.default_card -> default_source
 
