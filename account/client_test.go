@@ -13,8 +13,14 @@ func init() {
 
 func TestAccountNew(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
-		Country: "CA",
+		Managed:              true,
+		Country:              "CA",
+		BusinessUrl:          "www.stripe.com",
+		BusinessName:         "Stripe",
+		BusinessPrimaryColor: "#ffffff",
+		SupportEmail:         "foo@bar.com",
+		SupportUrl:           "www.stripe.com",
+		SupportPhone:         "4151234567",
 		LegalEntity: &stripe.LegalEntity{
 			Type:         stripe.Individual,
 			BusinessName: "Stripe Go",
@@ -97,5 +103,29 @@ func TestAccountGet(t *testing.T) {
 
 	if len(target.Timezone) == 0 {
 		t.Errorf("Account is missing timezone\n")
+	}
+
+	if len(target.BusinessName) == 0 {
+		t.Errorf("Account is missing business name\n")
+	}
+
+	if len(target.BusinessPrimaryColor) == 0 {
+		t.Errorf("Account is missing business primary color\n")
+	}
+
+	if len(target.BusinessUrl) == 0 {
+		t.Errorf("Account is missing business URL\n")
+	}
+
+	if len(target.SupportPhone) == 0 {
+		t.Errorf("Account is missing support phone\n")
+	}
+
+	if len(target.SupportEmail) == 0 {
+		t.Errorf("Account is missing support email\n")
+	}
+
+	if len(target.SupportUrl) == 0 {
+		t.Errorf("Account is missing support URL\n")
 	}
 }
