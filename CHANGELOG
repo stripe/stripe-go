@@ -1,3 +1,7 @@
+6.4.2 2015-06-23
+	Add BusinessUrl, BusinessUrl, BusinessPrimaryColor, SupportEmail, and
+	SupportUrl to Account.
+
 6.4.1 2015-06-16
 	Change card.dynamic_last_four to card.dynamic_last4
 
