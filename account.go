@@ -36,12 +36,13 @@ const (
 // AccountParams are the parameters allowed during account creation/updates.
 type AccountParams struct {
 	Params
-	Country, Email, DefaultCurrency, Statement, BusinessName, SupportPhone string
-	LegalEntity                                                            *LegalEntity
-	TransferSchedule                                                       *TransferScheduleParams
-	Managed                                                                bool
-	BankAccount                                                            *BankAccountParams
-	TOSAcceptance                                                          *TOSAcceptanceParams
+	Country, Email, DefaultCurrency, Statement, BusinessName, BusinessUrl,
+	BusinessPrimaryColor, SupportPhone, SupportEmail, SupportUrl string
+	LegalEntity      *LegalEntity
+	TransferSchedule *TransferScheduleParams
+	Managed          bool
+	BankAccount      *BankAccountParams
+	TOSAcceptance    *TOSAcceptanceParams
 }
 
 // AccountListParams are the parameters allowed during account listing.
@@ -57,27 +58,31 @@ type TransferScheduleParams struct {
 	MinimumDelay       bool
 }
 
-// Account is the resource representing youe Stripe account.
+// Account is the resource representing your Stripe account.
 // For more details see https://stripe.com/docs/api/#account.
 type Account struct {
 	ID             string `json:"id"`
 	ChargesEnabled bool   `json:"charges_enabled"`
 	Country        string `json:"country"`
 	// Currencies is the list of supported currencies.
-	Currencies       []string `json:"currencies_supported"`
-	DefaultCurrency  string   `json:"default_currency"`
-	DetailsSubmitted bool     `json:"details_submitted"`
-	TransfersEnabled bool     `json:"transfers_enabled"`
-	Name             string   `json:"display_name"`
-	Email            string   `json:"email"`
-	Statement        string   `json:"statement_descriptor"`
-	Timezone         string   `json:"timezone"`
-	BusinessName     string   `json:"business_name"`
-	SupportPhone     string   `json:"support_phone"`
-	ProductDesc      string   `json:"product_description"`
-	Managed          bool     `json:"managed"`
-	DebitNegativeBal bool     `json:"debit_negative_balances"`
-	Keys             *struct {
+	Currencies           []string `json:"currencies_supported"`
+	DefaultCurrency      string   `json:"default_currency"`
+	DetailsSubmitted     bool     `json:"details_submitted"`
+	TransfersEnabled     bool     `json:"transfers_enabled"`
+	Name                 string   `json:"display_name"`
+	Email                string   `json:"email"`
+	Statement            string   `json:"statement_descriptor"`
+	Timezone             string   `json:"timezone"`
+	BusinessName         string   `json:"business_name"`
+	BusinessPrimaryColor string   `json:"business_primary_color"`
+	BusinessUrl          string   `json:"business_url"`
+	SupportPhone         string   `json:"support_phone"`
+	SupportEmail         string   `json:"support_email"`
+	SupportUrl           string   `json:"support_url"`
+	ProductDesc          string   `json:"product_description"`
+	Managed              bool     `json:"managed"`
+	DebitNegativeBal     bool     `json:"debit_negative_balances"`
+	Keys                 *struct {
 		Secret  string `json:"secret"`
 		Publish string `json:"publishable"`
 	} `json:"keys"`

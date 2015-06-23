@@ -19,15 +19,9 @@ func New(params *stripe.AccountParams) (*stripe.Account, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
-	body := &url.Values{
-		"managed": {strconv.FormatBool(params.Managed)},
-	}
-
-	if len(params.Country) > 0 {
-		body.Add("country", params.Country)
-	}
-
+func writeAccountParams(
+	params *stripe.AccountParams, body *url.Values,
+) {
 	if len(params.Email) > 0 {
 		body.Add("email", params.Email)
 	}
@@ -44,8 +38,24 @@ func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 		body.Add("business_name", params.BusinessName)
 	}
 
+	if len(params.BusinessPrimaryColor) > 0 {
+		body.Add("business_primary_color", params.BusinessPrimaryColor)
+	}
+
+	if len(params.BusinessUrl) > 0 {
+		body.Add("business_url", params.BusinessUrl)
+	}
+
 	if len(params.SupportPhone) > 0 {
 		body.Add("support_phone", params.SupportPhone)
+	}
+
+	if len(params.SupportEmail) > 0 {
+		body.Add("support_email", params.SupportEmail)
+	}
+
+	if len(params.SupportUrl) > 0 {
+		body.Add("support_url", params.SupportUrl)
 	}
 
 	if params.LegalEntity != nil {
@@ -59,6 +69,14 @@ func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 	if params.BankAccount != nil {
 		params.BankAccount.AppendDetails(body)
 	}
+}
+
+func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
+	body := &url.Values{
+		"managed": {strconv.FormatBool(params.Managed)},
+	}
+
+	writeAccountParams(params, body)
 
 	if params.TOSAcceptance != nil {
 		params.TOSAcceptance.AppendDetails(body)
@@ -118,37 +136,7 @@ func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account
 		commonParams = &params.Params
 		body = &url.Values{}
 
-		if len(params.Email) > 0 {
-			body.Add("email", params.Email)
-		}
-
-		if len(params.DefaultCurrency) > 0 {
-			body.Add("default_currency", params.DefaultCurrency)
-		}
-
-		if len(params.Statement) > 0 {
-			body.Add("statement_descriptor", params.Statement)
-		}
-
-		if len(params.BusinessName) > 0 {
-			body.Add("business_name", params.BusinessName)
-		}
-
-		if len(params.SupportPhone) > 0 {
-			body.Add("support_phone", params.SupportPhone)
-		}
-
-		if params.LegalEntity != nil {
-			params.LegalEntity.AppendDetails(body)
-		}
-
-		if params.TransferSchedule != nil {
-			params.TransferSchedule.AppendDetails(body)
-		}
-
-		if params.BankAccount != nil {
-			params.BankAccount.AppendDetails(body)
-		}
+		writeAccountParams(params, body)
 
 		params.AppendTo(body)
 	}
