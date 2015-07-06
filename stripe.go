@@ -244,6 +244,7 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 				Type:           ErrorType(root["type"].(string)),
 				Msg:            root["message"].(string),
 				HTTPStatusCode: res.StatusCode,
+				RequestID:      res.Header.Get("Request-Id"),
 			}
 
 			if code, found := root["code"]; found {
