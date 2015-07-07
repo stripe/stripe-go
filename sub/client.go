@@ -65,10 +65,6 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 		body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
 	}
 
-	if params.ProrationDate > 0 {
-		body.Add("proration_date", strconv.FormatInt(params.ProrationDate, 10))
-	}
-
 	params.AppendTo(body)
 
 	sub := &stripe.Sub{}
@@ -143,6 +139,10 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 
 	if params.TaxPercent > 0 {
 		body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
+	}
+
+	if params.ProrationDate > 0 {
+		body.Add("proration_date", strconv.FormatInt(params.ProrationDate, 10))
 	}
 
 	params.AppendTo(body)
