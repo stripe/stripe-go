@@ -1,3 +1,9 @@
+6.5.0 2015-07-06
+	Update bank account creation API
+	Add destination, application fee, transfer to Charge struct
+	Add missing fields to invoice line item
+	Rename deprecated customer param value
+
 6.4.2 2015-06-23
 	Add BusinessUrl, BusinessUrl, BusinessPrimaryColor, SupportEmail, and
 	SupportUrl to Account.
