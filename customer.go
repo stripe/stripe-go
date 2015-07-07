@@ -18,7 +18,7 @@ type CustomerParams struct {
 
 // SetSource adds valid sources to a CustomerParams object,
 // returning an error for unsupported sources.
-func (cp *CustomerParams) SetSource(sp interface{}) (error) {
+func (cp *CustomerParams) SetSource(sp interface{}) error {
 	source, err := SourceParamsFor(sp)
 	cp.Source = source
 	return err
