@@ -81,7 +81,7 @@ type Charge struct {
 	Shipping       *ShippingDetails  `json:"shipping"`
 	Dest           *Account          `json:"destination"`
 	Fee            *Fee              `json:"application_fee"`
-	Transfer       *Transfer         `json:"transfer"`
+	Transfer       string            `json:"transfer"`
 }
 
 // FraudDetails is the structure detailing fraud status.
