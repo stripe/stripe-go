@@ -12,6 +12,7 @@ import (
 const (
 	Paid     stripe.TransferStatus = "paid"
 	Pending  stripe.TransferStatus = "pending"
+	Transit  stripe.TransferStatus = "in_transit"
 	Failed   stripe.TransferStatus = "failed"
 	Canceled stripe.TransferStatus = "canceled"
 

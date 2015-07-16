@@ -89,7 +89,7 @@ type Account struct {
 	Verification *struct {
 		Fields    []string `json:"fields_needed"`
 		Due       *int64   `json:"due_by"`
-		Contacted bool     `json:"contacted"`
+		DisabledReason string `json:"disabled_reason"`
 	} `json:"verification"`
 	LegalEntity      *LegalEntity      `json:"legal_entity"`
 	TransferSchedule *TransferSchedule `json:"transfer_schedule"`

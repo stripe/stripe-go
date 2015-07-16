@@ -1,7 +1,7 @@
 package stripe
 
 // TransferStatus is the list of allowed values for the transfer's status.
-// Allowed values are "paid", "pending", "failed", "canceled".
+// Allowed values are "paid", "pending", "in_transit",  "failed", "canceled".
 type TransferStatus string
 
 // TransferType is the list of allowed values for the transfer's type.
