@@ -56,7 +56,7 @@ func (s *SKU) UnmarshalJSON(data []byte) error {
 	if err == nil {
 		*s = SKU(sk)
 	} else {
-		sk.ID = string(data[1 : len(data)-1])
+		s.ID = string(data[1 : len(data)-1])
 	}
 
 	return nil
