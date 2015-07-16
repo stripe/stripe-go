@@ -23,8 +23,8 @@ func TestErrors(t *testing.T) {
 		t.Errorf("Type %v does not match expected type\n", stripeErr.Type)
 	}
 
-	if !strings.HasPrefix("req_", stripeErr.RequestID) {
-		t.Errorf("Request ID %v does not start with 'req_'\n", stripeErr.RequestID)
+	if !strings.HasPrefix(stripeErr.RequestID, "req_") {
+		t.Errorf("Request ID %q does not start with 'req_'\n", stripeErr.RequestID)
 	}
 
 	if stripeErr.HTTPStatusCode != 401 {
