@@ -1,5 +1,7 @@
 package stripe
 
+import "encoding/json"
+
 // TransferStatus is the list of allowed values for the transfer's status.
 // Allowed values are "paid", "pending", "in_transit",  "failed", "canceled".
 type TransferStatus string
@@ -54,4 +56,21 @@ type Transfer struct {
 	Recipient *Recipient        `json:"recipient"`
 	Statement string            `json:"statement_descriptor"`
 	Reversals *ReversalList     `json:"reversals"`
+}
+
+// UnmarshalJSON handles deserialization of a Transfer.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (t *Transfer) UnmarshalJSON(data []byte) error {
+	type transfer Transfer
+	var tb transfer
+	err := json.Unmarshal(data, &tb)
+	if err == nil {
+		*t = Transfer(tb)
+	} else {
+		// the id is surrounded by "\" characters, so strip them
+		t.ID = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }
