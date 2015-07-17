@@ -2,6 +2,7 @@ package sub
 
 import (
 	"testing"
+	"time"
 
 	stripe "github.com/stripe-internal/stripe-go"
 	"github.com/stripe-internal/stripe-go/coupon"
@@ -40,10 +41,11 @@ func TestSubscriptionNew(t *testing.T) {
 	plan.New(planParams)
 
 	subParams := &stripe.SubParams{
-		Customer:   cust.ID,
-		Plan:       "test",
-		Quantity:   10,
-		TaxPercent: 20.0,
+		Customer:           cust.ID,
+		Plan:               "test",
+		Quantity:           10,
+		TaxPercent:         20.0,
+		BillingCycleAnchor: time.Now().AddDate(0, 0, 12).Unix(),
 	}
 
 	target, err := New(subParams)
@@ -62,6 +64,10 @@ func TestSubscriptionNew(t *testing.T) {
 
 	if target.TaxPercent != subParams.TaxPercent {
 		t.Errorf("TaxPercent %f does not match expected TaxPercent %f\n", target.TaxPercent, subParams.TaxPercent)
+	}
+
+	if target.PeriodEnd != subParams.BillingCycleAnchor {
+		t.Errorf("PeriodEnd %f does not match expected BillingCycleAnchor %f\n", target.PeriodEnd, subParams.BillingCycleAnchor)
 	}
 
 	customer.Del(cust.ID)
