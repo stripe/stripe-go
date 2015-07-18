@@ -2,6 +2,7 @@ package charge
 
 import (
 	"testing"
+	"time"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/bitcoinreceiver"
@@ -300,7 +301,6 @@ func TestChargeCapture(t *testing.T) {
 
 func TestChargeList(t *testing.T) {
 	params := &stripe.ChargeListParams{}
-	params.Filters.AddFilter("include[]", "", "total_count")
 	params.Filters.AddFilter("limit", "", "5")
 	params.Single = true
 
@@ -446,5 +446,78 @@ func TestChargeSourceForBitcoinReceiver(t *testing.T) {
 
 	if rreceiver.Display() != "Filled bitcoin receiver (1000/1000 usd)" {
 		t.Error("Display value did not match expectation")
+	}
+}
+
+func newDisputedCharge() (*stripe.Charge, error) {
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1001,
+		Currency: currency.USD,
+	}
+
+	chargeParams.SetSource(&stripe.CardParams{
+		Number: "4000000000000259",
+		Month:  "06",
+		Year:   "20",
+	})
+
+	res, err := New(chargeParams)
+	if err != nil {
+		return nil, err
+	}
+
+	target, err := Get(res.ID, nil)
+
+	if err != nil {
+		return target, err
+	}
+
+	for target.Dispute == nil {
+		time.Sleep(time.Second * 10)
+		target, err = Get(res.ID, nil)
+		if err != nil {
+			return target, err
+		}
+	}
+	return target, err
+}
+
+// Use one large test here to avoid needing to create multiple disputed charges
+func TestUpdateDispute(t *testing.T) {
+	ch, err := newDisputedCharge()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	disputeParams := &stripe.DisputeParams{
+		Evidence: &stripe.DisputeEvidenceParams{
+			ProductDesc: "original description",
+		},
+	}
+
+	dp, err := UpdateDispute(ch.ID, disputeParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if dp.Evidence.ProductDesc != disputeParams.Evidence.ProductDesc {
+		t.Errorf("Original description %q does not match expected description %q\n",
+			dp.Evidence.ProductDesc, disputeParams.Evidence.ProductDesc)
+	}
+}
+
+func TestCheckClose(t *testing.T) {
+	ch, err := newDisputedCharge()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dp, err := CloseDispute(ch.ID)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if dp.Status != "lost" {
+		t.Errorf("Dispute status %q does not match expected status lost\n", dp.Status)
 	}
 }

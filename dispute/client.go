@@ -56,8 +56,8 @@ func (c Client) Get(id string, params *stripe.DisputeParams) (*stripe.Dispute, e
 	return dispute, err
 }
 
-// List returns a list of plans.
-// For more details see https://stripe.com/docs/api#list_plans.
+// List returns a list of disputes.
+// For more details see https://stripe.com/docs/api#list_disputes.
 func List(params *stripe.DisputeListParams) *Iter {
 	return getC().List(params)
 }
@@ -91,20 +91,20 @@ func (c Client) List(params *stripe.DisputeListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Plans.
+// Iter is an iterator for lists of Disputes.
 // The embedded Iter carries methods with it;
 // see its documentation for details.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Plan returns the most recent Plan
+// Dispute returns the most recent Dispute
 // visited by a call to Next.
 func (i *Iter) Dispute() *stripe.Dispute {
 	return i.Current().(*stripe.Dispute)
 }
 
-// Update updates a charge's dispute.
+// Update updates a dispute.
 // For more details see https://stripe.com/docs/api#update_dispute.
 func Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
 	return getC().Update(id, params)
