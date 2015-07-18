@@ -236,6 +236,45 @@ func (c Client) MarkSafe(id string) (*stripe.Charge, error) {
 		&stripe.ChargeParams{Fraud: ReportSafe})
 }
 
+// Update updates a charge's dispute.
+// For more details see https://stripe.com/docs/api#update_dispute.
+func UpdateDispute(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
+	return getC().UpdateDispute(id, params)
+}
+
+func (c Client) UpdateDispute(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
+	var body *url.Values
+	var commonParams *stripe.Params
+
+	if params != nil {
+		commonParams = &params.Params
+		body = &url.Values{}
+
+		if params.Evidence != nil {
+			params.Evidence.AppendDetails(body)
+		}
+		params.AppendTo(body)
+	}
+
+	dispute := &stripe.Dispute{}
+	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/dispute", id), c.Key, body, commonParams, dispute)
+
+	return dispute, err
+}
+
+// Close dismisses a charge's dispute in the customer's favor.
+// For more details see https://stripe.com/docs/api#close_dispute.
+func CloseDispute(id string) (*stripe.Dispute, error) {
+	return getC().CloseDispute(id)
+}
+
+func (c Client) CloseDispute(id string) (*stripe.Dispute, error) {
+	dispute := &stripe.Dispute{}
+	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/dispute/close", id), c.Key, nil, nil, dispute)
+
+	return dispute, err
+}
+
 // Iter is an iterator for lists of Charges.
 // The embedded Iter carries methods with it;
 // see its documentation for details.
