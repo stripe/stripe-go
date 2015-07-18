@@ -73,7 +73,6 @@ func TestFileUploadList(t *testing.T) {
 	}
 
 	params := &stripe.FileUploadListParams{}
-	params.Filters.AddFilter("include[]", "", "total_count")
 	params.Filters.AddFilter("limit", "", "5")
 	params.Single = true
 
