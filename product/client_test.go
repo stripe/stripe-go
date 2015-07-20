@@ -27,6 +27,12 @@ func TestProduct(t *testing.T) {
 		Attrs:     []string{"attr1", "attr2"},
 		URL:       "http://example.com",
 		Shippable: &shippable,
+		PackageDimensions: &stripe.PackageDimensions{
+			Height: 2.234,
+			Length: 5.10,
+			Width:  6.50,
+			Weight: 10,
+		},
 	})
 
 	if err != nil {
@@ -63,6 +69,14 @@ func TestProduct(t *testing.T) {
 
 	if p.URL != "http://example.com" {
 		t.Errorf("URL is invalid: %v", p.URL)
+	}
+
+	if p.PackageDimensions == nil ||
+		p.PackageDimensions.Height != 2.23 ||
+		p.PackageDimensions.Length != 5.10 ||
+		p.PackageDimensions.Width != 6.50 ||
+		p.PackageDimensions.Weight != 10 {
+		t.Errorf("PackageDimensions is invalid: %v", p.PackageDimensions)
 	}
 }
 
