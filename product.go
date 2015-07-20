@@ -2,40 +2,51 @@ package stripe
 
 import "encoding/json"
 
+// PackageDimensions represents the dimension of a product or a sku from the
+// perspective of shipping.
+type PackageDimensions struct {
+	Height float64 `json:"height"`
+	Length float64 `json:"length"`
+	Width  float64 `json:"width"`
+	Weight float64 `json:"weight"`
+}
+
 // ProductParams is the set of parameters that can be used
 // when creating or updating a product.
 // For more details, see https://stripe.com/docs/api#create_product
 // and https://stripe.com/docs/api#update_product.
 type ProductParams struct {
 	Params
-	ID        string
-	Active    *bool
-	Name      string
-	Caption   string
-	Desc      string
-	Attrs     []string
-	Images    []string
-	URL       string
-	Shippable *bool
+	ID                string
+	Active            *bool
+	Name              string
+	Caption           string
+	Desc              string
+	Attrs             []string
+	Images            []string
+	URL               string
+	Shippable         *bool
+	PackageDimensions *PackageDimensions
 }
 
 // Product is the resource representing a Stripe product.
 // For more details see https://stripe.com/docs/api#products.
 type Product struct {
-	ID        string            `json:"id"`
-	Created   int64             `json:"created"`
-	Updated   int64             `json:"updated"`
-	Live      bool              `json:"livemode"`
-	Active    bool              `json:"active"`
-	Name      string            `json:"name"`
-	Caption   string            `json:"caption"`
-	Desc      string            `json:"description"`
-	Attrs     []string          `json:"attributes"`
-	Shippable bool              `json:"shippable"`
-	Images    []string          `json:"images"`
-	Meta      map[string]string `json:"metdata"`
-	URL       string            `json:"url"`
-	Skus      *SKUList          `json:"skus"`
+	ID                string             `json:"id"`
+	Created           int64              `json:"created"`
+	Updated           int64              `json:"updated"`
+	Live              bool               `json:"livemode"`
+	Active            bool               `json:"active"`
+	Name              string             `json:"name"`
+	Caption           string             `json:"caption"`
+	Desc              string             `json:"description"`
+	Attrs             []string           `json:"attributes"`
+	Shippable         bool               `json:"shippable"`
+	PackageDimensions *PackageDimensions `json:"package_dimensions"`
+	Images            []string           `json:"images"`
+	Meta              map[string]string  `json:"metdata"`
+	URL               string             `json:"url"`
+	Skus              *SKUList           `json:"skus"`
 }
 
 // ProductListParams is the set of parameters that can be used when

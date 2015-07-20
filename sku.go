@@ -4,16 +4,17 @@ import "encoding/json"
 
 type SKUParams struct {
 	Params
-	ID        string
-	Active    *bool
-	Desc      string
-	Name      string
-	Attrs     map[string]string
-	Price     int64
-	Currency  string
-	Image     string
-	Inventory Inventory
-	Product   string
+	ID                string
+	Active            *bool
+	Desc              string
+	Name              string
+	Attrs             map[string]string
+	Price             int64
+	Currency          string
+	Image             string
+	Inventory         Inventory
+	Product           string
+	PackageDimensions *PackageDimensions
 }
 
 type Inventory struct {
@@ -23,20 +24,21 @@ type Inventory struct {
 }
 
 type SKU struct {
-	ID        string            `json:"id"`
-	Created   int64             `json:"created"`
-	Updated   int64             `json:"updated"`
-	Live      bool              `json:"livemode"`
-	Active    bool              `json:"active"`
-	Name      string            `json:"name"`
-	Desc      string            `json:"description"`
-	Attrs     map[string]string `json:"attributes"`
-	Price     int64             `json:"price"`
-	Currency  string            `json:"currency"`
-	Image     string            `json:"image"`
-	Inventory Inventory         `json:"inventory"`
-	Product   Product           `json:"product"`
-	Meta      map[string]string `json:"metadata"`
+	ID                string             `json:"id"`
+	Created           int64              `json:"created"`
+	Updated           int64              `json:"updated"`
+	Live              bool               `json:"livemode"`
+	Active            bool               `json:"active"`
+	Name              string             `json:"name"`
+	Desc              string             `json:"description"`
+	Attrs             map[string]string  `json:"attributes"`
+	Price             int64              `json:"price"`
+	Currency          string             `json:"currency"`
+	PackageDimensions *PackageDimensions `json:"package_dimensions"`
+	Image             string             `json:"image"`
+	Inventory         Inventory          `json:"inventory"`
+	Product           Product            `json:"product"`
+	Meta              map[string]string  `json:"metadata"`
 }
 
 type SKUList struct {

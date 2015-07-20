@@ -88,4 +88,8 @@ func TestSKUCreate(t *testing.T) {
 	if sku.Image != "http://example.com/foo.png" {
 		t.Errorf("invalid image: %v", sku.Image)
 	}
+
+	if sku.PackageDimensions != nil {
+		t.Errorf("package dimensions expected nil: %v", sku.PackageDimensions)
+	}
 }

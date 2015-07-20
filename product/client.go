@@ -1,6 +1,7 @@
 package product
 
 import (
+	"fmt"
 	"net/url"
 	"strconv"
 
@@ -66,6 +67,17 @@ func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 
 		if params.Shippable != nil {
 			body.Add("shippable", strconv.FormatBool(*(params.Shippable)))
+		}
+
+		if params.PackageDimensions != nil {
+			body.Add("package_dimensions[height]",
+				fmt.Sprintf("%.2f", params.PackageDimensions.Height))
+			body.Add("package_dimensions[length]",
+				fmt.Sprintf("%.2f", params.PackageDimensions.Length))
+			body.Add("package_dimensions[width]",
+				fmt.Sprintf("%.2f", params.PackageDimensions.Width))
+			body.Add("package_dimensions[weight]",
+				fmt.Sprintf("%.2f", params.PackageDimensions.Weight))
 		}
 
 		params.AppendTo(body)
