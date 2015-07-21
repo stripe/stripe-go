@@ -39,7 +39,7 @@ type ListParams struct {
 // of List iterators. The Count property is only populated if the
 // total_count include option is passed in (see tests for example).
 type ListMeta struct {
-	Count uint16 `json:"total_count"`
+	Count uint32 `json:"total_count"`
 	More  bool   `json:"has_more"`
 	URL   string `json:"url"`
 }
