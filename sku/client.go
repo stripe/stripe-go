@@ -61,14 +61,12 @@ func (c Client) New(params *stripe.SKUParams) (*stripe.SKU, error) {
 
 		if len(inventory.Type) > 0 {
 			body.Add("inventory[type]", inventory.Type)
-		}
-
-		if inventory.Quantity > 0 {
-			body.Add("inventory[quantity]", strconv.FormatInt(inventory.Quantity, 10))
-		}
-
-		if len(inventory.Value) > 0 {
-			body.Add("inventory[value]", inventory.Value)
+			switch inventory.Type {
+			case "finite":
+				body.Add("inventory[quantity]", strconv.FormatInt(inventory.Quantity, 10))
+			case "bucket":
+				body.Add("inventory[value]", inventory.Value)
+			}
 		}
 
 		if params.PackageDimensions != nil {
