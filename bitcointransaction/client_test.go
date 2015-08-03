@@ -26,7 +26,6 @@ func TestBitcoinTransactionList(t *testing.T) {
 	params := &stripe.BitcoinTransactionListParams{
 		Receiver: r.ID,
 	}
-	params.Filters.AddFilter("include[]", "", "total_count")
 	params.Filters.AddFilter("limit", "", "5")
 	params.Single = true
 
