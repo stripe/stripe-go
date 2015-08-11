@@ -147,6 +147,10 @@ func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account
 
 		writeAccountParams(params, body)
 
+		if params.TOSAcceptance != nil {
+			params.TOSAcceptance.AppendDetails(body)
+		}
+
 		params.AppendTo(body)
 	}
 
