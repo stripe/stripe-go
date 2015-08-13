@@ -46,10 +46,14 @@ func (c Client) New(params *stripe.RefundParams) (*stripe.Refund, error) {
 		body.Add("reason", string(params.Reason))
 	}
 
+	if len(params.Charge) > 0 {
+		body.Add("charge", string(params.Charge))
+	}
+
 	params.AppendTo(body)
 
 	refund := &stripe.Refund{}
-	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.Key, body, &params.Params, refund)
+	err := c.B.Call("POST", fmt.Sprintf("/refunds"), c.Key, body, &params.Params, refund)
 
 	return refund, err
 }
@@ -61,15 +65,11 @@ func Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 }
 
 func (c Client) Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
-	if params == nil {
-		return nil, fmt.Errorf("params cannot be nil, and params.Charge must be set")
-	}
-
 	body := &url.Values{}
 	params.AppendTo(body)
 
 	refund := &stripe.Refund{}
-	err := c.B.Call("GET", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.Key, body, &params.Params, refund)
+	err := c.B.Call("GET", fmt.Sprintf("/refunds/%v", id), c.Key, body, &params.Params, refund)
 
 	return refund, err
 }
@@ -86,7 +86,7 @@ func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, 
 	params.AppendTo(body)
 
 	refund := &stripe.Refund{}
-	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/refunds/%v", params.Charge, id), c.Key, body, &params.Params, refund)
+	err := c.B.Call("POST", fmt.Sprintf("/refunds/%v", id), c.Key, body, &params.Params, refund)
 
 	return refund, err
 }
@@ -106,7 +106,7 @@ func (c Client) List(params *stripe.RefundListParams) *Iter {
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.RefundList{}
-		err := c.B.Call("GET", fmt.Sprintf("/charges/%v/refunds", params.Charge), c.Key, &b, nil, list)
+		err := c.B.Call("GET", fmt.Sprintf("/refunds"), c.Key, &b, nil, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
