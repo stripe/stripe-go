@@ -154,15 +154,21 @@ func (s *PaymentSource) MarshalJSON() ([]byte, error) {
 			BitcoinReceiver: s.BitcoinReceiver,
 		}
 	case PaymentSourceCard:
+		var customerID *string
+		if s.Card.Customer != nil {
+			customerID = &s.Card.Customer.ID
+		}
+
 		target = struct {
 			Type     PaymentSourceType `json:"object"`
-			Customer string            `json:"customer"`
+			Customer *string           `json:"customer"`
 			*Card
 		}{
 			Type:     s.Type,
-			Customer: s.Card.Customer.ID,
+			Customer: customerID,
 			Card:     s.Card,
 		}
+
 	case "":
 		target = s.ID
 	}
