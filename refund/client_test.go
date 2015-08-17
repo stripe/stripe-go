@@ -2,6 +2,7 @@ package refund
 
 import (
 	"testing"
+	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/charge"
@@ -26,7 +27,11 @@ func TestRefundNew(t *testing.T) {
 		},
 	}
 
-	res, _ := charge.New(chargeParams)
+	res, err := charge.New(chargeParams)
+
+	if err != nil {
+		t.Error(err)
+	}
 
 	// full refund
 	ref, err := New(&stripe.RefundParams{Charge: res.ID})
@@ -39,7 +44,11 @@ func TestRefundNew(t *testing.T) {
 		t.Errorf("Refund charge %q does not match expected value %v\n", ref.Charge, res.ID)
 	}
 
-	target, _ := charge.Get(res.ID, nil)
+	target, err := charge.Get(res.ID, nil)
+
+	if err != nil {
+		t.Error(err)
+	}
 
 	if !target.Refunded || target.Refunds == nil {
 		t.Errorf("Expected to have refunded this charge\n")
@@ -75,7 +84,11 @@ func TestRefundNew(t *testing.T) {
 
 	New(refundParams)
 
-	target, _ = charge.Get(res.ID, nil)
+	target, err = charge.Get(res.ID, nil)
+
+	if err != nil {
+		t.Error(err)
+	}
 
 	if target.Refunded {
 		t.Errorf("Partial refund should not be marked as Refunded\n")
@@ -87,8 +100,17 @@ func TestRefundNew(t *testing.T) {
 
 	// refund with reason
 	res, err = charge.New(chargeParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
 	New(&stripe.RefundParams{Charge: res.ID, Reason: RefundFraudulent})
-	target, _ = charge.Get(res.ID, nil)
+	target, err = charge.Get(res.ID, nil)
+
+	if err != nil {
+		t.Error(err)
+	}
 
 	if target.FraudDetails.UserReport != "fraudulent" {
 		t.Errorf("Expected a fraudulent UserReport for charge refunded with reason=fraudulent but got: %s",
@@ -109,8 +131,17 @@ func TestRefundGet(t *testing.T) {
 		},
 	}
 
-	ch, _ := charge.New(chargeParams)
-	ref, _ := New(&stripe.RefundParams{Charge: ch.ID})
+	ch, err := charge.New(chargeParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	ref, err := New(&stripe.RefundParams{Charge: ch.ID})
+
+	if err != nil {
+		t.Error(err)
+	}
 
 	target, err := Get(ref.ID, &stripe.RefundParams{Charge: ch.ID})
 
@@ -123,7 +154,7 @@ func TestRefundGet(t *testing.T) {
 	}
 }
 
-func TestRefundList(t *testing.T) {
+func TestRefundListByCharge(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
@@ -136,12 +167,23 @@ func TestRefundList(t *testing.T) {
 		},
 	}
 
-	ch, _ := charge.New(chargeParams)
-	for i := 0; i < 4; i++ {
-		New(&stripe.RefundParams{Charge: ch.ID, Amount: 200})
+	ch, err := charge.New(chargeParams)
+
+	if err != nil {
+		t.Error(err)
 	}
 
-	i := List(&stripe.RefundListParams{Charge: ch.ID})
+	for i := 0; i < 4; i++ {
+		_, err = New(&stripe.RefundParams{Charge: ch.ID, Amount: 200})
+		if err != nil {
+			t.Error(err)
+		}
+	}
+
+	listParams := &stripe.RefundListParams{}
+	listParams.Filters.AddFilter("charge", "", ch.ID)
+	i := List(listParams)
+
 	for i.Next() {
 		target := i.Refund()
 
@@ -157,6 +199,37 @@ func TestRefundList(t *testing.T) {
 			t.Error("No metadata returned")
 		}
 	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestRefundListAll(t *testing.T) {
+	limit := 15
+
+	listParams := &stripe.RefundListParams{}
+	listParams.Filters.AddFilter("limit", "", strconv.Itoa(limit))
+	listParams.Single = true
+	i := List(listParams)
+
+	count := 0
+
+	for i.Next() {
+		if i.Refund() == nil {
+			t.Error("No nil values expected")
+		}
+
+		if i.Meta() == nil {
+			t.Error("No metadata returned")
+		}
+
+		count++
+	}
+
+	if count != limit {
+		t.Errorf("Expected %v refunds; found %v.", limit, count)
+	}
+
 	if err := i.Err(); err != nil {
 		t.Error(err)
 	}

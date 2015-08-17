@@ -20,7 +20,6 @@ type RefundParams struct {
 // For more details see https://stripe.com/docs/api#list_refunds.
 type RefundListParams struct {
 	ListParams
-	Charge string
 }
 
 // Refund is the resource representing a Stripe refund.
