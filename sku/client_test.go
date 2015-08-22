@@ -40,7 +40,7 @@ func TestSKUCreate(t *testing.T) {
 		Attrs:     map[string]string{"attr1": "val1", "attr2": "val2"},
 		Price:     499,
 		Currency:  "usd",
-		Inventory: stripe.Inventory{Type: "bucket", Value: "scant"},
+		Inventory: stripe.Inventory{Type: "bucket", Value: "limited"},
 		Product:   p.ID,
 		Image:     "http://example.com/foo.png",
 	})
@@ -81,7 +81,7 @@ func TestSKUCreate(t *testing.T) {
 		t.Errorf("Invalid inventory type: %v", sku.Inventory.Type)
 	}
 
-	if sku.Inventory.Value != "scant" {
+	if sku.Inventory.Value != "limited" {
 		t.Errorf("Invalid inventory type: %v", sku.Inventory.Value)
 	}
 
