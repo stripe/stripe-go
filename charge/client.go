@@ -62,6 +62,12 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 		body.Add("destination", params.Dest)
 	}
 
+	if len(params.Meta) > 0 {
+		for k, v := range params.Meta {
+			body.Add("metadata[" + k + "]", v)
+		}
+	}
+
 	body.Add("capture", strconv.FormatBool(!params.NoCapture))
 
 	token := c.Key
