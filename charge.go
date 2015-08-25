@@ -21,6 +21,7 @@ type ChargeParams struct {
 	Currency                     Currency
 	Customer, Token              string
 	Desc, Statement, Email, Dest string
+	Meta                         map[string]string
 	NoCapture                    bool
 	Fee                          uint64
 	Fraud                        FraudReport
