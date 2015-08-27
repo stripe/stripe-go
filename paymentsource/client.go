@@ -96,12 +96,33 @@ func Del(id string, params *stripe.CustomerSourceParams) error {
 }
 
 func (s Client) Del(id string, params *stripe.CustomerSourceParams) error {
-
 	if len(params.Customer) > 0 {
 		return s.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", params.Customer, id), s.Key, nil, &params.Params, nil)
 	} else {
 		return errors.New("Invalid source params: customer needs to be set")
 	}
+}
+
+// Verify verifies a bank account.
+func Verify(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+	return getC().Verify(id, params)
+}
+
+func (s Client) Verify(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+	body := &url.Values{}
+	params.Source.AppendDetails(body, false)
+	params.AppendTo(body)
+
+	source := &stripe.PaymentSource{}
+	var err error
+
+	if len(params.Customer) > 0 {
+		err = s.B.Call("POST", fmt.Sprintf("/customers/%v/bank_accounts/%v/verify", params.Customer, id), s.Key, body, &params.Params, source)
+	} else {
+		err = errors.New("Invalid source params: customer needs to be set")
+	}
+
+	return source, err
 }
 
 // List returns a list of sources.
