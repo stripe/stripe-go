@@ -113,12 +113,36 @@ stripe.Init("access_token", nil)
 
 ### Google AppEngine
 
-If you're running the client in a Google AppEngine environment, you
-can override the HTTP client used internally since the
-`http.DefaultClient` is not available:
+If you're running the client in a Google AppEngine environment, you'll
+need to create a per-request Stripe client since the
+`http.DefaultClient` is not available. Here's a sample handler:
 
 ```go
-stripe.SetHTTPClient(urlfetch.Client(appengine.NewContext(req)))
+import (
+    "fmt"
+    "net/http"
+
+    "appengine"
+    "appengine/urlfetch"
+    
+    "github.com/stripe/stripe-go"
+)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+    c := appengine.NewContext(r)
+    client := urlfetch.Client(c)
+
+    sc := &client.API{}
+    backends := stripe.Backends{
+        API: stripe.BackendConfiguration{
+            stripe.APIBackend, "https://api.stripe.com/v1", httpClient},
+        Uploads: stripe.BackendConfiguration{
+            stripe.UploadsBackend, "https://uploads.stripe.com/v1", httpClient},
+    }
+    sc.Init("sk_live_key", &backends)
+    
+    fmt.Fprintf(w, "Ready to make calls to the Stripe API")
+}
 ```
 
 ## Usage
