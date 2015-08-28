@@ -125,12 +125,12 @@ import (
     "appengine"
     "appengine/urlfetch"
     
-    "github.com/stripe/stripe-go"
+    "github.com/stripe/stripe-go/client"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
     c := appengine.NewContext(r)
-    client := urlfetch.Client(c)
+    httpClient := urlfetch.Client(c)
 
     sc := &client.API{}
     backends := stripe.Backends{
