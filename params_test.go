@@ -41,3 +41,37 @@ func TestParamsWithExtras(t *testing.T) {
 		}
 	}
 }
+
+func TestListParamsExpansion(t *testing.T) {
+	testCases := []struct {
+		InitialBody  url.Values
+		Expand       []string
+		ExpectedBody url.Values
+	}{
+		{
+			InitialBody:  url.Values{"foo": {"bar"}},
+			Expand:       []string{},
+			ExpectedBody: url.Values{"foo": {"bar"}},
+		},
+		{
+			InitialBody:  url.Values{"foo": {"bar"}},
+			Expand:       []string{"data", "data.foo"},
+			ExpectedBody: url.Values{"foo": {"bar", "baz"}, "expand[]": {"data", "data.foo"}},
+		},
+	}
+
+	for _, testCase := range testCases {
+		p := stripe.ListParams{}
+
+		for _, exp := range testCase.Expand {
+			p.Expand(exp)
+		}
+
+		body := testCase.InitialBody
+		p.AppendTo(&body)
+
+		if !reflect.DeepEqual(body, testCase.ExpectedBody) {
+			t.Fatalf("Expected body of %v but got %v.", testCase.ExpectedBody, body)
+		}
+	}
+}
