@@ -87,9 +87,9 @@ type Account struct {
 		Publish string `json:"publishable"`
 	} `json:"keys"`
 	Verification *struct {
-		Fields    []string `json:"fields_needed"`
-		Due       *int64   `json:"due_by"`
-		DisabledReason string `json:"disabled_reason"`
+		Fields         []string `json:"fields_needed"`
+		Due            *int64   `json:"due_by"`
+		DisabledReason string   `json:"disabled_reason"`
 	} `json:"verification"`
 	LegalEntity      *LegalEntity      `json:"legal_entity"`
 	TransferSchedule *TransferSchedule `json:"transfer_schedule"`
@@ -299,7 +299,7 @@ func (l *LegalEntity) AppendDetails(values *url.Values) {
 // AppendDetails adds the transfer schedule to the query string.
 func (t *TransferScheduleParams) AppendDetails(values *url.Values) {
 	if t.Delay > 0 {
-		values.Add("tranfer_schedule[delay_days]", strconv.FormatUint(t.Delay, 10))
+		values.Add("transfer_schedule[delay_days]", strconv.FormatUint(t.Delay, 10))
 	} else if t.MinimumDelay {
 		values.Add("transfer_schedule[delay_days]", "minimum")
 	}
