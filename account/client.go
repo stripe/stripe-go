@@ -71,6 +71,10 @@ func writeAccountParams(
 		params.TransferSchedule.AppendDetails(body)
 	}
 
+	if params.TOSAcceptance != nil {
+		params.TOSAcceptance.AppendDetails(body)
+	}
+
 	if params.BankAccount != nil {
 		params.BankAccount.AppendDetails(body)
 	}
