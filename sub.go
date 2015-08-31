@@ -40,6 +40,7 @@ type Sub struct {
 	Status      SubStatus         `json:"status"`
 	FeePercent  float64           `json:"application_fee_percent"`
 	Canceled    int64             `json:"canceled_at"`
+	Start       int64             `json:"start"`
 	PeriodEnd   int64             `json:"current_period_end"`
 	PeriodStart int64             `json:"current_period_start"`
 	Discount    *Discount         `json:"discount"`
