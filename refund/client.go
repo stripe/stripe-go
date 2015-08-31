@@ -39,7 +39,7 @@ func (c Client) New(params *stripe.RefundParams) (*stripe.Refund, error) {
 	}
 
 	if params.Transfer {
-		body.Add("refund_transfer", strconv.FormatBool(params.Transfer))
+		body.Add("reverse_transfer", strconv.FormatBool(params.Transfer))
 	}
 
 	if len(params.Reason) > 0 {
