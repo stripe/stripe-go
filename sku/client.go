@@ -126,6 +126,29 @@ func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error)
 			body.Add("image", params.Image)
 		}
 
+		inventory := params.Inventory
+
+		if len(inventory.Type) > 0 {
+			body.Add("inventory[type]", inventory.Type)
+			switch inventory.Type {
+			case "finite":
+				body.Add("inventory[quantity]", strconv.FormatInt(inventory.Quantity, 10))
+			case "bucket":
+				body.Add("inventory[value]", inventory.Value)
+			}
+		}
+
+		if params.PackageDimensions != nil {
+			body.Add("package_dimensions[height]",
+				fmt.Sprintf("%.2f", params.PackageDimensions.Height))
+			body.Add("package_dimensions[length]",
+				fmt.Sprintf("%.2f", params.PackageDimensions.Length))
+			body.Add("package_dimensions[width]",
+				fmt.Sprintf("%.2f", params.PackageDimensions.Width))
+			body.Add("package_dimensions[weight]",
+				fmt.Sprintf("%.2f", params.PackageDimensions.Weight))
+		}
+
 		params.AppendTo(body)
 	}
 

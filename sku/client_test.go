@@ -16,6 +16,45 @@ func init() {
 	rand.Seed(time.Now().UTC().UnixNano())
 }
 
+func TestSKUUpdateInventory(t *testing.T) {
+	active := true
+
+	p, err := product.New(&stripe.ProductParams{
+		Active:    &active,
+		Name:      "test name",
+		Desc:      "This is a description",
+		Caption:   "This is a caption",
+		Attrs:     []string{"attr1", "attr2"},
+		URL:       "http://example.com",
+		Shippable: &active,
+	})
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	randID := fmt.Sprintf("TEST-SKU-%v", RandSeq(16))
+	sku, err := New(&stripe.SKUParams{
+		ID:        randID,
+		Active:    &active,
+		Attrs:     map[string]string{"attr1": "val1", "attr2": "val2"},
+		Price:     499,
+		Currency:  "usd",
+		Inventory: stripe.Inventory{Type: "bucket", Value: "limited"},
+		Product:   p.ID,
+		Image:     "http://example.com/foo.png",
+	})
+
+	updatedSKU, err := Update(sku.ID, &stripe.SKUParams{
+		Inventory: stripe.Inventory{Type: "bucket", Value: "in_stock"},
+	})
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	if updatedSKU.Inventory.Value != "in_stock" {
+		t.Errorf("unable to update inventory for SKU")
+	}
+}
 func TestSKUCreate(t *testing.T) {
 	active := true
 
@@ -36,7 +75,6 @@ func TestSKUCreate(t *testing.T) {
 	sku, err := New(&stripe.SKUParams{
 		ID:        randID,
 		Active:    &active,
-		Desc:      "This is a SKU description",
 		Attrs:     map[string]string{"attr1": "val1", "attr2": "val2"},
 		Price:     499,
 		Currency:  "usd",
@@ -59,10 +97,6 @@ func TestSKUCreate(t *testing.T) {
 
 	if sku.Updated == 0 {
 		t.Errorf("Updated is not set")
-	}
-
-	if sku.Desc != "This is a SKU description" {
-		t.Errorf("Description is invalid: %v", sku.Desc)
 	}
 
 	if len(sku.Attrs) != 2 {
