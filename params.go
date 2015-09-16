@@ -26,6 +26,7 @@ type Params struct {
 // ListParams is the structure that contains the common properties
 // of any *ListParams structure.
 type ListParams struct {
+	Exp        []string
 	Start, End string
 	Limit      int
 	Filters    Filters
@@ -115,6 +116,11 @@ func (p *Params) AppendTo(body *url.Values) {
 	}
 }
 
+// Expand appends a new field to expand.
+func (p *ListParams) Expand(f string) {
+	p.Exp = append(p.Exp, f)
+}
+
 // AppendTo adds the common parameters to the query string values.
 func (p *ListParams) AppendTo(body *url.Values) {
 	if len(p.Filters.f) > 0 {
@@ -135,6 +141,9 @@ func (p *ListParams) AppendTo(body *url.Values) {
 		}
 
 		body.Add("limit", strconv.Itoa(p.Limit))
+	}
+	for _, v := range p.Exp {
+		body.Add("expand[]", v)
 	}
 }
 
