@@ -124,7 +124,8 @@ import (
 
     "appengine"
     "appengine/urlfetch"
-    
+
+    "github.com/stripe/stripe-go"
     "github.com/stripe/stripe-go/client"
 )
 
@@ -132,15 +133,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
     c := appengine.NewContext(r)
     httpClient := urlfetch.Client(c)
 
-    sc := &client.API{}
-    backends := stripe.Backends{
-        API: stripe.BackendConfiguration{
-            stripe.APIBackend, "https://api.stripe.com/v1", httpClient},
-        Uploads: stripe.BackendConfiguration{
-            stripe.UploadsBackend, "https://uploads.stripe.com/v1", httpClient},
-    }
-    sc.Init("sk_live_key", &backends)
-    
+    sc := client.New("sk_live_key", stripe.NewBackends(httpClient))
+
     fmt.Fprintf(w, "Ready to make calls to the Stripe API")
 }
 ```

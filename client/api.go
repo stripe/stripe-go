@@ -135,3 +135,11 @@ func (a *API) Init(key string, backends *Backends) {
 	a.Reversals = &reversal.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 }
+
+// New creates a new Stripe client with the appropriate secret key
+// as well as providing the ability to override the backends as needed.
+func New(key string, backends *Backends) *API {
+	api := API{}
+	api.Init(key, backends)
+	return &api
+}
