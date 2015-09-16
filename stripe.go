@@ -92,6 +92,17 @@ func SetHTTPClient(client *http.Client) {
 	httpClient = client
 }
 
+// NewBackends creates a new set of backends with the given HTTP client. You
+// should only need to use this for testing purposes or on App Engine.
+func NewBackends(httpClient *http.Client) *Backends {
+	return &Backends{
+		API: BackendConfiguration{
+			APIBackend, "https://api.stripe.com/v1", httpClient},
+		Uploads: BackendConfiguration{
+			UploadsBackend, "https://uploads.stripe.com/v1", httpClient},
+	}
+}
+
 // GetBackend returns the currently used backend in the binding.
 func GetBackend(backend SupportedBackend) Backend {
 	var ret Backend
