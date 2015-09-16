@@ -266,6 +266,10 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 				err.Param = param.(string)
 			}
 
+			if charge, found := root["charge"]; found {
+				err.ChargeID = charge.(string)
+			}
+
 			if LogLevel > 0 {
 				Logger.Printf("Error encountered from Stripe: %v\n", err)
 			}

@@ -40,6 +40,7 @@ type Error struct {
 	Param          string    `json:"param,omitempty"`
 	RequestID      string    `json:"request_id,omitempty"`
 	HTTPStatusCode int       `json:"status,omitempty"`
+	ChargeID       string    `json:"charge,omitempty"`
 }
 
 // Error serializes the Error object and prints the JSON string.
