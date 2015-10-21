@@ -38,6 +38,7 @@ type AccountParams struct {
 	Params
 	Country, Email, DefaultCurrency, Statement, BusinessName, BusinessUrl,
 	BusinessPrimaryColor, SupportPhone, SupportEmail, SupportUrl string
+	ExternalAccount  *BankAccountParams
 	LegalEntity      *LegalEntity
 	TransferSchedule *TransferScheduleParams
 	Managed          bool

@@ -35,6 +35,14 @@ func writeAccountParams(
 		body.Add("default_currency", params.DefaultCurrency)
 	}
 
+	if params.ExternalAccount != nil {
+		if len(params.ExternalAccount.Token) > 0 {
+			body.Add("external_account", params.ExternalAccount.Token)
+		} else if params.ExternalAccount != nil {
+			params.ExternalAccount.AppendDetails(body)
+		}
+	}
+
 	if len(params.Statement) > 0 {
 		body.Add("statement_descriptor", params.Statement)
 	}
