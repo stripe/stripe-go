@@ -116,7 +116,7 @@ func TestAccountUpdateWithBankAccount(t *testing.T) {
 	acct, _ := New(params)
 
 	params = &stripe.AccountParams{
-		ExternalAccount: &stripe.BankAccountParams{
+		ExternalAccount: &stripe.AccountExternalAccountParams{
 			Country: "US",
 			Routing: "110000000",
 			Account: "000123456789",
@@ -148,7 +148,7 @@ func TestAccountUpdateWithToken(t *testing.T) {
 	tok, _ := token.New(tokenParams)
 
 	params = &stripe.AccountParams{
-		ExternalAccount: &stripe.BankAccountParams{
+		ExternalAccount: &stripe.AccountExternalAccountParams{
 			Token: tok.ID,
 		},
 	}
