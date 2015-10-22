@@ -1,8 +1,8 @@
 package refund
 
 import (
-	"testing"
 	"strconv"
+	"testing"
 
 	stripe "github.com/stripe-internal/stripe-go"
 	"github.com/stripe-internal/stripe-go/charge"

@@ -93,7 +93,8 @@ func writeAccountParams(
 
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 	body := &url.Values{
-		"managed": {strconv.FormatBool(params.Managed)},
+		"managed":                 {strconv.FormatBool(params.Managed)},
+		"debit_negative_balances": {strconv.FormatBool(params.DebitNegativeBal)},
 	}
 
 	writeAccountParams(params, body)
