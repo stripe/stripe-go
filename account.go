@@ -38,16 +38,24 @@ type AccountParams struct {
 	Params
 	Country, Email, DefaultCurrency, Statement, BusinessName, BusinessUrl,
 	BusinessPrimaryColor, SupportPhone, SupportEmail, SupportUrl string
+	ExternalAccount  *AccountExternalAccountParams
 	LegalEntity      *LegalEntity
 	TransferSchedule *TransferScheduleParams
 	Managed          bool
-	BankAccount      *BankAccountParams
 	TOSAcceptance    *TOSAcceptanceParams
 }
 
 // AccountListParams are the parameters allowed during account listing.
 type AccountListParams struct {
 	ListParams
+}
+
+// AccountExternalAccountParams are the parameters allowed to reference an
+// external account when creating an account. It should either have Token set
+// or everything else.
+type AccountExternalAccountParams struct {
+	Params
+	Account, Country, Currency, Routing, Token string
 }
 
 // TransferScheduleParams are the parameters allowed for transfer schedules.

@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -98,6 +99,58 @@ func TestAccountUpdate(t *testing.T) {
 
 	params = &stripe.AccountParams{
 		Statement: "Stripe Go",
+	}
+
+	_, err := Update(acct.ID, params)
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestAccountUpdateWithBankAccount(t *testing.T) {
+	params := &stripe.AccountParams{
+		Managed: true,
+		Country: "CA",
+	}
+
+	acct, _ := New(params)
+
+	params = &stripe.AccountParams{
+		ExternalAccount: &stripe.AccountExternalAccountParams{
+			Country: "US",
+			Routing: "110000000",
+			Account: "000123456789",
+		},
+	}
+
+	_, err := Update(acct.ID, params)
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestAccountUpdateWithToken(t *testing.T) {
+	params := &stripe.AccountParams{
+		Managed: true,
+		Country: "CA",
+	}
+
+	acct, _ := New(params)
+
+	tokenParams := &stripe.TokenParams{
+		Bank: &stripe.BankAccountParams{
+			Country: "US",
+			Routing: "110000000",
+			Account: "000123456789",
+		},
+	}
+
+	tok, _ := token.New(tokenParams)
+
+	params = &stripe.AccountParams{
+		ExternalAccount: &stripe.AccountExternalAccountParams{
+			Token: tok.ID,
+		},
 	}
 
 	_, err := Update(acct.ID, params)
