@@ -38,8 +38,15 @@ func writeAccountParams(
 	if params.ExternalAccount != nil {
 		if len(params.ExternalAccount.Token) > 0 {
 			body.Add("external_account", params.ExternalAccount.Token)
-		} else if params.ExternalAccount != nil {
-			params.ExternalAccount.AppendDetails(body)
+		} else {
+			body.Add("external_account[object]", "bank_account")
+			body.Add("external_account[account_number]", params.ExternalAccount.Account)
+			body.Add("external_account[country]", params.ExternalAccount.Country)
+			body.Add("external_account[currency]", params.ExternalAccount.Currency)
+
+			if len(params.ExternalAccount.Routing) > 0 {
+				body.Add("external_account[routing_number]", params.ExternalAccount.Routing)
+			}
 		}
 	}
 
@@ -81,10 +88,6 @@ func writeAccountParams(
 
 	if params.TOSAcceptance != nil {
 		params.TOSAcceptance.AppendDetails(body)
-	}
-
-	if params.BankAccount != nil {
-		params.BankAccount.AppendDetails(body)
 	}
 }
 
