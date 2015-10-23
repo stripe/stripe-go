@@ -44,7 +44,7 @@ type Product struct {
 	Shippable         bool               `json:"shippable"`
 	PackageDimensions *PackageDimensions `json:"package_dimensions"`
 	Images            []string           `json:"images"`
-	Meta              map[string]string  `json:"metdata"`
+	Meta              map[string]string  `json:"metadata"`
 	URL               string             `json:"url"`
 	Skus              *SKUList           `json:"skus"`
 }
