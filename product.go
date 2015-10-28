@@ -27,6 +27,8 @@ type ProductParams struct {
 	URL               string
 	Shippable         *bool
 	PackageDimensions *PackageDimensions
+	// gate: `enable_relay_charity_support`
+	Donation *bool
 }
 
 // Product is the resource representing a Stripe product.
@@ -47,6 +49,8 @@ type Product struct {
 	Meta              map[string]string  `json:"metadata"`
 	URL               string             `json:"url"`
 	Skus              *SKUList           `json:"skus"`
+	// gate: `enable_relay_charity_support`
+	Donation bool `json:"donation"`
 }
 
 // ProductListParams is the set of parameters that can be used when
