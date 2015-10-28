@@ -80,6 +80,10 @@ func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 				fmt.Sprintf("%.2f", params.PackageDimensions.Weight))
 		}
 
+		if params.Donation != nil {
+			body.Add("donation", strconv.FormatBool(*(params.Donation)))
+		}
+
 		params.AppendTo(body)
 	}
 
@@ -124,6 +128,10 @@ func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product
 
 		if len(params.URL) > 0 {
 			body.Add("url", params.URL)
+		}
+
+		if params.Donation != nil {
+			body.Add("donation", strconv.FormatBool(*(params.Donation)))
 		}
 
 		params.AppendTo(body)
