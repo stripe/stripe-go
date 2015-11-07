@@ -64,6 +64,39 @@ func TestCustomerNew(t *testing.T) {
 	Del(target.ID)
 }
 
+func TestCustomerUpdateWithShipping(t *testing.T) {
+
+	customerParams := &stripe.CustomerParams{
+		Shipping: &stripe.CustomerShippingDetails{
+			Name: "Shipping Name",
+			Address: stripe.Address{
+				Line1: "One Street",
+			},
+		},
+	}
+
+	target, err := New(customerParams)
+
+	customerParams.Shipping.Name = "Updated Shipping"
+	customerParams.Shipping.Address.Line1 = "Two Street"
+
+	target, err = Update(target.ID, customerParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Shipping.Name != customerParams.Shipping.Name {
+		t.Errorf("Shipping name %q does not match expected name %v\n", target.Shipping.Name, customerParams.Shipping.Name)
+	}
+
+	if target.Shipping.Address.Line1 != customerParams.Shipping.Address.Line1 {
+		t.Errorf("Shipping address line 1 %q does not match expected address line 1 %v\n", target.Shipping.Address.Line1, customerParams.Shipping.Address.Line1)
+	}
+
+	Del(target.ID)
+}
+
 func TestCustomerGet(t *testing.T) {
 	res, _ := New(nil)
 
