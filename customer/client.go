@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strconv"
 
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/seenickcode/stripe-go"
 )
 
 // Client is used to invoke /customers APIs.
@@ -57,6 +57,11 @@ func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 				body.Add("trial_end", strconv.FormatInt(params.TrialEnd, 10))
 			}
 		}
+
+		if params.Shipping != nil {
+			params.Shipping.AppendDetails(body)
+		}
+
 		commonParams = &params.Params
 
 		params.AppendTo(body)

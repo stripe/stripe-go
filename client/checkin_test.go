@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/plan"
+	stripe "github.com/seenickcode/stripe-go"
+	"github.com/seenickcode/stripe-go/currency"
+	"github.com/seenickcode/stripe-go/plan"
 )
 
 const testKey = "tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I"

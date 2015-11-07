@@ -1,4 +1,4 @@
-Go Stripe [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/stripe/stripe-go) [![Build Status](https://travis-ci.org/stripe/stripe-go.svg?branch=master)](https://travis-ci.org/stripe/stripe-go)
+Go Stripe [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/seenickcode/stripe-go) [![Build Status](https://travis-ci.org/stripe/stripe-go.svg?branch=master)](https://travis-ci.org/stripe/stripe-go)
 ========
 
 ## Summary
@@ -18,7 +18,7 @@ version of the client, clone this repo, checkout the specific tag and build the
 library:
 
 ```sh
-git clone https://github.com/stripe/stripe-go.git
+git clone https://github.com/seenickcode/stripe-go.git
 cd stripe
 git checkout api_version_tag
 make build
@@ -30,14 +30,14 @@ and [API changelog](https://stripe.com/docs/upgrades).
 ## Installation
 
 ```sh
-go get github.com/stripe/stripe-go
+go get github.com/seenickcode/stripe-go
 ```
 
 ## Documentation
 
 For a comprehensive list of examples, check out the [API documentation](https://stripe.com/docs/api/go).
 
-For details on all the functionality in this library, see the [GoDoc](http://godoc.org/github.com/stripe/stripe-go) documentation.
+For details on all the functionality in this library, see the [GoDoc](http://godoc.org/github.com/seenickcode/stripe-go) documentation.
 
 Below are a few simple examples:
 
@@ -103,8 +103,8 @@ the `access token` value as the `tok` when initializing the client.
 ```go
 
 import (
-  "github.com/stripe/stripe-go"
-  "github.com/stripe/stripe-go/client"
+  "github.com/seenickcode/stripe-go"
+  "github.com/seenickcode/stripe-go/client"
 )
 
 stripe := &client.API{}
@@ -125,8 +125,8 @@ import (
     "appengine"
     "appengine/urlfetch"
 
-    "github.com/stripe/stripe-go"
-    "github.com/stripe/stripe-go/client"
+    "github.com/seenickcode/stripe-go"
+    "github.com/seenickcode/stripe-go/client"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -152,8 +152,8 @@ client.
 
 ```go
 import (
-  "github.com/stripe/stripe-go"
-  "github.com/stripe/stripe-go/$resource$"
+  "github.com/seenickcode/stripe-go"
+  "github.com/seenickcode/stripe-go/$resource$"
 )
 
 // Setup
@@ -194,8 +194,8 @@ their own individual key.
 
 ```go
 import (
-  "github.com/stripe/stripe-go"
-  "github.com/stripe/stripe-go/client"
+  "github.com/seenickcode/stripe-go"
+  "github.com/seenickcode/stripe-go/client"
 )
 
 // Setup
@@ -243,5 +243,5 @@ Set the STRIPE_KEY environment variable to match your test private key, then run
 STRIPE_KEY=YOUR_API_KEY make test
 ```
 
-For any requests, bug or comments, please [open an issue](https://github.com/stripe/stripe-go/issues/new)
-or [submit a pull request](https://github.com/stripe/stripe-go/pulls).
+For any requests, bug or comments, please [open an issue](https://github.com/seenickcode/stripe-go/issues/new)
+or [submit a pull request](https://github.com/seenickcode/stripe-go/pulls).

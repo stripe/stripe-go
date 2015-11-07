@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"strconv"
 
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/seenickcode/stripe-go"
 )
 
 // Client is used to invoke /transfers/reversals APIs.

@@ -3,10 +3,10 @@ package customer
 import (
 	"testing"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/coupon"
-	"github.com/stripe/stripe-go/discount"
-	. "github.com/stripe/stripe-go/utils"
+	stripe "github.com/seenickcode/stripe-go"
+	"github.com/seenickcode/stripe-go/coupon"
+	"github.com/seenickcode/stripe-go/discount"
+	. "github.com/seenickcode/stripe-go/utils"
 )
 
 func init() {
@@ -59,6 +59,33 @@ func TestCustomerNew(t *testing.T) {
 
 	if target.Sources.Values[0].Card.Name != customerParams.Source.Card.Name {
 		t.Errorf("Card name %q does not match expected name %q\n", target.Sources.Values[0].Card.Name, customerParams.Source.Card.Name)
+	}
+
+	Del(target.ID)
+}
+
+func TestCustomerNewWithShipping(t *testing.T) {
+	customerParams := &stripe.CustomerParams{
+		Shipping: &stripe.CustomerShippingDetails{
+			Name: "Shipping Name",
+			Address: stripe.Address{
+				Line1: "One Street",
+			},
+		},
+	}
+
+	target, err := New(customerParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Shipping.Name != customerParams.Shipping.Name {
+		t.Errorf("Shipping name %q does not match expected name %v\n", target.Shipping.Name, customerParams.Shipping.Name)
+	}
+
+	if target.Shipping.Address.Line1 != customerParams.Shipping.Address.Line1 {
+		t.Errorf("Shipping address line 1 %q does not match expected address line 1 %v\n", target.Shipping.Address.Line1, customerParams.Shipping.Address.Line1)
 	}
 
 	Del(target.ID)

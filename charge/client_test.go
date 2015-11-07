@@ -4,13 +4,13 @@ import (
 	"testing"
 	"time"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/bitcoinreceiver"
-	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/customer"
-	"github.com/stripe/stripe-go/refund"
-	"github.com/stripe/stripe-go/token"
-	. "github.com/stripe/stripe-go/utils"
+	stripe "github.com/seenickcode/stripe-go"
+	"github.com/seenickcode/stripe-go/bitcoinreceiver"
+	"github.com/seenickcode/stripe-go/currency"
+	"github.com/seenickcode/stripe-go/customer"
+	"github.com/seenickcode/stripe-go/refund"
+	"github.com/seenickcode/stripe-go/token"
+	. "github.com/seenickcode/stripe-go/utils"
 )
 
 func init() {
