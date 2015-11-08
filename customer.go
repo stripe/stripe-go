@@ -79,7 +79,7 @@ func (s *CustomerShippingDetails) AppendDetails(values *url.Values) {
 	}
 
 	if len(s.Address.Zip) > 0 {
-		values.Add("shipping[address][zip]", s.Address.Zip)
+		values.Add("shipping[address][postal_code]", s.Address.Zip)
 	}
 
 	if len(s.Phone) > 0 {
