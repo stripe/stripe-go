@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/url"
 
-	stripe "github.com/seenickcode/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke /sources APIs.

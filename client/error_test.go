@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	. "github.com/seenickcode/stripe-go"
+	. "github.com/stripe/stripe-go"
 )
 
 func TestErrors(t *testing.T) {

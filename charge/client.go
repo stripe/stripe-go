@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"strconv"
 
-	stripe "github.com/seenickcode/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 const (

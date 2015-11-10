@@ -3,10 +3,10 @@ package recipient
 import (
 	"testing"
 
-	stripe "github.com/seenickcode/stripe-go"
-	"github.com/seenickcode/stripe-go/currency"
-	"github.com/seenickcode/stripe-go/token"
-	. "github.com/seenickcode/stripe-go/utils"
+	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/currency"
+	"github.com/stripe/stripe-go/token"
+	. "github.com/stripe/stripe-go/utils"
 )
 
 func init() {

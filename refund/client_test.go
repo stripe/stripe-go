@@ -4,10 +4,10 @@ import (
 	"strconv"
 	"testing"
 
-	stripe "github.com/seenickcode/stripe-go"
-	"github.com/seenickcode/stripe-go/charge"
-	"github.com/seenickcode/stripe-go/currency"
-	. "github.com/seenickcode/stripe-go/utils"
+	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/charge"
+	"github.com/stripe/stripe-go/currency"
+	. "github.com/stripe/stripe-go/utils"
 )
 
 func init() {

@@ -4,7 +4,7 @@ package discount
 import (
 	"fmt"
 
-	stripe "github.com/seenickcode/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke discount-related APIs.
