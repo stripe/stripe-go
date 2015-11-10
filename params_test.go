@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	stripe "github.com/seenickcode/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 )
 
 func TestParamsWithExtras(t *testing.T) {
