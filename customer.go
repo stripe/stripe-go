@@ -1,6 +1,9 @@
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"net/url"
+)
 
 // CustomerParams is the set of parameters that can be used when creating or updating a customer.
 // For more details see https://stripe.com/docs/api#create_customer and https://stripe.com/docs/api#update_customer.
@@ -14,6 +17,7 @@ type CustomerParams struct {
 	Quantity      uint64
 	TrialEnd      int64
 	DefaultSource string
+	Shipping      *CustomerShippingDetails
 }
 
 // SetSource adds valid sources to a CustomerParams object,
@@ -34,20 +38,53 @@ type CustomerListParams struct {
 // Customer is the resource representing a Stripe customer.
 // For more details see https://stripe.com/docs/api#customers.
 type Customer struct {
-	ID            string            `json:"id"`
-	Live          bool              `json:"livemode"`
-	Sources       *SourceList       `json:"sources"`
-	Created       int64             `json:"created"`
-	Balance       int64             `json:"account_balance"`
-	Currency      Currency          `json:"currency"`
-	DefaultSource *PaymentSource    `json:"default_source"`
-	Delinquent    bool              `json:"delinquent"`
-	Desc          string            `json:"description"`
-	Discount      *Discount         `json:"discount"`
-	Email         string            `json:"email"`
-	Meta          map[string]string `json:"metadata"`
-	Subs          *SubList          `json:"subscriptions"`
-	Deleted       bool              `json:"deleted"`
+	ID            string                   `json:"id"`
+	Live          bool                     `json:"livemode"`
+	Sources       *SourceList              `json:"sources"`
+	Created       int64                    `json:"created"`
+	Balance       int64                    `json:"account_balance"`
+	Currency      Currency                 `json:"currency"`
+	DefaultSource *PaymentSource           `json:"default_source"`
+	Delinquent    bool                     `json:"delinquent"`
+	Desc          string                   `json:"description"`
+	Discount      *Discount                `json:"discount"`
+	Email         string                   `json:"email"`
+	Meta          map[string]string        `json:"metadata"`
+	Subs          *SubList                 `json:"subscriptions"`
+	Deleted       bool                     `json:"deleted"`
+	Shipping      *CustomerShippingDetails `json:"shipping"`
+}
+
+// ShippingDetails is the structure containing shipping information.
+type CustomerShippingDetails struct {
+	Name    string  `json:"name"`
+	Address Address `json:"address"`
+	Phone   string  `json:"phone"`
+}
+
+// AppendDetails adds the shipping details to the query string.
+func (s *CustomerShippingDetails) AppendDetails(values *url.Values) {
+	values.Add("shipping[name]", s.Name)
+
+	values.Add("shipping[address][line1]", s.Address.Line1)
+	if len(s.Address.Line2) > 0 {
+		values.Add("shipping[address][line2]", s.Address.Line2)
+	}
+	if len(s.Address.City) > 0 {
+		values.Add("shipping[address][city]", s.Address.City)
+	}
+
+	if len(s.Address.State) > 0 {
+		values.Add("shipping[address][state]", s.Address.State)
+	}
+
+	if len(s.Address.Zip) > 0 {
+		values.Add("shipping[address][postal_code]", s.Address.Zip)
+	}
+
+	if len(s.Phone) > 0 {
+		values.Add("shipping[phone]", s.Phone)
+	}
 }
 
 // UnmarshalJSON handles deserialization of a Customer.

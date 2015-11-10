@@ -27,6 +27,10 @@ func TestChargeNew(t *testing.T) {
 			Name: "Shipping Name",
 			Address: stripe.Address{
 				Line1: "One Street",
+				Line2: "Apt 1",
+				City:  "Somewhere",
+				State: "SW",
+				Zip:   "10044",
 			},
 		},
 	}
@@ -65,6 +69,18 @@ func TestChargeNew(t *testing.T) {
 
 	if target.Shipping.Name != chargeParams.Shipping.Name {
 		t.Errorf("Shipping name %q does not match expected name %v\n", target.Shipping.Name, chargeParams.Shipping.Name)
+	}
+	if target.Shipping.Address.Line2 != chargeParams.Shipping.Address.Line2 {
+		t.Errorf("Shipping address line 2 %q does not match expected address line 2 %v\n", target.Shipping.Address.Line2, chargeParams.Shipping.Address.Line2)
+	}
+	if target.Shipping.Address.City != chargeParams.Shipping.Address.City {
+		t.Errorf("Shipping address city %q does not match expected address city %v\n", target.Shipping.Address.City, chargeParams.Shipping.Address.City)
+	}
+	if target.Shipping.Address.State != chargeParams.Shipping.Address.State {
+		t.Errorf("Shipping address state %q does not match expected address state %v\n", target.Shipping.Address.State, chargeParams.Shipping.Address.State)
+	}
+	if target.Shipping.Address.Zip != chargeParams.Shipping.Address.Zip {
+		t.Errorf("Shipping address zip %q does not match expected address zip %v\n", target.Shipping.Address.Zip, chargeParams.Shipping.Address.Zip)
 	}
 }
 
