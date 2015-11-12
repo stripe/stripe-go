@@ -83,10 +83,14 @@ func TestCustomerGet(t *testing.T) {
 func TestCustomerDel(t *testing.T) {
 	res, _ := New(nil)
 
-	err := Del(res.ID)
+	c, err := Del(res.ID)
 
 	if err != nil {
 		t.Error(err)
+	}
+
+	if c.Deleted != true {
+		t.Errorf("Customer id %q expected to be marked as deleted on the returned resource\n", c.ID)
 	}
 
 	target, err := Get(res.ID, nil)

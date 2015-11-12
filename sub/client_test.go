@@ -189,10 +189,14 @@ func TestSubscriptionCancel(t *testing.T) {
 	}
 
 	subscription, _ := New(subParams)
-	err := Cancel(subscription.ID, &stripe.SubParams{Customer: cust.ID})
+	s, err := Cancel(subscription.ID, &stripe.SubParams{Customer: cust.ID})
 
 	if err != nil {
 		t.Error(err)
+	}
+
+	if s.Canceled == 0 {
+		t.Errorf("Subscription.Canceled %i expected to be non 0\n", s.Canceled)
 	}
 
 	customer.Del(cust.ID)
