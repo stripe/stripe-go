@@ -151,11 +151,11 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 
 // Cancel removes a subscription.
 // For more details see https://stripe.com/docs/api#cancel_subscription.
-func Cancel(id string, params *stripe.SubParams) error {
+func Cancel(id string, params *stripe.SubParams) (*stripe.Sub, error) {
 	return getC().Cancel(id, params)
 }
 
-func (c Client) Cancel(id string, params *stripe.SubParams) error {
+func (c Client) Cancel(id string, params *stripe.SubParams) (*stripe.Sub, error) {
 	body := &url.Values{}
 
 	if params.EndCancel {
@@ -164,7 +164,11 @@ func (c Client) Cancel(id string, params *stripe.SubParams) error {
 
 	params.AppendTo(body)
 
-	return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Key, body, &params.Params, nil)
+
+	sub := &stripe.Sub{}
+	err := c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Key, body, &params.Params, sub)
+
+	return sub, err
 }
 
 // List returns a list of subscriptions.
