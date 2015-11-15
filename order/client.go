@@ -30,7 +30,7 @@ func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 		body = &url.Values{}
 
 		// Required fields
-		body.Add("currency", params.Currency)
+		body.Add("currency", string(params.Currency))
 
 		if params.Customer != "" {
 			body.Add("customer", params.Customer)
@@ -47,9 +47,11 @@ func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 		if len(params.Items) > 0 {
 			for _, item := range params.Items {
 				body.Add("items[][description]", item.Description)
-				body.Add("items[][type]", item.Type)
+				body.Add("items[][type]", string(item.Type))
 				body.Add("items[][amount]", strconv.FormatInt(item.Amount, 10))
-				body.Add("items[][currency]", item.Currency)
+				if item.Currency != "" {
+					body.Add("items[][currency]", string(item.Currency))
+				}
 				if item.Parent != "" {
 					body.Add("items[][parent]", item.Parent)
 				}
@@ -69,18 +71,18 @@ func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 		if params.Shipping.Address.Country != "" {
 			body.Add("shipping[address][country]", params.Shipping.Address.Country)
 		}
-		if params.Shipping.Address.Zip != "" {
-			body.Add("shipping[address][postal_code]", params.Shipping.Address.Zip)
+		if params.Shipping.Address.PostalCode != "" {
+			body.Add("shipping[address][postal_code]", params.Shipping.Address.PostalCode)
 		}
 		if params.Shipping.Address.State != "" {
 			body.Add("shipping[address][state]", params.Shipping.Address.State)
 		}
 
 		if params.Shipping.Name != "" {
-			body.Add("shipping[address][name]", params.Shipping.Name)
+			body.Add("shipping[name]", params.Shipping.Name)
 		}
 		if params.Shipping.Phone != "" {
-			body.Add("shipping[address][phone]", params.Shipping.Phone)
+			body.Add("shipping[phone]", params.Shipping.Phone)
 		}
 
 		params.AppendTo(body)
@@ -107,8 +109,6 @@ func (c Client) Update(id string, params *stripe.OrderUpdateParams) (*stripe.Ord
 	if params != nil {
 		body = &url.Values{}
 
-		body.Add("id", id)
-
 		if params.Coupon != "" {
 			body.Add("coupon", params.Coupon)
 		}
@@ -118,7 +118,7 @@ func (c Client) Update(id string, params *stripe.OrderUpdateParams) (*stripe.Ord
 		}
 
 		if params.Status != "" {
-			body.Add("status", params.Status)
+			body.Add("status", string(params.Status))
 		}
 
 		params.AppendTo(body)
@@ -150,8 +150,45 @@ func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, er
 			return nil, err
 		}
 
+		// We can't use `AppendDetails` since that nests under `card`.
 		if params.Source != nil {
-			params.Source.AppendDetails(body, true)
+			if len(params.Source.Token) > 0 {
+				body.Add("source", params.Source.Token)
+			} else if params.Source.Card != nil {
+				c := params.Source.Card
+
+				body.Add("source[object]", "card")
+				body.Add("source[number]", c.Number)
+				body.Add("source[exp_month]", c.Month)
+				body.Add("source[exp_year]", c.Year)
+
+				if len(c.CVC) > 0 {
+					body.Add("source[cvc]", c.CVC)
+				}
+
+				body.Add("source[name]", c.Name)
+
+				if len(c.Address1) > 0 {
+					body.Add("source[address_line1]", c.Address1)
+				}
+
+				if len(c.Address2) > 0 {
+					body.Add("source[address_line2]", c.Address2)
+				}
+				if len(c.City) > 0 {
+					body.Add("source[address_city]", c.City)
+				}
+
+				if len(c.State) > 0 {
+					body.Add("source[address_state]", c.State)
+				}
+				if len(c.Zip) > 0 {
+					body.Add("source[address_zip]", c.Zip)
+				}
+				if len(c.Country) > 0 {
+					body.Add("source[address_country]", c.Country)
+				}
+			}
 		}
 
 		if len(params.Customer) > 0 {
@@ -170,7 +207,7 @@ func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, er
 	}
 
 	o := &stripe.Order{}
-	err := c.B.Call("POST", "/orders/"+id, c.Key, body, commonParams, o)
+	err := c.B.Call("POST", "/orders/"+id+"/pay", c.Key, body, commonParams, o)
 
 	return o, err
 }
@@ -211,7 +248,7 @@ func (c Client) List(params *stripe.OrderListParams) *Iter {
 		}
 
 		if params.Status != "" {
-			params.Filters.AddFilter("status", "", params.Status)
+			params.Filters.AddFilter("status", "", string(params.Status))
 		}
 
 		params.AppendTo(body)

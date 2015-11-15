@@ -1,30 +1,49 @@
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
+
+// OrderStatus represents the statuses of an order object.
+type OrderStatus string
+
+const (
+	StatusCreated   OrderStatus = "created"
+	StatusPaid      OrderStatus = "paid"
+	StatusCanceled  OrderStatus = "canceled"
+	StatusFulfilled OrderStatus = "fulfilled"
+	StatusReturned  OrderStatus = "returned"
+)
 
 type OrderParams struct {
 	Params
-	Currency string
+	Currency Currency
 	Customer string
 	Email    string
-	Items    []OrderItemParams
-	Shipping Shipping
+	Items    []*OrderItemParams
+	Shipping *ShippingParams
+}
+
+type ShippingParams struct {
+	Name    string
+	Address *AddressParams
+	Phone   string
+}
+
+type AddressParams struct {
+	Line1      string
+	Line2      string
+	City       string
+	State      string
+	PostalCode string
+	Country    string
 }
 
 type OrderUpdateParams struct {
 	Params
 	Coupon                 string
 	SelectedShippingMethod string
-	Status                 string
-}
-
-type OrderItemParams struct {
-	Amount      int64
-	Currency    string
-	Description string
-	Parent      string
-	Quantity    *int64
-	Type        string
+	Status                 OrderStatus
 }
 
 type Shipping struct {
@@ -34,10 +53,10 @@ type Shipping struct {
 }
 
 type ShippingMethod struct {
-	ID          string `json:"id"`
-	Amount      int64  `json:"amount"`
-	Currency    string `json:"currency"`
-	Description string `json:"description"`
+	ID          string   `json:"id"`
+	Amount      int64    `json:"amount"`
+	Currency    Currency `json:"currency"`
+	Description string   `json:"description"`
 }
 
 type Order struct {
@@ -47,7 +66,7 @@ type Order struct {
 	ApplicationFee         int64             `json:"application_fee"`
 	Charge                 Charge            `json:"charge"`
 	Created                int64             `json:"created"`
-	Currency               string            `json:"currency"`
+	Currency               Currency          `json:"currency"`
 	Customer               Customer          `json:"customer"`
 	Email                  string            `json:"email"`
 	Items                  []OrderItem       `json:"items"`
@@ -55,17 +74,8 @@ type Order struct {
 	SelectedShippingMethod *string           `json:"selected_shipping_method"`
 	Shipping               Shipping          `json:"shipping"`
 	ShippingMethods        []ShippingMethod  `json:"shipping_methods"`
-	Status                 string            `json:"status"`
+	Status                 OrderStatus       `json:"status"`
 	Updated                int64             `json:"updated"`
-}
-
-type OrderItem struct {
-	Amount      int64  `json:"amount"`
-	Currency    string `json:"currency"`
-	Description string `json:"description"`
-	Parent      string `json:"parent"`
-	Quantity    int64  `json:"quantity"`
-	Type        string `json:"type"`
 }
 
 // OrderListParams is the set of parameters that can be used when
@@ -74,7 +84,7 @@ type OrderItem struct {
 type OrderListParams struct {
 	ListParams
 	IDs    []string
-	Status string
+	Status OrderStatus
 }
 
 // OrderPayParams is the set of parameters that can be used when
