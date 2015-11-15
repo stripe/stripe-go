@@ -174,8 +174,22 @@ func (c Client) List(params *stripe.ProductListParams) *Iter {
 	if params != nil {
 		body = &url.Values{}
 
-		if params.Created > 0 {
-			body.Add("created", strconv.FormatInt(params.Created, 10))
+		if params.Active != nil {
+			params.Filters.AddFilter("active", "", strconv.FormatBool(*params.Active))
+		}
+
+		if len(params.IDs) > 0 {
+			for _, id := range params.IDs {
+				params.Filters.AddFilter("ids[]", "", id)
+			}
+		}
+
+		if params.Shippable != nil {
+			params.Filters.AddFilter("shippable", "", strconv.FormatBool(*params.Shippable))
+		}
+
+		if params.URL != "" {
+			params.Filters.AddFilter("url", "", params.URL)
 		}
 
 		params.AppendTo(body)

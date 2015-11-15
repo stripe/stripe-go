@@ -58,7 +58,10 @@ type Product struct {
 // https://stripe.com/docs/api#list_products.
 type ProductListParams struct {
 	ListParams
-	Created int64
+	Active    *bool
+	IDs       []string
+	Shippable *bool
+	URL       string
 }
 
 // UnmarshalJSON handles deserialization of a Product.

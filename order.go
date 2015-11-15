@@ -11,6 +11,13 @@ type OrderParams struct {
 	Shipping Shipping
 }
 
+type OrderUpdateParams struct {
+	Params
+	Coupon                 string
+	SelectedShippingMethod string
+	Status                 string
+}
+
 type OrderItemParams struct {
 	Amount      int64
 	Currency    string
@@ -61,6 +68,34 @@ type OrderItem struct {
 	Type        string `json:"type"`
 }
 
+// OrderListParams is the set of parameters that can be used when
+// listing orders. For more details, see:
+// https://stripe.com/docs/api#list_orders.
+type OrderListParams struct {
+	ListParams
+	IDs    []string
+	Status string
+}
+
+// OrderPayParams is the set of parameters that can be used when
+// paying orders. For more details, see:
+// https://stripe.com/docs/api#pay_order.
+type OrderPayParams struct {
+	Params
+	Source         *SourceParams
+	Customer       string
+	ApplicationFee int64
+	Email          string
+}
+
+// SetSource adds valid sources to a OrderParams object,
+// returning an error for unsupported sources.
+func (op *OrderPayParams) SetSource(sp interface{}) error {
+	source, err := SourceParamsFor(sp)
+	op.Source = source
+	return err
+}
+
 // UnmarshalJSON handles deserialization of an Order.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
@@ -70,6 +105,8 @@ func (o *Order) UnmarshalJSON(data []byte) error {
 	err := json.Unmarshal(data, &oo)
 	if err == nil {
 		*o = Order(oo)
+		{
+		}
 	} else {
 		// the id is surrounded by "\" characters, so strip them
 		o.ID = string(data[1 : len(data)-1])

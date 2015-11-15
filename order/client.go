@@ -1,26 +1,27 @@
-package product
+package order
 
 import (
+	"errors"
 	"net/url"
 	"strconv"
 
 	stripe "github.com/stripe-internal/stripe-go"
 )
 
-// Client is used to invoke /products APIs.
+// Client is used to invoke /orders APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
 }
 
-// New POSTs a new product.
-// For more details see https://stripe.com/docs/api#create_product.
+// New POSTs a new order.
+// For more details see https://stripe.com/docs/api#create_order.
 func New(params *stripe.OrderParams) (*stripe.Order, error) {
 	return getC().New(params)
 }
 
-// New POSTs a new product.
-// For more details see https://stripe.com/docs/api#create_product.
+// New POSTs a new order.
+// For more details see https://stripe.com/docs/api#create_order.
 func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 	var body *url.Values
 	var commonParams *stripe.Params
@@ -91,53 +92,110 @@ func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 	return p, err
 }
 
-// Update updates a product's properties.
-// For more details see https://stripe.com/docs/api#update_product.
-func Update(id string, params *stripe.OrderParams) (*stripe.Order, error) {
+// Update updates an order's properties.
+// For more details see https://stripe.com/docs/api#update_order.
+func Update(id string, params *stripe.OrderUpdateParams) (*stripe.Order, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a product's properties.
-// For more details see https://stripe.com/docs/api#update_product.
-func (c Client) Update(id string, params *stripe.OrderParams) (*stripe.Order, error) {
+// Update updates an order's properties.
+// For more details see https://stripe.com/docs/api#update_order.
+func (c Client) Update(id string, params *stripe.OrderUpdateParams) (*stripe.Order, error) {
 	var body *url.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		body = &url.Values{}
 
-		body.Add("id", params.ID)
+		body.Add("id", id)
+
+		if params.Coupon != "" {
+			body.Add("coupon", params.Coupon)
+		}
+
+		if params.SelectedShippingMethod != "" {
+			body.Add("selected_shipping_method", params.SelectedShippingMethod)
+		}
+
+		if params.Status != "" {
+			body.Add("status", params.Status)
+		}
 
 		params.AppendTo(body)
 	}
 
-	p := &stripe.Order{}
-	err := c.B.Call("POST", "/products/"+id, c.Key, body, commonParams, p)
+	o := &stripe.Order{}
+	err := c.B.Call("POST", "/orders/"+id, c.Key, body, commonParams, o)
 
-	return p, err
+	return o, err
 }
 
-// Get returns the details of an product
-// For more details see https://stripe.com/docs/api#retrieve_product.
+// Pay pays an order
+// For more details see https://stripe.com/docs/api#pay_order.
+func Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, error) {
+	return getC().Pay(id, params)
+}
+
+// Pay pays an order
+// For more details see https://stripe.com/docs/api#pay_order.
+func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, error) {
+	var body *url.Values
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &url.Values{}
+
+		if params.Source == nil && len(params.Customer) == 0 {
+			err := errors.New("Invalid order pay params: either customer or a source must be set")
+			return nil, err
+		}
+
+		if params.Source != nil {
+			params.Source.AppendDetails(body, true)
+		}
+
+		if len(params.Customer) > 0 {
+			body.Add("customer", params.Customer)
+		}
+
+		if params.ApplicationFee > 0 {
+			body.Add("application_fee", strconv.FormatInt(params.ApplicationFee, 10))
+		}
+
+		if params.Email != "" {
+			body.Add("email", params.Email)
+		}
+
+		params.AppendTo(body)
+	}
+
+	o := &stripe.Order{}
+	err := c.B.Call("POST", "/orders/"+id, c.Key, body, commonParams, o)
+
+	return o, err
+}
+
+// Get returns the details of an order
+// For more details see https://stripe.com/docs/api#retrieve_order.
 func Get(id string) (*stripe.Order, error) {
 	return getC().Get(id)
 }
 
 func (c Client) Get(id string) (*stripe.Order, error) {
-	product := &stripe.Order{}
-	err := c.B.Call("GET", "/products/"+id, c.Key, nil, nil, product)
+	order := &stripe.Order{}
+	err := c.B.Call("GET", "/orders/"+id, c.Key, nil, nil, order)
 
-	return product, err
+	return order, err
 }
 
-// List returns a list of products.
-// For more details see https://stripe.com/docs/api#list_products
+// List returns a list of orders.
+// For more details see https://stripe.com/docs/api#list_orders
 func List(params *stripe.OrderListParams) *Iter {
 	return getC().List(params)
 }
 
 func (c Client) List(params *stripe.OrderListParams) *Iter {
-	type productList struct {
+	type orderList struct {
 		stripe.ListMeta
 		Values []*stripe.Order `json:"data"`
 	}
@@ -148,8 +206,12 @@ func (c Client) List(params *stripe.OrderListParams) *Iter {
 	if params != nil {
 		body = &url.Values{}
 
-		if params.Created > 0 {
-			body.Add("created", strconv.FormatInt(params.Created, 10))
+		for _, id := range params.IDs {
+			params.Filters.AddFilter("ids[]", "", id)
+		}
+
+		if params.Status != "" {
+			params.Filters.AddFilter("status", "", params.Status)
 		}
 
 		params.AppendTo(body)
@@ -157,8 +219,8 @@ func (c Client) List(params *stripe.OrderListParams) *Iter {
 	}
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
-		list := &productList{}
-		err := c.B.Call("GET", "/products", c.Key, &b, nil, list)
+		list := &orderList{}
+		err := c.B.Call("GET", "/orders", c.Key, &b, nil, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
@@ -169,16 +231,16 @@ func (c Client) List(params *stripe.OrderListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Products.
+// Iter is an iterator for lists of Orders.
 // The embedded Iter carries methods with it;
 // see its documentation for details.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Product returns the most recent Product
+// Order returns the most recent Order
 // visited by a call to Next.
-func (i *Iter) Product() *stripe.Order {
+func (i *Iter) Order() *stripe.Order {
 	return i.Current().(*stripe.Order)
 }
 
