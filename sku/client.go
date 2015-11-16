@@ -197,8 +197,27 @@ func (c Client) List(params *stripe.SKUListParams) *Iter {
 	if params != nil {
 		body = &url.Values{}
 
-		if params.Created > 0 {
-			body.Add("created", strconv.FormatInt(params.Created, 10))
+		if params.Active != nil {
+			params.Filters.AddFilter(
+				"active", "", strconv.FormatBool(*params.Active),
+			)
+		}
+
+		if params.Product != "" {
+			params.Filters.AddFilter("product", "", params.Product)
+			for attrName, value := range params.Attributes {
+				params.Filters.AddFilter("attributes", attrName, value)
+			}
+		}
+
+		for _, id := range params.IDs {
+			params.Filters.AddFilter("ids[]", "", id)
+		}
+
+		if params.InStock != nil {
+			params.Filters.AddFilter(
+				"in_stock", "", strconv.FormatBool(*params.InStock),
+			)
 		}
 
 		params.AppendTo(body)
