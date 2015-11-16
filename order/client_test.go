@@ -229,5 +229,73 @@ func TestOrderPay(t *testing.T) {
 	if order.Status != stripe.StatusPaid {
 		t.Errorf("Order status not set to paid: %v", order.Status)
 	}
+}
 
+func TestOrderList(t *testing.T) {
+	params := &stripe.OrderParams{
+		Currency: currency.USD,
+		Items: []*stripe.OrderItemParams{
+			&stripe.OrderItemParams{
+				Type:   "sku",
+				Parent: "sku_7EjB0wuV6CBT8x",
+			},
+		},
+		Shipping: &stripe.ShippingParams{
+			Name: "Jenny Rosen",
+			Address: &stripe.AddressParams{
+				Line1:      "1234 Main Street",
+				City:       "Anytown",
+				Country:    "US",
+				PostalCode: "123456",
+			},
+			Phone: "6504244242",
+		},
+		Email: "jenny@ros.en",
+	}
+
+	first, err := New(params)
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+	_, err = Update(
+		first.ID,
+		&stripe.OrderUpdateParams{
+			Status: stripe.StatusCanceled,
+		},
+	)
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	second, err := New(params)
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	listParams := &stripe.OrderListParams{
+		IDs:    []string{first.ID, second.ID},
+		Status: stripe.StatusCanceled,
+	}
+
+	i := List(listParams)
+	count := 0
+	for i.Next() {
+		target := i.Order()
+
+		if target.Status != stripe.StatusCanceled {
+			t.Errorf(
+				"Order list should only include status=%v, got %v\n",
+				stripe.StatusCanceled,
+				target.Status,
+			)
+		}
+		count++
+
+	}
+	if count != 1 {
+		t.Errorf("Expected to get 1 object, got %v", count)
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
+	}
 }
