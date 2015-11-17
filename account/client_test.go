@@ -194,6 +194,10 @@ func TestAccountGet(t *testing.T) {
 		t.Errorf("Account is missing timezone\n")
 	}
 
+	if len(target.Statement) == 0 {
+		t.Errorf("Account is missing Statement\n")
+	}
+
 	if len(target.BusinessName) == 0 {
 		t.Errorf("Account is missing business name\n")
 	}
@@ -216,5 +220,21 @@ func TestAccountGet(t *testing.T) {
 
 	if len(target.SupportUrl) == 0 {
 		t.Errorf("Account is missing support URL\n")
+	}
+
+	if len(target.DefaultCurrency) == 0 {
+		t.Errorf("Account is missing default currency\n")
+	}
+
+	if len(target.Name) == 0 {
+		t.Errorf("Account is missing name\n")
+	}
+
+	if len(target.Email) == 0 {
+		t.Errorf("Account is missing email\n")
+	}
+
+	if len(target.Timezone) == 0 {
+		t.Errorf("Account is missing timezone\n")
 	}
 }
