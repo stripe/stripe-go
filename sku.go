@@ -48,7 +48,11 @@ type SKUList struct {
 
 type SKUListParams struct {
 	ListParams
-	Created int64
+	Active     *bool
+	Product    string
+	Attributes map[string]string
+	IDs        []string
+	InStock    *bool
 }
 
 func (s *SKU) UnmarshalJSON(data []byte) error {

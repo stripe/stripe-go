@@ -131,3 +131,61 @@ func TestProductUpdate(t *testing.T) {
 		t.Errorf("Invalid description: %v", p.Desc)
 	}
 }
+
+func TestProductList(t *testing.T) {
+	const runs = 3
+	randID := fmt.Sprintf("example.com/", RandSeq(16))
+	for i := 0; i < runs; i++ {
+		shippable := i == 0
+		active := i == 1
+		prodParams := &stripe.ProductParams{
+			Name:      fmt.Sprintf("test_%v", i),
+			Shippable: &shippable,
+			Active:    &active,
+			URL:       randID,
+		}
+
+		New(prodParams)
+	}
+
+	params := &stripe.ProductListParams{}
+	params.Shippable = new(bool)
+	*params.Shippable = true
+	params.URL = randID
+
+	i := List(params)
+	for i.Next() {
+		target := i.Product()
+
+		if i.Meta() == nil {
+			t.Error("No metadata returned")
+		}
+
+		if target.Name != "test_0" {
+			t.Errorf("Filtered product %v is not the expected\n", target.Name)
+		}
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
+	}
+
+	params.Shippable = nil
+	params.Active = new(bool)
+	*params.Active = true
+
+	i = List(params)
+	for i.Next() {
+		target := i.Product()
+
+		if i.Meta() == nil {
+			t.Error("No metadata returned")
+		}
+
+		if target.Name != "test_1" {
+			t.Errorf("Filtered product %v is not the expected\n", target.Name)
+		}
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
+	}
+}
