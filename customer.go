@@ -78,8 +78,13 @@ func (s *CustomerShippingDetails) AppendDetails(values *url.Values) {
 		values.Add("shipping[address][state]", s.Address.State)
 	}
 
+	// Deprecated. Ordered before PostalCode check so that it takes precedence.
 	if len(s.Address.Zip) > 0 {
 		values.Add("shipping[address][postal_code]", s.Address.Zip)
+	}
+
+	if len(s.Address.PostalCode) > 0 {
+		values.Add("shipping[address][postal_code]", s.Address.PostalCode)
 	}
 
 	if len(s.Phone) > 0 {
