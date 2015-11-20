@@ -129,12 +129,15 @@ type LegalEntity struct {
 
 // Address is the structure for an account address.
 type Address struct {
-	Line1   string `json:"line1"`
-	Line2   string `json:"line2"`
-	City    string `json:"city"`
-	State   string `json:"state"`
-	Zip     string `json:"postal_code"`
-	Country string `json:"country"`
+	Line1      string `json:"line1"`
+	Line2      string `json:"line2"`
+	City       string `json:"city"`
+	State      string `json:"state"`
+	PostalCode string `json:"postal_code"`
+	Country    string `json:"country"`
+
+	// Deprecated. Please use PostalCode instead.
+	Zip string `json:"postal_code"`
 }
 
 // DOB is a structure for an account owner's date of birth.
@@ -234,8 +237,13 @@ func (l *LegalEntity) AppendDetails(values *url.Values) {
 		values.Add("legal_entity[address][state]", l.Address.State)
 	}
 
+	// Deprecated. Ordered before PostalCode check so that it takes precedence.
 	if len(l.Address.Zip) > 0 {
 		values.Add("legal_entity[address][postal_code]", l.Address.Zip)
+	}
+
+	if len(l.Address.PostalCode) > 0 {
+		values.Add("legal_entity[address][postal_code]", l.Address.PostalCode)
 	}
 
 	if len(l.Address.Country) > 0 {
@@ -260,6 +268,11 @@ func (l *LegalEntity) AppendDetails(values *url.Values) {
 
 	if len(l.PersonalAddress.Zip) > 0 {
 		values.Add("legal_entity[personal_address][postal_code]", l.PersonalAddress.Zip)
+	}
+
+	// Deprecated. Ordered before PostalCode check so that it takes precedence.
+	if len(l.PersonalAddress.PostalCode) > 0 {
+		values.Add("legal_entity[personal_address][postal_code]", l.PersonalAddress.PostalCode)
 	}
 
 	if len(l.PersonalAddress.Country) > 0 {
@@ -295,8 +308,13 @@ func (l *LegalEntity) AppendDetails(values *url.Values) {
 			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][state]", i), owner.Address.State)
 		}
 
+		// Deprecated. Ordered before PostalCode check so that it takes precedence.
 		if len(owner.Address.Zip) > 0 {
 			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][postal_code]", i), owner.Address.Zip)
+		}
+
+		if len(owner.Address.PostalCode) > 0 {
+			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][postal_code]", i), owner.Address.PostalCode)
 		}
 
 		if len(owner.Address.Country) > 0 {

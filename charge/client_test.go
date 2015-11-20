@@ -30,7 +30,7 @@ func TestChargeNew(t *testing.T) {
 				Line2: "Apt 1",
 				City:  "Somewhere",
 				State: "SW",
-				Zip:   "10044",
+				PostalCode: "10044",
 			},
 		},
 	}
@@ -79,8 +79,8 @@ func TestChargeNew(t *testing.T) {
 	if target.Shipping.Address.State != chargeParams.Shipping.Address.State {
 		t.Errorf("Shipping address state %q does not match expected address state %v\n", target.Shipping.Address.State, chargeParams.Shipping.Address.State)
 	}
-	if target.Shipping.Address.Zip != chargeParams.Shipping.Address.Zip {
-		t.Errorf("Shipping address zip %q does not match expected address zip %v\n", target.Shipping.Address.Zip, chargeParams.Shipping.Address.Zip)
+	if target.Shipping.Address.PostalCode != chargeParams.Shipping.Address.PostalCode {
+		t.Errorf("Shipping address zip %q does not match expected address zip %v\n", target.Shipping.Address.PostalCode, chargeParams.Shipping.Address.PostalCode)
 	}
 }
 

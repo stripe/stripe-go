@@ -97,11 +97,11 @@ func TestCustomerUpdateWithShipping(t *testing.T) {
 		Shipping: &stripe.CustomerShippingDetails{
 			Name: "Shipping Name",
 			Address: stripe.Address{
-				Line1: "One Street",
-				Line2: "Apt 1",
-				City:  "Somewhere",
-				State: "SW",
-				Zip:   "10044",
+				Line1:      "One Street",
+				Line2:      "Apt 1",
+				City:       "Somewhere",
+				State:      "SW",
+				PostalCode: "10044",
 			},
 		},
 	}
@@ -133,8 +133,8 @@ func TestCustomerUpdateWithShipping(t *testing.T) {
 	if target.Shipping.Address.State != customerParams.Shipping.Address.State {
 		t.Errorf("Shipping address state %q does not match expected address state %v\n", target.Shipping.Address.State, customerParams.Shipping.Address.State)
 	}
-	if target.Shipping.Address.Zip != customerParams.Shipping.Address.Zip {
-		t.Errorf("Shipping address zip %q does not match expected address zip %v\n", target.Shipping.Address.Zip, customerParams.Shipping.Address.Zip)
+	if target.Shipping.Address.PostalCode != customerParams.Shipping.Address.PostalCode {
+		t.Errorf("Shipping address zip %q does not match expected address zip %v\n", target.Shipping.Address.PostalCode, customerParams.Shipping.Address.PostalCode)
 	}
 
 	Del(target.ID)
