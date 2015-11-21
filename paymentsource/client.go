@@ -91,17 +91,21 @@ func (s Client) Update(id string, params *stripe.CustomerSourceParams) (*stripe.
 
 // Del removes a source.
 // For more details see https://stripe.com/docs/api#delete_source.
-func Del(id string, params *stripe.CustomerSourceParams) error {
+func Del(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	return getC().Del(id, params)
 }
 
-func (s Client) Del(id string, params *stripe.CustomerSourceParams) error {
+func (s Client) Del(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+	source := &stripe.PaymentSource{}
+	var err error
 
 	if len(params.Customer) > 0 {
-		return s.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", params.Customer, id), s.Key, nil, &params.Params, nil)
+		err = s.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", params.Customer, id), s.Key, nil, &params.Params, source)
 	} else {
-		return errors.New("Invalid source params: customer needs to be set")
+		err = errors.New("Invalid source params: customer needs to be set")
 	}
+
+	return source, err
 }
 
 // List returns a list of sources.

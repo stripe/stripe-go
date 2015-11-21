@@ -104,9 +104,13 @@ func TestSourceDel(t *testing.T) {
 
 	cust, _ := customer.New(customerParams)
 
-	err := Del(cust.DefaultSource.ID, &stripe.CustomerSourceParams{Customer: cust.ID})
+	sourceDel, err := Del(cust.DefaultSource.ID, &stripe.CustomerSourceParams{Customer: cust.ID})
 	if err != nil {
 		t.Error(err)
+	}
+
+	if !sourceDel.Deleted {
+		t.Errorf("Source id %q expected to be marked as deleted on the returned resource\n", sourceDel.ID)
 	}
 
 	customer.Del(cust.ID)

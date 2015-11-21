@@ -36,6 +36,7 @@ type InvoiceItem struct {
 	Meta         map[string]string `json:"metadata"`
 	Sub          string            `json:"subscription"`
 	Discountable bool              `json:"discountable"`
+	Deleted      bool              `json:"deleted"`
 }
 
 // UnmarshalJSON handles deserialization of an InvoiceItem.

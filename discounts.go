@@ -8,4 +8,5 @@ type Discount struct {
 	Start    int64   `json:"start"`
 	End      int64   `json:"end"`
 	Sub      string  `json:"subscription"`
+	Deleted  bool    `json:"deleted"`
 }

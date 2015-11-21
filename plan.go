@@ -36,4 +36,5 @@ type Plan struct {
 	Meta          map[string]string `json:"metadata"`
 	TrialPeriod   uint64            `json:"trial_period_days"`
 	Statement     string            `json:"statement_descriptor"`
+	Deleted       bool              `json:"deleted"`
 }

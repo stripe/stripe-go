@@ -94,12 +94,15 @@ func (c Client) Get(id string, params *stripe.CouponParams) (*stripe.Coupon, err
 
 // Del removes a coupon.
 // For more details see https://stripe.com/docs/api#delete_coupon.
-func Del(id string) error {
+func Del(id string) (*stripe.Coupon, error) {
 	return getC().Del(id)
 }
 
-func (c Client) Del(id string) error {
-	return c.B.Call("DELETE", "/coupons/"+id, c.Key, nil, nil, nil)
+func (c Client) Del(id string) (*stripe.Coupon, error) {
+	coupon := &stripe.Coupon{}
+	err := c.B.Call("DELETE", "/coupons/"+id, c.Key, nil, nil, coupon)
+
+	return coupon, err
 }
 
 // List returns a list of coupons.

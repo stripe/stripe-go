@@ -39,6 +39,7 @@ type Coupon struct {
 	RedeemBy       int64             `json:"redeem_by"`
 	Redeemed       uint64            `json:"times_redeemed"`
 	Valid          bool              `json:"valid"`
+	Deleted       bool               `json:"deleted"`
 }
 
 // UnmarshalJSON handles deserialization of a Coupon.

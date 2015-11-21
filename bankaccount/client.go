@@ -2,6 +2,7 @@
 package bankaccount
 
 import (
+	"errors"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -101,12 +102,23 @@ func (c Client) Update(id string, params *stripe.BankAccountParams) (*stripe.Ban
 }
 
 // Del removes a bank account.
-func Del(id string, params *stripe.BankAccountParams) error {
+func Del(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	return getC().Del(id, params)
 }
 
-func (c Client) Del(id string, params *stripe.BankAccountParams) error {
-	return c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/bank_accounts/%v", params.AccountID, id), c.Key, nil, nil, nil)
+func (c Client) Del(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
+	ba := &stripe.BankAccount{}
+	var err error
+
+	if len(params.Customer) > 0 {
+		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/bank_accounts/%v", params.Customer, id), c.Key, nil, nil, ba)
+	} else if len(params.AccountID) > 0 {
+		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/bank_accounts/%v", params.AccountID, id), c.Key, nil, nil, ba)
+	} else {
+		err = errors.New("Invalid bank account params: either customer or AccountID need to be set")
+	}
+
+	return ba, err
 }
 
 // List returns a list of bank accounts.

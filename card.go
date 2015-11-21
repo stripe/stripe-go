@@ -61,6 +61,7 @@ type Card struct {
 	Name          string       `json:"name"`
 	Recipient     *Recipient   `json:"recipient"`
 	DynLastFour   string       `json:"dynamic_last4"`
+	Deleted       bool         `json:"deleted"`
 }
 
 // CardList is a list object for cards.
