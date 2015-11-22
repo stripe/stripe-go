@@ -142,8 +142,9 @@ func TestPlanList(t *testing.T) {
 	params := &stripe.PlanListParams{}
 	params.Filters.AddFilter("limit", "", "1")
 
+	plansChecked := 0
 	i := List(params)
-	for i.Next() {
+	for i.Next() && plansChecked < runs {
 		target := i.Plan()
 
 		if i.Meta() == nil {
@@ -153,6 +154,8 @@ func TestPlanList(t *testing.T) {
 		if target.Amount != 99 {
 			t.Errorf("Amount %v does not match expected value\n", target.Amount)
 		}
+
+		plansChecked += 1
 	}
 	if err := i.Err(); err != nil {
 		t.Error(err)
