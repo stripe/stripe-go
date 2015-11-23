@@ -1,17 +1,17 @@
 package order
 
 import (
+	"fmt"
 	"math/rand"
 	"testing"
 	"time"
-	"fmt"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/coupon"
 	"github.com/stripe/stripe-go/currency"
+	"github.com/stripe/stripe-go/orderitem"
 	"github.com/stripe/stripe-go/product"
 	"github.com/stripe/stripe-go/sku"
-	"github.com/stripe/stripe-go/orderitem"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -20,7 +20,7 @@ func init() {
 	rand.Seed(time.Now().UTC().UnixNano())
 }
 
-func CreateTestProductAndSku(t *testing.T) (*stripe.SKU) {
+func CreateTestProductAndSku(t *testing.T) *stripe.SKU {
 	active := true
 
 	p, err := product.New(&stripe.ProductParams{

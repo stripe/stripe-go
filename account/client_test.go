@@ -117,10 +117,10 @@ func TestAccountUpdateWithBankAccount(t *testing.T) {
 
 	params = &stripe.AccountParams{
 		ExternalAccount: &stripe.AccountExternalAccountParams{
-			Country: "US",
+			Country:  "US",
 			Currency: "usd",
-			Routing: "110000000",
-			Account: "000123456789",
+			Routing:  "110000000",
+			Account:  "000123456789",
 		},
 	}
 
