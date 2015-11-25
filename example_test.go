@@ -70,7 +70,7 @@ func ExampleInvoice_update() {
 func ExampleCustomer_delete() {
 	stripe.Key = "sk_key"
 
-	c, err := customer.Del("acct_example_id")
+	customerDel, err := customer.Del("cus_example_id")
 
 	if err != nil {
 		log.Fatal(err)
