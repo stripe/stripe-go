@@ -22,6 +22,10 @@ func New(params *stripe.AccountParams) (*stripe.Account, error) {
 func writeAccountParams(
 	params *stripe.AccountParams, body *url.Values,
 ) {
+	if len(params.Country) > 0 {
+		body.Add("country", params.Country)
+	}
+
 	if len(params.Email) > 0 {
 		body.Add("email", params.Email)
 	}
