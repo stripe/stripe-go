@@ -177,12 +177,15 @@ func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account
 }
 
 // Del deletes an account
-func Del(id string) error {
+func Del(id string) (*stripe.Account, error) {
 	return getC().Del(id)
 }
 
-func (c Client) Del(id string) error {
-	return c.B.Call("DELETE", "/accounts/"+id, c.Key, nil, nil, nil)
+func (c Client) Del(id string) (*stripe.Account, error) {
+	acct := &stripe.Account{}
+	err := c.B.Call("DELETE", "/accounts/"+id, c.Key, nil, nil, acct)
+
+	return acct, err
 }
 
 // List lists your accounts.

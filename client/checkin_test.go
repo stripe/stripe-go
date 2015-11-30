@@ -142,7 +142,7 @@ func TestCheckinDel(t *testing.T) {
 		t.Error(err)
 	}
 
-	err = c.Plans.Del(plan.ID)
+	_, err = c.Plans.Del(plan.ID)
 
 	if err != nil {
 		t.Error(err)

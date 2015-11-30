@@ -69,9 +69,14 @@ func TestAccountDelete(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	err = Del(acct.ID)
+
+	acctDel, err := Del(acct.ID)
 	if err != nil {
 		t.Error(err)
+	}
+
+	if !acctDel.Deleted {
+		t.Errorf("Account id %q expected to be marked as deleted on the returned resource\n", acctDel.ID)
 	}
 }
 

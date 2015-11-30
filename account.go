@@ -108,6 +108,7 @@ type Account struct {
 		UserAgent string `json:"user_agent"`
 	} `json:"tos_acceptance"`
 	SupportAddress *Address `json:"support_address"`
+	Deleted        bool     `json:"deleted"`
 }
 
 // LegalEntity is the structure for properties related to an account's legal state.

@@ -39,6 +39,7 @@ type Recipient struct {
 	Name        string            `json:"name"`
 	Cards       *CardList         `json:"cards"`
 	DefaultCard *Card             `json:"default_card"`
+	Deleted     bool              `json:"deleted"`
 }
 
 // UnmarshalJSON handles deserialization of a Recipient.

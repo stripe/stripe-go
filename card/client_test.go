@@ -102,9 +102,13 @@ func TestCardDel(t *testing.T) {
 
 	cust, _ := customer.New(customerParams)
 
-	err := Del(cust.DefaultSource.ID, &stripe.CardParams{Customer: cust.ID})
+	cardDel, err := Del(cust.DefaultSource.ID, &stripe.CardParams{Customer: cust.ID})
 	if err != nil {
 		t.Error(err)
+	}
+
+	if !cardDel.Deleted {
+		t.Errorf("Card id %q expected to be marked as deleted on the returned resource\n", cardDel.ID)
 	}
 
 	customer.Del(cust.ID)

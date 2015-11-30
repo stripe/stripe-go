@@ -250,10 +250,14 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Error(err)
 	}
 
-	err = invoiceitem.Del(targetItem.ID)
+	iiDel, err := invoiceitem.Del(targetItem.ID)
 
 	if err != nil {
 		t.Error(err)
+	}
+
+	if !iiDel.Deleted {
+		t.Errorf("Invoice Item id %q expected to be marked as deleted on the returned resource\n", iiDel.ID)
 	}
 
 	_, err = Get(targetInvoice.ID, nil)

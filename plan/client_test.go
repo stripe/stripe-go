@@ -125,6 +125,27 @@ func TestPlanUpdate(t *testing.T) {
 	Del(planParams.ID)
 }
 
+func TestPlanDel(t *testing.T) {
+	planParams := &stripe.PlanParams{
+		ID:       "test_plan",
+		Name:     "Test Plan",
+		Amount:   99,
+		Currency: currency.USD,
+		Interval: Month,
+	}
+
+	New(planParams)
+
+	planDel, err := Del(planParams.ID)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if !planDel.Deleted {
+		t.Errorf("Plan id %q expected to be marked as deleted on the returned resource\n", planDel.ID)
+	}
+}
+
 func TestPlanList(t *testing.T) {
 	const runs = 3
 	for i := 0; i < runs; i++ {

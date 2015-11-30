@@ -87,6 +87,7 @@ type PaymentSource struct {
 	ID              string            `json:"id"`
 	Card            *Card             `json:"-"`
 	BitcoinReceiver *BitcoinReceiver  `json:"-"`
+	Deleted         bool              `json:"deleted"`
 }
 
 // SourceList is a list object for cards.

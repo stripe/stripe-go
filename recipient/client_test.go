@@ -234,6 +234,29 @@ func TestRecipientUpdate(t *testing.T) {
 	Del(target.ID)
 }
 
+func TestRecipientDel(t *testing.T) {
+	recipientParams := &stripe.RecipientParams{
+		Name: "Recipient Name",
+		Type: Individual,
+	}
+
+	rec, err := New(recipientParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	recDel, err := Del(rec.ID)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if !recDel.Deleted {
+		t.Errorf("Recipient id %q expected to be marked as deleted on the returned resource\n", recDel.ID)
+	}
+}
+
 func TestRecipientList(t *testing.T) {
 	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",

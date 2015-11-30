@@ -174,7 +174,6 @@ func (c Client) Cancel(id string, params *stripe.SubParams) (*stripe.Sub, error)
 
 	params.AppendTo(body)
 
-
 	sub := &stripe.Sub{}
 	err := c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v", params.Customer, id), c.Key, body, &params.Params, sub)
 

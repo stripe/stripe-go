@@ -14,6 +14,7 @@ type BankAccountParams struct {
 	Params
 	AccountID, Token, Country, Routing, Account, Currency string
 	Default                                               bool
+	Customer                                              string
 }
 
 // BankAccountListParams is the set of parameters that can be used when listing bank accounts.
@@ -32,6 +33,8 @@ type BankAccount struct {
 	Fingerprint string            `json:"fingerprint"`
 	Status      BankAccountStatus `json:"status"`
 	Routing     string            `json:"routing_number"`
+	Deleted     bool              `json:"deleted"`
+	Customer    *Customer         `json:"customer"`
 }
 
 // BankAccountList is a list object for bank accounts.

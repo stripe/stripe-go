@@ -159,10 +159,14 @@ func TestCustomerGet(t *testing.T) {
 func TestCustomerDel(t *testing.T) {
 	res, _ := New(nil)
 
-	err := Del(res.ID)
+	customerDel, err := Del(res.ID)
 
 	if err != nil {
 		t.Error(err)
+	}
+
+	if !customerDel.Deleted {
+		t.Errorf("Customer id %q expected to be marked as deleted on the returned resource\n", c.ID)
 	}
 
 	target, err := Get(res.ID, nil)
@@ -170,7 +174,7 @@ func TestCustomerDel(t *testing.T) {
 		t.Error(err)
 	}
 
-	if target.Deleted != true {
+	if !target.Deleted {
 		t.Errorf("Customer id %q expected to be marked as deleted\n", target.ID)
 	}
 }
@@ -257,10 +261,14 @@ func TestCustomerDiscount(t *testing.T) {
 		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.ID, customerParams.Coupon)
 	}
 
-	err = discount.Del(target.ID)
+	discountDel, err := discount.Del(target.ID)
 
 	if err != nil {
 		t.Error(err)
+	}
+
+	if !discountDel.Deleted {
+		t.Errorf("Discount expected to be marked as deleted on the returned resource\n")
 	}
 
 	Del(target.ID)

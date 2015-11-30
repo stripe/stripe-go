@@ -115,3 +115,20 @@ func TestCouponList(t *testing.T) {
 		Del(fmt.Sprintf("test_%v", i))
 	}
 }
+
+func TestCouponDel(t *testing.T) {
+	couponParams := &stripe.CouponParams{
+		Duration: Once,
+		Percent:  50,
+	}
+
+	target, err := New(couponParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	coupon, err := Del(target.ID)
+	if !coupon.Deleted {
+		t.Errorf("Coupon id %v expected to be marked as deleted on the returned resource\n", coupon.ID)
+	}
+}

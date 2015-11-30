@@ -116,19 +116,23 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 
 // Del removes a card.
 // For more details see https://stripe.com/docs/api#delete_card.
-func Del(id string, params *stripe.CardParams) error {
+func Del(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	return getC().Del(id, params)
 }
 
-func (c Client) Del(id string, params *stripe.CardParams) error {
+func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) {
+	card := &stripe.Card{}
+	var err error
 
 	if len(params.Customer) > 0 {
-		return c.B.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, nil, &params.Params, nil)
+		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, nil, &params.Params, card)
 	} else if len(params.Recipient) > 0 {
-		return c.B.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, nil, &params.Params, nil)
+		err = c.B.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, nil, &params.Params, card)
 	} else {
-		return errors.New("Invalid card params: either customer or recipient need to be set")
+		err = errors.New("Invalid card params: either customer or recipient need to be set")
 	}
+
+	return card, err
 }
 
 // List returns a list of cards.
