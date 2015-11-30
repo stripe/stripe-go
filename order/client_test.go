@@ -1,6 +1,7 @@
 package order
 
 import (
+	"fmt"
 	"math/rand"
 	"testing"
 	"time"
@@ -9,6 +10,8 @@ import (
 	"github.com/stripe/stripe-go/coupon"
 	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/orderitem"
+	"github.com/stripe/stripe-go/product"
+	"github.com/stripe/stripe-go/sku"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -17,13 +20,51 @@ func init() {
 	rand.Seed(time.Now().UTC().UnixNano())
 }
 
+func CreateTestProductAndSku(t *testing.T) *stripe.SKU {
+	active := true
+
+	p, err := product.New(&stripe.ProductParams{
+		Active:    &active,
+		Name:      "test name",
+		Desc:      "This is a description",
+		Caption:   "This is a caption",
+		Attrs:     []string{"attr1", "attr2"},
+		URL:       "http://example.com",
+		Shippable: &active,
+	})
+
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	randID := fmt.Sprintf("TEST-SKU-%v", RandSeq(16))
+	sku, err := sku.New(&stripe.SKUParams{
+		ID:        randID,
+		Active:    &active,
+		Attrs:     map[string]string{"attr1": "val1", "attr2": "val2"},
+		Price:     499,
+		Currency:  "usd",
+		Inventory: stripe.Inventory{Type: "bucket", Value: "limited"},
+		Product:   p.ID,
+		Image:     "http://example.com/foo.png",
+	})
+
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	return sku
+}
+
 func TestOrder(t *testing.T) {
+	sku := CreateTestProductAndSku(t)
+
 	o, err := New(&stripe.OrderParams{
 		Currency: "usd",
 		Items: []*stripe.OrderItemParams{
 			&stripe.OrderItemParams{
 				Type:   "sku",
-				Parent: "sku_7EjB0wuV6CBT8x",
+				Parent: sku.ID,
 			},
 		},
 		Shipping: &stripe.ShippingParams{
@@ -97,12 +138,14 @@ func TestOrder(t *testing.T) {
 }
 
 func TestOrderUpdate(t *testing.T) {
+	sku := CreateTestProductAndSku(t)
+
 	o, err := New(&stripe.OrderParams{
 		Currency: currency.USD,
 		Items: []*stripe.OrderItemParams{
 			&stripe.OrderItemParams{
 				Type:   "sku",
-				Parent: "sku_7EjB0wuV6CBT8x",
+				Parent: sku.ID,
 			},
 		},
 		Shipping: &stripe.ShippingParams{
@@ -175,12 +218,14 @@ func TestOrderUpdate(t *testing.T) {
 }
 
 func TestOrderPay(t *testing.T) {
+	sku := CreateTestProductAndSku(t)
+
 	o, err := New(&stripe.OrderParams{
 		Currency: currency.USD,
 		Items: []*stripe.OrderItemParams{
 			&stripe.OrderItemParams{
 				Type:   "sku",
-				Parent: "sku_7EjB0wuV6CBT8x",
+				Parent: sku.ID,
 			},
 		},
 		Shipping: &stripe.ShippingParams{
@@ -232,12 +277,14 @@ func TestOrderPay(t *testing.T) {
 }
 
 func TestOrderList(t *testing.T) {
+	sku := CreateTestProductAndSku(t)
+
 	params := &stripe.OrderParams{
 		Currency: currency.USD,
 		Items: []*stripe.OrderItemParams{
 			&stripe.OrderItemParams{
 				Type:   "sku",
-				Parent: "sku_7EjB0wuV6CBT8x",
+				Parent: sku.ID,
 			},
 		},
 		Shipping: &stripe.ShippingParams{
