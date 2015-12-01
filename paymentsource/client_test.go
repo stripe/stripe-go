@@ -154,6 +154,56 @@ func TestSourceUpdate(t *testing.T) {
 	customer.Del(cust.ID)
 }
 
+func TestSourceVerify(t *testing.T) {
+	bankAccountParams := &stripe.BankAccountParams{
+		Country: "US",
+		Currency: "usd",
+		Routing: "110000000",
+		Account: "000123456789",
+	}
+	tokenParams := &stripe.TokenParams{
+		Bank: bankAccountParams,
+	}
+	token, err := token.New(tokenParams)
+
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource(token.ID)
+
+	cust, err := customer.New(customerParams)
+
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	amounts := [2]uint8{32, 45};
+
+	verifyParams := &stripe.SourceVerifyParams{
+		Customer: cust.ID,
+		Amounts: amounts,
+	}
+
+	source, err := Verify(cust.DefaultSource.ID, verifyParams)
+
+	if err != nil {
+		t.Error(err)
+		return
+	}
+
+	target := source.BankAccount
+
+	if target.Status != bankaccount.VerifiedAccount {
+		t.Errorf("Status (%q) does not match expected (%q) ", target.Status, bankaccount.VerifiedAccount)
+	}
+
+	customer.Del(cust.ID)
+}
+
 func TestSourceList(t *testing.T) {
 	customerParams := &stripe.CustomerParams{}
 	customerParams.SetSource(&stripe.CardParams{

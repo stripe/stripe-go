@@ -34,6 +34,14 @@ type CustomerSourceParams struct {
 	Source   *SourceParams
 }
 
+// SourceVerifyParams are used to verify a customer source
+// For more details see https://stripe.com/docs/guides/ach-beta
+type SourceVerifyParams struct {
+	Params
+	Customer string
+	Amounts  [2]uint8
+}
+
 // SetSource adds valid sources to a CustomerSourceParams object,
 // returning an error for unsupported sources.
 func (cp *CustomerSourceParams) SetSource(sp interface{}) error {
@@ -75,6 +83,7 @@ type Displayer interface {
 type PaymentSourceType string
 
 const (
+	PaymentSourceBankAccount     PaymentSourceType = "bank_account"
 	PaymentSourceBitcoinReceiver PaymentSourceType = "bitcoin_receiver"
 	PaymentSourceCard            PaymentSourceType = "card"
 )
@@ -87,6 +96,7 @@ type PaymentSource struct {
 	ID              string            `json:"id"`
 	Card            *Card             `json:"-"`
 	BitcoinReceiver *BitcoinReceiver  `json:"-"`
+	BankAccount     *BankAccount      `json:"-"`
 	Deleted         bool              `json:"deleted"`
 }
 
@@ -110,6 +120,8 @@ func (s *PaymentSource) Display() string {
 		return s.BitcoinReceiver.Display()
 	case PaymentSourceCard:
 		return s.Card.Display()
+	case PaymentSourceBankAccount:
+		return s.BankAccount.Display()
 	}
 
 	return ""
@@ -126,6 +138,8 @@ func (s *PaymentSource) UnmarshalJSON(data []byte) error {
 		*s = PaymentSource(ss)
 
 		switch s.Type {
+		case PaymentSourceBankAccount:
+			json.Unmarshal(data, &s.BankAccount)
 		case PaymentSourceBitcoinReceiver:
 			json.Unmarshal(data, &s.BitcoinReceiver)
 		case PaymentSourceCard:
