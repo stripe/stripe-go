@@ -2,6 +2,7 @@ package stripe
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/url"
 )
 
@@ -41,6 +42,10 @@ type BankAccount struct {
 type BankAccountList struct {
 	ListMeta
 	Values []*BankAccount `json:"data"`
+}
+
+func (ba *BankAccount) Display() string {
+	return fmt.Sprintf("Bank account ending in %s", ba.LastFour)
 }
 
 // AppendDetails adds the bank account's details to the query string values.

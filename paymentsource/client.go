@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
+	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
 )
@@ -138,6 +139,29 @@ func (s Client) List(params *stripe.SourceListParams) *Iter {
 
 		return ret, list.ListMeta, err
 	})}
+}
+
+// Verify verifies a bank account
+// For more details see https://stripe.com/docs/guides/ach-beta
+func Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource, error) {
+	return getC().Verify(id, params)
+}
+
+func (s Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource, error) {
+	body := &url.Values{}
+	body.Add("amounts[]", strconv.Itoa(int(params.Amounts[0])))
+	body.Add("amounts[]", strconv.Itoa(int(params.Amounts[1])))
+
+	source := &stripe.PaymentSource{}
+	var err error
+
+	if len(params.Customer) > 0 {
+		err = s.B.Call("POST", fmt.Sprintf("/customers/%v/sources/%v/verify", params.Customer, id), s.Key, body, &params.Params, source)
+	} else {
+		err = errors.New("Only customer bank accounts can be verified in this manner.")
+	}
+
+	return source, err
 }
 
 // Iter is an iterator for lists of PaymentSources.
