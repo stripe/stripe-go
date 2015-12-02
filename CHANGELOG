@@ -1,3 +1,6 @@
+10.1.0 2015-12-01
+	Add a verification routine for external accounts
+
 10.0.0 2015-11-30
 	Return models along with `error` when deleting resources with `Del`
 	Fix bug where country parameter wasn't included for some account creation
