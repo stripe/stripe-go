@@ -48,12 +48,14 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	card := &stripe.Card{}
 	var err error
 
-	if len(params.Customer) > 0 {
+	if len(params.Account) > 0 {
+		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts", params.Account), c.Key, body, &params.Params, card)
+	} else if len(params.Customer) > 0 {
 		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards", params.Customer), c.Key, body, &params.Params, card)
 	} else if len(params.Recipient) > 0 {
 		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.Key, body, &params.Params, card)
 	} else {
-		err = errors.New("Invalid card params: either customer or recipient need to be set")
+		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
 
 	return card, err
@@ -78,12 +80,14 @@ func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	card := &stripe.Card{}
 	var err error
 
-	if len(params.Customer) > 0 {
+	if len(params.Account) > 0 {
+		err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts/%v", params.Account, id), c.Key, body, commonParams, card)
+	} else if len(params.Customer) > 0 {
 		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, commonParams, card)
 	} else if len(params.Recipient) > 0 {
 		err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, body, commonParams, card)
 	} else {
-		err = errors.New("Invalid card params: either customer or recipient need to be set")
+		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
 
 	return card, err
@@ -103,12 +107,14 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 	card := &stripe.Card{}
 	var err error
 
-	if len(params.Customer) > 0 {
+	if len(params.Account) > 0 {
+		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts/%v", params.Account, id), c.Key, body, &params.Params, card)
+	} else if len(params.Customer) > 0 {
 		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, &params.Params, card)
 	} else if len(params.Recipient) > 0 {
 		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, body, &params.Params, card)
 	} else {
-		err = errors.New("Invalid card params: either customer or recipient need to be set")
+		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
 
 	return card, err
@@ -124,12 +130,14 @@ func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	card := &stripe.Card{}
 	var err error
 
-	if len(params.Customer) > 0 {
+	if len(params.Account) > 0 {
+		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/external_accounts/%v", params.Account, id), c.Key, nil, &params.Params, card)
+	} else if len(params.Customer) > 0 {
 		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, nil, &params.Params, card)
 	} else if len(params.Recipient) > 0 {
 		err = c.B.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, nil, &params.Params, card)
 	} else {
-		err = errors.New("Invalid card params: either customer or recipient need to be set")
+		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
 
 	return card, err
@@ -152,12 +160,14 @@ func (c Client) List(params *stripe.CardListParams) *Iter {
 		list := &stripe.CardList{}
 		var err error
 
-		if len(params.Customer) > 0 {
+		if len(params.Account) > 0 {
+			err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts", params.Account), c.Key, &b, nil, list)
+		} else if len(params.Customer) > 0 {
 			err = c.B.Call("GET", fmt.Sprintf("/customers/%v/cards", params.Customer), c.Key, &b, nil, list)
 		} else if len(params.Recipient) > 0 {
 			err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.Key, &b, nil, list)
 		} else {
-			err = errors.New("Invalid card params: either customer or recipient need to be set")
+			err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 		}
 
 		ret := make([]interface{}, len(list.Values))
