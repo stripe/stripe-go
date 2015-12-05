@@ -107,6 +107,10 @@ func TestCouponUpdate(t *testing.T) {
 		t.Errorf("ID %q does not match expected id %q\n", target.ID, couponParams.ID)
 	}
 
+	if target.Meta["key"] != updateParams.Meta["key"] {
+		t.Errorf("Meta %v does not match expected Meta %v\n", target.Meta, updateParams.Meta)
+	}
+
 	Del(target.ID)
 }
 
