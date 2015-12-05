@@ -86,6 +86,34 @@ func TestCouponGet(t *testing.T) {
 	Del(target.ID)
 }
 
+func TestCouponUpdate(t *testing.T) {
+	couponParams := &stripe.CouponParams{
+		ID:       "test_coupon",
+		Duration: Once,
+		Percent:  50,
+	}
+
+	New(couponParams)
+
+	updateParams := &stripe.CouponParams{}
+	updateParams.AddMeta("key", "value")
+	target, err := Update(couponParams.ID, updateParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.ID != couponParams.ID {
+		t.Errorf("ID %q does not match expected id %q\n", target.ID, couponParams.ID)
+	}
+
+	if target.Meta["key"] != updateParams.Meta["key"] {
+		t.Errorf("Meta %v does not match expected Meta %v\n", target.Meta, updateParams.Meta)
+	}
+
+	Del(target.ID)
+}
+
 func TestCouponList(t *testing.T) {
 	for i := 0; i < 5; i++ {
 		couponParams := &stripe.CouponParams{
