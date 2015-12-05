@@ -76,7 +76,7 @@ func ExampleCustomer_delete() {
 		log.Fatal(err)
 	}
 
-	if !c.Deleted {
+	if !customerDel.Deleted {
 		log.Fatal("Customer doesn't appear deleted while it should be")
 	}
 }

@@ -166,7 +166,7 @@ func TestCustomerDel(t *testing.T) {
 	}
 
 	if !customerDel.Deleted {
-		t.Errorf("Customer id %q expected to be marked as deleted on the returned resource\n", c.ID)
+		t.Errorf("Customer id %q expected to be marked as deleted on the returned resource\n", res.ID)
 	}
 
 	target, err := Get(res.ID, nil)
