@@ -156,10 +156,10 @@ func TestSourceUpdate(t *testing.T) {
 
 func TestSourceVerify(t *testing.T) {
 	bankAccountParams := &stripe.BankAccountParams{
-		Country: "US",
+		Country:  "US",
 		Currency: "usd",
-		Routing: "110000000",
-		Account: "000123456789",
+		Routing:  "110000000",
+		Account:  "000123456789",
 	}
 	tokenParams := &stripe.TokenParams{
 		Bank: bankAccountParams,
@@ -181,11 +181,11 @@ func TestSourceVerify(t *testing.T) {
 		return
 	}
 
-	amounts := [2]uint8{32, 45};
+	amounts := [2]uint8{32, 45}
 
 	verifyParams := &stripe.SourceVerifyParams{
 		Customer: cust.ID,
-		Amounts: amounts,
+		Amounts:  amounts,
 	}
 
 	source, err := Verify(cust.DefaultSource.ID, verifyParams)
