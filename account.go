@@ -73,23 +73,24 @@ type Account struct {
 	ChargesEnabled bool   `json:"charges_enabled"`
 	Country        string `json:"country"`
 	// Currencies is the list of supported currencies.
-	Currencies           []string `json:"currencies_supported"`
-	DefaultCurrency      string   `json:"default_currency"`
-	DetailsSubmitted     bool     `json:"details_submitted"`
-	TransfersEnabled     bool     `json:"transfers_enabled"`
-	Name                 string   `json:"display_name"`
-	Email                string   `json:"email"`
-	Statement            string   `json:"statement_descriptor"`
-	Timezone             string   `json:"timezone"`
-	BusinessName         string   `json:"business_name"`
-	BusinessPrimaryColor string   `json:"business_primary_color"`
-	BusinessUrl          string   `json:"business_url"`
-	SupportPhone         string   `json:"support_phone"`
-	SupportEmail         string   `json:"support_email"`
-	SupportUrl           string   `json:"support_url"`
-	ProductDesc          string   `json:"product_description"`
-	Managed              bool     `json:"managed"`
-	DebitNegativeBal     bool     `json:"debit_negative_balances"`
+	Currencies           []string         `json:"currencies_supported"`
+	DefaultCurrency      string           `json:"default_currency"`
+	DetailsSubmitted     bool             `json:"details_submitted"`
+	TransfersEnabled     bool             `json:"transfers_enabled"`
+	Name                 string           `json:"display_name"`
+	Email                string           `json:"email"`
+	ExternalAccounts     ExternalAccounts `json:"external_accounts"`
+	Statement            string           `json:"statement_descriptor"`
+	Timezone             string           `json:"timezone"`
+	BusinessName         string           `json:"business_name"`
+	BusinessPrimaryColor string           `json:"business_primary_color"`
+	BusinessUrl          string           `json:"business_url"`
+	SupportPhone         string           `json:"support_phone"`
+	SupportEmail         string           `json:"support_email"`
+	SupportUrl           string           `json:"support_url"`
+	ProductDesc          string           `json:"product_description"`
+	Managed              bool             `json:"managed"`
+	DebitNegativeBal     bool             `json:"debit_negative_balances"`
 	Keys                 *struct {
 		Secret  string `json:"secret"`
 		Publish string `json:"publishable"`
@@ -109,6 +110,33 @@ type Account struct {
 	} `json:"tos_acceptance"`
 	SupportAddress *Address `json:"support_address"`
 	Deleted        bool     `json:"deleted"`
+}
+
+type ExternalAccounts struct {
+	Object     string            `json:"object"`
+	Data       []ExternalAccount `json:"data"`
+	HasMore    bool              `json:"has_more"`
+	TotalCount uint              `json:"total_count"`
+	Url        string            `json:"url"`
+}
+
+type ExternalAccount struct {
+	BankAccount *BankAccount
+	Card        *Card
+}
+
+func (ea *ExternalAccount) UnmarshalJSON(b []byte) (err error) {
+	bank, card := BankAccount{}, Card{}
+	if err = json.Unmarshal(b, &bank); err == nil {
+		ea.BankAccount = &bank
+		return
+	}
+	if err = json.Unmarshal(b, &card); err == nil {
+		ea.Card = &card
+		return
+	}
+
+	return
 }
 
 // LegalEntity is the structure for properties related to an account's legal state.
