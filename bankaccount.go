@@ -13,9 +13,21 @@ type BankAccountStatus string
 // BankAccountParams is the set of parameters that can be used when creating or updating a bank account.
 type BankAccountParams struct {
 	Params
-	AccountID, Token, Country, Routing, Account, Currency string
-	Default                                               bool
-	Customer                                              string
+
+	// The identifier of the parent account under which bank accounts are
+	// nested.
+	AccountID string
+
+	// A token referencing an external account like one returned from
+	// Stripe.js.
+	Token string
+
+	// Information on an external account to reference. Only used if `Token`
+	// is not provided.
+	Account, Country, Currency, Routing string
+
+	Default  bool
+	Customer string
 }
 
 // BankAccountListParams is the set of parameters that can be used when listing bank accounts.
