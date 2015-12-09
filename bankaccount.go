@@ -18,7 +18,8 @@ type BankAccountParams struct {
 	// nested.
 	AccountID string
 
-	// Token referencing an existing external account.
+	// A token referencing an external account like one returned from
+	// Stripe.js.
 	Token string
 
 	// Information on an external account to reference. Only used if `Token`
