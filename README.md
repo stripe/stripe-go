@@ -19,7 +19,7 @@ library:
 
 ```sh
 git clone https://github.com/stripe/stripe-go.git
-cd stripe
+cd stripe-go
 git checkout api_version_tag
 make build
 ```
