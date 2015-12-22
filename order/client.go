@@ -28,7 +28,7 @@ func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 
 	if params != nil {
 		body = &url.Values{}
-
+		commonParams = &params.Params
 		// Required fields
 		body.Add("currency", string(params.Currency))
 
