@@ -144,12 +144,11 @@ func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, er
 
 	if params != nil {
 		body = &url.Values{}
-
+		commonParams = &params.Params
 		if params.Source == nil && len(params.Customer) == 0 {
 			err := errors.New("Invalid order pay params: either customer or a source must be set")
 			return nil, err
 		}
-
 		// We can't use `AppendDetails` since that nests under `card`.
 		if params.Source != nil {
 			if len(params.Source.Token) > 0 {
