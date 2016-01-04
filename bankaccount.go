@@ -42,6 +42,7 @@ type BankAccount struct {
 	Name        string            `json:"bank_name"`
 	Country     string            `json:"country"`
 	Currency    Currency          `json:"currency"`
+	Default     bool              `json:"default_for_currency"`
 	LastFour    string            `json:"last4"`
 	Fingerprint string            `json:"fingerprint"`
 	Status      BankAccountStatus `json:"status"`
