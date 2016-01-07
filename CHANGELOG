@@ -1,3 +1,9 @@
+11.0.0 2016-01-07
+	Add missing field `Default` to `BankAccount`
+	Add `OrderParams` parameter to `Order` retrieval
+	Fix parameter bug when creating a new `Order`
+	Support special value of 'now' for trial end when updating subscriptions
+
 10.3.0 2015-12-10
 	Allow an account to be referenced when creating a card
 
