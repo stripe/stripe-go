@@ -1,3 +1,6 @@
+11.0.1 2016-01-11
+	Add missing field `country` to shipping details of `Charge` and `Customer`
+
 11.0.0 2016-01-07
 	Add missing field `Default` to `BankAccount`
 	Add `OrderParams` parameter to `Order` retrieval
