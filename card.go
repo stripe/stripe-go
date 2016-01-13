@@ -25,6 +25,7 @@ type CardFunding string
 type CardParams struct {
 	Params
 	Token                                         string
+	Default                                       bool
 	Account, Customer, Recipient                  string
 	Name, Number, Month, Year, CVC                string
 	Address1, Address2, City, State, Zip, Country string
@@ -47,6 +48,7 @@ type Card struct {
 	Funding       CardFunding  `json:"funding"`
 	LastFour      string       `json:"last4"`
 	Brand         CardBrand    `json:"brand"`
+	Default       bool         `json:"default_for_currency"`
 	City          string       `json:"address_city"`
 	Country       string       `json:"address_country"`
 	Address1      string       `json:"address_line1"`
