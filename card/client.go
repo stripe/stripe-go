@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
+	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
 )
@@ -49,6 +50,9 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	var err error
 
 	if len(params.Account) > 0 {
+		if params.Default {
+			body.Add("default_for_currency", strconv.FormatBool(params.Default))
+		}
 		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts", params.Account), c.Key, body, &params.Params, card)
 	} else if len(params.Customer) > 0 {
 		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards", params.Customer), c.Key, body, &params.Params, card)
