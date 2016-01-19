@@ -4,7 +4,9 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/card"
+	"github.com/stripe/stripe-go/token"
 	"github.com/stripe/stripe-go/customer"
 	. "github.com/stripe/stripe-go/utils"
 )
@@ -13,7 +15,7 @@ func init() {
 	stripe.Key = GetTestKey()
 }
 
-func TestSourceNew(t *testing.T) {
+func TestSourceCardNew(t *testing.T) {
 	customerParams := &stripe.CustomerParams{}
 	cust, err := customer.New(customerParams)
 
@@ -60,7 +62,45 @@ func TestSourceNew(t *testing.T) {
 	customer.Del(cust.ID)
 }
 
-func TestSourceGet(t *testing.T) {
+func TestSourceBankAccountNew(t *testing.T) {
+	baTok, err := token.New(&stripe.TokenParams{
+		Bank: &stripe.BankAccountParams{
+			Country: "US",
+			Currency: "usd",
+			Routing: "110000000",
+			Account: "000123456789",
+			AccountHolderName: "Jane Austen",
+			AccountHolderType: "individual",
+		},
+	})
+
+	if baTok.Bank.AccountHolderName != "Jane Austen" {
+		t.Errorf("Bank account token name %q was not Jane Austen as expected.", baTok.Bank.AccountHolderName)
+	}
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	customerParams := &stripe.CustomerParams{}
+	customer, err := customer.New(customerParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	source, err := New(&stripe.CustomerSourceParams{
+		Customer: customer.ID,
+		Source: &stripe.SourceParams{
+			Token: baTok.ID,
+		},
+	})
+
+	if source.BankAccount.AccountHolderName != "Jane Austen" {
+		t.Errorf("Bank account name %q was not Jane Austen as expected.", source.BankAccount.Name)
+	}
+}
+
+func TestSourceCardGet(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
 		Email: "SomethingIdentifiable@gmail.om",
 	}
@@ -94,7 +134,47 @@ func TestSourceGet(t *testing.T) {
 	customer.Del(cust.ID)
 }
 
-func TestSourceDel(t *testing.T) {
+func TestSourceBankAccountGet(t *testing.T){
+	baTok, err := token.New(&stripe.TokenParams{
+		Bank: &stripe.BankAccountParams{
+			Country: "US",
+			Currency: "usd",
+			Routing: "110000000",
+			Account: "000123456789",
+			AccountHolderName: "Jane Austen",
+			AccountHolderType: "individual",
+		},
+	})
+
+	if baTok.Bank.AccountHolderName != "Jane Austen" {
+		t.Errorf("Bank account token name %q was not Jane Austen as expected.", baTok.Bank.AccountHolderName)
+	}
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	customerParams := &stripe.CustomerParams{}
+	customer, err := customer.New(customerParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	src, err := New(&stripe.CustomerSourceParams{
+		Customer: customer.ID,
+		Source: &stripe.SourceParams{
+			Token: baTok.ID,
+		},
+	})
+
+	source, err := Get(src.ID, &stripe.CustomerSourceParams{Customer: customer.ID})
+
+	if source.BankAccount.AccountHolderName != "Jane Austen" {
+		t.Errorf("Bank account name %q was not Jane Austen as expected.", source.BankAccount.Name)
+	}
+}
+
+func TestSourceCardDel(t *testing.T) {
 	customerParams := &stripe.CustomerParams{}
 	customerParams.SetSource(&stripe.CardParams{
 		Number: "378282246310005",
@@ -116,7 +196,47 @@ func TestSourceDel(t *testing.T) {
 	customer.Del(cust.ID)
 }
 
-func TestSourceUpdate(t *testing.T) {
+func TestSourceBankAccountDel(t *testing.T){
+	baTok, err := token.New(&stripe.TokenParams{
+		Bank: &stripe.BankAccountParams{
+			Country: "US",
+			Currency: "usd",
+			Routing: "110000000",
+			Account: "000123456789",
+			AccountHolderName: "Jane Austen",
+			AccountHolderType: "individual",
+		},
+	})
+
+	if baTok.Bank.AccountHolderName != "Jane Austen" {
+		t.Errorf("Bank account name %q was not Jane Austen as expected.", baTok.Bank.AccountHolderName)
+	}
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	customerParams := &stripe.CustomerParams{}
+	customer, err := customer.New(customerParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	source, err := New(&stripe.CustomerSourceParams{
+		Customer: customer.ID,
+		Source: &stripe.SourceParams{
+			Token: baTok.ID,
+		},
+	})
+
+	sourceDel, err := Del(source.ID, &stripe.CustomerSourceParams{Customer: customer.ID})
+
+	if !sourceDel.Deleted {
+		t.Errorf("Source id %q expected to be marked as deleted on the returned resource\n", sourceDel.ID)
+	}
+}
+
+func TestSourceCardUpdate(t *testing.T) {
 	customerParams := &stripe.CustomerParams{}
 	customerParams.SetSource(&stripe.CardParams{
 		Number: "378282246310005",
@@ -154,48 +274,54 @@ func TestSourceUpdate(t *testing.T) {
 	customer.Del(cust.ID)
 }
 
-func TestSourceVerify(t *testing.T) {
-	bankAccountParams := &stripe.BankAccountParams{
-		Country:  "US",
-		Currency: "usd",
-		Routing:  "110000000",
-		Account:  "000123456789",
+func TestSourceBankAccountVerify(t *testing.T) {
+	baTok, err := token.New(&stripe.TokenParams{
+		Bank: &stripe.BankAccountParams{
+			Country: "US",
+			Currency: "usd",
+			Routing: "110000000",
+			Account: "000123456789",
+			AccountHolderName: "Jane Austen",
+			AccountHolderType: "individual",
+		},
+	})
+
+	if baTok.Bank.AccountHolderName != "Jane Austen" {
+		t.Errorf("Bank account name %q was not Jane Austen as expected.", baTok.Bank.AccountHolderName)
 	}
-	tokenParams := &stripe.TokenParams{
-		Bank: bankAccountParams,
-	}
-	token, err := token.New(tokenParams)
 
 	if err != nil {
 		t.Error(err)
-		return
 	}
 
 	customerParams := &stripe.CustomerParams{}
-	customerParams.SetSource(token.ID)
-
 	cust, err := customer.New(customerParams)
-
 	if err != nil {
 		t.Error(err)
-		return
 	}
 
-	amounts := [2]uint8{32, 45}
+	source, err := New(&stripe.CustomerSourceParams{
+		Customer: cust.ID,
+		Source: &stripe.SourceParams{
+			Token: baTok.ID,
+		},
+	})
+
+	amounts := [2]uint8{32, 45};
 
 	verifyParams := &stripe.SourceVerifyParams{
 		Customer: cust.ID,
-		Amounts:  amounts,
+		Amounts: amounts,
 	}
 
-	source, err := Verify(cust.DefaultSource.ID, verifyParams)
+	sourceVerified, err := Verify(source.ID, verifyParams)
 
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
-	target := source.BankAccount
+	target := sourceVerified.BankAccount
 
 	if target.Status != bankaccount.VerifiedAccount {
 		t.Errorf("Status (%q) does not match expected (%q) ", target.Status, bankaccount.VerifiedAccount)

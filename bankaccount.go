@@ -24,7 +24,7 @@ type BankAccountParams struct {
 
 	// Information on an external account to reference. Only used if `Token`
 	// is not provided.
-	Account, Country, Currency, Routing string
+	Account, AccountHolderName, AccountHolderType, Country, Currency, Routing string
 
 	Default  bool
 	Customer string
@@ -38,17 +38,19 @@ type BankAccountListParams struct {
 
 // BankAccount represents a Stripe bank account.
 type BankAccount struct {
-	ID          string            `json:"id"`
-	Name        string            `json:"bank_name"`
-	Country     string            `json:"country"`
-	Currency    Currency          `json:"currency"`
-	Default     bool              `json:"default_for_currency"`
-	LastFour    string            `json:"last4"`
-	Fingerprint string            `json:"fingerprint"`
-	Status      BankAccountStatus `json:"status"`
-	Routing     string            `json:"routing_number"`
-	Deleted     bool              `json:"deleted"`
-	Customer    *Customer         `json:"customer"`
+	ID                string            `json:"id"`
+	Name              string            `json:"bank_name"`
+	AccountHolderName string            `json:"account_holder_name"`
+	AccountHolderType string            `json:"account_holder_type"`
+	Country           string            `json:"country"`
+	Currency          Currency          `json:"currency"`
+	Default           bool              `json:"default_for_currency"`
+	LastFour          string            `json:"last4"`
+	Fingerprint       string            `json:"fingerprint"`
+	Status            BankAccountStatus `json:"status"`
+	Routing           string            `json:"routing_number"`
+	Deleted           bool              `json:"deleted"`
+	Customer          *Customer         `json:"customer"`
 }
 
 // BankAccountList is a list object for bank accounts.
@@ -66,6 +68,12 @@ func (b *BankAccountParams) AppendDetails(values *url.Values) {
 	values.Add("bank_account[country]", b.Country)
 	values.Add("bank_account[routing_number]", b.Routing)
 	values.Add("bank_account[account_number]", b.Account)
+	if b.AccountHolderName != "" {
+		values.Add("bank_account[account_holder_name]", b.AccountHolderName)
+	}
+	if b.AccountHolderType != "" {
+		values.Add("bank_account[account_holder_type]", b.AccountHolderType)
+	}
 
 	if len(b.Currency) > 0 {
 		values.Add("bank_account[currency]", b.Currency)
