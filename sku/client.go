@@ -250,6 +250,18 @@ func (i *Iter) SKU() *stripe.SKU {
 	return i.Current().(*stripe.SKU)
 }
 
+// Delete destroys a SKU.
+// For more details see https://stripe.com/docs/api#delete_sku.
+func Delete(id string) error {
+	return getC().Delete(id)
+}
+
+// Delete destroys a SKU.
+// For more details see https://stripe.com/docs/api#delete_sku.
+func (c Client) Delete(id string) error {
+	return c.B.Call("DELETE", "/skus/"+id, c.Key, nil, nil, nil)
+}
+
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }
