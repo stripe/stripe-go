@@ -1,3 +1,6 @@
+11.1.0 2016-01-25
+	Add support for deleting products and SKUs
+
 11.0.1 2016-01-11
 	Add missing field `country` to shipping details of `Charge` and `Customer`
 
