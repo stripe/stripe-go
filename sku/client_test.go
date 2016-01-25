@@ -55,6 +55,7 @@ func TestSKUUpdateInventory(t *testing.T) {
 		t.Errorf("unable to update inventory for SKU")
 	}
 }
+
 func TestSKUCreate(t *testing.T) {
 	active := true
 
@@ -125,5 +126,39 @@ func TestSKUCreate(t *testing.T) {
 
 	if sku.PackageDimensions != nil {
 		t.Errorf("package dimensions expected nil: %v", sku.PackageDimensions)
+	}
+}
+
+func TestSKUDelete(t *testing.T) {
+	active := true
+
+	p, err := product.New(&stripe.ProductParams{
+		Active:    &active,
+		Name:      "To be deleted",
+		Attrs:     []string{},
+		Shippable: &active,
+	})
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	randID := fmt.Sprintf("TEST-SKU-%v", RandSeq(16))
+	sku, err := New(&stripe.SKUParams{
+		ID:        randID,
+		Active:    &active,
+		Price:     499,
+		Currency:  "usd",
+		Inventory: stripe.Inventory{Type: "infinite"},
+		Product:   p.ID,
+	})
+
+	err = Delete(sku.ID)
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	_, err = Get(sku.ID, nil)
+	if err == nil {
+		t.Errorf("SKU should be deleted after call to `Delete`")
 	}
 }

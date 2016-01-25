@@ -134,7 +134,7 @@ func TestProductUpdate(t *testing.T) {
 
 func TestProductList(t *testing.T) {
 	const runs = 3
-	randID := fmt.Sprintf("example.com/", RandSeq(16))
+	randID := fmt.Sprintf("example.com/%s", RandSeq(16))
 	for i := 0; i < runs; i++ {
 		shippable := i == 0
 		active := i == 1
@@ -187,5 +187,25 @@ func TestProductList(t *testing.T) {
 	}
 	if err := i.Err(); err != nil {
 		t.Error(err)
+	}
+}
+
+func TestProductDelete(t *testing.T) {
+	randID := fmt.Sprintf("TEST-PRODUCT-%v", RandSeq(16))
+	p, err := New(&stripe.ProductParams{
+		ID:   randID,
+		Name: "To Be Deleted",
+	})
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+	err = Delete(p.ID)
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	_, err = Get(p.ID)
+	if err == nil {
+		t.Error("Expected product to be deleted after calling `Delete`")
 	}
 }
