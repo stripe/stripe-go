@@ -12,7 +12,7 @@ import (
 type DisputeReason string
 
 // DisputeStatus is the list of allowed values for a discount's status.
-// Allowed values are "won", "lost", "needs_ressponse", "under_review",
+// Allowed values are "won", "lost", "needs_response", "under_review",
 // "warning_needs_response", "warning_under_review", "charge_refunded",
 // "warning_closed".
 type DisputeStatus string
