@@ -105,7 +105,11 @@ func (c Client) Update(id string, params *stripe.RecipientParams) (*stripe.Recip
 		}
 
 		if params.Bank != nil {
-			params.Bank.AppendDetails(body)
+			if len(params.Bank.Token) > 0 {
+				body.Add("bank_account", params.Bank.Token)
+			} else {
+				params.Bank.AppendDetails(body)
+			}
 		}
 
 		if len(params.Token) > 0 {

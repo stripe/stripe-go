@@ -234,6 +234,61 @@ func TestRecipientUpdate(t *testing.T) {
 	Del(target.ID)
 }
 
+func TestRecipientUpdateToken(t *testing.T) {
+	tokenParams := &stripe.TokenParams{
+		Bank: &stripe.BankAccountParams{
+			Country: "US",
+			Routing: "110000000",
+			Account: "000123456789",
+		},
+	}
+
+	tok, _ := token.New(tokenParams)
+
+	recipientParams := &stripe.RecipientParams{
+		Name:  "Original Name",
+		Type:  Individual,
+		Email: "original@b.com",
+		Desc:  "Original Desc",
+	}
+
+	original, _ := New(recipientParams)
+
+	updated := &stripe.RecipientParams{
+		Bank: &stripe.BankAccountParams{
+			Token: tok.ID,
+		},
+	}
+
+	target, err := Update(original.ID, updated)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Bank == nil {
+		t.Errorf("Bank account is not set\n")
+	}
+
+	if target.Bank.Country != tokenParams.Bank.Country {
+		t.Errorf("Bank country %q does not match expected country %q\n", target.Bank.Country, tokenParams.Bank.Country)
+	}
+
+	if target.Bank.Currency != currency.USD {
+		t.Errorf("Bank currency %q does not match expected value\n", target.Bank.Currency)
+	}
+
+	if target.Bank.LastFour != "6789" {
+		t.Errorf("Bank last four %q does not match expected value\n", target.Bank.LastFour)
+	}
+
+	if len(target.Bank.Name) == 0 {
+		t.Errorf("Bank name is not set\n")
+	}
+
+	Del(target.ID)
+}
+
 func TestRecipientDel(t *testing.T) {
 	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",
