@@ -234,6 +234,95 @@ func TestRecipientUpdate(t *testing.T) {
 	Del(target.ID)
 }
 
+func TestRecipientUpdateBankAccount(t *testing.T) {
+	tokenParams := &stripe.TokenParams{
+		Bank: &stripe.BankAccountParams{
+			Country: "US",
+			Routing: "110000000",
+			Account: "000123456789",
+		},
+	}
+
+	tok, _ := token.New(tokenParams)
+
+	recipientParams := &stripe.RecipientParams{
+		Name:  "Original Name",
+		Type:  Individual,
+		Email: "original@b.com",
+		Desc:  "Original Desc",
+	}
+
+	original, _ := New(recipientParams)
+
+	updateParamsToken := &stripe.RecipientParams{
+		Bank: &stripe.BankAccountParams{
+			Token: tok.ID,
+		},
+	}
+
+	target, err := Update(original.ID, updateParamsToken)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Bank == nil {
+		t.Errorf("Bank account is not set\n")
+	}
+
+	if target.Bank.Country != tokenParams.Bank.Country {
+		t.Errorf("Bank country %q does not match expected country %q\n", target.Bank.Country, tokenParams.Bank.Country)
+	}
+
+	if target.Bank.Currency != currency.USD {
+		t.Errorf("Bank currency %q does not match expected value\n", target.Bank.Currency)
+	}
+
+	if target.Bank.LastFour != "6789" {
+		t.Errorf("Bank last four %q does not match expected value\n", target.Bank.LastFour)
+	}
+
+	if len(target.Bank.Name) == 0 {
+		t.Errorf("Bank name is not set\n")
+	}
+
+	updateParamsBankAccount := &stripe.RecipientParams{
+		Bank: &stripe.BankAccountParams{
+			Country: "US",
+			Routing: "110000000",
+			Account: "000333333335",
+		},
+	}
+
+	target2, err := Update(original.ID, updateParamsBankAccount)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target2.Bank == nil {
+		t.Errorf("Bank account is not set\n")
+	}
+
+	if target2.Bank.Country != tokenParams.Bank.Country {
+		t.Errorf("Bank country %q does not match expected country %q\n", target2.Bank.Country, tokenParams.Bank.Country)
+	}
+
+	if target2.Bank.Currency != currency.USD {
+		t.Errorf("Bank currency %q does not match expected value\n", target2.Bank.Currency)
+	}
+
+	if target2.Bank.LastFour != "3335" {
+		t.Errorf("Bank last four %q does not match expected value\n", target2.Bank.LastFour)
+	}
+
+	if len(target2.Bank.Name) == 0 {
+		t.Errorf("Bank name is not set\n")
+	}
+
+	Del(target2.ID)
+}
+
 func TestRecipientDel(t *testing.T) {
 	recipientParams := &stripe.RecipientParams{
 		Name: "Recipient Name",
