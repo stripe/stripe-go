@@ -1,5 +1,5 @@
 11.1.2 2016-02-02
-	Fix card update method to correct take expiration date
+	Fix card update method to correctly take expiration date
 
 11.1.1 2016-02-01
 	Fix recipient update so that it can take a bank token (like create)
