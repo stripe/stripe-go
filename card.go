@@ -84,12 +84,26 @@ func (c *CardParams) AppendDetails(values *url.Values, creating bool) {
 		} else {
 			values.Add("card[object]", "card")
 			values.Add("card[number]", c.Number)
-			values.Add("card[exp_month]", c.Month)
-			values.Add("card[exp_year]", c.Year)
 
 			if len(c.CVC) > 0 {
 				values.Add("card[cvc]", c.CVC)
 			}
+		}
+	}
+
+	if len(c.Month) > 0 {
+		if creating {
+			values.Add("card[exp_month]", c.Month)
+		} else {
+			values.Add("exp_month", c.Month)
+		}
+	}
+
+	if len(c.Year) > 0 {
+		if creating {
+			values.Add("card[exp_year]", c.Year)
+		} else {
+			values.Add("exp_year", c.Year)
 		}
 	}
 
