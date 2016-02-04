@@ -238,7 +238,7 @@ the following guidelines in mind:
 
 For running additional tests, follow the steps below:
 
-Set the STRIPE_KEY environment variable to match your test private key, then
+Set the `STRIPE_KEY` environment variable to match your test private key, then
 run `make test`:
 
 ```sh
