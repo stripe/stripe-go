@@ -113,19 +113,22 @@ type Account struct {
 
 // LegalEntity is the structure for properties related to an account's legal state.
 type LegalEntity struct {
-	Type             LegalEntityType      `json:"type"`
-	BusinessName     string               `json:"business_name"`
-	Address          Address              `json:"address"`
-	First            string               `json:"first_name"`
-	Last             string               `json:"last_name"`
-	PersonalAddress  Address              `json:"personal_address"`
-	DOB              DOB                  `json:"dob"`
-	AdditionalOwners []Owner              `json:"additional_owners"`
-	Verification     IdentityVerification `json:"verification"`
-	SSN              string               `json:"ssn_last_4"`
-	PersonalID       string               `json:"personal_id_number"`
-	BusinessTaxID    string               `json:"business_tax_id"`
-	BusinessVatID    string               `json:"business_vat_id"`
+	Type                  LegalEntityType      `json:"type"`
+	BusinessName          string               `json:"business_name"`
+	Address               Address              `json:"address"`
+	First                 string               `json:"first_name"`
+	Last                  string               `json:"last_name"`
+	PersonalAddress       Address              `json:"personal_address"`
+	DOB                   DOB                  `json:"dob"`
+	AdditionalOwners      []Owner              `json:"additional_owners"`
+	Verification          IdentityVerification `json:"verification"`
+	SSN                   string               `json:"ssn_last_4"`
+	SSNProvided           bool                 `json:"ssn_last_4_provided"`
+	PersonalID            string               `json:"personal_id_number"`
+	PersonalIDProvided    bool                 `json:"personal_id_number_provided"`
+	BusinessTaxID         string               `json:"business_tax_id"`
+	BusinessTaxIDProvided bool                 `json:"business_tax_id_provided"`
+	BusinessVatID         string               `json:"business_vat_id"`
 }
 
 // Address is the structure for an account address.

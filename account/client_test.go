@@ -38,9 +38,52 @@ func TestAccountNew(t *testing.T) {
 		},
 	}
 
-	_, err := New(params)
+	target, err := New(params)
 	if err != nil {
 		t.Error(err)
+	}
+
+	if !target.LegalEntity.BusinessTaxIDProvided {
+		t.Errorf("Account is missing BusinessTaxIDProvided even though we submitted the value.\n")
+	}
+
+	if !target.LegalEntity.SSNProvided {
+		t.Errorf("Account is missing BusinessTaxIDProvided even though we submitted the value.\n")
+	}
+}
+
+func TestAccountLegalEntity(t *testing.T) {
+	params := &stripe.AccountParams{
+		Managed: true,
+		Country: "US",
+		LegalEntity: &stripe.LegalEntity{
+			Type:          stripe.Company,
+			BusinessTaxID: "111111",
+			SSN:           "1111",
+			PersonalID:    "111111111",
+			DOB: stripe.DOB{
+				Day:   1,
+				Month: 2,
+				Year:  1990,
+			},
+		},
+	}
+
+	target, err := New(params)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if !target.LegalEntity.BusinessTaxIDProvided {
+		t.Errorf("Account is missing BusinessTaxIDProvided even though we submitted the value.\n")
+	}
+
+	if !target.LegalEntity.SSNProvided {
+		t.Errorf("Account is missing SSNProvided even though we submitted the value.\n")
+	}
+
+	if !target.LegalEntity.PersonalIDProvided {
+		t.Errorf("Account is missing PersonalIDProvided even though we submitted the value.\n")
 	}
 }
 
