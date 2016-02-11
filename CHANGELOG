@@ -1,3 +1,7 @@
+11.2.0 2016-02-11
+	Add support for `CountrySpec`
+	Add `SSNProvided`, `PersonalIDProvided` and `BusinessTaxIDProvided` to `LegalEntity`
+
 11.1.2 2016-02-02
 	Fix card update method to correctly take expiration date
 
