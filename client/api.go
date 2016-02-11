@@ -10,6 +10,7 @@ import (
 	"github.com/stripe/stripe-go/bitcointransaction"
 	"github.com/stripe/stripe-go/card"
 	"github.com/stripe/stripe-go/charge"
+	"github.com/stripe/stripe-go/countryspec"
 	"github.com/stripe/stripe-go/coupon"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/discount"
@@ -81,6 +82,9 @@ type API struct {
 	// Account is the client used to invoke /account APIs.
 	// For more details see https://stripe.com/docs/api#account.
 	Account *account.Client
+	// CountrySpec is the client used to invoke /country_specs APIs.
+	// For more details see https://stripe.com/docs/api#country_specs.
+	CountrySpec *countryspec.Client
 	// Balance is the client used to invoke /balance and transaction-related APIs.
 	// For more details see https://stripe.com/docs/api#balance.
 	Balance *balance.Client
@@ -134,6 +138,7 @@ func (a *API) Init(key string, backends *Backends) {
 	a.Fees = &fee.Client{B: backends.API, Key: key}
 	a.FeeRefunds = &feerefund.Client{B: backends.API, Key: key}
 	a.Account = &account.Client{B: backends.API, Key: key}
+	a.CountrySpec = &countryspec.Client{B: backends.API, Key: key}
 	a.Balance = &balance.Client{B: backends.API, Key: key}
 	a.Events = &event.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
