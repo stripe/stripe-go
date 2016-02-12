@@ -4,8 +4,10 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/card"
 	"github.com/stripe/stripe-go/customer"
+	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
 

@@ -42,14 +42,6 @@ func TestAccountNew(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-
-	if !target.LegalEntity.BusinessTaxIDProvided {
-		t.Errorf("Account is missing BusinessTaxIDProvided even though we submitted the value.\n")
-	}
-
-	if !target.LegalEntity.SSNProvided {
-		t.Errorf("Account is missing BusinessTaxIDProvided even though we submitted the value.\n")
-	}
 }
 
 func TestAccountLegalEntity(t *testing.T) {
