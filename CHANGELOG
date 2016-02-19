@@ -1,3 +1,6 @@
+11.3.0 2016-02-19
+	Add `AccountHolderName` and `AccountHolderType` to bank accounts
+
 11.2.0 2016-02-11
 	Add support for `CountrySpec`
 	Add `SSNProvided`, `PersonalIDProvided` and `BusinessTaxIDProvided` to `LegalEntity`
