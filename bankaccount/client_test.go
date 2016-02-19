@@ -20,6 +20,8 @@ func TestBankAccountDel(t *testing.T) {
 			Currency: "usd",
 			Routing:  "110000000",
 			Account:  "000123456789",
+			AccountHolderName: "Jane Austen",
+			AccountHolderType: "individual",
 		},
 	})
 	if err != nil {
