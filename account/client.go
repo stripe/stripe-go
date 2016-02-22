@@ -211,7 +211,7 @@ func (c Client) List(params *stripe.AccountListParams) *Iter {
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &accountList{}
-		err := c.B.Call("GET", "/accounts", c.Key, &b, nil, list)
+		err := c.B.Call("GET", "/accounts", c.Key, &b, lp.ToParams(), list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

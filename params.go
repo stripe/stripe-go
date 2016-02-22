@@ -33,7 +33,13 @@ type ListParams struct {
 	// By default, listing through an iterator will automatically grab
 	// additional pages as the query progresses. To change this behavior
 	// and just load a single page, set this to true.
-	Single bool
+	Single  bool
+
+	// Account may contain the ID of a connected account. By including this
+	// field, the request is made as if it originated from the connected
+	// account instead of under the account of the owner of the configured
+	// Stripe key.
+	Account string
 }
 
 // ListMeta is the structure that contains the common properties
@@ -142,8 +148,19 @@ func (p *ListParams) AppendTo(body *url.Values) {
 
 		body.Add("limit", strconv.Itoa(p.Limit))
 	}
+
 	for _, v := range p.Exp {
 		body.Add("expand[]", v)
+	}
+}
+
+// Converts a ListParams to a Params by moving over any fields that have valid
+// targets in the new type. This is useful because fields in `Params` can be
+// injected directly into an `http.Request` while generally `ListParams` is
+// only used to build a set of parameters.
+func (p *ListParams) ToParams() *Params {
+	return &Params{
+		Account: p.Account,
 	}
 }
 
