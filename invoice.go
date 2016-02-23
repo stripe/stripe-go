@@ -63,6 +63,7 @@ type Invoice struct {
 	NextAttempt  int64             `json:"next_payment_attempt"`
 	Statement    string            `json:"statement_descriptor"`
 	Sub          string            `json:"subscription"`
+	SubPlan      string            `json:"subscription_plan"`
 	Webhook      int64             `json:"webhooks_delivered_at"`
 	Meta         map[string]string `json:"metadata"`
 }
