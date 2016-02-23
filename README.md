@@ -245,6 +245,19 @@ run `make test`:
 STRIPE_KEY=YOUR_API_KEY make test
 ```
 
+Or to run tests for a particular subpackage:
+
+```sh
+STRIPE_KEY=YOUR_API_KEY go test ./invoice
+```
+
+Or to run a particular test (it's worth noting however that Go will report a
+success even if the referenced test doesn't exist):
+
+```sh
+STRIPE_KEY=YOUR_API_KEY go test -run "TestAllInvoicesScenarios" ./invoice
+```
+
 For any requests, bug or comments, please [open an issue][issues] or [submit a
 pull request][pulls].
 
