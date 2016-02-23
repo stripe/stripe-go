@@ -171,6 +171,26 @@ func (c Client) GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 		body.Add("subscription", params.Sub)
 	}
 
+	if len(params.SubPlan) > 0 {
+		body.Add("subscription_plan", params.SubPlan)
+	}
+
+	if params.SubProrate {
+		body.Add("subscription_prorate", strconv.FormatBool(true))
+	}
+
+	if params.SubProrationDate > 0 {
+		body.Add("subscription_proration_date", strconv.FormatInt(params.SubProrationDate, 10))
+	}
+
+	if params.SubQuantity > 0 {
+		body.Add("subscription_quantity", strconv.FormatUint(params.SubQuantity, 10))
+	}
+
+	if params.SubTrialEnd > 0 {
+		body.Add("subscription_trial_end", strconv.FormatInt(params.SubTrialEnd, 10))
+	}
+
 	params.AppendTo(body)
 
 	invoice := &stripe.Invoice{}
