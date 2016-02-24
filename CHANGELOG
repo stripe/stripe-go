@@ -1,3 +1,6 @@
+11.4.0 2016-02-24
+	Add missing subscription fields to `InvoiceParams` for use with `invoice.GetNext`
+
 11.3.0 2016-02-19
 	Add `AccountHolderName` and `AccountHolderType` to bank accounts
 
