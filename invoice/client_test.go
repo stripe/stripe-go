@@ -298,7 +298,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		Customer:         cust.ID,
 		Sub:              subscription.ID,
 		SubPlan:          planParams.ID,
-		SubProrate:       true,
+		SubNoProrate:     false,
 		SubProrationDate: time.Now().AddDate(0, 0, 12).Unix(),
 		SubQuantity:      1,
 		SubTrialEnd:      time.Now().AddDate(0, 0, 12).Unix(),

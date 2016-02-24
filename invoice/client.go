@@ -175,8 +175,8 @@ func (c Client) GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 		body.Add("subscription_plan", params.SubPlan)
 	}
 
-	if params.SubProrate {
-		body.Add("subscription_prorate", strconv.FormatBool(true))
+	if params.SubNoProrate {
+		body.Add("subscription_prorate", strconv.FormatBool(false))
 	}
 
 	if params.SubProrationDate > 0 {
