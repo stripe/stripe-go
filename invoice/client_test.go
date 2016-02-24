@@ -2,11 +2,14 @@ package invoice
 
 import (
 	"testing"
+	"time"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/invoiceitem"
+	"github.com/stripe/stripe-go/plan"
+	"github.com/stripe/stripe-go/sub"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -262,6 +265,59 @@ func TestAllInvoicesScenarios(t *testing.T) {
 
 	_, err = Get(targetInvoice.ID, nil)
 
+	if err != nil {
+		t.Error(err)
+	}
+
+	planParams := &stripe.PlanParams{
+		ID:       "test",
+		Name:     "Test Plan",
+		Amount:   99,
+		Currency: currency.USD,
+		Interval: plan.Month,
+	}
+
+	_, err = plan.New(planParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	subParams := &stripe.SubParams{
+		Customer:    cust.ID,
+		Plan:        planParams.ID,
+		Quantity:    10,
+		TrialEndNow: true,
+	}
+
+	subscription, err := sub.New(subParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	nextParams := &stripe.InvoiceParams{
+		Customer:         cust.ID,
+		Sub:              subscription.ID,
+		SubPlan:          planParams.ID,
+		SubNoProrate:     false,
+		SubProrationDate: time.Now().AddDate(0, 0, 12).Unix(),
+		SubQuantity:      1,
+		SubTrialEnd:      time.Now().AddDate(0, 0, 12).Unix(),
+	}
+
+	nextInvoice, err := GetNext(nextParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if nextInvoice.Customer.ID != cust.ID {
+		t.Errorf("Invoice customer %v does not match expected customer%v\n", nextInvoice.Customer.ID, cust.ID)
+	}
+
+	if nextInvoice.Sub != subscription.ID {
+		t.Errorf("Invoice subscription %v does not match expected subscription%v\n", nextInvoice.Sub, subscription.ID)
+	}
+
+	_, err = plan.Del(planParams.ID)
 	if err != nil {
 		t.Error(err)
 	}
