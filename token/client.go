@@ -11,6 +11,7 @@ import (
 const (
 	Card stripe.TokenType = "card"
 	Bank stripe.TokenType = "bank_account"
+	PII	 stripe.TokenType = "pii"
 )
 
 // Client is used to invoke /tokens APIs.
@@ -37,8 +38,10 @@ func (c Client) New(params *stripe.TokenParams) (*stripe.Token, error) {
 		params.Card.AppendDetails(body, true)
 	} else if params.Bank != nil {
 		params.Bank.AppendDetails(body)
+	} else if params.PII != nil {
+		params.PII.AppendDetails(body)
 	} else if len(params.Customer) == 0 {
-		err := errors.New("Invalid Token params: either Card or Bank need to be set")
+		err := errors.New("Invalid Token params: either Card, Bank, or PII need to be set")
 		return nil, err
 	}
 

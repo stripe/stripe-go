@@ -1,5 +1,9 @@
 package stripe
 
+import (
+	"net/url"
+)
+
 // TokenType is the list of allowed values for a token's type.
 // Allowed values are "card", "bank_account".
 type TokenType string
@@ -10,6 +14,7 @@ type TokenParams struct {
 	Params
 	Card     *CardParams
 	Bank     *BankAccountParams
+	PII      *PIIParams
 	Customer string
 	// Email is an undocumented parameter used by Stripe Checkout
 	// It may be removed from the API without notice.
@@ -30,4 +35,15 @@ type Token struct {
 	// Email is an undocumented field but included for all tokens created
 	// with Stripe Checkout.
 	Email string `json:"email"`
+}
+
+// Personal identifiable information
+type PIIParams struct {
+	Params
+	PersonalIDNumber string
+}
+
+// AppendDetails adds the PII data's details to the query string values.
+func (p *PIIParams) AppendDetails(values *url.Values) {
+	values.Add("pii[personal_id_number]", p.PersonalIDNumber)
 }
