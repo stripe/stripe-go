@@ -73,3 +73,25 @@ func TestTokenGet(t *testing.T) {
 		t.Errorf("Bank account status %q does not match expected value\n", target.Bank.Status)
 	}
 }
+
+func TestPIITokenNew(t *testing.T) {
+	tokenParams := &stripe.TokenParams{
+		PII: &stripe.PIIParams{
+			PersonalIDNumber: "000000000",
+		},
+	}
+
+	target, err := New(tokenParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Created == 0 {
+		t.Errorf("Created date is not set\n")
+	}
+
+	if target.Type != PII {
+		t.Errorf("Type %v does not match expected value\n", target.Type)
+	}
+}
