@@ -1,3 +1,6 @@
+11.5.0 2016-02-26
+	Allow a `PII.PersonalIDNumber` number to be used to create a token
+
 11.4.0 2016-02-24
 	Add missing subscription fields to `InvoiceParams` for use with `invoice.GetNext`
 
