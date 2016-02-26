@@ -11,7 +11,7 @@ import (
 const (
 	Card stripe.TokenType = "card"
 	Bank stripe.TokenType = "bank_account"
-	PII	 stripe.TokenType = "pii"
+	PII  stripe.TokenType = "pii"
 )
 
 // Client is used to invoke /tokens APIs.
