@@ -56,7 +56,7 @@ func TestListParamsExpansion(t *testing.T) {
 		{
 			InitialBody:  url.Values{"foo": {"bar"}},
 			Expand:       []string{"data", "data.foo"},
-			ExpectedBody: url.Values{"foo": {"bar", "baz"}, "expand[]": {"data", "data.foo"}},
+			ExpectedBody: url.Values{"foo": {"bar"}, "expand[]": {"data", "data.foo"}},
 		},
 	}
 
