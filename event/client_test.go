@@ -49,7 +49,7 @@ func TestEvent(t *testing.T) {
 			t.Errorf("Object is empty\n")
 		}
 
-		target, err := Get(e.ID)
+		target, err := Get(e.ID, nil)
 
 		if err != nil {
 			t.Error(err)
@@ -63,8 +63,8 @@ func TestEvent(t *testing.T) {
 		var val string
 
 		if e.GetObjValue("source", "object") == "card" {
-			targetVal = e.GetObjValue("card", "last4")
-			val = target.Data.Obj["card"].(map[string]interface{})["last4"].(string)
+			targetVal = e.GetObjValue("source", "last4")
+			val = target.Data.Obj["source"].(map[string]interface{})["last4"].(string)
 		} else { // is bitcoin receiver
 			targetVal = e.GetObjValue("source", "currency")
 			val = target.Data.Obj["source"].(map[string]interface{})["currency"].(string)

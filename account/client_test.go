@@ -38,7 +38,7 @@ func TestAccountNew(t *testing.T) {
 		},
 	}
 
-	target, err := New(params)
+	_, err := New(params)
 	if err != nil {
 		t.Error(err)
 	}
