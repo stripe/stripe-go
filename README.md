@@ -113,6 +113,19 @@ stripe := &client.API{}
 stripe.Init("access_token", nil)
 ```
 
+In order to make a request on behalf of a managed account, use the
+`StripeAccount` field on a `ListParams` or `Params` class. For example:
+
+```go
+// For a list request
+listParams := &stripe.ChargeListParams{StripeAccount: merchantID}
+```
+
+```go
+// For any other kind of request
+params := &stripe.CustomerParams{StripeAccount: merchantID}
+```
+
 ### Google AppEngine
 
 If you're running the client in a Google AppEngine environment, you'll need to
