@@ -54,7 +54,9 @@ type SupportedBackend string
 
 const (
 	APIBackend     SupportedBackend = "api"
+	APIURL string = "https://api.stripe.com/v1"
 	UploadsBackend SupportedBackend = "uploads"
+	UploadsURL string = "https://uploads.stripe.com/v1"
 )
 
 // Backends are the currently supported endpoints.
@@ -97,9 +99,9 @@ func SetHTTPClient(client *http.Client) {
 func NewBackends(httpClient *http.Client) *Backends {
 	return &Backends{
 		API: BackendConfiguration{
-			APIBackend, "https://api.stripe.com/v1", httpClient},
+			APIBackend, APIURL, httpClient},
 		Uploads: BackendConfiguration{
-			UploadsBackend, "https://uploads.stripe.com/v1", httpClient},
+			UploadsBackend, UploadsURL, httpClient},
 	}
 }
 
@@ -201,8 +203,14 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 			req.Header.Add("Idempotency-Key", idempotency)
 		}
 
+		// Support the value of the old Account field for now.
 		if account := strings.TrimSpace(params.Account); account != "" {
 			req.Header.Add("Stripe-Account", account)
+		}
+
+		// But prefer StripeAccount.
+		if stripeAccount := strings.TrimSpace(params.StripeAccount); stripeAccount != "" {
+			req.Header.Add("Stripe-Account", stripeAccount)
 		}
 	}
 

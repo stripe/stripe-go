@@ -17,10 +17,20 @@ const (
 // Params is the structure that contains the common properties
 // of any *Params structure.
 type Params struct {
-	Exp                     []string
-	Meta                    map[string]string
-	Extra                   url.Values
-	IdempotencyKey, Account string
+	Exp            []string
+	Meta           map[string]string
+	Extra          url.Values
+	IdempotencyKey string
+
+	// StripeAccount may contain the ID of a connected account. By including
+	// this field, the request is made as if it originated from the connected
+	// account instead of under the account of the owner of the configured
+	// Stripe key.
+	StripeAccount string
+
+	// Account is deprecated form of StripeAccount that will do the same thing.
+	// Please use StripeAccount instead.
+	Account string
 }
 
 // ListParams is the structure that contains the common properties
@@ -33,13 +43,13 @@ type ListParams struct {
 	// By default, listing through an iterator will automatically grab
 	// additional pages as the query progresses. To change this behavior
 	// and just load a single page, set this to true.
-	Single  bool
+	Single bool
 
-	// Account may contain the ID of a connected account. By including this
-	// field, the request is made as if it originated from the connected
+	// StripeAccount may contain the ID of a connected account. By including
+	// this field, the request is made as if it originated from the connected
 	// account instead of under the account of the owner of the configured
 	// Stripe key.
-	Account string
+	StripeAccount string
 }
 
 // ListMeta is the structure that contains the common properties
@@ -74,6 +84,12 @@ func NewIdempotencyKey() string {
 // SetAccount sets a value for the Stripe-Account header.
 func (p *Params) SetAccount(val string) {
 	p.Account = val
+	p.StripeAccount = val
+}
+
+// SetAccount sets a value for the Stripe-Account header.
+func (p *Params) SetStripeAccount(val string) {
+	p.StripeAccount = val
 }
 
 // Expand appends a new field to expand.
@@ -160,7 +176,7 @@ func (p *ListParams) AppendTo(body *url.Values) {
 // only used to build a set of parameters.
 func (p *ListParams) ToParams() *Params {
 	return &Params{
-		Account: p.Account,
+		StripeAccount: p.StripeAccount,
 	}
 }
 
