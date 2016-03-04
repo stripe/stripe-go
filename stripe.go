@@ -24,7 +24,7 @@ const (
 const apiversion = "2015-07-13"
 
 // clientversion is the binding version
-const clientversion = "12.0.0"
+const clientversion = "12.1.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and
@@ -54,9 +54,9 @@ type SupportedBackend string
 
 const (
 	APIBackend     SupportedBackend = "api"
-	APIURL string = "https://api.stripe.com/v1"
+	APIURL         string           = "https://api.stripe.com/v1"
 	UploadsBackend SupportedBackend = "uploads"
-	UploadsURL string = "https://uploads.stripe.com/v1"
+	UploadsURL     string           = "https://uploads.stripe.com/v1"
 )
 
 // Backends are the currently supported endpoints.
