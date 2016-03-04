@@ -42,7 +42,7 @@ func TestParamsWithExtras(t *testing.T) {
 	}
 }
 
-func TestListParamsExpansion(t *testing.T) {
+func TestCheckinListParamsExpansion(t *testing.T) {
 	testCases := []struct {
 		InitialBody  url.Values
 		Expand       []string
@@ -54,9 +54,9 @@ func TestListParamsExpansion(t *testing.T) {
 			ExpectedBody: url.Values{"foo": {"bar"}},
 		},
 		{
-			InitialBody:  url.Values{"foo": {"bar"}},
+			InitialBody:  url.Values{"foo": {"bar", "baz"}},
 			Expand:       []string{"data", "data.foo"},
-			ExpectedBody: url.Values{"foo": {"bar"}, "expand[]": {"data", "data.foo"}},
+			ExpectedBody: url.Values{"foo": {"bar", "baz"}, "expand[]": {"data", "data.foo"}},
 		},
 	}
 
