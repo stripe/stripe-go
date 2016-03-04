@@ -129,13 +129,15 @@ func List(params *stripe.BankAccountListParams) *Iter {
 func (c Client) List(params *stripe.BankAccountListParams) *Iter {
 	body := &url.Values{}
 	var lp *stripe.ListParams
+	var p *stripe.Params
 
 	params.AppendTo(body)
 	lp = &params.ListParams
+	p = params.ToParams()
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BankAccountList{}
-		err := c.B.Call("GET", fmt.Sprintf("/accounts/%v/bank_accounts", params.AccountID), c.Key, &b, nil, list)
+		err := c.B.Call("GET", fmt.Sprintf("/accounts/%v/bank_accounts", params.AccountID), c.Key, &b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

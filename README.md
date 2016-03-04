@@ -97,10 +97,27 @@ for i.Next() {
 Alternatively, you can use the `even.Data.Raw` property to unmarshal to the
 appropriate struct.
 
-### Connect Flows
+### Authentication with Connect
 
-If you're using an access token you will need to use a client. Simply pass the
-access token value as the `tok` when initializing the client.
+There are two ways of authenticating requests when performing actions on behalf
+of a connected account, one that uses the `Stripe-Account` header containing an
+account's ID, and one that uses the account's keys. Usually the former is the
+recommended approach. [See the documentation for more information][connect].
+
+To use the `Stripe-Account` approach, pass the `StripeAccount` field to a
+`ListParams` or `Params` class. For example:
+
+```go
+// For a list request
+listParams := &stripe.ChargeListParams{StripeAccount: merchantID}
+```
+
+```go
+// For any other kind of request
+params := &stripe.CustomerParams{StripeAccount: merchantID}
+```
+
+To use a key, pass it to `API`'s `Init` function:
 
 ```go
 
@@ -263,6 +280,7 @@ pull request][pulls].
 
 [api-docs]: https://stripe.com/docs/api/go
 [api-changelog]: https://stripe.com/docs/upgrades
+[connect]: https://stripe.com/docs/connect/authentication
 [godoc]: http://godoc.org/github.com/stripe/stripe-go
 [issues]: https://github.com/stripe/stripe-go/issues/new
 [package-management]: https://code.google.com/p/go-wiki/wiki/PackageManagementTools

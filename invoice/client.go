@@ -213,6 +213,7 @@ func (c Client) List(params *stripe.InvoiceListParams) *Iter {
 
 	var body *url.Values
 	var lp *stripe.ListParams
+	var p *stripe.Params
 
 	if params != nil {
 		body = &url.Values{}
@@ -227,11 +228,12 @@ func (c Client) List(params *stripe.InvoiceListParams) *Iter {
 
 		params.AppendTo(body)
 		lp = &params.ListParams
+		p = params.ToParams()
 	}
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &invoiceList{}
-		err := c.B.Call("GET", "/invoices", c.Key, &b, nil, list)
+		err := c.B.Call("GET", "/invoices", c.Key, &b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
@@ -251,6 +253,7 @@ func ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 func (c Client) ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 	body := &url.Values{}
 	var lp *stripe.ListParams
+	var p *stripe.Params
 
 	if len(params.Customer) > 0 {
 		body.Add("customer", params.Customer)
@@ -262,10 +265,11 @@ func (c Client) ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 
 	params.AppendTo(body)
 	lp = &params.ListParams
+		p = params.ToParams()
 
 	return &LineIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceLineList{}
-		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.ID), c.Key, &b, nil, list)
+		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.ID), c.Key, &b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
