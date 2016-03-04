@@ -118,16 +118,18 @@ func List(params *stripe.SourceListParams) *Iter {
 func (s Client) List(params *stripe.SourceListParams) *Iter {
 	body := &url.Values{}
 	var lp *stripe.ListParams
+	var p *stripe.Params
 
 	params.AppendTo(body)
 	lp = &params.ListParams
+	p = params.ToParams()
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SourceList{}
 		var err error
 
 		if len(params.Customer) > 0 {
-			err = s.B.Call("GET", fmt.Sprintf("/customers/%v/sources", params.Customer), s.Key, &b, nil, list)
+			err = s.B.Call("GET", fmt.Sprintf("/customers/%v/sources", params.Customer), s.Key, &b, p, list)
 		} else {
 			err = errors.New("Invalid source params: customer needs to be set")
 		}
