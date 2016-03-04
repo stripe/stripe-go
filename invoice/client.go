@@ -265,7 +265,7 @@ func (c Client) ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 
 	params.AppendTo(body)
 	lp = &params.ListParams
-		p = params.ToParams()
+	p = params.ToParams()
 
 	return &LineIter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceLineList{}

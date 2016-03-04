@@ -4,9 +4,9 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/token"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/recipient"
+	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -65,17 +65,17 @@ func TestCardNew(t *testing.T) {
 	}
 
 	targetToken, err := token.New(&stripe.TokenParams{
-	  Card: &stripe.CardParams{
-	        Number: "4000056655665556",
-	        Month:  "09",
-	        Year:   "2021",
-	        CVC:    "123",
-	    },
+		Card: &stripe.CardParams{
+			Number: "4000056655665556",
+			Month:  "09",
+			Year:   "2021",
+			CVC:    "123",
+		},
 	})
 
 	targetCard, err := New(&stripe.CardParams{
-	  Customer: targetCust.ID,
-	  Token: targetToken.ID,
+		Customer: targetCust.ID,
+		Token:    targetToken.ID,
 	})
 
 	if targetCard.LastFour != "5556" {

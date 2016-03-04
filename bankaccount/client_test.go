@@ -16,10 +16,10 @@ func init() {
 func TestBankAccountDel(t *testing.T) {
 	baTok, err := token.New(&stripe.TokenParams{
 		Bank: &stripe.BankAccountParams{
-			Country:  "US",
-			Currency: "usd",
-			Routing:  "110000000",
-			Account:  "000123456789",
+			Country:           "US",
+			Currency:          "usd",
+			Routing:           "110000000",
+			Account:           "000123456789",
 			AccountHolderName: "Jane Austen",
 			AccountHolderType: "individual",
 		},

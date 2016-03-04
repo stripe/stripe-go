@@ -6,7 +6,6 @@ import (
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/card"
-	"github.com/stripe/stripe-go/token"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
@@ -66,10 +65,10 @@ func TestSourceCardNew(t *testing.T) {
 func TestSourceBankAccountNew(t *testing.T) {
 	baTok, err := token.New(&stripe.TokenParams{
 		Bank: &stripe.BankAccountParams{
-			Country: "US",
-			Currency: "usd",
-			Routing: "110000000",
-			Account: "000123456789",
+			Country:           "US",
+			Currency:          "usd",
+			Routing:           "110000000",
+			Account:           "000123456789",
 			AccountHolderName: "Jane Austen",
 			AccountHolderType: "individual",
 		},
@@ -135,13 +134,13 @@ func TestSourceCardGet(t *testing.T) {
 	customer.Del(cust.ID)
 }
 
-func TestSourceBankAccountGet(t *testing.T){
+func TestSourceBankAccountGet(t *testing.T) {
 	baTok, err := token.New(&stripe.TokenParams{
 		Bank: &stripe.BankAccountParams{
-			Country: "US",
-			Currency: "usd",
-			Routing: "110000000",
-			Account: "000123456789",
+			Country:           "US",
+			Currency:          "usd",
+			Routing:           "110000000",
+			Account:           "000123456789",
 			AccountHolderName: "Jane Austen",
 			AccountHolderType: "individual",
 		},
@@ -197,13 +196,13 @@ func TestSourceCardDel(t *testing.T) {
 	customer.Del(cust.ID)
 }
 
-func TestSourceBankAccountDel(t *testing.T){
+func TestSourceBankAccountDel(t *testing.T) {
 	baTok, err := token.New(&stripe.TokenParams{
 		Bank: &stripe.BankAccountParams{
-			Country: "US",
-			Currency: "usd",
-			Routing: "110000000",
-			Account: "000123456789",
+			Country:           "US",
+			Currency:          "usd",
+			Routing:           "110000000",
+			Account:           "000123456789",
 			AccountHolderName: "Jane Austen",
 			AccountHolderType: "individual",
 		},
@@ -278,10 +277,10 @@ func TestSourceCardUpdate(t *testing.T) {
 func TestSourceBankAccountVerify(t *testing.T) {
 	baTok, err := token.New(&stripe.TokenParams{
 		Bank: &stripe.BankAccountParams{
-			Country: "US",
-			Currency: "usd",
-			Routing: "110000000",
-			Account: "000123456789",
+			Country:           "US",
+			Currency:          "usd",
+			Routing:           "110000000",
+			Account:           "000123456789",
 			AccountHolderName: "Jane Austen",
 			AccountHolderType: "individual",
 		},
@@ -308,11 +307,11 @@ func TestSourceBankAccountVerify(t *testing.T) {
 		},
 	})
 
-	amounts := [2]uint8{32, 45};
+	amounts := [2]uint8{32, 45}
 
 	verifyParams := &stripe.SourceVerifyParams{
 		Customer: cust.ID,
-		Amounts: amounts,
+		Amounts:  amounts,
 	}
 
 	sourceVerified, err := Verify(source.ID, verifyParams)
