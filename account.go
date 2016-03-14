@@ -79,7 +79,7 @@ type Account struct {
 	TransfersEnabled     bool             `json:"transfers_enabled"`
 	Name                 string           `json:"display_name"`
 	Email                string           `json:"email"`
-	ExternalAccounts     ExternalAccounts `json:"external_accounts"`
+	ExternalAccounts     *ExternalAccountList `json:"external_accounts"`
 	Statement            string           `json:"statement_descriptor"`
 	Timezone             string           `json:"timezone"`
 	BusinessName         string           `json:"business_name"`
@@ -102,7 +102,6 @@ type Account struct {
 	} `json:"verification"`
 	LegalEntity      *LegalEntity      `json:"legal_entity"`
 	TransferSchedule *TransferSchedule `json:"transfer_schedule"`
-	BankAccounts     *BankAccountList  `json:"bank_accounts"`
 	TOSAcceptance    *struct {
 		Date      int64  `json:"date"`
 		IP        string `json:"ip"`
@@ -112,31 +111,72 @@ type Account struct {
 	Deleted        bool     `json:"deleted"`
 }
 
-type ExternalAccounts struct {
-	Object     string            `json:"object"`
-	Data       []ExternalAccount `json:"data"`
-	HasMore    bool              `json:"has_more"`
-	TotalCount uint              `json:"total_count"`
-	Url        string            `json:"url"`
+// ExternalAccountList is a list of external accounts that may be either bank
+// accounts or cards.
+type ExternalAccountList struct {
+	ListMeta
+
+	// BankAccountValues contains any bank accounts that are part of the list.
+	BankAccountValues []*BankAccount
+
+	// CardValues contains any cards that are part of the list.
+	CardValues []*Card
 }
 
-type ExternalAccount struct {
+func (l *ExternalAccountList) UnmarshalJSON(b []byte) error {
+	var data struct {
+		ListMeta
+		Values []*externalAccount `json:"data"`
+	}
+
+	err := json.Unmarshal(b, &data)
+	if err != nil {
+		return err
+	}
+
+	l.ListMeta = data.ListMeta
+
+	for _, ea := range data.Values {
+		switch {
+		case ea.BankAccount != nil:
+			l.BankAccountValues = append(l.BankAccountValues, ea.BankAccount)
+		case ea.Card != nil:
+			l.CardValues = append(l.CardValues, ea.Card)
+		}
+	}
+
+	return nil
+}
+
+// externalAccount is an internal type used to deserialize resources in the
+// polymorphic external accounts list.
+type externalAccount struct {
 	BankAccount *BankAccount
 	Card        *Card
 }
 
-func (ea *ExternalAccount) UnmarshalJSON(b []byte) (err error) {
-	bank, card := BankAccount{}, Card{}
-	if err = json.Unmarshal(b, &bank); err == nil {
-		ea.BankAccount = &bank
-		return
-	}
-	if err = json.Unmarshal(b, &card); err == nil {
-		ea.Card = &card
-		return
+func (ea *externalAccount) UnmarshalJSON(b []byte) error {
+	var data StripeObject
+
+	err := json.Unmarshal(b, &data)
+	if err != nil {
+		return err
 	}
 
-	return
+	switch data.Object {
+	case "bank_account":
+		ea.BankAccount = &BankAccount{}
+		err = json.Unmarshal(b, ea.BankAccount)
+
+	case "card":
+		ea.Card = &Card{}
+		err = json.Unmarshal(b, ea.Card)
+	}
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // LegalEntity is the structure for properties related to an account's legal state.
