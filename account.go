@@ -69,28 +69,26 @@ type TransferScheduleParams struct {
 // Account is the resource representing your Stripe account.
 // For more details see https://stripe.com/docs/api/#account.
 type Account struct {
-	ID             string `json:"id"`
-	ChargesEnabled bool   `json:"charges_enabled"`
-	Country        string `json:"country"`
-	// Currencies is the list of supported currencies.
-	Currencies           []string         `json:"currencies_supported"`
-	DefaultCurrency      string           `json:"default_currency"`
-	DetailsSubmitted     bool             `json:"details_submitted"`
-	TransfersEnabled     bool             `json:"transfers_enabled"`
-	Name                 string           `json:"display_name"`
-	Email                string           `json:"email"`
+	ID                   string               `json:"id"`
+	ChargesEnabled       bool                 `json:"charges_enabled"`
+	Country              string               `json:"country"`
+	DefaultCurrency      string               `json:"default_currency"`
+	DetailsSubmitted     bool                 `json:"details_submitted"`
+	TransfersEnabled     bool                 `json:"transfers_enabled"`
+	Name                 string               `json:"display_name"`
+	Email                string               `json:"email"`
 	ExternalAccounts     *ExternalAccountList `json:"external_accounts"`
-	Statement            string           `json:"statement_descriptor"`
-	Timezone             string           `json:"timezone"`
-	BusinessName         string           `json:"business_name"`
-	BusinessPrimaryColor string           `json:"business_primary_color"`
-	BusinessUrl          string           `json:"business_url"`
-	SupportPhone         string           `json:"support_phone"`
-	SupportEmail         string           `json:"support_email"`
-	SupportUrl           string           `json:"support_url"`
-	ProductDesc          string           `json:"product_description"`
-	Managed              bool             `json:"managed"`
-	DebitNegativeBal     bool             `json:"debit_negative_balances"`
+	Statement            string               `json:"statement_descriptor"`
+	Timezone             string               `json:"timezone"`
+	BusinessName         string               `json:"business_name"`
+	BusinessPrimaryColor string               `json:"business_primary_color"`
+	BusinessUrl          string               `json:"business_url"`
+	SupportPhone         string               `json:"support_phone"`
+	SupportEmail         string               `json:"support_email"`
+	SupportUrl           string               `json:"support_url"`
+	ProductDesc          string               `json:"product_description"`
+	Managed              bool                 `json:"managed"`
+	DebitNegativeBal     bool                 `json:"debit_negative_balances"`
 	Keys                 *struct {
 		Secret  string `json:"secret"`
 		Publish string `json:"publishable"`

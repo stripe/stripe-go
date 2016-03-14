@@ -215,10 +215,6 @@ func TestAccountGet(t *testing.T) {
 		t.Errorf("Account is missing country\n")
 	}
 
-	if len(target.Currencies) == 0 {
-		t.Errorf("Account is missing currencies\n")
-	}
-
 	if len(target.DefaultCurrency) == 0 {
 		t.Errorf("Account is missing default currency\n")
 	}
