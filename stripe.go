@@ -21,7 +21,7 @@ const (
 )
 
 // apiversion is the currently supported API version
-const apiversion = "2015-07-13"
+const apiversion = "2016-03-07"
 
 // clientversion is the binding version
 const clientversion = "12.1.0"
