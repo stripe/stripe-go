@@ -141,7 +141,7 @@ func TestAccountReject(t *testing.T) {
 		t.Error(err)
 	}
 
-	rejectedAcct, err := Reject(acct.ID, &stripe.AccountRejectionParams{Reason: "fraud"})
+	rejectedAcct, err := Reject(acct.ID, &stripe.AccountRejectParams{Reason: "fraud"})
 	if err != nil {
 		t.Error(err)
 	}

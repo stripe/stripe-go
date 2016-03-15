@@ -189,11 +189,11 @@ func (c Client) Del(id string) (*stripe.Account, error) {
 }
 
 // Reject rejects an account
-func Reject(id string, params *stripe.AccountRejectionParams) (*stripe.Account, error) {
+func Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
 	return getC().Reject(id, params)
 }
 
-func (c Client) Reject(id string, params *stripe.AccountRejectionParams) (*stripe.Account, error) {
+func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
 	body := &url.Values{}
 	if len(params.Reason) > 0 {
 		body.Add("reason", params.Reason)

@@ -187,7 +187,7 @@ type TOSAcceptanceParams struct {
 }
 
 // RejectionParams is the structure for the Reject function.
-type AccountRejectionParams struct {
+type AccountRejectParams struct {
 	Reason string `json:"reason"`
 }
 
