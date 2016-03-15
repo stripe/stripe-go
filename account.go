@@ -186,6 +186,11 @@ type TOSAcceptanceParams struct {
 	UserAgent string `json:"user_agent"`
 }
 
+// RejectionParams is the structure for the Reject function.
+type AccountRejectionParams struct {
+	Reason string `json:"reason"`
+}
+
 // AppendDetails adds the legal entity to the query string.
 func (l *LegalEntity) AppendDetails(values *url.Values) {
 	values.Add("legal_entity[type]", string(l.Type))
