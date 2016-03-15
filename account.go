@@ -69,27 +69,26 @@ type TransferScheduleParams struct {
 // Account is the resource representing your Stripe account.
 // For more details see https://stripe.com/docs/api/#account.
 type Account struct {
-	ID             string `json:"id"`
-	ChargesEnabled bool   `json:"charges_enabled"`
-	Country        string `json:"country"`
-	// Currencies is the list of supported currencies.
-	Currencies           []string `json:"currencies_supported"`
-	DefaultCurrency      string   `json:"default_currency"`
-	DetailsSubmitted     bool     `json:"details_submitted"`
-	TransfersEnabled     bool     `json:"transfers_enabled"`
-	Name                 string   `json:"display_name"`
-	Email                string   `json:"email"`
-	Statement            string   `json:"statement_descriptor"`
-	Timezone             string   `json:"timezone"`
-	BusinessName         string   `json:"business_name"`
-	BusinessPrimaryColor string   `json:"business_primary_color"`
-	BusinessUrl          string   `json:"business_url"`
-	SupportPhone         string   `json:"support_phone"`
-	SupportEmail         string   `json:"support_email"`
-	SupportUrl           string   `json:"support_url"`
-	ProductDesc          string   `json:"product_description"`
-	Managed              bool     `json:"managed"`
-	DebitNegativeBal     bool     `json:"debit_negative_balances"`
+	ID                   string               `json:"id"`
+	ChargesEnabled       bool                 `json:"charges_enabled"`
+	Country              string               `json:"country"`
+	DefaultCurrency      string               `json:"default_currency"`
+	DetailsSubmitted     bool                 `json:"details_submitted"`
+	TransfersEnabled     bool                 `json:"transfers_enabled"`
+	Name                 string               `json:"display_name"`
+	Email                string               `json:"email"`
+	ExternalAccounts     *ExternalAccountList `json:"external_accounts"`
+	Statement            string               `json:"statement_descriptor"`
+	Timezone             string               `json:"timezone"`
+	BusinessName         string               `json:"business_name"`
+	BusinessPrimaryColor string               `json:"business_primary_color"`
+	BusinessUrl          string               `json:"business_url"`
+	SupportPhone         string               `json:"support_phone"`
+	SupportEmail         string               `json:"support_email"`
+	SupportUrl           string               `json:"support_url"`
+	ProductDesc          string               `json:"product_description"`
+	Managed              bool                 `json:"managed"`
+	DebitNegativeBal     bool                 `json:"debit_negative_balances"`
 	Keys                 *struct {
 		Secret  string `json:"secret"`
 		Publish string `json:"publishable"`
@@ -101,7 +100,6 @@ type Account struct {
 	} `json:"verification"`
 	LegalEntity      *LegalEntity      `json:"legal_entity"`
 	TransferSchedule *TransferSchedule `json:"transfer_schedule"`
-	BankAccounts     *BankAccountList  `json:"bank_accounts"`
 	TOSAcceptance    *struct {
 		Date      int64  `json:"date"`
 		IP        string `json:"ip"`
@@ -109,6 +107,58 @@ type Account struct {
 	} `json:"tos_acceptance"`
 	SupportAddress *Address `json:"support_address"`
 	Deleted        bool     `json:"deleted"`
+}
+
+type AccountType string
+
+const (
+	AccountTypeBankAccount AccountType = "bank_account"
+	AccountTypeCard        AccountType = "card"
+)
+
+// ExternalAccountList is a list of external accounts that may be either bank
+// accounts or cards.
+type ExternalAccountList struct {
+	ListMeta
+
+	// Values contains any external accounts (bank accounts and/or cards)
+	// currently attached to this account.
+	Values []*ExternalAccount `json:"data"`
+}
+
+// ExternalAccount is an external account (a bank account or card) that's
+// attached to an account. It contains fields that will be conditionally
+// populated depending on its type.
+type ExternalAccount struct {
+	Type AccountType `json:"object"`
+	ID   string      `json:"id"`
+
+	// A bank account attached to an account. Populated only if the external
+	// account is a bank account.
+	BankAccount *BankAccount
+
+	// A card attached to an account. Populated only if the external account is
+	// a card.
+	Card *Card
+}
+
+func (ea *ExternalAccount) UnmarshalJSON(b []byte) error {
+	type externalAccount ExternalAccount
+	var account externalAccount
+	err := json.Unmarshal(b, &account)
+	if err != nil {
+		return err
+	}
+
+	*ea = ExternalAccount(account)
+
+	switch ea.Type {
+	case AccountTypeBankAccount:
+		err = json.Unmarshal(b, &ea.BankAccount)
+	case AccountTypeCard:
+		err = json.Unmarshal(b, &ea.Card)
+	}
+	return err
 }
 
 // LegalEntity is the structure for properties related to an account's legal state.
