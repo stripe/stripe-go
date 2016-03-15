@@ -48,13 +48,6 @@ type BackendConfiguration struct {
 	HTTPClient *http.Client
 }
 
-// StripeObject is a very minimal type that we can deserialize from JSON to
-// check a type. This is useful when we're trying to determine types within a
-// polymorphic list.
-type StripeObject struct {
-	Object string `json:"object"`
-}
-
 // SupportedBackend is an enumeration of supported Stripe endpoints.
 // Currently supported values are "api" and "uploads".
 type SupportedBackend string

@@ -43,21 +43,24 @@ func TestAccountUnmarshal(t *testing.T) {
 		t.Errorf("Problem deserializing account, wrong value for list More")
 	}
 
-	if len(account.ExternalAccounts.BankAccountValues) != 1 {
-		t.Errorf("Problem deserializing account, got wrong number of bank accounts")
+	if len(account.ExternalAccounts.Values) != 2 {
+		t.Errorf("Problem deserializing account, got wrong number of external accounts")
 	}
 
-	bankAccountID := account.ExternalAccounts.BankAccountValues[0].ID
-	if "ba_1234" != bankAccountID {
-		t.Errorf("Problem deserializing account, got bank account ID %v", bankAccountID)
+	bankAccount := account.ExternalAccounts.Values[0]
+	if bankAccount == nil {
+		t.Errorf("Problem deserializing account, didn't get a bank account")
+	}
+	if "ba_1234" != bankAccount.ID {
+		t.Errorf("Problem deserializing account, got bank account ID %v", bankAccount.ID)
 	}
 
-	if len(account.ExternalAccounts.CardValues) != 1 {
-		t.Errorf("Problem deserializing account, got wrong number of cards")
+	card := account.ExternalAccounts.Values[1]
+	if card == nil {
+		t.Errorf("Problem deserializing account, didn't get a card")
 	}
 
-	cardID := account.ExternalAccounts.CardValues[0].ID
-	if "card_1234" != cardID {
-		t.Errorf("Problem deserializing account, got card ID %v", cardID)
+	if "card_1234" != card.ID {
+		t.Errorf("Problem deserializing account, got card ID %v", card.ID)
 	}
 }

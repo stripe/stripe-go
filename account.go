@@ -109,72 +109,56 @@ type Account struct {
 	Deleted        bool     `json:"deleted"`
 }
 
+type AccountType string
+
+const (
+	AccountTypeBankAccount AccountType = "bank_account"
+	AccountTypeCard        AccountType = "card"
+)
+
 // ExternalAccountList is a list of external accounts that may be either bank
 // accounts or cards.
 type ExternalAccountList struct {
 	ListMeta
 
-	// BankAccountValues contains any bank accounts that are part of the list.
-	BankAccountValues []*BankAccount
-
-	// CardValues contains any cards that are part of the list.
-	CardValues []*Card
+	// Values contains any external accounts (bank accounts and/or cards)
+	// currently attached to this account.
+	Values []*ExternalAccount `json:"data"`
 }
 
-func (l *ExternalAccountList) UnmarshalJSON(b []byte) error {
-	var data struct {
-		ListMeta
-		Values []*externalAccount `json:"data"`
-	}
+// ExternalAccount is an external account (a bank account or card) that's
+// attached to an account. It contains fields that will be conditionally
+// populated depending on its type.
+type ExternalAccount struct {
+	Type AccountType `json:"object"`
+	ID   string      `json:"id"`
 
-	err := json.Unmarshal(b, &data)
-	if err != nil {
-		return err
-	}
-
-	l.ListMeta = data.ListMeta
-
-	for _, ea := range data.Values {
-		switch {
-		case ea.BankAccount != nil:
-			l.BankAccountValues = append(l.BankAccountValues, ea.BankAccount)
-		case ea.Card != nil:
-			l.CardValues = append(l.CardValues, ea.Card)
-		}
-	}
-
-	return nil
-}
-
-// externalAccount is an internal type used to deserialize resources in the
-// polymorphic external accounts list.
-type externalAccount struct {
+	// A bank account attached to an account. Populated only if the external
+	// account is a bank account.
 	BankAccount *BankAccount
-	Card        *Card
+
+	// A card attached to an account. Populated only if the external account is
+	// a card.
+	Card *Card
 }
 
-func (ea *externalAccount) UnmarshalJSON(b []byte) error {
-	var data StripeObject
-
-	err := json.Unmarshal(b, &data)
+func (ea *ExternalAccount) UnmarshalJSON(b []byte) error {
+	type externalAccount ExternalAccount
+	var account externalAccount
+	err := json.Unmarshal(b, &account)
 	if err != nil {
 		return err
 	}
 
-	switch data.Object {
-	case "bank_account":
-		ea.BankAccount = &BankAccount{}
-		err = json.Unmarshal(b, ea.BankAccount)
+	*ea = ExternalAccount(account)
 
-	case "card":
-		ea.Card = &Card{}
-		err = json.Unmarshal(b, ea.Card)
+	switch ea.Type {
+	case AccountTypeBankAccount:
+		err = json.Unmarshal(b, &ea.BankAccount)
+	case AccountTypeCard:
+		err = json.Unmarshal(b, &ea.Card)
 	}
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 // LegalEntity is the structure for properties related to an account's legal state.
