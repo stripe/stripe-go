@@ -188,6 +188,22 @@ func (c Client) Del(id string) (*stripe.Account, error) {
 	return acct, err
 }
 
+// Reject rejects an account
+func Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
+	return getC().Reject(id, params)
+}
+
+func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
+	body := &url.Values{}
+	if len(params.Reason) > 0 {
+		body.Add("reason", params.Reason)
+	}
+	acct := &stripe.Account{}
+	err := c.B.Call("POST", "/accounts/"+id+"/reject", c.Key, body, nil, acct)
+
+	return acct, err
+}
+
 // List lists your accounts.
 func List(params *stripe.AccountListParams) *Iter {
 	return getC().List(params)

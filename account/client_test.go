@@ -115,6 +115,42 @@ func TestAccountDelete(t *testing.T) {
 	}
 }
 
+func TestAccountReject(t *testing.T) {
+	params := &stripe.AccountParams{
+		Managed:              true,
+		Country:              "CA",
+		BusinessUrl:          "www.stripe.com",
+		BusinessName:         "Stripe",
+		BusinessPrimaryColor: "#ffffff",
+		SupportEmail:         "foo@bar.com",
+		SupportUrl:           "www.stripe.com",
+		SupportPhone:         "4151234567",
+		LegalEntity: &stripe.LegalEntity{
+			Type:         stripe.Individual,
+			BusinessName: "Stripe Go",
+			DOB: stripe.DOB{
+				Day:   1,
+				Month: 2,
+				Year:  1990,
+			},
+		},
+	}
+
+	acct, err := New(params)
+	if err != nil {
+		t.Error(err)
+	}
+
+	rejectedAcct, err := Reject(acct.ID, &stripe.AccountRejectParams{Reason: "fraud"})
+	if err != nil {
+		t.Error(err)
+	}
+
+	if rejectedAcct.Verification.DisabledReason != "rejected.fraud" {
+		t.Error("Account DisabledReason did not change to rejected.fraud.")
+	}
+}
+
 func TestAccountGetByID(t *testing.T) {
 	params := &stripe.AccountParams{
 		Managed: true,
