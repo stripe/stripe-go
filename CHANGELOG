@@ -1,3 +1,6 @@
+13.1.0 2016-03-15
+	Add `Reject` on `Account` to support the new API feature
+
 13.0.0 2016-03-15
 	Upgrade API version to 2016-03-07
 	Remove `Account.BankAccounts` in favor of `ExternalAccounts`	
