@@ -186,7 +186,7 @@ type TOSAcceptanceParams struct {
 	UserAgent string `json:"user_agent"`
 }
 
-// RejectionParams is the structure for the Reject function.
+// AccountRejectParams is the structure for the Reject function.
 type AccountRejectParams struct {
 	Reason string `json:"reason"`
 }
