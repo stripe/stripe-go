@@ -1,3 +1,8 @@
+13.0.0 2016-03-15
+	Upgrade API version to 2016-03-07
+	Remove `Account.BankAccounts` in favor of `ExternalAccounts`	
+	Remove `Account.Currencies` in favor of `CountrySpec`
+
 12.1.0 2016-02-04
 	Add `ListParams.StripeAccount` for making list calls on behalf of connected accounts
 	Add `Params.StripeAccount` for symmetry with `ListParams.StripeAccount`
