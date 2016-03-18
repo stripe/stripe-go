@@ -62,7 +62,7 @@ func TestOrder(t *testing.T) {
 	o, err := New(&stripe.OrderParams{
 		Currency: "usd",
 		Items: []*stripe.OrderItemParams{
-			&stripe.OrderItemParams{
+			{
 				Type:   "sku",
 				Parent: sku.ID,
 			},
@@ -143,7 +143,7 @@ func TestOrderUpdate(t *testing.T) {
 	o, err := New(&stripe.OrderParams{
 		Currency: currency.USD,
 		Items: []*stripe.OrderItemParams{
-			&stripe.OrderItemParams{
+			{
 				Type:   "sku",
 				Parent: sku.ID,
 			},
@@ -223,7 +223,7 @@ func TestOrderPay(t *testing.T) {
 	o, err := New(&stripe.OrderParams{
 		Currency: currency.USD,
 		Items: []*stripe.OrderItemParams{
-			&stripe.OrderItemParams{
+			{
 				Type:   "sku",
 				Parent: sku.ID,
 			},
@@ -282,7 +282,7 @@ func TestOrderList(t *testing.T) {
 	params := &stripe.OrderParams{
 		Currency: currency.USD,
 		Items: []*stripe.OrderItemParams{
-			&stripe.OrderItemParams{
+			{
 				Type:   "sku",
 				Parent: sku.ID,
 			},

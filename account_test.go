@@ -9,14 +9,14 @@ func TestAccountUnmarshal(t *testing.T) {
 	accountData := map[string]interface{}{
 		"id": "acct_1234",
 		"external_accounts": map[string]interface{}{
-			"object": "list",
+			"object":   "list",
 			"has_more": true,
 			"data": []map[string]interface{}{
-				map[string]interface{}{
+				{
 					"object": "bank_account",
 					"id":     "ba_1234",
 				},
-				map[string]interface{}{
+				{
 					"object": "card",
 					"id":     "card_1234",
 				},

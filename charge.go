@@ -82,6 +82,7 @@ type Charge struct {
 	Dest           *Account          `json:"destination"`
 	Fee            *Fee              `json:"application_fee"`
 	Transfer       *Transfer         `json:"transfer"`
+	SourceTransfer *Transfer         `json:"source_transfer"`
 }
 
 // FraudDetails is the structure detailing fraud status.

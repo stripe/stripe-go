@@ -56,6 +56,7 @@ type Transfer struct {
 	Recipient *Recipient        `json:"recipient"`
 	Statement string            `json:"statement_descriptor"`
 	Reversals *ReversalList     `json:"reversals"`
+	SourceTx  *Transaction      `json:"source_transaction"`
 }
 
 // UnmarshalJSON handles deserialization of a Transfer.
