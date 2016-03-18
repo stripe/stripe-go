@@ -1,3 +1,7 @@
+13.2.0 2016-03-18
+	Add `SourceTransfer` to `Charge`
+	Add `SourceTx` to `Transfer`
+
 13.1.0 2016-03-15
 	Add `Reject` on `Account` to support the new API feature
 
