@@ -37,7 +37,7 @@ type Token struct {
 	Email string `json:"email"`
 }
 
-// Personal identifiable information
+// PIIParams are parameters for personal identifiable information (PII).
 type PIIParams struct {
 	Params
 	PersonalIDNumber string

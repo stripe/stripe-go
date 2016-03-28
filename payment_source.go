@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/url"
 )
@@ -69,7 +68,7 @@ func SourceParamsFor(obj interface{}) (*SourceParams, error) {
 			Token: p,
 		}
 	default:
-		err = errors.New(fmt.Sprintf("Unsupported source type %s", p))
+		err = fmt.Errorf("Unsupported source type %s", p)
 	}
 	return sp, err
 }
@@ -79,13 +78,21 @@ type Displayer interface {
 	Display() string
 }
 
-// PaymentSourceType consts represent valid payment sources
+// PaymentSourceType consts represent valid payment sources.
 type PaymentSourceType string
 
 const (
-	PaymentSourceBankAccount     PaymentSourceType = "bank_account"
+	// PaymentSourceBankAccount is a constant representing a payment source
+	// which is a bank account.
+	PaymentSourceBankAccount PaymentSourceType = "bank_account"
+
+	// PaymentSourceBitcoinReceiver is a constant representing a payment source
+	// which is a Bitcoin receiver.
 	PaymentSourceBitcoinReceiver PaymentSourceType = "bitcoin_receiver"
-	PaymentSourceCard            PaymentSourceType = "card"
+
+	// PaymentSourceCard is a constant representing a payment source which is a
+	// card.
+	PaymentSourceCard PaymentSourceType = "card"
 )
 
 // PaymentSource describes the payment source used to make a Charge.
@@ -106,8 +113,8 @@ type SourceList struct {
 	Values []*PaymentSource `json:"data"`
 }
 
-// PaymentSourceListParams are used to enumerate the payment sources
-// that are attached to a Customer.
+// SourceListParams are used to enumerate the payment sources that are attached
+// to a Customer.
 type SourceListParams struct {
 	ListParams
 	Customer string

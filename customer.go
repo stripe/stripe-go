@@ -55,7 +55,7 @@ type Customer struct {
 	Shipping      *CustomerShippingDetails `json:"shipping"`
 }
 
-// ShippingDetails is the structure containing shipping information.
+// CustomerShippingDetails is the structure containing shipping information.
 type CustomerShippingDetails struct {
 	Name    string  `json:"name"`
 	Address Address `json:"address"`

@@ -59,8 +59,9 @@ type BankAccountList struct {
 	Values []*BankAccount `json:"data"`
 }
 
-func (ba *BankAccount) Display() string {
-	return fmt.Sprintf("Bank account ending in %s", ba.LastFour)
+// Display implements Displayer.Display.
+func (b *BankAccount) Display() string {
+	return fmt.Sprintf("Bank account ending in %s", b.LastFour)
 }
 
 // AppendDetails adds the bank account's details to the query string values.

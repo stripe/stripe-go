@@ -2,7 +2,7 @@ package stripe
 
 import "encoding/json"
 
-// RefundReason, if set, is the reason the refund is being made--allowed values
+// RefundReason is, if set, the reason the refund is being made--allowed values
 // are "fraudulent", "duplicate", and "requested_by_customer".
 type RefundReason string
 
