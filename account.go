@@ -20,17 +20,36 @@ type IdentityVerificationStatus string
 type Interval string
 
 const (
+	// Individual is a constant value representing an individual legal entity
+	// type.
 	Individual LegalEntityType = "individual"
-	Company    LegalEntityType = "company"
 
-	IdentityVerificationPending    IdentityVerificationStatus = "pending"
-	IdentityVerificationVerified   IdentityVerificationStatus = "verified"
+	// Company is a constant value representing a company legal entity type.
+	Company LegalEntityType = "company"
+
+	// IdentityVerificationPending is a constant value indicating that identity
+	// verification status is pending.
+	IdentityVerificationPending IdentityVerificationStatus = "pending"
+
+	// IdentityVerificationVerified is a constant value indicating that
+	// identity verification status is verified.
+	IdentityVerificationVerified IdentityVerificationStatus = "verified"
+
+	// IdentityVerificationUnverified is a constant value indicating that
+	// identity verification status is unverified.
 	IdentityVerificationUnverified IdentityVerificationStatus = "unverified"
 
+	// Manual is a constant value representing a manual payout interval.
 	Manual Interval = "manual"
-	Day    Interval = "daily"
-	Week   Interval = "weekly"
-	Month  Interval = "monthly"
+
+	// Day is a constant value representing a daily payout interval.
+	Day Interval = "daily"
+
+	// Week is a constant value representing a weekly payout interval.
+	Week Interval = "weekly"
+
+	// Month is a constant value representing a monthly payout interval.
+	Month Interval = "monthly"
 )
 
 // AccountParams are the parameters allowed during account creation/updates.
@@ -109,11 +128,17 @@ type Account struct {
 	Deleted        bool     `json:"deleted"`
 }
 
+// AccountType is the type of an external account.
 type AccountType string
 
 const (
+	// AccountTypeBankAccount is a constant value representing an external
+	// account which is a bank account.
 	AccountTypeBankAccount AccountType = "bank_account"
-	AccountTypeCard        AccountType = "card"
+
+	// AccountTypeCard is a constant value representing an external account
+	// which is a card.
+	AccountTypeCard AccountType = "card"
 )
 
 // ExternalAccountList is a list of external accounts that may be either bank
@@ -142,6 +167,7 @@ type ExternalAccount struct {
 	Card *Card
 }
 
+// UnmarshalJSON implements Unmarshaler.UnmarshalJSON.
 func (ea *ExternalAccount) UnmarshalJSON(b []byte) error {
 	type externalAccount ExternalAccount
 	var account externalAccount

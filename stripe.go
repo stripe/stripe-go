@@ -31,7 +31,8 @@ const clientversion = "13.2.0"
 // to coordinate with other timeouts configured in the Stripe infrastructure.
 const defaultHTTPTimeout = 80 * time.Second
 
-// Totalbackends is the total number of Stripe API endpoints supported by the binding.
+// TotalBackends is the total number of Stripe API endpoints supported by the
+// binding.
 const TotalBackends = 2
 
 // Backend is an interface for making calls against a Stripe service.
@@ -53,10 +54,17 @@ type BackendConfiguration struct {
 type SupportedBackend string
 
 const (
-	APIBackend     SupportedBackend = "api"
-	APIURL         string           = "https://api.stripe.com/v1"
+	// APIBackend is a constant representing the API service backend.
+	APIBackend SupportedBackend = "api"
+
+	// APIURL is the URL of the API service backend.
+	APIURL string = "https://api.stripe.com/v1"
+
+	// UploadsBackend is a constant representing the uploads service backend.
 	UploadsBackend SupportedBackend = "uploads"
-	UploadsURL     string           = "https://uploads.stripe.com/v1"
+
+	// UploadsURL is the URL of the uploads service backend.
+	UploadsURL string = "https://uploads.stripe.com/v1"
 )
 
 // Backends are the currently supported endpoints.
@@ -262,38 +270,39 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 		var errMap map[string]interface{}
 		json.Unmarshal(resBody, &errMap)
 
-		if e, found := errMap["error"]; !found {
+		e, ok := errMap["error"]
+		if !ok {
 			err := errors.New(string(resBody))
 			if LogLevel > 0 {
 				Logger.Printf("Unparsable error returned from Stripe: %v\n", err)
 			}
 			return err
-		} else {
-			root := e.(map[string]interface{})
-			err := &Error{
-				Type:           ErrorType(root["type"].(string)),
-				Msg:            root["message"].(string),
-				HTTPStatusCode: res.StatusCode,
-				RequestID:      res.Header.Get("Request-Id"),
-			}
-
-			if code, found := root["code"]; found {
-				err.Code = ErrorCode(code.(string))
-			}
-
-			if param, found := root["param"]; found {
-				err.Param = param.(string)
-			}
-
-			if charge, found := root["charge"]; found {
-				err.ChargeID = charge.(string)
-			}
-
-			if LogLevel > 0 {
-				Logger.Printf("Error encountered from Stripe: %v\n", err)
-			}
-			return err
 		}
+
+		root := e.(map[string]interface{})
+		err := &Error{
+			Type:           ErrorType(root["type"].(string)),
+			Msg:            root["message"].(string),
+			HTTPStatusCode: res.StatusCode,
+			RequestID:      res.Header.Get("Request-Id"),
+		}
+
+		if code, ok := root["code"]; ok {
+			err.Code = ErrorCode(code.(string))
+		}
+
+		if param, ok := root["param"]; ok {
+			err.Param = param.(string)
+		}
+
+		if charge, ok := root["charge"]; ok {
+			err.ChargeID = charge.(string)
+		}
+
+		if LogLevel > 0 {
+			Logger.Printf("Error encountered from Stripe: %v\n", err)
+		}
+		return err
 	}
 
 	if LogLevel > 2 {

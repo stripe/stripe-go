@@ -87,7 +87,7 @@ func (p *Params) SetAccount(val string) {
 	p.StripeAccount = val
 }
 
-// SetAccount sets a value for the Stripe-Account header.
+// SetStripeAccount sets a value for the Stripe-Account header.
 func (p *Params) SetStripeAccount(val string) {
 	p.StripeAccount = val
 }
@@ -170,10 +170,10 @@ func (p *ListParams) AppendTo(body *url.Values) {
 	}
 }
 
-// Converts a ListParams to a Params by moving over any fields that have valid
-// targets in the new type. This is useful because fields in `Params` can be
-// injected directly into an `http.Request` while generally `ListParams` is
-// only used to build a set of parameters.
+// ToParams converts a ListParams to a Params by moving over any fields that
+// have valid targets in the new type. This is useful because fields in
+// Params can be injected directly into an http.Request while generally
+// ListParams is only used to build a set of parameters.
 func (p *ListParams) ToParams() *Params {
 	return &Params{
 		StripeAccount: p.StripeAccount,
