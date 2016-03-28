@@ -63,7 +63,7 @@ customer, err := customer.New(params)
 ### Charges
 
 ```go
-params := &stripe.ChargeListParams{Customer: customer.Id}
+params := &stripe.ChargeListParams{Customer: customer.ID}
 params.Filters.AddFilter("include[]", "", "total_count")
 
 // set this so you can easily retry your request in case of a timeout
