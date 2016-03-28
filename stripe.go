@@ -270,8 +270,8 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 		var errMap map[string]interface{}
 		json.Unmarshal(resBody, &errMap)
 
-		e, found := errMap["error"]
-		if !found {
+		e, ok := errMap["error"]
+		if !ok {
 			err := errors.New(string(resBody))
 			if LogLevel > 0 {
 				Logger.Printf("Unparsable error returned from Stripe: %v\n", err)
@@ -287,15 +287,15 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 			RequestID:      res.Header.Get("Request-Id"),
 		}
 
-		if code, found := root["code"]; found {
+		if code, ok := root["code"]; ok {
 			err.Code = ErrorCode(code.(string))
 		}
 
-		if param, found := root["param"]; found {
+		if param, ok := root["param"]; ok {
 			err.Param = param.(string)
 		}
 
-		if charge, found := root["charge"]; found {
+		if charge, ok := root["charge"]; ok {
 			err.ChargeID = charge.(string)
 		}
 
