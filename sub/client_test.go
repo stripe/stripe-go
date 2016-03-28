@@ -67,7 +67,7 @@ func TestSubscriptionNew(t *testing.T) {
 	}
 
 	if target.PeriodEnd != subParams.BillingCycleAnchor {
-		t.Errorf("PeriodEnd %f does not match expected BillingCycleAnchor %f\n", target.PeriodEnd, subParams.BillingCycleAnchor)
+		t.Errorf("PeriodEnd %v does not match expected BillingCycleAnchor %v\n", target.PeriodEnd, subParams.BillingCycleAnchor)
 	}
 
 	customer.Del(cust.ID)
@@ -202,7 +202,7 @@ func TestSubscriptionCancel(t *testing.T) {
 	}
 
 	if s.Canceled == 0 {
-		t.Errorf("Subscription.Canceled %i expected to be non 0\n", s.Canceled)
+		t.Errorf("Subscription.Canceled %v expected to be non 0\n", s.Canceled)
 	}
 
 	customer.Del(cust.ID)
