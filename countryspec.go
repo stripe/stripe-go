@@ -14,6 +14,7 @@ type VerificationFieldsList struct {
 // For more details see https://stripe.com/docs/api/#country_specs.
 type CountrySpec struct {
 	ID                             string                                     `json:"id"`
+	DefaultCurrency                Currency                                   `json:"default_currency"`
 	SupportedBankAccountCurrencies map[Country][]Currency                     `json:"supported_bank_account_currencies"`
 	SupportedPaymentCurrencies     []Currency                                 `json:"supported_payment_currencies"`
 	SupportedPaymentMethods        []string                                   `json:"supported_payment_methods"`
