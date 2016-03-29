@@ -1,3 +1,6 @@
+13.3.0 2016-03-29
+	Add `DefaultCurrency` to `CountrySpec`
+
 13.2.0 2016-03-18
 	Add `SourceTransfer` to `Charge`
 	Add `SourceTx` to `Transfer`
