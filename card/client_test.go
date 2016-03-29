@@ -42,6 +42,10 @@ func TestCardNew(t *testing.T) {
 		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, cardParams.Number)
 	}
 
+	if target.Meta == nil || len(target.Meta) > 0 {
+		t.Errorf("Unexpected nil or non-empty metadata in card\n")
+	}
+
 	if target.Month != 10 {
 		t.Errorf("Unexpected expiration month %d for card where we set %q\n", target.Month, cardParams.Month)
 	}
