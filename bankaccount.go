@@ -51,6 +51,7 @@ type BankAccount struct {
 	Routing           string            `json:"routing_number"`
 	Deleted           bool              `json:"deleted"`
 	Customer          *Customer         `json:"customer"`
+	Meta              map[string]string `json:"metadata"`
 }
 
 // BankAccountList is a list object for bank accounts.
