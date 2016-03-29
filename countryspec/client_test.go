@@ -23,6 +23,10 @@ func TestCountrySpecGet(t *testing.T) {
 		t.Errorf("ID %v does not match expected ID %v\n", target.ID, country)
 	}
 
+	if target.DefaultCurrency != "usd" {
+		t.Errorf("DefaultCurrency %v does not match expected value %v\n", target.DefaultCurrency, "usd")
+	}
+
 	if len(target.SupportedBankAccountCurrencies) == 0 {
 		t.Errorf("Empty list of supported bank account currencies: %v", target.SupportedBankAccountCurrencies)
 	}
