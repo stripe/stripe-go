@@ -100,6 +100,63 @@ func (it *Iter) Meta() *ListMeta {
 	return &it.meta
 }
 
+type SeededIter struct {
+	iter     *Iter
+	listFunc func(lp *ListParams) *Iter
+	pos      int
+	values   []interface{}
+}
+
+func NewSeededIter(values []interface{}, listFunc func(lp *ListParams) *Iter) *SeededIter {
+	return &SeededIter{
+		listFunc: listFunc,
+		pos:      -1,
+		values:   values,
+	}
+}
+
+func (i *SeededIter) Next() bool {
+	if i.iter != nil {
+		return i.iter.Next()
+	}
+
+	// The case where we started with an empty list.
+	if len(i.values) == 0 {
+		return false
+	}
+
+	if i.pos+1 < len(i.values) {
+		i.pos++
+		return true
+	}
+
+	lp := &ListParams{}
+	lp.Start = listItemID(i.Current())
+	i.iter = i.listFunc(lp)
+
+	return i.iter.Next()
+}
+
+func (i *SeededIter) Current() interface{} {
+	if i.iter != nil {
+		return i.iter.Current()
+	}
+
+	if i.pos == -1 {
+		return nil
+	}
+
+	return i.values[i.pos]
+}
+
+func (i *SeededIter) Err() error {
+	if i.iter != nil {
+		return i.iter.Err()
+	}
+
+	return nil
+}
+
 func listItemID(x interface{}) string {
 	return reflect.ValueOf(x).Elem().FieldByName("ID").String()
 }

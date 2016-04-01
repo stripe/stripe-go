@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/sub"
 )
 
 // Client is used to invoke /customers APIs.
@@ -214,4 +215,26 @@ func (i *Iter) Customer() *stripe.Customer {
 
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
+}
+
+type SubsSeededIter struct {
+	*stripe.SeededIter
+}
+
+func (i *SubsSeededIter) Sub() *stripe.Sub {
+	return i.Current().(*stripe.Sub)
+}
+
+func SubsIter(c *stripe.Customer) *SubsSeededIter {
+	genericValues := make([]interface{}, len(c.Subs.Values))
+	for i, v := range c.Subs.Values {
+		genericValues[i] = v
+	}
+
+	iter := stripe.NewSeededIter(
+		genericValues,
+		func(lp *stripe.ListParams) *stripe.Iter {
+			return sub.List(&stripe.SubListParams{*lp, c.ID}).Iter
+		})
+	return &SubsSeededIter{iter}
 }
