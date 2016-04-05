@@ -16,8 +16,14 @@ const (
 	Failed   stripe.TransferStatus = "failed"
 	Canceled stripe.TransferStatus = "canceled"
 
-	Card stripe.TransferType = "card"
-	Bank stripe.TransferType = "bank_account"
+	Card          stripe.TransferType = "card"
+	Bank          stripe.TransferType = "bank_account"
+	StripeAccount stripe.TransferType = "stripe_account"
+
+	SourceAlipay  stripe.TransferSourceType = "alipay_account"
+	SourceBank    stripe.TransferSourceType = "bank_account"
+	SourceBitcoin stripe.TransferSourceType = "bitcoin_receiver"
+	SourceCard    stripe.TransferSourceType = "card"
 
 	InsufficientFunds    stripe.TransferFailCode = "insufficient_funds"
 	AccountClosed        stripe.TransferFailCode = "account_closed"
@@ -77,6 +83,10 @@ func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 
 	if params.Fee > 0 {
 		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
+	}
+
+	if len(params.SourceType) > 0 {
+		body.Add("source_type", string(params.SourceType))
 	}
 	params.AppendTo(body)
 

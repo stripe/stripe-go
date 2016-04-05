@@ -7,8 +7,12 @@ import "encoding/json"
 type TransferStatus string
 
 // TransferType is the list of allowed values for the transfer's type.
-// Allowed values are "card", "bank_account".
+// Allowed values are "bank_account", "card", "stripe_account".
 type TransferType string
+
+// TransferSourceType is the list of allowed values for the transfer's source_type field.
+// Allowed values are "alipay_account", bank_account", "bitcoin_receiver", "card".
+type TransferSourceType string
 
 // TransferFailCode is the list of allowed values for the transfer's failure code.
 // Allowed values are "insufficient_funds", "account_closed", "no_account",
@@ -24,6 +28,7 @@ type TransferParams struct {
 	Fee                                                    uint64
 	Currency                                               Currency
 	Recipient, Desc, Statement, Bank, Card, SourceTx, Dest string
+	SourceType                                             TransferSourceType
 }
 
 // TransferListParams is the set of parameters that can be used when listing transfers.
@@ -38,25 +43,26 @@ type TransferListParams struct {
 // Transfer is the resource representing a Stripe transfer.
 // For more details see https://stripe.com/docs/api#transfers.
 type Transfer struct {
-	ID        string            `json:"id"`
-	Live      bool              `json:"livemode"`
-	Amount    int64             `json:"amount"`
-	Currency  Currency          `json:"currency"`
-	Created   int64             `json:"created"`
-	Date      int64             `json:"date"`
-	Desc      string            `json:"description"`
-	FailCode  TransferFailCode  `json:"failure_code"`
-	FailMsg   string            `json:"failure_message"`
-	Status    TransferStatus    `json:"status"`
-	Type      TransferType      `json:"type"`
-	Tx        *Transaction      `json:"balance_transaction"`
-	Meta      map[string]string `json:"metadata"`
-	Bank      *BankAccount      `json:"bank_account"`
-	Card      *Card             `json:"card"`
-	Recipient *Recipient        `json:"recipient"`
-	Statement string            `json:"statement_descriptor"`
-	Reversals *ReversalList     `json:"reversals"`
-	SourceTx  *Transaction      `json:"source_transaction"`
+	ID         string             `json:"id"`
+	Live       bool               `json:"livemode"`
+	Amount     int64              `json:"amount"`
+	Currency   Currency           `json:"currency"`
+	Created    int64              `json:"created"`
+	Date       int64              `json:"date"`
+	Desc       string             `json:"description"`
+	FailCode   TransferFailCode   `json:"failure_code"`
+	FailMsg    string             `json:"failure_message"`
+	Status     TransferStatus     `json:"status"`
+	Type       TransferType       `json:"type"`
+	Tx         *Transaction       `json:"balance_transaction"`
+	Meta       map[string]string  `json:"metadata"`
+	Bank       *BankAccount       `json:"bank_account"`
+	Card       *Card              `json:"card"`
+	Recipient  *Recipient         `json:"recipient"`
+	Statement  string             `json:"statement_descriptor"`
+	Reversals  *ReversalList      `json:"reversals"`
+	SourceTx   *Transaction       `json:"source_transaction"`
+	SourceType TransferSourceType `json:"source_type"`
 }
 
 // UnmarshalJSON handles deserialization of a Transfer.
