@@ -46,6 +46,9 @@ type Card struct {
 	Year          uint16            `json:"exp_year"`
 	Fingerprint   string            `json:"fingerprint"`
 	Funding       CardFunding       `json:"funding"`
+	IIN           string            `json:"iin"`
+	Issuer        string            `json:"issuer"`
+	Description   string            `json:"description"`
 	LastFour      string            `json:"last4"`
 	Brand         CardBrand         `json:"brand"`
 	Default       bool              `json:"default_for_currency"`
