@@ -65,6 +65,24 @@ type Card struct {
 	Recipient     *Recipient        `json:"recipient"`
 	DynLastFour   string            `json:"dynamic_last4"`
 	Deleted       bool              `json:"deleted"`
+
+	// Description is a succinct summary of the card's information.
+	//
+	// Please note that this field is for internal use only and is not returned
+	// as part of standard API requests.
+	Description string `json:"description"`
+
+	// IIN is the card's "Issuer Identification Number".
+	//
+	// Please note that this field is for internal use only and is not returned
+	// as part of standard API requests.
+	IIN string `json:"iin"`
+
+	// Issuer is a bank or financial institution that provides the card.
+	//
+	// Please note that this field is for internal use only and is not returned
+	// as part of standard API requests.
+	Issuer string `json:"issuer"`
 }
 
 // CardList is a list object for cards.
