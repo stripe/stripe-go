@@ -55,40 +55,50 @@ type CaptureParams struct {
 // Charge is the resource representing a Stripe charge.
 // For more details see https://stripe.com/docs/api#charges.
 type Charge struct {
-	ID             string            `json:"id"`
-	Live           bool              `json:"livemode"`
 	Amount         uint64            `json:"amount"`
+	AmountRefunded uint64            `json:"amount_refunded"`
 	Captured       bool              `json:"captured"`
 	Created        int64             `json:"created"`
 	Currency       Currency          `json:"currency"`
+	Customer       *Customer         `json:"customer"`
+	Desc           string            `json:"description"`
+	Dest           *Account          `json:"destination"`
+	Dispute        *Dispute          `json:"dispute"`
+	Email          string            `json:"receipt_email"`
+	FailCode       string            `json:"failure_code"`
+	FailMsg        string            `json:"failure_message"`
+	Fee            *Fee              `json:"application_fee"`
+	FraudDetails   *FraudDetails     `json:"fraud_details"`
+	ID             string            `json:"id"`
+	Invoice        *Invoice          `json:"invoice"`
+	Live           bool              `json:"livemode"`
+	Meta           map[string]string `json:"metadata"`
+	Outcome        *Outcome          `json:"outcome"`
 	Paid           bool              `json:"paid"`
 	Refunded       bool              `json:"refunded"`
 	Refunds        *RefundList       `json:"refunds"`
-	AmountRefunded uint64            `json:"amount_refunded"`
-	Tx             *Transaction      `json:"balance_transaction"`
-	Customer       *Customer         `json:"customer"`
-	Desc           string            `json:"description"`
-	Dispute        *Dispute          `json:"dispute"`
-	FailMsg        string            `json:"failure_message"`
-	FailCode       string            `json:"failure_code"`
-	Invoice        *Invoice          `json:"invoice"`
-	Meta           map[string]string `json:"metadata"`
-	Email          string            `json:"receipt_email"`
-	Statement      string            `json:"statement_descriptor"`
-	FraudDetails   *FraudDetails     `json:"fraud_details"`
-	Status         string            `json:"status"`
-	Source         *PaymentSource    `json:"source"`
 	Shipping       *ShippingDetails  `json:"shipping"`
-	Dest           *Account          `json:"destination"`
-	Fee            *Fee              `json:"application_fee"`
-	Transfer       *Transfer         `json:"transfer"`
+	Source         *PaymentSource    `json:"source"`
 	SourceTransfer *Transfer         `json:"source_transfer"`
+	Statement      string            `json:"statement_descriptor"`
+	Status         string            `json:"status"`
+	Transfer       *Transfer         `json:"transfer"`
+	Tx             *Transaction      `json:"balance_transaction"`
 }
 
 // FraudDetails is the structure detailing fraud status.
 type FraudDetails struct {
 	UserReport   FraudReport `json:"user_report"`
 	StripeReport FraudReport `json:"stripe_report"`
+}
+
+// Outcome is the charge's outcome that details whether a payment
+// was accepted and why.
+type Outcome struct {
+	NetworkStatus string `json:"network_status"`
+	Reason        string `json:"reason"`
+	SellerMessage string `json:"seller_message"`
+	Type          string `json:"type"`
 }
 
 // ShippingDetails is the structure containing shipping information.
