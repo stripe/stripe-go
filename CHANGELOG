@@ -1,3 +1,6 @@
+13.8.0 2016-04-12
+	Add `Outcome` struct to `Charge`
+
 13.7.0 2016-04-06
 	Add `Description`, `IIN`, and `Issuer` to `Card`
 
