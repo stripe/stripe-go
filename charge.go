@@ -73,7 +73,7 @@ type Charge struct {
 	Invoice        *Invoice          `json:"invoice"`
 	Live           bool              `json:"livemode"`
 	Meta           map[string]string `json:"metadata"`
-	Outcome        *Outcome          `json:"outcome"`
+	Outcome        *ChargeOutcome    `json:"outcome"`
 	Paid           bool              `json:"paid"`
 	Refunded       bool              `json:"refunded"`
 	Refunds        *RefundList       `json:"refunds"`
@@ -94,7 +94,7 @@ type FraudDetails struct {
 
 // Outcome is the charge's outcome that details whether a payment
 // was accepted and why.
-type Outcome struct {
+type ChargeOutcome struct {
 	NetworkStatus string `json:"network_status"`
 	Reason        string `json:"reason"`
 	SellerMessage string `json:"seller_message"`
