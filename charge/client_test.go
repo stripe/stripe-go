@@ -465,6 +465,54 @@ func TestChargeSourceForBitcoinReceiver(t *testing.T) {
 	}
 }
 
+func TestChargeOutcome(t *testing.T) {
+	chargeParams := &stripe.ChargeParams{
+		Amount:    1000,
+		Currency:  currency.USD,
+		Statement: "statement",
+		Email:     "a@b.com",
+	}
+	chargeParams.SetSource(&stripe.CardParams{
+		Name:   "Stripe Tester",
+		Number: "4100000000000019",
+		Month:  "06",
+		Year:   "20",
+	})
+
+	_, err := New(chargeParams)
+
+	// We expect an error for the shielded test card, we will grab the ChargeID
+	// from the *stripe.Error and assert the charge's outcome from the result of Get
+	if err == nil {
+		t.Error("The shielded test card did not return an error for charge creation")
+	}
+
+	stripeErr := err.(*stripe.Error)
+	cid := stripeErr.ChargeID
+
+	target, err := Get(cid, nil)
+	if err != nil {
+		t.Error(err)
+	}
+
+	o := target.Outcome
+	if o.NetworkStatus != "not_sent_to_network" {
+		t.Error("The charge outcome's network status is not `not_sent_to_network`")
+	}
+
+	if o.Reason != "highest_risk_level" {
+		t.Error("The charge outcome's reason is not `highest_risk_level`")
+	}
+
+	if o.SellerMessage == "" {
+		t.Error("The charge outcome's seller message is not defined")
+	}
+
+	if o.Type != "blocked" {
+		t.Error("The charge outcome's type is not `blocked`")
+	}
+}
+
 func newDisputedCharge() (*stripe.Charge, error) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1001,
