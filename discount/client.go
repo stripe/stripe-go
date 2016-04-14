@@ -28,13 +28,13 @@ func (c Client) Del(customerID string) (*stripe.Discount, error) {
 
 // DelSub removes a discount from a customer's subscription.
 // For more details see https://stripe.com/docs/api#delete_subscription_discount.
-func DelSub(customerID, subscriptionID string) (*stripe.Discount, error) {
-	return getC().DelSub(customerID, subscriptionID)
+func DelSub(subscriptionID string) (*stripe.Discount, error) {
+	return getC().DelSub(subscriptionID)
 }
 
-func (c Client) DelSub(customerID, subscriptionID string) (*stripe.Discount, error) {
+func (c Client) DelSub(subscriptionID string) (*stripe.Discount, error) {
 	discount := &stripe.Discount{}
-	err := c.B.Call("DELETE", fmt.Sprintf("/customers/%v/subscriptions/%v/discount", customerID, subscriptionID), c.Key, nil, nil, discount)
+	err := c.B.Call("DELETE", fmt.Sprintf("/subscriptions/%v/discount", subscriptionID), c.Key, nil, nil, discount)
 
 	return discount, err
 }
