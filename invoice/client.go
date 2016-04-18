@@ -52,6 +52,8 @@ func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 
 	if params.TaxPercent > 0 {
 		body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
+	} else if params.TaxPercentZero {
+		body.Add("tax_percent", "0")
 	}
 
 	invoice := &stripe.Invoice{}

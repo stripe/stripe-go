@@ -98,9 +98,10 @@ func TestSubscriptionZeroQuantity(t *testing.T) {
 	plan.New(planParams)
 
 	subParams := &stripe.SubParams{
-		Customer:     cust.ID,
-		Plan:         "test",
-		QuantityZero: true,
+		Customer:       cust.ID,
+		Plan:           "test",
+		QuantityZero:   true,
+		TaxPercentZero: true,
 	}
 
 	target, err := New(subParams)
@@ -115,6 +116,10 @@ func TestSubscriptionZeroQuantity(t *testing.T) {
 
 	if target.Quantity != 0 {
 		t.Errorf("Quantity %v does not match expected quantity %v\n", target.Quantity, 0)
+	}
+
+	if target.TaxPercent != 0 {
+		t.Errorf("Tax percent %v does not match expected tax percent %v\n", target.TaxPercent, 0)
 	}
 
 	customer.Del(cust.ID)
