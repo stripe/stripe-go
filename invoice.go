@@ -21,6 +21,7 @@ type InvoiceParams struct {
 	SubQuantity          uint64
 	SubTrialEnd          int64
 	TaxPercent           float64
+	TaxPercentZero       bool
 }
 
 // InvoiceListParams is the set of parameters that can be used when listing invoices.
