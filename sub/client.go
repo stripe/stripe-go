@@ -222,14 +222,24 @@ func (c Client) List(params *stripe.SubListParams) *Iter {
 
 	if params != nil {
 		body = &url.Values{}
+
+		if len(params.Customer) > 0 {
+			body.Add("customer", params.Customer)
+		}
+
+		if len(params.Plan) > 0 {
+			body.Add("plan", params.Plan)
+		}
+
 		params.AppendTo(body)
+
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SubList{}
-		err := c.B.Call("GET", fmt.Sprintf("/subscriptions"), c.Key, &b, p, list)
+		err := c.B.Call("GET", "/subscriptions", c.Key, &b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
