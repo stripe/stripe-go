@@ -1,3 +1,7 @@
+13.9.0 2016-04-18
+	Add `TaxPercentZero` struct to `InvoiceParams`
+	Add `TaxPercentZero` to `SubParams`
+
 13.8.0 2016-04-12
 	Add `Outcome` struct to `Charge`
 
