@@ -1,3 +1,6 @@
+13.10.0 2016-04-19
+	Expose `stripe.PlanList` (previously an internal type)
+
 13.9.0 2016-04-18
 	Add `TaxPercentZero` struct to `InvoiceParams`
 	Add `TaxPercentZero` to `SubParams`
