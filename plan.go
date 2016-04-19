@@ -38,3 +38,9 @@ type Plan struct {
 	Statement     string            `json:"statement_descriptor"`
 	Deleted       bool              `json:"deleted"`
 }
+
+// PlanList is a list of plans as returned from a list endpoint.
+type PlanList struct {
+	ListMeta
+	Values []*Plan `json:"data"`
+}
