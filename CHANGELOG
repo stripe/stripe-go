@@ -1,3 +1,6 @@
+13.10.1 2016-04-20
+	Add support for `TaxPercentZero` to invoice and subscription updates
+
 13.10.0 2016-04-19
 	Expose `stripe.PlanList` (previously an internal type)
 
