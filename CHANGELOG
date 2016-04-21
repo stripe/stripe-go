@@ -1,3 +1,24 @@
+13.11.0 2016-04-20
+	Expose a number of list types that were previously internal (full list below)
+	Expose `stripe.AccountList`
+	Expose `stripe.TransactionList`
+	Expose `stripe.BitcoinReceiverList`
+	Expose `stripe.ChargeList`
+	Expose `stripe.CountrySpecList`
+	Expose `stripe.CouponList`
+	Expose `stripe.CustomerList`
+	Expose `stripe.DisputeList`
+	Expose `stripe.EventList`
+	Expose `stripe.FeeList`
+	Expose `stripe.FileUploadList`
+	Expose `stripe.InvoiceList`
+	Expose `stripe.OrderList`
+	Expose `stripe.ProductList`
+	Expose `stripe.RecipientList`
+	Expose `stripe.TransferList`
+	Switch to use of `stripe.BitcoinTransactionList`
+	Switch to use of `stripe.SKUList`
+
 13.10.1 2016-04-20
 	Add support for `TaxPercentZero` to invoice and subscription updates
 
