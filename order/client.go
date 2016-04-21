@@ -239,11 +239,6 @@ func List(params *stripe.OrderListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.OrderListParams) *Iter {
-	type orderList struct {
-		stripe.ListMeta
-		Values []*stripe.Order `json:"data"`
-	}
-
 	var body *url.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
@@ -265,7 +260,7 @@ func (c Client) List(params *stripe.OrderListParams) *Iter {
 	}
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
-		list := &orderList{}
+		list := &stripe.OrderList{}
 		err := c.B.Call("GET", "/orders", c.Key, &b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
