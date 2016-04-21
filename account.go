@@ -141,6 +141,12 @@ const (
 	AccountTypeCard AccountType = "card"
 )
 
+// AccountList is a list of accounts as returned from a list endpoint.
+type AccountList struct {
+	ListMeta
+	Values []*Account `json:"data"`
+}
+
 // ExternalAccountList is a list of external accounts that may be either bank
 // accounts or cards.
 type ExternalAccountList struct {
