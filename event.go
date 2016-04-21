@@ -25,6 +25,12 @@ type EventData struct {
 	Obj  map[string]interface{}
 }
 
+// EventList is a list of events as retrieved from a list endpoint.
+type EventList struct {
+	ListMeta
+	Values []*Event `json:"data"`
+}
+
 // EventListParams is the set of parameters that can be used when listing events.
 // For more details see https://stripe.com/docs/api#list_events.
 type EventListParams struct {
