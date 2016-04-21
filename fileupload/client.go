@@ -74,11 +74,6 @@ func List(params *stripe.FileUploadListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.FileUploadListParams) *Iter {
-	type fileUploadList struct {
-		stripe.ListMeta
-		Values []*stripe.FileUpload `json:"data"`
-	}
-
 	var body *url.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
@@ -96,7 +91,7 @@ func (c Client) List(params *stripe.FileUploadListParams) *Iter {
 	}
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
-		list := &fileUploadList{}
+		list := &stripe.FileUploadList{}
 		err := c.B.Call("GET", "/files", c.Key, &b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
