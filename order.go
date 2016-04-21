@@ -78,6 +78,12 @@ type Order struct {
 	Updated                int64             `json:"updated"`
 }
 
+// OrderList is a list of orders as retrieved from a list endpoint.
+type OrderList struct {
+	ListMeta
+	Values []*Order `json:"data"`
+}
+
 // OrderListParams is the set of parameters that can be used when
 // listing orders. For more details, see:
 // https://stripe.com/docs/api#list_orders.

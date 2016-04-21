@@ -74,6 +74,12 @@ type Invoice struct {
 	Meta         map[string]string `json:"metadata"`
 }
 
+// InvoiceList is a list of invoices as retrieved from a list endpoint.
+type InvoiceList struct {
+	ListMeta
+	Values []*Invoice `json:"data"`
+}
+
 // InvoiceLine is the resource representing a Stripe invoice line item.
 // For more details see https://stripe.com/docs/api#invoice_line_item_object.
 type InvoiceLine struct {

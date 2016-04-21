@@ -49,6 +49,12 @@ type Product struct {
 	Skus              *SKUList           `json:"skus"`
 }
 
+// ProductList is a list of products as retrieved from a list endpoint.
+type ProductList struct {
+	ListMeta
+	Values []*Product `json:"data"`
+}
+
 // ProductListParams is the set of parameters that can be used when
 // listing products. For more details, see:
 // https://stripe.com/docs/api#list_products.

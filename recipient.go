@@ -42,6 +42,12 @@ type Recipient struct {
 	Deleted     bool              `json:"deleted"`
 }
 
+// RecipientList is a list of recipients as retrieved from a list endpoint.
+type RecipientList struct {
+	ListMeta
+	Values []*Recipient `json:"data"`
+}
+
 // UnmarshalJSON handles deserialization of a Recipient.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.

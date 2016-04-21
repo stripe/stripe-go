@@ -86,6 +86,12 @@ type Charge struct {
 	Tx             *Transaction      `json:"balance_transaction"`
 }
 
+// ChargeList is a list of charges as retrieved from a list endpoint.
+type ChargeList struct {
+	ListMeta
+	Values []*Charge `json:"data"`
+}
+
 // FraudDetails is the structure detailing fraud status.
 type FraudDetails struct {
 	UserReport   FraudReport `json:"user_report"`

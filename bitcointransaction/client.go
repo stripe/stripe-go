@@ -21,11 +21,6 @@ func List(params *stripe.BitcoinTransactionListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.BitcoinTransactionListParams) *Iter {
-	type receiverList struct {
-		stripe.ListMeta
-		Values []*stripe.BitcoinTransaction `json:"data"`
-	}
-
 	var body *url.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
@@ -43,7 +38,7 @@ func (c Client) List(params *stripe.BitcoinTransactionListParams) *Iter {
 	}
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
-		list := &receiverList{}
+		list := &stripe.BitcoinTransactionList{}
 		err := c.B.Call("GET", fmt.Sprintf("/bitcoin/receivers/%v/transactions", params.Receiver), c.Key, &b, p, list)
 
 		ret := make([]interface{}, len(list.Values))

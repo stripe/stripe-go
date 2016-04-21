@@ -21,6 +21,12 @@ type CountrySpec struct {
 	VerificationFields             map[LegalEntityType]VerificationFieldsList `json:"verification_fields"`
 }
 
+// CountrySpecList is a list of country specs as retrieved from a list endpoint.
+type CountrySpecList struct {
+	ListMeta
+	Values []*CountrySpec `json:"data"`
+}
+
 // CountrySpecListParams are the parameters allowed during CountrySpec listing.
 type CountrySpecListParams struct {
 	ListParams

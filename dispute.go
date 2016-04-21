@@ -62,6 +62,12 @@ type Dispute struct {
 	Meta            map[string]string `json:"metadata"`
 }
 
+// DisputeList is a list of disputes as retrieved from a list endpoint.
+type DisputeList struct {
+	ListMeta
+	Values []*Dispute `json:"data"`
+}
+
 // EvidenceDetails is the structure representing more details about
 // the dispute.
 type EvidenceDetails struct {

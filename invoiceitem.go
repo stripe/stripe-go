@@ -39,6 +39,12 @@ type InvoiceItem struct {
 	Deleted      bool              `json:"deleted"`
 }
 
+// InvoiceItemList is a list of invoice items as retrieved from a list endpoint.
+type InvoiceItemList struct {
+	ListMeta
+	Values []*InvoiceItem `json:"data"`
+}
+
 // UnmarshalJSON handles deserialization of an InvoiceItem.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.

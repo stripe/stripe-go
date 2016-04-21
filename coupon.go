@@ -42,6 +42,12 @@ type Coupon struct {
 	Deleted        bool              `json:"deleted"`
 }
 
+// CouponList is a list of coupons as retrieved from a list endpoint.
+type CouponList struct {
+	ListMeta
+	Values []*Coupon `json:"data"`
+}
+
 // UnmarshalJSON handles deserialization of a Coupon.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.

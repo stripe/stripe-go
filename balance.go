@@ -59,6 +59,12 @@ type Transaction struct {
 	Recipient  string            `json:"recipient"`
 }
 
+// TransactionList is a list of transactions as returned from a list endpoint.
+type TransactionList struct {
+	ListMeta
+	Values []*Transaction `json:"data"`
+}
+
 // Amount is a structure wrapping an amount value and its currency.
 type Amount struct {
 	Value    int64    `json:"amount"`

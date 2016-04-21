@@ -53,6 +53,12 @@ type BitcoinReceiver struct {
 	Transactions          *BitcoinTransactionList `json:"transactions"`
 }
 
+// BitcoinReceiverList is a list of bitcoin receivers as retrieved from a list endpoint.
+type BitcoinReceiverList struct {
+	ListMeta
+	Values []*BitcoinReceiver `json:"data"`
+}
+
 // Display human readable representation of a BitcoinReceiver.
 func (br *BitcoinReceiver) Display() string {
 	var filled string

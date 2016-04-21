@@ -165,11 +165,6 @@ func List(params *stripe.CustomerListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.CustomerListParams) *Iter {
-	type customerList struct {
-		stripe.ListMeta
-		Values []*stripe.Customer `json:"data"`
-	}
-
 	var body *url.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
@@ -187,7 +182,7 @@ func (c Client) List(params *stripe.CustomerListParams) *Iter {
 	}
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
-		list := &customerList{}
+		list := &stripe.CustomerList{}
 		err := c.B.Call("GET", "/customers", c.Key, &b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
