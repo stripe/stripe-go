@@ -34,6 +34,12 @@ type Fee struct {
 	AmountRefunded uint64         `json:"amount_refunded"`
 }
 
+// FeeList is a list of fees as retrieved from a list endpoint.
+type FeeList struct {
+	ListMeta
+	Values []*Fee `json:"data"`
+}
+
 // UnmarshalJSON handles deserialization of a Fee.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.

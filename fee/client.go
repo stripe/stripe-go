@@ -44,11 +44,6 @@ func List(params *stripe.FeeListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.FeeListParams) *Iter {
-	type feeList struct {
-		stripe.ListMeta
-		Values []*stripe.Fee `json:"data"`
-	}
-
 	var body *url.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
@@ -70,7 +65,7 @@ func (c Client) List(params *stripe.FeeListParams) *Iter {
 	}
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
-		list := &feeList{}
+		list := &stripe.FeeList{}
 		err := c.B.Call("GET", "/application_fees", c.Key, &b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
