@@ -116,12 +116,7 @@ func (c Client) List(params *stripe.TxListParams) *Iter {
 	}
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
-		type transactionList struct {
-			stripe.ListMeta
-			Values []*stripe.Transaction `json:"data"`
-		}
-
-		list := &transactionList{}
+		list := &stripe.TransactionList{}
 		err := c.B.Call("GET", "/balance/history", c.Key, &b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
