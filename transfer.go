@@ -65,6 +65,12 @@ type Transfer struct {
 	SourceType TransferSourceType `json:"source_type"`
 }
 
+// TransferList is a list of transfers as retrieved from a list endpoint.
+type TransferList struct {
+	ListMeta
+	Values []*Transfer `json:"data"`
+}
+
 // UnmarshalJSON handles deserialization of a Transfer.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.

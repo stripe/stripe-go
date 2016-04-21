@@ -176,11 +176,6 @@ func List(params *stripe.TransferListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.TransferListParams) *Iter {
-	type transferList struct {
-		stripe.ListMeta
-		Values []*stripe.Transfer `json:"data"`
-	}
-
 	var body *url.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
@@ -210,7 +205,7 @@ func (c Client) List(params *stripe.TransferListParams) *Iter {
 	}
 
 	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
-		list := &transferList{}
+		list := &stripe.TransferList{}
 		err := c.B.Call("GET", "/transfers", c.Key, &b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
