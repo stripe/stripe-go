@@ -1,4 +1,7 @@
-13.11.0 2016-04-20
+13.11.1 2016-04-22
+	Fix bug where new external accounts could not be marked default from token
+
+13.11.0 2016-04-21
 	Expose a number of list types that were previously internal (full list below)
 	Expose `stripe.AccountList`
 	Expose `stripe.TransactionList`
