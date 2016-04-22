@@ -35,6 +35,10 @@ func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 	// Use token (if exists) or a dictionary containing a user’s bank account details.
 	if len(params.Token) > 0 {
 		body.Add("external_account", params.Token)
+
+		if params.Default {
+			body.Add("default_for_currency", strconv.FormatBool(params.Default))
+		}
 	} else {
 		body.Add("external_account[object]", "bank_account")
 		body.Add("external_account[country]", params.Country)
