@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
@@ -203,6 +204,64 @@ func TestAccountUpdateWithBankAccount(t *testing.T) {
 	_, err := Update(acct.ID, params)
 	if err != nil {
 		t.Error(err)
+	}
+}
+
+func TestAccountAddExternalAccountsDefault(t *testing.T) {
+	params := &stripe.AccountParams{
+		Managed: true,
+		Country: "CA",
+		ExternalAccount: &stripe.AccountExternalAccountParams{
+			Country:  "US",
+			Currency: "usd",
+			Routing:  "110000000",
+			Account:  "000123456789",
+		},
+	}
+
+	acct, _ := New(params)
+
+	ba, err := bankaccount.New(&stripe.BankAccountParams{
+		AccountID: acct.ID,
+		Country:   "US",
+		Currency:  "usd",
+		Routing:   "110000000",
+		Account:   "000111111116",
+		Default:   true,
+	})
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if ba.Default == false {
+		t.Error("The new external account should be the default but isn't.")
+	}
+
+	baTok, err := token.New(&stripe.TokenParams{
+		Bank: &stripe.BankAccountParams{
+			Country:  "US",
+			Currency: "usd",
+			Routing:  "110000000",
+			Account:  "000333333335",
+		},
+	})
+	if err != nil {
+		t.Error(err)
+	}
+
+	ba2, err := bankaccount.New(&stripe.BankAccountParams{
+		AccountID: acct.ID,
+		Token:     baTok.ID,
+		Default:   true,
+	})
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if ba2.Default == false {
+		t.Error("The third external account should be the default but isn't.")
 	}
 }
 
