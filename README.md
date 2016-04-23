@@ -141,8 +141,8 @@ import (
     "fmt"
     "net/http"
 
-    "appengine"
-    "appengine/urlfetch"
+    "google.golang.org/appengine"
+    "google.golang.org/appengine/urlfetch"
 
     "github.com/stripe/stripe-go"
     "github.com/stripe/stripe-go/client"
