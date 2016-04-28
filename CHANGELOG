@@ -1,3 +1,6 @@
+13.12.0 2016-04-28
+	Add `Currency` to `Card`
+
 13.11.1 2016-04-22
 	Fix bug where new external accounts could not be marked default from token
 
