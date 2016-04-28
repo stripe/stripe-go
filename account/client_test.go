@@ -5,6 +5,8 @@ import (
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/bankaccount"
+	"github.com/stripe/stripe-go/card"
+	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
@@ -292,6 +294,41 @@ func TestAccountUpdateWithToken(t *testing.T) {
 	_, err := Update(acct.ID, params)
 	if err != nil {
 		t.Error(err)
+	}
+}
+
+func TestAccountUpdateWithCardToken(t *testing.T) {
+	params := &stripe.AccountParams{
+		Managed: true,
+		Country: "US",
+	}
+
+	acct, _ := New(params)
+
+	tokenParams := &stripe.TokenParams{
+		Card: &stripe.CardParams{
+			Number:   "4000056655665556",
+			Month:    "06",
+			Year:     "20",
+			Currency: "usd",
+		},
+	}
+
+	tok, _ := token.New(tokenParams)
+
+	cardParams := &stripe.CardParams{
+		Account: acct.ID,
+		Token:   tok.ID,
+	}
+
+	c, err := card.New(cardParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if c.Currency != currency.USD {
+		t.Errorf("Currency %v does not match expected value %v\n", c.Currency, currency.USD)
 	}
 }
 
