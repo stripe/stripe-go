@@ -5,6 +5,7 @@ import (
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/bankaccount"
+	"github.com/stripe/stripe-go/currency"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -41,6 +42,25 @@ func TestTokenNew(t *testing.T) {
 
 	if target.Card.LastFour != "4242" {
 		t.Errorf("Unexpected last four %q for card number %v\n", target.Card.LastFour, tokenParams.Card.Number)
+	}
+
+	tokenParamsCurrency := &stripe.TokenParams{
+		Card: &stripe.CardParams{
+			Number:   "4242424242424242",
+			Month:    "10",
+			Year:     "20",
+			Currency: "usd",
+		},
+	}
+
+	tokenWithCurrency, err := New(tokenParamsCurrency)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if tokenWithCurrency.Card.Currency != currency.USD {
+		t.Errorf("Currency %v does not match expected value %v\n", tokenWithCurrency.Card.Currency, currency.USD)
 	}
 }
 

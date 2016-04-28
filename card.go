@@ -27,7 +27,7 @@ type CardParams struct {
 	Token                                         string
 	Default                                       bool
 	Account, Customer, Recipient                  string
-	Name, Number, Month, Year, CVC                string
+	Name, Number, Month, Year, CVC, Currency      string
 	Address1, Address2, City, State, Zip, Country string
 }
 
@@ -48,6 +48,7 @@ type Card struct {
 	Funding       CardFunding       `json:"funding"`
 	LastFour      string            `json:"last4"`
 	Brand         CardBrand         `json:"brand"`
+	Currency      Currency          `json:"currency"`
 	Default       bool              `json:"default_for_currency"`
 	City          string            `json:"address_city"`
 	Country       string            `json:"address_country"`
@@ -106,6 +107,10 @@ func (c *CardParams) AppendDetails(values *url.Values, creating bool) {
 
 			if len(c.CVC) > 0 {
 				values.Add("card[cvc]", c.CVC)
+			}
+
+			if len(c.Currency) > 0 {
+				values.Add("card[currency]", c.Currency)
 			}
 		}
 	}
