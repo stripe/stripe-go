@@ -61,28 +61,32 @@ func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 			}
 		}
 
-		body.Add("shipping[address][line1]", params.Shipping.Address.Line1)
-		if params.Shipping.Address.Line2 != "" {
-			body.Add("shipping[address][line2]", params.Shipping.Address.Line2)
-		}
-		if params.Shipping.Address.City != "" {
-			body.Add("shipping[address][city]", params.Shipping.Address.City)
-		}
-		if params.Shipping.Address.Country != "" {
-			body.Add("shipping[address][country]", params.Shipping.Address.Country)
-		}
-		if params.Shipping.Address.PostalCode != "" {
-			body.Add("shipping[address][postal_code]", params.Shipping.Address.PostalCode)
-		}
-		if params.Shipping.Address.State != "" {
-			body.Add("shipping[address][state]", params.Shipping.Address.State)
-		}
+		if params.Shipping != nil {
+			if params.Shipping.Address != nil {
+				body.Add("shipping[address][line1]", params.Shipping.Address.Line1)
+				if params.Shipping.Address.Line2 != "" {
+					body.Add("shipping[address][line2]", params.Shipping.Address.Line2)
+				}
+				if params.Shipping.Address.City != "" {
+					body.Add("shipping[address][city]", params.Shipping.Address.City)
+				}
+				if params.Shipping.Address.Country != "" {
+					body.Add("shipping[address][country]", params.Shipping.Address.Country)
+				}
+				if params.Shipping.Address.PostalCode != "" {
+					body.Add("shipping[address][postal_code]", params.Shipping.Address.PostalCode)
+				}
+				if params.Shipping.Address.State != "" {
+					body.Add("shipping[address][state]", params.Shipping.Address.State)
+				}
+			}
 
-		if params.Shipping.Name != "" {
-			body.Add("shipping[name]", params.Shipping.Name)
-		}
-		if params.Shipping.Phone != "" {
-			body.Add("shipping[phone]", params.Shipping.Phone)
+			if params.Shipping.Name != "" {
+				body.Add("shipping[name]", params.Shipping.Name)
+			}
+			if params.Shipping.Phone != "" {
+				body.Add("shipping[phone]", params.Shipping.Phone)
+			}
 		}
 
 		params.AppendTo(body)
