@@ -28,6 +28,7 @@ type SubParams struct {
 type SubListParams struct {
 	ListParams
 	Customer string
+	Plan     string
 }
 
 // Sub is the resource representing a Stripe subscription.
@@ -41,6 +42,7 @@ type Sub struct {
 	Status      SubStatus         `json:"status"`
 	FeePercent  float64           `json:"application_fee_percent"`
 	Canceled    int64             `json:"canceled_at"`
+	Created     int64             `json:"created"`
 	Start       int64             `json:"start"`
 	PeriodEnd   int64             `json:"current_period_end"`
 	PeriodStart int64             `json:"current_period_start"`

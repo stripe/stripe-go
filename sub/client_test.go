@@ -156,7 +156,17 @@ func TestSubscriptionGet(t *testing.T) {
 	}
 
 	subscription, _ := New(subParams)
-	target, err := Get(subscription.ID, &stripe.SubParams{Customer: cust.ID})
+	target, err := Get(subscription.ID, nil)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.ID != subscription.ID {
+		t.Errorf("Subscription id %q does not match expected id %q\n", target.ID, subscription.ID)
+	}
+
+	target, err = Get(subscription.ID, &stripe.SubParams{Customer: cust.ID})
 
 	if err != nil {
 		t.Error(err)
@@ -200,7 +210,18 @@ func TestSubscriptionCancel(t *testing.T) {
 	}
 
 	subscription, _ := New(subParams)
-	s, err := Cancel(subscription.ID, &stripe.SubParams{Customer: cust.ID})
+	s, err := Cancel(subscription.ID, nil)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if s.Canceled == 0 {
+		t.Errorf("Subscription.Canceled %v expected to be non 0\n", s.Canceled)
+	}
+
+	subscription, _ = New(subParams)
+	s, err = Cancel(subscription.ID, &stripe.SubParams{Customer: cust.ID})
 
 	if err != nil {
 		t.Error(err)
@@ -246,7 +267,6 @@ func TestSubscriptionUpdate(t *testing.T) {
 
 	subscription, _ := New(subParams)
 	updatedSub := &stripe.SubParams{
-		Customer:   cust.ID,
 		NoProrate:  true,
 		Quantity:   13,
 		TaxPercent: 20.0,
@@ -287,7 +307,6 @@ func TestSubscriptionDiscount(t *testing.T) {
 				Year:   "20",
 			},
 		},
-		Coupon: "sub_coupon",
 	}
 
 	cust, _ := customer.New(customerParams)
@@ -327,10 +346,20 @@ func TestSubscriptionDiscount(t *testing.T) {
 		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.ID, subParams.Coupon)
 	}
 
-	_, err = discount.DelSub(cust.ID, target.ID)
+	_, err = discount.DelSub(target.ID)
 
 	if err != nil {
 		t.Error(err)
+	}
+
+	target, err = Get(target.ID, nil)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Discount != nil {
+		t.Errorf("A discount %v was found, but was expected to have been deleted\n", target.Discount)
 	}
 
 	customer.Del(cust.ID)
@@ -371,7 +400,33 @@ func TestSubscriptionList(t *testing.T) {
 		New(subParams)
 	}
 
-	i := List(&stripe.SubListParams{Customer: cust.ID})
+	params := &stripe.SubListParams{Customer: cust.ID, Plan: "test"}
+	params.Filters.AddFilter("limit", "", "3")
+	i := List(params)
+
+	for i.Next() {
+		if i.Sub() == nil {
+			t.Error("No nil values expected")
+		}
+
+		if i.Meta() == nil {
+			t.Error("No metadata returned")
+		}
+
+		if i.Sub().Customer.ID != cust.ID {
+			t.Errorf("Expected customer %v not %v", cust.ID, i.Sub().Customer.ID)
+		}
+
+		if i.Sub().Plan.ID != "test" {
+			t.Errorf("Expected plan test not %v", i.Sub().Plan.ID)
+		}
+	}
+
+	if err := i.Err(); err != nil {
+		t.Error(err)
+	}
+
+	i = List(nil)
 	for i.Next() {
 		if i.Sub() == nil {
 			t.Error("No nil values expected")
