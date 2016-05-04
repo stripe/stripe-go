@@ -6,13 +6,13 @@ import (
 	"testing"
 	"time"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/coupon"
-	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/orderitem"
-	"github.com/stripe/stripe-go/product"
-	"github.com/stripe/stripe-go/sku"
-	. "github.com/stripe/stripe-go/utils"
+	stripe "github.com/Onefootball/stripe-go"
+	"github.com/Onefootball/stripe-go/coupon"
+	"github.com/Onefootball/stripe-go/currency"
+	"github.com/Onefootball/stripe-go/orderitem"
+	"github.com/Onefootball/stripe-go/product"
+	"github.com/Onefootball/stripe-go/sku"
+	. "github.com/Onefootball/stripe-go/utils"
 )
 
 func init() {

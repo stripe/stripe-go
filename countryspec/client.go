@@ -4,7 +4,7 @@ package countryspec
 import (
 	"net/url"
 
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/Onefootball/stripe-go"
 )
 
 // Client is used to invoke /country_specs and countryspec-related APIs.

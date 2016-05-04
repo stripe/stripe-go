@@ -1,6 +1,6 @@
 package stripe
 
-import "github.com/stripe/stripe-go/orderitem"
+import "github.com/Onefootball/stripe-go/orderitem"
 
 type OrderItemParams struct {
 	Amount      int64
