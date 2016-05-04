@@ -112,6 +112,9 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 	var err error
 
 	if len(params.Account) > 0 {
+		if params.Default {
+			body.Add("default_for_currency", strconv.FormatBool(params.Default))
+		}
 		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts/%v", params.Account, id), c.Key, body, &params.Params, card)
 	} else if len(params.Customer) > 0 {
 		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, &params.Params, card)
