@@ -1,3 +1,6 @@
+14.0.0 2016-05-04
+	Change the signature for `sub.Delete`. The customer ID is no longer required.
+
 13.12.0 2016-04-28
 	Add `Currency` to `Card`
 
@@ -62,7 +65,7 @@
 
 13.0.0 2016-03-15
 	Upgrade API version to 2016-03-07
-	Remove `Account.BankAccounts` in favor of `ExternalAccounts`	
+	Remove `Account.BankAccounts` in favor of `ExternalAccounts`
 	Remove `Account.Currencies` in favor of `CountrySpec`
 
 12.1.0 2016-02-04
