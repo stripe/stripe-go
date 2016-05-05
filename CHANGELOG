@@ -1,3 +1,6 @@
+14.1.0 2016-05-05
+	Allow `default_for_currency` to be set when creating a card
+
 14.0.0 2016-05-04
 	Change the signature for `sub.Delete`. The customer ID is no longer required.
 
