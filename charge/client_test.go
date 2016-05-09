@@ -4,13 +4,13 @@ import (
 	"testing"
 	"time"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/bitcoinreceiver"
-	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/customer"
-	"github.com/stripe/stripe-go/refund"
-	"github.com/stripe/stripe-go/token"
-	. "github.com/stripe/stripe-go/utils"
+	stripe "github.com/Onefootball/stripe-go"
+	"github.com/Onefootball/stripe-go/bitcoinreceiver"
+	"github.com/Onefootball/stripe-go/currency"
+	"github.com/Onefootball/stripe-go/customer"
+	"github.com/Onefootball/stripe-go/refund"
+	"github.com/Onefootball/stripe-go/token"
+	. "github.com/Onefootball/stripe-go/utils"
 )
 
 func init() {

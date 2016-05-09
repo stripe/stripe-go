@@ -3,8 +3,8 @@ package countryspec
 import (
 	"testing"
 
-	stripe "github.com/stripe/stripe-go"
-	. "github.com/stripe/stripe-go/utils"
+	stripe "github.com/Onefootball/stripe-go"
+	. "github.com/Onefootball/stripe-go/utils"
 )
 
 func init() {

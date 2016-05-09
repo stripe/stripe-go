@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/url"
 
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/Onefootball/stripe-go"
 )
 
 const (

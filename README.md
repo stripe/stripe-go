@@ -1,4 +1,4 @@
-# Go Stripe [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/stripe/stripe-go) [![Build Status](https://travis-ci.org/stripe/stripe-go.svg?branch=master)](https://travis-ci.org/stripe/stripe-go)
+# Go Stripe [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/Onefootball/stripe-go) [![Build Status](https://travis-ci.org/stripe/stripe-go.svg?branch=master)](https://travis-ci.org/stripe/stripe-go)
 
 ## Summary
 
@@ -17,7 +17,7 @@ version of the client, clone this repo, checkout the specific tag and build the
 library:
 
 ```sh
-git clone https://github.com/stripe/stripe-go.git
+git clone https://github.com/Onefootball/stripe-go.git
 cd stripe-go
 git checkout api_version_tag
 make build
@@ -29,7 +29,7 @@ changelog](CHANGELOG) and [API changelog][api-changelog].
 ## Installation
 
 ```sh
-go get github.com/stripe/stripe-go
+go get github.com/Onefootball/stripe-go
 ```
 
 ## Documentation
@@ -122,8 +122,8 @@ To use a key, pass it to `API`'s `Init` function:
 ```go
 
 import (
-  "github.com/stripe/stripe-go"
-  "github.com/stripe/stripe-go/client"
+  "github.com/Onefootball/stripe-go"
+  "github.com/Onefootball/stripe-go/client"
 )
 
 stripe := &client.API{}
@@ -144,8 +144,8 @@ import (
     "google.golang.org/appengine"
     "google.golang.org/appengine/urlfetch"
 
-    "github.com/stripe/stripe-go"
-    "github.com/stripe/stripe-go/client"
+    "github.com/Onefootball/stripe-go"
+    "github.com/Onefootball/stripe-go/client"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -171,8 +171,8 @@ client.
 
 ```go
 import (
-  "github.com/stripe/stripe-go"
-  "github.com/stripe/stripe-go/$resource$"
+  "github.com/Onefootball/stripe-go"
+  "github.com/Onefootball/stripe-go/$resource$"
 )
 
 // Setup
@@ -211,8 +211,8 @@ individual key.
 
 ```go
 import (
-  "github.com/stripe/stripe-go"
-  "github.com/stripe/stripe-go/client"
+  "github.com/Onefootball/stripe-go"
+  "github.com/Onefootball/stripe-go/client"
 )
 
 // Setup
@@ -281,8 +281,8 @@ pull request][pulls].
 [api-docs]: https://stripe.com/docs/api/go
 [api-changelog]: https://stripe.com/docs/upgrades
 [connect]: https://stripe.com/docs/connect/authentication
-[godoc]: http://godoc.org/github.com/stripe/stripe-go
-[issues]: https://github.com/stripe/stripe-go/issues/new
+[godoc]: http://godoc.org/github.com/Onefootball/stripe-go
+[issues]: https://github.com/Onefootball/stripe-go/issues/new
 [package-management]: https://code.google.com/p/go-wiki/wiki/PackageManagementTools
-[pulls]: https://github.com/stripe/stripe-go/pulls
+[pulls]: https://github.com/Onefootball/stripe-go/pulls
 [stripe]: https://stripe.com

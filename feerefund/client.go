@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"strconv"
 
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/Onefootball/stripe-go"
 )
 
 // Client is used to invoke /application_fees/refunds APIs.

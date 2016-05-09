@@ -3,12 +3,12 @@ package account
 import (
 	"testing"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/bankaccount"
-	"github.com/stripe/stripe-go/card"
-	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/token"
-	. "github.com/stripe/stripe-go/utils"
+	stripe "github.com/Onefootball/stripe-go"
+	"github.com/Onefootball/stripe-go/bankaccount"
+	"github.com/Onefootball/stripe-go/card"
+	"github.com/Onefootball/stripe-go/currency"
+	"github.com/Onefootball/stripe-go/token"
+	. "github.com/Onefootball/stripe-go/utils"
 )
 
 func init() {

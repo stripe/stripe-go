@@ -75,6 +75,9 @@ type Backends struct {
 // Key is the Stripe API key used globally in the binding.
 var Key string
 
+// AccountID is the Stripe-Account header used globally in the binding.
+var AccountID string
+
 // LogLevel is the logging level for this library.
 // 0: no logging
 // 1: errors only
@@ -201,6 +204,10 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 	}
 
 	req.SetBasicAuth(key, "")
+
+	if len(AccountID) > 0 {
+		req.Header.Add("Stripe-Account", AccountID)
+	}
 
 	if params != nil {
 		if idempotency := strings.TrimSpace(params.IdempotencyKey); idempotency != "" {
