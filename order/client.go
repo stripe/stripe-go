@@ -40,10 +40,6 @@ func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 			body.Add("email", params.Email)
 		}
 
-		if params.Email != "" {
-			body.Add("email", params.Email)
-		}
-
 		if len(params.Items) > 0 {
 			for _, item := range params.Items {
 				body.Add("items[][description]", item.Description)
