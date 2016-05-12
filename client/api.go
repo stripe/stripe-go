@@ -27,6 +27,7 @@ import (
 	"github.com/stripe/stripe-go/recipient"
 	"github.com/stripe/stripe-go/refund"
 	"github.com/stripe/stripe-go/reversal"
+	"github.com/stripe/stripe-go/sku"
 	"github.com/stripe/stripe-go/sub"
 	"github.com/stripe/stripe-go/token"
 	"github.com/stripe/stripe-go/transfer"
@@ -113,6 +114,9 @@ type API struct {
 	// Orders is the client used to invoke /orders APIs.
 	// For more details see https://stripe.com/docs/api#orders.
 	Orders *order.Client
+	// Skus is the client used to invoke /skus APIs.
+	// For more details see https://stripe.com/docs/api#skus.
+	Skus *sku.Client
 }
 
 // Init initializes the Stripe client with the appropriate secret key
@@ -149,6 +153,7 @@ func (a *API) Init(key string, backends *Backends) {
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.Products = &product.Client{B: backends.API, Key: key}
 	a.Orders = &order.Client{B: backends.API, Key: key}
+	a.Skus = &sku.Client{B: backends.API, Key: key}
 }
 
 // New creates a new Stripe client with the appropriate secret key
