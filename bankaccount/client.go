@@ -43,8 +43,11 @@ func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 		body.Add("external_account[object]", "bank_account")
 		body.Add("external_account[country]", params.Country)
 		body.Add("external_account[account_number]", params.Account)
-		body.Add("external_account[routing_number]", params.Routing)
 		body.Add("external_account[currency]", params.Currency)
+
+		if len(params.Routing) > 0 {
+			body.Add("external_account[routing_number]", params.Routing)
+		}
 
 		if params.Default {
 			body.Add("external_account[default_for_currency]", strconv.FormatBool(params.Default))
