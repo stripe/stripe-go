@@ -1,3 +1,6 @@
+14.2.1 2016-05-17
+	Add missing SKU clinet to client API type
+
 14.2.0 2016-05-11
 	Add `Reversed` and `AmountReversed` fields to `Transfer`
 
