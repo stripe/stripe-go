@@ -60,10 +60,27 @@ type Shipping struct {
 }
 
 type ShippingMethod struct {
-	ID          string   `json:"id"`
-	Amount      int64    `json:"amount"`
-	Currency    Currency `json:"currency"`
-	Description string   `json:"description"`
+	ID               string            `json:"id"`
+	Amount           int64             `json:"amount"`
+	Currency         Currency          `json:"currency"`
+	Description      string            `json:"description"`
+	DeliveryEstimate *DeliveryEstimate `json:"delivery_estimate"`
+}
+
+type EstimateType string
+
+const (
+	Exact EstimateType = "exact"
+	Range EstimateType = "range"
+)
+
+type DeliveryEstimate struct {
+	Type EstimateType `json:"type"`
+	// If Type == Range
+	Earliest string `json:"earliest"`
+	Latest   string `json:"latest"`
+	// If Type == Exact
+	Date string `json:"date"`
 }
 
 type Order struct {

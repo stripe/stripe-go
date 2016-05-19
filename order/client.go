@@ -286,14 +286,14 @@ func (i *Iter) Order() *stripe.Order {
 	return i.Current().(*stripe.Order)
 }
 
-// Update updates an order's properties.
-// For more details see https://stripe.com/docs/api#update_order.
+// Return returns all or part of an order.
+// For more details see https://stripe.com/docs/api#return_order.
 func Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
 	return getC().Return(id, params)
 }
 
-// Update updates an order's properties.
-// For more details see https://stripe.com/docs/api#update_order.
+// Return returns all or part of an order.
+// For more details see https://stripe.com/docs/api#return_order.
 func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
 	var body *url.Values
 	var commonParams *stripe.Params
