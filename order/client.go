@@ -289,7 +289,7 @@ func (i *Iter) Order() *stripe.Order {
 // Update updates an order's properties.
 // For more details see https://stripe.com/docs/api#update_order.
 func Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
-	return getC().Update(id, params)
+	return getC().Return(id, params)
 }
 
 // Update updates an order's properties.
@@ -325,10 +325,10 @@ func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.Ord
 		params.AppendTo(body)
 	}
 
-	o := &stripe.Order{}
-	err := c.B.Call("POST", fmt.Sprintf("/orders/%s/returns", id), c.Key, body, commonParams, o)
+	ret := &stripe.OrderReturn{}
+	err := c.B.Call("POST", fmt.Sprintf("/orders/%s/returns", id), c.Key, body, commonParams, ret)
 
-	return o, err
+	return ret, err
 }
 
 func getC() Client {

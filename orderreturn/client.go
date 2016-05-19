@@ -1,4 +1,16 @@
-import "net/url"
+package orderreturn
+
+import (
+	"net/url"
+
+	"github.com/stripe/stripe-go"
+)
+
+// Client is used to invoke /orders APIs.
+type Client struct {
+	B   stripe.Backend
+	Key string
+}
 
 // For more details see https://stripe.com/docs/api#list_orders
 func List(params *stripe.OrderReturnListParams) *Iter {
