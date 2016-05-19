@@ -46,6 +46,13 @@ type OrderUpdateParams struct {
 	Status                 OrderStatus
 }
 
+// OrderReturnParams is the set of parameters that can be used when returning
+// orders. For more details, see: https://stripe.com/docs/api#return_order.
+type OrderReturnParams struct {
+	Params
+	Items []*OrderItemParams
+}
+
 type Shipping struct {
 	Name    string  `json:"name"`
 	Address Address `json:"address"`

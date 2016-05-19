@@ -2,6 +2,7 @@ package order
 
 import (
 	"errors"
+	"fmt"
 	"net/url"
 	"strconv"
 
@@ -283,6 +284,51 @@ type Iter struct {
 // visited by a call to Next.
 func (i *Iter) Order() *stripe.Order {
 	return i.Current().(*stripe.Order)
+}
+
+// Update updates an order's properties.
+// For more details see https://stripe.com/docs/api#update_order.
+func Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
+	return getC().Update(id, params)
+}
+
+// Update updates an order's properties.
+// For more details see https://stripe.com/docs/api#update_order.
+func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
+	var body *url.Values
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &url.Values{}
+
+		if len(params.Items) > 0 {
+			for _, item := range params.Items {
+				if item.Description != "" {
+					body.Add("items[][description]", item.Description)
+				}
+				body.Add("items[][type]", string(item.Type))
+				if item.Amount > 0 {
+					body.Add("items[][amount]", strconv.FormatInt(item.Amount, 10))
+				}
+				if item.Currency != "" {
+					body.Add("items[][currency]", string(item.Currency))
+				}
+				if item.Parent != "" {
+					body.Add("items[][parent]", item.Parent)
+				}
+				if item.Quantity != nil {
+					body.Add("items[][quantity]", strconv.FormatInt(*item.Quantity, 10))
+				}
+			}
+		}
+
+		params.AppendTo(body)
+	}
+
+	o := &stripe.Order{}
+	err := c.B.Call("POST", fmt.Sprintf("/orders/%s/returns", id), c.Key, body, commonParams, o)
+
+	return o, err
 }
 
 func getC() Client {
