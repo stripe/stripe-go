@@ -346,3 +346,84 @@ func TestOrderList(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestOrderReturn(t *testing.T) {
+	sku := CreateTestProductAndSku(t)
+
+	var orderQuantity int64 = 2
+	o, err := New(&stripe.OrderParams{
+		Currency: currency.USD,
+		Items: []*stripe.OrderItemParams{
+			{
+				Type:     "sku",
+				Parent:   sku.ID,
+				Quantity: &orderQuantity,
+			},
+		},
+		Shipping: &stripe.ShippingParams{
+			Name: "Jenny Rosen",
+			Address: &stripe.AddressParams{
+				Line1:      "1234 Main Street",
+				City:       "Anytown",
+				Country:    "US",
+				PostalCode: "123456",
+			},
+			Phone: "6504244242",
+		},
+		Email: "jenny@ros.en",
+	})
+
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	params := &stripe.OrderPayParams{}
+	params.SetSource(&stripe.CardParams{
+		Name:     "Stripe Tester",
+		Number:   "4242424242424242",
+		Month:    "06",
+		Year:     "20",
+		Address1: "1234 Main Street",
+		Address2: "Apt 1",
+		City:     "Anytown",
+		State:    "CA",
+	})
+
+	order, err := Pay(o.ID, params)
+
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	var returnQuantity int64 = 1
+	retParams := stripe.OrderReturnParams{
+		Items: []*stripe.OrderItemParams{
+			{
+				Type:     "sku",
+				Parent:   sku.ID,
+				Quantity: &returnQuantity,
+			},
+		},
+	}
+	firstReturn, err := Return(o.ID, &retParams)
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	if firstReturn.Order.ID != o.ID {
+		t.Fatalf("Got unexpected order: %s", firstReturn.Order.ID)
+	}
+
+	fullReturn, err := Return(o.ID, &stripe.OrderReturnParams{})
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	if fullReturn.Order.ID != o.ID {
+		t.Fatalf("Got unexpected order: %s", fullReturn.Order.ID)
+	}
+
+	if order.Status != stripe.StatusPaid {
+		t.Errorf("Order status not set to paid: %v", order.Status)
+	}
+}
