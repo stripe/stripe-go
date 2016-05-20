@@ -9,6 +9,36 @@ import (
 	. "github.com/stripe/stripe-go/testing"
 )
 
+func TestStableForm(t *testing.T) {
+	form := &stripe.StableForm{}
+
+	actual := form.Encode()
+	expected := ""
+	if expected != actual {
+		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
+	}
+
+	form = &stripe.StableForm{}
+	form.Add("foo", "bar")
+
+	actual = form.Encode()
+	expected = "foo=bar"
+	if expected != actual {
+		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
+	}
+
+	form = &stripe.StableForm{}
+	form.Add("foo", "bar")
+	form.Add("foo", "bar")
+	form.Add("baz", "bar")
+
+	actual = form.Encode()
+	expected = "foo=bar&foo=bar&baz=bar"
+	if expected != actual {
+		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
+	}
+}
+
 func TestParamsWithExtras(t *testing.T) {
 	testCases := []struct {
 		InitialBody  url.Values
