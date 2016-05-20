@@ -1,5 +1,5 @@
 14.3.0 2016-05-20
-	Allow Relay orders to be returned and associated types
+	Allow Relay orders to be returned and add associated types
 
 14.2.3 2016-05-20
 	When creating a bank account token, only send routing number if it's been set
