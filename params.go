@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"bytes"
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
@@ -13,6 +14,45 @@ const (
 	startafter = "starting_after"
 	endbefore  = "ending_before"
 )
+
+// Form is an abstraction of a type that can have a series of values added to
+// it and then subsequently be encoded for use in an HTTP request.
+type Form interface {
+	Add(key, value string)
+	Encode() string
+}
+
+// StableForm is a Form implementation that allows duplicate keys and encodes
+// its entries in the same order that they were added.
+type StableForm struct {
+	values []formValue
+}
+
+// Add adds a key/value tuple to the form.
+func (f *StableForm) Add(key, val string) {
+	f.values = append(f.values, formValue{key, val})
+}
+
+// Encode encodes the form's values into “URL encoded” form
+// ("bar=baz&foo=quux").
+func (f *StableForm) Encode() string {
+	var buf bytes.Buffer
+	for _, v := range f.values {
+		if buf.Len() > 0 {
+			buf.WriteByte('&')
+		}
+		buf.WriteString(url.QueryEscape(v.Key))
+		buf.WriteString("=")
+		buf.WriteString(url.QueryEscape(v.Value))
+	}
+	return buf.String()
+}
+
+// A key/value tuple for use in the StableForm type.
+type formValue struct {
+	Key   string
+	Value string
+}
 
 // Params is the structure that contains the common properties
 // of any *Params structure.
@@ -122,7 +162,7 @@ func (f *Filters) AddFilter(key, op, value string) {
 }
 
 // AppendTo adds the common parameters to the query string values.
-func (p *Params) AppendTo(body *url.Values) {
+func (p *Params) AppendTo(body Form) {
 	for k, v := range p.Meta {
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}
