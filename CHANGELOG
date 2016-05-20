@@ -1,3 +1,6 @@
+14.2.3 2016-05-20
+	When creating a bank account token, only send routing number if it's been set
+
 14.2.2 2016-05-17
 	When creating a bank account, only send routing number if it's been set
 
