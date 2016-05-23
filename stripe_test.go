@@ -51,10 +51,11 @@ func TestCheckinResponseToError(t *testing.T) {
 
 	// An error that contains expected fields which we're going to serialize to
 	// JSON and inject into our converstion function.
-	expectedErr := &stripe.StripeError{
+	expectedErr := &stripe.Error{
 		Code:  stripe.Missing,
-		Msg:   "A generic error",
+		Msg:   "That card was declined",
 		Param: "expiry_date",
+		Type:  stripe.ErrorTypeCard,
 	}
 	bytes, err := json.Marshal(expectedErr)
 	if err != nil {
@@ -66,7 +67,7 @@ func TestCheckinResponseToError(t *testing.T) {
 
 	// An error containing Stripe-specific fields that we cast back from the
 	// generic Golang error.
-	stripeErr := err.(*stripe.StripeError)
+	stripeErr := err.(*stripe.Error)
 
 	if expectedErr.Code != stripeErr.Code {
 		t.Fatalf("Expected code %v but got %v.", expectedErr.Code, stripeErr.Code)
@@ -88,30 +89,30 @@ func TestCheckinResponseToError(t *testing.T) {
 		t.Fatalf("Expected code %v but got %v.", res.StatusCode, stripeErr.HTTPStatusCode)
 	}
 
-	// An error with a "type" field which will come back aas a specific error
-	// type.
-	expectedCardErr := &stripe.CardError{
-		StripeError: stripe.StripeError{
-			Msg:  "That card was declined",
-			Type: stripe.ErrorTypeCard,
-		},
-		DeclineCode: "decline-code",
-	}
-	bytes, err = json.Marshal(expectedCardErr)
-	if err != nil {
-		t.Fatal(err)
+	if expectedErr.Type != stripeErr.Type {
+		t.Fatalf("Expected type %v but got %v.", expectedErr.Type, stripeErr.Type)
 	}
 
-	err = c.ResponseToError(res, wrapError(bytes))
-	cardErr := err.(*stripe.CardError)
-
-	if expectedCardErr.DeclineCode != cardErr.DeclineCode {
-		t.Fatalf("Expected decline code %v but got %v.", expectedCardErr.DeclineCode, cardErr.DeclineCode)
+	// Just a bogus type coercion to demonstrate how this code might be
+	// written. Because we've assigned ErrorTypeCard as the error's type, Err
+	// should always come out as a CardError.
+	_, ok := stripeErr.Err.(*stripe.InvalidRequestError)
+	if ok {
+		t.Fatalf("Expected error to not be coercable to InvalidRequestError.")
 	}
 
-	if expectedCardErr.Msg != cardErr.Msg {
-		t.Fatalf("Expected message %v but got %v.", expectedCardErr.Msg, cardErr.Msg)
+	cardErr, ok := stripeErr.Err.(*stripe.CardError)
+	if !ok {
+		t.Fatalf("Expected error to be coercable to CardError.")
 	}
+
+	if "" != cardErr.DeclineCode {
+		t.Fatalf("Expected decline code %v but got %v.", "", cardErr.DeclineCode)
+	}
+
+	//if expectedCardErr.DeclineCode != cardErr.DeclineCode {
+	//t.Fatalf("Expected decline code %v but got %v.", expectedCardErr.DeclineCode, cardErr.DeclineCode)
+	//}
 }
 
 // A simple function that allows us to represent an error response from Stripe

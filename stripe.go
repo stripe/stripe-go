@@ -296,7 +296,7 @@ func (s *BackendConfiguration) ResponseToError(res *http.Response, resBody []byt
 
 	root := e.(map[string]interface{})
 
-	stripeErr := &StripeError{
+	stripeErr := &Error{
 		Type:           ErrorType(root["type"].(string)),
 		Msg:            root["message"].(string),
 		HTTPStatusCode: res.StatusCode,
@@ -315,38 +315,34 @@ func (s *BackendConfiguration) ResponseToError(res *http.Response, resBody []byt
 		stripeErr.ChargeID = charge.(string)
 	}
 
-	var err error
-	err = stripeErr
-
 	switch stripeErr.Type {
 	case ErrorTypeAPI:
-		err = &APIError{StripeError: *stripeErr}
+		stripeErr.Err = &APIError{StripeErr: stripeErr}
 
 	case ErrorTypeAPIConnection:
-		err = &APIConnectionError{StripeError: *stripeErr}
+		stripeErr.Err = &APIConnectionError{StripeErr: stripeErr}
 
 	case ErrorTypeAuthentication:
-		err = &AuthenticationError{StripeError: *stripeErr}
+		stripeErr.Err = &AuthenticationError{StripeErr: stripeErr}
 
 	case ErrorTypeCard:
-		cardErr := &CardError{StripeError: *stripeErr}
+		cardErr := &CardError{StripeErr: stripeErr}
+		stripeErr.Err = cardErr
 
 		if declineCode, ok := root["decline_code"]; ok {
 			cardErr.DeclineCode = declineCode.(string)
 		}
 
-		err = cardErr
-
 	case ErrorTypeInvalidRequest:
-		err = &InvalidRequestError{StripeError: *stripeErr}
+		stripeErr.Err = &InvalidRequestError{StripeErr: stripeErr}
 
 	case ErrorTypeRateLimit:
-		err = &RateLimitError{StripeError: *stripeErr}
+		stripeErr.Err = &RateLimitError{StripeErr: stripeErr}
 	}
 
 	if LogLevel > 0 {
-		Logger.Printf("Error encountered from Stripe: %v\n", err)
+		Logger.Printf("Error encountered from Stripe: %v\n", stripeErr)
 	}
 
-	return err
+	return stripeErr
 }

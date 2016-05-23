@@ -28,11 +28,19 @@ const (
 	Missing       ErrorCode = "missing"
 	ProcessingErr ErrorCode = "processing_error"
 	RateLimit     ErrorCode = "rate_limit"
+
+	// These additional types are written purely for backward compatibility
+	// (the originals were given quite unsuitable names) and should be
+	// considered deprecated. Remove them on the next major version revision.
+
+	APIErr         ErrorType = ErrorTypeAPI
+	CardErr        ErrorType = ErrorTypeCard
+	InvalidRequest ErrorType = ErrorTypeInvalidRequest
 )
 
 // StripeError is the response returned when a call is unsuccessful.
 // For more details see  https://stripe.com/docs/api#errors.
-type StripeError struct {
+type Error struct {
 	Type           ErrorType `json:"type"`
 	Msg            string    `json:"message"`
 	Code           ErrorCode `json:"code,omitempty"`
@@ -40,76 +48,82 @@ type StripeError struct {
 	RequestID      string    `json:"request_id,omitempty"`
 	HTTPStatusCode int       `json:"status,omitempty"`
 	ChargeID       string    `json:"charge,omitempty"`
+
+	// Err contains an internal error with an additional level of granularity
+	// that can be used in some cases to get more detailed information about
+	// what went wrong. For example, Err may hold a ChargeError that indicates
+	// exactly what went wrong during a charge.
+	Err error `json:"-"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
-func (e *StripeError) Error() string {
+func (e *Error) Error() string {
 	ret, _ := json.Marshal(e)
 	return string(ret)
 }
 
 // APIConnectionError is a failure to connect to the Stripe API.
 type APIConnectionError struct {
-	StripeError
+	StripeErr *Error
 }
 
 // Error serializes the error object to JSON and returns it as a string.
 func (e *APIConnectionError) Error() string {
-	return e.StripeError.Error()
+	return e.StripeErr.Error()
 }
 
 // APIError is a catch all for any errors not covered by other types (and
 // should be extremely uncommon).
 type APIError struct {
-	StripeError
+	StripeErr *Error
 }
 
 // Error serializes the error object to JSON and returns it as a string.
 func (e *APIError) Error() string {
-	return e.StripeError.Error()
+	return e.StripeErr.Error()
 }
 
 // AuthenticationError is a failure to properly authenticate during a request.
 type AuthenticationError struct {
-	StripeError
+	StripeErr *Error
 }
 
 // Error serializes the error object to JSON and returns it as a string.
 func (e *AuthenticationError) Error() string {
-	return e.StripeError.Error()
+	return e.StripeErr.Error()
 }
 
 // CardError are the most common type of error you should expect to handle.
 // They result when the user enters a card that can't be charged for some
 // reason.
 type CardError struct {
-	StripeError
+	StripeErr   *Error
 	DeclineCode string `json:"decline_code,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
 func (e *CardError) Error() string {
-	return e.StripeError.Error()
+	return e.StripeErr.Error()
 }
 
 // InvalidRequestError is an error that occurs when a request contains invalid
 // parameters.
 type InvalidRequestError struct {
-	StripeError
+	StripeErr *Error
 }
 
 // Error serializes the error object to JSON and returns it as a string.
 func (e *InvalidRequestError) Error() string {
-	return e.StripeError.Error()
+	return e.StripeErr.Error()
 }
 
 // RateLimitError occurs when the Stripe API is hit to with too many requests
 // too quickly and indicates that the current request has been rate limited.
 type RateLimitError struct {
-	StripeError
+	StripeErr *Error
 }
 
 // Error serializes the error object to JSON and returns it as a string.
 func (e *RateLimitError) Error() string {
-	return e.StripeError.Error()
+	return e.StripeErr.Error()
 }
