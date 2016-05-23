@@ -62,6 +62,22 @@ func TestCheckinResponseToError(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	// Unpack the error that we just serialized so that we can inject a
+	// type-specific field into it ("decline_code"). This will show up in a
+	// field on a special stripe.CardError type which is attached to the common
+	// stripe.Error.
+	var raw map[string]string
+	err = json.Unmarshal(bytes, &raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+	expectedDeclineCode := "decline-code"
+	raw["decline_code"] = expectedDeclineCode
+	bytes, err = json.Marshal(raw)
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	// A generic Golang error.
 	err = c.ResponseToError(res, wrapError(bytes))
 
@@ -106,13 +122,9 @@ func TestCheckinResponseToError(t *testing.T) {
 		t.Fatalf("Expected error to be coercable to CardError.")
 	}
 
-	if "" != cardErr.DeclineCode {
-		t.Fatalf("Expected decline code %v but got %v.", "", cardErr.DeclineCode)
+	if expectedDeclineCode != cardErr.DeclineCode {
+		t.Fatalf("Expected decline code %v but got %v.", expectedDeclineCode, cardErr.DeclineCode)
 	}
-
-	//if expectedCardErr.DeclineCode != cardErr.DeclineCode {
-	//t.Fatalf("Expected decline code %v but got %v.", expectedCardErr.DeclineCode, cardErr.DeclineCode)
-	//}
 }
 
 // A simple function that allows us to represent an error response from Stripe
