@@ -37,6 +37,7 @@ type Error struct {
 	Type           ErrorType `json:"type"`
 	Msg            string    `json:"message"`
 	Code           ErrorCode `json:"code,omitempty"`
+	DeclineCode    string    `json:"decline_code,omitempty"`
 	Param          string    `json:"param,omitempty"`
 	RequestID      string    `json:"request_id,omitempty"`
 	HTTPStatusCode int       `json:"status,omitempty"`

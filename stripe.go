@@ -299,6 +299,10 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 			err.ChargeID = charge.(string)
 		}
 
+		if declineCode, ok := root["decline_code"]; ok {
+			err.DeclineCode = declineCode.(string)
+		}
+
 		if LogLevel > 0 {
 			Logger.Printf("Error encountered from Stripe: %v\n", err)
 		}
