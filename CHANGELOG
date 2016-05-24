@@ -1,3 +1,6 @@
+14.4.0 2016-05-24
+	Add granular error types in new `Err` field on `stripe.Error`
+
 14.3.0 2016-05-20
 	Allow Relay orders to be returned and add associated types
 
