@@ -15,27 +15,20 @@ const (
 	endbefore  = "ending_before"
 )
 
-// Form is an abstraction of a type that can have a series of values added to
-// it and then subsequently be encoded for use in an HTTP request.
-type Form interface {
-	Add(key, value string)
-	Encode() string
-}
-
-// StableForm is a Form implementation that allows duplicate keys and encodes
-// its entries in the same order that they were added.
-type StableForm struct {
+// RequestValues is a Form implementation that allows duplicate keys and
+// encodes its entries in the same order that they were added.
+type RequestValues struct {
 	values []formValue
 }
 
 // Add adds a key/value tuple to the form.
-func (f *StableForm) Add(key, val string) {
+func (f *RequestValues) Add(key, val string) {
 	f.values = append(f.values, formValue{key, val})
 }
 
 // Encode encodes the form's values into “URL encoded” form
 // ("bar=baz&foo=quux").
-func (f *StableForm) Encode() string {
+func (f *RequestValues) Encode() string {
 	var buf bytes.Buffer
 	for _, v := range f.values {
 		if buf.Len() > 0 {
@@ -48,7 +41,7 @@ func (f *StableForm) Encode() string {
 	return buf.String()
 }
 
-// A key/value tuple for use in the StableForm type.
+// A key/value tuple for use in the RequestValues type.
 type formValue struct {
 	Key   string
 	Value string
@@ -162,7 +155,7 @@ func (f *Filters) AddFilter(key, op, value string) {
 }
 
 // AppendTo adds the common parameters to the query string values.
-func (p *Params) AppendTo(body Form) {
+func (p *Params) AppendTo(body *RequestValues) {
 	for k, v := range p.Meta {
 		body.Add(fmt.Sprintf("metadata[%v]", k), v)
 	}

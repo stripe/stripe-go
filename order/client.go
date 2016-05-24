@@ -24,11 +24,11 @@ func New(params *stripe.OrderParams) (*stripe.Order, error) {
 // New POSTs a new order.
 // For more details see https://stripe.com/docs/api#create_order.
 func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
-	var body *stripe.StableForm
+	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.StableForm{}
+		body = &stripe.RequestValues{}
 		commonParams = &params.Params
 		// Required fields
 		body.Add("currency", string(params.Currency))
