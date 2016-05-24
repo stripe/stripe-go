@@ -9,30 +9,30 @@ import (
 	. "github.com/stripe/stripe-go/testing"
 )
 
-func TestStableForm(t *testing.T) {
-	form := &stripe.StableForm{}
+func TestRequestValues(t *testing.T) {
+	values := &stripe.RequestValues{}
 
-	actual := form.Encode()
+	actual := values.Encode()
 	expected := ""
 	if expected != actual {
 		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
 	}
 
-	form = &stripe.StableForm{}
-	form.Add("foo", "bar")
+	values = &stripe.RequestValues{}
+	values.Add("foo", "bar")
 
-	actual = form.Encode()
+	actual = values.Encode()
 	expected = "foo=bar"
 	if expected != actual {
 		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
 	}
 
-	form = &stripe.StableForm{}
-	form.Add("foo", "bar")
-	form.Add("foo", "bar")
-	form.Add("baz", "bar")
+	values = &stripe.RequestValues{}
+	values.Add("foo", "bar")
+	values.Add("foo", "bar")
+	values.Add("baz", "bar")
 
-	actual = form.Encode()
+	actual = values.Encode()
 	expected = "foo=bar&foo=bar&baz=bar"
 	if expected != actual {
 		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
@@ -64,13 +64,23 @@ func TestParamsWithExtras(t *testing.T) {
 			p.AddExtra(extra[0], extra[1])
 		}
 
-		body := testCase.InitialBody
-		p.AppendTo(&body)
+		body := fromURLValues(testCase.InitialBody)
+		p.AppendTo(body)
 
-		if !reflect.DeepEqual(body, testCase.ExpectedBody) {
+		if !reflect.DeepEqual(body, fromURLValues(testCase.ExpectedBody)) {
 			t.Fatalf("Expected body of %v but got %v.", testCase.ExpectedBody, body)
 		}
 	}
+}
+
+func fromURLValues(urlValues url.Values) *stripe.RequestValues {
+	body := &stripe.RequestValues{}
+	for k, values := range urlValues {
+		for _, v := range values {
+			body.Add(k, v)
+		}
+	}
+	return body
 }
 
 func TestCheckinListParamsExpansion(t *testing.T) {
@@ -98,10 +108,10 @@ func TestCheckinListParamsExpansion(t *testing.T) {
 			p.Expand(exp)
 		}
 
-		body := testCase.InitialBody
-		p.AppendTo(&body)
+		body := fromURLValues(testCase.InitialBody)
+		p.AppendTo(body)
 
-		if !reflect.DeepEqual(body, testCase.ExpectedBody) {
+		if !reflect.DeepEqual(body, fromURLValues(testCase.ExpectedBody)) {
 			t.Fatalf("Expected body of %v but got %v.", testCase.ExpectedBody, body)
 		}
 	}

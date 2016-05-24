@@ -41,6 +41,9 @@ func (f *RequestValues) Encode() string {
 	return buf.String()
 }
 
+func (f *RequestValues) Set(key, val string) {
+}
+
 // A key/value tuple for use in the RequestValues type.
 type formValue struct {
 	Key   string
@@ -97,6 +100,17 @@ type ListMeta struct {
 // Filters is a structure that contains a collection of filters for list-related APIs.
 type Filters struct {
 	f []*filter
+}
+
+// AppendTo adds the list of filters to the query string values.
+func (f *Filters) AppendTo(values *RequestValues) {
+	for _, v := range f.f {
+		if len(v.Op) > 0 {
+			values.Add(fmt.Sprintf("%v[%v]", v.Key, v.Op), v.Val)
+		} else {
+			values.Add(v.Key, v.Val)
+		}
+	}
 }
 
 // filter is the structure that contains a filter for list-related APIs.
@@ -177,7 +191,7 @@ func (p *ListParams) Expand(f string) {
 }
 
 // AppendTo adds the common parameters to the query string values.
-func (p *ListParams) AppendTo(body *url.Values) {
+func (p *ListParams) AppendTo(body *RequestValues) {
 	if len(p.Filters.f) > 0 {
 		p.Filters.AppendTo(body)
 	}
@@ -210,16 +224,5 @@ func (p *ListParams) AppendTo(body *url.Values) {
 func (p *ListParams) ToParams() *Params {
 	return &Params{
 		StripeAccount: p.StripeAccount,
-	}
-}
-
-// AppendTo adds the list of filters to the query string values.
-func (f *Filters) AppendTo(values *url.Values) {
-	for _, v := range f.f {
-		if len(v.Op) > 0 {
-			values.Add(fmt.Sprintf("%v[%v]", v.Key, v.Op), v.Val)
-		} else {
-			values.Add(v.Key, v.Val)
-		}
 	}
 }

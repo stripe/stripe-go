@@ -3,7 +3,6 @@ package bitcointransaction
 
 import (
 	"fmt"
-	"net/url"
 
 	stripe "github.com/stripe/stripe-go"
 )
@@ -21,12 +20,12 @@ func List(params *stripe.BitcoinTransactionListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.BitcoinTransactionListParams) *Iter {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		if len(params.Customer) > 0 {
 			body.Add("customer", params.Customer)
@@ -37,9 +36,9 @@ func (c Client) List(params *stripe.BitcoinTransactionListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BitcoinTransactionList{}
-		err := c.B.Call("GET", fmt.Sprintf("/bitcoin/receivers/%v/transactions", params.Receiver), c.Key, &b, p, list)
+		err := c.B.Call("GET", fmt.Sprintf("/bitcoin/receivers/%v/transactions", params.Receiver), c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

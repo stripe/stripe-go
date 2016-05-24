@@ -2,7 +2,6 @@
 package invoiceitem
 
 import (
-	"net/url"
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
@@ -21,11 +20,10 @@ func New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 }
 
 func (c Client) New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	body := &url.Values{
-		"customer": {params.Customer},
-		"amount":   {strconv.FormatInt(params.Amount, 10)},
-		"currency": {string(params.Currency)},
-	}
+	body := &stripe.RequestValues{}
+	body.Add("customer", params.Customer)
+	body.Add("amount", strconv.FormatInt(params.Amount, 10))
+	body.Add("currency", string(params.Currency))
 
 	if len(params.Invoice) > 0 {
 		body.Add("invoice", params.Invoice)
@@ -58,12 +56,12 @@ func Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 }
 
 func (c Client) Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 		params.AppendTo(body)
 	}
 
@@ -80,12 +78,12 @@ func Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, e
 }
 
 func (c Client) Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		if params.Amount != 0 {
 			body.Add("amount", strconv.FormatInt(params.Amount, 10))
@@ -128,12 +126,12 @@ func List(params *stripe.InvoiceItemListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.InvoiceItemListParams) *Iter {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
@@ -148,9 +146,9 @@ func (c Client) List(params *stripe.InvoiceItemListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceItemList{}
-		err := c.B.Call("GET", "/invoiceitems", c.Key, &b, p, list)
+		err := c.B.Call("GET", "/invoiceitems", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

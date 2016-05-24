@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"net/url"
 )
 
 // DisputeReason is the list of allowed values for a discount's reason.
@@ -119,7 +118,7 @@ type File struct {
 }
 
 // AppendDetails adds the dispute evidence details to the query string values.
-func (e *DisputeEvidenceParams) AppendDetails(values *url.Values) {
+func (e *DisputeEvidenceParams) AppendDetails(values *RequestValues) {
 	if len(e.ProductDesc) > 0 {
 		values.Add("evidence[product_description]", e.ProductDesc)
 	}

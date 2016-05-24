@@ -3,7 +3,6 @@ package bitcoinreceiver
 
 import (
 	"fmt"
-	"net/url"
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
@@ -22,10 +21,9 @@ func New(params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) 
 }
 
 func (c Client) New(params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) {
-	body := &url.Values{
-		"amount":   {strconv.FormatUint(params.Amount, 10)},
-		"currency": {string(params.Currency)},
-	}
+	body := &stripe.RequestValues{}
+	body.Add("amount", strconv.FormatUint(params.Amount, 10))
+	body.Add("currency", string(params.Currency))
 
 	if len(params.Desc) > 0 {
 		body.Add("description", params.Desc)
@@ -71,7 +69,7 @@ func Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.Bitc
 }
 
 func (c Client) Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.BitcoinReceiver, error) {
-	body := &url.Values{}
+	body := &stripe.RequestValues{}
 
 	if len(params.Desc) > 0 {
 		body.Add("description", params.Desc)
@@ -100,12 +98,12 @@ func List(params *stripe.BitcoinReceiverListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.BitcoinReceiverListParams) *Iter {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		body.Add("filled", strconv.FormatBool(!params.NotFilled))
 		body.Add("active", strconv.FormatBool(!params.NotActive))
@@ -116,9 +114,9 @@ func (c Client) List(params *stripe.BitcoinReceiverListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BitcoinReceiverList{}
-		err := c.B.Call("GET", "/bitcoin/receivers", c.Key, &b, p, list)
+		err := c.B.Call("GET", "/bitcoin/receivers", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"errors"
-	"net/url"
 	"reflect"
 	"testing"
 )
@@ -182,7 +181,7 @@ type testQuery []struct {
 	e error
 }
 
-func (tq *testQuery) query(url.Values) ([]interface{}, ListMeta, error) {
+func (tq *testQuery) query(*RequestValues) ([]interface{}, ListMeta, error) {
 	x := (*tq)[0]
 	*tq = (*tq)[1:]
 	return x.v, x.m, x.e

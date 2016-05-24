@@ -1,8 +1,6 @@
 package orderreturn
 
 import (
-	"net/url"
-
 	"github.com/stripe/stripe-go"
 )
 
@@ -18,12 +16,12 @@ func List(params *stripe.OrderReturnListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.OrderReturnListParams) *Iter {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		if params.Order != "" {
 			params.Filters.AddFilter("order", "", params.Order)
@@ -34,9 +32,9 @@ func (c Client) List(params *stripe.OrderReturnListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.OrderReturnList{}
-		err := c.B.Call("GET", "/order_returns", c.Key, &b, p, list)
+		err := c.B.Call("GET", "/order_returns", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

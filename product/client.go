@@ -2,7 +2,6 @@ package product
 
 import (
 	"fmt"
-	"net/url"
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
@@ -23,11 +22,11 @@ func New(params *stripe.ProductParams) (*stripe.Product, error) {
 // New POSTs a new product.
 // For more details see https://stripe.com/docs/api#create_product.
 func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		// Required fields
 		body.Add("name", params.Name)
@@ -98,11 +97,11 @@ func Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 // Update updates a product's properties.
 // For more details see https://stripe.com/docs/api#update_product.
 func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		if len(params.Name) > 0 {
 			body.Add("name", params.Name)
@@ -155,12 +154,12 @@ func List(params *stripe.ProductListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.ProductListParams) *Iter {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		if params.Active != nil {
 			params.Filters.AddFilter("active", "", strconv.FormatBool(*params.Active))
@@ -185,9 +184,9 @@ func (c Client) List(params *stripe.ProductListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ProductList{}
-		err := c.B.Call("GET", "/products", c.Key, &b, p, list)
+		err := c.B.Call("GET", "/products", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

@@ -2,8 +2,6 @@
 package countryspec
 
 import (
-	"net/url"
-
 	stripe "github.com/stripe/stripe-go"
 )
 
@@ -32,21 +30,21 @@ func List(params *stripe.CountrySpecListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.CountrySpecListParams) *Iter {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		params.AppendTo(body)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CountrySpecList{}
-		err := c.B.Call("GET", "/country_specs", c.Key, &b, p, list)
+		err := c.B.Call("GET", "/country_specs", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

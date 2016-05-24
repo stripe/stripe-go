@@ -1,12 +1,11 @@
 package stripe
 
 import (
-	"net/url"
 	"reflect"
 )
 
 // Query is the function used to get a page listing.
-type Query func(url.Values) ([]interface{}, ListMeta, error)
+type Query func(*RequestValues) ([]interface{}, ListMeta, error)
 
 // Iter provides a convenient interface
 // for iterating over the elements
@@ -18,7 +17,7 @@ type Query func(url.Values) ([]interface{}, ListMeta, error)
 // across multiple goroutines.
 type Iter struct {
 	query  Query
-	qs     url.Values
+	qs     *RequestValues
 	values []interface{}
 	meta   ListMeta
 	params ListParams
@@ -27,7 +26,7 @@ type Iter struct {
 }
 
 // GetIter returns a new Iter for a given query and its options.
-func GetIter(params *ListParams, qs *url.Values, query Query) *Iter {
+func GetIter(params *ListParams, qs *RequestValues, query Query) *Iter {
 	iter := &Iter{}
 	iter.query = query
 
@@ -39,9 +38,9 @@ func GetIter(params *ListParams, qs *url.Values, query Query) *Iter {
 
 	q := qs
 	if q == nil {
-		q = &url.Values{}
+		q = &RequestValues{}
 	}
-	iter.qs = *q
+	iter.qs = q
 
 	iter.getPage()
 	return iter

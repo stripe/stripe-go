@@ -3,7 +3,6 @@ package fee
 
 import (
 	"fmt"
-	"net/url"
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
@@ -22,12 +21,12 @@ func Get(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
 }
 
 func (c Client) Get(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 		params.AppendTo(body)
 	}
 
@@ -44,12 +43,12 @@ func List(params *stripe.FeeListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.FeeListParams) *Iter {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
@@ -64,9 +63,9 @@ func (c Client) List(params *stripe.FeeListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.FeeList{}
-		err := c.B.Call("GET", "/application_fees", c.Key, &b, p, list)
+		err := c.B.Call("GET", "/application_fees", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

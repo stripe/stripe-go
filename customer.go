@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"net/url"
 )
 
 // CustomerParams is the set of parameters that can be used when creating or updating a customer.
@@ -69,7 +68,7 @@ type CustomerShippingDetails struct {
 }
 
 // AppendDetails adds the shipping details to the query string.
-func (s *CustomerShippingDetails) AppendDetails(values *url.Values) {
+func (s *CustomerShippingDetails) AppendDetails(values *RequestValues) {
 	values.Add("shipping[name]", s.Name)
 
 	values.Add("shipping[address][line1]", s.Address.Line1)
