@@ -1,3 +1,6 @@
+15.0.0 2016-05-24
+	Fix handling of nested objects in arrays in request parameters
+
 14.4.0 2016-05-24
 	Add granular error types in new `Err` field on `stripe.Error`
 
