@@ -145,7 +145,7 @@ func SetBackend(backend SupportedBackend, b Backend) {
 // Call is the Backend.Call implementation for invoking Stripe APIs.
 func (s BackendConfiguration) Call(method, path, key string, form *RequestValues, params *Params, v interface{}) error {
 	var body io.Reader
-	if form != nil {
+	if form != nil && !form.Empty() {
 		data := form.Encode()
 		if strings.ToUpper(method) == "GET" {
 			path += "?" + data

@@ -41,6 +41,11 @@ func (f *RequestValues) Encode() string {
 	return buf.String()
 }
 
+// Empty returns true if no parameters have been set.
+func (f *RequestValues) Empty() bool {
+	return len(f.values) == 0
+}
+
 // Set sets the first instance of a parameter for the given key to the given
 // value. If no parameters exist with the key, a new one is added.
 //

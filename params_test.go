@@ -17,6 +17,10 @@ func TestRequestValues(t *testing.T) {
 		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
 	}
 
+	if !values.Empty() {
+		t.Fatalf("Expected values to be empty.")
+	}
+
 	values = &stripe.RequestValues{}
 	values.Add("foo", "bar")
 
@@ -24,6 +28,10 @@ func TestRequestValues(t *testing.T) {
 	expected = "foo=bar"
 	if expected != actual {
 		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
+	}
+
+	if values.Empty() {
+		t.Fatalf("Expected values to not be empty.")
 	}
 
 	values = &stripe.RequestValues{}
