@@ -262,47 +262,7 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 	}
 
 	if res.StatusCode >= 400 {
-		// for some odd reason, the Erro structure doesn't unmarshal
-		// initially I thought it was because it's a struct inside of a struct
-		// but even after trying that, it still didn't work
-		// so unmarshalling to a map for now and parsing the results manually
-		// but should investigate later
-		var errMap map[string]interface{}
-		json.Unmarshal(resBody, &errMap)
-
-		e, ok := errMap["error"]
-		if !ok {
-			err := errors.New(string(resBody))
-			if LogLevel > 0 {
-				Logger.Printf("Unparsable error returned from Stripe: %v\n", err)
-			}
-			return err
-		}
-
-		root := e.(map[string]interface{})
-		err := &Error{
-			Type:           ErrorType(root["type"].(string)),
-			Msg:            root["message"].(string),
-			HTTPStatusCode: res.StatusCode,
-			RequestID:      res.Header.Get("Request-Id"),
-		}
-
-		if code, ok := root["code"]; ok {
-			err.Code = ErrorCode(code.(string))
-		}
-
-		if param, ok := root["param"]; ok {
-			err.Param = param.(string)
-		}
-
-		if charge, ok := root["charge"]; ok {
-			err.ChargeID = charge.(string)
-		}
-
-		if LogLevel > 0 {
-			Logger.Printf("Error encountered from Stripe: %v\n", err)
-		}
-		return err
+		return s.ResponseToError(res, resBody)
 	}
 
 	if LogLevel > 2 {
@@ -314,4 +274,75 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 	}
 
 	return nil
+}
+
+func (s *BackendConfiguration) ResponseToError(res *http.Response, resBody []byte) error {
+	// for some odd reason, the Erro structure doesn't unmarshal
+	// initially I thought it was because it's a struct inside of a struct
+	// but even after trying that, it still didn't work
+	// so unmarshalling to a map for now and parsing the results manually
+	// but should investigate later
+	var errMap map[string]interface{}
+	json.Unmarshal(resBody, &errMap)
+
+	e, ok := errMap["error"]
+	if !ok {
+		err := errors.New(string(resBody))
+		if LogLevel > 0 {
+			Logger.Printf("Unparsable error returned from Stripe: %v\n", err)
+		}
+		return err
+	}
+
+	root := e.(map[string]interface{})
+
+	stripeErr := &Error{
+		Type:           ErrorType(root["type"].(string)),
+		Msg:            root["message"].(string),
+		HTTPStatusCode: res.StatusCode,
+		RequestID:      res.Header.Get("Request-Id"),
+	}
+
+	if code, ok := root["code"]; ok {
+		stripeErr.Code = ErrorCode(code.(string))
+	}
+
+	if param, ok := root["param"]; ok {
+		stripeErr.Param = param.(string)
+	}
+
+	if charge, ok := root["charge"]; ok {
+		stripeErr.ChargeID = charge.(string)
+	}
+
+	switch stripeErr.Type {
+	case ErrorTypeAPI:
+		stripeErr.Err = &APIError{stripeErr: stripeErr}
+
+	case ErrorTypeAPIConnection:
+		stripeErr.Err = &APIConnectionError{stripeErr: stripeErr}
+
+	case ErrorTypeAuthentication:
+		stripeErr.Err = &AuthenticationError{stripeErr: stripeErr}
+
+	case ErrorTypeCard:
+		cardErr := &CardError{stripeErr: stripeErr}
+		stripeErr.Err = cardErr
+
+		if declineCode, ok := root["decline_code"]; ok {
+			cardErr.DeclineCode = declineCode.(string)
+		}
+
+	case ErrorTypeInvalidRequest:
+		stripeErr.Err = &InvalidRequestError{stripeErr: stripeErr}
+
+	case ErrorTypeRateLimit:
+		stripeErr.Err = &RateLimitError{stripeErr: stripeErr}
+	}
+
+	if LogLevel > 0 {
+		Logger.Printf("Error encountered from Stripe: %v\n", stripeErr)
+	}
+
+	return stripeErr
 }
