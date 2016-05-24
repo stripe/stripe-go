@@ -37,6 +37,22 @@ func TestRequestValues(t *testing.T) {
 	if expected != actual {
 		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
 	}
+
+	values.Set("foo", "firstbar")
+
+	actual = values.Encode()
+	expected = "foo=firstbar&foo=bar&baz=bar"
+	if expected != actual {
+		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
+	}
+
+	values.Set("new", "appended")
+
+	actual = values.Encode()
+	expected = "foo=firstbar&foo=bar&baz=bar&new=appended"
+	if expected != actual {
+		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
+	}
 }
 
 func TestParamsWithExtras(t *testing.T) {

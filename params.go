@@ -15,8 +15,9 @@ const (
 	endbefore  = "ending_before"
 )
 
-// RequestValues is a Form implementation that allows duplicate keys and
-// encodes its entries in the same order that they were added.
+// RequestValues is a collection of values that can be submitted along with a
+// request that specifically allows for duplicate keys and encodes its entries
+// in the same order that they were added.
 type RequestValues struct {
 	values []formValue
 }
@@ -26,8 +27,7 @@ func (f *RequestValues) Add(key, val string) {
 	f.values = append(f.values, formValue{key, val})
 }
 
-// Encode encodes the form's values into “URL encoded” form
-// ("bar=baz&foo=quux").
+// Encode encodes the values into “URL encoded” form ("bar=baz&foo=quux").
 func (f *RequestValues) Encode() string {
 	var buf bytes.Buffer
 	for _, v := range f.values {
@@ -41,7 +41,19 @@ func (f *RequestValues) Encode() string {
 	return buf.String()
 }
 
+// Set sets the first instance of a parameter for the given key to the given
+// value. If no parameters exist with the key, a new one is added.
+//
+// Note that Set is O(n) and may be quite slow for a very large parameter list.
 func (f *RequestValues) Set(key, val string) {
+	for i, v := range f.values {
+		if v.Key == key {
+			f.values[i].Value = val
+			return
+		}
+	}
+
+	f.Add(key, val)
 }
 
 // A key/value tuple for use in the RequestValues type.
