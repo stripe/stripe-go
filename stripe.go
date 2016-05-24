@@ -9,7 +9,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -38,7 +37,7 @@ const TotalBackends = 2
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
 type Backend interface {
-	Call(method, path, key string, body *url.Values, params *Params, v interface{}) error
+	Call(method, path, key string, body *RequestValues, params *Params, v interface{}) error
 	CallMultipart(method, path, key, boundary string, body io.Reader, params *Params, v interface{}) error
 }
 
@@ -144,9 +143,9 @@ func SetBackend(backend SupportedBackend, b Backend) {
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s BackendConfiguration) Call(method, path, key string, form *url.Values, params *Params, v interface{}) error {
+func (s BackendConfiguration) Call(method, path, key string, form *RequestValues, params *Params, v interface{}) error {
 	var body io.Reader
-	if form != nil && len(*form) > 0 {
+	if form != nil && !form.Empty() {
 		data := form.Encode()
 		if strings.ToUpper(method) == "GET" {
 			path += "?" + data

@@ -2,7 +2,6 @@
 package recipient
 
 import (
-	"net/url"
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
@@ -26,10 +25,9 @@ func New(params *stripe.RecipientParams) (*stripe.Recipient, error) {
 }
 
 func (c Client) New(params *stripe.RecipientParams) (*stripe.Recipient, error) {
-	body := &url.Values{
-		"name": {params.Name},
-		"type": {string(params.Type)},
-	}
+	body := &stripe.RequestValues{}
+	body.Add("name", params.Name)
+	body.Add("type", string(params.Type))
 
 	if params.Bank != nil {
 		if len(params.Bank.Token) > 0 {
@@ -71,12 +69,12 @@ func Get(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 }
 
 func (c Client) Get(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 		params.AppendTo(body)
 	}
 
@@ -93,12 +91,12 @@ func Update(id string, params *stripe.RecipientParams) (*stripe.Recipient, error
 }
 
 func (c Client) Update(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		if len(params.Name) > 0 {
 			body.Add("name", params.Name)
@@ -163,12 +161,12 @@ func List(params *stripe.RecipientListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.RecipientListParams) *Iter {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		if params.Verified {
 			body.Add("verified", strconv.FormatBool(true))
@@ -179,9 +177,9 @@ func (c Client) List(params *stripe.RecipientListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.RecipientList{}
-		err := c.B.Call("GET", "/recipients", c.Key, &b, p, list)
+		err := c.B.Call("GET", "/recipients", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

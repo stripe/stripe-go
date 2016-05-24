@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 
 	"fmt"
-	"net/url"
 )
 
 // CardBrand is the list of allowed values for the card's brand.
@@ -95,7 +94,7 @@ type CardList struct {
 // AppendDetails adds the card's details to the query string values.
 // When creating a new card, the parameters are passed as a dictionary, but
 // on updates they are simply the parameter name.
-func (c *CardParams) AppendDetails(values *url.Values, creating bool) {
+func (c *CardParams) AppendDetails(values *RequestValues, creating bool) {
 	if creating {
 		if len(c.Token) > 0 && len(c.Account) > 0 {
 			values.Add("external_account", c.Token)

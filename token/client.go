@@ -3,7 +3,6 @@ package token
 
 import (
 	"errors"
-	"net/url"
 
 	stripe "github.com/stripe/stripe-go"
 )
@@ -27,7 +26,7 @@ func New(params *stripe.TokenParams) (*stripe.Token, error) {
 }
 
 func (c Client) New(params *stripe.TokenParams) (*stripe.Token, error) {
-	body := &url.Values{}
+	body := &stripe.RequestValues{}
 	token := c.Key
 
 	if len(params.Customer) > 0 {
@@ -64,12 +63,12 @@ func Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
 }
 
 func (c Client) Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 		params.AppendTo(body)
 	}
 

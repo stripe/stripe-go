@@ -2,7 +2,6 @@
 package account
 
 import (
-	"net/url"
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
@@ -20,7 +19,7 @@ func New(params *stripe.AccountParams) (*stripe.Account, error) {
 }
 
 func writeAccountParams(
-	params *stripe.AccountParams, body *url.Values,
+	params *stripe.AccountParams, body *stripe.RequestValues,
 ) {
 	if len(params.Country) > 0 {
 		body.Add("country", params.Country)
@@ -96,10 +95,9 @@ func writeAccountParams(
 }
 
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
-	body := &url.Values{
-		"managed":                 {strconv.FormatBool(params.Managed)},
-		"debit_negative_balances": {strconv.FormatBool(params.DebitNegativeBal)},
-	}
+	body := &stripe.RequestValues{}
+	body.Add("managed", strconv.FormatBool(params.Managed))
+	body.Add("debit_negative_balances", strconv.FormatBool(params.DebitNegativeBal))
 
 	writeAccountParams(params, body)
 
@@ -133,12 +131,12 @@ func GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 }
 
 func (c Client) GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 		params.AppendTo(body)
 	}
 
@@ -154,12 +152,12 @@ func Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 }
 
 func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		writeAccountParams(params, body)
 
@@ -194,7 +192,7 @@ func Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, err
 }
 
 func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
-	body := &url.Values{}
+	body := &stripe.RequestValues{}
 	if len(params.Reason) > 0 {
 		body.Add("reason", params.Reason)
 	}
@@ -210,21 +208,21 @@ func List(params *stripe.AccountListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.AccountListParams) *Iter {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		params.AppendTo(body)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.AccountList{}
-		err := c.B.Call("GET", "/accounts", c.Key, &b, p, list)
+		err := c.B.Call("GET", "/accounts", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

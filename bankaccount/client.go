@@ -4,7 +4,6 @@ package bankaccount
 import (
 	"errors"
 	"fmt"
-	"net/url"
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
@@ -30,7 +29,7 @@ func New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 
 func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 
-	body := &url.Values{}
+	body := &stripe.RequestValues{}
 
 	// Use token (if exists) or a dictionary containing a user’s bank account details.
 	if len(params.Token) > 0 {
@@ -67,12 +66,12 @@ func Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 }
 
 func (c Client) Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 		params.AppendTo(body)
 	}
 
@@ -88,12 +87,12 @@ func Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, e
 }
 
 func (c Client) Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
-	var body *url.Values
+	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &url.Values{}
+		body = &stripe.RequestValues{}
 
 		if params.Default {
 			body.Add("default_for_currency", strconv.FormatBool(params.Default))
@@ -134,7 +133,7 @@ func List(params *stripe.BankAccountListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.BankAccountListParams) *Iter {
-	body := &url.Values{}
+	body := &stripe.RequestValues{}
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
@@ -142,9 +141,9 @@ func (c Client) List(params *stripe.BankAccountListParams) *Iter {
 	lp = &params.ListParams
 	p = params.ToParams()
 
-	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BankAccountList{}
-		err := c.B.Call("GET", fmt.Sprintf("/accounts/%v/bank_accounts", params.AccountID), c.Key, &b, p, list)
+		err := c.B.Call("GET", fmt.Sprintf("/accounts/%v/bank_accounts", params.AccountID), c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

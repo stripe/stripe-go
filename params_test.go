@@ -1,7 +1,6 @@
 package stripe_test
 
 import (
-	"net/url"
 	"reflect"
 	"testing"
 
@@ -9,21 +8,75 @@ import (
 	. "github.com/stripe/stripe-go/testing"
 )
 
+func TestRequestValues(t *testing.T) {
+	values := &stripe.RequestValues{}
+
+	actual := values.Encode()
+	expected := ""
+	if expected != actual {
+		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
+	}
+
+	if !values.Empty() {
+		t.Fatalf("Expected values to be empty.")
+	}
+
+	values = &stripe.RequestValues{}
+	values.Add("foo", "bar")
+
+	actual = values.Encode()
+	expected = "foo=bar"
+	if expected != actual {
+		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
+	}
+
+	if values.Empty() {
+		t.Fatalf("Expected values to not be empty.")
+	}
+
+	values = &stripe.RequestValues{}
+	values.Add("foo", "bar")
+	values.Add("foo", "bar")
+	values.Add("baz", "bar")
+
+	actual = values.Encode()
+	expected = "foo=bar&foo=bar&baz=bar"
+	if expected != actual {
+		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
+	}
+
+	values.Set("foo", "firstbar")
+
+	actual = values.Encode()
+	expected = "foo=firstbar&foo=bar&baz=bar"
+	if expected != actual {
+		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
+	}
+
+	values.Set("new", "appended")
+
+	actual = values.Encode()
+	expected = "foo=firstbar&foo=bar&baz=bar&new=appended"
+	if expected != actual {
+		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
+	}
+}
+
 func TestParamsWithExtras(t *testing.T) {
 	testCases := []struct {
-		InitialBody  url.Values
+		InitialBody  [][2]string
 		Extras       [][2]string
-		ExpectedBody url.Values
+		ExpectedBody [][2]string
 	}{
 		{
-			InitialBody:  url.Values{"foo": {"bar"}},
+			InitialBody:  [][2]string{{"foo", "bar"}},
 			Extras:       [][2]string{},
-			ExpectedBody: url.Values{"foo": {"bar"}},
+			ExpectedBody: [][2]string{{"foo", "bar"}},
 		},
 		{
-			InitialBody:  url.Values{"foo": {"bar"}},
+			InitialBody:  [][2]string{{"foo", "bar"}},
 			Extras:       [][2]string{{"foo", "baz"}, {"other", "thing"}},
-			ExpectedBody: url.Values{"foo": {"bar", "baz"}, "other": {"thing"}},
+			ExpectedBody: [][2]string{{"foo", "bar"}, {"foo", "baz"}, {"other", "thing"}},
 		},
 	}
 
@@ -34,30 +87,31 @@ func TestParamsWithExtras(t *testing.T) {
 			p.AddExtra(extra[0], extra[1])
 		}
 
-		body := testCase.InitialBody
-		p.AppendTo(&body)
+		body := valuesFromArray(testCase.InitialBody)
+		p.AppendTo(body)
 
-		if !reflect.DeepEqual(body, testCase.ExpectedBody) {
-			t.Fatalf("Expected body of %v but got %v.", testCase.ExpectedBody, body)
+		expected := valuesFromArray(testCase.ExpectedBody)
+		if !reflect.DeepEqual(body, expected) {
+			t.Fatalf("Expected body of %v but got %v.", expected, body)
 		}
 	}
 }
 
 func TestCheckinListParamsExpansion(t *testing.T) {
 	testCases := []struct {
-		InitialBody  url.Values
+		InitialBody  [][2]string
 		Expand       []string
-		ExpectedBody url.Values
+		ExpectedBody [][2]string
 	}{
 		{
-			InitialBody:  url.Values{"foo": {"bar"}},
+			InitialBody:  [][2]string{{"foo", "bar"}},
 			Expand:       []string{},
-			ExpectedBody: url.Values{"foo": {"bar"}},
+			ExpectedBody: [][2]string{{"foo", "bar"}},
 		},
 		{
-			InitialBody:  url.Values{"foo": {"bar", "baz"}},
+			InitialBody:  [][2]string{{"foo", "bar"}, {"foo", "baz"}},
 			Expand:       []string{"data", "data.foo"},
-			ExpectedBody: url.Values{"foo": {"bar", "baz"}, "expand[]": {"data", "data.foo"}},
+			ExpectedBody: [][2]string{{"foo", "bar"}, {"foo", "baz"}, {"expand[]", "data"}, {"expand[]", "data.foo"}},
 		},
 	}
 
@@ -68,11 +122,12 @@ func TestCheckinListParamsExpansion(t *testing.T) {
 			p.Expand(exp)
 		}
 
-		body := testCase.InitialBody
-		p.AppendTo(&body)
+		body := valuesFromArray(testCase.InitialBody)
+		p.AppendTo(body)
 
-		if !reflect.DeepEqual(body, testCase.ExpectedBody) {
-			t.Fatalf("Expected body of %v but got %v.", testCase.ExpectedBody, body)
+		expected := valuesFromArray(testCase.ExpectedBody)
+		if !reflect.DeepEqual(body, expected) {
+			t.Fatalf("Expected body of %v but got %v.", expected, body)
 		}
 	}
 }
@@ -112,4 +167,15 @@ func TestCheckinParamsSetStripeAccount(t *testing.T) {
 	if p.Account != "" {
 		t.Fatalf("Expected empty Account but got %v.", TestMerchantID)
 	}
+}
+
+// Converts a collection of key/value tuples in a two dimensional slice/array
+// into RequestValues form. The purpose of this is that it's much cleaner to
+// initialize the array all at once on a single line.
+func valuesFromArray(arr [][2]string) *stripe.RequestValues {
+	body := &stripe.RequestValues{}
+	for _, v := range arr {
+		body.Add(v[0], v[1])
+	}
+	return body
 }

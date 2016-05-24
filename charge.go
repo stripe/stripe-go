@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"net/url"
 )
 
 // Currency is the list of supported currencies.
@@ -117,7 +116,7 @@ type ShippingDetails struct {
 }
 
 // AppendDetails adds the shipping details to the query string.
-func (s *ShippingDetails) AppendDetails(values *url.Values) {
+func (s *ShippingDetails) AppendDetails(values *RequestValues) {
 	values.Add("shipping[name]", s.Name)
 
 	values.Add("shipping[address][line1]", s.Address.Line1)

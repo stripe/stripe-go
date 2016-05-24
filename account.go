@@ -3,7 +3,6 @@ package stripe
 import (
 	"encoding/json"
 	"fmt"
-	"net/url"
 	"strconv"
 )
 
@@ -274,7 +273,7 @@ type AccountRejectParams struct {
 }
 
 // AppendDetails adds the legal entity to the query string.
-func (l *LegalEntity) AppendDetails(values *url.Values) {
+func (l *LegalEntity) AppendDetails(values *RequestValues) {
 	values.Add("legal_entity[type]", string(l.Type))
 
 	if len(l.BusinessName) > 0 {
@@ -397,7 +396,7 @@ func (l *LegalEntity) AppendDetails(values *url.Values) {
 }
 
 // AppendDetails adds the transfer schedule to the query string.
-func (t *TransferScheduleParams) AppendDetails(values *url.Values) {
+func (t *TransferScheduleParams) AppendDetails(values *RequestValues) {
 	if t.Delay > 0 {
 		values.Add("transfer_schedule[delay_days]", strconv.FormatUint(t.Delay, 10))
 	} else if t.MinimumDelay {
@@ -413,7 +412,7 @@ func (t *TransferScheduleParams) AppendDetails(values *url.Values) {
 }
 
 // AppendDetails adds the terms of service acceptance to the query string.
-func (t *TOSAcceptanceParams) AppendDetails(values *url.Values) {
+func (t *TOSAcceptanceParams) AppendDetails(values *RequestValues) {
 	if t.Date > 0 {
 		values.Add("tos_acceptance[date]", strconv.FormatInt(t.Date, 10))
 	}

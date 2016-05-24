@@ -3,7 +3,6 @@ package reversal
 
 import (
 	"fmt"
-	"net/url"
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
@@ -21,7 +20,7 @@ func New(params *stripe.ReversalParams) (*stripe.Reversal, error) {
 }
 
 func (c Client) New(params *stripe.ReversalParams) (*stripe.Reversal, error) {
-	body := &url.Values{}
+	body := &stripe.RequestValues{}
 
 	if params.Amount > 0 {
 		body.Add("amount", strconv.FormatUint(params.Amount, 10))
@@ -49,7 +48,7 @@ func (c Client) Get(id string, params *stripe.ReversalParams) (*stripe.Reversal,
 		return nil, fmt.Errorf("params cannot be nil, and params.Transfer must be set")
 	}
 
-	body := &url.Values{}
+	body := &stripe.RequestValues{}
 	params.AppendTo(body)
 
 	reversal := &stripe.Reversal{}
@@ -64,7 +63,7 @@ func Update(id string, params *stripe.ReversalParams) (*stripe.Reversal, error) 
 }
 
 func (c Client) Update(id string, params *stripe.ReversalParams) (*stripe.Reversal, error) {
-	body := &url.Values{}
+	body := &stripe.RequestValues{}
 
 	params.AppendTo(body)
 
@@ -80,7 +79,7 @@ func List(params *stripe.ReversalListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.ReversalListParams) *Iter {
-	body := &url.Values{}
+	body := &stripe.RequestValues{}
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
@@ -88,9 +87,9 @@ func (c Client) List(params *stripe.ReversalListParams) *Iter {
 	lp = &params.ListParams
 	p = params.ToParams()
 
-	return &Iter{stripe.GetIter(lp, body, func(b url.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ReversalList{}
-		err := c.B.Call("GET", fmt.Sprintf("/transfers/%v/reversals", params.Transfer), c.Key, &b, p, list)
+		err := c.B.Call("GET", fmt.Sprintf("/transfers/%v/reversals", params.Transfer), c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
