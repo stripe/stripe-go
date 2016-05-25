@@ -35,14 +35,14 @@ type AddressParams struct {
 	Line2      string
 	City       string
 	State      string
-	PostalCode string
+	PostalCode string `json:"postal_code"`
 	Country    string
 }
 
 type OrderUpdateParams struct {
 	Params
 	Coupon                 string
-	SelectedShippingMethod string
+	SelectedShippingMethod string `json:"selected_shipping_method"`
 	Status                 OrderStatus
 }
 
@@ -124,7 +124,7 @@ type OrderPayParams struct {
 	Params
 	Source         *SourceParams
 	Customer       string
-	ApplicationFee int64
+	ApplicationFee int64 `json:"application_fee"`
 	Email          string
 }
 
