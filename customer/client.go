@@ -61,6 +61,10 @@ func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 			params.Shipping.AppendDetails(body)
 		}
 
+		if len(params.BusinessVatID) > 0 {
+			body.Add("business_vat_id", params.BusinessVatID)
+		}
+
 		commonParams = &params.Params
 
 		params.AppendTo(body)
@@ -135,6 +139,10 @@ func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Custom
 
 		if params.Shipping != nil {
 			params.Shipping.AppendDetails(body)
+		}
+
+		if len(params.BusinessVatID) > 0 {
+			body.Add("business_vat_id", params.BusinessVatID)
 		}
 	}
 
