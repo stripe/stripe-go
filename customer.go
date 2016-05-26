@@ -17,6 +17,7 @@ type CustomerParams struct {
 	TrialEnd      int64
 	DefaultSource string
 	Shipping      *CustomerShippingDetails
+	BusinessVatID string
 }
 
 // SetSource adds valid sources to a CustomerParams object,
@@ -52,6 +53,7 @@ type Customer struct {
 	Subs          *SubList                 `json:"subscriptions"`
 	Deleted       bool                     `json:"deleted"`
 	Shipping      *CustomerShippingDetails `json:"shipping"`
+	BusinessVatID string                   `json:"business_vat_id"`
 }
 
 // CustomerList is a list of customers as retrieved from a list endpoint.

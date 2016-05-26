@@ -15,9 +15,10 @@ func init() {
 
 func TestCustomerNew(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
-		Balance: -123,
-		Desc:    "Test Customer",
-		Email:   "a@b.com",
+		Balance:       -123,
+		Desc:          "Test Customer",
+		Email:         "a@b.com",
+		BusinessVatID: "123456789",
 	}
 	customerParams.SetSource(&stripe.CardParams{
 		Name:   "Test Card",
@@ -43,6 +44,10 @@ func TestCustomerNew(t *testing.T) {
 
 	if target.Email != customerParams.Email {
 		t.Errorf("Email %q does not match expected email %q\n", target.Email, customerParams.Email)
+	}
+
+	if target.BusinessVatID != customerParams.BusinessVatID {
+		t.Errorf("Business Vat Id %q does not match expected description %q\n", target.BusinessVatID, customerParams.BusinessVatID)
 	}
 
 	if target.Meta["id"] != customerParams.Meta["id"] {
@@ -181,9 +186,10 @@ func TestCustomerDel(t *testing.T) {
 
 func TestCustomerUpdate(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
-		Balance: 7,
-		Desc:    "Original Desc",
-		Email:   "first@b.com",
+		Balance:       7,
+		Desc:          "Original Desc",
+		Email:         "first@b.com",
+		BusinessVatID: "123456789",
 	}
 	customerParams.SetSource(&stripe.CardParams{
 		Number: "378282246310005",
@@ -194,9 +200,10 @@ func TestCustomerUpdate(t *testing.T) {
 	original, _ := New(customerParams)
 
 	updated := &stripe.CustomerParams{
-		Balance: -10,
-		Desc:    "Updated Desc",
-		Email:   "desc@b.com",
+		Balance:       -10,
+		Desc:          "Updated Desc",
+		Email:         "desc@b.com",
+		BusinessVatID: "5555555",
 	}
 	updated.SetSource(&stripe.CardParams{
 		Number: "4242424242424242",
@@ -221,6 +228,10 @@ func TestCustomerUpdate(t *testing.T) {
 
 	if target.Email != updated.Email {
 		t.Errorf("Email %q does not match expected email %q\n", target.Email, updated.Email)
+	}
+
+	if target.BusinessVatID != updated.BusinessVatID {
+		t.Errorf("Business Vat Id %q does not match expected description %q\n", target.BusinessVatID, updated.BusinessVatID)
 	}
 
 	if target.Sources == nil {
