@@ -1,3 +1,6 @@
+15.1.0 2016-05-26
+	Add `BusinessVatID` to customer creation parameters
+
 15.0.0 2016-05-24
 	Fix handling of nested objects in arrays in request parameters
 
