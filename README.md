@@ -71,11 +71,11 @@ params.Params.IdempotencyKey = stripe.NewIdempotencyKey()
 
 i := charge.List(params)
 for i.Next() {
-  charge := i.Charge()
+	charge := i.Charge()
 }
 
 if err := i.Err(); err != nil {
-  // handle
+	// handle
 }
 ```
 
@@ -84,13 +84,13 @@ if err := i.Err(); err != nil {
 ```go
 i := event.List(nil)
 for i.Next() {
-  e := i.Event()
+	e := i.Event()
 
-  // access event data via e.GetObjValue("resource_name_based_on_type", "resource_property_name")
-  // alternatively you can access values via e.Data.Obj["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
+	// access event data via e.GetObjValue("resource_name_based_on_type", "resource_property_name")
+	// alternatively you can access values via e.Data.Obj["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
 
-  // access previous attributes via e.GetPrevValue("resource_name_based_on_type", "resource_property_name")
-  // alternatively you can access values via e.Data.Prev["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
+	// access previous attributes via e.GetPrevValue("resource_name_based_on_type", "resource_property_name")
+	// alternatively you can access values via e.Data.Prev["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
 }
 ```
 
@@ -122,8 +122,8 @@ To use a key, pass it to `API`'s `Init` function:
 ```go
 
 import (
-  "github.com/stripe/stripe-go"
-  "github.com/stripe/stripe-go/client"
+	"github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/client"
 )
 
 stripe := &client.API{}
@@ -138,23 +138,23 @@ available. Here's a sample handler:
 
 ```go
 import (
-    "fmt"
-    "net/http"
+	"fmt"
+	"net/http"
 
-    "google.golang.org/appengine"
-    "google.golang.org/appengine/urlfetch"
+	"google.golang.org/appengine"
+	"google.golang.org/appengine/urlfetch"
 
-    "github.com/stripe/stripe-go"
-    "github.com/stripe/stripe-go/client"
+	"github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/client"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-    c := appengine.NewContext(r)
-    httpClient := urlfetch.Client(c)
+	c := appengine.NewContext(r)
+	httpClient := urlfetch.Client(c)
 
-    sc := client.New("sk_live_key", stripe.NewBackends(httpClient))
+	sc := client.New("sk_live_key", stripe.NewBackends(httpClient))
 
-    fmt.Fprintf(w, "Ready to make calls to the Stripe API")
+	fmt.Fprintf(w, "Ready to make calls to the Stripe API")
 }
 ```
 
@@ -171,8 +171,8 @@ client.
 
 ```go
 import (
-  "github.com/stripe/stripe-go"
-  "github.com/stripe/stripe-go/$resource$"
+	"github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/$resource$"
 )
 
 // Setup
@@ -195,11 +195,11 @@ err := $resource$.Del(id)
 // List
 i := $resource$.List(stripe.$Resource$ListParams)
 for i.Next() {
-  $resource$ := i.$Resource$()
+	$resource$ := i.$Resource$()
 }
 
 if err := i.Err(); err != nil {
-  // handle
+	// handle
 }
 ```
 
@@ -211,8 +211,8 @@ individual key.
 
 ```go
 import (
-  "github.com/stripe/stripe-go"
-  "github.com/stripe/stripe-go/client"
+	"github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/client"
 )
 
 // Setup
@@ -234,11 +234,11 @@ err := sc.$Resource$s.Del(id)
 // List
 i := sc.$Resource$s.List(stripe.$Resource$ListParams)
 for i.Next() {
-  resource := i.$Resource$()
+	resource := i.$Resource$()
 }
 
 if err := i.Err(); err != nil {
-  // handle
+	// handle
 }
 ```
 
