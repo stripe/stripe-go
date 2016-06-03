@@ -1,6 +1,7 @@
 package stripe_test
 
 import (
+	"net/url"
 	"reflect"
 	"testing"
 
@@ -59,6 +60,16 @@ func TestRequestValues(t *testing.T) {
 	expected = "foo=firstbar&foo=bar&baz=bar&new=appended"
 	if expected != actual {
 		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
+	}
+
+	urlValues := values.ToValues()
+	expectedURLValues := url.Values{
+		"baz": {"bar"},
+		"foo": {"firstbar", "bar"},
+		"new": {"appended"},
+	}
+	if !reflect.DeepEqual(urlValues, expectedURLValues) {
+		t.Fatalf("Expected body of %v but got %v.", expectedURLValues, urlValues)
 	}
 }
 

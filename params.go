@@ -61,6 +61,32 @@ func (f *RequestValues) Set(key, val string) {
 	f.Add(key, val)
 }
 
+// ToValues converts an instance of RequestValues into an instance of
+// url.Values. This can be useful in cases where it's useful to make an
+// unordered comparison of two sets of request values.
+//
+// Note that url.Values is incapable of representing certain Rack form types in
+// a cohesive way. For example, an array of maps in Rack is encoded with a
+// string like:
+//
+//     arr[][foo]=foo0&arr[][bar]=bar0&arr[][foo]=foo1&arr[][bar]=bar1
+//
+// Because url.Values is a map, values will be handled in a way that's grouped
+// by their key instead of in the order they were added. Therefore the above
+// may by encoded to something like (maps are unordered so the actual result is
+// somewhat non-deterministic):
+//
+//     arr[][foo]=foo0&arr[][foo]=foo1&arr[][bar]=bar0&arr[][bar]=bar1
+//
+// And thus result in an incorrect request to Stripe.
+func (f *RequestValues) ToValues() url.Values {
+	values := url.Values{}
+	for _, v := range f.values {
+		values.Add(v.Key, v.Value)
+	}
+	return values
+}
+
 // A key/value tuple for use in the RequestValues type.
 type formValue struct {
 	Key   string
