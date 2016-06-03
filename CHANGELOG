@@ -1,3 +1,6 @@
+15.2.0 2016-06-03
+	Add `ToValues` to `RequestValues` struct
+
 15.1.0 2016-05-26
 	Add `BusinessVatID` to customer creation parameters
 
