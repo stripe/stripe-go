@@ -214,6 +214,12 @@ func TestCustomerUpdate(t *testing.T) {
 
 	target, err := Update(original.ID, updated)
 
+	updated2 := &stripe.CustomerParams{
+		BalanceZero: true,
+	}
+
+	target2, err := Update(original.ID, updated2)
+
 	if err != nil {
 		t.Error(err)
 	}
@@ -236,6 +242,10 @@ func TestCustomerUpdate(t *testing.T) {
 
 	if target.Sources == nil {
 		t.Errorf("No sources recorded\n")
+	}
+
+	if target2.Balance != 0 {
+		t.Errorf("BalanceZero did not reset the balance to 0: %v\n", target2.Balance)
 	}
 
 	Del(target.ID)
