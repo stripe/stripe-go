@@ -1,3 +1,6 @@
+15.3.0 2016-06-15
+	Add `BalanceZero` to `CustomerParams` so that balance can be zeroed out
+
 15.2.0 2016-06-03
 	Add `ToValues` to `RequestValues` struct
 
