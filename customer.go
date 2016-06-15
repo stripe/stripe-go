@@ -9,6 +9,7 @@ import (
 type CustomerParams struct {
 	Params
 	Balance       int64
+	BalanceZero   bool
 	Token, Coupon string
 	Source        *SourceParams
 	Desc, Email   string

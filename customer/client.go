@@ -114,6 +114,8 @@ func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Custom
 
 		if params.Balance != 0 {
 			body.Add("account_balance", strconv.FormatInt(params.Balance, 10))
+		} else if params.BalanceZero {
+			body.Add("account_balance", "0")
 		}
 
 		if params.Source != nil {
