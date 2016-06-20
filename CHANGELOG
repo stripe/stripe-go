@@ -1,3 +1,6 @@
+15.4.0 2016-06-20
+	Add `TokenizationMethod` to `Card` struct
+
 15.3.0 2016-06-15
 	Add `BalanceZero` to `CustomerParams` so that balance can be zeroed out
 
