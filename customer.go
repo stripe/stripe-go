@@ -8,17 +8,19 @@ import (
 // For more details see https://stripe.com/docs/api#create_customer and https://stripe.com/docs/api#update_customer.
 type CustomerParams struct {
 	Params
-	Balance       int64
-	BalanceZero   bool
-	Token, Coupon string
-	Source        *SourceParams
-	Desc, Email   string
-	Plan          string
-	Quantity      uint64
-	TrialEnd      int64
-	DefaultSource string
-	Shipping      *CustomerShippingDetails
-	BusinessVatID string
+	Balance        int64
+	BalanceZero    bool
+	Token, Coupon  string
+	Source         *SourceParams
+	Desc, Email    string
+	Plan           string
+	Quantity       uint64
+	TrialEnd       int64
+	DefaultSource  string
+	Shipping       *CustomerShippingDetails
+	BusinessVatID  string
+	TaxPercent     float64
+	TaxPercentZero bool
 }
 
 // SetSource adds valid sources to a CustomerParams object,
