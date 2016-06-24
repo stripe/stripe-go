@@ -5,7 +5,9 @@ import (
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/coupon"
+	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/discount"
+	"github.com/stripe/stripe-go/plan"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -67,6 +69,48 @@ func TestCustomerNew(t *testing.T) {
 	}
 
 	Del(target.ID)
+}
+
+func TestCustomerNewWithPlan(t *testing.T) {
+	planParams := &stripe.PlanParams{
+		ID:       "test",
+		Name:     "Test Plan",
+		Amount:   99,
+		Currency: currency.USD,
+		Interval: plan.Month,
+	}
+
+	_, err := plan.New(planParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	customerParams := &stripe.CustomerParams{
+		Plan:       planParams.ID,
+		TaxPercent: 10.0,
+	}
+	customerParams.SetSource(&stripe.CardParams{
+		Name:   "Test Card",
+		Number: "378282246310005",
+		Month:  "06",
+		Year:   "20",
+	})
+
+	target, err := New(customerParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	_, err = Del(target.ID)
+	if err != nil {
+		t.Error(err)
+	}
+
+	_, err = plan.Del(planParams.ID)
+	if err != nil {
+		t.Error(err)
+	}
 }
 
 func TestCustomerNewWithShipping(t *testing.T) {

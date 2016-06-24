@@ -65,6 +65,12 @@ func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 			body.Add("business_vat_id", params.BusinessVatID)
 		}
 
+		if params.TaxPercent > 0 {
+			body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
+		} else if params.TaxPercentZero {
+			body.Add("tax_percent", "0")
+		}
+
 		commonParams = &params.Params
 
 		params.AppendTo(body)
