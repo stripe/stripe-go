@@ -125,6 +125,10 @@ func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error)
 			body.Add("image", params.Image)
 		}
 
+		for k, v := range params.Attrs {
+			body.Add(fmt.Sprintf("attributes[%v]", k), v)
+		}
+
 		inventory := params.Inventory
 
 		if len(inventory.Type) > 0 {
