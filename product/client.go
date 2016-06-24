@@ -125,6 +125,17 @@ func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product
 			body.Add("url", params.URL)
 		}
 
+		// Passing empty attributes should unset the attributes.
+		if params.Attrs != nil {
+			if len(params.Attrs) > 0 {
+				for _, v := range params.Attrs {
+					body.Add("attributes[]", v)
+				}
+			} else {
+				body.Add("attributes", "")
+			}
+		}
+
 		params.AppendTo(body)
 	}
 
