@@ -7,7 +7,6 @@ type SKUParams struct {
 	ID                string
 	Active            *bool
 	Desc              string
-	Name              string
 	Attrs             map[string]string
 	Price             int64
 	Currency          string
@@ -29,7 +28,6 @@ type SKU struct {
 	Updated           int64              `json:"updated"`
 	Live              bool               `json:"livemode"`
 	Active            bool               `json:"active"`
-	Name              string             `json:"name"`
 	Desc              string             `json:"description"`
 	Attrs             map[string]string  `json:"attributes"`
 	Price             int64              `json:"price"`

@@ -148,6 +148,10 @@ func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error)
 				fmt.Sprintf("%.2f", params.PackageDimensions.Weight))
 		}
 
+		if params.Product != "" {
+			body.Add("product", params.Product)
+		}
+
 		params.AppendTo(body)
 	}
 
