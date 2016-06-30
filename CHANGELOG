@@ -1,3 +1,7 @@
+16.0.0 2016-06-30
+	Remove `Name` field on `SKU`; it's not actually supported
+	Support updating `Product` on `SKU`
+
 15.6.0 2016-06-24
 	Allow product and SKU attributes to be updated
 
