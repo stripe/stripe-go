@@ -34,6 +34,13 @@ type CardParams struct {
 	Address1, Address2, City, State, Zip, Country string
 }
 
+// ThreeDSecureParams represent the nested `3d_secure` property in the card JSON as per
+// https://stripe.com/docs/3d-secure
+type ThreeDSecureParams struct {
+	Status      string `json:"status"`
+	RedirectURL string `json:"redirect_url"`
+}
+
 // CardListParams is the set of parameters that can be used when listing cards.
 // For more details see https://stripe.com/docs/api#list_cards.
 type CardListParams struct {
@@ -44,32 +51,33 @@ type CardListParams struct {
 // Card is the resource representing a Stripe credit/debit card.
 // For more details see https://stripe.com/docs/api#cards.
 type Card struct {
-	ID                 string             `json:"id"`
-	Month              uint8              `json:"exp_month"`
-	Year               uint16             `json:"exp_year"`
-	Fingerprint        string             `json:"fingerprint"`
-	Funding            CardFunding        `json:"funding"`
-	LastFour           string             `json:"last4"`
-	Brand              CardBrand          `json:"brand"`
-	Currency           Currency           `json:"currency"`
-	Default            bool               `json:"default_for_currency"`
-	City               string             `json:"address_city"`
-	Country            string             `json:"address_country"`
-	Address1           string             `json:"address_line1"`
-	Address1Check      Verification       `json:"address_line1_check"`
-	Address2           string             `json:"address_line2"`
-	State              string             `json:"address_state"`
-	Zip                string             `json:"address_zip"`
-	ZipCheck           Verification       `json:"address_zip_check"`
-	CardCountry        string             `json:"country"`
-	Customer           *Customer          `json:"customer"`
-	CVCCheck           Verification       `json:"cvc_check"`
-	Meta               map[string]string  `json:"metadata"`
-	Name               string             `json:"name"`
-	Recipient          *Recipient         `json:"recipient"`
-	DynLastFour        string             `json:"dynamic_last4"`
-	Deleted            bool               `json:"deleted"`
-	TokenizationMethod TokenizationMethod `json:"tokenization_method"`
+	ID                 string              `json:"id"`
+	Month              uint8               `json:"exp_month"`
+	Year               uint16              `json:"exp_year"`
+	Fingerprint        string              `json:"fingerprint"`
+	Funding            CardFunding         `json:"funding"`
+	LastFour           string              `json:"last4"`
+	Brand              CardBrand           `json:"brand"`
+	Currency           Currency            `json:"currency"`
+	Default            bool                `json:"default_for_currency"`
+	City               string              `json:"address_city"`
+	Country            string              `json:"address_country"`
+	Address1           string              `json:"address_line1"`
+	Address1Check      Verification        `json:"address_line1_check"`
+	Address2           string              `json:"address_line2"`
+	State              string              `json:"address_state"`
+	Zip                string              `json:"address_zip"`
+	ZipCheck           Verification        `json:"address_zip_check"`
+	CardCountry        string              `json:"country"`
+	Customer           *Customer           `json:"customer"`
+	CVCCheck           Verification        `json:"cvc_check"`
+	Meta               map[string]string   `json:"metadata"`
+	Name               string              `json:"name"`
+	Recipient          *Recipient          `json:"recipient"`
+	DynLastFour        string              `json:"dynamic_last4"`
+	Deleted            bool                `json:"deleted"`
+	TokenizationMethod TokenizationMethod  `json:"tokenization_method"`
+	ThreeDSecure       *ThreeDSecureParams `json:"3d_secure"`
 
 	// Description is a succinct summary of the card's information.
 	//
