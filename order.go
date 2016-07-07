@@ -95,6 +95,7 @@ type Order struct {
 	Email                  string            `json:"email"`
 	Items                  []OrderItem       `json:"items"`
 	Meta                   map[string]string `json:"metadata"`
+	Returns                *OrderReturnList  `json:"returns"`
 	SelectedShippingMethod *string           `json:"selected_shipping_method"`
 	Shipping               Shipping          `json:"shipping"`
 	ShippingMethods        []ShippingMethod  `json:"shipping_methods"`
