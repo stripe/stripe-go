@@ -1,3 +1,6 @@
+16.1.0 2016-07-07
+	Add `Returns` field to `Order`
+
 16.0.0 2016-06-30
 	Remove `Name` field on `SKU`; it's not actually supported
 	Support updating `Product` on `SKU`
