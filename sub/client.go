@@ -153,6 +153,8 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 
 		if params.Quantity > 0 {
 			body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
+		} else if params.QuantityZero {
+			body.Add("quantity", "0")
 		}
 
 		if params.FeePercent > 0 {
