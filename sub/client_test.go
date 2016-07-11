@@ -126,6 +126,61 @@ func TestSubscriptionZeroQuantity(t *testing.T) {
 	plan.Del("test")
 }
 
+func TestSubscriptionUpdateZeroQuantity(t *testing.T) {
+	customerParams := &stripe.CustomerParams{
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
+		},
+	}
+
+	cust, _ := customer.New(customerParams)
+
+	planParams := &stripe.PlanParams{
+		ID:       "test",
+		Name:     "Test Plan",
+		Amount:   99,
+		Currency: currency.USD,
+		Interval: plan.Month,
+	}
+
+	plan.New(planParams)
+
+	subParams := &stripe.SubParams{
+		Customer:    cust.ID,
+		Plan:        "test",
+		Quantity:    10,
+		TrialEndNow: true,
+	}
+
+	subscription, _ := New(subParams)
+	updatedSub := &stripe.SubParams{
+		NoProrate:      true,
+		QuantityZero:   true,
+		TaxPercentZero: true,
+	}
+
+	target, err := Update(subscription.ID, updatedSub)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Quantity != updatedSub.Quantity {
+		t.Errorf("Quantity %v does not match expected quantity %v\n", target.Quantity, updatedSub.Quantity)
+	}
+
+	if target.TaxPercent != updatedSub.TaxPercent {
+		t.Errorf("TaxPercent %f does not match expected tax_percent %f\n", target.TaxPercent, updatedSub.TaxPercent)
+	}
+
+	customer.Del(cust.ID)
+	plan.Del("test")
+}
+
 func TestSubscriptionGet(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
 		Source: &stripe.SourceParams{
