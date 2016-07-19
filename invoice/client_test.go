@@ -317,6 +317,34 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Errorf("Invoice subscription %v does not match expected subscription%v\n", nextInvoice.Sub, subscription.ID)
 	}
 
+	closeInvoice := &stripe.InvoiceParams{
+		Closed: true,
+	}
+
+	targetInvoiceClosed, err := Update(targetInvoice.ID, closeInvoice)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if targetInvoiceClosed.Closed != closeInvoice.Closed {
+		t.Errorf("Invoice was not closed as expected and its value is %v", targetInvoiceClosed.Closed)
+	}
+
+	openInvoice := &stripe.InvoiceParams{
+		NoClosed: true,
+	}
+
+	targetInvoiceOpened, err := Update(targetInvoice.ID, openInvoice)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if targetInvoiceOpened.Closed != false {
+		t.Errorf("Invoice was not reponed as expected and its value is %v", targetInvoiceOpened.Closed)
+	}
+
 	_, err = plan.Del(planParams.ID)
 	if err != nil {
 		t.Error(err)
