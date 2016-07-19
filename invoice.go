@@ -14,6 +14,7 @@ type InvoiceParams struct {
 	Desc, Statement, Sub string
 	Fee                  uint64
 	Closed, Forgive      bool
+	NoClosed             bool
 	SubPlan              string
 	SubNoProrate         bool
 	SubProrationDate     int64
