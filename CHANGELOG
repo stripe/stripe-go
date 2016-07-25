@@ -1,3 +1,6 @@
+16.3.1 2016-07-25
+	URL-escape the IDs of coupons and plans when making API requests
+
 16.3.0 2016-07-19
 	Add `NoClosed` to `InvoiceParams` to allow an invoice to be reopened
 
