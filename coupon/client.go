@@ -3,6 +3,7 @@ package coupon
 
 import (
 	"errors"
+	"net/url"
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
