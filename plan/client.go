@@ -2,6 +2,7 @@
 package plan
 
 import (
+	"net/url"
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
@@ -70,7 +71,7 @@ func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) 
 	}
 
 	plan := &stripe.Plan{}
-	err := c.B.Call("GET", "/plans/"+id, c.Key, body, commonParams, plan)
+	err := c.B.Call("GET", "/plans/"+url.QueryEscape(id), c.Key, body, commonParams, plan)
 
 	return plan, err
 }
@@ -101,7 +102,7 @@ func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, erro
 	}
 
 	plan := &stripe.Plan{}
-	err := c.B.Call("POST", "/plans/"+id, c.Key, body, commonParams, plan)
+	err := c.B.Call("POST", "/plans/"+url.QueryEscape(id), c.Key, body, commonParams, plan)
 
 	return plan, err
 }
@@ -114,7 +115,7 @@ func Del(id string) (*stripe.Plan, error) {
 
 func (c Client) Del(id string) (*stripe.Plan, error) {
 	plan := &stripe.Plan{}
-	err := c.B.Call("DELETE", "/plans/"+id, c.Key, nil, nil, plan)
+	err := c.B.Call("DELETE", "/plans/"+url.QueryEscape(id), c.Key, nil, nil, plan)
 
 	return plan, err
 }
