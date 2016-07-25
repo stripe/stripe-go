@@ -85,7 +85,7 @@ func (c Client) Get(id string, params *stripe.CouponParams) (*stripe.Coupon, err
 
 	coupon := &stripe.Coupon{}
 
-	err := c.B.Call("GET", "/coupons/"+id, c.Key, body, commonParams, coupon)
+	err := c.B.Call("GET", "/coupons/"+url.QueryEscape(id), c.Key, body, commonParams, coupon)
 
 	return coupon, err
 }
@@ -102,7 +102,7 @@ func (c Client) Update(id string, params *stripe.CouponParams) (*stripe.Coupon, 
 	params.AppendTo(body)
 
 	coupon := &stripe.Coupon{}
-	err := c.B.Call("POST", "/coupons/"+id, c.Key, body, &params.Params, coupon)
+	err := c.B.Call("POST", "/coupons/"+url.QueryEscape(id), c.Key, body, &params.Params, coupon)
 
 	return coupon, err
 }
@@ -115,7 +115,7 @@ func Del(id string) (*stripe.Coupon, error) {
 
 func (c Client) Del(id string) (*stripe.Coupon, error) {
 	coupon := &stripe.Coupon{}
-	err := c.B.Call("DELETE", "/coupons/"+id, c.Key, nil, nil, coupon)
+	err := c.B.Call("DELETE", "/coupons/"+url.QueryEscape(id), c.Key, nil, nil, coupon)
 
 	return coupon, err
 }
