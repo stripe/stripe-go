@@ -29,11 +29,6 @@ func writeAccountParams(
 		body.Add("email", params.Email)
 	}
 
-	// Country.
-	if len(params.Country) > 0 {
-		body.Add("country", params.Country)
-	}
-
 	if len(params.DefaultCurrency) > 0 {
 		body.Add("default_currency", params.DefaultCurrency)
 	}
