@@ -55,7 +55,8 @@ const (
 type AccountParams struct {
 	Params
 	Country, Email, DefaultCurrency, Statement, BusinessName, BusinessUrl,
-	BusinessPrimaryColor, SupportPhone, SupportEmail, SupportUrl string
+	BusinessPrimaryColor, SupportPhone, SupportEmail, SupportUrl,
+	FromRecipient string
 	ExternalAccount           *AccountExternalAccountParams
 	LegalEntity               *LegalEntity
 	TransferSchedule          *TransferScheduleParams

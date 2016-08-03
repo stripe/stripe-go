@@ -87,12 +87,19 @@ func writeAccountParams(
 	if params.TOSAcceptance != nil {
 		params.TOSAcceptance.AppendDetails(body)
 	}
+
+	if len(params.FromRecipient) > 0 {
+		body.Add("from_recipient", params.FromRecipient)
+	}
 }
 
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 	body := &stripe.RequestValues{}
-	body.Add("managed", strconv.FormatBool(params.Managed))
-	body.Add("debit_negative_balances", strconv.FormatBool(params.DebitNegativeBal))
+
+	if len(params.FromRecipient) == 0 {
+		body.Add("managed", strconv.FormatBool(params.Managed))
+		body.Add("debit_negative_balances", strconv.FormatBool(params.DebitNegativeBal))
+	}
 
 	writeAccountParams(params, body)
 
