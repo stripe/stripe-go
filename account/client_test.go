@@ -16,8 +16,9 @@ func init() {
 }
 
 func TestAccountNew(t *testing.T) {
+	managed := true
 	params := &stripe.AccountParams{
-		Managed:              true,
+		Managed:              &managed,
 		Country:              "CA",
 		BusinessUrl:          "www.stripe.com",
 		BusinessName:         "Stripe",
@@ -48,8 +49,9 @@ func TestAccountNew(t *testing.T) {
 }
 
 func TestAccountLegalEntity(t *testing.T) {
+	managed := true
 	params := &stripe.AccountParams{
-		Managed: true,
+		Managed: &managed,
 		Country: "US",
 		LegalEntity: &stripe.LegalEntity{
 			Type:          stripe.Company,
@@ -83,8 +85,9 @@ func TestAccountLegalEntity(t *testing.T) {
 }
 
 func TestAccountDelete(t *testing.T) {
+	managed := true
 	params := &stripe.AccountParams{
-		Managed:              true,
+		Managed:              &managed,
 		Country:              "CA",
 		BusinessUrl:          "www.stripe.com",
 		BusinessName:         "Stripe",
@@ -119,8 +122,9 @@ func TestAccountDelete(t *testing.T) {
 }
 
 func TestAccountReject(t *testing.T) {
+	managed := true
 	params := &stripe.AccountParams{
-		Managed:              true,
+		Managed:              &managed,
 		Country:              "CA",
 		BusinessUrl:          "www.stripe.com",
 		BusinessName:         "Stripe",
@@ -155,8 +159,9 @@ func TestAccountReject(t *testing.T) {
 }
 
 func TestAccountGetByID(t *testing.T) {
+	managed := true
 	params := &stripe.AccountParams{
-		Managed: true,
+		Managed: &managed,
 		Country: "CA",
 	}
 
@@ -169,8 +174,9 @@ func TestAccountGetByID(t *testing.T) {
 }
 
 func TestAccountUpdate(t *testing.T) {
+	managed := true
 	params := &stripe.AccountParams{
-		Managed: true,
+		Managed: &managed,
 		Country: "CA",
 	}
 
@@ -187,8 +193,9 @@ func TestAccountUpdate(t *testing.T) {
 }
 
 func TestAccountUpdateWithBankAccount(t *testing.T) {
+	managed := true
 	params := &stripe.AccountParams{
-		Managed: true,
+		Managed: &managed,
 		Country: "CA",
 	}
 
@@ -210,8 +217,9 @@ func TestAccountUpdateWithBankAccount(t *testing.T) {
 }
 
 func TestAccountAddExternalAccountsDefault(t *testing.T) {
+	managed := true
 	params := &stripe.AccountParams{
-		Managed: true,
+		Managed: &managed,
 		Country: "CA",
 		ExternalAccount: &stripe.AccountExternalAccountParams{
 			Country:  "US",
@@ -268,8 +276,9 @@ func TestAccountAddExternalAccountsDefault(t *testing.T) {
 }
 
 func TestAccountUpdateWithToken(t *testing.T) {
+	managed := true
 	params := &stripe.AccountParams{
-		Managed: true,
+		Managed: &managed,
 		Country: "CA",
 	}
 
@@ -298,8 +307,9 @@ func TestAccountUpdateWithToken(t *testing.T) {
 }
 
 func TestAccountUpdateWithCardToken(t *testing.T) {
+	managed := true
 	params := &stripe.AccountParams{
-		Managed: true,
+		Managed: &managed,
 		Country: "US",
 	}
 

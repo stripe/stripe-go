@@ -59,7 +59,7 @@ type AccountParams struct {
 	ExternalAccount           *AccountExternalAccountParams
 	LegalEntity               *LegalEntity
 	TransferSchedule          *TransferScheduleParams
-	Managed, DebitNegativeBal bool
+	Managed, DebitNegativeBal *bool
 	TOSAcceptance             *TOSAcceptanceParams
 }
 

@@ -91,8 +91,18 @@ func writeAccountParams(
 
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 	body := &stripe.RequestValues{}
-	body.Add("managed", strconv.FormatBool(params.Managed))
-	body.Add("debit_negative_balances", strconv.FormatBool(params.DebitNegativeBal))
+
+	managed := false
+	if params.Managed != nil {
+		managed = *params.Managed
+	}
+	body.Add("managed", strconv.FormatBool(managed))
+
+	debitNegativeBalance := false
+	if params.DebitNegativeBal != nil {
+		managed = *params.DebitNegativeBal
+	}
+	body.Add("debit_negative_balances", strconv.FormatBool(debitNegativeBalance))
 
 	writeAccountParams(params, body)
 
@@ -154,11 +164,15 @@ func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account
 		commonParams = &params.Params
 		body = &stripe.RequestValues{}
 
-		writeAccountParams(params, body)
-
-		if params.TOSAcceptance != nil {
-			params.TOSAcceptance.AppendDetails(body)
+		if params.Managed != nil {
+			body.Add("managed", strconv.FormatBool(*params.Managed))
 		}
+
+		if params.DebitNegativeBal != nil {
+			body.Add("debit_negative_balances", strconv.FormatBool(*params.DebitNegativeBal))
+		}
+
+		writeAccountParams(params, body)
 
 		params.AppendTo(body)
 	}
