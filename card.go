@@ -191,7 +191,11 @@ func (c *CardParams) AppendDetails(values *RequestValues, creating bool) {
 		}
 	}
 
-	c.AppendTo(values)
+	if len(c.Meta) > 0 {
+		for k, v := range c.Meta {
+			values.Add(fmt.Sprintf("card[metadata[%v]]", k), v)
+		}
+	}
 
 }
 
