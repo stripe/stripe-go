@@ -190,6 +190,9 @@ func (c *CardParams) AppendDetails(values *RequestValues, creating bool) {
 			values.Add("address_country", c.Country)
 		}
 	}
+
+	c.AppendTo(values)
+
 }
 
 // Display human readable representation of a Card.
