@@ -1,3 +1,7 @@
+16.4.0 2016-08-05
+	Allow the migration of recipients to accounts
+	Add `MigratedTo` to `Recipient`
+
 16.3.1 2016-07-25
 	URL-escape the IDs of coupons and plans when making API requests
 
