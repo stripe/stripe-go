@@ -36,6 +36,7 @@ type Recipient struct {
 	Desc        string            `json:"description"`
 	Email       string            `json:"email"`
 	Meta        map[string]string `json:"metadata"`
+	MigratedTo  *Account          `json:"migrated_to"`
 	Name        string            `json:"name"`
 	Cards       *CardList         `json:"cards"`
 	DefaultCard *Card             `json:"default_card"`

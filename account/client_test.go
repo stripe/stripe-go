@@ -7,6 +7,7 @@ import (
 	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/card"
 	"github.com/stripe/stripe-go/currency"
+	"github.com/stripe/stripe-go/recipient"
 	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
@@ -22,6 +23,7 @@ func TestAccountNew(t *testing.T) {
 		BusinessUrl:          "www.stripe.com",
 		BusinessName:         "Stripe",
 		BusinessPrimaryColor: "#ffffff",
+		DebitNegativeBal:     true,
 		SupportEmail:         "foo@bar.com",
 		SupportUrl:           "www.stripe.com",
 		SupportPhone:         "4151234567",
@@ -154,6 +156,46 @@ func TestAccountReject(t *testing.T) {
 	}
 }
 
+func TestAccountMigrateFromRecipients(t *testing.T) {
+	recipientParams := &stripe.RecipientParams{
+		Name:  "Recipient Name",
+		Type:  "individual",
+		TaxID: "000000000",
+		Email: "a@b.com",
+		Desc:  "Recipient Desc",
+		Bank: &stripe.BankAccountParams{
+			Country: "US",
+			Routing: "110000000",
+			Account: "000123456789",
+		},
+		Card: &stripe.CardParams{
+			Name:   "Test Debit",
+			Number: "4000056655665556",
+			Month:  "10",
+			Year:   "20",
+		},
+	}
+
+	target, err := recipient.New(recipientParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	target2, err := New(&stripe.AccountParams{FromRecipient: target.ID})
+	if err != nil {
+		t.Error(err)
+	}
+
+	target, err = recipient.Get(target.ID, nil)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target2.ID != target.MigratedTo.ID {
+		t.Errorf("The new account ID %v does not match the MigratedTo property %v", target2.ID, target.MigratedTo.ID)
+	}
+}
+
 func TestAccountGetByID(t *testing.T) {
 	params := &stripe.AccountParams{
 		Managed: true,
@@ -170,19 +212,29 @@ func TestAccountGetByID(t *testing.T) {
 
 func TestAccountUpdate(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
-		Country: "CA",
+		Managed:          true,
+		Country:          "CA",
+		DebitNegativeBal: true,
 	}
 
 	acct, _ := New(params)
 
-	params = &stripe.AccountParams{
-		Statement: "Stripe Go",
+	if acct.DebitNegativeBal != true {
+		t.Error("debit_negative_balance was not set to true")
 	}
 
-	_, err := Update(acct.ID, params)
+	params = &stripe.AccountParams{
+		Statement:          "Stripe Go",
+		NoDebitNegativeBal: true,
+	}
+
+	acct, err := Update(acct.ID, params)
 	if err != nil {
 		t.Error(err)
+	}
+
+	if acct.DebitNegativeBal != false {
+		t.Error("debit_negative_balance was not set to false")
 	}
 }
 

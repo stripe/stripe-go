@@ -29,6 +29,12 @@ func writeAccountParams(
 		body.Add("email", params.Email)
 	}
 
+	if params.DebitNegativeBal {
+		body.Add("debit_negative_balances", strconv.FormatBool(true))
+	} else if params.NoDebitNegativeBal {
+		body.Add("debit_negative_balances", strconv.FormatBool(false))
+	}
+
 	if len(params.DefaultCurrency) > 0 {
 		body.Add("default_currency", params.DefaultCurrency)
 	}
@@ -87,12 +93,18 @@ func writeAccountParams(
 	if params.TOSAcceptance != nil {
 		params.TOSAcceptance.AppendDetails(body)
 	}
+
+	if len(params.FromRecipient) > 0 {
+		body.Add("from_recipient", params.FromRecipient)
+	}
 }
 
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 	body := &stripe.RequestValues{}
-	body.Add("managed", strconv.FormatBool(params.Managed))
-	body.Add("debit_negative_balances", strconv.FormatBool(params.DebitNegativeBal))
+
+	if len(params.FromRecipient) == 0 {
+		body.Add("managed", strconv.FormatBool(params.Managed))
+	}
 
 	writeAccountParams(params, body)
 
