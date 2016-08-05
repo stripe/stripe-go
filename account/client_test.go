@@ -23,6 +23,7 @@ func TestAccountNew(t *testing.T) {
 		BusinessUrl:          "www.stripe.com",
 		BusinessName:         "Stripe",
 		BusinessPrimaryColor: "#ffffff",
+		DebitNegativeBal:     true,
 		SupportEmail:         "foo@bar.com",
 		SupportUrl:           "www.stripe.com",
 		SupportPhone:         "4151234567",
@@ -211,19 +212,29 @@ func TestAccountGetByID(t *testing.T) {
 
 func TestAccountUpdate(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
-		Country: "CA",
+		Managed:          true,
+		Country:          "CA",
+		DebitNegativeBal: true,
 	}
 
 	acct, _ := New(params)
 
-	params = &stripe.AccountParams{
-		Statement: "Stripe Go",
+	if acct.DebitNegativeBal != true {
+		t.Error("debit_negative_balance was not set to true")
 	}
 
-	_, err := Update(acct.ID, params)
+	params = &stripe.AccountParams{
+		Statement:          "Stripe Go",
+		NoDebitNegativeBal: true,
+	}
+
+	acct, err := Update(acct.ID, params)
 	if err != nil {
 		t.Error(err)
+	}
+
+	if acct.DebitNegativeBal != false {
+		t.Error("debit_negative_balance was not set to false")
 	}
 }
 
