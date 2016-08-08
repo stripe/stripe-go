@@ -124,8 +124,9 @@ type Account struct {
 		IP        string `json:"ip"`
 		UserAgent string `json:"user_agent"`
 	} `json:"tos_acceptance"`
-	SupportAddress *Address `json:"support_address"`
-	Deleted        bool     `json:"deleted"`
+	SupportAddress *Address          `json:"support_address"`
+	Deleted        bool              `json:"deleted"`
+	Meta           map[string]string `json:"metadata"`
 }
 
 // AccountType is the type of an external account.
