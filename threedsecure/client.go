@@ -21,7 +21,6 @@ func (c Client) New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, er
 	body.Add("amount", strconv.FormatUint(params.Amount, 10))
 	body.Add("currency", string(params.Currency))
 	body.Add("card", params.Card)
-	body.Add("customer", params.Customer)
 	body.Add("return_url", params.ReturnURL)
 
 	params.AppendTo(body)
