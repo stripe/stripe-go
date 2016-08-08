@@ -2,7 +2,7 @@ package stripe
 
 type ThreeDSecureStatus string
 
-// ThreeDSecureParams is the set of parameters that can be used when creating a £D Secure object.
+// ThreeDSecureParams is the set of parameters that can be used when creating a 3DS object.
 // For more details see https://stripe.com/docs/api#create_three_d_secure.
 type ThreeDSecureParams struct {
 	Params
