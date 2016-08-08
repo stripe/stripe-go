@@ -1,3 +1,6 @@
+16.5.0 2016-08-08
+	Add `Meta` to `Account`
+
 16.4.0 2016-08-05
 	Allow the migration of recipients to accounts
 	Add `MigratedTo` to `Recipient`
