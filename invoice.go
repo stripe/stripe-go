@@ -44,35 +44,36 @@ type InvoiceLineListParams struct {
 // Invoice is the resource representing a Stripe invoice.
 // For more details see https://stripe.com/docs/api#invoice_object.
 type Invoice struct {
-	ID           string            `json:"id"`
-	Live         bool              `json:"livemode"`
-	Amount       int64             `json:"amount_due"`
-	Attempts     uint64            `json:"attempt_count"`
-	Attempted    bool              `json:"attempted"`
-	Closed       bool              `json:"closed"`
-	Currency     Currency          `json:"currency"`
-	Customer     *Customer         `json:"customer"`
-	Date         int64             `json:"date"`
-	Forgive      bool              `json:"forgiven"`
-	Lines        *InvoiceLineList  `json:"lines"`
-	Paid         bool              `json:"paid"`
-	End          int64             `json:"period_end"`
-	Start        int64             `json:"period_start"`
-	StartBalance int64             `json:"starting_balance"`
-	Subtotal     int64             `json:"subtotal"`
-	Total        int64             `json:"total"`
-	Tax          int64             `json:"tax"`
-	TaxPercent   float64           `json:"tax_percent"`
-	Fee          uint64            `json:"application_fee"`
-	Charge       *Charge           `json:"charge"`
-	Desc         string            `json:"description"`
-	Discount     *Discount         `json:"discount"`
-	EndBalance   int64             `json:"ending_balance"`
-	NextAttempt  int64             `json:"next_payment_attempt"`
-	Statement    string            `json:"statement_descriptor"`
-	Sub          string            `json:"subscription"`
-	Webhook      int64             `json:"webhooks_delivered_at"`
-	Meta         map[string]string `json:"metadata"`
+	ID            string            `json:"id"`
+	Live          bool              `json:"livemode"`
+	Amount        int64             `json:"amount_due"`
+	Attempts      uint64            `json:"attempt_count"`
+	Attempted     bool              `json:"attempted"`
+	Closed        bool              `json:"closed"`
+	Currency      Currency          `json:"currency"`
+	Customer      *Customer         `json:"customer"`
+	Date          int64             `json:"date"`
+	Forgive       bool              `json:"forgiven"`
+	Lines         *InvoiceLineList  `json:"lines"`
+	Paid          bool              `json:"paid"`
+	End           int64             `json:"period_end"`
+	Start         int64             `json:"period_start"`
+	StartBalance  int64             `json:"starting_balance"`
+	Subtotal      int64             `json:"subtotal"`
+	Total         int64             `json:"total"`
+	Tax           int64             `json:"tax"`
+	TaxPercent    float64           `json:"tax_percent"`
+	Fee           uint64            `json:"application_fee"`
+	Charge        *Charge           `json:"charge"`
+	Desc          string            `json:"description"`
+	Discount      *Discount         `json:"discount"`
+	ReceiptNumber string            `json:"receipt_number"`
+	EndBalance    int64             `json:"ending_balance"`
+	NextAttempt   int64             `json:"next_payment_attempt"`
+	Statement     string            `json:"statement_descriptor"`
+	Sub           string            `json:"subscription"`
+	Webhook       int64             `json:"webhooks_delivered_at"`
+	Meta          map[string]string `json:"metadata"`
 }
 
 // InvoiceList is a list of invoices as retrieved from a list endpoint.
