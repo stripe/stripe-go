@@ -1,3 +1,6 @@
+16.6.0 2016-08-09
+	Add `ReceiptNumber` to `Invoice`
+
 16.5.0 2016-08-08
 	Add `Meta` to `Account`
 
