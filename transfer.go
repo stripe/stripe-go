@@ -51,6 +51,7 @@ type Transfer struct {
 	Created        int64              `json:"created"`
 	Date           int64              `json:"date"`
 	Desc           string             `json:"description"`
+	Dest           string             `json:"destination"`
 	FailCode       TransferFailCode   `json:"failure_code"`
 	FailMsg        string             `json:"failure_message"`
 	Status         TransferStatus     `json:"status"`
