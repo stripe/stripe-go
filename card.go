@@ -69,6 +69,7 @@ type Card struct {
 	Recipient          *Recipient         `json:"recipient"`
 	DynLastFour        string             `json:"dynamic_last4"`
 	Deleted            bool               `json:"deleted"`
+	ThreeDSecure       *ThreeDSecure      `json:"three_d_secure"`
 	TokenizationMethod TokenizationMethod `json:"tokenization_method"`
 
 	// Description is a succinct summary of the card's information.
