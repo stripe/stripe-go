@@ -64,11 +64,17 @@ func Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 }
 
 func (c Client) Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
-	body := &stripe.RequestValues{}
-	params.AppendTo(body)
+	var body *stripe.RequestValues
+	var commonParams *stripe.Params
+
+	if params != nil {
+		commonParams = &params.Params
+		body = &stripe.RequestValues{}
+		params.AppendTo(body)
+	}
 
 	refund := &stripe.Refund{}
-	err := c.B.Call("GET", fmt.Sprintf("/refunds/%v", id), c.Key, body, &params.Params, refund)
+	err := c.B.Call("GET", "/refunds/"+id, c.Key, body, commonParams, refund)
 
 	return refund, err
 }
