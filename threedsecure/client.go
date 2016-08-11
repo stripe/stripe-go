@@ -19,15 +19,15 @@ func New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
 func (c Client) New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
 	body := &stripe.RequestValues{}
 	body.Add("amount", strconv.FormatUint(params.Amount, 10))
-	body.Add("currency", string(params.Currency))
 	body.Add("card", params.Card)
+	body.Add("currency", string(params.Currency))
 	body.Add("return_url", params.ReturnURL)
-
-	params.AppendTo(body)
 
 	if len(params.Customer) > 0 {
 		body.Add("customer", params.Customer)
 	}
+
+	params.AppendTo(body)
 
 	tds := &stripe.ThreeDSecure{}
 	err := c.B.Call("POST", "/3d_secure", c.Key, body, &params.Params, tds)
