@@ -1,3 +1,6 @@
+16.7.0 2016-08-11
+	Add support for 3-D Secure
+
 16.6.0 2016-08-09
 	Add `ReceiptNumber` to `Invoice`
 
