@@ -1,3 +1,6 @@
+16.7.1 2016-08-17
+	Allow params to be nil when retrieving a refund
+
 16.7.0 2016-08-11
 	Add support for 3-D Secure
 
