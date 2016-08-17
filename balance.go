@@ -18,7 +18,7 @@ const (
 	// TransactionSourceCharge is a constant representing a transaction source of charge
 	TransactionSourceCharge TransactionSourceType = "charge"
 
-	// TransactionSourceAdjustment is a constant representing a transaction source of dispute
+	// TransactionSourceDispute is a constant representing a transaction source of dispute
 	TransactionSourceDispute TransactionSourceType = "dispute"
 
 	// TransactionSourceFee is a constant representing a transaction source of application_fee
