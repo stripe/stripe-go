@@ -1,3 +1,6 @@
+16.8.0 2016-08-17
+	Add `OriginatingTransaction` to `Fee`
+
 16.7.1 2016-08-17
 	Allow params to be nil when retrieving a refund
 
