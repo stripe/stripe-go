@@ -1,3 +1,7 @@
+17.0.0 2016-08-18
+	Support expanding destinations on transfers
+	Support expanding sources on transactions
+
 16.8.0 2016-08-17
 	Add `OriginatingTransaction` to `Fee`
 
