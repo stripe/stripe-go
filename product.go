@@ -27,6 +27,7 @@ type ProductParams struct {
 	URL               string
 	Shippable         *bool
 	PackageDimensions *PackageDimensions
+	DeactivateOn      []string
 }
 
 // Product is the resource representing a Stripe product.
@@ -46,6 +47,7 @@ type Product struct {
 	Images            []string           `json:"images"`
 	Meta              map[string]string  `json:"metadata"`
 	URL               string             `json:"url"`
+	DeactivateOn      []string           `json:"deactivate_on"`
 	Skus              *SKUList           `json:"skus"`
 }
 

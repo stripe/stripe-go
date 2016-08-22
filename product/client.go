@@ -79,6 +79,10 @@ func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 				fmt.Sprintf("%.2f", params.PackageDimensions.Weight))
 		}
 
+		for _, app := range params.DeactivateOn {
+			body.Add("deactivate_on[]", app)
+		}
+
 		params.AppendTo(body)
 	}
 
@@ -134,6 +138,10 @@ func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product
 			} else {
 				body.Add("attributes", "")
 			}
+		}
+
+		for _, app := range params.DeactivateOn {
+			body.Add("deactivate_on[]", app)
 		}
 
 		params.AppendTo(body)
