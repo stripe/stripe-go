@@ -1,3 +1,6 @@
+17.1.0 2016-08-22
+	Add `DeactiveOn` to `Product`
+
 17.0.0 2016-08-18
 	Allow expansion of destination on transfers
 	Allow expansion of sources on balance transactions
