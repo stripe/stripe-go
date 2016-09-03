@@ -194,7 +194,7 @@ func (s *Source) Display() string {
 		status = "Canceled"
 	}
 
-	desc := fmt.Sprintf("%s source of type %s", status, s.Type)
+	desc := fmt.Sprintf("%s %s source", status, s.Type)
 	if s.Amount > 0 {
 		desc += fmt.Sprintf(" (%d %s)", s.Amount, s.Currency)
 	}

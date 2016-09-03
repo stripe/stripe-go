@@ -9,6 +9,7 @@ import (
 	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/refund"
+	"github.com/stripe/stripe-go/source"
 	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
@@ -583,5 +584,56 @@ func TestCheckClose(t *testing.T) {
 
 	if dp.Status != "lost" {
 		t.Errorf("Dispute status %q does not match expected status lost\n", dp.Status)
+	}
+}
+
+func TestChargeSourceForSourceObject(t *testing.T) {
+	sourceParams := &stripe.SourceObjectParams{
+		Type:     "bitcoin",
+		Amount:   1000,
+		Currency: currency.USD,
+		Owner: &stripe.SourceOwnerParams{
+			Email: "do+fill_now@stripe.com",
+		},
+	}
+
+	s, err := source.New(sourceParams)
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+	}
+
+	chargeParams.SetSource(s.ID)
+
+	ch, _ := New(chargeParams)
+
+	if len(ch.ID) == 0 {
+		t.Error("ID is nil for Charge")
+	}
+
+	if ch.Source == nil {
+		t.Error("Source is nil for Charge, should be Source property")
+	}
+
+	if ch.Source.Type != stripe.PaymentSourceObject {
+		t.Error("Source Type for Charge created by Source should be `source`")
+	}
+
+	source := ch.Source.SourceObject
+
+	if len(source.ID) == 0 {
+		t.Error("Source ID is nil for Charge `source` SourceObject property")
+	}
+
+	if source.Amount == 0 {
+		t.Error("Amount is empty for Charge `source` SourceObject property")
+	}
+
+	if source.Display() != "Consumed bitcoin source (1000 usd)" {
+		t.Error("Display value did not match expectation")
 	}
 }
