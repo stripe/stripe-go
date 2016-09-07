@@ -6,7 +6,9 @@ import (
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/card"
+	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/customer"
+	"github.com/stripe/stripe-go/source"
 	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
@@ -372,4 +374,50 @@ func TestSourceList(t *testing.T) {
 	}
 
 	customer.Del(cust.ID)
+}
+
+func TestSourceObjectNewGet(t *testing.T) {
+	sourceParams := &stripe.SourceObjectParams{
+		Type:     "bitcoin",
+		Amount:   1000,
+		Currency: currency.USD,
+		Owner: &stripe.SourceOwnerParams{
+			Email: "do+fill_now@stripe.com",
+		},
+	}
+
+	s, err := source.New(sourceParams)
+	if err != nil {
+		t.Fatalf("%+v", err)
+	}
+
+	customerParams := &stripe.CustomerParams{}
+	customer, err := customer.New(customerParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	src, err := New(&stripe.CustomerSourceParams{
+		Customer: customer.ID,
+		Source: &stripe.SourceParams{
+			Token: s.ID,
+		},
+	})
+
+	if src.SourceObject.Owner.Email != "do+fill_now@stripe.com" {
+		t.Errorf("Source object owner email %q was not as expected.",
+			src.SourceObject.Owner.Email)
+	}
+
+	src, err = Get(src.ID, &stripe.CustomerSourceParams{
+		Customer: customer.ID,
+	})
+	if err != nil {
+		t.Error(err)
+	}
+
+	if src.SourceObject.Owner.Email != "do+fill_now@stripe.com" {
+		t.Errorf("Source object owner email %q was not as expected.",
+			src.SourceObject.Owner.Email)
+	}
 }

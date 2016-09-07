@@ -89,6 +89,10 @@ const (
 	// which is a Bitcoin receiver.
 	PaymentSourceBitcoinReceiver PaymentSourceType = "bitcoin_receiver"
 
+	// PaymentSourceObject is a constant representing a payment source which
+	// is a top level source object (/v1/sources).
+	PaymentSourceObject PaymentSourceType = "source"
+
 	// PaymentSourceCard is a constant representing a payment source which is a
 	// card.
 	PaymentSourceCard PaymentSourceType = "card"
@@ -100,9 +104,10 @@ const (
 type PaymentSource struct {
 	Type            PaymentSourceType `json:"object"`
 	ID              string            `json:"id"`
-	Card            *Card             `json:"-"`
-	BitcoinReceiver *BitcoinReceiver  `json:"-"`
 	BankAccount     *BankAccount      `json:"-"`
+	BitcoinReceiver *BitcoinReceiver  `json:"-"`
+	Card            *Card             `json:"-"`
+	SourceObject    *Source           `json:"-"`
 	Deleted         bool              `json:"deleted"`
 }
 
@@ -122,12 +127,14 @@ type SourceListParams struct {
 // Display human readable representation of source.
 func (s *PaymentSource) Display() string {
 	switch s.Type {
+	case PaymentSourceBankAccount:
+		return s.BankAccount.Display()
 	case PaymentSourceBitcoinReceiver:
 		return s.BitcoinReceiver.Display()
 	case PaymentSourceCard:
 		return s.Card.Display()
-	case PaymentSourceBankAccount:
-		return s.BankAccount.Display()
+	case PaymentSourceObject:
+		return s.SourceObject.Display()
 	}
 
 	return ""
@@ -150,6 +157,8 @@ func (s *PaymentSource) UnmarshalJSON(data []byte) error {
 			json.Unmarshal(data, &s.BitcoinReceiver)
 		case PaymentSourceCard:
 			json.Unmarshal(data, &s.Card)
+		case PaymentSourceObject:
+			json.Unmarshal(data, &s.SourceObject)
 		}
 	} else {
 		// the id is surrounded by "\" characters, so strip them
