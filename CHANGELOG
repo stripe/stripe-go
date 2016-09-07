@@ -1,3 +1,6 @@
+17.3.0 2016-09-07
+	Add support for sources endpoint
+
 17.2.0 2016-08-29
 	Add order returns to `API`
 
