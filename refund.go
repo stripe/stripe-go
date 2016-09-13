@@ -6,6 +6,11 @@ import "encoding/json"
 // are "fraudulent", "duplicate", and "requested_by_customer".
 type RefundReason string
 
+// RefundStatus is the status of the refund.
+// For credit card refunds, this will always be "succeeded".
+// For other types of refunds, it can be "pending", "succeeded", "failed", or "cancelled".
+type RefundStatus string
+
 // RefundParams is the set of parameters that can be used when refunding a charge.
 // For more details see https://stripe.com/docs/api#refund.
 type RefundParams struct {
@@ -25,14 +30,16 @@ type RefundListParams struct {
 // Refund is the resource representing a Stripe refund.
 // For more details see https://stripe.com/docs/api#refunds.
 type Refund struct {
-	ID       string            `json:"id"`
-	Amount   uint64            `json:"amount"`
-	Created  int64             `json:"created"`
-	Currency Currency          `json:"currency"`
-	Tx       *Transaction      `json:"balance_transaction"`
-	Charge   string            `json:"charge"`
-	Meta     map[string]string `json:"metadata"`
-	Reason   RefundReason      `json:"reason"`
+	ID            string            `json:"id"`
+	Amount        uint64            `json:"amount"`
+	Created       int64             `json:"created"`
+	Currency      Currency          `json:"currency"`
+	Tx            *Transaction      `json:"balance_transaction"`
+	Charge        string            `json:"charge"`
+	Meta          map[string]string `json:"metadata"`
+	Reason        RefundReason      `json:"reason"`
+	ReceiptNumber string            `json:"receipt_number"`
+	Status        RefundStatus      `json:"status"`
 }
 
 // RefundList is a list object for refunds.
