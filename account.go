@@ -198,10 +198,23 @@ func (ea *ExternalAccount) UnmarshalJSON(b []byte) error {
 type LegalEntity struct {
 	Type                  LegalEntityType      `json:"type"`
 	BusinessName          string               `json:"business_name"`
+	BusinessNameKana      string               `json:"business_name_kana"`
+	BusinessNameKanji     string               `json:"business_name_kanji"`
 	Address               Address              `json:"address"`
+	AddressKana           Address              `json:"address_kana"`
+	AddressKanji          Address              `json:"address_kanji"`
 	First                 string               `json:"first_name"`
+	FirstKana             string               `json:"first_name_kana"`
+	FirstKanji            string               `json:"first_name_kanji"`
+	Gender                Gender               `json:"gender"`
 	Last                  string               `json:"last_name"`
+	LastKana              string               `json:"last_name_kana"`
+	LastKanji             string               `json:"last_name_kanji"`
+	MaidenName            string               `json:"maiden_name"`
 	PersonalAddress       Address              `json:"personal_address"`
+	PersonalAddressKana   Address              `json:"personal_address_kana"`
+	PersonalAddressKanji  Address              `json:"personal_address_kanji"`
+	PhoneNumber           string               `json:"phone_number"`
 	DOB                   DOB                  `json:"dob"`
 	AdditionalOwners      []Owner              `json:"additional_owners"`
 	Verification          IdentityVerification `json:"verification"`
@@ -222,6 +235,40 @@ type Address struct {
 	State   string `json:"state"`
 	Zip     string `json:"postal_code"`
 	Country string `json:"country"`
+
+	// Town/cho-me. Note that this is only used for Kana/Kanji representations
+	// of an address.
+	Town string `json:"town"`
+}
+
+func (a *Address) AppendDetails(values *RequestValues, prefix string) {
+	if len(a.Line1) > 0 {
+		values.Add(prefix+"[line1]", a.Line1)
+	}
+
+	if len(a.Line2) > 0 {
+		values.Add(prefix+"[line2]", a.Line2)
+	}
+
+	if len(a.City) > 0 {
+		values.Add(prefix+"[city]", a.City)
+	}
+
+	if len(a.State) > 0 {
+		values.Add(prefix+"[state]", a.State)
+	}
+
+	if len(a.Zip) > 0 {
+		values.Add(prefix+"[postal_code]", a.Zip)
+	}
+
+	if len(a.Country) > 0 {
+		values.Add(prefix+"[country]", a.Country)
+	}
+
+	if len(a.Town) > 0 {
+		values.Add(prefix+"[town]", a.Town)
+	}
 }
 
 // DOB is a structure for an account owner's date of birth.
@@ -230,6 +277,10 @@ type DOB struct {
 	Month int `json:"month"`
 	Year  int `json:"year"`
 }
+
+// Gender is the gender of an account owner. International regulations require
+// either “male” or “female”.
+type Gender string
 
 // Owner is the structure for an account owner.
 type Owner struct {
@@ -282,12 +333,44 @@ func (l *LegalEntity) AppendDetails(values *RequestValues) {
 		values.Add("legal_entity[business_name]", l.BusinessName)
 	}
 
+	if len(l.BusinessNameKana) > 0 {
+		values.Add("legal_entity[business_name_kana]", l.BusinessNameKana)
+	}
+
+	if len(l.BusinessNameKanji) > 0 {
+		values.Add("legal_entity[business_name_kanji]", l.BusinessNameKanji)
+	}
+
 	if len(l.First) > 0 {
 		values.Add("legal_entity[first_name]", l.First)
 	}
 
+	if len(l.FirstKana) > 0 {
+		values.Add("legal_entity[first_name_kana]", l.FirstKana)
+	}
+
+	if len(l.FirstKanji) > 0 {
+		values.Add("legal_entity[first_name_kanji]", l.FirstKanji)
+	}
+
+	if len(l.Gender) > 0 {
+		values.Add("legal_entity[gender]", string(l.Gender))
+	}
+
 	if len(l.Last) > 0 {
 		values.Add("legal_entity[last_name]", l.Last)
+	}
+
+	if len(l.LastKana) > 0 {
+		values.Add("legal_entity[last_name_kana]", l.LastKana)
+	}
+
+	if len(l.LastKanji) > 0 {
+		values.Add("legal_entity[last_name_kanji]", l.LastKanji)
+	}
+
+	if len(l.MaidenName) > 0 {
+		values.Add("legal_entity[maiden_name]", l.MaidenName)
 	}
 
 	values.Add("legal_entity[dob][day]", strconv.Itoa(l.DOB.Day))
@@ -302,6 +385,10 @@ func (l *LegalEntity) AppendDetails(values *RequestValues) {
 		values.Add("legal_entity[personal_id_number]", l.PersonalID)
 	}
 
+	if len(l.PhoneNumber) > 0 {
+		values.Add("legal_entity[phone_number]", l.PhoneNumber)
+	}
+
 	if len(l.BusinessTaxID) > 0 {
 		values.Add("legal_entity[business_tax_id]", l.BusinessTaxID)
 	}
@@ -310,53 +397,13 @@ func (l *LegalEntity) AppendDetails(values *RequestValues) {
 		values.Add("legal_entity[business_vat_id]", l.BusinessVatID)
 	}
 
-	if len(l.Address.Line1) > 0 {
-		values.Add("legal_entity[address][line1]", l.Address.Line1)
-	}
+	l.Address.AppendDetails(values, "legal_entity[address]")
+	l.AddressKana.AppendDetails(values, "legal_entity[address_kana]")
+	l.AddressKanji.AppendDetails(values, "legal_entity[address_kanji]")
 
-	if len(l.Address.Line2) > 0 {
-		values.Add("legal_entity[address][line2]", l.Address.Line2)
-	}
-
-	if len(l.Address.City) > 0 {
-		values.Add("legal_entity[address][city]", l.Address.City)
-	}
-
-	if len(l.Address.State) > 0 {
-		values.Add("legal_entity[address][state]", l.Address.State)
-	}
-
-	if len(l.Address.Zip) > 0 {
-		values.Add("legal_entity[address][postal_code]", l.Address.Zip)
-	}
-
-	if len(l.Address.Country) > 0 {
-		values.Add("legal_entity[address][country]", l.Address.Country)
-	}
-
-	if len(l.PersonalAddress.Line1) > 0 {
-		values.Add("legal_entity[personal_address][line1]", l.PersonalAddress.Line1)
-	}
-
-	if len(l.PersonalAddress.Line2) > 0 {
-		values.Add("legal_entity[personal_address][line2]", l.PersonalAddress.Line2)
-	}
-
-	if len(l.PersonalAddress.City) > 0 {
-		values.Add("legal_entity[personal_address][city]", l.PersonalAddress.City)
-	}
-
-	if len(l.PersonalAddress.State) > 0 {
-		values.Add("legal_entity[personal_address][state]", l.PersonalAddress.State)
-	}
-
-	if len(l.PersonalAddress.Zip) > 0 {
-		values.Add("legal_entity[personal_address][postal_code]", l.PersonalAddress.Zip)
-	}
-
-	if len(l.PersonalAddress.Country) > 0 {
-		values.Add("legal_entity[personal_address][country]", l.PersonalAddress.Country)
-	}
+	l.PersonalAddress.AppendDetails(values, "legal_entity[personal_address]")
+	l.PersonalAddressKana.AppendDetails(values, "legal_entity[personal_address_kana]")
+	l.PersonalAddressKanji.AppendDetails(values, "legal_entity[personal_address_kanji]")
 
 	for i, owner := range l.AdditionalOwners {
 		if len(owner.First) > 0 {
@@ -371,29 +418,7 @@ func (l *LegalEntity) AppendDetails(values *RequestValues) {
 		values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][month]", i), strconv.Itoa(owner.DOB.Month))
 		values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][year]", i), strconv.Itoa(owner.DOB.Year))
 
-		if len(owner.Address.Line1) > 0 {
-			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][line1]", i), owner.Address.Line1)
-		}
-
-		if len(owner.Address.Line2) > 0 {
-			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][line2]", i), owner.Address.Line2)
-		}
-
-		if len(owner.Address.City) > 0 {
-			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][city]", i), owner.Address.City)
-		}
-
-		if len(owner.Address.State) > 0 {
-			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][state]", i), owner.Address.State)
-		}
-
-		if len(owner.Address.Zip) > 0 {
-			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][postal_code]", i), owner.Address.Zip)
-		}
-
-		if len(owner.Address.Country) > 0 {
-			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][address][country]", i), owner.Address.Country)
-		}
+		owner.Address.AppendDetails(values, fmt.Sprintf("legal_entity[additional_owners][%v][address]", i))
 	}
 }
 
