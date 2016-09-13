@@ -288,8 +288,6 @@ type Owner struct {
 	Last         string               `json:"last_name"`
 	DOB          DOB                  `json:"dob"`
 	Address      Address              `json:"address"`
-	AddressKana  Address              `json:"address_kana"`
-	AddressKanji Address              `json:"address_kanji"`
 	Verification IdentityVerification `json:"verification"`
 }
 
@@ -421,8 +419,6 @@ func (l *LegalEntity) AppendDetails(values *RequestValues) {
 		values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][year]", i), strconv.Itoa(owner.DOB.Year))
 
 		owner.Address.AppendDetails(values, fmt.Sprintf("legal_entity[additional_owners][%v][address]", i))
-		owner.AddressKana.AppendDetails(values, fmt.Sprintf("legal_entity[additional_owners][%v][address_kana]", i))
-		owner.AddressKanji.AppendDetails(values, fmt.Sprintf("legal_entity[additional_owners][%v][address_kanji]", i))
 	}
 }
 
