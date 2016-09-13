@@ -1,3 +1,7 @@
+17.4.0 2016-09-13
+	Add missing Kana and Kanji address and name fields to account's legal entity
+	Add `ReceiptNumber` and `Status` to `Refund`
+
 17.3.0 2016-09-07
 	Add support for sources endpoint
 
