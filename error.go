@@ -57,7 +57,7 @@ type Error struct {
 }
 
 // Error serializes the error object to JSON and returns it as a string.
-func (e *Error) Error() string {
+func (e Error) Error() string {
 	ret, _ := json.Marshal(e)
 	return string(ret)
 }
@@ -68,7 +68,7 @@ type APIConnectionError struct {
 }
 
 // Error serializes the error object to JSON and returns it as a string.
-func (e *APIConnectionError) Error() string {
+func (e APIConnectionError) Error() string {
 	return e.stripeErr.Error()
 }
 
@@ -79,7 +79,7 @@ type APIError struct {
 }
 
 // Error serializes the error object to JSON and returns it as a string.
-func (e *APIError) Error() string {
+func (e APIError) Error() string {
 	return e.stripeErr.Error()
 }
 
@@ -89,7 +89,7 @@ type AuthenticationError struct {
 }
 
 // Error serializes the error object to JSON and returns it as a string.
-func (e *AuthenticationError) Error() string {
+func (e AuthenticationError) Error() string {
 	return e.stripeErr.Error()
 }
 
@@ -102,7 +102,7 @@ type CardError struct {
 }
 
 // Error serializes the error object to JSON and returns it as a string.
-func (e *CardError) Error() string {
+func (e CardError) Error() string {
 	return e.stripeErr.Error()
 }
 
@@ -113,7 +113,7 @@ type InvalidRequestError struct {
 }
 
 // Error serializes the error object to JSON and returns it as a string.
-func (e *InvalidRequestError) Error() string {
+func (e InvalidRequestError) Error() string {
 	return e.stripeErr.Error()
 }
 
@@ -124,6 +124,6 @@ type RateLimitError struct {
 }
 
 // Error serializes the error object to JSON and returns it as a string.
-func (e *RateLimitError) Error() string {
+func (e RateLimitError) Error() string {
 	return e.stripeErr.Error()
 }
