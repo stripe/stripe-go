@@ -327,7 +327,9 @@ type AccountRejectParams struct {
 
 // AppendDetails adds the legal entity to the query string.
 func (l *LegalEntity) AppendDetails(values *RequestValues) {
-	values.Add("legal_entity[type]", string(l.Type))
+	if len(l.Type) > 0 {
+		values.Add("legal_entity[type]", string(l.Type))
+	}
 
 	if len(l.BusinessName) > 0 {
 		values.Add("legal_entity[business_name]", l.BusinessName)
@@ -373,9 +375,17 @@ func (l *LegalEntity) AppendDetails(values *RequestValues) {
 		values.Add("legal_entity[maiden_name]", l.MaidenName)
 	}
 
-	values.Add("legal_entity[dob][day]", strconv.Itoa(l.DOB.Day))
-	values.Add("legal_entity[dob][month]", strconv.Itoa(l.DOB.Month))
-	values.Add("legal_entity[dob][year]", strconv.Itoa(l.DOB.Year))
+	if l.DOB.Day > 0 {
+		values.Add("legal_entity[dob][day]", strconv.Itoa(l.DOB.Day))
+	}
+
+	if l.DOB.Month > 0 {
+		values.Add("legal_entity[dob][month]", strconv.Itoa(l.DOB.Month))
+	}
+
+	if l.DOB.Year > 0 {
+		values.Add("legal_entity[dob][year]", strconv.Itoa(l.DOB.Year))
+	}
 
 	if len(l.SSN) > 0 {
 		values.Add("legal_entity[ssn_last_4]", l.SSN)
@@ -414,9 +424,17 @@ func (l *LegalEntity) AppendDetails(values *RequestValues) {
 			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][last_name]", i), owner.Last)
 		}
 
-		values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][day]", i), strconv.Itoa(owner.DOB.Day))
-		values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][month]", i), strconv.Itoa(owner.DOB.Month))
-		values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][year]", i), strconv.Itoa(owner.DOB.Year))
+		if owner.DOB.Day > 0 {
+			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][day]", i), strconv.Itoa(owner.DOB.Day))
+		}
+
+		if owner.DOB.Month > 0 {
+			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][month]", i), strconv.Itoa(owner.DOB.Month))
+		}
+
+		if owner.DOB.Year > 0 {
+			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][year]", i), strconv.Itoa(owner.DOB.Year))
+		}
 
 		owner.Address.AppendDetails(values, fmt.Sprintf("legal_entity[additional_owners][%v][address]", i))
 	}

@@ -238,6 +238,45 @@ func TestAccountUpdate(t *testing.T) {
 	}
 }
 
+func TestAccountUpdateLegalEntity(t *testing.T) {
+	params := &stripe.AccountParams{
+		Managed: true,
+		Country: "CA",
+		LegalEntity: &stripe.LegalEntity{
+			Address: stripe.Address{
+				Country: "CA",
+				City:    "Montreal",
+				Zip:     "H2Y 1C6",
+				Line1:   "275, rue Notre-Dame Est",
+				State:   "QC",
+			},
+		},
+	}
+
+	acct, err := New(params)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	params = &stripe.AccountParams{
+		LegalEntity: &stripe.LegalEntity{
+			Address: stripe.Address{
+				Line1: "321, rue Notre-Dame Est",
+			},
+		},
+	}
+
+	acct, err = Update(acct.ID, params)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if acct.LegalEntity.Address.Line1 != params.LegalEntity.Address.Line1 {
+		t.Errorf("The account address line1 %v does not match the params address line1: %v", acct.LegalEntity.Address.Line1, params.LegalEntity.Address.Line1)
+	}
+}
+
 func TestAccountUpdateWithBankAccount(t *testing.T) {
 	params := &stripe.AccountParams{
 		Managed: true,
