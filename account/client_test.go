@@ -273,7 +273,7 @@ func TestAccountUpdateLegalEntity(t *testing.T) {
 	}
 
 	if acct.LegalEntity.Address.Line1 != params.LegalEntity.Address.Line1 {
-		t.Error("The account address line1 %s does not match the params address line1: %s", acct.LegalEntity.Address.Line1, params.LegalEntity.Address.Line1)
+		t.Errorf("The account address line1 %v does not match the params address line1: %v", acct.LegalEntity.Address.Line1, params.LegalEntity.Address.Line1)
 	}
 }
 
