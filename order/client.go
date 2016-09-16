@@ -108,6 +108,7 @@ func (c Client) Update(id string, params *stripe.OrderUpdateParams) (*stripe.Ord
 
 	if params != nil {
 		body = &stripe.RequestValues{}
+		commonParams = &params.Params
 
 		if params.Coupon != "" {
 			body.Add("coupon", params.Coupon)
