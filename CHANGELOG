@@ -1,3 +1,6 @@
+17.4.2 2016-09-19
+	Fix but where some parameters were not being included on order update
+
 17.4.1 2016-09-15
 	Fix bug that required a date of birth to be included on account update
 
