@@ -1,3 +1,6 @@
+17.5.0 2016-09-22
+	Support customer-related operations for bank accounts
+
 17.4.2 2016-09-19
 	Fix but where some parameters were not being included on order update
 
