@@ -32,7 +32,14 @@ type BankAccountParams struct {
 // BankAccountListParams is the set of parameters that can be used when listing bank accounts.
 type BankAccountListParams struct {
 	ListParams
+
+	// The identifier of the parent account under which the bank accounts are
+	// nested. Either AccountID or Customer should be populated.
 	AccountID string
+
+	// The identifier of the parent customer under which the bank accounts are
+	// nested. Either AccountID or Customer should be populated.
+	Customer string
 }
 
 // BankAccount represents a Stripe bank account.
