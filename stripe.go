@@ -256,7 +256,7 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 				Logger.Printf("Request to Stripe failed: %v\n", err)
 			}
 		} else {
-			if res.StatusCode < 400 {
+			if res.StatusCode != 429 && res.StatusCode < 500 {
 				break
 			}
 		}
