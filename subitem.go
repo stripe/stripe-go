@@ -5,11 +5,12 @@ package stripe
 type SubItemParams struct {
 	Params
 	Sub                     string
-	Quantity                int64
-	Currency                Currency
+	ID                      string
+	Quantity                uint64
 	Plan                    string
 	ProrationDate           int64
 	NoProrate, QuantityZero bool
+	Deleted                 bool
 }
 
 // SubItemListParams is the set of parameters that can be used when listing invoice items.

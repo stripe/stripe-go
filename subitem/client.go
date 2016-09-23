@@ -37,9 +37,6 @@ func (c Client) New(params *stripe.SubItemParams) (*stripe.Sub, error) {
 		} else if params.QuantityZero {
 			body.Add("quantity", "0")
 		}
-		if len(params.Currency) > 0 {
-			body.Add("currency", params.Currency)
-		}
 
 		commonParams = &params.Params
 		params.AppendTo(body)
