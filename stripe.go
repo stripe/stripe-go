@@ -262,7 +262,7 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 		}
 
 		if LogLevel > 0 {
-			Logger.Printf("Retrying request to Stripe: %v\n", *req.URL)
+			Logger.Printf("Retrying request to Stripe: %v\n-- err: %v, statusCode %d", *req.URL, err, res.StatusCode)
 		}
 
 		backoff.Sleep(i)
