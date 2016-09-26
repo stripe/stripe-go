@@ -20,7 +20,7 @@ func New(params *stripe.SubItemParams) (*stripe.SubItem, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *stripe.SubItemParams) (*stripe.Sub, error) {
+func (c Client) New(params *stripe.SubItemParams) (*stripe.SubItem, error) {
 	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 	token := c.Key
@@ -43,7 +43,7 @@ func (c Client) New(params *stripe.SubItemParams) (*stripe.Sub, error) {
 	}
 
 	item := &stripe.SubItem{}
-	err := c.B.Call("POST", "/subscriptions_items", token, body, commonParams, item)
+	err := c.B.Call("POST", "/subscription_items", token, body, commonParams, item)
 	return item, err
 }
 
@@ -64,7 +64,7 @@ func (c Client) Get(id string, params *stripe.SubItemParams) (*stripe.SubItem, e
 	}
 
 	item := &stripe.SubItem{}
-	err := c.B.Call("GET", fmt.Sprintf("/subscriptions/%v", id), c.Key, body, commonParams, item)
+	err := c.B.Call("GET", fmt.Sprintf("/subscription_items/%v", id), c.Key, body, commonParams, item)
 
 	return item, err
 }
@@ -105,16 +105,16 @@ func (c Client) Update(id string, params *stripe.SubItemParams) (*stripe.SubItem
 		params.AppendTo(body)
 	}
 
-	sub := &stripe.Sub{}
-	err := c.B.Call("POST", fmt.Sprintf("/subscriptions_items/%v", id), token, body, commonParams, sub)
+	subi := &stripe.SubItem{}
+	err := c.B.Call("POST", fmt.Sprintf("/subscription_items/%v", id), token, body, commonParams, subi)
 
-	return sub, err
+	return subi, err
 }
 
 // Cancel removes a subscription.
 // For more details see https://stripe.com/docs/api#cancel_subscription.
 func Del(id string, params *stripe.SubItemParams) (*stripe.SubItem, error) {
-	return getC().Cancel(id, params)
+	return getC().Del(id, params)
 }
 
 func (c Client) Del(id string, params *stripe.SubItemParams) (*stripe.SubItem, error) {
@@ -127,10 +127,10 @@ func (c Client) Del(id string, params *stripe.SubItemParams) (*stripe.SubItem, e
 		commonParams = &params.Params
 	}
 
-	item := &stripe.Sub{}
-	err := c.B.Call("DELETE", fmt.Sprintf("/subscriptions_item/%v", id), c.Key, body, commonParams, item)
+	item := &stripe.SubItem{}
+	err := c.B.Call("DELETE", fmt.Sprintf("/subscription_items/%v", id), c.Key, body, commonParams, item)
 
-	return sub, err
+	return item, err
 }
 
 // List returns a list of subscriptions.
@@ -163,7 +163,7 @@ func (c Client) List(params *stripe.SubListParams) *Iter {
 
 	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SubList{}
-		err := c.B.Call("GET", "/subscriptions", c.Key, b, p, list)
+		err := c.B.Call("GET", "/subscription_items", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
@@ -183,8 +183,8 @@ type Iter struct {
 
 // Sub returns the most recent Sub
 // visited by a call to Next.
-func (i *Iter) Sub() *stripe.Sub {
-	return i.Current().(*stripe.Sub)
+func (i *Iter) SubItem() *stripe.SubItem {
+	return i.Current().(*stripe.SubItem)
 }
 
 func getC() Client {

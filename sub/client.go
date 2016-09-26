@@ -46,7 +46,9 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 			}
 		}
 
-		body.Add("plan", params.Plan)
+		if len(params.Plan) > 0 {
+			body.Add("plan", params.Plan)
+		}
 
 		if len(params.Token) > 0 {
 			body.Add("card", params.Token)

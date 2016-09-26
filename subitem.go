@@ -24,9 +24,10 @@ type SubItemListParams struct {
 // For more details see https://stripe.com/docs/api#subscription_items.
 type SubItem struct {
 	ID       string `json:"id"`
-	Plan     string `json:"plan"`
-	Quantity int64  `json:"quantitiy"`
+	Plan     *Plan  `json:"plan"`
+	Quantity int64  `json:"quantity"`
 	Created  int64  `json:"created"`
+	Deleted  bool   `json:"deleted"`
 }
 
 // SubItemList is a list of invoice items as retrieved from a list endpoint.

@@ -1,15 +1,15 @@
 package subitem
 
 import (
+	"fmt"
+	"math/rand"
 	"testing"
-	"time"
 
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/coupon"
 	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/customer"
-	"github.com/stripe/stripe-go/discount"
 	"github.com/stripe/stripe-go/plan"
+	"github.com/stripe/stripe-go/sub"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -17,7 +17,7 @@ func init() {
 	stripe.Key = GetTestKey()
 }
 
-func TestSubscriptionNew(t *testing.T) {
+func createSubItem(t *testing.T) (*stripe.Sub, *stripe.SubItem, func()) {
 	customerParams := &stripe.CustomerParams{
 		Source: &stripe.SourceParams{
 			Card: &stripe.CardParams{
@@ -28,472 +28,128 @@ func TestSubscriptionNew(t *testing.T) {
 		},
 	}
 
-	cust, _ := customer.New(customerParams)
-
-	planParams := &stripe.PlanParams{
-		ID:       "test",
-		Name:     "Test Plan",
-		Amount:   99,
-		Currency: currency.USD,
-		Interval: plan.Month,
-	}
-
-	plan.New(planParams)
-
-	subParams := &stripe.SubParams{
-		Customer:           cust.ID,
-		TaxPercent:         20.0,
-		BillingCycleAnchor: time.Now().AddDate(0, 0, 12).Unix(),
-		Items:              []*stripe.SubItemList{},
-	}
-
-	target, err := New(subParams)
-
+	cust, err := customer.New(customerParams)
 	if err != nil {
-		t.Error(err)
+		t.Fatalf("customer creation: %s", err)
 	}
 
-	if target.Plan.ID != subParams.Plan {
-		t.Errorf("Plan %v does not match expected plan %v\n", target.Plan, subParams.Plan)
-	}
-
-	if target.Quantity != subParams.Quantity {
-		t.Errorf("Quantity %v does not match expected quantity %v\n", target.Quantity, subParams.Quantity)
-	}
-
-	if target.TaxPercent != subParams.TaxPercent {
-		t.Errorf("TaxPercent %f does not match expected TaxPercent %f\n", target.TaxPercent, subParams.TaxPercent)
-	}
-
-	if target.PeriodEnd != subParams.BillingCycleAnchor {
-		t.Errorf("PeriodEnd %v does not match expected BillingCycleAnchor %v\n", target.PeriodEnd, subParams.BillingCycleAnchor)
-	}
-
-	customer.Del(cust.ID)
-	plan.Del("test")
-}
-
-func TestSubscriptionZeroQuantity(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
-
-	cust, _ := customer.New(customerParams)
-
+	planID := fmt.Sprintf("test-%d", rand.Int63())
 	planParams := &stripe.PlanParams{
-		ID:       "test",
+		ID:       planID,
 		Name:     "Test Plan",
 		Amount:   99,
 		Currency: currency.USD,
 		Interval: plan.Month,
 	}
 
-	plan.New(planParams)
-
-	subParams := &stripe.SubParams{
-		Customer:       cust.ID,
-		Plan:           "test",
-		QuantityZero:   true,
-		TaxPercentZero: true,
-	}
-
-	target, err := New(subParams)
-
+	p, err := plan.New(planParams)
 	if err != nil {
-		t.Error(err)
+		t.Fatalf("plan creation: %s", err)
 	}
-
-	if target.Plan.ID != subParams.Plan {
-		t.Errorf("Plan %v does not match expected plan %v\n", target.Plan, subParams.Plan)
-	}
-
-	if target.Quantity != 0 {
-		t.Errorf("Quantity %v does not match expected quantity %v\n", target.Quantity, 0)
-	}
-
-	if target.TaxPercent != 0 {
-		t.Errorf("Tax percent %v does not match expected tax percent %v\n", target.TaxPercent, 0)
-	}
-
-	customer.Del(cust.ID)
-	plan.Del("test")
-}
-
-func TestSubscriptionUpdateZeroQuantity(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
-
-	cust, _ := customer.New(customerParams)
-
-	planParams := &stripe.PlanParams{
-		ID:       "test",
-		Name:     "Test Plan",
-		Amount:   99,
-		Currency: currency.USD,
-		Interval: plan.Month,
-	}
-
-	plan.New(planParams)
-
-	subParams := &stripe.SubParams{
-		Customer:    cust.ID,
-		Plan:        "test",
-		Quantity:    10,
-		TrialEndNow: true,
-	}
-
-	subscription, _ := New(subParams)
-	updatedSub := &stripe.SubParams{
-		NoProrate:      true,
-		QuantityZero:   true,
-		TaxPercentZero: true,
-	}
-
-	target, err := Update(subscription.ID, updatedSub)
-
-	if err != nil {
-		t.Error(err)
-	}
-
-	if target.Quantity != updatedSub.Quantity {
-		t.Errorf("Quantity %v does not match expected quantity %v\n", target.Quantity, updatedSub.Quantity)
-	}
-
-	if target.TaxPercent != updatedSub.TaxPercent {
-		t.Errorf("TaxPercent %f does not match expected tax_percent %f\n", target.TaxPercent, updatedSub.TaxPercent)
-	}
-
-	customer.Del(cust.ID)
-	plan.Del("test")
-}
-
-func TestSubscriptionGet(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
-
-	cust, _ := customer.New(customerParams)
-
-	planParams := &stripe.PlanParams{
-		ID:       "test",
-		Name:     "Test Plan",
-		Amount:   99,
-		Currency: currency.USD,
-		Interval: plan.Month,
-	}
-
-	plan.New(planParams)
 
 	subParams := &stripe.SubParams{
 		Customer: cust.ID,
-		Plan:     "test",
-		Quantity: 10,
-	}
-
-	subscription, _ := New(subParams)
-	target, err := Get(subscription.ID, nil)
-
-	if err != nil {
-		t.Error(err)
-	}
-
-	if target.ID != subscription.ID {
-		t.Errorf("Subscription id %q does not match expected id %q\n", target.ID, subscription.ID)
-	}
-
-	target, err = Get(subscription.ID, &stripe.SubParams{Customer: cust.ID})
-
-	if err != nil {
-		t.Error(err)
-	}
-
-	if target.ID != subscription.ID {
-		t.Errorf("Subscription id %q does not match expected id %q\n", target.ID, subscription.ID)
-	}
-
-	customer.Del(cust.ID)
-	plan.Del("test")
-}
-
-func TestSubscriptionCancel(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
+		Items: []*stripe.SubItemParams{
+			{
+				Plan:     p.ID,
+				Quantity: 1,
 			},
 		},
 	}
 
-	cust, _ := customer.New(customerParams)
-
-	planParams := &stripe.PlanParams{
-		ID:       "test",
-		Name:     "Test Plan",
-		Amount:   99,
-		Currency: currency.USD,
-		Interval: plan.Month,
-	}
-
-	plan.New(planParams)
-
-	subParams := &stripe.SubParams{
-		Customer: cust.ID,
-		Plan:     "test",
-		Quantity: 10,
-	}
-
-	subscription, _ := New(subParams)
-	s, err := Cancel(subscription.ID, nil)
-
+	target, err := sub.New(subParams)
 	if err != nil {
-		t.Error(err)
+		t.Fatalf("subscription creation: %s", err)
 	}
-
-	if s.Canceled == 0 {
-		t.Errorf("Subscription.Canceled %v expected to be non 0\n", s.Canceled)
+	if target.Items == nil {
+		t.Fatalf("no items for sub %s", target.ID)
 	}
-
-	subscription, _ = New(subParams)
-	s, err = Cancel(subscription.ID, &stripe.SubParams{Customer: cust.ID})
-
-	if err != nil {
-		t.Error(err)
+	if len(target.Items.Values) != 1 {
+		t.Fatalf("missing items: %#v", target)
 	}
-
-	if s.Canceled == 0 {
-		t.Errorf("Subscription.Canceled %v expected to be non 0\n", s.Canceled)
+	return target, target.Items.Values[0], func() {
+		sub.Cancel(target.ID, nil)
+		plan.Del(p.ID)
+		customer.Del(cust.ID)
 	}
-
-	customer.Del(cust.ID)
-	plan.Del("test")
 }
 
-func TestSubscriptionUpdate(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+func TestUpdateItem(t *testing.T) {
+	_, item, cleanup := createSubItem(t)
+	defer cleanup()
 
-	cust, _ := customer.New(customerParams)
-
-	planParams := &stripe.PlanParams{
-		ID:       "test",
-		Name:     "Test Plan",
-		Amount:   99,
-		Currency: currency.USD,
-		Interval: plan.Month,
-	}
-
-	plan.New(planParams)
-
-	subParams := &stripe.SubParams{
-		Customer:    cust.ID,
-		Plan:        "test",
-		Quantity:    10,
-		TrialEndNow: true,
-	}
-
-	subscription, _ := New(subParams)
-	updatedSub := &stripe.SubParams{
-		NoProrate:  true,
-		Quantity:   13,
-		TaxPercent: 20.0,
-	}
-
-	target, err := Update(subscription.ID, updatedSub)
-
+	item, err := Update(item.ID, &stripe.SubItemParams{
+		Quantity: 10,
+	})
 	if err != nil {
-		t.Error(err)
+		t.Errorf("update err: %s", err)
 	}
-
-	if target.Quantity != updatedSub.Quantity {
-		t.Errorf("Quantity %v does not match expected quantity %v\n", target.Quantity, updatedSub.Quantity)
+	if item.Quantity != 10 {
+		t.Errorf("quantity should be 10, not %d", item.Quantity)
 	}
-
-	if target.TaxPercent != updatedSub.TaxPercent {
-		t.Errorf("TaxPercent %f does not match expected tax_percent %f\n", target.TaxPercent, updatedSub.TaxPercent)
-	}
-
-	customer.Del(cust.ID)
-	plan.Del("test")
 }
 
-func TestSubscriptionDiscount(t *testing.T) {
-	couponParams := &stripe.CouponParams{
-		Duration: coupon.Forever,
-		ID:       "sub_coupon",
-		Percent:  99,
-	}
+func TestGetItem(t *testing.T) {
+	_, item, cleanup := createSubItem(t)
+	defer cleanup()
 
-	coupon.New(couponParams)
-
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
-
-	cust, _ := customer.New(customerParams)
-
-	planParams := &stripe.PlanParams{
-		ID:       "test",
-		Name:     "Test Plan",
-		Amount:   99,
-		Currency: currency.USD,
-		Interval: plan.Month,
-	}
-
-	plan.New(planParams)
-
-	subParams := &stripe.SubParams{
-		Customer: cust.ID,
-		Plan:     "test",
-		Quantity: 10,
-		Coupon:   "sub_coupon",
-	}
-
-	target, err := New(subParams)
-
+	got, err := Get(item.ID, nil)
 	if err != nil {
-		t.Error(err)
+		t.Errorf("get err: %s", err)
 	}
 
-	if target.Discount == nil {
-		t.Errorf("Discount not found, but one was expected\n")
+	if got.ID != item.ID {
+		t.Errorf("incorrect ID %s != %s", got.ID, item.ID)
 	}
-
-	if target.Discount.Coupon == nil {
-		t.Errorf("Coupon not found, but one was expected\n")
+	if got.Quantity != item.Quantity {
+		t.Errorf("incorrect quantity %d != %d", got.Quantity, item.Quantity)
 	}
-
-	if target.Discount.Coupon.ID != subParams.Coupon {
-		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.ID, subParams.Coupon)
+	if got.Created != item.Created {
+		t.Errorf("incorrect created %d != %d", got.Created, item.Created)
 	}
-
-	_, err = discount.DelSub(target.ID)
-
-	if err != nil {
-		t.Error(err)
-	}
-
-	target, err = Get(target.ID, nil)
-
-	if err != nil {
-		t.Error(err)
-	}
-
-	if target.Discount != nil {
-		t.Errorf("A discount %v was found, but was expected to have been deleted\n", target.Discount)
-	}
-
-	customer.Del(cust.ID)
-	plan.Del("test")
-	coupon.Del("sub_coupon")
 }
 
-func TestSubscriptionList(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+func TestListItems(t *testing.T) {
+	sub, _, cleanup := createSubItem(t)
+	defer cleanup()
 
-	cust, _ := customer.New(customerParams)
-
+	// Create a new plan
+	planID := fmt.Sprintf("test-%d", rand.Int63())
 	planParams := &stripe.PlanParams{
-		ID:       "test",
-		Name:     "Test Plan",
-		Amount:   99,
+		ID:       planID,
+		Name:     "Expensive plan",
+		Amount:   1000,
 		Currency: currency.USD,
 		Interval: plan.Month,
 	}
+	p, err := plan.New(planParams)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer plan.Del(p.ID)
 
-	plan.New(planParams)
-
-	subParams := &stripe.SubParams{
-		Customer: cust.ID,
-		Plan:     "test",
-		Quantity: 10,
+	item, err := New(&stripe.SubItemParams{
+		Sub:      sub.ID,
+		Plan:     p.ID,
+		Quantity: 2,
+	})
+	if err != nil {
+		t.Errorf("new err: %s", err)
+	}
+	if item.Quantity != 2 {
+		t.Errorf("quantity should be 2 after update, not %d", item.Quantity)
 	}
 
-	for i := 0; i < 5; i++ {
-		New(subParams)
-	}
-
-	params := &stripe.SubListParams{Customer: cust.ID, Plan: "test"}
-	params.Filters.AddFilter("limit", "", "3")
-	i := List(params)
-
-	for i.Next() {
-		if i.Sub() == nil {
-			t.Error("No nil values expected")
+	if item.ID != "" {
+		item, err := Del(item.ID, nil)
+		if err != nil {
+			t.Errorf("del err: %s", err)
 		}
-
-		if i.Meta() == nil {
-			t.Error("No metadata returned")
-		}
-
-		if i.Sub().Customer.ID != cust.ID {
-			t.Errorf("Expected customer %v not %v", cust.ID, i.Sub().Customer.ID)
-		}
-
-		if i.Sub().Plan.ID != "test" {
-			t.Errorf("Expected plan test not %v", i.Sub().Plan.ID)
+		if !item.Deleted {
+			t.Errorf("item should be deleted %#v", item)
 		}
 	}
+}
 
-	if err := i.Err(); err != nil {
-		t.Error(err)
-	}
-
-	i = List(nil)
-	for i.Next() {
-		if i.Sub() == nil {
-			t.Error("No nil values expected")
-		}
-
-		if i.Meta() == nil {
-			t.Error("No metadata returned")
-		}
-	}
-	if err := i.Err(); err != nil {
-		t.Error(err)
-	}
-
-	customer.Del(cust.ID)
-	plan.Del("test")
+func TestCreateAndDelItem(t *testing.T) {
 }
