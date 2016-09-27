@@ -38,10 +38,15 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 		body.Add("customer", params.Customer)
 
 		if len(params.Items) > 0 {
-			for _, item := range params.Items {
-				body.Add("items[][plan]", item.Plan)
+			for i, item := range params.Items {
+				key := fmt.Sprintf("items[%d]", i)
+				if len(item.Plan) > 0 {
+					body.Add(key+"[plan]", item.Plan)
+				}
 				if item.Quantity > 0 {
-					body.Add("items[][quantity]", strconv.FormatUint(item.Quantity, 10))
+					body.Add(key+"[quantity]", strconv.FormatUint(item.Quantity, 10))
+				} else if item.QuantityZero {
+					body.Add(key+"[quantity]", "0")
 				}
 			}
 		}
@@ -136,19 +141,24 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 		body = &stripe.RequestValues{}
 
 		if len(params.Items) > 0 {
-			for _, item := range params.Items {
-				body.Add("items[][id]", item.ID)
+			for i, item := range params.Items {
+				key := fmt.Sprintf("items[%d]", i)
+				if len(item.ID) > 0 {
+					body.Add(key+"[id]", item.ID)
+				}
 				if len(item.Plan) > 0 {
-					body.Add("items[][plan]", item.Plan)
+					body.Add(key+"[plan]", item.Plan)
 				}
 				if item.Quantity > 0 {
-					body.Add("items[][quantity]", strconv.FormatUint(item.Quantity, 10))
+					body.Add(key+"[quantity]", strconv.FormatUint(item.Quantity, 10))
+				} else if item.QuantityZero {
+					body.Add(key+"[quantity]", "0")
 				}
 				if item.NoProrate {
-					body.Add("items[][prorate]", strconv.FormatBool(false))
+					body.Add(key+"[prorate]", strconv.FormatBool(false))
 				}
 				if item.ProrationDate > 0 {
-					body.Add("items[][proration_date]", strconv.FormatInt(item.ProrationDate, 10))
+					body.Add(key+"[proration_date]", strconv.FormatInt(item.ProrationDate, 10))
 				}
 			}
 		}
