@@ -68,7 +68,7 @@ func TestSubscriptionCreateUpdateWithItems(t *testing.T) {
 	}
 
 	if len(target.Items.Values) != 1 {
-		t.Fatalf("Items should be length 1, not \n", len(target.Items.Values))
+		t.Fatalf("Items should be length 1, not %d\n", len(target.Items.Values))
 	}
 
 	item := target.Items.Values[0]
@@ -96,7 +96,7 @@ func TestSubscriptionCreateUpdateWithItems(t *testing.T) {
 	}
 
 	if len(target.Items.Values) != 1 {
-		t.Fatalf("Items should be length 1, not \n", len(target.Items.Values))
+		t.Fatalf("Items should be length 1, not %d\n", len(target.Items.Values))
 	}
 
 	item = target.Items.Values[0]
@@ -144,7 +144,7 @@ func TestSubscriptionCreateZeroQuantityWithItems(t *testing.T) {
 	}
 
 	if len(target.Items.Values) != 1 {
-		t.Fatalf("Items should be length 1, not \n", len(target.Items.Values))
+		t.Fatalf("Items should be length 1, not %d\n", len(target.Items.Values))
 	}
 
 	item := target.Items.Values[0]
