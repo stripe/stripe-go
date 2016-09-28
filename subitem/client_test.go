@@ -172,6 +172,6 @@ func TestCreateAndDelItem(t *testing.T) {
 		t.Errorf("create err: %s", err)
 	}
 	if !item.Deleted {
-		t.Errorf("item should be deleted", item.Deleted)
+		t.Error("item should be deleted")
 	}
 }
