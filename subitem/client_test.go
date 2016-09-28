@@ -152,4 +152,26 @@ func TestListItems(t *testing.T) {
 }
 
 func TestCreateAndDelItem(t *testing.T) {
+	sub, item, cleanup := createSubItem(t)
+	defer cleanup()
+
+	item, err := New(&stripe.SubItemParams{
+		Sub:      sub.ID,
+		Plan:     item.Plan.ID,
+		Quantity: 1,
+	})
+	if err != nil {
+		t.Errorf("create err: %s", err)
+	}
+	if item.Quantity != 1 {
+		t.Errorf("quantity should be 1, not %d", item.Quantity)
+	}
+
+	item, err = Del(item.ID, nil)
+	if err != nil {
+		t.Errorf("create err: %s", err)
+	}
+	if !item.Deleted {
+		t.Errorf("item should be deleted", item.Deleted)
+	}
 }
