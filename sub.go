@@ -21,6 +21,7 @@ type SubParams struct {
 	NoProrate, EndCancel, QuantityZero, TrialEndNow bool
 	BillingCycleAnchor                              int64
 	BillingCycleAnchorNow                           bool
+	Items                                           []*SubItemParams
 }
 
 // SubListParams is the set of parameters that can be used when listing active subscriptions.
@@ -52,6 +53,7 @@ type Sub struct {
 	TaxPercent  float64           `json:"tax_percent"`
 	TrialEnd    int64             `json:"trial_end"`
 	TrialStart  int64             `json:"trial_start"`
+	Items       *SubItemList      `json:"items"`
 }
 
 // SubList is a list object for subscriptions.
