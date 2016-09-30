@@ -24,8 +24,8 @@ type SubParams struct {
 	Items                                           []*SubItemsParams
 }
 
-// SubItemsParams is the set of parameters that can be used when creating or updating a subscription item.
-// For more details see https://stripe.com/docs/api#create_subscription_item and https://stripe.com/docs/api#update_subscription_item.
+// SubItemsParams is the set of parameters that can be used when creating or updating a subscription item on a subscription
+// For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubItemsParams struct {
 	Params
 	ID                    string
