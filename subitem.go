@@ -25,7 +25,7 @@ type SubItemListParams struct {
 type SubItem struct {
 	ID       string `json:"id"`
 	Plan     *Plan  `json:"plan"`
-	Quantity int64  `json:"quantity"`
+	Quantity uint64 `json:"quantity"`
 	Created  int64  `json:"created"`
 	Deleted  bool   `json:"deleted"`
 }
