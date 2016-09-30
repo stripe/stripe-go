@@ -54,7 +54,7 @@ func TestSubscriptionCreateUpdateWithItems(t *testing.T) {
 	// Create
 	subParams := &stripe.SubParams{
 		Customer: cust.ID,
-		Items: []*stripe.SubItemParams{
+		Items: []*stripe.SubItemsParams{
 			{
 				Plan:     p.ID,
 				Quantity: 1,
@@ -82,7 +82,7 @@ func TestSubscriptionCreateUpdateWithItems(t *testing.T) {
 
 	// Update
 	subParams = &stripe.SubParams{
-		Items: []*stripe.SubItemParams{
+		Items: []*stripe.SubItemsParams{
 			{
 				ID:       item.ID,
 				Quantity: 2,
@@ -106,7 +106,7 @@ func TestSubscriptionCreateUpdateWithItems(t *testing.T) {
 
 	// Update with zero
 	subParams = &stripe.SubParams{
-		Items: []*stripe.SubItemParams{
+		Items: []*stripe.SubItemsParams{
 			{
 				ID:           item.ID,
 				QuantityZero: true,
@@ -130,7 +130,7 @@ func TestSubscriptionCreateZeroQuantityWithItems(t *testing.T) {
 
 	subParams := &stripe.SubParams{
 		Customer: cust.ID,
-		Items: []*stripe.SubItemParams{
+		Items: []*stripe.SubItemsParams{
 			{
 				Plan:         p.ID,
 				QuantityZero: true,

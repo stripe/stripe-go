@@ -154,12 +154,6 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 				} else if item.QuantityZero {
 					body.Add(key+"[quantity]", "0")
 				}
-				if item.NoProrate {
-					body.Add(key+"[prorate]", strconv.FormatBool(false))
-				}
-				if item.ProrationDate > 0 {
-					body.Add(key+"[proration_date]", strconv.FormatInt(item.ProrationDate, 10))
-				}
 			}
 		}
 

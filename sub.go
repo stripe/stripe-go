@@ -21,7 +21,17 @@ type SubParams struct {
 	NoProrate, EndCancel, QuantityZero, TrialEndNow bool
 	BillingCycleAnchor                              int64
 	BillingCycleAnchorNow                           bool
-	Items                                           []*SubItemParams
+	Items                                           []*SubItemsParams
+}
+
+// SubItemsParams is the set of parameters that can be used when creating or updating a subscription item.
+// For more details see https://stripe.com/docs/api#create_subscription_item and https://stripe.com/docs/api#update_subscription_item.
+type SubItemsParams struct {
+	Params
+	ID                    string
+	Quantity              uint64
+	Plan                  string
+	Deleted, QuantityZero bool
 }
 
 // SubListParams is the set of parameters that can be used when listing active subscriptions.

@@ -49,7 +49,7 @@ func createSubItem(t *testing.T) (*stripe.Sub, *stripe.SubItem, func()) {
 
 	subParams := &stripe.SubParams{
 		Customer: cust.ID,
-		Items: []*stripe.SubItemParams{
+		Items: []*stripe.SubItemsParams{
 			{
 				Plan:     p.ID,
 				Quantity: 1,
