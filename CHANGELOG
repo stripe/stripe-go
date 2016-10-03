@@ -1,3 +1,8 @@
+18.0.0 2016-10-03
+	Support for subscription items
+	Correct `SourceTx` on `Transfer` to be a `SourceTransaction`
+	Change `Charge` on `Resource` to be expandable (now a struct instead of string)
+
 17.5.0 2016-09-22
 	Support customer-related operations for bank accounts
 
