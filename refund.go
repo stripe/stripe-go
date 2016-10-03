@@ -35,7 +35,7 @@ type Refund struct {
 	Created       int64             `json:"created"`
 	Currency      Currency          `json:"currency"`
 	Tx            *Transaction      `json:"balance_transaction"`
-	Charge        string            `json:"charge"`
+	Charge        *Charge           `json:"charge"`
 	Meta          map[string]string `json:"metadata"`
 	Reason        RefundReason      `json:"reason"`
 	ReceiptNumber string            `json:"receipt_number"`
