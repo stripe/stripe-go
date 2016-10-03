@@ -10,7 +10,6 @@ type SubItemParams struct {
 	Plan                    string
 	ProrationDate           int64
 	NoProrate, QuantityZero bool
-	Deleted                 bool
 }
 
 // SubItemListParams is the set of parameters that can be used when listing invoice items.
