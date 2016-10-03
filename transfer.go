@@ -92,7 +92,7 @@ type Transfer struct {
 	Statement      string              `json:"statement_descriptor"`
 	Reversals      *ReversalList       `json:"reversals"`
 	Reversed       bool                `json:"reversed"`
-	SourceTx       *Transaction        `json:"source_transaction"`
+	SourceTx       *TransactionSource  `json:"source_transaction"`
 	SourceType     TransferSourceType  `json:"source_type"`
 }
 
