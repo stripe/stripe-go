@@ -1,3 +1,6 @@
+18.1.0 2016-10-04
+	Support for Apple Pay domains
+
 18.0.0 2016-10-03
 	Support for subscription items
 	Correct `SourceTx` on `Transfer` to be a `SourceTransaction`
