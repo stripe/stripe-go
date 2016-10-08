@@ -102,6 +102,7 @@ type Account struct {
 	BusinessName         string               `json:"business_name"`
 	BusinessPrimaryColor string               `json:"business_primary_color"`
 	BusinessUrl          string               `json:"business_url"`
+	BusinessLogo         string               `json:"business_logo"`
 	SupportPhone         string               `json:"support_phone"`
 	SupportEmail         string               `json:"support_email"`
 	SupportUrl           string               `json:"support_url"`

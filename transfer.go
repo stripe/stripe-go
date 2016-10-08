@@ -71,30 +71,30 @@ type TransferListParams struct {
 // Transfer is the resource representing a Stripe transfer.
 // For more details see https://stripe.com/docs/api#transfers.
 type Transfer struct {
-	ID                 string              `json:"id"`
-	Live               bool                `json:"livemode"`
-	Amount             int64               `json:"amount"`
-	AmountReversed     int64               `json:"amount_reversed"`
-	Currency           Currency            `json:"currency"`
-	Created            int64               `json:"created"`
-	Date               int64               `json:"date"`
-	Desc               string              `json:"description"`
-	Dest               TransferDestination `json:"destination"`
-	FailCode           TransferFailCode    `json:"failure_code"`
-	FailMsg            string              `json:"failure_message"`
-	Status             TransferStatus      `json:"status"`
-	Type               TransferType        `json:"type"`
-	Tx                 *Transaction        `json:"balance_transaction"`
-	Meta               map[string]string   `json:"metadata"`
-	Bank               *BankAccount        `json:"bank_account"`
-	Card               *Card               `json:"card"`
-	Recipient          *Recipient          `json:"recipient"`
-	Statement          string              `json:"statement_descriptor"`
-	Reversals          *ReversalList       `json:"reversals"`
-	Reversed           bool                `json:"reversed"`
-	SourceTx           *TransactionSource  `json:"source_transaction"`
-	SourceType         TransferSourceType  `json:"source_type"`
-	DestinationPayment string              `json:"destination_payment"`
+	ID             string              `json:"id"`
+	Live           bool                `json:"livemode"`
+	Amount         int64               `json:"amount"`
+	AmountReversed int64               `json:"amount_reversed"`
+	Currency       Currency            `json:"currency"`
+	Created        int64               `json:"created"`
+	Date           int64               `json:"date"`
+	Desc           string              `json:"description"`
+	Dest           TransferDestination `json:"destination"`
+	FailCode       TransferFailCode    `json:"failure_code"`
+	FailMsg        string              `json:"failure_message"`
+	Status         TransferStatus      `json:"status"`
+	Type           TransferType        `json:"type"`
+	Tx             *Transaction        `json:"balance_transaction"`
+	Meta           map[string]string   `json:"metadata"`
+	Bank           *BankAccount        `json:"bank_account"`
+	Card           *Card               `json:"card"`
+	Recipient      *Recipient          `json:"recipient"`
+	Statement      string              `json:"statement_descriptor"`
+	Reversals      *ReversalList       `json:"reversals"`
+	Reversed       bool                `json:"reversed"`
+	SourceTx       *TransactionSource  `json:"source_transaction"`
+	SourceType     TransferSourceType  `json:"source_type"`
+	DestPayment    string              `json:"destination_payment"`
 }
 
 // TransferList is a list of transfers as retrieved from a list endpoint.
