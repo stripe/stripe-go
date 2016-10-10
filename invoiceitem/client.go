@@ -39,6 +39,8 @@ func (c Client) New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 
 	if params.Discountable {
 		body.Add("discountable", strconv.FormatBool(true))
+	} else if params.NoDiscountable {
+		body.Add("discountable", strconv.FormatBool(false))
 	}
 
 	params.AppendTo(body)
