@@ -11,6 +11,7 @@ type InvoiceItemParams struct {
 	Currency           Currency
 	Invoice, Desc, Sub string
 	Discountable       bool
+	NoDiscountable     bool
 }
 
 // InvoiceItemListParams is the set of parameters that can be used when listing invoice items.
