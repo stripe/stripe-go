@@ -94,6 +94,7 @@ type Transfer struct {
 	Reversed       bool                `json:"reversed"`
 	SourceTx       *TransactionSource  `json:"source_transaction"`
 	SourceType     TransferSourceType  `json:"source_type"`
+	DestPayment    string              `json:"destination_payment"`
 }
 
 // TransferList is a list of transfers as retrieved from a list endpoint.
