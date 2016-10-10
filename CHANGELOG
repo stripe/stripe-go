@@ -1,3 +1,6 @@
+18.3.0 2016-10-10
+	Add `NoDiscountable` to `InvoiceItemParams`
+
 18.2.0 2016-10-10
 	Add `BusinessLogo` to `Account`
 	Add `ReceiptNumber` to `Charge`
