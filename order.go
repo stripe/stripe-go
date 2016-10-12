@@ -77,6 +77,7 @@ type DeliveryEstimate struct {
 type Order struct {
 	ID                     string            `json:"id"`
 	Amount                 int64             `json:"amount"`
+	AmountReturned         int64             `json:"amount_returned"`
 	Application            string            `json:"application"`
 	ApplicationFee         int64             `json:"application_fee"`
 	Charge                 Charge            `json:"charge"`
@@ -85,6 +86,7 @@ type Order struct {
 	Customer               Customer          `json:"customer"`
 	Email                  string            `json:"email"`
 	Items                  []OrderItem       `json:"items"`
+	Live                   bool              `json:"livemode"`
 	Meta                   map[string]string `json:"metadata"`
 	Returns                *OrderReturnList  `json:"returns"`
 	SelectedShippingMethod *string           `json:"selected_shipping_method"`
@@ -92,8 +94,6 @@ type Order struct {
 	ShippingMethods        []ShippingMethod  `json:"shipping_methods"`
 	Status                 OrderStatus       `json:"status"`
 	Updated                int64             `json:"updated"`
-	AmountReturned         int64             `json:"amount_returned"`
-	Live                   bool              `json:"livemode"`
 }
 
 // OrderList is a list of orders as retrieved from a list endpoint.
