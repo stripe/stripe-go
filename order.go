@@ -92,6 +92,8 @@ type Order struct {
 	ShippingMethods        []ShippingMethod  `json:"shipping_methods"`
 	Status                 OrderStatus       `json:"status"`
 	Updated                int64             `json:"updated"`
+	AmountReturned         int64             `json:"amount_returned"`
+	Live                   bool              `json:"livemode"`
 }
 
 // OrderList is a list of orders as retrieved from a list endpoint.
