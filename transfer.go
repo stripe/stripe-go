@@ -52,11 +52,11 @@ type TransferDestination struct {
 // For more details see https://stripe.com/docs/api#create_transfer and https://stripe.com/docs/api#update_transfer.
 type TransferParams struct {
 	Params
-	Amount                                                 int64
-	Fee                                                    uint64
-	Currency                                               Currency
-	Recipient, Desc, Statement, Bank, Card, SourceTx, Dest string
-	SourceType                                             TransferSourceType
+	Amount                                                                int64
+	Fee                                                                   uint64
+	Currency                                                              Currency
+	Recipient, TransferGroup, Desc, Statement, Bank, Card, SourceTx, Dest string
+	SourceType                                                            TransferSourceType
 }
 
 // TransferListParams is the set of parameters that can be used when listing transfers.
@@ -95,6 +95,7 @@ type Transfer struct {
 	SourceTx       *TransactionSource  `json:"source_transaction"`
 	SourceType     TransferSourceType  `json:"source_type"`
 	DestPayment    string              `json:"destination_payment"`
+	TransferGroup  string              `json:"transfer_group"`
 }
 
 // TransferList is a list of transfers as retrieved from a list endpoint.

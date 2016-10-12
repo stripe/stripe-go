@@ -25,6 +25,7 @@ type ChargeParams struct {
 	Fraud                        FraudReport
 	Source                       *SourceParams
 	Shipping                     *ShippingDetails
+	TransferGroup                string
 }
 
 // SetSource adds valid sources to a ChargeParams object,
@@ -85,6 +86,7 @@ type Charge struct {
 	Statement      string            `json:"statement_descriptor"`
 	Status         string            `json:"status"`
 	Transfer       *Transfer         `json:"transfer"`
+	TransferGroup  string            `json:"transfer_group"`
 	Tx             *Transaction      `json:"balance_transaction"`
 }
 
