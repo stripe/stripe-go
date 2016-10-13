@@ -90,6 +90,7 @@ type Order struct {
 	SelectedShippingMethod *string           `json:"selected_shipping_method"`
 	Shipping               Shipping          `json:"shipping"`
 	ShippingMethods        []ShippingMethod  `json:"shipping_methods"`
+	StatusTransitions      StatusTransitions `json:"status_transitions"`
 	Status                 OrderStatus       `json:"status"`
 	Updated                int64             `json:"updated"`
 }
@@ -107,6 +108,15 @@ type OrderListParams struct {
 	ListParams
 	IDs    []string
 	Status OrderStatus
+}
+
+// StatsuTransitions are the timestamps at which the order status was updated
+// https://stripe.com/docs/api#order_object
+type StatusTransitions struct {
+	Canceled  int64 `json:"canceled"`
+	Fulfilled int64 `json:"fulfiled"`
+	Paid      int64 `json:"paid"`
+	Returned  int64 `json:"returned"`
 }
 
 // OrderPayParams is the set of parameters that can be used when
