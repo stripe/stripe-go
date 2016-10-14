@@ -1,3 +1,6 @@
+18.4.0 2016-10-14
+	Add `HasEvidence` and `PastDue` to `EvidenceDetails`
+
 18.3.0 2016-10-10
 	Add `NoDiscountable` to `InvoiceItemParams`
 
