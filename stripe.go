@@ -324,6 +324,9 @@ func (s *BackendConfiguration) ResponseToError(res *http.Response, resBody []byt
 	case ErrorTypeAuthentication:
 		stripeErr.Err = &AuthenticationError{stripeErr: stripeErr}
 
+	case ErrorTypePermissions:
+		stripeErr.Err = &PermissionsError{stripeErr: stripeErr}
+
 	case ErrorTypeCard:
 		cardErr := &CardError{stripeErr: stripeErr}
 		stripeErr.Err = cardErr
