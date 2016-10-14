@@ -70,8 +70,10 @@ type DisputeList struct {
 // EvidenceDetails is the structure representing more details about
 // the dispute.
 type EvidenceDetails struct {
-	DueDate int64 `json:"due_by"`
-	Count   int   `json:"submission_count"`
+	Count       int   `json:"submission_count"`
+	DueDate     int64 `json:"due_by"`
+	HasEvidence bool  `json:"has_evidence"`
+	PastDue     bool  `json:"past_due"`
 }
 
 // DisputeEvidence is the structure that contains various details about
