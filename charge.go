@@ -103,6 +103,7 @@ type FraudDetails struct {
 type ChargeOutcome struct {
 	NetworkStatus string `json:"network_status"`
 	Reason        string `json:"reason"`
+	RiskLevel     string `json:"risk_level"`
 	SellerMessage string `json:"seller_message"`
 	Type          string `json:"type"`
 }

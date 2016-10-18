@@ -505,6 +505,10 @@ func TestChargeOutcome(t *testing.T) {
 		t.Error("The charge outcome's reason is not `highest_risk_level`")
 	}
 
+	if o.RiskLevel != "highest" {
+		t.Error("The charge outcome's risk level is not `highest`")
+	}
+
 	if o.SellerMessage == "" {
 		t.Error("The charge outcome's seller message is not defined")
 	}
