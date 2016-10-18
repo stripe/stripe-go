@@ -335,6 +335,9 @@ func (s *BackendConfiguration) ResponseToError(res *http.Response, resBody []byt
 	case ErrorTypeInvalidRequest:
 		stripeErr.Err = &InvalidRequestError{stripeErr: stripeErr}
 
+	case ErrorTypePermission:
+		stripeErr.Err = &PermissionError{stripeErr: stripeErr}
+
 	case ErrorTypeRateLimit:
 		stripeErr.Err = &RateLimitError{stripeErr: stripeErr}
 	}

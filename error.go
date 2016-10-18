@@ -14,6 +14,7 @@ const (
 	ErrorTypeAuthentication ErrorType = "authentication_error"
 	ErrorTypeCard           ErrorType = "card_error"
 	ErrorTypeInvalidRequest ErrorType = "invalid_request_error"
+	ErrorTypePermission     ErrorType = "more_permissions_required"
 	ErrorTypeRateLimit      ErrorType = "rate_limit_error"
 
 	IncorrectNum  ErrorCode = "incorrect_number"
@@ -90,6 +91,17 @@ type AuthenticationError struct {
 
 // Error serializes the error object to JSON and returns it as a string.
 func (e *AuthenticationError) Error() string {
+	return e.stripeErr.Error()
+}
+
+// PermissionError results when you attempt to make an API request
+// for which your API key doesn't have the right permissions.
+type PermissionError struct {
+	stripeErr *Error
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *PermissionError) Error() string {
 	return e.stripeErr.Error()
 }
 
