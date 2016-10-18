@@ -1,3 +1,6 @@
+18.5.0 2016-10-18
+	Add `Status` to `SubListParams` to allow filtering subscriptions by status
+
 18.4.0 2016-10-14
 	Add `HasEvidence` and `PastDue` to `EvidenceDetails`
 
