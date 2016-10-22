@@ -7,15 +7,15 @@ import (
 )
 
 // LegalEntityType describes the types for a legal entity.
-// Current values are "individual", "company".
+// Allowed values are "individual", "company".
 type LegalEntityType string
 
 // IdentityVerificationStatus describes the different statuses for identity verification.
-// Current values are "pending", "verified", "unverified".
+// Allowed values are "pending", "verified", "unverified".
 type IdentityVerificationStatus string
 
 // Interval describes the payout interval.
-// Current values are "manual", "daily", "weekly", "monthly".
+// Allowed values are "manual", "daily", "weekly", "monthly".
 type Interval string
 
 const (
@@ -179,6 +179,7 @@ type ExternalAccount struct {
 func (ea *ExternalAccount) UnmarshalJSON(b []byte) error {
 	type externalAccount ExternalAccount
 	var account externalAccount
+
 	err := json.Unmarshal(b, &account)
 	if err != nil {
 		return err
