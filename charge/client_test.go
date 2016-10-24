@@ -641,3 +641,65 @@ func TestChargeSourceForSourceObject(t *testing.T) {
 		t.Error("Display value did not match expectation")
 	}
 }
+
+func TestChargeReviewID(t *testing.T) {
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+	}
+
+	chargeParams.SetSource(&stripe.CardParams{
+		Number: "4000000000009235",
+		Month:  "06",
+		Year:   "20",
+	})
+
+	res, err := New(chargeParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if res.Review == nil {
+		t.Error("There should be a review on the charge")
+	}
+
+	if res.Review.ID == "" {
+		t.Error("There should be a review ID on the charge")
+	}
+}
+
+func TestChargeReviewExpansion(t *testing.T) {
+	chargeParams := &stripe.ChargeParams{
+		Amount:   1000,
+		Currency: currency.USD,
+	}
+
+	chargeParams.SetSource(&stripe.CardParams{
+		Number: "4000000000009235",
+		Month:  "06",
+		Year:   "20",
+	})
+
+	chargeParams.Expand("review")
+
+	res, err := New(chargeParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if res.Review == nil {
+		t.Error("There should be a review on the charge")
+	}
+
+	if res.Review.ID == "" {
+		t.Error("There should be a review ID on the charge")
+	}
+
+	if !res.Review.Open {
+		t.Error("The review should be open")
+	}
+
+	if res.Review.Live {
+		t.Error("The review should be in test-mode")
+	}
+}

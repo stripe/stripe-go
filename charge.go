@@ -77,6 +77,7 @@ type Charge struct {
 	Paid           bool              `json:"paid"`
 	Refunded       bool              `json:"refunded"`
 	Refunds        *RefundList       `json:"refunds"`
+	Review         *Review           `json:"review"`
 	Shipping       *ShippingDetails  `json:"shipping"`
 	Source         *PaymentSource    `json:"source"`
 	SourceTransfer *Transfer         `json:"source_transfer"`
