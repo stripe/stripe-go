@@ -1,3 +1,6 @@
+18.8.0 2016-10-24
+	Add `Review` to `Charge` for the charge reviews
+
 18.7.0 2016-10-18
 	Add `RiskLevel` to `ChargeOutcome`
 
