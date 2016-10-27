@@ -12,7 +12,7 @@ import (
 type CardBrand string
 
 // Verification is the list of allowed verification responses.
-// Allowed values are "pass", "fail", "unchecked", "unavailabe".
+// Allowed values are "pass", "fail", "unchecked", "unavailable".
 type Verification string
 
 // CardFunding is the list of allowed values for the card's funding.
