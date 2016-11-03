@@ -56,7 +56,7 @@ type CaptureParams struct {
 type Charge struct {
 	Amount         uint64            `json:"amount"`
 	AmountRefunded uint64            `json:"amount_refunded"`
-        Application    *Application      `json:"application"`
+	Application    *Application      `json:"application"`
 	Captured       bool              `json:"captured"`
 	Created        int64             `json:"created"`
 	Currency       Currency          `json:"currency"`
