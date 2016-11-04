@@ -40,11 +40,16 @@ func ExampleCharge_get() {
 
 	params := &stripe.ChargeParams{}
 	params.Expand("customer")
+	params.Expand("application")
 	params.Expand("balance_transaction")
 
 	ch, err := charge.Get("ch_example_id", params)
 
 	if err != nil {
+		log.Fatal(err)
+	}
+
+	if ch.Application != nil {
 		log.Fatal(err)
 	}
 
