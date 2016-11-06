@@ -32,7 +32,7 @@ func (c Client) New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 		// Required fields
 		body.Add("type", params.Type)
 
-		// Optional fiels
+		// Optional fields
 		if params.Currency != "" {
 			body.Add("currency", string(params.Currency))
 		}
