@@ -97,8 +97,12 @@ var backends Backends
 // SetHTTPClient overrides the default HTTP client.
 // This is useful if you're running in a Google AppEngine environment
 // where the http.DefaultClient is not available.
-func SetHTTPClient(client *http.Client) {
+func SetHTTPClient(client *http.Client) error {
+	if client == nil {
+		return errors.New("Cannot use empty HTTP client.")
+	}
 	httpClient = client
+	return nil
 }
 
 // NewBackends creates a new set of backends with the given HTTP client. You
