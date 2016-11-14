@@ -1,3 +1,6 @@
+18.12.0 2016-11-14
+	Allow bank accounts to be created as a customer source
+
 18.11.0 2016-11-14
 	Add `TrialPeriodEnd` to `SubParams`
 
