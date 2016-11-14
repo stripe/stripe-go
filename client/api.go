@@ -33,6 +33,7 @@ import (
 	"github.com/stripe/stripe-go/sub"
 	"github.com/stripe/stripe-go/token"
 	"github.com/stripe/stripe-go/transfer"
+	"github.com/stripe/stripe-go/paymentsource"
 )
 
 // API is the Stripe client. It contains all the different resources available.
@@ -125,6 +126,9 @@ type API struct {
 	// Sources is the client used to invoke /sources APIs.
 	// For more details see https://stripe.com/docs/api#sources.
 	Sources *source.Client
+	// PaymentSource is used to invoke /sources APIs.
+	// For more details see https://stripe.com/docs/api.
+	PaymentSource *paymentsource.Client
 }
 
 // Init initializes the Stripe client with the appropriate secret key
@@ -164,6 +168,7 @@ func (a *API) Init(key string, backends *Backends) {
 	a.OrderReturns = &orderreturn.Client{B: backends.API, Key: key}
 	a.Skus = &sku.Client{B: backends.API, Key: key}
 	a.Sources = &source.Client{B: backends.API, Key: key}
+	a.PaymentSource = &paymentsource.Client{B: backends.API, Key: key}
 }
 
 // New creates a new Stripe client with the appropriate secret key
