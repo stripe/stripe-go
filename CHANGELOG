@@ -1,3 +1,6 @@
+18.11.0 2016-11-14
+	Add `TrialPeriodEnd` to `SubParams`
+
 18.10.0 2016-11-09
 	Add `StatusTransitions` to `Order`
 
