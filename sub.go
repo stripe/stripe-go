@@ -12,7 +12,7 @@ type SubParams struct {
 	Params
 	Customer, Plan                                  string
 	Coupon, Token                                   string
-	TrialEnd                                        int64
+	TrialEnd, TrialPeriod                           int64
 	Card                                            *CardParams
 	Quantity                                        uint64
 	ProrationDate                                   int64
