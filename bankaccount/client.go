@@ -30,32 +30,50 @@ func New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 
 	body := &stripe.RequestValues{}
+	isCustomer := len(params.Customer) > 0
+
+	var sourceType string
+	if isCustomer {
+		sourceType = "source"
+	} else {
+		sourceType = "external_account"
+	}
 
 	// Use token (if exists) or a dictionary containing a user’s bank account details.
 	if len(params.Token) > 0 {
-		body.Add("external_account", params.Token)
+		body.Add(sourceType, params.Token)
 
 		if params.Default {
 			body.Add("default_for_currency", strconv.FormatBool(params.Default))
 		}
 	} else {
-		body.Add("external_account[object]", "bank_account")
-		body.Add("external_account[country]", params.Country)
-		body.Add("external_account[account_number]", params.Account)
-		body.Add("external_account[currency]", params.Currency)
+		body.Add(sourceType+"[object]", "bank_account")
+		body.Add(sourceType+"[country]", params.Country)
+		body.Add(sourceType+"[account_number]", params.Account)
+		body.Add(sourceType+"[currency]", params.Currency)
+
+		if isCustomer {
+			body.Add(sourceType+"[account_holder_name]", params.AccountHolderName)
+			body.Add(sourceType+"[account_holder_type]", params.AccountHolderType)
+		}
 
 		if len(params.Routing) > 0 {
-			body.Add("external_account[routing_number]", params.Routing)
+			body.Add(sourceType+"[routing_number]", params.Routing)
 		}
 
 		if params.Default {
-			body.Add("external_account[default_for_currency]", strconv.FormatBool(params.Default))
+			body.Add(sourceType+"[default_for_currency]", strconv.FormatBool(params.Default))
 		}
 	}
 	params.AppendTo(body)
 
 	ba := &stripe.BankAccount{}
-	err := c.B.Call("POST", fmt.Sprintf("/accounts/%v/bank_accounts", params.AccountID), c.Key, body, &params.Params, ba)
+	var err error
+	if isCustomer {
+		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/sources", params.Customer), c.Key, body, &params.Params, ba)
+	} else {
+		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/bank_accounts", params.AccountID), c.Key, body, &params.Params, ba)
+	}
 
 	return ba, err
 }
