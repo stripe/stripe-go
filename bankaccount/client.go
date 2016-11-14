@@ -31,31 +31,73 @@ func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 
 	body := &stripe.RequestValues{}
 
+	isCustomer := len(params.Customer) > 0
+
 	// Use token (if exists) or a dictionary containing a user’s bank account details.
 	if len(params.Token) > 0 {
-		body.Add("external_account", params.Token)
+		if !isCustomer {
+			body.Add("external_account", params.Token)
+		} else {
+			body.Add("source", params.Token)
+		}
 
 		if params.Default {
 			body.Add("default_for_currency", strconv.FormatBool(params.Default))
 		}
 	} else {
-		body.Add("external_account[object]", "bank_account")
-		body.Add("external_account[country]", params.Country)
-		body.Add("external_account[account_number]", params.Account)
-		body.Add("external_account[currency]", params.Currency)
+		if !isCustomer {
+			body.Add("external_account[object]", "bank_account")
+			body.Add("external_account[country]", params.Country)
+			body.Add("external_account[account_number]", params.Account)
+			body.Add("external_account[currency]", params.Currency)
 
-		if len(params.Routing) > 0 {
-			body.Add("external_account[routing_number]", params.Routing)
-		}
+			if len(params.AccountHolderName) > 0 {
+				body.Add("external_account[account_holder_name]", params.AccountHolderName)
+			}
 
-		if params.Default {
-			body.Add("external_account[default_for_currency]", strconv.FormatBool(params.Default))
+			if len(params.AccountHolderType) > 0 {
+				body.Add("source[account_holder_type]", params.AccountHolderType)
+			}
+
+			if len(params.Routing) > 0 {
+				body.Add("external_account[routing_number]", params.Routing)
+			}
+
+			if params.Default {
+				body.Add("external_account[default_for_currency]", strconv.FormatBool(params.Default))
+			}
+		} else {
+			body.Add("source[object]", "bank_account")
+			body.Add("source[country]", params.Country)
+			body.Add("source[account_number]", params.Account)
+			body.Add("source[currency]", params.Currency)
+
+			if len(params.AccountHolderName) > 0 {
+				body.Add("source[account_holder_name]", params.AccountHolderName)
+			}
+
+			if len(params.AccountHolderType) > 0 {
+				body.Add("source[account_holder_type]", params.AccountHolderType)
+			}
+
+			if len(params.Routing) > 0 {
+				body.Add("source[routing_number]", params.Routing)
+			}
+
+			if params.Default {
+				body.Add("source[default_for_currency]", strconv.FormatBool(params.Default))
+			}
 		}
 	}
 	params.AppendTo(body)
 
 	ba := &stripe.BankAccount{}
-	err := c.B.Call("POST", fmt.Sprintf("/accounts/%v/bank_accounts", params.AccountID), c.Key, body, &params.Params, ba)
+	var err error
+	if len(params.Customer) > 0 {
+		err = c.B.Call("POST", fmt.Sprintf("/customers/%s/sources", params.Customer), c.Key, body, &params.Params, ba)
+	} else if len(params.AccountID) > 0 {
+		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/bank_accounts", params.AccountID), c.Key, body, &params.Params, ba)
+	}
 
 	return ba, err
 }
@@ -79,7 +121,7 @@ func (c Client) Get(id string, params *stripe.BankAccountParams) (*stripe.BankAc
 	var err error
 
 	if len(params.Customer) > 0 {
-		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/bank_accounts/%v", params.AccountID, id), c.Key, body, commonParams, ba)
+		err = c.B.Call("GET", fmt.Sprintf("/customers/%s/bank_accounts/%v", params.Customer, id), c.Key, body, commonParams, ba)
 	} else if len(params.AccountID) > 0 {
 		err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/bank_accounts/%v", params.AccountID, id), c.Key, body, commonParams, ba)
 	} else {
