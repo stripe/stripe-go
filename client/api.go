@@ -23,6 +23,7 @@ import (
 	"github.com/stripe/stripe-go/invoiceitem"
 	"github.com/stripe/stripe-go/order"
 	"github.com/stripe/stripe-go/orderreturn"
+	"github.com/stripe/stripe-go/paymentsource"
 	"github.com/stripe/stripe-go/plan"
 	"github.com/stripe/stripe-go/product"
 	"github.com/stripe/stripe-go/recipient"
@@ -33,7 +34,6 @@ import (
 	"github.com/stripe/stripe-go/sub"
 	"github.com/stripe/stripe-go/token"
 	"github.com/stripe/stripe-go/transfer"
-	"github.com/stripe/stripe-go/paymentsource"
 )
 
 // API is the Stripe client. It contains all the different resources available.
