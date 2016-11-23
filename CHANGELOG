@@ -1,3 +1,6 @@
+18.14.0 2016-11-23
+	Add retrieve method for 3-D Secure resources
+
 18.13.0 2016-11-15
 	Add `PaymentSource` to `API`
 
