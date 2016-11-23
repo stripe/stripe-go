@@ -14,6 +14,7 @@ func init() {
 }
 
 func TestThreeDSecureNew(t *testing.T) {
+	// Test creating a 3D Secure auth
 	customerParams := &stripe.CustomerParams{}
 	customerParams.SetSource(&stripe.CardParams{
 		Name:   "Stripe Tester",
@@ -32,22 +33,32 @@ func TestThreeDSecureNew(t *testing.T) {
 		ReturnURL: "https://test.com",
 	}
 
-	target, err := New(threeDSecureParams)
+	threeDSecure, err := New(threeDSecureParams)
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	if target.Amount != threeDSecureParams.Amount {
-		t.Errorf("Amount %v does not match expected amount %v\n", target.Amount, threeDSecureParams.Amount)
+	if threeDSecure.Amount != threeDSecureParams.Amount {
+		t.Errorf("Amount %v does not match expected amount %v\n", threeDSecure.Amount, threeDSecureParams.Amount)
 	}
 
-	if target.Currency != threeDSecureParams.Currency {
-		t.Errorf("Currency %q does not match expected currency %q\n", target.Currency, threeDSecureParams.Currency)
+	if threeDSecure.Currency != threeDSecureParams.Currency {
+		t.Errorf("Currency %q does not match expected currency %q\n", threeDSecure.Currency, threeDSecureParams.Currency)
 	}
 
-	if target.Card.ID != threeDSecureParams.Card {
-		t.Errorf("Card ID %q does not match expected card ID %q\n", target.Card.ID, threeDSecureParams.Card)
+	if threeDSecure.Card.ID != threeDSecureParams.Card {
+		t.Errorf("Card ID %q does not match expected card ID %q\n", threeDSecure.Card.ID, threeDSecureParams.Card)
 	}
 
+	// Test retrieving a 3D Secure auth
+	threeDSecure2, err := Get(threeDSecure.ID, nil)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if threeDSecure2.ID != threeDSecure.ID {
+		t.Errorf("ID %q does not match expected id %q\n", threeDSecure2.ID, threeDSecure.ID)
+	}
 }
