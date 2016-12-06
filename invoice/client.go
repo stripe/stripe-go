@@ -49,7 +49,7 @@ func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	}
 
 	if params.TaxPercent > 0 {
-		body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
+		body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 4, 64))
 	} else if params.TaxPercentZero {
 		body.Add("tax_percent", "0")
 	}
@@ -146,7 +146,7 @@ func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice
 		}
 
 		if params.TaxPercent > 0 {
-			body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
+			body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 4, 64))
 		} else if params.TaxPercentZero {
 			body.Add("tax_percent", "0")
 		}
