@@ -1,3 +1,6 @@
+18.14.1 2016-12-05
+	Truncate `tax_percent` at four decimals (e.g. 3.9750%) instead of two
+
 18.14.0 2016-11-23
 	Add retrieve method for 3-D Secure resources
 
