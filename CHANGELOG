@@ -1,3 +1,6 @@
+19.0.0 2016-12-07
+	Remote `SubProrationDateNow` field from `InvoiceParams`
+
 18.14.1 2016-12-05
 	Truncate `tax_percent` at four decimals (e.g. 3.9750%) instead of two
 
