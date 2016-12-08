@@ -1,3 +1,6 @@
+19.0.1 2016-12-08
+	Include verification document details when persisting `LegalEntity`
+
 19.0.0 2016-12-07
 	Remote `SubProrationDateNow` field from `InvoiceParams`
 
