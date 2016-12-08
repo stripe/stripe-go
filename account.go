@@ -409,6 +409,10 @@ func (l *LegalEntity) AppendDetails(values *RequestValues) {
 		values.Add("legal_entity[business_vat_id]", l.BusinessVatID)
 	}
 
+	if l.Verification.Document != nil {
+		values.Add("legal_entity[verification][document]", l.Verification.Document.ID)
+	}
+
 	l.Address.AppendDetails(values, "legal_entity[address]")
 	l.AddressKana.AppendDetails(values, "legal_entity[address_kana]")
 	l.AddressKanji.AppendDetails(values, "legal_entity[address_kanji]")
