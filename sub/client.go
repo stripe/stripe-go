@@ -66,7 +66,7 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 		}
 
 		if params.TrialPeriod > 0 {
-			body.Add("trial_period_days", strconv.FormatInt(params.TrialEnd, 10))
+			body.Add("trial_period_days", strconv.FormatInt(params.TrialPeriod, 10))
 		}
 
 		if params.TrialEndNow {
