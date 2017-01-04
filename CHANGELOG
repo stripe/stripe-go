@@ -1,3 +1,6 @@
+19.0.2 2017-01-04
+	Fix subscription `trial_period_days` to be populated by the right value
+
 19.0.1 2016-12-08
 	Include verification document details when persisting `LegalEntity`
 
