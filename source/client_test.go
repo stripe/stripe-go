@@ -73,3 +73,28 @@ func TestSource(t *testing.T) {
 		t.Errorf("Source typedata address is invalid: %v", amount)
 	}
 }
+
+func TestSourceUpdate(t *testing.T) {
+	params := &stripe.SourceObjectParams{
+		Type:     "bitcoin",
+		Amount:   1000,
+		Currency: currency.USD,
+		Owner: &stripe.SourceOwnerParams{
+			Email: "jenny.rosen@example.com",
+		},
+	}
+
+	source, _ := New(params)
+
+	params = &stripe.SourceObjectParams{}
+	params.AddMeta("foo", "bar")
+
+	source, err := Update(source.ID, params)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if source.Meta["foo"] != params.Meta["foo"] {
+		t.Errorf("Meta %v does not match expected Meta %v\n", source.Meta, params.Meta)
+	}
+}
