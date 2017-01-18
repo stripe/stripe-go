@@ -1,3 +1,6 @@
+19.1.0 2017-01-18
+	Add support for updating sources
+
 19.0.2 2017-01-04
 	Fix subscription `trial_period_days` to be populated by the right value
 
