@@ -53,7 +53,6 @@ type Customer struct {
 	Discount      *Discount                `json:"discount"`
 	Email         string                   `json:"email"`
 	Meta          map[string]string        `json:"metadata"`
-	Subs          *SubList                 `json:"subscriptions"`
 	Deleted       bool                     `json:"deleted"`
 	Shipping      *CustomerShippingDetails `json:"shipping"`
 	BusinessVatID string                   `json:"business_vat_id"`
