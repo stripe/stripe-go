@@ -100,14 +100,21 @@ type FraudDetails struct {
 	StripeReport FraudReport `json:"stripe_report"`
 }
 
+// ChargeOutcomeRule tells you the Radar rule that blocked the charge, if any.
+type ChargeOutcomeRule struct {
+	Action    string `json:"action"`
+	Predicate string `json:"predicate"`
+}
+
 // Outcome is the charge's outcome that details whether a payment
 // was accepted and why.
 type ChargeOutcome struct {
-	NetworkStatus string `json:"network_status"`
-	Reason        string `json:"reason"`
-	RiskLevel     string `json:"risk_level"`
-	SellerMessage string `json:"seller_message"`
-	Type          string `json:"type"`
+	NetworkStatus string             `json:"network_status"`
+	Reason        string             `json:"reason"`
+	RiskLevel     string             `json:"risk_level"`
+	Rule          *ChargeOutcomeRule `json:"rule"`
+	SellerMessage string             `json:"seller_message"`
+	Type          string             `json:"type"`
 }
 
 // ShippingDetails is the structure containing shipping information.
