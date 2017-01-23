@@ -1,3 +1,6 @@
+19.2.0 2017-01-23
+	Add `Rule` to `ChargeOutcome`
+
 19.1.0 2017-01-18
 	Add support for updating sources
 
