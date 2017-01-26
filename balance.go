@@ -15,6 +15,33 @@ type TransactionType string
 type TransactionSourceType string
 
 const (
+	// TransactionSourceCharge is a constant representing a transaction source of adjustment
+	TransactionSourceAdjustment TransactionSourceType = "adjustment"
+
+	// TransactionSourceCharge is a constant representing a transaction source of application fee refund
+	TransactionSourceFeeRefund TransactionSourceType = "application_fee_refund"
+
+	// TransactionSourceCharge is a constant representing a transaction source of payment
+	TransactionSourcePayment TransactionSourceType = "payment"
+
+	// TransactionSourceCharge is a constant representing a transaction source of payment failure refund
+	TransactionSourcePaymentFailureRefund TransactionSourceType = "payment_failure_refund"
+
+	// TransactionSourceCharge is a constant representing a transaction source of payment refund
+	TransactionSourcePaymentRefund TransactionSourceType = "payment_refund"
+
+	// TransactionSourceCharge is a constant representing a transaction source of transfer cancel
+	TransactionSourceTransferCancel TransactionSourceType = "transfer_cancel"
+
+	// TransactionSourceCharge is a constant representing a transaction source of transfer failure
+	TransactionSourceTransferFailure TransactionSourceType = "transfer_failure"
+
+	// TransactionSourceCharge is a constant representing a transaction source of transfer refund
+	TransactionSourceTransferRefund TransactionSourceType = "transfer_refund"
+
+	// TransactionSourceCharge is a constant representing a transaction source of validation
+	TransactionSourceValidation TransactionSourceType = "validation"
+
 	// TransactionSourceCharge is a constant representing a transaction source of charge
 	TransactionSourceCharge TransactionSourceType = "charge"
 
