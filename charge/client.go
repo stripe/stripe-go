@@ -60,6 +60,10 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 		body.Add("destination", params.Dest)
 	}
 
+	if params.TransferGroup != "" {
+		body.Add("transfer_group", params.TransferGroup)
+	}
+
 	body.Add("capture", strconv.FormatBool(!params.NoCapture))
 
 	token := c.Key
@@ -189,6 +193,10 @@ func (c Client) List(params *stripe.ChargeListParams) *Iter {
 
 		if len(params.Customer) > 0 {
 			body.Add("customer", params.Customer)
+		}
+
+		if len(params.TransferGroup) > 0 {
+			body.Add("transfer_group", params.TransferGroup)
 		}
 
 		params.AppendTo(body)

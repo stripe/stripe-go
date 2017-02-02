@@ -25,6 +25,7 @@ type ChargeParams struct {
 	Fraud                        FraudReport
 	Source                       *SourceParams
 	Shipping                     *ShippingDetails
+	TransferGroup                string
 }
 
 // SetSource adds valid sources to a ChargeParams object,
@@ -39,8 +40,9 @@ func (cp *ChargeParams) SetSource(sp interface{}) error {
 // For more details see https://stripe.com/docs/api#list_charges.
 type ChargeListParams struct {
 	ListParams
-	Created  int64
-	Customer string
+	Created       int64
+	Customer      string
+	TransferGroup string
 }
 
 // CaptureParams is the set of parameters that can be used when capturing a charge.
@@ -85,6 +87,7 @@ type Charge struct {
 	Statement      string            `json:"statement_descriptor"`
 	Status         string            `json:"status"`
 	Transfer       *Transfer         `json:"transfer"`
+	TransferGroup  string            `json:"transfer_group"`
 	Tx             *Transaction      `json:"balance_transaction"`
 }
 

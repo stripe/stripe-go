@@ -75,6 +75,10 @@ func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 		body.Add("destination", params.Dest)
 	}
 
+	if len(params.TransferGroup) > 0 {
+		body.Add("transfer_group", params.TransferGroup)
+	}
+
 	if len(params.SourceTx) > 0 {
 		body.Add("source_transaction", params.SourceTx)
 	}
@@ -195,6 +199,10 @@ func (c Client) List(params *stripe.TransferListParams) *Iter {
 
 		if len(params.Status) > 0 {
 			body.Add("status", string(params.Status))
+		}
+
+		if len(params.TransferGroup) > 0 {
+			body.Add("status", params.TransferGroup)
 		}
 
 		params.AppendTo(body)
