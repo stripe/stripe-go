@@ -201,6 +201,10 @@ func (c Client) List(params *stripe.TransferListParams) *Iter {
 			body.Add("status", string(params.Status))
 		}
 
+		if len(params.TransferGroup) > 0 {
+			body.Add("status", params.TransferGroup)
+		}
+
 		params.AppendTo(body)
 		lp = &params.ListParams
 		p = params.ToParams()

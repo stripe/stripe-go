@@ -40,8 +40,9 @@ func (cp *ChargeParams) SetSource(sp interface{}) error {
 // For more details see https://stripe.com/docs/api#list_charges.
 type ChargeListParams struct {
 	ListParams
-	Created  int64
-	Customer string
+	Created       int64
+	Customer      string
+	TransferGroup string
 }
 
 // CaptureParams is the set of parameters that can be used when capturing a charge.

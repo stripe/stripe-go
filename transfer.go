@@ -66,6 +66,7 @@ type TransferListParams struct {
 	Created, Date int64
 	Recipient     string
 	Status        TransferStatus
+	TransferGroup string
 }
 
 // Transfer is the resource representing a Stripe transfer.

@@ -195,6 +195,10 @@ func (c Client) List(params *stripe.ChargeListParams) *Iter {
 			body.Add("customer", params.Customer)
 		}
 
+		if len(params.TransferGroup) > 0 {
+			body.Add("transfer_group", params.TransferGroup)
+		}
+
 		params.AppendTo(body)
 		lp = &params.ListParams
 		p = params.ToParams()
