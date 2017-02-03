@@ -96,6 +96,10 @@ const (
 	// PaymentSourceCard is a constant representing a payment source which is a
 	// card.
 	PaymentSourceCard PaymentSourceType = "card"
+
+	// PaymentSourceAccount is a constant representing a payment source which is
+	// an account.
+	PaymentSourceAccount PaymentSourceType = "account"
 )
 
 // PaymentSource describes the payment source used to make a Charge.
@@ -198,7 +202,14 @@ func (s *PaymentSource) MarshalJSON() ([]byte, error) {
 			Customer: customerID,
 			Card:     s.Card,
 		}
-
+	case PaymentSourceAccount:
+		target = struct {
+			Type PaymentSourceType `json:"object"`
+			ID   string            `json:"id"`
+		}{
+			Type: s.Type,
+			ID:   s.ID,
+		}
 	case "":
 		target = s.ID
 	}
