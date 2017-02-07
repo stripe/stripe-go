@@ -56,8 +56,12 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 		body.Add("receipt_email", params.Email)
 	}
 
-	if len(params.Dest) > 0 {
-		body.Add("destination", params.Dest)
+	if len(params.Dest.Account) > 0 {
+		body.Add("destination[account]", params.Dest.Account)
+	}
+
+	if params.Dest.Amount > 0 {
+		body.Add("destination[amount]", strconv.FormatUint(params.Dest.Amount, 10))
 	}
 
 	if params.TransferGroup != "" {
