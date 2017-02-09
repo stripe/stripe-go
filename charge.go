@@ -16,17 +16,17 @@ type FraudReport string
 // For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
 type ChargeParams struct {
 	Params
-	Amount                 uint64
-	Currency               Currency
-	Customer, Token        string
-	Desc, Statement, Email string
-	Dest                   DestinationParams
-	NoCapture              bool
-	Fee                    uint64
-	Fraud                  FraudReport
-	Source                 *SourceParams
-	Shipping               *ShippingDetails
-	TransferGroup          string
+	Amount                       uint64
+	Currency                     Currency
+	Customer, Token              string
+	Desc, Statement, Email, Dest string
+	Destination                  *DestinationParams
+	NoCapture                    bool
+	Fee                          uint64
+	Fraud                        FraudReport
+	Source                       *SourceParams
+	Shipping                     *ShippingDetails
+	TransferGroup                string
 }
 
 type DestinationParams struct {
