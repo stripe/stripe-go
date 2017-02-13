@@ -1,3 +1,6 @@
+19.5.0 2017-02-13
+	Add new rich `Destination` type to `ChargeParams`
+
 19.4.0 2017-02-03
 	Support Connect account as payment source
 
