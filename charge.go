@@ -20,12 +20,18 @@ type ChargeParams struct {
 	Currency                     Currency
 	Customer, Token              string
 	Desc, Statement, Email, Dest string
+	Destination                  *DestinationParams
 	NoCapture                    bool
 	Fee                          uint64
 	Fraud                        FraudReport
 	Source                       *SourceParams
 	Shipping                     *ShippingDetails
 	TransferGroup                string
+}
+
+type DestinationParams struct {
+	Account string
+	Amount  uint64
 }
 
 // SetSource adds valid sources to a ChargeParams object,

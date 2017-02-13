@@ -56,8 +56,25 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 		body.Add("receipt_email", params.Email)
 	}
 
+	if len(params.Dest) > 0 &&
+		params.Destination != nil &&
+		params.Destination.Account != params.Dest {
+		err := errors.New("Dest and Destination.Account are both set and not the same")
+		return nil, err
+	}
+
 	if len(params.Dest) > 0 {
-		body.Add("destination", params.Dest)
+		body.Add("destination[account]", params.Dest)
+	}
+
+	if params.Destination != nil {
+		if len(params.Destination.Account) > 0 {
+			body.Add("destination[account]", params.Destination.Account)
+		}
+
+		if params.Destination.Amount > 0 {
+			body.Add("destination[amount]", strconv.FormatUint(params.Destination.Amount, 10))
+		}
 	}
 
 	if params.TransferGroup != "" {
