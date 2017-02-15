@@ -29,6 +29,18 @@ func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	body := &stripe.RequestValues{}
 	body.Add("customer", params.Customer)
 
+	if len(params.Billing) > 0 {
+		body.Add("billing", params.Billing)
+	}
+
+	if params.daysUntilDue > 0 {
+		body.Add("days_until_due", strconv.FormatUint(params.DaysUntilDue, 10))
+	}
+
+	if params.dueDate > 0 {
+		body.Add("due_date", strconv.FormatInt(params.dueDate, 10))
+	}
+
 	if len(params.Desc) > 0 {
 		body.Add("description", params.Desc)
 	}
@@ -118,6 +130,10 @@ func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice
 	if params != nil {
 		commonParams = &params.Params
 		body = &stripe.RequestValues{}
+
+		if params.Paid {
+			body.Add("paid", strconv.FormatBool(true))
+		}
 
 		if len(params.Desc) > 0 {
 			body.Add("description", params.Desc)
