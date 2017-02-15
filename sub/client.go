@@ -56,10 +56,10 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 		}
 
 		if len(params.Billing) > 0 {
-			body.Add("billing", params.Billing)
+			body.Add("billing", string(params.Billing))
 		}
 
-		if params.daysUntilDue > 0 {
+		if params.DaysUntilDue > 0 {
 			body.Add("days_until_due", strconv.FormatUint(params.DaysUntilDue, 10))
 		}
 
@@ -178,10 +178,10 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 		}
 
 		if len(params.Billing) > 0 {
-			body.Add("billing", params.Billing)
+			body.Add("billing", string(params.Billing))
 		}
 
-		if params.daysUntilDue > 0 {
+		if params.DaysUntilDue > 0 {
 			body.Add("days_until_due", strconv.FormatUint(params.DaysUntilDue, 10))
 		}
 

@@ -30,15 +30,15 @@ func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	body.Add("customer", params.Customer)
 
 	if len(params.Billing) > 0 {
-		body.Add("billing", params.Billing)
+		body.Add("billing", string(params.Billing))
 	}
 
-	if params.daysUntilDue > 0 {
+	if params.DaysUntilDue > 0 {
 		body.Add("days_until_due", strconv.FormatUint(params.DaysUntilDue, 10))
 	}
 
-	if params.dueDate > 0 {
-		body.Add("due_date", strconv.FormatInt(params.dueDate, 10))
+	if params.DueDate > 0 {
+		body.Add("due_date", strconv.FormatInt(params.DueDate, 10))
 	}
 
 	if len(params.Desc) > 0 {
@@ -234,6 +234,10 @@ func (c Client) List(params *stripe.InvoiceListParams) *Iter {
 
 		if len(params.Customer) > 0 {
 			body.Add("customer", params.Customer)
+		}
+
+		if len(params.Sub) > 0 {
+			body.Add("subscription", params.Sub)
 		}
 
 		if params.Date > 0 {

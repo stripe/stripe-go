@@ -36,9 +36,9 @@ type InvoiceParams struct {
 // For more details see https://stripe.com/docs/api#list_customer_invoices.
 type InvoiceListParams struct {
 	ListParams
-	Date         int64
-	Customer     string
-	Subscription string
+	Date     int64
+	Customer string
+	Sub      string
 }
 
 // InvoiceLineListParams is the set of parameters that can be used when listing invoice line items.
