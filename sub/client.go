@@ -55,6 +55,14 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 			body.Add("plan", params.Plan)
 		}
 
+		if len(params.Billing) > 0 {
+			body.Add("billing", string(params.Billing))
+		}
+
+		if params.DaysUntilDue > 0 {
+			body.Add("days_until_due", strconv.FormatUint(params.DaysUntilDue, 10))
+		}
+
 		if len(params.Token) > 0 {
 			body.Add("card", params.Token)
 		} else if params.Card != nil {
@@ -167,6 +175,14 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 
 		if params.NoProrate {
 			body.Add("prorate", strconv.FormatBool(false))
+		}
+
+		if len(params.Billing) > 0 {
+			body.Add("billing", string(params.Billing))
+		}
+
+		if params.DaysUntilDue > 0 {
+			body.Add("days_until_due", strconv.FormatUint(params.DaysUntilDue, 10))
 		}
 
 		if len(params.Token) > 0 {

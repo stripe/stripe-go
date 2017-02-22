@@ -19,6 +19,7 @@ func init() {
 
 func TestSubscriptionNew(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
+		Email: "test@stripe.com",
 		Source: &stripe.SourceParams{
 			Card: &stripe.CardParams{
 				Number: "378282246310005",
@@ -46,6 +47,8 @@ func TestSubscriptionNew(t *testing.T) {
 		Quantity:           10,
 		TaxPercent:         20.0,
 		BillingCycleAnchor: time.Now().AddDate(0, 0, 12).Unix(),
+		Billing:            "send_invoice",
+		DaysUntilDue:       30,
 	}
 
 	target, err := New(subParams)
@@ -60,6 +63,14 @@ func TestSubscriptionNew(t *testing.T) {
 
 	if target.Quantity != subParams.Quantity {
 		t.Errorf("Quantity %v does not match expected quantity %v\n", target.Quantity, subParams.Quantity)
+	}
+
+	if target.Billing != subParams.Billing {
+		t.Errorf("Billing %v does not match expected %v\n", target.Billing, subParams.Billing)
+	}
+
+	if target.DaysUntilDue != subParams.DaysUntilDue {
+		t.Errorf("DaysUntilDue %v does not match expected %v\n", target.DaysUntilDue, subParams.DaysUntilDue)
 	}
 
 	if target.TaxPercent != subParams.TaxPercent {
@@ -322,15 +333,25 @@ func TestSubscriptionUpdate(t *testing.T) {
 
 	subscription, _ := New(subParams)
 	updatedSub := &stripe.SubParams{
-		NoProrate:  true,
-		Quantity:   13,
-		TaxPercent: 20.0,
+		NoProrate:    true,
+		Quantity:     13,
+		TaxPercent:   20.0,
+		Billing:      "send_invoice",
+		DaysUntilDue: 12,
 	}
 
 	target, err := Update(subscription.ID, updatedSub)
 
 	if err != nil {
 		t.Error(err)
+	}
+
+	if target.Billing != updatedSub.Billing {
+		t.Errorf("Billing %v does not match expected %v\n", target.Billing, updatedSub.Billing)
+	}
+
+	if target.DaysUntilDue != updatedSub.DaysUntilDue {
+		t.Errorf("DaysUntilDue %v does not match expected %v\n", target.DaysUntilDue, updatedSub.DaysUntilDue)
 	}
 
 	if target.Quantity != updatedSub.Quantity {

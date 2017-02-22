@@ -22,6 +22,7 @@ func init() {
 // avoid unnecessary duplication
 func TestAllInvoicesScenarios(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
+		Email: "test@stripe.com",
 		Source: &stripe.SourceParams{
 			Card: &stripe.CardParams{
 				Number: "378282246310005",
@@ -66,11 +67,15 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Errorf("Item date is not set\n")
 	}
 
+	dueDate := time.Now().AddDate(0, 0, 12).Unix()
+
 	invoiceParams := &stripe.InvoiceParams{
 		Customer:   cust.ID,
 		Desc:       "Desc",
 		Statement:  "Statement",
 		TaxPercent: 20.0,
+		Billing:    "send_invoice",
+		DueDate:    dueDate,
 	}
 
 	targetInvoice, err := New(invoiceParams)
@@ -89,6 +94,14 @@ func TestAllInvoicesScenarios(t *testing.T) {
 
 	if targetInvoice.Tax != 20 {
 		t.Errorf("Invoice tax  %v does not match expected tax 20\n", targetInvoice.Tax)
+	}
+
+	if targetInvoice.DueDate != dueDate {
+		t.Errorf("Invoice days until due %v does not match expected %v\n", targetInvoice.DueDate, dueDate)
+	}
+
+	if targetInvoice.Billing != invoiceParams.Billing {
+		t.Errorf("Invoice billing %v does not match expected %v\n", targetInvoice.Billing, invoiceParams.Billing)
 	}
 
 	if targetInvoice.Amount != targetItem.Amount+targetInvoice.Tax {
@@ -317,6 +330,20 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Errorf("Invoice subscription %v does not match expected subscription%v\n", nextInvoice.Sub, subscription.ID)
 	}
 
+	i = List(&stripe.InvoiceListParams{Sub: subscription.ID})
+	for i.Next() {
+		if i.Invoice() == nil {
+			t.Error("No nil values expected")
+		}
+
+		if i.Meta() == nil {
+			t.Error("No metadata returned")
+		}
+	}
+	if err = i.Err(); err != nil {
+		t.Error(err)
+	}
+
 	closeInvoice := &stripe.InvoiceParams{
 		Closed: true,
 	}
@@ -343,6 +370,20 @@ func TestAllInvoicesScenarios(t *testing.T) {
 
 	if targetInvoiceOpened.Closed != false {
 		t.Errorf("Invoice was not reponed as expected and its value is %v", targetInvoiceOpened.Closed)
+	}
+
+	paidInvoice := &stripe.InvoiceParams{
+		Paid: true,
+	}
+
+	targetInvoicePaid, err := Update(targetInvoiceClosed.ID, paidInvoice)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if targetInvoicePaid.Paid != true {
+		t.Errorf("Updated invoice paid status %v does not match expected true\n", targetInvoiceUpdated.Paid)
 	}
 
 	_, err = plan.Del(planParams.ID)

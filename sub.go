@@ -6,6 +6,10 @@ import "encoding/json"
 // Allowed values are "trialing", "active", "past_due", "canceled", "unpaid".
 type SubStatus string
 
+// SubBilling is the type of billing method for this subscription's invoices.
+// Currently supported values are "send_invoice" and "charge_automatically".
+type SubBilling string
+
 // SubParams is the set of parameters that can be used when creating or updating a subscription.
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubParams struct {
@@ -22,6 +26,8 @@ type SubParams struct {
 	BillingCycleAnchor                              int64
 	BillingCycleAnchorNow                           bool
 	Items                                           []*SubItemsParams
+	Billing                                         SubBilling
+	DaysUntilDue                                    uint64
 }
 
 // SubItemsParams is the set of parameters that can be used when creating or updating a subscription item on a subscription
@@ -46,25 +52,27 @@ type SubListParams struct {
 // Sub is the resource representing a Stripe subscription.
 // For more details see https://stripe.com/docs/api#subscriptions.
 type Sub struct {
-	ID          string            `json:"id"`
-	EndCancel   bool              `json:"cancel_at_period_end"`
-	Customer    *Customer         `json:"customer"`
-	Plan        *Plan             `json:"plan"`
-	Quantity    uint64            `json:"quantity"`
-	Status      SubStatus         `json:"status"`
-	FeePercent  float64           `json:"application_fee_percent"`
-	Canceled    int64             `json:"canceled_at"`
-	Created     int64             `json:"created"`
-	Start       int64             `json:"start"`
-	PeriodEnd   int64             `json:"current_period_end"`
-	PeriodStart int64             `json:"current_period_start"`
-	Discount    *Discount         `json:"discount"`
-	Ended       int64             `json:"ended_at"`
-	Meta        map[string]string `json:"metadata"`
-	TaxPercent  float64           `json:"tax_percent"`
-	TrialEnd    int64             `json:"trial_end"`
-	TrialStart  int64             `json:"trial_start"`
-	Items       *SubItemList      `json:"items"`
+	ID           string            `json:"id"`
+	EndCancel    bool              `json:"cancel_at_period_end"`
+	Customer     *Customer         `json:"customer"`
+	Plan         *Plan             `json:"plan"`
+	Quantity     uint64            `json:"quantity"`
+	Status       SubStatus         `json:"status"`
+	FeePercent   float64           `json:"application_fee_percent"`
+	Canceled     int64             `json:"canceled_at"`
+	Created      int64             `json:"created"`
+	Start        int64             `json:"start"`
+	PeriodEnd    int64             `json:"current_period_end"`
+	PeriodStart  int64             `json:"current_period_start"`
+	Discount     *Discount         `json:"discount"`
+	Ended        int64             `json:"ended_at"`
+	Meta         map[string]string `json:"metadata"`
+	TaxPercent   float64           `json:"tax_percent"`
+	TrialEnd     int64             `json:"trial_end"`
+	TrialStart   int64             `json:"trial_start"`
+	Items        *SubItemList      `json:"items"`
+	Billing      SubBilling        `json:"billing"`
+	DaysUntilDue uint64            `json:"days_until_due"`
 }
 
 // SubList is a list object for subscriptions.
