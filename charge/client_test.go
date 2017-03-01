@@ -293,8 +293,9 @@ func TestChargeCapture(t *testing.T) {
 
 	// partial capture
 	capture := &stripe.CaptureParams{
-		Amount: 554,
-		Email:  "a@b.com",
+		Amount:    554,
+		Email:     "a@b.com",
+		Statement: "DEMO *0001",
 	}
 
 	target, err = Capture(res.ID, capture)

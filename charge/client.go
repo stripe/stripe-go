@@ -176,6 +176,10 @@ func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge
 			body.Add("receipt_email", params.Email)
 		}
 
+		if len(params.Statement) > 0 {
+			body.Add("statement_descriptor", params.Statement)
+		}
+
 		if params.Fee > 0 {
 			body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 		}
