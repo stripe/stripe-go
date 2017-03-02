@@ -32,6 +32,7 @@ import (
 	"github.com/stripe/stripe-go/sku"
 	"github.com/stripe/stripe-go/source"
 	"github.com/stripe/stripe-go/sub"
+	"github.com/stripe/stripe-go/subitem"
 	"github.com/stripe/stripe-go/token"
 	"github.com/stripe/stripe-go/transfer"
 )
@@ -50,6 +51,9 @@ type API struct {
 	// Subs is the client used to invoke /subscriptions APIs.
 	// For more details see https://stripe.com/docs/api#subscriptions.
 	Subs *sub.Client
+	// SubItems is the client used to invoke subscription's items-related APIs.
+	// For more details see https://stripe.com/docs/api#subscription_items.
+	SubItems *subitem.Client
 	// Plans is the client used to invoke /plans APIs.
 	// For more details see https://stripe.com/docs/api#plans.
 	Plans *plan.Client
@@ -142,6 +146,7 @@ func (a *API) Init(key string, backends *Backends) {
 	a.Customers = &customer.Client{B: backends.API, Key: key}
 	a.Cards = &card.Client{B: backends.API, Key: key}
 	a.Subs = &sub.Client{B: backends.API, Key: key}
+	a.SubItems = &subitem.Client{B: backends.API, Key: key}
 	a.Plans = &plan.Client{B: backends.API, Key: key}
 	a.Coupons = &coupon.Client{B: backends.API, Key: key}
 	a.Discounts = &discount.Client{B: backends.API, Key: key}
