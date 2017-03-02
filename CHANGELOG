@@ -1,3 +1,6 @@
+19.8.0 2017-03-02
+	Add subscription items client to main `client.API` struct
+
 19.7.0 2017-03-01
 	Add `Statement` (statement descriptor) to `CaptureParams`
 
