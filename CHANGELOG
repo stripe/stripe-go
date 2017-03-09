@@ -1,3 +1,6 @@
+19.9.0 2017-03-08
+	Add missing value "all" to subscription statuses
+
 19.8.0 2017-03-02
 	Add subscription items client to main `client.API` struct
 
