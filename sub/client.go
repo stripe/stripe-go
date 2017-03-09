@@ -14,6 +14,7 @@ const (
 	PastDue  stripe.SubStatus = "past_due"
 	Canceled stripe.SubStatus = "canceled"
 	Unpaid   stripe.SubStatus = "unpaid"
+	All      stripe.SubStatus = "all"
 )
 
 // Client is used to invoke /subscriptions APIs.

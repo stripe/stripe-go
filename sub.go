@@ -3,7 +3,7 @@ package stripe
 import "encoding/json"
 
 // SubStatus is the list of allowed values for the subscription's status.
-// Allowed values are "trialing", "active", "past_due", "canceled", "unpaid".
+// Allowed values are "trialing", "active", "past_due", "canceled", "unpaid", "all".
 type SubStatus string
 
 // SubBilling is the type of billing method for this subscription's invoices.
