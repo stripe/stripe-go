@@ -134,6 +134,8 @@ func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Custom
 
 		if len(params.Coupon) > 0 {
 			body.Add("coupon", params.Coupon)
+		} else if params.CouponEmpty {
+			body.Add("coupon", "")
 		}
 
 		if len(params.Email) > 0 {
