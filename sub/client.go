@@ -198,6 +198,8 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 
 		if len(params.Coupon) > 0 {
 			body.Add("coupon", params.Coupon)
+		} else if params.CouponEmpty {
+			body.Add("coupon", "")
 		}
 
 		if params.TrialEndNow {

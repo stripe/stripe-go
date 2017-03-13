@@ -443,6 +443,81 @@ func TestSubscriptionDiscount(t *testing.T) {
 	coupon.Del("sub_coupon")
 }
 
+func TestSubscriptionEmptyDiscount(t *testing.T) {
+	couponParams := &stripe.CouponParams{
+		Duration: coupon.Forever,
+		ID:       "sub_coupon",
+		Percent:  99,
+	}
+
+	coupon.New(couponParams)
+
+	customerParams := &stripe.CustomerParams{
+		Source: &stripe.SourceParams{
+			Card: &stripe.CardParams{
+				Number: "378282246310005",
+				Month:  "06",
+				Year:   "20",
+			},
+		},
+	}
+
+	cust, _ := customer.New(customerParams)
+
+	planParams := &stripe.PlanParams{
+		ID:       "test",
+		Name:     "Test Plan",
+		Amount:   99,
+		Currency: currency.USD,
+		Interval: plan.Month,
+	}
+
+	plan.New(planParams)
+
+	subParams := &stripe.SubParams{
+		Customer: cust.ID,
+		Plan:     "test",
+		Quantity: 10,
+		Coupon:   "sub_coupon",
+	}
+
+	target, err := New(subParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Discount == nil {
+		t.Errorf("Discount not found, but one was expected\n")
+	}
+
+	if target.Discount.Coupon == nil {
+		t.Errorf("Coupon not found, but one was expected\n")
+	}
+
+	if target.Discount.Coupon.ID != subParams.Coupon {
+		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.ID, subParams.Coupon)
+	}
+
+	updatedSub := &stripe.SubParams{
+		CouponEmpty: true,
+	}
+
+	target, err = Update(target.ID, updatedSub)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Discount != nil {
+		t.Errorf("A discount %v was found, but was expected to have been deleted\n", target.Discount)
+	}
+
+	customer.Del(cust.ID)
+	plan.Del("test")
+	coupon.Del("sub_coupon")
+}
+
 func TestSubscriptionList(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
 		Source: &stripe.SourceParams{

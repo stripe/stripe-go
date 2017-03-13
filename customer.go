@@ -11,6 +11,7 @@ type CustomerParams struct {
 	Balance        int64
 	BalanceZero    bool
 	Token, Coupon  string
+	CouponEmpty    bool
 	Source         *SourceParams
 	Desc, Email    string
 	Plan           string
