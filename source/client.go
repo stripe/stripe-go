@@ -81,7 +81,7 @@ func (c Client) New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 		}
 
 		if params.Token != "" {
-			body.Add("token", token)
+			body.Add("token", params.Token)
 		}
 
 		for k, v := range params.TypeData {
