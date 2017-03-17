@@ -1,3 +1,6 @@
+19.12.0 2017-03-17
+	Add new form of file upload using `io.FileReader` and filename
+
 19.11.0 2017-03-13
 	Add `Token` to `SourceObjectParams`
 
