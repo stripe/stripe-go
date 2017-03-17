@@ -15,10 +15,11 @@ type FileUploadParams struct {
 	Params
 	Purpose FileUploadPurpose
 
-	// FileReader is a reader with the contents of the file that should be uploaded.
-	FileReader io.Reader
 	// Filename is just the name of the file without path information.
 	Filename string
+
+	// FileReader is a reader with the contents of the file that should be uploaded.
+	FileReader io.Reader
 
 	// File is a deprecated form of FileReader and Filename that will do the same thing, but
 	// allows referencing a file directly. Please prefer the use of FileReader and Filename instead.
