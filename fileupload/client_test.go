@@ -17,15 +17,16 @@ func init() {
 	stripe.Key = GetTestKey()
 }
 
-func TestFileUploadNewThenGetWithFile(t *testing.T) {
+func TestFileUploadNewThenGet(t *testing.T) {
 	f, err := os.Open("test_data.pdf")
 	if err != nil {
 		t.Errorf("Unable to open test file upload file %v\n", err)
 	}
 
 	uploadParams := &stripe.FileUploadParams{
-		Purpose: "dispute_evidence",
-		File:    f,
+		Purpose:    "dispute_evidence",
+		FileReader: f,
+		Filename:   f.Name(),
 	}
 
 	target, err := New(uploadParams)
@@ -56,16 +57,15 @@ func TestFileUploadNewThenGetWithFile(t *testing.T) {
 	}
 }
 
-func TestFileUploadNewThenGet(t *testing.T) {
+func TestFileUploadNewThenGetWithFile(t *testing.T) {
 	f, err := os.Open("test_data.pdf")
 	if err != nil {
 		t.Errorf("Unable to open test file upload file %v\n", err)
 	}
 
 	uploadParams := &stripe.FileUploadParams{
-		Purpose:    "dispute_evidence",
-		FileReader: f,
-		Filename:   f.Name(),
+		Purpose: "dispute_evidence",
+		File:    f,
 	}
 
 	target, err := New(uploadParams)
