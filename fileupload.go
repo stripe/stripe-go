@@ -15,13 +15,13 @@ type FileUploadParams struct {
 	Params
 	Purpose FileUploadPurpose
 
-	// FileData is a reader with the contents of the file that should be uploaded.
+	// FileReader is a reader with the contents of the file that should be uploaded.
+	FileReader io.Reader
 	// Filename is just the name of the file without path information.
-	FileData io.Reader
 	Filename string
 
-	// File is a deprecated form of FileData and Filename that will do the same thing.
-	// Please use FileData and Filename instead.
+	// File is a deprecated form of FileReader and Filename that will do the same thing, but
+	// allows referencing a file directly. Please prefer the use of FileReader and Filename instead.
 	File *os.File
 }
 
@@ -67,18 +67,18 @@ func (f *FileUploadParams) AppendDetails(body io.ReadWriter) (string, error) {
 		}
 	}
 
-	// Prefer FileData and Filename
-	if f.FileData != nil && f.Filename != "" {
+	// Support both FileReader/Filename and File with
+	// the former being the newer preferred version
+	if f.FileReader != nil && f.Filename != "" {
 		part, err := writer.CreateFormFile("file", filepath.Base(f.Filename))
 		if err != nil {
 			return "", err
 		}
 
-		_, err = io.Copy(part, f.FileData)
+		_, err = io.Copy(part, f.FileReader)
 		if err != nil {
 			return "", err
 		}
-		// But allow old value of File field for now.
 	} else if f.File != nil {
 		part, err := writer.CreateFormFile("file", filepath.Base(f.File.Name()))
 		if err != nil {
