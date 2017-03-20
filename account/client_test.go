@@ -282,8 +282,13 @@ func TestAccountNoAdditionalOwners(t *testing.T) {
 		Managed: true,
 		Country: "GB",
 		LegalEntity: &stripe.LegalEntity{
-			Type:             "company",
-			AdditionalOwners: []stripe.Owner{},
+			Type: "company",
+			AdditionalOwnersEmpty: true,
+
+			// This gets ignored when AdditionalOwnersEmpty above is set.
+			AdditionalOwners: []stripe.Owner{
+				{First: "Jane"},
+			},
 		},
 	}
 
