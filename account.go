@@ -218,7 +218,6 @@ type LegalEntity struct {
 	PersonalAddressKanji  Address              `json:"personal_address_kanji"`
 	PhoneNumber           string               `json:"phone_number"`
 	DOB                   DOB                  `json:"dob"`
-	AdditionalOwners      []Owner              `json:"additional_owners"`
 	Verification          IdentityVerification `json:"verification"`
 	SSN                   string               `json:"ssn_last_4"`
 	SSNProvided           bool                 `json:"ssn_last_4_provided"`
@@ -227,6 +226,9 @@ type LegalEntity struct {
 	BusinessTaxID         string               `json:"business_tax_id"`
 	BusinessTaxIDProvided bool                 `json:"business_tax_id_provided"`
 	BusinessVatID         string               `json:"business_vat_id"`
+
+	// AdditionalOwners should be set to an empty slice to signal no additional owners.
+	AdditionalOwners []Owner `json:"additional_owners"`
 }
 
 // Address is the structure for an account address.
@@ -443,6 +445,9 @@ func (l *LegalEntity) AppendDetails(values *RequestValues) {
 		}
 
 		owner.Address.AppendDetails(values, fmt.Sprintf("legal_entity[additional_owners][%v][address]", i))
+	}
+	if l.AdditionalOwners != nil && len(l.AdditionalOwners) == 0 {
+		values.Add("legal_entity[additional_owners]", "")
 	}
 }
 
