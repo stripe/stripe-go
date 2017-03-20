@@ -31,6 +31,8 @@ type InvoiceItem struct {
 	Currency     Currency          `json:"currency"`
 	Customer     *Customer         `json:"customer"`
 	Date         int64             `json:"date"`
+	Period       *Period           `json:"period"`
+	Plan         *Plan             `json:"plan"`
 	Proration    bool              `json:"proration"`
 	Desc         string            `json:"description"`
 	Invoice      *Invoice          `json:"invoice"`
@@ -38,6 +40,7 @@ type InvoiceItem struct {
 	Sub          string            `json:"subscription"`
 	Discountable bool              `json:"discountable"`
 	Deleted      bool              `json:"deleted"`
+	Quantity     int64             `json:"quantity"`
 }
 
 // InvoiceItemList is a list of invoice items as retrieved from a list endpoint.
