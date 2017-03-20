@@ -277,6 +277,29 @@ func TestAccountUpdateLegalEntity(t *testing.T) {
 	}
 }
 
+func TestAccountNoAdditionalOwners(t *testing.T) {
+	params := &stripe.AccountParams{
+		Managed: true,
+		Country: "GB",
+		LegalEntity: &stripe.LegalEntity{
+			Type:             "company",
+			AdditionalOwners: []stripe.Owner{},
+		},
+	}
+
+	acct, err := New(params)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	for _, v := range acct.Verification.Fields {
+		if v == "legal_entity.additional_owners" {
+			t.Error("Additional owners are not being recorded as being explicitly unset")
+		}
+	}
+}
+
 func TestAccountUpdateWithBankAccount(t *testing.T) {
 	params := &stripe.AccountParams{
 		Managed: true,
