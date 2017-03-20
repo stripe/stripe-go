@@ -198,7 +198,14 @@ func (ea *ExternalAccount) UnmarshalJSON(b []byte) error {
 
 // LegalEntity is the structure for properties related to an account's legal state.
 type LegalEntity struct {
-	Type                  LegalEntityType      `json:"type"`
+	Type LegalEntityType `json:"type"`
+
+	AdditionalOwners []Owner `json:"additional_owners"`
+
+	// AdditionalOwnersEmpty can be set to clear a legal entity's additional
+	// owners.
+	AdditionalOwnersEmpty bool
+
 	BusinessName          string               `json:"business_name"`
 	BusinessNameKana      string               `json:"business_name_kana"`
 	BusinessNameKanji     string               `json:"business_name_kanji"`
@@ -226,9 +233,6 @@ type LegalEntity struct {
 	BusinessTaxID         string               `json:"business_tax_id"`
 	BusinessTaxIDProvided bool                 `json:"business_tax_id_provided"`
 	BusinessVatID         string               `json:"business_vat_id"`
-
-	// AdditionalOwners should be set to an empty slice to signal no additional owners.
-	AdditionalOwners []Owner `json:"additional_owners"`
 }
 
 // Address is the structure for an account address.
@@ -423,31 +427,33 @@ func (l *LegalEntity) AppendDetails(values *RequestValues) {
 	l.PersonalAddressKana.AppendDetails(values, "legal_entity[personal_address_kana]")
 	l.PersonalAddressKanji.AppendDetails(values, "legal_entity[personal_address_kanji]")
 
-	for i, owner := range l.AdditionalOwners {
-		if len(owner.First) > 0 {
-			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][first_name]", i), owner.First)
-		}
-
-		if len(owner.Last) > 0 {
-			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][last_name]", i), owner.Last)
-		}
-
-		if owner.DOB.Day > 0 {
-			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][day]", i), strconv.Itoa(owner.DOB.Day))
-		}
-
-		if owner.DOB.Month > 0 {
-			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][month]", i), strconv.Itoa(owner.DOB.Month))
-		}
-
-		if owner.DOB.Year > 0 {
-			values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][year]", i), strconv.Itoa(owner.DOB.Year))
-		}
-
-		owner.Address.AppendDetails(values, fmt.Sprintf("legal_entity[additional_owners][%v][address]", i))
-	}
-	if l.AdditionalOwners != nil && len(l.AdditionalOwners) == 0 {
+	// sending an empty value unsets additional owners
+	if l.AdditionalOwnersEmpty {
 		values.Add("legal_entity[additional_owners]", "")
+	} else {
+		for i, owner := range l.AdditionalOwners {
+			if len(owner.First) > 0 {
+				values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][first_name]", i), owner.First)
+			}
+
+			if len(owner.Last) > 0 {
+				values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][last_name]", i), owner.Last)
+			}
+
+			if owner.DOB.Day > 0 {
+				values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][day]", i), strconv.Itoa(owner.DOB.Day))
+			}
+
+			if owner.DOB.Month > 0 {
+				values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][month]", i), strconv.Itoa(owner.DOB.Month))
+			}
+
+			if owner.DOB.Year > 0 {
+				values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][dob][year]", i), strconv.Itoa(owner.DOB.Year))
+			}
+
+			owner.Address.AppendDetails(values, fmt.Sprintf("legal_entity[additional_owners][%v][address]", i))
+		}
 	}
 }
 
