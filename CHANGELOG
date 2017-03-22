@@ -1,3 +1,6 @@
+19.15.0 2017-03-22
+	Add `ShippingCarrier` to dispute evidence
+
 19.14.0 2017-03-20
 	Add `Period`, `Plan`, and `Quantity` to `InvoiceItem`
 
