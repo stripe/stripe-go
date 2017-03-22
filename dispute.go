@@ -91,6 +91,7 @@ type DisputeEvidence struct {
 	ShippingAddress              string `json:"shipping_address"`
 	ShippingDate                 string `json:"shipping_date"`
 	ShippingTracking             string `json:"shipping_tracking_number"`
+	ShippingCarrier              string `json:"shipping_carrier"`
 	ShippingDoc                  *File  `json:"shipping_documentation"`
 	RefundPolicy                 *File  `json:"refund_policy"`
 	RefundPolicyDisclosure       string `json:"refund_policy_disclosure"`
