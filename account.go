@@ -453,6 +453,10 @@ func (l *LegalEntity) AppendDetails(values *RequestValues) {
 			}
 
 			owner.Address.AppendDetails(values, fmt.Sprintf("legal_entity[additional_owners][%v][address]", i))
+
+			if owner.Verification.Document != nil {
+				values.Add(fmt.Sprintf("legal_entity[additional_owners][%v][verification][document]", i), owner.Verification.Document.ID)
+			}
 		}
 	}
 }
