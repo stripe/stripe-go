@@ -1,3 +1,6 @@
+19.16.0 2017-03-23
+	Allow the ID of an identity document to be passed into an account owner update
+
 19.15.0 2017-03-22
 	Add `ShippingCarrier` to dispute evidence
 
