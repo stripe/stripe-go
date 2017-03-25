@@ -54,6 +54,10 @@ func writeAccountParams(
 		}
 	}
 
+	if len(params.PayoutStatement) > 0 {
+		body.Add("payout_statement_descriptor", params.PayoutStatement)
+	}
+
 	if len(params.Statement) > 0 {
 		body.Add("statement_descriptor", params.Statement)
 	}
@@ -86,8 +90,8 @@ func writeAccountParams(
 		params.LegalEntity.AppendDetails(body)
 	}
 
-	if params.TransferSchedule != nil {
-		params.TransferSchedule.AppendDetails(body)
+	if params.PayoutSchedule != nil {
+		params.PayoutSchedule.AppendDetails(body)
 	}
 
 	if params.TOSAcceptance != nil {

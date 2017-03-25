@@ -24,9 +24,11 @@ import (
 	"github.com/stripe/stripe-go/order"
 	"github.com/stripe/stripe-go/orderreturn"
 	"github.com/stripe/stripe-go/paymentsource"
+	"github.com/stripe/stripe-go/payout"
 	"github.com/stripe/stripe-go/plan"
 	"github.com/stripe/stripe-go/product"
 	"github.com/stripe/stripe-go/recipient"
+	"github.com/stripe/stripe-go/recipienttransfer"
 	"github.com/stripe/stripe-go/refund"
 	"github.com/stripe/stripe-go/reversal"
 	"github.com/stripe/stripe-go/sku"
@@ -75,6 +77,9 @@ type API struct {
 	// Transfers is the client used to invoke /transfers APIs.
 	// For more details see https://stripe.com/docs/api#transfers.
 	Transfers *transfer.Client
+	// Payouts is the client used to invoke /payouts APIs.
+	// For more details see https://stripe.com/docs/api#payouts.
+	Payouts *payout.Client
 	// Recipients is the client used to invoke /recipients APIs.
 	// For more details see https://stripe.com/docs/api#recipients.
 	Recipients *recipient.Client
@@ -154,6 +159,7 @@ func (a *API) Init(key string, backends *Backends) {
 	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}
 	a.Disputes = &dispute.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
+	a.Payouts = &payout.Client{B: backends.API, Key: key}
 	a.Recipients = &recipient.Client{B: backends.API, Key: key}
 	a.Refunds = &refund.Client{B: backends.API, Key: key}
 	a.Fees = &fee.Client{B: backends.API, Key: key}

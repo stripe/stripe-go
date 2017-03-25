@@ -101,7 +101,7 @@ func TestBalanceGetTx(t *testing.T) {
 		t.Errorf("Type %v does not match expected value\n", target.Type)
 	}
 
-	if target.Src != res.ID {
+	if target.Src.ID != res.ID {
 		t.Errorf("Source %q does not match expeted value %q\n", target.Src, res.ID)
 	}
 }

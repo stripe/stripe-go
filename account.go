@@ -56,10 +56,10 @@ type AccountParams struct {
 	Params
 	Country, Email, DefaultCurrency, Statement, BusinessName, BusinessUrl,
 	BusinessPrimaryColor, SupportPhone, SupportEmail, SupportUrl,
-	FromRecipient string
+	FromRecipient, PayoutStatement string
 	ExternalAccount                               *AccountExternalAccountParams
 	LegalEntity                                   *LegalEntity
-	TransferSchedule                              *TransferScheduleParams
+	PayoutSchedule                                *PayoutScheduleParams
 	Managed, DebitNegativeBal, NoDebitNegativeBal bool
 	TOSAcceptance                                 *TOSAcceptanceParams
 }
@@ -77,8 +77,8 @@ type AccountExternalAccountParams struct {
 	Account, Country, Currency, Routing, Token string
 }
 
-// TransferScheduleParams are the parameters allowed for transfer schedules.
-type TransferScheduleParams struct {
+// PayoutScheduleParams are the parameters allowed for payout schedules.
+type PayoutScheduleParams struct {
 	Delay, MonthAnchor uint64
 	WeekAnchor         string
 	Interval           Interval
@@ -93,11 +93,12 @@ type Account struct {
 	Country              string               `json:"country"`
 	DefaultCurrency      string               `json:"default_currency"`
 	DetailsSubmitted     bool                 `json:"details_submitted"`
-	TransfersEnabled     bool                 `json:"transfers_enabled"`
+	PayoutsEnabled       bool                 `json:"payouts_enabled"`
 	Name                 string               `json:"display_name"`
 	Email                string               `json:"email"`
 	ExternalAccounts     *ExternalAccountList `json:"external_accounts"`
 	Statement            string               `json:"statement_descriptor"`
+	PayoutStatement      string               `json:"payout_statement_descriptor"`
 	Timezone             string               `json:"timezone"`
 	BusinessName         string               `json:"business_name"`
 	BusinessPrimaryColor string               `json:"business_primary_color"`
@@ -118,9 +119,9 @@ type Account struct {
 		Due            *int64   `json:"due_by"`
 		DisabledReason string   `json:"disabled_reason"`
 	} `json:"verification"`
-	LegalEntity      *LegalEntity      `json:"legal_entity"`
-	TransferSchedule *TransferSchedule `json:"transfer_schedule"`
-	TOSAcceptance    *struct {
+	LegalEntity    *LegalEntity    `json:"legal_entity"`
+	PayoutSchedule *PayoutSchedule `json:"payout_schedule"`
+	TOSAcceptance  *struct {
 		Date      int64  `json:"date"`
 		IP        string `json:"ip"`
 		UserAgent string `json:"user_agent"`
@@ -313,8 +314,8 @@ type IdentityDocument struct {
 	Size    int64  `json:"size"`
 }
 
-// TransferSchedule is the structure for an account's transfer schedule.
-type TransferSchedule struct {
+// PayoutSchedule is the structure for an account's payout schedule.
+type PayoutSchedule struct {
 	Delay       uint64   `json:"delay_days"`
 	Interval    Interval `json:"interval"`
 	WeekAnchor  string   `json:"weekly_anchor"`
@@ -461,19 +462,19 @@ func (l *LegalEntity) AppendDetails(values *RequestValues) {
 	}
 }
 
-// AppendDetails adds the transfer schedule to the query string.
-func (t *TransferScheduleParams) AppendDetails(values *RequestValues) {
+// AppendDetails adds the payout schedule to the query string.
+func (t *PayoutScheduleParams) AppendDetails(values *RequestValues) {
 	if t.Delay > 0 {
-		values.Add("transfer_schedule[delay_days]", strconv.FormatUint(t.Delay, 10))
+		values.Add("payout_schedule[delay_days]", strconv.FormatUint(t.Delay, 10))
 	} else if t.MinimumDelay {
-		values.Add("transfer_schedule[delay_days]", "minimum")
+		values.Add("payout_schedule[delay_days]", "minimum")
 	}
 
-	values.Add("transfer_schedule[interval]", string(t.Interval))
+	values.Add("payout_schedule[interval]", string(t.Interval))
 	if t.Interval == Week && len(t.WeekAnchor) > 0 {
-		values.Add("transfer_schedule[weekly_anchor]", t.WeekAnchor)
+		values.Add("payout_schedule[weekly_anchor]", t.WeekAnchor)
 	} else if t.Interval == Month && t.MonthAnchor > 0 {
-		values.Add("transfer_schedule[monthly_anchor]", strconv.FormatUint(t.MonthAnchor, 10))
+		values.Add("payout_schedule[monthly_anchor]", strconv.FormatUint(t.MonthAnchor, 10))
 	}
 }
 
