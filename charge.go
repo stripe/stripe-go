@@ -61,7 +61,7 @@ type Charge struct {
 	Refunded       bool              `json:"refunded"`
 	Refunds        *RefundList       `json:"refunds"`
 	AmountRefunded uint64            `json:"amount_refunded"`
-	Tx             *Transaction      `json:"balance_transaction"`
+	Tx             string            `json:"balance_transaction"`
 	Destination    *Account          `json:"destination"`
 	Transfer       *Transfer         `json:"transfer"`
 	Customer       *Customer         `json:"customer"`
