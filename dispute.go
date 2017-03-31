@@ -26,7 +26,13 @@ type DisputeParams struct {
 // DisputeEvidenceParams is the set of parameters that can be used when submitting
 // evidence for disputes.
 type DisputeEvidenceParams struct {
-	ProductDesc string
+	ActivityLog string
+
+	BillingAddress string
+
+	CancellationPolicy           string
+	CancellationPolicyDisclsoure string
+	CancellationRebuttal         string
 
 	CustomerName  string
 	CustomerEmail string
@@ -34,31 +40,25 @@ type DisputeEvidenceParams struct {
 	CustomerSig   string
 	CustomerComm  string
 
-	BillingAddress string
+	DuplicateCharge       string
+	DuplicateChargeReason string
+	DuplicateChargeDoc    string
+
+	ProductDesc string
 
 	Receipt string
-
-	ShippingAddress  string
-	ShippingDate     string
-	ShippingTracking string
-	ShippingDoc      string
 
 	RefundPolicy           string
 	RefundPolicyDisclosure string
 	RefundRefusalReason    string
 
-	CancellationPolicy           string
-	CancellationPolicyDisclsoure string
-	CancellationRebuttal         string
-
-	ActivityLog string
-
 	ServiceDate string
 	ServiceDoc  string
 
-	DuplicateCharge       string
-	DuplicateChargeReason string
-	DuplicateChargeDoc    string
+	ShippingAddress  string
+	ShippingDate     string
+	ShippingTracking string
+	ShippingDoc      string
 
 	UncategorizedText string
 	UncategorizedFile string
