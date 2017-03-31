@@ -26,14 +26,42 @@ type DisputeParams struct {
 // DisputeEvidenceParams is the set of parameters that can be used when submitting
 // evidence for disputes.
 type DisputeEvidenceParams struct {
-	ProductDesc, CustomerName, CustomerEmail, CustomerIP, CustomerSig, BillingAddress, Receipt string
-	ShippingAddress, ShippingDate, ShippingTracking, ShippingDoc                               string
-	RefundPolicy, RefundPolicyDisclosure, RefundRefusalReason                                  string
-	CancellationPolicy, CancellationPolicyDisclsoure, CancellationRebuttal                     string
-	ActivityLog                                                                                string
-	ServiceDate, ServiceDoc                                                                    string
-	DuplicateCharge, DuplicateChargeReason, DuplicateChargeDoc                                 string
-	CustomerComm, UncategorizedText, UncategorizedFile                                         string
+	ProductDesc string
+
+	CustomerName  string
+	CustomerEmail string
+	CustomerIP    string
+	CustomerSig   string
+	CustomerComm  string
+
+	BillingAddress string
+
+	Receipt string
+
+	ShippingAddress  string
+	ShippingDate     string
+	ShippingTracking string
+	ShippingDoc      string
+
+	RefundPolicy           string
+	RefundPolicyDisclosure string
+	RefundRefusalReason    string
+
+	CancellationPolicy           string
+	CancellationPolicyDisclsoure string
+	CancellationRebuttal         string
+
+	ActivityLog string
+
+	ServiceDate string
+	ServiceDoc  string
+
+	DuplicateCharge       string
+	DuplicateChargeReason string
+	DuplicateChargeDoc    string
+
+	UncategorizedText string
+	UncategorizedFile string
 }
 
 // DisputeListParams is the set of parameters that can be used when listing disputes.
