@@ -1,5 +1,13 @@
-19.17.0 2017-04-06
+20.0.0 2017-04-06
+	Bump API version to 2017-04-06: https://stripe.com/docs/upgrades#2017-04-06
 	Add support for payouts and recipient transfers
+	Change the transfer resource to support its new format
+	Deprecate recipient creation
+	Disputes under charges are now expandable and collapsed by default
+	Rules under charge outcomes are now expandable and collapsed by default
+
+19.17.0 2017-04-06
+	Please see 20.0.0 (bad release)	
 
 19.16.0 2017-03-23
 	Allow the ID of an identity document to be passed into an account owner update
