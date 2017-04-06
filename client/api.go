@@ -28,7 +28,6 @@ import (
 	"github.com/stripe/stripe-go/plan"
 	"github.com/stripe/stripe-go/product"
 	"github.com/stripe/stripe-go/recipient"
-	"github.com/stripe/stripe-go/recipienttransfer"
 	"github.com/stripe/stripe-go/refund"
 	"github.com/stripe/stripe-go/reversal"
 	"github.com/stripe/stripe-go/sku"

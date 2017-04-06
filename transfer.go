@@ -18,7 +18,7 @@ type TransferDestination struct {
 // For more details see https://stripe.com/docs/api#create_transfer and https://stripe.com/docs/api#update_transfer.
 type TransferParams struct {
 	Params
-	SourceType                                                            TransferSourceType
+	SourceType    TransferSourceType
 	Amount        int64
 	Currency      Currency
 	Dest          string

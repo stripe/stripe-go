@@ -24,7 +24,7 @@ const (
 	// TransactionSourceDispute is a constant representing a transaction source of dispute
 	TransactionSourceDispute TransactionSourceType = "dispute"
 
-	// TransactionSourceTransfer is a constant representing a transaction source of payout
+	// TransactionSourcePayout is a constant representing a transaction source of payout
 	TransactionSourcePayout TransactionSourceType = "payout"
 
 	// TransactionSourceRefund is a constant representing a transaction source of refund

@@ -5,7 +5,6 @@ import (
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/customer"
-	"github.com/stripe/stripe-go/recipient"
 	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
@@ -98,26 +97,23 @@ func TestCardNew(t *testing.T) {
 }
 
 func TestCardGet(t *testing.T) {
-	recipientParams := &stripe.RecipientParams{
-		Name: "Test Recipient",
-		Type: recipient.Corp,
-		Card: &stripe.CardParams{
-			Number: "5200828282828210",
-			Month:  "06",
-			Year:   "20",
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource(&stripe.CardParams{
+		Number: "5200828282828210",
+		Month:  "06",
+		Year:   "20",
+	})
 
-	rec, _ := recipient.New(recipientParams)
+	cust, _ := customer.New(customerParams)
 
-	target, err := Get(rec.DefaultCard.ID, &stripe.CardParams{Recipient: rec.ID})
+	target, err := Get(cust.DefaultSource.ID, &stripe.CardParams{Customer: cust.ID})
 
 	if err != nil {
 		t.Error(err)
 	}
 
 	if target.LastFour != "8210" {
-		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, recipientParams.Card.Number)
+		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, customerParams.Source.Card.Number)
 	}
 
 	if target.Brand != MasterCard {
@@ -128,7 +124,7 @@ func TestCardGet(t *testing.T) {
 		t.Errorf("Card funding %q does not match expected value\n", target.Funding)
 	}
 
-	recipient.Del(rec.ID)
+	customer.Del(cust.ID)
 }
 
 func TestCardDel(t *testing.T) {

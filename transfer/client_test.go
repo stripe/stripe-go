@@ -122,7 +122,7 @@ func TestTransferAllMethods(t *testing.T) {
 		t.Error(err)
 	}
 	if nbTransfers != 4 {
-		t.Error("Expected 4 transfers on %q but got %q\n", acc.ID, nbTransfers)
+		t.Errorf("Expected 4 transfers on %q but got %q\n", acc.ID, nbTransfers)
 	}
 
 	account.Del(acc.ID)

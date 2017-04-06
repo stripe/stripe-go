@@ -31,6 +31,7 @@ func TestPayoutAllMethods(t *testing.T) {
 				Month: 2,
 				Year:  1990,
 			},
+			PersonalID: "123456789",
 		},
 		TOSAcceptance: &stripe.TOSAcceptanceParams{
 			IP:        "127.0.0.1",
@@ -150,7 +151,7 @@ func TestPayoutAllMethods(t *testing.T) {
 		t.Error(err)
 	}
 	if nbPayouts != 4 {
-		t.Error("Expected 4 payouts on %q but got %q\n", acc.ID, nbPayouts)
+		t.Errorf("Expected 4 payouts on %q but got %q\n", acc.ID, nbPayouts)
 	}
 
 	account.Del(acc.ID)
