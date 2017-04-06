@@ -54,7 +54,9 @@ func TestPayoutAllMethods(t *testing.T) {
 				Year:   "20",
 			},
 		},
-		Destination: acc.ID,
+		Destination: &stripe.DestinationParams{
+			Account: acc.ID,
+		},
 	}
 
 	_, err = charge.New(chargeParams)

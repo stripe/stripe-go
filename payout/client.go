@@ -65,7 +65,7 @@ func (c Client) New(params *stripe.PayoutParams) (*stripe.Payout, error) {
 	}
 
 	if len(params.StatementDescriptor) > 0 {
-		body.Add("statement_descriptor", params.Statement)
+		body.Add("statement_descriptor", params.StatementDescriptor)
 	}
 
 	params.AppendTo(body)

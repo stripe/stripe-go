@@ -45,11 +45,13 @@ func TestRecipientTransferUnmarshal(t *testing.T) {
 		t.Errorf("Problem deserializing the ID, got %v", recipientTransfer.ID)
 	}
 
-	if recipientTransfer.BalanceTransaction != "txn_xxx" {
+	if recipientTransfer.BalanceTransaction == nil {
+		t.Errorf("Problem deserializing balance_transaction, got nothing.")
+	} else if recipientTransfer.BalanceTransaction.ID != "txn_xxx" {
 		t.Errorf("Problem deserializing balance_transaction, got %v", recipientTransfer.BalanceTransaction)
 	}
 
-	if !recipientTransfer.Card || recipientTransfer.Card.ID != "card_1234" {
+	if recipientTransfer.Card == nil {
 		t.Errorf("Problem deserializing card as it's null")
 	} else if recipientTransfer.Card.ID != "card_1234" {
 		t.Errorf("Problem deserializing card id, got %v", recipientTransfer.Card.ID)

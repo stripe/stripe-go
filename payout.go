@@ -72,7 +72,7 @@ type PayoutListParams struct {
 	ListParams
 	ArrivalDate int64
 	Created     int64
-	Dest        string
+	Destination string
 	Status      PayoutStatus
 }
 
