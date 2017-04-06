@@ -112,6 +112,7 @@ type FraudDetails struct {
 // ChargeOutcomeRule tells you the Radar rule that blocked the charge, if any.
 type ChargeOutcomeRule struct {
 	Action    string `json:"action"`
+	ID        string `json:"id"`
 	Predicate string `json:"predicate"`
 }
 
@@ -181,6 +182,23 @@ func (c *Charge) UnmarshalJSON(data []byte) error {
 	err := json.Unmarshal(data, &cc)
 	if err == nil {
 		*c = Charge(cc)
+	} else {
+		// the id is surrounded by "\" characters, so strip them
+		c.ID = string(data[1 : len(data)-1])
+	}
+
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a ChargeOutcomeRule.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (c *ChargeOutcomeRule) UnmarshalJSON(data []byte) error {
+	type chargeOutcomeRule ChargeOutcomeRule
+	var cc chargeOutcomeRule
+	err := json.Unmarshal(data, &cc)
+	if err == nil {
+		*c = ChargeOutcomeRule(cc)
 	} else {
 		// the id is surrounded by "\" characters, so strip them
 		c.ID = string(data[1 : len(data)-1])
