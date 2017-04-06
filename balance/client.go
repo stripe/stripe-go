@@ -11,14 +11,19 @@ const (
 	TxAvailable stripe.TransactionStatus = "available"
 	TxPending   stripe.TransactionStatus = "pending"
 
-	TxCharge         stripe.TransactionType = "charge"
-	TxRefund         stripe.TransactionType = "refund"
-	TxAdjust         stripe.TransactionType = "adjustment"
-	TxAppFee         stripe.TransactionType = "application_fee"
-	TxFeeRefund      stripe.TransactionType = "application_fee_refund"
-	TxTransfer       stripe.TransactionType = "transfer"
-	TxTransferCancel stripe.TransactionType = "transfer_cancel"
-	TxTransferFail   stripe.TransactionType = "transfer_failure"
+	TxCharge                  stripe.TransactionType = "charge"
+	TxRefund                  stripe.TransactionType = "refund"
+	TxAdjust                  stripe.TransactionType = "adjustment"
+	TxAppFee                  stripe.TransactionType = "application_fee"
+	TxFeeRefund               stripe.TransactionType = "application_fee_refund"
+	TxRecipientTransfer       stripe.TransactionType = "recipient_transfer"
+	TxRecipientTransferCancel stripe.TransactionType = "recipient_transfer_cancel"
+	TxRecipientTransferFail   stripe.TransactionType = "recipient_transfer_failure"
+	TxPayout                  stripe.TransactionType = "payout"
+	TxPayoutCancel            stripe.TransactionType = "payout_cancel"
+	TxPayoutFail              stripe.TransactionType = "payout_failure"
+	TxTransfer                stripe.TransactionType = "transfer"
+	TxTransferCancel          stripe.TransactionType = "transfer_refund"
 )
 
 // Client is used to invoke /balance and transaction-related APIs.

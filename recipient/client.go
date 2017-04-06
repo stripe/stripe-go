@@ -18,49 +18,8 @@ type Client struct {
 	Key string
 }
 
-// New POSTs a new recipient.
-// For more details see https://stripe.com/docs/api#create_recipient.
-func New(params *stripe.RecipientParams) (*stripe.Recipient, error) {
-	return getC().New(params)
-}
-
-func (c Client) New(params *stripe.RecipientParams) (*stripe.Recipient, error) {
-	body := &stripe.RequestValues{}
-	body.Add("name", params.Name)
-	body.Add("type", string(params.Type))
-
-	if params.Bank != nil {
-		if len(params.Bank.Token) > 0 {
-			body.Add("bank_account", params.Bank.Token)
-		} else {
-			params.Bank.AppendDetails(body)
-		}
-	}
-
-	if len(params.Token) > 0 {
-		body.Add("card", params.Token)
-	} else if params.Card != nil {
-		params.Card.AppendDetails(body, true)
-	}
-
-	if len(params.TaxID) > 0 {
-		body.Add("tax_id", params.TaxID)
-	}
-
-	if len(params.Email) > 0 {
-		body.Add("email", params.Email)
-	}
-
-	if len(params.Desc) > 0 {
-		body.Add("description", params.Desc)
-	}
-	params.AppendTo(body)
-
-	recipient := &stripe.Recipient{}
-	err := c.B.Call("POST", "/recipients", c.Key, body, &params.Params, recipient)
-
-	return recipient, err
-}
+// Since API version 2017-04-06, new recipients can't be created anymore.
+// For that reason, there isn't a New() method for the Recipient resource.
 
 // Get returns the details of a recipient.
 // For more details see https://stripe.com/docs/api#retrieve_recipient.

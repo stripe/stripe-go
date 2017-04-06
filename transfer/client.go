@@ -2,38 +2,16 @@
 package transfer
 
 import (
-	"fmt"
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
 )
 
 const (
-	Paid     stripe.TransferStatus = "paid"
-	Pending  stripe.TransferStatus = "pending"
-	Transit  stripe.TransferStatus = "in_transit"
-	Failed   stripe.TransferStatus = "failed"
-	Canceled stripe.TransferStatus = "canceled"
-
-	Card          stripe.TransferType = "card"
-	Bank          stripe.TransferType = "bank_account"
-	StripeAccount stripe.TransferType = "stripe_account"
-
 	SourceAlipay  stripe.TransferSourceType = "alipay_account"
 	SourceBank    stripe.TransferSourceType = "bank_account"
 	SourceBitcoin stripe.TransferSourceType = "bitcoin_receiver"
 	SourceCard    stripe.TransferSourceType = "card"
-
-	InsufficientFunds    stripe.TransferFailCode = "insufficient_funds"
-	AccountClosed        stripe.TransferFailCode = "account_closed"
-	NoAccount            stripe.TransferFailCode = "no_account"
-	InvalidAccountNumber stripe.TransferFailCode = "invalid_account_number"
-	DebitNotAuth         stripe.TransferFailCode = "debit_not_authorized"
-	BankOwnerChanged     stripe.TransferFailCode = "bank_ownership_changed"
-	AccountFrozen        stripe.TransferFailCode = "account_frozen"
-	CouldNotProcess      stripe.TransferFailCode = "could_not_process"
-	BankAccountRestrict  stripe.TransferFailCode = "bank_account_restricted"
-	InvalidCurrency      stripe.TransferFailCode = "invalid_currency"
 )
 
 // Client is used to invoke /transfers APIs.
@@ -53,24 +31,6 @@ func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 	body.Add("amount", strconv.FormatInt(params.Amount, 10))
 	body.Add("currency", string(params.Currency))
 
-	if len(params.Recipient) > 0 {
-		body.Add("recipient", params.Recipient)
-	}
-
-	if len(params.Bank) > 0 {
-		body.Add("bank_account", params.Bank)
-	} else if len(params.Card) > 0 {
-		body.Add("card", params.Card)
-	}
-
-	if len(params.Desc) > 0 {
-		body.Add("description", params.Desc)
-	}
-
-	if len(params.Statement) > 0 {
-		body.Add("statement_descriptor", params.Statement)
-	}
-
 	if len(params.Dest) > 0 {
 		body.Add("destination", params.Dest)
 	}
@@ -81,10 +41,6 @@ func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 
 	if len(params.SourceTx) > 0 {
 		body.Add("source_transaction", params.SourceTx)
-	}
-
-	if params.Fee > 0 {
-		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 	}
 
 	if len(params.SourceType) > 0 {
@@ -135,38 +91,11 @@ func (c Client) Update(id string, params *stripe.TransferParams) (*stripe.Transf
 
 		body = &stripe.RequestValues{}
 
-		if len(params.Desc) > 0 {
-			body.Add("description", params.Desc)
-		}
-
 		params.AppendTo(body)
 	}
 
 	transfer := &stripe.Transfer{}
 	err := c.B.Call("POST", "/transfers/"+id, c.Key, body, commonParams, transfer)
-
-	return transfer, err
-}
-
-// Cancel cancels a pending transfer.
-// For more details see https://stripe.com/docs/api#cancel_transfer.
-func Cancel(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
-	return getC().Cancel(id, params)
-}
-
-func (c Client) Cancel(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
-	var body *stripe.RequestValues
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
-	}
-
-	transfer := &stripe.Transfer{}
-	err := c.B.Call("POST", fmt.Sprintf("/transfers/%v/cancel", id), c.Key, body, commonParams, transfer)
 
 	return transfer, err
 }
@@ -189,16 +118,12 @@ func (c Client) List(params *stripe.TransferListParams) *Iter {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
 		}
 
-		if params.Date > 0 {
-			body.Add("date", strconv.FormatInt(params.Date, 10))
+		if params.Currency != "" {
+			body.Add("currency", string(params.Currency))
 		}
 
-		if len(params.Recipient) > 0 {
-			body.Add("recipient", params.Recipient)
-		}
-
-		if len(params.Status) > 0 {
-			body.Add("status", string(params.Status))
+		if len(params.Dest) > 0 {
+			body.Add("destination", params.Dest)
 		}
 
 		if len(params.TransferGroup) > 0 {

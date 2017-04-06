@@ -7,7 +7,6 @@ import (
 	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/card"
 	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/recipient"
 	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
@@ -153,46 +152,6 @@ func TestAccountReject(t *testing.T) {
 
 	if rejectedAcct.Verification.DisabledReason != "rejected.fraud" {
 		t.Error("Account DisabledReason did not change to rejected.fraud.")
-	}
-}
-
-func TestAccountMigrateFromRecipients(t *testing.T) {
-	recipientParams := &stripe.RecipientParams{
-		Name:  "Recipient Name",
-		Type:  "individual",
-		TaxID: "000000000",
-		Email: "a@b.com",
-		Desc:  "Recipient Desc",
-		Bank: &stripe.BankAccountParams{
-			Country: "US",
-			Routing: "110000000",
-			Account: "000123456789",
-		},
-		Card: &stripe.CardParams{
-			Name:   "Test Debit",
-			Number: "4000056655665556",
-			Month:  "10",
-			Year:   "20",
-		},
-	}
-
-	target, err := recipient.New(recipientParams)
-	if err != nil {
-		t.Error(err)
-	}
-
-	target2, err := New(&stripe.AccountParams{FromRecipient: target.ID})
-	if err != nil {
-		t.Error(err)
-	}
-
-	target, err = recipient.Get(target.ID, nil)
-	if err != nil {
-		t.Error(err)
-	}
-
-	if target2.ID != target.MigratedTo.ID {
-		t.Errorf("The new account ID %v does not match the MigratedTo property %v", target2.ID, target.MigratedTo.ID)
 	}
 }
 
