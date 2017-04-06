@@ -18,13 +18,13 @@ type TransferDestination struct {
 // For more details see https://stripe.com/docs/api#create_transfer and https://stripe.com/docs/api#update_transfer.
 type TransferParams struct {
 	Params
-	SourceType    TransferSourceType
 	Amount        int64
 	Currency      Currency
 	Dest          string
 	Meta          map[string]string
-	TransferGroup string
 	SourceTx      string
+	SourceType    TransferSourceType
+	TransferGroup string
 }
 
 // TransferListParams is the set of parameters that can be used when listing transfers.

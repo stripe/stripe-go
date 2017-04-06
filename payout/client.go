@@ -9,30 +9,30 @@ import (
 )
 
 const (
+	Canceled stripe.PayoutStatus = "canceled"
+	Failed   stripe.PayoutStatus = "failed"
 	Paid     stripe.PayoutStatus = "paid"
 	Pending  stripe.PayoutStatus = "pending"
 	Transit  stripe.PayoutStatus = "in_transit"
-	Failed   stripe.PayoutStatus = "failed"
-	Canceled stripe.PayoutStatus = "canceled"
 
-	Card stripe.PayoutType = "card"
 	Bank stripe.PayoutType = "bank_account"
+	Card stripe.PayoutType = "card"
 
 	SourceAlipay  stripe.PayoutSourceType = "alipay_account"
 	SourceBank    stripe.PayoutSourceType = "bank_account"
 	SourceBitcoin stripe.PayoutSourceType = "bitcoin_receiver"
 	SourceCard    stripe.PayoutSourceType = "card"
 
-	InsufficientFunds    stripe.PayoutFailureCode = "insufficient_funds"
 	AccountClosed        stripe.PayoutFailureCode = "account_closed"
-	NoAccount            stripe.PayoutFailureCode = "no_account"
-	InvalidAccountNumber stripe.PayoutFailureCode = "invalid_account_number"
-	DebitNotAuth         stripe.PayoutFailureCode = "debit_not_authorized"
-	BankOwnerChanged     stripe.PayoutFailureCode = "bank_ownership_changed"
 	AccountFrozen        stripe.PayoutFailureCode = "account_frozen"
-	CouldNotProcess      stripe.PayoutFailureCode = "could_not_process"
 	BankAccountRestrict  stripe.PayoutFailureCode = "bank_account_restricted"
+	BankOwnerChanged     stripe.PayoutFailureCode = "bank_ownership_changed"
+	CouldNotProcess      stripe.PayoutFailureCode = "could_not_process"
+	DebitNotAuth         stripe.PayoutFailureCode = "debit_not_authorized"
+	InsufficientFunds    stripe.PayoutFailureCode = "insufficient_funds"
+	InvalidAccountNumber stripe.PayoutFailureCode = "invalid_account_number"
 	InvalidCurrency      stripe.PayoutFailureCode = "invalid_currency"
+	NoAccount            stripe.PayoutFailureCode = "no_account"
 )
 
 // Client is used to invoke /payouts APIs.
