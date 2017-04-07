@@ -72,9 +72,9 @@ type TxParams struct {
 // For more details see https://stripe.com/docs/api/#balance_history.
 type TxListParams struct {
 	ListParams
-	Created, Available      int64
-	Currency, Src, Transfer string
-	Type                    TransactionType
+	Created, Available    int64
+	Currency, Src, Payout string
+	Type                  TransactionType
 }
 
 // Balance is the resource representing your Stripe balance.
