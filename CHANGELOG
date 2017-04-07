@@ -1,3 +1,6 @@
+21.0.0 2017-04-07
+	Balances are now retrieved by payout instead of by transfer
+
 20.0.0 2017-04-06
 	Bump API version to 2017-04-06: https://stripe.com/docs/upgrades#2017-04-06
 	Add support for payouts and recipient transfers
