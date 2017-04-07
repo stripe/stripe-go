@@ -102,14 +102,13 @@ func (c Client) List(params *stripe.TxListParams) *Iter {
 			body.Add("currency", params.Currency)
 		}
 
+		if len(params.Payout) > 0 {
+			body.Add("payout", params.Payout)
+		}
+
 		if len(params.Src) > 0 {
 			body.Add("source", params.Src)
 		}
-
-		if len(params.Transfer) > 0 {
-			body.Add("transfer", params.Transfer)
-		}
-
 		if len(params.Type) > 0 {
 			body.Add("type", string(params.Type))
 		}
