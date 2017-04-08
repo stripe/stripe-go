@@ -18,14 +18,8 @@ func TestRefundNew(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 	}
+	chargeParams.SetSource("tok_visa")
 
 	res, err := charge.New(chargeParams)
 
@@ -122,14 +116,8 @@ func TestRefundGet(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 	}
+	chargeParams.SetSource("tok_visa")
 
 	ch, err := charge.New(chargeParams)
 
@@ -158,14 +146,8 @@ func TestRefundListByCharge(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 	}
+	chargeParams.SetSource("tok_visa")
 
 	ch, err := charge.New(chargeParams)
 

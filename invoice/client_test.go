@@ -68,14 +68,8 @@ func createInvoice(t *testing.T, params *stripe.InvoiceParams) (*stripe.Invoice,
 func TestAllInvoicesScenarios(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
 		Email: "test@stripe.com",
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 	}
+	customerParams.SetSource("tok_visa")
 
 	cust, _ := customer.New(customerParams)
 

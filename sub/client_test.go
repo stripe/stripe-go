@@ -20,14 +20,8 @@ func init() {
 func TestSubscriptionNew(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
 		Email: "test@stripe.com",
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 	}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -86,15 +80,8 @@ func TestSubscriptionNew(t *testing.T) {
 }
 
 func TestSubscriptionZeroQuantity(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -138,15 +125,8 @@ func TestSubscriptionZeroQuantity(t *testing.T) {
 }
 
 func TestSubscriptionUpdateZeroQuantity(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -193,15 +173,8 @@ func TestSubscriptionUpdateZeroQuantity(t *testing.T) {
 }
 
 func TestSubscriptionGet(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -247,15 +220,8 @@ func TestSubscriptionGet(t *testing.T) {
 }
 
 func TestSubscriptionCancel(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -302,15 +268,8 @@ func TestSubscriptionCancel(t *testing.T) {
 }
 
 func TestSubscriptionUpdate(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -375,15 +334,8 @@ func TestSubscriptionDiscount(t *testing.T) {
 
 	coupon.New(couponParams)
 
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -452,15 +404,8 @@ func TestSubscriptionEmptyDiscount(t *testing.T) {
 
 	coupon.New(couponParams)
 
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -519,17 +464,8 @@ func TestSubscriptionEmptyDiscount(t *testing.T) {
 }
 
 func TestSubscriptionList(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Email: "test@stripe.com",
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
-
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 	cust, _ := customer.New(customerParams)
 
 	planParams := &stripe.PlanParams{

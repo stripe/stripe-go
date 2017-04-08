@@ -10,7 +10,6 @@ import (
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/refund"
 	"github.com/stripe/stripe-go/source"
-	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -35,12 +34,7 @@ func TestChargeNew(t *testing.T) {
 			},
 		},
 	}
-	chargeParams.SetSource(&stripe.CardParams{
-		Name:   "Stripe Tester",
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	chargeParams.SetSource("tok_visa")
 
 	target, err := New(chargeParams)
 
@@ -54,10 +48,6 @@ func TestChargeNew(t *testing.T) {
 
 	if target.Currency != chargeParams.Currency {
 		t.Errorf("Currency %q does not match expected currency %q\n", target.Currency, chargeParams.Currency)
-	}
-
-	if target.Source.Card.Name != chargeParams.Source.Card.Name {
-		t.Errorf("Card name %q does not match expected name %q\n", target.Source.Card.Name, chargeParams.Source.Card.Name)
 	}
 
 	if target.Statement != chargeParams.Statement {
@@ -92,12 +82,7 @@ func TestWithoutIdempotentTwoDifferentCharges(t *testing.T) {
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
-	chargeParams.SetSource(&stripe.CardParams{
-		Name:   "Stripe Tester",
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	chargeParams.SetSource("tok_visa")
 
 	if chargeParams.Params.IdempotencyKey != "" {
 		t.Errorf("The default value of a Params.IdempotencyKey was not blank, and it needs to be. (%q).", chargeParams.Params.IdempotencyKey)
@@ -122,11 +107,7 @@ func TestWithoutIdempotentTwoDifferentCharges(t *testing.T) {
 
 func TestChargeNewWithCustomerAndCard(t *testing.T) {
 	customerParams := &stripe.CustomerParams{}
-	customerParams.SetSource(&stripe.CardParams{
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	customerParams.SetSource("tok_visa")
 
 	cust, _ := customer.New(customerParams)
 
@@ -164,22 +145,11 @@ func TestChargeNewWithCustomerAndCard(t *testing.T) {
 }
 
 func TestChargeNewWithToken(t *testing.T) {
-	tokenParams := &stripe.TokenParams{
-		Card: &stripe.CardParams{
-			Number: "4242424242424242",
-			Month:  "10",
-			Year:   "20",
-		},
-	}
-
-	tok, _ := token.New(tokenParams)
-
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
 	}
-
-	chargeParams.SetSource(tok.ID)
+	chargeParams.SetSource("tok_visa")
 
 	target, err := New(chargeParams)
 
@@ -194,10 +164,6 @@ func TestChargeNewWithToken(t *testing.T) {
 	if target.Currency != chargeParams.Currency {
 		t.Errorf("Currency %q does not match expected currency %q\n", target.Currency, chargeParams.Currency)
 	}
-
-	if target.Source.Card.ID != tok.Card.ID {
-		t.Errorf("Card Id %q doesn't match card id %q of token %q", target.Source.Card.ID, tok.Card.ID, tok.ID)
-	}
 }
 
 func TestChargeGet(t *testing.T) {
@@ -205,12 +171,7 @@ func TestChargeGet(t *testing.T) {
 		Amount:   1001,
 		Currency: currency.USD,
 	}
-
-	chargeParams.SetSource(&stripe.CardParams{
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	chargeParams.SetSource("tok_visa")
 
 	res, _ := New(chargeParams)
 
@@ -231,12 +192,7 @@ func TestChargeUpdate(t *testing.T) {
 		Currency: currency.USD,
 		Desc:     "original description",
 	}
-
-	chargeParams.SetSource(&stripe.CardParams{
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	chargeParams.SetSource("tok_visa")
 
 	res, _ := New(chargeParams)
 
@@ -265,12 +221,7 @@ func TestChargeCapture(t *testing.T) {
 		Currency:  currency.USD,
 		NoCapture: true,
 	}
-
-	chargeParams.SetSource(&stripe.CardParams{
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	chargeParams.SetSource("tok_visa")
 
 	res, _ := New(chargeParams)
 
@@ -344,12 +295,7 @@ func TestMarkFraudulent(t *testing.T) {
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
-	chargeParams.SetSource(&stripe.CardParams{
-		Name:   "Stripe Tester",
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	chargeParams.SetSource("tok_visa")
 
 	target, _ := New(chargeParams)
 	refund.New(&stripe.RefundParams{Charge: target.ID})
@@ -368,12 +314,7 @@ func TestMarkSafe(t *testing.T) {
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
-	chargeParams.SetSource(&stripe.CardParams{
-		Name:   "Stripe Tester",
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	chargeParams.SetSource("tok_visa")
 
 	target, _ := New(chargeParams)
 
@@ -392,12 +333,7 @@ func TestChargeSourceForCard(t *testing.T) {
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
-	chargeParams.SetSource(&stripe.CardParams{
-		Name:   "Stripe Tester",
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	chargeParams.SetSource("tok_visa")
 
 	ch, _ := New(chargeParams)
 
@@ -415,7 +351,7 @@ func TestChargeSourceForCard(t *testing.T) {
 		t.Error("Source ID is nil for Charge `source` Card property")
 	}
 
-	if card.Display() != "American Express ending in 0005" {
+	if card.Display() != "Visa ending in 4242" {
 		t.Error("Display value did not match expectation")
 	}
 }
@@ -474,12 +410,7 @@ func TestChargeOutcome(t *testing.T) {
 		Statement: "statement",
 		Email:     "a@b.com",
 	}
-	chargeParams.SetSource(&stripe.CardParams{
-		Name:   "Stripe Tester",
-		Number: "4100000000000019",
-		Month:  "06",
-		Year:   "20",
-	})
+	chargeParams.SetSource("tok_chargeDeclinedFraudulent")
 
 	_, err := New(chargeParams)
 
@@ -649,11 +580,7 @@ func TestChargeReviewID(t *testing.T) {
 		Currency: currency.USD,
 	}
 
-	chargeParams.SetSource(&stripe.CardParams{
-		Number: "4000000000009235",
-		Month:  "06",
-		Year:   "20",
-	})
+	chargeParams.SetSource("tok_riskLevelElevated")
 
 	res, err := New(chargeParams)
 	if err != nil {
@@ -675,11 +602,7 @@ func TestChargeReviewExpansion(t *testing.T) {
 		Currency: currency.USD,
 	}
 
-	chargeParams.SetSource(&stripe.CardParams{
-		Number: "4000000000009235",
-		Month:  "06",
-		Year:   "20",
-	})
+	chargeParams.SetSource("tok_riskLevelElevated")
 
 	chargeParams.Expand("review")
 
