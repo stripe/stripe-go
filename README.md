@@ -50,12 +50,7 @@ params := &stripe.CustomerParams{
 	Desc:  "Stripe Developer",
 	Email: "gostripe@stripe.com",
 }
-params.SetSource(&stripe.CardParams{
-	Name:   "Go Stripe",
-	Number: "378282246310005",
-	Month:  "06",
-	Year:   "15",
-})
+params.SetSource("tok_1234")
 
 customer, err := customer.New(params)
 ```
