@@ -29,7 +29,11 @@ func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 	if params != nil {
 		body = &stripe.RequestValues{}
 		commonParams = &params.Params
-		// Required fields
+
+		if params.Coupon != "" {
+			body.Add("coupon", params.Coupon)
+		}
+
 		body.Add("currency", string(params.Currency))
 
 		if params.Customer != "" {

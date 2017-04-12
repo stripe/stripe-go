@@ -59,7 +59,16 @@ func CreateTestProductAndSku(t *testing.T) *stripe.SKU {
 func TestOrder(t *testing.T) {
 	sku := CreateTestProductAndSku(t)
 
+	couponParams := &stripe.CouponParams{
+		Amount:   99,
+		Currency: currency.USD,
+		Duration: coupon.Once,
+	}
+
+	c, err := coupon.New(couponParams)
+
 	o, err := New(&stripe.OrderParams{
+		Coupon:   c.ID,
 		Currency: "usd",
 		Items: []*stripe.OrderItemParams{
 			{
