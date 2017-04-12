@@ -1,3 +1,7 @@
+21.1.0 2017-04-12
+	Allow coupon to be specified when creating orders
+	No longer require that items have descriptions when creating orders
+
 21.0.0 2017-04-07
 	Balances are now retrieved by payout instead of by transfer
 
