@@ -144,6 +144,8 @@ func TestOrder(t *testing.T) {
 	if o.Meta["foo"] != "bar" {
 		t.Error("Order metadata not set")
 	}
+
+	coupon.Del(c.ID)
 }
 
 func TestOrderUpdate(t *testing.T) {
