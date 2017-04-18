@@ -54,7 +54,35 @@ func TestCheckinUserAgent(t *testing.T) {
 
 	match := expectedPattern.MatchString(req.Header.Get("User-Agent"))
 	if !match {
-		t.Fatalf("Expected User-Agent to match pattern %v", expectedPattern)
+		t.Fatalf("Expected User-Agent to match pattern %v was %v",
+			expectedPattern, req.Header.Get("User-Agent"))
+	}
+}
+
+func TestCheckinUserAgentWithAppInfo(t *testing.T) {
+	appInfo := &stripe.AppInfo{
+		Name:    "MyAwesomePlugin",
+		URL:     "https://myawesomeplugin.info",
+		Version: "1.2.34",
+	}
+	stripe.SetAppInfo(appInfo)
+	defer stripe.SetAppInfo(nil)
+
+	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+
+	req, err := c.NewRequest("", "", "", "", nil, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// We keep out version constant private to the package, so use a regexp
+	// match instead.
+	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[1-9][0-9.]+[0-9] MyAwesomePlugin/1.2.34 \(https://myawesomeplugin.info\)$`)
+
+	match := expectedPattern.MatchString(req.Header.Get("User-Agent"))
+	if !match {
+		t.Fatalf("Expected User-Agent to match pattern %v was %v",
+			expectedPattern, req.Header.Get("User-Agent"))
 	}
 }
 
