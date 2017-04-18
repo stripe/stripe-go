@@ -81,6 +81,10 @@ func TestCheckinStripeClientUserAgent(t *testing.T) {
 	// Just test a few headers that we know to be stable.
 	//
 
+	if userAgent["application"] != "" {
+		t.Fatalf("Application shouldn't be set.")
+	}
+
 	if userAgent["language"] != "go" {
 		t.Fatalf("Expected X-Stripe-Client-User-Agent/language %v but got %v.",
 			"go", userAgent["language"])
@@ -95,6 +99,48 @@ func TestCheckinStripeClientUserAgent(t *testing.T) {
 	// `uname` to run, so do this basic check.
 	if userAgent["uname"] == stripe.UnknownPlatform {
 		t.Fatalf("Expected X-Stripe-Client-User-Agent/uname to have a value.")
+	}
+}
+
+func TestCheckinStripeClientUserAgentWithAppInfo(t *testing.T) {
+	appInfo := &stripe.AppInfo{
+		Name:    "MyAwesomePlugin",
+		URL:     "https://myawesomeplugin.info",
+		Version: "1.2.34",
+	}
+	stripe.SetAppInfo(appInfo)
+	defer stripe.SetAppInfo(nil)
+
+	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+
+	req, err := c.NewRequest("", "", "", "", nil, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")
+	if encodedUserAgent == "" {
+		t.Fatalf("Expected X-Stripe-Client-User-Agent header to be present.")
+	}
+
+	var userAgent map[string]interface{}
+	err = json.Unmarshal([]byte(encodedUserAgent), &userAgent)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	decodedAppInfo := userAgent["application"].(map[string]interface{})
+	if decodedAppInfo["name"] != appInfo.Name {
+		t.Fatalf("Expected application name %v but got %v.",
+			appInfo.Name, decodedAppInfo["name"])
+	}
+	if decodedAppInfo["url"] != appInfo.URL {
+		t.Fatalf("Expected application URL %v but got %v.",
+			appInfo.URL, decodedAppInfo["url"])
+	}
+	if decodedAppInfo["version"] != appInfo.Version {
+		t.Fatalf("Expected application version %v but got %v.",
+			appInfo.Version, decodedAppInfo["version"])
 	}
 }
 
