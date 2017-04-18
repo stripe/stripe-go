@@ -15,7 +15,6 @@ type Event struct {
 	Webhooks uint64     `json:"pending_webhooks"`
 	Type     string     `json:"type"`
 	Req      string     `json:"request"`
-	UserID   string     `json:"user_id"`
 }
 
 // EventData is the unmarshalled object as a map.
