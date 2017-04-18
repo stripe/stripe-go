@@ -42,9 +42,8 @@ func TestCheckinBackendConfigurationNewRequestWithStripeAccount(t *testing.T) {
 
 func TestCheckinUserAgent(t *testing.T) {
 	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
-	p := &stripe.Params{}
 
-	req, err := c.NewRequest("", "", "", "", nil, p)
+	req, err := c.NewRequest("", "", "", "", nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -61,9 +60,8 @@ func TestCheckinUserAgent(t *testing.T) {
 
 func TestCheckinStripeClientUserAgent(t *testing.T) {
 	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
-	p := &stripe.Params{}
 
-	req, err := c.NewRequest("", "", "", "", nil, p)
+	req, err := c.NewRequest("", "", "", "", nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
