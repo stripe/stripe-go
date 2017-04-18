@@ -3,6 +3,7 @@ package stripe_test
 import (
 	"encoding/json"
 	"net/http"
+	"regexp"
 	"runtime"
 	"testing"
 
@@ -36,6 +37,25 @@ func TestCheckinBackendConfigurationNewRequestWithStripeAccount(t *testing.T) {
 	if req.Header.Get("Stripe-Account") != TestMerchantID {
 		t.Fatalf("Expected Stripe-Account %v but got %v.",
 			TestMerchantID, req.Header.Get("Stripe-Account"))
+	}
+}
+
+func TestCheckinUserAgent(t *testing.T) {
+	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+	p := &stripe.Params{}
+
+	req, err := c.NewRequest("", "", "", "", nil, p)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// We keep out version constant private to the package, so use a regexp
+	// match instead.
+	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[1-9][0-9.]+[0-9]$`)
+
+	match := expectedPattern.MatchString(req.Header.Get("User-Agent"))
+	if !match {
+		t.Fatalf("Expected User-Agent to match pattern %v", expectedPattern)
 	}
 }
 
