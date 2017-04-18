@@ -10,6 +10,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -33,6 +35,10 @@ const defaultHTTPTimeout = 80 * time.Second
 // TotalBackends is the total number of Stripe API endpoints supported by the
 // binding.
 const TotalBackends = 2
+
+// UnknownPlatform is the string returned as the system name if we couldn't get
+// one from `uname`.
+const UnknownPlatform = "unknown platform"
 
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
@@ -71,6 +77,17 @@ type Backends struct {
 	API, Uploads Backend
 }
 
+// stripeClientUserAgent contains information about the current runtime which
+// is serialized and sent in the `X-Stripe-Client-User-Agent` as additional
+// debugging information.
+type stripeClientUserAgent struct {
+	BindingsVersion string `json:"bindings_version"`
+	Language        string `json:"language"`
+	LanguageVersion string `json:"language_version"`
+	Publisher       string `json:"publisher"`
+	Uname           string `json:"uname"`
+}
+
 // Key is the Stripe API key used globally in the binding.
 var Key string
 
@@ -89,10 +106,26 @@ var Logger *log.Logger
 func init() {
 	// setup the logger
 	Logger = log.New(os.Stderr, "", log.LstdFlags)
+
+	userAgent := &stripeClientUserAgent{
+		BindingsVersion: clientversion,
+		Language:        "go",
+		LanguageVersion: runtime.Version(),
+		Publisher:       "stripe",
+		Uname:           getUname(),
+	}
+	marshaled, err := json.Marshal(userAgent)
+	// Encoding this struct should never be a problem, so we're okay to panic
+	// in case it is for some reason.
+	if err != nil {
+		panic(err)
+	}
+	encodedUserAgent = string(marshaled)
 }
 
 var httpClient = &http.Client{Timeout: defaultHTTPTimeout}
 var backends Backends
+var encodedUserAgent string
 
 // SetHTTPClient overrides the default HTTP client.
 // This is useful if you're running in a Google AppEngine environment
@@ -224,6 +257,7 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 	req.Header.Add("Stripe-Version", apiversion)
 	req.Header.Add("User-Agent", "Stripe/v1 GoBindings/"+clientversion)
 	req.Header.Add("Content-Type", contentType)
+	req.Header.Add("X-Stripe-Client-User-Agent", encodedUserAgent)
 
 	return req, nil
 }
@@ -347,4 +381,25 @@ func (s *BackendConfiguration) ResponseToError(res *http.Response, resBody []byt
 	}
 
 	return stripeErr
+}
+
+// getUname tries to get a uname from the system, but not that hard. It tries
+// to execute `uname -a`, but swallows any errors in case that didn't work
+// (i.e. non-Unix non-Mac system or some other reason).
+func getUname() string {
+	path, err := exec.LookPath("uname")
+	if err != nil {
+		return UnknownPlatform
+	}
+
+	cmd := exec.Command(path, "-a")
+	var out bytes.Buffer
+	cmd.Stderr = nil // goes to os.DevNull
+	cmd.Stdout = &out
+	err = cmd.Run()
+	if err != nil {
+		return UnknownPlatform
+	}
+
+	return out.String()
 }

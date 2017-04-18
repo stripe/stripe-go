@@ -3,6 +3,7 @@ package stripe_test
 import (
 	"encoding/json"
 	"net/http"
+	"runtime"
 	"testing"
 
 	stripe "github.com/stripe/stripe-go"
@@ -35,6 +36,47 @@ func TestCheckinBackendConfigurationNewRequestWithStripeAccount(t *testing.T) {
 	if req.Header.Get("Stripe-Account") != TestMerchantID {
 		t.Fatalf("Expected Stripe-Account %v but got %v.",
 			TestMerchantID, req.Header.Get("Stripe-Account"))
+	}
+}
+
+func TestCheckinStripeClientUserAgent(t *testing.T) {
+	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+	p := &stripe.Params{}
+
+	req, err := c.NewRequest("", "", "", "", nil, p)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")
+	if encodedUserAgent == "" {
+		t.Fatalf("Expected X-Stripe-Client-User-Agent header to be present.")
+	}
+
+	var userAgent map[string]string
+	err = json.Unmarshal([]byte(encodedUserAgent), &userAgent)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	//
+	// Just test a few headers that we know to be stable.
+	//
+
+	if userAgent["language"] != "go" {
+		t.Fatalf("Expected X-Stripe-Client-User-Agent/language %v but got %v.",
+			"go", userAgent["language"])
+	}
+
+	if userAgent["language_version"] != runtime.Version() {
+		t.Fatalf("Expected X-Stripe-Client-User-Agent/language_version %v but got %v.",
+			runtime.Version(), userAgent["language_version"])
+	}
+
+	// Anywhere these tests are running can reasonable be expected to have a
+	// `uname` to run, so do this basic check.
+	if userAgent["uname"] == stripe.UnknownPlatform {
+		t.Fatalf("Expected X-Stripe-Client-User-Agent/uname to have a value.")
 	}
 }
 
