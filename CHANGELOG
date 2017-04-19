@@ -1,3 +1,7 @@
+21.2.0 2017-04-19
+	Send user agent information with `X-Stripe-Client-User-Agent`
+	Add `stripe.SetAppInfo` for plugin authors to register app information
+
 21.1.0 2017-04-12
 	Allow coupon to be specified when creating orders
 	No longer require that items have descriptions when creating orders
