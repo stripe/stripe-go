@@ -256,7 +256,8 @@ stripe.SetAppInfo(&stripe.AppInfo{
 ```
 
 This information is passed along when the library makes calls to the Stripe
-API.
+API. Note that while `Name` is always required, `URL` and `Version` are
+optional.
 
 ## Development
 
