@@ -242,6 +242,23 @@ if err := i.Err(); err != nil {
 }
 ```
 
+### Writing a Plugin
+
+If you're writing a plugin that uses the library, we'd appreciate it if you
+identified using `stripe.SetAppInfo`:
+
+```go
+stripe.SetAppInfo(&stripe.AppInfo{
+    Name:    "MyAwesomePlugin",
+    URL:     "https://myawesomeplugin.info",
+    Version: "1.2.34",
+})
+```
+
+This information is passed along when the library makes calls to the Stripe
+API. Note that while `Name` is always required, `URL` and `Version` are
+optional.
+
 ## Development
 
 Pull requests from the community are welcome. If you submit one, please keep

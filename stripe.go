@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -39,6 +40,29 @@ const TotalBackends = 2
 // UnknownPlatform is the string returned as the system name if we couldn't get
 // one from `uname`.
 const UnknownPlatform = "unknown platform"
+
+// AppInfo contains information about the "app" which this integration belongs
+// to. This should be reserved for plugins that wish to identify themselves
+// with Stripe.
+type AppInfo struct {
+	Name    string `json:"name"`
+	URL     string `json:"url"`
+	Version string `json:"version"`
+}
+
+// formatUserAgent formats an AppInfo in a way that's suitable to be appended
+// to a User-Agent string. Note that this format is shared between all
+// libraries so if it's changed, it should be changed everywhere.
+func (a *AppInfo) formatUserAgent() string {
+	str := a.Name
+	if a.Version != "" {
+		str += "/" + a.Version
+	}
+	if a.URL != "" {
+		str += " (" + a.URL + ")"
+	}
+	return str
+}
 
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
@@ -81,11 +105,12 @@ type Backends struct {
 // is serialized and sent in the `X-Stripe-Client-User-Agent` as additional
 // debugging information.
 type stripeClientUserAgent struct {
-	BindingsVersion string `json:"bindings_version"`
-	Language        string `json:"language"`
-	LanguageVersion string `json:"language_version"`
-	Publisher       string `json:"publisher"`
-	Uname           string `json:"uname"`
+	Application     *AppInfo `json:"application"`
+	BindingsVersion string   `json:"bindings_version"`
+	Language        string   `json:"language"`
+	LanguageVersion string   `json:"language_version"`
+	Publisher       string   `json:"publisher"`
+	Uname           string   `json:"uname"`
 }
 
 // Key is the Stripe API key used globally in the binding.
@@ -104,27 +129,14 @@ var LogLevel = 2
 var Logger *log.Logger
 
 func init() {
-	// setup the logger
 	Logger = log.New(os.Stderr, "", log.LstdFlags)
-
-	userAgent := &stripeClientUserAgent{
-		BindingsVersion: clientversion,
-		Language:        "go",
-		LanguageVersion: runtime.Version(),
-		Publisher:       "stripe",
-		Uname:           getUname(),
-	}
-	marshaled, err := json.Marshal(userAgent)
-	// Encoding this struct should never be a problem, so we're okay to panic
-	// in case it is for some reason.
-	if err != nil {
-		panic(err)
-	}
-	encodedUserAgent = string(marshaled)
+	initUserAgent()
 }
 
+var appInfo *AppInfo
 var httpClient = &http.Client{Timeout: defaultHTTPTimeout}
 var backends Backends
+var encodedStripeUserAgent string
 var encodedUserAgent string
 
 // SetHTTPClient overrides the default HTTP client.
@@ -255,9 +267,9 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 	}
 
 	req.Header.Add("Stripe-Version", apiversion)
-	req.Header.Add("User-Agent", "Stripe/v1 GoBindings/"+clientversion)
+	req.Header.Add("User-Agent", encodedUserAgent)
 	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("X-Stripe-Client-User-Agent", encodedUserAgent)
+	req.Header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
 
 	return req, nil
 }
@@ -383,6 +395,18 @@ func (s *BackendConfiguration) ResponseToError(res *http.Response, resBody []byt
 	return stripeErr
 }
 
+// SetAppInfo sets app information. See AppInfo.
+func SetAppInfo(info *AppInfo) {
+	if info != nil && info.Name == "" {
+		panic(fmt.Errorf("App info name cannot be empty"))
+	}
+	appInfo = info
+
+	// This is run in init, but we need to reinitialize it now that we have
+	// some app info.
+	initUserAgent()
+}
+
 // getUname tries to get a uname from the system, but not that hard. It tries
 // to execute `uname -a`, but swallows any errors in case that didn't work
 // (i.e. non-Unix non-Mac system or some other reason).
@@ -402,4 +426,27 @@ func getUname() string {
 	}
 
 	return out.String()
+}
+
+func initUserAgent() {
+	encodedUserAgent = "Stripe/v1 GoBindings/" + clientversion
+	if appInfo != nil {
+		encodedUserAgent += " " + appInfo.formatUserAgent()
+	}
+
+	stripeUserAgent := &stripeClientUserAgent{
+		Application:     appInfo,
+		BindingsVersion: clientversion,
+		Language:        "go",
+		LanguageVersion: runtime.Version(),
+		Publisher:       "stripe",
+		Uname:           getUname(),
+	}
+	marshaled, err := json.Marshal(stripeUserAgent)
+	// Encoding this struct should never be a problem, so we're okay to panic
+	// in case it is for some reason.
+	if err != nil {
+		panic(err)
+	}
+	encodedStripeUserAgent = string(marshaled)
 }
