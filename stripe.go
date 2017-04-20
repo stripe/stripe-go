@@ -15,6 +15,8 @@ import (
 	"runtime"
 	"strings"
 	"time"
+
+	backo "github.com/segmentio/backo-go"
 )
 
 const (
@@ -204,11 +206,13 @@ func (s BackendConfiguration) Call(method, path, key string, form *RequestValues
 		return err
 	}
 
-	if err := s.Do(req, v); err != nil {
-		return err
+	for i := 0; i < 5; i++ {
+		if err = s.Do(req, v); err != nil {
+
+		}
 	}
 
-	return nil
+	return err
 }
 
 // CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
@@ -282,21 +286,37 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 		Logger.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
 	}
 
-	start := time.Now()
+	var res *http.Response
+	var err error
 
-	res, err := s.HTTPClient.Do(req)
+	backoff := backo.NewBacko(1*time.Minute, 2, 1, 30*time.Minute)
+	for i := 0; i < 5; i++ {
+		start := time.Now()
+		res, err = s.HTTPClient.Do(req)
+		if LogLevel > 2 {
+			Logger.Printf("Completed in %v\n", time.Since(start))
+		}
 
-	if LogLevel > 2 {
-		Logger.Printf("Completed in %v\n", time.Since(start))
+		if err != nil {
+			if LogLevel > 0 {
+				Logger.Printf("Request to Stripe failed: %v\n", err)
+			}
+		} else {
+			if res.StatusCode != 429 && res.StatusCode < 500 {
+				break
+			}
+		}
+
+		if LogLevel > 0 {
+			Logger.Printf("Retrying request to Stripe: %v\n-- err: %v, statusCode %d", *req.URL, err, res.StatusCode)
+		}
+
+		backoff.Sleep(i)
 	}
 
 	if err != nil {
-		if LogLevel > 0 {
-			Logger.Printf("Request to Stripe failed: %v\n", err)
-		}
 		return err
 	}
-	defer res.Body.Close()
 
 	resBody, err := ioutil.ReadAll(res.Body)
 	if err != nil {
