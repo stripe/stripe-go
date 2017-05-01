@@ -10,6 +10,14 @@ import (
 // Allowed values are "individual", "company".
 type LegalEntityType string
 
+// IdentityVerificationDetailsCode is a machine-readable code specifying the
+// verification state of a legal entity. Allowed values are
+// "failed_keyed_identity", "failed_other", "scan_corrupt",
+// "scan_failed_greyscale", "scan_failed_other",
+// "scan_id_country_not_supported", "scan_id_type_not_supported",
+// "scan_name_mismatch", "scan_not_readable", "scan_not_uploaded".
+type IdentityVerificationDetailsCode string
+
 // IdentityVerificationStatus describes the different statuses for identity verification.
 // Allowed values are "pending", "verified", "unverified".
 type IdentityVerificationStatus string
@@ -302,9 +310,10 @@ type Owner struct {
 
 // IdentityVerification is the structure for an account's verification.
 type IdentityVerification struct {
-	Status   IdentityVerificationStatus `json:"status"`
-	Document *IdentityDocument          `json:"document"`
-	Details  *string                    `json:"details"`
+	DetailsCode IdentityVerificationDetailsCode `json:"details_code"`
+	Status      IdentityVerificationStatus      `json:"status"`
+	Document    *IdentityDocument               `json:"document"`
+	Details     *string                         `json:"details"`
 }
 
 // IdentityDocument is the structure for an identity document.
