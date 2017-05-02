@@ -1,13 +1,20 @@
+# This is a testmode key for this test account:
+#
+#     ID:    cuD9Rwx8pgmRZRpVe02lsuR9cwp2Bzf7
+#     Email: test+bindings@stripe.com
+#
+STRIPE_KEY=tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I
+
 all: checkin vet check-gofmt
 
 check-gofmt:
 	scripts/check_gofmt.sh
 
 checkin:
-	go test -run "TestCheckin*" ./client
+	STRIPE_KEY=$(STRIPE_KEY) go test -run "TestCheckin*" ./client
 
 test:
-	go test ./... -p=1
+	STRIPE_KEY=$(STRIPE_KEY) go test ./... -p=1
 
 build:
 	go build ./...
