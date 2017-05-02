@@ -1,3 +1,6 @@
+21.3.0 2017-05-02
+	Add `DetailsCode` to `IdentityVerification`
+
 21.2.0 2017-04-19
 	Send user agent information with `X-Stripe-Client-User-Agent`
 	Add `stripe.SetAppInfo` for plugin authors to register app information
