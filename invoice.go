@@ -39,6 +39,8 @@ type InvoiceListParams struct {
 	Date     int64
 	Customer string
 	Sub      string
+	Billing  InvoiceBilling
+	DueDate  int64
 }
 
 // InvoiceLineListParams is the set of parameters that can be used when listing invoice line items.
