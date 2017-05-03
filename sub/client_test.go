@@ -625,8 +625,10 @@ func TestSubscriptionList(t *testing.T) {
 		t.Errorf("Filtering by billing=%v returned %v entries, expected %v", params.Billing, count, expectedCount)
 	}
 
+	count = 0
 	i = List(nil)
-	for i.Next() {
+	for i.Next() && count < 20 {
+		count += 1
 		if i.Sub() == nil {
 			t.Error("No nil values expected")
 		}
