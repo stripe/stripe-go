@@ -1,3 +1,7 @@
+21.4.0 2017-05-04
+	Add `Billing` and `DueDate` filters to invoice listing
+	Add `Billing` filter to subscription listing
+
 21.3.0 2017-05-02
 	Add `DetailsCode` to `IdentityVerification`
 
