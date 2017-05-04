@@ -520,6 +520,7 @@ func TestSubscriptionEmptyDiscount(t *testing.T) {
 
 func TestSubscriptionList(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
+		Email: "test@stripe.com",
 		Source: &stripe.SourceParams{
 			Card: &stripe.CardParams{
 				Number: "378282246310005",
@@ -542,12 +543,25 @@ func TestSubscriptionList(t *testing.T) {
 	plan.New(planParams)
 
 	subParams := &stripe.SubParams{
+		Customer:     cust.ID,
+		Plan:         "test",
+		Quantity:     10,
+		Billing:      "send_invoice",
+		DaysUntilDue: 30,
+	}
+
+	for i := 0; i < 3; i++ {
+		New(subParams)
+	}
+
+	subParams = &stripe.SubParams{
 		Customer: cust.ID,
 		Plan:     "test",
 		Quantity: 10,
+		Billing:  "charge_automatically",
 	}
 
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 3; i++ {
 		New(subParams)
 	}
 
@@ -577,8 +591,44 @@ func TestSubscriptionList(t *testing.T) {
 		t.Error(err)
 	}
 
-	i = List(nil)
+	count := 0
+	expectedCount := 3
+	params = &stripe.SubListParams{Customer: cust.ID, Plan: "test", Billing: "send_invoice"}
+	i = List(params)
 	for i.Next() {
+		count += 1
+		if i.Sub().Billing != params.Billing {
+			t.Errorf("Billing %v does not match expected %v\n", i.Sub().Billing, params.Billing)
+		}
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
+	}
+	if count != expectedCount {
+		t.Errorf("Filtering by billing=%v returned %v entries, expected %v", params.Billing, count, expectedCount)
+	}
+
+	count = 0
+	expectedCount = 3
+	params = &stripe.SubListParams{Customer: cust.ID, Plan: "test", Billing: "charge_automatically"}
+	i = List(params)
+	for i.Next() {
+		count += 1
+		if i.Sub().Billing != params.Billing {
+			t.Errorf("Billing %v does not match expected %v\n", i.Sub().Billing, params.Billing)
+		}
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
+	}
+	if count != expectedCount {
+		t.Errorf("Filtering by billing=%v returned %v entries, expected %v", params.Billing, count, expectedCount)
+	}
+
+	count = 0
+	i = List(nil)
+	for i.Next() && count < 20 {
+		count += 1
 		if i.Sub() == nil {
 			t.Error("No nil values expected")
 		}

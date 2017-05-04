@@ -291,6 +291,10 @@ func (c Client) List(params *stripe.SubListParams) *Iter {
 			body.Add("status", string(params.Status))
 		}
 
+		if len(params.Billing) > 0 {
+			body.Add("billing", string(params.Billing))
+		}
+
 		params.AppendTo(body)
 
 		lp = &params.ListParams
