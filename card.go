@@ -191,6 +191,13 @@ func (c *CardParams) AppendDetails(values *RequestValues, creating bool) {
 			values.Add("address_country", c.Country)
 		}
 	}
+
+	if len(c.Meta) > 0 {
+		for k, v := range c.Meta {
+			values.Add(fmt.Sprintf("card[metadata[%v]]", k), v)
+		}
+	}
+
 }
 
 // Display human readable representation of a Card.
