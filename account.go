@@ -65,11 +65,12 @@ type AccountParams struct {
 	Country, Email, DefaultCurrency, Statement, BusinessName, BusinessUrl,
 	BusinessPrimaryColor, SupportPhone, SupportEmail, SupportUrl,
 	FromRecipient, PayoutStatement string
-	ExternalAccount                               *AccountExternalAccountParams
-	LegalEntity                                   *LegalEntity
-	PayoutSchedule                                *PayoutScheduleParams
-	Managed, DebitNegativeBal, NoDebitNegativeBal bool
-	TOSAcceptance                                 *TOSAcceptanceParams
+	ExternalAccount                      *AccountExternalAccountParams
+	LegalEntity                          *LegalEntity
+	PayoutSchedule                       *PayoutScheduleParams
+	DebitNegativeBal, NoDebitNegativeBal bool
+	TOSAcceptance                        *TOSAcceptanceParams
+	Type                                 AccountType
 }
 
 // AccountListParams are the parameters allowed during account listing.
@@ -116,8 +117,8 @@ type Account struct {
 	SupportEmail         string               `json:"support_email"`
 	SupportUrl           string               `json:"support_url"`
 	ProductDesc          string               `json:"product_description"`
-	Managed              bool                 `json:"managed"`
 	DebitNegativeBal     bool                 `json:"debit_negative_balances"`
+	Type                 AccountType
 	Keys                 *struct {
 		Secret  string `json:"secret"`
 		Publish string `json:"publishable"`
@@ -139,17 +140,31 @@ type Account struct {
 	Meta           map[string]string `json:"metadata"`
 }
 
-// AccountType is the type of an external account.
+// ExternalAccountType is the type of an external account.
+type ExternalAccountType string
+
+const (
+	// ExternalAccountTypeBankAccount is a constant value representing an external
+	// account which is a bank account.
+	ExternalAccountTypeBankAccount ExternalAccountType = "bank_account"
+
+	// ExternalAccountTypeCard is a constant value representing an external account
+	// which is a card.
+	ExternalAccountTypeCard ExternalAccountType = "card"
+)
+
+// AccountType is the type of an account.
 type AccountType string
 
 const (
-	// AccountTypeBankAccount is a constant value representing an external
-	// account which is a bank account.
-	AccountTypeBankAccount AccountType = "bank_account"
+	// AccountTypeCustom is a constant value representing an account of type custom.
+	AccountTypeCustom AccountType = "custom"
 
-	// AccountTypeCard is a constant value representing an external account
-	// which is a card.
-	AccountTypeCard AccountType = "card"
+	// AccountTypeExpress is a constant value representing an account of type custom.
+	AccountTypeExpress AccountType = "express"
+
+	// AccountTypeStandard is a constant value representing an account of type custom.
+	AccountTypeStandard AccountType = "standard"
 )
 
 // AccountList is a list of accounts as returned from a list endpoint.
@@ -172,8 +187,8 @@ type ExternalAccountList struct {
 // attached to an account. It contains fields that will be conditionally
 // populated depending on its type.
 type ExternalAccount struct {
-	Type AccountType `json:"object"`
-	ID   string      `json:"id"`
+	Type ExternalAccountType `json:"object"`
+	ID   string              `json:"id"`
 
 	// A bank account attached to an account. Populated only if the external
 	// account is a bank account.
@@ -197,9 +212,9 @@ func (ea *ExternalAccount) UnmarshalJSON(b []byte) error {
 	*ea = ExternalAccount(account)
 
 	switch ea.Type {
-	case AccountTypeBankAccount:
+	case ExternalAccountTypeBankAccount:
 		err = json.Unmarshal(b, &ea.BankAccount)
-	case AccountTypeCard:
+	case ExternalAccountTypeCard:
 		err = json.Unmarshal(b, &ea.Card)
 	}
 	return err

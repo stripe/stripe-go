@@ -106,9 +106,8 @@ func writeAccountParams(
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 	body := &stripe.RequestValues{}
 
-	if len(params.FromRecipient) == 0 {
-		body.Add("managed", strconv.FormatBool(params.Managed))
-	}
+	// Type is now required on creation and not allowed on update
+	body.Add("type", string(params.Type))
 
 	writeAccountParams(params, body)
 
