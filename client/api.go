@@ -21,6 +21,7 @@ import (
 	"github.com/stripe/stripe-go/fileupload"
 	"github.com/stripe/stripe-go/invoice"
 	"github.com/stripe/stripe-go/invoiceitem"
+	"github.com/stripe/stripe-go/loginlink"
 	"github.com/stripe/stripe-go/order"
 	"github.com/stripe/stripe-go/orderreturn"
 	"github.com/stripe/stripe-go/paymentsource"
@@ -70,6 +71,9 @@ type API struct {
 	// InvoiceItems is the client used to invoke /invoiceitems APIs.
 	// For more details see https://stripe.com/docs/api#invoiceitems.
 	InvoiceItems *invoiceitem.Client
+	// LoginLinks is the client used to invoke /v1/accounts/<account_id>/login_links APIs.
+	// For more details see https://stripe.com/docs/api#login_links.
+	LoginLinks *loginlink.Client
 	// Disputes is the client used to invoke dispute-related APIs.
 	// For more details see https://stripe.com/docs/api#disputes.
 	Disputes *dispute.Client
