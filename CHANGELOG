@@ -1,3 +1,6 @@
+21.4.1 2017-05-11
+	Pass extra parameters to API calls on bank account deletion
+
 21.4.0 2017-05-04
 	Add `Billing` and `DueDate` filters to invoice listing
 	Add `Billing` filter to subscription listing
