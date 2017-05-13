@@ -35,6 +35,14 @@ func TestRequestValues(t *testing.T) {
 		t.Fatalf("Expected values to not be empty.")
 	}
 
+	got := values.Get("foo")
+	if got.length != 1 {
+		t.Fatalf("Expected 1 result from Get, got %v.", got.length)
+	}
+	if got[0] != "bar" {
+		t.Fatalf("Expected 'bar' result from Get, got %v.", got[0])
+	}
+
 	values = &stripe.RequestValues{}
 	values.Add("foo", "bar")
 	values.Add("foo", "bar")
@@ -46,12 +54,47 @@ func TestRequestValues(t *testing.T) {
 		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
 	}
 
+	got = values.Get("foo")
+	if got.length != 2 {
+		t.Fatalf("Expected 2 results from Get, got %v.", got.length)
+	}
+	if got[0] != "bar" {
+		t.Fatalf("Expected 'bar' result from Get, got %v.", got[0])
+	}
+	if got[1] != "bar" {
+		t.Fatalf("Expected 'bar' result from Get, got %v.", got[1])
+	}
+	got = values.Get("baz")
+	if got.length != 1 {
+		t.Fatalf("Expected 1 result from Get, got %v.", got.length)
+	}
+	if got[0] != "bar" {
+		t.Fatalf("Expected 'bar' result from Get, got %v.", got[0])
+	}
+
 	values.Set("foo", "firstbar")
 
 	actual = values.Encode()
 	expected = "foo=firstbar&foo=bar&baz=bar"
 	if expected != actual {
 		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
+	}
+	got = values.Get("foo")
+	if got.length != 2 {
+		t.Fatalf("Expected 2 results from Get, got %v.", got.length)
+	}
+	if got[0] != "firstbar" {
+		t.Fatalf("Expected 'firstbar' result from Get, got %v.", got[0])
+	}
+	if got[1] != "bar" {
+		t.Fatalf("Expected 'bar' result from Get, got %v.", got[1])
+	}
+	got = values.Get("baz")
+	if got.length != 1 {
+		t.Fatalf("Expected 1 result from Get, got %v.", got.length)
+	}
+	if got[0] != "bar" {
+		t.Fatalf("Expected 'bar' result from Get, got %v.", got[0])
 	}
 
 	values.Set("new", "appended")
@@ -70,6 +113,13 @@ func TestRequestValues(t *testing.T) {
 	}
 	if !reflect.DeepEqual(urlValues, expectedURLValues) {
 		t.Fatalf("Expected body of %v but got %v.", expectedURLValues, urlValues)
+	}
+	got = values.Get("new")
+	if got.length != 1 {
+		t.Fatalf("Expected 1 result from Get, got %v.", got.length)
+	}
+	if got[0] != "appended" {
+		t.Fatalf("Expected 'appended' result from Get, got %v.", got[0])
 	}
 }
 
