@@ -1,3 +1,6 @@
+21.5.0 2017-05-15
+	Implement `Get` for `RequestValues`
+
 21.4.1 2017-05-11
 	Pass extra parameters to API calls on bank account deletion
 
