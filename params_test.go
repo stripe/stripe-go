@@ -121,6 +121,11 @@ func TestRequestValues(t *testing.T) {
 	if got[0] != "appended" {
 		t.Fatalf("Expected 'appended' result from Get, got %v.", got[0])
 	}
+
+	got = values.Get("boguskey")
+	if got != nil {
+		t.Fatalf("Expected nil, got %v", got)
+	}
 }
 
 func TestParamsWithExtras(t *testing.T) {
