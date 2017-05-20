@@ -266,3 +266,12 @@ func TestCheckinResponseToError(t *testing.T) {
 func wrapError(serialized []byte) []byte {
 	return []byte(`{"error":` + string(serialized) + `}`)
 }
+
+func TestSetHTTPClient(t *testing.T) {
+	var client *http.Client
+
+	err := stripe.SetHTTPClient(client)
+	if err == nil {
+		t.Fatalf("Expected an error.")
+	}
+}
