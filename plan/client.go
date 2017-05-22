@@ -98,6 +98,10 @@ func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, erro
 			body.Add("statement_descriptor", params.Statement)
 		}
 
+		if params.TrialPeriod > 0 {
+			body.Add("trial_period_days", strconv.FormatUint(params.TrialPeriod, 10))
+		}
+
 		params.AppendTo(body)
 	}
 
