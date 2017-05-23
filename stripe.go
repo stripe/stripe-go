@@ -84,7 +84,12 @@ var LogLevel = 2
 // Logger controls how stripe performs logging at a package level. It is useful
 // to customise if you need it prefixed for your application to meet other
 // requirements
-var Logger *log.Logger
+var Logger Printfer
+
+// Printfer is an interface to be implemented by Logger.
+type Printfer interface {
+	Printf(format string, v ...interface{})
+}
 
 func init() {
 	// setup the logger
