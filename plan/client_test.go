@@ -104,8 +104,9 @@ func TestPlanUpdate(t *testing.T) {
 	New(planParams)
 
 	updatedPlan := &stripe.PlanParams{
-		Name:      "Updated Name",
-		Statement: "Updated Plan",
+		Name:        "Updated Name",
+		Statement:   "Updated Plan",
+		TrialPeriod: 15,
 	}
 
 	target, err := Update(planParams.ID, updatedPlan)
@@ -120,6 +121,10 @@ func TestPlanUpdate(t *testing.T) {
 
 	if target.Statement != updatedPlan.Statement {
 		t.Errorf("Statement %q does not match expected statement %q\n", target.Statement, updatedPlan.Statement)
+	}
+
+	if target.TrialPeriod != updatedPlan.TrialPeriod {
+		t.Errorf("TrialPeriod %q does not match expected trial period %q\n", target.TrialPeriod, updatedPlan.TrialPeriod)
 	}
 
 	Del(planParams.ID)
