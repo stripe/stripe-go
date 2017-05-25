@@ -8,14 +8,26 @@ import (
 // Event is the resource representing a Stripe event.
 // For more details see https://stripe.com/docs/api#events.
 type Event struct {
-	ID       string     `json:"id"`
-	Account  string     `json:"account"`
-	Live     bool       `json:"livemode"`
-	Created  int64      `json:"created"`
-	Data     *EventData `json:"data"`
-	Webhooks uint64     `json:"pending_webhooks"`
-	Type     string     `json:"type"`
-	Req      string     `json:"request"`
+	ID       string        `json:"id"`
+	Account  string        `json:"account"`
+	Live     bool          `json:"livemode"`
+	Created  int64         `json:"created"`
+	Data     *EventData    `json:"data"`
+	Webhooks uint64        `json:"pending_webhooks"`
+	Type     string        `json:"type"`
+	Request  *EventRequest `json:"request"`
+}
+
+// EventRequest contains information on a request that created an event.
+type EventRequest struct {
+	// ID is the request ID of the request that created an event, if the event
+	// was created by a request.
+	ID string `json:"id"`
+
+	// IdempotencyKey is the idempotency key of the request that created an
+	// event, if the event was created by a request and if an idempotency key
+	// was specified for that request.
+	IdempotencyKey string `json:"idempotency_key"`
 }
 
 // EventData is the unmarshalled object as a map.
