@@ -17,7 +17,7 @@ func init() {
 
 func TestAccountNew(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed:              true,
+		Type:                 stripe.AccountTypeCustom,
 		Country:              "CA",
 		BusinessUrl:          "www.stripe.com",
 		BusinessName:         "Stripe",
@@ -50,7 +50,7 @@ func TestAccountNew(t *testing.T) {
 
 func TestAccountLegalEntity(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "US",
 		LegalEntity: &stripe.LegalEntity{
 			Type:          stripe.Company,
@@ -85,7 +85,7 @@ func TestAccountLegalEntity(t *testing.T) {
 
 func TestAccountDelete(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed:              true,
+		Type:                 stripe.AccountTypeCustom,
 		Country:              "CA",
 		BusinessUrl:          "www.stripe.com",
 		BusinessName:         "Stripe",
@@ -121,7 +121,7 @@ func TestAccountDelete(t *testing.T) {
 
 func TestAccountReject(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed:              true,
+		Type:                 stripe.AccountTypeCustom,
 		Country:              "CA",
 		BusinessUrl:          "www.stripe.com",
 		BusinessName:         "Stripe",
@@ -157,7 +157,7 @@ func TestAccountReject(t *testing.T) {
 
 func TestAccountGetByID(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "CA",
 	}
 
@@ -171,7 +171,7 @@ func TestAccountGetByID(t *testing.T) {
 
 func TestAccountUpdate(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed:          true,
+		Type:             stripe.AccountTypeCustom,
 		Country:          "CA",
 		DebitNegativeBal: true,
 	}
@@ -199,7 +199,7 @@ func TestAccountUpdate(t *testing.T) {
 
 func TestAccountUpdateLegalEntity(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "CA",
 		LegalEntity: &stripe.LegalEntity{
 			Address: stripe.Address{
@@ -238,7 +238,7 @@ func TestAccountUpdateLegalEntity(t *testing.T) {
 
 func TestAccountNoAdditionalOwners(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "GB",
 		LegalEntity: &stripe.LegalEntity{
 			Type: "company",
@@ -266,7 +266,7 @@ func TestAccountNoAdditionalOwners(t *testing.T) {
 
 func TestAccountUpdateWithBankAccount(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "CA",
 	}
 
@@ -289,7 +289,7 @@ func TestAccountUpdateWithBankAccount(t *testing.T) {
 
 func TestAccountAddExternalAccountsDefault(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "CA",
 		ExternalAccount: &stripe.AccountExternalAccountParams{
 			Country:  "US",
@@ -347,7 +347,7 @@ func TestAccountAddExternalAccountsDefault(t *testing.T) {
 
 func TestAccountUpdateWithToken(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "CA",
 	}
 
@@ -377,7 +377,7 @@ func TestAccountUpdateWithToken(t *testing.T) {
 
 func TestAccountUpdateWithCardToken(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "US",
 	}
 

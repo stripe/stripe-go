@@ -16,7 +16,7 @@ func init() {
 
 func TestPayoutAllMethods(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "US",
 		ExternalAccount: &stripe.AccountExternalAccountParams{
 			Country:  "US",
