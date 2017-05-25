@@ -72,7 +72,7 @@ type API struct {
 	// For more details see https://stripe.com/docs/api#invoiceitems.
 	InvoiceItems *invoiceitem.Client
 	// LoginLinks is the client used to invoke /v1/accounts/<account_id>/login_links APIs.
-	// For more details see https://stripe.com/docs/api#login_links.
+	// For more details see https://stripe.com/docs/api#login_link_object.
 	LoginLinks *loginlink.Client
 	// Disputes is the client used to invoke dispute-related APIs.
 	// For more details see https://stripe.com/docs/api#disputes.
