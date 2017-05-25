@@ -33,7 +33,7 @@ func TestTransferAllMethods(t *testing.T) {
 	}
 
 	params := &stripe.AccountParams{
-		Type: stripe.AccountTypeCustom,
+		Type:    stripe.AccountTypeCustom,
 		Country: "US",
 		LegalEntity: &stripe.LegalEntity{
 			Type: stripe.Individual,
