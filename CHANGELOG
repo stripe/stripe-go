@@ -1,3 +1,9 @@
+22.0.0 2017-05-25
+	Add support for login links
+	Add support for new `Type` for accounts
+	Make `Event` `Request` (renamed from `Req`) a struct with a new idempotency key
+	Rename `Event` `UserID` to `Account`
+
 21.5.1 2017-05-23
 	Fix plan update so `TrialPeriod` parameter is sent
 
