@@ -1,3 +1,6 @@
+22.1.0 2017-05-25
+	Change `Logger` to a `log.Logger`-like interface so other loggers are usable
+
 22.0.0 2017-05-25
 	Add support for login links
 	Add support for new `Type` for accounts
