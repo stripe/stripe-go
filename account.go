@@ -160,10 +160,10 @@ const (
 	// AccountTypeCustom is a constant value representing an account of type custom.
 	AccountTypeCustom AccountType = "custom"
 
-	// AccountTypeExpress is a constant value representing an account of type custom.
+	// AccountTypeExpress is a constant value representing an account of type express.
 	AccountTypeExpress AccountType = "express"
 
-	// AccountTypeStandard is a constant value representing an account of type custom.
+	// AccountTypeStandard is a constant value representing an account of type standard.
 	AccountTypeStandard AccountType = "standard"
 )
 
