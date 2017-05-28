@@ -20,11 +20,7 @@ func newDisputedCharge() (*stripe.Charge, error) {
 		Currency: currency.USD,
 	}
 
-	chargeParams.SetSource(&stripe.CardParams{
-		Number: "4000000000000259",
-		Month:  "06",
-		Year:   "20",
-	})
+	chargeParams.SetSource("tok_createDispute")
 
 	res, err := charge.New(chargeParams)
 	if err != nil {
