@@ -14,6 +14,17 @@ import (
 	"github.com/stripe/stripe-go"
 )
 
+const SigningVersion string = "v1"
+
+// computeSignature computes a signature using stripe's v1 signing method.
+func computeSignature(t string, payload []byte, secret string) []byte {
+	mac := hmac.New(sha256.New, []byte(secret))
+	mac.Write([]byte(t))
+	mac.Write([]byte("."))
+	mac.Write(payload)
+	return mac.Sum(nil)
+}
+
 const ToleranceDefault int64 = 300
 const ToleranceIgnoreTimestamp int64 = 0
 
@@ -78,17 +89,12 @@ func ConstructEvent(payload []byte, sigHeader string, secret string, tolerance i
 		}
 	}
 
-	// Compute the expected signature.
-	mac := hmac.New(sha256.New, []byte(secret))
-	mac.Write([]byte(t))
-	mac.Write([]byte("."))
-	mac.Write(payload)
-	res := mac.Sum(nil)
+	expectedSignature := computeSignature(t, payload, secret)
 
 	// Check all given v1 signatures since multiple v1 can happen in case of rolled secret.
 	for _, pair := range pairs {
 		parts := strings.Split(pair, "=")
-		if len(parts) != 2 || parts[0] != "v1" {
+		if len(parts) != 2 || parts[0] != SigningVersion {
 			continue
 		}
 
@@ -98,7 +104,7 @@ func ConstructEvent(payload []byte, sigHeader string, secret string, tolerance i
 			continue
 		}
 
-		if hmac.Equal(res, sig) {
+		if hmac.Equal(expectedSignature, sig) {
 			if invalidTimestamp {
 				return e, ErrTooOld
 			}
