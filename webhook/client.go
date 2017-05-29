@@ -42,10 +42,12 @@ func ConstructEvent(payload []byte, sigHeader string, secret string, tolerance i
 	pairs := strings.Split(sigHeader, ",")
 	for _, pair := range pairs {
 		parts := strings.Split(pair, "=")
-		if parts[0] == "t" {
-			t = parts[1]
-			break
+		if len(parts) != 2 || parts[0] != "t" {
+			continue
 		}
+
+		t = parts[1]
+		break
 	}
 
 	if t == "" {
@@ -80,7 +82,7 @@ func ConstructEvent(payload []byte, sigHeader string, secret string, tolerance i
 	// Check all given v1 signatures since multiple v1 can happen in case of rolled secret.
 	for _, pair := range pairs {
 		parts := strings.Split(pair, "=")
-		if parts[0] != "v1" {
+		if len(parts) != 2 || parts[0] != "v1" {
 			continue
 		}
 
