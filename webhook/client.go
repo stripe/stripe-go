@@ -17,6 +17,11 @@ import (
 const ToleranceDefault int64 = 300
 const ToleranceIgnoreTimestamp int64 = 0
 
+var ErrNotSigned error = errors.New("Webhook has no Stripe-Signature header")
+var ErrNoTimestamp error = errors.New("Webhook has no timestamp")
+var ErrTooOld error = errors.New("Webhook had valid signature but timestamp wasn't within tolerance")
+var ErrNoValidSignature error = errors.New("Webhook had no valid signature")
+
 // ConstructEvent initializes an Event object from a JSON payload.
 // It returns an non-nil error when the payload is not valid JSON or when signature verification fails.
 // payload is the webhook request body, i.e. `ioutil.ReadAll(r.Body)`.
@@ -32,7 +37,7 @@ func ConstructEvent(payload []byte, sigHeader string, secret string, tolerance i
 	}
 
 	if sigHeader == "" {
-		return e, errors.New("Missing Stripe-Signature header")
+		return e, ErrNotSigned
 	}
 
 	// sigHeader looks like "t=1495999758,v1=ABC,v1=DEF,v0=GHI"
@@ -51,24 +56,25 @@ func ConstructEvent(payload []byte, sigHeader string, secret string, tolerance i
 	}
 
 	if t == "" {
-		return e, errors.New("Webhook has no timestamp")
+		return e, ErrNoTimestamp
 	}
 
+	invalidTimestamp := false
 	if tolerance > 0 {
 		timestamp, err := strconv.ParseInt(t, 10, 64)
-		if err != nil {
-			return e, errors.New("Webhook has invalid timestamp")
-		}
+		if err == nil {
+			currentTimestamp := time.Now().Unix()
 
-		currentTimestamp := time.Now().Unix()
+			diff := timestamp - currentTimestamp
+			if diff < 0 {
+				diff = -diff
+			}
 
-		diff := timestamp - currentTimestamp
-		if diff < 0 {
-			diff = -diff
-		}
-
-		if diff > tolerance {
-			return e, errors.New("Webhook is too old")
+			if diff > tolerance {
+				invalidTimestamp = true
+			}
+		} else {
+			invalidTimestamp = true
 		}
 	}
 
@@ -88,14 +94,19 @@ func ConstructEvent(payload []byte, sigHeader string, secret string, tolerance i
 
 		sig, err := hex.DecodeString(parts[1])
 		if err != nil {
-			return e, fmt.Errorf("Invalid v1 signature: %s", err.Error())
+			// Ignore signature which isn't valid hex.
+			continue
 		}
 
 		if hmac.Equal(res, sig) {
+			if invalidTimestamp {
+				return e, ErrTooOld
+			}
+
 			// OK
 			return e, nil
 		}
 	}
 
-	return e, errors.New("Correct signature not found")
+	return e, ErrNoValidSignature
 }
