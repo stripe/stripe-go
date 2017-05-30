@@ -82,16 +82,7 @@ func TestOrderReturnList(t *testing.T) {
 	}
 
 	params := &stripe.OrderPayParams{}
-	params.SetSource(&stripe.CardParams{
-		Name:     "Stripe Tester",
-		Number:   "4242424242424242",
-		Month:    "06",
-		Year:     "20",
-		Address1: "1234 Main Street",
-		Address2: "Apt 1",
-		City:     "Anytown",
-		State:    "CA",
-	})
+	params.SetSource("tok_visa")
 
 	_, err = order.Pay(o.ID, params)
 	if err != nil {

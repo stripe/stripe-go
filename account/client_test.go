@@ -383,20 +383,9 @@ func TestAccountUpdateWithCardToken(t *testing.T) {
 
 	acct, _ := New(params)
 
-	tokenParams := &stripe.TokenParams{
-		Card: &stripe.CardParams{
-			Number:   "4000056655665556",
-			Month:    "06",
-			Year:     "20",
-			Currency: "usd",
-		},
-	}
-
-	tok, _ := token.New(tokenParams)
-
 	cardParams := &stripe.CardParams{
 		Account: acct.ID,
-		Token:   tok.ID,
+		Token:   "tok_visa_debit",
 	}
 
 	c, err := card.New(cardParams)

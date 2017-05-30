@@ -48,17 +48,11 @@ func TestPayoutAllMethods(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "4000000000000077",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 		Destination: &stripe.DestinationParams{
 			Account: acc.ID,
 		},
 	}
+	chargeParams.SetSource("tok_bypassPending")
 
 	_, err = charge.New(chargeParams)
 	if err != nil {
