@@ -8,6 +8,7 @@ type PlanInterval string
 // For more details see https://stripe.com/docs/api#create_plan and https://stripe.com/docs/api#update_plan.
 type PlanParams struct {
 	Params
+	Customer                   string
 	ID, Name                   string
 	Currency                   Currency
 	Amount                     uint64
