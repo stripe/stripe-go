@@ -201,6 +201,10 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 
 	req.SetBasicAuth(key, "")
 
+	req.Header.Add("Stripe-Version", apiversion)
+	req.Header.Add("User-Agent", "Stripe/v1 GoBindings/"+clientversion)
+	req.Header.Add("Content-Type", contentType)
+
 	if params != nil {
 		if idempotency := strings.TrimSpace(params.IdempotencyKey); idempotency != "" {
 			if len(idempotency) > 255 {
@@ -219,11 +223,11 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 		if stripeAccount := strings.TrimSpace(params.StripeAccount); stripeAccount != "" {
 			req.Header.Add("Stripe-Account", stripeAccount)
 		}
-	}
 
-	req.Header.Add("Stripe-Version", apiversion)
-	req.Header.Add("User-Agent", "Stripe/v1 GoBindings/"+clientversion)
-	req.Header.Add("Content-Type", contentType)
+        if stripeVersion := strings.TrimSpace(params.StripeVersion); stripeVersion != "" {
+            req.Header.Add("Stripe-Version", stripeVersion);
+        }
+	}
 
 	return req, nil
 }
