@@ -14,10 +14,23 @@ import (
 	"github.com/stripe/stripe-go"
 )
 
-const SigningVersion string = "v1"
-const TestmodeSigningVersion string = "v0"
+const (
+	// Signatures older than this will be rejected by ValidateEvent
+	DefaultTolerance time.Duration = 300 * time.Second
+	signingVersion string = "v1"
+	testmodeSigningVersion string = "v0"
+)
 
-// computeSignature computes a signature using stripe's v1 signing method.
+var (
+	ErrNotSigned error = errors.New("Webhook has no Stripe-Signature header")
+	ErrInvalidHeader error = errors.New("Webhook has invalid Stripe-Signature header")
+	ErrTooOld error = errors.New("Timestamp wasn't within tolerance")
+	ErrNoValidSignature error = errors.New("Webhook had no valid signature")
+)
+
+
+// Computes a webhook signature using Stripe's v1 signing method. See
+// https://stripe.com/docs/webhooks#signatures
 func computeSignature(t time.Time, payload []byte, secret string) []byte {
 	mac := hmac.New(sha256.New, []byte(secret))
 	mac.Write([]byte(fmt.Sprintf("%d", t.Unix())))
@@ -25,13 +38,6 @@ func computeSignature(t time.Time, payload []byte, secret string) []byte {
 	mac.Write(payload)
 	return mac.Sum(nil)
 }
-
-const DefaultTolerance time.Duration = 300 * time.Second
-
-var ErrNotSigned error = errors.New("Webhook has no Stripe-Signature header")
-var ErrInvalidHeader error = errors.New("Webhook has invalid Stripe-Signature header")
-var ErrTooOld error = errors.New("Timestamp wasn't within tolerance")
-var ErrNoValidSignature error = errors.New("Webhook had no valid signature")
 
 type signedHeader struct {
 	timestamp time.Time
@@ -62,7 +68,7 @@ func parseSignatureHeader(header string) (*signedHeader, error) {
 			}
 			sh.timestamp = time.Unix(timestamp, 0)
 
-		case SigningVersion:
+		case signingVersion:
 			sig, err := hex.DecodeString(parts[1])
 			if err != nil {
 				return sh, ErrInvalidHeader
@@ -70,7 +76,7 @@ func parseSignatureHeader(header string) (*signedHeader, error) {
 
 			sh.signatures = append(sh.signatures, sig)
 
-		case TestmodeSigningVersion:
+		case testmodeSigningVersion:
 			sh.testmode = true
 
 		default:
@@ -81,33 +87,54 @@ func parseSignatureHeader(header string) (*signedHeader, error) {
 	return sh, nil
 }
 
-func ValidateEvent(payload []byte, sigHeader string, secret string) (stripe.Event, error) {
-	return ValidateEventWithTolerance(payload, sigHeader, secret, DefaultTolerance)
+// Initializes an Event object from a JSON webhook payload, validating the
+// Stripe-Signature header using the specified signing secret. Returns an error
+// if the body or Stripe-Signature header provided are unreadable, if the
+// signature doesn't match, or if the timestamp for the signature is older than
+// DefaultTolerance.
+//
+// NOTE: Stripe will only send Webhook signing headers after you have retrieved
+// your signing secret from the Stripe dashboard:
+// https://dashboard.stripe.com/webhooks
+//
+func ValidateEvent(payload []byte, header string, secret string) (stripe.Event, error) {
+	return ValidateEventWithTolerance(payload, header, secret, DefaultTolerance)
 }
 
-func ValidateEventWithTolerance(payload []byte, sigHeader string, secret string, tolerance time.Duration) (stripe.Event, error) {
-	return validateEvent(payload, sigHeader, secret, tolerance, true)
+// Initializes an Event object from a JSON webhook payload, validating the
+// signature in the Stripe-Signature header using the specified signing secret
+// and tolerance window. Returns an error if the body or Stripe-Signature header
+// provided are unreadable, if the signature doesn't match, or if the timestamp
+// for the signature is older than the specified tolerance.
+//
+// NOTE: Stripe will only send Webhook signing headers after you have retrieved
+// your signing secret from the Stripe dashboard:
+// https://dashboard.stripe.com/webhooks
+//
+func ValidateEventWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) (stripe.Event, error) {
+	return validateEvent(payload, header, secret, tolerance, true)
 }
 
-func ValidateEventIgnoringTolerance(payload []byte, sigHeader string, secret string) (stripe.Event, error) {
-	return validateEvent(payload, sigHeader, secret, 0 * time.Second, false)
+// Initializes an Event object from a JSON webhook payload, validating the
+// Stripe-Signature header using the specified signing secret. Returns an error
+// if the body or Stripe-Signature header provided are unreadable or if the
+// signature doesn't match. Does not check the signature's timestamp.
+//
+// NOTE: Stripe will only send Webhook signing headers after you have retrieved
+// your signing secret from the Stripe dashboard:
+// https://dashboard.stripe.com/webhooks
+//
+func ValidateEventIgnoringTolerance(payload []byte, header string, secret string) (stripe.Event, error) {
+	return validateEvent(payload, header, secret, 0 * time.Second, false)
 }
 
-
-// ConstructEvent initializes an Event object from a JSON payload.
-// It returns an non-nil error when the payload is not valid JSON or when signature verification fails.
-// payload is the webhook request body, i.e. `ioutil.ReadAll(r.Body)`.
-// sigHeader is the webhook Stripe-Signature header, i.e. `r.Header.Get("Stripe-Signature")`.
-// secret is your Signing Secret, i.e. `"whsec_XYZ"`.  See https://dashboard.stripe.com/webhooks
-// tolerance (suggested 300) is the max difference in seconds between now and Stripe-Signature's timestamp. If the difference is greater than this tolerance, the signature is rejected and a non-nil error is returned.  If tolerance is 0 or less, then the timestamp is not checked.
-// NOTE: your requests will only have Stripe-Signature if you have clicked to reveal your secret
-func validateEvent(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) (stripe.Event, error) {	e := stripe.Event{}
+func validateEvent(payload []byte, header string, secret string, tolerance time.Duration, enforceTolerance bool) (stripe.Event, error) {	e := stripe.Event{}
 
 	if err := json.Unmarshal(payload, &e); err != nil {
 		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
 	}
 
-	header, err := parseSignatureHeader(sigHeader)
+	header, err := parseSignatureHeader(header)
 	if err != nil {
 		return e, err
 	}
