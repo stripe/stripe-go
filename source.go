@@ -14,9 +14,9 @@ const (
 	// customer.
 	SourceStatusPending SourceStatus = "pending"
 	// SourceStatusChargeable the source is ready to be charged (once if usage
-	// is `single-use`, repeatidly otherwise).
+	// is `single_use`, repeatidly otherwise).
 	SourceStatusChargeable SourceStatus = "chargeable"
-	// SourceStatusConsumed the source is `single-use` usage and has been
+	// SourceStatusConsumed the source is `single_use` usage and has been
 	// charged already.
 	SourceStatusConsumed SourceStatus = "consumed"
 	// SourceStatusFailed the source is no longer usable.
@@ -49,7 +49,7 @@ type SourceUsage string
 const (
 	// UsageSingleUse the source can only be charged once for the specified
 	// amount and currency.
-	UsageSingleUse SourceUsage = "single-use"
+	UsageSingleUse SourceUsage = "single_use"
 	// UsageReusable the source can be charged multiple times for arbitrary
 	// amounts.
 	UsageReusable SourceUsage = "reusable"
@@ -69,6 +69,8 @@ type RedirectParams struct {
 type SourceObjectParams struct {
 	Params
 	Type     string
+	Usage    SourceUsage
+	Customer string
 	Amount   uint64
 	Currency Currency
 	Flow     SourceFlow

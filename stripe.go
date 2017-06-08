@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/http/httputil"
 	"os"
 	"os/exec"
 	"runtime"
@@ -207,6 +208,10 @@ func (s BackendConfiguration) Call(method, path, key string, form *RequestValues
 	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", body, params)
 	if err != nil {
 		return err
+	}
+	dump, err := httputil.DumpRequest(req, true)
+	if err == nil {
+		log.Println(string(dump))
 	}
 
 	if err := s.Do(req, v); err != nil {
