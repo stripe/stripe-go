@@ -17,8 +17,8 @@ func Example() {
 			return
 		}
 
-		// Pass the request body & Stripe-Signature header to ValidateEvent, along with the webhook signing key
-		event, err := webhook.ValidateEvent(body, req.Header.Get("Stripe-Signature"), "whsec_DaLRHCRs35vEXqOE8uTEAXGLGUOnyaFf")
+		// Pass the request body & Stripe-Signature header to ConstructEvent, along with the webhook signing key
+		event, err := webhook.ConstructEvent(body, req.Header.Get("Stripe-Signature"), "whsec_DaLRHCRs35vEXqOE8uTEAXGLGUOnyaFf")
 
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest) // Return a 400 error on a bad signature

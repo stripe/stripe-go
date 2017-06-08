@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	// Signatures older than this will be rejected by ValidateEvent
+	// Signatures older than this will be rejected by ConstructEvent
 	DefaultTolerance       time.Duration = 300 * time.Second
 	signingVersion         string        = "v1"
 	testmodeSigningVersion string        = "v0"
@@ -96,8 +96,8 @@ func parseSignatureHeader(header string) (*signedHeader, error) {
 // your signing secret from the Stripe dashboard:
 // https://dashboard.stripe.com/webhooks
 //
-func ValidateEvent(payload []byte, header string, secret string) (stripe.Event, error) {
-	return ValidateEventWithTolerance(payload, header, secret, DefaultTolerance)
+func ConstructEvent(payload []byte, header string, secret string) (stripe.Event, error) {
+	return ConstructEventWithTolerance(payload, header, secret, DefaultTolerance)
 }
 
 // Initializes an Event object from a JSON webhook payload, validating the
@@ -110,8 +110,8 @@ func ValidateEvent(payload []byte, header string, secret string) (stripe.Event, 
 // your signing secret from the Stripe dashboard:
 // https://dashboard.stripe.com/webhooks
 //
-func ValidateEventWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) (stripe.Event, error) {
-	return validateEvent(payload, header, secret, tolerance, true)
+func ConstructEventWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) (stripe.Event, error) {
+	return constructEvent(payload, header, secret, tolerance, true)
 }
 
 // Initializes an Event object from a JSON webhook payload, validating the
@@ -123,11 +123,11 @@ func ValidateEventWithTolerance(payload []byte, header string, secret string, to
 // your signing secret from the Stripe dashboard:
 // https://dashboard.stripe.com/webhooks
 //
-func ValidateEventIgnoringTolerance(payload []byte, header string, secret string) (stripe.Event, error) {
-	return validateEvent(payload, header, secret, 0*time.Second, false)
+func ConstructEventIgnoringTolerance(payload []byte, header string, secret string) (stripe.Event, error) {
+	return constructEvent(payload, header, secret, 0*time.Second, false)
 }
 
-func validateEvent(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) (stripe.Event, error) {
+func constructEvent(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) (stripe.Event, error) {
 	e := stripe.Event{}
 
 	if err := json.Unmarshal(payload, &e); err != nil {
