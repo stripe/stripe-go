@@ -17,10 +17,11 @@ type EphemeralKey struct {
 	Created int64  `json:"created"`
 	Expires int64  `json:"expires"`
 	Live    bool   `json:"livemode"`
-    AssociatedObject []struct {
+    AssociatedObjects []struct {
         ID   string `json:"id"`
         Type string `json:"type"`
     } `json:"associated_objects"`
+    RawJSON []byte
 }
 
 // UnmarshalJSON handles deserialization of an EphemeralKey.
@@ -32,10 +33,10 @@ func (e *EphemeralKey) UnmarshalJSON(data []byte) error {
 	err := json.Unmarshal(data, &ee)
 	if err == nil {
 		*e = EphemeralKey(ee)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		e.ID = string(data[1 : len(data)-1])
 	}
+
+    // Store the raw JSON so it can be passed back to the frontend
+    e.RawJSON = data
 
 	return nil
 }
