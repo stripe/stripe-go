@@ -16,18 +16,17 @@ import (
 
 const (
 	// Signatures older than this will be rejected by ValidateEvent
-	DefaultTolerance time.Duration = 300 * time.Second
-	signingVersion string = "v1"
-	testmodeSigningVersion string = "v0"
+	DefaultTolerance       time.Duration = 300 * time.Second
+	signingVersion         string        = "v1"
+	testmodeSigningVersion string        = "v0"
 )
 
 var (
-	ErrNotSigned error = errors.New("Webhook has no Stripe-Signature header")
-	ErrInvalidHeader error = errors.New("Webhook has invalid Stripe-Signature header")
-	ErrTooOld error = errors.New("Timestamp wasn't within tolerance")
+	ErrNotSigned        error = errors.New("Webhook has no Stripe-Signature header")
+	ErrInvalidHeader    error = errors.New("Webhook has invalid Stripe-Signature header")
+	ErrTooOld           error = errors.New("Timestamp wasn't within tolerance")
 	ErrNoValidSignature error = errors.New("Webhook had no valid signature")
 )
-
 
 // Computes a webhook signature using Stripe's v1 signing method. See
 // https://stripe.com/docs/webhooks#signatures
@@ -40,9 +39,9 @@ func computeSignature(t time.Time, payload []byte, secret string) []byte {
 }
 
 type signedHeader struct {
-	timestamp time.Time
+	timestamp  time.Time
 	signatures [][]byte
-	testmode bool
+	testmode   bool
 }
 
 func parseSignatureHeader(header string) (*signedHeader, error) {
@@ -125,10 +124,11 @@ func ValidateEventWithTolerance(payload []byte, header string, secret string, to
 // https://dashboard.stripe.com/webhooks
 //
 func ValidateEventIgnoringTolerance(payload []byte, header string, secret string) (stripe.Event, error) {
-	return validateEvent(payload, header, secret, 0 * time.Second, false)
+	return validateEvent(payload, header, secret, 0*time.Second, false)
 }
 
-func validateEvent(payload []byte, header string, secret string, tolerance time.Duration, enforceTolerance bool) (stripe.Event, error) {	e := stripe.Event{}
+func validateEvent(payload []byte, header string, secret string, tolerance time.Duration, enforceTolerance bool) (stripe.Event, error) {
+	e := stripe.Event{}
 
 	if err := json.Unmarshal(payload, &e); err != nil {
 		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())

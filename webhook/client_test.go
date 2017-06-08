@@ -4,7 +4,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"testing"
-  "time"
+	"time"
 )
 
 var testPayload = []byte(`{
@@ -13,22 +13,21 @@ var testPayload = []byte(`{
 }`)
 var testSecret = "whsec_test_secret"
 
-
 type SignedPayload struct {
 	timestamp time.Time
-	payload []byte
-	secret string
-	scheme string
+	payload   []byte
+	secret    string
+	scheme    string
 	signature []byte
-	header string
+	header    string
 }
 
-func newSignedPayload(options ...func (*SignedPayload)) (*SignedPayload) {
+func newSignedPayload(options ...func(*SignedPayload)) *SignedPayload {
 	signedPayload := &SignedPayload{}
 	signedPayload.timestamp = time.Now()
-  signedPayload.payload = testPayload
-  signedPayload.secret = testSecret
-  signedPayload.scheme = "v1"
+	signedPayload.payload = testPayload
+	signedPayload.secret = testSecret
+	signedPayload.scheme = "v1"
 
 	for _, opt := range options {
 		opt(signedPayload)
@@ -57,7 +56,7 @@ func TestTokenNew(t *testing.T) {
 		t.Errorf("Expected a parsed event matching the test payload, got %t", evt)
 	}
 
-	p = newSignedPayload(func (p *SignedPayload) {
+	p = newSignedPayload(func(p *SignedPayload) {
 		p.payload = append(p.payload, byte('['))
 	})
 	evt, err = ValidateEvent(p.payload, p.header, p.secret)
@@ -81,12 +80,12 @@ func TestTokenNew(t *testing.T) {
 		t.Errorf("Expected ErrInvalidHeader from bad header format, got %t", err)
 	}
 
-	evt, err = ValidateEvent(p.payload, p.header + ",v1=bad_signature", p.secret)
+	evt, err = ValidateEvent(p.payload, p.header+",v1=bad_signature", p.secret)
 	if err != ErrInvalidHeader {
 		t.Errorf("Received no error with an unreadable signature in the header", err)
 	}
 
-	p = newSignedPayload(func (p *SignedPayload) {
+	p = newSignedPayload(func(p *SignedPayload) {
 		p.scheme = "v0"
 	})
 	evt, err = ValidateEvent(p.payload, p.header, p.secret)
@@ -94,7 +93,7 @@ func TestTokenNew(t *testing.T) {
 		t.Errorf("Expected error from mismatched schema, got %t", err)
 	}
 
-	p = newSignedPayload(func (p *SignedPayload) {
+	p = newSignedPayload(func(p *SignedPayload) {
 		p.signature = []byte("deadbeef")
 	})
 	evt, err = ValidateEvent(p.payload, p.header, p.secret)
@@ -102,21 +101,20 @@ func TestTokenNew(t *testing.T) {
 		t.Errorf("Expected error from fake signature, got %t", err)
 	}
 
-
-	p = newSignedPayload(func (p *SignedPayload) {
+	p = newSignedPayload(func(p *SignedPayload) {
 		p.timestamp = time.Now().Add(-15 * time.Second)
 	})
-	evt, err = ValidateEventWithTolerance(p.payload, p.header, p.secret, 10 * time.Second)
+	evt, err = ValidateEventWithTolerance(p.payload, p.header, p.secret, 10*time.Second)
 	if err != ErrTooOld {
 		t.Errorf("Received %t error when validating timestamp outside of allowed timing window", err)
 	}
 
-	evt, err = ValidateEventWithTolerance(p.payload, p.header, p.secret, 20 * time.Second)
+	evt, err = ValidateEventWithTolerance(p.payload, p.header, p.secret, 20*time.Second)
 	if err != nil {
 		t.Errorf("Received %t error when validating timestamp inside allowed timing window", err)
 	}
 
-	p = newSignedPayload(func (p *SignedPayload) {
+	p = newSignedPayload(func(p *SignedPayload) {
 		p.timestamp = time.Unix(12345, 0)
 	})
 	evt, err = ValidateEventIgnoringTolerance(p.payload, p.header, p.secret)
