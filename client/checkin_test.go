@@ -18,15 +18,8 @@ func TestCheckinIdempotency(t *testing.T) {
 	charge := &stripe.ChargeParams{
 		Amount:   100,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Name:   "Go Bindings Cardholder",
-				Number: "4242424242424242",
-				Month:  "12",
-				Year:   "24",
-			},
-		},
 	}
+	charge.SetSource("tok_visa")
 
 	charge.Params.IdempotencyKey = stripe.NewIdempotencyKey()
 
@@ -45,7 +38,6 @@ func TestCheckinIdempotency(t *testing.T) {
 	if first.ID != retry.ID {
 		t.Errorf("First charge ID %q does not match retry charge ID %q", first.ID, retry.ID)
 	}
-
 }
 
 func TestCheckinConnectivity(t *testing.T) {
@@ -95,15 +87,8 @@ func TestCheckinPost(t *testing.T) {
 	charge := &stripe.ChargeParams{
 		Amount:   100,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Name:   "Go Bindings Cardholder",
-				Number: "4242424242424242",
-				Month:  "12",
-				Year:   "24",
-			},
-		},
 	}
+	charge.SetSource("tok_visa")
 
 	target, err := c.Charges.New(charge)
 
@@ -117,10 +102,6 @@ func TestCheckinPost(t *testing.T) {
 
 	if target.Currency != charge.Currency {
 		t.Errorf("Currency %q does not match expected currency %q\n", target.Currency, charge.Currency)
-	}
-
-	if target.Source.Card.Name != charge.Source.Card.Name {
-		t.Errorf("Card name %q does not match expected name %q\n", target.Source.Card.Name, charge.Source.Card.Name)
 	}
 }
 

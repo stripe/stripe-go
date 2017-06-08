@@ -14,7 +14,16 @@ import (
 type FileUploadParams struct {
 	Params
 	Purpose FileUploadPurpose
-	File    *os.File
+
+	// Filename is just the name of the file without path information.
+	Filename string
+
+	// FileReader is a reader with the contents of the file that should be uploaded.
+	FileReader io.Reader
+
+	// File is a deprecated form of FileReader and Filename that will do the same thing, but
+	// allows referencing a file directly. Please prefer the use of FileReader and Filename instead.
+	File *os.File
 }
 
 // FileUploadListParams is the set of parameters that can be used when listing
@@ -59,7 +68,19 @@ func (f *FileUploadParams) AppendDetails(body io.ReadWriter) (string, error) {
 		}
 	}
 
-	if f.File != nil {
+	// Support both FileReader/Filename and File with
+	// the former being the newer preferred version
+	if f.FileReader != nil && f.Filename != "" {
+		part, err := writer.CreateFormFile("file", filepath.Base(f.Filename))
+		if err != nil {
+			return "", err
+		}
+
+		_, err = io.Copy(part, f.FileReader)
+		if err != nil {
+			return "", err
+		}
+	} else if f.File != nil {
 		part, err := writer.CreateFormFile("file", filepath.Base(f.File.Name()))
 		if err != nil {
 			return "", err

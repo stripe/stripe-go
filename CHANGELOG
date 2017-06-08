@@ -1,3 +1,111 @@
+22.1.0 2017-05-25
+	Change `Logger` to a `log.Logger`-like interface so other loggers are usable
+
+22.0.0 2017-05-25
+	Add support for login links
+	Add support for new `Type` for accounts
+	Make `Event` `Request` (renamed from `Req`) a struct with a new idempotency key
+	Rename `Event` `UserID` to `Account`
+
+21.5.1 2017-05-23
+	Fix plan update so `TrialPeriod` parameter is sent
+
+21.5.0 2017-05-15
+	Implement `Get` for `RequestValues`
+
+21.4.1 2017-05-11
+	Pass extra parameters to API calls on bank account deletion
+
+21.4.0 2017-05-04
+	Add `Billing` and `DueDate` filters to invoice listing
+	Add `Billing` filter to subscription listing
+
+21.3.0 2017-05-02
+	Add `DetailsCode` to `IdentityVerification`
+
+21.2.0 2017-04-19
+	Send user agent information with `X-Stripe-Client-User-Agent`
+	Add `stripe.SetAppInfo` for plugin authors to register app information
+
+21.1.0 2017-04-12
+	Allow coupon to be specified when creating orders
+	No longer require that items have descriptions when creating orders
+
+21.0.0 2017-04-07
+	Balances are now retrieved by payout instead of by transfer
+
+20.0.0 2017-04-06
+	Bump API version to 2017-04-06: https://stripe.com/docs/upgrades#2017-04-06
+	Add support for payouts and recipient transfers
+	Change the transfer resource to support its new format
+	Deprecate recipient creation
+	Disputes under charges are now expandable and collapsed by default
+	Rules under charge outcomes are now expandable and collapsed by default
+
+19.17.0 2017-04-06
+	Please see 20.0.0 (bad release)	
+
+19.16.0 2017-03-23
+	Allow the ID of an identity document to be passed into an account owner update
+
+19.15.0 2017-03-22
+	Add `ShippingCarrier` to dispute evidence
+
+19.14.0 2017-03-20
+	Add `Period`, `Plan`, and `Quantity` to `InvoiceItem`
+
+19.13.0 2017-03-20
+	Add `AdditionalOwnersEmpty` to allow additional owners to be unset
+
+19.12.0 2017-03-17
+	Add new form of file upload using `io.FileReader` and filename
+
+19.11.0 2017-03-13
+	Add `Token` to `SourceObjectParams`
+
+19.10.0 2017-03-13
+	Add `CouponEmpty` (allowing a coupon to be cleared) to customer parameters
+	Add `CouponEmpty` (allowing a coupon to be cleared) to subscription parameters
+
+19.9.0 2017-03-08
+	Add missing value "all" to subscription statuses
+
+19.8.0 2017-03-02
+	Add subscription items client to main `client.API` struct
+
+19.7.0 2017-03-01
+	Add `Statement` (statement descriptor) to `CaptureParams`
+
+19.6.0 2017-02-22
+	Add new parameters for invoices and subscriptions
+
+19.5.0 2017-02-13
+	Add new rich `Destination` type to `ChargeParams`
+
+19.4.0 2017-02-03
+	Support Connect account as payment source
+
+19.3.0 2017-02-02
+	Add transfer group to charges and transfers
+
+19.2.0 2017-01-23
+	Add `Rule` to `ChargeOutcome`
+
+19.1.0 2017-01-18
+	Add support for updating sources
+
+19.0.2 2017-01-04
+	Fix subscription `trial_period_days` to be populated by the right value
+
+19.0.1 2016-12-08
+	Include verification document details when persisting `LegalEntity`
+
+19.0.0 2016-12-07
+	Remote `SubProrationDateNow` field from `InvoiceParams`
+
+18.14.1 2016-12-05
+	Truncate `tax_percent` at four decimals (e.g. 3.9750%) instead of two
+
 18.14.0 2016-11-23
 	Add retrieve method for 3-D Secure resources
 

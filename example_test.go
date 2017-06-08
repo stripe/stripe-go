@@ -18,12 +18,7 @@ func ExampleCharge_new() {
 		Amount:   1000,
 		Currency: currency.USD,
 	}
-	params.SetSource(&stripe.CardParams{
-		Name:   "Go Stripe",
-		Number: "4242424242424242",
-		Month:  "10",
-		Year:   "20",
-	})
+	params.SetSource("tok_visa")
 	params.AddMeta("key", "value")
 
 	ch, err := charge.New(params)

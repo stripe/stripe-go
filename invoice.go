@@ -6,6 +6,10 @@ import "encoding/json"
 // Allowed values are "invoiceitem", "subscription".
 type InvoiceLineType string
 
+// InvoiceBilling is the type of billing method for this invoice.
+// Currently supported values are "send_invoice" and "charge_automatically".
+type InvoiceBilling string
+
 // InvoiceParams is the set of parameters that can be used when creating or updating an invoice.
 // For more details see https://stripe.com/docs/api#create_invoice, https://stripe.com/docs/api#update_invoice.
 type InvoiceParams struct {
@@ -18,11 +22,14 @@ type InvoiceParams struct {
 	SubPlan              string
 	SubNoProrate         bool
 	SubProrationDate     int64
-	SubProrationDateNow  bool
 	SubQuantity          uint64
 	SubTrialEnd          int64
 	TaxPercent           float64
 	TaxPercentZero       bool
+	Billing              InvoiceBilling
+	DueDate              int64
+	DaysUntilDue         uint64
+	Paid                 bool
 }
 
 // InvoiceListParams is the set of parameters that can be used when listing invoices.
@@ -31,6 +38,9 @@ type InvoiceListParams struct {
 	ListParams
 	Date     int64
 	Customer string
+	Sub      string
+	Billing  InvoiceBilling
+	DueDate  int64
 }
 
 // InvoiceLineListParams is the set of parameters that can be used when listing invoice line items.
@@ -74,6 +84,9 @@ type Invoice struct {
 	Sub           string            `json:"subscription"`
 	Webhook       int64             `json:"webhooks_delivered_at"`
 	Meta          map[string]string `json:"metadata"`
+	Billing       InvoiceBilling    `json:"billing"`
+	DueDate       int64             `json:"due_date"`
+	Number        string            `json:"number"`
 }
 
 // InvoiceList is a list of invoices as retrieved from a list endpoint.

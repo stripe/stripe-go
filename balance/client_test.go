@@ -35,11 +35,7 @@ func TestBalanceGetTx(t *testing.T) {
 		Currency: currency.USD,
 		Desc:     "charge transaction",
 	}
-	chargeParams.SetSource(&stripe.CardParams{
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	chargeParams.SetSource("tok_amex")
 
 	res, _ := charge.New(chargeParams)
 
@@ -101,7 +97,7 @@ func TestBalanceGetTx(t *testing.T) {
 		t.Errorf("Type %v does not match expected value\n", target.Type)
 	}
 
-	if target.Src != res.ID {
+	if target.Src.ID != res.ID {
 		t.Errorf("Source %q does not match expeted value %q\n", target.Src, res.ID)
 	}
 }

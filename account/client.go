@@ -54,6 +54,10 @@ func writeAccountParams(
 		}
 	}
 
+	if len(params.PayoutStatement) > 0 {
+		body.Add("payout_statement_descriptor", params.PayoutStatement)
+	}
+
 	if len(params.Statement) > 0 {
 		body.Add("statement_descriptor", params.Statement)
 	}
@@ -86,8 +90,8 @@ func writeAccountParams(
 		params.LegalEntity.AppendDetails(body)
 	}
 
-	if params.TransferSchedule != nil {
-		params.TransferSchedule.AppendDetails(body)
+	if params.PayoutSchedule != nil {
+		params.PayoutSchedule.AppendDetails(body)
 	}
 
 	if params.TOSAcceptance != nil {
@@ -102,8 +106,10 @@ func writeAccountParams(
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 	body := &stripe.RequestValues{}
 
+	// Type is now required on creation and not allowed on update
+	// It can't be passed if you pass `from_recipient` though
 	if len(params.FromRecipient) == 0 {
-		body.Add("managed", strconv.FormatBool(params.Managed))
+		body.Add("type", string(params.Type))
 	}
 
 	writeAccountParams(params, body)

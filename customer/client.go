@@ -66,7 +66,7 @@ func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 		}
 
 		if params.TaxPercent > 0 {
-			body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
+			body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 4, 64))
 		} else if params.TaxPercentZero {
 			body.Add("tax_percent", "0")
 		}
@@ -134,6 +134,8 @@ func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Custom
 
 		if len(params.Coupon) > 0 {
 			body.Add("coupon", params.Coupon)
+		} else if params.CouponEmpty {
+			body.Add("coupon", "")
 		}
 
 		if len(params.Email) > 0 {

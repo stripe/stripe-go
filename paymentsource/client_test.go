@@ -28,12 +28,7 @@ func TestSourceCardNew(t *testing.T) {
 	sourceParams := &stripe.CustomerSourceParams{
 		Customer: cust.ID,
 	}
-	sourceParams.SetSource(&stripe.CardParams{
-		Number: "4242424242424242",
-		Month:  "10",
-		Year:   "20",
-		CVC:    "1234",
-	})
+	sourceParams.SetSource("tok_visa")
 
 	source, err := New(sourceParams)
 
@@ -45,10 +40,6 @@ func TestSourceCardNew(t *testing.T) {
 
 	if target.LastFour != "4242" {
 		t.Errorf("Unexpected last four %q for card number %v\n", target.LastFour, sourceParams.Source.Card.Number)
-	}
-
-	if target.CVCCheck != card.Pass {
-		t.Errorf("CVC check %q does not match expected status\n", target.ZipCheck)
 	}
 
 	targetCust, err := customer.Get(cust.ID, nil)
@@ -106,11 +97,7 @@ func TestSourceCardGet(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
 		Email: "SomethingIdentifiable@gmail.om",
 	}
-	customerParams.SetSource(&stripe.CardParams{
-		Number: "4242424242424242",
-		Month:  "06",
-		Year:   "20",
-	})
+	customerParams.SetSource("tok_visa")
 	cust, err := customer.New(customerParams)
 
 	if err != nil {
@@ -178,11 +165,7 @@ func TestSourceBankAccountGet(t *testing.T) {
 
 func TestSourceCardDel(t *testing.T) {
 	customerParams := &stripe.CustomerParams{}
-	customerParams.SetSource(&stripe.CardParams{
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	customerParams.SetSource("tok_visa")
 
 	cust, _ := customer.New(customerParams)
 
@@ -240,12 +223,7 @@ func TestSourceBankAccountDel(t *testing.T) {
 
 func TestSourceCardUpdate(t *testing.T) {
 	customerParams := &stripe.CustomerParams{}
-	customerParams.SetSource(&stripe.CardParams{
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-		Name:   "Original Name",
-	})
+	customerParams.SetSource("tok_visa")
 
 	cust, err := customer.New(customerParams)
 
@@ -334,22 +312,14 @@ func TestSourceBankAccountVerify(t *testing.T) {
 
 func TestSourceList(t *testing.T) {
 	customerParams := &stripe.CustomerParams{}
-	customerParams.SetSource(&stripe.CardParams{
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
 	sourceParams := &stripe.CustomerSourceParams{
 		Customer: cust.ID,
 	}
-	sourceParams.SetSource(&stripe.CardParams{
-		Number: "4242424242424242",
-		Month:  "10",
-		Year:   "20",
-	})
+	sourceParams.SetSource("tok_visa")
 
 	New(sourceParams)
 

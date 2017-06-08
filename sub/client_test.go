@@ -19,14 +19,9 @@ func init() {
 
 func TestSubscriptionNew(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
+		Email: "test@stripe.com",
 	}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -46,6 +41,8 @@ func TestSubscriptionNew(t *testing.T) {
 		Quantity:           10,
 		TaxPercent:         20.0,
 		BillingCycleAnchor: time.Now().AddDate(0, 0, 12).Unix(),
+		Billing:            "send_invoice",
+		DaysUntilDue:       30,
 	}
 
 	target, err := New(subParams)
@@ -62,6 +59,14 @@ func TestSubscriptionNew(t *testing.T) {
 		t.Errorf("Quantity %v does not match expected quantity %v\n", target.Quantity, subParams.Quantity)
 	}
 
+	if target.Billing != subParams.Billing {
+		t.Errorf("Billing %v does not match expected %v\n", target.Billing, subParams.Billing)
+	}
+
+	if target.DaysUntilDue != subParams.DaysUntilDue {
+		t.Errorf("DaysUntilDue %v does not match expected %v\n", target.DaysUntilDue, subParams.DaysUntilDue)
+	}
+
 	if target.TaxPercent != subParams.TaxPercent {
 		t.Errorf("TaxPercent %f does not match expected TaxPercent %f\n", target.TaxPercent, subParams.TaxPercent)
 	}
@@ -75,15 +80,8 @@ func TestSubscriptionNew(t *testing.T) {
 }
 
 func TestSubscriptionZeroQuantity(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -127,15 +125,8 @@ func TestSubscriptionZeroQuantity(t *testing.T) {
 }
 
 func TestSubscriptionUpdateZeroQuantity(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -182,15 +173,8 @@ func TestSubscriptionUpdateZeroQuantity(t *testing.T) {
 }
 
 func TestSubscriptionGet(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -236,15 +220,8 @@ func TestSubscriptionGet(t *testing.T) {
 }
 
 func TestSubscriptionCancel(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -291,15 +268,8 @@ func TestSubscriptionCancel(t *testing.T) {
 }
 
 func TestSubscriptionUpdate(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -322,15 +292,25 @@ func TestSubscriptionUpdate(t *testing.T) {
 
 	subscription, _ := New(subParams)
 	updatedSub := &stripe.SubParams{
-		NoProrate:  true,
-		Quantity:   13,
-		TaxPercent: 20.0,
+		NoProrate:    true,
+		Quantity:     13,
+		TaxPercent:   20.0,
+		Billing:      "send_invoice",
+		DaysUntilDue: 12,
 	}
 
 	target, err := Update(subscription.ID, updatedSub)
 
 	if err != nil {
 		t.Error(err)
+	}
+
+	if target.Billing != updatedSub.Billing {
+		t.Errorf("Billing %v does not match expected %v\n", target.Billing, updatedSub.Billing)
+	}
+
+	if target.DaysUntilDue != updatedSub.DaysUntilDue {
+		t.Errorf("DaysUntilDue %v does not match expected %v\n", target.DaysUntilDue, updatedSub.DaysUntilDue)
 	}
 
 	if target.Quantity != updatedSub.Quantity {
@@ -354,15 +334,8 @@ func TestSubscriptionDiscount(t *testing.T) {
 
 	coupon.New(couponParams)
 
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -422,16 +395,17 @@ func TestSubscriptionDiscount(t *testing.T) {
 	coupon.Del("sub_coupon")
 }
 
-func TestSubscriptionList(t *testing.T) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
+func TestSubscriptionEmptyDiscount(t *testing.T) {
+	couponParams := &stripe.CouponParams{
+		Duration: coupon.Forever,
+		ID:       "sub_coupon",
+		Percent:  99,
 	}
+
+	coupon.New(couponParams)
+
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 
@@ -449,9 +423,81 @@ func TestSubscriptionList(t *testing.T) {
 		Customer: cust.ID,
 		Plan:     "test",
 		Quantity: 10,
+		Coupon:   "sub_coupon",
 	}
 
-	for i := 0; i < 5; i++ {
+	target, err := New(subParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Discount == nil {
+		t.Errorf("Discount not found, but one was expected\n")
+	}
+
+	if target.Discount.Coupon == nil {
+		t.Errorf("Coupon not found, but one was expected\n")
+	}
+
+	if target.Discount.Coupon.ID != subParams.Coupon {
+		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.ID, subParams.Coupon)
+	}
+
+	updatedSub := &stripe.SubParams{
+		CouponEmpty: true,
+	}
+
+	target, err = Update(target.ID, updatedSub)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Discount != nil {
+		t.Errorf("A discount %v was found, but was expected to have been deleted\n", target.Discount)
+	}
+
+	customer.Del(cust.ID)
+	plan.Del("test")
+	coupon.Del("sub_coupon")
+}
+
+func TestSubscriptionList(t *testing.T) {
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
+	cust, _ := customer.New(customerParams)
+
+	planParams := &stripe.PlanParams{
+		ID:       "test",
+		Name:     "Test Plan",
+		Amount:   99,
+		Currency: currency.USD,
+		Interval: plan.Month,
+	}
+
+	plan.New(planParams)
+
+	subParams := &stripe.SubParams{
+		Customer:     cust.ID,
+		Plan:         "test",
+		Quantity:     10,
+		Billing:      "send_invoice",
+		DaysUntilDue: 30,
+	}
+
+	for i := 0; i < 3; i++ {
+		New(subParams)
+	}
+
+	subParams = &stripe.SubParams{
+		Customer: cust.ID,
+		Plan:     "test",
+		Quantity: 10,
+		Billing:  "charge_automatically",
+	}
+
+	for i := 0; i < 3; i++ {
 		New(subParams)
 	}
 
@@ -481,8 +527,44 @@ func TestSubscriptionList(t *testing.T) {
 		t.Error(err)
 	}
 
-	i = List(nil)
+	count := 0
+	expectedCount := 3
+	params = &stripe.SubListParams{Customer: cust.ID, Plan: "test", Billing: "send_invoice"}
+	i = List(params)
 	for i.Next() {
+		count += 1
+		if i.Sub().Billing != params.Billing {
+			t.Errorf("Billing %v does not match expected %v\n", i.Sub().Billing, params.Billing)
+		}
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
+	}
+	if count != expectedCount {
+		t.Errorf("Filtering by billing=%v returned %v entries, expected %v", params.Billing, count, expectedCount)
+	}
+
+	count = 0
+	expectedCount = 3
+	params = &stripe.SubListParams{Customer: cust.ID, Plan: "test", Billing: "charge_automatically"}
+	i = List(params)
+	for i.Next() {
+		count += 1
+		if i.Sub().Billing != params.Billing {
+			t.Errorf("Billing %v does not match expected %v\n", i.Sub().Billing, params.Billing)
+		}
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
+	}
+	if count != expectedCount {
+		t.Errorf("Filtering by billing=%v returned %v entries, expected %v", params.Billing, count, expectedCount)
+	}
+
+	count = 0
+	i = List(nil)
+	for i.Next() && count < 20 {
+		count += 1
 		if i.Sub() == nil {
 			t.Error("No nil values expected")
 		}

@@ -75,6 +75,7 @@ type SourceObjectParams struct {
 	Owner    *SourceOwnerParams
 
 	Redirect *RedirectParams
+	Token    string
 
 	TypeData map[string]string
 }

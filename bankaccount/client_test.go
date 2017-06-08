@@ -64,7 +64,7 @@ func TestBankAccountListByAccount(t *testing.T) {
 	}
 
 	accountParams := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "CA",
 		ExternalAccount: &stripe.AccountExternalAccountParams{
 			Token: baTok.ID,

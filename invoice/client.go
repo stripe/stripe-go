@@ -29,6 +29,18 @@ func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	body := &stripe.RequestValues{}
 	body.Add("customer", params.Customer)
 
+	if len(params.Billing) > 0 {
+		body.Add("billing", string(params.Billing))
+	}
+
+	if params.DaysUntilDue > 0 {
+		body.Add("days_until_due", strconv.FormatUint(params.DaysUntilDue, 10))
+	}
+
+	if params.DueDate > 0 {
+		body.Add("due_date", strconv.FormatInt(params.DueDate, 10))
+	}
+
 	if len(params.Desc) > 0 {
 		body.Add("description", params.Desc)
 	}
@@ -49,7 +61,7 @@ func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	}
 
 	if params.TaxPercent > 0 {
-		body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
+		body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 4, 64))
 	} else if params.TaxPercentZero {
 		body.Add("tax_percent", "0")
 	}
@@ -119,6 +131,10 @@ func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice
 		commonParams = &params.Params
 		body = &stripe.RequestValues{}
 
+		if params.Paid {
+			body.Add("paid", strconv.FormatBool(true))
+		}
+
 		if len(params.Desc) > 0 {
 			body.Add("description", params.Desc)
 		}
@@ -146,7 +162,7 @@ func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice
 		}
 
 		if params.TaxPercent > 0 {
-			body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
+			body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 4, 64))
 		} else if params.TaxPercentZero {
 			body.Add("tax_percent", "0")
 		}
@@ -220,8 +236,20 @@ func (c Client) List(params *stripe.InvoiceListParams) *Iter {
 			body.Add("customer", params.Customer)
 		}
 
+		if len(params.Sub) > 0 {
+			body.Add("subscription", params.Sub)
+		}
+
 		if params.Date > 0 {
 			body.Add("date", strconv.FormatInt(params.Date, 10))
+		}
+
+		if len(params.Billing) > 0 {
+			body.Add("billing", string(params.Billing))
+		}
+
+		if params.DueDate > 0 {
+			body.Add("due_date", strconv.FormatInt(params.DueDate, 10))
 		}
 
 		params.AppendTo(body)

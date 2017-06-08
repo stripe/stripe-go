@@ -56,8 +56,29 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 		body.Add("receipt_email", params.Email)
 	}
 
+	if len(params.Dest) > 0 &&
+		params.Destination != nil &&
+		params.Destination.Account != params.Dest {
+		err := errors.New("Dest and Destination.Account are both set and not the same")
+		return nil, err
+	}
+
 	if len(params.Dest) > 0 {
-		body.Add("destination", params.Dest)
+		body.Add("destination[account]", params.Dest)
+	}
+
+	if params.Destination != nil {
+		if len(params.Destination.Account) > 0 {
+			body.Add("destination[account]", params.Destination.Account)
+		}
+
+		if params.Destination.Amount > 0 {
+			body.Add("destination[amount]", strconv.FormatUint(params.Destination.Amount, 10))
+		}
+	}
+
+	if params.TransferGroup != "" {
+		body.Add("transfer_group", params.TransferGroup)
 	}
 
 	body.Add("capture", strconv.FormatBool(!params.NoCapture))
@@ -155,6 +176,10 @@ func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge
 			body.Add("receipt_email", params.Email)
 		}
 
+		if len(params.Statement) > 0 {
+			body.Add("statement_descriptor", params.Statement)
+		}
+
 		if params.Fee > 0 {
 			body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 		}
@@ -189,6 +214,10 @@ func (c Client) List(params *stripe.ChargeListParams) *Iter {
 
 		if len(params.Customer) > 0 {
 			body.Add("customer", params.Customer)
+		}
+
+		if len(params.TransferGroup) > 0 {
+			body.Add("transfer_group", params.TransferGroup)
 		}
 
 		params.AppendTo(body)

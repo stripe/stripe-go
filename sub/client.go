@@ -14,6 +14,7 @@ const (
 	PastDue  stripe.SubStatus = "past_due"
 	Canceled stripe.SubStatus = "canceled"
 	Unpaid   stripe.SubStatus = "unpaid"
+	All      stripe.SubStatus = "all"
 )
 
 // Client is used to invoke /subscriptions APIs.
@@ -55,6 +56,14 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 			body.Add("plan", params.Plan)
 		}
 
+		if len(params.Billing) > 0 {
+			body.Add("billing", string(params.Billing))
+		}
+
+		if params.DaysUntilDue > 0 {
+			body.Add("days_until_due", strconv.FormatUint(params.DaysUntilDue, 10))
+		}
+
 		if len(params.Token) > 0 {
 			body.Add("card", params.Token)
 		} else if params.Card != nil {
@@ -66,7 +75,7 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 		}
 
 		if params.TrialPeriod > 0 {
-			body.Add("trial_period_days", strconv.FormatInt(params.TrialEnd, 10))
+			body.Add("trial_period_days", strconv.FormatInt(params.TrialPeriod, 10))
 		}
 
 		if params.TrialEndNow {
@@ -76,7 +85,7 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 		}
 
 		if params.TaxPercent > 0 {
-			body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
+			body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 4, 64))
 		} else if params.TaxPercentZero {
 			body.Add("tax_percent", "0")
 		}
@@ -169,6 +178,14 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 			body.Add("prorate", strconv.FormatBool(false))
 		}
 
+		if len(params.Billing) > 0 {
+			body.Add("billing", string(params.Billing))
+		}
+
+		if params.DaysUntilDue > 0 {
+			body.Add("days_until_due", strconv.FormatUint(params.DaysUntilDue, 10))
+		}
+
 		if len(params.Token) > 0 {
 			body.Add("card", params.Token)
 		} else if params.Card != nil {
@@ -181,6 +198,8 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 
 		if len(params.Coupon) > 0 {
 			body.Add("coupon", params.Coupon)
+		} else if params.CouponEmpty {
+			body.Add("coupon", "")
 		}
 
 		if params.TrialEndNow {
@@ -200,7 +219,7 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 		}
 
 		if params.TaxPercent > 0 {
-			body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 2, 64))
+			body.Add("tax_percent", strconv.FormatFloat(params.TaxPercent, 'f', 4, 64))
 		} else if params.TaxPercentZero {
 			body.Add("tax_percent", "0")
 		}
@@ -270,6 +289,10 @@ func (c Client) List(params *stripe.SubListParams) *Iter {
 
 		if len(params.Status) > 0 {
 			body.Add("status", string(params.Status))
+		}
+
+		if len(params.Billing) > 0 {
+			body.Add("billing", string(params.Billing))
 		}
 
 		params.AppendTo(body)

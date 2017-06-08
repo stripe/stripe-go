@@ -16,7 +16,7 @@ func init() {
 func TestTokenNew(t *testing.T) {
 	tokenParams := &stripe.TokenParams{
 		Card: &stripe.CardParams{
-			Number: "4242424242424242",
+			Number: "4242424242424242", // raw PAN as we're testing token creation
 			Month:  "10",
 			Year:   "20",
 		},
@@ -46,7 +46,7 @@ func TestTokenNew(t *testing.T) {
 
 	tokenParamsCurrency := &stripe.TokenParams{
 		Card: &stripe.CardParams{
-			Number:   "4242424242424242",
+			Number:   "4242424242424242", // raw PAN as we're testing token creation
 			Month:    "10",
 			Year:     "20",
 			Currency: "usd",

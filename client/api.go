@@ -22,9 +22,11 @@ import (
 	"github.com/stripe/stripe-go/fileupload"
 	"github.com/stripe/stripe-go/invoice"
 	"github.com/stripe/stripe-go/invoiceitem"
+	"github.com/stripe/stripe-go/loginlink"
 	"github.com/stripe/stripe-go/order"
 	"github.com/stripe/stripe-go/orderreturn"
 	"github.com/stripe/stripe-go/paymentsource"
+	"github.com/stripe/stripe-go/payout"
 	"github.com/stripe/stripe-go/plan"
 	"github.com/stripe/stripe-go/product"
 	"github.com/stripe/stripe-go/recipient"
@@ -33,6 +35,7 @@ import (
 	"github.com/stripe/stripe-go/sku"
 	"github.com/stripe/stripe-go/source"
 	"github.com/stripe/stripe-go/sub"
+	"github.com/stripe/stripe-go/subitem"
 	"github.com/stripe/stripe-go/token"
 	"github.com/stripe/stripe-go/transfer"
 )
@@ -51,6 +54,9 @@ type API struct {
 	// Subs is the client used to invoke /subscriptions APIs.
 	// For more details see https://stripe.com/docs/api#subscriptions.
 	Subs *sub.Client
+	// SubItems is the client used to invoke subscription's items-related APIs.
+	// For more details see https://stripe.com/docs/api#subscription_items.
+	SubItems *subitem.Client
 	// Plans is the client used to invoke /plans APIs.
 	// For more details see https://stripe.com/docs/api#plans.
 	Plans *plan.Client
@@ -66,12 +72,18 @@ type API struct {
 	// InvoiceItems is the client used to invoke /invoiceitems APIs.
 	// For more details see https://stripe.com/docs/api#invoiceitems.
 	InvoiceItems *invoiceitem.Client
+	// LoginLinks is the client used to invoke /v1/accounts/<account_id>/login_links APIs.
+	// For more details see https://stripe.com/docs/api#login_link_object.
+	LoginLinks *loginlink.Client
 	// Disputes is the client used to invoke dispute-related APIs.
 	// For more details see https://stripe.com/docs/api#disputes.
 	Disputes *dispute.Client
 	// Transfers is the client used to invoke /transfers APIs.
 	// For more details see https://stripe.com/docs/api#transfers.
 	Transfers *transfer.Client
+	// Payouts is the client used to invoke /payouts APIs.
+	// For more details see https://stripe.com/docs/api#payouts.
+	Payouts *payout.Client
 	// Recipients is the client used to invoke /recipients APIs.
 	// For more details see https://stripe.com/docs/api#recipients.
 	Recipients *recipient.Client
@@ -146,6 +158,7 @@ func (a *API) Init(key string, backends *Backends) {
 	a.Customers = &customer.Client{B: backends.API, Key: key}
 	a.Cards = &card.Client{B: backends.API, Key: key}
 	a.Subs = &sub.Client{B: backends.API, Key: key}
+	a.SubItems = &subitem.Client{B: backends.API, Key: key}
 	a.Plans = &plan.Client{B: backends.API, Key: key}
 	a.Coupons = &coupon.Client{B: backends.API, Key: key}
 	a.Discounts = &discount.Client{B: backends.API, Key: key}
@@ -153,6 +166,7 @@ func (a *API) Init(key string, backends *Backends) {
 	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}
 	a.Disputes = &dispute.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
+	a.Payouts = &payout.Client{B: backends.API, Key: key}
 	a.Recipients = &recipient.Client{B: backends.API, Key: key}
 	a.Refunds = &refund.Client{B: backends.API, Key: key}
 	a.Fees = &fee.Client{B: backends.API, Key: key}

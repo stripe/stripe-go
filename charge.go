@@ -20,11 +20,18 @@ type ChargeParams struct {
 	Currency                     Currency
 	Customer, Token              string
 	Desc, Statement, Email, Dest string
+	Destination                  *DestinationParams
 	NoCapture                    bool
 	Fee                          uint64
 	Fraud                        FraudReport
 	Source                       *SourceParams
 	Shipping                     *ShippingDetails
+	TransferGroup                string
+}
+
+type DestinationParams struct {
+	Account string
+	Amount  uint64
 }
 
 // SetSource adds valid sources to a ChargeParams object,
@@ -39,16 +46,17 @@ func (cp *ChargeParams) SetSource(sp interface{}) error {
 // For more details see https://stripe.com/docs/api#list_charges.
 type ChargeListParams struct {
 	ListParams
-	Created  int64
-	Customer string
+	Created       int64
+	Customer      string
+	TransferGroup string
 }
 
 // CaptureParams is the set of parameters that can be used when capturing a charge.
 // For more details see https://stripe.com/docs/api#charge_capture.
 type CaptureParams struct {
 	Params
-	Amount, Fee uint64
-	Email       string
+	Amount, Fee      uint64
+	Email, Statement string
 }
 
 // Charge is the resource representing a Stripe charge.
@@ -85,6 +93,7 @@ type Charge struct {
 	Statement      string            `json:"statement_descriptor"`
 	Status         string            `json:"status"`
 	Transfer       *Transfer         `json:"transfer"`
+	TransferGroup  string            `json:"transfer_group"`
 	Tx             *Transaction      `json:"balance_transaction"`
 }
 
@@ -100,14 +109,22 @@ type FraudDetails struct {
 	StripeReport FraudReport `json:"stripe_report"`
 }
 
+// ChargeOutcomeRule tells you the Radar rule that blocked the charge, if any.
+type ChargeOutcomeRule struct {
+	Action    string `json:"action"`
+	ID        string `json:"id"`
+	Predicate string `json:"predicate"`
+}
+
 // Outcome is the charge's outcome that details whether a payment
 // was accepted and why.
 type ChargeOutcome struct {
-	NetworkStatus string `json:"network_status"`
-	Reason        string `json:"reason"`
-	RiskLevel     string `json:"risk_level"`
-	SellerMessage string `json:"seller_message"`
-	Type          string `json:"type"`
+	NetworkStatus string             `json:"network_status"`
+	Reason        string             `json:"reason"`
+	RiskLevel     string             `json:"risk_level"`
+	Rule          *ChargeOutcomeRule `json:"rule"`
+	SellerMessage string             `json:"seller_message"`
+	Type          string             `json:"type"`
 }
 
 // ShippingDetails is the structure containing shipping information.
@@ -165,6 +182,23 @@ func (c *Charge) UnmarshalJSON(data []byte) error {
 	err := json.Unmarshal(data, &cc)
 	if err == nil {
 		*c = Charge(cc)
+	} else {
+		// the id is surrounded by "\" characters, so strip them
+		c.ID = string(data[1 : len(data)-1])
+	}
+
+	return nil
+}
+
+// UnmarshalJSON handles deserialization of a ChargeOutcomeRule.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (c *ChargeOutcomeRule) UnmarshalJSON(data []byte) error {
+	type chargeOutcomeRule ChargeOutcomeRule
+	var cc chargeOutcomeRule
+	err := json.Unmarshal(data, &cc)
+	if err == nil {
+		*c = ChargeOutcomeRule(cc)
 	} else {
 		// the id is surrounded by "\" characters, so strip them
 		c.ID = string(data[1 : len(data)-1])

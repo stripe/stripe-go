@@ -61,6 +61,20 @@ func (f *RequestValues) Set(key, val string) {
 	f.Add(key, val)
 }
 
+// Get retrieves the list of values for the given key.  If no values exist
+// for the key, nil will be returned.
+//
+// Note that Get is O(n) and may be quite slow for a very large parameter list.
+func (f *RequestValues) Get(key string) []string {
+	var results []string
+	for i, v := range f.values {
+		if v.Key == key {
+			results = append(results, f.values[i].Value)
+		}
+	}
+	return results
+}
+
 // ToValues converts an instance of RequestValues into an instance of
 // url.Values. This can be useful in cases where it's useful to make an
 // unordered comparison of two sets of request values.
