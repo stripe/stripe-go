@@ -127,14 +127,14 @@ func ValidateEventIgnoringTolerance(payload []byte, header string, secret string
 	return validateEvent(payload, header, secret, 0*time.Second, false)
 }
 
-func validateEvent(payload []byte, header string, secret string, tolerance time.Duration, enforceTolerance bool) (stripe.Event, error) {
+func validateEvent(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) (stripe.Event, error) {
 	e := stripe.Event{}
 
 	if err := json.Unmarshal(payload, &e); err != nil {
 		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
 	}
 
-	header, err := parseSignatureHeader(header)
+	header, err := parseSignatureHeader(sigHeader)
 	if err != nil {
 		return e, err
 	}

@@ -82,7 +82,7 @@ func TestTokenNew(t *testing.T) {
 
 	evt, err = ValidateEvent(p.payload, p.header+",v1=bad_signature", p.secret)
 	if err != ErrInvalidHeader {
-		t.Errorf("Received no error with an unreadable signature in the header", err)
+		t.Errorf("Received unexpected %v error with an unreadable signature in the header", err)
 	}
 
 	p = newSignedPayload(func(p *SignedPayload) {
