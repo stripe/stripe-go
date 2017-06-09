@@ -30,15 +30,15 @@ func TestEphemeralKeyCreate(t *testing.T) {
 	}
 
 	if len(k.AssociatedObjects) != 1 {
-		t.Fatalf("Incorrect number of associated objects for ephkey", err)
+		t.Fatal("Incorrect number of associated objects for ephkey")
 	}
 
 	if k.AssociatedObjects[0].ID != cust.ID {
-		t.Fatalf("Incorrect associated object ID for ephkey", err)
+		t.Fatal("Incorrect associated object ID for ephkey")
 	}
 
 	if k.AssociatedObjects[0].Type != "customer" {
-		t.Fatalf("Incorrect associated object Type for ephkey", err)
+		t.Fatal("Incorrect associated object Type for ephkey")
 	}
 
 	k, err = ephemeralkey.New(&stripe.EphemeralKeyParams{
