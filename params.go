@@ -125,10 +125,10 @@ type Params struct {
 	// Please use StripeAccount instead.
 	Account string
 
-    // StripeVersion sets the version for the API to use when parsing requests
-    // and rendering responses.  This string refers to a date, such as
-    // "2017-05-25"
-    StripeVersion string
+	// StripeVersion sets the version for the API to use when parsing requests
+	// and rendering responses.  This string refers to a date, such as
+	// "2017-05-25"
+	StripeVersion string
 }
 
 // ListParams is the structure that contains the common properties

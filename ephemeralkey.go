@@ -13,15 +13,15 @@ type EphemeralKeyParams struct {
 // EphemeralKey is the resource representing a Stripe ephemeral key.
 // For more details see https://stripe.com/docs/api#ephemeral_keys.
 type EphemeralKey struct {
-	ID      string `json:"id"`
-	Created int64  `json:"created"`
-	Expires int64  `json:"expires"`
-	Live    bool   `json:"livemode"`
-    AssociatedObjects []struct {
-        ID   string `json:"id"`
-        Type string `json:"type"`
-    } `json:"associated_objects"`
-    RawJSON []byte
+	ID                string `json:"id"`
+	Created           int64  `json:"created"`
+	Expires           int64  `json:"expires"`
+	Live              bool   `json:"livemode"`
+	AssociatedObjects []struct {
+		ID   string `json:"id"`
+		Type string `json:"type"`
+	} `json:"associated_objects"`
+	RawJSON []byte
 }
 
 // UnmarshalJSON handles deserialization of an EphemeralKey.
@@ -35,8 +35,8 @@ func (e *EphemeralKey) UnmarshalJSON(data []byte) error {
 		*e = EphemeralKey(ee)
 	}
 
-    // Store the raw JSON so it can be passed back to the frontend
-    e.RawJSON = data
+	// Store the raw JSON so it can be passed back to the frontend
+	e.RawJSON = data
 
 	return nil
 }

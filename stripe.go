@@ -276,7 +276,7 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 		}
 
 		if stripeVersion := strings.TrimSpace(params.StripeVersion); stripeVersion != "" {
-			req.Header.Add("Stripe-Version", stripeVersion);
+			req.Header.Add("Stripe-Version", stripeVersion)
 		}
 	}
 

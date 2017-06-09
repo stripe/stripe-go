@@ -25,7 +25,7 @@ func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 	}
 
 	body := &stripe.RequestValues{}
-    body.Add("customer", params.Customer)
+	body.Add("customer", params.Customer)
 
 	params.AppendTo(body)
 
