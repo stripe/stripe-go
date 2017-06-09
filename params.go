@@ -125,10 +125,9 @@ type Params struct {
 	// Please use StripeAccount instead.
 	Account string
 
-	// StripeVersion sets the version for the API to use when parsing requests
-	// and rendering responses.  This string refers to a date, such as
-	// "2017-05-25"
-	StripeVersion string
+	// This may be used to provide a new header or override an existing one on
+	// the HTTP request.
+	Headers map[string]string
 }
 
 // ListParams is the structure that contains the common properties
@@ -213,6 +212,15 @@ func (p *Params) AddMeta(key, value string) {
 	}
 
 	p.Meta[key] = value
+}
+
+// AddHeader adds a new key-value pair to the Headers.
+func (p *Params) AddHeader(key, value string) {
+	if p.Headers == nil {
+		p.Headers = make(map[string]string)
+	}
+
+	p.Headers[key] = value
 }
 
 // AddExtra adds a new arbitrary key-value pair to the request data

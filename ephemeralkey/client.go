@@ -25,7 +25,14 @@ func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 	}
 
 	body := &stripe.RequestValues{}
-	body.Add("customer", params.Customer)
+
+	if len(params.Customer) > 0 {
+		body.Add("customer", params.Customer)
+	}
+
+	if len(params.StripeVersion) > 0 {
+		params.AddHeader("Stripe-Version", params.StripeVersion)
+	}
 
 	params.AppendTo(body)
 

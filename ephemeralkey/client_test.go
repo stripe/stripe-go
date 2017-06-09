@@ -22,10 +22,8 @@ func TestEphemeralKeyCreate(t *testing.T) {
 	}
 
 	k, err := ephemeralkey.New(&stripe.EphemeralKeyParams{
-		Customer: cust.ID,
-		Params: stripe.Params{
-			StripeVersion: "2017-05-25",
-		},
+		Customer:      cust.ID,
+		StripeVersion: "2017-05-25",
 	})
 	if err != nil {
 		t.Fatalf("%+v", err)
@@ -78,10 +76,8 @@ func TestEphemeralKeyDelete(t *testing.T) {
 	}
 
 	k, err := ephemeralkey.New(&stripe.EphemeralKeyParams{
-		Customer: cust.ID,
-		Params: stripe.Params{
-			StripeVersion: "2017-05-25",
-		},
+		Customer:      cust.ID,
+		StripeVersion: "2017-05-25",
 	})
 	if err != nil {
 		t.Fatalf("%+v", err)
