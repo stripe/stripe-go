@@ -22,12 +22,7 @@ func TestCustomerNew(t *testing.T) {
 		Email:         "a@b.com",
 		BusinessVatID: "123456789",
 	}
-	customerParams.SetSource(&stripe.CardParams{
-		Name:   "Test Card",
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	customerParams.SetSource("tok_amex")
 
 	customerParams.AddMeta("key", "value")
 	target, err := New(customerParams)
@@ -64,10 +59,6 @@ func TestCustomerNew(t *testing.T) {
 		t.Errorf("Unexpected number of cards %v\n", target.Sources.Count)
 	}
 
-	if target.Sources.Values[0].Card.Name != customerParams.Source.Card.Name {
-		t.Errorf("Card name %q does not match expected name %q\n", target.Sources.Values[0].Card.Name, customerParams.Source.Card.Name)
-	}
-
 	Del(target.ID)
 }
 
@@ -89,12 +80,7 @@ func TestCustomerNewWithPlan(t *testing.T) {
 		Plan:       planParams.ID,
 		TaxPercent: 10.0,
 	}
-	customerParams.SetSource(&stripe.CardParams{
-		Name:   "Test Card",
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	customerParams.SetSource("tok_amex")
 
 	target, err := New(customerParams)
 
@@ -235,11 +221,7 @@ func TestCustomerUpdate(t *testing.T) {
 		Email:         "first@b.com",
 		BusinessVatID: "123456789",
 	}
-	customerParams.SetSource(&stripe.CardParams{
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	customerParams.SetSource("tok_amex")
 
 	original, _ := New(customerParams)
 
@@ -249,12 +231,7 @@ func TestCustomerUpdate(t *testing.T) {
 		Email:         "desc@b.com",
 		BusinessVatID: "5555555",
 	}
-	updated.SetSource(&stripe.CardParams{
-		Number: "4242424242424242",
-		Month:  "10",
-		Year:   "20",
-		CVC:    "123",
-	})
+	updated.SetSource("tok_visa")
 
 	target, err := Update(original.ID, updated)
 
@@ -334,6 +311,55 @@ func TestCustomerDiscount(t *testing.T) {
 
 	if !discountDel.Deleted {
 		t.Errorf("Discount expected to be marked as deleted on the returned resource\n")
+	}
+
+	Del(target.ID)
+	coupon.Del("customer_coupon")
+}
+
+func TestCustomerEmptyDiscount(t *testing.T) {
+	couponParams := &stripe.CouponParams{
+		Duration: coupon.Forever,
+		ID:       "customer_coupon",
+		Percent:  99,
+	}
+
+	coupon.New(couponParams)
+
+	customerParams := &stripe.CustomerParams{
+		Coupon: "customer_coupon",
+	}
+
+	target, err := New(customerParams)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Discount == nil {
+		t.Errorf("Discount not found, but one was expected\n")
+	}
+
+	if target.Discount.Coupon == nil {
+		t.Errorf("Coupon not found, but one was expected\n")
+	}
+
+	if target.Discount.Coupon.ID != customerParams.Coupon {
+		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.ID, customerParams.Coupon)
+	}
+
+	updatedSub := &stripe.CustomerParams{
+		CouponEmpty: true,
+	}
+
+	target, err = Update(target.ID, updatedSub)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Discount != nil {
+		t.Errorf("A discount %v was found, but was expected to have been deleted\n", target.Discount)
 	}
 
 	Del(target.ID)

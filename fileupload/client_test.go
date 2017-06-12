@@ -24,6 +24,46 @@ func TestFileUploadNewThenGet(t *testing.T) {
 	}
 
 	uploadParams := &stripe.FileUploadParams{
+		Purpose:    "dispute_evidence",
+		FileReader: f,
+		Filename:   f.Name(),
+	}
+
+	target, err := New(uploadParams)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.Size != expectedSize {
+		t.Errorf("(POST) Size %v does not match expected size %v\n", target.Size, expectedSize)
+	}
+
+	if target.Purpose != uploadParams.Purpose {
+		t.Errorf("(POST) Purpose %v does not match expected purpose %v\n", target.Purpose, uploadParams.Purpose)
+	}
+
+	if target.Type != expectedType {
+		t.Errorf("(POST) Type %v does not match expected type %v\n", target.Type, expectedType)
+	}
+
+	res, err := Get(target.ID, nil)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if target.ID != res.ID {
+		t.Errorf("(GET) File upload id %q does not match expected id %q\n", target.ID, res.ID)
+	}
+}
+
+func TestFileUploadNewThenGetWithFile(t *testing.T) {
+	f, err := os.Open("test_data.pdf")
+	if err != nil {
+		t.Errorf("Unable to open test file upload file %v\n", err)
+	}
+
+	uploadParams := &stripe.FileUploadParams{
 		Purpose: "dispute_evidence",
 		File:    f,
 	}

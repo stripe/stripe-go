@@ -50,12 +50,7 @@ params := &stripe.CustomerParams{
 	Desc:  "Stripe Developer",
 	Email: "gostripe@stripe.com",
 }
-params.SetSource(&stripe.CardParams{
-	Name:   "Go Stripe",
-	Number: "378282246310005",
-	Month:  "06",
-	Year:   "15",
-})
+params.SetSource("tok_1234")
 
 customer, err := customer.New(params)
 ```
@@ -241,6 +236,23 @@ if err := i.Err(); err != nil {
 	// handle
 }
 ```
+
+### Writing a Plugin
+
+If you're writing a plugin that uses the library, we'd appreciate it if you
+identified using `stripe.SetAppInfo`:
+
+```go
+stripe.SetAppInfo(&stripe.AppInfo{
+    Name:    "MyAwesomePlugin",
+    URL:     "https://myawesomeplugin.info",
+    Version: "1.2.34",
+})
+```
+
+This information is passed along when the library makes calls to the Stripe
+API. Note that while `Name` is always required, `URL` and `Version` are
+optional.
 
 ## Development
 

@@ -1,6 +1,7 @@
 package invoice
 
 import (
+	"strconv"
 	"testing"
 	"time"
 
@@ -17,72 +18,109 @@ func init() {
 	stripe.Key = GetTestKey()
 }
 
+func createInvoiceItem(t *testing.T, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, *stripe.InvoiceItemParams) {
+	var out *stripe.InvoiceItem
+
+	out, err := invoiceitem.New(params)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if out.Customer.ID != params.Customer {
+		t.Errorf("Item customer %q does not match expected customer %q\n", out.Customer.ID, params.Customer)
+	}
+
+	if out.Desc != params.Desc {
+		t.Errorf("Item description %q does not match expected description %q\n", out.Desc, params.Desc)
+	}
+
+	if out.Amount != params.Amount {
+		t.Errorf("Item amount %v does not match expected amount %v\n", out.Amount, params.Amount)
+	}
+
+	if out.Currency != params.Currency {
+		t.Errorf("Item currency %q does not match expected currency %q\n", out.Currency, params.Currency)
+	}
+
+	if out.Date == 0 {
+		t.Errorf("Item date is not set\n")
+	}
+
+	return out, params
+}
+
+func createInvoice(t *testing.T, params *stripe.InvoiceParams) (*stripe.Invoice, *stripe.InvoiceParams) {
+	var out *stripe.Invoice
+
+	out, err := New(params)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	return out, params
+}
+
 // Invoices are somewhat painful to test since you need
 // to first have some items, so test everything together to
 // avoid unnecessary duplication
 func TestAllInvoicesScenarios(t *testing.T) {
 	customerParams := &stripe.CustomerParams{
 		Email: "test@stripe.com",
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 	}
+	customerParams.SetSource("tok_visa")
 
 	cust, _ := customer.New(customerParams)
 
-	item := &stripe.InvoiceItemParams{
+	targetItem, _ := createInvoiceItem(t, &stripe.InvoiceItemParams{
 		Customer: cust.ID,
 		Amount:   100,
 		Currency: currency.USD,
-		Desc:     "Test Item",
-	}
-
-	targetItem, err := invoiceitem.New(item)
-
-	if err != nil {
-		t.Error(err)
-	}
-
-	if targetItem.Customer.ID != item.Customer {
-		t.Errorf("Item customer %q does not match expected customer %q\n", targetItem.Customer.ID, item.Customer)
-	}
-
-	if targetItem.Desc != item.Desc {
-		t.Errorf("Item description %q does not match expected description %q\n", targetItem.Desc, item.Desc)
-	}
-
-	if targetItem.Amount != item.Amount {
-		t.Errorf("Item amount %v does not match expected amount %v\n", targetItem.Amount, item.Amount)
-	}
-
-	if targetItem.Currency != item.Currency {
-		t.Errorf("Item currency %q does not match expected currency %q\n", targetItem.Currency, item.Currency)
-	}
-
-	if targetItem.Date == 0 {
-		t.Errorf("Item date is not set\n")
-	}
+		Desc:     "Test InvoiceItem - send_invoice",
+	})
 
 	dueDate := time.Now().AddDate(0, 0, 12).Unix()
 
-	invoiceParams := &stripe.InvoiceParams{
+	targetInvoice, invoiceParams := createInvoice(t, &stripe.InvoiceParams{
 		Customer:   cust.ID,
-		Desc:       "Desc",
+		Desc:       "Test Invoice with send_invoice",
 		Statement:  "Statement",
 		TaxPercent: 20.0,
 		Billing:    "send_invoice",
 		DueDate:    dueDate,
-	}
+	})
 
-	targetInvoice, err := New(invoiceParams)
+	createInvoiceItem(t, &stripe.InvoiceItemParams{
+		Customer: cust.ID,
+		Amount:   200,
+		Currency: currency.USD,
+		Desc:     "Test InvoiceItem - earlier",
+	})
 
-	if err != nil {
-		t.Error(err)
-	}
+	createInvoice(t, &stripe.InvoiceParams{
+		Customer:   cust.ID,
+		Desc:       "Test Invoice with send_invoice and earlier due_date",
+		Statement:  "Statement",
+		TaxPercent: 20.0,
+		Billing:    "send_invoice",
+		DueDate:    dueDate - 1,
+	})
+
+	createInvoiceItem(t, &stripe.InvoiceItemParams{
+		Customer: cust.ID,
+		Amount:   300,
+		Currency: currency.USD,
+		Desc:     "Test InvoiceItem - charge_automatically",
+	})
+
+	createInvoice(t, &stripe.InvoiceParams{
+		Customer:   cust.ID,
+		Desc:       "Test Invoice with charge_automatically",
+		Statement:  "Statement",
+		TaxPercent: 20.0,
+		Billing:    "charge_automatically",
+	})
 
 	if targetInvoice.Customer.ID != invoiceParams.Customer {
 		t.Errorf("Invoice customer %q does not match expected customer %q\n", targetInvoice.Customer.ID, invoiceParams.Customer)
@@ -250,6 +288,84 @@ func TestAllInvoicesScenarios(t *testing.T) {
 	}
 	if err := i.Err(); err != nil {
 		t.Error(err)
+	}
+
+	billingFilter := stripe.InvoiceBilling("charge_automatically")
+	i = List(&stripe.InvoiceListParams{Customer: cust.ID, Billing: billingFilter})
+	for i.Next() {
+		if i.Invoice() == nil {
+			t.Error("No nil values expected")
+		}
+		if i.Invoice().Billing != billingFilter {
+			t.Errorf("Billing %v does not match expected %v\n", i.Invoice().Billing, billingFilter)
+		}
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
+	}
+
+	count := 0
+	expectedCount := 2
+	billingFilter = stripe.InvoiceBilling("send_invoice")
+	i = List(&stripe.InvoiceListParams{Customer: cust.ID, Billing: billingFilter})
+	for i.Next() {
+		count += 1
+		if i.Invoice() == nil {
+			t.Error("No nil values expected")
+		}
+		if i.Invoice().Billing != billingFilter {
+			t.Errorf("Billing %v does not match expected %v\n", i.Invoice().Billing, billingFilter)
+		}
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
+	}
+	if count != expectedCount {
+		t.Errorf("Filtering by billing=%v returned %v entries, expected %v", billingFilter, count, expectedCount)
+	}
+
+	count = 0
+	expectedCount = 1
+	dueDateFilter := dueDate - 1
+	dueDateParams := &stripe.InvoiceListParams{Customer: cust.ID}
+	dueDateParams.Filters.AddFilter("due_date[gt]", "", strconv.FormatInt(dueDateFilter, 10))
+	i = List(dueDateParams)
+	for i.Next() {
+		count += 1
+		if i.Invoice() == nil {
+			t.Error("No nil values expected")
+		}
+		if i.Invoice().DueDate <= dueDateFilter {
+			t.Errorf("Invoice days until due %v is not greater than %v\n", i.Invoice().DueDate, dueDateFilter)
+		}
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
+	}
+	if count != expectedCount {
+		t.Errorf("Filtering by billing=%v due_date[gt]=%v returned %v entries, expected %v", billingFilter, dueDateFilter, count, expectedCount)
+	}
+
+	count = 0
+	expectedCount = 2
+	dueDateFilter = dueDate + 1
+	dueDateParams = &stripe.InvoiceListParams{Customer: cust.ID}
+	dueDateParams.Filters.AddFilter("due_date[lt]", "", strconv.FormatInt(dueDateFilter, 10))
+	i = List(dueDateParams)
+	for i.Next() {
+		count += 1
+		if i.Invoice() == nil {
+			t.Error("No nil values expected")
+		}
+		if i.Invoice().DueDate >= dueDateFilter {
+			t.Errorf("Invoice days until due %v is not less than %v\n", i.Invoice().DueDate, dueDateFilter)
+		}
+	}
+	if err := i.Err(); err != nil {
+		t.Error(err)
+	}
+	if count != expectedCount {
+		t.Errorf("Filtering by billing=%v due_date[lt]=%v returned %v entries, expected %v", billingFilter, dueDateFilter, count, expectedCount)
 	}
 
 	il := ListLines(&stripe.InvoiceLineListParams{ID: targetInvoice.ID, Customer: cust.ID})

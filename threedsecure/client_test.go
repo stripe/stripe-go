@@ -16,12 +16,7 @@ func init() {
 func TestThreeDSecureNew(t *testing.T) {
 	// Test creating a 3D Secure auth
 	customerParams := &stripe.CustomerParams{}
-	customerParams.SetSource(&stripe.CardParams{
-		Name:   "Stripe Tester",
-		Number: "378282246310005",
-		Month:  "06",
-		Year:   "20",
-	})
+	customerParams.SetSource("tok_amex")
 
 	cust, _ := customer.New(customerParams)
 

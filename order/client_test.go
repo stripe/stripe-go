@@ -59,7 +59,16 @@ func CreateTestProductAndSku(t *testing.T) *stripe.SKU {
 func TestOrder(t *testing.T) {
 	sku := CreateTestProductAndSku(t)
 
+	couponParams := &stripe.CouponParams{
+		Amount:   99,
+		Currency: currency.USD,
+		Duration: coupon.Once,
+	}
+
+	c, err := coupon.New(couponParams)
+
 	o, err := New(&stripe.OrderParams{
+		Coupon:   c.ID,
 		Currency: "usd",
 		Items: []*stripe.OrderItemParams{
 			{
@@ -135,6 +144,8 @@ func TestOrder(t *testing.T) {
 	if o.Meta["foo"] != "bar" {
 		t.Error("Order metadata not set")
 	}
+
+	coupon.Del(c.ID)
 }
 
 func TestOrderUpdate(t *testing.T) {
@@ -250,16 +261,7 @@ func TestOrderPay(t *testing.T) {
 			Meta: map[string]string{"order_id": "137"},
 		},
 	}
-	params.SetSource(&stripe.CardParams{
-		Name:     "Stripe Tester",
-		Number:   "4242424242424242",
-		Month:    "06",
-		Year:     "20",
-		Address1: "1234 Main Street",
-		Address2: "Apt 1",
-		City:     "Anytown",
-		State:    "CA",
-	})
+	params.SetSource("tok_visa")
 
 	order, err := Pay(o.ID, params)
 
@@ -378,16 +380,7 @@ func TestOrderReturn(t *testing.T) {
 	}
 
 	params := &stripe.OrderPayParams{}
-	params.SetSource(&stripe.CardParams{
-		Name:     "Stripe Tester",
-		Number:   "4242424242424242",
-		Month:    "06",
-		Year:     "20",
-		Address1: "1234 Main Street",
-		Address2: "Apt 1",
-		City:     "Anytown",
-		State:    "CA",
-	})
+	params.SetSource("tok_visa")
 
 	order, err := Pay(o.ID, params)
 

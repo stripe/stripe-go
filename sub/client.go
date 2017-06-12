@@ -14,6 +14,7 @@ const (
 	PastDue  stripe.SubStatus = "past_due"
 	Canceled stripe.SubStatus = "canceled"
 	Unpaid   stripe.SubStatus = "unpaid"
+	All      stripe.SubStatus = "all"
 )
 
 // Client is used to invoke /subscriptions APIs.
@@ -197,6 +198,8 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 
 		if len(params.Coupon) > 0 {
 			body.Add("coupon", params.Coupon)
+		} else if params.CouponEmpty {
+			body.Add("coupon", "")
 		}
 
 		if params.TrialEndNow {
@@ -286,6 +289,10 @@ func (c Client) List(params *stripe.SubListParams) *Iter {
 
 		if len(params.Status) > 0 {
 			body.Add("status", string(params.Status))
+		}
+
+		if len(params.Billing) > 0 {
+			body.Add("billing", string(params.Billing))
 		}
 
 		params.AppendTo(body)

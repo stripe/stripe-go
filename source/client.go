@@ -80,6 +80,10 @@ func (c Client) New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 			}
 		}
 
+		if params.Token != "" {
+			body.Add("token", params.Token)
+		}
+
 		for k, v := range params.TypeData {
 			body.Add(fmt.Sprintf("%s[%s]", params.Type, k), v)
 		}

@@ -7,7 +7,6 @@ import (
 	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/card"
 	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/recipient"
 	"github.com/stripe/stripe-go/token"
 	. "github.com/stripe/stripe-go/utils"
 )
@@ -18,7 +17,7 @@ func init() {
 
 func TestAccountNew(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed:              true,
+		Type:                 stripe.AccountTypeCustom,
 		Country:              "CA",
 		BusinessUrl:          "www.stripe.com",
 		BusinessName:         "Stripe",
@@ -51,7 +50,7 @@ func TestAccountNew(t *testing.T) {
 
 func TestAccountLegalEntity(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "US",
 		LegalEntity: &stripe.LegalEntity{
 			Type:          stripe.Company,
@@ -86,7 +85,7 @@ func TestAccountLegalEntity(t *testing.T) {
 
 func TestAccountDelete(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed:              true,
+		Type:                 stripe.AccountTypeCustom,
 		Country:              "CA",
 		BusinessUrl:          "www.stripe.com",
 		BusinessName:         "Stripe",
@@ -122,7 +121,7 @@ func TestAccountDelete(t *testing.T) {
 
 func TestAccountReject(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed:              true,
+		Type:                 stripe.AccountTypeCustom,
 		Country:              "CA",
 		BusinessUrl:          "www.stripe.com",
 		BusinessName:         "Stripe",
@@ -156,49 +155,9 @@ func TestAccountReject(t *testing.T) {
 	}
 }
 
-func TestAccountMigrateFromRecipients(t *testing.T) {
-	recipientParams := &stripe.RecipientParams{
-		Name:  "Recipient Name",
-		Type:  "individual",
-		TaxID: "000000000",
-		Email: "a@b.com",
-		Desc:  "Recipient Desc",
-		Bank: &stripe.BankAccountParams{
-			Country: "US",
-			Routing: "110000000",
-			Account: "000123456789",
-		},
-		Card: &stripe.CardParams{
-			Name:   "Test Debit",
-			Number: "4000056655665556",
-			Month:  "10",
-			Year:   "20",
-		},
-	}
-
-	target, err := recipient.New(recipientParams)
-	if err != nil {
-		t.Error(err)
-	}
-
-	target2, err := New(&stripe.AccountParams{FromRecipient: target.ID})
-	if err != nil {
-		t.Error(err)
-	}
-
-	target, err = recipient.Get(target.ID, nil)
-	if err != nil {
-		t.Error(err)
-	}
-
-	if target2.ID != target.MigratedTo.ID {
-		t.Errorf("The new account ID %v does not match the MigratedTo property %v", target2.ID, target.MigratedTo.ID)
-	}
-}
-
 func TestAccountGetByID(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "CA",
 	}
 
@@ -212,7 +171,7 @@ func TestAccountGetByID(t *testing.T) {
 
 func TestAccountUpdate(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed:          true,
+		Type:             stripe.AccountTypeCustom,
 		Country:          "CA",
 		DebitNegativeBal: true,
 	}
@@ -240,7 +199,7 @@ func TestAccountUpdate(t *testing.T) {
 
 func TestAccountUpdateLegalEntity(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "CA",
 		LegalEntity: &stripe.LegalEntity{
 			Address: stripe.Address{
@@ -277,9 +236,37 @@ func TestAccountUpdateLegalEntity(t *testing.T) {
 	}
 }
 
+func TestAccountNoAdditionalOwners(t *testing.T) {
+	params := &stripe.AccountParams{
+		Type:    stripe.AccountTypeCustom,
+		Country: "GB",
+		LegalEntity: &stripe.LegalEntity{
+			Type: "company",
+			AdditionalOwnersEmpty: true,
+
+			// This gets ignored when AdditionalOwnersEmpty above is set.
+			AdditionalOwners: []stripe.Owner{
+				{First: "Jane"},
+			},
+		},
+	}
+
+	acct, err := New(params)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	for _, v := range acct.Verification.Fields {
+		if v == "legal_entity.additional_owners" {
+			t.Error("Additional owners are not being recorded as being explicitly unset")
+		}
+	}
+}
+
 func TestAccountUpdateWithBankAccount(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "CA",
 	}
 
@@ -302,7 +289,7 @@ func TestAccountUpdateWithBankAccount(t *testing.T) {
 
 func TestAccountAddExternalAccountsDefault(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "CA",
 		ExternalAccount: &stripe.AccountExternalAccountParams{
 			Country:  "US",
@@ -360,7 +347,7 @@ func TestAccountAddExternalAccountsDefault(t *testing.T) {
 
 func TestAccountUpdateWithToken(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "CA",
 	}
 
@@ -390,26 +377,15 @@ func TestAccountUpdateWithToken(t *testing.T) {
 
 func TestAccountUpdateWithCardToken(t *testing.T) {
 	params := &stripe.AccountParams{
-		Managed: true,
+		Type:    stripe.AccountTypeCustom,
 		Country: "US",
 	}
 
 	acct, _ := New(params)
 
-	tokenParams := &stripe.TokenParams{
-		Card: &stripe.CardParams{
-			Number:   "4000056655665556",
-			Month:    "06",
-			Year:     "20",
-			Currency: "usd",
-		},
-	}
-
-	tok, _ := token.New(tokenParams)
-
 	cardParams := &stripe.CardParams{
 		Account: acct.ID,
-		Token:   tok.ID,
+		Token:   "tok_visa_debit",
 	}
 
 	c, err := card.New(cardParams)

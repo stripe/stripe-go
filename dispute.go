@@ -26,14 +26,42 @@ type DisputeParams struct {
 // DisputeEvidenceParams is the set of parameters that can be used when submitting
 // evidence for disputes.
 type DisputeEvidenceParams struct {
-	ProductDesc, CustomerName, CustomerEmail, CustomerIP, CustomerSig, BillingAddress, Receipt string
-	ShippingAddress, ShippingDate, ShippingTracking, ShippingDoc                               string
-	RefundPolicy, RefundPolicyDisclosure, RefundRefusalReason                                  string
-	CancellationPolicy, CancellationPolicyDisclsoure, CancellationRebuttal                     string
-	ActivityLog                                                                                string
-	ServiceDate, ServiceDoc                                                                    string
-	DuplicateCharge, DuplicateChargeReason, DuplicateChargeDoc                                 string
-	CustomerComm, UncategorizedText, UncategorizedFile                                         string
+	ActivityLog string
+
+	BillingAddress string
+
+	CancellationPolicy           string
+	CancellationPolicyDisclsoure string
+	CancellationRebuttal         string
+
+	CustomerName  string
+	CustomerEmail string
+	CustomerIP    string
+	CustomerSig   string
+	CustomerComm  string
+
+	DuplicateCharge       string
+	DuplicateChargeReason string
+	DuplicateChargeDoc    string
+
+	ProductDesc string
+
+	Receipt string
+
+	RefundPolicy           string
+	RefundPolicyDisclosure string
+	RefundRefusalReason    string
+
+	ServiceDate string
+	ServiceDoc  string
+
+	ShippingAddress  string
+	ShippingDate     string
+	ShippingTracking string
+	ShippingDoc      string
+
+	UncategorizedText string
+	UncategorizedFile string
 }
 
 // DisputeListParams is the set of parameters that can be used when listing disputes.
@@ -91,6 +119,7 @@ type DisputeEvidence struct {
 	ShippingAddress              string `json:"shipping_address"`
 	ShippingDate                 string `json:"shipping_date"`
 	ShippingTracking             string `json:"shipping_tracking_number"`
+	ShippingCarrier              string `json:"shipping_carrier"`
 	ShippingDoc                  *File  `json:"shipping_documentation"`
 	RefundPolicy                 *File  `json:"refund_policy"`
 	RefundPolicyDisclosure       string `json:"refund_policy_disclosure"`
@@ -224,6 +253,23 @@ func (e *DisputeEvidenceParams) AppendDetails(values *RequestValues) {
 	if len(e.UncategorizedFile) > 0 {
 		values.Add("evidence[uncategorized_file]", e.UncategorizedFile)
 	}
+}
+
+// UnmarshalJSON handles deserialization of a Dispute.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (t *Dispute) UnmarshalJSON(data []byte) error {
+	type dispute Dispute
+	var dd dispute
+	err := json.Unmarshal(data, &dd)
+	if err == nil {
+		*t = Dispute(dd)
+	} else {
+		// the id is surrounded by "\" characters, so strip them
+		t.ID = string(data[1 : len(data)-1])
+	}
+
+	return nil
 }
 
 // UnmarshalJSON handles deserialization of a File.

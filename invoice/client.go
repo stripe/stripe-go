@@ -244,6 +244,14 @@ func (c Client) List(params *stripe.InvoiceListParams) *Iter {
 			body.Add("date", strconv.FormatInt(params.Date, 10))
 		}
 
+		if len(params.Billing) > 0 {
+			body.Add("billing", string(params.Billing))
+		}
+
+		if params.DueDate > 0 {
+			body.Add("due_date", strconv.FormatInt(params.DueDate, 10))
+		}
+
 		params.AppendTo(body)
 		lp = &params.ListParams
 		p = params.ToParams()

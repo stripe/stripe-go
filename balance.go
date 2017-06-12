@@ -15,17 +15,23 @@ type TransactionType string
 type TransactionSourceType string
 
 const (
+	// TransactionSourceFee is a constant representing a transaction source of application_fee
+	TransactionSourceFee TransactionSourceType = "application_fee"
+
 	// TransactionSourceCharge is a constant representing a transaction source of charge
 	TransactionSourceCharge TransactionSourceType = "charge"
 
 	// TransactionSourceDispute is a constant representing a transaction source of dispute
 	TransactionSourceDispute TransactionSourceType = "dispute"
 
-	// TransactionSourceFee is a constant representing a transaction source of application_fee
-	TransactionSourceFee TransactionSourceType = "application_fee"
+	// TransactionSourcePayout is a constant representing a transaction source of payout
+	TransactionSourcePayout TransactionSourceType = "payout"
 
 	// TransactionSourceRefund is a constant representing a transaction source of refund
 	TransactionSourceRefund TransactionSourceType = "refund"
+
+	// TransactionSourceRecipientTransfer is a constant representing a transaction source of recipient_transfer
+	TransactionSourceRecipientTransfer TransactionSourceType = "recipient_transfer"
 
 	// TransactionSourceReversal is a constant representing a transaction source of reversal
 	TransactionSourceReversal TransactionSourceType = "reversal"
@@ -38,14 +44,16 @@ const (
 // The Type should indicate which object is fleshed out.
 // For more details see https://stripe.com/docs/api#retrieve_balance_transaction
 type TransactionSource struct {
-	Type     TransactionSourceType `json:"object"`
-	ID       string                `json:"id"`
-	Charge   *Charge               `json:"-"`
-	Dispute  *Dispute              `json:"-"`
-	Fee      *Fee                  `json:"-"`
-	Refund   *Refund               `json:"-"`
-	Reversal *Reversal             `json:"-"`
-	Transfer *Transfer             `json:"-"`
+	Type              TransactionSourceType `json:"object"`
+	ID                string                `json:"id"`
+	Charge            *Charge               `json:"-"`
+	Dispute           *Dispute              `json:"-"`
+	Fee               *Fee                  `json:"-"`
+	Payout            *Payout               `json:"-"`
+	RecipientTransfer *RecipientTransfer    `json:"-"`
+	Refund            *Refund               `json:"-"`
+	Reversal          *Reversal             `json:"-"`
+	Transfer          *Transfer             `json:"-"`
 }
 
 // BalanceParams is the set of parameters that can be used when retrieving a balance.
@@ -64,9 +72,9 @@ type TxParams struct {
 // For more details see https://stripe.com/docs/api/#balance_history.
 type TxListParams struct {
 	ListParams
-	Created, Available      int64
-	Currency, Src, Transfer string
-	Type                    TransactionType
+	Created, Available    int64
+	Currency, Src, Payout string
+	Type                  TransactionType
 }
 
 // Balance is the resource representing your Stripe balance.
@@ -151,6 +159,10 @@ func (s *TransactionSource) UnmarshalJSON(data []byte) error {
 			json.Unmarshal(data, &s.Dispute)
 		case TransactionSourceFee:
 			json.Unmarshal(data, &s.Fee)
+		case TransactionSourcePayout:
+			json.Unmarshal(data, &s.Payout)
+		case TransactionSourceRecipientTransfer:
+			json.Unmarshal(data, &s.RecipientTransfer)
 		case TransactionSourceRefund:
 			json.Unmarshal(data, &s.Refund)
 		case TransactionSourceReversal:

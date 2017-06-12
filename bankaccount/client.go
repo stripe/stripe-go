@@ -151,7 +151,7 @@ func (c Client) Del(id string, params *stripe.BankAccountParams) (*stripe.BankAc
 	var err error
 
 	if len(params.Customer) > 0 {
-		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/bank_accounts/%v", params.Customer, id), c.Key, nil, nil, ba)
+		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/bank_accounts/%v", params.Customer, id), c.Key, nil, &params.Params, ba)
 	} else if len(params.AccountID) > 0 {
 		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/bank_accounts/%v", params.AccountID, id), c.Key, nil, nil, ba)
 	} else {

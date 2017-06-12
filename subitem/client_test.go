@@ -18,15 +18,8 @@ func init() {
 }
 
 func createSubItem(t *testing.T) (*stripe.Sub, *stripe.SubItem, func()) {
-	customerParams := &stripe.CustomerParams{
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "378282246310005",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
-	}
+	customerParams := &stripe.CustomerParams{}
+	customerParams.SetSource("tok_amex")
 
 	cust, err := customer.New(customerParams)
 	if err != nil {

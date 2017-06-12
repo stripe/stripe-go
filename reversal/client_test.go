@@ -20,14 +20,8 @@ func TestReversalNew(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "4000000000000077",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 	}
+	chargeParams.SetSource("tok_bypassPending")
 
 	charge.New(chargeParams)
 
@@ -67,14 +61,8 @@ func TestReversalGet(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
 		Currency: currency.USD,
-		Source: &stripe.SourceParams{
-			Card: &stripe.CardParams{
-				Number: "4000000000000077",
-				Month:  "06",
-				Year:   "20",
-			},
-		},
 	}
+	chargeParams.SetSource("tok_bypassPending")
 
 	charge.New(chargeParams)
 
