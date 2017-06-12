@@ -167,6 +167,9 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 				} else if item.QuantityZero {
 					body.Add(key+"[quantity]", "0")
 				}
+				if item.Deleted {
+					body.Add(key+"[deleted]", "true")
+				}
 			}
 		}
 
