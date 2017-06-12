@@ -3,6 +3,7 @@ package ephemeralkey
 
 import (
 	"fmt"
+	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
 )
@@ -19,6 +20,8 @@ func New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, error) {
 	return getC().New(params)
 }
 
+// New POSTs new ephemeral keys.
+// For more details see https://stripe.com/docs/api#create_ephemeral_key.
 func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, error) {
 	if params.StripeVersion == "" {
 		return nil, fmt.Errorf("params.StripeVersion must be specified")
@@ -31,7 +34,10 @@ func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 	}
 
 	if len(params.StripeVersion) > 0 {
-		params.AddHeader("Stripe-Version", params.StripeVersion)
+		if params.Headers == nil {
+			params.Headers = make(http.Header)
+		}
+		params.Headers.Add("Stripe-Version", params.StripeVersion)
 	}
 
 	params.AppendTo(body)
@@ -48,6 +54,8 @@ func Del(id string) (*stripe.EphemeralKey, error) {
 	return getC().Del(id)
 }
 
+// Del removes an ephemeral key.
+// For more details see https://stripe.com/docs/api#delete_ephemeral_key.
 func (c Client) Del(id string) (*stripe.EphemeralKey, error) {
 	ephemeralKey := &stripe.EphemeralKey{}
 	err := c.B.Call("DELETE", "/ephemeral_keys/"+id, c.Key, nil, nil, ephemeralKey)

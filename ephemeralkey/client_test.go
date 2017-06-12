@@ -52,10 +52,10 @@ func TestEphemeralKeyCreate(t *testing.T) {
 func TestEphemeralKeyJSON(t *testing.T) {
 	// Test that we can extract the json even if parsing fails because the
 	// frontend and backend may be using different API versions
-	invalidJson := []byte("{\"foo\":5}")
+	invalidJSON := []byte("{\"foo\":5}")
 	k := &stripe.EphemeralKey{}
 
-	err := json.Unmarshal(invalidJson, k)
+	err := json.Unmarshal(invalidJSON, k)
 	if err != nil {
 		t.Fatalf("%+v", err)
 	}
@@ -64,7 +64,7 @@ func TestEphemeralKeyJSON(t *testing.T) {
 		t.Fatalf("Invalid JSON should not have been parsed: %+v", k)
 	}
 
-	if !bytes.Equal(k.RawJSON, invalidJson) {
+	if !bytes.Equal(k.RawJSON, invalidJSON) {
 		t.Fatalf("EphemeralKey did not preserve the raw JSON: %+v", k.RawJSON)
 	}
 }

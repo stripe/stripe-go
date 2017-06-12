@@ -276,7 +276,9 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 		}
 
 		for k, v := range params.Headers {
-			req.Header.Add(k, v)
+			for _, line := range v {
+				req.Header.Add(k, line)
+			}
 		}
 	}
 
