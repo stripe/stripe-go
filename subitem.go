@@ -19,7 +19,7 @@ type SubItemListParams struct {
 	Sub string
 }
 
-// SubItem is the resource represneting a Stripe subscription item.
+// SubItem is the resource representing a Stripe subscription item.
 // For more details see https://stripe.com/docs/api#subscription_items.
 type SubItem struct {
 	ID       string `json:"id"`
