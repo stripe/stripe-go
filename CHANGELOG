@@ -1,3 +1,7 @@
+22.2.0 2017-06-13
+	Support subscription items when getting upcoming invoice
+	Support setting subscription's quantity to zero when getting upcoming invoice
+
 22.1.1 2017-06-12
 	Handle `deleted` parameter when updating subscription items in a subscription
 
