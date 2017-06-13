@@ -204,6 +204,8 @@ func (c Client) GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 
 	if params.SubQuantity > 0 {
 		body.Add("subscription_quantity", strconv.FormatUint(params.SubQuantity, 10))
+	} else if params.SubQuantityZero {
+		body.Add("subscription_quantity", "0")
 	}
 
 	if params.SubTrialEnd > 0 {
