@@ -24,6 +24,7 @@ type InvoiceParams struct {
 	SubProrationDate     int64
 	SubQuantity          uint64
 	SubTrialEnd          int64
+	SubItems             []*SubItemsParams
 	TaxPercent           float64
 	TaxPercentZero       bool
 	Billing              InvoiceBilling
