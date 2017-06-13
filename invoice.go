@@ -23,6 +23,7 @@ type InvoiceParams struct {
 	SubNoProrate         bool
 	SubProrationDate     int64
 	SubQuantity          uint64
+	SubQuantityZero      bool
 	SubTrialEnd          int64
 	SubItems             []*SubItemsParams
 	TaxPercent           float64
