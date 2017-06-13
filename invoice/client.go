@@ -186,6 +186,26 @@ func (c Client) GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	body := &stripe.RequestValues{}
 	body.Add("customer", params.Customer)
 
+	if len(params.SubItems) > 0 {
+		for i, item := range params.SubItems {
+			key := fmt.Sprintf("subscription_items[%d]", i)
+			if len(item.ID) > 0 {
+				body.Add(key+"[id]", item.ID)
+			}
+			if len(item.Plan) > 0 {
+				body.Add(key+"[plan]", item.Plan)
+			}
+			if item.Quantity > 0 {
+				body.Add(key+"[quantity]", strconv.FormatUint(item.Quantity, 10))
+			} else if item.QuantityZero {
+				body.Add(key+"[quantity]", "0")
+			}
+			if item.Deleted {
+				body.Add(key+"[deleted]", "true")
+			}
+		}
+	}
+
 	if len(params.Sub) > 0 {
 		body.Add("subscription", params.Sub)
 	}
