@@ -133,8 +133,8 @@ func (c Client) Del(id string, params *stripe.SubItemParams) (*stripe.SubItem, e
 	return item, err
 }
 
-// List returns a list of subscriptions.
-// For more details see https://stripe.com/docs/api#list_subscriptions.
+// List returns a list of subscription items.
+// For more details see https://stripe.com/docs/api#list_subscription_items.
 func List(params *stripe.SubItemListParams) *Iter {
 	return getC().List(params)
 }
