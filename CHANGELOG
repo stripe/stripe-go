@@ -1,3 +1,6 @@
+22.3.0 2017-06-14
+	Fix parameters for subscription items list
+
 22.2.0 2017-06-13
 	Support subscription items when getting upcoming invoice
 	Support setting subscription's quantity to zero when getting upcoming invoice
