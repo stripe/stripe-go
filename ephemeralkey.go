@@ -22,6 +22,13 @@ type EphemeralKey struct {
 		ID   string `json:"id"`
 		Type string `json:"type"`
 	} `json:"associated_objects"`
+
+	// RawJSON is provided so that it may be passed back to the frontend
+	// unchanged.  Ephemeral keys are issued on behalf of another client which
+	// may be running a different version of the bindings and thus expect a
+	// different JSON structure.  This ensures that if the structure differs
+	// from the version of these bindings, we can still pass back a compatible
+	// key.
 	RawJSON []byte
 }
 
