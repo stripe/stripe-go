@@ -16,9 +16,8 @@ import (
 
 const (
 	// Signatures older than this will be rejected by ConstructEvent
-	DefaultTolerance       time.Duration = 300 * time.Second
-	signingVersion         string        = "v1"
-	testmodeSigningVersion string        = "v0"
+	DefaultTolerance time.Duration = 300 * time.Second
+	signingVersion   string        = "v1"
 )
 
 var (
@@ -41,7 +40,6 @@ func computeSignature(t time.Time, payload []byte, secret string) []byte {
 type signedHeader struct {
 	timestamp  time.Time
 	signatures [][]byte
-	testmode   bool
 }
 
 func parseSignatureHeader(header string) (*signedHeader, error) {
@@ -70,17 +68,18 @@ func parseSignatureHeader(header string) (*signedHeader, error) {
 		case signingVersion:
 			sig, err := hex.DecodeString(parts[1])
 			if err != nil {
-				return sh, ErrInvalidHeader
+				continue // Ignore invalid signatures
 			}
 
 			sh.signatures = append(sh.signatures, sig)
 
-		case testmodeSigningVersion:
-			sh.testmode = true
-
 		default:
-			return sh, ErrInvalidHeader
+			continue // Ignore unknown parts of the header
 		}
+	}
+
+	if len(sh.signatures) == 0 {
+		return sh, ErrNoValidSignature
 	}
 
 	return sh, nil

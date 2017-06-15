@@ -33,17 +33,19 @@ func newSignedPayload(options ...func(*SignedPayload)) *SignedPayload {
 		opt(signedPayload)
 	}
 
+	if signedPayload.signature == nil {
+		signedPayload.signature = computeSignature(signedPayload.timestamp, signedPayload.payload, signedPayload.secret)
+	}
 	signedPayload.header = generateHeader(*signedPayload)
 	return signedPayload
 }
 
-func generateHeader(p SignedPayload) string {
-	signature := p.signature
-	if signature == nil {
-		signature = computeSignature(p.timestamp, p.payload, p.secret)
-	}
+func (p *SignedPayload) hexSignature() string {
+	return hex.EncodeToString(p.signature)
+}
 
-	return fmt.Sprintf("t=%d,%s=%s", p.timestamp.Unix(), p.scheme, hex.EncodeToString(signature))
+func generateHeader(p SignedPayload) string {
+	return fmt.Sprintf("t=%d,%s=%s", p.timestamp.Unix(), p.scheme, hex.EncodeToString(p.signature))
 }
 
 func TestTokenNew(t *testing.T) {
@@ -81,8 +83,8 @@ func TestTokenNew(t *testing.T) {
 	}
 
 	evt, err = ConstructEvent(p.payload, p.header+",v1=bad_signature", p.secret)
-	if err != ErrInvalidHeader {
-		t.Errorf("Received unexpected %v error with an unreadable signature in the header", err)
+	if err != nil {
+		t.Errorf("Received unexpected %v error with an unreadable signature in the header (should be ignored)", err)
 	}
 
 	p = newSignedPayload(func(p *SignedPayload) {
@@ -99,6 +101,24 @@ func TestTokenNew(t *testing.T) {
 	evt, err = ConstructEvent(p.payload, p.header, p.secret)
 	if err != ErrNoValidSignature {
 		t.Errorf("Expected error from fake signature, got %v", err)
+	}
+
+	p = newSignedPayload()
+	p2 := newSignedPayload(func(p *SignedPayload) {
+		p.secret = testSecret + "_rolled_key"
+	})
+	headerWithRolledKey := p.header + ",v1=" + p2.hexSignature()
+	if p.hexSignature() == p2.hexSignature() {
+		t.Errorf("Got the same signature with two different secret keys")
+	}
+
+	evt, err = ConstructEvent(p.payload, headerWithRolledKey, p.secret)
+	if err != nil {
+		t.Errorf("Expected to be able to decode webhook with old key after rolling key, but got %v", err)
+	}
+	evt, err = ConstructEvent(p.payload, headerWithRolledKey, p2.secret)
+	if err != nil {
+		t.Errorf("Expected to be able to decode webhook with new key after rolling key, but got %v", err)
 	}
 
 	p = newSignedPayload(func(p *SignedPayload) {
