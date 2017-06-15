@@ -158,7 +158,7 @@ func (c Client) List(params *stripe.SubItemListParams) *Iter {
 	}
 
 	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
-		list := &stripe.SubList{}
+		list := &stripe.SubItemList{}
 		err := c.B.Call("GET", "/subscription_items", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
