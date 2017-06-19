@@ -130,8 +130,9 @@ func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) 
 	}
 
 	plan := &stripe.Plan{}
+	qid := url.QueryEscape(id) //Added query escape per commit 9821176
 
-	err := c.B.Call("DELETE", fmt.Sprintf("/plans/%v", id), c.Key, body, commonParams, plan)
+	err := c.B.Call("DELETE", fmt.Sprintf("/plans/%v", qid), c.Key, body, commonParams, plan)
 
 	return plan, err
 }

@@ -142,7 +142,7 @@ func TestCheckinDel(t *testing.T) {
 		t.Error(err)
 	}
 
-	_, err = c.Plans.Del(plan.ID)
+	_, err = c.Plans.Del(plan.ID, nil)
 
 	if err != nil {
 		t.Error(err)
@@ -187,6 +187,6 @@ func TestCheckinList(t *testing.T) {
 	}
 
 	for i := 0; i < runs; i++ {
-		c.Plans.Del(fmt.Sprintf("go_binding_%v", i))
+		c.Plans.Del(fmt.Sprintf("go_binding_%v", i), nil)
 	}
 }
