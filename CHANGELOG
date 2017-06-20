@@ -1,3 +1,6 @@
+22.6.0 2017-06-19
+	Support for ephemeral keys
+
 22.5.0 2017-06-15
 	Support for checking webhook signatures
 
