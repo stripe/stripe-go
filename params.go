@@ -5,6 +5,7 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 	"time"
@@ -124,6 +125,9 @@ type Params struct {
 	// Account is deprecated form of StripeAccount that will do the same thing.
 	// Please use StripeAccount instead.
 	Account string
+
+	// Headers may be used to provide extra header lines on the HTTP request.
+	Headers http.Header
 }
 
 // ListParams is the structure that contains the common properties

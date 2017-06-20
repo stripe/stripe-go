@@ -15,6 +15,7 @@ import (
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/discount"
 	"github.com/stripe/stripe-go/dispute"
+	"github.com/stripe/stripe-go/ephemeralkey"
 	"github.com/stripe/stripe-go/event"
 	"github.com/stripe/stripe-go/fee"
 	"github.com/stripe/stripe-go/feerefund"
@@ -104,6 +105,9 @@ type API struct {
 	// Balance is the client used to invoke /balance and transaction-related APIs.
 	// For more details see https://stripe.com/docs/api#balance.
 	Balance *balance.Client
+	// EphemeralKeys is the client used to invoke /ephemeral_keys APIs.
+	// For more details see https://stripe.com/docs/api#ephemeral_keys.
+	EphemeralKeys *ephemeralkey.Client
 	// Events is the client used to invoke /events APIs.
 	// For more details see https://stripe.com/docs/api#events.
 	Events *event.Client
@@ -170,6 +174,7 @@ func (a *API) Init(key string, backends *Backends) {
 	a.Account = &account.Client{B: backends.API, Key: key}
 	a.CountrySpec = &countryspec.Client{B: backends.API, Key: key}
 	a.Balance = &balance.Client{B: backends.API, Key: key}
+	a.EphemeralKeys = &ephemeralkey.Client{B: backends.API, Key: key}
 	a.Events = &event.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
 	a.FileUploads = &fileupload.Client{B: backends.Uploads, Key: key}

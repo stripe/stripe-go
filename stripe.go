@@ -251,6 +251,11 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 
 	req.SetBasicAuth(key, "")
 
+	req.Header.Add("Stripe-Version", apiversion)
+	req.Header.Add("User-Agent", encodedUserAgent)
+	req.Header.Add("Content-Type", contentType)
+	req.Header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
+
 	if params != nil {
 		if idempotency := strings.TrimSpace(params.IdempotencyKey); idempotency != "" {
 			if len(idempotency) > 255 {
@@ -269,12 +274,13 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 		if stripeAccount := strings.TrimSpace(params.StripeAccount); stripeAccount != "" {
 			req.Header.Add("Stripe-Account", stripeAccount)
 		}
-	}
 
-	req.Header.Add("Stripe-Version", apiversion)
-	req.Header.Add("User-Agent", encodedUserAgent)
-	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
+		for k, v := range params.Headers {
+			for _, line := range v {
+				req.Header.Add(k, line)
+			}
+		}
+	}
 
 	return req, nil
 }
