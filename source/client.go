@@ -1,10 +1,8 @@
 package source
 
 import (
-	"fmt"
-	"strconv"
-
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /sources APIs.
@@ -22,79 +20,13 @@ func New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 // New POSTs a new source.
 // For more details see https://stripe.com/docs/api#create_source.
 func (c Client) New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		commonParams = &params.Params
-
-		// Optional fields
-		if params.Type != "" {
-			body.Add("type", params.Type)
-		}
-		if params.Usage != "" {
-			body.Add("usage", string(params.Usage))
-		}
-		if params.Customer != "" {
-			body.Add("customer", params.Customer)
-		}
-		if params.Currency != "" {
-			body.Add("currency", string(params.Currency))
-		}
-		if params.Amount > 0 {
-			body.Add("amount", strconv.FormatUint(params.Amount, 10))
-		}
-		if params.Flow != "" {
-			body.Add("flow", string(params.Flow))
-		}
-		if params.Owner != nil {
-			if params.Owner.Address != nil {
-				if params.Owner.Address.Line1 != "" {
-					body.Add("owner[address][line1]", params.Owner.Address.Line1)
-				}
-				if params.Owner.Address.Line2 != "" {
-					body.Add("owner[address][line2]", params.Owner.Address.Line2)
-				}
-				if params.Owner.Address.City != "" {
-					body.Add("owner[address][city]", params.Owner.Address.City)
-				}
-				if params.Owner.Address.State != "" {
-					body.Add("owner[address][state]", params.Owner.Address.State)
-				}
-				if params.Owner.Address.PostalCode != "" {
-					body.Add("owner[address][postal_code]", params.Owner.Address.PostalCode)
-				}
-				if params.Owner.Address.Country != "" {
-					body.Add("owner[address][country]", params.Owner.Address.Country)
-				}
-			}
-			if params.Owner.Email != "" {
-				body.Add("owner[email]", params.Owner.Email)
-			}
-			if params.Owner.Name != "" {
-				body.Add("owner[name]", params.Owner.Name)
-			}
-			if params.Owner.Phone != "" {
-				body.Add("owner[phone]", params.Owner.Phone)
-			}
-		}
-
-		if params.Redirect != nil {
-			if params.Redirect.ReturnURL != "" {
-				body.Add("redirect[return_url]", params.Redirect.ReturnURL)
-			}
-		}
-
-		if params.Token != "" {
-			body.Add("token", params.Token)
-		}
-
-		for k, v := range params.TypeData {
-			body.Add(fmt.Sprintf("%s[%s]", params.Type, k), v)
-		}
-
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	p := &stripe.Source{}
@@ -112,13 +44,13 @@ func Get(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
 // Get returns the details of a source
 // For more details see https://stripe.com/docs/api#retrieve_source.
 func (c Client) Get(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		commonParams = &params.Params
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	source := &stripe.Source{}
@@ -133,47 +65,13 @@ func Update(id string, params *stripe.SourceObjectParams) (*stripe.Source, error
 }
 
 func (c Client) Update(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		commonParams = &params.Params
-
-		// Optional fields
-		if params.Owner != nil {
-			if params.Owner.Address != nil {
-				if params.Owner.Address.Line1 != "" {
-					body.Add("owner[address][line1]", params.Owner.Address.Line1)
-				}
-				if params.Owner.Address.Line2 != "" {
-					body.Add("owner[address][line2]", params.Owner.Address.Line2)
-				}
-				if params.Owner.Address.City != "" {
-					body.Add("owner[address][city]", params.Owner.Address.City)
-				}
-				if params.Owner.Address.State != "" {
-					body.Add("owner[address][state]", params.Owner.Address.State)
-				}
-				if params.Owner.Address.PostalCode != "" {
-					body.Add("owner[address][postal_code]", params.Owner.Address.PostalCode)
-				}
-				if params.Owner.Address.Country != "" {
-					body.Add("owner[address][country]", params.Owner.Address.Country)
-				}
-			}
-			if params.Owner.Email != "" {
-				body.Add("owner[email]", params.Owner.Email)
-			}
-			if params.Owner.Name != "" {
-				body.Add("owner[name]", params.Owner.Name)
-			}
-			if params.Owner.Phone != "" {
-				body.Add("owner[phone]", params.Owner.Phone)
-			}
-		}
-
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	source := &stripe.Source{}

@@ -56,30 +56,28 @@ const (
 )
 
 type SourceOwnerParams struct {
-	Address *AddressParams
-	Email   string
-	Name    string
-	Phone   string
+	Address *AddressParams `form:"address"`
+	Email   string         `form:"email"`
+	Name    string         `form:"name"`
+	Phone   string         `form:"phone"`
 }
 
 type RedirectParams struct {
-	ReturnURL string
+	ReturnURL string `form:"return_url"`
 }
 
 type SourceObjectParams struct {
-	Params
-	Type     string
-	Usage    SourceUsage
-	Customer string
-	Amount   uint64
-	Currency Currency
-	Flow     SourceFlow
-	Owner    *SourceOwnerParams
-
-	Redirect *RedirectParams
-	Token    string
-
-	TypeData map[string]string
+	Params   `form:"*"`
+	Type     string             `form:"type"`
+	Usage    SourceUsage        `form:"usage"`
+	Customer string             `form:"customer"`
+	Amount   uint64             `form:"amount"`
+	Currency Currency           `form:"currency"`
+	Flow     SourceFlow         `form:"flow"`
+	Owner    *SourceOwnerParams `form:"owner"`
+	Redirect *RedirectParams    `form:"redirect"`
+	Token    string             `form:"token"`
+	TypeData map[string]string  `form:"*"`
 }
 
 type SourceOwner struct {

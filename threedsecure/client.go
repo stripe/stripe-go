@@ -2,9 +2,8 @@
 package threedsecure
 
 import (
-	"strconv"
-
-	"github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /3d_secure APIs.
@@ -20,17 +19,8 @@ func New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
 }
 
 func (c Client) New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
-	body := &stripe.RequestValues{}
-	body.Add("amount", strconv.FormatUint(params.Amount, 10))
-	body.Add("card", params.Card)
-	body.Add("currency", string(params.Currency))
-	body.Add("return_url", params.ReturnURL)
-
-	if len(params.Customer) > 0 {
-		body.Add("customer", params.Customer)
-	}
-
-	params.AppendTo(body)
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	tds := &stripe.ThreeDSecure{}
 	err := c.B.Call("POST", "/3d_secure", c.Key, body, &params.Params, tds)
@@ -44,13 +34,13 @@ func Get(id string, params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, er
 }
 
 func (c Client) Get(id string, params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
 		commonParams = &params.Params
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	tds := &stripe.ThreeDSecure{}

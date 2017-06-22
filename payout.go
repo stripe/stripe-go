@@ -57,25 +57,25 @@ type PayoutDestination struct {
 // PayoutParams is the set of parameters that can be used when creating or updating a payout.
 // For more details see https://stripe.com/docs/api#create_payout and https://stripe.com/docs/api#update_payout.
 type PayoutParams struct {
-	Params
-	Amount              int64
-	Currency            Currency
-	Destination         string
-	Method              PayoutMethodType
-	SourceType          PayoutSourceType
-	StatementDescriptor string
+	Params              `form:"*"`
+	Amount              int64            `form:"amount"`
+	Currency            Currency         `form:"currency"`
+	Destination         string           `form:"destination"`
+	Method              PayoutMethodType `form:"method"`
+	SourceType          PayoutSourceType `form:"source_type"`
+	StatementDescriptor string           `form:"statement_descriptor"`
 }
 
 // PayoutListParams is the set of parameters that can be used when listing payouts.
 // For more details see https://stripe.com/docs/api#list_payouts.
 type PayoutListParams struct {
-	ListParams
-	ArrivalDate      int64
-	ArrivalDateRange *RangeQueryParams
-	Created          int64
-	CreatedRange     *RangeQueryParams
-	Destination      string
-	Status           PayoutStatus
+	ListParams       `form:"*"`
+	ArrivalDate      int64             `form:"arrival_date"`
+	ArrivalDateRange *RangeQueryParams `form:"arrival_date"`
+	Created          int64             `form:"created"`
+	CreatedRange     *RangeQueryParams `form:"created"`
+	Destination      string            `form:"destination"`
+	Status           PayoutStatus      `form:"status"`
 }
 
 // Payout is the resource representing a Stripe payout.

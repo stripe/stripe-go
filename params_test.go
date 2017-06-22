@@ -1,208 +1,98 @@
 package stripe_test
 
 import (
-	"net/url"
-	"reflect"
 	"testing"
 
+	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 	. "github.com/stripe/stripe-go/testing"
 )
 
-func TestCheckinRangeQueryParamsAppendTo(t *testing.T) {
-	{
-		values := &stripe.RequestValues{}
-
-		// Try it with an empty set of parameters
-		params := &stripe.RangeQueryParams{}
-		params.AppendTo(values, "created")
-
-		if !values.Empty() {
-			t.Fatalf("Expected request values to be empty")
-		}
+func TestRangeQueryParamsAppendTo(t *testing.T) {
+	type testParams struct {
+		CreatedRange *stripe.RangeQueryParams `form:"created"`
 	}
 
 	{
-		values := &stripe.RequestValues{}
+		body := &form.Values{}
 
 		// Try it with an empty set of parameters
-		params := &stripe.RangeQueryParams{GreaterThan: 99}
-		params.AppendTo(values, "created")
-
-		value := values.Get("created[gt]")
-		if len(value) != 1 || value[0] != "99" {
-			t.Fatalf(
-				"Expected encoded value of 99 for created[gt] but got %v.",
-				value)
+		params := testParams{
+			CreatedRange: &stripe.RangeQueryParams{},
 		}
+		form.AppendTo(body, params)
+		assert.True(t, body.Empty())
 	}
 
 	{
-		values := &stripe.RequestValues{}
+		body := &form.Values{}
 
-		// Try it with an empty set of parameters
-		params := &stripe.RangeQueryParams{GreaterThanOrEqual: 99}
-		params.AppendTo(values, "created")
-
-		value := values.Get("created[gte]")
-		if len(value) != 1 || value[0] != "99" {
-			t.Fatalf(
-				"Expected encoded value of 99 for created[gte] but got %v.",
-				value)
+		params := testParams{
+			CreatedRange: &stripe.RangeQueryParams{GreaterThan: 99},
 		}
+		form.AppendTo(body, params)
+		assert.Equal(t, []string{"99"}, body.Get("created[gt]"))
 	}
 
 	{
-		values := &stripe.RequestValues{}
+		body := &form.Values{}
 
-		// Try it with an empty set of parameters
-		params := &stripe.RangeQueryParams{LesserThan: 99}
-		params.AppendTo(values, "created")
-
-		value := values.Get("created[lt]")
-		if len(value) != 1 || value[0] != "99" {
-			t.Fatalf(
-				"Expected encoded value of 99 for created[lt] but got %v.",
-				value)
+		params := testParams{
+			CreatedRange: &stripe.RangeQueryParams{GreaterThanOrEqual: 99},
 		}
+		form.AppendTo(body, params)
+		assert.Equal(t, []string{"99"}, body.Get("created[gte]"))
 	}
 
 	{
-		values := &stripe.RequestValues{}
+		body := &form.Values{}
 
-		// Try it with an empty set of parameters
-		params := &stripe.RangeQueryParams{LesserThanOrEqual: 99}
-		params.AppendTo(values, "created")
-
-		value := values.Get("created[lte]")
-		if len(value) != 1 || value[0] != "99" {
-			t.Fatalf(
-				"Expected encoded value of 99 for created[lte] but got %v.",
-				value)
+		params := testParams{
+			CreatedRange: &stripe.RangeQueryParams{LesserThan: 99},
 		}
+		form.AppendTo(body, params)
+		assert.Equal(t, []string{"99"}, body.Get("created[lt]"))
+	}
+
+	{
+		body := &form.Values{}
+
+		params := testParams{
+			CreatedRange: &stripe.RangeQueryParams{LesserThanOrEqual: 99},
+		}
+		form.AppendTo(body, params)
+		assert.Equal(t, []string{"99"}, body.Get("created[lte]"))
 	}
 }
 
-func TestRequestValues(t *testing.T) {
-	values := &stripe.RequestValues{}
-
-	actual := values.Encode()
-	expected := ""
-	if expected != actual {
-		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
-	}
-
-	if !values.Empty() {
-		t.Fatalf("Expected values to be empty.")
-	}
-
-	values = &stripe.RequestValues{}
-	values.Add("foo", "bar")
-
-	actual = values.Encode()
-	expected = "foo=bar"
-	if expected != actual {
-		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
-	}
-
-	if values.Empty() {
-		t.Fatalf("Expected values to not be empty.")
-	}
-
-	got := values.Get("foo")
-	if len(got) != 1 {
-		t.Fatalf("Expected 1 result from Get, got %v.", len(got))
-	}
-	if got[0] != "bar" {
-		t.Fatalf("Expected 'bar' result from Get, got %v.", got[0])
-	}
-
-	values = &stripe.RequestValues{}
-	values.Add("foo", "bar")
-	values.Add("foo", "bar")
-	values.Add("baz", "bar")
-
-	actual = values.Encode()
-	expected = "foo=bar&foo=bar&baz=bar"
-	if expected != actual {
-		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
-	}
-
-	got = values.Get("foo")
-	if len(got) != 2 {
-		t.Fatalf("Expected 2 results from Get, got %v.", len(got))
-	}
-	if got[0] != "bar" {
-		t.Fatalf("Expected 'bar' result from Get, got %v.", got[0])
-	}
-	if got[1] != "bar" {
-		t.Fatalf("Expected 'bar' result from Get, got %v.", got[1])
-	}
-	got = values.Get("baz")
-	if len(got) != 1 {
-		t.Fatalf("Expected 1 result from Get, got %v.", len(got))
-	}
-	if got[0] != "bar" {
-		t.Fatalf("Expected 'bar' result from Get, got %v.", got[0])
-	}
-
-	values.Set("foo", "firstbar")
-
-	actual = values.Encode()
-	expected = "foo=firstbar&foo=bar&baz=bar"
-	if expected != actual {
-		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
-	}
-	got = values.Get("foo")
-	if len(got) != 2 {
-		t.Fatalf("Expected 2 results from Get, got %v.", len(got))
-	}
-	if got[0] != "firstbar" {
-		t.Fatalf("Expected 'firstbar' result from Get, got %v.", got[0])
-	}
-	if got[1] != "bar" {
-		t.Fatalf("Expected 'bar' result from Get, got %v.", got[1])
-	}
-	got = values.Get("baz")
-	if len(got) != 1 {
-		t.Fatalf("Expected 1 result from Get, got %v.", len(got))
-	}
-	if got[0] != "bar" {
-		t.Fatalf("Expected 'bar' result from Get, got %v.", got[0])
-	}
-
-	values.Set("new", "appended")
-
-	actual = values.Encode()
-	expected = "foo=firstbar&foo=bar&baz=bar&new=appended"
-	if expected != actual {
-		t.Fatalf("Expected encoded value of %v but got %v.", expected, actual)
-	}
-
-	urlValues := values.ToValues()
-	expectedURLValues := url.Values{
-		"baz": {"bar"},
-		"foo": {"firstbar", "bar"},
-		"new": {"appended"},
-	}
-	if !reflect.DeepEqual(urlValues, expectedURLValues) {
-		t.Fatalf("Expected body of %v but got %v.", expectedURLValues, urlValues)
-	}
-	got = values.Get("new")
-	if len(got) != 1 {
-		t.Fatalf("Expected 1 result from Get, got %v.", len(got))
-	}
-	if got[0] != "appended" {
-		t.Fatalf("Expected 'appended' result from Get, got %v.", got[0])
-	}
-
-	got = values.Get("boguskey")
-	if got != nil {
-		t.Fatalf("Expected nil, got %v", got)
-	}
+type testListParams struct {
+	stripe.ListParams `form:"*"`
+	Field             string `form:"field"`
 }
 
-func TestParamsWithExtras(t *testing.T) {
+func TestListParams_Nested(t *testing.T) {
+	params := &testListParams{
+		Field: "field_value",
+		ListParams: stripe.ListParams{
+			End:   "acct_123",
+			Start: "acct_123",
+			Limit: 100,
+		},
+	}
+
+	body := &form.Values{}
+	form.AppendTo(body, params)
+
+	assert.Equal(t, valuesFromArray([][2]string{
+		{"starting_after", "acct_123"},
+		{"ending_before", "acct_123"},
+		{"limit", "100"},
+		{"field", "field_value"},
+	}), body)
+}
+
+func TestParams_AppendTo_Extra(t *testing.T) {
 	testCases := []struct {
 		InitialBody  [][2]string
 		Extras       [][2]string
@@ -215,29 +105,65 @@ func TestParamsWithExtras(t *testing.T) {
 		},
 		{
 			InitialBody:  [][2]string{{"foo", "bar"}},
-			Extras:       [][2]string{{"foo", "baz"}, {"other", "thing"}},
-			ExpectedBody: [][2]string{{"foo", "bar"}, {"foo", "baz"}, {"other", "thing"}},
+			Extras:       [][2]string{{"foo", "baz"}},
+			ExpectedBody: [][2]string{{"foo", "bar"}, {"foo", "baz"}},
 		},
 	}
 
 	for _, testCase := range testCases {
-		p := stripe.Params{}
+		p := &stripe.Params{}
 
 		for _, extra := range testCase.Extras {
 			p.AddExtra(extra[0], extra[1])
 		}
 
 		body := valuesFromArray(testCase.InitialBody)
-		p.AppendTo(body)
-
-		expected := valuesFromArray(testCase.ExpectedBody)
-		if !reflect.DeepEqual(body, expected) {
-			t.Fatalf("Expected body of %v but got %v.", expected, body)
-		}
+		form.AppendTo(body, p)
+		assert.Equal(t, valuesFromArray(testCase.ExpectedBody), body)
 	}
 }
 
-func TestCheckinListParamsExpansion(t *testing.T) {
+type testParams struct {
+	stripe.Params `form:"*"`
+	Field         string         `form:"field"`
+	SubParams     *testSubParams `form:"sub_params"`
+}
+
+type testSubParams struct {
+	stripe.Params `form:"*"`
+	SubField      string `form:"sub_field"`
+}
+
+func TestParams_AppendTo_Nested(t *testing.T) {
+	params := &testParams{
+		Field: "field_value",
+		Params: stripe.Params{
+			Meta: map[string]string{
+				"foo": "bar",
+			},
+		},
+		SubParams: &testSubParams{
+			Params: stripe.Params{
+				Meta: map[string]string{
+					"sub_foo": "bar",
+				},
+			},
+			SubField: "sub_field_value",
+		},
+	}
+
+	body := &form.Values{}
+	form.AppendTo(body, params)
+
+	assert.Equal(t, valuesFromArray([][2]string{
+		{"metadata[foo]", "bar"},
+		{"field", "field_value"},
+		{"sub_params[metadata][sub_foo]", "bar"},
+		{"sub_params[sub_field]", "sub_field_value"},
+	}), body)
+}
+
+func TestListParams_Expand(t *testing.T) {
 	testCases := []struct {
 		InitialBody  [][2]string
 		Expand       []string
@@ -263,16 +189,12 @@ func TestCheckinListParamsExpansion(t *testing.T) {
 		}
 
 		body := valuesFromArray(testCase.InitialBody)
-		p.AppendTo(body)
-
-		expected := valuesFromArray(testCase.ExpectedBody)
-		if !reflect.DeepEqual(body, expected) {
-			t.Fatalf("Expected body of %v but got %v.", expected, body)
-		}
+		form.AppendTo(body, p)
+		assert.Equal(t, valuesFromArray(testCase.ExpectedBody), body)
 	}
 }
 
-func TestCheckinListParamsToParams(t *testing.T) {
+func TestListParams_ToParams(t *testing.T) {
 	listParams := &stripe.ListParams{StripeAccount: TestMerchantID}
 	params := listParams.ToParams()
 
@@ -282,7 +204,7 @@ func TestCheckinListParamsToParams(t *testing.T) {
 	}
 }
 
-func TestCheckinParamsSetAccount(t *testing.T) {
+func TestParams_SetAccount(t *testing.T) {
 	p := &stripe.Params{}
 	p.SetAccount(TestMerchantID)
 
@@ -295,7 +217,7 @@ func TestCheckinParamsSetAccount(t *testing.T) {
 	}
 }
 
-func TestCheckinParamsSetStripeAccount(t *testing.T) {
+func TestParams_SetStripeAccount(t *testing.T) {
 	p := &stripe.Params{}
 	p.SetStripeAccount(TestMerchantID)
 
@@ -309,11 +231,15 @@ func TestCheckinParamsSetStripeAccount(t *testing.T) {
 	}
 }
 
+//
+// ---
+//
+
 // Converts a collection of key/value tuples in a two dimensional slice/array
-// into RequestValues form. The purpose of this is that it's much cleaner to
+// into form.Values form. The purpose of this is that it's much cleaner to
 // initialize the array all at once on a single line.
-func valuesFromArray(arr [][2]string) *stripe.RequestValues {
-	body := &stripe.RequestValues{}
+func valuesFromArray(arr [][2]string) *form.Values {
+	body := &form.Values{}
 	for _, v := range arr {
 		body.Add(v[0], v[1])
 	}

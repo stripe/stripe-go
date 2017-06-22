@@ -3,57 +3,25 @@ package threedsecure
 import (
 	"testing"
 
+	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/customer"
-	. "github.com/stripe/stripe-go/utils"
+	_ "github.com/stripe/stripe-go/testing"
 )
 
-func init() {
-	stripe.Key = GetTestKey()
+func TestThreeDSecureGet(t *testing.T) {
+	threeDSecure, err := Get("tdsrc_123", nil)
+	assert.Nil(t, err)
+	assert.NotNil(t, threeDSecure)
 }
 
 func TestThreeDSecureNew(t *testing.T) {
-	// Test creating a 3D Secure auth
-	customerParams := &stripe.CustomerParams{}
-	customerParams.SetSource("tok_amex")
-
-	cust, _ := customer.New(customerParams)
-
-	threeDSecureParams := &stripe.ThreeDSecureParams{
+	threeDSecure, err := New(&stripe.ThreeDSecureParams{
 		Amount:    1000,
-		Currency:  currency.USD,
-		Customer:  cust.ID,
-		Card:      cust.Sources.Values[0].Card.ID,
+		Currency:  "usd",
+		Customer:  "cus_123",
+		Card:      "card_123",
 		ReturnURL: "https://test.com",
-	}
-
-	threeDSecure, err := New(threeDSecureParams)
-
-	if err != nil {
-		t.Error(err)
-	}
-
-	if threeDSecure.Amount != threeDSecureParams.Amount {
-		t.Errorf("Amount %v does not match expected amount %v\n", threeDSecure.Amount, threeDSecureParams.Amount)
-	}
-
-	if threeDSecure.Currency != threeDSecureParams.Currency {
-		t.Errorf("Currency %q does not match expected currency %q\n", threeDSecure.Currency, threeDSecureParams.Currency)
-	}
-
-	if threeDSecure.Card.ID != threeDSecureParams.Card {
-		t.Errorf("Card ID %q does not match expected card ID %q\n", threeDSecure.Card.ID, threeDSecureParams.Card)
-	}
-
-	// Test retrieving a 3D Secure auth
-	threeDSecure2, err := Get(threeDSecure.ID, nil)
-
-	if err != nil {
-		t.Error(err)
-	}
-
-	if threeDSecure2.ID != threeDSecure.ID {
-		t.Errorf("ID %q does not match expected id %q\n", threeDSecure2.ID, threeDSecure.ID)
-	}
+	})
+	assert.Nil(t, err)
+	assert.NotNil(t, threeDSecure)
 }

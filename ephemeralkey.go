@@ -6,9 +6,9 @@ import "encoding/json"
 // an ephemeral key.
 // For more details see https://stripe.com/docs/api#ephemeral_keys.
 type EphemeralKeyParams struct {
-	Params
-	Customer      string
-	StripeVersion string
+	Params        `form:"*"`
+	Customer      string `form:"customer"`
+	StripeVersion string `form:"-"` // This goes in the `Stripe-Version` header
 }
 
 // EphemeralKey is the resource representing a Stripe ephemeral key.
@@ -29,7 +29,7 @@ type EphemeralKey struct {
 	// different JSON structure.  This ensures that if the structure differs
 	// from the version of these bindings, we can still pass back a compatible
 	// key.
-	RawJSON []byte
+	RawJSON []byte `json:"-"`
 }
 
 // UnmarshalJSON handles deserialization of an EphemeralKey.

@@ -265,27 +265,24 @@ the following guidelines in mind:
 
 ## Test
 
-For running additional tests, follow the steps below:
+The test suite depends on [stripe-mock], so make sure to fetch and run it from a
+background terminal ([stripe-mock's README][stripe-mock] also contains
+instructions for installing via Homebrew and other methods):
 
-Set the `STRIPE_KEY` environment variable to match your test private key, then
-run `make test`:
+    go get -u github.com/stripe/stripe-mock
+    stripe-mock
 
-```sh
-STRIPE_KEY=YOUR_API_KEY make test
-```
+Run all tests:
 
-Or to run tests for a particular subpackage:
+    go test ./...
 
-```sh
-STRIPE_KEY=YOUR_API_KEY go test ./invoice
-```
+Run tests for one package:
 
-Or to run a particular test (it's worth noting however that Go will report a
-success even if the referenced test doesn't exist):
+    go test ./invoice
 
-```sh
-STRIPE_KEY=YOUR_API_KEY go test -run "TestAllInvoicesScenarios" ./invoice
-```
+Run a single test:
+
+    go test ./invoice -run TestInvoiceGet
 
 For any requests, bug or comments, please [open an issue][issues] or [submit a
 pull request][pulls].
@@ -298,3 +295,7 @@ pull request][pulls].
 [package-management]: https://code.google.com/p/go-wiki/wiki/PackageManagementTools
 [pulls]: https://github.com/stripe/stripe-go/pulls
 [stripe]: https://stripe.com
+
+<!--
+# vim: set tw=79:
+-->

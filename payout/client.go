@@ -3,9 +3,9 @@ package payout
 
 import (
 	"fmt"
-	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 const (
@@ -48,27 +48,8 @@ func New(params *stripe.PayoutParams) (*stripe.Payout, error) {
 }
 
 func (c Client) New(params *stripe.PayoutParams) (*stripe.Payout, error) {
-	body := &stripe.RequestValues{}
-	body.Add("amount", strconv.FormatInt(params.Amount, 10))
-	body.Add("currency", string(params.Currency))
-
-	if len(params.Destination) > 0 {
-		body.Add("destination", params.Destination)
-	}
-
-	if len(params.Method) > 0 {
-		body.Add("method", string(params.Method))
-	}
-
-	if len(params.SourceType) > 0 {
-		body.Add("source_type", string(params.SourceType))
-	}
-
-	if len(params.StatementDescriptor) > 0 {
-		body.Add("statement_descriptor", params.StatementDescriptor)
-	}
-
-	params.AppendTo(body)
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	payout := &stripe.Payout{}
 	err := c.B.Call("POST", "/payouts", c.Key, body, &params.Params, payout)
@@ -83,13 +64,13 @@ func Get(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 }
 
 func (c Client) Get(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	payout := &stripe.Payout{}
@@ -105,13 +86,13 @@ func Update(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 }
 
 func (c Client) Update(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	payout := &stripe.Payout{}
@@ -127,14 +108,13 @@ func Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 }
 
 func (c Client) Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	payout := &stripe.Payout{}
@@ -150,43 +130,18 @@ func List(params *stripe.PayoutListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.PayoutListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		if params.ArrivalDate > 0 {
-			body.Add("created", strconv.FormatInt(params.ArrivalDate, 10))
-		}
-
-		if params.ArrivalDateRange != nil {
-			params.ArrivalDateRange.AppendTo(body, "arrival_date")
-		}
-
-		if params.Created > 0 {
-			body.Add("created", strconv.FormatInt(params.Created, 10))
-		}
-
-		if params.CreatedRange != nil {
-			params.CreatedRange.AppendTo(body, "created")
-		}
-
-		if len(params.Destination) > 0 {
-			body.Add("destination", params.Destination)
-		}
-
-		if len(params.Status) > 0 {
-			body.Add("status", string(params.Status))
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.PayoutList{}
 		err := c.B.Call("GET", "/payouts", c.Key, b, p, list)
 

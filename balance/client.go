@@ -2,9 +2,8 @@
 package balance
 
 import (
-	"strconv"
-
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 const (
@@ -39,13 +38,13 @@ func Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 }
 
 func (c Client) Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	balance := &stripe.Balance{}
@@ -61,13 +60,13 @@ func GetTx(id string, params *stripe.TxParams) (*stripe.Transaction, error) {
 }
 
 func (c Client) GetTx(id string, params *stripe.TxParams) (*stripe.Transaction, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	balance := &stripe.Transaction{}
@@ -83,50 +82,18 @@ func List(params *stripe.TxListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.TxListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		if params.Created > 0 {
-			body.Add("created", strconv.FormatInt(params.Created, 10))
-		}
-
-		if params.CreatedRange != nil {
-			params.CreatedRange.AppendTo(body, "created")
-		}
-
-		if params.Available > 0 {
-			body.Add("available_on", strconv.FormatInt(params.Available, 10))
-		}
-
-		if params.AvailableRange != nil {
-			params.AvailableRange.AppendTo(body, "available_on")
-		}
-
-		if len(params.Currency) > 0 {
-			body.Add("currency", params.Currency)
-		}
-
-		if len(params.Payout) > 0 {
-			body.Add("payout", params.Payout)
-		}
-
-		if len(params.Src) > 0 {
-			body.Add("source", params.Src)
-		}
-		if len(params.Type) > 0 {
-			body.Add("type", string(params.Type))
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.TransactionList{}
 		err := c.B.Call("GET", "/balance/history", c.Key, b, p, list)
 

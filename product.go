@@ -5,10 +5,10 @@ import "encoding/json"
 // PackageDimensions represents the dimension of a product or a sku from the
 // perspective of shipping.
 type PackageDimensions struct {
-	Height float64 `json:"height"`
-	Length float64 `json:"length"`
-	Width  float64 `json:"width"`
-	Weight float64 `json:"weight"`
+	Height float64 `json:"height" form:"height"`
+	Length float64 `json:"length" form:"length"`
+	Width  float64 `json:"width" form:"width"`
+	Weight float64 `json:"weight" form:"weight"`
 }
 
 // ProductParams is the set of parameters that can be used
@@ -16,18 +16,18 @@ type PackageDimensions struct {
 // For more details, see https://stripe.com/docs/api#create_product
 // and https://stripe.com/docs/api#update_product.
 type ProductParams struct {
-	Params
-	ID                string
-	Active            *bool
-	Name              string
-	Caption           string
-	Desc              string
-	Attrs             []string
-	Images            []string
-	URL               string
-	Shippable         *bool
-	PackageDimensions *PackageDimensions
-	DeactivateOn      []string
+	Params            `form:"*"`
+	ID                string             `form:"id"`
+	Active            *bool              `form:"active"`
+	Name              string             `form:"name"`
+	Caption           string             `form:"caption"`
+	Desc              string             `form:"description"`
+	Attrs             []string           `form:"attributes"`
+	Images            []string           `form:"images"`
+	URL               string             `form:"url"`
+	Shippable         *bool              `form:"shippable"`
+	PackageDimensions *PackageDimensions `form:"package_dimensions"`
+	DeactivateOn      []string           `form:"deactivate_on"`
 }
 
 // Product is the resource representing a Stripe product.
@@ -61,11 +61,11 @@ type ProductList struct {
 // listing products. For more details, see:
 // https://stripe.com/docs/api#list_products.
 type ProductListParams struct {
-	ListParams
-	Active    *bool
-	IDs       []string
-	Shippable *bool
-	URL       string
+	ListParams `form:"*"`
+	Active     *bool    `form:"active"`
+	IDs        []string `form:"ids"`
+	Shippable  *bool    `form:"shippable"`
+	URL        string   `form:"url"`
 }
 
 // UnmarshalJSON handles deserialization of a Product.

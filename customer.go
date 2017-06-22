@@ -7,21 +7,23 @@ import (
 // CustomerParams is the set of parameters that can be used when creating or updating a customer.
 // For more details see https://stripe.com/docs/api#create_customer and https://stripe.com/docs/api#update_customer.
 type CustomerParams struct {
-	Params
-	Balance        int64
-	BalanceZero    bool
-	Token, Coupon  string
-	CouponEmpty    bool
-	Source         *SourceParams
-	Desc, Email    string
-	Plan           string
-	Quantity       uint64
-	TrialEnd       int64
-	DefaultSource  string
-	Shipping       *CustomerShippingDetails
-	BusinessVatID  string
-	TaxPercent     float64
-	TaxPercentZero bool
+	Params         `form:"*"`
+	Balance        int64                    `form:"account_balance"`
+	BalanceZero    bool                     `form:"account_balance,zero"`
+	Token          string                   `form:"-"` // This doesn't seem to be used?
+	Coupon         string                   `form:"coupon"`
+	CouponEmpty    bool                     `form:"coupon,empty"`
+	Source         *SourceParams            `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	Desc           string                   `form:"description"`
+	Email          string                   `form:"email"`
+	Plan           string                   `form:"plan"`
+	Quantity       uint64                   `form:"quantity"`
+	TrialEnd       int64                    `form:"trial_end"`
+	DefaultSource  string                   `form:"default_source"`
+	Shipping       *CustomerShippingDetails `form:"shipping"`
+	BusinessVatID  string                   `form:"business_vat_id"`
+	TaxPercent     float64                  `form:"tax_percent"`
+	TaxPercentZero bool                     `form:"tax_percent,zero"`
 }
 
 // SetSource adds valid sources to a CustomerParams object,
@@ -35,9 +37,9 @@ func (cp *CustomerParams) SetSource(sp interface{}) error {
 // CustomerListParams is the set of parameters that can be used when listing customers.
 // For more details see https://stripe.com/docs/api#list_customers.
 type CustomerListParams struct {
-	ListParams
-	Created      int64
-	CreatedRange *RangeQueryParams
+	ListParams   `form:"*"`
+	Created      int64             `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 }
 
 // Customer is the resource representing a Stripe customer.
@@ -69,38 +71,9 @@ type CustomerList struct {
 
 // CustomerShippingDetails is the structure containing shipping information.
 type CustomerShippingDetails struct {
-	Name    string  `json:"name"`
-	Address Address `json:"address"`
-	Phone   string  `json:"phone"`
-}
-
-// AppendDetails adds the shipping details to the query string.
-func (s *CustomerShippingDetails) AppendDetails(values *RequestValues) {
-	values.Add("shipping[name]", s.Name)
-
-	values.Add("shipping[address][line1]", s.Address.Line1)
-	if len(s.Address.Line2) > 0 {
-		values.Add("shipping[address][line2]", s.Address.Line2)
-	}
-	if len(s.Address.City) > 0 {
-		values.Add("shipping[address][city]", s.Address.City)
-	}
-
-	if len(s.Address.State) > 0 {
-		values.Add("shipping[address][state]", s.Address.State)
-	}
-
-	if len(s.Address.Country) > 0 {
-		values.Add("shipping[address][country]", s.Address.Country)
-	}
-
-	if len(s.Address.Zip) > 0 {
-		values.Add("shipping[address][postal_code]", s.Address.Zip)
-	}
-
-	if len(s.Phone) > 0 {
-		values.Add("shipping[phone]", s.Phone)
-	}
+	Name    string  `json:"name" form:"name"`
+	Address Address `json:"address" form:"address"`
+	Phone   string  `json:"phone" form:"phone"`
 }
 
 // UnmarshalJSON handles deserialization of a Customer.

@@ -3,20 +3,21 @@ package stripe
 // SubItemParams is the set of parameters that can be used when creating or updating a subscription item.
 // For more details see https://stripe.com/docs/api#create_subscription_item and https://stripe.com/docs/api#update_subscription_item.
 type SubItemParams struct {
-	Params
-	Sub                     string
-	ID                      string
-	Quantity                uint64
-	Plan                    string
-	ProrationDate           int64
-	NoProrate, QuantityZero bool
+	Params        `form:"*"`
+	Sub           string `form:"subscription"`
+	ID            string `form:"-"` // Handled in URL
+	Quantity      uint64 `form:"quantity"`
+	QuantityZero  bool   `form:"quantity,zero"`
+	Plan          string `form:"plan"`
+	ProrationDate int64  `form:"proration_date"`
+	NoProrate     bool   `form:"prorate,invert"`
 }
 
 // SubItemListParams is the set of parameters that can be used when listing invoice items.
 // For more details see https://stripe.com/docs/api#list_invoiceitems.
 type SubItemListParams struct {
-	ListParams
-	Sub string
+	ListParams `form:"*"`
+	Sub        string `form:"subscription"`
 }
 
 // SubItem is the resource representing a Stripe subscription item.

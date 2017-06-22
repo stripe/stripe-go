@@ -1,6 +1,10 @@
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	"github.com/stripe/stripe-go/form"
+)
 
 // SubStatus is the list of allowed values for the subscription's status.
 // Allowed values are "trialing", "active", "past_due", "canceled", "unpaid", "all".
@@ -13,45 +17,70 @@ type SubBilling string
 // SubParams is the set of parameters that can be used when creating or updating a subscription.
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubParams struct {
-	Params
-	Customer, Plan                                  string
-	Coupon, Token                                   string
-	CouponEmpty                                     bool
-	TrialEnd, TrialPeriod                           int64
-	Card                                            *CardParams
-	Quantity                                        uint64
-	ProrationDate                                   int64
-	FeePercent, TaxPercent                          float64
-	FeePercentZero, TaxPercentZero                  bool
-	NoProrate, EndCancel, QuantityZero, TrialEndNow bool
-	BillingCycleAnchor                              int64
-	BillingCycleAnchorNow                           bool
-	Items                                           []*SubItemsParams
-	Billing                                         SubBilling
-	DaysUntilDue                                    uint64
-	OnBehalfOf                                      string
+	Params                `form:"*"`
+	Customer              string            `form:"customer"`
+	Plan                  string            `form:"plan"`
+	Token                 string            `form:"card"`
+	Coupon                string            `form:"coupon"`
+	CouponEmpty           bool              `form:"coupon,empty"`
+	TrialEnd              int64             `form:"trial_end"`
+	TrialEndNow           bool              `form:"-"` // See custom AppendTo
+	TrialPeriod           int64             `form:"trial_period_days"`
+	Card                  *CardParams       `form:"card"`
+	Quantity              uint64            `form:"quantity"`
+	QuantityZero          bool              `form:"quantity,zero"`
+	ProrationDate         int64             `form:"proration_date"`
+	NoProrate             bool              `form:"prorate,invert"`
+	FeePercent            float64           `form:"application_fee_percent"`
+	FeePercentZero        bool              `form:"application_fee_percent,zero"`
+	TaxPercent            float64           `form:"tax_percent"`
+	TaxPercentZero        bool              `form:"tax_percent,zero"`
+	BillingCycleAnchor    int64             `form:"billing_cycle_anchor"`
+	BillingCycleAnchorNow bool              `form:"-"` // See custom AppendTo
+	Items                 []*SubItemsParams `form:"items,indexed"`
+	Billing               SubBilling        `form:"billing"`
+	DaysUntilDue          uint64            `form:"days_until_due"`
+	OnBehalfOf            string            `form:"on_behalf_of"`
+
+	// Used for Cancel
+
+	EndCancel bool `form:"at_period_end"`
+}
+
+// AppendTo implements custom encoding logic for SubParams so that the special
+// "now" value for billing_cycle_anchor and trial_end can be implemented
+// (they're otherwise timestamps rather than strings).
+func (p *SubParams) AppendTo(body *form.Values, keyParts []string) {
+	if p.BillingCycleAnchorNow {
+		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "now")
+	}
+
+	if p.TrialEndNow {
+		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
+	}
 }
 
 // SubItemsParams is the set of parameters that can be used when creating or updating a subscription item on a subscription
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubItemsParams struct {
-	Params
-	ID                    string
-	Quantity              uint64
-	Plan                  string
-	Deleted, QuantityZero bool
+	Params       `form:"*"`
+	ID           string `form:"id"`
+	Quantity     uint64 `form:"quantity"`
+	QuantityZero bool   `form:"quantity,zero"`
+	Plan         string `form:"plan"`
+	Deleted      bool   `form:"deleted"`
 }
 
 // SubListParams is the set of parameters that can be used when listing active subscriptions.
 // For more details see https://stripe.com/docs/api#list_subscriptions.
 type SubListParams struct {
-	ListParams
-	Created      int64
-	CreatedRange *RangeQueryParams
-	Customer     string
-	Plan         string
-	Status       SubStatus
-	Billing      SubBilling
+	ListParams   `form:"*"`
+	Created      int64             `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	Customer     string            `form:"customer"`
+	Plan         string            `form:"plan"`
+	Status       SubStatus         `form:"status"`
+	Billing      SubBilling        `form:"billing"`
 }
 
 // Sub is the resource representing a Stripe subscription.

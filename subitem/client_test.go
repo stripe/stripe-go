@@ -1,173 +1,48 @@
 package subitem
 
 import (
-	"fmt"
-	"math/rand"
 	"testing"
 
+	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/customer"
-	"github.com/stripe/stripe-go/plan"
-	"github.com/stripe/stripe-go/sub"
-	. "github.com/stripe/stripe-go/utils"
+	_ "github.com/stripe/stripe-go/testing"
 )
 
-func init() {
-	stripe.Key = GetTestKey()
+func TestSubItemDel(t *testing.T) {
+	item, err := Del("si_123", nil)
+	assert.Nil(t, err)
+	assert.NotNil(t, item)
 }
 
-func createSubItem(t *testing.T) (*stripe.Sub, *stripe.SubItem, func()) {
-	customerParams := &stripe.CustomerParams{}
-	customerParams.SetSource("tok_amex")
-
-	cust, err := customer.New(customerParams)
-	if err != nil {
-		t.Fatalf("customer creation: %s", err)
-	}
-
-	planID := fmt.Sprintf("test-%d", rand.Int63())
-	planParams := &stripe.PlanParams{
-		ID:       planID,
-		Name:     "Test Plan",
-		Amount:   99,
-		Currency: currency.USD,
-		Interval: plan.Month,
-	}
-
-	p, err := plan.New(planParams)
-	if err != nil {
-		t.Fatalf("plan creation: %s", err)
-	}
-
-	subParams := &stripe.SubParams{
-		Customer: cust.ID,
-		Items: []*stripe.SubItemsParams{
-			{
-				Plan:     p.ID,
-				Quantity: 1,
-			},
-		},
-	}
-
-	target, err := sub.New(subParams)
-	if err != nil {
-		t.Fatalf("subscription creation: %s", err)
-	}
-	if target.Items == nil {
-		t.Fatalf("no items for sub %s", target.ID)
-	}
-	if len(target.Items.Values) != 1 {
-		t.Fatalf("missing items: %#v", target)
-	}
-	return target, target.Items.Values[0], func() {
-		sub.Cancel(target.ID, nil)
-		plan.Del(p.ID, nil)
-		customer.Del(cust.ID, nil)
-	}
+func TestSubItemGet(t *testing.T) {
+	item, err := Get("si_123", nil)
+	assert.Nil(t, err)
+	assert.NotNil(t, item)
 }
 
-func TestUpdateItem(t *testing.T) {
-	_, item, cleanup := createSubItem(t)
-	defer cleanup()
+func TestSubItemList(t *testing.T) {
+	i := List(&stripe.SubItemListParams{})
 
-	item, err := Update(item.ID, &stripe.SubItemParams{
+	// Verify that we can get at least one item
+	assert.True(t, i.Next())
+	assert.Nil(t, i.Err())
+	assert.NotNil(t, i.SubItem())
+}
+
+func TestSubItemNew(t *testing.T) {
+	item, err := New(&stripe.SubItemParams{
+		Quantity: 99,
+		Plan:     "plan_123",
+		Sub:      "sub_123",
+	})
+	assert.Nil(t, err)
+	assert.NotNil(t, item)
+}
+
+func TestSubItemUpdate(t *testing.T) {
+	item, err := Update("si_123", &stripe.SubItemParams{
 		Quantity: 10,
 	})
-	if err != nil {
-		t.Errorf("update err: %s", err)
-	}
-	if item.Quantity != 10 {
-		t.Errorf("quantity should be 10, not %d", item.Quantity)
-	}
-}
-
-func TestGetItem(t *testing.T) {
-	_, item, cleanup := createSubItem(t)
-	defer cleanup()
-
-	got, err := Get(item.ID, nil)
-	if err != nil {
-		t.Errorf("get err: %s", err)
-	}
-
-	if got.ID != item.ID {
-		t.Errorf("incorrect ID %s != %s", got.ID, item.ID)
-	}
-	if got.Quantity != item.Quantity {
-		t.Errorf("incorrect quantity %d != %d", got.Quantity, item.Quantity)
-	}
-	if got.Created != item.Created {
-		t.Errorf("incorrect created %d != %d", got.Created, item.Created)
-	}
-}
-
-func TestListItems(t *testing.T) {
-	sub, _, cleanup := createSubItem(t)
-	defer cleanup()
-
-	// Create a new plan
-	planID := fmt.Sprintf("test-%d", rand.Int63())
-	planParams := &stripe.PlanParams{
-		ID:       planID,
-		Name:     "Expensive plan",
-		Amount:   1000,
-		Currency: currency.USD,
-		Interval: plan.Month,
-	}
-	p, err := plan.New(planParams)
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer plan.Del(p.ID, nil)
-
-	item, err := New(&stripe.SubItemParams{
-		Sub:      sub.ID,
-		Plan:     p.ID,
-		Quantity: 2,
-	})
-	if err != nil {
-		t.Errorf("new err: %s", err)
-	}
-	if item.Quantity != 2 {
-		t.Errorf("quantity should be 2 after update, not %d", item.Quantity)
-	}
-	if item.Meta == nil || len(item.Meta) > 0 {
-		t.Errorf("Unexpected nil or non-empty metadata in SubscriptionItem\n")
-	}
-
-	if item.ID != "" {
-		item, err := Del(item.ID, nil)
-		if err != nil {
-			t.Errorf("del err: %s", err)
-		}
-		if !item.Deleted {
-			t.Errorf("item should be deleted %#v", item)
-		}
-	}
-}
-
-func TestCreateAndDelItem(t *testing.T) {
-	sub, item, cleanup := createSubItem(t)
-	defer cleanup()
-
-	item, err := New(&stripe.SubItemParams{
-		Sub:      sub.ID,
-		Plan:     item.Plan.ID,
-		Quantity: 1,
-	})
-	if err != nil {
-		t.Errorf("create err: %s", err)
-	}
-	if item.Quantity != 1 {
-		t.Errorf("quantity should be 1, not %d", item.Quantity)
-	}
-
-	item, err = Del(item.ID, nil)
-	if err != nil {
-		t.Errorf("create err: %s", err)
-	}
-	if !item.Deleted {
-		t.Error("item should be deleted")
-	}
+	assert.Nil(t, err)
+	assert.NotNil(t, item)
 }

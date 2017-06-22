@@ -7,6 +7,7 @@ import (
 	"runtime"
 	"testing"
 
+	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
 	. "github.com/stripe/stripe-go/testing"
 )
@@ -16,66 +17,55 @@ func TestCheckinUseBearerAuth(t *testing.T) {
 	key := "apiKey"
 
 	req, err := c.NewRequest("", "", key, "", nil, nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NoError(t, err)
 
-	expectedAuthorizationHeader := "Bearer " + key
-	if req.Header.Get("Authorization") != expectedAuthorizationHeader {
-		t.Fatalf("Expected Authorization %v but got %v.",
-			expectedAuthorizationHeader, req.Header.Get("Authorization"))
-	}
+	assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
 }
 
-func TestCheckinBackendConfigurationNewRequestWithStripeAccount(t *testing.T) {
+func TestIdempotencyKey(t *testing.T) {
+	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+	p := &stripe.Params{IdempotencyKey: "idempotency-key"}
+
+	req, err := c.NewRequest("", "", "", "", nil, p)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "idempotency-key", req.Header.Get("Idempotency-Key"))
+}
+
+func TestStripeAccount(t *testing.T) {
 	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
 	p := &stripe.Params{StripeAccount: TestMerchantID}
 
 	req, err := c.NewRequest("", "", "", "", nil, p)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NoError(t, err)
 
-	if req.Header.Get("Stripe-Account") != TestMerchantID {
-		t.Fatalf("Expected Stripe-Account %v but got %v.",
-			TestMerchantID, req.Header.Get("Stripe-Account"))
-	}
+	assert.Equal(t, TestMerchantID, req.Header.Get("Stripe-Account"))
 
 	// Also test the deprecated Account field for now as well. This should be
 	// identical to the exercise above.
 	p = &stripe.Params{Account: TestMerchantID}
 
 	req, err = c.NewRequest("", "", "", "", nil, p)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NoError(t, err)
 
-	if req.Header.Get("Stripe-Account") != TestMerchantID {
-		t.Fatalf("Expected Stripe-Account %v but got %v.",
-			TestMerchantID, req.Header.Get("Stripe-Account"))
-	}
+	assert.Equal(t, TestMerchantID, req.Header.Get("Stripe-Account"))
 }
 
-func TestCheckinUserAgent(t *testing.T) {
+func TestUserAgent(t *testing.T) {
 	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
 
 	req, err := c.NewRequest("", "", "", "", nil, nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NoError(t, err)
 
 	// We keep out version constant private to the package, so use a regexp
 	// match instead.
 	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[1-9][0-9.]+[0-9]$`)
 
 	match := expectedPattern.MatchString(req.Header.Get("User-Agent"))
-	if !match {
-		t.Fatalf("Expected User-Agent to match pattern %v was %v",
-			expectedPattern, req.Header.Get("User-Agent"))
-	}
+	assert.True(t, match)
 }
 
-func TestCheckinUserAgentWithAppInfo(t *testing.T) {
+func TestUserAgentWithAppInfo(t *testing.T) {
 	appInfo := &stripe.AppInfo{
 		Name:    "MyAwesomePlugin",
 		URL:     "https://myawesomeplugin.info",
@@ -87,66 +77,43 @@ func TestCheckinUserAgentWithAppInfo(t *testing.T) {
 	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
 
 	req, err := c.NewRequest("", "", "", "", nil, nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NoError(t, err)
 
 	// We keep out version constant private to the package, so use a regexp
 	// match instead.
 	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[1-9][0-9.]+[0-9] MyAwesomePlugin/1.2.34 \(https://myawesomeplugin.info\)$`)
 
 	match := expectedPattern.MatchString(req.Header.Get("User-Agent"))
-	if !match {
-		t.Fatalf("Expected User-Agent to match pattern %v was %v",
-			expectedPattern, req.Header.Get("User-Agent"))
-	}
+	assert.True(t, match)
 }
 
-func TestCheckinStripeClientUserAgent(t *testing.T) {
+func TestStripeClientUserAgent(t *testing.T) {
 	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
 
 	req, err := c.NewRequest("", "", "", "", nil, nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NoError(t, err)
 
 	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")
-	if encodedUserAgent == "" {
-		t.Fatalf("Expected X-Stripe-Client-User-Agent header to be present.")
-	}
+	assert.NotEmpty(t, encodedUserAgent)
 
 	var userAgent map[string]string
 	err = json.Unmarshal([]byte(encodedUserAgent), &userAgent)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NoError(t, err)
 
 	//
 	// Just test a few headers that we know to be stable.
 	//
 
-	if userAgent["application"] != "" {
-		t.Fatalf("Application shouldn't be set.")
-	}
-
-	if userAgent["language"] != "go" {
-		t.Fatalf("Expected X-Stripe-Client-User-Agent/language %v but got %v.",
-			"go", userAgent["language"])
-	}
-
-	if userAgent["language_version"] != runtime.Version() {
-		t.Fatalf("Expected X-Stripe-Client-User-Agent/language_version %v but got %v.",
-			runtime.Version(), userAgent["language_version"])
-	}
+	assert.Empty(t, userAgent["application"])
+	assert.Equal(t, "go", userAgent["language"])
+	assert.Equal(t, runtime.Version(), userAgent["language_version"])
 
 	// Anywhere these tests are running can reasonable be expected to have a
 	// `uname` to run, so do this basic check.
-	if userAgent["uname"] == stripe.UnknownPlatform {
-		t.Fatalf("Expected X-Stripe-Client-User-Agent/uname to have a value.")
-	}
+	assert.NotEqual(t, stripe.UnknownPlatform, userAgent["language_version"])
 }
 
-func TestCheckinStripeClientUserAgentWithAppInfo(t *testing.T) {
+func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
 	appInfo := &stripe.AppInfo{
 		Name:    "MyAwesomePlugin",
 		URL:     "https://myawesomeplugin.info",
@@ -158,37 +125,22 @@ func TestCheckinStripeClientUserAgentWithAppInfo(t *testing.T) {
 	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
 
 	req, err := c.NewRequest("", "", "", "", nil, nil)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NoError(t, err)
 
 	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")
-	if encodedUserAgent == "" {
-		t.Fatalf("Expected X-Stripe-Client-User-Agent header to be present.")
-	}
+	assert.NotEmpty(t, encodedUserAgent)
 
 	var userAgent map[string]interface{}
 	err = json.Unmarshal([]byte(encodedUserAgent), &userAgent)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NoError(t, err)
 
 	decodedAppInfo := userAgent["application"].(map[string]interface{})
-	if decodedAppInfo["name"] != appInfo.Name {
-		t.Fatalf("Expected application name %v but got %v.",
-			appInfo.Name, decodedAppInfo["name"])
-	}
-	if decodedAppInfo["url"] != appInfo.URL {
-		t.Fatalf("Expected application URL %v but got %v.",
-			appInfo.URL, decodedAppInfo["url"])
-	}
-	if decodedAppInfo["version"] != appInfo.Version {
-		t.Fatalf("Expected application version %v but got %v.",
-			appInfo.Version, decodedAppInfo["version"])
-	}
+	assert.Equal(t, appInfo.Name, decodedAppInfo["name"])
+	assert.Equal(t, appInfo.URL, decodedAppInfo["url"])
+	assert.Equal(t, appInfo.Version, decodedAppInfo["version"])
 }
 
-func TestCheckinResponseToError(t *testing.T) {
+func TestResponseToError(t *testing.T) {
 	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
 
 	// A test response that includes a status code and request ID.
@@ -208,9 +160,7 @@ func TestCheckinResponseToError(t *testing.T) {
 		Type:  stripe.ErrorTypeCard,
 	}
 	bytes, err := json.Marshal(expectedErr)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NoError(t, err)
 
 	// Unpack the error that we just serialized so that we can inject a
 	// type-specific field into it ("decline_code"). This will show up in a
@@ -218,15 +168,12 @@ func TestCheckinResponseToError(t *testing.T) {
 	// stripe.Error.
 	var raw map[string]string
 	err = json.Unmarshal(bytes, &raw)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NoError(t, err)
+
 	expectedDeclineCode := "decline-code"
 	raw["decline_code"] = expectedDeclineCode
 	bytes, err = json.Marshal(raw)
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NoError(t, err)
 
 	// A generic Golang error.
 	err = c.ResponseToError(res, wrapError(bytes))
@@ -235,47 +182,27 @@ func TestCheckinResponseToError(t *testing.T) {
 	// generic Golang error.
 	stripeErr := err.(*stripe.Error)
 
-	if expectedErr.Code != stripeErr.Code {
-		t.Fatalf("Expected code %v but got %v.", expectedErr.Code, stripeErr.Code)
-	}
-
-	if expectedErr.Msg != stripeErr.Msg {
-		t.Fatalf("Expected message %v but got %v.", expectedErr.Msg, stripeErr.Msg)
-	}
-
-	if expectedErr.Param != stripeErr.Param {
-		t.Fatalf("Expected param %v but got %v.", expectedErr.Param, stripeErr.Param)
-	}
-
-	if res.Header.Get("Request-Id") != stripeErr.RequestID {
-		t.Fatalf("Expected code %v but got %v.", res.Header.Get("Request-Id"), stripeErr.RequestID)
-	}
-
-	if res.StatusCode != stripeErr.HTTPStatusCode {
-		t.Fatalf("Expected code %v but got %v.", res.StatusCode, stripeErr.HTTPStatusCode)
-	}
-
-	if expectedErr.Type != stripeErr.Type {
-		t.Fatalf("Expected type %v but got %v.", expectedErr.Type, stripeErr.Type)
-	}
+	assert.Equal(t, expectedErr.Code, stripeErr.Code)
+	assert.Equal(t, expectedErr.Msg, stripeErr.Msg)
+	assert.Equal(t, expectedErr.Param, stripeErr.Param)
+	assert.Equal(t, res.Header.Get("Request-Id"), stripeErr.RequestID)
+	assert.Equal(t, res.StatusCode, stripeErr.HTTPStatusCode)
+	assert.Equal(t, expectedErr.Type, stripeErr.Type)
 
 	// Just a bogus type coercion to demonstrate how this code might be
 	// written. Because we've assigned ErrorTypeCard as the error's type, Err
 	// should always come out as a CardError.
 	_, ok := stripeErr.Err.(*stripe.InvalidRequestError)
-	if ok {
-		t.Fatalf("Expected error to not be coercable to InvalidRequestError.")
-	}
+	assert.False(t, ok)
 
 	cardErr, ok := stripeErr.Err.(*stripe.CardError)
-	if !ok {
-		t.Fatalf("Expected error to be coercable to CardError.")
-	}
-
-	if expectedDeclineCode != cardErr.DeclineCode {
-		t.Fatalf("Expected decline code %v but got %v.", expectedDeclineCode, cardErr.DeclineCode)
-	}
+	assert.True(t, ok)
+	assert.Equal(t, expectedDeclineCode, cardErr.DeclineCode)
 }
+
+//
+// ---
+//
 
 // A simple function that allows us to represent an error response from Stripe
 // which comes wrapper in a JSON object with a single field of "error".

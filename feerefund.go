@@ -1,21 +1,22 @@
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 // FeeRefundParams is the set of parameters that can be used when refunding a fee.
 // For more details see https://stripe.com/docs/api#fee_refund.
 type FeeRefundParams struct {
-	Params
-	Fee    string
-	Amount uint64
-	Meta   map[string]string
+	Params `form:"*"`
+	Fee    string `form:"-"` // Included in the URL
+	Amount uint64 `form:"amount"`
 }
 
 // FeeRefundListParams is the set of parameters that can be used when listing fee refunds.
 // For more details see https://stripe.com/docs/api#list_fee_refunds.
 type FeeRefundListParams struct {
-	ListParams
-	Fee string
+	ListParams `form:"*"`
+	Fee        string `form:"-"` // Included in the URL
 }
 
 // FeeRefund is the resource representing a Stripe fee refund.

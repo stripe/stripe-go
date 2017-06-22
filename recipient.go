@@ -1,6 +1,10 @@
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	"github.com/stripe/stripe-go/form"
+)
 
 // RecipientType is the list of allowed values for the recipient's type.
 // Allowed values are "individual", "corporation".
@@ -9,20 +13,38 @@ type RecipientType string
 // RecipientParams is the set of parameters that can be used when creating or updating recipients.
 // For more details see https://stripe.com/docs/api#create_recipient and https://stripe.com/docs/api#update_recipient.
 type RecipientParams struct {
-	Params
-	Name                      string
-	Type                      RecipientType
-	TaxID, Token, Email, Desc string
-	Bank                      *BankAccountParams
-	Card                      *CardParams
-	DefaultCard               string
+	Params      `form:"*"`
+	Name        string      `form:"name"`
+	TaxID       string      `form:"tax_id"`
+	Token       string      `form:"card"`
+	Email       string      `form:"email"`
+	Desc        string      `form:"description"`
+	Card        *CardParams `form:"card"`
+	DefaultCard string      `form:"default_card"`
+
+	Bank *BankAccountParams `form:"-"` // Kind of an abberation because a bank account's token will be replace the rest of its data. Keep this in a custom AppendTo for now.
+
+	Type RecipientType `form:"-"` // Doesn't seem to be used anywhere
+}
+
+// AppendTo implements some custom behavior around a recipient's bank account.
+// This was probably the wrong way to go about this, but grandfather the
+// behavior for the time being.
+func (p *RecipientParams) AppendTo(body *form.Values, keyParts []string) {
+	if p.Bank != nil {
+		if len(p.Bank.Token) > 0 {
+			body.Add("bank_account", p.Bank.Token)
+		} else {
+			form.AppendToPrefixed(body, p.Bank, append(keyParts, "bank_account"))
+		}
+	}
 }
 
 // RecipientListParams is the set of parameters that can be used when listing recipients.
 // For more details see https://stripe.com/docs/api#list_recipients.
 type RecipientListParams struct {
-	ListParams
-	Verified bool
+	ListParams `form:"*"`
+	Verified   bool `form:"verified"`
 }
 
 // Recipient is the resource representing a Stripe recipient.

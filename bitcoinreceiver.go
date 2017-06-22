@@ -8,25 +8,30 @@ import (
 // BitcoinReceiverListParams is the set of parameters that can be used when listing BitcoinReceivers.
 // For more details see https://stripe.com/docs/api/#list_bitcoin_receivers.
 type BitcoinReceiverListParams struct {
-	ListParams
-	NotFilled, NotActive, Uncaptured bool
+	ListParams `form:"*"`
+	NotFilled  bool `form:"filled,invert"`
+	NotActive  bool `form:"active,invert"`
+	Uncaptured bool `form:"uncaptured_funds"`
 }
 
 // BitcoinReceiverParams is the set of parameters that can be used when creating a BitcoinReceiver.
 // For more details see https://stripe.com/docs/api/#create_bitcoin_receiver.
 type BitcoinReceiverParams struct {
-	Params
-	Amount      uint64
-	Currency    Currency
-	Desc, Email string
+	Params   `form:"*"`
+	Amount   uint64   `form:"amount"`
+	Currency Currency `form:"currency"`
+	Desc     string   `form:"description"`
+	Email    string   `form:"email"`
 }
 
 // BitcoinReceiverUpdateParams is the set of parameters that can be used when
 // updating a BitcoinReceiver. For more details see
 // https://stripe.com/docs/api/#update_bitcoin_receiver.
 type BitcoinReceiverUpdateParams struct {
-	Params
-	Desc, Email, RefundAddr string
+	Params     `form:"*"`
+	Desc       string `form:"description"`
+	Email      string `form:"email"`
+	RefundAddr string `form:"refund_address"`
 }
 
 // BitcoinReceiver is the resource representing a Stripe bitcoin receiver.

@@ -3,6 +3,7 @@ package countryspec
 
 import (
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /country_specs and countryspec-related APIs.
@@ -30,19 +31,18 @@ func List(params *stripe.CountrySpecListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.CountrySpecListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CountrySpecList{}
 		err := c.B.Call("GET", "/country_specs", c.Key, b, p, list)
 

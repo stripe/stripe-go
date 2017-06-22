@@ -3,9 +3,9 @@ package feerefund
 
 import (
 	"fmt"
-	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /application_fees/refunds APIs.
@@ -21,13 +21,15 @@ func New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 }
 
 func (c Client) New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
-	body := &stripe.RequestValues{}
-
-	if params.Amount > 0 {
-		body.Add("amount", strconv.FormatUint(params.Amount, 10))
+	if params == nil {
+		return nil, fmt.Errorf("params cannot be nil")
+	}
+	if params.Fee == "" {
+		return nil, fmt.Errorf("params.Fee must be set")
 	}
 
-	params.AppendTo(body)
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	refund := &stripe.FeeRefund{}
 	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refunds", params.Fee), c.Key, body, &params.Params, refund)
@@ -43,11 +45,14 @@ func Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 
 func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	if params == nil {
-		return nil, fmt.Errorf("params cannot be nil, and params.Fee must be set")
+		return nil, fmt.Errorf("params cannot be nil")
+	}
+	if params.Fee == "" {
+		return nil, fmt.Errorf("params.Fee must be set")
 	}
 
-	body := &stripe.RequestValues{}
-	params.AppendTo(body)
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	refund := &stripe.FeeRefund{}
 	err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.Key, body, &params.Params, refund)
@@ -62,8 +67,15 @@ func Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error
 }
 
 func (c Client) Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
-	body := &stripe.RequestValues{}
-	params.AppendTo(body)
+	if params == nil {
+		return nil, fmt.Errorf("params cannot be nil")
+	}
+	if params.Fee == "" {
+		return nil, fmt.Errorf("params.Fee must be set")
+	}
+
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	refund := &stripe.FeeRefund{}
 	err := c.B.Call("POST", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.Key, body, &params.Params, refund)
@@ -78,15 +90,15 @@ func List(params *stripe.FeeRefundListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.FeeRefundListParams) *Iter {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 	lp = &params.ListParams
 	p = params.ToParams()
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.FeeRefundList{}
 		err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds", params.Fee), c.Key, b, p, list)
 

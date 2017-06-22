@@ -2,11 +2,10 @@
 package coupon
 
 import (
-	"errors"
 	"net/url"
-	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 const (
@@ -28,41 +27,10 @@ func New(params *stripe.CouponParams) (*stripe.Coupon, error) {
 }
 
 func (c Client) New(params *stripe.CouponParams) (*stripe.Coupon, error) {
-	// TODO: this doesn't check that the params are not nil.
-
-	body := &stripe.RequestValues{}
-	body.Add("duration", string(params.Duration))
-
-	if len(params.ID) > 0 {
-		body.Add("id", params.ID)
-	}
-
-	if params.Percent > 0 {
-		body.Add("percent_off", strconv.FormatUint(params.Percent, 10))
-	} else if params.Amount > 0 {
-		body.Add("amount_off", strconv.FormatUint(params.Amount, 10))
-		body.Add("currency", string(params.Currency))
-	} else {
-		err := errors.New("Invalid coupon params: either amount and currency or percent need to be set")
-		return nil, err
-	}
-
-	if params.Duration == Repeating {
-		body.Add("duration_in_months", strconv.FormatUint(params.DurationPeriod, 10))
-	}
-
-	if params.Redemptions > 0 {
-		body.Add("max_redemptions", strconv.FormatUint(params.Redemptions, 10))
-	}
-
-	if params.RedeemBy > 0 {
-		body.Add("redeem_by", strconv.FormatInt(params.RedeemBy, 10))
-	}
-
-	params.AppendTo(body)
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	coupon := &stripe.Coupon{}
-
 	err := c.B.Call("POST", "/coupons", c.Key, body, &params.Params, coupon)
 
 	return coupon, err
@@ -75,13 +43,13 @@ func Get(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 }
 
 func (c Client) Get(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	coupon := &stripe.Coupon{}
@@ -98,9 +66,8 @@ func Update(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 }
 
 func (c Client) Update(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
-	body := &stripe.RequestValues{}
-
-	params.AppendTo(body)
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	coupon := &stripe.Coupon{}
 	err := c.B.Call("POST", "/coupons/"+url.QueryEscape(id), c.Key, body, &params.Params, coupon)
@@ -115,13 +82,12 @@ func Del(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 }
 
 func (c Client) Del(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 
@@ -138,27 +104,18 @@ func List(params *stripe.CouponListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.CouponListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		if params.Created > 0 {
-			body.Add("created", strconv.FormatInt(params.Created, 10))
-		}
-
-		if params.CreatedRange != nil {
-			params.CreatedRange.AppendTo(body, "created")
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CouponList{}
 		err := c.B.Call("GET", "/coupons", c.Key, b, p, list)
 

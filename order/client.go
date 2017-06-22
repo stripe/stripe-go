@@ -3,9 +3,9 @@ package order
 import (
 	"errors"
 	"fmt"
-	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /orders APIs.
@@ -23,76 +23,13 @@ func New(params *stripe.OrderParams) (*stripe.Order, error) {
 // New POSTs a new order.
 // For more details see https://stripe.com/docs/api#create_order.
 func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		commonParams = &params.Params
-
-		if params.Coupon != "" {
-			body.Add("coupon", params.Coupon)
-		}
-
-		body.Add("currency", string(params.Currency))
-
-		if params.Customer != "" {
-			body.Add("customer", params.Customer)
-		}
-
-		if params.Email != "" {
-			body.Add("email", params.Email)
-		}
-
-		if len(params.Items) > 0 {
-			for _, item := range params.Items {
-				if item.Description != "" {
-					body.Add("items[][description]", item.Description)
-				}
-
-				body.Add("items[][type]", string(item.Type))
-				body.Add("items[][amount]", strconv.FormatInt(item.Amount, 10))
-				if item.Currency != "" {
-					body.Add("items[][currency]", string(item.Currency))
-				}
-				if item.Parent != "" {
-					body.Add("items[][parent]", item.Parent)
-				}
-				if item.Quantity != nil {
-					body.Add("items[][quantity]", strconv.FormatInt(*item.Quantity, 10))
-				}
-			}
-		}
-
-		if params.Shipping != nil {
-			if params.Shipping.Address != nil {
-				body.Add("shipping[address][line1]", params.Shipping.Address.Line1)
-				if params.Shipping.Address.Line2 != "" {
-					body.Add("shipping[address][line2]", params.Shipping.Address.Line2)
-				}
-				if params.Shipping.Address.City != "" {
-					body.Add("shipping[address][city]", params.Shipping.Address.City)
-				}
-				if params.Shipping.Address.Country != "" {
-					body.Add("shipping[address][country]", params.Shipping.Address.Country)
-				}
-				if params.Shipping.Address.PostalCode != "" {
-					body.Add("shipping[address][postal_code]", params.Shipping.Address.PostalCode)
-				}
-				if params.Shipping.Address.State != "" {
-					body.Add("shipping[address][state]", params.Shipping.Address.State)
-				}
-			}
-
-			if params.Shipping.Name != "" {
-				body.Add("shipping[name]", params.Shipping.Name)
-			}
-			if params.Shipping.Phone != "" {
-				body.Add("shipping[phone]", params.Shipping.Phone)
-			}
-		}
-
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	p := &stripe.Order{}
@@ -110,26 +47,13 @@ func Update(id string, params *stripe.OrderUpdateParams) (*stripe.Order, error) 
 // Update updates an order's properties.
 // For more details see https://stripe.com/docs/api#update_order.
 func (c Client) Update(id string, params *stripe.OrderUpdateParams) (*stripe.Order, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		commonParams = &params.Params
-
-		if params.Coupon != "" {
-			body.Add("coupon", params.Coupon)
-		}
-
-		if params.SelectedShippingMethod != "" {
-			body.Add("selected_shipping_method", params.SelectedShippingMethod)
-		}
-
-		if params.Status != "" {
-			body.Add("status", string(params.Status))
-		}
-
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	o := &stripe.Order{}
@@ -147,70 +71,18 @@ func Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, error) {
 // Pay pays an order
 // For more details see https://stripe.com/docs/api#pay_order.
 func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-		commonParams = &params.Params
 		if params.Source == nil && len(params.Customer) == 0 {
 			err := errors.New("Invalid order pay params: either customer or a source must be set")
 			return nil, err
 		}
-		// We can't use `AppendDetails` since that nests under `card`.
-		if params.Source != nil {
-			if len(params.Source.Token) > 0 {
-				body.Add("source", params.Source.Token)
-			} else if params.Source.Card != nil {
-				c := params.Source.Card
 
-				body.Add("source[object]", "card")
-				body.Add("source[number]", c.Number)
-				body.Add("source[exp_month]", c.Month)
-				body.Add("source[exp_year]", c.Year)
-
-				if len(c.CVC) > 0 {
-					body.Add("source[cvc]", c.CVC)
-				}
-
-				body.Add("source[name]", c.Name)
-
-				if len(c.Address1) > 0 {
-					body.Add("source[address_line1]", c.Address1)
-				}
-
-				if len(c.Address2) > 0 {
-					body.Add("source[address_line2]", c.Address2)
-				}
-				if len(c.City) > 0 {
-					body.Add("source[address_city]", c.City)
-				}
-
-				if len(c.State) > 0 {
-					body.Add("source[address_state]", c.State)
-				}
-				if len(c.Zip) > 0 {
-					body.Add("source[address_zip]", c.Zip)
-				}
-				if len(c.Country) > 0 {
-					body.Add("source[address_country]", c.Country)
-				}
-			}
-		}
-
-		if len(params.Customer) > 0 {
-			body.Add("customer", params.Customer)
-		}
-
-		if params.ApplicationFee > 0 {
-			body.Add("application_fee", strconv.FormatInt(params.ApplicationFee, 10))
-		}
-
-		if params.Email != "" {
-			body.Add("email", params.Email)
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		commonParams = &params.Params
+		form.AppendTo(body, params)
 	}
 
 	o := &stripe.Order{}
@@ -226,13 +98,13 @@ func Get(id string, params *stripe.OrderParams) (*stripe.Order, error) {
 }
 
 func (c Client) Get(id string, params *stripe.OrderParams) (*stripe.Order, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		commonParams = &params.Params
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	order := &stripe.Order{}
@@ -247,35 +119,18 @@ func List(params *stripe.OrderListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.OrderListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		if params.Created > 0 {
-			body.Add("created", strconv.FormatInt(params.Created, 10))
-		}
-
-		if params.CreatedRange != nil {
-			params.CreatedRange.AppendTo(body, "created")
-		}
-
-		for _, id := range params.IDs {
-			params.Filters.AddFilter("ids[]", "", id)
-		}
-
-		if params.Status != "" {
-			params.Filters.AddFilter("status", "", string(params.Status))
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.OrderList{}
 		err := c.B.Call("GET", "/orders", c.Key, b, p, list)
 
@@ -310,34 +165,12 @@ func Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, e
 // Return returns all or part of an order.
 // For more details see https://stripe.com/docs/api#return_order.
 func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		if len(params.Items) > 0 {
-			for _, item := range params.Items {
-				if item.Description != "" {
-					body.Add("items[][description]", item.Description)
-				}
-				body.Add("items[][type]", string(item.Type))
-				if item.Amount > 0 {
-					body.Add("items[][amount]", strconv.FormatInt(item.Amount, 10))
-				}
-				if item.Currency != "" {
-					body.Add("items[][currency]", string(item.Currency))
-				}
-				if item.Parent != "" {
-					body.Add("items[][parent]", item.Parent)
-				}
-				if item.Quantity != nil {
-					body.Add("items[][quantity]", strconv.FormatInt(*item.Quantity, 10))
-				}
-			}
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	ret := &stripe.OrderReturn{}

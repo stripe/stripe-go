@@ -5,16 +5,17 @@ import "encoding/json"
 // FeeParams is the set of parameters that can be used when refunding an application fee.
 // For more details see https://stripe.com/docs/api#refund_application_fee.
 type FeeParams struct {
-	Params
+	Params `form:"*"`
 	Amount uint64
 }
 
 // FeeListParams is the set of parameters that can be used when listing application fees.
 // For more details see https://stripe.com/docs/api#list_application_fees.
 type FeeListParams struct {
-	ListParams
-	Created int64
-	Charge  string
+	ListParams   `form:"*"`
+	Created      int64             `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	Charge       string            `form:"charge"`
 }
 
 // Fee is the resource representing a Stripe application fee.

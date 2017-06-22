@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke discount-related APIs.
@@ -20,13 +21,12 @@ func Del(customerID string, params *stripe.DiscountParams) (*stripe.Discount, er
 }
 
 func (c Client) Del(customerID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 
@@ -43,13 +43,12 @@ func DelSub(subscriptionID string, params *stripe.DiscountParams) (*stripe.Disco
 }
 
 func (c Client) DelSub(subscriptionID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 
