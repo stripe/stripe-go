@@ -3,7 +3,6 @@ package plan
 
 import (
 	"net/url"
-	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
 )
@@ -23,29 +22,13 @@ type Client struct {
 
 // New POSTs a new plan.
 // For more details see https://stripe.com/docs/api#create_plan.
-func New(params *stripe.PlanParams) (*stripe.Plan, error) {
+func New(params *PlanParams) (*stripe.Plan, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
+func (c Client) New(params *PlanParams) (*stripe.Plan, error) {
 	body := &stripe.RequestValues{}
-	body.Add("id", params.ID)
-	body.Add("name", params.Name)
-	body.Add("amount", strconv.FormatUint(params.Amount, 10))
-	body.Add("currency", string(params.Currency))
-	body.Add("interval", string(params.Interval))
-
-	if params.IntervalCount > 0 {
-		body.Add("interval_count", strconv.FormatUint(params.IntervalCount, 10))
-	}
-
-	if params.TrialPeriod > 0 {
-		body.Add("trial_period_days", strconv.FormatUint(params.TrialPeriod, 10))
-	}
-
-	if len(params.Statement) > 0 {
-		body.Add("statement_descriptor", params.Statement)
-	}
+	params.Params.AppendTo(body)
 	params.AppendTo(body)
 
 	plan := &stripe.Plan{}
@@ -56,17 +39,18 @@ func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
 
 // Get returns the details of a plan.
 // For more details see https://stripe.com/docs/api#retrieve_plan.
-func Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
+func Get(id string, params *PlanParams) (*stripe.Plan, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
+func (c Client) Get(id string, params *PlanParams) (*stripe.Plan, error) {
 	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
 		body = &stripe.RequestValues{}
+		params.Params.AppendTo(body)
 		params.AppendTo(body)
 	}
 
@@ -78,26 +62,18 @@ func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) 
 
 // Update updates a plan's properties.
 // For more details see https://stripe.com/docs/api#update_plan.
-func Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
+func Update(id string, params *PlanParams) (*stripe.Plan, error) {
 	return getC().Update(id, params)
 }
 
-func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
+func (c Client) Update(id string, params *PlanParams) (*stripe.Plan, error) {
 	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
 		body = &stripe.RequestValues{}
-
-		if len(params.Name) > 0 {
-			body.Add("name", params.Name)
-		}
-
-		if len(params.Statement) > 0 {
-			body.Add("statement_descriptor", params.Statement)
-		}
-
+		params.Params.AppendTo(body)
 		params.AppendTo(body)
 	}
 
@@ -116,24 +92,22 @@ func Del(id string) (*stripe.Plan, error) {
 func (c Client) Del(id string) (*stripe.Plan, error) {
 	plan := &stripe.Plan{}
 	err := c.B.Call("DELETE", "/plans/"+url.QueryEscape(id), c.Key, nil, nil, plan)
-
 	return plan, err
 }
 
 // List returns a list of plans.
 // For more details see https://stripe.com/docs/api#list_plans.
-func List(params *stripe.PlanListParams) *Iter {
+func List(params *PlanListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.PlanListParams) *Iter {
+func (c Client) List(params *PlanListParams) *Iter {
 	var body *stripe.RequestValues
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
 		body = &stripe.RequestValues{}
-
 		params.AppendTo(body)
 		lp = &params.ListParams
 		p = params.ToParams()

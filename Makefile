@@ -6,6 +6,9 @@ check-gofmt:
 checkin:
 	go test -run "TestCheckin*" ./client
 
+	# Whitelisted sets of tests that use stripestub
+	go test ./plan
+
 test:
 	go test ./... -p=1
 

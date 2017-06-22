@@ -4,24 +4,6 @@ package stripe
 // Allowed values are "day", "week", "month", "year".
 type PlanInterval string
 
-// PlanParams is the set of parameters that can be used when creating or updating a plan.
-// For more details see https://stripe.com/docs/api#create_plan and https://stripe.com/docs/api#update_plan.
-type PlanParams struct {
-	Params
-	ID, Name                   string
-	Currency                   Currency
-	Amount                     uint64
-	Interval                   PlanInterval
-	IntervalCount, TrialPeriod uint64
-	Statement                  string
-}
-
-// PlanListParams is the set of parameters that can be used when listing plans.
-// For more details see https://stripe.com/docs/api#list_plans.
-type PlanListParams struct {
-	ListParams
-}
-
 // Plan is the resource representing a Stripe plan.
 // For more details see https://stripe.com/docs/api#plans.
 type Plan struct {
