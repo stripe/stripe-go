@@ -63,7 +63,7 @@ func TestPlanNew(t *testing.T) {
 		t.Errorf("Statement %q does not match expected statement %q\n", target.Statement, planParams.Statement)
 	}
 
-	Del(planParams.ID)
+	Del(planParams.ID, nil)
 }
 
 func TestPlanGet(t *testing.T) {
@@ -86,7 +86,7 @@ func TestPlanGet(t *testing.T) {
 		t.Errorf("Plan id %q does not match expected id %q\n", target.ID, planParams.ID)
 	}
 
-	Del(planParams.ID)
+	Del(planParams.ID, nil)
 }
 
 func TestPlanUpdate(t *testing.T) {
@@ -127,7 +127,7 @@ func TestPlanUpdate(t *testing.T) {
 		t.Errorf("TrialPeriod %q does not match expected trial period %q\n", target.TrialPeriod, updatedPlan.TrialPeriod)
 	}
 
-	Del(planParams.ID)
+	Del(planParams.ID, nil)
 }
 
 func TestPlanDel(t *testing.T) {
@@ -141,7 +141,7 @@ func TestPlanDel(t *testing.T) {
 
 	New(planParams)
 
-	planDel, err := Del(planParams.ID)
+	planDel, err := Del(planParams.ID, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -188,6 +188,6 @@ func TestPlanList(t *testing.T) {
 	}
 
 	for i := 0; i < runs; i++ {
-		Del(fmt.Sprintf("test_%v", i))
+		Del(fmt.Sprintf("test_%v", i), nil)
 	}
 }

@@ -2,6 +2,7 @@
 package plan
 
 import (
+	"fmt"
 	"net/url"
 	"strconv"
 
@@ -113,13 +114,25 @@ func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, erro
 
 // Del removes a plan.
 // For more details see https://stripe.com/docs/api#delete_plan.
-func Del(id string) (*stripe.Plan, error) {
-	return getC().Del(id)
+func Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
+	return getC().Del(id, params)
 }
 
-func (c Client) Del(id string) (*stripe.Plan, error) {
+func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
+	var body *stripe.RequestValues
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &stripe.RequestValues{}
+
+		params.AppendTo(body)
+		commonParams = &params.Params
+	}
+
 	plan := &stripe.Plan{}
-	err := c.B.Call("DELETE", "/plans/"+url.QueryEscape(id), c.Key, nil, nil, plan)
+	qid := url.QueryEscape(id) //Added query escape per commit 9821176
+
+	err := c.B.Call("DELETE", fmt.Sprintf("/plans/%v", qid), c.Key, body, commonParams, plan)
 
 	return plan, err
 }
