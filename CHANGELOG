@@ -1,3 +1,6 @@
+23.0.0 2017-06-23
+	plan.Del now takes `stripe.PlanParams` as a second argument
+
 22.6.0 2017-06-19
 	Support for ephemeral keys
 
