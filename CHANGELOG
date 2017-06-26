@@ -1,3 +1,6 @@
+23.2.1 2017-06-26
+	Fix bank account retrieval when using a customer ID
+
 23.2.0 2017-06-26
 	Support sharing path while creating a source
 
