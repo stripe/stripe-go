@@ -97,7 +97,7 @@ func (c Client) Get(id string, params *stripe.BankAccountParams) (*stripe.BankAc
 	var err error
 
 	if len(params.Customer) > 0 {
-		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/bank_accounts/%v", params.AccountID, id), c.Key, body, commonParams, ba)
+		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/bank_accounts/%v", params.Customer, id), c.Key, body, commonParams, ba)
 	} else if len(params.AccountID) > 0 {
 		err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/bank_accounts/%v", params.AccountID, id), c.Key, body, commonParams, ba)
 	} else {
