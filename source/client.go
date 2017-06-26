@@ -29,10 +29,16 @@ func (c Client) New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 		body = &stripe.RequestValues{}
 		commonParams = &params.Params
 
-		// Required fields
-		body.Add("type", params.Type)
-
 		// Optional fields
+		if params.Type != "" {
+			body.Add("type", params.Type)
+		}
+		if params.Usage != "" {
+			body.Add("usage", string(params.Usage))
+		}
+		if params.Customer != "" {
+			body.Add("customer", params.Customer)
+		}
 		if params.Currency != "" {
 			body.Add("currency", string(params.Currency))
 		}
