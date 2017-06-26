@@ -164,6 +164,7 @@ func (a *API) Init(key string, backends *Backends) {
 	a.Discounts = &discount.Client{B: backends.API, Key: key}
 	a.Invoices = &invoice.Client{B: backends.API, Key: key}
 	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}
+	a.LoginLinks = &loginlink.Client{B: backends.API, Key: key}
 	a.Disputes = &dispute.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
 	a.Payouts = &payout.Client{B: backends.API, Key: key}
