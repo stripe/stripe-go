@@ -96,17 +96,22 @@ func (c Client) Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, e
 
 // Pay pays an invoice.
 // For more details see https://stripe.com/docs/api#pay_invoice.
-func Pay(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
+func Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice, error) {
 	return getC().Pay(id, params)
 }
 
-func (c Client) Pay(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
+func (c Client) Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice, error) {
 	var body *stripe.RequestValues
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
 		body = &stripe.RequestValues{}
+
+		if params.Source != "" {
+			body.Add("source", params.Source)
+		}
+
 		params.AppendTo(body)
 	}
 
