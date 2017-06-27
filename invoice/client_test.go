@@ -488,11 +488,11 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Errorf("Invoice was not reponed as expected and its value is %v", targetInvoiceOpened.Closed)
 	}
 
-	paidInvoice := &stripe.InvoiceParams{
-		Paid: true,
+	payInvoice := &stripe.InvoicePayParams{
+		Source: cust.Sources.Values[0].Card.ID,
 	}
 
-	targetInvoicePaid, err := Update(targetInvoiceClosed.ID, paidInvoice)
+	targetInvoicePaid, err := Pay(targetInvoice.ID, payInvoice)
 
 	if err != nil {
 		t.Error(err)
@@ -502,7 +502,7 @@ func TestAllInvoicesScenarios(t *testing.T) {
 		t.Errorf("Updated invoice paid status %v does not match expected true\n", targetInvoiceUpdated.Paid)
 	}
 
-	_, err = plan.Del(planParams.ID)
+	_, err = plan.Del(planParams.ID, nil)
 	if err != nil {
 		t.Error(err)
 	}

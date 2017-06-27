@@ -127,6 +127,14 @@ type InvoiceLineList struct {
 	Values []*InvoiceLine `json:"data"`
 }
 
+// InvoicePayParams is the set of parameters that can be used when
+// paying invoices. For more details, see:
+// https://stripe.com/docs/api#pay_invoice.
+type InvoicePayParams struct {
+	Params
+	Source string
+}
+
 // UnmarshalJSON handles deserialization of an Invoice.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
