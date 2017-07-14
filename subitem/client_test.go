@@ -62,7 +62,7 @@ func createSubItem(t *testing.T) (*stripe.Sub, *stripe.SubItem, func()) {
 	}
 	return target, target.Items.Values[0], func() {
 		sub.Cancel(target.ID, nil)
-		plan.Del(p.ID)
+		plan.Del(p.ID, nil)
 		customer.Del(cust.ID)
 	}
 }
@@ -119,7 +119,7 @@ func TestListItems(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer plan.Del(p.ID)
+	defer plan.Del(p.ID, nil)
 
 	item, err := New(&stripe.SubItemParams{
 		Sub:      sub.ID,
