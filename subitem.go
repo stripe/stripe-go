@@ -22,11 +22,12 @@ type SubItemListParams struct {
 // SubItem is the resource representing a Stripe subscription item.
 // For more details see https://stripe.com/docs/api#subscription_items.
 type SubItem struct {
-	ID       string `json:"id"`
-	Plan     *Plan  `json:"plan"`
-	Quantity uint64 `json:"quantity"`
-	Created  int64  `json:"created"`
-	Deleted  bool   `json:"deleted"`
+	ID       string            `json:"id"`
+	Plan     *Plan             `json:"plan"`
+	Quantity uint64            `json:"quantity"`
+	Created  int64             `json:"created"`
+	Deleted  bool              `json:"deleted"`
+	Meta     map[string]string `json:"metadata"`
 }
 
 // SubItemList is a list of invoice items as retrieved from a list endpoint.
