@@ -132,6 +132,9 @@ func TestListItems(t *testing.T) {
 	if item.Quantity != 2 {
 		t.Errorf("quantity should be 2 after update, not %d", item.Quantity)
 	}
+	if item.Meta == nil || len(item.Meta) > 0 {
+		t.Errorf("Unexpected nil or non-empty metadata in SubscriptionItem\n")
+	}
 
 	if item.ID != "" {
 		item, err := Del(item.ID, nil)
