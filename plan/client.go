@@ -151,6 +151,10 @@ func (c Client) List(params *stripe.PlanListParams) *Iter {
 	if params != nil {
 		body = &stripe.RequestValues{}
 
+		if params.Created != nil {
+			params.Created.AppendTo(body, "created")
+		}
+
 		params.AppendTo(body)
 		lp = &params.ListParams
 		p = params.ToParams()

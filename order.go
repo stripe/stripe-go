@@ -109,8 +109,9 @@ type OrderList struct {
 // https://stripe.com/docs/api#list_orders.
 type OrderListParams struct {
 	ListParams
-	IDs    []string
-	Status OrderStatus
+	Created *RangeQueryParams
+	IDs     []string
+	Status  OrderStatus
 }
 
 // StatsuTransitions are the timestamps at which the order status was updated

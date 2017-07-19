@@ -70,8 +70,8 @@ type PayoutParams struct {
 // For more details see https://stripe.com/docs/api#list_payouts.
 type PayoutListParams struct {
 	ListParams
-	ArrivalDate int64
-	Created     int64
+	ArrivalDate *RangeQueryParams
+	Created     *RangeQueryParams
 	Destination string
 	Status      PayoutStatus
 }

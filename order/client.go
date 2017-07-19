@@ -254,6 +254,10 @@ func (c Client) List(params *stripe.OrderListParams) *Iter {
 	if params != nil {
 		body = &stripe.RequestValues{}
 
+		if params.Created != nil {
+			params.Created.AppendTo(body, "created")
+		}
+
 		for _, id := range params.IDs {
 			params.Filters.AddFilter("ids[]", "", id)
 		}
