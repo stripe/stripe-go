@@ -9,6 +9,69 @@ import (
 	. "github.com/stripe/stripe-go/testing"
 )
 
+func TestCheckinRangeQueryParamsAppendTo(t *testing.T) {
+	{
+		values := &stripe.RequestValues{}
+
+		// Try it with an empty set of parameters
+		params := &stripe.RangeQueryParams{}
+		params.AppendTo(values, "created")
+
+		if !values.Empty() {
+			t.Fatalf("Expected request values to be empty")
+		}
+	}
+
+	{
+		values := &stripe.RequestValues{}
+
+		// Try it with an empty set of parameters
+		params := &stripe.RangeQueryParams{
+			GreaterThan:        10,
+			GreaterThanOrEqual: 20,
+			LesserThan:         30,
+			LesserThanOrEqual:  40,
+		}
+		params.AppendTo(values, "created")
+
+		{
+			value := values.Get("created[gt]")
+			if len(value) != 1 || value[0] != "10" {
+				t.Fatalf(
+					"Expected encoded value of 10 for created[gt] but got %v.",
+					value)
+			}
+		}
+
+		{
+			value := values.Get("created[gte]")
+			if len(value) != 1 || value[0] != "20" {
+				t.Fatalf(
+					"Expected encoded value of 10 for created[gte] but got %v.",
+					value)
+			}
+		}
+
+		{
+			value := values.Get("created[lt]")
+			if len(value) != 1 || value[0] != "30" {
+				t.Fatalf(
+					"Expected encoded value of 10 for created[lt] but got %v.",
+					value)
+			}
+		}
+
+		{
+			value := values.Get("created[lte]")
+			if len(value) != 1 || value[0] != "40" {
+				t.Fatalf(
+					"Expected encoded value of 10 for created[lte] but got %v.",
+					value)
+			}
+		}
+	}
+}
+
 func TestRequestValues(t *testing.T) {
 	values := &stripe.RequestValues{}
 

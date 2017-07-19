@@ -47,7 +47,7 @@ type EventList struct {
 // For more details see https://stripe.com/docs/api#list_events.
 type EventListParams struct {
 	ListParams
-	Created int64
+	Created *RangeQueryParams
 	// Type is one of the values documented at https://stripe.com/docs/api#event_types.
 	Type string
 }

@@ -158,6 +158,44 @@ type ListMeta struct {
 	URL   string `json:"url"`
 }
 
+// RangeQueryParams are a set of generic request parameters that are used on
+// list endpoints to filter their results by some timestamp.
+type RangeQueryParams struct {
+	// GreaterThan specifies that values should be a greater than this
+	// timestamp.
+	GreaterThan int64
+
+	// GreaterThanOrEqual specifies that values should be greater than or equal
+	// to this timestamp.
+	GreaterThanOrEqual int64
+
+	// LesserThan specifies that values should be lesser than this timetamp.
+	LesserThan int64
+
+	// LesserThanOrEqual specifies that values should be lesser than or
+	// equalthis timetamp.
+	LesserThanOrEqual int64
+}
+
+// AppendTo adds the range query parametes to a set of request values.
+func (r *RangeQueryParams) AppendTo(values *RequestValues, name string) {
+	if r.GreaterThan > 0 {
+		values.Add(name+"[gt]", strconv.FormatInt(r.GreaterThan, 10))
+	}
+
+	if r.GreaterThanOrEqual > 0 {
+		values.Add(name+"[gte]", strconv.FormatInt(r.GreaterThanOrEqual, 10))
+	}
+
+	if r.LesserThan > 0 {
+		values.Add(name+"[lt]", strconv.FormatInt(r.LesserThan, 10))
+	}
+
+	if r.LesserThanOrEqual > 0 {
+		values.Add(name+"[lte]", strconv.FormatInt(r.LesserThanOrEqual, 10))
+	}
+}
+
 // Filters is a structure that contains a collection of filters for list-related APIs.
 type Filters struct {
 	f []*filter
