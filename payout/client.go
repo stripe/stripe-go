@@ -157,12 +157,20 @@ func (c Client) List(params *stripe.PayoutListParams) *Iter {
 	if params != nil {
 		body = &stripe.RequestValues{}
 
-		if params.ArrivalDate != nil {
-			params.ArrivalDate.AppendTo(body, "arrival_date")
+		if params.ArrivalDate > 0 {
+			body.Add("created", strconv.FormatInt(params.ArrivalDate, 10))
 		}
 
-		if params.Created != nil {
-			params.Created.AppendTo(body, "created")
+		if params.ArrivalDateRange != nil {
+			params.ArrivalDateRange.AppendTo(body, "arrival_date")
+		}
+
+		if params.Created > 0 {
+			body.Add("created", strconv.FormatInt(params.Created, 10))
+		}
+
+		if params.CreatedRange != nil {
+			params.CreatedRange.AppendTo(body, "created")
 		}
 
 		if len(params.Destination) > 0 {

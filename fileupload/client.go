@@ -4,6 +4,7 @@ package fileupload
 import (
 	"bytes"
 	"fmt"
+	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
 )
@@ -79,6 +80,14 @@ func (c Client) List(params *stripe.FileUploadListParams) *Iter {
 
 	if params != nil {
 		body = &stripe.RequestValues{}
+
+		if params.Created > 0 {
+			body.Add("created", strconv.FormatInt(params.Created, 10))
+		}
+
+		if params.CreatedRange != nil {
+			params.CreatedRange.AppendTo(body, "created")
+		}
 
 		if len(params.Purpose) > 0 {
 			body.Add("purpose", string(params.Purpose))

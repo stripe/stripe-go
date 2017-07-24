@@ -68,7 +68,8 @@ type DisputeEvidenceParams struct {
 // For more details see https://stripe.com/docs/api#list_disputes.
 type DisputeListParams struct {
 	ListParams
-	Created int64
+	Created      int64
+	CreatedRange *RangeQueryParams
 }
 
 // Dispute is the resource representing a Stripe dispute.

@@ -32,7 +32,8 @@ type TransferParams struct {
 type TransferListParams struct {
 	ListParams
 	Amount        int64
-	Created       *RangeQueryParams
+	Created       int64
+	CreatedRange  *RangeQueryParams
 	Currency      Currency
 	Dest          string
 	TransferGroup string

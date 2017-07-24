@@ -193,6 +193,10 @@ func (c Client) List(params *stripe.CustomerListParams) *Iter {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
 		}
 
+		if params.CreatedRange != nil {
+			params.CreatedRange.AppendTo(body, "created")
+		}
+
 		params.AppendTo(body)
 		lp = &params.ListParams
 		p = params.ToParams()

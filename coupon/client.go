@@ -135,8 +135,12 @@ func (c Client) List(params *stripe.CouponListParams) *Iter {
 	if params != nil {
 		body = &stripe.RequestValues{}
 
-		if params.Created != nil {
-			params.Created.AppendTo(body, "created")
+		if params.Created > 0 {
+			body.Add("created", strconv.FormatInt(params.Created, 10))
+		}
+
+		if params.CreatedRange != nil {
+			params.CreatedRange.AppendTo(body, "created")
 		}
 
 		params.AppendTo(body)

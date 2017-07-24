@@ -94,8 +94,16 @@ func (c Client) List(params *stripe.TxListParams) *Iter {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
 		}
 
+		if params.CreatedRange != nil {
+			params.CreatedRange.AppendTo(body, "created")
+		}
+
 		if params.Available > 0 {
 			body.Add("available_on", strconv.FormatInt(params.Available, 10))
+		}
+
+		if params.AvailableRange != nil {
+			params.AvailableRange.AppendTo(body, "available_on")
 		}
 
 		if len(params.Currency) > 0 {
