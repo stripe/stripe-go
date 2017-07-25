@@ -18,8 +18,9 @@ type InvoiceItemParams struct {
 // For more details see https://stripe.com/docs/api#list_invoiceitems.
 type InvoiceItemListParams struct {
 	ListParams
-	Created  int64
-	Customer string
+	Created      int64
+	CreatedRange *RangeQueryParams
+	Customer     string
 }
 
 // InvoiceItem is the resource represneting a Stripe invoice item.

@@ -20,6 +20,8 @@ type PlanParams struct {
 // For more details see https://stripe.com/docs/api#list_plans.
 type PlanListParams struct {
 	ListParams
+	Created      int64
+	CreatedRange *RangeQueryParams
 }
 
 // Plan is the resource representing a Stripe plan.

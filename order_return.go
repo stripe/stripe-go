@@ -23,7 +23,9 @@ type OrderReturnList struct {
 // returns. For more details, see: https://stripe.com/docs/api#list_order_returns.
 type OrderReturnListParams struct {
 	ListParams
-	Order string
+	Created      int64
+	CreatedRange *RangeQueryParams
+	Order        string
 }
 
 // UnmarshalJSON handles deserialization of an OrderReturn.

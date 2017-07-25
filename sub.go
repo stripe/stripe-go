@@ -45,10 +45,12 @@ type SubItemsParams struct {
 // For more details see https://stripe.com/docs/api#list_subscriptions.
 type SubListParams struct {
 	ListParams
-	Customer string
-	Plan     string
-	Status   SubStatus
-	Billing  SubBilling
+	Created      int64
+	CreatedRange *RangeQueryParams
+	Customer     string
+	Plan         string
+	Status       SubStatus
+	Billing      SubBilling
 }
 
 // Sub is the resource representing a Stripe subscription.

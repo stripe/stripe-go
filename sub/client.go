@@ -282,6 +282,14 @@ func (c Client) List(params *stripe.SubListParams) *Iter {
 	if params != nil {
 		body = &stripe.RequestValues{}
 
+		if params.Created > 0 {
+			body.Add("created", strconv.FormatInt(params.Created, 10))
+		}
+
+		if params.CreatedRange != nil {
+			params.CreatedRange.AppendTo(body, "created")
+		}
+
 		if len(params.Customer) > 0 {
 			body.Add("customer", params.Customer)
 		}

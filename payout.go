@@ -70,10 +70,12 @@ type PayoutParams struct {
 // For more details see https://stripe.com/docs/api#list_payouts.
 type PayoutListParams struct {
 	ListParams
-	ArrivalDate int64
-	Created     int64
-	Destination string
-	Status      PayoutStatus
+	ArrivalDate      int64
+	ArrivalDateRange *RangeQueryParams
+	Created          int64
+	CreatedRange     *RangeQueryParams
+	Destination      string
+	Status           PayoutStatus
 }
 
 // Payout is the resource representing a Stripe payout.

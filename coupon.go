@@ -21,6 +21,8 @@ type CouponParams struct {
 // For more detail see https://stripe.com/docs/api#list_coupons.
 type CouponListParams struct {
 	ListParams
+	Created      int64
+	CreatedRange *RangeQueryParams
 }
 
 // Coupon is the resource representing a Stripe coupon.

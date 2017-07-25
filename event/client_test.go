@@ -37,10 +37,6 @@ func TestEvent(t *testing.T) {
 			t.Errorf("Type is not set\n")
 		}
 
-		if len(e.Req) == 0 {
-			t.Errorf("Request is not set\n")
-		}
-
 		if e.Data == nil {
 			t.Errorf("Data is not set\n")
 		}

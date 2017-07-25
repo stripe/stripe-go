@@ -118,6 +118,10 @@ func (c Client) List(params *stripe.TransferListParams) *Iter {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
 		}
 
+		if params.CreatedRange != nil {
+			params.CreatedRange.AppendTo(body, "created")
+		}
+
 		if params.Currency != "" {
 			body.Add("currency", string(params.Currency))
 		}

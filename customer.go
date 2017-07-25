@@ -36,7 +36,8 @@ func (cp *CustomerParams) SetSource(sp interface{}) error {
 // For more details see https://stripe.com/docs/api#list_customers.
 type CustomerListParams struct {
 	ListParams
-	Created int64
+	Created      int64
+	CreatedRange *RangeQueryParams
 }
 
 // Customer is the resource representing a Stripe customer.

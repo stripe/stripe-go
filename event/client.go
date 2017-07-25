@@ -44,6 +44,10 @@ func (c Client) List(params *stripe.EventListParams) *Iter {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
 		}
 
+		if params.CreatedRange != nil {
+			params.CreatedRange.AppendTo(body, "created")
+		}
+
 		if len(params.Type) > 0 {
 			body.Add("type", params.Type)
 		}

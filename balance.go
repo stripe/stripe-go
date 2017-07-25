@@ -72,7 +72,10 @@ type TxParams struct {
 // For more details see https://stripe.com/docs/api/#balance_history.
 type TxListParams struct {
 	ListParams
-	Created, Available    int64
+	Created               int64
+	CreatedRange          *RangeQueryParams
+	Available             int64
+	AvailableRange        *RangeQueryParams
 	Currency, Src, Payout string
 	Type                  TransactionType
 }

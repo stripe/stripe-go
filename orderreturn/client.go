@@ -1,6 +1,8 @@
 package orderreturn
 
 import (
+	"strconv"
+
 	"github.com/stripe/stripe-go"
 )
 
@@ -22,6 +24,14 @@ func (c Client) List(params *stripe.OrderReturnListParams) *Iter {
 
 	if params != nil {
 		body = &stripe.RequestValues{}
+
+		if params.Created > 0 {
+			body.Add("created", strconv.FormatInt(params.Created, 10))
+		}
+
+		if params.CreatedRange != nil {
+			params.CreatedRange.AppendTo(body, "created")
+		}
 
 		if params.Order != "" {
 			params.Filters.AddFilter("order", "", params.Order)

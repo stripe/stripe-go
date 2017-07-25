@@ -47,6 +47,7 @@ func (cp *ChargeParams) SetSource(sp interface{}) error {
 type ChargeListParams struct {
 	ListParams
 	Created       int64
+	CreatedRange  *RangeQueryParams
 	Customer      string
 	TransferGroup string
 }
