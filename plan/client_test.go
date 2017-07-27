@@ -31,7 +31,11 @@ func TestPlanList(t *testing.T) {
 
 func TestPlanNew(t *testing.T) {
 	plan, err := New(&stripe.PlanParams{
-		Name: "Test Plan",
+		Amount:   1,
+		Currency: "usd",
+		ID:       "sapphire-elite",
+		Interval: "month",
+		Name:     "Sapphire Elite",
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, plan)

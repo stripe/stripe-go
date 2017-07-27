@@ -7,6 +7,29 @@ import (
 	assert "github.com/stretchr/testify/require"
 )
 
+func TestPlanListParamsAppendTo(t *testing.T) {
+	var body *RequestValues
+	var params PlanListParams
+
+	// Should run even with an empty set of parameters
+	body = &RequestValues{}
+	params.AppendTo(body)
+	assert.True(t, body.Empty())
+
+	body = &RequestValues{}
+	params = PlanListParams{
+		Created:      123,
+		CreatedRange: &RangeQueryParams{GreaterThan: 123},
+	}
+	params.AppendTo(body)
+
+	values := body.ToValues()
+	assert.Equal(t, strconv.FormatInt(params.Created, 10),
+		values.Get("created"))
+	assert.Equal(t, strconv.FormatInt(params.CreatedRange.GreaterThan, 10),
+		values.Get("created[gt]"))
+}
+
 func TestPlanParamsAppendTo(t *testing.T) {
 	var body *RequestValues
 	var params PlanParams
@@ -28,13 +51,22 @@ func TestPlanParamsAppendTo(t *testing.T) {
 		TrialPeriod:   30,
 	}
 	params.AppendTo(body)
+
 	values := body.ToValues()
-	assert.Equal(t, strconv.FormatUint(params.Amount, 10), values.Get("amount"))
-	assert.Equal(t, string(params.Currency), values.Get("currency"))
-	assert.Equal(t, params.ID, values.Get("id"))
-	assert.Equal(t, string(params.Interval), values.Get("interval"))
-	assert.Equal(t, strconv.FormatUint(params.IntervalCount, 10), values.Get("interval_count"))
-	assert.Equal(t, params.Name, values.Get("name"))
-	assert.Equal(t, params.Statement, values.Get("statement_descriptor"))
-	assert.Equal(t, strconv.FormatUint(params.TrialPeriod, 10), values.Get("trial_period_days"))
+	assert.Equal(t, strconv.FormatUint(params.Amount, 10),
+		values.Get("amount"))
+	assert.Equal(t, string(params.Currency),
+		values.Get("currency"))
+	assert.Equal(t, params.ID,
+		values.Get("id"))
+	assert.Equal(t, string(params.Interval),
+		values.Get("interval"))
+	assert.Equal(t, strconv.FormatUint(params.IntervalCount, 10),
+		values.Get("interval_count"))
+	assert.Equal(t, params.Name,
+		values.Get("name"))
+	assert.Equal(t, params.Statement,
+		values.Get("statement_descriptor"))
+	assert.Equal(t, strconv.FormatUint(params.TrialPeriod, 10),
+		values.Get("trial_period_days"))
 }

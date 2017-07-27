@@ -1,7 +1,6 @@
 package testing
 
 import (
-	"log"
 	"net/http"
 	"os"
 
@@ -23,7 +22,7 @@ const (
 func init() {
 	port := os.Getenv("STRIPE_STUB_PORT")
 	if port == "" {
-		log.Fatalf("Please specify STRIPE_STUB_PORT. See README for setup instructions.")
+		port = "12111"
 	}
 
 	stripe.Key = "sk_test_myTestKey"
@@ -32,4 +31,6 @@ func init() {
 		"http://localhost:" + port + "/v1",
 		&http.Client{},
 	})
+
+	// TODO: sample connection and version check
 }
