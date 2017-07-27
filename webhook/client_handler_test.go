@@ -1,11 +1,12 @@
-package webhook
+package webhook_test
 
 import (
 	"fmt"
-	"github.com/stripe/stripe-go/webhook"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/stripe/stripe-go/webhook"
 )
 
 func Example() {

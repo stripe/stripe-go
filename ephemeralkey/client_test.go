@@ -7,7 +7,6 @@ import (
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/customer"
-	"github.com/stripe/stripe-go/ephemeralkey"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -21,7 +20,7 @@ func TestEphemeralKeyCreate(t *testing.T) {
 		t.Fatalf("%+v", err)
 	}
 
-	k, err := ephemeralkey.New(&stripe.EphemeralKeyParams{
+	k, err := New(&stripe.EphemeralKeyParams{
 		Customer:      cust.ID,
 		StripeVersion: "2017-05-25",
 	})
@@ -41,7 +40,7 @@ func TestEphemeralKeyCreate(t *testing.T) {
 		t.Fatal("Incorrect associated object Type for ephkey")
 	}
 
-	k, err = ephemeralkey.New(&stripe.EphemeralKeyParams{
+	k, err = New(&stripe.EphemeralKeyParams{
 		Customer: cust.ID,
 	})
 	if err.Error() != "params.StripeVersion must be specified" {
@@ -75,7 +74,7 @@ func TestEphemeralKeyDelete(t *testing.T) {
 		t.Fatalf("%+v", err)
 	}
 
-	k, err := ephemeralkey.New(&stripe.EphemeralKeyParams{
+	k, err := New(&stripe.EphemeralKeyParams{
 		Customer:      cust.ID,
 		StripeVersion: "2017-05-25",
 	})
@@ -83,7 +82,7 @@ func TestEphemeralKeyDelete(t *testing.T) {
 		t.Fatalf("%+v", err)
 	}
 
-	k, err = ephemeralkey.Del(k.ID)
+	k, err = Del(k.ID)
 	if err != nil {
 		t.Fatalf("%+v", err)
 	}

@@ -11,7 +11,7 @@ check-gofmt:
 	scripts/check_gofmt.sh
 
 checkin:
-	STRIPE_KEY=$(STRIPE_KEY) go test -run "TestCheckin*" ./client
+	STRIPE_KEY=$(STRIPE_KEY) go test -run "TestCheckin*" ./...
 
 test:
 	STRIPE_KEY=$(STRIPE_KEY) go test ./... -p=1
