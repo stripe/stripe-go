@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"net/url"
 	"reflect"
+	"strconv"
 )
 
 const tagName = "form"
@@ -31,16 +32,39 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string) {
 		val = val.Elem()
 	}
 
-	// Do nothing if this is a zero value
+	// Do nothing if this is a nil pointer
 	if !val.IsValid() {
 		return
 	}
 
 	t := val.Type()
 
+	// Also do nothing if this is the type's zero value
+	if val.Interface() == reflect.Zero(t).Interface() {
+		return
+	}
+
 	switch val.Kind() {
+	case reflect.Array:
+		panic("Arrays not handled by encoder")
+
+	case reflect.Bool:
+		values.Add(formatName(names), strconv.FormatBool(val.Bool()))
+
+	case reflect.Float32:
+		values.Add(formatName(names), strconv.FormatFloat(val.Float(), 'f', 4, 32))
+
+	case reflect.Float64:
+		values.Add(formatName(names), strconv.FormatFloat(val.Float(), 'f', 4, 64))
+
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		values.Add(formatName(names), strconv.FormatInt(val.Int(), 10))
+
+	case reflect.Interface:
+		panic("Interfaces not handled by encoder")
+
 	case reflect.String:
-		values.Add(formatName(names), val.Interface().(string))
+		values.Add(formatName(names), val.String())
 
 	case reflect.Struct:
 		for i := 0; i < t.NumField(); i++ {
@@ -52,8 +76,10 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string) {
 			formName := tag
 			reflectValue(values, val.Field(i), append(names, formName))
 		}
-	}
 
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		values.Add(formatName(names), strconv.FormatUint(val.Uint(), 10))
+	}
 }
 
 // ---
