@@ -8,65 +8,63 @@ import (
 )
 
 func TestPlanListParamsAppendTo(t *testing.T) {
-	var body *RequestValues
-	var params PlanListParams
+	testCases := []struct {
+		field  string
+		params *PlanListParams
+		want   interface{}
+	}{
+		{"created", &PlanListParams{Created: 123}, strconv.FormatInt(123, 10)},
+		{
+			"created[gt]",
+			&PlanListParams{CreatedRange: &RangeQueryParams{GreaterThan: 123}},
+			strconv.FormatInt(123, 10),
+		},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.field, func(t *testing.T) {
+			body := &RequestValues{}
+			tc.params.AppendTo(body)
+			values := body.ToValues()
+			assert.Equal(t, tc.want, values.Get(tc.field))
+		})
+	}
+}
 
-	// Should run even with an empty set of parameters
-	body = &RequestValues{}
+func TestPlanListParamsAppendTo_Empty(t *testing.T) {
+	body := &RequestValues{}
+	params := &PlanListParams{}
 	params.AppendTo(body)
 	assert.True(t, body.Empty())
-
-	body = &RequestValues{}
-	params = PlanListParams{
-		Created:      123,
-		CreatedRange: &RangeQueryParams{GreaterThan: 123},
-	}
-	params.AppendTo(body)
-
-	values := body.ToValues()
-	assert.Equal(t, strconv.FormatInt(params.Created, 10),
-		values.Get("created"))
-	assert.Equal(t, strconv.FormatInt(params.CreatedRange.GreaterThan, 10),
-		values.Get("created[gt]"))
 }
 
 func TestPlanParamsAppendTo(t *testing.T) {
-	var body *RequestValues
-	var params PlanParams
+	testCases := []struct {
+		field  string
+		params *PlanParams
+		want   interface{}
+	}{
+		{"amount", &PlanParams{Amount: 123}, strconv.FormatUint(123, 10)},
+		{"currency", &PlanParams{Currency: "USD"}, "USD"},
+		{"id", &PlanParams{ID: "sapphire-elite"}, "sapphire-elite"},
+		{"interval", &PlanParams{Interval: "month"}, "month"},
+		{"interval_count", &PlanParams{IntervalCount: 3}, strconv.FormatUint(3, 10)},
+		{"name", &PlanParams{Name: "Sapphire Elite"}, "Sapphire Elite"},
+		{"statement_descriptor", &PlanParams{Statement: "Sapphire Elite"}, "Sapphire Elite"},
+		{"trial_period_days", &PlanParams{TrialPeriod: 123}, strconv.FormatUint(123, 10)},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.field, func(t *testing.T) {
+			body := &RequestValues{}
+			tc.params.AppendTo(body)
+			values := body.ToValues()
+			assert.Equal(t, tc.want, values.Get(tc.field))
+		})
+	}
+}
 
-	// Should run even with an empty set of parameters
-	body = &RequestValues{}
+func TestPlanParamsAppendTo_Empty(t *testing.T) {
+	body := &RequestValues{}
+	params := &PlanParams{}
 	params.AppendTo(body)
 	assert.True(t, body.Empty())
-
-	body = &RequestValues{}
-	params = PlanParams{
-		Amount:        99,
-		Currency:      Currency("usd"),
-		ID:            "test_plan",
-		Interval:      PlanInterval("month"),
-		IntervalCount: 3,
-		Name:          "Test Plan",
-		Statement:     "Test Plan",
-		TrialPeriod:   30,
-	}
-	params.AppendTo(body)
-
-	values := body.ToValues()
-	assert.Equal(t, strconv.FormatUint(params.Amount, 10),
-		values.Get("amount"))
-	assert.Equal(t, string(params.Currency),
-		values.Get("currency"))
-	assert.Equal(t, params.ID,
-		values.Get("id"))
-	assert.Equal(t, string(params.Interval),
-		values.Get("interval"))
-	assert.Equal(t, strconv.FormatUint(params.IntervalCount, 10),
-		values.Get("interval_count"))
-	assert.Equal(t, params.Name,
-		values.Get("name"))
-	assert.Equal(t, params.Statement,
-		values.Get("statement_descriptor"))
-	assert.Equal(t, strconv.FormatUint(params.TrialPeriod, 10),
-		values.Get("trial_period_days"))
 }
