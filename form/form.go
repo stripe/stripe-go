@@ -31,6 +31,11 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string) {
 		val = val.Elem()
 	}
 
+	// Do nothing if this is a zero value
+	if !val.IsValid() {
+		return
+	}
+
 	t := val.Type()
 
 	switch val.Kind() {
