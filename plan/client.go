@@ -120,7 +120,6 @@ func (c Client) List(params *stripe.PlanListParams) *Iter {
 
 	if params != nil {
 		body = &stripe.RequestValues{}
-		params.Params.AppendTo(body)
 		params.AppendTo(body)
 		lp = &params.ListParams
 		p = params.ToParams()

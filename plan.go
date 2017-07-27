@@ -41,11 +41,11 @@ type PlanListParams struct {
 
 func (p *PlanListParams) AppendTo(values *RequestValues) {
 	if p.Created > 0 {
-		body.Add("created", strconv.FormatInt(p.Created, 10))
+		values.Add("created", strconv.FormatInt(p.Created, 10))
 	}
 
 	if p.CreatedRange != nil {
-		p.CreatedRange.AppendTo(body, "created")
+		p.CreatedRange.AppendTo(values, "created")
 	}
 }
 
