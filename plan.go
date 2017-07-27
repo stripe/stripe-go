@@ -35,8 +35,8 @@ type PlanList struct {
 // For more details see https://stripe.com/docs/api#list_plans.
 type PlanListParams struct {
 	ListParams
-	Created      int64
-	CreatedRange *RangeQueryParams
+	Created      int64             `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 }
 
 func (p *PlanListParams) AppendTo(values *RequestValues) {
@@ -53,12 +53,14 @@ func (p *PlanListParams) AppendTo(values *RequestValues) {
 // For more details see https://stripe.com/docs/api#create_plan and https://stripe.com/docs/api#update_plan.
 type PlanParams struct {
 	Params
-	ID, Name                   string
-	Currency                   Currency
-	Amount                     uint64
-	Interval                   PlanInterval
-	IntervalCount, TrialPeriod uint64
-	Statement                  string
+	ID            string       `form:"id"`
+	Name          string       `form:"name"`
+	Currency      Currency     `form:"currency"`
+	Amount        uint64       `form:"amount"`
+	Interval      PlanInterval `form:"interval"`
+	IntervalCount uint64       `form:"interval_count"`
+	TrialPeriod   uint64       `form:"trial_period_days"`
+	Statement     string       `form:"statement_descriptor"`
 }
 
 func (p *PlanParams) AppendTo(values *RequestValues) {
