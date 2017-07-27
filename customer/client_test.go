@@ -93,7 +93,7 @@ func TestCustomerNewWithPlan(t *testing.T) {
 		t.Error(err)
 	}
 
-	_, err = plan.Del(planParams.ID)
+	_, err = plan.Del(planParams.ID, nil)
 	if err != nil {
 		t.Error(err)
 	}

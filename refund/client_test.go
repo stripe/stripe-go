@@ -34,7 +34,7 @@ func TestRefundNew(t *testing.T) {
 		t.Error(err)
 	}
 
-	if ref.Charge != res.ID {
+	if ref.Charge.ID != res.ID {
 		t.Errorf("Refund charge %q does not match expected value %v\n", ref.Charge, res.ID)
 	}
 
@@ -64,7 +64,7 @@ func TestRefundNew(t *testing.T) {
 		t.Errorf("Refund transaction not set\n")
 	}
 
-	if target.Refunds.Values[0].Charge != target.ID {
+	if target.Refunds.Values[0].Charge.ID != target.ID {
 		t.Errorf("Refund charge %q does not match expected value %v\n", target.Refunds.Values[0].Charge, target.ID)
 	}
 
@@ -137,7 +137,7 @@ func TestRefundGet(t *testing.T) {
 		t.Error(err)
 	}
 
-	if target.Charge != ch.ID {
+	if target.Charge.ID != ch.ID {
 		t.Errorf("Refund charge %q does not match expected value %v\n", target.Charge, ch.ID)
 	}
 }
@@ -173,7 +173,7 @@ func TestRefundListByCharge(t *testing.T) {
 			t.Errorf("Amount %v does not match expected value\n", target.Amount)
 		}
 
-		if target.Charge != ch.ID {
+		if target.Charge.ID != ch.ID {
 			t.Errorf("Refund charge %q does not match expected value %q\n", target.Charge, ch.ID)
 		}
 

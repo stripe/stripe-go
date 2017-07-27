@@ -1,14 +1,7 @@
 package reversal
 
 import (
-	"fmt"
-	"testing"
-
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/charge"
-	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/recipient"
-	"github.com/stripe/stripe-go/transfer"
 	. "github.com/stripe/stripe-go/utils"
 )
 
@@ -16,6 +9,9 @@ func init() {
 	stripe.Key = GetTestKey()
 }
 
+// These tests need to be refactored to no longer use recipients. Create
+// transfers for a target account instead.
+/*
 func TestReversalNew(t *testing.T) {
 	chargeParams := &stripe.ChargeParams{
 		Amount:   1000,
@@ -98,3 +94,4 @@ func TestReversalGet(t *testing.T) {
 
 	fmt.Printf("%+v\n", target)
 }
+*/

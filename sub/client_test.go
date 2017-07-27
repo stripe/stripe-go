@@ -76,7 +76,7 @@ func TestSubscriptionNew(t *testing.T) {
 	}
 
 	customer.Del(cust.ID)
-	plan.Del("test")
+	plan.Del("test", nil)
 }
 
 func TestSubscriptionZeroQuantity(t *testing.T) {
@@ -121,7 +121,7 @@ func TestSubscriptionZeroQuantity(t *testing.T) {
 	}
 
 	customer.Del(cust.ID)
-	plan.Del("test")
+	plan.Del("test", nil)
 }
 
 func TestSubscriptionUpdateZeroQuantity(t *testing.T) {
@@ -169,7 +169,7 @@ func TestSubscriptionUpdateZeroQuantity(t *testing.T) {
 	}
 
 	customer.Del(cust.ID)
-	plan.Del("test")
+	plan.Del("test", nil)
 }
 
 func TestSubscriptionGet(t *testing.T) {
@@ -216,7 +216,7 @@ func TestSubscriptionGet(t *testing.T) {
 	}
 
 	customer.Del(cust.ID)
-	plan.Del("test")
+	plan.Del("test", nil)
 }
 
 func TestSubscriptionCancel(t *testing.T) {
@@ -264,7 +264,7 @@ func TestSubscriptionCancel(t *testing.T) {
 	}
 
 	customer.Del(cust.ID)
-	plan.Del("test")
+	plan.Del("test", nil)
 }
 
 func TestSubscriptionUpdate(t *testing.T) {
@@ -322,7 +322,7 @@ func TestSubscriptionUpdate(t *testing.T) {
 	}
 
 	customer.Del(cust.ID)
-	plan.Del("test")
+	plan.Del("test", nil)
 }
 
 func TestSubscriptionDiscount(t *testing.T) {
@@ -391,7 +391,7 @@ func TestSubscriptionDiscount(t *testing.T) {
 	}
 
 	customer.Del(cust.ID)
-	plan.Del("test")
+	plan.Del("test", nil)
 	coupon.Del("sub_coupon")
 }
 
@@ -459,7 +459,7 @@ func TestSubscriptionEmptyDiscount(t *testing.T) {
 	}
 
 	customer.Del(cust.ID)
-	plan.Del("test")
+	plan.Del("test", nil)
 	coupon.Del("sub_coupon")
 }
 
@@ -578,5 +578,5 @@ func TestSubscriptionList(t *testing.T) {
 	}
 
 	customer.Del(cust.ID)
-	plan.Del("test")
+	plan.Del("test", nil)
 }
