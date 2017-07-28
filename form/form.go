@@ -5,12 +5,20 @@ import (
 	"net/url"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 const tagName = "form"
 
+type formOptions struct {
+	// IndexedArray indicates that contrary to standard "Rack-style" form
+	// encoding, array items should be index like `arr[0]=...&arr[1]=...`
+	// (normally it'd be `arr[]=...`).
+	IndexedArray bool
+}
+
 func AppendTo(values *RequestValues, i interface{}) {
-	reflectValue(values, reflect.ValueOf(i), nil)
+	reflectValue(values, reflect.ValueOf(i), nil, nil)
 }
 
 func formatName(names []string) string {
@@ -25,7 +33,7 @@ func formatName(names []string) string {
 	return fullName
 }
 
-func reflectValue(values *RequestValues, val reflect.Value, names []string) {
+func reflectValue(values *RequestValues, val reflect.Value, names []string, options *formOptions) {
 	t := val.Type()
 
 	// Also do nothing if this is the type's zero value
@@ -40,7 +48,14 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string) {
 		arrNames := append(names, "")
 
 		for i := 0; i < val.Len(); i++ {
-			reflectValue(values, val.Index(i), arrNames)
+			// The one exception to the above is when options have requested
+			// that this array/slice be indexed. In that case we produce a hash
+			// keyed with integers which the Stripe API knows how to interpret.
+			if options != nil && options.IndexedArray {
+				arrNames = append(names, strconv.Itoa(i))
+			}
+
+			reflectValue(values, val.Index(i), arrNames, nil)
 		}
 
 	case reflect.Bool:
@@ -59,7 +74,7 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string) {
 		if val.IsNil() {
 			return
 		}
-		reflectValue(values, val.Elem(), names)
+		reflectValue(values, val.Elem(), names, nil)
 
 	case reflect.Map:
 		for _, keyVal := range val.MapKeys() {
@@ -67,14 +82,14 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string) {
 				panic("Don't support serializing maps with non-string keys")
 			}
 
-			reflectValue(values, val.MapIndex(keyVal), append(names, keyVal.String()))
+			reflectValue(values, val.MapIndex(keyVal), append(names, keyVal.String()), nil)
 		}
 
 	case reflect.Ptr:
 		if val.IsNil() {
 			return
 		}
-		reflectValue(values, val.Elem(), names)
+		reflectValue(values, val.Elem(), names, options)
 
 	case reflect.String:
 		values.Add(formatName(names), val.String())
@@ -86,13 +101,28 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string) {
 			if tag == "" {
 				continue
 			}
-			formName := tag
-			reflectValue(values, val.Field(i), append(names, formName))
+			formName, options := parseTag(tag)
+			reflectValue(values, val.Field(i), append(names, formName), options)
 		}
 
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		values.Add(formatName(names), strconv.FormatUint(val.Uint(), 10))
 	}
+}
+
+func parseTag(tag string) (string, *formOptions) {
+	parts := strings.Split(tag, ",")
+	formName := parts[0]
+	options := &formOptions{}
+
+	for i := 1; i < len(parts); i++ {
+		switch parts[i] {
+		case "indexed":
+			options.IndexedArray = true
+		}
+	}
+
+	return formName, options
 }
 
 // ---

@@ -10,6 +10,9 @@ type testStruct struct {
 	Array    [3]string  `form:"array"`
 	ArrayPtr *[3]string `form:"array_ptr"`
 
+	ArrayIndexed    [3]string  `form:"array_indexed,indexed"`
+	ArrayIndexedPtr *[3]string `form:"array_indexed_ptr,indexed"`
+
 	Bool    bool  `form:"bool"`
 	BoolPtr *bool `form:"bool_ptr"`
 
@@ -38,6 +41,9 @@ type testStruct struct {
 	String    string  `form:"string"`
 	StringPtr *string `form:"string_ptr"`
 
+	SliceIndexed    []string  `form:"slice_indexed,indexed"`
+	SliceIndexedPtr *[]string `form:"slice_indexed_ptr,indexed"`
+
 	SubStruct    testSubStruct  `form:"substruct"`
 	SubStructPtr *testSubStruct `form:"substruct_ptr"`
 
@@ -62,6 +68,8 @@ type testSubSubStruct struct {
 }
 
 func TestAppendTo(t *testing.T) {
+	var arrayVal [3]string = [3]string{"1", "2", "3"}
+
 	var boolVal bool = true
 
 	var float32Val float32 = 1.2345
@@ -73,6 +81,8 @@ func TestAppendTo(t *testing.T) {
 	var int16Val int16 = 123
 	var int32Val int32 = 123
 	var int64Val int64 = 123
+
+	var sliceVal []string = []string{"1", "2", "3"}
 
 	var stringVal string = "123"
 
@@ -93,6 +103,8 @@ func TestAppendTo(t *testing.T) {
 		data  *testStruct
 		want  interface{}
 	}{
+		{"array_indexed[2]", &testStruct{ArrayIndexed: arrayVal}, "3"},
+
 		{"bool", &testStruct{Bool: boolVal}, "true"},
 		{"bool_ptr", &testStruct{BoolPtr: &boolVal}, "true"},
 
@@ -130,6 +142,8 @@ func TestAppendTo(t *testing.T) {
 			}},
 			"baz",
 		},
+
+		{"slice_indexed[2]", &testStruct{SliceIndexed: sliceVal}, "3"},
 
 		{"string", &testStruct{String: stringVal}, stringVal},
 		{"string_ptr", &testStruct{StringPtr: &stringVal}, stringVal},
