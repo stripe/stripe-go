@@ -226,6 +226,7 @@ func TestParseTag(t *testing.T) {
 	}{
 		{"id", "id", nil},
 		{"id,indexed", "id", &formOptions{IndexedArray: true}},
+		{"id,zero", "id", &formOptions{Zero: true}},
 
 		// invalid invocations
 		{"id,", "id", nil},

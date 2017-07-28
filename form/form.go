@@ -15,6 +15,12 @@ type formOptions struct {
 	// encoding, array items should be index like `arr[0]=...&arr[1]=...`
 	// (normally it'd be `arr[]=...`).
 	IndexedArray bool
+
+	// Zero indicates a field that's specifically defined to workaround the
+	// fact because 0 is the "zero value" of all int/float types, we can't
+	// properly encode an explicit 0. It indicates that an explicit zero should
+	// be sent.
+	Zero bool
 }
 
 func AppendTo(values *RequestValues, i interface{}) {
@@ -122,6 +128,12 @@ func parseTag(tag string) (string, *formOptions) {
 				options = &formOptions{}
 			}
 			options.IndexedArray = true
+
+		case "zero":
+			if options == nil {
+				options = &formOptions{}
+			}
+			options.Zero = true
 		}
 	}
 
