@@ -113,10 +113,22 @@ func TestAppendTo(t *testing.T) {
 		{"int64", &testStruct{Int64: int64Val}, "123"},
 		{"int64_ptr", &testStruct{Int64Ptr: &int64Val}, "123"},
 
+		// Tests map
 		{
 			"map[foo]",
-			&testStruct{Map: map[string]interface{}{"foo": "bar"}},
+			&testStruct{Map: map[string]interface{}{
+				"foo": "bar",
+			}},
 			"bar",
+		},
+
+		// Tests map nested inside of another map
+		{
+			"map[foo][bar]",
+			&testStruct{Map: map[string]interface{}{
+				"foo": map[string]interface{}{"bar": "baz"},
+			}},
+			"baz",
 		},
 
 		{"string", &testStruct{String: stringVal}, stringVal},
@@ -160,6 +172,15 @@ func TestAppendTo_DuplicatedNames(t *testing.T) {
 		{"array_ptr[]", &testStruct{ArrayPtr: &arrayVal}, sliceVal},
 		{"slice[]", &testStruct{Slice: sliceVal}, sliceVal},
 		{"slice_ptr[]", &testStruct{SlicePtr: &sliceVal}, sliceVal},
+
+		// Tests slice nested inside of map nested inside of another map
+		{
+			"map[foo][bar][]",
+			&testStruct{Map: map[string]interface{}{
+				"foo": map[string]interface{}{"bar": sliceVal},
+			}},
+			sliceVal,
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.field, func(t *testing.T) {
