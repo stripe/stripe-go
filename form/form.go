@@ -27,16 +27,6 @@ func formatName(names []string) string {
 }
 
 func reflectValue(values *RequestValues, val reflect.Value, names []string) {
-	// Dereference a pointer if necessary
-	if val.Kind() == reflect.Ptr {
-		val = val.Elem()
-	}
-
-	// Do nothing if this is a nil pointer
-	if !val.IsValid() {
-		return
-	}
-
 	t := val.Type()
 
 	// Also do nothing if this is the type's zero value
@@ -80,6 +70,12 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string) {
 
 			reflectValue(values, val.MapIndex(keyVal), append(names, keyVal.String()))
 		}
+
+	case reflect.Ptr:
+		if val.IsNil() {
+			return
+		}
+		reflectValue(values, val.Elem(), names)
 
 	case reflect.String:
 		values.Add(formatName(names), val.String())
