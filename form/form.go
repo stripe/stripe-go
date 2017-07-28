@@ -10,7 +10,6 @@ import (
 const tagName = "form"
 
 func AppendTo(values *RequestValues, i interface{}) {
-	//v := reflect.ValueOf(i).Elem()
 	reflectValue(values, reflect.ValueOf(i), nil)
 }
 
