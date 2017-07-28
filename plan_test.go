@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
+	"github.com/stripe/stripe-go/form"
 )
 
 func TestPlanListParamsAppendTo(t *testing.T) {
@@ -22,8 +23,8 @@ func TestPlanListParamsAppendTo(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.field, func(t *testing.T) {
-			body := &RequestValues{}
-			tc.params.AppendTo(body)
+			body := &form.RequestValues{}
+			form.AppendTo(body, tc.params)
 			values := body.ToValues()
 			assert.Equal(t, tc.want, values.Get(tc.field))
 		})
@@ -54,8 +55,8 @@ func TestPlanParamsAppendTo(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.field, func(t *testing.T) {
-			body := &RequestValues{}
-			tc.params.AppendTo(body)
+			body := &form.RequestValues{}
+			form.AppendTo(body, tc.params)
 			values := body.ToValues()
 			assert.Equal(t, tc.want, values.Get(tc.field))
 		})
@@ -63,8 +64,8 @@ func TestPlanParamsAppendTo(t *testing.T) {
 }
 
 func TestPlanParamsAppendTo_Empty(t *testing.T) {
-	body := &RequestValues{}
+	body := &form.RequestValues{}
 	params := &PlanParams{}
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 	assert.True(t, body.Empty())
 }

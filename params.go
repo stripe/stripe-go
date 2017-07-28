@@ -163,18 +163,18 @@ type ListMeta struct {
 type RangeQueryParams struct {
 	// GreaterThan specifies that values should be a greater than this
 	// timestamp.
-	GreaterThan int64
+	GreaterThan int64 `form:"gt"`
 
 	// GreaterThanOrEqual specifies that values should be greater than or equal
 	// to this timestamp.
-	GreaterThanOrEqual int64
+	GreaterThanOrEqual int64 `form:"gte"`
 
 	// LesserThan specifies that values should be lesser than this timetamp.
-	LesserThan int64
+	LesserThan int64 `form:"lt"`
 
 	// LesserThanOrEqual specifies that values should be lesser than or
 	// equalthis timetamp.
-	LesserThanOrEqual int64
+	LesserThanOrEqual int64 `form:"lte"`
 }
 
 // AppendTo adds the range query parametes to a set of request values.
