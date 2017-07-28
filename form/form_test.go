@@ -7,6 +7,9 @@ import (
 )
 
 type testStruct struct {
+	Array    [3]string  `form:"array"`
+	ArrayPtr *[3]string `form:"array_ptr"`
+
 	Bool    bool  `form:"bool"`
 	BoolPtr *bool `form:"bool_ptr"`
 
@@ -27,6 +30,15 @@ type testStruct struct {
 	Int64    int64  `form:"int64"`
 	Int64Ptr *int64 `form:"int64_ptr"`
 
+	Slice    []string  `form:"slice"`
+	SlicePtr *[]string `form:"slice_ptr"`
+
+	String    string  `form:"string"`
+	StringPtr *string `form:"string_ptr"`
+
+	SubStruct    testSubStruct  `form:"substruct"`
+	SubStructPtr *testSubStruct `form:"substruct_ptr"`
+
 	Uuint      uint    `form:"uint"`
 	UuintPtr   *uint   `form:"uint_ptr"`
 	Uuint8     uint8   `form:"uint8"`
@@ -37,12 +49,6 @@ type testStruct struct {
 	Uuint32Ptr *uint32 `form:"uint32_ptr"`
 	Uuint64    uint64  `form:"uint64"`
 	Uuint64Ptr *uint64 `form:"uint64_ptr"`
-
-	String    string  `form:"string"`
-	StringPtr *string `form:"string_ptr"`
-
-	SubStruct    testSubStruct  `form:"substruct"`
-	SubStructPtr *testSubStruct `form:"substruct_ptr"`
 }
 
 type testSubStruct struct {
@@ -66,12 +72,6 @@ func TestAppendTo(t *testing.T) {
 	var int32Val int32 = 123
 	var int64Val int64 = 123
 
-	var uintVal uint = 123
-	var uint8Val uint8 = 123
-	var uint16Val uint16 = 123
-	var uint32Val uint32 = 123
-	var uint64Val uint64 = 123
-
 	var stringVal string = "123"
 
 	var subStructVal testSubStruct = testSubStruct{
@@ -79,6 +79,12 @@ func TestAppendTo(t *testing.T) {
 			String: "123",
 		},
 	}
+
+	var uintVal uint = 123
+	var uint8Val uint8 = 123
+	var uint16Val uint16 = 123
+	var uint32Val uint32 = 123
+	var uint64Val uint64 = 123
 
 	testCases := []struct {
 		field string
@@ -105,6 +111,12 @@ func TestAppendTo(t *testing.T) {
 		{"int64", &testStruct{Int64: int64Val}, "123"},
 		{"int64_ptr", &testStruct{Int64Ptr: &int64Val}, "123"},
 
+		{"string", &testStruct{String: stringVal}, stringVal},
+		{"string_ptr", &testStruct{StringPtr: &stringVal}, stringVal},
+
+		{"substruct[subsubstruct][string]", &testStruct{SubStruct: subStructVal}, "123"},
+		{"substruct_ptr[subsubstruct][string]", &testStruct{SubStructPtr: &subStructVal}, "123"},
+
 		{"uint", &testStruct{Uuint: uintVal}, "123"},
 		{"uint_ptr", &testStruct{UuintPtr: &uintVal}, "123"},
 		{"uint8", &testStruct{Uuint8: uint8Val}, "123"},
@@ -115,12 +127,6 @@ func TestAppendTo(t *testing.T) {
 		{"uint32_ptr", &testStruct{Uuint32Ptr: &uint32Val}, "123"},
 		{"uint64", &testStruct{Uuint64: uint64Val}, "123"},
 		{"uint64_ptr", &testStruct{Uuint64Ptr: &uint64Val}, "123"},
-
-		{"string", &testStruct{String: stringVal}, stringVal},
-		{"string_ptr", &testStruct{StringPtr: &stringVal}, stringVal},
-
-		{"substruct[subsubstruct][string]", &testStruct{SubStruct: subStructVal}, "123"},
-		{"substruct_ptr[subsubstruct][string]", &testStruct{SubStructPtr: &subStructVal}, "123"},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.field, func(t *testing.T) {
@@ -129,6 +135,35 @@ func TestAppendTo(t *testing.T) {
 			values := form.ToValues()
 			//fmt.Printf("values = %+v", values)
 			assert.Equal(t, tc.want, values.Get(tc.field))
+		})
+	}
+}
+
+func TestAppendTo_DuplicatedNames(t *testing.T) {
+	arrayVal := [3]string{"1", "2", "3"}
+	sliceVal := []string{"1", "2", "3"}
+
+	testCases := []struct {
+		field string
+		data  *testStruct
+		want  interface{}
+	}{
+		{"array[]", &testStruct{Array: arrayVal}, sliceVal},
+		{"array_ptr[]", &testStruct{ArrayPtr: &arrayVal}, sliceVal},
+		{"slice[]", &testStruct{Slice: sliceVal}, sliceVal},
+		{"slice_ptr[]", &testStruct{SlicePtr: &sliceVal}, sliceVal},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.field, func(t *testing.T) {
+			form := &RequestValues{}
+			AppendTo(form, tc.data)
+			values := form.ToValues()
+			//fmt.Printf("values = %+v", values)
+
+			// This is the only difference between this test case and the one
+			// above: we used square brackets to grab a []string instead of
+			// just a single value.
+			assert.Equal(t, tc.want, values[tc.field])
 		})
 	}
 }

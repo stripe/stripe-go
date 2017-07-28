@@ -40,13 +40,19 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string) {
 	t := val.Type()
 
 	// Also do nothing if this is the type's zero value
-	if val.Interface() == reflect.Zero(t).Interface() {
+	if t.Comparable() && val.Interface() == reflect.Zero(t).Interface() {
 		return
 	}
 
 	switch val.Kind() {
-	case reflect.Array:
-		panic("Arrays not handled by encoder")
+	case reflect.Array, reflect.Slice:
+		// formatName automatically adds square brackets, so just pass an empty
+		// string into the breadcrumb trail
+		arrNames := append(names, "")
+
+		for i := 0; i < val.Len(); i++ {
+			reflectValue(values, val.Index(i), arrNames)
+		}
 
 	case reflect.Bool:
 		values.Add(formatName(names), strconv.FormatBool(val.Bool()))
