@@ -217,3 +217,27 @@ func TestAppendTo_ZeroValues(t *testing.T) {
 	AppendTo(form, data)
 	assert.Equal(t, &RequestValues{}, form)
 }
+
+func TestParseTag(t *testing.T) {
+	testCases := []struct {
+		tag         string
+		wantName    string
+		wantOptions *formOptions
+	}{
+		{"id", "id", nil},
+		{"id,indexed", "id", &formOptions{IndexedArray: true}},
+
+		// invalid invocations
+		{"id,", "id", nil},
+		{"id,,", "id", nil},
+		{"id,foo", "id", nil},
+		{"id,foo=bar", "id", nil},
+	}
+	for _, tc := range testCases {
+		t.Run(tc.tag, func(t *testing.T) {
+			name, options := parseTag(tc.tag)
+			assert.Equal(t, tc.wantName, name)
+			assert.Equal(t, tc.wantOptions, options)
+		})
+	}
+}

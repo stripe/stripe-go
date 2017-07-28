@@ -111,18 +111,21 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string, opti
 }
 
 func parseTag(tag string) (string, *formOptions) {
+	var options *formOptions
 	parts := strings.Split(tag, ",")
-	formName := parts[0]
-	options := &formOptions{}
+	name := parts[0]
 
 	for i := 1; i < len(parts); i++ {
 		switch parts[i] {
 		case "indexed":
+			if options == nil {
+				options = &formOptions{}
+			}
 			options.IndexedArray = true
 		}
 	}
 
-	return formName, options
+	return name, options
 }
 
 // ---
