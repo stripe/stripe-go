@@ -16,6 +16,12 @@ type formOptions struct {
 	// (normally it'd be `arr[]=...`).
 	IndexedArray bool
 
+	// Invert indicates that a boolean field's value should be inverted. False
+	// is the zero value for a boolean so it's convention in the library to
+	// specify a `No*` field to allow a false to be passed to the API. These
+	// fields should be annotated with `invert`.
+	Invert bool
+
 	// Zero indicates a field that's specifically defined to workaround the
 	// fact because 0 is the "zero value" of all int/float types, we can't
 	// properly encode an explicit 0. It indicates that an explicit zero should
@@ -65,7 +71,17 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string, opti
 		}
 
 	case reflect.Bool:
-		values.Add(formatName(names), strconv.FormatBool(val.Bool()))
+		if options != nil {
+			if val.Bool() {
+				if options.Invert {
+					values.Add(formatName(names), strconv.FormatBool(false))
+				} else if options.Zero {
+					values.Add(formatName(names), "0")
+				}
+			}
+		} else {
+			values.Add(formatName(names), strconv.FormatBool(val.Bool()))
+		}
 
 	case reflect.Float32:
 		values.Add(formatName(names), strconv.FormatFloat(val.Float(), 'f', 4, 32))
@@ -108,6 +124,12 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string, opti
 				continue
 			}
 			formName, options := parseTag(tag)
+
+			if options != nil && (options.Invert || options.Zero) &&
+				val.Field(i).Type().Kind() != reflect.Bool {
+				panic("Cannot specify `zero` on non-integer field")
+			}
+
 			reflectValue(values, val.Field(i), append(names, formName), options)
 		}
 
@@ -128,6 +150,12 @@ func parseTag(tag string) (string, *formOptions) {
 				options = &formOptions{}
 			}
 			options.IndexedArray = true
+
+		case "invert":
+			if options == nil {
+				options = &formOptions{}
+			}
+			options.Invert = true
 
 		case "zero":
 			if options == nil {

@@ -33,6 +33,8 @@ type testStruct struct {
 	Int64    int64  `form:"int64"`
 	Int64Ptr *int64 `form:"int64_ptr"`
 
+	Inverted bool `form:"inverted,invert"`
+
 	Map map[string]interface{} `form:"map"`
 
 	Slice    []string  `form:"slice"`
@@ -57,6 +59,8 @@ type testStruct struct {
 	Uuint32Ptr *uint32 `form:"uint32_ptr"`
 	Uuint64    uint64  `form:"uint64"`
 	Uuint64Ptr *uint64 `form:"uint64_ptr"`
+
+	Zeroed bool `form:"zeroed,zero"`
 }
 
 type testSubStruct struct {
@@ -125,6 +129,8 @@ func TestAppendTo(t *testing.T) {
 		{"int64", &testStruct{Int64: int64Val}, "123"},
 		{"int64_ptr", &testStruct{Int64Ptr: &int64Val}, "123"},
 
+		{"inverted", &testStruct{Inverted: true}, "false"},
+
 		// Tests map
 		{
 			"map[foo]",
@@ -161,13 +167,15 @@ func TestAppendTo(t *testing.T) {
 		{"uint32_ptr", &testStruct{Uuint32Ptr: &uint32Val}, "123"},
 		{"uint64", &testStruct{Uuint64: uint64Val}, "123"},
 		{"uint64_ptr", &testStruct{Uuint64Ptr: &uint64Val}, "123"},
+
+		{"zeroed", &testStruct{Zeroed: true}, "0"},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.field, func(t *testing.T) {
 			form := &RequestValues{}
 			AppendTo(form, tc.data)
 			values := form.ToValues()
-			//fmt.Printf("values = %+v", values)
+			t.Logf("values = %+v", values)
 			assert.Equal(t, tc.want, values.Get(tc.field))
 		})
 	}
