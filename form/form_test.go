@@ -16,6 +16,8 @@ type testStruct struct {
 	Bool    bool  `form:"bool"`
 	BoolPtr *bool `form:"bool_ptr"`
 
+	Emptied bool `form:"emptied,empty"`
+
 	Float32    float32  `form:"float32"`
 	Float32Ptr *float32 `form:"float32_ptr"`
 
@@ -111,6 +113,8 @@ func TestAppendTo(t *testing.T) {
 
 		{"bool", &testStruct{Bool: boolVal}, "true"},
 		{"bool_ptr", &testStruct{BoolPtr: &boolVal}, "true"},
+
+		{"emptied", &testStruct{Emptied: true}, ""},
 
 		{"float32", &testStruct{Float32: float32Val}, "1.2345"},
 		{"float32_ptr", &testStruct{Float32Ptr: &float32Val}, "1.2345"},
@@ -233,6 +237,7 @@ func TestParseTag(t *testing.T) {
 		wantOptions *formOptions
 	}{
 		{"id", "id", nil},
+		{"id,empty", "id", &formOptions{Empty: true}},
 		{"id,indexed", "id", &formOptions{IndexedArray: true}},
 		{"id,zero", "id", &formOptions{Zero: true}},
 

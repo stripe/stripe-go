@@ -16,6 +16,11 @@ type formOptions struct {
 	// (normally it'd be `arr[]=...`).
 	IndexedArray bool
 
+	// Empty indicates that a field's value should be emptied in that its value
+	// should be an empty string. It's used to workaround the fact that an
+	// empty string is a string's zero value and wouldn't normally be encoded.
+	Empty bool
+
 	// Invert indicates that a boolean field's value should be inverted. False
 	// is the zero value for a boolean so it's convention in the library to
 	// specify a `No*` field to allow a false to be passed to the API. These
@@ -73,9 +78,12 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string, opti
 	case reflect.Bool:
 		if options != nil {
 			if val.Bool() {
-				if options.Invert {
+				switch {
+				case options.Empty:
+					values.Add(formatName(names), "")
+				case options.Invert:
 					values.Add(formatName(names), strconv.FormatBool(false))
-				} else if options.Zero {
+				case options.Zero:
 					values.Add(formatName(names), "0")
 				}
 			}
@@ -125,8 +133,10 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string, opti
 			}
 			formName, options := parseTag(tag)
 
-			if options != nil && (options.Invert || options.Zero) &&
+			if options != nil &&
+				(options.Empty || options.Invert || options.Zero) &&
 				val.Field(i).Type().Kind() != reflect.Bool {
+
 				panic("Cannot specify `zero` on non-integer field")
 			}
 
@@ -145,6 +155,12 @@ func parseTag(tag string) (string, *formOptions) {
 
 	for i := 1; i < len(parts); i++ {
 		switch parts[i] {
+		case "empty":
+			if options == nil {
+				options = &formOptions{}
+			}
+			options.Empty = true
+
 		case "indexed":
 			if options == nil {
 				options = &formOptions{}
