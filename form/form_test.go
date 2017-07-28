@@ -30,6 +30,8 @@ type testStruct struct {
 	Int64    int64  `form:"int64"`
 	Int64Ptr *int64 `form:"int64_ptr"`
 
+	Map map[string]interface{} `form:"map"`
+
 	Slice    []string  `form:"slice"`
 	SlicePtr *[]string `form:"slice_ptr"`
 
@@ -110,6 +112,12 @@ func TestAppendTo(t *testing.T) {
 		{"int32_ptr", &testStruct{Int32Ptr: &int32Val}, "123"},
 		{"int64", &testStruct{Int64: int64Val}, "123"},
 		{"int64_ptr", &testStruct{Int64Ptr: &int64Val}, "123"},
+
+		{
+			"map[foo]",
+			&testStruct{Map: map[string]interface{}{"foo": "bar"}},
+			"bar",
+		},
 
 		{"string", &testStruct{String: stringVal}, stringVal},
 		{"string_ptr", &testStruct{StringPtr: &stringVal}, stringVal},

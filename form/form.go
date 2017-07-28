@@ -67,7 +67,19 @@ func reflectValue(values *RequestValues, val reflect.Value, names []string) {
 		values.Add(formatName(names), strconv.FormatInt(val.Int(), 10))
 
 	case reflect.Interface:
-		panic("Interfaces not handled by encoder")
+		if val.IsNil() {
+			return
+		}
+		reflectValue(values, val.Elem(), names)
+
+	case reflect.Map:
+		for _, keyVal := range val.MapKeys() {
+			if keyVal.Kind() != reflect.String {
+				panic("Don't support serializing maps with non-string keys")
+			}
+
+			reflectValue(values, val.MapIndex(keyVal), append(names, keyVal.String()))
+		}
 
 	case reflect.String:
 		values.Add(formatName(names), val.String())
