@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"strconv"
 
 	"github.com/stripe/stripe-go/form"
 )
@@ -315,7 +314,7 @@ type Owner struct {
 type IdentityVerification struct {
 	DetailsCode IdentityVerificationDetailsCode `json:"details_code"`
 	Status      IdentityVerificationStatus      `json:"status"`
-	Document    *IdentityDocument               `json:"document"`
+	Document    *IdentityDocument               `json:"document",form:"document"`
 	Details     *string                         `json:"details"`
 }
 
@@ -326,12 +325,29 @@ type IdentityDocument struct {
 	Size    int64  `json:"size"`
 }
 
+// AppendTo implements custom form encoding for IdentityDocument. In the Go
+// library, it's suggested that users initialize an IdentityDocument and fill
+// its ID when updating an account, but in the API's account update method,
+// there is no subobject; you simply pass an ID into the document field.
+//
+// The inherent cause of this asymmetry is that instead of creating separate
+// structs for parameters (which are normally separate from the structs used
+// for responses), someone decided to reuse them instead, and although request
+// and response constructs are similar, they're not identical, thus the
+// discrepancy.
+//
+// Long term, we should create separate parameter structs. This isn't hard, but
+// is breaking, and will be somewhat painful for users when they upgrade.
+func (d *IdentityDocument) AppendTo(values *form.Values, prefix string) {
+	values.Add(prefix, d.ID)
+}
+
 // PayoutSchedule is the structure for an account's payout schedule.
 type PayoutSchedule struct {
-	Delay       uint64   `json:"delay_days"`
-	Interval    Interval `json:"interval"`
-	WeekAnchor  string   `json:"weekly_anchor"`
-	MonthAnchor uint64   `json:"monthly_anchor"`
+	Delay       uint64   `json:"delay_days",form:"delay_days"`
+	Interval    Interval `json:"interval",form:"interval"`
+	WeekAnchor  string   `json:"weekly_anchor",form:"weekly_anchor"`
+	MonthAnchor uint64   `json:"monthly_anchor",form:"monthly_anchor"`
 }
 
 // TOSAcceptanceParams is the structure for TOS acceptance.
@@ -344,53 +360,6 @@ type TOSAcceptanceParams struct {
 // AccountRejectParams is the structure for the Reject function.
 type AccountRejectParams struct {
 	Reason string `json:"reason",form:"reason"`
-}
-
-// AppendDetails adds the payout schedule to the query string.
-func (t *PayoutScheduleParams) AppendDetails(values *form.Values) {
-	if t.Delay > 0 {
-		values.Add("payout_schedule[delay_days]", strconv.FormatUint(t.Delay, 10))
-	} else if t.MinimumDelay {
-		values.Add("payout_schedule[delay_days]", "minimum")
-	}
-
-	values.Add("payout_schedule[interval]", string(t.Interval))
-	if t.Interval == Week && len(t.WeekAnchor) > 0 {
-		values.Add("payout_schedule[weekly_anchor]", t.WeekAnchor)
-	} else if t.Interval == Month && t.MonthAnchor > 0 {
-		values.Add("payout_schedule[monthly_anchor]", strconv.FormatUint(t.MonthAnchor, 10))
-	}
-}
-
-// AppendDetails adds the terms of service acceptance to the query string.
-func (t *TOSAcceptanceParams) AppendDetails(values *form.Values) {
-	if t.Date > 0 {
-		values.Add("tos_acceptance[date]", strconv.FormatInt(t.Date, 10))
-	}
-	if len(t.IP) > 0 {
-		values.Add("tos_acceptance[ip]", t.IP)
-	}
-	if len(t.UserAgent) > 0 {
-		values.Add("tos_acceptance[user_agent]", t.UserAgent)
-	}
-}
-
-// UnmarshalJSON handles deserialization of an Account.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (a *Account) UnmarshalJSON(data []byte) error {
-	type account Account
-	var aa account
-	err := json.Unmarshal(data, &aa)
-
-	if err == nil {
-		*a = Account(aa)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		a.ID = string(data[1 : len(data)-1])
-	}
-
-	return nil
 }
 
 // UnmarshalJSON handles deserialization of an IdentityDocument.

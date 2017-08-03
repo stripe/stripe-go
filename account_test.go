@@ -3,6 +3,9 @@ package stripe
 import (
 	"encoding/json"
 	"testing"
+
+	assert "github.com/stretchr/testify/require"
+	"github.com/stripe/stripe-go/form"
 )
 
 func TestAccountUnmarshal(t *testing.T) {
@@ -63,4 +66,15 @@ func TestAccountUnmarshal(t *testing.T) {
 	if "card_1234" != card.ID {
 		t.Errorf("Problem deserializing account, got card ID %v", card.ID)
 	}
+}
+
+func TestIdentityDocument_Appendto(t *testing.T) {
+	document := &IdentityDocument{ID: "file_123"}
+	body := &form.Values{}
+	document.AppendTo(body,
+		"legal_entity[additional_owners][0][verification][document]")
+	assert.Equal(t,
+		[]string{"file_123"},
+		body.Get("legal_entity[additional_owners][0][verification][document]"),
+	)
 }
