@@ -2,6 +2,8 @@ package stripe
 
 import (
 	"encoding/json"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 // DisputeReason is the list of allowed values for a discount's reason.
@@ -150,7 +152,7 @@ type File struct {
 }
 
 // AppendDetails adds the dispute evidence details to the query string values.
-func (e *DisputeEvidenceParams) AppendDetails(values *RequestValues) {
+func (e *DisputeEvidenceParams) AppendDetails(values *form.Values) {
 	if len(e.ProductDesc) > 0 {
 		values.Add("evidence[product_description]", e.ProductDesc)
 	}

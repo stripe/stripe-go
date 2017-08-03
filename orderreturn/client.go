@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /orders APIs.
@@ -18,12 +19,12 @@ func List(params *stripe.OrderReturnListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.OrderReturnListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
@@ -42,7 +43,7 @@ func (c Client) List(params *stripe.OrderReturnListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.OrderReturnList{}
 		err := c.B.Call("GET", "/order_returns", c.Key, b, p, list)
 

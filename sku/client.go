@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /skus APIs.
@@ -22,11 +23,11 @@ func New(params *stripe.SKUParams) (*stripe.SKU, error) {
 // New POSTs a new SKU.
 // For more details see https://stripe.com/docs/api#create_sku.
 func (c Client) New(params *stripe.SKUParams) (*stripe.SKU, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		// Required fields
 		body.Add("price", strconv.FormatInt(params.Price, 10))
@@ -97,11 +98,11 @@ func Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 // Update updates a SKU's properties.
 // For more details see https://stripe.com/docs/api#update_sku.
 func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		// Required fields
 		if params.Price > 0 {
@@ -173,12 +174,12 @@ func Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 
 func (c Client) Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	sku := &stripe.SKU{}
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		params.AppendTo(body)
 	}
 	err := c.B.Call("GET", "/skus/"+id, c.Key, body, commonParams, sku)
@@ -193,12 +194,12 @@ func List(params *stripe.SKUListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.SKUListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.Active != nil {
 			params.Filters.AddFilter(
@@ -228,7 +229,7 @@ func (c Client) List(params *stripe.SKUListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SKUList{}
 		err := c.B.Call("GET", "/skus", c.Key, b, p, list)
 

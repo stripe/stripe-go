@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 const (
@@ -26,7 +27,7 @@ func New(params *stripe.TokenParams) (*stripe.Token, error) {
 }
 
 func (c Client) New(params *stripe.TokenParams) (*stripe.Token, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	token := c.Key
 
 	if len(params.Customer) > 0 {
@@ -63,12 +64,12 @@ func Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
 }
 
 func (c Client) Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		params.AppendTo(body)
 	}
 

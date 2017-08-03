@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 const (
@@ -30,12 +31,12 @@ func New(params *stripe.SubParams) (*stripe.Sub, error) {
 }
 
 func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 	token := c.Key
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		body.Add("customer", params.Customer)
 
 		if len(params.Items) > 0 {
@@ -124,11 +125,11 @@ func Get(id string, params *stripe.SubParams) (*stripe.Sub, error) {
 }
 
 func (c Client) Get(id string, params *stripe.SubParams) (*stripe.Sub, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		params.AppendTo(body)
 		commonParams = &params.Params
 	}
@@ -146,12 +147,12 @@ func Update(id string, params *stripe.SubParams) (*stripe.Sub, error) {
 }
 
 func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 	token := c.Key
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if len(params.Items) > 0 {
 			for i, item := range params.Items {
@@ -248,11 +249,11 @@ func Cancel(id string, params *stripe.SubParams) (*stripe.Sub, error) {
 }
 
 func (c Client) Cancel(id string, params *stripe.SubParams) (*stripe.Sub, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.EndCancel {
 			body.Add("at_period_end", strconv.FormatBool(true))
@@ -275,12 +276,12 @@ func List(params *stripe.SubListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.SubListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
@@ -312,7 +313,7 @@ func (c Client) List(params *stripe.SubListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SubList{}
 		err := c.B.Call("GET", "/subscriptions", c.Key, b, p, list)
 

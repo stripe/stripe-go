@@ -1,9 +1,5 @@
 package stripe
 
-import (
-	"strconv"
-)
-
 // PlanInterval is the list of allowed values for a plan's interval.
 // Allowed values are "day", "week", "month", "year".
 type PlanInterval string
@@ -35,62 +31,20 @@ type PlanList struct {
 // For more details see https://stripe.com/docs/api#list_plans.
 type PlanListParams struct {
 	ListParams
-	Created      int64
-	CreatedRange *RangeQueryParams
-}
-
-func (p *PlanListParams) AppendTo(values *RequestValues) {
-	if p.Created > 0 {
-		values.Add("created", strconv.FormatInt(p.Created, 10))
-	}
-
-	if p.CreatedRange != nil {
-		p.CreatedRange.AppendTo(values, "created")
-	}
+	Created      int64             `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 }
 
 // PlanParams is the set of parameters that can be used when creating or updating a plan.
 // For more details see https://stripe.com/docs/api#create_plan and https://stripe.com/docs/api#update_plan.
 type PlanParams struct {
 	Params
-	ID, Name                   string
-	Currency                   Currency
-	Amount                     uint64
-	Interval                   PlanInterval
-	IntervalCount, TrialPeriod uint64
-	Statement                  string
-}
-
-func (p *PlanParams) AppendTo(values *RequestValues) {
-	if p.Amount > 0 {
-		values.Add("amount", strconv.FormatUint(p.Amount, 10))
-	}
-
-	if p.Currency != "" {
-		values.Add("currency", string(p.Currency))
-	}
-
-	if p.ID != "" {
-		values.Add("id", p.ID)
-	}
-
-	if p.Interval != "" {
-		values.Add("interval", string(p.Interval))
-	}
-
-	if p.IntervalCount > 0 {
-		values.Add("interval_count", strconv.FormatUint(p.IntervalCount, 10))
-	}
-
-	if p.Name != "" {
-		values.Add("name", p.Name)
-	}
-
-	if len(p.Statement) > 0 {
-		values.Add("statement_descriptor", p.Statement)
-	}
-
-	if p.TrialPeriod > 0 {
-		values.Add("trial_period_days", strconv.FormatUint(p.TrialPeriod, 10))
-	}
+	ID            string       `form:"id"`
+	Name          string       `form:"name"`
+	Currency      Currency     `form:"currency"`
+	Amount        uint64       `form:"amount"`
+	Interval      PlanInterval `form:"interval"`
+	IntervalCount uint64       `form:"interval_count"`
+	TrialPeriod   uint64       `form:"trial_period_days"`
+	Statement     string       `form:"statement_descriptor"`
 }

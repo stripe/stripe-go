@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /customers APIs.
@@ -20,11 +21,11 @@ func New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 }
 
 func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		if params.Balance != 0 {
 			body.Add("account_balance", strconv.FormatInt(params.Balance, 10))
 		}
@@ -89,11 +90,11 @@ func Get(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 }
 
 func (c Client) Get(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		commonParams = &params.Params
 		params.AppendTo(body)
 	}
@@ -111,12 +112,12 @@ func Update(id string, params *stripe.CustomerParams) (*stripe.Customer, error) 
 }
 
 func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.Balance != 0 {
 			body.Add("account_balance", strconv.FormatInt(params.Balance, 10))
@@ -182,12 +183,12 @@ func List(params *stripe.CustomerListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.CustomerListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
@@ -202,7 +203,7 @@ func (c Client) List(params *stripe.CustomerListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CustomerList{}
 		err := c.B.Call("GET", "/customers", c.Key, b, p, list)
 

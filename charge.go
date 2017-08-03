@@ -2,6 +2,8 @@ package stripe
 
 import (
 	"encoding/json"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 // Currency is the list of supported currencies.
@@ -138,7 +140,7 @@ type ShippingDetails struct {
 }
 
 // AppendDetails adds the shipping details to the query string.
-func (s *ShippingDetails) AppendDetails(values *RequestValues) {
+func (s *ShippingDetails) AppendDetails(values *form.Values) {
 	values.Add("shipping[name]", s.Name)
 
 	values.Add("shipping[address][line1]", s.Address.Line1)

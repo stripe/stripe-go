@@ -3,6 +3,8 @@ package stripe
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 // BankAccountStatus is the list of allowed values for the bank account's status.
@@ -72,7 +74,7 @@ func (b *BankAccount) Display() string {
 }
 
 // AppendDetails adds the bank account's details to the query string values.
-func (b *BankAccountParams) AppendDetails(values *RequestValues) {
+func (b *BankAccountParams) AppendDetails(values *form.Values) {
 	values.Add("bank_account[country]", b.Country)
 	if len(b.Routing) > 0 {
 		values.Add("bank_account[routing_number]", b.Routing)

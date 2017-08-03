@@ -1,5 +1,9 @@
 package stripe
 
+import (
+	"github.com/stripe/stripe-go/form"
+)
+
 // TokenType is the list of allowed values for a token's type.
 // Allowed values are "card", "bank_account".
 type TokenType string
@@ -40,6 +44,6 @@ type PIIParams struct {
 }
 
 // AppendDetails adds the PII data's details to the query string values.
-func (p *PIIParams) AppendDetails(values *RequestValues) {
+func (p *PIIParams) AppendDetails(values *form.Values) {
 	values.Add("pii[personal_id_number]", p.PersonalIDNumber)
 }

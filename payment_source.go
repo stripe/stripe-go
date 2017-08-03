@@ -3,6 +3,8 @@ package stripe
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 // SourceParams is a union struct used to describe an
@@ -15,7 +17,7 @@ type SourceParams struct {
 // AppendDetails adds the source's details to the query string values.
 // For cards: when creating a new one, the parameters are passed as a dictionary, but
 // on updates they are simply the parameter name.
-func (sp *SourceParams) AppendDetails(values *RequestValues, creating bool) {
+func (sp *SourceParams) AppendDetails(values *form.Values, creating bool) {
 	if len(sp.Token) > 0 {
 		values.Add("source", sp.Token)
 	} else if sp.Card != nil {

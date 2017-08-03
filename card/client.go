@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 const (
@@ -41,7 +42,7 @@ func New(params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	params.AppendDetails(body, true)
 	params.AppendTo(body)
 
@@ -71,12 +72,12 @@ func Get(id string, params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		params.AppendTo(body)
 	}
 
@@ -103,7 +104,7 @@ func Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	params.AppendDetails(body, false)
 	params.AppendTo(body)
 
@@ -156,7 +157,7 @@ func List(params *stripe.CardListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.CardListParams) *Iter {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
@@ -164,7 +165,7 @@ func (c Client) List(params *stripe.CardListParams) *Iter {
 	lp = &params.ListParams
 	p = params.ToParams()
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CardList{}
 		var err error
 

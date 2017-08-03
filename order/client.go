@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /orders APIs.
@@ -23,11 +24,11 @@ func New(params *stripe.OrderParams) (*stripe.Order, error) {
 // New POSTs a new order.
 // For more details see https://stripe.com/docs/api#create_order.
 func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		commonParams = &params.Params
 
 		if params.Coupon != "" {
@@ -110,11 +111,11 @@ func Update(id string, params *stripe.OrderUpdateParams) (*stripe.Order, error) 
 // Update updates an order's properties.
 // For more details see https://stripe.com/docs/api#update_order.
 func (c Client) Update(id string, params *stripe.OrderUpdateParams) (*stripe.Order, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		commonParams = &params.Params
 
 		if params.Coupon != "" {
@@ -147,11 +148,11 @@ func Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, error) {
 // Pay pays an order
 // For more details see https://stripe.com/docs/api#pay_order.
 func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		commonParams = &params.Params
 		if params.Source == nil && len(params.Customer) == 0 {
 			err := errors.New("Invalid order pay params: either customer or a source must be set")
@@ -226,11 +227,11 @@ func Get(id string, params *stripe.OrderParams) (*stripe.Order, error) {
 }
 
 func (c Client) Get(id string, params *stripe.OrderParams) (*stripe.Order, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		commonParams = &params.Params
 		params.AppendTo(body)
 	}
@@ -247,12 +248,12 @@ func List(params *stripe.OrderListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.OrderListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
@@ -275,7 +276,7 @@ func (c Client) List(params *stripe.OrderListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.OrderList{}
 		err := c.B.Call("GET", "/orders", c.Key, b, p, list)
 
@@ -310,11 +311,11 @@ func Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, e
 // Return returns all or part of an order.
 // For more details see https://stripe.com/docs/api#return_order.
 func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if len(params.Items) > 0 {
 			for _, item := range params.Items {
