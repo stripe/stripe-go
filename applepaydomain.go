@@ -3,7 +3,7 @@ package stripe
 // ApplePayDomainParams is the set of parameters that can be used when creating an ApplePayDomain object.
 type ApplePayDomainParams struct {
 	Params
-	DomainName string `json:"domain_name"`
+	DomainName string `form:"domain_name"`
 }
 
 // ApplePayDomain is the resource representing a Stripe ApplePayDomain object
