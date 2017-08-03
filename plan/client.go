@@ -97,7 +97,6 @@ func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) 
 
 	if params != nil {
 		body = &form.Values{}
-
 		params.AppendTo(body)
 		commonParams = &params.Params
 	}
