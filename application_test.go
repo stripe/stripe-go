@@ -3,30 +3,23 @@ package stripe
 import (
 	"encoding/json"
 	"testing"
+
+	assert "github.com/stretchr/testify/require"
 )
 
 func TestApplicationUnmarshal(t *testing.T) {
 	applicationData := map[string]interface{}{
-		"id":   "ca_1234",
+		"id":   "ca_123",
 		"name": "My Application Name",
 	}
 
 	bytes, err := json.Marshal(&applicationData)
-	if err != nil {
-		t.Error(err)
-	}
+	assert.NoError(t, err)
 
 	var application Application
 	err = json.Unmarshal(bytes, &application)
-	if err != nil {
-		t.Error(err)
-	}
+	assert.NoError(t, err)
 
-	if application.ID != "ca_1234" {
-		t.Errorf("Problem deserializing application, got ID %v", application.ID)
-	}
-
-	if application.Name != "My Application Name" {
-		t.Errorf("Problem deserializing application, got name %v", application.Name)
-	}
+	assert.Equal(t, "ca_123", application.ID)
+	assert.Equal(t, "My Application Name", application.Name)
 }
