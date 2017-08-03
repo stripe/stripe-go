@@ -13,7 +13,7 @@ sudo: false
 
 env:
   global:
-    - STRIPE_MOCK_VERSION=0.1.13
+    - STRIPE_MOCK_VERSION=0.1.14
 
 cache:
   directories:
