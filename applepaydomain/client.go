@@ -19,9 +19,7 @@ func New(params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 
 func (c Client) New(params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 	body := &form.Values{}
-	body.Add("domain_name", params.DomainName)
-
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	domain := &stripe.ApplePayDomain{}
 	err := c.B.Call("POST", "/apple_pay/domains", c.Key, body, &params.Params, domain)
@@ -50,13 +48,22 @@ func (c Client) Get(id string, params *stripe.ApplePayDomainParams) (*stripe.App
 }
 
 // Del removes an ApplePayDomain.
-func Del(id string) (*stripe.ApplePayDomain, error) {
-	return getC().Del(id)
+func Del(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
+	return getC().Del(id, params)
 }
 
-func (c Client) Del(id string) (*stripe.ApplePayDomain, error) {
+func (c Client) Del(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
+	var body *form.Values
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &form.Values{}
+		params.AppendTo(body)
+		commonParams = &params.Params
+	}
+
 	domain := &stripe.ApplePayDomain{}
-	err := c.B.Call("DELETE", "/apple_pay/domains/"+id, c.Key, nil, nil, domain)
+	err := c.B.Call("DELETE", "/apple_pay/domains/"+id, c.Key, body, commonParams, domain)
 
 	return domain, err
 }
