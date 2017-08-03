@@ -34,7 +34,7 @@ type formOptions struct {
 	Zero bool
 }
 
-func AppendTo(values *RequestValues, i interface{}) {
+func AppendTo(values *Values, i interface{}) {
 	reflectValue(values, reflect.ValueOf(i), nil, nil)
 }
 
@@ -50,7 +50,7 @@ func formatName(names []string) string {
 	return fullName
 }
 
-func reflectValue(values *RequestValues, val reflect.Value, names []string, options *formOptions) {
+func reflectValue(values *Values, val reflect.Value, names []string, options *formOptions) {
 	t := val.Type()
 
 	// Also do nothing if this is the type's zero value
@@ -186,20 +186,20 @@ func parseTag(tag string) (string, *formOptions) {
 
 // ---
 
-// RequestValues is a collection of values that can be submitted along with a
+// Values is a collection of values that can be submitted along with a
 // request that specifically allows for duplicate keys and encodes its entries
 // in the same order that they were added.
-type RequestValues struct {
+type Values struct {
 	values []formValue
 }
 
 // Add adds a key/value tuple to the form.
-func (f *RequestValues) Add(key, val string) {
+func (f *Values) Add(key, val string) {
 	f.values = append(f.values, formValue{key, val})
 }
 
 // Encode encodes the values into “URL encoded” form ("bar=baz&foo=quux").
-func (f *RequestValues) Encode() string {
+func (f *Values) Encode() string {
 	var buf bytes.Buffer
 	for _, v := range f.values {
 		if buf.Len() > 0 {
@@ -213,7 +213,7 @@ func (f *RequestValues) Encode() string {
 }
 
 // Empty returns true if no parameters have been set.
-func (f *RequestValues) Empty() bool {
+func (f *Values) Empty() bool {
 	return len(f.values) == 0
 }
 
@@ -221,7 +221,7 @@ func (f *RequestValues) Empty() bool {
 // value. If no parameters exist with the key, a new one is added.
 //
 // Note that Set is O(n) and may be quite slow for a very large parameter list.
-func (f *RequestValues) Set(key, val string) {
+func (f *Values) Set(key, val string) {
 	for i, v := range f.values {
 		if v.Key == key {
 			f.values[i].Value = val
@@ -236,7 +236,7 @@ func (f *RequestValues) Set(key, val string) {
 // for the key, nil will be returned.
 //
 // Note that Get is O(n) and may be quite slow for a very large parameter list.
-func (f *RequestValues) Get(key string) []string {
+func (f *Values) Get(key string) []string {
 	var results []string
 	for i, v := range f.values {
 		if v.Key == key {
@@ -246,7 +246,7 @@ func (f *RequestValues) Get(key string) []string {
 	return results
 }
 
-// ToValues converts an instance of RequestValues into an instance of
+// ToValues converts an instance of Values into an instance of
 // url.Values. This can be useful in cases where it's useful to make an
 // unordered comparison of two sets of request values.
 //
@@ -264,7 +264,7 @@ func (f *RequestValues) Get(key string) []string {
 //     arr[][foo]=foo0&arr[][foo]=foo1&arr[][bar]=bar0&arr[][bar]=bar1
 //
 // And thus result in an incorrect request to Stripe.
-func (f *RequestValues) ToValues() url.Values {
+func (f *Values) ToValues() url.Values {
 	values := url.Values{}
 	for _, v := range f.values {
 		values.Add(v.Key, v.Value)
@@ -272,7 +272,7 @@ func (f *RequestValues) ToValues() url.Values {
 	return values
 }
 
-// A key/value tuple for use in the RequestValues type.
+// A key/value tuple for use in the Values type.
 type formValue struct {
 	Key   string
 	Value string

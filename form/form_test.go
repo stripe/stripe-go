@@ -176,7 +176,7 @@ func TestAppendTo(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.field, func(t *testing.T) {
-			form := &RequestValues{}
+			form := &Values{}
 			AppendTo(form, tc.data)
 			values := form.ToValues()
 			t.Logf("values = %+v", values)
@@ -210,7 +210,7 @@ func TestAppendTo_DuplicatedNames(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.field, func(t *testing.T) {
-			form := &RequestValues{}
+			form := &Values{}
 			AppendTo(form, tc.data)
 			values := form.ToValues()
 			//fmt.Printf("values = %+v", values)
@@ -224,10 +224,10 @@ func TestAppendTo_DuplicatedNames(t *testing.T) {
 }
 
 func TestAppendTo_ZeroValues(t *testing.T) {
-	form := &RequestValues{}
+	form := &Values{}
 	data := &testStruct{}
 	AppendTo(form, data)
-	assert.Equal(t, &RequestValues{}, form)
+	assert.Equal(t, &Values{}, form)
 }
 
 func TestParseTag(t *testing.T) {
