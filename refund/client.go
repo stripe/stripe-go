@@ -50,7 +50,7 @@ func (c Client) New(params *stripe.RefundParams) (*stripe.Refund, error) {
 		body.Add("charge", string(params.Charge))
 	}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	refund := &stripe.Refund{}
 	err := c.B.Call("POST", fmt.Sprintf("/refunds"), c.Key, body, &params.Params, refund)
@@ -71,7 +71,7 @@ func (c Client) Get(id string, params *stripe.RefundParams) (*stripe.Refund, err
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	refund := &stripe.Refund{}
@@ -89,7 +89,7 @@ func Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	body := &form.Values{}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	refund := &stripe.Refund{}
 	err := c.B.Call("POST", fmt.Sprintf("/refunds/%v", id), c.Key, body, &params.Params, refund)
@@ -108,7 +108,7 @@ func (c Client) List(params *stripe.RefundListParams) *Iter {
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 	lp = &params.ListParams
 	p = params.ToParams()
 

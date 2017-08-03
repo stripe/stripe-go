@@ -20,8 +20,8 @@ const (
 // Params is the structure that contains the common properties
 // of any *Params structure.
 type Params struct {
-	Exp            []string
-	Meta           map[string]string
+	Exp            []string          `form:"expand"`
+	Meta           map[string]string `form:"metadata"`
 	Extra          url.Values
 	IdempotencyKey string
 
@@ -39,13 +39,29 @@ type Params struct {
 	Headers http.Header
 }
 
+// AppendTo implements custom form encoding for Params.
+//
+// Normally this could happen automatically using a form tag, but the presence
+// of the Extra property makes that difficult right now. Instead, we create a
+// type alias that will handle most of the encoding, and then append Extra
+// manually.
+func (p *Params) AppendTo(body *form.Values, keyParts []string) {
+	for k, vs := range p.Extra {
+		for _, v := range vs {
+			body.Add(form.FormatKey(append(keyParts, k)), v)
+		}
+	}
+}
+
 // ListParams is the structure that contains the common properties
 // of any *ListParams structure.
 type ListParams struct {
-	Exp        []string
-	Start, End string
-	Limit      int
-	Filters    Filters
+	Exp     []string `form:"expand"`
+	Start   string   `form:"starting_after"`
+	End     string   `form:"ending_before"`
+	Limit   int      `form:"limit"`
+	Filters Filters
+
 	// By default, listing through an iterator will automatically grab
 	// additional pages as the query progresses. To change this behavior
 	// and just load a single page, set this to true.
@@ -56,6 +72,19 @@ type ListParams struct {
 	// account instead of under the account of the owner of the configured
 	// Stripe key.
 	StripeAccount string
+}
+
+// AppendTo implements custom form encoding for ListParams.
+func (p *ListParams) AppendTo(body *form.Values, keyParts []string) {
+	if len(p.Filters.f) > 0 {
+		for _, v := range p.Filters.f {
+			if len(v.Op) > 0 {
+				body.Add(form.FormatKey(append(keyParts, v.Key, v.Op)), v.Val)
+			} else {
+				body.Add(form.FormatKey(append(keyParts, v.Key)), v.Val)
+			}
+		}
+	}
 }
 
 // ListMeta is the structure that contains the common properties
@@ -108,17 +137,6 @@ func (r *RangeQueryParams) AppendTo(values *form.Values, name string) {
 // Filters is a structure that contains a collection of filters for list-related APIs.
 type Filters struct {
 	f []*filter
-}
-
-// AppendTo adds the list of filters to the query string values.
-func (f *Filters) AppendTo(values *form.Values) {
-	for _, v := range f.f {
-		if len(v.Op) > 0 {
-			values.Add(fmt.Sprintf("%v[%v]", v.Key, v.Op), v.Val)
-		} else {
-			values.Add(v.Key, v.Val)
-		}
-	}
 }
 
 // filter is the structure that contains a filter for list-related APIs.
@@ -176,53 +194,9 @@ func (f *Filters) AddFilter(key, op, value string) {
 	f.f = append(f.f, filter)
 }
 
-// AppendTo adds the common parameters to the query string values.
-func (p *Params) AppendTo(body *form.Values) {
-	for k, v := range p.Meta {
-		body.Add(fmt.Sprintf("metadata[%v]", k), v)
-	}
-
-	for _, v := range p.Exp {
-		body.Add("expand[]", v)
-	}
-
-	for k, vs := range p.Extra {
-		for _, v := range vs {
-			body.Add(k, v)
-		}
-	}
-}
-
 // Expand appends a new field to expand.
 func (p *ListParams) Expand(f string) {
 	p.Exp = append(p.Exp, f)
-}
-
-// AppendTo adds the common parameters to the query string values.
-func (p *ListParams) AppendTo(body *form.Values) {
-	if len(p.Filters.f) > 0 {
-		p.Filters.AppendTo(body)
-	}
-
-	if len(p.Start) > 0 {
-		body.Add(startafter, p.Start)
-	}
-
-	if len(p.End) > 0 {
-		body.Add(endbefore, p.End)
-	}
-
-	if p.Limit > 0 {
-		if p.Limit > 100 {
-			p.Limit = 100
-		}
-
-		body.Add("limit", strconv.Itoa(p.Limit))
-	}
-
-	for _, v := range p.Exp {
-		body.Add("expand[]", v)
-	}
 }
 
 // ToParams converts a ListParams to a Params by moving over any fields that

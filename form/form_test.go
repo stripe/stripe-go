@@ -56,6 +56,9 @@ type testStruct struct {
 	SubStruct    testSubStruct  `form:"substruct"`
 	SubStructPtr *testSubStruct `form:"substruct_ptr"`
 
+	SubStructFlat    testSubStruct  `form:"*"`
+	SubStructFlatPtr *testSubStruct `form:"*"`
+
 	Uuint      uint    `form:"uint"`
 	UuintPtr   *uint   `form:"uint_ptr"`
 	Uuint8     uint8   `form:"uint8"`
@@ -74,8 +77,8 @@ type testAppender struct {
 	String string
 }
 
-func (a *testAppender) AppendTo(values *Values, prefix string) {
-	values.Add(prefix, a.String)
+func (a *testAppender) AppendTo(values *Values, keyParts []string) {
+	values.Add(FormatKey(keyParts), a.String)
 }
 
 type testSubStruct struct {
@@ -176,6 +179,9 @@ func TestAppendTo(t *testing.T) {
 		{"substruct[subsubstruct][string]", &testStruct{SubStruct: subStructVal}, "123"},
 		{"substruct_ptr[subsubstruct][string]", &testStruct{SubStructPtr: &subStructVal}, "123"},
 
+		{"subsubstruct[string]", &testStruct{SubStructFlat: subStructVal}, "123"},
+		{"subsubstruct[string]", &testStruct{SubStructFlatPtr: &subStructVal}, "123"},
+
 		{"uint", &testStruct{Uuint: uintVal}, "123"},
 		{"uint_ptr", &testStruct{UuintPtr: &uintVal}, "123"},
 		{"uint8", &testStruct{Uuint8: uint8Val}, "123"},
@@ -243,6 +249,13 @@ func TestAppendTo_ZeroValues(t *testing.T) {
 	data := &testStruct{}
 	AppendTo(form, data)
 	assert.Equal(t, &Values{}, form)
+}
+
+func TestFormatKey(t *testing.T) {
+	assert.Equal(t, "param", FormatKey([]string{"param"}))
+	assert.Equal(t, "param[key]", FormatKey([]string{"param", "key"}))
+	assert.Equal(t, "param[key][]", FormatKey([]string{"param", "key", ""}))
+	assert.Equal(t, "param[key][0]", FormatKey([]string{"param", "key", "0"}))
 }
 
 func TestParseTag(t *testing.T) {

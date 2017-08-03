@@ -95,7 +95,7 @@ func (c Client) New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 			body.Add(fmt.Sprintf("%s[%s]", params.Type, k), v)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	p := &stripe.Source{}
@@ -119,7 +119,7 @@ func (c Client) Get(id string, params *stripe.SourceObjectParams) (*stripe.Sourc
 	if params != nil {
 		body = &form.Values{}
 		commonParams = &params.Params
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	source := &stripe.Source{}
@@ -174,7 +174,7 @@ func (c Client) Update(id string, params *stripe.SourceObjectParams) (*stripe.So
 			}
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	source := &stripe.Source{}

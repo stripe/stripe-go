@@ -49,7 +49,7 @@ func (c Client) New(params *stripe.TokenParams) (*stripe.Token, error) {
 		body.Add("email", params.Email)
 	}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	tok := &stripe.Token{}
 	err := c.B.Call("POST", "/tokens", token, body, &params.Params, tok)
@@ -70,7 +70,7 @@ func (c Client) Get(id string, params *stripe.TokenParams) (*stripe.Token, error
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	token := &stripe.Token{}

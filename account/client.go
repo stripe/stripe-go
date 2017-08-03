@@ -58,7 +58,7 @@ func (c Client) GetByID(id string, params *stripe.AccountParams) (*stripe.Accoun
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	account := &stripe.Account{}
@@ -129,7 +129,7 @@ func (c Client) List(params *stripe.AccountListParams) *Iter {
 	if params != nil {
 		body = &form.Values{}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

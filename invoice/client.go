@@ -54,7 +54,7 @@ func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 		body.Add("subscription", params.Sub)
 	}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	token := c.Key
 	if params.Fee > 0 {
@@ -86,7 +86,7 @@ func (c Client) Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, e
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	invoice := &stripe.Invoice{}
@@ -113,7 +113,7 @@ func (c Client) Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice
 			body.Add("source", params.Source)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	invoice := &stripe.Invoice{}
@@ -173,7 +173,7 @@ func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice
 			body.Add("tax_percent", "0")
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	invoice := &stripe.Invoice{}
@@ -238,7 +238,7 @@ func (c Client) GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 		body.Add("subscription_trial_end", strconv.FormatInt(params.SubTrialEnd, 10))
 	}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	invoice := &stripe.Invoice{}
 	err := c.B.Call("GET", "/invoices/upcoming", c.Key, body, &params.Params, invoice)
@@ -284,7 +284,7 @@ func (c Client) List(params *stripe.InvoiceListParams) *Iter {
 			body.Add("due_date", strconv.FormatInt(params.DueDate, 10))
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
@@ -321,7 +321,7 @@ func (c Client) ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 		body.Add("subscription", params.Sub)
 	}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 	lp = &params.ListParams
 	p = params.ToParams()
 

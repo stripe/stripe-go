@@ -38,7 +38,7 @@ func (c Client) Get(id string, params *stripe.ApplePayDomainParams) (*stripe.App
 	if params != nil {
 		body = &form.Values{}
 		commonParams = &params.Params
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	domain := &stripe.ApplePayDomain{}
@@ -58,7 +58,7 @@ func (c Client) Del(id string, params *stripe.ApplePayDomainParams) (*stripe.App
 
 	if params != nil {
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 
@@ -81,7 +81,7 @@ func (c Client) List(params *stripe.ApplePayDomainListParams) *Iter {
 	if params != nil {
 		body = &form.Values{}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

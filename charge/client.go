@@ -93,7 +93,7 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 		params.Shipping.AppendDetails(body)
 	}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	charge := &stripe.Charge{}
 	err := c.B.Call("POST", "/charges", token, body, &params.Params, charge)
@@ -114,7 +114,7 @@ func (c Client) Get(id string, params *stripe.ChargeParams) (*stripe.Charge, err
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	charge := &stripe.Charge{}
@@ -145,7 +145,7 @@ func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, 
 			body.Add("fraud_details[user_report]", string(params.Fraud))
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	charge := &stripe.Charge{}
@@ -185,7 +185,7 @@ func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge
 			body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	charge := &stripe.Charge{}
@@ -225,7 +225,7 @@ func (c Client) List(params *stripe.ChargeListParams) *Iter {
 			body.Add("transfer_group", params.TransferGroup)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
@@ -282,7 +282,7 @@ func (c Client) UpdateDispute(id string, params *stripe.DisputeParams) (*stripe.
 		if params.Evidence != nil {
 			params.Evidence.AppendDetails(body)
 		}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	dispute := &stripe.Dispute{}

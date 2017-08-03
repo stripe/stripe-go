@@ -25,7 +25,7 @@ func New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 func (s Client) New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	body := &form.Values{}
 	params.Source.AppendDetails(body, true)
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	source := &stripe.PaymentSource{}
 	var err error
@@ -52,7 +52,7 @@ func (s Client) Get(id string, params *stripe.CustomerSourceParams) (*stripe.Pay
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	source := &stripe.PaymentSource{}
@@ -76,7 +76,7 @@ func Update(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSour
 func (s Client) Update(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	body := &form.Values{}
 	params.Source.AppendDetails(body, false)
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	source := &stripe.PaymentSource{}
 	var err error
@@ -120,7 +120,7 @@ func (s Client) List(params *stripe.SourceListParams) *Iter {
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 	lp = &params.ListParams
 	p = params.ToParams()
 

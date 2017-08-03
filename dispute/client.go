@@ -48,7 +48,7 @@ func (c Client) Get(id string, params *stripe.DisputeParams) (*stripe.Dispute, e
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	dispute := &stripe.Dispute{}
@@ -79,7 +79,7 @@ func (c Client) List(params *stripe.DisputeListParams) *Iter {
 			params.CreatedRange.AppendTo(body, "created")
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
@@ -127,7 +127,7 @@ func (c Client) Update(id string, params *stripe.DisputeParams) (*stripe.Dispute
 		if params.Evidence != nil {
 			params.Evidence.AppendDetails(body)
 		}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	dispute := &stripe.Dispute{}

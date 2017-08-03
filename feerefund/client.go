@@ -28,7 +28,7 @@ func (c Client) New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 		body.Add("amount", strconv.FormatUint(params.Amount, 10))
 	}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	refund := &stripe.FeeRefund{}
 	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refunds", params.Fee), c.Key, body, &params.Params, refund)
@@ -48,7 +48,7 @@ func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefun
 	}
 
 	body := &form.Values{}
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	refund := &stripe.FeeRefund{}
 	err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.Key, body, &params.Params, refund)
@@ -64,7 +64,7 @@ func Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error
 
 func (c Client) Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	body := &form.Values{}
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	refund := &stripe.FeeRefund{}
 	err := c.B.Call("POST", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.Key, body, &params.Params, refund)
@@ -83,7 +83,7 @@ func (c Client) List(params *stripe.FeeRefundListParams) *Iter {
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 	lp = &params.ListParams
 	p = params.ToParams()
 

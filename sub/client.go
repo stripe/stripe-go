@@ -109,7 +109,7 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 
 		commonParams = &params.Params
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	sub := &stripe.Sub{}
@@ -130,7 +130,7 @@ func (c Client) Get(id string, params *stripe.SubParams) (*stripe.Sub, error) {
 
 	if params != nil {
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 
@@ -233,7 +233,7 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 		}
 
 		commonParams = &params.Params
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	sub := &stripe.Sub{}
@@ -259,7 +259,7 @@ func (c Client) Cancel(id string, params *stripe.SubParams) (*stripe.Sub, error)
 			body.Add("at_period_end", strconv.FormatBool(true))
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 
@@ -307,7 +307,7 @@ func (c Client) List(params *stripe.SubListParams) *Iter {
 			body.Add("billing", string(params.Billing))
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 
 		lp = &params.ListParams
 		p = params.ToParams()

@@ -66,7 +66,7 @@ func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 			body.Add(sourceType+"[default_for_currency]", strconv.FormatBool(params.Default))
 		}
 	}
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	ba := &stripe.BankAccount{}
 	var err error
@@ -91,7 +91,7 @@ func (c Client) Get(id string, params *stripe.BankAccountParams) (*stripe.BankAc
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	ba := &stripe.BankAccount{}
@@ -125,7 +125,7 @@ func (c Client) Update(id string, params *stripe.BankAccountParams) (*stripe.Ban
 			body.Add("default_for_currency", strconv.FormatBool(params.Default))
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	ba := &stripe.BankAccount{}
@@ -172,7 +172,7 @@ func (c Client) List(params *stripe.BankAccountListParams) *Iter {
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 	lp = &params.ListParams
 	p = params.ToParams()
 

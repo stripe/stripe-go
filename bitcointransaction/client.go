@@ -32,7 +32,7 @@ func (c Client) List(params *stripe.BitcoinTransactionListParams) *Iter {
 			body.Add("customer", params.Customer)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

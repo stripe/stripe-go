@@ -31,7 +31,7 @@ func (c Client) New(params *stripe.ReversalParams) (*stripe.Reversal, error) {
 		body.Add("refund_application_fee", strconv.FormatBool(params.Fee))
 	}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	reversal := &stripe.Reversal{}
 	err := c.B.Call("POST", fmt.Sprintf("/transfers/%v/reversals", params.Transfer), c.Key, body, &params.Params, reversal)
@@ -50,7 +50,7 @@ func (c Client) Get(id string, params *stripe.ReversalParams) (*stripe.Reversal,
 	}
 
 	body := &form.Values{}
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	reversal := &stripe.Reversal{}
 	err := c.B.Call("GET", fmt.Sprintf("/transfers/%v/reversals/%v", params.Transfer, id), c.Key, body, &params.Params, reversal)
@@ -66,7 +66,7 @@ func Update(id string, params *stripe.ReversalParams) (*stripe.Reversal, error) 
 func (c Client) Update(id string, params *stripe.ReversalParams) (*stripe.Reversal, error) {
 	body := &form.Values{}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	reversal := &stripe.Reversal{}
 	err := c.B.Call("POST", fmt.Sprintf("/transfers/%v/reversals/%v", params.Transfer, id), c.Key, body, &params.Params, reversal)
@@ -84,7 +84,7 @@ func (c Client) List(params *stripe.ReversalListParams) *Iter {
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 	lp = &params.ListParams
 	p = params.ToParams()
 

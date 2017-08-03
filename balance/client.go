@@ -46,7 +46,7 @@ func (c Client) Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	balance := &stripe.Balance{}
@@ -68,7 +68,7 @@ func (c Client) GetTx(id string, params *stripe.TxParams) (*stripe.Transaction, 
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	balance := &stripe.Transaction{}
@@ -122,7 +122,7 @@ func (c Client) List(params *stripe.TxListParams) *Iter {
 			body.Add("type", string(params.Type))
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

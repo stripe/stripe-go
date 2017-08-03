@@ -46,7 +46,7 @@ func TestIdentityDocument_Appendto(t *testing.T) {
 	document := &IdentityDocument{ID: "file_123"}
 	body := &form.Values{}
 	document.AppendTo(body,
-		"legal_entity[additional_owners][0][verification][document]")
+		[]string{"legal_entity", "additional_owners", "0", "verification", "document"})
 	assert.Equal(t,
 		[]string{"file_123"},
 		body.Get("legal_entity[additional_owners][0][verification][document]"),

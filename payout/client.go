@@ -69,7 +69,7 @@ func (c Client) New(params *stripe.PayoutParams) (*stripe.Payout, error) {
 		body.Add("statement_descriptor", params.StatementDescriptor)
 	}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	payout := &stripe.Payout{}
 	err := c.B.Call("POST", "/payouts", c.Key, body, &params.Params, payout)
@@ -90,7 +90,7 @@ func (c Client) Get(id string, params *stripe.PayoutParams) (*stripe.Payout, err
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	payout := &stripe.Payout{}
@@ -112,7 +112,7 @@ func (c Client) Update(id string, params *stripe.PayoutParams) (*stripe.Payout, 
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	payout := &stripe.Payout{}
@@ -135,7 +135,7 @@ func (c Client) Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, 
 		commonParams = &params.Params
 
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	payout := &stripe.Payout{}
@@ -182,7 +182,7 @@ func (c Client) List(params *stripe.PayoutListParams) *Iter {
 			body.Add("status", string(params.Status))
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

@@ -8,7 +8,7 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-func TestPlanListParamsAppendTo(t *testing.T) {
+func TestPlanListParams_AppendTo(t *testing.T) {
 	testCases := []struct {
 		field  string
 		params *PlanListParams
@@ -31,14 +31,14 @@ func TestPlanListParamsAppendTo(t *testing.T) {
 	}
 }
 
-func TestPlanListParamsAppendTo_Empty(t *testing.T) {
+func TestPlanListParams_AppendTo_Empty(t *testing.T) {
 	body := &form.Values{}
 	params := &PlanListParams{}
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 	assert.True(t, body.Empty())
 }
 
-func TestPlanParamsAppendTo(t *testing.T) {
+func TestPlanParams_AppendTo(t *testing.T) {
 	testCases := []struct {
 		field  string
 		params *PlanParams
@@ -63,7 +63,7 @@ func TestPlanParamsAppendTo(t *testing.T) {
 	}
 }
 
-func TestPlanParamsAppendTo_Empty(t *testing.T) {
+func TestPlanParams_AppendTo_Empty(t *testing.T) {
 	body := &form.Values{}
 	params := &PlanParams{}
 	form.AppendTo(body, params)

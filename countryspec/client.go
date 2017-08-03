@@ -38,7 +38,7 @@ func (c Client) List(params *stripe.CountrySpecListParams) *Iter {
 	if params != nil {
 		body = &form.Values{}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

@@ -61,7 +61,7 @@ const (
 
 // AccountParams are the parameters allowed during account creation/updates.
 type AccountParams struct {
-	Params
+	Params               `form:"*"`
 	Country              string                        `form:"country"`
 	Email                string                        `form:"email"`
 	DefaultCurrency      string                        `form:"default_currency"`
@@ -85,14 +85,14 @@ type AccountParams struct {
 
 // AccountListParams are the parameters allowed during account listing.
 type AccountListParams struct {
-	ListParams
+	ListParams `form:"*"`
 }
 
 // AccountExternalAccountParams are the parameters allowed to reference an
 // external account when creating an account. It should either have Token set
 // or everything else.
 type AccountExternalAccountParams struct {
-	Params
+	Params            `form:"*"`
 	Account           string `form:"account_number"`
 	AccountHolderName string `form:"account_holder_name"`
 	AccountHolderType string `form:"account_holder_type"`
@@ -338,8 +338,8 @@ type IdentityDocument struct {
 //
 // Long term, we should create separate parameter structs. This isn't hard, but
 // is breaking, and will be somewhat painful for users when they upgrade.
-func (d *IdentityDocument) AppendTo(values *form.Values, prefix string) {
-	values.Add(prefix, d.ID)
+func (d *IdentityDocument) AppendTo(body *form.Values, keyParts []string) {
+	body.Add(form.FormatKey(keyParts), d.ID)
 }
 
 // PayoutSchedule is the structure for an account's payout schedule.

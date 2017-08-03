@@ -53,7 +53,7 @@ func (c Client) List(params *stripe.EventListParams) *Iter {
 			body.Add("type", params.Type)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

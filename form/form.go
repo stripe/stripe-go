@@ -41,26 +41,33 @@ type formOptions struct {
 // places where authors deviated from norms while implementing various
 // parameters.
 type Appender interface {
-	AppendTo(values *Values, prefix string)
+	// AppendTo is invoked by the form package on any types found to implement
+	// Appender so that they have a chance to encode themselves. Note that
+	// AppendTo is called in addition to normal encoding, so other form tags on
+	// the struct are still fair game.
+	AppendTo(values *Values, keyParts []string)
 }
 
 func AppendTo(values *Values, i interface{}) {
 	reflectValue(values, reflect.ValueOf(i), nil, nil)
 }
 
-func formatName(names []string) string {
-	if len(names) < 1 {
-		panic("Not allowed 0-length names slice")
+// FormatKey takes a series of key parts that may be parameter keyParts, map keys,
+// or array indices and unifies them into a single key suitable for Stripe's
+// style of form encoding.
+func FormatKey(parts []string) string {
+	if len(parts) < 1 {
+		panic("Not allowed 0-length parts slice")
 	}
 
-	fullName := names[0]
-	for i := 1; i < len(names); i++ {
-		fullName += "[" + names[i] + "]"
+	key := parts[0]
+	for i := 1; i < len(parts); i++ {
+		key += "[" + parts[i] + "]"
 	}
-	return fullName
+	return key
 }
 
-func reflectValue(values *Values, val reflect.Value, names []string, options *formOptions) {
+func reflectValue(values *Values, val reflect.Value, keyParts []string, options *formOptions) {
 	t := val.Type()
 
 	// Also do nothing if this is the type's zero value
@@ -71,22 +78,21 @@ func reflectValue(values *Values, val reflect.Value, names []string, options *fo
 	// Special case for when a type has implemented special logic to append
 	// itself to a form.
 	if t.Implements(reflect.TypeOf((*Appender)(nil)).Elem()) {
-		val.Interface().(Appender).AppendTo(values, formatName(names))
-		return
+		val.Interface().(Appender).AppendTo(values, keyParts)
 	}
 
 	switch val.Kind() {
 	case reflect.Array, reflect.Slice:
-		// formatName automatically adds square brackets, so just pass an empty
+		// FormatKey automatically adds square brackets, so just pass an empty
 		// string into the breadcrumb trail
-		arrNames := append(names, "")
+		arrNames := append(keyParts, "")
 
 		for i := 0; i < val.Len(); i++ {
 			// The one exception to the above is when options have requested
 			// that this array/slice be indexed. In that case we produce a hash
 			// keyed with integers which the Stripe API knows how to interpret.
 			if options != nil && options.IndexedArray {
-				arrNames = append(names, strconv.Itoa(i))
+				arrNames = append(keyParts, strconv.Itoa(i))
 			}
 
 			reflectValue(values, val.Index(i), arrNames, nil)
@@ -97,31 +103,31 @@ func reflectValue(values *Values, val reflect.Value, names []string, options *fo
 			if val.Bool() {
 				switch {
 				case options.Empty:
-					values.Add(formatName(names), "")
+					values.Add(FormatKey(keyParts), "")
 				case options.Invert:
-					values.Add(formatName(names), strconv.FormatBool(false))
+					values.Add(FormatKey(keyParts), strconv.FormatBool(false))
 				case options.Zero:
-					values.Add(formatName(names), "0")
+					values.Add(FormatKey(keyParts), "0")
 				}
 			}
 		} else {
-			values.Add(formatName(names), strconv.FormatBool(val.Bool()))
+			values.Add(FormatKey(keyParts), strconv.FormatBool(val.Bool()))
 		}
 
 	case reflect.Float32:
-		values.Add(formatName(names), strconv.FormatFloat(val.Float(), 'f', 4, 32))
+		values.Add(FormatKey(keyParts), strconv.FormatFloat(val.Float(), 'f', 4, 32))
 
 	case reflect.Float64:
-		values.Add(formatName(names), strconv.FormatFloat(val.Float(), 'f', 4, 64))
+		values.Add(FormatKey(keyParts), strconv.FormatFloat(val.Float(), 'f', 4, 64))
 
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		values.Add(formatName(names), strconv.FormatInt(val.Int(), 10))
+		values.Add(FormatKey(keyParts), strconv.FormatInt(val.Int(), 10))
 
 	case reflect.Interface:
 		if val.IsNil() {
 			return
 		}
-		reflectValue(values, val.Elem(), names, nil)
+		reflectValue(values, val.Elem(), keyParts, nil)
 
 	case reflect.Map:
 		for _, keyVal := range val.MapKeys() {
@@ -129,17 +135,17 @@ func reflectValue(values *Values, val reflect.Value, names []string, options *fo
 				panic("Don't support serializing maps with non-string keys")
 			}
 
-			reflectValue(values, val.MapIndex(keyVal), append(names, keyVal.String()), nil)
+			reflectValue(values, val.MapIndex(keyVal), append(keyParts, keyVal.String()), nil)
 		}
 
 	case reflect.Ptr:
 		if val.IsNil() {
 			return
 		}
-		reflectValue(values, val.Elem(), names, options)
+		reflectValue(values, val.Elem(), keyParts, options)
 
 	case reflect.String:
-		values.Add(formatName(names), val.String())
+		values.Add(FormatKey(keyParts), val.String())
 
 	case reflect.Struct:
 		for i := 0; i < t.NumField(); i++ {
@@ -157,11 +163,20 @@ func reflectValue(values *Values, val reflect.Value, names []string, options *fo
 				panic("Cannot specify `zero` on non-integer field")
 			}
 
-			reflectValue(values, val.Field(i), append(names, formName), options)
+			// The wildcard on a form tag is a "special" value: it indicates a
+			// struct field that we should recurse into, but for which no part
+			// should be added to the key parts, meaning that its own subfields
+			// will be named at the same level as with the fields of the
+			// current structure.
+			if formName == "*" {
+				reflectValue(values, val.Field(i), keyParts, options)
+			} else {
+				reflectValue(values, val.Field(i), append(keyParts, formName), options)
+			}
 		}
 
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-		values.Add(formatName(names), strconv.FormatUint(val.Uint(), 10))
+		values.Add(FormatKey(keyParts), strconv.FormatUint(val.Uint(), 10))
 	}
 }
 

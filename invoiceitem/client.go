@@ -44,7 +44,7 @@ func (c Client) New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 		body.Add("discountable", strconv.FormatBool(false))
 	}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	invoiceItem := &stripe.InvoiceItem{}
 	err := c.B.Call("POST", "/invoiceitems", c.Key, body, &params.Params, invoiceItem)
@@ -65,7 +65,7 @@ func (c Client) Get(id string, params *stripe.InvoiceItemParams) (*stripe.Invoic
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	invoiceItem := &stripe.InvoiceItem{}
@@ -100,7 +100,7 @@ func (c Client) Update(id string, params *stripe.InvoiceItemParams) (*stripe.Inv
 			body.Add("discountable", strconv.FormatBool(true))
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	invoiceItem := &stripe.InvoiceItem{}
@@ -148,7 +148,7 @@ func (c Client) List(params *stripe.InvoiceItemListParams) *Iter {
 			body.Add("customer", params.Customer)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

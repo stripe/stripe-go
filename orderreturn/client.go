@@ -38,7 +38,7 @@ func (c Client) List(params *stripe.OrderReturnListParams) *Iter {
 			params.Filters.AddFilter("order", "", params.Order)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

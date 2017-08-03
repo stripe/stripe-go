@@ -41,7 +41,7 @@ func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 		params.Headers.Add("Stripe-Version", params.StripeVersion)
 	}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	ephemeralKey := &stripe.EphemeralKey{}
 	err := c.B.Call("POST", "ephemeral_keys", c.Key, body, &params.Params, ephemeralKey)

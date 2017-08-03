@@ -40,7 +40,7 @@ func (c Client) New(params *stripe.SubItemParams) (*stripe.SubItem, error) {
 		}
 
 		commonParams = &params.Params
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	item := &stripe.SubItem{}
@@ -60,7 +60,7 @@ func (c Client) Get(id string, params *stripe.SubItemParams) (*stripe.SubItem, e
 
 	if params != nil {
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 
@@ -103,7 +103,7 @@ func (c Client) Update(id string, params *stripe.SubItemParams) (*stripe.SubItem
 		}
 
 		commonParams = &params.Params
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	subi := &stripe.SubItem{}
@@ -124,7 +124,7 @@ func (c Client) Del(id string, params *stripe.SubItemParams) (*stripe.SubItem, e
 
 	if params != nil {
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 
@@ -152,7 +152,7 @@ func (c Client) List(params *stripe.SubItemListParams) *Iter {
 			body.Add("subscription", params.Sub)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 
 		lp = &params.ListParams
 		p = params.ToParams()
