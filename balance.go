@@ -59,19 +59,19 @@ type TransactionSource struct {
 // BalanceParams is the set of parameters that can be used when retrieving a balance.
 // For more details see https://stripe.com/docs/api#balance.
 type BalanceParams struct {
-	Params
+	Params `form:"*"`
 }
 
 // TxParams is the set of parameters that can be used when retrieving a transaction.
 // For more details see https://stripe.com/docs/api#retrieve_balance_transaction.
 type TxParams struct {
-	Params
+	Params `form:"*"`
 }
 
 // TxListParams is the set of parameters that can be used when listing balance transactions.
 // For more details see https://stripe.com/docs/api/#balance_history.
 type TxListParams struct {
-	ListParams
+	ListParams            `form:"*"`
 	Created               int64
 	CreatedRange          *RangeQueryParams
 	Available             int64

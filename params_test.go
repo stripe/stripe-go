@@ -10,76 +10,59 @@ import (
 )
 
 func TestCheckinRangeQueryParamsAppendTo(t *testing.T) {
-	{
-		values := &form.Values{}
-
-		// Try it with an empty set of parameters
-		params := &stripe.RangeQueryParams{}
-		params.AppendTo(values, "created")
-
-		if !values.Empty() {
-			t.Fatalf("Expected request values to be empty")
-		}
+	type testParams struct {
+		CreatedRange *stripe.RangeQueryParams `form:"created"`
 	}
 
 	{
-		values := &form.Values{}
+		body := &form.Values{}
 
 		// Try it with an empty set of parameters
-		params := &stripe.RangeQueryParams{GreaterThan: 99}
-		params.AppendTo(values, "created")
-
-		value := values.Get("created[gt]")
-		if len(value) != 1 || value[0] != "99" {
-			t.Fatalf(
-				"Expected encoded value of 99 for created[gt] but got %v.",
-				value)
+		params := testParams{
+			CreatedRange: &stripe.RangeQueryParams{},
 		}
+		form.AppendTo(body, params)
+		assert.True(t, body.Empty())
 	}
 
 	{
-		values := &form.Values{}
+		body := &form.Values{}
 
-		// Try it with an empty set of parameters
-		params := &stripe.RangeQueryParams{GreaterThanOrEqual: 99}
-		params.AppendTo(values, "created")
-
-		value := values.Get("created[gte]")
-		if len(value) != 1 || value[0] != "99" {
-			t.Fatalf(
-				"Expected encoded value of 99 for created[gte] but got %v.",
-				value)
+		params := testParams{
+			CreatedRange: &stripe.RangeQueryParams{GreaterThan: 99},
 		}
+		form.AppendTo(body, params)
+		assert.Equal(t, []string{"99"}, body.Get("created[gt]"))
 	}
 
 	{
-		values := &form.Values{}
+		body := &form.Values{}
 
-		// Try it with an empty set of parameters
-		params := &stripe.RangeQueryParams{LesserThan: 99}
-		params.AppendTo(values, "created")
-
-		value := values.Get("created[lt]")
-		if len(value) != 1 || value[0] != "99" {
-			t.Fatalf(
-				"Expected encoded value of 99 for created[lt] but got %v.",
-				value)
+		params := testParams{
+			CreatedRange: &stripe.RangeQueryParams{GreaterThanOrEqual: 99},
 		}
+		form.AppendTo(body, params)
+		assert.Equal(t, []string{"99"}, body.Get("created[gte]"))
 	}
 
 	{
-		values := &form.Values{}
+		body := &form.Values{}
 
-		// Try it with an empty set of parameters
-		params := &stripe.RangeQueryParams{LesserThanOrEqual: 99}
-		params.AppendTo(values, "created")
-
-		value := values.Get("created[lte]")
-		if len(value) != 1 || value[0] != "99" {
-			t.Fatalf(
-				"Expected encoded value of 99 for created[lte] but got %v.",
-				value)
+		params := testParams{
+			CreatedRange: &stripe.RangeQueryParams{LesserThan: 99},
 		}
+		form.AppendTo(body, params)
+		assert.Equal(t, []string{"99"}, body.Get("created[lt]"))
+	}
+
+	{
+		body := &form.Values{}
+
+		params := testParams{
+			CreatedRange: &stripe.RangeQueryParams{LesserThanOrEqual: 99},
+		}
+		form.AppendTo(body, params)
+		assert.Equal(t, []string{"99"}, body.Get("created[lte]"))
 	}
 }
 

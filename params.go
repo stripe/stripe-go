@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strconv"
 	"time"
 
 	"github.com/stripe/stripe-go/form"
@@ -113,25 +112,6 @@ type RangeQueryParams struct {
 	// LesserThanOrEqual specifies that values should be lesser than or
 	// equalthis timetamp.
 	LesserThanOrEqual int64 `form:"lte"`
-}
-
-// AppendTo adds the range query parametes to a set of request values.
-func (r *RangeQueryParams) AppendTo(values *form.Values, name string) {
-	if r.GreaterThan > 0 {
-		values.Add(name+"[gt]", strconv.FormatInt(r.GreaterThan, 10))
-	}
-
-	if r.GreaterThanOrEqual > 0 {
-		values.Add(name+"[gte]", strconv.FormatInt(r.GreaterThanOrEqual, 10))
-	}
-
-	if r.LesserThan > 0 {
-		values.Add(name+"[lt]", strconv.FormatInt(r.LesserThan, 10))
-	}
-
-	if r.LesserThanOrEqual > 0 {
-		values.Add(name+"[lte]", strconv.FormatInt(r.LesserThanOrEqual, 10))
-	}
 }
 
 // Filters is a structure that contains a collection of filters for list-related APIs.

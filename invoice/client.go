@@ -272,10 +272,6 @@ func (c Client) List(params *stripe.InvoiceListParams) *Iter {
 			body.Add("date", strconv.FormatInt(params.Date, 10))
 		}
 
-		if params.DateRange != nil {
-			params.DateRange.AppendTo(body, "date")
-		}
-
 		if len(params.Billing) > 0 {
 			body.Add("billing", string(params.Billing))
 		}
