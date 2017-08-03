@@ -8,6 +8,10 @@ import (
 )
 
 type testStruct struct {
+	// Note that only a pointer can implement the Appender interface, so only
+	// the pointer of testAppender is checked.
+	Appender *testAppender `form:"appender"`
+
 	Array    [3]string  `form:"array"`
 	ArrayPtr *[3]string `form:"array_ptr"`
 
@@ -66,6 +70,14 @@ type testStruct struct {
 	Zeroed bool `form:"zeroed,zero"`
 }
 
+type testAppender struct {
+	String string
+}
+
+func (a *testAppender) AppendTo(values *Values, prefix string) {
+	values.Add(prefix, a.String)
+}
+
 type testSubStruct struct {
 	SubSubStruct testSubSubStruct `form:"subsubstruct"`
 }
@@ -110,6 +122,8 @@ func TestAppendTo(t *testing.T) {
 		data  *testStruct
 		want  interface{}
 	}{
+		{"appender", &testStruct{Appender: &testAppender{String: "123"}}, "123"},
+
 		{"array_indexed[2]", &testStruct{ArrayIndexed: arrayVal}, "3"},
 
 		{"bool", &testStruct{Bool: boolVal}, "true"},

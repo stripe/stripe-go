@@ -34,6 +34,16 @@ type formOptions struct {
 	Zero bool
 }
 
+// Appender is the interface implemented by types that can append themselves to
+// a collection of form values.
+//
+// This is usually something that shouldn't be used, but is needed in a few
+// places where authors deviated from norms while implementing various
+// parameters.
+type Appender interface {
+	AppendTo(values *Values, prefix string)
+}
+
 func AppendTo(values *Values, i interface{}) {
 	reflectValue(values, reflect.ValueOf(i), nil, nil)
 }
@@ -55,6 +65,13 @@ func reflectValue(values *Values, val reflect.Value, names []string, options *fo
 
 	// Also do nothing if this is the type's zero value
 	if t.Comparable() && val.Interface() == reflect.Zero(t).Interface() {
+		return
+	}
+
+	// Special case for when a type has implemented special logic to append
+	// itself to a form.
+	if t.Implements(reflect.TypeOf((*Appender)(nil)).Elem()) {
+		val.Interface().(Appender).AppendTo(values, formatName(names))
 		return
 	}
 
