@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"fmt"
 	"strconv"
 
 	"github.com/stripe/stripe-go/form"
