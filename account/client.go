@@ -1,7 +1,8 @@
-// Package account provides the /account APIs
 package account
 
 import (
+	"fmt"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -27,6 +28,7 @@ func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 	}
 
 	form.AppendTo(body, params)
+	fmt.Printf("values = %+v", body)
 
 	acct := &stripe.Account{}
 	err := c.B.Call("POST", "/accounts", c.Key, body, &params.Params, acct)

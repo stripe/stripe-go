@@ -3,20 +3,13 @@ package account
 import (
 	"testing"
 
+	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/bankaccount"
-	"github.com/stripe/stripe-go/card"
-	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/token"
-	. "github.com/stripe/stripe-go/utils"
+	_ "github.com/stripe/stripe-go/testing"
 )
 
-func init() {
-	stripe.Key = GetTestKey()
-}
-
 func TestAccountNew(t *testing.T) {
-	params := &stripe.AccountParams{
+	account, err := New(&stripe.AccountParams{
 		Type:                 stripe.AccountTypeCustom,
 		Country:              "CA",
 		BusinessUrl:          "www.stripe.com",
@@ -38,16 +31,14 @@ func TestAccountNew(t *testing.T) {
 		TOSAcceptance: &stripe.TOSAcceptanceParams{
 			IP:        "127.0.0.1",
 			Date:      1437578361,
-			UserAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/600.7.12 (KHTML, like Gecko) Version/8.0.7 Safari/600.7.12",
+			UserAgent: "Mozilla/5.0",
 		},
-	}
-
-	_, err := New(params)
-	if err != nil {
-		t.Error(err)
-	}
+	})
+	assert.Nil(t, err)
+	assert.NotNil(t, account)
 }
 
+/*
 func TestAccountLegalEntity(t *testing.T) {
 	params := &stripe.AccountParams{
 		Type:    stripe.AccountTypeCustom,
@@ -474,3 +465,4 @@ func TestAccountGet(t *testing.T) {
 		t.Errorf("Account is missing timezone\n")
 	}
 }
+*/
