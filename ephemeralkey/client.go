@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /ephemeral_keys APIs.
@@ -27,7 +28,7 @@ func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 		return nil, fmt.Errorf("params.StripeVersion must be specified")
 	}
 
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 
 	if len(params.Customer) > 0 {
 		body.Add("customer", params.Customer)

@@ -4,6 +4,8 @@ import (
 	"errors"
 	"reflect"
 	"testing"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 func TestIterEmpty(t *testing.T) {
@@ -181,7 +183,7 @@ type testQuery []struct {
 	e error
 }
 
-func (tq *testQuery) query(*RequestValues) ([]interface{}, ListMeta, error) {
+func (tq *testQuery) query(*form.Values) ([]interface{}, ListMeta, error) {
 	x := (*tq)[0]
 	*tq = (*tq)[1:]
 	return x.v, x.m, x.e

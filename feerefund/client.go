@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /application_fees/refunds APIs.
@@ -21,7 +22,7 @@ func New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 }
 
 func (c Client) New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 
 	if params.Amount > 0 {
 		body.Add("amount", strconv.FormatUint(params.Amount, 10))
@@ -46,7 +47,7 @@ func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefun
 		return nil, fmt.Errorf("params cannot be nil, and params.Fee must be set")
 	}
 
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	params.AppendTo(body)
 
 	refund := &stripe.FeeRefund{}
@@ -62,7 +63,7 @@ func Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error
 }
 
 func (c Client) Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	params.AppendTo(body)
 
 	refund := &stripe.FeeRefund{}
@@ -78,7 +79,7 @@ func List(params *stripe.FeeRefundListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.FeeRefundListParams) *Iter {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
@@ -86,7 +87,7 @@ func (c Client) List(params *stripe.FeeRefundListParams) *Iter {
 	lp = &params.ListParams
 	p = params.ToParams()
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.FeeRefundList{}
 		err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds", params.Fee), c.Key, b, p, list)
 

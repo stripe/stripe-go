@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /account APIs.
@@ -19,7 +20,7 @@ func New(params *stripe.AccountParams) (*stripe.Account, error) {
 }
 
 func writeAccountParams(
-	params *stripe.AccountParams, body *stripe.RequestValues,
+	params *stripe.AccountParams, body *form.Values,
 ) {
 	if len(params.Country) > 0 {
 		body.Add("country", params.Country)
@@ -104,7 +105,7 @@ func writeAccountParams(
 }
 
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 
 	// Type is now required on creation and not allowed on update
 	// It can't be passed if you pass `from_recipient` though
@@ -144,12 +145,12 @@ func GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 }
 
 func (c Client) GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		params.AppendTo(body)
 	}
 
@@ -165,12 +166,12 @@ func Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 }
 
 func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		writeAccountParams(params, body)
 
@@ -205,7 +206,7 @@ func Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, err
 }
 
 func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	if len(params.Reason) > 0 {
 		body.Add("reason", params.Reason)
 	}
@@ -221,19 +222,19 @@ func List(params *stripe.AccountListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.AccountListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		params.AppendTo(body)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.AccountList{}
 		err := c.B.Call("GET", "/accounts", c.Key, b, p, list)
 

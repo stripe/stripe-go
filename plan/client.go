@@ -6,6 +6,7 @@ import (
 	"net/url"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 const (
@@ -28,7 +29,7 @@ func New(params *stripe.PlanParams) (*stripe.Plan, error) {
 }
 
 func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	params.Params.AppendTo(body)
 	params.AppendTo(body)
 
@@ -45,12 +46,12 @@ func Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 }
 
 func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		params.Params.AppendTo(body)
 		params.AppendTo(body)
 	}
@@ -68,12 +69,12 @@ func Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 }
 
 func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		params.Params.AppendTo(body)
 		params.AppendTo(body)
 	}
@@ -91,11 +92,11 @@ func Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 }
 
 func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		params.AppendTo(body)
 		commonParams = &params.Params
@@ -114,18 +115,18 @@ func List(params *stripe.PlanListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.PlanListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		params.AppendTo(body)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.PlanList{}
 		err := c.B.Call("GET", "/plans", c.Key, b, p, list)
 

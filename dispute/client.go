@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 const (
@@ -41,12 +42,12 @@ func Get(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
 }
 
 func (c Client) Get(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		params.AppendTo(body)
 	}
 
@@ -63,12 +64,12 @@ func List(params *stripe.DisputeListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.DisputeListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
@@ -83,7 +84,7 @@ func (c Client) List(params *stripe.DisputeListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.DisputeList{}
 		err := c.B.Call("GET", "/disputes", c.Key, b, p, list)
 
@@ -116,12 +117,12 @@ func Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
 }
 
 func (c Client) Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.Evidence != nil {
 			params.Evidence.AppendDetails(body)

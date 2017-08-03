@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /sources APIs.
@@ -22,11 +23,11 @@ func New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 // New POSTs a new source.
 // For more details see https://stripe.com/docs/api#create_source.
 func (c Client) New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		commonParams = &params.Params
 
 		// Optional fields
@@ -112,11 +113,11 @@ func Get(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
 // Get returns the details of a source
 // For more details see https://stripe.com/docs/api#retrieve_source.
 func (c Client) Get(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		commonParams = &params.Params
 		params.AppendTo(body)
 	}
@@ -133,11 +134,11 @@ func Update(id string, params *stripe.SourceObjectParams) (*stripe.Source, error
 }
 
 func (c Client) Update(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		commonParams = &params.Params
 
 		// Optional fields

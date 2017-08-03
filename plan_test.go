@@ -23,7 +23,7 @@ func TestPlanListParamsAppendTo(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.field, func(t *testing.T) {
-			body := &form.RequestValues{}
+			body := &form.Values{}
 			form.AppendTo(body, tc.params)
 			values := body.ToValues()
 			assert.Equal(t, tc.want, values.Get(tc.field))
@@ -32,7 +32,7 @@ func TestPlanListParamsAppendTo(t *testing.T) {
 }
 
 func TestPlanListParamsAppendTo_Empty(t *testing.T) {
-	body := &RequestValues{}
+	body := &form.Values{}
 	params := &PlanListParams{}
 	params.AppendTo(body)
 	assert.True(t, body.Empty())
@@ -55,7 +55,7 @@ func TestPlanParamsAppendTo(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.field, func(t *testing.T) {
-			body := &form.RequestValues{}
+			body := &form.Values{}
 			form.AppendTo(body, tc.params)
 			values := body.ToValues()
 			assert.Equal(t, tc.want, values.Get(tc.field))
@@ -64,7 +64,7 @@ func TestPlanParamsAppendTo(t *testing.T) {
 }
 
 func TestPlanParamsAppendTo_Empty(t *testing.T) {
-	body := &form.RequestValues{}
+	body := &form.Values{}
 	params := &PlanParams{}
 	form.AppendTo(body, params)
 	assert.True(t, body.Empty())

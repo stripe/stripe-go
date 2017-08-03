@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 const (
@@ -27,7 +28,7 @@ func New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 }
 
 func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	body.Add("amount", strconv.FormatUint(params.Amount, 10))
 	body.Add("currency", string(params.Currency))
 
@@ -107,12 +108,12 @@ func Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 }
 
 func (c Client) Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		params.AppendTo(body)
 	}
 
@@ -129,12 +130,12 @@ func Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 }
 
 func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if len(params.Desc) > 0 {
 			body.Add("description", params.Desc)
@@ -160,13 +161,13 @@ func Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 }
 
 func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	token := c.Key
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.Amount > 0 {
 			body.Add("amount", strconv.FormatUint(params.Amount, 10))
@@ -201,12 +202,12 @@ func List(params *stripe.ChargeListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.ChargeListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
@@ -229,7 +230,7 @@ func (c Client) List(params *stripe.ChargeListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ChargeList{}
 		err := c.B.Call("GET", "/charges", c.Key, b, p, list)
 
@@ -271,12 +272,12 @@ func UpdateDispute(id string, params *stripe.DisputeParams) (*stripe.Dispute, er
 }
 
 func (c Client) UpdateDispute(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.Evidence != nil {
 			params.Evidence.AppendDetails(body)

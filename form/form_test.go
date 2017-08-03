@@ -1,6 +1,7 @@
 package form
 
 import (
+	"net/url"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
@@ -254,4 +255,46 @@ func TestParseTag(t *testing.T) {
 			assert.Equal(t, tc.wantOptions, options)
 		})
 	}
+}
+
+func TestValues(t *testing.T) {
+	values := &Values{}
+
+	assert.Equal(t, "", values.Encode())
+	assert.True(t, values.Empty())
+
+	values = &Values{}
+	values.Add("foo", "bar")
+
+	assert.Equal(t, "foo=bar", values.Encode())
+	assert.False(t, values.Empty())
+	assert.Equal(t, []string{"bar"}, values.Get("foo"))
+
+	values = &Values{}
+	values.Add("foo", "bar")
+	values.Add("foo", "bar")
+	values.Add("baz", "bar")
+
+	assert.Equal(t, "foo=bar&foo=bar&baz=bar", values.Encode())
+	assert.Equal(t, []string{"bar", "bar"}, values.Get("foo"))
+	assert.Equal(t, []string{"bar"}, values.Get("baz"))
+
+	values.Set("foo", "firstbar")
+
+	assert.Equal(t, "foo=firstbar&foo=bar&baz=bar", values.Encode())
+	assert.Equal(t, []string{"firstbar", "bar"}, values.Get("foo"))
+	assert.Equal(t, []string{"bar"}, values.Get("baz"))
+
+	values.Set("new", "appended")
+
+	assert.Equal(t, "foo=firstbar&foo=bar&baz=bar&new=appended", values.Encode())
+
+	assert.Equal(t, url.Values{
+		"baz": {"bar"},
+		"foo": {"firstbar", "bar"},
+		"new": {"appended"},
+	}, values.ToValues())
+	assert.Equal(t, []string{"appended"}, values.Get("new"))
+
+	assert.Nil(t, values.Get("boguskey"))
 }

@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /bitcoin/receivers APIs.
@@ -21,7 +22,7 @@ func New(params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) 
 }
 
 func (c Client) New(params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	body.Add("amount", strconv.FormatUint(params.Amount, 10))
 	body.Add("currency", string(params.Currency))
 
@@ -69,7 +70,7 @@ func Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.Bitc
 }
 
 func (c Client) Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.BitcoinReceiver, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 
 	if len(params.Desc) > 0 {
 		body.Add("description", params.Desc)
@@ -98,12 +99,12 @@ func List(params *stripe.BitcoinReceiverListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.BitcoinReceiverListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		body.Add("filled", strconv.FormatBool(!params.NotFilled))
 		body.Add("active", strconv.FormatBool(!params.NotActive))
@@ -114,7 +115,7 @@ func (c Client) List(params *stripe.BitcoinReceiverListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BitcoinReceiverList{}
 		err := c.B.Call("GET", "/bitcoin/receivers", c.Key, b, p, list)
 

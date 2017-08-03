@@ -2,6 +2,8 @@ package stripe
 
 import (
 	"encoding/json"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 // CustomerParams is the set of parameters that can be used when creating or updating a customer.
@@ -75,7 +77,7 @@ type CustomerShippingDetails struct {
 }
 
 // AppendDetails adds the shipping details to the query string.
-func (s *CustomerShippingDetails) AppendDetails(values *RequestValues) {
+func (s *CustomerShippingDetails) AppendDetails(values *form.Values) {
 	values.Add("shipping[name]", s.Name)
 
 	values.Add("shipping[address][line1]", s.Address.Line1)

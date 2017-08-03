@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 const (
@@ -27,7 +28,7 @@ func New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 }
 
 func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	body.Add("amount", strconv.FormatInt(params.Amount, 10))
 	body.Add("currency", string(params.Currency))
 
@@ -61,12 +62,12 @@ func Get(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 }
 
 func (c Client) Get(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		params.AppendTo(body)
 	}
 
@@ -83,13 +84,13 @@ func Update(id string, params *stripe.TransferParams) (*stripe.Transfer, error) 
 }
 
 func (c Client) Update(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
 
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		params.AppendTo(body)
 	}
@@ -107,12 +108,12 @@ func List(params *stripe.TransferListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.TransferListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
@@ -139,7 +140,7 @@ func (c Client) List(params *stripe.TransferListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.TransferList{}
 		err := c.B.Call("GET", "/transfers", c.Key, b, p, list)
 

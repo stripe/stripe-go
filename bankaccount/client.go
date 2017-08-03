@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /bank_accounts APIs.
@@ -29,7 +30,7 @@ func New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 
 func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	isCustomer := len(params.Customer) > 0
 
 	var sourceType string
@@ -84,12 +85,12 @@ func Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 }
 
 func (c Client) Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		params.AppendTo(body)
 	}
 
@@ -113,12 +114,12 @@ func Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, e
 }
 
 func (c Client) Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.Default {
 			body.Add("default_for_currency", strconv.FormatBool(params.Default))
@@ -167,7 +168,7 @@ func List(params *stripe.BankAccountListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.BankAccountListParams) *Iter {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
@@ -175,7 +176,7 @@ func (c Client) List(params *stripe.BankAccountListParams) *Iter {
 	lp = &params.ListParams
 	p = params.ToParams()
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BankAccountList{}
 		var err error
 

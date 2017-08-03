@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 const (
@@ -51,13 +52,13 @@ func Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpload, error)
 }
 
 func (c Client) Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpload, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
 
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		params.AppendTo(body)
 	}
 
@@ -74,12 +75,12 @@ func List(params *stripe.FileUploadListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.FileUploadListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
 		if params.Created > 0 {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
@@ -98,7 +99,7 @@ func (c Client) List(params *stripe.FileUploadListParams) *Iter {
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.FileUploadList{}
 		err := c.B.Call("GET", "/files", c.Key, b, p, list)
 

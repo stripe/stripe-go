@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 const (
@@ -27,7 +28,7 @@ func New(params *stripe.RefundParams) (*stripe.Refund, error) {
 }
 
 func (c Client) New(params *stripe.RefundParams) (*stripe.Refund, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 
 	if params.Amount > 0 {
 		body.Add("amount", strconv.FormatUint(params.Amount, 10))
@@ -64,12 +65,12 @@ func Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 }
 
 func (c Client) Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 		params.AppendTo(body)
 	}
 
@@ -86,7 +87,7 @@ func Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 }
 
 func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 
 	params.AppendTo(body)
 
@@ -103,7 +104,7 @@ func List(params *stripe.RefundListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.RefundListParams) *Iter {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
@@ -111,7 +112,7 @@ func (c Client) List(params *stripe.RefundListParams) *Iter {
 	lp = &params.ListParams
 	p = params.ToParams()
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.RefundList{}
 		err := c.B.Call("GET", fmt.Sprintf("/refunds"), c.Key, b, p, list)
 

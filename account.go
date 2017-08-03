@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 // LegalEntityType describes the types for a legal entity.
@@ -273,7 +275,7 @@ type Address struct {
 	Town string `json:"town"`
 }
 
-func (a *Address) AppendDetails(values *RequestValues, prefix string) {
+func (a *Address) AppendDetails(values *form.Values, prefix string) {
 	if len(a.Line1) > 0 {
 		values.Add(prefix+"[line1]", a.Line1)
 	}
@@ -359,7 +361,7 @@ type AccountRejectParams struct {
 }
 
 // AppendDetails adds the legal entity to the query string.
-func (l *LegalEntity) AppendDetails(values *RequestValues) {
+func (l *LegalEntity) AppendDetails(values *form.Values) {
 	if len(l.Type) > 0 {
 		values.Add("legal_entity[type]", string(l.Type))
 	}
@@ -487,7 +489,7 @@ func (l *LegalEntity) AppendDetails(values *RequestValues) {
 }
 
 // AppendDetails adds the payout schedule to the query string.
-func (t *PayoutScheduleParams) AppendDetails(values *RequestValues) {
+func (t *PayoutScheduleParams) AppendDetails(values *form.Values) {
 	if t.Delay > 0 {
 		values.Add("payout_schedule[delay_days]", strconv.FormatUint(t.Delay, 10))
 	} else if t.MinimumDelay {
@@ -503,7 +505,7 @@ func (t *PayoutScheduleParams) AppendDetails(values *RequestValues) {
 }
 
 // AppendDetails adds the terms of service acceptance to the query string.
-func (t *TOSAcceptanceParams) AppendDetails(values *RequestValues) {
+func (t *TOSAcceptanceParams) AppendDetails(values *form.Values) {
 	if t.Date > 0 {
 		values.Add("tos_acceptance[date]", strconv.FormatInt(t.Date, 10))
 	}

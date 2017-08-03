@@ -3,6 +3,8 @@ package stripe
 import (
 	"encoding/json"
 	"testing"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 func TestAccountUnmarshal(t *testing.T) {
@@ -66,8 +68,8 @@ func TestAccountUnmarshal(t *testing.T) {
 }
 
 func TestAddressAppendDetails(t *testing.T) {
-	actual := &RequestValues{}
-	expected := &RequestValues{}
+	actual := &form.Values{}
+	expected := &form.Values{}
 
 	address := &Address{}
 	address.AppendDetails(actual, "test_address")
