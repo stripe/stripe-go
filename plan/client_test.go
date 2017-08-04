@@ -42,10 +42,9 @@ func TestPlanNew(t *testing.T) {
 }
 
 func TestPlanUpdate(t *testing.T) {
-	updatedPlan := &stripe.PlanParams{
+	plan, err := Update("gold", &stripe.PlanParams{
 		Name: "Updated Name",
-	}
-	plan, err := Update("gold", updatedPlan)
+	})
 	assert.Nil(t, err)
 	assert.NotNil(t, plan)
 }

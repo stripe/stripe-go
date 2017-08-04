@@ -241,60 +241,60 @@ func (ea *ExternalAccount) UnmarshalJSON(b []byte) error {
 type LegalEntity struct {
 	Type LegalEntityType `json:"type"`
 
-	AdditionalOwners []Owner `json:"additional_owners",form:"additional_owners,indexed"`
+	AdditionalOwners []Owner `json:"additional_owners" form:"additional_owners,indexed"`
 
 	// AdditionalOwnersEmpty can be set to clear a legal entity's additional
 	// owners.
 	AdditionalOwnersEmpty bool `form:"additional_owners,empty"`
 
-	BusinessName          string               `json:"business_name",form:"business_name"`
-	BusinessNameKana      string               `json:"business_name_kana",form:"business_name_kana"`
-	BusinessNameKanji     string               `json:"business_name_kanji",form:"business_name_kanji"`
-	Address               Address              `json:"address",form:"address"`
-	AddressKana           Address              `json:"address_kana",form:"address_kana"`
-	AddressKanji          Address              `json:"address_kanji",form:"address_kanji"`
-	First                 string               `json:"first_name",form:"first_name"`
-	FirstKana             string               `json:"first_name_kana",form:"first_name_kana"`
-	FirstKanji            string               `json:"first_name_kanji",form:"first_name_kanji"`
-	Gender                Gender               `json:"gender",form:"gender"`
-	Last                  string               `json:"last_name",form:"last_name"`
-	LastKana              string               `json:"last_name_kana",form:"last_name_kana"`
-	LastKanji             string               `json:"last_name_kanji",form:"last_name_kanji"`
-	MaidenName            string               `json:"maiden_name",form:"maiden_name"`
-	PersonalAddress       Address              `json:"personal_address",form:"personal_address"`
-	PersonalAddressKana   Address              `json:"personal_address_kana",form:"personal_address_kana"`
-	PersonalAddressKanji  Address              `json:"personal_address_kanji",form:"personal_address_kanji"`
-	PhoneNumber           string               `json:"phone_number",form:"phone_number"`
-	DOB                   DOB                  `json:"dob",form:"dob"`
-	Verification          IdentityVerification `json:"verification",form:"verification"`
-	SSN                   string               `json:"ssn_last_4",form:"ssn_last_4"`
+	BusinessName          string               `json:"business_name" form:"business_name"`
+	BusinessNameKana      string               `json:"business_name_kana" form:"business_name_kana"`
+	BusinessNameKanji     string               `json:"business_name_kanji" form:"business_name_kanji"`
+	Address               Address              `json:"address" form:"address"`
+	AddressKana           Address              `json:"address_kana" form:"address_kana"`
+	AddressKanji          Address              `json:"address_kanji" form:"address_kanji"`
+	First                 string               `json:"first_name" form:"first_name"`
+	FirstKana             string               `json:"first_name_kana" form:"first_name_kana"`
+	FirstKanji            string               `json:"first_name_kanji" form:"first_name_kanji"`
+	Gender                Gender               `json:"gender" form:"gender"`
+	Last                  string               `json:"last_name" form:"last_name"`
+	LastKana              string               `json:"last_name_kana" form:"last_name_kana"`
+	LastKanji             string               `json:"last_name_kanji" form:"last_name_kanji"`
+	MaidenName            string               `json:"maiden_name" form:"maiden_name"`
+	PersonalAddress       Address              `json:"personal_address" form:"personal_address"`
+	PersonalAddressKana   Address              `json:"personal_address_kana" form:"personal_address_kana"`
+	PersonalAddressKanji  Address              `json:"personal_address_kanji" form:"personal_address_kanji"`
+	PhoneNumber           string               `json:"phone_number" form:"phone_number"`
+	DOB                   DOB                  `json:"dob" form:"dob"`
+	Verification          IdentityVerification `json:"verification" form:"verification"`
+	SSN                   string               `json:"ssn_last_4" form:"ssn_last_4"`
 	SSNProvided           bool                 `json:"ssn_last_4_provided"`
-	PersonalID            string               `json:"personal_id_number",form:"personal_id_number"`
+	PersonalID            string               `json:"personal_id_number" form:"personal_id_number"`
 	PersonalIDProvided    bool                 `json:"personal_id_number_provided"`
-	BusinessTaxID         string               `json:"business_tax_id",form:"business_tax_id"`
+	BusinessTaxID         string               `json:"business_tax_id" form:"business_tax_id"`
 	BusinessTaxIDProvided bool                 `json:"business_tax_id_provided"`
-	BusinessVatID         string               `json:"business_vat_id",form:"business_vat_id"`
+	BusinessVatID         string               `json:"business_vat_id" form:"business_vat_id"`
 }
 
 // Address is the structure for an account address.
 type Address struct {
-	Line1   string `json:"line1",form:"line"`
-	Line2   string `json:"line2",form:"line2"`
-	City    string `json:"city",form:"city"`
-	State   string `json:"state",form:"state"`
-	Zip     string `json:"postal_code",form:"postal_code"`
-	Country string `json:"country",form:"country"`
+	Line1   string `json:"line1" form:"line"`
+	Line2   string `json:"line2" form:"line2"`
+	City    string `json:"city" form:"city"`
+	State   string `json:"state" form:"state"`
+	Zip     string `json:"postal_code" form:"postal_code"`
+	Country string `json:"country" form:"country"`
 
 	// Town/cho-me. Note that this is only used for Kana/Kanji representations
 	// of an address.
-	Town string `json:"town",form:"town"`
+	Town string `json:"town" form:"town"`
 }
 
 // DOB is a structure for an account owner's date of birth.
 type DOB struct {
-	Day   int `json:"day",form:"day"`
-	Month int `json:"month",form:"month"`
-	Year  int `json:"year",form:"year"`
+	Day   int `json:"day" form:"day"`
+	Month int `json:"month" form:"month"`
+	Year  int `json:"year" form:"year"`
 }
 
 // Gender is the gender of an account owner. International regulations require
@@ -303,18 +303,18 @@ type Gender string
 
 // Owner is the structure for an account owner.
 type Owner struct {
-	First        string               `json:"first_name",form:"first_name"`
-	Last         string               `json:"last_name",form:"last_name"`
-	DOB          DOB                  `json:"dob",form:"dob"`
-	Address      Address              `json:"address",form:"address"`
-	Verification IdentityVerification `json:"verification",form:"verification"`
+	First        string               `json:"first_name" form:"first_name"`
+	Last         string               `json:"last_name" form:"last_name"`
+	DOB          DOB                  `json:"dob" form:"dob"`
+	Address      Address              `json:"address" form:"address"`
+	Verification IdentityVerification `json:"verification" form:"verification"`
 }
 
 // IdentityVerification is the structure for an account's verification.
 type IdentityVerification struct {
 	DetailsCode IdentityVerificationDetailsCode `json:"details_code"`
 	Status      IdentityVerificationStatus      `json:"status"`
-	Document    *IdentityDocument               `json:"document",form:"document"`
+	Document    *IdentityDocument               `json:"document" form:"document"`
 	Details     *string                         `json:"details"`
 }
 
@@ -344,22 +344,22 @@ func (d *IdentityDocument) AppendTo(body *form.Values, keyParts []string) {
 
 // PayoutSchedule is the structure for an account's payout schedule.
 type PayoutSchedule struct {
-	Delay       uint64   `json:"delay_days",form:"delay_days"`
-	Interval    Interval `json:"interval",form:"interval"`
-	WeekAnchor  string   `json:"weekly_anchor",form:"weekly_anchor"`
-	MonthAnchor uint64   `json:"monthly_anchor",form:"monthly_anchor"`
+	Delay       uint64   `json:"delay_days" form:"delay_days"`
+	Interval    Interval `json:"interval" form:"interval"`
+	WeekAnchor  string   `json:"weekly_anchor" form:"weekly_anchor"`
+	MonthAnchor uint64   `json:"monthly_anchor" form:"monthly_anchor"`
 }
 
 // TOSAcceptanceParams is the structure for TOS acceptance.
 type TOSAcceptanceParams struct {
-	Date      int64  `json:"date",form:"date"`
-	IP        string `json:"ip",form:"ip"`
-	UserAgent string `json:"user_agent",form:"user_agent"`
+	Date      int64  `json:"date" form:"date"`
+	IP        string `json:"ip" form:"ip"`
+	UserAgent string `json:"user_agent" form:"user_agent"`
 }
 
 // AccountRejectParams is the structure for the Reject function.
 type AccountRejectParams struct {
-	Reason string `json:"reason",form:"reason"`
+	Reason string `json:"reason" form:"reason"`
 }
 
 // UnmarshalJSON handles deserialization of an IdentityDocument.
