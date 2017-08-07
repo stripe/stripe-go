@@ -14,7 +14,7 @@ type FeeRefundParams struct {
 // FeeRefundListParams is the set of parameters that can be used when listing fee refunds.
 // For more details see https://stripe.com/docs/api#list_fee_refunds.
 type FeeRefundListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Fee string
 }
 

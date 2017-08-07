@@ -38,7 +38,7 @@ type CardParams struct {
 // CardListParams is the set of parameters that can be used when listing cards.
 // For more details see https://stripe.com/docs/api#list_cards.
 type CardListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Account, Customer, Recipient string
 }
 

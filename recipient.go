@@ -21,7 +21,7 @@ type RecipientParams struct {
 // RecipientListParams is the set of parameters that can be used when listing recipients.
 // For more details see https://stripe.com/docs/api#list_recipients.
 type RecipientListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Verified bool
 }
 

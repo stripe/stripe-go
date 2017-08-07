@@ -108,7 +108,7 @@ type OrderList struct {
 // listing orders. For more details, see:
 // https://stripe.com/docs/api#list_orders.
 type OrderListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Created      int64
 	CreatedRange *RangeQueryParams
 	IDs          []string

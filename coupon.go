@@ -20,7 +20,7 @@ type CouponParams struct {
 // CouponListParams is the set of parameters that can be used when listing coupons.
 // For more detail see https://stripe.com/docs/api#list_coupons.
 type CouponListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Created      int64
 	CreatedRange *RangeQueryParams
 }

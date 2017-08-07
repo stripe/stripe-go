@@ -29,5 +29,5 @@ type CountrySpecList struct {
 
 // CountrySpecListParams are the parameters allowed during CountrySpec listing.
 type CountrySpecListParams struct {
-	ListParams
+	ListParams `form:"*"`
 }

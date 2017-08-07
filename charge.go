@@ -47,7 +47,7 @@ func (cp *ChargeParams) SetSource(sp interface{}) error {
 // ChargeListParams is the set of parameters that can be used when listing charges.
 // For more details see https://stripe.com/docs/api#list_charges.
 type ChargeListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Created       int64
 	CreatedRange  *RangeQueryParams
 	Customer      string

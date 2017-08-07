@@ -12,7 +12,7 @@ type FeeParams struct {
 // FeeListParams is the set of parameters that can be used when listing application fees.
 // For more details see https://stripe.com/docs/api#list_application_fees.
 type FeeListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Created int64
 	Charge  string
 }
