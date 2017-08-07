@@ -17,7 +17,7 @@ type ApplePayDomain struct {
 
 // ApplePayDomainListParams are the parameters allowed during ApplePayDomain listing.
 type ApplePayDomainListParams struct {
-	ListParams
+	ListParams `form:"*"`
 }
 
 // ApplePayDomainList is a list of ApplePayDomains as returned from a list endpoint.
