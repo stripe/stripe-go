@@ -31,46 +31,11 @@ func New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 
 	body := &form.Values{}
-	isCustomer := len(params.Customer) > 0
-
-	var sourceType string
-	if isCustomer {
-		sourceType = "source"
-	} else {
-		sourceType = "external_account"
-	}
-
-	// Use token (if exists) or a dictionary containing a user’s bank account details.
-	if len(params.Token) > 0 {
-		body.Add(sourceType, params.Token)
-
-		if params.Default {
-			body.Add("default_for_currency", strconv.FormatBool(params.Default))
-		}
-	} else {
-		body.Add(sourceType+"[object]", "bank_account")
-		body.Add(sourceType+"[country]", params.Country)
-		body.Add(sourceType+"[account_number]", params.Account)
-		body.Add(sourceType+"[currency]", params.Currency)
-
-		if isCustomer {
-			body.Add(sourceType+"[account_holder_name]", params.AccountHolderName)
-			body.Add(sourceType+"[account_holder_type]", params.AccountHolderType)
-		}
-
-		if len(params.Routing) > 0 {
-			body.Add(sourceType+"[routing_number]", params.Routing)
-		}
-
-		if params.Default {
-			body.Add(sourceType+"[default_for_currency]", strconv.FormatBool(params.Default))
-		}
-	}
 	form.AppendTo(body, params)
 
 	ba := &stripe.BankAccount{}
 	var err error
-	if isCustomer {
+	if len(params.Customer) > 0 {
 		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/sources", params.Customer), c.Key, body, &params.Params, ba)
 	} else {
 		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/bank_accounts", params.AccountID), c.Key, body, &params.Params, ba)

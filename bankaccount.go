@@ -13,11 +13,15 @@ type BankAccountStatus string
 
 // BankAccountParams is the set of parameters that can be used when creating or updating a bank account.
 type BankAccountParams struct {
-	Params
+	Params `form:"*"`
 
-	// The identifier of the parent account under which bank accounts are
-	// nested.
+	// AccountID is the identifier of the parent account under which a bank
+	// account may be nested.
 	AccountID string
+
+	// Customer is the identifier of the parent customer under which a bank
+	// account may be nested.
+	Customer string
 
 	// A token referencing an external account like one returned from
 	// Stripe.js.
@@ -25,15 +29,58 @@ type BankAccountParams struct {
 
 	// Information on an external account to reference. Only used if `Token`
 	// is not provided.
-	Account, AccountHolderName, AccountHolderType, Country, Currency, Routing string
+	Account           string
+	AccountHolderName string
+	AccountHolderType string
+	Default           bool
+	Country           string
+	Currency          string
+	Routing           string
+}
 
-	Default  bool
-	Customer string
+func (b *BankAccountParams) AppendTo(body *form.Values, keyParts []string) {
+	var sourceType string
+	if len(params.Customer) > 0 {
+		sourceType = "source"
+	} else {
+		sourceType = "external_account"
+	}
+
+	// Use token (if exists) or a dictionary containing a user’s bank account details.
+	if len(params.Token) > 0 {
+		body.Add(append(keyParts, sourceType), params.Token)
+
+		if params.Default {
+			body.Add(append(keyParts, "default_for_currency"),
+				strconv.FormatBool(params.Default))
+		}
+	} else {
+		body.Add(append(keyParts, sourceType, "object"), "bank_account")
+		body.Add(append(keyParts, sourceType, "country"), params.Country)
+		body.Add(append(keyParts, sourceType, "account_number"), params.Account)
+		body.Add(append(keyParts, sourceType, "currency"), params.Currency)
+
+		if len(params.Customer) > 0 {
+			body.Add(append(keyParts, sourceType, "account_holder_name"),
+				params.AccountHolderName)
+			body.Add(append(keyParts, sourceType, "account_holder_type"),
+				params.AccountHolderType)
+		}
+
+		if len(params.Routing) > 0 {
+			body.Add(append(keyParts, sourceType, "routing_number"), params.Routing)
+		}
+
+		if params.Default {
+			body.Add(append(keyParts, sourceType, "default_for_currency"),
+				strconv.FormatBool(params.Default))
+		}
+	}
 }
 
 // BankAccountListParams is the set of parameters that can be used when listing bank accounts.
 type BankAccountListParams struct {
-	ListParams
+	ListParams `form:"*"`
 
 	// The identifier of the parent account under which the bank accounts are
 	// nested. Either AccountID or Customer should be populated.
