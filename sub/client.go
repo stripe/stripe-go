@@ -98,6 +98,8 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 
 		if params.FeePercent > 0 {
 			body.Add("application_fee_percent", strconv.FormatFloat(params.FeePercent, 'f', 2, 64))
+		} else if params.FeePercentZero {
+			body.Add("application_fee_percent", "0")
 		}
 
 		if params.BillingCycleAnchorNow {
