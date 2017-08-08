@@ -17,6 +17,7 @@ type InvoiceParams struct {
 	Customer             string
 	Desc, Statement, Sub string
 	Fee                  uint64
+	FeeZero              bool
 	Closed, Forgive      bool
 	NoClosed             bool
 	SubPlan              string

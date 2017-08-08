@@ -22,7 +22,7 @@ type SubParams struct {
 	Quantity                                        uint64
 	ProrationDate                                   int64
 	FeePercent, TaxPercent                          float64
-	TaxPercentZero                                  bool
+	FeePercentZero, TaxPercentZero                  bool
 	NoProrate, EndCancel, QuantityZero, TrialEndNow bool
 	BillingCycleAnchor                              int64
 	BillingCycleAnchorNow                           bool

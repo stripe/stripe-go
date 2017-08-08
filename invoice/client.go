@@ -58,6 +58,8 @@ func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	token := c.Key
 	if params.Fee > 0 {
 		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
+	} else if params.FeeZero {
+		body.Add("application_fee", "0")
 	}
 
 	if params.TaxPercent > 0 {
