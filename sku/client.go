@@ -80,7 +80,7 @@ func (c Client) New(params *stripe.SKUParams) (*stripe.SKU, error) {
 				fmt.Sprintf("%.2f", params.PackageDimensions.Weight))
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	p := &stripe.SKU{}
@@ -157,7 +157,7 @@ func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error)
 			body.Add("product", params.Product)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	p := &stripe.SKU{}
@@ -180,7 +180,7 @@ func (c Client) Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 	err := c.B.Call("GET", "/skus/"+id, c.Key, body, commonParams, sku)
 
@@ -224,7 +224,7 @@ func (c Client) List(params *stripe.SKUListParams) *Iter {
 			)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

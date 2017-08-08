@@ -46,7 +46,7 @@ type EventList struct {
 // EventListParams is the set of parameters that can be used when listing events.
 // For more details see https://stripe.com/docs/api#list_events.
 type EventListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Created      int64
 	CreatedRange *RangeQueryParams
 	// Type is one of the values documented at https://stripe.com/docs/api#event_types.

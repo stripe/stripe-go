@@ -60,7 +60,7 @@ func (c Client) New(params *stripe.CouponParams) (*stripe.Coupon, error) {
 		body.Add("redeem_by", strconv.FormatInt(params.RedeemBy, 10))
 	}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	coupon := &stripe.Coupon{}
 
@@ -82,7 +82,7 @@ func (c Client) Get(id string, params *stripe.CouponParams) (*stripe.Coupon, err
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	coupon := &stripe.Coupon{}
@@ -101,7 +101,7 @@ func Update(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 func (c Client) Update(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 	body := &form.Values{}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	coupon := &stripe.Coupon{}
 	err := c.B.Call("POST", "/coupons/"+url.QueryEscape(id), c.Key, body, &params.Params, coupon)
@@ -144,7 +144,7 @@ func (c Client) List(params *stripe.CouponListParams) *Iter {
 			params.CreatedRange.AppendTo(body, "created")
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

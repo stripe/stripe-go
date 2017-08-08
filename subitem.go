@@ -15,7 +15,7 @@ type SubItemParams struct {
 // SubItemListParams is the set of parameters that can be used when listing invoice items.
 // For more details see https://stripe.com/docs/api#list_invoiceitems.
 type SubItemListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Sub string
 }
 

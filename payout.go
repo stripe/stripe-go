@@ -69,7 +69,7 @@ type PayoutParams struct {
 // PayoutListParams is the set of parameters that can be used when listing payouts.
 // For more details see https://stripe.com/docs/api#list_payouts.
 type PayoutListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	ArrivalDate      int64
 	ArrivalDateRange *RangeQueryParams
 	Created          int64

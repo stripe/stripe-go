@@ -30,8 +30,8 @@ func New(params *stripe.PlanParams) (*stripe.Plan, error) {
 
 func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
 	body := &form.Values{}
-	params.Params.AppendTo(body)
-	params.AppendTo(body)
+	form.AppendTo(body, params)
+	form.AppendTo(body, params.Params)
 
 	plan := &stripe.Plan{}
 	err := c.B.Call("POST", "/plans", c.Key, body, &params.Params, plan)
@@ -52,8 +52,8 @@ func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) 
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.Params.AppendTo(body)
-		params.AppendTo(body)
+		form.AppendTo(body, params)
+		form.AppendTo(body, params.Params)
 	}
 
 	plan := &stripe.Plan{}
@@ -75,8 +75,8 @@ func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, erro
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.Params.AppendTo(body)
-		params.AppendTo(body)
+		form.AppendTo(body, params)
+		form.AppendTo(body, params.Params)
 	}
 
 	plan := &stripe.Plan{}
@@ -97,8 +97,7 @@ func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) 
 
 	if params != nil {
 		body = &form.Values{}
-
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 
@@ -121,7 +120,7 @@ func (c Client) List(params *stripe.PlanListParams) *Iter {
 
 	if params != nil {
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

@@ -37,7 +37,7 @@ type InvoiceParams struct {
 // InvoiceListParams is the set of parameters that can be used when listing invoices.
 // For more details see https://stripe.com/docs/api#list_customer_invoices.
 type InvoiceListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Date      int64
 	DateRange *RangeQueryParams
 	Customer  string
@@ -49,7 +49,7 @@ type InvoiceListParams struct {
 // InvoiceLineListParams is the set of parameters that can be used when listing invoice line items.
 // For more details see https://stripe.com/docs/api#invoice_lines.
 type InvoiceLineListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	ID            string
 	Customer, Sub string
 }

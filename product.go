@@ -61,7 +61,7 @@ type ProductList struct {
 // listing products. For more details, see:
 // https://stripe.com/docs/api#list_products.
 type ProductListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Active    *bool
 	IDs       []string
 	Shippable *bool

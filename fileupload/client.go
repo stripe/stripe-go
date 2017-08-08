@@ -59,7 +59,7 @@ func (c Client) Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpl
 		commonParams = &params.Params
 
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	upload := &stripe.FileUpload{}
@@ -94,7 +94,7 @@ func (c Client) List(params *stripe.FileUploadListParams) *Iter {
 			body.Add("purpose", string(params.Purpose))
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

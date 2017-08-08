@@ -93,7 +93,7 @@ func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 			}
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	p := &stripe.Order{}
@@ -130,7 +130,7 @@ func (c Client) Update(id string, params *stripe.OrderUpdateParams) (*stripe.Ord
 			body.Add("status", string(params.Status))
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	o := &stripe.Order{}
@@ -211,7 +211,7 @@ func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, er
 			body.Add("email", params.Email)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	o := &stripe.Order{}
@@ -233,7 +233,7 @@ func (c Client) Get(id string, params *stripe.OrderParams) (*stripe.Order, error
 	if params != nil {
 		body = &form.Values{}
 		commonParams = &params.Params
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	order := &stripe.Order{}
@@ -271,7 +271,7 @@ func (c Client) List(params *stripe.OrderListParams) *Iter {
 			params.Filters.AddFilter("status", "", string(params.Status))
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
@@ -338,7 +338,7 @@ func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.Ord
 			}
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	ret := &stripe.OrderReturn{}

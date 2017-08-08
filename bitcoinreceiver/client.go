@@ -36,7 +36,7 @@ func (c Client) New(params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiv
 
 	token := c.Key
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	receiver := &stripe.BitcoinReceiver{}
 	err := c.B.Call("POST", "/bitcoin/receivers", token, body, &params.Params, receiver)
@@ -110,7 +110,7 @@ func (c Client) List(params *stripe.BitcoinReceiverListParams) *Iter {
 		body.Add("active", strconv.FormatBool(!params.NotActive))
 		body.Add("uncaptured_funds", strconv.FormatBool(params.Uncaptured))
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

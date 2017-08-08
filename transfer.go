@@ -30,7 +30,7 @@ type TransferParams struct {
 // TransferListParams is the set of parameters that can be used when listing transfers.
 // For more details see https://stripe.com/docs/api#list_transfers.
 type TransferListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Amount        int64
 	Created       int64
 	CreatedRange  *RangeQueryParams

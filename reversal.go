@@ -12,7 +12,7 @@ type ReversalParams struct {
 
 // ReversalListParams is the set of parameters that can be used when listing reversals.
 type ReversalListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Transfer string
 }
 

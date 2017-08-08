@@ -45,7 +45,7 @@ type SKUList struct {
 }
 
 type SKUListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Active     *bool
 	Product    string
 	Attributes map[string]string

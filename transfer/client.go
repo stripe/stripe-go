@@ -47,7 +47,7 @@ func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 	if len(params.SourceType) > 0 {
 		body.Add("source_type", string(params.SourceType))
 	}
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	transfer := &stripe.Transfer{}
 	err := c.B.Call("POST", "/transfers", c.Key, body, &params.Params, transfer)
@@ -68,7 +68,7 @@ func (c Client) Get(id string, params *stripe.TransferParams) (*stripe.Transfer,
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	transfer := &stripe.Transfer{}
@@ -92,7 +92,7 @@ func (c Client) Update(id string, params *stripe.TransferParams) (*stripe.Transf
 
 		body = &form.Values{}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	transfer := &stripe.Transfer{}
@@ -135,7 +135,7 @@ func (c Client) List(params *stripe.TransferListParams) *Iter {
 			body.Add("status", params.TransferGroup)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

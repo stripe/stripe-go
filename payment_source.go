@@ -126,7 +126,7 @@ type SourceList struct {
 // SourceListParams are used to enumerate the payment sources that are attached
 // to a Customer.
 type SourceListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Customer string
 }
 

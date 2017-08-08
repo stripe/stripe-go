@@ -44,7 +44,7 @@ func New(params *stripe.CardParams) (*stripe.Card, error) {
 func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	body := &form.Values{}
 	params.AppendDetails(body, true)
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	card := &stripe.Card{}
 	var err error
@@ -78,7 +78,7 @@ func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	card := &stripe.Card{}
@@ -106,7 +106,7 @@ func Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
 func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	body := &form.Values{}
 	params.AppendDetails(body, false)
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	card := &stripe.Card{}
 	var err error
@@ -161,7 +161,7 @@ func (c Client) List(params *stripe.CardListParams) *Iter {
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 	lp = &params.ListParams
 	p = params.ToParams()
 

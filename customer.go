@@ -37,7 +37,7 @@ func (cp *CustomerParams) SetSource(sp interface{}) error {
 // CustomerListParams is the set of parameters that can be used when listing customers.
 // For more details see https://stripe.com/docs/api#list_customers.
 type CustomerListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Created      int64
 	CreatedRange *RangeQueryParams
 }

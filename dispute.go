@@ -69,7 +69,7 @@ type DisputeEvidenceParams struct {
 // DisputeListParams is the set of parameters that can be used when listing disputes.
 // For more details see https://stripe.com/docs/api#list_disputes.
 type DisputeListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Created      int64
 	CreatedRange *RangeQueryParams
 }

@@ -84,7 +84,7 @@ func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 			body.Add("deactivate_on[]", app)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	p := &stripe.Product{}
@@ -145,7 +145,7 @@ func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product
 			body.Add("deactivate_on[]", app)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	p := &stripe.Product{}
@@ -199,7 +199,7 @@ func (c Client) List(params *stripe.ProductListParams) *Iter {
 			params.Filters.AddFilter("url", "", params.URL)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

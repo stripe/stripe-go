@@ -22,7 +22,7 @@ type OrderReturnList struct {
 // OrderReturnListParams is the set of parameters that can be used when listing
 // returns. For more details, see: https://stripe.com/docs/api#list_order_returns.
 type OrderReturnListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Created      int64
 	CreatedRange *RangeQueryParams
 	Order        string

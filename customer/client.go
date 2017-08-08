@@ -74,7 +74,7 @@ func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 
 		commonParams = &params.Params
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	cust := &stripe.Customer{}
@@ -96,7 +96,7 @@ func (c Client) Get(id string, params *stripe.CustomerParams) (*stripe.Customer,
 	if params != nil {
 		body = &form.Values{}
 		commonParams = &params.Params
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	cust := &stripe.Customer{}
@@ -146,7 +146,7 @@ func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Custom
 		if len(params.DefaultSource) > 0 {
 			body.Add("default_source", params.DefaultSource)
 		}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 
 		if params.Shipping != nil {
 			params.Shipping.AppendDetails(body)
@@ -194,11 +194,7 @@ func (c Client) List(params *stripe.CustomerListParams) *Iter {
 			body.Add("created", strconv.FormatInt(params.Created, 10))
 		}
 
-		if params.CreatedRange != nil {
-			params.CreatedRange.AppendTo(body, "created")
-		}
-
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

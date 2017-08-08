@@ -29,7 +29,7 @@ type FileUploadParams struct {
 // FileUploadListParams is the set of parameters that can be used when listing
 // file uploads. For more details see https://stripe.com/docs/api#list_file_uploads.
 type FileUploadListParams struct {
-	ListParams
+	ListParams `form:"*"`
 	Created      int64
 	CreatedRange *RangeQueryParams
 	Purpose      FileUploadPurpose

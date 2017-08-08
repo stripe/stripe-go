@@ -31,7 +31,7 @@ func (c Client) New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, er
 		body.Add("customer", params.Customer)
 	}
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	tds := &stripe.ThreeDSecure{}
 	err := c.B.Call("POST", "/3d_secure", c.Key, body, &params.Params, tds)
@@ -51,7 +51,7 @@ func (c Client) Get(id string, params *stripe.ThreeDSecureParams) (*stripe.Three
 	if params != nil {
 		body = &form.Values{}
 		commonParams = &params.Params
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	tds := &stripe.ThreeDSecure{}

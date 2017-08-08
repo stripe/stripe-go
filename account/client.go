@@ -1,9 +1,6 @@
-// Package account provides the /account APIs
 package account
 
 import (
-	"strconv"
-
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -19,91 +16,6 @@ func New(params *stripe.AccountParams) (*stripe.Account, error) {
 	return getC().New(params)
 }
 
-func writeAccountParams(
-	params *stripe.AccountParams, body *form.Values,
-) {
-	if len(params.Country) > 0 {
-		body.Add("country", params.Country)
-	}
-
-	if len(params.Email) > 0 {
-		body.Add("email", params.Email)
-	}
-
-	if params.DebitNegativeBal {
-		body.Add("debit_negative_balances", strconv.FormatBool(true))
-	} else if params.NoDebitNegativeBal {
-		body.Add("debit_negative_balances", strconv.FormatBool(false))
-	}
-
-	if len(params.DefaultCurrency) > 0 {
-		body.Add("default_currency", params.DefaultCurrency)
-	}
-
-	if params.ExternalAccount != nil {
-		if len(params.ExternalAccount.Token) > 0 {
-			body.Add("external_account", params.ExternalAccount.Token)
-		} else {
-			body.Add("external_account[object]", "bank_account")
-			body.Add("external_account[account_number]", params.ExternalAccount.Account)
-			body.Add("external_account[country]", params.ExternalAccount.Country)
-			body.Add("external_account[currency]", params.ExternalAccount.Currency)
-
-			if len(params.ExternalAccount.Routing) > 0 {
-				body.Add("external_account[routing_number]", params.ExternalAccount.Routing)
-			}
-		}
-	}
-
-	if len(params.PayoutStatement) > 0 {
-		body.Add("payout_statement_descriptor", params.PayoutStatement)
-	}
-
-	if len(params.Statement) > 0 {
-		body.Add("statement_descriptor", params.Statement)
-	}
-
-	if len(params.BusinessName) > 0 {
-		body.Add("business_name", params.BusinessName)
-	}
-
-	if len(params.BusinessPrimaryColor) > 0 {
-		body.Add("business_primary_color", params.BusinessPrimaryColor)
-	}
-
-	if len(params.BusinessUrl) > 0 {
-		body.Add("business_url", params.BusinessUrl)
-	}
-
-	if len(params.SupportPhone) > 0 {
-		body.Add("support_phone", params.SupportPhone)
-	}
-
-	if len(params.SupportEmail) > 0 {
-		body.Add("support_email", params.SupportEmail)
-	}
-
-	if len(params.SupportUrl) > 0 {
-		body.Add("support_url", params.SupportUrl)
-	}
-
-	if params.LegalEntity != nil {
-		params.LegalEntity.AppendDetails(body)
-	}
-
-	if params.PayoutSchedule != nil {
-		params.PayoutSchedule.AppendDetails(body)
-	}
-
-	if params.TOSAcceptance != nil {
-		params.TOSAcceptance.AppendDetails(body)
-	}
-
-	if len(params.FromRecipient) > 0 {
-		body.Add("from_recipient", params.FromRecipient)
-	}
-}
-
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 	body := &form.Values{}
 
@@ -113,13 +25,7 @@ func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 		body.Add("type", string(params.Type))
 	}
 
-	writeAccountParams(params, body)
-
-	if params.TOSAcceptance != nil {
-		params.TOSAcceptance.AppendDetails(body)
-	}
-
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 
 	acct := &stripe.Account{}
 	err := c.B.Call("POST", "/accounts", c.Key, body, &params.Params, acct)
@@ -151,7 +57,7 @@ func (c Client) GetByID(id string, params *stripe.AccountParams) (*stripe.Accoun
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	account := &stripe.Account{}
@@ -172,14 +78,7 @@ func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-
-		writeAccountParams(params, body)
-
-		if params.TOSAcceptance != nil {
-			params.TOSAcceptance.AppendDetails(body)
-		}
-
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	acct := &stripe.Account{}
@@ -229,7 +128,7 @@ func (c Client) List(params *stripe.AccountListParams) *Iter {
 	if params != nil {
 		body = &form.Values{}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

@@ -35,7 +35,7 @@ func (c Client) Get(id string, params *stripe.RecipientParams) (*stripe.Recipien
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	recipient := &stripe.Recipient{}
@@ -92,7 +92,7 @@ func (c Client) Update(id string, params *stripe.RecipientParams) (*stripe.Recip
 			body.Add("description", params.Desc)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	recipient := &stripe.Recipient{}
@@ -132,7 +132,7 @@ func (c Client) List(params *stripe.RecipientListParams) *Iter {
 			body.Add("verified", strconv.FormatBool(true))
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

@@ -28,7 +28,7 @@ func (c Client) Get(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
 	if params != nil {
 		commonParams = &params.Params
 		body = &form.Values{}
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 	}
 
 	fee := &stripe.Fee{}
@@ -59,7 +59,7 @@ func (c Client) List(params *stripe.FeeListParams) *Iter {
 			body.Add("charge", params.Charge)
 		}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}

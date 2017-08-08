@@ -59,25 +59,27 @@ type TransactionSource struct {
 // BalanceParams is the set of parameters that can be used when retrieving a balance.
 // For more details see https://stripe.com/docs/api#balance.
 type BalanceParams struct {
-	Params
+	Params `form:"*"`
 }
 
 // TxParams is the set of parameters that can be used when retrieving a transaction.
 // For more details see https://stripe.com/docs/api#retrieve_balance_transaction.
 type TxParams struct {
-	Params
+	Params `form:"*"`
 }
 
 // TxListParams is the set of parameters that can be used when listing balance transactions.
 // For more details see https://stripe.com/docs/api/#balance_history.
 type TxListParams struct {
-	ListParams
-	Created               int64
-	CreatedRange          *RangeQueryParams
-	Available             int64
-	AvailableRange        *RangeQueryParams
-	Currency, Src, Payout string
-	Type                  TransactionType
+	ListParams     `form:"*"`
+	Created        int64             `form:"created"`
+	CreatedRange   *RangeQueryParams `form:"created"`
+	Available      int64             `form:"available_on"`
+	AvailableRange *RangeQueryParams `form:"available_on"`
+	Currency       string            `form:"currency"`
+	Src            string            `form:"payout"`
+	Payout         string            `form:"source"`
+	Type           TransactionType   `form:"type"`
 }
 
 // Balance is the resource representing your Stripe balance.
