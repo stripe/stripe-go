@@ -52,7 +52,7 @@ func TestSourceCardNew(t *testing.T) {
 		t.Errorf("Unexpected number of sources %v\n", targetCust.Sources.Count)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 }
 
 func TestSourceBankAccountNew(t *testing.T) {
@@ -120,7 +120,7 @@ func TestSourceCardGet(t *testing.T) {
 		t.Errorf("Card brand %q does not match expected value\n", target.Brand)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 }
 
 func TestSourceBankAccountGet(t *testing.T) {
@@ -178,7 +178,7 @@ func TestSourceCardDel(t *testing.T) {
 		t.Errorf("Source id %q expected to be marked as deleted on the returned resource\n", sourceDel.ID)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 }
 
 func TestSourceBankAccountDel(t *testing.T) {
@@ -251,7 +251,7 @@ func TestSourceCardUpdate(t *testing.T) {
 		t.Errorf("Card name %q does not match expected name %q\n", target.Name, sourceParams.Source.Card.Name)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 }
 
 func TestSourceBankAccountVerify(t *testing.T) {
@@ -307,7 +307,7 @@ func TestSourceBankAccountVerify(t *testing.T) {
 		t.Errorf("Status (%q) does not match expected (%q) ", target.Status, bankaccount.VerifiedAccount)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 }
 
 func TestSourceList(t *testing.T) {
@@ -343,7 +343,7 @@ func TestSourceList(t *testing.T) {
 		t.Error(err)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 }
 
 func TestSourceObjectNewGet(t *testing.T) {

@@ -119,5 +119,5 @@ func TestTransferAllMethods(t *testing.T) {
 		t.Errorf("Expected 4 transfers on %q but got %q\n", acc.ID, nbTransfers)
 	}
 
-	account.Del(acc.ID)
+	account.Del(acc.ID, nil)
 }

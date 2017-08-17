@@ -145,7 +145,7 @@ func TestOrder(t *testing.T) {
 		t.Error("Order metadata not set")
 	}
 
-	coupon.Del(c.ID)
+	coupon.Del(c.ID, nil)
 }
 
 func TestOrderUpdate(t *testing.T) {
@@ -225,7 +225,7 @@ func TestOrderUpdate(t *testing.T) {
 		t.Errorf("Order metadata not updated: %v", updated.Meta["foo"])
 	}
 
-	coupon.Del(c.ID)
+	coupon.Del(c.ID, nil)
 }
 
 func TestOrderPay(t *testing.T) {

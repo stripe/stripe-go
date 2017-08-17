@@ -45,7 +45,7 @@ func TestBankAccountDel(t *testing.T) {
 		t.Errorf("Bank account id %q expected to be marked as deleted on the returned resource\n", baDel.ID)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 }
 
 func TestBankAccountListByAccount(t *testing.T) {
@@ -84,7 +84,7 @@ func TestBankAccountListByAccount(t *testing.T) {
 	}
 
 	Del(baTok.ID, &stripe.BankAccountParams{AccountID: acct.ID})
-	account.Del(acct.ID)
+	account.Del(acct.ID, nil)
 }
 
 func TestBankAccountListByCustomer(t *testing.T) {
@@ -118,5 +118,5 @@ func TestBankAccountListByCustomer(t *testing.T) {
 	}
 
 	Del(cust.DefaultSource.ID, &stripe.BankAccountParams{Customer: cust.ID})
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 }
