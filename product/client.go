@@ -231,14 +231,27 @@ func (i *Iter) Product() *stripe.Product {
 
 // Delete deletes a product
 // For more details see https://stripe.com/docs/api#delete_product.
-func Delete(id string) error {
-	return getC().Delete(id)
+func Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
+	return getC().Del(id, params)
 }
 
 // Delete deletes a product.
 // For more details see https://stripe.com/docs/api#delete_product.
-func (c Client) Delete(id string) error {
-	return c.B.Call("DELETE", "/products/"+id, c.Key, nil, nil, nil)
+func (c Client) Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
+	var body *stripe.RequestValues
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &stripe.RequestValues{}
+
+		params.AppendTo(body)
+		commonParams = &params.Params
+	}
+
+	product := &stripe.Product{}
+	err := c.B.Call("DELETE", "/products/"+id, c.Key, body, commonParams, product)
+
+	return product, err
 }
 
 func getC() Client {

@@ -109,7 +109,7 @@ func TestAccountDelete(t *testing.T) {
 		t.Error(err)
 	}
 
-	acctDel, err := Del(acct.ID)
+	acctDel, err := Del(acct.ID, nil)
 	if err != nil {
 		t.Error(err)
 	}

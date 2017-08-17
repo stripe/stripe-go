@@ -110,13 +110,23 @@ func (c Client) Update(id string, params *stripe.InvoiceItemParams) (*stripe.Inv
 
 // Del removes an invoice item.
 // For more details see https://stripe.com/docs/api#delete_invoiceitem.
-func Del(id string) (*stripe.InvoiceItem, error) {
-	return getC().Del(id)
+func Del(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
+	return getC().Del(id, params)
 }
 
-func (c Client) Del(id string) (*stripe.InvoiceItem, error) {
+func (c Client) Del(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
+	var body *stripe.RequestValues
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &stripe.RequestValues{}
+
+		params.AppendTo(body)
+		commonParams = &params.Params
+	}
+
 	ii := &stripe.InvoiceItem{}
-	err := c.B.Call("DELETE", "/invoiceitems/"+id, c.Key, nil, nil, ii)
+	err := c.B.Call("DELETE", "/invoiceitems/"+id, c.Key, body, commonParams, ii)
 
 	return ii, err
 }

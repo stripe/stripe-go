@@ -199,7 +199,7 @@ func TestProductDelete(t *testing.T) {
 	if err != nil {
 		t.Fatalf("%+v", err)
 	}
-	err = Delete(p.ID)
+	_, err = Del(p.ID, nil)
 	if err != nil {
 		t.Fatalf("%+v", err)
 	}

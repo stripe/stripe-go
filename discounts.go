@@ -1,5 +1,10 @@
 package stripe
 
+// DiscountParams is the set of parameters that can be used when deleting a discount.
+type DiscountParams struct {
+  Params
+}
+
 // Discount is the resource representing a Stripe discount.
 // For more details see https://stripe.com/docs/api#discounts.
 type Discount struct {
@@ -10,3 +15,4 @@ type Discount struct {
 	Sub      string  `json:"subscription"`
 	Deleted  bool    `json:"deleted"`
 }
+

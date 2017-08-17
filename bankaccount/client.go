@@ -147,13 +147,23 @@ func Del(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 }
 
 func (c Client) Del(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
+	var body *stripe.RequestValues
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &stripe.RequestValues{}
+
+		params.AppendTo(body)
+		commonParams = &params.Params
+	}
+
 	ba := &stripe.BankAccount{}
 	var err error
 
 	if len(params.Customer) > 0 {
-		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/bank_accounts/%v", params.Customer, id), c.Key, nil, &params.Params, ba)
+		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/bank_accounts/%v", params.Customer, id), c.Key, body, commonParams, ba)
 	} else if len(params.AccountID) > 0 {
-		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/bank_accounts/%v", params.AccountID, id), c.Key, nil, nil, ba)
+		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/bank_accounts/%v", params.AccountID, id), c.Key, body, commonParams, ba)
 	} else {
 		err = errors.New("Invalid bank account params: either Customer or AccountID need to be set")
 	}

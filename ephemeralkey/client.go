@@ -50,15 +50,25 @@ func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 
 // Del removes an ephemeral key.
 // For more details see https://stripe.com/docs/api#delete_ephemeral_key.
-func Del(id string) (*stripe.EphemeralKey, error) {
-	return getC().Del(id)
+func Del(id string, params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, error) {
+	return getC().Del(id, params)
 }
 
 // Del removes an ephemeral key.
 // For more details see https://stripe.com/docs/api#delete_ephemeral_key.
-func (c Client) Del(id string) (*stripe.EphemeralKey, error) {
+func (c Client) Del(id string, params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, error) {
+	var body *stripe.RequestValues
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &stripe.RequestValues{}
+
+		params.AppendTo(body)
+		commonParams = &params.Params
+	}
+
 	ephemeralKey := &stripe.EphemeralKey{}
-	err := c.B.Call("DELETE", "/ephemeral_keys/"+id, c.Key, nil, nil, ephemeralKey)
+	err := c.B.Call("DELETE", "/ephemeral_keys/"+id, c.Key, body, commonParams, ephemeralKey)
 
 	return ephemeralKey, err
 }

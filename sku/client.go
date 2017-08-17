@@ -256,14 +256,27 @@ func (i *Iter) SKU() *stripe.SKU {
 
 // Delete destroys a SKU.
 // For more details see https://stripe.com/docs/api#delete_sku.
-func Delete(id string) error {
-	return getC().Delete(id)
+func Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
+	return getC().Del(id, params)
 }
 
 // Delete destroys a SKU.
 // For more details see https://stripe.com/docs/api#delete_sku.
-func (c Client) Delete(id string) error {
-	return c.B.Call("DELETE", "/skus/"+id, c.Key, nil, nil, nil)
+func (c Client) Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
+	var body *stripe.RequestValues
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &stripe.RequestValues{}
+
+		params.AppendTo(body)
+		commonParams = &params.Params
+	}
+
+	sku := &stripe.SKU{}
+	err := c.B.Call("DELETE", "/skus/"+id, c.Key, body, commonParams, sku)
+
+	return sku, err
 }
 
 func getC() Client {

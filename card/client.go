@@ -133,15 +133,25 @@ func Del(id string, params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) {
+	var body *stripe.RequestValues
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &stripe.RequestValues{}
+
+		params.AppendTo(body)
+		commonParams = &params.Params
+	}
+
 	card := &stripe.Card{}
 	var err error
 
 	if len(params.Account) > 0 {
-		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/external_accounts/%v", params.Account, id), c.Key, nil, &params.Params, card)
+		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/external_accounts/%v", params.Account, id), c.Key, body, commonParams, card)
 	} else if len(params.Customer) > 0 {
-		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, nil, &params.Params, card)
+		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, commonParams, card)
 	} else if len(params.Recipient) > 0 {
-		err = c.B.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, nil, &params.Params, card)
+		err = c.B.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, body, commonParams, card)
 	} else {
 		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}

@@ -188,13 +188,23 @@ func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account
 }
 
 // Del deletes an account
-func Del(id string) (*stripe.Account, error) {
-	return getC().Del(id)
+func Del(id string, params *stripe.AccountParams) (*stripe.Account, error) {
+	return getC().Del(id, params)
 }
 
-func (c Client) Del(id string) (*stripe.Account, error) {
+func (c Client) Del(id string, params *stripe.AccountParams) (*stripe.Account, error) {
+	var body *stripe.RequestValues
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &stripe.RequestValues{}
+
+		params.AppendTo(body)
+		commonParams = &params.Params
+	}
+
 	acct := &stripe.Account{}
-	err := c.B.Call("DELETE", "/accounts/"+id, c.Key, nil, nil, acct)
+	err := c.B.Call("DELETE", "/accounts/"+id, c.Key, body, commonParams, acct)
 
 	return acct, err
 }

@@ -59,7 +59,7 @@ func TestCustomerNew(t *testing.T) {
 		t.Errorf("Unexpected number of cards %v\n", target.Sources.Count)
 	}
 
-	Del(target.ID)
+	Del(target.ID, nil)
 }
 
 func TestCustomerNewWithPlan(t *testing.T) {
@@ -88,7 +88,7 @@ func TestCustomerNewWithPlan(t *testing.T) {
 		t.Error(err)
 	}
 
-	_, err = Del(target.ID)
+	_, err = Del(target.ID, nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -123,7 +123,7 @@ func TestCustomerNewWithShipping(t *testing.T) {
 		t.Errorf("Shipping address line 1 %q does not match expected address line 1 %v\n", target.Shipping.Address.Line1, customerParams.Shipping.Address.Line1)
 	}
 
-	Del(target.ID)
+	Del(target.ID, nil)
 }
 
 func TestCustomerUpdateWithShipping(t *testing.T) {
@@ -172,7 +172,7 @@ func TestCustomerUpdateWithShipping(t *testing.T) {
 		t.Errorf("Shipping address zip %q does not match expected address zip %v\n", target.Shipping.Address.Zip, customerParams.Shipping.Address.Zip)
 	}
 
-	Del(target.ID)
+	Del(target.ID, nil)
 }
 
 func TestCustomerGet(t *testing.T) {
@@ -188,13 +188,13 @@ func TestCustomerGet(t *testing.T) {
 		t.Errorf("Customer id %q does not match expected id %q\n", target.ID, res.ID)
 	}
 
-	Del(res.ID)
+	Del(res.ID, nil)
 }
 
 func TestCustomerDel(t *testing.T) {
 	res, _ := New(nil)
 
-	customerDel, err := Del(res.ID)
+	customerDel, err := Del(res.ID, nil)
 
 	if err != nil {
 		t.Error(err)
@@ -269,7 +269,7 @@ func TestCustomerUpdate(t *testing.T) {
 		t.Errorf("BalanceZero did not reset the balance to 0: %v\n", target2.Balance)
 	}
 
-	Del(target.ID)
+	Del(target.ID, nil)
 }
 
 func TestCustomerDiscount(t *testing.T) {
@@ -303,7 +303,7 @@ func TestCustomerDiscount(t *testing.T) {
 		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.ID, customerParams.Coupon)
 	}
 
-	discountDel, err := discount.Del(target.ID)
+	discountDel, err := discount.Del(target.ID, nil)
 
 	if err != nil {
 		t.Error(err)
@@ -313,8 +313,8 @@ func TestCustomerDiscount(t *testing.T) {
 		t.Errorf("Discount expected to be marked as deleted on the returned resource\n")
 	}
 
-	Del(target.ID)
-	coupon.Del("customer_coupon")
+	Del(target.ID, nil)
+	coupon.Del("customer_coupon", nil)
 }
 
 func TestCustomerEmptyDiscount(t *testing.T) {
@@ -362,8 +362,8 @@ func TestCustomerEmptyDiscount(t *testing.T) {
 		t.Errorf("A discount %v was found, but was expected to have been deleted\n", target.Discount)
 	}
 
-	Del(target.ID)
-	coupon.Del("customer_coupon")
+	Del(target.ID, nil)
+	coupon.Del("customer_coupon", nil)
 }
 
 func TestCustomerList(t *testing.T) {
@@ -389,6 +389,6 @@ func TestCustomerList(t *testing.T) {
 	}
 
 	for _, v := range customers {
-		Del(v)
+		Del(v, nil)
 	}
 }

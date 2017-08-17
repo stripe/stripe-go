@@ -49,13 +49,23 @@ func (c Client) Get(id string, params *stripe.ApplePayDomainParams) (*stripe.App
 }
 
 // Del removes an ApplePayDomain.
-func Del(id string) (*stripe.ApplePayDomain, error) {
-	return getC().Del(id)
+func Del(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
+	return getC().Del(id, params)
 }
 
-func (c Client) Del(id string) (*stripe.ApplePayDomain, error) {
+func (c Client) Del(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
+	var body *stripe.RequestValues
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &stripe.RequestValues{}
+
+		params.AppendTo(body)
+		commonParams = &params.Params
+	}
+
 	domain := &stripe.ApplePayDomain{}
-	err := c.B.Call("DELETE", "/apple_pay/domains/"+id, c.Key, nil, nil, domain)
+	err := c.B.Call("DELETE", "/apple_pay/domains/"+id, c.Key, body, commonParams, domain)
 
 	return domain, err
 }

@@ -185,7 +185,7 @@ $resource$, err := $resource$.Get(id, stripe.$Resource$Params)
 $resource$, err := $resource$.Update(stripe.$Resource$Params)
 
 // Delete
-err := $resource$.Del(id)
+resourceDeleted, err := $resource$.Del(id, stripe.$Resource$Params)
 
 // List
 i := $resource$.List(stripe.$Resource$ListParams)
@@ -224,7 +224,7 @@ $resource$, err := sc.$Resource$s.Get(id, stripe.$Resource$Params)
 $resource$, err := sc.$Resource$s.Update(stripe.$Resource$Params)
 
 // Delete
-err := sc.$Resource$s.Del(id)
+resourceDeleted, err := sc.$Resource$s.Del(id, stripe.$Resource$Params)
 
 // List
 i := sc.$Resource$s.List(stripe.$Resource$ListParams)

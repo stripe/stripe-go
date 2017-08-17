@@ -110,13 +110,23 @@ func (c Client) Update(id string, params *stripe.CouponParams) (*stripe.Coupon, 
 
 // Del removes a coupon.
 // For more details see https://stripe.com/docs/api#delete_coupon.
-func Del(id string) (*stripe.Coupon, error) {
-	return getC().Del(id)
+func Del(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
+	return getC().Del(id, params)
 }
 
-func (c Client) Del(id string) (*stripe.Coupon, error) {
+func (c Client) Del(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
+	var body *stripe.RequestValues
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &stripe.RequestValues{}
+
+		params.AppendTo(body)
+		commonParams = &params.Params
+	}
+
 	coupon := &stripe.Coupon{}
-	err := c.B.Call("DELETE", "/coupons/"+url.QueryEscape(id), c.Key, nil, nil, coupon)
+	err := c.B.Call("DELETE", "/coupons/"+url.QueryEscape(id), c.Key, body, commonParams, coupon)
 
 	return coupon, err
 }
