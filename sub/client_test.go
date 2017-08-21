@@ -75,7 +75,7 @@ func TestSubscriptionNew(t *testing.T) {
 		t.Errorf("PeriodEnd %v does not match expected BillingCycleAnchor %v\n", target.PeriodEnd, subParams.BillingCycleAnchor)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 	plan.Del("test", nil)
 }
 
@@ -120,7 +120,7 @@ func TestSubscriptionZeroQuantity(t *testing.T) {
 		t.Errorf("Tax percent %v does not match expected tax percent %v\n", target.TaxPercent, 0)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 	plan.Del("test", nil)
 }
 
@@ -168,7 +168,7 @@ func TestSubscriptionUpdateZeroQuantity(t *testing.T) {
 		t.Errorf("TaxPercent %f does not match expected tax_percent %f\n", target.TaxPercent, updatedSub.TaxPercent)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 	plan.Del("test", nil)
 }
 
@@ -215,7 +215,7 @@ func TestSubscriptionGet(t *testing.T) {
 		t.Errorf("Subscription id %q does not match expected id %q\n", target.ID, subscription.ID)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 	plan.Del("test", nil)
 }
 
@@ -263,7 +263,7 @@ func TestSubscriptionCancel(t *testing.T) {
 		t.Errorf("Subscription.Canceled %v expected to be non 0\n", s.Canceled)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 	plan.Del("test", nil)
 }
 
@@ -321,7 +321,7 @@ func TestSubscriptionUpdate(t *testing.T) {
 		t.Errorf("TaxPercent %f does not match expected tax_percent %f\n", target.TaxPercent, updatedSub.TaxPercent)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 	plan.Del("test", nil)
 }
 
@@ -374,7 +374,7 @@ func TestSubscriptionDiscount(t *testing.T) {
 		t.Errorf("Coupon id %q does not match expected id %q\n", target.Discount.Coupon.ID, subParams.Coupon)
 	}
 
-	_, err = discount.DelSub(target.ID)
+	_, err = discount.DelSub(target.ID, nil)
 
 	if err != nil {
 		t.Error(err)
@@ -390,9 +390,9 @@ func TestSubscriptionDiscount(t *testing.T) {
 		t.Errorf("A discount %v was found, but was expected to have been deleted\n", target.Discount)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 	plan.Del("test", nil)
-	coupon.Del("sub_coupon")
+	coupon.Del("sub_coupon", nil)
 }
 
 func TestSubscriptionEmptyDiscount(t *testing.T) {
@@ -458,9 +458,9 @@ func TestSubscriptionEmptyDiscount(t *testing.T) {
 		t.Errorf("A discount %v was found, but was expected to have been deleted\n", target.Discount)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 	plan.Del("test", nil)
-	coupon.Del("sub_coupon")
+	coupon.Del("sub_coupon", nil)
 }
 
 func TestSubscriptionList(t *testing.T) {
@@ -577,6 +577,6 @@ func TestSubscriptionList(t *testing.T) {
 		t.Error(err)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 	plan.Del("test", nil)
 }

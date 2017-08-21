@@ -82,7 +82,7 @@ func TestEphemeralKeyDelete(t *testing.T) {
 		t.Fatalf("%+v", err)
 	}
 
-	k, err = Del(k.ID)
+	k, err = Del(k.ID, nil)
 	if err != nil {
 		t.Fatalf("%+v", err)
 	}

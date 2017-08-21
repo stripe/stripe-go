@@ -63,7 +63,7 @@ func createSubItem(t *testing.T) (*stripe.Sub, *stripe.SubItem, func()) {
 	return target, target.Items.Values[0], func() {
 		sub.Cancel(target.ID, nil)
 		plan.Del(p.ID, nil)
-		customer.Del(cust.ID)
+		customer.Del(cust.ID, nil)
 	}
 }
 

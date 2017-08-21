@@ -56,7 +56,7 @@ func TestCardNew(t *testing.T) {
 		t.Errorf("Unexpected last four %q for card number %v\n", targetCard.LastFour, cardParams.Number)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 }
 
 func TestCardGet(t *testing.T) {
@@ -83,7 +83,7 @@ func TestCardGet(t *testing.T) {
 		t.Errorf("Card funding %q does not match expected value\n", target.Funding)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 }
 
 func TestCardDel(t *testing.T) {
@@ -101,7 +101,7 @@ func TestCardDel(t *testing.T) {
 		t.Errorf("Card id %q expected to be marked as deleted on the returned resource\n", cardDel.ID)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 }
 
 func TestCardUpdate(t *testing.T) {
@@ -139,7 +139,7 @@ func TestCardUpdate(t *testing.T) {
 		t.Errorf("Unexpected expiration year %d for card where we set %q\n", target.Year, cardParams.Year)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 }
 
 func TestCardList(t *testing.T) {
@@ -169,5 +169,5 @@ func TestCardList(t *testing.T) {
 		t.Error(err)
 	}
 
-	customer.Del(cust.ID)
+	customer.Del(cust.ID, nil)
 }

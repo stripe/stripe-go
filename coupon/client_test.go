@@ -58,7 +58,7 @@ func TestCouponNew(t *testing.T) {
 		t.Errorf("Coupon is not valid, but was expecting it to be\n")
 	}
 
-	Del(target.ID)
+	Del(target.ID, nil)
 }
 
 func TestCouponGet(t *testing.T) {
@@ -83,7 +83,7 @@ func TestCouponGet(t *testing.T) {
 		t.Errorf("Percent %v does not match expected percent %v\n", target.Percent, couponParams.Percent)
 	}
 
-	Del(target.ID)
+	Del(target.ID, nil)
 }
 
 func TestCouponUpdate(t *testing.T) {
@@ -111,7 +111,7 @@ func TestCouponUpdate(t *testing.T) {
 		t.Errorf("Meta %v does not match expected Meta %v\n", target.Meta, updateParams.Meta)
 	}
 
-	Del(target.ID)
+	Del(target.ID, nil)
 }
 
 func TestCouponList(t *testing.T) {
@@ -140,7 +140,7 @@ func TestCouponList(t *testing.T) {
 	}
 
 	for i := 0; i < 5; i++ {
-		Del(fmt.Sprintf("test_%v", i))
+		Del(fmt.Sprintf("test_%v", i), nil)
 	}
 }
 
@@ -155,7 +155,7 @@ func TestCouponDel(t *testing.T) {
 		t.Error(err)
 	}
 
-	coupon, err := Del(target.ID)
+	coupon, err := Del(target.ID, nil)
 	if !coupon.Deleted {
 		t.Errorf("Coupon id %v expected to be marked as deleted on the returned resource\n", coupon.ID)
 	}

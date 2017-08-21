@@ -148,5 +148,5 @@ func TestPayoutAllMethods(t *testing.T) {
 		t.Errorf("Expected 4 payouts on %q but got %q\n", acc.ID, nbPayouts)
 	}
 
-	account.Del(acc.ID)
+	account.Del(acc.ID, nil)
 }

@@ -102,13 +102,23 @@ func (c Client) Update(id string, params *stripe.RecipientParams) (*stripe.Recip
 
 // Del removes a recipient.
 // For more details see https://stripe.com/docs/api#delete_recipient.
-func Del(id string) (*stripe.Recipient, error) {
-	return getC().Del(id)
+func Del(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
+	return getC().Del(id, params)
 }
 
-func (c Client) Del(id string) (*stripe.Recipient, error) {
+func (c Client) Del(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
+	var body *stripe.RequestValues
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &stripe.RequestValues{}
+
+		params.AppendTo(body)
+		commonParams = &params.Params
+	}
+
 	recipient := &stripe.Recipient{}
-	err := c.B.Call("DELETE", "/recipients/"+id, c.Key, nil, nil, recipient)
+	err := c.B.Call("DELETE", "/recipients/"+id, c.Key, body, commonParams, recipient)
 
 	return recipient, err
 }

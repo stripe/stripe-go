@@ -54,7 +54,7 @@ func TestApplePayDomain(t *testing.T) {
 	}
 
 	// Testing to delete an ApplePayDomain
-	domain3, err := Del(domain2.ID)
+	domain3, err := Del(domain2.ID, nil)
 	if !domain3.Deleted {
 		t.Errorf("Domain id %v expected to be marked as deleted on the returned resource\n", domain3.ID)
 	}

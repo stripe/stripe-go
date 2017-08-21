@@ -96,11 +96,21 @@ func Del(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource,
 }
 
 func (s Client) Del(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+	var body *stripe.RequestValues
+	var commonParams *stripe.Params
+
+	if params != nil {
+		body = &stripe.RequestValues{}
+
+		params.AppendTo(body)
+		commonParams = &params.Params
+	}
+
 	source := &stripe.PaymentSource{}
 	var err error
 
 	if len(params.Customer) > 0 {
-		err = s.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", params.Customer, id), s.Key, nil, &params.Params, source)
+		err = s.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", params.Customer, id), s.Key, body, commonParams, source)
 	} else {
 		err = errors.New("Invalid source params: customer needs to be set")
 	}

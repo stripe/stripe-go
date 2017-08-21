@@ -152,7 +152,7 @@ func TestSKUDelete(t *testing.T) {
 		Product:   p.ID,
 	})
 
-	err = Delete(sku.ID)
+	_, err = Del(sku.ID, nil)
 	if err != nil {
 		t.Fatalf("%+v", err)
 	}
