@@ -1,3 +1,6 @@
+25.0.0 2017-08-21
+	All `Del` methods now take params as second argument (which may be `nil`)
+
 24.3.0 2017-08-08
 	Add `FeeZero` to invoice and `TaxPercentZero` to subscription for zeroing values
 
