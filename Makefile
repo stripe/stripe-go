@@ -13,6 +13,10 @@ check-gofmt:
 checkin:
 	STRIPE_KEY=$(STRIPE_KEY) go test -run "TestCheckin*" ./...
 
+	# Whitelisted sets of tests that use stripestub
+	go test -run "TestPlan*"
+	go test ./plan
+
 test:
 	STRIPE_KEY=$(STRIPE_KEY) go test ./... -p=1
 

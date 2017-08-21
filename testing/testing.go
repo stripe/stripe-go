@@ -1,5 +1,12 @@
 package testing
 
+import (
+	"net/http"
+	"os"
+
+	stripe "github.com/stripe/stripe-go"
+)
+
 // This file should contain any testing helpers that should be commonly
 // available across all tests in the Stripe package.
 //
@@ -11,3 +18,19 @@ const (
 	// simple tests.
 	TestMerchantID = "acct_xxxx"
 )
+
+func init() {
+	port := os.Getenv("STRIPE_STUB_PORT")
+	if port == "" {
+		port = "12111"
+	}
+
+	stripe.Key = "sk_test_myTestKey"
+	stripe.SetBackend("api", stripe.BackendConfiguration{
+		stripe.APIBackend,
+		"http://localhost:" + port + "/v1",
+		&http.Client{},
+	})
+
+	// TODO: sample connection and version check
+}
