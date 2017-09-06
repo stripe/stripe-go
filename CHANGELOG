@@ -1,3 +1,6 @@
+25.1.0 2017-09-06
+	Use bearer token authentication for API requests
+
 25.0.0 2017-08-21
 	All `Del` methods now take params as second argument (which may be `nil`)
 	Product `Delete` has been renamed to `Del` for consistency
