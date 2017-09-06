@@ -11,6 +11,22 @@ import (
 	. "github.com/stripe/stripe-go/testing"
 )
 
+func TestCheckinUseBearerAuth(t *testing.T) {
+	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+	key := "apiKey"
+
+	req, err := c.NewRequest("", "", key, "", nil, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expectedAuthorizationHeader := "Bearer " + key
+	if req.Header.Get("Authorization") != expectedAuthorizationHeader {
+		t.Fatalf("Expected Authorization %v but got %v.",
+			expectedAuthorizationHeader, req.Header.Get("Authorization"))
+	}
+}
+
 func TestCheckinBackendConfigurationNewRequestWithStripeAccount(t *testing.T) {
 	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
 	p := &stripe.Params{StripeAccount: TestMerchantID}
