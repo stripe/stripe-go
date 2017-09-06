@@ -249,8 +249,9 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 		return nil, err
 	}
 
-	req.SetBasicAuth(key, "")
+	authorization := "Bearer " + key
 
+	req.Header.Add("Authorization", authorization)
 	req.Header.Add("Stripe-Version", apiversion)
 	req.Header.Add("User-Agent", encodedUserAgent)
 	req.Header.Add("Content-Type", contentType)
