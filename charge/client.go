@@ -88,6 +88,10 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 		body.Add("application_fee", strconv.FormatUint(params.Fee, 10))
 	}
 
+	if len(params.OnBehalfOf) > 0 {
+		body.Add("on_behalf_of", params.OnBehalfOf)
+	}
+
 	if params.Shipping != nil {
 		params.Shipping.AppendDetails(body)
 	}

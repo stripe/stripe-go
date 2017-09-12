@@ -29,6 +29,7 @@ type SubParams struct {
 	Items                                           []*SubItemsParams
 	Billing                                         SubBilling
 	DaysUntilDue                                    uint64
+	OnBehalfOf                                      string
 }
 
 // SubItemsParams is the set of parameters that can be used when creating or updating a subscription item on a subscription
