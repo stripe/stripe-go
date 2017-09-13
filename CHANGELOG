@@ -1,3 +1,7 @@
+25.2.0 2017-09-13
+	Add `OnBehalfOf` to charge parameters.
+	Add `OnBehalfOf` to subscription parameters.
+
 25.1.0 2017-09-06
 	Use bearer token authentication for API requests
 
