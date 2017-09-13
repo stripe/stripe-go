@@ -108,6 +108,10 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 			body.Add("billing_cycle_anchor", strconv.FormatInt(params.BillingCycleAnchor, 10))
 		}
 
+		if len(params.OnBehalfOf) > 0 {
+			body.Add("on_behalf_of", params.OnBehalfOf)
+		}
+
 		commonParams = &params.Params
 
 		params.AppendTo(body)

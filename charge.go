@@ -27,6 +27,7 @@ type ChargeParams struct {
 	Source                       *SourceParams
 	Shipping                     *ShippingDetails
 	TransferGroup                string
+	OnBehalfOf                   string
 }
 
 type DestinationParams struct {
