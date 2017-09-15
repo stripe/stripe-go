@@ -8,50 +8,58 @@ import (
 type SourceStatus string
 
 const (
+	// SourceStatusCanceled we canceled the source along with any side-effect
+	// it had (returned funds to customers if any were sent).
+	SourceStatusCanceled SourceStatus = "canceled"
+
+	// SourceStatusChargeable the source is ready to be charged (once if usage
+	// is `single_use`, repeatidly otherwise).
+	SourceStatusChargeable SourceStatus = "chargeable"
+
+	// SourceStatusConsumed the source is `single_use` usage and has been
+	// charged already.
+	SourceStatusConsumed SourceStatus = "consumed"
+
+	// SourceStatusFailed the source is no longer usable.
+	SourceStatusFailed SourceStatus = "failed"
+
 	// SourceStatusPending the source is freshly created and not yet
 	// chargeable. The flow should indicate how to authenticate it with your
 	// customer.
 	SourceStatusPending SourceStatus = "pending"
-	// SourceStatusChargeable the source is ready to be charged (once if usage
-	// is `single_use`, repeatidly otherwise).
-	SourceStatusChargeable SourceStatus = "chargeable"
-	// SourceStatusConsumed the source is `single_use` usage and has been
-	// charged already.
-	SourceStatusConsumed SourceStatus = "consumed"
-	// SourceStatusFailed the source is no longer usable.
-	SourceStatusFailed SourceStatus = "failed"
-	// SourceStatusCanceled we canceled the source along with any side-effect
-	// it had (returned funds to customers if any were sent).
-	SourceStatusCanceled SourceStatus = "canceled"
 )
 
 // SourceFlow represents the possible flows of a source object.
 type SourceFlow string
 
 const (
-	// FlowRedirect a redirect is required to authenticate the source.
-	FlowRedirect SourceFlow = "redirect"
-	// FlowReceiver a receiver address should be communicated to the customer
-	// to push funds to it.
-	FlowReceiver SourceFlow = "receiver"
-	// FlowVerification a verification code should be communicated by the
-	// customer to authenticate the source.
-	FlowVerification SourceFlow = "verification"
 	// FlowNone no particular authentication is involved the source should
 	// become chargeable directly or asyncrhonously.
 	FlowNone SourceFlow = "none"
+
+	// FlowReceiver a receiver address should be communicated to the customer
+	// to push funds to it.
+	FlowReceiver SourceFlow = "receiver"
+
+	// FlowRedirect a redirect is required to authenticate the source.
+	FlowRedirect SourceFlow = "redirect"
+
+	// FlowVerification a verification code should be communicated by the
+	// customer to authenticate the source.
+	FlowVerification SourceFlow = "verification"
 )
 
 // SourceUsage represents the possible usages of a source object.
 type SourceUsage string
 
 const (
-	// UsageSingleUse the source can only be charged once for the specified
-	// amount and currency.
-	UsageSingleUse SourceUsage = "single_use"
 	// UsageReusable the source can be charged multiple times for arbitrary
 	// amounts.
 	UsageReusable SourceUsage = "reusable"
+
+	// UsageSingleUse the source can only be charged once for the specified
+	// amount and currency.
+	UsageSingleUse SourceUsage = "single_use"
 )
 
 type SourceOwnerParams struct {
@@ -67,16 +75,16 @@ type RedirectParams struct {
 
 type SourceObjectParams struct {
 	Params   `form:"*"`
-	Type     string             `form:"type"`
-	Usage    SourceUsage        `form:"usage"`
-	Customer string             `form:"customer"`
 	Amount   uint64             `form:"amount"`
 	Currency Currency           `form:"currency"`
+	Customer string             `form:"customer"`
 	Flow     SourceFlow         `form:"flow"`
 	Owner    *SourceOwnerParams `form:"owner"`
 	Redirect *RedirectParams    `form:"redirect"`
 	Token    string             `form:"token"`
+	Type     string             `form:"type"`
 	TypeData map[string]string  `form:"*"`
+	Usage    SourceUsage        `form:"usage"`
 }
 
 type SourceOwner struct {
@@ -94,16 +102,16 @@ type SourceOwner struct {
 type RedirectFlowStatus string
 
 const (
+	RedirectFlowStatusFailed    RedirectFlowStatus = "failed"
 	RedirectFlowStatusPending   RedirectFlowStatus = "pending"
 	RedirectFlowStatusSucceeded RedirectFlowStatus = "succeeded"
-	RedirectFlowStatusFailed    RedirectFlowStatus = "failed"
 )
 
 // ReceiverFlow informs of the state of a redirect authentication flow.
 type RedirectFlow struct {
-	URL       string             `json:"url"`
 	ReturnURL string             `json:"return_url"`
 	Status    RedirectFlowStatus `json:"status"`
+	URL       string             `json:"url"`
 }
 
 // RefundAttributesStatus are the possible status of a receiver's refund
@@ -113,10 +121,12 @@ type RefundAttributesStatus string
 const (
 	// RefundAttributesAvailable the refund attributes are available
 	RefundAttributesAvailable RefundAttributesStatus = "available"
-	// RefundAttributesRequested the refund attributes have been requested
-	RefundAttributesRequested RefundAttributesStatus = "requested"
+
 	// RefundAttributesMissing the refund attributes are missing
 	RefundAttributesMissing RefundAttributesStatus = "missing"
+
+	// RefundAttributesRequested the refund attributes have been requested
+	RefundAttributesRequested RefundAttributesStatus = "requested"
 )
 
 // RefundAttributesMethod are the possible method to retrieve a receiver's
@@ -126,18 +136,19 @@ type RefundAttributesMethod string
 const (
 	// RefundAttributesEmail the refund attributes are automatically collected over email
 	RefundAttributesEmail RefundAttributesMethod = "email"
+
 	// RefundAttributesManual the refund attributes should be collected by the user
 	RefundAttributesManual RefundAttributesMethod = "manual"
 )
 
 // ReceiverFlow informs of the state of a receiver authentication flow.
 type ReceiverFlow struct {
-	RefundAttributesStatus RefundAttributesStatus `json:"refund_attributes_status"`
-	RefundAttributesMethod RefundAttributesMethod `json:"refund_attributes_method"`
 	Address                string                 `json:"address"`
+	AmountCharged          int64                  `json:"amount_charged"`
 	AmountReceived         int64                  `json:"amount_received"`
 	AmountReturned         int64                  `json:"amount_returned"`
-	AmountCharged          int64                  `json:"amount_charged"`
+	RefundAttributesMethod RefundAttributesMethod `json:"refund_attributes_method"`
+	RefundAttributesStatus RefundAttributesStatus `json:"refund_attributes_status"`
 }
 
 // VerificationFlowStatus represents the possible statuses of a verification
@@ -145,9 +156,9 @@ type ReceiverFlow struct {
 type VerificationFlowStatus string
 
 const (
+	VerificationFlowStatusFailed    VerificationFlowStatus = "failed"
 	VerificationFlowStatusPending   VerificationFlowStatus = "pending"
 	VerificationFlowStatusSucceeded VerificationFlowStatus = "succeeded"
-	VerificationFlowStatusFailed    VerificationFlowStatus = "failed"
 )
 
 // ReceiverFlow informs of the state of a verification authentication flow.
@@ -157,25 +168,22 @@ type VerificationFlow struct {
 }
 
 type Source struct {
-	ID           string       `json:"id"`
-	Amount       int64        `json:"amount"`
-	ClientSecret string       `json:"client_secret"`
-	Created      int64        `json:"created"`
-	Currency     Currency     `json:"currency"`
-	Flow         SourceFlow   `json:"flow"`
-	Status       SourceStatus `json:"status"`
-	Type         string       `json:"type"`
-	Usage        SourceUsage  `json:"usage"`
-
-	Live bool              `json:"livemode"`
-	Meta map[string]string `json:"metadata"`
-
+	Amount       int64             `json:"amount"`
+	ClientSecret string            `json:"client_secret"`
+	Created      int64             `json:"created"`
+	Currency     Currency          `json:"currency"`
+	Flow         SourceFlow        `json:"flow"`
+	ID           string            `json:"id"`
+	Live         bool              `json:"livemode"`
+	Meta         map[string]string `json:"metadata"`
 	Owner        SourceOwner       `json:"owner"`
-	Redirect     *RedirectFlow     `json:"redirect,omitempty"`
 	Receiver     *ReceiverFlow     `json:"receiver,omitempty"`
+	Redirect     *RedirectFlow     `json:"redirect,omitempty"`
+	Status       SourceStatus      `json:"status"`
+	Type         string            `json:"type"`
+	TypeData     map[string]interface{}
+	Usage        SourceUsage       `json:"usage"`
 	Verification *VerificationFlow `json:"verification,omitempty"`
-
-	TypeData map[string]interface{}
 }
 
 // UnmarshalJSON handles deserialization of an Source. This custom unmarshaling

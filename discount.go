@@ -10,8 +10,8 @@ type DiscountParams struct {
 type Discount struct {
 	Coupon   *Coupon `json:"coupon"`
 	Customer string  `json:"customer"`
-	Start    int64   `json:"start"`
-	End      int64   `json:"end"`
-	Sub      string  `json:"subscription"`
 	Deleted  bool    `json:"deleted"`
+	End      int64   `json:"end"`
+	Start    int64   `json:"start"`
+	Sub      string  `json:"subscription"`
 }

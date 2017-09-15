@@ -14,14 +14,15 @@ type EphemeralKeyParams struct {
 // EphemeralKey is the resource representing a Stripe ephemeral key.
 // For more details see https://stripe.com/docs/api#ephemeral_keys.
 type EphemeralKey struct {
-	ID                string `json:"id"`
-	Created           int64  `json:"created"`
-	Expires           int64  `json:"expires"`
-	Live              bool   `json:"livemode"`
 	AssociatedObjects []struct {
 		ID   string `json:"id"`
 		Type string `json:"type"`
 	} `json:"associated_objects"`
+
+	Created int64  `json:"created"`
+	Expires int64  `json:"expires"`
+	ID      string `json:"id"`
+	Live    bool   `json:"livemode"`
 
 	// RawJSON is provided so that it may be passed back to the frontend
 	// unchanged.  Ephemeral keys are issued on behalf of another client which

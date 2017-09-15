@@ -20,25 +20,23 @@ type BankAccountStatus string
 type BankAccountParams struct {
 	Params `form:"*"`
 
-	// The identifier of the parent account under which bank accounts are
-	// nested.
+	Account string `form:"account_number"`
+
+	// AccountID is the identifier of the parent account under which bank
+	// accounts are nested.
 	AccountID string `form:"-"`
 
-	Customer string `form:"-"`
-
-	// A token referencing an external account like one returned from
-	// Stripe.js.
-	Token string `form:"-"`
-
-	// Information on an external account to reference. Only used if `Token`
-	// is not provided.
-	Account           string `form:"account_number"`
 	AccountHolderName string `form:"account_holder_name"`
 	AccountHolderType string `form:"account_holder_type"`
 	Country           string `form:"country"`
 	Currency          string `form:"currency"`
+	Customer          string `form:"-"`
 	Default           bool   `form:"default_for_currency"`
 	Routing           string `form:"routing_number"`
+
+	// Token is a token referencing an external account like one returned from
+	// Stripe.js.
+	Token string `form:"-"`
 }
 
 // AppendToAsSourceOrExternalAccount appends the given BankAccountParams as
@@ -103,20 +101,20 @@ type BankAccountListParams struct {
 
 // BankAccount represents a Stripe bank account.
 type BankAccount struct {
-	ID                string            `json:"id"`
-	Name              string            `json:"bank_name"`
 	AccountHolderName string            `json:"account_holder_name"`
 	AccountHolderType string            `json:"account_holder_type"`
 	Country           string            `json:"country"`
 	Currency          Currency          `json:"currency"`
-	Default           bool              `json:"default_for_currency"`
-	LastFour          string            `json:"last4"`
-	Fingerprint       string            `json:"fingerprint"`
-	Status            BankAccountStatus `json:"status"`
-	Routing           string            `json:"routing_number"`
-	Deleted           bool              `json:"deleted"`
 	Customer          *Customer         `json:"customer"`
+	Default           bool              `json:"default_for_currency"`
+	Deleted           bool              `json:"deleted"`
+	Fingerprint       string            `json:"fingerprint"`
+	ID                string            `json:"id"`
+	LastFour          string            `json:"last4"`
 	Meta              map[string]string `json:"metadata"`
+	Name              string            `json:"bank_name"`
+	Routing           string            `json:"routing_number"`
+	Status            BankAccountStatus `json:"status"`
 }
 
 // BankAccountList is a list object for bank accounts.

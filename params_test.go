@@ -76,8 +76,8 @@ func TestListParams_Nested(t *testing.T) {
 		Field: "field_value",
 		ListParams: stripe.ListParams{
 			End:   "acct_123",
-			Start: "acct_123",
 			Limit: 100,
+			Start: "acct_123",
 		},
 	}
 
@@ -85,9 +85,9 @@ func TestListParams_Nested(t *testing.T) {
 	form.AppendTo(body, params)
 
 	assert.Equal(t, valuesFromArray([][2]string{
-		{"starting_after", "acct_123"},
 		{"ending_before", "acct_123"},
 		{"limit", "100"},
+		{"starting_after", "acct_123"},
 		{"field", "field_value"},
 	}), body)
 }

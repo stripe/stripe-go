@@ -7,14 +7,14 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
+// cardSource is a string that's used to build card form parameters. It's a
+// constant just to make mistakes less likely.
+const cardSource = "source"
+
 // CardBrand is the list of allowed values for the card's brand.
 // Allowed values are "Unknown", "Visa", "American Express", "MasterCard", "Discover"
 // "JCB", "Diners Club".
 type CardBrand string
-
-// Verification is the list of allowed verification responses.
-// Allowed values are "pass", "fail", "unchecked", "unavailable".
-type Verification string
 
 // CardFunding is the list of allowed values for the card's funding.
 // Allowed values are "credit", "debit", "prepaid", "unknown".
@@ -24,6 +24,10 @@ type CardFunding string
 // Allowed values are "apple_pay", "android_pay".
 type TokenizationMethod string
 
+// Verification is the list of allowed verification responses.
+// Allowed values are "pass", "fail", "unchecked", "unavailable".
+type Verification string
+
 // CardParams is the set of parameters that can be used when creating or updating a card.
 // For more details see https://stripe.com/docs/api#create_card and https://stripe.com/docs/api#update_card.
 //
@@ -32,28 +36,24 @@ type TokenizationMethod string
 // of all parameters. See AppendToAsCardSourceOrExternalAccount.
 type CardParams struct {
 	Params    `form:"*"`
-	Token     string `form:"-"`
-	Default   bool   `form:"default_for_currency"`
 	Account   string `form:"-"`
-	Customer  string `form:"-"`
-	Recipient string `form:"-"`
-	Name      string `form:"name"`
-	Number    string `form:"number"`
-	Month     string `form:"exp_month"`
-	Year      string `form:"exp_year"`
-	CVC       string `form:"-"`
-	Currency  string `form:"currency"`
 	Address1  string `form:"address_line1"`
 	Address2  string `form:"address_line2"`
+	CVC       string `form:"-"`
 	City      string `form:"address_city"`
-	State     string `form:"address_state"`
-	Zip       string `form:"address_zip"`
 	Country   string `form:"address_country"`
+	Currency  string `form:"currency"`
+	Customer  string `form:"-"`
+	Default   bool   `form:"default_for_currency"`
+	Month     string `form:"exp_month"`
+	Name      string `form:"name"`
+	Number    string `form:"number"`
+	Recipient string `form:"-"`
+	State     string `form:"address_state"`
+	Token     string `form:"-"`
+	Year      string `form:"exp_year"`
+	Zip       string `form:"address_zip"`
 }
-
-// cardSource is a string that's used to build card form parameters. It's a
-// constant just to make mistakes less likely.
-const cardSource = "source"
 
 // AppendToAsCardSourceOrExternalAccount appends the given CardParams as either a
 // card or external account.
@@ -147,39 +147,29 @@ type CardListParams struct {
 // Card is the resource representing a Stripe credit/debit card.
 // For more details see https://stripe.com/docs/api#cards.
 type Card struct {
-	ID                 string             `json:"id"`
-	Month              uint8              `json:"exp_month"`
-	Year               uint16             `json:"exp_year"`
-	Fingerprint        string             `json:"fingerprint"`
-	Funding            CardFunding        `json:"funding"`
-	LastFour           string             `json:"last4"`
-	Brand              CardBrand          `json:"brand"`
-	Currency           Currency           `json:"currency"`
-	Default            bool               `json:"default_for_currency"`
-	City               string             `json:"address_city"`
-	Country            string             `json:"address_country"`
-	Address1           string             `json:"address_line1"`
-	Address1Check      Verification       `json:"address_line1_check"`
-	Address2           string             `json:"address_line2"`
-	State              string             `json:"address_state"`
-	Zip                string             `json:"address_zip"`
-	ZipCheck           Verification       `json:"address_zip_check"`
-	CardCountry        string             `json:"country"`
-	Customer           *Customer          `json:"customer"`
-	CVCCheck           Verification       `json:"cvc_check"`
-	Meta               map[string]string  `json:"metadata"`
-	Name               string             `json:"name"`
-	Recipient          *Recipient         `json:"recipient"`
-	DynLastFour        string             `json:"dynamic_last4"`
-	Deleted            bool               `json:"deleted"`
-	ThreeDSecure       *ThreeDSecure      `json:"three_d_secure"`
-	TokenizationMethod TokenizationMethod `json:"tokenization_method"`
+	Address1      string       `json:"address_line1"`
+	Address1Check Verification `json:"address_line1_check"`
+	Address2      string       `json:"address_line2"`
+	Brand         CardBrand    `json:"brand"`
+	CVCCheck      Verification `json:"cvc_check"`
+	CardCountry   string       `json:"country"`
+	City          string       `json:"address_city"`
+	Country       string       `json:"address_country"`
+	Currency      Currency     `json:"currency"`
+	Customer      *Customer    `json:"customer"`
+	Default       bool         `json:"default_for_currency"`
+	Deleted       bool         `json:"deleted"`
 
 	// Description is a succinct summary of the card's information.
 	//
 	// Please note that this field is for internal use only and is not returned
 	// as part of standard API requests.
 	Description string `json:"description"`
+
+	DynLastFour string      `json:"dynamic_last4"`
+	Fingerprint string      `json:"fingerprint"`
+	Funding     CardFunding `json:"funding"`
+	ID          string      `json:"id"`
 
 	// IIN is the card's "Issuer Identification Number".
 	//
@@ -192,6 +182,18 @@ type Card struct {
 	// Please note that this field is for internal use only and is not returned
 	// as part of standard API requests.
 	Issuer string `json:"issuer"`
+
+	LastFour           string             `json:"last4"`
+	Meta               map[string]string  `json:"metadata"`
+	Month              uint8              `json:"exp_month"`
+	Name               string             `json:"name"`
+	Recipient          *Recipient         `json:"recipient"`
+	State              string             `json:"address_state"`
+	ThreeDSecure       *ThreeDSecure      `json:"three_d_secure"`
+	TokenizationMethod TokenizationMethod `json:"tokenization_method"`
+	Year               uint16             `json:"exp_year"`
+	Zip                string             `json:"address_zip"`
+	ZipCheck           Verification       `json:"address_zip_check"`
 }
 
 // CardList is a list object for cards.

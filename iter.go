@@ -18,13 +18,13 @@ type Query func(*form.Values) ([]interface{}, ListMeta, error)
 // Iterators are not thread-safe, so they should not be consumed
 // across multiple goroutines.
 type Iter struct {
-	query  Query
-	qs     *form.Values
-	values []interface{}
+	cur    interface{}
+	err    error
 	meta   ListMeta
 	params ListParams
-	err    error
-	cur    interface{}
+	qs     *form.Values
+	query  Query
+	values []interface{}
 }
 
 // GetIter returns a new Iter for a given query and its options.

@@ -4,39 +4,39 @@ import "encoding/json"
 
 type SKUParams struct {
 	Params            `form:"*"`
-	ID                string             `form:"id"`
 	Active            *bool              `form:"active"`
-	Desc              string             `form:"description"`
 	Attrs             map[string]string  `form:"attributes"`
-	Price             int64              `form:"price"`
 	Currency          string             `form:"currency"`
+	Desc              string             `form:"description"`
+	ID                string             `form:"id"`
 	Image             string             `form:"image"`
 	Inventory         Inventory          `form:"inventory"`
-	Product           string             `form:"product"`
 	PackageDimensions *PackageDimensions `form:"package_dimensions"`
+	Price             int64              `form:"price"`
+	Product           string             `form:"product"`
 }
 
 type Inventory struct {
-	Type     string `json:"type" form:"type"`
 	Quantity int64  `json:"quantity" form:"quantity"`
+	Type     string `json:"type" form:"type"`
 	Value    string `json:"value" form:"value"`
 }
 
 type SKU struct {
-	ID                string             `json:"id"`
-	Created           int64              `json:"created"`
-	Updated           int64              `json:"updated"`
-	Live              bool               `json:"livemode"`
 	Active            bool               `json:"active"`
-	Desc              string             `json:"description"`
 	Attrs             map[string]string  `json:"attributes"`
-	Price             int64              `json:"price"`
+	Created           int64              `json:"created"`
 	Currency          string             `json:"currency"`
-	PackageDimensions *PackageDimensions `json:"package_dimensions"`
+	Desc              string             `json:"description"`
+	ID                string             `json:"id"`
 	Image             string             `json:"image"`
 	Inventory         Inventory          `json:"inventory"`
-	Product           Product            `json:"product"`
+	Live              bool               `json:"livemode"`
 	Meta              map[string]string  `json:"metadata"`
+	PackageDimensions *PackageDimensions `json:"package_dimensions"`
+	Price             int64              `json:"price"`
+	Product           Product            `json:"product"`
+	Updated           int64              `json:"updated"`
 }
 
 type SKUList struct {
@@ -47,10 +47,10 @@ type SKUList struct {
 type SKUListParams struct {
 	ListParams `form:"*"`
 	Active     *bool             `form:"active"`
-	Product    string            `form:"product"`
 	Attributes map[string]string `form:"attributes"`
 	IDs        []string          `form:"ids"`
 	InStock    *bool             `form:"in_stock"`
+	Product    string            `form:"product"`
 }
 
 func (s *SKU) UnmarshalJSON(data []byte) error {

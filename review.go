@@ -8,12 +8,12 @@ import "encoding/json"
 type ReasonType string
 
 const (
-	ReasonRule            ReasonType = "rule"
-	ReasonManual          ReasonType = "manual"
 	ReasonApproved        ReasonType = "approved"
+	ReasonDisputed        ReasonType = "disputed"
+	ReasonManual          ReasonType = "manual"
 	ReasonRefunded        ReasonType = "refunded"
 	ReasonRefundedAsFraud ReasonType = "refunded_as_fraud"
-	ReasonDisputed        ReasonType = "disputed"
+	ReasonRule            ReasonType = "rule"
 )
 
 type Review struct {

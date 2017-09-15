@@ -10,14 +10,14 @@ type CouponDuration string
 // For more details see https://stripe.com/docs/api#create_coupon.
 type CouponParams struct {
 	Params         `form:"*"`
-	Duration       CouponDuration `form:"duration"`
-	ID             string         `form:"id"`
-	Currency       Currency       `form:"currency"`
 	Amount         uint64         `form:"amount_off"`
-	Percent        uint64         `form:"percent_off"`
+	Currency       Currency       `form:"currency"`
+	Duration       CouponDuration `form:"duration"`
 	DurationPeriod uint64         `form:"duration_in_months"`
-	Redemptions    uint64         `form:"max_redemptions"`
+	ID             string         `form:"id"`
+	Percent        uint64         `form:"percent_off"`
 	RedeemBy       int64          `form:"redeem_by"`
+	Redemptions    uint64         `form:"max_redemptions"`
 }
 
 // CouponListParams is the set of parameters that can be used when listing coupons.
@@ -31,20 +31,20 @@ type CouponListParams struct {
 // Coupon is the resource representing a Stripe coupon.
 // For more details see https://stripe.com/docs/api#coupons.
 type Coupon struct {
+	Amount         uint64            `json:"amount_off"`
+	Created        int64             `json:"created"`
+	Currency       Currency          `json:"currency"`
+	Deleted        bool              `json:"deleted"`
+	Duration       CouponDuration    `json:"duration"`
+	DurationPeriod uint64            `json:"duration_in_months"`
 	ID             string            `json:"id"`
 	Live           bool              `json:"livemode"`
-	Created        int64             `json:"created"`
-	Duration       CouponDuration    `json:"duration"`
-	Amount         uint64            `json:"amount_off"`
-	Currency       Currency          `json:"currency"`
-	DurationPeriod uint64            `json:"duration_in_months"`
-	Redemptions    uint64            `json:"max_redemptions"`
 	Meta           map[string]string `json:"metadata"`
 	Percent        uint64            `json:"percent_off"`
 	RedeemBy       int64             `json:"redeem_by"`
 	Redeemed       uint64            `json:"times_redeemed"`
+	Redemptions    uint64            `json:"max_redemptions"`
 	Valid          bool              `json:"valid"`
-	Deleted        bool              `json:"deleted"`
 }
 
 // CouponList is a list of coupons as retrieved from a list endpoint.

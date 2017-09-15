@@ -8,14 +8,14 @@ import (
 // Event is the resource representing a Stripe event.
 // For more details see https://stripe.com/docs/api#events.
 type Event struct {
-	ID       string        `json:"id"`
 	Account  string        `json:"account"`
-	Live     bool          `json:"livemode"`
 	Created  int64         `json:"created"`
 	Data     *EventData    `json:"data"`
-	Webhooks uint64        `json:"pending_webhooks"`
-	Type     string        `json:"type"`
+	ID       string        `json:"id"`
+	Live     bool          `json:"livemode"`
 	Request  *EventRequest `json:"request"`
+	Type     string        `json:"type"`
+	Webhooks uint64        `json:"pending_webhooks"`
 }
 
 // EventRequest contains information on a request that created an event.
@@ -32,9 +32,9 @@ type EventRequest struct {
 
 // EventData is the unmarshalled object as a map.
 type EventData struct {
-	Raw  json.RawMessage        `json:"object"`
-	Prev map[string]interface{} `json:"previous_attributes"`
 	Obj  map[string]interface{}
+	Prev map[string]interface{} `json:"previous_attributes"`
+	Raw  json.RawMessage        `json:"object"`
 }
 
 // EventList is a list of events as retrieved from a list endpoint.

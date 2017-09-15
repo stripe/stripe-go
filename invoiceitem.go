@@ -6,14 +6,14 @@ import "encoding/json"
 // For more details see https://stripe.com/docs/api#create_invoiceitem and https://stripe.com/docs/api#update_invoiceitem.
 type InvoiceItemParams struct {
 	Params         `form:"*"`
-	Customer       string   `form:"customer"`
 	Amount         int64    `form:"amount"`
 	Currency       Currency `form:"currency"`
-	Invoice        string   `form:"invoice"`
+	Customer       string   `form:"customer"`
 	Desc           string   `form:"description"`
-	Sub            string   `form:"subscription"`
 	Discountable   bool     `form:"discountable"`
+	Invoice        string   `form:"invoice"`
 	NoDiscountable bool     `form:"discountable,invert"`
+	Sub            string   `form:"subscription"`
 }
 
 // InvoiceItemListParams is the set of parameters that can be used when listing invoice items.
@@ -28,22 +28,22 @@ type InvoiceItemListParams struct {
 // InvoiceItem is the resource represneting a Stripe invoice item.
 // For more details see https://stripe.com/docs/api#invoiceitems.
 type InvoiceItem struct {
-	ID           string            `json:"id"`
-	Live         bool              `json:"livemode"`
 	Amount       int64             `json:"amount"`
 	Currency     Currency          `json:"currency"`
 	Customer     *Customer         `json:"customer"`
 	Date         int64             `json:"date"`
+	Deleted      bool              `json:"deleted"`
+	Desc         string            `json:"description"`
+	Discountable bool              `json:"discountable"`
+	ID           string            `json:"id"`
+	Invoice      *Invoice          `json:"invoice"`
+	Live         bool              `json:"livemode"`
+	Meta         map[string]string `json:"metadata"`
 	Period       *Period           `json:"period"`
 	Plan         *Plan             `json:"plan"`
 	Proration    bool              `json:"proration"`
-	Desc         string            `json:"description"`
-	Invoice      *Invoice          `json:"invoice"`
-	Meta         map[string]string `json:"metadata"`
-	Sub          string            `json:"subscription"`
-	Discountable bool              `json:"discountable"`
-	Deleted      bool              `json:"deleted"`
 	Quantity     int64             `json:"quantity"`
+	Sub          string            `json:"subscription"`
 }
 
 // InvoiceItemList is a list of invoice items as retrieved from a list endpoint.

@@ -21,19 +21,19 @@ type ChargeParams struct {
 	Amount        uint64             `form:"amount"`
 	Currency      Currency           `form:"currency"`
 	Customer      string             `form:"customer"`
-	Token         string             `form:"-"` // Does not appear to be used?
 	Desc          string             `form:"description"`
-	Statement     string             `form:"statement_descriptor"`
-	Email         string             `form:"receipt_email"`
 	Dest          string             `form:"-"` // Handled in custom AppendTo below
 	Destination   *DestinationParams `form:"destination"`
-	NoCapture     bool               `form:"capture,invert"`
+	Email         string             `form:"receipt_email"`
 	Fee           uint64             `form:"application_fee"`
 	Fraud         FraudReport        `form:"-"` // Handled in custom AppendTo below
-	Source        *SourceParams      `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-	Shipping      *ShippingDetails   `form:"shipping"`
-	TransferGroup string             `form:"transfer_group"`
+	NoCapture     bool               `form:"capture,invert"`
 	OnBehalfOf    string             `form:"on_behalf_of"`
+	Shipping      *ShippingDetails   `form:"shipping"`
+	Source        *SourceParams      `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	Statement     string             `form:"statement_descriptor"`
+	Token         string             `form:"-"` // Does not appear to be used?
+	TransferGroup string             `form:"transfer_group"`
 }
 
 // AppendTo implements some custom encoding logic for ChargeParams to support
@@ -82,8 +82,8 @@ type ChargeListParams struct {
 type CaptureParams struct {
 	Params    `form:"*"`
 	Amount    uint64 `form:"amount"`
-	Fee       uint64 `form:"application_fee"`
 	Email     string `form:"receipt_email"`
+	Fee       uint64 `form:"application_fee"`
 	Statement string `form:"statement_descriptor"`
 }
 
@@ -101,7 +101,6 @@ type Charge struct {
 	Dest           *Account          `json:"destination"`
 	Dispute        *Dispute          `json:"dispute"`
 	Email          string            `json:"receipt_email"`
-	ReceiptNumber  string            `json:"receipt_number"`
 	FailCode       string            `json:"failure_code"`
 	FailMsg        string            `json:"failure_message"`
 	Fee            *Fee              `json:"application_fee"`
@@ -112,6 +111,7 @@ type Charge struct {
 	Meta           map[string]string `json:"metadata"`
 	Outcome        *ChargeOutcome    `json:"outcome"`
 	Paid           bool              `json:"paid"`
+	ReceiptNumber  string            `json:"receipt_number"`
 	Refunded       bool              `json:"refunded"`
 	Refunds        *RefundList       `json:"refunds"`
 	Review         *Review           `json:"review"`
@@ -173,11 +173,11 @@ type ChargeOutcome struct {
 
 // ShippingDetails is the structure containing shipping information.
 type ShippingDetails struct {
-	Name     string  `json:"name" form:"name"`
 	Address  Address `json:"address" form:"address"`
+	Carrier  string  `json:"carrier" form:"carrier"`
+	Name     string  `json:"name" form:"name"`
 	Phone    string  `json:"phone" form:"phone"`
 	Tracking string  `json:"tracking_number" form:"tracking_number"`
-	Carrier  string  `json:"carrier" form:"carrier"`
 }
 
 var depth int = -1

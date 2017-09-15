@@ -5,8 +5,8 @@ import "encoding/json"
 // BitcoinTransactionListParams is the set of parameters that can be used when listing BitcoinTransactions.
 type BitcoinTransactionListParams struct {
 	ListParams `form:"*"`
-	Receiver   string `form:"-"` // Sent in with the URL
 	Customer   string `form:"customer"`
+	Receiver   string `form:"-"` // Sent in with the URL
 }
 
 // BitcoinTransactionList is a list object for BitcoinTransactions.
@@ -20,13 +20,13 @@ type BitcoinTransactionList struct {
 // BitcoinTransaction is the resource representing a Stripe bitcoin transaction.
 // For more details see https://stripe.com/docs/api/#bitcoin_receivers
 type BitcoinTransaction struct {
-	ID            string   `json:"id"`
-	Created       int64    `json:"created"`
 	Amount        uint64   `json:"amount"`
-	Currency      Currency `json:"currency"`
 	BitcoinAmount uint64   `json:"bitcoin_amount"`
-	Receiver      string   `json:"receiver"`
+	Created       int64    `json:"created"`
+	Currency      Currency `json:"currency"`
 	Customer      string   `json:"customer"`
+	ID            string   `json:"id"`
+	Receiver      string   `json:"receiver"`
 }
 
 // UnmarshalJSON handles deserialization of a BitcoinTransaction.

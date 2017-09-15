@@ -2,17 +2,8 @@ package stripe
 
 import "encoding/json"
 
-// PayoutStatus is the list of allowed values for the payout's status.
-// Allowed values are "paid", "pending", "in_transit",  "failed", "canceled".
-type PayoutStatus string
-
-// PayoutType is the list of allowed values for the payout's type.
-// Allowed values are "bank_account" or "card".
-type PayoutType string
-
-// PayoutSourceType is the list of allowed values for the payout's source_type field.
-// Allowed values are "alipay_account", bank_account", "bitcoin_receiver", "card".
-type PayoutSourceType string
+// PayoutDestinationType consts represent valid payout destinations.
+type PayoutDestinationType string
 
 // PayoutFailureCode is the list of allowed values for the payout's failure code.
 // Allowed values are "insufficient_funds", "account_closed", "no_account",
@@ -20,8 +11,17 @@ type PayoutSourceType string
 // "account_frozen", "could_not_process", "bank_account_restricted", "invalid_currency".
 type PayoutFailureCode string
 
-// PayoutDestinationType consts represent valid payout destinations.
-type PayoutDestinationType string
+// PayoutSourceType is the list of allowed values for the payout's source_type field.
+// Allowed values are "alipay_account", bank_account", "bitcoin_receiver", "card".
+type PayoutSourceType string
+
+// PayoutStatus is the list of allowed values for the payout's status.
+// Allowed values are "paid", "pending", "in_transit",  "failed", "canceled".
+type PayoutStatus string
+
+// PayoutType is the list of allowed values for the payout's type.
+// Allowed values are "bank_account" or "card".
+type PayoutType string
 
 const (
 	// PayoutDestinationBankAccount is a constant representing a payout destination
@@ -48,10 +48,10 @@ const (
 // The Type should indicate which object is fleshed out
 // For more details see https://stripe.com/docs/api/go#payout_object
 type PayoutDestination struct {
-	Type        PayoutDestinationType `json:"object"`
-	ID          string                `json:"id"`
 	BankAccount *BankAccount          `json:"-"`
 	Card        *Card                 `json:"-"`
+	ID          string                `json:"id"`
+	Type        PayoutDestinationType `json:"object"`
 }
 
 // PayoutParams is the set of parameters that can be used when creating or updating a payout.
@@ -81,8 +81,6 @@ type PayoutListParams struct {
 // Payout is the resource representing a Stripe payout.
 // For more details see https://stripe.com/docs/api#payouts.
 type Payout struct {
-	ID                        string            `json:"id"`
-	Live                      bool              `json:"livemode"`
 	Amount                    int64             `json:"amount"`
 	ArrivalDate               int64             `json:"arrival_date"`
 	BalanceTransaction        *Transaction      `json:"balance_transaction"`
@@ -91,9 +89,11 @@ type Payout struct {
 	Created                   int64             `json:"created"`
 	Currency                  Currency          `json:"currency"`
 	Destination               PayoutDestination `json:"destination"`
-	FailureBalanceTransaction *Transaction      `json:"failure_balance_transaction"`
 	FailCode                  PayoutFailureCode `json:"failure_code"`
 	FailMessage               string            `json:"failure_message"`
+	FailureBalanceTransaction *Transaction      `json:"failure_balance_transaction"`
+	ID                        string            `json:"id"`
+	Live                      bool              `json:"livemode"`
 	Meta                      map[string]string `json:"metadata"`
 	Method                    PayoutMethodType  `json:"method"`
 	SourceType                PayoutSourceType  `json:"source_type"`

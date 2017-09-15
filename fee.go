@@ -13,27 +13,27 @@ type FeeParams struct {
 // For more details see https://stripe.com/docs/api#list_application_fees.
 type FeeListParams struct {
 	ListParams   `form:"*"`
+	Charge       string            `form:"charge"`
 	Created      int64             `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-	Charge       string            `form:"charge"`
 }
 
 // Fee is the resource representing a Stripe application fee.
 // For more details see https://stripe.com/docs/api#application_fees.
 type Fee struct {
-	ID                     string         `json:"id"`
-	Live                   bool           `json:"livemode"`
 	Account                *Account       `json:"account"`
 	Amount                 uint64         `json:"amount"`
+	AmountRefunded         uint64         `json:"amount_refunded"`
 	App                    string         `json:"application"`
-	Tx                     *Transaction   `json:"balance_transaction"`
 	Charge                 *Charge        `json:"charge"`
-	OriginatingTransaction *Charge        `json:"originating_transaction"`
 	Created                int64          `json:"created"`
 	Currency               Currency       `json:"currency"`
+	ID                     string         `json:"id"`
+	Live                   bool           `json:"livemode"`
+	OriginatingTransaction *Charge        `json:"originating_transaction"`
 	Refunded               bool           `json:"refunded"`
 	Refunds                *FeeRefundList `json:"refunds"`
-	AmountRefunded         uint64         `json:"amount_refunded"`
+	Tx                     *Transaction   `json:"balance_transaction"`
 }
 
 // FeeList is a list of fees as retrieved from a list endpoint.

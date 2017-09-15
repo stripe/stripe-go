@@ -3,10 +3,10 @@ package stripe
 import "encoding/json"
 
 type OrderReturn struct {
-	ID       string      `json:"id"`
 	Amount   int64       `json:"amount"`
 	Created  int64       `json:"created"`
 	Currency Currency    `json:"currency"`
+	ID       string      `json:"id"`
 	Items    []OrderItem `json:"items"`
 	Live     bool        `json:"livemode"`
 	Order    Order       `json:"order"`
