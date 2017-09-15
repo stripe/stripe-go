@@ -35,9 +35,9 @@ type SubParams struct {
 	ProrationDate         int64             `form:"proration_date"`
 	Quantity              uint64            `form:"quantity"`
 	QuantityZero          bool              `form:"quantity,zero"`
-	Token                 string            `form:"card"`
 	TaxPercent            float64           `form:"tax_percent"`
 	TaxPercentZero        bool              `form:"tax_percent,zero"`
+	Token                 string            `form:"card"`
 	TrialEnd              int64             `form:"trial_end"`
 	TrialEndNow           bool              `form:"-"` // See custom AppendTo
 	TrialPeriod           int64             `form:"trial_period_days"`
@@ -102,8 +102,8 @@ type Sub struct {
 	PeriodStart  int64             `json:"current_period_start"`
 	Plan         *Plan             `json:"plan"`
 	Quantity     uint64            `json:"quantity"`
-	Status       SubStatus         `json:"status"`
 	Start        int64             `json:"start"`
+	Status       SubStatus         `json:"status"`
 	TaxPercent   float64           `json:"tax_percent"`
 	TrialEnd     int64             `json:"trial_end"`
 	TrialStart   int64             `json:"trial_start"`

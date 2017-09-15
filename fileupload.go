@@ -12,6 +12,8 @@ import (
 // file upload.
 // For more details see https://stripe.com/docs/api#create_file_upload.
 type FileUploadParams struct {
+	Params `form:"*"`
+
 	// File is a deprecated form of FileReader and Filename that will do the same thing, but
 	// allows referencing a file directly. Please prefer the use of FileReader and Filename instead.
 	File *os.File
@@ -22,7 +24,6 @@ type FileUploadParams struct {
 	// Filename is just the name of the file without path information.
 	Filename string
 
-	Params  `form:"*"`
 	Purpose FileUploadPurpose
 }
 

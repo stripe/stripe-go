@@ -15,8 +15,8 @@ type InvoiceBilling string
 type InvoiceParams struct {
 	Params         `form:"*"`
 	Billing        InvoiceBilling `form:"billing"`
-	Customer       string         `form:"customer"`
 	Closed         bool           `form:"closed"`
+	Customer       string         `form:"customer"`
 	DaysUntilDue   uint64         `form:"days_until_due"`
 	Desc           string         `form:"description"`
 	DueDate        int64          `form:"due_date"`
@@ -32,12 +32,12 @@ type InvoiceParams struct {
 
 	// These are all for exclusive use by GetNext.
 
+	SubItems         []*SubItemsParams `form:"subscription_items,indexed"`
 	SubNoProrate     bool              `form:"subscription_prorate,invert"`
 	SubPlan          string            `form:"subscription_plan"`
 	SubProrationDate int64             `form:"subscription_proration_date"`
 	SubQuantity      uint64            `form:"subscription_quantity"`
 	SubQuantityZero  bool              `form:"subscription_quantity,zero"`
-	SubItems         []*SubItemsParams `form:"subscription_items,indexed"`
 	SubTrialEnd      int64             `form:"subscription_trial_end"`
 }
 
@@ -95,12 +95,12 @@ type Invoice struct {
 	ReceiptNumber string            `json:"receipt_number"`
 	Start         int64             `json:"period_start"`
 	StartBalance  int64             `json:"starting_balance"`
+	Statement     string            `json:"statement_descriptor"`
+	Sub           string            `json:"subscription"`
 	Subtotal      int64             `json:"subtotal"`
 	Tax           int64             `json:"tax"`
 	TaxPercent    float64           `json:"tax_percent"`
 	Total         int64             `json:"total"`
-	Statement     string            `json:"statement_descriptor"`
-	Sub           string            `json:"subscription"`
 	Webhook       int64             `json:"webhooks_delivered_at"`
 }
 

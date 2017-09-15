@@ -23,10 +23,10 @@ type FeeRefundListParams struct {
 // For more details see https://stripe.com/docs/api#fee_refunds.
 type FeeRefund struct {
 	Amount   uint64            `json:"amount"`
-	ID       string            `json:"id"`
 	Created  int64             `json:"created"`
 	Currency Currency          `json:"currency"`
 	Fee      string            `json:"fee"`
+	ID       string            `json:"id"`
 	Meta     map[string]string `json:"metadata"`
 	Tx       *Transaction      `json:"balance_transaction"`
 }

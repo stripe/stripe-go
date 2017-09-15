@@ -48,8 +48,8 @@ const (
 // The Type should indicate which object is fleshed out
 // For more details see https://stripe.com/docs/api/go#recipient_transfer_object
 type RecipientTransferDestination struct {
-	Card        *Card                            `json:"-"`
 	BankAccount *BankAccount                     `json:"-"`
+	Card        *Card                            `json:"-"`
 	ID          string                           `json:"id"`
 	Type        RecipientTransferDestinationType `json:"object"`
 }
