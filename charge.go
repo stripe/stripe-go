@@ -18,22 +18,22 @@ type FraudReport string
 // For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
 type ChargeParams struct {
 	Params        `form:"*"`
-	Amount        uint64             `form:"amount"`
-	Currency      Currency           `form:"currency"`
-	Customer      string             `form:"customer"`
-	Desc          string             `form:"description"`
-	Dest          string             `form:"-"` // Handled in custom AppendTo below
-	Destination   *DestinationParams `form:"destination"`
-	Email         string             `form:"receipt_email"`
-	Fee           uint64             `form:"application_fee"`
-	Fraud         FraudReport        `form:"-"` // Handled in custom AppendTo below
-	NoCapture     bool               `form:"capture,invert"`
-	OnBehalfOf    string             `form:"on_behalf_of"`
-	Shipping      *ShippingDetails   `form:"shipping"`
-	Source        *SourceParams      `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-	Statement     string             `form:"statement_descriptor"`
-	Token         string             `form:"-"` // Does not appear to be used?
-	TransferGroup string             `form:"transfer_group"`
+	Amount        uint64              `form:"amount"`
+	Currency      Currency            `form:"currency"`
+	Customer      string              `form:"customer"`
+	Desc          string              `form:"description"`
+	Dest          string              `form:"-"` // Handled in custom AppendTo below
+	Destination   *DestinationParams  `form:"destination"`
+	Email         string              `form:"receipt_email"`
+	Fee           uint64              `form:"application_fee"`
+	FraudDetails  *FraudDetailsParams `form:"fraud_details"`
+	NoCapture     bool                `form:"capture,invert"`
+	OnBehalfOf    string              `form:"on_behalf_of"`
+	Shipping      *ShippingDetails    `form:"shipping"`
+	Source        *SourceParams       `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	Statement     string              `form:"statement_descriptor"`
+	Token         string              `form:"-"` // Does not appear to be used?
+	TransferGroup string              `form:"transfer_group"`
 }
 
 // AppendTo implements some custom encoding logic for ChargeParams to support
@@ -43,14 +43,6 @@ func (p *ChargeParams) AppendTo(body *form.Values, keyParts []string) {
 	// TODO: Stop supporting this field.
 	if len(p.Dest) > 0 {
 		body.Add(form.FormatKey(append(keyParts, "destination", "account")), p.Dest)
-	}
-
-	// This is bad in that it's unnecessarily divergent. We should change it to
-	// a subparams struct called FraudDetails.
-	//
-	// TODO: Change to a subparameter struct for FraudDetails.
-	if len(p.Fraud) > 0 {
-		body.Add(form.FormatKey(append(keyParts, "fraud_details", "user_report")), string(p.Fraud))
 	}
 }
 
@@ -65,6 +57,11 @@ func (p *ChargeParams) SetSource(sp interface{}) error {
 type DestinationParams struct {
 	Account string `form:"account"`
 	Amount  uint64 `form:"amount"`
+}
+
+// FraudDetailsParams provides information on the fraud details for a charge.
+type FraudDetailsParams struct {
+	UserReport FraudReport `form:"user_report"`
 }
 
 // ChargeListParams is the set of parameters that can be used when listing charges.
