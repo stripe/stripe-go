@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"fmt"
 	"strconv"
 
 	"github.com/stripe/stripe-go/form"
@@ -199,11 +198,6 @@ type Card struct {
 type CardList struct {
 	ListMeta
 	Values []*Card `json:"data"`
-}
-
-// Display human readable representation of a Card.
-func (c *Card) Display() string {
-	return fmt.Sprintf("%s ending in %s", c.Brand, c.LastFour)
 }
 
 // UnmarshalJSON handles deserialization of a Card.

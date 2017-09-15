@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // SourceStatus represents the possible statuses of a source object.
@@ -177,29 +176,6 @@ type Source struct {
 	Verification *VerificationFlow `json:"verification,omitempty"`
 
 	TypeData map[string]interface{}
-}
-
-// Display human readable representation of a Source.
-func (s *Source) Display() string {
-	var status string
-	switch s.Status {
-	case SourceStatusPending:
-		status = "Pending"
-	case SourceStatusChargeable:
-		status = "Chargeable"
-	case SourceStatusConsumed:
-		status = "Consumed"
-	case SourceStatusFailed:
-		status = "Failed"
-	case SourceStatusCanceled:
-		status = "Canceled"
-	}
-
-	desc := fmt.Sprintf("%s %s source", status, s.Type)
-	if s.Amount > 0 {
-		desc += fmt.Sprintf(" (%d %s)", s.Amount, s.Currency)
-	}
-	return desc
 }
 
 // UnmarshalJSON handles deserialization of an Source. This custom unmarshaling
