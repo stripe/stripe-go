@@ -3,9 +3,9 @@ package bitcoinreceiver
 
 import (
 	"fmt"
-	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /bitcoin/receivers APIs.
@@ -21,24 +21,11 @@ func New(params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) 
 }
 
 func (c Client) New(params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) {
-	body := &stripe.RequestValues{}
-	body.Add("amount", strconv.FormatUint(params.Amount, 10))
-	body.Add("currency", string(params.Currency))
-
-	if len(params.Desc) > 0 {
-		body.Add("description", params.Desc)
-	}
-
-	if len(params.Email) > 0 {
-		body.Add("email", params.Email)
-	}
-
-	token := c.Key
-
-	params.AppendTo(body)
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	receiver := &stripe.BitcoinReceiver{}
-	err := c.B.Call("POST", "/bitcoin/receivers", token, body, &params.Params, receiver)
+	err := c.B.Call("POST", "/bitcoin/receivers", c.Key, body, &params.Params, receiver)
 
 	return receiver, err
 }
@@ -69,24 +56,11 @@ func Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.Bitc
 }
 
 func (c Client) Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.BitcoinReceiver, error) {
-	body := &stripe.RequestValues{}
-
-	if len(params.Desc) > 0 {
-		body.Add("description", params.Desc)
-	}
-
-	if len(params.Email) > 0 {
-		body.Add("email", params.Email)
-	}
-
-	if len(params.RefundAddr) > 0 {
-		body.Add("refund_address", params.RefundAddr)
-	}
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	receiver := &stripe.BitcoinReceiver{}
-	var err error
-
-	err = c.B.Call("POST", fmt.Sprintf("/bitcoin/receivers/%v", id), c.Key, body, &params.Params, receiver)
+	err := c.B.Call("POST", fmt.Sprintf("/bitcoin/receivers/%v", id), c.Key, body, &params.Params, receiver)
 
 	return receiver, err
 }
@@ -98,23 +72,18 @@ func List(params *stripe.BitcoinReceiverListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.BitcoinReceiverListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		body.Add("filled", strconv.FormatBool(!params.NotFilled))
-		body.Add("active", strconv.FormatBool(!params.NotActive))
-		body.Add("uncaptured_funds", strconv.FormatBool(params.Uncaptured))
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BitcoinReceiverList{}
 		err := c.B.Call("GET", "/bitcoin/receivers", c.Key, b, p, list)
 

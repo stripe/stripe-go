@@ -4,26 +4,6 @@ package stripe
 // Allowed values are "day", "week", "month", "year".
 type PlanInterval string
 
-// PlanParams is the set of parameters that can be used when creating or updating a plan.
-// For more details see https://stripe.com/docs/api#create_plan and https://stripe.com/docs/api#update_plan.
-type PlanParams struct {
-	Params
-	ID, Name                   string
-	Currency                   Currency
-	Amount                     uint64
-	Interval                   PlanInterval
-	IntervalCount, TrialPeriod uint64
-	Statement                  string
-}
-
-// PlanListParams is the set of parameters that can be used when listing plans.
-// For more details see https://stripe.com/docs/api#list_plans.
-type PlanListParams struct {
-	ListParams
-	Created      int64
-	CreatedRange *RangeQueryParams
-}
-
 // Plan is the resource representing a Stripe plan.
 // For more details see https://stripe.com/docs/api#plans.
 type Plan struct {
@@ -45,4 +25,26 @@ type Plan struct {
 type PlanList struct {
 	ListMeta
 	Values []*Plan `json:"data"`
+}
+
+// PlanListParams is the set of parameters that can be used when listing plans.
+// For more details see https://stripe.com/docs/api#list_plans.
+type PlanListParams struct {
+	ListParams   `form:"*"`
+	Created      int64             `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+}
+
+// PlanParams is the set of parameters that can be used when creating or updating a plan.
+// For more details see https://stripe.com/docs/api#create_plan and https://stripe.com/docs/api#update_plan.
+type PlanParams struct {
+	Params        `form:"*"`
+	ID            string       `form:"id"`
+	Name          string       `form:"name"`
+	Currency      Currency     `form:"currency"`
+	Amount        uint64       `form:"amount"`
+	Interval      PlanInterval `form:"interval"`
+	IntervalCount uint64       `form:"interval_count"`
+	TrialPeriod   uint64       `form:"trial_period_days"`
+	Statement     string       `form:"statement_descriptor"`
 }

@@ -12,7 +12,7 @@ import (
 // file upload.
 // For more details see https://stripe.com/docs/api#create_file_upload.
 type FileUploadParams struct {
-	Params
+	Params  `form:"*"`
 	Purpose FileUploadPurpose
 
 	// Filename is just the name of the file without path information.
@@ -29,10 +29,10 @@ type FileUploadParams struct {
 // FileUploadListParams is the set of parameters that can be used when listing
 // file uploads. For more details see https://stripe.com/docs/api#list_file_uploads.
 type FileUploadListParams struct {
-	ListParams
-	Created      int64
-	CreatedRange *RangeQueryParams
-	Purpose      FileUploadPurpose
+	ListParams   `form:"*"`
+	Created      int64             `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	Purpose      FileUploadPurpose `form:"purpose"`
 }
 
 // FileUploadPurpose is the purpose of a particular file upload. Allowed values

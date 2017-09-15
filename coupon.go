@@ -9,20 +9,23 @@ type CouponDuration string
 // CouponParams is the set of parameters that can be used when creating a coupon.
 // For more details see https://stripe.com/docs/api#create_coupon.
 type CouponParams struct {
-	Params
-	Duration                                     CouponDuration
-	ID                                           string
-	Currency                                     Currency
-	Amount, Percent, DurationPeriod, Redemptions uint64
-	RedeemBy                                     int64
+	Params         `form:"*"`
+	Duration       CouponDuration `form:"duration"`
+	ID             string         `form:"id"`
+	Currency       Currency       `form:"currency"`
+	Amount         uint64         `form:"amount_off"`
+	Percent        uint64         `form:"percent_off"`
+	DurationPeriod uint64         `form:"duration_in_months"`
+	Redemptions    uint64         `form:"max_redemptions"`
+	RedeemBy       int64          `form:"redeem_by"`
 }
 
 // CouponListParams is the set of parameters that can be used when listing coupons.
 // For more detail see https://stripe.com/docs/api#list_coupons.
 type CouponListParams struct {
-	ListParams
-	Created      int64
-	CreatedRange *RangeQueryParams
+	ListParams   `form:"*"`
+	Created      int64             `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 }
 
 // Coupon is the resource representing a Stripe coupon.

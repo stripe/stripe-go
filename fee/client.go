@@ -3,9 +3,9 @@ package fee
 
 import (
 	"fmt"
-	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke application_fees APIs.
@@ -21,13 +21,13 @@ func Get(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
 }
 
 func (c Client) Get(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	fee := &stripe.Fee{}
@@ -43,27 +43,18 @@ func List(params *stripe.FeeListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.FeeListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		if params.Created > 0 {
-			body.Add("created", strconv.FormatInt(params.Created, 10))
-		}
-
-		if len(params.Charge) > 0 {
-			body.Add("charge", params.Charge)
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.FeeList{}
 		err := c.B.Call("GET", "/application_fees", c.Key, b, p, list)
 

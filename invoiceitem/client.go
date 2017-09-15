@@ -2,9 +2,8 @@
 package invoiceitem
 
 import (
-	"strconv"
-
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /invoiceitems APIs.
@@ -20,30 +19,8 @@ func New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 }
 
 func (c Client) New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	body := &stripe.RequestValues{}
-	body.Add("customer", params.Customer)
-	body.Add("amount", strconv.FormatInt(params.Amount, 10))
-	body.Add("currency", string(params.Currency))
-
-	if len(params.Invoice) > 0 {
-		body.Add("invoice", params.Invoice)
-	}
-
-	if len(params.Desc) > 0 {
-		body.Add("description", params.Desc)
-	}
-
-	if len(params.Sub) > 0 {
-		body.Add("subscription", params.Sub)
-	}
-
-	if params.Discountable {
-		body.Add("discountable", strconv.FormatBool(true))
-	} else if params.NoDiscountable {
-		body.Add("discountable", strconv.FormatBool(false))
-	}
-
-	params.AppendTo(body)
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	invoiceItem := &stripe.InvoiceItem{}
 	err := c.B.Call("POST", "/invoiceitems", c.Key, body, &params.Params, invoiceItem)
@@ -58,13 +35,13 @@ func Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 }
 
 func (c Client) Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	invoiceItem := &stripe.InvoiceItem{}
@@ -80,26 +57,13 @@ func Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, e
 }
 
 func (c Client) Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
-
-		if params.Amount != 0 {
-			body.Add("amount", strconv.FormatInt(params.Amount, 10))
-		}
-
-		if len(params.Desc) > 0 {
-			body.Add("description", params.Desc)
-		}
-
-		if params.Discountable {
-			body.Add("discountable", strconv.FormatBool(true))
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	invoiceItem := &stripe.InvoiceItem{}
@@ -115,13 +79,12 @@ func Del(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 }
 
 func (c Client) Del(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 
@@ -138,31 +101,18 @@ func List(params *stripe.InvoiceItemListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.InvoiceItemListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		if params.Created > 0 {
-			body.Add("created", strconv.FormatInt(params.Created, 10))
-		}
-
-		if params.CreatedRange != nil {
-			params.CreatedRange.AppendTo(body, "created")
-		}
-
-		if len(params.Customer) > 0 {
-			body.Add("customer", params.Customer)
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceItemList{}
 		err := c.B.Call("GET", "/invoiceitems", c.Key, b, p, list)
 

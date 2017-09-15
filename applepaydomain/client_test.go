@@ -3,59 +3,36 @@ package applepaydomain
 import (
 	"testing"
 
+	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	. "github.com/stripe/stripe-go/utils"
+	_ "github.com/stripe/stripe-go/testing"
 )
 
-func init() {
-	stripe.Key = GetTestKey()
+func TestApplePayDomainDel(t *testing.T) {
+	domain, err := Del("apwc_123", nil)
+	assert.Nil(t, err)
+	assert.NotNil(t, domain)
 }
 
-func TestApplePayDomain(t *testing.T) {
-	// Test creating an ApplePay Domain
-	applePayDomainParams := &stripe.ApplePayDomainParams{
-		DomainName: "test.com",
-	}
+func TestApplePayDomainGet(t *testing.T) {
+	domain, err := Get("apwc_123", nil)
+	assert.Nil(t, err)
+	assert.NotNil(t, domain)
+}
 
-	domain, err := New(applePayDomainParams)
+func TestApplePayDomainList(t *testing.T) {
+	i := List(&stripe.ApplePayDomainListParams{})
 
-	if err != nil {
-		t.Error(err)
-	}
+	// Verify that we can get at least one domain
+	assert.True(t, i.Next())
+	assert.Nil(t, i.Err())
+	assert.NotNil(t, i.ApplePayDomain())
+}
 
-	if domain.DomainName != applePayDomainParams.DomainName {
-		t.Errorf("DomainName %v does not match expected DomainName %v\n", domain.DomainName, applePayDomainParams.DomainName)
-	}
-
-	// Test listing all ApplePayDomain(s)
-	params := &stripe.ApplePayDomainListParams{}
-	params.Filters.AddFilter("limit", "", "1")
-	params.Single = true
-
-	i := List(params)
-	for i.Next() {
-		if i.ApplePayDomain() == nil {
-			t.Error("No nil values expected")
-		}
-	}
-	if err := i.Err(); err != nil {
-		t.Error(err)
-	}
-
-	// Test retrieving an ApplePayDomain
-	domain2, err := Get(domain.ID, nil)
-
-	if err != nil {
-		t.Error(err)
-	}
-
-	if domain2.ID != domain.ID {
-		t.Errorf("ID %q does not match expected id %q\n", domain2.ID, domain.ID)
-	}
-
-	// Testing to delete an ApplePayDomain
-	domain3, err := Del(domain2.ID, nil)
-	if !domain3.Deleted {
-		t.Errorf("Domain id %v expected to be marked as deleted on the returned resource\n", domain3.ID)
-	}
+func TestApplePayDomainNew(t *testing.T) {
+	domain, err := New(&stripe.ApplePayDomainParams{
+		DomainName: "example.com",
+	})
+	assert.Nil(t, err)
+	assert.NotNil(t, domain)
 }

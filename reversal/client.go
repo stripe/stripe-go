@@ -3,9 +3,9 @@ package reversal
 
 import (
 	"fmt"
-	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /transfers/reversals APIs.
@@ -20,17 +20,8 @@ func New(params *stripe.ReversalParams) (*stripe.Reversal, error) {
 }
 
 func (c Client) New(params *stripe.ReversalParams) (*stripe.Reversal, error) {
-	body := &stripe.RequestValues{}
-
-	if params.Amount > 0 {
-		body.Add("amount", strconv.FormatUint(params.Amount, 10))
-	}
-
-	if params.Fee {
-		body.Add("refund_application_fee", strconv.FormatBool(params.Fee))
-	}
-
-	params.AppendTo(body)
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	reversal := &stripe.Reversal{}
 	err := c.B.Call("POST", fmt.Sprintf("/transfers/%v/reversals", params.Transfer), c.Key, body, &params.Params, reversal)
@@ -48,8 +39,8 @@ func (c Client) Get(id string, params *stripe.ReversalParams) (*stripe.Reversal,
 		return nil, fmt.Errorf("params cannot be nil, and params.Transfer must be set")
 	}
 
-	body := &stripe.RequestValues{}
-	params.AppendTo(body)
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	reversal := &stripe.Reversal{}
 	err := c.B.Call("GET", fmt.Sprintf("/transfers/%v/reversals/%v", params.Transfer, id), c.Key, body, &params.Params, reversal)
@@ -63,9 +54,8 @@ func Update(id string, params *stripe.ReversalParams) (*stripe.Reversal, error) 
 }
 
 func (c Client) Update(id string, params *stripe.ReversalParams) (*stripe.Reversal, error) {
-	body := &stripe.RequestValues{}
-
-	params.AppendTo(body)
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	reversal := &stripe.Reversal{}
 	err := c.B.Call("POST", fmt.Sprintf("/transfers/%v/reversals/%v", params.Transfer, id), c.Key, body, &params.Params, reversal)
@@ -79,15 +69,12 @@ func List(params *stripe.ReversalListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.ReversalListParams) *Iter {
-	body := &stripe.RequestValues{}
-	var lp *stripe.ListParams
-	var p *stripe.Params
+	body := &form.Values{}
+	var lp *stripe.ListParams = &params.ListParams
+	var p *stripe.Params = params.ToParams()
+	form.AppendTo(body, params)
 
-	params.AppendTo(body)
-	lp = &params.ListParams
-	p = params.ToParams()
-
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ReversalList{}
 		err := c.B.Call("GET", fmt.Sprintf("/transfers/%v/reversals", params.Transfer), c.Key, b, p, list)
 

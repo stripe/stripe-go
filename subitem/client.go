@@ -3,9 +3,9 @@ package subitem
 
 import (
 	"fmt"
-	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /subscriptions APIs.
@@ -21,25 +21,14 @@ func New(params *stripe.SubItemParams) (*stripe.SubItem, error) {
 }
 
 func (c Client) New(params *stripe.SubItemParams) (*stripe.SubItem, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 	token := c.Key
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-		body.Add("subscription", params.Sub)
-
-		if len(params.Plan) > 0 {
-			body.Add("plan", params.Plan)
-		}
-		if params.Quantity > 0 {
-			body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
-		} else if params.QuantityZero {
-			body.Add("quantity", "0")
-		}
-
 		commonParams = &params.Params
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	item := &stripe.SubItem{}
@@ -54,13 +43,13 @@ func Get(id string, params *stripe.SubItemParams) (*stripe.SubItem, error) {
 }
 
 func (c Client) Get(id string, params *stripe.SubItemParams) (*stripe.SubItem, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
 		commonParams = &params.Params
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	item := &stripe.SubItem{}
@@ -76,33 +65,14 @@ func Update(id string, params *stripe.SubItemParams) (*stripe.SubItem, error) {
 }
 
 func (c Client) Update(id string, params *stripe.SubItemParams) (*stripe.SubItem, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 	token := c.Key
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		if len(params.Plan) > 0 {
-			body.Add("plan", params.Plan)
-		}
-
-		if params.NoProrate {
-			body.Add("prorate", strconv.FormatBool(false))
-		}
-
-		if params.Quantity > 0 {
-			body.Add("quantity", strconv.FormatUint(params.Quantity, 10))
-		} else if params.QuantityZero {
-			body.Add("quantity", "0")
-		}
-
-		if params.ProrationDate > 0 {
-			body.Add("proration_date", strconv.FormatInt(params.ProrationDate, 10))
-		}
-
 		commonParams = &params.Params
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	subi := &stripe.SubItem{}
@@ -111,19 +81,19 @@ func (c Client) Update(id string, params *stripe.SubItemParams) (*stripe.SubItem
 	return subi, err
 }
 
-// Cancel removes a subscription.
+// Del removes a subscription item.
 // For more details see https://stripe.com/docs/api#cancel_subscription.
 func Del(id string, params *stripe.SubItemParams) (*stripe.SubItem, error) {
 	return getC().Del(id, params)
 }
 
 func (c Client) Del(id string, params *stripe.SubItemParams) (*stripe.SubItem, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 
@@ -140,24 +110,18 @@ func List(params *stripe.SubItemListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.SubItemListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		if len(params.Sub) > 0 {
-			body.Add("subscription", params.Sub)
-		}
-
-		params.AppendTo(body)
-
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SubItemList{}
 		err := c.B.Call("GET", "/subscription_items", c.Key, b, p, list)
 

@@ -2,6 +2,8 @@ package stripe
 
 import (
 	"encoding/json"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 // Currency is the list of supported currencies.
@@ -15,50 +17,74 @@ type FraudReport string
 // ChargeParams is the set of parameters that can be used when creating or updating a charge.
 // For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
 type ChargeParams struct {
-	Params
-	Amount                       uint64
-	Currency                     Currency
-	Customer, Token              string
-	Desc, Statement, Email, Dest string
-	Destination                  *DestinationParams
-	NoCapture                    bool
-	Fee                          uint64
-	Fraud                        FraudReport
-	Source                       *SourceParams
-	Shipping                     *ShippingDetails
-	TransferGroup                string
-	OnBehalfOf                   string
+	Params        `form:"*"`
+	Amount        uint64             `form:"amount"`
+	Currency      Currency           `form:"currency"`
+	Customer      string             `form:"customer"`
+	Token         string             `form:"-"` // Does not appear to be used?
+	Desc          string             `form:"description"`
+	Statement     string             `form:"statement_descriptor"`
+	Email         string             `form:"receipt_email"`
+	Dest          string             `form:"-"` // Handled in custom AppendTo below
+	Destination   *DestinationParams `form:"destination"`
+	NoCapture     bool               `form:"capture,invert"`
+	Fee           uint64             `form:"application_fee"`
+	Fraud         FraudReport        `form:"-"` // Handled in custom AppendTo below
+	Source        *SourceParams      `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	Shipping      *ShippingDetails   `form:"shipping"`
+	TransferGroup string             `form:"transfer_group"`
+	OnBehalfOf    string             `form:"on_behalf_of"`
 }
 
-type DestinationParams struct {
-	Account string
-	Amount  uint64
+// AppendTo implements some custom encoding logic for ChargeParams to support
+// the deprecated Dest field (please use Destination instead) and the deviant
+// Fraud field.
+func (p *ChargeParams) AppendTo(body *form.Values, keyParts []string) {
+	// TODO: Stop supporting this field.
+	if len(p.Dest) > 0 {
+		body.Add(form.FormatKey(append(keyParts, "destination", "account")), p.Dest)
+	}
+
+	// This is bad in that it's unnecessarily divergent. We should change it to
+	// a subparams struct called FraudDetails.
+	//
+	// TODO: Change to a subparameter struct for FraudDetails.
+	if len(p.Fraud) > 0 {
+		body.Add(form.FormatKey(append(keyParts, "fraud_details", "user_report")), string(p.Fraud))
+	}
 }
 
 // SetSource adds valid sources to a ChargeParams object,
 // returning an error for unsupported sources.
-func (cp *ChargeParams) SetSource(sp interface{}) error {
+func (p *ChargeParams) SetSource(sp interface{}) error {
 	source, err := SourceParamsFor(sp)
-	cp.Source = source
+	p.Source = source
 	return err
+}
+
+type DestinationParams struct {
+	Account string `form:"account"`
+	Amount  uint64 `form:"amount"`
 }
 
 // ChargeListParams is the set of parameters that can be used when listing charges.
 // For more details see https://stripe.com/docs/api#list_charges.
 type ChargeListParams struct {
-	ListParams
-	Created       int64
-	CreatedRange  *RangeQueryParams
-	Customer      string
-	TransferGroup string
+	ListParams    `form:"*"`
+	Created       int64             `form:"created"`
+	CreatedRange  *RangeQueryParams `form:"created"`
+	Customer      string            `form:"customer"`
+	TransferGroup string            `form:"transfer_group"`
 }
 
 // CaptureParams is the set of parameters that can be used when capturing a charge.
 // For more details see https://stripe.com/docs/api#charge_capture.
 type CaptureParams struct {
-	Params
-	Amount, Fee      uint64
-	Email, Statement string
+	Params    `form:"*"`
+	Amount    uint64 `form:"amount"`
+	Fee       uint64 `form:"application_fee"`
+	Email     string `form:"receipt_email"`
+	Statement string `form:"statement_descriptor"`
 }
 
 // Charge is the resource representing a Stripe charge.
@@ -99,6 +125,22 @@ type Charge struct {
 	Tx             *Transaction      `json:"balance_transaction"`
 }
 
+// UnmarshalJSON handles deserialization of a charge.
+// This custom unmarshaling is needed because the resulting
+// property may be an ID or the full struct if it was expanded.
+func (c *Charge) UnmarshalJSON(data []byte) error {
+	type charge Charge
+	var cc charge
+	err := json.Unmarshal(data, &cc)
+	if err == nil {
+		*c = Charge(cc)
+	} else {
+		// the ID is surrounded by "\" characters, so strip them
+		c.ID = string(data[1 : len(data)-1])
+	}
+	return nil
+}
+
 // ChargeList is a list of charges as retrieved from a list endpoint.
 type ChargeList struct {
 	ListMeta
@@ -131,66 +173,14 @@ type ChargeOutcome struct {
 
 // ShippingDetails is the structure containing shipping information.
 type ShippingDetails struct {
-	Name     string  `json:"name"`
-	Address  Address `json:"address"`
-	Phone    string  `json:"phone"`
-	Tracking string  `json:"tracking_number"`
-	Carrier  string  `json:"carrier"`
+	Name     string  `json:"name" form:"name"`
+	Address  Address `json:"address" form:"address"`
+	Phone    string  `json:"phone" form:"phone"`
+	Tracking string  `json:"tracking_number" form:"tracking_number"`
+	Carrier  string  `json:"carrier" form:"carrier"`
 }
 
-// AppendDetails adds the shipping details to the query string.
-func (s *ShippingDetails) AppendDetails(values *RequestValues) {
-	values.Add("shipping[name]", s.Name)
-
-	values.Add("shipping[address][line1]", s.Address.Line1)
-	if len(s.Address.Line2) > 0 {
-		values.Add("shipping[address][line2]", s.Address.Line2)
-	}
-	if len(s.Address.City) > 0 {
-		values.Add("shipping[address][city]", s.Address.City)
-	}
-
-	if len(s.Address.State) > 0 {
-		values.Add("shipping[address][state]", s.Address.State)
-	}
-
-	if len(s.Address.Country) > 0 {
-		values.Add("shipping[address][country]", s.Address.Country)
-	}
-
-	if len(s.Address.Zip) > 0 {
-		values.Add("shipping[address][postal_code]", s.Address.Zip)
-	}
-
-	if len(s.Phone) > 0 {
-		values.Add("shipping[phone]", s.Phone)
-	}
-
-	if len(s.Tracking) > 0 {
-		values.Add("shipping[tracking_number]", s.Tracking)
-	}
-
-	if len(s.Carrier) > 0 {
-		values.Add("shipping[carrier]", s.Carrier)
-	}
-}
-
-// UnmarshalJSON handles deserialization of a Charge.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (c *Charge) UnmarshalJSON(data []byte) error {
-	type charge Charge
-	var cc charge
-	err := json.Unmarshal(data, &cc)
-	if err == nil {
-		*c = Charge(cc)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		c.ID = string(data[1 : len(data)-1])
-	}
-
-	return nil
-}
+var depth int = -1
 
 // UnmarshalJSON handles deserialization of a ChargeOutcomeRule.
 // This custom unmarshaling is needed because the resulting

@@ -151,7 +151,7 @@ type API struct {
 // as well as providing the ability to override the backend as needed.
 func (a *API) Init(key string, backends *Backends) {
 	if backends == nil {
-		backends = &Backends{GetBackend(APIBackend), GetBackend(UploadsBackend)}
+		backends = &Backends{API: GetBackend(APIBackend), Uploads: GetBackend(UploadsBackend)}
 	}
 
 	a.Charges = &charge.Client{B: backends.API, Key: key}

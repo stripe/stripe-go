@@ -17,26 +17,24 @@ type TransferDestination struct {
 // TransferParams is the set of parameters that can be used when creating or updating a transfer.
 // For more details see https://stripe.com/docs/api#create_transfer and https://stripe.com/docs/api#update_transfer.
 type TransferParams struct {
-	Params
-	Amount        int64
-	Currency      Currency
-	Dest          string
-	Meta          map[string]string
-	SourceTx      string
-	SourceType    TransferSourceType
-	TransferGroup string
+	Params        `form:"*"`
+	Amount        int64              `form:"amount"`
+	Currency      Currency           `form:"currency"`
+	Dest          string             `form:"destination"`
+	SourceTx      string             `form:"source_transaction"`
+	SourceType    TransferSourceType `form:"source_type"`
+	TransferGroup string             `form:"transfer_group"`
 }
 
 // TransferListParams is the set of parameters that can be used when listing transfers.
 // For more details see https://stripe.com/docs/api#list_transfers.
 type TransferListParams struct {
-	ListParams
-	Amount        int64
-	Created       int64
-	CreatedRange  *RangeQueryParams
-	Currency      Currency
-	Dest          string
-	TransferGroup string
+	ListParams    `form:"*"`
+	Created       int64             `form:"created"`
+	CreatedRange  *RangeQueryParams `form:"created"`
+	Currency      Currency          `form:"currency"`
+	Dest          string            `form:"destination"`
+	TransferGroup string            `form:"transfer_group"`
 }
 
 // Transfer is the resource representing a Stripe transfer.

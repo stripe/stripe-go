@@ -2,8 +2,10 @@ package stripe
 
 import (
 	"encoding/json"
-
 	"fmt"
+	"strconv"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 // CardBrand is the list of allowed values for the card's brand.
@@ -25,20 +27,122 @@ type TokenizationMethod string
 
 // CardParams is the set of parameters that can be used when creating or updating a card.
 // For more details see https://stripe.com/docs/api#create_card and https://stripe.com/docs/api#update_card.
+//
+// Note that while form annotations are used for tokenization and updates,
+// cards have some unusual logic on creates that necessitates manual handling
+// of all parameters. See AppendToAsCardSourceOrExternalAccount.
 type CardParams struct {
-	Params
-	Token                                         string
-	Default                                       bool
-	Account, Customer, Recipient                  string
-	Name, Number, Month, Year, CVC, Currency      string
-	Address1, Address2, City, State, Zip, Country string
+	Params    `form:"*"`
+	Token     string `form:"-"`
+	Default   bool   `form:"default_for_currency"`
+	Account   string `form:"-"`
+	Customer  string `form:"-"`
+	Recipient string `form:"-"`
+	Name      string `form:"name"`
+	Number    string `form:"number"`
+	Month     string `form:"exp_month"`
+	Year      string `form:"exp_year"`
+	CVC       string `form:"-"`
+	Currency  string `form:"currency"`
+	Address1  string `form:"address_line1"`
+	Address2  string `form:"address_line2"`
+	City      string `form:"address_city"`
+	State     string `form:"address_state"`
+	Zip       string `form:"address_zip"`
+	Country   string `form:"address_country"`
+}
+
+// cardSource is a string that's used to build card form parameters. It's a
+// constant just to make mistakes less likely.
+const cardSource = "source"
+
+// AppendToAsCardSourceOrExternalAccount appends the given CardParams as either a
+// card or external account.
+//
+// It may look like an AppendTo from the form package, but it's not, and is
+// only used in the special case where we use `card.New`. It's needed because
+// we have some weird encoding logic here that can't be handled by the form
+// package (and it's special enough that it wouldn't be desirable to have it do
+// so).
+//
+// This is not a pattern that we want to push forward, and this largely exists
+// because the cards endpoint is a little unusual. There is one other resource
+// like it, which is bank account.
+func (c *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, keyParts []string) {
+	if len(c.Token) > 0 && len(c.Account) > 0 {
+		body.Add(form.FormatKey(append(keyParts, "external_account")), c.Token)
+
+	}
+
+	if c.Default {
+		body.Add(form.FormatKey(append(keyParts, "default_for_currency")), strconv.FormatBool(c.Default))
+	}
+
+	if len(c.Token) > 0 {
+		body.Add(form.FormatKey(append(keyParts, cardSource)), c.Token)
+	}
+
+	if len(c.Number) > 0 {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "object")), "card")
+		body.Add(form.FormatKey(append(keyParts, cardSource, "number")), c.Number)
+	}
+
+	if len(c.CVC) > 0 {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "cvc")), c.CVC)
+	}
+
+	if len(c.Currency) > 0 {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "currency")), c.Currency)
+	}
+
+	if c.Default {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "default_for_currency")), strconv.FormatBool(c.Default))
+	}
+
+	if len(c.Month) > 0 {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "exp_month")), c.Month)
+	}
+
+	if len(c.Year) > 0 {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "exp_year")), c.Year)
+	}
+
+	if len(c.Name) > 0 {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "name")), c.Name)
+	}
+
+	if len(c.Address1) > 0 {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "address_line1")), c.Address1)
+	}
+
+	if len(c.Address2) > 0 {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "address_line2")), c.Address2)
+	}
+
+	if len(c.City) > 0 {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "address_city")), c.City)
+	}
+
+	if len(c.State) > 0 {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "address_state")), c.State)
+	}
+
+	if len(c.Zip) > 0 {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "address_zip")), c.Zip)
+	}
+
+	if len(c.Country) > 0 {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "address_country")), c.Country)
+	}
 }
 
 // CardListParams is the set of parameters that can be used when listing cards.
 // For more details see https://stripe.com/docs/api#list_cards.
 type CardListParams struct {
-	ListParams
-	Account, Customer, Recipient string
+	ListParams `form:"*"`
+	Account    string `form:"-"`
+	Customer   string `form:"-"`
+	Recipient  string `form:"-"`
 }
 
 // Card is the resource representing a Stripe credit/debit card.
@@ -95,102 +199,6 @@ type Card struct {
 type CardList struct {
 	ListMeta
 	Values []*Card `json:"data"`
-}
-
-// AppendDetails adds the card's details to the query string values.
-// When creating a new card, the parameters are passed as a dictionary, but
-// on updates they are simply the parameter name.
-func (c *CardParams) AppendDetails(values *RequestValues, creating bool) {
-	if creating {
-		if len(c.Token) > 0 && len(c.Account) > 0 {
-			values.Add("external_account", c.Token)
-		} else if len(c.Token) > 0 {
-			values.Add("card", c.Token)
-		} else {
-			values.Add("card[object]", "card")
-			values.Add("card[number]", c.Number)
-
-			if len(c.CVC) > 0 {
-				values.Add("card[cvc]", c.CVC)
-			}
-
-			if len(c.Currency) > 0 {
-				values.Add("card[currency]", c.Currency)
-			}
-		}
-	}
-
-	if len(c.Month) > 0 {
-		if creating {
-			values.Add("card[exp_month]", c.Month)
-		} else {
-			values.Add("exp_month", c.Month)
-		}
-	}
-
-	if len(c.Year) > 0 {
-		if creating {
-			values.Add("card[exp_year]", c.Year)
-		} else {
-			values.Add("exp_year", c.Year)
-		}
-	}
-
-	if len(c.Name) > 0 {
-		if creating {
-			values.Add("card[name]", c.Name)
-		} else {
-			values.Add("name", c.Name)
-		}
-	}
-
-	if len(c.Address1) > 0 {
-		if creating {
-			values.Add("card[address_line1]", c.Address1)
-		} else {
-			values.Add("address_line1", c.Address1)
-		}
-	}
-
-	if len(c.Address2) > 0 {
-		if creating {
-			values.Add("card[address_line2]", c.Address2)
-		} else {
-			values.Add("address_line2", c.Address2)
-		}
-	}
-
-	if len(c.City) > 0 {
-		if creating {
-			values.Add("card[address_city]", c.City)
-		} else {
-			values.Add("address_city", c.City)
-		}
-	}
-
-	if len(c.State) > 0 {
-		if creating {
-			values.Add("card[address_state]", c.State)
-		} else {
-			values.Add("address_state", c.State)
-		}
-	}
-
-	if len(c.Zip) > 0 {
-		if creating {
-			values.Add("card[address_zip]", c.Zip)
-		} else {
-			values.Add("address_zip", c.Zip)
-		}
-	}
-
-	if len(c.Country) > 0 {
-		if creating {
-			values.Add("card[address_country]", c.Country)
-		} else {
-			values.Add("address_country", c.Country)
-		}
-	}
 }
 
 // Display human readable representation of a Card.

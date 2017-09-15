@@ -2,9 +2,8 @@
 package recipient
 
 import (
-	"strconv"
-
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 const (
@@ -28,13 +27,13 @@ func Get(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 }
 
 func (c Client) Get(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	recipient := &stripe.Recipient{}
@@ -50,48 +49,13 @@ func Update(id string, params *stripe.RecipientParams) (*stripe.Recipient, error
 }
 
 func (c Client) Update(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
-
-		if len(params.Name) > 0 {
-			body.Add("name", params.Name)
-		}
-
-		if params.Bank != nil {
-			if len(params.Bank.Token) > 0 {
-				body.Add("bank_account", params.Bank.Token)
-			} else {
-				params.Bank.AppendDetails(body)
-			}
-		}
-
-		if len(params.Token) > 0 {
-			body.Add("card", params.Token)
-		} else if params.Card != nil {
-			params.Card.AppendDetails(body, true)
-		}
-
-		if len(params.TaxID) > 0 {
-			body.Add("tax_id", params.TaxID)
-		}
-
-		if len(params.DefaultCard) > 0 {
-			body.Add("default_card", params.DefaultCard)
-		}
-
-		if len(params.Email) > 0 {
-			body.Add("email", params.Email)
-		}
-
-		if len(params.Desc) > 0 {
-			body.Add("description", params.Desc)
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	recipient := &stripe.Recipient{}
@@ -107,13 +71,12 @@ func Del(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 }
 
 func (c Client) Del(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 
@@ -130,23 +93,18 @@ func List(params *stripe.RecipientListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.RecipientListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		if params.Verified {
-			body.Add("verified", strconv.FormatBool(true))
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.RecipientList{}
 		err := c.B.Call("GET", "/recipients", c.Key, b, p, list)
 

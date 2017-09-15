@@ -3,43 +3,103 @@ package stripe
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 // BankAccountStatus is the list of allowed values for the bank account's status.
 // Allowed values are "new", "verified", "validated", "errored".
 type BankAccountStatus string
 
-// BankAccountParams is the set of parameters that can be used when creating or updating a bank account.
+// BankAccountParams is the set of parameters that can be used when updating a
+// bank account.
+//
+// Note that while form annotations are used for updates, bank accounts have
+// some unusual logic on creates that necessitates manual handling of all
+// parameters. See AppendToAsSourceOrExternalAccount.
 type BankAccountParams struct {
-	Params
+	Params `form:"*"`
 
 	// The identifier of the parent account under which bank accounts are
 	// nested.
-	AccountID string
+	AccountID string `form:"-"`
+
+	Customer string `form:"-"`
 
 	// A token referencing an external account like one returned from
 	// Stripe.js.
-	Token string
+	Token string `form:"-"`
 
 	// Information on an external account to reference. Only used if `Token`
 	// is not provided.
-	Account, AccountHolderName, AccountHolderType, Country, Currency, Routing string
+	Account           string `form:"account_number"`
+	AccountHolderName string `form:"account_holder_name"`
+	AccountHolderType string `form:"account_holder_type"`
+	Country           string `form:"country"`
+	Currency          string `form:"currency"`
+	Default           bool   `form:"default_for_currency"`
+	Routing           string `form:"routing_number"`
+}
 
-	Default  bool
-	Customer string
+// AppendToAsSourceOrExternalAccount appends the given BankAccountParams as
+// either a source or external account.
+//
+// It may look like an AppendTo from the form package, but it's not, and is
+// only used in the special case where we use `bankaccount.New`. It's needed
+// because we have some weird encoding logic here that can't be handled by the
+// form package (and it's special enough that it wouldn't be desirable to have
+// it do so).
+//
+// This is not a pattern that we want to push forward, and this largely exists
+// because the bank accounts endpoint is a little unusual. There is one other
+// resource like it, which is cards.
+func (a *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values) {
+	isCustomer := len(a.Customer) > 0
+
+	var sourceType string
+	if isCustomer {
+		sourceType = "source"
+	} else {
+		sourceType = "external_account"
+	}
+
+	// Use token (if exists) or a dictionary containing a user’s bank account details.
+	if len(a.Token) > 0 {
+		body.Add(sourceType, a.Token)
+
+		if a.Default {
+			body.Add("default_for_currency", strconv.FormatBool(a.Default))
+		}
+	} else {
+		body.Add(sourceType+"[object]", "bank_account")
+		body.Add(sourceType+"[country]", a.Country)
+		body.Add(sourceType+"[account_holder_name]", a.AccountHolderName)
+		body.Add(sourceType+"[account_holder_type]", a.AccountHolderType)
+		body.Add(sourceType+"[account_number]", a.Account)
+		body.Add(sourceType+"[currency]", a.Currency)
+
+		if len(a.Routing) > 0 {
+			body.Add(sourceType+"[routing_number]", a.Routing)
+		}
+
+		if a.Default {
+			body.Add(sourceType+"[default_for_currency]", strconv.FormatBool(a.Default))
+		}
+	}
 }
 
 // BankAccountListParams is the set of parameters that can be used when listing bank accounts.
 type BankAccountListParams struct {
-	ListParams
+	ListParams `form:"*"`
 
 	// The identifier of the parent account under which the bank accounts are
 	// nested. Either AccountID or Customer should be populated.
-	AccountID string
+	AccountID string `form:"-"`
 
 	// The identifier of the parent customer under which the bank accounts are
 	// nested. Either AccountID or Customer should be populated.
-	Customer string
+	Customer string `form:"-"`
 }
 
 // BankAccount represents a Stripe bank account.
@@ -69,25 +129,6 @@ type BankAccountList struct {
 // Display implements Displayer.Display.
 func (b *BankAccount) Display() string {
 	return fmt.Sprintf("Bank account ending in %s", b.LastFour)
-}
-
-// AppendDetails adds the bank account's details to the query string values.
-func (b *BankAccountParams) AppendDetails(values *RequestValues) {
-	values.Add("bank_account[country]", b.Country)
-	if len(b.Routing) > 0 {
-		values.Add("bank_account[routing_number]", b.Routing)
-	}
-	values.Add("bank_account[account_number]", b.Account)
-	if b.AccountHolderName != "" {
-		values.Add("bank_account[account_holder_name]", b.AccountHolderName)
-	}
-	if b.AccountHolderType != "" {
-		values.Add("bank_account[account_holder_type]", b.AccountHolderType)
-	}
-
-	if len(b.Currency) > 0 {
-		values.Add("bank_account[currency]", b.Currency)
-	}
 }
 
 // UnmarshalJSON handles deserialization of a BankAccount.

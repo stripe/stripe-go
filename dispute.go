@@ -19,57 +19,59 @@ type DisputeStatus string
 // DisputeParams is the set of parameters that can be used when updating a dispute.
 // For more details see https://stripe.com/docs/api#update_dispute.
 type DisputeParams struct {
-	Params
-	Evidence *DisputeEvidenceParams
+	Params   `form:"*"`
+	Evidence *DisputeEvidenceParams `form:"evidence"`
+	NoSubmit bool                   `form:"submit,invert"`
 }
 
 // DisputeEvidenceParams is the set of parameters that can be used when submitting
 // evidence for disputes.
 type DisputeEvidenceParams struct {
-	ActivityLog string
+	ActivityLog string `form:"access_activity_log"`
 
-	BillingAddress string
+	BillingAddress string `form:"billing_address"`
 
-	CancellationPolicy           string
-	CancellationPolicyDisclsoure string
-	CancellationRebuttal         string
+	CancellationPolicy           string `form:"cancellation_policy"`
+	CancellationPolicyDisclsoure string `form:"cancellation_policy_disclosure"`
+	CancellationRebuttal         string `form:"cancellation_rebuttal"`
 
-	CustomerName  string
-	CustomerEmail string
-	CustomerIP    string
-	CustomerSig   string
-	CustomerComm  string
+	CustomerName  string `form:"customer_name"`
+	CustomerEmail string `form:"customer_email_address"`
+	CustomerIP    string `form:"customer_purchase_ip"`
+	CustomerSig   string `form:"customer_signature"`
+	CustomerComm  string `form:"customer_communication"`
 
-	DuplicateCharge       string
-	DuplicateChargeReason string
-	DuplicateChargeDoc    string
+	DuplicateCharge       string `form:"duplicate_charge_id"`
+	DuplicateChargeReason string `form:"duplicate_charge_explanation"`
+	DuplicateChargeDoc    string `form:"duplicate_charge_documentation"`
 
-	ProductDesc string
+	ProductDesc string `form:"product_description"`
 
-	Receipt string
+	Receipt string `form:"receipt"`
 
-	RefundPolicy           string
-	RefundPolicyDisclosure string
-	RefundRefusalReason    string
+	RefundPolicy           string `form:"refund_policy"`
+	RefundPolicyDisclosure string `form:"refund_policy_disclosure"`
+	RefundRefusalReason    string `form:"refund_refusal_explanation"`
 
-	ServiceDate string
-	ServiceDoc  string
+	ServiceDate string `form:"service_date"`
+	ServiceDoc  string `form:"service_documentation"`
 
-	ShippingAddress  string
-	ShippingDate     string
-	ShippingTracking string
-	ShippingDoc      string
+	ShippingAddress  string `form:"shipping_address"`
+	ShippingCarrier  string `form:"shipping_carrier"`
+	ShippingDate     string `form:"shipping_date"`
+	ShippingTracking string `form:"shipping_tracking_number"`
+	ShippingDoc      string `form:"shipping_documentation"`
 
-	UncategorizedText string
-	UncategorizedFile string
+	UncategorizedText string `form:"uncategorized_text"`
+	UncategorizedFile string `form:"uncategorized_file"`
 }
 
 // DisputeListParams is the set of parameters that can be used when listing disputes.
 // For more details see https://stripe.com/docs/api#list_disputes.
 type DisputeListParams struct {
-	ListParams
-	Created      int64
-	CreatedRange *RangeQueryParams
+	ListParams   `form:"*"`
+	Created      int64             `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 }
 
 // Dispute is the resource representing a Stripe dispute.
@@ -147,113 +149,6 @@ type File struct {
 	Purpose string `json:"purpose"`
 	URL     string `json:"url"`
 	Mime    string `json:"mime_type"`
-}
-
-// AppendDetails adds the dispute evidence details to the query string values.
-func (e *DisputeEvidenceParams) AppendDetails(values *RequestValues) {
-	if len(e.ProductDesc) > 0 {
-		values.Add("evidence[product_description]", e.ProductDesc)
-	}
-
-	if len(e.CustomerName) > 0 {
-		values.Add("evidence[customer_name]", e.CustomerName)
-	}
-
-	if len(e.CustomerEmail) > 0 {
-		values.Add("evidence[customer_email_address]", e.CustomerEmail)
-	}
-
-	if len(e.CustomerIP) > 0 {
-		values.Add("evidence[customer_purchase_ip]", e.CustomerIP)
-	}
-
-	if len(e.CustomerSig) > 0 {
-		values.Add("evidence[customer_signature]", e.CustomerSig)
-	}
-
-	if len(e.BillingAddress) > 0 {
-		values.Add("evidence[billing_address]", e.BillingAddress)
-	}
-
-	if len(e.Receipt) > 0 {
-		values.Add("evidence[receipt]", e.Receipt)
-	}
-
-	if len(e.ShippingAddress) > 0 {
-		values.Add("evidence[shipping_address]", e.ShippingAddress)
-	}
-
-	if len(e.ShippingDate) > 0 {
-		values.Add("evidence[shipping_date]", e.ShippingDate)
-	}
-
-	if len(e.ShippingTracking) > 0 {
-		values.Add("evidence[shipping_tracking_number]", e.ShippingTracking)
-	}
-
-	if len(e.ShippingDoc) > 0 {
-		values.Add("evidence[shipping_documentation]", e.ShippingDoc)
-	}
-
-	if len(e.RefundPolicy) > 0 {
-		values.Add("evidence[refund_policy]", e.RefundPolicy)
-	}
-
-	if len(e.RefundPolicyDisclosure) > 0 {
-		values.Add("evidence[refund_policy_disclosure]", e.RefundPolicyDisclosure)
-	}
-
-	if len(e.RefundRefusalReason) > 0 {
-		values.Add("evidence[refund_refusal_explanation]", e.RefundRefusalReason)
-	}
-
-	if len(e.CancellationPolicy) > 0 {
-		values.Add("evidence[cancellation_policy]", e.CancellationPolicy)
-	}
-
-	if len(e.CancellationPolicyDisclsoure) > 0 {
-		values.Add("evidence[cancellation_policy_disclosure]", e.CancellationPolicyDisclsoure)
-	}
-
-	if len(e.CancellationRebuttal) > 0 {
-		values.Add("evidence[cancellation_rebuttal]", e.CancellationRebuttal)
-	}
-
-	if len(e.ActivityLog) > 0 {
-		values.Add("evidence[access_activity_log]", e.ActivityLog)
-	}
-
-	if len(e.ServiceDate) > 0 {
-		values.Add("evidence[service_date]", e.ServiceDate)
-	}
-
-	if len(e.ServiceDoc) > 0 {
-		values.Add("evidence[service_documentation]", e.ServiceDoc)
-	}
-
-	if len(e.DuplicateCharge) > 0 {
-		values.Add("evidence[duplicate_charge_id]", e.DuplicateCharge)
-	}
-
-	if len(e.DuplicateChargeReason) > 0 {
-		values.Add("evidence[duplicate_charge_explanation]", e.DuplicateChargeReason)
-	}
-
-	if len(e.DuplicateChargeDoc) > 0 {
-		values.Add("evidence[duplicate_charge_documentation]", e.DuplicateChargeDoc)
-	}
-
-	if len(e.CustomerComm) > 0 {
-		values.Add("evidence[customer_communication]", e.CustomerComm)
-	}
-
-	if len(e.UncategorizedText) > 0 {
-		values.Add("evidence[uncategorized_text]", e.UncategorizedText)
-	}
-
-	if len(e.UncategorizedFile) > 0 {
-		values.Add("evidence[uncategorized_file]", e.UncategorizedFile)
-	}
 }
 
 // UnmarshalJSON handles deserialization of a Dispute.

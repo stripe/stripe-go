@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /login_links APIs.
@@ -21,7 +22,7 @@ func New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
 }
 
 func (c Client) New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 
 	loginLink := &stripe.LoginLink{}
 	var err error

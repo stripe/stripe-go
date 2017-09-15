@@ -3,23 +3,20 @@ package stripe
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 // SourceParams is a union struct used to describe an
 // arbitrary payment source.
 type SourceParams struct {
-	Token string
-	Card  *CardParams
+	Token string      `form:"source"`
+	Card  *CardParams `form:"-"`
 }
 
-// AppendDetails adds the source's details to the query string values.
-// For cards: when creating a new one, the parameters are passed as a dictionary, but
-// on updates they are simply the parameter name.
-func (sp *SourceParams) AppendDetails(values *RequestValues, creating bool) {
-	if len(sp.Token) > 0 {
-		values.Add("source", sp.Token)
-	} else if sp.Card != nil {
-		sp.Card.AppendDetails(values, creating)
+func (p *SourceParams) AppendTo(body *form.Values, keyParts []string) {
+	if p.Card != nil {
+		p.Card.AppendToAsCardSourceOrExternalAccount(body, keyParts)
 	}
 }
 
@@ -27,17 +24,17 @@ func (sp *SourceParams) AppendDetails(values *RequestValues, creating bool) {
 // Customer object's payment sources.
 // For more details see https://stripe.com/docs/api#sources
 type CustomerSourceParams struct {
-	Params
-	Customer string
-	Source   *SourceParams
+	Params   `form:"*"`
+	Customer string        `form:"-"` // Goes in the URL
+	Source   *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 }
 
 // SourceVerifyParams are used to verify a customer source
 // For more details see https://stripe.com/docs/guides/ach-beta
 type SourceVerifyParams struct {
-	Params
-	Customer string
-	Amounts  [2]uint8
+	Params   `form:"*"`
+	Customer string   `form:"-"` // Goes in the URL
+	Amounts  [2]uint8 `form:"amounts"`
 }
 
 // SetSource adds valid sources to a CustomerSourceParams object,
@@ -124,8 +121,8 @@ type SourceList struct {
 // SourceListParams are used to enumerate the payment sources that are attached
 // to a Customer.
 type SourceListParams struct {
-	ListParams
-	Customer string
+	ListParams `form:"*"`
+	Customer   string `form:"-"` // Handled in URL
 }
 
 // Display human readable representation of source.

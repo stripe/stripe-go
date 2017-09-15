@@ -1,10 +1,8 @@
 package sku
 
 import (
-	"fmt"
-	"strconv"
-
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /skus APIs.
@@ -22,64 +20,12 @@ func New(params *stripe.SKUParams) (*stripe.SKU, error) {
 // New POSTs a new SKU.
 // For more details see https://stripe.com/docs/api#create_sku.
 func (c Client) New(params *stripe.SKUParams) (*stripe.SKU, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		// Required fields
-		body.Add("price", strconv.FormatInt(params.Price, 10))
-		body.Add("currency", params.Currency)
-		body.Add("product", params.Product)
-
-		// Optional fields
-		if params.ID != "" {
-			body.Add("id", params.ID)
-		}
-
-		if params.Active != nil {
-			body.Add("active", strconv.FormatBool(*(params.Active)))
-		}
-
-		if len(params.Image) > 0 {
-			body.Add("image", params.Image)
-		}
-
-		if len(params.Desc) > 0 {
-			body.Add("description", params.Desc)
-		}
-
-		if len(params.Attrs) > 0 {
-			for k, v := range params.Attrs {
-				body.Add(fmt.Sprintf("attributes[%v]", k), v)
-			}
-		}
-
-		inventory := params.Inventory
-
-		if len(inventory.Type) > 0 {
-			body.Add("inventory[type]", inventory.Type)
-			switch inventory.Type {
-			case "finite":
-				body.Add("inventory[quantity]", strconv.FormatInt(inventory.Quantity, 10))
-			case "bucket":
-				body.Add("inventory[value]", inventory.Value)
-			}
-		}
-
-		if params.PackageDimensions != nil {
-			body.Add("package_dimensions[height]",
-				fmt.Sprintf("%.2f", params.PackageDimensions.Height))
-			body.Add("package_dimensions[length]",
-				fmt.Sprintf("%.2f", params.PackageDimensions.Length))
-			body.Add("package_dimensions[width]",
-				fmt.Sprintf("%.2f", params.PackageDimensions.Width))
-			body.Add("package_dimensions[weight]",
-				fmt.Sprintf("%.2f", params.PackageDimensions.Weight))
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	p := &stripe.SKU{}
@@ -97,66 +43,12 @@ func Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 // Update updates a SKU's properties.
 // For more details see https://stripe.com/docs/api#update_sku.
 func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		// Required fields
-		if params.Price > 0 {
-			body.Add("price", strconv.FormatInt(params.Price, 10))
-		}
-
-		if len(params.Currency) > 0 {
-			body.Add("currency", params.Currency)
-		}
-
-		// Optional fields
-		if params.Active != nil {
-			body.Add("active", strconv.FormatBool(*(params.Active)))
-		}
-
-		if len(params.Desc) > 0 {
-			body.Add("description", params.Desc)
-		}
-
-		if len(params.Image) > 0 {
-			body.Add("image", params.Image)
-		}
-
-		for k, v := range params.Attrs {
-			body.Add(fmt.Sprintf("attributes[%v]", k), v)
-		}
-
-		inventory := params.Inventory
-
-		if len(inventory.Type) > 0 {
-			body.Add("inventory[type]", inventory.Type)
-			switch inventory.Type {
-			case "finite":
-				body.Add("inventory[quantity]", strconv.FormatInt(inventory.Quantity, 10))
-			case "bucket":
-				body.Add("inventory[value]", inventory.Value)
-			}
-		}
-
-		if params.PackageDimensions != nil {
-			body.Add("package_dimensions[height]",
-				fmt.Sprintf("%.2f", params.PackageDimensions.Height))
-			body.Add("package_dimensions[length]",
-				fmt.Sprintf("%.2f", params.PackageDimensions.Length))
-			body.Add("package_dimensions[width]",
-				fmt.Sprintf("%.2f", params.PackageDimensions.Width))
-			body.Add("package_dimensions[weight]",
-				fmt.Sprintf("%.2f", params.PackageDimensions.Weight))
-		}
-
-		if params.Product != "" {
-			body.Add("product", params.Product)
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	p := &stripe.SKU{}
@@ -173,13 +65,13 @@ func Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 
 func (c Client) Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	sku := &stripe.SKU{}
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 	err := c.B.Call("GET", "/skus/"+id, c.Key, body, commonParams, sku)
 
@@ -193,42 +85,18 @@ func List(params *stripe.SKUListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.SKUListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		if params.Active != nil {
-			params.Filters.AddFilter(
-				"active", "", strconv.FormatBool(*params.Active),
-			)
-		}
-
-		if params.Product != "" {
-			params.Filters.AddFilter("product", "", params.Product)
-			for attrName, value := range params.Attributes {
-				params.Filters.AddFilter("attributes", attrName, value)
-			}
-		}
-
-		for _, id := range params.IDs {
-			params.Filters.AddFilter("ids[]", "", id)
-		}
-
-		if params.InStock != nil {
-			params.Filters.AddFilter(
-				"in_stock", "", strconv.FormatBool(*params.InStock),
-			)
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SKUList{}
 		err := c.B.Call("GET", "/skus", c.Key, b, p, list)
 
@@ -263,13 +131,12 @@ func Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 // Delete destroys a SKU.
 // For more details see https://stripe.com/docs/api#delete_sku.
 func (c Client) Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 

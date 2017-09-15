@@ -1,10 +1,8 @@
 package product
 
 import (
-	"fmt"
-	"strconv"
-
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /products APIs.
@@ -22,68 +20,12 @@ func New(params *stripe.ProductParams) (*stripe.Product, error) {
 // New POSTs a new product.
 // For more details see https://stripe.com/docs/api#create_product.
 func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		// Required fields
-		body.Add("name", params.Name)
-
-		// Optional fields
-		if len(params.Desc) > 0 {
-			body.Add("description", params.Desc)
-		}
-
-		if params.ID != "" {
-			body.Add("id", params.ID)
-		}
-
-		if params.Active != nil {
-			body.Add("active", strconv.FormatBool(*(params.Active)))
-		}
-
-		if params.Caption != "" {
-			body.Add("caption", params.Caption)
-		}
-
-		if len(params.Attrs) > 0 {
-			for _, v := range params.Attrs {
-				body.Add("attributes[]", v)
-			}
-		}
-
-		if len(params.Images) > 0 {
-			for _, v := range params.Images {
-				body.Add("images[]", v)
-			}
-		}
-
-		if len(params.URL) > 0 {
-			body.Add("url", params.URL)
-		}
-
-		if params.Shippable != nil {
-			body.Add("shippable", strconv.FormatBool(*(params.Shippable)))
-		}
-
-		if params.PackageDimensions != nil {
-			body.Add("package_dimensions[height]",
-				fmt.Sprintf("%.2f", params.PackageDimensions.Height))
-			body.Add("package_dimensions[length]",
-				fmt.Sprintf("%.2f", params.PackageDimensions.Length))
-			body.Add("package_dimensions[width]",
-				fmt.Sprintf("%.2f", params.PackageDimensions.Width))
-			body.Add("package_dimensions[weight]",
-				fmt.Sprintf("%.2f", params.PackageDimensions.Weight))
-		}
-
-		for _, app := range params.DeactivateOn {
-			body.Add("deactivate_on[]", app)
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	p := &stripe.Product{}
@@ -101,50 +43,12 @@ func Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 // Update updates a product's properties.
 // For more details see https://stripe.com/docs/api#update_product.
 func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		if len(params.Name) > 0 {
-			body.Add("name", params.Name)
-		}
-
-		if len(params.Desc) > 0 {
-			body.Add("description", params.Desc)
-		}
-
-		if params.Active != nil {
-			body.Add("active", strconv.FormatBool(*(params.Active)))
-		}
-
-		if len(params.Images) > 0 {
-			for _, v := range params.Images {
-				body.Add("images[]", v)
-			}
-		}
-
-		if len(params.URL) > 0 {
-			body.Add("url", params.URL)
-		}
-
-		// Passing empty attributes should unset the attributes.
-		if params.Attrs != nil {
-			if len(params.Attrs) > 0 {
-				for _, v := range params.Attrs {
-					body.Add("attributes[]", v)
-				}
-			} else {
-				body.Add("attributes", "")
-			}
-		}
-
-		for _, app := range params.DeactivateOn {
-			body.Add("deactivate_on[]", app)
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	p := &stripe.Product{}
@@ -173,37 +77,18 @@ func List(params *stripe.ProductListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.ProductListParams) *Iter {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		if params.Active != nil {
-			params.Filters.AddFilter("active", "", strconv.FormatBool(*params.Active))
-		}
-
-		if len(params.IDs) > 0 {
-			for _, id := range params.IDs {
-				params.Filters.AddFilter("ids[]", "", id)
-			}
-		}
-
-		if params.Shippable != nil {
-			params.Filters.AddFilter("shippable", "", strconv.FormatBool(*params.Shippable))
-		}
-
-		if params.URL != "" {
-			params.Filters.AddFilter("url", "", params.URL)
-		}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		lp = &params.ListParams
 		p = params.ToParams()
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ProductList{}
 		err := c.B.Call("GET", "/products", c.Key, b, p, list)
 
@@ -238,13 +123,12 @@ func Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 // Delete deletes a product.
 // For more details see https://stripe.com/docs/api#delete_product.
 func (c Client) Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 

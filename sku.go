@@ -3,23 +3,23 @@ package stripe
 import "encoding/json"
 
 type SKUParams struct {
-	Params
-	ID                string
-	Active            *bool
-	Desc              string
-	Attrs             map[string]string
-	Price             int64
-	Currency          string
-	Image             string
-	Inventory         Inventory
-	Product           string
-	PackageDimensions *PackageDimensions
+	Params            `form:"*"`
+	ID                string             `form:"id"`
+	Active            *bool              `form:"active"`
+	Desc              string             `form:"description"`
+	Attrs             map[string]string  `form:"attributes"`
+	Price             int64              `form:"price"`
+	Currency          string             `form:"currency"`
+	Image             string             `form:"image"`
+	Inventory         Inventory          `form:"inventory"`
+	Product           string             `form:"product"`
+	PackageDimensions *PackageDimensions `form:"package_dimensions"`
 }
 
 type Inventory struct {
-	Type     string `json:"type"`
-	Quantity int64  `json:"quantity"`
-	Value    string `json:"value"`
+	Type     string `json:"type" form:"type"`
+	Quantity int64  `json:"quantity" form:"quantity"`
+	Value    string `json:"value" form:"value"`
 }
 
 type SKU struct {
@@ -45,12 +45,12 @@ type SKUList struct {
 }
 
 type SKUListParams struct {
-	ListParams
-	Active     *bool
-	Product    string
-	Attributes map[string]string
-	IDs        []string
-	InStock    *bool
+	ListParams `form:"*"`
+	Active     *bool             `form:"active"`
+	Product    string            `form:"product"`
+	Attributes map[string]string `form:"attributes"`
+	IDs        []string          `form:"ids"`
+	InStock    *bool             `form:"in_stock"`
 }
 
 func (s *SKU) UnmarshalJSON(data []byte) error {

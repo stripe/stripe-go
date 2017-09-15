@@ -4,9 +4,9 @@ package paymentsource
 import (
 	"errors"
 	"fmt"
-	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /sources APIs.
@@ -22,9 +22,8 @@ func New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 }
 
 func (s Client) New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
-	body := &stripe.RequestValues{}
-	params.Source.AppendDetails(body, true)
-	params.AppendTo(body)
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	source := &stripe.PaymentSource{}
 	var err error
@@ -45,13 +44,13 @@ func Get(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource,
 }
 
 func (s Client) Get(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	source := &stripe.PaymentSource{}
@@ -73,9 +72,8 @@ func Update(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSour
 }
 
 func (s Client) Update(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
-	body := &stripe.RequestValues{}
-	params.Source.AppendDetails(body, false)
-	params.AppendTo(body)
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	source := &stripe.PaymentSource{}
 	var err error
@@ -96,13 +94,12 @@ func Del(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource,
 }
 
 func (s Client) Del(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
-
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 
@@ -125,15 +122,12 @@ func List(params *stripe.SourceListParams) *Iter {
 }
 
 func (s Client) List(params *stripe.SourceListParams) *Iter {
-	body := &stripe.RequestValues{}
-	var lp *stripe.ListParams
-	var p *stripe.Params
+	body := &form.Values{}
+	var lp *stripe.ListParams = &params.ListParams
+	var p *stripe.Params = params.ToParams()
+	form.AppendTo(body, params)
 
-	params.AppendTo(body)
-	lp = &params.ListParams
-	p = params.ToParams()
-
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SourceList{}
 		var err error
 
@@ -159,9 +153,8 @@ func Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource
 }
 
 func (s Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource, error) {
-	body := &stripe.RequestValues{}
-	body.Add("amounts[]", strconv.Itoa(int(params.Amounts[0])))
-	body.Add("amounts[]", strconv.Itoa(int(params.Amounts[1])))
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	source := &stripe.PaymentSource{}
 	var err error

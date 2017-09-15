@@ -4,9 +4,9 @@ package card
 import (
 	"errors"
 	"fmt"
-	"strconv"
 
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 const (
@@ -41,17 +41,17 @@ func New(params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
-	body := &stripe.RequestValues{}
-	params.AppendDetails(body, true)
-	params.AppendTo(body)
+	body := &form.Values{}
+
+	// Note that we call this special append method instead of the standard one
+	// from the form package. We should not use form's because doing so will
+	// include some parameters that are undesirable here.
+	params.AppendToAsCardSourceOrExternalAccount(body, nil)
 
 	card := &stripe.Card{}
 	var err error
 
 	if len(params.Account) > 0 {
-		if params.Default {
-			body.Add("default_for_currency", strconv.FormatBool(params.Default))
-		}
 		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts", params.Account), c.Key, body, &params.Params, card)
 	} else if len(params.Customer) > 0 {
 		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards", params.Customer), c.Key, body, &params.Params, card)
@@ -71,13 +71,13 @@ func Get(id string, params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
 		commonParams = &params.Params
-		body = &stripe.RequestValues{}
-		params.AppendTo(body)
+		body = &form.Values{}
+		form.AppendTo(body, params)
 	}
 
 	card := &stripe.Card{}
@@ -103,17 +103,13 @@ func Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
-	body := &stripe.RequestValues{}
-	params.AppendDetails(body, false)
-	params.AppendTo(body)
+	body := &form.Values{}
+	form.AppendTo(body, params)
 
 	card := &stripe.Card{}
 	var err error
 
 	if len(params.Account) > 0 {
-		if params.Default {
-			body.Add("default_for_currency", strconv.FormatBool(params.Default))
-		}
 		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts/%v", params.Account, id), c.Key, body, &params.Params, card)
 	} else if len(params.Customer) > 0 {
 		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, &params.Params, card)
@@ -133,13 +129,13 @@ func Del(id string, params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) {
-	var body *stripe.RequestValues
+	var body *form.Values
 	var commonParams *stripe.Params
 
 	if params != nil {
-		body = &stripe.RequestValues{}
+		body = &form.Values{}
 
-		params.AppendTo(body)
+		form.AppendTo(body, params)
 		commonParams = &params.Params
 	}
 
@@ -166,15 +162,15 @@ func List(params *stripe.CardListParams) *Iter {
 }
 
 func (c Client) List(params *stripe.CardListParams) *Iter {
-	body := &stripe.RequestValues{}
+	body := &form.Values{}
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
-	params.AppendTo(body)
+	form.AppendTo(body, params)
 	lp = &params.ListParams
 	p = params.ToParams()
 
-	return &Iter{stripe.GetIter(lp, body, func(b *stripe.RequestValues) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CardList{}
 		var err error
 
