@@ -2,8 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-
-	"github.com/stripe/stripe-go/form"
 )
 
 // Currency is the list of supported currencies.
@@ -22,7 +20,6 @@ type ChargeParams struct {
 	Currency      Currency            `form:"currency"`
 	Customer      string              `form:"customer"`
 	Desc          string              `form:"description"`
-	Dest          string              `form:"-"` // Handled in custom AppendTo below
 	Destination   *DestinationParams  `form:"destination"`
 	Email         string              `form:"receipt_email"`
 	Fee           uint64              `form:"application_fee"`
@@ -34,16 +31,6 @@ type ChargeParams struct {
 	Statement     string              `form:"statement_descriptor"`
 	Token         string              `form:"-"` // Does not appear to be used?
 	TransferGroup string              `form:"transfer_group"`
-}
-
-// AppendTo implements some custom encoding logic for ChargeParams to support
-// the deprecated Dest field (please use Destination instead) and the deviant
-// Fraud field.
-func (p *ChargeParams) AppendTo(body *form.Values, keyParts []string) {
-	// TODO: Stop supporting this field.
-	if len(p.Dest) > 0 {
-		body.Add(form.FormatKey(append(keyParts, "destination", "account")), p.Dest)
-	}
 }
 
 // SetSource adds valid sources to a ChargeParams object,
