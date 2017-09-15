@@ -19,11 +19,11 @@ type ThreeDSecure struct {
 	Amount        uint64             `json:"amount"`
 	Authenticated bool               `json:"authenticated"`
 	Card          *Card              `json:"card"`
-	Currency      Currency           `json:"currency"`
 	Created       int64              `json:"created"`
+	Currency      Currency           `json:"currency"`
 	ID            string             `json:"id"`
 	Live          bool               `json:"livemode"`
 	RedirectURL   string             `json:"redirect_url"`
-	Supported     string             `json:"supported"`
 	Status        ThreeDSecureStatus `json:"status"`
+	Supported     string             `json:"supported"`
 }

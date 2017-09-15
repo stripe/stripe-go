@@ -15,8 +15,8 @@ type RefundStatus string
 // For more details see https://stripe.com/docs/api#refund.
 type RefundParams struct {
 	Params   `form:"*"`
-	Charge   string       `form:"charge"`
 	Amount   uint64       `form:"amount"`
+	Charge   string       `form:"charge"`
 	Fee      bool         `form:"refund_application_fee"`
 	Reason   RefundReason `form:"reason"`
 	Transfer bool         `form:"reverse_transfer"`
@@ -31,16 +31,16 @@ type RefundListParams struct {
 // Refund is the resource representing a Stripe refund.
 // For more details see https://stripe.com/docs/api#refunds.
 type Refund struct {
-	ID            string            `json:"id"`
 	Amount        uint64            `json:"amount"`
+	Charge        *Charge           `json:"charge"`
 	Created       int64             `json:"created"`
 	Currency      Currency          `json:"currency"`
-	Tx            *Transaction      `json:"balance_transaction"`
-	Charge        *Charge           `json:"charge"`
+	ID            string            `json:"id"`
 	Meta          map[string]string `json:"metadata"`
 	Reason        RefundReason      `json:"reason"`
 	ReceiptNumber string            `json:"receipt_number"`
 	Status        RefundStatus      `json:"status"`
+	Tx            *Transaction      `json:"balance_transaction"`
 }
 
 // RefundList is a list object for refunds.

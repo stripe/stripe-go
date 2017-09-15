@@ -17,15 +17,15 @@ const (
 	ErrorTypePermission     ErrorType = "more_permissions_required"
 	ErrorTypeRateLimit      ErrorType = "rate_limit_error"
 
+	CardDeclined  ErrorCode = "card_declined"
+	ExpiredCard   ErrorCode = "expired_card"
 	IncorrectNum  ErrorCode = "incorrect_number"
-	InvalidNum    ErrorCode = "invalid_number"
+	InvalidCvc    ErrorCode = "invalid_cvc"
 	InvalidExpM   ErrorCode = "invalid_expiry_month"
 	InvalidExpY   ErrorCode = "invalid_expiry_year"
-	InvalidCvc    ErrorCode = "invalid_cvc"
-	ExpiredCard   ErrorCode = "expired_card"
+	InvalidNum    ErrorCode = "invalid_number"
 	IncorrectCvc  ErrorCode = "incorrect_cvc"
 	IncorrectZip  ErrorCode = "incorrect_zip"
-	CardDeclined  ErrorCode = "card_declined"
 	Missing       ErrorCode = "missing"
 	ProcessingErr ErrorCode = "processing_error"
 	RateLimit     ErrorCode = "rate_limit"
@@ -42,19 +42,20 @@ const (
 // Error is the response returned when a call is unsuccessful.
 // For more details see  https://stripe.com/docs/api#errors.
 type Error struct {
-	Type           ErrorType `json:"type"`
-	Msg            string    `json:"message"`
-	Code           ErrorCode `json:"code,omitempty"`
-	Param          string    `json:"param,omitempty"`
-	RequestID      string    `json:"request_id,omitempty"`
-	HTTPStatusCode int       `json:"status,omitempty"`
-	ChargeID       string    `json:"charge,omitempty"`
+	ChargeID string    `json:"charge,omitempty"`
+	Code     ErrorCode `json:"code,omitempty"`
 
 	// Err contains an internal error with an additional level of granularity
 	// that can be used in some cases to get more detailed information about
 	// what went wrong. For example, Err may hold a ChargeError that indicates
 	// exactly what went wrong during a charge.
 	Err error `json:"-"`
+
+	HTTPStatusCode int       `json:"status,omitempty"`
+	Msg            string    `json:"message"`
+	Param          string    `json:"param,omitempty"`
+	RequestID      string    `json:"request_id,omitempty"`
+	Type           ErrorType `json:"type"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.

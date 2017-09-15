@@ -8,10 +8,10 @@ import (
 type OrderStatus string
 
 const (
-	StatusCreated   OrderStatus = "created"
-	StatusPaid      OrderStatus = "paid"
 	StatusCanceled  OrderStatus = "canceled"
+	StatusCreated   OrderStatus = "created"
 	StatusFulfilled OrderStatus = "fulfilled"
+	StatusPaid      OrderStatus = "paid"
 	StatusReturned  OrderStatus = "returned"
 )
 
@@ -26,8 +26,8 @@ type OrderParams struct {
 }
 
 type ShippingParams struct {
-	Name    string         `form:"name"`
 	Address *AddressParams `form:"address"`
+	Name    string         `form:"name"`
 	Phone   string         `form:"phone"`
 }
 
@@ -46,17 +46,17 @@ type OrderReturnParams struct {
 }
 
 type Shipping struct {
-	Name    string  `json:"name"`
 	Address Address `json:"address"`
+	Name    string  `json:"name"`
 	Phone   string  `json:"phone"`
 }
 
 type ShippingMethod struct {
-	ID               string            `json:"id"`
 	Amount           int64             `json:"amount"`
+	ID               string            `json:"id"`
 	Currency         Currency          `json:"currency"`
-	Description      string            `json:"description"`
 	DeliveryEstimate *DeliveryEstimate `json:"delivery_estimate"`
+	Description      string            `json:"description"`
 }
 
 type EstimateType string
@@ -76,7 +76,6 @@ type DeliveryEstimate struct {
 }
 
 type Order struct {
-	ID                     string            `json:"id"`
 	Amount                 int64             `json:"amount"`
 	AmountReturned         int64             `json:"amount_returned"`
 	Application            string            `json:"application"`
@@ -86,6 +85,7 @@ type Order struct {
 	Currency               Currency          `json:"currency"`
 	Customer               Customer          `json:"customer"`
 	Email                  string            `json:"email"`
+	ID                     string            `json:"id"`
 	Items                  []OrderItem       `json:"items"`
 	Live                   bool              `json:"livemode"`
 	Meta                   map[string]string `json:"metadata"`
@@ -93,8 +93,8 @@ type Order struct {
 	SelectedShippingMethod *string           `json:"selected_shipping_method"`
 	Shipping               Shipping          `json:"shipping"`
 	ShippingMethods        []ShippingMethod  `json:"shipping_methods"`
-	StatusTransitions      StatusTransitions `json:"status_transitions"`
 	Status                 OrderStatus       `json:"status"`
+	StatusTransitions      StatusTransitions `json:"status_transitions"`
 	Updated                int64             `json:"updated"`
 }
 
@@ -129,10 +129,10 @@ type StatusTransitions struct {
 // https://stripe.com/docs/api#pay_order.
 type OrderPayParams struct {
 	Params         `form:"*"`
-	Source         *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-	Customer       string        `form:"customer"`
 	ApplicationFee int64         `form:"application_fee"`
+	Customer       string        `form:"customer"`
 	Email          string        `form:"email"`
+	Source         *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 }
 
 // SetSource adds valid sources to a OrderParams object,

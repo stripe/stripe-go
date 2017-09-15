@@ -8,8 +8,8 @@ import (
 // For more details see https://stripe.com/docs/api#fee_refund.
 type FeeRefundParams struct {
 	Params `form:"*"`
-	Fee    string `form:"-"` // Included in the URL
 	Amount uint64 `form:"amount"`
+	Fee    string `form:"-"` // Included in the URL
 }
 
 // FeeRefundListParams is the set of parameters that can be used when listing fee refunds.
@@ -22,13 +22,13 @@ type FeeRefundListParams struct {
 // FeeRefund is the resource representing a Stripe fee refund.
 // For more details see https://stripe.com/docs/api#fee_refunds.
 type FeeRefund struct {
-	ID       string            `json:"id"`
 	Amount   uint64            `json:"amount"`
+	ID       string            `json:"id"`
 	Created  int64             `json:"created"`
 	Currency Currency          `json:"currency"`
-	Tx       *Transaction      `json:"balance_transaction"`
 	Fee      string            `json:"fee"`
 	Meta     map[string]string `json:"metadata"`
+	Tx       *Transaction      `json:"balance_transaction"`
 }
 
 // FeeRefundList is a list object for fee refunds.

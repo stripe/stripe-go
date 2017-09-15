@@ -13,18 +13,17 @@ type RecipientType string
 // RecipientParams is the set of parameters that can be used when creating or updating recipients.
 // For more details see https://stripe.com/docs/api#create_recipient and https://stripe.com/docs/api#update_recipient.
 type RecipientParams struct {
-	Params      `form:"*"`
-	Name        string      `form:"name"`
-	TaxID       string      `form:"tax_id"`
-	Token       string      `form:"card"`
-	Email       string      `form:"email"`
-	Desc        string      `form:"description"`
-	Card        *CardParams `form:"card"`
-	DefaultCard string      `form:"default_card"`
+	Params `form:"*"`
 
-	Bank *BankAccountParams `form:"-"` // Kind of an abberation because a bank account's token will be replace the rest of its data. Keep this in a custom AppendTo for now.
-
-	Type RecipientType `form:"-"` // Doesn't seem to be used anywhere
+	Bank        *BankAccountParams `form:"-"` // Kind of an abberation because a bank account's token will be replace the rest of its data. Keep this in a custom AppendTo for now.
+	Card        *CardParams        `form:"card"`
+	DefaultCard string             `form:"default_card"`
+	Desc        string             `form:"description"`
+	Email       string             `form:"email"`
+	Name        string             `form:"name"`
+	TaxID       string             `form:"tax_id"`
+	Token       string             `form:"card"`
+	Type        RecipientType      `form:"-"` // Doesn't seem to be used anywhere
 }
 
 // AppendTo implements some custom behavior around a recipient's bank account.
@@ -50,19 +49,19 @@ type RecipientListParams struct {
 // Recipient is the resource representing a Stripe recipient.
 // For more details see https://stripe.com/docs/api#recipients.
 type Recipient struct {
-	ID          string            `json:"id"`
-	Live        bool              `json:"livemode"`
-	Created     int64             `json:"created"`
-	Type        RecipientType     `json:"type"`
 	Bank        *BankAccount      `json:"active_account"`
+	Cards       *CardList         `json:"cards"`
+	Created     int64             `json:"created"`
+	DefaultCard *Card             `json:"default_card"`
+	Deleted     bool              `json:"deleted"`
 	Desc        string            `json:"description"`
 	Email       string            `json:"email"`
+	ID          string            `json:"id"`
+	Live        bool              `json:"livemode"`
 	Meta        map[string]string `json:"metadata"`
 	MigratedTo  *Account          `json:"migrated_to"`
 	Name        string            `json:"name"`
-	Cards       *CardList         `json:"cards"`
-	DefaultCard *Card             `json:"default_card"`
-	Deleted     bool              `json:"deleted"`
+	Type        RecipientType     `json:"type"`
 }
 
 // RecipientList is a list of recipients as retrieved from a list endpoint.

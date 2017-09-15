@@ -18,29 +18,29 @@ type SubBilling string
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubParams struct {
 	Params                `form:"*"`
-	Customer              string            `form:"customer"`
-	Plan                  string            `form:"plan"`
-	Token                 string            `form:"card"`
+	Billing               SubBilling        `form:"billing"`
+	BillingCycleAnchor    int64             `form:"billing_cycle_anchor"`
+	BillingCycleAnchorNow bool              `form:"-"` // See custom AppendTo
+	Card                  *CardParams       `form:"card"`
 	Coupon                string            `form:"coupon"`
 	CouponEmpty           bool              `form:"coupon,empty"`
+	Customer              string            `form:"customer"`
+	DaysUntilDue          uint64            `form:"days_until_due"`
+	FeePercent            float64           `form:"application_fee_percent"`
+	FeePercentZero        bool              `form:"application_fee_percent,zero"`
+	Items                 []*SubItemsParams `form:"items,indexed"`
+	NoProrate             bool              `form:"prorate,invert"`
+	OnBehalfOf            string            `form:"on_behalf_of"`
+	Plan                  string            `form:"plan"`
+	ProrationDate         int64             `form:"proration_date"`
+	Quantity              uint64            `form:"quantity"`
+	QuantityZero          bool              `form:"quantity,zero"`
+	Token                 string            `form:"card"`
+	TaxPercent            float64           `form:"tax_percent"`
+	TaxPercentZero        bool              `form:"tax_percent,zero"`
 	TrialEnd              int64             `form:"trial_end"`
 	TrialEndNow           bool              `form:"-"` // See custom AppendTo
 	TrialPeriod           int64             `form:"trial_period_days"`
-	Card                  *CardParams       `form:"card"`
-	Quantity              uint64            `form:"quantity"`
-	QuantityZero          bool              `form:"quantity,zero"`
-	ProrationDate         int64             `form:"proration_date"`
-	NoProrate             bool              `form:"prorate,invert"`
-	FeePercent            float64           `form:"application_fee_percent"`
-	FeePercentZero        bool              `form:"application_fee_percent,zero"`
-	TaxPercent            float64           `form:"tax_percent"`
-	TaxPercentZero        bool              `form:"tax_percent,zero"`
-	BillingCycleAnchor    int64             `form:"billing_cycle_anchor"`
-	BillingCycleAnchorNow bool              `form:"-"` // See custom AppendTo
-	Items                 []*SubItemsParams `form:"items,indexed"`
-	Billing               SubBilling        `form:"billing"`
-	DaysUntilDue          uint64            `form:"days_until_due"`
-	OnBehalfOf            string            `form:"on_behalf_of"`
 
 	// Used for Cancel
 
@@ -64,49 +64,49 @@ func (p *SubParams) AppendTo(body *form.Values, keyParts []string) {
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubItemsParams struct {
 	Params       `form:"*"`
+	Deleted      bool   `form:"deleted"`
 	ID           string `form:"id"`
+	Plan         string `form:"plan"`
 	Quantity     uint64 `form:"quantity"`
 	QuantityZero bool   `form:"quantity,zero"`
-	Plan         string `form:"plan"`
-	Deleted      bool   `form:"deleted"`
 }
 
 // SubListParams is the set of parameters that can be used when listing active subscriptions.
 // For more details see https://stripe.com/docs/api#list_subscriptions.
 type SubListParams struct {
 	ListParams   `form:"*"`
+	Billing      SubBilling        `form:"billing"`
 	Created      int64             `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 	Customer     string            `form:"customer"`
 	Plan         string            `form:"plan"`
 	Status       SubStatus         `form:"status"`
-	Billing      SubBilling        `form:"billing"`
 }
 
 // Sub is the resource representing a Stripe subscription.
 // For more details see https://stripe.com/docs/api#subscriptions.
 type Sub struct {
-	ID           string            `json:"id"`
-	EndCancel    bool              `json:"cancel_at_period_end"`
+	Billing      SubBilling        `json:"billing"`
+	Canceled     int64             `json:"canceled_at"`
+	Created      int64             `json:"created"`
 	Customer     *Customer         `json:"customer"`
+	DaysUntilDue uint64            `json:"days_until_due"`
+	Discount     *Discount         `json:"discount"`
+	EndCancel    bool              `json:"cancel_at_period_end"`
+	Ended        int64             `json:"ended_at"`
+	FeePercent   float64           `json:"application_fee_percent"`
+	ID           string            `json:"id"`
+	Items        *SubItemList      `json:"items"`
+	Meta         map[string]string `json:"metadata"`
+	PeriodEnd    int64             `json:"current_period_end"`
+	PeriodStart  int64             `json:"current_period_start"`
 	Plan         *Plan             `json:"plan"`
 	Quantity     uint64            `json:"quantity"`
 	Status       SubStatus         `json:"status"`
-	FeePercent   float64           `json:"application_fee_percent"`
-	Canceled     int64             `json:"canceled_at"`
-	Created      int64             `json:"created"`
 	Start        int64             `json:"start"`
-	PeriodEnd    int64             `json:"current_period_end"`
-	PeriodStart  int64             `json:"current_period_start"`
-	Discount     *Discount         `json:"discount"`
-	Ended        int64             `json:"ended_at"`
-	Meta         map[string]string `json:"metadata"`
 	TaxPercent   float64           `json:"tax_percent"`
 	TrialEnd     int64             `json:"trial_end"`
 	TrialStart   int64             `json:"trial_start"`
-	Items        *SubItemList      `json:"items"`
-	Billing      SubBilling        `json:"billing"`
-	DaysUntilDue uint64            `json:"days_until_due"`
 }
 
 // SubList is a list object for subscriptions.

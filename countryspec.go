@@ -13,8 +13,8 @@ type VerificationFieldsList struct {
 // CountrySpec is the resource representing the rules required for a Stripe account.
 // For more details see https://stripe.com/docs/api/#country_specs.
 type CountrySpec struct {
-	ID                             string                                     `json:"id"`
 	DefaultCurrency                Currency                                   `json:"default_currency"`
+	ID                             string                                     `json:"id"`
 	SupportedBankAccountCurrencies map[Country][]Currency                     `json:"supported_bank_account_currencies"`
 	SupportedPaymentCurrencies     []Currency                                 `json:"supported_payment_currencies"`
 	SupportedPaymentMethods        []string                                   `json:"supported_payment_methods"`

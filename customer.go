@@ -10,20 +10,20 @@ type CustomerParams struct {
 	Params         `form:"*"`
 	Balance        int64                    `form:"account_balance"`
 	BalanceZero    bool                     `form:"account_balance,zero"`
-	Token          string                   `form:"-"` // This doesn't seem to be used?
+	BusinessVatID  string                   `form:"business_vat_id"`
 	Coupon         string                   `form:"coupon"`
 	CouponEmpty    bool                     `form:"coupon,empty"`
-	Source         *SourceParams            `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	DefaultSource  string                   `form:"default_source"`
 	Desc           string                   `form:"description"`
 	Email          string                   `form:"email"`
 	Plan           string                   `form:"plan"`
 	Quantity       uint64                   `form:"quantity"`
-	TrialEnd       int64                    `form:"trial_end"`
-	DefaultSource  string                   `form:"default_source"`
 	Shipping       *CustomerShippingDetails `form:"shipping"`
-	BusinessVatID  string                   `form:"business_vat_id"`
+	Source         *SourceParams            `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 	TaxPercent     float64                  `form:"tax_percent"`
 	TaxPercentZero bool                     `form:"tax_percent,zero"`
+	Token          string                   `form:"-"` // This doesn't seem to be used?
+	TrialEnd       int64                    `form:"trial_end"`
 }
 
 // SetSource adds valid sources to a CustomerParams object,
@@ -45,22 +45,22 @@ type CustomerListParams struct {
 // Customer is the resource representing a Stripe customer.
 // For more details see https://stripe.com/docs/api#customers.
 type Customer struct {
-	ID            string                   `json:"id"`
-	Live          bool                     `json:"livemode"`
-	Sources       *SourceList              `json:"sources"`
-	Created       int64                    `json:"created"`
 	Balance       int64                    `json:"account_balance"`
+	BusinessVatID string                   `json:"business_vat_id"`
 	Currency      Currency                 `json:"currency"`
+	Created       int64                    `json:"created"`
 	DefaultSource *PaymentSource           `json:"default_source"`
+	Deleted       bool                     `json:"deleted"`
 	Delinquent    bool                     `json:"delinquent"`
 	Desc          string                   `json:"description"`
 	Discount      *Discount                `json:"discount"`
 	Email         string                   `json:"email"`
+	ID            string                   `json:"id"`
+	Live          bool                     `json:"livemode"`
 	Meta          map[string]string        `json:"metadata"`
-	Subs          *SubList                 `json:"subscriptions"`
-	Deleted       bool                     `json:"deleted"`
 	Shipping      *CustomerShippingDetails `json:"shipping"`
-	BusinessVatID string                   `json:"business_vat_id"`
+	Sources       *SourceList              `json:"sources"`
+	Subs          *SubList                 `json:"subscriptions"`
 }
 
 // CustomerList is a list of customers as retrieved from a list endpoint.
@@ -71,8 +71,8 @@ type CustomerList struct {
 
 // CustomerShippingDetails is the structure containing shipping information.
 type CustomerShippingDetails struct {
-	Name    string  `json:"name" form:"name"`
 	Address Address `json:"address" form:"address"`
+	Name    string  `json:"name" form:"name"`
 	Phone   string  `json:"phone" form:"phone"`
 }
 

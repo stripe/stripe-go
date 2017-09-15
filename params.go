@@ -12,30 +12,31 @@ import (
 )
 
 const (
-	startafter = "starting_after"
 	endbefore  = "ending_before"
+	startafter = "starting_after"
 )
 
 // Params is the structure that contains the common properties
 // of any *Params structure.
 type Params struct {
-	Exp            []string          `form:"expand"`
-	Meta           map[string]string `form:"metadata"`
-	Extra          url.Values        `form:"-"` // See custom encoding in AppendTo
+	// Account is deprecated form of StripeAccount that will do the same thing.
+	// Please use StripeAccount instead.
+	Account string `form:"-"` // Passed as header
+
+	Exp   []string   `form:"expand"`
+	Extra url.Values `form:"-"` // See custom encoding in AppendTo
+
+	// Headers may be used to provide extra header lines on the HTTP request.
+	Headers http.Header `form:"-"`
+
 	IdempotencyKey string            `form:"-"` // Passed as header
+	Meta           map[string]string `form:"metadata"`
 
 	// StripeAccount may contain the ID of a connected account. By including
 	// this field, the request is made as if it originated from the connected
 	// account instead of under the account of the owner of the configured
 	// Stripe key.
 	StripeAccount string `form:"-"` // Passed as header
-
-	// Account is deprecated form of StripeAccount that will do the same thing.
-	// Please use StripeAccount instead.
-	Account string `form:"-"` // Passed as header
-
-	// Headers may be used to provide extra header lines on the HTTP request.
-	Headers http.Header `form:"-"`
 }
 
 // AppendTo implements custom form encoding for Params.
@@ -55,16 +56,18 @@ func (p *Params) AppendTo(body *form.Values, keyParts []string) {
 // ListParams is the structure that contains the common properties
 // of any *ListParams structure.
 type ListParams struct {
-	Exp     []string `form:"expand"`
-	Start   string   `form:"starting_after"`
 	End     string   `form:"ending_before"`
-	Limit   int      `form:"limit"`
+	Exp     []string `form:"expand"`
 	Filters Filters  `form:"-"` // See custom encoding in AppendTo
+	Limit   int      `form:"limit"`
 
-	// By default, listing through an iterator will automatically grab
-	// additional pages as the query progresses. To change this behavior
-	// and just load a single page, set this to true.
+	// Single specifies whether this is a single page iterator. By default,
+	// listing through an iterator will automatically grab additional pages as
+	// the query progresses. To change this behavior and just load a single
+	// page, set this to true.
 	Single bool `form:"-"` // Not an API parameter
+
+	Start string `form:"starting_after"`
 
 	// StripeAccount may contain the ID of a connected account. By including
 	// this field, the request is made as if it originated from the connected

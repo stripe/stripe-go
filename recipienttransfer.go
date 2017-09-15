@@ -2,17 +2,8 @@ package stripe
 
 import "encoding/json"
 
-// RecipientTransferStatus is the list of allowed values for the recipient_transfer's status.
-// Allowed values are "paid", "pending", "in_transit",  "failed".
-type RecipientTransferStatus string
-
-// RecipientTransferType is the list of allowed values for the recipient_transfer's type.
-// Allowed values are "bank_account" or "card".
-type RecipientTransferType string
-
-// RecipientTransferSourceType is the list of allowed values for the recipient_transfer's source_type field.
-// Allowed values are "alipay_account", bank_account", "bitcoin_receiver", "card".
-type RecipientTransferSourceType string
+// RecipientTransferDestinationType consts represent valid recipient_transfer destinations.
+type RecipientTransferDestinationType string
 
 // RecipientTransferFailCode is the list of allowed values for the recipient_transfer's failure code.
 // Allowed values are "insufficient_funds", "account_closed", "no_account",
@@ -20,8 +11,17 @@ type RecipientTransferSourceType string
 // "account_frozen", "could_not_process", "bank_account_restricted", "invalid_currency".
 type RecipientTransferFailCode string
 
-// RecipientTransferDestinationType consts represent valid recipient_transfer destinations.
-type RecipientTransferDestinationType string
+// RecipientTransferSourceType is the list of allowed values for the recipient_transfer's source_type field.
+// Allowed values are "alipay_account", bank_account", "bitcoin_receiver", "card".
+type RecipientTransferSourceType string
+
+// RecipientTransferStatus is the list of allowed values for the recipient_transfer's status.
+// Allowed values are "paid", "pending", "in_transit",  "failed".
+type RecipientTransferStatus string
+
+// RecipientTransferType is the list of allowed values for the recipient_transfer's type.
+// Allowed values are "bank_account" or "card".
+type RecipientTransferType string
 
 const (
 	// RecipientTransferDestinationBankAccount is a constant representing a recipient_transfer destination
@@ -48,17 +48,15 @@ const (
 // The Type should indicate which object is fleshed out
 // For more details see https://stripe.com/docs/api/go#recipient_transfer_object
 type RecipientTransferDestination struct {
-	Type        RecipientTransferDestinationType `json:"object"`
-	ID          string                           `json:"id"`
-	BankAccount *BankAccount                     `json:"-"`
 	Card        *Card                            `json:"-"`
+	BankAccount *BankAccount                     `json:"-"`
+	ID          string                           `json:"id"`
+	Type        RecipientTransferDestinationType `json:"object"`
 }
 
 // RecipientTransfer is the resource representing a Stripe recipient_transfer.
 // For more details see https://stripe.com/docs/api#recipient_transfers.
 type RecipientTransfer struct {
-	ID                 string                       `json:"id"`
-	Live               bool                         `json:"livemode"`
 	Amount             int64                        `json:"amount"`
 	AmountReversed     int64                        `json:"amount_reversed"`
 	BalanceTransaction *Transaction                 `json:"balance_transaction"`
@@ -71,6 +69,8 @@ type RecipientTransfer struct {
 	Dest               RecipientTransferDestination `json:"destination"`
 	FailCode           RecipientTransferFailCode    `json:"failure_code"`
 	FailMsg            string                       `json:"failure_message"`
+	ID                 string                       `json:"id"`
+	Live               bool                         `json:"livemode"`
 	Meta               map[string]string            `json:"metadata"`
 	Method             RecipientTransferMethodType  `json:"method"`
 	Recipient          *Recipient                   `json:"recipient"`

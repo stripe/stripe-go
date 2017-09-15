@@ -8,8 +8,8 @@ import (
 // For more details see https://stripe.com/docs/api/#list_bitcoin_receivers.
 type BitcoinReceiverListParams struct {
 	ListParams `form:"*"`
-	NotFilled  bool `form:"filled,invert"`
 	NotActive  bool `form:"active,invert"`
+	NotFilled  bool `form:"filled,invert"`
 	Uncaptured bool `form:"uncaptured_funds"`
 }
 
@@ -36,24 +36,24 @@ type BitcoinReceiverUpdateParams struct {
 // BitcoinReceiver is the resource representing a Stripe bitcoin receiver.
 // For more details see https://stripe.com/docs/api/#bitcoin_receivers
 type BitcoinReceiver struct {
-	ID                    string                  `json:"id"`
-	Created               int64                   `json:"created"`
-	Currency              Currency                `json:"currency"`
+	Active                bool                    `json:"active"`
 	Amount                uint64                  `json:"amount"`
 	AmountReceived        uint64                  `json:"amount_received"`
 	BitcoinAmount         uint64                  `json:"bitcoin_amount"`
 	BitcoinAmountReceived uint64                  `json:"bitcoin_amount_received"`
-	Filled                bool                    `json:"filled"`
-	Active                bool                    `json:"active"`
-	RejectTransactions    bool                    `json:"reject_transactions"`
-	Desc                  string                  `json:"description"`
-	InboundAddress        string                  `json:"inbound_address"`
-	RefundAddress         string                  `json:"refund_address"`
 	BitcoinUri            string                  `json:"bitcoin_uri"`
-	Meta                  map[string]string       `json:"metadata"`
-	Email                 string                  `json:"email"`
-	Payment               string                  `json:"payment"`
+	Created               int64                   `json:"created"`
+	Currency              Currency                `json:"currency"`
 	Customer              string                  `json:"customer"`
+	Desc                  string                  `json:"description"`
+	Email                 string                  `json:"email"`
+	Filled                bool                    `json:"filled"`
+	ID                    string                  `json:"id"`
+	InboundAddress        string                  `json:"inbound_address"`
+	Meta                  map[string]string       `json:"metadata"`
+	Payment               string                  `json:"payment"`
+	RejectTransactions    bool                    `json:"reject_transactions"`
+	RefundAddress         string                  `json:"refund_address"`
 	Transactions          *BitcoinTransactionList `json:"transactions"`
 }
 

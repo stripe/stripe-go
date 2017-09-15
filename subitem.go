@@ -4,13 +4,13 @@ package stripe
 // For more details see https://stripe.com/docs/api#create_subscription_item and https://stripe.com/docs/api#update_subscription_item.
 type SubItemParams struct {
 	Params        `form:"*"`
-	Sub           string `form:"subscription"`
 	ID            string `form:"-"` // Handled in URL
-	Quantity      uint64 `form:"quantity"`
-	QuantityZero  bool   `form:"quantity,zero"`
+	NoProrate     bool   `form:"prorate,invert"`
 	Plan          string `form:"plan"`
 	ProrationDate int64  `form:"proration_date"`
-	NoProrate     bool   `form:"prorate,invert"`
+	Quantity      uint64 `form:"quantity"`
+	QuantityZero  bool   `form:"quantity,zero"`
+	Sub           string `form:"subscription"`
 }
 
 // SubItemListParams is the set of parameters that can be used when listing invoice items.
@@ -23,12 +23,12 @@ type SubItemListParams struct {
 // SubItem is the resource representing a Stripe subscription item.
 // For more details see https://stripe.com/docs/api#subscription_items.
 type SubItem struct {
-	ID       string            `json:"id"`
-	Plan     *Plan             `json:"plan"`
-	Quantity uint64            `json:"quantity"`
 	Created  int64             `json:"created"`
 	Deleted  bool              `json:"deleted"`
+	ID       string            `json:"id"`
 	Meta     map[string]string `json:"metadata"`
+	Plan     *Plan             `json:"plan"`
+	Quantity uint64            `json:"quantity"`
 }
 
 // SubItemList is a list of invoice items as retrieved from a list endpoint.

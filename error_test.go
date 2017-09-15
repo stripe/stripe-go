@@ -11,14 +11,14 @@ import (
 
 func TestErrorError(t *testing.T) {
 	err := &Error{Type: "foo", Msg: "bar"}
-	assert.Equal(t, `{"type":"foo","message":"bar"}`, err.Error())
+	assert.Equal(t, `{"message":"bar","type":"foo"}`, err.Error())
 }
 
 func TestErrorResponse(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Request-Id", "req_123")
 		w.WriteHeader(http.StatusUnauthorized)
-		fmt.Fprintln(w, `{"error":{"type":"`+InvalidRequest+`","message":"bar"}}`)
+		fmt.Fprintln(w, `{"error":{"message":"bar","type":"`+InvalidRequest+`"}}`)
 	}))
 	defer ts.Close()
 

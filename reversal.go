@@ -18,12 +18,12 @@ type ReversalListParams struct {
 
 // Reversal represents a transfer reversal.
 type Reversal struct {
-	ID       string            `json:"id"`
 	Amount   uint64            `json:"amount"`
 	Created  int64             `json:"created"`
 	Currency Currency          `json:"currency"`
-	Transfer string            `json:"transfer"`
+	ID       string            `json:"id"`
 	Meta     map[string]string `json:"metadata"`
+	Transfer string            `json:"transfer"`
 	Tx       *Transaction      `json:"balance_transaction"`
 }
 
