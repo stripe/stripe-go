@@ -19,7 +19,7 @@ import (
 
 const (
 	// MockMinimumVersion is the minimum acceptible version for stripe-mock.
-	MockMinimumVersion = "0.1.21"
+	MockMinimumVersion = "0.1.23"
 
 	// TestMerchantID is a token that can be used to represent a merchant ID in
 	// simple tests.
