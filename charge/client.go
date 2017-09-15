@@ -141,7 +141,12 @@ func MarkFraudulent(id string) (*stripe.Charge, error) {
 func (c Client) MarkFraudulent(id string) (*stripe.Charge, error) {
 	return c.Update(
 		id,
-		&stripe.ChargeParams{Fraud: ReportFraudulent})
+		&stripe.ChargeParams{
+			FraudDetails: &stripe.FraudDetailsParams{
+				UserReport: ReportFraudulent,
+			},
+		},
+	)
 }
 
 // MarkSafe reports the charge as not-fraudulent.
@@ -152,7 +157,12 @@ func MarkSafe(id string) (*stripe.Charge, error) {
 func (c Client) MarkSafe(id string) (*stripe.Charge, error) {
 	return c.Update(
 		id,
-		&stripe.ChargeParams{Fraud: ReportSafe})
+		&stripe.ChargeParams{
+			FraudDetails: &stripe.FraudDetailsParams{
+				UserReport: ReportSafe,
+			},
+		},
+	)
 }
 
 // Update updates a charge's dispute.

@@ -8,8 +8,8 @@ type OrderReturn struct {
 	Currency Currency    `json:"currency"`
 	ID       string      `json:"id"`
 	Items    []OrderItem `json:"items"`
-	Live     bool        `json:"livemode"`
 	Order    Order       `json:"order"`
+	Live     bool        `json:"livemode"`
 	Refund   *Refund     `json:"refund"`
 }
 
