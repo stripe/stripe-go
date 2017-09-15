@@ -52,8 +52,8 @@ type BitcoinReceiver struct {
 	InboundAddress        string                  `json:"inbound_address"`
 	Meta                  map[string]string       `json:"metadata"`
 	Payment               string                  `json:"payment"`
-	RejectTransactions    bool                    `json:"reject_transactions"`
 	RefundAddress         string                  `json:"refund_address"`
+	RejectTransactions    bool                    `json:"reject_transactions"`
 	Transactions          *BitcoinTransactionList `json:"transactions"`
 }
 
