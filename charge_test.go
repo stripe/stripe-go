@@ -17,14 +17,6 @@ func TestChargeParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &ChargeParams{Dest: "acct_123"}
-		body := &form.Values{}
-		form.AppendTo(body, params)
-		t.Logf("body = %+v", body)
-		assert.Equal(t, []string{"acct_123"}, body.Get("destination[account]"))
-	}
-
-	{
 		params := &ChargeParams{Source: &SourceParams{Card: &CardParams{Number: "4242424242424242"}}}
 		body := &form.Values{}
 		form.AppendTo(body, params)
