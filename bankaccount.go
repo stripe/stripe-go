@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"fmt"
 	"strconv"
 
 	"github.com/stripe/stripe-go/form"
@@ -124,11 +123,6 @@ type BankAccount struct {
 type BankAccountList struct {
 	ListMeta
 	Values []*BankAccount `json:"data"`
-}
-
-// Display implements Displayer.Display.
-func (b *BankAccount) Display() string {
-	return fmt.Sprintf("Bank account ending in %s", b.LastFour)
 }
 
 // UnmarshalJSON handles deserialization of a BankAccount.

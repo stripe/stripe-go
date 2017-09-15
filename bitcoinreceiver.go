@@ -2,7 +2,6 @@ package stripe
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // BitcoinReceiverListParams is the set of parameters that can be used when listing BitcoinReceivers.
@@ -62,19 +61,6 @@ type BitcoinReceiver struct {
 type BitcoinReceiverList struct {
 	ListMeta
 	Values []*BitcoinReceiver `json:"data"`
-}
-
-// Display human readable representation of a BitcoinReceiver.
-func (br *BitcoinReceiver) Display() string {
-	var filled string
-	if br.Filled {
-		filled = "Filled"
-	} else if br.BitcoinAmountReceived > 0 {
-		filled = "Partially filled"
-	} else {
-		filled = "Unfilled"
-	}
-	return fmt.Sprintf("%s bitcoin receiver (%d/%d %s)", filled, br.AmountReceived, br.Amount, br.Currency)
 }
 
 // UnmarshalJSON handles deserialization of a BitcoinReceiver.

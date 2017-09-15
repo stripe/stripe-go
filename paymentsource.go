@@ -69,11 +69,6 @@ func SourceParamsFor(obj interface{}) (*SourceParams, error) {
 	return sp, err
 }
 
-// Displayer provides a human readable representation of a struct
-type Displayer interface {
-	Display() string
-}
-
 // PaymentSourceType consts represent valid payment sources.
 type PaymentSourceType string
 
@@ -123,22 +118,6 @@ type SourceList struct {
 type SourceListParams struct {
 	ListParams `form:"*"`
 	Customer   string `form:"-"` // Handled in URL
-}
-
-// Display human readable representation of source.
-func (s *PaymentSource) Display() string {
-	switch s.Type {
-	case PaymentSourceBankAccount:
-		return s.BankAccount.Display()
-	case PaymentSourceBitcoinReceiver:
-		return s.BitcoinReceiver.Display()
-	case PaymentSourceCard:
-		return s.Card.Display()
-	case PaymentSourceObject:
-		return s.SourceObject.Display()
-	}
-
-	return ""
 }
 
 // UnmarshalJSON handles deserialization of a PaymentSource.
