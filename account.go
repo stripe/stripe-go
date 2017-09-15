@@ -133,37 +133,39 @@ type Account struct {
 	Email                string               `json:"email"`
 	ExternalAccounts     *ExternalAccountList `json:"external_accounts"`
 	ID                   string               `json:"id"`
-	LegalEntity          *LegalEntity         `json:"legal_entity"`
-	Meta                 map[string]string    `json:"metadata"`
-	Name                 string               `json:"display_name"`
-	PayoutSchedule       *PayoutSchedule      `json:"payout_schedule"`
-	PayoutStatement      string               `json:"payout_statement_descriptor"`
-	PayoutsEnabled       bool                 `json:"payouts_enabled"`
-	ProductDesc          string               `json:"product_description"`
-	Statement            string               `json:"statement_descriptor"`
-	SupportAddress       *Address             `json:"support_address"`
-	SupportEmail         string               `json:"support_email"`
-	SupportPhone         string               `json:"support_phone"`
-	SupportUrl           string               `json:"support_url"`
-	Timezone             string               `json:"timezone"`
-	Type                 AccountType
 
 	Keys *struct {
 		Publish string `json:"publishable"`
 		Secret  string `json:"secret"`
 	} `json:"keys"`
 
-	Verification *struct {
-		DisabledReason string   `json:"disabled_reason"`
-		Due            *int64   `json:"due_by"`
-		Fields         []string `json:"fields_needed"`
-	} `json:"verification"`
+	LegalEntity     *LegalEntity      `json:"legal_entity"`
+	Meta            map[string]string `json:"metadata"`
+	Name            string            `json:"display_name"`
+	PayoutSchedule  *PayoutSchedule   `json:"payout_schedule"`
+	PayoutStatement string            `json:"payout_statement_descriptor"`
+	PayoutsEnabled  bool              `json:"payouts_enabled"`
+	ProductDesc     string            `json:"product_description"`
+	Statement       string            `json:"statement_descriptor"`
+	SupportAddress  *Address          `json:"support_address"`
+	SupportEmail    string            `json:"support_email"`
+	SupportPhone    string            `json:"support_phone"`
+	SupportUrl      string            `json:"support_url"`
+	Timezone        string            `json:"timezone"`
 
 	TOSAcceptance *struct {
 		Date      int64  `json:"date"`
 		IP        string `json:"ip"`
 		UserAgent string `json:"user_agent"`
 	} `json:"tos_acceptance"`
+
+	Type AccountType
+
+	Verification *struct {
+		DisabledReason string   `json:"disabled_reason"`
+		Due            *int64   `json:"due_by"`
+		Fields         []string `json:"fields_needed"`
+	} `json:"verification"`
 }
 
 // UnmarshalJSON handles deserialization of an account.
