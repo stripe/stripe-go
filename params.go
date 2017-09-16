@@ -23,8 +23,8 @@ type Params struct {
 	// Please use StripeAccount instead.
 	Account string `form:"-"` // Passed as header
 
-	Exp   []string   `form:"expand"`
-	Extra url.Values `form:"-"` // See custom encoding in AppendTo
+	Exp   []string     `form:"expand"`
+	Extra *ExtraValues `form:"*"`
 
 	// Headers may be used to provide extra header lines on the HTTP request.
 	Headers http.Header `form:"-"`
@@ -39,14 +39,16 @@ type Params struct {
 	StripeAccount string `form:"-"` // Passed as header
 }
 
-// AppendTo implements custom form encoding for Params.
-//
-// Normally this could happen automatically using a form tag, but the presence
-// of the Extra property makes that difficult right now. Instead, we create a
-// type alias that will handle most of the encoding, and then append Extra
-// manually.
-func (p *Params) AppendTo(body *form.Values, keyParts []string) {
-	for k, vs := range p.Extra {
+// ExtraValues are extra parameters that are attached to an API request.
+// They're implemented as a custom type so that they can have their own
+// AppendTo implementation.
+type ExtraValues struct {
+	url.Values `form:"-"` // See custom AppendTo implementation
+}
+
+// AppendTo implements custom form encoding for extra parameter values.
+func (v ExtraValues) AppendTo(body *form.Values, keyParts []string) {
+	for k, vs := range v.Values {
 		for _, v := range vs {
 			body.Add(form.FormatKey(append(keyParts, k)), v)
 		}
@@ -58,7 +60,7 @@ func (p *Params) AppendTo(body *form.Values, keyParts []string) {
 type ListParams struct {
 	End     string   `form:"ending_before"`
 	Exp     []string `form:"expand"`
-	Filters Filters  `form:"-"` // See custom encoding in AppendTo
+	Filters Filters  `form:"*"`
 	Limit   int      `form:"limit"`
 
 	// Single specifies whether this is a single page iterator. By default,
@@ -74,19 +76,6 @@ type ListParams struct {
 	// account instead of under the account of the owner of the configured
 	// Stripe key.
 	StripeAccount string `form:"-"` // Passed as header
-}
-
-// AppendTo implements custom form encoding for ListParams.
-func (p *ListParams) AppendTo(body *form.Values, keyParts []string) {
-	if len(p.Filters.f) > 0 {
-		for _, v := range p.Filters.f {
-			if len(v.Op) > 0 {
-				body.Add(form.FormatKey(append(keyParts, v.Key, v.Op)), v.Val)
-			} else {
-				body.Add(form.FormatKey(append(keyParts, v.Key)), v.Val)
-			}
-		}
-	}
 }
 
 // ListMeta is the structure that contains the common properties
@@ -119,7 +108,26 @@ type RangeQueryParams struct {
 
 // Filters is a structure that contains a collection of filters for list-related APIs.
 type Filters struct {
-	f []*filter
+	f []*filter `form:"-"` // See custom AppendTo implementation
+}
+
+// AddFilter adds a new filter with a given key, op and value.
+func (f *Filters) AddFilter(key, op, value string) {
+	filter := &filter{Key: key, Op: op, Val: value}
+	f.f = append(f.f, filter)
+}
+
+// AppendTo implements custom form encoding for filters.
+func (f Filters) AppendTo(body *form.Values, keyParts []string) {
+	if len(f.f) > 0 {
+		for _, v := range f.f {
+			if len(v.Op) > 0 {
+				body.Add(form.FormatKey(append(keyParts, v.Key, v.Op)), v.Val)
+			} else {
+				body.Add(form.FormatKey(append(keyParts, v.Key)), v.Val)
+			}
+		}
+	}
 }
 
 // filter is the structure that contains a filter for list-related APIs.
@@ -165,16 +173,10 @@ func (p *Params) AddMeta(key, value string) {
 // AddExtra adds a new arbitrary key-value pair to the request data
 func (p *Params) AddExtra(key, value string) {
 	if p.Extra == nil {
-		p.Extra = make(url.Values)
+		p.Extra = &ExtraValues{Values: make(url.Values)}
 	}
 
 	p.Extra.Add(key, value)
-}
-
-// AddFilter adds a new filter with a given key, op and value.
-func (f *Filters) AddFilter(key, op, value string) {
-	filter := &filter{Key: key, Op: op, Val: value}
-	f.f = append(f.f, filter)
 }
 
 // Expand appends a new field to expand.

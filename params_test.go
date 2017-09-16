@@ -111,7 +111,7 @@ func TestParams_AppendTo_Extra(t *testing.T) {
 	}
 
 	for _, testCase := range testCases {
-		p := &stripe.Params{}
+		p := &testParams{}
 
 		for _, extra := range testCase.Extras {
 			p.AddExtra(extra[0], extra[1])
@@ -127,6 +127,12 @@ type testParams struct {
 	stripe.Params `form:"*"`
 	Field         string         `form:"field"`
 	SubParams     *testSubParams `form:"sub_params"`
+}
+
+// AppendTo is implemented for testParams so that we can verify that Params is
+// encoded properly even in the case where a leaf struct does a custom
+// override.
+func (p *testParams) AppendTo(body *form.Values, keyParts []string) {
 }
 
 type testSubParams struct {
@@ -160,6 +166,18 @@ func TestParams_AppendTo_Nested(t *testing.T) {
 		{"field", "field_value"},
 		{"sub_params[metadata][sub_foo]", "bar"},
 		{"sub_params[sub_field]", "sub_field_value"},
+	}), body)
+}
+
+func TestListParams_Filters(t *testing.T) {
+	p := &testListParams{}
+	p.Filters.AddFilter("created", "gt", "123")
+
+	body := &form.Values{}
+	form.AppendTo(body, p)
+
+	assert.Equal(t, valuesFromArray([][2]string{
+		{"created[gt]", "123"},
 	}), body)
 }
 
