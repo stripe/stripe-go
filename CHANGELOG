@@ -1,3 +1,15 @@
+26.0.0 2017-09-17
+	Introduce `form` package so it's no longer necessary to build conditional
+		structures to encode parameters -- this may result in parameters that
+		were set but previously not encoded to now be encoded so PLEASE TEST
+		CAREFULLY WHEN UPGRADING!
+	Alphabetize all struct fields -- this may result in position-based struct
+		initialization to fail if it was being used
+	Switch to stripe-mock for testing (test suite now runs completely!)
+	Remote Displayer interface and Display implementations
+	Add FraudDetails to ChargeParams
+	Remove FraudReport from ChargeParams (use FraudDetails instead)
+
 25.2.0 2017-09-13
 	Add `OnBehalfOf` to charge parameters.
 	Add `OnBehalfOf` to subscription parameters.
