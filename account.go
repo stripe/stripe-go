@@ -340,10 +340,10 @@ type Owner struct {
 
 // IdentityVerification is the structure for an account's verification.
 type IdentityVerification struct {
-	Details     *string                         `json:"details"`
-	DetailsCode IdentityVerificationDetailsCode `json:"details_code"`
+	Details     *string                         `json:"details" form:"-"`
+	DetailsCode IdentityVerificationDetailsCode `json:"details_code" form:"-"`
 	Document    *IdentityDocument               `json:"document" form:"document"`
-	Status      IdentityVerificationStatus      `json:"status"`
+	Status      IdentityVerificationStatus      `json:"status" form:"-"`
 }
 
 // IdentityDocument is the structure for an identity document.
