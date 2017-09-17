@@ -29,7 +29,6 @@ type ChargeParams struct {
 	Shipping      *ShippingDetails    `form:"shipping"`
 	Source        *SourceParams       `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 	Statement     string              `form:"statement_descriptor"`
-	Token         string              `form:"-"` // Does not appear to be used?
 	TransferGroup string              `form:"transfer_group"`
 }
 
