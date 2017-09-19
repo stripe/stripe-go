@@ -61,8 +61,8 @@ type Product struct {
 	Name                string             `json:"name"`
 	PackageDimensions   *PackageDimensions `json:"package_dimensions"`
 	Shippable           bool               `json:"shippable"`
-	StatementDescriptor string             `json:"statement_descriptor"`
 	Skus                *SKUList           `json:"skus"`
+	StatementDescriptor string             `json:"statement_descriptor"`
 	Type                ProductType        `json:"type"`
 	URL                 string             `json:"url"`
 	Updated             int64              `json:"updated"`
