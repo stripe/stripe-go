@@ -8,38 +8,38 @@ import (
 	_ "github.com/stripe/stripe-go/testing"
 )
 
-func TestFeeRefundGet(t *testing.T) {
-	refund, err := Get("fr_123", &stripe.FeeRefundParams{
-		Fee: "fee_123",
+func TestApplicationFeeRefundGet(t *testing.T) {
+	refund, err := Get("fr_123", &stripe.ApplicationFeeRefundParams{
+		ApplicationFee: "fee_123",
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, refund)
 }
 
-func TestFeeRefundList(t *testing.T) {
-	i := List(&stripe.FeeRefundListParams{
-		Fee: "fee_123",
+func TestApplicationFeeRefundList(t *testing.T) {
+	i := List(&stripe.ApplicationFeeRefundListParams{
+		ApplicationFee: "fee_123",
 	})
 
 	// Verify that we can get at least one refund
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
-	assert.NotNil(t, i.FeeRefund())
+	assert.NotNil(t, i.ApplicationFeeRefund())
 }
 
-func TestFeeRefundNew(t *testing.T) {
-	refund, err := New(&stripe.FeeRefundParams{
-		Fee: "fee_123",
+func TestApplicationFeeRefundNew(t *testing.T) {
+	refund, err := New(&stripe.ApplicationFeeRefundParams{
+		ApplicationFee: "fee_123",
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, refund)
 }
 
-func TestFeeRefundUpdate(t *testing.T) {
-	refund, err := Update("fr_123", &stripe.FeeRefundParams{
-		Fee: "fee_123",
+func TestApplicationFeeRefundUpdate(t *testing.T) {
+	refund, err := Update("fr_123", &stripe.ApplicationFeeRefundParams{
+		ApplicationFee: "fee_123",
 		Params: stripe.Params{
-			Meta: map[string]string{
+			Metadata: map[string]string{
 				"foo": "bar",
 			},
 		},

@@ -41,7 +41,7 @@ func TestPayoutNew(t *testing.T) {
 func TestPayoutUpdate(t *testing.T) {
 	payout, err := Update("tr_123", &stripe.PayoutParams{
 		Params: stripe.Params{
-			Meta: map[string]string{
+			Metadata: map[string]string{
 				"foo": "bar",
 			},
 		},

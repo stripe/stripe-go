@@ -17,12 +17,12 @@ const (
 )
 
 type Review struct {
-	Charge  *Charge    `json:"charge"`
-	Created int64      `json:"created"`
-	ID      string     `json:"id"`
-	Live    bool       `json:"livemode"`
-	Open    bool       `json:"open"`
-	Reason  ReasonType `json:"reason"`
+	Charge   *Charge    `json:"charge"`
+	Created  int64      `json:"created"`
+	ID       string     `json:"id"`
+	Livemode bool       `json:"livemode"`
+	Open     bool       `json:"open"`
+	Reason   ReasonType `json:"reason"`
 }
 
 func (r *Review) UnmarshalJSON(data []byte) error {

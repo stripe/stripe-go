@@ -9,15 +9,15 @@ type CouponDuration string
 // CouponParams is the set of parameters that can be used when creating a coupon.
 // For more details see https://stripe.com/docs/api#create_coupon.
 type CouponParams struct {
-	Params         `form:"*"`
-	Amount         uint64         `form:"amount_off"`
-	Currency       Currency       `form:"currency"`
-	Duration       CouponDuration `form:"duration"`
-	DurationPeriod uint64         `form:"duration_in_months"`
-	ID             string         `form:"id"`
-	Percent        uint64         `form:"percent_off"`
-	RedeemBy       int64          `form:"redeem_by"`
-	Redemptions    uint64         `form:"max_redemptions"`
+	Params           `form:"*"`
+	AmountOff        uint64         `form:"amount_off"`
+	Currency         Currency       `form:"currency"`
+	Duration         CouponDuration `form:"duration"`
+	DurationInMonths uint64         `form:"duration_in_months"`
+	ID               string         `form:"id"`
+	MaxRedemptions   uint64         `form:"max_redemptions"`
+	PercentOff       uint64         `form:"percent_off"`
+	RedeemBy         int64          `form:"redeem_by"`
 }
 
 // CouponListParams is the set of parameters that can be used when listing coupons.
@@ -31,26 +31,26 @@ type CouponListParams struct {
 // Coupon is the resource representing a Stripe coupon.
 // For more details see https://stripe.com/docs/api#coupons.
 type Coupon struct {
-	Amount         uint64            `json:"amount_off"`
-	Created        int64             `json:"created"`
-	Currency       Currency          `json:"currency"`
-	Deleted        bool              `json:"deleted"`
-	Duration       CouponDuration    `json:"duration"`
-	DurationPeriod uint64            `json:"duration_in_months"`
-	ID             string            `json:"id"`
-	Live           bool              `json:"livemode"`
-	Meta           map[string]string `json:"metadata"`
-	Percent        uint64            `json:"percent_off"`
-	RedeemBy       int64             `json:"redeem_by"`
-	Redeemed       uint64            `json:"times_redeemed"`
-	Redemptions    uint64            `json:"max_redemptions"`
-	Valid          bool              `json:"valid"`
+	AmountOff        uint64            `json:"amount_off"`
+	Created          int64             `json:"created"`
+	Currency         Currency          `json:"currency"`
+	Deleted          bool              `json:"deleted"`
+	Duration         CouponDuration    `json:"duration"`
+	DurationInMonths uint64            `json:"duration_in_months"`
+	ID               string            `json:"id"`
+	Livemode         bool              `json:"livemode"`
+	MaxRedemptions   uint64            `json:"max_redemptions"`
+	Metadata         map[string]string `json:"metadata"`
+	PercentOff       uint64            `json:"percent_off"`
+	RedeemBy         int64             `json:"redeem_by"`
+	TimesRedeemed    uint64            `json:"times_redeemed"`
+	Valid            bool              `json:"valid"`
 }
 
 // CouponList is a list of coupons as retrieved from a list endpoint.
 type CouponList struct {
 	ListMeta
-	Values []*Coupon `json:"data"`
+	Data []*Coupon `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a Coupon.

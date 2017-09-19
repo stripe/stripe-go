@@ -16,10 +16,10 @@ func TestTokenGet(t *testing.T) {
 
 func TestTokenNew_WithBankAccount(t *testing.T) {
 	token, err := New(&stripe.TokenParams{
-		Bank: &stripe.BankAccountParams{
-			Country: "US",
-			Routing: "110000000",
-			Account: "000123456789",
+		BankAccount: &stripe.BankAccountParams{
+			Country:       "US",
+			RoutingNumber: "110000000",
+			AccountNumber: "000123456789",
 		},
 	})
 	assert.Nil(t, err)
@@ -29,9 +29,9 @@ func TestTokenNew_WithBankAccount(t *testing.T) {
 func TestTokenNew_WithCard(t *testing.T) {
 	token, err := New(&stripe.TokenParams{
 		Card: &stripe.CardParams{
-			Number: "4242424242424242", // raw PAN as we're testing token creation
-			Month:  "10",
-			Year:   "20",
+			Number:   "4242424242424242", // raw PAN as we're testing token creation
+			ExpMonth: "10",
+			ExpYear:  "20",
 		},
 	})
 	assert.Nil(t, err)
@@ -63,7 +63,7 @@ func TestTokenNew_SharedCustomerCard(t *testing.T) {
 
 func TestTokenNew_SharedCustomerBankAccount(t *testing.T) {
 	params := &stripe.TokenParams{
-		Bank: &stripe.BankAccountParams{
+		BankAccount: &stripe.BankAccountParams{
 			ID: "ba_123",
 		},
 		Customer: "cus_123",

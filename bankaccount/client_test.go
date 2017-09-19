@@ -10,7 +10,7 @@ import (
 
 func TestBankAccountDel_ByAccount(t *testing.T) {
 	bankAcount, err := Del("ba_123", &stripe.BankAccountParams{
-		AccountID: "acct_123",
+		Account: "acct_123",
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, bankAcount)
@@ -25,7 +25,7 @@ func TestBankAccountDel_ByCustomer(t *testing.T) {
 }
 
 func TestBankAccountGet_ByAccount(t *testing.T) {
-	bankAcount, err := Get("ba_123", &stripe.BankAccountParams{AccountID: "acct_123"})
+	bankAcount, err := Get("ba_123", &stripe.BankAccountParams{Account: "acct_123"})
 	assert.Nil(t, err)
 	assert.NotNil(t, bankAcount)
 }
@@ -56,9 +56,9 @@ func TestBankAccountList_ByCustomer(t *testing.T) {
 
 func TestBankAccountNew_ByAccount(t *testing.T) {
 	bankAcount, err := New(&stripe.BankAccountParams{
-		AccountID: "acct_123",
-		Default:   true,
-		Token:     "tok_123",
+		Account:            "acct_123",
+		DefaultForCurrency: true,
+		Token:              "tok_123",
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, bankAcount)
@@ -66,9 +66,9 @@ func TestBankAccountNew_ByAccount(t *testing.T) {
 
 func TestBankAccountNew_ByCustomer(t *testing.T) {
 	bankAcount, err := New(&stripe.BankAccountParams{
-		Customer: "cus_123",
-		Default:  true,
-		Token:    "tok_123",
+		Customer:           "cus_123",
+		DefaultForCurrency: true,
+		Token:              "tok_123",
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, bankAcount)
@@ -76,8 +76,8 @@ func TestBankAccountNew_ByCustomer(t *testing.T) {
 
 func TestBankAccountUpdate_ByAccount(t *testing.T) {
 	bankAcount, err := Update("ba_123", &stripe.BankAccountParams{
-		AccountID: "acct_123",
-		Default:   true,
+		Account:            "acct_123",
+		DefaultForCurrency: true,
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, bankAcount)
@@ -85,8 +85,8 @@ func TestBankAccountUpdate_ByAccount(t *testing.T) {
 
 func TestBankAccountUpdate_ByCustomer(t *testing.T) {
 	bankAcount, err := Update("ba_123", &stripe.BankAccountParams{
-		Customer: "cus_123",
-		Default:  true,
+		Customer:           "cus_123",
+		DefaultForCurrency: true,
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, bankAcount)

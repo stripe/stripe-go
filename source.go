@@ -211,9 +211,9 @@ type Source struct {
 	Currency            Currency              `json:"currency"`
 	Flow                SourceFlow            `json:"flow"`
 	ID                  string                `json:"id"`
-	Live                bool                  `json:"livemode"`
+	Livemode            bool                  `json:"livemode"`
 	Mandate             SourceMandate         `json:"mandate"`
-	Meta                map[string]string     `json:"metadata"`
+	Metadata            map[string]string     `json:"metadata"`
 	Owner               SourceOwner           `json:"owner"`
 	Receiver            *ReceiverFlow         `json:"receiver,omitempty"`
 	Redirect            *RedirectFlow         `json:"redirect,omitempty"`

@@ -39,7 +39,7 @@ func TestReversalNew(t *testing.T) {
 func TestReversalUpdate(t *testing.T) {
 	reversal, err := Update("trr_123", &stripe.ReversalParams{
 		Params: stripe.Params{
-			Meta: map[string]string{
+			Metadata: map[string]string{
 				"foo": "bar",
 			},
 		},

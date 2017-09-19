@@ -37,20 +37,20 @@ func TestAccountList(t *testing.T) {
 
 func TestAccountNew(t *testing.T) {
 	account, err := New(&stripe.AccountParams{
-		Type:                 stripe.AccountTypeCustom,
-		Country:              "CA",
-		BusinessUrl:          "www.stripe.com",
-		BusinessName:         "Stripe",
-		BusinessPrimaryColor: "#ffffff",
-		DebitNegativeBal:     true,
-		SupportEmail:         "foo@bar.com",
-		SupportUrl:           "www.stripe.com",
-		SupportPhone:         "4151234567",
+		Type:                  stripe.AccountTypeCustom,
+		Country:               "CA",
+		BusinessURL:           "www.stripe.com",
+		BusinessName:          "Stripe",
+		BusinessPrimaryColor:  "#ffffff",
+		DebitNegativeBalances: true,
+		SupportEmail:          "foo@bar.com",
+		SupportURL:            "www.stripe.com",
+		SupportPhone:          "4151234567",
 		LegalEntity: &stripe.LegalEntity{
 			Type:         stripe.Individual,
 			BusinessName: "Stripe Go",
-			AdditionalOwners: []stripe.Owner{
-				{First: "Jane"},
+			AdditionalOwners: []stripe.AdditionalOwner{
+				{FirstName: "Jane"},
 			},
 			DOB: stripe.DOB{
 				Day:   1,
@@ -82,11 +82,11 @@ func TestAccountUpdate(t *testing.T) {
 		Country: "CA",
 		LegalEntity: &stripe.LegalEntity{
 			Address: stripe.Address{
-				Country: "CA",
-				City:    "Montreal",
-				Zip:     "H2Y 1C6",
-				Line1:   "275, rue Notre-Dame Est",
-				State:   "QC",
+				Country:    "CA",
+				City:       "Montreal",
+				PostalCode: "H2Y 1C6",
+				Line1:      "275, rue Notre-Dame Est",
+				State:      "QC",
 			},
 		},
 	})
