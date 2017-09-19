@@ -139,8 +139,8 @@ func (c Client) List(params *stripe.InvoiceListParams) *Iter {
 		list := &stripe.InvoiceList{}
 		err := c.B.Call("GET", "/invoices", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 
@@ -164,8 +164,8 @@ func (c Client) ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 		list := &stripe.InvoiceLineList{}
 		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.ID), c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

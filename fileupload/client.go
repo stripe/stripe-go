@@ -88,8 +88,8 @@ func (c Client) List(params *stripe.FileUploadListParams) *Iter {
 		list := &stripe.FileUploadList{}
 		err := c.B.Call("GET", "/files", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

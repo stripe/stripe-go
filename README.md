@@ -85,11 +85,11 @@ i := event.List(nil)
 for i.Next() {
 	e := i.Event()
 
-	// access event data via e.GetObjValue("resource_name_based_on_type", "resource_property_name")
-	// alternatively you can access values via e.Data.Obj["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
+	// access event data via e.GetObjectValue("resource_name_based_on_type", "resource_property_name")
+	// alternatively you can access values via e.Data.Object["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
 
-	// access previous attributes via e.GetPrevValue("resource_name_based_on_type", "resource_property_name")
-	// alternatively you can access values via e.Data.Prev["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
+	// access previous attributes via e.GetPreviousValue("resource_name_based_on_type", "resource_property_name")
+	// alternatively you can access values via e.Data.PrevPreviousAttributes["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
 }
 ```
 

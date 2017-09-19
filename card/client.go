@@ -203,8 +203,8 @@ func (c Client) List(params *stripe.CardListParams) *Iter {
 			err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 		}
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

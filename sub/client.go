@@ -9,12 +9,12 @@ import (
 )
 
 const (
-	Trialing stripe.SubStatus = "trialing"
-	Active   stripe.SubStatus = "active"
-	PastDue  stripe.SubStatus = "past_due"
-	Canceled stripe.SubStatus = "canceled"
-	Unpaid   stripe.SubStatus = "unpaid"
-	All      stripe.SubStatus = "all"
+	Trialing stripe.SubscriptionStatus = "trialing"
+	Active   stripe.SubscriptionStatus = "active"
+	PastDue  stripe.SubscriptionStatus = "past_due"
+	Canceled stripe.SubscriptionStatus = "canceled"
+	Unpaid   stripe.SubscriptionStatus = "unpaid"
+	All      stripe.SubscriptionStatus = "all"
 )
 
 // Client is used to invoke /subscriptions APIs.
@@ -25,11 +25,11 @@ type Client struct {
 
 // New POSTS a new subscription for a customer.
 // For more details see https://stripe.com/docs/api#create_subscription.
-func New(params *stripe.SubParams) (*stripe.Sub, error) {
+func New(params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
+func (c Client) New(params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	var body *form.Values
 	var commonParams *stripe.Params
 
@@ -39,7 +39,7 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 		form.AppendTo(body, params)
 	}
 
-	sub := &stripe.Sub{}
+	sub := &stripe.Subscription{}
 	err := c.B.Call("POST", "/subscriptions", c.Key, body, commonParams, sub)
 
 	return sub, err
@@ -47,11 +47,11 @@ func (c Client) New(params *stripe.SubParams) (*stripe.Sub, error) {
 
 // Get returns the details of a subscription.
 // For more details see https://stripe.com/docs/api#retrieve_subscription.
-func Get(id string, params *stripe.SubParams) (*stripe.Sub, error) {
+func Get(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *stripe.SubParams) (*stripe.Sub, error) {
+func (c Client) Get(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	var body *form.Values
 	var commonParams *stripe.Params
 
@@ -61,7 +61,7 @@ func (c Client) Get(id string, params *stripe.SubParams) (*stripe.Sub, error) {
 		commonParams = &params.Params
 	}
 
-	sub := &stripe.Sub{}
+	sub := &stripe.Subscription{}
 	err := c.B.Call("GET", fmt.Sprintf("/subscriptions/%v", id), c.Key, body, commonParams, sub)
 
 	return sub, err
@@ -69,11 +69,11 @@ func (c Client) Get(id string, params *stripe.SubParams) (*stripe.Sub, error) {
 
 // Update updates a subscription's properties.
 // For more details see https://stripe.com/docs/api#update_subscription.
-func Update(id string, params *stripe.SubParams) (*stripe.Sub, error) {
+func Update(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	return getC().Update(id, params)
 }
 
-func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error) {
+func (c Client) Update(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	var body *form.Values
 	var commonParams *stripe.Params
 
@@ -83,7 +83,7 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 		form.AppendTo(body, params)
 	}
 
-	sub := &stripe.Sub{}
+	sub := &stripe.Subscription{}
 	err := c.B.Call("POST", fmt.Sprintf("/subscriptions/%v", id), c.Key, body, commonParams, sub)
 
 	return sub, err
@@ -91,11 +91,11 @@ func (c Client) Update(id string, params *stripe.SubParams) (*stripe.Sub, error)
 
 // Cancel removes a subscription.
 // For more details see https://stripe.com/docs/api#cancel_subscription.
-func Cancel(id string, params *stripe.SubParams) (*stripe.Sub, error) {
+func Cancel(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	return getC().Cancel(id, params)
 }
 
-func (c Client) Cancel(id string, params *stripe.SubParams) (*stripe.Sub, error) {
+func (c Client) Cancel(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	var body *form.Values
 	var commonParams *stripe.Params
 
@@ -105,7 +105,7 @@ func (c Client) Cancel(id string, params *stripe.SubParams) (*stripe.Sub, error)
 		form.AppendTo(body, params)
 	}
 
-	sub := &stripe.Sub{}
+	sub := &stripe.Subscription{}
 	err := c.B.Call("DELETE", fmt.Sprintf("/subscriptions/%v", id), c.Key, body, commonParams, sub)
 
 	return sub, err
@@ -113,11 +113,11 @@ func (c Client) Cancel(id string, params *stripe.SubParams) (*stripe.Sub, error)
 
 // List returns a list of subscriptions.
 // For more details see https://stripe.com/docs/api#list_subscriptions.
-func List(params *stripe.SubListParams) *Iter {
+func List(params *stripe.SubscriptionListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.SubListParams) *Iter {
+func (c Client) List(params *stripe.SubscriptionListParams) *Iter {
 	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
@@ -130,11 +130,11 @@ func (c Client) List(params *stripe.SubListParams) *Iter {
 	}
 
 	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
-		list := &stripe.SubList{}
+		list := &stripe.SubscriptionList{}
 		err := c.B.Call("GET", "/subscriptions", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 
@@ -149,10 +149,10 @@ type Iter struct {
 	*stripe.Iter
 }
 
-// Sub returns the most recent Sub
+// Subscription returns the most recent Subscription
 // visited by a call to Next.
-func (i *Iter) Sub() *stripe.Sub {
-	return i.Current().(*stripe.Sub)
+func (i *Iter) Subscription() *stripe.Subscription {
+	return i.Current().(*stripe.Subscription)
 }
 
 func getC() Client {

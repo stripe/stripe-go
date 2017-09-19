@@ -70,7 +70,7 @@ func TestPlanParams_AppendTo(t *testing.T) {
 		{"tiers[1][up_to]", &PlanParams{Tiers: tiers}, "inf"},
 		{"transform_usage[bucket_size]", &PlanParams{TransformUsage: &PlanTransformUsageParams{DivideBy: 123, Round: "round_up"}}, strconv.FormatUint(123, 10)},
 		{"transform_usage[round]", &PlanParams{TransformUsage: &PlanTransformUsageParams{DivideBy: 123, Round: "round_up"}}, "round_up"},
-		{"trial_period_days", &PlanParams{TrialPeriod: 123}, strconv.FormatUint(123, 10)},
+		{"trial_period_days", &PlanParams{TrialPeriodDays: 123}, strconv.FormatUint(123, 10)},
 		{"usage_type", &PlanParams{UsageType: "metered"}, "metered"},
 	}
 	for _, tc := range testCases {

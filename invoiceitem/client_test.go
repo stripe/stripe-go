@@ -42,7 +42,7 @@ func TestInvoiceItemNew(t *testing.T) {
 
 func TestInvoiceItemUpdate(t *testing.T) {
 	item, err := Update("ii_123", &stripe.InvoiceItemParams{
-		Desc: "Updated description",
+		Description: "Updated description",
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, item)

@@ -8,23 +8,23 @@ import (
 )
 
 const (
-	Duplicate    stripe.DisputeReason = "duplicate"
-	Fraudulent   stripe.DisputeReason = "fraudulent"
-	SubCanceled  stripe.DisputeReason = "subscription_canceled"
-	Unacceptable stripe.DisputeReason = "product_unacceptable"
-	NotReceived  stripe.DisputeReason = "product_not_received"
-	Unrecognized stripe.DisputeReason = "unrecognized"
-	Credit       stripe.DisputeReason = "credit_not_processed"
-	General      stripe.DisputeReason = "general"
+	CreditNotProcessed   stripe.DisputeReason = "credit_not_processed"
+	Duplicate            stripe.DisputeReason = "duplicate"
+	Fraudulent           stripe.DisputeReason = "fraudulent"
+	General              stripe.DisputeReason = "general"
+	ProductNotReceived   stripe.DisputeReason = "product_not_received"
+	ProductUnacceptable  stripe.DisputeReason = "product_unacceptable"
+	SubscriptionCanceled stripe.DisputeReason = "subscription_canceled"
+	Unrecognized         stripe.DisputeReason = "unrecognized"
 
-	Won             stripe.DisputeStatus = "won"
-	Lost            stripe.DisputeStatus = "lost"
-	Response        stripe.DisputeStatus = "needs_response"
-	Review          stripe.DisputeStatus = "under_review"
-	WarningResponse stripe.DisputeStatus = "warning_needs_response"
-	WarningReview   stripe.DisputeStatus = "warning_under_review"
-	ChargeRefunded  stripe.DisputeStatus = "charge_refunded"
-	WarningClosed   stripe.DisputeStatus = "warning_closed"
+	Lost                 stripe.DisputeStatus = "lost"
+	NeedsResponse        stripe.DisputeStatus = "needs_response"
+	ChargeRefunded       stripe.DisputeStatus = "charge_refunded"
+	UnderReview          stripe.DisputeStatus = "under_review"
+	WarningClosed        stripe.DisputeStatus = "warning_closed"
+	WarningNeedsResponse stripe.DisputeStatus = "warning_needs_response"
+	WarningUnderReview   stripe.DisputeStatus = "warning_under_review"
+	Won                  stripe.DisputeStatus = "won"
 )
 
 // Client is used to invoke dispute-related APIs.
@@ -77,8 +77,8 @@ func (c Client) List(params *stripe.DisputeListParams) *Iter {
 		list := &stripe.DisputeList{}
 		err := c.B.Call("GET", "/disputes", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

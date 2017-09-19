@@ -105,15 +105,6 @@ func TestStripeAccount(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, TestMerchantID, req.Header.Get("Stripe-Account"))
-
-	// Also test the deprecated Account field for now as well. This should be
-	// identical to the exercise above.
-	p = &stripe.Params{Account: TestMerchantID}
-
-	req, err = c.NewRequest("", "", "", "", nil, p)
-	assert.NoError(t, err)
-
-	assert.Equal(t, TestMerchantID, req.Header.Get("Stripe-Account"))
 }
 
 func TestUserAgent(t *testing.T) {
@@ -219,7 +210,7 @@ func TestResponseToError(t *testing.T) {
 	// An error that contains expected fields which we're going to serialize to
 	// JSON and inject into our conversion function.
 	expectedErr := &stripe.Error{
-		Code:  stripe.Missing,
+		Code:  stripe.ErrorCodeMissing,
 		Msg:   "That card was declined",
 		Param: "expiry_date",
 		Type:  stripe.ErrorTypeCard,

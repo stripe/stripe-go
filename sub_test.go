@@ -7,9 +7,9 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-func TestSubParams_AppendTo(t *testing.T) {
+func TestSubscriptionParams_AppendTo(t *testing.T) {
 	{
-		params := &SubParams{BillingCycleAnchorNow: true}
+		params := &SubscriptionParams{BillingCycleAnchorNow: true}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -17,7 +17,7 @@ func TestSubParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &SubParams{BillingCycleAnchorUnchanged: true}
+		params := &SubscriptionParams{BillingCycleAnchorUnchanged: true}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -25,7 +25,7 @@ func TestSubParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &SubParams{TrialEndNow: true}
+		params := &SubscriptionParams{TrialEndNow: true}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
