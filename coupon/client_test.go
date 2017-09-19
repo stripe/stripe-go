@@ -5,6 +5,7 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -31,10 +32,11 @@ func TestCouponList(t *testing.T) {
 
 func TestCouponNew(t *testing.T) {
 	coupon, err := New(&stripe.CouponParams{
-		Duration:         "repeating",
-		DurationInMonths: 3,
-		ID:               "25OFF",
-		PercentOff:       25,
+		Currency:         stripe.String(string(currency.USD)),
+		Duration:         stripe.String(string(Repeating)),
+		DurationInMonths: stripe.UInt64(3),
+		ID:               stripe.String("25OFF"),
+		PercentOff:       stripe.UInt64(25),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, coupon)

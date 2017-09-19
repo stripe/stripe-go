@@ -10,7 +10,7 @@ import (
 
 func TestCardDel(t *testing.T) {
 	card, err := Del("card_123", &stripe.CardParams{
-		Customer: "cus_123",
+		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, card)
@@ -23,7 +23,7 @@ func TestCardDel_RequiresParams(t *testing.T) {
 
 func TestCardGet(t *testing.T) {
 	card, err := Get("card_123", &stripe.CardParams{
-		Customer: "cus_123",
+		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, card)
@@ -35,7 +35,7 @@ func TestCardGet_RequiresParams(t *testing.T) {
 }
 
 func TestCardList_ByCustomer(t *testing.T) {
-	i := List(&stripe.CardListParams{Customer: "cus_123"})
+	i := List(&stripe.CardListParams{Customer: stripe.String("cus_123")})
 
 	// Verify that we can get at least one card
 	assert.True(t, i.Next())
@@ -51,8 +51,8 @@ func TestCardList_RequiresParams(t *testing.T) {
 
 func TestCardNew(t *testing.T) {
 	card, err := New(&stripe.CardParams{
-		Customer: "cus_123",
-		Token:    "tok_123",
+		Customer: stripe.String("cus_123"),
+		Token:    stripe.String("tok_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, card)
@@ -65,8 +65,8 @@ func TestCardNew_RequiresParams(t *testing.T) {
 
 func TestCardUpdate(t *testing.T) {
 	card, err := Update("card_123", &stripe.CardParams{
-		Customer: "cus_123",
-		Name:     "New Name",
+		Customer: stripe.String("cus_123"),
+		Name:     stripe.String("New Name"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, card)

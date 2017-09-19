@@ -8,12 +8,12 @@ import (
 )
 
 type OrderItemParams struct {
-	Amount      int64              `form:"amount"`
-	Currency    Currency           `form:"currency"`
-	Description string             `form:"description"`
-	Parent      string             `form:"parent"`
-	Quantity    *int64             `form:"quantity"`
-	Type        orderitem.ItemType `form:"type"`
+	Amount      *int64  `form:"amount"`
+	Currency    *string `form:"currency"`
+	Description *string `form:"description"`
+	Parent      *string `form:"parent"`
+	Quantity    *int64  `form:"quantity"`
+	Type        *string `form:"type"`
 }
 
 type OrderItem struct {

@@ -4,11 +4,11 @@ package stripe
 // For more details see https://stripe.com/docs/api#create_topup and https://stripe.com/docs/api#update_topup.
 type TopupParams struct {
 	Params              `form:"*"`
-	Amount              uint64        `form:"amount"`
-	Currency            Currency      `form:"currency"`
-	Description         string        `form:"description"`
+	Amount              *uint64       `form:"amount"`
+	Currency            *string       `form:"currency"`
+	Description         *string       `form:"description"`
 	Source              *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-	StatementDescriptor string        `form:"statement_descriptor"`
+	StatementDescriptor *string       `form:"statement_descriptor"`
 }
 
 // SetSource adds valid sources to a TopupParams object,
@@ -23,7 +23,7 @@ func (p *TopupParams) SetSource(sp interface{}) error {
 // For more details see https://stripe.com/docs/api#list_topups.
 type TopupListParams struct {
 	ListParams   `form:"*"`
-	Created      int64             `form:"created"`
+	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 }
 

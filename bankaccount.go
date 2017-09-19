@@ -22,23 +22,23 @@ type BankAccountParams struct {
 
 	// Account is the identifier of the parent account under which bank
 	// accounts are nested.
-	Account string `form:"-"`
+	Account *string `form:"-"`
 
-	AccountHolderName  string `form:"account_holder_name"`
-	AccountHolderType  string `form:"account_holder_type"`
-	AccountNumber      string `form:"account_number"`
-	Country            string `form:"country"`
-	Currency           string `form:"currency"`
-	Customer           string `form:"-"`
-	DefaultForCurrency *bool  `form:"default_for_currency"`
-	RoutingNumber      string `form:"routing_number"`
+	AccountHolderName  *string `form:"account_holder_name"`
+	AccountHolderType  *string `form:"account_holder_type"`
+	AccountNumber      *string `form:"account_number"`
+	Country            *string `form:"country"`
+	Currency           *string `form:"currency"`
+	Customer           *string `form:"-"`
+	DefaultForCurrency *bool   `form:"default_for_currency"`
+	RoutingNumber      *string `form:"routing_number"`
 
 	// Token is a token referencing an external account like one returned from
 	// Stripe.js.
-	Token string `form:"-"`
+	Token *string `form:"-"`
 
 	// ID is used when tokenizing a bank account for shared customers
-	ID string `form:"*"`
+	ID *string `form:"*"`
 }
 
 // AppendToAsSourceOrExternalAccount appends the given BankAccountParams as
@@ -54,7 +54,7 @@ type BankAccountParams struct {
 // because the bank accounts endpoint is a little unusual. There is one other
 // resource like it, which is cards.
 func (a *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values) {
-	isCustomer := len(a.Customer) > 0
+	isCustomer := a.Customer != nil
 
 	var sourceType string
 	if isCustomer {
@@ -64,31 +64,31 @@ func (a *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values)
 	}
 
 	// Use token (if exists) or a dictionary containing a user’s bank account details.
-	if len(a.Token) > 0 {
-		body.Add(sourceType, a.Token)
+	if a.Token != nil {
+		body.Add(sourceType, StringValue(a.Token))
 
 		if a.DefaultForCurrency != nil {
 			body.Add("default_for_currency", strconv.FormatBool(BoolValue(a.DefaultForCurrency)))
 		}
 	} else {
 		body.Add(sourceType+"[object]", "bank_account")
-		body.Add(sourceType+"[country]", a.Country)
-		body.Add(sourceType+"[account_number]", a.AccountNumber)
-		body.Add(sourceType+"[currency]", a.Currency)
+		body.Add(sourceType+"[country]", StringValue(a.Country))
+		body.Add(sourceType+"[account_number]", StringValue(a.AccountNumber))
+		body.Add(sourceType+"[currency]", StringValue(a.Currency))
 
 		// These are optional and the API will fail if we try to send empty
 		// values in for them, so make sure to check that they're actually set
 		// before encoding them.
-		if len(a.AccountHolderName) > 0 {
-			body.Add(sourceType+"[account_holder_name]", a.AccountHolderName)
+		if a.AccountHolderName != nil {
+			body.Add(sourceType+"[account_holder_name]", StringValue(a.AccountHolderName))
 		}
 
-		if len(a.AccountHolderType) > 0 {
-			body.Add(sourceType+"[account_holder_type]", a.AccountHolderType)
+		if a.AccountHolderType != nil {
+			body.Add(sourceType+"[account_holder_type]", StringValue(a.AccountHolderType))
 		}
 
-		if len(a.RoutingNumber) > 0 {
-			body.Add(sourceType+"[routing_number]", a.RoutingNumber)
+		if a.RoutingNumber != nil {
+			body.Add(sourceType+"[routing_number]", StringValue(a.RoutingNumber))
 		}
 
 		if a.DefaultForCurrency != nil {
@@ -103,11 +103,11 @@ type BankAccountListParams struct {
 
 	// The identifier of the parent account under which the bank accounts are
 	// nested. Either Account or Customer should be populated.
-	Account string `form:"-"`
+	Account *string `form:"-"`
 
 	// The identifier of the parent customer under which the bank accounts are
 	// nested. Either Account or Customer should be populated.
-	Customer string `form:"-"`
+	Customer *string `form:"-"`
 }
 
 // BankAccount represents a Stripe bank account.

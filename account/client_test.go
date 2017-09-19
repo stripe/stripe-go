@@ -37,31 +37,31 @@ func TestAccountList(t *testing.T) {
 
 func TestAccountNew(t *testing.T) {
 	account, err := New(&stripe.AccountParams{
-		Type:                  stripe.AccountTypeCustom,
-		Country:               "CA",
-		BusinessURL:           "www.stripe.com",
-		BusinessName:          "Stripe",
-		BusinessPrimaryColor:  "#ffffff",
+		Type:                  stripe.String(string(stripe.AccountTypeCustom)),
+		Country:               stripe.String("CA"),
+		BusinessURL:           stripe.String("www.stripe.com"),
+		BusinessName:          stripe.String("Stripe"),
+		BusinessPrimaryColor:  stripe.String("#ffffff"),
 		DebitNegativeBalances: stripe.Bool(true),
-		SupportEmail:          "foo@bar.com",
-		SupportURL:            "www.stripe.com",
-		SupportPhone:          "4151234567",
-		LegalEntity: &stripe.LegalEntity{
-			Type:         stripe.Individual,
-			BusinessName: "Stripe Go",
-			AdditionalOwners: []stripe.AdditionalOwner{
-				{FirstName: "Jane"},
+		SupportEmail:          stripe.String("foo@bar.com"),
+		SupportURL:            stripe.String("www.stripe.com"),
+		SupportPhone:          stripe.String("4151234567"),
+		LegalEntity: &stripe.LegalEntityParams{
+			Type:         stripe.String(string(stripe.Individual)),
+			BusinessName: stripe.String("Stripe Go"),
+			AdditionalOwners: []stripe.AdditionalOwnerParams{
+				{FirstName: stripe.String("Jane")},
 			},
-			DOB: stripe.DOB{
-				Day:   1,
-				Month: 2,
-				Year:  1990,
+			DOB: &stripe.DOBParams{
+				Day:   stripe.Int(1),
+				Month: stripe.Int(2),
+				Year:  stripe.Int(1990),
 			},
 		},
 		TOSAcceptance: &stripe.TOSAcceptanceParams{
-			IP:        "127.0.0.1",
-			Date:      1437578361,
-			UserAgent: "Mozilla/5.0",
+			IP:        stripe.String("127.0.0.1"),
+			Date:      stripe.Int64(1437578361),
+			UserAgent: stripe.String("Mozilla/5.0"),
 		},
 	})
 	assert.Nil(t, err)
@@ -70,7 +70,7 @@ func TestAccountNew(t *testing.T) {
 
 func TestAccountReject(t *testing.T) {
 	account, err := Reject("acct_123", &stripe.AccountRejectParams{
-		Reason: "fraud",
+		Reason: stripe.String("fraud"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, account)
@@ -78,13 +78,13 @@ func TestAccountReject(t *testing.T) {
 
 func TestAccountUpdate(t *testing.T) {
 	account, err := Update("acct_123", &stripe.AccountParams{
-		LegalEntity: &stripe.LegalEntity{
-			Address: stripe.Address{
-				Country:    "CA",
-				City:       "Montreal",
-				PostalCode: "H2Y 1C6",
-				Line1:      "275, rue Notre-Dame Est",
-				State:      "QC",
+		LegalEntity: &stripe.LegalEntityParams{
+			Address: &stripe.AccountAddressParams{
+				Country:    stripe.String("CA"),
+				City:       stripe.String("Montreal"),
+				PostalCode: stripe.String("H2Y 1C6"),
+				Line1:      stripe.String("275, rue Notre-Dame Est"),
+				State:      stripe.String("QC"),
 			},
 		},
 	})

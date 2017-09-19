@@ -31,7 +31,14 @@ func TestCustomerList(t *testing.T) {
 
 func TestCustomerNew(t *testing.T) {
 	customer, err := New(&stripe.CustomerParams{
-		Email: "foo@example.com",
+		Email: stripe.String("foo@example.com"),
+		Shipping: &stripe.CustomerShippingDetailsParams{
+			Address: &stripe.AddressParams{
+				Line1: stripe.String("line1"),
+				City:  stripe.String("city"),
+			},
+			Name: stripe.String("name"),
+		},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, customer)
@@ -45,7 +52,7 @@ func TestCustomerNew_NilParams(t *testing.T) {
 
 func TestCustomerUpdate(t *testing.T) {
 	customer, err := Update("cus_123", &stripe.CustomerParams{
-		Email: "foo@example.com",
+		Email: stripe.String("foo@example.com"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, customer)
