@@ -8,19 +8,26 @@ import (
 // For more details see https://stripe.com/docs/api#create_customer and https://stripe.com/docs/api#update_customer.
 type CustomerParams struct {
 	Params         `form:"*"`
-	AccountBalance *int64                   `form:"account_balance"`
-	BusinessVatID  string                   `form:"business_vat_id"`
-	Coupon         *string                  `form:"coupon"`
-	DefaultSource  string                   `form:"default_source"`
-	Description    string                   `form:"description"`
-	Email          string                   `form:"email"`
-	Plan           string                   `form:"plan"`
-	Quantity       uint64                   `form:"quantity"`
-	Shipping       *CustomerShippingDetails `form:"shipping"`
-	Source         *SourceParams            `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-	TaxPercent     *float64                 `form:"tax_percent"`
-	Token          string                   `form:"-"` // This doesn't seem to be used?
-	TrialEnd       int64                    `form:"trial_end"`
+	AccountBalance *int64                         `form:"account_balance"`
+	BusinessVatID  *string                        `form:"business_vat_id"`
+	Coupon         *string                        `form:"coupon"`
+	DefaultSource  *string                        `form:"default_source"`
+	Description    *string                        `form:"description"`
+	Email          *string                        `form:"email"`
+	Plan           *string                        `form:"plan"`
+	Quantity       *uint64                        `form:"quantity"`
+	Shipping       *CustomerShippingDetailsParams `form:"shipping"`
+	Source         *SourceParams                  `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	TaxPercent     *float64                       `form:"tax_percent"`
+	Token          *string                        `form:"-"` // This doesn't seem to be used?
+	TrialEnd       *int64                         `form:"trial_end"`
+}
+
+// CustomerShippingDetailsParams is the structure containing shipping information.
+type CustomerShippingDetailsParams struct {
+	Address *AddressParams `form:"address"`
+	Name    *string        `form:"name"`
+	Phone   *string        `form:"phone"`
 }
 
 // SetSource adds valid sources to a CustomerParams object,
@@ -35,7 +42,7 @@ func (cp *CustomerParams) SetSource(sp interface{}) error {
 // For more details see https://stripe.com/docs/api#list_customers.
 type CustomerListParams struct {
 	ListParams   `form:"*"`
-	Created      int64             `form:"created"`
+	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 }
 
@@ -68,9 +75,9 @@ type CustomerList struct {
 
 // CustomerShippingDetails is the structure containing shipping information.
 type CustomerShippingDetails struct {
-	Address Address `json:"address" form:"address"`
-	Name    string  `json:"name" form:"name"`
-	Phone   string  `json:"phone" form:"phone"`
+	Address Address `json:"address"`
+	Name    string  `json:"name"`
+	Phone   string  `json:"phone"`
 }
 
 // UnmarshalJSON handles deserialization of a Customer.

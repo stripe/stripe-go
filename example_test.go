@@ -15,8 +15,8 @@ func ExampleCharge_new() {
 	stripe.Key = "sk_key"
 
 	params := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
+		Amount:   stripe.UInt64(1000),
+		Currency: stripe.String(string(currency.USD)),
 	}
 	params.SetSource("tok_visa")
 	params.AddMetadata("key", "value")
@@ -55,7 +55,7 @@ func ExampleInvoice_update() {
 	stripe.Key = "sk_key"
 
 	params := &stripe.InvoiceParams{
-		Description: "updated description",
+		Description: stripe.String("updated description"),
 	}
 
 	inv, err := invoice.Update("sub_example_id", params)

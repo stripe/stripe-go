@@ -32,9 +32,9 @@ func TestInvoiceItemList(t *testing.T) {
 
 func TestInvoiceItemNew(t *testing.T) {
 	item, err := New(&stripe.InvoiceItemParams{
-		Amount:   123,
-		Currency: currency.USD,
-		Customer: "cus_123",
+		Amount:   stripe.Int64(123),
+		Currency: stripe.String(string(currency.USD)),
+		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, item)
@@ -42,7 +42,7 @@ func TestInvoiceItemNew(t *testing.T) {
 
 func TestInvoiceItemUpdate(t *testing.T) {
 	item, err := Update("ii_123", &stripe.InvoiceItemParams{
-		Description: "Updated description",
+		Description: stripe.String("Updated description"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, item)

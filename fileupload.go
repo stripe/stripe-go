@@ -17,18 +17,18 @@ type FileUploadParams struct {
 	FileReader io.Reader
 
 	// Filename is just the name of the file without path information.
-	Filename string
+	Filename *string
 
-	Purpose FileUploadPurpose
+	Purpose *string
 }
 
 // FileUploadListParams is the set of parameters that can be used when listing
 // file uploads. For more details see https://stripe.com/docs/api#list_file_uploads.
 type FileUploadListParams struct {
 	ListParams   `form:"*"`
-	Created      int64             `form:"created"`
+	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-	Purpose      FileUploadPurpose `form:"purpose"`
+	Purpose      *string           `form:"purpose"`
 }
 
 // FileUploadPurpose is the purpose of a particular file upload. Allowed values
@@ -59,8 +59,8 @@ func (f *FileUploadParams) AppendDetails(body io.ReadWriter) (string, error) {
 	writer := multipart.NewWriter(body)
 	var err error
 
-	if len(f.Purpose) > 0 {
-		err = writer.WriteField("purpose", string(f.Purpose))
+	if f.Purpose != nil {
+		err = writer.WriteField("purpose", StringValue(f.Purpose))
 		if err != nil {
 			return "", err
 		}
@@ -68,8 +68,8 @@ func (f *FileUploadParams) AppendDetails(body io.ReadWriter) (string, error) {
 
 	// Support both FileReader/Filename and File with
 	// the former being the newer preferred version
-	if f.FileReader != nil && f.Filename != "" {
-		part, err := writer.CreateFormFile("file", filepath.Base(f.Filename))
+	if f.FileReader != nil && f.Filename != nil {
+		part, err := writer.CreateFormFile("file", filepath.Base(StringValue(f.Filename)))
 		if err != nil {
 			return "", err
 		}

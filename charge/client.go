@@ -143,7 +143,7 @@ func (c Client) MarkFraudulent(id string) (*stripe.Charge, error) {
 		id,
 		&stripe.ChargeParams{
 			FraudDetails: &stripe.FraudDetailsParams{
-				UserReport: ReportFraudulent,
+				UserReport: stripe.String(string(ReportFraudulent)),
 			},
 		},
 	)
@@ -159,7 +159,7 @@ func (c Client) MarkSafe(id string) (*stripe.Charge, error) {
 		id,
 		&stripe.ChargeParams{
 			FraudDetails: &stripe.FraudDetailsParams{
-				UserReport: ReportSafe,
+				UserReport: stripe.String(string(ReportSafe)),
 			},
 		},
 	)

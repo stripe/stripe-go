@@ -37,9 +37,9 @@ func TestFileUploadNewThenGet(t *testing.T) {
 	}
 
 	uploadParams := &stripe.FileUploadParams{
-		Purpose:    "dispute_evidence",
+		Purpose:    stripe.String(string(DisputeEvidenceFile)),
 		FileReader: f,
-		Filename:   f.Name(),
+		Filename:   stripe.String(f.Name()),
 	}
 
 	target, err := New(uploadParams)
@@ -62,9 +62,9 @@ func TestFileUploadList(t *testing.T) {
 	}
 
 	uploadParams := &stripe.FileUploadParams{
-		Purpose:    "dispute_evidence",
+		Purpose:    stripe.String(string(DisputeEvidenceFile)),
 		FileReader: f,
-		Filename:   f.Name(),
+		Filename:   stripe.String(f.Name()),
 	}
 
 	_, err = New(uploadParams)

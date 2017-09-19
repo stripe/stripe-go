@@ -36,23 +36,23 @@ type Verification string
 // of all parameters. See AppendToAsCardSourceOrExternalAccount.
 type CardParams struct {
 	Params             `form:"*"`
-	Account            string `form:"-"`
-	AddressCity        string `form:"address_city"`
-	AddressCountry     string `form:"address_country"`
-	AddressLine1       string `form:"address_line1"`
-	AddressLine2       string `form:"address_line2"`
-	AddressState       string `form:"address_state"`
-	AddressZip         string `form:"address_zip"`
-	CVC                string `form:"cvc"`
-	Currency           string `form:"currency"`
-	Customer           string `form:"-"`
-	DefaultForCurrency bool   `form:"default_for_currency"`
-	ExpMonth           string `form:"exp_month"`
-	ExpYear            string `form:"exp_year"`
-	Name               string `form:"name"`
-	Number             string `form:"number"`
-	Recipient          string `form:"-"`
-	Token              string `form:"-"`
+	Account            *string `form:"-"`
+	AddressCity        *string `form:"address_city"`
+	AddressCountry     *string `form:"address_country"`
+	AddressLine1       *string `form:"address_line1"`
+	AddressLine2       *string `form:"address_line2"`
+	AddressState       *string `form:"address_state"`
+	AddressZip         *string `form:"address_zip"`
+	CVC                *string `form:"cvc"`
+	Currency           *string `form:"currency"`
+	Customer           *string `form:"-"`
+	DefaultForCurrency *bool   `form:"default_for_currency"`
+	ExpMonth           *string `form:"exp_month"`
+	ExpYear            *string `form:"exp_year"`
+	Name               *string `form:"name"`
+	Number             *string `form:"number"`
+	Recipient          *string `form:"-"`
+	Token              *string `form:"-"`
 
 	// ID is used when tokenizing a card for shared customers
 	ID string `form:"*"`
@@ -71,65 +71,65 @@ type CardParams struct {
 // because the cards endpoint is a little unusual. There is one other resource
 // like it, which is bank account.
 func (c *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, keyParts []string) {
-	if c.DefaultForCurrency {
-		body.Add(form.FormatKey(append(keyParts, "default_for_currency")), strconv.FormatBool(c.DefaultForCurrency))
+	if c.DefaultForCurrency != nil {
+		body.Add(form.FormatKey(append(keyParts, "default_for_currency")), strconv.FormatBool(BoolValue(c.DefaultForCurrency)))
 	}
 
-	if len(c.Token) > 0 {
-		if len(c.Account) > 0 {
-			body.Add(form.FormatKey(append(keyParts, "external_account")), c.Token)
+	if c.Token != nil {
+		if c.Account != nil {
+			body.Add(form.FormatKey(append(keyParts, "external_account")), StringValue(c.Token))
 		} else {
-			body.Add(form.FormatKey(append(keyParts, cardSource)), c.Token)
+			body.Add(form.FormatKey(append(keyParts, cardSource)), StringValue(c.Token))
 		}
 	}
 
-	if len(c.Number) > 0 {
+	if c.Number != nil {
 		body.Add(form.FormatKey(append(keyParts, cardSource, "object")), "card")
-		body.Add(form.FormatKey(append(keyParts, cardSource, "number")), c.Number)
+		body.Add(form.FormatKey(append(keyParts, cardSource, "number")), StringValue(c.Number))
 	}
 
-	if len(c.CVC) > 0 {
-		body.Add(form.FormatKey(append(keyParts, cardSource, "cvc")), c.CVC)
+	if c.CVC != nil {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "cvc")), StringValue(c.CVC))
 	}
 
-	if len(c.Currency) > 0 {
-		body.Add(form.FormatKey(append(keyParts, cardSource, "currency")), c.Currency)
+	if c.Currency != nil {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "currency")), StringValue(c.Currency))
 	}
 
-	if len(c.ExpMonth) > 0 {
-		body.Add(form.FormatKey(append(keyParts, cardSource, "exp_month")), c.ExpMonth)
+	if c.ExpMonth != nil {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "exp_month")), StringValue(c.ExpMonth))
 	}
 
-	if len(c.ExpYear) > 0 {
-		body.Add(form.FormatKey(append(keyParts, cardSource, "exp_year")), c.ExpYear)
+	if c.ExpYear != nil {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "exp_year")), StringValue(c.ExpYear))
 	}
 
-	if len(c.Name) > 0 {
-		body.Add(form.FormatKey(append(keyParts, cardSource, "name")), c.Name)
+	if c.Name != nil {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "name")), StringValue(c.Name))
 	}
 
-	if len(c.AddressCity) > 0 {
-		body.Add(form.FormatKey(append(keyParts, cardSource, "address_city")), c.AddressCity)
+	if c.AddressCity != nil {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "address_city")), StringValue(c.AddressCity))
 	}
 
-	if len(c.AddressCountry) > 0 {
-		body.Add(form.FormatKey(append(keyParts, cardSource, "address_country")), c.AddressCountry)
+	if c.AddressCountry != nil {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "address_country")), StringValue(c.AddressCountry))
 	}
 
-	if len(c.AddressLine1) > 0 {
-		body.Add(form.FormatKey(append(keyParts, cardSource, "address_line1")), c.AddressLine1)
+	if c.AddressLine1 != nil {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "address_line1")), StringValue(c.AddressLine1))
 	}
 
-	if len(c.AddressLine2) > 0 {
-		body.Add(form.FormatKey(append(keyParts, cardSource, "address_line2")), c.AddressLine2)
+	if c.AddressLine2 != nil {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "address_line2")), StringValue(c.AddressLine2))
 	}
 
-	if len(c.AddressState) > 0 {
-		body.Add(form.FormatKey(append(keyParts, cardSource, "address_state")), c.AddressState)
+	if c.AddressState != nil {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "address_state")), StringValue(c.AddressState))
 	}
 
-	if len(c.AddressZip) > 0 {
-		body.Add(form.FormatKey(append(keyParts, cardSource, "address_zip")), c.AddressZip)
+	if c.AddressZip != nil {
+		body.Add(form.FormatKey(append(keyParts, cardSource, "address_zip")), StringValue(c.AddressZip))
 	}
 }
 
@@ -137,9 +137,9 @@ func (c *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, ke
 // For more details see https://stripe.com/docs/api#list_cards.
 type CardListParams struct {
 	ListParams `form:"*"`
-	Account    string `form:"-"`
-	Customer   string `form:"-"`
-	Recipient  string `form:"-"`
+	Account    *string `form:"-"`
+	Customer   *string `form:"-"`
+	Recipient  *string `form:"-"`
 }
 
 // Card is the resource representing a Stripe credit/debit card.

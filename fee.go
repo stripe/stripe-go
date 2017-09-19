@@ -12,8 +12,8 @@ type ApplicationFeeParams struct {
 // For more details see https://stripe.com/docs/api#list_application_fees.
 type ApplicationFeeListParams struct {
 	ListParams   `form:"*"`
-	Charge       string            `form:"charge"`
-	Created      int64             `form:"created"`
+	Charge       *string           `form:"charge"`
+	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 }
 
