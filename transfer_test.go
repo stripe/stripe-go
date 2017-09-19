@@ -30,24 +30,24 @@ func TestTransferUnmarshal(t *testing.T) {
 		t.Errorf("Problem deserializing transfer, got ID %v", transfer.ID)
 	}
 
-	source_tx := transfer.SourceTx
-	if source_tx == nil {
-		t.Errorf("Problem deserializing transfer, didn't get a SourceTx")
+	source_transaction := transfer.SourceTransaction
+	if source_transaction == nil {
+		t.Errorf("Problem deserializing transfer, didn't get a SourceTransaction")
 	}
 
-	if source_tx.ID != "ch_1234" {
+	if source_transaction.ID != "ch_1234" {
 		t.Errorf("Problem deserializing transfer.source_transaction, wrong value for ID")
 	}
 
-	if source_tx.Type != TransactionSourceCharge {
+	if source_transaction.Type != BalanceTransactionSourceTypeCharge {
 		t.Errorf("Problem deserializing transfer.source_transaction, wrong value for Type")
 	}
 
-	if source_tx.Charge == nil {
+	if source_transaction.Charge == nil {
 		t.Errorf("Problem deserializing transfer.source_transaction, didn't get a Charge")
 	}
 
-	if source_tx.Charge.ID != "ch_1234" {
+	if source_transaction.Charge.ID != "ch_1234" {
 		t.Errorf("Problem deserializing transfer.source_transaction, wrong value for Charge.ID")
 	}
 }

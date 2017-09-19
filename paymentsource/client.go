@@ -137,8 +137,8 @@ func (s Client) List(params *stripe.SourceListParams) *Iter {
 			err = errors.New("Invalid source params: customer needs to be set")
 		}
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

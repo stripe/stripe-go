@@ -25,7 +25,7 @@ func TestRecipientParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &RecipientParams{Bank: &BankAccountParams{Token: "ba_123"}}
+		params := &RecipientParams{BankAccount: &BankAccountParams{Token: "ba_123"}}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -33,7 +33,7 @@ func TestRecipientParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &RecipientParams{Bank: &BankAccountParams{Account: "123"}}
+		params := &RecipientParams{BankAccount: &BankAccountParams{AccountNumber: "123"}}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)

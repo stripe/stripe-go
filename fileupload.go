@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"io"
 	"mime/multipart"
-	"os"
 	"path/filepath"
 )
 
@@ -13,10 +12,6 @@ import (
 // For more details see https://stripe.com/docs/api#create_file_upload.
 type FileUploadParams struct {
 	Params `form:"*"`
-
-	// File is a deprecated form of FileReader and Filename that will do the same thing, but
-	// allows referencing a file directly. Please prefer the use of FileReader and Filename instead.
-	File *os.File
 
 	// FileReader is a reader with the contents of the file that should be uploaded.
 	FileReader io.Reader
@@ -54,7 +49,7 @@ type FileUpload struct {
 // FileUploadList is a list of file uploads as retrieved from a list endpoint.
 type FileUploadList struct {
 	ListMeta
-	Values []*FileUpload `json:"data"`
+	Data []*FileUpload `json:"data"`
 }
 
 // AppendDetails adds the file upload details to an io.ReadWriter. It returns
@@ -80,16 +75,6 @@ func (f *FileUploadParams) AppendDetails(body io.ReadWriter) (string, error) {
 		}
 
 		_, err = io.Copy(part, f.FileReader)
-		if err != nil {
-			return "", err
-		}
-	} else if f.File != nil {
-		part, err := writer.CreateFormFile("file", filepath.Base(f.File.Name()))
-		if err != nil {
-			return "", err
-		}
-
-		_, err = io.Copy(part, f.File)
 		if err != nil {
 			return "", err
 		}

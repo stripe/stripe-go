@@ -19,10 +19,10 @@ type EphemeralKey struct {
 		Type string `json:"type"`
 	} `json:"associated_objects"`
 
-	Created int64  `json:"created"`
-	Expires int64  `json:"expires"`
-	ID      string `json:"id"`
-	Live    bool   `json:"livemode"`
+	Created  int64  `json:"created"`
+	Expires  int64  `json:"expires"`
+	ID       string `json:"id"`
+	Livemode bool   `json:"livemode"`
 
 	// RawJSON is provided so that it may be passed back to the frontend
 	// unchanged.  Ephemeral keys are issued on behalf of another client which

@@ -76,9 +76,9 @@ func TestListParams_Nested(t *testing.T) {
 	params := &testListParams{
 		Field: "field_value",
 		ListParams: stripe.ListParams{
-			End:   "acct_123",
-			Limit: 100,
-			Start: "acct_123",
+			EndingBefore:  "acct_123",
+			Limit:         100,
+			StartingAfter: "acct_123",
 		},
 	}
 
@@ -145,13 +145,13 @@ func TestParams_AppendTo_Nested(t *testing.T) {
 	params := &testParams{
 		Field: "field_value",
 		Params: stripe.Params{
-			Meta: map[string]string{
+			Metadata: map[string]string{
 				"foo": "bar",
 			},
 		},
 		SubParams: &testSubParams{
 			Params: stripe.Params{
-				Meta: map[string]string{
+				Metadata: map[string]string{
 					"sub_foo": "bar",
 				},
 			},
@@ -204,7 +204,7 @@ func TestListParams_Expand(t *testing.T) {
 		p := stripe.ListParams{}
 
 		for _, exp := range testCase.Expand {
-			p.Expand(exp)
+			p.AddExpand(exp)
 		}
 
 		body := valuesFromArray(testCase.InitialBody)
@@ -223,30 +223,12 @@ func TestListParams_ToParams(t *testing.T) {
 	assert.Equal(t, listParams.StripeAccount, params.StripeAccount)
 }
 
-func TestParams_SetAccount(t *testing.T) {
-	p := &stripe.Params{}
-	p.SetAccount(TestMerchantID)
-
-	if p.Account != TestMerchantID {
-		t.Fatalf("Expected Account of %v but got %v.", TestMerchantID, p.Account)
-	}
-
-	if p.StripeAccount != TestMerchantID {
-		t.Fatalf("Expected StripeAccount of %v but got %v.", TestMerchantID, p.StripeAccount)
-	}
-}
-
 func TestParams_SetStripeAccount(t *testing.T) {
 	p := &stripe.Params{}
 	p.SetStripeAccount(TestMerchantID)
 
 	if p.StripeAccount != TestMerchantID {
 		t.Fatalf("Expected Account of %v but got %v.", TestMerchantID, p.StripeAccount)
-	}
-
-	// Check that we don't set the deprecated parameter.
-	if p.Account != "" {
-		t.Fatalf("Expected empty Account but got %v.", TestMerchantID)
 	}
 }
 

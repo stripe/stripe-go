@@ -103,8 +103,8 @@ func (c Client) List(params *stripe.SKUListParams) *Iter {
 		list := &stripe.SKUList{}
 		err := c.B.Call("GET", "/skus", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

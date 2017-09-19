@@ -15,22 +15,22 @@ type FraudReport string
 // ChargeParams is the set of parameters that can be used when creating or updating a charge.
 // For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
 type ChargeParams struct {
-	Params        `form:"*"`
-	Amount        uint64              `form:"amount"`
-	Currency      Currency            `form:"currency"`
-	Customer      string              `form:"customer"`
-	Desc          string              `form:"description"`
-	Destination   *DestinationParams  `form:"destination"`
-	Email         string              `form:"receipt_email"`
-	ExchangeRate  float64             `form:"exchange_rate"`
-	Fee           uint64              `form:"application_fee"`
-	FraudDetails  *FraudDetailsParams `form:"fraud_details"`
-	NoCapture     bool                `form:"capture,invert"`
-	OnBehalfOf    string              `form:"on_behalf_of"`
-	Shipping      *ShippingDetails    `form:"shipping"`
-	Source        *SourceParams       `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-	Statement     string              `form:"statement_descriptor"`
-	TransferGroup string              `form:"transfer_group"`
+	Params              `form:"*"`
+	Amount              uint64              `form:"amount"`
+	ApplicationFee      uint64              `form:"application_fee"`
+	Currency            Currency            `form:"currency"`
+	Customer            string              `form:"customer"`
+	Description         string              `form:"description"`
+	Destination         *DestinationParams  `form:"destination"`
+	ExchangeRate        float64             `form:"exchange_rate"`
+	FraudDetails        *FraudDetailsParams `form:"fraud_details"`
+	NoCapture           bool                `form:"capture,invert"`
+	OnBehalfOf          string              `form:"on_behalf_of"`
+	ReceiptEmail        string              `form:"receipt_email"`
+	Shipping            *ShippingDetails    `form:"shipping"`
+	Source              *SourceParams       `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	StatementDescriptor string              `form:"statement_descriptor"`
+	TransferGroup       string              `form:"transfer_group"`
 }
 
 // SetSource adds valid sources to a ChargeParams object,
@@ -64,50 +64,50 @@ type ChargeListParams struct {
 // CaptureParams is the set of parameters that can be used when capturing a charge.
 // For more details see https://stripe.com/docs/api#charge_capture.
 type CaptureParams struct {
-	Params       `form:"*"`
-	Amount       uint64  `form:"amount"`
-	Email        string  `form:"receipt_email"`
-	ExchangeRate float64 `form:"exchange_rate"`
-	Fee          uint64  `form:"application_fee"`
-	Statement    string  `form:"statement_descriptor"`
+	Params              `form:"*"`
+	Amount              uint64  `form:"amount"`
+	ApplicationFee      uint64  `form:"application_fee"`
+	ExchangeRate        float64 `form:"exchange_rate"`
+	ReceiptEmail        string  `form:"receipt_email"`
+	StatementDescriptor string  `form:"statement_descriptor"`
 }
 
 // Charge is the resource representing a Stripe charge.
 // For more details see https://stripe.com/docs/api#charges.
 type Charge struct {
-	Amount         uint64            `json:"amount"`
-	AmountRefunded uint64            `json:"amount_refunded"`
-	Application    *Application      `json:"application"`
-	Captured       bool              `json:"captured"`
-	Created        int64             `json:"created"`
-	Currency       Currency          `json:"currency"`
-	Customer       *Customer         `json:"customer"`
-	Desc           string            `json:"description"`
-	Dest           *Account          `json:"destination"`
-	Dispute        *Dispute          `json:"dispute"`
-	Email          string            `json:"receipt_email"`
-	FailCode       string            `json:"failure_code"`
-	FailMsg        string            `json:"failure_message"`
-	Fee            *Fee              `json:"application_fee"`
-	FraudDetails   *FraudDetails     `json:"fraud_details"`
-	ID             string            `json:"id"`
-	Invoice        *Invoice          `json:"invoice"`
-	Live           bool              `json:"livemode"`
-	Meta           map[string]string `json:"metadata"`
-	Outcome        *ChargeOutcome    `json:"outcome"`
-	Paid           bool              `json:"paid"`
-	ReceiptNumber  string            `json:"receipt_number"`
-	Refunded       bool              `json:"refunded"`
-	Refunds        *RefundList       `json:"refunds"`
-	Review         *Review           `json:"review"`
-	Shipping       *ShippingDetails  `json:"shipping"`
-	Source         *PaymentSource    `json:"source"`
-	SourceTransfer *Transfer         `json:"source_transfer"`
-	Statement      string            `json:"statement_descriptor"`
-	Status         string            `json:"status"`
-	Transfer       *Transfer         `json:"transfer"`
-	TransferGroup  string            `json:"transfer_group"`
-	Tx             *Transaction      `json:"balance_transaction"`
+	Amount              uint64              `json:"amount"`
+	AmountRefunded      uint64              `json:"amount_refunded"`
+	Application         *Application        `json:"application"`
+	ApplicationFee      *ApplicationFee     `json:"application_fee"`
+	BalanceTransaction  *BalanceTransaction `json:"balance_transaction"`
+	Captured            bool                `json:"captured"`
+	Created             int64               `json:"created"`
+	Currency            Currency            `json:"currency"`
+	Customer            *Customer           `json:"customer"`
+	Description         string              `json:"description"`
+	Destination         *Account            `json:"destination"`
+	Dispute             *Dispute            `json:"dispute"`
+	FailureCode         string              `json:"failure_code"`
+	FailureMessage      string              `json:"failure_message"`
+	FraudDetails        *FraudDetails       `json:"fraud_details"`
+	ID                  string              `json:"id"`
+	Invoice             *Invoice            `json:"invoice"`
+	Livemode            bool                `json:"livemode"`
+	Metadata            map[string]string   `json:"metadata"`
+	Outcome             *ChargeOutcome      `json:"outcome"`
+	Paid                bool                `json:"paid"`
+	ReceiptEmail        string              `json:"receipt_email"`
+	ReceiptNumber       string              `json:"receipt_number"`
+	Refunded            bool                `json:"refunded"`
+	Refunds             *RefundList         `json:"refunds"`
+	Review              *Review             `json:"review"`
+	Shipping            *ShippingDetails    `json:"shipping"`
+	Source              *PaymentSource      `json:"source"`
+	SourceTransfer      *Transfer           `json:"source_transfer"`
+	StatementDescriptor string              `json:"statement_descriptor"`
+	Status              string              `json:"status"`
+	Transfer            *Transfer           `json:"transfer"`
+	TransferGroup       string              `json:"transfer_group"`
 }
 
 // UnmarshalJSON handles deserialization of a charge.
@@ -129,7 +129,7 @@ func (c *Charge) UnmarshalJSON(data []byte) error {
 // ChargeList is a list of charges as retrieved from a list endpoint.
 type ChargeList struct {
 	ListMeta
-	Values []*Charge `json:"data"`
+	Data []*Charge `json:"data"`
 }
 
 // FraudDetails is the structure detailing fraud status.
@@ -158,11 +158,11 @@ type ChargeOutcome struct {
 
 // ShippingDetails is the structure containing shipping information.
 type ShippingDetails struct {
-	Address  Address `json:"address" form:"address"`
-	Carrier  string  `json:"carrier" form:"carrier"`
-	Name     string  `json:"name" form:"name"`
-	Phone    string  `json:"phone" form:"phone"`
-	Tracking string  `json:"tracking_number" form:"tracking_number"`
+	Address        Address `json:"address" form:"address"`
+	Carrier        string  `json:"carrier" form:"carrier"`
+	Name           string  `json:"name" form:"name"`
+	Phone          string  `json:"phone" form:"phone"`
+	TrackingNumber string  `json:"tracking_number" form:"tracking_number"`
 }
 
 var depth int = -1
