@@ -14,39 +14,39 @@ type InvoiceBilling string
 // For more details see https://stripe.com/docs/api#create_invoice, https://stripe.com/docs/api#update_invoice.
 type InvoiceParams struct {
 	Params              `form:"*"`
-	ApplicationFee      *uint64        `form:"application_fee"`
-	Billing             InvoiceBilling `form:"billing"`
-	Closed              *bool          `form:"closed"`
-	Customer            string         `form:"customer"`
-	DaysUntilDue        uint64         `form:"days_until_due"`
-	Description         string         `form:"description"`
-	DueDate             int64          `form:"due_date"`
-	Forgiven            bool           `form:"forgiven"`
-	Paid                bool           `form:"paid"`
-	StatementDescriptor string         `form:"statement_descriptor"`
-	Subscription        string         `form:"subscription"`
-	TaxPercent          *float64       `form:"tax_percent"`
+	ApplicationFee      *uint64  `form:"application_fee"`
+	Billing             *string  `form:"billing"`
+	Closed              *bool    `form:"closed"`
+	Customer            *string  `form:"customer"`
+	DaysUntilDue        *uint64  `form:"days_until_due"`
+	Description         *string  `form:"description"`
+	DueDate             *int64   `form:"due_date"`
+	Forgiven            *bool    `form:"forgiven"`
+	Paid                *bool    `form:"paid"`
+	StatementDescriptor *string  `form:"statement_descriptor"`
+	Subscription        *string  `form:"subscription"`
+	TaxPercent          *float64 `form:"tax_percent"`
 
 	// These are all for exclusive use by GetNext.
 
 	SubscriptionItems         []*SubscriptionItemsParams `form:"subscription_items,indexed"`
-	SubscriptionPlan          string                     `form:"subscription_plan"`
+	SubscriptionPlan          *string                    `form:"subscription_plan"`
 	SubscriptionProrate       *bool                      `form:"subscription_prorate"`
-	SubscriptionProrationDate int64                      `form:"subscription_proration_date"`
+	SubscriptionProrationDate *int64                     `form:"subscription_proration_date"`
 	SubscriptionQuantity      *uint64                    `form:"subscription_quantity"`
-	SubscriptionTrialEnd      int64                      `form:"subscription_trial_end"`
+	SubscriptionTrialEnd      *int64                     `form:"subscription_trial_end"`
 }
 
 // InvoiceListParams is the set of parameters that can be used when listing invoices.
 // For more details see https://stripe.com/docs/api#list_customer_invoices.
 type InvoiceListParams struct {
 	ListParams   `form:"*"`
-	Billing      InvoiceBilling    `form:"billing"`
-	Customer     string            `form:"customer"`
-	Date         int64             `form:"date"`
+	Billing      *string           `form:"billing"`
+	Customer     *string           `form:"customer"`
+	Date         *int64            `form:"date"`
 	DateRange    *RangeQueryParams `form:"date"`
-	DueDate      int64             `form:"due_date"`
-	Subscription string            `form:"subscription"`
+	DueDate      *int64            `form:"due_date"`
+	Subscription *string           `form:"subscription"`
 }
 
 // InvoiceLineListParams is the set of parameters that can be used when listing invoice line items.
@@ -54,12 +54,12 @@ type InvoiceListParams struct {
 type InvoiceLineListParams struct {
 	ListParams `form:"*"`
 
-	Customer string `form:"customer"`
+	Customer *string `form:"customer"`
 
 	// ID is the invoice ID to list invoice lines for.
-	ID string `form:"-"` // Goes in the URL
+	ID *string `form:"-"` // Goes in the URL
 
-	Subscription string `form:"subscription"`
+	Subscription *string `form:"subscription"`
 }
 
 // Invoice is the resource representing a Stripe invoice.
@@ -142,7 +142,7 @@ type InvoiceLineList struct {
 // https://stripe.com/docs/api#pay_invoice.
 type InvoicePayParams struct {
 	Params `form:"*"`
-	Source string `form:"source"`
+	Source *string `form:"source"`
 }
 
 // UnmarshalJSON handles deserialization of an Invoice.

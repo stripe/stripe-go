@@ -69,7 +69,7 @@ type PlanList struct {
 // For more details see https://stripe.com/docs/api#list_plans.
 type PlanListParams struct {
 	ListParams   `form:"*"`
-	Created      int64             `form:"created"`
+	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 }
 
@@ -77,21 +77,20 @@ type PlanListParams struct {
 // For more details see https://stripe.com/docs/api#create_plan and https://stripe.com/docs/api#update_plan.
 type PlanParams struct {
 	Params          `form:"*"`
-	Amount          uint64                    `form:"amount"`
-	AmountZero      bool                      `form:"amount,zero"`
-	BillingScheme   string                    `form:"billing_scheme"`
-	Currency        Currency                  `form:"currency"`
-	ID              string                    `form:"id"`
-	Interval        PlanInterval              `form:"interval"`
-	IntervalCount   uint64                    `form:"interval_count"`
-	Nickname        string                    `form:"nickname"`
-	Product         *PlanProductParams        `form:"product"`
+	Amount          *uint64                   `form:"amount"`
+	BillingScheme   *string                   `form:"billing_scheme"`
+	Currency        *string                   `form:"currency"`
+	ID              *string                   `form:"id"`
+	Interval        *string                   `form:"interval"`
+	IntervalCount   *uint64                   `form:"interval_count"`
+	Nickname        *string                   `form:"nickname"`
+	Product         *ProductParams            `form:"product"`
 	ProductID       *string                   `form:"product"`
 	Tiers           []*PlanTierParams         `form:"tiers,indexed"`
-	TiersMode       string                    `form:"tiers_mode"`
+	TiersMode       *string                   `form:"tiers_mode"`
 	TransformUsage  *PlanTransformUsageParams `form:"transform_usage"`
-	TrialPeriodDays uint64                    `form:"trial_period_days"`
-	UsageType       string                    `form:"usage_type"`
+	TrialPeriodDays *uint64                   `form:"trial_period_days"`
+	UsageType       *string                   `form:"usage_type"`
 }
 
 // PlanTier configures tiered pricing
@@ -115,17 +114,17 @@ type PlanTransformUsageParams struct {
 // PlanTierParams configures tiered pricing
 type PlanTierParams struct {
 	Params  `form:"*"`
-	Amount  uint64 `form:"amount"`
-	UpTo    uint64 `form:"-"` // handled in custom AppendTo
-	UpToInf bool   `form:"-"` // handled in custom AppendTo
+	Amount  *uint64 `form:"amount"`
+	UpTo    *uint64 `form:"-"` // handled in custom AppendTo
+	UpToInf *bool   `form:"-"` // handled in custom AppendTo
 }
 
 // AppendTo implements custom up_to serialisation logic for tiers configuration
 func (p *PlanTierParams) AppendTo(body *form.Values, keyParts []string) {
-	if p.UpToInf {
+	if BoolValue(p.UpToInf) {
 		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
 	} else {
-		body.Add(form.FormatKey(append(keyParts, "up_to")), strconv.FormatUint(p.UpTo, 10))
+		body.Add(form.FormatKey(append(keyParts, "up_to")), strconv.FormatUint(UInt64Value(p.UpTo), 10))
 	}
 }
 
@@ -133,8 +132,8 @@ func (p *PlanTierParams) AppendTo(body *form.Values, keyParts []string) {
 // This can only be used on plan creation and won't work on plan update.
 // For more details see https://stripe.com/docs/api#create_plan-product and https://stripe.com/docs/api#update_plan-product
 type PlanProductParams struct {
-	ID                  string            `form:"id"`
-	Name                string            `form:"name"`
-	Meta                map[string]string `form:"metadata"`
-	StatementDescriptor string            `form:"statement_descriptor"`
+	ID                  *string           `form:"id"`
+	Name                *string           `form:"name"`
+	Metadata            map[string]string `form:"metadata"`
+	StatementDescriptor *string           `form:"statement_descriptor"`
 }

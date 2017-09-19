@@ -32,7 +32,7 @@ func TestDisputeList(t *testing.T) {
 func TestDisputeUpdate(t *testing.T) {
 	dispute, err := Update("dp_123", &stripe.DisputeParams{
 		Evidence: &stripe.DisputeEvidenceParams{
-			CustomerName: "A Name",
+			CustomerName: stripe.String("A Name"),
 		},
 	})
 	assert.Nil(t, err)

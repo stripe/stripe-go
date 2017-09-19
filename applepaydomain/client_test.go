@@ -31,7 +31,7 @@ func TestApplePayDomainList(t *testing.T) {
 
 func TestApplePayDomainNew(t *testing.T) {
 	domain, err := New(&stripe.ApplePayDomainParams{
-		DomainName: "example.com",
+		DomainName: stripe.String("example.com"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, domain)

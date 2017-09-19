@@ -34,7 +34,7 @@ func (c Client) List(params *stripe.BitcoinTransactionListParams) *Iter {
 
 	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BitcoinTransactionList{}
-		err := c.B.Call("GET", fmt.Sprintf("/bitcoin/receivers/%v/transactions", params.Receiver), c.Key, b, p, list)
+		err := c.B.Call("GET", fmt.Sprintf("/bitcoin/receivers/%v/transactions", stripe.StringValue(params.Receiver)), c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

@@ -16,21 +16,30 @@ type FraudReport string
 // For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
 type ChargeParams struct {
 	Params              `form:"*"`
-	Amount              uint64              `form:"amount"`
-	ApplicationFee      uint64              `form:"application_fee"`
-	Capture             *bool               `form:"capture"`
-	Currency            Currency            `form:"currency"`
-	Customer            string              `form:"customer"`
-	Description         string              `form:"description"`
-	Destination         *DestinationParams  `form:"destination"`
-	ExchangeRate        float64             `form:"exchange_rate"`
-	FraudDetails        *FraudDetailsParams `form:"fraud_details"`
-	OnBehalfOf          string              `form:"on_behalf_of"`
-	ReceiptEmail        string              `form:"receipt_email"`
-	Shipping            *ShippingDetails    `form:"shipping"`
-	Source              *SourceParams       `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-	StatementDescriptor string              `form:"statement_descriptor"`
-	TransferGroup       string              `form:"transfer_group"`
+	Amount              *uint64                `form:"amount"`
+	ApplicationFee      *uint64                `form:"application_fee"`
+	Capture             *bool                  `form:"capture"`
+	Currency            *string                `form:"currency"`
+	Customer            *string                `form:"customer"`
+	Description         *string                `form:"description"`
+	Destination         *DestinationParams     `form:"destination"`
+	ExchangeRate        *float64               `form:"exchange_rate"`
+	FraudDetails        *FraudDetailsParams    `form:"fraud_details"`
+	OnBehalfOf          *string                `form:"on_behalf_of"`
+	ReceiptEmail        *string                `form:"receipt_email"`
+	Shipping            *ShippingDetailsParams `form:"shipping"`
+	Source              *SourceParams          `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	StatementDescriptor *string                `form:"statement_descriptor"`
+	TransferGroup       *string                `form:"transfer_group"`
+}
+
+// ShippingDetailsParams is the structure containing shipping information as parameters
+type ShippingDetailsParams struct {
+	Address        *AddressParams `form:"address"`
+	Carrier        *string        `form:"carrier"`
+	Name           *string        `form:"name"`
+	Phone          *string        `form:"phone"`
+	TrackingNumber *string        `form:"tracking_number"`
 }
 
 // SetSource adds valid sources to a ChargeParams object,
@@ -42,34 +51,34 @@ func (p *ChargeParams) SetSource(sp interface{}) error {
 }
 
 type DestinationParams struct {
-	Account string `form:"account"`
-	Amount  uint64 `form:"amount"`
+	Account *string `form:"account"`
+	Amount  *uint64 `form:"amount"`
 }
 
 // FraudDetailsParams provides information on the fraud details for a charge.
 type FraudDetailsParams struct {
-	UserReport FraudReport `form:"user_report"`
+	UserReport *string `form:"user_report"`
 }
 
 // ChargeListParams is the set of parameters that can be used when listing charges.
 // For more details see https://stripe.com/docs/api#list_charges.
 type ChargeListParams struct {
 	ListParams    `form:"*"`
-	Created       int64             `form:"created"`
+	Created       *int64            `form:"created"`
 	CreatedRange  *RangeQueryParams `form:"created"`
-	Customer      string            `form:"customer"`
-	TransferGroup string            `form:"transfer_group"`
+	Customer      *string           `form:"customer"`
+	TransferGroup *string           `form:"transfer_group"`
 }
 
 // CaptureParams is the set of parameters that can be used when capturing a charge.
 // For more details see https://stripe.com/docs/api#charge_capture.
 type CaptureParams struct {
 	Params              `form:"*"`
-	Amount              uint64  `form:"amount"`
-	ApplicationFee      uint64  `form:"application_fee"`
-	ExchangeRate        float64 `form:"exchange_rate"`
-	ReceiptEmail        string  `form:"receipt_email"`
-	StatementDescriptor string  `form:"statement_descriptor"`
+	Amount              *uint64  `form:"amount"`
+	ApplicationFee      *uint64  `form:"application_fee"`
+	ExchangeRate        *float64 `form:"exchange_rate"`
+	ReceiptEmail        *string  `form:"receipt_email"`
+	StatementDescriptor *string  `form:"statement_descriptor"`
 }
 
 // Charge is the resource representing a Stripe charge.
@@ -158,11 +167,11 @@ type ChargeOutcome struct {
 
 // ShippingDetails is the structure containing shipping information.
 type ShippingDetails struct {
-	Address        Address `json:"address" form:"address"`
-	Carrier        string  `json:"carrier" form:"carrier"`
-	Name           string  `json:"name" form:"name"`
-	Phone          string  `json:"phone" form:"phone"`
-	TrackingNumber string  `json:"tracking_number" form:"tracking_number"`
+	Address        Address `json:"address"`
+	Carrier        string  `json:"carrier"`
+	Name           string  `json:"name"`
+	Phone          string  `json:"phone"`
+	TrackingNumber string  `json:"tracking_number"`
 }
 
 var depth int = -1
