@@ -7,7 +7,7 @@ type Country string
 // For more details see https://stripe.com/docs/api#country_spec_object-verification_fields.
 type VerificationFieldsList struct {
 	AdditionalFields []string `json:"additional"`
-	MinimumFields    []string `json:"minimum"`
+	Minimum          []string `json:"minimum"`
 }
 
 // CountrySpec is the resource representing the rules required for a Stripe account.
@@ -24,7 +24,7 @@ type CountrySpec struct {
 // CountrySpecList is a list of country specs as retrieved from a list endpoint.
 type CountrySpecList struct {
 	ListMeta
-	Values []*CountrySpec `json:"data"`
+	Data []*CountrySpec `json:"data"`
 }
 
 // CountrySpecListParams are the parameters allowed during CountrySpec listing.

@@ -9,29 +9,29 @@ import (
 	_ "github.com/stripe/stripe-go/testing"
 )
 
-func TestSubCancel(t *testing.T) {
+func TestSubscriptionCancel(t *testing.T) {
 	subscription, err := Cancel("sub_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, subscription)
 }
 
-func TestSubGet(t *testing.T) {
+func TestSubscriptionGet(t *testing.T) {
 	subscription, err := Get("sub_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, subscription)
 }
 
-func TestSubList(t *testing.T) {
-	i := List(&stripe.SubListParams{})
+func TestSubscriptionList(t *testing.T) {
+	i := List(&stripe.SubscriptionListParams{})
 
 	// Verify that we can get at least one subscription
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
-	assert.NotNil(t, i.Sub())
+	assert.NotNil(t, i.Subscription())
 }
 
-func TestSubNew(t *testing.T) {
-	subscription, err := New(&stripe.SubParams{
+func TestSubscriptionNew(t *testing.T) {
+	subscription, err := New(&stripe.SubscriptionParams{
 		Customer:           "cus_123",
 		Plan:               "plan_123",
 		Quantity:           10,
@@ -44,10 +44,10 @@ func TestSubNew(t *testing.T) {
 	assert.NotNil(t, subscription)
 }
 
-func TestSubNew_WithItems(t *testing.T) {
-	subscription, err := New(&stripe.SubParams{
+func TestSubscriptionNew_WithItems(t *testing.T) {
+	subscription, err := New(&stripe.SubscriptionParams{
 		Customer: "cus_123",
-		Items: []*stripe.SubItemsParams{
+		Items: []*stripe.SubscriptionItemsParams{
 			{
 				Plan:         "gold",
 				QuantityZero: true,
@@ -58,8 +58,8 @@ func TestSubNew_WithItems(t *testing.T) {
 	assert.NotNil(t, subscription)
 }
 
-func TestSubUpdate(t *testing.T) {
-	subscription, err := Update("sub_123", &stripe.SubParams{
+func TestSubscriptionUpdate(t *testing.T) {
+	subscription, err := Update("sub_123", &stripe.SubscriptionParams{
 		NoProrate:      true,
 		QuantityZero:   true,
 		TaxPercentZero: true,

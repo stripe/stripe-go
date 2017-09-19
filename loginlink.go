@@ -10,5 +10,5 @@ type LoginLinkParams struct {
 // For more details see https://stripe.com/docs/api#login_link_object
 type LoginLink struct {
 	Created int64  `json:"created"`
-	Url     string `json:"url"`
+	URL     string `json:"url"`
 }

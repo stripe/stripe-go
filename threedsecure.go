@@ -22,7 +22,7 @@ type ThreeDSecure struct {
 	Created       int64              `json:"created"`
 	Currency      Currency           `json:"currency"`
 	ID            string             `json:"id"`
-	Live          bool               `json:"livemode"`
+	Livemode      bool               `json:"livemode"`
 	RedirectURL   string             `json:"redirect_url"`
 	Status        ThreeDSecureStatus `json:"status"`
 	Supported     string             `json:"supported"`

@@ -9,11 +9,11 @@ type InvoiceItemParams struct {
 	Amount         int64    `form:"amount"`
 	Currency       Currency `form:"currency"`
 	Customer       string   `form:"customer"`
-	Desc           string   `form:"description"`
+	Description    string   `form:"description"`
 	Discountable   bool     `form:"discountable"`
 	Invoice        string   `form:"invoice"`
 	NoDiscountable bool     `form:"discountable,invert"`
-	Sub            string   `form:"subscription"`
+	Subscription   string   `form:"subscription"`
 }
 
 // InvoiceItemListParams is the set of parameters that can be used when listing invoice items.
@@ -33,23 +33,23 @@ type InvoiceItem struct {
 	Customer     *Customer         `json:"customer"`
 	Date         int64             `json:"date"`
 	Deleted      bool              `json:"deleted"`
-	Desc         string            `json:"description"`
+	Description  string            `json:"description"`
 	Discountable bool              `json:"discountable"`
 	ID           string            `json:"id"`
 	Invoice      *Invoice          `json:"invoice"`
-	Live         bool              `json:"livemode"`
-	Meta         map[string]string `json:"metadata"`
+	Livemode     bool              `json:"livemode"`
+	Metadata     map[string]string `json:"metadata"`
 	Period       *Period           `json:"period"`
 	Plan         *Plan             `json:"plan"`
 	Proration    bool              `json:"proration"`
 	Quantity     int64             `json:"quantity"`
-	Sub          string            `json:"subscription"`
+	Subscription *Subscription     `json:"subscription"`
 }
 
 // InvoiceItemList is a list of invoice items as retrieved from a list endpoint.
 type InvoiceItemList struct {
 	ListMeta
-	Values []*InvoiceItem `json:"data"`
+	Data []*InvoiceItem `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of an InvoiceItem.

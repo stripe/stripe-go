@@ -45,12 +45,12 @@ type BitcoinReceiver struct {
 	Created               int64                   `json:"created"`
 	Currency              Currency                `json:"currency"`
 	Customer              string                  `json:"customer"`
-	Desc                  string                  `json:"description"`
+	Description           string                  `json:"description"`
 	Email                 string                  `json:"email"`
 	Filled                bool                    `json:"filled"`
 	ID                    string                  `json:"id"`
 	InboundAddress        string                  `json:"inbound_address"`
-	Meta                  map[string]string       `json:"metadata"`
+	Metadata              map[string]string       `json:"metadata"`
 	Payment               string                  `json:"payment"`
 	RefundAddress         string                  `json:"refund_address"`
 	RejectTransactions    bool                    `json:"reject_transactions"`
@@ -60,7 +60,7 @@ type BitcoinReceiver struct {
 // BitcoinReceiverList is a list of bitcoin receivers as retrieved from a list endpoint.
 type BitcoinReceiverList struct {
 	ListMeta
-	Values []*BitcoinReceiver `json:"data"`
+	Data []*BitcoinReceiver `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a BitcoinReceiver.

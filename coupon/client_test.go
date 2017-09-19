@@ -31,10 +31,10 @@ func TestCouponList(t *testing.T) {
 
 func TestCouponNew(t *testing.T) {
 	coupon, err := New(&stripe.CouponParams{
-		Duration:       "repeating",
-		DurationPeriod: 3,
-		ID:             "25OFF",
-		Percent:        25,
+		Duration:         "repeating",
+		DurationInMonths: 3,
+		ID:               "25OFF",
+		PercentOff:       25,
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, coupon)
@@ -42,7 +42,7 @@ func TestCouponNew(t *testing.T) {
 
 func TestCouponUpdate(t *testing.T) {
 	coupon, err := Update("25OFF", &stripe.CouponParams{
-		Redemptions: 5,
+		MaxRedemptions: 5,
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, coupon)

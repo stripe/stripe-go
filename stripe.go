@@ -285,11 +285,6 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 			req.Header.Add("Idempotency-Key", idempotency)
 		}
 
-		// Support the value of the old Account field for now.
-		if account := strings.TrimSpace(params.Account); account != "" {
-			req.Header.Add("Stripe-Account", account)
-		}
-
 		// But prefer StripeAccount.
 		if stripeAccount := strings.TrimSpace(params.StripeAccount); stripeAccount != "" {
 			req.Header.Add("Stripe-Account", stripeAccount)

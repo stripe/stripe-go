@@ -61,8 +61,8 @@ func TestPaymentSource_MarshalJSON(t *testing.T) {
 			Type: PaymentSourceBankAccount,
 			ID:   id,
 			BankAccount: &BankAccount{
-				ID:   id,
-				Name: name,
+				ID:                id,
+				AccountHolderName: name,
 			},
 		}
 
@@ -77,6 +77,6 @@ func TestPaymentSource_MarshalJSON(t *testing.T) {
 		assert.Equal(t, unmarshalled.ID, id)
 		assert.NotNil(t, unmarshalled.BankAccount)
 		assert.Equal(t, unmarshalled.BankAccount.ID, id)
-		assert.Equal(t, unmarshalled.BankAccount.Name, name)
+		assert.Equal(t, unmarshalled.BankAccount.AccountHolderName, name)
 	}
 }

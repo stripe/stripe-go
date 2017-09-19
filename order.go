@@ -67,12 +67,12 @@ const (
 )
 
 type DeliveryEstimate struct {
-	Type EstimateType `json:"type"`
-	// If Type == Range
-	Earliest string `json:"earliest"`
-	Latest   string `json:"latest"`
 	// If Type == Exact
 	Date string `json:"date"`
+	// If Type == Range
+	Earliest string       `json:"earliest"`
+	Latest   string       `json:"latest"`
+	Type     EstimateType `json:"type"`
 }
 
 type Order struct {
@@ -87,8 +87,8 @@ type Order struct {
 	Email                  string            `json:"email"`
 	ID                     string            `json:"id"`
 	Items                  []OrderItem       `json:"items"`
-	Live                   bool              `json:"livemode"`
-	Meta                   map[string]string `json:"metadata"`
+	Livemode               bool              `json:"livemode"`
+	Metadata               map[string]string `json:"metadata"`
 	Returns                *OrderReturnList  `json:"returns"`
 	SelectedShippingMethod *string           `json:"selected_shipping_method"`
 	Shipping               Shipping          `json:"shipping"`
@@ -101,7 +101,7 @@ type Order struct {
 // OrderList is a list of orders as retrieved from a list endpoint.
 type OrderList struct {
 	ListMeta
-	Values []*Order `json:"data"`
+	Data []*Order `json:"data"`
 }
 
 // OrderListParams is the set of parameters that can be used when
@@ -118,10 +118,10 @@ type OrderListParams struct {
 // StatusTransitions are the timestamps at which the order status was updated
 // https://stripe.com/docs/api#order_object
 type StatusTransitions struct {
-	Canceled  int64 `json:"canceled"`
-	Fulfilled int64 `json:"fulfiled"`
-	Paid      int64 `json:"paid"`
-	Returned  int64 `json:"returned"`
+	Canceled int64 `json:"canceled"`
+	Fulfiled int64 `json:"fulfiled"`
+	Paid     int64 `json:"paid"`
+	Returned int64 `json:"returned"`
 }
 
 // OrderPayParams is the set of parameters that can be used when

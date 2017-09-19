@@ -8,15 +8,15 @@ type OrderReturn struct {
 	Currency Currency    `json:"currency"`
 	ID       string      `json:"id"`
 	Items    []OrderItem `json:"items"`
+	Livemode bool        `json:"livemode"`
 	Order    Order       `json:"order"`
-	Live     bool        `json:"livemode"`
 	Refund   *Refund     `json:"refund"`
 }
 
 // OrderReturnList is a list of returns as retrieved from a list endpoint.
 type OrderReturnList struct {
 	ListMeta
-	Values []*OrderReturn `json:"data"`
+	Data []*OrderReturn `json:"data"`
 }
 
 // OrderReturnListParams is the set of parameters that can be used when listing

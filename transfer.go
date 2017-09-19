@@ -17,13 +17,13 @@ type TransferDestination struct {
 // TransferParams is the set of parameters that can be used when creating or updating a transfer.
 // For more details see https://stripe.com/docs/api#create_transfer and https://stripe.com/docs/api#update_transfer.
 type TransferParams struct {
-	Params        `form:"*"`
-	Amount        int64              `form:"amount"`
-	Currency      Currency           `form:"currency"`
-	Dest          string             `form:"destination"`
-	SourceTx      string             `form:"source_transaction"`
-	SourceType    TransferSourceType `form:"source_type"`
-	TransferGroup string             `form:"transfer_group"`
+	Params            `form:"*"`
+	Amount            int64              `form:"amount"`
+	Currency          Currency           `form:"currency"`
+	Destination       string             `form:"destination"`
+	SourceTransaction string             `form:"source_transaction"`
+	SourceType        TransferSourceType `form:"source_type"`
+	TransferGroup     string             `form:"transfer_group"`
 }
 
 // TransferListParams is the set of parameters that can be used when listing transfers.
@@ -32,35 +32,33 @@ type TransferListParams struct {
 	ListParams    `form:"*"`
 	Created       int64             `form:"created"`
 	CreatedRange  *RangeQueryParams `form:"created"`
-	Currency      Currency          `form:"currency"`
-	Dest          string            `form:"destination"`
+	Destination   string            `form:"destination"`
 	TransferGroup string            `form:"transfer_group"`
 }
 
 // Transfer is the resource representing a Stripe transfer.
 // For more details see https://stripe.com/docs/api#transfers.
 type Transfer struct {
-	Amount         int64               `json:"amount"`
-	AmountReversed int64               `json:"amount_reversed"`
-	Created        int64               `json:"created"`
-	Currency       Currency            `json:"currency"`
-	Dest           TransferDestination `json:"destination"`
-	DestPayment    string              `json:"destination_payment"`
-	ID             string              `json:"id"`
-	Live           bool                `json:"livemode"`
-	Meta           map[string]string   `json:"metadata"`
-	Reversals      *ReversalList       `json:"reversals"`
-	Reversed       bool                `json:"reversed"`
-	SourceTx       *TransactionSource  `json:"source_transaction"`
-	Statement      string              `json:"statement_descriptor"`
-	TransferGroup  string              `json:"transfer_group"`
-	Tx             *Transaction        `json:"balance_transaction"`
+	Amount             int64                     `json:"amount"`
+	AmountReversed     int64                     `json:"amount_reversed"`
+	BalanceTransaction *BalanceTransaction       `json:"balance_transaction"`
+	Created            int64                     `json:"created"`
+	Currency           Currency                  `json:"currency"`
+	Destination        TransferDestination       `json:"destination"`
+	DestinationPayment string                    `json:"destination_payment"`
+	ID                 string                    `json:"id"`
+	Livemode           bool                      `json:"livemode"`
+	Metadata           map[string]string         `json:"metadata"`
+	Reversals          *ReversalList             `json:"reversals"`
+	Reversed           bool                      `json:"reversed"`
+	SourceTransaction  *BalanceTransactionSource `json:"source_transaction"`
+	TransferGroup      string                    `json:"transfer_group"`
 }
 
 // TransferList is a list of transfers as retrieved from a list endpoint.
 type TransferList struct {
 	ListMeta
-	Values []*Transfer `json:"data"`
+	Data []*Transfer `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a Transfer.

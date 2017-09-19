@@ -57,11 +57,11 @@ func TestAccountUnmarshal(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, "acct_123", account.ID)
-	assert.Equal(t, true, account.ExternalAccounts.More)
+	assert.Equal(t, true, account.ExternalAccounts.HasMore)
 
-	assert.Equal(t, 2, len(account.ExternalAccounts.Values))
-	assert.Equal(t, "ba_123", account.ExternalAccounts.Values[0].ID)
-	assert.Equal(t, "card_123", account.ExternalAccounts.Values[1].ID)
+	assert.Equal(t, 2, len(account.ExternalAccounts.Data))
+	assert.Equal(t, "ba_123", account.ExternalAccounts.Data[0].ID)
+	assert.Equal(t, "card_123", account.ExternalAccounts.Data[1].ID)
 }
 
 func TestIdentityDocument_Appendto(t *testing.T) {
