@@ -1,3 +1,6 @@
+27.0.0 2017-09-19
+	Remove ChargeParams.Token (this seems like it was added accidentally)
+
 26.0.0 2017-09-17
 	Introduce `form` package so it's no longer necessary to build conditional
 		structures to encode parameters -- this may result in parameters that
