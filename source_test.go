@@ -12,6 +12,7 @@ func TestSourceObjectParams_AppendTo(t *testing.T) {
 	// encoding
 	{
 		params := &SourceObjectParams{
+			Type: "source_type",
 			TypeData: map[string]string{
 				"foo": "bar",
 			},
@@ -19,6 +20,6 @@ func TestSourceObjectParams_AppendTo(t *testing.T) {
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
-		assert.Equal(t, []string{"bar"}, body.Get("foo"))
+		assert.Equal(t, []string{"bar"}, body.Get("source_type[foo]"))
 	}
 }
