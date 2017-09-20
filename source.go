@@ -2,6 +2,8 @@ package stripe
 
 import (
 	"encoding/json"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 // SourceStatus represents the possible statuses of a source object.
@@ -83,7 +85,7 @@ type SourceObjectParams struct {
 	Redirect *RedirectParams    `form:"redirect"`
 	Token    string             `form:"token"`
 	Type     string             `form:"type"`
-	TypeData map[string]string  `form:"*"`
+	TypeData map[string]string  `form:"-"`
 	Usage    SourceUsage        `form:"usage"`
 }
 
@@ -184,6 +186,14 @@ type Source struct {
 	TypeData     map[string]interface{}
 	Usage        SourceUsage       `json:"usage"`
 	Verification *VerificationFlow `json:"verification,omitempty"`
+}
+
+// AppendTo implements custom encoding logic for SourceObjectParams so that the special
+// "TypeData" value for is sent as the correct parameter based on the Source type
+func (p *SourceObjectParams) AppendTo(body *form.Values, keyParts []string) {
+	for k, vs := range p.TypeData {
+		body.Add(form.FormatKey(append(keyParts, p.Type, k)), vs)
+	}
 }
 
 // UnmarshalJSON handles deserialization of an Source. This custom unmarshaling
