@@ -191,6 +191,10 @@ type Source struct {
 // AppendTo implements custom encoding logic for SourceObjectParams so that the special
 // "TypeData" value for is sent as the correct parameter based on the Source type
 func (p *SourceObjectParams) AppendTo(body *form.Values, keyParts []string) {
+	if len(p.TypeData) > 0 && len(p.Type) == 0 {
+		panic("You can not fill TypeData if you don't explicitly set Type")
+	}
+
 	for k, vs := range p.TypeData {
 		body.Add(form.FormatKey(append(keyParts, p.Type, k)), vs)
 	}
