@@ -5,7 +5,6 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -24,21 +23,7 @@ func TestBitcoinReceiverList(t *testing.T) {
 	assert.NotNil(t, i.BitcoinReceiver())
 }
 
-func TestBitcoinReceiverNew(t *testing.T) {
-	receiver, err := New(&stripe.BitcoinReceiverParams{
-		Amount:   1000,
-		Currency: currency.USD,
-		Email:    "a@b.com",
-		Desc:     "some details",
-	})
-	assert.Nil(t, err)
-	assert.NotNil(t, receiver)
-}
-
-func TestBitcoinReceiverUpdate(t *testing.T) {
-	receiver, err := Update("btcrcv_123", &stripe.BitcoinReceiverUpdateParams{
-		Desc: "some other details",
-	})
-	assert.Nil(t, err)
-	assert.NotNil(t, receiver)
-}
+// New and Update endpoints for Bitcoin receivers no longer exist in the API or
+// stripe-mock. We've left the functions in the client so as not to break
+// anyone that may still have been referencing these, but this entire package
+// is very much deprecated.
