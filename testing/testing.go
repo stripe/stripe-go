@@ -19,6 +19,10 @@ import (
 
 const (
 	// MockMinimumVersion is the minimum acceptible version for stripe-mock.
+	// It's here so that if the library depends on new endpoints or features
+	// added in a more recent version of stripe-mock, we can show people a
+	// better error message instead of the test suite crashing with a bunch of
+	// confusing 404 errors or the like.
 	MockMinimumVersion = "0.2.0"
 
 	// TestMerchantID is a token that can be used to represent a merchant ID in
