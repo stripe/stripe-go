@@ -1,4 +1,7 @@
 // Package bitcoinreceiver provides the /bitcoin/receivers APIs.
+//
+// Note that this entire package is deprecated. Please use the new sources API
+// instead.
 package bitcoinreceiver
 
 import (
