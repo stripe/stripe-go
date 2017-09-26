@@ -15,7 +15,7 @@ func TestProductDel(t *testing.T) {
 }
 
 func TestProductGet(t *testing.T) {
-	product, err := Get("prod_123")
+	product, err := Get("prod_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, product)
 }
