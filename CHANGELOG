@@ -1,8 +1,11 @@
+27.0.2 2017-09-26
+	Fix encoding of `CVC` parameter in `CardParams`
+
 27.0.1 2017-09-20
-	Fix encoding of TypeData under sources
+	Fix encoding of `TypeData` under sources
 
 27.0.0 2017-09-19
-	Remove ChargeParams.Token (this seems like it was added accidentally)
+	Remove `ChargeParams.Token` (this seems like it was added accidentally)
 
 26.0.0 2017-09-17
 	Introduce `form` package so it's no longer necessary to build conditional
