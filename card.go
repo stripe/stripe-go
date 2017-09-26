@@ -39,7 +39,7 @@ type CardParams struct {
 	Account   string `form:"-"`
 	Address1  string `form:"address_line1"`
 	Address2  string `form:"address_line2"`
-	CVC       string `form:"-"`
+	CVC       string `form:"cvc"`
 	City      string `form:"address_city"`
 	Country   string `form:"address_country"`
 	Currency  string `form:"currency"`
