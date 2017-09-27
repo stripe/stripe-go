@@ -1,3 +1,7 @@
+28.0.0 2017-09-27
+	Change `Product.Get` to include `ProductParams` for request metadata
+	Fix sending extra parameters on product and SKU requests
+
 27.0.2 2017-09-26
 	Fix encoding of `CVC` parameter in `CardParams`
 
