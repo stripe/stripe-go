@@ -24,14 +24,15 @@ func (c Client) New(params *stripe.SKUParams) (*stripe.SKU, error) {
 	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &form.Values{}
 		form.AppendTo(body, params)
 	}
 
-	p := &stripe.SKU{}
-	err := c.B.Call("POST", "/skus", c.Key, body, commonParams, p)
+	s := &stripe.SKU{}
+	err := c.B.Call("POST", "/skus", c.Key, body, commonParams, s)
 
-	return p, err
+	return s, err
 }
 
 // Update updates a SKU's properties.
@@ -47,14 +48,15 @@ func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error)
 	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &form.Values{}
 		form.AppendTo(body, params)
 	}
 
-	p := &stripe.SKU{}
-	err := c.B.Call("POST", "/skus/"+id, c.Key, body, commonParams, p)
+	s := &stripe.SKU{}
+	err := c.B.Call("POST", "/skus/"+id, c.Key, body, commonParams, s)
 
-	return p, err
+	return s, err
 }
 
 // Get returns the details of an sku
@@ -64,7 +66,6 @@ func Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 }
 
 func (c Client) Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
-	sku := &stripe.SKU{}
 	var body *form.Values
 	var commonParams *stripe.Params
 
@@ -73,9 +74,11 @@ func (c Client) Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 		body = &form.Values{}
 		form.AppendTo(body, params)
 	}
-	err := c.B.Call("GET", "/skus/"+id, c.Key, body, commonParams, sku)
 
-	return sku, err
+	s := &stripe.SKU{}
+	err := c.B.Call("GET", "/skus/"+id, c.Key, body, commonParams, s)
+
+	return s, err
 }
 
 // List returns a list of skus.
@@ -135,15 +138,15 @@ func (c Client) Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &form.Values{}
 		form.AppendTo(body, params)
-		commonParams = &params.Params
 	}
 
-	sku := &stripe.SKU{}
-	err := c.B.Call("DELETE", "/skus/"+id, c.Key, body, commonParams, sku)
+	s := &stripe.SKU{}
+	err := c.B.Call("DELETE", "/skus/"+id, c.Key, body, commonParams, s)
 
-	return sku, err
+	return s, err
 }
 
 func getC() Client {

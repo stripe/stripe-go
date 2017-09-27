@@ -24,6 +24,7 @@ func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &form.Values{}
 		form.AppendTo(body, params)
 	}
@@ -47,6 +48,7 @@ func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product
 	var commonParams *stripe.Params
 
 	if params != nil {
+		commonParams = &params.Params
 		body = &form.Values{}
 		form.AppendTo(body, params)
 	}
@@ -59,15 +61,24 @@ func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product
 
 // Get returns the details of an product
 // For more details see https://stripe.com/docs/api#retrieve_product.
-func Get(id string) (*stripe.Product, error) {
-	return getC().Get(id)
+func Get(id string, params *stripe.ProductParams) (*stripe.Product, error) {
+	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string) (*stripe.Product, error) {
-	product := &stripe.Product{}
-	err := c.B.Call("GET", "/products/"+id, c.Key, nil, nil, product)
+func (c Client) Get(id string, params *stripe.ProductParams) (*stripe.Product, error) {
+	var body *form.Values
+	var commonParams *stripe.Params
 
-	return product, err
+	if params != nil {
+		commonParams = &params.Params
+		body = &form.Values{}
+		form.AppendTo(body, params)
+	}
+
+	p := &stripe.Product{}
+	err := c.B.Call("GET", "/products/"+id, c.Key, body, commonParams, p)
+
+	return p, err
 }
 
 // List returns a list of products.
@@ -132,10 +143,10 @@ func (c Client) Del(id string, params *stripe.ProductParams) (*stripe.Product, e
 		commonParams = &params.Params
 	}
 
-	product := &stripe.Product{}
-	err := c.B.Call("DELETE", "/products/"+id, c.Key, body, commonParams, product)
+	p := &stripe.Product{}
+	err := c.B.Call("DELETE", "/products/"+id, c.Key, body, commonParams, p)
 
-	return product, err
+	return p, err
 }
 
 func getC() Client {
