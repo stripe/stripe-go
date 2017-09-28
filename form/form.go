@@ -61,6 +61,11 @@ type formOptions struct {
 	// properly encode an explicit 0. It indicates that an explicit zero should
 	// be sent.
 	Zero bool
+
+	// EncodeZeroVal indicates the need to encode the zero value of a pointer.
+	// It is not parsed from the form, it's meant to be passed while encoding
+	// boolean values, to make sure 'false' is not ignored.
+	EncodeZeroVal bool
 }
 
 type structEncoder struct {
@@ -141,20 +146,21 @@ func FormatKey(parts []string) string {
 // ---
 
 func boolEncoder(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
-	if !v.Bool() {
+	if !v.Bool() && !(options != nil && options.EncodeZeroVal) {
 		return
 	}
 
 	if options != nil {
-		if v.Bool() {
-			switch {
-			case options.Empty:
-				values.Add(FormatKey(keyParts), "")
-			case options.Invert:
-				values.Add(FormatKey(keyParts), strconv.FormatBool(false))
-			case options.Zero:
-				values.Add(FormatKey(keyParts), "0")
-			}
+		switch {
+		case options.Empty:
+			values.Add(FormatKey(keyParts), "")
+		case options.Invert:
+			values.Add(FormatKey(keyParts), strconv.FormatBool(false))
+		case options.Zero:
+			values.Add(FormatKey(keyParts), "0")
+		case options.EncodeZeroVal:
+			fmt.Println(strconv.FormatBool(v.Bool()))
+			values.Add(FormatKey(keyParts), strconv.FormatBool(v.Bool()))
 		}
 	} else {
 		values.Add(FormatKey(keyParts), strconv.FormatBool(v.Bool()))
@@ -195,6 +201,9 @@ func buildPtrEncoder(t reflect.Type) encoderFunc {
 	return func(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
 		if v.IsNil() {
 			return
+		}
+		if options == nil {
+			options = &formOptions{EncodeZeroVal: true}
 		}
 		elemF(values, v.Elem(), keyParts, options)
 	}
@@ -357,9 +366,12 @@ func makeStructEncoder(t reflect.Type) *structEncoder {
 			continue
 		}
 
+		fldTyp := reflectField.Type
+		fldKind := fldTyp.Kind()
+
 		if Strict && options != nil &&
 			(options.Empty || options.Invert || options.Zero) &&
-			reflectField.Type.Kind() != reflect.Bool {
+			fldKind != reflect.Bool {
 
 			panic(fmt.Sprintf(
 				"Cannot specify `empty`, `invert`, or `zero` for non-boolean field; on: %s/%s",
@@ -367,20 +379,15 @@ func makeStructEncoder(t reflect.Type) *structEncoder {
 			))
 		}
 
-		var isPtr bool
-		if reflectField.Type.Kind() == reflect.Ptr {
-			isPtr = true
-		}
-
 		se.fields = append(se.fields, &field{
 			formName:   formName,
 			index:      i,
-			isAppender: isAppender(reflectField.Type),
-			isPtr:      isPtr,
+			isAppender: isAppender(fldTyp),
+			isPtr:      fldKind == reflect.Ptr,
 			options:    options,
 		})
 		se.fieldEncs = append(se.fieldEncs,
-			getCachedOrBuildTypeEncoder(reflectField.Type))
+			getCachedOrBuildTypeEncoder(fldTyp))
 	}
 
 	return se

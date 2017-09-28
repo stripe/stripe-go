@@ -128,7 +128,8 @@ func BenchmarkAppendTo(b *testing.B) {
 func TestAppendTo(t *testing.T) {
 	var arrayVal = [3]string{"1", "2", "3"}
 
-	var boolVal = true
+	var boolValT = true
+	var boolValF = false
 
 	var float32Val float32 = 1.2345
 
@@ -165,8 +166,10 @@ func TestAppendTo(t *testing.T) {
 
 		{"array_indexed[2]", &testStruct{ArrayIndexed: arrayVal}, "3"},
 
-		{"bool", &testStruct{Bool: boolVal}, "true"},
-		{"bool_ptr", &testStruct{BoolPtr: &boolVal}, "true"},
+		{"bool", &testStruct{Bool: boolValT}, "true"},
+		{"bool_ptr", &testStruct{BoolPtr: nil}, ""},
+		{"bool_ptr", &testStruct{BoolPtr: &boolValT}, "true"},
+		{"bool_ptr", &testStruct{BoolPtr: &boolValF}, "false"},
 
 		{"emptied", &testStruct{Emptied: true}, ""},
 
