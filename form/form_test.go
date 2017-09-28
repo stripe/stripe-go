@@ -188,7 +188,7 @@ func TestAppendTo(t *testing.T) {
 
 		{"float32", &testStruct{Float32: float32Val}, "1.2345"},
 		{"float32_ptr", &testStruct{Float32Ptr: &float32Val}, "1.2345"},
-		{"float32_ptr", &testStruct{Float32Ptr: &float32Val0}, "0.000"},
+		{"float32_ptr", &testStruct{Float32Ptr: &float32Val0}, "0.0000"},
 		{"float32_ptr", &testStruct{}, ""},
 
 		{"float64", &testStruct{Float64: float64Val}, "1.2345"},
