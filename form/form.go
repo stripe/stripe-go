@@ -146,7 +146,8 @@ func FormatKey(parts []string) string {
 // ---
 
 func boolEncoder(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
-	if !v.Bool() && !(options != nil && options.EncodeZeroVal) {
+	val := v.Bool()
+	if !val && !(options != nil && options.EncodeZeroVal) {
 		return
 	}
 
@@ -159,11 +160,10 @@ func boolEncoder(values *Values, v reflect.Value, keyParts []string, options *fo
 		case options.Zero:
 			values.Add(FormatKey(keyParts), "0")
 		case options.EncodeZeroVal:
-			fmt.Println(strconv.FormatBool(v.Bool()))
-			values.Add(FormatKey(keyParts), strconv.FormatBool(v.Bool()))
+			values.Add(FormatKey(keyParts), strconv.FormatBool(val))
 		}
 	} else {
-		values.Add(FormatKey(keyParts), strconv.FormatBool(v.Bool()))
+		values.Add(FormatKey(keyParts), strconv.FormatBool(val))
 	}
 }
 
