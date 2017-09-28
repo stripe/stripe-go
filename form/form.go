@@ -143,11 +143,13 @@ func FormatKey(parts []string) string {
 	return key
 }
 
+func encodeZeroVal(options *formOptions) bool { return options != nil && options.EncodeZeroVal }
+
 // ---
 
 func boolEncoder(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
 	val := v.Bool()
-	if !val && !(options != nil && options.EncodeZeroVal) {
+	if !val && !encodeZeroVal(options) {
 		return
 	}
 
@@ -202,9 +204,14 @@ func buildPtrEncoder(t reflect.Type) encoderFunc {
 		if v.IsNil() {
 			return
 		}
+
+		// pointers are considered optional. If the pointer has data, consider the data the
+		// requested literal value
 		if options == nil {
-			options = &formOptions{EncodeZeroVal: true}
+			options = &formOptions{}
 		}
+		options.EncodeZeroVal = true
+
 		elemF(values, v.Elem(), keyParts, options)
 	}
 }
@@ -214,18 +221,20 @@ func buildStructEncoder(t reflect.Type) encoderFunc {
 	return se.encode
 }
 
-func float32Encoder(values *Values, v reflect.Value, keyParts []string, _ *formOptions) {
-	if v.Float() == 0.0 {
+func float32Encoder(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
+	val := v.Float()
+	if val == 0.0 && !encodeZeroVal(options) {
 		return
 	}
-	values.Add(FormatKey(keyParts), strconv.FormatFloat(v.Float(), 'f', 4, 32))
+	values.Add(FormatKey(keyParts), strconv.FormatFloat(val, 'f', 4, 32))
 }
 
-func float64Encoder(values *Values, v reflect.Value, keyParts []string, _ *formOptions) {
-	if v.Float() == 0.0 {
+func float64Encoder(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
+	val := v.Float()
+	if val == 0.0 && !encodeZeroVal(options) {
 		return
 	}
-	values.Add(FormatKey(keyParts), strconv.FormatFloat(v.Float(), 'f', 4, 64))
+	values.Add(FormatKey(keyParts), strconv.FormatFloat(val, 'f', 4, 64))
 }
 
 func getCachedOrBuildStructEncoder(t reflect.Type) *structEncoder {
@@ -287,11 +296,12 @@ func getCachedOrBuildTypeEncoder(t reflect.Type) encoderFunc {
 	return f
 }
 
-func intEncoder(values *Values, v reflect.Value, keyParts []string, _ *formOptions) {
-	if v.Int() == 0 {
+func intEncoder(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
+	val := v.Int()
+	if val == 0 && !encodeZeroVal(options) {
 		return
 	}
-	values.Add(FormatKey(keyParts), strconv.FormatInt(v.Int(), 10))
+	values.Add(FormatKey(keyParts), strconv.FormatInt(val, 10))
 }
 
 func interfaceEncoder(values *Values, v reflect.Value, keyParts []string, _ *formOptions) {
@@ -315,18 +325,20 @@ func mapEncoder(values *Values, v reflect.Value, keyParts []string, _ *formOptio
 	}
 }
 
-func stringEncoder(values *Values, v reflect.Value, keyParts []string, _ *formOptions) {
-	if v.String() == "" {
+func stringEncoder(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
+	val := v.String()
+	if val == "" && !encodeZeroVal(options) {
 		return
 	}
-	values.Add(FormatKey(keyParts), v.String())
+	values.Add(FormatKey(keyParts), val)
 }
 
-func uintEncoder(values *Values, v reflect.Value, keyParts []string, _ *formOptions) {
-	if v.Uint() == 0 {
+func uintEncoder(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
+	val := v.Uint()
+	if val == 0 && !encodeZeroVal(options) {
 		return
 	}
-	values.Add(FormatKey(keyParts), strconv.FormatUint(v.Uint(), 10))
+	values.Add(FormatKey(keyParts), strconv.FormatUint(val, 10))
 }
 
 func reflectValue(values *Values, v reflect.Value, keyParts []string) {
