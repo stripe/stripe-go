@@ -2,6 +2,7 @@ package form
 
 import (
 	"net/url"
+	"sync"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
@@ -306,6 +307,35 @@ func TestFormatKey(t *testing.T) {
 	assert.Equal(t, "param[key]", FormatKey([]string{"param", "key"}))
 	assert.Equal(t, "param[key][]", FormatKey([]string{"param", "key", ""}))
 	assert.Equal(t, "param[key][0]", FormatKey([]string{"param", "key", "0"}))
+}
+
+// The encoder uses a type cache for speed. This test is designed to help
+// verify that concurrent access to it is safe.
+//
+// I had good success in reproducing concurrent access errors on my computer
+// using this test, but given that we're just throwing lots of Goroutines out
+// there and hoping for an error, your mileage may vary depending on your
+// system. It may be necessary to increase the value of `n` or introduce other
+// constructs (although hopefully this package will stay concurrency-safe).
+func TestCacheConcurrency(t *testing.T) {
+	// Clear out anything in the existing cache
+	encoderCache.m = nil
+	structCache.m = nil
+
+	var wg sync.WaitGroup
+	n := 10
+	val := &testStruct{String: "123"}
+
+	for i := 0; i < n; i++ {
+		wg.Add(1)
+		go func() {
+			form := &Values{}
+			AppendTo(form, val)
+			wg.Done()
+		}()
+	}
+
+	wg.Wait()
 }
 
 func TestParseTag(t *testing.T) {

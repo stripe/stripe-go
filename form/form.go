@@ -8,7 +8,6 @@ import (
 	"strconv"
 	"strings"
 	"sync"
-	"sync/atomic"
 )
 
 const tagName = "form"
@@ -98,13 +97,13 @@ func (se *structEncoder) encode(values *Values, v reflect.Value, keyParts []stri
 var Strict = false
 
 var encoderCache struct {
-	mu    sync.Mutex   // used only by writers
-	value atomic.Value // map[reflect.Type]encoderFunc
+	m  map[reflect.Type]encoderFunc
+	mu sync.RWMutex // for coordinating concurrent operations on m
 }
 
 var structCache struct {
-	mu    sync.Mutex   // used only by writers
-	value atomic.Value // map[reflect.Type]*structEncoder
+	m  map[reflect.Type]*structEncoder
+	mu sync.RWMutex // for coordinating concurrent operations on m
 }
 
 // AppendTo uses reflection to form encode into the given values collection
@@ -220,8 +219,12 @@ func float64Encoder(values *Values, v reflect.Value, keyParts []string, _ *formO
 }
 
 func getCachedOrBuildStructEncoder(t reflect.Type) *structEncoder {
-	m, _ := structCache.value.Load().(map[reflect.Type]*structEncoder)
-	f := m[t]
+	// Just acquire a read lock when extracting a value (note that in Go, a map
+	// cannot be read while it's also being written).
+	structCache.mu.RLock()
+	f := structCache.m[t]
+	structCache.mu.RUnlock()
+
 	if f != nil {
 		return f
 	}
@@ -236,13 +239,10 @@ func getCachedOrBuildStructEncoder(t reflect.Type) *structEncoder {
 	structCache.mu.Lock()
 	defer structCache.mu.Unlock()
 
-	m, _ = structCache.value.Load().(map[reflect.Type]*structEncoder)
-	newM := m
-	if newM == nil {
-		newM = make(map[reflect.Type]*structEncoder)
-		structCache.value.Store(newM)
+	if structCache.m == nil {
+		structCache.m = make(map[reflect.Type]*structEncoder)
 	}
-	newM[t] = f
+	structCache.m[t] = f
 
 	return f
 }
@@ -251,8 +251,12 @@ func getCachedOrBuildStructEncoder(t reflect.Type) *structEncoder {
 // the cache, and falls back to building one if there wasn't a cached one
 // available. If an encoder is built, it's stored back to the cache.
 func getCachedOrBuildTypeEncoder(t reflect.Type) encoderFunc {
-	m, _ := encoderCache.value.Load().(map[reflect.Type]encoderFunc)
-	f := m[t]
+	// Just acquire a read lock when extracting a value (note that in Go, a map
+	// cannot be read while it's also being written).
+	encoderCache.mu.RLock()
+	f := encoderCache.m[t]
+	encoderCache.mu.RUnlock()
+
 	if f != nil {
 		return f
 	}
@@ -267,13 +271,10 @@ func getCachedOrBuildTypeEncoder(t reflect.Type) encoderFunc {
 	encoderCache.mu.Lock()
 	defer encoderCache.mu.Unlock()
 
-	m, _ = encoderCache.value.Load().(map[reflect.Type]encoderFunc)
-	newM := m
-	if newM == nil {
-		newM = make(map[reflect.Type]encoderFunc)
-		encoderCache.value.Store(newM)
+	if encoderCache.m == nil {
+		encoderCache.m = make(map[reflect.Type]encoderFunc)
 	}
-	newM[t] = f
+	encoderCache.m[t] = f
 
 	return f
 }
