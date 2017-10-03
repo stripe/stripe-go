@@ -27,7 +27,15 @@ type Appender interface {
 	AppendTo(values *Values, keyParts []string)
 }
 
-type encoderFunc func(values *Values, v reflect.Value, keyParts []string, options *formOptions)
+// encoderFunc is used to encode any type from a request.
+//
+// A note about encodeZeroVal:
+// Since some types in the Stripe API are defaulted to non-zero values, and Go defaults types to their zero values,
+// any type that has a Stripe API default of a non-zero value is defined as a go pointer, meaning nil defaults to
+// the Stripe API non-zero value. To override this, a check is made to see if the value is the zero-value for that
+// type. If it is, and encodeZeroVal is true, it's encoded. This is ignored as a parameter when dealing with types
+// like structs, where the decision can not be made preemptivelys.
+type encoderFunc func(values *Values, v reflect.Value, keyParts []string, encodeZeroVal bool, options *formOptions)
 
 // field represents a single field found in a struct. It caches information
 // about that field so that we can make encoding faster.
@@ -61,11 +69,6 @@ type formOptions struct {
 	// properly encode an explicit 0. It indicates that an explicit zero should
 	// be sent.
 	Zero bool
-
-	// EncodeZeroVal indicates the need to encode the zero value of a pointer.
-	// It is not parsed from the form, it's meant to be passed while encoding
-	// boolean values, to make sure 'false' is not ignored.
-	EncodeZeroVal bool
 }
 
 type structEncoder struct {
@@ -73,7 +76,7 @@ type structEncoder struct {
 	fieldEncs []encoderFunc
 }
 
-func (se *structEncoder) encode(values *Values, v reflect.Value, keyParts []string, _ *formOptions) {
+func (se *structEncoder) encode(values *Values, v reflect.Value, keyParts []string, _ bool, _ *formOptions) {
 	for i, f := range se.fields {
 		var fieldKeyParts []string
 		fieldV := v.Field(f.index)
@@ -89,7 +92,7 @@ func (se *structEncoder) encode(values *Values, v reflect.Value, keyParts []stri
 			fieldKeyParts = append(keyParts, f.formName)
 		}
 
-		se.fieldEncs[i](values, fieldV, fieldKeyParts, f.options)
+		se.fieldEncs[i](values, fieldV, fieldKeyParts, f.isPtr, f.options)
 		if f.isAppender && (!f.isPtr || !fieldV.IsNil()) {
 			fieldV.Interface().(Appender).AppendTo(values, fieldKeyParts)
 		}
@@ -115,7 +118,7 @@ var structCache struct {
 // AppendTo uses reflection to form encode into the given values collection
 // based off the form tags that it defines.
 func AppendTo(values *Values, i interface{}) {
-	reflectValue(values, reflect.ValueOf(i), nil)
+	reflectValue(values, reflect.ValueOf(i), false, nil)
 }
 
 // AppendToPrefixed is the same as AppendTo, but it allows a slice of key parts
@@ -125,7 +128,7 @@ func AppendTo(values *Values, i interface{}) {
 // for recipients. Recipients is going away, and when it does, we can probably
 // remove it again.
 func AppendToPrefixed(values *Values, i interface{}, keyParts []string) {
-	reflectValue(values, reflect.ValueOf(i), keyParts)
+	reflectValue(values, reflect.ValueOf(i), false, keyParts)
 }
 
 // FormatKey takes a series of key parts that may be parameter keyParts, map keys,
@@ -143,13 +146,11 @@ func FormatKey(parts []string) string {
 	return key
 }
 
-func encodeZeroVal(options *formOptions) bool { return options != nil && options.EncodeZeroVal }
-
 // ---
 
-func boolEncoder(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
+func boolEncoder(values *Values, v reflect.Value, keyParts []string, encodeZeroVal bool, options *formOptions) {
 	val := v.Bool()
-	if !val && !encodeZeroVal(options) {
+	if !val && !encodeZeroVal {
 		return
 	}
 
@@ -161,8 +162,6 @@ func boolEncoder(values *Values, v reflect.Value, keyParts []string, options *fo
 			values.Add(FormatKey(keyParts), strconv.FormatBool(false))
 		case options.Zero:
 			values.Add(FormatKey(keyParts), "0")
-		case options.EncodeZeroVal:
-			values.Add(FormatKey(keyParts), strconv.FormatBool(val))
 		}
 	} else {
 		values.Add(FormatKey(keyParts), strconv.FormatBool(val))
@@ -173,7 +172,7 @@ func buildArrayOrSliceEncoder(t reflect.Type) encoderFunc {
 	// Gets an encoder for the type that the array or slice will hold
 	elemF := getCachedOrBuildTypeEncoder(t.Elem())
 
-	return func(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
+	return func(values *Values, v reflect.Value, keyParts []string, _ bool, options *formOptions) {
 		// FormatKey automatically adds square brackets, so just pass an empty
 		// string into the breadcrumb trail
 		arrNames := append(keyParts, "")
@@ -187,7 +186,7 @@ func buildArrayOrSliceEncoder(t reflect.Type) encoderFunc {
 			}
 
 			indexV := v.Index(i)
-			elemF(values, indexV, arrNames, nil)
+			elemF(values, indexV, arrNames, indexV.Kind() == reflect.Ptr, nil)
 
 			if isAppender(indexV.Type()) && !indexV.IsNil() {
 				v.Interface().(Appender).AppendTo(values, arrNames)
@@ -200,19 +199,11 @@ func buildPtrEncoder(t reflect.Type) encoderFunc {
 	// Gets an encoder for the type that the pointer wraps
 	elemF := getCachedOrBuildTypeEncoder(t.Elem())
 
-	return func(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
+	return func(values *Values, v reflect.Value, keyParts []string, _ bool, options *formOptions) {
 		if v.IsNil() {
 			return
 		}
-
-		// pointers are considered optional. If the pointer has data, consider the data the
-		// requested literal value
-		if options == nil {
-			options = &formOptions{}
-		}
-		options.EncodeZeroVal = true
-
-		elemF(values, v.Elem(), keyParts, options)
+		elemF(values, v.Elem(), keyParts, true, options)
 	}
 }
 
@@ -221,17 +212,17 @@ func buildStructEncoder(t reflect.Type) encoderFunc {
 	return se.encode
 }
 
-func float32Encoder(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
+func float32Encoder(values *Values, v reflect.Value, keyParts []string, encodeZeroVal bool, options *formOptions) {
 	val := v.Float()
-	if val == 0.0 && !encodeZeroVal(options) {
+	if val == 0.0 && !encodeZeroVal {
 		return
 	}
 	values.Add(FormatKey(keyParts), strconv.FormatFloat(val, 'f', 4, 32))
 }
 
-func float64Encoder(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
+func float64Encoder(values *Values, v reflect.Value, keyParts []string, encodeZeroVal bool, options *formOptions) {
 	val := v.Float()
-	if val == 0.0 && !encodeZeroVal(options) {
+	if val == 0.0 && !encodeZeroVal {
 		return
 	}
 	values.Add(FormatKey(keyParts), strconv.FormatFloat(val, 'f', 4, 64))
@@ -296,57 +287,57 @@ func getCachedOrBuildTypeEncoder(t reflect.Type) encoderFunc {
 	return f
 }
 
-func intEncoder(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
+func intEncoder(values *Values, v reflect.Value, keyParts []string, encodeZeroVal bool, options *formOptions) {
 	val := v.Int()
-	if val == 0 && !encodeZeroVal(options) {
+	if val == 0 && !encodeZeroVal {
 		return
 	}
 	values.Add(FormatKey(keyParts), strconv.FormatInt(val, 10))
 }
 
-func interfaceEncoder(values *Values, v reflect.Value, keyParts []string, _ *formOptions) {
+func interfaceEncoder(values *Values, v reflect.Value, keyParts []string, _ bool, _ *formOptions) {
 	if v.IsNil() {
 		return
 	}
-	reflectValue(values, v.Elem(), keyParts)
+	reflectValue(values, v.Elem(), false, keyParts)
 }
 
 func isAppender(t reflect.Type) bool {
 	return t.Implements(reflect.TypeOf((*Appender)(nil)).Elem())
 }
 
-func mapEncoder(values *Values, v reflect.Value, keyParts []string, _ *formOptions) {
+func mapEncoder(values *Values, v reflect.Value, keyParts []string, _ bool, _ *formOptions) {
 	for _, keyVal := range v.MapKeys() {
 		if Strict && keyVal.Kind() != reflect.String {
 			panic("Don't support serializing maps with non-string keys")
 		}
 
-		reflectValue(values, v.MapIndex(keyVal), append(keyParts, keyVal.String()))
+		reflectValue(values, v.MapIndex(keyVal), false, append(keyParts, keyVal.String()))
 	}
 }
 
-func stringEncoder(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
+func stringEncoder(values *Values, v reflect.Value, keyParts []string, encodeZeroVal bool, options *formOptions) {
 	val := v.String()
-	if val == "" && !encodeZeroVal(options) {
+	if val == "" && !encodeZeroVal {
 		return
 	}
 	values.Add(FormatKey(keyParts), val)
 }
 
-func uintEncoder(values *Values, v reflect.Value, keyParts []string, options *formOptions) {
+func uintEncoder(values *Values, v reflect.Value, keyParts []string, encodeZeroVal bool, options *formOptions) {
 	val := v.Uint()
-	if val == 0 && !encodeZeroVal(options) {
+	if val == 0 && !encodeZeroVal {
 		return
 	}
 	values.Add(FormatKey(keyParts), strconv.FormatUint(val, 10))
 }
 
-func reflectValue(values *Values, v reflect.Value, keyParts []string) {
+func reflectValue(values *Values, v reflect.Value, _ bool, keyParts []string) {
 	t := v.Type()
 
 	f := getCachedOrBuildTypeEncoder(t)
 	if f != nil {
-		f(values, v, keyParts, nil)
+		f(values, v, keyParts, v.Kind() == reflect.Ptr, nil)
 	}
 
 	if isAppender(t) {
