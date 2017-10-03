@@ -1,3 +1,7 @@
+28.0.1 2017-10-03
+	Fix concurrent race in `form` package's encoding caches
+	Fix encoding of pointer-based scalars (e.g. `Active *bool` in `Product)
+
 28.0.0 2017-09-27
 	Change `Product.Get` to include `ProductParams` for request metadata
 	Fix sending extra parameters on product and SKU requests
