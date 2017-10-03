@@ -28,12 +28,14 @@ type Appender interface {
 
 // encoderFunc is used to encode any type from a request.
 //
-// A note about encodeZero:
-// Since some types in the Stripe API are defaulted to non-zero values, and Go defaults types to their zero values,
-// any type that has a Stripe API default of a non-zero value is defined as a go pointer, meaning nil defaults to
-// the Stripe API non-zero value. To override this, a check is made to see if the value is the zero-value for that
-// type. If it is, and encodeZero is true, it's encoded. This is ignored as a parameter when dealing with types
-// like structs, where the decision can not be made preemptivelys.
+// A note about encodeZero: Since some types in the Stripe API are defaulted to
+// non-zero values, and Go defaults types to their zero values, any type that
+// has a Stripe API default of a non-zero value is defined as a Go pointer,
+// meaning nil defaults to the Stripe API non-zero value. To override this, a
+// check is made to see if the value is the zero-value for that type. If it is
+// and encodeZero is true, it's encoded. This is ignored as a parameter when
+// dealing with types like structs, where the decision cannot be made
+// preemptively.
 type encoderFunc func(values *Values, v reflect.Value, keyParts []string, encodeZero bool, options *formOptions)
 
 // field represents a single field found in a struct. It caches information
