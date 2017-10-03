@@ -29,13 +29,13 @@ type Appender interface {
 
 // encoderFunc is used to encode any type from a request.
 //
-// A note about encodeZeroVal:
+// A note about encodeZero:
 // Since some types in the Stripe API are defaulted to non-zero values, and Go defaults types to their zero values,
 // any type that has a Stripe API default of a non-zero value is defined as a go pointer, meaning nil defaults to
 // the Stripe API non-zero value. To override this, a check is made to see if the value is the zero-value for that
-// type. If it is, and encodeZeroVal is true, it's encoded. This is ignored as a parameter when dealing with types
+// type. If it is, and encodeZero is true, it's encoded. This is ignored as a parameter when dealing with types
 // like structs, where the decision can not be made preemptivelys.
-type encoderFunc func(values *Values, v reflect.Value, keyParts []string, encodeZeroVal bool, options *formOptions)
+type encoderFunc func(values *Values, v reflect.Value, keyParts []string, encodeZero bool, options *formOptions)
 
 // field represents a single field found in a struct. It caches information
 // about that field so that we can make encoding faster.
@@ -148,9 +148,9 @@ func FormatKey(parts []string) string {
 
 // ---
 
-func boolEncoder(values *Values, v reflect.Value, keyParts []string, encodeZeroVal bool, options *formOptions) {
+func boolEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, options *formOptions) {
 	val := v.Bool()
-	if !val && !encodeZeroVal {
+	if !val && !encodeZero {
 		return
 	}
 
@@ -212,17 +212,17 @@ func buildStructEncoder(t reflect.Type) encoderFunc {
 	return se.encode
 }
 
-func float32Encoder(values *Values, v reflect.Value, keyParts []string, encodeZeroVal bool, options *formOptions) {
+func float32Encoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, options *formOptions) {
 	val := v.Float()
-	if val == 0.0 && !encodeZeroVal {
+	if val == 0.0 && !encodeZero {
 		return
 	}
 	values.Add(FormatKey(keyParts), strconv.FormatFloat(val, 'f', 4, 32))
 }
 
-func float64Encoder(values *Values, v reflect.Value, keyParts []string, encodeZeroVal bool, options *formOptions) {
+func float64Encoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, options *formOptions) {
 	val := v.Float()
-	if val == 0.0 && !encodeZeroVal {
+	if val == 0.0 && !encodeZero {
 		return
 	}
 	values.Add(FormatKey(keyParts), strconv.FormatFloat(val, 'f', 4, 64))
@@ -287,9 +287,9 @@ func getCachedOrBuildTypeEncoder(t reflect.Type) encoderFunc {
 	return f
 }
 
-func intEncoder(values *Values, v reflect.Value, keyParts []string, encodeZeroVal bool, options *formOptions) {
+func intEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, options *formOptions) {
 	val := v.Int()
-	if val == 0 && !encodeZeroVal {
+	if val == 0 && !encodeZero {
 		return
 	}
 	values.Add(FormatKey(keyParts), strconv.FormatInt(val, 10))
@@ -316,17 +316,17 @@ func mapEncoder(values *Values, v reflect.Value, keyParts []string, _ bool, _ *f
 	}
 }
 
-func stringEncoder(values *Values, v reflect.Value, keyParts []string, encodeZeroVal bool, options *formOptions) {
+func stringEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, options *formOptions) {
 	val := v.String()
-	if val == "" && !encodeZeroVal {
+	if val == "" && !encodeZero {
 		return
 	}
 	values.Add(FormatKey(keyParts), val)
 }
 
-func uintEncoder(values *Values, v reflect.Value, keyParts []string, encodeZeroVal bool, options *formOptions) {
+func uintEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, options *formOptions) {
 	val := v.Uint()
-	if val == 0 && !encodeZeroVal {
+	if val == 0 && !encodeZero {
 		return
 	}
 	values.Add(FormatKey(keyParts), strconv.FormatUint(val, 10))
