@@ -1,3 +1,6 @@
+28.1.0 2017-10-05
+	[#471] Add support for `RedirectFlow.FailureReason` for sources
+
 28.0.1 2017-10-03
 	Fix concurrent race in `form` package's encoding caches
 	Fix encoding of pointer-based scalars (e.g. `Active *bool` in `Product)
