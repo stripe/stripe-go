@@ -100,6 +100,15 @@ type SourceOwner struct {
 	VerifiedPhone   string   `json:"verified_phone"`
 }
 
+// RedirectFlowFailureReason represents the possible failure reasons of a redirect flow.
+type RedirectFlowFailureReason string
+
+const (
+	RedirectFlowFailureReasonDeclined        RedirectFlowFailureReason = "declined"
+	RedirectFlowFailureReasonProcessingError RedirectFlowFailureReason = "processing_error"
+	RedirectFlowFailureReasonUserAbort       RedirectFlowFailureReason = "user_abort"
+)
+
 // RedirectFlowStatus represents the possible statuses of a redirect flow.
 type RedirectFlowStatus string
 
@@ -111,9 +120,10 @@ const (
 
 // ReceiverFlow informs of the state of a redirect authentication flow.
 type RedirectFlow struct {
-	ReturnURL string             `json:"return_url"`
-	Status    RedirectFlowStatus `json:"status"`
-	URL       string             `json:"url"`
+	FailureReason RedirectFlowFailureReason `json:"failure_reason"`
+	ReturnURL     string                    `json:"return_url"`
+	Status        RedirectFlowStatus        `json:"status"`
+	URL           string                    `json:"url"`
 }
 
 // RefundAttributesStatus are the possible status of a receiver's refund
