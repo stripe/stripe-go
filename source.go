@@ -89,6 +89,13 @@ type SourceObjectParams struct {
 	Usage    SourceUsage        `form:"usage"`
 }
 
+// SourceObjectDetachParams is the set of parameters that can be used when detaching
+// a source from a customer.
+type SourceObjectDetachParams struct {
+	Params   `form:"*"`
+	Customer string `form:"-"`
+}
+
 type SourceOwner struct {
 	Address         *Address `json:"address,omitempty"`
 	Email           string   `json:"email"`

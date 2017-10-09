@@ -1,6 +1,9 @@
 package source
 
 import (
+	"errors"
+	"fmt"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -82,4 +85,31 @@ func (c Client) Update(id string, params *stripe.SourceObjectParams) (*stripe.So
 
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
+}
+
+// Detach detaches the source from its customer object.
+func Detach(id string, params *stripe.SourceObjectDetachParams) (*stripe.Source, error) {
+	return getC().Detach(id, params)
+}
+
+func (c Client) Detach(id string, params *stripe.SourceObjectDetachParams) (*stripe.Source, error) {
+	var body *form.Values
+	var commonParams *stripe.Params
+
+	if params != nil {
+		commonParams = &params.Params
+		body = &form.Values{}
+		form.AppendTo(body, params)
+	}
+
+	source := &stripe.Source{}
+	var err error
+
+	if len(params.Customer) > 0 {
+		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", params.Customer, id), c.Key, body, commonParams, source)
+	} else {
+		err = errors.New("Invalid source detach params: Customer needs to be set")
+	}
+
+	return source, err
 }
