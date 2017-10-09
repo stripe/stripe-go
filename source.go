@@ -76,17 +76,18 @@ type RedirectParams struct {
 }
 
 type SourceObjectParams struct {
-	Params   `form:"*"`
-	Amount   uint64             `form:"amount"`
-	Currency Currency           `form:"currency"`
-	Customer string             `form:"customer"`
-	Flow     SourceFlow         `form:"flow"`
-	Owner    *SourceOwnerParams `form:"owner"`
-	Redirect *RedirectParams    `form:"redirect"`
-	Token    string             `form:"token"`
-	Type     string             `form:"type"`
-	TypeData map[string]string  `form:"-"`
-	Usage    SourceUsage        `form:"usage"`
+	Params              `form:"*"`
+	Amount              uint64             `form:"amount"`
+	Currency            Currency           `form:"currency"`
+	Customer            string             `form:"customer"`
+	Flow                SourceFlow         `form:"flow"`
+	Owner               *SourceOwnerParams `form:"owner"`
+	Redirect            *RedirectParams    `form:"redirect"`
+	StatementDescriptor string             `form:"statement_descriptor"`
+	Token               string             `form:"token"`
+	Type                string             `form:"type"`
+	TypeData            map[string]string  `form:"-"`
+	Usage               SourceUsage        `form:"usage"`
 }
 
 type SourceOwner struct {
@@ -180,22 +181,23 @@ type VerificationFlow struct {
 }
 
 type Source struct {
-	Amount       int64             `json:"amount"`
-	ClientSecret string            `json:"client_secret"`
-	Created      int64             `json:"created"`
-	Currency     Currency          `json:"currency"`
-	Flow         SourceFlow        `json:"flow"`
-	ID           string            `json:"id"`
-	Live         bool              `json:"livemode"`
-	Meta         map[string]string `json:"metadata"`
-	Owner        SourceOwner       `json:"owner"`
-	Receiver     *ReceiverFlow     `json:"receiver,omitempty"`
-	Redirect     *RedirectFlow     `json:"redirect,omitempty"`
-	Status       SourceStatus      `json:"status"`
-	Type         string            `json:"type"`
-	TypeData     map[string]interface{}
-	Usage        SourceUsage       `json:"usage"`
-	Verification *VerificationFlow `json:"verification,omitempty"`
+	Amount              int64             `json:"amount"`
+	ClientSecret        string            `json:"client_secret"`
+	Created             int64             `json:"created"`
+	Currency            Currency          `json:"currency"`
+	Flow                SourceFlow        `json:"flow"`
+	ID                  string            `json:"id"`
+	Live                bool              `json:"livemode"`
+	Meta                map[string]string `json:"metadata"`
+	Owner               SourceOwner       `json:"owner"`
+	Receiver            *ReceiverFlow     `json:"receiver,omitempty"`
+	Redirect            *RedirectFlow     `json:"redirect,omitempty"`
+	StatementDescriptor string            `json:"statement_descriptor"`
+	Status              SourceStatus      `json:"status"`
+	Type                string            `json:"type"`
+	TypeData            map[string]interface{}
+	Usage               SourceUsage       `json:"usage"`
+	Verification        *VerificationFlow `json:"verification,omitempty"`
 }
 
 // AppendTo implements custom encoding logic for SourceObjectParams so that the special
