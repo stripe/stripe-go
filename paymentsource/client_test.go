@@ -54,7 +54,15 @@ func TestSourceUpdate(t *testing.T) {
 func TestSourceVerify(t *testing.T) {
 	source, err := Verify("ba_123", &stripe.SourceVerifyParams{
 		Customer: "cus_123",
-		Amounts:  [2]uint8{32, 45},
+		Amounts:  [2]int64{32, 45},
+	})
+	assert.Nil(t, err)
+	assert.NotNil(t, source)
+}
+
+func TestSourceObjectVerify(t *testing.T) {
+	source, err := Verify("src_123", &stripe.SourceVerifyParams{
+		Values: []string{"32", "45"},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, source)

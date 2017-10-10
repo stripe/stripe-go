@@ -161,8 +161,10 @@ func (s Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.Pa
 
 	if len(params.Customer) > 0 {
 		err = s.B.Call("POST", fmt.Sprintf("/customers/%v/sources/%v/verify", params.Customer, id), s.Key, body, &params.Params, source)
+	} else if len(params.Values) > 0 {
+		err = s.B.Call("POST", fmt.Sprintf("/sources/%v/verify", id), s.Key, body, &params.Params, source)
 	} else {
-		err = errors.New("Only customer bank accounts can be verified in this manner.")
+		err = errors.New("Only customer bank accounts or sources can be verified in this manner.")
 	}
 
 	return source, err

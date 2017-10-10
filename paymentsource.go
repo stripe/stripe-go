@@ -33,8 +33,9 @@ type CustomerSourceParams struct {
 // For more details see https://stripe.com/docs/guides/ach-beta
 type SourceVerifyParams struct {
 	Params   `form:"*"`
-	Amounts  [2]uint8 `form:"amounts"`
-	Customer string   `form:"-"` // Goes in the URL
+	Amounts  [2]int64 `form:"amounts"` // Amounts is used when verifying bank accounts
+	Customer string   `form:"-"`       // Goes in the URL
+	Values   []string `form:"values"`  // Values is used when verifying sources
 }
 
 // SetSource adds valid sources to a CustomerSourceParams object,
