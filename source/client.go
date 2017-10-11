@@ -87,33 +87,6 @@ func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }
 
-// Attach attaches the source to a customer object.
-func Attach(params *stripe.SourceObjectAttachParams) (*stripe.Source, error) {
-	return getC().Attach(params)
-}
-
-func (c Client) Attach(params *stripe.SourceObjectAttachParams) (*stripe.Source, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
-	source := &stripe.Source{}
-	var err error
-
-	if len(params.Customer) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/sources", params.Customer), c.Key, body, commonParams, source)
-	} else {
-		err = errors.New("Invalid source detach params: Customer needs to be set")
-	}
-
-	return source, err
-}
-
 // Detach detaches the source from its customer object.
 func Detach(id string, params *stripe.SourceObjectDetachParams) (*stripe.Source, error) {
 	return getC().Detach(id, params)

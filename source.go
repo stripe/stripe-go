@@ -90,14 +90,6 @@ type SourceObjectParams struct {
 	Usage               SourceUsage        `form:"usage"`
 }
 
-// SourceObjectAttachParams is the set of parameters that can be used when attaching
-// a source to a customer.
-type SourceObjectAttachParams struct {
-	Params   `form:"*"`
-	Customer string `form:"-"`
-	Source   string `form:"source"`
-}
-
 // SourceObjectDetachParams is the set of parameters that can be used when detaching
 // a source from a customer.
 type SourceObjectDetachParams struct {

@@ -38,15 +38,6 @@ func TestSourceUpdate(t *testing.T) {
 	assert.NotNil(t, source)
 }
 
-func TestSourceAttach(t *testing.T) {
-	source, err := Attach(&stripe.SourceObjectAttachParams{
-		Customer: "cus_123",
-		Source: "src_123",
-	})
-	assert.Nil(t, err)
-	assert.NotNil(t, source)
-}
-
 func TestSourceDetach(t *testing.T) {
 	source, err := Detach("src_123", &stripe.SourceObjectDetachParams{
 		Customer: "cus_123",
