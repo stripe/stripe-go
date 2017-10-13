@@ -265,7 +265,11 @@ the following guidelines in mind:
 
 ## Test
 
-The test suite depends on [stripe-mock], so make sure to fetch and run it from a
+The test suite needs testify's `require` package to run:
+
+    github.com/stretchr/testify/require
+
+It also depends on [stripe-mock], so make sure to fetch and run it from a
 background terminal ([stripe-mock's README][stripe-mock] also contains
 instructions for installing via Homebrew and other methods):
 
