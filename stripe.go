@@ -14,6 +14,7 @@ import (
 	"os/exec"
 	"runtime"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/stripe/stripe-go/form"
@@ -101,6 +102,7 @@ const (
 // Backends are the currently supported endpoints.
 type Backends struct {
 	API, Uploads Backend
+	mu           sync.RWMutex
 }
 
 // stripeClientUserAgent contains information about the current runtime which
@@ -157,31 +159,41 @@ func SetHTTPClient(client *http.Client) {
 // should only need to use this for testing purposes or on App Engine.
 func NewBackends(httpClient *http.Client) *Backends {
 	return &Backends{
-		API: BackendConfiguration{
+		API: &BackendConfiguration{
 			APIBackend, APIURL, httpClient},
-		Uploads: BackendConfiguration{
+		Uploads: &BackendConfiguration{
 			UploadsBackend, UploadsURL, httpClient},
 	}
 }
 
 // GetBackend returns the currently used backend in the binding.
 func GetBackend(backend SupportedBackend) Backend {
-	var ret Backend
 	switch backend {
 	case APIBackend:
-		if backends.API == nil {
-			backends.API = BackendConfiguration{backend, apiURL, httpClient}
+		backends.mu.RLock()
+		ret := backends.API
+		backends.mu.RUnlock()
+		if ret != nil {
+			return ret
 		}
-
-		ret = backends.API
+		backends.mu.Lock()
+		defer backends.mu.Unlock()
+		backends.API = &BackendConfiguration{backend, apiURL, httpClient}
+		return backends.API
 	case UploadsBackend:
-		if backends.Uploads == nil {
-			backends.Uploads = BackendConfiguration{backend, uploadsURL, httpClient}
+		backends.mu.RLock()
+		ret := backends.Uploads
+		backends.mu.RUnlock()
+		if ret != nil {
+			return ret
 		}
-		ret = backends.Uploads
+		backends.mu.Lock()
+		defer backends.mu.Unlock()
+		backends.Uploads = &BackendConfiguration{backend, uploadsURL, httpClient}
+		return backends.Uploads
 	}
 
-	return ret
+	return nil
 }
 
 // SetBackend sets the backend used in the binding.
@@ -195,7 +207,7 @@ func SetBackend(backend SupportedBackend, b Backend) {
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s BackendConfiguration) Call(method, path, key string, form *form.Values, params *Params, v interface{}) error {
+func (s *BackendConfiguration) Call(method, path, key string, form *form.Values, params *Params, v interface{}) error {
 	var body io.Reader
 	if form != nil && !form.Empty() {
 		data := form.Encode()
@@ -219,7 +231,7 @@ func (s BackendConfiguration) Call(method, path, key string, form *form.Values, 
 }
 
 // CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
-func (s BackendConfiguration) CallMultipart(method, path, key, boundary string, body io.Reader, params *Params, v interface{}) error {
+func (s *BackendConfiguration) CallMultipart(method, path, key, boundary string, body io.Reader, params *Params, v interface{}) error {
 	contentType := "multipart/form-data; boundary=" + boundary
 
 	req, err := s.NewRequest(method, path, key, contentType, body, params)
