@@ -55,7 +55,7 @@ func init() {
 	}
 
 	stripe.Key = "sk_test_myTestKey"
-	stripe.SetBackend("api", stripe.BackendConfiguration{
+	stripe.SetBackend("api", &stripe.BackendConfiguration{
 		Type:       stripe.APIBackend,
 		URL:        "http://localhost:" + port + "/v1",
 		HTTPClient: &http.Client{},

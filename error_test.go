@@ -22,7 +22,7 @@ func TestErrorResponse(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	SetBackend("api", BackendConfiguration{
+	SetBackend("api", &BackendConfiguration{
 		APIBackend,
 		ts.URL,
 		&http.Client{},

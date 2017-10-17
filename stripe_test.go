@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"regexp"
 	"runtime"
+	"sync"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
@@ -20,6 +21,25 @@ func TestCheckinUseBearerAuth(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
+}
+
+// TestMultipleAPICalls will fail the test run if a race condition is thrown while running multiple NewRequest calls.
+func TestMultipleAPICalls(t *testing.T) {
+	wg := &sync.WaitGroup{}
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+			key := "apiKey"
+
+			req, err := c.NewRequest("", "", key, "", nil, nil)
+			assert.NoError(t, err)
+
+			assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
+		}()
+	}
+	wg.Wait()
 }
 
 func TestIdempotencyKey(t *testing.T) {
