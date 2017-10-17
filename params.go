@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
@@ -22,6 +23,11 @@ type Params struct {
 	// Account is deprecated form of StripeAccount that will do the same thing.
 	// Please use StripeAccount instead.
 	Account string `form:"-"` // Passed as header
+
+	// Context used for request. It may carry deadlines, cancelation signals,
+	// and other request-scoped values across API boundaries and between
+	// processes.
+	Context context.Context `form:"-"`
 
 	Exp   []string     `form:"expand"`
 	Extra *ExtraValues `form:"*"`
@@ -58,6 +64,11 @@ func (v ExtraValues) AppendTo(body *form.Values, keyParts []string) {
 // ListParams is the structure that contains the common properties
 // of any *ListParams structure.
 type ListParams struct {
+	// Context used for request. It may carry deadlines, cancelation signals,
+	// and other request-scoped values across API boundaries and between
+	// processes.
+	Context context.Context `form:"-"`
+
 	End     string   `form:"ending_before"`
 	Exp     []string `form:"expand"`
 	Filters Filters  `form:"*"`
@@ -190,6 +201,7 @@ func (p *ListParams) Expand(f string) {
 // ListParams is only used to build a set of parameters.
 func (p *ListParams) ToParams() *Params {
 	return &Params{
+		Context:       p.Context,
 		StripeAccount: p.StripeAccount,
 	}
 }

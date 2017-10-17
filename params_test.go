@@ -1,6 +1,7 @@
 package stripe_test
 
 import (
+	"context"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
@@ -213,13 +214,13 @@ func TestListParams_Expand(t *testing.T) {
 }
 
 func TestListParams_ToParams(t *testing.T) {
-	listParams := &stripe.ListParams{StripeAccount: TestMerchantID}
-	params := listParams.ToParams()
-
-	if params.StripeAccount != TestMerchantID {
-		t.Fatalf("Expected StripeAccount of %v but got %v.",
-			TestMerchantID, params.StripeAccount)
+	listParams := &stripe.ListParams{
+		Context:       context.Background(),
+		StripeAccount: TestMerchantID,
 	}
+	params := listParams.ToParams()
+	assert.Equal(t, listParams.Context, params.Context)
+	assert.Equal(t, listParams.StripeAccount, params.StripeAccount)
 }
 
 func TestParams_SetAccount(t *testing.T) {

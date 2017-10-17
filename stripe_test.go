@@ -1,6 +1,7 @@
 package stripe_test
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"regexp"
@@ -13,7 +14,7 @@ import (
 	. "github.com/stripe/stripe-go/testing"
 )
 
-func TestCheckinUseBearerAuth(t *testing.T) {
+func TestBearerAuth(t *testing.T) {
 	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
 	key := "apiKey"
 
@@ -21,6 +22,16 @@ func TestCheckinUseBearerAuth(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
+}
+
+func TestContext(t *testing.T) {
+	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+	p := &stripe.Params{Context: context.Background()}
+
+	req, err := c.NewRequest("", "", "", "", nil, p)
+	assert.NoError(t, err)
+
+	assert.Equal(t, p.Context, req.Context())
 }
 
 // TestMultipleAPICalls will fail the test run if a race condition is thrown while running multiple NewRequest calls.
