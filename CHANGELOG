@@ -1,3 +1,6 @@
+28.3.1 2017-10-17
+	[#476] Make initializing new backends concurrency-safe
+
 28.3.0 2017-10-10
 	[#359] Add support for verify sources (added `Values` on `SourceVerifyParams`)
 
