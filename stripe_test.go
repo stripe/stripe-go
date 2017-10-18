@@ -34,6 +34,40 @@ func TestContext(t *testing.T) {
 	assert.Equal(t, p.Context, req.Context())
 }
 
+func TestContext_Cancel(t *testing.T) {
+	c := &stripe.BackendConfiguration{
+		HTTPClient: &http.Client{},
+		URL:        stripe.APIURL,
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	p := &stripe.Params{Context: ctx}
+
+	req, err := c.NewRequest("", "", "", "", nil, p)
+	assert.NoError(t, err)
+
+	assert.Equal(t, ctx, req.Context())
+
+	// Cancel the context before we even try to start the request. This will
+	// cause it to immediately return an error and also avoid any kind of race
+	// condition.
+	cancel()
+
+	var v interface{}
+	err = c.Do(req, &v)
+
+	// Go 1.7 will produce an error message like:
+	//
+	//     Get https://api.stripe.com/v1/: net/http: request canceled while waiting for connection
+	//
+	// 1.8 and later produce something like:
+	//
+	//     Get https://api.stripe.com/v1/: context canceled
+	//
+	// When we drop support for 1.7 we can remove the first case of this
+	// expression.
+	assert.Regexp(t, regexp.MustCompile(`(request canceled|context canceled\z)`), err.Error())
+}
+
 // TestMultipleAPICalls will fail the test run if a race condition is thrown while running multiple NewRequest calls.
 func TestMultipleAPICalls(t *testing.T) {
 	wg := &sync.WaitGroup{}
