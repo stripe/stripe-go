@@ -27,6 +27,11 @@ type Params struct {
 	// Context used for request. It may carry deadlines, cancelation signals,
 	// and other request-scoped values across API boundaries and between
 	// processes.
+	//
+	// Note that a cancelled or timed out context does not provide any
+	// guarantee whether the operation was or was not completed on Stripe's API
+	// servers. For certainty, you must either retry with the same idempotency
+	// key or query the state of the API.
 	Context context.Context `form:"-"`
 
 	Exp   []string     `form:"expand"`
@@ -67,6 +72,11 @@ type ListParams struct {
 	// Context used for request. It may carry deadlines, cancelation signals,
 	// and other request-scoped values across API boundaries and between
 	// processes.
+	//
+	// Note that a cancelled or timed out context does not provide any
+	// guarantee whether the operation was or was not completed on Stripe's API
+	// servers. For certainty, you must either retry with the same idempotency
+	// key or query the state of the API.
 	Context context.Context `form:"-"`
 
 	End     string   `form:"ending_before"`
