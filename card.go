@@ -73,7 +73,7 @@ func (c *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, ke
 	}
 
 	if len(c.Token) > 0 {
-	  if len(c.Account) > 0 {
+		if len(c.Account) > 0 {
 			body.Add(form.FormatKey(append(keyParts, "external_account")), c.Token)
 		} else {
 			body.Add(form.FormatKey(append(keyParts, cardSource)), c.Token)
