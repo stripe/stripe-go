@@ -68,17 +68,16 @@ type CardParams struct {
 // because the cards endpoint is a little unusual. There is one other resource
 // like it, which is bank account.
 func (c *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, keyParts []string) {
-	if len(c.Token) > 0 && len(c.Account) > 0 {
-		body.Add(form.FormatKey(append(keyParts, "external_account")), c.Token)
-
-	}
-
 	if c.Default {
 		body.Add(form.FormatKey(append(keyParts, "default_for_currency")), strconv.FormatBool(c.Default))
 	}
 
 	if len(c.Token) > 0 {
-		body.Add(form.FormatKey(append(keyParts, cardSource)), c.Token)
+		if len(c.Account) > 0 {
+			body.Add(form.FormatKey(append(keyParts, "external_account")), c.Token)
+		} else {
+			body.Add(form.FormatKey(append(keyParts, cardSource)), c.Token)
+		}
 	}
 
 	if len(c.Number) > 0 {
