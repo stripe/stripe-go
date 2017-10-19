@@ -1,3 +1,6 @@
+28.3.2 2017-10-19
+	[#479] Pass token in only one of `external_account` *or* source when appending card
+
 28.3.1 2017-10-17
 	[#476] Make initializing new backends concurrency-safe
 
