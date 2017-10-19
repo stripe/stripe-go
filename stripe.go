@@ -180,6 +180,7 @@ func GetBackend(backend SupportedBackend) Backend {
 		defer backends.mu.Unlock()
 		backends.API = &BackendConfiguration{backend, apiURL, httpClient}
 		return backends.API
+
 	case UploadsBackend:
 		backends.mu.RLock()
 		ret := backends.Uploads
@@ -272,6 +273,10 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 	req.Header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
 
 	if params != nil {
+		if params.Context != nil {
+			req = req.WithContext(params.Context)
+		}
+
 		if idempotency := strings.TrimSpace(params.IdempotencyKey); idempotency != "" {
 			if len(idempotency) > 255 {
 				return nil, errors.New("Cannot use an IdempotencyKey longer than 255 characters long.")
