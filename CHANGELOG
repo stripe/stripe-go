@@ -1,3 +1,6 @@
+28.4.0 2017-10-19
+	[#477] Support context on API requests with `Params.Context` and `ListParams.Context`
+
 28.3.2 2017-10-19
 	[#479] Pass token in only one of `external_account` *or* source when appending card
 
