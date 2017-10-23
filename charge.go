@@ -22,6 +22,7 @@ type ChargeParams struct {
 	Desc          string              `form:"description"`
 	Destination   *DestinationParams  `form:"destination"`
 	Email         string              `form:"receipt_email"`
+	ExchangeRate  float64             `form:"exchange_rate"`
 	Fee           uint64              `form:"application_fee"`
 	FraudDetails  *FraudDetailsParams `form:"fraud_details"`
 	NoCapture     bool                `form:"capture,invert"`
@@ -63,11 +64,12 @@ type ChargeListParams struct {
 // CaptureParams is the set of parameters that can be used when capturing a charge.
 // For more details see https://stripe.com/docs/api#charge_capture.
 type CaptureParams struct {
-	Params    `form:"*"`
-	Amount    uint64 `form:"amount"`
-	Email     string `form:"receipt_email"`
-	Fee       uint64 `form:"application_fee"`
-	Statement string `form:"statement_descriptor"`
+	Params       `form:"*"`
+	Amount       uint64  `form:"amount"`
+	Email        string  `form:"receipt_email"`
+	ExchangeRate float64 `form:"exchange_rate"`
+	Fee          uint64  `form:"application_fee"`
+	Statement    string  `form:"statement_descriptor"`
 }
 
 // Charge is the resource representing a Stripe charge.
