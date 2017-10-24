@@ -148,12 +148,9 @@ func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	var body *form.Values
 	var commonParams *stripe.Params
 
-	if params != nil {
-		body = &form.Values{}
-
-		form.AppendTo(body, params)
-		commonParams = &params.Params
-	}
+	body = &form.Values{}
+	form.AppendTo(body, params)
+	commonParams = &params.Params
 
 	card := &stripe.Card{}
 	var err error
