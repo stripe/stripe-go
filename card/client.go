@@ -41,6 +41,10 @@ func New(params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
 	body := &form.Values{}
 
 	// Note that we call this special append method instead of the standard one
@@ -71,6 +75,10 @@ func Get(id string, params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
 	var body *form.Values
 	var commonParams *stripe.Params
 
@@ -103,6 +111,10 @@ func Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
 	body := &form.Values{}
 	form.AppendTo(body, params)
 
@@ -129,15 +141,16 @@ func Del(id string, params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
 	var body *form.Values
 	var commonParams *stripe.Params
 
-	if params != nil {
-		body = &form.Values{}
-
-		form.AppendTo(body, params)
-		commonParams = &params.Params
-	}
+	body = &form.Values{}
+	form.AppendTo(body, params)
+	commonParams = &params.Params
 
 	card := &stripe.Card{}
 	var err error
@@ -166,13 +179,19 @@ func (c Client) List(params *stripe.CardListParams) *Iter {
 	var lp *stripe.ListParams
 	var p *stripe.Params
 
-	form.AppendTo(body, params)
-	lp = &params.ListParams
-	p = params.ToParams()
+	if params != nil {
+		form.AppendTo(body, params)
+		lp = &params.ListParams
+		p = params.ToParams()
+	}
 
 	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CardList{}
 		var err error
+
+		if params == nil {
+			return nil, list.ListMeta, errors.New("params should not be nil")
+		}
 
 		if len(params.Account) > 0 {
 			err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts", params.Account), c.Key, b, p, list)
