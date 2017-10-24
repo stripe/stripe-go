@@ -1,5 +1,8 @@
 # Changelog
 
+## 28.4.1 - 2017-10-24
+* [#484](https://github.com/stripe/stripe-go/pull/484) Error early when params not specified for card-related API calls
+
 ## 28.4.0 - 2017-10-19
 * [#477](https://github.com/stripe/stripe-go/pull/477) Support context on API requests with `Params.Context` and `ListParams.Context`
 
