@@ -1,5 +1,9 @@
 # Changelog
 
+## 28.4.2 - 2017-10-25
+* [#486](https://github.com/stripe/stripe-go/pull/486) Send the required `object=bank_account` parameter when adding a bank account through an account
+* [#487](https://github.com/stripe/stripe-go/pull/487) Make bank account's `account_holder_name` and `account_holder_type` parameters truly optional
+
 ## 28.4.1 - 2017-10-24
 * [#484](https://github.com/stripe/stripe-go/pull/484) Error early when params not specified for card-related API calls
 
