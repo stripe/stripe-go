@@ -8,6 +8,28 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
+func TestAccountExternalAccountParams_AppendTo(t *testing.T) {
+	{
+		params := &AccountExternalAccountParams{}
+		body := &form.Values{}
+		form.AppendTo(body, params)
+		t.Logf("body = %+v", body)
+		assert.Equal(t, []string{"bank_account"}, body.Get("object"))
+	}
+
+	{
+		params := &AccountExternalAccountParams{Token: "tok_123"}
+		body := &form.Values{}
+
+		// 0-length keyParts are not allowed, so call AppendTo directly (as
+		// opposed to through the form package) and inject a realistic set
+		params.AppendTo(body, []string{"external_account"})
+
+		t.Logf("body = %+v", body)
+		assert.Equal(t, []string{"tok_123"}, body.Get("external_account"))
+	}
+}
+
 func TestAccountUnmarshal(t *testing.T) {
 	accountData := map[string]interface{}{
 		"id": "acct_123",

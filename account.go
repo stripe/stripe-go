@@ -102,6 +102,17 @@ type AccountExternalAccountParams struct {
 	Token             string `form:"token"`
 }
 
+// AppendTo implements custom encoding logic for AccountExternalAccountParams
+// so that we can send the special required `object` field up along with the
+// other specified parameters or the token value
+func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []string) {
+	if len(p.Token) > 0 {
+		body.Add(form.FormatKey(keyParts), p.Token)
+	} else {
+		body.Add(form.FormatKey(append(keyParts, "object")), "bank_account")
+	}
+}
+
 // PayoutScheduleParams are the parameters allowed for payout schedules.
 type PayoutScheduleParams struct {
 	Delay        uint64   `form:"delay_days"`
