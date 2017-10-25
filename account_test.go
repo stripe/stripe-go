@@ -8,6 +8,14 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
+func TestAccountExternalAccountParams_AppendTo(t *testing.T) {
+	params := &AccountExternalAccountParams{}
+	body := &form.Values{}
+	form.AppendTo(body, params)
+	t.Logf("body = %+v", body)
+	assert.Equal(t, []string{"bank_account"}, body.Get("object"))
+}
+
 func TestAccountUnmarshal(t *testing.T) {
 	accountData := map[string]interface{}{
 		"id": "acct_123",
