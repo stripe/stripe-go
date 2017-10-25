@@ -71,10 +71,19 @@ func (a *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values)
 	} else {
 		body.Add(sourceType+"[object]", "bank_account")
 		body.Add(sourceType+"[country]", a.Country)
-		body.Add(sourceType+"[account_holder_name]", a.AccountHolderName)
-		body.Add(sourceType+"[account_holder_type]", a.AccountHolderType)
 		body.Add(sourceType+"[account_number]", a.Account)
 		body.Add(sourceType+"[currency]", a.Currency)
+
+		// These are optional and the API will fail if we try to send empty
+		// values in for them, so make sure to check that they're actually set
+		// before encoding them.
+		if len(a.AccountHolderName) > 0 {
+			body.Add(sourceType+"[account_holder_name]", a.AccountHolderName)
+		}
+
+		if len(a.AccountHolderType) > 0 {
+			body.Add(sourceType+"[account_holder_type]", a.AccountHolderType)
+		}
 
 		if len(a.Routing) > 0 {
 			body.Add(sourceType+"[routing_number]", a.Routing)
