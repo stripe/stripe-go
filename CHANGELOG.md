@@ -1,5 +1,8 @@
 # Changelog
 
+## 28.5.0 - 2017-10-27
+* [#488](https://github.com/stripe/stripe-go/pull/488) Support for listing source transactions
+
 ## 28.4.2 - 2017-10-25
 * [#486](https://github.com/stripe/stripe-go/pull/486) Send the required `object=bank_account` parameter when adding a bank account through an account
 * [#487](https://github.com/stripe/stripe-go/pull/487) Make bank account's `account_holder_name` and `account_holder_type` parameters truly optional
