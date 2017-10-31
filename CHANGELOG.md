@@ -1,5 +1,8 @@
 # Changelog
 
+## 28.6.0 - 2017-10-31
+* [#491](https://github.com/stripe/stripe-go/pull/491) Support for exchange rates APIs
+
 ## 28.5.0 - 2017-10-27
 * [#488](https://github.com/stripe/stripe-go/pull/488) Support for listing source transactions
 
