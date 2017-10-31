@@ -17,6 +17,7 @@ import (
 	"github.com/stripe/stripe-go/dispute"
 	"github.com/stripe/stripe-go/ephemeralkey"
 	"github.com/stripe/stripe-go/event"
+	"github.com/stripe/stripe-go/exchangerate"
 	"github.com/stripe/stripe-go/fee"
 	"github.com/stripe/stripe-go/feerefund"
 	"github.com/stripe/stripe-go/fileupload"
@@ -145,6 +146,8 @@ type API struct {
 	// PaymentSource is used to invoke /sources APIs.
 	// For more details see https://stripe.com/docs/api.
 	PaymentSource *paymentsource.Client
+	// ExchangeRates is the client used to invoke /exchange_rates APIs.
+	ExchangeRates *exchangerate.Client
 }
 
 // Init initializes the Stripe client with the appropriate secret key
@@ -189,6 +192,7 @@ func (a *API) Init(key string, backends *Backends) {
 	a.Skus = &sku.Client{B: backends.API, Key: key}
 	a.Sources = &source.Client{B: backends.API, Key: key}
 	a.PaymentSource = &paymentsource.Client{B: backends.API, Key: key}
+	a.ExchangeRates = &exchangerate.Client{B: backends.API, Key: key}
 }
 
 // New creates a new Stripe client with the appropriate secret key
