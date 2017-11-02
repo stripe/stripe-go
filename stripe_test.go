@@ -170,12 +170,12 @@ func TestStripeClientUserAgent(t *testing.T) {
 	//
 
 	assert.Empty(t, userAgent["application"])
-	assert.Equal(t, "go", userAgent["language"])
-	assert.Equal(t, runtime.Version(), userAgent["language_version"])
+	assert.Equal(t, "go", userAgent["lang"])
+	assert.Equal(t, runtime.Version(), userAgent["lang_version"])
 
 	// Anywhere these tests are running can reasonable be expected to have a
 	// `uname` to run, so do this basic check.
-	assert.NotEqual(t, stripe.UnknownPlatform, userAgent["language_version"])
+	assert.NotEqual(t, stripe.UnknownPlatform, userAgent["lang_version"])
 }
 
 func TestStripeClientUserAgentWithAppInfo(t *testing.T) {

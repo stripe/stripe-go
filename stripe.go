@@ -111,8 +111,8 @@ type Backends struct {
 type stripeClientUserAgent struct {
 	Application     *AppInfo `json:"application"`
 	BindingsVersion string   `json:"bindings_version"`
-	Language        string   `json:"language"`
-	LanguageVersion string   `json:"language_version"`
+	Language        string   `json:"lang"`
+	LanguageVersion string   `json:"lang_version"`
 	Publisher       string   `json:"publisher"`
 	Uname           string   `json:"uname"`
 }
