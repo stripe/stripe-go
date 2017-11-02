@@ -1,5 +1,8 @@
 # Changelog
 
+## 28.6.1 - 2017-11-02
+* [#492](https://github.com/stripe/stripe-go/pull/492) Correct name of user agent header used to send Go version to Stripe's API
+
 ## 28.6.0 - 2017-10-31
 * [#491](https://github.com/stripe/stripe-go/pull/491) Support for exchange rates APIs
 
