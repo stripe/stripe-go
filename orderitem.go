@@ -4,7 +4,7 @@ import (
 	// This is pretty silly. Nowhere else do we import a subpackage from the
 	// top-level namespace like this. We should try to deprecate this at some
 	// point.
-	"github.com/stripe/stripe-go/orderitem"
+	"github.com/VividCortex/stripe-go/orderitem"
 )
 
 type OrderItemParams struct {

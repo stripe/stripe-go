@@ -3,12 +3,12 @@ package stripe_test
 import (
 	"log"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/charge"
-	"github.com/stripe/stripe-go/currency"
-	"github.com/stripe/stripe-go/customer"
-	"github.com/stripe/stripe-go/invoice"
-	"github.com/stripe/stripe-go/plan"
+	stripe "github.com/VividCortex/stripe-go"
+	"github.com/VividCortex/stripe-go/charge"
+	"github.com/VividCortex/stripe-go/currency"
+	"github.com/VividCortex/stripe-go/customer"
+	"github.com/VividCortex/stripe-go/invoice"
+	"github.com/VividCortex/stripe-go/plan"
 )
 
 func ExampleCharge_new() {

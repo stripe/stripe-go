@@ -17,7 +17,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/VividCortex/stripe-go/form"
 )
 
 const (

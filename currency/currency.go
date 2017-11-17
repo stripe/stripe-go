@@ -2,7 +2,7 @@
 package currency
 
 import (
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/VividCortex/stripe-go"
 )
 
 const (

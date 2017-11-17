@@ -4,9 +4,9 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
-	_ "github.com/stripe/stripe-go/testing"
+	stripe "github.com/VividCortex/stripe-go"
+	"github.com/VividCortex/stripe-go/currency"
+	_ "github.com/VividCortex/stripe-go/testing"
 )
 
 func TestInvoiceItemDel(t *testing.T) {
