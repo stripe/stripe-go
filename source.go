@@ -3,7 +3,7 @@ package stripe
 import (
 	"encoding/json"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/VividCortex/stripe-go/form"
 )
 
 // SourceStatus represents the possible statuses of a source object.

@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go"
-	_ "github.com/stripe/stripe-go/testing"
+	stripe "github.com/VividCortex/stripe-go"
+	_ "github.com/VividCortex/stripe-go/testing"
 )
 
 func TestSKUDel(t *testing.T) {

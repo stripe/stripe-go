@@ -3,7 +3,7 @@ package stripe
 import (
 	"reflect"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/VividCortex/stripe-go/form"
 )
 
 // Query is the function used to get a page listing.

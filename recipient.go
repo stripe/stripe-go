@@ -3,7 +3,7 @@ package stripe
 import (
 	"encoding/json"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/VividCortex/stripe-go/form"
 )
 
 // RecipientType is the list of allowed values for the recipient's type.

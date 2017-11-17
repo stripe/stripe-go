@@ -16,7 +16,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/VividCortex/stripe-go"
 )
 
 const (

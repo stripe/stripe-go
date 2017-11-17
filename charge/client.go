@@ -4,8 +4,8 @@ package charge
 import (
 	"fmt"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
+	stripe "github.com/VividCortex/stripe-go"
+	"github.com/VividCortex/stripe-go/form"
 )
 
 const (

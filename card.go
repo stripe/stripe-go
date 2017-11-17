@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/VividCortex/stripe-go/form"
 )
 
 // cardSource is a string that's used to build card form parameters. It's a
