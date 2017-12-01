@@ -90,7 +90,7 @@ func ExamplePlan_list() {
 
 	it := plan.List(params)
 	for it.Next() {
-		log.Printf("%v ", it.Plan().Name)
+		log.Printf("%v ", it.Plan().Nickname)
 	}
 	if err := it.Err(); err != nil {
 		log.Fatal(err)
