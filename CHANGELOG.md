@@ -1,5 +1,8 @@
 # Changelog
 
+## 28.7.0 - 2017-12-05
+* [#494](https://github.com/stripe/stripe-go/pull/494) Add `Automatic` to `Payout` struct
+
 ## 28.6.1 - 2017-11-02
 * [#492](https://github.com/stripe/stripe-go/pull/492) Correct name of user agent header used to send Go version to Stripe's API
 
