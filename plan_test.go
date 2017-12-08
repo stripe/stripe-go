@@ -40,9 +40,9 @@ func TestPlanListParams_AppendTo_Empty(t *testing.T) {
 
 func TestPlanParams_AppendTo(t *testing.T) {
 	productParams := ProductParams{
-		Name:      "Sapphire Elite",
-		Statement: "SAPPHIRE",
-		Type:      "service",
+		Name:                "Sapphire Elite",
+		StatementDescriptor: "SAPPHIRE",
+		Type:                ProductTypeService,
 	}
 	productId := "prod_123abc"
 	testCases := []struct {

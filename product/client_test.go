@@ -47,7 +47,7 @@ func TestProductNew(t *testing.T) {
 			Width:  6.50,
 			Weight: 10,
 		},
-		Type: "good",
+		Type: stripe.ProductTypeGood,
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, product)
