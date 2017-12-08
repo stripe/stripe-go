@@ -37,7 +37,7 @@ func TestPlanNew(t *testing.T) {
 		Interval: "month",
 		Product: &stripe.ProductParams{
 			Name: "Sapphire Elite",
-			Type: "service",
+			Type: stripe.ProductTypeService,
 		},
 	})
 	assert.Nil(t, err)
