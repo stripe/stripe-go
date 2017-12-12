@@ -53,6 +53,9 @@ type CardParams struct {
 	Token     string `form:"-"`
 	Year      string `form:"exp_year"`
 	Zip       string `form:"address_zip"`
+
+	// ID is used when tokenizing a card for shared customers
+	ID string `form:"*"`
 }
 
 // AppendToAsCardSourceOrExternalAccount appends the given CardParams as either a

@@ -37,6 +37,9 @@ type BankAccountParams struct {
 	// Token is a token referencing an external account like one returned from
 	// Stripe.js.
 	Token string `form:"-"`
+
+	// ID is used when tokenizing a bank account for shared customers
+	ID string `form:"*"`
 }
 
 // AppendToAsSourceOrExternalAccount appends the given BankAccountParams as
