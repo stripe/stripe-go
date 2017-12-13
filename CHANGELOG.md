@@ -1,5 +1,8 @@
 # Changelog
 
+## 28.8.0 - 2017-12-12
+* [#500](https://github.com/stripe/stripe-go/pull/500) Support sharing for bank accounts and cards (adds `ID` field to bank account and charge parameters)
+
 ## 28.7.0 - 2017-12-05
 * [#494](https://github.com/stripe/stripe-go/pull/494) Add `Automatic` to `Payout` struct
 
