@@ -47,3 +47,29 @@ func TestTokenNew_WithPII(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, token)
 }
+
+func TestTokenNew_SharedCustomerCard(t *testing.T) {
+	params := &stripe.TokenParams{
+		Card: &stripe.CardParams{
+			ID: "card_123",
+		},
+		Customer: "cus_123",
+	}
+	params.SetStripeAccount("acct_123")
+	token, err := New(params)
+	assert.Nil(t, err)
+	assert.NotNil(t, token)
+}
+
+func TestTokenNew_SharedCustomerBankAccount(t *testing.T) {
+	params := &stripe.TokenParams{
+		Bank: &stripe.BankAccountParams{
+			ID: "ba_123",
+		},
+		Customer: "cus_123",
+	}
+	params.SetStripeAccount("acct_123")
+	token, err := New(params)
+	assert.Nil(t, err)
+	assert.NotNil(t, token)
+}

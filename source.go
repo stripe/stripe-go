@@ -81,6 +81,7 @@ type SourceObjectParams struct {
 	Currency            Currency           `form:"currency"`
 	Customer            string             `form:"customer"`
 	Flow                SourceFlow         `form:"flow"`
+	OriginalSource      string             `form:"original_source"`
 	Owner               *SourceOwnerParams `form:"owner"`
 	Redirect            *RedirectParams    `form:"redirect"`
 	StatementDescriptor string             `form:"statement_descriptor"`
