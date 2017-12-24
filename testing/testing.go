@@ -18,7 +18,7 @@ import (
 // package, but should be used as appropriate for any new changes.
 
 const (
-	// MockMinimumVersion is the minimum acceptible version for stripe-mock.
+	// MockMinimumVersion is the minimum acceptable version for stripe-mock.
 	// It's here so that if the library depends on new endpoints or features
 	// added in a more recent version of stripe-mock, we can show people a
 	// better error message instead of the test suite crashing with a bunch of

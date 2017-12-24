@@ -15,7 +15,7 @@ const (
 	SourceStatusCanceled SourceStatus = "canceled"
 
 	// SourceStatusChargeable the source is ready to be charged (once if usage
-	// is `single_use`, repeatidly otherwise).
+	// is `single_use`, repeatedly otherwise).
 	SourceStatusChargeable SourceStatus = "chargeable"
 
 	// SourceStatusConsumed the source is `single_use` usage and has been

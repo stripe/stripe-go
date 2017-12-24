@@ -115,7 +115,7 @@ type OrderListParams struct {
 	Status       OrderStatus       `form:"status"`
 }
 
-// StatsuTransitions are the timestamps at which the order status was updated
+// StatusTransitions are the timestamps at which the order status was updated
 // https://stripe.com/docs/api#order_object
 type StatusTransitions struct {
 	Canceled  int64 `json:"canceled"`
