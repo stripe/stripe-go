@@ -217,7 +217,7 @@ func TestResponseToError(t *testing.T) {
 	}
 
 	// An error that contains expected fields which we're going to serialize to
-	// JSON and inject into our converstion function.
+	// JSON and inject into our conversion function.
 	expectedErr := &stripe.Error{
 		Code:  stripe.Missing,
 		Msg:   "That card was declined",
