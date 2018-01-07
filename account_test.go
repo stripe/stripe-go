@@ -80,7 +80,7 @@ func TestIdentityDocument_Appendto(t *testing.T) {
 
 func TestPayoutScheduleParams_AppendTo(t *testing.T) {
 	{
-		params := &PayoutScheduleParams{MinimumDelay: true}
+		params := &PayoutScheduleParams{DelayDaysMinimum: Bool(true)}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)

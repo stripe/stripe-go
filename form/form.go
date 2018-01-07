@@ -59,12 +59,6 @@ type formOptions struct {
 	// empty string is a string's zero value and wouldn't normally be encoded.
 	Empty bool
 
-	// Invert indicates that a boolean field's value should be inverted. False
-	// is the zero value for a boolean so it's convention in the library to
-	// specify a `No*` field to allow a false to be passed to the API. These
-	// fields should be annotated with `invert`.
-	Invert bool
-
 	// Zero indicates a field that's specifically defined to workaround the
 	// fact because 0 is the "zero value" of all int/float types, we can't
 	// properly encode an explicit 0. It indicates that an explicit zero should
@@ -159,8 +153,6 @@ func boolEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero 
 		switch {
 		case options.Empty:
 			values.Add(FormatKey(keyParts), "")
-		case options.Invert:
-			values.Add(FormatKey(keyParts), strconv.FormatBool(false))
 		case options.Zero:
 			values.Add(FormatKey(keyParts), "0")
 		}
@@ -387,11 +379,11 @@ func makeStructEncoder(t reflect.Type) *structEncoder {
 		fldKind := fldTyp.Kind()
 
 		if Strict && options != nil &&
-			(options.Empty || options.Invert || options.Zero) &&
+			(options.Empty || options.Zero) &&
 			fldKind != reflect.Bool {
 
 			panic(fmt.Sprintf(
-				"Cannot specify `empty`, `invert`, or `zero` for non-boolean field; on: %s/%s",
+				"Cannot specify `empty`, or `zero` for non-boolean field; on: %s/%s",
 				t.Name(), reflectField.Name,
 			))
 		}
@@ -467,12 +459,6 @@ func parseTag(tag string) (string, *formOptions) {
 				options = &formOptions{}
 			}
 			options.IndexedArray = true
-
-		case "invert":
-			if options == nil {
-				options = &formOptions{}
-			}
-			options.Invert = true
 
 		case "zero":
 			if options == nil {
