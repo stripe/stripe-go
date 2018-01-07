@@ -21,7 +21,7 @@ type DisputeStatus string
 type DisputeParams struct {
 	Params   `form:"*"`
 	Evidence *DisputeEvidenceParams `form:"evidence"`
-	NoSubmit bool                   `form:"submit,invert"`
+	Submit   *bool                  `form:"submit"`
 }
 
 // DisputeEvidenceParams is the set of parameters that can be used when submitting
