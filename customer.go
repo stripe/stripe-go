@@ -7,23 +7,20 @@ import (
 // CustomerParams is the set of parameters that can be used when creating or updating a customer.
 // For more details see https://stripe.com/docs/api#create_customer and https://stripe.com/docs/api#update_customer.
 type CustomerParams struct {
-	Params             `form:"*"`
-	AccountBalance     int64                    `form:"account_balance"`
-	AccountBalanceZero bool                     `form:"account_balance,zero"`
-	BusinessVatID      string                   `form:"business_vat_id"`
-	Coupon             string                   `form:"coupon"`
-	CouponEmpty        bool                     `form:"coupon,empty"`
-	DefaultSource      string                   `form:"default_source"`
-	Description        string                   `form:"description"`
-	Email              string                   `form:"email"`
-	Plan               string                   `form:"plan"`
-	Quantity           uint64                   `form:"quantity"`
-	Shipping           *CustomerShippingDetails `form:"shipping"`
-	Source             *SourceParams            `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-	TaxPercent         float64                  `form:"tax_percent"`
-	TaxPercentZero     bool                     `form:"tax_percent,zero"`
-	Token              string                   `form:"-"` // This doesn't seem to be used?
-	TrialEnd           int64                    `form:"trial_end"`
+	Params         `form:"*"`
+	AccountBalance *int64                   `form:"account_balance"`
+	BusinessVatID  string                   `form:"business_vat_id"`
+	Coupon         *string                  `form:"coupon"`
+	DefaultSource  string                   `form:"default_source"`
+	Description    string                   `form:"description"`
+	Email          string                   `form:"email"`
+	Plan           string                   `form:"plan"`
+	Quantity       uint64                   `form:"quantity"`
+	Shipping       *CustomerShippingDetails `form:"shipping"`
+	Source         *SourceParams            `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	TaxPercent     *float64                 `form:"tax_percent"`
+	Token          string                   `form:"-"` // This doesn't seem to be used?
+	TrialEnd       int64                    `form:"trial_end"`
 }
 
 // SetSource adds valid sources to a CustomerParams object,

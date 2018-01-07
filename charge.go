@@ -18,13 +18,13 @@ type ChargeParams struct {
 	Params              `form:"*"`
 	Amount              uint64              `form:"amount"`
 	ApplicationFee      uint64              `form:"application_fee"`
+	Capture             *bool               `form:"capture"`
 	Currency            Currency            `form:"currency"`
 	Customer            string              `form:"customer"`
 	Description         string              `form:"description"`
 	Destination         *DestinationParams  `form:"destination"`
 	ExchangeRate        float64             `form:"exchange_rate"`
 	FraudDetails        *FraudDetailsParams `form:"fraud_details"`
-	NoCapture           bool                `form:"capture,invert"`
 	OnBehalfOf          string              `form:"on_behalf_of"`
 	ReceiptEmail        string              `form:"receipt_email"`
 	Shipping            *ShippingDetails    `form:"shipping"`

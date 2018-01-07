@@ -30,7 +30,7 @@ type BankAccountParams struct {
 	Country            string `form:"country"`
 	Currency           string `form:"currency"`
 	Customer           string `form:"-"`
-	DefaultForCurrency bool   `form:"default_for_currency"`
+	DefaultForCurrency *bool  `form:"default_for_currency"`
 	RoutingNumber      string `form:"routing_number"`
 
 	// Token is a token referencing an external account like one returned from
@@ -67,8 +67,8 @@ func (a *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values)
 	if len(a.Token) > 0 {
 		body.Add(sourceType, a.Token)
 
-		if a.DefaultForCurrency {
-			body.Add("default_for_currency", strconv.FormatBool(a.DefaultForCurrency))
+		if a.DefaultForCurrency != nil {
+			body.Add("default_for_currency", strconv.FormatBool(BoolValue(a.DefaultForCurrency)))
 		}
 	} else {
 		body.Add(sourceType+"[object]", "bank_account")
@@ -91,8 +91,8 @@ func (a *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values)
 			body.Add(sourceType+"[routing_number]", a.RoutingNumber)
 		}
 
-		if a.DefaultForCurrency {
-			body.Add(sourceType+"[default_for_currency]", strconv.FormatBool(a.DefaultForCurrency))
+		if a.DefaultForCurrency != nil {
+			body.Add(sourceType+"[default_for_currency]", strconv.FormatBool(BoolValue(a.DefaultForCurrency)))
 		}
 	}
 }

@@ -18,27 +18,23 @@ type SubscriptionBilling string
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubscriptionParams struct {
 	Params                      `form:"*"`
-	ApplicationFeePercent       float64                    `form:"application_fee_percent"`
-	ApplicationFeePercentZero   bool                       `form:"application_fee_percent,zero"`
+	ApplicationFeePercent       *float64                   `form:"application_fee_percent"`
 	Billing                     SubscriptionBilling        `form:"billing"`
 	BillingCycleAnchor          int64                      `form:"billing_cycle_anchor"`
 	BillingCycleAnchorNow       bool                       `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged bool                       `form:"-"` // See custom AppendTo
 	Card                        *CardParams                `form:"card"`
-	Coupon                      string                     `form:"coupon"`
-	CouponEmpty                 bool                       `form:"coupon,empty"`
+	Coupon                      *string                    `form:"coupon"`
 	Customer                    string                     `form:"customer"`
 	DaysUntilDue                uint64                     `form:"days_until_due"`
 	Items                       []*SubscriptionItemsParams `form:"items,indexed"`
-	NoProrate                   bool                       `form:"prorate,invert"`
 	OnBehalfOf                  string                     `form:"on_behalf_of"`
 	Plan                        string                     `form:"plan"`
+	Prorate                     *bool                      `form:"prorate"`
 	ProrationDate               int64                      `form:"proration_date"`
-	Quantity                    uint64                     `form:"quantity"`
-	QuantityZero                bool                       `form:"quantity,zero"`
+	Quantity                    *uint64                    `form:"quantity"`
 	Source                      string                     `form:"source"`
-	TaxPercent                  float64                    `form:"tax_percent"`
-	TaxPercentZero              bool                       `form:"tax_percent,zero"`
+	TaxPercent                  *float64                   `form:"tax_percent"`
 	TrialEnd                    int64                      `form:"trial_end"`
 	TrialEndNow                 bool                       `form:"-"` // See custom AppendTo
 	TrialPeriodDays             int64                      `form:"trial_period_days"`
@@ -68,12 +64,11 @@ func (p *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
 // SubscriptionItemsParams is the set of parameters that can be used when creating or updating a subscription item on a subscription
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubscriptionItemsParams struct {
-	Params       `form:"*"`
-	Deleted      bool   `form:"deleted"`
-	ID           string `form:"id"`
-	Plan         string `form:"plan"`
-	Quantity     uint64 `form:"quantity"`
-	QuantityZero bool   `form:"quantity,zero"`
+	Params   `form:"*"`
+	Deleted  bool    `form:"deleted"`
+	ID       string  `form:"id"`
+	Plan     string  `form:"plan"`
+	Quantity *uint64 `form:"quantity"`
 }
 
 // SubscriptionListParams is the set of parameters that can be used when listing active subscriptions.

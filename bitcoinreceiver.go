@@ -8,9 +8,9 @@ import (
 // For more details see https://stripe.com/docs/api/#list_bitcoin_receivers.
 type BitcoinReceiverListParams struct {
 	ListParams `form:"*"`
-	NotActive  bool `form:"active,invert"`
-	NotFilled  bool `form:"filled,invert"`
-	Uncaptured bool `form:"uncaptured_funds"`
+	Active     *bool `form:"active"`
+	Filled     *bool `form:"filled"`
+	Uncaptured bool  `form:"uncaptured_funds"`
 }
 
 // BitcoinReceiverParams is the set of parameters that can be used when creating a BitcoinReceiver.

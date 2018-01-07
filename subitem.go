@@ -4,13 +4,12 @@ package stripe
 // For more details see https://stripe.com/docs/api#create_subscription_item and https://stripe.com/docs/api#update_subscription_item.
 type SubscriptionItemParams struct {
 	Params        `form:"*"`
-	ID            string `form:"-"` // Handled in URL
-	NoProrate     bool   `form:"prorate,invert"`
-	Plan          string `form:"plan"`
-	ProrationDate int64  `form:"proration_date"`
-	Quantity      uint64 `form:"quantity"`
-	QuantityZero  bool   `form:"quantity,zero"`
-	Subscription  string `form:"subscription"`
+	ID            string  `form:"-"` // Handled in URL
+	Plan          string  `form:"plan"`
+	Prorate       *bool   `form:"prorate"`
+	ProrationDate int64   `form:"proration_date"`
+	Quantity      *uint64 `form:"quantity"`
+	Subscription  string  `form:"subscription"`
 }
 
 // SubscriptionItemListParams is the set of parameters that can be used when listing invoice items.

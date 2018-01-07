@@ -79,7 +79,7 @@ func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, 
 	return charge, err
 }
 
-// Capture captures a previously created charge with NoCapture set to true.
+// Capture captures a charge not yet captured.
 // For more details see https://stripe.com/docs/api#charge_capture.
 func Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 	return getC().Capture(id, params)

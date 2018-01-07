@@ -51,8 +51,6 @@ type testStruct struct {
 	Int64    int64  `form:"int64"`
 	Int64Ptr *int64 `form:"int64_ptr"`
 
-	Inverted bool `form:"inverted,invert"`
-
 	Map map[string]interface{} `form:"map"`
 
 	Slice    []string  `form:"slice"`
@@ -217,8 +215,6 @@ func TestAppendTo(t *testing.T) {
 		{"int64_ptr", &testStruct{Int64Ptr: &int64Val}, "123"},
 		{"int64_ptr", &testStruct{Int64Ptr: &int64Val0}, "0"},
 		{"int64_ptr", &testStruct{}, ""},
-
-		{"inverted", &testStruct{Inverted: true}, "false"},
 
 		// Tests map
 		{

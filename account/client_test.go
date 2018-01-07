@@ -42,7 +42,7 @@ func TestAccountNew(t *testing.T) {
 		BusinessURL:           "www.stripe.com",
 		BusinessName:          "Stripe",
 		BusinessPrimaryColor:  "#ffffff",
-		DebitNegativeBalances: true,
+		DebitNegativeBalances: stripe.Bool(true),
 		SupportEmail:          "foo@bar.com",
 		SupportURL:            "www.stripe.com",
 		SupportPhone:          "4151234567",
