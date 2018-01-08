@@ -1,5 +1,8 @@
 # Changelog
 
+## 28.9.0 - 2018-01-08
+* [#506](https://github.com/stripe/stripe-go/pull/506) Add support for recursing into slices in `event.GetObjValue`
+
 ## 28.8.0 - 2017-12-12
 * [#500](https://github.com/stripe/stripe-go/pull/500) Support sharing for bank accounts and cards (adds `ID` field to bank account and charge parameters)
 
