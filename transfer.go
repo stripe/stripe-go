@@ -90,7 +90,11 @@ func (d *TransferDestination) UnmarshalJSON(data []byte) error {
 	if err == nil {
 		*d = TransferDestination(dd)
 
-		json.Unmarshal(data, &d.Account)
+		err = json.Unmarshal(data, &d.Account)
+
+		if err != nil {
+			return err
+		}
 	} else {
 		// the id is surrounded by "\" characters, so strip them
 		d.ID = string(data[1 : len(data)-1])
