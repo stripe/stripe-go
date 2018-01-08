@@ -3,6 +3,7 @@ package stripe
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 )
 
 // Event is the resource representing a Stripe event.
@@ -82,7 +83,28 @@ func getValue(m map[string]interface{}, keys []string) string {
 	node := m[keys[0]]
 
 	for i := 1; i < len(keys); i++ {
-		node = node.(map[string]interface{})[keys[i]]
+		key := keys[i]
+
+		sliceNode, ok := node.([]interface{})
+		if ok {
+			intKey, err := strconv.Atoi(key)
+			if err != nil {
+				panic(fmt.Sprintf(
+					"Cannot access nested slice element with non-integer key: %s",
+					key))
+			}
+			node = sliceNode[intKey]
+			continue
+		}
+
+		mapNode, ok := node.(map[string]interface{})
+		if ok {
+			node = mapNode[key]
+			continue
+		}
+
+		panic(fmt.Sprintf(
+			"Cannot descend into non-map non-slice object with key: %s", key))
 	}
 
 	if node == nil {
