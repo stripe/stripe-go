@@ -46,10 +46,10 @@ func TestGetObjValue(t *testing.T) {
 	// Panic conditions. Usually the function tries to just return a value is
 	// fairly forgiving, but it does panic under certain obviously impossible
 	// cases.
-	assert.Panicsf(t, func() {
+	assert.PanicsWithValue(t, "Cannot access nested slice element with non-integer key: string_key", func() {
 		event.GetObjValue("slice", "string_key")
-	}, "Cannot access nested slice element with non-integer key: %s", "bad_key")
-	assert.Panicsf(t, func() {
+	})
+	assert.PanicsWithValue(t, "Cannot descend into non-map non-slice object with key: bad_key", func() {
 		event.GetObjValue("top_level_key", "bad_key")
-	}, "Cannot descend into non-map non-slice object with key: %s", "bad_key")
+	})
 }
