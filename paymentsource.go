@@ -133,13 +133,17 @@ func (s *PaymentSource) UnmarshalJSON(data []byte) error {
 
 		switch s.Type {
 		case PaymentSourceBankAccount:
-			json.Unmarshal(data, &s.BankAccount)
+			err = json.Unmarshal(data, &s.BankAccount)
 		case PaymentSourceBitcoinReceiver:
-			json.Unmarshal(data, &s.BitcoinReceiver)
+			err = json.Unmarshal(data, &s.BitcoinReceiver)
 		case PaymentSourceCard:
-			json.Unmarshal(data, &s.Card)
+			err = json.Unmarshal(data, &s.Card)
 		case PaymentSourceObject:
-			json.Unmarshal(data, &s.SourceObject)
+			err = json.Unmarshal(data, &s.SourceObject)
+		}
+
+		if err != nil {
+			return err
 		}
 	} else {
 		// the id is surrounded by "\" characters, so strip them

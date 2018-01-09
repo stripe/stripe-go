@@ -138,9 +138,13 @@ func (d *PayoutDestination) UnmarshalJSON(data []byte) error {
 
 		switch d.Type {
 		case PayoutDestinationBankAccount:
-			json.Unmarshal(data, &d.BankAccount)
+			err = json.Unmarshal(data, &d.BankAccount)
 		case PayoutDestinationCard:
-			json.Unmarshal(data, &d.Card)
+			err = json.Unmarshal(data, &d.Card)
+		}
+
+		if err != nil {
+			return err
 		}
 	} else {
 		// the id is surrounded by "\" characters, so strip them

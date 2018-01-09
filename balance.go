@@ -158,21 +158,25 @@ func (s *TransactionSource) UnmarshalJSON(data []byte) error {
 
 		switch s.Type {
 		case TransactionSourceCharge:
-			json.Unmarshal(data, &s.Charge)
+			err = json.Unmarshal(data, &s.Charge)
 		case TransactionSourceDispute:
-			json.Unmarshal(data, &s.Dispute)
+			err = json.Unmarshal(data, &s.Dispute)
 		case TransactionSourceFee:
-			json.Unmarshal(data, &s.Fee)
+			err = json.Unmarshal(data, &s.Fee)
 		case TransactionSourcePayout:
-			json.Unmarshal(data, &s.Payout)
+			err = json.Unmarshal(data, &s.Payout)
 		case TransactionSourceRecipientTransfer:
-			json.Unmarshal(data, &s.RecipientTransfer)
+			err = json.Unmarshal(data, &s.RecipientTransfer)
 		case TransactionSourceRefund:
-			json.Unmarshal(data, &s.Refund)
+			err = json.Unmarshal(data, &s.Refund)
 		case TransactionSourceReversal:
-			json.Unmarshal(data, &s.Reversal)
+			err = json.Unmarshal(data, &s.Reversal)
 		case TransactionSourceTransfer:
-			json.Unmarshal(data, &s.Transfer)
+			err = json.Unmarshal(data, &s.Transfer)
+		}
+
+		if err != nil {
+			return err
 		}
 	} else {
 		// the id is surrounded by "\" characters, so strip them
