@@ -1,5 +1,8 @@
 # Changelog
 
+## 28.10.0 - 2018-01-09
+* [#509](https://github.com/stripe/stripe-go/pull/509) Plumb through additional possible errors when unmarshaling polymorphic types (please test your integrations while upgrading)
+
 ## 28.9.0 - 2018-01-08
 * [#506](https://github.com/stripe/stripe-go/pull/506) Add support for recursing into slices in `event.GetObjValue`
 
