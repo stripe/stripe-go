@@ -298,11 +298,13 @@ func intEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero b
 	values.Add(FormatKey(keyParts), strconv.FormatInt(val, 10))
 }
 
-func interfaceEncoder(values *Values, v reflect.Value, keyParts []string, _ bool, _ *formOptions) {
+func interfaceEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, _ *formOptions) {
+	// interfaceEncoder never encodes a `nil`, but it will pass through an
+	// `encodeZero` value into its chained encoder
 	if v.IsNil() {
 		return
 	}
-	reflectValue(values, v.Elem(), false, keyParts)
+	reflectValue(values, v.Elem(), encodeZero, keyParts)
 }
 
 func isAppender(t reflect.Type) bool {
@@ -315,7 +317,11 @@ func mapEncoder(values *Values, v reflect.Value, keyParts []string, _ bool, _ *f
 			panic("Don't support serializing maps with non-string keys")
 		}
 
-		reflectValue(values, v.MapIndex(keyVal), false, append(keyParts, keyVal.String()))
+		// Unlike a property on a struct which will contain a zero value even
+		// if never set, any value found in a map has been explicitly set, so
+		// we always make an effort to encode them, even if a zero value
+		// (that's why we pass through `true` here).
+		reflectValue(values, v.MapIndex(keyVal), true, append(keyParts, keyVal.String()))
 	}
 }
 
@@ -335,12 +341,17 @@ func uintEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero 
 	values.Add(FormatKey(keyParts), strconv.FormatUint(val, 10))
 }
 
-func reflectValue(values *Values, v reflect.Value, _ bool, keyParts []string) {
+// reflectValue is roughly the shared entry point of any AppendTo functions.
+// It's also called recursively in cases where a precise type isn't yet known
+// and its encoding needs to be deferred down the chain; for example, when
+// encoding interface{} or the values in an array or map containing
+// interface{}.
+func reflectValue(values *Values, v reflect.Value, encodeZero bool, keyParts []string) {
 	t := v.Type()
 
 	f := getCachedOrBuildTypeEncoder(t)
 	if f != nil {
-		f(values, v, keyParts, v.Kind() == reflect.Ptr, nil)
+		f(values, v, keyParts, encodeZero || v.Kind() == reflect.Ptr, nil)
 	}
 
 	if isAppender(t) {
