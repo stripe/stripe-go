@@ -233,6 +233,11 @@ func TestAppendTo(t *testing.T) {
 		{
 			"map[empty]",
 			&testStruct{Map: map[string]interface{}{
+				// Note that we use an empty integer instead of an empty string
+				// here because `Value`''s `Get` implementation will return an
+				// empty string for an unset value which means that we can't
+				// differentiate between a missing and empty value. The empty
+				// value for int64 is 0, so we can.
 				"empty": int64(0),
 			}},
 			"0",
