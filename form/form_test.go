@@ -229,6 +229,15 @@ func TestAppendTo(t *testing.T) {
 			"bar",
 		},
 
+		// Tests map with an empty value
+		{
+			"map[empty]",
+			&testStruct{Map: map[string]interface{}{
+				"empty": int64(0),
+			}},
+			"0",
+		},
+
 		// Tests map nested inside of another map
 		{
 			"map[foo][bar]",
