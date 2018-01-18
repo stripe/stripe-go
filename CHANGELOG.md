@@ -1,5 +1,8 @@
 # Changelog
 
+## 28.10.1 - 2018-01-18
+* [#512](https://github.com/stripe/stripe-go/pull/512) Encode empty values found in maps (like `Meta`)
+
 ## 28.10.0 - 2018-01-09
 * [#509](https://github.com/stripe/stripe-go/pull/509) Plumb through additional possible errors when unmarshaling polymorphic types (please test your integrations while upgrading)
 
