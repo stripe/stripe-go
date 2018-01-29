@@ -1,5 +1,8 @@
 # Changelog
 
+## 28.11.0 - 2018-01-29
+* [#516](https://github.com/stripe/stripe-go/pull/516) Add `AmountZero` to `PlanParams` to it's possible to send zero values when creating or updating a plan
+
 ## 28.10.1 - 2018-01-18
 * [#512](https://github.com/stripe/stripe-go/pull/512) Encode empty values found in maps (like `Meta`)
 
