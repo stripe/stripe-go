@@ -8,7 +8,6 @@ type PlanInterval string
 // For more details see https://stripe.com/docs/api#plans.
 type Plan struct {
 	Amount        uint64            `json:"amount"`
-	AmountZero    bool              `form:"amount,zero"`
 	Created       int64             `json:"created"`
 	Currency      Currency          `json:"currency"`
 	Deleted       bool              `json:"deleted"`
