@@ -1,5 +1,8 @@
 # Changelog
 
+## 28.12.0 - 2018-02-09
+* [#517](https://github.com/stripe/stripe-go/pull/517) Add `BillingCycleAnchor` to `Sub` and `BillingCycleAnchorUnchanged` to `SubParams`
+
 ## 28.11.0 - 2018-01-29
 * [#516](https://github.com/stripe/stripe-go/pull/516) Add `AmountZero` to `PlanParams` to it's possible to send zero values when creating or updating a plan
 

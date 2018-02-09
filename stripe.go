@@ -29,7 +29,7 @@ const (
 const apiversion = "2017-05-25"
 
 // clientversion is the binding version
-const clientversion = "28.11.0"
+const clientversion = "28.12.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and
