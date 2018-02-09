@@ -27,6 +27,8 @@ type ProductParams struct {
 	Name              string             `form:"name"`
 	PackageDimensions *PackageDimensions `form:"package_dimensions"`
 	Shippable         *bool              `form:"shippable"`
+	Statement         string             `form:"statement_descriptor"`
+	Type              string             `form:"type"`
 	URL               string             `form:"url"`
 }
 
@@ -47,8 +49,10 @@ type Product struct {
 	PackageDimensions *PackageDimensions `json:"package_dimensions"`
 	Shippable         bool               `json:"shippable"`
 	Skus              *SKUList           `json:"skus"`
+	Statement         string             `json:"statement_descriptor"`
 	URL               string             `json:"url"`
 	Updated           int64              `json:"updated"`
+	Type              string             `json:"type"`
 }
 
 // ProductList is a list of products as retrieved from a list endpoint.

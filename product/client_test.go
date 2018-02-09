@@ -47,6 +47,7 @@ func TestProductNew(t *testing.T) {
 			Width:  6.50,
 			Weight: 10,
 		},
+		Type: "good",
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, product)

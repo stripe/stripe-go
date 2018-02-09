@@ -35,7 +35,23 @@ func TestPlanNew(t *testing.T) {
 		Currency: "usd",
 		ID:       "sapphire-elite",
 		Interval: "month",
-		Name:     "Sapphire Elite",
+		Product: &stripe.ProductParams{
+			Name: "Sapphire Elite",
+			Type: "service",
+		},
+	})
+	assert.Nil(t, err)
+	assert.NotNil(t, plan)
+}
+
+func TestPlanNewWithProductID(t *testing.T) {
+	productId := "prod_12345abc"
+	plan, err := New(&stripe.PlanParams{
+		Amount:    1,
+		Currency:  "usd",
+		ID:        "sapphire-elite",
+		Interval:  "month",
+		ProductID: &productId,
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, plan)
@@ -43,7 +59,7 @@ func TestPlanNew(t *testing.T) {
 
 func TestPlanUpdate(t *testing.T) {
 	plan, err := Update("gold", &stripe.PlanParams{
-		Name: "Updated Name",
+		Nickname: "Updated nickame",
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, plan)

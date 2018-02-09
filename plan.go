@@ -16,8 +16,8 @@ type Plan struct {
 	IntervalCount uint64            `json:"interval_count"`
 	Live          bool              `json:"livemode"`
 	Meta          map[string]string `json:"metadata"`
-	Name          string            `json:"name"`
-	Statement     string            `json:"statement_descriptor"`
+	Nickname      string            `json:"nickname"`
+	Product       string            `json:"product"`
 	TrialPeriod   uint64            `json:"trial_period_days"`
 }
 
@@ -39,13 +39,14 @@ type PlanListParams struct {
 // For more details see https://stripe.com/docs/api#create_plan and https://stripe.com/docs/api#update_plan.
 type PlanParams struct {
 	Params        `form:"*"`
-	Amount        uint64       `form:"amount"`
-	AmountZero    bool         `form:"amount,zero"`
-	Currency      Currency     `form:"currency"`
-	ID            string       `form:"id"`
-	Interval      PlanInterval `form:"interval"`
-	IntervalCount uint64       `form:"interval_count"`
-	Name          string       `form:"name"`
-	Statement     string       `form:"statement_descriptor"`
-	TrialPeriod   uint64       `form:"trial_period_days"`
+	Amount        uint64       `  form:"amount"`
+	AmountZero    bool           `form:"amount,zero"`
+	Currency      Currency       `form:"currency"`
+	ID            string         `form:"id"`
+	Interval      PlanInterval   `form:"interval"`
+	IntervalCount uint64         `form:"interval_count"`
+	Nickname      string         `form:"nickname"`
+	Product       *ProductParams `form:"product"`
+	ProductID     *string        `form:"product"`
+	TrialPeriod   uint64         `form:"trial_period_days"`
 }
