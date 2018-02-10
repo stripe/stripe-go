@@ -2,24 +2,30 @@ package stripe
 
 import "encoding/json"
 
+type InventoryParams struct {
+	Quantity *int64  `form:"quantity"`
+	Type     *string `form:"type"`
+	Value    *string `form:"value"`
+}
+
 type SKUParams struct {
 	Params            `form:"*"`
 	Active            *bool              `form:"active"`
 	Attributes        map[string]string  `form:"attributes"`
-	Currency          string             `form:"currency"`
-	Description       string             `form:"description"`
-	ID                string             `form:"id"`
-	Image             string             `form:"image"`
-	Inventory         Inventory          `form:"inventory"`
+	Currency          *string            `form:"currency"`
+	Description       *string            `form:"description"`
+	ID                *string            `form:"id"`
+	Image             *string            `form:"image"`
+	Inventory         *InventoryParams   `form:"inventory"`
 	PackageDimensions *PackageDimensions `form:"package_dimensions"`
-	Price             int64              `form:"price"`
-	Product           string             `form:"product"`
+	Price             *int64             `form:"price"`
+	Product           *string            `form:"product"`
 }
 
 type Inventory struct {
-	Quantity int64  `json:"quantity" form:"quantity"`
-	Type     string `json:"type" form:"type"`
-	Value    string `json:"value" form:"value"`
+	Quantity int64  `json:"quantity"`
+	Type     string `json:"type"`
+	Value    string `json:"value"`
 }
 
 type SKU struct {

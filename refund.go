@@ -15,11 +15,11 @@ type RefundStatus string
 // For more details see https://stripe.com/docs/api#refund.
 type RefundParams struct {
 	Params               `form:"*"`
-	Amount               uint64       `form:"amount"`
-	Charge               string       `form:"charge"`
+	Amount               *uint64      `form:"amount"`
+	Charge               *string      `form:"charge"`
 	Reason               RefundReason `form:"reason"`
-	RefundApplicationFee bool         `form:"refund_application_fee"`
-	ReverseTransfer      bool         `form:"reverse_transfer"`
+	RefundApplicationFee *bool        `form:"refund_application_fee"`
+	ReverseTransfer      *bool        `form:"reverse_transfer"`
 }
 
 // RefundListParams is the set of parameters that can be used when listing refunds.

@@ -17,11 +17,11 @@ func TestSourceGet(t *testing.T) {
 
 func TestSourceNew(t *testing.T) {
 	source, err := New(&stripe.SourceObjectParams{
-		Type:     "bitcoin",
-		Amount:   1000,
+		Type:     stripe.String("bitcoin"),
+		Amount:   stripe.UInt64(1000),
 		Currency: currency.USD,
 		Owner: &stripe.SourceOwnerParams{
-			Email: "jenny.rosen@example.com",
+			Email: stripe.String("jenny.rosen@example.com"),
 		},
 	})
 	assert.Nil(t, err)
@@ -31,7 +31,7 @@ func TestSourceNew(t *testing.T) {
 func TestSourceUpdate(t *testing.T) {
 	source, err := Update("src_123", &stripe.SourceObjectParams{
 		Owner: &stripe.SourceOwnerParams{
-			Email: "jenny.rosen@example.com",
+			Email: stripe.String("jenny.rosen@example.com"),
 		},
 	})
 	assert.Nil(t, err)
@@ -40,7 +40,7 @@ func TestSourceUpdate(t *testing.T) {
 
 func TestSourceDetach(t *testing.T) {
 	source, err := Detach("src_123", &stripe.SourceObjectDetachParams{
-		Customer: "cus_123",
+		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, source)
@@ -48,9 +48,9 @@ func TestSourceDetach(t *testing.T) {
 
 func TestSourceSharing(t *testing.T) {
 	params := &stripe.SourceObjectParams{
-		Type:           "card",
-		Customer:       "cus_123",
-		OriginalSource: "src_123",
+		Type:           stripe.String("card"),
+		Customer:       stripe.String("cus_123"),
+		OriginalSource: stripe.String("src_123"),
 		Usage:          stripe.UsageReusable,
 	}
 	params.SetStripeAccount("acct_123")

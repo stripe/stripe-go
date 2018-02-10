@@ -25,7 +25,7 @@ func TestRefundList(t *testing.T) {
 
 func TestRefundNew(t *testing.T) {
 	refund, err := New(&stripe.RefundParams{
-		Charge: "ch_123",
+		Charge: stripe.String("ch_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, refund)

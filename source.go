@@ -66,27 +66,27 @@ const (
 
 type SourceOwnerParams struct {
 	Address *AddressParams `form:"address"`
-	Email   string         `form:"email"`
-	Name    string         `form:"name"`
-	Phone   string         `form:"phone"`
+	Email   *string        `form:"email"`
+	Name    *string        `form:"name"`
+	Phone   *string        `form:"phone"`
 }
 
 type RedirectParams struct {
-	ReturnURL string `form:"return_url"`
+	ReturnURL *string `form:"return_url"`
 }
 
 type SourceObjectParams struct {
 	Params              `form:"*"`
-	Amount              uint64             `form:"amount"`
+	Amount              *uint64            `form:"amount"`
 	Currency            Currency           `form:"currency"`
-	Customer            string             `form:"customer"`
+	Customer            *string            `form:"customer"`
 	Flow                SourceFlow         `form:"flow"`
-	OriginalSource      string             `form:"original_source"`
+	OriginalSource      *string            `form:"original_source"`
 	Owner               *SourceOwnerParams `form:"owner"`
 	Redirect            *RedirectParams    `form:"redirect"`
-	StatementDescriptor string             `form:"statement_descriptor"`
-	Token               string             `form:"token"`
-	Type                string             `form:"type"`
+	StatementDescriptor *string            `form:"statement_descriptor"`
+	Token               *string            `form:"token"`
+	Type                *string            `form:"type"`
 	TypeData            map[string]string  `form:"-"`
 	Usage               SourceUsage        `form:"usage"`
 }
@@ -95,7 +95,7 @@ type SourceObjectParams struct {
 // a source from a customer.
 type SourceObjectDetachParams struct {
 	Params   `form:"*"`
-	Customer string `form:"-"`
+	Customer *string `form:"-"`
 }
 
 type SourceOwner struct {
@@ -211,12 +211,12 @@ type Source struct {
 // AppendTo implements custom encoding logic for SourceObjectParams so that the special
 // "TypeData" value for is sent as the correct parameter based on the Source type
 func (p *SourceObjectParams) AppendTo(body *form.Values, keyParts []string) {
-	if len(p.TypeData) > 0 && len(p.Type) == 0 {
+	if len(p.TypeData) > 0 && p.Type == nil {
 		panic("You can not fill TypeData if you don't explicitly set Type")
 	}
 
 	for k, vs := range p.TypeData {
-		body.Add(form.FormatKey(append(keyParts, p.Type, k)), vs)
+		body.Add(form.FormatKey(append(keyParts, StringValue(p.Type), k)), vs)
 	}
 }
 

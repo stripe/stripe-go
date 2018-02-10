@@ -6,11 +6,11 @@ type ThreeDSecureStatus string
 // For more details see https://stripe.com/docs/api#create_three_d_secure.
 type ThreeDSecureParams struct {
 	Params    `form:"*"`
-	Amount    uint64   `form:"amount"`
-	Card      string   `form:"card"`
+	Amount    *uint64  `form:"amount"`
+	Card      *string  `form:"card"`
 	Currency  Currency `form:"currency"`
-	Customer  string   `form:"customer"`
-	ReturnURL string   `form:"return_url"`
+	Customer  *string  `form:"customer"`
+	ReturnURL *string  `form:"return_url"`
 }
 
 // ThreeDSecure is the resource representing a Stripe 3DS object

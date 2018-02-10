@@ -20,43 +20,43 @@ type SubscriptionParams struct {
 	Params                      `form:"*"`
 	ApplicationFeePercent       *float64                   `form:"application_fee_percent"`
 	Billing                     SubscriptionBilling        `form:"billing"`
-	BillingCycleAnchor          int64                      `form:"billing_cycle_anchor"`
-	BillingCycleAnchorNow       bool                       `form:"-"` // See custom AppendTo
-	BillingCycleAnchorUnchanged bool                       `form:"-"` // See custom AppendTo
+	BillingCycleAnchor          *int64                     `form:"billing_cycle_anchor"`
+	BillingCycleAnchorNow       *bool                      `form:"-"` // See custom AppendTo
+	BillingCycleAnchorUnchanged *bool                      `form:"-"` // See custom AppendTo
 	Card                        *CardParams                `form:"card"`
 	Coupon                      *string                    `form:"coupon"`
-	Customer                    string                     `form:"customer"`
-	DaysUntilDue                uint64                     `form:"days_until_due"`
+	Customer                    *string                    `form:"customer"`
+	DaysUntilDue                *uint64                    `form:"days_until_due"`
 	Items                       []*SubscriptionItemsParams `form:"items,indexed"`
-	OnBehalfOf                  string                     `form:"on_behalf_of"`
-	Plan                        string                     `form:"plan"`
+	OnBehalfOf                  *string                    `form:"on_behalf_of"`
+	Plan                        *string                    `form:"plan"`
 	Prorate                     *bool                      `form:"prorate"`
-	ProrationDate               int64                      `form:"proration_date"`
+	ProrationDate               *int64                     `form:"proration_date"`
 	Quantity                    *uint64                    `form:"quantity"`
-	Source                      string                     `form:"source"`
+	Source                      *string                    `form:"source"`
 	TaxPercent                  *float64                   `form:"tax_percent"`
-	TrialEnd                    int64                      `form:"trial_end"`
-	TrialEndNow                 bool                       `form:"-"` // See custom AppendTo
-	TrialPeriodDays             int64                      `form:"trial_period_days"`
+	TrialEnd                    *int64                     `form:"trial_end"`
+	TrialEndNow                 *bool                      `form:"-"` // See custom AppendTo
+	TrialPeriodDays             *int64                     `form:"trial_period_days"`
 
 	// Used for Cancel
 
-	AtPeriodEnd bool `form:"at_period_end"`
+	AtPeriodEnd *bool `form:"at_period_end"`
 }
 
 // AppendTo implements custom encoding logic for SubscriptionParams so that the special
 // "now" value for billing_cycle_anchor and trial_end can be implemented
 // (they're otherwise timestamps rather than strings).
 func (p *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
-	if p.BillingCycleAnchorNow {
+	if p.BillingCycleAnchorNow != nil {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "now")
 	}
 
-	if p.BillingCycleAnchorUnchanged {
+	if p.BillingCycleAnchorUnchanged != nil {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
 	}
 
-	if p.TrialEndNow {
+	if p.TrialEndNow != nil {
 		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
 	}
 }

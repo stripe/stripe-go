@@ -30,15 +30,17 @@ func TestSKUList(t *testing.T) {
 }
 
 func TestSKUNew(t *testing.T) {
-	active := true
 	sku, err := New(&stripe.SKUParams{
-		Active:     &active,
+		Active:     stripe.Bool(true),
 		Attributes: map[string]string{"attr1": "val1", "attr2": "val2"},
-		Price:      499,
-		Currency:   "usd",
-		Inventory:  stripe.Inventory{Type: "bucket", Value: "limited"},
-		Product:    "prod_123",
-		Image:      "http://example.com/foo.png",
+		Price:      stripe.Int64(499),
+		Currency:   stripe.String("usd"),
+		Inventory: &stripe.InventoryParams{
+			Type:  stripe.String("bucket"),
+			Value: stripe.String("limited"),
+		},
+		Product: stripe.String("prod_123"),
+		Image:   stripe.String("http://example.com/foo.png"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, sku)
@@ -46,7 +48,10 @@ func TestSKUNew(t *testing.T) {
 
 func TestSKUUpdate(t *testing.T) {
 	sku, err := Update("sku_123", &stripe.SKUParams{
-		Inventory: stripe.Inventory{Type: "bucket", Value: "in_stock"},
+		Inventory: &stripe.InventoryParams{
+			Type:  stripe.String("bucket"),
+			Value: stripe.String("in_stock"),
+		},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, sku)

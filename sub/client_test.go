@@ -32,13 +32,13 @@ func TestSubscriptionList(t *testing.T) {
 
 func TestSubscriptionNew(t *testing.T) {
 	subscription, err := New(&stripe.SubscriptionParams{
-		Customer:           "cus_123",
-		Plan:               "plan_123",
+		Customer:           stripe.String("cus_123"),
+		Plan:               stripe.String("plan_123"),
 		Quantity:           stripe.UInt64(10),
 		TaxPercent:         stripe.Float64(20.0),
-		BillingCycleAnchor: time.Now().AddDate(0, 0, 12).Unix(),
+		BillingCycleAnchor: stripe.Int64(time.Now().AddDate(0, 0, 12).Unix()),
 		Billing:            "send_invoice",
-		DaysUntilDue:       30,
+		DaysUntilDue:       stripe.UInt64(30),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, subscription)
@@ -46,7 +46,7 @@ func TestSubscriptionNew(t *testing.T) {
 
 func TestSubscriptionNew_WithItems(t *testing.T) {
 	subscription, err := New(&stripe.SubscriptionParams{
-		Customer: "cus_123",
+		Customer: stripe.String("cus_123"),
 		Items: []*stripe.SubscriptionItemsParams{
 			{
 				Plan:     "gold",

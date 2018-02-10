@@ -41,7 +41,7 @@ func TestTokenNew_WithCard(t *testing.T) {
 func TestTokenNew_WithPII(t *testing.T) {
 	token, err := New(&stripe.TokenParams{
 		PII: &stripe.PIIParams{
-			PersonalIDNumber: "000000000",
+			PersonalIDNumber: stripe.String("000000000"),
 		},
 	})
 	assert.Nil(t, err)
@@ -53,7 +53,7 @@ func TestTokenNew_SharedCustomerCard(t *testing.T) {
 		Card: &stripe.CardParams{
 			ID: "card_123",
 		},
-		Customer: "cus_123",
+		Customer: stripe.String("cus_123"),
 	}
 	params.SetStripeAccount("acct_123")
 	token, err := New(params)
@@ -66,7 +66,7 @@ func TestTokenNew_SharedCustomerBankAccount(t *testing.T) {
 		BankAccount: &stripe.BankAccountParams{
 			ID: "ba_123",
 		},
-		Customer: "cus_123",
+		Customer: stripe.String("cus_123"),
 	}
 	params.SetStripeAccount("acct_123")
 	token, err := New(params)

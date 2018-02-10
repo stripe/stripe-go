@@ -4,19 +4,19 @@ package stripe
 // For more details see https://stripe.com/docs/api#create_subscription_item and https://stripe.com/docs/api#update_subscription_item.
 type SubscriptionItemParams struct {
 	Params        `form:"*"`
-	ID            string  `form:"-"` // Handled in URL
-	Plan          string  `form:"plan"`
+	ID            *string `form:"-"` // Handled in URL
+	Plan          *string `form:"plan"`
 	Prorate       *bool   `form:"prorate"`
-	ProrationDate int64   `form:"proration_date"`
+	ProrationDate *int64  `form:"proration_date"`
 	Quantity      *uint64 `form:"quantity"`
-	Subscription  string  `form:"subscription"`
+	Subscription  *string `form:"subscription"`
 }
 
 // SubscriptionItemListParams is the set of parameters that can be used when listing invoice items.
 // For more details see https://stripe.com/docs/api#list_invoiceitems.
 type SubscriptionItemListParams struct {
 	ListParams   `form:"*"`
-	Subscription string `form:"subscription"`
+	Subscription *string `form:"subscription"`
 }
 
 // SubscriptionItem is the resource representing a Stripe subscription item.

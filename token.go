@@ -10,11 +10,11 @@ type TokenParams struct {
 	Params      `form:"*"`
 	BankAccount *BankAccountParams `form:"bank_account"`
 	Card        *CardParams        `form:"card"`
-	Customer    string             `form:"customer"`
+	Customer    *string            `form:"customer"`
 
 	// Email is an undocumented parameter used by Stripe Checkout
 	// It may be removed from the API without notice.
-	Email string `form:"email"`
+	Email *string `form:"email"`
 
 	PII *PIIParams `form:"pii"`
 }
@@ -40,5 +40,5 @@ type Token struct {
 // PIIParams are parameters for personal identifiable information (PII).
 type PIIParams struct {
 	Params           `form:"*"`
-	PersonalIDNumber string `form:"personal_id_number"`
+	PersonalIDNumber *string `form:"personal_id_number"`
 }

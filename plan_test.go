@@ -14,7 +14,7 @@ func TestPlanListParams_AppendTo(t *testing.T) {
 		params *PlanListParams
 		want   interface{}
 	}{
-		{"created", &PlanListParams{Created: 123}, strconv.FormatInt(123, 10)},
+		{"created", &PlanListParams{Created: Int64(123)}, strconv.FormatInt(123, 10)},
 		{
 			"created[gt]",
 			&PlanListParams{CreatedRange: &RangeQueryParams{GreaterThan: 123}},
@@ -50,15 +50,15 @@ func TestPlanParams_AppendTo(t *testing.T) {
 		params *PlanParams
 		want   interface{}
 	}{
-		{"amount", &PlanParams{Amount: 123}, strconv.FormatUint(123, 10)},
+		{"amount", &PlanParams{Amount: UInt64(123)}, strconv.FormatUint(123, 10)},
 		{"currency", &PlanParams{Currency: "USD"}, "USD"},
-		{"id", &PlanParams{ID: "sapphire-elite"}, "sapphire-elite"},
+		{"id", &PlanParams{ID: String("sapphire-elite")}, "sapphire-elite"},
 		{"interval", &PlanParams{Interval: "month"}, "month"},
-		{"interval_count", &PlanParams{IntervalCount: 3}, strconv.FormatUint(3, 10)},
+		{"interval_count", &PlanParams{IntervalCount: UInt64(3)}, strconv.FormatUint(3, 10)},
 		{"product[name]", &PlanParams{Product: &productParams}, "Sapphire Elite"},
 		{"product[statement_descriptor]", &PlanParams{Product: &productParams}, "SAPPHIRE"},
 		{"product", &PlanParams{ProductID: &productId}, "prod_123abc"},
-		{"trial_period_days", &PlanParams{TrialPeriodDays: 123}, strconv.FormatUint(123, 10)},
+		{"trial_period_days", &PlanParams{TrialPeriodDays: UInt64(123)}, strconv.FormatUint(123, 10)},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.field, func(t *testing.T) {

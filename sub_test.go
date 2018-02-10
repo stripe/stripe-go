@@ -9,7 +9,7 @@ import (
 
 func TestSubscriptionParams_AppendTo(t *testing.T) {
 	{
-		params := &SubscriptionParams{BillingCycleAnchorNow: true}
+		params := &SubscriptionParams{BillingCycleAnchorNow: Bool(true)}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -17,7 +17,7 @@ func TestSubscriptionParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &SubscriptionParams{BillingCycleAnchorUnchanged: true}
+		params := &SubscriptionParams{BillingCycleAnchorUnchanged: Bool(true)}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -25,7 +25,7 @@ func TestSubscriptionParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &SubscriptionParams{TrialEndNow: true}
+		params := &SubscriptionParams{TrialEndNow: Bool(true)}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
