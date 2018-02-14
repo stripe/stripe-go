@@ -39,7 +39,7 @@ type PlanListParams struct {
 // For more details see https://stripe.com/docs/api#create_plan and https://stripe.com/docs/api#update_plan.
 type PlanParams struct {
 	Params        `form:"*"`
-	Amount        uint64       `  form:"amount"`
+	Amount        uint64         `form:"amount"`
 	AmountZero    bool           `form:"amount,zero"`
 	Currency      Currency       `form:"currency"`
 	ID            string         `form:"id"`
