@@ -17,7 +17,7 @@ func TestEphemeralKeyDel(t *testing.T) {
 func TestEphemeralKeyNew(t *testing.T) {
 	key, err := New(&stripe.EphemeralKeyParams{
 		Customer:      "cus_123",
-		StripeVersion: "2017-05-25",
+		StripeVersion: "2018-02-06",
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, key)

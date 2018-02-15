@@ -39,6 +39,12 @@ func TestPlanListParams_AppendTo_Empty(t *testing.T) {
 }
 
 func TestPlanParams_AppendTo(t *testing.T) {
+	productParams := ProductParams{
+		Name:                "Sapphire Elite",
+		StatementDescriptor: "SAPPHIRE",
+		Type:                ProductTypeService,
+	}
+	productId := "prod_123abc"
 	testCases := []struct {
 		field  string
 		params *PlanParams
@@ -49,8 +55,9 @@ func TestPlanParams_AppendTo(t *testing.T) {
 		{"id", &PlanParams{ID: "sapphire-elite"}, "sapphire-elite"},
 		{"interval", &PlanParams{Interval: "month"}, "month"},
 		{"interval_count", &PlanParams{IntervalCount: 3}, strconv.FormatUint(3, 10)},
-		{"name", &PlanParams{Name: "Sapphire Elite"}, "Sapphire Elite"},
-		{"statement_descriptor", &PlanParams{Statement: "Sapphire Elite"}, "Sapphire Elite"},
+		{"product[name]", &PlanParams{Product: &productParams}, "Sapphire Elite"},
+		{"product[statement_descriptor]", &PlanParams{Product: &productParams}, "SAPPHIRE"},
+		{"product", &PlanParams{ProductID: &productId}, "prod_123abc"},
 		{"trial_period_days", &PlanParams{TrialPeriod: 123}, strconv.FormatUint(123, 10)},
 	}
 	for _, tc := range testCases {
