@@ -1,5 +1,8 @@
 # Changelog
 
+## 29.0.0 - 2018-02-14
+* [#518](https://github.com/stripe/stripe-go/pull/518) Bump API version to 2018-02-06 and add support for Product & Plan API
+
 ## 28.12.0 - 2018-02-09
 * [#517](https://github.com/stripe/stripe-go/pull/517) Add `BillingCycleAnchor` to `Sub` and `BillingCycleAnchorUnchanged` to `SubParams`
 
