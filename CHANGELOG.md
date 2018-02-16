@@ -1,5 +1,8 @@
 # Changelog
 
+## 29.0.1 - 2018-02-16
+* [#519](https://github.com/stripe/stripe-go/pull/519) Correct the implementation of `PaymentSource.MarshalJSON` to also handle bank account sources
+
 ## 29.0.0 - 2018-02-14
 * [#518](https://github.com/stripe/stripe-go/pull/518) Bump API version to 2018-02-06 and add support for Product & Plan API
 
