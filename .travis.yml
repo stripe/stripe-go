@@ -23,12 +23,13 @@ cache:
 
 env:
   global:
-    - STRIPE_MOCK_VERSION=0.7.0
+    - STRIPE_MOCK_VERSION=0.8.0
 
 go:
-  - 1.7
-  - 1.8
-  - 1.9
+  - "1.7"
+  - "1.8"
+  - "1.9"
+  - "1.10"
   - tip
 
 language: go
