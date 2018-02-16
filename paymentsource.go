@@ -191,6 +191,21 @@ func (s *PaymentSource) MarshalJSON() ([]byte, error) {
 			ID:   s.ID,
 			Type: s.Type,
 		}
+	case PaymentSourceBankAccount:
+		var customerID *string
+		if s.BankAccount.Customer != nil {
+			customerID = &s.BankAccount.Customer.ID
+		}
+
+		target = struct {
+			*BankAccount
+			Customer *string           `json:"customer"`
+			Type     PaymentSourceType `json:"object"`
+		}{
+			BankAccount: s.BankAccount,
+			Customer:    customerID,
+			Type:        s.Type,
+		}
 	case "":
 		target = s.ID
 	}
