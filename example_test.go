@@ -15,8 +15,8 @@ func ExampleCharge_new() {
 	stripe.Key = "sk_key"
 
 	params := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
+		Amount:   stripe.UInt64(1000),
+		Currency: stripe.String(string(currency.USD)),
 	}
 	params.SetSource("tok_visa")
 	params.AddMetadata("key", "value")

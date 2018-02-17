@@ -48,9 +48,9 @@ type EventList struct {
 // For more details see https://stripe.com/docs/api#list_events.
 type EventListParams struct {
 	ListParams   `form:"*"`
-	Created      int64             `form:"created"`
+	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-	Type         string            `form:"type"`
+	Type         *string           `form:"type"`
 	Types        []string          `form:"types"`
 }
 

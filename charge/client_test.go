@@ -5,6 +5,7 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -43,8 +44,8 @@ func TestChargeMarkFraudulent(t *testing.T) {
 
 func TestChargeNew(t *testing.T) {
 	charge, err := New(&stripe.ChargeParams{
-		Amount:   123,
-		Currency: "usd",
+		Amount:   stripe.UInt64(123),
+		Currency: stripe.String(string(currency.USD)),
 		Source:   &stripe.SourceParams{Token: stripe.String("src_123")},
 	})
 	assert.Nil(t, err)
@@ -53,8 +54,8 @@ func TestChargeNew(t *testing.T) {
 
 func TestChargeNew_WithSetSource(t *testing.T) {
 	params := stripe.ChargeParams{
-		Amount:   123,
-		Currency: "usd",
+		Amount:   stripe.UInt64(123),
+		Currency: stripe.String(string(currency.USD)),
 	}
 	params.SetSource("tok_123")
 
@@ -71,7 +72,7 @@ func TestChargeMarkSafe(t *testing.T) {
 
 func TestChargeUpdate(t *testing.T) {
 	charge, err := Update("ch_123", &stripe.ChargeParams{
-		Description: "Updated description",
+		Description: stripe.String("Updated description"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, charge)
@@ -80,7 +81,7 @@ func TestChargeUpdate(t *testing.T) {
 func TestChargeUpdateDispute(t *testing.T) {
 	charge, err := UpdateDispute("ch_123", &stripe.DisputeParams{
 		Evidence: &stripe.DisputeEvidenceParams{
-			ProductDescription: "original description",
+			ProductDescription: stripe.String("original description"),
 		},
 	})
 	assert.Nil(t, err)
