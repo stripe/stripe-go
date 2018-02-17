@@ -17,9 +17,9 @@ func TestTokenGet(t *testing.T) {
 func TestTokenNew_WithBankAccount(t *testing.T) {
 	token, err := New(&stripe.TokenParams{
 		BankAccount: &stripe.BankAccountParams{
-			Country:       "US",
-			RoutingNumber: "110000000",
-			AccountNumber: "000123456789",
+			Country:       stripe.String("US"),
+			RoutingNumber: stripe.String("110000000"),
+			AccountNumber: stripe.String("000123456789"),
 		},
 	})
 	assert.Nil(t, err)
@@ -64,7 +64,7 @@ func TestTokenNew_SharedCustomerCard(t *testing.T) {
 func TestTokenNew_SharedCustomerBankAccount(t *testing.T) {
 	params := &stripe.TokenParams{
 		BankAccount: &stripe.BankAccountParams{
-			ID: "ba_123",
+			ID: stripe.String("ba_123"),
 		},
 		Customer: stripe.String("cus_123"),
 	}
