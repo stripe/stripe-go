@@ -18,7 +18,7 @@ func TestSourceParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &SourceParams{Card: &CardParams{Number: "4242424242424242"}}
+		params := &SourceParams{Card: &CardParams{Number: String("4242424242424242")}}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)

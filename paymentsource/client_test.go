@@ -43,7 +43,7 @@ func TestSourceUpdate(t *testing.T) {
 		Customer: stripe.String("cus_123"),
 	}
 	params.SetSource(&stripe.CardParams{
-		Name: "Updated Name",
+		Name: stripe.String("Updated Name"),
 	})
 
 	source, err := Update("card_123", params)

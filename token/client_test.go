@@ -29,9 +29,9 @@ func TestTokenNew_WithBankAccount(t *testing.T) {
 func TestTokenNew_WithCard(t *testing.T) {
 	token, err := New(&stripe.TokenParams{
 		Card: &stripe.CardParams{
-			Number:   "4242424242424242", // raw PAN as we're testing token creation
-			ExpMonth: "10",
-			ExpYear:  "20",
+			Number:   stripe.String("4242424242424242"), // raw PAN as we're testing token creation
+			ExpMonth: stripe.String("10"),
+			ExpYear:  stripe.String("20"),
 		},
 	})
 	assert.Nil(t, err)
