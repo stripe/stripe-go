@@ -9,7 +9,7 @@ import (
 
 func TestRecipientParams_AppendTo(t *testing.T) {
 	{
-		params := &RecipientParams{Token: "card_123"}
+		params := &RecipientParams{Token: String("card_123")}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)

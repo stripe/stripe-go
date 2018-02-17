@@ -18,12 +18,12 @@ type TransferDestination struct {
 // For more details see https://stripe.com/docs/api#create_transfer and https://stripe.com/docs/api#update_transfer.
 type TransferParams struct {
 	Params            `form:"*"`
-	Amount            *int64              `form:"amount"`
-	Currency          *string             `form:"currency"`
-	Destination       *string             `form:"destination"`
-	SourceTransaction *string             `form:"source_transaction"`
-	SourceType        *TransferSourceType `form:"source_type"`
-	TransferGroup     *string             `form:"transfer_group"`
+	Amount            *int64  `form:"amount"`
+	Currency          *string `form:"currency"`
+	Destination       *string `form:"destination"`
+	SourceTransaction *string `form:"source_transaction"`
+	SourceType        *string `form:"source_type"`
+	TransferGroup     *string `form:"transfer_group"`
 }
 
 // TransferListParams is the set of parameters that can be used when listing transfers.

@@ -45,7 +45,7 @@ func TestChargeNew(t *testing.T) {
 	charge, err := New(&stripe.ChargeParams{
 		Amount:   123,
 		Currency: "usd",
-		Source:   &stripe.SourceParams{Token: "src_123"},
+		Source:   &stripe.SourceParams{Token: stripe.String("src_123")},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, charge)

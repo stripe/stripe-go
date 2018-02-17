@@ -5,6 +5,7 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -25,7 +26,7 @@ func TestOrderList(t *testing.T) {
 
 func TestOrderNew(t *testing.T) {
 	order, err := New(&stripe.OrderParams{
-		Currency: "usd",
+		Currency: stripe.String(string(currency.USD)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, order)
@@ -33,7 +34,7 @@ func TestOrderNew(t *testing.T) {
 
 func TestOrderPay(t *testing.T) {
 	order, err := Pay("or_123", &stripe.OrderPayParams{
-		Customer: "cus_123",
+		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, order)
@@ -47,7 +48,7 @@ func TestOrderReturn(t *testing.T) {
 
 func TestOrderUpdate(t *testing.T) {
 	order, err := Update("or_123", &stripe.OrderUpdateParams{
-		Status: "fulfilled",
+		Status: stripe.String(string(stripe.StatusFulfilled)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, order)

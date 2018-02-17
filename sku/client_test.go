@@ -5,6 +5,7 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -34,7 +35,7 @@ func TestSKUNew(t *testing.T) {
 		Active:     stripe.Bool(true),
 		Attributes: map[string]string{"attr1": "val1", "attr2": "val2"},
 		Price:      stripe.Int64(499),
-		Currency:   stripe.String("usd"),
+		Currency:   stripe.String(string(currency.USD)),
 		Inventory: &stripe.InventoryParams{
 			Type:  stripe.String("bucket"),
 			Value: stripe.String("limited"),

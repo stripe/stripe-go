@@ -19,7 +19,7 @@ type SubscriptionBilling string
 type SubscriptionParams struct {
 	Params                      `form:"*"`
 	ApplicationFeePercent       *float64                   `form:"application_fee_percent"`
-	Billing                     SubscriptionBilling        `form:"billing"`
+	Billing                     *string                    `form:"billing"`
 	BillingCycleAnchor          *int64                     `form:"billing_cycle_anchor"`
 	BillingCycleAnchorNow       *bool                      `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                      `form:"-"` // See custom AppendTo

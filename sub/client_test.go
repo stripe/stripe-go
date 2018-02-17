@@ -37,7 +37,7 @@ func TestSubscriptionNew(t *testing.T) {
 		Quantity:           stripe.UInt64(10),
 		TaxPercent:         stripe.Float64(20.0),
 		BillingCycleAnchor: stripe.Int64(time.Now().AddDate(0, 0, 12).Unix()),
-		Billing:            "send_invoice",
+		Billing:            stripe.String("send_invoice"),
 		DaysUntilDue:       stripe.UInt64(30),
 	})
 	assert.Nil(t, err)

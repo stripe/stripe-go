@@ -32,7 +32,7 @@ type SKU struct {
 	Active            bool               `json:"active"`
 	Attributes        map[string]string  `json:"attributes"`
 	Created           int64              `json:"created"`
-	Currency          string             `json:"currency"`
+	Currency          Currency           `json:"currency"`
 	Description       string             `json:"description"`
 	ID                string             `json:"id"`
 	Image             string             `json:"image"`
@@ -56,7 +56,7 @@ type SKUListParams struct {
 	Attributes map[string]string `form:"attributes"`
 	IDs        []string          `form:"ids"`
 	InStock    *bool             `form:"in_stock"`
-	Product    string            `form:"product"`
+	Product    *string           `form:"product"`
 }
 
 func (s *SKU) UnmarshalJSON(data []byte) error {

@@ -17,13 +17,13 @@ type RecipientParams struct {
 
 	BankAccount *BankAccountParams `form:"-"` // Kind of an abberation because a bank account's token will be replace the rest of its data. Keep this in a custom AppendTo for now.
 	Card        *CardParams        `form:"card"`
-	DefaultCard string             `form:"default_card"`
-	Description string             `form:"description"`
-	Email       string             `form:"email"`
-	Name        string             `form:"name"`
-	TaxID       string             `form:"tax_id"`
-	Token       string             `form:"card"`
-	Type        RecipientType      `form:"-"` // Doesn't seem to be used anywhere
+	DefaultCard *string            `form:"default_card"`
+	Description *string            `form:"description"`
+	Email       *string            `form:"email"`
+	Name        *string            `form:"name"`
+	TaxID       *string            `form:"tax_id"`
+	Token       *string            `form:"card"`
+	Type        *string            `form:"-"` // Doesn't seem to be used anywhere
 }
 
 // AppendTo implements some custom behavior around a recipient's bank account.
@@ -43,7 +43,7 @@ func (p *RecipientParams) AppendTo(body *form.Values, keyParts []string) {
 // For more details see https://stripe.com/docs/api#list_recipients.
 type RecipientListParams struct {
 	ListParams `form:"*"`
-	Verified   bool `form:"verified"`
+	Verified   *bool `form:"verified"`
 }
 
 // Recipient is the resource representing a Stripe recipient.

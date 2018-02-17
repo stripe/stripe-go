@@ -55,7 +55,7 @@ func ExampleInvoice_update() {
 	stripe.Key = "sk_key"
 
 	params := &stripe.InvoiceParams{
-		Description: "updated description",
+		Description: stripe.String("updated description"),
 	}
 
 	inv, err := invoice.Update("sub_example_id", params)

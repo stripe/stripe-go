@@ -78,9 +78,9 @@ type RedirectParams struct {
 type SourceObjectParams struct {
 	Params              `form:"*"`
 	Amount              *uint64            `form:"amount"`
-	Currency            Currency           `form:"currency"`
+	Currency            *string            `form:"currency"`
 	Customer            *string            `form:"customer"`
-	Flow                SourceFlow         `form:"flow"`
+	Flow                *string            `form:"flow"`
 	OriginalSource      *string            `form:"original_source"`
 	Owner               *SourceOwnerParams `form:"owner"`
 	Redirect            *RedirectParams    `form:"redirect"`
@@ -88,7 +88,7 @@ type SourceObjectParams struct {
 	Token               *string            `form:"token"`
 	Type                *string            `form:"type"`
 	TypeData            map[string]string  `form:"-"`
-	Usage               SourceUsage        `form:"usage"`
+	Usage               *string            `form:"usage"`
 }
 
 // SourceObjectDetachParams is the set of parameters that can be used when detaching

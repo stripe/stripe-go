@@ -17,11 +17,11 @@ const (
 
 // PackageDimensions represents the dimension of a product or a sku from the
 // perspective of shipping.
-type PackageDimensions struct {
-	Height float64 `json:"height" form:"height"`
-	Length float64 `json:"length" form:"length"`
-	Weight float64 `json:"weight" form:"weight"`
-	Width  float64 `json:"width" form:"width"`
+type PackageDimensionsParams struct {
+	Height *float64 `json:"height" form:"height"`
+	Length *float64 `json:"length" form:"length"`
+	Weight *float64 `json:"weight" form:"weight"`
+	Width  *float64 `json:"width" form:"width"`
 }
 
 // ProductParams is the set of parameters that can be used
@@ -30,19 +30,28 @@ type PackageDimensions struct {
 // and https://stripe.com/docs/api#update_product.
 type ProductParams struct {
 	Params              `form:"*"`
-	Active              *bool              `form:"active"`
-	Attributes          []string           `form:"attributes"`
-	Caption             string             `form:"caption"`
-	DeactivateOn        []string           `form:"deactivate_on"`
-	Description         string             `form:"description"`
-	ID                  string             `form:"id"`
-	Images              []string           `form:"images"`
-	Name                string             `form:"name"`
-	PackageDimensions   *PackageDimensions `form:"package_dimensions"`
-	Shippable           *bool              `form:"shippable"`
-	StatementDescriptor string             `form:"statement_descriptor"`
-	Type                ProductType        `form:"type"`
-	URL                 string             `form:"url"`
+	Active              *bool                    `form:"active"`
+	Attributes          []string                 `form:"attributes"`
+	Caption             *string                  `form:"caption"`
+	DeactivateOn        []string                 `form:"deactivate_on"`
+	Description         *string                  `form:"description"`
+	ID                  *string                  `form:"id"`
+	Images              []string                 `form:"images"`
+	Name                *string                  `form:"name"`
+	PackageDimensions   *PackageDimensionsParams `form:"package_dimensions"`
+	Shippable           *bool                    `form:"shippable"`
+	StatementDescriptor *string                  `form:"statement_descriptor"`
+	Type                *string                  `form:"type"`
+	URL                 *string                  `form:"url"`
+}
+
+// PackageDimensions represents the dimension of a product or a sku from the
+// perspective of shipping.
+type PackageDimensions struct {
+	Height float64 `json:"height" form:"height"`
+	Length float64 `json:"length" form:"length"`
+	Weight float64 `json:"weight" form:"weight"`
+	Width  float64 `json:"width" form:"width"`
 }
 
 // Product is the resource representing a Stripe product.
