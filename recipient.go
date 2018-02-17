@@ -15,10 +15,10 @@ type RecipientType string
 type RecipientParams struct {
 	Params `form:"*"`
 
-	Bank        *BankAccountParams `form:"-"` // Kind of an abberation because a bank account's token will be replace the rest of its data. Keep this in a custom AppendTo for now.
+	BankAccount *BankAccountParams `form:"-"` // Kind of an abberation because a bank account's token will be replace the rest of its data. Keep this in a custom AppendTo for now.
 	Card        *CardParams        `form:"card"`
 	DefaultCard string             `form:"default_card"`
-	Desc        string             `form:"description"`
+	Description string             `form:"description"`
 	Email       string             `form:"email"`
 	Name        string             `form:"name"`
 	TaxID       string             `form:"tax_id"`
@@ -30,11 +30,11 @@ type RecipientParams struct {
 // This was probably the wrong way to go about this, but grandfather the
 // behavior for the time being.
 func (p *RecipientParams) AppendTo(body *form.Values, keyParts []string) {
-	if p.Bank != nil {
-		if len(p.Bank.Token) > 0 {
-			body.Add("bank_account", p.Bank.Token)
+	if p.BankAccount != nil {
+		if len(p.BankAccount.Token) > 0 {
+			body.Add("bank_account", p.BankAccount.Token)
 		} else {
-			form.AppendToPrefixed(body, p.Bank, append(keyParts, "bank_account"))
+			form.AppendToPrefixed(body, p.BankAccount, append(keyParts, "bank_account"))
 		}
 	}
 }
@@ -49,25 +49,25 @@ type RecipientListParams struct {
 // Recipient is the resource representing a Stripe recipient.
 // For more details see https://stripe.com/docs/api#recipients.
 type Recipient struct {
-	Bank        *BankAccount      `json:"active_account"`
-	Cards       *CardList         `json:"cards"`
-	Created     int64             `json:"created"`
-	DefaultCard *Card             `json:"default_card"`
-	Deleted     bool              `json:"deleted"`
-	Desc        string            `json:"description"`
-	Email       string            `json:"email"`
-	ID          string            `json:"id"`
-	Live        bool              `json:"livemode"`
-	Meta        map[string]string `json:"metadata"`
-	MigratedTo  *Account          `json:"migrated_to"`
-	Name        string            `json:"name"`
-	Type        RecipientType     `json:"type"`
+	ActiveAccount *BankAccount      `json:"active_account"`
+	Cards         *CardList         `json:"cards"`
+	Created       int64             `json:"created"`
+	DefaultCard   *Card             `json:"default_card"`
+	Deleted       bool              `json:"deleted"`
+	Description   string            `json:"description"`
+	Email         string            `json:"email"`
+	ID            string            `json:"id"`
+	Livemode      bool              `json:"livemode"`
+	Metadata      map[string]string `json:"metadata"`
+	MigratedTo    *Account          `json:"migrated_to"`
+	Name          string            `json:"name"`
+	Type          RecipientType     `json:"type"`
 }
 
 // RecipientList is a list of recipients as retrieved from a list endpoint.
 type RecipientList struct {
 	ListMeta
-	Values []*Recipient `json:"data"`
+	Data []*Recipient `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a Recipient.

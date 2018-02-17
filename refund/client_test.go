@@ -34,7 +34,7 @@ func TestRefundNew(t *testing.T) {
 func TestRefundUpdate(t *testing.T) {
 	refund, err := Update("gold", &stripe.RefundParams{
 		Params: stripe.Params{
-			Meta: map[string]string{
+			Metadata: map[string]string{
 				"foo": "bar",
 			},
 		},

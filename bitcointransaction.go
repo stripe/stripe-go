@@ -14,7 +14,7 @@ type BitcoinTransactionListParams struct {
 // For more details see https://stripe.com/docs/api/#retrieve_bitcoin_receiver
 type BitcoinTransactionList struct {
 	ListMeta
-	Values []*BitcoinTransaction `json:"data"`
+	Data []*BitcoinTransaction `json:"data"`
 }
 
 // BitcoinTransaction is the resource representing a Stripe bitcoin transaction.

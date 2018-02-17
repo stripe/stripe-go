@@ -36,8 +36,8 @@ func (c Client) List(params *stripe.BitcoinTransactionListParams) *Iter {
 		list := &stripe.BitcoinTransactionList{}
 		err := c.B.Call("GET", fmt.Sprintf("/bitcoin/receivers/%v/transactions", params.Receiver), c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

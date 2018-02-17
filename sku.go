@@ -5,9 +5,9 @@ import "encoding/json"
 type SKUParams struct {
 	Params            `form:"*"`
 	Active            *bool              `form:"active"`
-	Attrs             map[string]string  `form:"attributes"`
+	Attributes        map[string]string  `form:"attributes"`
 	Currency          string             `form:"currency"`
-	Desc              string             `form:"description"`
+	Description       string             `form:"description"`
 	ID                string             `form:"id"`
 	Image             string             `form:"image"`
 	Inventory         Inventory          `form:"inventory"`
@@ -24,15 +24,15 @@ type Inventory struct {
 
 type SKU struct {
 	Active            bool               `json:"active"`
-	Attrs             map[string]string  `json:"attributes"`
+	Attributes        map[string]string  `json:"attributes"`
 	Created           int64              `json:"created"`
 	Currency          string             `json:"currency"`
-	Desc              string             `json:"description"`
+	Description       string             `json:"description"`
 	ID                string             `json:"id"`
 	Image             string             `json:"image"`
 	Inventory         Inventory          `json:"inventory"`
-	Live              bool               `json:"livemode"`
-	Meta              map[string]string  `json:"metadata"`
+	Livemode          bool               `json:"livemode"`
+	Metadata          map[string]string  `json:"metadata"`
 	PackageDimensions *PackageDimensions `json:"package_dimensions"`
 	Price             int64              `json:"price"`
 	Product           Product            `json:"product"`
@@ -41,7 +41,7 @@ type SKU struct {
 
 type SKUList struct {
 	ListMeta
-	Values []*SKU `json:"data"`
+	Data []*SKU `json:"data"`
 }
 
 type SKUListParams struct {

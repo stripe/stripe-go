@@ -111,7 +111,7 @@ type PaymentSource struct {
 // SourceList is a list object for cards.
 type SourceList struct {
 	ListMeta
-	Values []*PaymentSource `json:"data"`
+	Data []*PaymentSource `json:"data"`
 }
 
 // SourceListParams are used to enumerate the payment sources that are attached

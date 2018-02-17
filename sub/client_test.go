@@ -9,33 +9,33 @@ import (
 	_ "github.com/stripe/stripe-go/testing"
 )
 
-func TestSubCancel(t *testing.T) {
+func TestSubscriptionCancel(t *testing.T) {
 	subscription, err := Cancel("sub_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, subscription)
 }
 
-func TestSubGet(t *testing.T) {
+func TestSubscriptionGet(t *testing.T) {
 	subscription, err := Get("sub_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, subscription)
 }
 
-func TestSubList(t *testing.T) {
-	i := List(&stripe.SubListParams{})
+func TestSubscriptionList(t *testing.T) {
+	i := List(&stripe.SubscriptionListParams{})
 
 	// Verify that we can get at least one subscription
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
-	assert.NotNil(t, i.Sub())
+	assert.NotNil(t, i.Subscription())
 }
 
-func TestSubNew(t *testing.T) {
-	subscription, err := New(&stripe.SubParams{
+func TestSubscriptionNew(t *testing.T) {
+	subscription, err := New(&stripe.SubscriptionParams{
 		Customer:           "cus_123",
 		Plan:               "plan_123",
-		Quantity:           10,
-		TaxPercent:         20.0,
+		Quantity:           stripe.UInt64(10),
+		TaxPercent:         stripe.Float64(20.0),
 		BillingCycleAnchor: time.Now().AddDate(0, 0, 12).Unix(),
 		Billing:            "send_invoice",
 		DaysUntilDue:       30,
@@ -44,13 +44,13 @@ func TestSubNew(t *testing.T) {
 	assert.NotNil(t, subscription)
 }
 
-func TestSubNew_WithItems(t *testing.T) {
-	subscription, err := New(&stripe.SubParams{
+func TestSubscriptionNew_WithItems(t *testing.T) {
+	subscription, err := New(&stripe.SubscriptionParams{
 		Customer: "cus_123",
-		Items: []*stripe.SubItemsParams{
+		Items: []*stripe.SubscriptionItemsParams{
 			{
-				Plan:         "gold",
-				QuantityZero: true,
+				Plan:     "gold",
+				Quantity: stripe.UInt64(0),
 			},
 		},
 	})
@@ -58,11 +58,11 @@ func TestSubNew_WithItems(t *testing.T) {
 	assert.NotNil(t, subscription)
 }
 
-func TestSubUpdate(t *testing.T) {
-	subscription, err := Update("sub_123", &stripe.SubParams{
-		NoProrate:      true,
-		QuantityZero:   true,
-		TaxPercentZero: true,
+func TestSubscriptionUpdate(t *testing.T) {
+	subscription, err := Update("sub_123", &stripe.SubscriptionParams{
+		Prorate:    stripe.Bool(true),
+		Quantity:   stripe.UInt64(0),
+		TaxPercent: stripe.Float64(0),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, subscription)

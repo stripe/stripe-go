@@ -34,13 +34,13 @@ func TestProductNew(t *testing.T) {
 	shippable := true
 
 	product, err := New(&stripe.ProductParams{
-		Active:    &active,
-		Name:      "Test Name",
-		Desc:      "This is a description",
-		Caption:   "This is a caption",
-		Attrs:     []string{"attr1", "attr2"},
-		URL:       "http://example.com",
-		Shippable: &shippable,
+		Active:      &active,
+		Name:        "Test Name",
+		Description: "This is a description",
+		Caption:     "This is a caption",
+		Attributes:  []string{"attr1", "attr2"},
+		URL:         "http://example.com",
+		Shippable:   &shippable,
 		PackageDimensions: &stripe.PackageDimensions{
 			Height: 2.234,
 			Length: 5.10,
