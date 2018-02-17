@@ -31,8 +31,8 @@ type RecipientParams struct {
 // behavior for the time being.
 func (p *RecipientParams) AppendTo(body *form.Values, keyParts []string) {
 	if p.BankAccount != nil {
-		if len(p.BankAccount.Token) > 0 {
-			body.Add("bank_account", p.BankAccount.Token)
+		if p.BankAccount.Token != nil {
+			body.Add("bank_account", StringValue(p.BankAccount.Token))
 		} else {
 			form.AppendToPrefixed(body, p.BankAccount, append(keyParts, "bank_account"))
 		}
