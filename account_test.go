@@ -18,7 +18,7 @@ func TestAccountExternalAccountParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &AccountExternalAccountParams{Token: "tok_123"}
+		params := &AccountExternalAccountParams{Token: String("tok_123")}
 		body := &form.Values{}
 
 		// 0-length keyParts are not allowed, so call AppendTo directly (as

@@ -62,25 +62,107 @@ const (
 // AccountParams are the parameters allowed during account creation/updates.
 type AccountParams struct {
 	Params                    `form:"*"`
-	BusinessName              string                        `form:"business_name"`
-	BusinessPrimaryColor      string                        `form:"business_primary_color"`
-	BusinessURL               string                        `form:"business_url"`
-	Country                   string                        `form:"country"`
+	BusinessName              *string                       `form:"business_name"`
+	BusinessPrimaryColor      *string                       `form:"business_primary_color"`
+	BusinessURL               *string                       `form:"business_url"`
+	Country                   *string                       `form:"country"`
 	DebitNegativeBalances     *bool                         `form:"debit_negative_balances"`
-	DefaultCurrency           string                        `form:"default_currency"`
-	Email                     string                        `form:"email"`
+	DefaultCurrency           *string                       `form:"default_currency"`
+	Email                     *string                       `form:"email"`
 	ExternalAccount           *AccountExternalAccountParams `form:"external_account"`
-	FromRecipient             string                        `form:"from_recipient"`
-	LegalEntity               *LegalEntity                  `form:"legal_entity"`
+	FromRecipient             *string                       `form:"from_recipient"`
+	LegalEntity               *LegalEntityParams            `form:"legal_entity"`
 	PayoutSchedule            *PayoutScheduleParams         `form:"payout_schedule"`
-	PayoutStatementDescriptor string                        `form:"payout_statement_descriptor"`
-	ProductDescription        string                        `form:"product_description"`
-	StatementDescriptor       string                        `form:"statement_descriptor"`
-	SupportEmail              string                        `form:"support_email"`
-	SupportPhone              string                        `form:"support_phone"`
-	SupportURL                string                        `form:"support_url"`
+	PayoutStatementDescriptor *string                       `form:"payout_statement_descriptor"`
+	ProductDescription        *string                       `form:"product_description"`
+	StatementDescriptor       *string                       `form:"statement_descriptor"`
+	SupportEmail              *string                       `form:"support_email"`
+	SupportPhone              *string                       `form:"support_phone"`
+	SupportURL                *string                       `form:"support_url"`
 	TOSAcceptance             *TOSAcceptanceParams          `form:"tos_acceptance"`
-	Type                      AccountType                   `form:"type"`
+	Type                      *string                       `form:"type"`
+}
+
+// LegalEntityParams represents a legal_entity during account creation/updates.
+type LegalEntityParams struct {
+	AdditionalOwners []AdditionalOwnerParams `form:"additional_owners,indexed"`
+
+	// AdditionalOwnersEmpty can be set to clear a legal entity's additional
+	// owners.
+	AdditionalOwnersEmpty bool `form:"additional_owners,empty"`
+
+	Address                  *AccountAddressParams       `form:"address"`
+	AddressKana              *AccountAddressParams       `form:"address_kana"`
+	AddressKanji             *AccountAddressParams       `form:"address_kanji"`
+	BusinessName             *string                     `form:"business_name"`
+	BusinessNameKana         *string                     `form:"business_name_kana"`
+	BusinessNameKanji        *string                     `form:"business_name_kanji"`
+	BusinessTaxID            *string                     `form:"business_tax_id"`
+	BusinessTaxIDProvided    *bool                       `form:"-"`
+	BusinessVatID            *string                     `form:"business_vat_id"`
+	BusinessVatIDProvided    *bool                       `form:"-"`
+	DOB                      *DOBParams                  `form:"dob"`
+	FirstName                *string                     `form:"first_name"`
+	FirstNameKana            *string                     `form:"first_name_kana"`
+	FirstNameKanji           *string                     `form:"first_name_kanji"`
+	Gender                   *string                     `form:"gender"`
+	LastName                 *string                     `form:"last_name"`
+	LastNameKana             *string                     `form:"last_name_kana"`
+	LastNameKanji            *string                     `form:"last_name_kanji"`
+	MaidenName               *string                     `form:"maiden_name"`
+	PersonalAddress          *AccountAddressParams       `form:"personal_address"`
+	PersonalAddressKana      *AccountAddressParams       `form:"personal_address_kana"`
+	PersonalAddressKanji     *AccountAddressParams       `form:"personal_address_kanji"`
+	PersonalIDNumber         *string                     `form:"personal_id_number"`
+	PersonalIDNumberProvided *bool                       `form:"-"`
+	PhoneNumber              *string                     `form:"phone_number"`
+	SSNLast4                 *string                     `form:"ssn_last_4"`
+	SSNLast4Provided         *bool                       `form:"-"`
+	Type                     *string                     `form:"type"`
+	Verification             *IdentityVerificationParams `form:"verification"`
+}
+
+// AccountAddressParams represents an address during account creation/updates.
+type AccountAddressParams struct {
+	City       *string `form:"city"`
+	Country    *string `form:"country"`
+	Line1      *string `form:"line1"`
+	Line2      *string `form:"line2"`
+	PostalCode *string `form:"postal_code"`
+	State      *string `form:"state"`
+
+	// Town/cho-me. Note that this is only used for Kana/Kanji representations
+	// of an address.
+	Town *string `form:"town"`
+}
+
+// DOBParams represents a DOB during account creation/updates.
+type DOBParams struct {
+	Day   *int `form:"day"`
+	Month *int `form:"month"`
+	Year  *int `form:"year"`
+}
+
+// TOSAcceptanceParams represents tos_acceptance during account creation/updates.
+type TOSAcceptanceParams struct {
+	Date      int64  `form:"date"`
+	IP        string `form:"ip"`
+	UserAgent string `form:"user_agent"`
+}
+
+// AdditionalOwnerParams represents an additional owner during account creation/updates.
+type AdditionalOwnerParams struct {
+	Address      *AccountAddressParams       `form:"address"`
+	DOB          *DOBParams                  `form:"dob"`
+	FirstName    *string                     `form:"first_name"`
+	LastName     *string                     `form:"last_name"`
+	MaidenName   *string                     `form:"maiden_name"`
+	Verification *IdentityVerificationParams `form:"verification"`
+}
+
+// IdentityVerification represents a verification during account creation/updates.
+type IdentityVerificationParams struct {
+	Document *IdentityDocument `form:"document"`
 }
 
 // AccountListParams are the parameters allowed during account listing.
@@ -93,21 +175,21 @@ type AccountListParams struct {
 // or everything else.
 type AccountExternalAccountParams struct {
 	Params            `form:"*"`
-	AccountNumber     string `form:"account_number"`
-	AccountHolderName string `form:"account_holder_name"`
-	AccountHolderType string `form:"account_holder_type"`
-	Country           string `form:"country"`
-	Currency          string `form:"currency"`
-	RoutingNumber     string `form:"routing_number"`
-	Token             string `form:"token"`
+	AccountNumber     *string `form:"account_number"`
+	AccountHolderName *string `form:"account_holder_name"`
+	AccountHolderType *string `form:"account_holder_type"`
+	Country           *string `form:"country"`
+	Currency          *string `form:"currency"`
+	RoutingNumber     *string `form:"routing_number"`
+	Token             *string `form:"token"`
 }
 
 // AppendTo implements custom encoding logic for AccountExternalAccountParams
 // so that we can send the special required `object` field up along with the
 // other specified parameters or the token value
 func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []string) {
-	if len(p.Token) > 0 {
-		body.Add(form.FormatKey(keyParts), p.Token)
+	if p.Token != nil {
+		body.Add(form.FormatKey(keyParts), StringValue(p.Token))
 	} else {
 		body.Add(form.FormatKey(append(keyParts, "object")), "bank_account")
 	}
@@ -115,11 +197,11 @@ func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []st
 
 // PayoutScheduleParams are the parameters allowed for payout schedules.
 type PayoutScheduleParams struct {
-	DelayDays        uint64   `form:"delay_days"`
-	DelayDaysMinimum *bool    `form:"-"` // See custom AppendTo
-	Interval         Interval `form:"interval"`
-	MonthlyAnchor    uint64   `form:"monthly_anchor"`
-	WeeklyAnchor     string   `form:"weekly_anchor"`
+	DelayDays        *uint64 `form:"delay_days"`
+	DelayDaysMinimum *bool   `form:"-"` // See custom AppendTo
+	Interval         *string `form:"interval"`
+	MonthlyAnchor    *uint64 `form:"monthly_anchor"`
+	WeeklyAnchor     *string `form:"weekly_anchor"`
 }
 
 func (p *PayoutScheduleParams) AppendTo(body *form.Values, keyParts []string) {
@@ -277,62 +359,57 @@ func (ea *ExternalAccount) UnmarshalJSON(b []byte) error {
 
 // LegalEntity is the structure for properties related to an account's legal state.
 type LegalEntity struct {
-	AdditionalOwners []AdditionalOwner `json:"additional_owners" form:"additional_owners,indexed"`
-
-	// AdditionalOwnersEmpty can be set to clear a legal entity's additional
-	// owners.
-	AdditionalOwnersEmpty bool `form:"additional_owners,empty"`
-
-	Address                  Address              `json:"address" form:"address"`
-	AddressKana              Address              `json:"address_kana" form:"address_kana"`
-	AddressKanji             Address              `json:"address_kanji" form:"address_kanji"`
-	BusinessName             string               `json:"business_name" form:"business_name"`
-	BusinessNameKana         string               `json:"business_name_kana" form:"business_name_kana"`
-	BusinessNameKanji        string               `json:"business_name_kanji" form:"business_name_kanji"`
-	BusinessTaxID            string               `json:"-" form:"business_tax_id"`
-	BusinessTaxIDProvided    bool                 `json:"business_tax_id_provided" form:"-"`
-	BusinessVatID            string               `json:"-" form:"business_vat_id"`
-	BusinessVatIDProvided    bool                 `json:"business_vat_id_provided" form:"-"`
-	DOB                      DOB                  `json:"dob" form:"dob"`
-	FirstName                string               `json:"first_name" form:"first_name"`
-	FirstNameKana            string               `json:"first_name_kana" form:"first_name_kana"`
-	FirstNameKanji           string               `json:"first_name_kanji" form:"first_name_kanji"`
-	Gender                   Gender               `json:"gender" form:"gender"`
-	LastName                 string               `json:"last_name" form:"last_name"`
-	LastNameKana             string               `json:"last_name_kana" form:"last_name_kana"`
-	LastNameKanji            string               `json:"last_name_kanji" form:"last_name_kanji"`
-	MaidenName               string               `json:"maiden_name" form:"maiden_name"`
-	PersonalAddress          Address              `json:"personal_address" form:"personal_address"`
-	PersonalAddressKana      Address              `json:"personal_address_kana" form:"personal_address_kana"`
-	PersonalAddressKanji     Address              `json:"personal_address_kanji" form:"personal_address_kanji"`
-	PersonalIDNumber         string               `json:"-" form:"personal_id_number"`
-	PersonalIDNumberProvided bool                 `json:"personal_id_number_provided" form:"-"`
-	PhoneNumber              string               `json:"phone_number" form:"phone_number"`
-	SSNLast4                 string               `json:"-" form:"ssn_last_4"`
-	SSNLast4Provided         bool                 `json:"ssn_last_4_provided" form:"-"`
-	Type                     LegalEntityType      `json:"type" form:"type"`
-	Verification             IdentityVerification `json:"verification" form:"verification"`
+	AdditionalOwners         []AdditionalOwner    `json:"additional_owners"`
+	Address                  AccountAddress       `json:"address"`
+	AddressKana              AccountAddress       `json:"address_kana"`
+	AddressKanji             AccountAddress       `json:"address_kanji"`
+	BusinessName             string               `json:"business_name"`
+	BusinessNameKana         string               `json:"business_name_kana"`
+	BusinessNameKanji        string               `json:"business_name_kanji"`
+	BusinessTaxID            string               `json:"-"`
+	BusinessTaxIDProvided    bool                 `json:"business_tax_id_provided"`
+	BusinessVatID            string               `json:"-"`
+	BusinessVatIDProvided    bool                 `json:"business_vat_id_provided"`
+	DOB                      DOB                  `json:"dob"`
+	FirstName                string               `json:"first_name"`
+	FirstNameKana            string               `json:"first_name_kana"`
+	FirstNameKanji           string               `json:"first_name_kanji"`
+	Gender                   Gender               `json:"gender"`
+	LastName                 string               `json:"last_name"`
+	LastNameKana             string               `json:"last_name_kana"`
+	LastNameKanji            string               `json:"last_name_kanji"`
+	MaidenName               string               `json:"maiden_name"`
+	PersonalAddress          AccountAddress       `json:"personal_address"`
+	PersonalAddressKana      AccountAddress       `json:"personal_address_kana"`
+	PersonalAddressKanji     AccountAddress       `json:"personal_address_kanji"`
+	PersonalIDNumber         string               `json:"-"`
+	PersonalIDNumberProvided bool                 `json:"personal_id_number_provided"`
+	PhoneNumber              string               `json:"phone_number"`
+	SSNLast4                 string               `json:"-"`
+	SSNLast4Provided         bool                 `json:"ssn_last_4_provided"`
+	Type                     LegalEntityType      `json:"type"`
+	Verification             IdentityVerification `json:"verification"`
 }
 
 // Address is the structure for an account address.
-type Address struct {
-	City       string `json:"city" form:"city"`
-	Country    string `json:"country" form:"country"`
-	Line1      string `json:"line1" form:"line1"`
-	Line2      string `json:"line2" form:"line2"`
-	PostalCode string `json:"postal_code" form:"postal_code"`
-	State      string `json:"state" form:"state"`
+type AccountAddress struct {
+	City       string `json:"city"`
+	Country    string `json:"country"`
+	Line1      string `json:"line1"`
+	Line2      string `json:"line2"`
+	PostalCode string `json:"postal_code"`
+	State      string `json:"state"`
 
 	// Town/cho-me. Note that this is only used for Kana/Kanji representations
 	// of an address.
-	Town string `json:"town" form:"town"`
+	Town string `json:"town"`
 }
 
 // DOB is a structure for an account owner's date of birth.
 type DOB struct {
-	Day   int `json:"day" form:"day"`
-	Month int `json:"month" form:"month"`
-	Year  int `json:"year" form:"year"`
+	Day   int `json:"day"`
+	Month int `json:"month"`
+	Year  int `json:"year"`
 }
 
 // Gender is the gender of an account owner. International regulations require
@@ -341,20 +418,20 @@ type Gender string
 
 // AdditionalOwner is the structure for an account owner.
 type AdditionalOwner struct {
-	Address      Address              `json:"address" form:"address"`
-	DOB          DOB                  `json:"dob" form:"dob"`
-	FirstName    string               `json:"first_name" form:"first_name"`
-	LastName     string               `json:"last_name" form:"last_name"`
-	MaidenName   string               `json:"maiden_name" form:"maiden_name"`
-	Verification IdentityVerification `json:"verification" form:"verification"`
+	Address      AccountAddress       `json:"address"`
+	DOB          DOB                  `json:"dob"`
+	FirstName    string               `json:"first_name"`
+	LastName     string               `json:"last_name"`
+	MaidenName   string               `json:"maiden_name"`
+	Verification IdentityVerification `json:"verification"`
 }
 
 // IdentityVerification is the structure for an account's verification.
 type IdentityVerification struct {
-	Details     *string                         `json:"details" form:"-"`
-	DetailsCode IdentityVerificationDetailsCode `json:"details_code" form:"-"`
-	Document    *IdentityDocument               `json:"document" form:"document"`
-	Status      IdentityVerificationStatus      `json:"status" form:"-"`
+	Details     *string                         `json:"details"`
+	DetailsCode IdentityVerificationDetailsCode `json:"details_code"`
+	Document    *IdentityDocument               `json:"document"`
+	Status      IdentityVerificationStatus      `json:"status"`
 }
 
 // IdentityDocument is the structure for an identity document.
@@ -383,24 +460,17 @@ func (d *IdentityDocument) AppendTo(body *form.Values, keyParts []string) {
 
 // PayoutSchedule is the structure for an account's payout schedule.
 type PayoutSchedule struct {
-	DelayDays     uint64   `json:"delay_days" form:"delay_days"`
-	Interval      Interval `json:"interval" form:"interval"`
-	MonthlyAnchor uint64   `json:"monthly_anchor" form:"monthly_anchor"`
-	WeeklyAnchor  string   `json:"weekly_anchor" form:"weekly_anchor"`
-}
-
-// TOSAcceptanceParams is the structure for TOS acceptance.
-type TOSAcceptanceParams struct {
-	Date      int64  `json:"date" form:"date"`
-	IP        string `json:"ip" form:"ip"`
-	UserAgent string `json:"user_agent" form:"user_agent"`
+	DelayDays     uint64   `json:"delay_days"`
+	Interval      Interval `json:"interval"`
+	MonthlyAnchor uint64   `json:"monthly_anchor"`
+	WeeklyAnchor  string   `json:"weekly_anchor"`
 }
 
 // AccountRejectParams is the structure for the Reject function.
 type AccountRejectParams struct {
 	// Reason is the reason that an account was rejected. It should be given a
 	// value of one of `fraud`, `terms_of_service`, or `other`.
-	Reason string `json:"reason" form:"reason"`
+	Reason string `form:"reason"`
 }
 
 // UnmarshalJSON handles deserialization of an IdentityDocument.

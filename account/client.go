@@ -21,8 +21,8 @@ func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 
 	// Type is now required on creation and not allowed on update
 	// It can't be passed if you pass `from_recipient` though
-	if len(params.FromRecipient) == 0 {
-		body.Add("type", string(params.Type))
+	if params.FromRecipient != nil {
+		body.Add("type", stripe.StringValue(params.Type))
 	}
 
 	form.AppendTo(body, params)
