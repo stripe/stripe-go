@@ -10,16 +10,16 @@ type InventoryParams struct {
 
 type SKUParams struct {
 	Params            `form:"*"`
-	Active            *bool              `form:"active"`
-	Attributes        map[string]string  `form:"attributes"`
-	Currency          *string            `form:"currency"`
-	Description       *string            `form:"description"`
-	ID                *string            `form:"id"`
-	Image             *string            `form:"image"`
-	Inventory         *InventoryParams   `form:"inventory"`
-	PackageDimensions *PackageDimensions `form:"package_dimensions"`
-	Price             *int64             `form:"price"`
-	Product           *string            `form:"product"`
+	Active            *bool                    `form:"active"`
+	Attributes        map[string]string        `form:"attributes"`
+	Currency          *string                  `form:"currency"`
+	Description       *string                  `form:"description"`
+	ID                *string                  `form:"id"`
+	Image             *string                  `form:"image"`
+	Inventory         *InventoryParams         `form:"inventory"`
+	PackageDimensions *PackageDimensionsParams `form:"package_dimensions"`
+	Price             *int64                   `form:"price"`
+	Product           *string                  `form:"product"`
 }
 
 type Inventory struct {

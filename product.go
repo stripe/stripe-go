@@ -18,10 +18,10 @@ const (
 // PackageDimensions represents the dimension of a product or a sku from the
 // perspective of shipping.
 type PackageDimensionsParams struct {
-	Height *float64 `json:"height" form:"height"`
-	Length *float64 `json:"length" form:"length"`
-	Weight *float64 `json:"weight" form:"weight"`
-	Width  *float64 `json:"width" form:"width"`
+	Height *float64 `form:"height"`
+	Length *float64 `form:"length"`
+	Weight *float64 `form:"weight"`
+	Width  *float64 `form:"width"`
 }
 
 // ProductParams is the set of parameters that can be used
@@ -48,10 +48,10 @@ type ProductParams struct {
 // PackageDimensions represents the dimension of a product or a sku from the
 // perspective of shipping.
 type PackageDimensions struct {
-	Height float64 `json:"height" form:"height"`
-	Length float64 `json:"length" form:"length"`
-	Weight float64 `json:"weight" form:"weight"`
-	Width  float64 `json:"width" form:"width"`
+	Height float64 `json:"height"`
+	Length float64 `json:"length"`
+	Weight float64 `json:"weight"`
+	Width  float64 `json:"width"`
 }
 
 // Product is the resource representing a Stripe product.

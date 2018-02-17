@@ -47,6 +47,14 @@ func TestChargeNew(t *testing.T) {
 		Amount:   stripe.UInt64(123),
 		Currency: stripe.String(string(currency.USD)),
 		Source:   &stripe.SourceParams{Token: stripe.String("src_123")},
+		Shipping: &stripe.ShippingDetailsParams{
+			Address: &stripe.AddressParams{
+				Line1: stripe.String("line1"),
+				City:  stripe.String("city"),
+			},
+			Carrier: stripe.String("carrier"),
+			Name:    stripe.String("name"),
+		},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, charge)
