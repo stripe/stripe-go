@@ -72,14 +72,14 @@ type BalanceTransactionParams struct {
 // For more details see https://stripe.com/docs/api/#balance_history.
 type BalanceTransactionListParams struct {
 	ListParams       `form:"*"`
-	AvailableOn      int64                  `form:"available_on"`
-	AvailableOnRange *RangeQueryParams      `form:"available_on"`
-	Created          int64                  `form:"created"`
-	CreatedRange     *RangeQueryParams      `form:"created"`
-	Currency         string                 `form:"currency"`
-	Payout           string                 `form:"payout"`
-	Source           string                 `form:"source"`
-	Type             BalanceTransactionType `form:"type"`
+	AvailableOn      *int64            `form:"available_on"`
+	AvailableOnRange *RangeQueryParams `form:"available_on"`
+	Created          *int64            `form:"created"`
+	CreatedRange     *RangeQueryParams `form:"created"`
+	Currency         *string           `form:"currency"`
+	Payout           *string           `form:"payout"`
+	Source           *string           `form:"source"`
+	Type             *string           `form:"type"`
 }
 
 // Balance is the resource representing your Stripe balance.

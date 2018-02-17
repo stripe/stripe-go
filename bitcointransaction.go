@@ -5,8 +5,8 @@ import "encoding/json"
 // BitcoinTransactionListParams is the set of parameters that can be used when listing BitcoinTransactions.
 type BitcoinTransactionListParams struct {
 	ListParams `form:"*"`
-	Customer   string `form:"customer"`
-	Receiver   string `form:"-"` // Sent in with the URL
+	Customer   *string `form:"customer"`
+	Receiver   *string `form:"-"` // Sent in with the URL
 }
 
 // BitcoinTransactionList is a list object for BitcoinTransactions.
