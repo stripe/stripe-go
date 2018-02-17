@@ -35,9 +35,10 @@ func TestPlanNew(t *testing.T) {
 		Currency: "usd",
 		ID:       "sapphire-elite",
 		Interval: "month",
-		Product: &stripe.ProductParams{
-			Name: "Sapphire Elite",
-			Type: stripe.ProductTypeService,
+		Product: &stripe.PlanProductParams{
+			ID:                  "plan_id",
+			Name:                "Sapphire Elite",
+			StatementDescriptor: "statement descriptor",
 		},
 	})
 	assert.Nil(t, err)
