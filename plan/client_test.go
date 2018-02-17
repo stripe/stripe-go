@@ -32,9 +32,9 @@ func TestPlanList(t *testing.T) {
 func TestPlanNew(t *testing.T) {
 	plan, err := New(&stripe.PlanParams{
 		Amount:   stripe.UInt64(1),
-		Currency: "usd",
+		Currency: stripe.String("usd"),
 		ID:       stripe.String("sapphire-elite"),
-		Interval: "month",
+		Interval: stripe.String("month"),
 		Product: &stripe.ProductParams{
 			Name: "Sapphire Elite",
 			Type: stripe.ProductTypeService,
@@ -48,9 +48,9 @@ func TestPlanNewWithProductID(t *testing.T) {
 	productId := "prod_12345abc"
 	plan, err := New(&stripe.PlanParams{
 		Amount:    stripe.UInt64(1),
-		Currency:  "usd",
+		Currency:  stripe.String("usd"),
 		ID:        stripe.String("sapphire-elite"),
-		Interval:  "month",
+		Interval:  stripe.String("month"),
 		ProductID: &productId,
 	})
 	assert.Nil(t, err)

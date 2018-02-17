@@ -19,7 +19,7 @@ type TransferDestination struct {
 type TransferParams struct {
 	Params            `form:"*"`
 	Amount            *int64              `form:"amount"`
-	Currency          Currency            `form:"currency"`
+	Currency          *string             `form:"currency"`
 	Destination       *string             `form:"destination"`
 	SourceTransaction *string             `form:"source_transaction"`
 	SourceType        *TransferSourceType `form:"source_type"`

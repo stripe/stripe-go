@@ -40,9 +40,9 @@ type PlanListParams struct {
 type PlanParams struct {
 	Params          `form:"*"`
 	Amount          *uint64        `form:"amount"`
-	Currency        Currency       `form:"currency"`
+	Currency        *string        `form:"currency"`
 	ID              *string        `form:"id"`
-	Interval        PlanInterval   `form:"interval"`
+	Interval        *string        `form:"interval"`
 	IntervalCount   *uint64        `form:"interval_count"`
 	Nickname        *string        `form:"nickname"`
 	Product         *ProductParams `form:"product"`

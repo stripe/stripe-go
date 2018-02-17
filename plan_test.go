@@ -51,9 +51,9 @@ func TestPlanParams_AppendTo(t *testing.T) {
 		want   interface{}
 	}{
 		{"amount", &PlanParams{Amount: UInt64(123)}, strconv.FormatUint(123, 10)},
-		{"currency", &PlanParams{Currency: "USD"}, "USD"},
+		{"currency", &PlanParams{Currency: String("usd")}, "usd"},
 		{"id", &PlanParams{ID: String("sapphire-elite")}, "sapphire-elite"},
-		{"interval", &PlanParams{Interval: "month"}, "month"},
+		{"interval", &PlanParams{Interval: String("month")}, "month"},
 		{"interval_count", &PlanParams{IntervalCount: UInt64(3)}, strconv.FormatUint(3, 10)},
 		{"product[name]", &PlanParams{Product: &productParams}, "Sapphire Elite"},
 		{"product[statement_descriptor]", &PlanParams{Product: &productParams}, "SAPPHIRE"},
