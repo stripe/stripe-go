@@ -30,17 +30,14 @@ func TestProductList(t *testing.T) {
 }
 
 func TestProductNew(t *testing.T) {
-	active := true
-	shippable := true
-
 	product, err := New(&stripe.ProductParams{
-		Active:      &active,
+		Active:      stripe.Bool(true),
 		Name:        stripe.String("Test Name"),
 		Description: stripe.String("This is a description"),
 		Caption:     stripe.String("This is a caption"),
 		Attributes:  []string{"attr1", "attr2"},
 		URL:         stripe.String("http://example.com"),
-		Shippable:   &shippable,
+		Shippable:   stripe.Bool(true),
 		PackageDimensions: &stripe.PackageDimensionsParams{
 			Height: stripe.Float64(2.234),
 			Length: stripe.Float64(5.10),
