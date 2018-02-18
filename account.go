@@ -91,35 +91,31 @@ type LegalEntityParams struct {
 	// owners.
 	AdditionalOwnersEmpty bool `form:"additional_owners,empty"`
 
-	Address                  *AccountAddressParams       `form:"address"`
-	AddressKana              *AccountAddressParams       `form:"address_kana"`
-	AddressKanji             *AccountAddressParams       `form:"address_kanji"`
-	BusinessName             *string                     `form:"business_name"`
-	BusinessNameKana         *string                     `form:"business_name_kana"`
-	BusinessNameKanji        *string                     `form:"business_name_kanji"`
-	BusinessTaxID            *string                     `form:"business_tax_id"`
-	BusinessTaxIDProvided    *bool                       `form:"-"`
-	BusinessVatID            *string                     `form:"business_vat_id"`
-	BusinessVatIDProvided    *bool                       `form:"-"`
-	DOB                      *DOBParams                  `form:"dob"`
-	FirstName                *string                     `form:"first_name"`
-	FirstNameKana            *string                     `form:"first_name_kana"`
-	FirstNameKanji           *string                     `form:"first_name_kanji"`
-	Gender                   *string                     `form:"gender"`
-	LastName                 *string                     `form:"last_name"`
-	LastNameKana             *string                     `form:"last_name_kana"`
-	LastNameKanji            *string                     `form:"last_name_kanji"`
-	MaidenName               *string                     `form:"maiden_name"`
-	PersonalAddress          *AccountAddressParams       `form:"personal_address"`
-	PersonalAddressKana      *AccountAddressParams       `form:"personal_address_kana"`
-	PersonalAddressKanji     *AccountAddressParams       `form:"personal_address_kanji"`
-	PersonalIDNumber         *string                     `form:"personal_id_number"`
-	PersonalIDNumberProvided *bool                       `form:"-"`
-	PhoneNumber              *string                     `form:"phone_number"`
-	SSNLast4                 *string                     `form:"ssn_last_4"`
-	SSNLast4Provided         *bool                       `form:"-"`
-	Type                     *string                     `form:"type"`
-	Verification             *IdentityVerificationParams `form:"verification"`
+	Address              *AccountAddressParams       `form:"address"`
+	AddressKana          *AccountAddressParams       `form:"address_kana"`
+	AddressKanji         *AccountAddressParams       `form:"address_kanji"`
+	BusinessName         *string                     `form:"business_name"`
+	BusinessNameKana     *string                     `form:"business_name_kana"`
+	BusinessNameKanji    *string                     `form:"business_name_kanji"`
+	BusinessTaxID        *string                     `form:"business_tax_id"`
+	BusinessVatID        *string                     `form:"business_vat_id"`
+	DOB                  *DOBParams                  `form:"dob"`
+	FirstName            *string                     `form:"first_name"`
+	FirstNameKana        *string                     `form:"first_name_kana"`
+	FirstNameKanji       *string                     `form:"first_name_kanji"`
+	Gender               *string                     `form:"gender"`
+	LastName             *string                     `form:"last_name"`
+	LastNameKana         *string                     `form:"last_name_kana"`
+	LastNameKanji        *string                     `form:"last_name_kanji"`
+	MaidenName           *string                     `form:"maiden_name"`
+	PersonalAddress      *AccountAddressParams       `form:"personal_address"`
+	PersonalAddressKana  *AccountAddressParams       `form:"personal_address_kana"`
+	PersonalAddressKanji *AccountAddressParams       `form:"personal_address_kanji"`
+	PersonalIDNumber     *string                     `form:"personal_id_number"`
+	PhoneNumber          *string                     `form:"phone_number"`
+	SSNLast4             *string                     `form:"ssn_last_4"`
+	Type                 *string                     `form:"type"`
+	Verification         *IdentityVerificationParams `form:"verification"`
 }
 
 // AccountAddressParams represents an address during account creation/updates.
@@ -145,9 +141,9 @@ type DOBParams struct {
 
 // TOSAcceptanceParams represents tos_acceptance during account creation/updates.
 type TOSAcceptanceParams struct {
-	Date      int64  `form:"date"`
-	IP        string `form:"ip"`
-	UserAgent string `form:"user_agent"`
+	Date      *int64  `form:"date"`
+	IP        *string `form:"ip"`
+	UserAgent *string `form:"user_agent"`
 }
 
 // AdditionalOwnerParams represents an additional owner during account creation/updates.
@@ -228,8 +224,8 @@ type Account struct {
 	ID                    string               `json:"id"`
 
 	Keys *struct {
-		Publish string `json:"publishable"`
-		Secret  string `json:"secret"`
+		Publishable string `json:"publishable"`
+		Secret      string `json:"secret"`
 	} `json:"keys"`
 
 	LegalEntity               *LegalEntity      `json:"legal_entity"`
@@ -252,7 +248,7 @@ type Account struct {
 		UserAgent string `json:"user_agent"`
 	} `json:"tos_acceptance"`
 
-	Type AccountType
+	Type AccountType `json:"type"`
 
 	Verification *struct {
 		DisabledReason string   `json:"disabled_reason"`
@@ -366,9 +362,7 @@ type LegalEntity struct {
 	BusinessName             string               `json:"business_name"`
 	BusinessNameKana         string               `json:"business_name_kana"`
 	BusinessNameKanji        string               `json:"business_name_kanji"`
-	BusinessTaxID            string               `json:"-"`
 	BusinessTaxIDProvided    bool                 `json:"business_tax_id_provided"`
-	BusinessVatID            string               `json:"-"`
 	BusinessVatIDProvided    bool                 `json:"business_vat_id_provided"`
 	DOB                      DOB                  `json:"dob"`
 	FirstName                string               `json:"first_name"`
@@ -382,10 +376,8 @@ type LegalEntity struct {
 	PersonalAddress          AccountAddress       `json:"personal_address"`
 	PersonalAddressKana      AccountAddress       `json:"personal_address_kana"`
 	PersonalAddressKanji     AccountAddress       `json:"personal_address_kanji"`
-	PersonalIDNumber         string               `json:"-"`
 	PersonalIDNumberProvided bool                 `json:"personal_id_number_provided"`
 	PhoneNumber              string               `json:"phone_number"`
-	SSNLast4                 string               `json:"-"`
 	SSNLast4Provided         bool                 `json:"ssn_last_4_provided"`
 	Type                     LegalEntityType      `json:"type"`
 	Verification             IdentityVerification `json:"verification"`
@@ -470,7 +462,7 @@ type PayoutSchedule struct {
 type AccountRejectParams struct {
 	// Reason is the reason that an account was rejected. It should be given a
 	// value of one of `fraud`, `terms_of_service`, or `other`.
-	Reason string `form:"reason"`
+	Reason *string `form:"reason"`
 }
 
 // UnmarshalJSON handles deserialization of an IdentityDocument.

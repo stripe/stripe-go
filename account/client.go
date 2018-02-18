@@ -115,8 +115,8 @@ func Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, err
 
 func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
 	body := &form.Values{}
-	if len(params.Reason) > 0 {
-		body.Add("reason", params.Reason)
+	if params.Reason != nil {
+		body.Add("reason", stripe.StringValue(params.Reason))
 	}
 	acct := &stripe.Account{}
 	err := c.B.Call("POST", "/accounts/"+id+"/reject", c.Key, body, nil, acct)

@@ -47,6 +47,7 @@ func TestAccountUnmarshal(t *testing.T) {
 				},
 			},
 		},
+		"type": "custom",
 	}
 
 	bytes, err := json.Marshal(&accountData)
@@ -56,6 +57,7 @@ func TestAccountUnmarshal(t *testing.T) {
 	err = json.Unmarshal(bytes, &account)
 	assert.NoError(t, err)
 
+	assert.Equal(t, AccountTypeCustom, account.Type)
 	assert.Equal(t, "acct_123", account.ID)
 	assert.Equal(t, true, account.ExternalAccounts.HasMore)
 

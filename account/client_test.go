@@ -59,9 +59,9 @@ func TestAccountNew(t *testing.T) {
 			},
 		},
 		TOSAcceptance: &stripe.TOSAcceptanceParams{
-			IP:        "127.0.0.1",
-			Date:      1437578361,
-			UserAgent: "Mozilla/5.0",
+			IP:        stripe.String("127.0.0.1"),
+			Date:      stripe.Int64(1437578361),
+			UserAgent: stripe.String("Mozilla/5.0"),
 		},
 	})
 	assert.Nil(t, err)
@@ -70,7 +70,7 @@ func TestAccountNew(t *testing.T) {
 
 func TestAccountReject(t *testing.T) {
 	account, err := Reject("acct_123", &stripe.AccountRejectParams{
-		Reason: "fraud",
+		Reason: stripe.String("fraud"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, account)
