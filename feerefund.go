@@ -8,15 +8,15 @@ import (
 // For more details see https://stripe.com/docs/api#fee_refund.
 type ApplicationFeeRefundParams struct {
 	Params         `form:"*"`
-	Amount         uint64 `form:"amount"`
-	ApplicationFee string `form:"-"` // Included in the URL
+	Amount         *uint64 `form:"amount"`
+	ApplicationFee *string `form:"-"` // Included in the URL
 }
 
 // ApplicationFeeRefundListParams is the set of parameters that can be used when listing application fee refunds.
 // For more details see https://stripe.com/docs/api#list_fee_refunds.
 type ApplicationFeeRefundListParams struct {
 	ListParams     `form:"*"`
-	ApplicationFee string `form:"-"` // Included in the URL
+	ApplicationFee *string `form:"-"` // Included in the URL
 }
 
 // ApplicationFeeRefund is the resource representing a Stripe application fee refund.

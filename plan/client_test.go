@@ -5,6 +5,7 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -31,13 +32,13 @@ func TestPlanList(t *testing.T) {
 
 func TestPlanNew(t *testing.T) {
 	plan, err := New(&stripe.PlanParams{
-		Amount:   1,
-		Currency: "usd",
-		ID:       "sapphire-elite",
-		Interval: "month",
+		Amount:   stripe.UInt64(1),
+		Currency: stripe.String(string(currency.USD)),
+		ID:       stripe.String("sapphire-elite"),
+		Interval: stripe.String(string(Month)),
 		Product: &stripe.ProductParams{
-			Name: "Sapphire Elite",
-			Type: stripe.ProductTypeService,
+			Name: stripe.String("Sapphire Elite"),
+			Type: stripe.String(string(stripe.ProductTypeService)),
 		},
 	})
 	assert.Nil(t, err)
@@ -45,13 +46,12 @@ func TestPlanNew(t *testing.T) {
 }
 
 func TestPlanNewWithProductID(t *testing.T) {
-	productId := "prod_12345abc"
 	plan, err := New(&stripe.PlanParams{
-		Amount:    1,
-		Currency:  "usd",
-		ID:        "sapphire-elite",
-		Interval:  "month",
-		ProductID: &productId,
+		Amount:    stripe.UInt64(1),
+		Currency:  stripe.String(string(currency.USD)),
+		ID:        stripe.String("sapphire-elite"),
+		Interval:  stripe.String(string(Month)),
+		ProductID: stripe.String("prod_12345abc"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, plan)
@@ -59,7 +59,7 @@ func TestPlanNewWithProductID(t *testing.T) {
 
 func TestPlanUpdate(t *testing.T) {
 	plan, err := Update("gold", &stripe.PlanParams{
-		Nickname: "Updated nickame",
+		Nickname: stripe.String("Updated nickame"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, plan)

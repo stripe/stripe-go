@@ -17,25 +17,25 @@ const (
 
 type OrderParams struct {
 	Params   `form:"*"`
-	Coupon   string             `form:"coupon"`
-	Currency Currency           `form:"currency"`
-	Customer string             `form:"customer"`
-	Email    string             `form:"email"`
+	Coupon   *string            `form:"coupon"`
+	Currency *string            `form:"currency"`
+	Customer *string            `form:"customer"`
+	Email    *string            `form:"email"`
 	Items    []*OrderItemParams `form:"items,indexed"`
 	Shipping *ShippingParams    `form:"shipping"`
 }
 
 type ShippingParams struct {
 	Address *AddressParams `form:"address"`
-	Name    string         `form:"name"`
-	Phone   string         `form:"phone"`
+	Name    *string        `form:"name"`
+	Phone   *string        `form:"phone"`
 }
 
 type OrderUpdateParams struct {
 	Params                 `form:"*"`
-	Coupon                 string      `form:"coupon"`
-	SelectedShippingMethod string      `form:"selected_shipping_method"`
-	Status                 OrderStatus `form:"status"`
+	Coupon                 *string `form:"coupon"`
+	SelectedShippingMethod *string `form:"selected_shipping_method"`
+	Status                 *string `form:"status"`
 }
 
 // OrderReturnParams is the set of parameters that can be used when returning
@@ -109,10 +109,10 @@ type OrderList struct {
 // https://stripe.com/docs/api#list_orders.
 type OrderListParams struct {
 	ListParams   `form:"*"`
-	Created      int64             `form:"created"`
+	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 	IDs          []string          `form:"ids"`
-	Status       OrderStatus       `form:"status"`
+	Status       *string           `form:"status"`
 }
 
 // StatusTransitions are the timestamps at which the order status was updated
@@ -129,9 +129,9 @@ type StatusTransitions struct {
 // https://stripe.com/docs/api#pay_order.
 type OrderPayParams struct {
 	Params         `form:"*"`
-	ApplicationFee int64         `form:"application_fee"`
-	Customer       string        `form:"customer"`
-	Email          string        `form:"email"`
+	ApplicationFee *int64        `form:"application_fee"`
+	Customer       *string       `form:"customer"`
+	Email          *string       `form:"email"`
 	Source         *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 }
 

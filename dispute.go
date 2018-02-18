@@ -27,40 +27,40 @@ type DisputeParams struct {
 // DisputeEvidenceParams is the set of parameters that can be used when submitting
 // evidence for disputes.
 type DisputeEvidenceParams struct {
-	AccessActivityLog            string `form:"access_activity_log"`
-	BillingAddress               string `form:"billing_address"`
-	CancellationPolicy           string `form:"cancellation_policy"`
-	CancellationPolicyDisclosure string `form:"cancellation_policy_disclosure"`
-	CancellationRebuttal         string `form:"cancellation_rebuttal"`
-	CustomerCommunication        string `form:"customer_communication"`
-	CustomerEmailAddress         string `form:"customer_email_address"`
-	CustomerName                 string `form:"customer_name"`
-	CustomerPurchaseIP           string `form:"customer_purchase_ip"`
-	CustomerSignature            string `form:"customer_signature"`
-	DuplicateChargeDocumentation string `form:"duplicate_charge_documentation"`
-	DuplicateChargeExplanation   string `form:"duplicate_charge_explanation"`
-	DuplicateChargeID            string `form:"duplicate_charge_id"`
-	ProductDescription           string `form:"product_description"`
-	Receipt                      string `form:"receipt"`
-	RefundPolicy                 string `form:"refund_policy"`
-	RefundPolicyDisclosure       string `form:"refund_policy_disclosure"`
-	RefundRefusalExplanation     string `form:"refund_refusal_explanation"`
-	ServiceDate                  string `form:"service_date"`
-	ServiceDocumentation         string `form:"service_documentation"`
-	ShippingAddress              string `form:"shipping_address"`
-	ShippingCarrier              string `form:"shipping_carrier"`
-	ShippingDate                 string `form:"shipping_date"`
-	ShippingDocumentation        string `form:"shipping_documentation"`
-	ShippingTrackingNumber       string `form:"shipping_tracking_number"`
-	UncategorizedFile            string `form:"uncategorized_file"`
-	UncategorizedText            string `form:"uncategorized_text"`
+	AccessActivityLog            *string `form:"access_activity_log"`
+	BillingAddress               *string `form:"billing_address"`
+	CancellationPolicy           *string `form:"cancellation_policy"`
+	CancellationPolicyDisclosure *string `form:"cancellation_policy_disclosure"`
+	CancellationRebuttal         *string `form:"cancellation_rebuttal"`
+	CustomerCommunication        *string `form:"customer_communication"`
+	CustomerEmailAddress         *string `form:"customer_email_address"`
+	CustomerName                 *string `form:"customer_name"`
+	CustomerPurchaseIP           *string `form:"customer_purchase_ip"`
+	CustomerSignature            *string `form:"customer_signature"`
+	DuplicateChargeDocumentation *string `form:"duplicate_charge_documentation"`
+	DuplicateChargeExplanation   *string `form:"duplicate_charge_explanation"`
+	DuplicateChargeID            *string `form:"duplicate_charge_id"`
+	ProductDescription           *string `form:"product_description"`
+	Receipt                      *string `form:"receipt"`
+	RefundPolicy                 *string `form:"refund_policy"`
+	RefundPolicyDisclosure       *string `form:"refund_policy_disclosure"`
+	RefundRefusalExplanation     *string `form:"refund_refusal_explanation"`
+	ServiceDate                  *string `form:"service_date"`
+	ServiceDocumentation         *string `form:"service_documentation"`
+	ShippingAddress              *string `form:"shipping_address"`
+	ShippingCarrier              *string `form:"shipping_carrier"`
+	ShippingDate                 *string `form:"shipping_date"`
+	ShippingDocumentation        *string `form:"shipping_documentation"`
+	ShippingTrackingNumber       *string `form:"shipping_tracking_number"`
+	UncategorizedFile            *string `form:"uncategorized_file"`
+	UncategorizedText            *string `form:"uncategorized_text"`
 }
 
 // DisputeListParams is the set of parameters that can be used when listing disputes.
 // For more details see https://stripe.com/docs/api#list_disputes.
 type DisputeListParams struct {
 	ListParams   `form:"*"`
-	Created      int64             `form:"created"`
+	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 }
 

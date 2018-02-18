@@ -10,7 +10,7 @@ import (
 
 func TestLoginLinkNew(t *testing.T) {
 	link, err := New(&stripe.LoginLinkParams{
-		Account: "acct_EXPRESS",
+		Account: stripe.String("acct_EXPRESS"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, link)

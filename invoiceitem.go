@@ -6,22 +6,22 @@ import "encoding/json"
 // For more details see https://stripe.com/docs/api#create_invoiceitem and https://stripe.com/docs/api#update_invoiceitem.
 type InvoiceItemParams struct {
 	Params       `form:"*"`
-	Amount       int64    `form:"amount"`
-	Currency     Currency `form:"currency"`
-	Customer     string   `form:"customer"`
-	Description  string   `form:"description"`
-	Discountable *bool    `form:"discountable"`
-	Invoice      string   `form:"invoice"`
-	Subscription string   `form:"subscription"`
+	Amount       *int64  `form:"amount"`
+	Currency     *string `form:"currency"`
+	Customer     *string `form:"customer"`
+	Description  *string `form:"description"`
+	Discountable *bool   `form:"discountable"`
+	Invoice      *string `form:"invoice"`
+	Subscription *string `form:"subscription"`
 }
 
 // InvoiceItemListParams is the set of parameters that can be used when listing invoice items.
 // For more details see https://stripe.com/docs/api#list_invoiceitems.
 type InvoiceItemListParams struct {
 	ListParams   `form:"*"`
-	Created      int64             `form:"created"`
+	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-	Customer     string            `form:"customer"`
+	Customer     *string           `form:"customer"`
 }
 
 // InvoiceItem is the resource represneting a Stripe invoice item.

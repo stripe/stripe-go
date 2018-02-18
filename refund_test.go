@@ -7,9 +7,9 @@ import (
 
 func TestRefundUnmarshal(t *testing.T) {
 	refundData := map[string]interface{}{
-		"id":     "re_1234",
-		"object": "refund",
-		"charge": "ch_1234",
+		"id":     String("re_1234"),
+		"object": String("refund"),
+		"charge": String("ch_1234"),
 	}
 
 	bytes, err := json.Marshal(&refundData)

@@ -18,7 +18,7 @@ func TestAccountExternalAccountParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &AccountExternalAccountParams{Token: "tok_123"}
+		params := &AccountExternalAccountParams{Token: String("tok_123")}
 		body := &form.Values{}
 
 		// 0-length keyParts are not allowed, so call AppendTo directly (as
@@ -47,6 +47,7 @@ func TestAccountUnmarshal(t *testing.T) {
 				},
 			},
 		},
+		"type": "custom",
 	}
 
 	bytes, err := json.Marshal(&accountData)
@@ -56,6 +57,7 @@ func TestAccountUnmarshal(t *testing.T) {
 	err = json.Unmarshal(bytes, &account)
 	assert.NoError(t, err)
 
+	assert.Equal(t, AccountTypeCustom, account.Type)
 	assert.Equal(t, "acct_123", account.ID)
 	assert.Equal(t, true, account.ExternalAccounts.HasMore)
 

@@ -75,7 +75,7 @@ func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, er
 	var commonParams *stripe.Params
 
 	if params != nil {
-		if params.Source == nil && len(params.Customer) == 0 {
+		if params.Source == nil && params.Customer == nil {
 			err := errors.New("Invalid order pay params: either customer or a source must be set")
 			return nil, err
 		}
