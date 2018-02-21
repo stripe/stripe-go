@@ -1,5 +1,8 @@
 # Changelog
 
+## 29.1.0 - 2018-02-21
+* [#520](https://github.com/stripe/stripe-go/pull/520) Add support for topups
+
 ## 29.0.1 - 2018-02-16
 * [#519](https://github.com/stripe/stripe-go/pull/519) Correct the implementation of `PaymentSource.MarshalJSON` to also handle bank account sources
 
