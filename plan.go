@@ -39,14 +39,24 @@ type PlanListParams struct {
 // For more details see https://stripe.com/docs/api#create_plan and https://stripe.com/docs/api#update_plan.
 type PlanParams struct {
 	Params        `form:"*"`
-	Amount        uint64         `form:"amount"`
-	AmountZero    bool           `form:"amount,zero"`
-	Currency      Currency       `form:"currency"`
-	ID            string         `form:"id"`
-	Interval      PlanInterval   `form:"interval"`
-	IntervalCount uint64         `form:"interval_count"`
-	Nickname      string         `form:"nickname"`
-	Product       *ProductParams `form:"product"`
-	ProductID     *string        `form:"product"`
-	TrialPeriod   uint64         `form:"trial_period_days"`
+	Amount        uint64             `form:"amount"`
+	AmountZero    bool               `form:"amount,zero"`
+	Currency      Currency           `form:"currency"`
+	ID            string             `form:"id"`
+	Interval      PlanInterval       `form:"interval"`
+	IntervalCount uint64             `form:"interval_count"`
+	Nickname      string             `form:"nickname"`
+	Product       *PlanProductParams `form:"product"`
+	ProductID     *string            `form:"product"`
+	TrialPeriod   uint64             `form:"trial_period_days"`
+}
+
+// PlanProductParams is the set of parameters that can be used when creating a product inside a plan
+// This can only be used on plan creation and won't work on plan update.
+// For more details see https://stripe.com/docs/api#create_plan-product and https://stripe.com/docs/api#update_plan-product
+type PlanProductParams struct {
+	ID                  string            `form:"id"`
+	Name                string            `form:"name"`
+	Meta                map[string]string `form:"metadata"`
+	StatementDescriptor string            `form:"statement_descriptor"`
 }
