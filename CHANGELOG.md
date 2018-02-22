@@ -1,12 +1,17 @@
 # Changelog
 
+## 29.1.1 - 2018-02-21
+* [#522](https://github.com/stripe/stripe-go/pull/522) Bump API version and fix creating plans with a product
+
 ## 29.1.0 - 2018-02-21
 * [#520](https://github.com/stripe/stripe-go/pull/520) Add support for topups
 
 ## 29.0.1 - 2018-02-16
+**WARNING:** Please use 29.1.1 instead.
 * [#519](https://github.com/stripe/stripe-go/pull/519) Correct the implementation of `PaymentSource.MarshalJSON` to also handle bank account sources
 
 ## 29.0.0 - 2018-02-14
+**WARNING:** Please use 29.1.1 instead.
 * [#518](https://github.com/stripe/stripe-go/pull/518) Bump API version to 2018-02-06 and add support for Product & Plan API
 
 ## 28.12.0 - 2018-02-09
