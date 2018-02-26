@@ -33,9 +33,15 @@ type ShippingParams struct {
 
 type OrderUpdateParams struct {
 	Params                 `form:"*"`
-	Coupon                 string      `form:"coupon"`
-	SelectedShippingMethod string      `form:"selected_shipping_method"`
-	Status                 OrderStatus `form:"status"`
+	Coupon                 string                     `form:"coupon"`
+	SelectedShippingMethod string                     `form:"selected_shipping_method"`
+	Status                 OrderStatus                `form:"status"`
+	Shipping               *OrderUpdateShippingParams `form:"shipping"`
+}
+
+type OrderUpdateShippingParams struct {
+	Carrier        string `form:"carrier"`
+	TrackingNumber string `form:"tracking_number"`
 }
 
 // OrderReturnParams is the set of parameters that can be used when returning

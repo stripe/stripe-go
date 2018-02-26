@@ -5,7 +5,20 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
+	"github.com/stripe/stripe-go/form"
 )
+
+func TestOrderUpdateParams_AppendTo(t *testing.T) {
+	{
+		params := &OrderUpdateParams{Status: "fulfilled", Shipping: &OrderUpdateShippingParams{Carrier: "USPS", TrackingNumber: "123"}}
+		body := &form.Values{}
+		form.AppendTo(body, params)
+		t.Logf("body = %+v", body)
+		assert.Equal(t, []string{"fulfilled"}, body.Get("status"))
+		assert.Equal(t, []string{"USPS"}, body.Get("shipping[carrier]"))
+		assert.Equal(t, []string{"123"}, body.Get("shipping[tracking_number]"))
+	}
+}
 
 func TestShipping_MarshalJSON(t *testing.T) {
 	{
