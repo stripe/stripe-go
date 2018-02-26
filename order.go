@@ -33,9 +33,15 @@ type ShippingParams struct {
 
 type OrderUpdateParams struct {
 	Params                 `form:"*"`
-	Coupon                 string      `form:"coupon"`
-	SelectedShippingMethod string      `form:"selected_shipping_method"`
-	Status                 OrderStatus `form:"status"`
+	Coupon                 string                     `form:"coupon"`
+	SelectedShippingMethod string                     `form:"selected_shipping_method"`
+	Shipping               *OrderUpdateShippingParams `form:"shipping"`
+	Status                 OrderStatus                `form:"status"`
+}
+
+type OrderUpdateShippingParams struct {
+	Carrier        string `form:"carrier"`
+	TrackingNumber string `form:"tracking_number"`
 }
 
 // OrderReturnParams is the set of parameters that can be used when returning
@@ -46,9 +52,11 @@ type OrderReturnParams struct {
 }
 
 type Shipping struct {
-	Address Address `json:"address"`
-	Name    string  `json:"name"`
-	Phone   string  `json:"phone"`
+	Address        Address `json:"address"`
+	Carrier        string  `json:"carrier"`
+	Name           string  `json:"name"`
+	Phone          string  `json:"phone"`
+	TrackingNumber string  `json:"tracking_number"`
 }
 
 type ShippingMethod struct {
