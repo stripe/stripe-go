@@ -35,8 +35,8 @@ type OrderUpdateParams struct {
 	Params                 `form:"*"`
 	Coupon                 string                     `form:"coupon"`
 	SelectedShippingMethod string                     `form:"selected_shipping_method"`
-	Status                 OrderStatus                `form:"status"`
 	Shipping               *OrderUpdateShippingParams `form:"shipping"`
+	Status                 OrderStatus                `form:"status"`
 }
 
 type OrderUpdateShippingParams struct {
@@ -53,9 +53,9 @@ type OrderReturnParams struct {
 
 type Shipping struct {
 	Address        Address `json:"address"`
+	Carrier        string  `json:"carrier"`
 	Name           string  `json:"name"`
 	Phone          string  `json:"phone"`
-	Carrier        string  `json:"carrier"`
 	TrackingNumber string  `json:"tracking_number"`
 }
 
