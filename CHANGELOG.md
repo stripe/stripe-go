@@ -1,5 +1,9 @@
 # Changelog
 
+## 29.2.0 - 2018-02-26
+* [#525](https://github.com/stripe/stripe-go/pull/525) Support shipping carrier and tracking number in orders
+* [#526](https://github.com/stripe/stripe-go/pull/526) Fix ignored `commonParams` when returning an order
+
 ## 29.1.1 - 2018-02-21
 * [#522](https://github.com/stripe/stripe-go/pull/522) Bump API version and fix creating plans with a product
 
