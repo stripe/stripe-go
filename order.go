@@ -46,9 +46,11 @@ type OrderReturnParams struct {
 }
 
 type Shipping struct {
-	Address Address `json:"address"`
-	Name    string  `json:"name"`
-	Phone   string  `json:"phone"`
+	Address        Address `json:"address"`
+	Name           string  `json:"name"`
+	Phone          string  `json:"phone"`
+	Carrier        string  `json:"carrier"`
+	TrackingNumber string  `json:"tracking_number"`
 }
 
 type ShippingMethod struct {
