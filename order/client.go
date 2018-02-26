@@ -170,6 +170,7 @@ func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.Ord
 
 	if params != nil {
 		body = &form.Values{}
+		commonParams = &params.Params
 		form.AppendTo(body, params)
 	}
 
