@@ -1,5 +1,8 @@
 # Changelog
 
+## 29.3.0 - 2018-03-01
+* [#527](https://github.com/stripe/stripe-go/pull/527) Add `MaidenName`, `PersonalIDNumber`, `PersonalIDNumberProvided` fields to `Owner` struct
+
 ## 29.2.0 - 2018-02-26
 * [#525](https://github.com/stripe/stripe-go/pull/525) Support shipping carrier and tracking number in orders
 * [#526](https://github.com/stripe/stripe-go/pull/526) Fix ignored `commonParams` when returning an order
