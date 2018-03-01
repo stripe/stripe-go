@@ -342,11 +342,14 @@ type Gender string
 
 // Owner is the structure for an account owner.
 type Owner struct {
-	Address      Address              `json:"address" form:"address"`
-	DOB          DOB                  `json:"dob" form:"dob"`
-	First        string               `json:"first_name" form:"first_name"`
-	Last         string               `json:"last_name" form:"last_name"`
-	Verification IdentityVerification `json:"verification" form:"verification"`
+	Address                  Address              `json:"address" form:"address"`
+	DOB                      DOB                  `json:"dob" form:"dob"`
+	First                    string               `json:"first_name" form:"first_name"`
+	Last                     string               `json:"last_name" form:"last_name"`
+	MaidenName               string               `json:"maiden_name" form:"maiden_name"`
+	PersonalIDNumber         string               `json:"-" form:"personal_id_number"`
+	PersonalIDNumberProvided bool                 `json:"personal_id_number_provided" form:"-"`
+	Verification             IdentityVerification `json:"verification" form:"verification"`
 }
 
 // IdentityVerification is the structure for an account's verification.
