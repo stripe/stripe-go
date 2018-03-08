@@ -1,5 +1,8 @@
 # Changelog
 
+## 29.3.1 - 2018-03-08
+* [#530](https://github.com/stripe/stripe-go/pull/530) Fix mixed up types in `CountrySpec.SupportedBankAccountCurrencies`
+
 ## 29.3.0 - 2018-03-01
 * [#527](https://github.com/stripe/stripe-go/pull/527) Add `MaidenName`, `PersonalIDNumber`, `PersonalIDNumberProvided` fields to `Owner` struct
 
