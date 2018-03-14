@@ -45,7 +45,7 @@ type Transfer struct {
 	Created        int64               `json:"created"`
 	Currency       Currency            `json:"currency"`
 	Dest           TransferDestination `json:"destination"`
-	DestPayment    string              `json:"destination_payment"`
+	DestPayment    *Charge             `json:"destination_payment"`
 	ID             string              `json:"id"`
 	Live           bool                `json:"livemode"`
 	Meta           map[string]string   `json:"metadata"`
