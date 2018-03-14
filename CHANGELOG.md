@@ -1,5 +1,8 @@
 # Changelog
 
+## 30.0.0 - 2018-03-14
+* [#533](https://github.com/stripe/stripe-go/pull/533) Make `DestPayment` under `Transfer` expandable by changing it from a string to a `Charge`
+
 ## 29.3.1 - 2018-03-08
 * [#530](https://github.com/stripe/stripe-go/pull/530) Fix mixed up types in `CountrySpec.SupportedBankAccountCurrencies`
 
