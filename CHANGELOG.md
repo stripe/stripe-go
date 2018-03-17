@@ -1,5 +1,8 @@
 # Changelog
 
+## 30.1.0 - 2018-03-17
+* [#534](https://github.com/stripe/stripe-go/pull/534) Add `AmountZero` to `InvoiceItemParams`
+
 ## 30.0.0 - 2018-03-14
 * [#533](https://github.com/stripe/stripe-go/pull/533) Make `DestPayment` under `Transfer` expandable by changing it from a string to a `Charge`
 
