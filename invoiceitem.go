@@ -7,6 +7,7 @@ import "encoding/json"
 type InvoiceItemParams struct {
 	Params         `form:"*"`
 	Amount         int64    `form:"amount"`
+	AmountZero     bool     `form:"amount,zero"`
 	Currency       Currency `form:"currency"`
 	Customer       string   `form:"customer"`
 	Desc           string   `form:"description"`
