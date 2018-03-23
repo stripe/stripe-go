@@ -122,9 +122,10 @@ const (
 type RedirectFlowStatus string
 
 const (
-	RedirectFlowStatusFailed    RedirectFlowStatus = "failed"
-	RedirectFlowStatusPending   RedirectFlowStatus = "pending"
-	RedirectFlowStatusSucceeded RedirectFlowStatus = "succeeded"
+	RedirectFlowStatusFailed      RedirectFlowStatus = "failed"
+	RedirectFlowStatusNotRequired RedirectFlowStatus = "not_required"
+	RedirectFlowStatusPending     RedirectFlowStatus = "pending"
+	RedirectFlowStatusSucceeded   RedirectFlowStatus = "succeeded"
 )
 
 // ReceiverFlow informs of the state of a redirect authentication flow.
