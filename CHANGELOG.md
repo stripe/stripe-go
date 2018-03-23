@@ -1,5 +1,8 @@
 # Changelog
 
+## 30.2.0 - 2018-03-23
+* [#535](https://github.com/stripe/stripe-go/pull/535) Add constant for redirect status `not_required` (`RedirectFlowStatusNotRequired`)
+
 ## 30.1.0 - 2018-03-17
 * [#534](https://github.com/stripe/stripe-go/pull/534) Add `AmountZero` to `InvoiceItemParams`
 
