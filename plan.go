@@ -37,18 +37,6 @@ const (
 	PlanTransformUsageModeRoundUp string = "round_up"
 )
 
-// PlanTransformUsage represents the bucket billing configuration.
-type PlanTransformUsage struct {
-	DivideBy int64  `json:"bucket_size"`
-	Round    string `json:"round"`
-}
-
-// PlanTier configures tiered pricing
-type PlanTier struct {
-	Amount uint64 `json:"amount"`
-	UpTo   uint64 `json:"up_to"`
-}
-
 // Plan is the resource representing a Stripe plan.
 // For more details see https://stripe.com/docs/api#plans.
 type Plan struct {
@@ -106,6 +94,18 @@ type PlanParams struct {
 	UsageType      string                    `form:"usage_type"`
 }
 
+// PlanTier configures tiered pricing
+type PlanTier struct {
+	Amount uint64 `json:"amount"`
+	UpTo   uint64 `json:"up_to"`
+}
+
+// PlanTransformUsage represents the bucket billing configuration.
+type PlanTransformUsage struct {
+	DivideBy int64  `json:"bucket_size"`
+	Round    string `json:"round"`
+}
+
 // PlanTransformUsageParams represents the bucket billing configuration.
 type PlanTransformUsageParams struct {
 	DivideBy int64  `form:"bucket_size"`
@@ -121,11 +121,11 @@ type PlanTierParams struct {
 }
 
 // AppendTo implements custom up_to serialisation logic for tiers configuration
-func (config *PlanTierParams) AppendTo(body *form.Values, keyParts []string) {
-	if config.UpToInf {
+func (p *PlanTierParams) AppendTo(body *form.Values, keyParts []string) {
+	if p.UpToInf {
 		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
 	} else {
-		body.Add(form.FormatKey(append(keyParts, "up_to")), strconv.FormatUint(config.UpTo, 10))
+		body.Add(form.FormatKey(append(keyParts, "up_to")), strconv.FormatUint(p.UpTo, 10))
 	}
 }
 

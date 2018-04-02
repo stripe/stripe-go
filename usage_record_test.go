@@ -14,10 +14,10 @@ func TestUsageRecordParams_AppendTo(t *testing.T) {
 		params *UsageRecordParams
 		want   interface{}
 	}{
+		{"action", &UsageRecordParams{Action: "increment"}, "increment"},
 		{"quantity", &UsageRecordParams{Quantity: 2000}, strconv.FormatUint(2000, 10)},
 		{"quantity", &UsageRecordParams{QuantityZero: true}, strconv.FormatUint(0, 10)},
 		{"timestamp", &UsageRecordParams{Timestamp: 123123123}, strconv.FormatUint(123123123, 10)},
-		{"action", &UsageRecordParams{Action: "increment"}, "increment"},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.field, func(t *testing.T) {
