@@ -190,7 +190,7 @@ func buildArrayOrSliceEncoder(t reflect.Type) encoderFunc {
 			elemF(values, indexV, arrNames, indexV.Kind() == reflect.Ptr, nil)
 
 			if isAppender(indexV.Type()) && !indexV.IsNil() {
-				v.Interface().(Appender).AppendTo(values, arrNames)
+				indexV.Interface().(Appender).AppendTo(values, arrNames)
 			}
 		}
 	}
