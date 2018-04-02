@@ -1,5 +1,8 @@
 # Changelog
 
+## 30.3.0 - 2018-04-02
+* [#538](https://github.com/stripe/stripe-go/pull/538) Introduce flexible billing primitives for subscriptions
+
 ## 30.2.0 - 2018-03-23
 * [#535](https://github.com/stripe/stripe-go/pull/535) Add constant for redirect status `not_required` (`RedirectFlowStatusNotRequired`)
 
