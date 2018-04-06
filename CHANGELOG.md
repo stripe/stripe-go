@@ -1,5 +1,8 @@
 # Changelog
 
+## 30.4.0 - 2018-04-06
+* [#541](https://github.com/stripe/stripe-go/pull/541) Add `Mandate` on `Source` (and associated mandate structs)
+
 ## 30.3.0 - 2018-04-02
 * [#538](https://github.com/stripe/stripe-go/pull/538) Introduce flexible billing primitives for subscriptions
 
