@@ -1,5 +1,8 @@
 # Changelog
 
+## 30.5.0 - 2018-04-09
+* [#543](https://github.com/stripe/stripe-go/pull/543) Support listing orders by customer (add `Customer` to `OrderListParams`)
+
 ## 30.4.0 - 2018-04-06
 * [#541](https://github.com/stripe/stripe-go/pull/541) Add `Mandate` on `Source` (and associated mandate structs)
 
