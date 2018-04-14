@@ -67,8 +67,8 @@ func TestPlanParams_AppendTo(t *testing.T) {
 		{"tiers[0][up_to]", &PlanParams{Tiers: tiers}, strconv.FormatUint(321, 10)},
 		{"tiers[1][amount]", &PlanParams{Tiers: tiers}, strconv.FormatUint(123, 10)},
 		{"tiers[1][up_to]", &PlanParams{Tiers: tiers}, "inf"},
-		{"transform_usage[bucket_size]", &PlanParams{TransformUsage: &PlanTransformUsageParams{DivideBy: 123, Round: "round_up"}}, strconv.FormatUint(123, 10)},
-		{"transform_usage[round]", &PlanParams{TransformUsage: &PlanTransformUsageParams{DivideBy: 123, Round: "round_up"}}, "round_up"},
+		{"transform_usage[bucket_size]", &PlanParams{TransformUsage: &PlanTransformUsageParams{DivideBy: Int64(123), Round: String("round_up")}}, strconv.FormatUint(123, 10)},
+		{"transform_usage[round]", &PlanParams{TransformUsage: &PlanTransformUsageParams{DivideBy: Int64(123), Round: String("round_up")}}, "round_up"},
 		{"trial_period_days", &PlanParams{TrialPeriodDays: Int64(123)}, strconv.FormatUint(123, 10)},
 		{"usage_type", &PlanParams{UsageType: String("metered")}, "metered"},
 	}

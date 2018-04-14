@@ -66,11 +66,11 @@ func (p *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubscriptionItemsParams struct {
 	Params     `form:"*"`
-	ClearUsage bool   `form:"clear_usage"`
-	Deleted    bool   `form:"deleted"`
-	ID         string `form:"id"`
-	Plan       string `form:"plan"`
-	Quantity   *int64 `form:"quantity"`
+	ClearUsage *bool   `form:"clear_usage"`
+	Deleted    *bool   `form:"deleted"`
+	ID         *string `form:"id"`
+	Plan       *string `form:"plan"`
+	Quantity   *int64  `form:"quantity"`
 }
 
 // SubscriptionListParams is the set of parameters that can be used when listing active subscriptions.

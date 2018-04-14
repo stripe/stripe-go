@@ -91,7 +91,7 @@ type ProductListParams struct {
 	Active     *bool    `form:"active"`
 	IDs        []string `form:"ids"`
 	Shippable  *bool    `form:"shippable"`
-	URL        string   `form:"url"`
+	URL        *string  `form:"url"`
 }
 
 // UnmarshalJSON handles deserialization of a Product.
