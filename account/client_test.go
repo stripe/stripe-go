@@ -50,12 +50,20 @@ func TestAccountNew(t *testing.T) {
 			Type:         stripe.String(string(stripe.Individual)),
 			BusinessName: stripe.String("Stripe Go"),
 			AdditionalOwners: []stripe.AdditionalOwnerParams{
-				{FirstName: stripe.String("Jane")},
+				{
+					FirstName: stripe.String("Jane"),
+					Verification: &stripe.IdentityVerificationParams{
+						Document: stripe.String("file_345"),
+					},
+				},
 			},
 			DOB: &stripe.DOBParams{
 				Day:   stripe.Int64(1),
 				Month: stripe.Int64(2),
 				Year:  stripe.Int64(1990),
+			},
+			Verification: &stripe.IdentityVerificationParams{
+				Document: stripe.String("file_123"),
 			},
 		},
 		TOSAcceptance: &stripe.TOSAcceptanceParams{
