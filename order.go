@@ -119,7 +119,7 @@ type OrderListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-	Customer     string            `form:"customer"`
+	Customer     *string           `form:"customer"`
 	IDs          []string          `form:"ids"`
 	Status       *string           `form:"status"`
 }
