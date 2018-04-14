@@ -8,7 +8,7 @@ import (
 // For more details see https://stripe.com/docs/api#fee_refund.
 type ApplicationFeeRefundParams struct {
 	Params         `form:"*"`
-	Amount         *uint64 `form:"amount"`
+	Amount         *int64  `form:"amount"`
 	ApplicationFee *string `form:"-"` // Included in the URL
 }
 
@@ -22,7 +22,7 @@ type ApplicationFeeRefundListParams struct {
 // ApplicationFeeRefund is the resource representing a Stripe application fee refund.
 // For more details see https://stripe.com/docs/api#fee_refunds.
 type ApplicationFeeRefund struct {
-	Amount             uint64              `json:"amount"`
+	Amount             int64               `json:"amount"`
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	Created            int64               `json:"created"`
 	Currency           Currency            `json:"currency"`

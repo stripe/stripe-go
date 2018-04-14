@@ -44,7 +44,7 @@ func TestChargeMarkFraudulent(t *testing.T) {
 
 func TestChargeNew(t *testing.T) {
 	charge, err := New(&stripe.ChargeParams{
-		Amount:   stripe.UInt64(123),
+		Amount:   stripe.Int64(123),
 		Currency: stripe.String(string(currency.USD)),
 		Source:   &stripe.SourceParams{Token: stripe.String("src_123")},
 		Shipping: &stripe.ShippingDetailsParams{
@@ -62,7 +62,7 @@ func TestChargeNew(t *testing.T) {
 
 func TestChargeNew_WithSetSource(t *testing.T) {
 	params := stripe.ChargeParams{
-		Amount:   stripe.UInt64(123),
+		Amount:   stripe.Int64(123),
 		Currency: stripe.String(string(currency.USD)),
 	}
 	params.SetSource("tok_123")

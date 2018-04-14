@@ -31,7 +31,7 @@ func TestSubscriptionItemList(t *testing.T) {
 
 func TestSubscriptionItemNew(t *testing.T) {
 	item, err := New(&stripe.SubscriptionItemParams{
-		Quantity:     stripe.UInt64(99),
+		Quantity:     stripe.Int64(99),
 		Plan:         stripe.String("plan_123"),
 		Subscription: stripe.String("sub_123"),
 	})
@@ -41,7 +41,7 @@ func TestSubscriptionItemNew(t *testing.T) {
 
 func TestSubscriptionItemUpdate(t *testing.T) {
 	item, err := Update("si_123", &stripe.SubscriptionItemParams{
-		Quantity: stripe.UInt64(10),
+		Quantity: stripe.Int64(10),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, item)

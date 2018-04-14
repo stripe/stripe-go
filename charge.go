@@ -16,8 +16,8 @@ type FraudReport string
 // For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
 type ChargeParams struct {
 	Params              `form:"*"`
-	Amount              *uint64                `form:"amount"`
-	ApplicationFee      *uint64                `form:"application_fee"`
+	Amount              *int64                 `form:"amount"`
+	ApplicationFee      *int64                 `form:"application_fee"`
 	Capture             *bool                  `form:"capture"`
 	Currency            *string                `form:"currency"`
 	Customer            *string                `form:"customer"`
@@ -52,7 +52,7 @@ func (p *ChargeParams) SetSource(sp interface{}) error {
 
 type DestinationParams struct {
 	Account *string `form:"account"`
-	Amount  *uint64 `form:"amount"`
+	Amount  *int64  `form:"amount"`
 }
 
 // FraudDetailsParams provides information on the fraud details for a charge.
@@ -74,8 +74,8 @@ type ChargeListParams struct {
 // For more details see https://stripe.com/docs/api#charge_capture.
 type CaptureParams struct {
 	Params              `form:"*"`
-	Amount              *uint64  `form:"amount"`
-	ApplicationFee      *uint64  `form:"application_fee"`
+	Amount              *int64   `form:"amount"`
+	ApplicationFee      *int64   `form:"application_fee"`
 	ExchangeRate        *float64 `form:"exchange_rate"`
 	ReceiptEmail        *string  `form:"receipt_email"`
 	StatementDescriptor *string  `form:"statement_descriptor"`
@@ -84,8 +84,8 @@ type CaptureParams struct {
 // Charge is the resource representing a Stripe charge.
 // For more details see https://stripe.com/docs/api#charges.
 type Charge struct {
-	Amount              uint64              `json:"amount"`
-	AmountRefunded      uint64              `json:"amount_refunded"`
+	Amount              int64               `json:"amount"`
+	AmountRefunded      int64               `json:"amount_refunded"`
 	Application         *Application        `json:"application"`
 	ApplicationFee      *ApplicationFee     `json:"application_fee"`
 	BalanceTransaction  *BalanceTransaction `json:"balance_transaction"`

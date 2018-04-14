@@ -32,7 +32,7 @@ func TestPlanList(t *testing.T) {
 
 func TestPlanNew(t *testing.T) {
 	plan, err := New(&stripe.PlanParams{
-		Amount:   stripe.UInt64(1),
+		Amount:   stripe.Int64(1),
 		Currency: stripe.String(string(currency.USD)),
 		ID:       stripe.String("sapphire-elite"),
 		Interval: stripe.String(string(Month)),
@@ -49,7 +49,7 @@ func TestPlanNew(t *testing.T) {
 
 func TestPlanNewWithProductID(t *testing.T) {
 	plan, err := New(&stripe.PlanParams{
-		Amount:    stripe.UInt64(1),
+		Amount:    stripe.Int64(1),
 		Currency:  stripe.String(string(currency.USD)),
 		ID:        stripe.String("sapphire-elite"),
 		Interval:  stripe.String(string(Month)),

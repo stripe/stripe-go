@@ -134,9 +134,9 @@ type AccountAddressParams struct {
 
 // DOBParams represents a DOB during account creation/updates.
 type DOBParams struct {
-	Day   *int `form:"day"`
-	Month *int `form:"month"`
-	Year  *int `form:"year"`
+	Day   *int64 `form:"day"`
+	Month *int64 `form:"month"`
+	Year  *int64 `form:"year"`
 }
 
 // TOSAcceptanceParams represents tos_acceptance during account creation/updates.
@@ -194,10 +194,10 @@ func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []st
 
 // PayoutScheduleParams are the parameters allowed for payout schedules.
 type PayoutScheduleParams struct {
-	DelayDays        *uint64 `form:"delay_days"`
+	DelayDays        *int64  `form:"delay_days"`
 	DelayDaysMinimum *bool   `form:"-"` // See custom AppendTo
 	Interval         *string `form:"interval"`
-	MonthlyAnchor    *uint64 `form:"monthly_anchor"`
+	MonthlyAnchor    *int64  `form:"monthly_anchor"`
 	WeeklyAnchor     *string `form:"weekly_anchor"`
 }
 
@@ -454,9 +454,9 @@ func (d *IdentityDocument) AppendTo(body *form.Values, keyParts []string) {
 
 // PayoutSchedule is the structure for an account's payout schedule.
 type PayoutSchedule struct {
-	DelayDays     uint64   `json:"delay_days"`
+	DelayDays     int64    `json:"delay_days"`
 	Interval      Interval `json:"interval"`
-	MonthlyAnchor uint64   `json:"monthly_anchor"`
+	MonthlyAnchor int64    `json:"monthly_anchor"`
 	WeeklyAnchor  string   `json:"weekly_anchor"`
 }
 

@@ -15,7 +15,7 @@ type CustomerParams struct {
 	Description    *string                        `form:"description"`
 	Email          *string                        `form:"email"`
 	Plan           *string                        `form:"plan"`
-	Quantity       *uint64                        `form:"quantity"`
+	Quantity       *int64                         `form:"quantity"`
 	Shipping       *CustomerShippingDetailsParams `form:"shipping"`
 	Source         *SourceParams                  `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 	TaxPercent     *float64                       `form:"tax_percent"`

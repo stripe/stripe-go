@@ -9,7 +9,7 @@ import (
 
 func TestChargeParams_AppendTo(t *testing.T) {
 	{
-		params := &ChargeParams{Amount: UInt64(123)}
+		params := &ChargeParams{Amount: Int64(123)}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)

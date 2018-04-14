@@ -10,13 +10,13 @@ type CouponDuration string
 // For more details see https://stripe.com/docs/api#create_coupon.
 type CouponParams struct {
 	Params           `form:"*"`
-	AmountOff        *uint64 `form:"amount_off"`
+	AmountOff        *int64  `form:"amount_off"`
 	Currency         *string `form:"currency"`
 	Duration         *string `form:"duration"`
-	DurationInMonths *uint64 `form:"duration_in_months"`
+	DurationInMonths *int64  `form:"duration_in_months"`
 	ID               *string `form:"id"`
-	MaxRedemptions   *uint64 `form:"max_redemptions"`
-	PercentOff       *uint64 `form:"percent_off"`
+	MaxRedemptions   *int64  `form:"max_redemptions"`
+	PercentOff       *int64  `form:"percent_off"`
 	RedeemBy         *int64  `form:"redeem_by"`
 }
 
@@ -31,19 +31,19 @@ type CouponListParams struct {
 // Coupon is the resource representing a Stripe coupon.
 // For more details see https://stripe.com/docs/api#coupons.
 type Coupon struct {
-	AmountOff        uint64            `json:"amount_off"`
+	AmountOff        int64             `json:"amount_off"`
 	Created          int64             `json:"created"`
 	Currency         Currency          `json:"currency"`
 	Deleted          bool              `json:"deleted"`
 	Duration         CouponDuration    `json:"duration"`
-	DurationInMonths uint64            `json:"duration_in_months"`
+	DurationInMonths int64             `json:"duration_in_months"`
 	ID               string            `json:"id"`
 	Livemode         bool              `json:"livemode"`
-	MaxRedemptions   uint64            `json:"max_redemptions"`
+	MaxRedemptions   int64             `json:"max_redemptions"`
 	Metadata         map[string]string `json:"metadata"`
-	PercentOff       uint64            `json:"percent_off"`
+	PercentOff       int64             `json:"percent_off"`
 	RedeemBy         int64             `json:"redeem_by"`
-	TimesRedeemed    uint64            `json:"times_redeemed"`
+	TimesRedeemed    int64             `json:"times_redeemed"`
 	Valid            bool              `json:"valid"`
 }
 

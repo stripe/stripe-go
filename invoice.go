@@ -14,11 +14,11 @@ type InvoiceBilling string
 // For more details see https://stripe.com/docs/api#create_invoice, https://stripe.com/docs/api#update_invoice.
 type InvoiceParams struct {
 	Params              `form:"*"`
-	ApplicationFee      *uint64  `form:"application_fee"`
+	ApplicationFee      *int64   `form:"application_fee"`
 	Billing             *string  `form:"billing"`
 	Closed              *bool    `form:"closed"`
 	Customer            *string  `form:"customer"`
-	DaysUntilDue        *uint64  `form:"days_until_due"`
+	DaysUntilDue        *int64   `form:"days_until_due"`
 	Description         *string  `form:"description"`
 	DueDate             *int64   `form:"due_date"`
 	Forgiven            *bool    `form:"forgiven"`
@@ -33,7 +33,7 @@ type InvoiceParams struct {
 	SubscriptionPlan          *string                    `form:"subscription_plan"`
 	SubscriptionProrate       *bool                      `form:"subscription_prorate"`
 	SubscriptionProrationDate *int64                     `form:"subscription_proration_date"`
-	SubscriptionQuantity      *uint64                    `form:"subscription_quantity"`
+	SubscriptionQuantity      *int64                     `form:"subscription_quantity"`
 	SubscriptionTrialEnd      *int64                     `form:"subscription_trial_end"`
 }
 
@@ -66,8 +66,8 @@ type InvoiceLineListParams struct {
 // For more details see https://stripe.com/docs/api#invoice_object.
 type Invoice struct {
 	AmountDue           int64             `json:"amount_due"`
-	ApplicationFee      uint64            `json:"application_fee"`
-	AttemptCount        uint64            `json:"attempt_count"`
+	ApplicationFee      int64             `json:"application_fee"`
+	AttemptCount        int64             `json:"attempt_count"`
 	Attempted           bool              `json:"attempted"`
 	Billing             InvoiceBilling    `json:"billing"`
 	Charge              *Charge           `json:"charge"`

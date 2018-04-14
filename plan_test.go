@@ -46,18 +46,18 @@ func TestPlanParams_AppendTo(t *testing.T) {
 		Type:                String(string(ProductTypeService)),
 	}
 	tiers := []*PlanTierParams{
-		{Amount: UInt64(123), UpTo: UInt64(321)},
-		{Amount: UInt64(123), UpToInf: Bool(true)}}
+		{Amount: Int64(123), UpTo: Int64(321)},
+		{Amount: Int64(123), UpToInf: Bool(true)}}
 	testCases := []struct {
 		field  string
 		params *PlanParams
 		want   interface{}
 	}{
-		{"amount", &PlanParams{Amount: UInt64(123)}, strconv.FormatUint(123, 10)},
+		{"amount", &PlanParams{Amount: Int64(123)}, strconv.FormatUint(123, 10)},
 		{"currency", &PlanParams{Currency: String("usd")}, "usd"},
 		{"id", &PlanParams{ID: String("sapphire-elite")}, "sapphire-elite"},
 		{"interval", &PlanParams{Interval: String("month")}, "month"},
-		{"interval_count", &PlanParams{IntervalCount: UInt64(3)}, strconv.FormatUint(3, 10)},
+		{"interval_count", &PlanParams{IntervalCount: Int64(3)}, strconv.FormatUint(3, 10)},
 		{"product", &PlanParams{ProductID: String("prod_123abc")}, "prod_123abc"},
 		{"product[id]", &PlanParams{Product: &productParams}, "ID"},
 		{"product[name]", &PlanParams{Product: &productParams}, "Sapphire Elite"},
@@ -69,7 +69,7 @@ func TestPlanParams_AppendTo(t *testing.T) {
 		{"tiers[1][up_to]", &PlanParams{Tiers: tiers}, "inf"},
 		{"transform_usage[bucket_size]", &PlanParams{TransformUsage: &PlanTransformUsageParams{DivideBy: 123, Round: "round_up"}}, strconv.FormatUint(123, 10)},
 		{"transform_usage[round]", &PlanParams{TransformUsage: &PlanTransformUsageParams{DivideBy: 123, Round: "round_up"}}, "round_up"},
-		{"trial_period_days", &PlanParams{TrialPeriodDays: UInt64(123)}, strconv.FormatUint(123, 10)},
+		{"trial_period_days", &PlanParams{TrialPeriodDays: Int64(123)}, strconv.FormatUint(123, 10)},
 		{"usage_type", &PlanParams{UsageType: String("metered")}, "metered"},
 	}
 	for _, tc := range testCases {

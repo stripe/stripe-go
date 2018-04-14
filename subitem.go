@@ -8,7 +8,7 @@ type SubscriptionItemParams struct {
 	Plan          *string `form:"plan"`
 	Prorate       *bool   `form:"prorate"`
 	ProrationDate *int64  `form:"proration_date"`
-	Quantity      *uint64 `form:"quantity"`
+	Quantity      *int64  `form:"quantity"`
 	Subscription  *string `form:"subscription"`
 }
 
@@ -27,7 +27,7 @@ type SubscriptionItem struct {
 	ID       string            `json:"id"`
 	Metadata map[string]string `json:"metadata"`
 	Plan     *Plan             `json:"plan"`
-	Quantity uint64            `json:"quantity"`
+	Quantity int64             `json:"quantity"`
 }
 
 // SubscriptionItemList is a list of invoice items as retrieved from a list endpoint.
