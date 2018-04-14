@@ -34,11 +34,11 @@ func TestSubscriptionNew(t *testing.T) {
 	subscription, err := New(&stripe.SubscriptionParams{
 		Customer:           stripe.String("cus_123"),
 		Plan:               stripe.String("plan_123"),
-		Quantity:           stripe.UInt64(10),
+		Quantity:           stripe.Int64(10),
 		TaxPercent:         stripe.Float64(20.0),
 		BillingCycleAnchor: stripe.Int64(time.Now().AddDate(0, 0, 12).Unix()),
 		Billing:            stripe.String("send_invoice"),
-		DaysUntilDue:       stripe.UInt64(30),
+		DaysUntilDue:       stripe.Int64(30),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, subscription)
@@ -50,7 +50,7 @@ func TestSubscriptionNew_WithItems(t *testing.T) {
 		Items: []*stripe.SubscriptionItemsParams{
 			{
 				Plan:     "gold",
-				Quantity: stripe.UInt64(0),
+				Quantity: stripe.Int64(0),
 			},
 		},
 	})
@@ -61,7 +61,7 @@ func TestSubscriptionNew_WithItems(t *testing.T) {
 func TestSubscriptionUpdate(t *testing.T) {
 	subscription, err := Update("sub_123", &stripe.SubscriptionParams{
 		Prorate:    stripe.Bool(true),
-		Quantity:   stripe.UInt64(0),
+		Quantity:   stripe.Int64(0),
 		TaxPercent: stripe.Float64(0),
 	})
 	assert.Nil(t, err)

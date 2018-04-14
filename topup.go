@@ -4,7 +4,7 @@ package stripe
 // For more details see https://stripe.com/docs/api#create_topup and https://stripe.com/docs/api#update_topup.
 type TopupParams struct {
 	Params              `form:"*"`
-	Amount              *uint64       `form:"amount"`
+	Amount              *int64        `form:"amount"`
 	Currency            *string       `form:"currency"`
 	Description         *string       `form:"description"`
 	Source              *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
@@ -36,7 +36,7 @@ type TopupList struct {
 // Topup is the resource representing a Stripe top-up.
 // For more details see https://stripe.com/docs/api#topups.
 type Topup struct {
-	Amount                   uint64              `json:"amount"`
+	Amount                   int64               `json:"amount"`
 	ArrivalDate              int64               `json:"arrival_date"`
 	BalanceTransaction       *BalanceTransaction `json:"balance_transaction"`
 	Created                  int64               `json:"created"`

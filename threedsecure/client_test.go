@@ -17,7 +17,7 @@ func TestThreeDSecureGet(t *testing.T) {
 
 func TestThreeDSecureNew(t *testing.T) {
 	threeDSecure, err := New(&stripe.ThreeDSecureParams{
-		Amount:    stripe.UInt64(1000),
+		Amount:    stripe.Int64(1000),
 		Currency:  stripe.String(string(currency.USD)),
 		Customer:  stripe.String("cus_123"),
 		Card:      stripe.String("card_123"),

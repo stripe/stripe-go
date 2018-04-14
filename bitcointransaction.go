@@ -20,8 +20,8 @@ type BitcoinTransactionList struct {
 // BitcoinTransaction is the resource representing a Stripe bitcoin transaction.
 // For more details see https://stripe.com/docs/api/#bitcoin_receivers
 type BitcoinTransaction struct {
-	Amount        uint64   `json:"amount"`
-	BitcoinAmount uint64   `json:"bitcoin_amount"`
+	Amount        int64    `json:"amount"`
+	BitcoinAmount int64    `json:"bitcoin_amount"`
 	Created       int64    `json:"created"`
 	Currency      Currency `json:"currency"`
 	Customer      string   `json:"customer"`

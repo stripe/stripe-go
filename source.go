@@ -77,7 +77,7 @@ type RedirectParams struct {
 
 type SourceObjectParams struct {
 	Params              `form:"*"`
-	Amount              *uint64            `form:"amount"`
+	Amount              *int64             `form:"amount"`
 	Currency            *string            `form:"currency"`
 	Customer            *string            `form:"customer"`
 	Flow                *string            `form:"flow"`
@@ -185,7 +185,7 @@ const (
 
 // CodeVerificationFlow informs of the state of a verification authentication flow.
 type CodeVerificationFlow struct {
-	AttemptsRemaining uint64                     `json:"attempts_remaining"`
+	AttemptsRemaining int64                      `json:"attempts_remaining"`
 	Status            CodeVerificationFlowStatus `json:"status"`
 }
 
