@@ -159,7 +159,7 @@ type AdditionalOwnerParams struct {
 
 // IdentityVerification represents a verification during account creation/updates.
 type IdentityVerificationParams struct {
-	Document *IdentityDocument `form:"document"`
+	Document *string `form:"document"`
 }
 
 // AccountListParams are the parameters allowed during account listing.
@@ -422,34 +422,10 @@ type AdditionalOwner struct {
 
 // IdentityVerification is the structure for an account's verification.
 type IdentityVerification struct {
-	Details     *string                         `json:"details"`
+	Details     string                          `json:"details"`
 	DetailsCode IdentityVerificationDetailsCode `json:"details_code"`
-	Document    *IdentityDocument               `json:"document"`
+	Document    *FileUpload                     `json:"document"`
 	Status      IdentityVerificationStatus      `json:"status"`
-}
-
-// IdentityDocument is the structure for an identity document.
-type IdentityDocument struct {
-	Created int64  `json:"created" form:"-"`
-	ID      string `json:"id" form:"-"` // See custom AppendTo implementation
-	Size    int64  `json:"size" form:"-"`
-}
-
-// AppendTo implements custom form encoding for IdentityDocument. In the Go
-// library, it's suggested that users initialize an IdentityDocument and fill
-// its ID when updating an account, but in the API's account update method,
-// there is no subobject; you simply pass an ID into the document field.
-//
-// The inherent cause of this asymmetry is that instead of creating separate
-// structs for parameters (which are normally separate from the structs used
-// for responses), someone decided to reuse them instead, and although request
-// and response constructs are similar, they're not identical, thus the
-// discrepancy.
-//
-// Long term, we should create separate parameter structs. This isn't hard, but
-// is breaking, and will be somewhat painful for users when they upgrade.
-func (d *IdentityDocument) AppendTo(body *form.Values, keyParts []string) {
-	body.Add(form.FormatKey(keyParts), d.ID)
 }
 
 // PayoutSchedule is the structure for an account's payout schedule.
@@ -465,22 +441,4 @@ type AccountRejectParams struct {
 	// Reason is the reason that an account was rejected. It should be given a
 	// value of one of `fraud`, `terms_of_service`, or `other`.
 	Reason *string `form:"reason"`
-}
-
-// UnmarshalJSON handles deserialization of an IdentityDocument.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (d *IdentityDocument) UnmarshalJSON(data []byte) error {
-	type identityDocument IdentityDocument
-	var doc identityDocument
-	err := json.Unmarshal(data, &doc)
-
-	if err == nil {
-		*d = IdentityDocument(doc)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		d.ID = string(data[1 : len(data)-1])
-	}
-
-	return nil
 }
