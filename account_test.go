@@ -66,20 +66,6 @@ func TestAccountUnmarshal(t *testing.T) {
 	assert.Equal(t, "card_123", account.ExternalAccounts.Data[1].ID)
 }
 
-func TestIdentityDocument_Appendto(t *testing.T) {
-	{
-		params := &IdentityDocument{ID: "file_123"}
-		body := &form.Values{}
-		params.AppendTo(body,
-			[]string{"legal_entity", "additional_owners", "0", "verification", "document"})
-		t.Logf("body = %+v", body)
-		assert.Equal(t,
-			[]string{"file_123"},
-			body.Get("legal_entity[additional_owners][0][verification][document]"),
-		)
-	}
-}
-
 func TestPayoutScheduleParams_AppendTo(t *testing.T) {
 	{
 		params := &PayoutScheduleParams{DelayDaysMinimum: Bool(true)}
