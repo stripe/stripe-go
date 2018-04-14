@@ -21,8 +21,8 @@ type ApplicationFeeListParams struct {
 // For more details see https://stripe.com/docs/api#application_fees.
 type ApplicationFee struct {
 	Account                *Account                  `json:"account"`
-	Amount                 uint64                    `json:"amount"`
-	AmountRefunded         uint64                    `json:"amount_refunded"`
+	Amount                 int64                     `json:"amount"`
+	AmountRefunded         int64                     `json:"amount_refunded"`
 	Application            string                    `json:"application"`
 	BalanceTransaction     *BalanceTransaction       `json:"balance_transaction"`
 	Charge                 *Charge                   `json:"charge"`

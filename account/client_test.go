@@ -53,9 +53,9 @@ func TestAccountNew(t *testing.T) {
 				{FirstName: stripe.String("Jane")},
 			},
 			DOB: &stripe.DOBParams{
-				Day:   stripe.Int(1),
-				Month: stripe.Int(2),
-				Year:  stripe.Int(1990),
+				Day:   stripe.Int64(1),
+				Month: stripe.Int64(2),
+				Year:  stripe.Int64(1990),
 			},
 		},
 		TOSAcceptance: &stripe.TOSAcceptanceParams{

@@ -26,13 +26,13 @@ type SubscriptionParams struct {
 	Card                        *CardParams                `form:"card"`
 	Coupon                      *string                    `form:"coupon"`
 	Customer                    *string                    `form:"customer"`
-	DaysUntilDue                *uint64                    `form:"days_until_due"`
+	DaysUntilDue                *int64                     `form:"days_until_due"`
 	Items                       []*SubscriptionItemsParams `form:"items,indexed"`
 	OnBehalfOf                  *string                    `form:"on_behalf_of"`
 	Plan                        *string                    `form:"plan"`
 	Prorate                     *bool                      `form:"prorate"`
 	ProrationDate               *int64                     `form:"proration_date"`
-	Quantity                    *uint64                    `form:"quantity"`
+	Quantity                    *int64                     `form:"quantity"`
 	Source                      *string                    `form:"source"`
 	TaxPercent                  *float64                   `form:"tax_percent"`
 	TrialEnd                    *int64                     `form:"trial_end"`
@@ -66,11 +66,11 @@ func (p *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubscriptionItemsParams struct {
 	Params     `form:"*"`
-	ClearUsage bool    `form:"clear_usage"`
-	Deleted    bool    `form:"deleted"`
-	ID         string  `form:"id"`
-	Plan       string  `form:"plan"`
-	Quantity   *uint64 `form:"quantity"`
+	ClearUsage bool   `form:"clear_usage"`
+	Deleted    bool   `form:"deleted"`
+	ID         string `form:"id"`
+	Plan       string `form:"plan"`
+	Quantity   *int64 `form:"quantity"`
 }
 
 // SubscriptionListParams is the set of parameters that can be used when listing active subscriptions.
@@ -96,7 +96,7 @@ type Subscription struct {
 	CurrentPeriodEnd      int64                 `json:"current_period_end"`
 	CurrentPeriodStart    int64                 `json:"current_period_start"`
 	Customer              *Customer             `json:"customer"`
-	DaysUntilDue          uint64                `json:"days_until_due"`
+	DaysUntilDue          int64                 `json:"days_until_due"`
 	Discount              *Discount             `json:"discount"`
 	CancelAtPeriodEnd     bool                  `json:"cancel_at_period_end"`
 	EndedAt               int64                 `json:"ended_at"`
@@ -104,7 +104,7 @@ type Subscription struct {
 	Items                 *SubscriptionItemList `json:"items"`
 	Metadata              map[string]string     `json:"metadata"`
 	Plan                  *Plan                 `json:"plan"`
-	Quantity              uint64                `json:"quantity"`
+	Quantity              int64                 `json:"quantity"`
 	Start                 int64                 `json:"start"`
 	Status                SubscriptionStatus    `json:"status"`
 	TaxPercent            float64               `json:"tax_percent"`

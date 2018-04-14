@@ -14,7 +14,7 @@ type Event struct {
 	Data            *EventData    `json:"data"`
 	ID              string        `json:"id"`
 	Livemode        bool          `json:"livemode"`
-	PendingWebhooks uint64        `json:"pending_webhooks"`
+	PendingWebhooks int64         `json:"pending_webhooks"`
 	Request         *EventRequest `json:"request"`
 	Type            string        `json:"type"`
 }

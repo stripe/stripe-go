@@ -17,7 +17,7 @@ type BitcoinReceiverListParams struct {
 // For more details see https://stripe.com/docs/api/#create_bitcoin_receiver.
 type BitcoinReceiverParams struct {
 	Params   `form:"*"`
-	Amount   *uint64 `form:"amount"`
+	Amount   *int64  `form:"amount"`
 	Currency *string `form:"currency"`
 	Desc     *string `form:"description"`
 	Email    *string `form:"email"`
@@ -37,10 +37,10 @@ type BitcoinReceiverUpdateParams struct {
 // For more details see https://stripe.com/docs/api/#bitcoin_receivers
 type BitcoinReceiver struct {
 	Active                bool                    `json:"active"`
-	Amount                uint64                  `json:"amount"`
-	AmountReceived        uint64                  `json:"amount_received"`
-	BitcoinAmount         uint64                  `json:"bitcoin_amount"`
-	BitcoinAmountReceived uint64                  `json:"bitcoin_amount_received"`
+	Amount                int64                   `json:"amount"`
+	AmountReceived        int64                   `json:"amount_received"`
+	BitcoinAmount         int64                   `json:"bitcoin_amount"`
+	BitcoinAmountReceived int64                   `json:"bitcoin_amount_received"`
 	BitcoinUri            string                  `json:"bitcoin_uri"`
 	Created               int64                   `json:"created"`
 	Currency              Currency                `json:"currency"`

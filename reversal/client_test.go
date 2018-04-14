@@ -29,7 +29,7 @@ func TestReversalList(t *testing.T) {
 
 func TestReversalNew(t *testing.T) {
 	reversal, err := New(&stripe.ReversalParams{
-		Amount:   stripe.UInt64(123),
+		Amount:   stripe.Int64(123),
 		Transfer: stripe.String("tr_123"),
 	})
 	assert.Nil(t, err)
