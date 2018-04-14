@@ -25,9 +25,8 @@ type UsageRecord struct {
 // and date, and fills it with a quantity.
 type UsageRecordParams struct {
 	Params           `form:"*"`
-	Action           string `form:"action"`
-	Quantity         uint64 `form:"quantity"`
-	QuantityZero     bool   `form:"quantity,zero"`
-	SubscriptionItem string `form:"-"` // passed in the URL
-	Timestamp        uint64 `form:"timestamp"`
+	Action           *string `form:"action"`
+	Quantity         *uint64 `form:"quantity"`
+	SubscriptionItem *string `form:"-"` // passed in the URL
+	Timestamp        *uint64 `form:"timestamp"`
 }

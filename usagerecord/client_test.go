@@ -12,10 +12,10 @@ import (
 func TestUsageRecordNew(t *testing.T) {
 	now := uint64(time.Now().Unix())
 	usageRecord, err := New(&stripe.UsageRecordParams{
-		Quantity:         123,
-		Timestamp:        now,
-		Action:           stripe.UsageRecordParamsActionIncrement,
-		SubscriptionItem: "si_123",
+		Quantity:         stripe.UInt64(123),
+		Timestamp:        stripe.UInt64(now),
+		Action:           stripe.String(stripe.UsageRecordParamsActionIncrement),
+		SubscriptionItem: stripe.String("si_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, usageRecord)
