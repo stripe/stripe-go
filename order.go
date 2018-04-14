@@ -127,10 +127,10 @@ type OrderListParams struct {
 // StatusTransitions are the timestamps at which the order status was updated
 // https://stripe.com/docs/api#order_object
 type StatusTransitions struct {
-	Canceled int64 `json:"canceled"`
-	Fulfiled int64 `json:"fulfiled"`
-	Paid     int64 `json:"paid"`
-	Returned int64 `json:"returned"`
+	Canceled  int64 `json:"canceled"`
+	Fulfilled int64 `json:"fulfiled"`
+	Paid      int64 `json:"paid"`
+	Returned  int64 `json:"returned"`
 }
 
 // OrderPayParams is the set of parameters that can be used when
