@@ -107,8 +107,8 @@ type PlanTransformUsage struct {
 
 // PlanTransformUsageParams represents the bucket billing configuration.
 type PlanTransformUsageParams struct {
-	DivideBy int64  `form:"bucket_size"`
-	Round    string `form:"round"`
+	DivideBy *int64  `form:"bucket_size"`
+	Round    *string `form:"round"`
 }
 
 // PlanTierParams configures tiered pricing
