@@ -1,5 +1,8 @@
 # Changelog
 
+## 30.6.0 - 2018-04-17
+* [#546](https://github.com/stripe/stripe-go/pull/546) Add `SubParams.TrialFromPlan` and `SubItemsParams.ClearUsage`
+
 ## 30.5.0 - 2018-04-09
 * [#543](https://github.com/stripe/stripe-go/pull/543) Support listing orders by customer (add `Customer` to `OrderListParams`)
 
