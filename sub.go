@@ -41,6 +41,7 @@ type SubParams struct {
 	Token                       string            `form:"card"`
 	TrialEnd                    int64             `form:"trial_end"`
 	TrialEndNow                 bool              `form:"-"` // See custom AppendTo
+	TrialFromPlan               bool              `form:"trial_from_plan"`
 	TrialPeriod                 int64             `form:"trial_period_days"`
 
 	// Used for Cancel
@@ -69,6 +70,7 @@ func (p *SubParams) AppendTo(body *form.Values, keyParts []string) {
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubItemsParams struct {
 	Params       `form:"*"`
+	ClearUsage   bool   `form:"clear_usage"`
 	Deleted      bool   `form:"deleted"`
 	ID           string `form:"id"`
 	Plan         string `form:"plan"`
