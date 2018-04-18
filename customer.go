@@ -9,7 +9,7 @@ import (
 type CustomerParams struct {
 	Params         `form:"*"`
 	AccountBalance *int64                         `form:"account_balance"`
-	BusinessVatID  *string                        `form:"business_vat_id"`
+	BusinessVATID  *string                        `form:"business_vat_id"`
 	Coupon         *string                        `form:"coupon"`
 	DefaultSource  *string                        `form:"default_source"`
 	Description    *string                        `form:"description"`
@@ -50,7 +50,7 @@ type CustomerListParams struct {
 // For more details see https://stripe.com/docs/api#customers.
 type Customer struct {
 	AccountBalance int64                    `json:"account_balance"`
-	BusinessVatID  string                   `json:"business_vat_id"`
+	BusinessVATID  string                   `json:"business_vat_id"`
 	Created        int64                    `json:"created"`
 	Currency       Currency                 `json:"currency"`
 	DefaultSource  *PaymentSource           `json:"default_source"`

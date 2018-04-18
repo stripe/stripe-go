@@ -98,7 +98,7 @@ type LegalEntityParams struct {
 	BusinessNameKana     *string                     `form:"business_name_kana"`
 	BusinessNameKanji    *string                     `form:"business_name_kanji"`
 	BusinessTaxID        *string                     `form:"business_tax_id"`
-	BusinessVatID        *string                     `form:"business_vat_id"`
+	BusinessVATID        *string                     `form:"business_vat_id"`
 	DOB                  *DOBParams                  `form:"dob"`
 	FirstName            *string                     `form:"first_name"`
 	FirstNameKana        *string                     `form:"first_name_kana"`
@@ -364,7 +364,7 @@ type LegalEntity struct {
 	BusinessNameKana         string               `json:"business_name_kana"`
 	BusinessNameKanji        string               `json:"business_name_kanji"`
 	BusinessTaxIDProvided    bool                 `json:"business_tax_id_provided"`
-	BusinessVatIDProvided    bool                 `json:"business_vat_id_provided"`
+	BusinessVATIDProvided    bool                 `json:"business_vat_id_provided"`
 	DOB                      DOB                  `json:"dob"`
 	FirstName                string               `json:"first_name"`
 	FirstNameKana            string               `json:"first_name_kana"`
