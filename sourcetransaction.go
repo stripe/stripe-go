@@ -11,7 +11,7 @@ type SourceTransactionListParams struct {
 // SourceTransactionList is a list object for SourceTransactions.
 type SourceTransactionList struct {
 	ListMeta
-	Values []*SourceTransaction `json:"data"`
+	Data []*SourceTransaction `json:"data"`
 }
 
 // SourceTransaction is the resource representing a Stripe source transaction.

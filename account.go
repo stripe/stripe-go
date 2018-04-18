@@ -400,9 +400,9 @@ type AccountAddress struct {
 
 // DOB is a structure for an account owner's date of birth.
 type DOB struct {
-	Day   int `json:"day"`
-	Month int `json:"month"`
-	Year  int `json:"year"`
+	Day   int64 `json:"day"`
+	Month int64 `json:"month"`
+	Year  int64 `json:"year"`
 }
 
 // Gender is the gender of an account owner. International regulations require

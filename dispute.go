@@ -94,7 +94,7 @@ type EvidenceDetails struct {
 	DueBy           int64 `json:"due_by"`
 	HasEvidence     bool  `json:"has_evidence"`
 	PastDue         bool  `json:"past_due"`
-	SubmissionCount int   `json:"submission_count"`
+	SubmissionCount int64 `json:"submission_count"`
 }
 
 // DisputeEvidence is the structure that contains various details about
@@ -137,7 +137,7 @@ type File struct {
 	ID       string `json:"id"`
 	MIMEType string `json:"mime_type"`
 	Purpose  string `json:"purpose"`
-	Size     int    `json:"size"`
+	Size     int64  `json:"size"`
 	URL      string `json:"url"`
 }
 

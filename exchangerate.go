@@ -10,7 +10,7 @@ type ExchangeRate struct {
 // ExchangeRateList is a list of exchange rates as retrieved from a list endpoint.
 type ExchangeRateList struct {
 	ListMeta
-	Values []*ExchangeRate `json:"data"`
+	Data []*ExchangeRate `json:"data"`
 }
 
 // ExchangeRateListParams are the parameters allowed during ExchangeRate listing.
