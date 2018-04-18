@@ -78,7 +78,7 @@ type ListParams struct {
 	EndingBefore string   `form:"ending_before"`
 	Expand       []string `form:"expand"`
 	Filters      Filters  `form:"*"`
-	Limit        int      `form:"limit"`
+	Limit        int64    `form:"limit"`
 
 	// Single specifies whether this is a single page iterator. By default,
 	// listing through an iterator will automatically grab additional pages as

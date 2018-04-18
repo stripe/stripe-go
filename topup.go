@@ -30,7 +30,7 @@ type TopupListParams struct {
 // TopupList is a list of top-ups as retrieved from a list endpoint.
 type TopupList struct {
 	ListMeta
-	Values []*Topup `json:"data"`
+	Data []*Topup `json:"data"`
 }
 
 // Topup is the resource representing a Stripe top-up.

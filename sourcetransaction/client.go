@@ -40,8 +40,8 @@ func (c Client) List(params *stripe.SourceTransactionListParams) *Iter {
 			err = errors.New("Invalid source transaction params: Source needs to be set")
 		}
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 
