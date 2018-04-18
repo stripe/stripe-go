@@ -19,10 +19,10 @@ const (
 
 	ErrorCodeCardDeclined       ErrorCode = "card_declined"
 	ErrorCodeExpiredCard        ErrorCode = "expired_card"
-	ErrorCodeIncorrectCvc       ErrorCode = "incorrect_cvc"
+	ErrorCodeIncorrectCVC       ErrorCode = "incorrect_cvc"
 	ErrorCodeIncorrectZip       ErrorCode = "incorrect_zip"
 	ErrorCodeIncorrectNumber    ErrorCode = "incorrect_number"
-	ErrorCodeInvalidCvc         ErrorCode = "invalid_cvc"
+	ErrorCodeInvalidCVC         ErrorCode = "invalid_cvc"
 	ErrorCodeInvalidExpiryMonth ErrorCode = "invalid_expiry_month"
 	ErrorCodeInvalidExpiryYear  ErrorCode = "invalid_expiry_year"
 	ErrorCodeInvalidNumber      ErrorCode = "invalid_number"
