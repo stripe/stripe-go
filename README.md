@@ -148,12 +148,22 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	c := appengine.NewContext(r)
-	httpClient := urlfetch.Client(c)
+        c := appengine.NewContext(r)
+        httpClient := urlfetch.Client(c)
 
-	sc := client.New("sk_live_key", stripe.NewBackends(httpClient))
+        sc := stripeClient.New("sk_live_key", stripe.NewBackends(httpClient))
 
-	fmt.Fprintf(w, "Ready to make calls to the Stripe API")
+        chargeParams := &stripe.ChargeParams{
+            Amount: 2000,
+            Currency: "usd",
+            Desc: "Charge from Google App Engine",
+        }
+        chargeParams.SetSource("tok_amex") // obtained with Stripe.js
+        charge, err := sc.Charges.New(chargeParams)
+        if err != nil {
+            fmt.Fprintf(w, "Could not process payment: %v", err)
+        }
+        fmt.Fprintf(w, "Completed payment: %v", charge.ID)
 }
 ```
 
