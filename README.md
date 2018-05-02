@@ -154,6 +154,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	sc := client.New("sk_live_key", stripe.NewBackends(httpClient))
 
 	fmt.Fprintf(w, "Ready to make calls to the Stripe API")
+	// Example: sc.Charges.New(params)
 }
 ```
 
