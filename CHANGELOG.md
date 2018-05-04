@@ -1,5 +1,8 @@
 # Changelog
 
+## 30.6.1 - 2018-05-04
+* [#550](https://github.com/stripe/stripe-go/pull/550) Append standard `Params` as well as card options when encoding `CardParams`
+
 ## 30.6.0 - 2018-04-17
 * [#546](https://github.com/stripe/stripe-go/pull/546) Add `SubParams.TrialFromPlan` and `SubItemsParams.ClearUsage`
 
