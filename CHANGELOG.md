@@ -1,5 +1,8 @@
 # Changelog
 
+## 30.7.0 - 2018-05-09
+* [#552](https://github.com/stripe/stripe-go/pull/552) Add support for issuer fraud records
+
 ## 30.6.1 - 2018-05-04
 * [#550](https://github.com/stripe/stripe-go/pull/550) Append standard `Params` as well as card options when encoding `CardParams`
 
