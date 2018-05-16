@@ -17,16 +17,13 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
+	_ "github.com/stripe/stripe-go/testing"
 )
 
 const (
 	expectedSize int64 = 734
 	expectedType       = "pdf"
 )
-
-func init() {
-	stripe.Key = "tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I"
-}
 
 func TestFileUploadNewThenGet(t *testing.T) {
 	t.Skip("File uploads are currently unreliable")

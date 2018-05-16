@@ -55,11 +55,17 @@ func init() {
 	}
 
 	stripe.Key = "sk_test_myTestKey"
-	stripe.SetBackend("api", &stripe.BackendConfiguration{
+
+	// Configure a backend for stripe-mock and set it for both the API and
+	// Uploads (unlike the real Stripe API, stripe-mock supports both these
+	// backends).
+	stripeMockBackend := &stripe.BackendConfiguration{
 		Type:       stripe.APIBackend,
 		URL:        "http://localhost:" + port + "/v1",
 		HTTPClient: &http.Client{},
-	})
+	}
+	stripe.SetBackend(stripe.APIBackend, stripeMockBackend)
+	stripe.SetBackend(stripe.UploadsBackend, stripeMockBackend)
 }
 
 // compareVersions compares two semantic version strings. We need this because
