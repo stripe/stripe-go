@@ -42,9 +42,6 @@ func TestSourceUpdate(t *testing.T) {
 	params := &stripe.CustomerSourceParams{
 		Customer: "cus_123",
 	}
-	params.SetSource(&stripe.CardParams{
-		Name: "Updated Name",
-	})
 
 	source, err := Update("card_123", params)
 	assert.Nil(t, err)

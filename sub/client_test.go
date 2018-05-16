@@ -32,9 +32,10 @@ func TestSubList(t *testing.T) {
 
 func TestSubNew(t *testing.T) {
 	subscription, err := New(&stripe.SubParams{
-		Customer:           "cus_123",
-		Plan:               "plan_123",
-		Quantity:           10,
+		Customer: "cus_123",
+		Items: []*stripe.SubItemsParams{
+			{Plan: "plan_123", Quantity: 10},
+		},
 		TaxPercent:         20.0,
 		BillingCycleAnchor: time.Now().AddDate(0, 0, 12).Unix(),
 		Billing:            "send_invoice",
@@ -61,7 +62,6 @@ func TestSubNew_WithItems(t *testing.T) {
 func TestSubUpdate(t *testing.T) {
 	subscription, err := Update("sub_123", &stripe.SubParams{
 		NoProrate:      true,
-		QuantityZero:   true,
 		TaxPercentZero: true,
 	})
 	assert.Nil(t, err)

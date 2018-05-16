@@ -42,7 +42,11 @@ func TestCouponNew(t *testing.T) {
 
 func TestCouponUpdate(t *testing.T) {
 	coupon, err := Update("25OFF", &stripe.CouponParams{
-		Redemptions: 5,
+		Params: stripe.Params{
+			Meta: map[string]string{
+				"foo": "bar",
+			},
+		},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, coupon)

@@ -78,8 +78,6 @@ func TestAccountReject(t *testing.T) {
 
 func TestAccountUpdate(t *testing.T) {
 	account, err := Update("acct_123", &stripe.AccountParams{
-		Type:    stripe.AccountTypeCustom,
-		Country: "CA",
 		LegalEntity: &stripe.LegalEntity{
 			Address: stripe.Address{
 				Country: "CA",
