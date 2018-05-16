@@ -67,7 +67,6 @@ func TestBankAccountNew_ByAccount(t *testing.T) {
 func TestBankAccountNew_ByCustomer(t *testing.T) {
 	bankAcount, err := New(&stripe.BankAccountParams{
 		Customer: "cus_123",
-		Default:  true,
 		Token:    "tok_123",
 	})
 	assert.Nil(t, err)
@@ -85,8 +84,8 @@ func TestBankAccountUpdate_ByAccount(t *testing.T) {
 
 func TestBankAccountUpdate_ByCustomer(t *testing.T) {
 	bankAcount, err := Update("ba_123", &stripe.BankAccountParams{
-		Customer: "cus_123",
-		Default:  true,
+		AccountHolderName: "New Name",
+		Customer:          "cus_123",
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, bankAcount)

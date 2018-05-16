@@ -66,7 +66,7 @@ func TestCardNew_RequiresParams(t *testing.T) {
 func TestCardUpdate(t *testing.T) {
 	card, err := Update("card_123", &stripe.CardParams{
 		Customer: "cus_123",
-		Default:  true,
+		Name:     "New Name",
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, card)
