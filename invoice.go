@@ -125,6 +125,7 @@ type InvoiceLine struct {
 	Proration    bool              `json:"proration"`
 	Quantity     int64             `json:"quantity"`
 	Sub          string            `json:"subscription"`
+	SubItem      string            `json:"subscription_item"`
 	Type         InvoiceLineType   `json:"type"`
 }
 
