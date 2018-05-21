@@ -9,6 +9,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"os/exec"
@@ -44,6 +45,11 @@ const TotalBackends = 2
 // one from `uname`.
 const UnknownPlatform = "unknown platform"
 
+// maxNetworkRetryDelay and minNetworkRetryDelay defines sleep time in milliseconds between
+// tries to send HTTP request again after network failure.
+const maxNetworkRetryDelay = 5000
+const minNetworkRetryDelay = 500
+
 // AppInfo contains information about the "app" which this integration belongs
 // to. This should be reserved for plugins that wish to identify themselves
 // with Stripe.
@@ -72,6 +78,7 @@ func (a *AppInfo) formatUserAgent() string {
 type Backend interface {
 	Call(method, path, key string, body *form.Values, params *Params, v interface{}) error
 	CallMultipart(method, path, key, boundary string, body io.Reader, params *Params, v interface{}) error
+	SetMaxNetworkRetry(maxNetworkRetry int)
 }
 
 // BackendConfiguration is the internal implementation for making HTTP calls to Stripe.
@@ -79,6 +86,7 @@ type BackendConfiguration struct {
 	Type       SupportedBackend
 	URL        string
 	HTTPClient *http.Client
+	MaxNetworkRetries int
 }
 
 // SupportedBackend is an enumeration of supported Stripe endpoints.
@@ -160,9 +168,9 @@ func SetHTTPClient(client *http.Client) {
 func NewBackends(httpClient *http.Client) *Backends {
 	return &Backends{
 		API: &BackendConfiguration{
-			APIBackend, APIURL, httpClient},
+			Type:APIBackend, URL:APIURL, HTTPClient:httpClient},
 		Uploads: &BackendConfiguration{
-			UploadsBackend, UploadsURL, httpClient},
+			Type:UploadsBackend, URL:UploadsURL, HTTPClient:httpClient},
 	}
 }
 
@@ -178,7 +186,7 @@ func GetBackend(backend SupportedBackend) Backend {
 		}
 		backends.mu.Lock()
 		defer backends.mu.Unlock()
-		backends.API = &BackendConfiguration{backend, apiURL, httpClient}
+		backends.API = &BackendConfiguration{Type:backend, URL:apiURL, HTTPClient:httpClient}
 		return backends.API
 
 	case UploadsBackend:
@@ -190,7 +198,7 @@ func GetBackend(backend SupportedBackend) Backend {
 		}
 		backends.mu.Lock()
 		defer backends.mu.Unlock()
-		backends.Uploads = &BackendConfiguration{backend, uploadsURL, httpClient}
+		backends.Uploads = &BackendConfiguration{Type:backend, URL:uploadsURL, HTTPClient:httpClient}
 		return backends.Uploads
 	}
 
@@ -205,6 +213,11 @@ func SetBackend(backend SupportedBackend, b Backend) {
 	case UploadsBackend:
 		backends.Uploads = b
 	}
+}
+
+// SetMaxNetworkRetry sets max number of retries on failed requests
+func (s *BackendConfiguration) SetMaxNetworkRetry(maxNetworkRetry int){
+	s.MaxNetworkRetries = maxNetworkRetry
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
@@ -283,6 +296,8 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 			}
 
 			req.Header.Add("Idempotency-Key", idempotency)
+		} else if strings.ToUpper(req.Method) == http.MethodPost  || strings.ToUpper(req.Method) == http.MethodPut || strings.ToUpper(req.Method) == http.MethodDelete {
+			req.Header.Add("Idempotency-Key", NewIdempotencyKey())
 		}
 
 		// Support the value of the old Account field for now.
@@ -315,7 +330,24 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 
 	start := time.Now()
 
-	res, err := s.HTTPClient.Do(req)
+	var res *http.Response
+	var err error
+	for retry := 0 ;;{
+		res, err = s.HTTPClient.Do(req)
+		if s.shouldRetry(err, res, retry) {
+			sleep := s.sleepTime(retry)
+			if LogLevel > 2 {
+				Logger.Printf("Request failed with error: %v. Response: %v\n", err, res)
+			}
+			time.Sleep(time.Millisecond * time.Duration(sleep))
+			retry++
+			if LogLevel > 1 {
+				Logger.Printf("Retry request %v %v time.\n", req.URL, retry)
+			}
+		} else {
+			break
+		}
+	}
 
 	if LogLevel > 2 {
 		Logger.Printf("Completed in %v\n", time.Since(start))
@@ -484,4 +516,45 @@ func initUserAgent() {
 		panic(err)
 	}
 	encodedStripeUserAgent = string(marshaled)
+}
+
+// Checks if an error is a problem that we should retry on. This includes both
+// socket errors that may represent an intermittent problem and some special
+// HTTP statuses.
+func (s *BackendConfiguration) shouldRetry(err error, resp *http.Response, numRetries int) bool {
+	if numRetries >= s.MaxNetworkRetries {
+		return false
+	}
+
+	if err != nil {
+		return true
+	}
+
+	if resp.StatusCode == http.StatusConflict {
+		return true
+	}
+	return false
+}
+
+//sleepTime calculates sleeping/delay time in milliseconds between failure and a new one request.
+func (s *BackendConfiguration) sleepTime(numRetries int) (delay int){
+	// Apply exponential backoff with minNetworkRetryDelay on the
+	// number of num_retries so far as inputs.
+	delay = minNetworkRetryDelay + minNetworkRetryDelay * numRetries * numRetries
+
+	//Do not allow the number to exceed maxNetworkRetryDelay.
+	if delay > maxNetworkRetryDelay {
+		delay = maxNetworkRetryDelay
+	}
+
+	//Apply some jitter by randomizing the value in the range of 75%-100%.
+	jitter := rand.Intn(delay/4)
+	delay -= jitter
+
+	// But never sleep less than the base sleep seconds.
+	if delay < minNetworkRetryDelay {
+		delay = minNetworkRetryDelay
+	}
+
+	return delay
 }
