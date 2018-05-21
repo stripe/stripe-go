@@ -83,9 +83,9 @@ type Backend interface {
 
 // BackendConfiguration is the internal implementation for making HTTP calls to Stripe.
 type BackendConfiguration struct {
-	Type       SupportedBackend
-	URL        string
-	HTTPClient *http.Client
+	Type              SupportedBackend
+	URL               string
+	HTTPClient        *http.Client
 	MaxNetworkRetries int
 }
 
@@ -168,9 +168,9 @@ func SetHTTPClient(client *http.Client) {
 func NewBackends(httpClient *http.Client) *Backends {
 	return &Backends{
 		API: &BackendConfiguration{
-			Type:APIBackend, URL:APIURL, HTTPClient:httpClient},
+			Type: APIBackend, URL: APIURL, HTTPClient: httpClient},
 		Uploads: &BackendConfiguration{
-			Type:UploadsBackend, URL:UploadsURL, HTTPClient:httpClient},
+			Type: UploadsBackend, URL: UploadsURL, HTTPClient: httpClient},
 	}
 }
 
@@ -186,7 +186,7 @@ func GetBackend(backend SupportedBackend) Backend {
 		}
 		backends.mu.Lock()
 		defer backends.mu.Unlock()
-		backends.API = &BackendConfiguration{Type:backend, URL:apiURL, HTTPClient:httpClient}
+		backends.API = &BackendConfiguration{Type: backend, URL: apiURL, HTTPClient: httpClient}
 		return backends.API
 
 	case UploadsBackend:
@@ -198,7 +198,7 @@ func GetBackend(backend SupportedBackend) Backend {
 		}
 		backends.mu.Lock()
 		defer backends.mu.Unlock()
-		backends.Uploads = &BackendConfiguration{Type:backend, URL:uploadsURL, HTTPClient:httpClient}
+		backends.Uploads = &BackendConfiguration{Type: backend, URL: uploadsURL, HTTPClient: httpClient}
 		return backends.Uploads
 	}
 
@@ -216,7 +216,7 @@ func SetBackend(backend SupportedBackend, b Backend) {
 }
 
 // SetMaxNetworkRetry sets max number of retries on failed requests
-func (s *BackendConfiguration) SetMaxNetworkRetry(maxNetworkRetry int){
+func (s *BackendConfiguration) SetMaxNetworkRetry(maxNetworkRetry int) {
 	s.MaxNetworkRetries = maxNetworkRetry
 }
 
@@ -296,7 +296,7 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 			}
 
 			req.Header.Add("Idempotency-Key", idempotency)
-		} else if strings.ToUpper(req.Method) == http.MethodPost  || strings.ToUpper(req.Method) == http.MethodPut || strings.ToUpper(req.Method) == http.MethodDelete {
+		} else if strings.ToUpper(req.Method) == http.MethodPost || strings.ToUpper(req.Method) == http.MethodPut || strings.ToUpper(req.Method) == http.MethodDelete {
 			req.Header.Add("Idempotency-Key", NewIdempotencyKey())
 		}
 
@@ -332,7 +332,7 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 
 	var res *http.Response
 	var err error
-	for retry := 0 ;;{
+	for retry := 0; ; {
 		res, err = s.HTTPClient.Do(req)
 		if s.shouldRetry(err, res, retry) {
 			sleep := s.sleepTime(retry)
@@ -537,10 +537,10 @@ func (s *BackendConfiguration) shouldRetry(err error, resp *http.Response, numRe
 }
 
 //sleepTime calculates sleeping/delay time in milliseconds between failure and a new one request.
-func (s *BackendConfiguration) sleepTime(numRetries int) (delay int){
+func (s *BackendConfiguration) sleepTime(numRetries int) (delay int) {
 	// Apply exponential backoff with minNetworkRetryDelay on the
 	// number of num_retries so far as inputs.
-	delay = minNetworkRetryDelay + minNetworkRetryDelay * numRetries * numRetries
+	delay = minNetworkRetryDelay + minNetworkRetryDelay*numRetries*numRetries
 
 	//Do not allow the number to exceed maxNetworkRetryDelay.
 	if delay > maxNetworkRetryDelay {
@@ -548,7 +548,7 @@ func (s *BackendConfiguration) sleepTime(numRetries int) (delay int){
 	}
 
 	//Apply some jitter by randomizing the value in the range of 75%-100%.
-	jitter := rand.Intn(delay/4)
+	jitter := rand.Intn(delay / 4)
 	delay -= jitter
 
 	// But never sleep less than the base sleep seconds.
