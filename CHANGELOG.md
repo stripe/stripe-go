@@ -1,5 +1,8 @@
 # Changelog
 
+## 30.8.0 - 2018-05-22
+* [#558](https://github.com/stripe/stripe-go/pull/558) Add `SubscriptionItem` to `InvoiceLine`
+
 ## 30.7.0 - 2018-05-09
 * [#552](https://github.com/stripe/stripe-go/pull/552) Add support for issuer fraud records
 
