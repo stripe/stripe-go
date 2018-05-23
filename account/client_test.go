@@ -47,7 +47,7 @@ func TestAccountNew(t *testing.T) {
 		SupportURL:            stripe.String("www.stripe.com"),
 		SupportPhone:          stripe.String("4151234567"),
 		LegalEntity: &stripe.LegalEntityParams{
-			Type:         stripe.String(string(stripe.Individual)),
+			Type:         stripe.String(string(stripe.LegalEntityTypeIndividual)),
 			BusinessName: stripe.String("Stripe Go"),
 			AdditionalOwners: []stripe.AdditionalOwnerParams{
 				{

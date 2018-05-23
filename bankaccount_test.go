@@ -30,7 +30,7 @@ func TestBankAccountParams_AppendToAsSourceOrExternalAccount(t *testing.T) {
 
 	// Includes account_holder_name
 	{
-		params := &BankAccountParams{AccountHolderType: String(string(Individual))}
+		params := &BankAccountParams{AccountHolderType: String("individual")}
 		body := &form.Values{}
 		params.AppendToAsSourceOrExternalAccount(body)
 		t.Logf("body = %+v", body)
