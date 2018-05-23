@@ -10,7 +10,7 @@ import (
 
 func TestBitcoinTransactionList(t *testing.T) {
 	i := List(&stripe.BitcoinTransactionListParams{
-		Receiver: "btcrcv_123",
+		Receiver: stripe.String("btcrcv_123"),
 	})
 
 	// Verify that we can get at least one transaction

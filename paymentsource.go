@@ -11,7 +11,7 @@ import (
 // arbitrary payment source.
 type SourceParams struct {
 	Card  *CardParams `form:"-"`
-	Token string      `form:"source"`
+	Token *string     `form:"source"`
 }
 
 func (p *SourceParams) AppendTo(body *form.Values, keyParts []string) {
@@ -25,7 +25,7 @@ func (p *SourceParams) AppendTo(body *form.Values, keyParts []string) {
 // For more details see https://stripe.com/docs/api#sources
 type CustomerSourceParams struct {
 	Params   `form:"*"`
-	Customer string        `form:"-"` // Goes in the URL
+	Customer *string       `form:"-"` // Goes in the URL
 	Source   *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 }
 
@@ -34,7 +34,7 @@ type CustomerSourceParams struct {
 type SourceVerifyParams struct {
 	Params   `form:"*"`
 	Amounts  [2]int64 `form:"amounts"` // Amounts is used when verifying bank accounts
-	Customer string   `form:"-"`       // Goes in the URL
+	Customer *string  `form:"-"`       // Goes in the URL
 	Values   []string `form:"values"`  // Values is used when verifying sources
 }
 
@@ -62,7 +62,7 @@ func SourceParamsFor(obj interface{}) (*SourceParams, error) {
 		}
 	case string:
 		sp = &SourceParams{
-			Token: p,
+			Token: &p,
 		}
 	default:
 		err = fmt.Errorf("Unsupported source type %s", p)
@@ -111,14 +111,14 @@ type PaymentSource struct {
 // SourceList is a list object for cards.
 type SourceList struct {
 	ListMeta
-	Values []*PaymentSource `json:"data"`
+	Data []*PaymentSource `json:"data"`
 }
 
 // SourceListParams are used to enumerate the payment sources that are attached
 // to a Customer.
 type SourceListParams struct {
 	ListParams `form:"*"`
-	Customer   string `form:"-"` // Handled in URL
+	Customer   *string `form:"-"` // Handled in URL
 }
 
 // UnmarshalJSON handles deserialization of a PaymentSource.

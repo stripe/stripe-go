@@ -31,7 +31,7 @@ func TestRecipientList(t *testing.T) {
 
 func TestRecipientUpdate(t *testing.T) {
 	recipient, err := Update("rp_123", &stripe.RecipientParams{
-		Name: "Updated Name",
+		Name: stripe.String("Updated Name"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, recipient)

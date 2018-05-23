@@ -10,7 +10,13 @@ import (
 
 func TestOrderUpdateParams_AppendTo(t *testing.T) {
 	{
-		params := &OrderUpdateParams{Status: "fulfilled", Shipping: &OrderUpdateShippingParams{Carrier: "USPS", TrackingNumber: "123"}}
+		params := &OrderUpdateParams{
+			Status: String("fulfilled"),
+			Shipping: &OrderUpdateShippingParams{
+				Carrier:        String("USPS"),
+				TrackingNumber: String("123"),
+			},
+		}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)

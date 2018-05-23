@@ -13,7 +13,7 @@ func TestSourceTransactionList(t *testing.T) {
 	t.Skip("not yet supported by stripe-mock")
 
 	i := List(&stripe.SourceTransactionListParams{
-		Source: "src_123",
+		Source: stripe.String("src_123"),
 	})
 
 	// Verify that we can get at least one transaction

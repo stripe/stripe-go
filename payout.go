@@ -58,55 +58,55 @@ type PayoutDestination struct {
 // For more details see https://stripe.com/docs/api#create_payout and https://stripe.com/docs/api#update_payout.
 type PayoutParams struct {
 	Params              `form:"*"`
-	Amount              int64            `form:"amount"`
-	Currency            Currency         `form:"currency"`
-	Destination         string           `form:"destination"`
-	Method              PayoutMethodType `form:"method"`
-	SourceType          PayoutSourceType `form:"source_type"`
-	StatementDescriptor string           `form:"statement_descriptor"`
+	Amount              *int64  `form:"amount"`
+	Currency            *string `form:"currency"`
+	Destination         *string `form:"destination"`
+	Method              *string `form:"method"`
+	SourceType          *string `form:"source_type"`
+	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
 // PayoutListParams is the set of parameters that can be used when listing payouts.
 // For more details see https://stripe.com/docs/api#list_payouts.
 type PayoutListParams struct {
 	ListParams       `form:"*"`
-	ArrivalDate      int64             `form:"arrival_date"`
+	ArrivalDate      *int64            `form:"arrival_date"`
 	ArrivalDateRange *RangeQueryParams `form:"arrival_date"`
-	Created          int64             `form:"created"`
+	Created          *int64            `form:"created"`
 	CreatedRange     *RangeQueryParams `form:"created"`
-	Destination      string            `form:"destination"`
-	Status           PayoutStatus      `form:"status"`
+	Destination      *string           `form:"destination"`
+	Status           *string           `form:"status"`
 }
 
 // Payout is the resource representing a Stripe payout.
 // For more details see https://stripe.com/docs/api#payouts.
 type Payout struct {
-	Amount                    int64             `json:"amount"`
-	ArrivalDate               int64             `json:"arrival_date"`
-	Automatic                 bool              `json:"automatic"`
-	BalanceTransaction        *Transaction      `json:"balance_transaction"`
-	Bank                      *BankAccount      `json:"bank_account"`
-	Card                      *Card             `json:"card"`
-	Created                   int64             `json:"created"`
-	Currency                  Currency          `json:"currency"`
-	Destination               PayoutDestination `json:"destination"`
-	FailCode                  PayoutFailureCode `json:"failure_code"`
-	FailMessage               string            `json:"failure_message"`
-	FailureBalanceTransaction *Transaction      `json:"failure_balance_transaction"`
-	ID                        string            `json:"id"`
-	Live                      bool              `json:"livemode"`
-	Meta                      map[string]string `json:"metadata"`
-	Method                    PayoutMethodType  `json:"method"`
-	SourceType                PayoutSourceType  `json:"source_type"`
-	StatementDescriptor       string            `json:"statement_descriptor"`
-	Status                    PayoutStatus      `json:"status"`
-	Type                      PayoutType        `json:"type"`
+	Amount                    int64               `json:"amount"`
+	ArrivalDate               int64               `json:"arrival_date"`
+	Automatic                 bool                `json:"automatic"`
+	BalanceTransaction        *BalanceTransaction `json:"balance_transaction"`
+	BankAccount               *BankAccount        `json:"bank_account"`
+	Card                      *Card               `json:"card"`
+	Created                   int64               `json:"created"`
+	Currency                  Currency            `json:"currency"`
+	Destination               PayoutDestination   `json:"destination"`
+	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction"`
+	FailureCode               PayoutFailureCode   `json:"failure_code"`
+	FailureMessage            string              `json:"failure_message"`
+	ID                        string              `json:"id"`
+	Livemode                  bool                `json:"livemode"`
+	Metadata                  map[string]string   `json:"metadata"`
+	Method                    PayoutMethodType    `json:"method"`
+	SourceType                PayoutSourceType    `json:"source_type"`
+	StatementDescriptor       string              `json:"statement_descriptor"`
+	Status                    PayoutStatus        `json:"status"`
+	Type                      PayoutType          `json:"type"`
 }
 
 // PayoutList is a list of payouts as retrieved from a list endpoint.
 type PayoutList struct {
 	ListMeta
-	Values []*Payout `json:"data"`
+	Data []*Payout `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a Payout.

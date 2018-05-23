@@ -5,13 +5,13 @@ import "encoding/json"
 // SourceTransactionListParams is the set of parameters that can be used when listing SourceTransactions.
 type SourceTransactionListParams struct {
 	ListParams `form:"*"`
-	Source     string `form:"-"` // Sent in with the URL
+	Source     *string `form:"-"` // Sent in with the URL
 }
 
 // SourceTransactionList is a list object for SourceTransactions.
 type SourceTransactionList struct {
 	ListMeta
-	Values []*SourceTransaction `json:"data"`
+	Data []*SourceTransaction `json:"data"`
 }
 
 // SourceTransaction is the resource representing a Stripe source transaction.

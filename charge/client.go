@@ -79,7 +79,7 @@ func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, 
 	return charge, err
 }
 
-// Capture captures a previously created charge with NoCapture set to true.
+// Capture captures a charge not yet captured.
 // For more details see https://stripe.com/docs/api#charge_capture.
 func Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 	return getC().Capture(id, params)
@@ -124,8 +124,8 @@ func (c Client) List(params *stripe.ChargeListParams) *Iter {
 		list := &stripe.ChargeList{}
 		err := c.B.Call("GET", "/charges", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 
@@ -143,7 +143,7 @@ func (c Client) MarkFraudulent(id string) (*stripe.Charge, error) {
 		id,
 		&stripe.ChargeParams{
 			FraudDetails: &stripe.FraudDetailsParams{
-				UserReport: ReportFraudulent,
+				UserReport: stripe.String(string(ReportFraudulent)),
 			},
 		},
 	)
@@ -159,7 +159,7 @@ func (c Client) MarkSafe(id string) (*stripe.Charge, error) {
 		id,
 		&stripe.ChargeParams{
 			FraudDetails: &stripe.FraudDetailsParams{
-				UserReport: ReportSafe,
+				UserReport: stripe.String(string(ReportSafe)),
 			},
 		},
 	)

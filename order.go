@@ -17,31 +17,31 @@ const (
 
 type OrderParams struct {
 	Params   `form:"*"`
-	Coupon   string             `form:"coupon"`
-	Currency Currency           `form:"currency"`
-	Customer string             `form:"customer"`
-	Email    string             `form:"email"`
+	Coupon   *string            `form:"coupon"`
+	Currency *string            `form:"currency"`
+	Customer *string            `form:"customer"`
+	Email    *string            `form:"email"`
 	Items    []*OrderItemParams `form:"items,indexed"`
 	Shipping *ShippingParams    `form:"shipping"`
 }
 
 type ShippingParams struct {
 	Address *AddressParams `form:"address"`
-	Name    string         `form:"name"`
-	Phone   string         `form:"phone"`
+	Name    *string        `form:"name"`
+	Phone   *string        `form:"phone"`
 }
 
 type OrderUpdateParams struct {
 	Params                 `form:"*"`
-	Coupon                 string                     `form:"coupon"`
-	SelectedShippingMethod string                     `form:"selected_shipping_method"`
+	Coupon                 *string                    `form:"coupon"`
+	SelectedShippingMethod *string                    `form:"selected_shipping_method"`
 	Shipping               *OrderUpdateShippingParams `form:"shipping"`
-	Status                 OrderStatus                `form:"status"`
+	Status                 *string                    `form:"status"`
 }
 
 type OrderUpdateShippingParams struct {
-	Carrier        string `form:"carrier"`
-	TrackingNumber string `form:"tracking_number"`
+	Carrier        *string `form:"carrier"`
+	TrackingNumber *string `form:"tracking_number"`
 }
 
 // OrderReturnParams is the set of parameters that can be used when returning
@@ -75,12 +75,12 @@ const (
 )
 
 type DeliveryEstimate struct {
-	Type EstimateType `json:"type"`
-	// If Type == Range
-	Earliest string `json:"earliest"`
-	Latest   string `json:"latest"`
 	// If Type == Exact
 	Date string `json:"date"`
+	// If Type == Range
+	Earliest string       `json:"earliest"`
+	Latest   string       `json:"latest"`
+	Type     EstimateType `json:"type"`
 }
 
 type Order struct {
@@ -95,8 +95,8 @@ type Order struct {
 	Email                  string            `json:"email"`
 	ID                     string            `json:"id"`
 	Items                  []OrderItem       `json:"items"`
-	Live                   bool              `json:"livemode"`
-	Meta                   map[string]string `json:"metadata"`
+	Livemode               bool              `json:"livemode"`
+	Metadata               map[string]string `json:"metadata"`
 	Returns                *OrderReturnList  `json:"returns"`
 	SelectedShippingMethod *string           `json:"selected_shipping_method"`
 	Shipping               Shipping          `json:"shipping"`
@@ -109,7 +109,7 @@ type Order struct {
 // OrderList is a list of orders as retrieved from a list endpoint.
 type OrderList struct {
 	ListMeta
-	Values []*Order `json:"data"`
+	Data []*Order `json:"data"`
 }
 
 // OrderListParams is the set of parameters that can be used when
@@ -117,11 +117,11 @@ type OrderList struct {
 // https://stripe.com/docs/api#list_orders.
 type OrderListParams struct {
 	ListParams   `form:"*"`
-	Created      int64             `form:"created"`
+	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-	Customer     string            `form:"customer"`
+	Customer     *string           `form:"customer"`
 	IDs          []string          `form:"ids"`
-	Status       OrderStatus       `form:"status"`
+	Status       *string           `form:"status"`
 }
 
 // StatusTransitions are the timestamps at which the order status was updated
@@ -138,9 +138,9 @@ type StatusTransitions struct {
 // https://stripe.com/docs/api#pay_order.
 type OrderPayParams struct {
 	Params         `form:"*"`
-	ApplicationFee int64         `form:"application_fee"`
-	Customer       string        `form:"customer"`
-	Email          string        `form:"email"`
+	ApplicationFee *int64        `form:"application_fee"`
+	Customer       *string       `form:"customer"`
+	Email          *string       `form:"email"`
 	Source         *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 }
 

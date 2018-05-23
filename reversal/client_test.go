@@ -10,7 +10,7 @@ import (
 
 func TestReversalGet(t *testing.T) {
 	reversal, err := Get("trr_123", &stripe.ReversalParams{
-		Transfer: "tr_123",
+		Transfer: stripe.String("tr_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, reversal)
@@ -18,7 +18,7 @@ func TestReversalGet(t *testing.T) {
 
 func TestReversalList(t *testing.T) {
 	i := List(&stripe.ReversalListParams{
-		Transfer: "tr_123",
+		Transfer: stripe.String("tr_123"),
 	})
 
 	// Verify that we can get at least one reversal
@@ -29,8 +29,8 @@ func TestReversalList(t *testing.T) {
 
 func TestReversalNew(t *testing.T) {
 	reversal, err := New(&stripe.ReversalParams{
-		Amount:   123,
-		Transfer: "tr_123",
+		Amount:   stripe.Int64(123),
+		Transfer: stripe.String("tr_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, reversal)
@@ -39,11 +39,11 @@ func TestReversalNew(t *testing.T) {
 func TestReversalUpdate(t *testing.T) {
 	reversal, err := Update("trr_123", &stripe.ReversalParams{
 		Params: stripe.Params{
-			Meta: map[string]string{
+			Metadata: map[string]string{
 				"foo": "bar",
 			},
 		},
-		Transfer: "tr_123",
+		Transfer: stripe.String("tr_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, reversal)

@@ -8,40 +8,40 @@ import (
 	_ "github.com/stripe/stripe-go/testing"
 )
 
-func TestSubItemDel(t *testing.T) {
+func TestSubscriptionItemDel(t *testing.T) {
 	item, err := Del("si_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, item)
 }
 
-func TestSubItemGet(t *testing.T) {
+func TestSubscriptionItemGet(t *testing.T) {
 	item, err := Get("si_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, item)
 }
 
-func TestSubItemList(t *testing.T) {
-	i := List(&stripe.SubItemListParams{})
+func TestSubscriptionItemList(t *testing.T) {
+	i := List(&stripe.SubscriptionItemListParams{})
 
 	// Verify that we can get at least one item
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
-	assert.NotNil(t, i.SubItem())
+	assert.NotNil(t, i.SubscriptionItem())
 }
 
-func TestSubItemNew(t *testing.T) {
-	item, err := New(&stripe.SubItemParams{
-		Quantity: 99,
-		Plan:     "plan_123",
-		Sub:      "sub_123",
+func TestSubscriptionItemNew(t *testing.T) {
+	item, err := New(&stripe.SubscriptionItemParams{
+		Quantity:     stripe.Int64(99),
+		Plan:         stripe.String("plan_123"),
+		Subscription: stripe.String("sub_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, item)
 }
 
-func TestSubItemUpdate(t *testing.T) {
-	item, err := Update("si_123", &stripe.SubItemParams{
-		Quantity: 10,
+func TestSubscriptionItemUpdate(t *testing.T) {
+	item, err := Update("si_123", &stripe.SubscriptionItemParams{
+		Quantity: stripe.Int64(10),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, item)
