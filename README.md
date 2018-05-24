@@ -36,6 +36,21 @@ changelog](CHANGELOG) and [API changelog][api-changelog].
 go get github.com/stripe/stripe-go
 ```
 
+Then import the package from your Go code:
+
+``` go
+import "github.com/stripe/stripe-go"
+```
+
+### vgo
+
+If using [vgo], don't `go get` it manually, but do use an `import` statement
+that includes the latest major version:
+
+``` go
+import "github.com/stripe/stripe-go/v30"
+```
+
 ## Documentation
 
 For a comprehensive list of examples, check out the [API
@@ -313,6 +328,7 @@ pull request][pulls].
 [package-management]: https://code.google.com/p/go-wiki/wiki/PackageManagementTools
 [pulls]: https://github.com/stripe/stripe-go/pulls
 [stripe]: https://stripe.com
+[vgo]: https://github.com/golang/vgo
 
 <!--
 # vim: set tw=79:
