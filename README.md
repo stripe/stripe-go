@@ -156,9 +156,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
         sc := stripeClient.New("sk_live_key", stripe.NewBackends(httpClient))
 
         chargeParams := &stripe.ChargeParams{
-            Amount: 2000,
-            Currency: "usd",
-            Desc: "Charge from Google App Engine",
+            Amount: stripe.Int64(2000),
+            Currency: stripe.String(string(stripe.CurrencyUSD)),
+            Desc: stripe.String("Charge from Google App Engine"),
         }
         chargeParams.SetSource("tok_amex") // obtained with Stripe.js
         charge, err := sc.Charges.New(chargeParams)

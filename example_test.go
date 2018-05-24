@@ -5,7 +5,6 @@ import (
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/charge"
-	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/invoice"
 	"github.com/stripe/stripe-go/plan"
@@ -16,7 +15,7 @@ func ExampleCharge_new() {
 
 	params := &stripe.ChargeParams{
 		Amount:   stripe.Int64(1000),
-		Currency: stripe.String(string(currency.USD)),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
 	}
 	params.SetSource("tok_visa")
 	params.AddMetadata("key", "value")

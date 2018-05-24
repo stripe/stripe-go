@@ -5,7 +5,6 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -33,7 +32,7 @@ func TestPlanList(t *testing.T) {
 func TestPlanNew(t *testing.T) {
 	plan, err := New(&stripe.PlanParams{
 		Amount:   stripe.Int64(1),
-		Currency: stripe.String(string(currency.USD)),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
 		ID:       stripe.String("sapphire-elite"),
 		Interval: stripe.String(string(stripe.PlanIntervalMonth)),
 		Product: &stripe.ProductParams{
@@ -50,7 +49,7 @@ func TestPlanNew(t *testing.T) {
 func TestPlanNewWithProductID(t *testing.T) {
 	plan, err := New(&stripe.PlanParams{
 		Amount:    stripe.Int64(1),
-		Currency:  stripe.String(string(currency.USD)),
+		Currency:  stripe.String(string(stripe.CurrencyUSD)),
 		ID:        stripe.String("sapphire-elite"),
 		Interval:  stripe.String(string(stripe.PlanIntervalMonth)),
 		ProductID: stripe.String("prod_12345abc"),

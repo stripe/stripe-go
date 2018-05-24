@@ -5,7 +5,6 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -19,7 +18,7 @@ func TestSourceNew(t *testing.T) {
 	source, err := New(&stripe.SourceObjectParams{
 		Type:     stripe.String("bitcoin"),
 		Amount:   stripe.Int64(1000),
-		Currency: stripe.String(string(currency.USD)),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
 		Flow:     stripe.String(string(stripe.SourceFlowReceiver)),
 		Owner: &stripe.SourceOwnerParams{
 			Email: stripe.String("jenny.rosen@example.com"),

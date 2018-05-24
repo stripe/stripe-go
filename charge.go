@@ -19,10 +19,6 @@ const (
 	ChargeFraudStripeReportFraudulent ChargeFraudStripeReport = "fraudulent"
 )
 
-// Currency is the list of supported currencies.
-// For more details see https://support.stripe.com/questions/which-currencies-does-stripe-support.
-type Currency string
-
 // ChargeParams is the set of parameters that can be used when creating or updating a charge.
 // For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
 type ChargeParams struct {

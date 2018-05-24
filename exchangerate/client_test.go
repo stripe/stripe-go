@@ -5,12 +5,11 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
 func TestExchangeRateGet(t *testing.T) {
-	rates, err := Get(string(currency.USD))
+	rates, err := Get(string(stripe.CurrencyUSD))
 	assert.Nil(t, err)
 	assert.NotNil(t, rates)
 }

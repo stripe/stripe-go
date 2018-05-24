@@ -5,7 +5,6 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -45,7 +44,7 @@ func TestChargeMarkFraudulent(t *testing.T) {
 func TestChargeNew(t *testing.T) {
 	charge, err := New(&stripe.ChargeParams{
 		Amount:   stripe.Int64(123),
-		Currency: stripe.String(string(currency.USD)),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
 		Source:   &stripe.SourceParams{Token: stripe.String("src_123")},
 		Shipping: &stripe.ShippingDetailsParams{
 			Address: &stripe.AddressParams{
@@ -63,7 +62,7 @@ func TestChargeNew(t *testing.T) {
 func TestChargeNew_WithSetSource(t *testing.T) {
 	params := stripe.ChargeParams{
 		Amount:   stripe.Int64(123),
-		Currency: stripe.String(string(currency.USD)),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
 	}
 	params.SetSource("tok_123")
 

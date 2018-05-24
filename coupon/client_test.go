@@ -5,7 +5,6 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -32,7 +31,7 @@ func TestCouponList(t *testing.T) {
 
 func TestCouponNew(t *testing.T) {
 	coupon, err := New(&stripe.CouponParams{
-		Currency:         stripe.String(string(currency.USD)),
+		Currency:         stripe.String(string(stripe.CurrencyUSD)),
 		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
 		DurationInMonths: stripe.Int64(3),
 		ID:               stripe.String("25OFF"),

@@ -9,7 +9,6 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -30,7 +29,7 @@ func TestOrderList(t *testing.T) {
 
 func TestOrderNew(t *testing.T) {
 	order, err := New(&stripe.OrderParams{
-		Currency: stripe.String(string(currency.USD)),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, order)

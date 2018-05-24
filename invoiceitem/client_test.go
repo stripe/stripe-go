@@ -5,7 +5,6 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -33,7 +32,7 @@ func TestInvoiceItemList(t *testing.T) {
 func TestInvoiceItemNew(t *testing.T) {
 	item, err := New(&stripe.InvoiceItemParams{
 		Amount:   stripe.Int64(123),
-		Currency: stripe.String(string(currency.USD)),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
 		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)

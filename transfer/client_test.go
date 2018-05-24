@@ -5,7 +5,6 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -27,7 +26,7 @@ func TestTransferList(t *testing.T) {
 func TestTransferNew(t *testing.T) {
 	transfer, err := New(&stripe.TransferParams{
 		Amount:            stripe.Int64(123),
-		Currency:          stripe.String(string(currency.USD)),
+		Currency:          stripe.String(string(stripe.CurrencyUSD)),
 		Destination:       stripe.String("acct_123"),
 		SourceTransaction: stripe.String("ch_123"),
 		SourceType:        stripe.String(string(stripe.TransferSourceTypeCard)),

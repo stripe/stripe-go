@@ -5,7 +5,6 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/currency"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -18,7 +17,7 @@ func TestTopupGet(t *testing.T) {
 func TestTopupNew(t *testing.T) {
 	topup, err := New(&stripe.TopupParams{
 		Amount:              stripe.Int64(123),
-		Currency:            stripe.String(string(currency.USD)),
+		Currency:            stripe.String(string(stripe.CurrencyUSD)),
 		Source:              &stripe.SourceParams{Token: stripe.String("src_123")},
 		Description:         stripe.String("creating a topup"),
 		StatementDescriptor: stripe.String("topup"),
@@ -30,7 +29,7 @@ func TestTopupNew(t *testing.T) {
 func TestTopupNew_WithSetSource(t *testing.T) {
 	params := stripe.TopupParams{
 		Amount:              stripe.Int64(123),
-		Currency:            stripe.String("usd"),
+		Currency:            stripe.String(string(stripe.CurrencyUSD)),
 		Description:         stripe.String("creating a topup"),
 		StatementDescriptor: stripe.String("topup"),
 	}
