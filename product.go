@@ -6,12 +6,7 @@ import "encoding/json"
 type ProductType string
 
 const (
-	// ProductTypeGood is a constant that indicates a product represents a physical good,
-	// which may be sold through the Stripe Relay API.
-	ProductTypeGood ProductType = "good"
-
-	// ProductTypeService is a constant that indicates a product represents a service
-	// which is provided on a recurring basis and is priced with a Stripe plan.
+	ProductTypeGood    ProductType = "good"
 	ProductTypeService ProductType = "service"
 )
 

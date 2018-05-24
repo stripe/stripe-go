@@ -33,7 +33,7 @@ func TestCouponList(t *testing.T) {
 func TestCouponNew(t *testing.T) {
 	coupon, err := New(&stripe.CouponParams{
 		Currency:         stripe.String(string(currency.USD)),
-		Duration:         stripe.String(string(Repeating)),
+		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
 		DurationInMonths: stripe.Int64(3),
 		ID:               stripe.String("25OFF"),
 		PercentOff:       stripe.Int64(25),

@@ -9,13 +9,6 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-const (
-	Day   stripe.PlanInterval = "day"
-	Week  stripe.PlanInterval = "week"
-	Month stripe.PlanInterval = "month"
-	Year  stripe.PlanInterval = "year"
-)
-
 // Client is used to invoke /plans APIs.
 type Client struct {
 	B   stripe.Backend

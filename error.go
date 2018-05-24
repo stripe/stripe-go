@@ -5,9 +5,6 @@ import "encoding/json"
 // ErrorType is the list of allowed values for the error's type.
 type ErrorType string
 
-// ErrorCode is the list of allowed values for the error's code.
-type ErrorCode string
-
 const (
 	ErrorTypeAPI            ErrorType = "api_error"
 	ErrorTypeAPIConnection  ErrorType = "api_connection_error"
@@ -16,7 +13,12 @@ const (
 	ErrorTypeInvalidRequest ErrorType = "invalid_request_error"
 	ErrorTypePermission     ErrorType = "more_permissions_required"
 	ErrorTypeRateLimit      ErrorType = "rate_limit_error"
+)
 
+// ErrorCode is the list of allowed values for the error's code.
+type ErrorCode string
+
+const (
 	ErrorCodeCardDeclined       ErrorCode = "card_declined"
 	ErrorCodeExpiredCard        ErrorCode = "expired_card"
 	ErrorCodeIncorrectCVC       ErrorCode = "incorrect_cvc"

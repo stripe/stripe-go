@@ -6,62 +6,86 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-// SourceStatus represents the possible statuses of a source object.
-type SourceStatus string
+// SourceCodeVerificationFlowStatus represents the possible statuses of a code verification flow.
+type SourceCodeVerificationFlowStatus string
 
 const (
-	// SourceStatusCanceled we canceled the source along with any side-effect
-	// it had (returned funds to customers if any were sent).
-	SourceStatusCanceled SourceStatus = "canceled"
-
-	// SourceStatusChargeable the source is ready to be charged (once if usage
-	// is `single_use`, repeatedly otherwise).
-	SourceStatusChargeable SourceStatus = "chargeable"
-
-	// SourceStatusConsumed the source is `single_use` usage and has been
-	// charged already.
-	SourceStatusConsumed SourceStatus = "consumed"
-
-	// SourceStatusFailed the source is no longer usable.
-	SourceStatusFailed SourceStatus = "failed"
-
-	// SourceStatusPending the source is freshly created and not yet
-	// chargeable. The flow should indicate how to authenticate it with your
-	// customer.
-	SourceStatusPending SourceStatus = "pending"
+	SourceCodeVerificationFlowStatusFailed    SourceCodeVerificationFlowStatus = "failed"
+	SourceCodeVerificationFlowStatusPending   SourceCodeVerificationFlowStatus = "pending"
+	SourceCodeVerificationFlowStatusSucceeded SourceCodeVerificationFlowStatus = "succeeded"
 )
 
 // SourceFlow represents the possible flows of a source object.
 type SourceFlow string
 
 const (
-	// FlowCodeVerification a verification code should be communicated by the
-	// customer to authenticate the source.
-	FlowCodeVerification SourceFlow = "code_verification"
+	SourceFlowCodeVerification SourceFlow = "code_verification"
+	SourceFlowNone             SourceFlow = "none"
+	SourceFlowReceiver         SourceFlow = "receiver"
+	SourceFlowRedirect         SourceFlow = "redirect"
+)
 
-	// FlowNone no particular authentication is involved the source should
-	// become chargeable directly or asyncrhonously.
-	FlowNone SourceFlow = "none"
+// SourceMandateAcceptanceStatus represents the possible failure reasons of a redirect flow.
+type SourceMandateAcceptanceStatus string
 
-	// FlowReceiver a receiver address should be communicated to the customer
-	// to push funds to it.
-	FlowReceiver SourceFlow = "receiver"
+const (
+	SourceMandateAcceptanceStatusAccepted SourceMandateAcceptanceStatus = "accepted"
+	SourceMandateAcceptanceStatusRefused  SourceMandateAcceptanceStatus = "refused"
+)
 
-	// FlowRedirect a redirect is required to authenticate the source.
-	FlowRedirect SourceFlow = "redirect"
+// SourceRedirectFlowFailureReason represents the possible failure reasons of a redirect flow.
+type SourceRedirectFlowFailureReason string
+
+const (
+	SourceRedirectFlowFailureReasonDeclined        SourceRedirectFlowFailureReason = "declined"
+	SourceRedirectFlowFailureReasonProcessingError SourceRedirectFlowFailureReason = "processing_error"
+	SourceRedirectFlowFailureReasonUserAbort       SourceRedirectFlowFailureReason = "user_abort"
+)
+
+// SourceRedirectFlowStatus represents the possible statuses of a redirect flow.
+type SourceRedirectFlowStatus string
+
+const (
+	SourceRedirectFlowStatusFailed      SourceRedirectFlowStatus = "failed"
+	SourceRedirectFlowStatusNotRequired SourceRedirectFlowStatus = "not_required"
+	SourceRedirectFlowStatusPending     SourceRedirectFlowStatus = "pending"
+	SourceRedirectFlowStatusSucceeded   SourceRedirectFlowStatus = "succeeded"
+)
+
+// SourceRefundAttributesMethod are the possible method to retrieve a receiver's refund attributes.
+type SourceRefundAttributesMethod string
+
+const (
+	SourceRefundAttributesMethodEmail  SourceRefundAttributesMethod = "email"
+	SourceRefundAttributesMethodManual SourceRefundAttributesMethod = "manual"
+)
+
+// SourceRefundAttributesStatus are the possible status of a receiver's refund attributes.
+type SourceRefundAttributesStatus string
+
+const (
+	SourceRefundAttributesStatusAvailable SourceRefundAttributesStatus = "available"
+	SourceRefundAttributesStatusMissing   SourceRefundAttributesStatus = "missing"
+	SourceRefundAttributesStatusRequested SourceRefundAttributesStatus = "requested"
+)
+
+// SourceStatus represents the possible statuses of a source object.
+type SourceStatus string
+
+const (
+	SourceStatusCanceled   SourceStatus = "canceled"
+	SourceStatusChargeable SourceStatus = "chargeable"
+	SourceStatusConsumed   SourceStatus = "consumed"
+	SourceStatusFailed     SourceStatus = "failed"
+	SourceStatusPending    SourceStatus = "pending"
 )
 
 // SourceUsage represents the possible usages of a source object.
 type SourceUsage string
 
 const (
-	// UsageReusable the source can be charged multiple times for arbitrary
-	// amounts.
-	UsageReusable SourceUsage = "reusable"
-
-	// UsageSingleUse the source can only be charged once for the specified
-	// amount and currency.
-	UsageSingleUse SourceUsage = "single_use"
+	SourceUsageReusable  SourceUsage = "reusable"
+	SourceUsageSingleUse SourceUsage = "single_use"
 )
 
 type SourceOwnerParams struct {
@@ -109,91 +133,35 @@ type SourceOwner struct {
 	VerifiedPhone   string   `json:"verified_phone"`
 }
 
-// RedirectFlowFailureReason represents the possible failure reasons of a redirect flow.
-type RedirectFlowFailureReason string
-
-const (
-	RedirectFlowFailureReasonDeclined        RedirectFlowFailureReason = "declined"
-	RedirectFlowFailureReasonProcessingError RedirectFlowFailureReason = "processing_error"
-	RedirectFlowFailureReasonUserAbort       RedirectFlowFailureReason = "user_abort"
-)
-
-// RedirectFlowStatus represents the possible statuses of a redirect flow.
-type RedirectFlowStatus string
-
-const (
-	RedirectFlowStatusFailed      RedirectFlowStatus = "failed"
-	RedirectFlowStatusNotRequired RedirectFlowStatus = "not_required"
-	RedirectFlowStatusPending     RedirectFlowStatus = "pending"
-	RedirectFlowStatusSucceeded   RedirectFlowStatus = "succeeded"
-)
-
 // ReceiverFlow informs of the state of a redirect authentication flow.
 type RedirectFlow struct {
-	FailureReason RedirectFlowFailureReason `json:"failure_reason"`
-	ReturnURL     string                    `json:"return_url"`
-	Status        RedirectFlowStatus        `json:"status"`
-	URL           string                    `json:"url"`
+	FailureReason SourceRedirectFlowFailureReason `json:"failure_reason"`
+	ReturnURL     string                          `json:"return_url"`
+	Status        SourceRedirectFlowStatus        `json:"status"`
+	URL           string                          `json:"url"`
 }
-
-// RefundAttributesStatus are the possible status of a receiver's refund
-// attributes.
-type RefundAttributesStatus string
-
-const (
-	// RefundAttributesAvailable the refund attributes are available
-	RefundAttributesAvailable RefundAttributesStatus = "available"
-
-	// RefundAttributesMissing the refund attributes are missing
-	RefundAttributesMissing RefundAttributesStatus = "missing"
-
-	// RefundAttributesRequested the refund attributes have been requested
-	RefundAttributesRequested RefundAttributesStatus = "requested"
-)
-
-// RefundAttributesMethod are the possible method to retrieve a receiver's
-// refund attributes.
-type RefundAttributesMethod string
-
-const (
-	// RefundAttributesEmail the refund attributes are automatically collected over email
-	RefundAttributesEmail RefundAttributesMethod = "email"
-
-	// RefundAttributesManual the refund attributes should be collected by the user
-	RefundAttributesManual RefundAttributesMethod = "manual"
-)
 
 // ReceiverFlow informs of the state of a receiver authentication flow.
 type ReceiverFlow struct {
-	Address                string                 `json:"address"`
-	AmountCharged          int64                  `json:"amount_charged"`
-	AmountReceived         int64                  `json:"amount_received"`
-	AmountReturned         int64                  `json:"amount_returned"`
-	RefundAttributesMethod RefundAttributesMethod `json:"refund_attributes_method"`
-	RefundAttributesStatus RefundAttributesStatus `json:"refund_attributes_status"`
+	Address                string                       `json:"address"`
+	AmountCharged          int64                        `json:"amount_charged"`
+	AmountReceived         int64                        `json:"amount_received"`
+	AmountReturned         int64                        `json:"amount_returned"`
+	RefundAttributesMethod SourceRefundAttributesMethod `json:"refund_attributes_method"`
+	RefundAttributesStatus SourceRefundAttributesStatus `json:"refund_attributes_status"`
 }
-
-// CodeVerificationFlowStatus represents the possible statuses of a code verification
-// flow.
-type CodeVerificationFlowStatus string
-
-const (
-	CodeVerificationFlowStatusFailed    CodeVerificationFlowStatus = "failed"
-	CodeVerificationFlowStatusPending   CodeVerificationFlowStatus = "pending"
-	CodeVerificationFlowStatusSucceeded CodeVerificationFlowStatus = "succeeded"
-)
 
 // CodeVerificationFlow informs of the state of a verification authentication flow.
 type CodeVerificationFlow struct {
-	AttemptsRemaining int64                      `json:"attempts_remaining"`
-	Status            CodeVerificationFlowStatus `json:"status"`
+	AttemptsRemaining int64                            `json:"attempts_remaining"`
+	Status            SourceCodeVerificationFlowStatus `json:"status"`
 }
 
 type SourceMandateAcceptance struct {
-	Date      string `json:"date"`
-	IP        string `json:"ip"`
-	Status    string `json:"status"`
-	UserAgent string `json:"user_agent"`
+	Date      string                        `json:"date"`
+	IP        string                        `json:"ip"`
+	Status    SourceMandateAcceptanceStatus `json:"status"`
+	UserAgent string                        `json:"user_agent"`
 }
 
 type SourceMandate struct {

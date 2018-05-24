@@ -5,42 +5,61 @@ import "encoding/json"
 // PayoutDestinationType consts represent valid payout destinations.
 type PayoutDestinationType string
 
+const (
+	PayoutDestinationTypeBankAccount PayoutDestinationType = "bank_account"
+	PayoutDestinationTypeCard        PayoutDestinationType = "card"
+)
+
 // PayoutFailureCode is the list of allowed values for the payout's failure code.
-// Allowed values are "insufficient_funds", "account_closed", "no_account",
-// "invalid_account_number", "debit_not_authorized", "bank_ownership_changed",
-// "account_frozen", "could_not_process", "bank_account_restricted", "invalid_currency".
 type PayoutFailureCode string
 
+const (
+	PayoutFailureCodeAccountClosed         PayoutFailureCode = "account_closed"
+	PayoutFailureCodeAccountFrozen         PayoutFailureCode = "account_frozen"
+	PayoutFailureCodeBankAccountRestricted PayoutFailureCode = "bank_account_restricted"
+	PayoutFailureCodeBankOwnershipChanged  PayoutFailureCode = "bank_ownership_changed"
+	PayoutFailureCodeCouldNotProcess       PayoutFailureCode = "could_not_process"
+	PayoutFailureCodeDebitNotAuthorized    PayoutFailureCode = "debit_not_authorized"
+	PayoutFailureCodeInsufficientFunds     PayoutFailureCode = "insufficient_funds"
+	PayoutFailureCodeInvalidAccountNumber  PayoutFailureCode = "invalid_account_number"
+	PayoutFailureCodeInvalidCurrency       PayoutFailureCode = "invalid_currency"
+	PayoutFailureCodeNoAccount             PayoutFailureCode = "no_account"
+)
+
 // PayoutSourceType is the list of allowed values for the payout's source_type field.
-// Allowed values are "alipay_account", bank_account", "bitcoin_receiver", "card".
 type PayoutSourceType string
 
+const (
+	PayoutSourceTypeAlipayAccount   PayoutSourceType = "alipay_account"
+	PayoutSourceTypeBankAccount     PayoutSourceType = "bank_account"
+	PayoutSourceTypeBitcoinReceiver PayoutSourceType = "bitcoin_receiver"
+	PayoutSourceTypeCard            PayoutSourceType = "card"
+)
+
 // PayoutStatus is the list of allowed values for the payout's status.
-// Allowed values are "paid", "pending", "in_transit",  "failed", "canceled".
 type PayoutStatus string
 
+const (
+	PayoutStatusCanceled  PayoutStatus = "canceled"
+	PayoutStatusFailed    PayoutStatus = "failed"
+	PayoutStatusInTransit PayoutStatus = "in_transit"
+	PayoutStatusPaid      PayoutStatus = "paid"
+	PayoutStatusPending   PayoutStatus = "pending"
+)
+
 // PayoutType is the list of allowed values for the payout's type.
-// Allowed values are "bank_account" or "card".
 type PayoutType string
 
 const (
-	// PayoutDestinationBankAccount is a constant representing a payout destination
-	// which is a bank account.
-	PayoutDestinationBankAccount PayoutDestinationType = "bank_account"
-
-	// PayoutDestinationCard is a constant representing a payout destination
-	// which is a card.
-	PayoutDestinationCard PayoutDestinationType = "card"
+	PayoutTypeBank PayoutType = "bank_account"
+	PayoutTypeCard PayoutType = "card"
 )
 
 // PayoutMethodType represents the type of payout
 type PayoutMethodType string
 
 const (
-	// PayoutMethodInstant is a constant representing an instant payout
-	PayoutMethodInstant PayoutMethodType = "instant"
-
-	// PayoutMethodStandard is a constant representing a standard payout
+	PayoutMethodInstant  PayoutMethodType = "instant"
 	PayoutMethodStandard PayoutMethodType = "standard"
 )
 
@@ -89,7 +108,7 @@ type Payout struct {
 	Card                      *Card               `json:"card"`
 	Created                   int64               `json:"created"`
 	Currency                  Currency            `json:"currency"`
-	Destination               PayoutDestination   `json:"destination"`
+	Destination               string              `json:"destination"`
 	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction"`
 	FailureCode               PayoutFailureCode   `json:"failure_code"`
 	FailureMessage            string              `json:"failure_message"`
@@ -137,9 +156,9 @@ func (d *PayoutDestination) UnmarshalJSON(data []byte) error {
 		*d = PayoutDestination(dd)
 
 		switch d.Type {
-		case PayoutDestinationBankAccount:
+		case PayoutDestinationTypeBankAccount:
 			err = json.Unmarshal(data, &d.BankAccount)
-		case PayoutDestinationCard:
+		case PayoutDestinationTypeCard:
 			err = json.Unmarshal(data, &d.Card)
 		}
 

@@ -7,6 +7,14 @@ import (
 	"path/filepath"
 )
 
+// FileUploadPurpose is the purpose of a particular file upload.
+type FileUploadPurpose string
+
+const (
+	FileUploadPurposeDisputeEvidence  FileUploadPurpose = "dispute_evidence"
+	FileUploadPurposeIdentityDocument FileUploadPurpose = "identity_document"
+)
+
 // FileUploadParams is the set of parameters that can be used when creating a
 // file upload.
 // For more details see https://stripe.com/docs/api#create_file_upload.
@@ -30,10 +38,6 @@ type FileUploadListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	Purpose      *string           `form:"purpose"`
 }
-
-// FileUploadPurpose is the purpose of a particular file upload. Allowed values
-// are "dispute_evidence" and "identity_document".
-type FileUploadPurpose string
 
 // FileUpload is the resource representing a Stripe file upload.
 // For more details see https://stripe.com/docs/api#file_uploads.

@@ -37,8 +37,8 @@ func TestSKUNew(t *testing.T) {
 		Price:      stripe.Int64(499),
 		Currency:   stripe.String(string(currency.USD)),
 		Inventory: &stripe.InventoryParams{
-			Type:  stripe.String("bucket"),
-			Value: stripe.String("limited"),
+			Type:  stripe.String(string(stripe.SKUInventoryTypeBucket)),
+			Value: stripe.String(string(stripe.SKUInventoryValueLimited)),
 		},
 		Product: stripe.String("prod_123"),
 		Image:   stripe.String("http://example.com/foo.png"),
@@ -50,8 +50,8 @@ func TestSKUNew(t *testing.T) {
 func TestSKUUpdate(t *testing.T) {
 	sku, err := Update("sku_123", &stripe.SKUParams{
 		Inventory: &stripe.InventoryParams{
-			Type:  stripe.String("bucket"),
-			Value: stripe.String("in_stock"),
+			Type:  stripe.String(string(stripe.SKUInventoryTypeBucket)),
+			Value: stripe.String(string(stripe.SKUInventoryValueInStock)),
 		},
 	})
 	assert.Nil(t, err)

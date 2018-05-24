@@ -7,8 +7,12 @@ import (
 )
 
 // RecipientType is the list of allowed values for the recipient's type.
-// Allowed values are "individual", "corporation".
 type RecipientType string
+
+const (
+	RecipientTypeIndividual RecipientType = "individual"
+	RecipientTypeCorp       RecipientType = "corporation"
+)
 
 // RecipientParams is the set of parameters that can be used when creating or updating recipients.
 // For more details see https://stripe.com/docs/api#create_recipient and https://stripe.com/docs/api#update_recipient.

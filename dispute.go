@@ -5,16 +5,32 @@ import (
 )
 
 // DisputeReason is the list of allowed values for a discount's reason.
-// Allowed values are "duplicate", "fraudulent", "subscription_canceled",
-// "product_unacceptable", "product_not_received", "unrecognized",
-// "credit_not_processed", "general".
 type DisputeReason string
 
+const (
+	DisputeReasonCreditNotProcessed   DisputeReason = "credit_not_processed"
+	DisputeReasonDuplicate            DisputeReason = "duplicate"
+	DisputeReasonFraudulent           DisputeReason = "fraudulent"
+	DisputeReasonGeneral              DisputeReason = "general"
+	DisputeReasonProductNotReceived   DisputeReason = "product_not_received"
+	DisputeReasonProductUnacceptable  DisputeReason = "product_unacceptable"
+	DisputeReasonSubscriptionCanceled DisputeReason = "subscription_canceled"
+	DisputeReasonUnrecognized         DisputeReason = "unrecognized"
+)
+
 // DisputeStatus is the list of allowed values for a discount's status.
-// Allowed values are "won", "lost", "needs_response", "under_review",
-// "warning_needs_response", "warning_under_review", "charge_refunded",
-// "warning_closed".
 type DisputeStatus string
+
+const (
+	DisputeStatusChargeRefunded       DisputeStatus = "charge_refunded"
+	DisputeStatusLost                 DisputeStatus = "lost"
+	DisputeStatusNeedsResponse        DisputeStatus = "needs_response"
+	DisputeStatusUnderReview          DisputeStatus = "under_review"
+	DisputeStatusWarningClosed        DisputeStatus = "warning_closed"
+	DisputeStatusWarningNeedsResponse DisputeStatus = "warning_needs_response"
+	DisputeStatusWarningUnderReview   DisputeStatus = "warning_under_review"
+	DisputeStatusWon                  DisputeStatus = "won"
+)
 
 // DisputeParams is the set of parameters that can be used when updating a dispute.
 // For more details see https://stripe.com/docs/api#update_dispute.

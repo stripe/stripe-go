@@ -1,8 +1,14 @@
 package stripe
 
 // TokenType is the list of allowed values for a token's type.
-// Allowed values are "card", "bank_account".
 type TokenType string
+
+const (
+	TokenTypeAccount     TokenType = "account"
+	TokenTypeCard        TokenType = "card"
+	TokenTypeBankAccount TokenType = "bank_account"
+	TokenTypePII         TokenType = "pii"
+)
 
 // TokenParams is the set of parameters that can be used when creating a token.
 // For more details see https://stripe.com/docs/api#create_card_token and https://stripe.com/docs/api#create_bank_account_token.

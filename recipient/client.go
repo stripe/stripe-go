@@ -6,11 +6,6 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-const (
-	Individual stripe.RecipientType = "individual"
-	Corp       stripe.RecipientType = "corporation"
-)
-
 // Client is used to invoke /recipients APIs.
 type Client struct {
 	B   stripe.Backend

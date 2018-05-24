@@ -8,12 +8,6 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-const (
-	Forever   stripe.CouponDuration = "forever"
-	Once      stripe.CouponDuration = "once"
-	Repeating stripe.CouponDuration = "repeating"
-)
-
 // Client is used to invoke /coupons APIs.
 type Client struct {
 	B   stripe.Backend

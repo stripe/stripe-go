@@ -4,13 +4,24 @@ import (
 	"encoding/json"
 )
 
+// ChargeFraudUserReport is the list of allowed values for reporting fraud.
+type ChargeFraudUserReport string
+
+const (
+	ChargeFraudUserReportFraudulent ChargeFraudUserReport = "fraudulent"
+	ChargeFraudUserReportSafe       ChargeFraudUserReport = "safe"
+)
+
+// ChargeFraudStripeReport is the list of allowed values for reporting fraud.
+type ChargeFraudStripeReport string
+
+const (
+	ChargeFraudStripeReportFraudulent ChargeFraudStripeReport = "fraudulent"
+)
+
 // Currency is the list of supported currencies.
 // For more details see https://support.stripe.com/questions/which-currencies-does-stripe-support.
 type Currency string
-
-// FraudReport is the list of allowed values for reporting fraud.
-// Allowed values are "fraudulent", "safe".
-type FraudReport string
 
 // ChargeParams is the set of parameters that can be used when creating or updating a charge.
 // For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
@@ -143,8 +154,8 @@ type ChargeList struct {
 
 // FraudDetails is the structure detailing fraud status.
 type FraudDetails struct {
-	UserReport   FraudReport `json:"user_report"`
-	StripeReport FraudReport `json:"stripe_report"`
+	UserReport   ChargeFraudUserReport   `json:"user_report"`
+	StripeReport ChargeFraudStripeReport `json:"stripe_report"`
 }
 
 // ChargeOutcomeRule tells you the Radar rule that blocked the charge, if any.

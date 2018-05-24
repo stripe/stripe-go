@@ -7,26 +7,50 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
+// CardBrand is the list of allowed values for the card's brand.
+type CardBrand string
+
+const (
+	CardBrandAmex       CardBrand = "American Express"
+	CardBrandDiscover   CardBrand = "Discover"
+	CardBrandDinersClub CardBrand = "Diners Club"
+	CardBrandJCB        CardBrand = "JCB"
+	CardBrandMasterCard CardBrand = "MasterCard"
+	CardBrandUnknown    CardBrand = "Unknown"
+	CardBrandUnionPay   CardBrand = "UnionPay"
+	CardBrandVisa       CardBrand = "Visa"
+)
+
+// CardFunding is the list of allowed values for the card's funding.
+type CardFunding string
+
+const (
+	CardFundingCredit  CardFunding = "credit"
+	CardFundingDebit   CardFunding = "debit"
+	CardFundingPrepaid CardFunding = "prepaid"
+	CardFundingUnknown CardFunding = "unknown"
+)
+
+// CardTokenizationMethod is the list of allowed values for the card's tokenization method.
+type CardTokenizationMethod string
+
+const (
+	TokenizationMethodAndroidPay CardTokenizationMethod = "android_pay"
+	TokenizationMethodApplePay   CardTokenizationMethod = "apple_pay"
+)
+
+// CardVerification is the list of allowed verification responses.
+type CardVerification string
+
+const (
+	CardVerificationFail      CardVerification = "fail"
+	CardVerificationPass      CardVerification = "pass"
+	CardVerificationUnchecked CardVerification = "unchecked"
+)
+
 // cardSource is a string that's used to build card form parameters. It's a
 // constant just to make mistakes less likely.
 const cardSource = "source"
-
-// CardBrand is the list of allowed values for the card's brand.
-// Allowed values are "Unknown", "Visa", "American Express", "MasterCard", "Discover"
-// "JCB", "Diners Club".
-type CardBrand string
-
-// CardFunding is the list of allowed values for the card's funding.
-// Allowed values are "credit", "debit", "prepaid", "unknown".
-type CardFunding string
-
-// TokenizationMethod is the list of allowed values for the card's tokenization method.
-// Allowed values are "apple_pay", "android_pay".
-type TokenizationMethod string
-
-// Verification is the list of allowed verification responses.
-// Allowed values are "pass", "fail", "unchecked", "unavailable".
-type Verification string
 
 // CardParams is the set of parameters that can be used when creating or updating a card.
 // For more details see https://stripe.com/docs/api#create_card and https://stripe.com/docs/api#update_card.
@@ -147,21 +171,21 @@ type CardListParams struct {
 // Card is the resource representing a Stripe credit/debit card.
 // For more details see https://stripe.com/docs/api#cards.
 type Card struct {
-	AddressCity        string       `json:"address_city"`
-	AddressCountry     string       `json:"address_country"`
-	AddressLine1       string       `json:"address_line1"`
-	AddressLine1Check  Verification `json:"address_line1_check"`
-	AddressLine2       string       `json:"address_line2"`
-	AddressState       string       `json:"address_state"`
-	AddressZip         string       `json:"address_zip"`
-	AddressZipCheck    Verification `json:"address_zip_check"`
-	Brand              CardBrand    `json:"brand"`
-	CVCCheck           Verification `json:"cvc_check"`
-	Country            string       `json:"country"`
-	Currency           Currency     `json:"currency"`
-	Customer           *Customer    `json:"customer"`
-	DefaultForCurrency bool         `json:"default_for_currency"`
-	Deleted            bool         `json:"deleted"`
+	AddressCity        string           `json:"address_city"`
+	AddressCountry     string           `json:"address_country"`
+	AddressLine1       string           `json:"address_line1"`
+	AddressLine1Check  CardVerification `json:"address_line1_check"`
+	AddressLine2       string           `json:"address_line2"`
+	AddressState       string           `json:"address_state"`
+	AddressZip         string           `json:"address_zip"`
+	AddressZipCheck    CardVerification `json:"address_zip_check"`
+	Brand              CardBrand        `json:"brand"`
+	CVCCheck           CardVerification `json:"cvc_check"`
+	Country            string           `json:"country"`
+	Currency           Currency         `json:"currency"`
+	Customer           *Customer        `json:"customer"`
+	DefaultForCurrency bool             `json:"default_for_currency"`
+	Deleted            bool             `json:"deleted"`
 
 	// Description is a succinct summary of the card's information.
 	//
@@ -188,12 +212,12 @@ type Card struct {
 	// as part of standard API requests.
 	Issuer string `json:"issuer"`
 
-	Last4              string             `json:"last4"`
-	Metadata           map[string]string  `json:"metadata"`
-	Name               string             `json:"name"`
-	Recipient          *Recipient         `json:"recipient"`
-	ThreeDSecure       *ThreeDSecure      `json:"three_d_secure"`
-	TokenizationMethod TokenizationMethod `json:"tokenization_method"`
+	Last4              string                 `json:"last4"`
+	Metadata           map[string]string      `json:"metadata"`
+	Name               string                 `json:"name"`
+	Recipient          *Recipient             `json:"recipient"`
+	ThreeDSecure       *ThreeDSecure          `json:"three_d_secure"`
+	TokenizationMethod CardTokenizationMethod `json:"tokenization_method"`
 }
 
 // CardList is a list object for cards.

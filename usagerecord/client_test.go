@@ -14,7 +14,7 @@ func TestUsageRecordNew(t *testing.T) {
 	usageRecord, err := New(&stripe.UsageRecordParams{
 		Quantity:         stripe.Int64(123),
 		Timestamp:        stripe.Int64(now),
-		Action:           stripe.String(stripe.UsageRecordParamsActionIncrement),
+		Action:           stripe.String(stripe.UsageRecordActionIncrement),
 		SubscriptionItem: stripe.String("si_123"),
 	})
 	assert.Nil(t, err)

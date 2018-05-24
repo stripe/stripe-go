@@ -47,7 +47,7 @@ func TestAccountNew(t *testing.T) {
 		SupportURL:            stripe.String("www.stripe.com"),
 		SupportPhone:          stripe.String("4151234567"),
 		LegalEntity: &stripe.LegalEntityParams{
-			Type:         stripe.String(string(stripe.Individual)),
+			Type:         stripe.String(string(stripe.LegalEntityTypeIndividual)),
 			BusinessName: stripe.String("Stripe Go"),
 			AdditionalOwners: []stripe.AdditionalOwnerParams{
 				{
@@ -78,7 +78,7 @@ func TestAccountNew(t *testing.T) {
 
 func TestAccountReject(t *testing.T) {
 	account, err := Reject("acct_123", &stripe.AccountRejectParams{
-		Reason: stripe.String("fraud"),
+		Reason: stripe.String(stripe.AccountRejectReasonFraud),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, account)

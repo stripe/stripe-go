@@ -6,13 +6,6 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-const (
-	SourceAlipay  stripe.TransferSourceType = "alipay_account"
-	SourceBank    stripe.TransferSourceType = "bank_account"
-	SourceBitcoin stripe.TransferSourceType = "bitcoin_receiver"
-	SourceCard    stripe.TransferSourceType = "card"
-)
-
 // Client is used to invoke /transfers APIs.
 type Client struct {
 	B   stripe.Backend

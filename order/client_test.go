@@ -83,7 +83,7 @@ func TestOrderReturn_RequestParams(t *testing.T) {
 
 func TestOrderUpdate(t *testing.T) {
 	order, err := Update("or_123", &stripe.OrderUpdateParams{
-		Status: stripe.String(string(stripe.StatusFulfilled)),
+		Status: stripe.String(string(stripe.OrderStatusFulfilled)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, order)

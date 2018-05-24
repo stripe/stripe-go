@@ -8,8 +8,23 @@ import (
 )
 
 // BankAccountStatus is the list of allowed values for the bank account's status.
-// Allowed values are "new", "validated", "verified", "verification_failed", "errored".
 type BankAccountStatus string
+
+const (
+	BankAccountStatusErrored            BankAccountStatus = "errored"
+	BankAccountStatusNew                BankAccountStatus = "new"
+	BankAccountStatusValidated          BankAccountStatus = "validated"
+	BankAccountStatusVerificationFailed BankAccountStatus = "verification_failed"
+	BankAccountStatusVerified           BankAccountStatus = "verified"
+)
+
+// BankAccountAccountHolderType is the list of allowed values for the bank account holder type.
+type BankAccountAccountHolderType string
+
+const (
+	BankAccountAccountHolderTypeCompany    BankAccountAccountHolderType = "company"
+	BankAccountAccountHolderTypeIndividual BankAccountAccountHolderType = "individual"
+)
 
 // BankAccountParams is the set of parameters that can be used when updating a
 // bank account.
@@ -112,20 +127,20 @@ type BankAccountListParams struct {
 
 // BankAccount represents a Stripe bank account.
 type BankAccount struct {
-	AccountHolderName  string            `json:"account_holder_name"`
-	AccountHolderType  string            `json:"account_holder_type"`
-	BankName           string            `json:"bank_name"`
-	Country            string            `json:"country"`
-	Currency           Currency          `json:"currency"`
-	Customer           *Customer         `json:"customer"`
-	DefaultForCurrency bool              `json:"default_for_currency"`
-	Deleted            bool              `json:"deleted"`
-	Fingerprint        string            `json:"fingerprint"`
-	ID                 string            `json:"id"`
-	Last4              string            `json:"last4"`
-	Metadata           map[string]string `json:"metadata"`
-	RoutingNumber      string            `json:"routing_number"`
-	Status             BankAccountStatus `json:"status"`
+	AccountHolderName  string                       `json:"account_holder_name"`
+	AccountHolderType  BankAccountAccountHolderType `json:"account_holder_type"`
+	BankName           string                       `json:"bank_name"`
+	Country            string                       `json:"country"`
+	Currency           Currency                     `json:"currency"`
+	Customer           *Customer                    `json:"customer"`
+	DefaultForCurrency bool                         `json:"default_for_currency"`
+	Deleted            bool                         `json:"deleted"`
+	Fingerprint        string                       `json:"fingerprint"`
+	ID                 string                       `json:"id"`
+	Last4              string                       `json:"last4"`
+	Metadata           map[string]string            `json:"metadata"`
+	RoutingNumber      string                       `json:"routing_number"`
+	Status             BankAccountStatus            `json:"status"`
 }
 
 // BankAccountList is a list object for bank accounts.

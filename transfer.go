@@ -3,8 +3,14 @@ package stripe
 import "encoding/json"
 
 // TransferSourceType is the list of allowed values for the transfer's source_type field.
-// Allowed values are "alipay_account", bank_account", "bitcoin_receiver", "card".
 type TransferSourceType string
+
+const (
+	TransferSourceTypeAlipayAccount   TransferSourceType = "alipay_account"
+	TransferSourceTypeBankAccount     TransferSourceType = "bank_account"
+	TransferSourceTypeBitcoinReceiver TransferSourceType = "bitcoin_receiver"
+	TransferSourceTypeCard            TransferSourceType = "card"
+)
 
 // TransferDestination describes the destination of a Transfer.
 // The Type should indicate which object is fleshed out
@@ -52,6 +58,7 @@ type Transfer struct {
 	Reversals          *ReversalList             `json:"reversals"`
 	Reversed           bool                      `json:"reversed"`
 	SourceTransaction  *BalanceTransactionSource `json:"source_transaction"`
+	SourceType         TransferSourceType        `json:"source_type"`
 	TransferGroup      string                    `json:"transfer_group"`
 }
 

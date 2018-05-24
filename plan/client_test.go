@@ -35,7 +35,7 @@ func TestPlanNew(t *testing.T) {
 		Amount:   stripe.Int64(1),
 		Currency: stripe.String(string(currency.USD)),
 		ID:       stripe.String("sapphire-elite"),
-		Interval: stripe.String(string(Month)),
+		Interval: stripe.String(string(stripe.PlanIntervalMonth)),
 		Product: &stripe.ProductParams{
 			ID:                  stripe.String("plan_id"),
 			Name:                stripe.String("Sapphire Elite"),
@@ -52,7 +52,7 @@ func TestPlanNewWithProductID(t *testing.T) {
 		Amount:    stripe.Int64(1),
 		Currency:  stripe.String(string(currency.USD)),
 		ID:        stripe.String("sapphire-elite"),
-		Interval:  stripe.String(string(Month)),
+		Interval:  stripe.String(string(stripe.PlanIntervalMonth)),
 		ProductID: stripe.String("prod_12345abc"),
 	})
 	assert.Nil(t, err)

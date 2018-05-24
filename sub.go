@@ -7,12 +7,24 @@ import (
 )
 
 // SubscriptionStatus is the list of allowed values for the subscription's status.
-// Allowed values are "trialing", "active", "past_due", "canceled", "unpaid", "all".
 type SubscriptionStatus string
 
+const (
+	SubscriptionStatusActive   SubscriptionStatus = "active"
+	SubscriptionStatusAll      SubscriptionStatus = "all"
+	SubscriptionStatusCanceled SubscriptionStatus = "canceled"
+	SubscriptionStatusPastDue  SubscriptionStatus = "past_due"
+	SubscriptionStatusTrialing SubscriptionStatus = "trialing"
+	SubscriptionStatusUnpaid   SubscriptionStatus = "unpaid"
+)
+
 // SubscriptionBilling is the type of billing method for this subscription's invoices.
-// Currently supported values are "send_invoice" and "charge_automatically".
 type SubscriptionBilling string
+
+const (
+	SubscriptionBillingChargeAutomatically SubscriptionBilling = "charge_automatically"
+	SubscriptionBillingSendInvoice         SubscriptionBilling = "send_invoice"
+)
 
 // SubscriptionParams is the set of parameters that can be used when creating or updating a subscription.
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
@@ -77,12 +89,12 @@ type SubscriptionItemsParams struct {
 // For more details see https://stripe.com/docs/api#list_subscriptions.
 type SubscriptionListParams struct {
 	ListParams   `form:"*"`
-	Billing      SubscriptionBilling `form:"billing"`
-	Created      int64               `form:"created"`
-	CreatedRange *RangeQueryParams   `form:"created"`
-	Customer     string              `form:"customer"`
-	Plan         string              `form:"plan"`
-	Status       SubscriptionStatus  `form:"status"`
+	Billing      string            `form:"billing"`
+	Created      int64             `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	Customer     string            `form:"customer"`
+	Plan         string            `form:"plan"`
+	Status       string            `form:"status"`
 }
 
 // Subscription is the resource representing a Stripe subscription.

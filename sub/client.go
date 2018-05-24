@@ -8,15 +8,6 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-const (
-	Trialing stripe.SubscriptionStatus = "trialing"
-	Active   stripe.SubscriptionStatus = "active"
-	PastDue  stripe.SubscriptionStatus = "past_due"
-	Canceled stripe.SubscriptionStatus = "canceled"
-	Unpaid   stripe.SubscriptionStatus = "unpaid"
-	All      stripe.SubscriptionStatus = "all"
-)
-
 // Client is used to invoke /subscriptions APIs.
 type Client struct {
 	B   stripe.Backend

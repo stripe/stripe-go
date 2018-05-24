@@ -6,9 +6,19 @@ import "encoding/json"
 // Allowed values are "invoiceitem", "subscription".
 type InvoiceLineType string
 
+const (
+	InvoiceLineTypeInvoiceItem  InvoiceLineType = "invoiceitem"
+	InvoiceLineTypeSubscription InvoiceLineType = "subscription"
+)
+
 // InvoiceBilling is the type of billing method for this invoice.
 // Currently supported values are "send_invoice" and "charge_automatically".
 type InvoiceBilling string
+
+const (
+	InvoiceBillingChargeAutomatically InvoiceBilling = "charge_automatically"
+	InvoiceBillingSendInvoice         InvoiceBilling = "send_invoice"
+)
 
 // InvoiceParams is the set of parameters that can be used when creating or updating an invoice.
 // For more details see https://stripe.com/docs/api#create_invoice, https://stripe.com/docs/api#update_invoice.

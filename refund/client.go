@@ -6,12 +6,6 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-const (
-	RefundFraudulent          stripe.RefundReason = "fraudulent"
-	RefundDuplicate           stripe.RefundReason = "duplicate"
-	RefundRequestedByCustomer stripe.RefundReason = "requested_by_customer"
-)
-
 // Client is used to invoke /refunds APIs.
 type Client struct {
 	B   stripe.Backend

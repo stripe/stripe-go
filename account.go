@@ -6,57 +6,71 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-// LegalEntityType describes the types for a legal entity.
-// Allowed values are "individual", "company".
-type LegalEntityType string
-
-// IdentityVerificationDetailsCode is a machine-readable code specifying the
-// verification state of a legal entity. Allowed values are
-// "failed_keyed_identity", "failed_other", "scan_corrupt",
-// "scan_failed_greyscale", "scan_failed_other",
-// "scan_id_country_not_supported", "scan_id_type_not_supported",
-// "scan_name_mismatch", "scan_not_readable", "scan_not_uploaded".
-type IdentityVerificationDetailsCode string
-
-// IdentityVerificationStatus describes the different statuses for identity verification.
-// Allowed values are "pending", "verified", "unverified".
-type IdentityVerificationStatus string
-
-// Interval describes the payout interval.
-// Allowed values are "manual", "daily", "weekly", "monthly".
-type Interval string
+// AccountType is the type of an account.
+type AccountType string
 
 const (
-	// Company is a constant value representing a company legal entity type.
-	Company LegalEntityType = "company"
+	AccountTypeCustom   AccountType = "custom"
+	AccountTypeExpress  AccountType = "express"
+	AccountTypeStandard AccountType = "standard"
+)
 
-	// Day is a constant value representing a daily payout interval.
-	Day Interval = "daily"
+// ExternalAccountType is the type of an external account.
+type ExternalAccountType string
 
-	// Individual is a constant value representing an individual legal entity
-	// type.
-	Individual LegalEntityType = "individual"
+const (
+	ExternalAccountTypeBankAccount ExternalAccountType = "bank_account"
+	ExternalAccountTypeCard        ExternalAccountType = "card"
+)
 
-	// IdentityVerificationPending is a constant value indicating that identity
-	// verification status is pending.
-	IdentityVerificationPending IdentityVerificationStatus = "pending"
+// LegalEntityType describes the types for a legal entity.
+type LegalEntityType string
 
-	// IdentityVerificationUnverified is a constant value indicating that
-	// identity verification status is unverified.
-	IdentityVerificationUnverified IdentityVerificationStatus = "unverified"
+const (
+	LegalEntityTypeCompany    LegalEntityType = "company"
+	LegalEntityTypeIndividual LegalEntityType = "individual"
+)
 
-	// IdentityVerificationVerified is a constant value indicating that
-	// identity verification status is verified.
-	IdentityVerificationVerified IdentityVerificationStatus = "verified"
+// IdentityVerificationDetailsCode is a machine-readable code specifying the
+// verification state of a legal entity
+type IdentityVerificationDetailsCode string
 
-	// Manual is a constant value representing a manual payout interval.
-	Manual Interval = "manual"
+const (
+	IdentityVerificationDetailsCodeFailedKeyedIdentity       IdentityVerificationDetailsCode = "failed_keyed_identity"
+	IdentityVerificationDetailsCodeFailedOther               IdentityVerificationDetailsCode = "failed_other"
+	IdentityVerificationDetailsCodeScanCorrupt               IdentityVerificationDetailsCode = "scan_corrupt"
+	IdentityVerificationDetailsCodeScanFailedGreyscale       IdentityVerificationDetailsCode = "scan_failed_greyscale"
+	IdentityVerificationDetailsCodeScanFailedOther           IdentityVerificationDetailsCode = "scan_failed_other"
+	IdentityVerificationDetailsCodeScanIdCountryNotSupported IdentityVerificationDetailsCode = "scan_id_country_not_supported"
+	IdentityVerificationDetailsCodeScanIdTypeNotSupported    IdentityVerificationDetailsCode = "scan_id_type_not_supported"
+	IdentityVerificationDetailsCodeScanNameMismatch          IdentityVerificationDetailsCode = "scan_name_mismatch"
+	IdentityVerificationDetailsCodeScanNotReadable           IdentityVerificationDetailsCode = "scan_not_readable"
+	IdentityVerificationDetailsCodeScanNotUploaded           IdentityVerificationDetailsCode = "scan_not_uploaded"
+)
 
-	// Monthly is a constant value representing a monthly payout interval.
-	Monthly Interval = "monthly"
+// IdentityVerificationStatus describes the different statuses for identity verification.
+type IdentityVerificationStatus string
 
-	// Weekly is a constant value representing a weekly payout interval.
-	Weekly Interval = "weekly"
+const (
+	IdentityVerificationStatusPending    IdentityVerificationStatus = "pending"
+	IdentityVerificationStatusUnverified IdentityVerificationStatus = "unverified"
+	IdentityVerificationStatusVerified   IdentityVerificationStatus = "verified"
+)
+
+// Interval describes the payout interval.
+type PayoutInterval string
+
+const (
+	PayoutIntervalDay     PayoutInterval = "daily"
+	PayoutIntervalManual  PayoutInterval = "manual"
+	PayoutIntervalMonthly PayoutInterval = "monthly"
+	PayoutIntervalWeekly  PayoutInterval = "weekly"
+)
+
+const (
+	AccountRejectReasonFraud          string = "fraud"
+	AccountRejectReasonOther          string = "other"
+	AccountRejectReasonTermsOfService string = "terms_of_service"
 )
 
 // AccountParams are the parameters allowed during account creation/updates.
@@ -217,7 +231,7 @@ type Account struct {
 	ChargesEnabled        bool                 `json:"charges_enabled"`
 	Country               string               `json:"country"`
 	DebitNegativeBalances bool                 `json:"debit_negative_balances"`
-	DefaultCurrency       string               `json:"default_currency"`
+	DefaultCurrency       Currency             `json:"default_currency"`
 	Deleted               bool                 `json:"deleted"`
 	DetailsSubmitted      bool                 `json:"details_submitted"`
 	Email                 string               `json:"email"`
@@ -273,33 +287,6 @@ func (a *Account) UnmarshalJSON(data []byte) error {
 	}
 	return nil
 }
-
-// ExternalAccountType is the type of an external account.
-type ExternalAccountType string
-
-const (
-	// ExternalAccountTypeBankAccount is a constant value representing an external
-	// account which is a bank account.
-	ExternalAccountTypeBankAccount ExternalAccountType = "bank_account"
-
-	// ExternalAccountTypeCard is a constant value representing an external account
-	// which is a card.
-	ExternalAccountTypeCard ExternalAccountType = "card"
-)
-
-// AccountType is the type of an account.
-type AccountType string
-
-const (
-	// AccountTypeCustom is a constant value representing an account of type custom.
-	AccountTypeCustom AccountType = "custom"
-
-	// AccountTypeExpress is a constant value representing an account of type express.
-	AccountTypeExpress AccountType = "express"
-
-	// AccountTypeStandard is a constant value representing an account of type standard.
-	AccountTypeStandard AccountType = "standard"
-)
 
 // AccountList is a list of accounts as returned from a list endpoint.
 type AccountList struct {
@@ -369,7 +356,7 @@ type LegalEntity struct {
 	FirstName                string               `json:"first_name"`
 	FirstNameKana            string               `json:"first_name_kana"`
 	FirstNameKanji           string               `json:"first_name_kanji"`
-	Gender                   Gender               `json:"gender"`
+	Gender                   string               `json:"gender"`
 	LastName                 string               `json:"last_name"`
 	LastNameKana             string               `json:"last_name_kana"`
 	LastNameKanji            string               `json:"last_name_kanji"`
@@ -405,19 +392,15 @@ type DOB struct {
 	Year  int64 `json:"year"`
 }
 
-// Gender is the gender of an account owner. International regulations require
-// either “male” or “female”.
-type Gender string
-
 // AdditionalOwner is the structure for an account owner.
 type AdditionalOwner struct {
-	Address                  AccountAddress       `json:"address"`
-	DOB                      DOB                  `json:"dob"`
-	FirstName                string               `json:"first_name"`
-	LastName                 string               `json:"last_name"`
-	MaidenName               string               `json:"maiden_name"`
-	PersonalIDNumberProvided bool                 `json:"personal_id_number_provided"`
-	Verification             IdentityVerification `json:"verification"`
+	Address                  AccountAddress `json:"address"`
+	DOB                      DOB            `json:"dob"`
+	FirstName                string         `json:"first_name"`
+	LastName                 string         `json:"last_name"`
+	MaidenName               string         `json:"maiden_name"`
+	PersonalIDNumberProvided bool           `json:"personal_id_number_provided"`
+	Verification             string         `json:"verification"`
 }
 
 // IdentityVerification is the structure for an account's verification.
@@ -430,15 +413,13 @@ type IdentityVerification struct {
 
 // PayoutSchedule is the structure for an account's payout schedule.
 type PayoutSchedule struct {
-	DelayDays     int64    `json:"delay_days"`
-	Interval      Interval `json:"interval"`
-	MonthlyAnchor int64    `json:"monthly_anchor"`
-	WeeklyAnchor  string   `json:"weekly_anchor"`
+	DelayDays     int64          `json:"delay_days"`
+	Interval      PayoutInterval `json:"interval"`
+	MonthlyAnchor int64          `json:"monthly_anchor"`
+	WeeklyAnchor  string         `json:"weekly_anchor"`
 }
 
 // AccountRejectParams is the structure for the Reject function.
 type AccountRejectParams struct {
-	// Reason is the reason that an account was rejected. It should be given a
-	// value of one of `fraud`, `terms_of_service`, or `other`.
 	Reason *string `form:"reason"`
 }

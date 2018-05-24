@@ -8,11 +8,6 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-const (
-	ReportFraudulent stripe.FraudReport = "fraudulent"
-	ReportSafe       stripe.FraudReport = "safe"
-)
-
 // Client is used to invoke /charges APIs.
 type Client struct {
 	B   stripe.Backend
@@ -143,7 +138,7 @@ func (c Client) MarkFraudulent(id string) (*stripe.Charge, error) {
 		id,
 		&stripe.ChargeParams{
 			FraudDetails: &stripe.FraudDetailsParams{
-				UserReport: stripe.String(string(ReportFraudulent)),
+				UserReport: stripe.String(string(stripe.ChargeFraudUserReportFraudulent)),
 			},
 		},
 	)
@@ -159,7 +154,7 @@ func (c Client) MarkSafe(id string) (*stripe.Charge, error) {
 		id,
 		&stripe.ChargeParams{
 			FraudDetails: &stripe.FraudDetailsParams{
-				UserReport: stripe.String(string(ReportSafe)),
+				UserReport: stripe.String(string(stripe.ChargeFraudUserReportSafe)),
 			},
 		},
 	)

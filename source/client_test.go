@@ -20,7 +20,7 @@ func TestSourceNew(t *testing.T) {
 		Type:     stripe.String("bitcoin"),
 		Amount:   stripe.Int64(1000),
 		Currency: stripe.String(string(currency.USD)),
-		Flow:     stripe.String(string(stripe.FlowReceiver)),
+		Flow:     stripe.String(string(stripe.SourceFlowReceiver)),
 		Owner: &stripe.SourceOwnerParams{
 			Email: stripe.String("jenny.rosen@example.com"),
 		},
@@ -52,7 +52,7 @@ func TestSourceSharing(t *testing.T) {
 		Type:           stripe.String("card"),
 		Customer:       stripe.String("cus_123"),
 		OriginalSource: stripe.String("src_123"),
-		Usage:          stripe.String(string(stripe.UsageReusable)),
+		Usage:          stripe.String(string(stripe.SourceUsageReusable)),
 	}
 	params.SetStripeAccount("acct_123")
 	source, err := New(params)

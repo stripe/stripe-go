@@ -15,14 +15,6 @@ type Client struct {
 	Key string
 }
 
-const (
-	NewAccount                stripe.BankAccountStatus = "new"
-	VerificationFAiledAccount stripe.BankAccountStatus = "verification_failed"
-	VerifiedAccount           stripe.BankAccountStatus = "verified"
-	ValidatedAccount          stripe.BankAccountStatus = "validated"
-	ErroredAccount            stripe.BankAccountStatus = "errored"
-)
-
 // New POSTs a new bank account.
 func New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	return getC().New(params)

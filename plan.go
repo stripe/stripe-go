@@ -7,41 +7,44 @@ import (
 )
 
 // PlanInterval is the list of allowed values for a plan's interval.
-// Allowed values are "day", "week", "month", "year".
 type PlanInterval string
 
 const (
-	// PlanBillingSchemeTiered indicates that the price per single unit is tiered
-	// and can change with the total number of units.
-	PlanBillingSchemeTiered string = "tiered"
-	// PlanBillingSchemePerUnit indicates that each unit is billed at a fixed
-	// price.
-	PlanBillingSchemePerUnit string = "per_unit"
+	PlanIntervalDay   PlanInterval = "day"
+	PlanIntervalWeek  PlanInterval = "week"
+	PlanIntervalMonth PlanInterval = "month"
+	PlanIntervalYear  PlanInterval = "year"
 )
 
-const (
-	// PlanUsageTypeLicensed indicates that the set Quantity on a subscription item
-	// will be used to bill for a subscription.
-	PlanUsageTypeLicensed string = "licensed"
-	// PlanUsageTypeMetered indicates that usage records must be reported instead
-	// of setting a Quantity on a subscription item.
-	PlanUsageTypeMetered string = "metered"
-)
+// PlanBillingScheme is the list of allowed values for a plan's billing scheme.
+type PlanBillingScheme string
 
 const (
-	// PlanTransformUsageModeRoundDown represents a bucket billing configuration: a partially
-	// filled bucket will count as an empty bucket.
-	PlanTransformUsageModeRoundDown string = "round_down"
-	// PlanTransformUsageModeRoundUp represents a bucket billing configuration: a partially
-	// filled bucket will count as a full bucket.
-	PlanTransformUsageModeRoundUp string = "round_up"
+	PlanBillingSchemePerUnit PlanBillingScheme = "per_unit"
+	PlanBillingSchemeTiered  PlanBillingScheme = "tiered"
+)
+
+// PlanUsageType is the list of allowed values for a plan's usage type.
+type PlanUsageType string
+
+const (
+	PlanUsageTypeLicensed PlanUsageType = "licensed"
+	PlanUsageTypeMetered  PlanUsageType = "metered"
+)
+
+// PlanTransformUsageRound is the list of allowed values for a plan's transform usage round logic.
+type PlanTransformUsageRound string
+
+const (
+	PlanTransformUsageRoundDown PlanTransformUsageRound = "down"
+	PlanTransformUsageRoundUp   PlanTransformUsageRound = "up"
 )
 
 // Plan is the resource representing a Stripe plan.
 // For more details see https://stripe.com/docs/api#plans.
 type Plan struct {
 	Amount          int64               `json:"amount"`
-	BillingScheme   string              `json:"billing_scheme"`
+	BillingScheme   PlanBillingScheme   `json:"billing_scheme"`
 	Created         int64               `json:"created"`
 	Currency        Currency            `json:"currency"`
 	Deleted         bool                `json:"deleted"`
@@ -56,7 +59,7 @@ type Plan struct {
 	TiersMode       string              `json:"tiers_mode"`
 	TransformUsage  *PlanTransformUsage `json:"transform_usage"`
 	TrialPeriodDays int64               `json:"trial_period_days"`
-	UsageType       string              `json:"usage_type"`
+	UsageType       PlanUsageType       `json:"usage_type"`
 }
 
 // PlanList is a list of plans as returned from a list endpoint.
@@ -101,8 +104,8 @@ type PlanTier struct {
 
 // PlanTransformUsage represents the bucket billing configuration.
 type PlanTransformUsage struct {
-	DivideBy int64  `json:"bucket_size"`
-	Round    string `json:"round"`
+	DivideBy int64                   `json:"bucket_size"`
+	Round    PlanTransformUsageRound `json:"round"`
 }
 
 // PlanTransformUsageParams represents the bucket billing configuration.

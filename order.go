@@ -8,11 +8,29 @@ import (
 type OrderStatus string
 
 const (
-	StatusCanceled  OrderStatus = "canceled"
-	StatusCreated   OrderStatus = "created"
-	StatusFulfilled OrderStatus = "fulfilled"
-	StatusPaid      OrderStatus = "paid"
-	StatusReturned  OrderStatus = "returned"
+	OrderStatusCanceled  OrderStatus = "canceled"
+	OrderStatusCreated   OrderStatus = "created"
+	OrderStatusFulfilled OrderStatus = "fulfilled"
+	OrderStatusPaid      OrderStatus = "paid"
+	OrderStatusReturned  OrderStatus = "returned"
+)
+
+// OrderDeliveryEstimateType represents the type of delivery estimate for shipping methods
+type OrderDeliveryEstimateType string
+
+const (
+	OrderDeliveryEstimateTypeExact OrderDeliveryEstimateType = "exact"
+	OrderDeliveryEstimateTypeRange OrderDeliveryEstimateType = "range"
+)
+
+// OrderItemType represents the type of order item
+type OrderItemType string
+
+const (
+	OrderItemTeypeDiscount OrderItemType = "discount"
+	OrderItemTeypeShipping OrderItemType = "shipping"
+	OrderItemTeypeSKU      OrderItemType = "sku"
+	OrderItemTeypeTax      OrderItemType = "tax"
 )
 
 type OrderParams struct {
@@ -67,20 +85,13 @@ type ShippingMethod struct {
 	Description      string            `json:"description"`
 }
 
-type EstimateType string
-
-const (
-	Exact EstimateType = "exact"
-	Range EstimateType = "range"
-)
-
 type DeliveryEstimate struct {
 	// If Type == Exact
 	Date string `json:"date"`
 	// If Type == Range
-	Earliest string       `json:"earliest"`
-	Latest   string       `json:"latest"`
-	Type     EstimateType `json:"type"`
+	Earliest string                    `json:"earliest"`
+	Latest   string                    `json:"latest"`
+	Type     OrderDeliveryEstimateType `json:"type"`
 }
 
 type Order struct {
@@ -101,7 +112,7 @@ type Order struct {
 	SelectedShippingMethod *string           `json:"selected_shipping_method"`
 	Shipping               Shipping          `json:"shipping"`
 	ShippingMethods        []ShippingMethod  `json:"shipping_methods"`
-	Status                 OrderStatus       `json:"status"`
+	Status                 string            `json:"status"`
 	StatusTransitions      StatusTransitions `json:"status_transitions"`
 	Updated                int64             `json:"updated"`
 }
@@ -142,6 +153,24 @@ type OrderPayParams struct {
 	Customer       *string       `form:"customer"`
 	Email          *string       `form:"email"`
 	Source         *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+}
+
+type OrderItemParams struct {
+	Amount      *int64  `form:"amount"`
+	Currency    *string `form:"currency"`
+	Description *string `form:"description"`
+	Parent      *string `form:"parent"`
+	Quantity    *int64  `form:"quantity"`
+	Type        *string `form:"type"`
+}
+
+type OrderItem struct {
+	Amount      int64         `json:"amount"`
+	Currency    Currency      `json:"currency"`
+	Description string        `json:"description"`
+	Parent      string        `json:"parent"`
+	Quantity    int64         `json:"quantity"`
+	Type        OrderItemType `json:"type"`
 }
 
 // SetSource adds valid sources to a OrderParams object,

@@ -9,11 +9,6 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-const (
-	DisputeEvidenceFile stripe.FileUploadPurpose = "dispute_evidence"
-	IdentityDocFile     stripe.FileUploadPurpose = "identity_document"
-)
-
 // Client is used to invoke file upload APIs.
 type Client struct {
 	B   stripe.Backend

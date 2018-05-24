@@ -6,25 +6,6 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-const (
-	BalanceTransactionAvailable stripe.BalanceTransactionStatus = "available"
-	BalanceTransactionPending   stripe.BalanceTransactionStatus = "pending"
-
-	BalanceTransactionCharge                  stripe.BalanceTransactionType = "charge"
-	BalanceTransactionRefund                  stripe.BalanceTransactionType = "refund"
-	BalanceTransactionAdjust                  stripe.BalanceTransactionType = "adjustment"
-	BalanceTransactionAppFee                  stripe.BalanceTransactionType = "application_fee"
-	BalanceTransactionFeeRefund               stripe.BalanceTransactionType = "application_fee_refund"
-	BalanceTransactionRecipientTransfer       stripe.BalanceTransactionType = "recipient_transfer"
-	BalanceTransactionRecipientTransferCancel stripe.BalanceTransactionType = "recipient_transfer_cancel"
-	BalanceTransactionRecipientTransferFail   stripe.BalanceTransactionType = "recipient_transfer_failure"
-	BalanceTransactionPayout                  stripe.BalanceTransactionType = "payout"
-	BalanceTransactionPayoutCancel            stripe.BalanceTransactionType = "payout_cancel"
-	BalanceTransactionPayoutFail              stripe.BalanceTransactionType = "payout_failure"
-	BalanceTransactionTransfer                stripe.BalanceTransactionType = "transfer"
-	BalanceTransactionTransferCancel          stripe.BalanceTransactionType = "transfer_refund"
-)
-
 // Client is used to invoke /balance and transaction-related APIs.
 type Client struct {
 	B   stripe.Backend

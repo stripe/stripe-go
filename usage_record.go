@@ -1,14 +1,8 @@
 package stripe
 
 const (
-	// UsageRecordParamsActionIncrement indicates that if two usage records conflict
-	// (i.E. are reported a the same timestamp), their Quantity will be summed
-	UsageRecordParamsActionIncrement string = "increment"
-
-	// UsageRecordParamsActionSet indicates that if two usage records conflict
-	// (i.E. are reported a the same timestamp), the Quantity of the most recent
-	// usage record will overwrite any other quantity.
-	UsageRecordParamsActionSet string = "set"
+	UsageRecordActionIncrement string = "increment"
+	UsageRecordActionSet       string = "set"
 )
 
 // UsageRecord represents a usage record.

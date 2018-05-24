@@ -8,33 +8,6 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-const (
-	Canceled stripe.PayoutStatus = "canceled"
-	Failed   stripe.PayoutStatus = "failed"
-	Paid     stripe.PayoutStatus = "paid"
-	Pending  stripe.PayoutStatus = "pending"
-	Transit  stripe.PayoutStatus = "in_transit"
-
-	Bank stripe.PayoutType = "bank_account"
-	Card stripe.PayoutType = "card"
-
-	SourceAlipay  stripe.PayoutSourceType = "alipay_account"
-	SourceBank    stripe.PayoutSourceType = "bank_account"
-	SourceBitcoin stripe.PayoutSourceType = "bitcoin_receiver"
-	SourceCard    stripe.PayoutSourceType = "card"
-
-	AccountClosed        stripe.PayoutFailureCode = "account_closed"
-	AccountFrozen        stripe.PayoutFailureCode = "account_frozen"
-	BankAccountRestrict  stripe.PayoutFailureCode = "bank_account_restricted"
-	BankOwnerChanged     stripe.PayoutFailureCode = "bank_ownership_changed"
-	CouldNotProcess      stripe.PayoutFailureCode = "could_not_process"
-	DebitNotAuth         stripe.PayoutFailureCode = "debit_not_authorized"
-	InsufficientFunds    stripe.PayoutFailureCode = "insufficient_funds"
-	InvalidAccountNumber stripe.PayoutFailureCode = "invalid_account_number"
-	InvalidCurrency      stripe.PayoutFailureCode = "invalid_currency"
-	NoAccount            stripe.PayoutFailureCode = "no_account"
-)
-
 // Client is used to invoke /payouts APIs.
 type Client struct {
 	B   stripe.Backend

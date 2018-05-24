@@ -2,6 +2,24 @@ package stripe
 
 import "encoding/json"
 
+// SKUInventoryType describe's the possible value for inventory type
+type SKUInventoryType string
+
+const (
+	SKUInventoryTypeBucket   SKUInventoryType = "bucket"
+	SKUInventoryTypeFinite   SKUInventoryType = "finite"
+	SKUInventoryTypeInfinite SKUInventoryType = "infinite"
+)
+
+// SKUInventoryValue describe's the possible value for inventory value
+type SKUInventoryValue string
+
+const (
+	SKUInventoryValueInStock    SKUInventoryValue = "in_stock"
+	SKUInventoryValueLimited    SKUInventoryValue = "limited"
+	SKUInventoryValueOutOfStock SKUInventoryValue = "out_of_stock"
+)
+
 type InventoryParams struct {
 	Quantity *int64  `form:"quantity"`
 	Type     *string `form:"type"`
@@ -23,9 +41,9 @@ type SKUParams struct {
 }
 
 type Inventory struct {
-	Quantity int64  `json:"quantity"`
-	Type     string `json:"type"`
-	Value    string `json:"value"`
+	Quantity int64             `json:"quantity"`
+	Type     SKUInventoryType  `json:"type"`
+	Value    SKUInventoryValue `json:"value"`
 }
 
 type SKU struct {

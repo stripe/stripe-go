@@ -32,7 +32,7 @@ func TestPaymentSource_MarshalJSON(t *testing.T) {
 		id := "card_123"
 		name := "alice cooper"
 		paymentSource := &PaymentSource{
-			Type: PaymentSourceCard,
+			Type: PaymentSourceTypeCard,
 			ID:   id,
 			Card: &Card{
 				ID:   id,
@@ -58,7 +58,7 @@ func TestPaymentSource_MarshalJSON(t *testing.T) {
 		id := "ba_123"
 		name := "big bank"
 		paymentSource := &PaymentSource{
-			Type: PaymentSourceBankAccount,
+			Type: PaymentSourceTypeBankAccount,
 			ID:   id,
 			BankAccount: &BankAccount{
 				ID:                id,
