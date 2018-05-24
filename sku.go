@@ -72,7 +72,7 @@ type SKUListParams struct {
 	ListParams `form:"*"`
 	Active     *bool             `form:"active"`
 	Attributes map[string]string `form:"attributes"`
-	IDs        []string          `form:"ids"`
+	IDs        []*string         `form:"ids"`
 	InStock    *bool             `form:"in_stock"`
 	Product    *string           `form:"product"`
 }

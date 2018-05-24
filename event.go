@@ -51,7 +51,7 @@ type EventListParams struct {
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 	Type         *string           `form:"type"`
-	Types        []string          `form:"types"`
+	Types        []*string         `form:"types"`
 }
 
 // GetObjectValue returns the value from the e.Data.Object bag based on the keys hierarchy.

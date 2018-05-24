@@ -49,7 +49,7 @@ func TestAccountNew(t *testing.T) {
 		LegalEntity: &stripe.LegalEntityParams{
 			Type:         stripe.String(string(stripe.LegalEntityTypeIndividual)),
 			BusinessName: stripe.String("Stripe Go"),
-			AdditionalOwners: []stripe.AdditionalOwnerParams{
+			AdditionalOwners: []*stripe.AdditionalOwnerParams{
 				{
 					FirstName: stripe.String("Jane"),
 					Verification: &stripe.IdentityVerificationParams{

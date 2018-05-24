@@ -26,12 +26,12 @@ type PackageDimensionsParams struct {
 type ProductParams struct {
 	Params              `form:"*"`
 	Active              *bool                    `form:"active"`
-	Attributes          []string                 `form:"attributes"`
+	Attributes          []*string                `form:"attributes"`
 	Caption             *string                  `form:"caption"`
-	DeactivateOn        []string                 `form:"deactivate_on"`
+	DeactivateOn        []*string                `form:"deactivate_on"`
 	Description         *string                  `form:"description"`
 	ID                  *string                  `form:"id"`
-	Images              []string                 `form:"images"`
+	Images              []*string                `form:"images"`
 	Name                *string                  `form:"name"`
 	PackageDimensions   *PackageDimensionsParams `form:"package_dimensions"`
 	Shippable           *bool                    `form:"shippable"`
@@ -83,10 +83,10 @@ type ProductList struct {
 // https://stripe.com/docs/api#list_products.
 type ProductListParams struct {
 	ListParams `form:"*"`
-	Active     *bool    `form:"active"`
-	IDs        []string `form:"ids"`
-	Shippable  *bool    `form:"shippable"`
-	URL        *string  `form:"url"`
+	Active     *bool     `form:"active"`
+	IDs        []*string `form:"ids"`
+	Shippable  *bool     `form:"shippable"`
+	URL        *string   `form:"url"`
 }
 
 // UnmarshalJSON handles deserialization of a Product.
