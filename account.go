@@ -343,32 +343,32 @@ func (ea *ExternalAccount) UnmarshalJSON(b []byte) error {
 
 // LegalEntity is the structure for properties related to an account's legal state.
 type LegalEntity struct {
-	AdditionalOwners         []AdditionalOwner    `json:"additional_owners"`
-	Address                  AccountAddress       `json:"address"`
-	AddressKana              AccountAddress       `json:"address_kana"`
-	AddressKanji             AccountAddress       `json:"address_kanji"`
-	BusinessName             string               `json:"business_name"`
-	BusinessNameKana         string               `json:"business_name_kana"`
-	BusinessNameKanji        string               `json:"business_name_kanji"`
-	BusinessTaxIDProvided    bool                 `json:"business_tax_id_provided"`
-	BusinessVATIDProvided    bool                 `json:"business_vat_id_provided"`
-	DOB                      DOB                  `json:"dob"`
-	FirstName                string               `json:"first_name"`
-	FirstNameKana            string               `json:"first_name_kana"`
-	FirstNameKanji           string               `json:"first_name_kanji"`
-	Gender                   string               `json:"gender"`
-	LastName                 string               `json:"last_name"`
-	LastNameKana             string               `json:"last_name_kana"`
-	LastNameKanji            string               `json:"last_name_kanji"`
-	MaidenName               string               `json:"maiden_name"`
-	PersonalAddress          AccountAddress       `json:"personal_address"`
-	PersonalAddressKana      AccountAddress       `json:"personal_address_kana"`
-	PersonalAddressKanji     AccountAddress       `json:"personal_address_kanji"`
-	PersonalIDNumberProvided bool                 `json:"personal_id_number_provided"`
-	PhoneNumber              string               `json:"phone_number"`
-	SSNLast4Provided         bool                 `json:"ssn_last_4_provided"`
-	Type                     LegalEntityType      `json:"type"`
-	Verification             IdentityVerification `json:"verification"`
+	AdditionalOwners         []*AdditionalOwner    `json:"additional_owners"`
+	Address                  *AccountAddress       `json:"address"`
+	AddressKana              *AccountAddress       `json:"address_kana"`
+	AddressKanji             *AccountAddress       `json:"address_kanji"`
+	BusinessName             string                `json:"business_name"`
+	BusinessNameKana         string                `json:"business_name_kana"`
+	BusinessNameKanji        string                `json:"business_name_kanji"`
+	BusinessTaxIDProvided    bool                  `json:"business_tax_id_provided"`
+	BusinessVATIDProvided    bool                  `json:"business_vat_id_provided"`
+	DOB                      *DOB                  `json:"dob"`
+	FirstName                string                `json:"first_name"`
+	FirstNameKana            string                `json:"first_name_kana"`
+	FirstNameKanji           string                `json:"first_name_kanji"`
+	Gender                   string                `json:"gender"`
+	LastName                 string                `json:"last_name"`
+	LastNameKana             string                `json:"last_name_kana"`
+	LastNameKanji            string                `json:"last_name_kanji"`
+	MaidenName               string                `json:"maiden_name"`
+	PersonalAddress          *AccountAddress       `json:"personal_address"`
+	PersonalAddressKana      *AccountAddress       `json:"personal_address_kana"`
+	PersonalAddressKanji     *AccountAddress       `json:"personal_address_kanji"`
+	PersonalIDNumberProvided bool                  `json:"personal_id_number_provided"`
+	PhoneNumber              string                `json:"phone_number"`
+	SSNLast4Provided         bool                  `json:"ssn_last_4_provided"`
+	Type                     LegalEntityType       `json:"type"`
+	Verification             *IdentityVerification `json:"verification"`
 }
 
 // Address is the structure for an account address.
@@ -394,13 +394,13 @@ type DOB struct {
 
 // AdditionalOwner is the structure for an account owner.
 type AdditionalOwner struct {
-	Address                  AccountAddress `json:"address"`
-	DOB                      DOB            `json:"dob"`
-	FirstName                string         `json:"first_name"`
-	LastName                 string         `json:"last_name"`
-	MaidenName               string         `json:"maiden_name"`
-	PersonalIDNumberProvided bool           `json:"personal_id_number_provided"`
-	Verification             string         `json:"verification"`
+	Address                  *AccountAddress `json:"address"`
+	DOB                      DOB             `json:"dob"`
+	FirstName                string          `json:"first_name"`
+	LastName                 string          `json:"last_name"`
+	MaidenName               string          `json:"maiden_name"`
+	PersonalIDNumberProvided bool            `json:"personal_id_number_provided"`
+	Verification             string          `json:"verification"`
 }
 
 // IdentityVerification is the structure for an account's verification.

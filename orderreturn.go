@@ -3,14 +3,14 @@ package stripe
 import "encoding/json"
 
 type OrderReturn struct {
-	Amount   int64       `json:"amount"`
-	Created  int64       `json:"created"`
-	Currency Currency    `json:"currency"`
-	ID       string      `json:"id"`
-	Items    []OrderItem `json:"items"`
-	Livemode bool        `json:"livemode"`
-	Order    Order       `json:"order"`
-	Refund   *Refund     `json:"refund"`
+	Amount   int64        `json:"amount"`
+	Created  int64        `json:"created"`
+	Currency Currency     `json:"currency"`
+	ID       string       `json:"id"`
+	Items    []*OrderItem `json:"items"`
+	Livemode bool         `json:"livemode"`
+	Order    *Order       `json:"order"`
+	Refund   *Refund      `json:"refund"`
 }
 
 // OrderReturnList is a list of returns as retrieved from a list endpoint.

@@ -50,7 +50,7 @@ type Transfer struct {
 	BalanceTransaction *BalanceTransaction       `json:"balance_transaction"`
 	Created            int64                     `json:"created"`
 	Currency           Currency                  `json:"currency"`
-	Destination        TransferDestination       `json:"destination"`
+	Destination        *TransferDestination      `json:"destination"`
 	DestinationPayment *Charge                   `json:"destination_payment"`
 	ID                 string                    `json:"id"`
 	Livemode           bool                      `json:"livemode"`

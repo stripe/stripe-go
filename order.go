@@ -70,11 +70,11 @@ type OrderReturnParams struct {
 }
 
 type Shipping struct {
-	Address        Address `json:"address"`
-	Carrier        string  `json:"carrier"`
-	Name           string  `json:"name"`
-	Phone          string  `json:"phone"`
-	TrackingNumber string  `json:"tracking_number"`
+	Address        *Address `json:"address"`
+	Carrier        string   `json:"carrier"`
+	Name           string   `json:"name"`
+	Phone          string   `json:"phone"`
+	TrackingNumber string   `json:"tracking_number"`
 }
 
 type ShippingMethod struct {
@@ -99,19 +99,19 @@ type Order struct {
 	AmountReturned         int64             `json:"amount_returned"`
 	Application            string            `json:"application"`
 	ApplicationFee         int64             `json:"application_fee"`
-	Charge                 Charge            `json:"charge"`
+	Charge                 *Charge           `json:"charge"`
 	Created                int64             `json:"created"`
 	Currency               Currency          `json:"currency"`
 	Customer               Customer          `json:"customer"`
 	Email                  string            `json:"email"`
 	ID                     string            `json:"id"`
-	Items                  []OrderItem       `json:"items"`
+	Items                  []*OrderItem      `json:"items"`
 	Livemode               bool              `json:"livemode"`
 	Metadata               map[string]string `json:"metadata"`
 	Returns                *OrderReturnList  `json:"returns"`
 	SelectedShippingMethod *string           `json:"selected_shipping_method"`
-	Shipping               Shipping          `json:"shipping"`
-	ShippingMethods        []ShippingMethod  `json:"shipping_methods"`
+	Shipping               *Shipping         `json:"shipping"`
+	ShippingMethods        []*ShippingMethod `json:"shipping_methods"`
 	Status                 string            `json:"status"`
 	StatusTransitions      StatusTransitions `json:"status_transitions"`
 	Updated                int64             `json:"updated"`

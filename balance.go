@@ -92,9 +92,9 @@ type BalanceTransactionListParams struct {
 // Balance is the resource representing your Stripe balance.
 // For more details see https://stripe.com/docs/api/#balance.
 type Balance struct {
-	Available []Amount `json:"available"`
-	Livemode  bool     `json:"livemode"`
-	Pending   []Amount `json:"pending"`
+	Available []*Amount `json:"available"`
+	Livemode  bool      `json:"livemode"`
+	Pending   []*Amount `json:"pending"`
 }
 
 // BalanceTransaction is the resource representing the balance transaction.
@@ -107,7 +107,7 @@ type BalanceTransaction struct {
 	Description string                   `json:"description"`
 	ID          string                   `json:"id"`
 	Fee         int64                    `json:"fee"`
-	FeeDetails  []BalanceTransactionFee  `json:"fee_details"`
+	FeeDetails  []*BalanceTransactionFee `json:"fee_details"`
 	Net         int64                    `json:"net"`
 	Recipient   string                   `json:"recipient"`
 	Source      string                   `json:"source"`

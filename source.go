@@ -165,10 +165,10 @@ type SourceMandateAcceptance struct {
 }
 
 type SourceMandate struct {
-	Acceptance         SourceMandateAcceptance `json:"acceptance"`
-	NotificationMethod string                  `json:"notification_method"`
-	Reference          string                  `json:"reference"`
-	URL                string                  `json:"url"`
+	Acceptance         *SourceMandateAcceptance `json:"acceptance"`
+	NotificationMethod string                   `json:"notification_method"`
+	Reference          string                   `json:"reference"`
+	URL                string                   `json:"url"`
 }
 
 type Source struct {
@@ -180,9 +180,9 @@ type Source struct {
 	Flow                SourceFlow            `json:"flow"`
 	ID                  string                `json:"id"`
 	Livemode            bool                  `json:"livemode"`
-	Mandate             SourceMandate         `json:"mandate"`
+	Mandate             *SourceMandate        `json:"mandate"`
 	Metadata            map[string]string     `json:"metadata"`
-	Owner               SourceOwner           `json:"owner"`
+	Owner               *SourceOwner          `json:"owner"`
 	Receiver            *ReceiverFlow         `json:"receiver,omitempty"`
 	Redirect            *RedirectFlow         `json:"redirect,omitempty"`
 	StatementDescriptor string                `json:"statement_descriptor"`

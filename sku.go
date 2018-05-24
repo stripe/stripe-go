@@ -54,12 +54,12 @@ type SKU struct {
 	Description       string             `json:"description"`
 	ID                string             `json:"id"`
 	Image             string             `json:"image"`
-	Inventory         Inventory          `json:"inventory"`
+	Inventory         *Inventory         `json:"inventory"`
 	Livemode          bool               `json:"livemode"`
 	Metadata          map[string]string  `json:"metadata"`
 	PackageDimensions *PackageDimensions `json:"package_dimensions"`
 	Price             int64              `json:"price"`
-	Product           Product            `json:"product"`
+	Product           *Product           `json:"product"`
 	Updated           int64              `json:"updated"`
 }
 

@@ -33,7 +33,7 @@ func TestShipping_MarshalJSON(t *testing.T) {
 			Phone:          "phone",
 			Carrier:        "USPS",
 			TrackingNumber: "tracking.123",
-			Address: Address{
+			Address: &Address{
 				Line1:   "123 Market Street",
 				City:    "San Francisco",
 				State:   "CA",

@@ -174,11 +174,11 @@ type ChargeOutcome struct {
 
 // ShippingDetails is the structure containing shipping information.
 type ShippingDetails struct {
-	Address        Address `json:"address"`
-	Carrier        string  `json:"carrier"`
-	Name           string  `json:"name"`
-	Phone          string  `json:"phone"`
-	TrackingNumber string  `json:"tracking_number"`
+	Address        *Address `json:"address"`
+	Carrier        string   `json:"carrier"`
+	Name           string   `json:"name"`
+	Phone          string   `json:"phone"`
+	TrackingNumber string   `json:"tracking_number"`
 }
 
 var depth int = -1
