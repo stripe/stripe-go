@@ -1,5 +1,8 @@
 # Changelog
 
+## 30.8.1 - 2018-05-24
+* [#562](https://github.com/stripe/stripe-go/pull/562) Add `go.mod` for vgo support
+
 ## 30.8.0 - 2018-05-22
 * [#558](https://github.com/stripe/stripe-go/pull/558) Add `SubscriptionItem` to `InvoiceLine`
 
