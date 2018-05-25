@@ -106,7 +106,7 @@ func (c Client) Detach(id string, params *stripe.SourceObjectDetachParams) (*str
 	var err error
 
 	if params.Customer != nil {
-		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", params.Customer, id), c.Key, body, commonParams, source)
+		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, source)
 	} else {
 		err = errors.New("Invalid source detach params: Customer needs to be set")
 	}

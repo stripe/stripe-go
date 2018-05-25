@@ -157,7 +157,7 @@ func (c Client) ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 
 	return &LineIter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceLineList{}
-		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.ID), c.Key, b, p, list)
+		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", stripe.StringValue(params.ID)), c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
