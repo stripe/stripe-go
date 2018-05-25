@@ -51,7 +51,7 @@ Below are a few simple examples:
 ```go
 params := &stripe.CustomerParams{
 	Balance: stripe.Int64(-123),
-	Description:  stripe.String("Stripe Developer"),
+	Description: stripe.String("Stripe Developer"),
 	Email: stripe.String("gostripe@stripe.com"),
 }
 params.SetSource("tok_1234")
