@@ -10,8 +10,8 @@ import (
 type RecipientType string
 
 const (
-	RecipientTypeIndividual RecipientType = "individual"
-	RecipientTypeCorp       RecipientType = "corporation"
+	RecipientTypeIndividual  RecipientType = "individual"
+	RecipientTypeCorporation RecipientType = "corporation"
 )
 
 // RecipientParams is the set of parameters that can be used when creating or updating recipients.

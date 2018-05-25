@@ -50,8 +50,8 @@ const (
 type RecipientTransferType string
 
 const (
-	RecipientTransferTypeBank RecipientTransferType = "bank_account"
-	RecipientTransferTypeCard RecipientTransferType = "card"
+	RecipientTransferTypeBankAccount RecipientTransferType = "bank_account"
+	RecipientTransferTypeCard        RecipientTransferType = "card"
 )
 
 // RecipientTransferMethodType represents the type of recipient_transfer

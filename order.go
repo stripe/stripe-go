@@ -27,10 +27,10 @@ const (
 type OrderItemType string
 
 const (
-	OrderItemTeypeDiscount OrderItemType = "discount"
-	OrderItemTeypeShipping OrderItemType = "shipping"
-	OrderItemTeypeSKU      OrderItemType = "sku"
-	OrderItemTeypeTax      OrderItemType = "tax"
+	OrderItemTypeDiscount OrderItemType = "discount"
+	OrderItemTypeShipping OrderItemType = "shipping"
+	OrderItemTypeSKU      OrderItemType = "sku"
+	OrderItemTypeTax      OrderItemType = "tax"
 )
 
 type OrderParams struct {

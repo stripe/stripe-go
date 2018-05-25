@@ -158,7 +158,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
         chargeParams := &stripe.ChargeParams{
             Amount: stripe.Int64(2000),
             Currency: stripe.String(string(stripe.CurrencyUSD)),
-            Desc: stripe.String("Charge from Google App Engine"),
+            Description: stripe.String("Charge from Google App Engine"),
         }
         chargeParams.SetSource("tok_amex") // obtained with Stripe.js
         charge, err := sc.Charges.New(chargeParams)
