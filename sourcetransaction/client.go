@@ -35,7 +35,7 @@ func (c Client) List(params *stripe.SourceTransactionListParams) *Iter {
 		var err error
 
 		if params != nil && params.Source != nil {
-			err = c.B.Call("GET", fmt.Sprintf("/sources/%v/source_transactions", params.Source), c.Key, b, p, list)
+			err = c.B.Call("GET", fmt.Sprintf("/sources/%v/source_transactions", stripe.StringValue(params.Source)), c.Key, b, p, list)
 		} else {
 			err = errors.New("Invalid source transaction params: Source needs to be set")
 		}
