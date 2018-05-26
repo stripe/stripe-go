@@ -65,15 +65,15 @@ type SubscriptionCancelParams struct {
 // "now" value for billing_cycle_anchor and trial_end can be implemented
 // (they're otherwise timestamps rather than strings).
 func (p *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
-	if p.BillingCycleAnchorNow != nil {
+	if BoolValue(p.BillingCycleAnchorNow) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "now")
 	}
 
-	if p.BillingCycleAnchorUnchanged != nil {
+	if BoolValue(p.BillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
 	}
 
-	if p.TrialEndNow != nil {
+	if BoolValue(p.TrialEndNow) {
 		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
 	}
 }
