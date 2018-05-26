@@ -87,7 +87,7 @@ type PlanParams struct {
 	Interval        *string                   `form:"interval"`
 	IntervalCount   *int64                    `form:"interval_count"`
 	Nickname        *string                   `form:"nickname"`
-	Product         *ProductParams            `form:"product"`
+	Product         *PlanProductParams        `form:"product"`
 	ProductID       *string                   `form:"product"`
 	Tiers           []*PlanTierParams         `form:"tiers,indexed"`
 	TiersMode       *string                   `form:"tiers_mode"`

@@ -39,11 +39,10 @@ func TestPlanListParams_AppendTo_Empty(t *testing.T) {
 }
 
 func TestPlanParams_AppendTo(t *testing.T) {
-	productParams := ProductParams{
+	productParams := PlanProductParams{
 		ID:                  String("ID"),
 		Name:                String("Sapphire Elite"),
 		StatementDescriptor: String("SAPPHIRE"),
-		Type:                String(string(ProductTypeService)),
 	}
 	tiers := []*PlanTierParams{
 		{Amount: Int64(123), UpTo: Int64(321)},

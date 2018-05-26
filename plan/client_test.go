@@ -35,11 +35,10 @@ func TestPlanNew(t *testing.T) {
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
 		ID:       stripe.String("sapphire-elite"),
 		Interval: stripe.String(string(stripe.PlanIntervalMonth)),
-		Product: &stripe.ProductParams{
+		Product: &stripe.PlanProductParams{
 			ID:                  stripe.String("plan_id"),
 			Name:                stripe.String("Sapphire Elite"),
 			StatementDescriptor: stripe.String("statement descriptor"),
-			Type:                stripe.String(string(stripe.ProductTypeService)),
 		},
 	})
 	assert.Nil(t, err)
