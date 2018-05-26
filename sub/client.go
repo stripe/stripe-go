@@ -82,11 +82,11 @@ func (c Client) Update(id string, params *stripe.SubscriptionParams) (*stripe.Su
 
 // Cancel removes a subscription.
 // For more details see https://stripe.com/docs/api#cancel_subscription.
-func Cancel(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
+func Cancel(id string, params *stripe.SubscriptionCancelParams) (*stripe.Subscription, error) {
 	return getC().Cancel(id, params)
 }
 
-func (c Client) Cancel(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
+func (c Client) Cancel(id string, params *stripe.SubscriptionCancelParams) (*stripe.Subscription, error) {
 	var body *form.Values
 	var commonParams *stripe.Params
 

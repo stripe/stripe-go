@@ -35,6 +35,7 @@ type SubscriptionParams struct {
 	BillingCycleAnchor          *int64                     `form:"billing_cycle_anchor"`
 	BillingCycleAnchorNow       *bool                      `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                      `form:"-"` // See custom AppendTo
+	CancelAtPeriodEnd           *bool                      `form:"cancel_at_period_end"`
 	Card                        *CardParams                `form:"card"`
 	Coupon                      *string                    `form:"coupon"`
 	Customer                    *string                    `form:"customer"`
@@ -51,9 +52,12 @@ type SubscriptionParams struct {
 	TrialEndNow                 *bool                      `form:"-"` // See custom AppendTo
 	TrialFromPlan               *bool                      `form:"trial_from_plan"`
 	TrialPeriodDays             *int64                     `form:"trial_period_days"`
+}
 
-	// Used for Cancel
-
+// SubscriptionCancelParams is the set of parameters that can be used when canceling a subscription.
+// For more details see https://stripe.com/docs/api#cancel_subscription
+type SubscriptionCancelParams struct {
+	Params      `form:"*"`
 	AtPeriodEnd *bool `form:"at_period_end"`
 }
 

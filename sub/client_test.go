@@ -10,7 +10,9 @@ import (
 )
 
 func TestSubscriptionCancel(t *testing.T) {
-	subscription, err := Cancel("sub_123", nil)
+	subscription, err := Cancel("sub_123", &stripe.SubscriptionCancelParams{
+		AtPeriodEnd: stripe.Bool(true),
+	})
 	assert.Nil(t, err)
 	assert.NotNil(t, subscription)
 }
