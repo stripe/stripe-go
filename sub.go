@@ -22,6 +22,7 @@ type SubParams struct {
 	BillingCycleAnchor          int64             `form:"billing_cycle_anchor"`
 	BillingCycleAnchorNow       bool              `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged bool              `form:"-"` // See custom AppendTo
+	CancelAtPeriodEnd           bool              `form:"cancel_at_period_end"`
 	Card                        *CardParams       `form:"card"`
 	Coupon                      string            `form:"coupon"`
 	CouponEmpty                 bool              `form:"coupon,empty"`
@@ -100,7 +101,7 @@ type Sub struct {
 	Customer           *Customer         `json:"customer"`
 	DaysUntilDue       uint64            `json:"days_until_due"`
 	Discount           *Discount         `json:"discount"`
-	EndCancel          bool              `json:"cancel_at_period_end"`
+	CancelAtPeriodEnd  bool              `json:"cancel_at_period_end"`
 	Ended              int64             `json:"ended_at"`
 	FeePercent         float64           `json:"application_fee_percent"`
 	ID                 string            `json:"id"`
