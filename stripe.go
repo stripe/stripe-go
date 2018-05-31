@@ -45,7 +45,7 @@ const TotalBackends = 2
 // one from `uname`.
 const UnknownPlatform = "unknown platform"
 
-// maxNetworkRetryDelay and minNetworkRetryDelay defines sleep time in milliseconds between
+// maxNetworkRetriesDelay and minNetworkRetriesDelay defines sleep time in milliseconds between
 // tries to send HTTP request again after network failure.
 const maxNetworkRetriesDelay = 5000 * time.Millisecond
 const minNetworkRetriesDelay = 500 * time.Millisecond
@@ -215,7 +215,7 @@ func SetBackend(backend SupportedBackend, b Backend) {
 	}
 }
 
-// SetMaxNetworkRetry sets max number of retries on failed requests
+// SetMaxNetworkRetries sets max number of retries on failed requests
 func (s *BackendConfiguration) SetMaxNetworkRetries(maxNetworkRetries int) {
 	s.MaxNetworkRetries = maxNetworkRetries
 }
@@ -539,11 +539,11 @@ func (s *BackendConfiguration) shouldRetry(err error, resp *http.Response, numRe
 
 // sleepTime calculates sleeping/delay time in milliseconds between failure and a new one request.
 func (s *BackendConfiguration) sleepTime(numRetries int) time.Duration {
-	// Apply exponential backoff with minNetworkRetryDelay on the
+	// Apply exponential backoff with minNetworkRetriesDelay on the
 	// number of num_retries so far as inputs.
 	delay := minNetworkRetriesDelay + minNetworkRetriesDelay*time.Duration(numRetries*numRetries)
 
-	// Do not allow the number to exceed maxNetworkRetryDelay.
+	// Do not allow the number to exceed maxNetworkRetriesDelay.
 	if delay > maxNetworkRetriesDelay {
 		delay = maxNetworkRetriesDelay
 	}
