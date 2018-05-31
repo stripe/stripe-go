@@ -47,8 +47,8 @@ const UnknownPlatform = "unknown platform"
 
 // maxNetworkRetryDelay and minNetworkRetryDelay defines sleep time in milliseconds between
 // tries to send HTTP request again after network failure.
-const maxNetworkRetryDelay = 5000
-const minNetworkRetryDelay = 500
+const maxNetworkRetriesDelay = 5000 * time.Millisecond
+const minNetworkRetriesDelay = 500 * time.Millisecond
 
 // AppInfo contains information about the "app" which this integration belongs
 // to. This should be reserved for plugins that wish to identify themselves
@@ -78,7 +78,7 @@ func (a *AppInfo) formatUserAgent() string {
 type Backend interface {
 	Call(method, path, key string, body *form.Values, params *Params, v interface{}) error
 	CallMultipart(method, path, key, boundary string, body io.Reader, params *Params, v interface{}) error
-	SetMaxNetworkRetry(maxNetworkRetry int)
+	SetMaxNetworkRetries(maxNetworkRetries int)
 }
 
 // BackendConfiguration is the internal implementation for making HTTP calls to Stripe.
@@ -216,8 +216,8 @@ func SetBackend(backend SupportedBackend, b Backend) {
 }
 
 // SetMaxNetworkRetry sets max number of retries on failed requests
-func (s *BackendConfiguration) SetMaxNetworkRetry(maxNetworkRetry int) {
-	s.MaxNetworkRetries = maxNetworkRetry
+func (s *BackendConfiguration) SetMaxNetworkRetries(maxNetworkRetries int) {
+	s.MaxNetworkRetries = maxNetworkRetries
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
@@ -263,6 +263,7 @@ func (s *BackendConfiguration) CallMultipart(method, path, key, boundary string,
 // NewRequest is used by Call to generate an http.Request. It handles encoding
 // parameters and attaching the appropriate headers.
 func (s *BackendConfiguration) NewRequest(method, path, key, contentType string, body io.Reader, params *Params) (*http.Request, error) {
+	method = strings.ToUpper(method)
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
@@ -296,7 +297,7 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 			}
 
 			req.Header.Add("Idempotency-Key", idempotency)
-		} else if strings.ToUpper(req.Method) == http.MethodPost || strings.ToUpper(req.Method) == http.MethodPut || strings.ToUpper(req.Method) == http.MethodDelete {
+		} else if method == http.MethodPost || method == http.MethodPut || method == http.MethodPatch || method == http.MethodDelete {
 			req.Header.Add("Idempotency-Key", NewIdempotencyKey())
 		}
 
@@ -336,7 +337,7 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 		res, err = s.HTTPClient.Do(req)
 		if s.shouldRetry(err, res, retry) {
 			sleep := s.sleepTime(retry)
-			if LogLevel > 2 {
+			if LogLevel > 0 {
 				Logger.Printf("Request failed with error: %v. Response: %v\n", err, res)
 			}
 			time.Sleep(time.Millisecond * time.Duration(sleep))
@@ -536,24 +537,24 @@ func (s *BackendConfiguration) shouldRetry(err error, resp *http.Response, numRe
 	return false
 }
 
-//sleepTime calculates sleeping/delay time in milliseconds between failure and a new one request.
-func (s *BackendConfiguration) sleepTime(numRetries int) (delay int) {
+// sleepTime calculates sleeping/delay time in milliseconds between failure and a new one request.
+func (s *BackendConfiguration) sleepTime(numRetries int) time.Duration {
 	// Apply exponential backoff with minNetworkRetryDelay on the
 	// number of num_retries so far as inputs.
-	delay = minNetworkRetryDelay + minNetworkRetryDelay*numRetries*numRetries
+	delay := minNetworkRetriesDelay + minNetworkRetriesDelay*time.Duration(numRetries*numRetries)
 
-	//Do not allow the number to exceed maxNetworkRetryDelay.
-	if delay > maxNetworkRetryDelay {
-		delay = maxNetworkRetryDelay
+	// Do not allow the number to exceed maxNetworkRetryDelay.
+	if delay > maxNetworkRetriesDelay {
+		delay = maxNetworkRetriesDelay
 	}
 
-	//Apply some jitter by randomizing the value in the range of 75%-100%.
-	jitter := rand.Intn(delay / 4)
-	delay -= jitter
+	// Apply some jitter by randomizing the value in the range of 75%-100%.
+	jitter := rand.Int63n(int64(delay / 4))
+	delay -= time.Duration(jitter)
 
 	// But never sleep less than the base sleep seconds.
-	if delay < minNetworkRetryDelay {
-		delay = minNetworkRetryDelay
+	if delay < minNetworkRetriesDelay {
+		delay = minNetworkRetriesDelay
 	}
 
 	return delay
