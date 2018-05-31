@@ -336,11 +336,11 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 	for retry := 0; ; {
 		res, err = s.HTTPClient.Do(req)
 		if s.shouldRetry(err, res, retry) {
-			sleep := s.sleepTime(retry)
 			if LogLevel > 0 {
 				Logger.Printf("Request failed with error: %v. Response: %v\n", err, res)
 			}
-			time.Sleep(time.Millisecond * time.Duration(sleep))
+			sleep := s.sleepTime(retry)
+			time.Sleep(sleep)
 			retry++
 			if LogLevel > 1 {
 				Logger.Printf("Retry request %v %v time.\n", req.URL, retry)
