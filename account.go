@@ -76,6 +76,7 @@ const (
 // AccountParams are the parameters allowed during account creation/updates.
 type AccountParams struct {
 	Params                    `form:"*"`
+	AccountToken              *string                       `form:"account_token"`
 	BusinessName              *string                       `form:"business_name"`
 	BusinessPrimaryColor      *string                       `form:"business_primary_color"`
 	BusinessURL               *string                       `form:"business_url"`
