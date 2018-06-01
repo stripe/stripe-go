@@ -4,24 +4,24 @@ import (
 	"encoding/json"
 )
 
-// ApplicationFeeRefundParams is the set of parameters that can be used when refunding an application fee.
+// FeeRefundParams is the set of parameters that can be used when refunding an application fee.
 // For more details see https://stripe.com/docs/api#fee_refund.
-type ApplicationFeeRefundParams struct {
+type FeeRefundParams struct {
 	Params         `form:"*"`
 	Amount         *int64  `form:"amount"`
 	ApplicationFee *string `form:"-"` // Included in the URL
 }
 
-// ApplicationFeeRefundListParams is the set of parameters that can be used when listing application fee refunds.
+// FeeRefundListParams is the set of parameters that can be used when listing application fee refunds.
 // For more details see https://stripe.com/docs/api#list_fee_refunds.
-type ApplicationFeeRefundListParams struct {
+type FeeRefundListParams struct {
 	ListParams     `form:"*"`
 	ApplicationFee *string `form:"-"` // Included in the URL
 }
 
-// ApplicationFeeRefund is the resource representing a Stripe application fee refund.
+// FeeRefund is the resource representing a Stripe application fee refund.
 // For more details see https://stripe.com/docs/api#fee_refunds.
-type ApplicationFeeRefund struct {
+type FeeRefund struct {
 	Amount             int64               `json:"amount"`
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	Created            int64               `json:"created"`
@@ -31,21 +31,21 @@ type ApplicationFeeRefund struct {
 	Metadata           map[string]string   `json:"metadata"`
 }
 
-// ApplicationFeeRefundList is a list object for application fee refunds.
-type ApplicationFeeRefundList struct {
+// FeeRefundList is a list object for application fee refunds.
+type FeeRefundList struct {
 	ListMeta
-	Data []*ApplicationFeeRefund `json:"data"`
+	Data []*FeeRefund `json:"data"`
 }
 
-// UnmarshalJSON handles deserialization of a ApplicationFeeRefund.
+// UnmarshalJSON handles deserialization of a FeeRefund.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (f *ApplicationFeeRefund) UnmarshalJSON(data []byte) error {
-	type feerefund ApplicationFeeRefund
+func (f *FeeRefund) UnmarshalJSON(data []byte) error {
+	type feerefund FeeRefund
 	var ff feerefund
 	err := json.Unmarshal(data, &ff)
 	if err == nil {
-		*f = ApplicationFeeRefund(ff)
+		*f = FeeRefund(ff)
 	} else {
 		// the id is surrounded by "\" characters, so strip them
 		f.ID = string(data[1 : len(data)-1])

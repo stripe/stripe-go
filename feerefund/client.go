@@ -16,11 +16,11 @@ type Client struct {
 
 // New refunds the application fee collected.
 // For more details see https://stripe.com/docs/api#refund_application_fee.
-func New(params *stripe.ApplicationFeeRefundParams) (*stripe.ApplicationFeeRefund, error) {
+func New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	return getC().New(params)
 }
 
-func (c Client) New(params *stripe.ApplicationFeeRefundParams) (*stripe.ApplicationFeeRefund, error) {
+func (c Client) New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil")
 	}
@@ -31,7 +31,7 @@ func (c Client) New(params *stripe.ApplicationFeeRefundParams) (*stripe.Applicat
 	body := &form.Values{}
 	form.AppendTo(body, params)
 
-	refund := &stripe.ApplicationFeeRefund{}
+	refund := &stripe.FeeRefund{}
 	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refunds", stripe.StringValue(params.ApplicationFee)), c.Key, body, &params.Params, refund)
 
 	return refund, err
@@ -39,11 +39,11 @@ func (c Client) New(params *stripe.ApplicationFeeRefundParams) (*stripe.Applicat
 
 // Get returns the details of a fee refund.
 // For more details see https://stripe.com/docs/api#retrieve_fee_refund.
-func Get(id string, params *stripe.ApplicationFeeRefundParams) (*stripe.ApplicationFeeRefund, error) {
+func Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *stripe.ApplicationFeeRefundParams) (*stripe.ApplicationFeeRefund, error) {
+func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil")
 	}
@@ -54,7 +54,7 @@ func (c Client) Get(id string, params *stripe.ApplicationFeeRefundParams) (*stri
 	body := &form.Values{}
 	form.AppendTo(body, params)
 
-	refund := &stripe.ApplicationFeeRefund{}
+	refund := &stripe.FeeRefund{}
 	err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds/%v", stripe.StringValue(params.ApplicationFee), id), c.Key, body, &params.Params, refund)
 
 	return refund, err
@@ -62,11 +62,11 @@ func (c Client) Get(id string, params *stripe.ApplicationFeeRefundParams) (*stri
 
 // Update updates a refund's properties.
 // For more details see https://stripe.com/docs/api#update_refund.
-func Update(id string, params *stripe.ApplicationFeeRefundParams) (*stripe.ApplicationFeeRefund, error) {
+func Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	return getC().Update(id, params)
 }
 
-func (c Client) Update(id string, params *stripe.ApplicationFeeRefundParams) (*stripe.ApplicationFeeRefund, error) {
+func (c Client) Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil")
 	}
@@ -77,7 +77,7 @@ func (c Client) Update(id string, params *stripe.ApplicationFeeRefundParams) (*s
 	body := &form.Values{}
 	form.AppendTo(body, params)
 
-	refund := &stripe.ApplicationFeeRefund{}
+	refund := &stripe.FeeRefund{}
 	err := c.B.Call("POST", fmt.Sprintf("/application_fees/%v/refunds/%v", stripe.StringValue(params.ApplicationFee), id), c.Key, body, &params.Params, refund)
 
 	return refund, err
@@ -85,11 +85,11 @@ func (c Client) Update(id string, params *stripe.ApplicationFeeRefundParams) (*s
 
 // List returns a list of fee refunds.
 // For more details see https://stripe.com/docs/api#list_fee_refunds.
-func List(params *stripe.ApplicationFeeRefundListParams) *Iter {
+func List(params *stripe.FeeRefundListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.ApplicationFeeRefundListParams) *Iter {
+func (c Client) List(params *stripe.FeeRefundListParams) *Iter {
 	body := &form.Values{}
 	var lp *stripe.ListParams
 	var p *stripe.Params
@@ -99,7 +99,7 @@ func (c Client) List(params *stripe.ApplicationFeeRefundListParams) *Iter {
 	p = params.ToParams()
 
 	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
-		list := &stripe.ApplicationFeeRefundList{}
+		list := &stripe.FeeRefundList{}
 		err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds", stripe.StringValue(params.ApplicationFee)), c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
@@ -111,17 +111,17 @@ func (c Client) List(params *stripe.ApplicationFeeRefundListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of ApplicationFeeRefunds.
+// Iter is an iterator for lists of FeeRefunds.
 // The embedded Iter carries methods with it;
 // see its documentation for details.
 type Iter struct {
 	*stripe.Iter
 }
 
-// ApplicationFeeRefund returns the most recent ApplicationFeeRefund
+// FeeRefund returns the most recent FeeRefund
 // visited by a call to Next.
-func (i *Iter) ApplicationFeeRefund() *stripe.ApplicationFeeRefund {
-	return i.Current().(*stripe.ApplicationFeeRefund)
+func (i *Iter) FeeRefund() *stripe.FeeRefund {
+	return i.Current().(*stripe.FeeRefund)
 }
 
 func getC() Client {
