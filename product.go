@@ -37,6 +37,7 @@ type ProductParams struct {
 	Shippable           *bool                    `form:"shippable"`
 	StatementDescriptor *string                  `form:"statement_descriptor"`
 	Type                *string                  `form:"type"`
+	UnitLabel           *string                  `form:"unit_label"`
 	URL                 *string                  `form:"url"`
 }
 
@@ -68,6 +69,7 @@ type Product struct {
 	Skus                *SKUList           `json:"skus"`
 	StatementDescriptor string             `json:"statement_descriptor"`
 	Type                ProductType        `json:"type"`
+	UnitLabel           string             `json:"unit_label"`
 	URL                 string             `json:"url"`
 	Updated             int64              `json:"updated"`
 }

@@ -32,6 +32,14 @@ const (
 	PlanUsageTypeMetered  PlanUsageType = "metered"
 )
 
+// PlanTiersMode is the list of allowed values for a plan's tiers mode.
+type PlanTiersMode string
+
+const (
+	PlanTiersModeGraduated PlanTiersMode = "graduated"
+	PlanTiersModeVolume    PlanTiersMode = "volume"
+)
+
 // PlanTransformUsageRound is the list of allowed values for a plan's transform usage round logic.
 type PlanTransformUsageRound string
 
@@ -40,9 +48,20 @@ const (
 	PlanTransformUsageRoundUp   PlanTransformUsageRound = "up"
 )
 
+// PlanAggregateUsage is the list of allowed values for a plan's aggregate usage.
+type PlanAggregateUsage string
+
+const (
+	PlanAggregateUsageLastDuringPeriod PlanAggregateUsage = "last_during_period"
+	PlanAggregateUsageLastEver         PlanAggregateUsage = "last_ever"
+	PlanAggregateUsageMax              PlanAggregateUsage = "max"
+	PlanAggregateUsageSum              PlanAggregateUsage = "sum"
+)
+
 // Plan is the resource representing a Stripe plan.
 // For more details see https://stripe.com/docs/api#plans.
 type Plan struct {
+	AggregateUsage  string              `json:"aggregate_usage"`
 	Amount          int64               `json:"amount"`
 	BillingScheme   PlanBillingScheme   `json:"billing_scheme"`
 	Created         int64               `json:"created"`
@@ -80,6 +99,7 @@ type PlanListParams struct {
 // For more details see https://stripe.com/docs/api#create_plan and https://stripe.com/docs/api#update_plan.
 type PlanParams struct {
 	Params          `form:"*"`
+	AggregateUsage  *string                   `form:"aggregate_usage"`
 	Amount          *int64                    `form:"amount"`
 	BillingScheme   *string                   `form:"billing_scheme"`
 	Currency        *string                   `form:"currency"`
