@@ -29,7 +29,6 @@ func TestTransferNew(t *testing.T) {
 		Currency:          stripe.String(string(stripe.CurrencyUSD)),
 		Destination:       stripe.String("acct_123"),
 		SourceTransaction: stripe.String("ch_123"),
-		SourceType:        stripe.String(string(stripe.TransferSourceTypeCard)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, transfer)

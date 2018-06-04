@@ -67,7 +67,6 @@ func TestSubscriptionNew_WithItems(t *testing.T) {
 func TestSubscriptionUpdate(t *testing.T) {
 	subscription, err := Update("sub_123", &stripe.SubscriptionParams{
 		Prorate:    stripe.Bool(true),
-		Quantity:   stripe.Int64(0),
 		TaxPercent: stripe.Float64(0),
 	})
 	assert.Nil(t, err)
