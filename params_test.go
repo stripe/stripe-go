@@ -213,11 +213,17 @@ func TestListParams_Expand(t *testing.T) {
 	}
 }
 
+func TestListParams_SetStripeAccount(t *testing.T) {
+	p := &stripe.ListParams{}
+	p.SetStripeAccount(TestMerchantID)
+	assert.Equal(t, TestMerchantID, *p.StripeAccount)
+}
+
 func TestListParams_ToParams(t *testing.T) {
 	listParams := &stripe.ListParams{
-		Context:       context.Background(),
-		StripeAccount: stripe.String(TestMerchantID),
+		Context: context.Background(),
 	}
+	listParams.SetStripeAccount(TestMerchantID)
 	params := listParams.ToParams()
 	assert.Equal(t, listParams.Context, params.Context)
 	assert.Equal(t, *listParams.StripeAccount, *params.StripeAccount)

@@ -200,6 +200,11 @@ func (p *ListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
 }
 
+// SetStripeAccount sets a value for the Stripe-Account header.
+func (p *ListParams) SetStripeAccount(val string) {
+	p.StripeAccount = &val
+}
+
 // ToParams converts a ListParams to a Params by moving over any fields that
 // have valid targets in the new type. This is useful because fields in
 // Params can be injected directly into an http.Request while generally
