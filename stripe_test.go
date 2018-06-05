@@ -89,7 +89,7 @@ func TestMultipleAPICalls(t *testing.T) {
 
 func TestIdempotencyKey(t *testing.T) {
 	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
-	p := &stripe.Params{IdempotencyKey: "idempotency-key"}
+	p := &stripe.Params{IdempotencyKey: stripe.String("idempotency-key")}
 
 	req, err := c.NewRequest("", "", "", "", nil, p)
 	assert.NoError(t, err)
@@ -99,7 +99,7 @@ func TestIdempotencyKey(t *testing.T) {
 
 func TestStripeAccount(t *testing.T) {
 	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
-	p := &stripe.Params{StripeAccount: TestMerchantID}
+	p := &stripe.Params{StripeAccount: stripe.String(TestMerchantID)}
 
 	req, err := c.NewRequest("", "", "", "", nil, p)
 	assert.NoError(t, err)

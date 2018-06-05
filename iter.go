@@ -50,7 +50,7 @@ func GetIter(params *ListParams, qs *form.Values, query Query) *Iter {
 
 func (it *Iter) getPage() {
 	it.values, it.meta, it.err = it.query(it.qs)
-	if it.params.EndingBefore != "" {
+	if it.params.EndingBefore != nil {
 		// We are moving backward,
 		// but items arrive in forward order.
 		reverse(it.values)
@@ -65,12 +65,12 @@ func (it *Iter) getPage() {
 func (it *Iter) Next() bool {
 	if len(it.values) == 0 && it.meta.HasMore && !it.params.Single {
 		// determine if we're moving forward or backwards in paging
-		if it.params.EndingBefore != "" {
-			it.params.EndingBefore = listItemID(it.cur)
-			it.qs.Set(EndingBefore, it.params.EndingBefore)
+		if it.params.EndingBefore != nil {
+			it.params.EndingBefore = String(listItemID(it.cur))
+			it.qs.Set(EndingBefore, *it.params.EndingBefore)
 		} else {
-			it.params.StartingAfter = listItemID(it.cur)
-			it.qs.Set(StartingAfter, it.params.StartingAfter)
+			it.params.StartingAfter = String(listItemID(it.cur))
+			it.qs.Set(StartingAfter, *it.params.StartingAfter)
 		}
 		it.getPage()
 	}

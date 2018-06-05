@@ -72,7 +72,8 @@ func TestOrderReturn_RequestParams(t *testing.T) {
 	})
 
 	p := &stripe.OrderReturnParams{}
-	p.StripeAccount = "acct_123"
+	p.SetStripeAccount("acct_123")
+
 	order, err := Return("or_123", p)
 	assert.Nil(t, err)
 	assert.NotNil(t, order)

@@ -277,17 +277,18 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 			req = req.WithContext(params.Context)
 		}
 
-		if idempotency := strings.TrimSpace(params.IdempotencyKey); idempotency != "" {
-			if len(idempotency) > 255 {
-				return nil, errors.New("Cannot use an IdempotencyKey longer than 255 characters long.")
+		if params.IdempotencyKey != nil {
+			idempotencyKey := strings.TrimSpace(*params.IdempotencyKey)
+
+			if len(idempotencyKey) > 255 {
+				return nil, errors.New("Cannot use an idempotency key longer than 255 characters.")
 			}
 
-			req.Header.Add("Idempotency-Key", idempotency)
+			req.Header.Add("Idempotency-Key", idempotencyKey)
 		}
 
-		// But prefer StripeAccount.
-		if stripeAccount := strings.TrimSpace(params.StripeAccount); stripeAccount != "" {
-			req.Header.Add("Stripe-Account", stripeAccount)
+		if params.StripeAccount != nil {
+			req.Header.Add("Stripe-Account", strings.TrimSpace(*params.StripeAccount))
 		}
 
 		for k, v := range params.Headers {

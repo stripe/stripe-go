@@ -30,20 +30,20 @@ type Params struct {
 	// key or query the state of the API.
 	Context context.Context `form:"-"`
 
-	Expand []string     `form:"expand"`
+	Expand []*string    `form:"expand"`
 	Extra  *ExtraValues `form:"*"`
 
 	// Headers may be used to provide extra header lines on the HTTP request.
 	Headers http.Header `form:"-"`
 
-	IdempotencyKey string            `form:"-"` // Passed as header
+	IdempotencyKey *string           `form:"-"` // Passed as header
 	Metadata       map[string]string `form:"metadata"`
 
 	// StripeAccount may contain the ID of a connected account. By including
 	// this field, the request is made as if it originated from the connected
 	// account instead of under the account of the owner of the configured
 	// Stripe key.
-	StripeAccount string `form:"-"` // Passed as header
+	StripeAccount *string `form:"-"` // Passed as header
 }
 
 // ExtraValues are extra parameters that are attached to an API request.
@@ -75,10 +75,10 @@ type ListParams struct {
 	// key or query the state of the API.
 	Context context.Context `form:"-"`
 
-	EndingBefore string   `form:"ending_before"`
-	Expand       []string `form:"expand"`
-	Filters      Filters  `form:"*"`
-	Limit        int64    `form:"limit"`
+	EndingBefore *string   `form:"ending_before"`
+	Expand       []*string `form:"expand"`
+	Filters      Filters   `form:"*"`
+	Limit        *int64    `form:"limit"`
 
 	// Single specifies whether this is a single page iterator. By default,
 	// listing through an iterator will automatically grab additional pages as
@@ -86,13 +86,13 @@ type ListParams struct {
 	// page, set this to true.
 	Single bool `form:"-"` // Not an API parameter
 
-	StartingAfter string `form:"starting_after"`
+	StartingAfter *string `form:"starting_after"`
 
 	// StripeAccount may contain the ID of a connected account. By including
 	// this field, the request is made as if it originated from the connected
 	// account instead of under the account of the owner of the configured
 	// Stripe key.
-	StripeAccount string `form:"-"` // Passed as header
+	StripeAccount *string `form:"-"` // Passed as header
 }
 
 // ListMeta is the structure that contains the common properties
@@ -162,14 +162,19 @@ func NewIdempotencyKey() string {
 	return fmt.Sprintf("%v_%v", now, base64.URLEncoding.EncodeToString(buf)[:6])
 }
 
+// SetIdempotencyKey sets a value for the Idempotency-Key header.
+func (p *Params) SetIdempotencyKey(val string) {
+	p.IdempotencyKey = &val
+}
+
 // SetStripeAccount sets a value for the Stripe-Account header.
 func (p *Params) SetStripeAccount(val string) {
-	p.StripeAccount = val
+	p.StripeAccount = &val
 }
 
 // AddExpand appends a new field to expand.
 func (p *Params) AddExpand(f string) {
-	p.Expand = append(p.Expand, f)
+	p.Expand = append(p.Expand, &f)
 }
 
 // AddMetadata adds a new key-value pair to the Metadata.
@@ -192,7 +197,7 @@ func (p *Params) AddExtra(key, value string) {
 
 // AddExpand appends a new field to expand.
 func (p *ListParams) AddExpand(f string) {
-	p.Expand = append(p.Expand, f)
+	p.Expand = append(p.Expand, &f)
 }
 
 // ToParams converts a ListParams to a Params by moving over any fields that
