@@ -99,7 +99,8 @@ func TestIdempotencyKey(t *testing.T) {
 
 func TestStripeAccount(t *testing.T) {
 	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
-	p := &stripe.Params{StripeAccount: stripe.String(TestMerchantID)}
+	p := &stripe.Params{}
+	p.SetStripeAccount(TestMerchantID)
 
 	req, err := c.NewRequest("", "", "", "", nil, p)
 	assert.NoError(t, err)
