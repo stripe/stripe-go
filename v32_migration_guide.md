@@ -58,7 +58,7 @@ these structs:
 
 ``` go
 UsageRecord {
-    Quantity: string.Int64(0),
+    Quantity: stripe.Int64(0),
 }
 ```
 
