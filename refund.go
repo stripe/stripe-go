@@ -2,24 +2,34 @@ package stripe
 
 import "encoding/json"
 
-// RefundReason is, if set, the reason the refund is being made--allowed values
-// are "fraudulent", "duplicate", and "requested_by_customer".
+// RefundReason is, if set, the reason the refund is being made
 type RefundReason string
 
+const (
+	RefundReasonDuplicate           RefundReason = "duplicate"
+	RefundReasonFraudulent          RefundReason = "fraudulent"
+	RefundReasonRequestedByCustomer RefundReason = "requested_by_customer"
+)
+
 // RefundStatus is the status of the refund.
-// For credit card refunds, this will always be "succeeded".
-// For other types of refunds, it can be "pending", "succeeded", "failed", or "cancelled".
 type RefundStatus string
+
+const (
+	RefundStatusCanceled  RefundStatus = "canceled"
+	RefundStatusFailed    RefundStatus = "failed"
+	RefundStatusPending   RefundStatus = "pending"
+	RefundStatusSucceeded RefundStatus = "succeeded"
+)
 
 // RefundParams is the set of parameters that can be used when refunding a charge.
 // For more details see https://stripe.com/docs/api#refund.
 type RefundParams struct {
-	Params   `form:"*"`
-	Amount   uint64       `form:"amount"`
-	Charge   string       `form:"charge"`
-	Fee      bool         `form:"refund_application_fee"`
-	Reason   RefundReason `form:"reason"`
-	Transfer bool         `form:"reverse_transfer"`
+	Params               `form:"*"`
+	Amount               *int64  `form:"amount"`
+	Charge               *string `form:"charge"`
+	Reason               *string `form:"reason"`
+	RefundApplicationFee *bool   `form:"refund_application_fee"`
+	ReverseTransfer      *bool   `form:"reverse_transfer"`
 }
 
 // RefundListParams is the set of parameters that can be used when listing refunds.
@@ -31,22 +41,22 @@ type RefundListParams struct {
 // Refund is the resource representing a Stripe refund.
 // For more details see https://stripe.com/docs/api#refunds.
 type Refund struct {
-	Amount        uint64            `json:"amount"`
-	Charge        *Charge           `json:"charge"`
-	Created       int64             `json:"created"`
-	Currency      Currency          `json:"currency"`
-	ID            string            `json:"id"`
-	Meta          map[string]string `json:"metadata"`
-	Reason        RefundReason      `json:"reason"`
-	ReceiptNumber string            `json:"receipt_number"`
-	Status        RefundStatus      `json:"status"`
-	Tx            *Transaction      `json:"balance_transaction"`
+	Amount             int64               `json:"amount"`
+	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
+	Charge             *Charge             `json:"charge"`
+	Created            int64               `json:"created"`
+	Currency           Currency            `json:"currency"`
+	ID                 string              `json:"id"`
+	Metadata           map[string]string   `json:"metadata"`
+	Reason             RefundReason        `json:"reason"`
+	ReceiptNumber      string              `json:"receipt_number"`
+	Status             RefundStatus        `json:"status"`
 }
 
 // RefundList is a list object for refunds.
 type RefundList struct {
 	ListMeta
-	Values []*Refund `json:"data"`
+	Data []*Refund `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a Refund.

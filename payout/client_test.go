@@ -9,13 +9,13 @@ import (
 )
 
 func TestPayoutCancel(t *testing.T) {
-	payout, err := Cancel("tr_123", nil)
+	payout, err := Cancel("po_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, payout)
 }
 
 func TestPayoutGet(t *testing.T) {
-	payout, err := Get("tr_123", nil)
+	payout, err := Get("po_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, payout)
 }
@@ -31,8 +31,8 @@ func TestPayoutList(t *testing.T) {
 
 func TestPayoutNew(t *testing.T) {
 	payout, err := New(&stripe.PayoutParams{
-		Amount:   123,
-		Currency: "usd",
+		Amount:   stripe.Int64(123),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, payout)
@@ -41,7 +41,7 @@ func TestPayoutNew(t *testing.T) {
 func TestPayoutUpdate(t *testing.T) {
 	payout, err := Update("tr_123", &stripe.PayoutParams{
 		Params: stripe.Params{
-			Meta: map[string]string{
+			Metadata: map[string]string{
 				"foo": "bar",
 			},
 		},

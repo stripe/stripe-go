@@ -9,25 +9,6 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-const (
-	BrandUnknown stripe.CardBrand = "Unknown"
-	Visa         stripe.CardBrand = "Visa"
-	Amex         stripe.CardBrand = "American Express"
-	MasterCard   stripe.CardBrand = "MasterCard"
-	Discover     stripe.CardBrand = "Discover"
-	JCB          stripe.CardBrand = "JCB"
-	DinersClub   stripe.CardBrand = "Diners Club"
-
-	Pass      stripe.Verification = "pass"
-	Fail      stripe.Verification = "fail"
-	Unchecked stripe.Verification = "unchecked"
-
-	Credit         stripe.CardFunding = "credit"
-	Debit          stripe.CardFunding = "debit"
-	Prepaid        stripe.CardFunding = "prepaid"
-	FundingUnknown stripe.CardFunding = "unknown"
-)
-
 // Client is used to invoke /cards APIs.
 type Client struct {
 	B   stripe.Backend
@@ -55,12 +36,12 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	card := &stripe.Card{}
 	var err error
 
-	if len(params.Account) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts", params.Account), c.Key, body, &params.Params, card)
-	} else if len(params.Customer) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards", params.Customer), c.Key, body, &params.Params, card)
-	} else if len(params.Recipient) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.Key, body, &params.Params, card)
+	if params.Account != nil {
+		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts", stripe.StringValue(params.Account)), c.Key, body, &params.Params, card)
+	} else if params.Customer != nil {
+		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/sources", stripe.StringValue(params.Customer)), c.Key, body, &params.Params, card)
+	} else if params.Recipient != nil {
+		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards", stripe.StringValue(params.Recipient)), c.Key, body, &params.Params, card)
 	} else {
 		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
@@ -91,12 +72,12 @@ func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	card := &stripe.Card{}
 	var err error
 
-	if len(params.Account) > 0 {
-		err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts/%v", params.Account, id), c.Key, body, commonParams, card)
-	} else if len(params.Customer) > 0 {
-		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, commonParams, card)
-	} else if len(params.Recipient) > 0 {
-		err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, body, commonParams, card)
+	if params.Account != nil {
+		err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, commonParams, card)
+	} else if params.Customer != nil {
+		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, card)
+	} else if params.Recipient != nil {
+		err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards/%v", stripe.StringValue(params.Recipient), id), c.Key, body, commonParams, card)
 	} else {
 		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
@@ -121,12 +102,12 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 	card := &stripe.Card{}
 	var err error
 
-	if len(params.Account) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts/%v", params.Account, id), c.Key, body, &params.Params, card)
-	} else if len(params.Customer) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, &params.Params, card)
-	} else if len(params.Recipient) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, body, &params.Params, card)
+	if params.Account != nil {
+		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, &params.Params, card)
+	} else if params.Customer != nil {
+		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), c.Key, body, &params.Params, card)
+	} else if params.Recipient != nil {
+		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards/%v", stripe.StringValue(params.Recipient), id), c.Key, body, &params.Params, card)
 	} else {
 		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
@@ -155,12 +136,12 @@ func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	card := &stripe.Card{}
 	var err error
 
-	if len(params.Account) > 0 {
-		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/external_accounts/%v", params.Account, id), c.Key, body, commonParams, card)
-	} else if len(params.Customer) > 0 {
-		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, commonParams, card)
-	} else if len(params.Recipient) > 0 {
-		err = c.B.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, body, commonParams, card)
+	if params.Account != nil {
+		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/external_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, commonParams, card)
+	} else if params.Customer != nil {
+		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, card)
+	} else if params.Recipient != nil {
+		err = c.B.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", stripe.StringValue(params.Recipient), id), c.Key, body, commonParams, card)
 	} else {
 		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
@@ -193,18 +174,18 @@ func (c Client) List(params *stripe.CardListParams) *Iter {
 			return nil, list.ListMeta, errors.New("params should not be nil")
 		}
 
-		if len(params.Account) > 0 {
-			err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts", params.Account), c.Key, b, p, list)
-		} else if len(params.Customer) > 0 {
-			err = c.B.Call("GET", fmt.Sprintf("/customers/%v/cards", params.Customer), c.Key, b, p, list)
-		} else if len(params.Recipient) > 0 {
-			err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.Key, b, p, list)
+		if params.Account != nil {
+			err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts?object=card", stripe.StringValue(params.Account)), c.Key, b, p, list)
+		} else if params.Customer != nil {
+			err = c.B.Call("GET", fmt.Sprintf("/customers/%v/sources?object=card", stripe.StringValue(params.Customer)), c.Key, b, p, list)
+		} else if params.Recipient != nil {
+			err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards", stripe.StringValue(params.Recipient)), c.Key, b, p, list)
 		} else {
 			err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 		}
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

@@ -9,11 +9,6 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-const (
-	DisputeEvidenceFile stripe.FileUploadPurpose = "dispute_evidence"
-	IdentityDocFile     stripe.FileUploadPurpose = "identity_document"
-)
-
 // Client is used to invoke file upload APIs.
 type Client struct {
 	B   stripe.Backend
@@ -88,8 +83,8 @@ func (c Client) List(params *stripe.FileUploadListParams) *Iter {
 		list := &stripe.FileUploadList{}
 		err := c.B.Call("GET", "/files", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

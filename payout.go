@@ -5,42 +5,61 @@ import "encoding/json"
 // PayoutDestinationType consts represent valid payout destinations.
 type PayoutDestinationType string
 
+const (
+	PayoutDestinationTypeBankAccount PayoutDestinationType = "bank_account"
+	PayoutDestinationTypeCard        PayoutDestinationType = "card"
+)
+
 // PayoutFailureCode is the list of allowed values for the payout's failure code.
-// Allowed values are "insufficient_funds", "account_closed", "no_account",
-// "invalid_account_number", "debit_not_authorized", "bank_ownership_changed",
-// "account_frozen", "could_not_process", "bank_account_restricted", "invalid_currency".
 type PayoutFailureCode string
 
+const (
+	PayoutFailureCodeAccountClosed         PayoutFailureCode = "account_closed"
+	PayoutFailureCodeAccountFrozen         PayoutFailureCode = "account_frozen"
+	PayoutFailureCodeBankAccountRestricted PayoutFailureCode = "bank_account_restricted"
+	PayoutFailureCodeBankOwnershipChanged  PayoutFailureCode = "bank_ownership_changed"
+	PayoutFailureCodeCouldNotProcess       PayoutFailureCode = "could_not_process"
+	PayoutFailureCodeDebitNotAuthorized    PayoutFailureCode = "debit_not_authorized"
+	PayoutFailureCodeInsufficientFunds     PayoutFailureCode = "insufficient_funds"
+	PayoutFailureCodeInvalidAccountNumber  PayoutFailureCode = "invalid_account_number"
+	PayoutFailureCodeInvalidCurrency       PayoutFailureCode = "invalid_currency"
+	PayoutFailureCodeNoAccount             PayoutFailureCode = "no_account"
+)
+
 // PayoutSourceType is the list of allowed values for the payout's source_type field.
-// Allowed values are "alipay_account", bank_account", "bitcoin_receiver", "card".
 type PayoutSourceType string
 
+const (
+	PayoutSourceTypeAlipayAccount   PayoutSourceType = "alipay_account"
+	PayoutSourceTypeBankAccount     PayoutSourceType = "bank_account"
+	PayoutSourceTypeBitcoinReceiver PayoutSourceType = "bitcoin_receiver"
+	PayoutSourceTypeCard            PayoutSourceType = "card"
+)
+
 // PayoutStatus is the list of allowed values for the payout's status.
-// Allowed values are "paid", "pending", "in_transit",  "failed", "canceled".
 type PayoutStatus string
 
+const (
+	PayoutStatusCanceled  PayoutStatus = "canceled"
+	PayoutStatusFailed    PayoutStatus = "failed"
+	PayoutStatusInTransit PayoutStatus = "in_transit"
+	PayoutStatusPaid      PayoutStatus = "paid"
+	PayoutStatusPending   PayoutStatus = "pending"
+)
+
 // PayoutType is the list of allowed values for the payout's type.
-// Allowed values are "bank_account" or "card".
 type PayoutType string
 
 const (
-	// PayoutDestinationBankAccount is a constant representing a payout destination
-	// which is a bank account.
-	PayoutDestinationBankAccount PayoutDestinationType = "bank_account"
-
-	// PayoutDestinationCard is a constant representing a payout destination
-	// which is a card.
-	PayoutDestinationCard PayoutDestinationType = "card"
+	PayoutTypeBank PayoutType = "bank_account"
+	PayoutTypeCard PayoutType = "card"
 )
 
 // PayoutMethodType represents the type of payout
 type PayoutMethodType string
 
 const (
-	// PayoutMethodInstant is a constant representing an instant payout
-	PayoutMethodInstant PayoutMethodType = "instant"
-
-	// PayoutMethodStandard is a constant representing a standard payout
+	PayoutMethodInstant  PayoutMethodType = "instant"
 	PayoutMethodStandard PayoutMethodType = "standard"
 )
 
@@ -58,55 +77,55 @@ type PayoutDestination struct {
 // For more details see https://stripe.com/docs/api#create_payout and https://stripe.com/docs/api#update_payout.
 type PayoutParams struct {
 	Params              `form:"*"`
-	Amount              int64            `form:"amount"`
-	Currency            Currency         `form:"currency"`
-	Destination         string           `form:"destination"`
-	Method              PayoutMethodType `form:"method"`
-	SourceType          PayoutSourceType `form:"source_type"`
-	StatementDescriptor string           `form:"statement_descriptor"`
+	Amount              *int64  `form:"amount"`
+	Currency            *string `form:"currency"`
+	Destination         *string `form:"destination"`
+	Method              *string `form:"method"`
+	SourceType          *string `form:"source_type"`
+	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
 // PayoutListParams is the set of parameters that can be used when listing payouts.
 // For more details see https://stripe.com/docs/api#list_payouts.
 type PayoutListParams struct {
 	ListParams       `form:"*"`
-	ArrivalDate      int64             `form:"arrival_date"`
+	ArrivalDate      *int64            `form:"arrival_date"`
 	ArrivalDateRange *RangeQueryParams `form:"arrival_date"`
-	Created          int64             `form:"created"`
+	Created          *int64            `form:"created"`
 	CreatedRange     *RangeQueryParams `form:"created"`
-	Destination      string            `form:"destination"`
-	Status           PayoutStatus      `form:"status"`
+	Destination      *string           `form:"destination"`
+	Status           *string           `form:"status"`
 }
 
 // Payout is the resource representing a Stripe payout.
 // For more details see https://stripe.com/docs/api#payouts.
 type Payout struct {
-	Amount                    int64             `json:"amount"`
-	ArrivalDate               int64             `json:"arrival_date"`
-	Automatic                 bool              `json:"automatic"`
-	BalanceTransaction        *Transaction      `json:"balance_transaction"`
-	Bank                      *BankAccount      `json:"bank_account"`
-	Card                      *Card             `json:"card"`
-	Created                   int64             `json:"created"`
-	Currency                  Currency          `json:"currency"`
-	Destination               PayoutDestination `json:"destination"`
-	FailCode                  PayoutFailureCode `json:"failure_code"`
-	FailMessage               string            `json:"failure_message"`
-	FailureBalanceTransaction *Transaction      `json:"failure_balance_transaction"`
-	ID                        string            `json:"id"`
-	Live                      bool              `json:"livemode"`
-	Meta                      map[string]string `json:"metadata"`
-	Method                    PayoutMethodType  `json:"method"`
-	SourceType                PayoutSourceType  `json:"source_type"`
-	StatementDescriptor       string            `json:"statement_descriptor"`
-	Status                    PayoutStatus      `json:"status"`
-	Type                      PayoutType        `json:"type"`
+	Amount                    int64               `json:"amount"`
+	ArrivalDate               int64               `json:"arrival_date"`
+	Automatic                 bool                `json:"automatic"`
+	BalanceTransaction        *BalanceTransaction `json:"balance_transaction"`
+	BankAccount               *BankAccount        `json:"bank_account"`
+	Card                      *Card               `json:"card"`
+	Created                   int64               `json:"created"`
+	Currency                  Currency            `json:"currency"`
+	Destination               string              `json:"destination"`
+	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction"`
+	FailureCode               PayoutFailureCode   `json:"failure_code"`
+	FailureMessage            string              `json:"failure_message"`
+	ID                        string              `json:"id"`
+	Livemode                  bool                `json:"livemode"`
+	Metadata                  map[string]string   `json:"metadata"`
+	Method                    PayoutMethodType    `json:"method"`
+	SourceType                PayoutSourceType    `json:"source_type"`
+	StatementDescriptor       string              `json:"statement_descriptor"`
+	Status                    PayoutStatus        `json:"status"`
+	Type                      PayoutType          `json:"type"`
 }
 
 // PayoutList is a list of payouts as retrieved from a list endpoint.
 type PayoutList struct {
 	ListMeta
-	Values []*Payout `json:"data"`
+	Data []*Payout `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a Payout.
@@ -137,9 +156,9 @@ func (d *PayoutDestination) UnmarshalJSON(data []byte) error {
 		*d = PayoutDestination(dd)
 
 		switch d.Type {
-		case PayoutDestinationBankAccount:
+		case PayoutDestinationTypeBankAccount:
 			err = json.Unmarshal(data, &d.BankAccount)
-		case PayoutDestinationCard:
+		case PayoutDestinationTypeCard:
 			err = json.Unmarshal(data, &d.Card)
 		}
 

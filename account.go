@@ -6,81 +6,175 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-// LegalEntityType describes the types for a legal entity.
-// Allowed values are "individual", "company".
-type LegalEntityType string
-
-// IdentityVerificationDetailsCode is a machine-readable code specifying the
-// verification state of a legal entity. Allowed values are
-// "failed_keyed_identity", "failed_other", "scan_corrupt",
-// "scan_failed_greyscale", "scan_failed_other",
-// "scan_id_country_not_supported", "scan_id_type_not_supported",
-// "scan_name_mismatch", "scan_not_readable", "scan_not_uploaded".
-type IdentityVerificationDetailsCode string
-
-// IdentityVerificationStatus describes the different statuses for identity verification.
-// Allowed values are "pending", "verified", "unverified".
-type IdentityVerificationStatus string
-
-// Interval describes the payout interval.
-// Allowed values are "manual", "daily", "weekly", "monthly".
-type Interval string
+// AccountType is the type of an account.
+type AccountType string
 
 const (
-	// Company is a constant value representing a company legal entity type.
-	Company LegalEntityType = "company"
+	AccountTypeCustom   AccountType = "custom"
+	AccountTypeExpress  AccountType = "express"
+	AccountTypeStandard AccountType = "standard"
+)
 
-	// Day is a constant value representing a daily payout interval.
-	Day Interval = "daily"
+// ExternalAccountType is the type of an external account.
+type ExternalAccountType string
 
-	// Individual is a constant value representing an individual legal entity
-	// type.
-	Individual LegalEntityType = "individual"
+const (
+	ExternalAccountTypeBankAccount ExternalAccountType = "bank_account"
+	ExternalAccountTypeCard        ExternalAccountType = "card"
+)
 
-	// IdentityVerificationPending is a constant value indicating that identity
-	// verification status is pending.
-	IdentityVerificationPending IdentityVerificationStatus = "pending"
+// LegalEntityType describes the types for a legal entity.
+type LegalEntityType string
 
-	// IdentityVerificationUnverified is a constant value indicating that
-	// identity verification status is unverified.
-	IdentityVerificationUnverified IdentityVerificationStatus = "unverified"
+const (
+	LegalEntityTypeCompany    LegalEntityType = "company"
+	LegalEntityTypeIndividual LegalEntityType = "individual"
+)
 
-	// IdentityVerificationVerified is a constant value indicating that
-	// identity verification status is verified.
-	IdentityVerificationVerified IdentityVerificationStatus = "verified"
+// IdentityVerificationDetailsCode is a machine-readable code specifying the
+// verification state of a legal entity
+type IdentityVerificationDetailsCode string
 
-	// Manual is a constant value representing a manual payout interval.
-	Manual Interval = "manual"
+const (
+	IdentityVerificationDetailsCodeFailedKeyedIdentity       IdentityVerificationDetailsCode = "failed_keyed_identity"
+	IdentityVerificationDetailsCodeFailedOther               IdentityVerificationDetailsCode = "failed_other"
+	IdentityVerificationDetailsCodeScanCorrupt               IdentityVerificationDetailsCode = "scan_corrupt"
+	IdentityVerificationDetailsCodeScanFailedGreyscale       IdentityVerificationDetailsCode = "scan_failed_greyscale"
+	IdentityVerificationDetailsCodeScanFailedOther           IdentityVerificationDetailsCode = "scan_failed_other"
+	IdentityVerificationDetailsCodeScanIdCountryNotSupported IdentityVerificationDetailsCode = "scan_id_country_not_supported"
+	IdentityVerificationDetailsCodeScanIdTypeNotSupported    IdentityVerificationDetailsCode = "scan_id_type_not_supported"
+	IdentityVerificationDetailsCodeScanNameMismatch          IdentityVerificationDetailsCode = "scan_name_mismatch"
+	IdentityVerificationDetailsCodeScanNotReadable           IdentityVerificationDetailsCode = "scan_not_readable"
+	IdentityVerificationDetailsCodeScanNotUploaded           IdentityVerificationDetailsCode = "scan_not_uploaded"
+)
 
-	// Month is a constant value representing a monthly payout interval.
-	Month Interval = "monthly"
+// IdentityVerificationStatus describes the different statuses for identity verification.
+type IdentityVerificationStatus string
 
-	// Week is a constant value representing a weekly payout interval.
-	Week Interval = "weekly"
+const (
+	IdentityVerificationStatusPending    IdentityVerificationStatus = "pending"
+	IdentityVerificationStatusUnverified IdentityVerificationStatus = "unverified"
+	IdentityVerificationStatusVerified   IdentityVerificationStatus = "verified"
+)
+
+// Interval describes the payout interval.
+type PayoutInterval string
+
+const (
+	PayoutIntervalDay     PayoutInterval = "daily"
+	PayoutIntervalManual  PayoutInterval = "manual"
+	PayoutIntervalMonthly PayoutInterval = "monthly"
+	PayoutIntervalWeekly  PayoutInterval = "weekly"
+)
+
+const (
+	AccountRejectReasonFraud          string = "fraud"
+	AccountRejectReasonOther          string = "other"
+	AccountRejectReasonTermsOfService string = "terms_of_service"
 )
 
 // AccountParams are the parameters allowed during account creation/updates.
 type AccountParams struct {
-	Params               `form:"*"`
-	BusinessName         string                        `form:"business_name"`
-	BusinessPrimaryColor string                        `form:"business_primary_color"`
-	BusinessUrl          string                        `form:"business_url"`
-	Country              string                        `form:"country"`
-	DebitNegativeBal     bool                          `form:"debit_negative_balances"`
-	DefaultCurrency      string                        `form:"default_currency"`
-	Email                string                        `form:"email"`
-	ExternalAccount      *AccountExternalAccountParams `form:"external_account"`
-	FromRecipient        string                        `form:"from_recipient"`
-	LegalEntity          *LegalEntity                  `form:"legal_entity"`
-	NoDebitNegativeBal   bool                          `form:"debit_negative_balances,invert"`
-	PayoutSchedule       *PayoutScheduleParams         `form:"payout_schedule"`
-	PayoutStatement      string                        `form:"payout_statement_descriptor"`
-	Statement            string                        `form:"statement_descriptor"`
-	SupportEmail         string                        `form:"support_email"`
-	SupportPhone         string                        `form:"support_phone"`
-	SupportUrl           string                        `form:"support_url"`
-	TOSAcceptance        *TOSAcceptanceParams          `form:"tos_acceptance"`
-	Type                 AccountType                   `form:"type"`
+	Params                    `form:"*"`
+	AccountToken              *string                       `form:"account_token"`
+	BusinessName              *string                       `form:"business_name"`
+	BusinessPrimaryColor      *string                       `form:"business_primary_color"`
+	BusinessURL               *string                       `form:"business_url"`
+	Country                   *string                       `form:"country"`
+	DebitNegativeBalances     *bool                         `form:"debit_negative_balances"`
+	DefaultCurrency           *string                       `form:"default_currency"`
+	Email                     *string                       `form:"email"`
+	ExternalAccount           *AccountExternalAccountParams `form:"external_account"`
+	FromRecipient             *string                       `form:"from_recipient"`
+	LegalEntity               *LegalEntityParams            `form:"legal_entity"`
+	PayoutSchedule            *PayoutScheduleParams         `form:"payout_schedule"`
+	PayoutStatementDescriptor *string                       `form:"payout_statement_descriptor"`
+	ProductDescription        *string                       `form:"product_description"`
+	StatementDescriptor       *string                       `form:"statement_descriptor"`
+	SupportEmail              *string                       `form:"support_email"`
+	SupportPhone              *string                       `form:"support_phone"`
+	SupportURL                *string                       `form:"support_url"`
+	TOSAcceptance             *TOSAcceptanceParams          `form:"tos_acceptance"`
+	Type                      *string                       `form:"type"`
+}
+
+// LegalEntityParams represents a legal_entity during account creation/updates.
+type LegalEntityParams struct {
+	AdditionalOwners []*AdditionalOwnerParams `form:"additional_owners,indexed"`
+
+	// AdditionalOwnersEmpty can be set to clear a legal entity's additional
+	// owners.
+	AdditionalOwnersEmpty bool `form:"additional_owners,empty"`
+
+	Address              *AccountAddressParams       `form:"address"`
+	AddressKana          *AccountAddressParams       `form:"address_kana"`
+	AddressKanji         *AccountAddressParams       `form:"address_kanji"`
+	BusinessName         *string                     `form:"business_name"`
+	BusinessNameKana     *string                     `form:"business_name_kana"`
+	BusinessNameKanji    *string                     `form:"business_name_kanji"`
+	BusinessTaxID        *string                     `form:"business_tax_id"`
+	BusinessVATID        *string                     `form:"business_vat_id"`
+	DOB                  *DOBParams                  `form:"dob"`
+	FirstName            *string                     `form:"first_name"`
+	FirstNameKana        *string                     `form:"first_name_kana"`
+	FirstNameKanji       *string                     `form:"first_name_kanji"`
+	Gender               *string                     `form:"gender"`
+	LastName             *string                     `form:"last_name"`
+	LastNameKana         *string                     `form:"last_name_kana"`
+	LastNameKanji        *string                     `form:"last_name_kanji"`
+	MaidenName           *string                     `form:"maiden_name"`
+	PersonalAddress      *AccountAddressParams       `form:"personal_address"`
+	PersonalAddressKana  *AccountAddressParams       `form:"personal_address_kana"`
+	PersonalAddressKanji *AccountAddressParams       `form:"personal_address_kanji"`
+	PersonalIDNumber     *string                     `form:"personal_id_number"`
+	PhoneNumber          *string                     `form:"phone_number"`
+	SSNLast4             *string                     `form:"ssn_last_4"`
+	Type                 *string                     `form:"type"`
+	Verification         *IdentityVerificationParams `form:"verification"`
+}
+
+// AccountAddressParams represents an address during account creation/updates.
+type AccountAddressParams struct {
+	City       *string `form:"city"`
+	Country    *string `form:"country"`
+	Line1      *string `form:"line1"`
+	Line2      *string `form:"line2"`
+	PostalCode *string `form:"postal_code"`
+	State      *string `form:"state"`
+
+	// Town/cho-me. Note that this is only used for Kana/Kanji representations
+	// of an address.
+	Town *string `form:"town"`
+}
+
+// DOBParams represents a DOB during account creation/updates.
+type DOBParams struct {
+	Day   *int64 `form:"day"`
+	Month *int64 `form:"month"`
+	Year  *int64 `form:"year"`
+}
+
+// TOSAcceptanceParams represents tos_acceptance during account creation/updates.
+type TOSAcceptanceParams struct {
+	Date      *int64  `form:"date"`
+	IP        *string `form:"ip"`
+	UserAgent *string `form:"user_agent"`
+}
+
+// AdditionalOwnerParams represents an additional owner during account creation/updates.
+type AdditionalOwnerParams struct {
+	Address          *AccountAddressParams       `form:"address"`
+	DOB              *DOBParams                  `form:"dob"`
+	FirstName        *string                     `form:"first_name"`
+	LastName         *string                     `form:"last_name"`
+	MaidenName       *string                     `form:"maiden_name"`
+	PersonalIDNumber *string                     `form:"personal_id_number"`
+	Verification     *IdentityVerificationParams `form:"verification"`
+}
+
+// IdentityVerification represents a verification during account creation/updates.
+type IdentityVerificationParams struct {
+	Document *string `form:"document"`
 }
 
 // AccountListParams are the parameters allowed during account listing.
@@ -93,21 +187,21 @@ type AccountListParams struct {
 // or everything else.
 type AccountExternalAccountParams struct {
 	Params            `form:"*"`
-	Account           string `form:"account_number"`
-	AccountHolderName string `form:"account_holder_name"`
-	AccountHolderType string `form:"account_holder_type"`
-	Country           string `form:"country"`
-	Currency          string `form:"currency"`
-	Routing           string `form:"routing_number"`
-	Token             string `form:"token"`
+	AccountNumber     *string `form:"account_number"`
+	AccountHolderName *string `form:"account_holder_name"`
+	AccountHolderType *string `form:"account_holder_type"`
+	Country           *string `form:"country"`
+	Currency          *string `form:"currency"`
+	RoutingNumber     *string `form:"routing_number"`
+	Token             *string `form:"token"`
 }
 
 // AppendTo implements custom encoding logic for AccountExternalAccountParams
 // so that we can send the special required `object` field up along with the
 // other specified parameters or the token value
 func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []string) {
-	if len(p.Token) > 0 {
-		body.Add(form.FormatKey(keyParts), p.Token)
+	if p.Token != nil {
+		body.Add(form.FormatKey(keyParts), StringValue(p.Token))
 	} else {
 		body.Add(form.FormatKey(append(keyParts, "object")), "bank_account")
 	}
@@ -115,15 +209,15 @@ func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []st
 
 // PayoutScheduleParams are the parameters allowed for payout schedules.
 type PayoutScheduleParams struct {
-	Delay        uint64   `form:"delay_days"`
-	Interval     Interval `form:"interval"`
-	MinimumDelay bool     `form:"-"` // See custom AppendTo
-	MonthAnchor  uint64   `form:"monthly_anchor"`
-	WeekAnchor   string   `form:"weekly_anchor"`
+	DelayDays        *int64  `form:"delay_days"`
+	DelayDaysMinimum *bool   `form:"-"` // See custom AppendTo
+	Interval         *string `form:"interval"`
+	MonthlyAnchor    *int64  `form:"monthly_anchor"`
+	WeeklyAnchor     *string `form:"weekly_anchor"`
 }
 
 func (p *PayoutScheduleParams) AppendTo(body *form.Values, keyParts []string) {
-	if p.MinimumDelay {
+	if BoolValue(p.DelayDaysMinimum) {
 		body.Add(form.FormatKey(append(keyParts, "delay_days")), "minimum")
 	}
 }
@@ -131,38 +225,38 @@ func (p *PayoutScheduleParams) AppendTo(body *form.Values, keyParts []string) {
 // Account is the resource representing your Stripe account.
 // For more details see https://stripe.com/docs/api/#account.
 type Account struct {
-	BusinessLogo         string               `json:"business_logo"`
-	BusinessName         string               `json:"business_name"`
-	BusinessPrimaryColor string               `json:"business_primary_color"`
-	BusinessUrl          string               `json:"business_url"`
-	ChargesEnabled       bool                 `json:"charges_enabled"`
-	Country              string               `json:"country"`
-	DebitNegativeBal     bool                 `json:"debit_negative_balances"`
-	DefaultCurrency      string               `json:"default_currency"`
-	Deleted              bool                 `json:"deleted"`
-	DetailsSubmitted     bool                 `json:"details_submitted"`
-	Email                string               `json:"email"`
-	ExternalAccounts     *ExternalAccountList `json:"external_accounts"`
-	ID                   string               `json:"id"`
+	BusinessLogo          string               `json:"business_logo"`
+	BusinessName          string               `json:"business_name"`
+	BusinessPrimaryColor  string               `json:"business_primary_color"`
+	BusinessURL           string               `json:"business_url"`
+	ChargesEnabled        bool                 `json:"charges_enabled"`
+	Country               string               `json:"country"`
+	DebitNegativeBalances bool                 `json:"debit_negative_balances"`
+	DefaultCurrency       Currency             `json:"default_currency"`
+	Deleted               bool                 `json:"deleted"`
+	DetailsSubmitted      bool                 `json:"details_submitted"`
+	Email                 string               `json:"email"`
+	ExternalAccounts      *ExternalAccountList `json:"external_accounts"`
+	ID                    string               `json:"id"`
 
 	Keys *struct {
-		Publish string `json:"publishable"`
-		Secret  string `json:"secret"`
+		Publishable string `json:"publishable"`
+		Secret      string `json:"secret"`
 	} `json:"keys"`
 
-	LegalEntity     *LegalEntity      `json:"legal_entity"`
-	Meta            map[string]string `json:"metadata"`
-	Name            string            `json:"display_name"`
-	PayoutSchedule  *PayoutSchedule   `json:"payout_schedule"`
-	PayoutStatement string            `json:"payout_statement_descriptor"`
-	PayoutsEnabled  bool              `json:"payouts_enabled"`
-	ProductDesc     string            `json:"product_description"`
-	Statement       string            `json:"statement_descriptor"`
-	SupportAddress  *Address          `json:"support_address"`
-	SupportEmail    string            `json:"support_email"`
-	SupportPhone    string            `json:"support_phone"`
-	SupportUrl      string            `json:"support_url"`
-	Timezone        string            `json:"timezone"`
+	LegalEntity               *LegalEntity      `json:"legal_entity"`
+	Metadata                  map[string]string `json:"metadata"`
+	DisplayName               string            `json:"display_name"`
+	PayoutSchedule            *PayoutSchedule   `json:"payout_schedule"`
+	PayoutStatementDescriptor string            `json:"payout_statement_descriptor"`
+	PayoutsEnabled            bool              `json:"payouts_enabled"`
+	ProductDescription        string            `json:"product_description"`
+	StatementDescriptor       string            `json:"statement_descriptor"`
+	SupportAddress            *Address          `json:"support_address"`
+	SupportEmail              string            `json:"support_email"`
+	SupportPhone              string            `json:"support_phone"`
+	SupportURL                string            `json:"support_url"`
+	Timezone                  string            `json:"timezone"`
 
 	TOSAcceptance *struct {
 		Date      int64  `json:"date"`
@@ -170,12 +264,12 @@ type Account struct {
 		UserAgent string `json:"user_agent"`
 	} `json:"tos_acceptance"`
 
-	Type AccountType
+	Type AccountType `json:"type"`
 
 	Verification *struct {
 		DisabledReason string   `json:"disabled_reason"`
-		Due            *int64   `json:"due_by"`
-		Fields         []string `json:"fields_needed"`
+		DueBy          *int64   `json:"due_by"`
+		FieldsNeeded   []string `json:"fields_needed"`
 	} `json:"verification"`
 }
 
@@ -195,37 +289,10 @@ func (a *Account) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// ExternalAccountType is the type of an external account.
-type ExternalAccountType string
-
-const (
-	// ExternalAccountTypeBankAccount is a constant value representing an external
-	// account which is a bank account.
-	ExternalAccountTypeBankAccount ExternalAccountType = "bank_account"
-
-	// ExternalAccountTypeCard is a constant value representing an external account
-	// which is a card.
-	ExternalAccountTypeCard ExternalAccountType = "card"
-)
-
-// AccountType is the type of an account.
-type AccountType string
-
-const (
-	// AccountTypeCustom is a constant value representing an account of type custom.
-	AccountTypeCustom AccountType = "custom"
-
-	// AccountTypeExpress is a constant value representing an account of type express.
-	AccountTypeExpress AccountType = "express"
-
-	// AccountTypeStandard is a constant value representing an account of type standard.
-	AccountTypeStandard AccountType = "standard"
-)
-
 // AccountList is a list of accounts as returned from a list endpoint.
 type AccountList struct {
 	ListMeta
-	Values []*Account `json:"data"`
+	Data []*Account `json:"data"`
 }
 
 // ExternalAccountList is a list of external accounts that may be either bank
@@ -235,7 +302,7 @@ type ExternalAccountList struct {
 
 	// Values contains any external accounts (bank accounts and/or cards)
 	// currently attached to this account.
-	Values []*ExternalAccount `json:"data"`
+	Data []*ExternalAccount `json:"data"`
 }
 
 // ExternalAccount is an external account (a bank account or card) that's
@@ -277,149 +344,83 @@ func (ea *ExternalAccount) UnmarshalJSON(b []byte) error {
 
 // LegalEntity is the structure for properties related to an account's legal state.
 type LegalEntity struct {
-	AdditionalOwners []Owner `json:"additional_owners" form:"additional_owners,indexed"`
-
-	// AdditionalOwnersEmpty can be set to clear a legal entity's additional
-	// owners.
-	AdditionalOwnersEmpty bool `form:"additional_owners,empty"`
-
-	Address               Address              `json:"address" form:"address"`
-	AddressKana           Address              `json:"address_kana" form:"address_kana"`
-	AddressKanji          Address              `json:"address_kanji" form:"address_kanji"`
-	BusinessName          string               `json:"business_name" form:"business_name"`
-	BusinessNameKana      string               `json:"business_name_kana" form:"business_name_kana"`
-	BusinessNameKanji     string               `json:"business_name_kanji" form:"business_name_kanji"`
-	BusinessTaxID         string               `json:"-" form:"business_tax_id"`
-	BusinessTaxIDProvided bool                 `json:"business_tax_id_provided" form:"-"`
-	BusinessVatID         string               `json:"-" form:"business_vat_id"`
-	BusinessVatIDProvided bool                 `json:"business_vat_id_provided" form:"-"`
-	DOB                   DOB                  `json:"dob" form:"dob"`
-	First                 string               `json:"first_name" form:"first_name"`
-	FirstKana             string               `json:"first_name_kana" form:"first_name_kana"`
-	FirstKanji            string               `json:"first_name_kanji" form:"first_name_kanji"`
-	Gender                Gender               `json:"gender" form:"gender"`
-	Last                  string               `json:"last_name" form:"last_name"`
-	LastKana              string               `json:"last_name_kana" form:"last_name_kana"`
-	LastKanji             string               `json:"last_name_kanji" form:"last_name_kanji"`
-	MaidenName            string               `json:"maiden_name" form:"maiden_name"`
-	PersonalAddress       Address              `json:"personal_address" form:"personal_address"`
-	PersonalAddressKana   Address              `json:"personal_address_kana" form:"personal_address_kana"`
-	PersonalAddressKanji  Address              `json:"personal_address_kanji" form:"personal_address_kanji"`
-	PersonalID            string               `json:"-" form:"personal_id_number"`
-	PersonalIDProvided    bool                 `json:"personal_id_number_provided" form:"-"`
-	PhoneNumber           string               `json:"phone_number" form:"phone_number"`
-	SSN                   string               `json:"-" form:"ssn_last_4"`
-	SSNProvided           bool                 `json:"ssn_last_4_provided" form:"-"`
-	Type                  LegalEntityType      `json:"type" form:"type"`
-	Verification          IdentityVerification `json:"verification" form:"verification"`
+	AdditionalOwners         []*AdditionalOwner    `json:"additional_owners"`
+	Address                  *AccountAddress       `json:"address"`
+	AddressKana              *AccountAddress       `json:"address_kana"`
+	AddressKanji             *AccountAddress       `json:"address_kanji"`
+	BusinessName             string                `json:"business_name"`
+	BusinessNameKana         string                `json:"business_name_kana"`
+	BusinessNameKanji        string                `json:"business_name_kanji"`
+	BusinessTaxIDProvided    bool                  `json:"business_tax_id_provided"`
+	BusinessVATIDProvided    bool                  `json:"business_vat_id_provided"`
+	DOB                      *DOB                  `json:"dob"`
+	FirstName                string                `json:"first_name"`
+	FirstNameKana            string                `json:"first_name_kana"`
+	FirstNameKanji           string                `json:"first_name_kanji"`
+	Gender                   string                `json:"gender"`
+	LastName                 string                `json:"last_name"`
+	LastNameKana             string                `json:"last_name_kana"`
+	LastNameKanji            string                `json:"last_name_kanji"`
+	MaidenName               string                `json:"maiden_name"`
+	PersonalAddress          *AccountAddress       `json:"personal_address"`
+	PersonalAddressKana      *AccountAddress       `json:"personal_address_kana"`
+	PersonalAddressKanji     *AccountAddress       `json:"personal_address_kanji"`
+	PersonalIDNumberProvided bool                  `json:"personal_id_number_provided"`
+	PhoneNumber              string                `json:"phone_number"`
+	SSNLast4Provided         bool                  `json:"ssn_last_4_provided"`
+	Type                     LegalEntityType       `json:"type"`
+	Verification             *IdentityVerification `json:"verification"`
 }
 
 // Address is the structure for an account address.
-type Address struct {
-	City    string `json:"city" form:"city"`
-	Country string `json:"country" form:"country"`
-	Line1   string `json:"line1" form:"line1"`
-	Line2   string `json:"line2" form:"line2"`
-	State   string `json:"state" form:"state"`
+type AccountAddress struct {
+	City       string `json:"city"`
+	Country    string `json:"country"`
+	Line1      string `json:"line1"`
+	Line2      string `json:"line2"`
+	PostalCode string `json:"postal_code"`
+	State      string `json:"state"`
 
 	// Town/cho-me. Note that this is only used for Kana/Kanji representations
 	// of an address.
-	Town string `json:"town" form:"town"`
-
-	Zip string `json:"postal_code" form:"postal_code"`
+	Town string `json:"town"`
 }
 
 // DOB is a structure for an account owner's date of birth.
 type DOB struct {
-	Day   int `json:"day" form:"day"`
-	Month int `json:"month" form:"month"`
-	Year  int `json:"year" form:"year"`
+	Day   int64 `json:"day"`
+	Month int64 `json:"month"`
+	Year  int64 `json:"year"`
 }
 
-// Gender is the gender of an account owner. International regulations require
-// either “male” or “female”.
-type Gender string
-
-// Owner is the structure for an account owner.
-type Owner struct {
-	Address                  Address              `json:"address" form:"address"`
-	DOB                      DOB                  `json:"dob" form:"dob"`
-	First                    string               `json:"first_name" form:"first_name"`
-	Last                     string               `json:"last_name" form:"last_name"`
-	MaidenName               string               `json:"maiden_name" form:"maiden_name"`
-	PersonalIDNumber         string               `json:"-" form:"personal_id_number"`
-	PersonalIDNumberProvided bool                 `json:"personal_id_number_provided" form:"-"`
-	Verification             IdentityVerification `json:"verification" form:"verification"`
+// AdditionalOwner is the structure for an account owner.
+type AdditionalOwner struct {
+	Address                  *AccountAddress `json:"address"`
+	DOB                      DOB             `json:"dob"`
+	FirstName                string          `json:"first_name"`
+	LastName                 string          `json:"last_name"`
+	MaidenName               string          `json:"maiden_name"`
+	PersonalIDNumberProvided bool            `json:"personal_id_number_provided"`
+	Verification             string          `json:"verification"`
 }
 
 // IdentityVerification is the structure for an account's verification.
 type IdentityVerification struct {
-	Details     *string                         `json:"details" form:"-"`
-	DetailsCode IdentityVerificationDetailsCode `json:"details_code" form:"-"`
-	Document    *IdentityDocument               `json:"document" form:"document"`
-	Status      IdentityVerificationStatus      `json:"status" form:"-"`
-}
-
-// IdentityDocument is the structure for an identity document.
-type IdentityDocument struct {
-	Created int64  `json:"created" form:"-"`
-	ID      string `json:"id" form:"-"` // See custom AppendTo implementation
-	Size    int64  `json:"size" form:"-"`
-}
-
-// AppendTo implements custom form encoding for IdentityDocument. In the Go
-// library, it's suggested that users initialize an IdentityDocument and fill
-// its ID when updating an account, but in the API's account update method,
-// there is no subobject; you simply pass an ID into the document field.
-//
-// The inherent cause of this asymmetry is that instead of creating separate
-// structs for parameters (which are normally separate from the structs used
-// for responses), someone decided to reuse them instead, and although request
-// and response constructs are similar, they're not identical, thus the
-// discrepancy.
-//
-// Long term, we should create separate parameter structs. This isn't hard, but
-// is breaking, and will be somewhat painful for users when they upgrade.
-func (d *IdentityDocument) AppendTo(body *form.Values, keyParts []string) {
-	body.Add(form.FormatKey(keyParts), d.ID)
+	Details     string                          `json:"details"`
+	DetailsCode IdentityVerificationDetailsCode `json:"details_code"`
+	Document    *FileUpload                     `json:"document"`
+	Status      IdentityVerificationStatus      `json:"status"`
 }
 
 // PayoutSchedule is the structure for an account's payout schedule.
 type PayoutSchedule struct {
-	Delay       uint64   `json:"delay_days" form:"delay_days"`
-	Interval    Interval `json:"interval" form:"interval"`
-	MonthAnchor uint64   `json:"monthly_anchor" form:"monthly_anchor"`
-	WeekAnchor  string   `json:"weekly_anchor" form:"weekly_anchor"`
-}
-
-// TOSAcceptanceParams is the structure for TOS acceptance.
-type TOSAcceptanceParams struct {
-	Date      int64  `json:"date" form:"date"`
-	IP        string `json:"ip" form:"ip"`
-	UserAgent string `json:"user_agent" form:"user_agent"`
+	DelayDays     int64          `json:"delay_days"`
+	Interval      PayoutInterval `json:"interval"`
+	MonthlyAnchor int64          `json:"monthly_anchor"`
+	WeeklyAnchor  string         `json:"weekly_anchor"`
 }
 
 // AccountRejectParams is the structure for the Reject function.
 type AccountRejectParams struct {
-	// Reason is the reason that an account was rejected. It should be given a
-	// value of one of `fraud`, `terms_of_service`, or `other`.
-	Reason string `json:"reason" form:"reason"`
-}
-
-// UnmarshalJSON handles deserialization of an IdentityDocument.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (d *IdentityDocument) UnmarshalJSON(data []byte) error {
-	type identityDocument IdentityDocument
-	var doc identityDocument
-	err := json.Unmarshal(data, &doc)
-
-	if err == nil {
-		*d = IdentityDocument(doc)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		d.ID = string(data[1 : len(data)-1])
-	}
-
-	return nil
+	Reason *string `form:"reason"`
 }

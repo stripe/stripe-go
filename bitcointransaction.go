@@ -5,8 +5,8 @@ import "encoding/json"
 // BitcoinTransactionListParams is the set of parameters that can be used when listing BitcoinTransactions.
 type BitcoinTransactionListParams struct {
 	ListParams `form:"*"`
-	Customer   string `form:"customer"`
-	Receiver   string `form:"-"` // Sent in with the URL
+	Customer   *string `form:"customer"`
+	Receiver   *string `form:"-"` // Sent in with the URL
 }
 
 // BitcoinTransactionList is a list object for BitcoinTransactions.
@@ -14,14 +14,14 @@ type BitcoinTransactionListParams struct {
 // For more details see https://stripe.com/docs/api/#retrieve_bitcoin_receiver
 type BitcoinTransactionList struct {
 	ListMeta
-	Values []*BitcoinTransaction `json:"data"`
+	Data []*BitcoinTransaction `json:"data"`
 }
 
 // BitcoinTransaction is the resource representing a Stripe bitcoin transaction.
 // For more details see https://stripe.com/docs/api/#bitcoin_receivers
 type BitcoinTransaction struct {
-	Amount        uint64   `json:"amount"`
-	BitcoinAmount uint64   `json:"bitcoin_amount"`
+	Amount        int64    `json:"amount"`
+	BitcoinAmount int64    `json:"bitcoin_amount"`
 	Created       int64    `json:"created"`
 	Currency      Currency `json:"currency"`
 	Customer      string   `json:"customer"`

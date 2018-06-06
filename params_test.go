@@ -76,9 +76,9 @@ func TestListParams_Nested(t *testing.T) {
 	params := &testListParams{
 		Field: "field_value",
 		ListParams: stripe.ListParams{
-			End:   "acct_123",
-			Limit: 100,
-			Start: "acct_123",
+			EndingBefore:  stripe.String("acct_123"),
+			Limit:         stripe.Int64(100),
+			StartingAfter: stripe.String("acct_123"),
 		},
 	}
 
@@ -145,13 +145,13 @@ func TestParams_AppendTo_Nested(t *testing.T) {
 	params := &testParams{
 		Field: "field_value",
 		Params: stripe.Params{
-			Meta: map[string]string{
+			Metadata: map[string]string{
 				"foo": "bar",
 			},
 		},
 		SubParams: &testSubParams{
 			Params: stripe.Params{
-				Meta: map[string]string{
+				Metadata: map[string]string{
 					"sub_foo": "bar",
 				},
 			},
@@ -204,7 +204,7 @@ func TestListParams_Expand(t *testing.T) {
 		p := stripe.ListParams{}
 
 		for _, exp := range testCase.Expand {
-			p.Expand(exp)
+			p.AddExpand(exp)
 		}
 
 		body := valuesFromArray(testCase.InitialBody)
@@ -213,41 +213,32 @@ func TestListParams_Expand(t *testing.T) {
 	}
 }
 
-func TestListParams_ToParams(t *testing.T) {
-	listParams := &stripe.ListParams{
-		Context:       context.Background(),
-		StripeAccount: TestMerchantID,
-	}
-	params := listParams.ToParams()
-	assert.Equal(t, listParams.Context, params.Context)
-	assert.Equal(t, listParams.StripeAccount, params.StripeAccount)
+func TestListParams_SetStripeAccount(t *testing.T) {
+	p := &stripe.ListParams{}
+	p.SetStripeAccount(TestMerchantID)
+	assert.Equal(t, TestMerchantID, *p.StripeAccount)
 }
 
-func TestParams_SetAccount(t *testing.T) {
+func TestListParams_ToParams(t *testing.T) {
+	listParams := &stripe.ListParams{
+		Context: context.Background(),
+	}
+	listParams.SetStripeAccount(TestMerchantID)
+	params := listParams.ToParams()
+	assert.Equal(t, listParams.Context, params.Context)
+	assert.Equal(t, *listParams.StripeAccount, *params.StripeAccount)
+}
+
+func TestParams_SetIdempotencyKey(t *testing.T) {
 	p := &stripe.Params{}
-	p.SetAccount(TestMerchantID)
-
-	if p.Account != TestMerchantID {
-		t.Fatalf("Expected Account of %v but got %v.", TestMerchantID, p.Account)
-	}
-
-	if p.StripeAccount != TestMerchantID {
-		t.Fatalf("Expected StripeAccount of %v but got %v.", TestMerchantID, p.StripeAccount)
-	}
+	p.SetIdempotencyKey("my-idempotency-key")
+	assert.Equal(t, "my-idempotency-key", *p.IdempotencyKey)
 }
 
 func TestParams_SetStripeAccount(t *testing.T) {
 	p := &stripe.Params{}
 	p.SetStripeAccount(TestMerchantID)
-
-	if p.StripeAccount != TestMerchantID {
-		t.Fatalf("Expected Account of %v but got %v.", TestMerchantID, p.StripeAccount)
-	}
-
-	// Check that we don't set the deprecated parameter.
-	if p.Account != "" {
-		t.Fatalf("Expected empty Account but got %v.", TestMerchantID)
-	}
+	assert.Equal(t, TestMerchantID, *p.StripeAccount)
 }
 
 //

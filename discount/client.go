@@ -38,7 +38,7 @@ func (c Client) Del(customerID string, params *stripe.DiscountParams) (*stripe.D
 
 // DelSub removes a discount from a customer's subscription.
 // For more details see https://stripe.com/docs/api#delete_subscription_discount.
-func DelSub(subscriptionID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
+func DelSubscription(subscriptionID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
 	return getC().DelSub(subscriptionID, params)
 }
 

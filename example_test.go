@@ -5,7 +5,6 @@ import (
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/charge"
-	"github.com/stripe/stripe-go/currency"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/invoice"
 	"github.com/stripe/stripe-go/plan"
@@ -15,11 +14,11 @@ func ExampleCharge_new() {
 	stripe.Key = "sk_key"
 
 	params := &stripe.ChargeParams{
-		Amount:   1000,
-		Currency: currency.USD,
+		Amount:   stripe.Int64(1000),
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
 	}
 	params.SetSource("tok_visa")
-	params.AddMeta("key", "value")
+	params.AddMetadata("key", "value")
 
 	ch, err := charge.New(params)
 
@@ -34,9 +33,9 @@ func ExampleCharge_get() {
 	stripe.Key = "sk_key"
 
 	params := &stripe.ChargeParams{}
-	params.Expand("customer")
-	params.Expand("application")
-	params.Expand("balance_transaction")
+	params.AddExpand("customer")
+	params.AddExpand("application")
+	params.AddExpand("balance_transaction")
 
 	ch, err := charge.Get("ch_example_id", params)
 
@@ -55,7 +54,7 @@ func ExampleInvoice_update() {
 	stripe.Key = "sk_key"
 
 	params := &stripe.InvoiceParams{
-		Desc: "updated description",
+		Description: stripe.String("updated description"),
 	}
 
 	inv, err := invoice.Update("sub_example_id", params)
@@ -64,7 +63,7 @@ func ExampleInvoice_update() {
 		log.Fatal(err)
 	}
 
-	log.Printf("%v\n", inv.Desc)
+	log.Printf("%v\n", inv.Description)
 }
 
 func ExampleCustomer_delete() {

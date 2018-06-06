@@ -4,8 +4,15 @@ import (
 	"encoding/json"
 	"io"
 	"mime/multipart"
-	"os"
 	"path/filepath"
+)
+
+// FileUploadPurpose is the purpose of a particular file upload.
+type FileUploadPurpose string
+
+const (
+	FileUploadPurposeDisputeEvidence  FileUploadPurpose = "dispute_evidence"
+	FileUploadPurposeIdentityDocument FileUploadPurpose = "identity_document"
 )
 
 // FileUploadParams is the set of parameters that can be used when creating a
@@ -14,31 +21,23 @@ import (
 type FileUploadParams struct {
 	Params `form:"*"`
 
-	// File is a deprecated form of FileReader and Filename that will do the same thing, but
-	// allows referencing a file directly. Please prefer the use of FileReader and Filename instead.
-	File *os.File
-
 	// FileReader is a reader with the contents of the file that should be uploaded.
 	FileReader io.Reader
 
 	// Filename is just the name of the file without path information.
-	Filename string
+	Filename *string
 
-	Purpose FileUploadPurpose
+	Purpose *string
 }
 
 // FileUploadListParams is the set of parameters that can be used when listing
 // file uploads. For more details see https://stripe.com/docs/api#list_file_uploads.
 type FileUploadListParams struct {
 	ListParams   `form:"*"`
-	Created      int64             `form:"created"`
+	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-	Purpose      FileUploadPurpose `form:"purpose"`
+	Purpose      *string           `form:"purpose"`
 }
-
-// FileUploadPurpose is the purpose of a particular file upload. Allowed values
-// are "dispute_evidence" and "identity_document".
-type FileUploadPurpose string
 
 // FileUpload is the resource representing a Stripe file upload.
 // For more details see https://stripe.com/docs/api#file_uploads.
@@ -54,7 +53,7 @@ type FileUpload struct {
 // FileUploadList is a list of file uploads as retrieved from a list endpoint.
 type FileUploadList struct {
 	ListMeta
-	Values []*FileUpload `json:"data"`
+	Data []*FileUpload `json:"data"`
 }
 
 // AppendDetails adds the file upload details to an io.ReadWriter. It returns
@@ -64,8 +63,8 @@ func (f *FileUploadParams) AppendDetails(body io.ReadWriter) (string, error) {
 	writer := multipart.NewWriter(body)
 	var err error
 
-	if len(f.Purpose) > 0 {
-		err = writer.WriteField("purpose", string(f.Purpose))
+	if f.Purpose != nil {
+		err = writer.WriteField("purpose", StringValue(f.Purpose))
 		if err != nil {
 			return "", err
 		}
@@ -73,23 +72,13 @@ func (f *FileUploadParams) AppendDetails(body io.ReadWriter) (string, error) {
 
 	// Support both FileReader/Filename and File with
 	// the former being the newer preferred version
-	if f.FileReader != nil && f.Filename != "" {
-		part, err := writer.CreateFormFile("file", filepath.Base(f.Filename))
+	if f.FileReader != nil && f.Filename != nil {
+		part, err := writer.CreateFormFile("file", filepath.Base(StringValue(f.Filename)))
 		if err != nil {
 			return "", err
 		}
 
 		_, err = io.Copy(part, f.FileReader)
-		if err != nil {
-			return "", err
-		}
-	} else if f.File != nil {
-		part, err := writer.CreateFormFile("file", filepath.Base(f.File.Name()))
-		if err != nil {
-			return "", err
-		}
-
-		_, err = io.Copy(part, f.File)
 		if err != nil {
 			return "", err
 		}

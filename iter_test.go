@@ -44,7 +44,7 @@ func TestIterOneErr(t *testing.T) {
 
 func TestIterPage2Empty(t *testing.T) {
 	tq := testQuery{
-		{[]interface{}{&item{"x"}}, ListMeta{0, true, ""}, nil},
+		{[]interface{}{&item{"x"}}, ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
 		{nil, ListMeta{}, nil},
 	}
 	want := []interface{}{&item{"x"}}
@@ -56,7 +56,7 @@ func TestIterPage2Empty(t *testing.T) {
 
 func TestIterPage2EmptyErr(t *testing.T) {
 	tq := testQuery{
-		{[]interface{}{&item{"x"}}, ListMeta{0, true, ""}, nil},
+		{[]interface{}{&item{"x"}}, ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
 		{nil, ListMeta{}, errTest},
 	}
 	want := []interface{}{&item{"x"}}
@@ -68,8 +68,8 @@ func TestIterPage2EmptyErr(t *testing.T) {
 
 func TestIterTwoPages(t *testing.T) {
 	tq := testQuery{
-		{[]interface{}{&item{"x"}}, ListMeta{0, true, ""}, nil},
-		{[]interface{}{2}, ListMeta{0, false, ""}, nil},
+		{[]interface{}{&item{"x"}}, ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
+		{[]interface{}{2}, ListMeta{HasMore: false, TotalCount: 0, URL: ""}, nil},
 	}
 	want := []interface{}{&item{"x"}, 2}
 	g, gerr := collect(GetIter(nil, nil, tq.query))
@@ -80,8 +80,8 @@ func TestIterTwoPages(t *testing.T) {
 
 func TestIterTwoPagesErr(t *testing.T) {
 	tq := testQuery{
-		{[]interface{}{&item{"x"}}, ListMeta{0, true, ""}, nil},
-		{[]interface{}{2}, ListMeta{0, false, ""}, errTest},
+		{[]interface{}{&item{"x"}}, ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
+		{[]interface{}{2}, ListMeta{HasMore: false, TotalCount: 0, URL: ""}, errTest},
 	}
 	want := []interface{}{&item{"x"}, 2}
 	g, gerr := collect(GetIter(nil, nil, tq.query))
@@ -93,7 +93,7 @@ func TestIterTwoPagesErr(t *testing.T) {
 func TestIterReversed(t *testing.T) {
 	tq := testQuery{{[]interface{}{1, 2}, ListMeta{}, nil}}
 	want := []interface{}{2, 1}
-	g, gerr := collect(GetIter(&ListParams{End: "x"}, nil, tq.query))
+	g, gerr := collect(GetIter(&ListParams{EndingBefore: String("x")}, nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.NoError(t, gerr)
@@ -101,11 +101,11 @@ func TestIterReversed(t *testing.T) {
 
 func TestIterReversedTwoPages(t *testing.T) {
 	tq := testQuery{
-		{[]interface{}{&item{"3"}, 4}, ListMeta{0, true, ""}, nil},
+		{[]interface{}{&item{"3"}, 4}, ListMeta{HasMore: true, TotalCount: 0, URL: ""}, nil},
 		{[]interface{}{1, 2}, ListMeta{}, nil},
 	}
 	want := []interface{}{4, &item{"3"}, 2, 1}
-	g, gerr := collect(GetIter(&ListParams{End: "x"}, nil, tq.query))
+	g, gerr := collect(GetIter(&ListParams{EndingBefore: String("x")}, nil, tq.query))
 	assert.Equal(t, 0, len(tq))
 	assert.Equal(t, want, g)
 	assert.NoError(t, gerr)

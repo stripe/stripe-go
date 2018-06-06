@@ -10,7 +10,13 @@ import (
 
 func TestOrderUpdateParams_AppendTo(t *testing.T) {
 	{
-		params := &OrderUpdateParams{Status: "fulfilled", Shipping: &OrderUpdateShippingParams{Carrier: "USPS", TrackingNumber: "123"}}
+		params := &OrderUpdateParams{
+			Status: String("fulfilled"),
+			Shipping: &OrderUpdateShippingParams{
+				Carrier:        String("USPS"),
+				TrackingNumber: String("123"),
+			},
+		}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -27,7 +33,7 @@ func TestShipping_MarshalJSON(t *testing.T) {
 			Phone:          "phone",
 			Carrier:        "USPS",
 			TrackingNumber: "tracking.123",
-			Address: Address{
+			Address: &Address{
 				Line1:   "123 Market Street",
 				City:    "San Francisco",
 				State:   "CA",

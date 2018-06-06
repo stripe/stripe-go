@@ -31,10 +31,11 @@ func TestCouponList(t *testing.T) {
 
 func TestCouponNew(t *testing.T) {
 	coupon, err := New(&stripe.CouponParams{
-		Duration:       "repeating",
-		DurationPeriod: 3,
-		ID:             "25OFF",
-		Percent:        25,
+		Currency:         stripe.String(string(stripe.CurrencyUSD)),
+		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
+		DurationInMonths: stripe.Int64(3),
+		ID:               stripe.String("25OFF"),
+		PercentOff:       stripe.Int64(25),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, coupon)
@@ -43,7 +44,7 @@ func TestCouponNew(t *testing.T) {
 func TestCouponUpdate(t *testing.T) {
 	coupon, err := Update("25OFF", &stripe.CouponParams{
 		Params: stripe.Params{
-			Meta: map[string]string{
+			Metadata: map[string]string{
 				"foo": "bar",
 			},
 		},

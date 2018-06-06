@@ -9,7 +9,7 @@ import (
 
 func TestChargeParams_AppendTo(t *testing.T) {
 	{
-		params := &ChargeParams{Amount: 123}
+		params := &ChargeParams{Amount: Int64(123)}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -17,7 +17,7 @@ func TestChargeParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &ChargeParams{Source: &SourceParams{Card: &CardParams{Number: "4242424242424242"}}}
+		params := &ChargeParams{Source: &SourceParams{Card: &CardParams{Number: String("4242424242424242")}}}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)

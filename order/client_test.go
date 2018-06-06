@@ -29,7 +29,7 @@ func TestOrderList(t *testing.T) {
 
 func TestOrderNew(t *testing.T) {
 	order, err := New(&stripe.OrderParams{
-		Currency: "usd",
+		Currency: stripe.String(string(stripe.CurrencyUSD)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, order)
@@ -37,7 +37,7 @@ func TestOrderNew(t *testing.T) {
 
 func TestOrderPay(t *testing.T) {
 	order, err := Pay("or_123", &stripe.OrderPayParams{
-		Customer: "cus_123",
+		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, order)
@@ -72,7 +72,8 @@ func TestOrderReturn_RequestParams(t *testing.T) {
 	})
 
 	p := &stripe.OrderReturnParams{}
-	p.StripeAccount = "acct_123"
+	p.SetStripeAccount("acct_123")
+
 	order, err := Return("or_123", p)
 	assert.Nil(t, err)
 	assert.NotNil(t, order)
@@ -82,7 +83,7 @@ func TestOrderReturn_RequestParams(t *testing.T) {
 
 func TestOrderUpdate(t *testing.T) {
 	order, err := Update("or_123", &stripe.OrderUpdateParams{
-		Status: "fulfilled",
+		Status: stripe.String(string(stripe.OrderStatusFulfilled)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, order)

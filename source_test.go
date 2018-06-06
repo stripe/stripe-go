@@ -12,7 +12,7 @@ func TestSourceObjectParams_AppendTo(t *testing.T) {
 	// encoding
 	{
 		params := &SourceObjectParams{
-			Type: "source_type",
+			Type: String("source_type"),
 			TypeData: map[string]string{
 				"foo": "bar",
 			},

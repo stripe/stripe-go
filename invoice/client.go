@@ -8,11 +8,6 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-const (
-	TypeInvoiceItem  stripe.InvoiceLineType = "invoiceitem"
-	TypeSubscription stripe.InvoiceLineType = "subscription"
-)
-
 // Client is the client used to invoke /invoices APIs.
 type Client struct {
 	B   stripe.Backend
@@ -139,8 +134,8 @@ func (c Client) List(params *stripe.InvoiceListParams) *Iter {
 		list := &stripe.InvoiceList{}
 		err := c.B.Call("GET", "/invoices", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 
@@ -162,10 +157,10 @@ func (c Client) ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 
 	return &LineIter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceLineList{}
-		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", params.ID), c.Key, b, p, list)
+		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", stripe.StringValue(params.ID)), c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

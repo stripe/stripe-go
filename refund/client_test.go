@@ -25,7 +25,8 @@ func TestRefundList(t *testing.T) {
 
 func TestRefundNew(t *testing.T) {
 	refund, err := New(&stripe.RefundParams{
-		Charge: "ch_123",
+		Charge: stripe.String("ch_123"),
+		Reason: stripe.String(string(stripe.RefundReasonDuplicate)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, refund)
@@ -34,7 +35,7 @@ func TestRefundNew(t *testing.T) {
 func TestRefundUpdate(t *testing.T) {
 	refund, err := Update("gold", &stripe.RefundParams{
 		Params: stripe.Params{
-			Meta: map[string]string{
+			Metadata: map[string]string{
 				"foo": "bar",
 			},
 		},

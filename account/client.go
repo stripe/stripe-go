@@ -21,8 +21,8 @@ func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 
 	// Type is now required on creation and not allowed on update
 	// It can't be passed if you pass `from_recipient` though
-	if len(params.FromRecipient) == 0 {
-		body.Add("type", string(params.Type))
+	if params.FromRecipient != nil {
+		body.Add("type", stripe.StringValue(params.Type))
 	}
 
 	form.AppendTo(body, params)
@@ -115,8 +115,8 @@ func Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, err
 
 func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
 	body := &form.Values{}
-	if len(params.Reason) > 0 {
-		body.Add("reason", params.Reason)
+	if params.Reason != nil {
+		body.Add("reason", stripe.StringValue(params.Reason))
 	}
 	acct := &stripe.Account{}
 	err := c.B.Call("POST", "/accounts/"+id+"/reject", c.Key, body, nil, acct)
@@ -146,8 +146,8 @@ func (c Client) List(params *stripe.AccountListParams) *Iter {
 		list := &stripe.AccountList{}
 		err := c.B.Call("GET", "/accounts", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

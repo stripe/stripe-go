@@ -8,12 +8,6 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-const (
-	Forever   stripe.CouponDuration = "forever"
-	Once      stripe.CouponDuration = "once"
-	Repeating stripe.CouponDuration = "repeating"
-)
-
 // Client is used to invoke /coupons APIs.
 type Client struct {
 	B   stripe.Backend
@@ -119,8 +113,8 @@ func (c Client) List(params *stripe.CouponListParams) *Iter {
 		list := &stripe.CouponList{}
 		err := c.B.Call("GET", "/coupons", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

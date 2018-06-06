@@ -30,24 +30,24 @@ func TestProductList(t *testing.T) {
 }
 
 func TestProductNew(t *testing.T) {
-	active := true
-	shippable := true
-
 	product, err := New(&stripe.ProductParams{
-		Active:    &active,
-		Name:      "Test Name",
-		Desc:      "This is a description",
-		Caption:   "This is a caption",
-		Attrs:     []string{"attr1", "attr2"},
-		URL:       "http://example.com",
-		Shippable: &shippable,
-		PackageDimensions: &stripe.PackageDimensions{
-			Height: 2.234,
-			Length: 5.10,
-			Width:  6.50,
-			Weight: 10,
+		Active:      stripe.Bool(true),
+		Name:        stripe.String("Test Name"),
+		Description: stripe.String("This is a description"),
+		Caption:     stripe.String("This is a caption"),
+		Attributes: []*string{
+			stripe.String("Attr1"),
+			stripe.String("Attr2"),
 		},
-		Type: stripe.ProductTypeGood,
+		URL:       stripe.String("http://example.com"),
+		Shippable: stripe.Bool(true),
+		PackageDimensions: &stripe.PackageDimensionsParams{
+			Height: stripe.Float64(2.234),
+			Length: stripe.Float64(5.10),
+			Width:  stripe.Float64(6.50),
+			Weight: stripe.Float64(10),
+		},
+		Type: stripe.String(string(stripe.ProductTypeGood)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, product)
@@ -55,7 +55,7 @@ func TestProductNew(t *testing.T) {
 
 func TestProductUpdate(t *testing.T) {
 	product, err := Update("prod_123", &stripe.ProductParams{
-		Name: "Updated Name",
+		Name: stripe.String("Updated Name"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, product)

@@ -16,11 +16,11 @@ type Client struct {
 
 // Get returns the details of an application fee.
 // For more details see https://stripe.com/docs/api#retrieve_application_fee.
-func Get(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
+func Get(id string, params *stripe.ApplicationFeeParams) (*stripe.ApplicationFee, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
+func (c Client) Get(id string, params *stripe.ApplicationFeeParams) (*stripe.ApplicationFee, error) {
 	var body *form.Values
 	var commonParams *stripe.Params
 
@@ -30,7 +30,7 @@ func (c Client) Get(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
 		form.AppendTo(body, params)
 	}
 
-	fee := &stripe.Fee{}
+	fee := &stripe.ApplicationFee{}
 	err := c.B.Call("GET", fmt.Sprintf("application_fees/%v", id), c.Key, body, commonParams, fee)
 
 	return fee, err
@@ -38,11 +38,11 @@ func (c Client) Get(id string, params *stripe.FeeParams) (*stripe.Fee, error) {
 
 // List returns a list of application fees.
 // For more details see https://stripe.com/docs/api#list_application_fees.
-func List(params *stripe.FeeListParams) *Iter {
+func List(params *stripe.ApplicationFeeListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.FeeListParams) *Iter {
+func (c Client) List(params *stripe.ApplicationFeeListParams) *Iter {
 	var body *form.Values
 	var lp *stripe.ListParams
 	var p *stripe.Params
@@ -55,11 +55,11 @@ func (c Client) List(params *stripe.FeeListParams) *Iter {
 	}
 
 	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
-		list := &stripe.FeeList{}
+		list := &stripe.ApplicationFeeList{}
 		err := c.B.Call("GET", "/application_fees", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 
@@ -67,17 +67,17 @@ func (c Client) List(params *stripe.FeeListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Fees.
+// Iter is an iterator for lists of ApplicationFees.
 // The embedded Iter carries methods with it;
 // see its documentation for details.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Fee returns the most recent Fee
+// ApplicationFee returns the most recent ApplicationFee
 // visited by a call to Next.
-func (i *Iter) Fee() *stripe.Fee {
-	return i.Current().(*stripe.Fee)
+func (i *Iter) ApplicationFee() *stripe.ApplicationFee {
+	return i.Current().(*stripe.ApplicationFee)
 }
 
 func getC() Client {

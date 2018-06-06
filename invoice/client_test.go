@@ -25,7 +25,7 @@ func TestInvoiceList(t *testing.T) {
 
 func TestInvoiceListLines(t *testing.T) {
 	i := ListLines(&stripe.InvoiceLineListParams{
-		ID: "in_123",
+		ID: stripe.String("in_123"),
 	})
 
 	// Verify that we can get at least one invoice
@@ -36,7 +36,8 @@ func TestInvoiceListLines(t *testing.T) {
 
 func TestInvoiceNew(t *testing.T) {
 	invoice, err := New(&stripe.InvoiceParams{
-		Customer: "cus_123",
+		Billing:  stripe.String(string(stripe.InvoiceBillingChargeAutomatically)),
+		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, invoice)
@@ -44,7 +45,7 @@ func TestInvoiceNew(t *testing.T) {
 
 func TestInvoicePay(t *testing.T) {
 	invoice, err := Pay("in_123", &stripe.InvoicePayParams{
-		Source: "src_123",
+		Source: stripe.String("src_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, invoice)
@@ -52,7 +53,8 @@ func TestInvoicePay(t *testing.T) {
 
 func TestInvoiceUpdate(t *testing.T) {
 	invoice, err := Update("in_123", &stripe.InvoiceParams{
-		Closed: true,
+		Forgiven: stripe.Bool(true),
+		Closed:   stripe.Bool(true),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, invoice)

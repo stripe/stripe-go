@@ -2,55 +2,54 @@ package stripe
 
 import "encoding/json"
 
-// FeeParams is the set of parameters that can be used when refunding an application fee.
+// ApplicationFeeParams is the set of parameters that can be used when refunding an application fee.
 // For more details see https://stripe.com/docs/api#refund_application_fee.
-type FeeParams struct {
+type ApplicationFeeParams struct {
 	Params `form:"*"`
-	Amount uint64
 }
 
-// FeeListParams is the set of parameters that can be used when listing application fees.
+// ApplicationFeeListParams is the set of parameters that can be used when listing application fees.
 // For more details see https://stripe.com/docs/api#list_application_fees.
-type FeeListParams struct {
+type ApplicationFeeListParams struct {
 	ListParams   `form:"*"`
-	Charge       string            `form:"charge"`
-	Created      int64             `form:"created"`
+	Charge       *string           `form:"charge"`
+	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 }
 
-// Fee is the resource representing a Stripe application fee.
+// ApplicationFee is the resource representing a Stripe application fee.
 // For more details see https://stripe.com/docs/api#application_fees.
-type Fee struct {
-	Account                *Account       `json:"account"`
-	Amount                 uint64         `json:"amount"`
-	AmountRefunded         uint64         `json:"amount_refunded"`
-	App                    string         `json:"application"`
-	Charge                 *Charge        `json:"charge"`
-	Created                int64          `json:"created"`
-	Currency               Currency       `json:"currency"`
-	ID                     string         `json:"id"`
-	Live                   bool           `json:"livemode"`
-	OriginatingTransaction *Charge        `json:"originating_transaction"`
-	Refunded               bool           `json:"refunded"`
-	Refunds                *FeeRefundList `json:"refunds"`
-	Tx                     *Transaction   `json:"balance_transaction"`
+type ApplicationFee struct {
+	Account                *Account            `json:"account"`
+	Amount                 int64               `json:"amount"`
+	AmountRefunded         int64               `json:"amount_refunded"`
+	Application            string              `json:"application"`
+	BalanceTransaction     *BalanceTransaction `json:"balance_transaction"`
+	Charge                 *Charge             `json:"charge"`
+	Created                int64               `json:"created"`
+	Currency               Currency            `json:"currency"`
+	ID                     string              `json:"id"`
+	Livemode               bool                `json:"livemode"`
+	OriginatingTransaction *Charge             `json:"originating_transaction"`
+	Refunded               bool                `json:"refunded"`
+	Refunds                *FeeRefundList      `json:"refunds"`
 }
 
-// FeeList is a list of fees as retrieved from a list endpoint.
-type FeeList struct {
+//ApplicationFeeList is a list of application fees as retrieved from a list endpoint.
+type ApplicationFeeList struct {
 	ListMeta
-	Values []*Fee `json:"data"`
+	Data []*ApplicationFee `json:"data"`
 }
 
-// UnmarshalJSON handles deserialization of a Fee.
+// UnmarshalJSON handles deserialization of an ApplicationFee.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (f *Fee) UnmarshalJSON(data []byte) error {
-	type appfee Fee
+func (f *ApplicationFee) UnmarshalJSON(data []byte) error {
+	type appfee ApplicationFee
 	var ff appfee
 	err := json.Unmarshal(data, &ff)
 	if err == nil {
-		*f = Fee(ff)
+		*f = ApplicationFee(ff)
 	} else {
 		// the id is surrounded by "\" characters, so strip them
 		f.ID = string(data[1 : len(data)-1])

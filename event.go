@@ -9,14 +9,14 @@ import (
 // Event is the resource representing a Stripe event.
 // For more details see https://stripe.com/docs/api#events.
 type Event struct {
-	Account  string        `json:"account"`
-	Created  int64         `json:"created"`
-	Data     *EventData    `json:"data"`
-	ID       string        `json:"id"`
-	Live     bool          `json:"livemode"`
-	Request  *EventRequest `json:"request"`
-	Type     string        `json:"type"`
-	Webhooks uint64        `json:"pending_webhooks"`
+	Account         string        `json:"account"`
+	Created         int64         `json:"created"`
+	Data            *EventData    `json:"data"`
+	ID              string        `json:"id"`
+	Livemode        bool          `json:"livemode"`
+	PendingWebhooks int64         `json:"pending_webhooks"`
+	Request         *EventRequest `json:"request"`
+	Type            string        `json:"type"`
 }
 
 // EventRequest contains information on a request that created an event.
@@ -33,35 +33,35 @@ type EventRequest struct {
 
 // EventData is the unmarshalled object as a map.
 type EventData struct {
-	Obj  map[string]interface{}
-	Prev map[string]interface{} `json:"previous_attributes"`
-	Raw  json.RawMessage        `json:"object"`
+	Object             map[string]interface{}
+	PreviousAttributes map[string]interface{} `json:"previous_attributes"`
+	Raw                json.RawMessage        `json:"object"`
 }
 
 // EventList is a list of events as retrieved from a list endpoint.
 type EventList struct {
 	ListMeta
-	Values []*Event `json:"data"`
+	Data []*Event `json:"data"`
 }
 
 // EventListParams is the set of parameters that can be used when listing events.
 // For more details see https://stripe.com/docs/api#list_events.
 type EventListParams struct {
 	ListParams   `form:"*"`
-	Created      int64             `form:"created"`
+	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-	Type         string            `form:"type"`
-	Types        []string          `form:"types"`
+	Type         *string           `form:"type"`
+	Types        []*string         `form:"types"`
 }
 
-// GetObjValue returns the value from the e.Data.Obj bag based on the keys hierarchy.
-func (e *Event) GetObjValue(keys ...string) string {
-	return getValue(e.Data.Obj, keys)
+// GetObjectValue returns the value from the e.Data.Object bag based on the keys hierarchy.
+func (e *Event) GetObjectValue(keys ...string) string {
+	return getValue(e.Data.Object, keys)
 }
 
-// GetPrevValue returns the value from the e.Data.Prev bag based on the keys hierarchy.
-func (e *Event) GetPrevValue(keys ...string) string {
-	return getValue(e.Data.Prev, keys)
+// GetPreviousValue returns the value from the e.Data.Prev bag based on the keys hierarchy.
+func (e *Event) GetPreviousValue(keys ...string) string {
+	return getValue(e.Data.PreviousAttributes, keys)
 }
 
 // UnmarshalJSON handles deserialization of the EventData.
@@ -75,7 +75,7 @@ func (e *EventData) UnmarshalJSON(data []byte) error {
 	}
 
 	*e = EventData(ee)
-	return json.Unmarshal(e.Raw, &e.Obj)
+	return json.Unmarshal(e.Raw, &e.Object)
 }
 
 // getValue returns the value from the m map based on the keys.

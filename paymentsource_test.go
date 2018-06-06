@@ -10,7 +10,7 @@ import (
 
 func TestSourceParams_AppendTo(t *testing.T) {
 	{
-		params := &SourceParams{Token: "tok_123"}
+		params := &SourceParams{Token: String("tok_123")}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -18,7 +18,7 @@ func TestSourceParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &SourceParams{Card: &CardParams{Number: "4242424242424242"}}
+		params := &SourceParams{Card: &CardParams{Number: String("4242424242424242")}}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -32,7 +32,7 @@ func TestPaymentSource_MarshalJSON(t *testing.T) {
 		id := "card_123"
 		name := "alice cooper"
 		paymentSource := &PaymentSource{
-			Type: PaymentSourceCard,
+			Type: PaymentSourceTypeCard,
 			ID:   id,
 			Card: &Card{
 				ID:   id,
@@ -58,11 +58,11 @@ func TestPaymentSource_MarshalJSON(t *testing.T) {
 		id := "ba_123"
 		name := "big bank"
 		paymentSource := &PaymentSource{
-			Type: PaymentSourceBankAccount,
+			Type: PaymentSourceTypeBankAccount,
 			ID:   id,
 			BankAccount: &BankAccount{
-				ID:   id,
-				Name: name,
+				ID:                id,
+				AccountHolderName: name,
 			},
 		}
 
@@ -77,6 +77,6 @@ func TestPaymentSource_MarshalJSON(t *testing.T) {
 		assert.Equal(t, unmarshalled.ID, id)
 		assert.NotNil(t, unmarshalled.BankAccount)
 		assert.Equal(t, unmarshalled.BankAccount.ID, id)
-		assert.Equal(t, unmarshalled.BankAccount.Name, name)
+		assert.Equal(t, unmarshalled.BankAccount.AccountHolderName, name)
 	}
 }
