@@ -61,6 +61,7 @@ const (
 // Plan is the resource representing a Stripe plan.
 // For more details see https://stripe.com/docs/api#plans.
 type Plan struct {
+	Active          bool                `json:"active"`
 	AggregateUsage  string              `json:"aggregate_usage"`
 	Amount          int64               `json:"amount"`
 	BillingScheme   PlanBillingScheme   `json:"billing_scheme"`
@@ -91,6 +92,7 @@ type PlanList struct {
 // For more details see https://stripe.com/docs/api#list_plans.
 type PlanListParams struct {
 	ListParams   `form:"*"`
+	Active       *bool             `form:"active"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 }
@@ -99,6 +101,7 @@ type PlanListParams struct {
 // For more details see https://stripe.com/docs/api#create_plan and https://stripe.com/docs/api#update_plan.
 type PlanParams struct {
 	Params          `form:"*"`
+	Active          *bool                     `form:"active"`
 	AggregateUsage  *string                   `form:"aggregate_usage"`
 	Amount          *int64                    `form:"amount"`
 	BillingScheme   *string                   `form:"billing_scheme"`
