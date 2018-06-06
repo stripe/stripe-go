@@ -90,7 +90,9 @@ type Invoice struct {
 	DueDate             int64             `json:"due_date"`
 	EndingBalance       int64             `json:"ending_balance"`
 	Forgiven            bool              `json:"forgiven"`
+	HostedInvoiceURL    string            `json:"hosted_invoice_url"`
 	ID                  string            `json:"id"`
+	InvoicePDF          string            `json:"invoice_pdf"`
 	Lines               *InvoiceLineList  `json:"lines"`
 	Livemode            bool              `json:"livemode"`
 	Metadata            map[string]string `json:"metadata"`
