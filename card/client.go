@@ -39,7 +39,7 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	if params.Account != nil {
 		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts", stripe.StringValue(params.Account)), c.Key, body, &params.Params, card)
 	} else if params.Customer != nil {
-		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards", stripe.StringValue(params.Customer)), c.Key, body, &params.Params, card)
+		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/sources", stripe.StringValue(params.Customer)), c.Key, body, &params.Params, card)
 	} else if params.Recipient != nil {
 		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards", stripe.StringValue(params.Recipient)), c.Key, body, &params.Params, card)
 	} else {
@@ -75,7 +75,7 @@ func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	if params.Account != nil {
 		err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, commonParams, card)
 	} else if params.Customer != nil {
-		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/cards/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, card)
+		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, card)
 	} else if params.Recipient != nil {
 		err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards/%v", stripe.StringValue(params.Recipient), id), c.Key, body, commonParams, card)
 	} else {
@@ -105,7 +105,7 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 	if params.Account != nil {
 		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, &params.Params, card)
 	} else if params.Customer != nil {
-		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards/%v", stripe.StringValue(params.Customer), id), c.Key, body, &params.Params, card)
+		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), c.Key, body, &params.Params, card)
 	} else if params.Recipient != nil {
 		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards/%v", stripe.StringValue(params.Recipient), id), c.Key, body, &params.Params, card)
 	} else {
@@ -139,7 +139,7 @@ func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	if params.Account != nil {
 		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/external_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, commonParams, card)
 	} else if params.Customer != nil {
-		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, card)
+		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, card)
 	} else if params.Recipient != nil {
 		err = c.B.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", stripe.StringValue(params.Recipient), id), c.Key, body, commonParams, card)
 	} else {
@@ -175,9 +175,9 @@ func (c Client) List(params *stripe.CardListParams) *Iter {
 		}
 
 		if params.Account != nil {
-			err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts", stripe.StringValue(params.Account)), c.Key, b, p, list)
+			err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts?object=card", stripe.StringValue(params.Account)), c.Key, b, p, list)
 		} else if params.Customer != nil {
-			err = c.B.Call("GET", fmt.Sprintf("/customers/%v/cards", stripe.StringValue(params.Customer)), c.Key, b, p, list)
+			err = c.B.Call("GET", fmt.Sprintf("/customers/%v/sources?object=card", stripe.StringValue(params.Customer)), c.Key, b, p, list)
 		} else if params.Recipient != nil {
 			err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards", stripe.StringValue(params.Recipient)), c.Key, b, p, list)
 		} else {

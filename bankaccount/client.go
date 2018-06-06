@@ -33,7 +33,7 @@ func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 	if params.Customer != nil {
 		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/sources", stripe.StringValue(params.Customer)), c.Key, body, &params.Params, ba)
 	} else {
-		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/bank_accounts", stripe.StringValue(params.Account)), c.Key, body, &params.Params, ba)
+		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts", stripe.StringValue(params.Account)), c.Key, body, &params.Params, ba)
 	}
 
 	return ba, err
@@ -58,9 +58,9 @@ func (c Client) Get(id string, params *stripe.BankAccountParams) (*stripe.BankAc
 	var err error
 
 	if params != nil && params.Customer != nil {
-		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/bank_accounts/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, ba)
+		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, ba)
 	} else if params != nil && params.Account != nil {
-		err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/bank_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, commonParams, ba)
+		err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, commonParams, ba)
 	} else {
 		err = errors.New("Invalid bank account params: either Customer or Account need to be set")
 	}
@@ -87,9 +87,9 @@ func (c Client) Update(id string, params *stripe.BankAccountParams) (*stripe.Ban
 	var err error
 
 	if params.Customer != nil {
-		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/bank_accounts/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, ba)
+		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, ba)
 	} else if params.Account != nil {
-		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/bank_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, commonParams, ba)
+		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, commonParams, ba)
 	} else {
 		err = errors.New("Invalid bank account params: either Customer or Account need to be set")
 	}
@@ -116,9 +116,9 @@ func (c Client) Del(id string, params *stripe.BankAccountParams) (*stripe.BankAc
 	var err error
 
 	if params.Customer != nil {
-		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/bank_accounts/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, ba)
+		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, ba)
 	} else if params.Account != nil {
-		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/bank_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, commonParams, ba)
+		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/external_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, commonParams, ba)
 	} else {
 		err = errors.New("Invalid bank account params: either Customer or Account need to be set")
 	}
@@ -145,9 +145,9 @@ func (c Client) List(params *stripe.BankAccountListParams) *Iter {
 		var err error
 
 		if params.Customer != nil {
-			err = c.B.Call("GET", fmt.Sprintf("/customers/%v/bank_accounts", stripe.StringValue(params.Customer)), c.Key, b, p, list)
+			err = c.B.Call("GET", fmt.Sprintf("/customers/%v/sources?object=bank_account", stripe.StringValue(params.Customer)), c.Key, b, p, list)
 		} else if params.Account != nil {
-			err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/bank_accounts", stripe.StringValue(params.Account)), c.Key, b, p, list)
+			err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts?object=bank_account", stripe.StringValue(params.Account)), c.Key, b, p, list)
 		} else {
 			err = errors.New("Invalid bank account params: either Customer or Account need to be set")
 		}
