@@ -27,7 +27,6 @@ func Example() {
 			return
 		}
 
-		defer req.Body.Close()
 		fmt.Fprintf(w, "Received signed event: %v", event)
 	})
 	log.Fatal(http.ListenAndServe(":8080", nil))
