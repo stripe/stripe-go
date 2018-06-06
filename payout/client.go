@@ -2,8 +2,6 @@
 package payout
 
 import (
-	"fmt"
-
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -47,7 +45,7 @@ func (c Client) Get(id string, params *stripe.PayoutParams) (*stripe.Payout, err
 	}
 
 	payout := &stripe.Payout{}
-	err := c.B.Call("GET", "/payouts/"+id, c.Key, body, commonParams, payout)
+	err := c.B.Call("GET", stripe.FormatURLPath("/payouts/%s", id), c.Key, body, commonParams, payout)
 
 	return payout, err
 }
@@ -69,7 +67,7 @@ func (c Client) Update(id string, params *stripe.PayoutParams) (*stripe.Payout, 
 	}
 
 	payout := &stripe.Payout{}
-	err := c.B.Call("POST", "/payouts/"+id, c.Key, body, commonParams, payout)
+	err := c.B.Call("POST", stripe.FormatURLPath("/payouts/%s", id), c.Key, body, commonParams, payout)
 
 	return payout, err
 }
@@ -91,7 +89,7 @@ func (c Client) Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, 
 	}
 
 	payout := &stripe.Payout{}
-	err := c.B.Call("POST", fmt.Sprintf("/payouts/%v/cancel", id), c.Key, body, commonParams, payout)
+	err := c.B.Call("POST", stripe.FormatURLPath("/payouts/%s/cancel", id), c.Key, body, commonParams, payout)
 
 	return payout, err
 }

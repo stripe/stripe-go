@@ -2,8 +2,6 @@
 package subitem
 
 import (
-	"fmt"
-
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -53,7 +51,7 @@ func (c Client) Get(id string, params *stripe.SubscriptionItemParams) (*stripe.S
 	}
 
 	item := &stripe.SubscriptionItem{}
-	err := c.B.Call("GET", fmt.Sprintf("/subscription_items/%v", id), c.Key, body, commonParams, item)
+	err := c.B.Call("GET", stripe.FormatURLPath("/subscription_items/%s", id), c.Key, body, commonParams, item)
 
 	return item, err
 }
@@ -76,7 +74,7 @@ func (c Client) Update(id string, params *stripe.SubscriptionItemParams) (*strip
 	}
 
 	subi := &stripe.SubscriptionItem{}
-	err := c.B.Call("POST", fmt.Sprintf("/subscription_items/%v", id), token, body, commonParams, subi)
+	err := c.B.Call("POST", stripe.FormatURLPath("/subscription_items/%s", id), token, body, commonParams, subi)
 
 	return subi, err
 }
@@ -98,7 +96,7 @@ func (c Client) Del(id string, params *stripe.SubscriptionItemParams) (*stripe.S
 	}
 
 	item := &stripe.SubscriptionItem{}
-	err := c.B.Call("DELETE", fmt.Sprintf("/subscription_items/%v", id), c.Key, body, commonParams, item)
+	err := c.B.Call("DELETE", stripe.FormatURLPath("/subscription_items/%s", id), c.Key, body, commonParams, item)
 
 	return item, err
 }

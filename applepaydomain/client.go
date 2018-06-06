@@ -42,7 +42,7 @@ func (c Client) Get(id string, params *stripe.ApplePayDomainParams) (*stripe.App
 	}
 
 	domain := &stripe.ApplePayDomain{}
-	err := c.B.Call("GET", "/apple_pay/domains/"+id, c.Key, body, commonParams, domain)
+	err := c.B.Call("GET", stripe.FormatURLPath("/apple_pay/domains/%s", id), c.Key, body, commonParams, domain)
 
 	return domain, err
 }
@@ -63,7 +63,7 @@ func (c Client) Del(id string, params *stripe.ApplePayDomainParams) (*stripe.App
 	}
 
 	domain := &stripe.ApplePayDomain{}
-	err := c.B.Call("DELETE", "/apple_pay/domains/"+id, c.Key, body, commonParams, domain)
+	err := c.B.Call("DELETE", stripe.FormatURLPath("/apple_pay/domains/%s", id), c.Key, body, commonParams, domain)
 
 	return domain, err
 }

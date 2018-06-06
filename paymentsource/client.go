@@ -3,7 +3,6 @@ package paymentsource
 
 import (
 	"errors"
-	"fmt"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
@@ -29,7 +28,7 @@ func (s Client) New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource,
 	var err error
 
 	if params.Customer != nil {
-		err = s.B.Call("POST", fmt.Sprintf("/customers/%v/sources", stripe.StringValue(params.Customer)), s.Key, body, &params.Params, source)
+		err = s.B.Call("POST", stripe.FormatURLPath("/customers/%s/sources", stripe.StringValue(params.Customer)), s.Key, body, &params.Params, source)
 	} else {
 		err = errors.New("Invalid source params: customer needs to be set")
 	}
@@ -57,7 +56,7 @@ func (s Client) Get(id string, params *stripe.CustomerSourceParams) (*stripe.Pay
 	var err error
 
 	if params.Customer != nil {
-		err = s.B.Call("GET", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), s.Key, body, commonParams, source)
+		err = s.B.Call("GET", stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id), s.Key, body, commonParams, source)
 	} else {
 		err = errors.New("Invalid source params: customer needs to be set")
 	}
@@ -79,7 +78,7 @@ func (s Client) Update(id string, params *stripe.CustomerSourceParams) (*stripe.
 	var err error
 
 	if params.Customer != nil {
-		err = s.B.Call("POST", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), s.Key, body, &params.Params, source)
+		err = s.B.Call("POST", stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id), s.Key, body, &params.Params, source)
 	} else {
 		err = errors.New("Invalid source params: customer needs to be set")
 	}
@@ -107,7 +106,7 @@ func (s Client) Del(id string, params *stripe.CustomerSourceParams) (*stripe.Pay
 	var err error
 
 	if params.Customer != nil {
-		err = s.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), s.Key, body, commonParams, source)
+		err = s.B.Call("DELETE", stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id), s.Key, body, commonParams, source)
 	} else {
 		err = errors.New("Invalid source params: customer needs to be set")
 	}
@@ -132,7 +131,7 @@ func (s Client) List(params *stripe.SourceListParams) *Iter {
 		var err error
 
 		if params.Customer != nil {
-			err = s.B.Call("GET", fmt.Sprintf("/customers/%v/sources", stripe.StringValue(params.Customer)), s.Key, b, p, list)
+			err = s.B.Call("GET", stripe.FormatURLPath("/customers/%s/sources", stripe.StringValue(params.Customer)), s.Key, b, p, list)
 		} else {
 			err = errors.New("Invalid source params: customer needs to be set")
 		}
@@ -160,9 +159,9 @@ func (s Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.Pa
 	var err error
 
 	if params.Customer != nil {
-		err = s.B.Call("POST", fmt.Sprintf("/customers/%v/sources/%v/verify", stripe.StringValue(params.Customer), id), s.Key, body, &params.Params, source)
+		err = s.B.Call("POST", stripe.FormatURLPath("/customers/%s/sources/%s/verify", stripe.StringValue(params.Customer), id), s.Key, body, &params.Params, source)
 	} else if len(params.Values) > 0 {
-		err = s.B.Call("POST", fmt.Sprintf("/sources/%v/verify", id), s.Key, body, &params.Params, source)
+		err = s.B.Call("POST", stripe.FormatURLPath("/sources/%s/verify", id), s.Key, body, &params.Params, source)
 	} else {
 		err = errors.New("Only customer bank accounts or sources can be verified in this manner.")
 	}

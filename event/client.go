@@ -20,7 +20,7 @@ func Get(id string, params *stripe.Params) (*stripe.Event, error) {
 
 func (c Client) Get(id string, params *stripe.Params) (*stripe.Event, error) {
 	event := &stripe.Event{}
-	err := c.B.Call("GET", "/events/"+id, c.Key, nil, params, event)
+	err := c.B.Call("GET", stripe.FormatURLPath("/events/%s", id), c.Key, nil, params, event)
 	return event, err
 }
 

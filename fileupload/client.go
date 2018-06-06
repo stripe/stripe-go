@@ -56,7 +56,7 @@ func (c Client) Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpl
 	}
 
 	upload := &stripe.FileUpload{}
-	err := c.B.Call("GET", "/files/"+id, c.Key, body, commonParams, upload)
+	err := c.B.Call("GET", stripe.FormatURLPath("/files/%s", id), c.Key, body, commonParams, upload)
 
 	return upload, err
 }

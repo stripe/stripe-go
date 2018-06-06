@@ -44,7 +44,7 @@ func (c Client) Get(id string, params *stripe.ThreeDSecureParams) (*stripe.Three
 	}
 
 	tds := &stripe.ThreeDSecure{}
-	err := c.B.Call("GET", "/3d_secure/"+id, c.Key, body, commonParams, tds)
+	err := c.B.Call("GET", stripe.FormatURLPath("/3d_secure/%s", id), c.Key, body, commonParams, tds)
 
 	return tds, err
 }

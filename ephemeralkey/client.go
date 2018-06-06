@@ -61,7 +61,7 @@ func (c Client) Del(id string, params *stripe.EphemeralKeyParams) (*stripe.Ephem
 	}
 
 	ephemeralKey := &stripe.EphemeralKey{}
-	err := c.B.Call("DELETE", "/ephemeral_keys/"+id, c.Key, body, commonParams, ephemeralKey)
+	err := c.B.Call("DELETE", stripe.FormatURLPath("/ephemeral_keys/%s", id), c.Key, body, commonParams, ephemeralKey)
 
 	return ephemeralKey, err
 }

@@ -45,7 +45,7 @@ func (c Client) Get(id string, params *stripe.InvoiceItemParams) (*stripe.Invoic
 	}
 
 	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call("GET", "/invoiceitems/"+id, c.Key, body, commonParams, invoiceItem)
+	err := c.B.Call("GET", stripe.FormatURLPath("/invoiceitems/%s", id), c.Key, body, commonParams, invoiceItem)
 
 	return invoiceItem, err
 }
@@ -67,7 +67,7 @@ func (c Client) Update(id string, params *stripe.InvoiceItemParams) (*stripe.Inv
 	}
 
 	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call("POST", "/invoiceitems/"+id, c.Key, body, commonParams, invoiceItem)
+	err := c.B.Call("POST", stripe.FormatURLPath("/invoiceitems/%s", id), c.Key, body, commonParams, invoiceItem)
 
 	return invoiceItem, err
 }
@@ -89,7 +89,7 @@ func (c Client) Del(id string, params *stripe.InvoiceItemParams) (*stripe.Invoic
 	}
 
 	ii := &stripe.InvoiceItem{}
-	err := c.B.Call("DELETE", "/invoiceitems/"+id, c.Key, body, commonParams, ii)
+	err := c.B.Call("DELETE", stripe.FormatURLPath("/invoiceitems/%s", id), c.Key, body, commonParams, ii)
 
 	return ii, err
 }

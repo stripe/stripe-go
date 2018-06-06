@@ -45,7 +45,7 @@ func (c Client) Get(id string, params *stripe.RefundParams) (*stripe.Refund, err
 	}
 
 	refund := &stripe.Refund{}
-	err := c.B.Call("GET", "/refunds/"+id, c.Key, body, commonParams, refund)
+	err := c.B.Call("GET", stripe.FormatURLPath("/refunds/%s", id), c.Key, body, commonParams, refund)
 
 	return refund, err
 }
@@ -61,7 +61,7 @@ func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, 
 	form.AppendTo(body, params)
 
 	refund := &stripe.Refund{}
-	err := c.B.Call("POST", "/refunds/"+id, c.Key, body, &params.Params, refund)
+	err := c.B.Call("POST", stripe.FormatURLPath("/refunds/%s", id), c.Key, body, &params.Params, refund)
 
 	return refund, err
 }

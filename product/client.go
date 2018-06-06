@@ -54,7 +54,7 @@ func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product
 	}
 
 	p := &stripe.Product{}
-	err := c.B.Call("POST", "/products/"+id, c.Key, body, commonParams, p)
+	err := c.B.Call("POST", stripe.FormatURLPath("/products/%s", id), c.Key, body, commonParams, p)
 
 	return p, err
 }
@@ -76,7 +76,7 @@ func (c Client) Get(id string, params *stripe.ProductParams) (*stripe.Product, e
 	}
 
 	p := &stripe.Product{}
-	err := c.B.Call("GET", "/products/"+id, c.Key, body, commonParams, p)
+	err := c.B.Call("GET", stripe.FormatURLPath("/products/%s", id), c.Key, body, commonParams, p)
 
 	return p, err
 }
@@ -144,7 +144,7 @@ func (c Client) Del(id string, params *stripe.ProductParams) (*stripe.Product, e
 	}
 
 	p := &stripe.Product{}
-	err := c.B.Call("DELETE", "/products/"+id, c.Key, body, commonParams, p)
+	err := c.B.Call("DELETE", stripe.FormatURLPath("/products/%s", id), c.Key, body, commonParams, p)
 
 	return p, err
 }

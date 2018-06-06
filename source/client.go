@@ -2,7 +2,6 @@ package source
 
 import (
 	"errors"
-	"fmt"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
@@ -57,7 +56,7 @@ func (c Client) Get(id string, params *stripe.SourceObjectParams) (*stripe.Sourc
 	}
 
 	source := &stripe.Source{}
-	err := c.B.Call("GET", "/sources/"+id, c.Key, body, commonParams, source)
+	err := c.B.Call("GET", stripe.FormatURLPath("/sources/%s", id), c.Key, body, commonParams, source)
 	return source, err
 }
 
@@ -78,7 +77,7 @@ func (c Client) Update(id string, params *stripe.SourceObjectParams) (*stripe.So
 	}
 
 	source := &stripe.Source{}
-	err := c.B.Call("POST", "/sources/"+id, c.Key, body, commonParams, source)
+	err := c.B.Call("POST", stripe.FormatURLPath("/sources/%s", id), c.Key, body, commonParams, source)
 
 	return source, err
 }
@@ -106,7 +105,7 @@ func (c Client) Detach(id string, params *stripe.SourceObjectDetachParams) (*str
 	var err error
 
 	if params.Customer != nil {
-		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, source)
+		err = c.B.Call("DELETE", stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, source)
 	} else {
 		err = errors.New("Invalid source detach params: Customer needs to be set")
 	}

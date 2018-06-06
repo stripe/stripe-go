@@ -2,7 +2,6 @@
 package usagerecord
 
 import (
-	"fmt"
 	"net/url"
 
 	stripe "github.com/stripe/stripe-go"
@@ -26,7 +25,7 @@ func (c Client) New(params *stripe.UsageRecordParams) (*stripe.UsageRecord, erro
 	body := &form.Values{}
 	form.AppendTo(body, params)
 
-	url := fmt.Sprintf("/subscription_items/%s/usage_records", url.QueryEscape(stripe.StringValue(params.SubscriptionItem)))
+	url := stripe.FormatURLPath("/subscription_items/%s/usage_records", url.QueryEscape(stripe.StringValue(params.SubscriptionItem)))
 	record := &stripe.UsageRecord{}
 	err := c.B.Call("POST", url, c.Key, body, &params.Params, record)
 

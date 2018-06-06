@@ -2,8 +2,6 @@
 package charge
 
 import (
-	"fmt"
-
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -47,7 +45,7 @@ func (c Client) Get(id string, params *stripe.ChargeParams) (*stripe.Charge, err
 	}
 
 	charge := &stripe.Charge{}
-	err := c.B.Call("GET", "/charges/"+id, c.Key, body, commonParams, charge)
+	err := c.B.Call("GET", stripe.FormatURLPath("/charges/%s", id), c.Key, body, commonParams, charge)
 
 	return charge, err
 }
@@ -69,7 +67,7 @@ func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, 
 	}
 
 	charge := &stripe.Charge{}
-	err := c.B.Call("POST", "/charges/"+id, c.Key, body, commonParams, charge)
+	err := c.B.Call("POST", stripe.FormatURLPath("/charges/%s", id), c.Key, body, commonParams, charge)
 
 	return charge, err
 }
@@ -92,7 +90,7 @@ func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge
 
 	charge := &stripe.Charge{}
 
-	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/capture", id), c.Key, body, commonParams, charge)
+	err := c.B.Call("POST", stripe.FormatURLPath("/charges/%s/capture", id), c.Key, body, commonParams, charge)
 
 	return charge, err
 }
@@ -177,7 +175,7 @@ func (c Client) UpdateDispute(id string, params *stripe.DisputeParams) (*stripe.
 	}
 
 	dispute := &stripe.Dispute{}
-	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/dispute", id), c.Key, body, commonParams, dispute)
+	err := c.B.Call("POST", stripe.FormatURLPath("/charges/%s/dispute", id), c.Key, body, commonParams, dispute)
 
 	return dispute, err
 }
@@ -190,7 +188,7 @@ func CloseDispute(id string) (*stripe.Dispute, error) {
 
 func (c Client) CloseDispute(id string) (*stripe.Dispute, error) {
 	dispute := &stripe.Dispute{}
-	err := c.B.Call("POST", fmt.Sprintf("/charges/%v/dispute/close", id), c.Key, nil, nil, dispute)
+	err := c.B.Call("POST", stripe.FormatURLPath("/charges/%s/dispute/close", id), c.Key, nil, nil, dispute)
 
 	return dispute, err
 }

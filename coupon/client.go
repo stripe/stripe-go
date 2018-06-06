@@ -2,8 +2,6 @@
 package coupon
 
 import (
-	"net/url"
-
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -48,7 +46,7 @@ func (c Client) Get(id string, params *stripe.CouponParams) (*stripe.Coupon, err
 
 	coupon := &stripe.Coupon{}
 
-	err := c.B.Call("GET", "/coupons/"+url.QueryEscape(id), c.Key, body, commonParams, coupon)
+	err := c.B.Call("GET", stripe.FormatURLPath("/coupons/%s", id), c.Key, body, commonParams, coupon)
 
 	return coupon, err
 }
@@ -64,7 +62,7 @@ func (c Client) Update(id string, params *stripe.CouponParams) (*stripe.Coupon, 
 	form.AppendTo(body, params)
 
 	coupon := &stripe.Coupon{}
-	err := c.B.Call("POST", "/coupons/"+url.QueryEscape(id), c.Key, body, &params.Params, coupon)
+	err := c.B.Call("POST", stripe.FormatURLPath("/coupons/%s", id), c.Key, body, &params.Params, coupon)
 
 	return coupon, err
 }
@@ -86,7 +84,7 @@ func (c Client) Del(id string, params *stripe.CouponParams) (*stripe.Coupon, err
 	}
 
 	coupon := &stripe.Coupon{}
-	err := c.B.Call("DELETE", "/coupons/"+url.QueryEscape(id), c.Key, body, commonParams, coupon)
+	err := c.B.Call("DELETE", stripe.FormatURLPath("/coupons/%s", id), c.Key, body, commonParams, coupon)
 
 	return coupon, err
 }

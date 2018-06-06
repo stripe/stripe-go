@@ -32,7 +32,7 @@ func (c Client) New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	form.AppendTo(body, params)
 
 	refund := &stripe.FeeRefund{}
-	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refunds", stripe.StringValue(params.ApplicationFee)), c.Key, body, &params.Params, refund)
+	err := c.B.Call("POST", stripe.FormatURLPath("application_fees/%s/refunds", stripe.StringValue(params.ApplicationFee)), c.Key, body, &params.Params, refund)
 
 	return refund, err
 }
@@ -55,7 +55,7 @@ func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefun
 	form.AppendTo(body, params)
 
 	refund := &stripe.FeeRefund{}
-	err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds/%v", stripe.StringValue(params.ApplicationFee), id), c.Key, body, &params.Params, refund)
+	err := c.B.Call("GET", stripe.FormatURLPath("/application_fees/%s/refunds/%s", stripe.StringValue(params.ApplicationFee), id), c.Key, body, &params.Params, refund)
 
 	return refund, err
 }
@@ -78,7 +78,7 @@ func (c Client) Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRe
 	form.AppendTo(body, params)
 
 	refund := &stripe.FeeRefund{}
-	err := c.B.Call("POST", fmt.Sprintf("/application_fees/%v/refunds/%v", stripe.StringValue(params.ApplicationFee), id), c.Key, body, &params.Params, refund)
+	err := c.B.Call("POST", stripe.FormatURLPath("/application_fees/%s/refunds/%s", stripe.StringValue(params.ApplicationFee), id), c.Key, body, &params.Params, refund)
 
 	return refund, err
 }
@@ -100,7 +100,7 @@ func (c Client) List(params *stripe.FeeRefundListParams) *Iter {
 
 	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.FeeRefundList{}
-		err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds", stripe.StringValue(params.ApplicationFee)), c.Key, b, p, list)
+		err := c.B.Call("GET", stripe.FormatURLPath("/application_fees/%s/refunds", stripe.StringValue(params.ApplicationFee)), c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

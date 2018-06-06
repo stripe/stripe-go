@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"os/exec"
 	"runtime"
@@ -424,6 +425,27 @@ func (s *BackendConfiguration) ResponseToError(res *http.Response, resBody []byt
 	}
 
 	return stripeErr
+}
+
+// FormatURLPath takes a format string (of the kind used in the fmt package)
+// representing a URL path with a number of parameters that belong in the path
+// and returns a formatted string.
+//
+// This is mostly a pass through to Sprintf. It exists to make it
+// it impossible to accidentally provide a parameter type that would be
+// formatted improperly; for example, a string pointer instead of a string.
+//
+// It also URL-escapes every given parameter. This usually isn't necessary for
+// a standard Stripe ID, but is needed in places where user-provided IDs are
+// allowed, like in coupons or plans. We apply it broadly for extra safety.
+func FormatURLPath(format string, params ...string) string {
+	// Convert parameters to interface{} and URL-escape them
+	untypedParams := make([]interface{}, len(params))
+	for i, param := range params {
+		untypedParams[i] = interface{}(url.QueryEscape(param))
+	}
+
+	return fmt.Sprintf(format, untypedParams...)
 }
 
 // SetAppInfo sets app information. See AppInfo.
