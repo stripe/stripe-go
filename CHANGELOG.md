@@ -1,5 +1,8 @@
 # Changelog
 
+## 32.0.0 - 2018-06-06
+* [#544](https://github.com/stripe/stripe-go/pull/544) **MAJOR** changes that make all fields on parameter structs pointers, and rename many fields on parameter and response structs to be consistent with naming in the REST API; we've written [a migration guide with complete details](https://github.com/stripe/stripe-go/blob/master/v32_migration_guide.md) to help with the upgrade
+
 ## 31.0.0 - 2018-06-06
 * [#566](https://github.com/stripe/stripe-go/pull/566) Support `DisputeParams` in `dispute.Close`
 
