@@ -1,5 +1,8 @@
 # Changelog
 
+## 32.1.0 - 2018-06-06
+* [#572](https://github.com/stripe/stripe-go/pull/572) Add `Active` to plan parameters and response
+
 ## 32.0.1 - 2018-06-06
 * [#569](https://github.com/stripe/stripe-go/pull/569) Fix unmarshaling of expanded transaction sources in balanace transactions
 
