@@ -75,6 +75,14 @@ func TestFormatURLPath(t *testing.T) {
 	// Tests that each parameter is escaped for use in URLs
 	assert.Equal(t, "/resources/%25",
 		stripe.FormatURLPath("/resources/%s", "%"))
+
+	assert.PanicsWithValue(t, "Missing URL path parameter: /resources/1/subresources/%!s(MISSING)", func() {
+		stripe.FormatURLPath("/resources/%s/subresources/%s", "1")
+	})
+
+	assert.PanicsWithValue(t, "Extra URL path parameter: /resources/1/subresources/2%!(EXTRA string=3)", func() {
+		stripe.FormatURLPath("/resources/%s/subresources/%s", "1", "2", "3")
+	})
 }
 
 // TestMultipleAPICalls will fail the test run if a race condition is thrown while running multiple NewRequest calls.

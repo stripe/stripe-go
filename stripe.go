@@ -445,7 +445,23 @@ func FormatURLPath(format string, params ...string) string {
 		untypedParams[i] = interface{}(url.QueryEscape(param))
 	}
 
-	return fmt.Sprintf(format, untypedParams...)
+	path := fmt.Sprintf(format, untypedParams...)
+
+	// Protect against not enough parameters.
+	//
+	// We panic here because this is a misuse that should only be noticed while
+	// making changes to the library -- it won't happen accidentally later at
+	// runtime.
+	if strings.Index(path, "(MISSING)") != -1 {
+		panic(fmt.Sprintf("Missing URL path parameter: %s", path))
+	}
+
+	// Protect against too many parameters.
+	if strings.Index(path, "%!(EXTRA ") != -1 {
+		panic(fmt.Sprintf("Extra URL path parameter: %s", path))
+	}
+
+	return path
 }
 
 // SetAppInfo sets app information. See AppInfo.
