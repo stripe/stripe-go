@@ -123,13 +123,22 @@ func (c Client) Update(id string, params *stripe.DisputeParams) (*stripe.Dispute
 
 // Close dismisses a dispute in the customer's favor.
 // For more details see https://stripe.com/docs/api#close_dispute.
-func Close(id string) (*stripe.Dispute, error) {
-	return getC().Close(id)
+func Close(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
+	return getC().Close(id, params)
 }
 
-func (c Client) Close(id string) (*stripe.Dispute, error) {
+func (c Client) Close(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
+	var body *form.Values
+	var commonParams *stripe.Params
+
+	if params != nil {
+		commonParams = &params.Params
+		body = &form.Values{}
+		form.AppendTo(body, params)
+	}
+
 	dispute := &stripe.Dispute{}
-	err := c.B.Call("POST", fmt.Sprintf("/disputes/%v/close", id), c.Key, nil, nil, dispute)
+	err := c.B.Call("POST", fmt.Sprintf("/disputes/%v/close", id), c.Key, body, commonParams, dispute)
 
 	return dispute, err
 }

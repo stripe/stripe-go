@@ -9,7 +9,7 @@ import (
 )
 
 func TestDisputeClose(t *testing.T) {
-	dispute, err := Close("dp_123")
+	dispute, err := Close("dp_123", &stripe.DisputeParams{})
 	assert.Nil(t, err)
 	assert.NotNil(t, dispute)
 }
