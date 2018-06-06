@@ -1,5 +1,8 @@
 # Changelog
 
+## 31.0.0 - 2018-06-06
+* [#566](https://github.com/stripe/stripe-go/pull/566) Support `DisputeParams` in `dispute.Close`
+
 ## 30.8.1 - 2018-05-24
 * [#562](https://github.com/stripe/stripe-go/pull/562) Add `go.mod` for vgo support
 
