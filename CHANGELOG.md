@@ -1,10 +1,14 @@
 # Changelog
 
+## 32.2.0 - 2018-06-06
+* [#571](https://github.com/stripe/stripe-go/pull/571) Add `HostedInvoiceURL` and `InvoicePDF` to `Invoice`
+* [#573](https://github.com/stripe/stripe-go/pull/573) Add `FormatURLPath` helper to allow safer URL path building
+
 ## 32.1.0 - 2018-06-06
 * [#572](https://github.com/stripe/stripe-go/pull/572) Add `Active` to plan parameters and response
 
 ## 32.0.1 - 2018-06-06
-* [#569](https://github.com/stripe/stripe-go/pull/569) Fix unmarshaling of expanded transaction sources in balanace transactions
+* [#569](https://github.com/stripe/stripe-go/pull/569) Fix unmarshaling of expanded transaction sources in balance transactions
 
 ## 32.0.0 - 2018-06-06
 * [#544](https://github.com/stripe/stripe-go/pull/544) **MAJOR** changes that make all fields on parameter structs pointers, and rename many fields on parameter and response structs to be consistent with naming in the REST API; we've written [a migration guide with complete details](https://github.com/stripe/stripe-go/blob/master/v32_migration_guide.md) to help with the upgrade
