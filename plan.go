@@ -127,14 +127,14 @@ type PlanTier struct {
 
 // PlanTransformUsage represents the bucket billing configuration.
 type PlanTransformUsage struct {
-	BucketSize int64                   `json:"bucket_size"`
-	Round      PlanTransformUsageRound `json:"round"`
+	DivideBy int64                   `json:"divide_by"`
+	Round    PlanTransformUsageRound `json:"round"`
 }
 
 // PlanTransformUsageParams represents the bucket billing configuration.
 type PlanTransformUsageParams struct {
-	BucketSize *int64  `form:"bucket_size"`
-	Round      *string `form:"round"`
+	DivideBy *int64  `form:"divide_by"`
+	Round    *string `form:"round"`
 }
 
 // PlanTierParams configures tiered pricing
