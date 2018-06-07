@@ -24,7 +24,7 @@ func (c Client) New(params *stripe.ReversalParams) (*stripe.Reversal, error) {
 	form.AppendTo(body, params)
 
 	reversal := &stripe.Reversal{}
-	err := c.B.Call("POST", fmt.Sprintf("/transfers/%v/reversals", stripe.StringValue(params.Transfer)), c.Key, body, &params.Params, reversal)
+	err := c.B.Call("POST", stripe.FormatURLPath("/transfers/%s/reversals", stripe.StringValue(params.Transfer)), c.Key, body, &params.Params, reversal)
 
 	return reversal, err
 }
@@ -43,7 +43,7 @@ func (c Client) Get(id string, params *stripe.ReversalParams) (*stripe.Reversal,
 	form.AppendTo(body, params)
 
 	reversal := &stripe.Reversal{}
-	err := c.B.Call("GET", fmt.Sprintf("/transfers/%v/reversals/%v", stripe.StringValue(params.Transfer), id), c.Key, body, &params.Params, reversal)
+	err := c.B.Call("GET", stripe.FormatURLPath("/transfers/%s/reversals/%s", stripe.StringValue(params.Transfer), id), c.Key, body, &params.Params, reversal)
 
 	return reversal, err
 }
@@ -58,7 +58,7 @@ func (c Client) Update(id string, params *stripe.ReversalParams) (*stripe.Revers
 	form.AppendTo(body, params)
 
 	reversal := &stripe.Reversal{}
-	err := c.B.Call("POST", fmt.Sprintf("/transfers/%v/reversals/%v", stripe.StringValue(params.Transfer), id), c.Key, body, &params.Params, reversal)
+	err := c.B.Call("POST", stripe.FormatURLPath("/transfers/%s/reversals/%s", stripe.StringValue(params.Transfer), id), c.Key, body, &params.Params, reversal)
 
 	return reversal, err
 }
@@ -76,7 +76,7 @@ func (c Client) List(params *stripe.ReversalListParams) *Iter {
 
 	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ReversalList{}
-		err := c.B.Call("GET", fmt.Sprintf("/transfers/%v/reversals", stripe.StringValue(params.Transfer)), c.Key, b, p, list)
+		err := c.B.Call("GET", stripe.FormatURLPath("/transfers/%s/reversals", stripe.StringValue(params.Transfer)), c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

@@ -2,7 +2,6 @@ package order
 
 import (
 	"errors"
-	"fmt"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
@@ -57,7 +56,7 @@ func (c Client) Update(id string, params *stripe.OrderUpdateParams) (*stripe.Ord
 	}
 
 	o := &stripe.Order{}
-	err := c.B.Call("POST", "/orders/"+id, c.Key, body, commonParams, o)
+	err := c.B.Call("POST", stripe.FormatURLPath("/orders/%s", id), c.Key, body, commonParams, o)
 
 	return o, err
 }
@@ -86,7 +85,7 @@ func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, er
 	}
 
 	o := &stripe.Order{}
-	err := c.B.Call("POST", "/orders/"+id+"/pay", c.Key, body, commonParams, o)
+	err := c.B.Call("POST", stripe.FormatURLPath("/orders/%s/pay", id), c.Key, body, commonParams, o)
 
 	return o, err
 }
@@ -108,7 +107,7 @@ func (c Client) Get(id string, params *stripe.OrderParams) (*stripe.Order, error
 	}
 
 	order := &stripe.Order{}
-	err := c.B.Call("GET", "/orders/"+id, c.Key, body, commonParams, order)
+	err := c.B.Call("GET", stripe.FormatURLPath("/orders/%s", id), c.Key, body, commonParams, order)
 	return order, err
 }
 
@@ -175,7 +174,7 @@ func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.Ord
 	}
 
 	ret := &stripe.OrderReturn{}
-	err := c.B.Call("POST", fmt.Sprintf("/orders/%s/returns", id), c.Key, body, commonParams, ret)
+	err := c.B.Call("POST", stripe.FormatURLPath("/orders/%s/returns", id), c.Key, body, commonParams, ret)
 
 	return ret, err
 }

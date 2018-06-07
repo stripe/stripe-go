@@ -21,7 +21,7 @@ func Get(id string) (*stripe.IssuerFraudRecord, error) {
 // For more details see https://stripe.com/docs/api#retrieve_issuer_fraud_record.
 func (c Client) Get(id string) (*stripe.IssuerFraudRecord, error) {
 	ifr := &stripe.IssuerFraudRecord{}
-	err := c.B.Call("GET", "/issuer_fraud_records/"+id, c.Key, nil, nil, ifr)
+	err := c.B.Call("GET", stripe.FormatURLPath("/issuer_fraud_records/%s", id), c.Key, nil, nil, ifr)
 	return ifr, err
 }
 

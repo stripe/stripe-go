@@ -1,8 +1,6 @@
 package dispute
 
 import (
-	"fmt"
-
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -30,7 +28,7 @@ func (c Client) Get(id string, params *stripe.DisputeParams) (*stripe.Dispute, e
 	}
 
 	dispute := &stripe.Dispute{}
-	err := c.B.Call("GET", "/disputes/"+id, c.Key, body, commonParams, dispute)
+	err := c.B.Call("GET", stripe.FormatURLPath("/disputes/%s", id), c.Key, body, commonParams, dispute)
 
 	return dispute, err
 }
@@ -96,7 +94,7 @@ func (c Client) Update(id string, params *stripe.DisputeParams) (*stripe.Dispute
 	}
 
 	dispute := &stripe.Dispute{}
-	err := c.B.Call("POST", fmt.Sprintf("/disputes/%v", id), c.Key, body, commonParams, dispute)
+	err := c.B.Call("POST", stripe.FormatURLPath("/disputes/%s", id), c.Key, body, commonParams, dispute)
 
 	return dispute, err
 }
@@ -118,7 +116,7 @@ func (c Client) Close(id string, params *stripe.DisputeParams) (*stripe.Dispute,
 	}
 
 	dispute := &stripe.Dispute{}
-	err := c.B.Call("POST", fmt.Sprintf("/disputes/%v/close", id), c.Key, body, commonParams, dispute)
+	err := c.B.Call("POST", stripe.FormatURLPath("/disputes/%s/close", id), c.Key, body, commonParams, dispute)
 
 	return dispute, err
 }

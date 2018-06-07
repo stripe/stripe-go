@@ -45,7 +45,7 @@ func (c Client) Get(id string, params *stripe.TokenParams) (*stripe.Token, error
 	}
 
 	token := &stripe.Token{}
-	err := c.B.Call("GET", "/tokens/"+id, c.Key, body, commonParams, token)
+	err := c.B.Call("GET", stripe.FormatURLPath("/tokens/%s", id), c.Key, body, commonParams, token)
 
 	return token, err
 }

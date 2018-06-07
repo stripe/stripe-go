@@ -2,8 +2,6 @@
 package sub
 
 import (
-	"fmt"
-
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -53,7 +51,7 @@ func (c Client) Get(id string, params *stripe.SubscriptionParams) (*stripe.Subsc
 	}
 
 	sub := &stripe.Subscription{}
-	err := c.B.Call("GET", fmt.Sprintf("/subscriptions/%v", id), c.Key, body, commonParams, sub)
+	err := c.B.Call("GET", stripe.FormatURLPath("/subscriptions/%s", id), c.Key, body, commonParams, sub)
 
 	return sub, err
 }
@@ -75,7 +73,7 @@ func (c Client) Update(id string, params *stripe.SubscriptionParams) (*stripe.Su
 	}
 
 	sub := &stripe.Subscription{}
-	err := c.B.Call("POST", fmt.Sprintf("/subscriptions/%v", id), c.Key, body, commonParams, sub)
+	err := c.B.Call("POST", stripe.FormatURLPath("/subscriptions/%s", id), c.Key, body, commonParams, sub)
 
 	return sub, err
 }
@@ -97,7 +95,7 @@ func (c Client) Cancel(id string, params *stripe.SubscriptionCancelParams) (*str
 	}
 
 	sub := &stripe.Subscription{}
-	err := c.B.Call("DELETE", fmt.Sprintf("/subscriptions/%v", id), c.Key, body, commonParams, sub)
+	err := c.B.Call("DELETE", stripe.FormatURLPath("/subscriptions/%s", id), c.Key, body, commonParams, sub)
 
 	return sub, err
 }

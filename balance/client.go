@@ -51,7 +51,7 @@ func (c Client) GetBalanceTransaction(id string, params *stripe.BalanceTransacti
 	}
 
 	balance := &stripe.BalanceTransaction{}
-	err := c.B.Call("GET", "/balance/history/"+id, c.Key, body, commonParams, balance)
+	err := c.B.Call("GET", stripe.FormatURLPath("/balance/history/%s", id), c.Key, body, commonParams, balance)
 
 	return balance, err
 }

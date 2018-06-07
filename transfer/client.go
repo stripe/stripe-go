@@ -45,7 +45,7 @@ func (c Client) Get(id string, params *stripe.TransferParams) (*stripe.Transfer,
 	}
 
 	transfer := &stripe.Transfer{}
-	err := c.B.Call("GET", "/transfers/"+id, c.Key, body, commonParams, transfer)
+	err := c.B.Call("GET", stripe.FormatURLPath("/transfers/%s", id), c.Key, body, commonParams, transfer)
 
 	return transfer, err
 }
@@ -69,7 +69,7 @@ func (c Client) Update(id string, params *stripe.TransferParams) (*stripe.Transf
 	}
 
 	transfer := &stripe.Transfer{}
-	err := c.B.Call("POST", "/transfers/"+id, c.Key, body, commonParams, transfer)
+	err := c.B.Call("POST", stripe.FormatURLPath("/transfers/%s", id), c.Key, body, commonParams, transfer)
 
 	return transfer, err
 }

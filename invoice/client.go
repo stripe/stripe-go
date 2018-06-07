@@ -2,8 +2,6 @@
 package invoice
 
 import (
-	"fmt"
-
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -47,7 +45,7 @@ func (c Client) Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, e
 	}
 
 	invoice := &stripe.Invoice{}
-	err := c.B.Call("GET", "/invoices/"+id, c.Key, body, commonParams, invoice)
+	err := c.B.Call("GET", stripe.FormatURLPath("/invoices/%s", id), c.Key, body, commonParams, invoice)
 
 	return invoice, err
 }
@@ -69,7 +67,7 @@ func (c Client) Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice
 	}
 
 	invoice := &stripe.Invoice{}
-	err := c.B.Call("POST", fmt.Sprintf("/invoices/%v/pay", id), c.Key, body, commonParams, invoice)
+	err := c.B.Call("POST", stripe.FormatURLPath("/invoices/%s/pay", id), c.Key, body, commonParams, invoice)
 
 	return invoice, err
 }
@@ -91,7 +89,7 @@ func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice
 	}
 
 	invoice := &stripe.Invoice{}
-	err := c.B.Call("POST", "/invoices/"+id, c.Key, body, commonParams, invoice)
+	err := c.B.Call("POST", stripe.FormatURLPath("/invoices/%s", id), c.Key, body, commonParams, invoice)
 
 	return invoice, err
 }
@@ -157,7 +155,7 @@ func (c Client) ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 
 	return &LineIter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceLineList{}
-		err := c.B.Call("GET", fmt.Sprintf("/invoices/%v/lines", stripe.StringValue(params.ID)), c.Key, b, p, list)
+		err := c.B.Call("GET", stripe.FormatURLPath("/invoices/%s/lines", stripe.StringValue(params.ID)), c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

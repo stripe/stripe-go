@@ -2,9 +2,6 @@
 package plan
 
 import (
-	"fmt"
-	"net/url"
-
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -48,7 +45,7 @@ func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) 
 	}
 
 	plan := &stripe.Plan{}
-	err := c.B.Call("GET", "/plans/"+url.QueryEscape(id), c.Key, body, commonParams, plan)
+	err := c.B.Call("GET", stripe.FormatURLPath("/plans/%s", id), c.Key, body, commonParams, plan)
 
 	return plan, err
 }
@@ -70,7 +67,7 @@ func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, erro
 	}
 
 	plan := &stripe.Plan{}
-	err := c.B.Call("POST", "/plans/"+url.QueryEscape(id), c.Key, body, commonParams, plan)
+	err := c.B.Call("POST", stripe.FormatURLPath("/plans/%s", id), c.Key, body, commonParams, plan)
 
 	return plan, err
 }
@@ -92,8 +89,7 @@ func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) 
 	}
 
 	plan := &stripe.Plan{}
-	qid := url.QueryEscape(id) //Added query escape per commit 9821176
-	err := c.B.Call("DELETE", fmt.Sprintf("/plans/%v", qid), c.Key, body, commonParams, plan)
+	err := c.B.Call("DELETE", stripe.FormatURLPath("/plans/%s", id), c.Key, body, commonParams, plan)
 	return plan, err
 }
 

@@ -68,6 +68,15 @@ func TestContext_Cancel(t *testing.T) {
 	assert.Regexp(t, regexp.MustCompile(`(request canceled|context canceled\z)`), err.Error())
 }
 
+func TestFormatURLPath(t *testing.T) {
+	assert.Equal(t, "/resources/1/subresources/2",
+		stripe.FormatURLPath("/resources/%s/subresources/%s", "1", "2"))
+
+	// Tests that each parameter is escaped for use in URLs
+	assert.Equal(t, "/resources/%25",
+		stripe.FormatURLPath("/resources/%s", "%"))
+}
+
 // TestMultipleAPICalls will fail the test run if a race condition is thrown while running multiple NewRequest calls.
 func TestMultipleAPICalls(t *testing.T) {
 	wg := &sync.WaitGroup{}

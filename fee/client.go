@@ -2,8 +2,6 @@
 package fee
 
 import (
-	"fmt"
-
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -31,7 +29,7 @@ func (c Client) Get(id string, params *stripe.ApplicationFeeParams) (*stripe.App
 	}
 
 	fee := &stripe.ApplicationFee{}
-	err := c.B.Call("GET", fmt.Sprintf("application_fees/%v", id), c.Key, body, commonParams, fee)
+	err := c.B.Call("GET", stripe.FormatURLPath("/application_fees/%s", id), c.Key, body, commonParams, fee)
 
 	return fee, err
 }

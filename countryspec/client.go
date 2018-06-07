@@ -20,7 +20,7 @@ func Get(country string) (*stripe.CountrySpec, error) {
 
 func (c Client) Get(country string) (*stripe.CountrySpec, error) {
 	countrySpec := &stripe.CountrySpec{}
-	err := c.B.Call("GET", "/country_specs/"+country, c.Key, nil, nil, countrySpec)
+	err := c.B.Call("GET", stripe.FormatURLPath("/country_specs/%s", country), c.Key, nil, nil, countrySpec)
 
 	return countrySpec, err
 }

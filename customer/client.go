@@ -51,7 +51,7 @@ func (c Client) Get(id string, params *stripe.CustomerParams) (*stripe.Customer,
 	}
 
 	cust := &stripe.Customer{}
-	err := c.B.Call("GET", "/customers/"+id, c.Key, body, commonParams, cust)
+	err := c.B.Call("GET", stripe.FormatURLPath("/customers/%s", id), c.Key, body, commonParams, cust)
 
 	return cust, err
 }
@@ -73,7 +73,7 @@ func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Custom
 	}
 
 	cust := &stripe.Customer{}
-	err := c.B.Call("POST", "/customers/"+id, c.Key, body, commonParams, cust)
+	err := c.B.Call("POST", stripe.FormatURLPath("/customers/%s", id), c.Key, body, commonParams, cust)
 
 	return cust, err
 }
@@ -95,7 +95,7 @@ func (c Client) Del(id string, params *stripe.CustomerParams) (*stripe.Customer,
 	}
 
 	cust := &stripe.Customer{}
-	err := c.B.Call("DELETE", "/customers/"+id, c.Key, body, commonParams, cust)
+	err := c.B.Call("DELETE", stripe.FormatURLPath("/customers/%s", id), c.Key, body, commonParams, cust)
 
 	return cust, err
 }

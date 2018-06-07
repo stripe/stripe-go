@@ -5,8 +5,6 @@
 package bitcoinreceiver
 
 import (
-	"fmt"
-
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -47,7 +45,7 @@ func (c Client) Get(id string, params *stripe.BitcoinReceiverParams) (*stripe.Bi
 	}
 
 	bitcoinReceiver := &stripe.BitcoinReceiver{}
-	err := c.B.Call("GET", "/bitcoin/receivers/"+id, c.Key, nil, commonParams, bitcoinReceiver)
+	err := c.B.Call("GET", stripe.FormatURLPath("/bitcoin/receivers/%s", id), c.Key, nil, commonParams, bitcoinReceiver)
 
 	return bitcoinReceiver, err
 }
@@ -63,7 +61,7 @@ func (c Client) Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*
 	form.AppendTo(body, params)
 
 	receiver := &stripe.BitcoinReceiver{}
-	err := c.B.Call("POST", fmt.Sprintf("/bitcoin/receivers/%v", id), c.Key, body, &params.Params, receiver)
+	err := c.B.Call("POST", stripe.FormatURLPath("/bitcoin/receivers/%s", id), c.Key, body, &params.Params, receiver)
 
 	return receiver, err
 }

@@ -19,7 +19,7 @@ func Get(currency string) (*stripe.ExchangeRate, error) {
 
 func (c Client) Get(currency string) (*stripe.ExchangeRate, error) {
 	exchangeRate := &stripe.ExchangeRate{}
-	err := c.B.Call("GET", "/exchange_rates/"+currency, c.Key, nil, nil, exchangeRate)
+	err := c.B.Call("GET", stripe.FormatURLPath("/exchange_rates/%s", currency), c.Key, nil, nil, exchangeRate)
 
 	return exchangeRate, err
 }

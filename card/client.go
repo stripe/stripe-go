@@ -3,7 +3,6 @@ package card
 
 import (
 	"errors"
-	"fmt"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
@@ -37,11 +36,11 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	var err error
 
 	if params.Account != nil {
-		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts", stripe.StringValue(params.Account)), c.Key, body, &params.Params, card)
+		err = c.B.Call("POST", stripe.FormatURLPath("/accounts/%s/external_accounts", stripe.StringValue(params.Account)), c.Key, body, &params.Params, card)
 	} else if params.Customer != nil {
-		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/sources", stripe.StringValue(params.Customer)), c.Key, body, &params.Params, card)
+		err = c.B.Call("POST", stripe.FormatURLPath("/customers/%s/sources", stripe.StringValue(params.Customer)), c.Key, body, &params.Params, card)
 	} else if params.Recipient != nil {
-		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards", stripe.StringValue(params.Recipient)), c.Key, body, &params.Params, card)
+		err = c.B.Call("POST", stripe.FormatURLPath("/recipients/%s/cards", stripe.StringValue(params.Recipient)), c.Key, body, &params.Params, card)
 	} else {
 		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
@@ -73,11 +72,11 @@ func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	var err error
 
 	if params.Account != nil {
-		err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, commonParams, card)
+		err = c.B.Call("GET", stripe.FormatURLPath("/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id), c.Key, body, commonParams, card)
 	} else if params.Customer != nil {
-		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, card)
+		err = c.B.Call("GET", stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, card)
 	} else if params.Recipient != nil {
-		err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards/%v", stripe.StringValue(params.Recipient), id), c.Key, body, commonParams, card)
+		err = c.B.Call("GET", stripe.FormatURLPath("/recipients/%s/cards/%s", stripe.StringValue(params.Recipient), id), c.Key, body, commonParams, card)
 	} else {
 		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
@@ -103,11 +102,11 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 	var err error
 
 	if params.Account != nil {
-		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, &params.Params, card)
+		err = c.B.Call("POST", stripe.FormatURLPath("/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id), c.Key, body, &params.Params, card)
 	} else if params.Customer != nil {
-		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), c.Key, body, &params.Params, card)
+		err = c.B.Call("POST", stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id), c.Key, body, &params.Params, card)
 	} else if params.Recipient != nil {
-		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards/%v", stripe.StringValue(params.Recipient), id), c.Key, body, &params.Params, card)
+		err = c.B.Call("POST", stripe.FormatURLPath("/recipients/%s/cards/%s", stripe.StringValue(params.Recipient), id), c.Key, body, &params.Params, card)
 	} else {
 		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
@@ -137,11 +136,11 @@ func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	var err error
 
 	if params.Account != nil {
-		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/external_accounts/%v", stripe.StringValue(params.Account), id), c.Key, body, commonParams, card)
+		err = c.B.Call("DELETE", stripe.FormatURLPath("/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id), c.Key, body, commonParams, card)
 	} else if params.Customer != nil {
-		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, card)
+		err = c.B.Call("DELETE", stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, card)
 	} else if params.Recipient != nil {
-		err = c.B.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", stripe.StringValue(params.Recipient), id), c.Key, body, commonParams, card)
+		err = c.B.Call("DELETE", stripe.FormatURLPath("/recipients/%s/cards/%s", stripe.StringValue(params.Recipient), id), c.Key, body, commonParams, card)
 	} else {
 		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
@@ -175,11 +174,11 @@ func (c Client) List(params *stripe.CardListParams) *Iter {
 		}
 
 		if params.Account != nil {
-			err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts?object=card", stripe.StringValue(params.Account)), c.Key, b, p, list)
+			err = c.B.Call("GET", stripe.FormatURLPath("/accounts/%s/external_accounts?object=card", stripe.StringValue(params.Account)), c.Key, b, p, list)
 		} else if params.Customer != nil {
-			err = c.B.Call("GET", fmt.Sprintf("/customers/%v/sources?object=card", stripe.StringValue(params.Customer)), c.Key, b, p, list)
+			err = c.B.Call("GET", stripe.FormatURLPath("/customers/%s/sources?object=card", stripe.StringValue(params.Customer)), c.Key, b, p, list)
 		} else if params.Recipient != nil {
-			err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards", stripe.StringValue(params.Recipient)), c.Key, b, p, list)
+			err = c.B.Call("GET", stripe.FormatURLPath("/recipients/%s/cards", stripe.StringValue(params.Recipient)), c.Key, b, p, list)
 		} else {
 			err = errors.New("Invalid card params: either account, customer or recipient need to be set")
 		}
