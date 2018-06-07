@@ -1,5 +1,8 @@
 # Changelog
 
+## 32.4.0 - 2018-06-07
+* [#577](https://github.com/stripe/stripe-go/pull/577) Add `DocumentBack` to account legal entity identity verification parameters and response
+
 ## 32.3.0 - 2018-06-07
 * [#576](https://github.com/stripe/stripe-go/pull/576) Fix plan transform usage to use `BucketSize` instead of `DivideBy`; note this is technically a breaking API change, but we've released it as a minor because the previous manifestation didn't work
 
