@@ -187,15 +187,17 @@ var depth int = -1
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (c *ChargeOutcomeRule) UnmarshalJSON(data []byte) error {
-	type chargeOutcomeRule ChargeOutcomeRule
-	var cc chargeOutcomeRule
-	err := json.Unmarshal(data, &cc)
-	if err == nil {
-		*c = ChargeOutcomeRule(cc)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		c.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		c.ID = id
+		return nil
 	}
 
+	type chargeOutcomeRule ChargeOutcomeRule
+	var v chargeOutcomeRule
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*c = ChargeOutcomeRule(v)
 	return nil
 }

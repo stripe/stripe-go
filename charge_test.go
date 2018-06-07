@@ -1,11 +1,33 @@
 package stripe
 
 import (
+	"encoding/json"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
 	"github.com/stripe/stripe-go/form"
 )
+
+func TestChargeOutcomeRule_UnmarshalJSON(t *testing.T) {
+	// Unmarshals from a JSON string
+	{
+		var v ChargeOutcomeRule
+		err := json.Unmarshal([]byte(`"ssr_123"`), &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "ssr_123", v.ID)
+	}
+
+	// Unmarshals from a JSON object
+	{
+		v := ChargeOutcomeRule{ID: "ssr_123"}
+		data, err := json.Marshal(&v)
+		assert.NoError(t, err)
+
+		err = json.Unmarshal(data, &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "ssr_123", v.ID)
+	}
+}
 
 func TestChargeParams_AppendTo(t *testing.T) {
 	{

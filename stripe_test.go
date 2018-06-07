@@ -77,6 +77,29 @@ func TestFormatURLPath(t *testing.T) {
 		stripe.FormatURLPath("/resources/%s", "%"))
 }
 
+func TestParseID(t *testing.T) {
+	// JSON string
+	{
+		id, ok := stripe.ParseID([]byte(`"ch_123"`))
+		assert.Equal(t, "ch_123", id)
+		assert.True(t, ok)
+	}
+
+	// JSON object
+	{
+		id, ok := stripe.ParseID([]byte(`{"id":"ch_123"}`))
+		assert.Equal(t, "", id)
+		assert.False(t, ok)
+	}
+
+	// Other JSON scalar (this should never be used, but check the results anyway)
+	{
+		id, ok := stripe.ParseID([]byte(`123`))
+		assert.Equal(t, "", id)
+		assert.False(t, ok)
+	}
+}
+
 // TestMultipleAPICalls will fail the test run if a race condition is thrown while running multiple NewRequest calls.
 func TestMultipleAPICalls(t *testing.T) {
 	wg := &sync.WaitGroup{}

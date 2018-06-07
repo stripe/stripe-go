@@ -448,6 +448,27 @@ func FormatURLPath(format string, params ...string) string {
 	return fmt.Sprintf(format, untypedParams...)
 }
 
+// ParseID attempts to parse a string scalar from a given JSON value which is
+// still encoded as []byte. If the value was a string, it returns the string
+// along with true as the second return value. If not, false is returned as the
+// second return value.
+//
+// The purpose of this function is to detect whether a given value in a
+// response from the Stripe API is a string ID or an expanded object.
+func ParseID(data []byte) (string, bool) {
+	s := string(data)
+
+	if !strings.HasPrefix(s, "\"") {
+		return "", false
+	}
+
+	if !strings.HasSuffix(s, "\"") {
+		return "", false
+	}
+
+	return s[1 : len(s)-1], true
+}
+
 // SetAppInfo sets app information. See AppInfo.
 func SetAppInfo(info *AppInfo) {
 	if info != nil && info.Name == "" {

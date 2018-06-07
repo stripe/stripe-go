@@ -157,40 +157,40 @@ func (t *BalanceTransaction) UnmarshalJSON(data []byte) error {
 // This custom unmarshaling is needed because the specific
 // type of transaction source it refers to is specified in the JSON
 func (s *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
-	type source BalanceTransactionSource
-	var ss source
-	err := json.Unmarshal(data, &ss)
-	if err == nil {
-		*s = BalanceTransactionSource(ss)
-
-		switch s.Type {
-		case BalanceTransactionSourceTypeApplicationFee:
-			err = json.Unmarshal(data, &s.ApplicationFee)
-		case BalanceTransactionSourceTypeCharge:
-			err = json.Unmarshal(data, &s.Charge)
-		case BalanceTransactionSourceTypeDispute:
-			err = json.Unmarshal(data, &s.Dispute)
-		case BalanceTransactionSourceTypePayout:
-			err = json.Unmarshal(data, &s.Payout)
-		case BalanceTransactionSourceTypeRecipientTransfer:
-			err = json.Unmarshal(data, &s.RecipientTransfer)
-		case BalanceTransactionSourceTypeRefund:
-			err = json.Unmarshal(data, &s.Refund)
-		case BalanceTransactionSourceTypeReversal:
-			err = json.Unmarshal(data, &s.Reversal)
-		case BalanceTransactionSourceTypeTransfer:
-			err = json.Unmarshal(data, &s.Transfer)
-		}
-
-		if err != nil {
-			return err
-		}
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		s.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		s.ID = id
+		return nil
 	}
 
-	return nil
+	type balanceTransactionSource BalanceTransactionSource
+	var v balanceTransactionSource
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	var err error
+	*s = BalanceTransactionSource(v)
+
+	switch s.Type {
+	case BalanceTransactionSourceTypeApplicationFee:
+		err = json.Unmarshal(data, &s.ApplicationFee)
+	case BalanceTransactionSourceTypeCharge:
+		err = json.Unmarshal(data, &s.Charge)
+	case BalanceTransactionSourceTypeDispute:
+		err = json.Unmarshal(data, &s.Dispute)
+	case BalanceTransactionSourceTypePayout:
+		err = json.Unmarshal(data, &s.Payout)
+	case BalanceTransactionSourceTypeRecipientTransfer:
+		err = json.Unmarshal(data, &s.RecipientTransfer)
+	case BalanceTransactionSourceTypeRefund:
+		err = json.Unmarshal(data, &s.Refund)
+	case BalanceTransactionSourceTypeReversal:
+		err = json.Unmarshal(data, &s.Reversal)
+	case BalanceTransactionSourceTypeTransfer:
+		err = json.Unmarshal(data, &s.Transfer)
+	}
+
+	return err
 }
 
 // MarshalJSON handles serialization of a BalanceTransactionSource.
