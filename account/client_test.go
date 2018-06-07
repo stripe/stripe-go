@@ -53,7 +53,8 @@ func TestAccountNew(t *testing.T) {
 				{
 					FirstName: stripe.String("Jane"),
 					Verification: &stripe.IdentityVerificationParams{
-						Document: stripe.String("file_345"),
+						Document:     stripe.String("file_345"),
+						DocumentBack: stripe.String("file_567"),
 					},
 				},
 			},
@@ -63,7 +64,8 @@ func TestAccountNew(t *testing.T) {
 				Year:  stripe.Int64(1990),
 			},
 			Verification: &stripe.IdentityVerificationParams{
-				Document: stripe.String("file_123"),
+				Document:     stripe.String("file_123"),
+				DocumentBack: stripe.String("file_234"),
 			},
 		},
 		TOSAcceptance: &stripe.TOSAcceptanceParams{
