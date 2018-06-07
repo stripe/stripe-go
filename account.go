@@ -174,7 +174,8 @@ type AdditionalOwnerParams struct {
 
 // IdentityVerification represents a verification during account creation/updates.
 type IdentityVerificationParams struct {
-	Document *string `form:"document"`
+	Document     *string `form:"document"`
+	DocumentBack *string `form:"document_back"`
 }
 
 // AccountListParams are the parameters allowed during account listing.
@@ -406,10 +407,11 @@ type AdditionalOwner struct {
 
 // IdentityVerification is the structure for an account's verification.
 type IdentityVerification struct {
-	Details     string                          `json:"details"`
-	DetailsCode IdentityVerificationDetailsCode `json:"details_code"`
-	Document    *FileUpload                     `json:"document"`
-	Status      IdentityVerificationStatus      `json:"status"`
+	Details      string                          `json:"details"`
+	DetailsCode  IdentityVerificationDetailsCode `json:"details_code"`
+	Document     *FileUpload                     `json:"document"`
+	DocumentBack *FileUpload                     `json:"document_back"`
+	Status       IdentityVerificationStatus      `json:"status"`
 }
 
 // PayoutSchedule is the structure for an account's payout schedule.
