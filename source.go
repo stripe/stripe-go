@@ -209,18 +209,17 @@ func (p *SourceObjectParams) AppendTo(body *form.Values, keyParts []string) {
 // but stored in JSON under a hash named after the `type` of the source.
 func (s *Source) UnmarshalJSON(data []byte) error {
 	type source Source
-	var ss source
-	err := json.Unmarshal(data, &ss)
-	if err != nil {
+	var v source
+	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
-	*s = Source(ss)
+	*s = Source(v)
 
 	var raw map[string]interface{}
-	err = json.Unmarshal(data, &raw)
-	if err != nil {
+	if err := json.Unmarshal(data, &raw); err != nil {
 		return err
 	}
+
 	if d, ok := raw[s.Type]; ok {
 		if m, ok := d.(map[string]interface{}); ok {
 			s.TypeData = m

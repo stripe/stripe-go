@@ -131,17 +131,19 @@ type PayoutList struct {
 // UnmarshalJSON handles deserialization of a Payout.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (t *Payout) UnmarshalJSON(data []byte) error {
-	type payout Payout
-	var tb payout
-	err := json.Unmarshal(data, &tb)
-	if err == nil {
-		*t = Payout(tb)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		t.ID = string(data[1 : len(data)-1])
+func (p *Payout) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		p.ID = id
+		return nil
 	}
 
+	type payout Payout
+	var v payout
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*p = Payout(v)
 	return nil
 }
 
@@ -149,28 +151,28 @@ func (t *Payout) UnmarshalJSON(data []byte) error {
 // This custom unmarshaling is needed because the specific
 // type of destination it refers to is specified in the JSON
 func (d *PayoutDestination) UnmarshalJSON(data []byte) error {
-	type dest PayoutDestination
-	var dd dest
-	err := json.Unmarshal(data, &dd)
-	if err == nil {
-		*d = PayoutDestination(dd)
-
-		switch d.Type {
-		case PayoutDestinationTypeBankAccount:
-			err = json.Unmarshal(data, &d.BankAccount)
-		case PayoutDestinationTypeCard:
-			err = json.Unmarshal(data, &d.Card)
-		}
-
-		if err != nil {
-			return err
-		}
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		d.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		d.ID = id
+		return nil
 	}
 
-	return nil
+	type payoutDestination PayoutDestination
+	var v payoutDestination
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	var err error
+	*d = PayoutDestination(v)
+
+	switch d.Type {
+	case PayoutDestinationTypeBankAccount:
+		err = json.Unmarshal(data, &d.BankAccount)
+	case PayoutDestinationTypeCard:
+		err = json.Unmarshal(data, &d.Card)
+	}
+
+	return err
 }
 
 // MarshalJSON handles serialization of a PayoutDestination.

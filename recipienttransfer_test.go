@@ -3,57 +3,54 @@ package stripe
 import (
 	"encoding/json"
 	"testing"
+
+	assert "github.com/stretchr/testify/require"
 )
 
-func TestRecipientTransferUnmarshal(t *testing.T) {
-	recipientTransferData := map[string]interface{}{
-		"id":                   "tr_1234",
-		"object":               "recipient_transfer",
-		"amount":               1234,
-		"amount_reversed":      0,
-		"balance_transaction":  "txn_xxx",
-		"card":                 "card_1234",
-		"created":              1490723772,
-		"currency":             "usd",
-		"date":                 1490723772,
-		"description":          "Payout Transaction xyz",
-		"destination":          "card_1234",
-		"failure_code":         "null",
-		"failure_message":      "null",
-		"livemode":             false,
-		"method":               "instant",
-		"recipient":            "rp_AAABBB",
-		"reversed":             false,
-		"source_type":          "card",
-		"statement_descriptor": "Some co xyz",
-		"status":               "pending",
-		"type":                 "card",
+func TestRecipientTransfer_UnmarshalJSON(t *testing.T) {
+	// Unmarshals from a JSON string
+	{
+		var v RecipientTransfer
+		err := json.Unmarshal([]byte(`"rtr_123"`), &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "rtr_123", v.ID)
 	}
 
-	bytes, err := json.Marshal(&recipientTransferData)
-	if err != nil {
-		t.Error(err)
+	// Unmarshals from a JSON object
+	{
+		v := RecipientTransfer{ID: "rtr_123"}
+		data, err := json.Marshal(&v)
+		assert.NoError(t, err)
+
+		err = json.Unmarshal(data, &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "rtr_123", v.ID)
+	}
+}
+
+func TestRecipientTransferDestination_UnmarshalJSON(t *testing.T) {
+	// Unmarshals from a JSON string
+	{
+		var v RecipientTransferDestination
+		err := json.Unmarshal([]byte(`"card_123"`), &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "card_123", v.ID)
 	}
 
-	var recipientTransfer RecipientTransfer
-	err = json.Unmarshal(bytes, &recipientTransfer)
-	if err != nil {
-		t.Error(err)
-	}
+	// Unmarshals from a JSON object
+	{
+		// We build the JSON object manually here because it's key that the
+		// `object` field is included so that the source knows what type to
+		// decode
+		data := []byte(`{"id":"card_123", "object":"card"}`)
 
-	if recipientTransfer.ID != "tr_1234" {
-		t.Errorf("Problem deserializing the ID, got %v", recipientTransfer.ID)
-	}
+		var v RecipientTransferDestination
+		err := json.Unmarshal(data, &v)
+		assert.NoError(t, err)
+		assert.Equal(t, RecipientTransferDestinationCard, v.Type)
 
-	if recipientTransfer.BalanceTransaction == nil {
-		t.Errorf("Problem deserializing balance_transaction, got nothing.")
-	} else if recipientTransfer.BalanceTransaction.ID != "txn_xxx" {
-		t.Errorf("Problem deserializing balance_transaction, got %v", recipientTransfer.BalanceTransaction)
-	}
-
-	if recipientTransfer.Card == nil {
-		t.Errorf("Problem deserializing card as it's null")
-	} else if recipientTransfer.Card.ID != "card_1234" {
-		t.Errorf("Problem deserializing card id, got %v", recipientTransfer.Card.ID)
+		// The source has a field for each possible type, so the card is
+		// located one level down
+		assert.Equal(t, "card_123", v.Card.ID)
 	}
 }

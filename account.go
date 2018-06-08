@@ -295,15 +295,18 @@ type Account struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an ID or the full struct if it was expanded.
 func (a *Account) UnmarshalJSON(data []byte) error {
-	type account Account
-	var aa account
-	err := json.Unmarshal(data, &aa)
-	if err == nil {
-		*a = Account(aa)
-	} else {
-		// the ID is surrounded by "\" characters, so strip them
-		a.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		a.ID = id
+		return nil
 	}
+
+	type account Account
+	var v account
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*a = Account(v)
 	return nil
 }
 
@@ -340,23 +343,23 @@ type ExternalAccount struct {
 }
 
 // UnmarshalJSON implements Unmarshaler.UnmarshalJSON.
-func (ea *ExternalAccount) UnmarshalJSON(b []byte) error {
+func (ea *ExternalAccount) UnmarshalJSON(data []byte) error {
 	type externalAccount ExternalAccount
-	var account externalAccount
-
-	err := json.Unmarshal(b, &account)
-	if err != nil {
+	var v externalAccount
+	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*ea = ExternalAccount(account)
+	var err error
+	*ea = ExternalAccount(v)
 
 	switch ea.Type {
 	case ExternalAccountTypeBankAccount:
-		err = json.Unmarshal(b, &ea.BankAccount)
+		err = json.Unmarshal(data, &ea.BankAccount)
 	case ExternalAccountTypeCard:
-		err = json.Unmarshal(b, &ea.Card)
+		err = json.Unmarshal(data, &ea.Card)
 	}
+
 	return err
 }
 

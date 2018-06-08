@@ -7,6 +7,27 @@ import (
 	assert "github.com/stretchr/testify/require"
 )
 
+func TestBalanceTransaction_UnmarshalJSON(t *testing.T) {
+	// Unmarshals from a JSON string
+	{
+		var v BalanceTransaction
+		err := json.Unmarshal([]byte(`"bt_123"`), &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "bt_123", v.ID)
+	}
+
+	// Unmarshals from a JSON object
+	{
+		v := BalanceTransaction{ID: "bt_123"}
+		data, err := json.Marshal(&v)
+		assert.NoError(t, err)
+
+		err = json.Unmarshal(data, &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "bt_123", v.ID)
+	}
+}
+
 func TestBalanceTransactionSource_UnmarshalJSON(t *testing.T) {
 	// Unmarshals from a JSON string
 	{

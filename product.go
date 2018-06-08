@@ -95,14 +95,17 @@ type ProductListParams struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (p *Product) UnmarshalJSON(data []byte) error {
-	type product Product
-	var pr product
-	err := json.Unmarshal(data, &pr)
-	if err == nil {
-		*p = Product(pr)
-	} else {
-		p.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		p.ID = id
+		return nil
 	}
 
+	type product Product
+	var v product
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*p = Product(v)
 	return nil
 }

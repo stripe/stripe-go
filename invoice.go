@@ -161,15 +161,17 @@ type InvoicePayParams struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (i *Invoice) UnmarshalJSON(data []byte) error {
-	type invoice Invoice
-	var ii invoice
-	err := json.Unmarshal(data, &ii)
-	if err == nil {
-		*i = Invoice(ii)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		i.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		i.ID = id
+		return nil
 	}
 
+	type invoice Invoice
+	var v invoice
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*i = Invoice(v)
 	return nil
 }

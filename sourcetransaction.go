@@ -33,12 +33,12 @@ type SourceTransaction struct {
 // source transaction.
 func (t *SourceTransaction) UnmarshalJSON(data []byte) error {
 	type sourceTransaction SourceTransaction
-	var st sourceTransaction
-	err := json.Unmarshal(data, &st)
+	var v sourceTransaction
+	err := json.Unmarshal(data, &v)
 	if err != nil {
 		return err
 	}
-	*t = SourceTransaction(st)
+	*t = SourceTransaction(v)
 
 	var raw map[string]interface{}
 	err = json.Unmarshal(data, &raw)

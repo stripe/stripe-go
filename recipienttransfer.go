@@ -105,16 +105,18 @@ type RecipientTransfer struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (t *RecipientTransfer) UnmarshalJSON(data []byte) error {
-	type transfer RecipientTransfer
-	var tb transfer
-	err := json.Unmarshal(data, &tb)
-	if err == nil {
-		*t = RecipientTransfer(tb)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		t.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		t.ID = id
+		return nil
 	}
 
+	type recipientTransfer RecipientTransfer
+	var v recipientTransfer
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*t = RecipientTransfer(v)
 	return nil
 }
 
@@ -122,28 +124,28 @@ func (t *RecipientTransfer) UnmarshalJSON(data []byte) error {
 // This custom unmarshaling is needed because the specific
 // type of destination it refers to is specified in the JSON
 func (d *RecipientTransferDestination) UnmarshalJSON(data []byte) error {
-	type dest RecipientTransferDestination
-	var dd dest
-	err := json.Unmarshal(data, &dd)
-	if err == nil {
-		*d = RecipientTransferDestination(dd)
-
-		switch d.Type {
-		case RecipientTransferDestinationBankAccount:
-			err = json.Unmarshal(data, &d.BankAccount)
-		case RecipientTransferDestinationCard:
-			err = json.Unmarshal(data, &d.Card)
-		}
-
-		if err != nil {
-			return err
-		}
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		d.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		d.ID = id
+		return nil
 	}
 
-	return nil
+	type recipientTransferDestination RecipientTransferDestination
+	var v recipientTransferDestination
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	var err error
+	*d = RecipientTransferDestination(v)
+
+	switch d.Type {
+	case RecipientTransferDestinationBankAccount:
+		err = json.Unmarshal(data, &d.BankAccount)
+	case RecipientTransferDestinationCard:
+		err = json.Unmarshal(data, &d.Card)
+	}
+
+	return err
 }
 
 // MarshalJSON handles serialization of a RecipientTransferDestination.

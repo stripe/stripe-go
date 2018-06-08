@@ -96,15 +96,17 @@ func (f *FileUploadParams) AppendDetails(body io.ReadWriter) (string, error) {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (f *FileUpload) UnmarshalJSON(data []byte) error {
-	type file FileUpload
-	var ff file
-	err := json.Unmarshal(data, &ff)
-	if err == nil {
-		*f = FileUpload(ff)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		f.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		f.ID = id
+		return nil
 	}
 
+	type fileUpload FileUpload
+	var v fileUpload
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*f = FileUpload(v)
 	return nil
 }

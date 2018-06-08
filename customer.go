@@ -84,15 +84,17 @@ type CustomerShippingDetails struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (c *Customer) UnmarshalJSON(data []byte) error {
-	type customer Customer
-	var cc customer
-	err := json.Unmarshal(data, &cc)
-	if err == nil {
-		*c = Customer(cc)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		c.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		c.ID = id
+		return nil
 	}
 
+	type customer Customer
+	var v customer
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*c = Customer(v)
 	return nil
 }

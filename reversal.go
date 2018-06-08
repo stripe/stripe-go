@@ -37,15 +37,17 @@ type ReversalList struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (r *Reversal) UnmarshalJSON(data []byte) error {
-	type reversal Reversal
-	var rr reversal
-	err := json.Unmarshal(data, &rr)
-	if err == nil {
-		*r = Reversal(rr)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		r.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		r.ID = id
+		return nil
 	}
 
+	type reversal Reversal
+	var v reversal
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*r = Reversal(v)
 	return nil
 }

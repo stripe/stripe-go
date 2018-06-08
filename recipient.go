@@ -78,15 +78,17 @@ type RecipientList struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (r *Recipient) UnmarshalJSON(data []byte) error {
-	type recipient Recipient
-	var rr recipient
-	err := json.Unmarshal(data, &rr)
-	if err == nil {
-		*r = Recipient(rr)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		r.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		r.ID = id
+		return nil
 	}
 
+	type recipient Recipient
+	var v recipient
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*r = Recipient(v)
 	return nil
 }

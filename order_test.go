@@ -8,6 +8,27 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
+func TestOrder_UnmarshalJSON(t *testing.T) {
+	// Unmarshals from a JSON string
+	{
+		var v Order
+		err := json.Unmarshal([]byte(`"or_123"`), &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "or_123", v.ID)
+	}
+
+	// Unmarshals from a JSON object
+	{
+		v := Order{ID: "or_123"}
+		data, err := json.Marshal(&v)
+		assert.NoError(t, err)
+
+		err = json.Unmarshal(data, &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "or_123", v.ID)
+	}
+}
+
 func TestOrderUpdateParams_AppendTo(t *testing.T) {
 	{
 		params := &OrderUpdateParams{

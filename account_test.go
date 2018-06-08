@@ -30,7 +30,7 @@ func TestAccountExternalAccountParams_AppendTo(t *testing.T) {
 	}
 }
 
-func TestAccountUnmarshal(t *testing.T) {
+func TestAccount_Unmarshal(t *testing.T) {
 	accountData := map[string]interface{}{
 		"id": "acct_123",
 		"external_accounts": map[string]interface{}{
@@ -245,6 +245,46 @@ func TestAccountUnmarshal(t *testing.T) {
 	assert.Equal(t, "file_345", account.LegalEntity.Verification.Document.ID)
 	assert.Equal(t, "file_456", account.LegalEntity.Verification.DocumentBack.ID)
 	assert.Equal(t, IdentityVerificationStatusUnverified, account.LegalEntity.Verification.Status)
+}
+
+func TestAccount_UnmarshalJSON(t *testing.T) {
+	// Unmarshals from a JSON string
+	{
+		var v Account
+		err := json.Unmarshal([]byte(`"acct_123"`), &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "acct_123", v.ID)
+	}
+
+	// Unmarshals from a JSON object
+	{
+		v := Account{ID: "acct_123"}
+		data, err := json.Marshal(&v)
+		assert.NoError(t, err)
+
+		err = json.Unmarshal(data, &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "acct_123", v.ID)
+	}
+}
+
+func TestExternalAccount_UnmarshalJSON(t *testing.T) {
+	// Unmarshals from a JSON object
+	{
+		// We build the JSON object manually here because it's key that the
+		// `object` field is included so that the source knows what type to
+		// decode
+		data := []byte(`{"id":"ba_123", "object":"bank_account"}`)
+
+		var v ExternalAccount
+		err := json.Unmarshal(data, &v)
+		assert.NoError(t, err)
+		assert.Equal(t, ExternalAccountTypeBankAccount, v.Type)
+
+		// The external account has a field for each possible type, so the
+		// bank account is located one level down
+		assert.Equal(t, "ba_123", v.BankAccount.ID)
+	}
 }
 
 func TestPayoutScheduleParams_AppendTo(t *testing.T) {

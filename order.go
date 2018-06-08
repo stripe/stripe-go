@@ -185,17 +185,17 @@ func (op *OrderPayParams) SetSource(sp interface{}) error {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (o *Order) UnmarshalJSON(data []byte) error {
-	type order Order
-	var oo order
-	err := json.Unmarshal(data, &oo)
-	if err == nil {
-		*o = Order(oo)
-		{
-		}
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		o.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		o.ID = id
+		return nil
 	}
 
+	type order Order
+	var v order
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*o = Order(v)
 	return nil
 }

@@ -33,15 +33,17 @@ type BitcoinTransaction struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (bt *BitcoinTransaction) UnmarshalJSON(data []byte) error {
-	type bitcoinTransaction BitcoinTransaction
-	var t bitcoinTransaction
-	err := json.Unmarshal(data, &t)
-	if err == nil {
-		*bt = BitcoinTransaction(t)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		bt.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		bt.ID = id
+		return nil
 	}
 
+	type bitcoinTransaction BitcoinTransaction
+	var v bitcoinTransaction
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*bt = BitcoinTransaction(v)
 	return nil
 }

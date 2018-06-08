@@ -62,15 +62,17 @@ type CouponList struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (c *Coupon) UnmarshalJSON(data []byte) error {
-	type coupon Coupon
-	var cc coupon
-	err := json.Unmarshal(data, &cc)
-	if err == nil {
-		*c = Coupon(cc)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		c.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		c.ID = id
+		return nil
 	}
 
+	type coupon Coupon
+	var v coupon
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*c = Coupon(v)
 	return nil
 }

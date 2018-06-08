@@ -63,15 +63,17 @@ type RefundList struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (r *Refund) UnmarshalJSON(data []byte) error {
-	type refund Refund
-	var rr refund
-	err := json.Unmarshal(data, &rr)
-	if err == nil {
-		*r = Refund(rr)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		r.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		r.ID = id
+		return nil
 	}
 
+	type refund Refund
+	var v refund
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*r = Refund(v)
 	return nil
 }

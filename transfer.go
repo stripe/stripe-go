@@ -72,16 +72,18 @@ type TransferList struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (t *Transfer) UnmarshalJSON(data []byte) error {
-	type transfer Transfer
-	var tb transfer
-	err := json.Unmarshal(data, &tb)
-	if err == nil {
-		*t = Transfer(tb)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		t.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		t.ID = id
+		return nil
 	}
 
+	type transfer Transfer
+	var v transfer
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*t = Transfer(v)
 	return nil
 }
 
@@ -89,23 +91,19 @@ func (t *Transfer) UnmarshalJSON(data []byte) error {
 // This custom unmarshaling is needed because the specific
 // type of destination it refers to is specified in the JSON
 func (d *TransferDestination) UnmarshalJSON(data []byte) error {
-	type dest TransferDestination
-	var dd dest
-	err := json.Unmarshal(data, &dd)
-	if err == nil {
-		*d = TransferDestination(dd)
-
-		err = json.Unmarshal(data, &d.Account)
-
-		if err != nil {
-			return err
-		}
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		d.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		d.ID = id
+		return nil
 	}
 
-	return nil
+	type transferDestination TransferDestination
+	var v transferDestination
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*d = TransferDestination(v)
+	return json.Unmarshal(data, &d.Account)
 }
 
 // MarshalJSON handles serialization of a TransferDestination.

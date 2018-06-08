@@ -80,3 +80,30 @@ func TestPaymentSource_MarshalJSON(t *testing.T) {
 		assert.Equal(t, unmarshalled.BankAccount.AccountHolderName, name)
 	}
 }
+
+func TestPaymentSource_UnmarshalJSON(t *testing.T) {
+	// Unmarshals from a JSON string
+	{
+		var v PaymentSource
+		err := json.Unmarshal([]byte(`"ba_123"`), &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "ba_123", v.ID)
+	}
+
+	// Unmarshals from a JSON object
+	{
+		// We build the JSON object manually here because it's key that the
+		// `object` field is included so that the source knows what type to
+		// decode
+		data := []byte(`{"id":"ba_123", "object":"bank_account"}`)
+
+		var v PaymentSource
+		err := json.Unmarshal(data, &v)
+		assert.NoError(t, err)
+		assert.Equal(t, PaymentSourceTypeBankAccount, v.Type)
+
+		// The payment source has a field for each possible type, so the bank
+		// account is located one level down
+		assert.Equal(t, "ba_123", v.BankAccount.ID)
+	}
+}

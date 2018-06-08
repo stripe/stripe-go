@@ -140,16 +140,18 @@ type BalanceTransactionFee struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (t *BalanceTransaction) UnmarshalJSON(data []byte) error {
-	type bt BalanceTransaction
-	var tt bt
-	err := json.Unmarshal(data, &tt)
-	if err == nil {
-		*t = BalanceTransaction(tt)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		t.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		t.ID = id
+		return nil
 	}
 
+	type balanceTransaction BalanceTransaction
+	var v balanceTransaction
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*t = BalanceTransaction(v)
 	return nil
 }
 

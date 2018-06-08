@@ -111,32 +111,32 @@ type SourceListParams struct {
 // This custom unmarshaling is needed because the specific
 // type of payment instrument it refers to is specified in the JSON
 func (s *PaymentSource) UnmarshalJSON(data []byte) error {
-	type source PaymentSource
-	var ss source
-	err := json.Unmarshal(data, &ss)
-	if err == nil {
-		*s = PaymentSource(ss)
-
-		switch s.Type {
-		case PaymentSourceTypeBankAccount:
-			err = json.Unmarshal(data, &s.BankAccount)
-		case PaymentSourceTypeBitcoinReceiver:
-			err = json.Unmarshal(data, &s.BitcoinReceiver)
-		case PaymentSourceTypeCard:
-			err = json.Unmarshal(data, &s.Card)
-		case PaymentSourceTypeObject:
-			err = json.Unmarshal(data, &s.SourceObject)
-		}
-
-		if err != nil {
-			return err
-		}
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		s.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		s.ID = id
+		return nil
 	}
 
-	return nil
+	type paymentSource PaymentSource
+	var v paymentSource
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	var err error
+	*s = PaymentSource(v)
+
+	switch s.Type {
+	case PaymentSourceTypeBankAccount:
+		err = json.Unmarshal(data, &s.BankAccount)
+	case PaymentSourceTypeBitcoinReceiver:
+		err = json.Unmarshal(data, &s.BitcoinReceiver)
+	case PaymentSourceTypeCard:
+		err = json.Unmarshal(data, &s.Card)
+	case PaymentSourceTypeObject:
+		err = json.Unmarshal(data, &s.SourceObject)
+	}
+
+	return err
 }
 
 // MarshalJSON handles serialization of a PaymentSource.

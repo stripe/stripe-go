@@ -24,16 +24,17 @@ type Review struct {
 }
 
 func (r *Review) UnmarshalJSON(data []byte) error {
-	type review Review
-	var rr review
-
-	err := json.Unmarshal(data, &rr)
-	if err == nil {
-		*r = Review(rr)
-	} else {
-		// Otherwise...we have to strip the escaping
-		r.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		r.ID = id
+		return nil
 	}
 
+	type review Review
+	var v review
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*r = Review(v)
 	return nil
 }
