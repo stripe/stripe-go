@@ -50,9 +50,9 @@ Below are a few simple examples:
 
 ```go
 params := &stripe.CustomerParams{
-	Balance: stripe.Int64(-123),
+	Balance:     stripe.Int64(-123),
 	Description: stripe.String("Stripe Developer"),
-	Email: stripe.String("gostripe@stripe.com"),
+	Email:       stripe.String("gostripe@stripe.com"),
 }
 params.SetSource("tok_1234")
 
@@ -156,8 +156,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
         sc := stripeClient.New("sk_live_key", stripe.NewBackends(httpClient))
 
         chargeParams := &stripe.ChargeParams{
-            Amount: stripe.Int64(2000),
-            Currency: stripe.String(string(stripe.CurrencyUSD)),
+            Amount:      stripe.Int64(2000),
+            Currency:    stripe.String(string(stripe.CurrencyUSD)),
             Description: stripe.String("Charge from Google App Engine"),
         }
         chargeParams.SetSource("tok_amex") // obtained with Stripe.js
