@@ -396,13 +396,13 @@ type DOB struct {
 
 // AdditionalOwner is the structure for an account owner.
 type AdditionalOwner struct {
-	Address                  *AccountAddress `json:"address"`
-	DOB                      DOB             `json:"dob"`
-	FirstName                string          `json:"first_name"`
-	LastName                 string          `json:"last_name"`
-	MaidenName               string          `json:"maiden_name"`
-	PersonalIDNumberProvided bool            `json:"personal_id_number_provided"`
-	Verification             string          `json:"verification"`
+	Address                  *AccountAddress      `json:"address"`
+	DOB                      DOB                  `json:"dob"`
+	FirstName                string               `json:"first_name"`
+	LastName                 string               `json:"last_name"`
+	MaidenName               string               `json:"maiden_name"`
+	PersonalIDNumberProvided bool                 `json:"personal_id_number_provided"`
+	Verification             IdentityVerification `json:"verification"`
 }
 
 // IdentityVerification is the structure for an account's verification.
