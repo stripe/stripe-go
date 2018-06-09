@@ -48,6 +48,20 @@ const (
 	IdentityVerificationDetailsCodeScanNotUploaded           IdentityVerificationDetailsCode = "scan_not_uploaded"
 )
 
+// IdentityVerificationDisabledReason describes the valid reason to disable account
+type IdentityVerificationDisabledReason string
+
+const (
+	IdentityVerificationDisabledReasonFieldsNeeded           IdentityVerificationDisabledReason = "fields_needed"
+	IdentityVerificationDisabledReasonListed                 IdentityVerificationDisabledReason = "listed"
+	IdentityVerificationDisabledReasonOther                  IdentityVerificationDisabledReason = "other"
+	IdentityVerificationDisabledReasonRejectedFraud          IdentityVerificationDisabledReason = "rejected.fraud"
+	IdentityVerificationDisabledReasonRejectedListed         IdentityVerificationDisabledReason = "rejected.listed"
+	IdentityVerificationDisabledReasonRejectedOther          IdentityVerificationDisabledReason = "rejected.other"
+	IdentityVerificationDisabledReasonRejectedTermsOfService IdentityVerificationDisabledReason = "rejected.terms_of_service"
+	IdentityVerificationDisabledReasonUnderReview            IdentityVerificationDisabledReason = "under_review"
+)
+
 // IdentityVerificationStatus describes the different statuses for identity verification.
 type IdentityVerificationStatus string
 
@@ -61,16 +75,19 @@ const (
 type PayoutInterval string
 
 const (
-	PayoutIntervalDay     PayoutInterval = "daily"
+	PayoutIntervalDaily   PayoutInterval = "daily"
 	PayoutIntervalManual  PayoutInterval = "manual"
 	PayoutIntervalMonthly PayoutInterval = "monthly"
 	PayoutIntervalWeekly  PayoutInterval = "weekly"
 )
 
+// AccountRejectReason describes the valid reason to reject an account
+type AccountRejectReason string
+
 const (
-	AccountRejectReasonFraud          string = "fraud"
-	AccountRejectReasonOther          string = "other"
-	AccountRejectReasonTermsOfService string = "terms_of_service"
+	AccountRejectReasonFraud          AccountRejectReason = "fraud"
+	AccountRejectReasonOther          AccountRejectReason = "other"
+	AccountRejectReasonTermsOfService AccountRejectReason = "terms_of_service"
 )
 
 // AccountParams are the parameters allowed during account creation/updates.
@@ -268,9 +285,9 @@ type Account struct {
 	Type AccountType `json:"type"`
 
 	Verification *struct {
-		DisabledReason string   `json:"disabled_reason"`
-		DueBy          *int64   `json:"due_by"`
-		FieldsNeeded   []string `json:"fields_needed"`
+		DisabledReason IdentityVerificationDisabledReason `json:"disabled_reason"`
+		DueBy          int64                              `json:"due_by"`
+		FieldsNeeded   []string                           `json:"fields_needed"`
 	} `json:"verification"`
 }
 
