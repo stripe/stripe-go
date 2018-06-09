@@ -17,6 +17,14 @@ const (
 	StartingAfter = "starting_after"
 )
 
+type ParamsContainer interface {
+	GetParams() *Params
+}
+
+type ListParamsContainer interface {
+	GetListParams() *ListParams
+}
+
 // Params is the structure that contains the common properties
 // of any *Params structure.
 type Params struct {
@@ -44,6 +52,13 @@ type Params struct {
 	// account instead of under the account of the owner of the configured
 	// Stripe key.
 	StripeAccount *string `form:"-"` // Passed as header
+}
+
+// GetParams returns a Params struct (itself). It exists because any structs
+// that embed Params will inherit it, and thus implement the ParamsContainer
+// interface.
+func (p *Params) GetParams() *Params {
+	return p
 }
 
 // ExtraValues are extra parameters that are attached to an API request.
@@ -198,6 +213,20 @@ func (p *Params) AddExtra(key, value string) {
 // AddExpand appends a new field to expand.
 func (p *ListParams) AddExpand(f string) {
 	p.Expand = append(p.Expand, &f)
+}
+
+// GetListParams returns a ListParams struct (itself). It exists because any
+// structs that embed ListParams will inherit it, and thus implement the
+// ListParamsContainer interface.
+func (p *ListParams) GetListParams() *ListParams {
+	return p
+}
+
+// GetParams returns ListParams as a Params struct. It exists because any
+// structs that embed Params will inherit it, and thus implement the
+// ParamsContainer interface.
+func (p *ListParams) GetParams() *Params {
+	return p.ToParams()
 }
 
 // SetStripeAccount sets a value for the Stripe-Account header.

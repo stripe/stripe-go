@@ -9,6 +9,9 @@ import (
 // Query is the function used to get a page listing.
 type Query func(*form.Values) ([]interface{}, ListMeta, error)
 
+// Query2 is the function used to get a page listing.
+type Query2 func(*Params, *form.Values) ([]interface{}, ListMeta, error)
+
 // Iter provides a convenient interface
 // for iterating over the elements
 // returned from paginated list API calls.
@@ -18,39 +21,76 @@ type Query func(*form.Values) ([]interface{}, ListMeta, error)
 // Iterators are not thread-safe, so they should not be consumed
 // across multiple goroutines.
 type Iter struct {
-	cur    interface{}
-	err    error
-	meta   ListMeta
-	params ListParams
-	qs     *form.Values
-	query  Query
-	values []interface{}
+	cur        interface{}
+	err        error
+	formValues *form.Values
+	listParams ListParams
+	meta       ListMeta
+	query      Query
+	query2     Query2
+	values     []interface{}
 }
 
 // GetIter returns a new Iter for a given query and its options.
-func GetIter(params *ListParams, qs *form.Values, query Query) *Iter {
+func GetIter(listParams *ListParams, formValues *form.Values, query Query) *Iter {
 	iter := &Iter{}
 	iter.query = query
 
-	p := params
+	p := listParams
 	if p == nil {
 		p = &ListParams{}
 	}
-	iter.params = *p
+	iter.listParams = *p
 
-	q := qs
+	q := formValues
 	if q == nil {
 		q = &form.Values{}
 	}
-	iter.qs = q
+	iter.formValues = q
 
 	iter.getPage()
 	return iter
 }
 
+// TODO: After every list API call uses GetIter2, remove GetIter, then rename
+// all instances of GetIter2 to GetIter. This only exists as a separate method
+// to keep the build/tests working while we refactor.
+func GetIter2(container ListParamsContainer, query Query2) *Iter {
+	var listParams *ListParams
+	formValues := &form.Values{}
+
+	if container != nil {
+		reflectValue := reflect.ValueOf(container)
+
+		// See the comment on Call in stripe.go.
+		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
+			listParams = container.GetListParams()
+			form.AppendTo(formValues, container)
+		}
+	}
+
+	if listParams == nil {
+		listParams = &ListParams{}
+	}
+	iter := &Iter{
+		formValues: formValues,
+		listParams: *listParams,
+		query2:     query,
+	}
+
+	iter.getPage()
+
+	return iter
+}
+
 func (it *Iter) getPage() {
-	it.values, it.meta, it.err = it.query(it.qs)
-	if it.params.EndingBefore != nil {
+	if it.query != nil {
+		it.values, it.meta, it.err = it.query(it.formValues)
+	} else {
+		it.values, it.meta, it.err = it.query2(it.listParams.GetParams(), it.formValues)
+	}
+
+	if it.listParams.EndingBefore != nil {
 		// We are moving backward,
 		// but items arrive in forward order.
 		reverse(it.values)
@@ -63,14 +103,14 @@ func (it *Iter) getPage() {
 // It returns false when the iterator stops
 // at the end of the list.
 func (it *Iter) Next() bool {
-	if len(it.values) == 0 && it.meta.HasMore && !it.params.Single {
+	if len(it.values) == 0 && it.meta.HasMore && !it.listParams.Single {
 		// determine if we're moving forward or backwards in paging
-		if it.params.EndingBefore != nil {
-			it.params.EndingBefore = String(listItemID(it.cur))
-			it.qs.Set(EndingBefore, *it.params.EndingBefore)
+		if it.listParams.EndingBefore != nil {
+			it.listParams.EndingBefore = String(listItemID(it.cur))
+			it.formValues.Set(EndingBefore, *it.listParams.EndingBefore)
 		} else {
-			it.params.StartingAfter = String(listItemID(it.cur))
-			it.qs.Set(StartingAfter, *it.params.StartingAfter)
+			it.listParams.StartingAfter = String(listItemID(it.cur))
+			it.formValues.Set(StartingAfter, *it.listParams.StartingAfter)
 		}
 		it.getPage()
 	}
