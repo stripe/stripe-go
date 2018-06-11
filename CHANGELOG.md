@@ -1,5 +1,8 @@
 # Changelog
 
+## 33.0.0 - 2018-06-11
+* [#583](https://github.com/stripe/stripe-go/pull/583) Add new account constants, rename one, and fix `DueBy` (this is quite a small breaking change)
+
 ## 32.4.1 - 2018-06-11
 * [#582](https://github.com/stripe/stripe-go/pull/582) Fix unmarshaling of `LegalEntity` (specifically when we have `legal_entity[additional_owners][][verification]`) so that it comes out as a struct
 
