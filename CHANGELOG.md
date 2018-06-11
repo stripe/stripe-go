@@ -1,5 +1,8 @@
 # Changelog
 
+## 32.4.1 - 2018-06-11
+* [#582](https://github.com/stripe/stripe-go/pull/582) Fix unmarshaling of `LegalEntity` (specifically when we have `legal_entity[additional_owners][][verification]`) so that it comes out as a struct
+
 ## 32.4.0 - 2018-06-07
 * [#577](https://github.com/stripe/stripe-go/pull/577) Add `DocumentBack` to account legal entity identity verification parameters and response
 
