@@ -15,6 +15,38 @@ const (
 	FileUploadPurposeIdentityDocument FileUploadPurpose = "identity_document"
 )
 
+// File represents a link to downloadable content.
+//
+// This is an earlier incarnation of FileUpload, and they'll eventually be
+// merged into the same struct.
+type File struct {
+	Created  int64  `json:"created"`
+	ID       string `json:"id"`
+	MIMEType string `json:"mime_type"`
+	Purpose  string `json:"purpose"`
+	Size     int64  `json:"size"`
+	URL      string `json:"url"`
+}
+
+// UnmarshalJSON handles deserialization of a File.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (f *File) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		f.ID = id
+		return nil
+	}
+
+	type file File
+	var v file
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*f = File(v)
+	return nil
+}
+
 // FileUploadParams is the set of parameters that can be used when creating a
 // file upload.
 // For more details see https://stripe.com/docs/api#create_file_upload.
