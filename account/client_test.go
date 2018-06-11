@@ -80,7 +80,7 @@ func TestAccountNew(t *testing.T) {
 
 func TestAccountReject(t *testing.T) {
 	account, err := Reject("acct_123", &stripe.AccountRejectParams{
-		Reason: stripe.String(stripe.AccountRejectReasonFraud),
+		Reason: stripe.String(string(stripe.AccountRejectReasonFraud)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, account)
