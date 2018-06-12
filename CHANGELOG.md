@@ -1,5 +1,8 @@
 # Changelog
 
+## 33.1.0 - 2018-06-12
+* [#578](https://github.com/stripe/stripe-go/pull/578) Improve expansion parsing by not discarding unmarshal errors
+
 ## 33.0.0 - 2018-06-11
 * [#583](https://github.com/stripe/stripe-go/pull/583) Add new account constants, rename one, and fix `DueBy` (this is quite a small breaking change)
 
