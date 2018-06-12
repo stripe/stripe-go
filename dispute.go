@@ -118,33 +118,33 @@ type EvidenceDetails struct {
 // Almost all fields are strings since there structures (i.e. address)
 // do not typically get parsed by anyone and are thus presented as-received.
 type DisputeEvidence struct {
-	AccessActivityLog            string `json:"access_activity_log"`
-	BillingAddress               string `json:"billing_address"`
-	CancellationPolicy           *File  `json:"cancellation_policy"`
-	CancellationPolicyDisclosure string `json:"cancellation_policy_disclosure"`
-	CancellationRebuttal         string `json:"cancellation_rebuttal"`
-	CustomerCommunication        *File  `json:"customer_communication"`
-	CustomerEmailAddress         string `json:"customer_email_address"`
-	CustomerName                 string `json:"customer_name"`
-	CustomerPurchaseIP           string `json:"customer_purchase_ip"`
-	CustomerSignature            *File  `json:"customer_signature"`
-	DuplicateChargeDocumentation *File  `json:"duplicate_charge_documentation"`
-	DuplicateChargeExplanation   string `json:"duplicate_charge_explanation"`
-	DuplicateChargeID            string `json:"duplicate_charge_id"`
-	ProductDescription           string `json:"product_description"`
-	Receipt                      *File  `json:"receipt"`
-	RefundPolicy                 *File  `json:"refund_policy"`
-	RefundPolicyDisclosure       string `json:"refund_policy_disclosure"`
-	RefundRefusalExplanation     string `json:"refund_refusal_explanation"`
-	ServiceDate                  string `json:"service_date"`
-	ServiceDocumentation         *File  `json:"service_documentation"`
-	ShippingAddress              string `json:"shipping_address"`
-	ShippingCarrier              string `json:"shipping_carrier"`
-	ShippingDate                 string `json:"shipping_date"`
-	ShippingDocumentation        *File  `json:"shipping_documentation"`
-	ShippingTrackingNumber       string `json:"shipping_tracking_number"`
-	UncategorizedFile            *File  `json:"uncategorized_file"`
-	UncategorizedText            string `json:"uncategorized_text"`
+	AccessActivityLog            string      `json:"access_activity_log"`
+	BillingAddress               string      `json:"billing_address"`
+	CancellationPolicy           *FileUpload `json:"cancellation_policy"`
+	CancellationPolicyDisclosure string      `json:"cancellation_policy_disclosure"`
+	CancellationRebuttal         string      `json:"cancellation_rebuttal"`
+	CustomerCommunication        *FileUpload `json:"customer_communication"`
+	CustomerEmailAddress         string      `json:"customer_email_address"`
+	CustomerName                 string      `json:"customer_name"`
+	CustomerPurchaseIP           string      `json:"customer_purchase_ip"`
+	CustomerSignature            *FileUpload `json:"customer_signature"`
+	DuplicateChargeDocumentation *FileUpload `json:"duplicate_charge_documentation"`
+	DuplicateChargeExplanation   string      `json:"duplicate_charge_explanation"`
+	DuplicateChargeID            string      `json:"duplicate_charge_id"`
+	ProductDescription           string      `json:"product_description"`
+	Receipt                      *FileUpload `json:"receipt"`
+	RefundPolicy                 *FileUpload `json:"refund_policy"`
+	RefundPolicyDisclosure       string      `json:"refund_policy_disclosure"`
+	RefundRefusalExplanation     string      `json:"refund_refusal_explanation"`
+	ServiceDate                  string      `json:"service_date"`
+	ServiceDocumentation         *FileUpload `json:"service_documentation"`
+	ShippingAddress              string      `json:"shipping_address"`
+	ShippingCarrier              string      `json:"shipping_carrier"`
+	ShippingDate                 string      `json:"shipping_date"`
+	ShippingDocumentation        *FileUpload `json:"shipping_documentation"`
+	ShippingTrackingNumber       string      `json:"shipping_tracking_number"`
+	UncategorizedFile            *FileUpload `json:"uncategorized_file"`
+	UncategorizedText            string      `json:"uncategorized_text"`
 }
 
 // UnmarshalJSON handles deserialization of a Dispute.
