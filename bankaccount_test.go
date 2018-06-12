@@ -1,11 +1,33 @@
 package stripe
 
 import (
+	"encoding/json"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
 	"github.com/stripe/stripe-go/form"
 )
+
+func TestBankAccount_UnmarshalJSON(t *testing.T) {
+	// Unmarshals from a JSON string
+	{
+		var v BankAccount
+		err := json.Unmarshal([]byte(`"ba_123"`), &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "ba_123", v.ID)
+	}
+
+	// Unmarshals from a JSON object
+	{
+		v := BankAccount{ID: "ba_123"}
+		data, err := json.Marshal(&v)
+		assert.NoError(t, err)
+
+		err = json.Unmarshal(data, &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "ba_123", v.ID)
+	}
+}
 
 func TestBankAccountParams_AppendToAsSourceOrExternalAccount(t *testing.T) {
 	// We should add more tests for all the various corner cases here ...

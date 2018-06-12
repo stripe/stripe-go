@@ -153,15 +153,17 @@ type BankAccountList struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (b *BankAccount) UnmarshalJSON(data []byte) error {
-	type bankAccount BankAccount
-	var bb bankAccount
-	err := json.Unmarshal(data, &bb)
-	if err == nil {
-		*b = BankAccount(bb)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		b.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		b.ID = id
+		return nil
 	}
 
+	type bankAccount BankAccount
+	var v bankAccount
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*b = BankAccount(v)
 	return nil
 }

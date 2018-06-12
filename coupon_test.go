@@ -7,23 +7,23 @@ import (
 	assert "github.com/stretchr/testify/require"
 )
 
-func TestApplication_UnmarshalJSON(t *testing.T) {
+func TestCoupon_UnmarshalJSON(t *testing.T) {
 	// Unmarshals from a JSON string
 	{
-		var v Application
-		err := json.Unmarshal([]byte(`"ca_123"`), &v)
+		var v Coupon
+		err := json.Unmarshal([]byte(`"25OFF"`), &v)
 		assert.NoError(t, err)
-		assert.Equal(t, "ca_123", v.ID)
+		assert.Equal(t, "25OFF", v.ID)
 	}
 
 	// Unmarshals from a JSON object
 	{
-		v := Application{ID: "ca_123"}
+		v := Coupon{ID: "25OFF"}
 		data, err := json.Marshal(&v)
 		assert.NoError(t, err)
 
 		err = json.Unmarshal(data, &v)
 		assert.NoError(t, err)
-		assert.Equal(t, "ca_123", v.ID)
+		assert.Equal(t, "25OFF", v.ID)
 	}
 }

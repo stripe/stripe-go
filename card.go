@@ -230,15 +230,17 @@ type CardList struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (c *Card) UnmarshalJSON(data []byte) error {
-	type card Card
-	var cc card
-	err := json.Unmarshal(data, &cc)
-	if err == nil {
-		*c = Card(cc)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		c.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		c.ID = id
+		return nil
 	}
 
+	type card Card
+	var v card
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*c = Card(v)
 	return nil
 }

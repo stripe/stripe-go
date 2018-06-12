@@ -147,46 +147,21 @@ type DisputeEvidence struct {
 	UncategorizedText            string `json:"uncategorized_text"`
 }
 
-// File represents a link to downloadable content.
-type File struct {
-	Created  int64  `json:"created"`
-	ID       string `json:"id"`
-	MIMEType string `json:"mime_type"`
-	Purpose  string `json:"purpose"`
-	Size     int64  `json:"size"`
-	URL      string `json:"url"`
-}
-
 // UnmarshalJSON handles deserialization of a Dispute.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (t *Dispute) UnmarshalJSON(data []byte) error {
+func (d *Dispute) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		d.ID = id
+		return nil
+	}
+
 	type dispute Dispute
-	var dd dispute
-	err := json.Unmarshal(data, &dd)
-	if err == nil {
-		*t = Dispute(dd)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		t.ID = string(data[1 : len(data)-1])
+	var v dispute
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
 	}
 
-	return nil
-}
-
-// UnmarshalJSON handles deserialization of a File.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (f *File) UnmarshalJSON(data []byte) error {
-	type file File
-	var ff file
-	err := json.Unmarshal(data, &ff)
-	if err == nil {
-		*f = File(ff)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		f.ID = string(data[1 : len(data)-1])
-	}
-
+	*d = Dispute(v)
 	return nil
 }

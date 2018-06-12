@@ -138,15 +138,17 @@ type SubscriptionList struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (s *Subscription) UnmarshalJSON(data []byte) error {
-	type sub Subscription
-	var ss sub
-	err := json.Unmarshal(data, &ss)
-	if err == nil {
-		*s = Subscription(ss)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		s.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		s.ID = id
+		return nil
 	}
 
+	type subscription Subscription
+	var v subscription
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*s = Subscription(v)
 	return nil
 }

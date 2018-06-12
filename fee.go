@@ -45,15 +45,17 @@ type ApplicationFeeList struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (f *ApplicationFee) UnmarshalJSON(data []byte) error {
-	type appfee ApplicationFee
-	var ff appfee
-	err := json.Unmarshal(data, &ff)
-	if err == nil {
-		*f = ApplicationFee(ff)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		f.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		f.ID = id
+		return nil
 	}
 
+	type applicationFee ApplicationFee
+	var v applicationFee
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*f = ApplicationFee(v)
 	return nil
 }

@@ -78,14 +78,17 @@ type SKUListParams struct {
 }
 
 func (s *SKU) UnmarshalJSON(data []byte) error {
-	type sku SKU
-	var sk sku
-	err := json.Unmarshal(data, &sk)
-	if err == nil {
-		*s = SKU(sk)
-	} else {
-		s.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		s.ID = id
+		return nil
 	}
 
+	type sku SKU
+	var v sku
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*s = SKU(v)
 	return nil
 }

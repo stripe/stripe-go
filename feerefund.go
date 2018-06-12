@@ -40,16 +40,18 @@ type FeeRefundList struct {
 // UnmarshalJSON handles deserialization of a FeeRefund.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (f *FeeRefund) UnmarshalJSON(data []byte) error {
-	type feerefund FeeRefund
-	var ff feerefund
-	err := json.Unmarshal(data, &ff)
-	if err == nil {
-		*f = FeeRefund(ff)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		f.ID = string(data[1 : len(data)-1])
+func (r *FeeRefund) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		r.ID = id
+		return nil
 	}
 
+	type feeRefund FeeRefund
+	var v feeRefund
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*r = FeeRefund(v)
 	return nil
 }

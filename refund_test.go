@@ -3,69 +3,27 @@ package stripe
 import (
 	"encoding/json"
 	"testing"
+
+	assert "github.com/stretchr/testify/require"
 )
 
-func TestRefundUnmarshal(t *testing.T) {
-	refundData := map[string]interface{}{
-		"id":     String("re_1234"),
-		"object": String("refund"),
-		"charge": String("ch_1234"),
+func TestRefund_UnmarshalJSON(t *testing.T) {
+	// Unmarshals from a JSON string
+	{
+		var v Refund
+		err := json.Unmarshal([]byte(`"re_123"`), &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "re_123", v.ID)
 	}
 
-	bytes, err := json.Marshal(&refundData)
-	if err != nil {
-		t.Error(err)
-	}
+	// Unmarshals from a JSON object
+	{
+		v := Refund{ID: "re_123"}
+		data, err := json.Marshal(&v)
+		assert.NoError(t, err)
 
-	var refund Refund
-	err = json.Unmarshal(bytes, &refund)
-	if err != nil {
-		t.Error(err)
-	}
-
-	if refund.ID != "re_1234" {
-		t.Errorf("Problem deserializing refund, got ID %v", refund.ID)
-	}
-
-	if refund.Charge == nil {
-		t.Errorf("Problem deserializing refund, didn't get a Charge")
-	}
-
-	if refund.Charge.ID != "ch_1234" {
-		t.Errorf("Problem deserializing refund.charge, wrong value for ID")
-	}
-}
-
-func TestRefundUnmarshalExpandedCharge(t *testing.T) {
-	refundData := map[string]interface{}{
-		"id":     "re_1234",
-		"object": "refund",
-		"charge": map[string]interface{}{
-			"id":     "ch_1234",
-			"object": "charge",
-		},
-	}
-
-	bytes, err := json.Marshal(&refundData)
-	if err != nil {
-		t.Error(err)
-	}
-
-	var refund Refund
-	err = json.Unmarshal(bytes, &refund)
-	if err != nil {
-		t.Error(err)
-	}
-
-	if refund.ID != "re_1234" {
-		t.Errorf("Problem deserializing refund, got ID %v", refund.ID)
-	}
-
-	if refund.Charge == nil {
-		t.Errorf("Problem deserializing refund, didn't get a Charge")
-	}
-
-	if refund.Charge.ID != "ch_1234" {
-		t.Errorf("Problem deserializing refund.charge, wrong value for ID")
+		err = json.Unmarshal(data, &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "re_123", v.ID)
 	}
 }
