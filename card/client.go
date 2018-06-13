@@ -77,7 +77,7 @@ func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	}
 
 	card := &stripe.Card{}
-	err := c.B.Call2("GET", path, c.Key, params, card)
+	err := c.B.Call("GET", path, c.Key, params, card)
 	return card, err
 }
 
@@ -107,7 +107,7 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 	}
 
 	card := &stripe.Card{}
-	err := c.B.Call2("POST", path, c.Key, params, card)
+	err := c.B.Call("POST", path, c.Key, params, card)
 	return card, err
 }
 
@@ -134,7 +134,7 @@ func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	}
 
 	card := &stripe.Card{}
-	err := c.B.Call2("DELETE", path, c.Key, params, card)
+	err := c.B.Call("DELETE", path, c.Key, params, card)
 	return card, err
 }
 
@@ -162,7 +162,7 @@ func (c Client) List(listParams *stripe.CardListParams) *Iter {
 		outerErr = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
 
-	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CardList{}
 
 		if outerErr != nil {

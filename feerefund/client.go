@@ -31,7 +31,7 @@ func (c Client) New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	path := stripe.FormatURLPath("/application_fees/%s/refunds",
 		stripe.StringValue(params.ApplicationFee))
 	refund := &stripe.FeeRefund{}
-	err := c.B.Call2("POST", path, c.Key, params, refund)
+	err := c.B.Call("POST", path, c.Key, params, refund)
 	return refund, err
 }
 
@@ -52,7 +52,7 @@ func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefun
 	path := stripe.FormatURLPath("/application_fees/%s/refunds/%s",
 		stripe.StringValue(params.ApplicationFee), id)
 	refund := &stripe.FeeRefund{}
-	err := c.B.Call2("GET", path, c.Key, params, refund)
+	err := c.B.Call("GET", path, c.Key, params, refund)
 	return refund, err
 }
 
@@ -73,7 +73,7 @@ func (c Client) Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRe
 	path := stripe.FormatURLPath("/application_fees/%s/refunds/%s",
 		stripe.StringValue(params.ApplicationFee), id)
 	refund := &stripe.FeeRefund{}
-	err := c.B.Call2("POST", path, c.Key, params, refund)
+	err := c.B.Call("POST", path, c.Key, params, refund)
 
 	return refund, err
 }
@@ -88,7 +88,7 @@ func (c Client) List(listParams *stripe.FeeRefundListParams) *Iter {
 	path := stripe.FormatURLPath("/application_fees/%s/refunds",
 		stripe.StringValue(listParams.ApplicationFee))
 
-	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.FeeRefundList{}
 		err := c.B.CallRaw("GET", path, c.Key, b, p, list)
 

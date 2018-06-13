@@ -19,7 +19,7 @@ func New(params *stripe.TokenParams) (*stripe.Token, error) {
 
 func (c Client) New(params *stripe.TokenParams) (*stripe.Token, error) {
 	tok := &stripe.Token{}
-	err := c.B.Call2("POST", "/tokens", c.Key, params, tok)
+	err := c.B.Call("POST", "/tokens", c.Key, params, tok)
 	return tok, err
 }
 
@@ -32,7 +32,7 @@ func Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
 func (c Client) Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
 	path := stripe.FormatURLPath("/tokens/%s", id)
 	token := &stripe.Token{}
-	err := c.B.Call2("GET", path, c.Key, params, token)
+	err := c.B.Call("GET", path, c.Key, params, token)
 
 	return token, err
 }

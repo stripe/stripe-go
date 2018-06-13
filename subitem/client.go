@@ -20,7 +20,7 @@ func New(params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error
 
 func (c Client) New(params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	item := &stripe.SubscriptionItem{}
-	err := c.B.Call2("POST", "/subscription_items", c.Key, params, item)
+	err := c.B.Call("POST", "/subscription_items", c.Key, params, item)
 	return item, err
 }
 
@@ -33,7 +33,7 @@ func Get(id string, params *stripe.SubscriptionItemParams) (*stripe.Subscription
 func (c Client) Get(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	path := stripe.FormatURLPath("/subscription_items/%s", id)
 	item := &stripe.SubscriptionItem{}
-	err := c.B.Call2("GET", path, c.Key, params, item)
+	err := c.B.Call("GET", path, c.Key, params, item)
 	return item, err
 }
 
@@ -46,7 +46,7 @@ func Update(id string, params *stripe.SubscriptionItemParams) (*stripe.Subscript
 func (c Client) Update(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	path := stripe.FormatURLPath("/subscription_items/%s", id)
 	subi := &stripe.SubscriptionItem{}
-	err := c.B.Call2("POST", path, c.Key, params, subi)
+	err := c.B.Call("POST", path, c.Key, params, subi)
 	return subi, err
 }
 
@@ -59,7 +59,7 @@ func Del(id string, params *stripe.SubscriptionItemParams) (*stripe.Subscription
 func (c Client) Del(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	path := stripe.FormatURLPath("/subscription_items/%s", id)
 	item := &stripe.SubscriptionItem{}
-	err := c.B.Call2("DELETE", path, c.Key, params, item)
+	err := c.B.Call("DELETE", path, c.Key, params, item)
 
 	return item, err
 }
@@ -71,7 +71,7 @@ func List(params *stripe.SubscriptionItemListParams) *Iter {
 }
 
 func (c Client) List(listParams *stripe.SubscriptionItemListParams) *Iter {
-	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SubscriptionItemList{}
 		err := c.B.CallRaw("GET", "/subscription_items", c.Key, b, p, list)
 

@@ -20,7 +20,7 @@ func New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 
 func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 	charge := &stripe.Charge{}
-	err := c.B.Call2("POST", "/charges", c.Key, params, charge)
+	err := c.B.Call("POST", "/charges", c.Key, params, charge)
 	return charge, err
 }
 
@@ -33,7 +33,7 @@ func Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 func (c Client) Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	path := stripe.FormatURLPath("/charges/%s", id)
 	charge := &stripe.Charge{}
-	err := c.B.Call2("GET", path, c.Key, params, charge)
+	err := c.B.Call("GET", path, c.Key, params, charge)
 	return charge, err
 }
 
@@ -46,7 +46,7 @@ func Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	path := stripe.FormatURLPath("/charges/%s", id)
 	charge := &stripe.Charge{}
-	err := c.B.Call2("POST", path, c.Key, params, charge)
+	err := c.B.Call("POST", path, c.Key, params, charge)
 	return charge, err
 }
 
@@ -59,7 +59,7 @@ func Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 	path := stripe.FormatURLPath("/charges/%s/capture", id)
 	charge := &stripe.Charge{}
-	err := c.B.Call2("POST", path, c.Key, params, charge)
+	err := c.B.Call("POST", path, c.Key, params, charge)
 	return charge, err
 }
 
@@ -70,7 +70,7 @@ func List(params *stripe.ChargeListParams) *Iter {
 }
 
 func (c Client) List(listParams *stripe.ChargeListParams) *Iter {
-	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ChargeList{}
 		err := c.B.CallRaw("GET", "/charges", c.Key, b, p, list)
 
@@ -124,7 +124,7 @@ func UpdateDispute(id string, params *stripe.DisputeParams) (*stripe.Dispute, er
 func (c Client) UpdateDispute(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
 	path := stripe.FormatURLPath("/charges/%s/dispute", id)
 	dispute := &stripe.Dispute{}
-	err := c.B.Call2("POST", path, c.Key, params, dispute)
+	err := c.B.Call("POST", path, c.Key, params, dispute)
 
 	return dispute, err
 }
@@ -137,7 +137,7 @@ func CloseDispute(id string) (*stripe.Dispute, error) {
 
 func (c Client) CloseDispute(id string) (*stripe.Dispute, error) {
 	dispute := &stripe.Dispute{}
-	err := c.B.Call2("POST", stripe.FormatURLPath("/charges/%s/dispute/close", id), c.Key, nil, dispute)
+	err := c.B.Call("POST", stripe.FormatURLPath("/charges/%s/dispute/close", id), c.Key, nil, dispute)
 	return dispute, err
 }
 

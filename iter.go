@@ -7,10 +7,7 @@ import (
 )
 
 // Query is the function used to get a page listing.
-type Query func(*form.Values) ([]interface{}, ListMeta, error)
-
-// Query2 is the function used to get a page listing.
-type Query2 func(*Params, *form.Values) ([]interface{}, ListMeta, error)
+type Query func(*Params, *form.Values) ([]interface{}, ListMeta, error)
 
 // Iter provides a convenient interface
 // for iterating over the elements
@@ -27,35 +24,11 @@ type Iter struct {
 	listParams ListParams
 	meta       ListMeta
 	query      Query
-	query2     Query2
 	values     []interface{}
 }
 
 // GetIter returns a new Iter for a given query and its options.
-func GetIter(listParams *ListParams, formValues *form.Values, query Query) *Iter {
-	iter := &Iter{}
-	iter.query = query
-
-	p := listParams
-	if p == nil {
-		p = &ListParams{}
-	}
-	iter.listParams = *p
-
-	q := formValues
-	if q == nil {
-		q = &form.Values{}
-	}
-	iter.formValues = q
-
-	iter.getPage()
-	return iter
-}
-
-// TODO: After every list API call uses GetIter2, remove GetIter, then rename
-// all instances of GetIter2 to GetIter. This only exists as a separate method
-// to keep the build/tests working while we refactor.
-func GetIter2(container ListParamsContainer, query Query2) *Iter {
+func GetIter(container ListParamsContainer, query Query) *Iter {
 	var listParams *ListParams
 	formValues := &form.Values{}
 
@@ -75,7 +48,7 @@ func GetIter2(container ListParamsContainer, query Query2) *Iter {
 	iter := &Iter{
 		formValues: formValues,
 		listParams: *listParams,
-		query2:     query,
+		query:      query,
 	}
 
 	iter.getPage()
@@ -84,11 +57,7 @@ func GetIter2(container ListParamsContainer, query Query2) *Iter {
 }
 
 func (it *Iter) getPage() {
-	if it.query != nil {
-		it.values, it.meta, it.err = it.query(it.formValues)
-	} else {
-		it.values, it.meta, it.err = it.query2(it.listParams.GetParams(), it.formValues)
-	}
+	it.values, it.meta, it.err = it.query(it.listParams.GetParams(), it.formValues)
 
 	if it.listParams.EndingBefore != nil {
 		// We are moving backward,

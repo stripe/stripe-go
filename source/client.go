@@ -22,7 +22,7 @@ func New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 // For more details see https://stripe.com/docs/api#create_source.
 func (c Client) New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 	p := &stripe.Source{}
-	err := c.B.Call2("POST", "/sources", c.Key, params, p)
+	err := c.B.Call("POST", "/sources", c.Key, params, p)
 	return p, err
 }
 
@@ -37,7 +37,7 @@ func Get(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
 func (c Client) Get(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
 	path := stripe.FormatURLPath("/sources/%s", id)
 	source := &stripe.Source{}
-	err := c.B.Call2("GET", path, c.Key, params, source)
+	err := c.B.Call("GET", path, c.Key, params, source)
 	return source, err
 }
 
@@ -50,7 +50,7 @@ func Update(id string, params *stripe.SourceObjectParams) (*stripe.Source, error
 func (c Client) Update(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
 	path := stripe.FormatURLPath("/sources/%s", id)
 	source := &stripe.Source{}
-	err := c.B.Call2("POST", path, c.Key, params, source)
+	err := c.B.Call("POST", path, c.Key, params, source)
 	return source, err
 }
 
@@ -71,6 +71,6 @@ func (c Client) Detach(id string, params *stripe.SourceObjectDetachParams) (*str
 	path := stripe.FormatURLPath("/customers/%s/sources/%s",
 		stripe.StringValue(params.Customer), id)
 	source := &stripe.Source{}
-	err := c.B.Call2("DELETE", path, c.Key, params, source)
+	err := c.B.Call("DELETE", path, c.Key, params, source)
 	return source, err
 }

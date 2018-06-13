@@ -20,7 +20,7 @@ func New(params *stripe.PlanParams) (*stripe.Plan, error) {
 
 func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
 	plan := &stripe.Plan{}
-	err := c.B.Call2("POST", "/plans", c.Key, params, plan)
+	err := c.B.Call("POST", "/plans", c.Key, params, plan)
 	return plan, err
 }
 
@@ -33,7 +33,7 @@ func Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/plans/%s", id)
 	plan := &stripe.Plan{}
-	err := c.B.Call2("GET", path, c.Key, params, plan)
+	err := c.B.Call("GET", path, c.Key, params, plan)
 	return plan, err
 }
 
@@ -46,7 +46,7 @@ func Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/plans/%s", id)
 	plan := &stripe.Plan{}
-	err := c.B.Call2("POST", path, c.Key, params, plan)
+	err := c.B.Call("POST", path, c.Key, params, plan)
 	return plan, err
 }
 
@@ -59,7 +59,7 @@ func Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/plans/%s", id)
 	plan := &stripe.Plan{}
-	err := c.B.Call2("DELETE", path, c.Key, params, plan)
+	err := c.B.Call("DELETE", path, c.Key, params, plan)
 	return plan, err
 }
 
@@ -70,7 +70,7 @@ func List(params *stripe.PlanListParams) *Iter {
 }
 
 func (c Client) List(listParams *stripe.PlanListParams) *Iter {
-	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.PlanList{}
 		err := c.B.CallRaw("GET", "/plans", c.Key, b, p, list)
 

@@ -17,7 +17,7 @@ func List(params *stripe.OrderReturnListParams) *Iter {
 }
 
 func (c Client) List(listParams *stripe.OrderReturnListParams) *Iter {
-	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.OrderReturnList{}
 		err := c.B.CallRaw("GET", "/order_returns", c.Key, b, p, list)
 

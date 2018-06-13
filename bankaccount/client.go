@@ -55,7 +55,7 @@ func (c Client) Get(id string, params *stripe.BankAccountParams) (*stripe.BankAc
 	}
 
 	ba := &stripe.BankAccount{}
-	err := c.B.Call2("GET", path, c.Key, params, ba)
+	err := c.B.Call("GET", path, c.Key, params, ba)
 	return ba, err
 }
 
@@ -75,7 +75,7 @@ func (c Client) Update(id string, params *stripe.BankAccountParams) (*stripe.Ban
 	}
 
 	ba := &stripe.BankAccount{}
-	err := c.B.Call2("POST", path, c.Key, params, ba)
+	err := c.B.Call("POST", path, c.Key, params, ba)
 	return ba, err
 }
 
@@ -95,7 +95,7 @@ func (c Client) Del(id string, params *stripe.BankAccountParams) (*stripe.BankAc
 	}
 
 	ba := &stripe.BankAccount{}
-	err := c.B.Call2("DELETE", path, c.Key, params, ba)
+	err := c.B.Call("DELETE", path, c.Key, params, ba)
 	return ba, err
 }
 
@@ -118,7 +118,7 @@ func (c Client) List(listParams *stripe.BankAccountListParams) *Iter {
 		outerErr = errors.New("Invalid bank account params: either Customer or Account need to be set")
 	}
 
-	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BankAccountList{}
 
 		if outerErr != nil {

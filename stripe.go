@@ -72,8 +72,7 @@ func (a *AppInfo) formatUserAgent() string {
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
 type Backend interface {
-	Call(method, path, key string, body *form.Values, params *Params, v interface{}) error
-	Call2(method, path, key string, params ParamsContainer, v interface{}) error
+	Call(method, path, key string, params ParamsContainer, v interface{}) error
 	CallRaw(method, path, key string, body *form.Values, params *Params, v interface{}) error
 	CallMultipart(method, path, key, boundary string, body io.Reader, params *Params, v interface{}) error
 }
@@ -212,14 +211,7 @@ func SetBackend(backend SupportedBackend, b Backend) {
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s *BackendConfiguration) Call(method, path, key string, form *form.Values, params *Params, v interface{}) error {
-	return s.CallRaw(method, path, key, form, params, v)
-}
-
-// TODO: After every API call uses Call2, remove Call, then rename all
-// instances of Call2 to Call. This only exists as a separate method to keep
-// the build/tests working while we refactor.
-func (s *BackendConfiguration) Call2(method, path, key string, params ParamsContainer, v interface{}) error {
+func (s *BackendConfiguration) Call(method, path, key string, params ParamsContainer, v interface{}) error {
 	var body *form.Values
 	var commonParams *Params
 
@@ -241,7 +233,7 @@ func (s *BackendConfiguration) Call2(method, path, key string, params ParamsCont
 		}
 	}
 
-	return s.Call(method, path, key, body, commonParams, v)
+	return s.CallRaw(method, path, key, body, commonParams, v)
 }
 
 func (s *BackendConfiguration) CallRaw(method, path, key string, form *form.Values, params *Params, v interface{}) error {

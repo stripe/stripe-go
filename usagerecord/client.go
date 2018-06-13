@@ -21,7 +21,7 @@ func New(params *stripe.UsageRecordParams) (*stripe.UsageRecord, error) {
 func (c Client) New(params *stripe.UsageRecordParams) (*stripe.UsageRecord, error) {
 	path := stripe.FormatURLPath("/subscription_items/%s/usage_records", stripe.StringValue(params.SubscriptionItem))
 	record := &stripe.UsageRecord{}
-	err := c.B.Call2("POST", path, c.Key, params, record)
+	err := c.B.Call("POST", path, c.Key, params, record)
 	return record, err
 }
 

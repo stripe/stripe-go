@@ -21,7 +21,7 @@ func Get(id string, params *stripe.Params) (*stripe.Event, error) {
 func (c Client) Get(id string, params *stripe.Params) (*stripe.Event, error) {
 	path := stripe.FormatURLPath("/events/%s", id)
 	event := &stripe.Event{}
-	err := c.B.Call2("GET", path, c.Key, params, event)
+	err := c.B.Call("GET", path, c.Key, params, event)
 	return event, err
 }
 
@@ -32,7 +32,7 @@ func List(params *stripe.EventListParams) *Iter {
 }
 
 func (c Client) List(listParams *stripe.EventListParams) *Iter {
-	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.EventList{}
 		err := c.B.CallRaw("GET", "/events", c.Key, b, p, list)
 

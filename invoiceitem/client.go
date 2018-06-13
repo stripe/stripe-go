@@ -20,7 +20,7 @@ func New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 
 func (c Client) New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call2("POST", "/invoiceitems", c.Key, params, invoiceItem)
+	err := c.B.Call("POST", "/invoiceitems", c.Key, params, invoiceItem)
 	return invoiceItem, err
 }
 
@@ -33,7 +33,7 @@ func Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 func (c Client) Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	path := stripe.FormatURLPath("/invoiceitems/%s", id)
 	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call2("GET", path, c.Key, params, invoiceItem)
+	err := c.B.Call("GET", path, c.Key, params, invoiceItem)
 	return invoiceItem, err
 }
 
@@ -46,7 +46,7 @@ func Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, e
 func (c Client) Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	path := stripe.FormatURLPath("/invoiceitems/%s", id)
 	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call2("POST", path, c.Key, params, invoiceItem)
+	err := c.B.Call("POST", path, c.Key, params, invoiceItem)
 	return invoiceItem, err
 }
 
@@ -59,7 +59,7 @@ func Del(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 func (c Client) Del(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	path := stripe.FormatURLPath("/invoiceitems/%s", id)
 	ii := &stripe.InvoiceItem{}
-	err := c.B.Call2("DELETE", path, c.Key, params, ii)
+	err := c.B.Call("DELETE", path, c.Key, params, ii)
 	return ii, err
 }
 
@@ -70,7 +70,7 @@ func List(params *stripe.InvoiceItemListParams) *Iter {
 }
 
 func (c Client) List(listParams *stripe.InvoiceItemListParams) *Iter {
-	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceItemList{}
 		err := c.B.CallRaw("GET", "/invoiceitems", c.Key, b, p, list)
 

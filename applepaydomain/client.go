@@ -19,7 +19,7 @@ func New(params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 
 func (c Client) New(params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 	domain := &stripe.ApplePayDomain{}
-	err := c.B.Call2("POST", "/apple_pay/domains", c.Key, params, domain)
+	err := c.B.Call("POST", "/apple_pay/domains", c.Key, params, domain)
 	return domain, err
 }
 
@@ -31,7 +31,7 @@ func Get(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain
 func (c Client) Get(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 	path := stripe.FormatURLPath("/apple_pay/domains/%s", id)
 	domain := &stripe.ApplePayDomain{}
-	err := c.B.Call2("GET", path, c.Key, params, domain)
+	err := c.B.Call("GET", path, c.Key, params, domain)
 	return domain, err
 }
 
@@ -43,7 +43,7 @@ func Del(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain
 func (c Client) Del(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 	path := stripe.FormatURLPath("/apple_pay/domains/%s", id)
 	domain := &stripe.ApplePayDomain{}
-	err := c.B.Call2("DELETE", path, c.Key, params, domain)
+	err := c.B.Call("DELETE", path, c.Key, params, domain)
 	return domain, err
 }
 
@@ -53,7 +53,7 @@ func List(params *stripe.ApplePayDomainListParams) *Iter {
 }
 
 func (c Client) List(listParams *stripe.ApplePayDomainListParams) *Iter {
-	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ApplePayDomainList{}
 		err := c.B.CallRaw("GET", "/apple_pay/domains", c.Key, b, p, list)
 

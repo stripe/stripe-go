@@ -26,7 +26,7 @@ func (c Client) New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
 
 	path := stripe.FormatURLPath("/accounts/%s/login_links", stripe.StringValue(params.Account))
 	loginLink := &stripe.LoginLink{}
-	err := c.B.Call2("POST", path, c.Key, nil, loginLink)
+	err := c.B.Call("POST", path, c.Key, nil, loginLink)
 	return loginLink, err
 }
 

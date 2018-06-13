@@ -31,7 +31,7 @@ func (c Client) List(listParams *stripe.SourceTransactionListParams) *Iter {
 			stripe.StringValue(listParams.Source))
 	}
 
-	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SourceTransactionList{}
 
 		if outerErr != nil {

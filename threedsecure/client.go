@@ -19,7 +19,7 @@ func New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
 
 func (c Client) New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
 	tds := &stripe.ThreeDSecure{}
-	err := c.B.Call2("POST", "/3d_secure", c.Key, params, tds)
+	err := c.B.Call("POST", "/3d_secure", c.Key, params, tds)
 	return tds, err
 }
 
@@ -32,7 +32,7 @@ func Get(id string, params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, er
 func (c Client) Get(id string, params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
 	path := stripe.FormatURLPath("/3d_secure/%s", id)
 	tds := &stripe.ThreeDSecure{}
-	err := c.B.Call2("GET", path, c.Key, params, tds)
+	err := c.B.Call("GET", path, c.Key, params, tds)
 
 	return tds, err
 }

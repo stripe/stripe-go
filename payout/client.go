@@ -20,7 +20,7 @@ func New(params *stripe.PayoutParams) (*stripe.Payout, error) {
 
 func (c Client) New(params *stripe.PayoutParams) (*stripe.Payout, error) {
 	payout := &stripe.Payout{}
-	err := c.B.Call2("POST", "/payouts", c.Key, params, payout)
+	err := c.B.Call("POST", "/payouts", c.Key, params, payout)
 	return payout, err
 }
 
@@ -33,7 +33,7 @@ func Get(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 func (c Client) Get(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	path := stripe.FormatURLPath("/payouts/%s", id)
 	payout := &stripe.Payout{}
-	err := c.B.Call2("GET", path, c.Key, params, payout)
+	err := c.B.Call("GET", path, c.Key, params, payout)
 	return payout, err
 }
 
@@ -46,7 +46,7 @@ func Update(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 func (c Client) Update(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	path := stripe.FormatURLPath("/payouts/%s", id)
 	payout := &stripe.Payout{}
-	err := c.B.Call2("POST", path, c.Key, params, payout)
+	err := c.B.Call("POST", path, c.Key, params, payout)
 	return payout, err
 }
 
@@ -59,7 +59,7 @@ func Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 func (c Client) Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	path := stripe.FormatURLPath("/payouts/%s/cancel", id)
 	payout := &stripe.Payout{}
-	err := c.B.Call2("POST", path, c.Key, params, payout)
+	err := c.B.Call("POST", path, c.Key, params, payout)
 	return payout, err
 }
 
@@ -70,7 +70,7 @@ func List(params *stripe.PayoutListParams) *Iter {
 }
 
 func (c Client) List(listParams *stripe.PayoutListParams) *Iter {
-	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.PayoutList{}
 		err := c.B.CallRaw("GET", "/payouts", c.Key, b, p, list)
 
