@@ -17,10 +17,16 @@ const (
 	StartingAfter = "starting_after"
 )
 
+// ParamsContainer is a general interface for which all parameter structs
+// should comply. They achieve this by embedding a Params struct and inheriting
+// its implementation of this interface.
 type ParamsContainer interface {
 	GetParams() *Params
 }
 
+// ListParamsContainer is a general interface for which all list parameter
+// structs should comply. They achieve this by embedding a ListParams struct
+// and inheriting its implementation of this interface.
 type ListParamsContainer interface {
 	GetListParams() *ListParams
 }
