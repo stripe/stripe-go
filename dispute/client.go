@@ -18,18 +18,9 @@ func Get(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
 }
 
 func (c Client) Get(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/disputes/%s", id)
 	dispute := &stripe.Dispute{}
-	err := c.B.Call("GET", stripe.FormatURLPath("/disputes/%s", id), c.Key, body, commonParams, dispute)
-
+	err := c.B.Call2("GET", path, c.Key, params, dispute)
 	return dispute, err
 }
 
@@ -39,21 +30,10 @@ func List(params *stripe.DisputeListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.DisputeListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.DisputeListParams) *Iter {
+	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.DisputeList{}
-		err := c.B.Call("GET", "/disputes", c.Key, b, p, list)
+		err := c.B.CallRaw("GET", "/disputes", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
@@ -84,18 +64,9 @@ func Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
 }
 
 func (c Client) Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/disputes/%s", id)
 	dispute := &stripe.Dispute{}
-	err := c.B.Call("POST", stripe.FormatURLPath("/disputes/%s", id), c.Key, body, commonParams, dispute)
-
+	err := c.B.Call2("POST", path, c.Key, params, dispute)
 	return dispute, err
 }
 
@@ -106,18 +77,9 @@ func Close(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
 }
 
 func (c Client) Close(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/disputes/%s/close", id)
 	dispute := &stripe.Dispute{}
-	err := c.B.Call("POST", stripe.FormatURLPath("/disputes/%s/close", id), c.Key, body, commonParams, dispute)
-
+	err := c.B.Call2("POST", path, c.Key, params, dispute)
 	return dispute, err
 }
 

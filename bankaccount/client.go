@@ -20,6 +20,13 @@ func New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 }
 
 func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
+	var path string
+	if params.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources", stripe.StringValue(params.Customer))
+	} else {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts", stripe.StringValue(params.Account))
+	}
+
 	body := &form.Values{}
 
 	// Note that we call this special append method instead of the standard one
@@ -28,13 +35,7 @@ func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 	params.AppendToAsSourceOrExternalAccount(body)
 
 	ba := &stripe.BankAccount{}
-	var err error
-	if params.Customer != nil {
-		err = c.B.Call("POST", stripe.FormatURLPath("/customers/%s/sources", stripe.StringValue(params.Customer)), c.Key, body, &params.Params, ba)
-	} else {
-		err = c.B.Call("POST", stripe.FormatURLPath("/accounts/%s/external_accounts", stripe.StringValue(params.Account)), c.Key, body, &params.Params, ba)
-	}
-
+	err := c.B.CallRaw("POST", path, c.Key, body, &params.Params, ba)
 	return ba, err
 }
 
@@ -44,26 +45,17 @@ func Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 }
 
 func (c Client) Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
+	var path string
+	if params != nil && params.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
+	} else if params != nil && params.Account != nil {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id)
+	} else {
+		return nil, errors.New("Invalid bank account params: either Customer or Account need to be set")
 	}
 
 	ba := &stripe.BankAccount{}
-	var err error
-
-	if params != nil && params.Customer != nil {
-		err = c.B.Call("GET", stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, ba)
-	} else if params != nil && params.Account != nil {
-		err = c.B.Call("GET", stripe.FormatURLPath("/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id), c.Key, body, commonParams, ba)
-	} else {
-		err = errors.New("Invalid bank account params: either Customer or Account need to be set")
-	}
-
+	err := c.B.Call2("GET", path, c.Key, params, ba)
 	return ba, err
 }
 
@@ -73,26 +65,17 @@ func Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, e
 }
 
 func (c Client) Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
+	var path string
+	if params.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
+	} else if params.Account != nil {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id)
+	} else {
+		return nil, errors.New("Invalid bank account params: either Customer or Account need to be set")
 	}
 
 	ba := &stripe.BankAccount{}
-	var err error
-
-	if params.Customer != nil {
-		err = c.B.Call("POST", stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, ba)
-	} else if params.Account != nil {
-		err = c.B.Call("POST", stripe.FormatURLPath("/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id), c.Key, body, commonParams, ba)
-	} else {
-		err = errors.New("Invalid bank account params: either Customer or Account need to be set")
-	}
-
+	err := c.B.Call2("POST", path, c.Key, params, ba)
 	return ba, err
 }
 
@@ -102,26 +85,17 @@ func Del(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 }
 
 func (c Client) Del(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
+	var path string
+	if params.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
+	} else if params.Account != nil {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id)
+	} else {
+		return nil, errors.New("Invalid bank account params: either Customer or Account need to be set")
 	}
 
 	ba := &stripe.BankAccount{}
-	var err error
-
-	if params.Customer != nil {
-		err = c.B.Call("DELETE", stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, ba)
-	} else if params.Account != nil {
-		err = c.B.Call("DELETE", stripe.FormatURLPath("/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id), c.Key, body, commonParams, ba)
-	} else {
-		err = errors.New("Invalid bank account params: either Customer or Account need to be set")
-	}
-
+	err := c.B.Call2("DELETE", path, c.Key, params, ba)
 	return ba, err
 }
 
@@ -130,26 +104,28 @@ func List(params *stripe.BankAccountListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.BankAccountListParams) *Iter {
-	body := &form.Values{}
-	var lp *stripe.ListParams
-	var p *stripe.Params
+func (c Client) List(listParams *stripe.BankAccountListParams) *Iter {
+	var path string
+	var outerErr error
 
-	form.AppendTo(body, params)
-	lp = &params.ListParams
-	p = params.ToParams()
+	if listParams.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources?object=bank_account",
+			stripe.StringValue(listParams.Customer))
+	} else if listParams.Account != nil {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts?object=bank_account",
+			stripe.StringValue(listParams.Account))
+	} else {
+		outerErr = errors.New("Invalid bank account params: either Customer or Account need to be set")
+	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BankAccountList{}
-		var err error
 
-		if params.Customer != nil {
-			err = c.B.Call("GET", stripe.FormatURLPath("/customers/%s/sources?object=bank_account", stripe.StringValue(params.Customer)), c.Key, b, p, list)
-		} else if params.Account != nil {
-			err = c.B.Call("GET", stripe.FormatURLPath("/accounts/%s/external_accounts?object=bank_account", stripe.StringValue(params.Account)), c.Key, b, p, list)
-		} else {
-			err = errors.New("Invalid bank account params: either Customer or Account need to be set")
+		if outerErr != nil {
+			return nil, list.ListMeta, outerErr
 		}
+
+		err := c.B.CallRaw("GET", path, c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

@@ -17,19 +17,8 @@ func New(params *stripe.AccountParams) (*stripe.Account, error) {
 }
 
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
-	body := &form.Values{}
-
-	// Type is now required on creation and not allowed on update
-	// It can't be passed if you pass `from_recipient` though
-	if params.FromRecipient != nil {
-		body.Add("type", stripe.StringValue(params.Type))
-	}
-
-	form.AppendTo(body, params)
-
 	acct := &stripe.Account{}
-	err := c.B.Call("POST", "/accounts", c.Key, body, &params.Params, acct)
-
+	err := c.B.Call2("POST", "/accounts", c.Key, params, acct)
 	return acct, err
 }
 
@@ -40,8 +29,7 @@ func Get() (*stripe.Account, error) {
 
 func (c Client) Get() (*stripe.Account, error) {
 	account := &stripe.Account{}
-	err := c.B.Call("GET", "/account", c.Key, nil, nil, account)
-
+	err := c.B.Call2("GET", "/account", c.Key, nil, account)
 	return account, err
 }
 
@@ -51,18 +39,9 @@ func GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 }
 
 func (c Client) GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/accounts/%s", id)
 	account := &stripe.Account{}
-	err := c.B.Call("GET", stripe.FormatURLPath("/accounts/%s", id), c.Key, body, commonParams, account)
-
+	err := c.B.Call2("GET", path, c.Key, params, account)
 	return account, err
 }
 
@@ -72,18 +51,9 @@ func Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 }
 
 func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/accounts/%s", id)
 	acct := &stripe.Account{}
-	err := c.B.Call("POST", stripe.FormatURLPath("/accounts/%s", id), c.Key, body, commonParams, acct)
-
+	err := c.B.Call2("POST", path, c.Key, params, acct)
 	return acct, err
 }
 
@@ -93,18 +63,9 @@ func Del(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 }
 
 func (c Client) Del(id string, params *stripe.AccountParams) (*stripe.Account, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		commonParams = &params.Params
-	}
-
+	path := stripe.FormatURLPath("/accounts/%s", id)
 	acct := &stripe.Account{}
-	err := c.B.Call("DELETE", stripe.FormatURLPath("/accounts/%s", id), c.Key, body, commonParams, acct)
-
+	err := c.B.Call2("DELETE", path, c.Key, params, acct)
 	return acct, err
 }
 
@@ -114,13 +75,9 @@ func Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, err
 }
 
 func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
-	body := &form.Values{}
-	if params.Reason != nil {
-		body.Add("reason", stripe.StringValue(params.Reason))
-	}
+	path := stripe.FormatURLPath("/accounts/%s/reject", id)
 	acct := &stripe.Account{}
-	err := c.B.Call("POST", stripe.FormatURLPath("/accounts/%s/reject", id), c.Key, body, nil, acct)
-
+	err := c.B.Call2("POST", path, c.Key, params, acct)
 	return acct, err
 }
 
@@ -129,22 +86,10 @@ func List(params *stripe.AccountListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.AccountListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.AccountListParams) *Iter {
+	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.AccountList{}
-		err := c.B.Call("GET", "/accounts", c.Key, b, p, list)
+		err := c.B.CallRaw("GET", "/accounts", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

@@ -20,8 +20,9 @@ func Get(id string) (*stripe.IssuerFraudRecord, error) {
 // Get returns the details of an issuer fraud record on a client.
 // For more details see https://stripe.com/docs/api#retrieve_issuer_fraud_record.
 func (c Client) Get(id string) (*stripe.IssuerFraudRecord, error) {
+	path := stripe.FormatURLPath("/issuer_fraud_records/%s", id)
 	ifr := &stripe.IssuerFraudRecord{}
-	err := c.B.Call("GET", stripe.FormatURLPath("/issuer_fraud_records/%s", id), c.Key, nil, nil, ifr)
+	err := c.B.Call2("GET", path, c.Key, nil, ifr)
 	return ifr, err
 }
 
@@ -33,21 +34,10 @@ func List(params *stripe.IssuerFraudRecordListParams) *Iter {
 
 // List returns a list of issuer fraud records on a client.
 // For more details see https://stripe.com/docs/api#list_issuer_fraud_records.
-func (c Client) List(params *stripe.IssuerFraudRecordListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.IssuerFraudRecordListParams) *Iter {
+	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.IssuerFraudRecordList{}
-		err := c.B.Call("GET", "/issuer_fraud_records", c.Key, b, p, list)
+		err := c.B.CallRaw("GET", "/issuer_fraud_records", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

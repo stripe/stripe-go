@@ -20,12 +20,9 @@ func New(params *stripe.ReversalParams) (*stripe.Reversal, error) {
 }
 
 func (c Client) New(params *stripe.ReversalParams) (*stripe.Reversal, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
+	path := stripe.FormatURLPath("/transfers/%s/reversals", stripe.StringValue(params.Transfer))
 	reversal := &stripe.Reversal{}
-	err := c.B.Call("POST", stripe.FormatURLPath("/transfers/%s/reversals", stripe.StringValue(params.Transfer)), c.Key, body, &params.Params, reversal)
-
+	err := c.B.Call2("POST", path, c.Key, params, reversal)
 	return reversal, err
 }
 
@@ -39,12 +36,10 @@ func (c Client) Get(id string, params *stripe.ReversalParams) (*stripe.Reversal,
 		return nil, fmt.Errorf("params cannot be nil, and params.Transfer must be set")
 	}
 
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
+	path := stripe.FormatURLPath("/transfers/%s/reversals/%s",
+		stripe.StringValue(params.Transfer), id)
 	reversal := &stripe.Reversal{}
-	err := c.B.Call("GET", stripe.FormatURLPath("/transfers/%s/reversals/%s", stripe.StringValue(params.Transfer), id), c.Key, body, &params.Params, reversal)
-
+	err := c.B.Call2("GET", path, c.Key, params, reversal)
 	return reversal, err
 }
 
@@ -54,12 +49,10 @@ func Update(id string, params *stripe.ReversalParams) (*stripe.Reversal, error) 
 }
 
 func (c Client) Update(id string, params *stripe.ReversalParams) (*stripe.Reversal, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
+	path := stripe.FormatURLPath("/transfers/%s/reversals/%s",
+		stripe.StringValue(params.Transfer), id)
 	reversal := &stripe.Reversal{}
-	err := c.B.Call("POST", stripe.FormatURLPath("/transfers/%s/reversals/%s", stripe.StringValue(params.Transfer), id), c.Key, body, &params.Params, reversal)
-
+	err := c.B.Call2("POST", path, c.Key, params, reversal)
 	return reversal, err
 }
 
@@ -68,15 +61,12 @@ func List(params *stripe.ReversalListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.ReversalListParams) *Iter {
-	body := &form.Values{}
-	var lp *stripe.ListParams = &params.ListParams
-	var p *stripe.Params = params.ToParams()
-	form.AppendTo(body, params)
+func (c Client) List(listParams *stripe.ReversalListParams) *Iter {
+	path := stripe.FormatURLPath("/transfers/%s/reversals", stripe.StringValue(listParams.Transfer))
 
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ReversalList{}
-		err := c.B.Call("GET", stripe.FormatURLPath("/transfers/%s/reversals", stripe.StringValue(params.Transfer)), c.Key, b, p, list)
+		err := c.B.CallRaw("GET", path, c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

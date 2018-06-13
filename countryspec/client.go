@@ -19,9 +19,9 @@ func Get(country string) (*stripe.CountrySpec, error) {
 }
 
 func (c Client) Get(country string) (*stripe.CountrySpec, error) {
+	path := stripe.FormatURLPath("/country_specs/%s", country)
 	countrySpec := &stripe.CountrySpec{}
-	err := c.B.Call("GET", stripe.FormatURLPath("/country_specs/%s", country), c.Key, nil, nil, countrySpec)
-
+	err := c.B.Call2("GET", path, c.Key, nil, countrySpec)
 	return countrySpec, err
 }
 
@@ -30,21 +30,10 @@ func List(params *stripe.CountrySpecListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.CountrySpecListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.CountrySpecListParams) *Iter {
+	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CountrySpecList{}
-		err := c.B.Call("GET", "/country_specs", c.Key, b, p, list)
+		err := c.B.CallRaw("GET", "/country_specs", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

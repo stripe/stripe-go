@@ -19,18 +19,9 @@ func Get(id string, params *stripe.ApplicationFeeParams) (*stripe.ApplicationFee
 }
 
 func (c Client) Get(id string, params *stripe.ApplicationFeeParams) (*stripe.ApplicationFee, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/application_fees/%s", id)
 	fee := &stripe.ApplicationFee{}
-	err := c.B.Call("GET", stripe.FormatURLPath("/application_fees/%s", id), c.Key, body, commonParams, fee)
-
+	err := c.B.Call2("GET", path, c.Key, params, fee)
 	return fee, err
 }
 
@@ -40,21 +31,10 @@ func List(params *stripe.ApplicationFeeListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.ApplicationFeeListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.ApplicationFeeListParams) *Iter {
+	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ApplicationFeeList{}
-		err := c.B.Call("GET", "/application_fees", c.Key, b, p, list)
+		err := c.B.CallRaw("GET", "/application_fees", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

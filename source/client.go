@@ -4,7 +4,6 @@ import (
 	"errors"
 
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /sources APIs.
@@ -22,18 +21,8 @@ func New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 // New POSTs a new source.
 // For more details see https://stripe.com/docs/api#create_source.
 func (c Client) New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		commonParams = &params.Params
-		form.AppendTo(body, params)
-	}
-
 	p := &stripe.Source{}
-	err := c.B.Call("POST", "/sources", c.Key, body, commonParams, p)
-
+	err := c.B.Call2("POST", "/sources", c.Key, params, p)
 	return p, err
 }
 
@@ -46,17 +35,9 @@ func Get(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
 // Get returns the details of a source
 // For more details see https://stripe.com/docs/api#retrieve_source.
 func (c Client) Get(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		commonParams = &params.Params
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/sources/%s", id)
 	source := &stripe.Source{}
-	err := c.B.Call("GET", stripe.FormatURLPath("/sources/%s", id), c.Key, body, commonParams, source)
+	err := c.B.Call2("GET", path, c.Key, params, source)
 	return source, err
 }
 
@@ -67,18 +48,9 @@ func Update(id string, params *stripe.SourceObjectParams) (*stripe.Source, error
 }
 
 func (c Client) Update(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		commonParams = &params.Params
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/sources/%s", id)
 	source := &stripe.Source{}
-	err := c.B.Call("POST", stripe.FormatURLPath("/sources/%s", id), c.Key, body, commonParams, source)
-
+	err := c.B.Call2("POST", path, c.Key, params, source)
 	return source, err
 }
 
@@ -92,23 +64,13 @@ func Detach(id string, params *stripe.SourceObjectDetachParams) (*stripe.Source,
 }
 
 func (c Client) Detach(id string, params *stripe.SourceObjectDetachParams) (*stripe.Source, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
+	if params.Customer == nil {
+		return nil, errors.New("Invalid source detach params: Customer needs to be set")
 	}
 
+	path := stripe.FormatURLPath("/customers/%s/sources/%s",
+		stripe.StringValue(params.Customer), id)
 	source := &stripe.Source{}
-	var err error
-
-	if params.Customer != nil {
-		err = c.B.Call("DELETE", stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id), c.Key, body, commonParams, source)
-	} else {
-		err = errors.New("Invalid source detach params: Customer needs to be set")
-	}
-
+	err := c.B.Call2("DELETE", path, c.Key, params, source)
 	return source, err
 }

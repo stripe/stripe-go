@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /ephemeral_keys APIs.
@@ -28,17 +27,13 @@ func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 		return nil, fmt.Errorf("params.StripeVersion must be specified")
 	}
 
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
 	if params.Headers == nil {
 		params.Headers = make(http.Header)
 	}
 	params.Headers.Add("Stripe-Version", stripe.StringValue(params.StripeVersion))
 
 	ephemeralKey := &stripe.EphemeralKey{}
-	err := c.B.Call("POST", "ephemeral_keys", c.Key, body, &params.Params, ephemeralKey)
-
+	err := c.B.Call2("POST", "/ephemeral_keys", c.Key, params, ephemeralKey)
 	return ephemeralKey, err
 }
 
@@ -51,18 +46,9 @@ func Del(id string, params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 // Del removes an ephemeral key.
 // For more details see https://stripe.com/docs/api#delete_ephemeral_key.
 func (c Client) Del(id string, params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		commonParams = &params.Params
-	}
-
+	path := stripe.FormatURLPath("/ephemeral_keys/%s", id)
 	ephemeralKey := &stripe.EphemeralKey{}
-	err := c.B.Call("DELETE", stripe.FormatURLPath("/ephemeral_keys/%s", id), c.Key, body, commonParams, ephemeralKey)
-
+	err := c.B.Call2("DELETE", path, c.Key, params, ephemeralKey)
 	return ephemeralKey, err
 }
 

@@ -46,18 +46,9 @@ func Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpload, error)
 }
 
 func (c Client) Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpload, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/files/%s", id)
 	upload := &stripe.FileUpload{}
-	err := c.B.Call("GET", stripe.FormatURLPath("/files/%s", id), c.Key, body, commonParams, upload)
-
+	err := c.B.Call2("GET", path, c.Key, params, upload)
 	return upload, err
 }
 
@@ -67,21 +58,10 @@ func List(params *stripe.FileUploadListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.FileUploadListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.FileUploadListParams) *Iter {
+	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.FileUploadList{}
-		err := c.B.Call("GET", "/files", c.Key, b, p, list)
+		err := c.B.CallRaw("GET", "/files", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

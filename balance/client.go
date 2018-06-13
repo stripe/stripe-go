@@ -19,18 +19,8 @@ func Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 }
 
 func (c Client) Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
 	balance := &stripe.Balance{}
-	err := c.B.Call("GET", "/balance", c.Key, body, commonParams, balance)
-
+	err := c.B.Call2("GET", "/balance", c.Key, params, balance)
 	return balance, err
 }
 
@@ -41,18 +31,9 @@ func GetBalanceTransaction(id string, params *stripe.BalanceTransactionParams) (
 }
 
 func (c Client) GetBalanceTransaction(id string, params *stripe.BalanceTransactionParams) (*stripe.BalanceTransaction, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/balance/history/%s", id)
 	balance := &stripe.BalanceTransaction{}
-	err := c.B.Call("GET", stripe.FormatURLPath("/balance/history/%s", id), c.Key, body, commonParams, balance)
-
+	err := c.B.Call2("GET", path, c.Key, params, balance)
 	return balance, err
 }
 
@@ -62,21 +43,10 @@ func List(params *stripe.BalanceTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.BalanceTransactionListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.BalanceTransactionListParams) *Iter {
+	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BalanceTransactionList{}
-		err := c.B.Call("GET", "/balance/history", c.Key, b, p, list)
+		err := c.B.CallRaw("GET", "/balance/history", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

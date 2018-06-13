@@ -122,17 +122,9 @@ func UpdateDispute(id string, params *stripe.DisputeParams) (*stripe.Dispute, er
 }
 
 func (c Client) UpdateDispute(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/charges/%s/dispute", id)
 	dispute := &stripe.Dispute{}
-	err := c.B.Call("POST", stripe.FormatURLPath("/charges/%s/dispute", id), c.Key, body, commonParams, dispute)
+	err := c.B.Call2("POST", path, c.Key, params, dispute)
 
 	return dispute, err
 }

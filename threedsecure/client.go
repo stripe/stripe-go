@@ -3,7 +3,6 @@ package threedsecure
 
 import (
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /3d_secure APIs.
@@ -19,11 +18,8 @@ func New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
 }
 
 func (c Client) New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
 	tds := &stripe.ThreeDSecure{}
-	err := c.B.Call("POST", "/3d_secure", c.Key, body, &params.Params, tds)
+	err := c.B.Call2("POST", "/3d_secure", c.Key, params, tds)
 	return tds, err
 }
 
@@ -34,17 +30,9 @@ func Get(id string, params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, er
 }
 
 func (c Client) Get(id string, params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/3d_secure/%s", id)
 	tds := &stripe.ThreeDSecure{}
-	err := c.B.Call("GET", stripe.FormatURLPath("/3d_secure/%s", id), c.Key, body, commonParams, tds)
+	err := c.B.Call2("GET", path, c.Key, params, tds)
 
 	return tds, err
 }

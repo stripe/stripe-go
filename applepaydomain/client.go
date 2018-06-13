@@ -18,11 +18,8 @@ func New(params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 }
 
 func (c Client) New(params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
 	domain := &stripe.ApplePayDomain{}
-	err := c.B.Call("POST", "/apple_pay/domains", c.Key, body, &params.Params, domain)
+	err := c.B.Call2("POST", "/apple_pay/domains", c.Key, params, domain)
 	return domain, err
 }
 
@@ -32,18 +29,9 @@ func Get(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain
 }
 
 func (c Client) Get(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		commonParams = &params.Params
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/apple_pay/domains/%s", id)
 	domain := &stripe.ApplePayDomain{}
-	err := c.B.Call("GET", stripe.FormatURLPath("/apple_pay/domains/%s", id), c.Key, body, commonParams, domain)
-
+	err := c.B.Call2("GET", path, c.Key, params, domain)
 	return domain, err
 }
 
@@ -53,18 +41,9 @@ func Del(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain
 }
 
 func (c Client) Del(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		commonParams = &params.Params
-	}
-
+	path := stripe.FormatURLPath("/apple_pay/domains/%s", id)
 	domain := &stripe.ApplePayDomain{}
-	err := c.B.Call("DELETE", stripe.FormatURLPath("/apple_pay/domains/%s", id), c.Key, body, commonParams, domain)
-
+	err := c.B.Call2("DELETE", path, c.Key, params, domain)
 	return domain, err
 }
 
@@ -73,21 +52,10 @@ func List(params *stripe.ApplePayDomainListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.ApplePayDomainListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.ApplePayDomainListParams) *Iter {
+	return &Iter{stripe.GetIter2(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ApplePayDomainList{}
-		err := c.B.Call("GET", "/apple_pay/domains", c.Key, b, p, list)
+		err := c.B.CallRaw("GET", "/apple_pay/domains", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
