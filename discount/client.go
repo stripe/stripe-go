@@ -3,7 +3,6 @@ package discount
 
 import (
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke discount-related APIs.
@@ -19,18 +18,9 @@ func Del(customerID string, params *stripe.DiscountParams) (*stripe.Discount, er
 }
 
 func (c Client) Del(customerID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		commonParams = &params.Params
-	}
-
+	path := stripe.FormatURLPath("/customers/%s/discount", customerID)
 	discount := &stripe.Discount{}
-	err := c.B.Call("DELETE", stripe.FormatURLPath("/customers/%s/discount", customerID), c.Key, body, commonParams, discount)
-
+	err := c.B.Call("DELETE", path, c.Key, params, discount)
 	return discount, err
 }
 
@@ -41,17 +31,9 @@ func DelSubscription(subscriptionID string, params *stripe.DiscountParams) (*str
 }
 
 func (c Client) DelSub(subscriptionID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		commonParams = &params.Params
-	}
-
+	path := stripe.FormatURLPath("/subscriptions/%s/discount", subscriptionID)
 	discount := &stripe.Discount{}
-	err := c.B.Call("DELETE", stripe.FormatURLPath("/subscriptions/%s/discount", subscriptionID), c.Key, body, commonParams, discount)
+	err := c.B.Call("DELETE", path, c.Key, params, discount)
 
 	return discount, err
 }

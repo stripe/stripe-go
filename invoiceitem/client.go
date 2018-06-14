@@ -19,12 +19,8 @@ func New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 }
 
 func (c Client) New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
 	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call("POST", "/invoiceitems", c.Key, body, &params.Params, invoiceItem)
-
+	err := c.B.Call("POST", "/invoiceitems", c.Key, params, invoiceItem)
 	return invoiceItem, err
 }
 
@@ -35,18 +31,9 @@ func Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 }
 
 func (c Client) Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/invoiceitems/%s", id)
 	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call("GET", stripe.FormatURLPath("/invoiceitems/%s", id), c.Key, body, commonParams, invoiceItem)
-
+	err := c.B.Call("GET", path, c.Key, params, invoiceItem)
 	return invoiceItem, err
 }
 
@@ -57,18 +44,9 @@ func Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, e
 }
 
 func (c Client) Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/invoiceitems/%s", id)
 	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call("POST", stripe.FormatURLPath("/invoiceitems/%s", id), c.Key, body, commonParams, invoiceItem)
-
+	err := c.B.Call("POST", path, c.Key, params, invoiceItem)
 	return invoiceItem, err
 }
 
@@ -79,18 +57,9 @@ func Del(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 }
 
 func (c Client) Del(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		commonParams = &params.Params
-	}
-
+	path := stripe.FormatURLPath("/invoiceitems/%s", id)
 	ii := &stripe.InvoiceItem{}
-	err := c.B.Call("DELETE", stripe.FormatURLPath("/invoiceitems/%s", id), c.Key, body, commonParams, ii)
-
+	err := c.B.Call("DELETE", path, c.Key, params, ii)
 	return ii, err
 }
 
@@ -100,21 +69,10 @@ func List(params *stripe.InvoiceItemListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.InvoiceItemListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.InvoiceItemListParams) *Iter {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceItemList{}
-		err := c.B.Call("GET", "/invoiceitems", c.Key, b, p, list)
+		err := c.B.CallRaw("GET", "/invoiceitems", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

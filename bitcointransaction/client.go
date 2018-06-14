@@ -18,21 +18,12 @@ func List(params *stripe.BitcoinTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.BitcoinTransactionListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.BitcoinTransactionListParams) *Iter {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+		path := stripe.FormatURLPath("/bitcoin/receivers/%s/transactions",
+			stripe.StringValue(listParams.Receiver))
 		list := &stripe.BitcoinTransactionList{}
-		err := c.B.Call("GET", stripe.FormatURLPath("/bitcoin/receivers/%s/transactions", stripe.StringValue(params.Receiver)), c.Key, b, p, list)
+		err := c.B.CallRaw("GET", path, c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

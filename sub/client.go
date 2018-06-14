@@ -19,18 +19,8 @@ func New(params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 }
 
 func (c Client) New(params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
 	sub := &stripe.Subscription{}
-	err := c.B.Call("POST", "/subscriptions", c.Key, body, commonParams, sub)
-
+	err := c.B.Call("POST", "/subscriptions", c.Key, params, sub)
 	return sub, err
 }
 
@@ -41,18 +31,9 @@ func Get(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, er
 }
 
 func (c Client) Get(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		commonParams = &params.Params
-	}
-
+	path := stripe.FormatURLPath("/subscriptions/%s", id)
 	sub := &stripe.Subscription{}
-	err := c.B.Call("GET", stripe.FormatURLPath("/subscriptions/%s", id), c.Key, body, commonParams, sub)
-
+	err := c.B.Call("GET", path, c.Key, params, sub)
 	return sub, err
 }
 
@@ -63,17 +44,9 @@ func Update(id string, params *stripe.SubscriptionParams) (*stripe.Subscription,
 }
 
 func (c Client) Update(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/subscriptions/%s", id)
 	sub := &stripe.Subscription{}
-	err := c.B.Call("POST", stripe.FormatURLPath("/subscriptions/%s", id), c.Key, body, commonParams, sub)
+	err := c.B.Call("POST", path, c.Key, params, sub)
 
 	return sub, err
 }
@@ -85,18 +58,9 @@ func Cancel(id string, params *stripe.SubscriptionCancelParams) (*stripe.Subscri
 }
 
 func (c Client) Cancel(id string, params *stripe.SubscriptionCancelParams) (*stripe.Subscription, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/subscriptions/%s", id)
 	sub := &stripe.Subscription{}
-	err := c.B.Call("DELETE", stripe.FormatURLPath("/subscriptions/%s", id), c.Key, body, commonParams, sub)
-
+	err := c.B.Call("DELETE", path, c.Key, params, sub)
 	return sub, err
 }
 
@@ -106,21 +70,10 @@ func List(params *stripe.SubscriptionListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.SubscriptionListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.SubscriptionListParams) *Iter {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SubscriptionList{}
-		err := c.B.Call("GET", "/subscriptions", c.Key, b, p, list)
+		err := c.B.CallRaw("GET", "/subscriptions", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

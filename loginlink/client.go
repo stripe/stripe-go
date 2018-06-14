@@ -5,7 +5,6 @@ import (
 	"errors"
 
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /login_links APIs.
@@ -21,17 +20,13 @@ func New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
 }
 
 func (c Client) New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
-	body := &form.Values{}
-
-	loginLink := &stripe.LoginLink{}
-	var err error
-
-	if params.Account != nil {
-		err = c.B.Call("POST", stripe.FormatURLPath("/accounts/%s/login_links", stripe.StringValue(params.Account)), c.Key, body, nil, loginLink)
-	} else {
-		err = errors.New("Invalid login link params: Account must be set")
+	if params.Account == nil {
+		return nil, errors.New("Invalid login link params: Account must be set")
 	}
 
+	path := stripe.FormatURLPath("/accounts/%s/login_links", stripe.StringValue(params.Account))
+	loginLink := &stripe.LoginLink{}
+	err := c.B.Call("POST", path, c.Key, nil, loginLink)
 	return loginLink, err
 }
 

@@ -28,7 +28,7 @@ func TestErrorResponse(t *testing.T) {
 		&http.Client{},
 	})
 
-	err := GetBackend(APIBackend).Call("GET", "/v1/account", "sk_test_badKey", nil, nil, nil)
+	err := GetBackend(APIBackend).Call("GET", "/v1/account", "sk_test_badKey", nil, nil)
 	assert.Error(t, err)
 
 	stripeErr := err.(*Error)

@@ -16,21 +16,10 @@ func List(params *stripe.OrderReturnListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.OrderReturnListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.OrderReturnListParams) *Iter {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.OrderReturnList{}
-		err := c.B.Call("GET", "/order_returns", c.Key, b, p, list)
+		err := c.B.CallRaw("GET", "/order_returns", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

@@ -22,18 +22,9 @@ func Get(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 }
 
 func (c Client) Get(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/recipients/%s", id)
 	recipient := &stripe.Recipient{}
-	err := c.B.Call("GET", stripe.FormatURLPath("/recipients/%s", id), c.Key, body, commonParams, recipient)
-
+	err := c.B.Call("GET", path, c.Key, params, recipient)
 	return recipient, err
 }
 
@@ -44,18 +35,9 @@ func Update(id string, params *stripe.RecipientParams) (*stripe.Recipient, error
 }
 
 func (c Client) Update(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/recipients/%s", id)
 	recipient := &stripe.Recipient{}
-	err := c.B.Call("POST", stripe.FormatURLPath("/recipients/%s", id), c.Key, body, commonParams, recipient)
-
+	err := c.B.Call("POST", path, c.Key, params, recipient)
 	return recipient, err
 }
 
@@ -66,18 +48,9 @@ func Del(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 }
 
 func (c Client) Del(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		commonParams = &params.Params
-	}
-
+	path := stripe.FormatURLPath("/recipients/%s", id)
 	recipient := &stripe.Recipient{}
-	err := c.B.Call("DELETE", stripe.FormatURLPath("/recipients/%s", id), c.Key, body, commonParams, recipient)
-
+	err := c.B.Call("DELETE", path, c.Key, params, recipient)
 	return recipient, err
 }
 
@@ -87,21 +60,10 @@ func List(params *stripe.RecipientListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.RecipientListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.RecipientListParams) *Iter {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.RecipientList{}
-		err := c.B.Call("GET", "/recipients", c.Key, b, p, list)
+		err := c.B.CallRaw("GET", "/recipients", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

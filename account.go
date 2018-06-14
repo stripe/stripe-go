@@ -444,5 +444,6 @@ type PayoutSchedule struct {
 
 // AccountRejectParams is the structure for the Reject function.
 type AccountRejectParams struct {
+	Params `form:"*"`
 	Reason *string `form:"reason"`
 }

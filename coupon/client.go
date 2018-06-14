@@ -19,12 +19,8 @@ func New(params *stripe.CouponParams) (*stripe.Coupon, error) {
 }
 
 func (c Client) New(params *stripe.CouponParams) (*stripe.Coupon, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
 	coupon := &stripe.Coupon{}
-	err := c.B.Call("POST", "/coupons", c.Key, body, &params.Params, coupon)
-
+	err := c.B.Call("POST", "/coupons", c.Key, params, coupon)
 	return coupon, err
 }
 
@@ -35,19 +31,9 @@ func Get(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 }
 
 func (c Client) Get(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/coupons/%s", id)
 	coupon := &stripe.Coupon{}
-
-	err := c.B.Call("GET", stripe.FormatURLPath("/coupons/%s", id), c.Key, body, commonParams, coupon)
-
+	err := c.B.Call("GET", path, c.Key, params, coupon)
 	return coupon, err
 }
 
@@ -58,12 +44,9 @@ func Update(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 }
 
 func (c Client) Update(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
+	path := stripe.FormatURLPath("/coupons/%s", id)
 	coupon := &stripe.Coupon{}
-	err := c.B.Call("POST", stripe.FormatURLPath("/coupons/%s", id), c.Key, body, &params.Params, coupon)
-
+	err := c.B.Call("POST", path, c.Key, params, coupon)
 	return coupon, err
 }
 
@@ -74,18 +57,9 @@ func Del(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 }
 
 func (c Client) Del(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		commonParams = &params.Params
-	}
-
+	path := stripe.FormatURLPath("/coupons/%s", id)
 	coupon := &stripe.Coupon{}
-	err := c.B.Call("DELETE", stripe.FormatURLPath("/coupons/%s", id), c.Key, body, commonParams, coupon)
-
+	err := c.B.Call("DELETE", path, c.Key, params, coupon)
 	return coupon, err
 }
 
@@ -95,21 +69,10 @@ func List(params *stripe.CouponListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.CouponListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.CouponListParams) *Iter {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CouponList{}
-		err := c.B.Call("GET", "/coupons", c.Key, b, p, list)
+		err := c.B.CallRaw("GET", "/coupons", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

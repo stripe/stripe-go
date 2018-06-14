@@ -20,24 +20,25 @@ func List(params *stripe.SourceTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.SourceTransactionListParams) *Iter {
-	body := &form.Values{}
-	var lp *stripe.ListParams
-	var p *stripe.Params
+func (c Client) List(listParams *stripe.SourceTransactionListParams) *Iter {
+	var outerErr error
+	var path string
 
-	form.AppendTo(body, params)
-	lp = &params.ListParams
-	p = params.ToParams()
+	if listParams == nil || listParams.Source == nil {
+		outerErr = errors.New("Invalid source transaction params: Source needs to be set")
+	} else {
+		path = stripe.FormatURLPath("/sources/%s/source_transactions",
+			stripe.StringValue(listParams.Source))
+	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SourceTransactionList{}
-		var err error
 
-		if params != nil && params.Source != nil {
-			err = c.B.Call("GET", stripe.FormatURLPath("/sources/%s/source_transactions", stripe.StringValue(params.Source)), c.Key, b, p, list)
-		} else {
-			err = errors.New("Invalid source transaction params: Source needs to be set")
+		if outerErr != nil {
+			return nil, list.ListMeta, outerErr
 		}
+
+		err := c.B.CallRaw("GET", path, c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
