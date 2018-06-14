@@ -85,64 +85,6 @@ func (c Client) List(listParams *stripe.ChargeListParams) *Iter {
 	})}
 }
 
-// MarkFraudulent reports the charge as fraudulent.
-func MarkFraudulent(id string) (*stripe.Charge, error) {
-	return getC().MarkFraudulent(id)
-}
-
-func (c Client) MarkFraudulent(id string) (*stripe.Charge, error) {
-	return c.Update(
-		id,
-		&stripe.ChargeParams{
-			FraudDetails: &stripe.FraudDetailsParams{
-				UserReport: stripe.String(string(stripe.ChargeFraudUserReportFraudulent)),
-			},
-		},
-	)
-}
-
-// MarkSafe reports the charge as not-fraudulent.
-func MarkSafe(id string) (*stripe.Charge, error) {
-	return getC().MarkSafe(id)
-}
-
-func (c Client) MarkSafe(id string) (*stripe.Charge, error) {
-	return c.Update(
-		id,
-		&stripe.ChargeParams{
-			FraudDetails: &stripe.FraudDetailsParams{
-				UserReport: stripe.String(string(stripe.ChargeFraudUserReportSafe)),
-			},
-		},
-	)
-}
-
-// Update updates a charge's dispute.
-// For more details see https://stripe.com/docs/api#update_dispute.
-func UpdateDispute(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	return getC().UpdateDispute(id, params)
-}
-
-func (c Client) UpdateDispute(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	path := stripe.FormatURLPath("/charges/%s/dispute", id)
-	dispute := &stripe.Dispute{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
-
-	return dispute, err
-}
-
-// Close dismisses a charge's dispute in the customer's favor.
-// For more details see https://stripe.com/docs/api#close_dispute.
-func CloseDispute(id string) (*stripe.Dispute, error) {
-	return getC().CloseDispute(id)
-}
-
-func (c Client) CloseDispute(id string) (*stripe.Dispute, error) {
-	dispute := &stripe.Dispute{}
-	err := c.B.Call(http.MethodPost, stripe.FormatURLPath("/charges/%s/dispute/close", id), c.Key, nil, dispute)
-	return dispute, err
-}
-
 // Iter is an iterator for lists of Charges.
 // The embedded Iter carries methods with it;
 // see its documentation for details.
