@@ -1,5 +1,8 @@
 # Changelog
 
+## 34.2.0 - 2018-06-14
+* [#581](https://github.com/stripe/stripe-go/pull/581) Push parameter encoding into `BackendConfiguration.Call` (this is an internal cleanup and should not affect library behavior)
+
 ## 34.1.0 - 2018-06-13
 * [#586](https://github.com/stripe/stripe-go/pull/586) Add `AmountPaid`, `AmountRemaining`, `BillingReason` (including new `InvoiceBillingReason` and constants), and `SubscriptionProrationDate` to `Invoice`
 
