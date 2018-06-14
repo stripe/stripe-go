@@ -1,8 +1,6 @@
 package order
 
 import (
-	"errors"
-
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -51,10 +49,6 @@ func Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, error) {
 // Pay pays an order
 // For more details see https://stripe.com/docs/api#pay_order.
 func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, error) {
-	if params != nil && params.Source == nil && params.Customer == nil {
-		return nil, errors.New("Invalid order pay params: either customer or a source must be set")
-	}
-
 	path := stripe.FormatURLPath("/orders/%s/pay", id)
 	o := &stripe.Order{}
 	err := c.B.Call("POST", path, c.Key, params, o)

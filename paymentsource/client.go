@@ -21,6 +21,10 @@ func New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 }
 
 func (s Client) New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
 	if params.Customer == nil {
 		return nil, errors.New("Invalid source params: customer needs to be set")
 	}
@@ -38,6 +42,10 @@ func Get(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource,
 }
 
 func (s Client) Get(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
 	if params.Customer == nil {
 		return nil, errors.New("Invalid source params: customer needs to be set")
 	}
@@ -55,6 +63,10 @@ func Update(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSour
 }
 
 func (s Client) Update(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
 	if params.Customer == nil {
 		return nil, errors.New("Invalid source params: customer needs to be set")
 	}
@@ -72,6 +84,10 @@ func Del(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource,
 }
 
 func (s Client) Del(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
 	if params.Customer == nil {
 		return nil, errors.New("Invalid source params: customer needs to be set")
 	}
@@ -92,7 +108,9 @@ func (s Client) List(listParams *stripe.SourceListParams) *Iter {
 	var outerErr error
 	var path string
 
-	if listParams.Customer == nil {
+	if listParams == nil {
+		outerErr = errors.New("params should not be nil")
+	} else if listParams.Customer == nil {
 		outerErr = errors.New("Invalid source params: customer needs to be set")
 	} else {
 		path = stripe.FormatURLPath("/customers/%s/sources",
@@ -124,6 +142,10 @@ func Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource
 }
 
 func (s Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
 	var path string
 	if params.Customer != nil {
 		path = stripe.FormatURLPath("/customers/%s/sources/%s/verify",

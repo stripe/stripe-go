@@ -46,6 +46,9 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	// include some parameters that are undesirable here.
 	params.AppendToAsCardSourceOrExternalAccount(body, nil)
 
+	// Because card creation uses the custom append above, we have to make an
+	// explicit call using a form and CallRaw instead of the standard Call
+	// (which takes a set of parameters).
 	card := &stripe.Card{}
 	err := c.B.CallRaw("POST", path, c.Key, body, &params.Params, card)
 	return card, err

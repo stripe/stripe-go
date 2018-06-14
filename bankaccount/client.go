@@ -20,11 +20,17 @@ func New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 }
 
 func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
 	var path string
 	if params.Customer != nil {
 		path = stripe.FormatURLPath("/customers/%s/sources", stripe.StringValue(params.Customer))
-	} else {
+	} else if params.Account != nil {
 		path = stripe.FormatURLPath("/accounts/%s/external_accounts", stripe.StringValue(params.Account))
+	} else {
+		return nil, errors.New("Invalid bank account params: either Customer or Account need to be set")
 	}
 
 	body := &form.Values{}
@@ -34,6 +40,9 @@ func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 	// include some parameters that are undesirable here.
 	params.AppendToAsSourceOrExternalAccount(body)
 
+	// Because bank account creation uses the custom append above, we have to
+	// make an explicit call using a form and CallRaw instead of the standard
+	// Call (which takes a set of parameters).
 	ba := &stripe.BankAccount{}
 	err := c.B.CallRaw("POST", path, c.Key, body, &params.Params, ba)
 	return ba, err
@@ -45,6 +54,10 @@ func Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 }
 
 func (c Client) Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
 	var path string
 	if params != nil && params.Customer != nil {
 		path = stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
@@ -65,6 +78,10 @@ func Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, e
 }
 
 func (c Client) Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
 	var path string
 	if params.Customer != nil {
 		path = stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
@@ -85,6 +102,10 @@ func Del(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 }
 
 func (c Client) Del(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
 	var path string
 	if params.Customer != nil {
 		path = stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
@@ -108,7 +129,9 @@ func (c Client) List(listParams *stripe.BankAccountListParams) *Iter {
 	var path string
 	var outerErr error
 
-	if listParams.Customer != nil {
+	if listParams == nil {
+		outerErr = errors.New("params should not be nil")
+	} else if listParams.Customer != nil {
 		path = stripe.FormatURLPath("/customers/%s/sources?object=bank_account",
 			stripe.StringValue(listParams.Customer))
 	} else if listParams.Account != nil {
