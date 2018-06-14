@@ -3,6 +3,7 @@ package card
 
 import (
 	"errors"
+	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
@@ -50,7 +51,7 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	// explicit call using a form and CallRaw instead of the standard Call
 	// (which takes a set of parameters).
 	card := &stripe.Card{}
-	err := c.B.CallRaw("POST", path, c.Key, body, &params.Params, card)
+	err := c.B.CallRaw(http.MethodPost, path, c.Key, body, &params.Params, card)
 	return card, err
 }
 
@@ -80,7 +81,7 @@ func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	}
 
 	card := &stripe.Card{}
-	err := c.B.Call("GET", path, c.Key, params, card)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, card)
 	return card, err
 }
 
@@ -110,7 +111,7 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 	}
 
 	card := &stripe.Card{}
-	err := c.B.Call("POST", path, c.Key, params, card)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
 	return card, err
 }
 
@@ -137,7 +138,7 @@ func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	}
 
 	card := &stripe.Card{}
-	err := c.B.Call("DELETE", path, c.Key, params, card)
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, card)
 	return card, err
 }
 
@@ -172,7 +173,7 @@ func (c Client) List(listParams *stripe.CardListParams) *Iter {
 			return nil, list.ListMeta, outerErr
 		}
 
-		err := c.B.CallRaw("GET", path, c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

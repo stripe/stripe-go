@@ -1,6 +1,8 @@
 package sku
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -21,7 +23,7 @@ func New(params *stripe.SKUParams) (*stripe.SKU, error) {
 // For more details see https://stripe.com/docs/api#create_sku.
 func (c Client) New(params *stripe.SKUParams) (*stripe.SKU, error) {
 	s := &stripe.SKU{}
-	err := c.B.Call("POST", "/skus", c.Key, params, s)
+	err := c.B.Call(http.MethodPost, "/skus", c.Key, params, s)
 	return s, err
 }
 
@@ -36,7 +38,7 @@ func Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	path := stripe.FormatURLPath("/skus/%s", id)
 	s := &stripe.SKU{}
-	err := c.B.Call("POST", path, c.Key, params, s)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, s)
 	return s, err
 }
 
@@ -49,7 +51,7 @@ func Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 func (c Client) Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	path := stripe.FormatURLPath("/skus/%s", id)
 	s := &stripe.SKU{}
-	err := c.B.Call("GET", path, c.Key, params, s)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, s)
 	return s, err
 }
 
@@ -62,7 +64,7 @@ func List(params *stripe.SKUListParams) *Iter {
 func (c Client) List(listParams *stripe.SKUListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SKUList{}
-		err := c.B.CallRaw("GET", "/skus", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/skus", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
@@ -97,7 +99,7 @@ func Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 func (c Client) Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	path := stripe.FormatURLPath("/skus/%s", id)
 	s := &stripe.SKU{}
-	err := c.B.Call("DELETE", path, c.Key, params, s)
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, s)
 
 	return s, err
 }

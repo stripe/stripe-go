@@ -4,6 +4,7 @@ package fileupload
 import (
 	"bytes"
 	"fmt"
+	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
@@ -33,7 +34,7 @@ func (c Client) New(params *stripe.FileUploadParams) (*stripe.FileUpload, error)
 	}
 
 	upload := &stripe.FileUpload{}
-	err = c.B.CallMultipart("POST", "/files", c.Key, boundary, body, &params.Params, upload)
+	err = c.B.CallMultipart(http.MethodPost, "/files", c.Key, boundary, body, &params.Params, upload)
 
 	return upload, err
 }
@@ -48,7 +49,7 @@ func Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpload, error)
 func (c Client) Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpload, error) {
 	path := stripe.FormatURLPath("/files/%s", id)
 	upload := &stripe.FileUpload{}
-	err := c.B.Call("GET", path, c.Key, params, upload)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, upload)
 	return upload, err
 }
 
@@ -61,7 +62,7 @@ func List(params *stripe.FileUploadListParams) *Iter {
 func (c Client) List(listParams *stripe.FileUploadListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.FileUploadList{}
-		err := c.B.CallRaw("GET", "/files", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/files", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

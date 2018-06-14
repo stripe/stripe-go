@@ -1,6 +1,8 @@
 package order
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -21,7 +23,7 @@ func New(params *stripe.OrderParams) (*stripe.Order, error) {
 // For more details see https://stripe.com/docs/api#create_order.
 func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 	p := &stripe.Order{}
-	err := c.B.Call("POST", "/orders", c.Key, params, p)
+	err := c.B.Call(http.MethodPost, "/orders", c.Key, params, p)
 	return p, err
 }
 
@@ -36,7 +38,7 @@ func Update(id string, params *stripe.OrderUpdateParams) (*stripe.Order, error) 
 func (c Client) Update(id string, params *stripe.OrderUpdateParams) (*stripe.Order, error) {
 	path := stripe.FormatURLPath("/orders/%s", id)
 	o := &stripe.Order{}
-	err := c.B.Call("POST", path, c.Key, params, o)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, o)
 	return o, err
 }
 
@@ -51,7 +53,7 @@ func Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, error) {
 func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, error) {
 	path := stripe.FormatURLPath("/orders/%s/pay", id)
 	o := &stripe.Order{}
-	err := c.B.Call("POST", path, c.Key, params, o)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, o)
 	return o, err
 }
 
@@ -64,7 +66,7 @@ func Get(id string, params *stripe.OrderParams) (*stripe.Order, error) {
 func (c Client) Get(id string, params *stripe.OrderParams) (*stripe.Order, error) {
 	path := stripe.FormatURLPath("/orders/%s", id)
 	order := &stripe.Order{}
-	err := c.B.Call("GET", path, c.Key, params, order)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, order)
 	return order, err
 }
 
@@ -77,7 +79,7 @@ func List(params *stripe.OrderListParams) *Iter {
 func (c Client) List(listParams *stripe.OrderListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.OrderList{}
-		err := c.B.CallRaw("GET", "/orders", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/orders", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
@@ -112,7 +114,7 @@ func Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, e
 func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
 	path := stripe.FormatURLPath("/orders/%s/returns", id)
 	ret := &stripe.OrderReturn{}
-	err := c.B.Call("POST", path, c.Key, params, ret)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, ret)
 	return ret, err
 }
 

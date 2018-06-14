@@ -1,6 +1,8 @@
 package issuerfraudrecord
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -22,7 +24,7 @@ func Get(id string) (*stripe.IssuerFraudRecord, error) {
 func (c Client) Get(id string) (*stripe.IssuerFraudRecord, error) {
 	path := stripe.FormatURLPath("/issuer_fraud_records/%s", id)
 	ifr := &stripe.IssuerFraudRecord{}
-	err := c.B.Call("GET", path, c.Key, nil, ifr)
+	err := c.B.Call(http.MethodGet, path, c.Key, nil, ifr)
 	return ifr, err
 }
 
@@ -37,7 +39,7 @@ func List(params *stripe.IssuerFraudRecordListParams) *Iter {
 func (c Client) List(listParams *stripe.IssuerFraudRecordListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.IssuerFraudRecordList{}
-		err := c.B.CallRaw("GET", "/issuer_fraud_records", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/issuer_fraud_records", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

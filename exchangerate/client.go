@@ -2,6 +2,8 @@
 package exchangerate
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -20,7 +22,7 @@ func Get(currency string) (*stripe.ExchangeRate, error) {
 func (c Client) Get(currency string) (*stripe.ExchangeRate, error) {
 	path := stripe.FormatURLPath("/exchange_rates/%s", currency)
 	exchangeRate := &stripe.ExchangeRate{}
-	err := c.B.Call("GET", path, c.Key, nil, exchangeRate)
+	err := c.B.Call(http.MethodGet, path, c.Key, nil, exchangeRate)
 
 	return exchangeRate, err
 }
@@ -33,7 +35,7 @@ func List(params *stripe.ExchangeRateListParams) *Iter {
 func (c Client) List(listParams *stripe.ExchangeRateListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ExchangeRateList{}
-		err := c.B.CallRaw("GET", "/exchange_rates", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/exchange_rates", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
