@@ -1,5 +1,8 @@
 # Changelog
 
+## 34.3.0 - 2018-06-14
+* [#587](https://github.com/stripe/stripe-go/pull/587) Use `net/http` constants instead of string literals for HTTP verbs (this is an internal cleanup and should not affect library behavior)
+
 ## 34.2.0 - 2018-06-14
 * [#581](https://github.com/stripe/stripe-go/pull/581) Push parameter encoding into `BackendConfiguration.Call` (this is an internal cleanup and should not affect library behavior)
 
