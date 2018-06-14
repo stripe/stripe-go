@@ -240,7 +240,7 @@ func (s *BackendConfiguration) CallRaw(method, path, key string, form *form.Valu
 	var body io.Reader
 	if form != nil && !form.Empty() {
 		data := form.Encode()
-		if strings.ToUpper(method) == "GET" {
+		if method == http.MethodGet {
 			path += "?" + data
 		} else {
 			body = bytes.NewBufferString(data)

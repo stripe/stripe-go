@@ -1,6 +1,8 @@
 package orderreturn
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -19,7 +21,7 @@ func List(params *stripe.OrderReturnListParams) *Iter {
 func (c Client) List(listParams *stripe.OrderReturnListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.OrderReturnList{}
-		err := c.B.CallRaw("GET", "/order_returns", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/order_returns", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

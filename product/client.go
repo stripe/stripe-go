@@ -1,6 +1,8 @@
 package product
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -21,7 +23,7 @@ func New(params *stripe.ProductParams) (*stripe.Product, error) {
 // For more details see https://stripe.com/docs/api#create_product.
 func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 	p := &stripe.Product{}
-	err := c.B.Call("POST", "/products", c.Key, params, p)
+	err := c.B.Call(http.MethodPost, "/products", c.Key, params, p)
 	return p, err
 }
 
@@ -36,7 +38,7 @@ func Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	path := stripe.FormatURLPath("/products/%s", id)
 	p := &stripe.Product{}
-	err := c.B.Call("POST", path, c.Key, params, p)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, p)
 	return p, err
 }
 
@@ -49,7 +51,7 @@ func Get(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 func (c Client) Get(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	path := stripe.FormatURLPath("/products/%s", id)
 	p := &stripe.Product{}
-	err := c.B.Call("GET", path, c.Key, params, p)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, p)
 	return p, err
 }
 
@@ -62,7 +64,7 @@ func List(params *stripe.ProductListParams) *Iter {
 func (c Client) List(listParams *stripe.ProductListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ProductList{}
-		err := c.B.CallRaw("GET", "/products", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/products", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
@@ -97,7 +99,7 @@ func Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 func (c Client) Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	path := stripe.FormatURLPath("/products/%s", id)
 	p := &stripe.Product{}
-	err := c.B.Call("DELETE", path, c.Key, params, p)
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, p)
 
 	return p, err
 }

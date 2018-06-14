@@ -2,6 +2,8 @@
 package refund
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -20,7 +22,7 @@ func New(params *stripe.RefundParams) (*stripe.Refund, error) {
 
 func (c Client) New(params *stripe.RefundParams) (*stripe.Refund, error) {
 	refund := &stripe.Refund{}
-	err := c.B.Call("POST", "/refunds", c.Key, params, refund)
+	err := c.B.Call(http.MethodPost, "/refunds", c.Key, params, refund)
 	return refund, err
 }
 
@@ -33,7 +35,7 @@ func Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 func (c Client) Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	path := stripe.FormatURLPath("/refunds/%s", id)
 	refund := &stripe.Refund{}
-	err := c.B.Call("GET", path, c.Key, params, refund)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, refund)
 	return refund, err
 }
 
@@ -46,7 +48,7 @@ func Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	path := stripe.FormatURLPath("/refunds/%s", id)
 	refund := &stripe.Refund{}
-	err := c.B.Call("POST", path, c.Key, params, refund)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, refund)
 	return refund, err
 }
 
@@ -59,7 +61,7 @@ func List(params *stripe.RefundListParams) *Iter {
 func (c Client) List(listParams *stripe.RefundListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.RefundList{}
-		err := c.B.CallRaw("GET", "/refunds", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/refunds", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

@@ -2,6 +2,8 @@
 package bitcointransaction
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -23,7 +25,7 @@ func (c Client) List(listParams *stripe.BitcoinTransactionListParams) *Iter {
 		path := stripe.FormatURLPath("/bitcoin/receivers/%s/transactions",
 			stripe.StringValue(listParams.Receiver))
 		list := &stripe.BitcoinTransactionList{}
-		err := c.B.CallRaw("GET", path, c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

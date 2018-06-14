@@ -2,6 +2,8 @@
 package invoice
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -20,7 +22,7 @@ func New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 
 func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	invoice := &stripe.Invoice{}
-	err := c.B.Call("POST", "/invoices", c.Key, params, invoice)
+	err := c.B.Call(http.MethodPost, "/invoices", c.Key, params, invoice)
 	return invoice, err
 }
 
@@ -33,7 +35,7 @@ func Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 func (c Client) Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	path := stripe.FormatURLPath("/invoices/%s", id)
 	invoice := &stripe.Invoice{}
-	err := c.B.Call("GET", path, c.Key, params, invoice)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, invoice)
 	return invoice, err
 }
 
@@ -46,7 +48,7 @@ func Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice, error) {
 func (c Client) Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice, error) {
 	path := stripe.FormatURLPath("/invoices/%s/pay", id)
 	invoice := &stripe.Invoice{}
-	err := c.B.Call("POST", path, c.Key, params, invoice)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
 
@@ -59,7 +61,7 @@ func Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	path := stripe.FormatURLPath("/invoices/%s", id)
 	invoice := &stripe.Invoice{}
-	err := c.B.Call("POST", path, c.Key, params, invoice)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
 }
 
@@ -71,7 +73,7 @@ func GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 
 func (c Client) GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	invoice := &stripe.Invoice{}
-	err := c.B.Call("GET", "/invoices/upcoming", c.Key, params, invoice)
+	err := c.B.Call(http.MethodGet, "/invoices/upcoming", c.Key, params, invoice)
 	return invoice, err
 }
 
@@ -84,7 +86,7 @@ func List(params *stripe.InvoiceListParams) *Iter {
 func (c Client) List(listParams *stripe.InvoiceListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceList{}
-		err := c.B.CallRaw("GET", "/invoices", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/invoices", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
@@ -105,7 +107,7 @@ func (c Client) ListLines(listParams *stripe.InvoiceLineListParams) *LineIter {
 	path := stripe.FormatURLPath("/invoices/%s/lines", stripe.StringValue(listParams.ID))
 	return &LineIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceLineList{}
-		err := c.B.CallRaw("GET", path, c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

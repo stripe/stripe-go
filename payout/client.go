@@ -2,6 +2,8 @@
 package payout
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -20,7 +22,7 @@ func New(params *stripe.PayoutParams) (*stripe.Payout, error) {
 
 func (c Client) New(params *stripe.PayoutParams) (*stripe.Payout, error) {
 	payout := &stripe.Payout{}
-	err := c.B.Call("POST", "/payouts", c.Key, params, payout)
+	err := c.B.Call(http.MethodPost, "/payouts", c.Key, params, payout)
 	return payout, err
 }
 
@@ -33,7 +35,7 @@ func Get(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 func (c Client) Get(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	path := stripe.FormatURLPath("/payouts/%s", id)
 	payout := &stripe.Payout{}
-	err := c.B.Call("GET", path, c.Key, params, payout)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, payout)
 	return payout, err
 }
 
@@ -46,7 +48,7 @@ func Update(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 func (c Client) Update(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	path := stripe.FormatURLPath("/payouts/%s", id)
 	payout := &stripe.Payout{}
-	err := c.B.Call("POST", path, c.Key, params, payout)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, payout)
 	return payout, err
 }
 
@@ -59,7 +61,7 @@ func Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 func (c Client) Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	path := stripe.FormatURLPath("/payouts/%s/cancel", id)
 	payout := &stripe.Payout{}
-	err := c.B.Call("POST", path, c.Key, params, payout)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, payout)
 	return payout, err
 }
 
@@ -72,7 +74,7 @@ func List(params *stripe.PayoutListParams) *Iter {
 func (c Client) List(listParams *stripe.PayoutListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.PayoutList{}
-		err := c.B.CallRaw("GET", "/payouts", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/payouts", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

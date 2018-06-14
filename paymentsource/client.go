@@ -3,6 +3,7 @@ package paymentsource
 
 import (
 	"errors"
+	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
@@ -31,7 +32,7 @@ func (s Client) New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource,
 
 	path := stripe.FormatURLPath("/customers/%s/sources", stripe.StringValue(params.Customer))
 	source := &stripe.PaymentSource{}
-	err := s.B.Call("POST", path, s.Key, params, source)
+	err := s.B.Call(http.MethodPost, path, s.Key, params, source)
 	return source, err
 }
 
@@ -52,7 +53,7 @@ func (s Client) Get(id string, params *stripe.CustomerSourceParams) (*stripe.Pay
 
 	path := stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	source := &stripe.PaymentSource{}
-	err := s.B.Call("GET", path, s.Key, params, source)
+	err := s.B.Call(http.MethodGet, path, s.Key, params, source)
 	return source, err
 }
 
@@ -73,7 +74,7 @@ func (s Client) Update(id string, params *stripe.CustomerSourceParams) (*stripe.
 
 	path := stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	source := &stripe.PaymentSource{}
-	err := s.B.Call("POST", path, s.Key, params, source)
+	err := s.B.Call(http.MethodPost, path, s.Key, params, source)
 	return source, err
 }
 
@@ -94,7 +95,7 @@ func (s Client) Del(id string, params *stripe.CustomerSourceParams) (*stripe.Pay
 
 	source := &stripe.PaymentSource{}
 	path := stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
-	err := s.B.Call("DELETE", path, s.Key, params, source)
+	err := s.B.Call(http.MethodDelete, path, s.Key, params, source)
 	return source, err
 }
 
@@ -124,7 +125,7 @@ func (s Client) List(listParams *stripe.SourceListParams) *Iter {
 			return nil, list.ListMeta, outerErr
 		}
 
-		err := s.B.CallRaw("GET", path, s.Key, b, p, list)
+		err := s.B.CallRaw(http.MethodGet, path, s.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
@@ -157,7 +158,7 @@ func (s Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.Pa
 	}
 
 	source := &stripe.PaymentSource{}
-	err := s.B.Call("POST", path, s.Key, params, source)
+	err := s.B.Call(http.MethodPost, path, s.Key, params, source)
 	return source, err
 }
 

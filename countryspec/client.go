@@ -2,6 +2,8 @@
 package countryspec
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -21,7 +23,7 @@ func Get(country string) (*stripe.CountrySpec, error) {
 func (c Client) Get(country string) (*stripe.CountrySpec, error) {
 	path := stripe.FormatURLPath("/country_specs/%s", country)
 	countrySpec := &stripe.CountrySpec{}
-	err := c.B.Call("GET", path, c.Key, nil, countrySpec)
+	err := c.B.Call(http.MethodGet, path, c.Key, nil, countrySpec)
 	return countrySpec, err
 }
 
@@ -33,7 +35,7 @@ func List(params *stripe.CountrySpecListParams) *Iter {
 func (c Client) List(listParams *stripe.CountrySpecListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CountrySpecList{}
-		err := c.B.CallRaw("GET", "/country_specs", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/country_specs", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

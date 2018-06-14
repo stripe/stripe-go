@@ -5,6 +5,8 @@
 package bitcoinreceiver
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -23,7 +25,7 @@ func New(params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) 
 
 func (c Client) New(params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) {
 	receiver := &stripe.BitcoinReceiver{}
-	err := c.B.Call("POST", "/bitcoin/receivers", c.Key, params, receiver)
+	err := c.B.Call(http.MethodPost, "/bitcoin/receivers", c.Key, params, receiver)
 	return receiver, err
 }
 
@@ -36,7 +38,7 @@ func Get(id string, params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiv
 func (c Client) Get(id string, params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) {
 	path := stripe.FormatURLPath("/bitcoin/receivers/%s", id)
 	bitcoinReceiver := &stripe.BitcoinReceiver{}
-	err := c.B.Call("GET", path, c.Key, params, bitcoinReceiver)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, bitcoinReceiver)
 	return bitcoinReceiver, err
 }
 
@@ -49,7 +51,7 @@ func Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.Bitc
 func (c Client) Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.BitcoinReceiver, error) {
 	path := stripe.FormatURLPath("/bitcoin/receivers/%s", id)
 	receiver := &stripe.BitcoinReceiver{}
-	err := c.B.Call("POST", path, c.Key, params, receiver)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, receiver)
 	return receiver, err
 }
 
@@ -62,7 +64,7 @@ func List(params *stripe.BitcoinReceiverListParams) *Iter {
 func (c Client) List(listParams *stripe.BitcoinReceiverListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BitcoinReceiverList{}
-		err := c.B.CallRaw("GET", "/bitcoin/receivers", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/bitcoin/receivers", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

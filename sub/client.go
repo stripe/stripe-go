@@ -2,6 +2,8 @@
 package sub
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -20,7 +22,7 @@ func New(params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 
 func (c Client) New(params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	sub := &stripe.Subscription{}
-	err := c.B.Call("POST", "/subscriptions", c.Key, params, sub)
+	err := c.B.Call(http.MethodPost, "/subscriptions", c.Key, params, sub)
 	return sub, err
 }
 
@@ -33,7 +35,7 @@ func Get(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, er
 func (c Client) Get(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/subscriptions/%s", id)
 	sub := &stripe.Subscription{}
-	err := c.B.Call("GET", path, c.Key, params, sub)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, sub)
 	return sub, err
 }
 
@@ -46,7 +48,7 @@ func Update(id string, params *stripe.SubscriptionParams) (*stripe.Subscription,
 func (c Client) Update(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/subscriptions/%s", id)
 	sub := &stripe.Subscription{}
-	err := c.B.Call("POST", path, c.Key, params, sub)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, sub)
 
 	return sub, err
 }
@@ -60,7 +62,7 @@ func Cancel(id string, params *stripe.SubscriptionCancelParams) (*stripe.Subscri
 func (c Client) Cancel(id string, params *stripe.SubscriptionCancelParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/subscriptions/%s", id)
 	sub := &stripe.Subscription{}
-	err := c.B.Call("DELETE", path, c.Key, params, sub)
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, sub)
 	return sub, err
 }
 
@@ -73,7 +75,7 @@ func List(params *stripe.SubscriptionListParams) *Iter {
 func (c Client) List(listParams *stripe.SubscriptionListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SubscriptionList{}
-		err := c.B.CallRaw("GET", "/subscriptions", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/subscriptions", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
