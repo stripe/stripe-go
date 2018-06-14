@@ -7,6 +7,12 @@ type ExchangeRate struct {
 	Rates map[Currency]float64 `json:"rates"`
 }
 
+// ExchangeRateParams is the set of parameters that can be used when retrieving
+// exchange rates.
+type ExchangeRateParams struct {
+	Params `form:"*"`
+}
+
 // ExchangeRateList is a list of exchange rates as retrieved from a list endpoint.
 type ExchangeRateList struct {
 	ListMeta

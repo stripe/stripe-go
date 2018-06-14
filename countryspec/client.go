@@ -16,14 +16,14 @@ type Client struct {
 
 // Get returns a CountrySpec for a given country code
 // For more details see https://stripe.com/docs/api/ruby#retrieve_country_spec
-func Get(country string) (*stripe.CountrySpec, error) {
-	return getC().Get(country)
+func Get(country string, params *stripe.CountrySpecParams) (*stripe.CountrySpec, error) {
+	return getC().Get(country, params)
 }
 
-func (c Client) Get(country string) (*stripe.CountrySpec, error) {
+func (c Client) Get(country string, params *stripe.CountrySpecParams) (*stripe.CountrySpec, error) {
 	path := stripe.FormatURLPath("/country_specs/%s", country)
 	countrySpec := &stripe.CountrySpec{}
-	err := c.B.Call(http.MethodGet, path, c.Key, nil, countrySpec)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, countrySpec)
 	return countrySpec, err
 }
 

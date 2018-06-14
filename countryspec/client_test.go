@@ -9,7 +9,7 @@ import (
 )
 
 func TestCountrySpecGet(t *testing.T) {
-	spec, err := Get("US")
+	spec, err := Get("US", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, spec)
 }
