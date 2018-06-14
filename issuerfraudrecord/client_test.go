@@ -9,9 +9,9 @@ import (
 )
 
 func TestIssuerFraudRecordGet(t *testing.T) {
-	topup, err := Get("ifr_123")
+	ifr, err := Get("ifr_123", nil)
 	assert.Nil(t, err)
-	assert.NotNil(t, topup)
+	assert.NotNil(t, ifr)
 }
 
 func TestIssuerFraudRecordList(t *testing.T) {

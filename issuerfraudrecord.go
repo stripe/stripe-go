@@ -13,6 +13,13 @@ const (
 	IssuerFraudTypeUnauthorizedUseOfCard     IssuerFraudType = "unauthorized_use_of_card"
 )
 
+// IssuerFraudRecordParams is the set of parameters that can be used when
+// retrieving issuer fraud records. For more details see
+// https://stripe.com/docs#retrieve_issuer_fraud_records.
+type IssuerFraudRecordParams struct {
+	Params `form:"*"`
+}
+
 // IssuerFraudRecordListParams is the set of parameters that can be used when
 // listing issuer fraud records. For more details see
 // https://stripe.com/docs#list_issuer_fraud_records.
