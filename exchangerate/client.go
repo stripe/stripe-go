@@ -15,14 +15,14 @@ type Client struct {
 }
 
 // Get returns an ExchangeRate for a given currency
-func Get(currency string) (*stripe.ExchangeRate, error) {
-	return getC().Get(currency)
+func Get(currency string, params *stripe.ExchangeRateParams) (*stripe.ExchangeRate, error) {
+	return getC().Get(currency, params)
 }
 
-func (c Client) Get(currency string) (*stripe.ExchangeRate, error) {
+func (c Client) Get(currency string, params *stripe.ExchangeRateParams) (*stripe.ExchangeRate, error) {
 	path := stripe.FormatURLPath("/exchange_rates/%s", currency)
 	exchangeRate := &stripe.ExchangeRate{}
-	err := c.B.Call(http.MethodGet, path, c.Key, nil, exchangeRate)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, exchangeRate)
 
 	return exchangeRate, err
 }

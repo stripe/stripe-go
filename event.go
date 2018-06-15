@@ -38,6 +38,12 @@ type EventData struct {
 	Raw                json.RawMessage        `json:"object"`
 }
 
+// EventParams is the set of parameters that can be used when retrieving events.
+// For more details see https://stripe.com/docs/api#retrieve_events.
+type EventParams struct {
+	Params `form:"*"`
+}
+
 // EventList is a list of events as retrieved from a list endpoint.
 type EventList struct {
 	ListMeta

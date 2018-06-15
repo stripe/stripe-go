@@ -9,7 +9,7 @@ import (
 )
 
 func TestExchangeRateGet(t *testing.T) {
-	rates, err := Get(string(stripe.CurrencyUSD))
+	rates, err := Get(string(stripe.CurrencyUSD), nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, rates)
 }

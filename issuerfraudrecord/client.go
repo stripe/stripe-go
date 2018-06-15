@@ -15,16 +15,16 @@ type Client struct {
 
 // Get returns the details of an issuer fraud record.
 // For more details see https://stripe.com/docs/api#retrieve_issuer_fraud_record.
-func Get(id string) (*stripe.IssuerFraudRecord, error) {
-	return getC().Get(id)
+func Get(id string, params *stripe.IssuerFraudRecordParams) (*stripe.IssuerFraudRecord, error) {
+	return getC().Get(id, params)
 }
 
 // Get returns the details of an issuer fraud record on a client.
 // For more details see https://stripe.com/docs/api#retrieve_issuer_fraud_record.
-func (c Client) Get(id string) (*stripe.IssuerFraudRecord, error) {
+func (c Client) Get(id string, params *stripe.IssuerFraudRecordParams) (*stripe.IssuerFraudRecord, error) {
 	path := stripe.FormatURLPath("/issuer_fraud_records/%s", id)
 	ifr := &stripe.IssuerFraudRecord{}
-	err := c.B.Call(http.MethodGet, path, c.Key, nil, ifr)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, ifr)
 	return ifr, err
 }
 

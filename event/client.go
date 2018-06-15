@@ -16,11 +16,11 @@ type Client struct {
 
 // Get returns the details of an event
 // For more details see https://stripe.com/docs/api#retrieve_event.
-func Get(id string, params *stripe.Params) (*stripe.Event, error) {
+func Get(id string, params *stripe.EventParams) (*stripe.Event, error) {
 	return getC().Get(id, params)
 }
 
-func (c Client) Get(id string, params *stripe.Params) (*stripe.Event, error) {
+func (c Client) Get(id string, params *stripe.EventParams) (*stripe.Event, error) {
 	path := stripe.FormatURLPath("/events/%s", id)
 	event := &stripe.Event{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, event)

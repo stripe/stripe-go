@@ -9,9 +9,9 @@ import (
 )
 
 func TestIssuerFraudRecordGet(t *testing.T) {
-	topup, err := Get("ifr_123")
+	ifr, err := Get("ifr_123", nil)
 	assert.Nil(t, err)
-	assert.NotNil(t, topup)
+	assert.NotNil(t, ifr)
 }
 
 func TestIssuerFraudRecordList(t *testing.T) {
@@ -24,7 +24,9 @@ func TestIssuerFraudRecordList(t *testing.T) {
 }
 
 func TestIssuerFraudRecordListByChargeID(t *testing.T) {
-	i := List(&stripe.IssuerFraudRecordListParams{Charge: "ch_123"})
+	i := List(&stripe.IssuerFraudRecordListParams{
+		Charge: stripe.String("ch_123"),
+	})
 
 	// Verify that we can get at least one issuer fraud record
 	assert.True(t, i.Next())
