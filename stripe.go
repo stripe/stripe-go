@@ -324,8 +324,9 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 				return nil, errors.New("Cannot use an idempotency key longer than 255 characters.")
 			}
 
-			req.Header.Add("Idempotency-Key", idempotency)
-		} else if method == http.MethodPost || method == http.MethodPut || method == http.MethodPatch || method == http.MethodDelete {
+			req.Header.Add("Idempotency-Key", idempotencyKey)
+		} else if isHTTPWriteMethod(method) {
+			req.Header.Add("Idempotency-Key", NewIdempotencyKey())
 		}
 
 		if params.StripeAccount != nil {
@@ -677,4 +678,8 @@ func (s *BackendConfiguration) sleepTime(numRetries int) time.Duration {
 	}
 
 	return delay
+}
+
+func isHTTPWriteMethod(method string) bool {
+	return method == http.MethodPost || method == http.MethodPut || method == http.MethodPatch || method == http.MethodDelete
 }
