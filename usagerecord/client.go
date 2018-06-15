@@ -2,11 +2,9 @@
 package usagerecord
 
 import (
-	"fmt"
-	"net/url"
+	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke /plans APIs.
@@ -23,13 +21,9 @@ func New(params *stripe.UsageRecordParams) (*stripe.UsageRecord, error) {
 
 // New internal implementation to create a new usage record.
 func (c Client) New(params *stripe.UsageRecordParams) (*stripe.UsageRecord, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
-	url := fmt.Sprintf("/subscription_items/%s/usage_records", url.QueryEscape(params.SubscriptionItem))
+	path := stripe.FormatURLPath("/subscription_items/%s/usage_records", stripe.StringValue(params.SubscriptionItem))
 	record := &stripe.UsageRecord{}
-	err := c.B.Call("POST", url, c.Key, body, &params.Params, record)
-
+	err := c.B.Call(http.MethodPost, path, c.Key, params, record)
 	return record, err
 }
 

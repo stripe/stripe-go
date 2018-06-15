@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
@@ -9,7 +10,7 @@ import (
 
 func TestRecipientParams_AppendTo(t *testing.T) {
 	{
-		params := &RecipientParams{Token: "card_123"}
+		params := &RecipientParams{Token: String("card_123")}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -17,7 +18,7 @@ func TestRecipientParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &RecipientParams{Card: &CardParams{Name: "A Card"}}
+		params := &RecipientParams{Card: &CardParams{Name: String("A Card")}}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -25,7 +26,7 @@ func TestRecipientParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &RecipientParams{Bank: &BankAccountParams{Token: "ba_123"}}
+		params := &RecipientParams{BankAccount: &BankAccountParams{Token: String("ba_123")}}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -33,10 +34,31 @@ func TestRecipientParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &RecipientParams{Bank: &BankAccountParams{Account: "123"}}
+		params := &RecipientParams{BankAccount: &BankAccountParams{AccountNumber: String("123")}}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
 		assert.Equal(t, []string{"123"}, body.Get("bank_account[account_number]"))
+	}
+}
+
+func TestRecipient_UnmarshalJSON(t *testing.T) {
+	// Unmarshals from a JSON string
+	{
+		var v Recipient
+		err := json.Unmarshal([]byte(`"rp_123"`), &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "rp_123", v.ID)
+	}
+
+	// Unmarshals from a JSON object
+	{
+		v := Recipient{ID: "rp_123"}
+		data, err := json.Marshal(&v)
+		assert.NoError(t, err)
+
+		err = json.Unmarshal(data, &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "rp_123", v.ID)
 	}
 }

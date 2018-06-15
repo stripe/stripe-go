@@ -1,5 +1,54 @@
 # Changelog
 
+## 34.3.0 - 2018-06-14
+* [#587](https://github.com/stripe/stripe-go/pull/587) Use `net/http` constants instead of string literals for HTTP verbs (this is an internal cleanup and should not affect library behavior)
+
+## 34.2.0 - 2018-06-14
+* [#581](https://github.com/stripe/stripe-go/pull/581) Push parameter encoding into `BackendConfiguration.Call` (this is an internal cleanup and should not affect library behavior)
+
+## 34.1.0 - 2018-06-13
+* [#586](https://github.com/stripe/stripe-go/pull/586) Add `AmountPaid`, `AmountRemaining`, `BillingReason` (including new `InvoiceBillingReason` and constants), and `SubscriptionProrationDate` to `Invoice`
+
+## 34.0.0 - 2018-06-12
+* [#585](https://github.com/stripe/stripe-go/pull/585) Remove `File` in favor of `FileUpload`, and consolidating both classes which were already nearly identical except `MIMEType` has been replaced by `Type` (this is technically a breaking change, but quite a small one)
+
+## 33.1.0 - 2018-06-12
+* [#578](https://github.com/stripe/stripe-go/pull/578) Improve expansion parsing by not discarding unmarshal errors
+
+## 33.0.0 - 2018-06-11
+* [#583](https://github.com/stripe/stripe-go/pull/583) Add new account constants, rename one, and fix `DueBy` (this is technically a breaking change, but quite a small one)
+
+## 32.4.1 - 2018-06-11
+* [#582](https://github.com/stripe/stripe-go/pull/582) Fix unmarshaling of `LegalEntity` (specifically when we have `legal_entity[additional_owners][][verification]`) so that it comes out as a struct
+
+## 32.4.0 - 2018-06-07
+* [#577](https://github.com/stripe/stripe-go/pull/577) Add `DocumentBack` to account legal entity identity verification parameters and response
+
+## 32.3.0 - 2018-06-07
+* [#576](https://github.com/stripe/stripe-go/pull/576) Fix plan transform usage to use `BucketSize` instead of `DivideBy`; note this is technically a breaking API change, but we've released it as a minor because the previous manifestation didn't work
+
+## 32.2.0 - 2018-06-06
+* [#571](https://github.com/stripe/stripe-go/pull/571) Add `HostedInvoiceURL` and `InvoicePDF` to `Invoice`
+* [#573](https://github.com/stripe/stripe-go/pull/573) Add `FormatURLPath` helper to allow safer URL path building
+
+## 32.1.0 - 2018-06-06
+* [#572](https://github.com/stripe/stripe-go/pull/572) Add `Active` to plan parameters and response
+
+## 32.0.1 - 2018-06-06
+* [#569](https://github.com/stripe/stripe-go/pull/569) Fix unmarshaling of expanded transaction sources in balance transactions
+
+## 32.0.0 - 2018-06-06
+* [#544](https://github.com/stripe/stripe-go/pull/544) **MAJOR** changes that make all fields on parameter structs pointers, and rename many fields on parameter and response structs to be consistent with naming in the REST API; we've written [a migration guide with complete details](https://github.com/stripe/stripe-go/blob/master/v32_migration_guide.md) to help with the upgrade
+
+## 31.0.0 - 2018-06-06
+* [#566](https://github.com/stripe/stripe-go/pull/566) Support `DisputeParams` in `dispute.Close`
+
+## 30.8.1 - 2018-05-24
+* [#562](https://github.com/stripe/stripe-go/pull/562) Add `go.mod` for vgo support
+
+## 30.8.0 - 2018-05-22
+* [#558](https://github.com/stripe/stripe-go/pull/558) Add `SubscriptionItem` to `InvoiceLine`
+
 ## 30.7.0 - 2018-05-09
 * [#552](https://github.com/stripe/stripe-go/pull/552) Add support for issuer fraud records
 

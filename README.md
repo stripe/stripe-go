@@ -50,9 +50,9 @@ Below are a few simple examples:
 
 ```go
 params := &stripe.CustomerParams{
-	Balance: -123,
-	Desc:  "Stripe Developer",
-	Email: "gostripe@stripe.com",
+	Balance:     stripe.Int64(-123),
+	Description: stripe.String("Stripe Developer"),
+	Email:       stripe.String("gostripe@stripe.com"),
 }
 params.SetSource("tok_1234")
 
@@ -62,7 +62,7 @@ customer, err := customer.New(params)
 ### Charges
 
 ```go
-params := &stripe.ChargeListParams{Customer: customer.ID}
+params := &stripe.ChargeListParams{Customer: stripe.String(customer.ID)}
 params.Filters.AddFilter("include[]", "", "total_count")
 
 // set this so you can easily retry your request in case of a timeout
@@ -85,11 +85,11 @@ i := event.List(nil)
 for i.Next() {
 	e := i.Event()
 
-	// access event data via e.GetObjValue("resource_name_based_on_type", "resource_property_name")
-	// alternatively you can access values via e.Data.Obj["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
+	// access event data via e.GetObjectValue("resource_name_based_on_type", "resource_property_name")
+	// alternatively you can access values via e.Data.Object["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
 
-	// access previous attributes via e.GetPrevValue("resource_name_based_on_type", "resource_property_name")
-	// alternatively you can access values via e.Data.Prev["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
+	// access previous attributes via e.GetPreviousValue("resource_name_based_on_type", "resource_property_name")
+	// alternatively you can access values via e.Data.PrevPreviousAttributes["resource_name_based_on_type"].(map[string]interface{})["resource_property_name"]
 }
 ```
 
@@ -103,17 +103,19 @@ of a connected account, one that uses the `Stripe-Account` header containing an
 account's ID, and one that uses the account's keys. Usually the former is the
 recommended approach. [See the documentation for more information][connect].
 
-To use the `Stripe-Account` approach, pass the `StripeAccount` field to a
-`ListParams` or `Params` class. For example:
+To use the `Stripe-Account` approach, use `SetStripeAccount()` on a `ListParams`
+or `Params` class. For example:
 
 ```go
 // For a list request
-listParams := &stripe.ChargeListParams{StripeAccount: merchantID}
+listParams := &stripe.ChargeListParams{}
+listParams.SetStripeAccount("acct_123")
 ```
 
 ```go
 // For any other kind of request
-params := &stripe.CustomerParams{StripeAccount: merchantID}
+params := &stripe.CustomerParams{}
+params.SetStripeAccount("acct_123")
 ```
 
 To use a key, pass it to `API`'s `Init` function:
@@ -154,9 +156,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
         sc := stripeClient.New("sk_live_key", stripe.NewBackends(httpClient))
 
         chargeParams := &stripe.ChargeParams{
-            Amount: 2000,
-            Currency: "usd",
-            Desc: "Charge from Google App Engine",
+            Amount:      stripe.Int64(2000),
+            Currency:    stripe.String(string(stripe.CurrencyUSD)),
+            Description: stripe.String("Charge from Google App Engine"),
         }
         chargeParams.SetSource("tok_amex") // obtained with Stripe.js
         charge, err := sc.Charges.New(chargeParams)

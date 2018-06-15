@@ -3,51 +3,55 @@ package stripe
 import (
 	"encoding/json"
 	"testing"
+
+	assert "github.com/stretchr/testify/require"
 )
 
-func TestTransferUnmarshal(t *testing.T) {
-	transferData := map[string]interface{}{
-		"id":     "tr_1234",
-		"object": "transfer",
-		"source_transaction": map[string]interface{}{
-			"id":     "ch_1234",
-			"object": "charge",
-		},
+func TestTransfer_UnmarshalJSON(t *testing.T) {
+	// Unmarshals from a JSON string
+	{
+		var v Transfer
+		err := json.Unmarshal([]byte(`"tr_123"`), &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "tr_123", v.ID)
 	}
 
-	bytes, err := json.Marshal(&transferData)
-	if err != nil {
-		t.Error(err)
+	// Unmarshals from a JSON object
+	{
+		v := Transfer{ID: "tr_123"}
+		data, err := json.Marshal(&v)
+		assert.NoError(t, err)
+
+		err = json.Unmarshal(data, &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "tr_123", v.ID)
+	}
+}
+
+func TestTransferDestination_UnmarshalJSON(t *testing.T) {
+	// Unmarshals from a JSON string
+	{
+		var v TransferDestination
+		err := json.Unmarshal([]byte(`"acct_123"`), &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "acct_123", v.ID)
 	}
 
-	var transfer Transfer
-	err = json.Unmarshal(bytes, &transfer)
-	if err != nil {
-		t.Error(err)
-	}
+	// Unmarshals from a JSON object
+	{
+		// We build the JSON object manually here because TransferDestination
+		// has a custom MarshalJSON implementation as well, and it'll turn into
+		// a string if we marshaled a struct instance. This ensures that we're
+		// working with a JSON objects.
+		data := []byte(`{"id":"acct_123"}`)
 
-	if transfer.ID != "tr_1234" {
-		t.Errorf("Problem deserializing transfer, got ID %v", transfer.ID)
-	}
+		var v TransferDestination
+		err := json.Unmarshal(data, &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "acct_123", v.ID)
 
-	source_tx := transfer.SourceTx
-	if source_tx == nil {
-		t.Errorf("Problem deserializing transfer, didn't get a SourceTx")
-	}
-
-	if source_tx.ID != "ch_1234" {
-		t.Errorf("Problem deserializing transfer.source_transaction, wrong value for ID")
-	}
-
-	if source_tx.Type != TransactionSourceCharge {
-		t.Errorf("Problem deserializing transfer.source_transaction, wrong value for Type")
-	}
-
-	if source_tx.Charge == nil {
-		t.Errorf("Problem deserializing transfer.source_transaction, didn't get a Charge")
-	}
-
-	if source_tx.Charge.ID != "ch_1234" {
-		t.Errorf("Problem deserializing transfer.source_transaction, wrong value for Charge.ID")
+		// The child Account field should also be expanded. For legacy reasons
+		// it's a different object.
+		assert.Equal(t, "acct_123", v.Account.ID)
 	}
 }

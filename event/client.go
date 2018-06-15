@@ -2,6 +2,8 @@
 package event
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -19,8 +21,9 @@ func Get(id string, params *stripe.Params) (*stripe.Event, error) {
 }
 
 func (c Client) Get(id string, params *stripe.Params) (*stripe.Event, error) {
+	path := stripe.FormatURLPath("/events/%s", id)
 	event := &stripe.Event{}
-	err := c.B.Call("GET", "/events/"+id, c.Key, nil, params, event)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, event)
 	return event, err
 }
 
@@ -30,24 +33,13 @@ func List(params *stripe.EventListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.EventListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.EventListParams) *Iter {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.EventList{}
-		err := c.B.Call("GET", "/events", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/events", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

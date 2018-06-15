@@ -25,10 +25,10 @@ func TestTransferList(t *testing.T) {
 
 func TestTransferNew(t *testing.T) {
 	transfer, err := New(&stripe.TransferParams{
-		Amount:   123,
-		Currency: "usd",
-		Dest:     "acct_123",
-		SourceTx: "ch_123",
+		Amount:            stripe.Int64(123),
+		Currency:          stripe.String(string(stripe.CurrencyUSD)),
+		Destination:       stripe.String("acct_123"),
+		SourceTransaction: stripe.String("ch_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, transfer)
@@ -37,7 +37,7 @@ func TestTransferNew(t *testing.T) {
 func TestTransferUpdate(t *testing.T) {
 	transfer, err := Update("tr_123", &stripe.TransferParams{
 		Params: stripe.Params{
-			Meta: map[string]string{
+			Metadata: map[string]string{
 				"foo": "bar",
 			},
 		},

@@ -7,8 +7,8 @@ import "encoding/json"
 // For more details see https://stripe.com/docs/api#ephemeral_keys.
 type EphemeralKeyParams struct {
 	Params        `form:"*"`
-	Customer      string `form:"customer"`
-	StripeVersion string `form:"-"` // This goes in the `Stripe-Version` header
+	Customer      *string `form:"customer"`
+	StripeVersion *string `form:"-"` // This goes in the `Stripe-Version` header
 }
 
 // EphemeralKey is the resource representing a Stripe ephemeral key.
@@ -19,10 +19,10 @@ type EphemeralKey struct {
 		Type string `json:"type"`
 	} `json:"associated_objects"`
 
-	Created int64  `json:"created"`
-	Expires int64  `json:"expires"`
-	ID      string `json:"id"`
-	Live    bool   `json:"livemode"`
+	Created  int64  `json:"created"`
+	Expires  int64  `json:"expires"`
+	ID       string `json:"id"`
+	Livemode bool   `json:"livemode"`
 
 	// RawJSON is provided so that it may be passed back to the frontend
 	// unchanged.  Ephemeral keys are issued on behalf of another client which

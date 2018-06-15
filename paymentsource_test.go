@@ -10,7 +10,7 @@ import (
 
 func TestSourceParams_AppendTo(t *testing.T) {
 	{
-		params := &SourceParams{Token: "tok_123"}
+		params := &SourceParams{Token: String("tok_123")}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -18,7 +18,7 @@ func TestSourceParams_AppendTo(t *testing.T) {
 	}
 
 	{
-		params := &SourceParams{Card: &CardParams{Number: "4242424242424242"}}
+		params := &SourceParams{Card: &CardParams{Number: String("4242424242424242")}}
 		body := &form.Values{}
 		form.AppendTo(body, params)
 		t.Logf("body = %+v", body)
@@ -32,7 +32,7 @@ func TestPaymentSource_MarshalJSON(t *testing.T) {
 		id := "card_123"
 		name := "alice cooper"
 		paymentSource := &PaymentSource{
-			Type: PaymentSourceCard,
+			Type: PaymentSourceTypeCard,
 			ID:   id,
 			Card: &Card{
 				ID:   id,
@@ -58,11 +58,11 @@ func TestPaymentSource_MarshalJSON(t *testing.T) {
 		id := "ba_123"
 		name := "big bank"
 		paymentSource := &PaymentSource{
-			Type: PaymentSourceBankAccount,
+			Type: PaymentSourceTypeBankAccount,
 			ID:   id,
 			BankAccount: &BankAccount{
-				ID:   id,
-				Name: name,
+				ID:                id,
+				AccountHolderName: name,
 			},
 		}
 
@@ -77,6 +77,33 @@ func TestPaymentSource_MarshalJSON(t *testing.T) {
 		assert.Equal(t, unmarshalled.ID, id)
 		assert.NotNil(t, unmarshalled.BankAccount)
 		assert.Equal(t, unmarshalled.BankAccount.ID, id)
-		assert.Equal(t, unmarshalled.BankAccount.Name, name)
+		assert.Equal(t, unmarshalled.BankAccount.AccountHolderName, name)
+	}
+}
+
+func TestPaymentSource_UnmarshalJSON(t *testing.T) {
+	// Unmarshals from a JSON string
+	{
+		var v PaymentSource
+		err := json.Unmarshal([]byte(`"ba_123"`), &v)
+		assert.NoError(t, err)
+		assert.Equal(t, "ba_123", v.ID)
+	}
+
+	// Unmarshals from a JSON object
+	{
+		// We build the JSON object manually here because it's key that the
+		// `object` field is included so that the source knows what type to
+		// decode
+		data := []byte(`{"id":"ba_123", "object":"bank_account"}`)
+
+		var v PaymentSource
+		err := json.Unmarshal(data, &v)
+		assert.NoError(t, err)
+		assert.Equal(t, PaymentSourceTypeBankAccount, v.Type)
+
+		// The payment source has a field for each possible type, so the bank
+		// account is located one level down
+		assert.Equal(t, "ba_123", v.BankAccount.ID)
 	}
 }

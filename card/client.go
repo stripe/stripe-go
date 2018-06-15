@@ -3,29 +3,10 @@ package card
 
 import (
 	"errors"
-	"fmt"
+	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
-)
-
-const (
-	BrandUnknown stripe.CardBrand = "Unknown"
-	Visa         stripe.CardBrand = "Visa"
-	Amex         stripe.CardBrand = "American Express"
-	MasterCard   stripe.CardBrand = "MasterCard"
-	Discover     stripe.CardBrand = "Discover"
-	JCB          stripe.CardBrand = "JCB"
-	DinersClub   stripe.CardBrand = "Diners Club"
-
-	Pass      stripe.Verification = "pass"
-	Fail      stripe.Verification = "fail"
-	Unchecked stripe.Verification = "unchecked"
-
-	Credit         stripe.CardFunding = "credit"
-	Debit          stripe.CardFunding = "debit"
-	Prepaid        stripe.CardFunding = "prepaid"
-	FundingUnknown stripe.CardFunding = "unknown"
 )
 
 // Client is used to invoke /cards APIs.
@@ -45,6 +26,20 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 		return nil, errors.New("params should not be nil")
 	}
 
+	var path string
+	if params.Account != nil {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts",
+			stripe.StringValue(params.Account))
+	} else if params.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources",
+			stripe.StringValue(params.Customer))
+	} else if params.Recipient != nil {
+		path = stripe.FormatURLPath("/recipients/%s/cards",
+			stripe.StringValue(params.Recipient))
+	} else {
+		return nil, errors.New("Invalid card params: either account, customer or recipient need to be set")
+	}
+
 	body := &form.Values{}
 
 	// Note that we call this special append method instead of the standard one
@@ -52,19 +47,11 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	// include some parameters that are undesirable here.
 	params.AppendToAsCardSourceOrExternalAccount(body, nil)
 
+	// Because card creation uses the custom append above, we have to make an
+	// explicit call using a form and CallRaw instead of the standard Call
+	// (which takes a set of parameters).
 	card := &stripe.Card{}
-	var err error
-
-	if len(params.Account) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts", params.Account), c.Key, body, &params.Params, card)
-	} else if len(params.Customer) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards", params.Customer), c.Key, body, &params.Params, card)
-	} else if len(params.Recipient) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.Key, body, &params.Params, card)
-	} else {
-		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
-	}
-
+	err := c.B.CallRaw(http.MethodPost, path, c.Key, body, &params.Params, card)
 	return card, err
 }
 
@@ -79,28 +66,22 @@ func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) 
 		return nil, errors.New("params should not be nil")
 	}
 
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
+	var path string
+	if params.Account != nil {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts/%s",
+			stripe.StringValue(params.Account), id)
+	} else if params.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources/%s",
+			stripe.StringValue(params.Customer), id)
+	} else if params.Recipient != nil {
+		path = stripe.FormatURLPath("/recipients/%s/cards/%s",
+			stripe.StringValue(params.Recipient), id)
+	} else {
+		return nil, errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
 
 	card := &stripe.Card{}
-	var err error
-
-	if len(params.Account) > 0 {
-		err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts/%v", params.Account, id), c.Key, body, commonParams, card)
-	} else if len(params.Customer) > 0 {
-		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, commonParams, card)
-	} else if len(params.Recipient) > 0 {
-		err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, body, commonParams, card)
-	} else {
-		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
-	}
-
+	err := c.B.Call(http.MethodGet, path, c.Key, params, card)
 	return card, err
 }
 
@@ -115,22 +96,22 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 		return nil, errors.New("params should not be nil")
 	}
 
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
-	card := &stripe.Card{}
-	var err error
-
-	if len(params.Account) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/external_accounts/%v", params.Account, id), c.Key, body, &params.Params, card)
-	} else if len(params.Customer) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, &params.Params, card)
-	} else if len(params.Recipient) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, body, &params.Params, card)
+	var path string
+	if params.Account != nil {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts/%s",
+			stripe.StringValue(params.Account), id)
+	} else if params.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources/%s",
+			stripe.StringValue(params.Customer), id)
+	} else if params.Recipient != nil {
+		path = stripe.FormatURLPath("/recipients/%s/cards/%s",
+			stripe.StringValue(params.Recipient), id)
 	} else {
-		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
+		return nil, errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
 
+	card := &stripe.Card{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
 	return card, err
 }
 
@@ -145,26 +126,19 @@ func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) 
 		return nil, errors.New("params should not be nil")
 	}
 
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	body = &form.Values{}
-	form.AppendTo(body, params)
-	commonParams = &params.Params
-
-	card := &stripe.Card{}
-	var err error
-
-	if len(params.Account) > 0 {
-		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/external_accounts/%v", params.Account, id), c.Key, body, commonParams, card)
-	} else if len(params.Customer) > 0 {
-		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/cards/%v", params.Customer, id), c.Key, body, commonParams, card)
-	} else if len(params.Recipient) > 0 {
-		err = c.B.Call("DELETE", fmt.Sprintf("/recipients/%v/cards/%v", params.Recipient, id), c.Key, body, commonParams, card)
+	var path string
+	if params.Account != nil {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id)
+	} else if params.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
+	} else if params.Recipient != nil {
+		path = stripe.FormatURLPath("/recipients/%s/cards/%s", stripe.StringValue(params.Recipient), id)
 	} else {
-		err = errors.New("Invalid card params: either account, customer or recipient need to be set")
+		return nil, errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
 
+	card := &stripe.Card{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, card)
 	return card, err
 }
 
@@ -174,37 +148,35 @@ func List(params *stripe.CardListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.CardListParams) *Iter {
-	body := &form.Values{}
-	var lp *stripe.ListParams
-	var p *stripe.Params
+func (c Client) List(listParams *stripe.CardListParams) *Iter {
+	var path string
+	var outerErr error
 
-	if params != nil {
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
+	if listParams == nil {
+		outerErr = errors.New("params should not be nil")
+	} else if listParams.Account != nil {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts?object=card",
+			stripe.StringValue(listParams.Account))
+	} else if listParams.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources?object=card",
+			stripe.StringValue(listParams.Customer))
+	} else if listParams.Recipient != nil {
+		path = stripe.FormatURLPath("/recipients/%s/cards", stripe.StringValue(listParams.Recipient))
+	} else {
+		outerErr = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CardList{}
-		var err error
 
-		if params == nil {
-			return nil, list.ListMeta, errors.New("params should not be nil")
+		if outerErr != nil {
+			return nil, list.ListMeta, outerErr
 		}
 
-		if len(params.Account) > 0 {
-			err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/external_accounts", params.Account), c.Key, b, p, list)
-		} else if len(params.Customer) > 0 {
-			err = c.B.Call("GET", fmt.Sprintf("/customers/%v/cards", params.Customer), c.Key, b, p, list)
-		} else if len(params.Recipient) > 0 {
-			err = c.B.Call("GET", fmt.Sprintf("/recipients/%v/cards", params.Recipient), c.Key, b, p, list)
-		} else {
-			err = errors.New("Invalid card params: either account, customer or recipient need to be set")
-		}
+		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

@@ -2,14 +2,9 @@
 package token
 
 import (
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
-)
+	"net/http"
 
-const (
-	Card stripe.TokenType = "card"
-	Bank stripe.TokenType = "bank_account"
-	PII  stripe.TokenType = "pii"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke /tokens APIs.
@@ -25,12 +20,8 @@ func New(params *stripe.TokenParams) (*stripe.Token, error) {
 }
 
 func (c Client) New(params *stripe.TokenParams) (*stripe.Token, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
 	tok := &stripe.Token{}
-	err := c.B.Call("POST", "/tokens", c.Key, body, &params.Params, tok)
-
+	err := c.B.Call(http.MethodPost, "/tokens", c.Key, params, tok)
 	return tok, err
 }
 
@@ -41,17 +32,9 @@ func Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
 }
 
 func (c Client) Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/tokens/%s", id)
 	token := &stripe.Token{}
-	err := c.B.Call("GET", "/tokens/"+id, c.Key, body, commonParams, token)
+	err := c.B.Call(http.MethodGet, path, c.Key, params, token)
 
 	return token, err
 }

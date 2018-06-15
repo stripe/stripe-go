@@ -14,7 +14,7 @@ func TestPlanListParams_AppendTo(t *testing.T) {
 		params *PlanListParams
 		want   interface{}
 	}{
-		{"created", &PlanListParams{Created: 123}, strconv.FormatInt(123, 10)},
+		{"created", &PlanListParams{Created: Int64(123)}, strconv.FormatInt(123, 10)},
 		{
 			"created[gt]",
 			&PlanListParams{CreatedRange: &RangeQueryParams{GreaterThan: 123}},
@@ -40,38 +40,36 @@ func TestPlanListParams_AppendTo_Empty(t *testing.T) {
 
 func TestPlanParams_AppendTo(t *testing.T) {
 	productParams := PlanProductParams{
-		ID:                  "ID",
-		Name:                "Sapphire Elite",
-		StatementDescriptor: "SAPPHIRE",
+		ID:                  String("ID"),
+		Name:                String("Sapphire Elite"),
+		StatementDescriptor: String("SAPPHIRE"),
 	}
-	productID := "prod_123abc"
-	tiers := []*PlanTierParams{{Amount: 123, UpTo: 321}, {Amount: 123, UpToInf: true}}
+	tiers := []*PlanTierParams{
+		{Amount: Int64(123), UpTo: Int64(321)},
+		{Amount: Int64(123), UpToInf: Bool(true)}}
 	testCases := []struct {
 		field  string
 		params *PlanParams
 		want   interface{}
 	}{
-		{"amount", &PlanParams{}, ""},
-		{"amount", &PlanParams{Amount: 0, AmountZero: false}, ""},
-		{"amount", &PlanParams{Amount: 0, AmountZero: true}, strconv.FormatUint(0, 10)},
-		{"amount", &PlanParams{Amount: 123}, strconv.FormatUint(123, 10)},
-		{"currency", &PlanParams{Currency: "USD"}, "USD"},
-		{"id", &PlanParams{ID: "sapphire-elite"}, "sapphire-elite"},
-		{"interval_count", &PlanParams{IntervalCount: 3}, strconv.FormatUint(3, 10)},
-		{"interval", &PlanParams{Interval: "month"}, "month"},
-		{"product", &PlanParams{ProductID: &productID}, "prod_123abc"},
+		{"amount", &PlanParams{Amount: Int64(123)}, strconv.FormatUint(123, 10)},
+		{"currency", &PlanParams{Currency: String(string(CurrencyUSD))}, "usd"},
+		{"id", &PlanParams{ID: String("sapphire-elite")}, "sapphire-elite"},
+		{"interval", &PlanParams{Interval: String("month")}, "month"},
+		{"interval_count", &PlanParams{IntervalCount: Int64(3)}, strconv.FormatUint(3, 10)},
+		{"product", &PlanParams{ProductID: String("prod_123abc")}, "prod_123abc"},
 		{"product[id]", &PlanParams{Product: &productParams}, "ID"},
 		{"product[name]", &PlanParams{Product: &productParams}, "Sapphire Elite"},
 		{"product[statement_descriptor]", &PlanParams{Product: &productParams}, "SAPPHIRE"},
-		{"tiers_mode", &PlanParams{TiersMode: "volume"}, "volume"},
+		{"product", &PlanParams{ProductID: String("prod_123abc")}, "prod_123abc"}, {"tiers_mode", &PlanParams{TiersMode: String(string(PlanTiersModeVolume))}, "volume"},
 		{"tiers[0][amount]", &PlanParams{Tiers: tiers}, strconv.FormatUint(123, 10)},
 		{"tiers[0][up_to]", &PlanParams{Tiers: tiers}, strconv.FormatUint(321, 10)},
 		{"tiers[1][amount]", &PlanParams{Tiers: tiers}, strconv.FormatUint(123, 10)},
 		{"tiers[1][up_to]", &PlanParams{Tiers: tiers}, "inf"},
-		{"transform_usage[bucket_size]", &PlanParams{TransformUsage: &PlanTransformUsageParams{DivideBy: 123, Round: "round_up"}}, strconv.FormatUint(123, 10)},
-		{"transform_usage[round]", &PlanParams{TransformUsage: &PlanTransformUsageParams{DivideBy: 123, Round: "round_up"}}, "round_up"},
-		{"trial_period_days", &PlanParams{TrialPeriod: 123}, strconv.FormatUint(123, 10)},
-		{"usage_type", &PlanParams{UsageType: "metered"}, "metered"},
+		{"transform_usage[divide_by]", &PlanParams{TransformUsage: &PlanTransformUsageParams{DivideBy: Int64(123), Round: String("round_up")}}, strconv.FormatUint(123, 10)},
+		{"transform_usage[round]", &PlanParams{TransformUsage: &PlanTransformUsageParams{DivideBy: Int64(123), Round: String("round_up")}}, "round_up"},
+		{"trial_period_days", &PlanParams{TrialPeriodDays: Int64(123)}, strconv.FormatUint(123, 10)},
+		{"usage_type", &PlanParams{UsageType: String("metered")}, "metered"},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.field, func(t *testing.T) {

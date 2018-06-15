@@ -10,7 +10,7 @@ import (
 
 func TestFeeRefundGet(t *testing.T) {
 	refund, err := Get("fr_123", &stripe.FeeRefundParams{
-		Fee: "fee_123",
+		ApplicationFee: stripe.String("fee_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, refund)
@@ -18,7 +18,7 @@ func TestFeeRefundGet(t *testing.T) {
 
 func TestFeeRefundList(t *testing.T) {
 	i := List(&stripe.FeeRefundListParams{
-		Fee: "fee_123",
+		ApplicationFee: stripe.String("fee_123"),
 	})
 
 	// Verify that we can get at least one refund
@@ -29,7 +29,7 @@ func TestFeeRefundList(t *testing.T) {
 
 func TestFeeRefundNew(t *testing.T) {
 	refund, err := New(&stripe.FeeRefundParams{
-		Fee: "fee_123",
+		ApplicationFee: stripe.String("fee_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, refund)
@@ -37,9 +37,9 @@ func TestFeeRefundNew(t *testing.T) {
 
 func TestFeeRefundUpdate(t *testing.T) {
 	refund, err := Update("fr_123", &stripe.FeeRefundParams{
-		Fee: "fee_123",
+		ApplicationFee: stripe.String("fee_123"),
 		Params: stripe.Params{
-			Meta: map[string]string{
+			Metadata: map[string]string{
 				"foo": "bar",
 			},
 		},

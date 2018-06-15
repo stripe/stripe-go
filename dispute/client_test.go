@@ -9,7 +9,7 @@ import (
 )
 
 func TestDisputeClose(t *testing.T) {
-	dispute, err := Close("dp_123")
+	dispute, err := Close("dp_123", &stripe.DisputeParams{})
 	assert.Nil(t, err)
 	assert.NotNil(t, dispute)
 }
@@ -32,7 +32,7 @@ func TestDisputeList(t *testing.T) {
 func TestDisputeUpdate(t *testing.T) {
 	dispute, err := Update("dp_123", &stripe.DisputeParams{
 		Evidence: &stripe.DisputeEvidenceParams{
-			CustomerName: "A Name",
+			CustomerName: stripe.String("A Name"),
 		},
 	})
 	assert.Nil(t, err)

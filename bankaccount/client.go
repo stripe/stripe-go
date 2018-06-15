@@ -3,7 +3,7 @@ package bankaccount
 
 import (
 	"errors"
-	"fmt"
+	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
@@ -15,19 +15,25 @@ type Client struct {
 	Key string
 }
 
-const (
-	NewAccount       stripe.BankAccountStatus = "new"
-	VerifiedAccount  stripe.BankAccountStatus = "verified"
-	ValidatedAccount stripe.BankAccountStatus = "validated"
-	ErroredAccount   stripe.BankAccountStatus = "errored"
-)
-
 // New POSTs a new bank account.
 func New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	return getC().New(params)
 }
 
 func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
+	var path string
+	if params.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources", stripe.StringValue(params.Customer))
+	} else if params.Account != nil {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts", stripe.StringValue(params.Account))
+	} else {
+		return nil, errors.New("Invalid bank account params: either Customer or Account need to be set")
+	}
+
 	body := &form.Values{}
 
 	// Note that we call this special append method instead of the standard one
@@ -35,14 +41,11 @@ func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 	// include some parameters that are undesirable here.
 	params.AppendToAsSourceOrExternalAccount(body)
 
+	// Because bank account creation uses the custom append above, we have to
+	// make an explicit call using a form and CallRaw instead of the standard
+	// Call (which takes a set of parameters).
 	ba := &stripe.BankAccount{}
-	var err error
-	if len(params.Customer) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/sources", params.Customer), c.Key, body, &params.Params, ba)
-	} else {
-		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/bank_accounts", params.AccountID), c.Key, body, &params.Params, ba)
-	}
-
+	err := c.B.CallRaw(http.MethodPost, path, c.Key, body, &params.Params, ba)
 	return ba, err
 }
 
@@ -52,26 +55,21 @@ func Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 }
 
 func (c Client) Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
 
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
+	var path string
+	if params != nil && params.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
+	} else if params != nil && params.Account != nil {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id)
+	} else {
+		return nil, errors.New("Invalid bank account params: either Customer or Account need to be set")
 	}
 
 	ba := &stripe.BankAccount{}
-	var err error
-
-	if params != nil && len(params.Customer) > 0 {
-		err = c.B.Call("GET", fmt.Sprintf("/customers/%v/bank_accounts/%v", params.Customer, id), c.Key, body, commonParams, ba)
-	} else if params != nil && len(params.AccountID) > 0 {
-		err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/bank_accounts/%v", params.AccountID, id), c.Key, body, commonParams, ba)
-	} else {
-		err = errors.New("Invalid bank account params: either Customer or AccountID need to be set")
-	}
-
+	err := c.B.Call(http.MethodGet, path, c.Key, params, ba)
 	return ba, err
 }
 
@@ -81,26 +79,21 @@ func Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, e
 }
 
 func (c Client) Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
 
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
+	var path string
+	if params.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
+	} else if params.Account != nil {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id)
+	} else {
+		return nil, errors.New("Invalid bank account params: either Customer or Account need to be set")
 	}
 
 	ba := &stripe.BankAccount{}
-	var err error
-
-	if len(params.Customer) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/customers/%v/bank_accounts/%v", params.Customer, id), c.Key, body, commonParams, ba)
-	} else if len(params.AccountID) > 0 {
-		err = c.B.Call("POST", fmt.Sprintf("/accounts/%v/bank_accounts/%v", params.AccountID, id), c.Key, body, commonParams, ba)
-	} else {
-		err = errors.New("Invalid bank account params: either Customer or AccountID need to be set")
-	}
-
+	err := c.B.Call(http.MethodPost, path, c.Key, params, ba)
 	return ba, err
 }
 
@@ -110,26 +103,21 @@ func Del(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 }
 
 func (c Client) Del(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
 
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
+	var path string
+	if params.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
+	} else if params.Account != nil {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id)
+	} else {
+		return nil, errors.New("Invalid bank account params: either Customer or Account need to be set")
 	}
 
 	ba := &stripe.BankAccount{}
-	var err error
-
-	if len(params.Customer) > 0 {
-		err = c.B.Call("DELETE", fmt.Sprintf("/customers/%v/bank_accounts/%v", params.Customer, id), c.Key, body, commonParams, ba)
-	} else if len(params.AccountID) > 0 {
-		err = c.B.Call("DELETE", fmt.Sprintf("/accounts/%v/bank_accounts/%v", params.AccountID, id), c.Key, body, commonParams, ba)
-	} else {
-		err = errors.New("Invalid bank account params: either Customer or AccountID need to be set")
-	}
-
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, ba)
 	return ba, err
 }
 
@@ -138,29 +126,33 @@ func List(params *stripe.BankAccountListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.BankAccountListParams) *Iter {
-	body := &form.Values{}
-	var lp *stripe.ListParams
-	var p *stripe.Params
+func (c Client) List(listParams *stripe.BankAccountListParams) *Iter {
+	var path string
+	var outerErr error
 
-	form.AppendTo(body, params)
-	lp = &params.ListParams
-	p = params.ToParams()
+	if listParams == nil {
+		outerErr = errors.New("params should not be nil")
+	} else if listParams.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources?object=bank_account",
+			stripe.StringValue(listParams.Customer))
+	} else if listParams.Account != nil {
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts?object=bank_account",
+			stripe.StringValue(listParams.Account))
+	} else {
+		outerErr = errors.New("Invalid bank account params: either Customer or Account need to be set")
+	}
 
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BankAccountList{}
-		var err error
 
-		if len(params.Customer) > 0 {
-			err = c.B.Call("GET", fmt.Sprintf("/customers/%v/bank_accounts", params.Customer), c.Key, b, p, list)
-		} else if len(params.AccountID) > 0 {
-			err = c.B.Call("GET", fmt.Sprintf("/accounts/%v/bank_accounts", params.AccountID), c.Key, b, p, list)
-		} else {
-			err = errors.New("Invalid bank account params: either Customer or AccountID need to be set")
+		if outerErr != nil {
+			return nil, list.ListMeta, outerErr
 		}
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

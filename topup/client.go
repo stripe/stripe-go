@@ -1,6 +1,8 @@
 package topup
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -18,12 +20,8 @@ func New(params *stripe.TopupParams) (*stripe.Topup, error) {
 }
 
 func (c Client) New(params *stripe.TopupParams) (*stripe.Topup, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
 	topup := &stripe.Topup{}
-	err := c.B.Call("POST", "/topups", c.Key, body, &params.Params, topup)
-
+	err := c.B.Call(http.MethodPost, "/topups", c.Key, params, topup)
 	return topup, err
 }
 
@@ -34,18 +32,9 @@ func Get(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
 }
 
 func (c Client) Get(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/topups/%s", id)
 	topup := &stripe.Topup{}
-	err := c.B.Call("GET", "/topups/"+id, c.Key, body, commonParams, topup)
-
+	err := c.B.Call(http.MethodGet, path, c.Key, params, topup)
 	return topup, err
 }
 
@@ -56,18 +45,9 @@ func Update(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
 }
 
 func (c Client) Update(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/topups/%s", id)
 	topup := &stripe.Topup{}
-	err := c.B.Call("POST", "/topups/"+id, c.Key, body, commonParams, topup)
-
+	err := c.B.Call(http.MethodPost, path, c.Key, params, topup)
 	return topup, err
 }
 
@@ -77,24 +57,13 @@ func List(params *stripe.TopupListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.TopupListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.TopupListParams) *Iter {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.TopupList{}
-		err := c.B.Call("GET", "/topups", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/topups", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

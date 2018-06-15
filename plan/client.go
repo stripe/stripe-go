@@ -2,18 +2,10 @@
 package plan
 
 import (
-	"fmt"
-	"net/url"
+	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
-)
-
-const (
-	Day   stripe.PlanInterval = "day"
-	Week  stripe.PlanInterval = "week"
-	Month stripe.PlanInterval = "month"
-	Year  stripe.PlanInterval = "year"
 )
 
 // Client is used to invoke /plans APIs.
@@ -29,12 +21,8 @@ func New(params *stripe.PlanParams) (*stripe.Plan, error) {
 }
 
 func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
 	plan := &stripe.Plan{}
-	err := c.B.Call("POST", "/plans", c.Key, body, &params.Params, plan)
-
+	err := c.B.Call(http.MethodPost, "/plans", c.Key, params, plan)
 	return plan, err
 }
 
@@ -45,18 +33,9 @@ func Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 }
 
 func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/plans/%s", id)
 	plan := &stripe.Plan{}
-	err := c.B.Call("GET", "/plans/"+url.QueryEscape(id), c.Key, body, commonParams, plan)
-
+	err := c.B.Call(http.MethodGet, path, c.Key, params, plan)
 	return plan, err
 }
 
@@ -67,18 +46,9 @@ func Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 }
 
 func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/plans/%s", id)
 	plan := &stripe.Plan{}
-	err := c.B.Call("POST", "/plans/"+url.QueryEscape(id), c.Key, body, commonParams, plan)
-
+	err := c.B.Call(http.MethodPost, path, c.Key, params, plan)
 	return plan, err
 }
 
@@ -89,18 +59,9 @@ func Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 }
 
 func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		commonParams = &params.Params
-	}
-
+	path := stripe.FormatURLPath("/plans/%s", id)
 	plan := &stripe.Plan{}
-	qid := url.QueryEscape(id) //Added query escape per commit 9821176
-	err := c.B.Call("DELETE", fmt.Sprintf("/plans/%v", qid), c.Key, body, commonParams, plan)
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, plan)
 	return plan, err
 }
 
@@ -110,24 +71,13 @@ func List(params *stripe.PlanListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.PlanListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.PlanListParams) *Iter {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.PlanList{}
-		err := c.B.Call("GET", "/plans", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/plans", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

@@ -10,7 +10,7 @@ import (
 
 func TestSourceGet(t *testing.T) {
 	source, err := Get("card_123", &stripe.CustomerSourceParams{
-		Customer: "cus_123",
+		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, source)
@@ -18,7 +18,7 @@ func TestSourceGet(t *testing.T) {
 
 func TestSourceList(t *testing.T) {
 	i := List(&stripe.SourceListParams{
-		Customer: "cus_123",
+		Customer: stripe.String("cus_123"),
 	})
 
 	// Verify that we can get at least one source
@@ -29,7 +29,7 @@ func TestSourceList(t *testing.T) {
 
 func TestSourceNew(t *testing.T) {
 	params := &stripe.CustomerSourceParams{
-		Customer: "cus_123",
+		Customer: stripe.String("cus_123"),
 	}
 	params.SetSource("tok_123")
 
@@ -40,8 +40,9 @@ func TestSourceNew(t *testing.T) {
 
 func TestSourceUpdate(t *testing.T) {
 	params := &stripe.CustomerSourceParams{
-		Customer: "cus_123",
+		Customer: stripe.String("cus_123"),
 	}
+	params.AddMetadata("key", "value")
 
 	source, err := Update("card_123", params)
 	assert.Nil(t, err)
@@ -50,7 +51,7 @@ func TestSourceUpdate(t *testing.T) {
 
 func TestSourceVerify(t *testing.T) {
 	source, err := Verify("ba_123", &stripe.SourceVerifyParams{
-		Customer: "cus_123",
+		Customer: stripe.String("cus_123"),
 		Amounts:  [2]int64{32, 45},
 	})
 	assert.Nil(t, err)
@@ -59,7 +60,10 @@ func TestSourceVerify(t *testing.T) {
 
 func TestSourceObjectVerify(t *testing.T) {
 	source, err := Verify("src_123", &stripe.SourceVerifyParams{
-		Values: []string{"32", "45"},
+		Values: []*string{
+			stripe.String("32"),
+			stripe.String("45"),
+		},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, source)

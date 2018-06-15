@@ -5,9 +5,6 @@ import "encoding/json"
 // ErrorType is the list of allowed values for the error's type.
 type ErrorType string
 
-// ErrorCode is the list of allowed values for the error's code.
-type ErrorCode string
-
 const (
 	ErrorTypeAPI            ErrorType = "api_error"
 	ErrorTypeAPIConnection  ErrorType = "api_connection_error"
@@ -16,27 +13,25 @@ const (
 	ErrorTypeInvalidRequest ErrorType = "invalid_request_error"
 	ErrorTypePermission     ErrorType = "more_permissions_required"
 	ErrorTypeRateLimit      ErrorType = "rate_limit_error"
+)
 
-	CardDeclined  ErrorCode = "card_declined"
-	ExpiredCard   ErrorCode = "expired_card"
-	IncorrectNum  ErrorCode = "incorrect_number"
-	InvalidCvc    ErrorCode = "invalid_cvc"
-	InvalidExpM   ErrorCode = "invalid_expiry_month"
-	InvalidExpY   ErrorCode = "invalid_expiry_year"
-	InvalidNum    ErrorCode = "invalid_number"
-	IncorrectCvc  ErrorCode = "incorrect_cvc"
-	IncorrectZip  ErrorCode = "incorrect_zip"
-	Missing       ErrorCode = "missing"
-	ProcessingErr ErrorCode = "processing_error"
-	RateLimit     ErrorCode = "rate_limit"
+// ErrorCode is the list of allowed values for the error's code.
+type ErrorCode string
 
-	// These additional types are written purely for backward compatibility
-	// (the originals were given quite unsuitable names) and should be
-	// considered deprecated. Remove them on the next major version revision.
-
-	APIErr         ErrorType = ErrorTypeAPI
-	CardErr        ErrorType = ErrorTypeCard
-	InvalidRequest ErrorType = ErrorTypeInvalidRequest
+const (
+	ErrorCodeCardDeclined       ErrorCode = "card_declined"
+	ErrorCodeExpiredCard        ErrorCode = "expired_card"
+	ErrorCodeIncorrectCVC       ErrorCode = "incorrect_cvc"
+	ErrorCodeIncorrectZip       ErrorCode = "incorrect_zip"
+	ErrorCodeIncorrectNumber    ErrorCode = "incorrect_number"
+	ErrorCodeInvalidCVC         ErrorCode = "invalid_cvc"
+	ErrorCodeInvalidExpiryMonth ErrorCode = "invalid_expiry_month"
+	ErrorCodeInvalidExpiryYear  ErrorCode = "invalid_expiry_year"
+	ErrorCodeInvalidNumber      ErrorCode = "invalid_number"
+	ErrorCodeInvalidSwipeData   ErrorCode = "invalid_swipe_data"
+	ErrorCodeMissing            ErrorCode = "missing"
+	ErrorCodeProcessingError    ErrorCode = "processing_error"
+	ErrorCodeRateLimit          ErrorCode = "rate_limit"
 )
 
 // Error is the response returned when a call is unsuccessful.

@@ -16,11 +16,11 @@ func TestThreeDSecureGet(t *testing.T) {
 
 func TestThreeDSecureNew(t *testing.T) {
 	threeDSecure, err := New(&stripe.ThreeDSecureParams{
-		Amount:    1000,
-		Currency:  "usd",
-		Customer:  "cus_123",
-		Card:      "card_123",
-		ReturnURL: "https://test.com",
+		Amount:    stripe.Int64(1000),
+		Currency:  stripe.String(string(stripe.CurrencyUSD)),
+		Customer:  stripe.String("cus_123"),
+		Card:      stripe.String("card_123"),
+		ReturnURL: stripe.String("https://test.com"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, threeDSecure)

@@ -2,10 +2,9 @@
 package discount
 
 import (
-	"fmt"
+	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
 )
 
 // Client is used to invoke discount-related APIs.
@@ -21,39 +20,22 @@ func Del(customerID string, params *stripe.DiscountParams) (*stripe.Discount, er
 }
 
 func (c Client) Del(customerID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		commonParams = &params.Params
-	}
-
+	path := stripe.FormatURLPath("/customers/%s/discount", customerID)
 	discount := &stripe.Discount{}
-	err := c.B.Call("DELETE", fmt.Sprintf("/customers/%v/discount", customerID), c.Key, body, commonParams, discount)
-
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, discount)
 	return discount, err
 }
 
 // DelSub removes a discount from a customer's subscription.
 // For more details see https://stripe.com/docs/api#delete_subscription_discount.
-func DelSub(subscriptionID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
+func DelSubscription(subscriptionID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
 	return getC().DelSub(subscriptionID, params)
 }
 
 func (c Client) DelSub(subscriptionID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		commonParams = &params.Params
-	}
-
+	path := stripe.FormatURLPath("/subscriptions/%s/discount", subscriptionID)
 	discount := &stripe.Discount{}
-	err := c.B.Call("DELETE", fmt.Sprintf("/subscriptions/%v/discount", subscriptionID), c.Key, body, commonParams, discount)
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, discount)
 
 	return discount, err
 }

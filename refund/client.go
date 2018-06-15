@@ -2,14 +2,10 @@
 package refund
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
-)
-
-const (
-	RefundFraudulent          stripe.RefundReason = "fraudulent"
-	RefundDuplicate           stripe.RefundReason = "duplicate"
-	RefundRequestedByCustomer stripe.RefundReason = "requested_by_customer"
 )
 
 // Client is used to invoke /refunds APIs.
@@ -25,12 +21,8 @@ func New(params *stripe.RefundParams) (*stripe.Refund, error) {
 }
 
 func (c Client) New(params *stripe.RefundParams) (*stripe.Refund, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
 	refund := &stripe.Refund{}
-	err := c.B.Call("POST", "/refunds", c.Key, body, &params.Params, refund)
-
+	err := c.B.Call(http.MethodPost, "/refunds", c.Key, params, refund)
 	return refund, err
 }
 
@@ -41,18 +33,9 @@ func Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 }
 
 func (c Client) Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/refunds/%s", id)
 	refund := &stripe.Refund{}
-	err := c.B.Call("GET", "/refunds/"+id, c.Key, body, commonParams, refund)
-
+	err := c.B.Call(http.MethodGet, path, c.Key, params, refund)
 	return refund, err
 }
 
@@ -63,12 +46,9 @@ func Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 }
 
 func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
+	path := stripe.FormatURLPath("/refunds/%s", id)
 	refund := &stripe.Refund{}
-	err := c.B.Call("POST", "/refunds/"+id, c.Key, body, &params.Params, refund)
-
+	err := c.B.Call(http.MethodPost, path, c.Key, params, refund)
 	return refund, err
 }
 
@@ -78,21 +58,13 @@ func List(params *stripe.RefundListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.RefundListParams) *Iter {
-	body := &form.Values{}
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	form.AppendTo(body, params)
-	lp = &params.ListParams
-	p = params.ToParams()
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.RefundListParams) *Iter {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.RefundList{}
-		err := c.B.Call("GET", "/refunds", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/refunds", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

@@ -2,6 +2,8 @@
 package exchangerate
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
@@ -18,8 +20,9 @@ func Get(currency string) (*stripe.ExchangeRate, error) {
 }
 
 func (c Client) Get(currency string) (*stripe.ExchangeRate, error) {
+	path := stripe.FormatURLPath("/exchange_rates/%s", currency)
 	exchangeRate := &stripe.ExchangeRate{}
-	err := c.B.Call("GET", "/exchange_rates/"+currency, c.Key, nil, nil, exchangeRate)
+	err := c.B.Call(http.MethodGet, path, c.Key, nil, exchangeRate)
 
 	return exchangeRate, err
 }
@@ -29,24 +32,13 @@ func List(params *stripe.ExchangeRateListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.ExchangeRateListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.ExchangeRateListParams) *Iter {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ExchangeRateList{}
-		err := c.B.Call("GET", "/exchange_rates", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/exchange_rates", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

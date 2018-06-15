@@ -2,15 +2,10 @@
 package transfer
 
 import (
+	"net/http"
+
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
-)
-
-const (
-	SourceAlipay  stripe.TransferSourceType = "alipay_account"
-	SourceBank    stripe.TransferSourceType = "bank_account"
-	SourceBitcoin stripe.TransferSourceType = "bitcoin_receiver"
-	SourceCard    stripe.TransferSourceType = "card"
 )
 
 // Client is used to invoke /transfers APIs.
@@ -26,12 +21,8 @@ func New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 }
 
 func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
 	transfer := &stripe.Transfer{}
-	err := c.B.Call("POST", "/transfers", c.Key, body, &params.Params, transfer)
-
+	err := c.B.Call(http.MethodPost, "/transfers", c.Key, params, transfer)
 	return transfer, err
 }
 
@@ -42,18 +33,9 @@ func Get(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 }
 
 func (c Client) Get(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/transfers/%s", id)
 	transfer := &stripe.Transfer{}
-	err := c.B.Call("GET", "/transfers/"+id, c.Key, body, commonParams, transfer)
-
+	err := c.B.Call(http.MethodGet, path, c.Key, params, transfer)
 	return transfer, err
 }
 
@@ -64,20 +46,9 @@ func Update(id string, params *stripe.TransferParams) (*stripe.Transfer, error) 
 }
 
 func (c Client) Update(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-
-		body = &form.Values{}
-
-		form.AppendTo(body, params)
-	}
-
+	path := stripe.FormatURLPath("/transfers/%s", id)
 	transfer := &stripe.Transfer{}
-	err := c.B.Call("POST", "/transfers/"+id, c.Key, body, commonParams, transfer)
-
+	err := c.B.Call(http.MethodPost, path, c.Key, params, transfer)
 	return transfer, err
 }
 
@@ -87,24 +58,13 @@ func List(params *stripe.TransferListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.TransferListParams) *Iter {
-	var body *form.Values
-	var lp *stripe.ListParams
-	var p *stripe.Params
-
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		lp = &params.ListParams
-		p = params.ToParams()
-	}
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+func (c Client) List(listParams *stripe.TransferListParams) *Iter {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.TransferList{}
-		err := c.B.Call("GET", "/transfers", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/transfers", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

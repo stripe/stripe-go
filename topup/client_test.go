@@ -16,11 +16,11 @@ func TestTopupGet(t *testing.T) {
 
 func TestTopupNew(t *testing.T) {
 	topup, err := New(&stripe.TopupParams{
-		Amount:    123,
-		Currency:  "usd",
-		Source:    &stripe.SourceParams{Token: "src_123"},
-		Desc:      "creating a topup",
-		Statement: "topup",
+		Amount:              stripe.Int64(123),
+		Currency:            stripe.String(string(stripe.CurrencyUSD)),
+		Source:              &stripe.SourceParams{Token: stripe.String("src_123")},
+		Description:         stripe.String("creating a topup"),
+		StatementDescriptor: stripe.String("topup"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, topup)
@@ -28,10 +28,10 @@ func TestTopupNew(t *testing.T) {
 
 func TestTopupNew_WithSetSource(t *testing.T) {
 	params := stripe.TopupParams{
-		Amount:    123,
-		Currency:  "usd",
-		Desc:      "creating a topup",
-		Statement: "topup",
+		Amount:              stripe.Int64(123),
+		Currency:            stripe.String(string(stripe.CurrencyUSD)),
+		Description:         stripe.String("creating a topup"),
+		StatementDescriptor: stripe.String("topup"),
 	}
 	params.SetSource("src_123")
 
@@ -42,7 +42,7 @@ func TestTopupNew_WithSetSource(t *testing.T) {
 
 func TestTopupUpdate(t *testing.T) {
 	params := &stripe.TopupParams{}
-	params.AddMeta("key", "value")
+	params.AddMetadata("key", "value")
 	topup, err := Update("tu_123", params)
 	assert.Nil(t, err)
 	assert.NotNil(t, topup)

@@ -3,7 +3,7 @@ package paymentsource
 
 import (
 	"errors"
-	"fmt"
+	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
@@ -22,18 +22,17 @@ func New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 }
 
 func (s Client) New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
-	source := &stripe.PaymentSource{}
-	var err error
-
-	if len(params.Customer) > 0 {
-		err = s.B.Call("POST", fmt.Sprintf("/customers/%v/sources", params.Customer), s.Key, body, &params.Params, source)
-	} else {
-		err = errors.New("Invalid source params: customer needs to be set")
+	if params == nil {
+		return nil, errors.New("params should not be nil")
 	}
 
+	if params.Customer == nil {
+		return nil, errors.New("Invalid source params: customer needs to be set")
+	}
+
+	path := stripe.FormatURLPath("/customers/%s/sources", stripe.StringValue(params.Customer))
+	source := &stripe.PaymentSource{}
+	err := s.B.Call(http.MethodPost, path, s.Key, params, source)
 	return source, err
 }
 
@@ -44,24 +43,17 @@ func Get(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource,
 }
 
 func (s Client) Get(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
-
-	if params != nil {
-		commonParams = &params.Params
-		body = &form.Values{}
-		form.AppendTo(body, params)
+	if params == nil {
+		return nil, errors.New("params should not be nil")
 	}
 
+	if params.Customer == nil {
+		return nil, errors.New("Invalid source params: customer needs to be set")
+	}
+
+	path := stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	source := &stripe.PaymentSource{}
-	var err error
-
-	if len(params.Customer) > 0 {
-		err = s.B.Call("GET", fmt.Sprintf("/customers/%v/sources/%v", params.Customer, id), s.Key, body, commonParams, source)
-	} else {
-		err = errors.New("Invalid source params: customer needs to be set")
-	}
-
+	err := s.B.Call(http.MethodGet, path, s.Key, params, source)
 	return source, err
 }
 
@@ -72,18 +64,17 @@ func Update(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSour
 }
 
 func (s Client) Update(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
-	source := &stripe.PaymentSource{}
-	var err error
-
-	if len(params.Customer) > 0 {
-		err = s.B.Call("POST", fmt.Sprintf("/customers/%v/sources/%v", params.Customer, id), s.Key, body, &params.Params, source)
-	} else {
-		err = errors.New("Invalid source params: customer needs to be set")
+	if params == nil {
+		return nil, errors.New("params should not be nil")
 	}
 
+	if params.Customer == nil {
+		return nil, errors.New("Invalid source params: customer needs to be set")
+	}
+
+	path := stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
+	source := &stripe.PaymentSource{}
+	err := s.B.Call(http.MethodPost, path, s.Key, params, source)
 	return source, err
 }
 
@@ -94,24 +85,17 @@ func Del(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource,
 }
 
 func (s Client) Del(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
-	var body *form.Values
-	var commonParams *stripe.Params
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
 
-	if params != nil {
-		body = &form.Values{}
-		form.AppendTo(body, params)
-		commonParams = &params.Params
+	if params.Customer == nil {
+		return nil, errors.New("Invalid source params: customer needs to be set")
 	}
 
 	source := &stripe.PaymentSource{}
-	var err error
-
-	if len(params.Customer) > 0 {
-		err = s.B.Call("DELETE", fmt.Sprintf("/customers/%v/sources/%v", params.Customer, id), s.Key, body, commonParams, source)
-	} else {
-		err = errors.New("Invalid source params: customer needs to be set")
-	}
-
+	path := stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
+	err := s.B.Call(http.MethodDelete, path, s.Key, params, source)
 	return source, err
 }
 
@@ -121,24 +105,30 @@ func List(params *stripe.SourceListParams) *Iter {
 	return getC().List(params)
 }
 
-func (s Client) List(params *stripe.SourceListParams) *Iter {
-	body := &form.Values{}
-	var lp *stripe.ListParams = &params.ListParams
-	var p *stripe.Params = params.ToParams()
-	form.AppendTo(body, params)
+func (s Client) List(listParams *stripe.SourceListParams) *Iter {
+	var outerErr error
+	var path string
 
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	if listParams == nil {
+		outerErr = errors.New("params should not be nil")
+	} else if listParams.Customer == nil {
+		outerErr = errors.New("Invalid source params: customer needs to be set")
+	} else {
+		path = stripe.FormatURLPath("/customers/%s/sources",
+			stripe.StringValue(listParams.Customer))
+	}
+
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SourceList{}
-		var err error
 
-		if len(params.Customer) > 0 {
-			err = s.B.Call("GET", fmt.Sprintf("/customers/%v/sources", params.Customer), s.Key, b, p, list)
-		} else {
-			err = errors.New("Invalid source params: customer needs to be set")
+		if outerErr != nil {
+			return nil, list.ListMeta, outerErr
 		}
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		err := s.B.CallRaw(http.MethodGet, path, s.Key, b, p, list)
+
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 
@@ -153,20 +143,22 @@ func Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource
 }
 
 func (s Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource, error) {
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
-	source := &stripe.PaymentSource{}
-	var err error
-
-	if len(params.Customer) > 0 {
-		err = s.B.Call("POST", fmt.Sprintf("/customers/%v/sources/%v/verify", params.Customer, id), s.Key, body, &params.Params, source)
-	} else if len(params.Values) > 0 {
-		err = s.B.Call("POST", fmt.Sprintf("/sources/%v/verify", id), s.Key, body, &params.Params, source)
-	} else {
-		err = errors.New("Only customer bank accounts or sources can be verified in this manner.")
+	if params == nil {
+		return nil, errors.New("params should not be nil")
 	}
 
+	var path string
+	if params.Customer != nil {
+		path = stripe.FormatURLPath("/customers/%s/sources/%s/verify",
+			stripe.StringValue(params.Customer), id)
+	} else if len(params.Values) > 0 {
+		path = stripe.FormatURLPath("/sources/%s/verify", id)
+	} else {
+		return nil, errors.New("Only customer bank accounts or sources can be verified in this manner.")
+	}
+
+	source := &stripe.PaymentSource{}
+	err := s.B.Call(http.MethodPost, path, s.Key, params, source)
 	return source, err
 }
 

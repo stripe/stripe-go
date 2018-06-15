@@ -3,6 +3,7 @@ package feerefund
 
 import (
 	"fmt"
+	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
@@ -24,16 +25,14 @@ func (c Client) New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil")
 	}
-	if params.Fee == "" {
-		return nil, fmt.Errorf("params.Fee must be set")
+	if params.ApplicationFee == nil {
+		return nil, fmt.Errorf("params.ApplicationFee must be set")
 	}
 
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
+	path := stripe.FormatURLPath("/application_fees/%s/refunds",
+		stripe.StringValue(params.ApplicationFee))
 	refund := &stripe.FeeRefund{}
-	err := c.B.Call("POST", fmt.Sprintf("application_fees/%v/refunds", params.Fee), c.Key, body, &params.Params, refund)
-
+	err := c.B.Call(http.MethodPost, path, c.Key, params, refund)
 	return refund, err
 }
 
@@ -47,16 +46,14 @@ func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefun
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil")
 	}
-	if params.Fee == "" {
-		return nil, fmt.Errorf("params.Fee must be set")
+	if params.ApplicationFee == nil {
+		return nil, fmt.Errorf("params.ApplicationFee must be set")
 	}
 
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
+	path := stripe.FormatURLPath("/application_fees/%s/refunds/%s",
+		stripe.StringValue(params.ApplicationFee), id)
 	refund := &stripe.FeeRefund{}
-	err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.Key, body, &params.Params, refund)
-
+	err := c.B.Call(http.MethodGet, path, c.Key, params, refund)
 	return refund, err
 }
 
@@ -70,15 +67,14 @@ func (c Client) Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRe
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil")
 	}
-	if params.Fee == "" {
-		return nil, fmt.Errorf("params.Fee must be set")
+	if params.ApplicationFee == nil {
+		return nil, fmt.Errorf("params.ApplicationFee must be set")
 	}
 
-	body := &form.Values{}
-	form.AppendTo(body, params)
-
+	path := stripe.FormatURLPath("/application_fees/%s/refunds/%s",
+		stripe.StringValue(params.ApplicationFee), id)
 	refund := &stripe.FeeRefund{}
-	err := c.B.Call("POST", fmt.Sprintf("/application_fees/%v/refunds/%v", params.Fee, id), c.Key, body, &params.Params, refund)
+	err := c.B.Call(http.MethodPost, path, c.Key, params, refund)
 
 	return refund, err
 }
@@ -89,21 +85,16 @@ func List(params *stripe.FeeRefundListParams) *Iter {
 	return getC().List(params)
 }
 
-func (c Client) List(params *stripe.FeeRefundListParams) *Iter {
-	body := &form.Values{}
-	var lp *stripe.ListParams
-	var p *stripe.Params
+func (c Client) List(listParams *stripe.FeeRefundListParams) *Iter {
+	path := stripe.FormatURLPath("/application_fees/%s/refunds",
+		stripe.StringValue(listParams.ApplicationFee))
 
-	form.AppendTo(body, params)
-	lp = &params.ListParams
-	p = params.ToParams()
-
-	return &Iter{stripe.GetIter(lp, body, func(b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.FeeRefundList{}
-		err := c.B.Call("GET", fmt.Sprintf("/application_fees/%v/refunds", params.Fee), c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
 			ret[i] = v
 		}
 

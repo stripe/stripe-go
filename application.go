@@ -11,15 +11,17 @@ type Application struct {
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (a *Application) UnmarshalJSON(data []byte) error {
-	type application Application
-	var aa application
-	err := json.Unmarshal(data, &aa)
-	if err == nil {
-		*a = Application(aa)
-	} else {
-		// the id is surrounded by "\" characters, so strip them
-		a.ID = string(data[1 : len(data)-1])
+	if id, ok := ParseID(data); ok {
+		a.ID = id
+		return nil
 	}
 
+	type application Application
+	var v application
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*a = Application(v)
 	return nil
 }
