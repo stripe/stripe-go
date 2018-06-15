@@ -23,34 +23,50 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
+//
+// Public constants
+//
+
 const (
-	apiURL     = "https://api.stripe.com/v1"
-	uploadsURL = "https://uploads.stripe.com/v1"
+	// APIBackend is a constant representing the API service backend.
+	APIBackend SupportedBackend = "api"
+
+	// APIURL is the URL of the API service backend.
+	APIURL string = "https://api.stripe.com/v1"
+
+	// UnknownPlatform is the string returned as the system name if we couldn't get
+	// one from `uname`.
+	UnknownPlatform string = "unknown platform"
+
+	// UploadsBackend is a constant representing the uploads service backend.
+	UploadsBackend SupportedBackend = "uploads"
+
+	// UploadsURL is the URL of the uploads service backend.
+	UploadsURL string = "https://uploads.stripe.com/v1"
 )
 
-// apiversion is the currently supported API version
-const apiversion = "2018-02-06"
+//
+// Public variables
+//
 
-// clientversion is the binding version
-const clientversion = "35.0.0"
+// Key is the Stripe API key used globally in the binding.
+var Key string
 
-// defaultHTTPTimeout is the default timeout on the http.Client used by the library.
-// This is chosen to be consistent with the other Stripe language libraries and
-// to coordinate with other timeouts configured in the Stripe infrastructure.
-const defaultHTTPTimeout = 80 * time.Second
+// LogLevel is the logging level for this library.
+// 0: no logging
+// 1: errors only
+// 2: errors + informational (default)
+// 3: errors + informational + debug
+var LogLevel = 2
 
-// TotalBackends is the total number of Stripe API endpoints supported by the
-// binding.
-const TotalBackends = 2
+// Logger controls how stripe performs logging at a package level. It is useful
+// to customise if you need it prefixed for your application to meet other
+// requirements
+var Logger Printfer
 
-// UnknownPlatform is the string returned as the system name if we couldn't get
-// one from `uname`.
-const UnknownPlatform = "unknown platform"
-
-// maxNetworkRetriesDelay and minNetworkRetriesDelay defines sleep time in milliseconds between
-// tries to send HTTP request again after network failure.
-const maxNetworkRetriesDelay = 5000 * time.Millisecond
-const minNetworkRetriesDelay = 500 * time.Millisecond
+//
+// Public types
+//
 
 // AppInfo contains information about the "app" which this integration belongs
 // to. This should be reserved for plugins that wish to identify themselves
@@ -92,137 +108,6 @@ type BackendConfiguration struct {
 	MaxNetworkRetries int
 }
 
-// SupportedBackend is an enumeration of supported Stripe endpoints.
-// Currently supported values are "api" and "uploads".
-type SupportedBackend string
-
-const (
-	// APIBackend is a constant representing the API service backend.
-	APIBackend SupportedBackend = "api"
-
-	// APIURL is the URL of the API service backend.
-	APIURL string = "https://api.stripe.com/v1"
-
-	// UploadsBackend is a constant representing the uploads service backend.
-	UploadsBackend SupportedBackend = "uploads"
-
-	// UploadsURL is the URL of the uploads service backend.
-	UploadsURL string = "https://uploads.stripe.com/v1"
-)
-
-// Backends are the currently supported endpoints.
-type Backends struct {
-	API, Uploads Backend
-	mu           sync.RWMutex
-}
-
-// stripeClientUserAgent contains information about the current runtime which
-// is serialized and sent in the `X-Stripe-Client-User-Agent` as additional
-// debugging information.
-type stripeClientUserAgent struct {
-	Application     *AppInfo `json:"application"`
-	BindingsVersion string   `json:"bindings_version"`
-	Language        string   `json:"lang"`
-	LanguageVersion string   `json:"lang_version"`
-	Publisher       string   `json:"publisher"`
-	Uname           string   `json:"uname"`
-}
-
-// Key is the Stripe API key used globally in the binding.
-var Key string
-
-// LogLevel is the logging level for this library.
-// 0: no logging
-// 1: errors only
-// 2: errors + informational (default)
-// 3: errors + informational + debug
-var LogLevel = 2
-
-// Logger controls how stripe performs logging at a package level. It is useful
-// to customise if you need it prefixed for your application to meet other
-// requirements
-var Logger Printfer
-
-// Printfer is an interface to be implemented by Logger.
-type Printfer interface {
-	Printf(format string, v ...interface{})
-}
-
-func init() {
-	Logger = log.New(os.Stderr, "", log.LstdFlags)
-	initUserAgent()
-}
-
-var appInfo *AppInfo
-var httpClient = &http.Client{Timeout: defaultHTTPTimeout}
-var backends Backends
-var encodedStripeUserAgent string
-var encodedUserAgent string
-
-// SetHTTPClient overrides the default HTTP client.
-// This is useful if you're running in a Google AppEngine environment
-// where the http.DefaultClient is not available.
-func SetHTTPClient(client *http.Client) {
-	httpClient = client
-}
-
-// NewBackends creates a new set of backends with the given HTTP client. You
-// should only need to use this for testing purposes or on App Engine.
-func NewBackends(httpClient *http.Client) *Backends {
-	return &Backends{
-		API: &BackendConfiguration{
-			Type: APIBackend, URL: APIURL, HTTPClient: httpClient},
-		Uploads: &BackendConfiguration{
-			Type: UploadsBackend, URL: UploadsURL, HTTPClient: httpClient},
-	}
-}
-
-// GetBackend returns the currently used backend in the binding.
-func GetBackend(backend SupportedBackend) Backend {
-	switch backend {
-	case APIBackend:
-		backends.mu.RLock()
-		ret := backends.API
-		backends.mu.RUnlock()
-		if ret != nil {
-			return ret
-		}
-		backends.mu.Lock()
-		defer backends.mu.Unlock()
-		backends.API = &BackendConfiguration{Type: backend, URL: apiURL, HTTPClient: httpClient}
-		return backends.API
-
-	case UploadsBackend:
-		backends.mu.RLock()
-		ret := backends.Uploads
-		backends.mu.RUnlock()
-		if ret != nil {
-			return ret
-		}
-		backends.mu.Lock()
-		defer backends.mu.Unlock()
-		backends.Uploads = &BackendConfiguration{Type: backend, URL: uploadsURL, HTTPClient: httpClient}
-		return backends.Uploads
-	}
-
-	return nil
-}
-
-// SetBackend sets the backend used in the binding.
-func SetBackend(backend SupportedBackend, b Backend) {
-	switch backend {
-	case APIBackend:
-		backends.API = b
-	case UploadsBackend:
-		backends.Uploads = b
-	}
-}
-
-// SetMaxNetworkRetries sets max number of retries on failed requests
-func (s *BackendConfiguration) SetMaxNetworkRetries(maxNetworkRetries int) {
-	s.MaxNetworkRetries = maxNetworkRetries
-}
-
 // Call is the Backend.Call implementation for invoking Stripe APIs.
 func (s *BackendConfiguration) Call(method, path, key string, params ParamsContainer, v interface{}) error {
 	var body *form.Values
@@ -249,6 +134,22 @@ func (s *BackendConfiguration) Call(method, path, key string, params ParamsConta
 	return s.CallRaw(method, path, key, body, commonParams, v)
 }
 
+// CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
+func (s *BackendConfiguration) CallMultipart(method, path, key, boundary string, body io.Reader, params *Params, v interface{}) error {
+	contentType := "multipart/form-data; boundary=" + boundary
+
+	req, err := s.NewRequest(method, path, key, contentType, body, params)
+	if err != nil {
+		return err
+	}
+
+	if err := s.Do(req, v); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (s *BackendConfiguration) CallRaw(method, path, key string, form *form.Values, params *Params, v interface{}) error {
 	var body io.Reader
 	if form != nil && !form.Empty() {
@@ -261,22 +162,6 @@ func (s *BackendConfiguration) CallRaw(method, path, key string, form *form.Valu
 	}
 
 	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", body, params)
-	if err != nil {
-		return err
-	}
-
-	if err := s.Do(req, v); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
-func (s *BackendConfiguration) CallMultipart(method, path, key, boundary string, body io.Reader, params *Params, v interface{}) error {
-	contentType := "multipart/form-data; boundary=" + boundary
-
-	req, err := s.NewRequest(method, path, key, contentType, body, params)
 	if err != nil {
 		return err
 	}
@@ -361,7 +246,7 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 			if LogLevel > 0 {
 				Logger.Printf("Request failed with error: %v. Response: %v\n", err, res)
 			}
-			sleep := s.sleepTime(retry)
+			sleep := sleepTime(retry)
 			time.Sleep(sleep)
 			retry++
 			if LogLevel > 1 {
@@ -485,6 +370,76 @@ func (s *BackendConfiguration) ResponseToError(res *http.Response, resBody []byt
 	return stripeErr
 }
 
+// SetMaxNetworkRetries sets max number of retries on failed requests
+func (s *BackendConfiguration) SetMaxNetworkRetries(maxNetworkRetries int) {
+	s.MaxNetworkRetries = maxNetworkRetries
+}
+
+// Checks if an error is a problem that we should retry on. This includes both
+// socket errors that may represent an intermittent problem and some special
+// HTTP statuses.
+func (s *BackendConfiguration) shouldRetry(err error, resp *http.Response, numRetries int) bool {
+	if numRetries >= s.MaxNetworkRetries {
+		return false
+	}
+
+	if err != nil {
+		return true
+	}
+
+	if resp.StatusCode == http.StatusConflict {
+		return true
+	}
+	return false
+}
+
+// Backends are the currently supported endpoints.
+type Backends struct {
+	API, Uploads Backend
+	mu           sync.RWMutex
+}
+
+// Printfer is an interface to be implemented by Logger.
+type Printfer interface {
+	Printf(format string, v ...interface{})
+}
+
+// SupportedBackend is an enumeration of supported Stripe endpoints.
+// Currently supported values are "api" and "uploads".
+type SupportedBackend string
+
+//
+// Public functions
+//
+
+// Bool returns a pointer to the bool value passed in.
+func Bool(v bool) *bool {
+	return &v
+}
+
+// BoolValue returns the value of the bool pointer passed in or
+// false if the pointer is nil.
+func BoolValue(v *bool) bool {
+	if v != nil {
+		return *v
+	}
+	return false
+}
+
+// Float64 returns a pointer to the float64 value passed in.
+func Float64(v float64) *float64 {
+	return &v
+}
+
+// Float64Value returns the value of the float64 pointer passed in or
+// 0 if the pointer is nil.
+func Float64Value(v *float64) float64 {
+	if v != nil {
+		return *v
+	}
+	return 0
+}
+
 // FormatURLPath takes a format string (of the kind used in the fmt package)
 // representing a URL path with a number of parameters that belong in the path
 // and returns a formatted string.
@@ -504,6 +459,62 @@ func FormatURLPath(format string, params ...string) string {
 	}
 
 	return fmt.Sprintf(format, untypedParams...)
+}
+
+// GetBackend returns the currently used backend in the binding.
+func GetBackend(backend SupportedBackend) Backend {
+	switch backend {
+	case APIBackend:
+		backends.mu.RLock()
+		ret := backends.API
+		backends.mu.RUnlock()
+		if ret != nil {
+			return ret
+		}
+		backends.mu.Lock()
+		defer backends.mu.Unlock()
+		backends.API = &BackendConfiguration{Type: backend, URL: apiURL, HTTPClient: httpClient}
+		return backends.API
+
+	case UploadsBackend:
+		backends.mu.RLock()
+		ret := backends.Uploads
+		backends.mu.RUnlock()
+		if ret != nil {
+			return ret
+		}
+		backends.mu.Lock()
+		defer backends.mu.Unlock()
+		backends.Uploads = &BackendConfiguration{Type: backend, URL: uploadsURL, HTTPClient: httpClient}
+		return backends.Uploads
+	}
+
+	return nil
+}
+
+// Int64 returns a pointer to the int64 value passed in.
+func Int64(v int64) *int64 {
+	return &v
+}
+
+// Int64Value returns the value of the int64 pointer passed in or
+// 0 if the pointer is nil.
+func Int64Value(v *int64) int64 {
+	if v != nil {
+		return *v
+	}
+	return 0
+}
+
+// NewBackends creates a new set of backends with the given HTTP client. You
+// should only need to use this for testing purposes or on App Engine.
+func NewBackends(httpClient *http.Client) *Backends {
+	return &Backends{
+		API: &BackendConfiguration{
+			Type: APIBackend, URL: APIURL, HTTPClient: httpClient},
+		Uploads: &BackendConfiguration{
+			Type: UploadsBackend, URL: UploadsURL, HTTPClient: httpClient},
+	}
 }
 
 // ParseID attempts to parse a string scalar from a given JSON value which is
@@ -539,6 +550,91 @@ func SetAppInfo(info *AppInfo) {
 	initUserAgent()
 }
 
+// SetBackend sets the backend used in the binding.
+func SetBackend(backend SupportedBackend, b Backend) {
+	switch backend {
+	case APIBackend:
+		backends.API = b
+	case UploadsBackend:
+		backends.Uploads = b
+	}
+}
+
+// SetHTTPClient overrides the default HTTP client.
+// This is useful if you're running in a Google AppEngine environment
+// where the http.DefaultClient is not available.
+func SetHTTPClient(client *http.Client) {
+	httpClient = client
+}
+
+// String returns a pointer to the string value passed in.
+func String(v string) *string {
+	return &v
+}
+
+// StringValue returns the value of the string pointer passed in or
+// "" if the pointer is nil.
+func StringValue(v *string) string {
+	if v != nil {
+		return *v
+	}
+	return ""
+}
+
+//
+// Private constants
+//
+
+const apiURL = "https://api.stripe.com/v1"
+
+// apiversion is the currently supported API version
+const apiversion = "2018-02-06"
+
+// clientversion is the binding version
+const clientversion = "35.0.0"
+
+// defaultHTTPTimeout is the default timeout on the http.Client used by the library.
+// This is chosen to be consistent with the other Stripe language libraries and
+// to coordinate with other timeouts configured in the Stripe infrastructure.
+const defaultHTTPTimeout = 80 * time.Second
+
+// maxNetworkRetriesDelay and minNetworkRetriesDelay defines sleep time in milliseconds between
+// tries to send HTTP request again after network failure.
+const maxNetworkRetriesDelay = 5000 * time.Millisecond
+const minNetworkRetriesDelay = 500 * time.Millisecond
+
+const uploadsURL = "https://uploads.stripe.com/v1"
+
+//
+// Private types
+//
+
+// stripeClientUserAgent contains information about the current runtime which
+// is serialized and sent in the `X-Stripe-Client-User-Agent` as additional
+// debugging information.
+type stripeClientUserAgent struct {
+	Application     *AppInfo `json:"application"`
+	BindingsVersion string   `json:"bindings_version"`
+	Language        string   `json:"lang"`
+	LanguageVersion string   `json:"lang_version"`
+	Publisher       string   `json:"publisher"`
+	Uname           string   `json:"uname"`
+}
+
+//
+// Private variables
+//
+
+var appInfo *AppInfo
+var backends Backends
+var encodedStripeUserAgent string
+var encodedUserAgent string
+var httpClient = &http.Client{Timeout: defaultHTTPTimeout}
+
+//
+// Private functions
+//
+
 // getUname tries to get a uname from the system, but not that hard. It tries
 // to execute `uname -a`, but swallows any errors in case that didn't work
 // (i.e. non-Unix non-Mac system or some other reason).
@@ -558,6 +654,11 @@ func getUname() string {
 	}
 
 	return out.String()
+}
+
+func init() {
+	Logger = log.New(os.Stderr, "", log.LstdFlags)
+	initUserAgent()
 }
 
 func initUserAgent() {
@@ -583,82 +684,12 @@ func initUserAgent() {
 	encodedStripeUserAgent = string(marshaled)
 }
 
-// Bool returns a pointer to the bool value passed in.
-func Bool(v bool) *bool {
-	return &v
-}
-
-// BoolValue returns the value of the bool pointer passed in or
-// false if the pointer is nil.
-func BoolValue(v *bool) bool {
-	if v != nil {
-		return *v
-	}
-	return false
-}
-
-// Float64 returns a pointer to the float64 value passed in.
-func Float64(v float64) *float64 {
-	return &v
-}
-
-// Float64Value returns the value of the float64 pointer passed in or
-// 0 if the pointer is nil.
-func Float64Value(v *float64) float64 {
-	if v != nil {
-		return *v
-	}
-	return 0
-}
-
-// Int64 returns a pointer to the int64 value passed in.
-func Int64(v int64) *int64 {
-	return &v
-}
-
-// Int64Value returns the value of the int64 pointer passed in or
-// 0 if the pointer is nil.
-func Int64Value(v *int64) int64 {
-	if v != nil {
-		return *v
-	}
-	return 0
-}
-
-// String returns a pointer to the string value passed in.
-func String(v string) *string {
-	return &v
-}
-
-// StringValue returns the value of the string pointer passed in or
-// "" if the pointer is nil.
-func StringValue(v *string) string {
-	if v != nil {
-		return *v
-	}
-	return ""
-}
-
-// Checks if an error is a problem that we should retry on. This includes both
-// socket errors that may represent an intermittent problem and some special
-// HTTP statuses.
-func (s *BackendConfiguration) shouldRetry(err error, resp *http.Response, numRetries int) bool {
-	if numRetries >= s.MaxNetworkRetries {
-		return false
-	}
-
-	if err != nil {
-		return true
-	}
-
-	if resp.StatusCode == http.StatusConflict {
-		return true
-	}
-	return false
+func isHTTPWriteMethod(method string) bool {
+	return method == http.MethodPost || method == http.MethodPut || method == http.MethodPatch || method == http.MethodDelete
 }
 
 // sleepTime calculates sleeping/delay time in milliseconds between failure and a new one request.
-func (s *BackendConfiguration) sleepTime(numRetries int) time.Duration {
+func sleepTime(numRetries int) time.Duration {
 	// Apply exponential backoff with minNetworkRetriesDelay on the
 	// number of num_retries so far as inputs.
 	delay := minNetworkRetriesDelay + minNetworkRetriesDelay*time.Duration(numRetries*numRetries)
@@ -678,8 +709,4 @@ func (s *BackendConfiguration) sleepTime(numRetries int) time.Duration {
 	}
 
 	return delay
-}
-
-func isHTTPWriteMethod(method string) bool {
-	return method == http.MethodPost || method == http.MethodPut || method == http.MethodPatch || method == http.MethodDelete
 }
