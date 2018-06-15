@@ -7,7 +7,7 @@
 	* `event.Get` now takes `stripe.EventParams` instead of `Params` for consistency
 	* The `Get` method for `countryspec`, `exchangerate`, `issuerfraudrecord` now take an extra params struct parameter to be consistent and allow setting a connected account (use `stripe.CountrySpecParams`, `stripe.ExchangeRateParams`, and `IssuerFraudRecordParams`)
 	* `charge.MarkFraudulent` and `charge.MarkSafe` have been removed; use `charge.Update` instead
-	* `charge.CloseDispute` and `charge.UpdateDispute` have been removed; use `dispute.Update` or `dispute.Close` instead.
+	* `charge.CloseDispute` and `charge.UpdateDispute` have been removed; use `dispute.Update` or `dispute.Close` instead
 	* `loginlink.New` now properly passes its params struct into its API call
 
 ## 34.3.0 - 2018-06-14
