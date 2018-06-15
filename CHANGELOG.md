@@ -1,5 +1,15 @@
 # Changelog
 
+## 35.0.0 - 2018-06-15
+* [#557](https://github.com/stripe/stripe-go/pull/557) Add automatic retries for intermittent errors (enabling using `BackendConfiguration.SetMaxNetworkRetries`)
+* [#589](https://github.com/stripe/stripe-go/pull/589) Fix all `Get` methods to support standardized parameter structs + remove some deprecated functions
+	* `IssuerFraudRecordListParams` now uses `*string` for `Charge` (set it using `stripe.String` like elsewhere)
+	* `event.Get` now takes `stripe.EventParams` instead of `Params` for consistency
+	* The `Get` method for `countryspec`, `exchangerate`, `issuerfraudrecord` now take an extra params struct parameter to be consistent and allow setting a connected account (use `stripe.CountrySpecParams`, `stripe.ExchangeRateParams`, and `IssuerFraudRecordParams`)
+	* `charge.MarkFraudulent` and `charge.MarkSafe` have been removed; use `charge.Update` instead
+	* `charge.CloseDispute` and `charge.UpdateDispute` have been removed; use `dispute.Update` or `dispute.Close` instead.
+	* `loginlink.New` now properly passes its params struct into its API call
+
 ## 34.3.0 - 2018-06-14
 * [#587](https://github.com/stripe/stripe-go/pull/587) Use `net/http` constants instead of string literals for HTTP verbs (this is an internal cleanup and should not affect library behavior)
 
