@@ -21,6 +21,7 @@ type CouponParams struct {
 	DurationInMonths *int64  `form:"duration_in_months"`
 	ID               *string `form:"id"`
 	MaxRedemptions   *int64  `form:"max_redemptions"`
+	Name             *string `form:"name"`
 	PercentOff       *int64  `form:"percent_off"`
 	RedeemBy         *int64  `form:"redeem_by"`
 }
@@ -46,6 +47,7 @@ type Coupon struct {
 	Livemode         bool              `json:"livemode"`
 	MaxRedemptions   int64             `json:"max_redemptions"`
 	Metadata         map[string]string `json:"metadata"`
+	Name             string            `json:"name"`
 	PercentOff       int64             `json:"percent_off"`
 	RedeemBy         int64             `json:"redeem_by"`
 	TimesRedeemed    int64             `json:"times_redeemed"`
