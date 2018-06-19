@@ -1,5 +1,8 @@
 # Changelog
 
+## 35.2.0 - 2018-06-19
+* [#595](https://github.com/stripe/stripe-go/pull/595) Add `Product` to `PlanListParams` so that plans can be listed by product
+
 ## 35.1.0 - 2018-06-17
 * [#592](https://github.com/stripe/stripe-go/pull/592) Add `Name` field to `Coupon` and `CouponParams`
 
