@@ -1,4 +1,6 @@
-// Package charge provides the /charges APIs
+// Package charge provides API functions related to charges.
+//
+// For more details, see: https://stripe.com/docs/api/go#charges.
 package charge
 
 import (
@@ -8,30 +10,30 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-// Client is used to invoke /charges APIs.
+// Client is used to invoke APIs related to charges.
 type Client struct {
 	B   stripe.Backend
 	Key string
 }
 
-// New POSTs new charges.
-// For more details see https://stripe.com/docs/api#create_charge.
+// New creates a new charge.
 func New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 	return getC().New(params)
 }
 
+// New creates a new charge.
 func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 	charge := &stripe.Charge{}
 	err := c.B.Call(http.MethodPost, "/charges", c.Key, params, charge)
 	return charge, err
 }
 
-// Get returns the details of a charge.
-// For more details see https://stripe.com/docs/api#retrieve_charge.
+// Get retrieves a charge.
 func Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	return getC().Get(id, params)
 }
 
+// Get retrieves a charge.
 func (c Client) Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	path := stripe.FormatURLPath("/charges/%s", id)
 	charge := &stripe.Charge{}
@@ -39,12 +41,12 @@ func (c Client) Get(id string, params *stripe.ChargeParams) (*stripe.Charge, err
 	return charge, err
 }
 
-// Update updates a charge's properties.
-// For more details see https://stripe.com/docs/api#update_charge.
+// Update updates a charge.
 func Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates a charge.
 func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	path := stripe.FormatURLPath("/charges/%s", id)
 	charge := &stripe.Charge{}
@@ -52,12 +54,12 @@ func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, 
 	return charge, err
 }
 
-// Capture captures a charge not yet captured.
-// For more details see https://stripe.com/docs/api#charge_capture.
+// Capture captures a charge that's not yet captured.
 func Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 	return getC().Capture(id, params)
 }
 
+// Capture captures a charge that's not yet captured.
 func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 	path := stripe.FormatURLPath("/charges/%s/capture", id)
 	charge := &stripe.Charge{}
@@ -65,12 +67,12 @@ func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge
 	return charge, err
 }
 
-// List returns a list of charges.
-// For more details see https://stripe.com/docs/api#list_charges.
+// List returns an iterator that iterates all charges.
 func List(params *stripe.ChargeListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns an iterator that iterates all charges.
 func (c Client) List(listParams *stripe.ChargeListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ChargeList{}
@@ -85,15 +87,12 @@ func (c Client) List(listParams *stripe.ChargeListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Charges.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for charges.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Charge returns the most recent Charge
-// visited by a call to Next.
+// Charge returns the charge which the iterator is currently pointing to.
 func (i *Iter) Charge() *stripe.Charge {
 	return i.Current().(*stripe.Charge)
 }

@@ -1,7 +1,9 @@
 before_install:
+  # The testify require framework is used for assertions in the test suite
   - go get -u github.com/stretchr/testify/require
 
-  # Install code coverage / coveralls tooling
+  # Install lint / code coverage / coveralls tooling
+  - go get -u golang.org/x/lint/golint
   - go get -u golang.org/x/tools/cmd/cover
   - go get -u github.com/modocache/gover
   - go get -u github.com/mattn/goveralls

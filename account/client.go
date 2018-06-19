@@ -1,3 +1,6 @@
+// Package account provides API functions related to accounts.
+//
+// For more details, see: https://stripe.com/docs/api/go#accounts.
 package account
 
 import (
@@ -7,7 +10,7 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-// Client is used to invoke /account APIs.
+// Client is used to invoke APIs related to accounts.
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -18,28 +21,31 @@ func New(params *stripe.AccountParams) (*stripe.Account, error) {
 	return getC().New(params)
 }
 
+// New creates a new account.
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 	acct := &stripe.Account{}
 	err := c.B.Call(http.MethodPost, "/accounts", c.Key, params, acct)
 	return acct, err
 }
 
-// Get returns the details of an account.
+// Get retrieves the authenticating account.
 func Get() (*stripe.Account, error) {
 	return getC().Get()
 }
 
+// Get retrieves the authenticating account.
 func (c Client) Get() (*stripe.Account, error) {
 	account := &stripe.Account{}
 	err := c.B.Call(http.MethodGet, "/account", c.Key, nil, account)
 	return account, err
 }
 
-// GetByID returns the details of your account.
+// GetByID retrieves an account.
 func GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	return getC().GetByID(id, params)
 }
 
+// GetByID retrieves an account.
 func (c Client) GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	path := stripe.FormatURLPath("/accounts/%s", id)
 	account := &stripe.Account{}
@@ -47,11 +53,12 @@ func (c Client) GetByID(id string, params *stripe.AccountParams) (*stripe.Accoun
 	return account, err
 }
 
-// Update updates the details of an account.
+// Update updates an account.
 func Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates an account.
 func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	path := stripe.FormatURLPath("/accounts/%s", id)
 	acct := &stripe.Account{}
@@ -59,11 +66,12 @@ func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account
 	return acct, err
 }
 
-// Del deletes an account
+// Del deletes an account.
 func Del(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	return getC().Del(id, params)
 }
 
+// Del deletes an account.
 func (c Client) Del(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	path := stripe.FormatURLPath("/accounts/%s", id)
 	acct := &stripe.Account{}
@@ -71,11 +79,12 @@ func (c Client) Del(id string, params *stripe.AccountParams) (*stripe.Account, e
 	return acct, err
 }
 
-// Reject rejects an account
+// Reject rejects an account.
 func Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
 	return getC().Reject(id, params)
 }
 
+// Reject rejects an account.
 func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
 	path := stripe.FormatURLPath("/accounts/%s/reject", id)
 	acct := &stripe.Account{}
@@ -83,11 +92,12 @@ func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.A
 	return acct, err
 }
 
-// List lists your accounts.
+// List returns an iterator that iterates all accounts.
 func List(params *stripe.AccountListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns an iterator that iterates all accounts.
 func (c Client) List(listParams *stripe.AccountListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.AccountList{}
@@ -102,15 +112,12 @@ func (c Client) List(listParams *stripe.AccountListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Accounts.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for accounts.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Account returns the most recent Account
-// visited by a call to Next.
+// Account returns the account which the iterator is currently pointing to.
 func (i *Iter) Account() *stripe.Account {
 	return i.Current().(*stripe.Account)
 }

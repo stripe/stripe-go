@@ -1,4 +1,4 @@
-all: test bench vet check-gofmt
+all: test bench vet lint check-gofmt
 
 bench:
 	go test -race -bench . -run "Benchmark" ./form
@@ -8,6 +8,17 @@ build:
 
 check-gofmt:
 	scripts/check_gofmt.sh
+
+# We're trying to get linting activated, but there are so many errors that
+# we're doing so incrementally instead of pushing it through as part of one
+# giant patch.
+#
+# As new packages get cleaned up, add them here so that we don't regress. When
+# all packages are here, switch to a `./...` instead of linting every package
+# individually.
+lint:
+	golint -set_exit_status ./account
+	golint -set_exit_status ./charge
 
 test:
 	go test -race ./...
