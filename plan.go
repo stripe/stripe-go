@@ -95,6 +95,7 @@ type PlanListParams struct {
 	Active       *bool             `form:"active"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	Product      *string           `form:"product"`
 }
 
 // PlanParams is the set of parameters that can be used when creating or updating a plan.
