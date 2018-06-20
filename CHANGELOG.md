@@ -1,5 +1,8 @@
 # Changelog
 
+## 35.3.0 - 2018-06-20
+* [#596](https://github.com/stripe/stripe-go/pull/596) Add `Type` to `ProductListParams` so that products can be listed by type
+
 ## 35.2.0 - 2018-06-19
 * [#595](https://github.com/stripe/stripe-go/pull/595) Add `Product` to `PlanListParams` so that plans can be listed by product
 
