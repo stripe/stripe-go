@@ -1,5 +1,8 @@
 # Changelog
 
+## 35.4.0 - 2018-06-21
+* [#599](https://github.com/stripe/stripe-go/pull/599) Add `ExchangeRate` to `BalanceTransaction`
+
 ## 35.3.0 - 2018-06-20
 * [#596](https://github.com/stripe/stripe-go/pull/596) Add `Type` to `ProductListParams` so that products can be listed by type
 
