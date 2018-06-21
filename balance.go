@@ -100,19 +100,20 @@ type Balance struct {
 // BalanceTransaction is the resource representing the balance transaction.
 // For more details see https://stripe.com/docs/api/#balance.
 type BalanceTransaction struct {
-	Amount      int64                     `json:"amount"`
-	AvailableOn int64                     `json:"available_on"`
-	Created     int64                     `json:"created"`
-	Currency    Currency                  `json:"currency"`
-	Description string                    `json:"description"`
-	ID          string                    `json:"id"`
-	Fee         int64                     `json:"fee"`
-	FeeDetails  []*BalanceTransactionFee  `json:"fee_details"`
-	Net         int64                     `json:"net"`
-	Recipient   string                    `json:"recipient"`
-	Source      *BalanceTransactionSource `json:"source"`
-	Status      BalanceTransactionStatus  `json:"status"`
-	Type        BalanceTransactionType    `json:"type"`
+	Amount       int64                     `json:"amount"`
+	AvailableOn  int64                     `json:"available_on"`
+	Created      int64                     `json:"created"`
+	Currency     Currency                  `json:"currency"`
+	Description  string                    `json:"description"`
+	ExchangeRate float64                   `json:"exchange_rate"`
+	ID           string                    `json:"id"`
+	Fee          int64                     `json:"fee"`
+	FeeDetails   []*BalanceTransactionFee  `json:"fee_details"`
+	Net          int64                     `json:"net"`
+	Recipient    string                    `json:"recipient"`
+	Source       *BalanceTransactionSource `json:"source"`
+	Status       BalanceTransactionStatus  `json:"status"`
+	Type         BalanceTransactionType    `json:"type"`
 }
 
 // BalanceTransactionList is a list of transactions as returned from a list endpoint.
