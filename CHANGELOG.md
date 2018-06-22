@@ -1,5 +1,8 @@
 # Changelog
 
+## 35.5.0 - 2018-06-22
+* [#601](https://github.com/stripe/stripe-go/pull/601) Add missing parameters for retrieving an upcoming invoice
+
 ## 35.4.0 - 2018-06-21
 * [#599](https://github.com/stripe/stripe-go/pull/599) Add `ExchangeRate` to `BalanceTransaction`
 
