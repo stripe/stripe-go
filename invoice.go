@@ -29,6 +29,17 @@ const (
 	InvoiceBillingReasonUpcoming           InvoiceBillingReason = "upcoming"
 )
 
+// InvoiceUpcomingInvoiceItemParams is the set of parameters that can be used when adding or modifying
+// invoice items on an upcoming invoice.
+// For more details see https://stripe.com/docs/api#upcoming_invoice-invoice_items.
+type InvoiceUpcomingInvoiceItemParams struct {
+	Amount       *int64  `form:"amount"`
+	Currency     *string `form:"currency"`
+	Description  *string `form:"description"`
+	Discountable *bool   `form:"discountable"`
+	InvoiceItem  *string `form:"invoiceitem"`
+}
+
 // InvoiceParams is the set of parameters that can be used when creating or updating an invoice.
 // For more details see https://stripe.com/docs/api#create_invoice, https://stripe.com/docs/api#update_invoice.
 type InvoiceParams struct {
@@ -48,12 +59,17 @@ type InvoiceParams struct {
 
 	// These are all for exclusive use by GetNext.
 
-	SubscriptionItems         []*SubscriptionItemsParams `form:"subscription_items,indexed"`
-	SubscriptionPlan          *string                    `form:"subscription_plan"`
-	SubscriptionProrate       *bool                      `form:"subscription_prorate"`
-	SubscriptionProrationDate *int64                     `form:"subscription_proration_date"`
-	SubscriptionQuantity      *int64                     `form:"subscription_quantity"`
-	SubscriptionTrialEnd      *int64                     `form:"subscription_trial_end"`
+	Coupon                         *string                           `form:"coupon"`
+	InvoiceItems                   *InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
+	SubscriptionBillingCycleAnchor *int64                            `form:"subscription_billing_cycle_anchor"`
+	SubscriptionItems              []*SubscriptionItemsParams        `form:"subscription_items,indexed"`
+	SubscriptionPlan               *string                           `form:"subscription_plan"`
+	SubscriptionProrate            *bool                             `form:"subscription_prorate"`
+	SubscriptionProrationDate      *int64                            `form:"subscription_proration_date"`
+	SubscriptionQuantity           *int64                            `form:"subscription_quantity"`
+	SubscriptionTaxPercent         *int64                            `form:"subscription_tax_percent"`
+	SubscriptionTrialEnd           *int64                            `form:"subscription_trial_end"`
+	SubscriptionTrialFromPlan      *bool                             `form:"subscription_trial_from_plan"`
 }
 
 // InvoiceListParams is the set of parameters that can be used when listing invoices.
