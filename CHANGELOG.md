@@ -1,5 +1,8 @@
 # Changelog
 
+## 35.6.0 - 2018-06-25
+* [#603](https://github.com/stripe/stripe-go/pull/603) Add support for Level III data on charge creation
+
 ## 35.5.0 - 2018-06-22
 * [#601](https://github.com/stripe/stripe-go/pull/601) Add missing parameters for retrieving an upcoming invoice
 
