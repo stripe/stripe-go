@@ -19,6 +19,24 @@ const (
 	ChargeFraudStripeReportFraudulent ChargeFraudStripeReport = "fraudulent"
 )
 
+// ChargeLevel3LineItemsParams is the set of parameters that represent a line item on level III data.
+type ChargeLevel3LineItemsParams struct {
+	DiscountAmount     *int64  `form:"discount_amount"`
+	ProductCode        *string `form:"product_code"`
+	ProductDescription *string `form:"product_description"`
+	Quantity           *int64  `form:"quantity"`
+	TaxAmount          *int64  `form:"tax_amount"`
+	UnitCost           *int64  `form:"unit_cost"`
+}
+
+// ChargeLevel3Params is the set of parameters that can be used for the Level III data.
+type ChargeLevel3Params struct {
+	LineItems          []*ChargeLevel3LineItemsParams `form:"line_items"`
+	MerchantReference  *string                        `form:"merchant_reference"`
+	ShippingAddressZip *string                        `form:"shipping_address_zip"`
+	ShippingAmount     *int64                         `form:"shipping_amount"`
+}
+
 // ChargeParams is the set of parameters that can be used when creating or updating a charge.
 // For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
 type ChargeParams struct {
@@ -32,6 +50,7 @@ type ChargeParams struct {
 	Destination         *DestinationParams     `form:"destination"`
 	ExchangeRate        *float64               `form:"exchange_rate"`
 	FraudDetails        *FraudDetailsParams    `form:"fraud_details"`
+	Level3              *ChargeLevel3Params    `form:"level3"`
 	OnBehalfOf          *string                `form:"on_behalf_of"`
 	ReceiptEmail        *string                `form:"receipt_email"`
 	Shipping            *ShippingDetailsParams `form:"shipping"`
@@ -88,6 +107,26 @@ type CaptureParams struct {
 	StatementDescriptor *string  `form:"statement_descriptor"`
 }
 
+// ChargeLevel3LineItems represents a line item on level III data.
+// This is in private beta and would be empty for most integrations
+type ChargeLevel3LineItem struct {
+	DiscountAmount     int64  `json:"discount_amount"`
+	ProductCode        string `json:"product_code"`
+	ProductDescription string `json:"product_description"`
+	Quantity           int64  `json:"quantity"`
+	TaxAmount          int64  `json:"tax_amount"`
+	UnitCost           int64  `json:"unit_cost"`
+}
+
+// ChargeLevel3 represents the Level III data.
+// This is in private beta and would be empty for most integrations
+type ChargeLevel3 struct {
+	LineItems          []*ChargeLevel3LineItem `json:"line_items"`
+	MerchantReference  string                  `json:"merchant_reference"`
+	ShippingAddressZip string                  `json:"shipping_address_zip"`
+	ShippingAmount     int64                   `json:"shipping_amount"`
+}
+
 // Charge is the resource representing a Stripe charge.
 // For more details see https://stripe.com/docs/api#charges.
 type Charge struct {
@@ -108,6 +147,7 @@ type Charge struct {
 	FraudDetails        *FraudDetails       `json:"fraud_details"`
 	ID                  string              `json:"id"`
 	Invoice             *Invoice            `json:"invoice"`
+	Level3              ChargeLevel3        `json:"level3"`
 	Livemode            bool                `json:"livemode"`
 	Metadata            map[string]string   `json:"metadata"`
 	Outcome             *ChargeOutcome      `json:"outcome"`
