@@ -1,5 +1,8 @@
 # Changelog
 
+## 35.7.0 - 2018-06-26
+* [#604](https://github.com/stripe/stripe-go/pull/604) Add extra parameters `CustomerReference` and `ShippingFromZip` to `ChargeLevel3Params` and `ChargeLevel3`
+
 ## 35.6.0 - 2018-06-25
 * [#603](https://github.com/stripe/stripe-go/pull/603) Add support for Level III data on charge creation
 
