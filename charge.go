@@ -31,9 +31,11 @@ type ChargeLevel3LineItemsParams struct {
 
 // ChargeLevel3Params is the set of parameters that can be used for the Level III data.
 type ChargeLevel3Params struct {
+	CustomerReference  *string                        `form:"customer_reference"`
 	LineItems          []*ChargeLevel3LineItemsParams `form:"line_items"`
 	MerchantReference  *string                        `form:"merchant_reference"`
 	ShippingAddressZip *string                        `form:"shipping_address_zip"`
+	ShippingFromZip    *string                        `form:"shipping_from_zip"`
 	ShippingAmount     *int64                         `form:"shipping_amount"`
 }
 
@@ -121,9 +123,11 @@ type ChargeLevel3LineItem struct {
 // ChargeLevel3 represents the Level III data.
 // This is in private beta and would be empty for most integrations
 type ChargeLevel3 struct {
+	CustomerReference  string                  `json:"customer_reference"`
 	LineItems          []*ChargeLevel3LineItem `json:"line_items"`
 	MerchantReference  string                  `json:"merchant_reference"`
 	ShippingAddressZip string                  `json:"shipping_address_zip"`
+	ShippingFromZip    string                  `json:"shipping_from_zip"`
 	ShippingAmount     int64                   `json:"shipping_amount"`
 }
 
