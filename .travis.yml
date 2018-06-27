@@ -28,7 +28,7 @@ cache:
 
 env:
   global:
-    - STRIPE_MOCK_VERSION=0.16.0
+    - STRIPE_MOCK_VERSION=0.19.0
 
 go:
   - "1.7"
