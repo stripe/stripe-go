@@ -156,9 +156,10 @@ func TestUserAgent(t *testing.T) {
 
 func TestUserAgentWithAppInfo(t *testing.T) {
 	appInfo := &stripe.AppInfo{
-		Name:    "MyAwesomePlugin",
-		URL:     "https://myawesomeplugin.info",
-		Version: "1.2.34",
+		Name:      "MyAwesomePlugin",
+		PartnerId: "partner_1234",
+		URL:       "https://myawesomeplugin.info",
+		Version:   "1.2.34",
 	}
 	stripe.SetAppInfo(appInfo)
 	defer stripe.SetAppInfo(nil)

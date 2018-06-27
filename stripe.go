@@ -72,9 +72,10 @@ var Logger Printfer
 // to. This should be reserved for plugins that wish to identify themselves
 // with Stripe.
 type AppInfo struct {
-	Name    string `json:"name"`
-	URL     string `json:"url"`
-	Version string `json:"version"`
+	Name      string `json:"name"`
+	PartnerId string `json:"partner_id"`
+	URL       string `json:"url"`
+	Version   string `json:"version"`
 }
 
 // formatUserAgent formats an AppInfo in a way that's suitable to be appended
