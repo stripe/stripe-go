@@ -157,7 +157,7 @@ func TestUserAgent(t *testing.T) {
 func TestUserAgentWithAppInfo(t *testing.T) {
 	appInfo := &stripe.AppInfo{
 		Name:      "MyAwesomePlugin",
-		PartnerId: "partner_1234",
+		PartnerID: "partner_1234",
 		URL:       "https://myawesomeplugin.info",
 		Version:   "1.2.34",
 	}

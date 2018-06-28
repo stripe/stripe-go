@@ -73,7 +73,7 @@ var Logger Printfer
 // with Stripe.
 type AppInfo struct {
 	Name      string `json:"name"`
-	PartnerId string `json:"partner_id"`
+	PartnerID string `json:"partner_id"`
 	URL       string `json:"url"`
 	Version   string `json:"version"`
 }
