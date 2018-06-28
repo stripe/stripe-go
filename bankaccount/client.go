@@ -15,11 +15,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs a new bank account.
+// New creates a new bank account.
 func New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	return getC().New(params)
 }
 
+// New creates a new bank account.
 func (c Client) New(params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	if params == nil {
 		return nil, errors.New("params should not be nil")
@@ -54,6 +55,7 @@ func Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a bank account.
 func (c Client) Get(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	if params == nil {
 		return nil, errors.New("params should not be nil")
@@ -78,6 +80,7 @@ func Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, e
 	return getC().Update(id, params)
 }
 
+// Update updates a bank account.
 func (c Client) Update(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	if params == nil {
 		return nil, errors.New("params should not be nil")
@@ -102,6 +105,7 @@ func Del(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, erro
 	return getC().Del(id, params)
 }
 
+// Del removes a bank account.
 func (c Client) Del(id string, params *stripe.BankAccountParams) (*stripe.BankAccount, error) {
 	if params == nil {
 		return nil, errors.New("params should not be nil")
@@ -126,6 +130,7 @@ func List(params *stripe.BankAccountListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of bank accounts.
 func (c Client) List(listParams *stripe.BankAccountListParams) *Iter {
 	var path string
 	var outerErr error

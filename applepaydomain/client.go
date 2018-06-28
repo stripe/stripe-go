@@ -8,28 +8,30 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
-// Client is used to invoke /apple_pay/domains and ApplePayDomain-related APIs.
+// Client is used to invoke /apple_pay/domains and Apple Pay domain-related APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
 }
 
-// New POSTs new ApplePayDomains.
+// New creates a new Apple Pay domain.
 func New(params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 	return getC().New(params)
 }
 
+// New creates a new Apple Pay domain.
 func (c Client) New(params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 	domain := &stripe.ApplePayDomain{}
 	err := c.B.Call(http.MethodPost, "/apple_pay/domains", c.Key, params, domain)
 	return domain, err
 }
 
-// Get returns the details of an ApplePayDomain.
+// Get retrieves an Apple Pay domain.
 func Get(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 	return getC().Get(id, params)
 }
 
+// Get retrieves an Apple Pay domain.
 func (c Client) Get(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 	path := stripe.FormatURLPath("/apple_pay/domains/%s", id)
 	domain := &stripe.ApplePayDomain{}
@@ -37,11 +39,12 @@ func (c Client) Get(id string, params *stripe.ApplePayDomainParams) (*stripe.App
 	return domain, err
 }
 
-// Del removes an ApplePayDomain.
+// Del removes an Apple Pay domain.
 func Del(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 	return getC().Del(id, params)
 }
 
+// Del removes an Apple Pay domain.
 func (c Client) Del(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 	path := stripe.FormatURLPath("/apple_pay/domains/%s", id)
 	domain := &stripe.ApplePayDomain{}
@@ -49,11 +52,12 @@ func (c Client) Del(id string, params *stripe.ApplePayDomainParams) (*stripe.App
 	return domain, err
 }
 
-// List lists available ApplePayDomains.
+// List lists available Apple Pay domains.
 func List(params *stripe.ApplePayDomainListParams) *Iter {
 	return getC().List(params)
 }
 
+// List lists available Apple Pay domains.
 func (c Client) List(listParams *stripe.ApplePayDomainListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ApplePayDomainList{}
@@ -68,14 +72,14 @@ func (c Client) List(listParams *stripe.ApplePayDomainListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of ApplePayDomain.
+// Iter is an iterator for lists of Apple Pay domains.
 // The embedded Iter carries methods with it;
 // see its documentation for details.
 type Iter struct {
 	*stripe.Iter
 }
 
-// ApplePayDomain returns the most recent ApplePayDomain
+// ApplePayDomain returns the most recent Apple Pay domain
 // visited by a call to Next.
 func (i *Iter) ApplePayDomain() *stripe.ApplePayDomain {
 	return i.Current().(*stripe.ApplePayDomain)

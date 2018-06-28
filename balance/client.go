@@ -14,24 +14,24 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of your balance.
-// For more details see https://stripe.com/docs/api#retrieve_balance.
+// Get retrieves an account's balance
 func Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 	return getC().Get(params)
 }
 
+// Get retrieves an account's balance
 func (c Client) Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 	balance := &stripe.Balance{}
 	err := c.B.Call(http.MethodGet, "/balance", c.Key, params, balance)
 	return balance, err
 }
 
-// GetBalanceTransaction returns the details of a balance transaction.
-// For more details see	https://stripe.com/docs/api#retrieve_balance_transaction.
+// GetBalanceTransaction retrieves a balance transaction
 func GetBalanceTransaction(id string, params *stripe.BalanceTransactionParams) (*stripe.BalanceTransaction, error) {
 	return getC().GetBalanceTransaction(id, params)
 }
 
+// GetBalanceTransaction retrieves a balance transaction
 func (c Client) GetBalanceTransaction(id string, params *stripe.BalanceTransactionParams) (*stripe.BalanceTransaction, error) {
 	path := stripe.FormatURLPath("/balance/history/%s", id)
 	balance := &stripe.BalanceTransaction{}
@@ -40,11 +40,11 @@ func (c Client) GetBalanceTransaction(id string, params *stripe.BalanceTransacti
 }
 
 // List returns a list of balance transactions.
-// For more details see https://stripe.com/docs/api#balance_history.
 func List(params *stripe.BalanceTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of balance transactions.
 func (c Client) List(listParams *stripe.BalanceTransactionListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BalanceTransactionList{}
@@ -59,14 +59,14 @@ func (c Client) List(listParams *stripe.BalanceTransactionListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of BalanceTransactions.
+// Iter is an iterator for lists of balance transactions.
 // The embedded Iter carries methods with it;
 // see its documentation for details.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Charge returns the most recent BalanceTransaction
+// BalanceTransaction returns the most recent balance transaction
 // visited by a call to Next.
 func (i *Iter) BalanceTransaction() *stripe.BalanceTransaction {
 	return i.Current().(*stripe.BalanceTransaction)
