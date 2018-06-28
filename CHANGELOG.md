@@ -1,5 +1,8 @@
 # Changelog
 
+## 35.8.0 - 2018-06-28
+* [#607](https://github.com/stripe/stripe-go/pull/607) Add support for `PartnerID` from `stripe.SetAppInfo`
+
 ## 35.7.0 - 2018-06-26
 * [#604](https://github.com/stripe/stripe-go/pull/604) Add extra parameters `CustomerReference` and `ShippingFromZip` to `ChargeLevel3Params` and `ChargeLevel3`
 
