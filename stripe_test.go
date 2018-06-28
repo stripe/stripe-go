@@ -196,6 +196,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 	assert.Equal(t, "MyAwesomePlugin", application["name"])
 	assert.Equal(t, "https://myawesomeplugin.info", application["url"])
 	assert.Equal(t, "1.2.34", application["version"])
+	assert.Equal(t, "partner_1234", application["partner_id"])
 }
 
 func TestStripeClientUserAgent(t *testing.T) {
