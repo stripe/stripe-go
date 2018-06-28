@@ -168,12 +168,33 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 	req, err := c.NewRequest("", "", "", "", nil, nil)
 	assert.NoError(t, err)
 
+	//
+	// User-Agent
+	//
+
 	// We keep out version constant private to the package, so use a regexp
 	// match instead.
 	expectedPattern := regexp.MustCompile(`^Stripe/v1 GoBindings/[1-9][0-9.]+[0-9] MyAwesomePlugin/1.2.34 \(https://myawesomeplugin.info\)$`)
 
 	match := expectedPattern.MatchString(req.Header.Get("User-Agent"))
 	assert.True(t, match)
+
+	//
+	// X-Stripe-Client-User-Agent
+	//
+
+	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")
+	assert.NotEmpty(t, encodedUserAgent)
+
+	var userAgent map[string]interface{}
+	err = json.Unmarshal([]byte(encodedUserAgent), &userAgent)
+	assert.NoError(t, err)
+
+	application := userAgent["application"].(map[string]interface{})
+
+	assert.Equal(t, "MyAwesomePlugin", application["name"])
+	assert.Equal(t, "https://myawesomeplugin.info", application["url"])
+	assert.Equal(t, "1.2.34", application["version"])
 }
 
 func TestStripeClientUserAgent(t *testing.T) {
