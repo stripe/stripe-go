@@ -18,6 +18,10 @@ check-gofmt:
 # individually.
 lint:
 	golint -set_exit_status ./account
+	golint -set_exit_status ./applepaydomain
+	golint -set_exit_status ./bankaccount
+	golint -set_exit_status ./balance
+	golint -set_exit_status ./card
 	golint -set_exit_status ./charge
 
 test:

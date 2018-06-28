@@ -15,12 +15,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs new cards either for a customer or recipient.
-// For more details see https://stripe.com/docs/api#create_card.
+// New creates a new card.
 func New(params *stripe.CardParams) (*stripe.Card, error) {
 	return getC().New(params)
 }
 
+// New creates a new card.
 func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	if params == nil {
 		return nil, errors.New("params should not be nil")
@@ -56,11 +56,11 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 }
 
 // Get returns the details of a card.
-// For more details see https://stripe.com/docs/api#retrieve_card.
 func Get(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a card.
 func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	if params == nil {
 		return nil, errors.New("params should not be nil")
@@ -86,11 +86,11 @@ func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) 
 }
 
 // Update updates a card's properties.
-// For more details see	https://stripe.com/docs/api#update_card.
 func Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates a card's properties.
 func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	if params == nil {
 		return nil, errors.New("params should not be nil")
@@ -116,11 +116,11 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 }
 
 // Del removes a card.
-// For more details see https://stripe.com/docs/api#delete_card.
 func Del(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	return getC().Del(id, params)
 }
 
+// Del removes a card.
 func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) {
 	if params == nil {
 		return nil, errors.New("params should not be nil")
@@ -143,11 +143,11 @@ func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) 
 }
 
 // List returns a list of cards.
-// For more details see https://stripe.com/docs/api#list_cards.
 func List(params *stripe.CardListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of cards.
 func (c Client) List(listParams *stripe.CardListParams) *Iter {
 	var path string
 	var outerErr error
