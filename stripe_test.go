@@ -15,7 +15,7 @@ import (
 )
 
 func TestBearerAuth(t *testing.T) {
-	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 	key := "apiKey"
 
 	req, err := c.NewRequest("", "", key, "", nil, nil)
@@ -25,7 +25,7 @@ func TestBearerAuth(t *testing.T) {
 }
 
 func TestContext(t *testing.T) {
-	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 	p := &stripe.Params{Context: context.Background()}
 
 	req, err := c.NewRequest("", "", "", "", nil, p)
@@ -35,10 +35,7 @@ func TestContext(t *testing.T) {
 }
 
 func TestContext_Cancel(t *testing.T) {
-	c := &stripe.BackendConfiguration{
-		HTTPClient: &http.Client{},
-		URL:        stripe.APIURL,
-	}
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 	ctx, cancel := context.WithCancel(context.Background())
 	p := &stripe.Params{Context: ctx}
 
@@ -107,7 +104,7 @@ func TestMultipleAPICalls(t *testing.T) {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+			c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 			key := "apiKey"
 
 			req, err := c.NewRequest("", "", key, "", nil, nil)
@@ -120,7 +117,7 @@ func TestMultipleAPICalls(t *testing.T) {
 }
 
 func TestIdempotencyKey(t *testing.T) {
-	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 	p := &stripe.Params{IdempotencyKey: stripe.String("idempotency-key")}
 
 	req, err := c.NewRequest("", "", "", "", nil, p)
@@ -130,7 +127,7 @@ func TestIdempotencyKey(t *testing.T) {
 }
 
 func TestStripeAccount(t *testing.T) {
-	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 	p := &stripe.Params{}
 	p.SetStripeAccount(TestMerchantID)
 
@@ -141,7 +138,7 @@ func TestStripeAccount(t *testing.T) {
 }
 
 func TestUserAgent(t *testing.T) {
-	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 
 	req, err := c.NewRequest("", "", "", "", nil, nil)
 	assert.NoError(t, err)
@@ -164,7 +161,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 	stripe.SetAppInfo(appInfo)
 	defer stripe.SetAppInfo(nil)
 
-	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 
 	req, err := c.NewRequest("", "", "", "", nil, nil)
 	assert.NoError(t, err)
@@ -200,7 +197,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 }
 
 func TestStripeClientUserAgent(t *testing.T) {
-	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 
 	req, err := c.NewRequest("", "", "", "", nil, nil)
 	assert.NoError(t, err)
@@ -234,7 +231,7 @@ func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
 	stripe.SetAppInfo(appInfo)
 	defer stripe.SetAppInfo(nil)
 
-	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 
 	req, err := c.NewRequest("", "", "", "", nil, nil)
 	assert.NoError(t, err)
@@ -253,7 +250,7 @@ func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
 }
 
 func TestResponseToError(t *testing.T) {
-	c := &stripe.BackendConfiguration{URL: stripe.APIURL}
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 
 	// A test response that includes a status code and request ID.
 	res := &http.Response{

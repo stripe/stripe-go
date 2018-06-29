@@ -50,12 +50,6 @@ func TestOrderReturn(t *testing.T) {
 }
 
 func TestOrderReturn_RequestParams(t *testing.T) {
-	// Restore the backend when this test cases completes.
-	backend := stripe.GetBackend("api")
-	defer func() {
-		stripe.SetBackend("api", backend)
-	}()
-
 	// Create an ephemeral test server so that we can inspect request attributes.
 	var lastRequest *http.Request
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -65,16 +59,15 @@ func TestOrderReturn_RequestParams(t *testing.T) {
 	defer ts.Close()
 
 	// Configure the stripe client to use the ephemeral backend.
-	stripe.SetBackend("api", &stripe.BackendConfiguration{
-		Type:       stripe.APIBackend,
-		URL:        ts.URL + "/v1",
-		HTTPClient: &http.Client{},
+	backend := stripe.GetBackendWithConfig(stripe.APIBackend, &stripe.BackendConfig{
+		URL: ts.URL,
 	})
+	orderClient := Client{B: backend, Key: stripe.Key}
 
 	p := &stripe.OrderReturnParams{}
 	p.SetStripeAccount("acct_123")
 
-	order, err := Return("or_123", p)
+	order, err := orderClient.Return("or_123", p)
 	assert.Nil(t, err)
 	assert.NotNil(t, order)
 

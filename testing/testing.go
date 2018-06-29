@@ -59,11 +59,14 @@ func init() {
 	// Configure a backend for stripe-mock and set it for both the API and
 	// Uploads (unlike the real Stripe API, stripe-mock supports both these
 	// backends).
-	stripeMockBackend := &stripe.BackendConfiguration{
-		Type:       stripe.APIBackend,
-		URL:        "http://localhost:" + port + "/v1",
-		HTTPClient: &http.Client{},
-	}
+	stripeMockBackend := stripe.GetBackendWithConfig(
+		stripe.APIBackend,
+		&stripe.BackendConfig{
+			URL:        "http://localhost:" + port,
+			HTTPClient: &http.Client{},
+			Logger:     stripe.Logger,
+		},
+	)
 	stripe.SetBackend(stripe.APIBackend, stripeMockBackend)
 	stripe.SetBackend(stripe.UploadsBackend, stripeMockBackend)
 }
