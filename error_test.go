@@ -22,13 +22,11 @@ func TestErrorResponse(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	SetBackend("api", &BackendConfiguration{
-		Type:       APIBackend,
-		URL:        ts.URL,
-		HTTPClient: &http.Client{},
+	backend := GetBackendWithConfig(APIBackend, &BackendConfig{
+		URL: ts.URL,
 	})
 
-	err := GetBackend(APIBackend).Call(http.MethodGet, "/v1/account", "sk_test_badKey", nil, nil)
+	err := backend.Call(http.MethodGet, "/v1/account", "sk_test_badKey", nil, nil)
 	assert.Error(t, err)
 
 	stripeErr := err.(*Error)

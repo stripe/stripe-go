@@ -61,7 +61,10 @@ var LogLevel = 2
 
 // Logger controls how stripe performs logging at a package level. It is useful
 // to customise if you need it prefixed for your application to meet other
-// requirements
+// requirements.
+//
+// This Logger will be inherited by any backends created by default, but will
+// be overridden if a backend is created with GetBackendWithConfig.
 var Logger Printfer
 
 //
@@ -101,12 +104,54 @@ type Backend interface {
 	SetMaxNetworkRetries(maxNetworkRetries int)
 }
 
-// BackendConfiguration is the internal implementation for making HTTP calls to Stripe.
+// BackendConfig is used to configure a new Stripe backend.
+type BackendConfig struct {
+	// HTTPClient is an HTTP client instance to use when making API requests.
+	//
+	// If left unset, it'll be set to a default HTTP client for the package.
+	HTTPClient *http.Client
+
+	// LogLevel is the logging level of the library and defined by:
+	//
+	// 0: no logging
+	// 1: errors only
+	// 2: errors + informational (default)
+	// 3: errors + informational + debug
+	//
+	// Defaults to 0 (no logging), so please make sure to set this if you want
+	// to see logging output in your custom configuration.
+	LogLevel int
+
+	// Logger is where this backend will write its logs.
+	//
+	// If left unset, it'll be set to Logger.
+	Logger Printfer
+
+	// MaxNetworkRetries sets maximum number of times that the library will
+	// retry requests that appear to have failed due to an intermittent
+	// problem.
+	//
+	// Defaults to 0.
+	MaxNetworkRetries int
+
+	// URL is the base URL to use for API paths.
+	//
+	// If left empty, it'll be set to the default for the SupportedBackend.
+	URL string
+}
+
+// BackendConfiguration is the internal implementation for making HTTP calls to
+// Stripe.
+//
+// The public use of this struct is deprecated. It will be renamed and changed
+// to unexported in a future version.
 type BackendConfiguration struct {
 	Type              SupportedBackend
 	URL               string
 	HTTPClient        *http.Client
 	MaxNetworkRetries int
+	LogLevel          int
+	Logger            Printfer
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
@@ -185,8 +230,8 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 
 	req, err := http.NewRequest(method, path, body)
 	if err != nil {
-		if LogLevel > 0 {
-			Logger.Printf("Cannot create Stripe request: %v\n", err)
+		if s.LogLevel > 0 {
+			s.Logger.Printf("Cannot create Stripe request: %v\n", err)
 		}
 		return nil, err
 	}
@@ -233,8 +278,8 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 // the backend's HTTP client to execute the request and unmarshals the response
 // into v. It also handles unmarshaling errors returned by the API.
 func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
-	if LogLevel > 1 {
-		Logger.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
+	if s.LogLevel > 1 {
+		s.Logger.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
 	}
 
 	start := time.Now()
@@ -244,27 +289,27 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 	for retry := 0; ; {
 		res, err = s.HTTPClient.Do(req)
 		if s.shouldRetry(err, res, retry) {
-			if LogLevel > 0 {
-				Logger.Printf("Request failed with error: %v. Response: %v\n", err, res)
+			if s.LogLevel > 0 {
+				s.Logger.Printf("Request failed with error: %v. Response: %v\n", err, res)
 			}
 			sleep := sleepTime(retry)
 			time.Sleep(sleep)
 			retry++
-			if LogLevel > 1 {
-				Logger.Printf("Retry request %v %v time.\n", req.URL, retry)
+			if s.LogLevel > 1 {
+				s.Logger.Printf("Retry request %v %v time.\n", req.URL, retry)
 			}
 		} else {
 			break
 		}
 	}
 
-	if LogLevel > 2 {
-		Logger.Printf("Completed in %v\n", time.Since(start))
+	if s.LogLevel > 2 {
+		s.Logger.Printf("Completed in %v\n", time.Since(start))
 	}
 
 	if err != nil {
-		if LogLevel > 0 {
-			Logger.Printf("Request to Stripe failed: %v\n", err)
+		if s.LogLevel > 0 {
+			s.Logger.Printf("Request to Stripe failed: %v\n", err)
 		}
 		return err
 	}
@@ -272,8 +317,8 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 
 	resBody, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		if LogLevel > 0 {
-			Logger.Printf("Cannot parse Stripe response: %v\n", err)
+		if s.LogLevel > 0 {
+			s.Logger.Printf("Cannot parse Stripe response: %v\n", err)
 		}
 		return err
 	}
@@ -282,8 +327,8 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 		return s.ResponseToError(res, resBody)
 	}
 
-	if LogLevel > 2 {
-		Logger.Printf("Stripe Response: %q\n", resBody)
+	if s.LogLevel > 2 {
+		s.Logger.Printf("Stripe Response: %q\n", resBody)
 	}
 
 	if v != nil {
@@ -309,8 +354,8 @@ func (s *BackendConfiguration) ResponseToError(res *http.Response, resBody []byt
 	e, ok := errMap["error"]
 	if !ok {
 		err := errors.New(string(resBody))
-		if LogLevel > 0 {
-			Logger.Printf("Unparsable error returned from Stripe: %v\n", err)
+		if s.LogLevel > 0 {
+			s.Logger.Printf("Unparsable error returned from Stripe: %v\n", err)
 		}
 		return err
 	}
@@ -364,14 +409,16 @@ func (s *BackendConfiguration) ResponseToError(res *http.Response, resBody []byt
 		stripeErr.Err = &RateLimitError{stripeErr: stripeErr}
 	}
 
-	if LogLevel > 0 {
-		Logger.Printf("Error encountered from Stripe: %v\n", stripeErr)
+	if s.LogLevel > 0 {
+		s.Logger.Printf("Error encountered from Stripe: %v\n", stripeErr)
 	}
 
 	return stripeErr
 }
 
 // SetMaxNetworkRetries sets max number of retries on failed requests
+//
+// This function is deprecated. Please use GetBackendWithConfig instead.
 func (s *BackendConfiguration) SetMaxNetworkRetries(maxNetworkRetries int) {
 	s.MaxNetworkRetries = maxNetworkRetries
 }
@@ -462,32 +509,85 @@ func FormatURLPath(format string, params ...string) string {
 	return fmt.Sprintf(format, untypedParams...)
 }
 
-// GetBackend returns the currently used backend in the binding.
-func GetBackend(backend SupportedBackend) Backend {
-	switch backend {
+// GetBackend returns one of the library's supported backends based off of the
+// given argument.
+//
+// It returns an existing default backend if one's already been created.
+func GetBackend(backendType SupportedBackend) Backend {
+	var backend Backend
+
+	backends.mu.RLock()
+	switch backendType {
 	case APIBackend:
-		backends.mu.RLock()
-		ret := backends.API
-		backends.mu.RUnlock()
-		if ret != nil {
-			return ret
+		backend = backends.API
+	case UploadsBackend:
+		backend = backends.Uploads
+	}
+	backends.mu.RUnlock()
+	if backend != nil {
+		return backend
+	}
+
+	backend = GetBackendWithConfig(
+		backendType,
+		&BackendConfig{
+			HTTPClient:        httpClient,
+			LogLevel:          LogLevel,
+			Logger:            Logger,
+			MaxNetworkRetries: 0,
+			URL:               "", // Set by GetBackendWithConfiguation when empty
+		},
+	)
+
+	backends.mu.Lock()
+	defer backends.mu.Unlock()
+
+	switch backendType {
+	case APIBackend:
+		backends.API = backend
+	case UploadsBackend:
+		backends.Uploads = backend
+	}
+
+	return backend
+}
+
+// GetBackendWithConfig is the same as GetBackend except that it can be given a
+// configuration struct that will configure certain aspects of the backend
+// that's return.
+func GetBackendWithConfig(backendType SupportedBackend, config *BackendConfig) Backend {
+	if config.HTTPClient == nil {
+		config.HTTPClient = httpClient
+	}
+
+	if config.Logger == nil {
+		config.Logger = Logger
+	}
+
+	switch backendType {
+	case APIBackend:
+		if config.URL == "" {
+			config.URL = apiURL
 		}
-		backends.mu.Lock()
-		defer backends.mu.Unlock()
-		backends.API = &BackendConfiguration{Type: backend, URL: apiURL, HTTPClient: httpClient}
-		return backends.API
+
+		// Add the /v1/ prefix because all client packages expect it. We should
+		// probably change this to just make it explicit wherever it's needed
+		// to fulfill the principle of least astonishment.
+		config.URL += "/v1"
+
+		return newBackendConfiguration(backendType, config)
 
 	case UploadsBackend:
-		backends.mu.RLock()
-		ret := backends.Uploads
-		backends.mu.RUnlock()
-		if ret != nil {
-			return ret
+		if config.URL == "" {
+			config.URL = uploadsURL
 		}
-		backends.mu.Lock()
-		defer backends.mu.Unlock()
-		backends.Uploads = &BackendConfiguration{Type: backend, URL: uploadsURL, HTTPClient: httpClient}
-		return backends.Uploads
+
+		// Add the /v1/ prefix because all client packages expect it. We should
+		// probably change this to just make it explicit wherever it's needed
+		// to fulfill the principle of least astonishment.
+		config.URL += "/v1"
+
+		return newBackendConfiguration(backendType, config)
 	}
 
 	return nil
@@ -511,10 +611,8 @@ func Int64Value(v *int64) int64 {
 // should only need to use this for testing purposes or on App Engine.
 func NewBackends(httpClient *http.Client) *Backends {
 	return &Backends{
-		API: &BackendConfiguration{
-			Type: APIBackend, URL: APIURL, HTTPClient: httpClient},
-		Uploads: &BackendConfiguration{
-			Type: UploadsBackend, URL: UploadsURL, HTTPClient: httpClient},
+		API:     GetBackend(APIBackend),
+		Uploads: GetBackend(UploadsBackend),
 	}
 }
 
@@ -586,7 +684,7 @@ func StringValue(v *string) string {
 // Private constants
 //
 
-const apiURL = "https://api.stripe.com/v1"
+const apiURL = "https://api.stripe.com"
 
 // apiversion is the currently supported API version
 const apiversion = "2018-02-06"
@@ -604,7 +702,7 @@ const defaultHTTPTimeout = 80 * time.Second
 const maxNetworkRetriesDelay = 5000 * time.Millisecond
 const minNetworkRetriesDelay = 500 * time.Millisecond
 
-const uploadsURL = "https://uploads.stripe.com/v1"
+const uploadsURL = "https://uploads.stripe.com"
 
 //
 // Private types
@@ -687,6 +785,22 @@ func initUserAgent() {
 
 func isHTTPWriteMethod(method string) bool {
 	return method == http.MethodPost || method == http.MethodPut || method == http.MethodPatch || method == http.MethodDelete
+}
+
+// newBackendConfiguration returns a new Backend based off a given type and
+// fully initialized BackendConfig struct.
+//
+// The vast majority of the time you should be calling GetBackendWithConfig
+// instead of this function.
+func newBackendConfiguration(backendType SupportedBackend, config *BackendConfig) Backend {
+	return &BackendConfiguration{
+		HTTPClient:        config.HTTPClient,
+		LogLevel:          config.LogLevel,
+		Logger:            config.Logger,
+		MaxNetworkRetries: config.MaxNetworkRetries,
+		Type:              backendType,
+		URL:               config.URL,
+	}
 }
 
 // sleepTime calculates sleeping/delay time in milliseconds between failure and a new one request.
