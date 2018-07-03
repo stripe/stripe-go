@@ -14,12 +14,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of an event
-// For more details see https://stripe.com/docs/api#retrieve_event.
+// Get returns the details of an event.
 func Get(id string, params *stripe.EventParams) (*stripe.Event, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of an event.
 func (c Client) Get(id string, params *stripe.EventParams) (*stripe.Event, error) {
 	path := stripe.FormatURLPath("/events/%s", id)
 	event := &stripe.Event{}
@@ -28,11 +28,11 @@ func (c Client) Get(id string, params *stripe.EventParams) (*stripe.Event, error
 }
 
 // List returns a list of events.
-// For more details see https://stripe.com/docs/api#list_events
 func List(params *stripe.EventListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of events.
 func (c Client) List(listParams *stripe.EventListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.EventList{}
@@ -47,15 +47,12 @@ func (c Client) List(listParams *stripe.EventListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Events.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for events.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Event returns the most recent Event
-// visited by a call to Next.
+// Event returns the event which the iterator is currently pointing to.
 func (i *Iter) Event() *stripe.Event {
 	return i.Current().(*stripe.Event)
 }

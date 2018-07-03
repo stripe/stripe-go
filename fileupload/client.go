@@ -16,12 +16,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs new file uploads.
-// For more details see https://stripe.com/docs/api#create_file_upload.
+// New creates a new file upload.
 func New(params *stripe.FileUploadParams) (*stripe.FileUpload, error) {
 	return getC().New(params)
 }
 
+// New creates a new file upload.
 func (c Client) New(params *stripe.FileUploadParams) (*stripe.FileUpload, error) {
 	if params == nil {
 		return nil, fmt.Errorf("params cannot be nil, and params.Purpose and params.File must be set")
@@ -40,12 +40,12 @@ func (c Client) New(params *stripe.FileUploadParams) (*stripe.FileUpload, error)
 }
 
 // Get returns the details of a file upload.
-// For more details see https://stripe.com/docs/api#retrieve_file_upload.
 func Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpload, error) {
 	return getC().Get(id, params)
 
 }
 
+// Get returns the details of a file upload.
 func (c Client) Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpload, error) {
 	path := stripe.FormatURLPath("/files/%s", id)
 	upload := &stripe.FileUpload{}
@@ -54,11 +54,11 @@ func (c Client) Get(id string, params *stripe.FileUploadParams) (*stripe.FileUpl
 }
 
 // List returns a list of file uploads.
-// For more details see https://stripe.com/docs/api#list_file_uploads.
 func List(params *stripe.FileUploadListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of file uploads.
 func (c Client) List(listParams *stripe.FileUploadListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.FileUploadList{}
@@ -73,14 +73,12 @@ func (c Client) List(listParams *stripe.FileUploadListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of FileUploads.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for file uploads.
 type Iter struct {
 	*stripe.Iter
 }
 
-// FileUpload returns the most recent FileUpload visited by a call to Next.
+// FileUpload returns the file upload which the iterator is currently pointing to.
 func (i *Iter) FileUpload() *stripe.FileUpload {
 	return i.Current().(*stripe.FileUpload)
 }

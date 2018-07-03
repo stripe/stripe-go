@@ -14,14 +14,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs new ephemeral keys.
-// For more details see https://stripe.com/docs/api#create_ephemeral_key.
+// New create a new ephemeral key.
 func New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, error) {
 	return getC().New(params)
 }
 
-// New POSTs new ephemeral keys.
-// For more details see https://stripe.com/docs/api#create_ephemeral_key.
+// New create a new ephemeral key.
 func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, error) {
 	if params.StripeVersion == nil || len(stripe.StringValue(params.StripeVersion)) == 0 {
 		return nil, fmt.Errorf("params.StripeVersion must be specified")
@@ -38,13 +36,11 @@ func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 }
 
 // Del removes an ephemeral key.
-// For more details see https://stripe.com/docs/api#delete_ephemeral_key.
 func Del(id string, params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, error) {
 	return getC().Del(id, params)
 }
 
 // Del removes an ephemeral key.
-// For more details see https://stripe.com/docs/api#delete_ephemeral_key.
 func (c Client) Del(id string, params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, error) {
 	path := stripe.FormatURLPath("/ephemeral_keys/%s", id)
 	ephemeralKey := &stripe.EphemeralKey{}

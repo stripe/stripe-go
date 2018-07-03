@@ -14,11 +14,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns an ExchangeRate for a given currency
+// Get returns the exchante rate for a given currency.
 func Get(currency string, params *stripe.ExchangeRateParams) (*stripe.ExchangeRate, error) {
 	return getC().Get(currency, params)
 }
 
+// Get returns the exchante rate for a given currency.
 func (c Client) Get(currency string, params *stripe.ExchangeRateParams) (*stripe.ExchangeRate, error) {
 	path := stripe.FormatURLPath("/exchange_rates/%s", currency)
 	exchangeRate := &stripe.ExchangeRate{}
@@ -27,11 +28,12 @@ func (c Client) Get(currency string, params *stripe.ExchangeRateParams) (*stripe
 	return exchangeRate, err
 }
 
-// List lists available ExchangeRates.
+// List lists available exchange rates.
 func List(params *stripe.ExchangeRateListParams) *Iter {
 	return getC().List(params)
 }
 
+// List lists available exchange rates.
 func (c Client) List(listParams *stripe.ExchangeRateListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ExchangeRateList{}
@@ -46,15 +48,12 @@ func (c Client) List(listParams *stripe.ExchangeRateListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of ExchangeRates.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for exchange rates.
 type Iter struct {
 	*stripe.Iter
 }
 
-// ExchangeRate returns the most recent ExchangeRate
-// visited by a call to Next.
+// ExchangeRate returns the exchange rate which the iterator is currently pointing to.
 func (i *Iter) ExchangeRate() *stripe.ExchangeRate {
 	return i.Current().(*stripe.ExchangeRate)
 }

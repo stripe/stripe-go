@@ -30,6 +30,15 @@ lint:
 	golint -set_exit_status ./customer
 	golint -set_exit_status ./discount
 	golint -set_exit_status ./dispute
+	golint -set_exit_status ./ephemeralkey
+	golint -set_exit_status ./event
+	golint -set_exit_status ./exchangerate
+	golint -set_exit_status ./fee
+	golint -set_exit_status ./feerefund
+	golint -set_exit_status ./fileupload
+	golint -set_exit_status ./invoice
+	golint -set_exit_status ./invoiceitem
+	golint -set_exit_status ./issuerfraudrecord
 
 test:
 	go test -race ./...
