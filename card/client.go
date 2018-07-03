@@ -184,15 +184,12 @@ func (c Client) List(listParams *stripe.CardListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Cards.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for cards.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Card returns the most recent Card
-// visited by a call to Next.
+// Card returns the card which the iterator is currently pointing to.
 func (i *Iter) Card() *stripe.Card {
 	return i.Current().(*stripe.Card)
 }

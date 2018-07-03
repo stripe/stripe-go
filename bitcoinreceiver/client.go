@@ -75,15 +75,12 @@ func (c Client) List(listParams *stripe.BitcoinReceiverListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of BitcoinReceivers.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for bitcoin receivers.
 type Iter struct {
 	*stripe.Iter
 }
 
-// BitcoinReceiver returns the most recent BitcoinReceiver
-// visited by a call to Next.
+// BitcoinReceiver returns the bitcoin receiver which the iterator is currently pointing to.
 func (i *Iter) BitcoinReceiver() *stripe.BitcoinReceiver {
 	return i.Current().(*stripe.BitcoinReceiver)
 }

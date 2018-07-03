@@ -165,15 +165,12 @@ func (c Client) List(listParams *stripe.BankAccountListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of BankAccount.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for bank accounts.
 type Iter struct {
 	*stripe.Iter
 }
 
-// BankAccount returns the most recent BankAccount
-// visited by a call to Next.
+// BankAccount returns the bank account which the iterator is currently pointing to.
 func (i *Iter) BankAccount() *stripe.BankAccount {
 	return i.Current().(*stripe.BankAccount)
 }

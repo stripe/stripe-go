@@ -47,15 +47,12 @@ func (c Client) List(listParams *stripe.CountrySpecListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of CountrySpecs.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for Country Specs.
 type Iter struct {
 	*stripe.Iter
 }
 
-// CountrySpec returns the most recent CountrySpec
-// visited by a call to Next.
+// CountrySpec returns the Country Spec which the iterator is currently pointing to.
 func (i *Iter) CountrySpec() *stripe.CountrySpec {
 	return i.Current().(*stripe.CountrySpec)
 }

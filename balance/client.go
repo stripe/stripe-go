@@ -59,15 +59,12 @@ func (c Client) List(listParams *stripe.BalanceTransactionListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of balance transactions.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for balance transactions.
 type Iter struct {
 	*stripe.Iter
 }
 
-// BalanceTransaction returns the most recent balance transaction
-// visited by a call to Next.
+// BalanceTransaction returns the balance transaction which the iterator is currently pointing to.
 func (i *Iter) BalanceTransaction() *stripe.BalanceTransaction {
 	return i.Current().(*stripe.BalanceTransaction)
 }

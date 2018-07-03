@@ -85,15 +85,12 @@ func (c Client) List(listParams *stripe.CustomerListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Customers.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for customers.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Customer returns the most recent Customer
-// visited by a call to Next.
+// Customer returns the customer which the iterator is currently pointing to.
 func (i *Iter) Customer() *stripe.Customer {
 	return i.Current().(*stripe.Customer)
 }

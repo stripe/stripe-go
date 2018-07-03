@@ -85,15 +85,12 @@ func (c Client) List(listParams *stripe.CouponListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Coupons.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for coupons.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Coupon returns the most recent Coupon
-// visited by a call to Next.
+// Coupon returns the coupon which the iterator is currently pointing to.
 func (i *Iter) Coupon() *stripe.Coupon {
 	return i.Current().(*stripe.Coupon)
 }

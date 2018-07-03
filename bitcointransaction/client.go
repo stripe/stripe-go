@@ -36,15 +36,12 @@ func (c Client) List(listParams *stripe.BitcoinTransactionListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of BitcoinTransactions.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for bitcoin transactions.
 type Iter struct {
 	*stripe.Iter
 }
 
-// BitcoinTransaction returns the most recent BitcoinTransaction
-// visited by a call to Next.
+// BitcoinTransaction returns the bitcoin transaction which the iterator is currently pointing to.
 func (i *Iter) BitcoinTransaction() *stripe.BitcoinTransaction {
 	return i.Current().(*stripe.BitcoinTransaction)
 }

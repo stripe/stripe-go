@@ -72,15 +72,12 @@ func (c Client) Close(id string, params *stripe.DisputeParams) (*stripe.Dispute,
 	return dispute, err
 }
 
-// Iter is an iterator for lists of Disputes.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for disputes.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Dispute returns the most recent Dispute
-// visited by a call to Next.
+// Dispute returns the dispute which the iterator is currently pointing to.
 func (i *Iter) Dispute() *stripe.Dispute {
 	return i.Current().(*stripe.Dispute)
 }
