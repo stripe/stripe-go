@@ -14,12 +14,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs new customers.
-// For more details see https://stripe.com/docs/api#create_customer.
+// New creates a new customer.
 func New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 	return getC().New(params)
 }
 
+// New creates a new customer.
 func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 	cust := &stripe.Customer{}
 	err := c.B.Call(http.MethodPost, "/customers", c.Key, params, cust)
@@ -27,11 +27,11 @@ func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 }
 
 // Get returns the details of a customer.
-// For more details see https://stripe.com/docs/api#retrieve_customer.
 func Get(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a customer.
 func (c Client) Get(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 	path := stripe.FormatURLPath("/customers/%s", id)
 	cust := &stripe.Customer{}
@@ -40,11 +40,11 @@ func (c Client) Get(id string, params *stripe.CustomerParams) (*stripe.Customer,
 }
 
 // Update updates a customer's properties.
-// For more details see	https://stripe.com/docs/api#update_customer.
 func Update(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates a customer's properties.
 func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 	path := stripe.FormatURLPath("/customers/%s", id)
 	cust := &stripe.Customer{}
@@ -53,11 +53,11 @@ func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Custom
 }
 
 // Del removes a customer.
-// For more details see https://stripe.com/docs/api#delete_customer.
 func Del(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 	return getC().Del(id, params)
 }
 
+// Del removes a customer.
 func (c Client) Del(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 	path := stripe.FormatURLPath("/customers/%s", id)
 	cust := &stripe.Customer{}
@@ -66,11 +66,11 @@ func (c Client) Del(id string, params *stripe.CustomerParams) (*stripe.Customer,
 }
 
 // List returns a list of customers.
-// For more details see https://stripe.com/docs/api#list_customers.
 func List(params *stripe.CustomerListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of customers.
 func (c Client) List(listParams *stripe.CustomerListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CustomerList{}

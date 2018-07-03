@@ -17,12 +17,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs new bitcoin receivers.
-// For more details see https://stripe.com/docs/api/#create_bitcoin_receiver
+// New creates a new bitcoin receiver.
 func New(params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) {
 	return getC().New(params)
 }
 
+// New creates a new bitcoin receiver.
 func (c Client) New(params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) {
 	receiver := &stripe.BitcoinReceiver{}
 	err := c.B.Call(http.MethodPost, "/bitcoin/receivers", c.Key, params, receiver)
@@ -30,11 +30,11 @@ func (c Client) New(params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiv
 }
 
 // Get returns the details of a bitcoin receiver.
-// For more details see https://stripe.com/docs/api/#retrieve_bitcoin_receiver
 func Get(id string, params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a bitcoin receiver.
 func (c Client) Get(id string, params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) {
 	path := stripe.FormatURLPath("/bitcoin/receivers/%s", id)
 	bitcoinReceiver := &stripe.BitcoinReceiver{}
@@ -43,11 +43,11 @@ func (c Client) Get(id string, params *stripe.BitcoinReceiverParams) (*stripe.Bi
 }
 
 // Update updates a bitcoin receiver's properties.
-// For more details see https://stripe.com/docs/api#update_bitcoin_receiver.
 func Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.BitcoinReceiver, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates a bitcoin receiver's properties.
 func (c Client) Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.BitcoinReceiver, error) {
 	path := stripe.FormatURLPath("/bitcoin/receivers/%s", id)
 	receiver := &stripe.BitcoinReceiver{}
@@ -56,11 +56,11 @@ func (c Client) Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*
 }
 
 // List returns a list of bitcoin receivers.
-// For more details see https://stripe.com/docs/api/#list_bitcoin_receivers
 func List(params *stripe.BitcoinReceiverListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of bitcoin receivers.
 func (c Client) List(listParams *stripe.BitcoinReceiverListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BitcoinReceiverList{}

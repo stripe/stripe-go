@@ -14,12 +14,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs new coupons.
-// For more details see https://stripe.com/docs/api#create_coupon.
+// New creates a new coupon.
 func New(params *stripe.CouponParams) (*stripe.Coupon, error) {
 	return getC().New(params)
 }
 
+// New creates a new coupon.
 func (c Client) New(params *stripe.CouponParams) (*stripe.Coupon, error) {
 	coupon := &stripe.Coupon{}
 	err := c.B.Call(http.MethodPost, "/coupons", c.Key, params, coupon)
@@ -27,11 +27,11 @@ func (c Client) New(params *stripe.CouponParams) (*stripe.Coupon, error) {
 }
 
 // Get returns the details of a coupon.
-// For more details see https://stripe.com/docs/api#retrieve_coupon.
 func Get(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a coupon.
 func (c Client) Get(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 	path := stripe.FormatURLPath("/coupons/%s", id)
 	coupon := &stripe.Coupon{}
@@ -40,11 +40,11 @@ func (c Client) Get(id string, params *stripe.CouponParams) (*stripe.Coupon, err
 }
 
 // Update updates a coupon's properties.
-// For more details see https://stripe.com/docs/api#update_coupon.
 func Update(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates a coupon's properties.
 func (c Client) Update(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 	path := stripe.FormatURLPath("/coupons/%s", id)
 	coupon := &stripe.Coupon{}
@@ -53,11 +53,11 @@ func (c Client) Update(id string, params *stripe.CouponParams) (*stripe.Coupon, 
 }
 
 // Del removes a coupon.
-// For more details see https://stripe.com/docs/api#delete_coupon.
 func Del(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 	return getC().Del(id, params)
 }
 
+// Del removes a coupon.
 func (c Client) Del(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 	path := stripe.FormatURLPath("/coupons/%s", id)
 	coupon := &stripe.Coupon{}
@@ -66,11 +66,11 @@ func (c Client) Del(id string, params *stripe.CouponParams) (*stripe.Coupon, err
 }
 
 // List returns a list of coupons.
-// For more details see https://stripe.com/docs/api#list_coupons.
 func List(params *stripe.CouponListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of coupons.
 func (c Client) List(listParams *stripe.CouponListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CouponList{}

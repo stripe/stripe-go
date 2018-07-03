@@ -15,11 +15,11 @@ type Client struct {
 }
 
 // List returns a list of bitcoin transactions.
-// For more details see https://stripe.com/docs/api#retrieve_bitcoin_receiver.
 func List(params *stripe.BitcoinTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of bitcoin transactions.
 func (c Client) List(listParams *stripe.BitcoinTransactionListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		path := stripe.FormatURLPath("/bitcoin/receivers/%s/transactions",

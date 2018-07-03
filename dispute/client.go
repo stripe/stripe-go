@@ -14,11 +14,11 @@ type Client struct {
 }
 
 // Get returns the details of a dispute.
-// For more details see https://stripe.com/docs/api#retrieve_dispute.
 func Get(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a dispute.
 func (c Client) Get(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
 	path := stripe.FormatURLPath("/disputes/%s", id)
 	dispute := &stripe.Dispute{}
@@ -27,11 +27,11 @@ func (c Client) Get(id string, params *stripe.DisputeParams) (*stripe.Dispute, e
 }
 
 // List returns a list of disputes.
-// For more details see https://stripe.com/docs/api#list_disputes.
 func List(params *stripe.DisputeListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of disputes.
 func (c Client) List(listParams *stripe.DisputeListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.DisputeList{}
@@ -46,6 +46,32 @@ func (c Client) List(listParams *stripe.DisputeListParams) *Iter {
 	})}
 }
 
+// Update updates a dispute.
+func Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
+	return getC().Update(id, params)
+}
+
+// Update updates a dispute.
+func (c Client) Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
+	path := stripe.FormatURLPath("/disputes/%s", id)
+	dispute := &stripe.Dispute{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
+	return dispute, err
+}
+
+// Close dismisses a dispute in the customer's favor.
+func Close(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
+	return getC().Close(id, params)
+}
+
+// Close dismisses a dispute in the customer's favor.
+func (c Client) Close(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
+	path := stripe.FormatURLPath("/disputes/%s/close", id)
+	dispute := &stripe.Dispute{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
+	return dispute, err
+}
+
 // Iter is an iterator for lists of Disputes.
 // The embedded Iter carries methods with it;
 // see its documentation for details.
@@ -57,32 +83,6 @@ type Iter struct {
 // visited by a call to Next.
 func (i *Iter) Dispute() *stripe.Dispute {
 	return i.Current().(*stripe.Dispute)
-}
-
-// Update updates a dispute.
-// For more details see https://stripe.com/docs/api#update_dispute.
-func Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	return getC().Update(id, params)
-}
-
-func (c Client) Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	path := stripe.FormatURLPath("/disputes/%s", id)
-	dispute := &stripe.Dispute{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
-	return dispute, err
-}
-
-// Close dismisses a dispute in the customer's favor.
-// For more details see https://stripe.com/docs/api#close_dispute.
-func Close(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	return getC().Close(id, params)
-}
-
-func (c Client) Close(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	path := stripe.FormatURLPath("/disputes/%s/close", id)
-	dispute := &stripe.Dispute{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
-	return dispute, err
 }
 
 func getC() Client {

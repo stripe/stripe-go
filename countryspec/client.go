@@ -14,12 +14,12 @@ type Client struct {
 	Key string
 }
 
-// Get returns a CountrySpec for a given country code
-// For more details see https://stripe.com/docs/api/ruby#retrieve_country_spec
+// Get returns a Country Spec for a given country code.
 func Get(country string, params *stripe.CountrySpecParams) (*stripe.CountrySpec, error) {
 	return getC().Get(country, params)
 }
 
+// Get returns a Country Spec for a given country code.
 func (c Client) Get(country string, params *stripe.CountrySpecParams) (*stripe.CountrySpec, error) {
 	path := stripe.FormatURLPath("/country_specs/%s", country)
 	countrySpec := &stripe.CountrySpec{}
@@ -27,11 +27,12 @@ func (c Client) Get(country string, params *stripe.CountrySpecParams) (*stripe.C
 	return countrySpec, err
 }
 
-// List lists available CountrySpecs.
+// List lists available Country Specs.
 func List(params *stripe.CountrySpecListParams) *Iter {
 	return getC().List(params)
 }
 
+// List lists available Country Specs.
 func (c Client) List(listParams *stripe.CountrySpecListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CountrySpecList{}
