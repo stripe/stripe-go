@@ -14,13 +14,11 @@ type Client struct {
 }
 
 // Get returns the details of an issuer fraud record.
-// For more details see https://stripe.com/docs/api#retrieve_issuer_fraud_record.
 func Get(id string, params *stripe.IssuerFraudRecordParams) (*stripe.IssuerFraudRecord, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an issuer fraud record on a client.
-// For more details see https://stripe.com/docs/api#retrieve_issuer_fraud_record.
+// Get returns the details of an issuer fraud record.
 func (c Client) Get(id string, params *stripe.IssuerFraudRecordParams) (*stripe.IssuerFraudRecord, error) {
 	path := stripe.FormatURLPath("/issuer_fraud_records/%s", id)
 	ifr := &stripe.IssuerFraudRecord{}
@@ -29,13 +27,11 @@ func (c Client) Get(id string, params *stripe.IssuerFraudRecordParams) (*stripe.
 }
 
 // List returns a list of issuer fraud records.
-// For more details see https://stripe.com/docs/api#list_issuer_fraud_records.
 func List(params *stripe.IssuerFraudRecordListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of issuer fraud records on a client.
-// For more details see https://stripe.com/docs/api#list_issuer_fraud_records.
+// List returns a list of issuer fraud records.
 func (c Client) List(listParams *stripe.IssuerFraudRecordListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.IssuerFraudRecordList{}
@@ -50,15 +46,12 @@ func (c Client) List(listParams *stripe.IssuerFraudRecordListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Topups.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for issuer fraud records.
 type Iter struct {
 	*stripe.Iter
 }
 
-// IssuerFraudRecord returns the most recent issuer fraud record visited by a
-// call to Next.
+// IssuerFraudRecord returns the issuer fraud record which the iterator is currently pointing to.
 func (i *Iter) IssuerFraudRecord() *stripe.IssuerFraudRecord {
 	return i.Current().(*stripe.IssuerFraudRecord)
 }

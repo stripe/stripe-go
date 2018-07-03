@@ -14,12 +14,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs new invoices.
-// For more details see https://stripe.com/docs/api#create_invoice.
+// New creates a new invoice.
 func New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	return getC().New(params)
 }
 
+// New creates a new invoice.
 func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(http.MethodPost, "/invoices", c.Key, params, invoice)
@@ -27,11 +27,11 @@ func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 }
 
 // Get returns the details of an invoice.
-// For more details see https://stripe.com/docs/api#retrieve_invoice.
 func Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of an invoice.
 func (c Client) Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	path := stripe.FormatURLPath("/invoices/%s", id)
 	invoice := &stripe.Invoice{}
@@ -40,11 +40,11 @@ func (c Client) Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, e
 }
 
 // Pay pays an invoice.
-// For more details see https://stripe.com/docs/api#pay_invoice.
 func Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice, error) {
 	return getC().Pay(id, params)
 }
 
+// Pay pays an invoice.
 func (c Client) Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice, error) {
 	path := stripe.FormatURLPath("/invoices/%s/pay", id)
 	invoice := &stripe.Invoice{}
@@ -52,12 +52,12 @@ func (c Client) Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice
 	return invoice, err
 }
 
-// Update updates an invoice's properties.
-// For more details see https://stripe.com/docs/api#update_invoice.
+// Update updates an invoice.
 func Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates an invoice.
 func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	path := stripe.FormatURLPath("/invoices/%s", id)
 	invoice := &stripe.Invoice{}
@@ -65,12 +65,12 @@ func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice
 	return invoice, err
 }
 
-// GetNext returns the upcoming invoice's properties.
-// For more details see https://stripe.com/docs/api#retrieve_customer_invoice.
+// GetNext returns an upcoming invoice.
 func GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	return getC().GetNext(params)
 }
 
+// GetNext returns an upcoming invoice.
 func (c Client) GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(http.MethodGet, "/invoices/upcoming", c.Key, params, invoice)
@@ -78,11 +78,11 @@ func (c Client) GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 }
 
 // List returns a list of invoices.
-// For more details see https://stripe.com/docs/api#list_customer_invoices.
 func List(params *stripe.InvoiceListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of invoices.
 func (c Client) List(listParams *stripe.InvoiceListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceList{}
@@ -97,12 +97,12 @@ func (c Client) List(listParams *stripe.InvoiceListParams) *Iter {
 	})}
 }
 
-// ListLines returns a list of line items.
-// For more details see https://stripe.com/docs/api#invoice_lines.
+// ListLines returns a list of line items on an invoice.
 func ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 	return getC().ListLines(params)
 }
 
+// ListLines returns a list of line items on an invoice.
 func (c Client) ListLines(listParams *stripe.InvoiceLineListParams) *LineIter {
 	path := stripe.FormatURLPath("/invoices/%s/lines", stripe.StringValue(listParams.ID))
 	return &LineIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
@@ -118,28 +118,22 @@ func (c Client) ListLines(listParams *stripe.InvoiceLineListParams) *LineIter {
 	})}
 }
 
-// Iter is an iterator for lists of Invoices.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for invoices.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Invoice returns the most recent Invoice
-// visited by a call to Next.
+// Invoice returns the invoice which the iterator is currently pointing to.
 func (i *Iter) Invoice() *stripe.Invoice {
 	return i.Current().(*stripe.Invoice)
 }
 
-// LineIter is an iterator for lists of InvoiceLines.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// LineIter is an iterator for line items on an invoice.
 type LineIter struct {
 	*stripe.Iter
 }
 
-// InvoiceLine returns the most recent InvoiceLine
-// visited by a call to Next.
+// InvoiceLine returns the line item which the iterator is currently pointing to.
 func (i *LineIter) InvoiceLine() *stripe.InvoiceLine {
 	return i.Current().(*stripe.InvoiceLine)
 }
