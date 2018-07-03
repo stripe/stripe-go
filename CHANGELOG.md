@@ -1,5 +1,8 @@
 # Changelog
 
+## 35.9.0 - 2018-07-03
+* [#611](https://github.com/stripe/stripe-go/pull/611) Introduce `GetBackendWithConfig` and make logging configurable per backend
+
 ## 35.8.0 - 2018-06-28
 * [#607](https://github.com/stripe/stripe-go/pull/607) Add support for `PartnerID` from `stripe.SetAppInfo`
 
