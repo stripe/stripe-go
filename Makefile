@@ -21,8 +21,15 @@ lint:
 	golint -set_exit_status ./applepaydomain
 	golint -set_exit_status ./balance
 	golint -set_exit_status ./bankaccount
+	golint -set_exit_status ./bitcoinreceiver
+	golint -set_exit_status ./bitcointransaction
 	golint -set_exit_status ./card
 	golint -set_exit_status ./charge
+	golint -set_exit_status ./countryspec
+	golint -set_exit_status ./coupon
+	golint -set_exit_status ./customer
+	golint -set_exit_status ./discount
+	golint -set_exit_status ./dispute
 
 test:
 	go test -race ./...

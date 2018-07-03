@@ -14,11 +14,11 @@ type Client struct {
 }
 
 // Del removes a discount from a customer.
-// For more details see https://stripe.com/docs/api#delete_discount.
 func Del(customerID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
 	return getC().Del(customerID, params)
 }
 
+// Del removes a discount from a customer.
 func (c Client) Del(customerID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
 	path := stripe.FormatURLPath("/customers/%s/discount", customerID)
 	discount := &stripe.Discount{}
@@ -26,12 +26,12 @@ func (c Client) Del(customerID string, params *stripe.DiscountParams) (*stripe.D
 	return discount, err
 }
 
-// DelSub removes a discount from a customer's subscription.
-// For more details see https://stripe.com/docs/api#delete_subscription_discount.
+// DelSubscription removes a discount from a customer's subscription.
 func DelSubscription(subscriptionID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
 	return getC().DelSub(subscriptionID, params)
 }
 
+// DelSub removes a discount from a customer's subscription.
 func (c Client) DelSub(subscriptionID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
 	path := stripe.FormatURLPath("/subscriptions/%s/discount", subscriptionID)
 	discount := &stripe.Discount{}

@@ -72,15 +72,12 @@ func (c Client) List(listParams *stripe.ApplePayDomainListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Apple Pay domains.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for Apple Pay domains.
 type Iter struct {
 	*stripe.Iter
 }
 
-// ApplePayDomain returns the most recent Apple Pay domain
-// visited by a call to Next.
+// ApplePayDomain returns the Apple Pay domain which the iterator is currently pointing to.
 func (i *Iter) ApplePayDomain() *stripe.ApplePayDomain {
 	return i.Current().(*stripe.ApplePayDomain)
 }
