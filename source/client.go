@@ -13,28 +13,24 @@ type Client struct {
 	Key string
 }
 
-// New POSTs a new source.
-// For more details see https://stripe.com/docs/api#create_source.
+// New creates a new source.
 func New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 	return getC().New(params)
 }
 
-// New POSTs a new source.
-// For more details see https://stripe.com/docs/api#create_source.
+// New creates a new source.
 func (c Client) New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 	p := &stripe.Source{}
 	err := c.B.Call(http.MethodPost, "/sources", c.Key, params, p)
 	return p, err
 }
 
-// Get returns the details of a source
-// For more details see https://stripe.com/docs/api#retrieve_source.
+// Get returns the details of a source.
 func Get(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a source
-// For more details see https://stripe.com/docs/api#retrieve_source.
+// Get returns the details of a source.
 func (c Client) Get(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
 	path := stripe.FormatURLPath("/sources/%s", id)
 	source := &stripe.Source{}
@@ -43,11 +39,11 @@ func (c Client) Get(id string, params *stripe.SourceObjectParams) (*stripe.Sourc
 }
 
 // Update updates a source's properties.
-// For more details see	https://stripe.com/docs/api#update_source.
 func Update(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates a source's properties.
 func (c Client) Update(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
 	path := stripe.FormatURLPath("/sources/%s", id)
 	source := &stripe.Source{}
@@ -55,15 +51,12 @@ func (c Client) Update(id string, params *stripe.SourceObjectParams) (*stripe.So
 	return source, err
 }
 
-func getC() Client {
-	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
-}
-
-// Detach detaches the source from its customer object.
+// Detach detaches the source from a customer.
 func Detach(id string, params *stripe.SourceObjectDetachParams) (*stripe.Source, error) {
 	return getC().Detach(id, params)
 }
 
+// Detach detaches the source from a customer.
 func (c Client) Detach(id string, params *stripe.SourceObjectDetachParams) (*stripe.Source, error) {
 	if params.Customer == nil {
 		return nil, errors.New("Invalid source detach params: Customer needs to be set")
@@ -74,4 +67,8 @@ func (c Client) Detach(id string, params *stripe.SourceObjectDetachParams) (*str
 	source := &stripe.Source{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, source)
 	return source, err
+}
+
+func getC() Client {
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

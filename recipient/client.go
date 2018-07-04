@@ -18,11 +18,11 @@ type Client struct {
 // For that reason, there isn't a New() method for the Recipient resource.
 
 // Get returns the details of a recipient.
-// For more details see https://stripe.com/docs/api#retrieve_recipient.
 func Get(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a recipient.
 func (c Client) Get(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	path := stripe.FormatURLPath("/recipients/%s", id)
 	recipient := &stripe.Recipient{}
@@ -31,11 +31,11 @@ func (c Client) Get(id string, params *stripe.RecipientParams) (*stripe.Recipien
 }
 
 // Update updates a recipient's properties.
-// For more details see https://stripe.com/docs/api#update_recipient.
 func Update(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates a recipient's properties.
 func (c Client) Update(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	path := stripe.FormatURLPath("/recipients/%s", id)
 	recipient := &stripe.Recipient{}
@@ -44,11 +44,11 @@ func (c Client) Update(id string, params *stripe.RecipientParams) (*stripe.Recip
 }
 
 // Del removes a recipient.
-// For more details see https://stripe.com/docs/api#delete_recipient.
 func Del(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	return getC().Del(id, params)
 }
 
+// Del removes a recipient.
 func (c Client) Del(id string, params *stripe.RecipientParams) (*stripe.Recipient, error) {
 	path := stripe.FormatURLPath("/recipients/%s", id)
 	recipient := &stripe.Recipient{}
@@ -57,11 +57,11 @@ func (c Client) Del(id string, params *stripe.RecipientParams) (*stripe.Recipien
 }
 
 // List returns a list of recipients.
-// For more details see https://stripe.com/docs/api#list_recipients.
 func List(params *stripe.RecipientListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of recipients.
 func (c Client) List(listParams *stripe.RecipientListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.RecipientList{}
@@ -76,15 +76,12 @@ func (c Client) List(listParams *stripe.RecipientListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Recipients.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for recipients.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Recipient returns the most recent Recipient
-// visited by a call to Next.
+// Recipient returns the recipient which the iterator is currently pointing to.
 func (i *Iter) Recipient() *stripe.Recipient {
 	return i.Current().(*stripe.Recipient)
 }

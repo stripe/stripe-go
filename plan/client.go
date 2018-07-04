@@ -14,12 +14,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs a new plan.
-// For more details see https://stripe.com/docs/api#create_plan.
+// New creates a new plan.
 func New(params *stripe.PlanParams) (*stripe.Plan, error) {
 	return getC().New(params)
 }
 
+// New creates a new plan.
 func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
 	plan := &stripe.Plan{}
 	err := c.B.Call(http.MethodPost, "/plans", c.Key, params, plan)
@@ -27,11 +27,11 @@ func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
 }
 
 // Get returns the details of a plan.
-// For more details see https://stripe.com/docs/api#retrieve_plan.
 func Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a plan.
 func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/plans/%s", id)
 	plan := &stripe.Plan{}
@@ -40,11 +40,11 @@ func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) 
 }
 
 // Update updates a plan's properties.
-// For more details see https://stripe.com/docs/api#update_plan.
 func Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates a plan's properties.
 func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/plans/%s", id)
 	plan := &stripe.Plan{}
@@ -53,11 +53,11 @@ func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, erro
 }
 
 // Del removes a plan.
-// For more details see https://stripe.com/docs/api#delete_plan.
 func Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	return getC().Del(id, params)
 }
 
+// Del removes a plan.
 func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 	path := stripe.FormatURLPath("/plans/%s", id)
 	plan := &stripe.Plan{}
@@ -66,11 +66,11 @@ func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) 
 }
 
 // List returns a list of plans.
-// For more details see https://stripe.com/docs/api#list_plans.
 func List(params *stripe.PlanListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of plans.
 func (c Client) List(listParams *stripe.PlanListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.PlanList{}
@@ -85,15 +85,12 @@ func (c Client) List(listParams *stripe.PlanListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Plans.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for plans.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Plan returns the most recent Plan
-// visited by a call to Next.
+// Plan returns the plan which the iterator is currently pointing to.
 func (i *Iter) Plan() *stripe.Plan {
 	return i.Current().(*stripe.Plan)
 }

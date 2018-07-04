@@ -13,14 +13,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs a new product.
-// For more details see https://stripe.com/docs/api#create_product.
+// New creates a new product.
 func New(params *stripe.ProductParams) (*stripe.Product, error) {
 	return getC().New(params)
 }
 
-// New POSTs a new product.
-// For more details see https://stripe.com/docs/api#create_product.
+// New creates a new product.
 func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 	p := &stripe.Product{}
 	err := c.B.Call(http.MethodPost, "/products", c.Key, params, p)
@@ -28,13 +26,11 @@ func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
 }
 
 // Update updates a product's properties.
-// For more details see https://stripe.com/docs/api#update_product.
 func Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	return getC().Update(id, params)
 }
 
 // Update updates a product's properties.
-// For more details see https://stripe.com/docs/api#update_product.
 func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	path := stripe.FormatURLPath("/products/%s", id)
 	p := &stripe.Product{}
@@ -42,12 +38,12 @@ func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product
 	return p, err
 }
 
-// Get returns the details of an product
-// For more details see https://stripe.com/docs/api#retrieve_product.
+// Get returns the details of a product.
 func Get(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a product.
 func (c Client) Get(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	path := stripe.FormatURLPath("/products/%s", id)
 	p := &stripe.Product{}
@@ -56,11 +52,11 @@ func (c Client) Get(id string, params *stripe.ProductParams) (*stripe.Product, e
 }
 
 // List returns a list of products.
-// For more details see https://stripe.com/docs/api#list_products
 func List(params *stripe.ProductListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of products.
 func (c Client) List(listParams *stripe.ProductListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ProductList{}
@@ -75,33 +71,28 @@ func (c Client) List(listParams *stripe.ProductListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Products.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
-type Iter struct {
-	*stripe.Iter
-}
-
-// Product returns the most recent Product
-// visited by a call to Next.
-func (i *Iter) Product() *stripe.Product {
-	return i.Current().(*stripe.Product)
-}
-
-// Delete deletes a product
-// For more details see https://stripe.com/docs/api#delete_product.
+// Del deletes a product
 func Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	return getC().Del(id, params)
 }
 
-// Delete deletes a product.
-// For more details see https://stripe.com/docs/api#delete_product.
+// Del deletes a product.
 func (c Client) Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	path := stripe.FormatURLPath("/products/%s", id)
 	p := &stripe.Product{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, p)
 
 	return p, err
+}
+
+// Iter is an iterator for products.
+type Iter struct {
+	*stripe.Iter
+}
+
+// Product returns the product which the iterator is currently pointing to.
+func (i *Iter) Product() *stripe.Product {
+	return i.Current().(*stripe.Product)
 }
 
 func getC() Client {

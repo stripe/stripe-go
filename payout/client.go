@@ -14,12 +14,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs a new payout.
-// For more details see https://stripe.com/docs/api#create_payout.
+// New creates a new payout.
 func New(params *stripe.PayoutParams) (*stripe.Payout, error) {
 	return getC().New(params)
 }
 
+// New creates a new payout.
 func (c Client) New(params *stripe.PayoutParams) (*stripe.Payout, error) {
 	payout := &stripe.Payout{}
 	err := c.B.Call(http.MethodPost, "/payouts", c.Key, params, payout)
@@ -27,11 +27,11 @@ func (c Client) New(params *stripe.PayoutParams) (*stripe.Payout, error) {
 }
 
 // Get returns the details of a payout.
-// For more details see https://stripe.com/docs/api#retrieve_payout.
 func Get(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a payout.
 func (c Client) Get(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	path := stripe.FormatURLPath("/payouts/%s", id)
 	payout := &stripe.Payout{}
@@ -40,11 +40,11 @@ func (c Client) Get(id string, params *stripe.PayoutParams) (*stripe.Payout, err
 }
 
 // Update updates a payout's properties.
-// For more details see https://stripe.com/docs/api#update_payout.
 func Update(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates a payout's properties.
 func (c Client) Update(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	path := stripe.FormatURLPath("/payouts/%s", id)
 	payout := &stripe.Payout{}
@@ -53,11 +53,11 @@ func (c Client) Update(id string, params *stripe.PayoutParams) (*stripe.Payout, 
 }
 
 // Cancel cancels a pending payout.
-// For more details see https://stripe.com/docs/api#cancel_payout.
 func Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	return getC().Cancel(id, params)
 }
 
+// Cancel cancels a pending payout.
 func (c Client) Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	path := stripe.FormatURLPath("/payouts/%s/cancel", id)
 	payout := &stripe.Payout{}
@@ -66,11 +66,11 @@ func (c Client) Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, 
 }
 
 // List returns a list of payouts.
-// For more details see https://stripe.com/docs/api#list_payouts.
 func List(params *stripe.PayoutListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of payouts.
 func (c Client) List(listParams *stripe.PayoutListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.PayoutList{}
@@ -85,15 +85,12 @@ func (c Client) List(listParams *stripe.PayoutListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Payouts.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for payouts.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Payout returns the most recent Payout
-// visited by a call to Next.
+// Payout returns the payout which the iterator is currently pointing to.
 func (i *Iter) Payout() *stripe.Payout {
 	return i.Current().(*stripe.Payout)
 }

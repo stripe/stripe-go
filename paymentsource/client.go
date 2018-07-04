@@ -15,12 +15,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs new sources for a customer.
-// For more details see https://stripe.com/docs/api#create_source.
+// New creates a new source for a customer.
 func New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	return getC().New(params)
 }
 
+// New creates a new source for a customer.
 func (s Client) New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, errors.New("params should not be nil")
@@ -37,11 +37,11 @@ func (s Client) New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource,
 }
 
 // Get returns the details of a source.
-// For more details see https://stripe.com/docs/api#retrieve_source.
 func Get(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a source.
 func (s Client) Get(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, errors.New("params should not be nil")
@@ -58,11 +58,11 @@ func (s Client) Get(id string, params *stripe.CustomerSourceParams) (*stripe.Pay
 }
 
 // Update updates a source's properties.
-// For more details see https://stripe.com/docs/api#update_source.
 func Update(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates a source's properties.
 func (s Client) Update(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, errors.New("params should not be nil")
@@ -79,11 +79,11 @@ func (s Client) Update(id string, params *stripe.CustomerSourceParams) (*stripe.
 }
 
 // Del removes a source.
-// For more details see https://stripe.com/docs/api#delete_source.
 func Del(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	return getC().Del(id, params)
 }
 
+// Del removes a source.
 func (s Client) Del(id string, params *stripe.CustomerSourceParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, errors.New("params should not be nil")
@@ -100,11 +100,11 @@ func (s Client) Del(id string, params *stripe.CustomerSourceParams) (*stripe.Pay
 }
 
 // List returns a list of sources.
-// For more details see https://stripe.com/docs/api#list_sources.
 func List(params *stripe.SourceListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of sources.
 func (s Client) List(listParams *stripe.SourceListParams) *Iter {
 	var outerErr error
 	var path string
@@ -136,12 +136,12 @@ func (s Client) List(listParams *stripe.SourceListParams) *Iter {
 	})}
 }
 
-// Verify verifies a bank account
-// For more details see https://stripe.com/docs/guides/ach-beta
+// Verify verifies a source which is used for bank accounts.
 func Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource, error) {
 	return getC().Verify(id, params)
 }
 
+// Verify verifies a source which is used for bank accounts.
 func (s Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource, error) {
 	if params == nil {
 		return nil, errors.New("params should not be nil")
@@ -154,7 +154,7 @@ func (s Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.Pa
 	} else if len(params.Values) > 0 {
 		path = stripe.FormatURLPath("/sources/%s/verify", id)
 	} else {
-		return nil, errors.New("Only customer bank accounts or sources can be verified in this manner.")
+		return nil, errors.New("Only customer bank accounts or sources can be verified in this manner")
 	}
 
 	source := &stripe.PaymentSource{}
@@ -162,15 +162,12 @@ func (s Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.Pa
 	return source, err
 }
 
-// Iter is an iterator for lists of PaymentSources.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for sources.
 type Iter struct {
 	*stripe.Iter
 }
 
-// PaymentSource returns the most recent PaymentSource
-// visited by a call to Next.
+// PaymentSource returns the source which the iterator is currently pointing to.
 func (i *Iter) PaymentSource() *stripe.PaymentSource {
 	return i.Current().(*stripe.PaymentSource)
 }

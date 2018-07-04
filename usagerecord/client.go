@@ -1,4 +1,4 @@
-// Package usage_record provides the /subscription_items/{SUBSCRIPTION_ITEM_ID}/usage_records APIs
+// Package usagerecord provides the /subscription_items/{SUBSCRIPTION_ITEM_ID}/usage_records APIs
 package usagerecord
 
 import (
@@ -14,12 +14,11 @@ type Client struct {
 }
 
 // New creates a new usage record.
-// For more details see https://stripe.com/docs/api#usage_records
 func New(params *stripe.UsageRecordParams) (*stripe.UsageRecord, error) {
 	return getC().New(params)
 }
 
-// New internal implementation to create a new usage record.
+// New creates a new usage record.
 func (c Client) New(params *stripe.UsageRecordParams) (*stripe.UsageRecord, error) {
 	path := stripe.FormatURLPath("/subscription_items/%s/usage_records", stripe.StringValue(params.SubscriptionItem))
 	record := &stripe.UsageRecord{}

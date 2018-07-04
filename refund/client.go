@@ -14,12 +14,12 @@ type Client struct {
 	Key string
 }
 
-// New refunds a charge previously created.
-// For more details see https://stripe.com/docs/api#refund_charge.
+// New creates a refund.
 func New(params *stripe.RefundParams) (*stripe.Refund, error) {
 	return getC().New(params)
 }
 
+// New creates a refund.
 func (c Client) New(params *stripe.RefundParams) (*stripe.Refund, error) {
 	refund := &stripe.Refund{}
 	err := c.B.Call(http.MethodPost, "/refunds", c.Key, params, refund)
@@ -27,11 +27,11 @@ func (c Client) New(params *stripe.RefundParams) (*stripe.Refund, error) {
 }
 
 // Get returns the details of a refund.
-// For more details see https://stripe.com/docs/api#retrieve_refund.
 func Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a refund.
 func (c Client) Get(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	path := stripe.FormatURLPath("/refunds/%s", id)
 	refund := &stripe.Refund{}
@@ -40,11 +40,11 @@ func (c Client) Get(id string, params *stripe.RefundParams) (*stripe.Refund, err
 }
 
 // Update updates a refund's properties.
-// For more details see https://stripe.com/docs/api#update_refund.
 func Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates a refund's properties.
 func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, error) {
 	path := stripe.FormatURLPath("/refunds/%s", id)
 	refund := &stripe.Refund{}
@@ -53,11 +53,11 @@ func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, 
 }
 
 // List returns a list of refunds.
-// For more details see https://stripe.com/docs/api#list_refunds.
 func List(params *stripe.RefundListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of refunds.
 func (c Client) List(listParams *stripe.RefundListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.RefundList{}
@@ -72,15 +72,12 @@ func (c Client) List(listParams *stripe.RefundListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Refunds.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for refunds.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Refund returns the most recent Refund
-// visited by a call to Next.
+// Refund returns the refund which the iterator is currently pointing to.
 func (i *Iter) Refund() *stripe.Refund {
 	return i.Current().(*stripe.Refund)
 }

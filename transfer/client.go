@@ -14,12 +14,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs a new transfer.
-// For more details see https://stripe.com/docs/api#create_transfer.
+// New creates a new transfer.
 func New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 	return getC().New(params)
 }
 
+// New creates a new transfer.
 func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 	transfer := &stripe.Transfer{}
 	err := c.B.Call(http.MethodPost, "/transfers", c.Key, params, transfer)
@@ -27,11 +27,11 @@ func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 }
 
 // Get returns the details of a transfer.
-// For more details see https://stripe.com/docs/api#retrieve_transfer.
 func Get(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a transfer.
 func (c Client) Get(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	path := stripe.FormatURLPath("/transfers/%s", id)
 	transfer := &stripe.Transfer{}
@@ -40,11 +40,11 @@ func (c Client) Get(id string, params *stripe.TransferParams) (*stripe.Transfer,
 }
 
 // Update updates a transfer's properties.
-// For more details see https://stripe.com/docs/api#update_transfer.
 func Update(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates a transfer's properties.
 func (c Client) Update(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 	path := stripe.FormatURLPath("/transfers/%s", id)
 	transfer := &stripe.Transfer{}
@@ -53,11 +53,11 @@ func (c Client) Update(id string, params *stripe.TransferParams) (*stripe.Transf
 }
 
 // List returns a list of transfers.
-// For more details see https://stripe.com/docs/api#list_transfers.
 func List(params *stripe.TransferListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of transfers.
 func (c Client) List(listParams *stripe.TransferListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.TransferList{}
@@ -72,15 +72,12 @@ func (c Client) List(listParams *stripe.TransferListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Transfers.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for transfers.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Transfer returns the most recent Transfer
-// visited by a call to Next.
+// Transfer returns the transfer which the iterator is currently pointing to.
 func (i *Iter) Transfer() *stripe.Transfer {
 	return i.Current().(*stripe.Transfer)
 }
