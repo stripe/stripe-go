@@ -4,6 +4,7 @@ package client
 import (
 	. "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/account"
+	"github.com/stripe/stripe-go/applepaydomain"
 	"github.com/stripe/stripe-go/balance"
 	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/bitcoinreceiver"
@@ -23,6 +24,7 @@ import (
 	"github.com/stripe/stripe-go/fileupload"
 	"github.com/stripe/stripe-go/invoice"
 	"github.com/stripe/stripe-go/invoiceitem"
+	"github.com/stripe/stripe-go/issuerfraudrecord"
 	"github.com/stripe/stripe-go/loginlink"
 	"github.com/stripe/stripe-go/order"
 	"github.com/stripe/stripe-go/orderreturn"
@@ -35,16 +37,21 @@ import (
 	"github.com/stripe/stripe-go/reversal"
 	"github.com/stripe/stripe-go/sku"
 	"github.com/stripe/stripe-go/source"
+	"github.com/stripe/stripe-go/sourcetransaction"
 	"github.com/stripe/stripe-go/sub"
 	"github.com/stripe/stripe-go/subitem"
 	"github.com/stripe/stripe-go/token"
+	"github.com/stripe/stripe-go/topup"
 	"github.com/stripe/stripe-go/transfer"
+	"github.com/stripe/stripe-go/usagerecord"
 )
 
 // API is the Stripe client. It contains all the different resources available.
 type API struct {
 	// Account is the client used to invoke /accounts APIs.
 	Account *account.Client
+	// ApplePayDomains is the client used to invoke /apple_pay/domains APIs.
+	ApplePayDomains *applepaydomain.Client
 	// Balance is the client used to invoke /balance and transaction-related APIs.
 	Balance *balance.Client
 	// BankAccounts is the client used to invoke bank account related APIs.
@@ -83,6 +90,8 @@ type API struct {
 	Invoices *invoice.Client
 	// InvoiceItems is the client used to invoke /invoiceitems APIs.
 	InvoiceItems *invoiceitem.Client
+	// IssuerFraudRecords is the client used to invoke /issuer_fraud_records APIs.
+	IssuerFraudRecords *issuerfraudrecord.Client
 	// LoginLinks is the client used to invoke login link related APIs.
 	LoginLinks *loginlink.Client
 	// Orders is the client used to invoke /orders APIs.
@@ -107,14 +116,20 @@ type API struct {
 	Skus *sku.Client
 	// Sources is the client used to invoke /sources APIs.
 	Sources *source.Client
+	// SourceTransactions is the client used to invoke source transaction related APIs.
+	SourceTransactions *sourcetransaction.Client
 	// Subscriptions is the client used to invoke /subscriptions APIs.
 	Subscriptions *sub.Client
 	// SubscriptionItems is the client used to invoke subscription's items related APIs.
 	SubscriptionItems *subitem.Client
 	// Tokens is the client used to invoke /tokens APIs.
 	Tokens *token.Client
+	// Topups is the client used to invoke /tokens APIs.
+	Topups *topup.Client
 	// Transfers is the client used to invoke /transfers APIs.
 	Transfers *transfer.Client
+	// UsageRecords is the client used to invoke usage record related APIs.
+	UsageRecords *usagerecord.Client
 }
 
 // Init initializes the Stripe client with the appropriate secret key
@@ -125,6 +140,7 @@ func (a *API) Init(key string, backends *Backends) {
 	}
 
 	a.Account = &account.Client{B: backends.API, Key: key}
+	a.ApplePayDomains = &applepaydomain.Client{B: backends.API, Key: key}
 	a.Balance = &balance.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BitcoinReceivers = &bitcoinreceiver.Client{B: backends.API, Key: key}
@@ -144,6 +160,7 @@ func (a *API) Init(key string, backends *Backends) {
 	a.FileUploads = &fileupload.Client{B: backends.Uploads, Key: key}
 	a.Invoices = &invoice.Client{B: backends.API, Key: key}
 	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}
+	a.IssuerFraudRecords = &issuerfraudrecord.Client{B: backends.API, Key: key}
 	a.LoginLinks = &loginlink.Client{B: backends.API, Key: key}
 	a.Orders = &order.Client{B: backends.API, Key: key}
 	a.OrderReturns = &orderreturn.Client{B: backends.API, Key: key}
@@ -156,10 +173,13 @@ func (a *API) Init(key string, backends *Backends) {
 	a.Reversals = &reversal.Client{B: backends.API, Key: key}
 	a.Skus = &sku.Client{B: backends.API, Key: key}
 	a.Sources = &source.Client{B: backends.API, Key: key}
+	a.SourceTransactions = &sourcetransaction.Client{B: backends.API, Key: key}
 	a.Subscriptions = &sub.Client{B: backends.API, Key: key}
 	a.SubscriptionItems = &subitem.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
+	a.Topups = &topup.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
+	a.UsageRecords = &usagerecord.Client{B: backends.API, Key: key}
 }
 
 // New creates a new Stripe client with the appropriate secret key
