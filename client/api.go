@@ -4,6 +4,7 @@ package client
 import (
 	. "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/account"
+	"github.com/stripe/stripe-go/applepaydomain"
 	"github.com/stripe/stripe-go/balance"
 	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/bitcoinreceiver"
@@ -23,6 +24,7 @@ import (
 	"github.com/stripe/stripe-go/fileupload"
 	"github.com/stripe/stripe-go/invoice"
 	"github.com/stripe/stripe-go/invoiceitem"
+	"github.com/stripe/stripe-go/issuerfraudrecord"
 	"github.com/stripe/stripe-go/loginlink"
 	"github.com/stripe/stripe-go/order"
 	"github.com/stripe/stripe-go/orderreturn"
@@ -35,119 +37,99 @@ import (
 	"github.com/stripe/stripe-go/reversal"
 	"github.com/stripe/stripe-go/sku"
 	"github.com/stripe/stripe-go/source"
+	"github.com/stripe/stripe-go/sourcetransaction"
 	"github.com/stripe/stripe-go/sub"
 	"github.com/stripe/stripe-go/subitem"
 	"github.com/stripe/stripe-go/token"
+	"github.com/stripe/stripe-go/topup"
 	"github.com/stripe/stripe-go/transfer"
+	"github.com/stripe/stripe-go/usagerecord"
 )
 
 // API is the Stripe client. It contains all the different resources available.
 type API struct {
-	// Charges is the client used to invoke /charges APIs.
-	// For more details see https://stripe.com/docs/api#charges.
-	Charges *charge.Client
-	// Customers is the client used to invoke /customers APIs.
-	// For more details see https://stripe.com/docs/api#customers.
-	Customers *customer.Client
-	// Cards is the client used to invoke /cards APIs.
-	// For more details see https://stripe.com/docs/api#cards.
-	Cards *card.Client
-	// Subscriptions is the client used to invoke /subscriptions APIs.
-	// For more details see https://stripe.com/docs/api#subscriptions.
-	Subscriptions *sub.Client
-	// SubscriptionItems is the client used to invoke subscription's items-related APIs.
-	// For more details see https://stripe.com/docs/api#subscription_items.
-	SubscriptionItems *subitem.Client
-	// Plans is the client used to invoke /plans APIs.
-	// For more details see https://stripe.com/docs/api#plans.
-	Plans *plan.Client
-	// Coupons is the client used to invoke /coupons APIs.
-	// For more details see https://stripe.com/docs/api#coupons.
-	Coupons *coupon.Client
-	// Discounts is the client used to invoke discount-related APIs.
-	// For mode details see https://stripe.com/docs/api#discounts.
-	Discounts *discount.Client
-	// Invoices is the client used to invoke /invoices APIs.
-	// For more details see https://stripe.com/docs/api#invoices.
-	Invoices *invoice.Client
-	// InvoiceItems is the client used to invoke /invoiceitems APIs.
-	// For more details see https://stripe.com/docs/api#invoiceitems.
-	InvoiceItems *invoiceitem.Client
-	// LoginLinks is the client used to invoke /v1/accounts/<account_id>/login_links APIs.
-	// For more details see https://stripe.com/docs/api#login_link_object.
-	LoginLinks *loginlink.Client
-	// Disputes is the client used to invoke dispute-related APIs.
-	// For more details see https://stripe.com/docs/api#disputes.
-	Disputes *dispute.Client
-	// Transfers is the client used to invoke /transfers APIs.
-	// For more details see https://stripe.com/docs/api#transfers.
-	Transfers *transfer.Client
-	// Payouts is the client used to invoke /payouts APIs.
-	// For more details see https://stripe.com/docs/api#payouts.
-	Payouts *payout.Client
-	// Recipients is the client used to invoke /recipients APIs.
-	// For more details see https://stripe.com/docs/api#recipients.
-	Recipients *recipient.Client
-	// Refunds is the client used to invoke /refunds APIs.
-	// For more details see https://stripe.com/docs/api#refunds.
-	Refunds *refund.Client
-	// Fees is the client used to invoke /application_fees APIs.
-	// For more details see https://stripe.com/docs/api#application_fees.
-	Fees *fee.Client
-	// FeeRefunds is the client used to invoke /application_fees/refunds APIs.
-	// For more details see https://stripe.com/docs/api#fee_refundss.
-	FeeRefunds *feerefund.Client
-	// Account is the client used to invoke /account APIs.
-	// For more details see https://stripe.com/docs/api#account.
+	// Account is the client used to invoke /accounts APIs.
 	Account *account.Client
-	// CountrySpec is the client used to invoke /country_specs APIs.
-	// For more details see https://stripe.com/docs/api#country_specs.
-	CountrySpec *countryspec.Client
+	// ApplePayDomains is the client used to invoke /apple_pay/domains APIs.
+	ApplePayDomains *applepaydomain.Client
 	// Balance is the client used to invoke /balance and transaction-related APIs.
-	// For more details see https://stripe.com/docs/api#balance.
 	Balance *balance.Client
-	// EphemeralKeys is the client used to invoke /ephemeral_keys APIs.
-	// For more details see https://stripe.com/docs/api#ephemeral_keys.
-	EphemeralKeys *ephemeralkey.Client
-	// Events is the client used to invoke /events APIs.
-	// For more details see https://stripe.com/docs/api#events.
-	Events *event.Client
-	// Tokens is the client used to invoke /tokens APIs.
-	// For more details see https://stripe.com/docs/api#tokens.
-	Tokens *token.Client
-	// FileUploads is the client used to invoke the uploads /files APIs.
-	// For more details see https://stripe.com/docs/api#file_uploads.
-	FileUploads *fileupload.Client
+	// BankAccounts is the client used to invoke bank account related APIs.
+	BankAccounts *bankaccount.Client
 	// BitcoinReceivers is the client used to invoke /bitcoin/receivers APIs.
-	// For more details see https://stripe.com/docs/api#bitcoin_receivers.
 	BitcoinReceivers *bitcoinreceiver.Client
 	// BitcoinTransactions is the client used to invoke /bitcoin/transactions APIs.
-	// For more details see https://stripe.com/docs/api#bitcoin_receivers.
 	BitcoinTransactions *bitcointransaction.Client
-	// Reversals is the client used to invoke /transfers/reversals APIs.
-	Reversals *reversal.Client
-	// BankAccounts is the client used to invoke /accounts/bank_accounts APIs.
-	BankAccounts *bankaccount.Client
-	// Products is the client used to invoke /products APIs.
-	// For more details see https://stripe.com/docs/api#products.
-	Products *product.Client
-	// Orders is the client used to invoke /orders APIs.
-	// For more details see https://stripe.com/docs/api#orders.
-	Orders *order.Client
-	// OrderReturns is the client used to invoke /order_returns APIs.
-	// For more details, see https://stripe.com/docs/api#order_returns.
-	OrderReturns *orderreturn.Client
-	// Skus is the client used to invoke /skus APIs.
-	// For more details see https://stripe.com/docs/api#skus.
-	Skus *sku.Client
-	// Sources is the client used to invoke /sources APIs.
-	// For more details see https://stripe.com/docs/api#sources.
-	Sources *source.Client
-	// PaymentSource is used to invoke /sources APIs.
-	// For more details see https://stripe.com/docs/api.
-	PaymentSource *paymentsource.Client
+	// Cards is the client used to invoke card related APIs.
+	Cards *card.Client
+	// Charges is the client used to invoke /charges APIs.
+	Charges *charge.Client
+	// CountrySpec is the client used to invoke /country_specs APIs.
+	CountrySpec *countryspec.Client
+	// Coupons is the client used to invoke /coupons APIs.
+	Coupons *coupon.Client
+	// Customers is the client used to invoke /customers APIs.
+	Customers *customer.Client
+	// Discounts is the client used to invoke discount related APIs.
+	Discounts *discount.Client
+	// Disputes is the client used to invoke /disputes APIs.
+	Disputes *dispute.Client
+	// EphemeralKeys is the client used to invoke /ephemeral_keys APIs.
+	EphemeralKeys *ephemeralkey.Client
+	// Events is the client used to invoke /events APIs.
+	Events *event.Client
 	// ExchangeRates is the client used to invoke /exchange_rates APIs.
 	ExchangeRates *exchangerate.Client
+	// Fees is the client used to invoke /application_fees APIs.
+	Fees *fee.Client
+	// FeeRefunds is the client used to invoke /application_fees/refunds APIs.
+	FeeRefunds *feerefund.Client
+	// FileUploads is the client used to invoke the /files APIs.
+	FileUploads *fileupload.Client
+	// Invoices is the client used to invoke /invoices APIs.
+	Invoices *invoice.Client
+	// InvoiceItems is the client used to invoke /invoiceitems APIs.
+	InvoiceItems *invoiceitem.Client
+	// IssuerFraudRecords is the client used to invoke /issuer_fraud_records APIs.
+	IssuerFraudRecords *issuerfraudrecord.Client
+	// LoginLinks is the client used to invoke login link related APIs.
+	LoginLinks *loginlink.Client
+	// Orders is the client used to invoke /orders APIs.
+	Orders *order.Client
+	// OrderReturns is the client used to invoke /order_returns APIs.
+	OrderReturns *orderreturn.Client
+	// PaymentSource is used to invoke customer sources related APIs.
+	PaymentSource *paymentsource.Client
+	// Payouts is the client used to invoke /payouts APIs.
+	Payouts *payout.Client
+	// Plans is the client used to invoke /plans APIs.
+	Plans *plan.Client
+	// Products is the client used to invoke /products APIs.
+	Products *product.Client
+	// Recipients is the client used to invoke /recipients APIs.
+	Recipients *recipient.Client
+	// Refunds is the client used to invoke /refunds APIs.
+	Refunds *refund.Client
+	// Reversals is the client used to invoke /transfers/reversals APIs.
+	Reversals *reversal.Client
+	// Skus is the client used to invoke /skus APIs.
+	Skus *sku.Client
+	// Sources is the client used to invoke /sources APIs.
+	Sources *source.Client
+	// SourceTransactions is the client used to invoke source transaction related APIs.
+	SourceTransactions *sourcetransaction.Client
+	// Subscriptions is the client used to invoke /subscriptions APIs.
+	Subscriptions *sub.Client
+	// SubscriptionItems is the client used to invoke subscription's items related APIs.
+	SubscriptionItems *subitem.Client
+	// Tokens is the client used to invoke /tokens APIs.
+	Tokens *token.Client
+	// Topups is the client used to invoke /tokens APIs.
+	Topups *topup.Client
+	// Transfers is the client used to invoke /transfers APIs.
+	Transfers *transfer.Client
+	// UsageRecords is the client used to invoke usage record related APIs.
+	UsageRecords *usagerecord.Client
 }
 
 // Init initializes the Stripe client with the appropriate secret key
@@ -157,42 +139,47 @@ func (a *API) Init(key string, backends *Backends) {
 		backends = &Backends{API: GetBackend(APIBackend), Uploads: GetBackend(UploadsBackend)}
 	}
 
-	a.Charges = &charge.Client{B: backends.API, Key: key}
-	a.Customers = &customer.Client{B: backends.API, Key: key}
-	a.Cards = &card.Client{B: backends.API, Key: key}
-	a.Subscriptions = &sub.Client{B: backends.API, Key: key}
-	a.SubscriptionItems = &subitem.Client{B: backends.API, Key: key}
-	a.Plans = &plan.Client{B: backends.API, Key: key}
-	a.Coupons = &coupon.Client{B: backends.API, Key: key}
-	a.Discounts = &discount.Client{B: backends.API, Key: key}
-	a.Invoices = &invoice.Client{B: backends.API, Key: key}
-	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}
-	a.LoginLinks = &loginlink.Client{B: backends.API, Key: key}
-	a.Disputes = &dispute.Client{B: backends.API, Key: key}
-	a.Transfers = &transfer.Client{B: backends.API, Key: key}
-	a.Payouts = &payout.Client{B: backends.API, Key: key}
-	a.Recipients = &recipient.Client{B: backends.API, Key: key}
-	a.Refunds = &refund.Client{B: backends.API, Key: key}
-	a.Fees = &fee.Client{B: backends.API, Key: key}
-	a.FeeRefunds = &feerefund.Client{B: backends.API, Key: key}
 	a.Account = &account.Client{B: backends.API, Key: key}
-	a.CountrySpec = &countryspec.Client{B: backends.API, Key: key}
+	a.ApplePayDomains = &applepaydomain.Client{B: backends.API, Key: key}
 	a.Balance = &balance.Client{B: backends.API, Key: key}
-	a.EphemeralKeys = &ephemeralkey.Client{B: backends.API, Key: key}
-	a.Events = &event.Client{B: backends.API, Key: key}
-	a.Tokens = &token.Client{B: backends.API, Key: key}
-	a.FileUploads = &fileupload.Client{B: backends.Uploads, Key: key}
+	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BitcoinReceivers = &bitcoinreceiver.Client{B: backends.API, Key: key}
 	a.BitcoinTransactions = &bitcointransaction.Client{B: backends.API, Key: key}
-	a.Reversals = &reversal.Client{B: backends.API, Key: key}
-	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
-	a.Products = &product.Client{B: backends.API, Key: key}
+	a.Cards = &card.Client{B: backends.API, Key: key}
+	a.Charges = &charge.Client{B: backends.API, Key: key}
+	a.CountrySpec = &countryspec.Client{B: backends.API, Key: key}
+	a.Coupons = &coupon.Client{B: backends.API, Key: key}
+	a.Customers = &customer.Client{B: backends.API, Key: key}
+	a.Discounts = &discount.Client{B: backends.API, Key: key}
+	a.Disputes = &dispute.Client{B: backends.API, Key: key}
+	a.EphemeralKeys = &ephemeralkey.Client{B: backends.API, Key: key}
+	a.ExchangeRates = &exchangerate.Client{B: backends.API, Key: key}
+	a.Events = &event.Client{B: backends.API, Key: key}
+	a.Fees = &fee.Client{B: backends.API, Key: key}
+	a.FeeRefunds = &feerefund.Client{B: backends.API, Key: key}
+	a.FileUploads = &fileupload.Client{B: backends.Uploads, Key: key}
+	a.Invoices = &invoice.Client{B: backends.API, Key: key}
+	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}
+	a.IssuerFraudRecords = &issuerfraudrecord.Client{B: backends.API, Key: key}
+	a.LoginLinks = &loginlink.Client{B: backends.API, Key: key}
 	a.Orders = &order.Client{B: backends.API, Key: key}
 	a.OrderReturns = &orderreturn.Client{B: backends.API, Key: key}
+	a.PaymentSource = &paymentsource.Client{B: backends.API, Key: key}
+	a.Payouts = &payout.Client{B: backends.API, Key: key}
+	a.Plans = &plan.Client{B: backends.API, Key: key}
+	a.Products = &product.Client{B: backends.API, Key: key}
+	a.Recipients = &recipient.Client{B: backends.API, Key: key}
+	a.Refunds = &refund.Client{B: backends.API, Key: key}
+	a.Reversals = &reversal.Client{B: backends.API, Key: key}
 	a.Skus = &sku.Client{B: backends.API, Key: key}
 	a.Sources = &source.Client{B: backends.API, Key: key}
-	a.PaymentSource = &paymentsource.Client{B: backends.API, Key: key}
-	a.ExchangeRates = &exchangerate.Client{B: backends.API, Key: key}
+	a.SourceTransactions = &sourcetransaction.Client{B: backends.API, Key: key}
+	a.Subscriptions = &sub.Client{B: backends.API, Key: key}
+	a.SubscriptionItems = &subitem.Client{B: backends.API, Key: key}
+	a.Tokens = &token.Client{B: backends.API, Key: key}
+	a.Topups = &topup.Client{B: backends.API, Key: key}
+	a.Transfers = &transfer.Client{B: backends.API, Key: key}
+	a.UsageRecords = &usagerecord.Client{B: backends.API, Key: key}
 }
 
 // New creates a new Stripe client with the appropriate secret key
