@@ -1,4 +1,7 @@
 // Package threedsecure provides the /3d_secure APIs
+// This package is deprecated and should not be used anymore.
+// It is still here for backwards compatibility for now.
+// To use 3D Secure, please use the source package instead.
 package threedsecure
 
 import (
@@ -12,10 +15,6 @@ type Client struct {
 	B   stripe.Backend
 	Key string
 }
-
-// This package is deprecated and should not be used anymore.
-// It is still here for backwards compatibility for now.
-// To use 3D Secure, please use the source package instead.
 
 // New creates a new 3D Secure object.
 func New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
