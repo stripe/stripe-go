@@ -1,5 +1,8 @@
 # Changelog
 
+## 35.10.0 - 2018-07-04
+* [#616](https://github.com/stripe/stripe-go/pull/616) Adding missing clients to the `API` struct including a `UsageRecords` entry
+
 ## 35.9.0 - 2018-07-03
 * [#611](https://github.com/stripe/stripe-go/pull/611) Introduce `GetBackendWithConfig` and make logging configurable per backend
 
