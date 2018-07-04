@@ -16,11 +16,11 @@ type Client struct {
 }
 
 // List returns a list of source transactions.
-// For more details see https://stripe.com/docs/api#retrieve_source.
 func List(params *stripe.SourceTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of source transactions.
 func (c Client) List(listParams *stripe.SourceTransactionListParams) *Iter {
 	var outerErr error
 	var path string
@@ -50,15 +50,12 @@ func (c Client) List(listParams *stripe.SourceTransactionListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of SourceTransactions.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for source transactions.
 type Iter struct {
 	*stripe.Iter
 }
 
-// SourceTransaction returns the most recent SourceTransaction
-// visited by a call to Next.
+// SourceTransaction returns the source transaction which the iterator is currently pointing to.
 func (i *Iter) SourceTransaction() *stripe.SourceTransaction {
 	return i.Current().(*stripe.SourceTransaction)
 }

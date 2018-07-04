@@ -13,12 +13,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs new topups.
-// For more details see https://stripe.com/docs/api#create_topup.
+// New creates a new topup.
 func New(params *stripe.TopupParams) (*stripe.Topup, error) {
 	return getC().New(params)
 }
 
+// New creates a new topup.
 func (c Client) New(params *stripe.TopupParams) (*stripe.Topup, error) {
 	topup := &stripe.Topup{}
 	err := c.B.Call(http.MethodPost, "/topups", c.Key, params, topup)
@@ -26,11 +26,11 @@ func (c Client) New(params *stripe.TopupParams) (*stripe.Topup, error) {
 }
 
 // Get returns the details of a topup.
-// For more details see https://stripe.com/docs/api#retrieve_topup.
 func Get(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a topup.
 func (c Client) Get(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
 	path := stripe.FormatURLPath("/topups/%s", id)
 	topup := &stripe.Topup{}
@@ -39,11 +39,11 @@ func (c Client) Get(id string, params *stripe.TopupParams) (*stripe.Topup, error
 }
 
 // Update updates a topup's properties.
-// For more details see https://stripe.com/docs/api#update_topup.
 func Update(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates a topup's properties.
 func (c Client) Update(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
 	path := stripe.FormatURLPath("/topups/%s", id)
 	topup := &stripe.Topup{}
@@ -52,11 +52,11 @@ func (c Client) Update(id string, params *stripe.TopupParams) (*stripe.Topup, er
 }
 
 // List returns a list of topups.
-// For more details see https://stripe.com/docs/api#list_topups.
 func List(params *stripe.TopupListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of topups.
 func (c Client) List(listParams *stripe.TopupListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.TopupList{}
@@ -71,9 +71,7 @@ func (c Client) List(listParams *stripe.TopupListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Topups.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for topups.
 type Iter struct {
 	*stripe.Iter
 }

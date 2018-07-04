@@ -14,12 +14,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs to create a login_link for an account
-// For more details see https://stripe.com/docs/api#create_login_link.
+// New creates a login link for an account.
 func New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
 	return getC().New(params)
 }
 
+// New creates a login link for an account.
 func (c Client) New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
 	if params.Account == nil {
 		return nil, errors.New("Invalid login link params: Account must be set")

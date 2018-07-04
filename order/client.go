@@ -13,14 +13,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs a new order.
-// For more details see https://stripe.com/docs/api#create_order.
+// New creates a new order.
 func New(params *stripe.OrderParams) (*stripe.Order, error) {
 	return getC().New(params)
 }
 
-// New POSTs a new order.
-// For more details see https://stripe.com/docs/api#create_order.
+// New creates a new order.
 func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 	p := &stripe.Order{}
 	err := c.B.Call(http.MethodPost, "/orders", c.Key, params, p)
@@ -28,13 +26,11 @@ func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 }
 
 // Update updates an order's properties.
-// For more details see https://stripe.com/docs/api#update_order.
 func Update(id string, params *stripe.OrderUpdateParams) (*stripe.Order, error) {
 	return getC().Update(id, params)
 }
 
 // Update updates an order's properties.
-// For more details see https://stripe.com/docs/api#update_order.
 func (c Client) Update(id string, params *stripe.OrderUpdateParams) (*stripe.Order, error) {
 	path := stripe.FormatURLPath("/orders/%s", id)
 	o := &stripe.Order{}
@@ -42,14 +38,12 @@ func (c Client) Update(id string, params *stripe.OrderUpdateParams) (*stripe.Ord
 	return o, err
 }
 
-// Pay pays an order
-// For more details see https://stripe.com/docs/api#pay_order.
+// Pay pays an order.
 func Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, error) {
 	return getC().Pay(id, params)
 }
 
-// Pay pays an order
-// For more details see https://stripe.com/docs/api#pay_order.
+// Pay pays an order.
 func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, error) {
 	path := stripe.FormatURLPath("/orders/%s/pay", id)
 	o := &stripe.Order{}
@@ -57,12 +51,12 @@ func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, er
 	return o, err
 }
 
-// Get returns the details of an order
-// For more details see https://stripe.com/docs/api#retrieve_order.
+// Get returns the details of an order.
 func Get(id string, params *stripe.OrderParams) (*stripe.Order, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of an order.
 func (c Client) Get(id string, params *stripe.OrderParams) (*stripe.Order, error) {
 	path := stripe.FormatURLPath("/orders/%s", id)
 	order := &stripe.Order{}
@@ -71,11 +65,11 @@ func (c Client) Get(id string, params *stripe.OrderParams) (*stripe.Order, error
 }
 
 // List returns a list of orders.
-// For more details see https://stripe.com/docs/api#list_orders
 func List(params *stripe.OrderListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of orders.
 func (c Client) List(listParams *stripe.OrderListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.OrderList{}
@@ -90,27 +84,12 @@ func (c Client) List(listParams *stripe.OrderListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Orders.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
-type Iter struct {
-	*stripe.Iter
-}
-
-// Order returns the most recent Order
-// visited by a call to Next.
-func (i *Iter) Order() *stripe.Order {
-	return i.Current().(*stripe.Order)
-}
-
 // Return returns all or part of an order.
-// For more details see https://stripe.com/docs/api#return_order.
 func Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
 	return getC().Return(id, params)
 }
 
 // Return returns all or part of an order.
-// For more details see https://stripe.com/docs/api#return_order.
 func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
 	path := stripe.FormatURLPath("/orders/%s/returns", id)
 	ret := &stripe.OrderReturn{}
@@ -118,6 +97,15 @@ func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.Ord
 	return ret, err
 }
 
+// Iter is an iterator for orders.
+type Iter struct {
+	*stripe.Iter
+}
+
+// Order returns the order which the iterator is currently pointing to.
+func (i *Iter) Order() *stripe.Order {
+	return i.Current().(*stripe.Order)
+}
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

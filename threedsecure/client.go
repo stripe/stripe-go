@@ -13,24 +13,28 @@ type Client struct {
 	Key string
 }
 
-// New POSTs new 3D Secure auths.
-// For more details see https://stripe.com/docs/api#create_three_d_secure.
+// This package is deprecated and should not be used anymore.
+// It is still here for backwards compatibility for now.
+// To use 3D Secure, please use the source package instead.
+
+// New creates a new 3D Secure object.
 func New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
 	return getC().New(params)
 }
 
+// New creates a new 3D Secure object.
 func (c Client) New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
 	tds := &stripe.ThreeDSecure{}
 	err := c.B.Call(http.MethodPost, "/3d_secure", c.Key, params, tds)
 	return tds, err
 }
 
-// Get returns the details of a 3D Secure auth.
-// For more details see https://stripe.com/docs/api#retrieve_three_d_secure.
+// Get returns the details of a 3D Secure object.
 func Get(id string, params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a 3D Secure object.
 func (c Client) Get(id string, params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
 	path := stripe.FormatURLPath("/3d_secure/%s", id)
 	tds := &stripe.ThreeDSecure{}

@@ -13,14 +13,12 @@ type Client struct {
 	Key string
 }
 
-// New POSTs a new SKU.
-// For more details see https://stripe.com/docs/api#create_sku.
+// New creates a new SKU.
 func New(params *stripe.SKUParams) (*stripe.SKU, error) {
 	return getC().New(params)
 }
 
-// New POSTs a new SKU.
-// For more details see https://stripe.com/docs/api#create_sku.
+// New creates a new SKU.
 func (c Client) New(params *stripe.SKUParams) (*stripe.SKU, error) {
 	s := &stripe.SKU{}
 	err := c.B.Call(http.MethodPost, "/skus", c.Key, params, s)
@@ -28,13 +26,11 @@ func (c Client) New(params *stripe.SKUParams) (*stripe.SKU, error) {
 }
 
 // Update updates a SKU's properties.
-// For more details see https://stripe.com/docs/api#update_sku.
 func Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	return getC().Update(id, params)
 }
 
 // Update updates a SKU's properties.
-// For more details see https://stripe.com/docs/api#update_sku.
 func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	path := stripe.FormatURLPath("/skus/%s", id)
 	s := &stripe.SKU{}
@@ -42,12 +38,12 @@ func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error)
 	return s, err
 }
 
-// Get returns the details of an sku
-// For more details see https://stripe.com/docs/api#retrieve_sku.
+// Get returns the details of a SKU.
 func Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a SKU.
 func (c Client) Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	path := stripe.FormatURLPath("/skus/%s", id)
 	s := &stripe.SKU{}
@@ -55,12 +51,12 @@ func (c Client) Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	return s, err
 }
 
-// List returns a list of skus.
-// For more details see https://stripe.com/docs/api#list_skus
+// List returns a list of SKUs.
 func List(params *stripe.SKUListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of SKUs.
 func (c Client) List(listParams *stripe.SKUListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SKUList{}
@@ -75,33 +71,28 @@ func (c Client) List(listParams *stripe.SKUListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of SKUs.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
-type Iter struct {
-	*stripe.Iter
-}
-
-// SKU returns the most recent SKU
-// visited by a call to Next.
-func (i *Iter) SKU() *stripe.SKU {
-	return i.Current().(*stripe.SKU)
-}
-
-// Delete destroys a SKU.
-// For more details see https://stripe.com/docs/api#delete_sku.
+// Del removes a SKU.
 func Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	return getC().Del(id, params)
 }
 
-// Delete destroys a SKU.
-// For more details see https://stripe.com/docs/api#delete_sku.
+// Del removes a SKU.
 func (c Client) Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	path := stripe.FormatURLPath("/skus/%s", id)
 	s := &stripe.SKU{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, s)
 
 	return s, err
+}
+
+// Iter is an iterator for SKUs.
+type Iter struct {
+	*stripe.Iter
+}
+
+// SKU returns the SKU which the iterator is currently pointing to.
+func (i *Iter) SKU() *stripe.SKU {
+	return i.Current().(*stripe.SKU)
 }
 
 func getC() Client {

@@ -14,24 +14,24 @@ type Client struct {
 	Key string
 }
 
-// New POSTS a new subscription for a customer.
-// For more details see https://stripe.com/docs/api#create_subscription_item.
+// New creates a new subscription item.
 func New(params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	return getC().New(params)
 }
 
+// New creates a new subscription item.
 func (c Client) New(params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	item := &stripe.SubscriptionItem{}
 	err := c.B.Call(http.MethodPost, "/subscription_items", c.Key, params, item)
 	return item, err
 }
 
-// Get returns the details of a subscription.
-// For more details see https://stripe.com/docs/api#retrieve_subscription.
+// Get returns the details of a subscription item.
 func Get(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	return getC().Get(id, params)
 }
 
+// Get returns the details of a subscription item.
 func (c Client) Get(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	path := stripe.FormatURLPath("/subscription_items/%s", id)
 	item := &stripe.SubscriptionItem{}
@@ -39,12 +39,12 @@ func (c Client) Get(id string, params *stripe.SubscriptionItemParams) (*stripe.S
 	return item, err
 }
 
-// Update updates a subscription's properties.
-// For more details see https://stripe.com/docs/api#update_subscription.
+// Update updates a subscription item's properties.
 func Update(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	return getC().Update(id, params)
 }
 
+// Update updates a subscription item's properties.
 func (c Client) Update(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	path := stripe.FormatURLPath("/subscription_items/%s", id)
 	subi := &stripe.SubscriptionItem{}
@@ -53,11 +53,11 @@ func (c Client) Update(id string, params *stripe.SubscriptionItemParams) (*strip
 }
 
 // Del removes a subscription item.
-// For more details see https://stripe.com/docs/api#cancel_subscription.
 func Del(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	return getC().Del(id, params)
 }
 
+// Del removes a subscription item.
 func (c Client) Del(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	path := stripe.FormatURLPath("/subscription_items/%s", id)
 	item := &stripe.SubscriptionItem{}
@@ -67,11 +67,11 @@ func (c Client) Del(id string, params *stripe.SubscriptionItemParams) (*stripe.S
 }
 
 // List returns a list of subscription items.
-// For more details see https://stripe.com/docs/api#list_subscription_items.
 func List(params *stripe.SubscriptionItemListParams) *Iter {
 	return getC().List(params)
 }
 
+// List returns a list of subscription items.
 func (c Client) List(listParams *stripe.SubscriptionItemListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SubscriptionItemList{}
@@ -86,15 +86,12 @@ func (c Client) List(listParams *stripe.SubscriptionItemListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for lists of Subscriptions.
-// The embedded Iter carries methods with it;
-// see its documentation for details.
+// Iter is an iterator for subscription items.
 type Iter struct {
 	*stripe.Iter
 }
 
-// SubscriptionItem returns the most recent SubscriptionItem
-// visited by a call to Next.
+// SubscriptionItem returns the subscription item which the iterator is currently pointing to.
 func (i *Iter) SubscriptionItem() *stripe.SubscriptionItem {
 	return i.Current().(*stripe.SubscriptionItem)
 }

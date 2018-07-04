@@ -39,6 +39,27 @@ lint:
 	golint -set_exit_status ./invoice
 	golint -set_exit_status ./invoiceitem
 	golint -set_exit_status ./issuerfraudrecord
+	golint -set_exit_status ./loginlink
+	golint -set_exit_status ./order
+	golint -set_exit_status ./orderreturn
+	golint -set_exit_status ./paymentsource
+	golint -set_exit_status ./payout
+	golint -set_exit_status ./plan
+	golint -set_exit_status ./product
+	golint -set_exit_status ./recipient
+	golint -set_exit_status ./recipienttransfer
+	golint -set_exit_status ./refund
+	golint -set_exit_status ./reversal
+	golint -set_exit_status ./sku
+	golint -set_exit_status ./source
+	golint -set_exit_status ./sourcetransaction
+	golint -set_exit_status ./sub
+	golint -set_exit_status ./subitem
+	golint -set_exit_status ./threedsecure
+	golint -set_exit_status ./token
+	golint -set_exit_status ./topup
+	golint -set_exit_status ./transfer
+	golint -set_exit_status ./usagerecord
 
 test:
 	go test -race ./...
