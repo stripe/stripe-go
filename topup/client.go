@@ -76,6 +76,11 @@ type Iter struct {
 	*stripe.Iter
 }
 
+// Topup returns the topup item which the iterator is currently pointing to.
+func (i *Iter) Topup() *stripe.Topup {
+	return i.Current().(*stripe.Topup)
+}
+
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }
