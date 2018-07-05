@@ -1,5 +1,8 @@
 # Changelog
 
+## 35.11.0 - 2018-07-05
+* [#618](https://github.com/stripe/stripe-go/pull/618) Add support for `DeclineChargeOn` to `Account` and `AccountParams`
+
 ## 35.10.0 - 2018-07-04
 * [#616](https://github.com/stripe/stripe-go/pull/616) Adding missing clients to the `API` struct including a `UsageRecords` entry
 
