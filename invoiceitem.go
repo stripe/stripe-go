@@ -12,7 +12,9 @@ type InvoiceItemParams struct {
 	Description  *string `form:"description"`
 	Discountable *bool   `form:"discountable"`
 	Invoice      *string `form:"invoice"`
+	Quantity     *int64  `form:"quantity"`
 	Subscription *string `form:"subscription"`
+	UnitAmount   *int64  `form:"unit_amount"`
 }
 
 // InvoiceItemListParams is the set of parameters that can be used when listing invoice items.
@@ -43,6 +45,7 @@ type InvoiceItem struct {
 	Proration    bool              `json:"proration"`
 	Quantity     int64             `json:"quantity"`
 	Subscription *Subscription     `json:"subscription"`
+	UnitAmount   int64             `json:"unit_amount"`
 }
 
 // InvoiceItemList is a list of invoice items as retrieved from a list endpoint.
