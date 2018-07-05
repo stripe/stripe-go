@@ -123,31 +123,32 @@ type LegalEntityParams struct {
 	// owners.
 	AdditionalOwnersEmpty bool `form:"additional_owners,empty"`
 
-	Address              *AccountAddressParams       `form:"address"`
-	AddressKana          *AccountAddressParams       `form:"address_kana"`
-	AddressKanji         *AccountAddressParams       `form:"address_kanji"`
-	BusinessName         *string                     `form:"business_name"`
-	BusinessNameKana     *string                     `form:"business_name_kana"`
-	BusinessNameKanji    *string                     `form:"business_name_kanji"`
-	BusinessTaxID        *string                     `form:"business_tax_id"`
-	BusinessVATID        *string                     `form:"business_vat_id"`
-	DOB                  *DOBParams                  `form:"dob"`
-	FirstName            *string                     `form:"first_name"`
-	FirstNameKana        *string                     `form:"first_name_kana"`
-	FirstNameKanji       *string                     `form:"first_name_kanji"`
-	Gender               *string                     `form:"gender"`
-	LastName             *string                     `form:"last_name"`
-	LastNameKana         *string                     `form:"last_name_kana"`
-	LastNameKanji        *string                     `form:"last_name_kanji"`
-	MaidenName           *string                     `form:"maiden_name"`
-	PersonalAddress      *AccountAddressParams       `form:"personal_address"`
-	PersonalAddressKana  *AccountAddressParams       `form:"personal_address_kana"`
-	PersonalAddressKanji *AccountAddressParams       `form:"personal_address_kanji"`
-	PersonalIDNumber     *string                     `form:"personal_id_number"`
-	PhoneNumber          *string                     `form:"phone_number"`
-	SSNLast4             *string                     `form:"ssn_last_4"`
-	Type                 *string                     `form:"type"`
-	Verification         *IdentityVerificationParams `form:"verification"`
+	Address              *AccountAddressParams         `form:"address"`
+	AddressKana          *AccountAddressParams         `form:"address_kana"`
+	AddressKanji         *AccountAddressParams         `form:"address_kanji"`
+	BusinessName         *string                       `form:"business_name"`
+	BusinessNameKana     *string                       `form:"business_name_kana"`
+	BusinessNameKanji    *string                       `form:"business_name_kanji"`
+	BusinessTaxID        *string                       `form:"business_tax_id"`
+	BusinessVATID        *string                       `form:"business_vat_id"`
+	DeclineChargeOn      *AccountDeclineSettingsParams `form:"decline_charge_on"`
+	DOB                  *DOBParams                    `form:"dob"`
+	FirstName            *string                       `form:"first_name"`
+	FirstNameKana        *string                       `form:"first_name_kana"`
+	FirstNameKanji       *string                       `form:"first_name_kanji"`
+	Gender               *string                       `form:"gender"`
+	LastName             *string                       `form:"last_name"`
+	LastNameKana         *string                       `form:"last_name_kana"`
+	LastNameKanji        *string                       `form:"last_name_kanji"`
+	MaidenName           *string                       `form:"maiden_name"`
+	PersonalAddress      *AccountAddressParams         `form:"personal_address"`
+	PersonalAddressKana  *AccountAddressParams         `form:"personal_address_kana"`
+	PersonalAddressKanji *AccountAddressParams         `form:"personal_address_kanji"`
+	PersonalIDNumber     *string                       `form:"personal_id_number"`
+	PhoneNumber          *string                       `form:"phone_number"`
+	SSNLast4             *string                       `form:"ssn_last_4"`
+	Type                 *string                       `form:"type"`
+	Verification         *IdentityVerificationParams   `form:"verification"`
 }
 
 // AccountAddressParams represents an address during account creation/updates.
@@ -162,6 +163,13 @@ type AccountAddressParams struct {
 	// Town/cho-me. Note that this is only used for Kana/Kanji representations
 	// of an address.
 	Town *string `form:"town"`
+}
+
+// AccountDeclineSettingsParams represents the parameters allowed for configuring
+// declines on connected accounts.
+type AccountDeclineSettingsParams struct {
+	AVSFailure *bool `form:"avs_failure"`
+	CVCFailure *bool `form:"cvc_failure"`
 }
 
 // DOBParams represents a DOB during account creation/updates.
@@ -243,19 +251,20 @@ func (p *PayoutScheduleParams) AppendTo(body *form.Values, keyParts []string) {
 // Account is the resource representing your Stripe account.
 // For more details see https://stripe.com/docs/api/#account.
 type Account struct {
-	BusinessLogo          string               `json:"business_logo"`
-	BusinessName          string               `json:"business_name"`
-	BusinessPrimaryColor  string               `json:"business_primary_color"`
-	BusinessURL           string               `json:"business_url"`
-	ChargesEnabled        bool                 `json:"charges_enabled"`
-	Country               string               `json:"country"`
-	DebitNegativeBalances bool                 `json:"debit_negative_balances"`
-	DefaultCurrency       Currency             `json:"default_currency"`
-	Deleted               bool                 `json:"deleted"`
-	DetailsSubmitted      bool                 `json:"details_submitted"`
-	Email                 string               `json:"email"`
-	ExternalAccounts      *ExternalAccountList `json:"external_accounts"`
-	ID                    string               `json:"id"`
+	BusinessLogo          string                  `json:"business_logo"`
+	BusinessName          string                  `json:"business_name"`
+	BusinessPrimaryColor  string                  `json:"business_primary_color"`
+	BusinessURL           string                  `json:"business_url"`
+	ChargesEnabled        bool                    `json:"charges_enabled"`
+	Country               string                  `json:"country"`
+	DeclineChargeOn       *AccountDeclineSettings `json:"decline_charge_on"`
+	DebitNegativeBalances bool                    `json:"debit_negative_balances"`
+	DefaultCurrency       Currency                `json:"default_currency"`
+	Deleted               bool                    `json:"deleted"`
+	DetailsSubmitted      bool                    `json:"details_submitted"`
+	Email                 string                  `json:"email"`
+	ExternalAccounts      *ExternalAccountList    `json:"external_accounts"`
+	ID                    string                  `json:"id"`
 
 	Keys *struct {
 		Publishable string `json:"publishable"`
@@ -405,6 +414,12 @@ type AccountAddress struct {
 	// Town/cho-me. Note that this is only used for Kana/Kanji representations
 	// of an address.
 	Town string `json:"town"`
+}
+
+// AccountDeclineSettings is the structure for an account's decline settings.
+type AccountDeclineSettings struct {
+	AVSFailure bool `json:"avs_failure"`
+	CVCFailure bool `json:"cvc_failure"`
 }
 
 // DOB is a structure for an account owner's date of birth.
