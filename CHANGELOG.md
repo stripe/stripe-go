@@ -1,5 +1,8 @@
 # Changelog
 
+## 35.12.0 - 2018-07-05
+* [#620](https://github.com/stripe/stripe-go/pull/620) Add support for `Quantity` and `UnitAmount` to `InvoiceItemParams` and `Quantity` to `InvoiceItem`
+
 ## 35.11.0 - 2018-07-05
 * [#618](https://github.com/stripe/stripe-go/pull/618) Add support for `DeclineChargeOn` to `Account` and `AccountParams`
 
