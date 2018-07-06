@@ -98,6 +98,7 @@ type AccountParams struct {
 	BusinessPrimaryColor      *string                       `form:"business_primary_color"`
 	BusinessURL               *string                       `form:"business_url"`
 	Country                   *string                       `form:"country"`
+	DeclineChargeOn           *AccountDeclineSettingsParams `form:"decline_charge_on"`
 	DebitNegativeBalances     *bool                         `form:"debit_negative_balances"`
 	DefaultCurrency           *string                       `form:"default_currency"`
 	Email                     *string                       `form:"email"`
@@ -123,32 +124,31 @@ type LegalEntityParams struct {
 	// owners.
 	AdditionalOwnersEmpty bool `form:"additional_owners,empty"`
 
-	Address              *AccountAddressParams         `form:"address"`
-	AddressKana          *AccountAddressParams         `form:"address_kana"`
-	AddressKanji         *AccountAddressParams         `form:"address_kanji"`
-	BusinessName         *string                       `form:"business_name"`
-	BusinessNameKana     *string                       `form:"business_name_kana"`
-	BusinessNameKanji    *string                       `form:"business_name_kanji"`
-	BusinessTaxID        *string                       `form:"business_tax_id"`
-	BusinessVATID        *string                       `form:"business_vat_id"`
-	DeclineChargeOn      *AccountDeclineSettingsParams `form:"decline_charge_on"`
-	DOB                  *DOBParams                    `form:"dob"`
-	FirstName            *string                       `form:"first_name"`
-	FirstNameKana        *string                       `form:"first_name_kana"`
-	FirstNameKanji       *string                       `form:"first_name_kanji"`
-	Gender               *string                       `form:"gender"`
-	LastName             *string                       `form:"last_name"`
-	LastNameKana         *string                       `form:"last_name_kana"`
-	LastNameKanji        *string                       `form:"last_name_kanji"`
-	MaidenName           *string                       `form:"maiden_name"`
-	PersonalAddress      *AccountAddressParams         `form:"personal_address"`
-	PersonalAddressKana  *AccountAddressParams         `form:"personal_address_kana"`
-	PersonalAddressKanji *AccountAddressParams         `form:"personal_address_kanji"`
-	PersonalIDNumber     *string                       `form:"personal_id_number"`
-	PhoneNumber          *string                       `form:"phone_number"`
-	SSNLast4             *string                       `form:"ssn_last_4"`
-	Type                 *string                       `form:"type"`
-	Verification         *IdentityVerificationParams   `form:"verification"`
+	Address              *AccountAddressParams       `form:"address"`
+	AddressKana          *AccountAddressParams       `form:"address_kana"`
+	AddressKanji         *AccountAddressParams       `form:"address_kanji"`
+	BusinessName         *string                     `form:"business_name"`
+	BusinessNameKana     *string                     `form:"business_name_kana"`
+	BusinessNameKanji    *string                     `form:"business_name_kanji"`
+	BusinessTaxID        *string                     `form:"business_tax_id"`
+	BusinessVATID        *string                     `form:"business_vat_id"`
+	DOB                  *DOBParams                  `form:"dob"`
+	FirstName            *string                     `form:"first_name"`
+	FirstNameKana        *string                     `form:"first_name_kana"`
+	FirstNameKanji       *string                     `form:"first_name_kanji"`
+	Gender               *string                     `form:"gender"`
+	LastName             *string                     `form:"last_name"`
+	LastNameKana         *string                     `form:"last_name_kana"`
+	LastNameKanji        *string                     `form:"last_name_kanji"`
+	MaidenName           *string                     `form:"maiden_name"`
+	PersonalAddress      *AccountAddressParams       `form:"personal_address"`
+	PersonalAddressKana  *AccountAddressParams       `form:"personal_address_kana"`
+	PersonalAddressKanji *AccountAddressParams       `form:"personal_address_kanji"`
+	PersonalIDNumber     *string                     `form:"personal_id_number"`
+	PhoneNumber          *string                     `form:"phone_number"`
+	SSNLast4             *string                     `form:"ssn_last_4"`
+	Type                 *string                     `form:"type"`
+	Verification         *IdentityVerificationParams `form:"verification"`
 }
 
 // AccountAddressParams represents an address during account creation/updates.

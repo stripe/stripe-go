@@ -37,11 +37,15 @@ func TestAccountList(t *testing.T) {
 
 func TestAccountNew(t *testing.T) {
 	account, err := New(&stripe.AccountParams{
-		Type:                  stripe.String(string(stripe.AccountTypeCustom)),
-		Country:               stripe.String("CA"),
-		BusinessURL:           stripe.String("www.stripe.com"),
-		BusinessName:          stripe.String("Stripe"),
-		BusinessPrimaryColor:  stripe.String("#ffffff"),
+		Type:                 stripe.String(string(stripe.AccountTypeCustom)),
+		Country:              stripe.String("CA"),
+		BusinessURL:          stripe.String("www.stripe.com"),
+		BusinessName:         stripe.String("Stripe"),
+		BusinessPrimaryColor: stripe.String("#ffffff"),
+		DeclineChargeOn: &stripe.AccountDeclineSettingsParams{
+			AVSFailure: stripe.Bool(true),
+			CVCFailure: stripe.Bool(true),
+		},
 		DebitNegativeBalances: stripe.Bool(true),
 		SupportEmail:          stripe.String("foo@bar.com"),
 		SupportURL:            stripe.String("www.stripe.com"),
