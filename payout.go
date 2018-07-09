@@ -108,7 +108,7 @@ type Payout struct {
 	Card                      *Card               `json:"card"`
 	Created                   int64               `json:"created"`
 	Currency                  Currency            `json:"currency"`
-	Destination               string              `json:"destination"`
+	Destination               *PayoutDestination  `json:"destination"`
 	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction"`
 	FailureCode               PayoutFailureCode   `json:"failure_code"`
 	FailureMessage            string              `json:"failure_message"`
