@@ -42,6 +42,7 @@ lint:
 	golint -set_exit_status ./loginlink
 	golint -set_exit_status ./order
 	golint -set_exit_status ./orderreturn
+	golint -set_exit_status ./paymentintent
 	golint -set_exit_status ./paymentsource
 	golint -set_exit_status ./payout
 	golint -set_exit_status ./plan
