@@ -1,5 +1,9 @@
 # Changelog
 
+## 36.0.0 - 2018-07-09
+* [#606](https://github.com/stripe/stripe-go/pull/606) Add support for payment intents
+* [#623](https://github.com/stripe/stripe-go/pull/623) Changed `Payout.Destination` from `string` to `*PayoutDestination` to support expanding (minor breaking change)
+
 ## 35.13.0 - 2018-07-06
 * [#622](https://github.com/stripe/stripe-go/pull/622) Correct position of `DeclineChargeOn` (it was added accidentally on `LegalEntityParams` when it should have been on `AccountParams`)
 
