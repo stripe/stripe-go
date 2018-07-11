@@ -1,5 +1,8 @@
 # Changelog
 
+## 36.1.0 - 2018-07-11
+* [#624](https://github.com/stripe/stripe-go/pull/624) Add `AutoAdvance` for `Invoice`
+
 ## 36.0.0 - 2018-07-09
 * [#606](https://github.com/stripe/stripe-go/pull/606) Add support for payment intents
 * [#623](https://github.com/stripe/stripe-go/pull/623) Changed `Payout.Destination` from `string` to `*PayoutDestination` to support expanding (minor breaking change)
