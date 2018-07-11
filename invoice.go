@@ -106,6 +106,7 @@ type Invoice struct {
 	ApplicationFee            int64                `json:"application_fee"`
 	AttemptCount              int64                `json:"attempt_count"`
 	Attempted                 bool                 `json:"attempted"`
+	AutoAdvance               bool                 `json:"auto_advance"`
 	Billing                   InvoiceBilling       `json:"billing"`
 	BillingReason             InvoiceBillingReason `json:"billing_reason"`
 	Charge                    *Charge              `json:"charge"`
