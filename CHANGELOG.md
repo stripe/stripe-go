@@ -1,5 +1,8 @@
 # Changelog
 
+## 36.1.1 - 2018-07-17
+* [#627](https://github.com/stripe/stripe-go/pull/627) Wire an `http.Client` from `NewBackends` through to backends
+
 ## 36.1.0 - 2018-07-11
 * [#624](https://github.com/stripe/stripe-go/pull/624) Add `AutoAdvance` for `Invoice`
 
