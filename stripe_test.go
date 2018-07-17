@@ -126,6 +126,13 @@ func TestIdempotencyKey(t *testing.T) {
 	assert.Equal(t, "idempotency-key", req.Header.Get("Idempotency-Key"))
 }
 
+func TestNewBackends(t *testing.T) {
+	httpClient := &http.Client{}
+	backends := stripe.NewBackends(httpClient)
+	assert.Equal(t, httpClient, backends.API.(*stripe.BackendConfiguration).HTTPClient)
+	assert.Equal(t, httpClient, backends.Uploads.(*stripe.BackendConfiguration).HTTPClient)
+}
+
 func TestStripeAccount(t *testing.T) {
 	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 	p := &stripe.Params{}
