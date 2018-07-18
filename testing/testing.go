@@ -25,7 +25,7 @@ const (
 	// added in a more recent version of stripe-mock, we can show people a
 	// better error message instead of the test suite crashing with a bunch of
 	// confusing 404 errors or the like.
-	MockMinimumVersion = "0.20.1"
+	MockMinimumVersion = "0.21.1"
 
 	// TestMerchantID is a token that can be used to represent a merchant ID in
 	// simple tests.
@@ -39,7 +39,7 @@ func init() {
 
 	port := os.Getenv("STRIPE_MOCK_PORT")
 	if port == "" {
-		port = "12111"
+		port = "12112"
 	}
 
 	// stripe-mock's certificate for localhost is self-signed so configure a

@@ -20,7 +20,7 @@ before_install:
       tar -zxf "stripe-mock/stripe-mock_${STRIPE_MOCK_VERSION}_linux_amd64.tar.gz" -C "stripe-mock/stripe-mock_${STRIPE_MOCK_VERSION}/"
     fi
   - |
-    stripe-mock/stripe-mock_${STRIPE_MOCK_VERSION}/stripe-mock -https > /dev/null &
+    stripe-mock/stripe-mock_${STRIPE_MOCK_VERSION}/stripe-mock -https-port 12112 > /dev/null &
     STRIPE_MOCK_PID=$!
 
 cache:
@@ -30,7 +30,7 @@ cache:
 env:
   global:
     # If changing this number, please also change it in `testing/testing.go`.
-    - STRIPE_MOCK_VERSION=0.20.1
+    - STRIPE_MOCK_VERSION=0.21.1
 
 go:
   - "1.7"
