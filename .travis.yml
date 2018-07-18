@@ -7,6 +7,7 @@ before_install:
 
   # Install lint / code coverage / coveralls tooling
   - travis_retry go get -u golang.org/x/lint/golint
+  - travis_retry go get -u golang.org/x/net/http2
   - travis_retry go get -u golang.org/x/tools/cmd/cover
   - travis_retry go get -u github.com/modocache/gover
   - travis_retry go get -u github.com/mattn/goveralls
@@ -19,7 +20,7 @@ before_install:
       tar -zxf "stripe-mock/stripe-mock_${STRIPE_MOCK_VERSION}_linux_amd64.tar.gz" -C "stripe-mock/stripe-mock_${STRIPE_MOCK_VERSION}/"
     fi
   - |
-    stripe-mock/stripe-mock_${STRIPE_MOCK_VERSION}/stripe-mock > /dev/null &
+    stripe-mock/stripe-mock_${STRIPE_MOCK_VERSION}/stripe-mock -https > /dev/null &
     STRIPE_MOCK_PID=$!
 
 cache:
@@ -29,7 +30,7 @@ cache:
 env:
   global:
     # If changing this number, please also change it in `testing/testing.go`.
-    - STRIPE_MOCK_VERSION=0.19.0
+    - STRIPE_MOCK_VERSION=0.20.1
 
 go:
   - "1.7"
