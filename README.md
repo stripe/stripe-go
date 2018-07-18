@@ -93,7 +93,7 @@ for i.Next() {
 }
 ```
 
-Alternatively, you can use the `even.Data.Raw` property to unmarshal to the
+Alternatively, you can use the `event.Data.Raw` property to unmarshal to the
 appropriate struct.
 
 ### Authentication with Connect
