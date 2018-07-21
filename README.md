@@ -28,7 +28,7 @@ make build
 ```
 
 For more details on changes between versions, see the [binding
-changelog](CHANGELOG) and [API changelog][api-changelog].
+changelog](CHANGELOG.md) and [API changelog][api-changelog].
 
 ## Installation
 
