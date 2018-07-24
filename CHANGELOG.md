@@ -1,5 +1,8 @@
 # Changelog
 
+## 36.1.2 - 2018-07-24
+* [#633](https://github.com/stripe/stripe-go/pull/633) Fix encoding of list params for bank accounts and cards
+
 ## 36.1.1 - 2018-07-17
 * [#627](https://github.com/stripe/stripe-go/pull/627) Wire an `http.Client` from `NewBackends` through to backends
 
