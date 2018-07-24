@@ -152,13 +152,16 @@ func (c Client) List(listParams *stripe.CardListParams) *Iter {
 	var path string
 	var outerErr error
 
+	// Because the external accounts and sources endpoints can return non-card
+	// objects, CardListParam's `AppendTo` will add the filter `object=card` to
+	// make sure that only cards come back with the response.
 	if listParams == nil {
 		outerErr = errors.New("params should not be nil")
 	} else if listParams.Account != nil {
-		path = stripe.FormatURLPath("/accounts/%s/external_accounts?object=card",
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts",
 			stripe.StringValue(listParams.Account))
 	} else if listParams.Customer != nil {
-		path = stripe.FormatURLPath("/customers/%s/sources?object=card",
+		path = stripe.FormatURLPath("/customers/%s/sources",
 			stripe.StringValue(listParams.Customer))
 	} else if listParams.Recipient != nil {
 		path = stripe.FormatURLPath("/recipients/%s/cards", stripe.StringValue(listParams.Recipient))

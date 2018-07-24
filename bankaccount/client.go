@@ -135,13 +135,17 @@ func (c Client) List(listParams *stripe.BankAccountListParams) *Iter {
 	var path string
 	var outerErr error
 
+	// There's no bank accounts list URL, so we use one sources or external
+	// accounts. An override on BankAccountListParam's `AppendTo` will add the
+	// filter `object=bank_account` to make sure that only bank accounts come
+	// back with the response.
 	if listParams == nil {
 		outerErr = errors.New("params should not be nil")
 	} else if listParams.Customer != nil {
-		path = stripe.FormatURLPath("/customers/%s/sources?object=bank_account",
+		path = stripe.FormatURLPath("/customers/%s/sources",
 			stripe.StringValue(listParams.Customer))
 	} else if listParams.Account != nil {
-		path = stripe.FormatURLPath("/accounts/%s/external_accounts?object=bank_account",
+		path = stripe.FormatURLPath("/accounts/%s/external_accounts",
 			stripe.StringValue(listParams.Account))
 	} else {
 		outerErr = errors.New("Invalid bank account params: either Customer or Account need to be set")

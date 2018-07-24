@@ -168,6 +168,12 @@ type CardListParams struct {
 	Recipient  *string `form:"-"`
 }
 
+func (p *CardListParams) AppendTo(body *form.Values, keyParts []string) {
+	if p.Account != nil || p.Customer != nil {
+		body.Add(form.FormatKey(append(keyParts, "object")), "card")
+	}
+}
+
 // Card is the resource representing a Stripe credit/debit card.
 // For more details see https://stripe.com/docs/api#cards.
 type Card struct {

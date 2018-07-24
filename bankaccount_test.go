@@ -29,6 +29,26 @@ func TestBankAccount_UnmarshalJSON(t *testing.T) {
 	}
 }
 
+func TestBankAccountListParams_AppendTo(t *testing.T) {
+	// Adds `object` for account (this will hit the customer sources endpoint)
+	{
+		params := &BankAccountListParams{Account: String("acct_123")}
+		body := &form.Values{}
+		form.AppendTo(body, params)
+		t.Logf("body = %+v", body)
+		assert.Equal(t, []string{"bank_account"}, body.Get("object"))
+	}
+
+	// Adds `object` for customer (this will hit the external accounts endpoint)
+	{
+		params := &BankAccountListParams{Customer: String("cus_123")}
+		body := &form.Values{}
+		form.AppendTo(body, params)
+		t.Logf("body = %+v", body)
+		assert.Equal(t, []string{"bank_account"}, body.Get("object"))
+	}
+}
+
 func TestBankAccountParams_AppendToAsSourceOrExternalAccount(t *testing.T) {
 	// We should add more tests for all the various corner cases here ...
 
