@@ -125,6 +125,10 @@ type BankAccountListParams struct {
 	Customer *string `form:"-"`
 }
 
+func (p *BankAccountListParams) AppendTo(body *form.Values, keyParts []string) {
+	body.Add(form.FormatKey(append(keyParts, "object")), "bank_account")
+}
+
 // BankAccount represents a Stripe bank account.
 type BankAccount struct {
 	AccountHolderName  string                       `json:"account_holder_name"`

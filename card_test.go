@@ -5,7 +5,38 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
+	"github.com/stripe/stripe-go/form"
 )
+
+func TestCardListParams_AppendTo(t *testing.T) {
+	// Adds `object` for account (this will hit the external accounts endpoint)
+	{
+		params := &CardListParams{Account: String("acct_123")}
+		body := &form.Values{}
+		form.AppendTo(body, params)
+		t.Logf("body = %+v", body)
+		assert.Equal(t, []string{"card"}, body.Get("object"))
+	}
+
+	// Adds `object` for customer (this will hit the sources endpoint)
+	{
+		params := &CardListParams{Customer: String("cus_123")}
+		body := &form.Values{}
+		form.AppendTo(body, params)
+		t.Logf("body = %+v", body)
+		assert.Equal(t, []string{"card"}, body.Get("object"))
+	}
+
+	// *Doesn't* add `object` for recipient (this will hit the recipient cards
+	// endpoint, so all possible resources are cards)
+	{
+		params := &CardListParams{Recipient: String("rp_123")}
+		body := &form.Values{}
+		form.AppendTo(body, params)
+		t.Logf("body = %+v", body)
+		assert.Equal(t, []string(nil), body.Get("object"))
+	}
+}
 
 func TestCard_UnmarshalJSON(t *testing.T) {
 	// Unmarshals from a JSON string
