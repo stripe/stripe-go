@@ -14,53 +14,60 @@ const (
 type BalanceTransactionType string
 
 const (
-	BalanceTransactionTypeAdjustment               BalanceTransactionType = "adjustment"
-	BalanceTransactionTypeApplicationFee           BalanceTransactionType = "application_fee"
-	BalanceTransactionTypeApplicationFeeRefund     BalanceTransactionType = "application_fee_refund"
-	BalanceTransactionTypeCharge                   BalanceTransactionType = "charge"
-	BalanceTransactionTypePayment                  BalanceTransactionType = "payment"
-	BalanceTransactionTypePaymentFailureRefund     BalanceTransactionType = "payment_failure_refund"
-	BalanceTransactionTypePaymentRefund            BalanceTransactionType = "payment_refund"
-	BalanceTransactionTypePayout                   BalanceTransactionType = "payout"
-	BalanceTransactionTypePayoutCancel             BalanceTransactionType = "payout_cancel"
-	BalanceTransactionTypePayoutFailure            BalanceTransactionType = "payout_failure"
-	BalanceTransactionTypeRecipientTransfer        BalanceTransactionType = "recipient_transfer"
-	BalanceTransactionTypeRecipientTransferCancel  BalanceTransactionType = "recipient_transfer_cancel"
-	BalanceTransactionTypeRecipientTransferFailure BalanceTransactionType = "recipient_transfer_failure"
-	BalanceTransactionTypeRefund                   BalanceTransactionType = "refund"
-	BalanceTransactionTypeStripeFee                BalanceTransactionType = "stripe_fee"
-	BalanceTransactionTypeTransfer                 BalanceTransactionType = "transfer"
-	BalanceTransactionTypeTransferRefund           BalanceTransactionType = "transfer_refund"
+	BalanceTransactionTypeAdjustment                      BalanceTransactionType = "adjustment"
+	BalanceTransactionTypeApplicationFee                  BalanceTransactionType = "application_fee"
+	BalanceTransactionTypeApplicationFeeRefund            BalanceTransactionType = "application_fee_refund"
+	BalanceTransactionTypeCharge                          BalanceTransactionType = "charge"
+	BalanceTransactionTypeIssuingAuthorizationHold        BalanceTransactionType = "issuing_authorization_hold"
+	BalanceTransactionTypeIssuingAuthorizationRelease     BalanceTransactionType = "issuing_authorization_release"
+	BalanceTransactionTypeIssuingAuthorizationTransaction BalanceTransactionType = "issuing_transaction"
+	BalanceTransactionTypePayment                         BalanceTransactionType = "payment"
+	BalanceTransactionTypePaymentFailureRefund            BalanceTransactionType = "payment_failure_refund"
+	BalanceTransactionTypePaymentRefund                   BalanceTransactionType = "payment_refund"
+	BalanceTransactionTypePayout                          BalanceTransactionType = "payout"
+	BalanceTransactionTypePayoutCancel                    BalanceTransactionType = "payout_cancel"
+	BalanceTransactionTypePayoutFailure                   BalanceTransactionType = "payout_failure"
+	BalanceTransactionTypeRecipientTransfer               BalanceTransactionType = "recipient_transfer"
+	BalanceTransactionTypeRecipientTransferCancel         BalanceTransactionType = "recipient_transfer_cancel"
+	BalanceTransactionTypeRecipientTransferFailure        BalanceTransactionType = "recipient_transfer_failure"
+	BalanceTransactionTypeRefund                          BalanceTransactionType = "refund"
+	BalanceTransactionTypeStripeFee                       BalanceTransactionType = "stripe_fee"
+	BalanceTransactionTypeTransfer                        BalanceTransactionType = "transfer"
+	BalanceTransactionTypeTransferRefund                  BalanceTransactionType = "transfer_refund"
 )
 
 // BalanceTransactionSourceType consts represent valid balance transaction sources.
 type BalanceTransactionSourceType string
 
 const (
-	BalanceTransactionSourceTypeApplicationFee    BalanceTransactionSourceType = "application_fee"
-	BalanceTransactionSourceTypeCharge            BalanceTransactionSourceType = "charge"
-	BalanceTransactionSourceTypeDispute           BalanceTransactionSourceType = "dispute"
-	BalanceTransactionSourceTypePayout            BalanceTransactionSourceType = "payout"
-	BalanceTransactionSourceTypeRecipientTransfer BalanceTransactionSourceType = "recipient_transfer"
-	BalanceTransactionSourceTypeRefund            BalanceTransactionSourceType = "refund"
-	BalanceTransactionSourceTypeReversal          BalanceTransactionSourceType = "reversal"
-	BalanceTransactionSourceTypeTransfer          BalanceTransactionSourceType = "transfer"
+	BalanceTransactionSourceTypeApplicationFee       BalanceTransactionSourceType = "application_fee"
+	BalanceTransactionSourceTypeCharge               BalanceTransactionSourceType = "charge"
+	BalanceTransactionSourceTypeDispute              BalanceTransactionSourceType = "dispute"
+	BalanceTransactionSourceTypeIssuingAuthorization BalanceTransactionSourceType = "issuing.authorization"
+	BalanceTransactionSourceTypeIssuingTransaction   BalanceTransactionSourceType = "issuing.transaction"
+	BalanceTransactionSourceTypePayout               BalanceTransactionSourceType = "payout"
+	BalanceTransactionSourceTypeRecipientTransfer    BalanceTransactionSourceType = "recipient_transfer"
+	BalanceTransactionSourceTypeRefund               BalanceTransactionSourceType = "refund"
+	BalanceTransactionSourceTypeReversal             BalanceTransactionSourceType = "reversal"
+	BalanceTransactionSourceTypeTransfer             BalanceTransactionSourceType = "transfer"
 )
 
 // BalanceTransactionSource describes the source of a balance Transaction.
 // The Type should indicate which object is fleshed out.
 // For more details see https://stripe.com/docs/api#retrieve_balance_transaction
 type BalanceTransactionSource struct {
-	ApplicationFee    *ApplicationFee              `json:"-"`
-	Charge            *Charge                      `json:"-"`
-	Dispute           *Dispute                     `json:"-"`
-	ID                string                       `json:"id"`
-	Payout            *Payout                      `json:"-"`
-	RecipientTransfer *RecipientTransfer           `json:"-"`
-	Refund            *Refund                      `json:"-"`
-	Reversal          *Reversal                    `json:"-"`
-	Transfer          *Transfer                    `json:"-"`
-	Type              BalanceTransactionSourceType `json:"object"`
+	ApplicationFee       *ApplicationFee              `json:"-"`
+	Charge               *Charge                      `json:"-"`
+	Dispute              *Dispute                     `json:"-"`
+	ID                   string                       `json:"id"`
+	IssuingAuthorization *IssuingAuthorization        `json:"-"`
+	IssuingTransaction   *IssuingAuthorization        `json:"-"`
+	Payout               *Payout                      `json:"-"`
+	RecipientTransfer    *RecipientTransfer           `json:"-"`
+	Refund               *Refund                      `json:"-"`
+	Reversal             *Reversal                    `json:"-"`
+	Transfer             *Transfer                    `json:"-"`
+	Type                 BalanceTransactionSourceType `json:"object"`
 }
 
 // BalanceParams is the set of parameters that can be used when retrieving a balance.
@@ -181,6 +188,10 @@ func (s *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &s.Charge)
 	case BalanceTransactionSourceTypeDispute:
 		err = json.Unmarshal(data, &s.Dispute)
+	case BalanceTransactionSourceTypeIssuingAuthorization:
+		err = json.Unmarshal(data, &s.IssuingAuthorization)
+	case BalanceTransactionSourceTypeIssuingTransaction:
+		err = json.Unmarshal(data, &s.IssuingTransaction)
 	case BalanceTransactionSourceTypePayout:
 		err = json.Unmarshal(data, &s.Payout)
 	case BalanceTransactionSourceTypeRecipientTransfer:

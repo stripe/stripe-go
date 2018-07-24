@@ -39,6 +39,11 @@ lint:
 	golint -set_exit_status ./invoice
 	golint -set_exit_status ./invoiceitem
 	golint -set_exit_status ./issuerfraudrecord
+	golint -set_exit_status ./issuing/authorization
+	golint -set_exit_status ./issuing/card
+	golint -set_exit_status ./issuing/cardholder
+	golint -set_exit_status ./issuing/dispute
+	golint -set_exit_status ./issuing/transaction
 	golint -set_exit_status ./loginlink
 	golint -set_exit_status ./order
 	golint -set_exit_status ./orderreturn
