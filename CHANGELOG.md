@@ -1,5 +1,8 @@
 # Changelog
 
+## 36.2.0 - 2018-07-26
+* [#635](https://github.com/stripe/stripe-go/pull/635) Add support for Stripe Issuing
+
 ## 36.1.2 - 2018-07-24
 * [#633](https://github.com/stripe/stripe-go/pull/633) Fix encoding of list params for bank accounts and cards
 
