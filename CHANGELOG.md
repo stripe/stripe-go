@@ -1,5 +1,8 @@
 # Changelog
 
+## 36.3.0 - 2018-07-27
+* [#636](https://github.com/stripe/stripe-go/pull/636) Add `RiskScore` to `ChargeOutcome`
+
 ## 36.2.0 - 2018-07-26
 * [#635](https://github.com/stripe/stripe-go/pull/635) Add support for Stripe Issuing
 
