@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	// Signatures older than this will be rejected by ConstructEvent
+	// DefaultTolerance signatures older than this will be rejected by ConstructEvent
 	DefaultTolerance time.Duration = 300 * time.Second
 	signingVersion   string        = "v1"
 )
@@ -27,10 +27,10 @@ var (
 	ErrNoValidSignature error = errors.New("Webhook had no valid signature")
 )
 
-// Computes a webhook signature using Stripe's v1 signing method. See
+// ComputeSignature computes a webhook signature using Stripe's v1 signing method. See
 // https://stripe.com/docs/webhooks#signatures
-func computeSignature(t time.Time, payload []byte, secret string) []byte {
-	mac := hmac.New(sha256.New, []byte(secret))
+func ComputeSignature(t time.Time, payload, secret []byte) []byte {
+	mac := hmac.New(sha256.New, secret)
 	mac.Write([]byte(fmt.Sprintf("%d", t.Unix())))
 	mac.Write([]byte("."))
 	mac.Write(payload)
@@ -95,7 +95,7 @@ func parseSignatureHeader(header string) (*signedHeader, error) {
 // your signing secret from the Stripe dashboard:
 // https://dashboard.stripe.com/webhooks
 //
-func ConstructEvent(payload []byte, header string, secret string) (stripe.Event, error) {
+func ConstructEvent(payload []byte, header string, secret []byte) (stripe.Event, error) {
 	return ConstructEventWithTolerance(payload, header, secret, DefaultTolerance)
 }
 
@@ -109,7 +109,7 @@ func ConstructEvent(payload []byte, header string, secret string) (stripe.Event,
 // your signing secret from the Stripe dashboard:
 // https://dashboard.stripe.com/webhooks
 //
-func ConstructEventWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) (stripe.Event, error) {
+func ConstructEventWithTolerance(payload []byte, header string, secret []byte, tolerance time.Duration) (stripe.Event, error) {
 	return constructEvent(payload, header, secret, tolerance, true)
 }
 
@@ -122,11 +122,11 @@ func ConstructEventWithTolerance(payload []byte, header string, secret string, t
 // your signing secret from the Stripe dashboard:
 // https://dashboard.stripe.com/webhooks
 //
-func ConstructEventIgnoringTolerance(payload []byte, header string, secret string) (stripe.Event, error) {
+func ConstructEventIgnoringTolerance(payload []byte, header string, secret []byte) (stripe.Event, error) {
 	return constructEvent(payload, header, secret, 0*time.Second, false)
 }
 
-func constructEvent(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) (stripe.Event, error) {
+func constructEvent(payload []byte, sigHeader string, secret []byte, tolerance time.Duration, enforceTolerance bool) (stripe.Event, error) {
 	e := stripe.Event{}
 
 	if err := json.Unmarshal(payload, &e); err != nil {
@@ -138,7 +138,7 @@ func constructEvent(payload []byte, sigHeader string, secret string, tolerance t
 		return e, err
 	}
 
-	expectedSignature := computeSignature(header.timestamp, payload, secret)
+	expectedSignature := ComputeSignature(header.timestamp, payload, secret)
 	expiredTimestamp := time.Since(header.timestamp) > tolerance
 	if enforceTolerance && expiredTimestamp {
 		return e, ErrTooOld

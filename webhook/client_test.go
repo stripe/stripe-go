@@ -11,12 +11,12 @@ var testPayload = []byte(`{
   "id": "evt_test_webhook",
   "object": "event"
 }`)
-var testSecret = "whsec_test_secret"
+var testSecret = []byte("whsec_test_secret")
 
 type SignedPayload struct {
 	timestamp time.Time
 	payload   []byte
-	secret    string
+	secret    []byte
 	scheme    string
 	signature []byte
 	header    string
@@ -34,7 +34,7 @@ func newSignedPayload(options ...func(*SignedPayload)) *SignedPayload {
 	}
 
 	if signedPayload.signature == nil {
-		signedPayload.signature = computeSignature(signedPayload.timestamp, signedPayload.payload, signedPayload.secret)
+		signedPayload.signature = ComputeSignature(signedPayload.timestamp, signedPayload.payload, signedPayload.secret)
 	}
 	signedPayload.header = generateHeader(*signedPayload)
 	return signedPayload
@@ -105,7 +105,7 @@ func TestTokenNew(t *testing.T) {
 
 	p = newSignedPayload()
 	p2 := newSignedPayload(func(p *SignedPayload) {
-		p.secret = testSecret + "_rolled_key"
+		p.secret = append(testSecret, []byte("_rolled_key")...)
 	})
 	headerWithRolledKey := p.header + ",v1=" + p2.hexSignature()
 	if p.hexSignature() == p2.hexSignature() {
