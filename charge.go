@@ -208,12 +208,13 @@ type ChargeOutcomeRule struct {
 	Predicate string `json:"predicate"`
 }
 
-// Outcome is the charge's outcome that details whether a payment
+// ChargeOutcome is the charge's outcome that details whether a payment
 // was accepted and why.
 type ChargeOutcome struct {
 	NetworkStatus string             `json:"network_status"`
 	Reason        string             `json:"reason"`
 	RiskLevel     string             `json:"risk_level"`
+	RiskScore     int64              `json:"risk_score"`
 	Rule          *ChargeOutcomeRule `json:"rule"`
 	SellerMessage string             `json:"seller_message"`
 	Type          string             `json:"type"`
