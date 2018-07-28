@@ -56,6 +56,7 @@ lint:
 	golint -set_exit_status ./recipienttransfer
 	golint -set_exit_status ./refund
 	golint -set_exit_status ./reversal
+	golint -set_exit_status ./sigma/scheduledqueryrun
 	golint -set_exit_status ./sku
 	golint -set_exit_status ./source
 	golint -set_exit_status ./sourcetransaction
