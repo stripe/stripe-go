@@ -25,34 +25,22 @@ const (
 	expectedType       = "pdf"
 )
 
-func TestFileUploadNewThenGet(t *testing.T) {
-	t.Skip("File uploads are currently unreliable")
-
-	f, err := os.Open("test_data.pdf")
-	if err != nil {
-		t.Errorf("Unable to open test file upload file %v\n", err)
-	}
-
-	uploadParams := &stripe.FileUploadParams{
-		Purpose:    stripe.String(string(stripe.FileUploadPurposeDisputeEvidence)),
-		FileReader: f,
-		Filename:   stripe.String(f.Name()),
-	}
-
-	target, err := New(uploadParams)
-	assert.NoError(t, err)
-
-	assert.Equal(t, uploadParams.Purpose, target.Purpose)
-	assert.Equal(t, expectedSize, target.Size)
-	assert.Equal(t, expectedType, target.Type)
-
-	res, err := Get(target.ID, nil)
-	assert.NoError(t, err)
-
-	assert.Equal(t, target.ID, res.ID)
+func TestFileUploadGet(t *testing.T) {
+	fileupload, err := Get("file_123", nil)
+	assert.Nil(t, err)
+	assert.NotNil(t, fileupload)
 }
 
 func TestFileUploadList(t *testing.T) {
+	i := List(&stripe.FileUploadListParams{})
+
+	// Verify that we can get at least one file upload
+	assert.True(t, i.Next())
+	assert.Nil(t, i.Err())
+	assert.NotNil(t, i.FileUpload())
+}
+
+func TestFileUploadNew(t *testing.T) {
 	f, err := os.Open("test_data.pdf")
 	if err != nil {
 		t.Errorf("Unable to open test file upload file %v\n", err)
@@ -64,17 +52,7 @@ func TestFileUploadList(t *testing.T) {
 		Filename:   stripe.String(f.Name()),
 	}
 
-	_, err = New(uploadParams)
-	assert.NoError(t, err)
-
-	params := &stripe.FileUploadListParams{}
-	params.Filters.AddFilter("limit", "", "5")
-	params.Single = true
-
-	i := List(params)
-	assert.Nil(t, i.Err())
-	for i.Next() {
-		assert.NotNil(t, i.FileUpload())
-		assert.NotNil(t, i.Meta())
-	}
+	fileupload, err := New(uploadParams)
+	assert.Nil(t, err)
+	assert.NotNil(t, fileupload)
 }
