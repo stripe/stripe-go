@@ -205,7 +205,7 @@ type AdditionalOwnerParams struct {
 	Verification     *IdentityVerificationParams `form:"verification"`
 }
 
-// IdentityVerification represents a verification during account creation/updates.
+// IdentityVerificationParams represents a verification during account creation/updates.
 type IdentityVerificationParams struct {
 	Document     *string `form:"document"`
 	DocumentBack *string `form:"document_back"`
@@ -250,6 +250,9 @@ type PayoutScheduleParams struct {
 	WeeklyAnchor     *string `form:"weekly_anchor"`
 }
 
+
+// AppendTo implements custom encoding logic for PayoutScheduleParams
+// so that we can send a special value for `delay_days` field if needed.
 func (p *PayoutScheduleParams) AppendTo(body *form.Values, keyParts []string) {
 	if BoolValue(p.DelayDaysMinimum) {
 		body.Add(form.FormatKey(append(keyParts, "delay_days")), "minimum")
@@ -411,7 +414,7 @@ type LegalEntity struct {
 	Verification             *IdentityVerification `json:"verification"`
 }
 
-// Address is the structure for an account address.
+// AccountAddress is the structure for an account address.
 type AccountAddress struct {
 	City       string `json:"city"`
 	Country    string `json:"country"`
