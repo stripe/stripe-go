@@ -5,6 +5,7 @@ import "encoding/json"
 // PayoutDestinationType consts represent valid payout destinations.
 type PayoutDestinationType string
 
+// List of values that PayoutDestinationType can take.
 const (
 	PayoutDestinationTypeBankAccount PayoutDestinationType = "bank_account"
 	PayoutDestinationTypeCard        PayoutDestinationType = "card"
@@ -13,6 +14,7 @@ const (
 // PayoutFailureCode is the list of allowed values for the payout's failure code.
 type PayoutFailureCode string
 
+// List of values that PayoutFailureCode can take.
 const (
 	PayoutFailureCodeAccountClosed         PayoutFailureCode = "account_closed"
 	PayoutFailureCodeAccountFrozen         PayoutFailureCode = "account_frozen"
@@ -29,6 +31,7 @@ const (
 // PayoutSourceType is the list of allowed values for the payout's source_type field.
 type PayoutSourceType string
 
+// List of values that PayoutSourceType can take.
 const (
 	PayoutSourceTypeAlipayAccount   PayoutSourceType = "alipay_account"
 	PayoutSourceTypeBankAccount     PayoutSourceType = "bank_account"
@@ -39,6 +42,7 @@ const (
 // PayoutStatus is the list of allowed values for the payout's status.
 type PayoutStatus string
 
+// List of values that PayoutStatus can take.
 const (
 	PayoutStatusCanceled  PayoutStatus = "canceled"
 	PayoutStatusFailed    PayoutStatus = "failed"
@@ -50,6 +54,7 @@ const (
 // PayoutType is the list of allowed values for the payout's type.
 type PayoutType string
 
+// List of values that PayoutType can take.
 const (
 	PayoutTypeBank PayoutType = "bank_account"
 	PayoutTypeCard PayoutType = "card"
@@ -58,6 +63,7 @@ const (
 // PayoutMethodType represents the type of payout
 type PayoutMethodType string
 
+// List of values that PayoutMethodType can take.
 const (
 	PayoutMethodInstant  PayoutMethodType = "instant"
 	PayoutMethodStandard PayoutMethodType = "standard"

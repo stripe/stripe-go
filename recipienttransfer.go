@@ -5,6 +5,7 @@ import "encoding/json"
 // RecipientTransferDestinationType consts represent valid recipient_transfer destinations.
 type RecipientTransferDestinationType string
 
+// List of values that RecipientTransferDestinationType can take.
 const (
 	RecipientTransferDestinationBankAccount RecipientTransferDestinationType = "bank_account"
 	RecipientTransferDestinationCard        RecipientTransferDestinationType = "card"
@@ -13,6 +14,7 @@ const (
 // RecipientTransferFailureCode is the list of allowed values for the recipient_transfer's failure code.
 type RecipientTransferFailureCode string
 
+// List of values that RecipientTransferFailureCode can take.
 const (
 	RecipientTransferFailureCodeAccountClosed         RecipientTransferFailureCode = "account_closed"
 	RecipientTransferFailureCodeAccountFrozen         RecipientTransferFailureCode = "account_frozen"
@@ -29,6 +31,7 @@ const (
 // RecipientTransferSourceType is the list of allowed values for the recipient_transfer's source_type field.
 type RecipientTransferSourceType string
 
+// List of values that RecipientTransferSourceType can take.
 const (
 	RecipientTransferSourceTypeAlipayAccount   RecipientTransferSourceType = "alipay_account"
 	RecipientTransferSourceTypeBankAccount     RecipientTransferSourceType = "bank_account"
@@ -39,6 +42,7 @@ const (
 // RecipientTransferStatus is the list of allowed values for the recipient_transfer's status.
 type RecipientTransferStatus string
 
+// List of values that RecipientTransferStatus can take.
 const (
 	RecipientTransferStatusFailed    RecipientTransferStatus = "failed"
 	RecipientTransferStatusInTransit RecipientTransferStatus = "in_transit"
@@ -49,6 +53,7 @@ const (
 // RecipientTransferType is the list of allowed values for the recipient_transfer's type.
 type RecipientTransferType string
 
+// List of values that RecipientTransferType can take.
 const (
 	RecipientTransferTypeBankAccount RecipientTransferType = "bank_account"
 	RecipientTransferTypeCard        RecipientTransferType = "card"
@@ -57,6 +62,7 @@ const (
 // RecipientTransferMethodType represents the type of recipient_transfer
 type RecipientTransferMethodType string
 
+// List of values that RecipientTransferMethodType can take.
 const (
 	RecipientTransferMethodInstant  RecipientTransferMethodType = "instant"
 	RecipientTransferMethodStandard RecipientTransferMethodType = "standard"

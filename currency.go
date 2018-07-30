@@ -4,6 +4,7 @@ package stripe
 // For more details see https://support.stripe.com/questions/which-currencies-does-stripe-support.
 type Currency string
 
+// List of values that Currency can take.
 const (
 	CurrencyAED Currency = "aed" // United Arab Emirates Dirham
 	CurrencyAFN Currency = "afn" // Afghan Afghani

@@ -3,6 +3,7 @@ package stripe
 // TokenType is the list of allowed values for a token's type.
 type TokenType string
 
+// List of values that TokenType can take.
 const (
 	TokenTypeAccount     TokenType = "account"
 	TokenTypeCard        TokenType = "card"

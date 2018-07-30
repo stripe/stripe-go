@@ -9,6 +9,7 @@ import (
 // SubscriptionStatus is the list of allowed values for the subscription's status.
 type SubscriptionStatus string
 
+// List of values that SubscriptionStatus can take.
 const (
 	SubscriptionStatusActive   SubscriptionStatus = "active"
 	SubscriptionStatusAll      SubscriptionStatus = "all"
@@ -21,6 +22,7 @@ const (
 // SubscriptionBilling is the type of billing method for this subscription's invoices.
 type SubscriptionBilling string
 
+// List of values that SubscriptionBilling can take.
 const (
 	SubscriptionBillingChargeAutomatically SubscriptionBilling = "charge_automatically"
 	SubscriptionBillingSendInvoice         SubscriptionBilling = "send_invoice"

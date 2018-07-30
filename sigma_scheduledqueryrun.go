@@ -5,6 +5,7 @@ import "encoding/json"
 // SigmaScheduledQueryRunStatus is the possible values for status for a scheduled query run.
 type SigmaScheduledQueryRunStatus string
 
+// List of values that SigmaScheduledQueryRunStatus can take.
 const (
 	SigmaScheduledQueryRunStatusCanceled  SigmaScheduledQueryRunStatus = "canceled"
 	SigmaScheduledQueryRunStatusCompleted SigmaScheduledQueryRunStatus = "completed"

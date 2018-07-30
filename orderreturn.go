@@ -2,6 +2,8 @@ package stripe
 
 import "encoding/json"
 
+// OrderReturn is the resource representing an order return.
+// For more details see https://stripe.com/docs/api#order_returns.
 type OrderReturn struct {
 	Amount   int64        `json:"amount"`
 	Created  int64        `json:"created"`
@@ -13,14 +15,13 @@ type OrderReturn struct {
 	Refund   *Refund      `json:"refund"`
 }
 
-// OrderReturnList is a list of returns as retrieved from a list endpoint.
+// OrderReturnList is a list of order returns as retrieved from a list endpoint.
 type OrderReturnList struct {
 	ListMeta
 	Data []*OrderReturn `json:"data"`
 }
 
-// OrderReturnListParams is the set of parameters that can be used when listing
-// returns. For more details, see: https://stripe.com/docs/api#list_order_returns.
+// OrderReturnListParams is the set of parameters that can be used when listing order returns.
 type OrderReturnListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`

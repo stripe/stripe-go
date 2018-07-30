@@ -5,6 +5,7 @@ import "encoding/json"
 // InvoiceLineType is the list of allowed values for the invoice line's type.
 type InvoiceLineType string
 
+// List of values that InvoiceLineType can take.
 const (
 	InvoiceLineTypeInvoiceItem  InvoiceLineType = "invoiceitem"
 	InvoiceLineTypeSubscription InvoiceLineType = "subscription"
@@ -13,6 +14,7 @@ const (
 // InvoiceBilling is the type of billing method for this invoice.
 type InvoiceBilling string
 
+// List of values that InvoiceBilling can take.
 const (
 	InvoiceBillingChargeAutomatically InvoiceBilling = "charge_automatically"
 	InvoiceBillingSendInvoice         InvoiceBilling = "send_invoice"
@@ -21,6 +23,7 @@ const (
 // InvoiceBillingReason is the reason why a given invoice was created
 type InvoiceBillingReason string
 
+// List of values that InvoiceBillingReason can take.
 const (
 	InvoiceBillingReasonManual             InvoiceBillingReason = "manual"
 	InvoiceBillingReasonSubscription       InvoiceBillingReason = "subscription"

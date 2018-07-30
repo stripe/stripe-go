@@ -10,6 +10,7 @@ import (
 // CardBrand is the list of allowed values for the card's brand.
 type CardBrand string
 
+// List of values that CardBrand can take.
 const (
 	CardBrandAmex       CardBrand = "American Express"
 	CardBrandDiscover   CardBrand = "Discover"
@@ -24,6 +25,7 @@ const (
 // CardFunding is the list of allowed values for the card's funding.
 type CardFunding string
 
+// List of values that CardFunding can take.
 const (
 	CardFundingCredit  CardFunding = "credit"
 	CardFundingDebit   CardFunding = "debit"
@@ -34,6 +36,7 @@ const (
 // CardTokenizationMethod is the list of allowed values for the card's tokenization method.
 type CardTokenizationMethod string
 
+// List of values that CardTokenizationMethod can take.
 const (
 	TokenizationMethodAndroidPay CardTokenizationMethod = "android_pay"
 	TokenizationMethodApplePay   CardTokenizationMethod = "apple_pay"
@@ -42,6 +45,7 @@ const (
 // CardVerification is the list of allowed verification responses.
 type CardVerification string
 
+// List of values that CardVerification can take.
 const (
 	CardVerificationFail      CardVerification = "fail"
 	CardVerificationPass      CardVerification = "pass"
@@ -168,6 +172,9 @@ type CardListParams struct {
 	Recipient  *string `form:"-"`
 }
 
+// AppendTo implements custom encoding logic for CardListParams
+// so that we can send the special required `object` field up along with the
+// other specified parameters.
 func (p *CardListParams) AppendTo(body *form.Values, keyParts []string) {
 	if p.Account != nil || p.Customer != nil {
 		body.Add(form.FormatKey(append(keyParts, "object")), "card")

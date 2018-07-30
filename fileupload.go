@@ -10,6 +10,7 @@ import (
 // FileUploadPurpose is the purpose of a particular file upload.
 type FileUploadPurpose string
 
+// List of values that FileUploadPurpose can take.
 const (
 	FileUploadPurposeDisputeEvidence  FileUploadPurpose = "dispute_evidence"
 	FileUploadPurposeIdentityDocument FileUploadPurpose = "identity_document"

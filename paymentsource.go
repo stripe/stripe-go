@@ -10,6 +10,7 @@ import (
 // PaymentSourceType consts represent valid payment sources.
 type PaymentSourceType string
 
+// List of values that PaymentSourceType can take.
 const (
 	PaymentSourceTypeAccount         PaymentSourceType = "account"
 	PaymentSourceTypeBankAccount     PaymentSourceType = "bank_account"
@@ -25,6 +26,7 @@ type SourceParams struct {
 	Token *string     `form:"source"`
 }
 
+// AppendTo implements custom encoding logic for SourceParams.
 func (p *SourceParams) AppendTo(body *form.Values, keyParts []string) {
 	if p.Card != nil {
 		p.Card.AppendToAsCardSourceOrExternalAccount(body, keyParts)

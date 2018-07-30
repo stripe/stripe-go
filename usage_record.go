@@ -1,5 +1,6 @@
 package stripe
 
+// Possible values for the action parameter on usage record creation.
 const (
 	UsageRecordActionIncrement string = "increment"
 	UsageRecordActionSet       string = "set"

@@ -5,6 +5,7 @@ import "encoding/json"
 // IssuingCardholderStatus is the possible values for status on an issuing cardholder.
 type IssuingCardholderStatus string
 
+// List of values that IssuingCardholderStatus can take.
 const (
 	IssuingCardholderStatusActive   IssuingCardholderStatus = "active"
 	IssuingCardholderStatusInactive IssuingCardholderStatus = "inactive"
@@ -13,6 +14,7 @@ const (
 // IssuingCardholderType is the type of an issuing cardholder.
 type IssuingCardholderType string
 
+// List of values that IssuingCardholderType can take.
 const (
 	IssuingCardholderTypeBusinessEntity IssuingCardholderType = "business_entity"
 	IssuingCardholderTypeIndividual     IssuingCardholderType = "individual"

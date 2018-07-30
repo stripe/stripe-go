@@ -1,6 +1,6 @@
 package stripe
 
-// Standard address parameters.
+// AddressParams describes the common parameters for an Address.
 type AddressParams struct {
 	City       *string `form:"city"`
 	Country    *string `form:"country"`
@@ -10,7 +10,7 @@ type AddressParams struct {
 	State      *string `form:"state"`
 }
 
-// Standard address resource.
+// Address describes common properties for an Address hash.
 type Address struct {
 	City       string `json:"city"`
 	Country    string `json:"country"`

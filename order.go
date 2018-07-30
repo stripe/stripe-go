@@ -7,6 +7,7 @@ import (
 // OrderStatus represents the statuses of an order object.
 type OrderStatus string
 
+// List of values that OrderStatus can take.
 const (
 	OrderStatusCanceled  OrderStatus = "canceled"
 	OrderStatusCreated   OrderStatus = "created"
@@ -18,6 +19,7 @@ const (
 // OrderDeliveryEstimateType represents the type of delivery estimate for shipping methods
 type OrderDeliveryEstimateType string
 
+// List of values that OrderDeliveryEstimateType can take.
 const (
 	OrderDeliveryEstimateTypeExact OrderDeliveryEstimateType = "exact"
 	OrderDeliveryEstimateTypeRange OrderDeliveryEstimateType = "range"
@@ -26,6 +28,7 @@ const (
 // OrderItemType represents the type of order item
 type OrderItemType string
 
+// List of values that OrderItemType can take.
 const (
 	OrderItemTypeDiscount OrderItemType = "discount"
 	OrderItemTypeShipping OrderItemType = "shipping"
@@ -33,6 +36,7 @@ const (
 	OrderItemTypeTax      OrderItemType = "tax"
 )
 
+// OrderParams is the set of parameters that can be used when creating an order.
 type OrderParams struct {
 	Params   `form:"*"`
 	Coupon   *string            `form:"coupon"`
@@ -43,12 +47,15 @@ type OrderParams struct {
 	Shipping *ShippingParams    `form:"shipping"`
 }
 
+// ShippingParams is the set of parameters that can be used for the shipping hash
+// on order creation.
 type ShippingParams struct {
 	Address *AddressParams `form:"address"`
 	Name    *string        `form:"name"`
 	Phone   *string        `form:"phone"`
 }
 
+// OrderUpdateParams is the set of parameters that can be used when updating an order.
 type OrderUpdateParams struct {
 	Params                 `form:"*"`
 	Coupon                 *string                    `form:"coupon"`
@@ -57,18 +64,20 @@ type OrderUpdateParams struct {
 	Status                 *string                    `form:"status"`
 }
 
+// OrderUpdateShippingParams is the set of parameters that can be used for the shipping
+// hash on order update.
 type OrderUpdateShippingParams struct {
 	Carrier        *string `form:"carrier"`
 	TrackingNumber *string `form:"tracking_number"`
 }
 
-// OrderReturnParams is the set of parameters that can be used when returning
-// orders. For more details, see: https://stripe.com/docs/api#return_order.
+// OrderReturnParams is the set of parameters that can be used when returning orders.
 type OrderReturnParams struct {
 	Params `form:"*"`
 	Items  []*OrderItemParams `form:"items,indexed"`
 }
 
+// Shipping describes the shipping hash on an order.
 type Shipping struct {
 	Address        *Address `json:"address"`
 	Carrier        string   `json:"carrier"`
@@ -77,6 +86,7 @@ type Shipping struct {
 	TrackingNumber string   `json:"tracking_number"`
 }
 
+// ShippingMethod describes a shipping method as available on an order.
 type ShippingMethod struct {
 	Amount           int64             `json:"amount"`
 	ID               string            `json:"id"`
@@ -85,6 +95,8 @@ type ShippingMethod struct {
 	Description      string            `json:"description"`
 }
 
+// DeliveryEstimate represent the properties available for a shipping method's
+// estimated delivery.
 type DeliveryEstimate struct {
 	// If Type == Exact
 	Date string `json:"date"`
@@ -94,6 +106,8 @@ type DeliveryEstimate struct {
 	Type     OrderDeliveryEstimateType `json:"type"`
 }
 
+// Order is the resource representing a Stripe charge.
+// For more details see https://stripe.com/docs/api#orders.
 type Order struct {
 	Amount                 int64             `json:"amount"`
 	AmountReturned         int64             `json:"amount_returned"`
@@ -123,9 +137,7 @@ type OrderList struct {
 	Data []*Order `json:"data"`
 }
 
-// OrderListParams is the set of parameters that can be used when
-// listing orders. For more details, see:
-// https://stripe.com/docs/api#list_orders.
+// OrderListParams is the set of parameters that can be used when listing orders.
 type OrderListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
@@ -135,8 +147,7 @@ type OrderListParams struct {
 	Status       *string           `form:"status"`
 }
 
-// StatusTransitions are the timestamps at which the order status was updated
-// https://stripe.com/docs/api#order_object
+// StatusTransitions are the timestamps at which the order status was updated.
 type StatusTransitions struct {
 	Canceled  int64 `json:"canceled"`
 	Fulfilled int64 `json:"fulfiled"`
@@ -144,9 +155,7 @@ type StatusTransitions struct {
 	Returned  int64 `json:"returned"`
 }
 
-// OrderPayParams is the set of parameters that can be used when
-// paying orders. For more details, see:
-// https://stripe.com/docs/api#pay_order.
+// OrderPayParams is the set of parameters that can be used when paying orders.
 type OrderPayParams struct {
 	Params         `form:"*"`
 	ApplicationFee *int64        `form:"application_fee"`
@@ -155,6 +164,7 @@ type OrderPayParams struct {
 	Source         *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 }
 
+// OrderItemParams is the set of parameters describing an order item on order creation or update.
 type OrderItemParams struct {
 	Amount      *int64  `form:"amount"`
 	Currency    *string `form:"currency"`
@@ -164,6 +174,7 @@ type OrderItemParams struct {
 	Type        *string `form:"type"`
 }
 
+// OrderItem is the resource representing an order item.
 type OrderItem struct {
 	Amount      int64         `json:"amount"`
 	Currency    Currency      `json:"currency"`

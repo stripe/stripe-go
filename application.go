@@ -2,6 +2,7 @@ package stripe
 
 import "encoding/json"
 
+// Application describes the properties for an Application.
 type Application struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`

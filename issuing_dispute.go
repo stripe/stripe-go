@@ -5,6 +5,7 @@ import "encoding/json"
 // IssuingDisputeReason is the list of possible values for status on an issuing dispute.
 type IssuingDisputeReason string
 
+// List of values that IssuingDisputeReason can take.
 const (
 	IssuingDisputeReasonFraudulent IssuingDisputeReason = "fraudulent"
 	IssuingDisputeReasonOther      IssuingDisputeReason = "other"
@@ -13,6 +14,7 @@ const (
 // IssuingDisputeStatus is the list of possible values for status on an issuing dispute.
 type IssuingDisputeStatus string
 
+// List of values that IssuingDisputeStatus can take.
 const (
 	IssuingDisputeStatusLost        IssuingDisputeStatus = "lost"
 	IssuingDisputeStatusUnderReview IssuingDisputeStatus = "under_review"

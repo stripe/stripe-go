@@ -5,6 +5,7 @@ import "encoding/json"
 // RefundReason is, if set, the reason the refund is being made
 type RefundReason string
 
+// List of values that RefundReason can take.
 const (
 	RefundReasonDuplicate           RefundReason = "duplicate"
 	RefundReasonFraudulent          RefundReason = "fraudulent"
@@ -14,6 +15,7 @@ const (
 // RefundStatus is the status of the refund.
 type RefundStatus string
 
+// List of values that RefundStatus can take.
 const (
 	RefundStatusCanceled  RefundStatus = "canceled"
 	RefundStatusFailed    RefundStatus = "failed"

@@ -9,6 +9,7 @@ import (
 // AccountType is the type of an account.
 type AccountType string
 
+// List of values that AccountType can take.
 const (
 	AccountTypeCustom   AccountType = "custom"
 	AccountTypeExpress  AccountType = "express"
@@ -18,6 +19,7 @@ const (
 // ExternalAccountType is the type of an external account.
 type ExternalAccountType string
 
+// List of values that ExternalAccountType can take.
 const (
 	ExternalAccountTypeBankAccount ExternalAccountType = "bank_account"
 	ExternalAccountTypeCard        ExternalAccountType = "card"
@@ -26,6 +28,7 @@ const (
 // LegalEntityType describes the types for a legal entity.
 type LegalEntityType string
 
+// List of values that LegalEntityType can take.
 const (
 	LegalEntityTypeCompany    LegalEntityType = "company"
 	LegalEntityTypeIndividual LegalEntityType = "individual"
@@ -35,14 +38,15 @@ const (
 // verification state of a legal entity
 type IdentityVerificationDetailsCode string
 
+// List of values that IdentityVerificationDetailsCode can take.
 const (
 	IdentityVerificationDetailsCodeFailedKeyedIdentity       IdentityVerificationDetailsCode = "failed_keyed_identity"
 	IdentityVerificationDetailsCodeFailedOther               IdentityVerificationDetailsCode = "failed_other"
 	IdentityVerificationDetailsCodeScanCorrupt               IdentityVerificationDetailsCode = "scan_corrupt"
 	IdentityVerificationDetailsCodeScanFailedGreyscale       IdentityVerificationDetailsCode = "scan_failed_greyscale"
 	IdentityVerificationDetailsCodeScanFailedOther           IdentityVerificationDetailsCode = "scan_failed_other"
-	IdentityVerificationDetailsCodeScanIdCountryNotSupported IdentityVerificationDetailsCode = "scan_id_country_not_supported"
-	IdentityVerificationDetailsCodeScanIdTypeNotSupported    IdentityVerificationDetailsCode = "scan_id_type_not_supported"
+	IdentityVerificationDetailsCodeScanIDCountryNotSupported IdentityVerificationDetailsCode = "scan_id_country_not_supported"
+	IdentityVerificationDetailsCodeScanIDTypeNotSupported    IdentityVerificationDetailsCode = "scan_id_type_not_supported"
 	IdentityVerificationDetailsCodeScanNameMismatch          IdentityVerificationDetailsCode = "scan_name_mismatch"
 	IdentityVerificationDetailsCodeScanNotReadable           IdentityVerificationDetailsCode = "scan_not_readable"
 	IdentityVerificationDetailsCodeScanNotUploaded           IdentityVerificationDetailsCode = "scan_not_uploaded"
@@ -51,6 +55,7 @@ const (
 // IdentityVerificationDisabledReason describes the valid reason to disable account
 type IdentityVerificationDisabledReason string
 
+// List of values that IdentityVerificationDisabledReason can take.
 const (
 	IdentityVerificationDisabledReasonFieldsNeeded           IdentityVerificationDisabledReason = "fields_needed"
 	IdentityVerificationDisabledReasonListed                 IdentityVerificationDisabledReason = "listed"
@@ -65,15 +70,17 @@ const (
 // IdentityVerificationStatus describes the different statuses for identity verification.
 type IdentityVerificationStatus string
 
+// List of values that IdentityVerificationStatus can take.
 const (
 	IdentityVerificationStatusPending    IdentityVerificationStatus = "pending"
 	IdentityVerificationStatusUnverified IdentityVerificationStatus = "unverified"
 	IdentityVerificationStatusVerified   IdentityVerificationStatus = "verified"
 )
 
-// Interval describes the payout interval.
+// PayoutInterval describes the payout interval.
 type PayoutInterval string
 
+// List of values that PayoutInterval can take.
 const (
 	PayoutIntervalDaily   PayoutInterval = "daily"
 	PayoutIntervalManual  PayoutInterval = "manual"
@@ -84,6 +91,7 @@ const (
 // AccountRejectReason describes the valid reason to reject an account
 type AccountRejectReason string
 
+// List of values that AccountRejectReason can take.
 const (
 	AccountRejectReasonFraud          AccountRejectReason = "fraud"
 	AccountRejectReasonOther          AccountRejectReason = "other"
@@ -197,7 +205,7 @@ type AdditionalOwnerParams struct {
 	Verification     *IdentityVerificationParams `form:"verification"`
 }
 
-// IdentityVerification represents a verification during account creation/updates.
+// IdentityVerificationParams represents a verification during account creation/updates.
 type IdentityVerificationParams struct {
 	Document     *string `form:"document"`
 	DocumentBack *string `form:"document_back"`
@@ -224,7 +232,7 @@ type AccountExternalAccountParams struct {
 
 // AppendTo implements custom encoding logic for AccountExternalAccountParams
 // so that we can send the special required `object` field up along with the
-// other specified parameters or the token value
+// other specified parameters or the token value.
 func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []string) {
 	if p.Token != nil {
 		body.Add(form.FormatKey(keyParts), StringValue(p.Token))
@@ -242,6 +250,8 @@ type PayoutScheduleParams struct {
 	WeeklyAnchor     *string `form:"weekly_anchor"`
 }
 
+// AppendTo implements custom encoding logic for PayoutScheduleParams
+// so that we can send a special value for `delay_days` field if needed.
 func (p *PayoutScheduleParams) AppendTo(body *form.Values, keyParts []string) {
 	if BoolValue(p.DelayDaysMinimum) {
 		body.Add(form.FormatKey(append(keyParts, "delay_days")), "minimum")
@@ -403,7 +413,7 @@ type LegalEntity struct {
 	Verification             *IdentityVerification `json:"verification"`
 }
 
-// Address is the structure for an account address.
+// AccountAddress is the structure for an account address.
 type AccountAddress struct {
 	City       string `json:"city"`
 	Country    string `json:"country"`

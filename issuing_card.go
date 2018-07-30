@@ -6,6 +6,7 @@ import "encoding/json"
 // on an issuing card.
 type IssuingCardShippingStatus string
 
+// List of values that IssuingCardShippingStatus can take.
 const (
 	IssuingCardShippingTypeDelivered IssuingCardShippingStatus = "delivered"
 	IssuingCardShippingTypeFailure   IssuingCardShippingStatus = "failure"
@@ -18,6 +19,7 @@ const (
 // on an issuing card.
 type IssuingCardShippingType string
 
+// List of values that IssuingCardShippingType can take.
 const (
 	IssuingCardShippingTypeBulk       IssuingCardShippingType = "bulk"
 	IssuingCardShippingTypeIndividual IssuingCardShippingType = "individual"
@@ -26,6 +28,7 @@ const (
 // IssuingCardStatus is the list of possible values for status on an issuing card.
 type IssuingCardStatus string
 
+// List of values that IssuingCardStatus can take.
 const (
 	IssuingCardStatusActive   IssuingCardStatus = "active"
 	IssuingCardStatusCanceled IssuingCardStatus = "canceled"
@@ -36,6 +39,7 @@ const (
 // IssuingCardType is the type of an issuing card.
 type IssuingCardType string
 
+// List of values that IssuingCardType can take.
 const (
 	IssuingCardTypePhysical IssuingCardType = "physical"
 	IssuingCardTypeVirtual  IssuingCardType = "virtual"

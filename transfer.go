@@ -5,6 +5,7 @@ import "encoding/json"
 // TransferSourceType is the list of allowed values for the transfer's source_type field.
 type TransferSourceType string
 
+// List of values that TransferSourceType can take.
 const (
 	TransferSourceTypeAlipayAccount   TransferSourceType = "alipay_account"
 	TransferSourceTypeBankAccount     TransferSourceType = "bank_account"

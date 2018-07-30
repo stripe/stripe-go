@@ -16,6 +16,7 @@ import (
 // Public constants
 //
 
+// Contains constants for the names of parameters used for pagination in list APIs.
 const (
 	EndingBefore  = "ending_before"
 	StartingAfter = "starting_after"

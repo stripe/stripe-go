@@ -9,6 +9,7 @@ import (
 // RecipientType is the list of allowed values for the recipient's type.
 type RecipientType string
 
+// List of values that RecipientType can take.
 const (
 	RecipientTypeIndividual  RecipientType = "individual"
 	RecipientTypeCorporation RecipientType = "corporation"

@@ -7,6 +7,7 @@ import (
 // DisputeReason is the list of allowed values for a discount's reason.
 type DisputeReason string
 
+// List of values that DisputeReason can take.
 const (
 	DisputeReasonCreditNotProcessed   DisputeReason = "credit_not_processed"
 	DisputeReasonDuplicate            DisputeReason = "duplicate"
@@ -21,6 +22,7 @@ const (
 // DisputeStatus is the list of allowed values for a discount's status.
 type DisputeStatus string
 
+// List of values that DisputeStatus can take.
 const (
 	DisputeStatusChargeRefunded       DisputeStatus = "charge_refunded"
 	DisputeStatusLost                 DisputeStatus = "lost"

@@ -2,7 +2,7 @@
 package client
 
 import (
-	. "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/account"
 	"github.com/stripe/stripe-go/applepaydomain"
 	"github.com/stripe/stripe-go/balance"
@@ -155,9 +155,12 @@ type API struct {
 
 // Init initializes the Stripe client with the appropriate secret key
 // as well as providing the ability to override the backend as needed.
-func (a *API) Init(key string, backends *Backends) {
+func (a *API) Init(key string, backends *stripe.Backends) {
 	if backends == nil {
-		backends = &Backends{API: GetBackend(APIBackend), Uploads: GetBackend(UploadsBackend)}
+		backends = &stripe.Backends{
+			API:     stripe.GetBackend(stripe.APIBackend),
+			Uploads: stripe.GetBackend(stripe.UploadsBackend),
+		}
 	}
 
 	a.Account = &account.Client{B: backends.API, Key: key}
@@ -212,7 +215,7 @@ func (a *API) Init(key string, backends *Backends) {
 
 // New creates a new Stripe client with the appropriate secret key
 // as well as providing the ability to override the backends as needed.
-func New(key string, backends *Backends) *API {
+func New(key string, backends *stripe.Backends) *API {
 	api := API{}
 	api.Init(key, backends)
 	return &api

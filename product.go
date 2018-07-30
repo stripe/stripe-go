@@ -5,13 +5,14 @@ import "encoding/json"
 // ProductType is the type of a product.
 type ProductType string
 
+// List of values that ProductType can take.
 const (
 	ProductTypeGood    ProductType = "good"
 	ProductTypeService ProductType = "service"
 )
 
-// PackageDimensions represents the dimension of a product or a sku from the
-// perspective of shipping.
+// PackageDimensionsParams represents the set of parameters for the the dimension of a
+// product or a SKU from the perspective of shipping .
 type PackageDimensionsParams struct {
 	Height *float64 `form:"height"`
 	Length *float64 `form:"length"`
@@ -19,10 +20,7 @@ type PackageDimensionsParams struct {
 	Width  *float64 `form:"width"`
 }
 
-// ProductParams is the set of parameters that can be used
-// when creating or updating a product.
-// For more details, see https://stripe.com/docs/api#create_product
-// and https://stripe.com/docs/api#update_product.
+// ProductParams is the set of parameters that can be used when creating or updating a product.
 type ProductParams struct {
 	Params              `form:"*"`
 	Active              *bool                    `form:"active"`
@@ -41,7 +39,7 @@ type ProductParams struct {
 	URL                 *string                  `form:"url"`
 }
 
-// PackageDimensions represents the dimension of a product or a sku from the
+// PackageDimensions represents the dimension of a product or a SKU from the
 // perspective of shipping.
 type PackageDimensions struct {
 	Height float64 `json:"height"`
@@ -79,9 +77,7 @@ type ProductList struct {
 	Data []*Product `json:"data"`
 }
 
-// ProductListParams is the set of parameters that can be used when
-// listing products. For more details, see:
-// https://stripe.com/docs/api#list_products.
+// ProductListParams is the set of parameters that can be used when listing products.
 type ProductListParams struct {
 	ListParams `form:"*"`
 	Active     *bool     `form:"active"`
