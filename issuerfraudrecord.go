@@ -3,6 +3,7 @@ package stripe
 // IssuerFraudType are strings that map to the fraud label category from the issuer.
 type IssuerFraudType string
 
+// List of values that IssuerFraudType can take.
 const (
 	IssuerFraudTypeCardNeverReceived         IssuerFraudType = "card_never_received"
 	IssuerFraudTypeFraudulentCardApplication IssuerFraudType = "fraudulent_card_application"

@@ -6,6 +6,7 @@ import (
 
 type PaymentIntentCaptureMethod string
 
+// List of values that PaymentIntentCaptureMethod can take.
 const (
 	PaymentIntentCaptureMethodAutomatic PaymentIntentCaptureMethod = "automatic"
 	PaymentIntentCaptureMethodManual    PaymentIntentCaptureMethod = "manual"
@@ -13,6 +14,7 @@ const (
 
 type PaymentIntentConfirmationMethod string
 
+// List of values that PaymentIntentConfirmationMethod can take.
 const (
 	PaymentIntentConfirmationMethodPublishable PaymentIntentConfirmationMethod = "publishable"
 	PaymentIntentConfirmationMethodSecret      PaymentIntentConfirmationMethod = "secret"
@@ -20,12 +22,14 @@ const (
 
 type PaymentIntentNextActionType string
 
+// List of values that PaymentIntentNextActionType can take.
 const (
 	PaymentIntentNextActionAuthorizeWithURL PaymentIntentNextActionType = "authorize_with_url"
 )
 
 type PaymentIntentStatus string
 
+// List of values that PaymentIntentStatus can take.
 const (
 	PaymentIntentStatusCanceled             PaymentIntentStatus = "canceled"
 	PaymentIntentStatusProcessing           PaymentIntentStatus = "processing"

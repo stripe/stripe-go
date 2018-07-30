@@ -7,6 +7,7 @@ import (
 // ChargeFraudUserReport is the list of allowed values for reporting fraud.
 type ChargeFraudUserReport string
 
+// List of values that ChargeFraudUserReport can take.
 const (
 	ChargeFraudUserReportFraudulent ChargeFraudUserReport = "fraudulent"
 	ChargeFraudUserReportSafe       ChargeFraudUserReport = "safe"
@@ -15,6 +16,7 @@ const (
 // ChargeFraudStripeReport is the list of allowed values for reporting fraud.
 type ChargeFraudStripeReport string
 
+// List of values that ChargeFraudStripeReport can take.
 const (
 	ChargeFraudStripeReportFraudulent ChargeFraudStripeReport = "fraudulent"
 )

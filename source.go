@@ -9,6 +9,7 @@ import (
 // SourceCodeVerificationFlowStatus represents the possible statuses of a code verification flow.
 type SourceCodeVerificationFlowStatus string
 
+// List of values that SourceCodeVerificationFlowStatus can take.
 const (
 	SourceCodeVerificationFlowStatusFailed    SourceCodeVerificationFlowStatus = "failed"
 	SourceCodeVerificationFlowStatusPending   SourceCodeVerificationFlowStatus = "pending"
@@ -18,6 +19,7 @@ const (
 // SourceFlow represents the possible flows of a source object.
 type SourceFlow string
 
+// List of values that SourceFlow can take.
 const (
 	SourceFlowCodeVerification SourceFlow = "code_verification"
 	SourceFlowNone             SourceFlow = "none"
@@ -28,6 +30,7 @@ const (
 // SourceMandateAcceptanceStatus represents the possible failure reasons of a redirect flow.
 type SourceMandateAcceptanceStatus string
 
+// List of values that SourceMandateAcceptanceStatus can take.
 const (
 	SourceMandateAcceptanceStatusAccepted SourceMandateAcceptanceStatus = "accepted"
 	SourceMandateAcceptanceStatusRefused  SourceMandateAcceptanceStatus = "refused"
@@ -36,6 +39,7 @@ const (
 // SourceRedirectFlowFailureReason represents the possible failure reasons of a redirect flow.
 type SourceRedirectFlowFailureReason string
 
+// List of values that SourceRedirectFlowFailureReason can take.
 const (
 	SourceRedirectFlowFailureReasonDeclined        SourceRedirectFlowFailureReason = "declined"
 	SourceRedirectFlowFailureReasonProcessingError SourceRedirectFlowFailureReason = "processing_error"
@@ -45,6 +49,7 @@ const (
 // SourceRedirectFlowStatus represents the possible statuses of a redirect flow.
 type SourceRedirectFlowStatus string
 
+// List of values that SourceRedirectFlowStatus can take.
 const (
 	SourceRedirectFlowStatusFailed      SourceRedirectFlowStatus = "failed"
 	SourceRedirectFlowStatusNotRequired SourceRedirectFlowStatus = "not_required"
@@ -55,6 +60,7 @@ const (
 // SourceRefundAttributesMethod are the possible method to retrieve a receiver's refund attributes.
 type SourceRefundAttributesMethod string
 
+// List of values that SourceRefundAttributesMethod can take.
 const (
 	SourceRefundAttributesMethodEmail  SourceRefundAttributesMethod = "email"
 	SourceRefundAttributesMethodManual SourceRefundAttributesMethod = "manual"
@@ -63,6 +69,7 @@ const (
 // SourceRefundAttributesStatus are the possible status of a receiver's refund attributes.
 type SourceRefundAttributesStatus string
 
+// List of values that SourceRefundAttributesStatus can take.
 const (
 	SourceRefundAttributesStatusAvailable SourceRefundAttributesStatus = "available"
 	SourceRefundAttributesStatusMissing   SourceRefundAttributesStatus = "missing"
@@ -72,6 +79,7 @@ const (
 // SourceStatus represents the possible statuses of a source object.
 type SourceStatus string
 
+// List of values that SourceStatus can take.
 const (
 	SourceStatusCanceled   SourceStatus = "canceled"
 	SourceStatusChargeable SourceStatus = "chargeable"
@@ -83,6 +91,7 @@ const (
 // SourceUsage represents the possible usages of a source object.
 type SourceUsage string
 
+// List of values that SourceUsage can take.
 const (
 	SourceUsageReusable  SourceUsage = "reusable"
 	SourceUsageSingleUse SourceUsage = "single_use"

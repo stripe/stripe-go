@@ -5,6 +5,7 @@ import "encoding/json"
 // SKUInventoryType describe's the possible value for inventory type
 type SKUInventoryType string
 
+// List of values that SKUInventoryType can take.
 const (
 	SKUInventoryTypeBucket   SKUInventoryType = "bucket"
 	SKUInventoryTypeFinite   SKUInventoryType = "finite"
@@ -14,6 +15,7 @@ const (
 // SKUInventoryValue describe's the possible value for inventory value
 type SKUInventoryValue string
 
+// List of values that SKUInventoryValue can take.
 const (
 	SKUInventoryValueInStock    SKUInventoryValue = "in_stock"
 	SKUInventoryValueLimited    SKUInventoryValue = "limited"

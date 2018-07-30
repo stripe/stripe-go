@@ -5,6 +5,7 @@ import "encoding/json"
 // ReviewReasonType describes the reason why the review is open or closed.
 type ReviewReasonType string
 
+// List of values that ReviewReasonType can take.
 const (
 	ReviewReasonApproved        ReviewReasonType = "approved"
 	ReviewReasonDisputed        ReviewReasonType = "disputed"

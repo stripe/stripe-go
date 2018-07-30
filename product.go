@@ -5,6 +5,7 @@ import "encoding/json"
 // ProductType is the type of a product.
 type ProductType string
 
+// List of values that ProductType can take.
 const (
 	ProductTypeGood    ProductType = "good"
 	ProductTypeService ProductType = "service"

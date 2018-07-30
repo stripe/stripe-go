@@ -7,6 +7,7 @@ import (
 // OrderStatus represents the statuses of an order object.
 type OrderStatus string
 
+// List of values that OrderStatus can take.
 const (
 	OrderStatusCanceled  OrderStatus = "canceled"
 	OrderStatusCreated   OrderStatus = "created"
@@ -18,6 +19,7 @@ const (
 // OrderDeliveryEstimateType represents the type of delivery estimate for shipping methods
 type OrderDeliveryEstimateType string
 
+// List of values that OrderDeliveryEstimateType can take.
 const (
 	OrderDeliveryEstimateTypeExact OrderDeliveryEstimateType = "exact"
 	OrderDeliveryEstimateTypeRange OrderDeliveryEstimateType = "range"
@@ -26,6 +28,7 @@ const (
 // OrderItemType represents the type of order item
 type OrderItemType string
 
+// List of values that OrderItemType can take.
 const (
 	OrderItemTypeDiscount OrderItemType = "discount"
 	OrderItemTypeShipping OrderItemType = "shipping"

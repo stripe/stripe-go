@@ -5,6 +5,7 @@ import "encoding/json"
 // IssuingTransactionType is the type of an issuing transaction.
 type IssuingTransactionType string
 
+// List of values that IssuingTransactionType can take.
 const (
 	IssuingTransactionTypeCapture        IssuingTransactionType = "capture"
 	IssuingTransactionTypeCashWithdrawal IssuingTransactionType = "cash_withdrawal"

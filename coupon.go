@@ -5,6 +5,7 @@ import "encoding/json"
 // CouponDuration is the list of allowed values for the coupon's duration.
 type CouponDuration string
 
+// List of values that CouponDuration can take.
 const (
 	CouponDurationForever   CouponDuration = "forever"
 	CouponDurationOnce      CouponDuration = "once"

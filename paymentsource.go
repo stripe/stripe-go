@@ -10,6 +10,7 @@ import (
 // PaymentSourceType consts represent valid payment sources.
 type PaymentSourceType string
 
+// List of values that PaymentSourceType can take.
 const (
 	PaymentSourceTypeAccount         PaymentSourceType = "account"
 	PaymentSourceTypeBankAccount     PaymentSourceType = "bank_account"

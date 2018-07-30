@@ -9,6 +9,7 @@ import (
 // AccountType is the type of an account.
 type AccountType string
 
+// List of values that AccountType can take.
 const (
 	AccountTypeCustom   AccountType = "custom"
 	AccountTypeExpress  AccountType = "express"
@@ -18,6 +19,7 @@ const (
 // ExternalAccountType is the type of an external account.
 type ExternalAccountType string
 
+// List of values that ExternalAccountType can take.
 const (
 	ExternalAccountTypeBankAccount ExternalAccountType = "bank_account"
 	ExternalAccountTypeCard        ExternalAccountType = "card"
@@ -26,6 +28,7 @@ const (
 // LegalEntityType describes the types for a legal entity.
 type LegalEntityType string
 
+// List of values that LegalEntityType can take.
 const (
 	LegalEntityTypeCompany    LegalEntityType = "company"
 	LegalEntityTypeIndividual LegalEntityType = "individual"
@@ -35,6 +38,7 @@ const (
 // verification state of a legal entity
 type IdentityVerificationDetailsCode string
 
+// List of values that IdentityVerificationDetailsCode can take.
 const (
 	IdentityVerificationDetailsCodeFailedKeyedIdentity       IdentityVerificationDetailsCode = "failed_keyed_identity"
 	IdentityVerificationDetailsCodeFailedOther               IdentityVerificationDetailsCode = "failed_other"
@@ -51,6 +55,7 @@ const (
 // IdentityVerificationDisabledReason describes the valid reason to disable account
 type IdentityVerificationDisabledReason string
 
+// List of values that IdentityVerificationDisabledReason can take.
 const (
 	IdentityVerificationDisabledReasonFieldsNeeded           IdentityVerificationDisabledReason = "fields_needed"
 	IdentityVerificationDisabledReasonListed                 IdentityVerificationDisabledReason = "listed"
@@ -65,15 +70,17 @@ const (
 // IdentityVerificationStatus describes the different statuses for identity verification.
 type IdentityVerificationStatus string
 
+// List of values that IdentityVerificationStatus can take.
 const (
 	IdentityVerificationStatusPending    IdentityVerificationStatus = "pending"
 	IdentityVerificationStatusUnverified IdentityVerificationStatus = "unverified"
 	IdentityVerificationStatusVerified   IdentityVerificationStatus = "verified"
 )
 
-// Interval describes the payout interval.
+// PayoutInterval describes the payout interval.
 type PayoutInterval string
 
+// List of values that PayoutInterval can take.
 const (
 	PayoutIntervalDaily   PayoutInterval = "daily"
 	PayoutIntervalManual  PayoutInterval = "manual"
@@ -84,6 +91,7 @@ const (
 // AccountRejectReason describes the valid reason to reject an account
 type AccountRejectReason string
 
+// List of values that AccountRejectReason can take.
 const (
 	AccountRejectReasonFraud          AccountRejectReason = "fraud"
 	AccountRejectReasonOther          AccountRejectReason = "other"

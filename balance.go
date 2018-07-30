@@ -5,6 +5,7 @@ import "encoding/json"
 // BalanceTransactionStatus is the list of allowed values for the balance transaction's status.
 type BalanceTransactionStatus string
 
+// List of values that BalanceTransactionStatus can take.
 const (
 	BalanceTransactionStatusAvailable BalanceTransactionStatus = "available"
 	BalanceTransactionStatusPending   BalanceTransactionStatus = "pending"
@@ -13,6 +14,7 @@ const (
 // BalanceTransactionType is the list of allowed values for the balance transaction's type.
 type BalanceTransactionType string
 
+// List of values that BalanceTransactionType can take.
 const (
 	BalanceTransactionTypeAdjustment                      BalanceTransactionType = "adjustment"
 	BalanceTransactionTypeApplicationFee                  BalanceTransactionType = "application_fee"
@@ -39,6 +41,7 @@ const (
 // BalanceTransactionSourceType consts represent valid balance transaction sources.
 type BalanceTransactionSourceType string
 
+// List of values that BalanceTransactionSourceType can take.
 const (
 	BalanceTransactionSourceTypeApplicationFee       BalanceTransactionSourceType = "application_fee"
 	BalanceTransactionSourceTypeCharge               BalanceTransactionSourceType = "charge"

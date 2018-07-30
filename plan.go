@@ -9,6 +9,7 @@ import (
 // PlanInterval is the list of allowed values for a plan's interval.
 type PlanInterval string
 
+// List of values that PlanInterval can take.
 const (
 	PlanIntervalDay   PlanInterval = "day"
 	PlanIntervalWeek  PlanInterval = "week"
@@ -19,6 +20,7 @@ const (
 // PlanBillingScheme is the list of allowed values for a plan's billing scheme.
 type PlanBillingScheme string
 
+// List of values that PlanBillingScheme can take.
 const (
 	PlanBillingSchemePerUnit PlanBillingScheme = "per_unit"
 	PlanBillingSchemeTiered  PlanBillingScheme = "tiered"
@@ -27,6 +29,7 @@ const (
 // PlanUsageType is the list of allowed values for a plan's usage type.
 type PlanUsageType string
 
+// List of values that PlanUsageType can take.
 const (
 	PlanUsageTypeLicensed PlanUsageType = "licensed"
 	PlanUsageTypeMetered  PlanUsageType = "metered"
@@ -35,6 +38,7 @@ const (
 // PlanTiersMode is the list of allowed values for a plan's tiers mode.
 type PlanTiersMode string
 
+// List of values that PlanTiersMode can take.
 const (
 	PlanTiersModeGraduated PlanTiersMode = "graduated"
 	PlanTiersModeVolume    PlanTiersMode = "volume"
@@ -43,6 +47,7 @@ const (
 // PlanTransformUsageRound is the list of allowed values for a plan's transform usage round logic.
 type PlanTransformUsageRound string
 
+// List of values that PlanTransformUsageRound can take.
 const (
 	PlanTransformUsageRoundDown PlanTransformUsageRound = "down"
 	PlanTransformUsageRoundUp   PlanTransformUsageRound = "up"
@@ -51,6 +56,7 @@ const (
 // PlanAggregateUsage is the list of allowed values for a plan's aggregate usage.
 type PlanAggregateUsage string
 
+// List of values that PlanAggregateUsage can take.
 const (
 	PlanAggregateUsageLastDuringPeriod PlanAggregateUsage = "last_during_period"
 	PlanAggregateUsageLastEver         PlanAggregateUsage = "last_ever"

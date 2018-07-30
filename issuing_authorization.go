@@ -6,6 +6,7 @@ import "encoding/json"
 // on an issuing authorization.
 type IssuingAuthorizationAuthorizationMethod string
 
+// List of values that IssuingAuthorizationAuthorizationMethod can take.
 const (
 	IssuingAuthorizationAuthorizationMethodChip        IssuingAuthorizationAuthorizationMethod = "chip"
 	IssuingAuthorizationAuthorizationMethodContactless IssuingAuthorizationAuthorizationMethod = "contactless"
@@ -18,6 +19,7 @@ const (
 // reason on an issuing authorization.
 type IssuingAuthorizationRequestHistoryReason string
 
+// List of values that IssuingAuthorizationRequestHistoryReason can take.
 const (
 	IssuingAuthorizationRequestHistoryReasonAuthorizationControls IssuingAuthorizationRequestHistoryReason = "authorization_controls"
 	IssuingAuthorizationRequestHistoryReasonCardActive            IssuingAuthorizationRequestHistoryReason = "card_active"
@@ -31,6 +33,7 @@ const (
 // IssuingAuthorizationStatus is the possible values for status for an issuing authorization.
 type IssuingAuthorizationStatus string
 
+// List of values that IssuingAuthorizationStatus can take.
 const (
 	IssuingAuthorizationStatusClosed   IssuingAuthorizationStatus = "closed"
 	IssuingAuthorizationStatusPending  IssuingAuthorizationStatus = "pending"
@@ -41,6 +44,7 @@ const (
 // for verification data on an issuing authorization.
 type IssuingAuthorizationVerificationDataCheck string
 
+// List of values that IssuingAuthorizationVerificationDataCheck can take.
 const (
 	IssuingAuthorizationVerificationDataCheckMatch       IssuingAuthorizationVerificationDataCheck = "match"
 	IssuingAuthorizationVerificationDataCheckMismatch    IssuingAuthorizationVerificationDataCheck = "mismatch"

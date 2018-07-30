@@ -10,6 +10,7 @@ import (
 // BankAccountStatus is the list of allowed values for the bank account's status.
 type BankAccountStatus string
 
+// List of values that BankAccountStatus can take.
 const (
 	BankAccountStatusErrored            BankAccountStatus = "errored"
 	BankAccountStatusNew                BankAccountStatus = "new"
@@ -21,6 +22,7 @@ const (
 // BankAccountAccountHolderType is the list of allowed values for the bank account holder type.
 type BankAccountAccountHolderType string
 
+// List of values that BankAccountAccountHolderType can take.
 const (
 	BankAccountAccountHolderTypeCompany    BankAccountAccountHolderType = "company"
 	BankAccountAccountHolderTypeIndividual BankAccountAccountHolderType = "individual"
