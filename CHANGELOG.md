@@ -1,5 +1,12 @@
 # Changelog
 
+## 38.0.0 - 2018-07-30
+* [#641](https://github.com/stripe/stripe-go/pull/641) Minor breaking changes to correct a few naming inconsistencies:
+    * `IdentityVerificationDetailsCodeScanIdCountryNotSupported` becomes `IdentityVerificationDetailsCodeScanIDCountryNotSupported`
+    * `IdentityVerificationDetailsCodeScanIdTypeNotSupported` becomes `IdentityVerificationDetailsCodeScanIDTypeNotSupported`
+    * `BitcoinUri` on `BitcoinReceiver` becomes `BitcoinURI`
+    * `NetworkId` on `IssuingAuthorization` becomes `NetworkID`
+
 ## 37.0.0 - 2018-07-30
 * [#637](https://github.com/stripe/stripe-go/pull/637) Add support for Sigma scheduled query runs
 * [#639](https://github.com/stripe/stripe-go/pull/639) Move to API version `2018-07-27` (breaking)
