@@ -35,7 +35,7 @@ func TestCouponNew(t *testing.T) {
 		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
 		DurationInMonths: stripe.Int64(3),
 		ID:               stripe.String("25OFF"),
-		PercentOff:       stripe.Int64(25),
+		PercentOff:       stripe.Float64(12.5),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, coupon)

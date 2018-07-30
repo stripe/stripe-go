@@ -46,7 +46,6 @@ type SubscriptionParams struct {
 	Prorate                     *bool                      `form:"prorate"`
 	ProrationDate               *int64                     `form:"proration_date"`
 	Quantity                    *int64                     `form:"quantity"`
-	Source                      *string                    `form:"source"`
 	TaxPercent                  *float64                   `form:"tax_percent"`
 	TrialEnd                    *int64                     `form:"trial_end"`
 	TrialEndNow                 *bool                      `form:"-"` // See custom AppendTo
