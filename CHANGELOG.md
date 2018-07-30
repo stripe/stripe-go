@@ -1,5 +1,13 @@
 # Changelog
 
+## 37.0.0 - 2018-07-30
+* [#637](https://github.com/stripe/stripe-go/pull/637) Add support for Sigma scheduled query runs
+* [#639](https://github.com/stripe/stripe-go/pull/639) Move to API version `2018-07-27` (breaking)
+    * Remove `SKUs` from `Product`
+    * Subscription creation and update can no longer take a source
+    * Change `PercentOff` on coupon struct and params from integer to float
+* [#640](https://github.com/stripe/stripe-go/pull/640) Add missing field `Created` to `Account`
+
 ## 36.3.0 - 2018-07-27
 * [#636](https://github.com/stripe/stripe-go/pull/636) Add `RiskScore` to `ChargeOutcome`
 
