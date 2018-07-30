@@ -22,12 +22,14 @@ const (
 	SKUInventoryValueOutOfStock SKUInventoryValue = "out_of_stock"
 )
 
+// InventoryParams is the set of parameters allowed as inventory on a SKU
 type InventoryParams struct {
 	Quantity *int64  `form:"quantity"`
 	Type     *string `form:"type"`
 	Value    *string `form:"value"`
 }
 
+// SKUParams is the set of parameters allowed on SKU creation or update.
 type SKUParams struct {
 	Params            `form:"*"`
 	Active            *bool                    `form:"active"`
@@ -42,12 +44,15 @@ type SKUParams struct {
 	Product           *string                  `form:"product"`
 }
 
+// Inventory represents the inventory options of a SKU.
 type Inventory struct {
 	Quantity int64             `json:"quantity"`
 	Type     SKUInventoryType  `json:"type"`
 	Value    SKUInventoryValue `json:"value"`
 }
 
+// SKU is the resource representing a SKU.
+// For more details see https://stripe.com/docs/api#skus.
 type SKU struct {
 	Active            bool               `json:"active"`
 	Attributes        map[string]string  `json:"attributes"`
@@ -65,11 +70,13 @@ type SKU struct {
 	Updated           int64              `json:"updated"`
 }
 
+// SKUList is a list of SKUs as returned from a list endpoint.
 type SKUList struct {
 	ListMeta
 	Data []*SKU `json:"data"`
 }
 
+// SKUListParams is the set of parameters that can be used when listing SKUs.
 type SKUListParams struct {
 	ListParams `form:"*"`
 	Active     *bool             `form:"active"`
@@ -79,6 +86,9 @@ type SKUListParams struct {
 	Product    *string           `form:"product"`
 }
 
+// UnmarshalJSON handles deserialization of a SKU.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
 func (s *SKU) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
 		s.ID = id

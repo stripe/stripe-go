@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 )
 
+// PaymentIntentCaptureMethod is the list of allowed values for the capture method.
 type PaymentIntentCaptureMethod string
 
 // List of values that PaymentIntentCaptureMethod can take.
@@ -12,6 +13,7 @@ const (
 	PaymentIntentCaptureMethodManual    PaymentIntentCaptureMethod = "manual"
 )
 
+// PaymentIntentConfirmationMethod is the list of allowed values for the confirmation method.
 type PaymentIntentConfirmationMethod string
 
 // List of values that PaymentIntentConfirmationMethod can take.
@@ -20,6 +22,7 @@ const (
 	PaymentIntentConfirmationMethodSecret      PaymentIntentConfirmationMethod = "secret"
 )
 
+// PaymentIntentNextActionType is the list of allowed values for the next action's type.
 type PaymentIntentNextActionType string
 
 // List of values that PaymentIntentNextActionType can take.
@@ -27,6 +30,7 @@ const (
 	PaymentIntentNextActionAuthorizeWithURL PaymentIntentNextActionType = "authorize_with_url"
 )
 
+// PaymentIntentStatus is the list of allowed values for the payment intent's status.
 type PaymentIntentStatus string
 
 // List of values that PaymentIntentStatus can take.
@@ -40,6 +44,7 @@ const (
 	PaymentIntentStatusSucceeded            PaymentIntentStatus = "succeeded"
 )
 
+// PaymentIntentTransferDataParams is the set of parameters allowed for the transfer hash.
 type PaymentIntentTransferDataParams struct {
 	Amount *int64 `form:"amount"`
 }
@@ -72,6 +77,8 @@ type PaymentIntentListParams struct {
 	ListParams `form:"*"`
 }
 
+// PaymentIntentSourceActionAuthorizeWithURL represents the resource for the next action of type
+// "authorize with url".
 type PaymentIntentSourceActionAuthorizeWithURL struct {
 	URL string `json:"url"`
 }
@@ -82,6 +89,7 @@ type PaymentIntentSourceActionValue struct {
 	AuthorizeWithURL *PaymentIntentSourceActionAuthorizeWithURL `json:"-"`
 }
 
+// PaymentIntentSourceAction represents the type of action to take on a payment intent.
 type PaymentIntentSourceAction struct {
 	Type  PaymentIntentNextActionType     `json:"type"`
 	Value *PaymentIntentSourceActionValue `json:"-"`
@@ -116,12 +124,13 @@ func (s *PaymentIntentSourceAction) UnmarshalJSON(data []byte) error {
 	return err
 }
 
+// PaymentIntentTransferData represents the information for the transfer associated with a payment intent.
 type PaymentIntentTransferData struct {
 	Amount int64 `json:"amount"`
 }
 
-// Payout is the resource representing a Stripe payout.
-// For more details see https://stripe.com/docs/api#payouts.
+// PaymentIntent is the resource representing a Stripe payout.
+// For more details see https://stripe.com/docs/api#payment_intents.
 type PaymentIntent struct {
 	AllowedSourceTypes  []string                        `json:"allowed_source_types"`
 	Amount              int64                           `json:"amount"`
@@ -153,7 +162,7 @@ type PaymentIntent struct {
 	TransferGroup       string                          `json:"transfer_group"`
 }
 
-// PayoutList is a list of payouts as retrieved from a list endpoint.
+// PaymentIntentList is a list of payment intents as retrieved from a list endpoint.
 type PaymentIntentList struct {
 	ListMeta
 	Data []*PaymentIntent `json:"data"`

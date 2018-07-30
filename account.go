@@ -232,7 +232,7 @@ type AccountExternalAccountParams struct {
 
 // AppendTo implements custom encoding logic for AccountExternalAccountParams
 // so that we can send the special required `object` field up along with the
-// other specified parameters or the token value
+// other specified parameters or the token value.
 func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []string) {
 	if p.Token != nil {
 		body.Add(form.FormatKey(keyParts), StringValue(p.Token))

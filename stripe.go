@@ -196,6 +196,7 @@ func (s *BackendConfiguration) CallMultipart(method, path, key, boundary string,
 	return nil
 }
 
+// CallRaw is the implementation for invoking Stripe APIs internally without a backend.
 func (s *BackendConfiguration) CallRaw(method, path, key string, form *form.Values, params *Params, v interface{}) error {
 	var body io.Reader
 	if form != nil && !form.Empty() {
@@ -252,7 +253,7 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 		if params.IdempotencyKey != nil {
 			idempotencyKey := strings.TrimSpace(*params.IdempotencyKey)
 			if len(idempotencyKey) > 255 {
-				return nil, errors.New("Cannot use an idempotency key longer than 255 characters.")
+				return nil, errors.New("cannot use an idempotency key longer than 255 characters")
 			}
 
 			req.Header.Add("Idempotency-Key", idempotencyKey)
@@ -338,6 +339,7 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 	return nil
 }
 
+// ResponseToError converts a stripe response to an Error.
 func (s *BackendConfiguration) ResponseToError(res *http.Response, resBody []byte) error {
 	// for some odd reason, the Erro structure doesn't unmarshal
 	// initially I thought it was because it's a struct inside of a struct

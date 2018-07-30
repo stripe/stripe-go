@@ -42,7 +42,6 @@ type ChargeLevel3Params struct {
 }
 
 // ChargeParams is the set of parameters that can be used when creating or updating a charge.
-// For more details see https://stripe.com/docs/api#create_charge and https://stripe.com/docs/api#update_charge.
 type ChargeParams struct {
 	Params              `form:"*"`
 	Amount              *int64                 `form:"amount"`
@@ -80,6 +79,7 @@ func (p *ChargeParams) SetSource(sp interface{}) error {
 	return err
 }
 
+// DestinationParams describes the parameters available for the destination hash when creating a charge.
 type DestinationParams struct {
 	Account *string `form:"account"`
 	Amount  *int64  `form:"amount"`
@@ -91,7 +91,6 @@ type FraudDetailsParams struct {
 }
 
 // ChargeListParams is the set of parameters that can be used when listing charges.
-// For more details see https://stripe.com/docs/api#list_charges.
 type ChargeListParams struct {
 	ListParams    `form:"*"`
 	Created       *int64            `form:"created"`
@@ -101,7 +100,6 @@ type ChargeListParams struct {
 }
 
 // CaptureParams is the set of parameters that can be used when capturing a charge.
-// For more details see https://stripe.com/docs/api#charge_capture.
 type CaptureParams struct {
 	Params              `form:"*"`
 	Amount              *int64   `form:"amount"`
@@ -111,7 +109,7 @@ type CaptureParams struct {
 	StatementDescriptor *string  `form:"statement_descriptor"`
 }
 
-// ChargeLevel3LineItems represents a line item on level III data.
+// ChargeLevel3LineItem represents a line item on level III data.
 // This is in private beta and would be empty for most integrations
 type ChargeLevel3LineItem struct {
 	DiscountAmount     int64  `json:"discount_amount"`
@@ -231,7 +229,7 @@ type ShippingDetails struct {
 	TrackingNumber string   `json:"tracking_number"`
 }
 
-var depth int = -1
+var depth = -1
 
 // UnmarshalJSON handles deserialization of a ChargeOutcomeRule.
 // This custom unmarshaling is needed because the resulting

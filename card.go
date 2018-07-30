@@ -172,6 +172,9 @@ type CardListParams struct {
 	Recipient  *string `form:"-"`
 }
 
+// AppendTo implements custom encoding logic for CardListParams
+// so that we can send the special required `object` field up along with the
+// other specified parameters.
 func (p *CardListParams) AppendTo(body *form.Values, keyParts []string) {
 	if p.Account != nil || p.Customer != nil {
 		body.Add(form.FormatKey(append(keyParts, "object")), "card")

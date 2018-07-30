@@ -127,6 +127,9 @@ type BankAccountListParams struct {
 	Customer *string `form:"-"`
 }
 
+// AppendTo implements custom encoding logic for BankAccountListParams
+// so that we can send the special required `object` field up along with the
+// other specified parameters.
 func (p *BankAccountListParams) AppendTo(body *form.Values, keyParts []string) {
 	body.Add(form.FormatKey(append(keyParts, "object")), "bank_account")
 }
