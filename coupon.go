@@ -15,15 +15,15 @@ const (
 // For more details see https://stripe.com/docs/api#create_coupon.
 type CouponParams struct {
 	Params           `form:"*"`
-	AmountOff        *int64  `form:"amount_off"`
-	Currency         *string `form:"currency"`
-	Duration         *string `form:"duration"`
-	DurationInMonths *int64  `form:"duration_in_months"`
-	ID               *string `form:"id"`
-	MaxRedemptions   *int64  `form:"max_redemptions"`
-	Name             *string `form:"name"`
-	PercentOff       *int64  `form:"percent_off"`
-	RedeemBy         *int64  `form:"redeem_by"`
+	AmountOff        *int64   `form:"amount_off"`
+	Currency         *string  `form:"currency"`
+	Duration         *string  `form:"duration"`
+	DurationInMonths *int64   `form:"duration_in_months"`
+	ID               *string  `form:"id"`
+	MaxRedemptions   *int64   `form:"max_redemptions"`
+	Name             *string  `form:"name"`
+	PercentOff       *float64 `form:"percent_off"`
+	RedeemBy         *int64   `form:"redeem_by"`
 }
 
 // CouponListParams is the set of parameters that can be used when listing coupons.
@@ -48,7 +48,7 @@ type Coupon struct {
 	MaxRedemptions   int64             `json:"max_redemptions"`
 	Metadata         map[string]string `json:"metadata"`
 	Name             string            `json:"name"`
-	PercentOff       int64             `json:"percent_off"`
+	PercentOff       float64           `json:"percent_off"`
 	RedeemBy         int64             `json:"redeem_by"`
 	TimesRedeemed    int64             `json:"times_redeemed"`
 	Valid            bool              `json:"valid"`
