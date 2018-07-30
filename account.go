@@ -45,8 +45,8 @@ const (
 	IdentityVerificationDetailsCodeScanCorrupt               IdentityVerificationDetailsCode = "scan_corrupt"
 	IdentityVerificationDetailsCodeScanFailedGreyscale       IdentityVerificationDetailsCode = "scan_failed_greyscale"
 	IdentityVerificationDetailsCodeScanFailedOther           IdentityVerificationDetailsCode = "scan_failed_other"
-	IdentityVerificationDetailsCodeScanIdCountryNotSupported IdentityVerificationDetailsCode = "scan_id_country_not_supported"
-	IdentityVerificationDetailsCodeScanIdTypeNotSupported    IdentityVerificationDetailsCode = "scan_id_type_not_supported"
+	IdentityVerificationDetailsCodeScanIDCountryNotSupported IdentityVerificationDetailsCode = "scan_id_country_not_supported"
+	IdentityVerificationDetailsCodeScanIDTypeNotSupported    IdentityVerificationDetailsCode = "scan_id_type_not_supported"
 	IdentityVerificationDetailsCodeScanNameMismatch          IdentityVerificationDetailsCode = "scan_name_mismatch"
 	IdentityVerificationDetailsCodeScanNotReadable           IdentityVerificationDetailsCode = "scan_not_readable"
 	IdentityVerificationDetailsCodeScanNotUploaded           IdentityVerificationDetailsCode = "scan_not_uploaded"
@@ -249,7 +249,6 @@ type PayoutScheduleParams struct {
 	MonthlyAnchor    *int64  `form:"monthly_anchor"`
 	WeeklyAnchor     *string `form:"weekly_anchor"`
 }
-
 
 // AppendTo implements custom encoding logic for PayoutScheduleParams
 // so that we can send a special value for `delay_days` field if needed.

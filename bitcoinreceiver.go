@@ -41,7 +41,7 @@ type BitcoinReceiver struct {
 	AmountReceived        int64                   `json:"amount_received"`
 	BitcoinAmount         int64                   `json:"bitcoin_amount"`
 	BitcoinAmountReceived int64                   `json:"bitcoin_amount_received"`
-	BitcoinUri            string                  `json:"bitcoin_uri"`
+	BitcoinURI            string                  `json:"bitcoin_uri"`
 	Created               int64                   `json:"created"`
 	Currency              Currency                `json:"currency"`
 	Customer              string                  `json:"customer"`

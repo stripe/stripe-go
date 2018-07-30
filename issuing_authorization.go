@@ -125,7 +125,7 @@ type IssuingMerchantData struct {
 	City       string `json:"city"`
 	Country    string `json:"country"`
 	Name       string `json:"name"`
-	NetworkId  string `json:"network_id"`
+	NetworkID  string `json:"network_id"`
 	PostalCode string `json:"postal_code"`
 	State      string `json:"state"`
 }
