@@ -257,6 +257,7 @@ type Account struct {
 	BusinessURL           string                  `json:"business_url"`
 	ChargesEnabled        bool                    `json:"charges_enabled"`
 	Country               string                  `json:"country"`
+	Created               int64                   `json:"created"`
 	DeclineChargeOn       *AccountDeclineSettings `json:"decline_charge_on"`
 	DebitNegativeBalances bool                    `json:"debit_negative_balances"`
 	DefaultCurrency       Currency                `json:"default_currency"`
