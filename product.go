@@ -12,7 +12,7 @@ const (
 )
 
 // PackageDimensionsParams represents the set of parameters for the the dimension of a
-// product or a sku from the perspective of shipping .
+// product or a SKU from the perspective of shipping .
 type PackageDimensionsParams struct {
 	Height *float64 `form:"height"`
 	Length *float64 `form:"length"`
@@ -39,7 +39,7 @@ type ProductParams struct {
 	URL                 *string                  `form:"url"`
 }
 
-// PackageDimensions represents the dimension of a product or a sku from the
+// PackageDimensions represents the dimension of a product or a SKU from the
 // perspective of shipping.
 type PackageDimensions struct {
 	Height float64 `json:"height"`

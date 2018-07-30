@@ -23,10 +23,10 @@ const (
 
 // This block represents the list of errors that could be raised when using the webhook package.
 var (
-	ErrNotSigned        = errors.New("Webhook has no Stripe-Signature header")
-	ErrInvalidHeader    = errors.New("Webhook has invalid Stripe-Signature header")
-	ErrTooOld           = errors.New("Timestamp wasn't within tolerance")
-	ErrNoValidSignature = errors.New("Webhook had no valid signature")
+	ErrNotSigned        = errors.New("webhook has no Stripe-Signature header")
+	ErrInvalidHeader    = errors.New("webhook has invalid Stripe-Signature header")
+	ErrTooOld           = errors.New("timestamp wasn't within tolerance")
+	ErrNoValidSignature = errors.New("webhook had no valid signature")
 )
 
 // Computes a webhook signature using Stripe's v1 signing method. See

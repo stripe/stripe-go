@@ -22,7 +22,7 @@ const (
 	SKUInventoryValueOutOfStock SKUInventoryValue = "out_of_stock"
 )
 
-// InventoryParams is the set of parameters allowed as inventory on a SKU
+// InventoryParams is the set of parameters allowed as inventory on a SKU.
 type InventoryParams struct {
 	Quantity *int64  `form:"quantity"`
 	Type     *string `form:"type"`
