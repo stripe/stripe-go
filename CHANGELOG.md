@@ -1,5 +1,8 @@
 # Changelog
 
+## 38.1.0 - 2018-08-01
+* [#643](https://github.com/stripe/stripe-go/pull/643) Bug fix and various code/logging improvements to retry code
+
 ## 38.0.0 - 2018-07-30
 * [#641](https://github.com/stripe/stripe-go/pull/641) Minor breaking changes to correct a few naming inconsistencies:
     * `IdentityVerificationDetailsCodeScanIdCountryNotSupported` becomes `IdentityVerificationDetailsCodeScanIDCountryNotSupported`
