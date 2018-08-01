@@ -283,34 +283,51 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 		s.Logger.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
 	}
 
-	start := time.Now()
-
 	var res *http.Response
 	var err error
 	for retry := 0; ; {
+		start := time.Now()
+
 		res, err = s.HTTPClient.Do(req)
-		if s.shouldRetry(err, res, retry) {
-			if s.LogLevel > 0 {
-				s.Logger.Printf("Request failed with error: %v. Response: %v\n", err, res)
-			}
-			sleep := sleepTime(retry)
-			time.Sleep(sleep)
-			retry++
-			if s.LogLevel > 1 {
-				s.Logger.Printf("Retry request %v %v time.\n", req.URL, retry)
-			}
-		} else {
+
+		if s.LogLevel > 2 {
+			s.Logger.Printf("Request completed in %v (retry: %v)\n",
+				time.Since(start), retry)
+		}
+
+		// If the response was okay, we're done, and it's safe to break out of
+		// the retry loop.
+		if !s.shouldRetry(err, res, retry) {
 			break
 		}
-	}
 
-	if s.LogLevel > 2 {
-		s.Logger.Printf("Completed in %v\n", time.Since(start))
+		resBody, err := ioutil.ReadAll(res.Body)
+		res.Body.Close()
+		if err != nil {
+			if s.LogLevel > 0 {
+				s.Logger.Printf("Cannot read response: %v\n", err)
+			}
+			return err
+		}
+
+		if s.LogLevel > 0 {
+			s.Logger.Printf("Request failed with: %s (error: %v)\n", string(resBody), err)
+		}
+
+		sleepDuration := sleepTime(retry)
+		retry++
+
+		if s.LogLevel > 1 {
+			s.Logger.Printf("Initiating retry %v for request %v %v%v after sleeping %v\n",
+				retry, req.Method, req.URL.Host, req.URL.Path, sleepDuration)
+		}
+
+		time.Sleep(sleepDuration)
 	}
 
 	if err != nil {
 		if s.LogLevel > 0 {
-			s.Logger.Printf("Request to Stripe failed: %v\n", err)
+			s.Logger.Printf("Request failed: %v\n", err)
 		}
 		return err
 	}
@@ -319,7 +336,7 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 	resBody, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		if s.LogLevel > 0 {
-			s.Logger.Printf("Cannot parse Stripe response: %v\n", err)
+			s.Logger.Printf("Cannot read response: %v\n", err)
 		}
 		return err
 	}
@@ -329,7 +346,7 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 	}
 
 	if s.LogLevel > 2 {
-		s.Logger.Printf("Stripe Response: %q\n", resBody)
+		s.Logger.Printf("Response: %s\n", string(resBody))
 	}
 
 	if v != nil {
