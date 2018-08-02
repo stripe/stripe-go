@@ -13,6 +13,19 @@ type Client struct {
 	Key string
 }
 
+// Cancel cancels a topup.
+func Cancel(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
+	return getC().Cancel(id, params)
+}
+
+// Cancel cancels a topup.
+func (c Client) Cancel(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
+	path := stripe.FormatURLPath("/topups/%s/cancel", id)
+	topup := &stripe.Topup{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, topup)
+	return topup, err
+}
+
 // New creates a new topup.
 func New(params *stripe.TopupParams) (*stripe.Topup, error) {
 	return getC().New(params)
