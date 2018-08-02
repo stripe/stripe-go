@@ -8,6 +8,12 @@ import (
 	_ "github.com/stripe/stripe-go/testing"
 )
 
+func TestTopupCancel(t *testing.T) {
+	topup, err := Cancel("tu_123", &stripe.TopupParams{})
+	assert.Nil(t, err)
+	assert.NotNil(t, topup)
+}
+
 func TestTopupGet(t *testing.T) {
 	topup, err := Get("tu_123", nil)
 	assert.Nil(t, err)
