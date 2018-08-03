@@ -18,7 +18,7 @@ func TestBearerAuth(t *testing.T) {
 	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 	key := "apiKey"
 
-	req, err := c.NewRequest("", "", key, "", nil, nil)
+	req, err := c.NewRequest("", "", key, "", nil)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
@@ -28,7 +28,7 @@ func TestContext(t *testing.T) {
 	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 	p := &stripe.Params{Context: context.Background()}
 
-	req, err := c.NewRequest("", "", "", "", nil, p)
+	req, err := c.NewRequest("", "", "", "", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, p.Context, req.Context())
@@ -39,7 +39,7 @@ func TestContext_Cancel(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	p := &stripe.Params{Context: ctx}
 
-	req, err := c.NewRequest("", "", "", "", nil, p)
+	req, err := c.NewRequest("", "", "", "", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, ctx, req.Context())
@@ -50,7 +50,7 @@ func TestContext_Cancel(t *testing.T) {
 	cancel()
 
 	var v interface{}
-	err = c.Do(req, &v)
+	err = c.Do(req, nil, &v)
 
 	// Go 1.7 will produce an error message like:
 	//
@@ -107,7 +107,7 @@ func TestMultipleAPICalls(t *testing.T) {
 			c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 			key := "apiKey"
 
-			req, err := c.NewRequest("", "", key, "", nil, nil)
+			req, err := c.NewRequest("", "", key, "", nil)
 			assert.NoError(t, err)
 
 			assert.Equal(t, "Bearer "+key, req.Header.Get("Authorization"))
@@ -120,7 +120,7 @@ func TestIdempotencyKey(t *testing.T) {
 	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 	p := &stripe.Params{IdempotencyKey: stripe.String("idempotency-key")}
 
-	req, err := c.NewRequest("", "", "", "", nil, p)
+	req, err := c.NewRequest("", "", "", "", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "idempotency-key", req.Header.Get("Idempotency-Key"))
@@ -138,7 +138,7 @@ func TestStripeAccount(t *testing.T) {
 	p := &stripe.Params{}
 	p.SetStripeAccount(TestMerchantID)
 
-	req, err := c.NewRequest("", "", "", "", nil, p)
+	req, err := c.NewRequest("", "", "", "", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, TestMerchantID, req.Header.Get("Stripe-Account"))
@@ -147,7 +147,7 @@ func TestStripeAccount(t *testing.T) {
 func TestUserAgent(t *testing.T) {
 	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 
-	req, err := c.NewRequest("", "", "", "", nil, nil)
+	req, err := c.NewRequest("", "", "", "", nil)
 	assert.NoError(t, err)
 
 	// We keep out version constant private to the package, so use a regexp
@@ -170,7 +170,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 
 	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 
-	req, err := c.NewRequest("", "", "", "", nil, nil)
+	req, err := c.NewRequest("", "", "", "", nil)
 	assert.NoError(t, err)
 
 	//
@@ -206,7 +206,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 func TestStripeClientUserAgent(t *testing.T) {
 	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 
-	req, err := c.NewRequest("", "", "", "", nil, nil)
+	req, err := c.NewRequest("", "", "", "", nil)
 	assert.NoError(t, err)
 
 	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")
@@ -240,7 +240,7 @@ func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
 
 	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
 
-	req, err := c.NewRequest("", "", "", "", nil, nil)
+	req, err := c.NewRequest("", "", "", "", nil)
 	assert.NoError(t, err)
 
 	encodedUserAgent := req.Header.Get("X-Stripe-Client-User-Agent")

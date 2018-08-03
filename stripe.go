@@ -184,12 +184,12 @@ func (s *BackendConfiguration) Call(method, path, key string, params ParamsConta
 func (s *BackendConfiguration) CallMultipart(method, path, key, boundary string, body io.Reader, params *Params, v interface{}) error {
 	contentType := "multipart/form-data; boundary=" + boundary
 
-	req, err := s.NewRequest(method, path, key, contentType, body, params)
+	req, err := s.NewRequest(method, path, key, contentType, params)
 	if err != nil {
 		return err
 	}
 
-	if err := s.Do(req, v); err != nil {
+	if err := s.Do(req, body, v); err != nil {
 		return err
 	}
 
@@ -198,22 +198,24 @@ func (s *BackendConfiguration) CallMultipart(method, path, key, boundary string,
 
 // CallRaw is the implementation for invoking Stripe APIs internally without a backend.
 func (s *BackendConfiguration) CallRaw(method, path, key string, form *form.Values, params *Params, v interface{}) error {
-	var body io.Reader
+	var data string
 	if form != nil && !form.Empty() {
-		data := form.Encode()
+		data = form.Encode()
+
+		// On `GET`, move the payload into the URL
 		if method == http.MethodGet {
 			path += "?" + data
-		} else {
-			body = bytes.NewBufferString(data)
+			data = ""
 		}
 	}
+	dataBuffer := bytes.NewBufferString(data)
 
-	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", body, params)
+	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", params)
 	if err != nil {
 		return err
 	}
 
-	if err := s.Do(req, v); err != nil {
+	if err := s.Do(req, dataBuffer, v); err != nil {
 		return err
 	}
 
@@ -222,14 +224,15 @@ func (s *BackendConfiguration) CallRaw(method, path, key string, form *form.Valu
 
 // NewRequest is used by Call to generate an http.Request. It handles encoding
 // parameters and attaching the appropriate headers.
-func (s *BackendConfiguration) NewRequest(method, path, key, contentType string, body io.Reader, params *Params) (*http.Request, error) {
+func (s *BackendConfiguration) NewRequest(method, path, key, contentType string, params *Params) (*http.Request, error) {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
 
 	path = s.URL + path
 
-	req, err := http.NewRequest(method, path, body)
+	// Body is set later by `Do`.
+	req, err := http.NewRequest(method, path, nil)
 	if err != nil {
 		if s.LogLevel > 0 {
 			s.Logger.Printf("Cannot create Stripe request: %v\n", err)
@@ -278,7 +281,7 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 // Do is used by Call to execute an API request and parse the response. It uses
 // the backend's HTTP client to execute the request and unmarshals the response
 // into v. It also handles unmarshaling errors returned by the API.
-func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
+func (s *BackendConfiguration) Do(req *http.Request, body io.Reader, v interface{}) error {
 	if s.LogLevel > 1 {
 		s.Logger.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
 	}
@@ -287,6 +290,30 @@ func (s *BackendConfiguration) Do(req *http.Request, v interface{}) error {
 	var err error
 	for retry := 0; ; {
 		start := time.Now()
+
+		// This might look a little strange, but we set the request's body
+		// outside of `NewRequest` so that we can get a fresh version every
+		// time.
+		//
+		// The background is that back in the era of old style HTTP, it was
+		// safe to reuse `Request` objects, but with the addition of HTTP/2,
+		// it's now only sometimes safe. Reusing a `Request` with a body will
+		// break.
+		//
+		// See some details here:
+		//
+		//     https://github.com/golang/go/issues/19653#issuecomment-341539160
+		//
+		// And our original bug report here:
+		//
+		//     https://github.com/stripe/stripe-go/issues/642
+		//
+		// To workaround the problem, we put a fresh `Body` onto the `Request`
+		// every time we execute it, and this seems to empirically resolve the
+		// problem.
+		if body != nil {
+			req.Body = nopReadCloser{body}
+		}
 
 		res, err = s.HTTPClient.Do(req)
 
@@ -727,6 +754,16 @@ const uploadsURL = "https://uploads.stripe.com"
 //
 // Private types
 //
+
+// nopReadCloser's sole purpose is to give us a way to turn an `io.Reader` into
+// an `io.ReadCloser` by adding a no-op implementation of the `Closer`
+// interface. We need this because `http.Request`'s `Body` takes an
+// `io.ReadCloser` instead of a `io.Reader`.
+type nopReadCloser struct {
+	io.Reader
+}
+
+func (nopReadCloser) Close() error { return nil }
 
 // stripeClientUserAgent contains information about the current runtime which
 // is serialized and sent in the `X-Stripe-Client-User-Agent` as additional
