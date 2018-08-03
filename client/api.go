@@ -21,6 +21,7 @@ import (
 	"github.com/stripe/stripe-go/exchangerate"
 	"github.com/stripe/stripe-go/fee"
 	"github.com/stripe/stripe-go/feerefund"
+	"github.com/stripe/stripe-go/filelink"
 	"github.com/stripe/stripe-go/fileupload"
 	"github.com/stripe/stripe-go/invoice"
 	"github.com/stripe/stripe-go/invoiceitem"
@@ -91,6 +92,8 @@ type API struct {
 	Fees *fee.Client
 	// FeeRefunds is the client used to invoke /application_fees/refunds APIs.
 	FeeRefunds *feerefund.Client
+	// FileLinks is the client used to invoke the /file_links APIs.
+	FileLinks *filelink.Client
 	// FileUploads is the client used to invoke the /files APIs.
 	FileUploads *fileupload.Client
 	// Invoices is the client used to invoke /invoices APIs.
@@ -181,6 +184,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Events = &event.Client{B: backends.API, Key: key}
 	a.Fees = &fee.Client{B: backends.API, Key: key}
 	a.FeeRefunds = &feerefund.Client{B: backends.API, Key: key}
+	a.FileLinks = &filelink.Client{B: backends.Uploads, Key: key}
 	a.FileUploads = &fileupload.Client{B: backends.Uploads, Key: key}
 	a.Invoices = &invoice.Client{B: backends.API, Key: key}
 	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}

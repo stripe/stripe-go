@@ -43,12 +43,14 @@ type FileUploadListParams struct {
 // FileUpload is the resource representing a Stripe file upload.
 // For more details see https://stripe.com/docs/api#file_uploads.
 type FileUpload struct {
-	Created int64             `json:"created"`
-	ID      string            `json:"id"`
-	Purpose FileUploadPurpose `json:"purpose"`
-	Size    int64             `json:"size"`
-	Type    string            `json:"type"`
-	URL     string            `json:"url"`
+	Created  int64             `json:"created"`
+	ID       string            `json:"id"`
+	Filename string            `json:"filename"`
+	Links    []*FileLink       `json:"links"`
+	Purpose  FileUploadPurpose `json:"purpose"`
+	Size     int64             `json:"size"`
+	Type     string            `json:"type"`
+	URL      string            `json:"url"`
 }
 
 // FileUploadList is a list of file uploads as retrieved from a list endpoint.
