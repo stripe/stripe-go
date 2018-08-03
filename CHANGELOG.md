@@ -1,5 +1,9 @@
 # Changelog
 
+## 38.2.0 - 2018-08-03
+* [#644](https://github.com/stripe/stripe-go/pull/644) Add support for file links
+* [#645](https://github.com/stripe/stripe-go/pull/645) Add support for `Cancel` to topups
+
 ## 38.1.0 - 2018-08-01
 * [#643](https://github.com/stripe/stripe-go/pull/643) Bug fix and various code/logging improvements to retry code
 
