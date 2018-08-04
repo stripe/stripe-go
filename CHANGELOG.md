@@ -1,5 +1,9 @@
 # Changelog
 
+## 39.0.0 - 2018-08-04
+* [#646](https://github.com/stripe/stripe-go/pull/646) Set request body before every retry (this modifies the
+  interface of a few exported internal functions so it's technically breaking, but it will probably not be breaking for most users)
+
 ## 38.2.0 - 2018-08-03
 * [#644](https://github.com/stripe/stripe-go/pull/644) Add support for file links
 * [#645](https://github.com/stripe/stripe-go/pull/645) Add support for `Cancel` to topups
