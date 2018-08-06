@@ -34,7 +34,7 @@ func newSignedPayload(options ...func(*SignedPayload)) *SignedPayload {
 	}
 
 	if signedPayload.signature == nil {
-		signedPayload.signature = computeSignature(signedPayload.timestamp, signedPayload.payload, signedPayload.secret)
+		signedPayload.signature = ComputeSignature(signedPayload.timestamp, signedPayload.payload, signedPayload.secret)
 	}
 	signedPayload.header = generateHeader(*signedPayload)
 	return signedPayload
