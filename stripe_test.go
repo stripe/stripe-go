@@ -17,7 +17,7 @@ import (
 )
 
 func TestBearerAuth(t *testing.T) {
-	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendImplementation)
 	key := "apiKey"
 
 	req, err := c.NewRequest("", "", key, "", nil)
@@ -27,7 +27,7 @@ func TestBearerAuth(t *testing.T) {
 }
 
 func TestContext(t *testing.T) {
-	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendImplementation)
 	p := &stripe.Params{Context: context.Background()}
 
 	req, err := c.NewRequest("", "", "", "", p)
@@ -37,7 +37,7 @@ func TestContext(t *testing.T) {
 }
 
 func TestContext_Cancel(t *testing.T) {
-	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendImplementation)
 	ctx, cancel := context.WithCancel(context.Background())
 	p := &stripe.Params{Context: ctx}
 
@@ -121,7 +121,7 @@ func TestDo_Retry(t *testing.T) {
 			MaxNetworkRetries: 5,
 			URL:               testServer.URL,
 		},
-	).(*stripe.BackendConfiguration)
+	).(*stripe.BackendImplementation)
 
 	// Disable sleeping duration our tests.
 	backend.SetNetworkRetriesSleep(false)
@@ -185,7 +185,7 @@ func TestMultipleAPICalls(t *testing.T) {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
+			c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendImplementation)
 			key := "apiKey"
 
 			req, err := c.NewRequest("", "", key, "", nil)
@@ -198,7 +198,7 @@ func TestMultipleAPICalls(t *testing.T) {
 }
 
 func TestIdempotencyKey(t *testing.T) {
-	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendImplementation)
 	p := &stripe.Params{IdempotencyKey: stripe.String("idempotency-key")}
 
 	req, err := c.NewRequest("", "", "", "", p)
@@ -210,12 +210,12 @@ func TestIdempotencyKey(t *testing.T) {
 func TestNewBackends(t *testing.T) {
 	httpClient := &http.Client{}
 	backends := stripe.NewBackends(httpClient)
-	assert.Equal(t, httpClient, backends.API.(*stripe.BackendConfiguration).HTTPClient)
-	assert.Equal(t, httpClient, backends.Uploads.(*stripe.BackendConfiguration).HTTPClient)
+	assert.Equal(t, httpClient, backends.API.(*stripe.BackendImplementation).HTTPClient)
+	assert.Equal(t, httpClient, backends.Uploads.(*stripe.BackendImplementation).HTTPClient)
 }
 
 func TestStripeAccount(t *testing.T) {
-	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendImplementation)
 	p := &stripe.Params{}
 	p.SetStripeAccount(TestMerchantID)
 
@@ -226,7 +226,7 @@ func TestStripeAccount(t *testing.T) {
 }
 
 func TestUserAgent(t *testing.T) {
-	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendImplementation)
 
 	req, err := c.NewRequest("", "", "", "", nil)
 	assert.NoError(t, err)
@@ -249,7 +249,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 	stripe.SetAppInfo(appInfo)
 	defer stripe.SetAppInfo(nil)
 
-	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendImplementation)
 
 	req, err := c.NewRequest("", "", "", "", nil)
 	assert.NoError(t, err)
@@ -285,7 +285,7 @@ func TestUserAgentWithAppInfo(t *testing.T) {
 }
 
 func TestStripeClientUserAgent(t *testing.T) {
-	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendImplementation)
 
 	req, err := c.NewRequest("", "", "", "", nil)
 	assert.NoError(t, err)
@@ -319,7 +319,7 @@ func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
 	stripe.SetAppInfo(appInfo)
 	defer stripe.SetAppInfo(nil)
 
-	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendImplementation)
 
 	req, err := c.NewRequest("", "", "", "", nil)
 	assert.NoError(t, err)
@@ -338,7 +338,7 @@ func TestStripeClientUserAgentWithAppInfo(t *testing.T) {
 }
 
 func TestResponseToError(t *testing.T) {
-	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendConfiguration)
+	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendImplementation)
 
 	// A test response that includes a status code and request ID.
 	res := &http.Response{

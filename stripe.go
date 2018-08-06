@@ -140,12 +140,12 @@ type BackendConfig struct {
 	URL string
 }
 
-// BackendConfiguration is the internal implementation for making HTTP calls to
-// Stripe.
+// BackendImplementation is the internal implementation for making HTTP calls
+// to Stripe.
 //
-// The public use of this struct is deprecated. It will be renamed and changed
-// to unexported in a future version.
-type BackendConfiguration struct {
+// The public use of this struct is deprecated. It will be unexported in a
+// future version.
+type BackendImplementation struct {
 	Type              SupportedBackend
 	URL               string
 	HTTPClient        *http.Client
@@ -161,7 +161,7 @@ type BackendConfiguration struct {
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s *BackendConfiguration) Call(method, path, key string, params ParamsContainer, v interface{}) error {
+func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v interface{}) error {
 	var body *form.Values
 	var commonParams *Params
 
@@ -187,7 +187,7 @@ func (s *BackendConfiguration) Call(method, path, key string, params ParamsConta
 }
 
 // CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
-func (s *BackendConfiguration) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v interface{}) error {
+func (s *BackendImplementation) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v interface{}) error {
 	contentType := "multipart/form-data; boundary=" + boundary
 
 	req, err := s.NewRequest(method, path, key, contentType, params)
@@ -203,7 +203,7 @@ func (s *BackendConfiguration) CallMultipart(method, path, key, boundary string,
 }
 
 // CallRaw is the implementation for invoking Stripe APIs internally without a backend.
-func (s *BackendConfiguration) CallRaw(method, path, key string, form *form.Values, params *Params, v interface{}) error {
+func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Values, params *Params, v interface{}) error {
 	var body string
 	if form != nil && !form.Empty() {
 		body = form.Encode()
@@ -230,7 +230,7 @@ func (s *BackendConfiguration) CallRaw(method, path, key string, form *form.Valu
 
 // NewRequest is used by Call to generate an http.Request. It handles encoding
 // parameters and attaching the appropriate headers.
-func (s *BackendConfiguration) NewRequest(method, path, key, contentType string, params *Params) (*http.Request, error) {
+func (s *BackendImplementation) NewRequest(method, path, key, contentType string, params *Params) (*http.Request, error) {
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
@@ -287,7 +287,7 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 // Do is used by Call to execute an API request and parse the response. It uses
 // the backend's HTTP client to execute the request and unmarshals the response
 // into v. It also handles unmarshaling errors returned by the API.
-func (s *BackendConfiguration) Do(req *http.Request, body *bytes.Buffer, v interface{}) error {
+func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v interface{}) error {
 	if s.LogLevel > 1 {
 		s.Logger.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
 	}
@@ -395,7 +395,7 @@ func (s *BackendConfiguration) Do(req *http.Request, body *bytes.Buffer, v inter
 }
 
 // ResponseToError converts a stripe response to an Error.
-func (s *BackendConfiguration) ResponseToError(res *http.Response, resBody []byte) error {
+func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []byte) error {
 	// for some odd reason, the Erro structure doesn't unmarshal
 	// initially I thought it was because it's a struct inside of a struct
 	// but even after trying that, it still didn't work
@@ -476,7 +476,7 @@ func (s *BackendConfiguration) ResponseToError(res *http.Response, resBody []byt
 // SetMaxNetworkRetries sets max number of retries on failed requests
 //
 // This function is deprecated. Please use GetBackendWithConfig instead.
-func (s *BackendConfiguration) SetMaxNetworkRetries(maxNetworkRetries int) {
+func (s *BackendImplementation) SetMaxNetworkRetries(maxNetworkRetries int) {
 	s.MaxNetworkRetries = maxNetworkRetries
 }
 
@@ -485,14 +485,14 @@ func (s *BackendConfiguration) SetMaxNetworkRetries(maxNetworkRetries int) {
 //
 // This function is available for internal testing only and should never be
 // used in production.
-func (s *BackendConfiguration) SetNetworkRetriesSleep(sleep bool) {
+func (s *BackendImplementation) SetNetworkRetriesSleep(sleep bool) {
 	s.networkRetriesSleep = sleep
 }
 
 // Checks if an error is a problem that we should retry on. This includes both
 // socket errors that may represent an intermittent problem and some special
 // HTTP statuses.
-func (s *BackendConfiguration) shouldRetry(err error, resp *http.Response, numRetries int) bool {
+func (s *BackendImplementation) shouldRetry(err error, resp *http.Response, numRetries int) bool {
 	if numRetries >= s.MaxNetworkRetries {
 		return false
 	}
@@ -508,7 +508,7 @@ func (s *BackendConfiguration) shouldRetry(err error, resp *http.Response, numRe
 }
 
 // sleepTime calculates sleeping/delay time in milliseconds between failure and a new one request.
-func (s *BackendConfiguration) sleepTime(numRetries int) time.Duration {
+func (s *BackendImplementation) sleepTime(numRetries int) time.Duration {
 	// We disable sleeping in some cases for tests.
 	if !s.networkRetriesSleep {
 		return 0 * time.Second
@@ -669,7 +669,7 @@ func GetBackendWithConfig(backendType SupportedBackend, config *BackendConfig) B
 		// to fulfill the principle of least astonishment.
 		config.URL += "/v1"
 
-		return newBackendConfiguration(backendType, config)
+		return newBackendImplementation(backendType, config)
 
 	case UploadsBackend:
 		if config.URL == "" {
@@ -681,7 +681,7 @@ func GetBackendWithConfig(backendType SupportedBackend, config *BackendConfig) B
 		// to fulfill the principle of least astonishment.
 		config.URL += "/v1"
 
-		return newBackendConfiguration(backendType, config)
+		return newBackendImplementation(backendType, config)
 	}
 
 	return nil
@@ -892,13 +892,13 @@ func isHTTPWriteMethod(method string) bool {
 	return method == http.MethodPost || method == http.MethodPut || method == http.MethodPatch || method == http.MethodDelete
 }
 
-// newBackendConfiguration returns a new Backend based off a given type and
+// newBackendImplementation returns a new Backend based off a given type and
 // fully initialized BackendConfig struct.
 //
 // The vast majority of the time you should be calling GetBackendWithConfig
 // instead of this function.
-func newBackendConfiguration(backendType SupportedBackend, config *BackendConfig) Backend {
-	return &BackendConfiguration{
+func newBackendImplementation(backendType SupportedBackend, config *BackendConfig) Backend {
+	return &BackendImplementation{
 		HTTPClient:        config.HTTPClient,
 		LogLevel:          config.LogLevel,
 		Logger:            config.Logger,
