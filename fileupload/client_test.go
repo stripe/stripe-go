@@ -53,6 +53,6 @@ func TestFileUploadNew(t *testing.T) {
 	}
 
 	fileupload, err := New(uploadParams)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 	assert.NotNil(t, fileupload)
 }

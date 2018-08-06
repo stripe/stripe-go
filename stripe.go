@@ -100,7 +100,7 @@ func (a *AppInfo) formatUserAgent() string {
 type Backend interface {
 	Call(method, path, key string, params ParamsContainer, v interface{}) error
 	CallRaw(method, path, key string, body *form.Values, params *Params, v interface{}) error
-	CallMultipart(method, path, key, boundary string, body io.Reader, params *Params, v interface{}) error
+	CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v interface{}) error
 	SetMaxNetworkRetries(maxNetworkRetries int)
 }
 
@@ -152,6 +152,12 @@ type BackendConfiguration struct {
 	MaxNetworkRetries int
 	LogLevel          int
 	Logger            Printfer
+
+	// networkRetriesSleep indicates whether the backend should use the normal
+	// sleep between retries.
+	//
+	// See also SetNetworkRetriesSleep.
+	networkRetriesSleep bool
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
@@ -181,7 +187,7 @@ func (s *BackendConfiguration) Call(method, path, key string, params ParamsConta
 }
 
 // CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
-func (s *BackendConfiguration) CallMultipart(method, path, key, boundary string, body io.Reader, params *Params, v interface{}) error {
+func (s *BackendConfiguration) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v interface{}) error {
 	contentType := "multipart/form-data; boundary=" + boundary
 
 	req, err := s.NewRequest(method, path, key, contentType, params)
@@ -198,24 +204,24 @@ func (s *BackendConfiguration) CallMultipart(method, path, key, boundary string,
 
 // CallRaw is the implementation for invoking Stripe APIs internally without a backend.
 func (s *BackendConfiguration) CallRaw(method, path, key string, form *form.Values, params *Params, v interface{}) error {
-	var data string
+	var body string
 	if form != nil && !form.Empty() {
-		data = form.Encode()
+		body = form.Encode()
 
 		// On `GET`, move the payload into the URL
 		if method == http.MethodGet {
-			path += "?" + data
-			data = ""
+			path += "?" + body
+			body = ""
 		}
 	}
-	dataBuffer := bytes.NewBufferString(data)
+	bodyBuffer := bytes.NewBufferString(body)
 
 	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", params)
 	if err != nil {
 		return err
 	}
 
-	if err := s.Do(req, dataBuffer, v); err != nil {
+	if err := s.Do(req, bodyBuffer, v); err != nil {
 		return err
 	}
 
@@ -281,7 +287,7 @@ func (s *BackendConfiguration) NewRequest(method, path, key, contentType string,
 // Do is used by Call to execute an API request and parse the response. It uses
 // the backend's HTTP client to execute the request and unmarshals the response
 // into v. It also handles unmarshaling errors returned by the API.
-func (s *BackendConfiguration) Do(req *http.Request, body io.Reader, v interface{}) error {
+func (s *BackendConfiguration) Do(req *http.Request, body *bytes.Buffer, v interface{}) error {
 	if s.LogLevel > 1 {
 		s.Logger.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
 	}
@@ -312,7 +318,12 @@ func (s *BackendConfiguration) Do(req *http.Request, body io.Reader, v interface
 		// every time we execute it, and this seems to empirically resolve the
 		// problem.
 		if body != nil {
-			req.Body = nopReadCloser{body}
+			// We can safely reuse the same buffer that we used to encode our body,
+			// but return a new reader to it everytime so that each read is from
+			// the beginning.
+			reader := bytes.NewReader(body.Bytes())
+
+			req.Body = nopReadCloser{reader}
 		}
 
 		res, err = s.HTTPClient.Do(req)
@@ -341,7 +352,7 @@ func (s *BackendConfiguration) Do(req *http.Request, body io.Reader, v interface
 			s.Logger.Printf("Request failed with: %s (error: %v)\n", string(resBody), err)
 		}
 
-		sleepDuration := sleepTime(retry)
+		sleepDuration := s.sleepTime(retry)
 		retry++
 
 		if s.LogLevel > 1 {
@@ -469,6 +480,15 @@ func (s *BackendConfiguration) SetMaxNetworkRetries(maxNetworkRetries int) {
 	s.MaxNetworkRetries = maxNetworkRetries
 }
 
+// SetNetworkRetriesSleep allows the normal sleep between network retries to be
+// enabled or disabled.
+//
+// This function is available for internal testing only and should never be
+// used in production.
+func (s *BackendConfiguration) SetNetworkRetriesSleep(sleep bool) {
+	s.networkRetriesSleep = sleep
+}
+
 // Checks if an error is a problem that we should retry on. This includes both
 // socket errors that may represent an intermittent problem and some special
 // HTTP statuses.
@@ -485,6 +505,34 @@ func (s *BackendConfiguration) shouldRetry(err error, resp *http.Response, numRe
 		return true
 	}
 	return false
+}
+
+// sleepTime calculates sleeping/delay time in milliseconds between failure and a new one request.
+func (s *BackendConfiguration) sleepTime(numRetries int) time.Duration {
+	// We disable sleeping in some cases for tests.
+	if !s.networkRetriesSleep {
+		return 0 * time.Second
+	}
+
+	// Apply exponential backoff with minNetworkRetriesDelay on the
+	// number of num_retries so far as inputs.
+	delay := minNetworkRetriesDelay + minNetworkRetriesDelay*time.Duration(numRetries*numRetries)
+
+	// Do not allow the number to exceed maxNetworkRetriesDelay.
+	if delay > maxNetworkRetriesDelay {
+		delay = maxNetworkRetriesDelay
+	}
+
+	// Apply some jitter by randomizing the value in the range of 75%-100%.
+	jitter := rand.Int63n(int64(delay / 4))
+	delay -= time.Duration(jitter)
+
+	// But never sleep less than the base sleep seconds.
+	if delay < minNetworkRetriesDelay {
+		delay = minNetworkRetriesDelay
+	}
+
+	return delay
 }
 
 // Backends are the currently supported endpoints.
@@ -858,27 +906,4 @@ func newBackendConfiguration(backendType SupportedBackend, config *BackendConfig
 		Type:              backendType,
 		URL:               config.URL,
 	}
-}
-
-// sleepTime calculates sleeping/delay time in milliseconds between failure and a new one request.
-func sleepTime(numRetries int) time.Duration {
-	// Apply exponential backoff with minNetworkRetriesDelay on the
-	// number of num_retries so far as inputs.
-	delay := minNetworkRetriesDelay + minNetworkRetriesDelay*time.Duration(numRetries*numRetries)
-
-	// Do not allow the number to exceed maxNetworkRetriesDelay.
-	if delay > maxNetworkRetriesDelay {
-		delay = maxNetworkRetriesDelay
-	}
-
-	// Apply some jitter by randomizing the value in the range of 75%-100%.
-	jitter := rand.Int63n(int64(delay / 4))
-	delay -= time.Duration(jitter)
-
-	// But never sleep less than the base sleep seconds.
-	if delay < minNetworkRetriesDelay {
-		delay = minNetworkRetriesDelay
-	}
-
-	return delay
 }

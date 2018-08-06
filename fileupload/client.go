@@ -2,7 +2,6 @@
 package fileupload
 
 import (
-	"bytes"
 	"fmt"
 	"net/http"
 
@@ -27,14 +26,13 @@ func (c Client) New(params *stripe.FileUploadParams) (*stripe.FileUpload, error)
 		return nil, fmt.Errorf("params cannot be nil, and params.Purpose and params.File must be set")
 	}
 
-	body := &bytes.Buffer{}
-	boundary, err := params.AppendDetails(body)
+	bodyBuffer, boundary, err := params.GetBody()
 	if err != nil {
 		return nil, err
 	}
 
 	upload := &stripe.FileUpload{}
-	err = c.B.CallMultipart(http.MethodPost, "/files", c.Key, boundary, body, &params.Params, upload)
+	err = c.B.CallMultipart(http.MethodPost, "/files", c.Key, boundary, bodyBuffer, &params.Params, upload)
 
 	return upload, err
 }
