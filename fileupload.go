@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"bytes"
 	"encoding/json"
 	"io"
 	"mime/multipart"
@@ -59,40 +60,37 @@ type FileUploadList struct {
 	Data []*FileUpload `json:"data"`
 }
 
-// AppendDetails adds the file upload details to an io.ReadWriter. It returns
-// the boundary string for a multipart/form-data request and an error (if one
-// exists).
-func (f *FileUploadParams) AppendDetails(body io.ReadWriter) (string, error) {
+// GetBody gets an appropriate multipart form payload to use in a request body
+// to create a new file.
+func (f *FileUploadParams) GetBody() (*bytes.Buffer, string, error) {
+	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
-	var err error
 
 	if f.Purpose != nil {
-		err = writer.WriteField("purpose", StringValue(f.Purpose))
+		err := writer.WriteField("purpose", StringValue(f.Purpose))
 		if err != nil {
-			return "", err
+			return nil, "", err
 		}
 	}
 
-	// Support both FileReader/Filename and File with
-	// the former being the newer preferred version
 	if f.FileReader != nil && f.Filename != nil {
 		part, err := writer.CreateFormFile("file", filepath.Base(StringValue(f.Filename)))
 		if err != nil {
-			return "", err
+			return nil, "", err
 		}
 
 		_, err = io.Copy(part, f.FileReader)
 		if err != nil {
-			return "", err
+			return nil, "", err
 		}
 	}
 
-	err = writer.Close()
+	err := writer.Close()
 	if err != nil {
-		return "", err
+		return nil, "", err
 	}
 
-	return writer.Boundary(), nil
+	return body, writer.Boundary(), nil
 }
 
 // UnmarshalJSON handles deserialization of a FileUpload.

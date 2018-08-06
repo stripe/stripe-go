@@ -1,9 +1,11 @@
 package stripe_test
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"net/http"
+	"net/http/httptest"
 	"regexp"
 	"runtime"
 	"sync"
@@ -63,6 +65,85 @@ func TestContext_Cancel(t *testing.T) {
 	// When we drop support for 1.7 we can remove the first case of this
 	// expression.
 	assert.Regexp(t, regexp.MustCompile(`(request canceled|context canceled\z)`), err.Error())
+}
+
+// Tests client retries.
+//
+// You can get pretty good visibility into what's going on by running just this
+// test on verbose:
+//
+//     go test . -run TestDo_Retry -test.v
+//
+func TestDo_Retry(t *testing.T) {
+	type testServerResponse struct {
+		Message string `json:"message"`
+	}
+
+	message := "Hello, client."
+	requestNum := 0
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		err := r.ParseForm()
+		assert.NoError(t, err)
+
+		// The body should always be the same with every retry. We've
+		// previously had regressions in this behavior as we switched to HTTP/2
+		// and `Request` became non-reusable, so we want to check it with every
+		// request.
+		assert.Equal(t, "bar", r.Form.Get("foo"))
+
+		switch requestNum {
+		case 0:
+			w.WriteHeader(http.StatusConflict)
+			w.Write([]byte(`{"error":"Conflict (this should be retried)."}`))
+
+		case 1:
+			response := testServerResponse{Message: message}
+
+			data, err := json.Marshal(response)
+			assert.NoError(t, err)
+
+			_, err = w.Write(data)
+			assert.NoError(t, err)
+
+		default:
+			assert.Fail(t, "Should not have reached request %v", requestNum)
+		}
+
+		requestNum++
+	}))
+	defer testServer.Close()
+
+	backend := stripe.GetBackendWithConfig(
+		stripe.APIBackend,
+		&stripe.BackendConfig{
+			LogLevel:          3,
+			MaxNetworkRetries: 5,
+			URL:               testServer.URL,
+		},
+	).(*stripe.BackendConfiguration)
+
+	// Disable sleeping duration our tests.
+	backend.SetNetworkRetriesSleep(false)
+
+	request, err := backend.NewRequest(
+		http.MethodPost,
+		"/hello",
+		"sk_test_123",
+		"application/x-www-form-urlencoded",
+		nil,
+	)
+	assert.NoError(t, err)
+
+	bodyBuffer := bytes.NewBufferString("foo=bar")
+	var response testServerResponse
+	err = backend.Do(request, bodyBuffer, &response)
+
+	assert.NoError(t, err)
+	assert.Equal(t, message, response.Message)
+
+	// We should have seen exactly two requests.
+	assert.Equal(t, 2, requestNum)
 }
 
 func TestFormatURLPath(t *testing.T) {
