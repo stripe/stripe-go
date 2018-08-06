@@ -29,9 +29,11 @@ var (
 	ErrNoValidSignature = errors.New("webhook had no valid signature")
 )
 
-// Computes a webhook signature using Stripe's v1 signing method. See
-// https://stripe.com/docs/webhooks#signatures
-func computeSignature(t time.Time, payload []byte, secret string) []byte {
+// ComputeSignature computes a webhook signature using Stripe's v1 signing
+// method.
+//
+// See https://stripe.com/docs/webhooks#signatures for more information.
+func ComputeSignature(t time.Time, payload []byte, secret string) []byte {
 	mac := hmac.New(sha256.New, []byte(secret))
 	mac.Write([]byte(fmt.Sprintf("%d", t.Unix())))
 	mac.Write([]byte("."))
@@ -140,7 +142,7 @@ func constructEvent(payload []byte, sigHeader string, secret string, tolerance t
 		return e, err
 	}
 
-	expectedSignature := computeSignature(header.timestamp, payload, secret)
+	expectedSignature := ComputeSignature(header.timestamp, payload, secret)
 	expiredTimestamp := time.Since(header.timestamp) > tolerance
 	if enforceTolerance && expiredTimestamp {
 		return e, ErrTooOld
