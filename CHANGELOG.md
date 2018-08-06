@@ -1,8 +1,12 @@
 # Changelog
 
+## 40.0.0 - 2018-08-06
+* [#648](https://github.com/stripe/stripe-go/pull/648) Introduce buffers so a request's body can be read multiple times (this modifies the interface of a few exported internal functions so it's technically breaking, but it will probably not be breaking for most users)
+* [#649](https://github.com/stripe/stripe-go/pull/649) Rename `BackendConfiguration` to `BackendImplementation` (likewise, technically breaking, but minor)
+* [#650](https://github.com/stripe/stripe-go/pull/650) Export `webhook.ComputeSignature`
+
 ## 39.0.0 - 2018-08-04
-* [#646](https://github.com/stripe/stripe-go/pull/646) Set request body before every retry (this modifies the
-  interface of a few exported internal functions so it's technically breaking, but it will probably not be breaking for most users)
+* [#646](https://github.com/stripe/stripe-go/pull/646) Set request body before every retry (this modifies the interface of a few exported internal functions so it's technically breaking, but it will probably not be breaking for most users)
 
 ## 38.2.0 - 2018-08-03
 * [#644](https://github.com/stripe/stripe-go/pull/644) Add support for file links
