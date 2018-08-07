@@ -47,7 +47,7 @@ type FileUpload struct {
 	Created  int64             `json:"created"`
 	ID       string            `json:"id"`
 	Filename string            `json:"filename"`
-	Links    []*FileLink       `json:"links"`
+	Links    *FileLinkList     `json:"links"`
 	Purpose  FileUploadPurpose `json:"purpose"`
 	Size     int64             `json:"size"`
 	Type     string            `json:"type"`
