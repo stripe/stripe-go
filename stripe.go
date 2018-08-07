@@ -899,11 +899,12 @@ func isHTTPWriteMethod(method string) bool {
 // instead of this function.
 func newBackendImplementation(backendType SupportedBackend, config *BackendConfig) Backend {
 	return &BackendImplementation{
-		HTTPClient:        config.HTTPClient,
-		LogLevel:          config.LogLevel,
-		Logger:            config.Logger,
-		MaxNetworkRetries: config.MaxNetworkRetries,
-		Type:              backendType,
-		URL:               config.URL,
+		HTTPClient:          config.HTTPClient,
+		LogLevel:            config.LogLevel,
+		Logger:              config.Logger,
+		MaxNetworkRetries:   config.MaxNetworkRetries,
+		Type:                backendType,
+		URL:                 config.URL,
+		networkRetriesSleep: true,
 	}
 }
