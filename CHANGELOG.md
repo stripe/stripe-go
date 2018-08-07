@@ -1,5 +1,8 @@
 # Changelog
 
+## 40.0.2 - 2018-08-07
+* [#652](https://github.com/stripe/stripe-go/pull/652) Change the type of `FileUpload.Links` to `FileLinkList` (this is a bug fix given that the previous type would never have worked)
+
 ## 40.0.1 - 2018-08-07
 * [#653](https://github.com/stripe/stripe-go/pull/653) All `BackendImplementation`s should sleep by default on retries
 
