@@ -285,8 +285,8 @@ The test suite needs testify's `require` package to run:
 
     github.com/stretchr/testify/require
 
-It also depends on [stripe-mock], so make sure to fetch and run it from a
-background terminal ([stripe-mock's README][stripe-mock] also contains
+It also depends on [stripe-mock][stripe-mock], so make sure to fetch and run it from a
+background terminal ([stripe-mock's README][stripe-mock-usage] also contains
 instructions for installing via Homebrew and other methods):
 
     go get -u github.com/stripe/stripe-mock
@@ -315,6 +315,8 @@ pull request][pulls].
 [package-management]: https://code.google.com/p/go-wiki/wiki/PackageManagementTools
 [pulls]: https://github.com/stripe/stripe-go/pulls
 [stripe]: https://stripe.com
+[stripe-mock]: https://github.com/stripe/stripe-mock
+[stripe-mock-usage]: https://github.com/stripe/stripe-mock#usage
 
 <!--
 # vim: set tw=79:
