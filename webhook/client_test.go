@@ -102,7 +102,7 @@ func TestTokenNew(t *testing.T) {
 	p = newSignedPayload(func(p *SignedPayload) {
 		p.scheme = "v0"
 	})
-	err  = ValidatePayload(p.payload, p.header, p.secret)
+	err = ValidatePayload(p.payload, p.header, p.secret)
 	if err != ErrNoValidSignature {
 		t.Errorf("Expected error from mismatched schema, got %v", err)
 	}
