@@ -67,6 +67,10 @@ func TestTokenNew(t *testing.T) {
 	}
 
 	p = newSignedPayload()
+	err = ValidatePayload(p.payload, "", p.secret)
+	if err != ErrNotSigned {
+		t.Errorf("Expected ErrNotSigned from missing signature, got %v", err)
+	}
 	evt, err = ConstructEvent(p.payload, "", p.secret)
 	if err != ErrNotSigned {
 		t.Errorf("Expected ErrNotSigned from missing signature, got %v", err)
@@ -77,11 +81,19 @@ func TestTokenNew(t *testing.T) {
 		t.Errorf("Expected ErrInvalidHeader from bad header format, got %v", err)
 	}
 
+	err = ValidatePayload(p.payload, "t=", p.secret)
+	if err != ErrInvalidHeader {
+		t.Errorf("Expected ErrInvalidHeader from bad header format, got %v", err)
+	}
 	evt, err = ConstructEvent(p.payload, "t=", p.secret)
 	if err != ErrInvalidHeader {
 		t.Errorf("Expected ErrInvalidHeader from bad header format, got %v", err)
 	}
 
+	err = ValidatePayload(p.payload, p.header+",v1=bad_signature", p.secret)
+	if err != nil {
+		t.Errorf("Received unexpected %v error with an unreadable signature in the header (should be ignored)", err)
+	}
 	evt, err = ConstructEvent(p.payload, p.header+",v1=bad_signature", p.secret)
 	if err != nil {
 		t.Errorf("Received unexpected %v error with an unreadable signature in the header (should be ignored)", err)
@@ -90,6 +102,10 @@ func TestTokenNew(t *testing.T) {
 	p = newSignedPayload(func(p *SignedPayload) {
 		p.scheme = "v0"
 	})
+	err = ValidatePayload(p.payload, p.header, p.secret)
+	if err != ErrNoValidSignature {
+		t.Errorf("Expected error from mismatched schema, got %v", err)
+	}
 	evt, err = ConstructEvent(p.payload, p.header, p.secret)
 	if err != ErrNoValidSignature {
 		t.Errorf("Expected error from mismatched schema, got %v", err)
@@ -98,6 +114,10 @@ func TestTokenNew(t *testing.T) {
 	p = newSignedPayload(func(p *SignedPayload) {
 		p.signature = []byte("deadbeef")
 	})
+	err = ValidatePayload(p.payload, p.header, p.secret)
+	if err != ErrNoValidSignature {
+		t.Errorf("Expected error from fake signature, got %v", err)
+	}
 	evt, err = ConstructEvent(p.payload, p.header, p.secret)
 	if err != ErrNoValidSignature {
 		t.Errorf("Expected error from fake signature, got %v", err)
@@ -112,9 +132,17 @@ func TestTokenNew(t *testing.T) {
 		t.Errorf("Got the same signature with two different secret keys")
 	}
 
+	err = ValidatePayload(p.payload, headerWithRolledKey, p.secret)
+	if err != nil {
+		t.Errorf("Expected to be able to decode webhook with old key after rolling key, but got %v", err)
+	}
 	evt, err = ConstructEvent(p.payload, headerWithRolledKey, p.secret)
 	if err != nil {
 		t.Errorf("Expected to be able to decode webhook with old key after rolling key, but got %v", err)
+	}
+	err = ValidatePayload(p.payload, headerWithRolledKey, p2.secret)
+	if err != nil {
+		t.Errorf("Expected to be able to decode webhook with new key after rolling key, but got %v", err)
 	}
 	evt, err = ConstructEvent(p.payload, headerWithRolledKey, p2.secret)
 	if err != nil {
@@ -124,11 +152,19 @@ func TestTokenNew(t *testing.T) {
 	p = newSignedPayload(func(p *SignedPayload) {
 		p.timestamp = time.Now().Add(-15 * time.Second)
 	})
+	err = ValidatePayloadWithTolerance(p.payload, p.header, p.secret, 10*time.Second)
+	if err != ErrTooOld {
+		t.Errorf("Received %v error when validating timestamp outside of allowed timing window", err)
+	}
 	evt, err = ConstructEventWithTolerance(p.payload, p.header, p.secret, 10*time.Second)
 	if err != ErrTooOld {
 		t.Errorf("Received %v error when validating timestamp outside of allowed timing window", err)
 	}
 
+	err = ValidatePayloadWithTolerance(p.payload, p.header, p.secret, 20*time.Second)
+	if err != nil {
+		t.Errorf("Received %v error when validating timestamp inside allowed timing window", err)
+	}
 	evt, err = ConstructEventWithTolerance(p.payload, p.header, p.secret, 20*time.Second)
 	if err != nil {
 		t.Errorf("Received %v error when validating timestamp inside allowed timing window", err)
@@ -137,6 +173,10 @@ func TestTokenNew(t *testing.T) {
 	p = newSignedPayload(func(p *SignedPayload) {
 		p.timestamp = time.Unix(12345, 0)
 	})
+	err = ValidatePayloadIgnoringTolerance(p.payload, p.header, p.secret)
+	if err != nil {
+		t.Errorf("Received %v error when timestamp outside window but no tolerance specified", err)
+	}
 	evt, err = ConstructEventIgnoringTolerance(p.payload, p.header, p.secret)
 	if err != nil {
 		t.Errorf("Received %v error when timestamp outside window but no tolerance specified", err)

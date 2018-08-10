@@ -89,6 +89,68 @@ func parseSignatureHeader(header string) (*signedHeader, error) {
 	return sh, nil
 }
 
+// ValidatePayload validates the payload against the Stripe-Signature header
+// using the specified signing secret. Returns an error if the body or
+// Stripe-Signature header provided are unreadable, if the signature doesn't
+// match, or if the timestamp for the signature is older than DefaultTolerance.
+//
+// NOTE: Stripe will only send Webhook signing headers after you have retrieved
+// your signing secret from the Stripe dashboard:
+// https://dashboard.stripe.com/webhooks
+//
+func ValidatePayload(payload []byte, header string, secret string) error {
+	return ValidatePayloadWithTolerance(payload, header, secret, DefaultTolerance)
+}
+
+// ValidatePayloadWithTolerance validates the payload against the Stripe-Signature header
+// using the specified signing secret and tolerance window. Returns an error if the body
+// or Stripe-Signature header provided are unreadable, if the signature doesn't match, or
+// if the timestamp for the signature is older than the specified tolerance.
+//
+// NOTE: Stripe will only send Webhook signing headers after you have retrieved
+// your signing secret from the Stripe dashboard:
+// https://dashboard.stripe.com/webhooks
+//
+func ValidatePayloadWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) error {
+	return validatePayload(payload, header, secret, tolerance, true)
+}
+
+// ValidatePayloadIgnoringTolerance validates the payload against the Stripe-Signature header
+// header using the specified signing secret. Returns an error if the body or
+// Stripe-Signature header provided are unreadable or if the signature doesn't match.
+// Does not check the signature's timestamp.
+//
+// NOTE: Stripe will only send Webhook signing headers after you have retrieved
+// your signing secret from the Stripe dashboard:
+// https://dashboard.stripe.com/webhooks
+//
+func ValidatePayloadIgnoringTolerance(payload []byte, header string, secret string) error {
+	return validatePayload(payload, header, secret, 0*time.Second, false)
+}
+
+func validatePayload(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) error {
+
+	header, err := parseSignatureHeader(sigHeader)
+	if err != nil {
+		return err
+	}
+
+	expectedSignature := ComputeSignature(header.timestamp, payload, secret)
+	expiredTimestamp := time.Since(header.timestamp) > tolerance
+	if enforceTolerance && expiredTimestamp {
+		return ErrTooOld
+	}
+
+	// Check all given v1 signatures, multiple signatures will be sent temporarily in the case of a rolled signature secret
+	for _, sig := range header.signatures {
+		if hmac.Equal(expectedSignature, sig) {
+			return nil
+		}
+	}
+
+	return ErrNoValidSignature
+}
+
 // ConstructEvent initializes an Event object from a JSON webhook payload, validating
 // the Stripe-Signature header using the specified signing secret. Returns an error
 // if the body or Stripe-Signature header provided are unreadable, if the
@@ -133,27 +195,14 @@ func ConstructEventIgnoringTolerance(payload []byte, header string, secret strin
 func constructEvent(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) (stripe.Event, error) {
 	e := stripe.Event{}
 
+	if err := validatePayload(payload, sigHeader, secret, tolerance, enforceTolerance); err != nil {
+		return e, err
+	}
+
 	if err := json.Unmarshal(payload, &e); err != nil {
 		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
 	}
 
-	header, err := parseSignatureHeader(sigHeader)
-	if err != nil {
-		return e, err
-	}
+	return e, nil
 
-	expectedSignature := ComputeSignature(header.timestamp, payload, secret)
-	expiredTimestamp := time.Since(header.timestamp) > tolerance
-	if enforceTolerance && expiredTimestamp {
-		return e, ErrTooOld
-	}
-
-	// Check all given v1 signatures, multiple signatures will be sent temporarily in the case of a rolled signature secret
-	for _, sig := range header.signatures {
-		if hmac.Equal(expectedSignature, sig) {
-			return e, nil
-		}
-	}
-
-	return e, ErrNoValidSignature
 }
