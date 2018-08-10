@@ -14,6 +14,10 @@ import (
 	"github.com/stripe/stripe-go"
 )
 
+//
+// Public constants
+//
+
 const (
 	// DefaultTolerance indicates that signatures older than this will be rejected by ConstructEvent.
 	DefaultTolerance time.Duration = 300 * time.Second
@@ -21,13 +25,21 @@ const (
 	signingVersion string = "v1"
 )
 
+//
+// Public variables
+//
+
 // This block represents the list of errors that could be raised when using the webhook package.
 var (
-	ErrNotSigned        = errors.New("webhook has no Stripe-Signature header")
 	ErrInvalidHeader    = errors.New("webhook has invalid Stripe-Signature header")
-	ErrTooOld           = errors.New("timestamp wasn't within tolerance")
 	ErrNoValidSignature = errors.New("webhook had no valid signature")
+	ErrNotSigned        = errors.New("webhook has no Stripe-Signature header")
+	ErrTooOld           = errors.New("timestamp wasn't within tolerance")
 )
+
+//
+// Public functions
+//
 
 // ComputeSignature computes a webhook signature using Stripe's v1 signing
 // method.
@@ -41,9 +53,112 @@ func ComputeSignature(t time.Time, payload []byte, secret string) []byte {
 	return mac.Sum(nil)
 }
 
+// ConstructEvent initializes an Event object from a JSON webhook payload, validating
+// the Stripe-Signature header using the specified signing secret. Returns an error
+// if the body or Stripe-Signature header provided are unreadable, if the
+// signature doesn't match, or if the timestamp for the signature is older than
+// DefaultTolerance.
+//
+// NOTE: Stripe will only send Webhook signing headers after you have retrieved
+// your signing secret from the Stripe dashboard:
+// https://dashboard.stripe.com/webhooks
+//
+func ConstructEvent(payload []byte, header string, secret string) (stripe.Event, error) {
+	return ConstructEventWithTolerance(payload, header, secret, DefaultTolerance)
+}
+
+// ConstructEventIgnoringTolerance initializes an Event object from a JSON webhook
+// payload, validating the Stripe-Signature header using the specified signing secret.
+// Returns an error if the body or Stripe-Signature header provided are unreadable or
+// if the signature doesn't match. Does not check the signature's timestamp.
+//
+// NOTE: Stripe will only send Webhook signing headers after you have retrieved
+// your signing secret from the Stripe dashboard:
+// https://dashboard.stripe.com/webhooks
+//
+func ConstructEventIgnoringTolerance(payload []byte, header string, secret string) (stripe.Event, error) {
+	return constructEvent(payload, header, secret, 0*time.Second, false)
+}
+
+// ConstructEventWithTolerance initializes an Event object from a JSON webhook payload,
+// validating the signature in the Stripe-Signature header using the specified signing
+// secret and tolerance window. Returns an error if the body or Stripe-Signature header
+// provided are unreadable, if the signature doesn't match, or if the timestamp
+// for the signature is older than the specified tolerance.
+//
+// NOTE: Stripe will only send Webhook signing headers after you have retrieved
+// your signing secret from the Stripe dashboard:
+// https://dashboard.stripe.com/webhooks
+//
+func ConstructEventWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) (stripe.Event, error) {
+	return constructEvent(payload, header, secret, tolerance, true)
+}
+
+// ValidatePayload validates the payload against the Stripe-Signature header
+// using the specified signing secret. Returns an error if the body or
+// Stripe-Signature header provided are unreadable, if the signature doesn't
+// match, or if the timestamp for the signature is older than DefaultTolerance.
+//
+// NOTE: Stripe will only send Webhook signing headers after you have retrieved
+// your signing secret from the Stripe dashboard:
+// https://dashboard.stripe.com/webhooks
+//
+func ValidatePayload(payload []byte, header string, secret string) error {
+	return ValidatePayloadWithTolerance(payload, header, secret, DefaultTolerance)
+}
+
+// ValidatePayloadIgnoringTolerance validates the payload against the Stripe-Signature header
+// header using the specified signing secret. Returns an error if the body or
+// Stripe-Signature header provided are unreadable or if the signature doesn't match.
+// Does not check the signature's timestamp.
+//
+// NOTE: Stripe will only send Webhook signing headers after you have retrieved
+// your signing secret from the Stripe dashboard:
+// https://dashboard.stripe.com/webhooks
+//
+func ValidatePayloadIgnoringTolerance(payload []byte, header string, secret string) error {
+	return validatePayload(payload, header, secret, 0*time.Second, false)
+}
+
+// ValidatePayloadWithTolerance validates the payload against the Stripe-Signature header
+// using the specified signing secret and tolerance window. Returns an error if the body
+// or Stripe-Signature header provided are unreadable, if the signature doesn't match, or
+// if the timestamp for the signature is older than the specified tolerance.
+//
+// NOTE: Stripe will only send Webhook signing headers after you have retrieved
+// your signing secret from the Stripe dashboard:
+// https://dashboard.stripe.com/webhooks
+//
+func ValidatePayloadWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) error {
+	return validatePayload(payload, header, secret, tolerance, true)
+}
+
+//
+// Private types
+//
+
 type signedHeader struct {
 	timestamp  time.Time
 	signatures [][]byte
+}
+
+//
+// Private functions
+//
+
+func constructEvent(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) (stripe.Event, error) {
+	e := stripe.Event{}
+
+	if err := validatePayload(payload, sigHeader, secret, tolerance, enforceTolerance); err != nil {
+		return e, err
+	}
+
+	if err := json.Unmarshal(payload, &e); err != nil {
+		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
+	}
+
+	return e, nil
+
 }
 
 func parseSignatureHeader(header string) (*signedHeader, error) {
@@ -89,45 +204,6 @@ func parseSignatureHeader(header string) (*signedHeader, error) {
 	return sh, nil
 }
 
-// ValidatePayload validates the payload against the Stripe-Signature header
-// using the specified signing secret. Returns an error if the body or
-// Stripe-Signature header provided are unreadable, if the signature doesn't
-// match, or if the timestamp for the signature is older than DefaultTolerance.
-//
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
-//
-func ValidatePayload(payload []byte, header string, secret string) error {
-	return ValidatePayloadWithTolerance(payload, header, secret, DefaultTolerance)
-}
-
-// ValidatePayloadWithTolerance validates the payload against the Stripe-Signature header
-// using the specified signing secret and tolerance window. Returns an error if the body
-// or Stripe-Signature header provided are unreadable, if the signature doesn't match, or
-// if the timestamp for the signature is older than the specified tolerance.
-//
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
-//
-func ValidatePayloadWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) error {
-	return validatePayload(payload, header, secret, tolerance, true)
-}
-
-// ValidatePayloadIgnoringTolerance validates the payload against the Stripe-Signature header
-// header using the specified signing secret. Returns an error if the body or
-// Stripe-Signature header provided are unreadable or if the signature doesn't match.
-// Does not check the signature's timestamp.
-//
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
-//
-func ValidatePayloadIgnoringTolerance(payload []byte, header string, secret string) error {
-	return validatePayload(payload, header, secret, 0*time.Second, false)
-}
-
 func validatePayload(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) error {
 
 	header, err := parseSignatureHeader(sigHeader)
@@ -149,60 +225,4 @@ func validatePayload(payload []byte, sigHeader string, secret string, tolerance 
 	}
 
 	return ErrNoValidSignature
-}
-
-// ConstructEvent initializes an Event object from a JSON webhook payload, validating
-// the Stripe-Signature header using the specified signing secret. Returns an error
-// if the body or Stripe-Signature header provided are unreadable, if the
-// signature doesn't match, or if the timestamp for the signature is older than
-// DefaultTolerance.
-//
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
-//
-func ConstructEvent(payload []byte, header string, secret string) (stripe.Event, error) {
-	return ConstructEventWithTolerance(payload, header, secret, DefaultTolerance)
-}
-
-// ConstructEventWithTolerance initializes an Event object from a JSON webhook payload,
-// validating the signature in the Stripe-Signature header using the specified signing
-// secret and tolerance window. Returns an error if the body or Stripe-Signature header
-// provided are unreadable, if the signature doesn't match, or if the timestamp
-// for the signature is older than the specified tolerance.
-//
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
-//
-func ConstructEventWithTolerance(payload []byte, header string, secret string, tolerance time.Duration) (stripe.Event, error) {
-	return constructEvent(payload, header, secret, tolerance, true)
-}
-
-// ConstructEventIgnoringTolerance initializes an Event object from a JSON webhook
-// payload, validating the Stripe-Signature header using the specified signing secret.
-// Returns an error if the body or Stripe-Signature header provided are unreadable or
-// if the signature doesn't match. Does not check the signature's timestamp.
-//
-// NOTE: Stripe will only send Webhook signing headers after you have retrieved
-// your signing secret from the Stripe dashboard:
-// https://dashboard.stripe.com/webhooks
-//
-func ConstructEventIgnoringTolerance(payload []byte, header string, secret string) (stripe.Event, error) {
-	return constructEvent(payload, header, secret, 0*time.Second, false)
-}
-
-func constructEvent(payload []byte, sigHeader string, secret string, tolerance time.Duration, enforceTolerance bool) (stripe.Event, error) {
-	e := stripe.Event{}
-
-	if err := validatePayload(payload, sigHeader, secret, tolerance, enforceTolerance); err != nil {
-		return e, err
-	}
-
-	if err := json.Unmarshal(payload, &e); err != nil {
-		return e, fmt.Errorf("Failed to parse webhook body json: %s", err.Error())
-	}
-
-	return e, nil
-
 }
