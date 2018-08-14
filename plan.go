@@ -119,7 +119,7 @@ type PlanParams struct {
 	Nickname        *string                   `form:"nickname"`
 	Product         *PlanProductParams        `form:"product"`
 	ProductID       *string                   `form:"product"`
-	Tiers           []*PlanTierParams         `form:"tiers,indexed"`
+	Tiers           []*PlanTierParams         `form:"tiers"`
 	TiersMode       *string                   `form:"tiers_mode"`
 	TransformUsage  *PlanTransformUsageParams `form:"transform_usage"`
 	TrialPeriodDays *int64                    `form:"trial_period_days"`

@@ -56,10 +56,15 @@ func TestAccountNew(t *testing.T) {
 			AdditionalOwners: []*stripe.AdditionalOwnerParams{
 				{
 					FirstName: stripe.String("Jane"),
+					LastName:  stripe.String("Doe"),
 					Verification: &stripe.IdentityVerificationParams{
 						Document:     stripe.String("file_345"),
 						DocumentBack: stripe.String("file_567"),
 					},
+				},
+				{
+					FirstName: stripe.String("John"),
+					LastName:  stripe.String("Doe"),
 				},
 			},
 			DOB: &stripe.DOBParams{

@@ -30,6 +30,10 @@ func TestOrderList(t *testing.T) {
 func TestOrderNew(t *testing.T) {
 	order, err := New(&stripe.OrderParams{
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Items: []*stripe.OrderItemParams{
+			{Amount: stripe.Int64(1), Description: stripe.String("Item 1")},
+			{Amount: stripe.Int64(1), Description: stripe.String("Item 2")},
+		},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, order)
@@ -44,7 +48,12 @@ func TestOrderPay(t *testing.T) {
 }
 
 func TestOrderReturn(t *testing.T) {
-	order, err := Return("or_123", &stripe.OrderReturnParams{})
+	order, err := Return("or_123", &stripe.OrderReturnParams{
+		Items: []*stripe.OrderItemParams{
+			{Amount: stripe.Int64(1), Description: stripe.String("Item 1")},
+			{Amount: stripe.Int64(1), Description: stripe.String("Item 2")},
+		},
+	})
 	assert.Nil(t, err)
 	assert.NotNil(t, order)
 }

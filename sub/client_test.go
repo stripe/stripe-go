@@ -40,6 +40,10 @@ func TestSubscriptionNew(t *testing.T) {
 				Plan:     stripe.String("plan_123"),
 				Quantity: stripe.Int64(10),
 			},
+			{
+				Plan:     stripe.String("plan_456"),
+				Quantity: stripe.Int64(20),
+			},
 		},
 		TaxPercent:         stripe.Float64(20.0),
 		BillingCycleAnchor: stripe.Int64(time.Now().AddDate(0, 0, 12).Unix()),
