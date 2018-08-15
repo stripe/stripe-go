@@ -1,5 +1,8 @@
 # Changelog
 
+## 40.2.0 - 2018-08-15
+* [#657](https://github.com/stripe/stripe-go/pull/657) Use integer-indexed encoding for all arrays
+
 ## 40.1.0 - 2018-08-10
 * [#656](https://github.com/stripe/stripe-go/pull/656) Expose new `ValidatePayload` functions for validating incoming payloads without constructing an event
 
