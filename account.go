@@ -126,7 +126,7 @@ type AccountParams struct {
 
 // LegalEntityParams represents a legal_entity during account creation/updates.
 type LegalEntityParams struct {
-	AdditionalOwners []*AdditionalOwnerParams `form:"additional_owners,indexed"`
+	AdditionalOwners []*AdditionalOwnerParams `form:"additional_owners"`
 
 	// AdditionalOwnersEmpty can be set to clear a legal entity's additional
 	// owners.

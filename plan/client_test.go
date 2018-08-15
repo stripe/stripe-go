@@ -31,14 +31,22 @@ func TestPlanList(t *testing.T) {
 
 func TestPlanNew(t *testing.T) {
 	plan, err := New(&stripe.PlanParams{
-		Amount:   stripe.Int64(1),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
-		ID:       stripe.String("sapphire-elite"),
-		Interval: stripe.String(string(stripe.PlanIntervalMonth)),
+		Amount:        stripe.Int64(1),
+		BillingScheme: stripe.String(string(stripe.PlanBillingSchemeTiered)),
+		Currency:      stripe.String(string(stripe.CurrencyUSD)),
+		ID:            stripe.String("sapphire-elite"),
+		Interval:      stripe.String(string(stripe.PlanIntervalMonth)),
 		Product: &stripe.PlanProductParams{
 			ID:                  stripe.String("plan_id"),
 			Name:                stripe.String("Sapphire Elite"),
 			StatementDescriptor: stripe.String("statement descriptor"),
+		},
+		Tiers: []*stripe.PlanTierParams{
+			{Amount: stripe.Int64(500), UpTo: stripe.Int64(5)},
+			{Amount: stripe.Int64(400), UpTo: stripe.Int64(10)},
+			{Amount: stripe.Int64(300), UpTo: stripe.Int64(15)},
+			{Amount: stripe.Int64(200), UpTo: stripe.Int64(20)},
+			{Amount: stripe.Int64(200), UpToInf: stripe.Bool(true)},
 		},
 	})
 	assert.Nil(t, err)

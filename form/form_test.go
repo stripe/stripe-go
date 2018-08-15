@@ -24,9 +24,6 @@ type testStruct struct {
 	Array    [3]string  `form:"array"`
 	ArrayPtr *[3]string `form:"array_ptr"`
 
-	ArrayIndexed    [3]string  `form:"array_indexed,indexed"`
-	ArrayIndexedPtr *[3]string `form:"array_indexed_ptr,indexed"`
-
 	Bool    bool  `form:"bool"`
 	BoolPtr *bool `form:"bool_ptr"`
 
@@ -58,9 +55,6 @@ type testStruct struct {
 
 	String    string  `form:"string"`
 	StringPtr *string `form:"string_ptr"`
-
-	SliceIndexed    []string  `form:"slice_indexed,indexed"`
-	SliceIndexedPtr *[]string `form:"slice_indexed_ptr,indexed"`
 
 	SubStruct    testSubStruct  `form:"substruct"`
 	SubStructPtr *testSubStruct `form:"substruct_ptr"`
@@ -176,7 +170,7 @@ func TestAppendTo(t *testing.T) {
 	}{
 		{"appender", &testStruct{Appender: &testAppender{String: "123"}}, "123"},
 
-		{"array_indexed[2]", &testStruct{ArrayIndexed: arrayVal}, "3"},
+		{"array[2]", &testStruct{Array: arrayVal}, "3"},
 
 		{"bool", &testStruct{Bool: boolValT}, "true"},
 		{"bool_ptr", &testStruct{}, ""},
@@ -248,7 +242,7 @@ func TestAppendTo(t *testing.T) {
 			"baz",
 		},
 
-		{"slice_indexed[2]", &testStruct{SliceIndexed: sliceVal}, "3"},
+		{"slice[2]", &testStruct{Slice: sliceVal}, "3"},
 
 		{"string", &testStruct{String: stringVal}, stringVal},
 		{"string_ptr", &testStruct{StringPtr: &stringVal}, stringVal},
@@ -291,44 +285,6 @@ func TestAppendTo(t *testing.T) {
 			values := form.ToValues()
 			t.Logf("values = %+v", values)
 			assert.Equal(t, tc.want, values.Get(tc.field))
-		})
-	}
-}
-
-func TestAppendTo_DuplicatedNames(t *testing.T) {
-	arrayVal := [3]string{"1", "2", "3"}
-	sliceVal := []string{"1", "2", "3"}
-
-	testCases := []struct {
-		field string
-		data  *testStruct
-		want  interface{}
-	}{
-		{"array[]", &testStruct{Array: arrayVal}, sliceVal},
-		{"array_ptr[]", &testStruct{ArrayPtr: &arrayVal}, sliceVal},
-		{"slice[]", &testStruct{Slice: sliceVal}, sliceVal},
-		{"slice_ptr[]", &testStruct{SlicePtr: &sliceVal}, sliceVal},
-
-		// Tests slice nested inside of map nested inside of another map
-		{
-			"map[foo][bar][]",
-			&testStruct{Map: map[string]interface{}{
-				"foo": map[string]interface{}{"bar": sliceVal},
-			}},
-			sliceVal,
-		},
-	}
-	for _, tc := range testCases {
-		t.Run(tc.field, func(t *testing.T) {
-			form := &Values{}
-			AppendTo(form, tc.data)
-			values := form.ToValues()
-			//fmt.Printf("values = %+v", values)
-
-			// This is the only difference between this test case and the one
-			// above: we used square brackets to grab a []string instead of
-			// just a single value.
-			assert.Equal(t, tc.want, values[tc.field])
 		})
 	}
 }
@@ -405,7 +361,6 @@ func TestParseTag(t *testing.T) {
 	}{
 		{"id", "id", nil},
 		{"id,empty", "id", &formOptions{Empty: true}},
-		{"id,indexed", "id", &formOptions{IndexedArray: true}},
 		{"id,zero", "id", &formOptions{Zero: true}},
 
 		// invalid invocations

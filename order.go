@@ -43,7 +43,7 @@ type OrderParams struct {
 	Currency *string            `form:"currency"`
 	Customer *string            `form:"customer"`
 	Email    *string            `form:"email"`
-	Items    []*OrderItemParams `form:"items,indexed"`
+	Items    []*OrderItemParams `form:"items"`
 	Shipping *ShippingParams    `form:"shipping"`
 }
 
@@ -74,7 +74,7 @@ type OrderUpdateShippingParams struct {
 // OrderReturnParams is the set of parameters that can be used when returning orders.
 type OrderReturnParams struct {
 	Params `form:"*"`
-	Items  []*OrderItemParams `form:"items,indexed"`
+	Items  []*OrderItemParams `form:"items"`
 }
 
 // Shipping describes the shipping hash on an order.

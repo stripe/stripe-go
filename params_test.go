@@ -196,7 +196,7 @@ func TestListParams_Expand(t *testing.T) {
 		{
 			InitialBody:  [][2]string{{"foo", "bar"}, {"foo", "baz"}},
 			Expand:       []string{"data", "data.foo"},
-			ExpectedBody: [][2]string{{"foo", "bar"}, {"foo", "baz"}, {"expand[]", "data"}, {"expand[]", "data.foo"}},
+			ExpectedBody: [][2]string{{"foo", "bar"}, {"foo", "baz"}, {"expand[0]", "data"}, {"expand[1]", "data.foo"}},
 		},
 	}
 

@@ -42,7 +42,7 @@ type SubscriptionParams struct {
 	Coupon                      *string                    `form:"coupon"`
 	Customer                    *string                    `form:"customer"`
 	DaysUntilDue                *int64                     `form:"days_until_due"`
-	Items                       []*SubscriptionItemsParams `form:"items,indexed"`
+	Items                       []*SubscriptionItemsParams `form:"items"`
 	OnBehalfOf                  *string                    `form:"on_behalf_of"`
 	Plan                        *string                    `form:"plan"`
 	Prorate                     *bool                      `form:"prorate"`

@@ -49,11 +49,6 @@ type field struct {
 }
 
 type formOptions struct {
-	// IndexedArray indicates that contrary to standard "Rack-style" form
-	// encoding, array items should be index like `arr[0]=...&arr[1]=...`
-	// (normally it'd be `arr[]=...`).
-	IndexedArray bool
-
 	// Empty indicates that a field's value should be emptied in that its value
 	// should be an empty string. It's used to workaround the fact that an
 	// empty string is a string's zero value and wouldn't normally be encoded.
@@ -166,17 +161,10 @@ func buildArrayOrSliceEncoder(t reflect.Type) encoderFunc {
 	elemF := getCachedOrBuildTypeEncoder(t.Elem())
 
 	return func(values *Values, v reflect.Value, keyParts []string, _ bool, options *formOptions) {
-		// FormatKey automatically adds square brackets, so just pass an empty
-		// string into the breadcrumb trail
-		arrNames := append(keyParts, "")
+		var arrNames []string
 
 		for i := 0; i < v.Len(); i++ {
-			// The one exception to the above is when options have requested
-			// that this array/slice be indexed. In that case we produce a hash
-			// keyed with integers which the Stripe API knows how to interpret.
-			if options != nil && options.IndexedArray {
-				arrNames = append(keyParts, strconv.Itoa(i))
-			}
+			arrNames = append(keyParts, strconv.Itoa(i))
 
 			indexV := v.Index(i)
 			elemF(values, indexV, arrNames, indexV.Kind() == reflect.Ptr, nil)
@@ -453,12 +441,6 @@ func parseTag(tag string) (string, *formOptions) {
 				options = &formOptions{}
 			}
 			options.Empty = true
-
-		case "indexed":
-			if options == nil {
-				options = &formOptions{}
-			}
-			options.IndexedArray = true
 
 		case "zero":
 			if options == nil {
