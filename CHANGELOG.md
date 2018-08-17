@@ -1,5 +1,10 @@
 # Changelog
 
+## 41.0.0 - 2018-08-17
+* [#659](https://github.com/stripe/stripe-go/pull/659) Remove mutating Bitcoin receiver API calls (these were no longer functional anyway)
+* [#661](https://github.com/stripe/stripe-go/pull/661) Correct `IssuingCardShipping`'s type to `int64`
+* [#662](https://github.com/stripe/stripe-go/pull/662) Rename `IssuingCardShipping`'s `Eta` to `ETA`
+
 ## 40.2.0 - 2018-08-15
 * [#657](https://github.com/stripe/stripe-go/pull/657) Use integer-indexed encoding for all arrays
 
