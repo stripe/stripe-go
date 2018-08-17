@@ -9,7 +9,7 @@ import (
 )
 
 func TestBitcoinReceiverGet(t *testing.T) {
-	receiver, err := Get("btcrcv_123", nil)
+	receiver, err := Get("btcrcv_123")
 	assert.Nil(t, err)
 	assert.NotNil(t, receiver)
 }

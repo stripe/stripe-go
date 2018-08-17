@@ -17,42 +17,17 @@ type Client struct {
 	Key string
 }
 
-// New creates a new bitcoin receiver.
-func New(params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) {
-	return getC().New(params)
-}
-
-// New creates a new bitcoin receiver.
-func (c Client) New(params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) {
-	receiver := &stripe.BitcoinReceiver{}
-	err := c.B.Call(http.MethodPost, "/bitcoin/receivers", c.Key, params, receiver)
-	return receiver, err
+// Get returns the details of a bitcoin receiver.
+func Get(id string) (*stripe.BitcoinReceiver, error) {
+	return getC().Get(id)
 }
 
 // Get returns the details of a bitcoin receiver.
-func Get(id string, params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) {
-	return getC().Get(id, params)
-}
-
-// Get returns the details of a bitcoin receiver.
-func (c Client) Get(id string, params *stripe.BitcoinReceiverParams) (*stripe.BitcoinReceiver, error) {
+func (c Client) Get(id string) (*stripe.BitcoinReceiver, error) {
 	path := stripe.FormatURLPath("/bitcoin/receivers/%s", id)
 	bitcoinReceiver := &stripe.BitcoinReceiver{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, bitcoinReceiver)
+	err := c.B.Call(http.MethodGet, path, c.Key, nil, bitcoinReceiver)
 	return bitcoinReceiver, err
-}
-
-// Update updates a bitcoin receiver's properties.
-func Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.BitcoinReceiver, error) {
-	return getC().Update(id, params)
-}
-
-// Update updates a bitcoin receiver's properties.
-func (c Client) Update(id string, params *stripe.BitcoinReceiverUpdateParams) (*stripe.BitcoinReceiver, error) {
-	path := stripe.FormatURLPath("/bitcoin/receivers/%s", id)
-	receiver := &stripe.BitcoinReceiver{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, receiver)
-	return receiver, err
 }
 
 // List returns a list of bitcoin receivers.
