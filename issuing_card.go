@@ -110,7 +110,7 @@ type IssuingCardAuthorizationControls struct {
 type IssuingCardShipping struct {
 	Address        *Address                  `json:"address"`
 	Carrier        string                    `json:"carrier"`
-	Eta            string                    `json:"eta"`
+	Eta            int64                     `json:"eta"`
 	Name           string                    `json:"name"`
 	Phone          string                    `json:"phone"`
 	Status         IssuingCardShippingStatus `json:"status"`
