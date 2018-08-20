@@ -10,7 +10,7 @@ const (
 // See https://stripe.com/docs/api#usage_records
 type UsageRecord struct {
 	ID               string `json:"id"`
-	Live             bool   `json:"livemode"`
+	Livemode         bool   `json:"livemode"`
 	Quantity         int64  `json:"quantity"`
 	SubscriptionItem string `json:"subscription_item"`
 	Timestamp        int64  `json:"timestamp"`
