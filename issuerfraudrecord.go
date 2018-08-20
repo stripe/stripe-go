@@ -43,6 +43,6 @@ type IssuerFraudRecord struct {
 	Created         int64           `json:"created"`
 	IssuerFraudType IssuerFraudType `json:"fraud_type"`
 	ID              string          `json:"id"`
-	Live            bool            `json:"livemode"`
+	Livemode        bool            `json:"livemode"`
 	PostDate        int64           `json:"post_date"`
 }
