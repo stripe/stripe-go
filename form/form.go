@@ -53,12 +53,6 @@ type formOptions struct {
 	// should be an empty string. It's used to workaround the fact that an
 	// empty string is a string's zero value and wouldn't normally be encoded.
 	Empty bool
-
-	// Zero indicates a field that's specifically defined to workaround the
-	// fact because 0 is the "zero value" of all int/float types, we can't
-	// properly encode an explicit 0. It indicates that an explicit zero should
-	// be sent.
-	Zero bool
 }
 
 type structEncoder struct {
@@ -148,8 +142,6 @@ func boolEncoder(values *Values, v reflect.Value, keyParts []string, encodeZero 
 		switch {
 		case options.Empty:
 			values.Add(FormatKey(keyParts), "")
-		case options.Zero:
-			values.Add(FormatKey(keyParts), "0")
 		}
 	} else {
 		values.Add(FormatKey(keyParts), strconv.FormatBool(val))
@@ -366,12 +358,9 @@ func makeStructEncoder(t reflect.Type) *structEncoder {
 		fldTyp := reflectField.Type
 		fldKind := fldTyp.Kind()
 
-		if Strict && options != nil &&
-			(options.Empty || options.Zero) &&
-			fldKind != reflect.Bool {
-
+		if Strict && options != nil && options.Empty && fldKind != reflect.Bool {
 			panic(fmt.Sprintf(
-				"Cannot specify `empty`, or `zero` for non-boolean field; on: %s/%s",
+				"Cannot specify `empty` for non-boolean field; on: %s/%s",
 				t.Name(), reflectField.Name,
 			))
 		}
@@ -441,12 +430,6 @@ func parseTag(tag string) (string, *formOptions) {
 				options = &formOptions{}
 			}
 			options.Empty = true
-
-		case "zero":
-			if options == nil {
-				options = &formOptions{}
-			}
-			options.Zero = true
 
 		default:
 			if Strict {

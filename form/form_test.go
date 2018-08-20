@@ -72,8 +72,6 @@ type testStruct struct {
 	Uuint32Ptr *uint32 `form:"uint32_ptr"`
 	Uuint64    uint64  `form:"uint64"`
 	Uuint64Ptr *uint64 `form:"uint64_ptr"`
-
-	Zeroed bool `form:"zeroed,zero"`
 }
 
 type testAppender struct {
@@ -275,8 +273,6 @@ func TestAppendTo(t *testing.T) {
 		{"uint64_ptr", &testStruct{Uuint64Ptr: &uint64Val}, "123"},
 		{"uint64_ptr", &testStruct{Uuint64Ptr: &uint64Val0}, "0"},
 		{"uint64_ptr", &testStruct{}, ""},
-
-		{"zeroed", &testStruct{Zeroed: true}, "0"},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.field, func(t *testing.T) {
@@ -361,7 +357,6 @@ func TestParseTag(t *testing.T) {
 	}{
 		{"id", "id", nil},
 		{"id,empty", "id", &formOptions{Empty: true}},
-		{"id,zero", "id", &formOptions{Zero: true}},
 
 		// invalid invocations
 		{"id,", "id", nil},
