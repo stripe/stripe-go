@@ -7,7 +7,7 @@ import (
 	stripe "github.com/stripe/stripe-go"
 )
 
-// Client is used to invoke /plans APIs.
+// Client is used to invoke APIs related to usage records.
 type Client struct {
 	B   stripe.Backend
 	Key string
