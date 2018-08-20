@@ -21,7 +21,7 @@ type SourceTransaction struct {
 	Currency     Currency `json:"currency"`
 	CustomerData string   `json:"customer_data"`
 	ID           string   `json:"id"`
-	Live         bool     `json:"livemode"`
+	Livemode     bool     `json:"livemode"`
 	Source       string   `json:"source"`
 	Type         string   `json:"type"`
 	TypeData     map[string]interface{}
