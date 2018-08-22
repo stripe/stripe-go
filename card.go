@@ -7,6 +7,15 @@ import (
 	"github.com/stripe/stripe-go/form"
 )
 
+// CardAvailablePayoutMethod is a set of available payout methods for the card.
+type CardAvailablePayoutMethod string
+
+// List of values that CardAvailablePayoutMethod can take.
+const (
+	CardAvailablePayoutMethodInstant  CardAvailablePayoutMethod = "Instant"
+	CardAvailablePayoutMethodStandard CardAvailablePayoutMethod = "Standard"
+)
+
 // CardBrand is the list of allowed values for the card's brand.
 type CardBrand string
 
@@ -184,21 +193,22 @@ func (p *CardListParams) AppendTo(body *form.Values, keyParts []string) {
 // Card is the resource representing a Stripe credit/debit card.
 // For more details see https://stripe.com/docs/api#cards.
 type Card struct {
-	AddressCity        string           `json:"address_city"`
-	AddressCountry     string           `json:"address_country"`
-	AddressLine1       string           `json:"address_line1"`
-	AddressLine1Check  CardVerification `json:"address_line1_check"`
-	AddressLine2       string           `json:"address_line2"`
-	AddressState       string           `json:"address_state"`
-	AddressZip         string           `json:"address_zip"`
-	AddressZipCheck    CardVerification `json:"address_zip_check"`
-	Brand              CardBrand        `json:"brand"`
-	CVCCheck           CardVerification `json:"cvc_check"`
-	Country            string           `json:"country"`
-	Currency           Currency         `json:"currency"`
-	Customer           *Customer        `json:"customer"`
-	DefaultForCurrency bool             `json:"default_for_currency"`
-	Deleted            bool             `json:"deleted"`
+	AddressCity            string                      `json:"address_city"`
+	AddressCountry         string                      `json:"address_country"`
+	AddressLine1           string                      `json:"address_line1"`
+	AddressLine1Check      CardVerification            `json:"address_line1_check"`
+	AddressLine2           string                      `json:"address_line2"`
+	AddressState           string                      `json:"address_state"`
+	AddressZip             string                      `json:"address_zip"`
+	AddressZipCheck        CardVerification            `json:"address_zip_check"`
+	AvailablePayoutMethods []CardAvailablePayoutMethod `json:"available_payout_methods"`
+	Brand                  CardBrand                   `json:"brand"`
+	CVCCheck               CardVerification            `json:"cvc_check"`
+	Country                string                      `json:"country"`
+	Currency               Currency                    `json:"currency"`
+	Customer               *Customer                   `json:"customer"`
+	DefaultForCurrency     bool                        `json:"default_for_currency"`
+	Deleted                bool                        `json:"deleted"`
 
 	// Description is a succinct summary of the card's information.
 	//
