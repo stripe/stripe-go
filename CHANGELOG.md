@@ -1,5 +1,8 @@
 # Changelog
 
+## 42.1.0 - 2018-08-22
+* [#664](https://github.com/stripe/stripe-go/pull/664) Add `AvailablePayoutMethods` to `Card`
+
 ## 42.0.0 - 2018-08-20
 * [#663](https://github.com/stripe/stripe-go/pull/663) Add support for usage record summaries and rename `Live` on `IssuerFraudRecord, `SourceTransaction`, and `UsageRecord` to `Livemode` (a minor breaking change)
 
