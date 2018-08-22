@@ -12,8 +12,8 @@ type CardAvailablePayoutMethod string
 
 // List of values that CardAvailablePayoutMethod can take.
 const (
-	CardAvailablePayoutMethodStandard CardAvailablePayoutMethod = "Standard"
 	CardAvailablePayoutMethodInstant  CardAvailablePayoutMethod = "Instant"
+	CardAvailablePayoutMethodStandard CardAvailablePayoutMethod = "Standard"
 )
 
 // CardBrand is the list of allowed values for the card's brand.
