@@ -1,5 +1,8 @@
 # Changelog
 
+## 42.2.0 - 2018-08-22
+* [#666](https://github.com/stripe/stripe-go/pull/666) Add `Subscription` to `SubscriptionItem`
+
 ## 42.1.0 - 2018-08-22
 * [#664](https://github.com/stripe/stripe-go/pull/664) Add `AvailablePayoutMethods` to `Card`
 
