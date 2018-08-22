@@ -22,12 +22,13 @@ type SubscriptionItemListParams struct {
 // SubscriptionItem is the resource representing a Stripe subscription item.
 // For more details see https://stripe.com/docs/api#subscription_items.
 type SubscriptionItem struct {
-	Created  int64             `json:"created"`
-	Deleted  bool              `json:"deleted"`
-	ID       string            `json:"id"`
-	Metadata map[string]string `json:"metadata"`
-	Plan     *Plan             `json:"plan"`
-	Quantity int64             `json:"quantity"`
+	Created      int64             `json:"created"`
+	Deleted      bool              `json:"deleted"`
+	ID           string            `json:"id"`
+	Metadata     map[string]string `json:"metadata"`
+	Plan         *Plan             `json:"plan"`
+	Quantity     int64             `json:"quantity"`
+	Subscription string            `json:"subscription"`
 }
 
 // SubscriptionItemList is a list of invoice items as retrieved from a list endpoint.
