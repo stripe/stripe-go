@@ -50,7 +50,7 @@ type CustomerShippingDetailsParams struct {
 
 // CustomerTaxInfoParams is the structure containing tax information for the customer.
 type CustomerTaxInfoParams struct {
-	TaxId *string `form:"tax_id"`
+	TaxID *string `form:"tax_id"`
 	Type  *string `form:"type"`
 }
 
@@ -73,21 +73,23 @@ type CustomerListParams struct {
 // Customer is the resource representing a Stripe customer.
 // For more details see https://stripe.com/docs/api#customers.
 type Customer struct {
-	AccountBalance int64                    `json:"account_balance"`
-	Created        int64                    `json:"created"`
-	Currency       Currency                 `json:"currency"`
-	DefaultSource  *PaymentSource           `json:"default_source"`
-	Deleted        bool                     `json:"deleted"`
-	Delinquent     bool                     `json:"delinquent"`
-	Description    string                   `json:"description"`
-	Discount       *Discount                `json:"discount"`
-	Email          string                   `json:"email"`
-	ID             string                   `json:"id"`
-	Livemode       bool                     `json:"livemode"`
-	Metadata       map[string]string        `json:"metadata"`
-	Shipping       *CustomerShippingDetails `json:"shipping"`
-	Sources        *SourceList              `json:"sources"`
-	Subscriptions  *SubscriptionList        `json:"subscriptions"`
+	AccountBalance      int64                        `json:"account_balance"`
+	Created             int64                        `json:"created"`
+	Currency            Currency                     `json:"currency"`
+	DefaultSource       *PaymentSource               `json:"default_source"`
+	Deleted             bool                         `json:"deleted"`
+	Delinquent          bool                         `json:"delinquent"`
+	Description         string                       `json:"description"`
+	Discount            *Discount                    `json:"discount"`
+	Email               string                       `json:"email"`
+	ID                  string                       `json:"id"`
+	Livemode            bool                         `json:"livemode"`
+	Metadata            map[string]string            `json:"metadata"`
+	Shipping            *CustomerShippingDetails     `json:"shipping"`
+	Sources             *SourceList                  `json:"sources"`
+	Subscriptions       *SubscriptionList            `json:"subscriptions"`
+	TaxInfo             *CustomerTaxInfo             `json:"tax_info"`
+	TaxInfoVerification *CustomerTaxInfoVerification `json:"tax_info_verification"`
 }
 
 // CustomerList is a list of customers as retrieved from a list endpoint.
@@ -105,11 +107,11 @@ type CustomerShippingDetails struct {
 
 // CustomerTaxInfo is the structure containing tax information for the customer.
 type CustomerTaxInfo struct {
-	TaxId string              `json:"tax_info"`
+	TaxID string              `json:"tax_info"`
 	Type  CustomerTaxInfoType `json:"type"`
 }
 
-// CustomerTaxInfo is the structure containing tax verification for the customer.
+// CustomerTaxInfoVerification is the structure containing tax verification for the customer.
 type CustomerTaxInfoVerification struct {
 	Status       CustomerTaxInfoVerificationStatus `json:"status"`
 	VerifiedName string                            `json:"verified_name"`
