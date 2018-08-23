@@ -4,6 +4,24 @@ import (
 	"encoding/json"
 )
 
+// CustomerTaxInfoType is the type of tax info associated with a customer.
+type CustomerTaxInfoType string
+
+// List of values that CustomerTaxInfoType can take.
+const (
+	CustomerTaxInfoTypeVAT CustomerTaxInfoType = "vat"
+)
+
+// CustomerTaxInfoVerificationStatus is the type of tax info associated with a customer.
+type CustomerTaxInfoVerificationStatus string
+
+// List of values that CustomerTaxInfoType can take.
+const (
+	CustomerTaxInfoVerificationStatusPending    CustomerTaxInfoVerificationStatus = "pending"
+	CustomerTaxInfoVerificationStatusUnverified CustomerTaxInfoVerificationStatus = "unverified"
+	CustomerTaxInfoVerificationStatusVerified   CustomerTaxInfoVerificationStatus = "verified"
+)
+
 // CustomerParams is the set of parameters that can be used when creating or updating a customer.
 // For more details see https://stripe.com/docs/api#create_customer and https://stripe.com/docs/api#update_customer.
 type CustomerParams struct {
@@ -17,6 +35,7 @@ type CustomerParams struct {
 	Quantity       *int64                         `form:"quantity"`
 	Shipping       *CustomerShippingDetailsParams `form:"shipping"`
 	Source         *SourceParams                  `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	TaxInfo        *CustomerTaxInfoParams         `form:"tax_info"`
 	TaxPercent     *float64                       `form:"tax_percent"`
 	Token          *string                        `form:"-"` // This doesn't seem to be used?
 	TrialEnd       *int64                         `form:"trial_end"`
@@ -27,6 +46,12 @@ type CustomerShippingDetailsParams struct {
 	Address *AddressParams `form:"address"`
 	Name    *string        `form:"name"`
 	Phone   *string        `form:"phone"`
+}
+
+// CustomerTaxInfoParams is the structure containing tax information for the customer.
+type CustomerTaxInfoParams struct {
+	TaxId *string `form:"tax_id"`
+	Type  *string `form:"type"`
 }
 
 // SetSource adds valid sources to a CustomerParams object,
@@ -76,6 +101,18 @@ type CustomerShippingDetails struct {
 	Address Address `json:"address"`
 	Name    string  `json:"name"`
 	Phone   string  `json:"phone"`
+}
+
+// CustomerTaxInfo is the structure containing tax information for the customer.
+type CustomerTaxInfo struct {
+	TaxId string              `json:"tax_info"`
+	Type  CustomerTaxInfoType `json:"type"`
+}
+
+// CustomerTaxInfo is the structure containing tax verification for the customer.
+type CustomerTaxInfoVerification struct {
+	Status       CustomerTaxInfoVerificationStatus `json:"status"`
+	VerifiedName string                            `json:"verified_name"`
 }
 
 // UnmarshalJSON handles deserialization of a Customer.
