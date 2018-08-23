@@ -1,5 +1,12 @@
 # Changelog
 
+## 43.0.0 - 2018-08-23
+* [#668](https://github.com/stripe/stripe-go/pull/668) Move to API version 2018-08-23
+    * Add `TaxInfo` and `TaxInfoVerification` to `Customer`
+	* Rename `Amount` to `UnitAmount` on `PlanTierParams`
+	* Remove `BusinessVATID` from `Customer`
+	* Remove `AtPeriodEnd` from `SubscriptionCancelParams`
+
 ## 42.3.0 - 2018-08-23
 * [#667](https://github.com/stripe/stripe-go/pull/667) Add `Forgive` to `InvoicePayParams`
 
