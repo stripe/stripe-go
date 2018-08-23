@@ -1,5 +1,8 @@
 # Changelog
 
+## 42.3.0 - 2018-08-23
+* [#667](https://github.com/stripe/stripe-go/pull/667) Add `Forgive` to `InvoicePayParams`
+
 ## 42.2.0 - 2018-08-22
 * [#666](https://github.com/stripe/stripe-go/pull/666) Add `Subscription` to `SubscriptionItem`
 
