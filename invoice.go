@@ -186,8 +186,9 @@ type InvoiceLineList struct {
 // paying invoices. For more details, see:
 // https://stripe.com/docs/api#pay_invoice.
 type InvoicePayParams struct {
-	Params `form:"*"`
-	Source *string `form:"source"`
+	Params  `form:"*"`
+	Forgive *bool   `form:"forgive"`
+	Source  *string `form:"source"`
 }
 
 // UnmarshalJSON handles deserialization of an Invoice.
