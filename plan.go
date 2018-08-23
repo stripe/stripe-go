@@ -128,8 +128,8 @@ type PlanParams struct {
 
 // PlanTier configures tiered pricing
 type PlanTier struct {
-	Amount int64 `json:"amount"`
-	UpTo   int64 `json:"up_to"`
+	UnitAmount int64 `json:"unit_amount"`
+	UpTo       int64 `json:"up_to"`
 }
 
 // PlanTransformUsage represents the bucket billing configuration.
@@ -146,10 +146,10 @@ type PlanTransformUsageParams struct {
 
 // PlanTierParams configures tiered pricing
 type PlanTierParams struct {
-	Params  `form:"*"`
-	Amount  *int64 `form:"amount"`
-	UpTo    *int64 `form:"-"` // handled in custom AppendTo
-	UpToInf *bool  `form:"-"` // handled in custom AppendTo
+	Params     `form:"*"`
+	UnitAmount *int64 `form:"unit_amount"`
+	UpTo       *int64 `form:"-"` // handled in custom AppendTo
+	UpToInf    *bool  `form:"-"` // handled in custom AppendTo
 }
 
 // AppendTo implements custom up_to serialisation logic for tiers configuration

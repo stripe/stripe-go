@@ -58,8 +58,7 @@ type SubscriptionParams struct {
 // SubscriptionCancelParams is the set of parameters that can be used when canceling a subscription.
 // For more details see https://stripe.com/docs/api#cancel_subscription
 type SubscriptionCancelParams struct {
-	Params      `form:"*"`
-	AtPeriodEnd *bool `form:"at_period_end"`
+	Params `form:"*"`
 }
 
 // AppendTo implements custom encoding logic for SubscriptionParams so that the special

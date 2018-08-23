@@ -42,11 +42,11 @@ func TestPlanNew(t *testing.T) {
 			StatementDescriptor: stripe.String("statement descriptor"),
 		},
 		Tiers: []*stripe.PlanTierParams{
-			{Amount: stripe.Int64(500), UpTo: stripe.Int64(5)},
-			{Amount: stripe.Int64(400), UpTo: stripe.Int64(10)},
-			{Amount: stripe.Int64(300), UpTo: stripe.Int64(15)},
-			{Amount: stripe.Int64(200), UpTo: stripe.Int64(20)},
-			{Amount: stripe.Int64(200), UpToInf: stripe.Bool(true)},
+			{UnitAmount: stripe.Int64(500), UpTo: stripe.Int64(5)},
+			{UnitAmount: stripe.Int64(400), UpTo: stripe.Int64(10)},
+			{UnitAmount: stripe.Int64(300), UpTo: stripe.Int64(15)},
+			{UnitAmount: stripe.Int64(200), UpTo: stripe.Int64(20)},
+			{UnitAmount: stripe.Int64(200), UpToInf: stripe.Bool(true)},
 		},
 	})
 	assert.Nil(t, err)

@@ -45,8 +45,8 @@ func TestPlanParams_AppendTo(t *testing.T) {
 		StatementDescriptor: String("SAPPHIRE"),
 	}
 	tiers := []*PlanTierParams{
-		{Amount: Int64(123), UpTo: Int64(321)},
-		{Amount: Int64(123), UpToInf: Bool(true)}}
+		{UnitAmount: Int64(123), UpTo: Int64(321)},
+		{UnitAmount: Int64(123), UpToInf: Bool(true)}}
 	testCases := []struct {
 		field  string
 		params *PlanParams
@@ -62,9 +62,9 @@ func TestPlanParams_AppendTo(t *testing.T) {
 		{"product[name]", &PlanParams{Product: &productParams}, "Sapphire Elite"},
 		{"product[statement_descriptor]", &PlanParams{Product: &productParams}, "SAPPHIRE"},
 		{"product", &PlanParams{ProductID: String("prod_123abc")}, "prod_123abc"}, {"tiers_mode", &PlanParams{TiersMode: String(string(PlanTiersModeVolume))}, "volume"},
-		{"tiers[0][amount]", &PlanParams{Tiers: tiers}, strconv.FormatUint(123, 10)},
+		{"tiers[0][unit_amount]", &PlanParams{Tiers: tiers}, strconv.FormatUint(123, 10)},
 		{"tiers[0][up_to]", &PlanParams{Tiers: tiers}, strconv.FormatUint(321, 10)},
-		{"tiers[1][amount]", &PlanParams{Tiers: tiers}, strconv.FormatUint(123, 10)},
+		{"tiers[1][unit_amount]", &PlanParams{Tiers: tiers}, strconv.FormatUint(123, 10)},
 		{"tiers[1][up_to]", &PlanParams{Tiers: tiers}, "inf"},
 		{"transform_usage[divide_by]", &PlanParams{TransformUsage: &PlanTransformUsageParams{DivideBy: Int64(123), Round: String("round_up")}}, strconv.FormatUint(123, 10)},
 		{"transform_usage[round]", &PlanParams{TransformUsage: &PlanTransformUsageParams{DivideBy: Int64(123), Round: String("round_up")}}, "round_up"},
