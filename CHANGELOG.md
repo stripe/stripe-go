@@ -1,5 +1,8 @@
 # Changelog
 
+## 44.0.0 - 2018-08-28
+* [#678](https://github.com/stripe/stripe-go/pull/678) Allow payment intent capture to take its own parameters
+
 ## 43.1.1 - 2018-08-28
 * [#675](https://github.com/stripe/stripe-go/pull/675) Fix incorrectly encoded parameter in `UsageRecordSummaryListParams`
 
