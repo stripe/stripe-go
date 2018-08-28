@@ -37,7 +37,7 @@ func TestBankAccountGet_ByCustomer(t *testing.T) {
 }
 
 func TestBankAccountList_ByAccount(t *testing.T) {
-	i := List(&stripe.BankAccountListParams{Customer: stripe.String("acct_123")})
+	i := List(&stripe.BankAccountListParams{Account: stripe.String("acct_123")})
 
 	// Verify that we can get at least one bank account
 	assert.True(t, i.Next())
