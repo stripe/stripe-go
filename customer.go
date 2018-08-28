@@ -107,7 +107,7 @@ type CustomerShippingDetails struct {
 
 // CustomerTaxInfo is the structure containing tax information for the customer.
 type CustomerTaxInfo struct {
-	TaxID string              `json:"tax_info"`
+	TaxID string              `json:"tax_id"`
 	Type  CustomerTaxInfoType `json:"type"`
 }
 
