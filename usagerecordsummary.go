@@ -15,7 +15,7 @@ type UsageRecordSummary struct {
 // UsageRecordSummaryListParams is the set of parameters that can be used when listing charges.
 type UsageRecordSummaryListParams struct {
 	ListParams       `form:"*"`
-	SubscriptionItem *string `form:"subscription_item"`
+	SubscriptionItem *string `form:"-"` // Sent in with the URL
 }
 
 // UsageRecordSummaryList is a list of usage record summaries as retrieved from a list endpoint.

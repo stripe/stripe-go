@@ -8,7 +8,7 @@ import (
 	_ "github.com/stripe/stripe-go/testing"
 )
 
-func TestUsageRecordList(t *testing.T) {
+func TestUsageRecordSummaryList(t *testing.T) {
 	params := &stripe.UsageRecordSummaryListParams{
 		SubscriptionItem: stripe.String("si_123"),
 	}
