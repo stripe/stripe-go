@@ -1,5 +1,9 @@
 # Changelog
 
+## 43.1.0 - 2018-08-28
+* [#669](https://github.com/stripe/stripe-go/pull/669) Add `AuthorizationCode` to `Charge`
+* [#671](https://github.com/stripe/stripe-go/pull/671) Fix deserialization of `TaxID` on `CustomerTaxInfo`
+
 ## 43.0.0 - 2018-08-23
 * [#668](https://github.com/stripe/stripe-go/pull/668) Move to API version 2018-08-23
     * Add `TaxInfo` and `TaxInfoVerification` to `Customer`
