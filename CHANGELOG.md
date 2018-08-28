@@ -1,5 +1,8 @@
 # Changelog
 
+## 43.1.1 - 2018-08-28
+* [#675](https://github.com/stripe/stripe-go/pull/675) Fix incorrectly encoded parameter in `UsageRecordSummaryListParams`
+
 ## 43.1.0 - 2018-08-28
 * [#669](https://github.com/stripe/stripe-go/pull/669) Add `AuthorizationCode` to `Charge`
 * [#671](https://github.com/stripe/stripe-go/pull/671) Fix deserialization of `TaxID` on `CustomerTaxInfo`
