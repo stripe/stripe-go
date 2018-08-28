@@ -44,6 +44,14 @@ const (
 	PaymentIntentStatusSucceeded            PaymentIntentStatus = "succeeded"
 )
 
+// PaymentIntentCaptureParams is the set of parameters that can be used when capturing a payment intent.
+type PaymentIntentCaptureParams struct {
+	Params               `form:"*"`
+	AmountToCapture      *int64                           `form:"amount_to_capture"`
+	ApplicationFeeAmount *int64                           `form:"application_fee_amount"`
+	TransferData         *PaymentIntentTransferDataParams `form:"transfer_data"`
+}
+
 // PaymentIntentTransferDataParams is the set of parameters allowed for the transfer hash.
 type PaymentIntentTransferDataParams struct {
 	Amount *int64 `form:"amount"`
@@ -52,23 +60,22 @@ type PaymentIntentTransferDataParams struct {
 // PaymentIntentParams is the set of parameters that can be used when handling a payment intent.
 type PaymentIntentParams struct {
 	Params               `form:"*"`
-	AllowedSourceTypes   []*string                        `form:"allowed_source_types"`
-	Amount               *int64                           `form:"amount"`
-	ApplicationFee       *int64                           `form:"application_fee"`
-	AttemptConfirmation  *bool                            `form:"attempt_confirmation"`
-	CaptureMethod        *string                          `form:"capture_method"`
-	Currency             *string                          `form:"currency"`
-	Customer             *string                          `form:"customer"`
-	Description          *string                          `form:"description"`
-	OnBehalfOf           *string                          `form:"on_behalf_of"`
-	ReceiptEmail         *string                          `form:"receipt_email"`
-	ReturnURL            *string                          `form:"return_url"`
-	SaveSourceToCustomer *bool                            `form:"save_source_to_customer"`
-	Shipping             *ShippingDetailsParams           `form:"shipping"`
-	Source               *string                          `form:"source"`
-	StatementDescriptor  *string                          `form:"statement_descriptor"`
-	TransferData         *PaymentIntentTransferDataParams `form:"transfer_data"`
-	TransferGroup        *string                          `form:"transfer_group"`
+	AllowedSourceTypes   []*string              `form:"allowed_source_types"`
+	Amount               *int64                 `form:"amount"`
+	ApplicationFeeAmount *int64                 `form:"application_fee_amount"`
+	AttemptConfirmation  *bool                  `form:"attempt_confirmation"`
+	CaptureMethod        *string                `form:"capture_method"`
+	Currency             *string                `form:"currency"`
+	Customer             *string                `form:"customer"`
+	Description          *string                `form:"description"`
+	OnBehalfOf           *string                `form:"on_behalf_of"`
+	ReceiptEmail         *string                `form:"receipt_email"`
+	ReturnURL            *string                `form:"return_url"`
+	SaveSourceToCustomer *bool                  `form:"save_source_to_customer"`
+	Shipping             *ShippingDetailsParams `form:"shipping"`
+	Source               *string                `form:"source"`
+	StatementDescriptor  *string                `form:"statement_descriptor"`
+	TransferGroup        *string                `form:"transfer_group"`
 }
 
 // PaymentIntentListParams is the set of parameters that can be used when listing payment intents.
