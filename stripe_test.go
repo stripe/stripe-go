@@ -41,14 +41,16 @@ func TestContext_Cancel(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	p := &stripe.Params{Context: ctx}
 
-	req, err := c.NewRequest("", "", "", "", p)
+	req, err := c.NewRequest("GET", "/charges", "sk_test_123", "application/x-www-form-urlencoded", p)
 	assert.NoError(t, err)
 
 	assert.Equal(t, ctx, req.Context())
 
-	// Cancel the context before we even try to start the request. This will
-	// cause it to immediately return an error and also avoid any kind of race
-	// condition.
+	// Cancel the context before we even try to start the request.
+	// Unfortunately, this doesn't seem to completely avoid a race condition
+	// even if it seems like it should, so the request we make should be
+	// relatively long lived so that the context cancellation wins (make
+	// stripe-mock do some work by processing a lis at `/v1/charges`t).
 	cancel()
 
 	var v interface{}
