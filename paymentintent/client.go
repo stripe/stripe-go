@@ -68,12 +68,12 @@ func (c Client) Cancel(id string, params *stripe.PaymentIntentParams) (*stripe.P
 }
 
 // Capture captures a payment intent.
-func Capture(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
+func Capture(id string, params *stripe.PaymentIntentCaptureParams) (*stripe.PaymentIntent, error) {
 	return getC().Capture(id, params)
 }
 
 // Capture captures a payment intent.
-func (c Client) Capture(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
+func (c Client) Capture(id string, params *stripe.PaymentIntentCaptureParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/payment_intents/%s/capture", id)
 	intent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, intent)
