@@ -1,5 +1,8 @@
 # Changelog
 
+## 45.0.0 - 2018-08-30
+* [#680](https://github.com/stripe/stripe-go/pull/680) Change `SubscriptionTaxPercent` on `Invoice` from `int64` to `float64` (minor breaking change)
+
 ## 44.0.0 - 2018-08-28
 * [#678](https://github.com/stripe/stripe-go/pull/678) Allow payment intent capture to take its own parameters
 
