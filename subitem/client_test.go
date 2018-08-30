@@ -21,7 +21,9 @@ func TestSubscriptionItemGet(t *testing.T) {
 }
 
 func TestSubscriptionItemList(t *testing.T) {
-	i := List(&stripe.SubscriptionItemListParams{})
+	i := List(&stripe.SubscriptionItemListParams{
+		Subscription: stripe.String("sub_123"),
+	})
 
 	// Verify that we can get at least one item
 	assert.True(t, i.Next())
