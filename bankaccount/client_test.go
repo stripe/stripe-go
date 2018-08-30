@@ -24,19 +24,16 @@ func TestBankAccountDel_ByCustomer(t *testing.T) {
 	assert.NotNil(t, bankAcount)
 }
 
-func TestBankAccountGet_ByCustomer(t *testing.T) {
-	bankAcount, err := Get("ba_123", &stripe.BankAccountParams{Customer: stripe.String("cus_123")})
+func TestBankAccountGet_ByAccount(t *testing.T) {
+	bankAcount, err := Get("ba_123", &stripe.BankAccountParams{Account: stripe.String("acct_123")})
 	assert.Nil(t, err)
 	assert.NotNil(t, bankAcount)
 }
 
-func TestBankAccountList_ByAccount(t *testing.T) {
-	i := List(&stripe.BankAccountListParams{Account: stripe.String("acct_123")})
-
-	// Verify that we can get at least one bank account
-	assert.True(t, i.Next())
-	assert.Nil(t, i.Err())
-	assert.NotNil(t, i.BankAccount())
+func TestBankAccountGet_ByCustomer(t *testing.T) {
+	bankAcount, err := Get("ba_123", &stripe.BankAccountParams{Customer: stripe.String("cus_123")})
+	assert.Nil(t, err)
+	assert.NotNil(t, bankAcount)
 }
 
 func TestBankAccountList_ByCustomer(t *testing.T) {
