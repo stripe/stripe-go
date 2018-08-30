@@ -70,7 +70,7 @@ type InvoiceParams struct {
 	SubscriptionProrate            *bool                             `form:"subscription_prorate"`
 	SubscriptionProrationDate      *int64                            `form:"subscription_proration_date"`
 	SubscriptionQuantity           *int64                            `form:"subscription_quantity"`
-	SubscriptionTaxPercent         *int64                            `form:"subscription_tax_percent"`
+	SubscriptionTaxPercent         *float64                          `form:"subscription_tax_percent"`
 	SubscriptionTrialEnd           *int64                            `form:"subscription_trial_end"`
 	SubscriptionTrialFromPlan      *bool                             `form:"subscription_trial_from_plan"`
 }
