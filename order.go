@@ -139,12 +139,25 @@ type OrderList struct {
 
 // OrderListParams is the set of parameters that can be used when listing orders.
 type OrderListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	Customer     *string           `form:"customer"`
-	IDs          []*string         `form:"ids"`
-	Status       *string           `form:"status"`
+	ListParams        `form:"*"`
+	Created           *int64                         `form:"created"`
+	CreatedRange      *RangeQueryParams              `form:"created"`
+	Customer          *string                        `form:"customer"`
+	IDs               []*string                      `form:"ids"`
+	Status            *string                        `form:"status"`
+	StatusTransitions *StatusTransitionsFilterParams `form:"status_transitions"`
+}
+
+// StatusTransitionsFilterParams are parameters that can used to filter on status_transition when listing orders.
+type StatusTransitionsFilterParams struct {
+	Canceled       *int64            `form:"canceled"`
+	CanceledRange  *RangeQueryParams `form:"canceled"`
+	Fulfilled      *int64            `form:"fulfilled"`
+	FulfilledRange *RangeQueryParams `form:"fulfilled"`
+	Paid           *int64            `form:"paid"`
+	PaidRange      *RangeQueryParams `form:"paid"`
+	Returned       *int64            `form:"returned"`
+	ReturnedRange  *RangeQueryParams `form:"returned"`
 }
 
 // StatusTransitions are the timestamps at which the order status was updated.
