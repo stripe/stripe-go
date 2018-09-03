@@ -20,8 +20,20 @@ func TestSourceNew(t *testing.T) {
 		Amount:   stripe.Int64(1000),
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
 		Flow:     stripe.String(string(stripe.SourceFlowReceiver)),
+		Mandate: &stripe.SourceMandateParams{
+			Acceptance: &stripe.SourceMandateAcceptanceParams{
+				Date:      stripe.Int64(1528573382),
+				IP:        stripe.String("127.0.0.1"),
+				Status:    stripe.String(string(stripe.SourceMandateAcceptanceStatusAccepted)),
+				UserAgent: stripe.String("User-Agent"),
+			},
+			NotificationMethod: stripe.String(string(stripe.SourceMandateNotificationMethodNone)),
+		},
 		Owner: &stripe.SourceOwnerParams{
 			Email: stripe.String("jenny.rosen@example.com"),
+		},
+		Receiver: &stripe.SourceReceiverParams{
+			RefundAttributesMethod: stripe.String(string(stripe.SourceRefundAttributesMethodManual)),
 		},
 	})
 	assert.Nil(t, err)

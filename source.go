@@ -36,6 +36,16 @@ const (
 	SourceMandateAcceptanceStatusRefused  SourceMandateAcceptanceStatus = "refused"
 )
 
+// SourceMandateNotificationMethod represents the possible methods of notification for a mandate.
+type SourceMandateNotificationMethod string
+
+// List of values that SourceMandateNotificationMethod can take.
+const (
+	SourceMandateNotificationMethodEmail  SourceMandateNotificationMethod = "email"
+	SourceMandateNotificationMethodManual SourceMandateNotificationMethod = "manual"
+	SourceMandateNotificationMethodNone   SourceMandateNotificationMethod = "none"
+)
+
 // SourceRedirectFlowFailureReason represents the possible failure reasons of a redirect flow.
 type SourceRedirectFlowFailureReason string
 
@@ -115,18 +125,42 @@ type RedirectParams struct {
 // SourceObjectParams is the set of parameters allowed on source creation or update.
 type SourceObjectParams struct {
 	Params              `form:"*"`
-	Amount              *int64             `form:"amount"`
-	Currency            *string            `form:"currency"`
-	Customer            *string            `form:"customer"`
-	Flow                *string            `form:"flow"`
-	OriginalSource      *string            `form:"original_source"`
-	Owner               *SourceOwnerParams `form:"owner"`
-	Redirect            *RedirectParams    `form:"redirect"`
-	StatementDescriptor *string            `form:"statement_descriptor"`
-	Token               *string            `form:"token"`
-	Type                *string            `form:"type"`
-	TypeData            map[string]string  `form:"-"`
-	Usage               *string            `form:"usage"`
+	Amount              *int64                `form:"amount"`
+	Currency            *string               `form:"currency"`
+	Customer            *string               `form:"customer"`
+	Flow                *string               `form:"flow"`
+	Mandate             *SourceMandateParams  `form:"mandate"`
+	OriginalSource      *string               `form:"original_source"`
+	Owner               *SourceOwnerParams    `form:"owner"`
+	Receiver            *SourceReceiverParams `form:"receiver"`
+	Redirect            *RedirectParams       `form:"redirect"`
+	StatementDescriptor *string               `form:"statement_descriptor"`
+	Token               *string               `form:"token"`
+	Type                *string               `form:"type"`
+	TypeData            map[string]string     `form:"-"`
+	Usage               *string               `form:"usage"`
+}
+
+// SourceMandateAcceptanceParams describes the set of parameters allowed for the `acceptance`
+// hash on source creation or update.
+type SourceMandateAcceptanceParams struct {
+	Date      *int64  `form:"date"`
+	IP        *string `form:"ip"`
+	Status    *string `form:"status"`
+	UserAgent *string `form:"user_agent"`
+}
+
+// SourceMandateParams describes the set of parameters allowed for the `mandate` hash on
+// source creation or update.
+type SourceMandateParams struct {
+	Acceptance         *SourceMandateAcceptanceParams `form:"acceptance"`
+	NotificationMethod *string                        `form:"notification_method"`
+}
+
+// SourceReceiverParams is the set of parameters allowed for the `receiver` hash on
+// source creation or update.
+type SourceReceiverParams struct {
+	RefundAttributesMethod *string `form:"refund_attributes_method"`
 }
 
 // SourceObjectDetachParams is the set of parameters that can be used when detaching
@@ -174,7 +208,7 @@ type CodeVerificationFlow struct {
 
 // SourceMandateAcceptance describes a source mandate acceptance state.
 type SourceMandateAcceptance struct {
-	Date      string                        `json:"date"`
+	Date      int64                         `json:"date"`
 	IP        string                        `json:"ip"`
 	Status    SourceMandateAcceptanceStatus `json:"status"`
 	UserAgent string                        `json:"user_agent"`
@@ -182,10 +216,10 @@ type SourceMandateAcceptance struct {
 
 // SourceMandate describes a source mandate.
 type SourceMandate struct {
-	Acceptance         *SourceMandateAcceptance `json:"acceptance"`
-	NotificationMethod string                   `json:"notification_method"`
-	Reference          string                   `json:"reference"`
-	URL                string                   `json:"url"`
+	Acceptance         *SourceMandateAcceptance        `json:"acceptance"`
+	NotificationMethod SourceMandateNotificationMethod `json:"notification_method"`
+	Reference          string                          `json:"reference"`
+	URL                string                          `json:"url"`
 }
 
 // Source is the resource representing a Source.
