@@ -79,6 +79,21 @@ func TestBankAccountParams_AppendToAsSourceOrExternalAccount(t *testing.T) {
 		assert.Equal(t, []string{"individual"}, body.Get("external_account[account_holder_type]"))
 	}
 
+	// Includes Params
+	{
+		params := &BankAccountParams{
+			Params: Params{
+				Metadata: map[string]string{
+					"foo": "bar",
+				},
+			},
+		}
+		body := &form.Values{}
+		params.AppendToAsSourceOrExternalAccount(body)
+		t.Logf("body = %+v", body)
+		assert.Equal(t, []string{"bar"}, body.Get("metadata[foo]"))
+	}
+
 	// Does not include account_holder_name if empty
 	{
 		params := &BankAccountParams{}
