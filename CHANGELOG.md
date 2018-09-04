@@ -1,5 +1,8 @@
 # Changelog
 
+## 47.0.0 - 2018-09-04
+* New major version for better compatibility with Go's new module system (no breaking changes)
+
 ## 46.1.0 - 2018-09-04
 * [#688](https://github.com/stripe/stripe-go/pull/688) Encode `Params` in `AppendToAsSourceOrExternalAccount` (bug fix)
 * [#689](https://github.com/stripe/stripe-go/pull/689) Add `go.mod` for the new module system
