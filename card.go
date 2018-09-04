@@ -108,6 +108,9 @@ type CardParams struct {
 // because the cards endpoint is a little unusual. There is one other resource
 // like it, which is bank account.
 func (c *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, keyParts []string) {
+	// Rather than being called in addition to `AppendTo`, this function
+	// *replaces* `AppendTo`, so we must also make sure to handle the encoding
+	// of `Params` so metadata and the like is included in the encoded payload.
 	form.AppendToPrefixed(body, c.Params, keyParts)
 
 	if c.DefaultForCurrency != nil {

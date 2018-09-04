@@ -71,6 +71,11 @@ type BankAccountParams struct {
 // because the bank accounts endpoint is a little unusual. There is one other
 // resource like it, which is cards.
 func (a *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values) {
+	// Rather than being called in addition to `AppendTo`, this function
+	// *replaces* `AppendTo`, so we must also make sure to handle the encoding
+	// of `Params` so metadata and the like is included in the encoded payload.
+	form.AppendTo(body, a.Params)
+
 	isCustomer := a.Customer != nil
 
 	var sourceType string
