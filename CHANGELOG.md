@@ -1,5 +1,8 @@
 # Changelog
 
+## 46.0.0 - 2018-09-04
+* [#686](https://github.com/stripe/stripe-go/pull/686) Add `Mandate` and `Receiver` to `SourceObjectParams` and change `Date` on `SourceMandateAcceptance` to `int64` (minor breaking change)
+
 ## 45.0.0 - 2018-08-30
 * [#680](https://github.com/stripe/stripe-go/pull/680) Change `SubscriptionTaxPercent` on `Invoice` from `int64` to `float64` (minor breaking change)
 
