@@ -1,5 +1,9 @@
 # Changelog
 
+## 46.1.0 - 2018-09-04
+* [#688](https://github.com/stripe/stripe-go/pull/688) Encode `Params` in `AppendToAsSourceOrExternalAccount` (bug fix)
+* [#689](https://github.com/stripe/stripe-go/pull/689) Add `go.mod` for the new module system
+
 ## 46.0.0 - 2018-09-04
 * [#686](https://github.com/stripe/stripe-go/pull/686) Add `Mandate` and `Receiver` to `SourceObjectParams` and change `Date` on `SourceMandateAcceptance` to `int64` (minor breaking change)
 
