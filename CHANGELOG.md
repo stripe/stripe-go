@@ -1,5 +1,8 @@
 # Changelog
 
+## 48.1.0 - 2018-09-05
+* [#683](https://github.com/stripe/stripe-go/pull/683) Add `StatusTransitions` filter parameters to `OrderListParams`
+
 ## 48.0.0 - 2018-09-05
 * [#681](https://github.com/stripe/stripe-go/pull/681) Handle deserialization of `OrderItem` parent into an object if expanded (minor breaking change)
 
