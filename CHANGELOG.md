@@ -1,5 +1,8 @@
 # Changelog
 
+## 48.0.0 - 2018-09-05
+* [#681](https://github.com/stripe/stripe-go/pull/681) Handle deserialization of `OrderItem` parent into an object if expanded (minor breaking change)
+
 ## 47.0.0 - 2018-09-04
 * New major version for better compatibility with Go's new module system (no breaking changes)
 
