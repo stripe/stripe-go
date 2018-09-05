@@ -1,5 +1,8 @@
 # Changelog
 
+## 48.2.0 - 2018-09-05
+* [#690](https://github.com/stripe/stripe-go/pull/690) Add support for reporting resources
+
 ## 48.1.0 - 2018-09-05
 * [#683](https://github.com/stripe/stripe-go/pull/683) Add `StatusTransitions` filter parameters to `OrderListParams`
 
