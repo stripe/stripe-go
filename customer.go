@@ -31,6 +31,7 @@ type CustomerParams struct {
 	DefaultSource  *string                        `form:"default_source"`
 	Description    *string                        `form:"description"`
 	Email          *string                        `form:"email"`
+	InvoicePrefix  *string                        `form:"invoice_prefix"`
 	Plan           *string                        `form:"plan"`
 	Quantity       *int64                         `form:"quantity"`
 	Shipping       *CustomerShippingDetailsParams `form:"shipping"`
@@ -83,6 +84,7 @@ type Customer struct {
 	Discount            *Discount                    `json:"discount"`
 	Email               string                       `json:"email"`
 	ID                  string                       `json:"id"`
+	InvoicePrefix       string                       `json:"invoice_prefix"`
 	Livemode            bool                         `json:"livemode"`
 	Metadata            map[string]string            `json:"metadata"`
 	Shipping            *CustomerShippingDetails     `json:"shipping"`
