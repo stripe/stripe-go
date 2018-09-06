@@ -1,5 +1,8 @@
 # Changelog
 
+## 48.3.0 - 2018-09-06
+* [#691](https://github.com/stripe/stripe-go/pull/691) Add `InvoicePrefix` to `Customer` and `CustomerParams`
+
 ## 48.2.0 - 2018-09-05
 * [#690](https://github.com/stripe/stripe-go/pull/690) Add support for reporting resources
 
