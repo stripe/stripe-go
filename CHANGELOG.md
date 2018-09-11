@@ -1,5 +1,8 @@
 # Changelog
 
+## 49.0.0 - 2018-09-11
+* [#693](https://github.com/stripe/stripe-go/pull/693) Change `Product` under `Plan` from a string to a full `Product` struct pointer (this is a minor breaking change -- upgrade by changing to `plan.Product.ID`)
+
 ## 48.3.0 - 2018-09-06
 * [#691](https://github.com/stripe/stripe-go/pull/691) Add `InvoicePrefix` to `Customer` and `CustomerParams`
 
