@@ -34,6 +34,7 @@ const (
 	ErrorCodeMissing            ErrorCode = "missing"
 	ErrorCodeProcessingError    ErrorCode = "processing_error"
 	ErrorCodeRateLimit          ErrorCode = "rate_limit"
+	ErrorCodeResourceMissing    ErrorCode = "resource_missing"
 )
 
 // Error is the response returned when a call is unsuccessful.
