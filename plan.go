@@ -80,7 +80,7 @@ type Plan struct {
 	Livemode        bool                `json:"livemode"`
 	Metadata        map[string]string   `json:"metadata"`
 	Nickname        string              `json:"nickname"`
-	Product         string              `json:"product"`
+	Product         *Product            `json:"product"`
 	Tiers           []*PlanTier         `json:"tiers"`
 	TiersMode       string              `json:"tiers_mode"`
 	TransformUsage  *PlanTransformUsage `json:"transform_usage"`
