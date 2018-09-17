@@ -1,0 +1,51 @@
+package location
+
+import (
+	"testing"
+
+	assert "github.com/stretchr/testify/require"
+	stripe "github.com/stripe/stripe-go"
+	_ "github.com/stripe/stripe-go/testing"
+)
+
+func TestTerminalLocationGet(t *testing.T) {
+	location, err := Get("loc_123", nil)
+	assert.Nil(t, err)
+	assert.NotNil(t, location)
+	assert.Equal(t, "terminal.location", location.Object)
+}
+
+func TestTerminalLocationList(t *testing.T) {
+	i := List(&stripe.TerminalLocationListParams{})
+
+	// Verify that we can get at least one location
+	assert.True(t, i.Next())
+	assert.Nil(t, i.Err())
+	assert.NotNil(t, i.TerminalLocation())
+	assert.Equal(t, "terminal.location", i.TerminalLocation().Object)
+}
+
+func TestTerminalLocationNew(t *testing.T) {
+	location, err := New(&stripe.TerminalLocationParams{
+		DisplayName: stripe.String("name"),
+		Address: &stripe.AccountAddressParams{
+			Country:    stripe.String("US"),
+			City:       stripe.String("San Francisco"),
+			PostalCode: stripe.String("12345"),
+			Line1:      stripe.String("line-1"),
+			State:      stripe.String("CA"),
+		},
+	})
+	assert.Nil(t, err)
+	assert.NotNil(t, location)
+	assert.Equal(t, "terminal.location", location.Object)
+}
+
+func TestTerminalLocationUpdate(t *testing.T) {
+	location, err := Update("loc_123", &stripe.TerminalLocationParams{
+		DisplayName: stripe.String("new name"),
+	})
+	assert.Nil(t, err)
+	assert.NotNil(t, location)
+	assert.Equal(t, "terminal.location", location.Object)
+}
