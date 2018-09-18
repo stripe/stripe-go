@@ -15,12 +15,12 @@ type Client struct {
 }
 
 // New creates a new terminal reader.
-func New(params *stripe.TerminalReaderRegisterParams) (*stripe.TerminalReader, error) {
+func New(params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	return getC().New(params)
 }
 
 // New creates a new terminal reader.
-func (c Client) New(params *stripe.TerminalReaderRegisterParams) (*stripe.TerminalReader, error) {
+func (c Client) New(params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	reader := &stripe.TerminalReader{}
 	err := c.B.Call(http.MethodPost, "/terminal/readers", c.Key, params, reader)
 	return reader, err
@@ -40,12 +40,12 @@ func (c Client) Get(id string, params *stripe.TerminalReaderGetParams) (*stripe.
 }
 
 // Update updates a terminal reader.
-func Update(id string, params *stripe.TerminalReaderUpdateParams) (*stripe.TerminalReader, error) {
+func Update(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	return getC().Update(id, params)
 }
 
 // Update updates a terminal reader.
-func (c Client) Update(id string, params *stripe.TerminalReaderUpdateParams) (*stripe.TerminalReader, error) {
+func (c Client) Update(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath("/terminal/readers/%s", id)
 	reader := &stripe.TerminalReader{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)

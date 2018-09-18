@@ -26,8 +26,8 @@ func TestTerminalReaderList(t *testing.T) {
 }
 
 func TestTerminalReaderNew(t *testing.T) {
-	reader, err := New(&stripe.TerminalReaderRegisterParams{
-		Label: stripe.String("name"),
+	reader, err := New(&stripe.TerminalReaderParams{
+		Label:            stripe.String("name"),
 		RegistrationCode: stripe.String("a-b-c"),
 	})
 	assert.Nil(t, err)
@@ -36,7 +36,7 @@ func TestTerminalReaderNew(t *testing.T) {
 }
 
 func TestTerminalReaderUpdate(t *testing.T) {
-	reader, err := Update("rdr_123", &stripe.TerminalReaderUpdateParams{
+	reader, err := Update("rdr_123", &stripe.TerminalReaderParams{
 		Label: stripe.String("new name"),
 	})
 	assert.Nil(t, err)
