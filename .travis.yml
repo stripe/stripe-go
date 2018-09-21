@@ -30,7 +30,7 @@ cache:
 env:
   global:
     # If changing this number, please also change it in `testing/testing.go`.
-    - STRIPE_MOCK_VERSION=0.30.0
+    - STRIPE_MOCK_VERSION=0.32.0
 
 go:
   - "1.7"
