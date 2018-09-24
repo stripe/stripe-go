@@ -1,5 +1,8 @@
 # Changelog
 
+## 49.3.0 - 2018-09-24
+* [#695](https://github.com/stripe/stripe-go/pull/695) Add support for Stripe Terminal
+
 ## 49.2.0 - 2018-09-24
 * [#999](https://github.com/stripe/stripe-go/pull/999) Fix `number` JSON tag on the `IssuingCardDetails` resource.
 
