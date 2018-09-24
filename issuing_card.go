@@ -93,7 +93,7 @@ type IssuingCardDetails struct {
 	CVC      string       `json:"cvc"`
 	ExpMonth *string      `form:"exp_month"`
 	ExpYear  *string      `form:"exp_year"`
-	Number   string       `json:"type"`
+	Number   string       `json:"number"`
 	Object   string       `json:"object"`
 }
 
