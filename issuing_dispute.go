@@ -44,11 +44,11 @@ type IssuingDisputeEvidenceParams struct {
 
 // IssuingDisputeParams is the set of parameters that can be used when creating or updating an issuing dispute.
 type IssuingDisputeParams struct {
-	Params      `form:"*"`
-	Amount      *int64                        `form:"amount"`
-	Evidence    *IssuingDisputeEvidenceParams `form:"evidence"`
-	Reason      *string                       `form:"reason"`
-	Transaction *string                       `form:"transaction"`
+	Params              `form:"*"`
+	Amount              *int64                        `form:"amount"`
+	Evidence            *IssuingDisputeEvidenceParams `form:"evidence"`
+	Reason              *string                       `form:"reason"`
+	DisputedTransaction *string                       `form:"disputed_transaction"`
 }
 
 // IssuingDisputeListParams is the set of parameters that can be used when listing issuing dispute.

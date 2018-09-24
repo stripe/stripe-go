@@ -33,8 +33,8 @@ func TestIssuingDisputeNew(t *testing.T) {
 				UncategorizedFile:  stripe.String("file_123"),
 			},
 		},
-		Reason:      stripe.String(string(stripe.IssuingDisputeReasonFraudulent)),
-		Transaction: stripe.String("ipi_123"),
+		Reason:              stripe.String(string(stripe.IssuingDisputeReasonFraudulent)),
+		DisputedTransaction: stripe.String("ipi_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, dispute)
