@@ -1,6 +1,7 @@
 # Changelog
 
-## 49.3.0 - 2018-09-24
+## 50.0.0 - 2018-09-24
+* [#695](https://github.com/stripe/stripe-go/pull/695) Rename `Transaction` to `DisputedTransaction` in `IssuingDisputeParams` (minor breaking change)
 * [#695](https://github.com/stripe/stripe-go/pull/695) Add support for Stripe Terminal
 
 ## 49.2.0 - 2018-09-24
