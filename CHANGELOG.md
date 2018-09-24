@@ -1,5 +1,8 @@
 # Changelog
 
+## 49.2.0 - 2018-09-24
+* [#999](https://github.com/stripe/stripe-go/pull/999) Fix `number` JSON tag on the `IssuingCardDetails` resource.
+
 ## 49.1.0 - 2018-09-11
 * [#694](https://github.com/stripe/stripe-go/pull/694) Add `ErrorCodeResourceMissing` error code constant
 
