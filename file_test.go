@@ -8,10 +8,10 @@ import (
 	assert "github.com/stretchr/testify/require"
 )
 
-func TestFileUpload_UnmarshalJSON(t *testing.T) {
+func TestFile_UnmarshalJSON(t *testing.T) {
 	// Unmarshals from a JSON string
 	{
-		var v FileUpload
+		var v File
 		err := json.Unmarshal([]byte(`"file_123"`), &v)
 		assert.NoError(t, err)
 		assert.Equal(t, "file_123", v.ID)
@@ -19,7 +19,7 @@ func TestFileUpload_UnmarshalJSON(t *testing.T) {
 
 	// Unmarshals from a JSON object
 	{
-		v := FileUpload{ID: "file_123"}
+		v := File{ID: "file_123"}
 		data, err := json.Marshal(&v)
 		assert.NoError(t, err)
 
@@ -29,13 +29,13 @@ func TestFileUpload_UnmarshalJSON(t *testing.T) {
 	}
 }
 
-func TestFileUploadParams_GetBody(t *testing.T) {
-	f, err := os.Open("fileupload/test_data.pdf")
+func TestFileParams_GetBody(t *testing.T) {
+	f, err := os.Open("file/test_data.pdf")
 	if err != nil {
-		t.Errorf("Unable to open test file upload file %v\n", err)
+		t.Errorf("Unable to open test file %v\n", err)
 	}
 
-	p := &FileUploadParams{
+	p := &FileParams{
 		FileReader: f,
 		Filename:   String(f.Name()),
 	}

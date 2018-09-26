@@ -28,7 +28,7 @@ type SigmaScheduledQueryRun struct {
 	Created              int64                        `json:"created"`
 	DataLoadTime         int64                        `json:"data_load_time"`
 	Error                string                       `json:"error"`
-	File                 *FileUpload                  `json:"file"`
+	File                 *File                        `json:"file"`
 	ID                   string                       `json:"id"`
 	Livemode             bool                         `json:"livemode"`
 	Object               string                       `json:"object"`

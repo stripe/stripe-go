@@ -26,7 +26,7 @@ type FileLink struct {
 	Created   int64             `json:"created"`
 	Expired   bool              `json:"expired"`
 	ExpiresAt int64             `json:"expires_at"`
-	File      *FileUpload       `json:"file"`
+	File      *File             `json:"file"`
 	ID        string            `json:"id"`
 	Livemode  bool              `json:"livemode"`
 	Metadata  map[string]string `json:"metadata"`

@@ -53,7 +53,7 @@ type ReportRun struct {
 	Object      string               `json:"object"`
 	Parameters  *ReportRunParameters `json:"parameters"`
 	ReportType  string               `json:"report_type"`
-	Result      *FileUpload          `json:"result"`
+	Result      *File                `json:"result"`
 	Status      ReportRunStatus      `json:"status"`
 	SucceededAt int64                `json:"succeeded_at"`
 }

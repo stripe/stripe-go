@@ -42,7 +42,7 @@ const (
 	UploadsBackend SupportedBackend = "uploads"
 
 	// UploadsURL is the URL of the uploads service backend.
-	UploadsURL string = "https://uploads.stripe.com/v1"
+	UploadsURL string = "https://files.stripe.com/v1"
 )
 
 //
@@ -782,7 +782,7 @@ func StringValue(v *string) string {
 const apiURL = "https://api.stripe.com"
 
 // apiversion is the currently supported API version
-const apiversion = "2018-08-23"
+const apiversion = "2018-09-24"
 
 // clientversion is the binding version
 const clientversion = "50.0.0"

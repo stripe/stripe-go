@@ -455,8 +455,8 @@ type AdditionalOwner struct {
 type IdentityVerification struct {
 	Details      string                          `json:"details"`
 	DetailsCode  IdentityVerificationDetailsCode `json:"details_code"`
-	Document     *FileUpload                     `json:"document"`
-	DocumentBack *FileUpload                     `json:"document_back"`
+	Document     *File                           `json:"document"`
+	DocumentBack *File                           `json:"document_back"`
 	Status       IdentityVerificationStatus      `json:"status"`
 }
 
