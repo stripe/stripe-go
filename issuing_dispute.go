@@ -62,15 +62,15 @@ type IssuingDisputeListParams struct {
 // IssuingDisputeEvidenceFraudulent is the resource representing the evidence hash on an issuing dispute
 // with the reason set as fraudulent.
 type IssuingDisputeEvidenceFraudulent struct {
-	DisputeExplanation string      `json:"dispute_explanation"`
-	UncategorizedFile  *FileUpload `json:"uncategorized_file"`
+	DisputeExplanation string `json:"dispute_explanation"`
+	UncategorizedFile  *File  `json:"uncategorized_file"`
 }
 
 // IssuingDisputeEvidenceOther is the resource representing the evidence hash on an issuing dispute
 // with the reason set as other.
 type IssuingDisputeEvidenceOther struct {
-	DisputeExplanation string      `json:"dispute_explanation"`
-	UncategorizedFile  *FileUpload `json:"uncategorized_file"`
+	DisputeExplanation string `json:"dispute_explanation"`
+	UncategorizedFile  *File  `json:"uncategorized_file"`
 }
 
 // IssuingDisputeEvidence is the resource representing evidence on an issuing dispute.

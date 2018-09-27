@@ -1,4 +1,4 @@
-package fileupload
+package file
 
 //
 // This test is unlike other tests: it makes calls to the live Stripe API
@@ -25,34 +25,34 @@ const (
 	expectedType       = "pdf"
 )
 
-func TestFileUploadGet(t *testing.T) {
-	fileupload, err := Get("file_123", nil)
+func TestFileGet(t *testing.T) {
+	file, err := Get("file_123", nil)
 	assert.Nil(t, err)
-	assert.NotNil(t, fileupload)
+	assert.NotNil(t, file)
 }
 
-func TestFileUploadList(t *testing.T) {
-	i := List(&stripe.FileUploadListParams{})
+func TestFileList(t *testing.T) {
+	i := List(&stripe.FileListParams{})
 
-	// Verify that we can get at least one file upload
+	// Verify that we can get at least one file
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
-	assert.NotNil(t, i.FileUpload())
+	assert.NotNil(t, i.File())
 }
 
-func TestFileUploadNew(t *testing.T) {
+func TestFileNew(t *testing.T) {
 	f, err := os.Open("test_data.pdf")
 	if err != nil {
-		t.Errorf("Unable to open test file upload file %v\n", err)
+		t.Errorf("Unable to open test file %v\n", err)
 	}
 
-	uploadParams := &stripe.FileUploadParams{
-		Purpose:    stripe.String(string(stripe.FileUploadPurposeDisputeEvidence)),
+	fileParams := &stripe.FileParams{
+		Purpose:    stripe.String(string(stripe.FilePurposeDisputeEvidence)),
 		FileReader: f,
 		Filename:   stripe.String(f.Name()),
 	}
 
-	fileupload, err := New(uploadParams)
+	file, err := New(fileParams)
 	assert.NoError(t, err)
-	assert.NotNil(t, fileupload)
+	assert.NotNil(t, file)
 }
