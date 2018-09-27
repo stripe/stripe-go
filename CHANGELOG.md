@@ -1,11 +1,16 @@
 # Changelog
 
+## 51.0.0 - 2018-09-27
+* [#698](https://github.com/stripe/stripe-go/pull/698) Move to API version 2018-09-24
+    * Rename `FileUpload` to `File` (and all `FileUpload*` structs to `File*`)
+	* Fix file links client
+
 ## 50.0.0 - 2018-09-24
 * [#695](https://github.com/stripe/stripe-go/pull/695) Rename `Transaction` to `DisputedTransaction` in `IssuingDisputeParams` (minor breaking change)
 * [#695](https://github.com/stripe/stripe-go/pull/695) Add support for Stripe Terminal
 
 ## 49.2.0 - 2018-09-24
-* [#999](https://github.com/stripe/stripe-go/pull/999) Fix `number` JSON tag on the `IssuingCardDetails` resource.
+* [#697](https://github.com/stripe/stripe-go/pull/697) Fix `number` JSON tag on the `IssuingCardDetails` resource.
 
 ## 49.1.0 - 2018-09-11
 * [#694](https://github.com/stripe/stripe-go/pull/694) Add `ErrorCodeResourceMissing` error code constant
