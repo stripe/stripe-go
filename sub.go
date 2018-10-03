@@ -119,6 +119,7 @@ type Subscription struct {
 	ID                    string                `json:"id"`
 	Items                 *SubscriptionItemList `json:"items"`
 	Metadata              map[string]string     `json:"metadata"`
+	OnBehalfOf            *Account              `json:"on_behalf_of"`
 	Plan                  *Plan                 `json:"plan"`
 	Quantity              int64                 `json:"quantity"`
 	Start                 int64                 `json:"start"`
