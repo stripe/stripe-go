@@ -1,7 +1,7 @@
 # Changelog
 
 ## 51.1.0 - 2018-10-03
-* [#999](https://github.com/stripe/stripe-go/pull/999) Add support for `on_behalf_of` on Subscription and Charge resources.
+* [#700](https://github.com/stripe/stripe-go/pull/700) Add support for `on_behalf_of` on Subscription and Charge resources.
 
 ## 51.0.0 - 2018-09-27
 * [#698](https://github.com/stripe/stripe-go/pull/698) Move to API version 2018-09-24
