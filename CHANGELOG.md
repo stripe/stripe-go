@@ -1,5 +1,8 @@
 # Changelog
 
+## 51.3.0 - 2018-10-09
+* [#704](https://github.com/stripe/stripe-go/pull/704) Add support for `subscription_cancel_at_period_end` on the Upcoming Invoice API.
+
 ## 51.2.0 - 2018-10-09
 * [#702](https://github.com/stripe/stripe-go/pull/702) Add support for `delivery_success` filter when listing Events.
 
