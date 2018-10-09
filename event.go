@@ -53,11 +53,12 @@ type EventList struct {
 // EventListParams is the set of parameters that can be used when listing events.
 // For more details see https://stripe.com/docs/api#list_events.
 type EventListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	Type         *string           `form:"type"`
-	Types        []*string         `form:"types"`
+	ListParams      `form:"*"`
+	Created         *int64            `form:"created"`
+	CreatedRange    *RangeQueryParams `form:"created"`
+	DeliverySuccess *bool             `form:"delivery_success"`
+	Type            *string           `form:"type"`
+	Types           []*string         `form:"types"`
 }
 
 // GetObjectValue returns the value from the e.Data.Object bag based on the keys hierarchy.
