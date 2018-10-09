@@ -785,7 +785,7 @@ const apiURL = "https://api.stripe.com"
 const apiversion = "2018-09-24"
 
 // clientversion is the binding version
-const clientversion = "51.1.0"
+const clientversion = "51.2.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and

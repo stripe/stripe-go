@@ -1,5 +1,8 @@
 # Changelog
 
+## 51.2.0 - 2018-10-09
+* [#702](https://github.com/stripe/stripe-go/pull/702) Add support for `delivery_success` filter when listing Events.
+
 ## 51.1.0 - 2018-10-03
 * [#700](https://github.com/stripe/stripe-go/pull/700) Add support for `on_behalf_of` on Subscription and Charge resources.
 
