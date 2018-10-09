@@ -65,6 +65,7 @@ type InvoiceParams struct {
 	Coupon                         *string                           `form:"coupon"`
 	InvoiceItems                   *InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
 	SubscriptionBillingCycleAnchor *int64                            `form:"subscription_billing_cycle_anchor"`
+	SubscriptionCancelAtPeriodEnd  *bool                             `form:"subscription_cancel_at_period_end"`
 	SubscriptionItems              []*SubscriptionItemsParams        `form:"subscription_items"`
 	SubscriptionPlan               *string                           `form:"subscription_plan"`
 	SubscriptionProrate            *bool                             `form:"subscription_prorate"`
