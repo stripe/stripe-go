@@ -9,6 +9,7 @@ type IssuingCardholderStatus string
 const (
 	IssuingCardholderStatusActive   IssuingCardholderStatus = "active"
 	IssuingCardholderStatusInactive IssuingCardholderStatus = "inactive"
+	IssuingCardholderStatusPending  IssuingCardholderStatus = "pending"
 )
 
 // IssuingCardholderType is the type of an issuing cardholder.
