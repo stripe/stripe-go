@@ -155,12 +155,12 @@ type API struct {
 	Subscriptions *sub.Client
 	// SubscriptionItems is the client used to invoke subscription's items related APIs.
 	SubscriptionItems *subitem.Client
-	// TerminalConnectionToken is the client used to invoke /terminal/connectiontoken related APIs.
-	TerminalConnectionToken *terminalconnectiontoken.Client
-	// TerminalLocation is the client used to invoke /terminal/location related APIs.
-	TerminalLocation *terminallocation.Client
-	// TerminalReader is the client used to invoke /terminal/reader related APIs.
-	TerminalReader *terminalreader.Client
+	// TerminalConnectionTokens is the client used to invoke /terminal/connectiontokens related APIs.
+	TerminalConnectionTokens *terminalconnectiontoken.Client
+	// TerminalLocations is the client used to invoke /terminal/locations related APIs.
+	TerminalLocations *terminallocation.Client
+	// TerminalReaders is the client used to invoke /terminal/readers related APIs.
+	TerminalReaders *terminalreader.Client
 	// Tokens is the client used to invoke /tokens APIs.
 	Tokens *token.Client
 	// Topups is the client used to invoke /tokens APIs.
@@ -228,9 +228,9 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.SourceTransactions = &sourcetransaction.Client{B: backends.API, Key: key}
 	a.Subscriptions = &sub.Client{B: backends.API, Key: key}
 	a.SubscriptionItems = &subitem.Client{B: backends.API, Key: key}
-	a.TerminalConnectionToken = &terminalconnectiontoken.Client{B: backends.API, Key: key}
-	a.TerminalLocation = &terminallocation.Client{B: backends.API, Key: key}
-	a.TerminalReader = &terminalreader.Client{B: backends.API, Key: key}
+	a.TerminalConnectionTokens = &terminalconnectiontoken.Client{B: backends.API, Key: key}
+	a.TerminalLocations = &terminallocation.Client{B: backends.API, Key: key}
+	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
 	a.Topups = &topup.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
