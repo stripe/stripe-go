@@ -6,11 +6,30 @@ before_install:
   - travis_retry go get -u github.com/stretchr/testify/require
 
   # Install lint / code coverage / coveralls tooling
-  - travis_retry go get -u golang.org/x/lint/golint
   - travis_retry go get -u golang.org/x/net/http2
   - travis_retry go get -u golang.org/x/tools/cmd/cover
   - travis_retry go get -u github.com/modocache/gover
   - travis_retry go get -u github.com/mattn/goveralls
+
+  # Go only officially supports two major versions back from Today's release,
+  # and unfortunately for its users, aren't afraid to break old versions by
+  # aggressively using new features. Here we conditionally fetch Golint if
+  # we're on a version that we know supports it. 
+  #
+  # `Makefile` checks `SKIP_GOLINT` and skips it if necessary.
+  - |
+    GOLINT_BROKEN_GO_VERSION="1.8"
+
+    # Needed because we can't lexically compare versions.
+    version_gt() {
+      test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1";
+    }
+
+    if version_gt "$TRAVIS_GO_VERSION" "$GOLINT_BROKEN_GO_VERSION"; then
+      travis_retry go get -u golang.org/x/lint/golint
+    else
+      export SKIP_GOLINT=1
+    fi
 
   # Unpack and start the Stripe API stub so that the test suite can talk to it
   - |
