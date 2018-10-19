@@ -10,7 +10,12 @@ check-gofmt:
 	scripts/check_gofmt.sh
 
 lint:
+# Golint won't run on some Go versions. See `.travis.yml`.
+ifndef SKIP_GOLINT
 	golint -set_exit_status ./...
+else
+	# No Golint. Skipping Linting.
+endif
 
 test:
 	go test -race ./...
