@@ -1,5 +1,8 @@
 # Changelog
 
+## 51.4.0 - 2018-10-19
+* [#708](https://github.com/stripe/stripe-go/pull/708) Add Stripe Terminal endpoints to master to `client.API` 
+
 ## 51.3.0 - 2018-10-09
 * [#704](https://github.com/stripe/stripe-go/pull/704) Add support for `subscription_cancel_at_period_end` on the Upcoming Invoice API.
 
