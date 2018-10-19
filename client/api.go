@@ -50,6 +50,9 @@ import (
 	"github.com/stripe/stripe-go/sourcetransaction"
 	"github.com/stripe/stripe-go/sub"
 	"github.com/stripe/stripe-go/subitem"
+	terminalconnectiontoken "github.com/stripe/stripe-go/terminal/connectiontoken"
+	terminallocation "github.com/stripe/stripe-go/terminal/location"
+	terminalreader "github.com/stripe/stripe-go/terminal/reader"
 	"github.com/stripe/stripe-go/token"
 	"github.com/stripe/stripe-go/topup"
 	"github.com/stripe/stripe-go/transfer"
@@ -152,6 +155,12 @@ type API struct {
 	Subscriptions *sub.Client
 	// SubscriptionItems is the client used to invoke subscription's items related APIs.
 	SubscriptionItems *subitem.Client
+	// TerminalConnectionTokens is the client used to invoke /terminal/connectiontokens related APIs.
+	TerminalConnectionTokens *terminalconnectiontoken.Client
+	// TerminalLocations is the client used to invoke /terminal/locations related APIs.
+	TerminalLocations *terminallocation.Client
+	// TerminalReaders is the client used to invoke /terminal/readers related APIs.
+	TerminalReaders *terminalreader.Client
 	// Tokens is the client used to invoke /tokens APIs.
 	Tokens *token.Client
 	// Topups is the client used to invoke /tokens APIs.
@@ -219,6 +228,9 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.SourceTransactions = &sourcetransaction.Client{B: backends.API, Key: key}
 	a.Subscriptions = &sub.Client{B: backends.API, Key: key}
 	a.SubscriptionItems = &subitem.Client{B: backends.API, Key: key}
+	a.TerminalConnectionTokens = &terminalconnectiontoken.Client{B: backends.API, Key: key}
+	a.TerminalLocations = &terminallocation.Client{B: backends.API, Key: key}
+	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
 	a.Topups = &topup.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
