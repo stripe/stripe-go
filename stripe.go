@@ -324,6 +324,18 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 			reader := bytes.NewReader(body.Bytes())
 
 			req.Body = nopReadCloser{reader}
+
+			// And also add the same thing to `Request.GetBody`, which allows
+			// `net/http` to get a new body in cases like a redirect. This is
+			// usually not used, but it doesn't hurt to set it in case it's
+			// needed. See:
+			//
+			//     https://github.com/stripe/stripe-go/issues/710
+			//
+			req.GetBody = func() (io.ReadCloser, error) {
+				reader := bytes.NewReader(body.Bytes())
+				return nopReadCloser{reader}, nil
+			}
 		}
 
 		res, err = s.HTTPClient.Do(req)
