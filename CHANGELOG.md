@@ -1,5 +1,9 @@
 # Changelog
 
+## 52.0.0 - 2018-10-29
+* [#711](https://github.com/stripe/stripe-go/pull/711) Set `Request.GetBody` when making requests
+* [#711](https://github.com/stripe/stripe-go/pull/711) Drop support for Go 1.7 (hasn't been supported by Go core since the release of Go 1.9 in August 2017)
+
 ## 51.4.0 - 2018-10-19
 * [#708](https://github.com/stripe/stripe-go/pull/708) Add Stripe Terminal endpoints to master to `client.API` 
 
