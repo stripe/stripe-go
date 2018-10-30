@@ -3,7 +3,7 @@ package stripe
 import (
 	"strconv"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/stripe/stripe-go/v55/form"
 )
 
 // PlanInterval is the list of allowed values for a plan's interval.

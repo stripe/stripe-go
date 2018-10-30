@@ -4,8 +4,8 @@ package balance
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
+	stripe "github.com/stripe/stripe-go/v55"
+	"github.com/stripe/stripe-go/v55/form"
 )
 
 // Client is used to invoke /balance and transaction-related APIs.
