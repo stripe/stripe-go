@@ -47,7 +47,11 @@ func TestIssuingCardholderNew(t *testing.T) {
 
 func TestIssuingCardholderUpdate(t *testing.T) {
 	cardholder, err := Update("ich_123", &stripe.IssuingCardholderParams{
-		Name: stripe.String("Updated name"),
+		Params: stripe.Params{
+			Metadata: map[string]string{
+				"foo": "bar",
+			},
+		},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, cardholder)

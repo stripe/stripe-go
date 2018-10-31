@@ -25,7 +25,7 @@ const (
 	// added in a more recent version of stripe-mock, we can show people a
 	// better error message instead of the test suite crashing with a bunch of
 	// confusing 404 errors or the like.
-	MockMinimumVersion = "0.33.0"
+	MockMinimumVersion = "0.35.0"
 
 	// TestMerchantID is a token that can be used to represent a merchant ID in
 	// simple tests.

@@ -9,31 +9,31 @@ import (
 )
 
 func TestBankAccountDel_ByAccount(t *testing.T) {
-	bankAcount, err := Del("ba_123", &stripe.BankAccountParams{
+	bankAccount, err := Del("ba_123", &stripe.BankAccountParams{
 		Account: stripe.String("acct_123"),
 	})
 	assert.Nil(t, err)
-	assert.NotNil(t, bankAcount)
+	assert.NotNil(t, bankAccount)
 }
 
 func TestBankAccountDel_ByCustomer(t *testing.T) {
-	bankAcount, err := Del("ba_123", &stripe.BankAccountParams{
+	bankAccount, err := Del("ba_123", &stripe.BankAccountParams{
 		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
-	assert.NotNil(t, bankAcount)
+	assert.NotNil(t, bankAccount)
 }
 
 func TestBankAccountGet_ByAccount(t *testing.T) {
-	bankAcount, err := Get("ba_123", &stripe.BankAccountParams{Account: stripe.String("acct_123")})
+	bankAccount, err := Get("ba_123", &stripe.BankAccountParams{Account: stripe.String("acct_123")})
 	assert.Nil(t, err)
-	assert.NotNil(t, bankAcount)
+	assert.NotNil(t, bankAccount)
 }
 
 func TestBankAccountGet_ByCustomer(t *testing.T) {
-	bankAcount, err := Get("ba_123", &stripe.BankAccountParams{Customer: stripe.String("cus_123")})
+	bankAccount, err := Get("ba_123", &stripe.BankAccountParams{Customer: stripe.String("cus_123")})
 	assert.Nil(t, err)
-	assert.NotNil(t, bankAcount)
+	assert.NotNil(t, bankAccount)
 }
 
 func TestBankAccountList_ByCustomer(t *testing.T) {
@@ -46,38 +46,38 @@ func TestBankAccountList_ByCustomer(t *testing.T) {
 }
 
 func TestBankAccountNew_ByAccount(t *testing.T) {
-	bankAcount, err := New(&stripe.BankAccountParams{
+	bankAccount, err := New(&stripe.BankAccountParams{
 		Account:            stripe.String("acct_123"),
 		DefaultForCurrency: stripe.Bool(true),
 		Token:              stripe.String("tok_123"),
 	})
 	assert.Nil(t, err)
-	assert.NotNil(t, bankAcount)
+	assert.NotNil(t, bankAccount)
 }
 
 func TestBankAccountNew_ByCustomer(t *testing.T) {
-	bankAcount, err := New(&stripe.BankAccountParams{
+	bankAccount, err := New(&stripe.BankAccountParams{
 		Customer: stripe.String("cus_123"),
 		Token:    stripe.String("tok_123"),
 	})
 	assert.Nil(t, err)
-	assert.NotNil(t, bankAcount)
+	assert.NotNil(t, bankAccount)
 }
 
 func TestBankAccountUpdate_ByAccount(t *testing.T) {
-	bankAcount, err := Update("ba_123", &stripe.BankAccountParams{
+	bankAccount, err := Update("ba_123", &stripe.BankAccountParams{
 		Account:            stripe.String("acct_123"),
 		DefaultForCurrency: stripe.Bool(true),
 	})
 	assert.Nil(t, err)
-	assert.NotNil(t, bankAcount)
+	assert.NotNil(t, bankAccount)
 }
 
 func TestBankAccountUpdate_ByCustomer(t *testing.T) {
-	bankAcount, err := Update("ba_123", &stripe.BankAccountParams{
+	bankAccount, err := Update("ba_123", &stripe.BankAccountParams{
 		AccountHolderName: stripe.String("New Name"),
 		Customer:          stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
-	assert.NotNil(t, bankAcount)
+	assert.NotNil(t, bankAccount)
 }

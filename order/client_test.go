@@ -48,12 +48,7 @@ func TestOrderPay(t *testing.T) {
 }
 
 func TestOrderReturn(t *testing.T) {
-	order, err := Return("or_123", &stripe.OrderReturnParams{
-		Items: []*stripe.OrderItemParams{
-			{Amount: stripe.Int64(1), Description: stripe.String("Item 1")},
-			{Amount: stripe.Int64(1), Description: stripe.String("Item 2")},
-		},
-	})
+	order, err := Return("or_123", &stripe.OrderReturnParams{})
 	assert.Nil(t, err)
 	assert.NotNil(t, order)
 }
