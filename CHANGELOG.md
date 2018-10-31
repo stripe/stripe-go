@@ -1,5 +1,9 @@
 # Changelog
 
+## 52.1.0 - 2018-10-31
+* [#705](https://github.com/stripe/stripe-go/pull/705) Add support for the `Person` resource
+* [#706](https://github.com/stripe/stripe-go/pull/706) Add support for the `WebhookEndpoint` resource
+
 ## 52.0.0 - 2018-10-29
 * [#711](https://github.com/stripe/stripe-go/pull/711) Set `Request.GetBody` when making requests
 * [#711](https://github.com/stripe/stripe-go/pull/711) Drop support for Go 1.7 (hasn't been supported by Go core since the release of Go 1.9 in August 2017)
