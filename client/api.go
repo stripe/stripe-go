@@ -57,6 +57,7 @@ import (
 	"github.com/stripe/stripe-go/topup"
 	"github.com/stripe/stripe-go/transfer"
 	"github.com/stripe/stripe-go/usagerecord"
+	"github.com/stripe/stripe-go/webhookendpoint"
 )
 
 // API is the Stripe client. It contains all the different resources available.
@@ -169,6 +170,8 @@ type API struct {
 	Transfers *transfer.Client
 	// UsageRecords is the client used to invoke usage record related APIs.
 	UsageRecords *usagerecord.Client
+	// WebhookEndpoints is the client used to invoke usage record related APIs.
+	WebhookEndpoints *webhookendpoint.Client
 }
 
 // Init initializes the Stripe client with the appropriate secret key
@@ -235,6 +238,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Topups = &topup.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
 	a.UsageRecords = &usagerecord.Client{B: backends.API, Key: key}
+	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }
 
 // New creates a new Stripe client with the appropriate secret key
