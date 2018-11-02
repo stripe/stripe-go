@@ -13,7 +13,7 @@ import (
 	"time"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go"
 	. "github.com/stripe/stripe-go/testing"
 )
 
@@ -178,7 +178,7 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 	}()
 	err = backend.Do(request, body, &response)
 
-	// there should an error returned
+	// there should be an error returned
 	assert.Error(t, err)
 	// timeout should not prevent retry
 	assert.Equal(t, 2, requestNum)
