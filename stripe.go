@@ -351,13 +351,21 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 			break
 		}
 
-		resBody, err := ioutil.ReadAll(res.Body)
-		res.Body.Close()
-		if err != nil {
-			if s.LogLevel > 0 {
-				s.Logger.Printf("Cannot read response: %v\n", err)
+		var (
+			resBody []byte
+			err error
+		)
+		// Checking res instead of err because s.HTTPClient.Do(req) has one special case for Go 1 compatibility
+		// when both the response and an error are returned
+		if res != nil {
+			resBody, err = ioutil.ReadAll(res.Body)
+			res.Body.Close()
+			if err != nil {
+				if s.LogLevel > 0 {
+					s.Logger.Printf("Cannot read response: %v\n", err)
+				}
+				return err
 			}
-			return err
 		}
 
 		if s.LogLevel > 0 {

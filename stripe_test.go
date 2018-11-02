@@ -10,6 +10,7 @@ import (
 	"runtime"
 	"sync"
 	"testing"
+	"time"
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
@@ -115,6 +116,71 @@ func TestDo_Retry(t *testing.T) {
 	assert.Equal(t, message, response.Message)
 
 	// We should have seen exactly two requests.
+	assert.Equal(t, 2, requestNum)
+}
+
+// Tests client retries when HTTP returns timeout.
+//
+// To run only this test:
+//
+//     go test . -run TestDo_RetryOnTimeout -test.v
+//
+func TestDo_RetryOnTimeout(t *testing.T) {
+	type testServerResponse struct {
+		Message string `json:"message"`
+	}
+
+	timeout := time.Second
+	requestNum := 0
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		err := r.ParseForm()
+		assert.NoError(t, err)
+
+		// The body should always be the same with every retry. We've
+		// previously had regressions in this behavior as we switched to HTTP/2
+		// and `Request` became non-reusable, so we want to check it with every
+		// request.
+		assert.Equal(t, "bar", r.Form.Get("foo"))
+		time.Sleep(timeout)
+		requestNum++
+	}))
+	defer testServer.Close()
+
+	backend := stripe.GetBackendWithConfig(
+		stripe.APIBackend,
+		&stripe.BackendConfig{
+			LogLevel:          3,
+			MaxNetworkRetries: 2,
+			URL:               testServer.URL,
+			HTTPClient:  &http.Client{Timeout: timeout},
+		},
+	).(*stripe.BackendImplementation)
+
+	backend.SetNetworkRetriesSleep(false)
+
+	request, err := backend.NewRequest(
+		http.MethodPost,
+		"/hello",
+		"sk_test_123",
+		"application/x-www-form-urlencoded",
+		nil,
+	)
+	assert.NoError(t, err)
+
+	var body = bytes.NewBufferString("foo=bar")
+	var response testServerResponse
+
+	// make sure that there was no panic
+	defer func() {
+		var recovery = recover()
+		assert.Nil(t, recovery)
+	}()
+	err = backend.Do(request, body, &response)
+
+	// there should an error returned
+	assert.Error(t, err)
+	// timeout should not prevent retry
 	assert.Equal(t, 2, requestNum)
 }
 
