@@ -353,7 +353,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 
 		var (
 			resBody []byte
-			err error
+			err     error
 		)
 		// Checking res instead of err because s.HTTPClient.Do(req) has one special case for Go 1 compatibility
 		// when both the response and an error are returned

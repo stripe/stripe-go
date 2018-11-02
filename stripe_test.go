@@ -13,7 +13,7 @@ import (
 	"time"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go"
 	. "github.com/stripe/stripe-go/testing"
 )
 
@@ -153,7 +153,7 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 			LogLevel:          3,
 			MaxNetworkRetries: 2,
 			URL:               testServer.URL,
-			HTTPClient:  &http.Client{Timeout: timeout},
+			HTTPClient:        &http.Client{Timeout: timeout},
 		},
 	).(*stripe.BackendImplementation)
 
