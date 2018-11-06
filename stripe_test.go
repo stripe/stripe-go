@@ -137,7 +137,6 @@ func (s *SafeCounter) Get() int {
 	return s.requestNum
 }
 
-// Tests client retries when HTTP returns timeout.
 func TestDo_RetryOnTimeout(t *testing.T) {
 	type testServerResponse struct {
 		Message string `json:"message"`
