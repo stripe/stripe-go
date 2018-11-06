@@ -4,6 +4,16 @@ import (
 	"encoding/json"
 )
 
+// PaymentIntentCancellationReason is the list of allowed values for the cancelation reason.
+type PaymentIntentCancellationReason string
+
+// List of values that PaymentIntentCaptureMethod can take.
+const (
+	PaymentIntentCancellationReasonDuplicate           PaymentIntentCancellationReason = "duplicate"
+	PaymentIntentCancellationReasonFraudulent          PaymentIntentCancellationReason = "fraudulent"
+	PaymentIntentCancellationReasonRequestedByCustomer PaymentIntentCancellationReason = "requested_by_customer"
+)
+
 // PaymentIntentCaptureMethod is the list of allowed values for the capture method.
 type PaymentIntentCaptureMethod string
 
@@ -44,12 +54,28 @@ const (
 	PaymentIntentStatusSucceeded            PaymentIntentStatus = "succeeded"
 )
 
+// PaymentIntentCancelParams is the set of parameters that can be used when canceling a payment intent.
+type PaymentIntentCancelParams struct {
+	Params             `form:"*"`
+	CancellationReason *string `form:"cancellation_reason"`
+}
+
 // PaymentIntentCaptureParams is the set of parameters that can be used when capturing a payment intent.
 type PaymentIntentCaptureParams struct {
 	Params               `form:"*"`
 	AmountToCapture      *int64                           `form:"amount_to_capture"`
 	ApplicationFeeAmount *int64                           `form:"application_fee_amount"`
 	TransferData         *PaymentIntentTransferDataParams `form:"transfer_data"`
+}
+
+// PaymentIntentConfirmParams is the set of parameters that can be used when confirming a payment intent.
+type PaymentIntentConfirmParams struct {
+	Params               `form:"*"`
+	ReceiptEmail         *string                `form:"receipt_email"`
+	ReturnURL            *string                `form:"return_url"`
+	SaveSourceToCustomer *bool                  `form:"save_source_to_customer"`
+	Shipping             *ShippingDetailsParams `form:"shipping"`
+	Source               *string                `form:"source"`
 }
 
 // PaymentIntentTransferDataParams is the set of parameters allowed for the transfer hash.
@@ -63,7 +89,7 @@ type PaymentIntentParams struct {
 	AllowedSourceTypes   []*string              `form:"allowed_source_types"`
 	Amount               *int64                 `form:"amount"`
 	ApplicationFeeAmount *int64                 `form:"application_fee_amount"`
-	AttemptConfirmation  *bool                  `form:"attempt_confirmation"`
+	Confirm              *bool                  `form:"confirm"`
 	CaptureMethod        *string                `form:"capture_method"`
 	Currency             *string                `form:"currency"`
 	Customer             *string                `form:"customer"`
@@ -85,50 +111,16 @@ type PaymentIntentListParams struct {
 }
 
 // PaymentIntentSourceActionAuthorizeWithURL represents the resource for the next action of type
-// "authorize with url".
+// "authorize_with_url".
 type PaymentIntentSourceActionAuthorizeWithURL struct {
-	URL string `json:"url"`
-}
-
-// PaymentIntentSourceActionValue describes the `value` property in `next_source_action`
-// The `type` in the parent should indicate which object is fleshed out.
-type PaymentIntentSourceActionValue struct {
-	AuthorizeWithURL *PaymentIntentSourceActionAuthorizeWithURL `json:"-"`
+	ReturnURL string `json:"return_url"`
+	URL       string `json:"url"`
 }
 
 // PaymentIntentSourceAction represents the type of action to take on a payment intent.
 type PaymentIntentSourceAction struct {
-	Type  PaymentIntentNextActionType     `json:"type"`
-	Value *PaymentIntentSourceActionValue `json:"-"`
-}
-
-// UnmarshalJSON handles deserialization of a PaymentIntentSourceAction.
-// This custom unmarshaling is needed because the specific
-// type of for `value` it refers to is specified in the `type` property
-func (s *PaymentIntentSourceAction) UnmarshalJSON(data []byte) error {
-	type paymentIntentSourceAction PaymentIntentSourceAction
-	var v paymentIntentSourceAction
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	var err error
-	*s = PaymentIntentSourceAction(v)
-	s.Value = &PaymentIntentSourceActionValue{}
-
-	// Unmarshal data a second time so that we can get the raw bytes for the
-	// `value` field
-	var rawObject map[string]*json.RawMessage
-	if err := json.Unmarshal(data, &rawObject); err != nil {
-		return err
-	}
-
-	switch s.Type {
-	case PaymentIntentNextActionAuthorizeWithURL:
-		err = json.Unmarshal(*rawObject["value"], &s.Value.AuthorizeWithURL)
-	}
-
-	return err
+	AuthorizeWithURL *PaymentIntentSourceActionAuthorizeWithURL `json:"authorize_with_url"`
+	Type             PaymentIntentNextActionType                `json:"type"`
 }
 
 // PaymentIntentTransferData represents the information for the transfer associated with a payment intent.
@@ -160,7 +152,6 @@ type PaymentIntent struct {
 	NextSourceAction    *PaymentIntentSourceAction      `json:"next_source_action"`
 	OnBehalfOf          *Account                        `json:"on_behalf_of"`
 	ReceiptEmail        string                          `json:"receipt_email"`
-	ReturnURL           string                          `json:"return_url"`
 	Shipping            ShippingDetails                 `json:"shipping"`
 	Source              *PaymentSource                  `json:"source"`
 	StatementDescriptor string                          `json:"statement_descriptor"`

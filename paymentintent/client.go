@@ -55,12 +55,12 @@ func (c Client) Update(id string, params *stripe.PaymentIntentParams) (*stripe.P
 }
 
 // Cancel cancels a payment intent.
-func Cancel(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
+func Cancel(id string, params *stripe.PaymentIntentCancelParams) (*stripe.PaymentIntent, error) {
 	return getC().Cancel(id, params)
 }
 
 // Cancel cancels a payment intent.
-func (c Client) Cancel(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
+func (c Client) Cancel(id string, params *stripe.PaymentIntentCancelParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/payment_intents/%s/cancel", id)
 	intent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, intent)
@@ -81,12 +81,12 @@ func (c Client) Capture(id string, params *stripe.PaymentIntentCaptureParams) (*
 }
 
 // Confirm confirms a payment intent.
-func Confirm(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
+func Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*stripe.PaymentIntent, error) {
 	return getC().Confirm(id, params)
 }
 
 // Confirm confirms a payment intent.
-func (c Client) Confirm(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
+func (c Client) Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*stripe.PaymentIntent, error) {
 	path := stripe.FormatURLPath("/payment_intents/%s/confirm", id)
 	intent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, intent)
