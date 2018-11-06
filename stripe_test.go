@@ -119,31 +119,37 @@ func TestDo_Retry(t *testing.T) {
 	assert.Equal(t, 2, requestNum)
 }
 
+
+// Types for TestDo_RetryOnTimeout test
+type SafeCounter struct {
+	mux sync.Mutex
+	requestNum int
+}
+
+func (s *SafeCounter) Increase() {
+	s.mux.Lock()
+	s.requestNum++
+	s.mux.Unlock()
+}
+
+func (s *SafeCounter) Get() int {
+	s.mux.Lock()
+	defer s.mux.Unlock()
+	return s.requestNum
+}
+
 // Tests client retries when HTTP returns timeout.
-//
-// To run only this test:
-//
-//     go test . -run TestDo_RetryOnTimeout -test.v
-//
 func TestDo_RetryOnTimeout(t *testing.T) {
 	type testServerResponse struct {
 		Message string `json:"message"`
 	}
 
 	timeout := time.Second
-	requestNum := 0
+	var counter = SafeCounter{}
 
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		err := r.ParseForm()
-		assert.NoError(t, err)
-
-		// The body should always be the same with every retry. We've
-		// previously had regressions in this behavior as we switched to HTTP/2
-		// and `Request` became non-reusable, so we want to check it with every
-		// request.
-		assert.Equal(t, "bar", r.Form.Get("foo"))
+		counter.Increase()
 		time.Sleep(timeout)
-		requestNum++
 	}))
 	defer testServer.Close()
 
@@ -151,7 +157,7 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 		stripe.APIBackend,
 		&stripe.BackendConfig{
 			LogLevel:          3,
-			MaxNetworkRetries: 2,
+			MaxNetworkRetries: 1,
 			URL:               testServer.URL,
 			HTTPClient:        &http.Client{Timeout: timeout},
 		},
@@ -172,16 +178,15 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 	var response testServerResponse
 
 	// make sure that there was no panic
-	defer func() {
-		var recovery = recover()
-		assert.Nil(t, recovery)
-	}()
 	err = backend.Do(request, body, &response)
 
 	// there should be an error returned
 	assert.Error(t, err)
 	// timeout should not prevent retry
-	assert.Equal(t, 2, requestNum)
+	assert.Equal(t, 2, counter.Get())
+	var recovery = recover()
+	assert.Nil(t, recovery)
+
 }
 
 func TestFormatURLPath(t *testing.T) {
