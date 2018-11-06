@@ -13,7 +13,7 @@ import (
 	"time"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go"
 	. "github.com/stripe/stripe-go/testing"
 )
 
@@ -119,10 +119,9 @@ func TestDo_Retry(t *testing.T) {
 	assert.Equal(t, 2, requestNum)
 }
 
-
 // Types for TestDo_RetryOnTimeout test
 type SafeCounter struct {
-	mux sync.Mutex
+	mux        sync.Mutex
 	requestNum int
 }
 
