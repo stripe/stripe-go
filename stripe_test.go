@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"runtime"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -119,34 +120,16 @@ func TestDo_Retry(t *testing.T) {
 	assert.Equal(t, 2, requestNum)
 }
 
-// Types for TestDo_RetryOnTimeout test
-type SafeCounter struct {
-	mux        sync.Mutex
-	requestNum int
-}
-
-func (s *SafeCounter) Increase() {
-	s.mux.Lock()
-	s.requestNum++
-	s.mux.Unlock()
-}
-
-func (s *SafeCounter) Get() int {
-	s.mux.Lock()
-	defer s.mux.Unlock()
-	return s.requestNum
-}
-
 func TestDo_RetryOnTimeout(t *testing.T) {
 	type testServerResponse struct {
 		Message string `json:"message"`
 	}
 
 	timeout := time.Second
-	var counter = SafeCounter{}
+	var counter uint32
 
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		counter.Increase()
+		atomic.AddUint32(&counter, 1)
 		time.Sleep(timeout)
 	}))
 	defer testServer.Close()
@@ -175,16 +158,11 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 	var body = bytes.NewBufferString("foo=bar")
 	var response testServerResponse
 
-	// make sure that there was no panic
 	err = backend.Do(request, body, &response)
 
-	// there should be an error returned
 	assert.Error(t, err)
 	// timeout should not prevent retry
-	assert.Equal(t, 2, counter.Get())
-	var recovery = recover()
-	assert.Nil(t, recovery)
-
+	assert.Equal(t, uint32(2), atomic.LoadUint32(&counter))
 }
 
 func TestFormatURLPath(t *testing.T) {

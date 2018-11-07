@@ -351,10 +351,12 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 			break
 		}
 
-		var resBody []byte
-
-		if res != nil {
-			resBody, err = ioutil.ReadAll(res.Body)
+		if err != nil {
+			if s.LogLevel > 0 {
+				s.Logger.Printf("Request failed with error: %v\n", err)
+			}
+		} else {
+			resBody, err := ioutil.ReadAll(res.Body)
 			res.Body.Close()
 			if err != nil {
 				if s.LogLevel > 0 {
@@ -362,10 +364,9 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 				}
 				return err
 			}
-		}
-
-		if s.LogLevel > 0 {
-			s.Logger.Printf("Request failed with: %s (error: %v)\n", string(resBody), err)
+			if s.LogLevel > 0 {
+				s.Logger.Printf("Request failed with: %s (error: %v)\n", string(resBody), err)
+			}
 		}
 
 		sleepDuration := s.sleepTime(retry)
