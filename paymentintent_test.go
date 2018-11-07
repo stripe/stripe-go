@@ -9,10 +9,11 @@ import (
 
 func TestPaymentIntentSourceAction_UnmarshalJSON(t *testing.T) {
 	actionData := map[string]interface{}{
-		"type": "authorize_with_url",
-		"value": map[string]interface{}{
-			"url": "https://stripe.com",
+		"authorize_with_url": map[string]interface{}{
+			"return_url": "https://stripe.com/return",
+			"url":        "https://stripe.com",
 		},
+		"type": "authorize_with_url",
 	}
 
 	bytes, err := json.Marshal(&actionData)
@@ -23,7 +24,8 @@ func TestPaymentIntentSourceAction_UnmarshalJSON(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, PaymentIntentNextActionAuthorizeWithURL, action.Type)
-	assert.Equal(t, "https://stripe.com", action.Value.AuthorizeWithURL.URL)
+	assert.Equal(t, "https://stripe.com", action.AuthorizeWithURL.URL)
+	assert.Equal(t, "https://stripe.com/return", action.AuthorizeWithURL.ReturnURL)
 }
 
 func TestPaymentIntent_UnmarshalJSON(t *testing.T) {
