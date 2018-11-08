@@ -365,7 +365,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 				return err
 			}
 			if s.LogLevel > 0 {
-				s.Logger.Printf("Request failed with: %s (error: %v)\n", string(resBody), err)
+				s.Logger.Printf("Request failed with body: %s (status: %v)\n", string(resBody), res.StatusCode)
 			}
 		}
 
