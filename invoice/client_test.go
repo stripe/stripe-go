@@ -59,3 +59,33 @@ func TestInvoiceUpdate(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, invoice)
 }
+
+func TestInvoiceDel(t *testing.T) {
+	invoice, err := Del("in_123", &stripe.InvoiceParams{})
+	assert.Nil(t, err)
+	assert.NotNil(t, invoice)
+}
+
+func TestInvoiceFinalizeInvoice(t *testing.T) {
+	invoice, err := FinalizeInvoice("in_123", &stripe.InvoiceFinalizeParams{})
+	assert.Nil(t, err)
+	assert.NotNil(t, invoice)
+}
+
+func TestInvoiceMarkUncollectible(t *testing.T) {
+	invoice, err := MarkUncollectible("in_123", &stripe.InvoiceMarkUncollectibleParams{})
+	assert.Nil(t, err)
+	assert.NotNil(t, invoice)
+}
+
+func TestInvoiceSendInvoice(t *testing.T) {
+	invoice, err := SendInvoice("in_123", &stripe.InvoiceSendParams{})
+	assert.Nil(t, err)
+	assert.NotNil(t, invoice)
+}
+
+func TestInvoiceVoidInvoice(t *testing.T) {
+	invoice, err := VoidInvoice("in_123", &stripe.InvoiceVoidParams{})
+	assert.Nil(t, err)
+	assert.NotNil(t, invoice)
+}
