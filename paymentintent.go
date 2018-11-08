@@ -152,6 +152,7 @@ type PaymentIntent struct {
 	NextSourceAction    *PaymentIntentSourceAction      `json:"next_source_action"`
 	OnBehalfOf          *Account                        `json:"on_behalf_of"`
 	ReceiptEmail        string                          `json:"receipt_email"`
+	Review              *Review                         `json:"review"`
 	Shipping            ShippingDetails                 `json:"shipping"`
 	Source              *PaymentSource                  `json:"source"`
 	StatementDescriptor string                          `json:"statement_descriptor"`
