@@ -1,5 +1,16 @@
 # Changelog
 
+## 53.0.0 - 2018-11-08
+* [#716](https://github.com/stripe/stripe-go/pull/716) Drop support for Go 1.8.
+* [#715](https://github.com/stripe/stripe-go/pull/715) Ship changes to the `PaymentIntent` resource to match the final layout.
+* [#717](https://github.com/stripe/stripe-go/pull/717) Add support for `flat_amount` on `Plan` tiers.
+* [#718](https://github.com/stripe/stripe-go/pull/718) Add support for `supported_transfer_countries` on `CountrySpec`.
+* [#720](https://github.com/stripe/stripe-go/pull/720) Add support for `review` on `PaymentIntent`.
+* [#707](https://github.com/stripe/stripe-go/pull/707) Multipl
+  * Move to API version 2018-11-08.
+  * Add support for new API methods, properties and parameters for `Invoice`.
+  * Add support for `default_source` on `Subscription` and `Invoice`.
+
 ## 52.1.0 - 2018-10-31
 * [#705](https://github.com/stripe/stripe-go/pull/705) Add support for the `Person` resource
 * [#706](https://github.com/stripe/stripe-go/pull/706) Add support for the `WebhookEndpoint` resource
