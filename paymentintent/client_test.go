@@ -9,7 +9,9 @@ import (
 )
 
 func TestPaymentIntentCancel(t *testing.T) {
-	intent, err := Cancel("pi_123", nil)
+	intent, err := Cancel("pi_123", &stripe.PaymentIntentCancelParams{
+		CancellationReason: stripe.String(string(stripe.PaymentIntentCancellationReasonRequestedByCustomer)),
+	})
 	assert.Nil(t, err)
 	assert.NotNil(t, intent)
 }
@@ -21,7 +23,9 @@ func TestPaymentIntentCapture(t *testing.T) {
 }
 
 func TestPaymentIntentConfirm(t *testing.T) {
-	intent, err := Confirm("pi_123", nil)
+	intent, err := Confirm("pi_123", &stripe.PaymentIntentConfirmParams{
+		ReturnURL: stripe.String("https://stripe.com/return"),
+	})
 	assert.Nil(t, err)
 	assert.NotNil(t, intent)
 }

@@ -26,6 +26,19 @@ func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	return invoice, err
 }
 
+// Del deletes an invoice.
+func Del(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
+	return getC().Del(id, params)
+}
+
+// Del deletes an invoice.
+func (c Client) Del(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/invoices/%s", id)
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, invoice)
+	return invoice, err
+}
+
 // Get returns the details of an invoice.
 func Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	return getC().Get(id, params)
@@ -116,6 +129,58 @@ func (c Client) ListLines(listParams *stripe.InvoiceLineListParams) *LineIter {
 
 		return ret, list.ListMeta, err
 	})}
+}
+
+// FinalizeInvoice finalizes an invoice.
+func FinalizeInvoice(id string, params *stripe.InvoiceFinalizeParams) (*stripe.Invoice, error) {
+	return getC().FinalizeInvoice(id, params)
+}
+
+// FinalizeInvoice finalizes an invoice.
+func (c Client) FinalizeInvoice(id string, params *stripe.InvoiceFinalizeParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/invoices/%s/finalize", id)
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
+	return invoice, err
+}
+
+// MarkUncollectible marks an invoice as uncollectible.
+func MarkUncollectible(id string, params *stripe.InvoiceMarkUncollectibleParams) (*stripe.Invoice, error) {
+	return getC().MarkUncollectible(id, params)
+}
+
+// MarkUncollectible marks an invoice as uncollectible.
+func (c Client) MarkUncollectible(id string, params *stripe.InvoiceMarkUncollectibleParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/invoices/%s/mark_uncollectible", id)
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
+	return invoice, err
+}
+
+// SendInvoice sends an invoice.
+func SendInvoice(id string, params *stripe.InvoiceSendParams) (*stripe.Invoice, error) {
+	return getC().SendInvoice(id, params)
+}
+
+// SendInvoice sends an invoice.
+func (c Client) SendInvoice(id string, params *stripe.InvoiceSendParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/invoices/%s/send", id)
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
+	return invoice, err
+}
+
+// VoidInvoice voids an invoice.
+func VoidInvoice(id string, params *stripe.InvoiceVoidParams) (*stripe.Invoice, error) {
+	return getC().VoidInvoice(id, params)
+}
+
+// VoidInvoice voids an invoice.
+func (c Client) VoidInvoice(id string, params *stripe.InvoiceVoidParams) (*stripe.Invoice, error) {
+	path := stripe.FormatURLPath("/invoices/%s/void", id)
+	invoice := &stripe.Invoice{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
+	return invoice, err
 }
 
 // Iter is an iterator for invoices.

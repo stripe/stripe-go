@@ -128,6 +128,7 @@ type PlanParams struct {
 
 // PlanTier configures tiered pricing
 type PlanTier struct {
+	FlatAmount int64 `json:"flat_amount"`
 	UnitAmount int64 `json:"unit_amount"`
 	UpTo       int64 `json:"up_to"`
 }
@@ -147,6 +148,7 @@ type PlanTransformUsageParams struct {
 // PlanTierParams configures tiered pricing
 type PlanTierParams struct {
 	Params     `form:"*"`
+	FlatAmount *int64 `form:"flat_amount"`
 	UnitAmount *int64 `form:"unit_amount"`
 	UpTo       *int64 `form:"-"` // handled in custom AppendTo
 	UpToInf    *bool  `form:"-"` // handled in custom AppendTo
