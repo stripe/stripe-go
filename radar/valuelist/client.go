@@ -17,65 +17,65 @@ type Client struct {
 }
 
 // New creates a new value list.
-func New(params *stripe.ValueListParams) (*stripe.ValueList, error) {
+func New(params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	return getC().New(params)
 }
 
 // New creates a new value list.
-func (c Client) New(params *stripe.ValueListParams) (*stripe.ValueList, error) {
-	vl := &stripe.ValueList{}
+func (c Client) New(params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
+	vl := &stripe.RadarValueList{}
 	err := c.B.Call(http.MethodPost, "/radar/value_lists", c.Key, params, vl)
 	return vl, err
 }
 
 // Get returns the details of a value list.
-func Get(id string, params *stripe.ValueListParams) (*stripe.ValueList, error) {
+func Get(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	return getC().Get(id, params)
 }
 
 // Get returns the details of a value list.
-func (c Client) Get(id string, params *stripe.ValueListParams) (*stripe.ValueList, error) {
+func (c Client) Get(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	path := stripe.FormatURLPath("/radar/value_lists/%s", id)
-	vl := &stripe.ValueList{}
+	vl := &stripe.RadarValueList{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, vl)
 	return vl, err
 }
 
 // Update updates a vl's properties.
-func Update(id string, params *stripe.ValueListParams) (*stripe.ValueList, error) {
+func Update(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	return getC().Update(id, params)
 }
 
 // Update updates a vl's properties.
-func (c Client) Update(id string, params *stripe.ValueListParams) (*stripe.ValueList, error) {
+func (c Client) Update(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	path := stripe.FormatURLPath("/radar/value_lists/%s", id)
-	vl := &stripe.ValueList{}
+	vl := &stripe.RadarValueList{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, vl)
 	return vl, err
 }
 
 // Del removes a value list.
-func Del(id string, params *stripe.ValueListParams) (*stripe.ValueList, error) {
+func Del(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	return getC().Del(id, params)
 }
 
 // Del removes a value list.
-func (c Client) Del(id string, params *stripe.ValueListParams) (*stripe.ValueList, error) {
+func (c Client) Del(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	path := stripe.FormatURLPath("/radar/value_lists/%s", id)
-	vl := &stripe.ValueList{}
+	vl := &stripe.RadarValueList{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, vl)
 	return vl, err
 }
 
 // List returns a list of vls.
-func List(params *stripe.ValueListListParams) *Iter {
+func List(params *stripe.RadarValueListListParams) *Iter {
 	return getC().List(params)
 }
 
 // List returns a list of vls.
-func (c Client) List(listParams *stripe.ValueListListParams) *Iter {
+func (c Client) List(listParams *stripe.RadarValueListListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
-		list := &stripe.ValueListList{}
+		list := &stripe.RadarValueListList{}
 		err := c.B.CallRaw(http.MethodGet, "/radar/value_lists", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
@@ -92,9 +92,9 @@ type Iter struct {
 	*stripe.Iter
 }
 
-// ValueList returns the vl which the iterator is currently pointing to.
-func (i *Iter) ValueList() *stripe.ValueList {
-	return i.Current().(*stripe.ValueList)
+// RadarValueList returns the vl which the iterator is currently pointing to.
+func (i *Iter) RadarValueList() *stripe.RadarValueList {
+	return i.Current().(*stripe.RadarValueList)
 }
 
 func getC() Client {

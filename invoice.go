@@ -63,13 +63,11 @@ type InvoiceParams struct {
 	AutoAdvance         *bool    `form:"auto_advance"`
 	ApplicationFee      *int64   `form:"application_fee"`
 	Billing             *string  `form:"billing"`
-	Closed              *bool    `form:"closed"`
 	Customer            *string  `form:"customer"`
 	DaysUntilDue        *int64   `form:"days_until_due"`
 	DefaultSource       *string  `form:"default_source"`
 	Description         *string  `form:"description"`
 	DueDate             *int64   `form:"due_date"`
-	Forgiven            *bool    `form:"forgiven"`
 	Paid                *bool    `form:"paid"`
 	StatementDescriptor *string  `form:"statement_descriptor"`
 	Subscription        *string  `form:"subscription"`
@@ -132,9 +130,10 @@ type InvoiceMarkUncollectibleParams struct {
 // paying invoices. For more details, see:
 // https://stripe.com/docs/api#pay_invoice.
 type InvoicePayParams struct {
-	Params  `form:"*"`
-	Forgive *bool   `form:"forgive"`
-	Source  *string `form:"source"`
+	Params        `form:"*"`
+	Forgive       *bool   `form:"forgive"`
+	PaidOutOfBand *bool   `form:"paid_out_of_band"`
+	Source        *string `form:"source"`
 }
 
 // InvoiceSendParams is the set of parameters that can be used when sending invoices.

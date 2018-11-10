@@ -1,4 +1,4 @@
-// Package valuelist provides API functions related to value list items.
+// Package valuelistitem provides API functions related to value list items.
 //
 // For more details, see: https://stripe.com/docs/api/radar/list_items?lang=go
 package valuelistitem
@@ -17,52 +17,52 @@ type Client struct {
 }
 
 // New creates a new value list item.
-func New(params *stripe.ValueListItemParams) (*stripe.ValueListItem, error) {
+func New(params *stripe.RadarValueListItemParams) (*stripe.RadarValueListItem, error) {
 	return getC().New(params)
 }
 
 // New creates a new value list item.
-func (c Client) New(params *stripe.ValueListItemParams) (*stripe.ValueListItem, error) {
-	vli := &stripe.ValueListItem{}
+func (c Client) New(params *stripe.RadarValueListItemParams) (*stripe.RadarValueListItem, error) {
+	vli := &stripe.RadarValueListItem{}
 	err := c.B.Call(http.MethodPost, "/radar/value_list_items", c.Key, params, vli)
 	return vli, err
 }
 
 // Get returns the details of a value list item.
-func Get(id string, params *stripe.ValueListItemParams) (*stripe.ValueListItem, error) {
+func Get(id string, params *stripe.RadarValueListItemParams) (*stripe.RadarValueListItem, error) {
 	return getC().Get(id, params)
 }
 
 // Get returns the details of a value list item.
-func (c Client) Get(id string, params *stripe.ValueListItemParams) (*stripe.ValueListItem, error) {
+func (c Client) Get(id string, params *stripe.RadarValueListItemParams) (*stripe.RadarValueListItem, error) {
 	path := stripe.FormatURLPath("/radar/value_list_items/%s", id)
-	vli := &stripe.ValueListItem{}
+	vli := &stripe.RadarValueListItem{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, vli)
 	return vli, err
 }
 
 // Del removes a value list item.
-func Del(id string, params *stripe.ValueListItemParams) (*stripe.ValueListItem, error) {
+func Del(id string, params *stripe.RadarValueListItemParams) (*stripe.RadarValueListItem, error) {
 	return getC().Del(id, params)
 }
 
 // Del removes a value list item.
-func (c Client) Del(id string, params *stripe.ValueListItemParams) (*stripe.ValueListItem, error) {
+func (c Client) Del(id string, params *stripe.RadarValueListItemParams) (*stripe.RadarValueListItem, error) {
 	path := stripe.FormatURLPath("/radar/value_list_items/%s", id)
-	vli := &stripe.ValueListItem{}
+	vli := &stripe.RadarValueListItem{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, vli)
 	return vli, err
 }
 
 // List returns a list of vlis.
-func List(params *stripe.ValueListItemListParams) *Iter {
+func List(params *stripe.RadarValueListItemListParams) *Iter {
 	return getC().List(params)
 }
 
 // List returns a list of vlis.
-func (c Client) List(listParams *stripe.ValueListItemListParams) *Iter {
+func (c Client) List(listParams *stripe.RadarValueListItemListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
-		list := &stripe.ValueListItemList{}
+		list := &stripe.RadarValueListItemList{}
 		err := c.B.CallRaw(http.MethodGet, "/radar/value_list_items", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
@@ -79,9 +79,9 @@ type Iter struct {
 	*stripe.Iter
 }
 
-// ValueListItem returns the vli which the iterator is currently pointing to.
-func (i *Iter) ValueListItem() *stripe.ValueListItem {
-	return i.Current().(*stripe.ValueListItem)
+// RadarValueListItem returns the vli which the iterator is currently pointing to.
+func (i *Iter) RadarValueListItem() *stripe.RadarValueListItem {
+	return i.Current().(*stripe.RadarValueListItem)
 }
 
 func getC() Client {

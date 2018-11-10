@@ -136,6 +136,10 @@ type API struct {
 	Plans *plan.Client
 	// Products is the client used to invoke /products APIs.
 	Products *product.Client
+	// RadarValueLists is the client used to invoke /radar/value_lists APIs.
+	RadarValueLists *valuelist.Client
+	// RadarValueListItems is the client used to invoke /radar/value_list_items APIs.
+	RadarValueListItems *valuelistitem.Client
 	// Recipients is the client used to invoke /recipients APIs.
 	Recipients *recipient.Client
 	// Refunds is the client used to invoke /refunds APIs.
@@ -172,10 +176,6 @@ type API struct {
 	Transfers *transfer.Client
 	// UsageRecords is the client used to invoke usage record related APIs.
 	UsageRecords *usagerecord.Client
-	// ValueLists is the client used to invoke /radar/value_lists APIs.
-	ValueLists *valuelist.Client
-	// ValueListItems is the client used to invoke /radar/value_list_items APIs.
-	ValueListItems *valuelistitem.Client
 	// WebhookEndpoints is the client used to invoke usage record related APIs.
 	WebhookEndpoints *webhookendpoint.Client
 }
@@ -226,6 +226,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Payouts = &payout.Client{B: backends.API, Key: key}
 	a.Plans = &plan.Client{B: backends.API, Key: key}
 	a.Products = &product.Client{B: backends.API, Key: key}
+	a.RadarValueLists = &valuelist.Client{B: backends.API, Key: key}
+	a.RadarValueListItems = &valuelistitem.Client{B: backends.API, Key: key}
 	a.Recipients = &recipient.Client{B: backends.API, Key: key}
 	a.Refunds = &refund.Client{B: backends.API, Key: key}
 	a.ReportRuns = &reportrun.Client{B: backends.API, Key: key}
@@ -244,8 +246,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Topups = &topup.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
 	a.UsageRecords = &usagerecord.Client{B: backends.API, Key: key}
-	a.ValueLists = &valuelist.Client{B: backends.API, Key: key}
-	a.ValueListItems = &valuelistitem.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }
 

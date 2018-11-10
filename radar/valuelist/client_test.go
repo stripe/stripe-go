@@ -8,20 +8,20 @@ import (
 	_ "github.com/stripe/stripe-go/testing"
 )
 
-func TestValueListDel(t *testing.T) {
+func TestRadarValueListDel(t *testing.T) {
 	vl, err := Del("rsl_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, vl)
 }
 
-func TestValueListGet(t *testing.T) {
+func TestRadarValueListGet(t *testing.T) {
 	vl, err := Get("rsl_123", nil)
 	assert.Nil(t, err)
 	assert.NotNil(t, vl)
 }
 
-func TestValueListList(t *testing.T) {
-	i := List(&stripe.ValueListListParams{
+func TestRadarValueListList(t *testing.T) {
+	i := List(&stripe.RadarValueListListParams{
 		Alias:    stripe.String("alias"),
 		Contains: stripe.String("value"),
 	})
@@ -29,21 +29,21 @@ func TestValueListList(t *testing.T) {
 	// Verify that we can get at least one value list
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
-	assert.NotNil(t, i.ValueList())
+	assert.NotNil(t, i.RadarValueList())
 }
 
-func TestValueListNew(t *testing.T) {
-	vl, err := New(&stripe.ValueListParams{
+func TestRadarValueListNew(t *testing.T) {
+	vl, err := New(&stripe.RadarValueListParams{
 		Alias:    stripe.String("alias"),
 		Name:     stripe.String("name"),
-		ItemType: stripe.String(string(stripe.ValueListItemTypeIPAddress)),
+		ItemType: stripe.String(string(stripe.RadarValueListItemTypeIPAddress)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, vl)
 }
 
-func TestValueListUpdate(t *testing.T) {
-	vl, err := Update("rsl_123", &stripe.ValueListParams{
+func TestRadarValueListUpdate(t *testing.T) {
+	vl, err := Update("rsl_123", &stripe.RadarValueListParams{
 		Params: stripe.Params{
 			Metadata: map[string]string{
 				"foo": "bar",
