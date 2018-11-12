@@ -362,10 +362,10 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 				if s.LogLevel > 0 {
 					s.Logger.Printf("Cannot read response: %v\n", err)
 				}
-				return err
-			}
-			if s.LogLevel > 0 {
-				s.Logger.Printf("Request failed with body: %s (status: %v)\n", string(resBody), res.StatusCode)
+			} else {
+				if s.LogLevel > 0 {
+					s.Logger.Printf("Request failed with body: %s (status: %v)\n", string(resBody), res.StatusCode)
+				}
 			}
 		}
 
