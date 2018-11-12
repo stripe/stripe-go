@@ -9,10 +9,12 @@ import (
 	"regexp"
 	"runtime"
 	"sync"
+	"sync/atomic"
 	"testing"
+	"time"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go"
 	. "github.com/stripe/stripe-go/testing"
 )
 
@@ -116,6 +118,51 @@ func TestDo_Retry(t *testing.T) {
 
 	// We should have seen exactly two requests.
 	assert.Equal(t, 2, requestNum)
+}
+
+func TestDo_RetryOnTimeout(t *testing.T) {
+	type testServerResponse struct {
+		Message string `json:"message"`
+	}
+
+	timeout := time.Second
+	var counter uint32
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		atomic.AddUint32(&counter, 1)
+		time.Sleep(timeout)
+	}))
+	defer testServer.Close()
+
+	backend := stripe.GetBackendWithConfig(
+		stripe.APIBackend,
+		&stripe.BackendConfig{
+			LogLevel:          3,
+			MaxNetworkRetries: 1,
+			URL:               testServer.URL,
+			HTTPClient:        &http.Client{Timeout: timeout},
+		},
+	).(*stripe.BackendImplementation)
+
+	backend.SetNetworkRetriesSleep(false)
+
+	request, err := backend.NewRequest(
+		http.MethodPost,
+		"/hello",
+		"sk_test_123",
+		"application/x-www-form-urlencoded",
+		nil,
+	)
+	assert.NoError(t, err)
+
+	var body = bytes.NewBufferString("foo=bar")
+	var response testServerResponse
+
+	err = backend.Do(request, body, &response)
+
+	assert.Error(t, err)
+	// timeout should not prevent retry
+	assert.Equal(t, uint32(2), atomic.LoadUint32(&counter))
 }
 
 func TestFormatURLPath(t *testing.T) {

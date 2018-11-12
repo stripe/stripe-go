@@ -351,17 +351,22 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 			break
 		}
 
-		resBody, err := ioutil.ReadAll(res.Body)
-		res.Body.Close()
 		if err != nil {
 			if s.LogLevel > 0 {
-				s.Logger.Printf("Cannot read response: %v\n", err)
+				s.Logger.Printf("Request failed with error: %v\n", err)
 			}
-			return err
-		}
-
-		if s.LogLevel > 0 {
-			s.Logger.Printf("Request failed with: %s (error: %v)\n", string(resBody), err)
+		} else {
+			resBody, err := ioutil.ReadAll(res.Body)
+			res.Body.Close()
+			if err != nil {
+				if s.LogLevel > 0 {
+					s.Logger.Printf("Cannot read response: %v\n", err)
+				}
+			} else {
+				if s.LogLevel > 0 {
+					s.Logger.Printf("Request failed with body: %s (status: %v)\n", string(resBody), res.StatusCode)
+				}
+			}
 		}
 
 		sleepDuration := s.sleepTime(retry)
@@ -381,6 +386,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 		}
 		return err
 	}
+
 	defer res.Body.Close()
 
 	resBody, err := ioutil.ReadAll(res.Body)
