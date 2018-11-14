@@ -53,8 +53,11 @@ func TestInvoicePay(t *testing.T) {
 
 func TestInvoiceUpdate(t *testing.T) {
 	invoice, err := Update("in_123", &stripe.InvoiceParams{
-		Forgiven: stripe.Bool(true),
-		Closed:   stripe.Bool(true),
+		Params: stripe.Params{
+			Metadata: map[string]string{
+				"foo": "bar",
+			},
+		},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, invoice)

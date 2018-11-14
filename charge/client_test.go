@@ -33,30 +33,7 @@ func TestChargeNew(t *testing.T) {
 	charge, err := New(&stripe.ChargeParams{
 		Amount:   stripe.Int64(11700),
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
-		Level3: &stripe.ChargeLevel3Params{
-			LineItems: []*stripe.ChargeLevel3LineItemsParams{
-				{
-					DiscountAmount:     stripe.Int64(200),
-					ProductCode:        stripe.String("1234"),
-					ProductDescription: stripe.String("description 1"),
-					Quantity:           stripe.Int64(2),
-					TaxAmount:          stripe.Int64(200),
-					UnitCost:           stripe.Int64(1000),
-				},
-				{
-					DiscountAmount:     stripe.Int64(300),
-					ProductCode:        stripe.String("1235"),
-					ProductDescription: stripe.String("description 2"),
-					Quantity:           stripe.Int64(3),
-					TaxAmount:          stripe.Int64(300),
-					UnitCost:           stripe.Int64(3000),
-				},
-			},
-			MerchantReference:  stripe.String("123"),
-			ShippingAddressZip: stripe.String("94110"),
-			ShippingAmount:     stripe.Int64(700),
-		},
-		Source: &stripe.SourceParams{Token: stripe.String("src_123")},
+		Source:   &stripe.SourceParams{Token: stripe.String("src_123")},
 		Shipping: &stripe.ShippingDetailsParams{
 			Address: &stripe.AddressParams{
 				Line1: stripe.String("line1"),

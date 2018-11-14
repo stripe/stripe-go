@@ -110,6 +110,18 @@ type PaymentIntentListParams struct {
 	ListParams `form:"*"`
 }
 
+// PaymentIntentLastPaymentError represents the last error happening on a payment intent.
+type PaymentIntentLastPaymentError struct {
+	Charge      string         `json:"charge"`
+	Code        string         `json:"code"`
+	DeclineCode string         `json:"decline_code"`
+	DocURL      string         `json:"doc_url"`
+	Message     string         `json:"message"`
+	Param       string         `json:"param"`
+	Source      *PaymentSource `json:"source"`
+	Type        ErrorType      `json:"type"`
+}
+
 // PaymentIntentSourceActionAuthorizeWithURL represents the resource for the next action of type
 // "authorize_with_url".
 type PaymentIntentSourceActionAuthorizeWithURL struct {
@@ -146,6 +158,7 @@ type PaymentIntent struct {
 	Currency            string                          `json:"currency"`
 	Customer            *Customer                       `json:"customer"`
 	Description         string                          `json:"description"`
+	LastPaymentError    *PaymentIntentLastPaymentError  `json:"last_payment_error"`
 	Livemode            bool                            `json:"livemode"`
 	ID                  string                          `json:"id"`
 	Metadata            map[string]string               `json:"metadata"`
