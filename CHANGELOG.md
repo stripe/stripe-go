@@ -1,5 +1,9 @@
 # Changelog
 
+## 53.1.0 - 2018-11-15
+* [#723](https://github.com/stripe/stripe-go/pull/723) Add support for `last_payment_error` on `PaymentIntent`.
+* [#724](https://github.com/stripe/stripe-go/pull/724) Add support for `transfer_data[destination]` on `PaymentIntent`.
+
 ## 53.0.1 - 2018-11-12
 * [#714](https://github.com/stripe/stripe-go/pull/714) Fix bug in retry logic that would cause the client to panic
 
