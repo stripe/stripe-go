@@ -80,7 +80,8 @@ type PaymentIntentConfirmParams struct {
 
 // PaymentIntentTransferDataParams is the set of parameters allowed for the transfer hash.
 type PaymentIntentTransferDataParams struct {
-	Amount *int64 `form:"amount"`
+	Amount      *int64  `form:"amount"`
+	Destination *string `form:"destination"`
 }
 
 // PaymentIntentParams is the set of parameters that can be used when handling a payment intent.
@@ -137,7 +138,8 @@ type PaymentIntentSourceAction struct {
 
 // PaymentIntentTransferData represents the information for the transfer associated with a payment intent.
 type PaymentIntentTransferData struct {
-	Amount int64 `json:"amount"`
+	Amount      int64    `json:"amount"`
+	Destination *Account `json:"destination"`
 }
 
 // PaymentIntent is the resource representing a Stripe payout.
