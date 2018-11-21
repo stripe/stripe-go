@@ -1,5 +1,8 @@
 # Changelog
 
+## 53.2.0 - 2018-11-21
+* [#725](https://github.com/stripe/stripe-go/pull/725) Improved error deserialization
+
 ## 53.1.0 - 2018-11-15
 * [#723](https://github.com/stripe/stripe-go/pull/723) Add support for `last_payment_error` on `PaymentIntent`.
 * [#724](https://github.com/stripe/stripe-go/pull/724) Add support for `transfer_data[destination]` on `PaymentIntent`.
