@@ -414,7 +414,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 
 // ResponseToError converts a stripe response to an Error.
 func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []byte) error {
-	var raw rawErr
+	var raw rawError
 	if err := json.Unmarshal(resBody, &raw); err != nil {
 		return err
 	}
@@ -429,30 +429,28 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 	raw.E.HTTPStatusCode = res.StatusCode
 	raw.E.RequestID = res.Header.Get("Request-Id")
 
-	// they all implement the error interface, so assign in switch...
-	var tErr error
+	var typedError error
 	switch raw.E.Type {
 	case ErrorTypeAPI:
-		tErr = &APIError{stripeErr: raw.E.Error}
+		typedError = &APIError{stripeErr: raw.E.Error}
 	case ErrorTypeAPIConnection:
-		tErr = &APIConnectionError{stripeErr: raw.E.Error}
+		typedError = &APIConnectionError{stripeErr: raw.E.Error}
 	case ErrorTypeAuthentication:
-		tErr = &AuthenticationError{stripeErr: raw.E.Error}
+		typedError = &AuthenticationError{stripeErr: raw.E.Error}
 	case ErrorTypeCard:
 		cardErr := &CardError{stripeErr: raw.E.Error}
-		if raw.E.DC != nil {
-			cardErr.DeclineCode = *raw.E.DC
+		if raw.E.DeclineCode != nil {
+			cardErr.DeclineCode = *raw.E.DeclineCode
 		}
-		tErr = cardErr
+		typedError = cardErr
 	case ErrorTypeInvalidRequest:
-		tErr = &InvalidRequestError{stripeErr: raw.E.Error}
+		typedError = &InvalidRequestError{stripeErr: raw.E.Error}
 	case ErrorTypePermission:
-		tErr = &PermissionError{stripeErr: raw.E.Error}
+		typedError = &PermissionError{stripeErr: raw.E.Error}
 	case ErrorTypeRateLimit:
-		tErr = &RateLimitError{stripeErr: raw.E.Error}
+		typedError = &RateLimitError{stripeErr: raw.E.Error}
 	}
-	// ... then assign to the Error object
-	raw.E.Err = tErr
+	raw.E.Err = typedError
 
 	if s.LogLevel > 0 {
 		s.Logger.Printf("Error encountered from Stripe: %v\n", raw.E.Error)

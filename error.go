@@ -139,14 +139,15 @@ func (e *RateLimitError) Error() string {
 	return e.stripeErr.Error()
 }
 
-// internalErr type so we can get the decline code from the error response
-// used in CardError type, embed the error type because both fields are on the same level
-type internalErr struct {
-	*Error
-	DC *string `json:"decline_code,omitempty"`
+// rawError deserializes the outer JSON object returned in an error response from the API.
+type rawError struct {
+	E *rawErrorInternal `json:"error,omitempty"`
 }
 
-// rawErr - used to unmarshal error response into Error type without the map nonsense
-type rawErr struct {
-	E *internalErr `json:"error,omitempty"`
+// rawErrorInternal embeds Error to deserialize all the standard error fields,
+// but also adds other fields that may or may not be present depending on error
+// type to help with deserialization. (e.g. Declinecode)
+type rawErrorInternal struct {
+	*Error
+	DeclineCode *string `json:"decline_code,omitempty"`
 }
