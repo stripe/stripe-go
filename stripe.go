@@ -414,81 +414,48 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 
 // ResponseToError converts a stripe response to an Error.
 func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []byte) error {
-	// for some odd reason, the Erro structure doesn't unmarshal
-	// initially I thought it was because it's a struct inside of a struct
-	// but even after trying that, it still didn't work
-	// so unmarshalling to a map for now and parsing the results manually
-	// but should investigate later
-	var errMap map[string]interface{}
-
-	err := json.Unmarshal(resBody, &errMap)
-	if err != nil {
+	var raw rawError
+	if err := json.Unmarshal(resBody, &raw); err != nil {
 		return err
 	}
-
-	e, ok := errMap["error"]
-	if !ok {
+	// no error in resBody
+	if raw.E == nil {
 		err := errors.New(string(resBody))
 		if s.LogLevel > 0 {
 			s.Logger.Printf("Unparsable error returned from Stripe: %v\n", err)
 		}
 		return err
 	}
+	raw.E.HTTPStatusCode = res.StatusCode
+	raw.E.RequestID = res.Header.Get("Request-Id")
 
-	root := e.(map[string]interface{})
-
-	stripeErr := &Error{
-		Type:           ErrorType(root["type"].(string)),
-		Msg:            root["message"].(string),
-		HTTPStatusCode: res.StatusCode,
-		RequestID:      res.Header.Get("Request-Id"),
-	}
-
-	if code, ok := root["code"]; ok {
-		stripeErr.Code = ErrorCode(code.(string))
-	}
-
-	if param, ok := root["param"]; ok {
-		stripeErr.Param = param.(string)
-	}
-
-	if charge, ok := root["charge"]; ok {
-		stripeErr.ChargeID = charge.(string)
-	}
-
-	switch stripeErr.Type {
+	var typedError error
+	switch raw.E.Type {
 	case ErrorTypeAPI:
-		stripeErr.Err = &APIError{stripeErr: stripeErr}
-
+		typedError = &APIError{stripeErr: raw.E.Error}
 	case ErrorTypeAPIConnection:
-		stripeErr.Err = &APIConnectionError{stripeErr: stripeErr}
-
+		typedError = &APIConnectionError{stripeErr: raw.E.Error}
 	case ErrorTypeAuthentication:
-		stripeErr.Err = &AuthenticationError{stripeErr: stripeErr}
-
+		typedError = &AuthenticationError{stripeErr: raw.E.Error}
 	case ErrorTypeCard:
-		cardErr := &CardError{stripeErr: stripeErr}
-		stripeErr.Err = cardErr
-
-		if declineCode, ok := root["decline_code"]; ok {
-			cardErr.DeclineCode = declineCode.(string)
+		cardErr := &CardError{stripeErr: raw.E.Error}
+		if raw.E.DeclineCode != nil {
+			cardErr.DeclineCode = *raw.E.DeclineCode
 		}
-
+		typedError = cardErr
 	case ErrorTypeInvalidRequest:
-		stripeErr.Err = &InvalidRequestError{stripeErr: stripeErr}
-
+		typedError = &InvalidRequestError{stripeErr: raw.E.Error}
 	case ErrorTypePermission:
-		stripeErr.Err = &PermissionError{stripeErr: stripeErr}
-
+		typedError = &PermissionError{stripeErr: raw.E.Error}
 	case ErrorTypeRateLimit:
-		stripeErr.Err = &RateLimitError{stripeErr: stripeErr}
+		typedError = &RateLimitError{stripeErr: raw.E.Error}
 	}
+	raw.E.Err = typedError
 
 	if s.LogLevel > 0 {
-		s.Logger.Printf("Error encountered from Stripe: %v\n", stripeErr)
+		s.Logger.Printf("Error encountered from Stripe: %v\n", raw.E.Error)
 	}
-
-	return stripeErr
+	return raw.E.Error
 }
 
 // SetMaxNetworkRetries sets max number of retries on failed requests
