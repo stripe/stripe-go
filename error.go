@@ -139,14 +139,15 @@ func (e *RateLimitError) Error() string {
 	return e.stripeErr.Error()
 }
 
-// rawError deserializes the outer JSON object returned in an error response from the API.
+// rawError deserializes the outer JSON object returned in an error response
+// from the API.
 type rawError struct {
 	E *rawErrorInternal `json:"error,omitempty"`
 }
 
 // rawErrorInternal embeds Error to deserialize all the standard error fields,
 // but also adds other fields that may or may not be present depending on error
-// type to help with deserialization. (e.g. Declinecode)
+// type to help with deserialization. (e.g. Declinecode).
 type rawErrorInternal struct {
 	*Error
 	DeclineCode *string `json:"decline_code,omitempty"`
