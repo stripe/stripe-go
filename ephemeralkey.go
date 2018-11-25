@@ -7,8 +7,8 @@ import "encoding/json"
 // For more details see https://stripe.com/docs/api#ephemeral_keys.
 type EphemeralKeyParams struct {
 	Params        `form:"*"`
-  Customer      *string `form:"customer"`
-  IssuingCard   *string `form:"issuing_card"`
+	Customer      *string `form:"customer"`
+	IssuingCard   *string `form:"issuing_card"`
 	StripeVersion *string `form:"-"` // This goes in the `Stripe-Version` header
 }
 
