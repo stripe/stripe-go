@@ -1,5 +1,8 @@
 # Changelog
 
+## 53.4.0 - 2018-11-26
+* [#728](https://github.com/stripe/stripe-go/pull/728) Add `IssuingCard` to `EphemeralKeyParams`
+
 ## 53.3.0 - 2018-11-26
 * [#727](https://github.com/stripe/stripe-go/pull/727) Add support for `TransferData` on payment intent create and update
 
