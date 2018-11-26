@@ -8,6 +8,7 @@ import "encoding/json"
 type EphemeralKeyParams struct {
 	Params        `form:"*"`
 	Customer      *string `form:"customer"`
+	IssuingCard   *string `form:"issuing_card"`
 	StripeVersion *string `form:"-"` // This goes in the `Stripe-Version` header
 }
 
