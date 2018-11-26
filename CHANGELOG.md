@@ -1,5 +1,8 @@
 # Changelog
 
+## 53.3.0 - 2018-11-26
+* [#727](https://github.com/stripe/stripe-go/pull/727) Add support for `TransferData` on payment intent create and update
+
 ## 53.2.0 - 2018-11-21
 * [#725](https://github.com/stripe/stripe-go/pull/725) Improved error deserialization
 
