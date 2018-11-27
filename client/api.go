@@ -39,6 +39,8 @@ import (
 	"github.com/stripe/stripe-go/payout"
 	"github.com/stripe/stripe-go/plan"
 	"github.com/stripe/stripe-go/product"
+	"github.com/stripe/stripe-go/radar/valuelist"
+	"github.com/stripe/stripe-go/radar/valuelistitem"
 	"github.com/stripe/stripe-go/recipient"
 	"github.com/stripe/stripe-go/refund"
 	"github.com/stripe/stripe-go/reporting/reportrun"
@@ -134,6 +136,10 @@ type API struct {
 	Plans *plan.Client
 	// Products is the client used to invoke /products APIs.
 	Products *product.Client
+	// RadarValueLists is the client used to invoke /radar/value_lists APIs.
+	RadarValueLists *valuelist.Client
+	// RadarValueListItems is the client used to invoke /radar/value_list_items APIs.
+	RadarValueListItems *valuelistitem.Client
 	// Recipients is the client used to invoke /recipients APIs.
 	Recipients *recipient.Client
 	// Refunds is the client used to invoke /refunds APIs.
@@ -220,6 +226,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Payouts = &payout.Client{B: backends.API, Key: key}
 	a.Plans = &plan.Client{B: backends.API, Key: key}
 	a.Products = &product.Client{B: backends.API, Key: key}
+	a.RadarValueLists = &valuelist.Client{B: backends.API, Key: key}
+	a.RadarValueListItems = &valuelistitem.Client{B: backends.API, Key: key}
 	a.Recipients = &recipient.Client{B: backends.API, Key: key}
 	a.Refunds = &refund.Client{B: backends.API, Key: key}
 	a.ReportRuns = &reportrun.Client{B: backends.API, Key: key}
