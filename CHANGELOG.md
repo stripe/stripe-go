@@ -1,5 +1,10 @@
 # Changelog
 
+## 54.0.0 - 2018-11-27
+* [#721](https://github.com/stripe/stripe-go/pull/721) Add support for `RadarValueList` and `RadarValueListItem`
+* [#721](https://github.com/stripe/stripe-go/pull/721) Remove `Closed` and `Forgiven` from `InvoiceParams`
+* [#721](https://github.com/stripe/stripe-go/pull/721) Add `PaidOutOfBand` to `InvoicePayParams`
+
 ## 53.4.0 - 2018-11-26
 * [#728](https://github.com/stripe/stripe-go/pull/728) Add `IssuingCard` to `EphemeralKeyParams`
 
