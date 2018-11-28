@@ -1,5 +1,9 @@
 # Changelog
 
+## 54.1.0 - 2018-11-28
+* [#730](https://github.com/stripe/stripe-go/pull/730) Add support for the Review resource
+* [#731](https://github.com/stripe/stripe-go/pull/731) Add missing properties on the Refund resource
+
 ## 54.0.0 - 2018-11-27
 * [#721](https://github.com/stripe/stripe-go/pull/721) Add support for `RadarValueList` and `RadarValueListItem`
 * [#721](https://github.com/stripe/stripe-go/pull/721) Remove `Closed` and `Forgiven` from `InvoiceParams`
