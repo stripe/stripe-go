@@ -31,6 +31,7 @@ type CustomerParams struct {
 	DefaultSource  *string                        `form:"default_source"`
 	Description    *string                        `form:"description"`
 	Email          *string                        `form:"email"`
+	ID             *string                        `form:"id"`
 	InvoicePrefix  *string                        `form:"invoice_prefix"`
 	Plan           *string                        `form:"plan"`
 	Quantity       *int64                         `form:"quantity"`
