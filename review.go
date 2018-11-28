@@ -15,15 +15,40 @@ const (
 	ReviewReasonRule            ReviewReasonType = "rule"
 )
 
+// ReviewParams is the set of parameters that can be used when approving a review.
+type ReviewParams struct {
+	Params `form:"*"`
+}
+
+// ReviewApproveParams is the set of parameters that can be used when approving a review.
+type ReviewApproveParams struct {
+	Params `form:"*"`
+}
+
+// ReviewListParams is the set of parameters that can be used when listing reviews.
+type ReviewListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+}
+
 // Review is the resource representing a Radar review.
 // For more details see https://stripe.com/docs/api#reviews.
 type Review struct {
-	Charge   *Charge          `json:"charge"`
-	Created  int64            `json:"created"`
-	ID       string           `json:"id"`
-	Livemode bool             `json:"livemode"`
-	Open     bool             `json:"open"`
-	Reason   ReviewReasonType `json:"reason"`
+	Charge        *Charge          `json:"charge"`
+	Created       int64            `json:"created"`
+	ID            string           `json:"id"`
+	Livemode      bool             `json:"livemode"`
+	Object        string           `json:"object"`
+	Open          bool             `json:"open"`
+	PaymentIntent *PaymentIntent   `json:"payment_intent"`
+	Reason        ReviewReasonType `json:"reason"`
+}
+
+// ReviewList is a list of reviews as retrieved from a list endpoint.
+type ReviewList struct {
+	ListMeta
+	Data []*Review `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a Review.
