@@ -1,5 +1,8 @@
 # Changelog
 
+## 54.1.1 - 2018-11-30
+* [#733](https://github.com/stripe/stripe-go/pull/733) Fix malformed URL generated for the uploads API when using `NewBackends`
+
 ## 54.1.0 - 2018-11-28
 * [#730](https://github.com/stripe/stripe-go/pull/730) Add support for the Review resource
 * [#731](https://github.com/stripe/stripe-go/pull/731) Add missing properties on the Refund resource
