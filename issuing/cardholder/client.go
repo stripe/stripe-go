@@ -24,7 +24,7 @@ func New(params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, err
 // New creates a new issuing cardholder.
 func (c Client) New(params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, error) {
 	cardholder := &stripe.IssuingCardholder{}
-	err := c.B.Call(http.MethodPost, "/issuing/cardholders", c.Key, params, cardholder)
+	err := c.B.Call(http.MethodPost, "/v1/issuing/cardholders", c.Key, params, cardholder)
 	return cardholder, err
 }
 
@@ -35,7 +35,7 @@ func Get(id string, params *stripe.IssuingCardholderParams) (*stripe.IssuingCard
 
 // Get returns the details of an issuing cardholder.
 func (c Client) Get(id string, params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, error) {
-	path := stripe.FormatURLPath("/issuing/cardholders/%s", id)
+	path := stripe.FormatURLPath("/v1/issuing/cardholders/%s", id)
 	cardholder := &stripe.IssuingCardholder{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, cardholder)
 	return cardholder, err
@@ -48,7 +48,7 @@ func Update(id string, params *stripe.IssuingCardholderParams) (*stripe.IssuingC
 
 // Update updates an issuing cardholder.
 func (c Client) Update(id string, params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, error) {
-	path := stripe.FormatURLPath("/issuing/cardholders/%s", id)
+	path := stripe.FormatURLPath("/v1/issuing/cardholders/%s", id)
 	cardholder := &stripe.IssuingCardholder{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, cardholder)
 	return cardholder, err
@@ -63,7 +63,7 @@ func List(params *stripe.IssuingCardholderListParams) *Iter {
 func (c Client) List(listParams *stripe.IssuingCardholderListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.IssuingCardholderList{}
-		err := c.B.CallRaw(http.MethodGet, "/issuing/cardholders", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/cardholders", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

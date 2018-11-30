@@ -32,7 +32,7 @@ const (
 	APIBackend SupportedBackend = "api"
 
 	// APIURL is the URL of the API service backend.
-	APIURL string = "https://api.stripe.com/v1"
+	APIURL string = "https://api.stripe.com"
 
 	// UnknownPlatform is the string returned as the system name if we couldn't get
 	// one from `uname`.
@@ -42,7 +42,7 @@ const (
 	UploadsBackend SupportedBackend = "uploads"
 
 	// UploadsURL is the URL of the uploads service backend.
-	UploadsURL string = "https://files.stripe.com/v1"
+	UploadsURL string = "https://files.stripe.com"
 )
 
 //
@@ -649,10 +649,7 @@ func GetBackendWithConfig(backendType SupportedBackend, config *BackendConfig) B
 			config.URL = apiURL
 		}
 
-		// Add the /v1/ prefix because all client packages expect it. We should
-		// probably change this to just make it explicit wherever it's needed
-		// to fulfill the principle of least astonishment.
-		config.URL += "/v1"
+		config.URL = normalizeURL(config.URL)
 
 		return newBackendImplementation(backendType, config)
 
@@ -661,10 +658,7 @@ func GetBackendWithConfig(backendType SupportedBackend, config *BackendConfig) B
 			config.URL = uploadsURL
 		}
 
-		// Add the /v1/ prefix because all client packages expect it. We should
-		// probably change this to just make it explicit wherever it's needed
-		// to fulfill the principle of least astonishment.
-		config.URL += "/v1"
+		config.URL = normalizeURL(config.URL)
 
 		return newBackendImplementation(backendType, config)
 	}
@@ -893,4 +887,18 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 		URL:                 config.URL,
 		networkRetriesSleep: true,
 	}
+}
+
+func normalizeURL(url string) string {
+	// All paths include a leading slash, so to keep logs pretty, trim a
+	// trailing slash on the URL.
+	url = strings.TrimSuffix(url, "/")
+
+	// For a long time we had the `/v1` suffix as part of a configured URL
+	// rather than in the per-package URLs throughout the library. Continue
+	// to support this for the time being by stripping one that's been
+	// passed for better backwards compatibility.
+	url = strings.TrimSuffix(url, "/v1")
+
+	return url
 }

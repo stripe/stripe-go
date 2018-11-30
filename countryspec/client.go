@@ -21,7 +21,7 @@ func Get(country string, params *stripe.CountrySpecParams) (*stripe.CountrySpec,
 
 // Get returns a Country Spec for a given country code.
 func (c Client) Get(country string, params *stripe.CountrySpecParams) (*stripe.CountrySpec, error) {
-	path := stripe.FormatURLPath("/country_specs/%s", country)
+	path := stripe.FormatURLPath("/v1/country_specs/%s", country)
 	countrySpec := &stripe.CountrySpec{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, countrySpec)
 	return countrySpec, err
@@ -36,7 +36,7 @@ func List(params *stripe.CountrySpecListParams) *Iter {
 func (c Client) List(listParams *stripe.CountrySpecListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CountrySpecList{}
-		err := c.B.CallRaw(http.MethodGet, "/country_specs", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/country_specs", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

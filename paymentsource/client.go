@@ -30,7 +30,7 @@ func (s Client) New(params *stripe.CustomerSourceParams) (*stripe.PaymentSource,
 		return nil, errors.New("Invalid source params: customer needs to be set")
 	}
 
-	path := stripe.FormatURLPath("/customers/%s/sources", stripe.StringValue(params.Customer))
+	path := stripe.FormatURLPath("/v1/customers/%s/sources", stripe.StringValue(params.Customer))
 	source := &stripe.PaymentSource{}
 	err := s.B.Call(http.MethodPost, path, s.Key, params, source)
 	return source, err
@@ -51,7 +51,7 @@ func (s Client) Get(id string, params *stripe.CustomerSourceParams) (*stripe.Pay
 		return nil, errors.New("Invalid source params: customer needs to be set")
 	}
 
-	path := stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
+	path := stripe.FormatURLPath("/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	source := &stripe.PaymentSource{}
 	err := s.B.Call(http.MethodGet, path, s.Key, params, source)
 	return source, err
@@ -72,7 +72,7 @@ func (s Client) Update(id string, params *stripe.CustomerSourceParams) (*stripe.
 		return nil, errors.New("Invalid source params: customer needs to be set")
 	}
 
-	path := stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
+	path := stripe.FormatURLPath("/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	source := &stripe.PaymentSource{}
 	err := s.B.Call(http.MethodPost, path, s.Key, params, source)
 	return source, err
@@ -94,7 +94,7 @@ func (s Client) Del(id string, params *stripe.CustomerSourceParams) (*stripe.Pay
 	}
 
 	source := &stripe.PaymentSource{}
-	path := stripe.FormatURLPath("/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
+	path := stripe.FormatURLPath("/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	err := s.B.Call(http.MethodDelete, path, s.Key, params, source)
 	return source, err
 }
@@ -114,7 +114,7 @@ func (s Client) List(listParams *stripe.SourceListParams) *Iter {
 	} else if listParams.Customer == nil {
 		outerErr = errors.New("Invalid source params: customer needs to be set")
 	} else {
-		path = stripe.FormatURLPath("/customers/%s/sources",
+		path = stripe.FormatURLPath("/v1/customers/%s/sources",
 			stripe.StringValue(listParams.Customer))
 	}
 
@@ -149,10 +149,10 @@ func (s Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.Pa
 
 	var path string
 	if params.Customer != nil {
-		path = stripe.FormatURLPath("/customers/%s/sources/%s/verify",
+		path = stripe.FormatURLPath("/v1/customers/%s/sources/%s/verify",
 			stripe.StringValue(params.Customer), id)
 	} else if len(params.Values) > 0 {
-		path = stripe.FormatURLPath("/sources/%s/verify", id)
+		path = stripe.FormatURLPath("/v1/sources/%s/verify", id)
 	} else {
 		return nil, errors.New("Only customer bank accounts or sources can be verified in this manner")
 	}

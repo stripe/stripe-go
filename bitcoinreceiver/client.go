@@ -24,7 +24,7 @@ func Get(id string) (*stripe.BitcoinReceiver, error) {
 
 // Get returns the details of a bitcoin receiver.
 func (c Client) Get(id string) (*stripe.BitcoinReceiver, error) {
-	path := stripe.FormatURLPath("/bitcoin/receivers/%s", id)
+	path := stripe.FormatURLPath("/v1/bitcoin/receivers/%s", id)
 	bitcoinReceiver := &stripe.BitcoinReceiver{}
 	err := c.B.Call(http.MethodGet, path, c.Key, nil, bitcoinReceiver)
 	return bitcoinReceiver, err
@@ -39,7 +39,7 @@ func List(params *stripe.BitcoinReceiverListParams) *Iter {
 func (c Client) List(listParams *stripe.BitcoinReceiverListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BitcoinReceiverList{}
-		err := c.B.CallRaw(http.MethodGet, "/bitcoin/receivers", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/bitcoin/receivers", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

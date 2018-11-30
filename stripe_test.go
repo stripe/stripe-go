@@ -166,12 +166,51 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 }
 
 func TestFormatURLPath(t *testing.T) {
-	assert.Equal(t, "/resources/1/subresources/2",
-		stripe.FormatURLPath("/resources/%s/subresources/%s", "1", "2"))
+	assert.Equal(t, "/v1/resources/1/subresources/2",
+		stripe.FormatURLPath("/v1/resources/%s/subresources/%s", "1", "2"))
 
 	// Tests that each parameter is escaped for use in URLs
-	assert.Equal(t, "/resources/%25",
-		stripe.FormatURLPath("/resources/%s", "%"))
+	assert.Equal(t, "/v1/resources/%25",
+		stripe.FormatURLPath("/v1/resources/%s", "%"))
+}
+
+func TestGetBackendWithConfig_TrimV1Suffix(t *testing.T) {
+	{
+		backend := stripe.GetBackendWithConfig(
+			stripe.APIBackend,
+			&stripe.BackendConfig{
+				URL: "https://api.stripe.com/v1",
+			},
+		).(*stripe.BackendImplementation)
+
+		// The `/v1` suffix has been stripped.
+		assert.Equal(t, "https://api.stripe.com", backend.URL)
+	}
+
+	// Also support trimming a `/v1/` with an extra trailing slash which is
+	// probably an often seen mistake.
+	{
+		backend := stripe.GetBackendWithConfig(
+			stripe.APIBackend,
+			&stripe.BackendConfig{
+				URL: "https://api.stripe.com/v1/",
+			},
+		).(*stripe.BackendImplementation)
+
+		assert.Equal(t, "https://api.stripe.com", backend.URL)
+	}
+
+	// No-op otherwise.
+	{
+		backend := stripe.GetBackendWithConfig(
+			stripe.APIBackend,
+			&stripe.BackendConfig{
+				URL: "https://api.stripe.com",
+			},
+		).(*stripe.BackendImplementation)
+
+		assert.Equal(t, "https://api.stripe.com", backend.URL)
+	}
 }
 
 func TestParseID(t *testing.T) {

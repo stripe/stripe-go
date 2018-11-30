@@ -21,7 +21,7 @@ func Approve(id string, params *stripe.ReviewApproveParams) (*stripe.Review, err
 
 // Approve approves a review.
 func (c Client) Approve(id string, params *stripe.ReviewApproveParams) (*stripe.Review, error) {
-	path := stripe.FormatURLPath("/reviews/%s/approve", id)
+	path := stripe.FormatURLPath("/v1/reviews/%s/approve", id)
 	review := &stripe.Review{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, review)
 	return review, err
@@ -34,7 +34,7 @@ func Get(id string, params *stripe.ReviewParams) (*stripe.Review, error) {
 
 // Get returns the details of a review.
 func (c Client) Get(id string, params *stripe.ReviewParams) (*stripe.Review, error) {
-	path := stripe.FormatURLPath("/reviews/%s", id)
+	path := stripe.FormatURLPath("/v1/reviews/%s", id)
 	review := &stripe.Review{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, review)
 	return review, err
@@ -49,7 +49,7 @@ func List(params *stripe.ReviewListParams) *Iter {
 func (c Client) List(listParams *stripe.ReviewListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ReviewList{}
-		err := c.B.CallRaw(http.MethodGet, "/reviews", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/reviews", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

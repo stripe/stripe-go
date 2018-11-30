@@ -22,7 +22,7 @@ func New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 // New creates a new invoice item.
 func (c Client) New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call(http.MethodPost, "/invoiceitems", c.Key, params, invoiceItem)
+	err := c.B.Call(http.MethodPost, "/v1/invoiceitems", c.Key, params, invoiceItem)
 	return invoiceItem, err
 }
 
@@ -33,7 +33,7 @@ func Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 
 // Get returns the details of an invoice item.
 func (c Client) Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	path := stripe.FormatURLPath("/invoiceitems/%s", id)
+	path := stripe.FormatURLPath("/v1/invoiceitems/%s", id)
 	invoiceItem := &stripe.InvoiceItem{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, invoiceItem)
 	return invoiceItem, err
@@ -46,7 +46,7 @@ func Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, e
 
 // Update updates an invoice item.
 func (c Client) Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	path := stripe.FormatURLPath("/invoiceitems/%s", id)
+	path := stripe.FormatURLPath("/v1/invoiceitems/%s", id)
 	invoiceItem := &stripe.InvoiceItem{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoiceItem)
 	return invoiceItem, err
@@ -59,7 +59,7 @@ func Del(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 
 // Del removes an invoice item.
 func (c Client) Del(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	path := stripe.FormatURLPath("/invoiceitems/%s", id)
+	path := stripe.FormatURLPath("/v1/invoiceitems/%s", id)
 	ii := &stripe.InvoiceItem{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, ii)
 	return ii, err
@@ -74,7 +74,7 @@ func List(params *stripe.InvoiceItemListParams) *Iter {
 func (c Client) List(listParams *stripe.InvoiceItemListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceItemList{}
-		err := c.B.CallRaw(http.MethodGet, "/invoiceitems", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/invoiceitems", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

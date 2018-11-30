@@ -24,7 +24,7 @@ func New(params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 // New creates a new issuing card.
 func (c Client) New(params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 	card := &stripe.IssuingCard{}
-	err := c.B.Call(http.MethodPost, "/issuing/cards", c.Key, params, card)
+	err := c.B.Call(http.MethodPost, "/v1/issuing/cards", c.Key, params, card)
 	return card, err
 }
 
@@ -35,7 +35,7 @@ func Get(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, erro
 
 // Get returns the details of an issuing card.
 func (c Client) Get(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
-	path := stripe.FormatURLPath("/issuing/cards/%s", id)
+	path := stripe.FormatURLPath("/v1/issuing/cards/%s", id)
 	card := &stripe.IssuingCard{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, card)
 	return card, err
@@ -48,7 +48,7 @@ func Update(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, e
 
 // Update updates an issuing card.
 func (c Client) Update(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
-	path := stripe.FormatURLPath("/issuing/cards/%s", id)
+	path := stripe.FormatURLPath("/v1/issuing/cards/%s", id)
 	card := &stripe.IssuingCard{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, card)
 	return card, err
@@ -63,7 +63,7 @@ func List(params *stripe.IssuingCardListParams) *Iter {
 func (c Client) List(listParams *stripe.IssuingCardListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.IssuingCardList{}
-		err := c.B.CallRaw(http.MethodGet, "/issuing/cards", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/cards", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
@@ -81,7 +81,7 @@ func Details(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCardDe
 
 // Details retrieves an issuing card details.
 func (c Client) Details(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCardDetails, error) {
-	path := stripe.FormatURLPath("/issuing/cards/%s/details", id)
+	path := stripe.FormatURLPath("/v1/issuing/cards/%s/details", id)
 	cardDetails := &stripe.IssuingCardDetails{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, cardDetails)
 	return cardDetails, err

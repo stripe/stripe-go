@@ -22,7 +22,7 @@ func Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 // Get retrieves an account's balance
 func (c Client) Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 	balance := &stripe.Balance{}
-	err := c.B.Call(http.MethodGet, "/balance", c.Key, params, balance)
+	err := c.B.Call(http.MethodGet, "/v1/balance", c.Key, params, balance)
 	return balance, err
 }
 
@@ -33,7 +33,7 @@ func GetBalanceTransaction(id string, params *stripe.BalanceTransactionParams) (
 
 // GetBalanceTransaction retrieves a balance transaction
 func (c Client) GetBalanceTransaction(id string, params *stripe.BalanceTransactionParams) (*stripe.BalanceTransaction, error) {
-	path := stripe.FormatURLPath("/balance/history/%s", id)
+	path := stripe.FormatURLPath("/v1/balance/history/%s", id)
 	balance := &stripe.BalanceTransaction{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, balance)
 	return balance, err
@@ -48,7 +48,7 @@ func List(params *stripe.BalanceTransactionListParams) *Iter {
 func (c Client) List(listParams *stripe.BalanceTransactionListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BalanceTransactionList{}
-		err := c.B.CallRaw(http.MethodGet, "/balance/history", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/balance/history", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

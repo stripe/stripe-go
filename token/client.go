@@ -21,7 +21,7 @@ func New(params *stripe.TokenParams) (*stripe.Token, error) {
 // New creates a new token.
 func (c Client) New(params *stripe.TokenParams) (*stripe.Token, error) {
 	tok := &stripe.Token{}
-	err := c.B.Call(http.MethodPost, "/tokens", c.Key, params, tok)
+	err := c.B.Call(http.MethodPost, "/v1/tokens", c.Key, params, tok)
 	return tok, err
 }
 
@@ -32,7 +32,7 @@ func Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
 
 // Get returns the details of a token.
 func (c Client) Get(id string, params *stripe.TokenParams) (*stripe.Token, error) {
-	path := stripe.FormatURLPath("/tokens/%s", id)
+	path := stripe.FormatURLPath("/v1/tokens/%s", id)
 	token := &stripe.Token{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, token)
 

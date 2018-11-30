@@ -22,7 +22,7 @@ func List(params *stripe.BitcoinTransactionListParams) *Iter {
 // List returns a list of bitcoin transactions.
 func (c Client) List(listParams *stripe.BitcoinTransactionListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
-		path := stripe.FormatURLPath("/bitcoin/receivers/%s/transactions",
+		path := stripe.FormatURLPath("/v1/bitcoin/receivers/%s/transactions",
 			stripe.StringValue(listParams.Receiver))
 		list := &stripe.BitcoinTransactionList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)

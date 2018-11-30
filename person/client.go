@@ -22,7 +22,7 @@ func New(params *stripe.PersonParams) (*stripe.Person, error) {
 
 // New creates a new account person.
 func (c Client) New(params *stripe.PersonParams) (*stripe.Person, error) {
-	path := stripe.FormatURLPath("/accounts/%s/persons", stripe.StringValue(params.Account))
+	path := stripe.FormatURLPath("/v1/accounts/%s/persons", stripe.StringValue(params.Account))
 	person := &stripe.Person{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, person)
 	return person, err
@@ -39,7 +39,7 @@ func (c Client) Get(id string, params *stripe.PersonParams) (*stripe.Person, err
 		return nil, fmt.Errorf("params cannot be nil, and params.Account must be set")
 	}
 
-	path := stripe.FormatURLPath("/accounts/%s/persons/%s",
+	path := stripe.FormatURLPath("/v1/accounts/%s/persons/%s",
 		stripe.StringValue(params.Account), id)
 	person := &stripe.Person{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, person)
@@ -53,7 +53,7 @@ func Update(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 
 // Update updates a account person's properties.
 func (c Client) Update(id string, params *stripe.PersonParams) (*stripe.Person, error) {
-	path := stripe.FormatURLPath("/accounts/%s/persons/%s",
+	path := stripe.FormatURLPath("/v1/accounts/%s/persons/%s",
 		stripe.StringValue(params.Account), id)
 	person := &stripe.Person{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, person)
@@ -67,7 +67,7 @@ func Del(id string, params *stripe.PersonParams) (*stripe.Person, error) {
 
 // Del removes a person.
 func (c Client) Del(id string, params *stripe.PersonParams) (*stripe.Person, error) {
-	path := stripe.FormatURLPath("/accounts/%s/persons/%s",
+	path := stripe.FormatURLPath("/v1/accounts/%s/persons/%s",
 		stripe.StringValue(params.Account), id)
 	person := &stripe.Person{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, person)
@@ -81,7 +81,7 @@ func List(params *stripe.PersonListParams) *Iter {
 
 // List returns a list of account persons.
 func (c Client) List(listParams *stripe.PersonListParams) *Iter {
-	path := stripe.FormatURLPath("/accounts/%s/persons", stripe.StringValue(listParams.Account))
+	path := stripe.FormatURLPath("/v1/accounts/%s/persons", stripe.StringValue(listParams.Account))
 
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.PersonList{}

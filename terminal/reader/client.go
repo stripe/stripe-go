@@ -22,7 +22,7 @@ func New(params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 // New creates a new terminal reader.
 func (c Client) New(params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodPost, "/terminal/readers", c.Key, params, reader)
+	err := c.B.Call(http.MethodPost, "/v1/terminal/readers", c.Key, params, reader)
 	return reader, err
 }
 
@@ -33,7 +33,7 @@ func Get(id string, params *stripe.TerminalReaderGetParams) (*stripe.TerminalRea
 
 // Get returns the details of a terminal reader.
 func (c Client) Get(id string, params *stripe.TerminalReaderGetParams) (*stripe.TerminalReader, error) {
-	path := stripe.FormatURLPath("/terminal/readers/%s", id)
+	path := stripe.FormatURLPath("/v1/terminal/readers/%s", id)
 	reader := &stripe.TerminalReader{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, reader)
 	return reader, err
@@ -46,7 +46,7 @@ func Update(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalRea
 
 // Update updates a terminal reader.
 func (c Client) Update(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
-	path := stripe.FormatURLPath("/terminal/readers/%s", id)
+	path := stripe.FormatURLPath("/v1/terminal/readers/%s", id)
 	reader := &stripe.TerminalReader{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
 	return reader, err
@@ -61,7 +61,7 @@ func List(params *stripe.TerminalReaderListParams) *Iter {
 func (c Client) List(listParams *stripe.TerminalReaderListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.TerminalReaderList{}
-		err := c.B.CallRaw(http.MethodGet, "/terminal/readers", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/terminal/readers", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

@@ -22,7 +22,7 @@ func New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 // New creates a new transfer.
 func (c Client) New(params *stripe.TransferParams) (*stripe.Transfer, error) {
 	transfer := &stripe.Transfer{}
-	err := c.B.Call(http.MethodPost, "/transfers", c.Key, params, transfer)
+	err := c.B.Call(http.MethodPost, "/v1/transfers", c.Key, params, transfer)
 	return transfer, err
 }
 
@@ -33,7 +33,7 @@ func Get(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
 
 // Get returns the details of a transfer.
 func (c Client) Get(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
-	path := stripe.FormatURLPath("/transfers/%s", id)
+	path := stripe.FormatURLPath("/v1/transfers/%s", id)
 	transfer := &stripe.Transfer{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, transfer)
 	return transfer, err
@@ -46,7 +46,7 @@ func Update(id string, params *stripe.TransferParams) (*stripe.Transfer, error) 
 
 // Update updates a transfer's properties.
 func (c Client) Update(id string, params *stripe.TransferParams) (*stripe.Transfer, error) {
-	path := stripe.FormatURLPath("/transfers/%s", id)
+	path := stripe.FormatURLPath("/v1/transfers/%s", id)
 	transfer := &stripe.Transfer{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, transfer)
 	return transfer, err
@@ -61,7 +61,7 @@ func List(params *stripe.TransferListParams) *Iter {
 func (c Client) List(listParams *stripe.TransferListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.TransferList{}
-		err := c.B.CallRaw(http.MethodGet, "/transfers", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/transfers", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

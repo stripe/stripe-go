@@ -24,7 +24,7 @@ func New(params *stripe.FileLinkParams) (*stripe.FileLink, error) {
 // New creates a new file link.
 func (c Client) New(params *stripe.FileLinkParams) (*stripe.FileLink, error) {
 	fileLink := &stripe.FileLink{}
-	err := c.B.Call(http.MethodPost, "/file_links", c.Key, params, fileLink)
+	err := c.B.Call(http.MethodPost, "/v1/file_links", c.Key, params, fileLink)
 	return fileLink, err
 }
 
@@ -35,7 +35,7 @@ func Get(id string, params *stripe.FileLinkParams) (*stripe.FileLink, error) {
 
 // Get retrieves a file link.
 func (c Client) Get(id string, params *stripe.FileLinkParams) (*stripe.FileLink, error) {
-	path := stripe.FormatURLPath("/file_links/%s", id)
+	path := stripe.FormatURLPath("/v1/file_links/%s", id)
 	fileLink := &stripe.FileLink{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, fileLink)
 	return fileLink, err
@@ -48,7 +48,7 @@ func Update(id string, params *stripe.FileLinkParams) (*stripe.FileLink, error) 
 
 // Update updates a file link.
 func (c Client) Update(id string, params *stripe.FileLinkParams) (*stripe.FileLink, error) {
-	path := stripe.FormatURLPath("/file_links/%s", id)
+	path := stripe.FormatURLPath("/v1/file_links/%s", id)
 	fileLink := &stripe.FileLink{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, fileLink)
 	return fileLink, err
@@ -63,7 +63,7 @@ func List(params *stripe.FileLinkListParams) *Iter {
 func (c Client) List(listParams *stripe.FileLinkListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.FileLinkList{}
-		err := c.B.CallRaw(http.MethodGet, "/file_links", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/file_links", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

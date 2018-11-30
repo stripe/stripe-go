@@ -21,7 +21,7 @@ func New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 // New creates a new source.
 func (c Client) New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 	p := &stripe.Source{}
-	err := c.B.Call(http.MethodPost, "/sources", c.Key, params, p)
+	err := c.B.Call(http.MethodPost, "/v1/sources", c.Key, params, p)
 	return p, err
 }
 
@@ -32,7 +32,7 @@ func Get(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
 
 // Get returns the details of a source.
 func (c Client) Get(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
-	path := stripe.FormatURLPath("/sources/%s", id)
+	path := stripe.FormatURLPath("/v1/sources/%s", id)
 	source := &stripe.Source{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, source)
 	return source, err
@@ -45,7 +45,7 @@ func Update(id string, params *stripe.SourceObjectParams) (*stripe.Source, error
 
 // Update updates a source's properties.
 func (c Client) Update(id string, params *stripe.SourceObjectParams) (*stripe.Source, error) {
-	path := stripe.FormatURLPath("/sources/%s", id)
+	path := stripe.FormatURLPath("/v1/sources/%s", id)
 	source := &stripe.Source{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, source)
 	return source, err
@@ -62,7 +62,7 @@ func (c Client) Detach(id string, params *stripe.SourceObjectDetachParams) (*str
 		return nil, errors.New("Invalid source detach params: Customer needs to be set")
 	}
 
-	path := stripe.FormatURLPath("/customers/%s/sources/%s",
+	path := stripe.FormatURLPath("/v1/customers/%s/sources/%s",
 		stripe.StringValue(params.Customer), id)
 	source := &stripe.Source{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, source)

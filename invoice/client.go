@@ -22,7 +22,7 @@ func New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 // New creates a new invoice.
 func (c Client) New(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	invoice := &stripe.Invoice{}
-	err := c.B.Call(http.MethodPost, "/invoices", c.Key, params, invoice)
+	err := c.B.Call(http.MethodPost, "/v1/invoices", c.Key, params, invoice)
 	return invoice, err
 }
 
@@ -33,7 +33,7 @@ func Del(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 
 // Del deletes an invoice.
 func (c Client) Del(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
-	path := stripe.FormatURLPath("/invoices/%s", id)
+	path := stripe.FormatURLPath("/v1/invoices/%s", id)
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, invoice)
 	return invoice, err
@@ -46,7 +46,7 @@ func Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 
 // Get returns the details of an invoice.
 func (c Client) Get(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
-	path := stripe.FormatURLPath("/invoices/%s", id)
+	path := stripe.FormatURLPath("/v1/invoices/%s", id)
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, invoice)
 	return invoice, err
@@ -59,7 +59,7 @@ func Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice, error) {
 
 // Pay pays an invoice.
 func (c Client) Pay(id string, params *stripe.InvoicePayParams) (*stripe.Invoice, error) {
-	path := stripe.FormatURLPath("/invoices/%s/pay", id)
+	path := stripe.FormatURLPath("/v1/invoices/%s/pay", id)
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
@@ -72,7 +72,7 @@ func Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 
 // Update updates an invoice.
 func (c Client) Update(id string, params *stripe.InvoiceParams) (*stripe.Invoice, error) {
-	path := stripe.FormatURLPath("/invoices/%s", id)
+	path := stripe.FormatURLPath("/v1/invoices/%s", id)
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
@@ -86,7 +86,7 @@ func GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 // GetNext returns an upcoming invoice.
 func (c Client) GetNext(params *stripe.InvoiceParams) (*stripe.Invoice, error) {
 	invoice := &stripe.Invoice{}
-	err := c.B.Call(http.MethodGet, "/invoices/upcoming", c.Key, params, invoice)
+	err := c.B.Call(http.MethodGet, "/v1/invoices/upcoming", c.Key, params, invoice)
 	return invoice, err
 }
 
@@ -99,7 +99,7 @@ func List(params *stripe.InvoiceListParams) *Iter {
 func (c Client) List(listParams *stripe.InvoiceListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceList{}
-		err := c.B.CallRaw(http.MethodGet, "/invoices", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/invoices", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
@@ -117,7 +117,7 @@ func ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 
 // ListLines returns a list of line items on an invoice.
 func (c Client) ListLines(listParams *stripe.InvoiceLineListParams) *LineIter {
-	path := stripe.FormatURLPath("/invoices/%s/lines", stripe.StringValue(listParams.ID))
+	path := stripe.FormatURLPath("/v1/invoices/%s/lines", stripe.StringValue(listParams.ID))
 	return &LineIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.InvoiceLineList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
@@ -138,7 +138,7 @@ func FinalizeInvoice(id string, params *stripe.InvoiceFinalizeParams) (*stripe.I
 
 // FinalizeInvoice finalizes an invoice.
 func (c Client) FinalizeInvoice(id string, params *stripe.InvoiceFinalizeParams) (*stripe.Invoice, error) {
-	path := stripe.FormatURLPath("/invoices/%s/finalize", id)
+	path := stripe.FormatURLPath("/v1/invoices/%s/finalize", id)
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
@@ -151,7 +151,7 @@ func MarkUncollectible(id string, params *stripe.InvoiceMarkUncollectibleParams)
 
 // MarkUncollectible marks an invoice as uncollectible.
 func (c Client) MarkUncollectible(id string, params *stripe.InvoiceMarkUncollectibleParams) (*stripe.Invoice, error) {
-	path := stripe.FormatURLPath("/invoices/%s/mark_uncollectible", id)
+	path := stripe.FormatURLPath("/v1/invoices/%s/mark_uncollectible", id)
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
@@ -164,7 +164,7 @@ func SendInvoice(id string, params *stripe.InvoiceSendParams) (*stripe.Invoice, 
 
 // SendInvoice sends an invoice.
 func (c Client) SendInvoice(id string, params *stripe.InvoiceSendParams) (*stripe.Invoice, error) {
-	path := stripe.FormatURLPath("/invoices/%s/send", id)
+	path := stripe.FormatURLPath("/v1/invoices/%s/send", id)
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err
@@ -177,7 +177,7 @@ func VoidInvoice(id string, params *stripe.InvoiceVoidParams) (*stripe.Invoice, 
 
 // VoidInvoice voids an invoice.
 func (c Client) VoidInvoice(id string, params *stripe.InvoiceVoidParams) (*stripe.Invoice, error) {
-	path := stripe.FormatURLPath("/invoices/%s/void", id)
+	path := stripe.FormatURLPath("/v1/invoices/%s/void", id)
 	invoice := &stripe.Invoice{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, invoice)
 	return invoice, err

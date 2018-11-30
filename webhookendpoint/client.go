@@ -22,7 +22,7 @@ func New(params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) 
 // New creates a new webhook_endpoint.
 func (c Client) New(params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
 	endpoint := &stripe.WebhookEndpoint{}
-	err := c.B.Call(http.MethodPost, "/webhook_endpoints", c.Key, params, endpoint)
+	err := c.B.Call(http.MethodPost, "/v1/webhook_endpoints", c.Key, params, endpoint)
 	return endpoint, err
 }
 
@@ -33,7 +33,7 @@ func Get(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoi
 
 // Get returns the details of a webhook endpoint.
 func (c Client) Get(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
-	path := stripe.FormatURLPath("/webhook_endpoints/%s", id)
+	path := stripe.FormatURLPath("/v1/webhook_endpoints/%s", id)
 	endpoint := &stripe.WebhookEndpoint{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, endpoint)
 	return endpoint, err
@@ -46,7 +46,7 @@ func Update(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEnd
 
 // Update updates a webhook endpoint's properties.
 func (c Client) Update(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
-	path := stripe.FormatURLPath("/webhook_endpoints/%s", id)
+	path := stripe.FormatURLPath("/v1/webhook_endpoints/%s", id)
 	endpoint := &stripe.WebhookEndpoint{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, endpoint)
 	return endpoint, err
@@ -59,7 +59,7 @@ func Del(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoi
 
 // Del removes a webhook endpoint.
 func (c Client) Del(id string, params *stripe.WebhookEndpointParams) (*stripe.WebhookEndpoint, error) {
-	path := stripe.FormatURLPath("/webhook_endpoints/%s", id)
+	path := stripe.FormatURLPath("/v1/webhook_endpoints/%s", id)
 	endpoint := &stripe.WebhookEndpoint{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, endpoint)
 	return endpoint, err
@@ -74,7 +74,7 @@ func List(params *stripe.WebhookEndpointListParams) *Iter {
 func (c Client) List(listParams *stripe.WebhookEndpointListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.WebhookEndpointList{}
-		err := c.B.CallRaw(http.MethodGet, "/webhook_endpoints", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/webhook_endpoints", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

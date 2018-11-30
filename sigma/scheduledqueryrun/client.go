@@ -23,7 +23,7 @@ func Get(id string, params *stripe.SigmaScheduledQueryRunParams) (*stripe.SigmaS
 
 // Get returns the details of an scheduled query run.
 func (c Client) Get(id string, params *stripe.SigmaScheduledQueryRunParams) (*stripe.SigmaScheduledQueryRun, error) {
-	path := stripe.FormatURLPath("/sigma/scheduled_query_runs/%s", id)
+	path := stripe.FormatURLPath("/v1/sigma/scheduled_query_runs/%s", id)
 	run := &stripe.SigmaScheduledQueryRun{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, run)
 	return run, err
@@ -38,7 +38,7 @@ func List(params *stripe.SigmaScheduledQueryRunListParams) *Iter {
 func (c Client) List(listParams *stripe.SigmaScheduledQueryRunListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SigmaScheduledQueryRunList{}
-		err := c.B.CallRaw(http.MethodGet, "/sigma/scheduled_query_runs", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/sigma/scheduled_query_runs", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

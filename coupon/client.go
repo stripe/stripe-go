@@ -22,7 +22,7 @@ func New(params *stripe.CouponParams) (*stripe.Coupon, error) {
 // New creates a new coupon.
 func (c Client) New(params *stripe.CouponParams) (*stripe.Coupon, error) {
 	coupon := &stripe.Coupon{}
-	err := c.B.Call(http.MethodPost, "/coupons", c.Key, params, coupon)
+	err := c.B.Call(http.MethodPost, "/v1/coupons", c.Key, params, coupon)
 	return coupon, err
 }
 
@@ -33,7 +33,7 @@ func Get(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 
 // Get returns the details of a coupon.
 func (c Client) Get(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
-	path := stripe.FormatURLPath("/coupons/%s", id)
+	path := stripe.FormatURLPath("/v1/coupons/%s", id)
 	coupon := &stripe.Coupon{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, coupon)
 	return coupon, err
@@ -46,7 +46,7 @@ func Update(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 
 // Update updates a coupon's properties.
 func (c Client) Update(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
-	path := stripe.FormatURLPath("/coupons/%s", id)
+	path := stripe.FormatURLPath("/v1/coupons/%s", id)
 	coupon := &stripe.Coupon{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, coupon)
 	return coupon, err
@@ -59,7 +59,7 @@ func Del(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
 
 // Del removes a coupon.
 func (c Client) Del(id string, params *stripe.CouponParams) (*stripe.Coupon, error) {
-	path := stripe.FormatURLPath("/coupons/%s", id)
+	path := stripe.FormatURLPath("/v1/coupons/%s", id)
 	coupon := &stripe.Coupon{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, coupon)
 	return coupon, err
@@ -74,7 +74,7 @@ func List(params *stripe.CouponListParams) *Iter {
 func (c Client) List(listParams *stripe.CouponListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CouponList{}
-		err := c.B.CallRaw(http.MethodGet, "/coupons", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/coupons", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

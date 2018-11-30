@@ -20,7 +20,7 @@ func Del(customerID string, params *stripe.DiscountParams) (*stripe.Discount, er
 
 // Del removes a discount from a customer.
 func (c Client) Del(customerID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
-	path := stripe.FormatURLPath("/customers/%s/discount", customerID)
+	path := stripe.FormatURLPath("/v1/customers/%s/discount", customerID)
 	discount := &stripe.Discount{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, discount)
 	return discount, err
@@ -33,7 +33,7 @@ func DelSubscription(subscriptionID string, params *stripe.DiscountParams) (*str
 
 // DelSub removes a discount from a customer's subscription.
 func (c Client) DelSub(subscriptionID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
-	path := stripe.FormatURLPath("/subscriptions/%s/discount", subscriptionID)
+	path := stripe.FormatURLPath("/v1/subscriptions/%s/discount", subscriptionID)
 	discount := &stripe.Discount{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, discount)
 

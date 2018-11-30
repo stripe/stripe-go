@@ -20,7 +20,7 @@ func Cancel(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
 
 // Cancel cancels a topup.
 func (c Client) Cancel(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
-	path := stripe.FormatURLPath("/topups/%s/cancel", id)
+	path := stripe.FormatURLPath("/v1/topups/%s/cancel", id)
 	topup := &stripe.Topup{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, topup)
 	return topup, err
@@ -34,7 +34,7 @@ func New(params *stripe.TopupParams) (*stripe.Topup, error) {
 // New creates a new topup.
 func (c Client) New(params *stripe.TopupParams) (*stripe.Topup, error) {
 	topup := &stripe.Topup{}
-	err := c.B.Call(http.MethodPost, "/topups", c.Key, params, topup)
+	err := c.B.Call(http.MethodPost, "/v1/topups", c.Key, params, topup)
 	return topup, err
 }
 
@@ -45,7 +45,7 @@ func Get(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
 
 // Get returns the details of a topup.
 func (c Client) Get(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
-	path := stripe.FormatURLPath("/topups/%s", id)
+	path := stripe.FormatURLPath("/v1/topups/%s", id)
 	topup := &stripe.Topup{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, topup)
 	return topup, err
@@ -58,7 +58,7 @@ func Update(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
 
 // Update updates a topup's properties.
 func (c Client) Update(id string, params *stripe.TopupParams) (*stripe.Topup, error) {
-	path := stripe.FormatURLPath("/topups/%s", id)
+	path := stripe.FormatURLPath("/v1/topups/%s", id)
 	topup := &stripe.Topup{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, topup)
 	return topup, err
@@ -73,7 +73,7 @@ func List(params *stripe.TopupListParams) *Iter {
 func (c Client) List(listParams *stripe.TopupListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.TopupList{}
-		err := c.B.CallRaw(http.MethodGet, "/topups", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/topups", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

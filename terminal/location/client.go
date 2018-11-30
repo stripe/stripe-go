@@ -22,7 +22,7 @@ func New(params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error
 // New creates a new terminal location.
 func (c Client) New(params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	location := &stripe.TerminalLocation{}
-	err := c.B.Call(http.MethodPost, "/terminal/locations", c.Key, params, location)
+	err := c.B.Call(http.MethodPost, "/v1/terminal/locations", c.Key, params, location)
 	return location, err
 }
 
@@ -33,7 +33,7 @@ func Get(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLoca
 
 // Get returns the details of a terminal location.
 func (c Client) Get(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
-	path := stripe.FormatURLPath("/terminal/locations/%s", id)
+	path := stripe.FormatURLPath("/v1/terminal/locations/%s", id)
 	location := &stripe.TerminalLocation{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, location)
 	return location, err
@@ -46,7 +46,7 @@ func Update(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalL
 
 // Update updates a terminal location.
 func (c Client) Update(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
-	path := stripe.FormatURLPath("/terminal/locations/%s", id)
+	path := stripe.FormatURLPath("/v1/terminal/locations/%s", id)
 	location := &stripe.TerminalLocation{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, location)
 	return location, err
@@ -61,7 +61,7 @@ func List(params *stripe.TerminalLocationListParams) *Iter {
 func (c Client) List(listParams *stripe.TerminalLocationListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.TerminalLocationList{}
-		err := c.B.CallRaw(http.MethodGet, "/terminal/locations", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/terminal/locations", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

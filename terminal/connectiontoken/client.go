@@ -21,7 +21,7 @@ func New(params *stripe.TerminalConnectionTokenParams) (*stripe.TerminalConnecti
 // New creates a new terminal connection token.
 func (c Client) New(params *stripe.TerminalConnectionTokenParams) (*stripe.TerminalConnectionToken, error) {
 	connectiontoken := &stripe.TerminalConnectionToken{}
-	err := c.B.Call(http.MethodPost, "/terminal/connection_tokens", c.Key, params, connectiontoken)
+	err := c.B.Call(http.MethodPost, "/v1/terminal/connection_tokens", c.Key, params, connectiontoken)
 	return connectiontoken, err
 }
 

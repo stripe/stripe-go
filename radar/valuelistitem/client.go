@@ -24,7 +24,7 @@ func New(params *stripe.RadarValueListItemParams) (*stripe.RadarValueListItem, e
 // New creates a new value list item.
 func (c Client) New(params *stripe.RadarValueListItemParams) (*stripe.RadarValueListItem, error) {
 	vli := &stripe.RadarValueListItem{}
-	err := c.B.Call(http.MethodPost, "/radar/value_list_items", c.Key, params, vli)
+	err := c.B.Call(http.MethodPost, "/v1/radar/value_list_items", c.Key, params, vli)
 	return vli, err
 }
 
@@ -35,7 +35,7 @@ func Get(id string, params *stripe.RadarValueListItemParams) (*stripe.RadarValue
 
 // Get returns the details of a value list item.
 func (c Client) Get(id string, params *stripe.RadarValueListItemParams) (*stripe.RadarValueListItem, error) {
-	path := stripe.FormatURLPath("/radar/value_list_items/%s", id)
+	path := stripe.FormatURLPath("/v1/radar/value_list_items/%s", id)
 	vli := &stripe.RadarValueListItem{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, vli)
 	return vli, err
@@ -48,7 +48,7 @@ func Del(id string, params *stripe.RadarValueListItemParams) (*stripe.RadarValue
 
 // Del removes a value list item.
 func (c Client) Del(id string, params *stripe.RadarValueListItemParams) (*stripe.RadarValueListItem, error) {
-	path := stripe.FormatURLPath("/radar/value_list_items/%s", id)
+	path := stripe.FormatURLPath("/v1/radar/value_list_items/%s", id)
 	vli := &stripe.RadarValueListItem{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, vli)
 	return vli, err
@@ -63,7 +63,7 @@ func List(params *stripe.RadarValueListItemListParams) *Iter {
 func (c Client) List(listParams *stripe.RadarValueListItemListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.RadarValueListItemList{}
-		err := c.B.CallRaw(http.MethodGet, "/radar/value_list_items", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/radar/value_list_items", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

@@ -20,7 +20,7 @@ func New(params *stripe.UsageRecordParams) (*stripe.UsageRecord, error) {
 
 // New creates a new usage record.
 func (c Client) New(params *stripe.UsageRecordParams) (*stripe.UsageRecord, error) {
-	path := stripe.FormatURLPath("/subscription_items/%s/usage_records", stripe.StringValue(params.SubscriptionItem))
+	path := stripe.FormatURLPath("/v1/subscription_items/%s/usage_records", stripe.StringValue(params.SubscriptionItem))
 	record := &stripe.UsageRecord{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, record)
 	return record, err
