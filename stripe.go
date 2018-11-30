@@ -689,10 +689,11 @@ func Int64Value(v *int64) int64 {
 // NewBackends creates a new set of backends with the given HTTP client. You
 // should only need to use this for testing purposes or on App Engine.
 func NewBackends(httpClient *http.Client) *Backends {
-	config := &BackendConfig{HTTPClient: httpClient}
+	apiConfig := &BackendConfig{HTTPClient: httpClient}
+	uploadConfig := &BackendConfig{HTTPClient: httpClient}
 	return &Backends{
-		API:     GetBackendWithConfig(APIBackend, config),
-		Uploads: GetBackendWithConfig(UploadsBackend, config),
+		API:     GetBackendWithConfig(APIBackend, apiConfig),
+		Uploads: GetBackendWithConfig(UploadsBackend, uploadConfig),
 	}
 }
 
