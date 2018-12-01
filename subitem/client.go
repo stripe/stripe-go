@@ -22,7 +22,7 @@ func New(params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error
 // New creates a new subscription item.
 func (c Client) New(params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	item := &stripe.SubscriptionItem{}
-	err := c.B.Call(http.MethodPost, "/subscription_items", c.Key, params, item)
+	err := c.B.Call(http.MethodPost, "/v1/subscription_items", c.Key, params, item)
 	return item, err
 }
 
@@ -33,7 +33,7 @@ func Get(id string, params *stripe.SubscriptionItemParams) (*stripe.Subscription
 
 // Get returns the details of a subscription item.
 func (c Client) Get(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
-	path := stripe.FormatURLPath("/subscription_items/%s", id)
+	path := stripe.FormatURLPath("/v1/subscription_items/%s", id)
 	item := &stripe.SubscriptionItem{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, item)
 	return item, err
@@ -46,7 +46,7 @@ func Update(id string, params *stripe.SubscriptionItemParams) (*stripe.Subscript
 
 // Update updates a subscription item's properties.
 func (c Client) Update(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
-	path := stripe.FormatURLPath("/subscription_items/%s", id)
+	path := stripe.FormatURLPath("/v1/subscription_items/%s", id)
 	subi := &stripe.SubscriptionItem{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, subi)
 	return subi, err
@@ -59,7 +59,7 @@ func Del(id string, params *stripe.SubscriptionItemParams) (*stripe.Subscription
 
 // Del removes a subscription item.
 func (c Client) Del(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
-	path := stripe.FormatURLPath("/subscription_items/%s", id)
+	path := stripe.FormatURLPath("/v1/subscription_items/%s", id)
 	item := &stripe.SubscriptionItem{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, item)
 
@@ -75,7 +75,7 @@ func List(params *stripe.SubscriptionItemListParams) *Iter {
 func (c Client) List(listParams *stripe.SubscriptionItemListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SubscriptionItemList{}
-		err := c.B.CallRaw(http.MethodGet, "/subscription_items", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/subscription_items", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

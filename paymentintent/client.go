@@ -24,7 +24,7 @@ func New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 // New creates a payment intent.
 func (c Client) New(params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
 	intent := &stripe.PaymentIntent{}
-	err := c.B.Call(http.MethodPost, "/payment_intents", c.Key, params, intent)
+	err := c.B.Call(http.MethodPost, "/v1/payment_intents", c.Key, params, intent)
 	return intent, err
 }
 
@@ -35,7 +35,7 @@ func Get(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, 
 
 // Get retrieves a payment intent.
 func (c Client) Get(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
-	path := stripe.FormatURLPath("/payment_intents/%s", id)
+	path := stripe.FormatURLPath("/v1/payment_intents/%s", id)
 	intent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, intent)
 	return intent, err
@@ -48,7 +48,7 @@ func Update(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentInten
 
 // Update updates a payment intent.
 func (c Client) Update(id string, params *stripe.PaymentIntentParams) (*stripe.PaymentIntent, error) {
-	path := stripe.FormatURLPath("/payment_intents/%s", id)
+	path := stripe.FormatURLPath("/v1/payment_intents/%s", id)
 	intent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, intent)
 	return intent, err
@@ -61,7 +61,7 @@ func Cancel(id string, params *stripe.PaymentIntentCancelParams) (*stripe.Paymen
 
 // Cancel cancels a payment intent.
 func (c Client) Cancel(id string, params *stripe.PaymentIntentCancelParams) (*stripe.PaymentIntent, error) {
-	path := stripe.FormatURLPath("/payment_intents/%s/cancel", id)
+	path := stripe.FormatURLPath("/v1/payment_intents/%s/cancel", id)
 	intent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, intent)
 	return intent, err
@@ -74,7 +74,7 @@ func Capture(id string, params *stripe.PaymentIntentCaptureParams) (*stripe.Paym
 
 // Capture captures a payment intent.
 func (c Client) Capture(id string, params *stripe.PaymentIntentCaptureParams) (*stripe.PaymentIntent, error) {
-	path := stripe.FormatURLPath("/payment_intents/%s/capture", id)
+	path := stripe.FormatURLPath("/v1/payment_intents/%s/capture", id)
 	intent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, intent)
 	return intent, err
@@ -87,7 +87,7 @@ func Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*stripe.Paym
 
 // Confirm confirms a payment intent.
 func (c Client) Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*stripe.PaymentIntent, error) {
-	path := stripe.FormatURLPath("/payment_intents/%s/confirm", id)
+	path := stripe.FormatURLPath("/v1/payment_intents/%s/confirm", id)
 	intent := &stripe.PaymentIntent{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, intent)
 	return intent, err
@@ -102,7 +102,7 @@ func List(params *stripe.PaymentIntentListParams) *Iter {
 func (c Client) List(listParams *stripe.PaymentIntentListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.PaymentIntentList{}
-		err := c.B.CallRaw(http.MethodGet, "/payment_intents", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

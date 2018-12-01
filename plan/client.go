@@ -22,7 +22,7 @@ func New(params *stripe.PlanParams) (*stripe.Plan, error) {
 // New creates a new plan.
 func (c Client) New(params *stripe.PlanParams) (*stripe.Plan, error) {
 	plan := &stripe.Plan{}
-	err := c.B.Call(http.MethodPost, "/plans", c.Key, params, plan)
+	err := c.B.Call(http.MethodPost, "/v1/plans", c.Key, params, plan)
 	return plan, err
 }
 
@@ -33,7 +33,7 @@ func Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 
 // Get returns the details of a plan.
 func (c Client) Get(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
-	path := stripe.FormatURLPath("/plans/%s", id)
+	path := stripe.FormatURLPath("/v1/plans/%s", id)
 	plan := &stripe.Plan{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, plan)
 	return plan, err
@@ -46,7 +46,7 @@ func Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 
 // Update updates a plan's properties.
 func (c Client) Update(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
-	path := stripe.FormatURLPath("/plans/%s", id)
+	path := stripe.FormatURLPath("/v1/plans/%s", id)
 	plan := &stripe.Plan{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, plan)
 	return plan, err
@@ -59,7 +59,7 @@ func Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
 
 // Del removes a plan.
 func (c Client) Del(id string, params *stripe.PlanParams) (*stripe.Plan, error) {
-	path := stripe.FormatURLPath("/plans/%s", id)
+	path := stripe.FormatURLPath("/v1/plans/%s", id)
 	plan := &stripe.Plan{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, plan)
 	return plan, err
@@ -74,7 +74,7 @@ func List(params *stripe.PlanListParams) *Iter {
 func (c Client) List(listParams *stripe.PlanListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.PlanList{}
-		err := c.B.CallRaw(http.MethodGet, "/plans", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/plans", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

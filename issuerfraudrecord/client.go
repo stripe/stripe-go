@@ -20,7 +20,7 @@ func Get(id string, params *stripe.IssuerFraudRecordParams) (*stripe.IssuerFraud
 
 // Get returns the details of an issuer fraud record.
 func (c Client) Get(id string, params *stripe.IssuerFraudRecordParams) (*stripe.IssuerFraudRecord, error) {
-	path := stripe.FormatURLPath("/issuer_fraud_records/%s", id)
+	path := stripe.FormatURLPath("/v1/issuer_fraud_records/%s", id)
 	ifr := &stripe.IssuerFraudRecord{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, ifr)
 	return ifr, err
@@ -35,7 +35,7 @@ func List(params *stripe.IssuerFraudRecordListParams) *Iter {
 func (c Client) List(listParams *stripe.IssuerFraudRecordListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.IssuerFraudRecordList{}
-		err := c.B.CallRaw(http.MethodGet, "/issuer_fraud_records", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/issuer_fraud_records", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {

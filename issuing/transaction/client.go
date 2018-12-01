@@ -23,7 +23,7 @@ func Get(id string, params *stripe.IssuingTransactionParams) (*stripe.IssuingTra
 
 // Get returns the details of an issuing transaction.
 func (c Client) Get(id string, params *stripe.IssuingTransactionParams) (*stripe.IssuingTransaction, error) {
-	path := stripe.FormatURLPath("/issuing/transactions/%s", id)
+	path := stripe.FormatURLPath("/v1/issuing/transactions/%s", id)
 	transaction := &stripe.IssuingTransaction{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, transaction)
 	return transaction, err
@@ -36,7 +36,7 @@ func Update(id string, params *stripe.IssuingTransactionParams) (*stripe.Issuing
 
 // Update updates an issuing transaction.
 func (c Client) Update(id string, params *stripe.IssuingTransactionParams) (*stripe.IssuingTransaction, error) {
-	path := stripe.FormatURLPath("/issuing/transactions/%s", id)
+	path := stripe.FormatURLPath("/v1/issuing/transactions/%s", id)
 	transaction := &stripe.IssuingTransaction{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, transaction)
 	return transaction, err
@@ -51,7 +51,7 @@ func List(params *stripe.IssuingTransactionListParams) *Iter {
 func (c Client) List(listParams *stripe.IssuingTransactionListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.IssuingTransactionList{}
-		err := c.B.CallRaw(http.MethodGet, "/issuing/transactions", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/transactions", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

@@ -22,7 +22,7 @@ func New(params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 // New creates a new Apple Pay domain.
 func (c Client) New(params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
 	domain := &stripe.ApplePayDomain{}
-	err := c.B.Call(http.MethodPost, "/apple_pay/domains", c.Key, params, domain)
+	err := c.B.Call(http.MethodPost, "/v1/apple_pay/domains", c.Key, params, domain)
 	return domain, err
 }
 
@@ -33,7 +33,7 @@ func Get(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain
 
 // Get retrieves an Apple Pay domain.
 func (c Client) Get(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
-	path := stripe.FormatURLPath("/apple_pay/domains/%s", id)
+	path := stripe.FormatURLPath("/v1/apple_pay/domains/%s", id)
 	domain := &stripe.ApplePayDomain{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, domain)
 	return domain, err
@@ -46,7 +46,7 @@ func Del(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain
 
 // Del removes an Apple Pay domain.
 func (c Client) Del(id string, params *stripe.ApplePayDomainParams) (*stripe.ApplePayDomain, error) {
-	path := stripe.FormatURLPath("/apple_pay/domains/%s", id)
+	path := stripe.FormatURLPath("/v1/apple_pay/domains/%s", id)
 	domain := &stripe.ApplePayDomain{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, domain)
 	return domain, err
@@ -61,7 +61,7 @@ func List(params *stripe.ApplePayDomainListParams) *Iter {
 func (c Client) List(listParams *stripe.ApplePayDomainListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ApplePayDomainList{}
-		err := c.B.CallRaw(http.MethodGet, "/apple_pay/domains", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/apple_pay/domains", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

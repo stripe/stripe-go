@@ -22,7 +22,7 @@ func New(params *stripe.ReversalParams) (*stripe.Reversal, error) {
 
 // New creates a new transfer reversal.
 func (c Client) New(params *stripe.ReversalParams) (*stripe.Reversal, error) {
-	path := stripe.FormatURLPath("/transfers/%s/reversals", stripe.StringValue(params.Transfer))
+	path := stripe.FormatURLPath("/v1/transfers/%s/reversals", stripe.StringValue(params.Transfer))
 	reversal := &stripe.Reversal{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, reversal)
 	return reversal, err
@@ -39,7 +39,7 @@ func (c Client) Get(id string, params *stripe.ReversalParams) (*stripe.Reversal,
 		return nil, fmt.Errorf("params cannot be nil, and params.Transfer must be set")
 	}
 
-	path := stripe.FormatURLPath("/transfers/%s/reversals/%s",
+	path := stripe.FormatURLPath("/v1/transfers/%s/reversals/%s",
 		stripe.StringValue(params.Transfer), id)
 	reversal := &stripe.Reversal{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, reversal)
@@ -53,7 +53,7 @@ func Update(id string, params *stripe.ReversalParams) (*stripe.Reversal, error) 
 
 // Update updates a transfer reversal's properties.
 func (c Client) Update(id string, params *stripe.ReversalParams) (*stripe.Reversal, error) {
-	path := stripe.FormatURLPath("/transfers/%s/reversals/%s",
+	path := stripe.FormatURLPath("/v1/transfers/%s/reversals/%s",
 		stripe.StringValue(params.Transfer), id)
 	reversal := &stripe.Reversal{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, reversal)
@@ -67,7 +67,7 @@ func List(params *stripe.ReversalListParams) *Iter {
 
 // List returns a list of transfer reversals.
 func (c Client) List(listParams *stripe.ReversalListParams) *Iter {
-	path := stripe.FormatURLPath("/transfers/%s/reversals", stripe.StringValue(listParams.Transfer))
+	path := stripe.FormatURLPath("/v1/transfers/%s/reversals", stripe.StringValue(listParams.Transfer))
 
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ReversalList{}

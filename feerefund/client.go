@@ -29,7 +29,7 @@ func (c Client) New(params *stripe.FeeRefundParams) (*stripe.FeeRefund, error) {
 		return nil, fmt.Errorf("params.ApplicationFee must be set")
 	}
 
-	path := stripe.FormatURLPath("/application_fees/%s/refunds",
+	path := stripe.FormatURLPath("/v1/application_fees/%s/refunds",
 		stripe.StringValue(params.ApplicationFee))
 	refund := &stripe.FeeRefund{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, refund)
@@ -50,7 +50,7 @@ func (c Client) Get(id string, params *stripe.FeeRefundParams) (*stripe.FeeRefun
 		return nil, fmt.Errorf("params.ApplicationFee must be set")
 	}
 
-	path := stripe.FormatURLPath("/application_fees/%s/refunds/%s",
+	path := stripe.FormatURLPath("/v1/application_fees/%s/refunds/%s",
 		stripe.StringValue(params.ApplicationFee), id)
 	refund := &stripe.FeeRefund{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, refund)
@@ -71,7 +71,7 @@ func (c Client) Update(id string, params *stripe.FeeRefundParams) (*stripe.FeeRe
 		return nil, fmt.Errorf("params.ApplicationFee must be set")
 	}
 
-	path := stripe.FormatURLPath("/application_fees/%s/refunds/%s",
+	path := stripe.FormatURLPath("/v1/application_fees/%s/refunds/%s",
 		stripe.StringValue(params.ApplicationFee), id)
 	refund := &stripe.FeeRefund{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, refund)
@@ -86,7 +86,7 @@ func List(params *stripe.FeeRefundListParams) *Iter {
 
 // List returns a list of application fee refunds.
 func (c Client) List(listParams *stripe.FeeRefundListParams) *Iter {
-	path := stripe.FormatURLPath("/application_fees/%s/refunds",
+	path := stripe.FormatURLPath("/v1/application_fees/%s/refunds",
 		stripe.StringValue(listParams.ApplicationFee))
 
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {

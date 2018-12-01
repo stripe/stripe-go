@@ -25,7 +25,7 @@ func (c Client) New(params *stripe.LoginLinkParams) (*stripe.LoginLink, error) {
 		return nil, errors.New("Invalid login link params: Account must be set")
 	}
 
-	path := stripe.FormatURLPath("/accounts/%s/login_links", stripe.StringValue(params.Account))
+	path := stripe.FormatURLPath("/v1/accounts/%s/login_links", stripe.StringValue(params.Account))
 	loginLink := &stripe.LoginLink{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, loginLink)
 	return loginLink, err

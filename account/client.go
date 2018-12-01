@@ -24,7 +24,7 @@ func New(params *stripe.AccountParams) (*stripe.Account, error) {
 // New creates a new account.
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
 	acct := &stripe.Account{}
-	err := c.B.Call(http.MethodPost, "/accounts", c.Key, params, acct)
+	err := c.B.Call(http.MethodPost, "/v1/accounts", c.Key, params, acct)
 	return acct, err
 }
 
@@ -36,7 +36,7 @@ func Get() (*stripe.Account, error) {
 // Get retrieves the authenticating account.
 func (c Client) Get() (*stripe.Account, error) {
 	account := &stripe.Account{}
-	err := c.B.Call(http.MethodGet, "/account", c.Key, nil, account)
+	err := c.B.Call(http.MethodGet, "/v1/account", c.Key, nil, account)
 	return account, err
 }
 
@@ -47,7 +47,7 @@ func GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 
 // GetByID retrieves an account.
 func (c Client) GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
-	path := stripe.FormatURLPath("/accounts/%s", id)
+	path := stripe.FormatURLPath("/v1/accounts/%s", id)
 	account := &stripe.Account{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, account)
 	return account, err
@@ -60,7 +60,7 @@ func Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 
 // Update updates an account.
 func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
-	path := stripe.FormatURLPath("/accounts/%s", id)
+	path := stripe.FormatURLPath("/v1/accounts/%s", id)
 	acct := &stripe.Account{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, acct)
 	return acct, err
@@ -73,7 +73,7 @@ func Del(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 
 // Del deletes an account.
 func (c Client) Del(id string, params *stripe.AccountParams) (*stripe.Account, error) {
-	path := stripe.FormatURLPath("/accounts/%s", id)
+	path := stripe.FormatURLPath("/v1/accounts/%s", id)
 	acct := &stripe.Account{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, acct)
 	return acct, err
@@ -86,7 +86,7 @@ func Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, err
 
 // Reject rejects an account.
 func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
-	path := stripe.FormatURLPath("/accounts/%s/reject", id)
+	path := stripe.FormatURLPath("/v1/accounts/%s/reject", id)
 	acct := &stripe.Account{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, acct)
 	return acct, err
@@ -101,7 +101,7 @@ func List(params *stripe.AccountListParams) *Iter {
 func (c Client) List(listParams *stripe.AccountListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.AccountList{}
-		err := c.B.CallRaw(http.MethodGet, "/accounts", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/accounts", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

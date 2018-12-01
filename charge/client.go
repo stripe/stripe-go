@@ -24,7 +24,7 @@ func New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 // New creates a new charge.
 func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 	charge := &stripe.Charge{}
-	err := c.B.Call(http.MethodPost, "/charges", c.Key, params, charge)
+	err := c.B.Call(http.MethodPost, "/v1/charges", c.Key, params, charge)
 	return charge, err
 }
 
@@ -35,7 +35,7 @@ func Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 
 // Get retrieves a charge.
 func (c Client) Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
-	path := stripe.FormatURLPath("/charges/%s", id)
+	path := stripe.FormatURLPath("/v1/charges/%s", id)
 	charge := &stripe.Charge{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, charge)
 	return charge, err
@@ -48,7 +48,7 @@ func Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 
 // Update updates a charge.
 func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
-	path := stripe.FormatURLPath("/charges/%s", id)
+	path := stripe.FormatURLPath("/v1/charges/%s", id)
 	charge := &stripe.Charge{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, charge)
 	return charge, err
@@ -61,7 +61,7 @@ func Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 
 // Capture captures a charge that's not yet captured.
 func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
-	path := stripe.FormatURLPath("/charges/%s/capture", id)
+	path := stripe.FormatURLPath("/v1/charges/%s/capture", id)
 	charge := &stripe.Charge{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, charge)
 	return charge, err
@@ -76,7 +76,7 @@ func List(params *stripe.ChargeListParams) *Iter {
 func (c Client) List(listParams *stripe.ChargeListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ChargeList{}
-		err := c.B.CallRaw(http.MethodGet, "/charges", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/charges", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

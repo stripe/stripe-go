@@ -23,7 +23,7 @@ func Get(id string, params *stripe.ReportTypeParams) (*stripe.ReportType, error)
 
 // Get returns the details of a report type.
 func (c Client) Get(id string, params *stripe.ReportTypeParams) (*stripe.ReportType, error) {
-	path := stripe.FormatURLPath("/reporting/report_types/%s", id)
+	path := stripe.FormatURLPath("/v1/reporting/report_types/%s", id)
 	reporttype := &stripe.ReportType{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, reporttype)
 	return reporttype, err
@@ -38,7 +38,7 @@ func List(params *stripe.ReportTypeListParams) *Iter {
 func (c Client) List(listParams *stripe.ReportTypeListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.ReportTypeList{}
-		err := c.B.CallRaw(http.MethodGet, "/reporting/report_types", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/reporting/report_types", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

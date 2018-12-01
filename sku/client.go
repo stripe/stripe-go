@@ -21,7 +21,7 @@ func New(params *stripe.SKUParams) (*stripe.SKU, error) {
 // New creates a new SKU.
 func (c Client) New(params *stripe.SKUParams) (*stripe.SKU, error) {
 	s := &stripe.SKU{}
-	err := c.B.Call(http.MethodPost, "/skus", c.Key, params, s)
+	err := c.B.Call(http.MethodPost, "/v1/skus", c.Key, params, s)
 	return s, err
 }
 
@@ -32,7 +32,7 @@ func Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 
 // Update updates a SKU's properties.
 func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
-	path := stripe.FormatURLPath("/skus/%s", id)
+	path := stripe.FormatURLPath("/v1/skus/%s", id)
 	s := &stripe.SKU{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, s)
 	return s, err
@@ -45,7 +45,7 @@ func Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 
 // Get returns the details of a SKU.
 func (c Client) Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
-	path := stripe.FormatURLPath("/skus/%s", id)
+	path := stripe.FormatURLPath("/v1/skus/%s", id)
 	s := &stripe.SKU{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, s)
 	return s, err
@@ -60,7 +60,7 @@ func List(params *stripe.SKUListParams) *Iter {
 func (c Client) List(listParams *stripe.SKUListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.SKUList{}
-		err := c.B.CallRaw(http.MethodGet, "/skus", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/skus", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
@@ -78,7 +78,7 @@ func Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 
 // Del removes a SKU.
 func (c Client) Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
-	path := stripe.FormatURLPath("/skus/%s", id)
+	path := stripe.FormatURLPath("/v1/skus/%s", id)
 	s := &stripe.SKU{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, s)
 

@@ -20,7 +20,7 @@ func Get(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
 
 // Get returns the details of a dispute.
 func (c Client) Get(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	path := stripe.FormatURLPath("/disputes/%s", id)
+	path := stripe.FormatURLPath("/v1/disputes/%s", id)
 	dispute := &stripe.Dispute{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, dispute)
 	return dispute, err
@@ -35,7 +35,7 @@ func List(params *stripe.DisputeListParams) *Iter {
 func (c Client) List(listParams *stripe.DisputeListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.DisputeList{}
-		err := c.B.CallRaw(http.MethodGet, "/disputes", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/disputes", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
@@ -53,7 +53,7 @@ func Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
 
 // Update updates a dispute.
 func (c Client) Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	path := stripe.FormatURLPath("/disputes/%s", id)
+	path := stripe.FormatURLPath("/v1/disputes/%s", id)
 	dispute := &stripe.Dispute{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
 	return dispute, err
@@ -66,7 +66,7 @@ func Close(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
 
 // Close dismisses a dispute in the customer's favor.
 func (c Client) Close(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	path := stripe.FormatURLPath("/disputes/%s/close", id)
+	path := stripe.FormatURLPath("/v1/disputes/%s/close", id)
 	dispute := &stripe.Dispute{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
 	return dispute, err

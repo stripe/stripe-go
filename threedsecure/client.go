@@ -24,7 +24,7 @@ func New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
 // New creates a new 3D Secure object.
 func (c Client) New(params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
 	tds := &stripe.ThreeDSecure{}
-	err := c.B.Call(http.MethodPost, "/3d_secure", c.Key, params, tds)
+	err := c.B.Call(http.MethodPost, "/v1/3d_secure", c.Key, params, tds)
 	return tds, err
 }
 
@@ -35,7 +35,7 @@ func Get(id string, params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, er
 
 // Get returns the details of a 3D Secure object.
 func (c Client) Get(id string, params *stripe.ThreeDSecureParams) (*stripe.ThreeDSecure, error) {
-	path := stripe.FormatURLPath("/3d_secure/%s", id)
+	path := stripe.FormatURLPath("/v1/3d_secure/%s", id)
 	tds := &stripe.ThreeDSecure{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, tds)
 

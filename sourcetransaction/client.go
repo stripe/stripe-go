@@ -28,7 +28,7 @@ func (c Client) List(listParams *stripe.SourceTransactionListParams) *Iter {
 	if listParams == nil || listParams.Source == nil {
 		outerErr = errors.New("Invalid source transaction params: Source needs to be set")
 	} else {
-		path = stripe.FormatURLPath("/sources/%s/source_transactions",
+		path = stripe.FormatURLPath("/v1/sources/%s/source_transactions",
 			stripe.StringValue(listParams.Source))
 	}
 
