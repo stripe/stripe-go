@@ -1,5 +1,8 @@
 # Changelog
 
+## 54.2.0 - 2018-11-30
+* [#734](https://github.com/stripe/stripe-go/pull/734) Put `/v1/` prefix as part of all paths instead of URL
+
 ## 54.1.1 - 2018-11-30
 * [#733](https://github.com/stripe/stripe-go/pull/733) Fix malformed URL generated for the uploads API when using `NewBackends`
 
