@@ -77,6 +77,10 @@ func TestAccountNew(t *testing.T) {
 				DocumentBack: stripe.String("file_234"),
 			},
 		},
+		RequestedCapabilities: []*string{
+			stripe.String("card_payments"),
+			stripe.String("platform_payments"),
+		},
 		TOSAcceptance: &stripe.TOSAcceptanceParams{
 			IP:        stripe.String("127.0.0.1"),
 			Date:      stripe.Int64(1437578361),
