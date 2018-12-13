@@ -26,7 +26,7 @@ type FeeRefund struct {
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	Created            int64               `json:"created"`
 	Currency           Currency            `json:"currency"`
-	Fee                string              `json:"fee"`
+	Fee                *ApplicationFee     `json:"fee"`
 	ID                 string              `json:"id"`
 	Metadata           map[string]string   `json:"metadata"`
 }
