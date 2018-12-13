@@ -1,5 +1,8 @@
 # Changelog
 
+## 55.0.0 - 2018-12-13
+* [#739](https://github.com/stripe/stripe-go/pull/739) Use `ApplicationFee` struct for `FeeRefund.Fee` (minor breaking change)
+
 ## 54.2.0 - 2018-11-30
 * [#734](https://github.com/stripe/stripe-go/pull/734) Put `/v1/` prefix as part of all paths instead of URL
 
