@@ -1,5 +1,8 @@
 # Changelog
 
+## 55.1.0 - 2018-12-27
+* [#743](https://github.com/stripe/stripe-go/pull/743) Add support for `clear_usage` on `SubscriptionItem` deletion
+
 ## 55.0.0 - 2018-12-13
 * [#739](https://github.com/stripe/stripe-go/pull/739) Use `ApplicationFee` struct for `FeeRefund.Fee` (minor breaking change)
 
