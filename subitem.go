@@ -6,6 +6,7 @@ type SubscriptionItemParams struct {
 	Params        `form:"*"`
 	ID            *string `form:"-"` // Handled in URL
 	Plan          *string `form:"plan"`
+	ClearUsage    *bool   `form:"clear_usage"`
 	Prorate       *bool   `form:"prorate"`
 	ProrationDate *int64  `form:"proration_date"`
 	Quantity      *int64  `form:"quantity"`
