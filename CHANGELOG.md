@@ -1,5 +1,8 @@
 # Changelog
 
+## 55.2.0 - 2018-12-31
+* [#741](https://github.com/stripe/stripe-go/pull/741) Add missing parameters `InvoiceNow` and `Prorate` for subscription cancellation
+
 ## 55.1.0 - 2018-12-27
 * [#743](https://github.com/stripe/stripe-go/pull/743) Add support for `clear_usage` on `SubscriptionItem` deletion
 
