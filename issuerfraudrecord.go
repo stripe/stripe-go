@@ -39,10 +39,12 @@ type IssuerFraudRecordList struct {
 // IssuerFraudRecord is the resource representing an issuer fraud record. For
 // more details see https://stripe.com/docs/api#issuer_fraud_records.
 type IssuerFraudRecord struct {
-	Charge          *Charge         `json:"charge"`
-	Created         int64           `json:"created"`
-	IssuerFraudType IssuerFraudType `json:"fraud_type"`
-	ID              string          `json:"id"`
-	Livemode        bool            `json:"livemode"`
-	PostDate        int64           `json:"post_date"`
+	Actionable        bool            `json:"actionable"`
+	Charge            *Charge         `json:"charge"`
+	Created           int64           `json:"created"`
+	FraudType         IssuerFraudType `json:"fraud_type"`
+	HasLiabilityShift bool            `json:"has_liability_shift"`
+	ID                string          `json:"id"`
+	Livemode          bool            `json:"livemode"`
+	PostDate          int64           `json:"post_date"`
 }
