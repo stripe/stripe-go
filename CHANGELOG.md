@@ -1,5 +1,8 @@
 # Changelog
 
+## 55.3.0 - 2019-01-02
+* [#742](https://github.com/stripe/stripe-go/pull/742) Add field `FraudType` to `IssuerFraudRecord`
+
 ## 55.2.0 - 2018-12-31
 * [#741](https://github.com/stripe/stripe-go/pull/741) Add missing parameters `InvoiceNow` and `Prorate` for subscription cancellation
 
