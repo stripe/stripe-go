@@ -24,6 +24,8 @@ type InvoiceItemListParams struct {
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 	Customer     *string           `form:"customer"`
+	Invoice      *string           `form:"invoice"`
+	Pending      *bool             `form:"pending"`
 }
 
 // InvoiceItem is the resource represneting a Stripe invoice item.
