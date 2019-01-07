@@ -1,5 +1,8 @@
 # Changelog
 
+## 55.4.0 - 2019-01-07
+* [#745](https://github.com/stripe/stripe-go/pull/745) Add support for `pending` parameter when listing invoice items
+
 ## 55.3.0 - 2019-01-02
 * [#742](https://github.com/stripe/stripe-go/pull/742) Add field `FraudType` to `IssuerFraudRecord`
 
