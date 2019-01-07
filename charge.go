@@ -41,25 +41,31 @@ type ChargeLevel3Params struct {
 	ShippingAmount     *int64                         `form:"shipping_amount"`
 }
 
+// ChargeTransferDataParams is the set of parameters allowed for the transfer_data hash.
+type ChargeTransferDataParams struct {
+	Destination *string `form:"destination"`
+}
+
 // ChargeParams is the set of parameters that can be used when creating or updating a charge.
 type ChargeParams struct {
 	Params              `form:"*"`
-	Amount              *int64                 `form:"amount"`
-	ApplicationFee      *int64                 `form:"application_fee"`
-	Capture             *bool                  `form:"capture"`
-	Currency            *string                `form:"currency"`
-	Customer            *string                `form:"customer"`
-	Description         *string                `form:"description"`
-	Destination         *DestinationParams     `form:"destination"`
-	ExchangeRate        *float64               `form:"exchange_rate"`
-	FraudDetails        *FraudDetailsParams    `form:"fraud_details"`
-	Level3              *ChargeLevel3Params    `form:"level3"`
-	OnBehalfOf          *string                `form:"on_behalf_of"`
-	ReceiptEmail        *string                `form:"receipt_email"`
-	Shipping            *ShippingDetailsParams `form:"shipping"`
-	Source              *SourceParams          `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-	StatementDescriptor *string                `form:"statement_descriptor"`
-	TransferGroup       *string                `form:"transfer_group"`
+	Amount              *int64                    `form:"amount"`
+	ApplicationFee      *int64                    `form:"application_fee"`
+	Capture             *bool                     `form:"capture"`
+	Currency            *string                   `form:"currency"`
+	Customer            *string                   `form:"customer"`
+	Description         *string                   `form:"description"`
+	Destination         *DestinationParams        `form:"destination"`
+	ExchangeRate        *float64                  `form:"exchange_rate"`
+	FraudDetails        *FraudDetailsParams       `form:"fraud_details"`
+	Level3              *ChargeLevel3Params       `form:"level3"`
+	OnBehalfOf          *string                   `form:"on_behalf_of"`
+	ReceiptEmail        *string                   `form:"receipt_email"`
+	Shipping            *ShippingDetailsParams    `form:"shipping"`
+	Source              *SourceParams             `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	StatementDescriptor *string                   `form:"statement_descriptor"`
+	TransferData        *ChargeTransferDataParams `form:"transfer_data"`
+	TransferGroup       *string                   `form:"transfer_group"`
 }
 
 // ShippingDetailsParams is the structure containing shipping information as parameters
@@ -131,6 +137,11 @@ type ChargeLevel3 struct {
 	ShippingAmount     int64                   `json:"shipping_amount"`
 }
 
+// ChargeTransferData represents the information for the transfer_data associated with a charge.
+type ChargeTransferData struct {
+	Destination *Account `json:"destination"`
+}
+
 // Charge is the resource representing a Stripe charge.
 // For more details see https://stripe.com/docs/api#charges.
 type Charge struct {
@@ -169,6 +180,7 @@ type Charge struct {
 	StatementDescriptor string              `json:"statement_descriptor"`
 	Status              string              `json:"status"`
 	Transfer            *Transfer           `json:"transfer"`
+	TransferData        *ChargeTransferData `json:"transfer_data"`
 	TransferGroup       string              `json:"transfer_group"`
 }
 
