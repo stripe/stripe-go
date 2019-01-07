@@ -1,5 +1,9 @@
 # Changelog
 
+## 55.5.0 - 2019-01-07
+* [#744](https://github.com/stripe/stripe-go/pull/744) Add support for `transfer_data[destination]` on Charge struct and params
+* [#746](https://github.com/stripe/stripe-go/pull/746) Add support for `wallet_provider` on the Issuing Authorization
+
 ## 55.4.0 - 2019-01-07
 * [#745](https://github.com/stripe/stripe-go/pull/745) Add support for `pending` parameter when listing invoice items
 
