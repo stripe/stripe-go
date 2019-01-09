@@ -45,15 +45,24 @@ const (
 	InvoiceBillingStatusVoid          InvoiceBillingStatus = "void"
 )
 
+// InvoiceUpcomingInvoiceItemPeriodParams represents the period associated with that invoice item
+type InvoiceUpcomingInvoiceItemPeriodParams struct {
+	End   *int64 `form:"end"`
+	Start *int64 `form:"start"`
+}
+
 // InvoiceUpcomingInvoiceItemParams is the set of parameters that can be used when adding or modifying
 // invoice items on an upcoming invoice.
 // For more details see https://stripe.com/docs/api#upcoming_invoice-invoice_items.
 type InvoiceUpcomingInvoiceItemParams struct {
-	Amount       *int64  `form:"amount"`
-	Currency     *string `form:"currency"`
-	Description  *string `form:"description"`
-	Discountable *bool   `form:"discountable"`
-	InvoiceItem  *string `form:"invoiceitem"`
+	Amount       *int64                                  `form:"amount"`
+	Currency     *string                                 `form:"currency"`
+	Description  *string                                 `form:"description"`
+	Discountable *bool                                   `form:"discountable"`
+	InvoiceItem  *string                                 `form:"invoiceitem"`
+	Period       *InvoiceUpcomingInvoiceItemPeriodParams `form:"period"`
+	Quantity     *int64                                  `form:"quantity"`
+	UnitAmount   *int64                                  `form:"unit_amount"`
 }
 
 // InvoiceParams is the set of parameters that can be used when creating or updating an invoice.
