@@ -1,5 +1,8 @@
 # Changelog
 
+## 55.8.0 - 2019-01-09
+* [#763](https://github.com/stripe/stripe-go/pull/763) Add `application_fee_amount` to `Charge` and on charge create and capture params
+
 ## 55.7.0 - 2019-01-09
 * [#738](https://github.com/stripe/stripe-go/pull/738) Add support for the account link resource
 
