@@ -1,5 +1,8 @@
 # Changelog
 
+## 55.7.0 - 2019-01-09
+* [#738](https://github.com/stripe/stripe-go/pull/738) Add support for the account link resource
+
 ## 55.6.0 - 2019-01-09
 * [#762](https://github.com/stripe/stripe-go/pull/762) Add support for new invoice items parameters when retrieving an upcoming invoice
 
