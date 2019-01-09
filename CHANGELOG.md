@@ -1,5 +1,8 @@
 # Changelog
 
+## 55.6.0 - 2019-01-09
+* [#762](https://github.com/stripe/stripe-go/pull/762) Add support for new invoice items parameters when retrieving an upcoming invoice
+
 ## 55.5.0 - 2019-01-07
 * [#744](https://github.com/stripe/stripe-go/pull/744) Add support for `transfer_data[destination]` on Charge struct and params
 * [#746](https://github.com/stripe/stripe-go/pull/746) Add support for `wallet_provider` on the Issuing Authorization
