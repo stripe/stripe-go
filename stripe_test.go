@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"regexp"
@@ -163,6 +164,141 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 	assert.Error(t, err)
 	// timeout should not prevent retry
 	assert.Equal(t, uint32(2), atomic.LoadUint32(&counter))
+}
+
+// Test that telemetry metrics are not sent by default
+func TestDo_TelemetryDisabled(t *testing.T) {
+	type testServerResponse struct {
+		Message string `json:"message"`
+	}
+
+	message := "Hello, client."
+	requestNum := 0
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// none of the requests should include telemetry metrics
+		assert.Equal(t, r.Header.Get("X-Stripe-Client-Telemetry"), "")
+
+		response := testServerResponse{Message: message}
+
+		data, err := json.Marshal(response)
+		assert.NoError(t, err)
+
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+
+		requestNum++
+	}))
+	defer testServer.Close()
+
+	backend := stripe.GetBackendWithConfig(
+		stripe.APIBackend,
+		&stripe.BackendConfig{
+			LogLevel:          3,
+			MaxNetworkRetries: 0,
+			URL:               testServer.URL,
+		},
+	).(*stripe.BackendImplementation)
+
+	for i := 0; i < 2; i++ {
+		request, err := backend.NewRequest(
+			http.MethodGet,
+			"/hello",
+			"sk_test_123",
+			"application/x-www-form-urlencoded",
+			nil,
+		)
+		assert.NoError(t, err)
+
+		var response testServerResponse
+		err = backend.Do(request, nil, &response)
+
+		assert.NoError(t, err)
+		assert.Equal(t, message, response.Message)
+	}
+
+	// We should have seen exactly two requests.
+	assert.Equal(t, 2, requestNum)
+}
+
+// Test that telemetry metrics are sent on subsequent requests when
+// stripe.EnableTelemetry = true.
+func TestDo_TelemetryEnabled(t *testing.T) {
+	stripe.EnableTelemetry = true
+	defer func() {
+		stripe.EnableTelemetry = false
+	}()
+
+	type testServerResponse struct {
+		Message string `json:"message"`
+	}
+
+	type clientTelemetry struct {
+		LastRequestMetrics stripe.RequestMetrics `json:"last_request_metrics"`
+	}
+
+	message := "Hello, client."
+	requestNum := 0
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		telemetryStr := r.Header.Get("X-Stripe-Client-Telemetry")
+		switch requestNum {
+		case 0:
+			// the first request should not receive any metrics
+			assert.Equal(t, telemetryStr, "")
+		case 1:
+			// the second request should include the metrics for the first request
+			assert.Contains(t, telemetryStr, `"request_id":"req_0"`)
+
+			// the telemetry should properly unmarshal into stripe.RequestMetrics
+			var telemetry clientTelemetry
+			err := json.Unmarshal([]byte(telemetryStr), &telemetry)
+			assert.NoError(t, err)
+		default:
+			assert.Fail(t, "Should not have reached request %v", requestNum)
+		}
+
+		w.Header().Set("Request-Id", fmt.Sprintf("req_%d", requestNum))
+		response := testServerResponse{Message: message}
+
+		data, err := json.Marshal(response)
+		assert.NoError(t, err)
+
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+
+		requestNum++
+	}))
+	defer testServer.Close()
+
+	backend := stripe.GetBackendWithConfig(
+		stripe.APIBackend,
+		&stripe.BackendConfig{
+			LogLevel:          3,
+			MaxNetworkRetries: 0,
+			URL:               testServer.URL,
+		},
+	).(*stripe.BackendImplementation)
+
+	for i := 0; i < 2; i++ {
+		request, err := backend.NewRequest(
+			http.MethodGet,
+			"/hello",
+			"sk_test_123",
+			"application/x-www-form-urlencoded",
+			nil,
+		)
+		assert.NoError(t, err)
+
+		var response testServerResponse
+		err = backend.Do(request, nil, &response)
+
+		assert.NoError(t, err)
+		assert.Equal(t, message, response.Message)
+	}
+
+	// We should have seen exactly two requests.
+	assert.Equal(t, 2, requestNum)
 }
 
 func TestFormatURLPath(t *testing.T) {

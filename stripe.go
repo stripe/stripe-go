@@ -144,6 +144,13 @@ type BackendConfig struct {
 	URL string
 }
 
+// RequestMetrics contains the payload sent in the `X-Stripe-Client-Telemetry`
+// header when stripe.EnableTelemetry = true.
+type RequestMetrics struct {
+	RequestID         string `json:"request_id"`
+	RequestDurationMS int    `json:"request_duration_ms"`
+}
+
 // BackendImplementation is the internal implementation for making HTTP calls
 // to Stripe.
 //
@@ -162,7 +169,7 @@ type BackendImplementation struct {
 	//
 	// See also SetNetworkRetriesSleep.
 	networkRetriesSleep bool
-	lastRequestMetrics  *requestMetrics
+	lastRequestMetrics  *RequestMetrics
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
@@ -303,11 +310,12 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 			panic(err) // TODO handle silently
 		}
 		payload := fmt.Sprintf(`{"last_request_metrics":%s}`, metricsJSON)
-		req.Header.Add("X-Stripe-Client-Telemetry", payload)
+		req.Header.Set("X-Stripe-Client-Telemetry", payload)
 	}
 
 	var res *http.Response
 	var err error
+	var requestDurationMS int
 	for retry := 0; ; {
 		start := time.Now()
 
@@ -358,15 +366,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 
 		res, err = s.HTTPClient.Do(req)
 
-		if EnableTelemetry {
-			reqID := res.Header.Get("Request-Id")
-			if len(reqID) > 0 {
-				s.lastRequestMetrics = &requestMetrics{
-					RequestID:         reqID,
-					RequestDurationMS: int(time.Since(requestStart) / time.Millisecond),
-				}
-			}
-		}
+		requestDurationMS = int(time.Since(requestStart) / time.Millisecond)
 
 		if s.LogLevel > 2 {
 			s.Logger.Printf("Request completed in %v (retry: %v)\n",
@@ -413,6 +413,16 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 			s.Logger.Printf("Request failed: %v\n", err)
 		}
 		return err
+	}
+
+	if EnableTelemetry {
+		reqID := res.Header.Get("Request-Id")
+		if len(reqID) > 0 {
+			s.lastRequestMetrics = &RequestMetrics{
+				RequestID:         reqID,
+				RequestDurationMS: requestDurationMS,
+			}
+		}
 	}
 
 	defer res.Body.Close()
@@ -831,13 +841,6 @@ type stripeClientUserAgent struct {
 	LanguageVersion string   `json:"lang_version"`
 	Publisher       string   `json:"publisher"`
 	Uname           string   `json:"uname"`
-}
-
-// requestMetrics contains the payload sent in the `X-Stripe-Client-Telemetry`
-// header when stripe.EnableTelemetry = true.
-type requestMetrics struct {
-	RequestID         string `json:"request_id"`
-	RequestDurationMS int    `json:"request_duration_ms"`
 }
 
 //
