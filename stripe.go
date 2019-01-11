@@ -67,6 +67,10 @@ var LogLevel = 2
 // be overridden if a backend is created with GetBackendWithConfig.
 var Logger Printfer
 
+// EnableTelemetry allows request metrics (request id and duration) to be sent
+// to Stripe in subsequent requests via the `X-Stripe-Client-Telemetry` header.
+var EnableTelemetry = false
+
 //
 // Public types
 //
@@ -158,6 +162,7 @@ type BackendImplementation struct {
 	//
 	// See also SetNetworkRetriesSleep.
 	networkRetriesSleep bool
+	lastRequestMetrics  *requestMetrics
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
@@ -292,6 +297,15 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 		s.Logger.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
 	}
 
+	if EnableTelemetry && s.lastRequestMetrics != nil {
+		metricsJSON, err := json.Marshal(s.lastRequestMetrics)
+		if err != nil {
+			panic(err) // TODO handle silently
+		}
+		payload := fmt.Sprintf(`{"last_request_metrics":%s}`, metricsJSON)
+		req.Header.Add("X-Stripe-Client-Telemetry", payload)
+	}
+
 	var res *http.Response
 	var err error
 	for retry := 0; ; {
@@ -338,7 +352,21 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 			}
 		}
 
+		// `requestStart` is used solely for client telemetry and, unlike `start`,
+		// does not account for the time spent building the request body.
+		requestStart := time.Now()
+
 		res, err = s.HTTPClient.Do(req)
+
+		if EnableTelemetry {
+			reqID := res.Header.Get("Request-Id")
+			if len(reqID) > 0 {
+				s.lastRequestMetrics = &requestMetrics{
+					RequestID:         reqID,
+					RequestDurationMS: int(time.Since(requestStart) / time.Millisecond),
+				}
+			}
+		}
 
 		if s.LogLevel > 2 {
 			s.Logger.Printf("Request completed in %v (retry: %v)\n",
@@ -805,6 +833,13 @@ type stripeClientUserAgent struct {
 	Uname           string   `json:"uname"`
 }
 
+// requestMetrics contains the payload sent in the `X-Stripe-Client-Telemetry`
+// header when stripe.EnableTelemetry = true.
+type requestMetrics struct {
+	RequestID         string `json:"request_id"`
+	RequestDurationMS int    `json:"request_duration_ms"`
+}
+
 //
 // Private variables
 //
@@ -886,6 +921,7 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 		Type:                backendType,
 		URL:                 config.URL,
 		networkRetriesSleep: true,
+		lastRequestMetrics:  nil,
 	}
 }
 
