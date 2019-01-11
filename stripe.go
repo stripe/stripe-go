@@ -305,10 +305,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 	}
 
 	if EnableTelemetry && s.lastRequestMetrics != nil {
-		metricsJSON, err := json.Marshal(s.lastRequestMetrics)
-		if err != nil {
-			panic(err) // TODO handle silently
-		}
+		metricsJSON, _ := json.Marshal(s.lastRequestMetrics)
 		payload := fmt.Sprintf(`{"last_request_metrics":%s}`, metricsJSON)
 		req.Header.Set("X-Stripe-Client-Telemetry", payload)
 	}
