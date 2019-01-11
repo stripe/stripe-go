@@ -28,6 +28,11 @@ const (
 	SubscriptionBillingSendInvoice         SubscriptionBilling = "send_invoice"
 )
 
+// SubscriptionTransferDataParams is the set of parameters allowed for the transfer_data hash.
+type SubscriptionTransferDataParams struct {
+	Destination *string `form:"destination"`
+}
+
 // SubscriptionParams is the set of parameters that can be used when creating or updating a subscription.
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubscriptionParams struct {
@@ -52,6 +57,7 @@ type SubscriptionParams struct {
 	Quantity                    *int64                               `form:"quantity"`
 	TaxPercent                  *float64                             `form:"tax_percent"`
 	TrialEnd                    *int64                               `form:"trial_end"`
+	TransferData                *SubscriptionTransferDataParams      `form:"transfer_data"`
 	TrialEndNow                 *bool                                `form:"-"` // See custom AppendTo
 	TrialFromPlan               *bool                                `form:"trial_from_plan"`
 	TrialPeriodDays             *int64                               `form:"trial_period_days"`
@@ -112,6 +118,11 @@ type SubscriptionListParams struct {
 	Status       string            `form:"status"`
 }
 
+// SubscriptionTransferData represents the information for the transfer_data associated with a subscription.
+type SubscriptionTransferData struct {
+	Destination *Account `json:"destination"`
+}
+
 // Subscription is the resource representing a Stripe subscription.
 // For more details see https://stripe.com/docs/api#subscriptions.
 type Subscription struct {
@@ -138,6 +149,7 @@ type Subscription struct {
 	Start                 int64                          `json:"start"`
 	Status                SubscriptionStatus             `json:"status"`
 	TaxPercent            float64                        `json:"tax_percent"`
+	TransferData          *SubscriptionTransferData      `json:"transfer_data"`
 	TrialEnd              int64                          `json:"trial_end"`
 	TrialStart            int64                          `json:"trial_start"`
 }
