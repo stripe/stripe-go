@@ -153,7 +153,7 @@ type RequestMetrics struct {
 }
 
 // RequestTelemetry contains the payload sent in the
-// `X-Stripe-Client-Telemetry` header when stripe.EnableTelemetry = true.
+// `X-Stripe-Client-Telemetry` header when BackendConfig#EnableTelemetry = true.
 type RequestTelemetry struct {
 	LastRequestMetrics RequestMetrics `json:"last_request_metrics"`
 }
