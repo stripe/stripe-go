@@ -224,17 +224,8 @@ func TestDo_TelemetryDisabled(t *testing.T) {
 // Test that telemetry metrics are sent on subsequent requests when
 // stripe.EnableTelemetry = true.
 func TestDo_TelemetryEnabled(t *testing.T) {
-	stripe.EnableTelemetry = true
-	defer func() {
-		stripe.EnableTelemetry = false
-	}()
-
 	type testServerResponse struct {
 		Message string `json:"message"`
-	}
-
-	type clientTelemetry struct {
-		LastRequestMetrics stripe.RequestMetrics `json:"last_request_metrics"`
 	}
 
 	message := "Hello, client."
@@ -250,8 +241,8 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 			// the second request should include the metrics for the first request
 			assert.Contains(t, telemetryStr, `"request_id":"req_0"`)
 
-			// the telemetry should properly unmarshal into stripe.RequestMetrics
-			var telemetry clientTelemetry
+			// the telemetry should properly unmarshal into stripe.RequestTelemetry
+			var telemetry stripe.RequestTelemetry
 			err := json.Unmarshal([]byte(telemetryStr), &telemetry)
 			assert.NoError(t, err)
 		default:
@@ -277,6 +268,7 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 			LogLevel:          3,
 			MaxNetworkRetries: 0,
 			URL:               testServer.URL,
+			EnableTelemetry:   true,
 		},
 	).(*stripe.BackendImplementation)
 

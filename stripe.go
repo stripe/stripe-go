@@ -67,10 +67,6 @@ var LogLevel = 2
 // be overridden if a backend is created with GetBackendWithConfig.
 var Logger Printfer
 
-// EnableTelemetry allows request metrics (request id and duration) to be sent
-// to Stripe in subsequent requests via the `X-Stripe-Client-Telemetry` header.
-var EnableTelemetry = false
-
 //
 // Public types
 //
@@ -142,13 +138,24 @@ type BackendConfig struct {
 	//
 	// If left empty, it'll be set to the default for the SupportedBackend.
 	URL string
+
+	// EnableTelemetry allows request metrics (request id and duration) to be sent
+	// to Stripe in subsequent requests via the `X-Stripe-Client-Telemetry` header.
+	//
+	// Defaults to false.
+	EnableTelemetry bool
 }
 
-// RequestMetrics contains the payload sent in the `X-Stripe-Client-Telemetry`
-// header when stripe.EnableTelemetry = true.
+// RequestMetrics contains the id and duration of the last request sent
 type RequestMetrics struct {
 	RequestID         string `json:"request_id"`
 	RequestDurationMS int    `json:"request_duration_ms"`
+}
+
+// RequestTelemetry contains the payload sent in the
+// `X-Stripe-Client-Telemetry` header when stripe.EnableTelemetry = true.
+type RequestTelemetry struct {
+	LastRequestMetrics RequestMetrics `json:"last_request_metrics"`
 }
 
 // BackendImplementation is the internal implementation for making HTTP calls
@@ -169,7 +176,9 @@ type BackendImplementation struct {
 	//
 	// See also SetNetworkRetriesSleep.
 	networkRetriesSleep bool
-	lastRequestMetrics  *RequestMetrics
+
+	enableTelemetry    bool
+	lastRequestMetrics *RequestMetrics
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
@@ -304,10 +313,13 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 		s.Logger.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
 	}
 
-	if EnableTelemetry && s.lastRequestMetrics != nil {
-		metricsJSON, _ := json.Marshal(s.lastRequestMetrics)
-		payload := fmt.Sprintf(`{"last_request_metrics":%s}`, metricsJSON)
-		req.Header.Set("X-Stripe-Client-Telemetry", payload)
+	if s.enableTelemetry && s.lastRequestMetrics != nil {
+		metricsJSON, err := json.Marshal(&RequestTelemetry{LastRequestMetrics: *s.lastRequestMetrics})
+		if err == nil {
+			req.Header.Set("X-Stripe-Client-Telemetry", string(metricsJSON))
+		} else if s.LogLevel > 2 {
+			s.Logger.Printf("Unable to encode client telemetry: %s", err)
+		}
 	}
 
 	var res *http.Response
@@ -412,7 +424,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 		return err
 	}
 
-	if EnableTelemetry {
+	if s.enableTelemetry {
 		reqID := res.Header.Get("Request-Id")
 		if len(reqID) > 0 {
 			s.lastRequestMetrics = &RequestMetrics{
@@ -921,6 +933,7 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 		Type:                backendType,
 		URL:                 config.URL,
 		networkRetriesSleep: true,
+		enableTelemetry:     config.EnableTelemetry,
 		lastRequestMetrics:  nil,
 	}
 }
