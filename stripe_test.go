@@ -302,6 +302,69 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 	assert.Equal(t, 2, requestNum)
 }
 
+func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
+	type testServerResponse struct {
+		Message string `json:"message"`
+	}
+
+	message := "Hello, client."
+	var requestNum int32 = 0
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		reqID := atomic.AddInt32(&requestNum, 1)
+
+		w.Header().Set("Request-Id", fmt.Sprintf("req_%d", reqID))
+		response := testServerResponse{Message: message}
+
+		data, err := json.Marshal(response)
+		assert.NoError(t, err)
+
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	backend := stripe.GetBackendWithConfig(
+		stripe.APIBackend,
+		&stripe.BackendConfig{
+			LogLevel:          3,
+			MaxNetworkRetries: 0,
+			URL:               testServer.URL,
+			EnableTelemetry:   true,
+		},
+	).(*stripe.BackendImplementation)
+
+	times := 16
+	done := make(chan struct{})
+
+	for i := 0; i < times; i++ {
+		go func() {
+			request, err := backend.NewRequest(
+				http.MethodGet,
+				"/hello",
+				"sk_test_123",
+				"application/x-www-form-urlencoded",
+				nil,
+			)
+			assert.NoError(t, err)
+
+			var response testServerResponse
+			err = backend.Do(request, nil, &response)
+
+			assert.NoError(t, err)
+			assert.Equal(t, message, response.Message)
+
+			done <- struct{}{}
+		}()
+	}
+
+	for i := 0; i < times; i++ {
+		<-done
+	}
+
+	assert.Equal(t, int32(16), requestNum)
+}
+
 func TestFormatURLPath(t *testing.T) {
 	assert.Equal(t, "/v1/resources/1/subresources/2",
 		stripe.FormatURLPath("/v1/resources/%s/subresources/%s", "1", "2"))
