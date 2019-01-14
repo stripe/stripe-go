@@ -14,8 +14,8 @@ import (
 	"time"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go"
-	. "github.com/stripe/stripe-go/testing"
+	"github.com/stripe/stripe-go/v55"
+	. "github.com/stripe/stripe-go/v55/testing"
 )
 
 func TestBearerAuth(t *testing.T) {

@@ -4,7 +4,7 @@ package connectiontoken
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go/v55"
 )
 
 // Client is used to invoke /terminal/connection_tokens APIs.
