@@ -241,19 +241,21 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 	requestNum := 0
 
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requestNum++
+
 		telemetryStr := r.Header.Get("X-Stripe-Client-Telemetry")
 		switch requestNum {
-		case 0:
+		case 1:
 			// the first request should not receive any metrics
 			assert.Equal(t, telemetryStr, "")
-		case 1:
-			// the second request should include the metrics for the first request
-			assert.Contains(t, telemetryStr, `"request_id":"req_0"`)
-
+		case 2:
 			// the telemetry should properly unmarshal into stripe.RequestTelemetry
 			var telemetry requestTelemetry
 			err := json.Unmarshal([]byte(telemetryStr), &telemetry)
 			assert.NoError(t, err)
+
+			// the second request should include the metrics for the first request
+			assert.Equal(t, telemetry.LastRequestMetrics.RequestID, "req_1")
 		default:
 			assert.Fail(t, "Should not have reached request %v", requestNum)
 		}
@@ -266,8 +268,6 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 
 		_, err = w.Write(data)
 		assert.NoError(t, err)
-
-		requestNum++
 	}))
 	defer testServer.Close()
 
