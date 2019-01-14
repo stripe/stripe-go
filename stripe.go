@@ -146,18 +146,6 @@ type BackendConfig struct {
 	EnableTelemetry bool
 }
 
-// RequestMetrics contains the id and duration of the last request sent
-type RequestMetrics struct {
-	RequestID         string `json:"request_id"`
-	RequestDurationMS int    `json:"request_duration_ms"`
-}
-
-// RequestTelemetry contains the payload sent in the
-// `X-Stripe-Client-Telemetry` header when BackendConfig#EnableTelemetry = true.
-type RequestTelemetry struct {
-	LastRequestMetrics RequestMetrics `json:"last_request_metrics"`
-}
-
 // BackendImplementation is the internal implementation for making HTTP calls
 // to Stripe.
 //
@@ -178,7 +166,7 @@ type BackendImplementation struct {
 	networkRetriesSleep bool
 
 	enableTelemetry    bool
-	lastRequestMetrics *RequestMetrics
+	lastRequestMetrics *requestMetrics
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
@@ -314,7 +302,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 	}
 
 	if s.enableTelemetry && s.lastRequestMetrics != nil {
-		metricsJSON, err := json.Marshal(&RequestTelemetry{LastRequestMetrics: *s.lastRequestMetrics})
+		metricsJSON, err := json.Marshal(&requestTelemetry{LastRequestMetrics: *s.lastRequestMetrics})
 		if err == nil {
 			req.Header.Set("X-Stripe-Client-Telemetry", string(metricsJSON))
 		} else if s.LogLevel > 2 {
@@ -427,7 +415,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 	if s.enableTelemetry {
 		reqID := res.Header.Get("Request-Id")
 		if len(reqID) > 0 {
-			s.lastRequestMetrics = &RequestMetrics{
+			s.lastRequestMetrics = &requestMetrics{
 				RequestID:         reqID,
 				RequestDurationMS: requestDurationMS,
 			}
@@ -850,6 +838,18 @@ type stripeClientUserAgent struct {
 	LanguageVersion string   `json:"lang_version"`
 	Publisher       string   `json:"publisher"`
 	Uname           string   `json:"uname"`
+}
+
+// requestMetrics contains the id and duration of the last request sent
+type requestMetrics struct {
+	RequestID         string `json:"request_id"`
+	RequestDurationMS int    `json:"request_duration_ms"`
+}
+
+// requestTelemetry contains the payload sent in the
+// `X-Stripe-Client-Telemetry` header when BackendConfig#EnableTelemetry = true.
+type requestTelemetry struct {
+	LastRequestMetrics requestMetrics `json:"last_request_metrics"`
 }
 
 //

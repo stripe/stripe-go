@@ -228,6 +228,15 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 		Message string `json:"message"`
 	}
 
+	type requestMetrics struct {
+		RequestID         string `json:"request_id"`
+		RequestDurationMS int    `json:"request_duration_ms"`
+	}
+
+	type requestTelemetry struct {
+		LastRequestMetrics requestMetrics `json:"last_request_metrics"`
+	}
+
 	message := "Hello, client."
 	requestNum := 0
 
@@ -242,7 +251,7 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 			assert.Contains(t, telemetryStr, `"request_id":"req_0"`)
 
 			// the telemetry should properly unmarshal into stripe.RequestTelemetry
-			var telemetry stripe.RequestTelemetry
+			var telemetry requestTelemetry
 			err := json.Unmarshal([]byte(telemetryStr), &telemetry)
 			assert.NoError(t, err)
 		default:
