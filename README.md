@@ -4,36 +4,45 @@
 [![Build Status](https://travis-ci.org/stripe/stripe-go.svg?branch=master)](https://travis-ci.org/stripe/stripe-go)
 [![Coverage Status](https://coveralls.io/repos/github/stripe/stripe-go/badge.svg?branch=master)](https://coveralls.io/github/stripe/stripe-go?branch=master)
 
-## Summary
-
 The official [Stripe][stripe] Go client library.
-
-## Versioning
-
-Each revision of the binding is tagged and the version is updated accordingly.
-
-Given Go's lack of built-in versioning, it is highly recommended you use a
-[package management tool][package-management] in order to ensure a newer
-version of the binding does not affect backwards compatibility.
-
-To see the list of past versions, run `git tag`. To manually get an older
-version of the client, clone this repo, checkout the specific tag and build the
-library:
-
-```sh
-git clone https://github.com/stripe/stripe-go.git
-cd stripe-go
-git checkout api_version_tag
-make build
-```
-
-For more details on changes between versions, see the [binding
-changelog](CHANGELOG.md) and [API changelog][api-changelog].
 
 ## Installation
 
+Install stripe-go with:
+
 ```sh
-go get github.com/stripe/stripe-go
+go get -u github.com/stripe/stripe-go
+```
+
+Then, import it using:
+
+``` go
+import (
+    "github.com/stripe/stripe-go"
+    "github.com/stripe/stripe-go/customer"
+)
+```
+
+### Go Module Support
+
+The library supports Go's [experimental modules][modules]. Add stripe-go as a
+requirement in your `go.mod` along with its current version:
+
+``` go
+module github.com/my/package
+
+require (
+    github.com/stripe/stripe-go v55.8.0
+)
+```
+
+Imports should contain the major version as a virtual component of each path:
+
+``` go
+import (
+    "github.com/stripe/stripe-go/v55"
+    "github.com/stripe/stripe-go/v55/customer"
+)
 ```
 
 ## Documentation
@@ -316,6 +325,7 @@ pull request][pulls].
 [connect]: https://stripe.com/docs/connect/authentication
 [godoc]: http://godoc.org/github.com/stripe/stripe-go
 [issues]: https://github.com/stripe/stripe-go/issues/new
+[modules]: https://github.com/golang/go/wiki/Modules
 [package-management]: https://code.google.com/p/go-wiki/wiki/PackageManagementTools
 [pulls]: https://github.com/stripe/stripe-go/pulls
 [stripe]: https://stripe.com
