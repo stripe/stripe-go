@@ -166,7 +166,7 @@ type BackendImplementation struct {
 	networkRetriesSleep bool
 
 	enableTelemetry    bool
-	lastRequestMetrics *requestMetrics
+	prevRequestMetrics chan requestMetrics
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
@@ -301,12 +301,17 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 		s.Logger.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
 	}
 
-	if s.enableTelemetry && s.lastRequestMetrics != nil {
-		metricsJSON, err := json.Marshal(&requestTelemetry{LastRequestMetrics: *s.lastRequestMetrics})
-		if err == nil {
-			req.Header.Set("X-Stripe-Client-Telemetry", string(metricsJSON))
-		} else if s.LogLevel > 2 {
-			s.Logger.Printf("Unable to encode client telemetry: %s", err)
+	if s.enableTelemetry {
+		select {
+		case metrics := <-s.prevRequestMetrics:
+			metricsJSON, err := json.Marshal(&requestTelemetry{LastRequestMetrics: metrics})
+			if err == nil {
+				req.Header.Set("X-Stripe-Client-Telemetry", string(metricsJSON))
+			} else if s.LogLevel > 2 {
+				s.Logger.Printf("Unable to encode client telemetry: %s", err)
+			}
+		default:
+			// no metrics available, ignore.
 		}
 	}
 
@@ -415,9 +420,15 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 	if s.enableTelemetry {
 		reqID := res.Header.Get("Request-Id")
 		if len(reqID) > 0 {
-			s.lastRequestMetrics = &requestMetrics{
+			metrics := requestMetrics{
 				RequestID:         reqID,
 				RequestDurationMS: requestDurationMS,
+			}
+
+			select {
+			case s.prevRequestMetrics <- metrics:
+			default:
+				// buffer is full, discard.
 			}
 		}
 	}
@@ -814,6 +825,9 @@ const minNetworkRetriesDelay = 500 * time.Millisecond
 
 const uploadsURL = "https://uploads.stripe.com"
 
+// The number of requestMetric objects to buffer for client telemetry.
+const telemetryBufferSize = 16
+
 //
 // Private types
 //
@@ -925,6 +939,13 @@ func isHTTPWriteMethod(method string) bool {
 // The vast majority of the time you should be calling GetBackendWithConfig
 // instead of this function.
 func newBackendImplementation(backendType SupportedBackend, config *BackendConfig) Backend {
+	var requestMetricsBuffer chan requestMetrics
+
+	// only allocate the requestMetrics buffer if client telemetry is enabled.
+	if config.EnableTelemetry {
+		requestMetricsBuffer = make(chan requestMetrics, telemetryBufferSize)
+	}
+
 	return &BackendImplementation{
 		HTTPClient:          config.HTTPClient,
 		LogLevel:            config.LogLevel,
@@ -934,7 +955,7 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 		URL:                 config.URL,
 		networkRetriesSleep: true,
 		enableTelemetry:     config.EnableTelemetry,
-		lastRequestMetrics:  nil,
+		prevRequestMetrics:  requestMetricsBuffer,
 	}
 }
 

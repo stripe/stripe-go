@@ -334,7 +334,7 @@ func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 		},
 	).(*stripe.BackendImplementation)
 
-	times := 16
+	times := 20 // 20 > telemetryBufferSize, so some metrics could be discarded
 	done := make(chan struct{})
 
 	for i := 0; i < times; i++ {
@@ -362,7 +362,7 @@ func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 		<-done
 	}
 
-	assert.Equal(t, int32(16), requestNum)
+	assert.Equal(t, int32(times), requestNum)
 }
 
 func TestFormatURLPath(t *testing.T) {
