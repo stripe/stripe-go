@@ -1,5 +1,8 @@
 # Changelog
 
+## 55.9.0 - 2019-01-15
+* [#769](https://github.com/stripe/stripe-go/pull/769) Add field `Amount` to `IssuingTransaction`
+
 ## 55.8.0 - 2019-01-09
 * [#763](https://github.com/stripe/stripe-go/pull/763) Add `application_fee_amount` to `Charge` and on charge create and capture params
 
