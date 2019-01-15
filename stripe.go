@@ -864,7 +864,9 @@ type requestTelemetry struct {
 
 // ringBuffer is a circular buffer of requestMetrics.
 type ringBuffer struct {
-	inputChannel, outputChannel chan requestMetrics
+	inputChannel  chan requestMetrics
+	outputChannel chan requestMetrics
+	logger        Printfer
 }
 
 //
@@ -950,6 +952,7 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 			// outputChannel.
 			inputChannel:  make(chan requestMetrics),
 			outputChannel: make(chan requestMetrics, telemetryBufferSize),
+			logger:        config.Logger,
 		}
 
 		go requestMetricsBuffer.run()
@@ -975,9 +978,11 @@ func (r *ringBuffer) run() {
 		select {
 		case r.outputChannel <- v:
 		default:
-			<-r.outputChannel
+			dropped := <-r.outputChannel
+			r.logger.Printf("Dropped message: %#v", dropped)
 			r.outputChannel <- v
 		}
+		r.logger.Printf("Enqueued message: %#v", v)
 	}
 
 	close(r.outputChannel)

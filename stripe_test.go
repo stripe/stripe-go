@@ -310,7 +310,7 @@ func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 	}
 
 	message := "Hello, client."
-	var requestNum int32 = 0
+	var requestNum int32
 
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		reqID := atomic.AddInt32(&requestNum, 1)
