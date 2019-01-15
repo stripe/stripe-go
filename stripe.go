@@ -426,6 +426,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 			}
 
 			s.requestMetricsBuffer.inputChannel <- metrics
+			<-s.requestMetricsBuffer.done // wait for object to be placed in the circular buffer
 		}
 	}
 
@@ -866,6 +867,7 @@ type requestTelemetry struct {
 type ringBuffer struct {
 	inputChannel  chan requestMetrics
 	outputChannel chan requestMetrics
+	done          chan struct{}
 	logger        Printfer
 }
 
@@ -952,6 +954,7 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 			// outputChannel.
 			inputChannel:  make(chan requestMetrics),
 			outputChannel: make(chan requestMetrics, telemetryBufferSize),
+			done:          make(chan struct{}),
 			logger:        config.Logger,
 		}
 
@@ -983,6 +986,7 @@ func (r *ringBuffer) run() {
 			r.outputChannel <- v
 		}
 		r.logger.Printf("Enqueued message: %#v", v)
+		r.done <- struct{}{}
 	}
 
 	close(r.outputChannel)
