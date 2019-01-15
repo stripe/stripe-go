@@ -249,6 +249,8 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 			// the first request should not receive any metrics
 			assert.Equal(t, telemetryStr, "")
 		case 2:
+			assert.True(t, len(telemetryStr) > 0, "telemetryStr should not be empty")
+
 			// the telemetry should properly unmarshal into stripe.RequestTelemetry
 			var telemetry requestTelemetry
 			err := json.Unmarshal([]byte(telemetryStr), &telemetry)
