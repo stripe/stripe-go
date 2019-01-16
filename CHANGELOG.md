@@ -1,5 +1,9 @@
 # Changelog
 
+## 55.10.0 - 2019-01-16
+* [#773](https://github.com/stripe/stripe-go/pull/773) Add support for `custom_fields` and `footer` on `Invoice`
+* [#774](https://github.com/stripe/stripe-go/pull/774) Revert Go module support
+
 ## 55.9.0 - 2019-01-15
 * [#769](https://github.com/stripe/stripe-go/pull/769) Add field `Amount` to `IssuingTransaction`
 
