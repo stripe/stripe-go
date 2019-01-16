@@ -176,7 +176,6 @@ type BackendImplementation struct {
 
 	enableTelemetry      bool
 	requestMetricsBuffer chan requestMetrics
-	requestMetricsMutex  *sync.Mutex
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
@@ -435,7 +434,12 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 				RequestDurationMS: requestDurationMS,
 			}
 
-			s.recordRequestMetrics(metrics)
+			// If the metrics buffer is full, discard the new metrics. Otherwise, add
+			// them to the buffer.
+			select {
+			case s.requestMetricsBuffer <- metrics:
+			default:
+			}
 		}
 	}
 
@@ -954,34 +958,15 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 	}
 
 	return &BackendImplementation{
-		HTTPClient:          config.HTTPClient,
-		LogLevel:            config.LogLevel,
-		Logger:              config.Logger,
-		MaxNetworkRetries:   config.MaxNetworkRetries,
-		Type:                backendType,
-		URL:                 config.URL,
-		networkRetriesSleep: true,
-		enableTelemetry:     enableTelemetry,
-
-		// requestMetricsBuffer is a circular buffer of unsent metrics from previous
-		// requests. You should not write to requestMetricsBuffer without holding the
-		// requestMetricsMutex lock.
+		HTTPClient:           config.HTTPClient,
+		LogLevel:             config.LogLevel,
+		Logger:               config.Logger,
+		MaxNetworkRetries:    config.MaxNetworkRetries,
+		Type:                 backendType,
+		URL:                  config.URL,
+		networkRetriesSleep:  true,
+		enableTelemetry:      enableTelemetry,
 		requestMetricsBuffer: requestMetricsBuffer,
-		requestMetricsMutex:  &sync.Mutex{},
-	}
-}
-
-func (s *BackendImplementation) recordRequestMetrics(r requestMetrics) {
-	s.requestMetricsMutex.Lock()
-	defer s.requestMetricsMutex.Unlock()
-
-	// treat requestMetricsBuffer as a circular buffer: if it is full, pop off the
-	// oldest requestMetrics struct and insert r.
-	select {
-	case s.requestMetricsBuffer <- r:
-	default:
-		<-s.requestMetricsBuffer
-		s.requestMetricsBuffer <- r
 	}
 }
 
