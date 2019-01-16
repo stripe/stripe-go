@@ -32,7 +32,7 @@ requirement in your `go.mod` along with its current version:
 module github.com/my/package
 
 require (
-    github.com/stripe/stripe-go v55.9.0
+    github.com/stripe/stripe-go/v55 v55.9.0
 )
 ```
 
