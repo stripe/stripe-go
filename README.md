@@ -25,23 +25,31 @@ import (
 
 ### Go Module Support
 
-The library supports Go's [experimental modules][modules]. Add stripe-go as a
-requirement in your `go.mod` along with its current version:
+The library currently *does not* ship with first-class support for Stripe
+modules. We put in support for it before, but ran into compatibility problems
+for existing installations using Dep (see discussion in [closer to the bottom
+of this thread][gomodvsdep], and [reverted support][gomodrevert]. Our current
+plan is to wait for better module compatibility in Dep (see a [preliminary
+patch here][depgomodsupport]), give the release a little grace time to become
+more widely distributed, then bring support back.
+
+For now, require stripe-go in `go.mod` with a version but without a *version
+suffix* in the path like so:
 
 ``` go
 module github.com/my/package
 
 require (
-    github.com/stripe/stripe-go/v55 v55.9.0
+    github.com/stripe/stripe-go v55.10.0
 )
 ```
 
-Imports should contain the major version as a virtual component of each path:
+And use the same style of import paths as above:
 
 ``` go
 import (
-    "github.com/stripe/stripe-go/v55"
-    "github.com/stripe/stripe-go/v55/customer"
+    "github.com/stripe/stripe-go"
+    "github.com/stripe/stripe-go/customer"
 )
 ```
 
@@ -323,7 +331,10 @@ pull request][pulls].
 [api-docs]: https://stripe.com/docs/api/go
 [api-changelog]: https://stripe.com/docs/upgrades
 [connect]: https://stripe.com/docs/connect/authentication
+[depgomodsupport]: https://github.com/golang/dep/pull/1963
 [godoc]: http://godoc.org/github.com/stripe/stripe-go
+[gomodrevert]: https://github.com/stripe/stripe-go/pull/774
+[gomodvsdep]: https://github.com/stripe/stripe-go/pull/712
 [issues]: https://github.com/stripe/stripe-go/issues/new
 [modules]: https://github.com/golang/go/wiki/Modules
 [package-management]: https://code.google.com/p/go-wiki/wiki/PackageManagementTools
