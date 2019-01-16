@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v55"
-	_ "github.com/stripe/stripe-go/v55/testing"
+	stripe "github.com/stripe/stripe-go"
+	_ "github.com/stripe/stripe-go/testing"
 )
 
 func TestUsageRecordSummaryList(t *testing.T) {

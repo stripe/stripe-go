@@ -4,7 +4,7 @@ package usagerecord
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v55"
+	stripe "github.com/stripe/stripe-go"
 )
 
 // Client is used to invoke APIs related to usage records.
