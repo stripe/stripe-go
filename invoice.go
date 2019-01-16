@@ -65,22 +65,30 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	UnitAmount   *int64                                  `form:"unit_amount"`
 }
 
+// InvoiceCustomFieldParams represents the parameters associated with one custom field on an invoice.
+type InvoiceCustomFieldParams struct {
+	Name  *string `form:"name"`
+	Value *string `form:"value"`
+}
+
 // InvoiceParams is the set of parameters that can be used when creating or updating an invoice.
 // For more details see https://stripe.com/docs/api#create_invoice, https://stripe.com/docs/api#update_invoice.
 type InvoiceParams struct {
 	Params              `form:"*"`
-	AutoAdvance         *bool    `form:"auto_advance"`
-	ApplicationFee      *int64   `form:"application_fee"`
-	Billing             *string  `form:"billing"`
-	Customer            *string  `form:"customer"`
-	DaysUntilDue        *int64   `form:"days_until_due"`
-	DefaultSource       *string  `form:"default_source"`
-	Description         *string  `form:"description"`
-	DueDate             *int64   `form:"due_date"`
-	Paid                *bool    `form:"paid"`
-	StatementDescriptor *string  `form:"statement_descriptor"`
-	Subscription        *string  `form:"subscription"`
-	TaxPercent          *float64 `form:"tax_percent"`
+	AutoAdvance         *bool                       `form:"auto_advance"`
+	ApplicationFee      *int64                      `form:"application_fee"`
+	Billing             *string                     `form:"billing"`
+	CustomFields        []*InvoiceCustomFieldParams `form:"custom_fields"`
+	Customer            *string                     `form:"customer"`
+	DaysUntilDue        *int64                      `form:"days_until_due"`
+	DefaultSource       *string                     `form:"default_source"`
+	Description         *string                     `form:"description"`
+	DueDate             *int64                      `form:"due_date"`
+	Footer              *string                     `form:"footer"`
+	Paid                *bool                       `form:"paid"`
+	StatementDescriptor *string                     `form:"statement_descriptor"`
+	Subscription        *string                     `form:"subscription"`
+	TaxPercent          *float64                    `form:"tax_percent"`
 
 	// These are all for exclusive use by GetNext.
 
@@ -158,47 +166,55 @@ type InvoiceVoidParams struct {
 // Invoice is the resource representing a Stripe invoice.
 // For more details see https://stripe.com/docs/api#invoice_object.
 type Invoice struct {
-	AmountDue                 int64                `json:"amount_due"`
-	AmountPaid                int64                `json:"amount_paid"`
-	AmountRemaining           int64                `json:"amount_remaining"`
-	ApplicationFee            int64                `json:"application_fee"`
-	AttemptCount              int64                `json:"attempt_count"`
-	Attempted                 bool                 `json:"attempted"`
-	AutoAdvance               bool                 `json:"auto_advance"`
-	Billing                   InvoiceBilling       `json:"billing"`
-	BillingReason             InvoiceBillingReason `json:"billing_reason"`
-	Charge                    *Charge              `json:"charge"`
-	Currency                  Currency             `json:"currency"`
-	Customer                  *Customer            `json:"customer"`
-	Date                      int64                `json:"date"`
-	DefaultSource             *PaymentSource       `json:"default_source"`
-	Description               string               `json:"description"`
-	Discount                  *Discount            `json:"discount"`
-	DueDate                   int64                `json:"due_date"`
-	EndingBalance             int64                `json:"ending_balance"`
-	FinalizedAt               int64                `json:"finalized_at"`
-	HostedInvoiceURL          string               `json:"hosted_invoice_url"`
-	ID                        string               `json:"id"`
-	InvoicePDF                string               `json:"invoice_pdf"`
-	Lines                     *InvoiceLineList     `json:"lines"`
-	Livemode                  bool                 `json:"livemode"`
-	Metadata                  map[string]string    `json:"metadata"`
-	NextPaymentAttempt        int64                `json:"next_payment_attempt"`
-	Number                    string               `json:"number"`
-	Paid                      bool                 `json:"paid"`
-	PeriodEnd                 int64                `json:"period_end"`
-	PeriodStart               int64                `json:"period_start"`
-	ReceiptNumber             string               `json:"receipt_number"`
-	StartingBalance           int64                `json:"starting_balance"`
-	StatementDescriptor       string               `json:"statement_descriptor"`
-	Status                    InvoiceBillingStatus `json:"status"`
-	Subscription              string               `json:"subscription"`
-	SubscriptionProrationDate int64                `json:"subscription_proration_date"`
-	Subtotal                  int64                `json:"subtotal"`
-	Tax                       int64                `json:"tax"`
-	TaxPercent                float64              `json:"tax_percent"`
-	Total                     int64                `json:"total"`
-	WebhooksDeliveredAt       int64                `json:"webhooks_delivered_at"`
+	AmountDue                 int64                 `json:"amount_due"`
+	AmountPaid                int64                 `json:"amount_paid"`
+	AmountRemaining           int64                 `json:"amount_remaining"`
+	ApplicationFee            int64                 `json:"application_fee"`
+	AttemptCount              int64                 `json:"attempt_count"`
+	Attempted                 bool                  `json:"attempted"`
+	AutoAdvance               bool                  `json:"auto_advance"`
+	Billing                   InvoiceBilling        `json:"billing"`
+	BillingReason             InvoiceBillingReason  `json:"billing_reason"`
+	Charge                    *Charge               `json:"charge"`
+	Currency                  Currency              `json:"currency"`
+	CustomFields              []*InvoiceCustomField `json:"custom_fields"`
+	Customer                  *Customer             `json:"customer"`
+	Date                      int64                 `json:"date"`
+	DefaultSource             *PaymentSource        `json:"default_source"`
+	Description               string                `json:"description"`
+	Discount                  *Discount             `json:"discount"`
+	DueDate                   int64                 `json:"due_date"`
+	EndingBalance             int64                 `json:"ending_balance"`
+	FinalizedAt               int64                 `json:"finalized_at"`
+	Footer                    string                `json:"footer"`
+	HostedInvoiceURL          string                `json:"hosted_invoice_url"`
+	ID                        string                `json:"id"`
+	InvoicePDF                string                `json:"invoice_pdf"`
+	Lines                     *InvoiceLineList      `json:"lines"`
+	Livemode                  bool                  `json:"livemode"`
+	Metadata                  map[string]string     `json:"metadata"`
+	NextPaymentAttempt        int64                 `json:"next_payment_attempt"`
+	Number                    string                `json:"number"`
+	Paid                      bool                  `json:"paid"`
+	PeriodEnd                 int64                 `json:"period_end"`
+	PeriodStart               int64                 `json:"period_start"`
+	ReceiptNumber             string                `json:"receipt_number"`
+	StartingBalance           int64                 `json:"starting_balance"`
+	StatementDescriptor       string                `json:"statement_descriptor"`
+	Status                    InvoiceBillingStatus  `json:"status"`
+	Subscription              string                `json:"subscription"`
+	SubscriptionProrationDate int64                 `json:"subscription_proration_date"`
+	Subtotal                  int64                 `json:"subtotal"`
+	Tax                       int64                 `json:"tax"`
+	TaxPercent                float64               `json:"tax_percent"`
+	Total                     int64                 `json:"total"`
+	WebhooksDeliveredAt       int64                 `json:"webhooks_delivered_at"`
+}
+
+// InvoiceCustomField is a structure representing a custom field on an Invoice.
+type InvoiceCustomField struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 // InvoiceList is a list of invoices as retrieved from a list endpoint.
