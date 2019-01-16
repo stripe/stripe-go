@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/stripe/stripe-go/v55/form"
+	"github.com/stripe/stripe-go/form"
 )
 
 // CardAvailablePayoutMethod is a set of available payout methods for the card.

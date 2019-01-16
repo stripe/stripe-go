@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	stripe "github.com/stripe/stripe-go/v55"
-	"github.com/stripe/stripe-go/v55/form"
+	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 	"golang.org/x/net/http2"
 )
 

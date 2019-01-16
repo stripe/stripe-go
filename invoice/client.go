@@ -4,8 +4,8 @@ package invoice
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v55"
-	"github.com/stripe/stripe-go/v55/form"
+	stripe "github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/form"
 )
 
 // Client is the client used to invoke /invoices APIs.
