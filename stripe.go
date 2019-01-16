@@ -67,6 +67,15 @@ var LogLevel = 2
 // be overridden if a backend is created with GetBackendWithConfig.
 var Logger Printfer
 
+// EnableTelemetry is a global override for enabling client telemetry, which
+// sends request performance metrics to Stripe via the `X-Stripe-Client-Telemetry`
+// header. If set to true, all clients will send telemetry metrics. Defaults to
+// false.
+//
+// Telemetry can also be enabled on a per-client basis by instead creating a
+// `BackendConfig` with `EnableTelemetry: true`.
+var EnableTelemetry = false
+
 //
 // Public types
 //
@@ -937,9 +946,10 @@ func isHTTPWriteMethod(method string) bool {
 // instead of this function.
 func newBackendImplementation(backendType SupportedBackend, config *BackendConfig) Backend {
 	var requestMetricsBuffer chan requestMetrics
+	enableTelemetry := config.EnableTelemetry || EnableTelemetry
 
 	// only allocate the requestMetrics buffer if client telemetry is enabled.
-	if config.EnableTelemetry {
+	if enableTelemetry {
 		requestMetricsBuffer = make(chan requestMetrics, telemetryBufferSize)
 	}
 
@@ -951,7 +961,7 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 		Type:                backendType,
 		URL:                 config.URL,
 		networkRetriesSleep: true,
-		enableTelemetry:     config.EnableTelemetry,
+		enableTelemetry:     enableTelemetry,
 
 		// requestMetricsBuffer is a circular buffer of unsent metrics from previous
 		// requests. You should not write to requestMetricsBuffer without holding the
