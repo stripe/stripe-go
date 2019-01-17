@@ -308,6 +308,10 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 	assert.Equal(t, 2, requestNum)
 }
 
+// This test does not perform any super valuable assertions - instead, it checks
+// that our logic for buffering requestMetrics when EnableTelemetry = true does
+// not trigger any data races. This test should pass when the -race flag is
+// passed to `go test`.
 func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 	type testServerResponse struct {
 		Message string `json:"message"`
