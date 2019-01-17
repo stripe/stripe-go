@@ -1,5 +1,8 @@
 # Changelog
 
+## 55.12.0 - 2019-01-17
+* [#766](https://github.com/stripe/stripe-go/pull/766) Add optional support for sending request telemetry to Stripe
+
 ## 55.11.0 - 2019-01-17
 * [#776](https://github.com/stripe/stripe-go/pull/776) Add support for billing thresholds
 
