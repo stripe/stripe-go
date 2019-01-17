@@ -32,28 +32,36 @@ const (
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubscriptionParams struct {
 	Params                      `form:"*"`
-	ApplicationFeePercent       *float64                   `form:"application_fee_percent"`
-	Billing                     *string                    `form:"billing"`
-	BillingCycleAnchor          *int64                     `form:"billing_cycle_anchor"`
-	BillingCycleAnchorNow       *bool                      `form:"-"` // See custom AppendTo
-	BillingCycleAnchorUnchanged *bool                      `form:"-"` // See custom AppendTo
-	CancelAtPeriodEnd           *bool                      `form:"cancel_at_period_end"`
-	Card                        *CardParams                `form:"card"`
-	Coupon                      *string                    `form:"coupon"`
-	Customer                    *string                    `form:"customer"`
-	DaysUntilDue                *int64                     `form:"days_until_due"`
-	DefaultSource               *string                    `form:"default_source"`
-	Items                       []*SubscriptionItemsParams `form:"items"`
-	OnBehalfOf                  *string                    `form:"on_behalf_of"`
-	Plan                        *string                    `form:"plan"`
-	Prorate                     *bool                      `form:"prorate"`
-	ProrationDate               *int64                     `form:"proration_date"`
-	Quantity                    *int64                     `form:"quantity"`
-	TaxPercent                  *float64                   `form:"tax_percent"`
-	TrialEnd                    *int64                     `form:"trial_end"`
-	TrialEndNow                 *bool                      `form:"-"` // See custom AppendTo
-	TrialFromPlan               *bool                      `form:"trial_from_plan"`
-	TrialPeriodDays             *int64                     `form:"trial_period_days"`
+	ApplicationFeePercent       *float64                             `form:"application_fee_percent"`
+	Billing                     *string                              `form:"billing"`
+	BillingCycleAnchor          *int64                               `form:"billing_cycle_anchor"`
+	BillingCycleAnchorNow       *bool                                `form:"-"` // See custom AppendTo
+	BillingCycleAnchorUnchanged *bool                                `form:"-"` // See custom AppendTo
+	BillingThresholds           *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
+	CancelAtPeriodEnd           *bool                                `form:"cancel_at_period_end"`
+	Card                        *CardParams                          `form:"card"`
+	Coupon                      *string                              `form:"coupon"`
+	Customer                    *string                              `form:"customer"`
+	DaysUntilDue                *int64                               `form:"days_until_due"`
+	DefaultSource               *string                              `form:"default_source"`
+	Items                       []*SubscriptionItemsParams           `form:"items"`
+	OnBehalfOf                  *string                              `form:"on_behalf_of"`
+	Plan                        *string                              `form:"plan"`
+	Prorate                     *bool                                `form:"prorate"`
+	ProrationDate               *int64                               `form:"proration_date"`
+	Quantity                    *int64                               `form:"quantity"`
+	TaxPercent                  *float64                             `form:"tax_percent"`
+	TrialEnd                    *int64                               `form:"trial_end"`
+	TrialEndNow                 *bool                                `form:"-"` // See custom AppendTo
+	TrialFromPlan               *bool                                `form:"trial_from_plan"`
+	TrialPeriodDays             *int64                               `form:"trial_period_days"`
+}
+
+// SubscriptionBillingThresholdsParams is a structure representing the parameters allowed to control
+// billing thresholds for a subscription.
+type SubscriptionBillingThresholdsParams struct {
+	AmountGTE               *int64 `form:"amount_gte"`
+	ResetBillingCycleAnchor *bool  `form:"reset_billing_cycle_anchor"`
 }
 
 // SubscriptionCancelParams is the set of parameters that can be used when canceling a subscription.
@@ -107,30 +115,37 @@ type SubscriptionListParams struct {
 // Subscription is the resource representing a Stripe subscription.
 // For more details see https://stripe.com/docs/api#subscriptions.
 type Subscription struct {
-	ApplicationFeePercent float64               `json:"application_fee_percent"`
-	Billing               SubscriptionBilling   `json:"billing"`
-	BillingCycleAnchor    int64                 `json:"billing_cycle_anchor"`
-	CanceledAt            int64                 `json:"canceled_at"`
-	Created               int64                 `json:"created"`
-	CurrentPeriodEnd      int64                 `json:"current_period_end"`
-	CurrentPeriodStart    int64                 `json:"current_period_start"`
-	Customer              *Customer             `json:"customer"`
-	DaysUntilDue          int64                 `json:"days_until_due"`
-	DefaultSource         *PaymentSource        `json:"default_source"`
-	Discount              *Discount             `json:"discount"`
-	CancelAtPeriodEnd     bool                  `json:"cancel_at_period_end"`
-	EndedAt               int64                 `json:"ended_at"`
-	ID                    string                `json:"id"`
-	Items                 *SubscriptionItemList `json:"items"`
-	Metadata              map[string]string     `json:"metadata"`
-	OnBehalfOf            *Account              `json:"on_behalf_of"`
-	Plan                  *Plan                 `json:"plan"`
-	Quantity              int64                 `json:"quantity"`
-	Start                 int64                 `json:"start"`
-	Status                SubscriptionStatus    `json:"status"`
-	TaxPercent            float64               `json:"tax_percent"`
-	TrialEnd              int64                 `json:"trial_end"`
-	TrialStart            int64                 `json:"trial_start"`
+	ApplicationFeePercent float64                        `json:"application_fee_percent"`
+	Billing               SubscriptionBilling            `json:"billing"`
+	BillingCycleAnchor    int64                          `json:"billing_cycle_anchor"`
+	BillingThresholds     *SubscriptionBillingThresholds `json:"billing_thresholds"`
+	CanceledAt            int64                          `json:"canceled_at"`
+	Created               int64                          `json:"created"`
+	CurrentPeriodEnd      int64                          `json:"current_period_end"`
+	CurrentPeriodStart    int64                          `json:"current_period_start"`
+	Customer              *Customer                      `json:"customer"`
+	DaysUntilDue          int64                          `json:"days_until_due"`
+	DefaultSource         *PaymentSource                 `json:"default_source"`
+	Discount              *Discount                      `json:"discount"`
+	CancelAtPeriodEnd     bool                           `json:"cancel_at_period_end"`
+	EndedAt               int64                          `json:"ended_at"`
+	ID                    string                         `json:"id"`
+	Items                 *SubscriptionItemList          `json:"items"`
+	Metadata              map[string]string              `json:"metadata"`
+	OnBehalfOf            *Account                       `json:"on_behalf_of"`
+	Plan                  *Plan                          `json:"plan"`
+	Quantity              int64                          `json:"quantity"`
+	Start                 int64                          `json:"start"`
+	Status                SubscriptionStatus             `json:"status"`
+	TaxPercent            float64                        `json:"tax_percent"`
+	TrialEnd              int64                          `json:"trial_end"`
+	TrialStart            int64                          `json:"trial_start"`
+}
+
+// SubscriptionBillingThresholds is a structure representing the billing thresholds for a subscription.
+type SubscriptionBillingThresholds struct {
+	AmountGTE               int64 `json:"amount_gte"`
+	ResetBillingCycleAnchor bool  `json:"reset_billing_cycle_anchor"`
 }
 
 // SubscriptionList is a list object for subscriptions.
