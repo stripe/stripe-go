@@ -251,6 +251,7 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 		case 1:
 			// the first request should not receive any metrics
 			assert.Equal(t, telemetryStr, "")
+			time.Sleep(21 * time.Millisecond)
 		case 2:
 			assert.True(t, len(telemetryStr) > 0, "telemetryStr should not be empty")
 
@@ -261,7 +262,8 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 
 			// the second request should include the metrics for the first request
 			assert.Equal(t, telemetry.LastRequestMetrics.RequestID, "req_1")
-			assert.True(t, telemetry.LastRequestMetrics.RequestDurationMS > 0)
+			assert.True(t, telemetry.LastRequestMetrics.RequestDurationMS > 20,
+				"request_duration_ms should be > 20ms")
 		default:
 			assert.Fail(t, "Should not have reached request %v", requestNum)
 		}
