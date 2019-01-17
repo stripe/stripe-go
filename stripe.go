@@ -49,6 +49,15 @@ const (
 // Public variables
 //
 
+// EnableTelemetry is a global override for enabling client telemetry, which
+// sends request performance metrics to Stripe via the `X-Stripe-Client-Telemetry`
+// header. If set to true, all clients will send telemetry metrics. Defaults to
+// false.
+//
+// Telemetry can also be enabled on a per-client basis by instead creating a
+// `BackendConfig` with `EnableTelemetry: true`.
+var EnableTelemetry = false
+
 // Key is the Stripe API key used globally in the binding.
 var Key string
 
@@ -66,15 +75,6 @@ var LogLevel = 2
 // This Logger will be inherited by any backends created by default, but will
 // be overridden if a backend is created with GetBackendWithConfig.
 var Logger Printfer
-
-// EnableTelemetry is a global override for enabling client telemetry, which
-// sends request performance metrics to Stripe via the `X-Stripe-Client-Telemetry`
-// header. If set to true, all clients will send telemetry metrics. Defaults to
-// false.
-//
-// Telemetry can also be enabled on a per-client basis by instead creating a
-// `BackendConfig` with `EnableTelemetry: true`.
-var EnableTelemetry = false
 
 //
 // Public types
@@ -115,6 +115,12 @@ type Backend interface {
 
 // BackendConfig is used to configure a new Stripe backend.
 type BackendConfig struct {
+	// EnableTelemetry allows request metrics (request id and duration) to be sent
+	// to Stripe in subsequent requests via the `X-Stripe-Client-Telemetry` header.
+	//
+	// Defaults to false.
+	EnableTelemetry bool
+
 	// HTTPClient is an HTTP client instance to use when making API requests.
 	//
 	// If left unset, it'll be set to a default HTTP client for the package.
@@ -147,12 +153,6 @@ type BackendConfig struct {
 	//
 	// If left empty, it'll be set to the default for the SupportedBackend.
 	URL string
-
-	// EnableTelemetry allows request metrics (request id and duration) to be sent
-	// to Stripe in subsequent requests via the `X-Stripe-Client-Telemetry` header.
-	//
-	// Defaults to false.
-	EnableTelemetry bool
 }
 
 // BackendImplementation is the internal implementation for making HTTP calls
@@ -320,13 +320,15 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 				s.Logger.Printf("Unable to encode client telemetry: %s", err)
 			}
 		default:
-			// no metrics available, ignore.
+			// There are no metrics available, so don't send any.
+			// This default case  needs to be here to prevent Do from blocking on an
+			// empty requestMetricsBuffer.
 		}
 	}
 
 	var res *http.Response
 	var err error
-	var requestDurationMS int
+	var requestDuration time.Duration
 	for retry := 0; ; {
 		start := time.Now()
 
@@ -371,17 +373,13 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 			}
 		}
 
-		// `requestStart` is used solely for client telemetry and, unlike `start`,
-		// does not account for the time spent building the request body.
-		requestStart := time.Now()
-
 		res, err = s.HTTPClient.Do(req)
 
-		requestDurationMS = int(time.Since(requestStart) / time.Millisecond)
+		requestDuration = time.Since(start)
 
 		if s.LogLevel > 2 {
 			s.Logger.Printf("Request completed in %v (retry: %v)\n",
-				time.Since(start), retry)
+				requestDuration, retry)
 		}
 
 		// If the response was okay, we're done, and it's safe to break out of
@@ -431,7 +429,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 		if len(reqID) > 0 {
 			metrics := requestMetrics{
 				RequestID:         reqID,
-				RequestDurationMS: requestDurationMS,
+				RequestDurationMS: int(requestDuration / time.Millisecond),
 			}
 
 			// If the metrics buffer is full, discard the new metrics. Otherwise, add
@@ -833,10 +831,11 @@ const defaultHTTPTimeout = 80 * time.Second
 const maxNetworkRetriesDelay = 5000 * time.Millisecond
 const minNetworkRetriesDelay = 500 * time.Millisecond
 
-const uploadsURL = "https://uploads.stripe.com"
-
-// The number of requestMetric objects to buffer for client telemetry.
+// The number of requestMetric objects to buffer for client telemetry. When the
+// buffer is full, new requestMetrics are dropped.
 const telemetryBufferSize = 16
+
+const uploadsURL = "https://uploads.stripe.com"
 
 //
 // Private types

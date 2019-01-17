@@ -200,6 +200,9 @@ func TestDo_TelemetryDisabled(t *testing.T) {
 		},
 	).(*stripe.BackendImplementation)
 
+	// When telemetry is enabled, the metrics for a request are sent with the
+	// _next_ request via the `X-Stripe-Client-Telemetry header`. To test that
+	// metrics aren't being sent, we need to fire off two requests in sequence.
 	for i := 0; i < 2; i++ {
 		request, err := backend.NewRequest(
 			http.MethodGet,
@@ -258,6 +261,7 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 
 			// the second request should include the metrics for the first request
 			assert.Equal(t, telemetry.LastRequestMetrics.RequestID, "req_1")
+			assert.True(t, telemetry.LastRequestMetrics.RequestDurationMS > 0)
 		default:
 			assert.Fail(t, "Should not have reached request %v", requestNum)
 		}
