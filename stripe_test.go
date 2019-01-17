@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"regexp"
@@ -163,6 +164,217 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 	assert.Error(t, err)
 	// timeout should not prevent retry
 	assert.Equal(t, uint32(2), atomic.LoadUint32(&counter))
+}
+
+// Test that telemetry metrics are not sent by default
+func TestDo_TelemetryDisabled(t *testing.T) {
+	type testServerResponse struct {
+		Message string `json:"message"`
+	}
+
+	message := "Hello, client."
+	requestNum := 0
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// none of the requests should include telemetry metrics
+		assert.Equal(t, r.Header.Get("X-Stripe-Client-Telemetry"), "")
+
+		response := testServerResponse{Message: message}
+
+		data, err := json.Marshal(response)
+		assert.NoError(t, err)
+
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+
+		requestNum++
+	}))
+	defer testServer.Close()
+
+	backend := stripe.GetBackendWithConfig(
+		stripe.APIBackend,
+		&stripe.BackendConfig{
+			LogLevel:          3,
+			MaxNetworkRetries: 0,
+			URL:               testServer.URL,
+		},
+	).(*stripe.BackendImplementation)
+
+	// When telemetry is enabled, the metrics for a request are sent with the
+	// _next_ request via the `X-Stripe-Client-Telemetry header`. To test that
+	// metrics aren't being sent, we need to fire off two requests in sequence.
+	for i := 0; i < 2; i++ {
+		request, err := backend.NewRequest(
+			http.MethodGet,
+			"/hello",
+			"sk_test_123",
+			"application/x-www-form-urlencoded",
+			nil,
+		)
+		assert.NoError(t, err)
+
+		var response testServerResponse
+		err = backend.Do(request, nil, &response)
+
+		assert.NoError(t, err)
+		assert.Equal(t, message, response.Message)
+	}
+
+	// We should have seen exactly two requests.
+	assert.Equal(t, 2, requestNum)
+}
+
+// Test that telemetry metrics are sent on subsequent requests when
+// stripe.EnableTelemetry = true.
+func TestDo_TelemetryEnabled(t *testing.T) {
+	type testServerResponse struct {
+		Message string `json:"message"`
+	}
+
+	type requestMetrics struct {
+		RequestID         string `json:"request_id"`
+		RequestDurationMS int    `json:"request_duration_ms"`
+	}
+
+	type requestTelemetry struct {
+		LastRequestMetrics requestMetrics `json:"last_request_metrics"`
+	}
+
+	message := "Hello, client."
+	requestNum := 0
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requestNum++
+
+		telemetryStr := r.Header.Get("X-Stripe-Client-Telemetry")
+		switch requestNum {
+		case 1:
+			// the first request should not receive any metrics
+			assert.Equal(t, telemetryStr, "")
+			time.Sleep(21 * time.Millisecond)
+		case 2:
+			assert.True(t, len(telemetryStr) > 0, "telemetryStr should not be empty")
+
+			// the telemetry should properly unmarshal into stripe.RequestTelemetry
+			var telemetry requestTelemetry
+			err := json.Unmarshal([]byte(telemetryStr), &telemetry)
+			assert.NoError(t, err)
+
+			// the second request should include the metrics for the first request
+			assert.Equal(t, telemetry.LastRequestMetrics.RequestID, "req_1")
+			assert.True(t, telemetry.LastRequestMetrics.RequestDurationMS > 20,
+				"request_duration_ms should be > 20ms")
+		default:
+			assert.Fail(t, "Should not have reached request %v", requestNum)
+		}
+
+		w.Header().Set("Request-Id", fmt.Sprintf("req_%d", requestNum))
+		response := testServerResponse{Message: message}
+
+		data, err := json.Marshal(response)
+		assert.NoError(t, err)
+
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	backend := stripe.GetBackendWithConfig(
+		stripe.APIBackend,
+		&stripe.BackendConfig{
+			LogLevel:          3,
+			MaxNetworkRetries: 0,
+			URL:               testServer.URL,
+			EnableTelemetry:   true,
+		},
+	).(*stripe.BackendImplementation)
+
+	for i := 0; i < 2; i++ {
+		request, err := backend.NewRequest(
+			http.MethodGet,
+			"/hello",
+			"sk_test_123",
+			"application/x-www-form-urlencoded",
+			nil,
+		)
+		assert.NoError(t, err)
+
+		var response testServerResponse
+		err = backend.Do(request, nil, &response)
+
+		assert.NoError(t, err)
+		assert.Equal(t, message, response.Message)
+	}
+
+	// We should have seen exactly two requests.
+	assert.Equal(t, 2, requestNum)
+}
+
+// This test does not perform any super valuable assertions - instead, it checks
+// that our logic for buffering requestMetrics when EnableTelemetry = true does
+// not trigger any data races. This test should pass when the -race flag is
+// passed to `go test`.
+func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
+	type testServerResponse struct {
+		Message string `json:"message"`
+	}
+
+	message := "Hello, client."
+	var requestNum int32
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		reqID := atomic.AddInt32(&requestNum, 1)
+
+		w.Header().Set("Request-Id", fmt.Sprintf("req_%d", reqID))
+		response := testServerResponse{Message: message}
+
+		data, err := json.Marshal(response)
+		assert.NoError(t, err)
+
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	backend := stripe.GetBackendWithConfig(
+		stripe.APIBackend,
+		&stripe.BackendConfig{
+			LogLevel:          3,
+			MaxNetworkRetries: 0,
+			URL:               testServer.URL,
+			EnableTelemetry:   true,
+		},
+	).(*stripe.BackendImplementation)
+
+	times := 20 // 20 > telemetryBufferSize, so some metrics could be discarded
+	done := make(chan struct{})
+
+	for i := 0; i < times; i++ {
+		go func() {
+			request, err := backend.NewRequest(
+				http.MethodGet,
+				"/hello",
+				"sk_test_123",
+				"application/x-www-form-urlencoded",
+				nil,
+			)
+			assert.NoError(t, err)
+
+			var response testServerResponse
+			err = backend.Do(request, nil, &response)
+
+			assert.NoError(t, err)
+			assert.Equal(t, message, response.Message)
+
+			done <- struct{}{}
+		}()
+	}
+
+	for i := 0; i < times; i++ {
+		<-done
+	}
+
+	assert.Equal(t, int32(times), requestNum)
 }
 
 func TestFormatURLPath(t *testing.T) {

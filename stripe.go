@@ -49,6 +49,15 @@ const (
 // Public variables
 //
 
+// EnableTelemetry is a global override for enabling client telemetry, which
+// sends request performance metrics to Stripe via the `X-Stripe-Client-Telemetry`
+// header. If set to true, all clients will send telemetry metrics. Defaults to
+// false.
+//
+// Telemetry can also be enabled on a per-client basis by instead creating a
+// `BackendConfig` with `EnableTelemetry: true`.
+var EnableTelemetry = false
+
 // Key is the Stripe API key used globally in the binding.
 var Key string
 
@@ -106,6 +115,12 @@ type Backend interface {
 
 // BackendConfig is used to configure a new Stripe backend.
 type BackendConfig struct {
+	// EnableTelemetry allows request metrics (request id and duration) to be sent
+	// to Stripe in subsequent requests via the `X-Stripe-Client-Telemetry` header.
+	//
+	// Defaults to false.
+	EnableTelemetry bool
+
 	// HTTPClient is an HTTP client instance to use when making API requests.
 	//
 	// If left unset, it'll be set to a default HTTP client for the package.
@@ -158,6 +173,9 @@ type BackendImplementation struct {
 	//
 	// See also SetNetworkRetriesSleep.
 	networkRetriesSleep bool
+
+	enableTelemetry      bool
+	requestMetricsBuffer chan requestMetrics
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
@@ -292,8 +310,25 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 		s.Logger.Printf("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
 	}
 
+	if s.enableTelemetry {
+		select {
+		case metrics := <-s.requestMetricsBuffer:
+			metricsJSON, err := json.Marshal(&requestTelemetry{LastRequestMetrics: metrics})
+			if err == nil {
+				req.Header.Set("X-Stripe-Client-Telemetry", string(metricsJSON))
+			} else if s.LogLevel > 2 {
+				s.Logger.Printf("Unable to encode client telemetry: %s", err)
+			}
+		default:
+			// There are no metrics available, so don't send any.
+			// This default case  needs to be here to prevent Do from blocking on an
+			// empty requestMetricsBuffer.
+		}
+	}
+
 	var res *http.Response
 	var err error
+	var requestDuration time.Duration
 	for retry := 0; ; {
 		start := time.Now()
 
@@ -340,9 +375,11 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 
 		res, err = s.HTTPClient.Do(req)
 
+		requestDuration = time.Since(start)
+
 		if s.LogLevel > 2 {
 			s.Logger.Printf("Request completed in %v (retry: %v)\n",
-				time.Since(start), retry)
+				requestDuration, retry)
 		}
 
 		// If the response was okay, we're done, and it's safe to break out of
@@ -385,6 +422,23 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 			s.Logger.Printf("Request failed: %v\n", err)
 		}
 		return err
+	}
+
+	if s.enableTelemetry {
+		reqID := res.Header.Get("Request-Id")
+		if len(reqID) > 0 {
+			metrics := requestMetrics{
+				RequestID:         reqID,
+				RequestDurationMS: int(requestDuration / time.Millisecond),
+			}
+
+			// If the metrics buffer is full, discard the new metrics. Otherwise, add
+			// them to the buffer.
+			select {
+			case s.requestMetricsBuffer <- metrics:
+			default:
+			}
+		}
 	}
 
 	defer res.Body.Close()
@@ -777,6 +831,10 @@ const defaultHTTPTimeout = 80 * time.Second
 const maxNetworkRetriesDelay = 5000 * time.Millisecond
 const minNetworkRetriesDelay = 500 * time.Millisecond
 
+// The number of requestMetric objects to buffer for client telemetry. When the
+// buffer is full, new requestMetrics are dropped.
+const telemetryBufferSize = 16
+
 const uploadsURL = "https://uploads.stripe.com"
 
 //
@@ -803,6 +861,18 @@ type stripeClientUserAgent struct {
 	LanguageVersion string   `json:"lang_version"`
 	Publisher       string   `json:"publisher"`
 	Uname           string   `json:"uname"`
+}
+
+// requestMetrics contains the id and duration of the last request sent
+type requestMetrics struct {
+	RequestID         string `json:"request_id"`
+	RequestDurationMS int    `json:"request_duration_ms"`
+}
+
+// requestTelemetry contains the payload sent in the
+// `X-Stripe-Client-Telemetry` header when BackendConfig#EnableTelemetry = true.
+type requestTelemetry struct {
+	LastRequestMetrics requestMetrics `json:"last_request_metrics"`
 }
 
 //
@@ -878,14 +948,24 @@ func isHTTPWriteMethod(method string) bool {
 // The vast majority of the time you should be calling GetBackendWithConfig
 // instead of this function.
 func newBackendImplementation(backendType SupportedBackend, config *BackendConfig) Backend {
+	var requestMetricsBuffer chan requestMetrics
+	enableTelemetry := config.EnableTelemetry || EnableTelemetry
+
+	// only allocate the requestMetrics buffer if client telemetry is enabled.
+	if enableTelemetry {
+		requestMetricsBuffer = make(chan requestMetrics, telemetryBufferSize)
+	}
+
 	return &BackendImplementation{
-		HTTPClient:          config.HTTPClient,
-		LogLevel:            config.LogLevel,
-		Logger:              config.Logger,
-		MaxNetworkRetries:   config.MaxNetworkRetries,
-		Type:                backendType,
-		URL:                 config.URL,
-		networkRetriesSleep: true,
+		HTTPClient:           config.HTTPClient,
+		LogLevel:             config.LogLevel,
+		Logger:               config.Logger,
+		MaxNetworkRetries:    config.MaxNetworkRetries,
+		Type:                 backendType,
+		URL:                  config.URL,
+		networkRetriesSleep:  true,
+		enableTelemetry:      enableTelemetry,
+		requestMetricsBuffer: requestMetricsBuffer,
 	}
 }
 
