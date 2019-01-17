@@ -1,5 +1,8 @@
 # Changelog
 
+## 55.11.0 - 2019-01-17
+* [#776](https://github.com/stripe/stripe-go/pull/776) Add support for billing thresholds
+
 ## 55.10.0 - 2019-01-16
 * [#773](https://github.com/stripe/stripe-go/pull/773) Add support for `custom_fields` and `footer` on `Invoice`
 * [#774](https://github.com/stripe/stripe-go/pull/774) Revert Go module support
