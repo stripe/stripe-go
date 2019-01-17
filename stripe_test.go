@@ -232,8 +232,8 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 	}
 
 	type requestMetrics struct {
-		RequestID         string `json:"request_id"`
 		RequestDurationMS int    `json:"request_duration_ms"`
+		RequestID         string `json:"request_id"`
 	}
 
 	type requestTelemetry struct {
