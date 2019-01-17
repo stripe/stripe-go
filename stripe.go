@@ -168,13 +168,14 @@ type BackendImplementation struct {
 	LogLevel          int
 	Logger            Printfer
 
+	enableTelemetry bool
+
 	// networkRetriesSleep indicates whether the backend should use the normal
 	// sleep between retries.
 	//
 	// See also SetNetworkRetriesSleep.
 	networkRetriesSleep bool
 
-	enableTelemetry      bool
 	requestMetricsBuffer chan requestMetrics
 }
 
@@ -267,9 +268,9 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 	authorization := "Bearer " + key
 
 	req.Header.Add("Authorization", authorization)
+	req.Header.Add("Content-Type", contentType)
 	req.Header.Add("Stripe-Version", apiversion)
 	req.Header.Add("User-Agent", encodedUserAgent)
-	req.Header.Add("Content-Type", contentType)
 	req.Header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
 
 	if params != nil {
@@ -428,8 +429,8 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 		reqID := res.Header.Get("Request-Id")
 		if len(reqID) > 0 {
 			metrics := requestMetrics{
-				RequestID:         reqID,
 				RequestDurationMS: int(requestDuration / time.Millisecond),
+				RequestID:         reqID,
 			}
 
 			// If the metrics buffer is full, discard the new metrics. Otherwise, add
@@ -865,8 +866,8 @@ type stripeClientUserAgent struct {
 
 // requestMetrics contains the id and duration of the last request sent
 type requestMetrics struct {
-	RequestID         string `json:"request_id"`
 	RequestDurationMS int    `json:"request_duration_ms"`
+	RequestID         string `json:"request_id"`
 }
 
 // requestTelemetry contains the payload sent in the
@@ -963,8 +964,8 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 		MaxNetworkRetries:    config.MaxNetworkRetries,
 		Type:                 backendType,
 		URL:                  config.URL,
-		networkRetriesSleep:  true,
 		enableTelemetry:      enableTelemetry,
+		networkRetriesSleep:  true,
 		requestMetricsBuffer: requestMetricsBuffer,
 	}
 }
