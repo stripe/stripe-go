@@ -1,5 +1,8 @@
 # Changelog
 
+## 55.13.0 - 2019-01-17
+* [#779](https://github.com/stripe/stripe-go/pull/779) Add support for `receipt_url` on `Charge`
+
 ## 55.12.0 - 2019-01-17
 * [#766](https://github.com/stripe/stripe-go/pull/766) Add optional support for sending request telemetry to Stripe
 
