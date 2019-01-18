@@ -178,6 +178,7 @@ type Charge struct {
 	Paid                 bool                `json:"paid"`
 	ReceiptEmail         string              `json:"receipt_email"`
 	ReceiptNumber        string              `json:"receipt_number"`
+	ReceiptURL           string              `json:"receipt_url"`
 	Refunded             bool                `json:"refunded"`
 	Refunds              *RefundList         `json:"refunds"`
 	Review               *Review             `json:"review"`
