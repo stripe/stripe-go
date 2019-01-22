@@ -23,6 +23,9 @@ before_install:
     stripe-mock/stripe-mock_${STRIPE_MOCK_VERSION}/stripe-mock -https-port 12112 > /dev/null &
     STRIPE_MOCK_PID=$!
 
+  # stripe-mock must be in PATH for `scripts/test_with_stripe_mock.go` to work.
+  - export PATH="${PATH}:${PWD}/stripe-mock/stripe-mock_${STRIPE_MOCK_VERSION}"
+
 cache:
   directories:
     - stripe-mock
