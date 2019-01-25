@@ -1,5 +1,8 @@
 # Changelog
 
+## 55.14.0 - 2019-01-25
+* [#765](https://github.com/stripe/stripe-go/pull/765) Add support for `destination_payment_refund` and `source_refund` on the `Reversal` resource
+
 ## 55.13.0 - 2019-01-17
 * [#779](https://github.com/stripe/stripe-go/pull/779) Add support for `receipt_url` on `Charge`
 
