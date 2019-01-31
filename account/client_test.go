@@ -37,51 +37,49 @@ func TestAccountList(t *testing.T) {
 
 func TestAccountNew(t *testing.T) {
 	account, err := New(&stripe.AccountParams{
-		Type:                 stripe.String(string(stripe.AccountTypeCustom)),
-		Country:              stripe.String("CA"),
-		BusinessURL:          stripe.String("www.stripe.com"),
-		BusinessName:         stripe.String("Stripe"),
-		BusinessPrimaryColor: stripe.String("#ffffff"),
-		DeclineChargeOn: &stripe.AccountDeclineSettingsParams{
-			AVSFailure: stripe.Bool(true),
-			CVCFailure: stripe.Bool(true),
+		BusinessProfile: &stripe.AccountBusinessProfileParams{
+			Name:         stripe.String("name"),
+			SupportEmail: stripe.String("foo@bar.com"),
+			SupportURL:   stripe.String("www.stripe.com"),
+			SupportPhone: stripe.String("4151234567"),
 		},
-		DebitNegativeBalances: stripe.Bool(true),
-		SupportEmail:          stripe.String("foo@bar.com"),
-		SupportURL:            stripe.String("www.stripe.com"),
-		SupportPhone:          stripe.String("4151234567"),
-		LegalEntity: &stripe.LegalEntityParams{
-			Type:         stripe.String(string(stripe.LegalEntityTypeIndividual)),
-			BusinessName: stripe.String("Stripe Go"),
-			AdditionalOwners: []*stripe.AdditionalOwnerParams{
-				{
-					FirstName: stripe.String("Jane"),
-					LastName:  stripe.String("Doe"),
-					Verification: &stripe.IdentityVerificationParams{
-						Document:     stripe.String("file_345"),
-						DocumentBack: stripe.String("file_567"),
-					},
+		BusinessType: stripe.String(string(stripe.AccountBusinessTypeCompany)),
+		Company: &stripe.AccountCompanyParams{
+			DirectorsProvided: stripe.Bool(true),
+			Name:              stripe.String("company_name"),
+		},
+		Country: stripe.String("CA"),
+		ExternalAccount: &stripe.AccountExternalAccountParams{
+			Token: stripe.String("tok_123"),
+		},
+		RequestedCapabilities: []*string{
+			stripe.String("card_payments"),
+		},
+		Settings: &stripe.AccountSettingsParams{
+			Branding: &stripe.AccountSettingsBrandingParams{
+				Icon: stripe.String("file_123"),
+				Logo: stripe.String("file_234"),
+			},
+			CardPayments: &stripe.AccountSettingsCardPaymentsParams{
+				DeclineOn: &stripe.AccountDeclineSettingsParams{
+					AVSFailure: stripe.Bool(true),
+					CVCFailure: stripe.Bool(true),
 				},
-				{
-					FirstName: stripe.String("John"),
-					LastName:  stripe.String("Doe"),
+				StatementDescriptorPrefix: stripe.String("prefix"),
+			},
+			Payments: &stripe.AccountSettingsPaymentsParams{
+				StatementDescriptor: stripe.String("descriptor"),
+			},
+			Payouts: &stripe.AccountSettingsPayoutsParams{
+				DebitNegativeBalances: stripe.Bool(true),
+				Schedule: &stripe.PayoutScheduleParams{
+					DelayDaysMinimum: stripe.Bool(true),
+					Interval:         stripe.String(string(stripe.PayoutIntervalManual)),
 				},
-			},
-			DOB: &stripe.DOBParams{
-				Day:   stripe.Int64(1),
-				Month: stripe.Int64(2),
-				Year:  stripe.Int64(1990),
-			},
-			Verification: &stripe.IdentityVerificationParams{
-				Document:     stripe.String("file_123"),
-				DocumentBack: stripe.String("file_234"),
+				StatementDescriptor: stripe.String("payout_descriptor"),
 			},
 		},
-		TOSAcceptance: &stripe.TOSAcceptanceParams{
-			IP:        stripe.String("127.0.0.1"),
-			Date:      stripe.Int64(1437578361),
-			UserAgent: stripe.String("Mozilla/5.0"),
-		},
+		Type: stripe.String(string(stripe.AccountTypeCustom)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, account)
@@ -97,7 +95,7 @@ func TestAccountReject(t *testing.T) {
 
 func TestAccountUpdate(t *testing.T) {
 	account, err := Update("acct_123", &stripe.AccountParams{
-		LegalEntity: &stripe.LegalEntityParams{
+		Company: &stripe.AccountCompanyParams{
 			Address: &stripe.AccountAddressParams{
 				Country:    stripe.String("CA"),
 				City:       stripe.String("Montreal"),
