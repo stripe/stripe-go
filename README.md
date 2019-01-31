@@ -315,7 +315,7 @@ instructions for installing via Homebrew and other methods):
 
 Run all tests:
 
-    go test ./...
+    make test
 
 Run tests for one package:
 
