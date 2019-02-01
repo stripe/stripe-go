@@ -32,20 +32,30 @@ const (
 var portMatch = regexp.MustCompile(` port: (\d+)`)
 
 func main() {
-	var port string
 	var stripeMockProcess *os.Process
+	autostart := true
+
+	port := os.Getenv("STRIPE_MOCK_PORT")
+	if port == "" {
+		port = defaultStripeMockPort
+	}
 
 	//
 	// Maybe start stripe-mock
 	//
 
-	if _, err := os.Stat(pathSpec); os.IsNotExist(err) {
-		port = os.Getenv("STRIPE_MOCK_PORT")
-		if port == "" {
-			port = defaultStripeMockPort
-		}
-		fmt.Printf("No custom spec file found, assuming stripe-mock is already running on port %v\n", port)
-	} else {
+	autostartEnv := os.Getenv("STRIPE_MOCK_AUTOSTART")
+	if autostartEnv == "0" || autostartEnv == "false" {
+		fmt.Printf("STRIPE_MOCK_AUTOSTART=%s, "+
+			"assuming stripe-mock is already running on port %s\n", autostartEnv, port)
+		autostart = false
+	} else if _, err := os.Stat(pathSpec); os.IsNotExist(err) {
+		fmt.Printf("No custom spec file found, "+
+			"assuming stripe-mock is already running on port %s\n", port)
+		autostart = false
+	}
+
+	if autostart {
 		var err error
 		port, stripeMockProcess, err = startStripeMock()
 		if err != nil {
