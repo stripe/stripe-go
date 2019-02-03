@@ -83,6 +83,9 @@ func TestPaymentIntent_UnmarshalJSON(t *testing.T) {
 				},
 			},
 		},
+		"payment_method_types": []interface{}{
+			"card",
+		},
 	}
 
 	bytes, err := json.Marshal(&intentData)
@@ -96,4 +99,5 @@ func TestPaymentIntent_UnmarshalJSON(t *testing.T) {
 
 	assert.Equal(t, 1, len(intent.AllowedSourceTypes))
 	assert.Equal(t, 2, len(intent.Charges.Data))
+	assert.Equal(t, 1, len(intent.PaymentMethodTypes))
 }

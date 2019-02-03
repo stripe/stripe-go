@@ -131,7 +131,9 @@ type Subscription struct {
 	EndedAt               int64                          `json:"ended_at"`
 	ID                    string                         `json:"id"`
 	Items                 *SubscriptionItemList          `json:"items"`
+	Livemode              bool                           `json:"livemode"`
 	Metadata              map[string]string              `json:"metadata"`
+	Object                string                         `json:"object"`
 	OnBehalfOf            *Account                       `json:"on_behalf_of"`
 	Plan                  *Plan                          `json:"plan"`
 	Quantity              int64                          `json:"quantity"`

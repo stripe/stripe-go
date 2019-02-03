@@ -47,11 +47,11 @@ func TestPaymentIntentList(t *testing.T) {
 
 func TestPaymentIntentNew(t *testing.T) {
 	intent, err := New(&stripe.PaymentIntentParams{
-		AllowedSourceTypes: []*string{
-			stripe.String("card"),
-		},
 		Amount:   stripe.Int64(123),
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		PaymentMethodTypes: []*string{
+			stripe.String("card"),
+		},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, intent)
