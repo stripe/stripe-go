@@ -37,7 +37,7 @@ type PaymentIntentNextActionType string
 
 // List of values that PaymentIntentNextActionType can take.
 const (
-	PaymentIntentNextActionAuthorizeWithURL PaymentIntentNextActionType = "authorize_with_url"
+	PaymentIntentNextActionTypeRedirectToURL PaymentIntentNextActionType = "redirect_to_url"
 )
 
 // PaymentIntentStatus is the list of allowed values for the payment intent's status.
@@ -45,13 +45,13 @@ type PaymentIntentStatus string
 
 // List of values that PaymentIntentStatus can take.
 const (
-	PaymentIntentStatusCanceled             PaymentIntentStatus = "canceled"
-	PaymentIntentStatusProcessing           PaymentIntentStatus = "processing"
-	PaymentIntentStatusRequiresCapture      PaymentIntentStatus = "requires_capture"
-	PaymentIntentStatusRequiresConfirmation PaymentIntentStatus = "requires_confirmation"
-	PaymentIntentStatusRequiresSource       PaymentIntentStatus = "requires_source"
-	PaymentIntentStatusRequiresSourceAction PaymentIntentStatus = "requires_source_action"
-	PaymentIntentStatusSucceeded            PaymentIntentStatus = "succeeded"
+	PaymentIntentStatusCanceled              PaymentIntentStatus = "canceled"
+	PaymentIntentStatusProcessing            PaymentIntentStatus = "processing"
+	PaymentIntentStatusRequiresAction        PaymentIntentStatus = "requires_action"
+	PaymentIntentStatusRequiresCapture       PaymentIntentStatus = "requires_capture"
+	PaymentIntentStatusRequiresConfirmation  PaymentIntentStatus = "requires_confirmation"
+	PaymentIntentStatusRequiresPaymentMethod PaymentIntentStatus = "requires_payment_method"
+	PaymentIntentStatusSucceeded             PaymentIntentStatus = "succeeded"
 )
 
 // PaymentIntentCancelParams is the set of parameters that can be used when canceling a payment intent.
@@ -87,7 +87,6 @@ type PaymentIntentTransferDataParams struct {
 // PaymentIntentParams is the set of parameters that can be used when handling a payment intent.
 type PaymentIntentParams struct {
 	Params               `form:"*"`
-	AllowedSourceTypes   []*string                        `form:"allowed_source_types"`
 	Amount               *int64                           `form:"amount"`
 	ApplicationFeeAmount *int64                           `form:"application_fee_amount"`
 	Confirm              *bool                            `form:"confirm"`
@@ -96,6 +95,7 @@ type PaymentIntentParams struct {
 	Customer             *string                          `form:"customer"`
 	Description          *string                          `form:"description"`
 	OnBehalfOf           *string                          `form:"on_behalf_of"`
+	PaymentMethodTypes   []*string                        `form:"payment_method_types"`
 	ReceiptEmail         *string                          `form:"receipt_email"`
 	ReturnURL            *string                          `form:"return_url"`
 	SaveSourceToCustomer *bool                            `form:"save_source_to_customer"`
@@ -124,17 +124,17 @@ type PaymentIntentLastPaymentError struct {
 	Type        ErrorType      `json:"type"`
 }
 
-// PaymentIntentSourceActionAuthorizeWithURL represents the resource for the next action of type
-// "authorize_with_url".
-type PaymentIntentSourceActionAuthorizeWithURL struct {
+// PaymentIntentNextActionRedirectToURL represents the resource for the next action of type
+// "redirect_to_url".
+type PaymentIntentNextActionRedirectToURL struct {
 	ReturnURL string `json:"return_url"`
 	URL       string `json:"url"`
 }
 
-// PaymentIntentSourceAction represents the type of action to take on a payment intent.
-type PaymentIntentSourceAction struct {
-	AuthorizeWithURL *PaymentIntentSourceActionAuthorizeWithURL `json:"authorize_with_url"`
-	Type             PaymentIntentNextActionType                `json:"type"`
+// PaymentIntentNextAction represents the type of action to take on a payment intent.
+type PaymentIntentNextAction struct {
+	RedirectToURL *PaymentIntentNextActionRedirectToURL `json:"redirect_to_url"`
+	Type          PaymentIntentNextActionType           `json:"type"`
 }
 
 // PaymentIntentTransferData represents the information for the transfer associated with a payment intent.
@@ -146,7 +146,6 @@ type PaymentIntentTransferData struct {
 // PaymentIntent is the resource representing a Stripe payout.
 // For more details see https://stripe.com/docs/api#payment_intents.
 type PaymentIntent struct {
-	AllowedSourceTypes  []string                        `json:"allowed_source_types"`
 	Amount              int64                           `json:"amount"`
 	AmountCapturable    int64                           `json:"amount_capturable"`
 	AmountReceived      int64                           `json:"amount_received"`
@@ -165,8 +164,9 @@ type PaymentIntent struct {
 	Livemode            bool                            `json:"livemode"`
 	ID                  string                          `json:"id"`
 	Metadata            map[string]string               `json:"metadata"`
-	NextSourceAction    *PaymentIntentSourceAction      `json:"next_source_action"`
+	NextAction          *PaymentIntentNextAction        `json:"next_action"`
 	OnBehalfOf          *Account                        `json:"on_behalf_of"`
+	PaymentMethodTypes  []string                        `json:"payment_method_types"`
 	ReceiptEmail        string                          `json:"receipt_email"`
 	Review              *Review                         `json:"review"`
 	Shipping            ShippingDetails                 `json:"shipping"`
