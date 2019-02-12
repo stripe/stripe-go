@@ -173,9 +173,27 @@ func buildPtrEncoder(t reflect.Type) encoderFunc {
 	elemF := getCachedOrBuildTypeEncoder(t.Elem())
 
 	return func(values *Values, v reflect.Value, keyParts []string, _ bool, options *formOptions) {
+		// We take a nil to mean that the property wasn't set, so ignore it in
+		// the final encoding.
 		if v.IsNil() {
 			return
 		}
+
+		// When encountering a slice that's been explicitly set (and therefore
+		// must be a pointer because we can't tell for a non-pointer) and which
+		// is of 0 length, we take this as an indication that the user is
+		// trying to zero the API array. See the `additional_owners` property
+		// under `legal_entity` on account for an example of somewhere that
+		// this is useful.
+		//
+		// This only works for a slice (and not an array) because even a zeroed
+		// array always has a fixed length.
+		if t.Elem().Kind() == reflect.Slice && v.Elem().Len() == 0 {
+			values.Add(FormatKey(keyParts), "")
+			return
+		}
+
+		// Otherwise, call into the appropriate encoder for the pointer's type.
 		elemF(values, v.Elem(), keyParts, true, options)
 	}
 }
