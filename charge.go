@@ -43,6 +43,7 @@ type ChargeLevel3Params struct {
 
 // ChargeTransferDataParams is the set of parameters allowed for the transfer_data hash.
 type ChargeTransferDataParams struct {
+	Amount      *int64  `form:"amount"`
 	Destination *string `form:"destination"`
 }
 
@@ -145,6 +146,7 @@ type ChargeLevel3 struct {
 
 // ChargeTransferData represents the information for the transfer_data associated with a charge.
 type ChargeTransferData struct {
+	Amount      int64    `form:"amount"`
 	Destination *Account `json:"destination"`
 }
 
