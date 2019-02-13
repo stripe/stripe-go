@@ -96,6 +96,7 @@ type PaymentIntentParams struct {
 	Customer             *string                          `form:"customer"`
 	Description          *string                          `form:"description"`
 	OnBehalfOf           *string                          `form:"on_behalf_of"`
+	PaymentMethodTypes   []*string                        `form:"payment_method_types"`
 	ReceiptEmail         *string                          `form:"receipt_email"`
 	ReturnURL            *string                          `form:"return_url"`
 	SaveSourceToCustomer *bool                            `form:"save_source_to_customer"`
@@ -167,6 +168,7 @@ type PaymentIntent struct {
 	Metadata            map[string]string               `json:"metadata"`
 	NextSourceAction    *PaymentIntentSourceAction      `json:"next_source_action"`
 	OnBehalfOf          *Account                        `json:"on_behalf_of"`
+	PaymentMethodTypes  []string                        `json:"payment_method_types"`
 	ReceiptEmail        string                          `json:"receipt_email"`
 	Review              *Review                         `json:"review"`
 	Shipping            ShippingDetails                 `json:"shipping"`
