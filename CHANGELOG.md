@@ -1,5 +1,9 @@
 # Changelog
 
+## 56.0.0 - 2019-02-13
+* [#785](https://github.com/stripe/stripe-go/pull/785) Changes to the Payment Intent APIs for the next API version
+* [#789](https://github.com/stripe/stripe-go/pull/789) Allow API arrays to be emptied by setting an empty array
+
 ## 55.15.0 - 2019-02-12
 * [#764](https://github.com/stripe/stripe-go/pull/764) Add support for `transfer_data[destination]` on `Invoice` and `Subscription`
 * [#784](https://github.com/stripe/stripe-go/pull/784)
