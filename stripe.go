@@ -817,7 +817,7 @@ func StringValue(v *string) string {
 const apiURL = "https://api.stripe.com"
 
 // apiversion is the currently supported API version
-const apiversion = "2018-11-08"
+const apiversion = "2019-02-11"
 
 // clientversion is the binding version
 const clientversion = "55.15.0"

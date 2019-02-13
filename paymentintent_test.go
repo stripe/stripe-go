@@ -41,34 +41,31 @@ func TestPaymentIntentLastPaymentError_UnmarshalJSON(t *testing.T) {
 	assert.Equal(t, "card_123", lastPaymentError.Source.Card.ID)
 }
 
-func TestPaymentIntentSourceAction_UnmarshalJSON(t *testing.T) {
+func TestPaymentIntentNextAction_UnmarshalJSON(t *testing.T) {
 	actionData := map[string]interface{}{
-		"authorize_with_url": map[string]interface{}{
+		"redirect_to_url": map[string]interface{}{
 			"return_url": "https://stripe.com/return",
 			"url":        "https://stripe.com",
 		},
-		"type": "authorize_with_url",
+		"type": "redirect_to_url",
 	}
 
 	bytes, err := json.Marshal(&actionData)
 	assert.NoError(t, err)
 
-	var action PaymentIntentSourceAction
+	var action PaymentIntentNextAction
 	err = json.Unmarshal(bytes, &action)
 	assert.NoError(t, err)
 
-	assert.Equal(t, PaymentIntentNextActionAuthorizeWithURL, action.Type)
-	assert.Equal(t, "https://stripe.com", action.AuthorizeWithURL.URL)
-	assert.Equal(t, "https://stripe.com/return", action.AuthorizeWithURL.ReturnURL)
+	assert.Equal(t, PaymentIntentNextActionTypeRedirectToURL, action.Type)
+	assert.Equal(t, "https://stripe.com", action.RedirectToURL.URL)
+	assert.Equal(t, "https://stripe.com/return", action.RedirectToURL.ReturnURL)
 }
 
 func TestPaymentIntent_UnmarshalJSON(t *testing.T) {
 	intentData := map[string]interface{}{
 		"id":     "pi_123",
 		"object": "payment_intent",
-		"allowed_source_types": []interface{}{
-			"card",
-		},
 		"charges": map[string]interface{}{
 			"object":   "list",
 			"has_more": true,
@@ -97,7 +94,6 @@ func TestPaymentIntent_UnmarshalJSON(t *testing.T) {
 
 	assert.Equal(t, "pi_123", intent.ID)
 
-	assert.Equal(t, 1, len(intent.AllowedSourceTypes))
 	assert.Equal(t, 2, len(intent.Charges.Data))
 	assert.Equal(t, 1, len(intent.PaymentMethodTypes))
 }
