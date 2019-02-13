@@ -326,7 +326,7 @@ Run a single test:
     go test ./invoice -run TestInvoiceGet
 
 For any requests, bug or comments, please [open an issue][issues] or [submit a
-pull request][pulls].
+pull request][pulls]. 
 
 [api-docs]: https://stripe.com/docs/api/go
 [api-changelog]: https://stripe.com/docs/upgrades
