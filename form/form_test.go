@@ -251,13 +251,16 @@ func TestAppendTo(t *testing.T) {
 		},
 
 		{"slice[2]", &testStruct{Slice: sliceVal}, stringPtr("3")},
-		{"slice", &testStruct{Slice: []string{}}, nil},
+		{"slice", &testStruct{Slice: []string{}}, stringPtr("")},
+		{"slice", &testStruct{Slice: nil}, nil},
 
 		{"slice_ptr[2]", &testStruct{SlicePtr: &sliceVal}, stringPtr("3")},
 
 		// A slice pointer given an explicit but empty slice should encode to
 		// an empty string (this tells the Stripe API to "zero" the array).
 		{"slice_ptr", &testStruct{SlicePtr: &sliceVal0}, stringPtr("")},
+
+		{"slice_ptr", &testStruct{SlicePtr: nil}, nil},
 
 		{"string", &testStruct{String: stringVal}, &stringVal},
 		{"string_ptr", &testStruct{StringPtr: &stringVal}, &stringVal},
