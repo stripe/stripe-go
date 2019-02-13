@@ -1,5 +1,12 @@
 # Changelog
 
+## 55.15.0 - 2019-02-12
+* [#764](https://github.com/stripe/stripe-go/pull/764) Add support for `transfer_data[destination]` on `Invoice` and `Subscription`
+* [#784](https://github.com/stripe/stripe-go/pull/784)
+    * Add support for `SubscriptionSchedule` and `SubscriptionScheduleRevision`
+    * Add support for `payment_method_types` on `PaymentIntent`
+* [#787](https://github.com/stripe/stripe-go/pull/787) Add support for `transfer_data[amount]` on `Charge`
+
 ## 55.14.0 - 2019-01-25
 * [#765](https://github.com/stripe/stripe-go/pull/765) Add support for `destination_payment_refund` and `source_refund` on the `Reversal` resource
 
