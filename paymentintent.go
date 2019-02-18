@@ -70,12 +70,15 @@ type PaymentIntentCaptureParams struct {
 
 // PaymentIntentConfirmParams is the set of parameters that can be used when confirming a payment intent.
 type PaymentIntentConfirmParams struct {
-	Params               `form:"*"`
-	ReceiptEmail         *string                `form:"receipt_email"`
-	ReturnURL            *string                `form:"return_url"`
-	SaveSourceToCustomer *bool                  `form:"save_source_to_customer"`
-	Shipping             *ShippingDetailsParams `form:"shipping"`
-	Source               *string                `form:"source"`
+	Params            `form:"*"`
+	ReceiptEmail      *string                `form:"receipt_email"`
+	ReturnURL         *string                `form:"return_url"`
+	SavePaymentMethod *bool                  `form:"save_payment_method"`
+	Shipping          *ShippingDetailsParams `form:"shipping"`
+	Source            *string                `form:"source"`
+
+	// This property is considered deprecated. Prefer using SavePaymentMethod
+	SaveSourceToCustomer *bool `form:"save_source_to_customer"`
 }
 
 // PaymentIntentTransferDataParams is the set of parameters allowed for the transfer hash.
@@ -98,12 +101,15 @@ type PaymentIntentParams struct {
 	PaymentMethodTypes   []*string                        `form:"payment_method_types"`
 	ReceiptEmail         *string                          `form:"receipt_email"`
 	ReturnURL            *string                          `form:"return_url"`
-	SaveSourceToCustomer *bool                            `form:"save_source_to_customer"`
+	SavePaymentMethod    *bool                            `form:"save_payment_method"`
 	Shipping             *ShippingDetailsParams           `form:"shipping"`
 	Source               *string                          `form:"source"`
 	StatementDescriptor  *string                          `form:"statement_descriptor"`
 	TransferData         *PaymentIntentTransferDataParams `form:"transfer_data"`
 	TransferGroup        *string                          `form:"transfer_group"`
+
+	// This property is considered deprecated. Prefer using SavePaymentMethod
+	SaveSourceToCustomer *bool `form:"save_source_to_customer"`
 }
 
 // PaymentIntentListParams is the set of parameters that can be used when listing payment intents.
