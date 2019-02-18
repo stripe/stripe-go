@@ -1,5 +1,9 @@
 # Changelog
 
+## 56.1.0 - 2019-02-18
+* [#737](https://github.com/stripe/stripe-go/pull/737) Add support for setting `request_capabilities` and retrieving `capabilities` on `Account`
+* [#793](https://github.com/stripe/stripe-go/pull/793) Add support for `save_payment_method` on `PaymentIntent`
+
 ## 56.0.0 - 2019-02-13
 * [#785](https://github.com/stripe/stripe-go/pull/785) Changes to the Payment Intent APIs for the next API version
 * [#789](https://github.com/stripe/stripe-go/pull/789) Allow API arrays to be emptied by setting an empty array
