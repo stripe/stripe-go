@@ -16,6 +16,26 @@ const (
 	AccountTypeStandard AccountType = "standard"
 )
 
+// AccountCapability maps to a given capability for an account.
+type AccountCapability string
+
+// List of values that AccountCapability can take.
+const (
+	AccountCapabilityCardPayments     AccountCapability = "card_payments"
+	AccountCapabilityLegacyPayments   AccountCapability = "legacy_payments"
+	AccountCapabilityPlatformPayments AccountCapability = "platform_payments"
+)
+
+// AccountCapabilityStatus is the status a given capability can have
+type AccountCapabilityStatus string
+
+// List of values that AccountCapabilityStatus can take.
+const (
+	AccountCapabilityStatusActive   AccountCapabilityStatus = "active"
+	AccountCapabilityStatusInactive AccountCapabilityStatus = "inactive"
+	AccountCapabilityStatusPending  AccountCapabilityStatus = "pending"
+)
+
 // ExternalAccountType is the type of an external account.
 type ExternalAccountType string
 
@@ -116,6 +136,7 @@ type AccountParams struct {
 	PayoutSchedule            *PayoutScheduleParams         `form:"payout_schedule"`
 	PayoutStatementDescriptor *string                       `form:"payout_statement_descriptor"`
 	ProductDescription        *string                       `form:"product_description"`
+	RequestedCapabilities     []*string                     `form:"requested_capabilities"`
 	StatementDescriptor       *string                       `form:"statement_descriptor"`
 	SupportEmail              *string                       `form:"support_email"`
 	SupportPhone              *string                       `form:"support_phone"`
@@ -265,6 +286,7 @@ type Account struct {
 	BusinessName          string                  `json:"business_name"`
 	BusinessPrimaryColor  string                  `json:"business_primary_color"`
 	BusinessURL           string                  `json:"business_url"`
+	Capabilities          *AccountCapabilities    `json:"capabilities"`
 	ChargesEnabled        bool                    `json:"charges_enabled"`
 	Country               string                  `json:"country"`
 	Created               int64                   `json:"created"`
@@ -309,6 +331,13 @@ type Account struct {
 		DueBy          int64                              `json:"due_by"`
 		FieldsNeeded   []string                           `json:"fields_needed"`
 	} `json:"verification"`
+}
+
+// AccountCapabilities is the resource representing the capabilities enabled on that account.
+type AccountCapabilities struct {
+	CardPayments     AccountCapabilityStatus `json:"card_payments"`
+	LegacyPayments   AccountCapabilityStatus `json:"legacy_payments"`
+	PlatformPayments AccountCapabilityStatus `json:"platform_payments"`
 }
 
 // UnmarshalJSON handles deserialization of an account.

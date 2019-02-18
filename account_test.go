@@ -33,6 +33,10 @@ func TestAccountExternalAccountParams_AppendTo(t *testing.T) {
 func TestAccount_Unmarshal(t *testing.T) {
 	accountData := map[string]interface{}{
 		"id": "acct_123",
+		"capabilities": map[string]interface{}{
+			"card_payments":     "active",
+			"platform_payments": "inactive",
+		},
 		"decline_charge_on": map[string]interface{}{
 			"avs_failure": true,
 			"cvc_failure": false,
@@ -159,6 +163,10 @@ func TestAccount_Unmarshal(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, "acct_123", account.ID)
+
+	assert.Equal(t, AccountCapabilityStatusActive, account.Capabilities.CardPayments)
+	assert.Equal(t, AccountCapabilityStatus(""), account.Capabilities.LegacyPayments)
+	assert.Equal(t, AccountCapabilityStatusInactive, account.Capabilities.PlatformPayments)
 
 	assert.Equal(t, true, account.DeclineChargeOn.AVSFailure)
 	assert.Equal(t, false, account.DeclineChargeOn.CVCFailure)
