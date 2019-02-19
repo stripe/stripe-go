@@ -76,9 +76,6 @@ type PaymentIntentConfirmParams struct {
 	SavePaymentMethod *bool                  `form:"save_payment_method"`
 	Shipping          *ShippingDetailsParams `form:"shipping"`
 	Source            *string                `form:"source"`
-
-	// This property is considered deprecated. Prefer using SavePaymentMethod
-	SaveSourceToCustomer *bool `form:"save_source_to_customer"`
 }
 
 // PaymentIntentTransferDataParams is the set of parameters allowed for the transfer hash.
@@ -107,9 +104,6 @@ type PaymentIntentParams struct {
 	StatementDescriptor  *string                          `form:"statement_descriptor"`
 	TransferData         *PaymentIntentTransferDataParams `form:"transfer_data"`
 	TransferGroup        *string                          `form:"transfer_group"`
-
-	// This property is considered deprecated. Prefer using SavePaymentMethod
-	SaveSourceToCustomer *bool `form:"save_source_to_customer"`
 }
 
 // PaymentIntentListParams is the set of parameters that can be used when listing payment intents.
