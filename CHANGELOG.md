@@ -1,5 +1,8 @@
 # Changelog
 
+## 57.0.1 - 2019-02-20
+* [#794](https://github.com/stripe/stripe-go/pull/794) Properly pin to API version `2019-02-19`. The previous major version incorrectly stayed on API version `2019-02-11` which prevented requests to manage Connected accounts from working and charges to have the new statement descriptor behavior.
+
 ## 57.0.0 - 2019-02-19
 * [#782](https://github.com/stripe/stripe-go/pull/782) Changes related to the new API version `2019-02-19`:
   * The library is now pinned to API version `2019-02-19`
