@@ -1,5 +1,8 @@
 # Changelog
 
+## 57.1.0 - 2019-02-22
+* [#796](https://github.com/stripe/stripe-go/pull/796) Correct `InvoiceItems` in `InvoiceParams` to be a slice of structs instead of a struct (this is technically a breaking change, but the previous implementation was non-functional, so we're releasing it as a minor version)
+
 ## 57.0.1 - 2019-02-20
 * [#794](https://github.com/stripe/stripe-go/pull/794) Properly pin to API version `2019-02-19`. The previous major version incorrectly stayed on API version `2019-02-11` which prevented requests to manage Connected accounts from working and charges to have the new statement descriptor behavior.
 
