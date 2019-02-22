@@ -99,18 +99,18 @@ type InvoiceParams struct {
 
 	// These are all for exclusive use by GetNext.
 
-	Coupon                         *string                           `form:"coupon"`
-	InvoiceItems                   *InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
-	SubscriptionBillingCycleAnchor *int64                            `form:"subscription_billing_cycle_anchor"`
-	SubscriptionCancelAtPeriodEnd  *bool                             `form:"subscription_cancel_at_period_end"`
-	SubscriptionItems              []*SubscriptionItemsParams        `form:"subscription_items"`
-	SubscriptionPlan               *string                           `form:"subscription_plan"`
-	SubscriptionProrate            *bool                             `form:"subscription_prorate"`
-	SubscriptionProrationDate      *int64                            `form:"subscription_proration_date"`
-	SubscriptionQuantity           *int64                            `form:"subscription_quantity"`
-	SubscriptionTaxPercent         *float64                          `form:"subscription_tax_percent"`
-	SubscriptionTrialEnd           *int64                            `form:"subscription_trial_end"`
-	SubscriptionTrialFromPlan      *bool                             `form:"subscription_trial_from_plan"`
+	Coupon                         *string                             `form:"coupon"`
+	InvoiceItems                   []*InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
+	SubscriptionBillingCycleAnchor *int64                              `form:"subscription_billing_cycle_anchor"`
+	SubscriptionCancelAtPeriodEnd  *bool                               `form:"subscription_cancel_at_period_end"`
+	SubscriptionItems              []*SubscriptionItemsParams          `form:"subscription_items"`
+	SubscriptionPlan               *string                             `form:"subscription_plan"`
+	SubscriptionProrate            *bool                               `form:"subscription_prorate"`
+	SubscriptionProrationDate      *int64                              `form:"subscription_proration_date"`
+	SubscriptionQuantity           *int64                              `form:"subscription_quantity"`
+	SubscriptionTaxPercent         *float64                            `form:"subscription_tax_percent"`
+	SubscriptionTrialEnd           *int64                              `form:"subscription_trial_end"`
+	SubscriptionTrialFromPlan      *bool                               `form:"subscription_trial_from_plan"`
 
 	// This parameter is considered deprecated. Prefer using ApplicationFeeAmount
 	ApplicationFee *int64 `form:"application_fee"`
