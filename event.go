@@ -33,7 +33,10 @@ type EventRequest struct {
 
 // EventData is the unmarshalled object as a map.
 type EventData struct {
-	Object             map[string]interface{}
+	// Object is a raw mapping of the API resource contained in the event.
+	// Although marked with json:"-", it's still populated independently by
+	// a custom UnmarshalJSON implementation.
+	Object             map[string]interface{} `json:"-"`
 	PreviousAttributes map[string]interface{} `json:"previous_attributes"`
 	Raw                json.RawMessage        `json:"object"`
 }
