@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 // Event is the resource representing a Stripe event.
@@ -17,6 +18,20 @@ type Event struct {
 	PendingWebhooks int64         `json:"pending_webhooks"`
 	Request         *EventRequest `json:"request"`
 	Type            string        `json:"type"`
+}
+
+// internalEvent is used for custom unmarshalling so Data is
+// unmarshalled into the correct object (Customer, Invoice, etc...)
+type internalEvent struct {
+	Event
+	Data rawEventData `json:"data"`
+}
+
+// rawEventData is an interim struct holding the event data, using the event type
+// we can determine what the actual EventData object should be and unmarshal Raw
+type rawEventData struct {
+	Raw                json.RawMessage        `json:"object"`
+	PreviousAttributes map[string]interface{} `json:"previous_attributes"`
 }
 
 // EventRequest contains information on a request that created an event.
@@ -33,9 +48,44 @@ type EventRequest struct {
 
 // EventData is the unmarshalled object as a map.
 type EventData struct {
-	Object             map[string]interface{}
-	PreviousAttributes map[string]interface{} `json:"previous_attributes"`
-	Raw                json.RawMessage        `json:"object"`
+	Object               map[string]interface{}
+	Account              *Account
+	Application          *Application
+	Card                 *Card
+	BankAccount          *BankAccount
+	ApplicationFee       *ApplicationFee
+	FeeRefund            *FeeRefund
+	Balance              *Balance
+	Charge               *Charge
+	Dispute              *Dispute
+	Refund               *Refund
+	Coupon               *Coupon
+	Customer             *Customer
+	Discount             *Discount
+	Subscription         *Subscription
+	File                 *File
+	Invoice              *Invoice
+	InvoiceItem          *InvoiceItem
+	IssuingAuthorization *IssuingAuthorization
+	IssuingCard          *IssuingCard
+	IssuingCardholder    *IssuingCardholder
+	IssuingDispute       *IssuingDispute
+	IssuingTransaction   *IssuingTransaction
+	Order                *Order
+	PaymentIntent        *PaymentIntent
+	Payout               *Payout
+	Plan                 *Plan
+	Product              *Product
+	Recipient            *Recipient
+	ReportRun            *ReportRun
+	Review               *Review
+	SKU                  *SKU
+	Source               *Source
+	SourceTransaction    *SourceTransaction
+	Topup                *Topup
+	Transfer             *Transfer
+	PreviousAttributes   map[string]interface{} `json:"previous_attributes"`
+	Raw                  json.RawMessage        `json:"object"`
 }
 
 // EventParams is the set of parameters that can be used when retrieving events.
@@ -69,6 +119,50 @@ func (e *Event) GetObjectValue(keys ...string) string {
 // GetPreviousValue returns the value from the e.Data.Prev bag based on the keys hierarchy.
 func (e *Event) GetPreviousValue(keys ...string) string {
 	return getValue(e.Data.PreviousAttributes, keys)
+}
+
+func (e *Event) UnmarshalJSON(data []byte) error {
+	var internal internalEvent
+	if err := json.Unmarsal(data, &internal); err != nil {
+		return err
+	}
+	switch internal.Type {
+	case "account.updated":
+		var account Account
+		if err := json.Unmarshal([]byte(internal.Data.Raw), &account); err != nil {
+			return err
+		}
+		*e = internal.Event
+		e.Data.Account = &account
+	case "account.application.authorized", "account.application.deauthorized":
+		var application Application
+		if err := json.Unmarshal([]byte(internal.Data.Raw), &application); err != nil {
+			return err
+		}
+		*e = internal.Event
+		e.Data.Application = &application
+	case "account.external_account.created", "account.external_account.deleted", "account.external_account.updated":
+		// find bank_account, get the type
+		if strings.Contains(string(internal.Data.Raw), "bank_account") {
+			var bankAccount BankAccount
+			if err := json.Unmarshal([]byte(internal.Data.Raw), &bankAccount); err != nil {
+				return err
+			}
+			*e = internal.Event
+			e.Data.BankAccount = &bankAccount
+		} else {
+			var card Card
+			if err := json.Unmarshal([]byte(internal.Data.Raw), &card); err != nil {
+				return err
+			}
+			*e = internal.Event
+			e.Data.Card = &card
+		}
+	}
+	// transfer other fields
+	e.Data.Raw = internal.Data.Raw
+	e.Data.PreviousAttributes = internal.Data.PreviousAttributes
+	return nil
 }
 
 // UnmarshalJSON handles deserialization of the EventData.
