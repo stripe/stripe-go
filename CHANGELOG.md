@@ -1,5 +1,8 @@
 # Changelog
 
+## 57.1.1 - 2019-02-26
+* [#800](https://github.com/stripe/stripe-go/pull/800) Add `UsageRecordSummaries` to the list of clients.
+
 ## 57.1.0 - 2019-02-22
 * [#796](https://github.com/stripe/stripe-go/pull/796) Correct `InvoiceItems` in `InvoiceParams` to be a slice of structs instead of a struct (this is technically a breaking change, but the previous implementation was non-functional, so we're releasing it as a minor version)
 
