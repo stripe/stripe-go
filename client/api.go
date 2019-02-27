@@ -61,6 +61,7 @@ import (
 	"github.com/stripe/stripe-go/topup"
 	"github.com/stripe/stripe-go/transfer"
 	"github.com/stripe/stripe-go/usagerecord"
+	"github.com/stripe/stripe-go/usagerecordsummary"
 	"github.com/stripe/stripe-go/webhookendpoint"
 )
 
@@ -182,6 +183,8 @@ type API struct {
 	Transfers *transfer.Client
 	// UsageRecords is the client used to invoke usage record related APIs.
 	UsageRecords *usagerecord.Client
+	// UsageRecordsummaries is the client used to invoke usage record summary related APIs.
+	UsageRecordSummaries *usagerecordsummary.Client
 	// WebhookEndpoints is the client used to invoke usage record related APIs.
 	WebhookEndpoints *webhookendpoint.Client
 }
@@ -254,6 +257,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Topups = &topup.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
 	a.UsageRecords = &usagerecord.Client{B: backends.API, Key: key}
+	a.UsageRecordSummaries = &usagerecordsummary.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }
 
