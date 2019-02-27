@@ -1,5 +1,9 @@
 # Changelog
 
+## 57.2.0 - 2019-02-27
+* [#795](https://github.com/stripe/stripe-go/pull/795) Add support for `created` and `status_transitions` on `Invoice`
+* [#802](https://github.com/stripe/stripe-go/pull/802) Add support for `latest_invoice` on `Subscription`
+
 ## 57.1.1 - 2019-02-26
 * [#800](https://github.com/stripe/stripe-go/pull/800) Add `UsageRecordSummaries` to the list of clients.
 

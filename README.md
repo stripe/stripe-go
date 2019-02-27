@@ -40,7 +40,7 @@ suffix* in the path like so:
 module github.com/my/package
 
 require (
-    github.com/stripe/stripe-go v57.1.1
+    github.com/stripe/stripe-go v57.2.0
 )
 ```
 
