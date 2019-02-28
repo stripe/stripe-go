@@ -10,6 +10,10 @@ type WebhookEndpointParams struct {
 	Disabled      *bool     `form:"disabled"`
 	EnabledEvents []*string `form:"enabled_events"`
 	URL           *string   `form:"url"`
+
+	// This parameter is only available on creation.
+	// We recommend setting the API version that the library is pinned to. See apiversion in stripe.go
+	APIVersion *string `form:"api_version"`
 }
 
 // WebhookEndpointListParams is the set of parameters that can be used when listing webhook endpoints.
@@ -23,6 +27,7 @@ type WebhookEndpointListParams struct {
 // WebhookEndpoint is the resource representing a Stripe webhook endpoint.
 // For more details see https://stripe.com/docs/api#webhook_endpoints.
 type WebhookEndpoint struct {
+	APIVersion    string   `json:"api_version"`
 	Application   string   `json:"application"`
 	Connect       bool     `json:"connect"`
 	Created       int64    `json:"created"`
