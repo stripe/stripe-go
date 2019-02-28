@@ -1,5 +1,8 @@
 # Changelog
 
+## 57.3.0 - 2019-02-28
+* [#803](https://github.com/stripe/stripe-go/pull/803) Add support for `api_version` on `WebhookEndpoint`.
+
 ## 57.2.0 - 2019-02-27
 * [#795](https://github.com/stripe/stripe-go/pull/795) Add support for `created` and `status_transitions` on `Invoice`
 * [#802](https://github.com/stripe/stripe-go/pull/802) Add support for `latest_invoice` on `Subscription`
