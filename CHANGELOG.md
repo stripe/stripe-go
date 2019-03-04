@@ -1,5 +1,8 @@
 # Changelog
 
+## 57.4.0 - 2019-03-04
+* [#798](https://github.com/stripe/stripe-go/pull/798) Properly support serialization of `Event`.
+
 ## 57.3.0 - 2019-02-28
 * [#803](https://github.com/stripe/stripe-go/pull/803) Add support for `api_version` on `WebhookEndpoint`.
 
