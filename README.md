@@ -270,6 +270,33 @@ if err := i.Err(); err != nil {
 }
 ```
 
+### Configuring Automatic Retries
+
+The library can be configured to automatically retry requests that fail due to
+an intermittent network problem or other knowingly non-deterministic errors:
+
+```go
+import (
+	"github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/client"
+)
+
+config := &stripe.BackendConfig{
+    MaxNetworkRetries: 2,
+}
+
+sc := &client.API{}
+sc.Init("sk_key", &stripe.Backends{
+    API:     stripe.GetBackendWithConfig(stripe.APIBackend, config),
+    Uploads: stripe.GetBackendWithConfig(stripe.UploadsBackend, config),
+})
+
+coupon, err := sc.Coupons.New(...)
+```
+
+[Idempotency keys][idempotency-keys] are added to requests to guarantee that
+retries are safe.
+
 ### Writing a Plugin
 
 If you're writing a plugin that uses the library, we'd appreciate it if you
@@ -335,6 +362,7 @@ pull request][pulls].
 [godoc]: http://godoc.org/github.com/stripe/stripe-go
 [gomodrevert]: https://github.com/stripe/stripe-go/pull/774
 [gomodvsdep]: https://github.com/stripe/stripe-go/pull/712
+[idempotency-keys]: https://stripe.com/docs/api/ruby#idempotent_requests
 [issues]: https://github.com/stripe/stripe-go/issues/new
 [modules]: https://github.com/golang/go/wiki/Modules
 [package-management]: https://code.google.com/p/go-wiki/wiki/PackageManagementTools
