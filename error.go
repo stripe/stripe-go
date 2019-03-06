@@ -49,11 +49,14 @@ type Error struct {
 	// exactly what went wrong during charging a card.
 	Err error `json:"-"`
 
-	HTTPStatusCode int       `json:"status,omitempty"`
-	Msg            string    `json:"message"`
-	Param          string    `json:"param,omitempty"`
-	RequestID      string    `json:"request_id,omitempty"`
-	Type           ErrorType `json:"type"`
+	HTTPStatusCode int            `json:"status,omitempty"`
+	Msg            string         `json:"message"`
+	Param          string         `json:"param,omitempty"`
+	PaymentIntent  *PaymentIntent `json:"payment_intent,omitempty"`
+	PaymentMethod  *PaymentMethod `json:"payment_method,omitempty"`
+	RequestID      string         `json:"request_id,omitempty"`
+	Source         *PaymentSource `json:"source,omitempty"`
+	Type           ErrorType      `json:"type"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
