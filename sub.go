@@ -109,13 +109,17 @@ type SubscriptionItemsParams struct {
 // SubscriptionListParams is the set of parameters that can be used when listing active subscriptions.
 // For more details see https://stripe.com/docs/api#list_subscriptions.
 type SubscriptionListParams struct {
-	ListParams   `form:"*"`
-	Billing      string            `form:"billing"`
-	Created      int64             `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	Customer     string            `form:"customer"`
-	Plan         string            `form:"plan"`
-	Status       string            `form:"status"`
+	ListParams              `form:"*"`
+	Billing                 string            `form:"billing"`
+	Created                 int64             `form:"created"`
+	CreatedRange            *RangeQueryParams `form:"created"`
+	CurrentPeriodEnd        *int64            `form:"current_period_end"`
+	CurrentPeriodEndRange   *RangeQueryParams `form:"current_period_end"`
+	CurrentPeriodStart      *int64            `form:"current_period_start"`
+	CurrentPeriodStartRange *RangeQueryParams `form:"current_period_start"`
+	Customer                string            `form:"customer"`
+	Plan                    string            `form:"plan"`
+	Status                  string            `form:"status"`
 }
 
 // SubscriptionTransferData represents the information for the transfer_data associated with a subscription.
