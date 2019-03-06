@@ -1,5 +1,8 @@
 # Changelog
 
+## 57.5.0 - 2019-03-05
+* [#807](https://github.com/stripe/stripe-go/pull/807) Add support for `current_period_end` and `current_period_start` filters when listing `Invoice`.
+
 ## 57.4.0 - 2019-03-04
 * [#798](https://github.com/stripe/stripe-go/pull/798) Properly support serialization of `Event`.
 
