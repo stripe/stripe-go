@@ -1,5 +1,8 @@
 # Changelog
 
+## 57.6.0 - 2019-03-06
+* [#808](https://github.com/stripe/stripe-go/pull/808) Add support for `backdate_start_date` and `cancel_at` on `Subscription`.
+
 ## 57.5.0 - 2019-03-05
 * [#807](https://github.com/stripe/stripe-go/pull/807) Add support for `current_period_end` and `current_period_start` filters when listing `Invoice`.
 
