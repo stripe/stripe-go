@@ -38,11 +38,13 @@ type SubscriptionTransferDataParams struct {
 type SubscriptionParams struct {
 	Params                      `form:"*"`
 	ApplicationFeePercent       *float64                             `form:"application_fee_percent"`
+	BackdateStartDate           *int64                               `form:"backdate_start_date"`
 	Billing                     *string                              `form:"billing"`
 	BillingCycleAnchor          *int64                               `form:"billing_cycle_anchor"`
 	BillingCycleAnchorNow       *bool                                `form:"-"` // See custom AppendTo
 	BillingCycleAnchorUnchanged *bool                                `form:"-"` // See custom AppendTo
 	BillingThresholds           *SubscriptionBillingThresholdsParams `form:"billing_thresholds"`
+	CancelAt                    *int64                               `form:"cancel_at"`
 	CancelAtPeriodEnd           *bool                                `form:"cancel_at_period_end"`
 	Card                        *CardParams                          `form:"card"`
 	Coupon                      *string                              `form:"coupon"`
@@ -134,6 +136,8 @@ type Subscription struct {
 	Billing               SubscriptionBilling            `json:"billing"`
 	BillingCycleAnchor    int64                          `json:"billing_cycle_anchor"`
 	BillingThresholds     *SubscriptionBillingThresholds `json:"billing_thresholds"`
+	CancelAt              int64                          `json:"cancel_at"`
+	CancelAtPeriodEnd     bool                           `json:"cancel_at_period_end"`
 	CanceledAt            int64                          `json:"canceled_at"`
 	Created               int64                          `json:"created"`
 	CurrentPeriodEnd      int64                          `json:"current_period_end"`
@@ -142,7 +146,6 @@ type Subscription struct {
 	DaysUntilDue          int64                          `json:"days_until_due"`
 	DefaultSource         *PaymentSource                 `json:"default_source"`
 	Discount              *Discount                      `json:"discount"`
-	CancelAtPeriodEnd     bool                           `json:"cancel_at_period_end"`
 	EndedAt               int64                          `json:"ended_at"`
 	ID                    string                         `json:"id"`
 	Items                 *SubscriptionItemList          `json:"items"`
