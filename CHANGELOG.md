@@ -1,5 +1,8 @@
 # Changelog
 
+## 57.7.0 - 2019-03-13
+* [#810](https://github.com/stripe/stripe-go/pull/810) Add support for `columns` on `ReportRun` and `default_columns` on `ReportType`.
+
 ## 57.6.0 - 2019-03-06
 * [#808](https://github.com/stripe/stripe-go/pull/808) Add support for `backdate_start_date` and `cancel_at` on `Subscription`.
 
