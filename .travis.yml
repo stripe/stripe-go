@@ -20,7 +20,7 @@ before_install:
       tar -zxf "stripe-mock/stripe-mock_${STRIPE_MOCK_VERSION}_linux_amd64.tar.gz" -C "stripe-mock/stripe-mock_${STRIPE_MOCK_VERSION}/"
     fi
   - |
-    stripe-mock/stripe-mock_${STRIPE_MOCK_VERSION}/stripe-mock -https-port 12112 > /dev/null &
+    stripe-mock/stripe-mock_${STRIPE_MOCK_VERSION}/stripe-mock -https-port 12112 -strict-version-check > /dev/null &
     STRIPE_MOCK_PID=$!
 
   # stripe-mock must be in PATH for `scripts/test_with_stripe_mock.go` to work.

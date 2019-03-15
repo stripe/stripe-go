@@ -11,12 +11,14 @@ type SubscriptionStatus string
 
 // List of values that SubscriptionStatus can take.
 const (
-	SubscriptionStatusActive   SubscriptionStatus = "active"
-	SubscriptionStatusAll      SubscriptionStatus = "all"
-	SubscriptionStatusCanceled SubscriptionStatus = "canceled"
-	SubscriptionStatusPastDue  SubscriptionStatus = "past_due"
-	SubscriptionStatusTrialing SubscriptionStatus = "trialing"
-	SubscriptionStatusUnpaid   SubscriptionStatus = "unpaid"
+	SubscriptionStatusActive            SubscriptionStatus = "active"
+	SubscriptionStatusAll               SubscriptionStatus = "all"
+	SubscriptionStatusCanceled          SubscriptionStatus = "canceled"
+	SubscriptionStatusIncomplete        SubscriptionStatus = "incomplete"
+	SubscriptionStatusIncompleteExpired SubscriptionStatus = "incomplete_expired"
+	SubscriptionStatusPastDue           SubscriptionStatus = "past_due"
+	SubscriptionStatusTrialing          SubscriptionStatus = "trialing"
+	SubscriptionStatusUnpaid            SubscriptionStatus = "unpaid"
 )
 
 // SubscriptionBilling is the type of billing method for this subscription's invoices.

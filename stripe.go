@@ -28,6 +28,9 @@ import (
 //
 
 const (
+	// APIVersion is the currently supported API version
+	APIVersion string = "2019-03-14"
+
 	// APIBackend is a constant representing the API service backend.
 	APIBackend SupportedBackend = "api"
 
@@ -269,7 +272,7 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 
 	req.Header.Add("Authorization", authorization)
 	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("Stripe-Version", apiversion)
+	req.Header.Add("Stripe-Version", APIVersion)
 	req.Header.Add("User-Agent", encodedUserAgent)
 	req.Header.Add("X-Stripe-Client-User-Agent", encodedStripeUserAgent)
 
@@ -815,9 +818,6 @@ func StringValue(v *string) string {
 //
 
 const apiURL = "https://api.stripe.com"
-
-// apiversion is the currently supported API version
-const apiversion = "2019-02-19"
 
 // clientversion is the binding version
 const clientversion = "57.8.0"
