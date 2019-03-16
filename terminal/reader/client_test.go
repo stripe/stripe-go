@@ -8,6 +8,13 @@ import (
 	_ "github.com/stripe/stripe-go/testing"
 )
 
+func TestTerminalReaderDel(t *testing.T) {
+	reader, err := Del("loc_123", nil)
+	assert.Nil(t, err)
+	assert.NotNil(t, reader)
+	assert.Equal(t, "terminal.reader", reader.Object)
+}
+
 func TestTerminalReaderGet(t *testing.T) {
 	reader, err := Get("rdr_123", nil)
 	assert.Nil(t, err)

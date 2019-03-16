@@ -16,9 +16,11 @@ type TerminalLocationListParams struct {
 
 // TerminalLocation is the resource representing a Stripe terminal location.
 type TerminalLocation struct {
-	ID      string                `json:"id"`
-	Address *AccountAddressParams `json:"address"`
-	Object  string                `json:"object"`
+	Address     *AccountAddressParams `json:"address"`
+	Deleted     bool                  `json:"deleted"`
+	DisplayName string                `json:"display_name"`
+	ID          string                `json:"id"`
+	Object      string                `json:"object"`
 }
 
 // TerminalLocationList is a list of terminal readers as retrieved from a list endpoint.

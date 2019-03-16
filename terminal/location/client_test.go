@@ -8,6 +8,13 @@ import (
 	_ "github.com/stripe/stripe-go/testing"
 )
 
+func TestTerminalLocationDel(t *testing.T) {
+	location, err := Del("loc_123", nil)
+	assert.Nil(t, err)
+	assert.NotNil(t, location)
+	assert.Equal(t, "terminal.location", location.Object)
+}
+
 func TestTerminalLocationGet(t *testing.T) {
 	location, err := Get("loc_123", nil)
 	assert.Nil(t, err)
