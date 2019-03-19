@@ -1,5 +1,8 @@
 # Changelog
 
+## 58.1.0 - 2019-03-19
+* [#815](https://github.com/stripe/stripe-go/pull/815) Add support for passing token on account or person creation
+
 ## 58.0.0 - 2019-03-19
 * [#811](https://github.com/stripe/stripe-go/pull/811) Add support for API version 2019-03-14
 * [#814](https://github.com/stripe/stripe-go/pull/814) Properly override API version if it's set in the request
