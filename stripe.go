@@ -298,7 +298,8 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 
 		for k, v := range params.Headers {
 			for _, line := range v {
-				req.Header.Add(k, line)
+				// Use Set to override the default value possibly set before
+				req.Header.Set(k, line)
 			}
 		}
 	}
