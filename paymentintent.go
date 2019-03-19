@@ -71,6 +71,7 @@ type PaymentIntentCaptureParams struct {
 // PaymentIntentConfirmParams is the set of parameters that can be used when confirming a payment intent.
 type PaymentIntentConfirmParams struct {
 	Params            `form:"*"`
+	PaymentMethod     *string                `form:"payment_method"`
 	ReceiptEmail      *string                `form:"receipt_email"`
 	ReturnURL         *string                `form:"return_url"`
 	SavePaymentMethod *bool                  `form:"save_payment_method"`
@@ -95,6 +96,7 @@ type PaymentIntentParams struct {
 	Customer             *string                          `form:"customer"`
 	Description          *string                          `form:"description"`
 	OnBehalfOf           *string                          `form:"on_behalf_of"`
+	PaymentMethod        *string                          `form:"payment_method"`
 	PaymentMethodTypes   []*string                        `form:"payment_method_types"`
 	ReceiptEmail         *string                          `form:"receipt_email"`
 	ReturnURL            *string                          `form:"return_url"`
@@ -114,14 +116,16 @@ type PaymentIntentListParams struct {
 
 // PaymentIntentLastPaymentError represents the last error happening on a payment intent.
 type PaymentIntentLastPaymentError struct {
-	Charge      string         `json:"charge"`
-	Code        string         `json:"code"`
-	DeclineCode string         `json:"decline_code"`
-	DocURL      string         `json:"doc_url"`
-	Message     string         `json:"message"`
-	Param       string         `json:"param"`
-	Source      *PaymentSource `json:"source"`
-	Type        ErrorType      `json:"type"`
+	Charge        string         `json:"charge"`
+	Code          string         `json:"code"`
+	DeclineCode   string         `json:"decline_code"`
+	DocURL        string         `json:"doc_url"`
+	Message       string         `json:"message"`
+	Param         string         `json:"param"`
+	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	PaymentMethod *PaymentMethod `json:"payment_method"`
+	Source        *PaymentSource `json:"source"`
+	Type          ErrorType      `json:"type"`
 }
 
 // PaymentIntentNextActionRedirectToURL represents the resource for the next action of type
@@ -166,6 +170,7 @@ type PaymentIntent struct {
 	Metadata            map[string]string               `json:"metadata"`
 	NextAction          *PaymentIntentNextAction        `json:"next_action"`
 	OnBehalfOf          *Account                        `json:"on_behalf_of"`
+	PaymentMethod       *PaymentMethod                  `json:"payment_method"`
 	PaymentMethodTypes  []string                        `json:"payment_method_types"`
 	ReceiptEmail        string                          `json:"receipt_email"`
 	Review              *Review                         `json:"review"`
