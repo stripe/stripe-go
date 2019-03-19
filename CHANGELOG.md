@@ -1,5 +1,9 @@
 # Changelog
 
+## 57.8.0 - 2019-03-18
+* [#806](https://github.com/stripe/stripe-go/pull/806) Add support for the `PaymentMethod` resource and APIs
+* [#812](https://github.com/stripe/stripe-go/pull/812) Add support for deleting a Terminal `Location` and `Reader`
+
 ## 57.7.0 - 2019-03-13
 * [#810](https://github.com/stripe/stripe-go/pull/810) Add support for `columns` on `ReportRun` and `default_columns` on `ReportType`.
 
