@@ -25,14 +25,16 @@ type TerminalReaderListParams struct {
 
 // TerminalReader is the resource representing a Stripe terminal reader.
 type TerminalReader struct {
-	DeviceType   string `json:"device_type"`
-	ID           string `json:"id"`
-	IPAddress    string `json:"ip_address"`
-	Label        string `json:"label"`
-	Location     string `json:"location"`
-	Object       string `json:"object"`
-	SerialNumber string `json:"serial_number"`
-	Status       string `json:"status"`
+	Deleted         bool   `json:"deleted"`
+	DeviceSwVersion string `json:"device_sw_version"`
+	DeviceType      string `json:"device_type"`
+	ID              string `json:"id"`
+	IPAddress       string `json:"ip_address"`
+	Label           string `json:"label"`
+	Location        string `json:"location"`
+	Object          string `json:"object"`
+	SerialNumber    string `json:"serial_number"`
+	Status          string `json:"status"`
 }
 
 // TerminalReaderList is a list of terminal readers as retrieved from a list endpoint.
