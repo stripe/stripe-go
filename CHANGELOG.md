@@ -1,5 +1,9 @@
 # Changelog
 
+## 58.0.0 - 2019-03-19
+* [#811](https://github.com/stripe/stripe-go/pull/811) Add support for API version 2019-03-14
+* [#814](https://github.com/stripe/stripe-go/pull/814) Properly override API version if it's set in the request
+
 ## 57.8.0 - 2019-03-18
 * [#806](https://github.com/stripe/stripe-go/pull/806) Add support for the `PaymentMethod` resource and APIs
 * [#812](https://github.com/stripe/stripe-go/pull/812) Add support for deleting a Terminal `Location` and `Reader`
