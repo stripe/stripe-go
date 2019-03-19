@@ -93,6 +93,7 @@ type PersonParams struct {
 	LastNameKana   *string                   `form:"last_name_kana"`
 	LastNameKanji  *string                   `form:"last_name_kanji"`
 	MaidenName     *string                   `form:"maiden_name"`
+	PersonToken    *string                   `form:"person_token"`
 	Phone          *string                   `form:"phone"`
 	Relationship   *RelationshipParams       `form:"relationship"`
 	SSNLast4       *string                   `form:"ssn_last_4"`

@@ -189,6 +189,7 @@ func (p *PayoutScheduleParams) AppendTo(body *form.Values, keyParts []string) {
 // AccountParams are the parameters allowed during account creation/updates.
 type AccountParams struct {
 	Params                `form:"*"`
+	AccountToken          *string                       `form:"account_token"`
 	BusinessProfile       *AccountBusinessProfileParams `form:"business_profile"`
 	BusinessType          *string                       `form:"business_type"`
 	Company               *AccountCompanyParams         `form:"company"`
