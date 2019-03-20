@@ -1,5 +1,118 @@
 # Changelog
 
+## 58.1.0 - 2019-03-19
+* [#815](https://github.com/stripe/stripe-go/pull/815) Add support for passing token on account or person creation
+
+## 58.0.0 - 2019-03-19
+* [#811](https://github.com/stripe/stripe-go/pull/811) Add support for API version 2019-03-14
+* [#814](https://github.com/stripe/stripe-go/pull/814) Properly override API version if it's set in the request
+
+## 57.8.0 - 2019-03-18
+* [#806](https://github.com/stripe/stripe-go/pull/806) Add support for the `PaymentMethod` resource and APIs
+* [#812](https://github.com/stripe/stripe-go/pull/812) Add support for deleting a Terminal `Location` and `Reader`
+
+## 57.7.0 - 2019-03-13
+* [#810](https://github.com/stripe/stripe-go/pull/810) Add support for `columns` on `ReportRun` and `default_columns` on `ReportType`.
+
+## 57.6.0 - 2019-03-06
+* [#808](https://github.com/stripe/stripe-go/pull/808) Add support for `backdate_start_date` and `cancel_at` on `Subscription`.
+
+## 57.5.0 - 2019-03-05
+* [#807](https://github.com/stripe/stripe-go/pull/807) Add support for `current_period_end` and `current_period_start` filters when listing `Invoice`.
+
+## 57.4.0 - 2019-03-04
+* [#798](https://github.com/stripe/stripe-go/pull/798) Properly support serialization of `Event`.
+
+## 57.3.0 - 2019-02-28
+* [#803](https://github.com/stripe/stripe-go/pull/803) Add support for `api_version` on `WebhookEndpoint`.
+
+## 57.2.0 - 2019-02-27
+* [#795](https://github.com/stripe/stripe-go/pull/795) Add support for `created` and `status_transitions` on `Invoice`
+* [#802](https://github.com/stripe/stripe-go/pull/802) Add support for `latest_invoice` on `Subscription`
+
+## 57.1.1 - 2019-02-26
+* [#800](https://github.com/stripe/stripe-go/pull/800) Add `UsageRecordSummaries` to the list of clients.
+
+## 57.1.0 - 2019-02-22
+* [#796](https://github.com/stripe/stripe-go/pull/796) Correct `InvoiceItems` in `InvoiceParams` to be a slice of structs instead of a struct (this is technically a breaking change, but the previous implementation was non-functional, so we're releasing it as a minor version)
+
+## 57.0.1 - 2019-02-20
+* [#794](https://github.com/stripe/stripe-go/pull/794) Properly pin to API version `2019-02-19`. The previous major version incorrectly stayed on API version `2019-02-11` which prevented requests to manage Connected accounts from working and charges to have the new statement descriptor behavior.
+
+## 57.0.0 - 2019-02-19
+**Important:** This version is non-functional and has been yanked in favor of 57.0.1.
+* [#782](https://github.com/stripe/stripe-go/pull/782) Changes related to the new API version `2019-02-19`:
+  * The library is now pinned to API version `2019-02-19`
+  * Numerous changes to the `Account` resource and APIs:
+    * The `legal_entity` property on the Account API resource has been replaced with `individual`, `company`, and `business_type`
+    * The `verification` hash has been replaced with a `requirements` hash
+    * Multiple top-level properties were moved to the `settings` hash
+    * The `keys` property on `Account` has been removed. Platforms should authenticate as their connected accounts with their own key via the `Stripe-Account` [header](https://stripe.com/docs/connect/authentication#authentication-via-the-stripe-account-header)
+  * The `requested_capabilities` property on `Account` creation is now required for accounts in the US
+  * The deprecated parameter `save_source_to_customer` on `PaymentIntent` has now been removed. Use `save_payment_method` instead
+
+## 56.1.0 - 2019-02-18
+* [#737](https://github.com/stripe/stripe-go/pull/737) Add support for setting `request_capabilities` and retrieving `capabilities` on `Account`
+* [#793](https://github.com/stripe/stripe-go/pull/793) Add support for `save_payment_method` on `PaymentIntent`
+
+## 56.0.0 - 2019-02-13
+* [#785](https://github.com/stripe/stripe-go/pull/785) Changes to the Payment Intent APIs for the next API version
+* [#789](https://github.com/stripe/stripe-go/pull/789) Allow API arrays to be emptied by setting an empty array
+
+## 55.15.0 - 2019-02-12
+* [#764](https://github.com/stripe/stripe-go/pull/764) Add support for `transfer_data[destination]` on `Invoice` and `Subscription`
+* [#784](https://github.com/stripe/stripe-go/pull/784)
+    * Add support for `SubscriptionSchedule` and `SubscriptionScheduleRevision`
+    * Add support for `payment_method_types` on `PaymentIntent`
+* [#787](https://github.com/stripe/stripe-go/pull/787) Add support for `transfer_data[amount]` on `Charge`
+
+## 55.14.0 - 2019-01-25
+* [#765](https://github.com/stripe/stripe-go/pull/765) Add support for `destination_payment_refund` and `source_refund` on the `Reversal` resource
+
+## 55.13.0 - 2019-01-17
+* [#779](https://github.com/stripe/stripe-go/pull/779) Add support for `receipt_url` on `Charge`
+
+## 55.12.0 - 2019-01-17
+* [#766](https://github.com/stripe/stripe-go/pull/766) Add optional support for sending request telemetry to Stripe
+
+## 55.11.0 - 2019-01-17
+* [#776](https://github.com/stripe/stripe-go/pull/776) Add support for billing thresholds
+
+## 55.10.0 - 2019-01-16
+* [#773](https://github.com/stripe/stripe-go/pull/773) Add support for `custom_fields` and `footer` on `Invoice`
+* [#774](https://github.com/stripe/stripe-go/pull/774) Revert Go module support
+
+## 55.9.0 - 2019-01-15
+* [#769](https://github.com/stripe/stripe-go/pull/769) Add field `Amount` to `IssuingTransaction`
+
+## 55.8.0 - 2019-01-09
+* [#763](https://github.com/stripe/stripe-go/pull/763) Add `application_fee_amount` to `Charge` and on charge create and capture params
+
+## 55.7.0 - 2019-01-09
+* [#738](https://github.com/stripe/stripe-go/pull/738) Add support for the account link resource
+
+## 55.6.0 - 2019-01-09
+* [#762](https://github.com/stripe/stripe-go/pull/762) Add support for new invoice items parameters when retrieving an upcoming invoice
+
+## 55.5.0 - 2019-01-07
+* [#744](https://github.com/stripe/stripe-go/pull/744) Add support for `transfer_data[destination]` on Charge struct and params
+* [#746](https://github.com/stripe/stripe-go/pull/746) Add support for `wallet_provider` on the Issuing Authorization
+
+## 55.4.0 - 2019-01-07
+* [#745](https://github.com/stripe/stripe-go/pull/745) Add support for `pending` parameter when listing invoice items
+
+## 55.3.0 - 2019-01-02
+* [#742](https://github.com/stripe/stripe-go/pull/742) Add field `FraudType` to `IssuerFraudRecord`
+
+## 55.2.0 - 2018-12-31
+* [#741](https://github.com/stripe/stripe-go/pull/741) Add missing parameters `InvoiceNow` and `Prorate` for subscription cancellation
+
+## 55.1.0 - 2018-12-27
+* [#743](https://github.com/stripe/stripe-go/pull/743) Add support for `clear_usage` on `SubscriptionItem` deletion
+
+## 55.0.0 - 2018-12-13
+* [#739](https://github.com/stripe/stripe-go/pull/739) Use `ApplicationFee` struct for `FeeRefund.Fee` (minor breaking change)
+
 ## 54.2.0 - 2018-11-30
 * [#734](https://github.com/stripe/stripe-go/pull/734) Put `/v1/` prefix as part of all paths instead of URL
 

@@ -4,36 +4,53 @@
 [![Build Status](https://travis-ci.org/stripe/stripe-go.svg?branch=master)](https://travis-ci.org/stripe/stripe-go)
 [![Coverage Status](https://coveralls.io/repos/github/stripe/stripe-go/badge.svg?branch=master)](https://coveralls.io/github/stripe/stripe-go?branch=master)
 
-## Summary
-
 The official [Stripe][stripe] Go client library.
-
-## Versioning
-
-Each revision of the binding is tagged and the version is updated accordingly.
-
-Given Go's lack of built-in versioning, it is highly recommended you use a
-[package management tool][package-management] in order to ensure a newer
-version of the binding does not affect backwards compatibility.
-
-To see the list of past versions, run `git tag`. To manually get an older
-version of the client, clone this repo, checkout the specific tag and build the
-library:
-
-```sh
-git clone https://github.com/stripe/stripe-go.git
-cd stripe-go
-git checkout api_version_tag
-make build
-```
-
-For more details on changes between versions, see the [binding
-changelog](CHANGELOG.md) and [API changelog][api-changelog].
 
 ## Installation
 
+Install stripe-go with:
+
 ```sh
-go get github.com/stripe/stripe-go
+go get -u github.com/stripe/stripe-go
+```
+
+Then, import it using:
+
+``` go
+import (
+    "github.com/stripe/stripe-go"
+    "github.com/stripe/stripe-go/customer"
+)
+```
+
+### Go Module Support
+
+The library currently *does not* ship with first-class support for Stripe
+modules. We put in support for it before, but ran into compatibility problems
+for existing installations using Dep (see discussion in [closer to the bottom
+of this thread][gomodvsdep], and [reverted support][gomodrevert]. Our current
+plan is to wait for better module compatibility in Dep (see a [preliminary
+patch here][depgomodsupport]), give the release a little grace time to become
+more widely distributed, then bring support back.
+
+For now, require stripe-go in `go.mod` with a version but without a *version
+suffix* in the path like so:
+
+``` go
+module github.com/my/package
+
+require (
+    github.com/stripe/stripe-go v58.1.0
+)
+```
+
+And use the same style of import paths as above:
+
+``` go
+import (
+    "github.com/stripe/stripe-go"
+    "github.com/stripe/stripe-go/customer"
+)
 ```
 
 ## Documentation
@@ -50,7 +67,7 @@ Below are a few simple examples:
 
 ```go
 params := &stripe.CustomerParams{
-	Balance:     stripe.Int64(-123),
+	AccountBalance:     stripe.Int64(-123),
 	Description: stripe.String("Stripe Developer"),
 	Email:       stripe.String("gostripe@stripe.com"),
 }
@@ -253,6 +270,33 @@ if err := i.Err(); err != nil {
 }
 ```
 
+### Configuring Automatic Retries
+
+The library can be configured to automatically retry requests that fail due to
+an intermittent network problem or other knowingly non-deterministic errors:
+
+```go
+import (
+	"github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/client"
+)
+
+config := &stripe.BackendConfig{
+    MaxNetworkRetries: 2,
+}
+
+sc := &client.API{}
+sc.Init("sk_key", &stripe.Backends{
+    API:     stripe.GetBackendWithConfig(stripe.APIBackend, config),
+    Uploads: stripe.GetBackendWithConfig(stripe.UploadsBackend, config),
+})
+
+coupon, err := sc.Coupons.New(...)
+```
+
+[Idempotency keys][idempotency-keys] are added to requests to guarantee that
+retries are safe.
+
 ### Writing a Plugin
 
 If you're writing a plugin that uses the library, we'd appreciate it if you
@@ -298,7 +342,7 @@ instructions for installing via Homebrew and other methods):
 
 Run all tests:
 
-    go test ./...
+    make test
 
 Run tests for one package:
 
@@ -314,8 +358,13 @@ pull request][pulls].
 [api-docs]: https://stripe.com/docs/api/go
 [api-changelog]: https://stripe.com/docs/upgrades
 [connect]: https://stripe.com/docs/connect/authentication
+[depgomodsupport]: https://github.com/golang/dep/pull/1963
 [godoc]: http://godoc.org/github.com/stripe/stripe-go
+[gomodrevert]: https://github.com/stripe/stripe-go/pull/774
+[gomodvsdep]: https://github.com/stripe/stripe-go/pull/712
+[idempotency-keys]: https://stripe.com/docs/api/ruby#idempotent_requests
 [issues]: https://github.com/stripe/stripe-go/issues/new
+[modules]: https://github.com/golang/go/wiki/Modules
 [package-management]: https://code.google.com/p/go-wiki/wiki/PackageManagementTools
 [pulls]: https://github.com/stripe/stripe-go/pulls
 [stripe]: https://stripe.com

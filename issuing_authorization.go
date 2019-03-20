@@ -51,6 +51,16 @@ const (
 	IssuingAuthorizationVerificationDataCheckNotProvided IssuingAuthorizationVerificationDataCheck = "not_provided"
 )
 
+// IssuingAuthorizationWalletProviderType is the list of possible values for the authorization's wallet provider.
+type IssuingAuthorizationWalletProviderType string
+
+// List of values that IssuingAuthorizationWalletProviderType can take.
+const (
+	IssuingAuthorizationWalletProviderTypeApplePay   IssuingAuthorizationWalletProviderType = "apple_pay"
+	IssuingAuthorizationWalletProviderTypeGooglePay  IssuingAuthorizationWalletProviderType = "google_pay"
+	IssuingAuthorizationWalletProviderTypeSamsungPay IssuingAuthorizationWalletProviderType = "samsung_pay"
+)
+
 // IssuingAuthorizationParams is the set of parameters that can be used when updating an issuing authorization.
 type IssuingAuthorizationParams struct {
 	Params `form:"*"`
@@ -117,6 +127,7 @@ type IssuingAuthorization struct {
 	Status                   IssuingAuthorizationStatus              `json:"status"`
 	Transactions             []*IssuingTransaction                   `json:"transactions"`
 	VerificationData         *IssuingAuthorizationVerificationData   `json:"verification_data"`
+	WalletProvider           IssuingAuthorizationWalletProviderType  `json:"wallet_provider"`
 }
 
 // IssuingMerchantData is the resource representing merchant data on Issuing APIs.

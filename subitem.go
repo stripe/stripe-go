@@ -3,13 +3,21 @@ package stripe
 // SubscriptionItemParams is the set of parameters that can be used when creating or updating a subscription item.
 // For more details see https://stripe.com/docs/api#create_subscription_item and https://stripe.com/docs/api#update_subscription_item.
 type SubscriptionItemParams struct {
-	Params        `form:"*"`
-	ID            *string `form:"-"` // Handled in URL
-	Plan          *string `form:"plan"`
-	Prorate       *bool   `form:"prorate"`
-	ProrationDate *int64  `form:"proration_date"`
-	Quantity      *int64  `form:"quantity"`
-	Subscription  *string `form:"subscription"`
+	Params            `form:"*"`
+	ID                *string                                  `form:"-"` // Handled in URL
+	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
+	ClearUsage        *bool                                    `form:"clear_usage"`
+	Plan              *string                                  `form:"plan"`
+	Prorate           *bool                                    `form:"prorate"`
+	ProrationDate     *int64                                   `form:"proration_date"`
+	Quantity          *int64                                   `form:"quantity"`
+	Subscription      *string                                  `form:"subscription"`
+}
+
+// SubscriptionItemBillingThresholdsParams is a structure representing the parameters allowed to
+// control billing thresholds for a subscription item.
+type SubscriptionItemBillingThresholdsParams struct {
+	UsageGTE *int64 `form:"usage_gte"`
 }
 
 // SubscriptionItemListParams is the set of parameters that can be used when listing invoice items.
@@ -22,13 +30,20 @@ type SubscriptionItemListParams struct {
 // SubscriptionItem is the resource representing a Stripe subscription item.
 // For more details see https://stripe.com/docs/api#subscription_items.
 type SubscriptionItem struct {
-	Created      int64             `json:"created"`
-	Deleted      bool              `json:"deleted"`
-	ID           string            `json:"id"`
-	Metadata     map[string]string `json:"metadata"`
-	Plan         *Plan             `json:"plan"`
-	Quantity     int64             `json:"quantity"`
-	Subscription string            `json:"subscription"`
+	BillingThresholds SubscriptionItemBillingThresholds `json:"billing_thresholds"`
+	Created           int64                             `json:"created"`
+	Deleted           bool                              `json:"deleted"`
+	ID                string                            `json:"id"`
+	Metadata          map[string]string                 `json:"metadata"`
+	Plan              *Plan                             `json:"plan"`
+	Quantity          int64                             `json:"quantity"`
+	Subscription      string                            `json:"subscription"`
+}
+
+// SubscriptionItemBillingThresholds is a structure representing the billing thresholds for a
+// subscription item.
+type SubscriptionItemBillingThresholds struct {
+	UsageGTE int64 `form:"usage_gte"`
 }
 
 // SubscriptionItemList is a list of invoice items as retrieved from a list endpoint.

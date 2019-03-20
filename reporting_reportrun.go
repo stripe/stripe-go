@@ -12,12 +12,13 @@ const (
 
 // ReportRunParametersParams is the set of parameters that can be used when creating a report run.
 type ReportRunParametersParams struct {
-	ConnectedAccount  *string `form:"connected_account"`
-	Currency          *string `form:"currency"`
-	IntervalEnd       *int64  `form:"interval_end"`
-	IntervalStart     *int64  `form:"interval_start"`
-	Payout            *string `form:"payout"`
-	ReportingCategory *string `form:"reporting_category"`
+	Columns           []*string `form:"columns"`
+	ConnectedAccount  *string   `form:"connected_account"`
+	Currency          *string   `form:"currency"`
+	IntervalEnd       *int64    `form:"interval_end"`
+	IntervalStart     *int64    `form:"interval_start"`
+	Payout            *string   `form:"payout"`
+	ReportingCategory *string   `form:"reporting_category"`
 }
 
 // ReportRunParams is the set of parameters that can be used when creating a report run.
@@ -36,6 +37,7 @@ type ReportRunListParams struct {
 
 // ReportRunParameters describes the parameters hash on a report run.
 type ReportRunParameters struct {
+	Columns           []string `json:"columns"`
 	ConnectedAccount  string   `json:"connected_account"`
 	Currency          Currency `json:"currency"`
 	IntervalEnd       int64    `json:"interval_end"`

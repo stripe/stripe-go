@@ -52,6 +52,8 @@ import (
 	"github.com/stripe/stripe-go/sourcetransaction"
 	"github.com/stripe/stripe-go/sub"
 	"github.com/stripe/stripe-go/subitem"
+	"github.com/stripe/stripe-go/subschedule"
+	"github.com/stripe/stripe-go/subschedulerevision"
 	terminalconnectiontoken "github.com/stripe/stripe-go/terminal/connectiontoken"
 	terminallocation "github.com/stripe/stripe-go/terminal/location"
 	terminalreader "github.com/stripe/stripe-go/terminal/reader"
@@ -59,6 +61,7 @@ import (
 	"github.com/stripe/stripe-go/topup"
 	"github.com/stripe/stripe-go/transfer"
 	"github.com/stripe/stripe-go/usagerecord"
+	"github.com/stripe/stripe-go/usagerecordsummary"
 	"github.com/stripe/stripe-go/webhookendpoint"
 )
 
@@ -162,6 +165,10 @@ type API struct {
 	Subscriptions *sub.Client
 	// SubscriptionItems is the client used to invoke subscription's items related APIs.
 	SubscriptionItems *subitem.Client
+	// SubscriptionSchedules is the client used to invoke subscription schedules related APIs.
+	SubscriptionSchedules *subschedule.Client
+	// SubscriptionScheduleRevisions is the client used to invoke subscription schedule revision related APIs.
+	SubscriptionScheduleRevisions *subschedulerevision.Client
 	// TerminalConnectionTokens is the client used to invoke /terminal/connectiontokens related APIs.
 	TerminalConnectionTokens *terminalconnectiontoken.Client
 	// TerminalLocations is the client used to invoke /terminal/locations related APIs.
@@ -176,6 +183,8 @@ type API struct {
 	Transfers *transfer.Client
 	// UsageRecords is the client used to invoke usage record related APIs.
 	UsageRecords *usagerecord.Client
+	// UsageRecordsummaries is the client used to invoke usage record summary related APIs.
+	UsageRecordSummaries *usagerecordsummary.Client
 	// WebhookEndpoints is the client used to invoke usage record related APIs.
 	WebhookEndpoints *webhookendpoint.Client
 }
@@ -239,6 +248,8 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.SourceTransactions = &sourcetransaction.Client{B: backends.API, Key: key}
 	a.Subscriptions = &sub.Client{B: backends.API, Key: key}
 	a.SubscriptionItems = &subitem.Client{B: backends.API, Key: key}
+	a.SubscriptionSchedules = &subschedule.Client{B: backends.API, Key: key}
+	a.SubscriptionScheduleRevisions = &subschedulerevision.Client{B: backends.API, Key: key}
 	a.TerminalConnectionTokens = &terminalconnectiontoken.Client{B: backends.API, Key: key}
 	a.TerminalLocations = &terminallocation.Client{B: backends.API, Key: key}
 	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
@@ -246,6 +257,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Topups = &topup.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
 	a.UsageRecords = &usagerecord.Client{B: backends.API, Key: key}
+	a.UsageRecordSummaries = &usagerecordsummary.Client{B: backends.API, Key: key}
 	a.WebhookEndpoints = &webhookendpoint.Client{B: backends.API, Key: key}
 }
 

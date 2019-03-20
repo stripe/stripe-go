@@ -52,6 +52,19 @@ func (c Client) Update(id string, params *stripe.TerminalReaderParams) (*stripe.
 	return reader, err
 }
 
+// Del removes a reader.
+func Del(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
+	return getC().Del(id, params)
+}
+
+// Del removes a reader.
+func (c Client) Del(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
+	path := stripe.FormatURLPath("/v1/terminal/readers/%s", id)
+	reader := &stripe.TerminalReader{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, reader)
+	return reader, err
+}
+
 // List returns a list of terminal readers.
 func List(params *stripe.TerminalReaderListParams) *Iter {
 	return getC().List(params)

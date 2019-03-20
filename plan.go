@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"strconv"
 
 	"github.com/stripe/stripe-go/form"
@@ -171,4 +172,23 @@ type PlanProductParams struct {
 	Name                *string           `form:"name"`
 	Metadata            map[string]string `form:"metadata"`
 	StatementDescriptor *string           `form:"statement_descriptor"`
+}
+
+// UnmarshalJSON handles deserialization of a Plan.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (s *Plan) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		s.ID = id
+		return nil
+	}
+
+	type plan Plan
+	var v plan
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*s = Plan(v)
+	return nil
 }

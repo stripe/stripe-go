@@ -21,6 +21,30 @@ const (
 	ChargeFraudStripeReportFraudulent ChargeFraudStripeReport = "fraudulent"
 )
 
+// ChargePaymentMethodDetailsType is the type of the PaymentMethod associated with the Charge's
+// payment method details.
+type ChargePaymentMethodDetailsType string
+
+// List of values that ChargeFraudUserReport can take.
+const (
+	ChargePaymentMethodDetailsTypeAchCreditTransfer ChargePaymentMethodDetailsType = "ach_credit_transfer"
+	ChargePaymentMethodDetailsTypeAchDebit          ChargePaymentMethodDetailsType = "ach_debit"
+	ChargePaymentMethodDetailsTypeAlipay            ChargePaymentMethodDetailsType = "alipay"
+	ChargePaymentMethodDetailsTypeBancontact        ChargePaymentMethodDetailsType = "bancontact"
+	ChargePaymentMethodDetailsTypeBitcoin           ChargePaymentMethodDetailsType = "bitcoin" // This is unsupported today and is here for legacy charges.
+	ChargePaymentMethodDetailsTypeCard              ChargePaymentMethodDetailsType = "card"
+	ChargePaymentMethodDetailsTypeCardPresent       ChargePaymentMethodDetailsType = "card_present"
+	ChargePaymentMethodDetailsTypeEps               ChargePaymentMethodDetailsType = "eps"
+	ChargePaymentMethodDetailsTypeGiropay           ChargePaymentMethodDetailsType = "giropay"
+	ChargePaymentMethodDetailsTypeIdeal             ChargePaymentMethodDetailsType = "ideal"
+	ChargePaymentMethodDetailsTypeMultibanco        ChargePaymentMethodDetailsType = "multibanco"
+	ChargePaymentMethodDetailsTypeP24               ChargePaymentMethodDetailsType = "p24"
+	ChargePaymentMethodDetailsTypeSepaDebit         ChargePaymentMethodDetailsType = "sepa_debit"
+	ChargePaymentMethodDetailsTypeSofort            ChargePaymentMethodDetailsType = "sofort"
+	ChargePaymentMethodDetailsTypeStripeAccount     ChargePaymentMethodDetailsType = "stripe_account"
+	ChargePaymentMethodDetailsTypeWechat            ChargePaymentMethodDetailsType = "wechat"
+)
+
 // ChargeLevel3LineItemsParams is the set of parameters that represent a line item on level III data.
 type ChargeLevel3LineItemsParams struct {
 	DiscountAmount     *int64  `form:"discount_amount"`
@@ -41,25 +65,35 @@ type ChargeLevel3Params struct {
 	ShippingAmount     *int64                         `form:"shipping_amount"`
 }
 
+// ChargeTransferDataParams is the set of parameters allowed for the transfer_data hash.
+type ChargeTransferDataParams struct {
+	Amount      *int64  `form:"amount"`
+	Destination *string `form:"destination"`
+}
+
 // ChargeParams is the set of parameters that can be used when creating or updating a charge.
 type ChargeParams struct {
-	Params              `form:"*"`
-	Amount              *int64                 `form:"amount"`
-	ApplicationFee      *int64                 `form:"application_fee"`
-	Capture             *bool                  `form:"capture"`
-	Currency            *string                `form:"currency"`
-	Customer            *string                `form:"customer"`
-	Description         *string                `form:"description"`
-	Destination         *DestinationParams     `form:"destination"`
-	ExchangeRate        *float64               `form:"exchange_rate"`
-	FraudDetails        *FraudDetailsParams    `form:"fraud_details"`
-	Level3              *ChargeLevel3Params    `form:"level3"`
-	OnBehalfOf          *string                `form:"on_behalf_of"`
-	ReceiptEmail        *string                `form:"receipt_email"`
-	Shipping            *ShippingDetailsParams `form:"shipping"`
-	Source              *SourceParams          `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-	StatementDescriptor *string                `form:"statement_descriptor"`
-	TransferGroup       *string                `form:"transfer_group"`
+	Params               `form:"*"`
+	Amount               *int64                    `form:"amount"`
+	ApplicationFeeAmount *int64                    `form:"application_fee_amount"`
+	Capture              *bool                     `form:"capture"`
+	Currency             *string                   `form:"currency"`
+	Customer             *string                   `form:"customer"`
+	Description          *string                   `form:"description"`
+	Destination          *DestinationParams        `form:"destination"`
+	ExchangeRate         *float64                  `form:"exchange_rate"`
+	FraudDetails         *FraudDetailsParams       `form:"fraud_details"`
+	Level3               *ChargeLevel3Params       `form:"level3"`
+	OnBehalfOf           *string                   `form:"on_behalf_of"`
+	ReceiptEmail         *string                   `form:"receipt_email"`
+	Shipping             *ShippingDetailsParams    `form:"shipping"`
+	Source               *SourceParams             `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	StatementDescriptor  *string                   `form:"statement_descriptor"`
+	TransferData         *ChargeTransferDataParams `form:"transfer_data"`
+	TransferGroup        *string                   `form:"transfer_group"`
+
+	// This property is considered deprecated. Prefer using ApplicationFeeAmount
+	ApplicationFee *int64 `form:"application_fee"`
 }
 
 // ShippingDetailsParams is the structure containing shipping information as parameters
@@ -101,12 +135,15 @@ type ChargeListParams struct {
 
 // CaptureParams is the set of parameters that can be used when capturing a charge.
 type CaptureParams struct {
-	Params              `form:"*"`
-	Amount              *int64   `form:"amount"`
-	ApplicationFee      *int64   `form:"application_fee"`
-	ExchangeRate        *float64 `form:"exchange_rate"`
-	ReceiptEmail        *string  `form:"receipt_email"`
-	StatementDescriptor *string  `form:"statement_descriptor"`
+	Params               `form:"*"`
+	Amount               *int64   `form:"amount"`
+	ApplicationFeeAmount *int64   `form:"application_fee_amount"`
+	ExchangeRate         *float64 `form:"exchange_rate"`
+	ReceiptEmail         *string  `form:"receipt_email"`
+	StatementDescriptor  *string  `form:"statement_descriptor"`
+
+	// This property is considered deprecated. Prefer using ApplicationFeeAmount
+	ApplicationFee *int64 `form:"application_fee"`
 }
 
 // ChargeLevel3LineItem represents a line item on level III data.
@@ -131,45 +168,291 @@ type ChargeLevel3 struct {
 	ShippingAmount     int64                   `json:"shipping_amount"`
 }
 
+// ChargePaymentMethodDetailsAchCreditTransfer represents details about the ACH Credit Transfer
+// PaymentMethod.
+type ChargePaymentMethodDetailsAchCreditTransfer struct {
+	AccountNumber string `json:"account_number"`
+	BankName      string `json:"bank_name"`
+	RoutingNumber string `json:"routing_number"`
+	SwiftCode     string `json:"swift_code"`
+}
+
+// ChargePaymentMethodDetailsAchDebit represents details about the ACH Debit PaymentMethod.
+type ChargePaymentMethodDetailsAchDebit struct {
+	AccountHolderType BankAccountAccountHolderType `json:"account_holder_type"`
+	BankName          string                       `json:"bank_name"`
+	Country           string                       `json:"country"`
+	Fingerprint       string                       `json:"fingerprint"`
+	Last4             string                       `json:"last4"`
+	RoutingNumber     string                       `json:"routing_number"`
+}
+
+// ChargePaymentMethodDetailsAlipay represents details about the Alipay PaymentMethod.
+type ChargePaymentMethodDetailsAlipay struct {
+}
+
+// ChargePaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.
+type ChargePaymentMethodDetailsBancontact struct {
+	BankCode          string `json:"bank_code"`
+	BankName          string `json:"bank_name"`
+	Bic               string `json:"bic"`
+	IbanLast4         string `json:"iban_last4"`
+	PreferredLanguage string `json:"preferred_language"`
+	VerifiedName      string `json:"verified_name"`
+}
+
+// ChargePaymentMethodDetailsBitcoin represents details about the Bitcoin PaymentMethod.
+type ChargePaymentMethodDetailsBitcoin struct {
+	Address        string `json:"address"`
+	Amount         int64  `json:"amount"`
+	AmountCharged  int64  `json:"amount_charged"`
+	AmountReceived int64  `json:"amount_received"`
+	AmountReturned int64  `json:"amount_returned"`
+	RefundAddress  string `json:"refund_address"`
+}
+
+// ChargePaymentMethodDetailsCardChecks represents the checks associated with the charge's Card
+// PaymentMethod.
+type ChargePaymentMethodDetailsCardChecks struct {
+	AddressLine1Check      CardVerification `json:"address_line1_check"`
+	AddressPostalCodeCheck CardVerification `json:"address_postal_code_check"`
+	CVCCheck               CardVerification `json:"cvc_check"`
+}
+
+// ChargePaymentMethodDetailsCardThreeDSecure represents details about 3DS associated with the
+// charge's PaymentMethod.
+type ChargePaymentMethodDetailsCardThreeDSecure struct {
+}
+
+// ChargePaymentMethodDetailsCardWalletAmexExpressCheckout represents the details of the Amex
+// Express Checkout wallet.
+type ChargePaymentMethodDetailsCardWalletAmexExpressCheckout struct {
+}
+
+// ChargePaymentMethodDetailsCardWalletApplePay represents the details of the Apple Pay wallet.
+type ChargePaymentMethodDetailsCardWalletApplePay struct {
+}
+
+// ChargePaymentMethodDetailsCardWalletGooglePay represents the details of the Google Pay wallet.
+type ChargePaymentMethodDetailsCardWalletGooglePay struct {
+}
+
+// ChargePaymentMethodDetailsCardWalletMasterpass represents the details of the Masterpass wallet.
+type ChargePaymentMethodDetailsCardWalletMasterpass struct {
+	BillingAddress  *Address `json:"billing_address"`
+	Email           string   `json:"email"`
+	Name            string   `json:"name"`
+	ShippingAddress *Address `json:"shipping_address"`
+}
+
+// ChargePaymentMethodDetailsCardWalletSamsungPay represents the details of the Samsung Pay wallet.
+type ChargePaymentMethodDetailsCardWalletSamsungPay struct {
+}
+
+// ChargePaymentMethodDetailsCardWalletVisaCheckout represents the details of the Visa Checkout
+// wallet.
+type ChargePaymentMethodDetailsCardWalletVisaCheckout struct {
+	BillingAddress  *Address `json:"billing_address"`
+	Email           string   `json:"email"`
+	Name            string   `json:"name"`
+	ShippingAddress *Address `json:"shipping_address"`
+}
+
+// ChargePaymentMethodDetailsCardWallet represents the details of the card wallet if this Card
+// PaymentMethod is part of a card wallet.
+type ChargePaymentMethodDetailsCardWallet struct {
+	AmexExpressCheckout *ChargePaymentMethodDetailsCardWalletAmexExpressCheckout `json:"amex_express_checkout"`
+	ApplePay            *ChargePaymentMethodDetailsCardWalletApplePay            `json:"apple_pay"`
+	DynamicLast4        string                                                   `json:"dynamic_last4"`
+	GooglePay           *ChargePaymentMethodDetailsCardWalletGooglePay           `json:"google_pay"`
+	Masterpass          *ChargePaymentMethodDetailsCardWalletMasterpass          `json:"masterpass"`
+	SamsungPay          *ChargePaymentMethodDetailsCardWalletSamsungPay          `json:"samsung_pay"`
+	Type                PaymentMethodCardWalletType                              `json:"type"`
+	VisaCheckout        *ChargePaymentMethodDetailsCardWalletVisaCheckout        `json:"visa_checkout"`
+}
+
+// ChargePaymentMethodDetailsCard represents details about the Card PaymentMethod.
+type ChargePaymentMethodDetailsCard struct {
+	Brand        PaymentMethodCardBrand                      `json:"brand"`
+	Checks       *ChargePaymentMethodDetailsCardChecks       `json:"checks"`
+	Country      string                                      `json:"country"`
+	ExpMonth     uint64                                      `json:"exp_month"`
+	ExpYear      uint64                                      `json:"exp_year"`
+	Fingerprint  string                                      `json:"fingerprint"`
+	Funding      CardFunding                                 `json:"funding"`
+	Last4        string                                      `json:"last4"`
+	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
+	Wallet       *ChargePaymentMethodDetailsCardWallet       `json:"wallet"`
+
+	// Please note that the fields below are for internal use only and are not returned
+	// as part of standard API requests.
+	Description string `json:"description"`
+	IIN         string `json:"iin"`
+	Issuer      string `json:"issuer"`
+}
+
+// ChargePaymentMethodDetailsCardPresentReceipt represents details about the receipt on a
+// Card Present PaymentMethod.
+type ChargePaymentMethodDetailsCardPresentReceipt struct {
+	ApplicationCryptogram        string `json:"application_cryptogram"`
+	ApplicationPreferredName     string `json:"application_preferred_name"`
+	AuthorizationCode            string `json:"authorization_code"`
+	AuthorizationResponseCode    string `json:"authorization_response_code"`
+	CardholderVerificationMethod string `json:"cardholder_verification_method"`
+	DedicatedFileName            string `json:"dedicated_file_name"`
+	TerminalVerificationResults  string `json:"terminal_verification_results"`
+	TransactionStatusInformation string `json:"transaction_status_information"`
+}
+
+// ChargePaymentMethodDetailsCardPresent represents details about the Card Present PaymentMethod.
+type ChargePaymentMethodDetailsCardPresent struct {
+	Brand         PaymentMethodCardBrand                        `json:"brand"`
+	Country       string                                        `json:"country"`
+	EmvAuthData   string                                        `json:"emv_auth_data"`
+	ExpMonth      uint64                                        `json:"exp_month"`
+	ExpYear       uint64                                        `json:"exp_year"`
+	Fingerprint   string                                        `json:"fingerprint"`
+	Funding       CardFunding                                   `json:"funding"`
+	GeneratedCard string                                        `json:"generated_card"`
+	Last4         string                                        `json:"last4"`
+	ReadMethod    string                                        `json:"read_method"`
+	Receipt       *ChargePaymentMethodDetailsCardPresentReceipt `json:"receipt"`
+}
+
+// ChargePaymentMethodDetailsEps represents details about the EPS PaymentMethod.
+type ChargePaymentMethodDetailsEps struct {
+	VerifiedName string `json:"verified_name"`
+}
+
+// ChargePaymentMethodDetailsGiropay represents details about the Giropay PaymentMethod.
+type ChargePaymentMethodDetailsGiropay struct {
+	BankCode     string `json:"bank_code"`
+	BankName     string `json:"bank_name"`
+	Bic          string `json:"bic"`
+	VerifiedName string `json:"verified_name"`
+}
+
+// ChargePaymentMethodDetailsIdeal represents details about the Ideal PaymentMethod.
+type ChargePaymentMethodDetailsIdeal struct {
+	Bank         string `json:"bank"`
+	Bic          string `json:"bic"`
+	IbanLast4    string `json:"iban_last4"`
+	VerifiedName string `json:"verified_name"`
+}
+
+// ChargePaymentMethodDetailsMultibanco represents details about the Multibanco PaymentMethod.
+type ChargePaymentMethodDetailsMultibanco struct {
+	Entity    string `json:"entity"`
+	Reference string `json:"reference"`
+}
+
+// ChargePaymentMethodDetailsP24 represents details about the P24 PaymentMethod.
+type ChargePaymentMethodDetailsP24 struct {
+	Reference    string `json:"reference"`
+	VerifiedName string `json:"verified_name"`
+}
+
+// ChargePaymentMethodDetailsSepaDebit represents details about the Sepa Debit PaymentMethod.
+type ChargePaymentMethodDetailsSepaDebit struct {
+	BankCode    string `json:"bank_code"`
+	BranchCode  string `json:"branch_code"`
+	Country     string `json:"country"`
+	Fingerprint string `json:"fingerprint"`
+	Last4       string `json:"last4"`
+}
+
+// ChargePaymentMethodDetailsSofort represents details about the Sofort PaymentMethod.
+type ChargePaymentMethodDetailsSofort struct {
+	BankCode     string `json:"bank_code"`
+	BankName     string `json:"bank_name"`
+	Bic          string `json:"bic"`
+	Country      string `json:"country"`
+	IbanLast4    string `json:"iban_last4"`
+	VerifiedName string `json:"verified_name"`
+}
+
+// ChargePaymentMethodDetailsStripeAccount represents details about the StripeAccount PaymentMethod.
+type ChargePaymentMethodDetailsStripeAccount struct {
+}
+
+// ChargePaymentMethodDetailsWechat represents details about the Wechat PaymentMethod.
+type ChargePaymentMethodDetailsWechat struct {
+}
+
+// ChargePaymentMethodDetails represents the details about the PaymentMethod associated with the
+// charge.
+type ChargePaymentMethodDetails struct {
+	AchCreditTransfer *ChargePaymentMethodDetailsAchCreditTransfer `json:"ach_credit_transfer"`
+	AchDebit          *ChargePaymentMethodDetailsAchDebit          `json:"ach_debit"`
+	Alipay            *ChargePaymentMethodDetailsAlipay            `json:"alipay"`
+	Bancontact        *ChargePaymentMethodDetailsBancontact        `json:"bancontact"`
+	Bitcoin           *ChargePaymentMethodDetailsBitcoin           `json:"bitcoin"`
+	Card              *ChargePaymentMethodDetailsCard              `json:"card"`
+	CardPresent       *ChargePaymentMethodDetailsCardPresent       `json:"card_present"`
+	Eps               *ChargePaymentMethodDetailsEps               `json:"eps"`
+	Giropay           *ChargePaymentMethodDetailsGiropay           `json:"giropay"`
+	Ideal             *ChargePaymentMethodDetailsIdeal             `json:"ideal"`
+	Multibanco        *ChargePaymentMethodDetailsMultibanco        `json:"multibanco"`
+	P24               *ChargePaymentMethodDetailsP24               `json:"p24"`
+	SepaDebit         *ChargePaymentMethodDetailsSepaDebit         `json:"sepa_debit"`
+	Sofort            *ChargePaymentMethodDetailsSofort            `json:"sofort"`
+	StripeAccount     *ChargePaymentMethodDetailsStripeAccount     `json:"stripe_account"`
+	Type              ChargePaymentMethodDetailsType               `json:"type"`
+	Wechat            *ChargePaymentMethodDetailsWechat            `json:"wechat"`
+}
+
+// ChargeTransferData represents the information for the transfer_data associated with a charge.
+type ChargeTransferData struct {
+	Amount      int64    `form:"amount"`
+	Destination *Account `json:"destination"`
+}
+
 // Charge is the resource representing a Stripe charge.
 // For more details see https://stripe.com/docs/api#charges.
 type Charge struct {
-	Amount              int64               `json:"amount"`
-	AmountRefunded      int64               `json:"amount_refunded"`
-	Application         *Application        `json:"application"`
-	ApplicationFee      *ApplicationFee     `json:"application_fee"`
-	AuthorizationCode   string              `json:"authorization_code"`
-	BalanceTransaction  *BalanceTransaction `json:"balance_transaction"`
-	Captured            bool                `json:"captured"`
-	Created             int64               `json:"created"`
-	Currency            Currency            `json:"currency"`
-	Customer            *Customer           `json:"customer"`
-	Description         string              `json:"description"`
-	Destination         *Account            `json:"destination"`
-	Dispute             *Dispute            `json:"dispute"`
-	FailureCode         string              `json:"failure_code"`
-	FailureMessage      string              `json:"failure_message"`
-	FraudDetails        *FraudDetails       `json:"fraud_details"`
-	ID                  string              `json:"id"`
-	Invoice             *Invoice            `json:"invoice"`
-	Level3              ChargeLevel3        `json:"level3"`
-	Livemode            bool                `json:"livemode"`
-	Metadata            map[string]string   `json:"metadata"`
-	OnBehalfOf          *Account            `json:"on_behalf_of"`
-	Outcome             *ChargeOutcome      `json:"outcome"`
-	Paid                bool                `json:"paid"`
-	ReceiptEmail        string              `json:"receipt_email"`
-	ReceiptNumber       string              `json:"receipt_number"`
-	Refunded            bool                `json:"refunded"`
-	Refunds             *RefundList         `json:"refunds"`
-	Review              *Review             `json:"review"`
-	Shipping            *ShippingDetails    `json:"shipping"`
-	Source              *PaymentSource      `json:"source"`
-	SourceTransfer      *Transfer           `json:"source_transfer"`
-	StatementDescriptor string              `json:"statement_descriptor"`
-	Status              string              `json:"status"`
-	Transfer            *Transfer           `json:"transfer"`
-	TransferGroup       string              `json:"transfer_group"`
+	Amount               int64                       `json:"amount"`
+	AmountRefunded       int64                       `json:"amount_refunded"`
+	Application          *Application                `json:"application"`
+	ApplicationFee       *ApplicationFee             `json:"application_fee"`
+	ApplicationFeeAmount int64                       `json:"application_fee_amount"`
+	AuthorizationCode    string                      `json:"authorization_code"`
+	BalanceTransaction   *BalanceTransaction         `json:"balance_transaction"`
+	BillingDetails       *BillingDetails             `json:"billing_details"`
+	Captured             bool                        `json:"captured"`
+	Created              int64                       `json:"created"`
+	Currency             Currency                    `json:"currency"`
+	Customer             *Customer                   `json:"customer"`
+	Description          string                      `json:"description"`
+	Destination          *Account                    `json:"destination"`
+	Dispute              *Dispute                    `json:"dispute"`
+	FailureCode          string                      `json:"failure_code"`
+	FailureMessage       string                      `json:"failure_message"`
+	FraudDetails         *FraudDetails               `json:"fraud_details"`
+	ID                   string                      `json:"id"`
+	Invoice              *Invoice                    `json:"invoice"`
+	Level3               ChargeLevel3                `json:"level3"`
+	Livemode             bool                        `json:"livemode"`
+	Metadata             map[string]string           `json:"metadata"`
+	OnBehalfOf           *Account                    `json:"on_behalf_of"`
+	Outcome              *ChargeOutcome              `json:"outcome"`
+	Paid                 bool                        `json:"paid"`
+	PaymentIntent        string                      `json:"payment_intent"`
+	PaymentMethod        string                      `json:"payment_method"`
+	PaymentMethodDetails *ChargePaymentMethodDetails `json:"payment_method_details"`
+	ReceiptEmail         string                      `json:"receipt_email"`
+	ReceiptNumber        string                      `json:"receipt_number"`
+	ReceiptURL           string                      `json:"receipt_url"`
+	Refunded             bool                        `json:"refunded"`
+	Refunds              *RefundList                 `json:"refunds"`
+	Review               *Review                     `json:"review"`
+	Shipping             *ShippingDetails            `json:"shipping"`
+	Source               *PaymentSource              `json:"source"`
+	SourceTransfer       *Transfer                   `json:"source_transfer"`
+	StatementDescriptor  string                      `json:"statement_descriptor"`
+	Status               string                      `json:"status"`
+	Transfer             *Transfer                   `json:"transfer"`
+	TransferData         *ChargeTransferData         `json:"transfer_data"`
+	TransferGroup        string                      `json:"transfer_group"`
 }
 
 // UnmarshalJSON handles deserialization of a charge.

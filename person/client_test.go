@@ -45,6 +45,12 @@ func TestPersonNew(t *testing.T) {
 		Relationship: &stripe.RelationshipParams{
 			Owner: stripe.Bool(true),
 		},
+		Verification: &stripe.PersonVerificationParams{
+			Document: &stripe.PersonVerificationDocumentParams{
+				Back:  stripe.String("file_123"),
+				Front: stripe.String("file_234"),
+			},
+		},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, person)

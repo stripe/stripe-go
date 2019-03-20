@@ -1,6 +1,7 @@
 package form
 
 import (
+	"fmt"
 	"net/url"
 	"sync"
 	"testing"
@@ -118,6 +119,7 @@ func BenchmarkAppendTo(b *testing.B) {
 
 func TestAppendTo(t *testing.T) {
 	var arrayVal = [3]string{"1", "2", "3"}
+	var arrayVal0 = [3]string{}
 
 	var boolValT = true
 	var boolValF = false
@@ -140,6 +142,7 @@ func TestAppendTo(t *testing.T) {
 	var int64Val0 int64
 
 	var sliceVal = []string{"1", "2", "3"}
+	var sliceVal0 = []string{}
 
 	var stringVal = "123"
 	var stringVal0 = ""
@@ -164,49 +167,56 @@ func TestAppendTo(t *testing.T) {
 	testCases := []struct {
 		field string
 		data  *testStruct
-		want  interface{}
+
+		// Set to a pointer to the desired value or nil if the value shouldn't
+		// be present.
+		want *string
 	}{
-		{"appender", &testStruct{Appender: &testAppender{String: "123"}}, "123"},
+		{"appender", &testStruct{Appender: &testAppender{String: "123"}}, stringPtr("123")},
 
-		{"array[2]", &testStruct{Array: arrayVal}, "3"},
+		{"array[2]", &testStruct{Array: arrayVal}, stringPtr("3")},
+		{"array", &testStruct{Array: arrayVal0}, nil},
 
-		{"bool", &testStruct{Bool: boolValT}, "true"},
-		{"bool_ptr", &testStruct{}, ""},
-		{"bool_ptr", &testStruct{BoolPtr: &boolValT}, "true"},
-		{"bool_ptr", &testStruct{BoolPtr: &boolValF}, "false"},
+		{"array_ptr[2]", &testStruct{ArrayPtr: &arrayVal}, stringPtr("3")},
+		{"array_ptr", &testStruct{ArrayPtr: &arrayVal0}, nil},
 
-		{"emptied", &testStruct{Emptied: true}, ""},
+		{"bool", &testStruct{Bool: boolValT}, stringPtr("true")},
+		{"bool_ptr", &testStruct{}, nil},
+		{"bool_ptr", &testStruct{BoolPtr: &boolValT}, stringPtr("true")},
+		{"bool_ptr", &testStruct{BoolPtr: &boolValF}, stringPtr("false")},
 
-		{"float32", &testStruct{Float32: float32Val}, "1.2345"},
-		{"float32_ptr", &testStruct{Float32Ptr: &float32Val}, "1.2345"},
-		{"float32_ptr", &testStruct{Float32Ptr: &float32Val0}, "0.0000"},
-		{"float32_ptr", &testStruct{}, ""},
+		{"emptied", &testStruct{Emptied: true}, stringPtr("")},
 
-		{"float64", &testStruct{Float64: float64Val}, "1.2345"},
-		{"float64_ptr", &testStruct{Float64Ptr: &float64Val}, "1.2345"},
-		{"float64_ptr", &testStruct{Float64Ptr: &float64Val0}, "0.0000"},
-		{"float64_ptr", &testStruct{}, ""},
+		{"float32", &testStruct{Float32: float32Val}, stringPtr("1.2345")},
+		{"float32_ptr", &testStruct{Float32Ptr: &float32Val}, stringPtr("1.2345")},
+		{"float32_ptr", &testStruct{Float32Ptr: &float32Val0}, stringPtr("0.0000")},
+		{"float32_ptr", &testStruct{}, nil},
 
-		{"int", &testStruct{Int: intVal}, "123"},
-		{"int_ptr", &testStruct{IntPtr: &intVal}, "123"},
-		{"int_ptr", &testStruct{IntPtr: &intVal0}, "0"},
-		{"int_ptr", &testStruct{}, ""},
-		{"int8", &testStruct{Int8: int8Val}, "123"},
-		{"int8_ptr", &testStruct{Int8Ptr: &int8Val}, "123"},
-		{"int8_ptr", &testStruct{Int8Ptr: &int8Val0}, "0"},
-		{"int8_ptr", &testStruct{}, ""},
-		{"int16", &testStruct{Int16: int16Val}, "123"},
-		{"int16_ptr", &testStruct{Int16Ptr: &int16Val}, "123"},
-		{"int16_ptr", &testStruct{Int16Ptr: &int16Val0}, "0"},
-		{"int16_ptr", &testStruct{}, ""},
-		{"int32", &testStruct{Int32: int32Val}, "123"},
-		{"int32_ptr", &testStruct{Int32Ptr: &int32Val}, "123"},
-		{"int32_ptr", &testStruct{Int32Ptr: &int32Val0}, "0"},
-		{"int32_ptr", &testStruct{}, ""},
-		{"int64", &testStruct{Int64: int64Val}, "123"},
-		{"int64_ptr", &testStruct{Int64Ptr: &int64Val}, "123"},
-		{"int64_ptr", &testStruct{Int64Ptr: &int64Val0}, "0"},
-		{"int64_ptr", &testStruct{}, ""},
+		{"float64", &testStruct{Float64: float64Val}, stringPtr("1.2345")},
+		{"float64_ptr", &testStruct{Float64Ptr: &float64Val}, stringPtr("1.2345")},
+		{"float64_ptr", &testStruct{Float64Ptr: &float64Val0}, stringPtr("0.0000")},
+		{"float64_ptr", &testStruct{}, nil},
+
+		{"int", &testStruct{Int: intVal}, stringPtr("123")},
+		{"int_ptr", &testStruct{IntPtr: &intVal}, stringPtr("123")},
+		{"int_ptr", &testStruct{IntPtr: &intVal0}, stringPtr("0")},
+		{"int_ptr", &testStruct{}, nil},
+		{"int8", &testStruct{Int8: int8Val}, stringPtr("123")},
+		{"int8_ptr", &testStruct{Int8Ptr: &int8Val}, stringPtr("123")},
+		{"int8_ptr", &testStruct{Int8Ptr: &int8Val0}, stringPtr("0")},
+		{"int8_ptr", &testStruct{}, nil},
+		{"int16", &testStruct{Int16: int16Val}, stringPtr("123")},
+		{"int16_ptr", &testStruct{Int16Ptr: &int16Val}, stringPtr("123")},
+		{"int16_ptr", &testStruct{Int16Ptr: &int16Val0}, stringPtr("0")},
+		{"int16_ptr", &testStruct{}, nil},
+		{"int32", &testStruct{Int32: int32Val}, stringPtr("123")},
+		{"int32_ptr", &testStruct{Int32Ptr: &int32Val}, stringPtr("123")},
+		{"int32_ptr", &testStruct{Int32Ptr: &int32Val0}, stringPtr("0")},
+		{"int32_ptr", &testStruct{}, nil},
+		{"int64", &testStruct{Int64: int64Val}, stringPtr("123")},
+		{"int64_ptr", &testStruct{Int64Ptr: &int64Val}, stringPtr("123")},
+		{"int64_ptr", &testStruct{Int64Ptr: &int64Val0}, stringPtr("0")},
+		{"int64_ptr", &testStruct{}, nil},
 
 		// Tests map
 		{
@@ -214,7 +224,7 @@ func TestAppendTo(t *testing.T) {
 			&testStruct{Map: map[string]interface{}{
 				"foo": "bar",
 			}},
-			"bar",
+			stringPtr("bar"),
 		},
 
 		// Tests map with an empty value
@@ -228,7 +238,7 @@ func TestAppendTo(t *testing.T) {
 				// value for int64 is 0, so we can.
 				"empty": int64(0),
 			}},
-			"0",
+			stringPtr("0"),
 		},
 
 		// Tests map nested inside of another map
@@ -237,50 +247,86 @@ func TestAppendTo(t *testing.T) {
 			&testStruct{Map: map[string]interface{}{
 				"foo": map[string]interface{}{"bar": "baz"},
 			}},
-			"baz",
+			stringPtr("baz"),
 		},
 
-		{"slice[2]", &testStruct{Slice: sliceVal}, "3"},
+		{"slice[2]", &testStruct{Slice: sliceVal}, stringPtr("3")},
+		{"slice", &testStruct{Slice: []string{}}, stringPtr("")},
+		{"slice", &testStruct{Slice: nil}, nil},
 
-		{"string", &testStruct{String: stringVal}, stringVal},
-		{"string_ptr", &testStruct{StringPtr: &stringVal}, stringVal},
-		{"string_ptr", &testStruct{StringPtr: &stringVal0}, stringVal0},
-		{"string_ptr", &testStruct{}, stringVal0},
+		{"slice_ptr[2]", &testStruct{SlicePtr: &sliceVal}, stringPtr("3")},
 
-		{"substruct[subsubstruct][string]", &testStruct{SubStruct: subStructVal}, "123"},
-		{"substruct_ptr[subsubstruct][string]", &testStruct{SubStructPtr: &subStructVal}, "123"},
+		// A slice pointer given an explicit but empty slice should encode to
+		// an empty string (this tells the Stripe API to "zero" the array).
+		{"slice_ptr", &testStruct{SlicePtr: &sliceVal0}, stringPtr("")},
 
-		{"subsubstruct[string]", &testStruct{SubStructFlat: subStructVal}, "123"},
-		{"subsubstruct[string]", &testStruct{SubStructFlatPtr: &subStructVal}, "123"},
+		{"slice_ptr", &testStruct{SlicePtr: nil}, nil},
 
-		{"uint", &testStruct{Uuint: uintVal}, "123"},
-		{"uint_ptr", &testStruct{UuintPtr: &uintVal}, "123"},
-		{"uint_ptr", &testStruct{UuintPtr: &uintVal0}, "0"},
-		{"uint_ptr", &testStruct{}, ""},
-		{"uint8", &testStruct{Uuint8: uint8Val}, "123"},
-		{"uint8_ptr", &testStruct{Uuint8Ptr: &uint8Val}, "123"},
-		{"uint8_ptr", &testStruct{Uuint8Ptr: &uint8Val0}, "0"},
-		{"uint8_ptr", &testStruct{}, ""},
-		{"uint16", &testStruct{Uuint16: uint16Val}, "123"},
-		{"uint16_ptr", &testStruct{Uuint16Ptr: &uint16Val}, "123"},
-		{"uint16_ptr", &testStruct{Uuint16Ptr: &uint16Val0}, "0"},
-		{"uint16_ptr", &testStruct{}, ""},
-		{"uint32", &testStruct{Uuint32: uint32Val}, "123"},
-		{"uint32_ptr", &testStruct{Uuint32Ptr: &uint32Val}, "123"},
-		{"uint32_ptr", &testStruct{Uuint32Ptr: &uint32Val0}, "0"},
-		{"uint32_ptr", &testStruct{}, ""},
-		{"uint64", &testStruct{Uuint64: uint64Val}, "123"},
-		{"uint64_ptr", &testStruct{Uuint64Ptr: &uint64Val}, "123"},
-		{"uint64_ptr", &testStruct{Uuint64Ptr: &uint64Val0}, "0"},
-		{"uint64_ptr", &testStruct{}, ""},
+		{"string", &testStruct{String: stringVal}, &stringVal},
+		{"string_ptr", &testStruct{StringPtr: &stringVal}, &stringVal},
+		{"string_ptr", &testStruct{StringPtr: &stringVal0}, &stringVal0},
+		{"string_ptr", &testStruct{}, nil},
+
+		{"substruct[subsubstruct][string]", &testStruct{SubStruct: subStructVal}, stringPtr("123")},
+		{"substruct_ptr[subsubstruct][string]", &testStruct{SubStructPtr: &subStructVal}, stringPtr("123")},
+
+		{"subsubstruct[string]", &testStruct{SubStructFlat: subStructVal}, stringPtr("123")},
+		{"subsubstruct[string]", &testStruct{SubStructFlatPtr: &subStructVal}, stringPtr("123")},
+
+		{"uint", &testStruct{Uuint: uintVal}, stringPtr("123")},
+		{"uint_ptr", &testStruct{UuintPtr: &uintVal}, stringPtr("123")},
+		{"uint_ptr", &testStruct{UuintPtr: &uintVal0}, stringPtr("0")},
+		{"uint_ptr", &testStruct{}, nil},
+		{"uint8", &testStruct{Uuint8: uint8Val}, stringPtr("123")},
+		{"uint8_ptr", &testStruct{Uuint8Ptr: &uint8Val}, stringPtr("123")},
+		{"uint8_ptr", &testStruct{Uuint8Ptr: &uint8Val0}, stringPtr("0")},
+		{"uint8_ptr", &testStruct{}, nil},
+		{"uint16", &testStruct{Uuint16: uint16Val}, stringPtr("123")},
+		{"uint16_ptr", &testStruct{Uuint16Ptr: &uint16Val}, stringPtr("123")},
+		{"uint16_ptr", &testStruct{Uuint16Ptr: &uint16Val0}, stringPtr("0")},
+		{"uint16_ptr", &testStruct{}, nil},
+		{"uint32", &testStruct{Uuint32: uint32Val}, stringPtr("123")},
+		{"uint32_ptr", &testStruct{Uuint32Ptr: &uint32Val}, stringPtr("123")},
+		{"uint32_ptr", &testStruct{Uuint32Ptr: &uint32Val0}, stringPtr("0")},
+		{"uint32_ptr", &testStruct{}, nil},
+		{"uint64", &testStruct{Uuint64: uint64Val}, stringPtr("123")},
+		{"uint64_ptr", &testStruct{Uuint64Ptr: &uint64Val}, stringPtr("123")},
+		{"uint64_ptr", &testStruct{Uuint64Ptr: &uint64Val0}, stringPtr("0")},
+		{"uint64_ptr", &testStruct{}, nil},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.field, func(t *testing.T) {
 			form := &Values{}
 			AppendTo(form, tc.data)
 			values := form.ToValues()
-			t.Logf("values = %+v", values)
-			assert.Equal(t, tc.want, values.Get(tc.field))
+			t.Logf("values: %+v encoded: \"%+v\"", values, form.Encode())
+
+			actuals, ok := values[tc.field]
+			if ok {
+				if tc.want == nil {
+					assert.Fail(t, fmt.Sprintf(
+						"Value not expected for %s, but got '%+v'",
+						tc.field, actuals))
+				}
+			} else {
+				if tc.want == nil {
+					// Got no value and expected no value
+					return
+				}
+
+				assert.Fail(t, fmt.Sprintf(
+					"No value present for %s, but expected '%+v'",
+					tc.field, *tc.want))
+			}
+
+			if len(actuals) > 1 {
+				assert.Fail(t, fmt.Sprintf(
+					"Got more than one value for %s: %+v",
+					tc.field, actuals))
+			}
+
+			actual := actuals[0]
+			assert.Equal(t, *tc.want, actual)
 		})
 	}
 }
@@ -413,4 +459,14 @@ func TestValues(t *testing.T) {
 	assert.Equal(t, []string{"appended"}, values.Get("new"))
 
 	assert.Nil(t, values.Get("boguskey"))
+}
+
+//
+// Private functions
+//
+
+// Trivial helper to get is a string pointer from a string (because you're not
+// allowed to take the address of a literal directly).
+func stringPtr(s string) *string {
+	return &s
 }

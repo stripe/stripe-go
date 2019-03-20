@@ -52,6 +52,19 @@ func (c Client) Update(id string, params *stripe.TerminalLocationParams) (*strip
 	return location, err
 }
 
+// Del removes a location.
+func Del(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
+	return getC().Del(id, params)
+}
+
+// Del removes a location.
+func (c Client) Del(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
+	path := stripe.FormatURLPath("/v1/terminal/locations/%s", id)
+	location := &stripe.TerminalLocation{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, location)
+	return location, err
+}
+
 // List returns a list of terminal location.
 func List(params *stripe.TerminalLocationListParams) *Iter {
 	return getC().List(params)
