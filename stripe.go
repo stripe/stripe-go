@@ -127,7 +127,7 @@ type BackendConfig struct {
 	// HTTPClient is an HTTP client instance to use when making API requests.
 	//
 	// If left unset, it'll be set to a default HTTP client for the package.
-	HTTPClient *http.Client
+	HTTPClient HTTPClient
 
 	// LogLevel is the logging level of the library and defined by:
 	//
@@ -166,7 +166,7 @@ type BackendConfig struct {
 type BackendImplementation struct {
 	Type              SupportedBackend
 	URL               string
-	HTTPClient        *http.Client
+	HTTPClient        HTTPClient
 	MaxNetworkRetries int
 	LogLevel          int
 	Logger            Printfer
@@ -594,6 +594,12 @@ type Printfer interface {
 // Currently supported values are "api" and "uploads".
 type SupportedBackend string
 
+// HTTPClient is required by Backend implementations to perform HTTP requests.
+// This interface exists to enable using custom HTTP clients if needed.
+type HTTPClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
 //
 // Public functions
 //
@@ -741,7 +747,7 @@ func Int64Value(v *int64) int64 {
 
 // NewBackends creates a new set of backends with the given HTTP client. You
 // should only need to use this for testing purposes or on App Engine.
-func NewBackends(httpClient *http.Client) *Backends {
+func NewBackends(httpClient HTTPClient) *Backends {
 	apiConfig := &BackendConfig{HTTPClient: httpClient}
 	uploadConfig := &BackendConfig{HTTPClient: httpClient}
 	return &Backends{
@@ -796,7 +802,7 @@ func SetBackend(backend SupportedBackend, b Backend) {
 // SetHTTPClient overrides the default HTTP client.
 // This is useful if you're running in a Google AppEngine environment
 // where the http.DefaultClient is not available.
-func SetHTTPClient(client *http.Client) {
+func SetHTTPClient(client HTTPClient) {
 	httpClient = client
 }
 
@@ -885,7 +891,7 @@ var appInfo *AppInfo
 var backends Backends
 var encodedStripeUserAgent string
 var encodedUserAgent string
-var httpClient = &http.Client{Timeout: defaultHTTPTimeout}
+var httpClient HTTPClient = &http.Client{Timeout: defaultHTTPTimeout}
 
 //
 // Private functions
