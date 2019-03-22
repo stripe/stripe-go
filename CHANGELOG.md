@@ -1,5 +1,8 @@
 # Changelog
 
+## 59.0.0 - 2019-03-22
+* [#818](https://github.com/stripe/stripe-go/pull/818) Implement leveled logging (very minor breaking change -- only a couple properties were removed from the internal `BackendImplementation`)
+
 ## 58.1.0 - 2019-03-19
 * [#815](https://github.com/stripe/stripe-go/pull/815) Add support for passing token on account or person creation
 
