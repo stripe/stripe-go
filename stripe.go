@@ -112,7 +112,7 @@ type BackendConfig struct {
 	// If left unset, it'll be set to a default HTTP client for the package.
 	HTTPClient *http.Client
 
-	// LeveledLogger is the logger that the library will use to log errors,
+	// LeveledLogger is the logger that the backend will use to log errors,
 	// warnings, and informational messages.
 	//
 	// LeveledLoggerInterface is implemented by LeveledLogger, and one can be
