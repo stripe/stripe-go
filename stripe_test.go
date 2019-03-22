@@ -5,8 +5,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"regexp"
 	"runtime"
 	"sync"
@@ -384,6 +386,36 @@ func TestFormatURLPath(t *testing.T) {
 	// Tests that each parameter is escaped for use in URLs
 	assert.Equal(t, "/v1/resources/%25",
 		stripe.FormatURLPath("/v1/resources/%s", "%"))
+}
+
+func TestGetBackendWithConfig_Loggers(t *testing.T) {
+	leveledLogger := &stripe.LeveledLogger{}
+	logger := log.New(os.Stdout, "", 0)
+
+	// Prefers a LeveledLogger
+	{
+		backend := stripe.GetBackendWithConfig(
+			stripe.APIBackend,
+			&stripe.BackendConfig{
+				LeveledLogger: leveledLogger,
+				Logger:        logger,
+			},
+		).(*stripe.BackendImplementation)
+
+		assert.Equal(t, leveledLogger, backend.LeveledLogger)
+	}
+
+	// Falls back to Logger
+	{
+		backend := stripe.GetBackendWithConfig(
+			stripe.APIBackend,
+			&stripe.BackendConfig{
+				Logger: logger,
+			},
+		).(*stripe.BackendImplementation)
+
+		assert.NotNil(t, backend.LeveledLogger)
+	}
 }
 
 func TestGetBackendWithConfig_TrimV1Suffix(t *testing.T) {

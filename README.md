@@ -297,6 +297,43 @@ coupon, err := sc.Coupons.New(...)
 [Idempotency keys][idempotency-keys] are added to requests to guarantee that
 retries are safe.
 
+### Configuring Logging
+
+Configure logging using the global `DefaultLeveledLogger` variable:
+
+```go
+stripe.DefaultLeveledLogger = &stripe.LeveledLogger{
+    Level: stripe.LevelInfo,
+}
+```
+
+Or on a per-backend basis:
+
+```go
+config := &stripe.BackendConfig{
+    LeveledLogger: &stripe.LeveledLogger{
+        Level: stripe.LevelInfo,
+    },
+}
+```
+
+It's possible to use non-Stripe leveled loggers as well. Stripe expects loggers
+to comply to the following interface:
+
+```go
+type LeveledLoggerInterface interface {
+	Debugf(format string, v ...interface{})
+	Errorf(format string, v ...interface{})
+	Infof(format string, v ...interface{})
+	Warnf(format string, v ...interface{})
+}
+```
+
+Some loggers like [Logrus][logrus] support this interface out-of-the-box so
+it's possible to set `DefaultLeveledLogger` to a `*logrus.Logger` directly. For
+others (Zap for example) it'll be necessary to write a thin shim layer to
+support them.
+
 ### Writing a Plugin
 
 If you're writing a plugin that uses the library, we'd appreciate it if you
@@ -364,6 +401,7 @@ pull request][pulls].
 [gomodvsdep]: https://github.com/stripe/stripe-go/pull/712
 [idempotency-keys]: https://stripe.com/docs/api/ruby#idempotent_requests
 [issues]: https://github.com/stripe/stripe-go/issues/new
+[logrus]: https://github.com/sirupsen/logrus/
 [modules]: https://github.com/golang/go/wiki/Modules
 [package-management]: https://code.google.com/p/go-wiki/wiki/PackageManagementTools
 [pulls]: https://github.com/stripe/stripe-go/pulls
