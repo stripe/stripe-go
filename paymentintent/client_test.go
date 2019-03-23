@@ -17,7 +17,9 @@ func TestPaymentIntentCancel(t *testing.T) {
 }
 
 func TestPaymentIntentCapture(t *testing.T) {
-	intent, err := Capture("pi_123", nil)
+	intent, err := Capture("pi_123", &stripe.PaymentIntentCaptureParams{
+		AmountToCapture: stripe.Int64(123),
+	})
 	assert.Nil(t, err)
 	assert.NotNil(t, intent)
 }
