@@ -1,5 +1,8 @@
 # Changelog
 
+## 59.1.0 - 2019-03-22
+* [#819](https://github.com/stripe/stripe-go/pull/819) Add default level prefixes in messages from `LeveledLogger`
+
 ## 59.0.0 - 2019-03-22
 * [#818](https://github.com/stripe/stripe-go/pull/818) Implement leveled logging (very minor breaking change -- only a couple properties were removed from the internal `BackendImplementation`)
 
