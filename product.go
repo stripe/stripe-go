@@ -79,12 +79,14 @@ type ProductList struct {
 
 // ProductListParams is the set of parameters that can be used when listing products.
 type ProductListParams struct {
-	ListParams `form:"*"`
-	Active     *bool     `form:"active"`
-	IDs        []*string `form:"ids"`
-	Shippable  *bool     `form:"shippable"`
-	URL        *string   `form:"url"`
-	Type       *string   `form:"type"`
+	ListParams   `form:"*"`
+	Active       *bool             `form:"active"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	IDs          []*string         `form:"ids"`
+	Shippable    *bool             `form:"shippable"`
+	URL          *string           `form:"url"`
+	Type         *string           `form:"type"`
 }
 
 // UnmarshalJSON handles deserialization of a Product.

@@ -63,7 +63,8 @@ const (
 
 // IssuingAuthorizationParams is the set of parameters that can be used when updating an issuing authorization.
 type IssuingAuthorizationParams struct {
-	Params `form:"*"`
+	Params     `form:"*"`
+	HeldAmount *int64 `form:"held_amount"`
 }
 
 // IssuingAuthorizationListParams is the set of parameters that can be used when listing issuing authorizations.

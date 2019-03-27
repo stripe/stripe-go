@@ -46,6 +46,6 @@ type Token struct {
 
 // PIIParams are parameters for personal identifiable information (PII).
 type PIIParams struct {
-	Params           `form:"*"`
-	PersonalIDNumber *string `form:"personal_id_number"`
+	Params   `form:"*"`
+	IDNumber *string `form:"id_number"`
 }

@@ -111,7 +111,9 @@ type PaymentIntentParams struct {
 // PaymentIntentListParams is the set of parameters that can be used when listing payment intents.
 // For more details see https://stripe.com/docs/api#list_payouts.
 type PaymentIntentListParams struct {
-	ListParams `form:"*"`
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 }
 
 // PaymentIntentLastPaymentError represents the last error happening on a payment intent.

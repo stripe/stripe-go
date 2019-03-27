@@ -123,8 +123,9 @@ type InvoiceListParams struct {
 	Billing      *string           `form:"billing"`
 	Customer     *string           `form:"customer"`
 	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created_range"`
+	CreatedRange *RangeQueryParams `form:"created"`
 	DueDate      *int64            `form:"due_date"`
+	DueDateRange *RangeQueryParams `form:"due_date"`
 	Subscription *string           `form:"subscription"`
 }
 

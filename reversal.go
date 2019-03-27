@@ -6,6 +6,7 @@ import "encoding/json"
 type ReversalParams struct {
 	Params               `form:"*"`
 	Amount               *int64  `form:"amount"`
+	Description          *string `form:"description"`
 	RefundApplicationFee *bool   `form:"refund_application_fee"`
 	Transfer             *string `form:"-"` // Included in URL
 }
@@ -22,6 +23,7 @@ type Reversal struct {
 	BalanceTransaction       *BalanceTransaction `json:"balance_transaction"`
 	Created                  int64               `json:"created"`
 	Currency                 Currency            `json:"currency"`
+	Description              string              `json:"description"`
 	DestinationPaymentRefund *Refund             `json:"destination_payment_refund"`
 	ID                       string              `json:"id"`
 	Metadata                 map[string]string   `json:"metadata"`

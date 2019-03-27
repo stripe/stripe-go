@@ -6,15 +6,22 @@ import "encoding/json"
 // For more details see https://stripe.com/docs/api#create_invoiceitem and https://stripe.com/docs/api#update_invoiceitem.
 type InvoiceItemParams struct {
 	Params       `form:"*"`
-	Amount       *int64  `form:"amount"`
-	Currency     *string `form:"currency"`
-	Customer     *string `form:"customer"`
-	Description  *string `form:"description"`
-	Discountable *bool   `form:"discountable"`
-	Invoice      *string `form:"invoice"`
-	Quantity     *int64  `form:"quantity"`
-	Subscription *string `form:"subscription"`
-	UnitAmount   *int64  `form:"unit_amount"`
+	Amount       *int64                   `form:"amount"`
+	Currency     *string                  `form:"currency"`
+	Customer     *string                  `form:"customer"`
+	Description  *string                  `form:"description"`
+	Discountable *bool                    `form:"discountable"`
+	Invoice      *string                  `form:"invoice"`
+	Period       *InvoiceItemPeriodParams `form:"period"`
+	Quantity     *int64                   `form:"quantity"`
+	Subscription *string                  `form:"subscription"`
+	UnitAmount   *int64                   `form:"unit_amount"`
+}
+
+// InvoiceItemPeriodParams represents the period associated with that invoice item.
+type InvoiceItemPeriodParams struct {
+	End   *int64 `form:"end"`
+	Start *int64 `form:"start"`
 }
 
 // InvoiceItemListParams is the set of parameters that can be used when listing invoice items.

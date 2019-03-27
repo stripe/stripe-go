@@ -48,8 +48,17 @@ type SubscriptionSchedulePhaseParams struct {
 	EndDate               *int64                                 `form:"end_date"`
 	Iterations            *int64                                 `form:"iterations"`
 	Plans                 []*SubscriptionSchedulePhaseItemParams `form:"plans"`
+	StartDate             *int64                                 `form:"start_date"`
+	TaxPercent            *float64                               `form:"tax_percent"`
 	Trial                 *bool                                  `form:"trial"`
 	TrialEnd              *int64                                 `form:"trial_end"`
+}
+
+// SubscriptionScheduleRenewalIntervalParams is a structure representing the renewal interval
+// for a given subscription schedule.
+type SubscriptionScheduleRenewalIntervalParams struct {
+	Interval *string `form:"interval"`
+	Length   *int64  `form:"length"`
 }
 
 // SubscriptionScheduleParams is the set of parameters that can be used when creating or updating a
@@ -62,7 +71,9 @@ type SubscriptionScheduleParams struct {
 	FromSubscription  *string                                    `form:"from_subscription"`
 	InvoiceSettings   *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
 	Phases            []*SubscriptionSchedulePhaseParams         `form:"phases"`
+	Prorate           *bool                                      `form:"prorate"`
 	RenewalBehavior   *string                                    `form:"renewal_behavior"`
+	RenewalInterval   *SubscriptionScheduleRenewalIntervalParams `form:"renewal_interval"`
 	StartDate         *int64                                     `form:"start_date"`
 }
 

@@ -41,7 +41,7 @@ func TestTokenNew_WithCard(t *testing.T) {
 func TestTokenNew_WithPII(t *testing.T) {
 	token, err := New(&stripe.TokenParams{
 		PII: &stripe.PIIParams{
-			PersonalIDNumber: stripe.String("000000000"),
+			IDNumber: stripe.String("000000000"),
 		},
 	})
 	assert.Nil(t, err)

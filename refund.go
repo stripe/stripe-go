@@ -37,7 +37,10 @@ type RefundParams struct {
 // RefundListParams is the set of parameters that can be used when listing refunds.
 // For more details see https://stripe.com/docs/api#list_refunds.
 type RefundListParams struct {
-	ListParams `form:"*"`
+	ListParams   `form:"*"`
+	Charge       *string           `form:"charge"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 }
 
 // Refund is the resource representing a Stripe refund.
