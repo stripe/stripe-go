@@ -1,5 +1,9 @@
 # Changelog
 
+## 60.0.0 - 2019-03-27
+* [#820](https://github.com/stripe/stripe-go/pull/820) Add various missing parameters
+    * On `PIIParams` the previous `PersonalIDNumber` is fixed to `IDNumber` which we're releasing as a minor breaking change even though the old version probably didn't work correctly
+
 ## 59.1.0 - 2019-03-22
 * [#819](https://github.com/stripe/stripe-go/pull/819) Add default level prefixes in messages from `LeveledLogger`
 
