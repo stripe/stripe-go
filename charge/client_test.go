@@ -9,7 +9,9 @@ import (
 )
 
 func TestChargeCapture(t *testing.T) {
-	charge, err := Capture("ch_123", nil)
+	charge, err := Capture("ch_123", &stripe.CaptureParams{
+		Amount: stripe.Int64(123),
+	})
 	assert.Nil(t, err)
 	assert.NotNil(t, charge)
 }
