@@ -149,6 +149,7 @@ type Order struct {
 	Status                 string            `json:"status"`
 	StatusTransitions      StatusTransitions `json:"status_transitions"`
 	Updated                int64             `json:"updated"`
+	UpstreamID             string            `json:"upstream_id"`
 }
 
 // OrderList is a list of orders as retrieved from a list endpoint.
@@ -166,6 +167,7 @@ type OrderListParams struct {
 	IDs               []*string                      `form:"ids"`
 	Status            *string                        `form:"status"`
 	StatusTransitions *StatusTransitionsFilterParams `form:"status_transitions"`
+	UpstreamIDs       []*string                      `form:"upstream_ids"`
 }
 
 // StatusTransitionsFilterParams are parameters that can used to filter on status_transition when listing orders.

@@ -53,10 +53,11 @@ type IssuingDisputeParams struct {
 
 // IssuingDisputeListParams is the set of parameters that can be used when listing issuing dispute.
 type IssuingDisputeListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	Transaction  *string           `form:"transaction"`
+	ListParams          `form:"*"`
+	Created             *int64            `form:"created"`
+	CreatedRange        *RangeQueryParams `form:"created"`
+	DisputedTransaction *string           `form:"disputed_transaction"`
+	Transaction         *string           `form:"transaction"`
 }
 
 // IssuingDisputeEvidenceFraudulent is the resource representing the evidence hash on an issuing dispute

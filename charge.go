@@ -67,7 +67,8 @@ type ChargeLevel3Params struct {
 
 // ChargeTransferDataParams is the set of parameters allowed for the transfer_data hash.
 type ChargeTransferDataParams struct {
-	Amount      *int64  `form:"amount"`
+	Amount *int64 `form:"amount"`
+	// This parameter can only be used on Charge creation.
 	Destination *string `form:"destination"`
 }
 
@@ -136,11 +137,13 @@ type ChargeListParams struct {
 // CaptureParams is the set of parameters that can be used when capturing a charge.
 type CaptureParams struct {
 	Params               `form:"*"`
-	Amount               *int64   `form:"amount"`
-	ApplicationFeeAmount *int64   `form:"application_fee_amount"`
-	ExchangeRate         *float64 `form:"exchange_rate"`
-	ReceiptEmail         *string  `form:"receipt_email"`
-	StatementDescriptor  *string  `form:"statement_descriptor"`
+	Amount               *int64                    `form:"amount"`
+	ApplicationFeeAmount *int64                    `form:"application_fee_amount"`
+	ExchangeRate         *float64                  `form:"exchange_rate"`
+	ReceiptEmail         *string                   `form:"receipt_email"`
+	StatementDescriptor  *string                   `form:"statement_descriptor"`
+	TransferGroup        *string                   `form:"transfer_group"`
+	TransferData         *ChargeTransferDataParams `form:"transfer_data"`
 
 	// This property is considered deprecated. Prefer using ApplicationFeeAmount
 	ApplicationFee *int64 `form:"application_fee"`

@@ -26,7 +26,7 @@ type IssuerFraudRecordParams struct {
 // https://stripe.com/docs#list_issuer_fraud_records.
 type IssuerFraudRecordListParams struct {
 	ListParams `form:"*"`
-	Charge     *string `form:"-"`
+	Charge     *string `form:"charge"`
 }
 
 // IssuerFraudRecordList is a list of issuer fraud records as retrieved from a

@@ -32,8 +32,10 @@ type IssuingCardholderParams struct {
 	Params      `form:"*"`
 	Billing     *IssuingBillingParams `form:"billing"`
 	Email       *string               `form:"email"`
+	IsDefault   *bool                 `form:"is_default"`
 	Name        *string               `form:"name"`
 	PhoneNumber *string               `form:"phone_number"`
+	Status      *string               `form:"status"`
 	Type        *string               `form:"type"`
 }
 
@@ -43,6 +45,7 @@ type IssuingCardholderListParams struct {
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 	Email        *string           `form:"email"`
+	IsDefault    *bool             `form:"is_default"`
 	PhoneNumber  *string           `form:"phone_number"`
 	Status       *string           `form:"status"`
 	Type         *string           `form:"type"`

@@ -25,6 +25,7 @@ type IssuingTransactionListParams struct {
 	Cardholder   *string           `form:"cardholder"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	Dispute      *string           `form:"dispute"`
 }
 
 // IssuingTransaction is the resource representing a Stripe issuing transaction.

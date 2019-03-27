@@ -81,6 +81,7 @@ type IssuingCardListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	ExpMonth     *int64            `form:"exp_month"`
 	ExpYear      *int64            `form:"exp_year"`
+	Name         *string           `form:"name"`
 	Last4        *string           `form:"last4"`
 	Source       *string           `form:"source"`
 	Status       *string           `form:"status"`

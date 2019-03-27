@@ -9,6 +9,7 @@ type TopupParams struct {
 	Description         *string       `form:"description"`
 	Source              *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 	StatementDescriptor *string       `form:"statement_descriptor"`
+	TransferGroup       *string       `form:"transfer_group"`
 }
 
 // SetSource adds valid sources to a TopupParams object,
@@ -50,4 +51,5 @@ type Topup struct {
 	Source                   *PaymentSource      `json:"source"`
 	StatementDescriptor      string              `json:"statement_descriptor"`
 	Status                   string              `json:"status"`
+	TransferGroup            string              `json:"transfer_group"`
 }

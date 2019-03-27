@@ -168,10 +168,12 @@ func (p *PlanTierParams) AppendTo(body *form.Values, keyParts []string) {
 // This can only be used on plan creation and won't work on plan update.
 // For more details see https://stripe.com/docs/api#create_plan-product and https://stripe.com/docs/api#update_plan-product
 type PlanProductParams struct {
+	Active              *bool             `form:"active"`
 	ID                  *string           `form:"id"`
 	Name                *string           `form:"name"`
 	Metadata            map[string]string `form:"metadata"`
 	StatementDescriptor *string           `form:"statement_descriptor"`
+	UnitLabel           *string           `form:"unit_label"`
 }
 
 // UnmarshalJSON handles deserialization of a Plan.

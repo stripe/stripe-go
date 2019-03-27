@@ -27,6 +27,7 @@ type TransferParams struct {
 	Params            `form:"*"`
 	Amount            *int64  `form:"amount"`
 	Currency          *string `form:"currency"`
+	Description       *string `form:"description"`
 	Destination       *string `form:"destination"`
 	SourceTransaction *string `form:"source_transaction"`
 	SourceType        *string `form:"source_type"`
@@ -51,6 +52,7 @@ type Transfer struct {
 	BalanceTransaction *BalanceTransaction       `json:"balance_transaction"`
 	Created            int64                     `json:"created"`
 	Currency           Currency                  `json:"currency"`
+	Description        string                    `json:"description"`
 	Destination        *TransferDestination      `json:"destination"`
 	DestinationPayment *Charge                   `json:"destination_payment"`
 	ID                 string                    `json:"id"`
