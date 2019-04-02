@@ -87,6 +87,7 @@ type InvoiceParams struct {
 	CustomFields         []*InvoiceCustomFieldParams `form:"custom_fields"`
 	Customer             *string                     `form:"customer"`
 	DaysUntilDue         *int64                      `form:"days_until_due"`
+	DefaultPaymentMethod *string                     `form:"default_payment_method"`
 	DefaultSource        *string                     `form:"default_source"`
 	Description          *string                     `form:"description"`
 	DueDate              *int64                      `form:"due_date"`
@@ -161,6 +162,7 @@ type InvoicePayParams struct {
 	Params        `form:"*"`
 	Forgive       *bool   `form:"forgive"`
 	PaidOutOfBand *bool   `form:"paid_out_of_band"`
+	PaymentMethod *string `form:"payment_method"`
 	Source        *string `form:"source"`
 }
 
@@ -191,6 +193,7 @@ type Invoice struct {
 	Currency                  Currency                 `json:"currency"`
 	CustomFields              []*InvoiceCustomField    `json:"custom_fields"`
 	Customer                  *Customer                `json:"customer"`
+	DefaultPaymentMethod      *PaymentMethod           `json:"default_payment_method"`
 	DefaultSource             *PaymentSource           `json:"default_source"`
 	Description               string                   `json:"description"`
 	Discount                  *Discount                `json:"discount"`
@@ -206,6 +209,7 @@ type Invoice struct {
 	NextPaymentAttempt        int64                    `json:"next_payment_attempt"`
 	Number                    string                   `json:"number"`
 	Paid                      bool                     `json:"paid"`
+	PaymentIntent             *PaymentIntent           `json:"paymentIntent"`
 	PeriodEnd                 int64                    `json:"period_end"`
 	PeriodStart               int64                    `json:"period_start"`
 	ReceiptNumber             string                   `json:"receipt_number"`
