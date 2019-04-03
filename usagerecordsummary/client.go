@@ -23,7 +23,7 @@ func List(params *stripe.UsageRecordSummaryListParams) *Iter {
 func (c Client) List(listParams *stripe.UsageRecordSummaryListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		path := stripe.FormatURLPath("/v1/subscription_items/%s/usage_record_summaries", stripe.StringValue(listParams.SubscriptionItem))
-		list := &stripe.ChargeList{}
+		list := &stripe.UsageRecordSummaryList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
@@ -41,8 +41,8 @@ type Iter struct {
 }
 
 // UsageRecordSummary returns the usage record summary which the iterator is currently pointing to.
-func (i *Iter) UsageRecordSummary() *stripe.Charge {
-	return i.Current().(*stripe.Charge)
+func (i *Iter) UsageRecordSummary() *stripe.UsageRecordSummary {
+	return i.Current().(*stripe.UsageRecordSummary)
 }
 
 func getC() Client {
