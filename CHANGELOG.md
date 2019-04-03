@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.0.1 - 2019-04-02
+* [#825](https://github.com/stripe/stripe-go/pull/825) Fix the API for usage record summary listing
+
 ## 60.0.0 - 2019-03-27
 * [#820](https://github.com/stripe/stripe-go/pull/820) Add various missing parameters
     * On `PIIParams` the previous `PersonalIDNumber` is fixed to `IDNumber` which we're releasing as a minor breaking change even though the old version probably didn't work correctly
