@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.1.0 - 2019-04-09
+* [#824](https://github.com/stripe/stripe-go/pull/824) Add support for `PaymentIntent` and `PaymentMethod` on `Customer`, `Subscription` and `Invoice`.
+
 ## 60.0.1 - 2019-04-02
 * [#825](https://github.com/stripe/stripe-go/pull/825) Fix the API for usage record summary listing
 
