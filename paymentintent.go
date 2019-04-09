@@ -166,6 +166,7 @@ type PaymentIntent struct {
 	Currency            string                          `json:"currency"`
 	Customer            *Customer                       `json:"customer"`
 	Description         string                          `json:"description"`
+	Invoice             *Invoice                        `json:"invoice"`
 	LastPaymentError    *PaymentIntentLastPaymentError  `json:"last_payment_error"`
 	Livemode            bool                            `json:"livemode"`
 	ID                  string                          `json:"id"`

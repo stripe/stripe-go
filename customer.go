@@ -53,8 +53,9 @@ type CustomerInvoiceCustomFieldParams struct {
 // CustomerInvoiceSettingsParams is the structure containing the default settings for invoices
 // associated with this customer.
 type CustomerInvoiceSettingsParams struct {
-	CustomFields []*CustomerInvoiceCustomFieldParams `form:"custom_fields"`
-	Footer       *string                             `form:"footer"`
+	CustomFields         []*CustomerInvoiceCustomFieldParams `form:"custom_fields"`
+	DefaultPaymentMethod *string                             `form:"default_payment_method"`
+	Footer               *string                             `form:"footer"`
 }
 
 // CustomerShippingDetailsParams is the structure containing shipping information.
@@ -108,6 +109,20 @@ type Customer struct {
 	Subscriptions       *SubscriptionList            `json:"subscriptions"`
 	TaxInfo             *CustomerTaxInfo             `json:"tax_info"`
 	TaxInfoVerification *CustomerTaxInfoVerification `json:"tax_info_verification"`
+}
+
+// CustomerInvoiceCustomField represents a custom field associated with the customer's invoices.
+type CustomerInvoiceCustomField struct {
+	Name  *string `form:"name"`
+	Value *string `form:"value"`
+}
+
+// CustomerInvoiceSettings is the structure containing the default settings for invoices associated
+// with this customer.
+type CustomerInvoiceSettings struct {
+	CustomFields         []*CustomerInvoiceCustomField `json:"custom_fields"`
+	DefaultPaymentMethod *PaymentMethod                `json:"default_payment_method"`
+	Footer               string                        `json:"footer"`
 }
 
 // CustomerList is a list of customers as retrieved from a list endpoint.
