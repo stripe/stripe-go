@@ -101,20 +101,29 @@ type AccountBusinessProfileParams struct {
 	URL                *string `form:"url"`
 }
 
+// AccountCompanyCategoriesParams are the parameters describing the categories associated with the
+// company for this account.
+type AccountCompanyCategoriesParams struct {
+	GovernmentAgency *bool `form:"government_agency"`
+	NonProfit        *bool `form:"non_profit"`
+	PubliclyTraded   *bool `form:"publicly_traded"`
+}
+
 // AccountCompanyParams are the parameters describing the company associated with the account.
 type AccountCompanyParams struct {
-	Address           *AccountAddressParams `form:"address"`
-	AddressKana       *AccountAddressParams `form:"address_kana"`
-	AddressKanji      *AccountAddressParams `form:"address_kanji"`
-	DirectorsProvided *bool                 `form:"directors_provided"`
-	Name              *string               `form:"name"`
-	NameKana          *string               `form:"name_kana"`
-	NameKanji         *string               `form:"name_kanji"`
-	OwnersProvided    *bool                 `form:"owners_provided"`
-	Phone             *string               `form:"phone"`
-	TaxID             *string               `form:"tax_id"`
-	TaxIDRegistrar    *string               `form:"tax_id_registrar"`
-	VATID             *string               `form:"vat_id"`
+	Address           *AccountAddressParams           `form:"address"`
+	AddressKana       *AccountAddressParams           `form:"address_kana"`
+	AddressKanji      *AccountAddressParams           `form:"address_kanji"`
+	Categories        *AccountCompanyCategoriesParams `form:"categories"`
+	DirectorsProvided *bool                           `form:"directors_provided"`
+	Name              *string                         `form:"name"`
+	NameKana          *string                         `form:"name_kana"`
+	NameKanji         *string                         `form:"name_kanji"`
+	OwnersProvided    *bool                           `form:"owners_provided"`
+	Phone             *string                         `form:"phone"`
+	TaxID             *string                         `form:"tax_id"`
+	TaxIDRegistrar    *string                         `form:"tax_id_registrar"`
+	VATID             *string                         `form:"vat_id"`
 }
 
 // AccountDeclineSettingsParams represents the parameters allowed for configuring
@@ -280,20 +289,28 @@ type AccountCapabilities struct {
 	PlatformPayments AccountCapabilityStatus `json:"platform_payments"`
 }
 
+// AccountCompanyCategories describes the categories associated with that company.
+type AccountCompanyCategories struct {
+	GovernmentAgency bool `json:"government_agency"`
+	NonProfit        bool `json:"non_profit"`
+	PubliclyTraded   bool `json:"publicly_traded"`
+}
+
 // AccountCompany represents details about the company or business associated with the account.
 type AccountCompany struct {
-	Address           *AccountAddress `json:"address"`
-	AddressKana       *AccountAddress `json:"address_kana"`
-	AddressKanji      *AccountAddress `json:"address_kanji"`
-	DirectorsProvided bool            `json:"directors_provided"`
-	Name              string          `json:"name"`
-	NameKana          string          `json:"name_kana"`
-	NameKanji         string          `json:"name_kanji"`
-	OwnersProvided    bool            `json:"owners_provided"`
-	Phone             string          `json:"phone"`
-	TaxIDProvided     bool            `json:"tax_id_provided"`
-	TaxIDRegistrar    string          `json:"tax_id_registrar"`
-	VATIDProvided     bool            `json:"vat_id_provided"`
+	Address           *AccountAddress           `json:"address"`
+	AddressKana       *AccountAddress           `json:"address_kana"`
+	AddressKanji      *AccountAddress           `json:"address_kanji"`
+	Categories        *AccountCompanyCategories `json:"categories"`
+	DirectorsProvided bool                      `json:"directors_provided"`
+	Name              string                    `json:"name"`
+	NameKana          string                    `json:"name_kana"`
+	NameKanji         string                    `json:"name_kanji"`
+	OwnersProvided    bool                      `json:"owners_provided"`
+	Phone             string                    `json:"phone"`
+	TaxIDProvided     bool                      `json:"tax_id_provided"`
+	TaxIDRegistrar    string                    `json:"tax_id_registrar"`
+	VATIDProvided     bool                      `json:"vat_id_provided"`
 }
 
 // AccountDeclineOn represents card charges decline behavior for that account.
