@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.2.0 - 2019-04-09
+* [#827](https://github.com/stripe/stripe-go/pull/827) Add support for `confirmation_method` on `PaymentIntent` creation
+
 ## 60.1.0 - 2019-04-09
 * [#824](https://github.com/stripe/stripe-go/pull/824) Add support for `PaymentIntent` and `PaymentMethod` on `Customer`, `Subscription` and `Invoice`.
 
