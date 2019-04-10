@@ -28,6 +28,9 @@ type PaymentIntentConfirmationMethod string
 
 // List of values that PaymentIntentConfirmationMethod can take.
 const (
+	PaymentIntentConfirmationMethodAutomatic PaymentIntentConfirmationMethod = "automatic"
+	PaymentIntentConfirmationMethodManual    PaymentIntentConfirmationMethod = "manual"
+	// The following constants are considered deprecated
 	PaymentIntentConfirmationMethodPublishable PaymentIntentConfirmationMethod = "publishable"
 	PaymentIntentConfirmationMethodSecret      PaymentIntentConfirmationMethod = "secret"
 )
@@ -90,8 +93,9 @@ type PaymentIntentParams struct {
 	Params               `form:"*"`
 	Amount               *int64                           `form:"amount"`
 	ApplicationFeeAmount *int64                           `form:"application_fee_amount"`
-	Confirm              *bool                            `form:"confirm"`
 	CaptureMethod        *string                          `form:"capture_method"`
+	Confirm              *bool                            `form:"confirm"`
+	ConfirmationMethod   *string                          `form:"confirmation_method"`
 	Currency             *string                          `form:"currency"`
 	Customer             *string                          `form:"customer"`
 	Description          *string                          `form:"description"`
