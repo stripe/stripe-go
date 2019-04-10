@@ -15,6 +15,7 @@ type InvoiceItemParams struct {
 	Period       *InvoiceItemPeriodParams `form:"period"`
 	Quantity     *int64                   `form:"quantity"`
 	Subscription *string                  `form:"subscription"`
+	TaxRates     []*string                `form:"tax_rates"`
 	UnitAmount   *int64                   `form:"unit_amount"`
 }
 
@@ -54,6 +55,7 @@ type InvoiceItem struct {
 	Proration    bool              `json:"proration"`
 	Quantity     int64             `json:"quantity"`
 	Subscription *Subscription     `json:"subscription"`
+	TaxRates     []*TaxRate        `json:"tax_rates"`
 	UnitAmount   int64             `json:"unit_amount"`
 }
 

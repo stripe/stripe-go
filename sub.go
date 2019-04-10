@@ -54,18 +54,21 @@ type SubscriptionParams struct {
 	DaysUntilDue                *int64                               `form:"days_until_due"`
 	DefaultPaymentMethod        *string                              `form:"default_payment_method"`
 	DefaultSource               *string                              `form:"default_source"`
+	DefaultTaxRates             []*string                            `form:"default_tax_rates"`
 	Items                       []*SubscriptionItemsParams           `form:"items"`
 	OnBehalfOf                  *string                              `form:"on_behalf_of"`
 	Plan                        *string                              `form:"plan"`
 	Prorate                     *bool                                `form:"prorate"`
 	ProrationDate               *int64                               `form:"proration_date"`
 	Quantity                    *int64                               `form:"quantity"`
-	TaxPercent                  *float64                             `form:"tax_percent"`
 	TrialEnd                    *int64                               `form:"trial_end"`
 	TransferData                *SubscriptionTransferDataParams      `form:"transfer_data"`
 	TrialEndNow                 *bool                                `form:"-"` // See custom AppendTo
 	TrialFromPlan               *bool                                `form:"trial_from_plan"`
 	TrialPeriodDays             *int64                               `form:"trial_period_days"`
+
+	// This parameter is deprecated and we recommend that you use TaxRates instead.
+	TaxPercent *float64 `form:"tax_percent"`
 }
 
 // SubscriptionBillingThresholdsParams is a structure representing the parameters allowed to control
@@ -110,6 +113,7 @@ type SubscriptionItemsParams struct {
 	ID                *string                                  `form:"id"`
 	Plan              *string                                  `form:"plan"`
 	Quantity          *int64                                   `form:"quantity"`
+	TaxRates          []*string                                `form:"tax_rates"`
 }
 
 // SubscriptionListParams is the set of parameters that can be used when listing active subscriptions.
@@ -150,6 +154,7 @@ type Subscription struct {
 	DaysUntilDue          int64                          `json:"days_until_due"`
 	DefaultPaymentMethod  *PaymentMethod                 `json:"default_payment_method"`
 	DefaultSource         *PaymentSource                 `json:"default_source"`
+	DefaultTaxRates       []*TaxRate                     `json:"default_tax_rates"`
 	Discount              *Discount                      `json:"discount"`
 	EndedAt               int64                          `json:"ended_at"`
 	ID                    string                         `json:"id"`
@@ -163,10 +168,12 @@ type Subscription struct {
 	Quantity              int64                          `json:"quantity"`
 	Start                 int64                          `json:"start"`
 	Status                SubscriptionStatus             `json:"status"`
-	TaxPercent            float64                        `json:"tax_percent"`
 	TransferData          *SubscriptionTransferData      `json:"transfer_data"`
 	TrialEnd              int64                          `json:"trial_end"`
 	TrialStart            int64                          `json:"trial_start"`
+
+	// This field is deprecated and we recommend that you use TaxRates instead.
+	TaxPercent float64 `json:"tax_percent"`
 }
 
 // SubscriptionBillingThresholds is a structure representing the billing thresholds for a subscription.

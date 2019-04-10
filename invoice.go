@@ -63,6 +63,7 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	InvoiceItem  *string                                 `form:"invoiceitem"`
 	Period       *InvoiceUpcomingInvoiceItemPeriodParams `form:"period"`
 	Quantity     *int64                                  `form:"quantity"`
+	TaxRates     []*string                               `form:"tax_rates"`
 	UnitAmount   *int64                                  `form:"unit_amount"`
 }
 
@@ -89,13 +90,13 @@ type InvoiceParams struct {
 	DaysUntilDue         *int64                      `form:"days_until_due"`
 	DefaultPaymentMethod *string                     `form:"default_payment_method"`
 	DefaultSource        *string                     `form:"default_source"`
+	DefaultTaxRates      []*string                   `form:"default_tax_rates"`
 	Description          *string                     `form:"description"`
 	DueDate              *int64                      `form:"due_date"`
 	Footer               *string                     `form:"footer"`
 	Paid                 *bool                       `form:"paid"`
 	StatementDescriptor  *string                     `form:"statement_descriptor"`
 	Subscription         *string                     `form:"subscription"`
-	TaxPercent           *float64                    `form:"tax_percent"`
 	TransferData         *InvoiceTransferDataParams  `form:"transfer_data"`
 
 	// These are all for exclusive use by GetNext.
@@ -104,17 +105,23 @@ type InvoiceParams struct {
 	InvoiceItems                   []*InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
 	SubscriptionBillingCycleAnchor *int64                              `form:"subscription_billing_cycle_anchor"`
 	SubscriptionCancelAtPeriodEnd  *bool                               `form:"subscription_cancel_at_period_end"`
+	SubscriptionDefaultTaxRates    []*string                           `form:"subscription_default_tax_rates"`
 	SubscriptionItems              []*SubscriptionItemsParams          `form:"subscription_items"`
 	SubscriptionPlan               *string                             `form:"subscription_plan"`
 	SubscriptionProrate            *bool                               `form:"subscription_prorate"`
 	SubscriptionProrationDate      *int64                              `form:"subscription_proration_date"`
 	SubscriptionQuantity           *int64                              `form:"subscription_quantity"`
-	SubscriptionTaxPercent         *float64                            `form:"subscription_tax_percent"`
 	SubscriptionTrialEnd           *int64                              `form:"subscription_trial_end"`
 	SubscriptionTrialFromPlan      *bool                               `form:"subscription_trial_from_plan"`
 
 	// This parameter is considered deprecated. Prefer using ApplicationFeeAmount
 	ApplicationFee *int64 `form:"application_fee"`
+
+	// This parameter is deprecated and we recommend that you use DefaultTaxRates instead.
+	TaxPercent *float64 `form:"tax_percent"`
+
+	// This parameter is deprecated and we recommend that you use SubscriptionDefaultTaxRates instead.
+	SubscriptionTaxPercent *float64 `form:"subscription_tax_percent"`
 }
 
 // InvoiceListParams is the set of parameters that can be used when listing invoices.
@@ -200,9 +207,11 @@ type Invoice struct {
 	CustomerName                 *string                  `json:"customer_name"`
 	CustomerPhone                *string                  `json:"customer_phone"`
 	CustomerShipping             *CustomerShippingDetails `json:"customer_shipping"`
+	CustomerTaxExempt            CustomerTaxExempt        `json:"customer_tax_exempt"`
 	CustomerTaxIDs               []*InvoiceCustomerTaxID  `json:"customer_tax_ids"`
 	DefaultPaymentMethod         *PaymentMethod           `json:"default_payment_method"`
 	DefaultSource                *PaymentSource           `json:"default_source"`
+	DefaultTaxRates              []*TaxRate               `json:"default_tax_rates"`
 	Description                  string                   `json:"description"`
 	Discount                     *Discount                `json:"discount"`
 	DueDate                      int64                    `json:"due_date"`
@@ -231,14 +240,17 @@ type Invoice struct {
 	SubscriptionProrationDate    int64                    `json:"subscription_proration_date"`
 	Subtotal                     int64                    `json:"subtotal"`
 	Tax                          int64                    `json:"tax"`
-	TaxPercent                   float64                  `json:"tax_percent"`
 	ThreasholdReason             *InvoiceThresholdReason  `json:"threshold_reason"`
 	Total                        int64                    `json:"total"`
+	TotalTaxAmounts              []*InvoiceTaxAmount      `json:"total_tax_amounts"`
 	TransferData                 *InvoiceTransferData     `json:"transfer_data"`
 	WebhooksDeliveredAt          int64                    `json:"webhooks_delivered_at"`
+
+	// This field is deprecated and we recommend that you use TaxRates instead.
+	TaxPercent float64 `json:"tax_percent"`
 }
 
-// InvoiceCustomField is a structure representing a custom field on an Invoice.
+// InvoiceCustomField is a structure representing a custom field on an invoice.
 type InvoiceCustomField struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
@@ -248,6 +260,13 @@ type InvoiceCustomField struct {
 type InvoiceCustomerTaxID struct {
 	Type  TaxIDType `json:"type"`
 	Value string    `json:"value"`
+}
+
+// InvoiceTaxAmount is a structure representing one of the tax amounts on an invoice.
+type InvoiceTaxAmount struct {
+	Amount    int64    `json:"amount"`
+	Inclusive bool     `json:"inclusive"`
+	TaxRate   *TaxRate `json:"tax_rate"`
 }
 
 // InvoiceThresholdReason is a structure representing a reason for a billing threshold.
@@ -272,20 +291,22 @@ type InvoiceList struct {
 // InvoiceLine is the resource representing a Stripe invoice line item.
 // For more details see https://stripe.com/docs/api#invoice_line_item_object.
 type InvoiceLine struct {
-	Amount           int64             `json:"amount"`
-	Currency         Currency          `json:"currency"`
-	Description      string            `json:"description"`
-	Discountable     bool              `json:"discountable"`
-	ID               string            `json:"id"`
-	Livemode         bool              `json:"live_mode"`
-	Metadata         map[string]string `json:"metadata"`
-	Period           *Period           `json:"period"`
-	Plan             *Plan             `json:"plan"`
-	Proration        bool              `json:"proration"`
-	Quantity         int64             `json:"quantity"`
-	Subscription     string            `json:"subscription"`
-	SubscriptionItem string            `json:"subscription_item"`
-	Type             InvoiceLineType   `json:"type"`
+	Amount           int64               `json:"amount"`
+	Currency         Currency            `json:"currency"`
+	Description      string              `json:"description"`
+	Discountable     bool                `json:"discountable"`
+	ID               string              `json:"id"`
+	Livemode         bool                `json:"live_mode"`
+	Metadata         map[string]string   `json:"metadata"`
+	Period           *Period             `json:"period"`
+	Plan             *Plan               `json:"plan"`
+	Proration        bool                `json:"proration"`
+	Quantity         int64               `json:"quantity"`
+	Subscription     string              `json:"subscription"`
+	SubscriptionItem string              `json:"subscription_item"`
+	TaxAmounts       []*InvoiceTaxAmount `json:"tax_amounts"`
+	TaxRates         []*TaxRate          `json:"tax_rates"`
+	Type             InvoiceLineType     `json:"type"`
 }
 
 // InvoiceTransferData represents the information for the transfer_data associated with an invoice.
