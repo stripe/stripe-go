@@ -45,12 +45,37 @@ const (
 	IssuingCardTypeVirtual  IssuingCardType = "virtual"
 )
 
+// IssuingSpendingLimitInterval is the list of possible values for the interval of a given
+// spending limit on an issuing card or cardholder.
+type IssuingSpendingLimitInterval string
+
+// List of values that IssuingCardShippingStatus can take.
+const (
+	IssuingSpendingLimitIntervalAllTime          IssuingSpendingLimitInterval = "all_time"
+	IssuingSpendingLimitIntervalDaily            IssuingSpendingLimitInterval = "daily"
+	IssuingSpendingLimitIntervalMonthly          IssuingSpendingLimitInterval = "monthly"
+	IssuingSpendingLimitIntervalPerAuthorization IssuingSpendingLimitInterval = "per_authorization"
+	IssuingSpendingLimitIntervalWeekly           IssuingSpendingLimitInterval = "weekly"
+	IssuingSpendingLimitIntervalYearly           IssuingSpendingLimitInterval = "yearly"
+)
+
+// IssuingAuthorizationControlsSpendingLimitsParams is the set of parameters that can be used for
+// the spending limits associated with a given issuing card or cardholder.
+type IssuingAuthorizationControlsSpendingLimitsParams struct {
+	Amount     *int64    `form:"amount"`
+	Categories []*string `form:"categories"`
+	Interval   *string   `form:"interval"`
+}
+
 // AuthorizationControlsParams is the set of parameters that can be used for the shipping parameter.
 type AuthorizationControlsParams struct {
-	AllowedCategories []*string `form:"allowed_categories"`
-	BlockedCategories []*string `form:"blocked_categories"`
-	MaxAmount         *int64    `form:"max_amount"`
-	MaxApprovals      *int64    `form:"max_approvals"`
+	AllowedCategories []*string                                         `form:"allowed_categories"`
+	BlockedCategories []*string                                         `form:"blocked_categories"`
+	SpendingLimits    *IssuingAuthorizationControlsSpendingLimitsParams `form:"spending_limits"`
+
+	// The following parameters are considered deprecated and only apply to issuing cards
+	MaxAmount    *int64 `form:"max_amount"`
+	MaxApprovals *int64 `form:"max_approvals"`
 }
 
 // IssuingCardShippingParams is the set of parameters that can be used for the shipping parameter.
@@ -98,13 +123,25 @@ type IssuingCardDetails struct {
 	Object   string       `json:"object"`
 }
 
+// IssuingAuthorizationControlsSpendingLimits is the resource representing spending limits
+// associated with a card or cardholder.
+type IssuingAuthorizationControlsSpendingLimits struct {
+	Amount     int64                        `json:"amount"`
+	Categories []string                     `json:"categories"`
+	Interval   IssuingSpendingLimitInterval `json:"interval"`
+}
+
 // IssuingCardAuthorizationControls is the resource representing authorization controls on an issuing card.
+// TODO: Rename to IssuingAuthorizationControls in the next major
 type IssuingCardAuthorizationControls struct {
-	AllowedCategories []string `json:"allowed_categories"`
-	BlockedCategories []string `json:"blocked_categories"`
-	Currency          Currency `json:"currency"`
-	MaxAmount         int64    `json:"max_amount"`
-	MaxApprovals      int64    `json:"max_approvals"`
+	AllowedCategories []string                                    `json:"allowed_categories"`
+	BlockedCategories []string                                    `json:"blocked_categories"`
+	SpendingLimits    *IssuingAuthorizationControlsSpendingLimits `json:"spending_limits"`
+
+	// The properties below are considered deprecated and can only be used for an issuing card.
+	Currency     Currency `json:"currency"`
+	MaxAmount    int64    `json:"max_amount"`
+	MaxApprovals int64    `json:"max_approvals"`
 }
 
 // IssuingCardShipping is the resource representing shipping on an issuing card.
