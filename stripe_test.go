@@ -527,6 +527,51 @@ func TestStripeAccount(t *testing.T) {
 	assert.Equal(t, TestMerchantID, req.Header.Get("Stripe-Account"))
 }
 
+func TestUnmarshalJSONVerbose(t *testing.T) {
+	type testServerResponse struct {
+		Message string `json:"message"`
+	}
+
+	backend := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendImplementation)
+
+	// Valid JSON
+	{
+		type testServerResponse struct {
+			Message string `json:"message"`
+		}
+
+		var sample testServerResponse
+		err := backend.UnmarshalJSONVerbose(200, []byte(`{"message":"hello"}`), &sample)
+		assert.NoError(t, err)
+		assert.Equal(t, "hello", sample.Message)
+	}
+
+	// Invalid JSON (short)
+	{
+		body := `server error`
+
+		var sample testServerResponse
+		err := backend.UnmarshalJSONVerbose(200, []byte(body), &sample)
+		assert.Regexp(t,
+			fmt.Sprintf(`^Couldn't deserialize JSON \(response status: 200, body sample: '%s'\): invalid character`, body),
+			err)
+	}
+
+	// Invalid JSON (long, and therefore truncated)
+	{
+		// Assembles a body that's at least as long as our maximum sample.
+		// body is ~130 characters * 5.
+		bodyText := `this is a really long body that will be truncated when added to the error message to protect against dumping huge responses in logs `
+		body := bodyText + bodyText + bodyText + bodyText + bodyText
+
+		var sample testServerResponse
+		err := backend.UnmarshalJSONVerbose(200, []byte(body), &sample)
+		assert.Regexp(t,
+			fmt.Sprintf(`^Couldn't deserialize JSON \(response status: 200, body sample: '%s ...'\): invalid character`, body[0:500]),
+			err)
+	}
+}
+
 func TestUserAgent(t *testing.T) {
 	c := stripe.GetBackend(stripe.APIBackend).(*stripe.BackendImplementation)
 
