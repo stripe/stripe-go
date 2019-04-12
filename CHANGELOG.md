@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.3.0 - 2019-04-12
+* [#831](https://github.com/stripe/stripe-go/pull/831) Add support for `authorization_controls` on `Cardholder` and `authorization_controls[spending_limits]` added to `Card` too for Issuing resources
+
 ## 60.2.0 - 2019-04-09
 * [#827](https://github.com/stripe/stripe-go/pull/827) Add support for `confirmation_method` on `PaymentIntent` creation
 
