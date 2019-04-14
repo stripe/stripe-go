@@ -196,9 +196,11 @@ type Invoice struct {
 	CustomFields                 []*InvoiceCustomField    `json:"custom_fields"`
 	Customer                     *Customer                `json:"customer"`
 	CustomerAddress              *Address                 `json:"customer_address"`
+	CustomerEmail                string                   `json:"customer_email"`
 	CustomerName                 *string                  `json:"customer_name"`
 	CustomerPhone                *string                  `json:"customer_phone"`
 	CustomerShipping             *CustomerShippingDetails `json:"customer_shipping"`
+	CustomerTaxIDs               []*InvoiceCustomerTaxID  `json:"customer_tax_ids"`
 	DefaultPaymentMethod         *PaymentMethod           `json:"default_payment_method"`
 	DefaultSource                *PaymentSource           `json:"default_source"`
 	Description                  string                   `json:"description"`
@@ -240,6 +242,12 @@ type Invoice struct {
 type InvoiceCustomField struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
+}
+
+// InvoiceCustomerTaxID is a structure representing a customer tax id on an invoice.
+type InvoiceCustomerTaxID struct {
+	Type  TaxIDType `json:"type"`
+	Value string    `json:"value"`
 }
 
 // InvoiceThresholdReason is a structure representing a reason for a billing threshold.
