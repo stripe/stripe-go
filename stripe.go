@@ -441,7 +441,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 	s.LeveledLogger.Debugf("Response: %s\n", string(resBody))
 
 	if v != nil {
-		return json.Unmarshal(resBody, v)
+		return s.UnmarshalJSONVerbose(res.StatusCode, resBody, v)
 	}
 
 	return nil
@@ -450,9 +450,10 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 // ResponseToError converts a stripe response to an Error.
 func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []byte) error {
 	var raw rawError
-	if err := json.Unmarshal(resBody, &raw); err != nil {
+	if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &raw); err != nil {
 		return err
 	}
+
 	// no error in resBody
 	if raw.E == nil {
 		err := errors.New(string(resBody))
@@ -503,6 +504,32 @@ func (s *BackendImplementation) SetMaxNetworkRetries(maxNetworkRetries int) {
 // used in production.
 func (s *BackendImplementation) SetNetworkRetriesSleep(sleep bool) {
 	s.networkRetriesSleep = sleep
+}
+
+// UnmarshalJSONVerbose unmarshals JSON, but in case of a failure logs and
+// produces a more descriptive error.
+func (s *BackendImplementation) UnmarshalJSONVerbose(statusCode int, body []byte, v interface{}) error {
+	err := json.Unmarshal(body, v)
+	if err != nil {
+		// If we got invalid JSON back then something totally unexpected is
+		// happening (caused by a bug on the server side). Put a sample of the
+		// response body into the error message so we can get a better feel for
+		// what the problem was.
+		bodySample := string(body)
+		if len(bodySample) > 500 {
+			bodySample = bodySample[0:500] + " ..."
+		}
+
+		// Make sure a multi-line response ends up all on one line
+		bodySample = strings.Replace(bodySample, "\n", "\\n", -1)
+
+		newErr := fmt.Errorf("Couldn't deserialize JSON (response status: %v, body sample: '%s'): %v",
+			statusCode, bodySample, err)
+		s.LeveledLogger.Errorf("%s", newErr.Error())
+		return newErr
+	}
+
+	return nil
 }
 
 // Checks if an error is a problem that we should retry on. This includes both
