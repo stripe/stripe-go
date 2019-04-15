@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.4.0 - 2019-04-15
+* [#833](https://github.com/stripe/stripe-go/pull/833) Add more context when failing to unmarshal JSON
+
 ## 60.3.0 - 2019-04-12
 * [#831](https://github.com/stripe/stripe-go/pull/831) Add support for `authorization_controls` on `Cardholder` and `authorization_controls[spending_limits]` added to `Card` too for Issuing resources
 
