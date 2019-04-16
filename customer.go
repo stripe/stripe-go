@@ -33,6 +33,7 @@ type CustomerParams struct {
 	Email           *string                        `form:"email"`
 	InvoicePrefix   *string                        `form:"invoice_prefix"`
 	InvoiceSettings *CustomerInvoiceSettingsParams `form:"invoice_settings"`
+	PaymentMethod   *string                        `form:"payment_method"`
 	Plan            *string                        `form:"plan"`
 	Quantity        *int64                         `form:"quantity"`
 	Shipping        *CustomerShippingDetailsParams `form:"shipping"`
