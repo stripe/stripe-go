@@ -33,10 +33,22 @@ func TestIssuingCardList(t *testing.T) {
 }
 
 func TestIssuingCardNew(t *testing.T) {
-	card, err := New(&stripe.IssuingCardParams{
+	params := &stripe.IssuingCardParams{
+		AuthorizationControls: &stripe.AuthorizationControlsParams{
+			SpendingLimits: []*stripe.IssuingAuthorizationControlsSpendingLimitsParams{
+				{
+					Amount: stripe.Int64(1000),
+					Categories: []*string{
+						stripe.String("financial_institutions"),
+					},
+					Interval: stripe.String(string(stripe.IssuingSpendingLimitIntervalAllTime)),
+				},
+			},
+		},
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
 		Type:     stripe.String(string(stripe.IssuingCardTypeVirtual)),
-	})
+	}
+	card, err := New(params)
 	assert.Nil(t, err)
 	assert.NotNil(t, card)
 	assert.Equal(t, "issuing.card", card.Object)
