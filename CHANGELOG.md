@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.5.1 - 2019-04-16
+* [#836](https://github.com/stripe/stripe-go/pull/836) Fix `SpendingLimits` on `AuthorizationControlsParams` and `AuthorizationControls` to be a slice on Issuing `Card` and `Cardholder` 
+
 ## 60.5.0 - 2019-04-16
 * [#740](https://github.com/stripe/stripe-go/pull/740) Add support for the Checkout `Session` resource and APIs
 * [#832](https://github.com/stripe/stripe-go/pull/832) Add support for `version` and `succeeded` properties in the `payment_method_details[card][three_d_secure]` hash for `Charge`.
