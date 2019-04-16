@@ -69,9 +69,9 @@ type IssuingAuthorizationControlsSpendingLimitsParams struct {
 
 // AuthorizationControlsParams is the set of parameters that can be used for the shipping parameter.
 type AuthorizationControlsParams struct {
-	AllowedCategories []*string                                         `form:"allowed_categories"`
-	BlockedCategories []*string                                         `form:"blocked_categories"`
-	SpendingLimits    *IssuingAuthorizationControlsSpendingLimitsParams `form:"spending_limits"`
+	AllowedCategories []*string                                           `form:"allowed_categories"`
+	BlockedCategories []*string                                           `form:"blocked_categories"`
+	SpendingLimits    []*IssuingAuthorizationControlsSpendingLimitsParams `form:"spending_limits"`
 
 	// The following parameters are considered deprecated and only apply to issuing cards
 	MaxAmount    *int64 `form:"max_amount"`
@@ -134,9 +134,9 @@ type IssuingAuthorizationControlsSpendingLimits struct {
 // IssuingCardAuthorizationControls is the resource representing authorization controls on an issuing card.
 // TODO: Rename to IssuingAuthorizationControls in the next major
 type IssuingCardAuthorizationControls struct {
-	AllowedCategories []string                                    `json:"allowed_categories"`
-	BlockedCategories []string                                    `json:"blocked_categories"`
-	SpendingLimits    *IssuingAuthorizationControlsSpendingLimits `json:"spending_limits"`
+	AllowedCategories []string                                      `json:"allowed_categories"`
+	BlockedCategories []string                                      `json:"blocked_categories"`
+	SpendingLimits    []*IssuingAuthorizationControlsSpendingLimits `json:"spending_limits"`
 
 	// The properties below are considered deprecated and can only be used for an issuing card.
 	Currency     Currency `json:"currency"`
