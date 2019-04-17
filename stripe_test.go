@@ -744,6 +744,15 @@ func TestResponseToError(t *testing.T) {
 	assert.Equal(t, expectedDeclineCode, cardErr.DeclineCode)
 }
 
+func TestStringSlice(t *testing.T) {
+	input := []string{"a", "b", "c"}
+	result := stripe.StringSlice(input)
+
+	assert.Equal(t, "a", *result[0])
+	assert.Equal(t, "b", *result[1])
+	assert.Equal(t, "c", *result[2])
+}
+
 //
 // ---
 //

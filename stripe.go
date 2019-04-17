@@ -816,6 +816,15 @@ func StringValue(v *string) string {
 	return ""
 }
 
+// StringSlice returns a slice of string pointers given a slice of strings
+func StringSlice(v []string) []*string {
+	out := make([]*string, len(v))
+	for i := range v {
+		out[i] = &v[i]
+	}
+	return out
+}
+
 //
 // Private constants
 //
