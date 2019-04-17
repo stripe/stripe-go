@@ -35,10 +35,10 @@ func TestProductNew(t *testing.T) {
 		Name:        stripe.String("Test Name"),
 		Description: stripe.String("This is a description"),
 		Caption:     stripe.String("This is a caption"),
-		Attributes: []*string{
-			stripe.String("Attr1"),
-			stripe.String("Attr2"),
-		},
+		Attributes: stripe.StringSlice([]string{
+			"Attr1",
+			"Attr2",
+		}),
 		URL:       stripe.String("http://example.com"),
 		Shippable: stripe.Bool(true),
 		PackageDimensions: &stripe.PackageDimensionsParams{

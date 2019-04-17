@@ -23,9 +23,9 @@ func TestCheckoutSessionNew(t *testing.T) {
 				Amount:      stripe.Int64(1234),
 				Currency:    stripe.String(string(stripe.CurrencyUSD)),
 				Description: stripe.String("description"),
-				Images: []*string{
-					stripe.String("https://stripe.com/image1"),
-				},
+				Images: stripe.StringSlice([]string{
+					"https://stripe.com/image1",
+				}),
 				Name:     stripe.String("name"),
 				Quantity: stripe.Int64(2),
 			},
@@ -41,9 +41,9 @@ func TestCheckoutSessionNew(t *testing.T) {
 				Name:    stripe.String("name"),
 			},
 		},
-		PaymentMethodTypes: []*string{
-			stripe.String("card"),
-		},
+		PaymentMethodTypes: stripe.StringSlice([]string{
+			"card",
+		}),
 		SuccessURL: stripe.String("https://stripe.com/success"),
 	})
 	assert.Nil(t, err)
