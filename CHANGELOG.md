@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.6.0 - 2019-04-18
+* [#837](https://github.com/stripe/stripe-go/pull/837) Add helpers to go from `[]T` to `[]*T` for `string`, `int64`, `float64`, `bool`
+
 ## 60.5.1 - 2019-04-16
 * [#836](https://github.com/stripe/stripe-go/pull/836) Fix `SpendingLimits` on `AuthorizationControlsParams` and `AuthorizationControls` to be a slice on Issuing `Card` and `Cardholder` 
 
