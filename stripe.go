@@ -606,6 +606,15 @@ func BoolValue(v *bool) bool {
 	return false
 }
 
+// BoolSlice returns a slice of bool pointers given a slice of bools.
+func BoolSlice(v []bool) []*bool {
+	out := make([]*bool, len(v))
+	for i := range v {
+		out[i] = &v[i]
+	}
+	return out
+}
+
 // Float64 returns a pointer to the float64 value passed in.
 func Float64(v float64) *float64 {
 	return &v
@@ -618,6 +627,15 @@ func Float64Value(v *float64) float64 {
 		return *v
 	}
 	return 0
+}
+
+// Float64Slice returns a slice of float64 pointers given a slice of float64s.
+func Float64Slice(v []float64) []*float64 {
+	out := make([]*float64, len(v))
+	for i := range v {
+		out[i] = &v[i]
+	}
+	return out
 }
 
 // FormatURLPath takes a format string (of the kind used in the fmt package)
@@ -741,6 +759,15 @@ func Int64Value(v *int64) int64 {
 	return 0
 }
 
+// Int64Slice returns a slice of int64 pointers given a slice of int64s.
+func Int64Slice(v []int64) []*int64 {
+	out := make([]*int64, len(v))
+	for i := range v {
+		out[i] = &v[i]
+	}
+	return out
+}
+
 // NewBackends creates a new set of backends with the given HTTP client. You
 // should only need to use this for testing purposes or on App Engine.
 func NewBackends(httpClient *http.Client) *Backends {
@@ -814,6 +841,15 @@ func StringValue(v *string) string {
 		return *v
 	}
 	return ""
+}
+
+// StringSlice returns a slice of string pointers given a slice of strings.
+func StringSlice(v []string) []*string {
+	out := make([]*string, len(v))
+	for i := range v {
+		out[i] = &v[i]
+	}
+	return out
 }
 
 //

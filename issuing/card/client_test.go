@@ -38,9 +38,9 @@ func TestIssuingCardNew(t *testing.T) {
 			SpendingLimits: []*stripe.IssuingAuthorizationControlsSpendingLimitsParams{
 				{
 					Amount: stripe.Int64(1000),
-					Categories: []*string{
-						stripe.String("financial_institutions"),
-					},
+					Categories: stripe.StringSlice([]string{
+						"financial_institutions",
+					}),
 					Interval: stripe.String(string(stripe.IssuingSpendingLimitIntervalAllTime)),
 				},
 			},

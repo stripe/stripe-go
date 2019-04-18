@@ -744,6 +744,51 @@ func TestResponseToError(t *testing.T) {
 	assert.Equal(t, expectedDeclineCode, cardErr.DeclineCode)
 }
 
+func TestStringSlice(t *testing.T) {
+	input := []string{"a", "b", "c"}
+	result := stripe.StringSlice(input)
+
+	assert.Equal(t, "a", *result[0])
+	assert.Equal(t, "b", *result[1])
+	assert.Equal(t, "c", *result[2])
+
+	assert.Equal(t, 0, len(stripe.StringSlice(nil)))
+}
+
+func TestInt64Slice(t *testing.T) {
+	input := []int64{8, 7, 6}
+	result := stripe.Int64Slice(input)
+
+	assert.Equal(t, int64(8), *result[0])
+	assert.Equal(t, int64(7), *result[1])
+	assert.Equal(t, int64(6), *result[2])
+
+	assert.Equal(t, 0, len(stripe.Int64Slice(nil)))
+}
+
+func TestFloat64Slice(t *testing.T) {
+	input := []float64{8, 7, 6}
+	result := stripe.Float64Slice(input)
+
+	assert.Equal(t, float64(8), *result[0])
+	assert.Equal(t, float64(7), *result[1])
+	assert.Equal(t, float64(6), *result[2])
+
+	assert.Equal(t, 0, len(stripe.Float64Slice(nil)))
+}
+
+func TestBoolSlice(t *testing.T) {
+	input := []bool{true, false, true, false}
+	result := stripe.BoolSlice(input)
+
+	assert.Equal(t, true, *result[0])
+	assert.Equal(t, false, *result[1])
+	assert.Equal(t, true, *result[2])
+	assert.Equal(t, false, *result[3])
+
+	assert.Equal(t, 0, len(stripe.BoolSlice(nil)))
+}
+
 //
 // ---
 //

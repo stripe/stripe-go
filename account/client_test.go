@@ -52,9 +52,9 @@ func TestAccountNew(t *testing.T) {
 		ExternalAccount: &stripe.AccountExternalAccountParams{
 			Token: stripe.String("tok_123"),
 		},
-		RequestedCapabilities: []*string{
-			stripe.String("card_payments"),
-		},
+		RequestedCapabilities: stripe.StringSlice([]string{
+			"card_payments",
+		}),
 		Settings: &stripe.AccountSettingsParams{
 			Branding: &stripe.AccountSettingsBrandingParams{
 				Icon: stripe.String("file_123"),

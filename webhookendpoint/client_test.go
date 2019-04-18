@@ -31,9 +31,9 @@ func TestWebhookEndpointList(t *testing.T) {
 
 func TestWebhookEndpointNew(t *testing.T) {
 	endpoint, err := New(&stripe.WebhookEndpointParams{
-		EnabledEvents: []*string{
-			stripe.String("charge.succeeded"),
-		},
+		EnabledEvents: stripe.StringSlice([]string{
+			"charge.succeeded",
+		}),
 		URL: stripe.String("https://stripe.com"),
 	})
 	assert.Nil(t, err)
@@ -42,9 +42,9 @@ func TestWebhookEndpointNew(t *testing.T) {
 
 func TestWebhookEndpointUpdate(t *testing.T) {
 	endpoint, err := Update("we_123", &stripe.WebhookEndpointParams{
-		EnabledEvents: []*string{
-			stripe.String("charge.succeeded"),
-		},
+		EnabledEvents: stripe.StringSlice([]string{
+			"charge.succeeded",
+		}),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, endpoint)

@@ -60,10 +60,10 @@ func TestSourceVerify(t *testing.T) {
 
 func TestSourceObjectVerify(t *testing.T) {
 	source, err := Verify("src_123", &stripe.SourceVerifyParams{
-		Values: []*string{
-			stripe.String("32"),
-			stripe.String("45"),
-		},
+		Values: stripe.StringSlice([]string{
+			"32",
+			"45",
+		}),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, source)
