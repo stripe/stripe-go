@@ -179,6 +179,8 @@ type InvoiceVoidParams struct {
 // Invoice is the resource representing a Stripe invoice.
 // For more details see https://stripe.com/docs/api#invoice_object.
 type Invoice struct {
+	AccountCountry            string                   `json:"account_country"`
+	AccountName               string                   `json:"account_name"`
 	AmountDue                 int64                    `json:"amount_due"`
 	AmountPaid                int64                    `json:"amount_paid"`
 	AmountRemaining           int64                    `json:"amount_remaining"`
@@ -193,6 +195,10 @@ type Invoice struct {
 	Currency                  Currency                 `json:"currency"`
 	CustomFields              []*InvoiceCustomField    `json:"custom_fields"`
 	Customer                  *Customer                `json:"customer"`
+	CustomerAddress           *Address                 `json:"customer_address"`
+	CustomerName              *string                  `json:"customer_name"`
+	CustomerPhone             *string                  `json:"customer_phone"`
+	CustomerShipping          *CustomerShippingDetails `json:"customer_shipping"`
 	DefaultPaymentMethod      *PaymentMethod           `json:"default_payment_method"`
 	DefaultSource             *PaymentSource           `json:"default_source"`
 	Description               string                   `json:"description"`
