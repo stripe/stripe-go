@@ -42,10 +42,13 @@ type CustomerParams struct {
 	Quantity         *int64                         `form:"quantity"`
 	Shipping         *CustomerShippingDetailsParams `form:"shipping"`
 	Source           *SourceParams                  `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-	TaxInfo          *CustomerTaxInfoParams         `form:"tax_info"`
+	TaxIDData        []*CustomerTaxIDDataParams     `form:"tax_id_data"`
 	TaxPercent       *float64                       `form:"tax_percent"`
 	Token            *string                        `form:"-"` // This doesn't seem to be used?
 	TrialEnd         *int64                         `form:"trial_end"`
+
+	// The following parameter is deprecated. Use TaxIDData instead.
+	TaxInfo *CustomerTaxInfoParams `form:"tax_info"`
 }
 
 // CustomerInvoiceCustomFieldParams represents the parameters associated with one custom field on
@@ -68,6 +71,12 @@ type CustomerShippingDetailsParams struct {
 	Address *AddressParams `form:"address"`
 	Name    *string        `form:"name"`
 	Phone   *string        `form:"phone"`
+}
+
+// CustomerTaxIDDataParams lets you pass the tax id details associated with a Customer.
+type CustomerTaxIDDataParams struct {
+	Type  *string `form:"type"`
+	Value *string `form:"value"`
 }
 
 // CustomerTaxInfoParams is the structure containing tax information for the customer.
@@ -96,26 +105,29 @@ type CustomerListParams struct {
 // Customer is the resource representing a Stripe customer.
 // For more details see https://stripe.com/docs/api#customers.
 type Customer struct {
-	AccountBalance      int64                        `json:"account_balance"`
-	Address             Address                      `json:"address"`
-	Created             int64                        `json:"created"`
-	Currency            Currency                     `json:"currency"`
-	DefaultSource       *PaymentSource               `json:"default_source"`
-	Deleted             bool                         `json:"deleted"`
-	Delinquent          bool                         `json:"delinquent"`
-	Description         string                       `json:"description"`
-	Discount            *Discount                    `json:"discount"`
-	Email               string                       `json:"email"`
-	ID                  string                       `json:"id"`
-	InvoicePrefix       string                       `json:"invoice_prefix"`
-	Livemode            bool                         `json:"livemode"`
-	Metadata            map[string]string            `json:"metadata"`
-	Name                string                       `json:"name"`
-	Phone               string                       `json:"phone"`
-	PreferredLocales    []string                     `json:"preferred_locales"`
-	Shipping            *CustomerShippingDetails     `json:"shipping"`
-	Sources             *SourceList                  `json:"sources"`
-	Subscriptions       *SubscriptionList            `json:"subscriptions"`
+	AccountBalance   int64                    `json:"account_balance"`
+	Address          Address                  `json:"address"`
+	Created          int64                    `json:"created"`
+	Currency         Currency                 `json:"currency"`
+	DefaultSource    *PaymentSource           `json:"default_source"`
+	Deleted          bool                     `json:"deleted"`
+	Delinquent       bool                     `json:"delinquent"`
+	Description      string                   `json:"description"`
+	Discount         *Discount                `json:"discount"`
+	Email            string                   `json:"email"`
+	ID               string                   `json:"id"`
+	InvoicePrefix    string                   `json:"invoice_prefix"`
+	Livemode         bool                     `json:"livemode"`
+	Metadata         map[string]string        `json:"metadata"`
+	Name             string                   `json:"name"`
+	Phone            string                   `json:"phone"`
+	PreferredLocales []string                 `json:"preferred_locales"`
+	Shipping         *CustomerShippingDetails `json:"shipping"`
+	Sources          *SourceList              `json:"sources"`
+	Subscriptions    *SubscriptionList        `json:"subscriptions"`
+	TaxIDs           *TaxIDList               `json:"tax_ids"`
+
+	// The following properties are deprecated. Use TaxIds instead.
 	TaxInfo             *CustomerTaxInfo             `json:"tax_info"`
 	TaxInfoVerification *CustomerTaxInfoVerification `json:"tax_info_verification"`
 }
