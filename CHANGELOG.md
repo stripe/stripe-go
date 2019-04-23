@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.8.0 - 2019-04-23
+* [#834](https://github.com/stripe/stripe-go/pull/834) Add support for the `TaxId` resource and APIs
+
 ## 60.7.0 - 2019-04-18
 * [#823](https://github.com/stripe/stripe-go/pull/823) Add support for the `CreditNote` resource and APIs
 * [#829](https://github.com/stripe/stripe-go/pull/829) Add support for `Address`, `Name`, `Phone` and `PreferredLocales` on `Customer` and related fields on `Invoice`
