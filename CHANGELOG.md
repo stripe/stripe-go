@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.9.0 - 2019-04-24
+* [#828](https://github.com/stripe/stripe-go/pull/828) Add support for the `TaxRate` resource and APIs
+
 ## 60.8.0 - 2019-04-23
 * [#834](https://github.com/stripe/stripe-go/pull/834) Add support for the `TaxId` resource and APIs
 
