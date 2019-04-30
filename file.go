@@ -5,7 +5,10 @@ import (
 	"encoding/json"
 	"io"
 	"mime/multipart"
+	"net/url"
 	"path/filepath"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 // FilePurpose is the purpose of a particular file.
@@ -36,6 +39,16 @@ type FileParams struct {
 	Filename *string
 
 	Purpose *string
+
+	FileLinkData *FileFileLinkDataParams
+}
+
+// FileFileLinkDataParams is the set of parameters allowed for the
+// file_link_data hash.
+type FileFileLinkDataParams struct {
+	Params    `form:"*"`
+	Create    *bool  `form:"create"`
+	ExpiresAt *int64 `form:"expires_at"`
 }
 
 // FileListParams is the set of parameters that can be used when listing
@@ -88,6 +101,22 @@ func (f *FileParams) GetBody() (*bytes.Buffer, string, error) {
 		_, err = io.Copy(part, f.FileReader)
 		if err != nil {
 			return nil, "", err
+		}
+	}
+
+	if f.FileLinkData != nil {
+		values := &form.Values{}
+		form.AppendToPrefixed(values, f.FileLinkData, []string{"file_link_data"})
+
+		params, err := url.ParseQuery(values.Encode())
+		if err != nil {
+			return nil, "", err
+		}
+		for key, values := range params {
+			err := writer.WriteField(key, values[0])
+			if err != nil {
+				return nil, "", err
+			}
 		}
 	}
 

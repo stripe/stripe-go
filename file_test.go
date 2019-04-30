@@ -38,6 +38,9 @@ func TestFileParams_GetBody(t *testing.T) {
 	p := &FileParams{
 		FileReader: f,
 		Filename:   String(f.Name()),
+		FileLinkData: &FileFileLinkDataParams{
+			Create: Bool(true),
+		},
 	}
 
 	buffer, boundary, err := p.GetBody()
