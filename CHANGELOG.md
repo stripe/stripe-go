@@ -1,5 +1,9 @@
 # Changelog
 
+## 60.10.0 - 2019-04-30
+* [#839](https://github.com/stripe/stripe-go/pull/839) Add support for ACSS Debit in `PaymentMethodDetails` on `Charge`
+* [#840](https://github.com/stripe/stripe-go/pull/840) Add support for `FileLinkData` on `File` creation
+
 ## 60.9.0 - 2019-04-24
 * [#828](https://github.com/stripe/stripe-go/pull/828) Add support for the `TaxRate` resource and APIs
 
