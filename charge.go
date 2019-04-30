@@ -25,10 +25,11 @@ const (
 // payment method details.
 type ChargePaymentMethodDetailsType string
 
-// List of values that ChargeFraudUserReport can take.
+// List of values that ChargePaymentMethodDetailsType can take.
 const (
 	ChargePaymentMethodDetailsTypeAchCreditTransfer ChargePaymentMethodDetailsType = "ach_credit_transfer"
 	ChargePaymentMethodDetailsTypeAchDebit          ChargePaymentMethodDetailsType = "ach_debit"
+	ChargePaymentMethodDetailsTypeAcssDebit         ChargePaymentMethodDetailsType = "acss_debit"
 	ChargePaymentMethodDetailsTypeAlipay            ChargePaymentMethodDetailsType = "alipay"
 	ChargePaymentMethodDetailsTypeBancontact        ChargePaymentMethodDetailsType = "bancontact"
 	ChargePaymentMethodDetailsTypeBitcoin           ChargePaymentMethodDetailsType = "bitcoin" // This is unsupported today and is here for legacy charges.
@@ -188,6 +189,14 @@ type ChargePaymentMethodDetailsAchDebit struct {
 	Fingerprint       string                       `json:"fingerprint"`
 	Last4             string                       `json:"last4"`
 	RoutingNumber     string                       `json:"routing_number"`
+}
+
+// ChargePaymentMethodDetailsAcssDebit represents details about the ACSS Debit PaymentMethod.
+type ChargePaymentMethodDetailsAcssDebit struct {
+	Country       string `json:"country"`
+	Fingerprint   string `json:"fingerprint"`
+	Last4         string `json:"last4"`
+	RoutingNumber string `json:"routing_number"`
 }
 
 // ChargePaymentMethodDetailsAlipay represents details about the Alipay PaymentMethod.
