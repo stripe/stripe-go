@@ -50,6 +50,14 @@ func TestFileNew(t *testing.T) {
 		Purpose:    stripe.String(string(stripe.FilePurposeDisputeEvidence)),
 		FileReader: f,
 		Filename:   stripe.String(f.Name()),
+		FileLinkData: &stripe.FileFileLinkDataParams{
+			Params: stripe.Params{
+				Metadata: map[string]string{
+					"foo": "bar",
+				},
+			},
+			Create: stripe.Bool(true),
+		},
 	}
 
 	file, err := New(fileParams)
