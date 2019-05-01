@@ -2,6 +2,18 @@ package stripe
 
 import "encoding/json"
 
+// IssuingCardReplacementReason is the list of possible values for the replacement reason on an
+// issuing card.
+type IssuingCardReplacementReason string
+
+// List of values that IssuingCardReplacementReason can take.
+const (
+	IssuingCardReplacementReasonDamage     IssuingCardReplacementReason = "damage"
+	IssuingCardReplacementReasonExpiration IssuingCardReplacementReason = "expiration"
+	IssuingCardReplacementReasonLoss       IssuingCardReplacementReason = "loss"
+	IssuingCardReplacementReasonTheft      IssuingCardReplacementReason = "theft"
+)
+
 // IssuingCardShippingStatus is the list of possible values for the shipping status
 // on an issuing card.
 type IssuingCardShippingStatus string
@@ -93,6 +105,8 @@ type IssuingCardParams struct {
 	Cardholder            *string                      `form:"cardholder"`
 	Currency              *string                      `form:"currency"`
 	Name                  *string                      `form:"name"`
+	ReplacementFor        *string                      `form:"replacement_for"`
+	ReplacementReason     *string                      `form:"replacement_reason"`
 	Status                *string                      `form:"status"`
 	Shipping              *IssuingCardShippingParams   `form:"shipping"`
 	Type                  *string                      `form:"type"`
@@ -171,6 +185,8 @@ type IssuingCard struct {
 	Metadata              map[string]string                 `json:"metadata"`
 	Name                  string                            `json:"name"`
 	Object                string                            `json:"object"`
+	ReplacementFor        *IssuingCard                      `json:"replacement_for"`
+	ReplacementReason     IssuingCardReplacementReason      `json:"replacement_reason"`
 	Shipping              *IssuingCardShipping              `json:"shipping"`
 	Status                IssuingCardStatus                 `json:"status"`
 	Type                  IssuingCardType                   `json:"type"`
