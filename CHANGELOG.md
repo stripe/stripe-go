@@ -1,5 +1,9 @@
 # Changelog
 
+## 60.11.0 - 2019-05-02
+* [#841](https://github.com/stripe/stripe-go/pull/841) Add support for the `Customer` filter on `PaymentIntentListParams`
+* [#842](https://github.com/stripe/stripe-go/pull/842) Add support for replacing another Issuing `Card` on creation
+
 ## 60.10.0 - 2019-04-30
 * [#839](https://github.com/stripe/stripe-go/pull/839) Add support for ACSS Debit in `PaymentMethodDetails` on `Charge`
 * [#840](https://github.com/stripe/stripe-go/pull/840) Add support for `FileLinkData` on `File` creation
