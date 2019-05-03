@@ -118,6 +118,7 @@ type PaymentIntentListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	Customer     *string           `form:"customer"`
 }
 
 // PaymentIntentLastPaymentError represents the last error happening on a payment intent.
