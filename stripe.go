@@ -816,7 +816,7 @@ func SetAppInfo(info *AppInfo) {
 func SetBackend(backend SupportedBackend, b Backend) {
 	backends.mu.Lock()
 	defer backends.mu.Unlock()
-	
+
 	switch backend {
 	case APIBackend:
 		backends.API = b
