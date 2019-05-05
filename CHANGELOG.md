@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.12.0 - 2019-05-05
+* [#846](https://github.com/stripe/stripe-go/pull/846) Add support for the `PaymentIntent` filter on `ChargeListParams`
+
 ## 60.11.0 - 2019-05-02
 * [#841](https://github.com/stripe/stripe-go/pull/841) Add support for the `Customer` filter on `PaymentIntentListParams`
 * [#842](https://github.com/stripe/stripe-go/pull/842) Add support for replacing another Issuing `Card` on creation
