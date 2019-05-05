@@ -132,6 +132,7 @@ type ChargeListParams struct {
 	Created       *int64            `form:"created"`
 	CreatedRange  *RangeQueryParams `form:"created"`
 	Customer      *string           `form:"customer"`
+	PaymentIntent *string           `form:"payment_intent"`
 	TransferGroup *string           `form:"transfer_group"`
 }
 
