@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.12.1 - 2019-05-06
+* [#848](https://github.com/stripe/stripe-go/pull/848) Fix `Items` on `CheckoutSessionSubscriptionDataParams` to be a slice
+
 ## 60.12.0 - 2019-05-05
 * [#846](https://github.com/stripe/stripe-go/pull/846) Add support for the `PaymentIntent` filter on `ChargeListParams`
 
