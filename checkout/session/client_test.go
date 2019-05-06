@@ -44,6 +44,14 @@ func TestCheckoutSessionNew(t *testing.T) {
 		PaymentMethodTypes: stripe.StringSlice([]string{
 			"card",
 		}),
+		SubscriptionData: &stripe.CheckoutSessionSubscriptionDataParams{
+			Items: []*stripe.CheckoutSessionSubscriptionDataItemsParams{
+				{
+					Plan:     stripe.String("plan"),
+					Quantity: stripe.Int64(2),
+				},
+			},
+		},
 		SuccessURL: stripe.String("https://stripe.com/success"),
 	})
 	assert.Nil(t, err)
