@@ -814,6 +814,9 @@ func SetAppInfo(info *AppInfo) {
 
 // SetBackend sets the backend used in the binding.
 func SetBackend(backend SupportedBackend, b Backend) {
+	backends.mu.Lock()
+	defer backends.mu.Unlock()
+
 	switch backend {
 	case APIBackend:
 		backends.API = b
