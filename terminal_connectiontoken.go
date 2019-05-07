@@ -2,7 +2,9 @@ package stripe
 
 // TerminalConnectionTokenParams is the set of parameters that can be used when creating a terminal connection token.
 type TerminalConnectionTokenParams struct {
-	Params          `form:"*"`
+	Params `form:"*"`
+
+	// This feature has been deprecated and should not be used anymore.
 	OperatorAccount *string `form:"operator_account"`
 }
 

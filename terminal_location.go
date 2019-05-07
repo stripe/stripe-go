@@ -2,15 +2,19 @@ package stripe
 
 // TerminalLocationParams is the set of parameters that can be used when creating or updating a terminal location.
 type TerminalLocationParams struct {
-	Params          `form:"*"`
-	Address         *AccountAddressParams `form:"address"`
-	DisplayName     *string               `form:"display_name"`
-	OperatorAccount *string               `form:"operator_account"`
+	Params      `form:"*"`
+	Address     *AccountAddressParams `form:"address"`
+	DisplayName *string               `form:"display_name"`
+
+	// This feature has been deprecated and should not be used anymore.
+	OperatorAccount *string `form:"operator_account"`
 }
 
 // TerminalLocationListParams is the set of parameters that can be used when listing temrinal locations.
 type TerminalLocationListParams struct {
-	ListParams      `form:"*"`
+	ListParams `form:"*"`
+
+	// This feature has been deprecated and should not be used anymore.
 	OperatorAccount *string `form:"operator_account"`
 }
 
