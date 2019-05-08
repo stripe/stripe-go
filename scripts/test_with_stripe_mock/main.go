@@ -5,8 +5,8 @@
 // The script passes all its arguments to a Go's test command, and defaults to
 // `./...`. For example, both of the following are valid invocations:
 //
-//     go run test_with_stripe_mock.go
-//     go run test_with_stripe_mock.go ./charge
+//     go run test_with_stripe_mock/main.go
+//     go run test_with_stripe_mock/main.go ./charge
 //
 // The reason that we need a separate script for this is because Go's testing
 // infrastructure doesn't provide any kind of global hook that we can use to do
