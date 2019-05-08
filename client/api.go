@@ -4,6 +4,7 @@ package client
 import (
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/account"
+	"github.com/stripe/stripe-go/accountlink"
 	"github.com/stripe/stripe-go/applepaydomain"
 	"github.com/stripe/stripe-go/balance"
 	"github.com/stripe/stripe-go/bankaccount"
@@ -40,6 +41,7 @@ import (
 	"github.com/stripe/stripe-go/paymentmethod"
 	"github.com/stripe/stripe-go/paymentsource"
 	"github.com/stripe/stripe-go/payout"
+	"github.com/stripe/stripe-go/person"
 	"github.com/stripe/stripe-go/plan"
 	"github.com/stripe/stripe-go/product"
 	"github.com/stripe/stripe-go/radar/valuelist"
@@ -49,6 +51,7 @@ import (
 	"github.com/stripe/stripe-go/reporting/reportrun"
 	"github.com/stripe/stripe-go/reporting/reporttype"
 	"github.com/stripe/stripe-go/reversal"
+	"github.com/stripe/stripe-go/review"
 	"github.com/stripe/stripe-go/sigma/scheduledqueryrun"
 	"github.com/stripe/stripe-go/sku"
 	"github.com/stripe/stripe-go/source"
@@ -62,6 +65,7 @@ import (
 	terminalconnectiontoken "github.com/stripe/stripe-go/terminal/connectiontoken"
 	terminallocation "github.com/stripe/stripe-go/terminal/location"
 	terminalreader "github.com/stripe/stripe-go/terminal/reader"
+	"github.com/stripe/stripe-go/threedsecure"
 	"github.com/stripe/stripe-go/token"
 	"github.com/stripe/stripe-go/topup"
 	"github.com/stripe/stripe-go/transfer"
@@ -74,6 +78,8 @@ import (
 type API struct {
 	// Account is the client used to invoke /accounts APIs.
 	Account *account.Client
+	// AccountLink is the client used to invoke /account_links APIs.
+	AccountLinks *accountlink.Client
 	// ApplePayDomains is the client used to invoke /apple_pay/domains APIs.
 	ApplePayDomains *applepaydomain.Client
 	// Balance is the client used to invoke /balance and transaction-related APIs.
@@ -146,6 +152,8 @@ type API struct {
 	PaymentSource *paymentsource.Client
 	// Payouts is the client used to invoke /payouts APIs.
 	Payouts *payout.Client
+	// Persons is the client used to invoke /account/persons APIs.
+	Persons *person.Client
 	// Plans is the client used to invoke /plans APIs.
 	Plans *plan.Client
 	// Products is the client used to invoke /products APIs.
@@ -164,6 +172,8 @@ type API struct {
 	ReportTypes *reporttype.Client
 	// Reversals is the client used to invoke /transfers/reversals APIs.
 	Reversals *reversal.Client
+	// Reviews is the client used to invoke /reviews APIs.
+	Reviews *review.Client
 	// SigmaScheduledQueryRuns is the client used to invoke /sigma/scheduled_query_runs APIs.
 	SigmaScheduledQueryRuns *scheduledqueryrun.Client
 	// Skus is the client used to invoke /skus APIs.
@@ -190,6 +200,8 @@ type API struct {
 	TerminalLocations *terminallocation.Client
 	// TerminalReaders is the client used to invoke /terminal/readers related APIs.
 	TerminalReaders *terminalreader.Client
+	// ThreeDSecures is the client used to invoke /3d_secure related APIs.
+	ThreeDSecures *threedsecure.Client
 	// Tokens is the client used to invoke /tokens APIs.
 	Tokens *token.Client
 	// Topups is the client used to invoke /tokens APIs.
@@ -216,6 +228,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 
 	a.Account = &account.Client{B: backends.API, Key: key}
 	a.ApplePayDomains = &applepaydomain.Client{B: backends.API, Key: key}
+	a.AccountLinks = &accountlink.Client{B: backends.API, Key: key}
 	a.Balance = &balance.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BitcoinReceivers = &bitcoinreceiver.Client{B: backends.API, Key: key}
@@ -251,6 +264,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.PaymentMethods = &paymentmethod.Client{B: backends.API, Key: key}
 	a.PaymentSource = &paymentsource.Client{B: backends.API, Key: key}
 	a.Payouts = &payout.Client{B: backends.API, Key: key}
+	a.Persons = &person.Client{B: backends.API, Key: key}
 	a.Plans = &plan.Client{B: backends.API, Key: key}
 	a.Products = &product.Client{B: backends.API, Key: key}
 	a.RadarValueLists = &valuelist.Client{B: backends.API, Key: key}
@@ -260,6 +274,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.ReportRuns = &reportrun.Client{B: backends.API, Key: key}
 	a.ReportTypes = &reporttype.Client{B: backends.API, Key: key}
 	a.Reversals = &reversal.Client{B: backends.API, Key: key}
+	a.Reviews = &review.Client{B: backends.API, Key: key}
 	a.SigmaScheduledQueryRuns = &scheduledqueryrun.Client{B: backends.API, Key: key}
 	a.Skus = &sku.Client{B: backends.API, Key: key}
 	a.Sources = &source.Client{B: backends.API, Key: key}
@@ -273,6 +288,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TerminalConnectionTokens = &terminalconnectiontoken.Client{B: backends.API, Key: key}
 	a.TerminalLocations = &terminallocation.Client{B: backends.API, Key: key}
 	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
+	a.ThreeDSecures = &threedsecure.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
 	a.Topups = &topup.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
