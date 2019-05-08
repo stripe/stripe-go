@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.13.1 - 2019-05-08
+* [#853](https://github.com/stripe/stripe-go/pull/853) Add paymentmethod package to the clients list
+
 ## 60.13.0 - 2019-05-07
 * [#850](https://github.com/stripe/stripe-go/pull/850) `OperatorAccount` is now deprecated across all Terminal endpoints
 * [#851](https://github.com/stripe/stripe-go/pull/851) Add `Customer` on the `Source` object
