@@ -230,6 +230,7 @@ type Source struct {
 	CodeVerification    *CodeVerificationFlow `json:"code_verification,omitempty"`
 	Created             int64                 `json:"created"`
 	Currency            Currency              `json:"currency"`
+	Customer            string                `json:"customer"`
 	Flow                SourceFlow            `json:"flow"`
 	ID                  string                `json:"id"`
 	Livemode            bool                  `json:"livemode"`
