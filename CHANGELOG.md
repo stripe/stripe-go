@@ -1,5 +1,9 @@
 # Changelog
 
+## 60.13.0 - 2019-05-07
+* [#850](https://github.com/stripe/stripe-go/pull/850) `OperatorAccount` is now deprecated across all Terminal endpoints
+* [#851](https://github.com/stripe/stripe-go/pull/851) Add `Customer` on the `Source` object
+
 ## 60.12.2 - 2019-05-06
 * [#843](https://github.com/stripe/stripe-go/pull/843) Lock mutex while in `SetBackends`
 
