@@ -10,6 +10,7 @@ import (
 	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/bitcoinreceiver"
 	"github.com/stripe/stripe-go/bitcointransaction"
+	"github.com/stripe/stripe-go/capability"
 	"github.com/stripe/stripe-go/card"
 	"github.com/stripe/stripe-go/charge"
 	checkoutsession "github.com/stripe/stripe-go/checkout/session"
@@ -90,6 +91,8 @@ type API struct {
 	BitcoinReceivers *bitcoinreceiver.Client
 	// BitcoinTransactions is the client used to invoke /bitcoin/transactions APIs.
 	BitcoinTransactions *bitcointransaction.Client
+	// Capabilities is the client used to invoke capability related APIs.
+	Capabilities *capability.Client
 	// Cards is the client used to invoke card related APIs.
 	Cards *card.Client
 	// Charges is the client used to invoke /charges APIs.
@@ -233,6 +236,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BitcoinReceivers = &bitcoinreceiver.Client{B: backends.API, Key: key}
 	a.BitcoinTransactions = &bitcointransaction.Client{B: backends.API, Key: key}
+	a.Capabilities = &capability.Client{B: backends.API, Key: key}
 	a.Cards = &card.Client{B: backends.API, Key: key}
 	a.Charges = &charge.Client{B: backends.API, Key: key}
 	a.CheckoutSessions = &checkoutsession.Client{B: backends.API, Key: key}
