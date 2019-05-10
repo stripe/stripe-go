@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.13.2 - 2019-05-10
+* [#857](https://github.com/stripe/stripe-go/pull/857) Fix invoice's `PaymentIntent` so its JSON tag uses API snakecase
+
 ## 60.13.1 - 2019-05-08
 * [#853](https://github.com/stripe/stripe-go/pull/853) Add paymentmethod package to the clients list
 
