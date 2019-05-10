@@ -166,11 +166,14 @@ type Subscription struct {
 	OnBehalfOf            *Account                       `json:"on_behalf_of"`
 	Plan                  *Plan                          `json:"plan"`
 	Quantity              int64                          `json:"quantity"`
-	Start                 int64                          `json:"start"`
+	StartDate             int64                          `json:"start_date"`
 	Status                SubscriptionStatus             `json:"status"`
 	TransferData          *SubscriptionTransferData      `json:"transfer_data"`
 	TrialEnd              int64                          `json:"trial_end"`
 	TrialStart            int64                          `json:"trial_start"`
+
+	// This field is deprecated and we recommend that you use StartDate instead.
+	Start int64 `json:"start"`
 
 	// This field is deprecated and we recommend that you use TaxRates instead.
 	TaxPercent float64 `json:"tax_percent"`
