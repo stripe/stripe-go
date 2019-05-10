@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.14.0 - 2019-05-10
+* [#858](https://github.com/stripe/stripe-go/pull/858) Add `StartDate` to `Subscription`
+
 ## 60.13.2 - 2019-05-10
 * [#857](https://github.com/stripe/stripe-go/pull/857) Fix invoice's `PaymentIntent` so its JSON tag uses API snakecase
 
