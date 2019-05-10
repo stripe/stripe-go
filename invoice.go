@@ -226,7 +226,7 @@ type Invoice struct {
 	NextPaymentAttempt           int64                    `json:"next_payment_attempt"`
 	Number                       string                   `json:"number"`
 	Paid                         bool                     `json:"paid"`
-	PaymentIntent                *PaymentIntent           `json:"paymentIntent"`
+	PaymentIntent                *PaymentIntent           `json:"payment_intent"`
 	PeriodEnd                    int64                    `json:"period_end"`
 	PeriodStart                  int64                    `json:"period_start"`
 	PostPaymentCreditNotesAmount int64                    `json:"post_payment_credit_notes_amount"`
