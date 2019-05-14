@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.15.0 - 2019-05-14
+* [#855](https://github.com/stripe/stripe-go/pull/855) Add support for the capability resource and APIs
+
 ## 60.14.0 - 2019-05-10
 * [#858](https://github.com/stripe/stripe-go/pull/858) Add `StartDate` to `Subscription`
 
