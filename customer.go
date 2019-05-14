@@ -130,6 +130,7 @@ type Customer struct {
 	Email            string                   `json:"email"`
 	ID               string                   `json:"id"`
 	InvoicePrefix    string                   `json:"invoice_prefix"`
+	InvoiceSettings  *CustomerInvoiceSettings `json:"invoice_settings"`
 	Livemode         bool                     `json:"livemode"`
 	Metadata         map[string]string        `json:"metadata"`
 	Name             string                   `json:"name"`
