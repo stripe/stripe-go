@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.16.0 - 2019-05-14
+* [#859](https://github.com/stripe/stripe-go/pull/859) Add missing `InvoiceSettings` to `Customer`
+
 ## 60.15.0 - 2019-05-14
 * [#855](https://github.com/stripe/stripe-go/pull/855) Add support for the capability resource and APIs
 
