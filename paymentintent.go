@@ -74,6 +74,7 @@ type PaymentIntentCaptureParams struct {
 // PaymentIntentConfirmParams is the set of parameters that can be used when confirming a payment intent.
 type PaymentIntentConfirmParams struct {
 	Params            `form:"*"`
+	OffSession        *string                `form:"off_session"`
 	PaymentMethod     *string                `form:"payment_method"`
 	ReceiptEmail      *string                `form:"receipt_email"`
 	ReturnURL         *string                `form:"return_url"`
@@ -99,6 +100,7 @@ type PaymentIntentParams struct {
 	Currency             *string                          `form:"currency"`
 	Customer             *string                          `form:"customer"`
 	Description          *string                          `form:"description"`
+	OffSession           *string                          `form:"off_session"`
 	OnBehalfOf           *string                          `form:"on_behalf_of"`
 	PaymentMethod        *string                          `form:"payment_method"`
 	PaymentMethodTypes   []*string                        `form:"payment_method_types"`
