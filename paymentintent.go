@@ -43,6 +43,15 @@ const (
 	PaymentIntentNextActionTypeRedirectToURL PaymentIntentNextActionType = "redirect_to_url"
 )
 
+// PaymentIntentOffSession is the list of allowed values for types of off-session.
+type PaymentIntentOffSession string
+
+// List of values that PaymentIntentOffSession can take.
+const (
+	PaymentIntentOffSessionOneOff    PaymentIntentOffSession = "one_off"
+	PaymentIntentOffSessionRecurring PaymentIntentOffSession = "recurring"
+)
+
 // PaymentIntentStatus is the list of allowed values for the payment intent's status.
 type PaymentIntentStatus string
 
