@@ -43,6 +43,15 @@ const (
 	PaymentIntentNextActionTypeRedirectToURL PaymentIntentNextActionType = "redirect_to_url"
 )
 
+// PaymentIntentOffSession is the list of allowed values for types of off-session.
+type PaymentIntentOffSession string
+
+// List of values that PaymentIntentOffSession can take.
+const (
+	PaymentIntentOffSessionOneOff    PaymentIntentOffSession = "one_off"
+	PaymentIntentOffSessionRecurring PaymentIntentOffSession = "recurring"
+)
+
 // PaymentIntentStatus is the list of allowed values for the payment intent's status.
 type PaymentIntentStatus string
 
@@ -74,6 +83,7 @@ type PaymentIntentCaptureParams struct {
 // PaymentIntentConfirmParams is the set of parameters that can be used when confirming a payment intent.
 type PaymentIntentConfirmParams struct {
 	Params            `form:"*"`
+	OffSession        *string                `form:"off_session"`
 	PaymentMethod     *string                `form:"payment_method"`
 	ReceiptEmail      *string                `form:"receipt_email"`
 	ReturnURL         *string                `form:"return_url"`
@@ -99,6 +109,7 @@ type PaymentIntentParams struct {
 	Currency             *string                          `form:"currency"`
 	Customer             *string                          `form:"customer"`
 	Description          *string                          `form:"description"`
+	OffSession           *string                          `form:"off_session"`
 	OnBehalfOf           *string                          `form:"on_behalf_of"`
 	PaymentMethod        *string                          `form:"payment_method"`
 	PaymentMethodTypes   []*string                        `form:"payment_method_types"`
