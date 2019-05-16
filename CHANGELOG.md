@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.17.0 - 2019-05-16
+* [#860](https://github.com/stripe/stripe-go/pull/860) Add `OffSession` parameter to payment intents
+
 ## 60.16.0 - 2019-05-14
 * [#859](https://github.com/stripe/stripe-go/pull/859) Add missing `InvoiceSettings` to `Customer`
 
