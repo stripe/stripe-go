@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.18.0 - 2019-05-22
+* [#861](https://github.com/stripe/stripe-go/pull/861) Add new tax ID types: `TaxIDTypeINGST` and `TaxIDTypeNOVAT`
+
 ## 60.17.0 - 2019-05-16
 * [#860](https://github.com/stripe/stripe-go/pull/860) Add `OffSession` parameter to payment intents
 
