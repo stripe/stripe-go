@@ -9,6 +9,8 @@ type TaxIDType string
 const (
 	TaxIDTypeAUABN   TaxIDType = "au_abn"
 	TaxIDTypeEUVAT   TaxIDType = "eu_vat"
+	TaxIDTypeINGST   TaxIDType = "in_gst"
+	TaxIDTypeNOVAT   TaxIDType = "no_vat"
 	TaxIDTypeNZGST   TaxIDType = "nz_gst"
 	TaxIDTypeUnknown TaxIDType = "unknown"
 )
