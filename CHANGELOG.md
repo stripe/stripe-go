@@ -1,5 +1,8 @@
 # Changelog
 
+## 60.19.0 - 2019-05-24
+* [#862](https://github.com/stripe/stripe-go/pull/862) Add support for `radar.early_fraud_warning` resource
+
 ## 60.18.0 - 2019-05-22
 * [#861](https://github.com/stripe/stripe-go/pull/861) Add new tax ID types: `TaxIDTypeINGST` and `TaxIDTypeNOVAT`
 
