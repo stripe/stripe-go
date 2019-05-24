@@ -27,7 +27,7 @@ import (
 
 const (
 	// APIVersion is the currently supported API version
-	APIVersion string = "2019-03-14"
+	APIVersion string = "2019-05-16"
 
 	// APIBackend is a constant representing the API service backend.
 	APIBackend SupportedBackend = "api"
