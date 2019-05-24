@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.0.0 - 2019-05-24
+* [#864](https://github.com/stripe/stripe-go/pull/864) Pin library to API version `2019-05-16`
+
 ## 60.19.0 - 2019-05-24
 * [#862](https://github.com/stripe/stripe-go/pull/862) Add support for `radar.early_fraud_warning` resource
 
