@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.0.1 - 2019-05-24
+* [#865](https://github.com/stripe/stripe-go/pull/865) Fix `earlyfraudwarning` client
+
 ## 61.0.0 - 2019-05-24
 * [#864](https://github.com/stripe/stripe-go/pull/864) Pin library to API version `2019-05-16`
 
