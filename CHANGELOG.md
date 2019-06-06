@@ -1,5 +1,9 @@
 # Changelog
 
+## 61.1.0 - 2019-06-06
+* [#867](https://github.com/stripe/stripe-go/pull/867) Add support for `Location` on Terminal `ConnectionToken`
+* [#868](https://github.com/stripe/stripe-go/pull/868) Add support for `Balance` and deprecate `AccountBalance` on Customer 
+
 ## 61.0.1 - 2019-05-24
 * [#865](https://github.com/stripe/stripe-go/pull/865) Fix `earlyfraudwarning` client
 
