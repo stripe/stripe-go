@@ -51,6 +51,11 @@ type testStruct struct {
 
 	Map map[string]interface{} `form:"map"`
 
+	PreciseFloat32    float32  `form:"precise_float32,precision=6"`
+	PreciseFloat32Ptr *float32 `form:"precise_float32_ptr,precision=7"`
+	PreciseFloat64    float64  `form:"precise_float64,precision=12"`
+	PreciseFloat64Ptr *float64 `form:"precise_float64_ptr,precision=-1"`
+
 	Slice    []string  `form:"slice"`
 	SlicePtr *[]string `form:"slice_ptr"`
 
@@ -140,6 +145,9 @@ func TestAppendTo(t *testing.T) {
 	var int32Val0 int32
 	var int64Val int64 = 123
 	var int64Val0 int64
+
+	var preciseFloat32Val float32 = 0.123456789012
+	var preciseFloat64Val = 0.123456789012345678901234
 
 	var sliceVal = []string{"1", "2", "3"}
 	var sliceVal0 = []string{}
@@ -249,6 +257,17 @@ func TestAppendTo(t *testing.T) {
 			}},
 			stringPtr("baz"),
 		},
+
+		// Tests float with an explicit precision
+		{"precise_float32", &testStruct{PreciseFloat32: preciseFloat32Val}, stringPtr("0.123457")},
+		{"precise_float32_ptr", &testStruct{PreciseFloat32Ptr: &preciseFloat32Val}, stringPtr("0.1234568")},
+		{"precise_float32_ptr", &testStruct{PreciseFloat32Ptr: &float32Val0}, stringPtr("0.0000000")},
+		{"precise_float32_ptr", &testStruct{}, nil},
+
+		{"precise_float64", &testStruct{PreciseFloat64: preciseFloat64Val}, stringPtr("0.123456789012")},
+		{"precise_float64_ptr", &testStruct{PreciseFloat64Ptr: &preciseFloat64Val}, stringPtr("0.12345678901234568")},
+		{"precise_float64_ptr", &testStruct{PreciseFloat64Ptr: &float64Val0}, stringPtr("0")},
+		{"precise_float64_ptr", &testStruct{}, nil},
 
 		{"slice[2]", &testStruct{Slice: sliceVal}, stringPtr("3")},
 		{"slice", &testStruct{Slice: []string{}}, stringPtr("")},

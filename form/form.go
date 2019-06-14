@@ -53,6 +53,11 @@ type formOptions struct {
 	// should be an empty string. It's used to workaround the fact that an
 	// empty string is a string's zero value and wouldn't normally be encoded.
 	Empty bool
+
+	// Precision controls the number of digits printed for the field's value.
+	// It can only be used for floating-point numbers. The special value -1
+	// uses the smallest number of digits necessary.
+	Precision *int
 }
 
 type structEncoder struct {
@@ -214,7 +219,11 @@ func float32Encoder(values *Values, v reflect.Value, keyParts []string, encodeZe
 	if val == 0.0 && !encodeZero {
 		return
 	}
-	values.Add(FormatKey(keyParts), strconv.FormatFloat(val, 'f', 4, 32))
+	prec := 4
+	if options != nil && options.Precision != nil {
+		prec = *options.Precision
+	}
+	values.Add(FormatKey(keyParts), strconv.FormatFloat(val, 'f', prec, 32))
 }
 
 func float64Encoder(values *Values, v reflect.Value, keyParts []string, encodeZero bool, options *formOptions) {
@@ -222,7 +231,11 @@ func float64Encoder(values *Values, v reflect.Value, keyParts []string, encodeZe
 	if val == 0.0 && !encodeZero {
 		return
 	}
-	values.Add(FormatKey(keyParts), strconv.FormatFloat(val, 'f', 4, 64))
+	prec := 4
+	if options != nil && options.Precision != nil {
+		prec = *options.Precision
+	}
+	values.Add(FormatKey(keyParts), strconv.FormatFloat(val, 'f', prec, 64))
 }
 
 func getCachedOrBuildStructEncoder(t reflect.Type) *structEncoder {
@@ -382,11 +395,29 @@ func makeStructEncoder(t reflect.Type) *structEncoder {
 		fldTyp := reflectField.Type
 		fldKind := fldTyp.Kind()
 
-		if Strict && options != nil && options.Empty && fldKind != reflect.Bool {
-			panic(fmt.Sprintf(
-				"Cannot specify `empty` for non-boolean field; on: %s/%s",
-				t.Name(), reflectField.Name,
-			))
+		if Strict && options != nil {
+			if options.Empty && fldKind != reflect.Bool {
+				panic(fmt.Sprintf(
+					"Cannot specify `empty` for non-boolean field; on: %s/%s",
+					t.Name(), reflectField.Name,
+				))
+			}
+
+			var k reflect.Kind
+			if fldKind == reflect.Ptr {
+				k = fldTyp.Elem().Kind()
+			} else {
+				k = fldKind
+			}
+
+			fldIsFloat := k == reflect.Float32 || k == reflect.Float64
+
+			if options.Precision != nil && !fldIsFloat {
+				panic(fmt.Sprintf(
+					"Cannot specify `precision` for non-float field; on: %s/%s (%s)",
+					t.Name(), reflectField.Name, fldTyp,
+				))
+			}
 		}
 
 		se.fields = append(se.fields, &field{
@@ -456,7 +487,14 @@ func parseTag(tag string) (string, *formOptions) {
 			options.Empty = true
 
 		default:
-			if Strict {
+			var prec int
+			n, _ := fmt.Sscanf(parts[i], "precision=%d", &prec)
+			if n == 1 {
+				if options == nil {
+					options = &formOptions{}
+				}
+				options.Precision = &prec
+			} else if Strict {
 				part := parts[i]
 				if part == "" {
 					part = "(empty)"

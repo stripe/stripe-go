@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"encoding/json"
 	"strconv"
 	"testing"
 
@@ -86,4 +87,26 @@ func TestPlanParams_AppendTo_Empty(t *testing.T) {
 	params := &PlanParams{}
 	form.AppendTo(body, params)
 	assert.True(t, body.Empty())
+}
+
+func TestPlan_UnmarshalJSON_DecimalString(t *testing.T) {
+	data := []byte(`{"amount_precise": "0.000000123"}`)
+	var p Plan
+	err := json.Unmarshal(data, &p)
+	assert.NoError(t, err)
+	assert.NotNil(t, p.AmountPrecise)
+	assert.Equal(t, 0.000000123, *p.AmountPrecise)
+}
+
+func TestPlanParams_FormEncode_DecimalString(t *testing.T) {
+	{
+		params := &PlanParams{
+			AmountPrecise: Float64(0.000000123),
+		}
+		f := &form.Values{}
+		form.AppendTo(f, params)
+		encoded := f.Encode()
+
+		assert.Equal(t, "amount_precise=0.000000123", encoded)
+	}
 }
