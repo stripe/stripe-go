@@ -4,6 +4,18 @@ import (
 	"encoding/json"
 )
 
+// CheckoutSessionSubmitType is the list of allowed values for the `submit_type`
+// of a Session.
+type CheckoutSessionSubmitType string
+
+// List of values that CheckoutSessionSubmitType can take.
+const (
+	CheckoutSessionSubmitTypeAuto   CheckoutSessionSubmitType = "auto"
+	CheckoutSessionSubmitTypeBook   CheckoutSessionSubmitType = "book"
+	CheckoutSessionSubmitTypeDonate CheckoutSessionSubmitType = "donate"
+	CheckoutSessionSubmitTypePay    CheckoutSessionSubmitType = "pay"
+)
+
 // CheckoutSessionDisplayItemType is the list of allowed values for the display item type.
 type CheckoutSessionDisplayItemType string
 
@@ -76,6 +88,7 @@ type CheckoutSessionParams struct {
 	PaymentIntentData        *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data"`
 	PaymentMethodTypes       []*string                               `form:"payment_method_types"`
 	SubscriptionData         *CheckoutSessionSubscriptionDataParams  `form:"subscription_data"`
+	SubmitType               *string                                 `form:"submit_type"`
 	SuccessURL               *string                                 `form:"success_url"`
 }
 
@@ -113,6 +126,7 @@ type CheckoutSession struct {
 	PaymentIntent      *PaymentIntent                `json:"payment_intent"`
 	PaymentMethodTypes []string                      `json:"payment_method_types"`
 	Subscription       *Subscription                 `json:"subscription"`
+	SubmitType         CheckoutSessionSubmitType     `json:"submit_type"`
 	SuccessURL         string                        `json:"success_url"`
 }
 
