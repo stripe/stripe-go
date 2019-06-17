@@ -25,7 +25,7 @@ import (
 
 ### Go Module Support
 
-The library currently *does not* ship with first-class support for Stripe
+The library currently *does not* ship with first-class support for Go
 modules. We put in support for it before, but ran into compatibility problems
 for existing installations using Dep (see discussion in [closer to the bottom
 of this thread][gomodvsdep], and [reverted support][gomodrevert]. Our current
