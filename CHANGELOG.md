@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.3.0 - 2019-06-18
+* [#874](https://github.com/stripe/stripe-go/pull/874) Log only to info on 402 errors from Stripe
+
 ## 61.2.0 - 2019-06-14
 * [#870](https://github.com/stripe/stripe-go/pull/870) Add support for `MerchantAmount` `MerchantCurrency` to Issuing `Transaction`
 * [#871](https://github.com/stripe/stripe-go/pull/871) Add support for `SubmitType` to Checkout `Session`
