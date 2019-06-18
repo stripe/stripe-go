@@ -149,7 +149,9 @@ type AccountSettingsDashboardParams struct {
 // AccountSettingsPaymentsParams represent allowed parameters to configure settings  across payment
 // methods for charging on the account.
 type AccountSettingsPaymentsParams struct {
-	StatementDescriptor *string `form:"statement_descriptor"`
+	StatementDescriptor      *string `form:"statement_descriptor"`
+	StatementDescriptorKana  *string `form:"statement_descriptor_kana"`
+	StatementDescriptorKanji *string `form:"statement_descriptor_kanji"`
 }
 
 // AccountSettingsPayoutsParams represent allowed parameters to configure settings specific to the
@@ -341,7 +343,9 @@ type AccountSettingsDashboard struct {
 // AccountSettingsPayments represents settings that apply across payment methods for charging on
 // the account.
 type AccountSettingsPayments struct {
-	StatementDescriptor string `json:"statement_descriptor"`
+	StatementDescriptor      string `json:"statement_descriptor"`
+	StatementDescriptorKana  string `json:"statement_descriptor_kana"`
+	StatementDescriptorKanji string `json:"statement_descriptor_kanji"`
 }
 
 // AccountSettingsPayouts represents settings specific to the account’s payouts.
