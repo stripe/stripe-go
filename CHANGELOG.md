@@ -1,5 +1,9 @@
 # Changelog
 
+## 61.4.0 - 2019-06-18
+* [#845](https://github.com/stripe/stripe-go/pull/845) Add support for `CustomerBalanceTransaction` resource and APIs
+* [#875](https://github.com/stripe/stripe-go/pull/875) Add missing `Account` settings
+
 ## 61.3.0 - 2019-06-18
 * [#874](https://github.com/stripe/stripe-go/pull/874) Log only to info on 402 errors from Stripe
 
