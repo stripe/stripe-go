@@ -59,22 +59,23 @@ type CreditNoteVoidParams struct {
 // CreditNote is the resource representing a Stripe credit note.
 // For more details see https://stripe.com/docs/api/credit_notes/object.
 type CreditNote struct {
-	Amount   int64             `json:"amount"`
-	Created  int64             `json:"created"`
-	Currency Currency          `json:"currency"`
-	Customer *Customer         `json:"customer"`
-	Invoice  *Invoice          `json:"invoice"`
-	ID       string            `json:"id"`
-	Livemode bool              `json:"livemode"`
-	Memo     string            `json:"memo"`
-	Metadata map[string]string `json:"metadata"`
-	Number   string            `json:"number"`
-	Object   string            `json:"object"`
-	PDF      string            `json:"pdf"`
-	Reason   CreditNoteReason  `json:"reason"`
-	Refund   *Refund           `json:"refund"`
-	Status   CreditNoteStatus  `json:"status"`
-	Type     CreditNoteType    `json:"type"`
+	Amount                     int64                       `json:"amount"`
+	Created                    int64                       `json:"created"`
+	Currency                   Currency                    `json:"currency"`
+	Customer                   *Customer                   `json:"customer"`
+	CustomerBalanceTransaction *CustomerBalanceTransaction `json:"customer_balance_transaction"`
+	Invoice                    *Invoice                    `json:"invoice"`
+	ID                         string                      `json:"id"`
+	Livemode                   bool                        `json:"livemode"`
+	Memo                       string                      `json:"memo"`
+	Metadata                   map[string]string           `json:"metadata"`
+	Number                     string                      `json:"number"`
+	Object                     string                      `json:"object"`
+	PDF                        string                      `json:"pdf"`
+	Reason                     CreditNoteReason            `json:"reason"`
+	Refund                     *Refund                     `json:"refund"`
+	Status                     CreditNoteStatus            `json:"status"`
+	Type                       CreditNoteType              `json:"type"`
 }
 
 // CreditNoteList is a list of credit notes as retrieved from a list endpoint.
