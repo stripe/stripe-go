@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.5.0 - 2019-06-20
+* [#877](https://github.com/stripe/stripe-go/pull/877) Add `CancellationReason` to `PaymentIntent`
+
 ## 61.4.0 - 2019-06-18
 * [#845](https://github.com/stripe/stripe-go/pull/845) Add support for `CustomerBalanceTransaction` resource and APIs
 * [#875](https://github.com/stripe/stripe-go/pull/875) Add missing `Account` settings
