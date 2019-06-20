@@ -9,9 +9,13 @@ type PaymentIntentCancellationReason string
 
 // List of values that PaymentIntentCaptureMethod can take.
 const (
+	PaymentIntentCancellationReasonAbandoned           PaymentIntentCancellationReason = "abandoned"
+	PaymentIntentCancellationReasonAutomatic           PaymentIntentCancellationReason = "automatic"
 	PaymentIntentCancellationReasonDuplicate           PaymentIntentCancellationReason = "duplicate"
+	PaymentIntentCancellationReasonFailedInvoice       PaymentIntentCancellationReason = "failed_invoice"
 	PaymentIntentCancellationReasonFraudulent          PaymentIntentCancellationReason = "fraudulent"
 	PaymentIntentCancellationReasonRequestedByCustomer PaymentIntentCancellationReason = "requested_by_customer"
+	PaymentIntentCancellationReasonVoidInvoice         PaymentIntentCancellationReason = "void_invoice"
 )
 
 // PaymentIntentCaptureMethod is the list of allowed values for the capture method.
@@ -174,6 +178,7 @@ type PaymentIntent struct {
 	Application         *Application                    `json:"application"`
 	ApplicationFee      int64                           `json:"application_fee"`
 	CanceledAt          int64                           `json:"canceled_at"`
+	CancellationReason  PaymentIntentCancellationReason `json:"cancellation_reason"`
 	CaptureMethod       PaymentIntentCaptureMethod      `json:"capture_method"`
 	Charges             *ChargeList                     `json:"charges"`
 	ClientSecret        string                          `json:"client_secret"`
