@@ -47,7 +47,7 @@ func TestSubscriptionNew(t *testing.T) {
 			},
 		},
 		BillingCycleAnchor: stripe.Int64(time.Now().AddDate(0, 0, 12).Unix()),
-		Billing:            stripe.String(string(stripe.SubscriptionBillingSendInvoice)),
+		CollectionMethod:   stripe.String(string(stripe.SubscriptionCollectionMethodChargeAutomatically)),
 		DaysUntilDue:       stripe.Int64(30),
 	})
 	assert.Nil(t, err)
