@@ -21,7 +21,7 @@ const (
 	SubscriptionStatusUnpaid            SubscriptionStatus = "unpaid"
 )
 
-// SubscriptionBilling is the type of billing method for this subscription's invoices.
+// SubscriptionBilling is the type of collection method for this subscription's invoices.
 // This is considered deprecated. Use SubscriptionCollectionMethod instead.
 type SubscriptionBilling string
 
@@ -31,10 +31,10 @@ const (
 	SubscriptionBillingSendInvoice         SubscriptionBilling = "send_invoice"
 )
 
-// SubscriptionCollectionMethod is the type of billing method for this subscription's invoices.
+// SubscriptionCollectionMethod is the type of collection method for this subscription's invoices.
 type SubscriptionCollectionMethod string
 
-// List of values that SubscriptionBilling can take.
+// List of values that SubscriptionCollectionMethod can take.
 const (
 	SubscriptionCollectionMethodChargeAutomatically SubscriptionCollectionMethod = "charge_automatically"
 	SubscriptionCollectionMethodSendInvoice         SubscriptionCollectionMethod = "send_invoice"
