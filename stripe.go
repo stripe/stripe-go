@@ -53,11 +53,11 @@ const (
 // EnableTelemetry is a global override for enabling client telemetry, which
 // sends request performance metrics to Stripe via the `X-Stripe-Client-Telemetry`
 // header. If set to true, all clients will send telemetry metrics. Defaults to
-// false.
+// true.
 //
-// Telemetry can also be enabled on a per-client basis by instead creating a
-// `BackendConfig` with `EnableTelemetry: true`.
-var EnableTelemetry = false
+// Telemetry can also be disabled on a per-client basis by instead creating a
+// `BackendConfig` with `EnableTelemetry: false`.
+var EnableTelemetry = true
 
 // Key is the Stripe API key used globally in the binding.
 var Key string
