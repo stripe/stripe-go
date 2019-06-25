@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.7.1 - 2019-06-25
+* [#881](https://github.com/stripe/stripe-go/pull/881) Documentation fixes
+
 ## 61.7.0 - 2019-06-25
 * [#880](https://github.com/stripe/stripe-go/pull/880)
   * Add support for `CollectionMethod` on `Invoice`, `Subscription` and `SubscriptionSchedule`
