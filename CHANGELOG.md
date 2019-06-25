@@ -1,5 +1,10 @@
 # Changelog
 
+## 61.7.0 - 2019-06-25
+* [#880](https://github.com/stripe/stripe-go/pull/880)
+  * Add support for `CollectionMethod` on `Invoice`, `Subscription` and `SubscriptionSchedule`
+  * Add support for `UnifiedProration` on `InvoiceLine`
+
 ## 61.6.0 - 2019-06-24
 * [#878](https://github.com/stripe/stripe-go/pull/878) Enable request latency telemetry by default
 
