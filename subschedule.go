@@ -69,8 +69,8 @@ type SubscriptionScheduleRenewalIntervalParams struct {
 // subscription schedule.
 type SubscriptionScheduleParams struct {
 	Params            `form:"*"`
-	Billing           *string                                    `form:"billing"`
 	BillingThresholds *SubscriptionBillingThresholdsParams       `form:"billing_thresholds"`
+	CollectionMethod  *string                                    `form:"collection_method"`
 	Customer          *string                                    `form:"customer"`
 	FromSubscription  *string                                    `form:"from_subscription"`
 	InvoiceSettings   *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
@@ -79,6 +79,9 @@ type SubscriptionScheduleParams struct {
 	RenewalBehavior   *string                                    `form:"renewal_behavior"`
 	RenewalInterval   *SubscriptionScheduleRenewalIntervalParams `form:"renewal_interval"`
 	StartDate         *int64                                     `form:"start_date"`
+
+	// This parameter is deprecated and we recommend that you use CollectionMethod instead.
+	Billing *string `form:"billing"`
 }
 
 // SubscriptionScheduleCancelParams is the set of parameters that can be used when canceling a
@@ -154,9 +157,9 @@ type SubscriptionScheduleRenewalInterval struct {
 
 // SubscriptionSchedule is the resource representing a Stripe subscription schedule.
 type SubscriptionSchedule struct {
-	Billing              SubscriptionBilling                  `json:"billing"`
 	BillingThresholds    *SubscriptionBillingThresholds       `json:"billing_thresholds"`
 	CanceledAt           int64                                `json:"canceled_at"`
+	CollectionMethod     SubscriptionCollectionMethod         `json:"collection_method"`
 	CompletedAt          int64                                `json:"completed_at"`
 	Created              int64                                `json:"created"`
 	CurrentPhase         *SubscriptionScheduleCurrentPhase    `json:"current_phase"`
@@ -173,6 +176,9 @@ type SubscriptionSchedule struct {
 	RenewalInterval      *SubscriptionScheduleRenewalInterval `json:"renewal_interval"`
 	Status               SubscriptionScheduleStatus           `json:"status"`
 	Subscription         *Subscription                        `json:"subscription"`
+
+	// This field is deprecated and we recommend that you use CollectionMethod instead.
+	Billing SubscriptionBilling `json:"billing"`
 }
 
 // SubscriptionScheduleList is a list object for subscription schedules.

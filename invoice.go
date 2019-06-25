@@ -12,6 +12,7 @@ const (
 )
 
 // InvoiceBilling is the type of billing method for this invoice.
+// This is considered deprecated. Use InvoiceCollectionMethod instead.
 type InvoiceBilling string
 
 // List of values that InvoiceBilling can take.
@@ -44,6 +45,15 @@ const (
 	InvoiceBillingStatusPaid          InvoiceBillingStatus = "paid"
 	InvoiceBillingStatusUncollectible InvoiceBillingStatus = "uncollectible"
 	InvoiceBillingStatusVoid          InvoiceBillingStatus = "void"
+)
+
+// InvoiceCollectionMethod is the type of billing method for this invoice.
+type InvoiceCollectionMethod string
+
+// List of values that InvoiceBilling can take.
+const (
+	InvoiceCollectionMethodChargeAutomatically InvoiceCollectionMethod = "charge_automatically"
+	InvoiceCollectionMethodSendInvoice         InvoiceCollectionMethod = "send_invoice"
 )
 
 // InvoiceUpcomingInvoiceItemPeriodParams represents the period associated with that invoice item
@@ -84,7 +94,7 @@ type InvoiceParams struct {
 	Params               `form:"*"`
 	AutoAdvance          *bool                       `form:"auto_advance"`
 	ApplicationFeeAmount *int64                      `form:"application_fee_amount"`
-	Billing              *string                     `form:"billing"`
+	CollectionMethod     *string                     `form:"collection_method"`
 	CustomFields         []*InvoiceCustomFieldParams `form:"custom_fields"`
 	Customer             *string                     `form:"customer"`
 	DaysUntilDue         *int64                      `form:"days_until_due"`
@@ -117,6 +127,9 @@ type InvoiceParams struct {
 	// This parameter is considered deprecated. Prefer using ApplicationFeeAmount
 	ApplicationFee *int64 `form:"application_fee"`
 
+	// This parameter is considered deprecated. Prefer using CollectionMethod
+	Billing *string `form:"billing"`
+
 	// This parameter is deprecated and we recommend that you use DefaultTaxRates instead.
 	TaxPercent *float64 `form:"tax_percent"`
 
@@ -127,14 +140,17 @@ type InvoiceParams struct {
 // InvoiceListParams is the set of parameters that can be used when listing invoices.
 // For more details see https://stripe.com/docs/api#list_customer_invoices.
 type InvoiceListParams struct {
-	ListParams   `form:"*"`
-	Billing      *string           `form:"billing"`
-	Customer     *string           `form:"customer"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	DueDate      *int64            `form:"due_date"`
-	DueDateRange *RangeQueryParams `form:"due_date"`
-	Subscription *string           `form:"subscription"`
+	ListParams       `form:"*"`
+	CollectionMethod *string           `form:"collection_method"`
+	Customer         *string           `form:"customer"`
+	Created          *int64            `form:"created"`
+	CreatedRange     *RangeQueryParams `form:"created"`
+	DueDate          *int64            `form:"due_date"`
+	DueDateRange     *RangeQueryParams `form:"due_date"`
+	Subscription     *string           `form:"subscription"`
+
+	// This parameter is considered deprecated. Prefer using CollectionMethod
+	Billing *string `form:"billing"`
 }
 
 // InvoiceLineListParams is the set of parameters that can be used when listing invoice line items.
@@ -195,9 +211,9 @@ type Invoice struct {
 	AttemptCount                 int64                    `json:"attempt_count"`
 	Attempted                    bool                     `json:"attempted"`
 	AutoAdvance                  bool                     `json:"auto_advance"`
-	Billing                      InvoiceBilling           `json:"billing"`
 	BillingReason                InvoiceBillingReason     `json:"billing_reason"`
 	Charge                       *Charge                  `json:"charge"`
+	CollectionMethod             *InvoiceCollectionMethod `json:"collection_method"`
 	Created                      int64                    `json:"created"`
 	Currency                     Currency                 `json:"currency"`
 	CustomFields                 []*InvoiceCustomField    `json:"custom_fields"`
@@ -245,6 +261,9 @@ type Invoice struct {
 	TotalTaxAmounts              []*InvoiceTaxAmount      `json:"total_tax_amounts"`
 	TransferData                 *InvoiceTransferData     `json:"transfer_data"`
 	WebhooksDeliveredAt          int64                    `json:"webhooks_delivered_at"`
+
+	// This property is considered deprecated. Prefer using CollectionMethod
+	Billing *InvoiceBilling `form:"billing"`
 
 	// This field is deprecated and we recommend that you use TaxRates instead.
 	TaxPercent float64 `json:"tax_percent"`
@@ -307,6 +326,7 @@ type InvoiceLine struct {
 	TaxAmounts       []*InvoiceTaxAmount `json:"tax_amounts"`
 	TaxRates         []*TaxRate          `json:"tax_rates"`
 	Type             InvoiceLineType     `json:"type"`
+	UnifiedProration bool                `json:"unified_proration"`
 }
 
 // InvoiceTransferData represents the information for the transfer_data associated with an invoice.
