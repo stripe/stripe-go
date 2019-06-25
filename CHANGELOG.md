@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.6.0 - 2019-06-24
+* [#878](https://github.com/stripe/stripe-go/pull/878) Enable request latency telemetry by default
+
 ## 61.5.0 - 2019-06-20
 * [#877](https://github.com/stripe/stripe-go/pull/877) Add `CancellationReason` to `PaymentIntent`
 
