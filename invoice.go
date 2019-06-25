@@ -11,7 +11,7 @@ const (
 	InvoiceLineTypeSubscription InvoiceLineType = "subscription"
 )
 
-// InvoiceBilling is the type of billing method for this invoice.
+// InvoiceBilling is the type of collection method for this invoice.
 // This is considered deprecated. Use InvoiceCollectionMethod instead.
 type InvoiceBilling string
 
@@ -47,10 +47,10 @@ const (
 	InvoiceBillingStatusVoid          InvoiceBillingStatus = "void"
 )
 
-// InvoiceCollectionMethod is the type of billing method for this invoice.
+// InvoiceCollectionMethod is the type of collection method for this invoice.
 type InvoiceCollectionMethod string
 
-// List of values that InvoiceBilling can take.
+// List of values that InvoiceCollectionMethod can take.
 const (
 	InvoiceCollectionMethodChargeAutomatically InvoiceCollectionMethod = "charge_automatically"
 	InvoiceCollectionMethodSendInvoice         InvoiceCollectionMethod = "send_invoice"
