@@ -68,17 +68,19 @@ type SubscriptionScheduleRenewalIntervalParams struct {
 // SubscriptionScheduleParams is the set of parameters that can be used when creating or updating a
 // subscription schedule.
 type SubscriptionScheduleParams struct {
-	Params            `form:"*"`
-	BillingThresholds *SubscriptionBillingThresholdsParams       `form:"billing_thresholds"`
-	CollectionMethod  *string                                    `form:"collection_method"`
-	Customer          *string                                    `form:"customer"`
-	FromSubscription  *string                                    `form:"from_subscription"`
-	InvoiceSettings   *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
-	Phases            []*SubscriptionSchedulePhaseParams         `form:"phases"`
-	Prorate           *bool                                      `form:"prorate"`
-	RenewalBehavior   *string                                    `form:"renewal_behavior"`
-	RenewalInterval   *SubscriptionScheduleRenewalIntervalParams `form:"renewal_interval"`
-	StartDate         *int64                                     `form:"start_date"`
+	Params               `form:"*"`
+	BillingThresholds    *SubscriptionBillingThresholdsParams       `form:"billing_thresholds"`
+	CollectionMethod     *string                                    `form:"collection_method"`
+	Customer             *string                                    `form:"customer"`
+	DefaultPaymentMethod *string                                    `form:"default_payment_method"`
+	DefaultSource        *string                                    `form:"default_source"`
+	FromSubscription     *string                                    `form:"from_subscription"`
+	InvoiceSettings      *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
+	Phases               []*SubscriptionSchedulePhaseParams         `form:"phases"`
+	Prorate              *bool                                      `form:"prorate"`
+	RenewalBehavior      *string                                    `form:"renewal_behavior"`
+	RenewalInterval      *SubscriptionScheduleRenewalIntervalParams `form:"renewal_interval"`
+	StartDate            *int64                                     `form:"start_date"`
 
 	// This parameter is deprecated and we recommend that you use CollectionMethod instead.
 	Billing *string `form:"billing"`
@@ -164,6 +166,8 @@ type SubscriptionSchedule struct {
 	Created              int64                                `json:"created"`
 	CurrentPhase         *SubscriptionScheduleCurrentPhase    `json:"current_phase"`
 	Customer             *Customer                            `json:"customer"`
+	DefaultPaymentMethod *PaymentMethod                       `json:"default_payment_method"`
+	DefaultSource        *PaymentSource                       `json:"default_source"`
 	ID                   string                               `json:"id"`
 	InvoiceSettings      *SubscriptionScheduleInvoiceSettings `json:"invoice_settings"`
 	Livemode             bool                                 `json:"livemode"`
