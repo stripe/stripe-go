@@ -55,6 +55,7 @@ type Error struct {
 	PaymentIntent  *PaymentIntent `json:"payment_intent,omitempty"`
 	PaymentMethod  *PaymentMethod `json:"payment_method,omitempty"`
 	RequestID      string         `json:"request_id,omitempty"`
+	SetupIntent    *SetupIntent   `json:"setup_intent,omitempty"`
 	Source         *PaymentSource `json:"source,omitempty"`
 	Type           ErrorType      `json:"type"`
 }
