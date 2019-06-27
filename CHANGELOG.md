@@ -1,5 +1,9 @@
 # Changelog
 
+## 61.8.0 - 2019-06-27
+* [#882](https://github.com/stripe/stripe-go/pull/882) Add `DefaultPaymentMethod` and `DefaultSource` to `SubscriptionSchedule`
+* [#883](https://github.com/stripe/stripe-go/pull/883) Add support for the `SetupIntent` resource and APIs
+
 ## 61.7.1 - 2019-06-25
 * [#881](https://github.com/stripe/stripe-go/pull/881) Documentation fixes
 
