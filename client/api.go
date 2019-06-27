@@ -55,6 +55,7 @@ import (
 	"github.com/stripe/stripe-go/reporting/reporttype"
 	"github.com/stripe/stripe-go/reversal"
 	"github.com/stripe/stripe-go/review"
+	"github.com/stripe/stripe-go/setupintent"
 	"github.com/stripe/stripe-go/sigma/scheduledqueryrun"
 	"github.com/stripe/stripe-go/sku"
 	"github.com/stripe/stripe-go/source"
@@ -183,6 +184,8 @@ type API struct {
 	Reversals *reversal.Client
 	// Reviews is the client used to invoke /reviews APIs.
 	Reviews *review.Client
+	// SetupIntents is the client used to invoke /setup_intents APIs.
+	SetupIntents *setupintent.Client
 	// SigmaScheduledQueryRuns is the client used to invoke /sigma/scheduled_query_runs APIs.
 	SigmaScheduledQueryRuns *scheduledqueryrun.Client
 	// Skus is the client used to invoke /skus APIs.
@@ -287,6 +290,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.ReportTypes = &reporttype.Client{B: backends.API, Key: key}
 	a.Reversals = &reversal.Client{B: backends.API, Key: key}
 	a.Reviews = &review.Client{B: backends.API, Key: key}
+	a.SetupIntents = &setupintent.Client{B: backends.API, Key: key}
 	a.SigmaScheduledQueryRuns = &scheduledqueryrun.Client{B: backends.API, Key: key}
 	a.Skus = &sku.Client{B: backends.API, Key: key}
 	a.Sources = &source.Client{B: backends.API, Key: key}
