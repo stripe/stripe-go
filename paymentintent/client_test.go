@@ -60,7 +60,7 @@ func TestPaymentIntentNew(t *testing.T) {
 }
 
 func TestPaymentIntentUpdate(t *testing.T) {
-	intent, err := Update("pi_123", &stripe.PaymentIntentParams{
+	intent, err := Update("tr_123", &stripe.PaymentIntentParams{
 		Params: stripe.Params{
 			Metadata: map[string]string{
 				"foo": "bar",
