@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.11.0 - 2019-07-01
+* [#886](https://github.com/stripe/stripe-go/pull/886) Add `CardVerificationUnavailable` constant value
+
 ## 61.10.0 - 2019-07-01
 * [#884](https://github.com/stripe/stripe-go/pull/884) Add support for the `SetupIntent` resource and APIs
 * [#885](https://github.com/stripe/stripe-go/pull/885) Quick fix to the `NextAction` property on `SetupIntent`
