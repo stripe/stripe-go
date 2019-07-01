@@ -1,5 +1,9 @@
 # Changelog
 
+## 61.10.0 - 2019-07-01
+* [#884](https://github.com/stripe/stripe-go/pull/884) Add support for the `SetupIntent` resource and APIs
+* [#885](https://github.com/stripe/stripe-go/pull/885) Quick fix to the `NextAction` property on `SetupIntent`
+
 ## 61.9.0 - 2019-06-27
 * [#882](https://github.com/stripe/stripe-go/pull/882) Add `DefaultPaymentMethod` and `DefaultSource` to `SubscriptionSchedule`
 
