@@ -7,7 +7,7 @@ import (
 // PaymentIntentCancellationReason is the list of allowed values for the cancelation reason.
 type PaymentIntentCancellationReason string
 
-// List of values that PaymentIntentCaptureMethod can take.
+// List of values that PaymentIntentCancellationReason can take.
 const (
 	PaymentIntentCancellationReasonAbandoned           PaymentIntentCancellationReason = "abandoned"
 	PaymentIntentCancellationReasonAutomatic           PaymentIntentCancellationReason = "automatic"
@@ -54,6 +54,15 @@ type PaymentIntentOffSession string
 const (
 	PaymentIntentOffSessionOneOff    PaymentIntentOffSession = "one_off"
 	PaymentIntentOffSessionRecurring PaymentIntentOffSession = "recurring"
+)
+
+// PaymentIntentSetupFutureUsage is the list of allowed values for SetupFutureUsage.
+type PaymentIntentSetupFutureUsage string
+
+// List of values that PaymentIntentSetupFutureUsage can take.
+const (
+	PaymentIntentSetupFutureUsageOffSession PaymentIntentSetupFutureUsage = "off_session"
+	PaymentIntentSetupFutureUsageOnSession  PaymentIntentSetupFutureUsage = "on_session"
 )
 
 // PaymentIntentStatus is the list of allowed values for the payment intent's status.
@@ -120,6 +129,7 @@ type PaymentIntentParams struct {
 	ReceiptEmail         *string                          `form:"receipt_email"`
 	ReturnURL            *string                          `form:"return_url"`
 	SavePaymentMethod    *bool                            `form:"save_payment_method"`
+	SetupFutureUsage     *string                          `form:"setup_future_usage"`
 	Shipping             *ShippingDetailsParams           `form:"shipping"`
 	Source               *string                          `form:"source"`
 	StatementDescriptor  *string                          `form:"statement_descriptor"`
@@ -198,6 +208,7 @@ type PaymentIntent struct {
 	PaymentMethodTypes  []string                        `json:"payment_method_types"`
 	ReceiptEmail        string                          `json:"receipt_email"`
 	Review              *Review                         `json:"review"`
+	SetupFutureUsage    PaymentIntentSetupFutureUsage   `json:"setup_future_usage"`
 	Shipping            ShippingDetails                 `json:"shipping"`
 	Source              *PaymentSource                  `json:"source"`
 	StatementDescriptor string                          `json:"statement_descriptor"`
