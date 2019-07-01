@@ -95,8 +95,10 @@ type PaymentIntentCaptureParams struct {
 
 // PaymentIntentConfirmParams is the set of parameters that can be used when confirming a payment intent.
 type PaymentIntentConfirmParams struct {
-	Params            `form:"*"`
-	OffSession        *string                `form:"off_session"`
+	Params `form:"*"`
+	// This parameter expects a boolean but used to take an enum so we're adding support for both
+	// until the next major version (TODO).
+	OffSession        interface{}            `form:"off_session"`
 	PaymentMethod     *string                `form:"payment_method"`
 	ReceiptEmail      *string                `form:"receipt_email"`
 	ReturnURL         *string                `form:"return_url"`
@@ -122,7 +124,6 @@ type PaymentIntentParams struct {
 	Currency             *string                          `form:"currency"`
 	Customer             *string                          `form:"customer"`
 	Description          *string                          `form:"description"`
-	OffSession           *string                          `form:"off_session"`
 	OnBehalfOf           *string                          `form:"on_behalf_of"`
 	PaymentMethod        *string                          `form:"payment_method"`
 	PaymentMethodTypes   []*string                        `form:"payment_method_types"`
@@ -135,6 +136,10 @@ type PaymentIntentParams struct {
 	StatementDescriptor  *string                          `form:"statement_descriptor"`
 	TransferData         *PaymentIntentTransferDataParams `form:"transfer_data"`
 	TransferGroup        *string                          `form:"transfer_group"`
+
+	// This parameter only works if you confirm on creation. It also expects a boolean but used to
+	// take an enum so we're adding support for both until the next major version (TODO).
+	OffSession interface{} `form:"off_session"`
 }
 
 // PaymentIntentListParams is the set of parameters that can be used when listing payment intents.
