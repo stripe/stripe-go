@@ -15,6 +15,14 @@ const (
 	SetupIntentCancellationReasonRequestedByCustomer SetupIntentCancellationReason = "requested_by_customer"
 )
 
+// SetupIntentNextActionType is the list of allowed values for the next action's type.
+type SetupIntentNextActionType string
+
+// List of values that SetupIntentNextActionType can take.
+const (
+	SetupIntentNextActionTypeRedirectToURL SetupIntentNextActionType = "redirect_to_url"
+)
+
 // SetupIntentStatus is the list of allowed values for the setup intent's status.
 type SetupIntentStatus string
 
@@ -71,6 +79,19 @@ type SetupIntentListParams struct {
 	PaymentMethod *string           `form:"payment_method"`
 }
 
+// SetupIntentNextActionRedirectToURL represents the resource for the next action of type
+// "redirect_to_url".
+type SetupIntentNextActionRedirectToURL struct {
+	ReturnURL string `json:"return_url"`
+	URL       string `json:"url"`
+}
+
+// SetupIntentNextAction represents the type of action to take on a setup intent.
+type SetupIntentNextAction struct {
+	RedirectToURL *SetupIntentNextActionRedirectToURL `json:"redirect_to_url"`
+	Type          SetupIntentNextActionType           `json:"type"`
+}
+
 // SetupIntent is the resource representing a Stripe payout.
 // For more details see https://stripe.com/docs/api#payment_intents.
 type SetupIntent struct {
@@ -84,7 +105,7 @@ type SetupIntent struct {
 	LastSetupError     *Error                        `json:"last_setup_error"`
 	Livemode           bool                          `json:"livemode"`
 	Metadata           map[string]string             `json:"metadata"`
-	NextAction         *PaymentIntentNextAction      `json:"next_action"`
+	NextAction         *SetupIntentNextAction        `json:"next_action"`
 	Object             string                        `json:"object"`
 	OnBehalfOf         *Account                      `json:"on_behalf_of"`
 	PaymentMethod      *PaymentMethod                `json:"payment_method"`
