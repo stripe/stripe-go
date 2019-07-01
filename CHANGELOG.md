@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.12.0 - 2019-07-01
+* [#887](https://github.com/stripe/stripe-go/pull/887) Allow `OffSession` to be a bool on `PaymentIntent` creation and confirmation
+
 ## 61.11.0 - 2019-07-01
 * [#886](https://github.com/stripe/stripe-go/pull/886) Add `CardVerificationUnavailable` constant value
 
