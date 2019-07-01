@@ -56,9 +56,10 @@ type CardVerification string
 
 // List of values that CardVerification can take.
 const (
-	CardVerificationFail      CardVerification = "fail"
-	CardVerificationPass      CardVerification = "pass"
-	CardVerificationUnchecked CardVerification = "unchecked"
+	CardVerificationFail        CardVerification = "fail"
+	CardVerificationPass        CardVerification = "pass"
+	CardVerificationUnavailable CardVerification = "unavailable"
+	CardVerificationUnchecked   CardVerification = "unchecked"
 )
 
 // cardSource is a string that's used to build card form parameters. It's a
