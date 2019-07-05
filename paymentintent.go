@@ -103,6 +103,7 @@ type PaymentIntentConfirmParams struct {
 	ReceiptEmail      *string                `form:"receipt_email"`
 	ReturnURL         *string                `form:"return_url"`
 	SavePaymentMethod *bool                  `form:"save_payment_method"`
+	SetupFutureUsage  *string                `form:"setup_future_usage"`
 	Shipping          *ShippingDetailsParams `form:"shipping"`
 	Source            *string                `form:"source"`
 }
