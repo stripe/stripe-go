@@ -52,6 +52,7 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	Description          *string                                             `form:"description"`
 	OnBehalfOf           *string                                             `form:"on_behalf_of"`
 	ReceiptEmail         *string                                             `form:"receipt_email"`
+	SetupFutureUsage     *string                                             `form:"setup_future_usage"`
 	Shipping             *ShippingDetailsParams                              `form:"shipping"`
 	StatementDescriptor  *string                                             `form:"statement_descriptor"`
 	TransferData         *CheckoutSessionPaymentIntentDataTransferDataParams `form:"transfer_data"`
