@@ -1,5 +1,9 @@
 # Changelog
 
+## 61.13.0 - 2019-07-05
+* [#888](https://github.com/stripe/stripe-go/pull/888) Add support for `SetupFutureUsage` on `PaymentIntent` update and confirm
+* [#890](https://github.com/stripe/stripe-go/pull/890) Add support for `SetupFutureUsage` on Checkout `Session`
+
 ## 61.12.0 - 2019-07-01
 * [#887](https://github.com/stripe/stripe-go/pull/887) Allow `OffSession` to be a bool on `PaymentIntent` creation and confirmation
 
