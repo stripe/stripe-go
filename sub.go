@@ -40,6 +40,16 @@ const (
 	SubscriptionCollectionMethodSendInvoice         SubscriptionCollectionMethod = "send_invoice"
 )
 
+// SubscriptionPaymentBehavior lets you control the behavior of subscription creation in case of
+// a failed payment.
+type SubscriptionPaymentBehavior string
+
+// List of values that SubscriptionPaymentBehavior can take.
+const (
+	SubscriptionPaymentBehaviorAllowIncomplete   SubscriptionPaymentBehavior = "allow_incomplete"
+	SubscriptionPaymentBehaviorErrorIfIncomplete SubscriptionPaymentBehavior = "error_if_incomplete"
+)
+
 // SubscriptionTransferDataParams is the set of parameters allowed for the transfer_data hash.
 type SubscriptionTransferDataParams struct {
 	Destination *string `form:"destination"`
@@ -66,7 +76,9 @@ type SubscriptionParams struct {
 	DefaultSource               *string                              `form:"default_source"`
 	DefaultTaxRates             []*string                            `form:"default_tax_rates"`
 	Items                       []*SubscriptionItemsParams           `form:"items"`
+	OffSession                  *bool                                `form:"off_session"`
 	OnBehalfOf                  *string                              `form:"on_behalf_of"`
+	PaymentBehavior             *string                              `form:"payment_behavior"`
 	Plan                        *string                              `form:"plan"`
 	Prorate                     *bool                                `form:"prorate"`
 	ProrationDate               *int64                               `form:"proration_date"`
@@ -180,6 +192,7 @@ type Subscription struct {
 	Metadata              map[string]string              `json:"metadata"`
 	Object                string                         `json:"object"`
 	OnBehalfOf            *Account                       `json:"on_behalf_of"`
+	PendingSetupIntent    *SetupIntent                   `json:"pending_setup_intent"`
 	Plan                  *Plan                          `json:"plan"`
 	Quantity              int64                          `json:"quantity"`
 	StartDate             int64                          `json:"start_date"`
