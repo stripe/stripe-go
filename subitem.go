@@ -13,6 +13,9 @@ type SubscriptionItemParams struct {
 	Quantity          *int64                                   `form:"quantity"`
 	Subscription      *string                                  `form:"subscription"`
 	TaxRates          []*string                                `form:"tax_rates"`
+
+	// The following parameter is only supported on updates
+	PaymentBehavior *string `form:"payment_behavior"`
 }
 
 // SubscriptionItemBillingThresholdsParams is a structure representing the parameters allowed to

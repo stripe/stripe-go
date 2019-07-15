@@ -184,6 +184,7 @@ type InvoiceMarkUncollectibleParams struct {
 type InvoicePayParams struct {
 	Params        `form:"*"`
 	Forgive       *bool   `form:"forgive"`
+	OffSession    *bool   `form:"off_session"`
 	PaidOutOfBand *bool   `form:"paid_out_of_band"`
 	PaymentMethod *string `form:"payment_method"`
 	Source        *string `form:"source"`
