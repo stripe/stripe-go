@@ -56,6 +56,17 @@ const (
 	PaymentIntentOffSessionRecurring PaymentIntentOffSession = "recurring"
 )
 
+// PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure is the list of allowed values
+//controlling when to request 3D Secure on a PaymentIntent.
+type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
+
+// List of values that PaymentIntentNextActionType can take.
+const (
+	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAny           PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
+	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic     PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
+	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge_only"
+)
+
 // PaymentIntentSetupFutureUsage is the list of allowed values for SetupFutureUsage.
 type PaymentIntentSetupFutureUsage string
 
@@ -98,14 +109,28 @@ type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
 	// This parameter expects a boolean but used to take an enum so we're adding support for both
 	// until the next major version (TODO).
-	OffSession        interface{}            `form:"off_session"`
-	PaymentMethod     *string                `form:"payment_method"`
-	ReceiptEmail      *string                `form:"receipt_email"`
-	ReturnURL         *string                `form:"return_url"`
-	SavePaymentMethod *bool                  `form:"save_payment_method"`
-	SetupFutureUsage  *string                `form:"setup_future_usage"`
-	Shipping          *ShippingDetailsParams `form:"shipping"`
-	Source            *string                `form:"source"`
+	OffSession          interface{}                              `form:"off_session"`
+	PaymentMethod       *string                                  `form:"payment_method"`
+	PayentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodTypes  []*string                                `form:"payment_method_types"`
+	ReceiptEmail        *string                                  `form:"receipt_email"`
+	ReturnURL           *string                                  `form:"return_url"`
+	SavePaymentMethod   *bool                                    `form:"save_payment_method"`
+	SetupFutureUsage    *string                                  `form:"setup_future_usage"`
+	Shipping            *ShippingDetailsParams                   `form:"shipping"`
+	Source              *string                                  `form:"source"`
+}
+
+// PaymentIntentPaymentMethodOptionsCardParams represents the card-specific options applied to a
+// PaymentIntent.
+type PaymentIntentPaymentMethodOptionsCardParams struct {
+	RequestThreeDSecure *string `form:"request_three_d_secure"`
+}
+
+// PaymentIntentPaymentMethodOptionsParams represents the type-specific payment method options
+// applied to a PaymentIntent.
+type PaymentIntentPaymentMethodOptionsParams struct {
+	Card *PaymentIntentPaymentMethodOptionsCardParams `form:"card"`
 }
 
 // PaymentIntentTransferDataParams is the set of parameters allowed for the transfer hash.
@@ -117,26 +142,27 @@ type PaymentIntentTransferDataParams struct {
 // PaymentIntentParams is the set of parameters that can be used when handling a payment intent.
 type PaymentIntentParams struct {
 	Params               `form:"*"`
-	Amount               *int64                           `form:"amount"`
-	ApplicationFeeAmount *int64                           `form:"application_fee_amount"`
-	CaptureMethod        *string                          `form:"capture_method"`
-	Confirm              *bool                            `form:"confirm"`
-	ConfirmationMethod   *string                          `form:"confirmation_method"`
-	Currency             *string                          `form:"currency"`
-	Customer             *string                          `form:"customer"`
-	Description          *string                          `form:"description"`
-	OnBehalfOf           *string                          `form:"on_behalf_of"`
-	PaymentMethod        *string                          `form:"payment_method"`
-	PaymentMethodTypes   []*string                        `form:"payment_method_types"`
-	ReceiptEmail         *string                          `form:"receipt_email"`
-	ReturnURL            *string                          `form:"return_url"`
-	SavePaymentMethod    *bool                            `form:"save_payment_method"`
-	SetupFutureUsage     *string                          `form:"setup_future_usage"`
-	Shipping             *ShippingDetailsParams           `form:"shipping"`
-	Source               *string                          `form:"source"`
-	StatementDescriptor  *string                          `form:"statement_descriptor"`
-	TransferData         *PaymentIntentTransferDataParams `form:"transfer_data"`
-	TransferGroup        *string                          `form:"transfer_group"`
+	Amount               *int64                                   `form:"amount"`
+	ApplicationFeeAmount *int64                                   `form:"application_fee_amount"`
+	CaptureMethod        *string                                  `form:"capture_method"`
+	Confirm              *bool                                    `form:"confirm"`
+	ConfirmationMethod   *string                                  `form:"confirmation_method"`
+	Currency             *string                                  `form:"currency"`
+	Customer             *string                                  `form:"customer"`
+	Description          *string                                  `form:"description"`
+	OnBehalfOf           *string                                  `form:"on_behalf_of"`
+	PaymentMethod        *string                                  `form:"payment_method"`
+	PayentMethodOptions  *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodTypes   []*string                                `form:"payment_method_types"`
+	ReceiptEmail         *string                                  `form:"receipt_email"`
+	ReturnURL            *string                                  `form:"return_url"`
+	SavePaymentMethod    *bool                                    `form:"save_payment_method"`
+	SetupFutureUsage     *string                                  `form:"setup_future_usage"`
+	Shipping             *ShippingDetailsParams                   `form:"shipping"`
+	Source               *string                                  `form:"source"`
+	StatementDescriptor  *string                                  `form:"statement_descriptor"`
+	TransferData         *PaymentIntentTransferDataParams         `form:"transfer_data"`
+	TransferGroup        *string                                  `form:"transfer_group"`
 
 	// This parameter only works if you confirm on creation. It also expects a boolean but used to
 	// take an enum so we're adding support for both until the next major version (TODO).

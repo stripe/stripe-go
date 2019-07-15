@@ -23,6 +23,17 @@ const (
 	SetupIntentNextActionTypeRedirectToURL SetupIntentNextActionType = "redirect_to_url"
 )
 
+// SetupIntentPaymentMethodOptionsCardRequestThreeDSecure is the list of allowed values controlling
+// when to request 3D Secure on a SetupIntent.
+type SetupIntentPaymentMethodOptionsCardRequestThreeDSecure string
+
+// List of values that SetupIntentNextActionType can take.
+const (
+	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureAny           SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
+	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic     SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
+	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge_only"
+)
+
 // SetupIntentStatus is the list of allowed values for the setup intent's status.
 type SetupIntentStatus string
 
@@ -53,20 +64,36 @@ type SetupIntentCancelParams struct {
 
 // SetupIntentConfirmParams is the set of parameters that can be used when confirming a setup intent.
 type SetupIntentConfirmParams struct {
-	Params        `form:"*"`
-	PaymentMethod *string `form:"payment_method"`
-	ReturnURL     *string `form:"return_url"`
+	Params              `form:"*"`
+	PaymentMethod       *string                                `form:"payment_method"`
+	PayentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
+	ReturnURL           *string                                `form:"return_url"`
+}
+
+// SetupIntentPaymentMethodOptionsCardParams represents the card-specific options applied to a
+// SetupIntent.
+type SetupIntentPaymentMethodOptionsCardParams struct {
+	RequestThreeDSecure *string `form:"request_three_d_secure"`
+}
+
+// SetupIntentPaymentMethodOptionsParams represents the type-specific payment method options
+// applied to a SetupIntent.
+type SetupIntentPaymentMethodOptionsParams struct {
+	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
 }
 
 // SetupIntentParams is the set of parameters that can be used when handling a setup intent.
 type SetupIntentParams struct {
-	Params             `form:"*"`
-	Customer           *string   `form:"customer"`
-	Description        *string   `form:"description"`
-	OnBehalfOf         *string   `form:"on_behalf_of"`
-	PaymentMethod      *string   `form:"payment_method"`
-	PaymentMethodTypes []*string `form:"payment_method_types"`
-	Usage              *string   `form:"usage"`
+	Params              `form:"*"`
+	Confirm             *bool                                  `form:"confirm"`
+	Customer            *string                                `form:"customer"`
+	Description         *string                                `form:"description"`
+	OnBehalfOf          *string                                `form:"on_behalf_of"`
+	PaymentMethod       *string                                `form:"payment_method"`
+	PayentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodTypes  []*string                              `form:"payment_method_types"`
+	ReturnURL           *string                                `form:"return_url"`
+	Usage               *string                                `form:"usage"`
 }
 
 // SetupIntentListParams is the set of parameters that can be used when listing setup intents.
@@ -92,26 +119,39 @@ type SetupIntentNextAction struct {
 	Type          SetupIntentNextActionType           `json:"type"`
 }
 
+// SetupIntentPaymentMethodOptionsCard represents the card-specific options applied to a
+// SetupIntent.
+type SetupIntentPaymentMethodOptionsCard struct {
+	RequestThreeDSecure SetupIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
+}
+
+// SetupIntentPaymentMethodOptions represents the type-specific payment method options applied to a
+// SetupIntent.
+type SetupIntentPaymentMethodOptions struct {
+	Card *SetupIntentPaymentMethodOptionsCard `json:"card"`
+}
+
 // SetupIntent is the resource representing a Stripe payout.
 // For more details see https://stripe.com/docs/api#payment_intents.
 type SetupIntent struct {
-	Application        *Application                  `json:"application"`
-	CancellationReason SetupIntentCancellationReason `json:"cancellation_reason"`
-	ClientSecret       string                        `json:"client_secret"`
-	Created            int64                         `json:"created"`
-	Customer           *Customer                     `json:"customer"`
-	Description        string                        `json:"description"`
-	ID                 string                        `json:"id"`
-	LastSetupError     *Error                        `json:"last_setup_error"`
-	Livemode           bool                          `json:"livemode"`
-	Metadata           map[string]string             `json:"metadata"`
-	NextAction         *SetupIntentNextAction        `json:"next_action"`
-	Object             string                        `json:"object"`
-	OnBehalfOf         *Account                      `json:"on_behalf_of"`
-	PaymentMethod      *PaymentMethod                `json:"payment_method"`
-	PaymentMethodTypes []string                      `json:"payment_method_types"`
-	Status             SetupIntentStatus             `json:"status"`
-	Usage              SetupIntentUsage              `json:"usage"`
+	Application          *Application                     `json:"application"`
+	CancellationReason   SetupIntentCancellationReason    `json:"cancellation_reason"`
+	ClientSecret         string                           `json:"client_secret"`
+	Created              int64                            `json:"created"`
+	Customer             *Customer                        `json:"customer"`
+	Description          string                           `json:"description"`
+	ID                   string                           `json:"id"`
+	LastSetupError       *Error                           `json:"last_setup_error"`
+	Livemode             bool                             `json:"livemode"`
+	Metadata             map[string]string                `json:"metadata"`
+	NextAction           *SetupIntentNextAction           `json:"next_action"`
+	Object               string                           `json:"object"`
+	OnBehalfOf           *Account                         `json:"on_behalf_of"`
+	PaymentMethod        *PaymentMethod                   `json:"payment_method"`
+	PaymentMethodOptions *SetupIntentPaymentMethodOptions `json:"payment_method_options"`
+	PaymentMethodTypes   []string                         `json:"payment_method_types"`
+	Status               SetupIntentStatus                `json:"status"`
+	Usage                SetupIntentUsage                 `json:"usage"`
 }
 
 // SetupIntentList is a list of setup intents as retrieved from a list endpoint.
