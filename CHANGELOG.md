@@ -1,5 +1,13 @@
 # Changelog
 
+## 61.14.0 - 2019-07-15
+* [#891](https://github.com/stripe/stripe-go/pull/891) Various changes relaed to SCA for Billing
+  * Add support for `PendingSetupIntent` on `Subscription`
+  * Add support for `PaymentBehavior` on `Subscription` creation and update
+  * Add support for `PaymentBehavior` on `SubscriptionItem` update
+  * Add support for `OffSession` when paying an `Invoice`
+  * Add support for `OffSession` on `Subscription` creation and update
+
 ## 61.13.0 - 2019-07-05
 * [#888](https://github.com/stripe/stripe-go/pull/888) Add support for `SetupFutureUsage` on `PaymentIntent` update and confirm
 * [#890](https://github.com/stripe/stripe-go/pull/890) Add support for `SetupFutureUsage` on Checkout `Session`
