@@ -60,7 +60,7 @@ type formOptions struct {
 	//
 	// All parameters are encoded using form encoding, so this of course
 	// encodes a value to a string, but notably, these high precision fields
-	// are sent back as strings in JSON, even though they might be surface as
+	// are sent back as strings in JSON, even though they might be surfaced as
 	// floats in this library.
 	//
 	// This isn't a perfect abstraction because floats are not precise in
@@ -233,8 +233,8 @@ func float32Encoder(values *Values, v reflect.Value, keyParts []string, encodeZe
 	prec := 4
 	if options != nil && options.HighPrecision {
 		// Special value that tells Go to format the float in as few required
-		// digits as necessary for it to be successfully parsable back to the
-		// same original number.
+		// digits as necessary for it to be successfully parsable from a string
+		// back to the same original number.
 		prec = -1
 	}
 	values.Add(FormatKey(keyParts), strconv.FormatFloat(val, 'f', prec, 32))
@@ -248,8 +248,8 @@ func float64Encoder(values *Values, v reflect.Value, keyParts []string, encodeZe
 	prec := 4
 	if options != nil && options.HighPrecision {
 		// Special value that tells Go to format the float in as few required
-		// digits as necessary for it to be successfully parsable back to the
-		// same original number.
+		// digits as necessary for it to be successfully parsable from a string
+		// back to the same original number.
 		prec = -1
 	}
 	values.Add(FormatKey(keyParts), strconv.FormatFloat(val, 'f', prec, 64))
