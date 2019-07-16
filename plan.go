@@ -113,7 +113,7 @@ type PlanParams struct {
 	Active          *bool                     `form:"active"`
 	AggregateUsage  *string                   `form:"aggregate_usage"`
 	Amount          *int64                    `form:"amount"`
-	AmountPrecise   *float64                  `form:"amount_precise,precision=-1"`
+	AmountPrecise   *float64                  `form:"amount_precise,high_precision"`
 	BillingScheme   *string                   `form:"billing_scheme"`
 	Currency        *string                   `form:"currency"`
 	ID              *string                   `form:"id"`

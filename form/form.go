@@ -54,10 +54,21 @@ type formOptions struct {
 	// empty string is a string's zero value and wouldn't normally be encoded.
 	Empty bool
 
-	// Precision controls the number of digits printed for the field's value.
-	// It can only be used for floating-point numbers. The special value -1
-	// uses the smallest number of digits necessary.
-	Precision *int
+	// HighPrecision indicates that this field should be treated as a high
+	// precision decimal, a decimal whose precision is important to the API and
+	// which we want to encode as accurately as possible.
+	//
+	// All parameters are encoded using form encoding, so this of course
+	// encodes a value to a string, but notably, these high precision fields
+	// are sent back as strings in JSON, even though they might be surface as
+	// floats in this library.
+	//
+	// This isn't a perfect abstraction because floats are not precise in
+	// nature, and we might be better-advised to use a real high-precision data
+	// type like `big.Float`. That said, we suspect that this will be an
+	// adequate solution in the vast majority of cases and has a usability
+	// benefit, so we've gone this route.
+	HighPrecision bool
 }
 
 type structEncoder struct {
@@ -220,8 +231,11 @@ func float32Encoder(values *Values, v reflect.Value, keyParts []string, encodeZe
 		return
 	}
 	prec := 4
-	if options != nil && options.Precision != nil {
-		prec = *options.Precision
+	if options != nil && options.HighPrecision {
+		// Special value that tells Go to format the float in as few required
+		// digits as necessary for it to be successfully parsable back to the
+		// same original number.
+		prec = -1
 	}
 	values.Add(FormatKey(keyParts), strconv.FormatFloat(val, 'f', prec, 32))
 }
@@ -232,8 +246,11 @@ func float64Encoder(values *Values, v reflect.Value, keyParts []string, encodeZe
 		return
 	}
 	prec := 4
-	if options != nil && options.Precision != nil {
-		prec = *options.Precision
+	if options != nil && options.HighPrecision {
+		// Special value that tells Go to format the float in as few required
+		// digits as necessary for it to be successfully parsable back to the
+		// same original number.
+		prec = -1
 	}
 	values.Add(FormatKey(keyParts), strconv.FormatFloat(val, 'f', prec, 64))
 }
@@ -412,9 +429,9 @@ func makeStructEncoder(t reflect.Type) *structEncoder {
 
 			fldIsFloat := k == reflect.Float32 || k == reflect.Float64
 
-			if options.Precision != nil && !fldIsFloat {
+			if options.HighPrecision && !fldIsFloat {
 				panic(fmt.Sprintf(
-					"Cannot specify `precision` for non-float field; on: %s/%s (%s)",
+					"Cannot specify `high_precision` for non-float field; on: %s/%s (%s)",
 					t.Name(), reflectField.Name, fldTyp,
 				))
 			}
@@ -486,15 +503,14 @@ func parseTag(tag string) (string, *formOptions) {
 			}
 			options.Empty = true
 
+		case "high_precision":
+			if options == nil {
+				options = &formOptions{}
+			}
+			options.HighPrecision = true
+
 		default:
-			var prec int
-			n, _ := fmt.Sscanf(parts[i], "precision=%d", &prec)
-			if n == 1 {
-				if options == nil {
-					options = &formOptions{}
-				}
-				options.Precision = &prec
-			} else if Strict {
+			if Strict {
 				part := parts[i]
 				if part == "" {
 					part = "(empty)"
