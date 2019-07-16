@@ -33,8 +33,14 @@ type testStruct struct {
 	Float32    float32  `form:"float32"`
 	Float32Ptr *float32 `form:"float32_ptr"`
 
+	Float32Precise    float32  `form:"float32_precise,high_precision"`
+	Float32PrecisePtr *float32 `form:"float32_precise_ptr,high_precision"`
+
 	Float64    float64  `form:"float64"`
 	Float64Ptr *float64 `form:"float64_ptr"`
+
+	Float64Precise    float64  `form:"float64_precise,high_precision"`
+	Float64PrecisePtr *float64 `form:"float64_precise_ptr,high_precision"`
 
 	Ignored string `form:"-"`
 
@@ -127,8 +133,12 @@ func TestAppendTo(t *testing.T) {
 	var float32Val float32 = 1.2345
 	var float32Val0 float32
 
+	var float32PreciseVal float32 = 0.123456789012
+
 	var float64Val = 1.2345
 	var float64Val0 = 0.0
+
+	var float64PreciseVal = 0.123456789012345678901234
 
 	var intVal = 123
 	var intVal0 = 0
@@ -140,7 +150,6 @@ func TestAppendTo(t *testing.T) {
 	var int32Val0 int32
 	var int64Val int64 = 123
 	var int64Val0 int64
-
 	var sliceVal = []string{"1", "2", "3"}
 	var sliceVal0 = []string{}
 
@@ -192,10 +201,28 @@ func TestAppendTo(t *testing.T) {
 		{"float32_ptr", &testStruct{Float32Ptr: &float32Val0}, stringPtr("0.0000")},
 		{"float32_ptr", &testStruct{}, nil},
 
+		// Tests float32 with high precision
+		{"float32_precise", &testStruct{Float32Precise: float32PreciseVal}, stringPtr("0.12345679")},
+		{"float32_precise_ptr", &testStruct{Float32PrecisePtr: &float32PreciseVal}, stringPtr("0.12345679")},
+		{"float32_precise_ptr", &testStruct{Float32PrecisePtr: &float32Val0}, stringPtr("0")},
+		{"float32_precise_ptr", &testStruct{}, nil},
+
+		// The 32-bit test value we're using it already beyond the length of
+		// 32-bit precision. The 64-bit value (which starts with the same
+		// decimals) is well beyond it, and therefore encodes to the same
+		// value.
+		{"float32_precise", &testStruct{Float32Precise: float32(float64PreciseVal)}, stringPtr("0.12345679")},
+
 		{"float64", &testStruct{Float64: float64Val}, stringPtr("1.2345")},
 		{"float64_ptr", &testStruct{Float64Ptr: &float64Val}, stringPtr("1.2345")},
 		{"float64_ptr", &testStruct{Float64Ptr: &float64Val0}, stringPtr("0.0000")},
 		{"float64_ptr", &testStruct{}, nil},
+
+		// Tests float64 with high precision
+		{"float64_precise", &testStruct{Float64Precise: float64PreciseVal}, stringPtr("0.12345678901234568")},
+		{"float64_precise_ptr", &testStruct{Float64PrecisePtr: &float64PreciseVal}, stringPtr("0.12345678901234568")},
+		{"float64_precise_ptr", &testStruct{Float64PrecisePtr: &float64Val0}, stringPtr("0")},
+		{"float64_precise_ptr", &testStruct{}, nil},
 
 		{"int", &testStruct{Int: intVal}, stringPtr("123")},
 		{"int_ptr", &testStruct{IntPtr: &intVal}, stringPtr("123")},
