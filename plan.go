@@ -71,7 +71,6 @@ type Plan struct {
 	Active          bool                `json:"active"`
 	AggregateUsage  string              `json:"aggregate_usage"`
 	Amount          int64               `json:"amount"`
-	AmountPrecise   *float64            `json:"amount_precise,string"`
 	BillingScheme   PlanBillingScheme   `json:"billing_scheme"`
 	Created         int64               `json:"created"`
 	Currency        Currency            `json:"currency"`
@@ -113,7 +112,6 @@ type PlanParams struct {
 	Active          *bool                     `form:"active"`
 	AggregateUsage  *string                   `form:"aggregate_usage"`
 	Amount          *int64                    `form:"amount"`
-	AmountPrecise   *float64                  `form:"amount_precise,high_precision"`
 	BillingScheme   *string                   `form:"billing_scheme"`
 	Currency        *string                   `form:"currency"`
 	ID              *string                   `form:"id"`
