@@ -1,5 +1,10 @@
 # Changelog
 
+## 61.15.0 - 2019-07-15
+* [#893](https://github.com/stripe/stripe-go/pull/893)
+  * Add support for `PaymentMethodOptions` on `PaymentIntent` and `SetupIntent`
+  * Add missing parameters to `PaymentIntentConfirmParams`
+
 ## 61.14.0 - 2019-07-15
 * [#891](https://github.com/stripe/stripe-go/pull/891) Various changes relaed to SCA for Billing
   * Add support for `PendingSetupIntent` on `Subscription`
