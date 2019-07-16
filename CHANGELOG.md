@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.16.0 - 2019-07-16
+* [#894](https://github.com/stripe/stripe-go/pull/894) Introduce encoding for high precision decimal fields
+
 ## 61.15.0 - 2019-07-15
 * [#893](https://github.com/stripe/stripe-go/pull/893)
   * Add support for `PaymentMethodOptions` on `PaymentIntent` and `SetupIntent`
