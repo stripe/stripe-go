@@ -76,6 +76,7 @@ type CreditNote struct {
 	Refund                     *Refund                     `json:"refund"`
 	Status                     CreditNoteStatus            `json:"status"`
 	Type                       CreditNoteType              `json:"type"`
+	VoidedAt                   int64                       `json:"voided_at"`
 }
 
 // CreditNoteList is a list of credit notes as retrieved from a list endpoint.
