@@ -151,7 +151,7 @@ type rawError struct {
 
 // rawErrorInternal embeds Error to deserialize all the standard error fields,
 // but also adds other fields that may or may not be present depending on error
-// type to help with deserialization. (e.g. Declinecode).
+// type to help with deserialization. (e.g. DeclineCode).
 type rawErrorInternal struct {
 	*Error
 	DeclineCode *string `json:"decline_code,omitempty"`
