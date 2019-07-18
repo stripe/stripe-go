@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.17.0 - 2019-07-17
+* [#895](https://github.com/stripe/stripe-go/pull/895) Add `VoidedAt` on `CreditNote`
+
 ## 61.16.0 - 2019-07-16
 * [#894](https://github.com/stripe/stripe-go/pull/894) Introduce encoding for high precision decimal fields
 
