@@ -14,7 +14,8 @@ type SubscriptionItemParams struct {
 	Subscription      *string                                  `form:"subscription"`
 	TaxRates          []*string                                `form:"tax_rates"`
 
-	// The following parameter is only supported on updates
+	// The following parameters are only supported on updates
+	OffSession      *bool   `form:"off_session"`
 	PaymentBehavior *string `form:"payment_behavior"`
 }
 
