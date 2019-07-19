@@ -48,6 +48,7 @@ type CreditNoteParams struct {
 // For more details see https://stripe.com/docs/api/credit_notes/list.
 type CreditNoteListParams struct {
 	ListParams `form:"*"`
+	Customer   *string `form:"customer"`
 	Invoice    *string `form:"invoice"`
 }
 
