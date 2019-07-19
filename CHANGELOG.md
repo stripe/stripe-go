@@ -1,5 +1,9 @@
 # Changelog
 
+## 61.18.0 - 2019-07-19
+* [#898](https://github.com/stripe/stripe-go/pull/898) Add `Customer` filter when listing `CreditNote`
+* [#899](https://github.com/stripe/stripe-go/pull/899) Add `OffSession` parameter when updating `SubscriptionItem`
+
 ## 61.17.0 - 2019-07-17
 * [#895](https://github.com/stripe/stripe-go/pull/895) Add `VoidedAt` on `CreditNote`
 
