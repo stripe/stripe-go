@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.19.0 - 2019-07-22
+* [#902](https://github.com/stripe/stripe-go/pull/902) Add support for `StatementDescriptor` when capturing a `PaymentIntent`
+
 ## 61.18.0 - 2019-07-19
 * [#898](https://github.com/stripe/stripe-go/pull/898) Add `Customer` filter when listing `CreditNote`
 * [#899](https://github.com/stripe/stripe-go/pull/899) Add `OffSession` parameter when updating `SubscriptionItem`
