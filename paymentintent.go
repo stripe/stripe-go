@@ -103,6 +103,7 @@ type PaymentIntentCaptureParams struct {
 	Params               `form:"*"`
 	AmountToCapture      *int64                           `form:"amount_to_capture"`
 	ApplicationFeeAmount *int64                           `form:"application_fee_amount"`
+	StatementDescriptor  *string                          `form:"statement_descriptor"`
 	TransferData         *PaymentIntentTransferDataParams `form:"transfer_data"`
 }
 
