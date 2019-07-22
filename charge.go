@@ -38,6 +38,7 @@ const (
 	ChargePaymentMethodDetailsTypeEps               ChargePaymentMethodDetailsType = "eps"
 	ChargePaymentMethodDetailsTypeGiropay           ChargePaymentMethodDetailsType = "giropay"
 	ChargePaymentMethodDetailsTypeIdeal             ChargePaymentMethodDetailsType = "ideal"
+	ChargePaymentMethodDetailsTypeKlarna            ChargePaymentMethodDetailsType = "klarna"
 	ChargePaymentMethodDetailsTypeMultibanco        ChargePaymentMethodDetailsType = "multibanco"
 	ChargePaymentMethodDetailsTypeP24               ChargePaymentMethodDetailsType = "p24"
 	ChargePaymentMethodDetailsTypeSepaDebit         ChargePaymentMethodDetailsType = "sepa_debit"
@@ -355,6 +356,36 @@ type ChargePaymentMethodDetailsIdeal struct {
 	VerifiedName string `json:"verified_name"`
 }
 
+// ChargePaymentMethodDetailsKlarna represents details for the Klarna
+// PaymentMethod.
+type ChargePaymentMethodDetailsKlarna struct {
+	BackgroundImageURL              string `json:"background_image_url"`
+	ClientToken                     string `json:"client_token"`
+	FirstName                       string `json:"first_name"`
+	LastName                        string `json:"last_name"`
+	Locale                          string `json:"locale"`
+	LogoURL                         string `json:"logo_url"`
+	PageTitle                       string `json:"page_title"`
+	PayLaterAssetURLsDescriptive    string `json:"pay_later_asset_urls_descriptive"`
+	PayLaterAssetURLsStandard       string `json:"pay_later_asset_urls_standard"`
+	PayLaterName                    string `json:"pay_later_name"`
+	PayLaterRedirectURL             string `json:"pay_later_redirect_url"`
+	PayNowAssetURLsDescriptive      string `json:"pay_now_asset_urls_descriptive"`
+	PayNowAssetURLsStandard         string `json:"pay_now_asset_urls_standard"`
+	PayNowName                      string `json:"pay_now_name"`
+	PayNowRedirectURL               string `json:"pay_now_redirect_url"`
+	PayOverTimeAssetURLsDescriptive string `json:"pay_over_time_asset_urls_descriptive"`
+	PayOverTimeAssetURLsStandard    string `json:"pay_over_time_asset_urls_standard"`
+	PayOverTimeName                 string `json:"pay_over_time_name"`
+	PayOverTimeRedirectURL          string `json:"pay_over_time_redirect_url"`
+	PaymentMethodCategories         string `json:"payment_method_categories"`
+	PurchaseCountry                 string `json:"purchase_country"`
+	PurchaseType                    string `json:"purchase_type"`
+	RedirectURL                     string `json:"redirect_url"`
+	ShippingFirstName               string `json:"shipping_first_name"`
+	ShippingLastName                string `json:"shipping_last_name"`
+}
+
 // ChargePaymentMethodDetailsMultibanco represents details about the Multibanco PaymentMethod.
 type ChargePaymentMethodDetailsMultibanco struct {
 	Entity    string `json:"entity"`
@@ -407,6 +438,7 @@ type ChargePaymentMethodDetails struct {
 	Eps               *ChargePaymentMethodDetailsEps               `json:"eps"`
 	Giropay           *ChargePaymentMethodDetailsGiropay           `json:"giropay"`
 	Ideal             *ChargePaymentMethodDetailsIdeal             `json:"ideal"`
+	Klarna            *ChargePaymentMethodDetailsKlarna            `json:"klarna"`
 	Multibanco        *ChargePaymentMethodDetailsMultibanco        `json:"multibanco"`
 	P24               *ChargePaymentMethodDetailsP24               `json:"p24"`
 	SepaDebit         *ChargePaymentMethodDetailsSepaDebit         `json:"sepa_debit"`
