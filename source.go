@@ -46,6 +46,17 @@ const (
 	SourceMandateNotificationMethodNone   SourceMandateNotificationMethod = "none"
 )
 
+// SourceSourceOrderItemType describes the type of source order items on source
+// orders for sources.
+type SourceSourceOrderItemType string
+
+// The list of possible values for source order item types.
+const (
+	SourceSourceOrderItemTypeSKU      SourceSourceOrderItemType = "sku"
+	SourceSourceOrderItemTypeShipping SourceSourceOrderItemType = "shipping"
+	SourceSourceOrderItemTypeTax      SourceSourceOrderItemType = "tax"
+)
+
 // SourceRedirectFlowFailureReason represents the possible failure reasons of a redirect flow.
 type SourceRedirectFlowFailureReason string
 
@@ -122,6 +133,45 @@ type RedirectParams struct {
 	ReturnURL *string `form:"return_url"`
 }
 
+// SourceOrderShippingAddressParams is the set of parameters allowed for the
+// shipping address for source order shipping details.
+type SourceOrderShippingAddressParams struct {
+	City       *string `form:"city"`
+	Country    *string `form:"country"`
+	Line1      *string `form:"line1"`
+	Line2      *string `form:"line2"`
+	PostalCode *string `form:"postal_code"`
+	State      *string `form:"state"`
+}
+
+// SourceOrderShippingParams is the set of parameters allowed for the shipping
+// details on source order items.
+type SourceOrderShippingParams struct {
+	Address        *SourceOrderShippingAddressParams `form:"address"`
+	Carrier        *string                           `form:"carrier"`
+	Name           *string                           `form:"name"`
+	Phone          *string                           `form:"carrier"`
+	TrackingNumber *string                           `form:"carrier"`
+}
+
+// SourceOrderItemsParams is the set of parameters allowed for the items on a
+// source order for a source.
+type SourceOrderItemsParams struct {
+	Amount      *int64  `form:"amount"`
+	Currency    *string `form:"currency"`
+	Description *string `form:"description"`
+	Parent      *string `form:"parent"`
+	Quantity    *int64  `form:"quantity"`
+	Type        *string `form:"type"`
+}
+
+// SourceOrderParams is the set of parameters allowed for the source order of a
+// source.
+type SourceOrderParams struct {
+	Items    []*SourceOrderItemsParams  `form:"items"`
+	Shipping *SourceOrderShippingParams `form:"shipping"`
+}
+
 // SourceObjectParams is the set of parameters allowed on source creation or update.
 type SourceObjectParams struct {
 	Params              `form:"*"`
@@ -134,6 +184,7 @@ type SourceObjectParams struct {
 	Owner               *SourceOwnerParams    `form:"owner"`
 	Receiver            *SourceReceiverParams `form:"receiver"`
 	Redirect            *RedirectParams       `form:"redirect"`
+	SourceOrder         *SourceOrderParams    `form:"source_order"`
 	StatementDescriptor *string               `form:"statement_descriptor"`
 	Token               *string               `form:"token"`
 	Type                *string               `form:"type"`
@@ -222,6 +273,45 @@ type SourceMandate struct {
 	URL                string                          `json:"url"`
 }
 
+// SourceSourceOrderShippingAddress describes the Address for source orders on
+// sources.
+type SourceSourceOrderShippingAddress struct {
+	City       string `json:"city"`
+	Country    string `json:"country"`
+	Line1      string `json:"line1"`
+	Line2      string `json:"line2"`
+	PostalCode string `json:"postal_code"`
+	State      string `json:"state"`
+}
+
+// SourceSourceOrderItems describes the items on source orders for sources.
+type SourceSourceOrderItems struct {
+	Amount      int64                     `json:"amount"`
+	Currency    Currency                  `json:"currency"`
+	Description string                    `json:"description"`
+	Quantity    int64                     `json:"quantity"`
+	Type        SourceSourceOrderItemType `json:"type"`
+}
+
+// SourceSourceOrderShipping describes the shipping options for source orders on
+// sources.
+type SourceSourceOrderShipping struct {
+	Address        SourceSourceOrderShippingAddress `json:"address"`
+	Carrier        string                           `json:"carrier"`
+	Name           string                           `json:"name"`
+	Phone          string                           `json:"phone"`
+	TrackingNumber string                           `json:"tracking_number"`
+}
+
+// SourceSourceOrder describes a source order for a source.
+type SourceSourceOrder struct {
+	Amount   int64                     `json:"amount"`
+	Currency Currency                  `json:"currency"`
+	Email    string                    `json:"email"`
+	Items    SourceSourceOrderItems    `json:"items"`
+	Shipping SourceSourceOrderShipping `json:"shipping"`
+}
+
 // Source is the resource representing a Source.
 // For more details see https://stripe.com/docs/api#sources.
 type Source struct {
@@ -240,6 +330,7 @@ type Source struct {
 	Receiver            *ReceiverFlow         `json:"receiver,omitempty"`
 	Redirect            *RedirectFlow         `json:"redirect,omitempty"`
 	StatementDescriptor string                `json:"statement_descriptor"`
+	SourceOrder         *SourceSourceOrder    `json:"source_order"`
 	Status              SourceStatus          `json:"status"`
 	Type                string                `json:"type"`
 	TypeData            map[string]interface{}
