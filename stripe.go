@@ -3,6 +3,7 @@ package stripe
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -944,7 +945,43 @@ var appInfo *AppInfo
 var backends Backends
 var encodedStripeUserAgent string
 var encodedUserAgent string
-var httpClient = &http.Client{Timeout: defaultHTTPTimeout}
+
+// The default HTTP client used for communication with any of Stripe's
+// backends.
+//
+// Can be overridden with the function `SetHTTPClient` or by setting the
+// `HTTPClient` value when using `BackendConfig`.
+var httpClient = &http.Client{
+	Timeout: defaultHTTPTimeout,
+
+	// There is a bug in Go's HTTP/2 implementation that occasionally causes it
+	// to send an empty body when it receives a `GOAWAY` message from a server:
+	//
+	//     https://github.com/golang/go/issues/32441
+	//
+	// This is particularly problematic for this library because the empty body
+	// results in no parameters being sent, which usually results in a 400,
+	// which is a status code expressly not covered by retry logic.
+	//
+	// The bug seems to be somewhat tricky to fix and hasn't seen any traction
+	// lately, so for now we're mitigating by disabling HTTP/2 in stripe-go by
+	// default. Users who like to live dangerously can still re-enable it by
+	// specifying a custom HTTP client. When the bug above is fixed, we can
+	// turn it back on.
+	//
+	// The particular methodology here for disabling HTTP/2 is a little
+	// confusing at first glance, but is recommended by the `net/http`
+	// documentation ("Programs that must disable HTTP/2 can do so by setting
+	// Transport.TLSNextProto (for clients) ... to a non-nil, empty map.")
+	//
+	// Note that the test suite still uses HTTP/2 to run as it specifies its
+	// own HTTP client with it enabled. See `testing/testing.go`.
+	//
+	// (Written 2019/07/24.)
+	Transport: &http.Transport{
+		TLSNextProto: make(map[string]func(string, *tls.Conn) http.RoundTripper),
+	},
+}
 
 //
 // Private functions
