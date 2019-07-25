@@ -1,5 +1,10 @@
 # Changelog
 
+## 61.20.0 - 2019-07-25
+* [#897](https://github.com/stripe/stripe-go/pull/897) Add all missing error codes
+* [#903](https://github.com/stripe/stripe-go/pull/903) Disable HTTP/2 by default (until underlying bug in Go's implementation is fixed)
+* [#905](https://github.com/stripe/stripe-go/pull/905) Add missing `Authenticated` field for 3DS charges
+
 ## 61.19.0 - 2019-07-22
 * [#902](https://github.com/stripe/stripe-go/pull/902) Add support for `StatementDescriptor` when capturing a `PaymentIntent`
 
