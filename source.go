@@ -52,6 +52,7 @@ type SourceSourceOrderItemType string
 
 // The list of possible values for source order item types.
 const (
+	SourceSourceOrderItemTypeDiscount SourceSourceOrderItemType = "discount"
 	SourceSourceOrderItemTypeSKU      SourceSourceOrderItemType = "sku"
 	SourceSourceOrderItemTypeShipping SourceSourceOrderItemType = "shipping"
 	SourceSourceOrderItemTypeTax      SourceSourceOrderItemType = "tax"
@@ -133,27 +134,6 @@ type RedirectParams struct {
 	ReturnURL *string `form:"return_url"`
 }
 
-// SourceOrderShippingAddressParams is the set of parameters allowed for the
-// shipping address for source order shipping details.
-type SourceOrderShippingAddressParams struct {
-	City       *string `form:"city"`
-	Country    *string `form:"country"`
-	Line1      *string `form:"line1"`
-	Line2      *string `form:"line2"`
-	PostalCode *string `form:"postal_code"`
-	State      *string `form:"state"`
-}
-
-// SourceOrderShippingParams is the set of parameters allowed for the shipping
-// details on source order items.
-type SourceOrderShippingParams struct {
-	Address        *SourceOrderShippingAddressParams `form:"address"`
-	Carrier        *string                           `form:"carrier"`
-	Name           *string                           `form:"name"`
-	Phone          *string                           `form:"carrier"`
-	TrackingNumber *string                           `form:"carrier"`
-}
-
 // SourceOrderItemsParams is the set of parameters allowed for the items on a
 // source order for a source.
 type SourceOrderItemsParams struct {
@@ -168,8 +148,8 @@ type SourceOrderItemsParams struct {
 // SourceOrderParams is the set of parameters allowed for the source order of a
 // source.
 type SourceOrderParams struct {
-	Items    []*SourceOrderItemsParams  `form:"items"`
-	Shipping *SourceOrderShippingParams `form:"shipping"`
+	Items    []*SourceOrderItemsParams `form:"items"`
+	Shipping *ShippingDetailsParams    `form:"shipping"`
 }
 
 // SourceObjectParams is the set of parameters allowed on source creation or update.
@@ -273,17 +253,6 @@ type SourceMandate struct {
 	URL                string                          `json:"url"`
 }
 
-// SourceSourceOrderShippingAddress describes the Address for source orders on
-// sources.
-type SourceSourceOrderShippingAddress struct {
-	City       string `json:"city"`
-	Country    string `json:"country"`
-	Line1      string `json:"line1"`
-	Line2      string `json:"line2"`
-	PostalCode string `json:"postal_code"`
-	State      string `json:"state"`
-}
-
 // SourceSourceOrderItems describes the items on source orders for sources.
 type SourceSourceOrderItems struct {
 	Amount      int64                     `json:"amount"`
@@ -293,23 +262,13 @@ type SourceSourceOrderItems struct {
 	Type        SourceSourceOrderItemType `json:"type"`
 }
 
-// SourceSourceOrderShipping describes the shipping options for source orders on
-// sources.
-type SourceSourceOrderShipping struct {
-	Address        SourceSourceOrderShippingAddress `json:"address"`
-	Carrier        string                           `json:"carrier"`
-	Name           string                           `json:"name"`
-	Phone          string                           `json:"phone"`
-	TrackingNumber string                           `json:"tracking_number"`
-}
-
 // SourceSourceOrder describes a source order for a source.
 type SourceSourceOrder struct {
-	Amount   int64                     `json:"amount"`
-	Currency Currency                  `json:"currency"`
-	Email    string                    `json:"email"`
-	Items    SourceSourceOrderItems    `json:"items"`
-	Shipping SourceSourceOrderShipping `json:"shipping"`
+	Amount   int64                  `json:"amount"`
+	Currency Currency               `json:"currency"`
+	Email    string                 `json:"email"`
+	Items    SourceSourceOrderItems `json:"items"`
+	Shipping ShippingDetails        `json:"shipping"`
 }
 
 // Source is the resource representing a Source.
