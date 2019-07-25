@@ -235,8 +235,9 @@ type ChargePaymentMethodDetailsCardChecks struct {
 // ChargePaymentMethodDetailsCardThreeDSecure represents details about 3DS associated with the
 // charge's PaymentMethod.
 type ChargePaymentMethodDetailsCardThreeDSecure struct {
-	Succeeded bool   `json:"succeeded"`
-	Version   string `json:"version"`
+	Authenticated bool   `json:"authenticated"`
+	Succeeded     bool   `json:"succeeded"`
+	Version       string `json:"version"`
 }
 
 // ChargePaymentMethodDetailsCardWalletAmexExpressCheckout represents the details of the Amex
