@@ -38,6 +38,7 @@ const (
 	ChargePaymentMethodDetailsTypeEps               ChargePaymentMethodDetailsType = "eps"
 	ChargePaymentMethodDetailsTypeGiropay           ChargePaymentMethodDetailsType = "giropay"
 	ChargePaymentMethodDetailsTypeIdeal             ChargePaymentMethodDetailsType = "ideal"
+	ChargePaymentMethodDetailsTypeKlarna            ChargePaymentMethodDetailsType = "klarna"
 	ChargePaymentMethodDetailsTypeMultibanco        ChargePaymentMethodDetailsType = "multibanco"
 	ChargePaymentMethodDetailsTypeP24               ChargePaymentMethodDetailsType = "p24"
 	ChargePaymentMethodDetailsTypeSepaDebit         ChargePaymentMethodDetailsType = "sepa_debit"
@@ -356,6 +357,11 @@ type ChargePaymentMethodDetailsIdeal struct {
 	VerifiedName string `json:"verified_name"`
 }
 
+// ChargePaymentMethodDetailsKlarna represents details for the Klarna
+// PaymentMethod.
+type ChargePaymentMethodDetailsKlarna struct {
+}
+
 // ChargePaymentMethodDetailsMultibanco represents details about the Multibanco PaymentMethod.
 type ChargePaymentMethodDetailsMultibanco struct {
 	Entity    string `json:"entity"`
@@ -408,6 +414,7 @@ type ChargePaymentMethodDetails struct {
 	Eps               *ChargePaymentMethodDetailsEps               `json:"eps"`
 	Giropay           *ChargePaymentMethodDetailsGiropay           `json:"giropay"`
 	Ideal             *ChargePaymentMethodDetailsIdeal             `json:"ideal"`
+	Klarna            *ChargePaymentMethodDetailsKlarna            `json:"klarna"`
 	Multibanco        *ChargePaymentMethodDetailsMultibanco        `json:"multibanco"`
 	P24               *ChargePaymentMethodDetailsP24               `json:"p24"`
 	SepaDebit         *ChargePaymentMethodDetailsSepaDebit         `json:"sepa_debit"`
