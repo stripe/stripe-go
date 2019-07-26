@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.21.0 - 2019-07-26
+* [#904](https://github.com/stripe/stripe-go/pull/904) Add support for Klarna and source orders
+
 ## 61.20.0 - 2019-07-25
 * [#897](https://github.com/stripe/stripe-go/pull/897) Add all missing error codes
 * [#903](https://github.com/stripe/stripe-go/pull/903) Disable HTTP/2 by default (until underlying bug in Go's implementation is fixed)
