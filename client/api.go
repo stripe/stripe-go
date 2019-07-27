@@ -37,6 +37,7 @@ import (
 	issuingdispute "github.com/stripe/stripe-go/issuing/dispute"
 	"github.com/stripe/stripe-go/issuing/transaction"
 	"github.com/stripe/stripe-go/loginlink"
+	"github.com/stripe/stripe-go/oauth"
 	"github.com/stripe/stripe-go/order"
 	"github.com/stripe/stripe-go/orderreturn"
 	"github.com/stripe/stripe-go/paymentintent"
@@ -148,6 +149,8 @@ type API struct {
 	IssuingTransactions *transaction.Client
 	// LoginLinks is the client used to invoke login link related APIs.
 	LoginLinks *loginlink.Client
+	// OAuth is the client used to invoke /oauth APIs.
+	OAuth *oauth.Client
 	// Orders is the client used to invoke /orders APIs.
 	Orders *order.Client
 	// OrderReturns is the client used to invoke /order_returns APIs.
@@ -234,6 +237,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	if backends == nil {
 		backends = &stripe.Backends{
 			API:     stripe.GetBackend(stripe.APIBackend),
+			Connect: stripe.GetBackend(stripe.ConnectBackend),
 			Uploads: stripe.GetBackend(stripe.UploadsBackend),
 		}
 	}
@@ -272,8 +276,9 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.IssuingDisputes = &issuingdispute.Client{B: backends.API, Key: key}
 	a.IssuingTransactions = &transaction.Client{B: backends.API, Key: key}
 	a.LoginLinks = &loginlink.Client{B: backends.API, Key: key}
-	a.Orders = &order.Client{B: backends.API, Key: key}
+	a.OAuth = &oauth.Client{B: backends.Connect, Key: key}
 	a.OrderReturns = &orderreturn.Client{B: backends.API, Key: key}
+	a.Orders = &order.Client{B: backends.API, Key: key}
 	a.PaymentIntents = &paymentintent.Client{B: backends.API, Key: key}
 	a.PaymentMethods = &paymentmethod.Client{B: backends.API, Key: key}
 	a.PaymentSource = &paymentsource.Client{B: backends.API, Key: key}
