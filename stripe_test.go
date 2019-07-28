@@ -714,7 +714,7 @@ func TestResponseToError(t *testing.T) {
 	err = json.Unmarshal(bytes, &raw)
 	assert.NoError(t, err)
 
-	expectedDeclineCode := "decline-code"
+	expectedDeclineCode := string(stripe.DeclineCodeInvalidCVC)
 	raw["decline_code"] = expectedDeclineCode
 	bytes, err = json.Marshal(raw)
 	assert.NoError(t, err)
