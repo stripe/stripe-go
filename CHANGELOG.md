@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.22.0 - 2019-07-29
+* [#909](https://github.com/stripe/stripe-go/pull/909) Rename `PayentMethodOptions` to `PaymentMethodOptions` on `PaymentIntent` and `SetupIntent`. Keep the old name until the next major version for backwards-compatibility
+
 ## 61.21.0 - 2019-07-26
 * [#904](https://github.com/stripe/stripe-go/pull/904) Add support for Klarna and source orders
 
