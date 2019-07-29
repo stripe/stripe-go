@@ -112,16 +112,16 @@ type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
 	// This parameter expects a boolean but used to take an enum so we're adding support for both
 	// until the next major version (TODO).
-	OffSession          interface{}                              `form:"off_session"`
-	PaymentMethod       *string                                  `form:"payment_method"`
-	PayentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	PaymentMethodTypes  []*string                                `form:"payment_method_types"`
-	ReceiptEmail        *string                                  `form:"receipt_email"`
-	ReturnURL           *string                                  `form:"return_url"`
-	SavePaymentMethod   *bool                                    `form:"save_payment_method"`
-	SetupFutureUsage    *string                                  `form:"setup_future_usage"`
-	Shipping            *ShippingDetailsParams                   `form:"shipping"`
-	Source              *string                                  `form:"source"`
+	OffSession           interface{}                              `form:"off_session"`
+	PaymentMethod        *string                                  `form:"payment_method"`
+	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodTypes   []*string                                `form:"payment_method_types"`
+	ReceiptEmail         *string                                  `form:"receipt_email"`
+	ReturnURL            *string                                  `form:"return_url"`
+	SavePaymentMethod    *bool                                    `form:"save_payment_method"`
+	SetupFutureUsage     *string                                  `form:"setup_future_usage"`
+	Shipping             *ShippingDetailsParams                   `form:"shipping"`
+	Source               *string                                  `form:"source"`
 }
 
 // PaymentIntentPaymentMethodOptionsCardParams represents the card-specific options applied to a
