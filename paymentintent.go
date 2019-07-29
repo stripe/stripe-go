@@ -112,16 +112,19 @@ type PaymentIntentConfirmParams struct {
 	Params `form:"*"`
 	// This parameter expects a boolean but used to take an enum so we're adding support for both
 	// until the next major version (TODO).
-	OffSession          interface{}                              `form:"off_session"`
-	PaymentMethod       *string                                  `form:"payment_method"`
+	OffSession           interface{}                              `form:"off_session"`
+	PaymentMethod        *string                                  `form:"payment_method"`
+	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodTypes   []*string                                `form:"payment_method_types"`
+	ReceiptEmail         *string                                  `form:"receipt_email"`
+	ReturnURL            *string                                  `form:"return_url"`
+	SavePaymentMethod    *bool                                    `form:"save_payment_method"`
+	SetupFutureUsage     *string                                  `form:"setup_future_usage"`
+	Shipping             *ShippingDetailsParams                   `form:"shipping"`
+	Source               *string                                  `form:"source"`
+
+	// TODO: remove the following parameter in the next major version
 	PayentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	PaymentMethodTypes  []*string                                `form:"payment_method_types"`
-	ReceiptEmail        *string                                  `form:"receipt_email"`
-	ReturnURL           *string                                  `form:"return_url"`
-	SavePaymentMethod   *bool                                    `form:"save_payment_method"`
-	SetupFutureUsage    *string                                  `form:"setup_future_usage"`
-	Shipping            *ShippingDetailsParams                   `form:"shipping"`
-	Source              *string                                  `form:"source"`
 }
 
 // PaymentIntentPaymentMethodOptionsCardParams represents the card-specific options applied to a
@@ -155,7 +158,7 @@ type PaymentIntentParams struct {
 	Description          *string                                  `form:"description"`
 	OnBehalfOf           *string                                  `form:"on_behalf_of"`
 	PaymentMethod        *string                                  `form:"payment_method"`
-	PayentMethodOptions  *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	PaymentMethodTypes   []*string                                `form:"payment_method_types"`
 	ReceiptEmail         *string                                  `form:"receipt_email"`
 	ReturnURL            *string                                  `form:"return_url"`
@@ -170,6 +173,9 @@ type PaymentIntentParams struct {
 	// This parameter only works if you confirm on creation. It also expects a boolean but used to
 	// take an enum so we're adding support for both until the next major version (TODO).
 	OffSession interface{} `form:"off_session"`
+
+	// TODO: remove the following parameter in the next major version
+	PayentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 }
 
 // PaymentIntentListParams is the set of parameters that can be used when listing payment intents.
