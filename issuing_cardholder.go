@@ -21,7 +21,7 @@ const (
 	IssuingCardholderTypeIndividual     IssuingCardholderType = "individual"
 )
 
-// IssuingBillingParams isis the set of parameters that can be used for billing with the Issuing APIs.
+// IssuingBillingParams is the set of parameters that can be used for billing with the Issuing APIs.
 type IssuingBillingParams struct {
 	Address *AddressParams `form:"address"`
 	Name    *string        `form:"name"`

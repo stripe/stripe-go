@@ -136,6 +136,10 @@ type Error struct {
 	SetupIntent    *SetupIntent   `json:"setup_intent,omitempty"`
 	Source         *PaymentSource `json:"source,omitempty"`
 	Type           ErrorType      `json:"type"`
+
+	// OAuth specific Error properties. Named OAuthError because of name conflict.
+	OAuthError            string `json:"error,omitempty"`
+	OAuthErrorDescription string `json:"error_description,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
