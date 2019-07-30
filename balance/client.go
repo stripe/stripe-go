@@ -27,28 +27,32 @@ func (c Client) Get(params *stripe.BalanceParams) (*stripe.Balance, error) {
 }
 
 // GetBalanceTransaction retrieves a balance transaction
+// Deprecated: Prefer using balancetransaction.Get instead.
 func GetBalanceTransaction(id string, params *stripe.BalanceTransactionParams) (*stripe.BalanceTransaction, error) {
 	return getC().GetBalanceTransaction(id, params)
 }
 
 // GetBalanceTransaction retrieves a balance transaction
+// Deprecated: Prefer using balancetransaction.Get instead.
 func (c Client) GetBalanceTransaction(id string, params *stripe.BalanceTransactionParams) (*stripe.BalanceTransaction, error) {
-	path := stripe.FormatURLPath("/v1/balance/history/%s", id)
+	path := stripe.FormatURLPath("/v1/balance_transactions/%s", id)
 	balance := &stripe.BalanceTransaction{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, balance)
 	return balance, err
 }
 
-// List returns a list of balance transactions.
+// List returns a list of balance transactions
+// Deprecated: Prefer using balancetransaction.List instead.
 func List(params *stripe.BalanceTransactionListParams) *Iter {
 	return getC().List(params)
 }
 
 // List returns a list of balance transactions.
+// Deprecated: Prefer using balancetransaction.List instead.
 func (c Client) List(listParams *stripe.BalanceTransactionListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.BalanceTransactionList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/balance/history", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/balance_transactions", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {

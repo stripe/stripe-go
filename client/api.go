@@ -7,6 +7,7 @@ import (
 	"github.com/stripe/stripe-go/accountlink"
 	"github.com/stripe/stripe-go/applepaydomain"
 	"github.com/stripe/stripe-go/balance"
+	"github.com/stripe/stripe-go/balancetransaction"
 	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/bitcoinreceiver"
 	"github.com/stripe/stripe-go/bitcointransaction"
@@ -87,8 +88,10 @@ type API struct {
 	AccountLinks *accountlink.Client
 	// ApplePayDomains is the client used to invoke /apple_pay/domains APIs.
 	ApplePayDomains *applepaydomain.Client
-	// Balance is the client used to invoke /balance and transaction-related APIs.
+	// Balance is the client used to invoke /balance APIs.
 	Balance *balance.Client
+	// BalanceTransaction is the client used to invoke /balance_transactions APIs.
+	BalanceTransaction *balancetransaction.Client
 	// BankAccounts is the client used to invoke bank account related APIs.
 	BankAccounts *bankaccount.Client
 	// BitcoinReceivers is the client used to invoke /bitcoin/receivers APIs.
@@ -246,6 +249,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.ApplePayDomains = &applepaydomain.Client{B: backends.API, Key: key}
 	a.AccountLinks = &accountlink.Client{B: backends.API, Key: key}
 	a.Balance = &balance.Client{B: backends.API, Key: key}
+	a.BalanceTransaction = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BitcoinReceivers = &bitcoinreceiver.Client{B: backends.API, Key: key}
 	a.BitcoinTransactions = &bitcointransaction.Client{B: backends.API, Key: key}
