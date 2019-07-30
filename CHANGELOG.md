@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.23.0 - 2019-07-29
+* [#879](https://github.com/stripe/stripe-go/pull/879) Add support for OAuth API endpoints
+
 ## 61.22.0 - 2019-07-29
 * [#909](https://github.com/stripe/stripe-go/pull/909) Rename `PayentMethodOptions` to `PaymentMethodOptions` on `PaymentIntent` and `SetupIntent`. Keep the old name until the next major version for backwards-compatibility
 
