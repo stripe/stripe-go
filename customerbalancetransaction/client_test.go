@@ -31,6 +31,7 @@ func TestCustomerBalanceTransactionNew(t *testing.T) {
 	transaction, err := New(&stripe.CustomerBalanceTransactionParams{
 		Amount:   stripe.Int64(1234),
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
+		Customer: stripe.String("cus_123"),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, transaction)
