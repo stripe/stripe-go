@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.25.0 - 2019-07-30
+* [#910](https://github.com/stripe/stripe-go/pull/910) Add `balancetransaction` package with a `Get` and `List` methods
+
 ## 61.24.0 - 2019-07-30
 * [#906](https://github.com/stripe/stripe-go/pull/906) Add decline code type and constants (for use with card errors)
 
