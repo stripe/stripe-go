@@ -1,5 +1,8 @@
 # Changelog
 
+## 61.24.0 - 2019-07-30
+* [#906](https://github.com/stripe/stripe-go/pull/906) Add decline code type and constants (for use with card errors)
+
 ## 61.23.0 - 2019-07-29
 * [#879](https://github.com/stripe/stripe-go/pull/879) Add support for OAuth API endpoints
 
