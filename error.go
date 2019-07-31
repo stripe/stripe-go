@@ -19,6 +19,9 @@ const (
 // ErrorCode is the list of allowed values for the error's code.
 type ErrorCode string
 
+// DeclineCode is the list of reasons provided by card issuers for decline of payment.
+type DeclineCode string
+
 // List of values that ErrorCode can take.
 const (
 	ErrorCodeAccountAlreadyExists                   ErrorCode = "account_already_exists"
@@ -115,6 +118,54 @@ const (
 	ErrorCodeInvalidSwipeData ErrorCode = "invalid_swipe_data"
 )
 
+// List of DeclineCode values.
+const (
+	DeclineCodeAuthenticationRequired         DeclineCode = "authentication_required"
+	DeclineCodeApproveWithID                  DeclineCode = "approve_with_id"
+	DeclineCodeCallIssuer                     DeclineCode = "call_issuer"
+	DeclineCodeCardNotSupported               DeclineCode = "card_not_supported"
+	DeclineCodeCardVelocityExceeded           DeclineCode = "card_velocity_exceeded"
+	DeclineCodeCurrencyNotSupported           DeclineCode = "currency_not_supported"
+	DeclineCodeDoNotHonor                     DeclineCode = "do_not_honor"
+	DeclineCodeDoNotTryAgain                  DeclineCode = "do_not_try_again"
+	DeclineCodeDuplicateTransaction           DeclineCode = "duplicate_transaction"
+	DeclineCodeExpiredCard                    DeclineCode = "expired_card"
+	DeclineCodeFraudulent                     DeclineCode = "fraudulent"
+	DeclineCodeGenericDecline                 DeclineCode = "generic_decline"
+	DeclineCodeIncorrectNumber                DeclineCode = "incorrect_number"
+	DeclineCodeIncorrectCVC                   DeclineCode = "incorrect_cvc"
+	DeclineCodeIncorrectPIN                   DeclineCode = "incorrect_pin"
+	DeclineCodeIncorrectZip                   DeclineCode = "incorrect_zip"
+	DeclineCodeInsufficientFunds              DeclineCode = "insufficient_funds"
+	DeclineCodeInvalidAccount                 DeclineCode = "invalid_account"
+	DeclineCodeInvalidAmount                  DeclineCode = "invalid_amount"
+	DeclineCodeInvalidCVC                     DeclineCode = "invalid_cvc"
+	DeclineCodeInvalidExpiryYear              DeclineCode = "invalid_expiry_year"
+	DeclineCodeInvalidNumber                  DeclineCode = "invalid_number"
+	DeclineCodeInvalidPIN                     DeclineCode = "invalid_pin"
+	DeclineCodeIssuerNotAvailable             DeclineCode = "issuer_not_available"
+	DeclineCodeLostCard                       DeclineCode = "lost_card"
+	DeclineCodeMerchantBlacklist              DeclineCode = "merchant_blacklist"
+	DeclineCodeNewAccountInformationAvailable DeclineCode = "new_account_information_available"
+	DeclineCodeNoActionTaken                  DeclineCode = "no_action_taken"
+	DeclineCodeNotPermitted                   DeclineCode = "not_permitted"
+	DeclineCodePickupCard                     DeclineCode = "pickup_card"
+	DeclineCodePINTryExceeded                 DeclineCode = "pin_try_exceeded"
+	DeclineCodeProcessingError                DeclineCode = "processing_error"
+	DeclineCodeReenterTransaction             DeclineCode = "reenter_transaction"
+	DeclineCodeRestrictedCard                 DeclineCode = "restricted_card"
+	DeclineCodeRevocationOfAllAuthorizations  DeclineCode = "revocation_of_all_authorizations"
+	DeclineCodeRevocationOfAuthorization      DeclineCode = "revocation_of_authorization"
+	DeclineCodeSecurityViolation              DeclineCode = "security_violation"
+	DeclineCodeServiceNotAllowed              DeclineCode = "service_not_allowed"
+	DeclineCodeStolenCard                     DeclineCode = "stolen_card"
+	DeclineCodeStopPaymentOrder               DeclineCode = "stop_payment_order"
+	DeclineCodeTestModeDecline                DeclineCode = "testmode_decline"
+	DeclineCodeTransactionNotAllowed          DeclineCode = "transaction_not_allowed"
+	DeclineCodeTryAgainLater                  DeclineCode = "try_again_later"
+	DeclineCodeWithdrawalCountLimitExceeded   DeclineCode = "withdrawal_count_limit_exceeded"
+)
+
 // Error is the response returned when a call is unsuccessful.
 // For more details see  https://stripe.com/docs/api#errors.
 type Error struct {
@@ -194,7 +245,13 @@ func (e *PermissionError) Error() string {
 // They result when the user enters a card that can't be charged for some
 // reason.
 type CardError struct {
-	stripeErr   *Error
+	stripeErr *Error
+	// DeclineCode is a code indicating a card issuer's reason for declining a
+	// card (if they provided one).
+	//
+	// TODO: This field should be of type DeclineCode (as defined above), but
+	// we've let it as a string for now for backwards compatibility. Change its
+	// type on the library's next major version.
 	DeclineCode string `json:"decline_code,omitempty"`
 }
 
