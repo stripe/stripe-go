@@ -76,24 +76,25 @@ type ChargeTransferDataParams struct {
 
 // ChargeParams is the set of parameters that can be used when creating or updating a charge.
 type ChargeParams struct {
-	Params               `form:"*"`
-	Amount               *int64                    `form:"amount"`
-	ApplicationFeeAmount *int64                    `form:"application_fee_amount"`
-	Capture              *bool                     `form:"capture"`
-	Currency             *string                   `form:"currency"`
-	Customer             *string                   `form:"customer"`
-	Description          *string                   `form:"description"`
-	Destination          *DestinationParams        `form:"destination"`
-	ExchangeRate         *float64                  `form:"exchange_rate"`
-	FraudDetails         *FraudDetailsParams       `form:"fraud_details"`
-	Level3               *ChargeLevel3Params       `form:"level3"`
-	OnBehalfOf           *string                   `form:"on_behalf_of"`
-	ReceiptEmail         *string                   `form:"receipt_email"`
-	Shipping             *ShippingDetailsParams    `form:"shipping"`
-	Source               *SourceParams             `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-	StatementDescriptor  *string                   `form:"statement_descriptor"`
-	TransferData         *ChargeTransferDataParams `form:"transfer_data"`
-	TransferGroup        *string                   `form:"transfer_group"`
+	Params                    `form:"*"`
+	Amount                    *int64                    `form:"amount"`
+	ApplicationFeeAmount      *int64                    `form:"application_fee_amount"`
+	Capture                   *bool                     `form:"capture"`
+	Currency                  *string                   `form:"currency"`
+	Customer                  *string                   `form:"customer"`
+	Description               *string                   `form:"description"`
+	Destination               *DestinationParams        `form:"destination"`
+	ExchangeRate              *float64                  `form:"exchange_rate"`
+	FraudDetails              *FraudDetailsParams       `form:"fraud_details"`
+	Level3                    *ChargeLevel3Params       `form:"level3"`
+	OnBehalfOf                *string                   `form:"on_behalf_of"`
+	ReceiptEmail              *string                   `form:"receipt_email"`
+	Shipping                  *ShippingDetailsParams    `form:"shipping"`
+	Source                    *SourceParams             `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	StatementDescriptor       *string                   `form:"statement_descriptor"`
+	StatementDescriptorSuffix *string                   `form:"statement_descriptor_suffix"`
+	TransferData              *ChargeTransferDataParams `form:"transfer_data"`
+	TransferGroup             *string                   `form:"transfer_group"`
 
 	// This property is considered deprecated. Prefer using ApplicationFeeAmount
 	ApplicationFee *int64 `form:"application_fee"`
@@ -139,14 +140,15 @@ type ChargeListParams struct {
 
 // CaptureParams is the set of parameters that can be used when capturing a charge.
 type CaptureParams struct {
-	Params               `form:"*"`
-	Amount               *int64                    `form:"amount"`
-	ApplicationFeeAmount *int64                    `form:"application_fee_amount"`
-	ExchangeRate         *float64                  `form:"exchange_rate"`
-	ReceiptEmail         *string                   `form:"receipt_email"`
-	StatementDescriptor  *string                   `form:"statement_descriptor"`
-	TransferGroup        *string                   `form:"transfer_group"`
-	TransferData         *ChargeTransferDataParams `form:"transfer_data"`
+	Params                    `form:"*"`
+	Amount                    *int64                    `form:"amount"`
+	ApplicationFeeAmount      *int64                    `form:"application_fee_amount"`
+	ExchangeRate              *float64                  `form:"exchange_rate"`
+	ReceiptEmail              *string                   `form:"receipt_email"`
+	StatementDescriptor       *string                   `form:"statement_descriptor"`
+	StatementDescriptorSuffix *string                   `form:"statement_descriptor_suffix"`
+	TransferGroup             *string                   `form:"transfer_group"`
+	TransferData              *ChargeTransferDataParams `form:"transfer_data"`
 
 	// This property is considered deprecated. Prefer using ApplicationFeeAmount
 	ApplicationFee *int64 `form:"application_fee"`
@@ -298,6 +300,7 @@ type ChargePaymentMethodDetailsCard struct {
 	Fingerprint  string                                      `json:"fingerprint"`
 	Funding      CardFunding                                 `json:"funding"`
 	Last4        string                                      `json:"last4"`
+	MOTO         bool                                        `json:"moto"`
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	Wallet       *ChargePaymentMethodDetailsCardWallet       `json:"wallet"`
 
@@ -433,49 +436,50 @@ type ChargeTransferData struct {
 // Charge is the resource representing a Stripe charge.
 // For more details see https://stripe.com/docs/api#charges.
 type Charge struct {
-	Amount               int64                       `json:"amount"`
-	AmountRefunded       int64                       `json:"amount_refunded"`
-	Application          *Application                `json:"application"`
-	ApplicationFee       *ApplicationFee             `json:"application_fee"`
-	ApplicationFeeAmount int64                       `json:"application_fee_amount"`
-	AuthorizationCode    string                      `json:"authorization_code"`
-	BalanceTransaction   *BalanceTransaction         `json:"balance_transaction"`
-	BillingDetails       *BillingDetails             `json:"billing_details"`
-	Captured             bool                        `json:"captured"`
-	Created              int64                       `json:"created"`
-	Currency             Currency                    `json:"currency"`
-	Customer             *Customer                   `json:"customer"`
-	Description          string                      `json:"description"`
-	Destination          *Account                    `json:"destination"`
-	Dispute              *Dispute                    `json:"dispute"`
-	FailureCode          string                      `json:"failure_code"`
-	FailureMessage       string                      `json:"failure_message"`
-	FraudDetails         *FraudDetails               `json:"fraud_details"`
-	ID                   string                      `json:"id"`
-	Invoice              *Invoice                    `json:"invoice"`
-	Level3               ChargeLevel3                `json:"level3"`
-	Livemode             bool                        `json:"livemode"`
-	Metadata             map[string]string           `json:"metadata"`
-	OnBehalfOf           *Account                    `json:"on_behalf_of"`
-	Outcome              *ChargeOutcome              `json:"outcome"`
-	Paid                 bool                        `json:"paid"`
-	PaymentIntent        string                      `json:"payment_intent"`
-	PaymentMethod        string                      `json:"payment_method"`
-	PaymentMethodDetails *ChargePaymentMethodDetails `json:"payment_method_details"`
-	ReceiptEmail         string                      `json:"receipt_email"`
-	ReceiptNumber        string                      `json:"receipt_number"`
-	ReceiptURL           string                      `json:"receipt_url"`
-	Refunded             bool                        `json:"refunded"`
-	Refunds              *RefundList                 `json:"refunds"`
-	Review               *Review                     `json:"review"`
-	Shipping             *ShippingDetails            `json:"shipping"`
-	Source               *PaymentSource              `json:"source"`
-	SourceTransfer       *Transfer                   `json:"source_transfer"`
-	StatementDescriptor  string                      `json:"statement_descriptor"`
-	Status               string                      `json:"status"`
-	Transfer             *Transfer                   `json:"transfer"`
-	TransferData         *ChargeTransferData         `json:"transfer_data"`
-	TransferGroup        string                      `json:"transfer_group"`
+	Amount                    int64                       `json:"amount"`
+	AmountRefunded            int64                       `json:"amount_refunded"`
+	Application               *Application                `json:"application"`
+	ApplicationFee            *ApplicationFee             `json:"application_fee"`
+	ApplicationFeeAmount      int64                       `json:"application_fee_amount"`
+	AuthorizationCode         string                      `json:"authorization_code"`
+	BalanceTransaction        *BalanceTransaction         `json:"balance_transaction"`
+	BillingDetails            *BillingDetails             `json:"billing_details"`
+	Captured                  bool                        `json:"captured"`
+	Created                   int64                       `json:"created"`
+	Currency                  Currency                    `json:"currency"`
+	Customer                  *Customer                   `json:"customer"`
+	Description               string                      `json:"description"`
+	Destination               *Account                    `json:"destination"`
+	Dispute                   *Dispute                    `json:"dispute"`
+	FailureCode               string                      `json:"failure_code"`
+	FailureMessage            string                      `json:"failure_message"`
+	FraudDetails              *FraudDetails               `json:"fraud_details"`
+	ID                        string                      `json:"id"`
+	Invoice                   *Invoice                    `json:"invoice"`
+	Level3                    ChargeLevel3                `json:"level3"`
+	Livemode                  bool                        `json:"livemode"`
+	Metadata                  map[string]string           `json:"metadata"`
+	OnBehalfOf                *Account                    `json:"on_behalf_of"`
+	Outcome                   *ChargeOutcome              `json:"outcome"`
+	Paid                      bool                        `json:"paid"`
+	PaymentIntent             string                      `json:"payment_intent"`
+	PaymentMethod             string                      `json:"payment_method"`
+	PaymentMethodDetails      *ChargePaymentMethodDetails `json:"payment_method_details"`
+	ReceiptEmail              string                      `json:"receipt_email"`
+	ReceiptNumber             string                      `json:"receipt_number"`
+	ReceiptURL                string                      `json:"receipt_url"`
+	Refunded                  bool                        `json:"refunded"`
+	Refunds                   *RefundList                 `json:"refunds"`
+	Review                    *Review                     `json:"review"`
+	Shipping                  *ShippingDetails            `json:"shipping"`
+	Source                    *PaymentSource              `json:"source"`
+	SourceTransfer            *Transfer                   `json:"source_transfer"`
+	StatementDescriptor       string                      `json:"statement_descriptor"`
+	StatementDescriptorSuffix string                      `json:"statement_descriptor_suffix"`
+	Status                    string                      `json:"status"`
+	Transfer                  *Transfer                   `json:"transfer"`
+	TransferData              *ChargeTransferData         `json:"transfer_data"`
+	TransferGroup             string                      `json:"transfer_group"`
 }
 
 // UnmarshalJSON handles deserialization of a charge.
