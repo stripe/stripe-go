@@ -1,5 +1,11 @@
 # Changelog
 
+## 61.26.0 - 2019-08-08
+* [#911](https://github.com/stripe/stripe-go/pull/911)
+  * Add support for `PaymentMethodDetails.Card.Moto` on `Charge`
+  * Add support `StatementDescriptorSuffix` on `Charge` and `PaymentIntent`
+  * Add support `SubscriptionData.ApplicationFeePercent` on Checkout `Session`
+
 ## 61.25.0 - 2019-07-30
 * [#910](https://github.com/stripe/stripe-go/pull/910) Add `balancetransaction` package with a `Get` and `List` methods
 
