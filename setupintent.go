@@ -78,6 +78,7 @@ type SetupIntentConfirmParams struct {
 // SetupIntentPaymentMethodOptionsCardParams represents the card-specific options applied to a
 // SetupIntent.
 type SetupIntentPaymentMethodOptionsCardParams struct {
+	MOTO                *bool   `form:"moto"`
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 }
 

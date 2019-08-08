@@ -68,10 +68,11 @@ type CheckoutSessionSubscriptionDataItemsParams struct {
 // CheckoutSessionSubscriptionDataParams is the set of parameters allowed for the subscription
 // creation on a checkout session.
 type CheckoutSessionSubscriptionDataParams struct {
-	Params          `form:"*"`
-	Items           []*CheckoutSessionSubscriptionDataItemsParams `form:"items"`
-	TrialEnd        *int64                                        `form:"trial_end"`
-	TrialPeriodDays *int64                                        `form:"trial_period_days"`
+	Params                `form:"*"`
+	ApplicationFeePercent *float64                                      `form:"application_fee_percent"`
+	Items                 []*CheckoutSessionSubscriptionDataItemsParams `form:"items"`
+	TrialEnd              *int64                                        `form:"trial_end"`
+	TrialPeriodDays       *int64                                        `form:"trial_period_days"`
 }
 
 // CheckoutSessionParams is the set of parameters that can be used when creating
