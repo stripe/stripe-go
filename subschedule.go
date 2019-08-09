@@ -175,7 +175,6 @@ type SubscriptionSchedule struct {
 	Object               string                               `json:"object"`
 	Phases               []*SubscriptionSchedulePhase         `json:"phases"`
 	ReleasedSubscription *Subscription                        `json:"released_subscription"`
-	Revision             *SubscriptionScheduleRevision        `json:"revision"`
 	RenewalBehavior      SubscriptionScheduleRenewalBehavior  `json:"renewal_behavior"`
 	RenewalInterval      *SubscriptionScheduleRenewalInterval `json:"renewal_interval"`
 	Status               SubscriptionScheduleStatus           `json:"status"`
