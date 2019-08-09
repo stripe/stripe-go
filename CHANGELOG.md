@@ -1,5 +1,9 @@
 # Changelog
 
+## 61.27.0 - 2019-08-09
+* [#913](https://github.com/stripe/stripe-go/pull/913) Remove `SubscriptionScheduleRevision`
+  * Note that this is technically a breaking change, however we've chosen to release it as a minor version in light of the fact that this resource and its API methods were virtually unused.
+
 ## 61.26.0 - 2019-08-08
 * [#911](https://github.com/stripe/stripe-go/pull/911)
   * Add support for `PaymentMethodDetails.Card.Moto` on `Charge`
