@@ -11,6 +11,10 @@ import (
 
 func Example() {
 	http.HandleFunc("/webhook", func(w http.ResponseWriter, req *http.Request) {
+		// Protects against a malicious client streaming us an endless requst
+		// body
+		const MaxBodyBytes = int64(65536)
+		req.Body = http.MaxBytesReader(w, req.Body, MaxBodyBytes)
 
 		body, err := ioutil.ReadAll(req.Body)
 		if err != nil {
