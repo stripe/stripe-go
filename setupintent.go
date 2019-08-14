@@ -70,9 +70,6 @@ type SetupIntentConfirmParams struct {
 	PaymentMethod        *string                                `form:"payment_method"`
 	PaymentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	ReturnURL            *string                                `form:"return_url"`
-
-	// TODO: remove the following parameter in the next major version
-	PayentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 }
 
 // SetupIntentPaymentMethodOptionsCardParams represents the card-specific options applied to a
@@ -100,9 +97,6 @@ type SetupIntentParams struct {
 	PaymentMethodTypes   []*string                              `form:"payment_method_types"`
 	ReturnURL            *string                                `form:"return_url"`
 	Usage                *string                                `form:"usage"`
-
-	// TODO: remove the following parameter in the next major version
-	PayentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 }
 
 // SetupIntentListParams is the set of parameters that can be used when listing setup intents.

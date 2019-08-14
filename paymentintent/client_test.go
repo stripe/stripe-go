@@ -5,7 +5,6 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
 	_ "github.com/stripe/stripe-go/testing"
 )
 
@@ -32,15 +31,6 @@ func TestPaymentIntentConfirm(t *testing.T) {
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, intent)
-}
-
-func TestPaymentIntentConfirmWithAlternative(t *testing.T) {
-	params := &stripe.PaymentIntentConfirmParams{
-		OffSession: stripe.String(string(stripe.PaymentIntentSetupFutureUsageOffSession)),
-	}
-	body := &form.Values{}
-	form.AppendTo(body, params)
-	assert.Equal(t, []string{"off_session"}, body.Get("off_session"))
 }
 
 func TestPaymentIntentGet(t *testing.T) {

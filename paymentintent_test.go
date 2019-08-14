@@ -7,40 +7,6 @@ import (
 	assert "github.com/stretchr/testify/require"
 )
 
-func TestPaymentIntentLastPaymentError_UnmarshalJSON(t *testing.T) {
-	errorData := map[string]interface{}{
-		"charge":       "ch_123",
-		"code":         "card_declined",
-		"decline_code": "generic_decline",
-		"doc_url":      "https://stripe.com/docs/error-codes/card-declined",
-		"message":      "Your card was declined.",
-		"source": map[string]interface{}{
-			"id":          "card_123",
-			"object":      "card",
-			"brand":       "Visa",
-			"country":     "US",
-			"customer":    "cus_123",
-			"exp_month":   9,
-			"exp_year":    2019,
-			"fingerprint": "fingerprint",
-			"last4":       "0341",
-		},
-		"type": "card_error",
-	}
-	bytes, err := json.Marshal(&errorData)
-	assert.NoError(t, err)
-
-	var lastPaymentError PaymentIntentLastPaymentError
-	err = json.Unmarshal(bytes, &lastPaymentError)
-	assert.NoError(t, err)
-
-	assert.Equal(t, ErrorTypeCard, lastPaymentError.Type)
-	assert.Equal(t, "ch_123", lastPaymentError.Charge)
-	assert.Equal(t, "https://stripe.com/docs/error-codes/card-declined", lastPaymentError.DocURL)
-	assert.Equal(t, PaymentSourceTypeCard, lastPaymentError.Source.Type)
-	assert.Equal(t, "card_123", lastPaymentError.Source.Card.ID)
-}
-
 func TestPaymentIntentNextAction_UnmarshalJSON(t *testing.T) {
 	actionData := map[string]interface{}{
 		"redirect_to_url": map[string]interface{}{

@@ -21,9 +21,9 @@ type AccountCapability string
 
 // List of values that AccountCapability can take.
 const (
-	AccountCapabilityCardPayments     AccountCapability = "card_payments"
-	AccountCapabilityLegacyPayments   AccountCapability = "legacy_payments"
-	AccountCapabilityPlatformPayments AccountCapability = "platform_payments"
+	AccountCapabilityCardPayments   AccountCapability = "card_payments"
+	AccountCapabilityLegacyPayments AccountCapability = "legacy_payments"
+	AccountCapabilityTransfers      AccountCapability = "transfers"
 )
 
 // AccountCapabilityStatus is the status a given capability can have
@@ -277,9 +277,9 @@ type AccountBusinessProfile struct {
 
 // AccountCapabilities is the resource representing the capabilities enabled on that account.
 type AccountCapabilities struct {
-	CardPayments     AccountCapabilityStatus `json:"card_payments"`
-	LegacyPayments   AccountCapabilityStatus `json:"legacy_payments"`
-	PlatformPayments AccountCapabilityStatus `json:"platform_payments"`
+	CardPayments   AccountCapabilityStatus `json:"card_payments"`
+	LegacyPayments AccountCapabilityStatus `json:"legacy_payments"`
+	Transfers      AccountCapabilityStatus `json:"transfers"`
 }
 
 // AccountCompany represents details about the company or business associated with the account.

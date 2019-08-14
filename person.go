@@ -126,6 +126,7 @@ type DOB struct {
 type Relationship struct {
 	AccountOpener    bool    `json:"account_opener"`
 	Director         bool    `json:"director"`
+	Executive        bool    `json:"executive"`
 	Owner            bool    `json:"owner"`
 	PercentOwnership float64 `json:"percent_ownership"`
 	Title            string  `json:"title"`

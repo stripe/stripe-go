@@ -38,8 +38,8 @@ func TestAccount_Unmarshal(t *testing.T) {
 		},
 		"business_type": "company",
 		"capabilities": map[string]interface{}{
-			"card_payments":     "active",
-			"platform_payments": "inactive",
+			"card_payments": "active",
+			"transfers":     "inactive",
 		},
 		"external_accounts": map[string]interface{}{
 			"object":   "list",
@@ -117,7 +117,7 @@ func TestAccount_Unmarshal(t *testing.T) {
 
 	assert.Equal(t, AccountCapabilityStatusActive, account.Capabilities.CardPayments)
 	assert.Equal(t, AccountCapabilityStatus(""), account.Capabilities.LegacyPayments)
-	assert.Equal(t, AccountCapabilityStatusInactive, account.Capabilities.PlatformPayments)
+	assert.Equal(t, AccountCapabilityStatusInactive, account.Capabilities.Transfers)
 
 	assert.Equal(t, AccountBusinessTypeCompany, account.BusinessType)
 
