@@ -272,8 +272,8 @@ if err := i.Err(); err != nil {
 
 ### Configuring Automatic Retries
 
-The library can be configured to automatically retry requests that fail due to
-an intermittent network problem or other knowingly non-deterministic errors:
+You can enable automatic retries on requests that fail due to a transient
+problem by configuring the maximum number of retries:
 
 ```go
 import (
@@ -293,6 +293,9 @@ sc.Init("sk_key", &stripe.Backends{
 
 coupon, err := sc.Coupons.New(...)
 ```
+
+Various errors can trigger a retry, like a connection error or a timeout, and
+also certain API responses like HTTP status `409 Conflict`.
 
 [Idempotency keys][idempotency-keys] are added to requests to guarantee that
 retries are safe.
