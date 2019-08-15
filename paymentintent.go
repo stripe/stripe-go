@@ -110,10 +110,8 @@ type PaymentIntentCaptureParams struct {
 
 // PaymentIntentConfirmParams is the set of parameters that can be used when confirming a payment intent.
 type PaymentIntentConfirmParams struct {
-	Params `form:"*"`
-	// This parameter expects a boolean but used to take an enum so we're adding support for both
-	// until the next major version (TODO).
-	OffSession           interface{}                              `form:"off_session"`
+	Params               `form:"*"`
+	OffSession           *bool                                    `form:"off_session"`
 	PaymentMethod        *string                                  `form:"payment_method"`
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	PaymentMethodTypes   []*string                                `form:"payment_method_types"`
@@ -123,9 +121,6 @@ type PaymentIntentConfirmParams struct {
 	SetupFutureUsage     *string                                  `form:"setup_future_usage"`
 	Shipping             *ShippingDetailsParams                   `form:"shipping"`
 	Source               *string                                  `form:"source"`
-
-	// TODO: remove the following parameter in the next major version
-	PayentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 }
 
 // PaymentIntentPaymentMethodOptionsCardParams represents the card-specific options applied to a
@@ -173,12 +168,8 @@ type PaymentIntentParams struct {
 	TransferData              *PaymentIntentTransferDataParams         `form:"transfer_data"`
 	TransferGroup             *string                                  `form:"transfer_group"`
 
-	// This parameter only works if you confirm on creation. It also expects a boolean but used to
-	// take an enum so we're adding support for both until the next major version (TODO).
-	OffSession interface{} `form:"off_session"`
-
-	// TODO: remove the following parameter in the next major version
-	PayentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
+	// This parameter only works if you confirm on creation.
+	OffSession *bool `form:"off_session"`
 }
 
 // PaymentIntentListParams is the set of parameters that can be used when listing payment intents.
@@ -188,20 +179,6 @@ type PaymentIntentListParams struct {
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 	Customer     *string           `form:"customer"`
-}
-
-// PaymentIntentLastPaymentError represents the last error happening on a payment intent.
-type PaymentIntentLastPaymentError struct {
-	Charge        string         `json:"charge"`
-	Code          string         `json:"code"`
-	DeclineCode   string         `json:"decline_code"`
-	DocURL        string         `json:"doc_url"`
-	Message       string         `json:"message"`
-	Param         string         `json:"param"`
-	PaymentIntent *PaymentIntent `json:"payment_intent"`
-	PaymentMethod *PaymentMethod `json:"payment_method"`
-	Source        *PaymentSource `json:"source"`
-	Type          ErrorType      `json:"type"`
 }
 
 // PaymentIntentNextActionRedirectToURL represents the resource for the next action of type
@@ -242,7 +219,7 @@ type PaymentIntent struct {
 	Customer                  *Customer                       `json:"customer"`
 	Description               string                          `json:"description"`
 	Invoice                   *Invoice                        `json:"invoice"`
-	LastPaymentError          *PaymentIntentLastPaymentError  `json:"last_payment_error"`
+	LastPaymentError          *Error                          `json:"last_payment_error"`
 	Livemode                  bool                            `json:"livemode"`
 	ID                        string                          `json:"id"`
 	Metadata                  map[string]string               `json:"metadata"`

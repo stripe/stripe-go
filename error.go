@@ -171,6 +171,7 @@ const (
 type Error struct {
 	ChargeID string    `json:"charge,omitempty"`
 	Code     ErrorCode `json:"code,omitempty"`
+	DocURL   string    `json:"doc_url,omitempty"`
 
 	// Err contains an internal error with an additional level of granularity
 	// that can be used in some cases to get more detailed information about
@@ -248,11 +249,7 @@ type CardError struct {
 	stripeErr *Error
 	// DeclineCode is a code indicating a card issuer's reason for declining a
 	// card (if they provided one).
-	//
-	// TODO: This field should be of type DeclineCode (as defined above), but
-	// we've let it as a string for now for backwards compatibility. Change its
-	// type on the library's next major version.
-	DeclineCode string `json:"decline_code,omitempty"`
+	DeclineCode DeclineCode `json:"decline_code,omitempty"`
 }
 
 // Error serializes the error object to JSON and returns it as a string.
@@ -293,5 +290,5 @@ type rawError struct {
 // type to help with deserialization. (e.g. DeclineCode).
 type rawErrorInternal struct {
 	*Error
-	DeclineCode *string `json:"decline_code,omitempty"`
+	DeclineCode *DeclineCode `json:"decline_code,omitempty"`
 }
