@@ -38,6 +38,7 @@ type IssuerFraudRecordList struct {
 
 // IssuerFraudRecord is the resource representing an issuer fraud record. For
 // more details see https://stripe.com/docs/api#issuer_fraud_records.
+// TODO: Remove in the next major version as this was replaced by EarlyFraudWarnings
 type IssuerFraudRecord struct {
 	Actionable        bool            `json:"actionable"`
 	Charge            *Charge         `json:"charge"`

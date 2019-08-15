@@ -24,7 +24,7 @@ func Get(id string, params *stripe.RadarEarlyFraudWarningParams) (*stripe.RadarE
 
 // Get returns the details of an early fraud warning.
 func (c Client) Get(id string, params *stripe.RadarEarlyFraudWarningParams) (*stripe.RadarEarlyFraudWarning, error) {
-	path := stripe.FormatURLPath("/v1/issuer_fraud_records/%s", id)
+	path := stripe.FormatURLPath("/v1/radar/early_fraud_warnings/%s", id)
 	ifr := &stripe.RadarEarlyFraudWarning{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, ifr)
 	return ifr, err
@@ -39,7 +39,7 @@ func List(params *stripe.RadarEarlyFraudWarningListParams) *Iter {
 func (c Client) List(listParams *stripe.RadarEarlyFraudWarningListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.RadarEarlyFraudWarningList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/issuer_fraud_records", c.Key, b, p, list)
+		err := c.B.CallRaw(http.MethodGet, "/v1/radar/early_fraud_warnings", c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Values))
 		for i, v := range list.Values {
