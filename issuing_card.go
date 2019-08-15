@@ -2,6 +2,15 @@ package stripe
 
 import "encoding/json"
 
+// IssuingCardPINStatus is the list of possible values for the status field of a Card PIN.
+type IssuingCardPINStatus string
+
+// List of values that IssuingCardPINStatus can take.
+const (
+	IssuingCardPINStatusActive  IssuingCardPINStatus = "active"
+	IssuingCardPINStatusBlocked IssuingCardPINStatus = "blocked"
+)
+
 // IssuingCardReplacementReason is the list of possible values for the replacement reason on an
 // issuing card.
 type IssuingCardReplacementReason string
@@ -158,6 +167,11 @@ type IssuingCardAuthorizationControls struct {
 	MaxApprovals int64    `json:"max_approvals"`
 }
 
+// IssuingCardPIN contains data about the Card's PIN.
+type IssuingCardPIN struct {
+	Status IssuingCardPINStatus `json:"status"`
+}
+
 // IssuingCardShipping is the resource representing shipping on an issuing card.
 type IssuingCardShipping struct {
 	Address        *Address                  `json:"address"`
@@ -185,6 +199,7 @@ type IssuingCard struct {
 	Metadata              map[string]string                 `json:"metadata"`
 	Name                  string                            `json:"name"`
 	Object                string                            `json:"object"`
+	PIN                   *IssuingCardPIN                   `json:"pin"`
 	ReplacementFor        *IssuingCard                      `json:"replacement_for"`
 	ReplacementReason     IssuingCardReplacementReason      `json:"replacement_reason"`
 	Shipping              *IssuingCardShipping              `json:"shipping"`
