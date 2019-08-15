@@ -56,6 +56,7 @@ type DOBParams struct {
 type RelationshipParams struct {
 	AccountOpener    *bool    `form:"account_opener"`
 	Director         *bool    `form:"director"`
+	Executive        *bool    `form:"executive"`
 	Owner            *bool    `form:"owner"`
 	PercentOwnership *float64 `form:"percent_ownership"`
 	Title            *string  `form:"title"`
@@ -104,6 +105,7 @@ type PersonParams struct {
 type RelationshipListParams struct {
 	AccountOpener *bool `form:"account_opener"`
 	Director      *bool `form:"director"`
+	Executive     *bool `form:"executive"`
 	Owner         *bool `form:"owner"`
 }
 
