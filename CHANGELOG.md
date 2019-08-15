@@ -1,5 +1,10 @@
 # Changelog
 
+## 62.1.0 - 2019-08-15
+* [#916](https://github.com/stripe/stripe-go/pull/916)
+  * Add support for `PIN` on Issuing `Card` to reflect the status of a card's PIN
+  * Add support for `Executive` on Person create, update and list
+
 ## 62.0.0 - 2019-08-14
 * [#915](https://github.com/stripe/stripe-go/pull/915) Move to API version [`2019-08-14`](https://stripe.com/docs/upgrades#2019-08-14) and other changes
   * Pin to API version `2019-08-14`
