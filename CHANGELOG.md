@@ -1,5 +1,16 @@
 # Changelog
 
+## 62.0.0 - 2019-08-14
+* [#915](https://github.com/stripe/stripe-go/pull/915) Move to API version [`2019-08-14`](https://stripe.com/docs/upgrades#2019-08-14) and other changes
+  * Pin to API version `2019-08-14`
+  * Rename `AccountCapabilityPlatformPayments` to `AccountCapabilityTransfers`
+  * Add `Executive` in `PersonRelationship`
+  * Remove `PayentMethodOptions` as there was a typo which was fixed
+  * Make `OffSession` only support booleans on `PaymentIntent`
+  * Remove `PaymentIntentLastPaymentError` and use `Error` instead
+  * Move `DeclineCode` on `Error` to the `DeclineCode` type instead of `string`
+* [#914](https://github.com/stripe/stripe-go/pull/914) Update webhook handler example to use `http.MaxBytesReader`
+
 ## 61.27.0 - 2019-08-09
 * [#913](https://github.com/stripe/stripe-go/pull/913) Remove `SubscriptionScheduleRevision`
   * Note that this is technically a breaking change, however we've chosen to release it as a minor version in light of the fact that this resource and its API methods were virtually unused.
