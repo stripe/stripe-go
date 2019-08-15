@@ -1,5 +1,8 @@
 # Changelog
 
+## 62.1.1 - 2019-08-15
+* [#918](https://github.com/stripe/stripe-go/pull/918) Fix `RadarEarlyFraudWarnings` to use the proper API endpoint
+
 ## 62.1.0 - 2019-08-15
 * [#916](https://github.com/stripe/stripe-go/pull/916)
   * Add support for `PIN` on Issuing `Card` to reflect the status of a card's PIN
