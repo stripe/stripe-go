@@ -66,9 +66,12 @@ type PaymentMethodParams struct {
 	Params         `form:"*"`
 	BillingDetails *BillingDetailsParams    `form:"billing_details"`
 	Card           *PaymentMethodCardParams `form:"card"`
-	Customer       *string                  `form:"customer"`
 	PaymentMethod  *string                  `form:"payment_method"`
 	Type           *string                  `form:"type"`
+
+	// The following parameter is not supported by the API and should not have been added
+	// TODO: remove in the next major version
+	Customer *string `form:"customer"`
 }
 
 // PaymentMethodAttachParams is the set of parameters that can be used when attaching a
