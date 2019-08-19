@@ -1,5 +1,8 @@
 # Changelog
 
+## 62.1.2 - 2019-08-19
+* [#921](https://github.com/stripe/stripe-go/pull/921) Mark `Customer` as an invalid parameter on PaymentMethod creation
+
 ## 62.1.1 - 2019-08-15
 * [#918](https://github.com/stripe/stripe-go/pull/918) Fix `RadarEarlyFraudWarnings` to use the proper API endpoint
 
