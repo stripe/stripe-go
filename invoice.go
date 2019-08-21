@@ -73,6 +73,7 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	InvoiceItem  *string                                 `form:"invoiceitem"`
 	Period       *InvoiceUpcomingInvoiceItemPeriodParams `form:"period"`
 	Quantity     *int64                                  `form:"quantity"`
+	Schedule     *string                                 `form:"schedule"`
 	TaxRates     []*string                               `form:"tax_rates"`
 	UnitAmount   *int64                                  `form:"unit_amount"`
 }
@@ -114,7 +115,9 @@ type InvoiceParams struct {
 	Coupon                         *string                             `form:"coupon"`
 	InvoiceItems                   []*InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
 	SubscriptionBillingCycleAnchor *int64                              `form:"subscription_billing_cycle_anchor"`
+	SubscriptionCancelAt           *int64                              `form:"subscription_cancel_at"`
 	SubscriptionCancelAtPeriodEnd  *bool                               `form:"subscription_cancel_at_period_end"`
+	SubscriptionCancelNow          *bool                               `form:"subscription_cancel_now"`
 	SubscriptionDefaultTaxRates    []*string                           `form:"subscription_default_tax_rates"`
 	SubscriptionItems              []*SubscriptionItemsParams          `form:"subscription_items"`
 	SubscriptionPlan               *string                             `form:"subscription_plan"`
