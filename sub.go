@@ -195,6 +195,7 @@ type Subscription struct {
 	PendingSetupIntent    *SetupIntent                   `json:"pending_setup_intent"`
 	Plan                  *Plan                          `json:"plan"`
 	Quantity              int64                          `json:"quantity"`
+	Schedule              *SubscriptionSchedule          `json:"schedule"`
 	StartDate             int64                          `json:"start_date"`
 	Status                SubscriptionStatus             `json:"status"`
 	TransferData          *SubscriptionTransferData      `json:"transfer_data"`
