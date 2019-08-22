@@ -2,10 +2,10 @@
 
 ## 62.2.0 - 2019-08-21
 * [#922](https://github.com/stripe/stripe-go/pull/922) A few Billing changes
-* [#923](https://github.com/stripe/stripe-go/pull/923) Add support for `Mode` on Checkout `Session`
   * Add `Schedule` to `Subscription`
   * Add missing parameters for the Upcoming Invoice API: `Schedule`, `SubscriptionCancelAt`, `SubscriptionCancelNow`
   * Add missing properties and parameters for a `SubscriptionSchedule` phase: `BillingThresholds`, `CollectionMethod`, `DefaultPaymentMethod`, `InvoiceSettings`
+* [#923](https://github.com/stripe/stripe-go/pull/923) Add support for `Mode` on Checkout `Session`
 
 ## 62.1.2 - 2019-08-19
 * [#921](https://github.com/stripe/stripe-go/pull/921) Mark `Customer` as an invalid parameter on PaymentMethod creation
