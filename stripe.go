@@ -386,7 +386,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 
 		// If the response was okay, we're done, and it's safe to break out of
 		// the retry loop.
-		if !s.shouldRetry(err, res, retry) {
+		if !s.shouldRetry(err, req, res, retry) {
 			break
 		}
 
@@ -571,18 +571,35 @@ func (s *BackendImplementation) UnmarshalJSONVerbose(statusCode int, body []byte
 // Checks if an error is a problem that we should retry on. This includes both
 // socket errors that may represent an intermittent problem and some special
 // HTTP statuses.
-func (s *BackendImplementation) shouldRetry(err error, resp *http.Response, numRetries int) bool {
+func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *http.Response, numRetries int) bool {
 	if numRetries >= s.MaxNetworkRetries {
 		return false
 	}
 
+	// TODO: There are many errors that should not be retried. Try to make this
+	// more granular by including only connection errors, timeout errors, etc.
 	if err != nil {
 		return true
 	}
 
+	// 409 Conflict
 	if resp.StatusCode == http.StatusConflict {
 		return true
 	}
+
+	// 500 Internal Server Error
+	//
+	// We only bother retrying these for non-POST requests. POSTs end up being
+	// cached by the idempotency layer so there's no purpose in retrying them.
+	if resp.StatusCode >= http.StatusInternalServerError && req.Method != http.MethodPost {
+		return true
+	}
+
+	// 503 Service Unavailable
+	if resp.StatusCode == http.StatusServiceUnavailable {
+		return true
+	}
+
 	return false
 }
 
