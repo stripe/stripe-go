@@ -332,10 +332,10 @@ type LeveledLoggerInterface interface {
 }
 ```
 
-Some loggers like [Logrus][logrus] support this interface out-of-the-box so
-it's possible to set `DefaultLeveledLogger` to a `*logrus.Logger` directly. For
-others (Zap for example) it'll be necessary to write a thin shim layer to
-support them.
+Some loggers like [Logrus][logrus] and Zap's [SugaredLogger][sugaredlogger]
+support this interface out-of-the-box so it's possible to set
+`DefaultLeveledLogger` to a `*logrus.Logger` or `*zap.SugaredLogger` directly.
+For others it may be necessary to write a thin shim layer to support them.
 
 ### Writing a Plugin
 
