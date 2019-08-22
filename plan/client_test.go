@@ -31,7 +31,7 @@ func TestPlanList(t *testing.T) {
 
 func TestPlanNew(t *testing.T) {
 	plan, err := New(&stripe.PlanParams{
-		Amount:        stripe.Int64(1),
+		AmountDecimal: stripe.Float64(0.0123456789),
 		BillingScheme: stripe.String(string(stripe.PlanBillingSchemeTiered)),
 		Currency:      stripe.String(string(stripe.CurrencyUSD)),
 		ID:            stripe.String("sapphire-elite"),

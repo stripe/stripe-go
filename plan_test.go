@@ -1,12 +1,31 @@
 package stripe
 
 import (
+	"encoding/json"
 	"strconv"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
 	"github.com/stripe/stripe-go/form"
 )
+
+func TestPlan_Unmarshal(t *testing.T) {
+	planData := map[string]interface{}{
+		"id":             "pl_123",
+		"object":         "plan",
+		"amount":         0,
+		"amount_decimal": "0.0123456789",
+	}
+
+	bytes, err := json.Marshal(&planData)
+	assert.NoError(t, err)
+
+	var plan Plan
+	err = json.Unmarshal(bytes, &plan)
+	assert.NoError(t, err)
+
+	assert.Equal(t, 0.0123456789, plan.AmountDecimal)
+}
 
 func TestPlanListParams_AppendTo(t *testing.T) {
 	testCases := []struct {
