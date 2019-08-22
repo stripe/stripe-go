@@ -26,6 +26,16 @@ const (
 	CheckoutSessionDisplayItemTypeSKU    CheckoutSessionDisplayItemType = "sku"
 )
 
+// CheckoutSessionMode is the list of allowed values for the mode on a Session.
+type CheckoutSessionMode string
+
+// List of values that CheckoutSessionMode can take.
+const (
+	CheckoutSessionModePayment      CheckoutSessionMode = "payment"
+	CheckoutSessionModeSetup        CheckoutSessionMode = "setup"
+	CheckoutSessionModeSubscription CheckoutSessionMode = "subscription"
+)
+
 // CheckoutSessionLineItemParams is the set of parameters allowed for a line item
 // on a checkout session.
 type CheckoutSessionLineItemParams struct {
@@ -58,6 +68,14 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	TransferData         *CheckoutSessionPaymentIntentDataTransferDataParams `form:"transfer_data"`
 }
 
+// CheckoutSessionSetupIntentDataParams is the set of parameters allowed for the setup intent
+// creation on a checkout session.
+type CheckoutSessionSetupIntentDataParams struct {
+	Params      `form:"*"`
+	Description *string `form:"description"`
+	OnBehalfOf  *string `form:"on_behalf_of"`
+}
+
 // CheckoutSessionSubscriptionDataItemsParams is the set of parameters allowed for one item on a
 // checkout session associated with a subscription.
 type CheckoutSessionSubscriptionDataItemsParams struct {
@@ -87,8 +105,10 @@ type CheckoutSessionParams struct {
 	CustomerEmail            *string                                 `form:"customer_email"`
 	LineItems                []*CheckoutSessionLineItemParams        `form:"line_items"`
 	Locale                   *string                                 `form:"locale"`
+	Mode                     *string                                 `form:"mode"`
 	PaymentIntentData        *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data"`
 	PaymentMethodTypes       []*string                               `form:"payment_method_types"`
+	SetupIntentData          *CheckoutSessionSetupIntentDataParams   `form:"setup_intent_data"`
 	SubscriptionData         *CheckoutSessionSubscriptionDataParams  `form:"subscription_data"`
 	SubmitType               *string                                 `form:"submit_type"`
 	SuccessURL               *string                                 `form:"success_url"`
@@ -124,9 +144,11 @@ type CheckoutSession struct {
 	ID                 string                        `json:"id"`
 	Livemode           bool                          `json:"livemode"`
 	Locale             string                        `json:"locale"`
+	Mode               CheckoutSessionMode           `json:"mode"`
 	Object             string                        `json:"object"`
 	PaymentIntent      *PaymentIntent                `json:"payment_intent"`
 	PaymentMethodTypes []string                      `json:"payment_method_types"`
+	SetupIntent        *SetupIntent                  `json:"setup_intent"`
 	Subscription       *Subscription                 `json:"subscription"`
 	SubmitType         CheckoutSessionSubmitType     `json:"submit_type"`
 	SuccessURL         string                        `json:"success_url"`
