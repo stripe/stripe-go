@@ -1,5 +1,8 @@
 # Changelog
 
+## 62.3.0 - 2019-08-22
+* [#928](https://github.com/stripe/stripe-go/pull/928) Bring retry code in-line with current best practices
+
 ## 62.2.0 - 2019-08-21
 * [#922](https://github.com/stripe/stripe-go/pull/922) A few Billing changes
   * Add `Schedule` to `Subscription`
