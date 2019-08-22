@@ -121,6 +121,65 @@ func TestDo_Retry(t *testing.T) {
 	assert.Equal(t, 2, requestNum)
 }
 
+func TestShouldRetry(t *testing.T) {
+	MaxNetworkRetries := 3
+
+	c := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			MaxNetworkRetries: MaxNetworkRetries,
+		},
+	).(*BackendImplementation)
+
+	// Exceeded maximum number of retries
+	assert.False(t, c.shouldRetry(
+		nil,
+		&http.Request{},
+		&http.Response{},
+		MaxNetworkRetries,
+	))
+
+	// Currently retries on any error (which we should fix)
+	assert.True(t, c.shouldRetry(
+		fmt.Errorf("an error"),
+		&http.Request{},
+		nil,
+		0,
+	))
+
+	// 409 Conflict
+	assert.True(t, c.shouldRetry(
+		nil,
+		&http.Request{},
+		&http.Response{StatusCode: http.StatusConflict},
+		0,
+	))
+
+	// 500 Internal Server Error -- retry if non-POST
+	assert.True(t, c.shouldRetry(
+		nil,
+		&http.Request{Method: http.MethodGet},
+		&http.Response{StatusCode: http.StatusInternalServerError},
+		0,
+	))
+
+	// 500 Internal Server Error -- don't retry POST
+	assert.False(t, c.shouldRetry(
+		nil,
+		&http.Request{Method: http.MethodPost},
+		&http.Response{StatusCode: http.StatusInternalServerError},
+		0,
+	))
+
+	// 503 Service Unavailable
+	assert.True(t, c.shouldRetry(
+		nil,
+		&http.Request{},
+		&http.Response{StatusCode: http.StatusServiceUnavailable},
+		0,
+	))
+}
+
 func TestDo_RetryOnTimeout(t *testing.T) {
 	type testServerResponse struct {
 		Message string `json:"message"`
