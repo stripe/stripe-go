@@ -1,5 +1,8 @@
 # Changelog
 
+## 62.4.0 - 2019-08-22
+* [#926](https://github.com/stripe/stripe-go/pull/926) Add support for decimal amounts on Billing resources
+
 ## 62.3.0 - 2019-08-22
 * [#928](https://github.com/stripe/stripe-go/pull/928) Bring retry code in-line with current best practices
 
