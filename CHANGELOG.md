@@ -1,5 +1,8 @@
 # Changelog
 
+## 62.5.0 - 2019-08-23
+* [#930](https://github.com/stripe/stripe-go/pull/930) Add `FailureReason` to `Refund`
+
 ## 62.4.0 - 2019-08-22
 * [#926](https://github.com/stripe/stripe-go/pull/926) Add support for decimal amounts on Billing resources
 
