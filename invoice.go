@@ -66,16 +66,17 @@ type InvoiceUpcomingInvoiceItemPeriodParams struct {
 // invoice items on an upcoming invoice.
 // For more details see https://stripe.com/docs/api#upcoming_invoice-invoice_items.
 type InvoiceUpcomingInvoiceItemParams struct {
-	Amount       *int64                                  `form:"amount"`
-	Currency     *string                                 `form:"currency"`
-	Description  *string                                 `form:"description"`
-	Discountable *bool                                   `form:"discountable"`
-	InvoiceItem  *string                                 `form:"invoiceitem"`
-	Period       *InvoiceUpcomingInvoiceItemPeriodParams `form:"period"`
-	Quantity     *int64                                  `form:"quantity"`
-	Schedule     *string                                 `form:"schedule"`
-	TaxRates     []*string                               `form:"tax_rates"`
-	UnitAmount   *int64                                  `form:"unit_amount"`
+	Amount            *int64                                  `form:"amount"`
+	Currency          *string                                 `form:"currency"`
+	Description       *string                                 `form:"description"`
+	Discountable      *bool                                   `form:"discountable"`
+	InvoiceItem       *string                                 `form:"invoiceitem"`
+	Period            *InvoiceUpcomingInvoiceItemPeriodParams `form:"period"`
+	Quantity          *int64                                  `form:"quantity"`
+	Schedule          *string                                 `form:"schedule"`
+	TaxRates          []*string                               `form:"tax_rates"`
+	UnitAmount        *int64                                  `form:"unit_amount"`
+	UnitAmountDecimal *float64                                `form:"unit_amount_decimal,high_precision"`
 }
 
 // InvoiceCustomFieldParams represents the parameters associated with one custom field on an invoice.
