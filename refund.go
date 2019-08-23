@@ -2,6 +2,16 @@ package stripe
 
 import "encoding/json"
 
+// RefundFailureReason is, if set, the reason the refund failed.
+type RefundFailureReason string
+
+// List of values that RefundFailureReason can take.
+const (
+	RefundFailureReasonExpiredOrCanceledCard RefundFailureReason = "expired_or_canceled_card"
+	RefundFailureReasonLostOrStolenCard      RefundFailureReason = "lost_or_stolen_card"
+	RefundFailureReasonUnknown               RefundFailureReason = "unknown"
+)
+
 // RefundReason is, if set, the reason the refund is being made
 type RefundReason string
 
@@ -51,6 +61,7 @@ type Refund struct {
 	Charge                    *Charge             `json:"charge"`
 	Created                   int64               `json:"created"`
 	Currency                  Currency            `json:"currency"`
+	FailureReason             RefundFailureReason `json:"failure_reason"`
 	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction"`
 	ID                        string              `json:"id"`
 	Metadata                  map[string]string   `json:"metadata"`
