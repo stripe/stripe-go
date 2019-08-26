@@ -43,11 +43,12 @@ type CapabilityListParams struct {
 
 // CapabilityRequirements represents information that needs to be collected for a capability.
 type CapabilityRequirements struct {
-	CurrentDeadline int64                    `json:"current_deadline"`
-	CurrentlyDue    []string                 `json:"currently_due"`
-	DisabledReason  CapabilityDisabledReason `json:"disabled_reason"`
-	EventuallyDue   []string                 `json:"eventually_due"`
-	PastDue         []string                 `json:"past_due"`
+	CurrentDeadline     int64                    `json:"current_deadline"`
+	CurrentlyDue        []string                 `json:"currently_due"`
+	DisabledReason      CapabilityDisabledReason `json:"disabled_reason"`
+	EventuallyDue       []string                 `json:"eventually_due"`
+	PastDue             []string                 `json:"past_due"`
+	PendingVerification []string                 `json:"pending_verification"`
 }
 
 // Capability is the resource representing a Stripe capability.
