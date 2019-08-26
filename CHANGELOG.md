@@ -1,5 +1,9 @@
 # Changelog
 
+## 62.6.0 - 2019-08-26
+* [#934](https://github.com/stripe/stripe-go/pull/934) Add support for `SubscriptionBillingCycleAnchorNow` and `SubscriptionBillingCycleAnchorUnchanged` on `Invoice`
+* [#933](https://github.com/stripe/stripe-go/pull/933) Add `PendingVerification` on `Account`, `Person` and `Capability`
+
 ## 62.5.0 - 2019-08-23
 * [#930](https://github.com/stripe/stripe-go/pull/930) Add `FailureReason` to `Refund`
 
