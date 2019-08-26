@@ -314,11 +314,12 @@ type AccountPayoutSchedule struct {
 
 // AccountRequirements represents information that needs to be collected for an account.
 type AccountRequirements struct {
-	CurrentDeadline int64                             `json:"current_deadline"`
-	CurrentlyDue    []string                          `json:"currently_due"`
-	DisabledReason  AccountRequirementsDisabledReason `json:"disabled_reason"`
-	EventuallyDue   []string                          `json:"eventually_due"`
-	PastDue         []string                          `json:"past_due"`
+	CurrentDeadline     int64                             `json:"current_deadline"`
+	CurrentlyDue        []string                          `json:"currently_due"`
+	DisabledReason      AccountRequirementsDisabledReason `json:"disabled_reason"`
+	EventuallyDue       []string                          `json:"eventually_due"`
+	PastDue             []string                          `json:"past_due"`
+	PendingVerification []string                          `json:"pending_verification"`
 }
 
 // AccountSettingsBranding represents settings specific to the account's branding.
