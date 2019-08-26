@@ -5,7 +5,26 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
+	"github.com/stripe/stripe-go/form"
 )
+
+func TestInvoiceParams_AppendTo(t *testing.T) {
+	{
+		params := &InvoiceParams{SubscriptionBillingCycleAnchorNow: Bool(true)}
+		body := &form.Values{}
+		form.AppendTo(body, params)
+		t.Logf("body = %+v", body)
+		assert.Equal(t, []string{"now"}, body.Get("subscription_billing_cycle_anchor"))
+	}
+
+	{
+		params := &InvoiceParams{SubscriptionBillingCycleAnchorUnchanged: Bool(true)}
+		body := &form.Values{}
+		form.AppendTo(body, params)
+		t.Logf("body = %+v", body)
+		assert.Equal(t, []string{"unchanged"}, body.Get("subscription_billing_cycle_anchor"))
+	}
+}
 
 func TestInvoice_UnmarshalJSON(t *testing.T) {
 	// Unmarshals from a JSON string

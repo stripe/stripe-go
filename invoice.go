@@ -1,6 +1,10 @@
 package stripe
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	"github.com/stripe/stripe-go/form"
+)
 
 // InvoiceLineType is the list of allowed values for the invoice line's type.
 type InvoiceLineType string
@@ -113,20 +117,22 @@ type InvoiceParams struct {
 
 	// These are all for exclusive use by GetNext.
 
-	Coupon                         *string                             `form:"coupon"`
-	InvoiceItems                   []*InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
-	SubscriptionBillingCycleAnchor *int64                              `form:"subscription_billing_cycle_anchor"`
-	SubscriptionCancelAt           *int64                              `form:"subscription_cancel_at"`
-	SubscriptionCancelAtPeriodEnd  *bool                               `form:"subscription_cancel_at_period_end"`
-	SubscriptionCancelNow          *bool                               `form:"subscription_cancel_now"`
-	SubscriptionDefaultTaxRates    []*string                           `form:"subscription_default_tax_rates"`
-	SubscriptionItems              []*SubscriptionItemsParams          `form:"subscription_items"`
-	SubscriptionPlan               *string                             `form:"subscription_plan"`
-	SubscriptionProrate            *bool                               `form:"subscription_prorate"`
-	SubscriptionProrationDate      *int64                              `form:"subscription_proration_date"`
-	SubscriptionQuantity           *int64                              `form:"subscription_quantity"`
-	SubscriptionTrialEnd           *int64                              `form:"subscription_trial_end"`
-	SubscriptionTrialFromPlan      *bool                               `form:"subscription_trial_from_plan"`
+	Coupon                                  *string                             `form:"coupon"`
+	InvoiceItems                            []*InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
+	SubscriptionBillingCycleAnchor          *int64                              `form:"subscription_billing_cycle_anchor"`
+	SubscriptionBillingCycleAnchorNow       *bool                               `form:"-"` // See custom AppendTo
+	SubscriptionBillingCycleAnchorUnchanged *bool                               `form:"-"` // See custom AppendTo
+	SubscriptionCancelAt                    *int64                              `form:"subscription_cancel_at"`
+	SubscriptionCancelAtPeriodEnd           *bool                               `form:"subscription_cancel_at_period_end"`
+	SubscriptionCancelNow                   *bool                               `form:"subscription_cancel_now"`
+	SubscriptionDefaultTaxRates             []*string                           `form:"subscription_default_tax_rates"`
+	SubscriptionItems                       []*SubscriptionItemsParams          `form:"subscription_items"`
+	SubscriptionPlan                        *string                             `form:"subscription_plan"`
+	SubscriptionProrate                     *bool                               `form:"subscription_prorate"`
+	SubscriptionProrationDate               *int64                              `form:"subscription_proration_date"`
+	SubscriptionQuantity                    *int64                              `form:"subscription_quantity"`
+	SubscriptionTrialEnd                    *int64                              `form:"subscription_trial_end"`
+	SubscriptionTrialFromPlan               *bool                               `form:"subscription_trial_from_plan"`
 
 	// This parameter is considered deprecated. Prefer using ApplicationFeeAmount
 	ApplicationFee *int64 `form:"application_fee"`
@@ -139,6 +145,19 @@ type InvoiceParams struct {
 
 	// This parameter is deprecated and we recommend that you use SubscriptionDefaultTaxRates instead.
 	SubscriptionTaxPercent *float64 `form:"subscription_tax_percent"`
+}
+
+// AppendTo implements custom encoding logic for InvoiceParams so that the special
+// "now" value for subscription_billing_cycle_anchor can be implemented
+// (they're otherwise timestamps rather than strings).
+func (p *InvoiceParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.SubscriptionBillingCycleAnchorNow) {
+		body.Add(form.FormatKey(append(keyParts, "subscription_billing_cycle_anchor")), "now")
+	}
+
+	if BoolValue(p.SubscriptionBillingCycleAnchorUnchanged) {
+		body.Add(form.FormatKey(append(keyParts, "subscription_billing_cycle_anchor")), "unchanged")
+	}
 }
 
 // InvoiceListParams is the set of parameters that can be used when listing invoices.
