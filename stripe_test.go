@@ -139,7 +139,16 @@ func TestShouldRetry(t *testing.T) {
 		MaxNetworkRetries,
 	))
 
-	// Currently retries on any error (which we should fix)
+	// Doesn't retry most Stripe errors (they must also match a status code
+	// below to be retried)
+	assert.False(t, c.shouldRetry(
+		&Error{Msg: "An error from Stripe"},
+		&http.Request{},
+		&http.Response{StatusCode: http.StatusBadRequest},
+		0,
+	))
+
+	// Currently retries on any non-Stripe error (which we should fix)
 	assert.True(t, c.shouldRetry(
 		fmt.Errorf("an error"),
 		&http.Request{},
@@ -152,6 +161,22 @@ func TestShouldRetry(t *testing.T) {
 		nil,
 		&http.Request{},
 		&http.Response{StatusCode: http.StatusConflict},
+		0,
+	))
+
+	// 429 Too Many Requests -- retry on lock timeout
+	assert.True(t, c.shouldRetry(
+		&Error{Code: ErrorCodeLockTimeout},
+		&http.Request{},
+		&http.Response{StatusCode: http.StatusTooManyRequests},
+		0,
+	))
+
+	// 429 Too Many Requests -- don't retry normally
+	assert.False(t, c.shouldRetry(
+		nil,
+		&http.Request{},
+		&http.Response{StatusCode: http.StatusTooManyRequests},
 		0,
 	))
 
