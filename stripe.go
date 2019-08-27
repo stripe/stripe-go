@@ -334,6 +334,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 	var res *http.Response
 	var err error
 	var requestDuration time.Duration
+	var resBody []byte
 	for retry := 0; ; {
 		start := time.Now()
 
@@ -381,26 +382,25 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 		res, err = s.HTTPClient.Do(req)
 
 		requestDuration = time.Since(start)
-
 		s.LeveledLogger.Infof("Request completed in %v (retry: %v)", requestDuration, retry)
 
-		// If the response was okay, we're done, and it's safe to break out of
-		// the retry loop.
-		if !s.shouldRetry(err, req, res, retry) {
-			break
+		if err == nil {
+			resBody, err = ioutil.ReadAll(res.Body)
+			res.Body.Close()
 		}
 
 		if err != nil {
 			s.LeveledLogger.Errorf("Request failed with error: %v", err)
-		} else {
-			resBody, err := ioutil.ReadAll(res.Body)
-			res.Body.Close()
-			if err != nil {
-				s.LeveledLogger.Errorf("Cannot read response: %v", err)
-			} else {
-				s.LeveledLogger.Errorf("Request failed with body: %s (status: %v)",
-					string(resBody), res.StatusCode)
-			}
+		} else if res.StatusCode >= 400 {
+			err = s.ResponseToError(res, resBody)
+			s.LeveledLogger.Errorf("Request failed with body: %s (status: %v)",
+				string(resBody), res.StatusCode)
+		}
+
+		// If the response was okay, or an error that shouldn't be retried,
+		// we're done, and it's safe to leave the retry loop.
+		if !s.shouldRetry(err, req, res, retry) {
+			break
 		}
 
 		sleepDuration := s.sleepTime(retry)
@@ -412,12 +412,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 		time.Sleep(sleepDuration)
 	}
 
-	if err != nil {
-		s.LeveledLogger.Errorf("Request failed: %v", err)
-		return err
-	}
-
-	if s.enableTelemetry {
+	if s.enableTelemetry && res != nil {
 		reqID := res.Header.Get("Request-Id")
 		if len(reqID) > 0 {
 			metrics := requestMetrics{
@@ -434,16 +429,8 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 		}
 	}
 
-	defer res.Body.Close()
-
-	resBody, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		s.LeveledLogger.Errorf("Cannot read response: %v", err)
 		return err
-	}
-
-	if res.StatusCode >= 400 {
-		return s.ResponseToError(res, resBody)
 	}
 
 	s.LeveledLogger.Debugf("Response: %s\n", string(resBody))
@@ -576,15 +563,33 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 		return false
 	}
 
-	// TODO: There are many errors that should not be retried. Try to make this
-	// more granular by including only connection errors, timeout errors, etc.
-	if err != nil {
+	stripeErr, _ := err.(*Error)
+
+	// TODO: This retries any non-Stripe errors produced as part of the
+	// communication process. It generally works, but there are many errors
+	// that should *not* be retried. Try to make this more granular by
+	// including only connection errors, timeout errors, etc.
+	if stripeErr == nil && err != nil {
 		return true
 	}
 
 	// 409 Conflict
 	if resp.StatusCode == http.StatusConflict {
 		return true
+	}
+
+	// 429 Too Many Requests
+	//
+	// There are a few different problems that can lead to a 429. The most
+	// common is rate limiting, on which we *don't* want to retry because
+	// that'd likely contribute to more contention problems. However, some 429s
+	// are lock timeouts, which is when a request conflicted with another
+	// request or an internal process on some particular object. These 429s are
+	// safe to retry.
+	if resp.StatusCode == http.StatusTooManyRequests {
+		if stripeErr != nil && stripeErr.Code == ErrorCodeLockTimeout {
+			return true
+		}
 	}
 
 	// 500 Internal Server Error

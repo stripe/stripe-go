@@ -66,6 +66,7 @@ const (
 	ErrorCodeInvoiceNotEditable                     ErrorCode = "invoice_not_editable"
 	ErrorCodeInvoiceUpcomingNone                    ErrorCode = "invoice_upcoming_none"
 	ErrorCodeLivemodeMismatch                       ErrorCode = "livemode_mismatch"
+	ErrorCodeLockTimeout                            ErrorCode = "lock_timeout"
 	ErrorCodeMissing                                ErrorCode = "missing"
 	ErrorCodeNotAllowedOnStandardAccount            ErrorCode = "not_allowed_on_standard_account"
 	ErrorCodeOrderCreationFailed                    ErrorCode = "order_creation_failed"
