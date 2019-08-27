@@ -1,5 +1,8 @@
 # Changelog
 
+## 62.7.0 - 2019-08-27
+* [#935](https://github.com/stripe/stripe-go/pull/935) Retry requests on a 429 that's a lock timeout
+
 ## 62.6.0 - 2019-08-26
 * [#934](https://github.com/stripe/stripe-go/pull/934) Add support for `SubscriptionBillingCycleAnchorNow` and `SubscriptionBillingCycleAnchorUnchanged` on `Invoice`
 * [#933](https://github.com/stripe/stripe-go/pull/933) Add `PendingVerification` on `Account`, `Person` and `Capability`
