@@ -1,5 +1,8 @@
 # Changelog
 
+## 62.8.0 - 2019-08-29
+* [#937](https://github.com/stripe/stripe-go/pull/937) Add support for `EndBehavior` on `SubscriptionSchedule`
+
 ## 62.7.0 - 2019-08-27
 * [#935](https://github.com/stripe/stripe-go/pull/935) Retry requests on a 429 that's a lock timeout
 
