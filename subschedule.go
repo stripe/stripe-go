@@ -4,6 +4,17 @@ import (
 	"encoding/json"
 )
 
+// SubscriptionScheduleEndBehavior describe what happens to a schedule when it ends.
+type SubscriptionScheduleEndBehavior string
+
+// List of values that SubscriptionScheduleEndBehavior can take.
+const (
+	SubscriptionScheduleEndBehaviorCancel  SubscriptionScheduleEndBehavior = "cancel"
+	SubscriptionScheduleEndBehaviorNone    SubscriptionScheduleEndBehavior = "none"
+	SubscriptionScheduleEndBehaviorRenew   SubscriptionScheduleEndBehavior = "release"
+	SubscriptionScheduleEndBehaviorRelease SubscriptionScheduleEndBehavior = "renew"
+)
+
 // SubscriptionScheduleStatus is the list of allowed values for the schedule's status.
 type SubscriptionScheduleStatus string
 
@@ -21,6 +32,7 @@ type SubscriptionScheduleRenewalBehavior string
 
 // List of values that SubscriptionScheduleRenewalBehavior can take.
 const (
+	SubscriptionScheduleRenewalBehaviorCancel  SubscriptionScheduleRenewalBehavior = "cancel"
 	SubscriptionScheduleRenewalBehaviorNone    SubscriptionScheduleRenewalBehavior = "none"
 	SubscriptionScheduleRenewalBehaviorRenew   SubscriptionScheduleRenewalBehavior = "release"
 	SubscriptionScheduleRenewalBehaviorRelease SubscriptionScheduleRenewalBehavior = "renew"
@@ -78,6 +90,7 @@ type SubscriptionScheduleParams struct {
 	Customer             *string                                    `form:"customer"`
 	DefaultPaymentMethod *string                                    `form:"default_payment_method"`
 	DefaultSource        *string                                    `form:"default_source"`
+	EndBehavior          *string                                    `form:"end_behavior"`
 	FromSubscription     *string                                    `form:"from_subscription"`
 	InvoiceSettings      *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
 	Phases               []*SubscriptionSchedulePhaseParams         `form:"phases"`
@@ -176,6 +189,7 @@ type SubscriptionSchedule struct {
 	Customer             *Customer                            `json:"customer"`
 	DefaultPaymentMethod *PaymentMethod                       `json:"default_payment_method"`
 	DefaultSource        *PaymentSource                       `json:"default_source"`
+	EndBehavior          SubscriptionScheduleEndBehavior      `json:"end_behavior"`
 	ID                   string                               `json:"id"`
 	InvoiceSettings      *SubscriptionScheduleInvoiceSettings `json:"invoice_settings"`
 	Livemode             bool                                 `json:"livemode"`
