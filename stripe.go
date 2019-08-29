@@ -393,8 +393,29 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 			s.LeveledLogger.Errorf("Request failed with error: %v", err)
 		} else if res.StatusCode >= 400 {
 			err = s.ResponseToError(res, resBody)
-			s.LeveledLogger.Errorf("Request failed with body: %s (status: %v)",
-				string(resBody), res.StatusCode)
+
+			if stripeErr, ok := err.(*Error); ok {
+				// The Stripe API makes a distinction between errors that were
+				// caused by invalid parameters or something else versus those
+				// that occurred *despite* valid parameters, the latter coming
+				// back with status 402.
+				//
+				// On a 402, log to info so as to not make an integration's log
+				// noisy with error messages that they don't have much control
+				// over.
+				//
+				// Note I use the constant 402 instead of an `http.Status*`
+				// constant because technically 402 is "Payment required". The
+				// Stripe API doesn't comply to the letter of the specification
+				// and uses it in a broader sense.
+				if res.StatusCode == 402 {
+					s.LeveledLogger.Infof("User-compelled request error from Stripe (status %v): %v",
+						res.StatusCode, stripeErr)
+				} else {
+					s.LeveledLogger.Errorf("Request error from Stripe (status %v): %v",
+						res.StatusCode, stripeErr)
+				}
+			}
 		}
 
 		// If the response was okay, or an error that shouldn't be retried,
@@ -490,25 +511,6 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 		typedError = &RateLimitError{stripeErr: raw.E.Error}
 	}
 	raw.E.Err = typedError
-
-	// The Stripe API makes a distinction between errors that were caused by
-	// invalid parameters or something else versus those that occurred
-	// *despite* valid parameters, the latter coming back with status 402.
-	//
-	// On a 402, log to info so as to not make an integration's log noisy with
-	// error messages that they don't have much control over.
-	//
-	// Note I use the constant 402 here instead of an `http.Status*` constant
-	// because technically 402 is "Payment required". The Stripe API doesn't
-	// comply to the letter of the specification and uses it in a broader
-	// sense.
-	if res.StatusCode == 402 {
-		s.LeveledLogger.Infof("User-compelled request error from Stripe: %v",
-			raw.E.Error)
-	} else {
-		s.LeveledLogger.Errorf("Request error from Stripe: %v",
-			raw.E.Error)
-	}
 
 	return raw.E.Error
 }
