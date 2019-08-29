@@ -1,5 +1,8 @@
 # Changelog
 
+## 62.8.1 - 2019-08-29
+* [#938](https://github.com/stripe/stripe-go/pull/938) Rearrange error logging so that 402 doesn't log an error
+
 ## 62.8.0 - 2019-08-29
 * [#937](https://github.com/stripe/stripe-go/pull/937) Add support for `EndBehavior` on `SubscriptionSchedule`
 
