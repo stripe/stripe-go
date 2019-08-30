@@ -1,5 +1,8 @@
 # Changelog
 
+## 62.8.2 - 2019-08-29
+* [#939](https://github.com/stripe/stripe-go/pull/939) Also log error in case of non-`stripe.Error`
+
 ## 62.8.1 - 2019-08-29
 * [#938](https://github.com/stripe/stripe-go/pull/938) Rearrange error logging so that 402 doesn't log an error
 
