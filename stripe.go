@@ -415,6 +415,8 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 					s.LeveledLogger.Errorf("Request error from Stripe (status %v): %v",
 						res.StatusCode, stripeErr)
 				}
+			} else {
+				s.LeveledLogger.Errorf("Error decoding error from Stripe: %v", err)
 			}
 		}
 
@@ -483,7 +485,6 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 	// no error in resBody
 	if raw.E == nil {
 		err := errors.New(string(resBody))
-		s.LeveledLogger.Errorf("Unparsable error returned from Stripe: %v", err)
 		return err
 	}
 	raw.E.HTTPStatusCode = res.StatusCode
