@@ -40,6 +40,18 @@ const (
 	IssuingAuthorizationStatusReversed IssuingAuthorizationStatus = "reversed"
 )
 
+// IssuingAuthorizationVerificationDataAuthentication is the list of possible values for the result
+// of an authentication on an issuing authorization.
+type IssuingAuthorizationVerificationDataAuthentication string
+
+// List of values that IssuingAuthorizationVerificationDataCheck can take.
+const (
+	IssuingAuthorizationVerificationDataAuthenticationExempt  IssuingAuthorizationVerificationDataAuthentication = "exempt"
+	IssuingAuthorizationVerificationDataAuthenticationFailure IssuingAuthorizationVerificationDataAuthentication = "failure"
+	IssuingAuthorizationVerificationDataAuthenticationNone    IssuingAuthorizationVerificationDataAuthentication = "none"
+	IssuingAuthorizationVerificationDataAuthenticationSuccess IssuingAuthorizationVerificationDataAuthentication = "success"
+)
+
 // IssuingAuthorizationVerificationDataCheck is the list of possible values for result of a check
 // for verification data on an issuing authorization.
 type IssuingAuthorizationVerificationDataCheck string
@@ -99,9 +111,10 @@ type IssuingAuthorizationRequestHistory struct {
 
 // IssuingAuthorizationVerificationData is the resource representing verification data on an issuing authorization.
 type IssuingAuthorizationVerificationData struct {
-	AddressLine1Check IssuingAuthorizationVerificationDataCheck `json:"address_line1_check"`
-	AddressZipCheck   IssuingAuthorizationVerificationDataCheck `json:"address_zip_check"`
-	CVCCheck          IssuingAuthorizationVerificationDataCheck `json:"cvc_check"`
+	AddressLine1Check IssuingAuthorizationVerificationDataCheck          `json:"address_line1_check"`
+	AddressZipCheck   IssuingAuthorizationVerificationDataCheck          `json:"address_zip_check"`
+	Authentication    IssuingAuthorizationVerificationDataAuthentication `json:"authentication"`
+	CVCCheck          IssuingAuthorizationVerificationDataCheck          `json:"cvc_check"`
 }
 
 // IssuingAuthorization is the resource representing a Stripe issuing authorization.
@@ -140,6 +153,7 @@ type IssuingMerchantData struct {
 	NetworkID  string `json:"network_id"`
 	PostalCode string `json:"postal_code"`
 	State      string `json:"state"`
+	URL        string `json:"url"`
 }
 
 // IssuingAuthorizationList is a list of issuing authorizations as retrieved from a list endpoint.
