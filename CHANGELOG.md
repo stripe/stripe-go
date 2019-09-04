@@ -1,5 +1,8 @@
 # Changelog
 
+## 62.9.0 - 2019-09-04
+* [#943](https://github.com/stripe/stripe-go/pull/943) Add support for `Authentication` and `URL` on Issuing `Authorization`
+
 ## 62.8.2 - 2019-08-29
 * [#939](https://github.com/stripe/stripe-go/pull/939) Also log error in case of non-`stripe.Error`
 
