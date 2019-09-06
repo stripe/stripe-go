@@ -47,6 +47,12 @@ func TestAccountNew(t *testing.T) {
 		Company: &stripe.AccountCompanyParams{
 			DirectorsProvided: stripe.Bool(true),
 			Name:              stripe.String("company_name"),
+			Verification: &stripe.AccountCompanyVerificationParams{
+				Document: &stripe.AccountCompanyVerificationDocumentParams{
+					Back:  stripe.String("file_123"),
+					Front: stripe.String("file_abc"),
+				},
+			},
 		},
 		Country: stripe.String("CA"),
 		ExternalAccount: &stripe.AccountExternalAccountParams{
