@@ -72,7 +72,8 @@ type PersonVerificationDocumentParams struct {
 // PersonVerificationParams is used to represent parameters associated with a person's verification
 // details.
 type PersonVerificationParams struct {
-	Document *PersonVerificationDocumentParams `form:"document"`
+	AdditionalDocument *PersonVerificationDocumentParams `form:"additional_document"`
+	Document           *PersonVerificationDocumentParams `form:"document"`
 }
 
 // PersonParams is the set of parameters that can be used when creating or updating a person.
@@ -152,10 +153,11 @@ type PersonVerificationDocument struct {
 
 // PersonVerification is the structure for a person's verification details.
 type PersonVerification struct {
-	Details     string                        `json:"details"`
-	DetailsCode PersonVerificationDetailsCode `json:"details_code"`
-	Document    *PersonVerificationDocument   `json:"document"`
-	Status      IdentityVerificationStatus    `json:"status"`
+	AdditionalDocument *PersonVerificationDocument   `json:"additional_document"`
+	Details            string                        `json:"details"`
+	DetailsCode        PersonVerificationDetailsCode `json:"details_code"`
+	Document           *PersonVerificationDocument   `json:"document"`
+	Status             IdentityVerificationStatus    `json:"status"`
 }
 
 // Person is the resource representing a Stripe person.

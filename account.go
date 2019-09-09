@@ -90,6 +90,24 @@ const (
 	AccountRejectReasonTermsOfService AccountRejectReason = "terms_of_service"
 )
 
+// AccountCompanyVerificationDocumentDetailsCode is a machine-readable code specifying the
+// verification state of a document associated with a company.
+type AccountCompanyVerificationDocumentDetailsCode string
+
+// List of values that AccountCompanyVerificationDocumentDetailsCode can take.
+const (
+	AccountCompanyVerificationDocumentDetailsCodeDocumentCorrupt        AccountCompanyVerificationDocumentDetailsCode = "document_corrupt"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedCopy     AccountCompanyVerificationDocumentDetailsCode = "document_failed_copy"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedOther    AccountCompanyVerificationDocumentDetailsCode = "document_failed_other"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedTestMode AccountCompanyVerificationDocumentDetailsCode = "document_failed_test_mode"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentFraudulent     AccountCompanyVerificationDocumentDetailsCode = "document_fraudulent"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentInvalid        AccountCompanyVerificationDocumentDetailsCode = "document_invalid"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentManipulated    AccountCompanyVerificationDocumentDetailsCode = "document_manipulated"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentNotReadable    AccountCompanyVerificationDocumentDetailsCode = "document_not_readable"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentNotUploaded    AccountCompanyVerificationDocumentDetailsCode = "document_not_uploaded"
+	AccountCompanyVerificationDocumentDetailsCodeDocumentTooLarge       AccountCompanyVerificationDocumentDetailsCode = "document_too_large"
+)
+
 // AccountBusinessProfileParams are the parameters allowed for an account's business information
 type AccountBusinessProfileParams struct {
 	MCC                *string `form:"mcc"`
@@ -101,20 +119,33 @@ type AccountBusinessProfileParams struct {
 	URL                *string `form:"url"`
 }
 
+// AccountCompanyVerificationDocumentParams are the parameters allowed to pass for a document
+// verifying a company.
+type AccountCompanyVerificationDocumentParams struct {
+	Back  *string `form:"back"`
+	Front *string `form:"front"`
+}
+
+// AccountCompanyVerificationParams are the parameters allowed to verify a company.
+type AccountCompanyVerificationParams struct {
+	Document *AccountCompanyVerificationDocumentParams `form:"document"`
+}
+
 // AccountCompanyParams are the parameters describing the company associated with the account.
 type AccountCompanyParams struct {
-	Address           *AccountAddressParams `form:"address"`
-	AddressKana       *AccountAddressParams `form:"address_kana"`
-	AddressKanji      *AccountAddressParams `form:"address_kanji"`
-	DirectorsProvided *bool                 `form:"directors_provided"`
-	Name              *string               `form:"name"`
-	NameKana          *string               `form:"name_kana"`
-	NameKanji         *string               `form:"name_kanji"`
-	OwnersProvided    *bool                 `form:"owners_provided"`
-	Phone             *string               `form:"phone"`
-	TaxID             *string               `form:"tax_id"`
-	TaxIDRegistrar    *string               `form:"tax_id_registrar"`
-	VATID             *string               `form:"vat_id"`
+	Address           *AccountAddressParams             `form:"address"`
+	AddressKana       *AccountAddressParams             `form:"address_kana"`
+	AddressKanji      *AccountAddressParams             `form:"address_kanji"`
+	DirectorsProvided *bool                             `form:"directors_provided"`
+	Name              *string                           `form:"name"`
+	NameKana          *string                           `form:"name_kana"`
+	NameKanji         *string                           `form:"name_kanji"`
+	OwnersProvided    *bool                             `form:"owners_provided"`
+	Phone             *string                           `form:"phone"`
+	TaxID             *string                           `form:"tax_id"`
+	TaxIDRegistrar    *string                           `form:"tax_id_registrar"`
+	VATID             *string                           `form:"vat_id"`
+	Verification      *AccountCompanyVerificationParams `form:"verification"`
 }
 
 // AccountDeclineSettingsParams represents the parameters allowed for configuring
@@ -282,20 +313,34 @@ type AccountCapabilities struct {
 	Transfers      AccountCapabilityStatus `json:"transfers"`
 }
 
+// AccountCompanyVerificationDocument represents details about a company's verification state.
+type AccountCompanyVerificationDocument struct {
+	Back        *File                                         `json:"back"`
+	Details     string                                        `json:"details"`
+	DetailsCode AccountCompanyVerificationDocumentDetailsCode `json:"details_code"`
+	Front       *File                                         `json:"front"`
+}
+
+// AccountCompanyVerification represents details about a company's verification state.
+type AccountCompanyVerification struct {
+	Document *AccountCompanyVerificationDocument `json:"document"`
+}
+
 // AccountCompany represents details about the company or business associated with the account.
 type AccountCompany struct {
-	Address           *AccountAddress `json:"address"`
-	AddressKana       *AccountAddress `json:"address_kana"`
-	AddressKanji      *AccountAddress `json:"address_kanji"`
-	DirectorsProvided bool            `json:"directors_provided"`
-	Name              string          `json:"name"`
-	NameKana          string          `json:"name_kana"`
-	NameKanji         string          `json:"name_kanji"`
-	OwnersProvided    bool            `json:"owners_provided"`
-	Phone             string          `json:"phone"`
-	TaxIDProvided     bool            `json:"tax_id_provided"`
-	TaxIDRegistrar    string          `json:"tax_id_registrar"`
-	VATIDProvided     bool            `json:"vat_id_provided"`
+	Address           *AccountAddress             `json:"address"`
+	AddressKana       *AccountAddress             `json:"address_kana"`
+	AddressKanji      *AccountAddress             `json:"address_kanji"`
+	DirectorsProvided bool                        `json:"directors_provided"`
+	Name              string                      `json:"name"`
+	NameKana          string                      `json:"name_kana"`
+	NameKanji         string                      `json:"name_kanji"`
+	OwnersProvided    bool                        `json:"owners_provided"`
+	Phone             string                      `json:"phone"`
+	TaxIDProvided     bool                        `json:"tax_id_provided"`
+	TaxIDRegistrar    string                      `json:"tax_id_registrar"`
+	VATIDProvided     bool                        `json:"vat_id_provided"`
+	Verification      *AccountCompanyVerification `json:"verification"`
 }
 
 // AccountDeclineOn represents card charges decline behavior for that account.
