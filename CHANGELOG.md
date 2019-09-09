@@ -1,5 +1,8 @@
 # Changelog
 
+## 62.10.0 - 2019-09-09
+* [#945](https://github.com/stripe/stripe-go/pull/945) Changes to `Account` and `Person` to represent identity verification state
+
 ## 62.9.0 - 2019-09-04
 * [#943](https://github.com/stripe/stripe-go/pull/943) Add support for `Authentication` and `URL` on Issuing `Authorization`
 
