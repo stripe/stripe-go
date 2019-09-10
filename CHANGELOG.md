@@ -1,5 +1,8 @@
 # Changelog
 
+## 63.0.0 - 2019-09-10
+* [#947](https://github.com/stripe/stripe-go/pull/947) Bump API version to [`2019-09-09`](https://stripe.com/docs/upgrades#2019-09-09)
+
 ## 62.10.0 - 2019-09-09
 * [#945](https://github.com/stripe/stripe-go/pull/945) Changes to `Account` and `Person` to represent identity verification state
 
