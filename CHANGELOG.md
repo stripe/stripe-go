@@ -1,5 +1,8 @@
 # Changelog
 
+## 63.1.0 - 2019-09-13
+* [#949](https://github.com/stripe/stripe-go/pull/949) Add support for `DeclineCode` on `Error` top-level
+
 ## 63.0.0 - 2019-09-10
 * [#947](https://github.com/stripe/stripe-go/pull/947) Bump API version to [`2019-09-09`](https://stripe.com/docs/upgrades#2019-09-09)
 
