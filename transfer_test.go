@@ -39,14 +39,11 @@ func TestTransferDestination_UnmarshalJSON(t *testing.T) {
 
 	// Unmarshals from a JSON object
 	{
-		// We build the JSON object manually here because TransferDestination
-		// has a custom MarshalJSON implementation as well, and it'll turn into
-		// a string if we marshaled a struct instance. This ensures that we're
-		// working with a JSON objects.
-		data := []byte(`{"id":"acct_123"}`)
+		v := TransferDestination{ID: "acct_123"}
+		data, err := json.Marshal(&v)
+		assert.NoError(t, err)
 
-		var v TransferDestination
-		err := json.Unmarshal(data, &v)
+		err = json.Unmarshal(data, &v)
 		assert.NoError(t, err)
 		assert.Equal(t, "acct_123", v.ID)
 
