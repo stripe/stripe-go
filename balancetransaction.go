@@ -186,8 +186,3 @@ func (s *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 
 	return err
 }
-
-// MarshalJSON handles serialization of a BalanceTransactionSource.
-func (s *BalanceTransactionSource) MarshalJSON() ([]byte, error) {
-	return json.Marshal(s.ID)
-}
