@@ -108,11 +108,3 @@ func (d *TransferDestination) UnmarshalJSON(data []byte) error {
 	*d = TransferDestination(v)
 	return json.Unmarshal(data, &d.Account)
 }
-
-// MarshalJSON handles serialization of a TransferDestination.
-// This custom marshaling is needed because we can only send a string
-// ID as a destination, even though it can be expanded to a full
-// object when retrieving
-func (d *TransferDestination) MarshalJSON() ([]byte, error) {
-	return json.Marshal(d.ID)
-}
