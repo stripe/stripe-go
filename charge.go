@@ -32,6 +32,7 @@ const (
 	ChargePaymentMethodDetailsTypeAcssDebit         ChargePaymentMethodDetailsType = "acss_debit"
 	ChargePaymentMethodDetailsTypeAlipay            ChargePaymentMethodDetailsType = "alipay"
 	ChargePaymentMethodDetailsTypeBancontact        ChargePaymentMethodDetailsType = "bancontact"
+	ChargePaymentMethodDetailsTypeAuBecsDebit       ChargePaymentMethodDetailsType = "au_becs_debit"
 	ChargePaymentMethodDetailsTypeBitcoin           ChargePaymentMethodDetailsType = "bitcoin" // This is unsupported today and is here for legacy charges.
 	ChargePaymentMethodDetailsTypeCard              ChargePaymentMethodDetailsType = "card"
 	ChargePaymentMethodDetailsTypeCardPresent       ChargePaymentMethodDetailsType = "card_present"
@@ -45,7 +46,6 @@ const (
 	ChargePaymentMethodDetailsTypeSofort            ChargePaymentMethodDetailsType = "sofort"
 	ChargePaymentMethodDetailsTypeStripeAccount     ChargePaymentMethodDetailsType = "stripe_account"
 	ChargePaymentMethodDetailsTypeWechat            ChargePaymentMethodDetailsType = "wechat"
-	ChargePaymentMethodDetailsTypeAuBecsDebit       ChargePaymentMethodDetailsType = "aubecsdebit"
 )
 
 // ChargeLevel3LineItemsParams is the set of parameters that represent a line item on level III data.
@@ -206,6 +206,13 @@ type ChargePaymentMethodDetailsAcssDebit struct {
 
 // ChargePaymentMethodDetailsAlipay represents details about the Alipay PaymentMethod.
 type ChargePaymentMethodDetailsAlipay struct {
+}
+
+// ChargePaymentMethodDetailsAuBecsDebit represents details about the AU BECS DD PaymentMethod.
+type ChargePaymentMethodDetailsAuBecsDebit struct {
+	BsbNumber   string `json:"bsb_number"`
+	Fingerprint string `json:"fingerprint"`
+	Last4       string `json:"last4"`
 }
 
 // ChargePaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.
@@ -405,14 +412,6 @@ type ChargePaymentMethodDetailsStripeAccount struct {
 type ChargePaymentMethodDetailsWechat struct {
 }
 
-// ChargePaymentMethodDetailsAuBecsDebit represents details about the AU BECS DD PaymentMethod.
-type ChargePaymentMethodDetailsAuBecsDebit struct {
-	AccountNumber string `json:"account_number"`
-	BsbNumber     string `json:"bsb_number"`
-	Fingerprint   string `json:"fingerprint"`
-	Last4         string `json:"last4"`
-}
-
 // ChargePaymentMethodDetails represents the details about the PaymentMethod associated with the
 // charge.
 type ChargePaymentMethodDetails struct {
@@ -434,7 +433,7 @@ type ChargePaymentMethodDetails struct {
 	StripeAccount     *ChargePaymentMethodDetailsStripeAccount     `json:"stripe_account"`
 	Type              ChargePaymentMethodDetailsType               `json:"type"`
 	Wechat            *ChargePaymentMethodDetailsWechat            `json:"wechat"`
-	AuBecsDebit       *ChargePaymentMethodDetailsAuBecsDebit       `json:"aubecsdebit"`
+	AuBecsDebit       *ChargePaymentMethodDetailsAuBecsDebit       `json:"au_becs_debit"`
 }
 
 // ChargeTransferData represents the information for the transfer_data associated with a charge.
