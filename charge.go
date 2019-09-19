@@ -31,8 +31,8 @@ const (
 	ChargePaymentMethodDetailsTypeAchDebit          ChargePaymentMethodDetailsType = "ach_debit"
 	ChargePaymentMethodDetailsTypeAcssDebit         ChargePaymentMethodDetailsType = "acss_debit"
 	ChargePaymentMethodDetailsTypeAlipay            ChargePaymentMethodDetailsType = "alipay"
-	ChargePaymentMethodDetailsTypeBancontact        ChargePaymentMethodDetailsType = "bancontact"
 	ChargePaymentMethodDetailsTypeAuBecsDebit       ChargePaymentMethodDetailsType = "au_becs_debit"
+	ChargePaymentMethodDetailsTypeBancontact        ChargePaymentMethodDetailsType = "bancontact"
 	ChargePaymentMethodDetailsTypeBitcoin           ChargePaymentMethodDetailsType = "bitcoin" // This is unsupported today and is here for legacy charges.
 	ChargePaymentMethodDetailsTypeCard              ChargePaymentMethodDetailsType = "card"
 	ChargePaymentMethodDetailsTypeCardPresent       ChargePaymentMethodDetailsType = "card_present"
@@ -419,6 +419,7 @@ type ChargePaymentMethodDetails struct {
 	AchDebit          *ChargePaymentMethodDetailsAchDebit          `json:"ach_debit"`
 	Alipay            *ChargePaymentMethodDetailsAlipay            `json:"alipay"`
 	Bancontact        *ChargePaymentMethodDetailsBancontact        `json:"bancontact"`
+	AuBecsDebit       *ChargePaymentMethodDetailsAuBecsDebit       `json:"au_becs_debit"`
 	Bitcoin           *ChargePaymentMethodDetailsBitcoin           `json:"bitcoin"`
 	Card              *ChargePaymentMethodDetailsCard              `json:"card"`
 	CardPresent       *ChargePaymentMethodDetailsCardPresent       `json:"card_present"`
@@ -433,7 +434,6 @@ type ChargePaymentMethodDetails struct {
 	StripeAccount     *ChargePaymentMethodDetailsStripeAccount     `json:"stripe_account"`
 	Type              ChargePaymentMethodDetailsType               `json:"type"`
 	Wechat            *ChargePaymentMethodDetailsWechat            `json:"wechat"`
-	AuBecsDebit       *ChargePaymentMethodDetailsAuBecsDebit       `json:"au_becs_debit"`
 }
 
 // ChargeTransferData represents the information for the transfer_data associated with a charge.
