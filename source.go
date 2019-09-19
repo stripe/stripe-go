@@ -175,10 +175,20 @@ type SourceObjectParams struct {
 // SourceMandateAcceptanceParams describes the set of parameters allowed for the `acceptance`
 // hash on source creation or update.
 type SourceMandateAcceptanceParams struct {
+	Status  *string                               `form:"status"`
+	Type    *string                               `form:"type"`
+	Online  *SourceMandateAcceptanceOnlineParams  `form:"online"`
+	Offline *SourceMandateAcceptanceOfflineParams `form:"offline"`
+}
+
+type SourceMandateAcceptanceOnlineParams struct {
 	Date      *int64  `form:"date"`
 	IP        *string `form:"ip"`
-	Status    *string `form:"status"`
 	UserAgent *string `form:"user_agent"`
+}
+
+type SourceMandateAcceptanceOfflineParams struct {
+	ContactEmail *string `form:"contact_email"`
 }
 
 // SourceMandateParams describes the set of parameters allowed for the `mandate` hash on
