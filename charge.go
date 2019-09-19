@@ -45,6 +45,7 @@ const (
 	ChargePaymentMethodDetailsTypeSofort            ChargePaymentMethodDetailsType = "sofort"
 	ChargePaymentMethodDetailsTypeStripeAccount     ChargePaymentMethodDetailsType = "stripe_account"
 	ChargePaymentMethodDetailsTypeWechat            ChargePaymentMethodDetailsType = "wechat"
+	ChargePaymentMethodDetailsTypeAuBecsDebit       ChargePaymentMethodDetailsType = "aubecsdebit"
 )
 
 // ChargeLevel3LineItemsParams is the set of parameters that represent a line item on level III data.
@@ -404,6 +405,14 @@ type ChargePaymentMethodDetailsStripeAccount struct {
 type ChargePaymentMethodDetailsWechat struct {
 }
 
+// ChargePaymentMethodDetailsAuBecsDebit represents details about the AU BECS DD PaymentMethod.
+type ChargePaymentMethodDetailsAuBecsDebit struct {
+	AccountNumber string `json:"account_number"`
+	BsbNumber     string `json:"bsb_number"`
+	Fingerprint   string `json:"fingerprint"`
+	Last4         string `json:"last4"`
+}
+
 // ChargePaymentMethodDetails represents the details about the PaymentMethod associated with the
 // charge.
 type ChargePaymentMethodDetails struct {
@@ -425,6 +434,7 @@ type ChargePaymentMethodDetails struct {
 	StripeAccount     *ChargePaymentMethodDetailsStripeAccount     `json:"stripe_account"`
 	Type              ChargePaymentMethodDetailsType               `json:"type"`
 	Wechat            *ChargePaymentMethodDetailsWechat            `json:"wechat"`
+	AuBecsDebit       *ChargePaymentMethodDetailsAuBecsDebit       `json:"aubecsdebit"`
 }
 
 // ChargeTransferData represents the information for the transfer_data associated with a charge.
