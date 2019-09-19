@@ -22,10 +22,12 @@ func TestSourceNew(t *testing.T) {
 		Flow:     stripe.String(string(stripe.SourceFlowReceiver)),
 		Mandate: &stripe.SourceMandateParams{
 			Acceptance: &stripe.SourceMandateAcceptanceParams{
-				Date:      stripe.Int64(1528573382),
-				IP:        stripe.String("127.0.0.1"),
-				Status:    stripe.String(string(stripe.SourceMandateAcceptanceStatusAccepted)),
-				UserAgent: stripe.String("User-Agent"),
+				Status: stripe.String(string(stripe.SourceMandateAcceptanceStatusAccepted)),
+				Online: &stripe.SourceMandateAcceptanceOnlineParams{
+					Date:      stripe.Int64(1528573382),
+					IP:        stripe.String("127.0.0.1"),
+					UserAgent: stripe.String("User-Agent"),
+				},
 			},
 			NotificationMethod: stripe.String(string(stripe.SourceMandateNotificationMethodNone)),
 		},
