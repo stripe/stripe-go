@@ -156,6 +156,35 @@ func TestShouldRetry(t *testing.T) {
 		0,
 	))
 
+	// `Stripe-Should-Retry: false`
+	assert.False(t, c.shouldRetry(
+		nil,
+		&http.Request{},
+		&http.Response{
+			Header: http.Header(map[string][]string{
+				"Stripe-Should-Retry": {"false"},
+			}),
+			// Note we send status 409 here, which would normally be retried
+			StatusCode: http.StatusConflict,
+		},
+		0,
+	))
+
+	// `Stripe-Should-Retry: true`
+	assert.True(t, c.shouldRetry(
+		nil,
+		&http.Request{},
+		&http.Response{
+			Header: http.Header(map[string][]string{
+				"Stripe-Should-Retry": {"true"},
+			}),
+			// Note we send status 400 here, which would normally not be
+			// retried
+			StatusCode: http.StatusBadRequest,
+		},
+		0,
+	))
+
 	// 409 Conflict
 	assert.True(t, c.shouldRetry(
 		nil,
