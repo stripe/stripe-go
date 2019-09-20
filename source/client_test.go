@@ -21,14 +21,20 @@ func TestSourceNew(t *testing.T) {
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
 		Flow:     stripe.String(string(stripe.SourceFlowReceiver)),
 		Mandate: &stripe.SourceMandateParams{
+			Amount: stripe.Int64(1000),
 			Acceptance: &stripe.SourceMandateAcceptanceParams{
-				Status: stripe.String(string(stripe.SourceMandateAcceptanceStatusAccepted)),
+				Date: stripe.Int64(1528573382),
+				IP:   stripe.String("127.0.0.1"),
 				Online: &stripe.SourceMandateAcceptanceOnlineParams{
 					Date:      stripe.Int64(1528573382),
 					IP:        stripe.String("127.0.0.1"),
 					UserAgent: stripe.String("User-Agent"),
 				},
+				UserAgent: stripe.String("User-Agent"),
+				Status:    stripe.String(string(stripe.SourceMandateAcceptanceStatusAccepted)),
 			},
+			Currency:           stripe.String(string(stripe.CurrencyUSD)),
+			Interval:           stripe.String("one_time"),
 			NotificationMethod: stripe.String(string(stripe.SourceMandateNotificationMethodNone)),
 		},
 		Owner: &stripe.SourceOwnerParams{
