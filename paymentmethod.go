@@ -60,12 +60,19 @@ type PaymentMethodCardParams struct {
 	Token    *string `form:"token"`
 }
 
+// PaymentMethodFpxParams is the set of parameters allowed for the `fpx` hash when creating a
+// PaymentMethod of type fpx.
+type PaymentMethodFpxParams struct {
+	Bank *string `form:"bank"`
+}
+
 // PaymentMethodParams is the set of parameters that can be used when creating or updating a
 // PaymentMethod.
 type PaymentMethodParams struct {
 	Params         `form:"*"`
 	BillingDetails *BillingDetailsParams    `form:"billing_details"`
 	Card           *PaymentMethodCardParams `form:"card"`
+	Fpx            *PaymentMethodFpxParams  `form:"fpx"`
 	PaymentMethod  *string                  `form:"payment_method"`
 	Type           *string                  `form:"type"`
 
@@ -146,11 +153,17 @@ type PaymentMethodCard struct {
 type PaymentMethodCardPresent struct {
 }
 
+type PaymentMethodFpx struct {
+	Bank          string `json:bank`
+	TransactionId string `json:"transaction_id"`
+}
+
 // PaymentMethod is the resource representing a PaymentMethod.
 type PaymentMethod struct {
 	BillingDetails *BillingDetails           `json:"billing_details"`
 	Card           *PaymentMethodCard        `json:"card"`
 	CardPresent    *PaymentMethodCardPresent `json:"card_present"`
+	Fpx            *PaymentMethodFpx         `json:"fpx"`
 	Created        int64                     `json:"created"`
 	Customer       *Customer                 `json:"customer"`
 	ID             string                    `json:"id"`

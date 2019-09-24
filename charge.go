@@ -36,6 +36,7 @@ const (
 	ChargePaymentMethodDetailsTypeCard              ChargePaymentMethodDetailsType = "card"
 	ChargePaymentMethodDetailsTypeCardPresent       ChargePaymentMethodDetailsType = "card_present"
 	ChargePaymentMethodDetailsTypeEps               ChargePaymentMethodDetailsType = "eps"
+	ChargePaymentMethodDetailsTypeFpx               ChargePaymentMethodDetailsType = "fpx"
 	ChargePaymentMethodDetailsTypeGiropay           ChargePaymentMethodDetailsType = "giropay"
 	ChargePaymentMethodDetailsTypeIdeal             ChargePaymentMethodDetailsType = "ideal"
 	ChargePaymentMethodDetailsTypeKlarna            ChargePaymentMethodDetailsType = "klarna"
@@ -344,6 +345,12 @@ type ChargePaymentMethodDetailsEps struct {
 	VerifiedName string `json:"verified_name"`
 }
 
+// ChargePaymentMethodDetailsFpx represents details about the FPX PaymentMethod.
+type ChargePaymentMethodDetailsFpx struct {
+	Bank          string `json:"bank"`
+	TransactionId string `json:"transaction_id"`
+}
+
 // ChargePaymentMethodDetailsGiropay represents details about the Giropay PaymentMethod.
 type ChargePaymentMethodDetailsGiropay struct {
 	BankCode     string `json:"bank_code"`
@@ -415,6 +422,7 @@ type ChargePaymentMethodDetails struct {
 	Card              *ChargePaymentMethodDetailsCard              `json:"card"`
 	CardPresent       *ChargePaymentMethodDetailsCardPresent       `json:"card_present"`
 	Eps               *ChargePaymentMethodDetailsEps               `json:"eps"`
+	Fpx               *ChargePaymentMethodDetailsFpx               `json:"fpx"`
 	Giropay           *ChargePaymentMethodDetailsGiropay           `json:"giropay"`
 	Ideal             *ChargePaymentMethodDetailsIdeal             `json:"ideal"`
 	Klarna            *ChargePaymentMethodDetailsKlarna            `json:"klarna"`
