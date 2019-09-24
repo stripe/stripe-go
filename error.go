@@ -32,6 +32,7 @@ const (
 	ErrorCodeAmountTooLarge                         ErrorCode = "amount_too_large"
 	ErrorCodeAmountTooSmall                         ErrorCode = "amount_too_small"
 	ErrorCodeAPIKeyExpired                          ErrorCode = "api_key_expired"
+	ErrorCodeAuthenticationRequired                 ErrorCode = "authentication_required"
 	ErrorCodeBalanceInsufficient                    ErrorCode = "balance_insufficient"
 	ErrorCodeBankAccountExists                      ErrorCode = "bank_account_exists"
 	ErrorCodeBankAccountUnusable                    ErrorCode = "bank_account_unusable"
