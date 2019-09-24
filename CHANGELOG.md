@@ -1,5 +1,8 @@
 # Changelog
 
+## 63.1.1 - 2019-09-23
+* [#954](https://github.com/stripe/stripe-go/pull/954) Add support for `Stripe-Should-Retry` header
+
 ## 63.1.0 - 2019-09-13
 * [#949](https://github.com/stripe/stripe-go/pull/949) Add support for `DeclineCode` on `Error` top-level
 
