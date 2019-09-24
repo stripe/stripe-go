@@ -576,6 +576,16 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 		return true
 	}
 
+	// The API may ask us not to retry (e.g. if doing so would be a no-op), or
+	// advise us to retry (e.g. in cases of lock timeouts). Defer to those
+	// instructions if given.
+	if resp.Header.Get("Stripe-Should-Retry") == "false" {
+		return false
+	}
+	if resp.Header.Get("Stripe-Should-Retry") == "true" {
+		return true
+	}
+
 	// 409 Conflict
 	if resp.StatusCode == http.StatusConflict {
 		return true
