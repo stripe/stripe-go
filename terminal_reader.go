@@ -6,17 +6,11 @@ type TerminalReaderParams struct {
 	Label            *string `form:"label"`
 	Location         *string `form:"location"`
 	RegistrationCode *string `form:"registration_code"`
-
-	// This feature has been deprecated and should not be used anymore.
-	OperatorAccount *string `form:"operator_account"`
 }
 
 // TerminalReaderGetParams is the set of parameters that can be used to get a terminal reader.
 type TerminalReaderGetParams struct {
 	Params `form:"*"`
-
-	// This feature has been deprecated and should not be used anymore.
-	OperatorAccount *string `form:"operator_account"`
 }
 
 // TerminalReaderListParams is the set of parameters that can be used when listing temrinal readers.
@@ -24,9 +18,6 @@ type TerminalReaderListParams struct {
 	ListParams `form:"*"`
 	Location   *string `form:"location"`
 	Status     *string `form:"status"`
-
-	// This feature has been deprecated and should not be used anymore.
-	OperatorAccount *string `form:"operator_account"`
 }
 
 // TerminalReader is the resource representing a Stripe terminal reader.
