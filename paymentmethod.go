@@ -77,16 +77,16 @@ type PaymentMethodParams struct {
 // PaymentMethodAttachParams is the set of parameters that can be used when attaching a
 // PaymentMethod to a Customer.
 type PaymentMethodAttachParams struct {
-	Params `form:"*"`
-	// The following parameter is not supported by the API and should not have been added
-	// TODO: remove in the next major version
+	Params   `form:"*"`
 	Customer *string `form:"customer"`
 }
 
 // PaymentMethodDetachParams is the set of parameters that can be used when detaching a
 // PaymentMethod.
 type PaymentMethodDetachParams struct {
-	Params   `form:"*"`
+	Params `form:"*"`
+	// The following parameter is not supported by the API and should not have been added
+	// TODO: remove in the next major version
 	Customer *string `form:"customer"`
 }
 
