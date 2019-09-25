@@ -7,29 +7,11 @@ import (
 // CustomerTaxExempt is the type of tax exemption associated with a customer.
 type CustomerTaxExempt string
 
-// List of values that CustomerTaxInfoType can take.
+// List of values that CustomerTaxExempt can take.
 const (
 	CustomerTaxExemptExempt  CustomerTaxExempt = "exempt"
 	CustomerTaxExemptNone    CustomerTaxExempt = "none"
 	CustomerTaxExemptReverse CustomerTaxExempt = "reverse"
-)
-
-// CustomerTaxInfoType is the type of tax info associated with a customer.
-type CustomerTaxInfoType string
-
-// List of values that CustomerTaxInfoType can take.
-const (
-	CustomerTaxInfoTypeVAT CustomerTaxInfoType = "vat"
-)
-
-// CustomerTaxInfoVerificationStatus is the type of tax info associated with a customer.
-type CustomerTaxInfoVerificationStatus string
-
-// List of values that CustomerTaxInfoType can take.
-const (
-	CustomerTaxInfoVerificationStatusPending    CustomerTaxInfoVerificationStatus = "pending"
-	CustomerTaxInfoVerificationStatusUnverified CustomerTaxInfoVerificationStatus = "unverified"
-	CustomerTaxInfoVerificationStatusVerified   CustomerTaxInfoVerificationStatus = "verified"
 )
 
 // CustomerParams is the set of parameters that can be used when creating or updating a customer.
@@ -53,12 +35,6 @@ type CustomerParams struct {
 	TaxExempt        *string                        `form:"tax_exempt"`
 	TaxIDData        []*CustomerTaxIDDataParams     `form:"tax_id_data"`
 	Token            *string                        `form:"-"` // This doesn't seem to be used?
-
-	// The following parameter is deprecated. Use Balance instead.
-	AccountBalance *int64 `form:"account_balance"`
-
-	// The following parameter is deprecated. Use TaxIDData instead.
-	TaxInfo *CustomerTaxInfoParams `form:"tax_info"`
 
 	// The parameters below are considered deprecated. Consider creating a Subscription separately instead.
 	Plan       *string  `form:"plan"`
@@ -93,12 +69,6 @@ type CustomerShippingDetailsParams struct {
 type CustomerTaxIDDataParams struct {
 	Type  *string `form:"type"`
 	Value *string `form:"value"`
-}
-
-// CustomerTaxInfoParams is the structure containing tax information for the customer.
-type CustomerTaxInfoParams struct {
-	TaxID *string `form:"tax_id"`
-	Type  *string `form:"type"`
 }
 
 // SetSource adds valid sources to a CustomerParams object,
@@ -144,13 +114,6 @@ type Customer struct {
 	Subscriptions    *SubscriptionList        `json:"subscriptions"`
 	TaxExempt        CustomerTaxExempt        `json:"tax_exempt"`
 	TaxIDs           *TaxIDList               `json:"tax_ids"`
-
-	// The following property is deprecated. Use Balance instead.
-	AccountBalance int64 `json:"account_balance"`
-
-	// The following properties are deprecated. Use TaxIds instead.
-	TaxInfo             *CustomerTaxInfo             `json:"tax_info"`
-	TaxInfoVerification *CustomerTaxInfoVerification `json:"tax_info_verification"`
 }
 
 // CustomerInvoiceCustomField represents a custom field associated with the customer's invoices.
@@ -178,18 +141,6 @@ type CustomerShippingDetails struct {
 	Address Address `json:"address"`
 	Name    string  `json:"name"`
 	Phone   string  `json:"phone"`
-}
-
-// CustomerTaxInfo is the structure containing tax information for the customer.
-type CustomerTaxInfo struct {
-	TaxID string              `json:"tax_id"`
-	Type  CustomerTaxInfoType `json:"type"`
-}
-
-// CustomerTaxInfoVerification is the structure containing tax verification for the customer.
-type CustomerTaxInfoVerification struct {
-	Status       CustomerTaxInfoVerificationStatus `json:"status"`
-	VerifiedName string                            `json:"verified_name"`
 }
 
 // UnmarshalJSON handles deserialization of a Customer.

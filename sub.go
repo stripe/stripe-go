@@ -21,16 +21,6 @@ const (
 	SubscriptionStatusUnpaid            SubscriptionStatus = "unpaid"
 )
 
-// SubscriptionBilling is the type of collection method for this subscription's invoices.
-// This is considered deprecated. Use SubscriptionCollectionMethod instead.
-type SubscriptionBilling string
-
-// List of values that SubscriptionBilling can take.
-const (
-	SubscriptionBillingChargeAutomatically SubscriptionBilling = "charge_automatically"
-	SubscriptionBillingSendInvoice         SubscriptionBilling = "send_invoice"
-)
-
 // SubscriptionCollectionMethod is the type of collection method for this subscription's invoices.
 type SubscriptionCollectionMethod string
 
@@ -88,9 +78,6 @@ type SubscriptionParams struct {
 	TrialEndNow                 *bool                                `form:"-"` // See custom AppendTo
 	TrialFromPlan               *bool                                `form:"trial_from_plan"`
 	TrialPeriodDays             *int64                               `form:"trial_period_days"`
-
-	// This parameter is deprecated and we recommend that you use CollectionMethod instead.
-	Billing *string `form:"billing"`
 
 	// This parameter is deprecated and we recommend that you use TaxRates instead.
 	TaxPercent *float64 `form:"tax_percent"`
@@ -155,9 +142,6 @@ type SubscriptionListParams struct {
 	Customer                string            `form:"customer"`
 	Plan                    string            `form:"plan"`
 	Status                  string            `form:"status"`
-
-	// This parameter is deprecated and we recommend that you use CollectionMethod instead.
-	Billing *string `form:"billing"`
 }
 
 // SubscriptionTransferData represents the information for the transfer_data associated with a subscription.
@@ -201,12 +185,6 @@ type Subscription struct {
 	TransferData          *SubscriptionTransferData      `json:"transfer_data"`
 	TrialEnd              int64                          `json:"trial_end"`
 	TrialStart            int64                          `json:"trial_start"`
-
-	// This field is deprecated and we recommend that you use CollectionMethod instead.
-	Billing SubscriptionBilling `json:"billing"`
-
-	// This field is deprecated and we recommend that you use StartDate instead.
-	Start int64 `json:"start"`
 
 	// This field is deprecated and we recommend that you use TaxRates instead.
 	TaxPercent float64 `json:"tax_percent"`

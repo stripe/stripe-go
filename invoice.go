@@ -15,16 +15,6 @@ const (
 	InvoiceLineTypeSubscription InvoiceLineType = "subscription"
 )
 
-// InvoiceBilling is the type of collection method for this invoice.
-// This is considered deprecated. Use InvoiceCollectionMethod instead.
-type InvoiceBilling string
-
-// List of values that InvoiceBilling can take.
-const (
-	InvoiceBillingChargeAutomatically InvoiceBilling = "charge_automatically"
-	InvoiceBillingSendInvoice         InvoiceBilling = "send_invoice"
-)
-
 // InvoiceBillingReason is the reason why a given invoice was created
 type InvoiceBillingReason string
 
@@ -40,6 +30,7 @@ const (
 )
 
 // InvoiceBillingStatus is the reason why a given invoice was created
+// TODO: rename to InvoiceStatus
 type InvoiceBillingStatus string
 
 // List of values that InvoiceBillingStatus can take.
@@ -134,12 +125,6 @@ type InvoiceParams struct {
 	SubscriptionTrialEnd                    *int64                              `form:"subscription_trial_end"`
 	SubscriptionTrialFromPlan               *bool                               `form:"subscription_trial_from_plan"`
 
-	// This parameter is considered deprecated. Prefer using ApplicationFeeAmount
-	ApplicationFee *int64 `form:"application_fee"`
-
-	// This parameter is considered deprecated. Prefer using CollectionMethod
-	Billing *string `form:"billing"`
-
 	// This parameter is deprecated and we recommend that you use DefaultTaxRates instead.
 	TaxPercent *float64 `form:"tax_percent"`
 
@@ -171,9 +156,6 @@ type InvoiceListParams struct {
 	DueDate          *int64            `form:"due_date"`
 	DueDateRange     *RangeQueryParams `form:"due_date"`
 	Subscription     *string           `form:"subscription"`
-
-	// This parameter is considered deprecated. Prefer using CollectionMethod
-	Billing *string `form:"billing"`
 }
 
 // InvoiceLineListParams is the set of parameters that can be used when listing invoice line items.
@@ -285,9 +267,6 @@ type Invoice struct {
 	TotalTaxAmounts              []*InvoiceTaxAmount      `json:"total_tax_amounts"`
 	TransferData                 *InvoiceTransferData     `json:"transfer_data"`
 	WebhooksDeliveredAt          int64                    `json:"webhooks_delivered_at"`
-
-	// This property is considered deprecated. Prefer using CollectionMethod
-	Billing *InvoiceBilling `form:"billing"`
 
 	// This field is deprecated and we recommend that you use TaxRates instead.
 	TaxPercent float64 `json:"tax_percent"`
