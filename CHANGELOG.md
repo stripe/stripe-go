@@ -1,5 +1,8 @@
 # Changelog
 
+## 63.2.1 - 2019-09-25
+* [#961](https://github.com/stripe/stripe-go/pull/961) Properly tag `Customer` as deprecated in `PaymentMethodDetachParams`
+
 ## 63.2.0 - 2019-09-25
 * [#959](https://github.com/stripe/stripe-go/pull/959) Mark `Customer` on `PaymentMethodDetachParams` as deprecated
 * [#957](https://github.com/stripe/stripe-go/pull/957) Add missing error code
