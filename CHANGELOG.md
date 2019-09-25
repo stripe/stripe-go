@@ -1,5 +1,9 @@
 # Changelog
 
+## 63.2.0 - 2019-09-25
+* [#959](https://github.com/stripe/stripe-go/pull/959) Mark `Customer` on `PaymentMethodDetachParams` as deprecated
+* [#957](https://github.com/stripe/stripe-go/pull/957) Add missing error code
+
 ## 63.1.1 - 2019-09-23
 * [#954](https://github.com/stripe/stripe-go/pull/954) Add support for `Stripe-Should-Retry` header
 
