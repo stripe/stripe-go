@@ -347,8 +347,9 @@ type ChargePaymentMethodDetailsEps struct {
 
 // ChargePaymentMethodDetailsFpx represents details about the FPX PaymentMethod.
 type ChargePaymentMethodDetailsFpx struct {
-	Bank          string `json:"bank"`
-	TransactionId string `json:"transaction_id"`
+	AccountHolderType string `json:"account_holder_type"`
+	Bank              string `json:"bank"`
+	TransactionId     string `json:"transaction_id"`
 }
 
 // ChargePaymentMethodDetailsGiropay represents details about the Giropay PaymentMethod.
