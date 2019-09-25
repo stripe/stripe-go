@@ -31,7 +31,6 @@ import (
 	"github.com/stripe/stripe-go/filelink"
 	"github.com/stripe/stripe-go/invoice"
 	"github.com/stripe/stripe-go/invoiceitem"
-	"github.com/stripe/stripe-go/issuerfraudrecord"
 	"github.com/stripe/stripe-go/issuing/authorization"
 	issuingcard "github.com/stripe/stripe-go/issuing/card"
 	"github.com/stripe/stripe-go/issuing/cardholder"
@@ -137,8 +136,6 @@ type API struct {
 	Invoices *invoice.Client
 	// InvoiceItems is the client used to invoke /invoiceitems APIs.
 	InvoiceItems *invoiceitem.Client
-	// IssuerFraudRecords is the client used to invoke /issuer_fraud_records APIs.
-	IssuerFraudRecords *issuerfraudrecord.Client
 	// IssuingAuthorizations is the client used to invoke /issuing/authorizations APIs.
 	IssuingAuthorizations *authorization.Client
 	// IssuingCardholders is the client used to invoke /issuing/cardholders APIs.
@@ -270,7 +267,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.FileLinks = &filelink.Client{B: backends.API, Key: key}
 	a.Invoices = &invoice.Client{B: backends.API, Key: key}
 	a.InvoiceItems = &invoiceitem.Client{B: backends.API, Key: key}
-	a.IssuerFraudRecords = &issuerfraudrecord.Client{B: backends.API, Key: key}
 	a.IssuingAuthorizations = &authorization.Client{B: backends.API, Key: key}
 	a.IssuingCardholders = &cardholder.Client{B: backends.API, Key: key}
 	a.IssuingCards = &issuingcard.Client{B: backends.API, Key: key}
