@@ -2,6 +2,14 @@ package stripe
 
 import "encoding/json"
 
+// List of values that FPX AccountHolderType can take.
+type AccountHolderType string
+
+const (
+	AccountHolderTypeIndividual AccountHolderType = "individual"
+	AccountHolderTypeCompany    AccountHolderType = "company"
+)
+
 // PaymentMethodType is the list of allowed values for the payment method type.
 type PaymentMethodType string
 
@@ -60,9 +68,9 @@ type PaymentMethodCardParams struct {
 	Token    *string `form:"token"`
 }
 
-// PaymentMethodFpxParams is the set of parameters allowed for the `fpx` hash when creating a
+// PaymentMethodFPXParams is the set of parameters allowed for the `fpx` hash when creating a
 // PaymentMethod of type fpx.
-type PaymentMethodFpxParams struct {
+type PaymentMethodFPXParams struct {
 	AccountHolderType *string `form:"account_holder_type"`
 	Bank              *string `form:"bank"`
 }
@@ -73,7 +81,7 @@ type PaymentMethodParams struct {
 	Params         `form:"*"`
 	BillingDetails *BillingDetailsParams    `form:"billing_details"`
 	Card           *PaymentMethodCardParams `form:"card"`
-	Fpx            *PaymentMethodFpxParams  `form:"fpx"`
+	FPX            *PaymentMethodFPXParams  `form:"fpx"`
 	PaymentMethod  *string                  `form:"payment_method"`
 	Type           *string                  `form:"type"`
 
@@ -154,7 +162,7 @@ type PaymentMethodCard struct {
 type PaymentMethodCardPresent struct {
 }
 
-type PaymentMethodFpx struct {
+type PaymentMethodFPX struct {
 	AccountHolderType string `json:"account_holder_type"`
 	Bank              string `json:"bank"`
 	TransactionId     string `json:"transaction_id"`
@@ -167,7 +175,7 @@ type PaymentMethod struct {
 	CardPresent    *PaymentMethodCardPresent `json:"card_present"`
 	Created        int64                     `json:"created"`
 	Customer       *Customer                 `json:"customer"`
-	Fpx            *PaymentMethodFpx         `json:"fpx"`
+	FPX            *PaymentMethodFPX         `json:"fpx"`
 	ID             string                    `json:"id"`
 	Livemode       bool                      `json:"livemode"`
 	Metadata       map[string]string         `json:"metadata"`
