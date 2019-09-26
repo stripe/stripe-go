@@ -31,7 +31,7 @@ const (
 	ChargePaymentMethodDetailsTypeAchDebit          ChargePaymentMethodDetailsType = "ach_debit"
 	ChargePaymentMethodDetailsTypeAcssDebit         ChargePaymentMethodDetailsType = "acss_debit"
 	ChargePaymentMethodDetailsTypeAlipay            ChargePaymentMethodDetailsType = "alipay"
-	ChargePaymentMethodDetailsTypeAuBecsDebit       ChargePaymentMethodDetailsType = "au_becs_debit"
+	ChargePaymentMethodDetailsTypeAUBECSDebit       ChargePaymentMethodDetailsType = "au_becs_debit"
 	ChargePaymentMethodDetailsTypeBancontact        ChargePaymentMethodDetailsType = "bancontact"
 	ChargePaymentMethodDetailsTypeBitcoin           ChargePaymentMethodDetailsType = "bitcoin" // This is unsupported today and is here for legacy charges.
 	ChargePaymentMethodDetailsTypeCard              ChargePaymentMethodDetailsType = "card"
@@ -208,9 +208,9 @@ type ChargePaymentMethodDetailsAcssDebit struct {
 type ChargePaymentMethodDetailsAlipay struct {
 }
 
-// ChargePaymentMethodDetailsAuBecsDebit represents details about the AU BECS DD PaymentMethod.
-type ChargePaymentMethodDetailsAuBecsDebit struct {
-	BsbNumber   string `json:"bsb_number"`
+// ChargePaymentMethodDetailsAUBECSDebit represents details about the AU BECS DD PaymentMethod.
+type ChargePaymentMethodDetailsAUBECSDebit struct {
+	BSBNumber   string `json:"bsb_number"`
 	Fingerprint string `json:"fingerprint"`
 	Last4       string `json:"last4"`
 }
@@ -419,7 +419,7 @@ type ChargePaymentMethodDetails struct {
 	AchDebit          *ChargePaymentMethodDetailsAchDebit          `json:"ach_debit"`
 	Alipay            *ChargePaymentMethodDetailsAlipay            `json:"alipay"`
 	Bancontact        *ChargePaymentMethodDetailsBancontact        `json:"bancontact"`
-	AuBecsDebit       *ChargePaymentMethodDetailsAuBecsDebit       `json:"au_becs_debit"`
+	AUBECSDebit       *ChargePaymentMethodDetailsAUBECSDebit       `json:"au_becs_debit"`
 	Bitcoin           *ChargePaymentMethodDetailsBitcoin           `json:"bitcoin"`
 	Card              *ChargePaymentMethodDetailsCard              `json:"card"`
 	CardPresent       *ChargePaymentMethodDetailsCardPresent       `json:"card_present"`
