@@ -1,5 +1,8 @@
 # Changelog
 
+## 63.2.2 - 2019-09-26
+* [#963](https://github.com/stripe/stripe-go/pull/963) Update `SourceSourceOrder` `Items` field to fix unmarshalling errors
+
 ## 63.2.1 - 2019-09-25
 * [#961](https://github.com/stripe/stripe-go/pull/961) Properly tag `Customer` as deprecated in `PaymentMethodDetachParams`
 
