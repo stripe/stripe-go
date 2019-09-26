@@ -264,11 +264,11 @@ type SourceSourceOrderItems struct {
 
 // SourceSourceOrder describes a source order for a source.
 type SourceSourceOrder struct {
-	Amount   int64                   `json:"amount"`
-	Currency Currency                `json:"currency"`
-	Email    string                  `json:"email"`
-	Items    *SourceSourceOrderItems `json:"items"`
-	Shipping *ShippingDetails        `json:"shipping"`
+	Amount   int64                     `json:"amount"`
+	Currency Currency                  `json:"currency"`
+	Email    string                    `json:"email"`
+	Items    *[]SourceSourceOrderItems `json:"items"`
+	Shipping *ShippingDetails          `json:"shipping"`
 }
 
 // Source is the resource representing a Source.
