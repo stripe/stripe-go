@@ -184,12 +184,14 @@ type SourceMandateAcceptanceParams struct {
 	UserAgent *string                               `form:"user_agent"`
 }
 
+// SourceMandateAcceptanceOnlineParams describes the set of parameters for online accepted mandate
 type SourceMandateAcceptanceOnlineParams struct {
 	Date      *int64  `form:"date"`
 	IP        *string `form:"ip"`
 	UserAgent *string `form:"user_agent"`
 }
 
+// SourceMandateAcceptanceOfflineParams describes the set of parameters for offline accepted mandate
 type SourceMandateAcceptanceOfflineParams struct {
 	ContactEmail *string `form:"contact_email"`
 }
