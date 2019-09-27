@@ -2,12 +2,13 @@ package stripe
 
 import "encoding/json"
 
-// List of values that FPX AccountHolderType can take.
-type AccountHolderType string
+// PaymentMethodFPXAccountHolderType is a ist of string values that FPX AccountHolderType accepts.
+type PaymentMethodFPXAccountHolderType string
 
+// List of values that PaymentMethodFPXAccountHolderType can take
 const (
-	AccountHolderTypeIndividual AccountHolderType = "individual"
-	AccountHolderTypeCompany    AccountHolderType = "company"
+	AccountHolderTypeIndividual PaymentMethodFPXAccountHolderType = "individual"
+	AccountHolderTypeCompany    PaymentMethodFPXAccountHolderType = "company"
 )
 
 // PaymentMethodType is the list of allowed values for the payment method type.
@@ -162,10 +163,11 @@ type PaymentMethodCard struct {
 type PaymentMethodCardPresent struct {
 }
 
+// PaymentMethodFPX represents Malaysia FPX PaymentMethod (Malaysia Only).
 type PaymentMethodFPX struct {
-	AccountHolderType string `json:"account_holder_type"`
-	Bank              string `json:"bank"`
-	TransactionId     string `json:"transaction_id"`
+	AccountHolderType PaymentMethodFPXAccountHolderType `json:"account_holder_type"`
+	Bank              string                            `json:"bank"`
+	TransactionID     string                            `json:"transaction_id"`
 }
 
 // PaymentMethod is the resource representing a PaymentMethod.
