@@ -46,5 +46,7 @@ type TerminalReader struct {
 // TerminalReaderList is a list of terminal readers as retrieved from a list endpoint.
 type TerminalReaderList struct {
 	ListMeta
-	Data []*TerminalReader `json:"data"`
+	Data     []*TerminalReader `json:"data"`
+	Location *string           `json:"location"`
+	Status   *string           `json:"status"`
 }
