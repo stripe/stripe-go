@@ -1,5 +1,8 @@
 # Changelog
 
+## 63.3.0 - 2019-09-30
+* [#964](https://github.com/stripe/stripe-go/pull/964) Add support for `Status` and `Location` filters when listing `Reader`s
+
 ## 63.2.2 - 2019-09-26
 * [#963](https://github.com/stripe/stripe-go/pull/963) Update `SourceSourceOrder` `Items` field to fix unmarshalling errors
 
