@@ -31,6 +31,7 @@ const (
 	ChargePaymentMethodDetailsTypeAchDebit          ChargePaymentMethodDetailsType = "ach_debit"
 	ChargePaymentMethodDetailsTypeAcssDebit         ChargePaymentMethodDetailsType = "acss_debit"
 	ChargePaymentMethodDetailsTypeAlipay            ChargePaymentMethodDetailsType = "alipay"
+	ChargePaymentMethodDetailsTypeAUBECSDebit       ChargePaymentMethodDetailsType = "au_becs_debit"
 	ChargePaymentMethodDetailsTypeBancontact        ChargePaymentMethodDetailsType = "bancontact"
 	ChargePaymentMethodDetailsTypeBitcoin           ChargePaymentMethodDetailsType = "bitcoin" // This is unsupported today and is here for legacy charges.
 	ChargePaymentMethodDetailsTypeCard              ChargePaymentMethodDetailsType = "card"
@@ -205,6 +206,13 @@ type ChargePaymentMethodDetailsAcssDebit struct {
 
 // ChargePaymentMethodDetailsAlipay represents details about the Alipay PaymentMethod.
 type ChargePaymentMethodDetailsAlipay struct {
+}
+
+// ChargePaymentMethodDetailsAUBECSDebit represents details about the AU BECS DD PaymentMethod.
+type ChargePaymentMethodDetailsAUBECSDebit struct {
+	BSBNumber   string `json:"bsb_number"`
+	Fingerprint string `json:"fingerprint"`
+	Last4       string `json:"last4"`
 }
 
 // ChargePaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.
@@ -411,6 +419,7 @@ type ChargePaymentMethodDetails struct {
 	AchDebit          *ChargePaymentMethodDetailsAchDebit          `json:"ach_debit"`
 	Alipay            *ChargePaymentMethodDetailsAlipay            `json:"alipay"`
 	Bancontact        *ChargePaymentMethodDetailsBancontact        `json:"bancontact"`
+	AUBECSDebit       *ChargePaymentMethodDetailsAUBECSDebit       `json:"au_becs_debit"`
 	Bitcoin           *ChargePaymentMethodDetailsBitcoin           `json:"bitcoin"`
 	Card              *ChargePaymentMethodDetailsCard              `json:"card"`
 	CardPresent       *ChargePaymentMethodDetailsCardPresent       `json:"card_present"`

@@ -175,16 +175,34 @@ type SourceObjectParams struct {
 // SourceMandateAcceptanceParams describes the set of parameters allowed for the `acceptance`
 // hash on source creation or update.
 type SourceMandateAcceptanceParams struct {
+	Date      *int64                                `form:"date"`
+	IP        *string                               `form:"ip"`
+	Offline   *SourceMandateAcceptanceOfflineParams `form:"offline"`
+	Online    *SourceMandateAcceptanceOnlineParams  `form:"online"`
+	Status    *string                               `form:"status"`
+	Type      *string                               `form:"type"`
+	UserAgent *string                               `form:"user_agent"`
+}
+
+// SourceMandateAcceptanceOnlineParams describes the set of parameters for online accepted mandate
+type SourceMandateAcceptanceOnlineParams struct {
 	Date      *int64  `form:"date"`
 	IP        *string `form:"ip"`
-	Status    *string `form:"status"`
 	UserAgent *string `form:"user_agent"`
+}
+
+// SourceMandateAcceptanceOfflineParams describes the set of parameters for offline accepted mandate
+type SourceMandateAcceptanceOfflineParams struct {
+	ContactEmail *string `form:"contact_email"`
 }
 
 // SourceMandateParams describes the set of parameters allowed for the `mandate` hash on
 // source creation or update.
 type SourceMandateParams struct {
+	Amount             *int64                         `form:"amount"`
 	Acceptance         *SourceMandateAcceptanceParams `form:"acceptance"`
+	Currency           *string                        `form:"currency"`
+	Interval           *string                        `form:"interval"`
 	NotificationMethod *string                        `form:"notification_method"`
 }
 
