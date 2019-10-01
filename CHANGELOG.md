@@ -1,5 +1,8 @@
 # Changelog
 
+## 63.4.0 - 2019-09-30
+* [#952](https://github.com/stripe/stripe-go/pull/952) Add AU BECS Debit Support
+
 ## 63.3.0 - 2019-09-30
 * [#964](https://github.com/stripe/stripe-go/pull/964) Add support for `Status` and `Location` filters when listing `Reader`s
 
