@@ -7,8 +7,8 @@ type PaymentMethodFPXAccountHolderType string
 
 // List of values that PaymentMethodFPXAccountHolderType can take
 const (
-	AccountHolderTypeIndividual PaymentMethodFPXAccountHolderType = "individual"
-	AccountHolderTypeCompany    PaymentMethodFPXAccountHolderType = "company"
+	PaymentMethodFPXAccountHolderTypeIndividual PaymentMethodFPXAccountHolderType = "individual"
+	PaymentMethodFPXAccountHolderTypeCompany    PaymentMethodFPXAccountHolderType = "company"
 )
 
 // PaymentMethodType is the list of allowed values for the payment method type.
