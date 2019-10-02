@@ -2,7 +2,7 @@ package stripe
 
 import "encoding/json"
 
-// PaymentMethodFPXAccountHolderType is a ist of string values that FPX AccountHolderType accepts.
+// PaymentMethodFPXAccountHolderType is a list of string values that FPX AccountHolderType accepts.
 type PaymentMethodFPXAccountHolderType string
 
 // List of values that PaymentMethodFPXAccountHolderType can take
