@@ -141,6 +141,7 @@ func (p *BankAccountListParams) AppendTo(body *form.Values, keyParts []string) {
 
 // BankAccount represents a Stripe bank account.
 type BankAccount struct {
+	Account            string                       `json:"account"`
 	AccountHolderName  string                       `json:"account_holder_name"`
 	AccountHolderType  BankAccountAccountHolderType `json:"account_holder_type"`
 	BankName           string                       `json:"bank_name"`
