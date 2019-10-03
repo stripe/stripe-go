@@ -2,6 +2,15 @@ package stripe
 
 import "encoding/json"
 
+// PaymentMethodFPXAccountHolderType is a list of string values that FPX AccountHolderType accepts.
+type PaymentMethodFPXAccountHolderType string
+
+// List of values that PaymentMethodFPXAccountHolderType can take
+const (
+	PaymentMethodFPXAccountHolderTypeIndividual PaymentMethodFPXAccountHolderType = "individual"
+	PaymentMethodFPXAccountHolderTypeCompany    PaymentMethodFPXAccountHolderType = "company"
+)
+
 // PaymentMethodType is the list of allowed values for the payment method type.
 type PaymentMethodType string
 
@@ -60,12 +69,20 @@ type PaymentMethodCardParams struct {
 	Token    *string `form:"token"`
 }
 
+// PaymentMethodFPXParams is the set of parameters allowed for the `fpx` hash when creating a
+// PaymentMethod of type fpx.
+type PaymentMethodFPXParams struct {
+	AccountHolderType *string `form:"account_holder_type"`
+	Bank              *string `form:"bank"`
+}
+
 // PaymentMethodParams is the set of parameters that can be used when creating or updating a
 // PaymentMethod.
 type PaymentMethodParams struct {
 	Params         `form:"*"`
 	BillingDetails *BillingDetailsParams    `form:"billing_details"`
 	Card           *PaymentMethodCardParams `form:"card"`
+	FPX            *PaymentMethodFPXParams  `form:"fpx"`
 	PaymentMethod  *string                  `form:"payment_method"`
 	Type           *string                  `form:"type"`
 
@@ -148,6 +165,13 @@ type PaymentMethodCard struct {
 type PaymentMethodCardPresent struct {
 }
 
+// PaymentMethodFPX represents Malaysia FPX PaymentMethod (Malaysia Only).
+type PaymentMethodFPX struct {
+	AccountHolderType PaymentMethodFPXAccountHolderType `json:"account_holder_type"`
+	Bank              string                            `json:"bank"`
+	TransactionID     string                            `json:"transaction_id"`
+}
+
 // PaymentMethod is the resource representing a PaymentMethod.
 type PaymentMethod struct {
 	BillingDetails *BillingDetails           `json:"billing_details"`
@@ -155,6 +179,7 @@ type PaymentMethod struct {
 	CardPresent    *PaymentMethodCardPresent `json:"card_present"`
 	Created        int64                     `json:"created"`
 	Customer       *Customer                 `json:"customer"`
+	FPX            *PaymentMethodFPX         `json:"fpx"`
 	ID             string                    `json:"id"`
 	Livemode       bool                      `json:"livemode"`
 	Metadata       map[string]string         `json:"metadata"`
