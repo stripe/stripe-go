@@ -1,5 +1,9 @@
 # Changelog
 
+## 63.5.0 - 2019-10-03
+* [#955](https://github.com/stripe/stripe-go/pull/955) Add FPX `PaymentMethod` Support
+* [#966](https://github.com/stripe/stripe-go/pull/966) Add the `Account` field to `BankAccount`
+
 ## 63.4.0 - 2019-09-30
 * [#952](https://github.com/stripe/stripe-go/pull/952) Add AU BECS Debit Support
 
