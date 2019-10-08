@@ -1,7 +1,6 @@
 package orderreturn
 
 import (
-	"fmt"
 	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
@@ -12,25 +11,6 @@ import (
 type Client struct {
 	B   stripe.Backend
 	Key string
-}
-
-// New creates a new order return.
-func New(params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
-	return getC().New(params)
-}
-
-// New creates a new order return.
-func (c Client) New(params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
-	if params == nil {
-		return nil, fmt.Errorf("params cannot be nil")
-	}
-	if params.Order == nil {
-		return nil, fmt.Errorf("params.Order must be set")
-	}
-	p := &stripe.OrderReturn{}
-	path := stripe.FormatURLPath("/v1/orders/%s/returns", stripe.StringValue(params.Order))
-	err := c.B.Call(http.MethodPost, path, c.Key, params, p)
-	return p, err
 }
 
 // Get returns the details of an order return

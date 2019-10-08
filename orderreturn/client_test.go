@@ -8,16 +8,6 @@ import (
 	_ "github.com/stripe/stripe-go/testing"
 )
 
-func TestOrderReturnNew(t *testing.T) {
-	orret, err := New(&stripe.OrderReturnParams{
-		Order: stripe.String("or_123"),
-	})
-
-	// Verify that we can create an order return
-	assert.Nil(t, err)
-	assert.NotNil(t, orret)
-}
-
 func TestOrderReturnGet(t *testing.T) {
 	orret, err := Get("orret_123", &stripe.OrderReturnParams{})
 
