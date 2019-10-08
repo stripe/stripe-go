@@ -28,7 +28,8 @@ func (c Client) New(params *stripe.OrderReturnParams) (*stripe.OrderReturn, erro
 		return nil, fmt.Errorf("params.Order must be set")
 	}
 	p := &stripe.OrderReturn{}
-	err := c.B.Call(http.MethodPost, "/v1/order_returns", c.Key, params, p)
+	path := stripe.FormatURLPath("/v1/orders/%s/returns", stripe.StringValue(params.Order))
+	err := c.B.Call(http.MethodPost, path, c.Key, params, p)
 	return p, err
 }
 

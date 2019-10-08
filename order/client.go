@@ -92,12 +92,13 @@ func Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, e
 
 // Return returns all or part of an order.
 func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
-	if params == nil {
-		params = &stripe.OrderReturnParams{
-			Order: &id,
-		}
+	returnParams := params
+	if returnParams == nil {
+		returnParams = &stripe.OrderReturnParams{}
 	}
-	return orderreturn.New(params)
+	returnParams.Order = &id
+
+        return orderreturn.Client{B: c.B, Key: c.Key}.New(returnParams)
 }
 
 // Iter is an iterator for orders.
