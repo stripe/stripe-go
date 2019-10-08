@@ -1,6 +1,7 @@
 package orderreturn
 
 import (
+	"fmt"
 	"net/http"
 
 	stripe "github.com/stripe/stripe-go"
@@ -13,17 +14,35 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of an order return
-func Get(id string, params *stripe.OrderReturnResourceParams) (*stripe.OrderReturn, error) {
-  return getC().Get(id, params)
+// New creates a new order return.
+func New(params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
+	return getC().New(params)
+}
+
+// New creates a new order return.
+func (c Client) New(params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
+	if params == nil {
+		return nil, fmt.Errorf("params cannot be nil")
+	}
+	if params.Order == nil {
+		return nil, fmt.Errorf("params.Order must be set")
+	}
+	p := &stripe.OrderReturn{}
+	err := c.B.Call(http.MethodPost, "/v1/order_returns", c.Key, params, p)
+	return p, err
 }
 
 // Get returns the details of an order return
-func (c Client) Get(id string, params *stripe.OrderReturnResourceParams) (*stripe.OrderReturn, error) {
-  path := stripe.FormatURLPath("/v1/order_returns/%s", id)
-  orderreturn := &stripe.OrderReturn{}
-  err := c.B.Call(http.MethodGet, path, c.Key, params, orderreturn)
-  return orderreturn, err
+func Get(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
+	return getC().Get(id, params)
+}
+
+// Get returns the details of an order return
+func (c Client) Get(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
+	path := stripe.FormatURLPath("/v1/order_returns/%s", id)
+	orderreturn := &stripe.OrderReturn{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, orderreturn)
+	return orderreturn, err
 }
 
 // List returns a list of order returns.

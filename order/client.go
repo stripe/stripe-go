@@ -5,6 +5,7 @@ import (
 
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/form"
+	orderreturn "github.com/stripe/stripe-go/orderreturn"
 )
 
 // Client is used to invoke /orders APIs.
@@ -91,10 +92,12 @@ func Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, e
 
 // Return returns all or part of an order.
 func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
-	path := stripe.FormatURLPath("/v1/orders/%s/returns", id)
-	ret := &stripe.OrderReturn{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, ret)
-	return ret, err
+	if params == nil {
+		params = &stripe.OrderReturnParams{
+			Order: &id,
+		}
+	}
+	return orderreturn.New(params)
 }
 
 // Iter is an iterator for orders.
