@@ -2,6 +2,12 @@ package stripe
 
 import "encoding/json"
 
+// OrderReturnResourceParams is the set of parameters that can be used when retrieving a transaction.
+// It is not to be confused with OrderReturnParams, which is used to return an order.
+type OrderReturnResourceParams struct {
+  Params   `form:"*"`
+}
+
 // OrderReturn is the resource representing an order return.
 // For more details see https://stripe.com/docs/api#order_returns.
 type OrderReturn struct {

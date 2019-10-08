@@ -13,6 +13,18 @@ type Client struct {
 	Key string
 }
 
+// Get returns the details of an order return
+func Get(id string, params *stripe.OrderReturnResourceParams) (*stripe.OrderReturn, error) {
+  return getC().Get(id, params)
+}
+
+func (c Client) Get(id string, params *stripe.OrderReturnResourceParams) (*stripe.OrderReturn, error) {
+  path := stripe.FormatURLPath("/v1/order_returns/%s", id)
+  orderreturn := &stripe.OrderReturn{}
+  err := c.B.Call(http.MethodGet, path, c.Key, params, orderreturn)
+  return orderreturn, err
+}
+
 // List returns a list of order returns.
 func List(params *stripe.OrderReturnListParams) *Iter {
 	return getC().List(params)
