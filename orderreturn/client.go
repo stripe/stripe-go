@@ -41,9 +41,9 @@ func Get(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, erro
 // Get returns the details of an order return
 func (c Client) Get(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
 	path := stripe.FormatURLPath("/v1/order_returns/%s", id)
-	orderreturn := &stripe.OrderReturn{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, orderreturn)
-	return orderreturn, err
+	orderReturn := &stripe.OrderReturn{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, orderReturn)
+	return orderReturn, err
 }
 
 // List returns a list of order returns.
