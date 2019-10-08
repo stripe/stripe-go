@@ -74,7 +74,7 @@ func TestOrderReturn_RequestParams(t *testing.T) {
 	order, err := orderClient.Return("or_123", p)
 	assert.Nil(t, err)
 	assert.NotNil(t, order)
-	fmt.Print(lastRequest)
+
 	assert.Equal(t, lastRequest.Header.Get("Stripe-Account"), "acct_123")
 }
 
