@@ -18,6 +18,7 @@ func Get(id string, params *stripe.OrderReturnResourceParams) (*stripe.OrderRetu
   return getC().Get(id, params)
 }
 
+// Get returns the details of an order return
 func (c Client) Get(id string, params *stripe.OrderReturnResourceParams) (*stripe.OrderReturn, error) {
   path := stripe.FormatURLPath("/v1/order_returns/%s", id)
   orderreturn := &stripe.OrderReturn{}
