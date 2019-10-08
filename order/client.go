@@ -98,7 +98,7 @@ func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.Ord
 	}
 	returnParams.Order = &id
 
-        return orderreturn.Client{B: c.B, Key: c.Key}.New(returnParams)
+	return orderreturn.Client{B: c.B, Key: c.Key}.New(returnParams)
 }
 
 // Iter is an iterator for orders.
