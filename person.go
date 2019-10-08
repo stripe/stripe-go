@@ -54,11 +54,11 @@ type DOBParams struct {
 
 // RelationshipParams is used to set the relationship between an account and a person.
 type RelationshipParams struct {
-	AccountOpener    *bool    `form:"account_opener"`
 	Director         *bool    `form:"director"`
 	Executive        *bool    `form:"executive"`
 	Owner            *bool    `form:"owner"`
 	PercentOwnership *float64 `form:"percent_ownership"`
+	Representative   *bool    `form:"representative"`
 	Title            *string  `form:"title"`
 }
 
@@ -104,10 +104,10 @@ type PersonParams struct {
 
 // RelationshipListParams is used to filter persons by the relationship
 type RelationshipListParams struct {
-	AccountOpener *bool `form:"account_opener"`
-	Director      *bool `form:"director"`
-	Executive     *bool `form:"executive"`
-	Owner         *bool `form:"owner"`
+	Director       *bool `form:"director"`
+	Executive      *bool `form:"executive"`
+	Owner          *bool `form:"owner"`
+	Representative *bool `form:"representative"`
 }
 
 // PersonListParams is the set of parameters that can be used when listing persons.
@@ -127,11 +127,11 @@ type DOB struct {
 
 // Relationship represents how the Person relates to the business.
 type Relationship struct {
-	AccountOpener    bool    `json:"account_opener"`
 	Director         bool    `json:"director"`
 	Executive        bool    `json:"executive"`
 	Owner            bool    `json:"owner"`
 	PercentOwnership float64 `json:"percent_ownership"`
+	Representative   bool    `json:"representative"`
 	Title            string  `json:"title"`
 }
 
