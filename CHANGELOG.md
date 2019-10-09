@@ -1,5 +1,8 @@
 # Changelog
 
+## 64.1.0 - 2019-10-09
+* [#967](https://github.com/stripe/stripe-go/pull/967) Add `Get` method to `OrderReturn`
+
 ## 64.0.0 - 2019-10-08
 * [#968](https://github.com/stripe/stripe-go/pull/968) Update to latest API version [`2019-10-08`](https://stripe.com/docs/upgrades#2019-10-08)
 
@@ -195,7 +198,7 @@
 
 ## 61.1.0 - 2019-06-06
 * [#867](https://github.com/stripe/stripe-go/pull/867) Add support for `Location` on Terminal `ConnectionToken`
-* [#868](https://github.com/stripe/stripe-go/pull/868) Add support for `Balance` and deprecate `AccountBalance` on Customer 
+* [#868](https://github.com/stripe/stripe-go/pull/868) Add support for `Balance` and deprecate `AccountBalance` on Customer
 
 ## 61.0.1 - 2019-05-24
 * [#865](https://github.com/stripe/stripe-go/pull/865) Fix `earlyfraudwarning` client
@@ -262,7 +265,7 @@
 * [#837](https://github.com/stripe/stripe-go/pull/837) Add helpers to go from `[]T` to `[]*T` for `string`, `int64`, `float64`, `bool`
 
 ## 60.5.1 - 2019-04-16
-* [#836](https://github.com/stripe/stripe-go/pull/836) Fix `SpendingLimits` on `AuthorizationControlsParams` and `AuthorizationControls` to be a slice on Issuing `Card` and `Cardholder` 
+* [#836](https://github.com/stripe/stripe-go/pull/836) Fix `SpendingLimits` on `AuthorizationControlsParams` and `AuthorizationControls` to be a slice on Issuing `Card` and `Cardholder`
 
 ## 60.5.0 - 2019-04-16
 * [#740](https://github.com/stripe/stripe-go/pull/740) Add support for the Checkout `Session` resource and APIs
@@ -458,7 +461,7 @@
 * [#711](https://github.com/stripe/stripe-go/pull/711) Drop support for Go 1.7 (hasn't been supported by Go core since the release of Go 1.9 in August 2017)
 
 ## 51.4.0 - 2018-10-19
-* [#708](https://github.com/stripe/stripe-go/pull/708) Add Stripe Terminal endpoints to master to `client.API` 
+* [#708](https://github.com/stripe/stripe-go/pull/708) Add Stripe Terminal endpoints to master to `client.API`
 
 ## 51.3.0 - 2018-10-09
 * [#704](https://github.com/stripe/stripe-go/pull/704) Add support for `subscription_cancel_at_period_end` on the Upcoming Invoice API.
@@ -940,7 +943,7 @@
 * Rules under charge outcomes are now expandable and collapsed by default
 
 ## 19.17.0 - 2017-04-06
-* Please see 20.0.0 (bad release)	
+* Please see 20.0.0 (bad release)
 
 ## 19.16.0 - 2017-03-23
 * Allow the ID of an identity document to be passed into an account owner update
