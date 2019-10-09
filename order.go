@@ -91,12 +91,6 @@ type OrderUpdateShippingParams struct {
 	TrackingNumber *string `form:"tracking_number"`
 }
 
-// OrderReturnParams is the set of parameters that can be used when returning orders.
-type OrderReturnParams struct {
-	Params `form:"*"`
-	Items  []*OrderItemParams `form:"items"`
-}
-
 // Shipping describes the shipping hash on an order.
 type Shipping struct {
 	Address        *Address `json:"address"`

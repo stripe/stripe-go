@@ -2,6 +2,13 @@ package stripe
 
 import "encoding/json"
 
+// OrderReturnParams is the set of parameters that can be used when returning orders.
+type OrderReturnParams struct {
+	Params `form:"*"`
+	Items  []*OrderItemParams `form:"items"`
+	Order  *string            `form:"-"` // Included in the URL
+}
+
 // OrderReturn is the resource representing an order return.
 // For more details see https://stripe.com/docs/api#order_returns.
 type OrderReturn struct {

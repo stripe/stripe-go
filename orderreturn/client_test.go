@@ -8,6 +8,14 @@ import (
 	_ "github.com/stripe/stripe-go/testing"
 )
 
+func TestOrderReturnGet(t *testing.T) {
+	orret, err := Get("orret_123", &stripe.OrderReturnParams{})
+
+	// Verify that we can get an order return
+	assert.Nil(t, err)
+	assert.NotNil(t, orret)
+}
+
 func TestOrderReturnList(t *testing.T) {
 	i := List(&stripe.OrderReturnListParams{})
 
