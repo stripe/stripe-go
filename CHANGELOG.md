@@ -1,5 +1,8 @@
 # Changelog
 
+## 64.0.0 - 2019-10-08
+* [#968](https://github.com/stripe/stripe-go/pull/968) Update to latest API version [`2019-10-08`](https://stripe.com/docs/upgrades#2019-10-08)
+
 ## 63.5.0 - 2019-10-03
 * [#955](https://github.com/stripe/stripe-go/pull/955) Add FPX `PaymentMethod` Support
 * [#966](https://github.com/stripe/stripe-go/pull/966) Add the `Account` field to `BankAccount`
