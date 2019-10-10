@@ -16,6 +16,7 @@ type TerminalReaderGetParams struct {
 // TerminalReaderListParams is the set of parameters that can be used when listing temrinal readers.
 type TerminalReaderListParams struct {
 	ListParams `form:"*"`
+	DeviceType *string `form:"device_type"`
 	Location   *string `form:"location"`
 	Status     *string `form:"status"`
 }
