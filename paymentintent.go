@@ -34,9 +34,6 @@ type PaymentIntentConfirmationMethod string
 const (
 	PaymentIntentConfirmationMethodAutomatic PaymentIntentConfirmationMethod = "automatic"
 	PaymentIntentConfirmationMethodManual    PaymentIntentConfirmationMethod = "manual"
-	// The following constants are considered deprecated
-	PaymentIntentConfirmationMethodPublishable PaymentIntentConfirmationMethod = "publishable"
-	PaymentIntentConfirmationMethodSecret      PaymentIntentConfirmationMethod = "secret"
 )
 
 // PaymentIntentNextActionType is the list of allowed values for the next action's type.
@@ -207,7 +204,7 @@ type PaymentIntent struct {
 	AmountCapturable          int64                           `json:"amount_capturable"`
 	AmountReceived            int64                           `json:"amount_received"`
 	Application               *Application                    `json:"application"`
-	ApplicationFee            int64                           `json:"application_fee"`
+	ApplicationFeeAmount      int64                           `json:"application_fee_amount"`
 	CanceledAt                int64                           `json:"canceled_at"`
 	CancellationReason        PaymentIntentCancellationReason `json:"cancellation_reason"`
 	CaptureMethod             PaymentIntentCaptureMethod      `json:"capture_method"`

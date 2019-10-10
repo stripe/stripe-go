@@ -97,9 +97,6 @@ type ChargeParams struct {
 	StatementDescriptorSuffix *string                   `form:"statement_descriptor_suffix"`
 	TransferData              *ChargeTransferDataParams `form:"transfer_data"`
 	TransferGroup             *string                   `form:"transfer_group"`
-
-	// This property is considered deprecated. Prefer using ApplicationFeeAmount
-	ApplicationFee *int64 `form:"application_fee"`
 }
 
 // ShippingDetailsParams is the structure containing shipping information as parameters
@@ -151,9 +148,6 @@ type CaptureParams struct {
 	StatementDescriptorSuffix *string                   `form:"statement_descriptor_suffix"`
 	TransferGroup             *string                   `form:"transfer_group"`
 	TransferData              *ChargeTransferDataParams `form:"transfer_data"`
-
-	// This property is considered deprecated. Prefer using ApplicationFeeAmount
-	ApplicationFee *int64 `form:"application_fee"`
 }
 
 // ChargeLevel3LineItem represents a line item on level III data.

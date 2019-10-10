@@ -68,7 +68,7 @@ func TestAccount_Unmarshal(t *testing.T) {
 			},
 			"disabled_reason": "fields_needed",
 			"eventually_due": []interface{}{
-				"relationship.account_opener",
+				"relationship.representative",
 			},
 			"past_due": []interface{}{},
 		},

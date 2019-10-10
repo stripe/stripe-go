@@ -98,9 +98,6 @@ type SubscriptionScheduleParams struct {
 	RenewalBehavior      *string                                    `form:"renewal_behavior"`
 	RenewalInterval      *SubscriptionScheduleRenewalIntervalParams `form:"renewal_interval"`
 	StartDate            *int64                                     `form:"start_date"`
-
-	// This parameter is deprecated and we recommend that you use CollectionMethod instead.
-	Billing *string `form:"billing"`
 }
 
 // SubscriptionScheduleCancelParams is the set of parameters that can be used when canceling a
@@ -201,9 +198,6 @@ type SubscriptionSchedule struct {
 	RenewalInterval      *SubscriptionScheduleRenewalInterval `json:"renewal_interval"`
 	Status               SubscriptionScheduleStatus           `json:"status"`
 	Subscription         *Subscription                        `json:"subscription"`
-
-	// This field is deprecated and we recommend that you use CollectionMethod instead.
-	Billing SubscriptionBilling `json:"billing"`
 }
 
 // SubscriptionScheduleList is a list object for subscription schedules.
