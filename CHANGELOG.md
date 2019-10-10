@@ -1,5 +1,8 @@
 # Changelog
 
+## 65.1.0 - 2019-10-09
+* [#969](https://github.com/stripe/stripe-go/pull/969) Add `DeviceType` filter when listing Terminal `Reader`s
+
 ## 65.0.0 - 2019-10-09
 * [#951](https://github.com/stripe/stripe-go/pull/951) Move to API version [`2019-10-08`](https://stripe.com/docs/upgrades#2019-10-08) and other changes
   * [#950](https://github.com/stripe/stripe-go/pull/950) Remove lossy "MarshalJSON" implementations
