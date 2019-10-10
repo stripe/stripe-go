@@ -1,10 +1,27 @@
 # Changelog
 
+## 65.0.0 - 2019-10-09
+* [#951](https://github.com/stripe/stripe-go/pull/951) Move to API version [`2019-10-08`](https://stripe.com/docs/upgrades#2019-10-08) and other changes
+  * [#950](https://github.com/stripe/stripe-go/pull/950) Remove lossy "MarshalJSON" implementations
+  * [#962](https://github.com/stripe/stripe-go/pull/962) Removed deprecated properties and most todos
+    * Removed `GetBalanceTransaction` and `List` from the `balance` package. Prefer using `Get` and `List` in the `balancetransaction` package.
+    * Removed `ApplicationFee` from the `charge` and `paymentintent` packages. Prefer using `ApplicationFeeAmount`.
+    * Removed `TaxInfo` and related fields from the `customer` packager. Prefer using the `customertaxid` package.
+    * Removed unsupported `Customer` parameter on `PaymentMethodParams` and `PaymentMethodDetachParams` in the `paymentmethod` package.
+    * Removed `Billing` properties in the `invoice`, `sub` and `subschedule` packages. Prefer using `CollectionMethod`.
+    * Removed the `InvoiceBilling` type from the `invoice` package. Prefer using `InvoiceCollectionMethod`.
+    * Removed the `SubscriptionBilling` type from the `sub` package. Prefer using `SubscriptionCollectionMethod`.
+    * Removed deprecated constants for `PaymentIntentConfirmationMethod` in `paymentintent` package.
+    * Removed `OperatorAccount` from Terminal APIs.
+  * [#960](https://github.com/stripe/stripe-go/pull/960) Remove `issuerfraudrecord` package. Prefer using `earlyfraudwarning`
+  * [#968](https://github.com/stripe/stripe-go/pull/968) Rename `AccountOpener` to `Representative` and update to latest API version
+
 ## 64.1.0 - 2019-10-09
 * [#967](https://github.com/stripe/stripe-go/pull/967) Add `Get` method to `OrderReturn`
 
 ## 64.0.0 - 2019-10-08
-* [#968](https://github.com/stripe/stripe-go/pull/968) Update to latest API version [`2019-10-08`](https://stripe.com/docs/upgrades#2019-10-08)
+* ~[#968](https://github.com/stripe/stripe-go/pull/968) Update to latest API version [`2019-10-08`](https://stripe.com/docs/upgrades#2019-10-08)~
+  * **Note:** This release is actually a no-op as we failed to merge the changes. Please use 65.0.0 instead.
 
 ## 63.5.0 - 2019-10-03
 * [#955](https://github.com/stripe/stripe-go/pull/955) Add FPX `PaymentMethod` Support
