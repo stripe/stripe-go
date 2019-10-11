@@ -179,7 +179,7 @@ type StatusTransitionsFilterParams struct {
 // StatusTransitions are the timestamps at which the order status was updated.
 type StatusTransitions struct {
 	Canceled  int64 `json:"canceled"`
-	Fulfilled int64 `json:"fulfiled"`
+	Fulfilled int64 `json:"fulfilled"`
 	Paid      int64 `json:"paid"`
 	Returned  int64 `json:"returned"`
 }
