@@ -1,5 +1,8 @@
 # Changelog
 
+## 65.1.1 - 2019-10-11
+* [#970](https://github.com/stripe/stripe-go/pull/970) Properly deserialize `Fulfilled` on `StatusTransitions` in the `order` package
+
 ## 65.1.0 - 2019-10-09
 * [#969](https://github.com/stripe/stripe-go/pull/969) Add `DeviceType` filter when listing Terminal `Reader`s
 
