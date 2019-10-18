@@ -90,6 +90,7 @@ type CheckoutSessionSubscriptionDataParams struct {
 	ApplicationFeePercent *float64                                      `form:"application_fee_percent"`
 	Items                 []*CheckoutSessionSubscriptionDataItemsParams `form:"items"`
 	TrialEnd              *int64                                        `form:"trial_end"`
+	TrialFromPlan         *bool                                         `form:"trial_from_plan"`
 	TrialPeriodDays       *int64                                        `form:"trial_period_days"`
 }
 

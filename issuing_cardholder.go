@@ -2,6 +2,17 @@ package stripe
 
 import "encoding/json"
 
+// IssuingCardholderRequirementsDisabledReason is the possible values for the disabled reason on an
+// issuing cardholder.
+type IssuingCardholderRequirementsDisabledReason string
+
+// List of values that IssuingCardholderRequirementsDisabledReason can take.
+const (
+	IssuingCardholderRequirementsDisabledReasonListed         IssuingCardholderRequirementsDisabledReason = "listed"
+	IssuingCardholderRequirementsDisabledReasonRejectedListed IssuingCardholderRequirementsDisabledReason = "rejected.listed"
+	IssuingCardholderRequirementsDisabledReasonUnderReview    IssuingCardholderRequirementsDisabledReason = "under_review"
+)
+
 // IssuingCardholderStatus is the possible values for status on an issuing cardholder.
 type IssuingCardholderStatus string
 
@@ -58,6 +69,12 @@ type IssuingBilling struct {
 	Name    string   `json:"name"`
 }
 
+// IssuingCardholderRequirements contains the verification requirements for the cardholder.
+type IssuingCardholderRequirements struct {
+	DisabledReason IssuingCardholderRequirementsDisabledReason `json:"disabled_reason"`
+	PastDue        []string                                    `json:"past_due"`
+}
+
 // IssuingCardholder is the resource representing a Stripe issuing cardholder.
 type IssuingCardholder struct {
 	AuthorizationControls *IssuingCardAuthorizationControls `json:"authorization_controls"`
@@ -70,6 +87,7 @@ type IssuingCardholder struct {
 	Name                  string                            `json:"name"`
 	Object                string                            `json:"object"`
 	PhoneNumber           string                            `json:"phone_number"`
+	Requirements          *IssuingCardholderRequirements    `json:"requirements"`
 	Status                IssuingCardholderStatus           `json:"status"`
 	Type                  IssuingCardholderType             `json:"type"`
 }
