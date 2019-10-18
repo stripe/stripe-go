@@ -5,13 +5,15 @@ import "encoding/json"
 // TaxIDType is the list of allowed values for the tax id's type..
 type TaxIDType string
 
-// List of values that TaxIDDuration can take.
+// List of values that TaxIDType can take.
 const (
 	TaxIDTypeAUABN   TaxIDType = "au_abn"
+	TaxIDTypeCHVAT   TaxIDType = "eu_vat"
 	TaxIDTypeEUVAT   TaxIDType = "eu_vat"
 	TaxIDTypeINGST   TaxIDType = "in_gst"
 	TaxIDTypeNOVAT   TaxIDType = "no_vat"
 	TaxIDTypeNZGST   TaxIDType = "nz_gst"
+	TaxIDTypeZAVAT   TaxIDType = "za_vat"
 	TaxIDTypeUnknown TaxIDType = "unknown"
 )
 

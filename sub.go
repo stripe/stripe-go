@@ -36,8 +36,9 @@ type SubscriptionPaymentBehavior string
 
 // List of values that SubscriptionPaymentBehavior can take.
 const (
-	SubscriptionPaymentBehaviorAllowIncomplete   SubscriptionPaymentBehavior = "allow_incomplete"
-	SubscriptionPaymentBehaviorErrorIfIncomplete SubscriptionPaymentBehavior = "error_if_incomplete"
+	SubscriptionPaymentBehaviorAllowIncomplete     SubscriptionPaymentBehavior = "allow_incomplete"
+	SubscriptionPaymentBehaviorErrorIfIncomplete   SubscriptionPaymentBehavior = "error_if_incomplete"
+	SubscriptionPaymentBehaviorPendingIfIncomplete SubscriptionPaymentBehavior = "pending_if_incomplete"
 )
 
 // SubscriptionTransferDataParams is the set of parameters allowed for the transfer_data hash.

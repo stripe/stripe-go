@@ -208,6 +208,7 @@ type ChargePaymentMethodDetailsAUBECSDebit struct {
 	BSBNumber   string `json:"bsb_number"`
 	Fingerprint string `json:"fingerprint"`
 	Last4       string `json:"last4"`
+	Mandate     string `json:"mandate"`
 }
 
 // ChargePaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.

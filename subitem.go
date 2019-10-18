@@ -7,6 +7,7 @@ type SubscriptionItemParams struct {
 	ID                *string                                  `form:"-"` // Handled in URL
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	ClearUsage        *bool                                    `form:"clear_usage"`
+	PaymentBehavior   *string                                  `form:"payment_behavior"`
 	Plan              *string                                  `form:"plan"`
 	Prorate           *bool                                    `form:"prorate"`
 	ProrationDate     *int64                                   `form:"proration_date"`
@@ -15,8 +16,7 @@ type SubscriptionItemParams struct {
 	TaxRates          []*string                                `form:"tax_rates"`
 
 	// The following parameters are only supported on updates
-	OffSession      *bool   `form:"off_session"`
-	PaymentBehavior *string `form:"payment_behavior"`
+	OffSession *bool `form:"off_session"`
 }
 
 // SubscriptionItemBillingThresholdsParams is a structure representing the parameters allowed to
