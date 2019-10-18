@@ -1,5 +1,14 @@
 # Changelog
 
+## 65.2.0 - 2019-10-17
+* [#972](https://github.com/stripe/stripe-go/pull/972) Various API changes
+  * `Requirements` on Issuing `Cardholder`
+  * `PaymentMethodDetails.AuBecsDebit.Mandate` on `Charge`
+  * `PaymentBehavior` on `Subscription` creation can now take the value `pending_if_incomplete`
+  * `PaymentBehavior` on `SubscriptionItem` creation is now supported
+  * `SubscriptionData.TrialFromPlan` is now supported on Checkout `Session` creation
+  * New values for `TaxIDType`
+
 ## 65.1.1 - 2019-10-11
 * [#970](https://github.com/stripe/stripe-go/pull/970) Properly deserialize `Fulfilled` on `StatusTransitions` in the `order` package
 
