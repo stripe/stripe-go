@@ -9,10 +9,8 @@ type SubscriptionScheduleEndBehavior string
 
 // List of values that SubscriptionScheduleEndBehavior can take.
 const (
-	SubscriptionScheduleEndBehaviorCancel  SubscriptionScheduleEndBehavior = "cancel"
-	SubscriptionScheduleEndBehaviorNone    SubscriptionScheduleEndBehavior = "none"
-	SubscriptionScheduleEndBehaviorRenew   SubscriptionScheduleEndBehavior = "release"
-	SubscriptionScheduleEndBehaviorRelease SubscriptionScheduleEndBehavior = "renew"
+	SubscriptionScheduleEndBehaviorCancel SubscriptionScheduleEndBehavior = "cancel"
+	SubscriptionScheduleEndBehaviorRenew  SubscriptionScheduleEndBehavior = "release"
 )
 
 // SubscriptionScheduleStatus is the list of allowed values for the schedule's status.
@@ -25,17 +23,6 @@ const (
 	SubscriptionScheduleStatusCompleted SubscriptionScheduleStatus = "completed"
 	SubscriptionScheduleStatusPastDue   SubscriptionScheduleStatus = "not_started"
 	SubscriptionScheduleStatusTrialing  SubscriptionScheduleStatus = "released"
-)
-
-// SubscriptionScheduleRenewalBehavior describe what happens to a schedule when it ends.
-type SubscriptionScheduleRenewalBehavior string
-
-// List of values that SubscriptionScheduleRenewalBehavior can take.
-const (
-	SubscriptionScheduleRenewalBehaviorCancel  SubscriptionScheduleRenewalBehavior = "cancel"
-	SubscriptionScheduleRenewalBehaviorNone    SubscriptionScheduleRenewalBehavior = "none"
-	SubscriptionScheduleRenewalBehaviorRenew   SubscriptionScheduleRenewalBehavior = "release"
-	SubscriptionScheduleRenewalBehaviorRelease SubscriptionScheduleRenewalBehavior = "renew"
 )
 
 // SubscriptionScheduleInvoiceSettingsParams is a structure representing the parameters allowed to
@@ -74,13 +61,6 @@ type SubscriptionSchedulePhaseParams struct {
 	TaxPercent *float64 `form:"tax_percent"`
 }
 
-// SubscriptionScheduleRenewalIntervalParams is a structure representing the renewal interval
-// for a given subscription schedule.
-type SubscriptionScheduleRenewalIntervalParams struct {
-	Interval *string `form:"interval"`
-	Length   *int64  `form:"length"`
-}
-
 // SubscriptionScheduleParams is the set of parameters that can be used when creating or updating a
 // subscription schedule.
 type SubscriptionScheduleParams struct {
@@ -95,8 +75,6 @@ type SubscriptionScheduleParams struct {
 	InvoiceSettings      *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
 	Phases               []*SubscriptionSchedulePhaseParams         `form:"phases"`
 	Prorate              *bool                                      `form:"prorate"`
-	RenewalBehavior      *string                                    `form:"renewal_behavior"`
-	RenewalInterval      *SubscriptionScheduleRenewalIntervalParams `form:"renewal_interval"`
 	StartDate            *int64                                     `form:"start_date"`
 }
 
@@ -194,7 +172,6 @@ type SubscriptionSchedule struct {
 	Object               string                               `json:"object"`
 	Phases               []*SubscriptionSchedulePhase         `json:"phases"`
 	ReleasedSubscription *Subscription                        `json:"released_subscription"`
-	RenewalBehavior      SubscriptionScheduleRenewalBehavior  `json:"renewal_behavior"`
 	RenewalInterval      *SubscriptionScheduleRenewalInterval `json:"renewal_interval"`
 	Status               SubscriptionScheduleStatus           `json:"status"`
 	Subscription         *Subscription                        `json:"subscription"`

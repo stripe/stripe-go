@@ -64,7 +64,7 @@ func TestSubscriptionScheduleNew(t *testing.T) {
 				},
 			},
 		},
-		RenewalBehavior: stripe.String(string(stripe.SubscriptionScheduleRenewalBehaviorNone)),
+		EndBehavior: stripe.String(string(stripe.SubscriptionScheduleEndBehaviorCancel)),
 	}
 	schedule, err := New(params)
 	assert.Nil(t, err)
