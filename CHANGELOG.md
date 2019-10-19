@@ -1,5 +1,11 @@
 # Changelog
 
+## 66.0.0 - 2019-10-18
+* [#973](https://github.com/stripe/stripe-go/pull/973) Multiple breaking changes
+  * Pin to the latest API version `2019-10-17`
+  * Remove `RenewalBehavior` on `SubscriptionSchedule`
+  * Remove `RenewalBehavior` and `RenewalInterval` as parameters on `SubscriptionSchedule`
+
 ## 65.2.0 - 2019-10-17
 * [#972](https://github.com/stripe/stripe-go/pull/972) Various API changes
   * `Requirements` on Issuing `Cardholder`
