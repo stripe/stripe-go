@@ -239,6 +239,12 @@ type ChargePaymentMethodDetailsCardChecks struct {
 	CVCCheck               CardVerification `json:"cvc_check"`
 }
 
+// ChargePaymentMethodDetailsCardInstallments represents details about the installment plan chosen
+// for this charge.
+type ChargePaymentMethodDetailsCardInstallments struct {
+	Plan *PaymentIntentPaymentMethodOptionsCardInstallmentsPlan `json:"plan"`
+}
+
 // ChargePaymentMethodDetailsCardThreeDSecure represents details about 3DS associated with the
 // charge's PaymentMethod.
 type ChargePaymentMethodDetailsCardThreeDSecure struct {
@@ -303,6 +309,7 @@ type ChargePaymentMethodDetailsCard struct {
 	ExpYear      uint64                                      `json:"exp_year"`
 	Fingerprint  string                                      `json:"fingerprint"`
 	Funding      CardFunding                                 `json:"funding"`
+	Installments *ChargePaymentMethodDetailsCardInstallments `json:"installments"`
 	Last4        string                                      `json:"last4"`
 	MOTO         bool                                        `json:"moto"`
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
