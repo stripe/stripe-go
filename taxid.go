@@ -11,6 +11,7 @@ const (
 	TaxIDTypeCHVAT   TaxIDType = "eu_vat"
 	TaxIDTypeEUVAT   TaxIDType = "eu_vat"
 	TaxIDTypeINGST   TaxIDType = "in_gst"
+	TaxIDTypeMXRFC   TaxIDType = "mx_rfc"
 	TaxIDTypeNOVAT   TaxIDType = "no_vat"
 	TaxIDTypeNZGST   TaxIDType = "nz_gst"
 	TaxIDTypeZAVAT   TaxIDType = "za_vat"
