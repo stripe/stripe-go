@@ -1,5 +1,10 @@
 # Changelog
 
+## 66.1.0 - 2019-10-23
+* [#974](https://github.com/stripe/stripe-go/pull/974) Add support for installments on `PaymentIntent` and `Charge`
+* [#975](https://github.com/stripe/stripe-go/pull/975) Add support for `PendingInvoiceItemInterval` on `Subscription`
+* [#976](https://github.com/stripe/stripe-go/pull/976) Add `TaxIDTypeMXRFC` constant to `TaxIDType`
+
 ## 66.0.0 - 2019-10-18
 * [#973](https://github.com/stripe/stripe-go/pull/973) Multiple breaking changes
   * Pin to the latest API version `2019-10-17`
