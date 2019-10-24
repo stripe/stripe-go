@@ -53,6 +53,22 @@ const (
 	PaymentIntentOffSessionRecurring PaymentIntentOffSession = "recurring"
 )
 
+// PaymentIntentPaymentMethodOptionsCardInstallmentsPlanInterval is the interval of a card installment plan.
+type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanInterval string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardInstallmentsPlanInterval can take.
+const (
+	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanIntervalMonth PaymentIntentPaymentMethodOptionsCardInstallmentsPlanInterval = "month"
+)
+
+// PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType is the type of a card installment plan.
+type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType can take.
+const (
+	PaymentIntentPaymentMethodOptionsCardInstallmentsPlanTypeFixedCount PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType = "fixed_count"
+)
+
 // PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure is the list of allowed values
 //controlling when to request 3D Secure on a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
@@ -120,11 +136,27 @@ type PaymentIntentConfirmParams struct {
 	Source               *string                                  `form:"source"`
 }
 
+// PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams represents details about the
+// installment plan chosen for this payment intent.
+type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams struct {
+	Count    *int64  `form:"count"`
+	Interval *string `form:"interval"`
+	Plan     *string `form:"type"`
+}
+
+// PaymentIntentPaymentMethodOptionsCardInstallmentsParams controls whether to enable installment
+// plans for this payment intent.
+type PaymentIntentPaymentMethodOptionsCardInstallmentsParams struct {
+	Enabled *bool                                                        `form:"enabled"`
+	Plan    *PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams `form:"plan"`
+}
+
 // PaymentIntentPaymentMethodOptionsCardParams represents the card-specific options applied to a
 // PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardParams struct {
-	MOTO                *bool   `form:"moto"`
-	RequestThreeDSecure *string `form:"request_three_d_secure"`
+	Installments        *PaymentIntentPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
+	MOTO                *bool                                                    `form:"moto"`
+	RequestThreeDSecure *string                                                  `form:"request_three_d_secure"`
 }
 
 // PaymentIntentPaymentMethodOptionsParams represents the type-specific payment method options
@@ -191,6 +223,34 @@ type PaymentIntentNextAction struct {
 	Type          PaymentIntentNextActionType           `json:"type"`
 }
 
+// PaymentIntentPaymentMethodOptionsCardInstallmentsPlan describe a specific card installment plan.
+type PaymentIntentPaymentMethodOptionsCardInstallmentsPlan struct {
+	Count    int64                                                         `json:"count"`
+	Interval PaymentIntentPaymentMethodOptionsCardInstallmentsPlanInterval `json:"interval"`
+	Type     PaymentIntentPaymentMethodOptionsCardInstallmentsPlanType     `json:"type"`
+}
+
+// PaymentIntentPaymentMethodOptionsCardInstallments describe the installment options available for
+// a card associated with that payment intent.
+type PaymentIntentPaymentMethodOptionsCardInstallments struct {
+	AvailablePlans []*PaymentIntentPaymentMethodOptionsCardInstallmentsPlan `json:"available_plans"`
+	Enabled        bool                                                     `json:"enabled"`
+	Plan           *PaymentIntentPaymentMethodOptionsCardInstallmentsPlan   `json:"plan"`
+}
+
+// PaymentIntentPaymentMethodOptionsCard is the set of card-specific options associated with that
+// payment intent.
+type PaymentIntentPaymentMethodOptionsCard struct {
+	Installments        *PaymentIntentPaymentMethodOptionsCardInstallments       `json:"installments"`
+	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
+}
+
+// PaymentIntentPaymentMethodOptions is the set of payment method-specific options associated with
+// that payment intent.
+type PaymentIntentPaymentMethodOptions struct {
+	Card *PaymentIntentPaymentMethodOptionsCard `json:"card"`
+}
+
 // PaymentIntentTransferData represents the information for the transfer associated with a payment intent.
 type PaymentIntentTransferData struct {
 	Amount      int64    `json:"amount"`
@@ -200,40 +260,41 @@ type PaymentIntentTransferData struct {
 // PaymentIntent is the resource representing a Stripe payout.
 // For more details see https://stripe.com/docs/api#payment_intents.
 type PaymentIntent struct {
-	Amount                    int64                           `json:"amount"`
-	AmountCapturable          int64                           `json:"amount_capturable"`
-	AmountReceived            int64                           `json:"amount_received"`
-	Application               *Application                    `json:"application"`
-	ApplicationFeeAmount      int64                           `json:"application_fee_amount"`
-	CanceledAt                int64                           `json:"canceled_at"`
-	CancellationReason        PaymentIntentCancellationReason `json:"cancellation_reason"`
-	CaptureMethod             PaymentIntentCaptureMethod      `json:"capture_method"`
-	Charges                   *ChargeList                     `json:"charges"`
-	ClientSecret              string                          `json:"client_secret"`
-	ConfirmationMethod        PaymentIntentConfirmationMethod `json:"confirmation_method"`
-	Created                   int64                           `json:"created"`
-	Currency                  string                          `json:"currency"`
-	Customer                  *Customer                       `json:"customer"`
-	Description               string                          `json:"description"`
-	Invoice                   *Invoice                        `json:"invoice"`
-	LastPaymentError          *Error                          `json:"last_payment_error"`
-	Livemode                  bool                            `json:"livemode"`
-	ID                        string                          `json:"id"`
-	Metadata                  map[string]string               `json:"metadata"`
-	NextAction                *PaymentIntentNextAction        `json:"next_action"`
-	OnBehalfOf                *Account                        `json:"on_behalf_of"`
-	PaymentMethod             *PaymentMethod                  `json:"payment_method"`
-	PaymentMethodTypes        []string                        `json:"payment_method_types"`
-	ReceiptEmail              string                          `json:"receipt_email"`
-	Review                    *Review                         `json:"review"`
-	SetupFutureUsage          PaymentIntentSetupFutureUsage   `json:"setup_future_usage"`
-	Shipping                  ShippingDetails                 `json:"shipping"`
-	Source                    *PaymentSource                  `json:"source"`
-	StatementDescriptor       string                          `json:"statement_descriptor"`
-	StatementDescriptorSuffix string                          `json:"statement_descriptor_suffix"`
-	Status                    PaymentIntentStatus             `json:"status"`
-	TransferData              *PaymentIntentTransferData      `json:"transfer_data"`
-	TransferGroup             string                          `json:"transfer_group"`
+	Amount                    int64                              `json:"amount"`
+	AmountCapturable          int64                              `json:"amount_capturable"`
+	AmountReceived            int64                              `json:"amount_received"`
+	Application               *Application                       `json:"application"`
+	ApplicationFeeAmount      int64                              `json:"application_fee_amount"`
+	CanceledAt                int64                              `json:"canceled_at"`
+	CancellationReason        PaymentIntentCancellationReason    `json:"cancellation_reason"`
+	CaptureMethod             PaymentIntentCaptureMethod         `json:"capture_method"`
+	Charges                   *ChargeList                        `json:"charges"`
+	ClientSecret              string                             `json:"client_secret"`
+	ConfirmationMethod        PaymentIntentConfirmationMethod    `json:"confirmation_method"`
+	Created                   int64                              `json:"created"`
+	Currency                  string                             `json:"currency"`
+	Customer                  *Customer                          `json:"customer"`
+	Description               string                             `json:"description"`
+	Invoice                   *Invoice                           `json:"invoice"`
+	LastPaymentError          *Error                             `json:"last_payment_error"`
+	Livemode                  bool                               `json:"livemode"`
+	ID                        string                             `json:"id"`
+	Metadata                  map[string]string                  `json:"metadata"`
+	NextAction                *PaymentIntentNextAction           `json:"next_action"`
+	OnBehalfOf                *Account                           `json:"on_behalf_of"`
+	PaymentMethod             *PaymentMethod                     `json:"payment_method"`
+	PaymentMethodOptions      *PaymentIntentPaymentMethodOptions `json:"payment_method_options"`
+	PaymentMethodTypes        []string                           `json:"payment_method_types"`
+	ReceiptEmail              string                             `json:"receipt_email"`
+	Review                    *Review                            `json:"review"`
+	SetupFutureUsage          PaymentIntentSetupFutureUsage      `json:"setup_future_usage"`
+	Shipping                  ShippingDetails                    `json:"shipping"`
+	Source                    *PaymentSource                     `json:"source"`
+	StatementDescriptor       string                             `json:"statement_descriptor"`
+	StatementDescriptorSuffix string                             `json:"statement_descriptor_suffix"`
+	Status                    PaymentIntentStatus                `json:"status"`
+	TransferData              *PaymentIntentTransferData         `json:"transfer_data"`
+	TransferGroup             string                             `json:"transfer_group"`
 }
 
 // PaymentIntentList is a list of payment intents as retrieved from a list endpoint.
