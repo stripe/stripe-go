@@ -141,7 +141,7 @@ type PaymentIntentConfirmParams struct {
 type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams struct {
 	Count    *int64  `form:"count"`
 	Interval *string `form:"interval"`
-	Plan     *string `form:"type"`
+	Type     *string `form:"type"`
 }
 
 // PaymentIntentPaymentMethodOptionsCardInstallmentsParams controls whether to enable installment
