@@ -1,5 +1,10 @@
 # Changelog
 
+## 66.1.1 - 2019-10-24
+* [#978](https://github.com/stripe/stripe-go/pull/978) Properly pass `Type` in `PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams`
+  * Note that this is technically a breaking change, however we've chosen to release it as a patch version as this shipped yesterday and is a new feature
+* [#977](https://github.com/stripe/stripe-go/pull/977) Contributor Convenant
+
 ## 66.1.0 - 2019-10-23
 * [#974](https://github.com/stripe/stripe-go/pull/974) Add support for installments on `PaymentIntent` and `Charge`
 * [#975](https://github.com/stripe/stripe-go/pull/975) Add support for `PendingInvoiceItemInterval` on `Subscription`
