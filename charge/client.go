@@ -6,7 +6,7 @@ package charge
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/channelmeter/stripe-go"
 	"github.com/stripe/stripe-go/form"
 )
 
