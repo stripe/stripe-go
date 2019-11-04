@@ -83,8 +83,11 @@ type PaymentMethodParams struct {
 	BillingDetails *BillingDetailsParams    `form:"billing_details"`
 	Card           *PaymentMethodCardParams `form:"card"`
 	FPX            *PaymentMethodFPXParams  `form:"fpx"`
-	PaymentMethod  *string                  `form:"payment_method"`
 	Type           *string                  `form:"type"`
+
+	// The following parameters are used when cloning a PaymentMethod to the connected account
+	Customer      *string `form:"customer"`
+	PaymentMethod *string `form:"payment_method"`
 }
 
 // PaymentMethodAttachParams is the set of parameters that can be used when attaching a
