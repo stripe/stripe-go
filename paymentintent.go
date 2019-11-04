@@ -134,6 +134,7 @@ type PaymentIntentConfirmParams struct {
 	SetupFutureUsage     *string                                  `form:"setup_future_usage"`
 	Shipping             *ShippingDetailsParams                   `form:"shipping"`
 	Source               *string                                  `form:"source"`
+	UseStripeSDK         *bool                                    `form:"use_stripe_sdk"`
 }
 
 // PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams represents details about the
@@ -197,8 +198,9 @@ type PaymentIntentParams struct {
 	TransferData              *PaymentIntentTransferDataParams         `form:"transfer_data"`
 	TransferGroup             *string                                  `form:"transfer_group"`
 
-	// This parameter only works if you confirm on creation.
-	OffSession *bool `form:"off_session"`
+	// Those parameters only works if you confirm on creation.
+	OffSession   *bool `form:"off_session"`
+	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
 // PaymentIntentListParams is the set of parameters that can be used when listing payment intents.
