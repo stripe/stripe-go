@@ -1,5 +1,8 @@
 # Changelog
 
+## 66.3.0 - 2019-11-04
+* [#984](https://github.com/stripe/stripe-go/pull/984) Add support for `UseStripeSDK` on `PaymentIntent` create and confirm
+
 ## 66.2.0 - 2019-11-04
 * [#983](https://github.com/stripe/stripe-go/pull/983) Add support for cloning saved PaymentMethods
 * [#980](https://github.com/stripe/stripe-go/pull/980) Improve docs for ephemeral keys
