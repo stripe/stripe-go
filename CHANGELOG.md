@@ -1,5 +1,9 @@
 # Changelog
 
+## 66.2.0 - 2019-11-04
+* [#983](https://github.com/stripe/stripe-go/pull/983) Add support for cloning saved PaymentMethods
+* [#980](https://github.com/stripe/stripe-go/pull/980) Improve docs for ephemeral keys
+
 ## 66.1.1 - 2019-10-24
 * [#978](https://github.com/stripe/stripe-go/pull/978) Properly pass `Type` in `PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams`
   * Note that this is technically a breaking change, however we've chosen to release it as a patch version as this shipped yesterday and is a new feature
