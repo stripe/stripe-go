@@ -18,6 +18,8 @@ type PaymentMethodType string
 const (
 	PaymentMethodTypeCard        PaymentMethodType = "card"
 	PaymentMethodTypeCardPresent PaymentMethodType = "card_present"
+	PaymentMethodTypeIdeal       PaymentMethodType = "ideal"
+	PaymentMethodTypeSepaDebit   PaymentMethodType = "sepa_debit"
 )
 
 // PaymentMethodCardBrand is the list of allowed values for the brand property on a
@@ -74,6 +76,18 @@ type PaymentMethodCardParams struct {
 type PaymentMethodFPXParams struct {
 	AccountHolderType *string `form:"account_holder_type"`
 	Bank              *string `form:"bank"`
+}
+
+// PaymentMethodIdealParams is the set of parameters allowed for the `ideal` hash when creating a
+// PaymentMethod of type ideal.
+type PaymentMethodIdealParams struct {
+	Bank *string `form:"bank"`
+}
+
+// PaymentMethodSepaDebitParams is the set of parameters allowed for the `sepa_debit` hash when
+// creating a PaymentMethod of type sepa_debit.
+type PaymentMethodSepaDebitParams struct {
+	Iban *string `form:"iban"`
 }
 
 // PaymentMethodParams is the set of parameters that can be used when creating or updating a
@@ -137,7 +151,7 @@ type PaymentMethodCardWallet struct {
 	Type         PaymentMethodCardWalletType `json:"type"`
 }
 
-// PaymentMethodCard represents the card-specific properties on a PaymentMethod.
+// PaymentMethodCard represents the card-specific properties.
 type PaymentMethodCard struct {
 	Brand             PaymentMethodCardBrand              `json:"brand"`
 	Checks            *PaymentMethodCardChecks            `json:"checks"`
@@ -157,15 +171,30 @@ type PaymentMethodCard struct {
 	Issuer      string `json:"issuer"`
 }
 
-// PaymentMethodCardPresent represents the card-present-specific properties on a PaymentMethod.
+// PaymentMethodCardPresent represents the card-present-specific properties.
 type PaymentMethodCardPresent struct {
 }
 
-// PaymentMethodFPX represents Malaysia FPX PaymentMethod (Malaysia Only).
+// PaymentMethodFPX represents FPX-specific properties (Malaysia Only).
 type PaymentMethodFPX struct {
 	AccountHolderType PaymentMethodFPXAccountHolderType `json:"account_holder_type"`
 	Bank              string                            `json:"bank"`
 	TransactionID     string                            `json:"transaction_id"`
+}
+
+// PaymentMethodIdeal represents the iDEAL-specific properties.
+type PaymentMethodIdeal struct {
+	Bank string `json:"bank"`
+	Bic  string `json:"bic"`
+}
+
+// PaymentMethodSepaDebit represents the SEPA-debit-specific properties.
+type PaymentMethodSepaDebit struct {
+	BankCode    string `json:"bank_code"`
+	BranchCode  string `json:"branch_code"`
+	Country     string `json:"country"`
+	Fingerprint string `json:"fingerprint"`
+	Last4       string `json:"last4"`
 }
 
 // PaymentMethod is the resource representing a PaymentMethod.
@@ -177,9 +206,11 @@ type PaymentMethod struct {
 	Customer       *Customer                 `json:"customer"`
 	FPX            *PaymentMethodFPX         `json:"fpx"`
 	ID             string                    `json:"id"`
+	Ideal          *PaymentMethodIdeal       `json:"ideal"`
 	Livemode       bool                      `json:"livemode"`
 	Metadata       map[string]string         `json:"metadata"`
 	Object         string                    `json:"object"`
+	SepaDebit      *PaymentMethodSepaDebit   `json:"sepa_debit"`
 	Type           PaymentMethodType         `json:"type"`
 }
 
