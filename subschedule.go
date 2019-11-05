@@ -77,7 +77,6 @@ type SubscriptionScheduleParams struct {
 	Params           `form:"*"`
 	Customer         *string                                    `form:"customer"`
 	DefaultSettings  *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
-	DefaultSource    *string                                    `form:"default_source"`
 	EndBehavior      *string                                    `form:"end_behavior"`
 	FromSubscription *string                                    `form:"from_subscription"`
 	Phases           []*SubscriptionSchedulePhaseParams         `form:"phases"`
@@ -122,13 +121,6 @@ type SubscriptionScheduleCurrentPhase struct {
 	StartDate int64 `json:"start_date"`
 }
 
-// SubscriptionScheduleBillingThresholds is a structure representing the
-// parameters allowed to control billing thresholds for a subscription item.
-type SubscriptionScheduleBillingThresholds struct {
-	AmountGTE               int64 `json:"amount_gte"`
-	ResetBillingCycleAnchor bool  `json:"reset_billing_cycle_anchor"`
-}
-
 // SubscriptionScheduleInvoiceSettings is a structure representing the settings applied to invoices
 // associated with a subscription schedule.
 type SubscriptionScheduleInvoiceSettings struct {
@@ -138,10 +130,10 @@ type SubscriptionScheduleInvoiceSettings struct {
 // SubscriptionScheduleDefaultSettings is a structure representing the
 // subscription schedule’s default settings.
 type SubscriptionScheduleDefaultSettings struct {
-	BillingThresholds    *SubscriptionScheduleBillingThresholds `json:"billing_thresholds"`
-	CollectionMethod     SubscriptionCollectionMethod           `json:"collection_method"`
-	DefaultPaymentMethod *PaymentMethod                         `json:"default_payment_method"`
-	InvoiceSettings      *SubscriptionScheduleInvoiceSettings   `json:"invoice_settings"`
+	BillingThresholds    *SubscriptionBillingThresholds       `json:"billing_thresholds"`
+	CollectionMethod     SubscriptionCollectionMethod         `json:"collection_method"`
+	DefaultPaymentMethod *PaymentMethod                       `json:"default_payment_method"`
+	InvoiceSettings      *SubscriptionScheduleInvoiceSettings `json:"invoice_settings"`
 }
 
 // SubscriptionSchedulePhaseItem represents plan details for a given phase
