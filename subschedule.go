@@ -31,6 +31,16 @@ type SubscriptionScheduleInvoiceSettingsParams struct {
 	DaysUntilDue *int64 `form:"days_until_due"`
 }
 
+// SubscriptionScheduleDefaultSettingsParams is the set of parameters
+// representing the subscription schedule’s default settings.
+type SubscriptionScheduleDefaultSettingsParams struct {
+	Params               `form:"*"`
+	BillingThresholds    *SubscriptionBillingThresholdsParams       `form:"billing_thresholds"`
+	CollectionMethod     *string                                    `form:"collection_method"`
+	DefaultPaymentMethod *string                                    `form:"default_payment_method"`
+	InvoiceSettings      *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
+}
+
 // SubscriptionSchedulePhaseItemParams is a structure representing the parameters allowed to control
 // a specic plan on a phase on a subscription schedule.
 type SubscriptionSchedulePhaseItemParams struct {
@@ -69,6 +79,7 @@ type SubscriptionScheduleParams struct {
 	CollectionMethod     *string                                    `form:"collection_method"`
 	Customer             *string                                    `form:"customer"`
 	DefaultPaymentMethod *string                                    `form:"default_payment_method"`
+	DefaultSettings      *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
 	DefaultSource        *string                                    `form:"default_source"`
 	EndBehavior          *string                                    `form:"end_behavior"`
 	FromSubscription     *string                                    `form:"from_subscription"`
@@ -115,10 +126,26 @@ type SubscriptionScheduleCurrentPhase struct {
 	StartDate int64 `json:"start_date"`
 }
 
+// SubscriptionScheduleBillingThresholds is a structure representing the
+// parameters allowed to control billing thresholds for a subscription item.
+type SubscriptionScheduleBillingThresholds struct {
+	AmountGTE               int64 `json:"amount_gte"`
+	ResetBillingCycleAnchor bool  `json:"reset_billing_cycle_anchor"`
+}
+
 // SubscriptionScheduleInvoiceSettings is a structure representing the settings applied to invoices
 // associated with a subscription schedule.
 type SubscriptionScheduleInvoiceSettings struct {
 	DaysUntilDue int64 `json:"days_until_due"`
+}
+
+// SubscriptionScheduleDefaultSettings is a structure representing the
+// subscription schedule’s default settings.
+type SubscriptionScheduleDefaultSettings struct {
+	BillingThresholds    *SubscriptionScheduleBillingThresholds `json:"billing_thresholds"`
+	CollectionMethod     SubscriptionCollectionMethod           `json:"collection_method"`
+	DefaultPaymentMethod *PaymentMethod                         `json:"default_payment_method"`
+	InvoiceSettings      *SubscriptionScheduleInvoiceSettings   `json:"invoice_settings"`
 }
 
 // SubscriptionSchedulePhaseItem represents plan details for a given phase
@@ -163,6 +190,7 @@ type SubscriptionSchedule struct {
 	CurrentPhase         *SubscriptionScheduleCurrentPhase    `json:"current_phase"`
 	Customer             *Customer                            `json:"customer"`
 	DefaultPaymentMethod *PaymentMethod                       `json:"default_payment_method"`
+	DefaultSettings      *SubscriptionScheduleDefaultSettings `json:"default_settings"`
 	DefaultSource        *PaymentSource                       `json:"default_source"`
 	EndBehavior          SubscriptionScheduleEndBehavior      `json:"end_behavior"`
 	ID                   string                               `json:"id"`
