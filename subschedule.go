@@ -74,15 +74,15 @@ type SubscriptionSchedulePhaseParams struct {
 // SubscriptionScheduleParams is the set of parameters that can be used when creating or updating a
 // subscription schedule.
 type SubscriptionScheduleParams struct {
-	Params               `form:"*"`
-	Customer             *string                                    `form:"customer"`
-	DefaultSettings      *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
-	DefaultSource        *string                                    `form:"default_source"`
-	EndBehavior          *string                                    `form:"end_behavior"`
-	FromSubscription     *string                                    `form:"from_subscription"`
-	Phases               []*SubscriptionSchedulePhaseParams         `form:"phases"`
-	Prorate              *bool                                      `form:"prorate"`
-	StartDate            *int64                                     `form:"start_date"`
+	Params           `form:"*"`
+	Customer         *string                                    `form:"customer"`
+	DefaultSettings  *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
+	DefaultSource    *string                                    `form:"default_source"`
+	EndBehavior      *string                                    `form:"end_behavior"`
+	FromSubscription *string                                    `form:"from_subscription"`
+	Phases           []*SubscriptionSchedulePhaseParams         `form:"phases"`
+	Prorate          *bool                                      `form:"prorate"`
+	StartDate        *int64                                     `form:"start_date"`
 }
 
 // SubscriptionScheduleCancelParams is the set of parameters that can be used when canceling a
@@ -184,7 +184,6 @@ type SubscriptionSchedule struct {
 	CurrentPhase         *SubscriptionScheduleCurrentPhase    `json:"current_phase"`
 	Customer             *Customer                            `json:"customer"`
 	DefaultSettings      *SubscriptionScheduleDefaultSettings `json:"default_settings"`
-	DefaultSource        *PaymentSource                       `json:"default_source"`
 	EndBehavior          SubscriptionScheduleEndBehavior      `json:"end_behavior"`
 	ID                   string                               `json:"id"`
 	Livemode             bool                                 `json:"livemode"`
