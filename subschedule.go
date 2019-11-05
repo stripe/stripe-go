@@ -75,15 +75,11 @@ type SubscriptionSchedulePhaseParams struct {
 // subscription schedule.
 type SubscriptionScheduleParams struct {
 	Params               `form:"*"`
-	BillingThresholds    *SubscriptionBillingThresholdsParams       `form:"billing_thresholds"`
-	CollectionMethod     *string                                    `form:"collection_method"`
 	Customer             *string                                    `form:"customer"`
-	DefaultPaymentMethod *string                                    `form:"default_payment_method"`
 	DefaultSettings      *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
 	DefaultSource        *string                                    `form:"default_source"`
 	EndBehavior          *string                                    `form:"end_behavior"`
 	FromSubscription     *string                                    `form:"from_subscription"`
-	InvoiceSettings      *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
 	Phases               []*SubscriptionSchedulePhaseParams         `form:"phases"`
 	Prorate              *bool                                      `form:"prorate"`
 	StartDate            *int64                                     `form:"start_date"`
@@ -182,19 +178,15 @@ type SubscriptionScheduleRenewalInterval struct {
 
 // SubscriptionSchedule is the resource representing a Stripe subscription schedule.
 type SubscriptionSchedule struct {
-	BillingThresholds    *SubscriptionBillingThresholds       `json:"billing_thresholds"`
 	CanceledAt           int64                                `json:"canceled_at"`
-	CollectionMethod     SubscriptionCollectionMethod         `json:"collection_method"`
 	CompletedAt          int64                                `json:"completed_at"`
 	Created              int64                                `json:"created"`
 	CurrentPhase         *SubscriptionScheduleCurrentPhase    `json:"current_phase"`
 	Customer             *Customer                            `json:"customer"`
-	DefaultPaymentMethod *PaymentMethod                       `json:"default_payment_method"`
 	DefaultSettings      *SubscriptionScheduleDefaultSettings `json:"default_settings"`
 	DefaultSource        *PaymentSource                       `json:"default_source"`
 	EndBehavior          SubscriptionScheduleEndBehavior      `json:"end_behavior"`
 	ID                   string                               `json:"id"`
-	InvoiceSettings      *SubscriptionScheduleInvoiceSettings `json:"invoice_settings"`
 	Livemode             bool                                 `json:"livemode"`
 	Metadata             map[string]string                    `json:"metadata"`
 	Object               string                               `json:"object"`
