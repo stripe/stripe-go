@@ -1,5 +1,8 @@
 # Changelog
 
+## 67.1.0 - 2019-11-06
+* [#986](https://github.com/stripe/stripe-go/pull/986) Add support for iDEAL and SEPA debit on `PaymentMethod`
+
 ## 67.0.0 - 2019-11-05
 * [#987](https://github.com/stripe/stripe-go/pull/987) Move to the latest API version and add new changes
   * Move to API version `2019-11-05`
