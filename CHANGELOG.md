@@ -1,5 +1,12 @@
 # Changelog
 
+## 67.0.0 - 2019-11-05
+* [#987](https://github.com/stripe/stripe-go/pull/987) Move to the latest API version and add new changes
+  * Move to API version `2019-11-05`
+  * Add `DefaultSettings` on `SubscritionSchedule`
+  * Remove `BillingThresholds`, `CollectionMethod`, `DefaultPaymentMethod` and `DefaultSource` and `invoice_settings` from `SubscriptionSchedule`
+  * `OffSession` on `PaymentIntent` is now always a boolean
+
 ## 66.3.0 - 2019-11-04
 * [#984](https://github.com/stripe/stripe-go/pull/984) Add support for `UseStripeSDK` on `PaymentIntent` create and confirm
 
