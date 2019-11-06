@@ -67,9 +67,37 @@ type SetupIntentCancelParams struct {
 // SetupIntentConfirmParams is the set of parameters that can be used when confirming a setup intent.
 type SetupIntentConfirmParams struct {
 	Params               `form:"*"`
+	MandateData          *SetupIntentMandateDataParams          `form:"mandate_data"`
 	PaymentMethod        *string                                `form:"payment_method"`
 	PaymentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	ReturnURL            *string                                `form:"return_url"`
+}
+
+// SetupIntentMandateDataCustomerAcceptanceOfflineParams is the set of parameters for the customer
+// acceptance of an offline mandate.
+type SetupIntentMandateDataCustomerAcceptanceOfflineParams struct {
+}
+
+// SetupIntentMandateDataCustomerAcceptanceOnlineParams is the set of parameters for the customer
+// acceptance of an online mandate.
+type SetupIntentMandateDataCustomerAcceptanceOnlineParams struct {
+	IPAddress *string `form:"ip_address"`
+	UserAgent *string `form:"user_agent"`
+}
+
+// SetupIntentMandateDataCustomerAcceptanceParams is the set of parameters for the customer
+// acceptance of a mandate.
+type SetupIntentMandateDataCustomerAcceptanceParams struct {
+	AcceptedAt int64                                                  `form:"accepted_at"`
+	Offline    *SetupIntentMandateDataCustomerAcceptanceOfflineParams `form:"offline"`
+	Online     *SetupIntentMandateDataCustomerAcceptanceOnlineParams  `form:"online"`
+	Type       MandateCustomerAcceptanceType                          `form:"type"`
+}
+
+// SetupIntentMandateDataParams is the set of parameters controlling the creation of the mandate
+// associated with this SetupIntent.
+type SetupIntentMandateDataParams struct {
+	CustomerAcceptance *SetupIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
 }
 
 // SetupIntentPaymentMethodOptionsCardParams represents the card-specific options applied to a
@@ -85,17 +113,25 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
 }
 
+// SetupIntentSingleUseParams represents the single-use mandate-specific parameters.
+type SetupIntentSingleUseParams struct {
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
+}
+
 // SetupIntentParams is the set of parameters that can be used when handling a setup intent.
 type SetupIntentParams struct {
 	Params               `form:"*"`
 	Confirm              *bool                                  `form:"confirm"`
 	Customer             *string                                `form:"customer"`
 	Description          *string                                `form:"description"`
+	MandateData          *SetupIntentMandateDataParams          `form:"mandate_data"`
 	OnBehalfOf           *string                                `form:"on_behalf_of"`
 	PaymentMethod        *string                                `form:"payment_method"`
 	PaymentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	PaymentMethodTypes   []*string                              `form:"payment_method_types"`
 	ReturnURL            *string                                `form:"return_url"`
+	SingleUse            *SetupIntentSingleUseParams            `form:"single_use"`
 	Usage                *string                                `form:"usage"`
 }
 
@@ -146,6 +182,7 @@ type SetupIntent struct {
 	ID                   string                           `json:"id"`
 	LastSetupError       *Error                           `json:"last_setup_error"`
 	Livemode             bool                             `json:"livemode"`
+	Mandate              *Mandate                         `json:"mandate"`
 	Metadata             map[string]string                `json:"metadata"`
 	NextAction           *SetupIntentNextAction           `json:"next_action"`
 	Object               string                           `json:"object"`
@@ -153,6 +190,7 @@ type SetupIntent struct {
 	PaymentMethod        *PaymentMethod                   `json:"payment_method"`
 	PaymentMethodOptions *SetupIntentPaymentMethodOptions `json:"payment_method_options"`
 	PaymentMethodTypes   []string                         `json:"payment_method_types"`
+	SingleUseMandate     *Mandate                         `json:"single_use_mandate"`
 	Status               SetupIntentStatus                `json:"status"`
 	Usage                SetupIntentUsage                 `json:"usage"`
 }
