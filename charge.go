@@ -471,6 +471,7 @@ type Charge struct {
 	Description               string                      `json:"description"`
 	Destination               *Account                    `json:"destination"`
 	Dispute                   *Dispute                    `json:"dispute"`
+	Disputed                  bool                        `json:"disputed"`
 	FailureCode               string                      `json:"failure_code"`
 	FailureMessage            string                      `json:"failure_message"`
 	FraudDetails              *FraudDetails               `json:"fraud_details"`

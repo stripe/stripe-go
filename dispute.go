@@ -78,6 +78,7 @@ type DisputeEvidenceParams struct {
 // For more details see https://stripe.com/docs/api#list_disputes.
 type DisputeListParams struct {
 	ListParams   `form:"*"`
+	Charge       *string           `form:"charge"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 }
@@ -96,6 +97,7 @@ type Dispute struct {
 	IsChargeRefundable  bool                  `json:"is_charge_refundable"`
 	Livemode            bool                  `json:"livemode"`
 	Metadata            map[string]string     `json:"metadata"`
+	PaymentIntent       *PaymentIntent        `json:"payment_intent"`
 	Reason              DisputeReason         `json:"reason"`
 	Status              DisputeStatus         `json:"status"`
 }
