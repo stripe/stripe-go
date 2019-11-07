@@ -1,5 +1,12 @@
 # Changelog
 
+## 67.2.0 - 2019-11-06
+* [#985](https://github.com/stripe/stripe-go/pull/985) Multiple API changes
+  * Add `Disputed` to `Charge`
+  * Add `PaymentIntent` to `Refund` and `Dispute`
+  * Add `Charge` to `DisputeListParams`
+  * Add `PaymentIntent` to `RefundListParams` and `RefundParams`
+
 ## 67.1.0 - 2019-11-06
 * [#986](https://github.com/stripe/stripe-go/pull/986) Add support for iDEAL and SEPA debit on `PaymentMethod`
 
