@@ -94,10 +94,11 @@ type PaymentMethodSepaDebitParams struct {
 // PaymentMethod.
 type PaymentMethodParams struct {
 	Params         `form:"*"`
-	BillingDetails *BillingDetailsParams    `form:"billing_details"`
-	Card           *PaymentMethodCardParams `form:"card"`
-	FPX            *PaymentMethodFPXParams  `form:"fpx"`
-	Type           *string                  `form:"type"`
+	BillingDetails *BillingDetailsParams         `form:"billing_details"`
+	Card           *PaymentMethodCardParams      `form:"card"`
+	FPX            *PaymentMethodFPXParams       `form:"fpx"`
+	SepaDebit      *PaymentMethodSepaDebitParams `form:"sepa_debit"`
+	Type           *string                       `form:"type"`
 
 	// The following parameters are used when cloning a PaymentMethod to the connected account
 	Customer      *string `form:"customer"`
