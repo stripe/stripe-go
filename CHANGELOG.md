@@ -1,5 +1,8 @@
 # Changelog
 
+## 67.3.0 - 2019-11-07
+* [#988](https://github.com/stripe/stripe-go/pull/988) Add `Company` and `Individual` to Issuing `Cardholder`
+
 ## 67.2.0 - 2019-11-06
 * [#985](https://github.com/stripe/stripe-go/pull/985) Multiple API changes
   * Add `Disputed` to `Charge`
