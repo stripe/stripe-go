@@ -1,5 +1,8 @@
 # Changelog
 
+## 67.4.0 - 2019-11-18
+* [#989](https://github.com/stripe/stripe-go/pull/989) Add support for `ViolatedAuthorizationControls` on Issuing `Authorization`
+
 ## 67.3.0 - 2019-11-07
 * [#988](https://github.com/stripe/stripe-go/pull/988) Add `Company` and `Individual` to Issuing `Cardholder`
 
