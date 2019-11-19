@@ -18,6 +18,7 @@ type PaymentMethodType string
 const (
 	PaymentMethodTypeCard        PaymentMethodType = "card"
 	PaymentMethodTypeCardPresent PaymentMethodType = "card_present"
+	PaymentMethodTypeFPX         PaymentMethodType = "fpx"
 	PaymentMethodTypeIdeal       PaymentMethodType = "ideal"
 	PaymentMethodTypeSepaDebit   PaymentMethodType = "sepa_debit"
 )
