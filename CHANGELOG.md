@@ -1,5 +1,8 @@
 # Changelog
 
+## 67.4.1 - 2019-11-19
+* [#991](https://github.com/stripe/stripe-go/pull/991) Add missing constant for PaymentMethod of type FPX
+
 ## 67.4.0 - 2019-11-18
 * [#989](https://github.com/stripe/stripe-go/pull/989) Add support for `ViolatedAuthorizationControls` on Issuing `Authorization`
 
