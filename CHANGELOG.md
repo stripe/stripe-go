@@ -1,5 +1,8 @@
 # Changelog
 
+## 67.5.0 - 2019-11-21
+* [#993](https://github.com/stripe/stripe-go/pull/993) Add `PaymentIntent` filter when listing `Dispute`s
+
 ## 67.4.1 - 2019-11-19
 * [#991](https://github.com/stripe/stripe-go/pull/991) Add missing constant for PaymentMethod of type FPX
 
