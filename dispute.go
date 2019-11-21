@@ -77,10 +77,11 @@ type DisputeEvidenceParams struct {
 // DisputeListParams is the set of parameters that can be used when listing disputes.
 // For more details see https://stripe.com/docs/api#list_disputes.
 type DisputeListParams struct {
-	ListParams   `form:"*"`
-	Charge       *string           `form:"charge"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
+	ListParams    `form:"*"`
+	Charge        *string           `form:"charge"`
+	Created       *int64            `form:"created"`
+	CreatedRange  *RangeQueryParams `form:"created"`
+	PaymentIntent *string           `form:"payment_intent"`
 }
 
 // Dispute is the resource representing a Stripe dispute.
