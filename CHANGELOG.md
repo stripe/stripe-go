@@ -1,5 +1,8 @@
 # Changelog
 
+## 67.6.0 - 2019-11-22
+* [#994](https://github.com/stripe/stripe-go/pull/994) Support for the `now` on `StartDate` on Subscription Schedule creation
+
 ## 67.5.0 - 2019-11-21
 * [#993](https://github.com/stripe/stripe-go/pull/993) Add `PaymentIntent` filter when listing `Dispute`s
 
