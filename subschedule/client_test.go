@@ -40,7 +40,8 @@ func TestSubscriptionScheduleList(t *testing.T) {
 
 func TestSubscriptionScheduleNew(t *testing.T) {
 	params := &stripe.SubscriptionScheduleParams{
-		Customer: stripe.String("cus_123"),
+		Customer:     stripe.String("cus_123"),
+		StartDateNow: stripe.Bool(true),
 		Phases: []*stripe.SubscriptionSchedulePhaseParams{
 			{
 				Plans: []*stripe.SubscriptionSchedulePhaseItemParams{
