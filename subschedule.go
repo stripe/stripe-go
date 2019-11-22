@@ -2,6 +2,8 @@ package stripe
 
 import (
 	"encoding/json"
+
+	"github.com/stripe/stripe-go/form"
 )
 
 // SubscriptionScheduleEndBehavior describe what happens to a schedule when it ends.
@@ -9,8 +11,11 @@ type SubscriptionScheduleEndBehavior string
 
 // List of values that SubscriptionScheduleEndBehavior can take.
 const (
-	SubscriptionScheduleEndBehaviorCancel SubscriptionScheduleEndBehavior = "cancel"
-	SubscriptionScheduleEndBehaviorRenew  SubscriptionScheduleEndBehavior = "release"
+	SubscriptionScheduleEndBehaviorCancel  SubscriptionScheduleEndBehavior = "cancel"
+	SubscriptionScheduleEndBehaviorRelease SubscriptionScheduleEndBehavior = "release"
+
+	// TODO: Remove in the next major version as the name is incorrect.
+	SubscriptionScheduleEndBehaviorRenew SubscriptionScheduleEndBehavior = "release"
 )
 
 // SubscriptionScheduleStatus is the list of allowed values for the schedule's status.
@@ -82,6 +87,15 @@ type SubscriptionScheduleParams struct {
 	Phases           []*SubscriptionSchedulePhaseParams         `form:"phases"`
 	Prorate          *bool                                      `form:"prorate"`
 	StartDate        *int64                                     `form:"start_date"`
+	StartDateNow     *bool                                      `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for SubscriptionScheduleParams so that the special
+// "now" value for start_date can be implemented (they're otherwise timestamps rather than strings).
+func (p *SubscriptionScheduleParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.StartDateNow) {
+		body.Add(form.FormatKey(append(keyParts, "start_date")), "now")
+	}
 }
 
 // SubscriptionScheduleCancelParams is the set of parameters that can be used when canceling a
