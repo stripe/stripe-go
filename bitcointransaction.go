@@ -10,7 +10,7 @@ type BitcoinTransactionListParams struct {
 }
 
 // BitcoinTransactionList is a list object for BitcoinTransactions.
-// It is a child object of BitcoinRecievers
+// It is a child object of BitcoinReceivers
 // For more details see https://stripe.com/docs/api/#retrieve_bitcoin_receiver
 type BitcoinTransactionList struct {
 	ListMeta
