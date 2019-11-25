@@ -34,14 +34,15 @@ const (
 // CreditNoteParams is the set of parameters that can be used when creating or updating a credit note.
 // For more details see https://stripe.com/docs/api/credit_notes/create, https://stripe.com/docs/api/credit_notes/update.
 type CreditNoteParams struct {
-	Params       `form:"*"`
-	Amount       *int64  `form:"amount"`
-	CreditAmount *int64  `form:"credit_amount"`
-	Invoice      *string `form:"invoice"`
-	Memo         *string `form:"memo"`
-	Reason       *string `form:"reason"`
-	Refund       *string `form:"refund"`
-	RefundAmount *int64  `form:"refund_amount"`
+	Params           `form:"*"`
+	Amount           *int64  `form:"amount"`
+	CreditAmount     *int64  `form:"credit_amount"`
+	Invoice          *string `form:"invoice"`
+	Memo             *string `form:"memo"`
+	OutOfBankdAmount *int64  `form:"out_of_band_amount"`
+	Reason           *string `form:"reason"`
+	Refund           *string `form:"refund"`
+	RefundAmount     *int64  `form:"refund_amount"`
 }
 
 // CreditNoteListParams is the set of parameters that can be used when listing credit notes.
