@@ -1,5 +1,9 @@
 # Changelog
 
+## 67.7.0 - 2019-11-25
+* [#996](https://github.com/stripe/stripe-go/pull/996) Add support for `OutOfBandAmount` on `CreditNote` creation
+* [#995](https://github.com/stripe/stripe-go/pull/995) Fix comment typos
+
 ## 67.6.0 - 2019-11-22
 * [#994](https://github.com/stripe/stripe-go/pull/994) Support for the `now` on `StartDate` on Subscription Schedule creation
 
