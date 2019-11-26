@@ -72,6 +72,18 @@ func (c Client) List(listParams *stripe.CreditNoteListParams) *Iter {
 	})}
 }
 
+// Preview previews a credit note.
+func Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error) {
+	return getC().Preview(params)
+}
+
+// Preview previews a credit note.
+func (c Client) Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error) {
+	cn := &stripe.CreditNote{}
+	err := c.B.Call(http.MethodGet, "/v1/credit_notes/preview", c.Key, params, cn)
+	return cn, err
+}
+
 // VoidCreditNote voids a credit note.
 func VoidCreditNote(id string, params *stripe.CreditNoteVoidParams) (*stripe.CreditNote, error) {
 	return getC().VoidCreditNote(id, params)
