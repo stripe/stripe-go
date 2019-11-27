@@ -17,9 +17,10 @@ type RefundReason string
 
 // List of values that RefundReason can take.
 const (
-	RefundReasonDuplicate           RefundReason = "duplicate"
-	RefundReasonFraudulent          RefundReason = "fraudulent"
-	RefundReasonRequestedByCustomer RefundReason = "requested_by_customer"
+	RefundReasonDuplicate               RefundReason = "duplicate"
+	RefundReasonExpiredUncapturedCharge RefundReason = "expired_uncaptured_charge"
+	RefundReasonFraudulent              RefundReason = "fraudulent"
+	RefundReasonRequestedByCustomer     RefundReason = "requested_by_customer"
 )
 
 // RefundStatus is the status of the refund.
