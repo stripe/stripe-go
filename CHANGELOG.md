@@ -1,5 +1,8 @@
 # Changelog
 
+## 67.9.0 - 2019-11-26
+* [#997](https://github.com/stripe/stripe-go/pull/997) Add new refund reason `RefundReasonExpiredUncapturedCharge`
+
 ## 67.8.0 - 2019-11-26
 * [#998](https://github.com/stripe/stripe-go/pull/998) Add support for `CreditNote` preview
 
