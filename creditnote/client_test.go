@@ -50,6 +50,16 @@ func TestCreditNoteUpdate(t *testing.T) {
 	assert.NotNil(t, cn)
 }
 
+func TestCreditNotePreview(t *testing.T) {
+	params := &stripe.CreditNotePreviewParams{
+		Amount:  stripe.Int64(100),
+		Invoice: stripe.String("in_123"),
+	}
+	cn, err := Preview(params)
+	assert.Nil(t, err)
+	assert.NotNil(t, cn)
+}
+
 func TestCreditNoteVoidCreditNote(t *testing.T) {
 	params := &stripe.CreditNoteVoidParams{}
 	cn, err := VoidCreditNote("cn_123", params)
