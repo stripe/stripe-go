@@ -1,5 +1,8 @@
 # Changelog
 
+## 67.8.0 - 2019-11-26
+* [#998](https://github.com/stripe/stripe-go/pull/998) Add support for `CreditNote` preview
+
 ## 67.7.0 - 2019-11-25
 * [#996](https://github.com/stripe/stripe-go/pull/996) Add support for `OutOfBandAmount` on `CreditNote` creation
 * [#995](https://github.com/stripe/stripe-go/pull/995) Fix comment typos
