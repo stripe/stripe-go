@@ -155,6 +155,7 @@ type InvoiceListParams struct {
 	CreatedRange     *RangeQueryParams `form:"created"`
 	DueDate          *int64            `form:"due_date"`
 	DueDateRange     *RangeQueryParams `form:"due_date"`
+	Status           *string           `form:"status"`
 	Subscription     *string           `form:"subscription"`
 }
 
