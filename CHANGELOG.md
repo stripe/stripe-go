@@ -1,5 +1,8 @@
 # Changelog
 
+## 67.10.0 - 2019-12-02
+* [#999](https://github.com/stripe/stripe-go/pull/999) Add support for `Status` filter when listing `Invoice`s.
+
 ## 67.9.0 - 2019-11-26
 * [#997](https://github.com/stripe/stripe-go/pull/997) Add new refund reason `RefundReasonExpiredUncapturedCharge`
 
