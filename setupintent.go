@@ -31,9 +31,6 @@ type SetupIntentPaymentMethodOptionsCardRequestThreeDSecure string
 const (
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureAny       SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
-
-	// The following constant is considered deprecated and will be removed in the next major version.
-	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge_only"
 )
 
 // SetupIntentStatus is the list of allowed values for the setup intent's status.
