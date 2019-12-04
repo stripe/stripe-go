@@ -1,5 +1,13 @@
 # Changelog
 
+## 68.0.0 - 2019-12-03
+* [#1000](https://github.com/stripe/stripe-go/pull/1000) Multiple breaking changes:
+  * Pin to API version `2019-12-03`
+  * Rename `InvoiceBillingStatus` to `InvoiceStatus` for consistency
+  * Remove typo-ed field `OutOfBankdAmount` on `CreditNote`
+  * Remove deprecated `PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly` and `SetupIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly` from `PaymentIntent` and `SetupIntent`.
+  * Remove `OperatorAccount` on `TerminalLocationListParams`
+
 ## 67.10.0 - 2019-12-02
 * [#999](https://github.com/stripe/stripe-go/pull/999) Add support for `Status` filter when listing `Invoice`s.
 
