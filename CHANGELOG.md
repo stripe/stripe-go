@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.1.0 - 2019-12-04
+* [#1001](https://github.com/stripe/stripe-go/pull/1001) Add support for `Network` on `Charge`
+
 ## 68.0.0 - 2019-12-03
 * [#1000](https://github.com/stripe/stripe-go/pull/1000) Multiple breaking changes:
   * Pin to API version `2019-12-03`
