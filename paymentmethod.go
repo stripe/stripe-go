@@ -39,6 +39,23 @@ const (
 	PaymentMethodCardBrandVisa       PaymentMethodCardBrand = "visa"
 )
 
+// PaymentMethodCardNetwork is the list of allowed values to represent the network
+// used for a card-like transaction.
+type PaymentMethodCardNetwork string
+
+// List of values that PaymentMethodCardNetwork can take.
+const (
+	PaymentMethodCardNetworkAmex       PaymentMethodCardNetwork = "amex"
+	PaymentMethodCardNetworkDiners     PaymentMethodCardNetwork = "diners"
+	PaymentMethodCardNetworkDiscover   PaymentMethodCardNetwork = "discover"
+	PaymentMethodCardNetworkInterac    PaymentMethodCardNetwork = "interac"
+	PaymentMethodCardNetworkJCB        PaymentMethodCardNetwork = "jcb"
+	PaymentMethodCardNetworkMastercard PaymentMethodCardNetwork = "mastercard"
+	PaymentMethodCardNetworkUnionpay   PaymentMethodCardNetwork = "unionpay"
+	PaymentMethodCardNetworkUnknown    PaymentMethodCardNetwork = "unknown"
+	PaymentMethodCardNetworkVisa       PaymentMethodCardNetwork = "visa"
+)
+
 // PaymentMethodCardWalletType is the list of allowed values for the type a wallet can take on
 // a Card PaymentMethod.
 type PaymentMethodCardWalletType string

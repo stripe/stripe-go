@@ -311,6 +311,7 @@ type ChargePaymentMethodDetailsCard struct {
 	Funding      CardFunding                                 `json:"funding"`
 	Installments *ChargePaymentMethodDetailsCardInstallments `json:"installments"`
 	Last4        string                                      `json:"last4"`
+	Network      PaymentMethodCardNetwork                    `json:"network"`
 	MOTO         bool                                        `json:"moto"`
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	Wallet       *ChargePaymentMethodDetailsCardWallet       `json:"wallet"`
@@ -346,6 +347,7 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	Funding       CardFunding                                   `json:"funding"`
 	GeneratedCard string                                        `json:"generated_card"`
 	Last4         string                                        `json:"last4"`
+	Network       PaymentMethodCardNetwork                      `json:"network"`
 	ReadMethod    string                                        `json:"read_method"`
 	Receipt       *ChargePaymentMethodDetailsCardPresentReceipt `json:"receipt"`
 }
