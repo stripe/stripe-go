@@ -43,9 +43,6 @@ type CreditNoteParams struct {
 	Reason          *string `form:"reason"`
 	Refund          *string `form:"refund"`
 	RefundAmount    *int64  `form:"refund_amount"`
-
-	// TODO: Remove in the next major version as the name is incorrect.
-	OutOfBankdAmount *int64 `form:"out_of_band_amount"`
 }
 
 // CreditNoteListParams is the set of parameters that can be used when listing credit notes.

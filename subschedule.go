@@ -13,9 +13,6 @@ type SubscriptionScheduleEndBehavior string
 const (
 	SubscriptionScheduleEndBehaviorCancel  SubscriptionScheduleEndBehavior = "cancel"
 	SubscriptionScheduleEndBehaviorRelease SubscriptionScheduleEndBehavior = "release"
-
-	// TODO: Remove in the next major version as the name is incorrect.
-	SubscriptionScheduleEndBehaviorRenew SubscriptionScheduleEndBehavior = "release"
 )
 
 // SubscriptionScheduleStatus is the list of allowed values for the schedule's status.
