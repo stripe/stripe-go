@@ -60,6 +60,12 @@ type MandateCustomerAcceptance struct {
 type MandateMultiUse struct {
 }
 
+// MandatePaymentMethodDetailsAUBECSDebit represents details about the Australia BECS debit account
+// associated with this mandate.
+type MandatePaymentMethodDetailsAUBECSDebit struct {
+	URL string `json:"url"`
+}
+
 // MandatePaymentMethodDetailsCard represents details about the card associated with this mandate.
 type MandatePaymentMethodDetailsCard struct {
 }
@@ -74,9 +80,10 @@ type MandatePaymentMethodDetailsSepaDebit struct {
 // MandatePaymentMethodDetails represents details about the payment method associated with this
 // mandate.
 type MandatePaymentMethodDetails struct {
-	Card      *MandatePaymentMethodDetailsCard      `json:"card"`
-	SepaDebit *MandatePaymentMethodDetailsSepaDebit `json:"sepa_debit"`
-	Type      PaymentMethodType                     `json:"type"`
+	AUBECSDebit *MandatePaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
+	Card        *MandatePaymentMethodDetailsCard        `json:"card"`
+	SepaDebit   *MandatePaymentMethodDetailsSepaDebit   `json:"sepa_debit"`
+	Type        PaymentMethodType                       `json:"type"`
 }
 
 // MandateSingleUse represents details about a single-use mandate.
