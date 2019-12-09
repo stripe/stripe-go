@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.2.0 - 2019-12-09
+* [#1002](https://github.com/stripe/stripe-go/pull/1002) Add support for AU BECS Debit on PaymentMethod
+
 ## 68.1.0 - 2019-12-04
 * [#1001](https://github.com/stripe/stripe-go/pull/1001) Add support for `Network` on `Charge`
 
