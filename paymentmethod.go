@@ -16,6 +16,7 @@ type PaymentMethodType string
 
 // List of values that PaymentMethodType can take.
 const (
+	PaymentMethodTypeAUBECSDebit PaymentMethodType = "au_becs_debit"
 	PaymentMethodTypeCard        PaymentMethodType = "card"
 	PaymentMethodTypeCardPresent PaymentMethodType = "card_present"
 	PaymentMethodTypeFPX         PaymentMethodType = "fpx"
@@ -79,6 +80,13 @@ type BillingDetailsParams struct {
 	Phone   *string        `form:"phone"`
 }
 
+// PaymentMethodAUBECSDebitParams is the set of parameters allowed for the `AUBECSDebit` hash when creating a
+// PaymentMethod of type AUBECSDebit.
+type PaymentMethodAUBECSDebitParams struct {
+	AccountNumber *string `form:"account_number"`
+	BSBNumber     *string `form:"bsb_number"`
+}
+
 // PaymentMethodCardParams is the set of parameters allowed for the `card` hash when creating a
 // PaymentMethod of type card.
 type PaymentMethodCardParams struct {
@@ -112,11 +120,12 @@ type PaymentMethodSepaDebitParams struct {
 // PaymentMethod.
 type PaymentMethodParams struct {
 	Params         `form:"*"`
-	BillingDetails *BillingDetailsParams         `form:"billing_details"`
-	Card           *PaymentMethodCardParams      `form:"card"`
-	FPX            *PaymentMethodFPXParams       `form:"fpx"`
-	SepaDebit      *PaymentMethodSepaDebitParams `form:"sepa_debit"`
-	Type           *string                       `form:"type"`
+	AUBECSDebit    *PaymentMethodAUBECSDebitParams `form:"au_becs_debit"`
+	BillingDetails *BillingDetailsParams           `form:"billing_details"`
+	Card           *PaymentMethodCardParams        `form:"card"`
+	FPX            *PaymentMethodFPXParams         `form:"fpx"`
+	SepaDebit      *PaymentMethodSepaDebitParams   `form:"sepa_debit"`
+	Type           *string                         `form:"type"`
 
 	// The following parameters are used when cloning a PaymentMethod to the connected account
 	Customer      *string `form:"customer"`
@@ -149,6 +158,13 @@ type BillingDetails struct {
 	Email   string   `json:"email"`
 	Name    string   `json:"name"`
 	Phone   string   `json:"phone"`
+}
+
+// PaymentMethodAUBECSDebit represents AUBECSDebit-specific properties (Australia Only).
+type PaymentMethodAUBECSDebit struct {
+	BSBNumber   string `json:"bsb_number"`
+	Fingerprint string `json:"fingerprint"`
+	Last4       string `json:"last4"`
 }
 
 // PaymentMethodCardChecks represents the checks associated with a Card PaymentMethod.
@@ -218,6 +234,7 @@ type PaymentMethodSepaDebit struct {
 
 // PaymentMethod is the resource representing a PaymentMethod.
 type PaymentMethod struct {
+	AUBECSDebit    *PaymentMethodAUBECSDebit `json:"au_becs_debit"`
 	BillingDetails *BillingDetails           `json:"billing_details"`
 	Card           *PaymentMethodCard        `json:"card"`
 	CardPresent    *PaymentMethodCardPresent `json:"card_present"`
