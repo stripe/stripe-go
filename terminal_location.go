@@ -18,6 +18,8 @@ type TerminalLocation struct {
 	Deleted     bool                  `json:"deleted"`
 	DisplayName string                `json:"display_name"`
 	ID          string                `json:"id"`
+	Livemode    bool                  `json:"livemode"`
+	Metadata    map[string]string     `json:"metadata"`
 	Object      string                `json:"object"`
 }
 
