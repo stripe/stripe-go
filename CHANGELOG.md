@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.3.0 - 2019-12-19
+* [#1005](https://github.com/stripe/stripe-go/pull/1005) Add `Metadata` and `Livemode` to Terminal `Reader` and `Location'
+
 ## 68.2.0 - 2019-12-09
 * [#1002](https://github.com/stripe/stripe-go/pull/1002) Add support for AU BECS Debit on PaymentMethod
 
