@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.4.0 - 2019-12-20
+* [#1006](https://github.com/stripe/stripe-go/pull/1006) Adds `ExecutivesProvided` to `Account`
+
 ## 68.3.0 - 2019-12-19
 * [#1005](https://github.com/stripe/stripe-go/pull/1005) Add `Metadata` and `Livemode` to Terminal `Reader` and `Location'
 
