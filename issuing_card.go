@@ -89,14 +89,18 @@ type IssuingAuthorizationControlsSpendingLimitsParams struct {
 }
 
 // AuthorizationControlsParams is the set of parameters that can be used for the shipping parameter.
+// TODO: Rename and "un-share" between Card and Cardholder in the next major version.
 type AuthorizationControlsParams struct {
 	AllowedCategories []*string                                           `form:"allowed_categories"`
 	BlockedCategories []*string                                           `form:"blocked_categories"`
+	MaxApprovals      *int64                                              `form:"max_approvals"`
 	SpendingLimits    []*IssuingAuthorizationControlsSpendingLimitsParams `form:"spending_limits"`
 
-	// The following parameters are considered deprecated and only apply to issuing cards
-	MaxAmount    *int64 `form:"max_amount"`
-	MaxApprovals *int64 `form:"max_approvals"`
+	// The following parameter only applies to Cardholder
+	SpendingLimitsCurrency *string `form:"spending_limits_currency"`
+
+	// The following parameter is considered deprecated
+	MaxAmount *int64 `form:"max_amount"`
 }
 
 // IssuingCardShippingParams is the set of parameters that can be used for the shipping parameter.
@@ -155,16 +159,18 @@ type IssuingAuthorizationControlsSpendingLimits struct {
 }
 
 // IssuingCardAuthorizationControls is the resource representing authorization controls on an issuing card.
-// TODO: Rename to IssuingAuthorizationControls in the next major
+// TODO: Add the Cardholder version to "un-share" between Card and Cardholder in the next major version.
 type IssuingCardAuthorizationControls struct {
-	AllowedCategories []string                                      `json:"allowed_categories"`
-	BlockedCategories []string                                      `json:"blocked_categories"`
-	SpendingLimits    []*IssuingAuthorizationControlsSpendingLimits `json:"spending_limits"`
+	AllowedCategories      []string                                      `json:"allowed_categories"`
+	BlockedCategories      []string                                      `json:"blocked_categories"`
+	MaxApprovals           int64                                         `json:"max_approvals"`
+	SpendingLimits         []*IssuingAuthorizationControlsSpendingLimits `json:"spending_limits"`
+	SpendingLimitsCurrency Currency                                      `json:"spending_limits_currency"`
 
 	// The properties below are considered deprecated and can only be used for an issuing card.
-	Currency     Currency `json:"currency"`
-	MaxAmount    int64    `json:"max_amount"`
-	MaxApprovals int64    `json:"max_approvals"`
+	// TODO remove in the next major version
+	Currency  Currency `json:"currency"`
+	MaxAmount int64    `json:"max_amount"`
 }
 
 // IssuingCardPIN contains data about the Card's PIN.
