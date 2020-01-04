@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.5.0 - 2020-01-03
+* [#1007](https://github.com/stripe/stripe-go/pull/1007) Add support for `SpendingLimitsCurrency` on Issuing `Card` and `Cardholder`
+
 ## 68.4.0 - 2019-12-20
 * [#1006](https://github.com/stripe/stripe-go/pull/1006) Adds `ExecutivesProvided` to `Account`
 
