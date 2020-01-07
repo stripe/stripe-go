@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.6.0 - 2020-01-06
+* [#1009](https://github.com/stripe/stripe-go/pull/1009) Add constant for `TaxIDTypeSGUEN` on `TaxId`
+
 ## 68.5.0 - 2020-01-03
 * [#1007](https://github.com/stripe/stripe-go/pull/1007) Add support for `SpendingLimitsCurrency` on Issuing `Card` and `Cardholder`
 
