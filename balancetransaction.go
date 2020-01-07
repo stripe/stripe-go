@@ -52,6 +52,39 @@ const (
 	BalanceTransactionSourceTypeTransfer             BalanceTransactionSourceType = "transfer"
 )
 
+// BalanceTransactionReportingCategory represents reporting categories for balance transactions.
+type BalanceTransactionReportingCategory string
+
+// List of values that BalanceTransactionReportingCategory can take.
+const (
+	BalanceTransactionReportingCategoryAdvance                     BalanceTransactionReportingCategory = "advance"
+	BalanceTransactionReportingCategoryAdvanceFunding              BalanceTransactionReportingCategory = "advance_funding"
+	BalanceTransactionReportingCategoryCharge                      BalanceTransactionReportingCategory = "charge"
+	BalanceTransactionReportingCategoryChargeFailure               BalanceTransactionReportingCategory = "charge_failure"
+	BalanceTransactionReportingCategoryConnectCollectionTransfer   BalanceTransactionReportingCategory = "connect_collection_transfer"
+	BalanceTransactionReportingCategoryConnectReservedFunds        BalanceTransactionReportingCategory = "connect_reserved_funds"
+	BalanceTransactionReportingCategoryDispute                     BalanceTransactionReportingCategory = "dispute"
+	BalanceTransactionReportingCategoryDisputeReversal             BalanceTransactionReportingCategory = "dispute_reversal"
+	BalanceTransactionReportingCategoryFee                         BalanceTransactionReportingCategory = "fee"
+	BalanceTransactionReportingCategoryIssuingAuthorizationHold    BalanceTransactionReportingCategory = "issuing_authorization_hold"
+	BalanceTransactionReportingCategoryIssuingAuthorizationRelease BalanceTransactionReportingCategory = "issuing_authorization_release"
+	BalanceTransactionReportingCategoryIssuingTransaction          BalanceTransactionReportingCategory = "issuing_transaction"
+	BalanceTransactionReportingCategoryOtherAdjustment             BalanceTransactionReportingCategory = "other_adjustment"
+	BalanceTransactionReportingCategoryPartialCaptureReversal      BalanceTransactionReportingCategory = "partial_capture_reversal"
+	BalanceTransactionReportingCategoryPayout                      BalanceTransactionReportingCategory = "payout"
+	BalanceTransactionReportingCategoryPayoutReversal              BalanceTransactionReportingCategory = "payout_reversal"
+	BalanceTransactionReportingCategoryPlatformEarning             BalanceTransactionReportingCategory = "platform_earning"
+	BalanceTransactionReportingCategoryPlatformEarningRefund       BalanceTransactionReportingCategory = "platform_earning_refund"
+	BalanceTransactionReportingCategoryRefund                      BalanceTransactionReportingCategory = "refund"
+	BalanceTransactionReportingCategoryRefundFailure               BalanceTransactionReportingCategory = "refund_failure"
+	BalanceTransactionReportingCategoryRiskReservedFunds           BalanceTransactionReportingCategory = "risk_reserved_funds"
+	BalanceTransactionReportingCategoryTax                         BalanceTransactionReportingCategory = "tax"
+	BalanceTransactionReportingCategoryTopup                       BalanceTransactionReportingCategory = "topup"
+	BalanceTransactionReportingCategoryTopupReversal               BalanceTransactionReportingCategory = "topup_reversal"
+	BalanceTransactionReportingCategoryTransfer                    BalanceTransactionReportingCategory = "transfer"
+	BalanceTransactionReportingCategoryTransferReversal            BalanceTransactionReportingCategory = "transfer_reversal"
+)
+
 // BalanceTransactionSource describes the source of a balance Transaction.
 // The Type should indicate which object is fleshed out.
 // For more details see https://stripe.com/docs/api#retrieve_balance_transaction
@@ -93,20 +126,21 @@ type BalanceTransactionListParams struct {
 // BalanceTransaction is the resource representing the balance transaction.
 // For more details see https://stripe.com/docs/api/#balance.
 type BalanceTransaction struct {
-	Amount       int64                     `json:"amount"`
-	AvailableOn  int64                     `json:"available_on"`
-	Created      int64                     `json:"created"`
-	Currency     Currency                  `json:"currency"`
-	Description  string                    `json:"description"`
-	ExchangeRate float64                   `json:"exchange_rate"`
-	ID           string                    `json:"id"`
-	Fee          int64                     `json:"fee"`
-	FeeDetails   []*BalanceTransactionFee  `json:"fee_details"`
-	Net          int64                     `json:"net"`
-	Recipient    string                    `json:"recipient"`
-	Source       *BalanceTransactionSource `json:"source"`
-	Status       BalanceTransactionStatus  `json:"status"`
-	Type         BalanceTransactionType    `json:"type"`
+	Amount            int64                               `json:"amount"`
+	AvailableOn       int64                               `json:"available_on"`
+	Created           int64                               `json:"created"`
+	Currency          Currency                            `json:"currency"`
+	Description       string                              `json:"description"`
+	ExchangeRate      float64                             `json:"exchange_rate"`
+	ID                string                              `json:"id"`
+	Fee               int64                               `json:"fee"`
+	FeeDetails        []*BalanceTransactionFee            `json:"fee_details"`
+	Net               int64                               `json:"net"`
+	Recipient         string                              `json:"recipient"`
+	ReportingCategory BalanceTransactionReportingCategory `json:"reporting_category"`
+	Source            *BalanceTransactionSource           `json:"source"`
+	Status            BalanceTransactionStatus            `json:"status"`
+	Type              BalanceTransactionType              `json:"type"`
 }
 
 // BalanceTransactionList is a list of transactions as returned from a list endpoint.
