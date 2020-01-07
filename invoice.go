@@ -29,17 +29,16 @@ const (
 	InvoiceBillingReasonUpcoming              InvoiceBillingReason = "upcoming"
 )
 
-// InvoiceBillingStatus is the reason why a given invoice was created
-// TODO: rename to InvoiceStatus
-type InvoiceBillingStatus string
+// InvoiceStatus is the reason why a given invoice was created
+type InvoiceStatus string
 
-// List of values that InvoiceBillingStatus can take.
+// List of values that InvoiceStatus can take.
 const (
-	InvoiceBillingStatusDraft         InvoiceBillingStatus = "draft"
-	InvoiceBillingStatusOpen          InvoiceBillingStatus = "open"
-	InvoiceBillingStatusPaid          InvoiceBillingStatus = "paid"
-	InvoiceBillingStatusUncollectible InvoiceBillingStatus = "uncollectible"
-	InvoiceBillingStatusVoid          InvoiceBillingStatus = "void"
+	InvoiceStatusDraft         InvoiceStatus = "draft"
+	InvoiceStatusOpen          InvoiceStatus = "open"
+	InvoiceStatusPaid          InvoiceStatus = "paid"
+	InvoiceStatusUncollectible InvoiceStatus = "uncollectible"
+	InvoiceStatusVoid          InvoiceStatus = "void"
 )
 
 // InvoiceCollectionMethod is the type of collection method for this invoice.
@@ -155,6 +154,7 @@ type InvoiceListParams struct {
 	CreatedRange     *RangeQueryParams `form:"created"`
 	DueDate          *int64            `form:"due_date"`
 	DueDateRange     *RangeQueryParams `form:"due_date"`
+	Status           *string           `form:"status"`
 	Subscription     *string           `form:"subscription"`
 }
 
@@ -256,7 +256,7 @@ type Invoice struct {
 	ReceiptNumber                string                   `json:"receipt_number"`
 	StartingBalance              int64                    `json:"starting_balance"`
 	StatementDescriptor          string                   `json:"statement_descriptor"`
-	Status                       InvoiceBillingStatus     `json:"status"`
+	Status                       InvoiceStatus            `json:"status"`
 	StatusTransitions            InvoiceStatusTransitions `json:"status_transitions"`
 	Subscription                 string                   `json:"subscription"`
 	SubscriptionProrationDate    int64                    `json:"subscription_proration_date"`

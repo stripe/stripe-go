@@ -77,9 +77,6 @@ type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 const (
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAny       PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
-
-	// The following constant is considered deprecated and will be removed in the next major version.
-	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge_only"
 )
 
 // PaymentIntentSetupFutureUsage is the list of allowed values for SetupFutureUsage.
@@ -124,6 +121,8 @@ type PaymentIntentCaptureParams struct {
 // PaymentIntentConfirmParams is the set of parameters that can be used when confirming a payment intent.
 type PaymentIntentConfirmParams struct {
 	Params               `form:"*"`
+	Mandate              *string                                  `form:"mandate"`
+	MandateData          *PaymentIntentMandateDataParams          `form:"mandate_data"`
 	OffSession           *bool                                    `form:"off_session"`
 	PaymentMethod        *string                                  `form:"payment_method"`
 	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
@@ -134,6 +133,34 @@ type PaymentIntentConfirmParams struct {
 	SetupFutureUsage     *string                                  `form:"setup_future_usage"`
 	Shipping             *ShippingDetailsParams                   `form:"shipping"`
 	Source               *string                                  `form:"source"`
+	UseStripeSDK         *bool                                    `form:"use_stripe_sdk"`
+}
+
+// PaymentIntentMandateDataCustomerAcceptanceOfflineParams is the set of parameters for the customer
+// acceptance of an offline mandate.
+type PaymentIntentMandateDataCustomerAcceptanceOfflineParams struct {
+}
+
+// PaymentIntentMandateDataCustomerAcceptanceOnlineParams is the set of parameters for the customer
+// acceptance of an online mandate.
+type PaymentIntentMandateDataCustomerAcceptanceOnlineParams struct {
+	IPAddress *string `form:"ip_address"`
+	UserAgent *string `form:"user_agent"`
+}
+
+// PaymentIntentMandateDataCustomerAcceptanceParams is the set of parameters for the customer
+// acceptance of a mandate.
+type PaymentIntentMandateDataCustomerAcceptanceParams struct {
+	AcceptedAt int64                                                    `form:"accepted_at"`
+	Offline    *PaymentIntentMandateDataCustomerAcceptanceOfflineParams `form:"offline"`
+	Online     *PaymentIntentMandateDataCustomerAcceptanceOnlineParams  `form:"online"`
+	Type       MandateCustomerAcceptanceType                            `form:"type"`
+}
+
+// PaymentIntentMandateDataParams is the set of parameters controlling the creation of the mandate
+// associated with this PaymentIntent.
+type PaymentIntentMandateDataParams struct {
+	CustomerAcceptance *PaymentIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
 }
 
 // PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams represents details about the
@@ -182,6 +209,8 @@ type PaymentIntentParams struct {
 	Currency                  *string                                  `form:"currency"`
 	Customer                  *string                                  `form:"customer"`
 	Description               *string                                  `form:"description"`
+	Mandate                   *string                                  `form:"mandate"`
+	MandateData               *PaymentIntentMandateDataParams          `form:"mandate_data"`
 	OnBehalfOf                *string                                  `form:"on_behalf_of"`
 	PaymentMethod             *string                                  `form:"payment_method"`
 	PaymentMethodOptions      *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
@@ -197,8 +226,9 @@ type PaymentIntentParams struct {
 	TransferData              *PaymentIntentTransferDataParams         `form:"transfer_data"`
 	TransferGroup             *string                                  `form:"transfer_group"`
 
-	// This parameter only works if you confirm on creation.
-	OffSession *bool `form:"off_session"`
+	// Those parameters only works if you confirm on creation.
+	OffSession   *bool `form:"off_session"`
+	UseStripeSDK *bool `form:"use_stripe_sdk"`
 }
 
 // PaymentIntentListParams is the set of parameters that can be used when listing payment intents.

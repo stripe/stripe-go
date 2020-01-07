@@ -1,5 +1,86 @@
 # Changelog
 
+## 68.7.0 - 2020-01-07
+* [#1008](https://github.com/stripe/stripe-go/pull/1008) Add `ReportingCategory` to `BalanceTransaction`
+
+## 68.6.0 - 2020-01-06
+* [#1009](https://github.com/stripe/stripe-go/pull/1009) Add constant for `TaxIDTypeSGUEN` on `TaxId`
+
+## 68.5.0 - 2020-01-03
+* [#1007](https://github.com/stripe/stripe-go/pull/1007) Add support for `SpendingLimitsCurrency` on Issuing `Card` and `Cardholder`
+
+## 68.4.0 - 2019-12-20
+* [#1006](https://github.com/stripe/stripe-go/pull/1006) Adds `ExecutivesProvided` to `Account`
+
+## 68.3.0 - 2019-12-19
+* [#1005](https://github.com/stripe/stripe-go/pull/1005) Add `Metadata` and `Livemode` to Terminal `Reader` and `Location'
+
+## 68.2.0 - 2019-12-09
+* [#1002](https://github.com/stripe/stripe-go/pull/1002) Add support for AU BECS Debit on PaymentMethod
+
+## 68.1.0 - 2019-12-04
+* [#1001](https://github.com/stripe/stripe-go/pull/1001) Add support for `Network` on `Charge`
+
+## 68.0.0 - 2019-12-03
+* [#1000](https://github.com/stripe/stripe-go/pull/1000) Multiple breaking changes:
+  * Pin to API version `2019-12-03`
+  * Rename `InvoiceBillingStatus` to `InvoiceStatus` for consistency
+  * Remove typo-ed field `OutOfBankdAmount` on `CreditNote`
+  * Remove deprecated `PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly` and `SetupIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly` from `PaymentIntent` and `SetupIntent`.
+  * Remove `OperatorAccount` on `TerminalLocationListParams`
+
+## 67.10.0 - 2019-12-02
+* [#999](https://github.com/stripe/stripe-go/pull/999) Add support for `Status` filter when listing `Invoice`s.
+
+## 67.9.0 - 2019-11-26
+* [#997](https://github.com/stripe/stripe-go/pull/997) Add new refund reason `RefundReasonExpiredUncapturedCharge`
+
+## 67.8.0 - 2019-11-26
+* [#998](https://github.com/stripe/stripe-go/pull/998) Add support for `CreditNote` preview
+
+## 67.7.0 - 2019-11-25
+* [#996](https://github.com/stripe/stripe-go/pull/996) Add support for `OutOfBandAmount` on `CreditNote` creation
+* [#995](https://github.com/stripe/stripe-go/pull/995) Fix comment typos
+
+## 67.6.0 - 2019-11-22
+* [#994](https://github.com/stripe/stripe-go/pull/994) Support for the `now` on `StartDate` on Subscription Schedule creation
+
+## 67.5.0 - 2019-11-21
+* [#993](https://github.com/stripe/stripe-go/pull/993) Add `PaymentIntent` filter when listing `Dispute`s
+
+## 67.4.1 - 2019-11-19
+* [#991](https://github.com/stripe/stripe-go/pull/991) Add missing constant for PaymentMethod of type FPX
+
+## 67.4.0 - 2019-11-18
+* [#989](https://github.com/stripe/stripe-go/pull/989) Add support for `ViolatedAuthorizationControls` on Issuing `Authorization`
+
+## 67.3.0 - 2019-11-07
+* [#988](https://github.com/stripe/stripe-go/pull/988) Add `Company` and `Individual` to Issuing `Cardholder`
+
+## 67.2.0 - 2019-11-06
+* [#985](https://github.com/stripe/stripe-go/pull/985) Multiple API changes
+  * Add `Disputed` to `Charge`
+  * Add `PaymentIntent` to `Refund` and `Dispute`
+  * Add `Charge` to `DisputeListParams`
+  * Add `PaymentIntent` to `RefundListParams` and `RefundParams`
+
+## 67.1.0 - 2019-11-06
+* [#986](https://github.com/stripe/stripe-go/pull/986) Add support for iDEAL and SEPA debit on `PaymentMethod`
+
+## 67.0.0 - 2019-11-05
+* [#987](https://github.com/stripe/stripe-go/pull/987) Move to the latest API version and add new changes
+  * Move to API version `2019-11-05`
+  * Add `DefaultSettings` on `SubscritionSchedule`
+  * Remove `BillingThresholds`, `CollectionMethod`, `DefaultPaymentMethod` and `DefaultSource` and `invoice_settings` from `SubscriptionSchedule`
+  * `OffSession` on `PaymentIntent` is now always a boolean
+
+## 66.3.0 - 2019-11-04
+* [#984](https://github.com/stripe/stripe-go/pull/984) Add support for `UseStripeSDK` on `PaymentIntent` create and confirm
+
+## 66.2.0 - 2019-11-04
+* [#983](https://github.com/stripe/stripe-go/pull/983) Add support for cloning saved PaymentMethods
+* [#980](https://github.com/stripe/stripe-go/pull/980) Improve docs for ephemeral keys
+
 ## 66.1.1 - 2019-10-24
 * [#978](https://github.com/stripe/stripe-go/pull/978) Properly pass `Type` in `PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams`
   * Note that this is technically a breaking change, however we've chosen to release it as a patch version as this shipped yesterday and is a new feature
