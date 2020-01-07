@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.7.0 - 2020-01-07
+* [#1008](https://github.com/stripe/stripe-go/pull/1008) Add `ReportingCategory` to `BalanceTransaction`
+
 ## 68.6.0 - 2020-01-06
 * [#1009](https://github.com/stripe/stripe-go/pull/1009) Add constant for `TaxIDTypeSGUEN` on `TaxId`
 
