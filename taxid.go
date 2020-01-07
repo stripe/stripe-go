@@ -14,6 +14,7 @@ const (
 	TaxIDTypeMXRFC   TaxIDType = "mx_rfc"
 	TaxIDTypeNOVAT   TaxIDType = "no_vat"
 	TaxIDTypeNZGST   TaxIDType = "nz_gst"
+	TaxIDTypeSGUEN   TaxIDType = "sg_uen"
 	TaxIDTypeZAVAT   TaxIDType = "za_vat"
 	TaxIDTypeUnknown TaxIDType = "unknown"
 )
