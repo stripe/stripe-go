@@ -318,7 +318,8 @@ type InvoiceLine struct {
 	Description      string              `json:"description"`
 	Discountable     bool                `json:"discountable"`
 	ID               string              `json:"id"`
-	Livemode         bool                `json:"live_mode"`
+	InvoiceItem      string              `json:"invoice_item"`
+	Livemode         bool                `json:"livemode"`
 	Metadata         map[string]string   `json:"metadata"`
 	Period           *Period             `json:"period"`
 	Plan             *Plan               `json:"plan"`
