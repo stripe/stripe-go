@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.8.0 - 2020-01-08
+* [#1011](https://github.com/stripe/stripe-go/pull/1011) Add support for `InvoiceItem` and fix `Livemode` on `InvoiceLine`
+
 ## 68.7.0 - 2020-01-07
 * [#1008](https://github.com/stripe/stripe-go/pull/1008) Add `ReportingCategory` to `BalanceTransaction`
 
