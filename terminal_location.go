@@ -10,9 +10,6 @@ type TerminalLocationParams struct {
 // TerminalLocationListParams is the set of parameters that can be used when listing temrinal locations.
 type TerminalLocationListParams struct {
 	ListParams `form:"*"`
-
-	// This feature has been deprecated and should not be used anymore.
-	OperatorAccount *string `form:"operator_account"`
 }
 
 // TerminalLocation is the resource representing a Stripe terminal location.
@@ -21,6 +18,8 @@ type TerminalLocation struct {
 	Deleted     bool                  `json:"deleted"`
 	DisplayName string                `json:"display_name"`
 	ID          string                `json:"id"`
+	Livemode    bool                  `json:"livemode"`
+	Metadata    map[string]string     `json:"metadata"`
 	Object      string                `json:"object"`
 }
 

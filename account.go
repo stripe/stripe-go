@@ -133,19 +133,20 @@ type AccountCompanyVerificationParams struct {
 
 // AccountCompanyParams are the parameters describing the company associated with the account.
 type AccountCompanyParams struct {
-	Address           *AccountAddressParams             `form:"address"`
-	AddressKana       *AccountAddressParams             `form:"address_kana"`
-	AddressKanji      *AccountAddressParams             `form:"address_kanji"`
-	DirectorsProvided *bool                             `form:"directors_provided"`
-	Name              *string                           `form:"name"`
-	NameKana          *string                           `form:"name_kana"`
-	NameKanji         *string                           `form:"name_kanji"`
-	OwnersProvided    *bool                             `form:"owners_provided"`
-	Phone             *string                           `form:"phone"`
-	TaxID             *string                           `form:"tax_id"`
-	TaxIDRegistrar    *string                           `form:"tax_id_registrar"`
-	VATID             *string                           `form:"vat_id"`
-	Verification      *AccountCompanyVerificationParams `form:"verification"`
+	Address            *AccountAddressParams             `form:"address"`
+	AddressKana        *AccountAddressParams             `form:"address_kana"`
+	AddressKanji       *AccountAddressParams             `form:"address_kanji"`
+	DirectorsProvided  *bool                             `form:"directors_provided"`
+	ExecutivesProvided *bool                             `form:"executives_provided"`
+	Name               *string                           `form:"name"`
+	NameKana           *string                           `form:"name_kana"`
+	NameKanji          *string                           `form:"name_kanji"`
+	OwnersProvided     *bool                             `form:"owners_provided"`
+	Phone              *string                           `form:"phone"`
+	TaxID              *string                           `form:"tax_id"`
+	TaxIDRegistrar     *string                           `form:"tax_id_registrar"`
+	VATID              *string                           `form:"vat_id"`
+	Verification       *AccountCompanyVerificationParams `form:"verification"`
 }
 
 // AccountDeclineSettingsParams represents the parameters allowed for configuring
@@ -328,19 +329,20 @@ type AccountCompanyVerification struct {
 
 // AccountCompany represents details about the company or business associated with the account.
 type AccountCompany struct {
-	Address           *AccountAddress             `json:"address"`
-	AddressKana       *AccountAddress             `json:"address_kana"`
-	AddressKanji      *AccountAddress             `json:"address_kanji"`
-	DirectorsProvided bool                        `json:"directors_provided"`
-	Name              string                      `json:"name"`
-	NameKana          string                      `json:"name_kana"`
-	NameKanji         string                      `json:"name_kanji"`
-	OwnersProvided    bool                        `json:"owners_provided"`
-	Phone             string                      `json:"phone"`
-	TaxIDProvided     bool                        `json:"tax_id_provided"`
-	TaxIDRegistrar    string                      `json:"tax_id_registrar"`
-	VATIDProvided     bool                        `json:"vat_id_provided"`
-	Verification      *AccountCompanyVerification `json:"verification"`
+	Address            *AccountAddress             `json:"address"`
+	AddressKana        *AccountAddress             `json:"address_kana"`
+	AddressKanji       *AccountAddress             `json:"address_kanji"`
+	DirectorsProvided  bool                        `json:"directors_provided"`
+	ExecutivesProvided bool                        `json:"executives_provided"`
+	Name               string                      `json:"name"`
+	NameKana           string                      `json:"name_kana"`
+	NameKanji          string                      `json:"name_kanji"`
+	OwnersProvided     bool                        `json:"owners_provided"`
+	Phone              string                      `json:"phone"`
+	TaxIDProvided      bool                        `json:"tax_id_provided"`
+	TaxIDRegistrar     string                      `json:"tax_id_registrar"`
+	VATIDProvided      bool                        `json:"vat_id_provided"`
+	Verification       *AccountCompanyVerification `json:"verification"`
 }
 
 // AccountDeclineOn represents card charges decline behavior for that account.

@@ -37,6 +37,21 @@ func TestIssuingCardholderNew(t *testing.T) {
 			},
 			Name: stripe.String("billing name"),
 		},
+		Individual: &stripe.IssuingCardholderIndividualParams{
+			DOB: &stripe.IssuingCardholderIndividualDOBParams{
+				Day:   stripe.Int64(1),
+				Month: stripe.Int64(1),
+				Year:  stripe.Int64(1980),
+			},
+			FirstName: stripe.String("Jenny"),
+			LastName:  stripe.String("Rosen"),
+			Verification: &stripe.IssuingCardholderIndividualVerificationParams{
+				Document: &stripe.IssuingCardholderIndividualVerificationDocumentParams{
+					Back:  stripe.String("file_back"),
+					Front: stripe.String("file_front"),
+				},
+			},
+		},
 		Name: stripe.String("cardholder name"),
 		Type: stripe.String(string(stripe.IssuingCardholderTypeIndividual)),
 	})
