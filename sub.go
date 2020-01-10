@@ -91,6 +91,7 @@ type SubscriptionParams struct {
 	PendingInvoiceItemInterval  *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	Plan                        *string                                       `form:"plan"`
 	Prorate                     *bool                                         `form:"prorate"`
+	ProrationBehavior           *string                                       `form:"proration_behavior"`
 	ProrationDate               *int64                                        `form:"proration_date"`
 	Quantity                    *int64                                        `form:"quantity"`
 	TrialEnd                    *int64                                        `form:"trial_end"`
@@ -171,6 +172,15 @@ type SubscriptionPendingInvoiceItemInterval struct {
 	IntervalCount int64                                          `json:"interval_count"`
 }
 
+// SubscriptionPendingUpdate represents deferred changes that will be applied when latest invoice is paid.
+type SubscriptionPendingUpdate struct {
+	BillingCycleAnchor int64               `json:"billing_cycle_anchor"`
+	ExpiresAt          int64               `json:"expires_at"`
+	SubscriptionItems  []*SubscriptionItem `json:"subscription_items"`
+	TrialEnd           int64               `json:"trial_end"`
+	TrialFromPlan      bool                `json:"trial_from_plan"`
+}
+
 // SubscriptionTransferData represents the information for the transfer_data associated with a subscription.
 type SubscriptionTransferData struct {
 	Destination *Account `json:"destination"`
@@ -206,6 +216,7 @@ type Subscription struct {
 	OnBehalfOf                    *Account                               `json:"on_behalf_of"`
 	PendingInvoiceItemInterval    SubscriptionPendingInvoiceItemInterval `json:"pending_invoice_item_interval"`
 	PendingSetupIntent            *SetupIntent                           `json:"pending_setup_intent"`
+	PendingUpdate                 *SubscriptionPendingUpdate             `json:"pending_update"`
 	Plan                          *Plan                                  `json:"plan"`
 	Quantity                      int64                                  `json:"quantity"`
 	Schedule                      *SubscriptionSchedule                  `json:"schedule"`
