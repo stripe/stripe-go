@@ -72,6 +72,47 @@ func (c Client) List(listParams *stripe.CreditNoteListParams) *Iter {
 	})}
 }
 
+// ListLines returns a list of credit note line items on a credit note.
+func ListLines(params *stripe.CreditNoteLineItemListParams) *LineItemIter {
+	return getC().ListLines(params)
+}
+
+// ListLines returns a list of credit note line items on a credit note.
+func (c Client) ListLines(listParams *stripe.CreditNoteLineItemListParams) *LineItemIter {
+	path := stripe.FormatURLPath("/v1/credit_notes/%s/lines", stripe.StringValue(listParams.ID))
+	return &LineItemIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+		list := &stripe.CreditNoteLineItemList{}
+		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
+}
+
+// ListPreviewLines returns a list of lines on a previewed credit note.
+func ListPreviewLines(params *stripe.CreditNoteLineItemListPreviewParams) *LineItemIter {
+	return getC().ListPreviewLines(params)
+}
+
+// ListPreviewLines returns a list of lines on a previewed credit note.
+func (c Client) ListPreviewLines(listParams *stripe.CreditNoteLineItemListPreviewParams) *LineItemIter {
+	return &LineItemIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+		list := &stripe.CreditNoteLineItemList{}
+		err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes/preview/lines", c.Key, b, p, list)
+
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
+}
+
 // Preview previews a credit note.
 func Preview(params *stripe.CreditNotePreviewParams) (*stripe.CreditNote, error) {
 	return getC().Preview(params)
@@ -105,6 +146,16 @@ type Iter struct {
 // CreditNote returns the cn which the iterator is currently pointing to.
 func (i *Iter) CreditNote() *stripe.CreditNote {
 	return i.Current().(*stripe.CreditNote)
+}
+
+// LineItemIter is an iterator for credit note line items on a credit note.
+type LineItemIter struct {
+	*stripe.Iter
+}
+
+// CreditNoteLineItem returns the credit note line item which the iterator is currently pointing to.
+func (i *LineItemIter) CreditNoteLineItem() *stripe.CreditNoteLineItem {
+	return i.Current().(*stripe.CreditNoteLineItem)
 }
 
 func getC() Client {

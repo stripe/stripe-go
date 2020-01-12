@@ -26,11 +26,54 @@ func TestCreditNoteList(t *testing.T) {
 	assert.NotNil(t, i.CreditNote())
 }
 
+func TestCreditNoteListLines(t *testing.T) {
+	i := ListLines(&stripe.CreditNoteLineItemListParams{
+		ID: stripe.String("cn_123"),
+	})
+
+	// Verify that we can get at least one invoice
+	assert.True(t, i.Next())
+	assert.Nil(t, i.Err())
+	assert.NotNil(t, i.CreditNoteLineItem())
+}
+
+func TestCreditNoteListPreviewLines(t *testing.T) {
+	params := &stripe.CreditNoteLineItemListPreviewParams{
+		Invoice: stripe.String("in_123"),
+		Lines: []*stripe.CreditNoteLineParams{
+			{
+				Type:            stripe.String(string(stripe.CreditNoteLineItemTypeInvoiceLineItem)),
+				Amount:          stripe.Int64(100),
+				InvoiceLineItem: stripe.String("ili_123"),
+				TaxRates: stripe.StringSlice([]string{
+					"txr_123",
+				}),
+			},
+		},
+	}
+	i := ListPreviewLines(params)
+
+	// Verify that we can get at least one invoice
+	assert.True(t, i.Next())
+	assert.Nil(t, i.Err())
+	assert.NotNil(t, i.CreditNoteLineItem())
+}
+
 func TestCreditNoteNew(t *testing.T) {
 	params := &stripe.CreditNoteParams{
 		Amount:  stripe.Int64(100),
 		Invoice: stripe.String("in_123"),
 		Reason:  stripe.String(string(stripe.CreditNoteReasonDuplicate)),
+		Lines: []*stripe.CreditNoteLineParams{
+			{
+				Type:            stripe.String(string(stripe.CreditNoteLineItemTypeInvoiceLineItem)),
+				Amount:          stripe.Int64(100),
+				InvoiceLineItem: stripe.String("ili_123"),
+				TaxRates: stripe.StringSlice([]string{
+					"txr_123",
+				}),
+			},
+		},
 	}
 	cn, err := New(params)
 	assert.Nil(t, err)
@@ -54,6 +97,16 @@ func TestCreditNotePreview(t *testing.T) {
 	params := &stripe.CreditNotePreviewParams{
 		Amount:  stripe.Int64(100),
 		Invoice: stripe.String("in_123"),
+		Lines: []*stripe.CreditNoteLineParams{
+			{
+				Type:            stripe.String(string(stripe.CreditNoteLineItemTypeInvoiceLineItem)),
+				Amount:          stripe.Int64(100),
+				InvoiceLineItem: stripe.String("ili_123"),
+				TaxRates: stripe.StringSlice([]string{
+					"txr_123",
+				}),
+			},
+		},
 	}
 	cn, err := Preview(params)
 	assert.Nil(t, err)
