@@ -41,6 +41,16 @@ const (
 	SubscriptionPaymentBehaviorPendingIfIncomplete SubscriptionPaymentBehavior = "pending_if_incomplete"
 )
 
+// SubscriptionProrationBehavior determines how to handle prorations when billing cycles change.
+type SubscriptionProrationBehavior string
+
+// List of values that SubscriptionProrationBehavior can take.
+const (
+	SubscriptionProrationBehaviorAlwaysInvoice    SubscriptionProrationBehavior = "always_invoice"
+	SubscriptionProrationBehaviorCreateProrations SubscriptionProrationBehavior = "create_prorations"
+	SubscriptionProrationBehaviorNone             SubscriptionProrationBehavior = "none"
+)
+
 // SubscriptionPendingInvoiceItemIntervalInterval controls the interval at which pending invoice
 // items should be invoiced.
 type SubscriptionPendingInvoiceItemIntervalInterval string
