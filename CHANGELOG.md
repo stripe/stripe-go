@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.9.0 - 2020-01-14
+* [#1013](https://github.com/stripe/stripe-go/pull/1013) Add support for `CreditNoteLineItem`
+
 ## 68.8.0 - 2020-01-08
 * [#1011](https://github.com/stripe/stripe-go/pull/1011) Add support for `InvoiceItem` and fix `Livemode` on `InvoiceLine`
 
