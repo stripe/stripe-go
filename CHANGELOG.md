@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.10.0 - 2020-01-15
+* [#1012](https://github.com/stripe/stripe-go/pull/1012) Adds `PendingUpdate` to `Subscription`
+
 ## 68.9.0 - 2020-01-14
 * [#1013](https://github.com/stripe/stripe-go/pull/1013) Add support for `CreditNoteLineItem`
 
