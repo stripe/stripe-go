@@ -11,6 +11,7 @@ type SubscriptionItemParams struct {
 	Plan              *string                                  `form:"plan"`
 	Prorate           *bool                                    `form:"prorate"`
 	ProrationDate     *int64                                   `form:"proration_date"`
+	ProrationBehavior *string                                  `form:"proration_behavior"`
 	Quantity          *int64                                   `form:"quantity"`
 	Subscription      *string                                  `form:"subscription"`
 	TaxRates          []*string                                `form:"tax_rates"`
