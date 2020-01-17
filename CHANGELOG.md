@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.11.0 - 2020-01-17
+* [#1014](https://github.com/stripe/stripe-go/pull/1014) Add `Metadata` support on Checkout `Session`
+
 ## 68.10.0 - 2020-01-15
 * [#1012](https://github.com/stripe/stripe-go/pull/1012) Adds `PendingUpdate` to `Subscription`
 
