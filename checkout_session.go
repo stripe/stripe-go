@@ -145,6 +145,7 @@ type CheckoutSession struct {
 	ID                 string                        `json:"id"`
 	Livemode           bool                          `json:"livemode"`
 	Locale             string                        `json:"locale"`
+	Metadata           map[string]string             `json:"metadata"`
 	Mode               CheckoutSessionMode           `json:"mode"`
 	Object             string                        `json:"object"`
 	PaymentIntent      *PaymentIntent                `json:"payment_intent"`
