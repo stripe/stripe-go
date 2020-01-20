@@ -763,17 +763,7 @@ func GetBackend(backendType SupportedBackend) Backend {
 		},
 	)
 
-	backends.mu.Lock()
-	defer backends.mu.Unlock()
-
-	switch backendType {
-	case APIBackend:
-		backends.API = backend
-	case ConnectBackend:
-		backends.Connect = backend
-	case UploadsBackend:
-		backends.Uploads = backend
-	}
+	SetBackend(backendType, backend)
 
 	return backend
 }
