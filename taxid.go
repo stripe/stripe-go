@@ -8,12 +8,15 @@ type TaxIDType string
 // List of values that TaxIDType can take.
 const (
 	TaxIDTypeAUABN   TaxIDType = "au_abn"
-	TaxIDTypeCHVAT   TaxIDType = "eu_vat"
+	TaxIDTypeCABN    TaxIDType = "ca_bn"
+	TaxIDTypeCHVAT   TaxIDType = "ch_vat"
 	TaxIDTypeEUVAT   TaxIDType = "eu_vat"
+	TaxIDTypeHKBR    TaxIDType = "hk_br"
 	TaxIDTypeINGST   TaxIDType = "in_gst"
 	TaxIDTypeMXRFC   TaxIDType = "mx_rfc"
 	TaxIDTypeNOVAT   TaxIDType = "no_vat"
 	TaxIDTypeNZGST   TaxIDType = "nz_gst"
+	TaxIDTypeRUINN   TaxIDType = "ru_inn"
 	TaxIDTypeSGUEN   TaxIDType = "sg_uen"
 	TaxIDTypeZAVAT   TaxIDType = "za_vat"
 	TaxIDTypeUnknown TaxIDType = "unknown"
