@@ -120,20 +120,21 @@ type PaymentIntentCaptureParams struct {
 
 // PaymentIntentConfirmParams is the set of parameters that can be used when confirming a payment intent.
 type PaymentIntentConfirmParams struct {
-	Params               `form:"*"`
-	Mandate              *string                                  `form:"mandate"`
-	MandateData          *PaymentIntentMandateDataParams          `form:"mandate_data"`
-	OffSession           *bool                                    `form:"off_session"`
-	PaymentMethod        *string                                  `form:"payment_method"`
-	PaymentMethodOptions *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	PaymentMethodTypes   []*string                                `form:"payment_method_types"`
-	ReceiptEmail         *string                                  `form:"receipt_email"`
-	ReturnURL            *string                                  `form:"return_url"`
-	SavePaymentMethod    *bool                                    `form:"save_payment_method"`
-	SetupFutureUsage     *string                                  `form:"setup_future_usage"`
-	Shipping             *ShippingDetailsParams                   `form:"shipping"`
-	Source               *string                                  `form:"source"`
-	UseStripeSDK         *bool                                    `form:"use_stripe_sdk"`
+	Params                `form:"*"`
+	ErrorOnRequiresAction *bool                                    `form:"error_on_requires_action"`
+	Mandate               *string                                  `form:"mandate"`
+	MandateData           *PaymentIntentMandateDataParams          `form:"mandate_data"`
+	OffSession            *bool                                    `form:"off_session"`
+	PaymentMethod         *string                                  `form:"payment_method"`
+	PaymentMethodOptions  *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodTypes    []*string                                `form:"payment_method_types"`
+	ReceiptEmail          *string                                  `form:"receipt_email"`
+	ReturnURL             *string                                  `form:"return_url"`
+	SavePaymentMethod     *bool                                    `form:"save_payment_method"`
+	SetupFutureUsage      *string                                  `form:"setup_future_usage"`
+	Shipping              *ShippingDetailsParams                   `form:"shipping"`
+	Source                *string                                  `form:"source"`
+	UseStripeSDK          *bool                                    `form:"use_stripe_sdk"`
 }
 
 // PaymentIntentMandateDataCustomerAcceptanceOfflineParams is the set of parameters for the customer
@@ -227,8 +228,9 @@ type PaymentIntentParams struct {
 	TransferGroup             *string                                  `form:"transfer_group"`
 
 	// Those parameters only works if you confirm on creation.
-	OffSession   *bool `form:"off_session"`
-	UseStripeSDK *bool `form:"use_stripe_sdk"`
+	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
+	OffSession            *bool `form:"off_session"`
+	UseStripeSDK          *bool `form:"use_stripe_sdk"`
 }
 
 // PaymentIntentListParams is the set of parameters that can be used when listing payment intents.
