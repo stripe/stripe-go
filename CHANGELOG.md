@@ -1,5 +1,9 @@
 # Changelog
 
+## 68.12.0 - 2020-01-23
+* [#1017](https://github.com/stripe/stripe-go/pull/1017) Add new values for `TaxIDType` and fix `TaxIDTypeCHVAT`
+* [#1015](https://github.com/stripe/stripe-go/pull/1015) Replace duplicate code in GetBackend method
+
 ## 68.11.0 - 2020-01-17
 * [#1014](https://github.com/stripe/stripe-go/pull/1014) Add `Metadata` support on Checkout `Session`
 
