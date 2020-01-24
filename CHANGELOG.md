@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.13.0 - 2020-01-24
+* [#1019](https://github.com/stripe/stripe-go/pull/1019) Add support for `Shipping.Speed` and `Shipping.TrackingURL` on `IssuingCard`
+
 ## 68.12.0 - 2020-01-23
 * [#1017](https://github.com/stripe/stripe-go/pull/1017) Add new values for `TaxIDType` and fix `TaxIDTypeCHVAT`
 * [#1015](https://github.com/stripe/stripe-go/pull/1015) Replace duplicate code in GetBackend method
