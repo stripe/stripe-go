@@ -36,6 +36,16 @@ const (
 	IssuingCardShippingTypeShipped   IssuingCardShippingStatus = "shipped"
 )
 
+// IssuingCardShippingSpeed is the shipment speed for a card.
+type IssuingCardShippingSpeed string
+
+// List of values that IssuingCardShippingSpeed can take.
+const (
+	IssuingCardShippingSpeedExpress   IssuingCardShippingSpeed = "express"
+	IssuingCardShippingSpeedOvernight IssuingCardShippingSpeed = "overnight"
+	IssuingCardShippingSpeedStandard  IssuingCardShippingSpeed = "standard"
+)
+
 // IssuingCardShippingType is the list of possible values for the shipping type
 // on an issuing card.
 type IssuingCardShippingType string
@@ -107,6 +117,7 @@ type AuthorizationControlsParams struct {
 type IssuingCardShippingParams struct {
 	Address *AddressParams `form:"address"`
 	Name    string         `form:"name"`
+	Speed   *string        `form:"speed"`
 	Type    *string        `form:"type"`
 }
 
@@ -186,7 +197,9 @@ type IssuingCardShipping struct {
 	Name           string                    `json:"name"`
 	Phone          string                    `json:"phone"`
 	Status         IssuingCardShippingStatus `json:"status"`
+	Speed          IssuingCardShippingSpeed  `json:"speed"`
 	TrackingNumber string                    `json:"tracking_number"`
+	TrackingURL    string                    `json:"tracking_url"`
 	Type           IssuingCardShippingType   `json:"type"`
 }
 
