@@ -10,6 +10,7 @@ const (
 	TaxIDTypeAUABN   TaxIDType = "au_abn"
 	TaxIDTypeCABN    TaxIDType = "ca_bn"
 	TaxIDTypeCHVAT   TaxIDType = "ch_vat"
+	TaxIDTypeESCIF   TaxIDType = "es_cif"
 	TaxIDTypeEUVAT   TaxIDType = "eu_vat"
 	TaxIDTypeHKBR    TaxIDType = "hk_br"
 	TaxIDTypeINGST   TaxIDType = "in_gst"
