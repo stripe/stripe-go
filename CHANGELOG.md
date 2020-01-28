@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.14.0 - 2020-01-28
+* [#1021](https://github.com/stripe/stripe-go/pull/1021) Add support for `TaxIDTypeESCIF` on `TaxId`
+
 ## 68.13.0 - 2020-01-24
 * [#1019](https://github.com/stripe/stripe-go/pull/1019) Add support for `Shipping.Speed` and `Shipping.TrackingURL` on `IssuingCard`
 
