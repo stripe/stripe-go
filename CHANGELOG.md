@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.16.0 - 2020-01-31
+* [#1023](https://github.com/stripe/stripe-go/pull/1023) Add support for `TaxIDTypeTHVAT` and `TaxIDTypeTWVAT` on `TaxId`
+
 ## 68.15.0 - 2020-01-30
 * [#1022](https://github.com/stripe/stripe-go/pull/1022) Add support for `Structure` on `Account`
 
