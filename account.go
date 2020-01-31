@@ -50,8 +50,28 @@ type AccountBusinessType string
 
 // List of values that AccountBusinessType can take.
 const (
-	AccountBusinessTypeCompany    AccountBusinessType = "company"
-	AccountBusinessTypeIndividual AccountBusinessType = "individual"
+	AccountBusinessTypeCompany          AccountBusinessType = "company"
+	AccountBusinessTypeGovernmentEntity AccountBusinessType = "government_entity"
+	AccountBusinessTypeIndividual       AccountBusinessType = "individual"
+	AccountBusinessTypeNonProfit        AccountBusinessType = "non_profit"
+)
+
+// AccountCompanyStructure describes the structure associated with a company.
+type AccountCompanyStructure string
+
+// List of values that AccountCompanyStructure can take.
+const (
+	AccountCompanyStructureGovernmentInstrumentality          AccountCompanyStructure = "government_instrumentality"
+	AccountCompanyStructureGovernmentalUnit                   AccountCompanyStructure = "governmental_unit"
+	AccountCompanyStructureIncorporatedNonProfit              AccountCompanyStructure = "incorporated_non_profit"
+	AccountCompanyStructureMultiMemberLLC                     AccountCompanyStructure = "multi_member_llc"
+	AccountCompanyStructurePrivateCorporation                 AccountCompanyStructure = "private_corporation"
+	AccountCompanyStructurePrivatePartnership                 AccountCompanyStructure = "private_partnership"
+	AccountCompanyStructurePublicCorporation                  AccountCompanyStructure = "public_corporation"
+	AccountCompanyStructurePublicPartnership                  AccountCompanyStructure = "public_partnership"
+	AccountCompanyStructureTaxExemptGovernmentInstrumentality AccountCompanyStructure = "tax_exempt_government_instrumentality"
+	AccountCompanyStructureUnincorporatedAssociation          AccountCompanyStructure = "unincorporated_association"
+	AccountCompanyStructureUnincorporatedNonProfit            AccountCompanyStructure = "unincorporated_non_profit"
 )
 
 // AccountRequirementsDisabledReason describes why an account is disabled.
@@ -142,6 +162,7 @@ type AccountCompanyParams struct {
 	NameKana           *string                           `form:"name_kana"`
 	NameKanji          *string                           `form:"name_kanji"`
 	OwnersProvided     *bool                             `form:"owners_provided"`
+	Structure          *string                           `form:"structure"`
 	Phone              *string                           `form:"phone"`
 	TaxID              *string                           `form:"tax_id"`
 	TaxIDRegistrar     *string                           `form:"tax_id_registrar"`
@@ -339,6 +360,7 @@ type AccountCompany struct {
 	NameKanji          string                      `json:"name_kanji"`
 	OwnersProvided     bool                        `json:"owners_provided"`
 	Phone              string                      `json:"phone"`
+	Structure          AccountCompanyStructure     `json:"structure"`
 	TaxIDProvided      bool                        `json:"tax_id_provided"`
 	TaxIDRegistrar     string                      `json:"tax_id_registrar"`
 	VATIDProvided      bool                        `json:"vat_id_provided"`
