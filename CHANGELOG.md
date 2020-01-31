@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.15.0 - 2020-01-30
+* [#1022](https://github.com/stripe/stripe-go/pull/1022) Add support for `Structure` on `Account`
+
 ## 68.14.0 - 2020-01-28
 * [#1021](https://github.com/stripe/stripe-go/pull/1021) Add support for `TaxIDTypeESCIF` on `TaxId`
 
