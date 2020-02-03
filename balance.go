@@ -1,5 +1,17 @@
 package stripe
 
+// BalanceSourceType is the list of allowed values for the balance amount's source_type field keys.
+type BalanceSourceType string
+
+// List of values that BalanceSourceType can take.
+const (
+	BalanceSourceTypeAlipayAccount   BalanceSourceType = "alipay_account"
+	BalanceSourceTypeBankAccount     BalanceSourceType = "bank_account"
+	BalanceSourceTypeBitcoinReceiver BalanceSourceType = "bitcoin_receiver"
+	BalanceSourceTypeCard            BalanceSourceType = "card"
+	BalanceSourceTypeFPX             BalanceSourceType = "fpx"
+)
+
 // BalanceTransactionStatus is the list of allowed values for the balance transaction's status.
 type BalanceTransactionStatus string
 
@@ -19,6 +31,7 @@ type Balance struct {
 
 // Amount is a structure wrapping an amount value and its currency.
 type Amount struct {
-	Value    int64    `json:"amount"`
-	Currency Currency `json:"currency"`
+	Value       int64                       `json:"amount"`
+	Currency    Currency                    `json:"currency"`
+	SourceTypes map[BalanceSourceType]int64 `json:"source_types"`
 }
