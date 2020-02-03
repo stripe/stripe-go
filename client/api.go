@@ -2,11 +2,13 @@
 package client
 
 import (
+	"github.com/sherbondy-stripe/stripe-go/balance"
+	"github.com/sherbondy-stripe/stripe-go/payout"
+	"github.com/sherbondy-stripe/stripe-go/transfer"
 	stripe "github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/account"
 	"github.com/stripe/stripe-go/accountlink"
 	"github.com/stripe/stripe-go/applepaydomain"
-	"github.com/stripe/stripe-go/balance"
 	"github.com/stripe/stripe-go/balancetransaction"
 	"github.com/stripe/stripe-go/bankaccount"
 	"github.com/stripe/stripe-go/bitcoinreceiver"
@@ -44,7 +46,6 @@ import (
 	"github.com/stripe/stripe-go/paymentintent"
 	"github.com/stripe/stripe-go/paymentmethod"
 	"github.com/stripe/stripe-go/paymentsource"
-	"github.com/stripe/stripe-go/payout"
 	"github.com/stripe/stripe-go/person"
 	"github.com/stripe/stripe-go/plan"
 	"github.com/stripe/stripe-go/product"
@@ -73,7 +74,6 @@ import (
 	"github.com/stripe/stripe-go/threedsecure"
 	"github.com/stripe/stripe-go/token"
 	"github.com/stripe/stripe-go/topup"
-	"github.com/stripe/stripe-go/transfer"
 	"github.com/stripe/stripe-go/usagerecord"
 	"github.com/stripe/stripe-go/usagerecordsummary"
 	"github.com/stripe/stripe-go/webhookendpoint"
