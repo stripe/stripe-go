@@ -37,6 +37,7 @@ const (
 	PayoutSourceTypeBankAccount     PayoutSourceType = "bank_account"
 	PayoutSourceTypeBitcoinReceiver PayoutSourceType = "bitcoin_receiver"
 	PayoutSourceTypeCard            PayoutSourceType = "card"
+	PayoutSourceTypeFPX             PayoutSourceType = "fpx"
 )
 
 // PayoutStatus is the list of allowed values for the payout's status.

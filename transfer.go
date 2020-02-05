@@ -11,6 +11,7 @@ const (
 	TransferSourceTypeBankAccount     TransferSourceType = "bank_account"
 	TransferSourceTypeBitcoinReceiver TransferSourceType = "bitcoin_receiver"
 	TransferSourceTypeCard            TransferSourceType = "card"
+	TransferSourceTypeFPX             TransferSourceType = "fpx"
 )
 
 // TransferDestination describes the destination of a Transfer.
