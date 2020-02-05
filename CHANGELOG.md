@@ -1,5 +1,11 @@
 # Changelog
 
+## 68.18.0 - 2020-02-05
+* [#1026](https://github.com/stripe/stripe-go/pull/1026) Multiple changes on the `Balance` resource:
+  * Add support for `ConnectReserved`
+  * Add support for `SourceTypes` for a given type of balance.
+  * Add support for FPX balance as a constant.
+
 ## 68.17.0 - 2020-02-03
 * [#1024](https://github.com/stripe/stripe-go/pull/1024) Add `FilePurposeAdditionalVerification` and `FilePurposeBusinessIcon` on `File`
 * [#1018](https://github.com/stripe/stripe-go/pull/1018) Add support for `ErrorOnRequiresAction` on `PaymentIntent`
