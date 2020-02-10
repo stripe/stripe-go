@@ -1,5 +1,9 @@
 # Changelog
 
+## 68.19.0 - 2020-02-10
+* [#1027](https://github.com/stripe/stripe-go/pull/1027) Add new constants for `TaxIDType`
+* [#1028](https://github.com/stripe/stripe-go/pull/1028) Add support for `StatementDescriptorSuffix` on Checkout `Session`
+
 ## 68.18.0 - 2020-02-05
 * [#1026](https://github.com/stripe/stripe-go/pull/1026) Multiple changes on the `Balance` resource:
   * Add support for `ConnectReserved`
