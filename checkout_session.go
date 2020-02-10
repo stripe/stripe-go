@@ -56,16 +56,17 @@ type CheckoutSessionPaymentIntentDataTransferDataParams struct {
 // CheckoutSessionPaymentIntentDataParams is the set of parameters allowed for the
 // payment intent creation on a checkout session.
 type CheckoutSessionPaymentIntentDataParams struct {
-	Params               `form:"*"`
-	ApplicationFeeAmount *int64                                              `form:"application_fee_amount"`
-	CaptureMethod        *string                                             `form:"capture_method"`
-	Description          *string                                             `form:"description"`
-	OnBehalfOf           *string                                             `form:"on_behalf_of"`
-	ReceiptEmail         *string                                             `form:"receipt_email"`
-	SetupFutureUsage     *string                                             `form:"setup_future_usage"`
-	Shipping             *ShippingDetailsParams                              `form:"shipping"`
-	StatementDescriptor  *string                                             `form:"statement_descriptor"`
-	TransferData         *CheckoutSessionPaymentIntentDataTransferDataParams `form:"transfer_data"`
+	Params                    `form:"*"`
+	ApplicationFeeAmount      *int64                                              `form:"application_fee_amount"`
+	CaptureMethod             *string                                             `form:"capture_method"`
+	Description               *string                                             `form:"description"`
+	OnBehalfOf                *string                                             `form:"on_behalf_of"`
+	ReceiptEmail              *string                                             `form:"receipt_email"`
+	SetupFutureUsage          *string                                             `form:"setup_future_usage"`
+	Shipping                  *ShippingDetailsParams                              `form:"shipping"`
+	StatementDescriptor       *string                                             `form:"statement_descriptor"`
+	StatementDescriptorSuffix *string                                             `form:"statement_descriptor_suffix"`
+	TransferData              *CheckoutSessionPaymentIntentDataTransferDataParams `form:"transfer_data"`
 }
 
 // CheckoutSessionSetupIntentDataParams is the set of parameters allowed for the setup intent
