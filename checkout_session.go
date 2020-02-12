@@ -50,6 +50,7 @@ type CheckoutSessionLineItemParams struct {
 // CheckoutSessionPaymentIntentDataTransferDataParams is the set of parameters allowed for the
 // transfer_data hash.
 type CheckoutSessionPaymentIntentDataTransferDataParams struct {
+	Amount      *int64  `form:"amount"`
 	Destination *string `form:"destination"`
 }
 
