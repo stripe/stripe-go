@@ -1,5 +1,8 @@
 # Changelog
 
+## 68.20.0 - 2020-02-12
+* [#1029](https://github.com/stripe/stripe-go/pull/1029) Add support for `Amount` in `CheckoutSessionPaymentIntentDataTransferDataParams`
+
 ## 68.19.0 - 2020-02-10
 * [#1027](https://github.com/stripe/stripe-go/pull/1027) Add new constants for `TaxIDType`
 * [#1028](https://github.com/stripe/stripe-go/pull/1028) Add support for `StatementDescriptorSuffix` on Checkout `Session`
