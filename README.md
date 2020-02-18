@@ -329,7 +329,7 @@ type LeveledLoggerInterface interface {
 }
 ```
 
-Some loggers like [Logrus][logrus] and Zap's [SugaredLogger][sugaredlogger]
+Some loggers like [Logrus][logrus] and Zap's [SugaredLogger][zapsugaredlogger]
 support this interface out-of-the-box so it's possible to set
 `DefaultLeveledLogger` to a `*logrus.Logger` or `*zap.SugaredLogger` directly.
 For others it may be necessary to write a thin shim layer to support them.
@@ -421,6 +421,7 @@ pull request][pulls].
 [stripe]: https://stripe.com
 [stripe-mock]: https://github.com/stripe/stripe-mock
 [stripe-mock-usage]: https://github.com/stripe/stripe-mock#usage
+[zapsugaredlogger]: https://godoc.org/go.uber.org/zap#SugaredLogger
 
 <!--
 # vim: set tw=79:
