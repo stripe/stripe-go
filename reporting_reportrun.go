@@ -19,6 +19,7 @@ type ReportRunParametersParams struct {
 	IntervalStart     *int64    `form:"interval_start"`
 	Payout            *string   `form:"payout"`
 	ReportingCategory *string   `form:"reporting_category"`
+	Timezone          *string   `form:"timezone"`
 }
 
 // ReportRunParams is the set of parameters that can be used when creating a report run.
@@ -44,6 +45,7 @@ type ReportRunParameters struct {
 	IntervalStart     int64    `json:"interval_start"`
 	Payout            string   `json:"payout"`
 	ReportingCategory string   `json:"reporting_category"`
+	Timezone          string   `json:"timezone"`
 }
 
 // ReportRun is the resource representing a report run.
