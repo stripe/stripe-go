@@ -259,7 +259,7 @@ type Invoice struct {
 	StatementDescriptor          string                   `json:"statement_descriptor"`
 	Status                       InvoiceStatus            `json:"status"`
 	StatusTransitions            InvoiceStatusTransitions `json:"status_transitions"`
-	Subscription                 string                   `json:"subscription"`
+	Subscription                 *Subscription            `json:"subscription"`
 	SubscriptionProrationDate    int64                    `json:"subscription_proration_date"`
 	Subtotal                     int64                    `json:"subtotal"`
 	Tax                          int64                    `json:"tax"`
