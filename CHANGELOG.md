@@ -1,5 +1,9 @@
 # Changelog
 
+## 69.1.0 - 2020-02-21
+* [#1035](https://github.com/stripe/stripe-go/pull/1035) Add support for `ProrationBehavior` on `SubscriptionSchedule`
+* [#1034](https://github.com/stripe/stripe-go/pull/1034) Add support for `Timezone` on `ReportRun`
+
 ## 69.0.0 - 2020-02-20
 * [#1033](https://github.com/stripe/stripe-go/pull/1033) Make `Subscription` expandable on `Invoice`
 
