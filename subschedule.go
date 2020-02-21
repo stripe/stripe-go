@@ -65,6 +65,7 @@ type SubscriptionSchedulePhaseParams struct {
 	InvoiceSettings       *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
 	Iterations            *int64                                     `form:"iterations"`
 	Plans                 []*SubscriptionSchedulePhaseItemParams     `form:"plans"`
+	ProrationBehavior     *string                                    `form:"proration_behavior"`
 	StartDate             *int64                                     `form:"start_date"`
 	Trial                 *bool                                      `form:"trial"`
 	TrialEnd              *int64                                     `form:"trial_end"`
@@ -76,15 +77,19 @@ type SubscriptionSchedulePhaseParams struct {
 // SubscriptionScheduleParams is the set of parameters that can be used when creating or updating a
 // subscription schedule.
 type SubscriptionScheduleParams struct {
-	Params           `form:"*"`
-	Customer         *string                                    `form:"customer"`
-	DefaultSettings  *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
-	EndBehavior      *string                                    `form:"end_behavior"`
-	FromSubscription *string                                    `form:"from_subscription"`
-	Phases           []*SubscriptionSchedulePhaseParams         `form:"phases"`
-	Prorate          *bool                                      `form:"prorate"`
-	StartDate        *int64                                     `form:"start_date"`
-	StartDateNow     *bool                                      `form:"-"` // See custom AppendTo
+	Params            `form:"*"`
+	Customer          *string                                    `form:"customer"`
+	DefaultSettings   *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
+	EndBehavior       *string                                    `form:"end_behavior"`
+	FromSubscription  *string                                    `form:"from_subscription"`
+	ProrationBehavior *string                                    `form:"proration_behavior"`
+	Phases            []*SubscriptionSchedulePhaseParams         `form:"phases"`
+	StartDate         *int64                                     `form:"start_date"`
+	StartDateNow      *bool                                      `form:"-"` // See custom AppendTo
+
+	// TODO remove in the next major version
+	// This propery is considered deprecated. Use ProrationBehavior instead
+	Prorate *bool `form:"prorate"`
 }
 
 // AppendTo implements custom encoding logic for SubscriptionScheduleParams so that the special
