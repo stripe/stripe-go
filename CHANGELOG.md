@@ -1,5 +1,8 @@
 # Changelog
 
+## 69.0.0 - 2020-02-20
+* [#1033](https://github.com/stripe/stripe-go/pull/1033) Make `Subscription` expandable on `Invoice`
+
 ## 68.20.0 - 2020-02-12
 * [#1029](https://github.com/stripe/stripe-go/pull/1029) Add support for `Amount` in `CheckoutSessionPaymentIntentDataTransferDataParams`
 
