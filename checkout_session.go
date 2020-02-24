@@ -117,6 +117,15 @@ type CheckoutSessionParams struct {
 	SuccessURL               *string                                 `form:"success_url"`
 }
 
+// CheckoutSessionListParams is the set of parameters that can be
+// used when listing sessions.
+// For more details see: https://stripe.com/docs/api/checkout/sessions/list
+type CheckoutSessionListParams struct {
+	ListParams    `form:"*"`
+	Subscription  *string `form:"subscription"`
+	PaymentIntent *string `form:"payment_intent"`
+}
+
 // CheckoutSessionDisplayItemCustom represents an item of type custom in a checkout session
 type CheckoutSessionDisplayItemCustom struct {
 	Description string   `json:"description"`
@@ -156,6 +165,12 @@ type CheckoutSession struct {
 	Subscription       *Subscription                 `json:"subscription"`
 	SubmitType         CheckoutSessionSubmitType     `json:"submit_type"`
 	SuccessURL         string                        `json:"success_url"`
+}
+
+// CheckoutSessionList is a list of sessions as retrieved from a list endpoint.
+type CheckoutSessionList struct {
+	ListMeta
+	Data []*CheckoutSession `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a checkout session.
