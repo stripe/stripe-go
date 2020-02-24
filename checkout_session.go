@@ -45,6 +45,7 @@ type CheckoutSessionLineItemParams struct {
 	Images      []*string `form:"images"`
 	Name        *string   `form:"name"`
 	Quantity    *int64    `form:"quantity"`
+	TaxRates    []*string `form:"tax_rates"`
 }
 
 // CheckoutSessionPaymentIntentDataTransferDataParams is the set of parameters allowed for the
@@ -81,8 +82,9 @@ type CheckoutSessionSetupIntentDataParams struct {
 // CheckoutSessionSubscriptionDataItemsParams is the set of parameters allowed for one item on a
 // checkout session associated with a subscription.
 type CheckoutSessionSubscriptionDataItemsParams struct {
-	Plan     *string `form:"plan"`
-	Quantity *int64  `form:"quantity"`
+	Plan     *string   `form:"plan"`
+	Quantity *int64    `form:"quantity"`
+	TaxRates []*string `form:"tax_rates"`
 }
 
 // CheckoutSessionSubscriptionDataParams is the set of parameters allowed for the subscription
@@ -90,6 +92,7 @@ type CheckoutSessionSubscriptionDataItemsParams struct {
 type CheckoutSessionSubscriptionDataParams struct {
 	Params                `form:"*"`
 	ApplicationFeePercent *float64                                      `form:"application_fee_percent"`
+	DefaultTaxRates       []*string                                     `form:"default_tax_rates"`
 	Items                 []*CheckoutSessionSubscriptionDataItemsParams `form:"items"`
 	TrialEnd              *int64                                        `form:"trial_end"`
 	TrialFromPlan         *bool                                         `form:"trial_from_plan"`
@@ -115,6 +118,15 @@ type CheckoutSessionParams struct {
 	SubscriptionData         *CheckoutSessionSubscriptionDataParams  `form:"subscription_data"`
 	SubmitType               *string                                 `form:"submit_type"`
 	SuccessURL               *string                                 `form:"success_url"`
+}
+
+// CheckoutSessionListParams is the set of parameters that can be
+// used when listing sessions.
+// For more details see: https://stripe.com/docs/api/checkout/sessions/list
+type CheckoutSessionListParams struct {
+	ListParams    `form:"*"`
+	PaymentIntent *string `form:"payment_intent"`
+	Subscription  *string `form:"subscription"`
 }
 
 // CheckoutSessionDisplayItemCustom represents an item of type custom in a checkout session
@@ -156,6 +168,12 @@ type CheckoutSession struct {
 	Subscription       *Subscription                 `json:"subscription"`
 	SubmitType         CheckoutSessionSubmitType     `json:"submit_type"`
 	SuccessURL         string                        `json:"success_url"`
+}
+
+// CheckoutSessionList is a list of sessions as retrieved from a list endpoint.
+type CheckoutSessionList struct {
+	ListMeta
+	Data []*CheckoutSession `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a checkout session.

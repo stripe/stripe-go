@@ -57,3 +57,12 @@ func TestCheckoutSessionNew(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, session)
 }
+
+func TestCheckoutSessionList(t *testing.T) {
+	i := List(&stripe.CheckoutSessionListParams{})
+
+	// Verify that we can get at least one session.
+	assert.True(t, i.Next())
+	assert.Nil(t, i.Err())
+	assert.NotNil(t, i.CheckoutSession())
+}
