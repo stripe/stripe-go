@@ -1,5 +1,8 @@
 # Changelog
 
+## 69.3.0 - 2020-02-24
+* [#1037](https://github.com/stripe/stripe-go/pull/1037) Add new enum values for `IssuingDisputeReason`
+
 ## 69.2.0 - 2020-02-24
 * [#1036](https://github.com/stripe/stripe-go/pull/1036) Add support for listing Checkout `Session` and passing tax rate information
 
