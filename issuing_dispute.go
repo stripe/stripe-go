@@ -7,8 +7,10 @@ type IssuingDisputeReason string
 
 // List of values that IssuingDisputeReason can take.
 const (
-	IssuingDisputeReasonFraudulent IssuingDisputeReason = "fraudulent"
-	IssuingDisputeReasonOther      IssuingDisputeReason = "other"
+	IssuingDisputeReasonDuplicate          IssuingDisputeReason = "duplicate"
+	IssuingDisputeReasonFraudulent         IssuingDisputeReason = "fraudulent"
+	IssuingDisputeReasonOther              IssuingDisputeReason = "other"
+	IssuingDisputeReasonProductNotReceived IssuingDisputeReason = "product_not_received"
 )
 
 // IssuingDisputeStatus is the list of possible values for status on an issuing dispute.
