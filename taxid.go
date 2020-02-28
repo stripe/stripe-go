@@ -20,6 +20,7 @@ const (
 	TaxIDTypeLIUID   TaxIDType = "li_uid"
 	TaxIDTypeMXRFC   TaxIDType = "mx_rfc"
 	TaxIDTypeMYITN   TaxIDType = "my_itn"
+	TaxIDTypeMYSST   TaxIDType = "my_sst"
 	TaxIDTypeNOVAT   TaxIDType = "no_vat"
 	TaxIDTypeNZGST   TaxIDType = "nz_gst"
 	TaxIDTypeRUINN   TaxIDType = "ru_inn"
