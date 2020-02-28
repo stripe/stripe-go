@@ -1,5 +1,8 @@
 # Changelog
 
+## 69.4.0 - 2020-02-28
+* [#1038](https://github.com/stripe/stripe-go/pull/1038) Add `TaxIDTypeMYSST` for `TaxId`
+
 ## 69.3.0 - 2020-02-24
 * [#1037](https://github.com/stripe/stripe-go/pull/1037) Add new enum values for `IssuingDisputeReason`
 
