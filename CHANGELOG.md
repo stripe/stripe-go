@@ -1,5 +1,10 @@
 # Changelog
 
+## 70.0.0 - 2020-03-03
+* [#1039](https://github.com/stripe/stripe-go/pull/1039) Multiple API changes:
+  * Move to latest API version `2020-03-02`
+  * Add support for `NextInvoiceSequence` on `Customer`
+
 ## 69.4.0 - 2020-02-28
 * [#1038](https://github.com/stripe/stripe-go/pull/1038) Add `TaxIDTypeMYSST` for `TaxId`
 
