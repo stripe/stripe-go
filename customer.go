@@ -17,24 +17,25 @@ const (
 // CustomerParams is the set of parameters that can be used when creating or updating a customer.
 // For more details see https://stripe.com/docs/api#create_customer and https://stripe.com/docs/api#update_customer.
 type CustomerParams struct {
-	Params           `form:"*"`
-	Address          *AddressParams                 `form:"address"`
-	Balance          *int64                         `form:"balance"`
-	Coupon           *string                        `form:"coupon"`
-	DefaultSource    *string                        `form:"default_source"`
-	Description      *string                        `form:"description"`
-	Email            *string                        `form:"email"`
-	InvoicePrefix    *string                        `form:"invoice_prefix"`
-	InvoiceSettings  *CustomerInvoiceSettingsParams `form:"invoice_settings"`
-	Name             *string                        `form:"name"`
-	PaymentMethod    *string                        `form:"payment_method"`
-	Phone            *string                        `form:"phone"`
-	PreferredLocales []*string                      `form:"preferred_locales"`
-	Shipping         *CustomerShippingDetailsParams `form:"shipping"`
-	Source           *SourceParams                  `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-	TaxExempt        *string                        `form:"tax_exempt"`
-	TaxIDData        []*CustomerTaxIDDataParams     `form:"tax_id_data"`
-	Token            *string                        `form:"-"` // This doesn't seem to be used?
+	Params              `form:"*"`
+	Address             *AddressParams                 `form:"address"`
+	Balance             *int64                         `form:"balance"`
+	Coupon              *string                        `form:"coupon"`
+	DefaultSource       *string                        `form:"default_source"`
+	Description         *string                        `form:"description"`
+	Email               *string                        `form:"email"`
+	InvoicePrefix       *string                        `form:"invoice_prefix"`
+	InvoiceSettings     *CustomerInvoiceSettingsParams `form:"invoice_settings"`
+	Name                *string                        `form:"name"`
+	NextInvoiceSequence *int64                         `form:"next_invoice_sequence"`
+	PaymentMethod       *string                        `form:"payment_method"`
+	Phone               *string                        `form:"phone"`
+	PreferredLocales    []*string                      `form:"preferred_locales"`
+	Shipping            *CustomerShippingDetailsParams `form:"shipping"`
+	Source              *SourceParams                  `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	TaxExempt           *string                        `form:"tax_exempt"`
+	TaxIDData           []*CustomerTaxIDDataParams     `form:"tax_id_data"`
+	Token               *string                        `form:"-"` // This doesn't seem to be used?
 
 	// The parameters below are considered deprecated. Consider creating a Subscription separately instead.
 	Plan       *string  `form:"plan"`
@@ -91,29 +92,30 @@ type CustomerListParams struct {
 // Customer is the resource representing a Stripe customer.
 // For more details see https://stripe.com/docs/api#customers.
 type Customer struct {
-	Address          Address                  `json:"address"`
-	Balance          int64                    `json:"balance"`
-	Created          int64                    `json:"created"`
-	Currency         Currency                 `json:"currency"`
-	DefaultSource    *PaymentSource           `json:"default_source"`
-	Deleted          bool                     `json:"deleted"`
-	Delinquent       bool                     `json:"delinquent"`
-	Description      string                   `json:"description"`
-	Discount         *Discount                `json:"discount"`
-	Email            string                   `json:"email"`
-	ID               string                   `json:"id"`
-	InvoicePrefix    string                   `json:"invoice_prefix"`
-	InvoiceSettings  *CustomerInvoiceSettings `json:"invoice_settings"`
-	Livemode         bool                     `json:"livemode"`
-	Metadata         map[string]string        `json:"metadata"`
-	Name             string                   `json:"name"`
-	Phone            string                   `json:"phone"`
-	PreferredLocales []string                 `json:"preferred_locales"`
-	Shipping         *CustomerShippingDetails `json:"shipping"`
-	Sources          *SourceList              `json:"sources"`
-	Subscriptions    *SubscriptionList        `json:"subscriptions"`
-	TaxExempt        CustomerTaxExempt        `json:"tax_exempt"`
-	TaxIDs           *TaxIDList               `json:"tax_ids"`
+	Address             Address                  `json:"address"`
+	Balance             int64                    `json:"balance"`
+	Created             int64                    `json:"created"`
+	Currency            Currency                 `json:"currency"`
+	DefaultSource       *PaymentSource           `json:"default_source"`
+	Deleted             bool                     `json:"deleted"`
+	Delinquent          bool                     `json:"delinquent"`
+	Description         string                   `json:"description"`
+	Discount            *Discount                `json:"discount"`
+	Email               string                   `json:"email"`
+	ID                  string                   `json:"id"`
+	InvoicePrefix       string                   `json:"invoice_prefix"`
+	InvoiceSettings     *CustomerInvoiceSettings `json:"invoice_settings"`
+	Livemode            bool                     `json:"livemode"`
+	Metadata            map[string]string        `json:"metadata"`
+	Name                string                   `json:"name"`
+	NextInvoiceSequence int64                    `json:"next_invoice_sequence"`
+	Phone               string                   `json:"phone"`
+	PreferredLocales    []string                 `json:"preferred_locales"`
+	Shipping            *CustomerShippingDetails `json:"shipping"`
+	Sources             *SourceList              `json:"sources"`
+	Subscriptions       *SubscriptionList        `json:"subscriptions"`
+	TaxExempt           CustomerTaxExempt        `json:"tax_exempt"`
+	TaxIDs              *TaxIDList               `json:"tax_ids"`
 }
 
 // CustomerInvoiceCustomField represents a custom field associated with the customer's invoices.
