@@ -45,13 +45,22 @@ type IssuingAuthorizationRequestHistoryReason string
 
 // List of values that IssuingAuthorizationRequestHistoryReason can take.
 const (
-	IssuingAuthorizationRequestHistoryReasonAuthorizationControls IssuingAuthorizationRequestHistoryReason = "authorization_controls"
-	IssuingAuthorizationRequestHistoryReasonCardActive            IssuingAuthorizationRequestHistoryReason = "card_active"
-	IssuingAuthorizationRequestHistoryReasonCardInactive          IssuingAuthorizationRequestHistoryReason = "card_inactive"
-	IssuingAuthorizationRequestHistoryReasonInsufficientFunds     IssuingAuthorizationRequestHistoryReason = "insufficient_funds"
-	IssuingAuthorizationRequestHistoryReasonWebhookApproved       IssuingAuthorizationRequestHistoryReason = "webhook_approved"
-	IssuingAuthorizationRequestHistoryReasonWebhookDeclined       IssuingAuthorizationRequestHistoryReason = "webhook_declined"
-	IssuingAuthorizationRequestHistoryReasonWebhookTimeout        IssuingAuthorizationRequestHistoryReason = "webhook_timeout"
+	IssuingAuthorizationRequestHistoryReasonAccountComplianceDisabled      IssuingAuthorizationRequestHistoryReason = "account_compliance_disabled"
+	IssuingAuthorizationRequestHistoryReasonAccountInactive                IssuingAuthorizationRequestHistoryReason = "account_inactive"
+	IssuingAuthorizationRequestHistoryReasonAuthenticationFailed           IssuingAuthorizationRequestHistoryReason = "authentication_failed"
+	IssuingAuthorizationRequestHistoryReasonAuthorizationControls          IssuingAuthorizationRequestHistoryReason = "authorization_controls"
+	IssuingAuthorizationRequestHistoryReasonCardActive                     IssuingAuthorizationRequestHistoryReason = "card_active"
+	IssuingAuthorizationRequestHistoryReasonCardInactive                   IssuingAuthorizationRequestHistoryReason = "card_inactive"
+	IssuingAuthorizationRequestHistoryReasonCardholderInactive             IssuingAuthorizationRequestHistoryReason = "cardholder_inactive"
+	IssuingAuthorizationRequestHistoryReasonCardholderVerificationRequired IssuingAuthorizationRequestHistoryReason = "cardholder_verification_required"
+	IssuingAuthorizationRequestHistoryReasonIncorrectCVC                   IssuingAuthorizationRequestHistoryReason = "incorrect_cvc"
+	IssuingAuthorizationRequestHistoryReasonIncorrectExpiry                IssuingAuthorizationRequestHistoryReason = "incorrect_expiry"
+	IssuingAuthorizationRequestHistoryReasonInsufficientFunds              IssuingAuthorizationRequestHistoryReason = "insufficient_funds"
+	IssuingAuthorizationRequestHistoryReasonNotAllowed                     IssuingAuthorizationRequestHistoryReason = "not_allowed"
+	IssuingAuthorizationRequestHistoryReasonSuspectedFraud                 IssuingAuthorizationRequestHistoryReason = "suspected_fraud"
+	IssuingAuthorizationRequestHistoryReasonWebhookApproved                IssuingAuthorizationRequestHistoryReason = "webhook_approved"
+	IssuingAuthorizationRequestHistoryReasonWebhookDeclined                IssuingAuthorizationRequestHistoryReason = "webhook_declined"
+	IssuingAuthorizationRequestHistoryReasonWebhookTimeout                 IssuingAuthorizationRequestHistoryReason = "webhook_timeout"
 )
 
 // IssuingAuthorizationStatus is the possible values for status for an issuing authorization.
@@ -147,6 +156,7 @@ type IssuingAuthorizationVerificationData struct {
 	AddressZipCheck   IssuingAuthorizationVerificationDataCheck          `json:"address_zip_check"`
 	Authentication    IssuingAuthorizationVerificationDataAuthentication `json:"authentication"`
 	CVCCheck          IssuingAuthorizationVerificationDataCheck          `json:"cvc_check"`
+	ExpiryCheck       IssuingAuthorizationVerificationDataCheck          `json:"expiry_check"`
 }
 
 // IssuingAuthorization is the resource representing a Stripe issuing authorization.
