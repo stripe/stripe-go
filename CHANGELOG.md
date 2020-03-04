@@ -1,5 +1,8 @@
 # Changelog
 
+## 70.2.0 - 2020-03-04
+* [#1041](https://github.com/stripe/stripe-go/pull/1041) Add new reason values and `ExpiryCheck` for Issuing `authorization
+
 ## 70.1.0 - 2020-03-04
 * [#1040](https://github.com/stripe/stripe-go/pull/1040) Add support for `Errors` in `Requirements` on `Account`, `Capability` and `Person`
 
