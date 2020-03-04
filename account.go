@@ -381,11 +381,19 @@ type AccountPayoutSchedule struct {
 	WeeklyAnchor  string         `json:"weekly_anchor"`
 }
 
+// AccountRequirementsError represents details about an error with a requirement.
+type AccountRequirementsError struct {
+	Code        string `json:"code"`
+	Reason      string `json:"reason"`
+	Requirement string `json:"requirement"`
+}
+
 // AccountRequirements represents information that needs to be collected for an account.
 type AccountRequirements struct {
 	CurrentDeadline     int64                             `json:"current_deadline"`
 	CurrentlyDue        []string                          `json:"currently_due"`
 	DisabledReason      AccountRequirementsDisabledReason `json:"disabled_reason"`
+	Errors              []*AccountRequirementsError       `json:"errors"`
 	EventuallyDue       []string                          `json:"eventually_due"`
 	PastDue             []string                          `json:"past_due"`
 	PendingVerification []string                          `json:"pending_verification"`

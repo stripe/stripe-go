@@ -137,10 +137,11 @@ type Relationship struct {
 
 // Requirements represents what's missing to verify a Person.
 type Requirements struct {
-	CurrentlyDue        []string `json:"currently_due"`
-	EventuallyDue       []string `json:"eventually_due"`
-	PastDue             []string `json:"past_due"`
-	PendingVerification []string `json:"pending_verification"`
+	CurrentlyDue        []string                    `json:"currently_due"`
+	Errors              []*AccountRequirementsError `json:"errors"`
+	EventuallyDue       []string                    `json:"eventually_due"`
+	PastDue             []string                    `json:"past_due"`
+	PendingVerification []string                    `json:"pending_verification"`
 }
 
 // PersonVerificationDocument represents the documents associated with a Person.
