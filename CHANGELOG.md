@@ -1,5 +1,8 @@
 # Changelog
 
+## 70.1.0 - 2020-03-04
+* [#1040](https://github.com/stripe/stripe-go/pull/1040) Add support for `Errors` in `Requirements` on `Account`, `Capability` and `Person`
+
 ## 70.0.0 - 2020-03-03
 * [#1039](https://github.com/stripe/stripe-go/pull/1039) Multiple API changes:
   * Move to latest API version `2020-03-02`
