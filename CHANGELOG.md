@@ -1,5 +1,8 @@
 # Changelog
 
+## 70.4.0 - 2020-03-12
+* [#1043](https://github.com/stripe/stripe-go/pull/1043) Add support for `Shipping` and `ShippingAddressCollection` on Checkout `Session`
+
 ## 70.3.0 - 2020-03-12
 * [#1042](https://github.com/stripe/stripe-go/pull/1042) Add support for `ThreeDSecure` on Issuing `Authorization`
 
