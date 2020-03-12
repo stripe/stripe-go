@@ -96,6 +96,16 @@ const (
 	IssuingAuthorizationVerificationDataCheckNotProvided IssuingAuthorizationVerificationDataCheck = "not_provided"
 )
 
+// IssuingAuthorizationVerificationDataThreeDSecureResult is the list of possible values for result of 3DS.
+type IssuingAuthorizationVerificationDataThreeDSecureResult string
+
+// List of values that IssuingAuthorizationVerificationDataThreeDSecureResult can take.
+const (
+	IssuingAuthorizationVerificationDataThreeDSecureResultAttemptAcknowledged IssuingAuthorizationVerificationDataThreeDSecureResult = "attempt_acknowledged"
+	IssuingAuthorizationVerificationDataThreeDSecureResultAuthenticated       IssuingAuthorizationVerificationDataThreeDSecureResult = "authenticated"
+	IssuingAuthorizationVerificationDataThreeDSecureResultFailed              IssuingAuthorizationVerificationDataThreeDSecureResult = "failed"
+)
+
 // IssuingAuthorizationWalletProviderType is the list of possible values for the authorization's wallet provider.
 type IssuingAuthorizationWalletProviderType string
 
@@ -150,13 +160,22 @@ type IssuingAuthorizationRequestHistory struct {
 	ViolatedAuthorizationControls []*IssuingAuthorizationRequestHistoryViolatedAuthorizationControl `json:"violated_authorization_controls"`
 }
 
+// IssuingAuthorizationVerificationDataThreeDSecure is the resource representing 3DS results.
+type IssuingAuthorizationVerificationDataThreeDSecure struct {
+	Result IssuingAuthorizationVerificationDataThreeDSecureResult `json:"result"`
+}
+
 // IssuingAuthorizationVerificationData is the resource representing verification data on an issuing authorization.
 type IssuingAuthorizationVerificationData struct {
-	AddressLine1Check IssuingAuthorizationVerificationDataCheck          `json:"address_line1_check"`
-	AddressZipCheck   IssuingAuthorizationVerificationDataCheck          `json:"address_zip_check"`
-	Authentication    IssuingAuthorizationVerificationDataAuthentication `json:"authentication"`
-	CVCCheck          IssuingAuthorizationVerificationDataCheck          `json:"cvc_check"`
-	ExpiryCheck       IssuingAuthorizationVerificationDataCheck          `json:"expiry_check"`
+	AddressLine1Check IssuingAuthorizationVerificationDataCheck         `json:"address_line1_check"`
+	AddressZipCheck   IssuingAuthorizationVerificationDataCheck         `json:"address_zip_check"`
+	CVCCheck          IssuingAuthorizationVerificationDataCheck         `json:"cvc_check"`
+	ExpiryCheck       IssuingAuthorizationVerificationDataCheck         `json:"expiry_check"`
+	ThreeDSecure      *IssuingAuthorizationVerificationDataThreeDSecure `json:"three_d_secure"`
+
+	// This property is considered deprecated. Use ThreeDSecure instead.
+	// TODO remove in the next major version
+	Authentication IssuingAuthorizationVerificationDataAuthentication `json:"authentication"`
 }
 
 // IssuingAuthorization is the resource representing a Stripe issuing authorization.
