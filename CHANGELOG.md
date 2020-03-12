@@ -1,5 +1,8 @@
 # Changelog
 
+## 70.3.0 - 2020-03-12
+* [#1042](https://github.com/stripe/stripe-go/pull/1042) Add support for `ThreeDSecure` on Issuing `Authorization`
+
 ## 70.2.0 - 2020-03-04
 * [#1041](https://github.com/stripe/stripe-go/pull/1041) Add new reason values and `ExpiryCheck` for Issuing `authorization
 
