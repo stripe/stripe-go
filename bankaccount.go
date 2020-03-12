@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/channelmeter/stripe-go/form"
 )
 
 // BankAccountStatus is the list of allowed values for the bank account's status.

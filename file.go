@@ -8,7 +8,7 @@ import (
 	"net/url"
 	"path/filepath"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/channelmeter/stripe-go/form"
 )
 
 // FilePurpose is the purpose of a particular file.

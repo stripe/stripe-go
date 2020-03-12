@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	stripe "github.com/channelmeter/stripe-go"
-	"github.com/stripe/stripe-go/form"
+	"github.com/channelmeter/stripe-go/form"
 )
 
 // Client is used to invoke APIs related to accounts.

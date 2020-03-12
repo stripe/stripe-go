@@ -18,8 +18,8 @@ Then, import it using:
 
 ``` go
 import (
-    "github.com/stripe/stripe-go"
-    "github.com/stripe/stripe-go/customer"
+    "github.com/channelmeter/stripe-go"
+    "github.com/channelmeter/stripe-go/customer"
 )
 ```
 
@@ -48,8 +48,8 @@ And use the same style of import paths as above:
 
 ``` go
 import (
-    "github.com/stripe/stripe-go"
-    "github.com/stripe/stripe-go/customer"
+    "github.com/channelmeter/stripe-go"
+    "github.com/channelmeter/stripe-go/customer"
 )
 ```
 
@@ -138,8 +138,8 @@ To use a key, pass it to `API`'s `Init` function:
 ```go
 
 import (
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/client"
+	"github.com/channelmeter/stripe-go"
+	"github.com/channelmeter/stripe-go/client"
 )
 
 stripe := &client.API{}
@@ -160,8 +160,8 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/urlfetch"
 
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/client"
+	"github.com/channelmeter/stripe-go"
+	"github.com/channelmeter/stripe-go/client"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -197,8 +197,8 @@ client.
 
 ```go
 import (
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/$resource$"
+	"github.com/channelmeter/stripe-go"
+	"github.com/channelmeter/stripe-go/$resource$"
 )
 
 // Setup
@@ -237,8 +237,8 @@ individual key.
 
 ```go
 import (
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/client"
+	"github.com/channelmeter/stripe-go"
+	"github.com/channelmeter/stripe-go/client"
 )
 
 // Setup
@@ -275,8 +275,8 @@ problem by configuring the maximum number of retries:
 
 ```go
 import (
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/client"
+	"github.com/channelmeter/stripe-go"
+	"github.com/channelmeter/stripe-go/client"
 )
 
 config := &stripe.BackendConfig{

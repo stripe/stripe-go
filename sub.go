@@ -3,7 +3,7 @@ package stripe
 import (
 	"encoding/json"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/channelmeter/stripe-go/form"
 )
 
 // SubscriptionStatus is the list of allowed values for the subscription's status.

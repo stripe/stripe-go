@@ -3,7 +3,7 @@ package stripe
 import (
 	"reflect"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/channelmeter/stripe-go/form"
 )
 
 //

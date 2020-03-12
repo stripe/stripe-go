@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/channelmeter/stripe-go/form"
 )
 
 // PlanInterval is the list of allowed values for a plan's interval.

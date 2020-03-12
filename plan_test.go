@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/form"
+	"github.com/channelmeter/stripe-go/form"
 )
 
 func TestPlan_Unmarshal(t *testing.T) {

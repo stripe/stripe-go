@@ -6,7 +6,7 @@ package accountlink
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/channelmeter/stripe-go"
 )
 
 // Client is used to invoke APIs related to account links.

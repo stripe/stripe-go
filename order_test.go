@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	"github.com/stripe/stripe-go/form"
+	"github.com/channelmeter/stripe-go/form"
 )
 
 func TestOrder_UnmarshalJSON(t *testing.T) {

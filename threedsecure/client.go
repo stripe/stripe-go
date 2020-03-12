@@ -7,7 +7,7 @@ package threedsecure
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/channelmeter/stripe-go"
 )
 
 // Client is used to invoke /3d_secure APIs.

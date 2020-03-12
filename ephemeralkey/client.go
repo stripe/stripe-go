@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/channelmeter/stripe-go"
 )
 
 // Client is used to invoke /ephemeral_keys APIs.

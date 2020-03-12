@@ -4,7 +4,7 @@ package token
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/channelmeter/stripe-go"
 )
 
 // Client is used to invoke /tokens APIs.

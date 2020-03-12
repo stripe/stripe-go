@@ -228,7 +228,7 @@ func getClientAPIPackages(fset *token.FileSet) (map[string]struct{}, error) {
 
 		// Trim the fully qualified prefix off the front of the path to make
 		// translation easier for us after.
-		path = strings.TrimPrefix(path, "github.com/stripe/stripe-go/")
+		path = strings.TrimPrefix(path, "github.com/channelmeter/stripe-go/")
 
 		// A non-nil `Name` is an alias. Save the alias to our map with the
 		// relative package path.

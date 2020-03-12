@@ -8,8 +8,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go"
-	_ "github.com/stripe/stripe-go/testing"
+	stripe "github.com/channelmeter/stripe-go"
+	_ "github.com/channelmeter/stripe-go/testing"
 )
 
 func TestOrderGet(t *testing.T) {
