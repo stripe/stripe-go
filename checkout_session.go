@@ -79,6 +79,12 @@ type CheckoutSessionSetupIntentDataParams struct {
 	OnBehalfOf  *string `form:"on_behalf_of"`
 }
 
+// CheckoutSessionShippingAddressCollectionParams is the set of parameters allowed for the
+// shipping address collection.
+type CheckoutSessionShippingAddressCollectionParams struct {
+	AllowedCountries []*string `form:"allowed_countries"`
+}
+
 // CheckoutSessionSubscriptionDataItemsParams is the set of parameters allowed for one item on a
 // checkout session associated with a subscription.
 type CheckoutSessionSubscriptionDataItemsParams struct {
@@ -103,21 +109,22 @@ type CheckoutSessionSubscriptionDataParams struct {
 // a checkout session.
 // For more details see https://stripe.com/docs/api/checkout/sessions/create
 type CheckoutSessionParams struct {
-	Params                   `form:"*"`
-	BillingAddressCollection *string                                 `form:"billing_address_collection"`
-	CancelURL                *string                                 `form:"cancel_url"`
-	ClientReferenceID        *string                                 `form:"client_reference_id"`
-	Customer                 *string                                 `form:"customer"`
-	CustomerEmail            *string                                 `form:"customer_email"`
-	LineItems                []*CheckoutSessionLineItemParams        `form:"line_items"`
-	Locale                   *string                                 `form:"locale"`
-	Mode                     *string                                 `form:"mode"`
-	PaymentIntentData        *CheckoutSessionPaymentIntentDataParams `form:"payment_intent_data"`
-	PaymentMethodTypes       []*string                               `form:"payment_method_types"`
-	SetupIntentData          *CheckoutSessionSetupIntentDataParams   `form:"setup_intent_data"`
-	SubscriptionData         *CheckoutSessionSubscriptionDataParams  `form:"subscription_data"`
-	SubmitType               *string                                 `form:"submit_type"`
-	SuccessURL               *string                                 `form:"success_url"`
+	Params                    `form:"*"`
+	BillingAddressCollection  *string                                         `form:"billing_address_collection"`
+	CancelURL                 *string                                         `form:"cancel_url"`
+	ClientReferenceID         *string                                         `form:"client_reference_id"`
+	Customer                  *string                                         `form:"customer"`
+	CustomerEmail             *string                                         `form:"customer_email"`
+	LineItems                 []*CheckoutSessionLineItemParams                `form:"line_items"`
+	Locale                    *string                                         `form:"locale"`
+	Mode                      *string                                         `form:"mode"`
+	PaymentIntentData         *CheckoutSessionPaymentIntentDataParams         `form:"payment_intent_data"`
+	PaymentMethodTypes        []*string                                       `form:"payment_method_types"`
+	SetupIntentData           *CheckoutSessionSetupIntentDataParams           `form:"setup_intent_data"`
+	ShippingAddressCollection *CheckoutSessionShippingAddressCollectionParams `form:"shipping_address_collection"`
+	SubscriptionData          *CheckoutSessionSubscriptionDataParams          `form:"subscription_data"`
+	SubmitType                *string                                         `form:"submit_type"`
+	SuccessURL                *string                                         `form:"success_url"`
 }
 
 // CheckoutSessionListParams is the set of parameters that can be
@@ -147,27 +154,35 @@ type CheckoutSessionDisplayItem struct {
 	Type     CheckoutSessionDisplayItemType    `json:"type"`
 }
 
+// CheckoutSessionShippingAddressCollection is the set of parameters allowed for the
+// shipping address collection.
+type CheckoutSessionShippingAddressCollection struct {
+	AllowedCountries []string `json:"allowed_countries"`
+}
+
 // CheckoutSession is the resource representing a Stripe checkout session.
 // For more details see https://stripe.com/docs/api/checkout/sessions/object
 type CheckoutSession struct {
-	CancelURL          string                        `json:"cancel_url"`
-	ClientReferenceID  string                        `json:"client_reference_id"`
-	Customer           *Customer                     `json:"customer"`
-	CustomerEmail      string                        `json:"customer_email"`
-	Deleted            bool                          `json:"deleted"`
-	DisplayItems       []*CheckoutSessionDisplayItem `json:"display_items"`
-	ID                 string                        `json:"id"`
-	Livemode           bool                          `json:"livemode"`
-	Locale             string                        `json:"locale"`
-	Metadata           map[string]string             `json:"metadata"`
-	Mode               CheckoutSessionMode           `json:"mode"`
-	Object             string                        `json:"object"`
-	PaymentIntent      *PaymentIntent                `json:"payment_intent"`
-	PaymentMethodTypes []string                      `json:"payment_method_types"`
-	SetupIntent        *SetupIntent                  `json:"setup_intent"`
-	Subscription       *Subscription                 `json:"subscription"`
-	SubmitType         CheckoutSessionSubmitType     `json:"submit_type"`
-	SuccessURL         string                        `json:"success_url"`
+	CancelURL                 string                                    `json:"cancel_url"`
+	ClientReferenceID         string                                    `json:"client_reference_id"`
+	Customer                  *Customer                                 `json:"customer"`
+	CustomerEmail             string                                    `json:"customer_email"`
+	Deleted                   bool                                      `json:"deleted"`
+	DisplayItems              []*CheckoutSessionDisplayItem             `json:"display_items"`
+	ID                        string                                    `json:"id"`
+	Livemode                  bool                                      `json:"livemode"`
+	Locale                    string                                    `json:"locale"`
+	Metadata                  map[string]string                         `json:"metadata"`
+	Mode                      CheckoutSessionMode                       `json:"mode"`
+	Object                    string                                    `json:"object"`
+	PaymentIntent             *PaymentIntent                            `json:"payment_intent"`
+	PaymentMethodTypes        []string                                  `json:"payment_method_types"`
+	SetupIntent               *SetupIntent                              `json:"setup_intent"`
+	Shipping                  *ShippingDetails                          `json:"shipping"`
+	ShippingAddressCollection *CheckoutSessionShippingAddressCollection `json:"shipping_address_collection"`
+	Subscription              *Subscription                             `json:"subscription"`
+	SubmitType                CheckoutSessionSubmitType                 `json:"submit_type"`
+	SuccessURL                string                                    `json:"success_url"`
 }
 
 // CheckoutSessionList is a list of sessions as retrieved from a list endpoint.
