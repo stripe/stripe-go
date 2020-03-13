@@ -1,5 +1,11 @@
 # Changelog
 
+## 70.5.0 - 2020-03-13
+* [#1044](https://github.com/stripe/stripe-go/pull/1044) Multiple changes for Issuing APIs
+  * Rename `Speed` to `Service` on Issuing `Card`
+  * Rename `WalletProvider` to `Wallet` and `AddressZipCheck` to `AddressPostalCodeCheck` on Issuing `Authorization`
+  * Mark `IsDefault` as deprecated on Issuing `Cardholder`
+
 ## 70.4.0 - 2020-03-12
 * [#1043](https://github.com/stripe/stripe-go/pull/1043) Add support for `Shipping` and `ShippingAddressCollection` on Checkout `Session`
 
