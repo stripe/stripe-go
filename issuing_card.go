@@ -36,6 +36,16 @@ const (
 	IssuingCardShippingTypeShipped   IssuingCardShippingStatus = "shipped"
 )
 
+// IssuingCardShippingService is the shipment service for a card.
+type IssuingCardShippingService string
+
+// List of values that IssuingCardShippingService can take.
+const (
+	IssuingCardShippingServiceExpress   IssuingCardShippingService = "express"
+	IssuingCardShippingServiceOvernight IssuingCardShippingService = "overnight"
+	IssuingCardShippingServiceStandard  IssuingCardShippingService = "standard"
+)
+
 // IssuingCardShippingSpeed is the shipment speed for a card.
 type IssuingCardShippingSpeed string
 
@@ -117,8 +127,12 @@ type AuthorizationControlsParams struct {
 type IssuingCardShippingParams struct {
 	Address *AddressParams `form:"address"`
 	Name    string         `form:"name"`
-	Speed   *string        `form:"speed"`
+	Service *string        `form:"service"`
 	Type    *string        `form:"type"`
+
+	// This parameter is considered deprecated. Use Service instead.
+	// TODO remove in the next major version
+	Speed *string `form:"speed"`
 }
 
 // IssuingCardParams is the set of parameters that can be used when creating or updating an issuing card.
@@ -191,16 +205,20 @@ type IssuingCardPIN struct {
 
 // IssuingCardShipping is the resource representing shipping on an issuing card.
 type IssuingCardShipping struct {
-	Address        *Address                  `json:"address"`
-	Carrier        string                    `json:"carrier"`
-	ETA            int64                     `json:"eta"`
-	Name           string                    `json:"name"`
-	Phone          string                    `json:"phone"`
-	Status         IssuingCardShippingStatus `json:"status"`
-	Speed          IssuingCardShippingSpeed  `json:"speed"`
-	TrackingNumber string                    `json:"tracking_number"`
-	TrackingURL    string                    `json:"tracking_url"`
-	Type           IssuingCardShippingType   `json:"type"`
+	Address        *Address                   `json:"address"`
+	Carrier        string                     `json:"carrier"`
+	ETA            int64                      `json:"eta"`
+	Name           string                     `json:"name"`
+	Phone          string                     `json:"phone"`
+	Service        IssuingCardShippingService `json:"service"`
+	Status         IssuingCardShippingStatus  `json:"status"`
+	TrackingNumber string                     `json:"tracking_number"`
+	TrackingURL    string                     `json:"tracking_url"`
+	Type           IssuingCardShippingType    `json:"type"`
+
+	// The property is considered deprecated. Use AddressPostalCodeCheck instead.
+	// TODO remove in the next major version
+	Speed IssuingCardShippingSpeed `json:"speed"`
 }
 
 // IssuingCard is the resource representing a Stripe issuing card.

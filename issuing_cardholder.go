@@ -82,11 +82,14 @@ type IssuingCardholderParams struct {
 	Company               *IssuingCardholderCompanyParams    `form:"company"`
 	Email                 *string                            `form:"email"`
 	Individual            *IssuingCardholderIndividualParams `form:"individual"`
-	IsDefault             *bool                              `form:"is_default"`
 	Name                  *string                            `form:"name"`
 	PhoneNumber           *string                            `form:"phone_number"`
 	Status                *string                            `form:"status"`
 	Type                  *string                            `form:"type"`
+
+	// This parameter is considered deprecated.
+	// TODO remove in the next major version
+	IsDefault *bool `form:"is_default"`
 }
 
 // IssuingCardholderListParams is the set of parameters that can be used when listing issuing cardholders.
@@ -95,10 +98,13 @@ type IssuingCardholderListParams struct {
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 	Email        *string           `form:"email"`
-	IsDefault    *bool             `form:"is_default"`
 	PhoneNumber  *string           `form:"phone_number"`
 	Status       *string           `form:"status"`
 	Type         *string           `form:"type"`
+
+	// The property is considered deprecated.
+	// TODO remove in the next major version
+	IsDefault *bool `form:"is_default"`
 }
 
 // IssuingBilling is the resource representing the billing hash with the Issuing APIs.

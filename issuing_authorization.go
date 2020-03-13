@@ -106,7 +106,18 @@ const (
 	IssuingAuthorizationVerificationDataThreeDSecureResultFailed              IssuingAuthorizationVerificationDataThreeDSecureResult = "failed"
 )
 
+// IssuingAuthorizationWalletType is the list of possible values for the authorization's wallet provider.
+type IssuingAuthorizationWalletType string
+
+// List of values that IssuingAuthorizationWalletType can take.
+const (
+	IssuingAuthorizationWalletTypeApplePay   IssuingAuthorizationWalletType = "apple_pay"
+	IssuingAuthorizationWalletTypeGooglePay  IssuingAuthorizationWalletType = "google_pay"
+	IssuingAuthorizationWalletTypeSamsungPay IssuingAuthorizationWalletType = "samsung_pay"
+)
+
 // IssuingAuthorizationWalletProviderType is the list of possible values for the authorization's wallet provider.
+// TODO remove in the next major version
 type IssuingAuthorizationWalletProviderType string
 
 // List of values that IssuingAuthorizationWalletProviderType can take.
@@ -167,13 +178,17 @@ type IssuingAuthorizationVerificationDataThreeDSecure struct {
 
 // IssuingAuthorizationVerificationData is the resource representing verification data on an issuing authorization.
 type IssuingAuthorizationVerificationData struct {
-	AddressLine1Check IssuingAuthorizationVerificationDataCheck         `json:"address_line1_check"`
-	AddressZipCheck   IssuingAuthorizationVerificationDataCheck         `json:"address_zip_check"`
-	CVCCheck          IssuingAuthorizationVerificationDataCheck         `json:"cvc_check"`
-	ExpiryCheck       IssuingAuthorizationVerificationDataCheck         `json:"expiry_check"`
-	ThreeDSecure      *IssuingAuthorizationVerificationDataThreeDSecure `json:"three_d_secure"`
+	AddressLine1Check      IssuingAuthorizationVerificationDataCheck         `json:"address_line1_check"`
+	AddressPostalCodeCheck IssuingAuthorizationVerificationDataCheck         `json:"address_postal_code_check"`
+	CVCCheck               IssuingAuthorizationVerificationDataCheck         `json:"cvc_check"`
+	ExpiryCheck            IssuingAuthorizationVerificationDataCheck         `json:"expiry_check"`
+	ThreeDSecure           *IssuingAuthorizationVerificationDataThreeDSecure `json:"three_d_secure"`
 
-	// This property is considered deprecated. Use ThreeDSecure instead.
+	// The property is considered deprecated. Use AddressPostalCodeCheck instead.
+	// TODO remove in the next major version
+	AddressZipCheck IssuingAuthorizationVerificationDataCheck `json:"address_zip_check"`
+
+	// The property is considered deprecated. Use ThreeDSecure instead.
 	// TODO remove in the next major version
 	Authentication IssuingAuthorizationVerificationDataAuthentication `json:"authentication"`
 }
@@ -202,7 +217,11 @@ type IssuingAuthorization struct {
 	Status                   IssuingAuthorizationStatus              `json:"status"`
 	Transactions             []*IssuingTransaction                   `json:"transactions"`
 	VerificationData         *IssuingAuthorizationVerificationData   `json:"verification_data"`
-	WalletProvider           IssuingAuthorizationWalletProviderType  `json:"wallet_provider"`
+	Wallet                   IssuingAuthorizationWalletType          `json:"wallet"`
+
+	// This property is deprecated and we recommend that you use Wallet instead.
+	// TODO: remove in the next major version
+	WalletProvider IssuingAuthorizationWalletProviderType `json:"wallet_provider"`
 }
 
 // IssuingMerchantData is the resource representing merchant data on Issuing APIs.
