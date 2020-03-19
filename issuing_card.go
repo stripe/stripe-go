@@ -237,6 +237,7 @@ type IssuingCard struct {
 	Name                  string                            `json:"name"`
 	Object                string                            `json:"object"`
 	PIN                   *IssuingCardPIN                   `json:"pin"`
+	ReplacedBy            *IssuingCard                      `json:"replaced_by"`
 	ReplacementFor        *IssuingCard                      `json:"replacement_for"`
 	ReplacementReason     IssuingCardReplacementReason      `json:"replacement_reason"`
 	Shipping              *IssuingCardShipping              `json:"shipping"`

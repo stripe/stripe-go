@@ -129,7 +129,11 @@ const (
 
 // IssuingAuthorizationParams is the set of parameters that can be used when updating an issuing authorization.
 type IssuingAuthorizationParams struct {
-	Params     `form:"*"`
+	Params `form:"*"`
+	Amount *int64 `form:"amount"`
+
+	// The following parameter is deprecated, use Amount instead.
+	// TODO: remove in a future major version
 	HeldAmount *int64 `form:"held_amount"`
 }
 
@@ -152,6 +156,15 @@ type IssuingAuthorizationAuthorizationControls struct {
 	MaxApprovals      int64    `json:"max_approvals"`
 }
 
+// IssuingAuthorizationPendingRequest is the resource representing details about the pending authorization request.
+type IssuingAuthorizationPendingRequest struct {
+	Amount               int64    `json:"amount"`
+	Currency             Currency `json:"currency"`
+	IsAmountControllable bool     `json:"is_amount_controllable"`
+	MerchantAmount       int64    `json:"merchant_amount"`
+	MerchantCurrency     Currency `json:"merchant_currency"`
+}
+
 // IssuingAuthorizationRequestHistoryViolatedAuthorizationControl is the resource representing an
 // authorizaton control that caused the authorization to fail.
 type IssuingAuthorizationRequestHistoryViolatedAuthorizationControl struct {
@@ -161,14 +174,21 @@ type IssuingAuthorizationRequestHistoryViolatedAuthorizationControl struct {
 
 // IssuingAuthorizationRequestHistory is the resource representing a request history on an issuing authorization.
 type IssuingAuthorizationRequestHistory struct {
+	Amount                        int64                                                             `json:"amount"`
 	Approved                      bool                                                              `json:"approved"`
-	AuthorizedAmount              int64                                                             `json:"authorized_amount"`
-	AuthorizedCurrency            Currency                                                          `json:"authorized_currency"`
 	Created                       int64                                                             `json:"created"`
-	HeldAmount                    int64                                                             `json:"held_amount"`
-	HeldCurrency                  Currency                                                          `json:"held_currency"`
+	Currency                      Currency                                                          `json:"currency"`
+	MerchantAmount                int64                                                             `json:"merchant_amount"`
+	MerchantCurrency              Currency                                                          `json:"merchant_currency"`
 	Reason                        IssuingAuthorizationRequestHistoryReason                          `json:"reason"`
 	ViolatedAuthorizationControls []*IssuingAuthorizationRequestHistoryViolatedAuthorizationControl `json:"violated_authorization_controls"`
+
+	// The following properties are deprecated
+	// TODO: remove in the next major version
+	AuthorizedAmount   int64    `json:"authorized_amount"`
+	AuthorizedCurrency Currency `json:"authorized_currency"`
+	HeldAmount         int64    `json:"held_amount"`
+	HeldCurrency       Currency `json:"held_currency"`
 }
 
 // IssuingAuthorizationVerificationDataThreeDSecure is the resource representing 3DS results.
@@ -195,33 +215,41 @@ type IssuingAuthorizationVerificationData struct {
 
 // IssuingAuthorization is the resource representing a Stripe issuing authorization.
 type IssuingAuthorization struct {
-	Approved                 bool                                    `json:"approved"`
-	AuthorizationMethod      IssuingAuthorizationAuthorizationMethod `json:"authorization_method"`
-	AuthorizedAmount         int64                                   `json:"authorized_amount"`
-	AuthorizedCurrency       Currency                                `json:"authorized_currency"`
-	BalanceTransactions      []*BalanceTransaction                   `json:"balance_transactions"`
-	Card                     *IssuingCard                            `json:"card"`
-	Cardholder               *IssuingCardholder                      `json:"cardholder"`
-	Created                  int64                                   `json:"created"`
-	HeldAmount               int64                                   `json:"held_amount"`
-	HeldCurrency             Currency                                `json:"held_currency"`
-	ID                       string                                  `json:"id"`
-	IsHeldAmountControllable bool                                    `json:"is_held_amount_controllable"`
-	Livemode                 bool                                    `json:"livemode"`
-	MerchantData             *IssuingMerchantData                    `json:"merchant_data"`
-	Metadata                 map[string]string                       `json:"metadata"`
-	Object                   string                                  `json:"object"`
-	PendingAuthorizedAmount  int64                                   `json:"pending_authorized_amount"`
-	PendingHeldAmount        int64                                   `json:"pending_held_amount"`
-	RequestHistory           []*IssuingAuthorizationRequestHistory   `json:"request_history"`
-	Status                   IssuingAuthorizationStatus              `json:"status"`
-	Transactions             []*IssuingTransaction                   `json:"transactions"`
-	VerificationData         *IssuingAuthorizationVerificationData   `json:"verification_data"`
-	Wallet                   IssuingAuthorizationWalletType          `json:"wallet"`
+	Amount              int64                                   `json:"amount"`
+	Approved            bool                                    `json:"approved"`
+	AuthorizationMethod IssuingAuthorizationAuthorizationMethod `json:"authorization_method"`
+	BalanceTransactions []*BalanceTransaction                   `json:"balance_transactions"`
+	Card                *IssuingCard                            `json:"card"`
+	Cardholder          *IssuingCardholder                      `json:"cardholder"`
+	Created             int64                                   `json:"created"`
+	Currency            Currency                                `json:"currency"`
+	ID                  string                                  `json:"id"`
+	Livemode            bool                                    `json:"livemode"`
+	MerchantAmount      int64                                   `json:"merchant_amount"`
+	MerchantCurrency    Currency                                `json:"merchant_currency"`
+	MerchantData        *IssuingMerchantData                    `json:"merchant_data"`
+	Metadata            map[string]string                       `json:"metadata"`
+	Object              string                                  `json:"object"`
+	PendingRequest      *IssuingAuthorizationPendingRequest     `json:"pending_request"`
+	RequestHistory      []*IssuingAuthorizationRequestHistory   `json:"request_history"`
+	Status              IssuingAuthorizationStatus              `json:"status"`
+	Transactions        []*IssuingTransaction                   `json:"transactions"`
+	VerificationData    *IssuingAuthorizationVerificationData   `json:"verification_data"`
+	Wallet              IssuingAuthorizationWalletType          `json:"wallet"`
 
 	// This property is deprecated and we recommend that you use Wallet instead.
 	// TODO: remove in the next major version
 	WalletProvider IssuingAuthorizationWalletProviderType `json:"wallet_provider"`
+
+	// The following properties are considered deprecated
+	// TODO: remove in the next major version
+	AuthorizedAmount         int64    `json:"authorized_amount"`
+	AuthorizedCurrency       Currency `json:"authorized_currency"`
+	HeldAmount               int64    `json:"held_amount"`
+	HeldCurrency             Currency `json:"held_currency"`
+	IsHeldAmountControllable bool     `json:"is_held_amount_controllable"`
+	PendingAuthorizedAmount  int64    `json:"pending_authorized_amount"`
+	PendingHeldAmount        int64    `json:"pending_held_amount"`
 }
 
 // IssuingMerchantData is the resource representing merchant data on Issuing APIs.
