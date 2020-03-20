@@ -485,7 +485,7 @@ type Charge struct {
 	OnBehalfOf                *Account                    `json:"on_behalf_of"`
 	Outcome                   *ChargeOutcome              `json:"outcome"`
 	Paid                      bool                        `json:"paid"`
-	PaymentIntent             string                      `json:"payment_intent"`
+	PaymentIntent             *PaymentIntent              `json:"payment_intent"`
 	PaymentMethod             string                      `json:"payment_method"`
 	PaymentMethodDetails      *ChargePaymentMethodDetails `json:"payment_method_details"`
 	ReceiptEmail              string                      `json:"receipt_email"`
