@@ -86,10 +86,6 @@ type SubscriptionScheduleParams struct {
 	Phases            []*SubscriptionSchedulePhaseParams         `form:"phases"`
 	StartDate         *int64                                     `form:"start_date"`
 	StartDateNow      *bool                                      `form:"-"` // See custom AppendTo
-
-	// TODO remove in the next major version
-	// This propery is considered deprecated. Use ProrationBehavior instead
-	Prorate *bool `form:"prorate"`
 }
 
 // AppendTo implements custom encoding logic for SubscriptionScheduleParams so that the special

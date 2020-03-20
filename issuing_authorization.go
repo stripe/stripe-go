@@ -73,18 +73,6 @@ const (
 	IssuingAuthorizationStatusReversed IssuingAuthorizationStatus = "reversed"
 )
 
-// IssuingAuthorizationVerificationDataAuthentication is the list of possible values for the result
-// of an authentication on an issuing authorization.
-type IssuingAuthorizationVerificationDataAuthentication string
-
-// List of values that IssuingAuthorizationVerificationDataCheck can take.
-const (
-	IssuingAuthorizationVerificationDataAuthenticationExempt  IssuingAuthorizationVerificationDataAuthentication = "exempt"
-	IssuingAuthorizationVerificationDataAuthenticationFailure IssuingAuthorizationVerificationDataAuthentication = "failure"
-	IssuingAuthorizationVerificationDataAuthenticationNone    IssuingAuthorizationVerificationDataAuthentication = "none"
-	IssuingAuthorizationVerificationDataAuthenticationSuccess IssuingAuthorizationVerificationDataAuthentication = "success"
-)
-
 // IssuingAuthorizationVerificationDataCheck is the list of possible values for result of a check
 // for verification data on an issuing authorization.
 type IssuingAuthorizationVerificationDataCheck string
@@ -116,25 +104,20 @@ const (
 	IssuingAuthorizationWalletTypeSamsungPay IssuingAuthorizationWalletType = "samsung_pay"
 )
 
-// IssuingAuthorizationWalletProviderType is the list of possible values for the authorization's wallet provider.
-// TODO remove in the next major version
-type IssuingAuthorizationWalletProviderType string
-
-// List of values that IssuingAuthorizationWalletProviderType can take.
-const (
-	IssuingAuthorizationWalletProviderTypeApplePay   IssuingAuthorizationWalletProviderType = "apple_pay"
-	IssuingAuthorizationWalletProviderTypeGooglePay  IssuingAuthorizationWalletProviderType = "google_pay"
-	IssuingAuthorizationWalletProviderTypeSamsungPay IssuingAuthorizationWalletProviderType = "samsung_pay"
-)
-
 // IssuingAuthorizationParams is the set of parameters that can be used when updating an issuing authorization.
 type IssuingAuthorizationParams struct {
 	Params `form:"*"`
-	Amount *int64 `form:"amount"`
+}
 
-	// The following parameter is deprecated, use Amount instead.
-	// TODO: remove in a future major version
-	HeldAmount *int64 `form:"held_amount"`
+// IssuingAuthorizationApproveParams is the set of parameters that can be used when approving an issuing authorization.
+type IssuingAuthorizationApproveParams struct {
+	Params `form:"*"`
+	Amount *int64 `form:"amount"`
+}
+
+// IssuingAuthorizationDeclineParams is the set of parameters that can be used when declining an issuing authorization.
+type IssuingAuthorizationDeclineParams struct {
+	Params `form:"*"`
 }
 
 // IssuingAuthorizationListParams is the set of parameters that can be used when listing issuing authorizations.
@@ -147,13 +130,16 @@ type IssuingAuthorizationListParams struct {
 	Status       *string           `form:"status"`
 }
 
-// IssuingAuthorizationAuthorizationControls is the resource representing authorization controls on an issuing authorization.
-type IssuingAuthorizationAuthorizationControls struct {
-	AllowedCategories []string `json:"allowed_categories"`
-	BlockedCategories []string `json:"blocked_categories"`
-	Currency          Currency `json:"currency"`
-	MaxAmount         int64    `json:"max_amount"`
-	MaxApprovals      int64    `json:"max_approvals"`
+// IssuingAuthorizationMerchantData is the resource representing merchant data on Issuing APIs.
+type IssuingAuthorizationMerchantData struct {
+	Category   string `json:"category"`
+	City       string `json:"city"`
+	Country    string `json:"country"`
+	Name       string `json:"name"`
+	NetworkID  string `json:"network_id"`
+	PostalCode string `json:"postal_code"`
+	State      string `json:"state"`
+	URL        string `json:"url"`
 }
 
 // IssuingAuthorizationPendingRequest is the resource representing details about the pending authorization request.
@@ -182,13 +168,6 @@ type IssuingAuthorizationRequestHistory struct {
 	MerchantCurrency              Currency                                                          `json:"merchant_currency"`
 	Reason                        IssuingAuthorizationRequestHistoryReason                          `json:"reason"`
 	ViolatedAuthorizationControls []*IssuingAuthorizationRequestHistoryViolatedAuthorizationControl `json:"violated_authorization_controls"`
-
-	// The following properties are deprecated
-	// TODO: remove in the next major version
-	AuthorizedAmount   int64    `json:"authorized_amount"`
-	AuthorizedCurrency Currency `json:"authorized_currency"`
-	HeldAmount         int64    `json:"held_amount"`
-	HeldCurrency       Currency `json:"held_currency"`
 }
 
 // IssuingAuthorizationVerificationDataThreeDSecure is the resource representing 3DS results.
@@ -203,14 +182,6 @@ type IssuingAuthorizationVerificationData struct {
 	CVCCheck               IssuingAuthorizationVerificationDataCheck         `json:"cvc_check"`
 	ExpiryCheck            IssuingAuthorizationVerificationDataCheck         `json:"expiry_check"`
 	ThreeDSecure           *IssuingAuthorizationVerificationDataThreeDSecure `json:"three_d_secure"`
-
-	// The property is considered deprecated. Use AddressPostalCodeCheck instead.
-	// TODO remove in the next major version
-	AddressZipCheck IssuingAuthorizationVerificationDataCheck `json:"address_zip_check"`
-
-	// The property is considered deprecated. Use ThreeDSecure instead.
-	// TODO remove in the next major version
-	Authentication IssuingAuthorizationVerificationDataAuthentication `json:"authentication"`
 }
 
 // IssuingAuthorization is the resource representing a Stripe issuing authorization.
@@ -227,7 +198,7 @@ type IssuingAuthorization struct {
 	Livemode            bool                                    `json:"livemode"`
 	MerchantAmount      int64                                   `json:"merchant_amount"`
 	MerchantCurrency    Currency                                `json:"merchant_currency"`
-	MerchantData        *IssuingMerchantData                    `json:"merchant_data"`
+	MerchantData        *IssuingAuthorizationMerchantData       `json:"merchant_data"`
 	Metadata            map[string]string                       `json:"metadata"`
 	Object              string                                  `json:"object"`
 	PendingRequest      *IssuingAuthorizationPendingRequest     `json:"pending_request"`
@@ -236,32 +207,6 @@ type IssuingAuthorization struct {
 	Transactions        []*IssuingTransaction                   `json:"transactions"`
 	VerificationData    *IssuingAuthorizationVerificationData   `json:"verification_data"`
 	Wallet              IssuingAuthorizationWalletType          `json:"wallet"`
-
-	// This property is deprecated and we recommend that you use Wallet instead.
-	// TODO: remove in the next major version
-	WalletProvider IssuingAuthorizationWalletProviderType `json:"wallet_provider"`
-
-	// The following properties are considered deprecated
-	// TODO: remove in the next major version
-	AuthorizedAmount         int64    `json:"authorized_amount"`
-	AuthorizedCurrency       Currency `json:"authorized_currency"`
-	HeldAmount               int64    `json:"held_amount"`
-	HeldCurrency             Currency `json:"held_currency"`
-	IsHeldAmountControllable bool     `json:"is_held_amount_controllable"`
-	PendingAuthorizedAmount  int64    `json:"pending_authorized_amount"`
-	PendingHeldAmount        int64    `json:"pending_held_amount"`
-}
-
-// IssuingMerchantData is the resource representing merchant data on Issuing APIs.
-type IssuingMerchantData struct {
-	Category   string `json:"category"`
-	City       string `json:"city"`
-	Country    string `json:"country"`
-	Name       string `json:"name"`
-	NetworkID  string `json:"network_id"`
-	PostalCode string `json:"postal_code"`
-	State      string `json:"state"`
-	URL        string `json:"url"`
 }
 
 // IssuingAuthorizationList is a list of issuing authorizations as retrieved from a list endpoint.

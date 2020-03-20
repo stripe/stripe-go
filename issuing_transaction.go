@@ -7,10 +7,9 @@ type IssuingTransactionType string
 
 // List of values that IssuingTransactionType can take.
 const (
-	IssuingTransactionTypeCapture        IssuingTransactionType = "capture"
-	IssuingTransactionTypeCashWithdrawal IssuingTransactionType = "cash_withdrawal"
-	IssuingTransactionTypeRefund         IssuingTransactionType = "refund"
-	IssuingTransactionTypeRefundReversal IssuingTransactionType = "refund_reversal"
+	IssuingTransactionTypeCapture IssuingTransactionType = "capture"
+	IssuingTransactionTypeDispute IssuingTransactionType = "dispute"
+	IssuingTransactionTypeRefund  IssuingTransactionType = "refund"
 )
 
 // IssuingTransactionParams is the set of parameters that can be used when creating or updating an issuing transaction.
@@ -40,7 +39,6 @@ type IssuingTransaction struct {
 	Dispute            *IssuingDispute        `json:"dispute"`
 	ID                 string                 `json:"id"`
 	Livemode           bool                   `json:"livemode"`
-	MerchantData       *IssuingMerchantData   `json:"merchant_data"`
 	MerchantAmount     int64                  `json:"merchant_amount"`
 	MerchantCurrency   Currency               `json:"merchant_currency"`
 	Metadata           map[string]string      `json:"metadata"`

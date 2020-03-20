@@ -34,14 +34,14 @@ func TestIssuingCardList(t *testing.T) {
 
 func TestIssuingCardNew(t *testing.T) {
 	params := &stripe.IssuingCardParams{
-		AuthorizationControls: &stripe.AuthorizationControlsParams{
-			SpendingLimits: []*stripe.IssuingAuthorizationControlsSpendingLimitsParams{
+		AuthorizationControls: &stripe.IssuingCardAuthorizationControlsParams{
+			SpendingLimits: []*stripe.IssuingCardAuthorizationControlsSpendingLimitParams{
 				{
 					Amount: stripe.Int64(1000),
 					Categories: stripe.StringSlice([]string{
 						"financial_institutions",
 					}),
-					Interval: stripe.String(string(stripe.IssuingSpendingLimitIntervalAllTime)),
+					Interval: stripe.String(string(stripe.IssuingCardAuthorizationControlsSpendingLimitIntervalAllTime)),
 				},
 			},
 		},

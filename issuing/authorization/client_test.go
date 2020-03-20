@@ -9,14 +9,14 @@ import (
 )
 
 func TestIssuingAuthorizationApprove(t *testing.T) {
-	authorization, err := Approve("iauth_123", &stripe.IssuingAuthorizationParams{})
+	authorization, err := Approve("iauth_123", &stripe.IssuingAuthorizationApproveParams{})
 	assert.Nil(t, err)
 	assert.NotNil(t, authorization)
 	assert.Equal(t, "issuing.authorization", authorization.Object)
 }
 
 func TestIssuingAuthorizationDecline(t *testing.T) {
-	authorization, err := Decline("iauth_123", &stripe.IssuingAuthorizationParams{})
+	authorization, err := Decline("iauth_123", &stripe.IssuingAuthorizationDeclineParams{})
 	assert.Nil(t, err)
 	assert.NotNil(t, authorization)
 	assert.Equal(t, "issuing.authorization", authorization.Object)
