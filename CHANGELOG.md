@@ -1,5 +1,8 @@
 # Changelog
 
+## 70.6.0 - 2020-03-20
+* [#1046](https://github.com/stripe/stripe-go/pull/1046) Add new fields to Issuing `Card` and `Authorization`
+
 ## 70.5.0 - 2020-03-13
 * [#1044](https://github.com/stripe/stripe-go/pull/1044) Multiple changes for Issuing APIs
   * Rename `Speed` to `Service` on Issuing `Card`
