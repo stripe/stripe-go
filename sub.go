@@ -30,6 +30,16 @@ const (
 	SubscriptionCollectionMethodSendInvoice         SubscriptionCollectionMethod = "send_invoice"
 )
 
+// SubscriptionPauseCollectionBehavior is the payment collection behavior a paused subscription.
+type SubscriptionPauseCollectionBehavior string
+
+// List of values that SubscriptionPauseCollectionBehavior can take.
+const (
+	SubscriptionPauseCollectionBehaviorKeepAsDraft       SubscriptionPauseCollectionBehavior = "keep_as_draft"
+	SubscriptionPauseCollectionBehaviorMarkUncollectible SubscriptionPauseCollectionBehavior = "mark_uncollectible"
+	SubscriptionPauseCollectionBehaviorVoid              SubscriptionPauseCollectionBehavior = "void"
+)
+
 // SubscriptionPaymentBehavior lets you control the behavior of subscription creation in case of
 // a failed payment.
 type SubscriptionPaymentBehavior string
@@ -62,6 +72,12 @@ const (
 	SubscriptionPendingInvoiceItemIntervalIntervalWeek  SubscriptionPendingInvoiceItemIntervalInterval = "week"
 	SubscriptionPendingInvoiceItemIntervalIntervalYear  SubscriptionPendingInvoiceItemIntervalInterval = "year"
 )
+
+// SubscriptionPauseCollectionParams is the set of parameters allowed for the pause_collection hash.
+type SubscriptionPauseCollectionParams struct {
+	Behavior  *string `form:"behavior"`
+	ResumesAt *int64  `form:"resumes_at"`
+}
 
 // SubscriptionPendingInvoiceItemIntervalParams is the set of parameters allowed for the transfer_data hash.
 type SubscriptionPendingInvoiceItemIntervalParams struct {
@@ -97,6 +113,7 @@ type SubscriptionParams struct {
 	Items                       []*SubscriptionItemsParams                    `form:"items"`
 	OffSession                  *bool                                         `form:"off_session"`
 	OnBehalfOf                  *string                                       `form:"on_behalf_of"`
+	PauseCollection             *SubscriptionPauseCollectionParams            `form:"pause_collection"`
 	PaymentBehavior             *string                                       `form:"payment_behavior"`
 	PendingInvoiceItemInterval  *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	Plan                        *string                                       `form:"plan"`
@@ -175,6 +192,12 @@ type SubscriptionListParams struct {
 	Status                  string            `form:"status"`
 }
 
+// SubscriptionPauseCollection if specified, payment collection for this subscription will be paused.
+type SubscriptionPauseCollection struct {
+	Behavior  SubscriptionPauseCollectionBehavior `json:"behavior"`
+	ResumesAt int64                               `json:"resumes_at"`
+}
+
 // SubscriptionPendingInvoiceItemInterval represents the interval at which to invoice pending invoice
 // items.
 type SubscriptionPendingInvoiceItemInterval struct {
@@ -224,6 +247,7 @@ type Subscription struct {
 	NextPendingInvoiceItemInvoice int64                                  `json:"next_pending_invoice_item_invoice"`
 	Object                        string                                 `json:"object"`
 	OnBehalfOf                    *Account                               `json:"on_behalf_of"`
+	PauseCollection               SubscriptionPauseCollection            `json:"pause_collection"`
 	PendingInvoiceItemInterval    SubscriptionPendingInvoiceItemInterval `json:"pending_invoice_item_interval"`
 	PendingSetupIntent            *SetupIntent                           `json:"pending_setup_intent"`
 	PendingUpdate                 *SubscriptionPendingUpdate             `json:"pending_update"`
