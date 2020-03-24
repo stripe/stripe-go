@@ -21,9 +21,12 @@ type AccountCapability string
 
 // List of values that AccountCapability can take.
 const (
-	AccountCapabilityCardPayments   AccountCapability = "card_payments"
-	AccountCapabilityLegacyPayments AccountCapability = "legacy_payments"
-	AccountCapabilityTransfers      AccountCapability = "transfers"
+	AccountCapabilityAUBECSDebitPayments    AccountCapability = "au_becs_debit_payments"
+	AccountCapabilityCardPayments           AccountCapability = "card_payments"
+	AccountCapabilityLegacyPayments         AccountCapability = "legacy_payments"
+	AccountCapabilityTaxReportingUS1099K    AccountCapability = "tax_reporting_us_1099_k"
+	AccountCapabilityTaxReportingUS1099MISC AccountCapability = "tax_reporting_us_1099_misc"
+	AccountCapabilityTransfers              AccountCapability = "transfers"
 )
 
 // AccountCapabilityStatus is the status a given capability can have
@@ -330,9 +333,12 @@ type AccountBusinessProfile struct {
 
 // AccountCapabilities is the resource representing the capabilities enabled on that account.
 type AccountCapabilities struct {
-	CardPayments   AccountCapabilityStatus `json:"card_payments"`
-	LegacyPayments AccountCapabilityStatus `json:"legacy_payments"`
-	Transfers      AccountCapabilityStatus `json:"transfers"`
+	AUBECSDebitPayments    AccountCapabilityStatus `json:"au_becs_debit_payments"`
+	CardPayments           AccountCapabilityStatus `json:"card_payments"`
+	LegacyPayments         AccountCapabilityStatus `json:"legacy_payments"`
+	TaxReportingUS1099K    AccountCapabilityStatus `json:"tax_reporting_us_1099_k"`
+	TaxReportingUS1099MISC AccountCapabilityStatus `json:"tax_reporting_us_1099_misc"`
+	Transfers              AccountCapabilityStatus `json:"transfers"`
 }
 
 // AccountCompanyVerificationDocument represents details about a company's verification state.
