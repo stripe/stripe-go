@@ -1,5 +1,8 @@
 # Changelog
 
+## 70.8.0 - 2020-03-24
+* [#1049](https://github.com/stripe/stripe-go/pull/1049) Add support for `PauseCollection` on `Subscription`
+
 ## 70.7.0 - 2020-03-23
 * [#1048](https://github.com/stripe/stripe-go/pull/1048) Add new capabilities for AU Becs Debit and tax reporting
 
