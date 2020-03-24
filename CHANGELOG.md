@@ -1,5 +1,8 @@
 # Changelog
 
+## 70.7.0 - 2020-03-23
+* [#1048](https://github.com/stripe/stripe-go/pull/1048) Add new capabilities for AU Becs Debit and tax reporting
+
 ## 70.6.0 - 2020-03-20
 * [#1046](https://github.com/stripe/stripe-go/pull/1046) Add new fields to Issuing `Card` and `Authorization`
 
