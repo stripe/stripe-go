@@ -47,20 +47,26 @@ type IssuingAuthorizationRequestHistoryReason string
 const (
 	IssuingAuthorizationRequestHistoryReasonAccountComplianceDisabled      IssuingAuthorizationRequestHistoryReason = "account_compliance_disabled"
 	IssuingAuthorizationRequestHistoryReasonAccountInactive                IssuingAuthorizationRequestHistoryReason = "account_inactive"
-	IssuingAuthorizationRequestHistoryReasonAuthenticationFailed           IssuingAuthorizationRequestHistoryReason = "authentication_failed"
-	IssuingAuthorizationRequestHistoryReasonAuthorizationControls          IssuingAuthorizationRequestHistoryReason = "authorization_controls"
 	IssuingAuthorizationRequestHistoryReasonCardActive                     IssuingAuthorizationRequestHistoryReason = "card_active"
 	IssuingAuthorizationRequestHistoryReasonCardInactive                   IssuingAuthorizationRequestHistoryReason = "card_inactive"
 	IssuingAuthorizationRequestHistoryReasonCardholderInactive             IssuingAuthorizationRequestHistoryReason = "cardholder_inactive"
 	IssuingAuthorizationRequestHistoryReasonCardholderVerificationRequired IssuingAuthorizationRequestHistoryReason = "cardholder_verification_required"
-	IssuingAuthorizationRequestHistoryReasonIncorrectCVC                   IssuingAuthorizationRequestHistoryReason = "incorrect_cvc"
-	IssuingAuthorizationRequestHistoryReasonIncorrectExpiry                IssuingAuthorizationRequestHistoryReason = "incorrect_expiry"
 	IssuingAuthorizationRequestHistoryReasonInsufficientFunds              IssuingAuthorizationRequestHistoryReason = "insufficient_funds"
 	IssuingAuthorizationRequestHistoryReasonNotAllowed                     IssuingAuthorizationRequestHistoryReason = "not_allowed"
+	IssuingAuthorizationRequestHistoryReasonSpendingControls               IssuingAuthorizationRequestHistoryReason = "spending_controls"
 	IssuingAuthorizationRequestHistoryReasonSuspectedFraud                 IssuingAuthorizationRequestHistoryReason = "suspected_fraud"
+	IssuingAuthorizationRequestHistoryReasonVerificationFailed             IssuingAuthorizationRequestHistoryReason = "verification_failed"
 	IssuingAuthorizationRequestHistoryReasonWebhookApproved                IssuingAuthorizationRequestHistoryReason = "webhook_approved"
 	IssuingAuthorizationRequestHistoryReasonWebhookDeclined                IssuingAuthorizationRequestHistoryReason = "webhook_declined"
 	IssuingAuthorizationRequestHistoryReasonWebhookTimeout                 IssuingAuthorizationRequestHistoryReason = "webhook_timeout"
+
+	// The following value is deprecated. Use IssuingAuthorizationRequestHistoryReasonSpendingControls instead.
+	IssuingAuthorizationRequestHistoryReasonAuthorizationControls IssuingAuthorizationRequestHistoryReason = "authorization_controls"
+
+	// The following values are deprecated. Use IssuingAuthorizationRequestHistoryReasonVerificationFailed instead
+	IssuingAuthorizationRequestHistoryReasonAuthenticationFailed IssuingAuthorizationRequestHistoryReason = "authentication_failed"
+	IssuingAuthorizationRequestHistoryReasonIncorrectCVC         IssuingAuthorizationRequestHistoryReason = "incorrect_cvc"
+	IssuingAuthorizationRequestHistoryReasonIncorrectExpiry      IssuingAuthorizationRequestHistoryReason = "incorrect_expiry"
 )
 
 // IssuingAuthorizationStatus is the possible values for status for an issuing authorization.
@@ -148,6 +154,7 @@ type IssuingAuthorizationListParams struct {
 }
 
 // IssuingAuthorizationAuthorizationControls is the resource representing authorization controls on an issuing authorization.
+// This is deprecated and will be removed in the next major version
 type IssuingAuthorizationAuthorizationControls struct {
 	AllowedCategories []string `json:"allowed_categories"`
 	BlockedCategories []string `json:"blocked_categories"`
@@ -167,6 +174,7 @@ type IssuingAuthorizationPendingRequest struct {
 
 // IssuingAuthorizationRequestHistoryViolatedAuthorizationControl is the resource representing an
 // authorizaton control that caused the authorization to fail.
+// This is deprecated and will be removed in the next major version
 type IssuingAuthorizationRequestHistoryViolatedAuthorizationControl struct {
 	Entity IssuingAuthorizationRequestHistoryViolatedAuthorizationControlEntity `json:"entity"`
 	Name   IssuingAuthorizationRequestHistoryViolatedAuthorizationControlName   `json:"name"`
@@ -174,21 +182,21 @@ type IssuingAuthorizationRequestHistoryViolatedAuthorizationControl struct {
 
 // IssuingAuthorizationRequestHistory is the resource representing a request history on an issuing authorization.
 type IssuingAuthorizationRequestHistory struct {
-	Amount                        int64                                                             `json:"amount"`
-	Approved                      bool                                                              `json:"approved"`
-	Created                       int64                                                             `json:"created"`
-	Currency                      Currency                                                          `json:"currency"`
-	MerchantAmount                int64                                                             `json:"merchant_amount"`
-	MerchantCurrency              Currency                                                          `json:"merchant_currency"`
-	Reason                        IssuingAuthorizationRequestHistoryReason                          `json:"reason"`
-	ViolatedAuthorizationControls []*IssuingAuthorizationRequestHistoryViolatedAuthorizationControl `json:"violated_authorization_controls"`
+	Amount           int64                                    `json:"amount"`
+	Approved         bool                                     `json:"approved"`
+	Created          int64                                    `json:"created"`
+	Currency         Currency                                 `json:"currency"`
+	MerchantAmount   int64                                    `json:"merchant_amount"`
+	MerchantCurrency Currency                                 `json:"merchant_currency"`
+	Reason           IssuingAuthorizationRequestHistoryReason `json:"reason"`
 
 	// The following properties are deprecated
 	// TODO: remove in the next major version
-	AuthorizedAmount   int64    `json:"authorized_amount"`
-	AuthorizedCurrency Currency `json:"authorized_currency"`
-	HeldAmount         int64    `json:"held_amount"`
-	HeldCurrency       Currency `json:"held_currency"`
+	AuthorizedAmount              int64                                                             `json:"authorized_amount"`
+	AuthorizedCurrency            Currency                                                          `json:"authorized_currency"`
+	HeldAmount                    int64                                                             `json:"held_amount"`
+	HeldCurrency                  Currency                                                          `json:"held_currency"`
+	ViolatedAuthorizationControls []*IssuingAuthorizationRequestHistoryViolatedAuthorizationControl `json:"violated_authorization_controls"`
 }
 
 // IssuingAuthorizationVerificationDataThreeDSecure is the resource representing 3DS results.

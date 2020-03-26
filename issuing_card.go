@@ -41,15 +41,19 @@ type IssuingCardShippingService string
 
 // List of values that IssuingCardShippingService can take.
 const (
-	IssuingCardShippingServiceExpress   IssuingCardShippingService = "express"
+	IssuingCardShippingServiceExpress  IssuingCardShippingService = "express"
+	IssuingCardShippingServicePriority IssuingCardShippingService = "priority"
+	IssuingCardShippingServiceStandard IssuingCardShippingService = "standard"
+
+	// The following value is deprecated, use IssuingCardShippingServicePriority instead
 	IssuingCardShippingServiceOvernight IssuingCardShippingService = "overnight"
-	IssuingCardShippingServiceStandard  IssuingCardShippingService = "standard"
 )
 
 // IssuingCardShippingSpeed is the shipment speed for a card.
+// This is deprecated, use IssuingCardShippingService instead
 type IssuingCardShippingSpeed string
 
-// List of values that IssuingCardShippingSpeed can take.
+// List of values that IssuingCardShippingSpeed can take
 const (
 	IssuingCardShippingSpeedExpress   IssuingCardShippingSpeed = "express"
 	IssuingCardShippingSpeedOvernight IssuingCardShippingSpeed = "overnight"
@@ -64,6 +68,20 @@ type IssuingCardShippingType string
 const (
 	IssuingCardShippingTypeBulk       IssuingCardShippingType = "bulk"
 	IssuingCardShippingTypeIndividual IssuingCardShippingType = "individual"
+)
+
+// IssuingCardSpendingControlsSpendingLimitInterval is the list of possible values for the interval
+// for a spending limit on an issuing card.
+type IssuingCardSpendingControlsSpendingLimitInterval string
+
+// List of values that IssuingCardShippingStatus can take.
+const (
+	IssuingCardSpendingControlsSpendingLimitIntervalAllTime          IssuingCardSpendingControlsSpendingLimitInterval = "all_time"
+	IssuingCardSpendingControlsSpendingLimitIntervalDaily            IssuingCardSpendingControlsSpendingLimitInterval = "daily"
+	IssuingCardSpendingControlsSpendingLimitIntervalMonthly          IssuingCardSpendingControlsSpendingLimitInterval = "monthly"
+	IssuingCardSpendingControlsSpendingLimitIntervalPerAuthorization IssuingCardSpendingControlsSpendingLimitInterval = "per_authorization"
+	IssuingCardSpendingControlsSpendingLimitIntervalWeekly           IssuingCardSpendingControlsSpendingLimitInterval = "weekly"
+	IssuingCardSpendingControlsSpendingLimitIntervalYearly           IssuingCardSpendingControlsSpendingLimitInterval = "yearly"
 )
 
 // IssuingCardStatus is the list of possible values for status on an issuing card.
@@ -88,6 +106,7 @@ const (
 
 // IssuingSpendingLimitInterval is the list of possible values for the interval of a given
 // spending limit on an issuing card or cardholder.
+// This is deprecated, use IssuingCardSpendingControlsSpendingLimitInterval instead
 type IssuingSpendingLimitInterval string
 
 // List of values that IssuingCardShippingStatus can take.
@@ -102,6 +121,7 @@ const (
 
 // IssuingAuthorizationControlsSpendingLimitsParams is the set of parameters that can be used for
 // the spending limits associated with a given issuing card or cardholder.
+// This is deprecated and will be removed in the next major version.
 type IssuingAuthorizationControlsSpendingLimitsParams struct {
 	Amount     *int64    `form:"amount"`
 	Categories []*string `form:"categories"`
@@ -109,7 +129,7 @@ type IssuingAuthorizationControlsSpendingLimitsParams struct {
 }
 
 // AuthorizationControlsParams is the set of parameters that can be used for the shipping parameter.
-// TODO: Rename and "un-share" between Card and Cardholder in the next major version.
+// This is deprecated and will be removed in the next major version.
 type AuthorizationControlsParams struct {
 	AllowedCategories []*string                                           `form:"allowed_categories"`
 	BlockedCategories []*string                                           `form:"blocked_categories"`
@@ -119,7 +139,7 @@ type AuthorizationControlsParams struct {
 	// The following parameter only applies to Cardholder
 	SpendingLimitsCurrency *string `form:"spending_limits_currency"`
 
-	// The following parameter is considered deprecated
+	// The following parameter is deprecated
 	MaxAmount *int64 `form:"max_amount"`
 }
 
@@ -130,24 +150,47 @@ type IssuingCardShippingParams struct {
 	Service *string        `form:"service"`
 	Type    *string        `form:"type"`
 
-	// This parameter is considered deprecated. Use Service instead.
+	// This parameter is deprecated. Use Service instead.
 	// TODO remove in the next major version
 	Speed *string `form:"speed"`
 }
 
+// IssuingCardSpendingControlsSpendingLimitParams is the set of parameters that can be used to
+// represent a given spending limit for an issuing card.
+type IssuingCardSpendingControlsSpendingLimitParams struct {
+	Amount     *int64    `form:"amount"`
+	Categories []*string `form:"categories"`
+	Interval   *string   `form:"interval"`
+}
+
+// IssuingCardSpendingControlsParams is the set of parameters that can be used to configure
+// the spending controls for an issuing card
+type IssuingCardSpendingControlsParams struct {
+	AllowedCategories      []*string                                         `form:"allowed_categories"`
+	BlockedCategories      []*string                                         `form:"blocked_categories"`
+	MaxApprovals           *int64                                            `form:"max_approvals"`
+	SpendingLimits         []*IssuingCardSpendingControlsSpendingLimitParams `form:"spending_limits"`
+	SpendingLimitsCurrency *string                                           `form:"spending_limits_currency"`
+}
+
 // IssuingCardParams is the set of parameters that can be used when creating or updating an issuing card.
 type IssuingCardParams struct {
-	Params                `form:"*"`
+	Params            `form:"*"`
+	Billing           *IssuingBillingParams              `form:"billing"`
+	Cardholder        *string                            `form:"cardholder"`
+	Currency          *string                            `form:"currency"`
+	ReplacementFor    *string                            `form:"replacement_for"`
+	ReplacementReason *string                            `form:"replacement_reason"`
+	SpendingControls  *IssuingCardSpendingControlsParams `form:"spending_controls"`
+	Status            *string                            `form:"status"`
+	Shipping          *IssuingCardShippingParams         `form:"shipping"`
+	Type              *string                            `form:"type"`
+
+	// The following parameter is deprecated, use SpendingControls instead.
 	AuthorizationControls *AuthorizationControlsParams `form:"authorization_controls"`
-	Billing               *IssuingBillingParams        `form:"billing"`
-	Cardholder            *string                      `form:"cardholder"`
-	Currency              *string                      `form:"currency"`
-	Name                  *string                      `form:"name"`
-	ReplacementFor        *string                      `form:"replacement_for"`
-	ReplacementReason     *string                      `form:"replacement_reason"`
-	Status                *string                      `form:"status"`
-	Shipping              *IssuingCardShippingParams   `form:"shipping"`
-	Type                  *string                      `form:"type"`
+
+	// The following parameter is deprecated
+	Name *string `form:"name"`
 }
 
 // IssuingCardListParams is the set of parameters that can be used when listing issuing cards.
@@ -158,11 +201,13 @@ type IssuingCardListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	ExpMonth     *int64            `form:"exp_month"`
 	ExpYear      *int64            `form:"exp_year"`
-	Name         *string           `form:"name"`
 	Last4        *string           `form:"last4"`
-	Source       *string           `form:"source"`
 	Status       *string           `form:"status"`
 	Type         *string           `form:"type"`
+
+	// The following parameters are deprecated
+	Name   *string `form:"name"`
+	Source *string `form:"source"`
 }
 
 // IssuingCardDetails is the resource representing issuing card details.
@@ -192,7 +237,7 @@ type IssuingCardAuthorizationControls struct {
 	SpendingLimits         []*IssuingAuthorizationControlsSpendingLimits `json:"spending_limits"`
 	SpendingLimitsCurrency Currency                                      `json:"spending_limits_currency"`
 
-	// The properties below are considered deprecated and can only be used for an issuing card.
+	// The properties below are deprecated and can only be used for an issuing card.
 	// TODO remove in the next major version
 	Currency  Currency `json:"currency"`
 	MaxAmount int64    `json:"max_amount"`
@@ -216,33 +261,56 @@ type IssuingCardShipping struct {
 	TrackingURL    string                     `json:"tracking_url"`
 	Type           IssuingCardShippingType    `json:"type"`
 
-	// The property is considered deprecated. Use AddressPostalCodeCheck instead.
+	// The property is deprecated. Use AddressPostalCodeCheck instead.
 	// TODO remove in the next major version
 	Speed IssuingCardShippingSpeed `json:"speed"`
 }
 
+// IssuingCardSpendingControlsSpendingLimit is the resource representing a spending limit
+// for an issuing card.
+type IssuingCardSpendingControlsSpendingLimit struct {
+	Amount     int64                                            `json:"amount"`
+	Categories []string                                         `json:"categories"`
+	Interval   IssuingCardSpendingControlsSpendingLimitInterval `json:"interval"`
+}
+
+// IssuingCardSpendingControls is the resource representing spending controls
+// for an issuing card.
+type IssuingCardSpendingControls struct {
+	AllowedCategories      []string                                    `json:"allowed_categories"`
+	BlockedCategories      []string                                    `json:"blocked_categories"`
+	MaxApprovals           int64                                       `json:"max_approvals"`
+	SpendingLimits         []*IssuingCardSpendingControlsSpendingLimit `json:"spending_limits"`
+	SpendingLimitsCurrency Currency                                    `json:"spending_limits_currency"`
+}
+
 // IssuingCard is the resource representing a Stripe issuing card.
 type IssuingCard struct {
+	Billing           *IssuingBilling              `json:"billing"`
+	Brand             string                       `json:"brand"`
+	Cardholder        *IssuingCardholder           `json:"cardholder"`
+	Created           int64                        `json:"created"`
+	ExpMonth          int64                        `json:"exp_month"`
+	ExpYear           int64                        `json:"exp_year"`
+	Last4             string                       `json:"last4"`
+	ID                string                       `json:"id"`
+	Livemode          bool                         `json:"livemode"`
+	Metadata          map[string]string            `json:"metadata"`
+	Object            string                       `json:"object"`
+	PIN               *IssuingCardPIN              `json:"pin"`
+	ReplacedBy        *IssuingCard                 `json:"replaced_by"`
+	ReplacementFor    *IssuingCard                 `json:"replacement_for"`
+	ReplacementReason IssuingCardReplacementReason `json:"replacement_reason"`
+	Shipping          *IssuingCardShipping         `json:"shipping"`
+	SpendingControls  *IssuingCardSpendingControls `json:"spending_controls"`
+	Status            IssuingCardStatus            `json:"status"`
+	Type              IssuingCardType              `json:"type"`
+
+	// The following property is deprecated, use SpendingControls instead.
 	AuthorizationControls *IssuingCardAuthorizationControls `json:"authorization_controls"`
-	Billing               *IssuingBilling                   `json:"billing"`
-	Brand                 string                            `json:"brand"`
-	Cardholder            *IssuingCardholder                `json:"cardholder"`
-	Created               int64                             `json:"created"`
-	ExpMonth              int64                             `json:"exp_month"`
-	ExpYear               int64                             `json:"exp_year"`
-	Last4                 string                            `json:"last4"`
-	ID                    string                            `json:"id"`
-	Livemode              bool                              `json:"livemode"`
-	Metadata              map[string]string                 `json:"metadata"`
-	Name                  string                            `json:"name"`
-	Object                string                            `json:"object"`
-	PIN                   *IssuingCardPIN                   `json:"pin"`
-	ReplacedBy            *IssuingCard                      `json:"replaced_by"`
-	ReplacementFor        *IssuingCard                      `json:"replacement_for"`
-	ReplacementReason     IssuingCardReplacementReason      `json:"replacement_reason"`
-	Shipping              *IssuingCardShipping              `json:"shipping"`
-	Status                IssuingCardStatus                 `json:"status"`
-	Type                  IssuingCardType                   `json:"type"`
+
+	// The following property is deprecated, use Cardholder.Name instead.
+	Name string `json:"name"`
 }
 
 // IssuingCardList is a list of issuing cards as retrieved from a list endpoint.
