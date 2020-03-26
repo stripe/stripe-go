@@ -2,3 +2,5 @@
 .env
 *.test
 *.coverprofile
+.idea
+.vscode
