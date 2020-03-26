@@ -53,11 +53,40 @@ func TestIssuingCardholderNew(t *testing.T) {
 			},
 		},
 		Name: stripe.String("cardholder name"),
+		SpendingControls: &stripe.IssuingCardholderSpendingControlsParams{
+			AllowedCategories: stripe.StringSlice([]string{
+				"fast_food_restaurants",
+				"miscellaneous_food_stores",
+			}),
+			SpendingLimits: []*stripe.IssuingCardholderSpendingControlsSpendingLimitParams{
+				{
+					Amount:   stripe.Int64(1000),
+					Interval: stripe.String(string(stripe.IssuingCardholderSpendingControlsSpendingLimitIntervalWeekly)),
+				},
+			},
+		},
 		Type: stripe.String(string(stripe.IssuingCardholderTypeIndividual)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, cardholder)
 	assert.Equal(t, "issuing.cardholder", cardholder.Object)
+}
+
+// IssuingCardholderSpendingControlsSpendingLimitParams is the set of parameters that can be used to
+// represent a given spending limit for an issuing cardholder.
+type IssuingCardholderSpendingControlsSpendingLimitParams struct {
+	Amount     *int64    `form:"amount"`
+	Categories []*string `form:"categories"`
+	Interval   *string   `form:"interval"`
+}
+
+// IssuingCardholderSpendingControlsParams is the set of parameters that can be used to configure
+// the spending controls for an issuing cardholder
+type IssuingCardholderSpendingControlsParams struct {
+	AllowedCategories      []*string                                               `form:"allowed_categories"`
+	BlockedCategories      []*string                                               `form:"blocked_categories"`
+	SpendingLimits         []*IssuingCardholderSpendingControlsSpendingLimitParams `form:"spending_limits"`
+	SpendingLimitsCurrency *string                                                 `form:"spending_limits_currency"`
 }
 
 func TestIssuingCardholderUpdate(t *testing.T) {

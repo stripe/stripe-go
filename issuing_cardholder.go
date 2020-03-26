@@ -13,6 +13,20 @@ const (
 	IssuingCardholderRequirementsDisabledReasonUnderReview    IssuingCardholderRequirementsDisabledReason = "under_review"
 )
 
+// IssuingCardholderSpendingControlsSpendingLimitInterval is the list of possible values for the interval
+// for a spending limit on an issuing cardholder.
+type IssuingCardholderSpendingControlsSpendingLimitInterval string
+
+// List of values that IssuingCardShippingStatus can take.
+const (
+	IssuingCardholderSpendingControlsSpendingLimitIntervalAllTime          IssuingCardholderSpendingControlsSpendingLimitInterval = "all_time"
+	IssuingCardholderSpendingControlsSpendingLimitIntervalDaily            IssuingCardholderSpendingControlsSpendingLimitInterval = "daily"
+	IssuingCardholderSpendingControlsSpendingLimitIntervalMonthly          IssuingCardholderSpendingControlsSpendingLimitInterval = "monthly"
+	IssuingCardholderSpendingControlsSpendingLimitIntervalPerAuthorization IssuingCardholderSpendingControlsSpendingLimitInterval = "per_authorization"
+	IssuingCardholderSpendingControlsSpendingLimitIntervalWeekly           IssuingCardholderSpendingControlsSpendingLimitInterval = "weekly"
+	IssuingCardholderSpendingControlsSpendingLimitIntervalYearly           IssuingCardholderSpendingControlsSpendingLimitInterval = "yearly"
+)
+
 // IssuingCardholderStatus is the possible values for status on an issuing cardholder.
 type IssuingCardholderStatus string
 
@@ -20,7 +34,9 @@ type IssuingCardholderStatus string
 const (
 	IssuingCardholderStatusActive   IssuingCardholderStatus = "active"
 	IssuingCardholderStatusInactive IssuingCardholderStatus = "inactive"
-	IssuingCardholderStatusPending  IssuingCardholderStatus = "pending"
+
+	// This value is deprecated
+	IssuingCardholderStatusPending IssuingCardholderStatus = "pending"
 )
 
 // IssuingCardholderType is the type of an issuing cardholder.
@@ -28,14 +44,19 @@ type IssuingCardholderType string
 
 // List of values that IssuingCardholderType can take.
 const (
+	IssuingCardholderTypeCompany    IssuingCardholderType = "company"
+	IssuingCardholderTypeIndividual IssuingCardholderType = "individual"
+
+	// This value is deprecated. Use IssuingCardholderTypeCompany instead
 	IssuingCardholderTypeBusinessEntity IssuingCardholderType = "business_entity"
-	IssuingCardholderTypeIndividual     IssuingCardholderType = "individual"
 )
 
 // IssuingBillingParams is the set of parameters that can be used for billing with the Issuing APIs.
 type IssuingBillingParams struct {
 	Address *AddressParams `form:"address"`
-	Name    *string        `form:"name"`
+
+	// This parameter is deprecated
+	Name *string `form:"name"`
 }
 
 // IssuingCardholderCompanyParams represents additional information about a
@@ -74,22 +95,39 @@ type IssuingCardholderIndividualParams struct {
 	Verification *IssuingCardholderIndividualVerificationParams `form:"verification"`
 }
 
+// IssuingCardholderSpendingControlsSpendingLimitParams is the set of parameters that can be used to
+// represent a given spending limit for an issuing cardholder.
+type IssuingCardholderSpendingControlsSpendingLimitParams struct {
+	Amount     *int64    `form:"amount"`
+	Categories []*string `form:"categories"`
+	Interval   *string   `form:"interval"`
+}
+
+// IssuingCardholderSpendingControlsParams is the set of parameters that can be used to configure
+// the spending controls for an issuing cardholder
+type IssuingCardholderSpendingControlsParams struct {
+	AllowedCategories      []*string                                               `form:"allowed_categories"`
+	BlockedCategories      []*string                                               `form:"blocked_categories"`
+	SpendingLimits         []*IssuingCardholderSpendingControlsSpendingLimitParams `form:"spending_limits"`
+	SpendingLimitsCurrency *string                                                 `form:"spending_limits_currency"`
+}
+
 // IssuingCardholderParams is the set of parameters that can be used when creating or updating an issuing cardholder.
 type IssuingCardholderParams struct {
-	Params                `form:"*"`
-	AuthorizationControls *AuthorizationControlsParams       `form:"authorization_controls"`
-	Billing               *IssuingBillingParams              `form:"billing"`
-	Company               *IssuingCardholderCompanyParams    `form:"company"`
-	Email                 *string                            `form:"email"`
-	Individual            *IssuingCardholderIndividualParams `form:"individual"`
-	Name                  *string                            `form:"name"`
-	PhoneNumber           *string                            `form:"phone_number"`
-	Status                *string                            `form:"status"`
-	Type                  *string                            `form:"type"`
+	Params           `form:"*"`
+	Billing          *IssuingBillingParams                    `form:"billing"`
+	Company          *IssuingCardholderCompanyParams          `form:"company"`
+	Email            *string                                  `form:"email"`
+	Individual       *IssuingCardholderIndividualParams       `form:"individual"`
+	Name             *string                                  `form:"name"`
+	PhoneNumber      *string                                  `form:"phone_number"`
+	SpendingControls *IssuingCardholderSpendingControlsParams `form:"spending_controls"`
+	Status           *string                                  `form:"status"`
+	Type             *string                                  `form:"type"`
 
-	// This parameter is considered deprecated.
-	// TODO remove in the next major version
-	IsDefault *bool `form:"is_default"`
+	// The following parameters are deprecated
+	IsDefault             *bool                        `form:"is_default"`
+	AuthorizationControls *AuthorizationControlsParams `form:"authorization_controls"`
 }
 
 // IssuingCardholderListParams is the set of parameters that can be used when listing issuing cardholders.
@@ -110,7 +148,9 @@ type IssuingCardholderListParams struct {
 // IssuingBilling is the resource representing the billing hash with the Issuing APIs.
 type IssuingBilling struct {
 	Address *Address `json:"address"`
-	Name    string   `json:"name"`
+
+	// This property is deprecated
+	Name string `json:"name"`
 }
 
 // IssuingCardholderRequirements contains the verification requirements for the cardholder.
@@ -155,23 +195,43 @@ type IssuingCardholderCompany struct {
 	TaxIDProvided bool `json:"tax_id_provided"`
 }
 
+// IssuingCardholderSpendingControlsSpendingLimit is the resource representing a spending limit
+// for an issuing cardholder.
+type IssuingCardholderSpendingControlsSpendingLimit struct {
+	Amount     int64                                                  `json:"amount"`
+	Categories []string                                               `json:"categories"`
+	Interval   IssuingCardholderSpendingControlsSpendingLimitInterval `json:"interval"`
+}
+
+// IssuingCardholderSpendingControls is the resource representing spending controls
+// for an issuing cardholder.
+type IssuingCardholderSpendingControls struct {
+	AllowedCategories      []string                                          `json:"allowed_categories"`
+	BlockedCategories      []string                                          `json:"blocked_categories"`
+	SpendingLimits         []*IssuingCardholderSpendingControlsSpendingLimit `json:"spending_limits"`
+	SpendingLimitsCurrency Currency                                          `json:"spending_limits_currency"`
+}
+
 // IssuingCardholder is the resource representing a Stripe issuing cardholder.
 type IssuingCardholder struct {
+	Billing          *IssuingBilling                    `json:"billing"`
+	Company          *IssuingCardholderCompany          `json:"company"`
+	Created          int64                              `json:"created"`
+	Email            string                             `json:"email"`
+	ID               string                             `json:"id"`
+	Individual       *IssuingCardholderIndividual       `json:"individual"`
+	Livemode         bool                               `json:"livemode"`
+	Metadata         map[string]string                  `json:"metadata"`
+	Name             string                             `json:"name"`
+	Object           string                             `json:"object"`
+	PhoneNumber      string                             `json:"phone_number"`
+	Requirements     *IssuingCardholderRequirements     `json:"requirements"`
+	SpendingControls *IssuingCardholderSpendingControls `json:"spending_controls"`
+	Status           IssuingCardholderStatus            `json:"status"`
+	Type             IssuingCardholderType              `json:"type"`
+
+	// The following property is deprecated, use SpendingControls instead
 	AuthorizationControls *IssuingCardAuthorizationControls `json:"authorization_controls"`
-	Billing               *IssuingBilling                   `json:"billing"`
-	Company               *IssuingCardholderCompany         `json:"company"`
-	Created               int64                             `json:"created"`
-	Email                 string                            `json:"email"`
-	ID                    string                            `json:"id"`
-	Individual            *IssuingCardholderIndividual      `json:"individual"`
-	Livemode              bool                              `json:"livemode"`
-	Metadata              map[string]string                 `json:"metadata"`
-	Name                  string                            `json:"name"`
-	Object                string                            `json:"object"`
-	PhoneNumber           string                            `json:"phone_number"`
-	Requirements          *IssuingCardholderRequirements    `json:"requirements"`
-	Status                IssuingCardholderStatus           `json:"status"`
-	Type                  IssuingCardholderType             `json:"type"`
 }
 
 // IssuingCardholderList is a list of issuing cardholders as retrieved from a list endpoint.

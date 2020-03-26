@@ -34,19 +34,21 @@ func TestIssuingCardList(t *testing.T) {
 
 func TestIssuingCardNew(t *testing.T) {
 	params := &stripe.IssuingCardParams{
-		AuthorizationControls: &stripe.AuthorizationControlsParams{
-			SpendingLimits: []*stripe.IssuingAuthorizationControlsSpendingLimitsParams{
+		Cardholder: stripe.String("ich_123"),
+		Currency:   stripe.String(string(stripe.CurrencyUSD)),
+		SpendingControls: &stripe.IssuingCardSpendingControlsParams{
+			AllowedCategories: stripe.StringSlice([]string{
+				"fast_food_restaurants",
+				"miscellaneous_food_stores",
+			}),
+			SpendingLimits: []*stripe.IssuingCardSpendingControlsSpendingLimitParams{
 				{
-					Amount: stripe.Int64(1000),
-					Categories: stripe.StringSlice([]string{
-						"financial_institutions",
-					}),
-					Interval: stripe.String(string(stripe.IssuingSpendingLimitIntervalAllTime)),
+					Amount:   stripe.Int64(1000),
+					Interval: stripe.String(string(stripe.IssuingCardSpendingControlsSpendingLimitIntervalWeekly)),
 				},
 			},
 		},
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
-		Type:     stripe.String(string(stripe.IssuingCardTypeVirtual)),
+		Type: stripe.String(string(stripe.IssuingCardTypeVirtual)),
 	}
 	card, err := New(params)
 	assert.Nil(t, err)
