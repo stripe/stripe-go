@@ -1,5 +1,13 @@
 # Changelog
 
+## 70.9.0 - 2020-03-26
+* [#1050](https://github.com/stripe/stripe-go/pull/1050) Multiple API changes for Issuing
+  * Add support for `SpendingControls` on `Card` and `Cardholder`
+  * Add new values for `Reason` on `Authorization`
+  * Add new value for `Type` on `Cardholder`
+  * Add new value for `Service` on `Card`
+  * Mark many classes and other fields as deprecated for the next major
+
 ## 70.8.0 - 2020-03-24
 * [#1049](https://github.com/stripe/stripe-go/pull/1049) Add support for `PauseCollection` on `Subscription`
 
