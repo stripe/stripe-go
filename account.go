@@ -22,6 +22,7 @@ type AccountCapability string
 // List of values that AccountCapability can take.
 const (
 	AccountCapabilityAUBECSDebitPayments    AccountCapability = "au_becs_debit_payments"
+	AccountCapabilityCardIssuing            AccountCapability = "card_issuing"
 	AccountCapabilityCardPayments           AccountCapability = "card_payments"
 	AccountCapabilityLegacyPayments         AccountCapability = "legacy_payments"
 	AccountCapabilityTaxReportingUS1099K    AccountCapability = "tax_reporting_us_1099_k"
