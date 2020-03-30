@@ -1,5 +1,8 @@
 # Changelog
 
+## 70.10.0 - 2020-03-30
+* [#1053](https://github.com/stripe/stripe-go/pull/1053) Add `AccountCapabilityCardIssuing` as a `Capability`
+
 ## 70.9.0 - 2020-03-26
 * [#1050](https://github.com/stripe/stripe-go/pull/1050) Multiple API changes for Issuing
   * Add support for `SpendingControls` on `Card` and `Cardholder`
