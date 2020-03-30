@@ -292,6 +292,7 @@ type SourceSourceOrder struct {
 // Source is the resource representing a Source.
 // For more details see https://stripe.com/docs/api#sources.
 type Source struct {
+	APIResource
 	Amount              int64                 `json:"amount"`
 	ClientSecret        string                `json:"client_secret"`
 	CodeVerification    *CodeVerificationFlow `json:"code_verification,omitempty"`

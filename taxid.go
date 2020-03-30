@@ -69,6 +69,7 @@ type TaxIDVerification struct {
 // TaxID is the resource representing a customer's tax id.
 // For more details see https://stripe.com/docs/api/customers/tax_id_object
 type TaxID struct {
+	APIResource
 	Country      string             `json:"country"`
 	Created      int64              `json:"created"`
 	Customer     *Customer          `json:"customer"`

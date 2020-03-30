@@ -50,6 +50,7 @@ type ReportRunParameters struct {
 
 // ReportRun is the resource representing a report run.
 type ReportRun struct {
+	APIResource
 	Created     int64                `json:"created"`
 	Error       string               `json:"error"`
 	ID          string               `json:"id"`

@@ -16,6 +16,7 @@ type BitcoinReceiverListParams struct {
 // BitcoinReceiver is the resource representing a Stripe bitcoin receiver.
 // For more details see https://stripe.com/docs/api/#bitcoin_receivers
 type BitcoinReceiver struct {
+	APIResource
 	Active                bool                    `json:"active"`
 	Amount                int64                   `json:"amount"`
 	AmountReceived        int64                   `json:"amount_received"`

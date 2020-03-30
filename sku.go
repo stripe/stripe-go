@@ -54,6 +54,7 @@ type Inventory struct {
 // SKU is the resource representing a SKU.
 // For more details see https://stripe.com/docs/api#skus.
 type SKU struct {
+	APIResource
 	Active            bool               `json:"active"`
 	Attributes        map[string]string  `json:"attributes"`
 	Created           int64              `json:"created"`

@@ -8,6 +8,7 @@ type DiscountParams struct {
 // Discount is the resource representing a Stripe discount.
 // For more details see https://stripe.com/docs/api#discounts.
 type Discount struct {
+	APIResource
 	Coupon       *Coupon `json:"coupon"`
 	Customer     string  `json:"customer"`
 	Deleted      bool    `json:"deleted"`

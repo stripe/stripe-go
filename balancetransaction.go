@@ -126,6 +126,7 @@ type BalanceTransactionListParams struct {
 // BalanceTransaction is the resource representing the balance transaction.
 // For more details see https://stripe.com/docs/api/#balance.
 type BalanceTransaction struct {
+	APIResource
 	Amount            int64                               `json:"amount"`
 	AvailableOn       int64                               `json:"available_on"`
 	Created           int64                               `json:"created"`

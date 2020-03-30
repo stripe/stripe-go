@@ -123,6 +123,7 @@ type DeliveryEstimate struct {
 // Order is the resource representing a Stripe charge.
 // For more details see https://stripe.com/docs/api#orders.
 type Order struct {
+	APIResource
 	Amount                 int64             `json:"amount"`
 	AmountReturned         int64             `json:"amount_returned"`
 	Application            string            `json:"application"`

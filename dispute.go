@@ -87,6 +87,7 @@ type DisputeListParams struct {
 // Dispute is the resource representing a Stripe dispute.
 // For more details see https://stripe.com/docs/api#disputes.
 type Dispute struct {
+	APIResource
 	Amount              int64                 `json:"amount"`
 	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
 	Charge              *Charge               `json:"charge"`

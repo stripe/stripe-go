@@ -54,6 +54,7 @@ type RecipientListParams struct {
 // Recipient is the resource representing a Stripe recipient.
 // For more details see https://stripe.com/docs/api#recipients.
 type Recipient struct {
+	APIResource
 	ActiveAccount *BankAccount      `json:"active_account"`
 	Cards         *CardList         `json:"cards"`
 	Created       int64             `json:"created"`

@@ -128,6 +128,7 @@ type CreditNoteTaxAmount struct {
 // CreditNote is the resource representing a Stripe credit note.
 // For more details see https://stripe.com/docs/api/credit_notes/object.
 type CreditNote struct {
+	APIResource
 	Amount                     int64                       `json:"amount"`
 	Created                    int64                       `json:"created"`
 	Currency                   Currency                    `json:"currency"`

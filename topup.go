@@ -37,6 +37,7 @@ type TopupList struct {
 // Topup is the resource representing a Stripe top-up.
 // For more details see https://stripe.com/docs/api#topups.
 type Topup struct {
+	APIResource
 	Amount                   int64               `json:"amount"`
 	ArrivalDate              int64               `json:"arrival_date"`
 	BalanceTransaction       *BalanceTransaction `json:"balance_transaction"`

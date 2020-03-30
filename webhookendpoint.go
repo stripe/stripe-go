@@ -27,6 +27,7 @@ type WebhookEndpointListParams struct {
 // WebhookEndpoint is the resource representing a Stripe webhook endpoint.
 // For more details see https://stripe.com/docs/api#webhook_endpoints.
 type WebhookEndpoint struct {
+	APIResource
 	APIVersion    string   `json:"api_version"`
 	Application   string   `json:"application"`
 	Connect       bool     `json:"connect"`

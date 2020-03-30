@@ -111,6 +111,8 @@ type OAuthTokenParams struct {
 // OAuthToken is the value of the OAuthToken from OAuth flow.
 // https://stripe.com/docs/connect/oauth-reference#post-token
 type OAuthToken struct {
+	APIResource
+
 	Livemode     bool           `json:"livemode"`
 	Scope        OAuthScopeType `json:"scope"`
 	StripeUserID string         `json:"stripe_user_id"`
@@ -125,5 +127,6 @@ type OAuthToken struct {
 // Deauthorize is the value of the return from deauthorizing.
 // https://stripe.com/docs/connect/oauth-reference#post-deauthorize
 type Deauthorize struct {
+	APIResource
 	StripeUserID string `json:"stripe_user_id"`
 }

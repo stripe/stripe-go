@@ -9,6 +9,7 @@ const (
 // UsageRecord represents a usage record.
 // See https://stripe.com/docs/api#usage_records
 type UsageRecord struct {
+	APIResource
 	ID               string `json:"id"`
 	Livemode         bool   `json:"livemode"`
 	Quantity         int64  `json:"quantity"`

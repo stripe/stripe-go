@@ -23,6 +23,7 @@ type TerminalReaderListParams struct {
 
 // TerminalReader is the resource representing a Stripe terminal reader.
 type TerminalReader struct {
+	APIResource
 	Deleted         bool              `json:"deleted"`
 	DeviceSwVersion string            `json:"device_sw_version"`
 	DeviceType      string            `json:"device_type"`

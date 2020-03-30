@@ -30,6 +30,7 @@ type IssuingTransactionListParams struct {
 
 // IssuingTransaction is the resource representing a Stripe issuing transaction.
 type IssuingTransaction struct {
+	APIResource
 	Amount             int64                  `json:"amount"`
 	Authorization      *IssuingAuthorization  `json:"authorization"`
 	BalanceTransaction *BalanceTransaction    `json:"balance_transaction"`

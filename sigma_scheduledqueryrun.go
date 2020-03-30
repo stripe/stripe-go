@@ -25,6 +25,7 @@ type SigmaScheduledQueryRunListParams struct {
 
 // SigmaScheduledQueryRun is the resource representing a scheduled query run.
 type SigmaScheduledQueryRun struct {
+	APIResource
 	Created              int64                        `json:"created"`
 	DataLoadTime         int64                        `json:"data_load_time"`
 	Error                string                       `json:"error"`

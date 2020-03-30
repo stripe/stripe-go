@@ -458,6 +458,7 @@ type ChargeTransferData struct {
 // Charge is the resource representing a Stripe charge.
 // For more details see https://stripe.com/docs/api#charges.
 type Charge struct {
+	APIResource
 	Amount                    int64                       `json:"amount"`
 	AmountRefunded            int64                       `json:"amount_refunded"`
 	Application               *Application                `json:"application"`

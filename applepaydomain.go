@@ -8,6 +8,7 @@ type ApplePayDomainParams struct {
 
 // ApplePayDomain is the resource representing a Stripe ApplePayDomain object
 type ApplePayDomain struct {
+	APIResource
 	Created    int64  `json:"created"`
 	Deleted    bool   `json:"deleted"`
 	DomainName string `json:"domain_name"`

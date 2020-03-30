@@ -39,6 +39,7 @@ type RadarEarlyFraudWarningList struct {
 // RadarEarlyFraudWarning is the resource representing an early fraud warning. For
 // more details see https://stripe.com/docs/api/early_fraud_warnings/object.
 type RadarEarlyFraudWarning struct {
+	APIResource
 	Actionable bool                            `json:"actionable"`
 	Charge     *Charge                         `json:"charge"`
 	Created    int64                           `json:"created"`

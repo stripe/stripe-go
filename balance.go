@@ -24,6 +24,7 @@ type BalanceParams struct {
 // Balance is the resource representing your Stripe balance.
 // For more details see https://stripe.com/docs/api/#balance.
 type Balance struct {
+	APIResource
 	Available       []*Amount `json:"available"`
 	ConnectReserved []*Amount `json:"connect_reserved"`
 	Livemode        bool      `json:"livemode"`

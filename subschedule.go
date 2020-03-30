@@ -186,6 +186,7 @@ type SubscriptionScheduleRenewalInterval struct {
 
 // SubscriptionSchedule is the resource representing a Stripe subscription schedule.
 type SubscriptionSchedule struct {
+	APIResource
 	CanceledAt           int64                                `json:"canceled_at"`
 	CompletedAt          int64                                `json:"completed_at"`
 	Created              int64                                `json:"created"`

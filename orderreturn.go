@@ -12,6 +12,7 @@ type OrderReturnParams struct {
 // OrderReturn is the resource representing an order return.
 // For more details see https://stripe.com/docs/api#order_returns.
 type OrderReturn struct {
+	APIResource
 	Amount   int64        `json:"amount"`
 	Created  int64        `json:"created"`
 	Currency Currency     `json:"currency"`

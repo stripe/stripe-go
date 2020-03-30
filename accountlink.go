@@ -31,6 +31,7 @@ type AccountLinkParams struct {
 // AccountLink is the resource representing an account link.
 // For more details see https://stripe.com/docs/api/#account_links.
 type AccountLink struct {
+	APIResource
 	Created   int64  `json:"created"`
 	ExpiresAt int64  `json:"expires_at"`
 	Object    string `json:"object"`

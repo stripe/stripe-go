@@ -459,6 +459,7 @@ type AccountTOSAcceptance struct {
 // Account is the resource representing your Stripe account.
 // For more details see https://stripe.com/docs/api/#account.
 type Account struct {
+	APIResource
 	BusinessProfile  *AccountBusinessProfile `json:"business_profile"`
 	BusinessType     AccountBusinessType     `json:"business_type"`
 	Capabilities     *AccountCapabilities    `json:"capabilities"`

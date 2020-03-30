@@ -234,6 +234,7 @@ type PaymentMethodSepaDebit struct {
 
 // PaymentMethod is the resource representing a PaymentMethod.
 type PaymentMethod struct {
+	APIResource
 	AUBECSDebit    *PaymentMethodAUBECSDebit `json:"au_becs_debit"`
 	BillingDetails *BillingDetails           `json:"billing_details"`
 	Card           *PaymentMethodCard        `json:"card"`

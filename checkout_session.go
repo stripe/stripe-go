@@ -163,6 +163,7 @@ type CheckoutSessionShippingAddressCollection struct {
 // CheckoutSession is the resource representing a Stripe checkout session.
 // For more details see https://stripe.com/docs/api/checkout/sessions/object
 type CheckoutSession struct {
+	APIResource
 	CancelURL                 string                                    `json:"cancel_url"`
 	ClientReferenceID         string                                    `json:"client_reference_id"`
 	Customer                  *Customer                                 `json:"customer"`

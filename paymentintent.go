@@ -292,6 +292,7 @@ type PaymentIntentTransferData struct {
 // PaymentIntent is the resource representing a Stripe payout.
 // For more details see https://stripe.com/docs/api#payment_intents.
 type PaymentIntent struct {
+	APIResource
 	Amount                    int64                              `json:"amount"`
 	AmountCapturable          int64                              `json:"amount_capturable"`
 	AmountReceived            int64                              `json:"amount_received"`

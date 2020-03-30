@@ -3,6 +3,7 @@ package stripe
 // ExchangeRate is the resource representing the currency exchange rates at
 // a given time.
 type ExchangeRate struct {
+	APIResource
 	ID    string               `json:"id"`
 	Rates map[Currency]float64 `json:"rates"`
 }

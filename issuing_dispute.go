@@ -84,6 +84,7 @@ type IssuingDisputeEvidence struct {
 
 // IssuingDispute is the resource representing an issuing dispute.
 type IssuingDispute struct {
+	APIResource
 	Amount      int64                   `json:"amount"`
 	Created     int64                   `json:"created"`
 	Currency    Currency                `json:"currency"`

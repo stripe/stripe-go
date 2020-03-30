@@ -16,6 +16,7 @@ type ThreeDSecureParams struct {
 // ThreeDSecure is the resource representing a Stripe 3DS object
 // For more details see https://stripe.com/docs/api#three_d_secure.
 type ThreeDSecure struct {
+	APIResource
 	Amount        int64              `json:"amount"`
 	Authenticated bool               `json:"authenticated"`
 	Card          *Card              `json:"card"`

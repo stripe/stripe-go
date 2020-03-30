@@ -214,6 +214,8 @@ type IssuingCardholderSpendingControls struct {
 
 // IssuingCardholder is the resource representing a Stripe issuing cardholder.
 type IssuingCardholder struct {
+	APIResource
+
 	Billing          *IssuingBilling                    `json:"billing"`
 	Company          *IssuingCardholderCompany          `json:"company"`
 	Created          int64                              `json:"created"`

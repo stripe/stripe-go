@@ -40,6 +40,7 @@ type InvoiceItemListParams struct {
 // InvoiceItem is the resource represneting a Stripe invoice item.
 // For more details see https://stripe.com/docs/api#invoiceitems.
 type InvoiceItem struct {
+	APIResource
 	Amount            int64             `json:"amount"`
 	Currency          Currency          `json:"currency"`
 	Customer          *Customer         `json:"customer"`
