@@ -117,11 +117,6 @@ type APIResource struct {
 	LastResponse *APIResponse `json:"-"`
 }
 
-// GetLastResponse gets the HTTP response that returned the API resource.
-func (r *APIResource) GetLastResponse() *APIResponse {
-	return r.LastResponse
-}
-
 // SetLastResponse sets the HTTP response that returned the API resource.
 func (r *APIResource) SetLastResponse(response *APIResponse) {
 	r.LastResponse = response
@@ -154,9 +149,9 @@ func (a *AppInfo) formatUserAgent() string {
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
 type Backend interface {
-	Call(method, path, key string, params ParamsContainer, v LastResponseGetter) error
-	CallRaw(method, path, key string, body *form.Values, params *Params, v LastResponseGetter) error
-	CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseGetter) error
+	Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error
+	CallRaw(method, path, key string, body *form.Values, params *Params, v LastResponseSetter) error
+	CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error
 	SetMaxNetworkRetries(maxNetworkRetries int)
 }
 
@@ -240,7 +235,7 @@ type BackendImplementation struct {
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseGetter) error {
+func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
 	var body *form.Values
 	var commonParams *Params
 
@@ -266,7 +261,7 @@ func (s *BackendImplementation) Call(method, path, key string, params ParamsCont
 }
 
 // CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
-func (s *BackendImplementation) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseGetter) error {
+func (s *BackendImplementation) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error {
 	contentType := "multipart/form-data; boundary=" + boundary
 
 	req, err := s.NewRequest(method, path, key, contentType, params)
@@ -282,7 +277,7 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 }
 
 // CallRaw is the implementation for invoking Stripe APIs internally without a backend.
-func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Values, params *Params, v LastResponseGetter) error {
+func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Values, params *Params, v LastResponseSetter) error {
 	var body string
 	if form != nil && !form.Empty() {
 		body = form.Encode()
@@ -365,7 +360,7 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 // Do is used by Call to execute an API request and parse the response. It uses
 // the backend's HTTP client to execute the request and unmarshals the response
 // into v. It also handles unmarshaling errors returned by the API.
-func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v LastResponseGetter) error {
+func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v LastResponseSetter) error {
 	s.LeveledLogger.Infof("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
 
 	if s.enableTelemetry {
@@ -712,10 +707,9 @@ type Backends struct {
 	mu                    sync.RWMutex
 }
 
-// LastResponseGetter defines a type that contains an HTTP response from a Stripe
+// LastResponseSetter defines a type that contains an HTTP response from a Stripe
 // API endpoint.
-type LastResponseGetter interface {
-	GetLastResponse() *APIResponse
+type LastResponseSetter interface {
 	SetLastResponse(response *APIResponse)
 }
 
