@@ -78,7 +78,7 @@ var Key string
 // Stripe API.
 type APIResponse struct {
 	// Header contain a map of all HTTP header keys to values. Its behavior and
-	// caveats are identical to that of http.StripeResponse.Header.
+	// caveats are identical to that of http.Header.
 	Header http.Header
 
 	// IdempotencyKey contains the idempotency key used with this request.
