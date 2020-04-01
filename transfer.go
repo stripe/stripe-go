@@ -69,6 +69,7 @@ type Transfer struct {
 
 // TransferList is a list of transfers as retrieved from a list endpoint.
 type TransferList struct {
+	APIResource
 	ListMeta
 	Data []*Transfer `json:"data"`
 }

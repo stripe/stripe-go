@@ -251,6 +251,7 @@ type Card struct {
 
 // CardList is a list object for cards.
 type CardList struct {
+	APIResource
 	ListMeta
 	Data []*Card `json:"data"`
 }

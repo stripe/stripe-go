@@ -32,6 +32,7 @@ type RadarEarlyFraudWarningListParams struct {
 // RadarEarlyFraudWarningList is a list of early fraud warnings as retrieved from a
 // list endpoint.
 type RadarEarlyFraudWarningList struct {
+	APIResource
 	ListMeta
 	Values []*RadarEarlyFraudWarning `json:"data"`
 }

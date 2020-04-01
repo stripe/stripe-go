@@ -275,6 +275,7 @@ type IssuingMerchantData struct {
 
 // IssuingAuthorizationList is a list of issuing authorizations as retrieved from a list endpoint.
 type IssuingAuthorizationList struct {
+	APIResource
 	ListMeta
 	Data []*IssuingAuthorization `json:"data"`
 }

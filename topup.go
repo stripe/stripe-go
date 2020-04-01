@@ -30,6 +30,7 @@ type TopupListParams struct {
 
 // TopupList is a list of top-ups as retrieved from a list endpoint.
 type TopupList struct {
+	APIResource
 	ListMeta
 	Data []*Topup `json:"data"`
 }

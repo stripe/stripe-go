@@ -64,6 +64,7 @@ type InvoiceItem struct {
 
 // InvoiceItemList is a list of invoice items as retrieved from a list endpoint.
 type InvoiceItemList struct {
+	APIResource
 	ListMeta
 	Data []*InvoiceItem `json:"data"`
 }

@@ -26,6 +26,7 @@ type TerminalLocation struct {
 
 // TerminalLocationList is a list of terminal readers as retrieved from a list endpoint.
 type TerminalLocationList struct {
+	APIResource
 	ListMeta
 	Data []*TerminalLocation `json:"data"`
 }

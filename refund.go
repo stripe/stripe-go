@@ -80,6 +80,7 @@ type Refund struct {
 
 // RefundList is a list object for refunds.
 type RefundList struct {
+	APIResource
 	ListMeta
 	Data []*Refund `json:"data"`
 }

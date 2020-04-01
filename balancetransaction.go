@@ -146,6 +146,7 @@ type BalanceTransaction struct {
 
 // BalanceTransactionList is a list of transactions as returned from a list endpoint.
 type BalanceTransactionList struct {
+	APIResource
 	ListMeta
 	Data []*BalanceTransaction `json:"data"`
 }

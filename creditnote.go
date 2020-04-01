@@ -175,12 +175,14 @@ type CreditNoteLineItem struct {
 
 // CreditNoteList is a list of credit notes as retrieved from a list endpoint.
 type CreditNoteList struct {
+	APIResource
 	ListMeta
 	Data []*CreditNote `json:"data"`
 }
 
 // CreditNoteLineItemList is a list of credit note line items as retrieved from a list endpoint.
 type CreditNoteLineItemList struct {
+	APIResource
 	ListMeta
 	Data []*CreditNoteLineItem `json:"data"`
 }

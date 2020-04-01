@@ -99,6 +99,7 @@ type PaymentSource struct {
 
 // SourceList is a list object for cards.
 type SourceList struct {
+	APIResource
 	ListMeta
 	Data []*PaymentSource `json:"data"`
 }

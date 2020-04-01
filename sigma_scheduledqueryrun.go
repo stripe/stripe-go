@@ -41,6 +41,7 @@ type SigmaScheduledQueryRun struct {
 
 // SigmaScheduledQueryRunList is a list of scheduled query runs as retrieved from a list endpoint.
 type SigmaScheduledQueryRunList struct {
+	APIResource
 	ListMeta
 	Data []*SigmaScheduledQueryRun `json:"data"`
 }

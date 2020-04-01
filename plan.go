@@ -93,6 +93,7 @@ type Plan struct {
 
 // PlanList is a list of plans as returned from a list endpoint.
 type PlanList struct {
+	APIResource
 	ListMeta
 	Data []*Plan `json:"data"`
 }

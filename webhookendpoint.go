@@ -44,6 +44,7 @@ type WebhookEndpoint struct {
 
 // WebhookEndpointList is a list of webhook endpoints as retrieved from a list endpoint.
 type WebhookEndpointList struct {
+	APIResource
 	ListMeta
 	Data []*WebhookEndpoint `json:"data"`
 }

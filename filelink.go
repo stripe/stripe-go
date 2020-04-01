@@ -56,6 +56,7 @@ func (c *FileLink) UnmarshalJSON(data []byte) error {
 
 // FileLinkList is a list of file links as retrieved from a list endpoint.
 type FileLinkList struct {
+	APIResource
 	ListMeta
 	Data []*FileLink `json:"data"`
 }

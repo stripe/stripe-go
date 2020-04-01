@@ -70,7 +70,6 @@ func (f Filters) AppendTo(body *form.Values, keyParts []string) {
 // of List iterators. The Count property is only populated if the
 // total_count include option is passed in (see tests for example).
 type ListMeta struct {
-	APIResource
 	HasMore    bool   `json:"has_more"`
 	TotalCount uint32 `json:"total_count"`
 	URL        string `json:"url"`

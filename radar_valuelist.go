@@ -51,6 +51,7 @@ type RadarValueList struct {
 
 // RadarValueListList is a list of value lists as retrieved from a list endpoint.
 type RadarValueListList struct {
+	APIResource
 	ListMeta
 	Data []*RadarValueList `json:"data"`
 }

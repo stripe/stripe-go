@@ -106,6 +106,7 @@ type Dispute struct {
 
 // DisputeList is a list of disputes as retrieved from a list endpoint.
 type DisputeList struct {
+	APIResource
 	ListMeta
 	Data []*Dispute `json:"data"`
 }

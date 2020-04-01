@@ -25,6 +25,7 @@ type OrderReturn struct {
 
 // OrderReturnList is a list of order returns as retrieved from a list endpoint.
 type OrderReturnList struct {
+	APIResource
 	ListMeta
 	Data []*OrderReturn `json:"data"`
 }

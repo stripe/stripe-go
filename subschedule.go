@@ -207,6 +207,7 @@ type SubscriptionSchedule struct {
 
 // SubscriptionScheduleList is a list object for subscription schedules.
 type SubscriptionScheduleList struct {
+	APIResource
 	ListMeta
 	Data []*SubscriptionSchedule `json:"data"`
 }

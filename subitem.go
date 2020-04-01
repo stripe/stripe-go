@@ -56,6 +56,7 @@ type SubscriptionItemBillingThresholds struct {
 
 // SubscriptionItemList is a list of invoice items as retrieved from a list endpoint.
 type SubscriptionItemList struct {
+	APIResource
 	ListMeta
 	Data []*SubscriptionItem `json:"data"`
 }

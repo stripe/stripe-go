@@ -317,6 +317,7 @@ type IssuingCard struct {
 
 // IssuingCardList is a list of issuing cards as retrieved from a list endpoint.
 type IssuingCardList struct {
+	APIResource
 	ListMeta
 	Data []*IssuingCard `json:"data"`
 }

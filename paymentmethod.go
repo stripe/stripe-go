@@ -253,6 +253,7 @@ type PaymentMethod struct {
 
 // PaymentMethodList is a list of PaymentMethods as retrieved from a list endpoint.
 type PaymentMethodList struct {
+	APIResource
 	ListMeta
 	Data []*PaymentMethod `json:"data"`
 }

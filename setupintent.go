@@ -195,6 +195,7 @@ type SetupIntent struct {
 
 // SetupIntentList is a list of setup intents as retrieved from a list endpoint.
 type SetupIntentList struct {
+	APIResource
 	ListMeta
 	Data []*SetupIntent `json:"data"`
 }

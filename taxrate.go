@@ -53,6 +53,7 @@ type TaxRate struct {
 
 // TaxRateList is a list of tax rates as retrieved from a list endpoint.
 type TaxRateList struct {
+	APIResource
 	ListMeta
 	Data []*TaxRate `json:"data"`
 }

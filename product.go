@@ -74,6 +74,7 @@ type Product struct {
 
 // ProductList is a list of products as retrieved from a list endpoint.
 type ProductList struct {
+	APIResource
 	ListMeta
 	Data []*Product `json:"data"`
 }

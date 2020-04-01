@@ -20,6 +20,7 @@ type UsageRecordSummaryListParams struct {
 
 // UsageRecordSummaryList is a list of usage record summaries as retrieved from a list endpoint.
 type UsageRecordSummaryList struct {
+	APIResource
 	ListMeta
 	Data []*UsageRecordSummary `json:"data"`
 }

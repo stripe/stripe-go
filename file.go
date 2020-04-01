@@ -78,6 +78,7 @@ type File struct {
 
 // FileList is a list of files as retrieved from a list endpoint.
 type FileList struct {
+	APIResource
 	ListMeta
 	Data []*File `json:"data"`
 }

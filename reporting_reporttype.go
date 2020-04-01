@@ -26,6 +26,7 @@ type ReportType struct {
 
 // ReportTypeList is a list of report types as retrieved from a list endpoint.
 type ReportTypeList struct {
+	APIResource
 	ListMeta
 	Data []*ReportType `json:"data"`
 }

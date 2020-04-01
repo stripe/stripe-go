@@ -73,6 +73,7 @@ type SKU struct {
 
 // SKUList is a list of SKUs as returned from a list endpoint.
 type SKUList struct {
+	APIResource
 	ListMeta
 	Data []*SKU `json:"data"`
 }

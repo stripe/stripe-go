@@ -149,6 +149,7 @@ type Order struct {
 
 // OrderList is a list of orders as retrieved from a list endpoint.
 type OrderList struct {
+	APIResource
 	ListMeta
 	Data []*Order `json:"data"`
 }

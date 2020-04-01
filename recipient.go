@@ -72,6 +72,7 @@ type Recipient struct {
 
 // RecipientList is a list of recipients as retrieved from a list endpoint.
 type RecipientList struct {
+	APIResource
 	ListMeta
 	Data []*Recipient `json:"data"`
 }

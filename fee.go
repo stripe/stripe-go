@@ -38,6 +38,7 @@ type ApplicationFee struct {
 
 //ApplicationFeeList is a list of application fees as retrieved from a list endpoint.
 type ApplicationFeeList struct {
+	APIResource
 	ListMeta
 	Data []*ApplicationFee `json:"data"`
 }

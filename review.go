@@ -48,6 +48,7 @@ type Review struct {
 
 // ReviewList is a list of reviews as retrieved from a list endpoint.
 type ReviewList struct {
+	APIResource
 	ListMeta
 	Data []*Review `json:"data"`
 }

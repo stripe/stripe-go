@@ -58,6 +58,7 @@ type Coupon struct {
 
 // CouponList is a list of coupons as retrieved from a list endpoint.
 type CouponList struct {
+	APIResource
 	ListMeta
 	Data []*Coupon `json:"data"`
 }

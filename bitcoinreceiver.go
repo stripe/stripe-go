@@ -40,6 +40,7 @@ type BitcoinReceiver struct {
 
 // BitcoinReceiverList is a list of bitcoin receivers as retrieved from a list endpoint.
 type BitcoinReceiverList struct {
+	APIResource
 	ListMeta
 	Data []*BitcoinReceiver `json:"data"`
 }

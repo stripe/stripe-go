@@ -51,6 +51,7 @@ type IssuingTransaction struct {
 
 // IssuingTransactionList is a list of issuing transactions as retrieved from a list endpoint.
 type IssuingTransactionList struct {
+	APIResource
 	ListMeta
 	Data []*IssuingTransaction `json:"data"`
 }

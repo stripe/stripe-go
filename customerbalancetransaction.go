@@ -58,6 +58,7 @@ type CustomerBalanceTransaction struct {
 // CustomerBalanceTransactionList is a list of customer balance transactions as retrieved from a
 // list endpoint.
 type CustomerBalanceTransactionList struct {
+	APIResource
 	ListMeta
 	Data []*CustomerBalanceTransaction `json:"data"`
 }

@@ -161,6 +161,7 @@ type BankAccount struct {
 
 // BankAccountList is a list object for bank accounts.
 type BankAccountList struct {
+	APIResource
 	ListMeta
 	Data []*BankAccount `json:"data"`
 }

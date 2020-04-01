@@ -50,6 +50,7 @@ type EventParams struct {
 
 // EventList is a list of events as retrieved from a list endpoint.
 type EventList struct {
+	APIResource
 	ListMeta
 	Data []*Event `json:"data"`
 }

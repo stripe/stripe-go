@@ -188,6 +188,7 @@ type CheckoutSession struct {
 
 // CheckoutSessionList is a list of sessions as retrieved from a list endpoint.
 type CheckoutSessionList struct {
+	APIResource
 	ListMeta
 	Data []*CheckoutSession `json:"data"`
 }

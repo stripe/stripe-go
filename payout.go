@@ -134,6 +134,7 @@ type Payout struct {
 
 // PayoutList is a list of payouts as retrieved from a list endpoint.
 type PayoutList struct {
+	APIResource
 	ListMeta
 	Data []*Payout `json:"data"`
 }

@@ -34,6 +34,7 @@ type FeeRefund struct {
 
 // FeeRefundList is a list object for application fee refunds.
 type FeeRefundList struct {
+	APIResource
 	ListMeta
 	Data []*FeeRefund `json:"data"`
 }

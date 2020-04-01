@@ -65,6 +65,7 @@ type ReportRun struct {
 
 // ReportRunList is a list of report runs as retrieved from a list endpoint.
 type ReportRunList struct {
+	APIResource
 	ListMeta
 	Data []*ReportRun `json:"data"`
 }

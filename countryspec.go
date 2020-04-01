@@ -30,6 +30,7 @@ type CountrySpecParams struct {
 
 // CountrySpecList is a list of country specs as retrieved from a list endpoint.
 type CountrySpecList struct {
+	APIResource
 	ListMeta
 	Data []*CountrySpec `json:"data"`
 }

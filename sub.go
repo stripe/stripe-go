@@ -273,6 +273,7 @@ type SubscriptionBillingThresholds struct {
 
 // SubscriptionList is a list object for subscriptions.
 type SubscriptionList struct {
+	APIResource
 	ListMeta
 	Data []*Subscription `json:"data"`
 }

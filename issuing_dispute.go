@@ -100,6 +100,7 @@ type IssuingDispute struct {
 
 // IssuingDisputeList is a list of issuing disputes as retrieved from a list endpoint.
 type IssuingDisputeList struct {
+	APIResource
 	ListMeta
 	Data []*IssuingDispute `json:"data"`
 }

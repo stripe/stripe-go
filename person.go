@@ -193,6 +193,7 @@ type Person struct {
 
 // PersonList is a list of persons as retrieved from a list endpoint.
 type PersonList struct {
+	APIResource
 	ListMeta
 	Data []*Person `json:"data"`
 }

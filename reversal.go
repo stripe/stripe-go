@@ -34,6 +34,7 @@ type Reversal struct {
 
 // ReversalList is a list of object for reversals.
 type ReversalList struct {
+	APIResource
 	ListMeta
 	Data []*Reversal `json:"data"`
 }

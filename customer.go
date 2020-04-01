@@ -135,6 +135,7 @@ type CustomerInvoiceSettings struct {
 
 // CustomerList is a list of customers as retrieved from a list endpoint.
 type CustomerList struct {
+	APIResource
 	ListMeta
 	Data []*Customer `json:"data"`
 }

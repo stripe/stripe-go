@@ -504,6 +504,7 @@ func (a *Account) UnmarshalJSON(data []byte) error {
 
 // AccountList is a list of accounts as returned from a list endpoint.
 type AccountList struct {
+	APIResource
 	ListMeta
 	Data []*Account `json:"data"`
 }
@@ -511,6 +512,7 @@ type AccountList struct {
 // ExternalAccountList is a list of external accounts that may be either bank
 // accounts or cards.
 type ExternalAccountList struct {
+	APIResource
 	ListMeta
 
 	// Values contains any external accounts (bank accounts and/or cards)

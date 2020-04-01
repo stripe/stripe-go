@@ -84,6 +84,7 @@ type TaxID struct {
 
 // TaxIDList is a list of tax ids as retrieved from a list endpoint.
 type TaxIDList struct {
+	APIResource
 	ListMeta
 	Data []*TaxID `json:"data"`
 }

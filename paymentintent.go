@@ -332,6 +332,7 @@ type PaymentIntent struct {
 
 // PaymentIntentList is a list of payment intents as retrieved from a list endpoint.
 type PaymentIntentList struct {
+	APIResource
 	ListMeta
 	Data []*PaymentIntent `json:"data"`
 }

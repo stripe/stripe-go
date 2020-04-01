@@ -67,6 +67,7 @@ type Capability struct {
 
 // CapabilityList is a list of capabilities as retrieved from a list endpoint.
 type CapabilityList struct {
+	APIResource
 	ListMeta
 	Data []*Capability `json:"data"`
 }

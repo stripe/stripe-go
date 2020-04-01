@@ -308,6 +308,7 @@ type InvoiceThresholdReasonItemReason struct {
 
 // InvoiceList is a list of invoices as retrieved from a list endpoint.
 type InvoiceList struct {
+	APIResource
 	ListMeta
 	Data []*Invoice `json:"data"`
 }
@@ -348,6 +349,7 @@ type Period struct {
 
 // InvoiceLineList is a list object for invoice line items.
 type InvoiceLineList struct {
+	APIResource
 	ListMeta
 	Data []*InvoiceLine `json:"data"`
 }
