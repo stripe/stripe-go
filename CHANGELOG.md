@@ -1,5 +1,8 @@
 # Changelog
 
+## 70.11.0 - 2020-04-03
+* [#1056](https://github.com/stripe/stripe-go/pull/1056) Add `CalculatedStatementDescriptor` on `Charge`
+
 ## 70.10.0 - 2020-03-30
 * [#1053](https://github.com/stripe/stripe-go/pull/1053) Add `AccountCapabilityCardIssuing` as a `Capability`
 
