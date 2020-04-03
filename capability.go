@@ -55,6 +55,7 @@ type CapabilityRequirements struct {
 // Capability is the resource representing a Stripe capability.
 // For more details see https://stripe.com/docs/api/capabilities
 type Capability struct {
+	APIResource
 	Account      *Account                `json:"account"`
 	ID           string                  `json:"id"`
 	Object       string                  `json:"object"`
@@ -66,6 +67,7 @@ type Capability struct {
 
 // CapabilityList is a list of capabilities as retrieved from a list endpoint.
 type CapabilityList struct {
+	APIResource
 	ListMeta
 	Data []*Capability `json:"data"`
 }

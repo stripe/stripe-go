@@ -33,6 +33,7 @@ type RadarValueListListParams struct {
 
 // RadarValueList is the resource representing a value list.
 type RadarValueList struct {
+	APIResource
 	Alias     string                  `json:"alias"`
 	Created   int64                   `json:"created"`
 	CreatedBy string                  `json:"created_by"`
@@ -50,6 +51,7 @@ type RadarValueList struct {
 
 // RadarValueListList is a list of value lists as retrieved from a list endpoint.
 type RadarValueListList struct {
+	APIResource
 	ListMeta
 	Data []*RadarValueList `json:"data"`
 }

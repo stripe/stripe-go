@@ -12,6 +12,7 @@ type ReportTypeParams struct {
 
 // ReportType is the resource representing a report type.
 type ReportType struct {
+	APIResource
 	DefaultColumns     []string `json:"default_columns"`
 	Created            int64    `json:"created"`
 	DataAvailableEnd   int64    `json:"data_available_end"`
@@ -25,6 +26,7 @@ type ReportType struct {
 
 // ReportTypeList is a list of report types as retrieved from a list endpoint.
 type ReportTypeList struct {
+	APIResource
 	ListMeta
 	Data []*ReportType `json:"data"`
 }

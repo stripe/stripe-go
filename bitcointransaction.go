@@ -13,6 +13,7 @@ type BitcoinTransactionListParams struct {
 // It is a child object of BitcoinReceivers
 // For more details see https://stripe.com/docs/api/#retrieve_bitcoin_receiver
 type BitcoinTransactionList struct {
+	APIResource
 	ListMeta
 	Data []*BitcoinTransaction `json:"data"`
 }

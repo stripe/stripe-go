@@ -223,6 +223,7 @@ type IssuingAuthorizationVerificationData struct {
 
 // IssuingAuthorization is the resource representing a Stripe issuing authorization.
 type IssuingAuthorization struct {
+	APIResource
 	Amount              int64                                   `json:"amount"`
 	Approved            bool                                    `json:"approved"`
 	AuthorizationMethod IssuingAuthorizationAuthorizationMethod `json:"authorization_method"`
@@ -274,6 +275,7 @@ type IssuingMerchantData struct {
 
 // IssuingAuthorizationList is a list of issuing authorizations as retrieved from a list endpoint.
 type IssuingAuthorizationList struct {
+	APIResource
 	ListMeta
 	Data []*IssuingAuthorization `json:"data"`
 }

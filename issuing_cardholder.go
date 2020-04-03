@@ -214,6 +214,8 @@ type IssuingCardholderSpendingControls struct {
 
 // IssuingCardholder is the resource representing a Stripe issuing cardholder.
 type IssuingCardholder struct {
+	APIResource
+
 	Billing          *IssuingBilling                    `json:"billing"`
 	Company          *IssuingCardholderCompany          `json:"company"`
 	Created          int64                              `json:"created"`
@@ -236,6 +238,7 @@ type IssuingCardholder struct {
 
 // IssuingCardholderList is a list of issuing cardholders as retrieved from a list endpoint.
 type IssuingCardholderList struct {
+	APIResource
 	ListMeta
 	Data []*IssuingCardholder `json:"data"`
 }

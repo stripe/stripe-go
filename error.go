@@ -171,6 +171,8 @@ const (
 // Error is the response returned when a call is unsuccessful.
 // For more details see  https://stripe.com/docs/api#errors.
 type Error struct {
+	APIResource
+
 	ChargeID    string      `json:"charge,omitempty"`
 	Code        ErrorCode   `json:"code,omitempty"`
 	DeclineCode DeclineCode `json:"decline_code,omitempty"`

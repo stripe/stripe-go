@@ -92,6 +92,7 @@ type CustomerListParams struct {
 // Customer is the resource representing a Stripe customer.
 // For more details see https://stripe.com/docs/api#customers.
 type Customer struct {
+	APIResource
 	Address             Address                  `json:"address"`
 	Balance             int64                    `json:"balance"`
 	Created             int64                    `json:"created"`
@@ -134,6 +135,7 @@ type CustomerInvoiceSettings struct {
 
 // CustomerList is a list of customers as retrieved from a list endpoint.
 type CustomerList struct {
+	APIResource
 	ListMeta
 	Data []*Customer `json:"data"`
 }

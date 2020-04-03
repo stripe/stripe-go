@@ -229,6 +229,7 @@ type IssuingCardListParams struct {
 
 // IssuingCardDetails is the resource representing issuing card details.
 type IssuingCardDetails struct {
+	APIResource
 	Card     *IssuingCard `json:"card"`
 	CVC      string       `json:"cvc"`
 	ExpMonth *string      `form:"exp_month"`
@@ -303,6 +304,7 @@ type IssuingCardSpendingControls struct {
 
 // IssuingCard is the resource representing a Stripe issuing card.
 type IssuingCard struct {
+	APIResource
 	Billing            *IssuingBilling               `json:"billing"`
 	Brand              string                        `json:"brand"`
 	CancellationReason IssuingCardCancellationReason `json:"cancellation_reason"`
@@ -333,6 +335,7 @@ type IssuingCard struct {
 
 // IssuingCardList is a list of issuing cards as retrieved from a list endpoint.
 type IssuingCardList struct {
+	APIResource
 	ListMeta
 	Data []*IssuingCard `json:"data"`
 }

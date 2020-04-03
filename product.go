@@ -51,6 +51,7 @@ type PackageDimensions struct {
 // Product is the resource representing a Stripe product.
 // For more details see https://stripe.com/docs/api#products.
 type Product struct {
+	APIResource
 	Active              bool               `json:"active"`
 	Attributes          []string           `json:"attributes"`
 	Caption             string             `json:"caption"`
@@ -73,6 +74,7 @@ type Product struct {
 
 // ProductList is a list of products as retrieved from a list endpoint.
 type ProductList struct {
+	APIResource
 	ListMeta
 	Data []*Product `json:"data"`
 }

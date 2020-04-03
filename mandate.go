@@ -94,6 +94,7 @@ type MandateSingleUse struct {
 
 // Mandate is the resource representing a Mandate.
 type Mandate struct {
+	APIResource
 	CustomerAcceptance   *MandateCustomerAcceptance   `json:"customer_acceptance"`
 	ID                   string                       `json:"id"`
 	Livemode             bool                         `json:"livemode"`

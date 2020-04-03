@@ -51,6 +51,7 @@ func TestContext(t *testing.T) {
 //
 func TestDo_Retry(t *testing.T) {
 	type testServerResponse struct {
+		APIResource
 		Message string `json:"message"`
 	}
 
@@ -236,6 +237,7 @@ func TestShouldRetry(t *testing.T) {
 
 func TestDo_RetryOnTimeout(t *testing.T) {
 	type testServerResponse struct {
+		APIResource
 		Message string `json:"message"`
 	}
 
@@ -279,9 +281,65 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 	assert.Equal(t, uint32(2), atomic.LoadUint32(&counter))
 }
 
+func TestDo_LastResponsePopulated(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	message := "Hello, client."
+	expectedResponse := testServerResponse{Message: message}
+	rawJSON, err := json.Marshal(expectedResponse)
+	assert.NoError(t, err)
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Idempotency-Key", "key_123")
+		w.Header().Set("Other-Header", "other_header")
+		w.Header().Set("Request-Id", "req_123")
+
+		w.WriteHeader(http.StatusCreated)
+		_, err = w.Write(rawJSON)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LogLevel:          3,
+			MaxNetworkRetries: 0,
+			URL:               testServer.URL,
+		},
+	).(*BackendImplementation)
+
+	request, err := backend.NewRequest(
+		http.MethodGet,
+		"/hello",
+		"sk_test_123",
+		"application/x-www-form-urlencoded",
+		nil,
+	)
+	assert.NoError(t, err)
+
+	var resource testServerResponse
+	err = backend.Do(request, nil, &resource)
+	assert.NoError(t, err)
+	assert.Equal(t, message, resource.Message)
+
+	assert.Equal(t, "key_123", resource.LastResponse.IdempotencyKey)
+	assert.Equal(t, "other_header", resource.LastResponse.Header.Get("Other-Header"))
+	assert.Equal(t, rawJSON, resource.LastResponse.RawJSON)
+	assert.Equal(t, "req_123", resource.LastResponse.RequestID)
+	assert.Equal(t,
+		fmt.Sprintf("%v %v", http.StatusCreated, http.StatusText(http.StatusCreated)),
+		resource.LastResponse.Status)
+	assert.Equal(t, http.StatusCreated, resource.LastResponse.StatusCode)
+}
+
 // Test that telemetry metrics are not sent by default
 func TestDo_TelemetryDisabled(t *testing.T) {
 	type testServerResponse struct {
+		APIResource
 		Message string `json:"message"`
 	}
 
@@ -341,6 +399,7 @@ func TestDo_TelemetryDisabled(t *testing.T) {
 // EnableTelemetry = true.
 func TestDo_TelemetryEnabled(t *testing.T) {
 	type testServerResponse struct {
+		APIResource
 		Message string `json:"message"`
 	}
 
@@ -429,6 +488,7 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 // passed to `go test`.
 func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 	type testServerResponse struct {
+		APIResource
 		Message string `json:"message"`
 	}
 
@@ -843,6 +903,11 @@ func TestResponseToError(t *testing.T) {
 	assert.Equal(t, res.Header.Get("Request-Id"), stripeErr.RequestID)
 	assert.Equal(t, res.StatusCode, stripeErr.HTTPStatusCode)
 	assert.Equal(t, expectedErr.Type, stripeErr.Type)
+
+	// Not exhaustive, but verify LastResponse is basically working as
+	// expected.
+	assert.Equal(t, res.Header.Get("Request-Id"), stripeErr.LastResponse.RequestID)
+	assert.Equal(t, res.StatusCode, stripeErr.LastResponse.StatusCode)
 
 	// Just a bogus type coercion to demonstrate how this code might be
 	// written. Because we've assigned ErrorTypeCard as the error's type, Err

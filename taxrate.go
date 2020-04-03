@@ -37,6 +37,7 @@ type TaxRateListParams struct {
 // TaxRate is the resource representing a Stripe tax rate.
 // For more details see https://stripe.com/docs/api/tax_rates/object.
 type TaxRate struct {
+	APIResource
 	Active       bool              `json:"active"`
 	Created      int64             `json:"created"`
 	Description  string            `json:"description"`
@@ -52,6 +53,7 @@ type TaxRate struct {
 
 // TaxRateList is a list of tax rates as retrieved from a list endpoint.
 type TaxRateList struct {
+	APIResource
 	ListMeta
 	Data []*TaxRate `json:"data"`
 }

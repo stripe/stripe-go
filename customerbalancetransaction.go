@@ -39,6 +39,7 @@ type CustomerBalanceTransactionListParams struct {
 // CustomerBalanceTransaction is the resource representing a customer balance transaction.
 // For more details see https://stripe.com/docs/api/customers/customer_balance_transaction_object
 type CustomerBalanceTransaction struct {
+	APIResource
 	Amount        int64                          `json:"amount"`
 	Created       int64                          `json:"created"`
 	CreditNote    *CreditNote                    `json:"credit_note"`
@@ -57,6 +58,7 @@ type CustomerBalanceTransaction struct {
 // CustomerBalanceTransactionList is a list of customer balance transactions as retrieved from a
 // list endpoint.
 type CustomerBalanceTransactionList struct {
+	APIResource
 	ListMeta
 	Data []*CustomerBalanceTransaction `json:"data"`
 }

@@ -197,6 +197,8 @@ func (p *CardListParams) AppendTo(body *form.Values, keyParts []string) {
 // Card is the resource representing a Stripe credit/debit card.
 // For more details see https://stripe.com/docs/api#cards.
 type Card struct {
+	APIResource
+
 	AddressCity            string                      `json:"address_city"`
 	AddressCountry         string                      `json:"address_country"`
 	AddressLine1           string                      `json:"address_line1"`
@@ -249,6 +251,7 @@ type Card struct {
 
 // CardList is a list object for cards.
 type CardList struct {
+	APIResource
 	ListMeta
 	Data []*Card `json:"data"`
 }

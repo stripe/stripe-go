@@ -84,6 +84,7 @@ type IssuingDisputeEvidence struct {
 
 // IssuingDispute is the resource representing an issuing dispute.
 type IssuingDispute struct {
+	APIResource
 	Amount      int64                   `json:"amount"`
 	Created     int64                   `json:"created"`
 	Currency    Currency                `json:"currency"`
@@ -99,6 +100,7 @@ type IssuingDispute struct {
 
 // IssuingDisputeList is a list of issuing disputes as retrieved from a list endpoint.
 type IssuingDisputeList struct {
+	APIResource
 	ListMeta
 	Data []*IssuingDispute `json:"data"`
 }

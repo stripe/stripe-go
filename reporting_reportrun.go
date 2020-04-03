@@ -50,6 +50,7 @@ type ReportRunParameters struct {
 
 // ReportRun is the resource representing a report run.
 type ReportRun struct {
+	APIResource
 	Created     int64                `json:"created"`
 	Error       string               `json:"error"`
 	ID          string               `json:"id"`
@@ -64,6 +65,7 @@ type ReportRun struct {
 
 // ReportRunList is a list of report runs as retrieved from a list endpoint.
 type ReportRunList struct {
+	APIResource
 	ListMeta
 	Data []*ReportRun `json:"data"`
 }

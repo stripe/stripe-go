@@ -141,6 +141,7 @@ func (p *BankAccountListParams) AppendTo(body *form.Values, keyParts []string) {
 
 // BankAccount represents a Stripe bank account.
 type BankAccount struct {
+	APIResource
 	Account            *Account                     `json:"account"`
 	AccountHolderName  string                       `json:"account_holder_name"`
 	AccountHolderType  BankAccountAccountHolderType `json:"account_holder_type"`
@@ -160,6 +161,7 @@ type BankAccount struct {
 
 // BankAccountList is a list object for bank accounts.
 type BankAccountList struct {
+	APIResource
 	ListMeta
 	Data []*BankAccount `json:"data"`
 }

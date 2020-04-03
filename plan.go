@@ -68,6 +68,7 @@ const (
 // Plan is the resource representing a Stripe plan.
 // For more details see https://stripe.com/docs/api#plans.
 type Plan struct {
+	APIResource
 	Active          bool                `json:"active"`
 	AggregateUsage  string              `json:"aggregate_usage"`
 	Amount          int64               `json:"amount"`
@@ -92,6 +93,7 @@ type Plan struct {
 
 // PlanList is a list of plans as returned from a list endpoint.
 type PlanList struct {
+	APIResource
 	ListMeta
 	Data []*Plan `json:"data"`
 }

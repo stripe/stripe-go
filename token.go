@@ -29,6 +29,8 @@ type TokenParams struct {
 // Token is the resource representing a Stripe token.
 // For more details see https://stripe.com/docs/api#tokens.
 type Token struct {
+	APIResource
+
 	BankAccount *BankAccount `json:"bank_account"`
 	Card        *Card        `json:"card"`
 	ClientIP    string       `json:"client_ip"`

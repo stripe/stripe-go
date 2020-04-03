@@ -170,6 +170,7 @@ type SetupIntentPaymentMethodOptions struct {
 // SetupIntent is the resource representing a Stripe payout.
 // For more details see https://stripe.com/docs/api#payment_intents.
 type SetupIntent struct {
+	APIResource
 	Application          *Application                     `json:"application"`
 	CancellationReason   SetupIntentCancellationReason    `json:"cancellation_reason"`
 	ClientSecret         string                           `json:"client_secret"`
@@ -194,6 +195,7 @@ type SetupIntent struct {
 
 // SetupIntentList is a list of setup intents as retrieved from a list endpoint.
 type SetupIntentList struct {
+	APIResource
 	ListMeta
 	Data []*SetupIntent `json:"data"`
 }

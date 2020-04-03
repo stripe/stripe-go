@@ -14,6 +14,8 @@ type EphemeralKeyParams struct {
 // EphemeralKey is the resource representing a Stripe ephemeral key. This is used by Mobile SDKs
 // to for example manage a Customer's payment methods.
 type EphemeralKey struct {
+	APIResource
+
 	AssociatedObjects []struct {
 		ID   string `json:"id"`
 		Type string `json:"type"`

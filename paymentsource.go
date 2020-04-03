@@ -87,6 +87,7 @@ func SourceParamsFor(obj interface{}) (*SourceParams, error) {
 // The Type should indicate which object is fleshed out (eg. BitcoinReceiver or Card)
 // For more details see https://stripe.com/docs/api#retrieve_charge
 type PaymentSource struct {
+	APIResource
 	BankAccount     *BankAccount      `json:"-"`
 	BitcoinReceiver *BitcoinReceiver  `json:"-"`
 	Card            *Card             `json:"-"`
@@ -98,6 +99,7 @@ type PaymentSource struct {
 
 // SourceList is a list object for cards.
 type SourceList struct {
+	APIResource
 	ListMeta
 	Data []*PaymentSource `json:"data"`
 }

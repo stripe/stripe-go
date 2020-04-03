@@ -72,6 +72,7 @@ type ReviewSession struct {
 // Review is the resource representing a Radar review.
 // For more details see https://stripe.com/docs/api#reviews.
 type Review struct {
+	APIResource
 	BillingZip        string                   `json:"billing_zip"`
 	Charge            *Charge                  `json:"charge"`
 	ClosedReason      ReviewClosedReason       `json:"closed_reason"`
@@ -90,6 +91,7 @@ type Review struct {
 
 // ReviewList is a list of reviews as retrieved from a list endpoint.
 type ReviewList struct {
+	APIResource
 	ListMeta
 	Data []*Review `json:"data"`
 }

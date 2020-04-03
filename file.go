@@ -65,6 +65,7 @@ type FileListParams struct {
 // File is the resource representing a Stripe file.
 // For more details see https://stripe.com/docs/api#file_object.
 type File struct {
+	APIResource
 	Created  int64         `json:"created"`
 	ID       string        `json:"id"`
 	Filename string        `json:"filename"`
@@ -77,6 +78,7 @@ type File struct {
 
 // FileList is a list of files as retrieved from a list endpoint.
 type FileList struct {
+	APIResource
 	ListMeta
 	Data []*File `json:"data"`
 }
