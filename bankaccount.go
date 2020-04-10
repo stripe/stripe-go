@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/stripe/stripe-go/v71/form"
+	"github.com/stripe/stripe-go/v70/form"
 )
 
 // BankAccountStatus is the list of allowed values for the bank account's status.

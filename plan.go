@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/stripe/stripe-go/v71/form"
+	"github.com/stripe/stripe-go/v70/form"
 )
 
 // PlanInterval is the list of allowed values for a plan's interval.

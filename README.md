@@ -18,8 +18,8 @@ Then, import it using:
 
 ``` go
 import (
-    "github.com/stripe/stripe-go/v71"
-    "github.com/stripe/stripe-go/v71/customer"
+    "github.com/stripe/stripe-go/v70"
+    "github.com/stripe/stripe-go/v70/customer"
 )
 ```
 
@@ -109,8 +109,8 @@ To use a key, pass it to `API`'s `Init` function:
 ```go
 
 import (
-	"github.com/stripe/stripe-go/v71"
-	"github.com/stripe/stripe-go/v71/client"
+	"github.com/stripe/stripe-go/v70"
+	"github.com/stripe/stripe-go/v70/client"
 )
 
 stripe := &client.API{}
@@ -131,8 +131,8 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/urlfetch"
 
-	"github.com/stripe/stripe-go/v71"
-	"github.com/stripe/stripe-go/v71/client"
+	"github.com/stripe/stripe-go/v70"
+	"github.com/stripe/stripe-go/v70/client"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -166,8 +166,8 @@ client.
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v71"
-	"github.com/stripe/stripe-go/v71/$resource$"
+	"github.com/stripe/stripe-go/v70"
+	"github.com/stripe/stripe-go/v70/$resource$"
 )
 
 // Setup
@@ -206,8 +206,8 @@ individual key.
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v71"
-	"github.com/stripe/stripe-go/v71/client"
+	"github.com/stripe/stripe-go/v70"
+	"github.com/stripe/stripe-go/v70/client"
 )
 
 // Setup
@@ -244,8 +244,8 @@ problem by configuring the maximum number of retries:
 
 ```go
 import (
-	"github.com/stripe/stripe-go/v71"
-	"github.com/stripe/stripe-go/v71/client"
+	"github.com/stripe/stripe-go/v70"
+	"github.com/stripe/stripe-go/v70/client"
 )
 
 config := &stripe.BackendConfig{

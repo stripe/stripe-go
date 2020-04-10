@@ -3,7 +3,7 @@ package stripe
 import (
 	"encoding/json"
 
-	"github.com/stripe/stripe-go/v71/form"
+	"github.com/stripe/stripe-go/v70/form"
 )
 
 // SourceCodeVerificationFlowStatus represents the possible statuses of a code verification flow.

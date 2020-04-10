@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v71"
-	_ "github.com/stripe/stripe-go/v71/testing"
+	stripe "github.com/stripe/stripe-go/v70"
+	_ "github.com/stripe/stripe-go/v70/testing"
 )
 
 func TestFileLinkGet(t *testing.T) {
