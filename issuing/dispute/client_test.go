@@ -26,16 +26,9 @@ func TestIssuingDisputeList(t *testing.T) {
 }
 
 func TestIssuingDisputeNew(t *testing.T) {
-	dispute, err := New(&stripe.IssuingDisputeParams{
-		Evidence: &stripe.IssuingDisputeEvidenceParams{
-			Fraudulent: &stripe.IssuingDisputeEvidenceFraudulentParams{
-				DisputeExplanation: stripe.String("My explanation"),
-				UncategorizedFile:  stripe.String("file_123"),
-			},
-		},
-		Reason:              stripe.String(string(stripe.IssuingDisputeReasonFraudulent)),
-		DisputedTransaction: stripe.String("ipi_123"),
-	})
+	params := &stripe.IssuingDisputeParams{}
+	params.AddMetadata("key", "value")
+	dispute, err := New(params)
 	assert.Nil(t, err)
 	assert.NotNil(t, dispute)
 	assert.Equal(t, "issuing.dispute", dispute.Object)
