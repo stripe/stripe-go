@@ -7,8 +7,8 @@ package earlyfraudwarning
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
+	stripe "github.com/stripe/stripe-go/v71"
+	"github.com/stripe/stripe-go/v71/form"
 )
 
 // Client is used to interact with the /radar/early_fraud_warnings API.

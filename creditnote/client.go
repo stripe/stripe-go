@@ -4,8 +4,8 @@ package creditnote
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
+	stripe "github.com/stripe/stripe-go/v71"
+	"github.com/stripe/stripe-go/v71/form"
 )
 
 // Client is the client used to invoke /credit_notes APIs.

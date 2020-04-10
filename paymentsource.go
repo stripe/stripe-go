@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/stripe/stripe-go/v71/form"
 )
 
 // PaymentSourceType consts represent valid payment sources.

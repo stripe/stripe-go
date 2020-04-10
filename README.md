@@ -18,38 +18,8 @@ Then, import it using:
 
 ``` go
 import (
-    "github.com/stripe/stripe-go"
-    "github.com/stripe/stripe-go/customer"
-)
-```
-
-### Go Module Support
-
-The library currently *does not* ship with first-class support for Go
-modules. We put in support for it before, but ran into compatibility problems
-for existing installations using Dep (see discussion in [closer to the bottom
-of this thread][gomodvsdep]), and [reverted support][gomodrevert]. Our current
-plan is to wait for better module compatibility in Dep (see a [preliminary
-patch here][depgomodsupport]), give the release a little grace time to become
-more widely distributed, then bring support back.
-
-For now, require stripe-go in `go.mod` with a version but without a *version
-suffix* in the path like so:
-
-``` go
-module github.com/my/package
-
-require (
-    github.com/stripe/stripe-go v70.15.0
-)
-```
-
-And use the same style of import paths as above:
-
-``` go
-import (
-    "github.com/stripe/stripe-go"
-    "github.com/stripe/stripe-go/customer"
+    "github.com/stripe/stripe-go/v71"
+    "github.com/stripe/stripe-go/v71/customer"
 )
 ```
 
@@ -139,8 +109,8 @@ To use a key, pass it to `API`'s `Init` function:
 ```go
 
 import (
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/client"
+	"github.com/stripe/stripe-go/v71"
+	"github.com/stripe/stripe-go/v71/client"
 )
 
 stripe := &client.API{}
@@ -161,8 +131,8 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/urlfetch"
 
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/client"
+	"github.com/stripe/stripe-go/v71"
+	"github.com/stripe/stripe-go/v71/client"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -196,8 +166,8 @@ client.
 
 ```go
 import (
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/$resource$"
+	"github.com/stripe/stripe-go/v71"
+	"github.com/stripe/stripe-go/v71/$resource$"
 )
 
 // Setup
@@ -236,8 +206,8 @@ individual key.
 
 ```go
 import (
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/client"
+	"github.com/stripe/stripe-go/v71"
+	"github.com/stripe/stripe-go/v71/client"
 )
 
 // Setup
@@ -274,8 +244,8 @@ problem by configuring the maximum number of retries:
 
 ```go
 import (
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/client"
+	"github.com/stripe/stripe-go/v71"
+	"github.com/stripe/stripe-go/v71/client"
 )
 
 config := &stripe.BackendConfig{
