@@ -11,12 +11,28 @@ const (
 	IssuingCardPINStatusBlocked IssuingCardPINStatus = "blocked"
 )
 
+// IssuingCardCancellationReason is the list of possible values for the cancellation reason
+// on an issuing card.
+type IssuingCardCancellationReason string
+
+// List of values that IssuingCardReplacementReason can take.
+const (
+	IssuingCardCancellationReasonLost   IssuingCardCancellationReason = "lost"
+	IssuingCardCancellationReasonStolen IssuingCardCancellationReason = "stolen"
+)
+
 // IssuingCardReplacementReason is the list of possible values for the replacement reason on an
 // issuing card.
 type IssuingCardReplacementReason string
 
 // List of values that IssuingCardReplacementReason can take.
 const (
+	IssuingCardReplacementReasonDamaged IssuingCardReplacementReason = "damaged"
+	IssuingCardReplacementReasonExpired IssuingCardReplacementReason = "expired"
+	IssuingCardReplacementReasonLost    IssuingCardReplacementReason = "lost"
+	IssuingCardReplacementReasonStolen  IssuingCardReplacementReason = "stolen"
+
+	// The following values are deprecated and will be removed in the next major version.
 	IssuingCardReplacementReasonDamage     IssuingCardReplacementReason = "damage"
 	IssuingCardReplacementReasonExpiration IssuingCardReplacementReason = "expiration"
 	IssuingCardReplacementReasonLoss       IssuingCardReplacementReason = "loss"
@@ -175,16 +191,17 @@ type IssuingCardSpendingControlsParams struct {
 
 // IssuingCardParams is the set of parameters that can be used when creating or updating an issuing card.
 type IssuingCardParams struct {
-	Params            `form:"*"`
-	Billing           *IssuingBillingParams              `form:"billing"`
-	Cardholder        *string                            `form:"cardholder"`
-	Currency          *string                            `form:"currency"`
-	ReplacementFor    *string                            `form:"replacement_for"`
-	ReplacementReason *string                            `form:"replacement_reason"`
-	SpendingControls  *IssuingCardSpendingControlsParams `form:"spending_controls"`
-	Status            *string                            `form:"status"`
-	Shipping          *IssuingCardShippingParams         `form:"shipping"`
-	Type              *string                            `form:"type"`
+	Params             `form:"*"`
+	Billing            *IssuingBillingParams              `form:"billing"`
+	CancellationReason *string                            `form:"cancellation_reason"`
+	Cardholder         *string                            `form:"cardholder"`
+	Currency           *string                            `form:"currency"`
+	ReplacementFor     *string                            `form:"replacement_for"`
+	ReplacementReason  *string                            `form:"replacement_reason"`
+	SpendingControls   *IssuingCardSpendingControlsParams `form:"spending_controls"`
+	Status             *string                            `form:"status"`
+	Shipping           *IssuingCardShippingParams         `form:"shipping"`
+	Type               *string                            `form:"type"`
 
 	// The following parameter is deprecated, use SpendingControls instead.
 	AuthorizationControls *AuthorizationControlsParams `form:"authorization_controls"`
@@ -286,25 +303,26 @@ type IssuingCardSpendingControls struct {
 
 // IssuingCard is the resource representing a Stripe issuing card.
 type IssuingCard struct {
-	Billing           *IssuingBilling              `json:"billing"`
-	Brand             string                       `json:"brand"`
-	Cardholder        *IssuingCardholder           `json:"cardholder"`
-	Created           int64                        `json:"created"`
-	ExpMonth          int64                        `json:"exp_month"`
-	ExpYear           int64                        `json:"exp_year"`
-	Last4             string                       `json:"last4"`
-	ID                string                       `json:"id"`
-	Livemode          bool                         `json:"livemode"`
-	Metadata          map[string]string            `json:"metadata"`
-	Object            string                       `json:"object"`
-	PIN               *IssuingCardPIN              `json:"pin"`
-	ReplacedBy        *IssuingCard                 `json:"replaced_by"`
-	ReplacementFor    *IssuingCard                 `json:"replacement_for"`
-	ReplacementReason IssuingCardReplacementReason `json:"replacement_reason"`
-	Shipping          *IssuingCardShipping         `json:"shipping"`
-	SpendingControls  *IssuingCardSpendingControls `json:"spending_controls"`
-	Status            IssuingCardStatus            `json:"status"`
-	Type              IssuingCardType              `json:"type"`
+	Billing            *IssuingBilling               `json:"billing"`
+	Brand              string                        `json:"brand"`
+	CancellationReason IssuingCardCancellationReason `json:"cancellation_reason"`
+	Cardholder         *IssuingCardholder            `json:"cardholder"`
+	Created            int64                         `json:"created"`
+	ExpMonth           int64                         `json:"exp_month"`
+	ExpYear            int64                         `json:"exp_year"`
+	Last4              string                        `json:"last4"`
+	ID                 string                        `json:"id"`
+	Livemode           bool                          `json:"livemode"`
+	Metadata           map[string]string             `json:"metadata"`
+	Object             string                        `json:"object"`
+	PIN                *IssuingCardPIN               `json:"pin"`
+	ReplacedBy         *IssuingCard                  `json:"replaced_by"`
+	ReplacementFor     *IssuingCard                  `json:"replacement_for"`
+	ReplacementReason  IssuingCardReplacementReason  `json:"replacement_reason"`
+	Shipping           *IssuingCardShipping          `json:"shipping"`
+	SpendingControls   *IssuingCardSpendingControls  `json:"spending_controls"`
+	Status             IssuingCardStatus             `json:"status"`
+	Type               IssuingCardType               `json:"type"`
 
 	// The following property is deprecated, use SpendingControls instead.
 	AuthorizationControls *IssuingCardAuthorizationControls `json:"authorization_controls"`
