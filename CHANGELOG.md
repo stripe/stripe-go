@@ -1,5 +1,8 @@
 # Changelog
 
+## 70.12.0 - 2020-04-09
+* [#1057](https://github.com/stripe/stripe-go/pull/1057) Add missing properties on `Review`
+
 ## 70.11.0 - 2020-04-03
 * [#1056](https://github.com/stripe/stripe-go/pull/1056) Add `CalculatedStatementDescriptor` on `Charge`
 
