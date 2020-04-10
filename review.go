@@ -2,6 +2,26 @@ package stripe
 
 import "encoding/json"
 
+// ReviewClosedReason describes the reason why the review is closed.
+type ReviewClosedReason string
+
+// List of values that ReviewClosedReason can take.
+const (
+	ReviewClosedReasonApproved        ReviewClosedReason = "approved"
+	ReviewClosedReasonDisputed        ReviewClosedReason = "disputed"
+	ReviewClosedReasonRefunded        ReviewClosedReason = "refunded"
+	ReviewClosedReasonRefundedAsFraud ReviewClosedReason = "refunded_as_fraud"
+)
+
+// ReviewOpenedReason describes the reason why the review is opened.
+type ReviewOpenedReason string
+
+// List of values that ReviewOpenedReason can take.
+const (
+	ReviewOpenedReasonManual ReviewOpenedReason = "manual"
+	ReviewOpenedReasonRule   ReviewOpenedReason = "rule"
+)
+
 // ReviewReasonType describes the reason why the review is open or closed.
 type ReviewReasonType string
 
@@ -32,17 +52,40 @@ type ReviewListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 }
 
+// ReviewIPAddressLocation represents information about the IP associated with a review.
+type ReviewIPAddressLocation struct {
+	City      string  `json:"city"`
+	Country   string  `json:"country"`
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+	Region    string  `json:"region"`
+}
+
+// ReviewSession represents information about the browser session associated with a review.
+type ReviewSession struct {
+	Browser  string `json:"browser"`
+	Device   string `json:"device"`
+	Platform string `json:"platform"`
+	Version  string `json:"version"`
+}
+
 // Review is the resource representing a Radar review.
 // For more details see https://stripe.com/docs/api#reviews.
 type Review struct {
-	Charge        *Charge          `json:"charge"`
-	Created       int64            `json:"created"`
-	ID            string           `json:"id"`
-	Livemode      bool             `json:"livemode"`
-	Object        string           `json:"object"`
-	Open          bool             `json:"open"`
-	PaymentIntent *PaymentIntent   `json:"payment_intent"`
-	Reason        ReviewReasonType `json:"reason"`
+	BillingZip        string                   `json:"billing_zip"`
+	Charge            *Charge                  `json:"charge"`
+	ClosedReason      ReviewClosedReason       `json:"closed_reason"`
+	Created           int64                    `json:"created"`
+	ID                string                   `json:"id"`
+	IPAddress         string                   `json:"ip_address"`
+	IPAddressLocation *ReviewIPAddressLocation `json:"ip_address_location"`
+	Livemode          bool                     `json:"livemode"`
+	Object            string                   `json:"object"`
+	Open              bool                     `json:"open"`
+	OpenedReason      ReviewOpenedReason       `json:"opened_reason"`
+	PaymentIntent     *PaymentIntent           `json:"payment_intent"`
+	Reason            ReviewReasonType         `json:"reason"`
+	Session           *ReviewSession           `json:"session"`
 }
 
 // ReviewList is a list of reviews as retrieved from a list endpoint.
