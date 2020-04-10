@@ -1,5 +1,9 @@
 # Changelog
 
+## 70.13.0 - 2020-04-10
+* [#1060](https://github.com/stripe/stripe-go/pull/1060) Add support for `CancellationReason` on Issuing `Card`
+* [#1058](https://github.com/stripe/stripe-go/pull/1058) Add support for `TaxIDTypeSGGST` on `TaxId`
+
 ## 70.12.0 - 2020-04-09
 * [#1057](https://github.com/stripe/stripe-go/pull/1057) Add missing properties on `Review`
 
