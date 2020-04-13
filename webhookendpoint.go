@@ -7,6 +7,7 @@ import "encoding/json"
 type WebhookEndpointParams struct {
 	Params        `form:"*"`
 	Connect       *bool     `form:"connect"`
+	Description   *string   `form:"description"`
 	Disabled      *bool     `form:"disabled"`
 	EnabledEvents []*string `form:"enabled_events"`
 	URL           *string   `form:"url"`
@@ -32,6 +33,7 @@ type WebhookEndpoint struct {
 	Connect       bool     `json:"connect"`
 	Created       int64    `json:"created"`
 	Deleted       bool     `json:"deleted"`
+	Description   string   `json:"description"`
 	EnabledEvents []string `json:"enabled_events"`
 	ID            string   `json:"id"`
 	Livemode      bool     `json:"livemode"`
