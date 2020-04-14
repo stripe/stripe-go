@@ -1,5 +1,8 @@
 # Changelog
 
+## 70.15.0 - 2020-04-14
+* [#1066](https://github.com/stripe/stripe-go/pull/1066) Add support for `SecondaryColor` on `Account`
+
 ## 70.14.0 - 2020-04-13
 * [#1062](https://github.com/stripe/stripe-go/pull/1062) Add `Description` on `WebhookEndpoint`
 
