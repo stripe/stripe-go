@@ -184,9 +184,10 @@ type AccountDeclineSettingsParams struct {
 // AccountSettingsBrandingParams represent allowed parameters to configure settings specific to the
 // account’s branding.
 type AccountSettingsBrandingParams struct {
-	Icon         *string `form:"icon"`
-	Logo         *string `form:"logo"`
-	PrimaryColor *string `form:"primary_color"`
+	Icon           *string `form:"icon"`
+	Logo           *string `form:"logo"`
+	PrimaryColor   *string `form:"primary_color"`
+	SecondaryColor *string `form:"secondary_color"`
 }
 
 // AccountSettingsCardPaymentsParams represent allowed parameters to configure settings specific to
@@ -408,9 +409,10 @@ type AccountRequirements struct {
 
 // AccountSettingsBranding represents settings specific to the account's branding.
 type AccountSettingsBranding struct {
-	Icon         *File  `json:"icon"`
-	Logo         *File  `json:"logo"`
-	PrimaryColor string `json:"primary_color"`
+	Icon           *File  `json:"icon"`
+	Logo           *File  `json:"logo"`
+	PrimaryColor   string `json:"primary_color"`
+	SecondaryColor string `json:"secondary_color"`
 }
 
 // AccountSettingsCardPayments represents settings specific to card charging on the account.
