@@ -7,10 +7,8 @@ type IssuingTransactionType string
 
 // List of values that IssuingTransactionType can take.
 const (
-	IssuingTransactionTypeCapture        IssuingTransactionType = "capture"
-	IssuingTransactionTypeCashWithdrawal IssuingTransactionType = "cash_withdrawal"
-	IssuingTransactionTypeRefund         IssuingTransactionType = "refund"
-	IssuingTransactionTypeRefundReversal IssuingTransactionType = "refund_reversal"
+	IssuingTransactionTypeCapture IssuingTransactionType = "capture"
+	IssuingTransactionTypeRefund  IssuingTransactionType = "refund"
 )
 
 // IssuingTransactionParams is the set of parameters that can be used when creating or updating an issuing transaction.
@@ -25,28 +23,27 @@ type IssuingTransactionListParams struct {
 	Cardholder   *string           `form:"cardholder"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-	Dispute      *string           `form:"dispute"`
 }
 
 // IssuingTransaction is the resource representing a Stripe issuing transaction.
 type IssuingTransaction struct {
 	APIResource
-	Amount             int64                  `json:"amount"`
-	Authorization      *IssuingAuthorization  `json:"authorization"`
-	BalanceTransaction *BalanceTransaction    `json:"balance_transaction"`
-	Card               *IssuingCard           `json:"card"`
-	Cardholder         *IssuingCardholder     `json:"cardholder"`
-	Created            int64                  `json:"created"`
-	Currency           Currency               `json:"currency"`
-	Dispute            *IssuingDispute        `json:"dispute"`
-	ID                 string                 `json:"id"`
-	Livemode           bool                   `json:"livemode"`
-	MerchantData       *IssuingMerchantData   `json:"merchant_data"`
-	MerchantAmount     int64                  `json:"merchant_amount"`
-	MerchantCurrency   Currency               `json:"merchant_currency"`
-	Metadata           map[string]string      `json:"metadata"`
-	Object             string                 `json:"object"`
-	Type               IssuingTransactionType `json:"type"`
+	Amount             int64                             `json:"amount"`
+	Authorization      *IssuingAuthorization             `json:"authorization"`
+	BalanceTransaction *BalanceTransaction               `json:"balance_transaction"`
+	Card               *IssuingCard                      `json:"card"`
+	Cardholder         *IssuingCardholder                `json:"cardholder"`
+	Created            int64                             `json:"created"`
+	Currency           Currency                          `json:"currency"`
+	Dispute            *IssuingDispute                   `json:"dispute"`
+	ID                 string                            `json:"id"`
+	Livemode           bool                              `json:"livemode"`
+	MerchantData       *IssuingAuthorizationMerchantData `json:"merchant_data"`
+	MerchantAmount     int64                             `json:"merchant_amount"`
+	MerchantCurrency   Currency                          `json:"merchant_currency"`
+	Metadata           map[string]string                 `json:"metadata"`
+	Object             string                            `json:"object"`
+	Type               IssuingTransactionType            `json:"type"`
 }
 
 // IssuingTransactionList is a list of issuing transactions as retrieved from a list endpoint.

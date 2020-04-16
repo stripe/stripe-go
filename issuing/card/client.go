@@ -74,19 +74,6 @@ func (c Client) List(listParams *stripe.IssuingCardListParams) *Iter {
 	})}
 }
 
-// Details retrieves an issuing card details.
-func Details(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCardDetails, error) {
-	return getC().Details(id, params)
-}
-
-// Details retrieves an issuing card details.
-func (c Client) Details(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCardDetails, error) {
-	path := stripe.FormatURLPath("/v1/issuing/cards/%s/details", id)
-	cardDetails := &stripe.IssuingCardDetails{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, cardDetails)
-	return cardDetails, err
-}
-
 // Iter is an iterator for issuing cards.
 type Iter struct {
 	*stripe.Iter

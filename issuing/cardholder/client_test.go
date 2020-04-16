@@ -27,7 +27,7 @@ func TestIssuingCardholderList(t *testing.T) {
 
 func TestIssuingCardholderNew(t *testing.T) {
 	cardholder, err := New(&stripe.IssuingCardholderParams{
-		Billing: &stripe.IssuingBillingParams{
+		Billing: &stripe.IssuingCardholderBillingParams{
 			Address: &stripe.AddressParams{
 				Country:    stripe.String("US"),
 				Line1:      stripe.String("line1"),
@@ -35,7 +35,6 @@ func TestIssuingCardholderNew(t *testing.T) {
 				PostalCode: stripe.String("90210"),
 				State:      stripe.String("CA"),
 			},
-			Name: stripe.String("billing name"),
 		},
 		Individual: &stripe.IssuingCardholderIndividualParams{
 			DOB: &stripe.IssuingCardholderIndividualDOBParams{

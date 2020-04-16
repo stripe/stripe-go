@@ -34,9 +34,6 @@ type IssuingCardholderStatus string
 const (
 	IssuingCardholderStatusActive   IssuingCardholderStatus = "active"
 	IssuingCardholderStatusInactive IssuingCardholderStatus = "inactive"
-
-	// This value is deprecated
-	IssuingCardholderStatusPending IssuingCardholderStatus = "pending"
 )
 
 // IssuingCardholderType is the type of an issuing cardholder.
@@ -46,23 +43,24 @@ type IssuingCardholderType string
 const (
 	IssuingCardholderTypeCompany    IssuingCardholderType = "company"
 	IssuingCardholderTypeIndividual IssuingCardholderType = "individual"
-
-	// This value is deprecated. Use IssuingCardholderTypeCompany instead
-	IssuingCardholderTypeBusinessEntity IssuingCardholderType = "business_entity"
 )
 
-// IssuingBillingParams is the set of parameters that can be used for billing with the Issuing APIs.
-type IssuingBillingParams struct {
+// IssuingCardholderBillingParams is the set of parameters that can be used for billing with the Issuing APIs.
+type IssuingCardholderBillingParams struct {
 	Address *AddressParams `form:"address"`
-
-	// This parameter is deprecated
-	Name *string `form:"name"`
 }
 
-// IssuingCardholderCompanyParams represents additional information about a
-// `business_entity` cardholder.
+// IssuingCardholderCompanyParams represents additional information about a company cardholder.
 type IssuingCardholderCompanyParams struct {
 	TaxID *string `form:"tax_id"`
+}
+
+// IssuingCardholderIndividualDOBParams represents the date of birth of the
+// cardholder individual.
+type IssuingCardholderIndividualDOBParams struct {
+	Day   *int64 `form:"day"`
+	Month *int64 `form:"month"`
+	Year  *int64 `form:"year"`
 }
 
 // IssuingCardholderIndividualVerificationDocumentParams represents an
@@ -76,14 +74,6 @@ type IssuingCardholderIndividualVerificationDocumentParams struct {
 // document for this cardholder.
 type IssuingCardholderIndividualVerificationParams struct {
 	Document *IssuingCardholderIndividualVerificationDocumentParams `form:"document"`
-}
-
-// IssuingCardholderIndividualDOBParams represents the date of birth of the
-// cardholder individual.
-type IssuingCardholderIndividualDOBParams struct {
-	Day   *int64 `form:"day"`
-	Month *int64 `form:"month"`
-	Year  *int64 `form:"year"`
 }
 
 // IssuingCardholderIndividualParams represents additional information about an
@@ -115,7 +105,7 @@ type IssuingCardholderSpendingControlsParams struct {
 // IssuingCardholderParams is the set of parameters that can be used when creating or updating an issuing cardholder.
 type IssuingCardholderParams struct {
 	Params           `form:"*"`
-	Billing          *IssuingBillingParams                    `form:"billing"`
+	Billing          *IssuingCardholderBillingParams          `form:"billing"`
 	Company          *IssuingCardholderCompanyParams          `form:"company"`
 	Email            *string                                  `form:"email"`
 	Individual       *IssuingCardholderIndividualParams       `form:"individual"`
@@ -124,10 +114,6 @@ type IssuingCardholderParams struct {
 	SpendingControls *IssuingCardholderSpendingControlsParams `form:"spending_controls"`
 	Status           *string                                  `form:"status"`
 	Type             *string                                  `form:"type"`
-
-	// The following parameters are deprecated
-	IsDefault             *bool                        `form:"is_default"`
-	AuthorizationControls *AuthorizationControlsParams `form:"authorization_controls"`
 }
 
 // IssuingCardholderListParams is the set of parameters that can be used when listing issuing cardholders.
@@ -139,24 +125,24 @@ type IssuingCardholderListParams struct {
 	PhoneNumber  *string           `form:"phone_number"`
 	Status       *string           `form:"status"`
 	Type         *string           `form:"type"`
-
-	// The property is considered deprecated.
-	// TODO remove in the next major version
-	IsDefault *bool `form:"is_default"`
 }
 
-// IssuingBilling is the resource representing the billing hash with the Issuing APIs.
-type IssuingBilling struct {
+// IssuingCardholderBilling is the resource representing the billing hash with the Issuing APIs.
+type IssuingCardholderBilling struct {
 	Address *Address `json:"address"`
-
-	// This property is deprecated
-	Name string `json:"name"`
 }
 
-// IssuingCardholderRequirements contains the verification requirements for the cardholder.
-type IssuingCardholderRequirements struct {
-	DisabledReason IssuingCardholderRequirementsDisabledReason `json:"disabled_reason"`
-	PastDue        []string                                    `json:"past_due"`
+// IssuingCardholderCompany represents additional information about a company cardholder.
+type IssuingCardholderCompany struct {
+	TaxIDProvided bool `json:"tax_id_provided"`
+}
+
+// IssuingCardholderIndividualDOB represents the date of birth of the issuing card hoder
+// individual.
+type IssuingCardholderIndividualDOB struct {
+	Day   int64 `json:"day"`
+	Month int64 `json:"month"`
+	Year  int64 `json:"year"`
 }
 
 // IssuingCardholderIndividualVerificationDocument represents an identifying
@@ -172,14 +158,6 @@ type IssuingCardholderIndividualVerification struct {
 	Document *IssuingCardholderIndividualVerificationDocument `json:"document"`
 }
 
-// IssuingCardholderIndividualDOB represents the date of birth of the issuing card hoder
-// individual.
-type IssuingCardholderIndividualDOB struct {
-	Day   int64 `json:"day"`
-	Month int64 `json:"month"`
-	Year  int64 `json:"year"`
-}
-
 // IssuingCardholderIndividual represents additional information about an
 // individual cardholder.
 type IssuingCardholderIndividual struct {
@@ -189,10 +167,10 @@ type IssuingCardholderIndividual struct {
 	Verification *IssuingCardholderIndividualVerification `json:"verification"`
 }
 
-// IssuingCardholderCompany represents additional information about a
-// business_entity cardholder.
-type IssuingCardholderCompany struct {
-	TaxIDProvided bool `json:"tax_id_provided"`
+// IssuingCardholderRequirements contains the verification requirements for the cardholder.
+type IssuingCardholderRequirements struct {
+	DisabledReason IssuingCardholderRequirementsDisabledReason `json:"disabled_reason"`
+	PastDue        []string                                    `json:"past_due"`
 }
 
 // IssuingCardholderSpendingControlsSpendingLimit is the resource representing a spending limit
@@ -215,8 +193,7 @@ type IssuingCardholderSpendingControls struct {
 // IssuingCardholder is the resource representing a Stripe issuing cardholder.
 type IssuingCardholder struct {
 	APIResource
-
-	Billing          *IssuingBilling                    `json:"billing"`
+	Billing          *IssuingCardholderBilling          `json:"billing"`
 	Company          *IssuingCardholderCompany          `json:"company"`
 	Created          int64                              `json:"created"`
 	Email            string                             `json:"email"`
@@ -231,9 +208,6 @@ type IssuingCardholder struct {
 	SpendingControls *IssuingCardholderSpendingControls `json:"spending_controls"`
 	Status           IssuingCardholderStatus            `json:"status"`
 	Type             IssuingCardholderType              `json:"type"`
-
-	// The following property is deprecated, use SpendingControls instead
-	AuthorizationControls *IssuingCardAuthorizationControls `json:"authorization_controls"`
 }
 
 // IssuingCardholderList is a list of issuing cardholders as retrieved from a list endpoint.
