@@ -8,13 +8,6 @@ import (
 	_ "github.com/stripe/stripe-go/testing"
 )
 
-func TestIssuingCardDetails(t *testing.T) {
-	cardDetails, err := Details("ic_123", nil)
-	assert.Nil(t, err)
-	assert.NotNil(t, cardDetails)
-	assert.Equal(t, "issuing.card_details", cardDetails.Object)
-}
-
 func TestIssuingCardGet(t *testing.T) {
 	card, err := Get("ic_123", nil)
 	assert.Nil(t, err)
