@@ -90,9 +90,9 @@ func init() {
 	stripeMockBackend := stripe.GetBackendWithConfig(
 		stripe.APIBackend,
 		&stripe.BackendConfig{
-			URL:        "https://localhost:" + port,
-			HTTPClient: httpClient,
-			Logger:     stripe.Logger,
+			URL:           "https://localhost:" + port,
+			HTTPClient:    httpClient,
+			LeveledLogger: stripe.DefaultLeveledLogger,
 		},
 	)
 	stripe.SetBackend(stripe.APIBackend, stripeMockBackend)

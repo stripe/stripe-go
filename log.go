@@ -3,7 +3,6 @@ package stripe
 import (
 	"fmt"
 	"io"
-	"log"
 	"os"
 )
 
@@ -12,6 +11,9 @@ import (
 //
 
 const (
+	// LevelNull sets a logger to show no messages at all.
+	LevelNull Level = 0
+
 	// LevelError sets a logger to show error messages only.
 	LevelError Level = 1
 
@@ -26,11 +28,6 @@ const (
 	// LevelDebug sets a logger to show informational messages or anything more
 	// severe.
 	LevelDebug Level = 4
-
-	// Older deprecated levels for Printfer-style logging.
-	printferLevelError = 1
-	printferLevelInfo  = 2
-	printferLevelDebug = 3
 )
 
 //
@@ -49,27 +46,9 @@ const (
 // This Logger will be inherited by any backends created by default, but will
 // be overridden if a backend is created with GetBackendWithConfig with a
 // custom LeveledLogger set.
-var DefaultLeveledLogger LeveledLoggerInterface
-
-// LogLevel is the logging level for this library.
-// 0: no logging
-// 1: errors only
-// 2: errors + informational (default)
-// 3: errors + informational + debug
-//
-// Deprecated: Logging should be configured with DefaultLeveledLogger instead.
-var LogLevel = 2
-
-// Logger controls how stripe performs logging at a package level. It is useful
-// to customise if you need it prefixed for your application to meet other
-// requirements.
-//
-// This Logger will be inherited by any backends created by default, but will
-// be overridden if a backend is created with GetBackendWithConfig with a
-// custom Logger set.
-//
-// Deprecated: Logging should be configured with DefaultLeveledLogger instead.
-var Logger Printfer
+var DefaultLeveledLogger LeveledLoggerInterface = &LeveledLogger{
+	Level: LevelError,
+}
 
 //
 // Public types
@@ -160,62 +139,4 @@ type LeveledLoggerInterface interface {
 
 	// Warnf logs a warning message using Printf conventions.
 	Warnf(format string, v ...interface{})
-}
-
-// Printfer is an interface to be implemented by Logger.
-type Printfer interface {
-	Printf(format string, v ...interface{})
-}
-
-//
-// Private types
-//
-
-// Level represents a deprecated logging level.
-type printferLevel uint32
-
-type leveledLoggerPrintferShim struct {
-	level  printferLevel
-	logger Printfer
-}
-
-// Debugf logs a debug message using Printf conventions.
-func (l *leveledLoggerPrintferShim) Debugf(format string, v ...interface{}) {
-	if l.level >= printferLevelDebug {
-		l.logger.Printf(format+"\n", v...)
-	}
-}
-
-// Errorf logs a warning message using Printf conventions.
-func (l *leveledLoggerPrintferShim) Errorf(format string, v ...interface{}) {
-	if l.level >= printferLevelError {
-		l.logger.Printf(format+"\n", v...)
-	}
-}
-
-// Infof logs an informational message using Printf conventions.
-func (l *leveledLoggerPrintferShim) Infof(format string, v ...interface{}) {
-	if l.level >= printferLevelInfo {
-		l.logger.Printf(format+"\n", v...)
-	}
-}
-
-// Warnf logs a warning message using Printf conventions.
-func (l *leveledLoggerPrintferShim) Warnf(format string, v ...interface{}) {
-	// The original Stripe log level system didn't have a concept for warnings,
-	// so just reuse the same levels as error.
-	if l.level >= printferLevelError {
-		l.logger.Printf(format+"\n", v...)
-	}
-}
-
-//
-// Private functions
-//
-
-func init() {
-	// Defaults to logging nothing, but also makes sure that we have a logger
-	// so that we don't panic on a `nil` when the library tries to log
-	// something.
-	Logger = log.New(os.Stderr, "", log.LstdFlags)
 }
