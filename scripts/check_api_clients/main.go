@@ -12,6 +12,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 )
@@ -204,6 +205,11 @@ func getClientAPIPackages(fset *token.FileSet) (map[string]struct{}, error) {
 		return nil, err
 	}
 
+	// Regular expression that targets just the last segment(s) of the package
+	// path like `coupon` or `issuing/card`. Note that double quotes on either
+	// side are also stripped.
+	packagePathRE := regexp.MustCompile(`"github.com/stripe/stripe-go/v[0-9]+/(.*)"`)
+
 	// First we need to make a map of any packages that are being imported
 	// in ways that don't map perfectly well with the package paths that we'll
 	// extract by looking for clients in `.go` files.
@@ -222,13 +228,9 @@ func getClientAPIPackages(fset *token.FileSet) (map[string]struct{}, error) {
 	for _, importSpec := range f.Imports {
 		path := importSpec.Path.Value
 
-		// The import path is quoted, so trim quotes off either ended.
-		path = strings.TrimPrefix(path, `"`)
-		path = strings.TrimSuffix(path, `"`)
-
-		// Trim the fully qualified prefix off the front of the path to make
-		// translation easier for us after.
-		path = strings.TrimPrefix(path, "github.com/stripe/stripe-go/")
+		// Trim to just the last segment(s) of the package path like `coupon`
+		// or `issuing/card`.
+		path = packagePathRE.ReplaceAllString(path, "$1")
 
 		// A non-nil `Name` is an alias. Save the alias to our map with the
 		// relative package path.
