@@ -178,12 +178,6 @@ type SubscriptionSchedulePhase struct {
 	TaxPercent float64 `json:"tax_percent"`
 }
 
-// SubscriptionScheduleRenewalInterval represents the interval and duration of a schedule.
-type SubscriptionScheduleRenewalInterval struct {
-	Interval PlanInterval `form:"interval"`
-	Length   int64        `form:"length"`
-}
-
 // SubscriptionSchedule is the resource representing a Stripe subscription schedule.
 type SubscriptionSchedule struct {
 	APIResource
@@ -200,7 +194,6 @@ type SubscriptionSchedule struct {
 	Object               string                               `json:"object"`
 	Phases               []*SubscriptionSchedulePhase         `json:"phases"`
 	ReleasedSubscription *Subscription                        `json:"released_subscription"`
-	RenewalInterval      *SubscriptionScheduleRenewalInterval `json:"renewal_interval"`
 	Status               SubscriptionScheduleStatus           `json:"status"`
 	Subscription         *Subscription                        `json:"subscription"`
 }

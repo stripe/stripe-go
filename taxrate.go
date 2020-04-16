@@ -14,24 +14,14 @@ type TaxRateParams struct {
 	Percentage   *float64 `form:"percentage"`
 }
 
-// TaxRatePercentageRangeQueryParams are used to filter tax rates by specific percentage values.
-type TaxRatePercentageRangeQueryParams struct {
-	GreaterThan        float64 `form:"gt"`
-	GreaterThanOrEqual float64 `form:"gte"`
-	LesserThan         float64 `form:"lt"`
-	LesserThanOrEqual  float64 `form:"lte"`
-}
-
 // TaxRateListParams is the set of parameters that can be used when listing tax rates.
 // For more detail see https://stripe.com/docs/api/tax_rates/list.
 type TaxRateListParams struct {
-	ListParams      `form:"*"`
-	Active          *bool                              `form:"active"`
-	Created         *int64                             `form:"created"`
-	CreatedRange    *RangeQueryParams                  `form:"created"`
-	Inclusive       *bool                              `form:"inclusive"`
-	Percentage      *float64                           `form:"percentage"`
-	PercentageRange *TaxRatePercentageRangeQueryParams `form:"percentage"`
+	ListParams   `form:"*"`
+	Active       *bool             `form:"active"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	Inclusive    *bool             `form:"inclusive"`
 }
 
 // TaxRate is the resource representing a Stripe tax rate.
