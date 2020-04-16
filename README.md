@@ -237,10 +237,15 @@ if err := i.Err(); err != nil {
 }
 ```
 
-### Configuring Automatic Retries
+### Automatic Retries
 
-You can enable automatic retries on requests that fail due to a transient
-problem by configuring the maximum number of retries:
+The library automatically retries requests on intermittent failures like on a
+connection error, timeout, or on certain API responses like a status `409
+Conflict`. [Idempotency keys][idempotency-keys] are always added to requests to
+make any such subsequent retries safe.
+
+By default, it will perform up to two retries. That number can be configured
+with `MaxNetworkRetries`:
 
 ```go
 import (
@@ -249,7 +254,7 @@ import (
 )
 
 config := &stripe.BackendConfig{
-    MaxNetworkRetries: 2,
+    MaxNetworkRetries: stripe.Int64(0), // Zero retries
 }
 
 sc := &client.API{}
@@ -260,12 +265,6 @@ sc.Init("sk_key", &stripe.Backends{
 
 coupon, err := sc.Coupons.New(...)
 ```
-
-Various errors can trigger a retry, like a connection error or a timeout, and
-also certain API responses like HTTP status `409 Conflict`.
-
-[Idempotency keys][idempotency-keys] are added to requests to guarantee that
-retries are safe.
 
 ### Configuring Logging
 
@@ -331,7 +330,7 @@ You can disable this behavior if you prefer:
 
 ```go
 config := &stripe.BackendConfig{
-	EnableTelemetry: false,
+	EnableTelemetry: stripe.Bool(false),
 }
 ```
 

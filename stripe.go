@@ -43,6 +43,10 @@ const (
 	// OAuth.
 	ConnectBackend SupportedBackend = "connect"
 
+	// DefaultMaxNetworkRetries is the default maximum number of retries made
+	// by a Stripe client.
+	DefaultMaxNetworkRetries int64 = 2
+
 	// UnknownPlatform is the string returned as the system name if we couldn't get
 	// one from `uname`.
 	UnknownPlatform string = "unknown platform"
@@ -152,7 +156,7 @@ type Backend interface {
 	Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error
 	CallRaw(method, path, key string, body *form.Values, params *Params, v LastResponseSetter) error
 	CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error
-	SetMaxNetworkRetries(maxNetworkRetries int)
+	SetMaxNetworkRetries(maxNetworkRetries int64)
 }
 
 // BackendConfig is used to configure a new Stripe backend.
@@ -160,8 +164,11 @@ type BackendConfig struct {
 	// EnableTelemetry allows request metrics (request id and duration) to be sent
 	// to Stripe in subsequent requests via the `X-Stripe-Client-Telemetry` header.
 	//
+	// This value is a pointer to allow us to differentiate an unset versus
+	// empty value. Use stripe.Bool for an easy way to set this value.
+	//
 	// Defaults to false.
-	EnableTelemetry bool
+	EnableTelemetry *bool
 
 	// HTTPClient is an HTTP client instance to use when making API requests.
 	//
@@ -188,13 +195,19 @@ type BackendConfig struct {
 	// retry requests that appear to have failed due to an intermittent
 	// problem.
 	//
-	// Defaults to 0.
-	MaxNetworkRetries int
+	// This value is a pointer to allow us to differentiate an unset versus
+	// empty value. Use stripe.Int64 for an easy way to set this value.
+	//
+	// Defaults to DefaultMaxNetworkRetries (2).
+	MaxNetworkRetries *int64
 
 	// URL is the base URL to use for API paths.
 	//
+	// This value is a pointer to allow us to differentiate an unset versus
+	// empty value. Use stripe.String for an easy way to set this value.
+	//
 	// If left empty, it'll be set to the default for the SupportedBackend.
-	URL string
+	URL *string
 }
 
 // BackendImplementation is the internal implementation for making HTTP calls
@@ -207,7 +220,7 @@ type BackendImplementation struct {
 	URL               string
 	HTTPClient        *http.Client
 	LeveledLogger     LeveledLoggerInterface
-	MaxNetworkRetries int
+	MaxNetworkRetries int64
 
 	enableTelemetry bool
 
@@ -557,7 +570,7 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 // SetMaxNetworkRetries sets max number of retries on failed requests
 //
 // This function is deprecated. Please use GetBackendWithConfig instead.
-func (s *BackendImplementation) SetMaxNetworkRetries(maxNetworkRetries int) {
+func (s *BackendImplementation) SetMaxNetworkRetries(maxNetworkRetries int64) {
 	s.MaxNetworkRetries = maxNetworkRetries
 }
 
@@ -600,7 +613,7 @@ func (s *BackendImplementation) UnmarshalJSONVerbose(statusCode int, body []byte
 // socket errors that may represent an intermittent problem and some special
 // HTTP statuses.
 func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *http.Response, numRetries int) bool {
-	if numRetries >= s.MaxNetworkRetries {
+	if numRetries >= int(s.MaxNetworkRetries) {
 		return false
 	}
 
@@ -800,8 +813,8 @@ func GetBackend(backendType SupportedBackend) Backend {
 		&BackendConfig{
 			HTTPClient:        httpClient,
 			LeveledLogger:     nil, // Set by GetBackendWithConfiguation when nil
-			MaxNetworkRetries: 0,
-			URL:               "", // Set by GetBackendWithConfiguation when empty
+			MaxNetworkRetries: nil, // Set by GetBackendWithConfiguation when nil
+			URL:               nil, // Set by GetBackendWithConfiguation when nil
 		},
 	)
 
@@ -822,31 +835,35 @@ func GetBackendWithConfig(backendType SupportedBackend, config *BackendConfig) B
 		config.LeveledLogger = DefaultLeveledLogger
 	}
 
+	if config.MaxNetworkRetries == nil {
+		config.MaxNetworkRetries = Int64(DefaultMaxNetworkRetries)
+	}
+
 	switch backendType {
 	case APIBackend:
-		if config.URL == "" {
-			config.URL = apiURL
+		if config.URL == nil {
+			config.URL = String(apiURL)
 		}
 
-		config.URL = normalizeURL(config.URL)
+		config.URL = String(normalizeURL(*config.URL))
 
 		return newBackendImplementation(backendType, config)
 
 	case UploadsBackend:
-		if config.URL == "" {
-			config.URL = uploadsURL
+		if config.URL == nil {
+			config.URL = String(uploadsURL)
 		}
 
-		config.URL = normalizeURL(config.URL)
+		config.URL = String(normalizeURL(*config.URL))
 
 		return newBackendImplementation(backendType, config)
 
 	case ConnectBackend:
-		if config.URL == "" {
-			config.URL = ConnectURL
+		if config.URL == nil {
+			config.URL = String(ConnectURL)
 		}
 
-		config.URL = normalizeURL(config.URL)
+		config.URL = String(normalizeURL(*config.URL))
 
 		return newBackendImplementation(backendType, config)
 	}
@@ -1139,8 +1156,12 @@ func isHTTPWriteMethod(method string) bool {
 // The vast majority of the time you should be calling GetBackendWithConfig
 // instead of this function.
 func newBackendImplementation(backendType SupportedBackend, config *BackendConfig) Backend {
+	enableTelemetry := EnableTelemetry
+	if config.EnableTelemetry != nil {
+		enableTelemetry = *config.EnableTelemetry
+	}
+
 	var requestMetricsBuffer chan requestMetrics
-	enableTelemetry := config.EnableTelemetry || EnableTelemetry
 
 	// only allocate the requestMetrics buffer if client telemetry is enabled.
 	if enableTelemetry {
@@ -1150,9 +1171,9 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 	return &BackendImplementation{
 		HTTPClient:           config.HTTPClient,
 		LeveledLogger:        config.LeveledLogger,
-		MaxNetworkRetries:    config.MaxNetworkRetries,
+		MaxNetworkRetries:    *config.MaxNetworkRetries,
 		Type:                 backendType,
-		URL:                  config.URL,
+		URL:                  *config.URL,
 		enableTelemetry:      enableTelemetry,
 		networkRetriesSleep:  true,
 		requestMetricsBuffer: requestMetricsBuffer,
