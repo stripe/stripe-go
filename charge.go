@@ -193,10 +193,8 @@ type ChargePaymentMethodDetailsAchDebit struct {
 
 // ChargePaymentMethodDetailsAcssDebit represents details about the ACSS Debit PaymentMethod.
 type ChargePaymentMethodDetailsAcssDebit struct {
-	Country       string `json:"country"`
-	Fingerprint   string `json:"fingerprint"`
-	Last4         string `json:"last4"`
-	RoutingNumber string `json:"routing_number"`
+	Fingerprint string `json:"fingerprint"`
+	Last4       string `json:"last4"`
 }
 
 // ChargePaymentMethodDetailsAlipay represents details about the Alipay PaymentMethod.
@@ -487,7 +485,7 @@ type Charge struct {
 	OnBehalfOf                    *Account                    `json:"on_behalf_of"`
 	Outcome                       *ChargeOutcome              `json:"outcome"`
 	Paid                          bool                        `json:"paid"`
-	PaymentIntent                 string                      `json:"payment_intent"`
+	PaymentIntent                 *PaymentIntent              `json:"payment_intent"`
 	PaymentMethod                 string                      `json:"payment_method"`
 	PaymentMethodDetails          *ChargePaymentMethodDetails `json:"payment_method_details"`
 	ReceiptEmail                  string                      `json:"receipt_email"`
