@@ -1,6 +1,6 @@
 # V71 Migration Guide
 
-Version 71 of stripe-go contains a few major changes. Many of them are breaking, but only in minor ways.
+Some of the major changes included in version 71 are breaking, but in relatively minor ways. Read on for details.
 
 ## Go Modules
 
