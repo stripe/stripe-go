@@ -5,10 +5,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"regexp"
 	"runtime"
 	"sync"
@@ -18,6 +16,15 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 )
+
+// A shortcut for a leveled logger that spits out all debug information (useful in tests).
+var debugLeveledLogger = &LeveledLogger{
+	Level: LevelDebug,
+}
+
+//
+// ---
+//
 
 func TestBearerAuth(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
@@ -51,6 +58,7 @@ func TestContext(t *testing.T) {
 //
 func TestDo_Retry(t *testing.T) {
 	type testServerResponse struct {
+		APIResource
 		Message string `json:"message"`
 	}
 
@@ -92,9 +100,9 @@ func TestDo_Retry(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			LogLevel:          3,
-			MaxNetworkRetries: 5,
-			URL:               testServer.URL,
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(5),
+			URL:               String(testServer.URL),
 		},
 	).(*BackendImplementation)
 
@@ -122,12 +130,12 @@ func TestDo_Retry(t *testing.T) {
 }
 
 func TestShouldRetry(t *testing.T) {
-	MaxNetworkRetries := 3
+	MaxNetworkRetries := int64(3)
 
 	c := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			MaxNetworkRetries: MaxNetworkRetries,
+			MaxNetworkRetries: Int64(MaxNetworkRetries),
 		},
 	).(*BackendImplementation)
 
@@ -136,7 +144,7 @@ func TestShouldRetry(t *testing.T) {
 		nil,
 		&http.Request{},
 		&http.Response{},
-		MaxNetworkRetries,
+		int(MaxNetworkRetries),
 	))
 
 	// Doesn't retry most Stripe errors (they must also match a status code
@@ -236,6 +244,7 @@ func TestShouldRetry(t *testing.T) {
 
 func TestDo_RetryOnTimeout(t *testing.T) {
 	type testServerResponse struct {
+		APIResource
 		Message string `json:"message"`
 	}
 
@@ -251,9 +260,9 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			LogLevel:          3,
-			MaxNetworkRetries: 1,
-			URL:               testServer.URL,
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(1),
+			URL:               String(testServer.URL),
 			HTTPClient:        &http.Client{Timeout: timeout},
 		},
 	).(*BackendImplementation)
@@ -279,9 +288,65 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 	assert.Equal(t, uint32(2), atomic.LoadUint32(&counter))
 }
 
+func TestDo_LastResponsePopulated(t *testing.T) {
+	type testServerResponse struct {
+		APIResource
+		Message string `json:"message"`
+	}
+
+	message := "Hello, client."
+	expectedResponse := testServerResponse{Message: message}
+	rawJSON, err := json.Marshal(expectedResponse)
+	assert.NoError(t, err)
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Idempotency-Key", "key_123")
+		w.Header().Set("Other-Header", "other_header")
+		w.Header().Set("Request-Id", "req_123")
+
+		w.WriteHeader(http.StatusCreated)
+		_, err = w.Write(rawJSON)
+		assert.NoError(t, err)
+	}))
+	defer testServer.Close()
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	).(*BackendImplementation)
+
+	request, err := backend.NewRequest(
+		http.MethodGet,
+		"/hello",
+		"sk_test_123",
+		"application/x-www-form-urlencoded",
+		nil,
+	)
+	assert.NoError(t, err)
+
+	var resource testServerResponse
+	err = backend.Do(request, nil, &resource)
+	assert.NoError(t, err)
+	assert.Equal(t, message, resource.Message)
+
+	assert.Equal(t, "key_123", resource.LastResponse.IdempotencyKey)
+	assert.Equal(t, "other_header", resource.LastResponse.Header.Get("Other-Header"))
+	assert.Equal(t, rawJSON, resource.LastResponse.RawJSON)
+	assert.Equal(t, "req_123", resource.LastResponse.RequestID)
+	assert.Equal(t,
+		fmt.Sprintf("%v %v", http.StatusCreated, http.StatusText(http.StatusCreated)),
+		resource.LastResponse.Status)
+	assert.Equal(t, http.StatusCreated, resource.LastResponse.StatusCode)
+}
+
 // Test that telemetry metrics are not sent by default
 func TestDo_TelemetryDisabled(t *testing.T) {
 	type testServerResponse struct {
+		APIResource
 		Message string `json:"message"`
 	}
 
@@ -307,9 +372,9 @@ func TestDo_TelemetryDisabled(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			LogLevel:          3,
-			MaxNetworkRetries: 0,
-			URL:               testServer.URL,
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
 		},
 	).(*BackendImplementation)
 
@@ -341,6 +406,7 @@ func TestDo_TelemetryDisabled(t *testing.T) {
 // EnableTelemetry = true.
 func TestDo_TelemetryEnabled(t *testing.T) {
 	type testServerResponse struct {
+		APIResource
 		Message string `json:"message"`
 	}
 
@@ -395,10 +461,10 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			LogLevel:          3,
-			MaxNetworkRetries: 0,
-			URL:               testServer.URL,
-			EnableTelemetry:   true,
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
 		},
 	).(*BackendImplementation)
 
@@ -429,6 +495,7 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 // passed to `go test`.
 func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 	type testServerResponse struct {
+		APIResource
 		Message string `json:"message"`
 	}
 
@@ -452,10 +519,10 @@ func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			LogLevel:          3,
-			MaxNetworkRetries: 0,
-			URL:               testServer.URL,
-			EnableTelemetry:   true,
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     debugLeveledLogger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
 		},
 	).(*BackendImplementation)
 
@@ -501,32 +568,15 @@ func TestFormatURLPath(t *testing.T) {
 
 func TestGetBackendWithConfig_Loggers(t *testing.T) {
 	leveledLogger := &LeveledLogger{}
-	logger := log.New(os.Stdout, "", 0)
 
-	// Prefers a LeveledLogger
-	{
-		backend := GetBackendWithConfig(
-			APIBackend,
-			&BackendConfig{
-				LeveledLogger: leveledLogger,
-				Logger:        logger,
-			},
-		).(*BackendImplementation)
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger: leveledLogger,
+		},
+	).(*BackendImplementation)
 
-		assert.Equal(t, leveledLogger, backend.LeveledLogger)
-	}
-
-	// Falls back to Logger
-	{
-		backend := GetBackendWithConfig(
-			APIBackend,
-			&BackendConfig{
-				Logger: logger,
-			},
-		).(*BackendImplementation)
-
-		assert.NotNil(t, backend.LeveledLogger)
-	}
+	assert.Equal(t, leveledLogger, backend.LeveledLogger)
 }
 
 func TestGetBackendWithConfig_TrimV1Suffix(t *testing.T) {
@@ -534,7 +584,7 @@ func TestGetBackendWithConfig_TrimV1Suffix(t *testing.T) {
 		backend := GetBackendWithConfig(
 			APIBackend,
 			&BackendConfig{
-				URL: "https://api.com/v1",
+				URL: String("https://api.com/v1"),
 			},
 		).(*BackendImplementation)
 
@@ -548,7 +598,7 @@ func TestGetBackendWithConfig_TrimV1Suffix(t *testing.T) {
 		backend := GetBackendWithConfig(
 			APIBackend,
 			&BackendConfig{
-				URL: "https://api.com/v1/",
+				URL: String("https://api.com/v1/"),
 			},
 		).(*BackendImplementation)
 
@@ -560,7 +610,7 @@ func TestGetBackendWithConfig_TrimV1Suffix(t *testing.T) {
 		backend := GetBackendWithConfig(
 			APIBackend,
 			&BackendConfig{
-				URL: "https://api.com",
+				URL: String("https://api.com"),
 			},
 		).(*BackendImplementation)
 
@@ -843,6 +893,11 @@ func TestResponseToError(t *testing.T) {
 	assert.Equal(t, res.Header.Get("Request-Id"), stripeErr.RequestID)
 	assert.Equal(t, res.StatusCode, stripeErr.HTTPStatusCode)
 	assert.Equal(t, expectedErr.Type, stripeErr.Type)
+
+	// Not exhaustive, but verify LastResponse is basically working as
+	// expected.
+	assert.Equal(t, res.Header.Get("Request-Id"), stripeErr.LastResponse.RequestID)
+	assert.Equal(t, res.StatusCode, stripeErr.LastResponse.StatusCode)
 
 	// Just a bogus type coercion to demonstrate how this code might be
 	// written. Because we've assigned ErrorTypeCard as the error's type, Err

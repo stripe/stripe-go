@@ -18,38 +18,8 @@ Then, import it using:
 
 ``` go
 import (
-    "github.com/stripe/stripe-go"
-    "github.com/stripe/stripe-go/customer"
-)
-```
-
-### Go Module Support
-
-The library currently *does not* ship with first-class support for Go
-modules. We put in support for it before, but ran into compatibility problems
-for existing installations using Dep (see discussion in [closer to the bottom
-of this thread][gomodvsdep]), and [reverted support][gomodrevert]. Our current
-plan is to wait for better module compatibility in Dep (see a [preliminary
-patch here][depgomodsupport]), give the release a little grace time to become
-more widely distributed, then bring support back.
-
-For now, require stripe-go in `go.mod` with a version but without a *version
-suffix* in the path like so:
-
-``` go
-module github.com/my/package
-
-require (
-    github.com/stripe/stripe-go v70.15.0
-)
-```
-
-And use the same style of import paths as above:
-
-``` go
-import (
-    "github.com/stripe/stripe-go"
-    "github.com/stripe/stripe-go/customer"
+    "github.com/stripe/stripe-go/v70"
+    "github.com/stripe/stripe-go/v70/customer"
 )
 ```
 
@@ -139,8 +109,8 @@ To use a key, pass it to `API`'s `Init` function:
 ```go
 
 import (
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/client"
+	"github.com/stripe/stripe-go/v70"
+	"github.com/stripe/stripe-go/v70/client"
 )
 
 stripe := &client.API{}
@@ -161,8 +131,8 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/urlfetch"
 
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/client"
+	"github.com/stripe/stripe-go/v70"
+	"github.com/stripe/stripe-go/v70/client"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -196,8 +166,8 @@ client.
 
 ```go
 import (
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/$resource$"
+	"github.com/stripe/stripe-go/v70"
+	"github.com/stripe/stripe-go/v70/$resource$"
 )
 
 // Setup
@@ -236,8 +206,8 @@ individual key.
 
 ```go
 import (
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/client"
+	"github.com/stripe/stripe-go/v70"
+	"github.com/stripe/stripe-go/v70/client"
 )
 
 // Setup
@@ -267,19 +237,24 @@ if err := i.Err(); err != nil {
 }
 ```
 
-### Configuring Automatic Retries
+### Automatic Retries
 
-You can enable automatic retries on requests that fail due to a transient
-problem by configuring the maximum number of retries:
+The library automatically retries requests on intermittent failures like on a
+connection error, timeout, or on certain API responses like a status `409
+Conflict`. [Idempotency keys][idempotency-keys] are always added to requests to
+make any such subsequent retries safe.
+
+By default, it will perform up to two retries. That number can be configured
+with `MaxNetworkRetries`:
 
 ```go
 import (
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/client"
+	"github.com/stripe/stripe-go/v70"
+	"github.com/stripe/stripe-go/v70/client"
 )
 
 config := &stripe.BackendConfig{
-    MaxNetworkRetries: 2,
+    MaxNetworkRetries: stripe.Int64(0), // Zero retries
 }
 
 sc := &client.API{}
@@ -291,15 +266,10 @@ sc.Init("sk_key", &stripe.Backends{
 coupon, err := sc.Coupons.New(...)
 ```
 
-Various errors can trigger a retry, like a connection error or a timeout, and
-also certain API responses like HTTP status `409 Conflict`.
-
-[Idempotency keys][idempotency-keys] are added to requests to guarantee that
-retries are safe.
-
 ### Configuring Logging
 
-Configure logging using the global `DefaultLeveledLogger` variable:
+By default, the library logs error messages only (which are sent to `stderr`).
+Configure default logging using the global `DefaultLeveledLogger` variable:
 
 ```go
 stripe.DefaultLeveledLogger = &stripe.LeveledLogger{
@@ -360,7 +330,7 @@ You can disable this behavior if you prefer:
 
 ```go
 config := &stripe.BackendConfig{
-	EnableTelemetry: false,
+	EnableTelemetry: stripe.Bool(false),
 }
 ```
 

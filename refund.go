@@ -59,6 +59,7 @@ type RefundListParams struct {
 // Refund is the resource representing a Stripe refund.
 // For more details see https://stripe.com/docs/api#refunds.
 type Refund struct {
+	APIResource
 	Amount                    int64               `json:"amount"`
 	BalanceTransaction        *BalanceTransaction `json:"balance_transaction"`
 	Charge                    *Charge             `json:"charge"`
@@ -79,6 +80,7 @@ type Refund struct {
 
 // RefundList is a list object for refunds.
 type RefundList struct {
+	APIResource
 	ListMeta
 	Data []*Refund `json:"data"`
 }

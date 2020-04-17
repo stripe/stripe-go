@@ -36,6 +36,7 @@ type SubscriptionItemListParams struct {
 // SubscriptionItem is the resource representing a Stripe subscription item.
 // For more details see https://stripe.com/docs/api#subscription_items.
 type SubscriptionItem struct {
+	APIResource
 	BillingThresholds SubscriptionItemBillingThresholds `json:"billing_thresholds"`
 	Created           int64                             `json:"created"`
 	Deleted           bool                              `json:"deleted"`
@@ -55,6 +56,7 @@ type SubscriptionItemBillingThresholds struct {
 
 // SubscriptionItemList is a list of invoice items as retrieved from a list endpoint.
 type SubscriptionItemList struct {
+	APIResource
 	ListMeta
 	Data []*SubscriptionItem `json:"data"`
 }

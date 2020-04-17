@@ -3,7 +3,7 @@ package stripe
 import (
 	"encoding/json"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/stripe/stripe-go/v70/form"
 )
 
 // SubscriptionScheduleEndBehavior describe what happens to a schedule when it ends.
@@ -178,14 +178,9 @@ type SubscriptionSchedulePhase struct {
 	TaxPercent float64 `json:"tax_percent"`
 }
 
-// SubscriptionScheduleRenewalInterval represents the interval and duration of a schedule.
-type SubscriptionScheduleRenewalInterval struct {
-	Interval PlanInterval `form:"interval"`
-	Length   int64        `form:"length"`
-}
-
 // SubscriptionSchedule is the resource representing a Stripe subscription schedule.
 type SubscriptionSchedule struct {
+	APIResource
 	CanceledAt           int64                                `json:"canceled_at"`
 	CompletedAt          int64                                `json:"completed_at"`
 	Created              int64                                `json:"created"`
@@ -199,13 +194,13 @@ type SubscriptionSchedule struct {
 	Object               string                               `json:"object"`
 	Phases               []*SubscriptionSchedulePhase         `json:"phases"`
 	ReleasedSubscription *Subscription                        `json:"released_subscription"`
-	RenewalInterval      *SubscriptionScheduleRenewalInterval `json:"renewal_interval"`
 	Status               SubscriptionScheduleStatus           `json:"status"`
 	Subscription         *Subscription                        `json:"subscription"`
 }
 
 // SubscriptionScheduleList is a list object for subscription schedules.
 type SubscriptionScheduleList struct {
+	APIResource
 	ListMeta
 	Data []*SubscriptionSchedule `json:"data"`
 }

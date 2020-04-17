@@ -6,8 +6,8 @@ package card
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
+	stripe "github.com/stripe/stripe-go/v70"
+	"github.com/stripe/stripe-go/v70/form"
 )
 
 // Client is used to invoke /issuing/cards APIs.
@@ -72,19 +72,6 @@ func (c Client) List(listParams *stripe.IssuingCardListParams) *Iter {
 
 		return ret, list.ListMeta, err
 	})}
-}
-
-// Details retrieves an issuing card details.
-func Details(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCardDetails, error) {
-	return getC().Details(id, params)
-}
-
-// Details retrieves an issuing card details.
-func (c Client) Details(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCardDetails, error) {
-	path := stripe.FormatURLPath("/v1/issuing/cards/%s/details", id)
-	cardDetails := &stripe.IssuingCardDetails{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, cardDetails)
-	return cardDetails, err
 }
 
 // Iter is an iterator for issuing cards.

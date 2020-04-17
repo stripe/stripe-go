@@ -48,6 +48,7 @@ type TransferListParams struct {
 // Transfer is the resource representing a Stripe transfer.
 // For more details see https://stripe.com/docs/api#transfers.
 type Transfer struct {
+	APIResource
 	Amount             int64                     `json:"amount"`
 	AmountReversed     int64                     `json:"amount_reversed"`
 	BalanceTransaction *BalanceTransaction       `json:"balance_transaction"`
@@ -68,6 +69,7 @@ type Transfer struct {
 
 // TransferList is a list of transfers as retrieved from a list endpoint.
 type TransferList struct {
+	APIResource
 	ListMeta
 	Data []*Transfer `json:"data"`
 }

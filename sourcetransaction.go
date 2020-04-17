@@ -10,6 +10,7 @@ type SourceTransactionListParams struct {
 
 // SourceTransactionList is a list object for SourceTransactions.
 type SourceTransactionList struct {
+	APIResource
 	ListMeta
 	Data []*SourceTransaction `json:"data"`
 }

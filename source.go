@@ -3,7 +3,7 @@ package stripe
 import (
 	"encoding/json"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/stripe/stripe-go/v70/form"
 )
 
 // SourceCodeVerificationFlowStatus represents the possible statuses of a code verification flow.
@@ -292,6 +292,7 @@ type SourceSourceOrder struct {
 // Source is the resource representing a Source.
 // For more details see https://stripe.com/docs/api#sources.
 type Source struct {
+	APIResource
 	Amount              int64                 `json:"amount"`
 	ClientSecret        string                `json:"client_secret"`
 	CodeVerification    *CodeVerificationFlow `json:"code_verification,omitempty"`

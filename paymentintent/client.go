@@ -6,8 +6,8 @@ package paymentintent
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
+	stripe "github.com/stripe/stripe-go/v70"
+	"github.com/stripe/stripe-go/v70/form"
 )
 
 // Client is used to invoke APIs related to payment intents.

@@ -20,6 +20,7 @@ type ApplicationFeeListParams struct {
 // ApplicationFee is the resource representing a Stripe application fee.
 // For more details see https://stripe.com/docs/api#application_fees.
 type ApplicationFee struct {
+	APIResource
 	Account                *Account            `json:"account"`
 	Amount                 int64               `json:"amount"`
 	AmountRefunded         int64               `json:"amount_refunded"`
@@ -37,6 +38,7 @@ type ApplicationFee struct {
 
 //ApplicationFeeList is a list of application fees as retrieved from a list endpoint.
 type ApplicationFeeList struct {
+	APIResource
 	ListMeta
 	Data []*ApplicationFee `json:"data"`
 }

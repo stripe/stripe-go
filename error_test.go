@@ -23,7 +23,7 @@ func TestErrorResponse(t *testing.T) {
 	defer ts.Close()
 
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{
-		URL: ts.URL,
+		URL: String(ts.URL),
 	})
 
 	err := backend.Call(http.MethodGet, "/v1/account", "sk_test_badKey", nil, nil)

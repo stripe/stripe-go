@@ -19,6 +19,7 @@ type ReversalListParams struct {
 
 // Reversal represents a transfer reversal.
 type Reversal struct {
+	APIResource
 	Amount                   int64               `json:"amount"`
 	BalanceTransaction       *BalanceTransaction `json:"balance_transaction"`
 	Created                  int64               `json:"created"`
@@ -33,6 +34,7 @@ type Reversal struct {
 
 // ReversalList is a list of object for reversals.
 type ReversalList struct {
+	APIResource
 	ListMeta
 	Data []*Reversal `json:"data"`
 }

@@ -22,6 +22,7 @@ type FeeRefundListParams struct {
 // FeeRefund is the resource representing a Stripe application fee refund.
 // For more details see https://stripe.com/docs/api#fee_refunds.
 type FeeRefund struct {
+	APIResource
 	Amount             int64               `json:"amount"`
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
 	Created            int64               `json:"created"`
@@ -33,6 +34,7 @@ type FeeRefund struct {
 
 // FeeRefundList is a list object for application fee refunds.
 type FeeRefundList struct {
+	APIResource
 	ListMeta
 	Data []*FeeRefund `json:"data"`
 }

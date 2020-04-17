@@ -3,6 +3,7 @@ package stripe
 // ExchangeRate is the resource representing the currency exchange rates at
 // a given time.
 type ExchangeRate struct {
+	APIResource
 	ID    string               `json:"id"`
 	Rates map[Currency]float64 `json:"rates"`
 }
@@ -15,6 +16,7 @@ type ExchangeRateParams struct {
 
 // ExchangeRateList is a list of exchange rates as retrieved from a list endpoint.
 type ExchangeRateList struct {
+	APIResource
 	ListMeta
 	Data []*ExchangeRate `json:"data"`
 }

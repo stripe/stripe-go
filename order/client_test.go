@@ -8,8 +8,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go"
-	_ "github.com/stripe/stripe-go/testing"
+	stripe "github.com/stripe/stripe-go/v70"
+	_ "github.com/stripe/stripe-go/v70/testing"
 )
 
 func TestOrderGet(t *testing.T) {
@@ -64,7 +64,7 @@ func TestOrderReturn_RequestParams(t *testing.T) {
 
 	// Configure the stripe client to use the ephemeral backend.
 	backend := stripe.GetBackendWithConfig(stripe.APIBackend, &stripe.BackendConfig{
-		URL: ts.URL,
+		URL: stripe.String(ts.URL),
 	})
 	orderClient := Client{B: backend, Key: stripe.Key}
 

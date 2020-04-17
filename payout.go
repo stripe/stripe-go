@@ -108,6 +108,7 @@ type PayoutListParams struct {
 // Payout is the resource representing a Stripe payout.
 // For more details see https://stripe.com/docs/api#payouts.
 type Payout struct {
+	APIResource
 	Amount                    int64               `json:"amount"`
 	ArrivalDate               int64               `json:"arrival_date"`
 	Automatic                 bool                `json:"automatic"`
@@ -133,6 +134,7 @@ type Payout struct {
 
 // PayoutList is a list of payouts as retrieved from a list endpoint.
 type PayoutList struct {
+	APIResource
 	ListMeta
 	Data []*Payout `json:"data"`
 }

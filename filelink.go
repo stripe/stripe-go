@@ -23,6 +23,7 @@ type FileLinkListParams struct {
 // FileLink is the resource representing a Stripe file link.
 // For more details see https://stripe.com/docs/api#file_links.
 type FileLink struct {
+	APIResource
 	Created   int64             `json:"created"`
 	Expired   bool              `json:"expired"`
 	ExpiresAt int64             `json:"expires_at"`
@@ -55,6 +56,7 @@ func (c *FileLink) UnmarshalJSON(data []byte) error {
 
 // FileLinkList is a list of file links as retrieved from a list endpoint.
 type FileLinkList struct {
+	APIResource
 	ListMeta
 	Data []*FileLink `json:"data"`
 }

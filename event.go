@@ -9,6 +9,7 @@ import (
 // Event is the resource representing a Stripe event.
 // For more details see https://stripe.com/docs/api#events.
 type Event struct {
+	APIResource
 	Account         string        `json:"account"`
 	Created         int64         `json:"created"`
 	Data            *EventData    `json:"data"`
@@ -49,6 +50,7 @@ type EventParams struct {
 
 // EventList is a list of events as retrieved from a list endpoint.
 type EventList struct {
+	APIResource
 	ListMeta
 	Data []*Event `json:"data"`
 }

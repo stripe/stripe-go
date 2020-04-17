@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go"
+	stripe "github.com/stripe/stripe-go/v70"
 )
 
 // Client is used to invoke /login_links APIs.

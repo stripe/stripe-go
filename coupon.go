@@ -38,6 +38,7 @@ type CouponListParams struct {
 // Coupon is the resource representing a Stripe coupon.
 // For more details see https://stripe.com/docs/api#coupons.
 type Coupon struct {
+	APIResource
 	AmountOff        int64             `json:"amount_off"`
 	Created          int64             `json:"created"`
 	Currency         Currency          `json:"currency"`
@@ -57,6 +58,7 @@ type Coupon struct {
 
 // CouponList is a list of coupons as retrieved from a list endpoint.
 type CouponList struct {
+	APIResource
 	ListMeta
 	Data []*Coupon `json:"data"`
 }

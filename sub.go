@@ -3,7 +3,7 @@ package stripe
 import (
 	"encoding/json"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/stripe/stripe-go/v70/form"
 )
 
 // SubscriptionStatus is the list of allowed values for the subscription's status.
@@ -222,6 +222,7 @@ type SubscriptionTransferData struct {
 // Subscription is the resource representing a Stripe subscription.
 // For more details see https://stripe.com/docs/api#subscriptions.
 type Subscription struct {
+	APIResource
 	ApplicationFeePercent         float64                                `json:"application_fee_percent"`
 	BillingCycleAnchor            int64                                  `json:"billing_cycle_anchor"`
 	BillingThresholds             *SubscriptionBillingThresholds         `json:"billing_thresholds"`
@@ -272,6 +273,7 @@ type SubscriptionBillingThresholds struct {
 
 // SubscriptionList is a list object for subscriptions.
 type SubscriptionList struct {
+	APIResource
 	ListMeta
 	Data []*Subscription `json:"data"`
 }

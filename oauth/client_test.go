@@ -7,8 +7,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go"
-	_ "github.com/stripe/stripe-go/testing"
+	stripe "github.com/stripe/stripe-go/v70"
+	_ "github.com/stripe/stripe-go/v70/testing"
 )
 
 func TestAuthorizeURL(t *testing.T) {
@@ -121,7 +121,7 @@ func stubConnectBackend(httpClient *http.Client) {
 	mockBackend := stripe.GetBackendWithConfig(
 		stripe.ConnectBackend,
 		&stripe.BackendConfig{
-			URL:        "https://localhost:12113",
+			URL:        stripe.String("https://localhost:12113"),
 			HTTPClient: httpClient,
 		},
 	)

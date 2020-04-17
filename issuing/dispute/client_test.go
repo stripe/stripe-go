@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go"
-	_ "github.com/stripe/stripe-go/testing"
+	stripe "github.com/stripe/stripe-go/v70"
+	_ "github.com/stripe/stripe-go/v70/testing"
 )
 
 func TestIssuingDisputeGet(t *testing.T) {
@@ -26,9 +26,7 @@ func TestIssuingDisputeList(t *testing.T) {
 }
 
 func TestIssuingDisputeNew(t *testing.T) {
-	params := &stripe.IssuingDisputeParams{}
-	params.AddMetadata("key", "value")
-	dispute, err := New(params)
+	dispute, err := New(&stripe.IssuingDisputeParams{})
 	assert.Nil(t, err)
 	assert.NotNil(t, dispute)
 	assert.Equal(t, "issuing.dispute", dispute.Object)
@@ -36,7 +34,6 @@ func TestIssuingDisputeNew(t *testing.T) {
 
 func TestIssuingDisputeUpdate(t *testing.T) {
 	params := &stripe.IssuingDisputeParams{}
-	params.AddMetadata("key", "value")
 	dispute, err := Update("idp_123", params)
 	assert.Nil(t, err)
 	assert.NotNil(t, dispute)

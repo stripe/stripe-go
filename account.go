@@ -3,7 +3,7 @@ package stripe
 import (
 	"encoding/json"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/stripe/stripe-go/v70/form"
 )
 
 // AccountType is the type of an account.
@@ -461,6 +461,7 @@ type AccountTOSAcceptance struct {
 // Account is the resource representing your Stripe account.
 // For more details see https://stripe.com/docs/api/#account.
 type Account struct {
+	APIResource
 	BusinessProfile  *AccountBusinessProfile `json:"business_profile"`
 	BusinessType     AccountBusinessType     `json:"business_type"`
 	Capabilities     *AccountCapabilities    `json:"capabilities"`
@@ -505,6 +506,7 @@ func (a *Account) UnmarshalJSON(data []byte) error {
 
 // AccountList is a list of accounts as returned from a list endpoint.
 type AccountList struct {
+	APIResource
 	ListMeta
 	Data []*Account `json:"data"`
 }
@@ -512,6 +514,7 @@ type AccountList struct {
 // ExternalAccountList is a list of external accounts that may be either bank
 // accounts or cards.
 type ExternalAccountList struct {
+	APIResource
 	ListMeta
 
 	// Values contains any external accounts (bank accounts and/or cards)

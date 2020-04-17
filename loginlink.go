@@ -11,6 +11,7 @@ type LoginLinkParams struct {
 // LoginLink is the resource representing a login link for Express accounts.
 // For more details see https://stripe.com/docs/api#login_link_object
 type LoginLink struct {
+	APIResource
 	Created int64  `json:"created"`
 	URL     string `json:"url"`
 }

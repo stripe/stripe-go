@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	stripe "github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/form"
+	stripe "github.com/stripe/stripe-go/v70"
+	"github.com/stripe/stripe-go/v70/form"
 	"golang.org/x/net/http2"
 )
 
@@ -25,7 +25,7 @@ const (
 	// added in a more recent version of stripe-mock, we can show people a
 	// better error message instead of the test suite crashing with a bunch of
 	// confusing 404 errors or the like.
-	MockMinimumVersion = "0.86.0"
+	MockMinimumVersion = "0.87.0"
 
 	// TestMerchantID is a token that can be used to represent a merchant ID in
 	// simple tests.
@@ -90,9 +90,9 @@ func init() {
 	stripeMockBackend := stripe.GetBackendWithConfig(
 		stripe.APIBackend,
 		&stripe.BackendConfig{
-			URL:        "https://localhost:" + port,
-			HTTPClient: httpClient,
-			Logger:     stripe.Logger,
+			URL:           stripe.String("https://localhost:" + port),
+			HTTPClient:    httpClient,
+			LeveledLogger: stripe.DefaultLeveledLogger,
 		},
 	)
 	stripe.SetBackend(stripe.APIBackend, stripeMockBackend)

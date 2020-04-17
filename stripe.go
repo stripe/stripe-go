@@ -19,7 +19,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/stripe/stripe-go/form"
+	"github.com/stripe/stripe-go/v70/form"
 )
 
 //
@@ -42,6 +42,10 @@ const (
 	// ConnectBackend is a constant representing the connect service backend for
 	// OAuth.
 	ConnectBackend SupportedBackend = "connect"
+
+	// DefaultMaxNetworkRetries is the default maximum number of retries made
+	// by a Stripe client.
+	DefaultMaxNetworkRetries int64 = 2
 
 	// UnknownPlatform is the string returned as the system name if we couldn't get
 	// one from `uname`.
@@ -74,6 +78,54 @@ var Key string
 // Public types
 //
 
+// APIResponse encapsulates some common features of a response from the
+// Stripe API.
+type APIResponse struct {
+	// Header contain a map of all HTTP header keys to values. Its behavior and
+	// caveats are identical to that of http.Header.
+	Header http.Header
+
+	// IdempotencyKey contains the idempotency key used with this request.
+	// Idempotency keys are a Stripe-specific concept that helps guarantee that
+	// requests that fail and need to be retried are not duplicated.
+	IdempotencyKey string
+
+	// RawJSON contains the response body as raw bytes.
+	RawJSON []byte
+
+	// RequestID contains a string that uniquely identifies the Stripe request.
+	// Used for debugging or support purposes.
+	RequestID string
+
+	// Status is a status code and message. e.g. "200 OK"
+	Status string
+
+	// StatusCode is a status code as integer. e.g. 200
+	StatusCode int
+}
+
+func newAPIResponse(res *http.Response, resBody []byte) *APIResponse {
+	return &APIResponse{
+		Header:         res.Header,
+		IdempotencyKey: res.Header.Get("Idempotency-Key"),
+		RawJSON:        resBody,
+		RequestID:      res.Header.Get("Request-Id"),
+		Status:         res.Status,
+		StatusCode:     res.StatusCode,
+	}
+}
+
+// APIResource is a type assigned to structs that may come from Stripe API
+// endpoints and contains facilities common to all of them.
+type APIResource struct {
+	LastResponse *APIResponse `json:"-"`
+}
+
+// SetLastResponse sets the HTTP response that returned the API resource.
+func (r *APIResource) SetLastResponse(response *APIResponse) {
+	r.LastResponse = response
+}
+
 // AppInfo contains information about the "app" which this integration belongs
 // to. This should be reserved for plugins that wish to identify themselves
 // with Stripe.
@@ -101,10 +153,10 @@ func (a *AppInfo) formatUserAgent() string {
 // Backend is an interface for making calls against a Stripe service.
 // This interface exists to enable mocking for during testing if needed.
 type Backend interface {
-	Call(method, path, key string, params ParamsContainer, v interface{}) error
-	CallRaw(method, path, key string, body *form.Values, params *Params, v interface{}) error
-	CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v interface{}) error
-	SetMaxNetworkRetries(maxNetworkRetries int)
+	Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error
+	CallRaw(method, path, key string, body *form.Values, params *Params, v LastResponseSetter) error
+	CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error
+	SetMaxNetworkRetries(maxNetworkRetries int64)
 }
 
 // BackendConfig is used to configure a new Stripe backend.
@@ -112,8 +164,11 @@ type BackendConfig struct {
 	// EnableTelemetry allows request metrics (request id and duration) to be sent
 	// to Stripe in subsequent requests via the `X-Stripe-Client-Telemetry` header.
 	//
+	// This value is a pointer to allow us to differentiate an unset versus
+	// empty value. Use stripe.Bool for an easy way to set this value.
+	//
 	// Defaults to false.
-	EnableTelemetry bool
+	EnableTelemetry *bool
 
 	// HTTPClient is an HTTP client instance to use when making API requests.
 	//
@@ -128,39 +183,31 @@ type BackendConfig struct {
 	// also provides out-of-the-box compatibility with a Logrus Logger, but may
 	// require a thin shim for use with other logging libraries that use less
 	// standard conventions like Zap.
+	//
+	// Defaults to DefaultLeveledLogger.
+	//
+	// To set a logger that logs nothing, set this to a stripe.LeveledLogger
+	// with a Level of LevelNull (simply setting this field to nil will not
+	// work).
 	LeveledLogger LeveledLoggerInterface
-
-	// LogLevel is the logging level of the library and defined by:
-	//
-	// 0: no logging
-	// 1: errors only
-	// 2: errors + informational (default)
-	// 3: errors + informational + debug
-	//
-	// Defaults to 0 (no logging), so please make sure to set this if you want
-	// to see logging output in your custom configuration.
-	//
-	// Deprecated: Logging should be configured with LeveledLogger instead.
-	LogLevel int
-
-	// Logger is where this backend will write its logs.
-	//
-	// If left unset, it'll be set to Logger.
-	//
-	// Deprecated: Logging should be configured with LeveledLogger instead.
-	Logger Printfer
 
 	// MaxNetworkRetries sets maximum number of times that the library will
 	// retry requests that appear to have failed due to an intermittent
 	// problem.
 	//
-	// Defaults to 0.
-	MaxNetworkRetries int
+	// This value is a pointer to allow us to differentiate an unset versus
+	// empty value. Use stripe.Int64 for an easy way to set this value.
+	//
+	// Defaults to DefaultMaxNetworkRetries (2).
+	MaxNetworkRetries *int64
 
 	// URL is the base URL to use for API paths.
 	//
+	// This value is a pointer to allow us to differentiate an unset versus
+	// empty value. Use stripe.String for an easy way to set this value.
+	//
 	// If left empty, it'll be set to the default for the SupportedBackend.
-	URL string
+	URL *string
 }
 
 // BackendImplementation is the internal implementation for making HTTP calls
@@ -173,7 +220,7 @@ type BackendImplementation struct {
 	URL               string
 	HTTPClient        *http.Client
 	LeveledLogger     LeveledLoggerInterface
-	MaxNetworkRetries int
+	MaxNetworkRetries int64
 
 	enableTelemetry bool
 
@@ -187,7 +234,7 @@ type BackendImplementation struct {
 }
 
 // Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v interface{}) error {
+func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
 	var body *form.Values
 	var commonParams *Params
 
@@ -213,7 +260,7 @@ func (s *BackendImplementation) Call(method, path, key string, params ParamsCont
 }
 
 // CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
-func (s *BackendImplementation) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v interface{}) error {
+func (s *BackendImplementation) CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error {
 	contentType := "multipart/form-data; boundary=" + boundary
 
 	req, err := s.NewRequest(method, path, key, contentType, params)
@@ -229,7 +276,7 @@ func (s *BackendImplementation) CallMultipart(method, path, key, boundary string
 }
 
 // CallRaw is the implementation for invoking Stripe APIs internally without a backend.
-func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Values, params *Params, v interface{}) error {
+func (s *BackendImplementation) CallRaw(method, path, key string, form *form.Values, params *Params, v LastResponseSetter) error {
 	var body string
 	if form != nil && !form.Empty() {
 		body = form.Encode()
@@ -312,7 +359,7 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 // Do is used by Call to execute an API request and parse the response. It uses
 // the backend's HTTP client to execute the request and unmarshals the response
 // into v. It also handles unmarshaling errors returned by the API.
-func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v interface{}) error {
+func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v LastResponseSetter) error {
 	s.LeveledLogger.Infof("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
 
 	if s.enableTelemetry {
@@ -458,6 +505,8 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 
 	s.LeveledLogger.Debugf("Response: %s\n", string(resBody))
 
+	v.SetLastResponse(newAPIResponse(res, resBody))
+
 	if v != nil {
 		return s.UnmarshalJSONVerbose(res.StatusCode, resBody, v)
 	}
@@ -513,13 +562,15 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 	}
 	raw.E.Err = typedError
 
+	raw.E.SetLastResponse(newAPIResponse(res, resBody))
+
 	return raw.E.Error
 }
 
 // SetMaxNetworkRetries sets max number of retries on failed requests
 //
 // This function is deprecated. Please use GetBackendWithConfig instead.
-func (s *BackendImplementation) SetMaxNetworkRetries(maxNetworkRetries int) {
+func (s *BackendImplementation) SetMaxNetworkRetries(maxNetworkRetries int64) {
 	s.MaxNetworkRetries = maxNetworkRetries
 }
 
@@ -562,7 +613,7 @@ func (s *BackendImplementation) UnmarshalJSONVerbose(statusCode int, body []byte
 // socket errors that may represent an intermittent problem and some special
 // HTTP statuses.
 func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *http.Response, numRetries int) bool {
-	if numRetries >= s.MaxNetworkRetries {
+	if numRetries >= int(s.MaxNetworkRetries) {
 		return false
 	}
 
@@ -653,6 +704,12 @@ func (s *BackendImplementation) sleepTime(numRetries int) time.Duration {
 type Backends struct {
 	API, Connect, Uploads Backend
 	mu                    sync.RWMutex
+}
+
+// LastResponseSetter defines a type that contains an HTTP response from a Stripe
+// API endpoint.
+type LastResponseSetter interface {
+	SetLastResponse(response *APIResponse)
 }
 
 // SupportedBackend is an enumeration of supported Stripe endpoints.
@@ -755,11 +812,9 @@ func GetBackend(backendType SupportedBackend) Backend {
 		backendType,
 		&BackendConfig{
 			HTTPClient:        httpClient,
-			LeveledLogger:     DefaultLeveledLogger,
-			LogLevel:          LogLevel,
-			Logger:            Logger,
-			MaxNetworkRetries: 0,
-			URL:               "", // Set by GetBackendWithConfiguation when empty
+			LeveledLogger:     nil, // Set by GetBackendWithConfiguation when nil
+			MaxNetworkRetries: nil, // Set by GetBackendWithConfiguation when nil
+			URL:               nil, // Set by GetBackendWithConfiguation when nil
 		},
 	)
 
@@ -777,41 +832,38 @@ func GetBackendWithConfig(backendType SupportedBackend, config *BackendConfig) B
 	}
 
 	if config.LeveledLogger == nil {
-		if config.Logger == nil {
-			config.Logger = Logger
-		}
+		config.LeveledLogger = DefaultLeveledLogger
+	}
 
-		config.LeveledLogger = &leveledLoggerPrintferShim{
-			level:  printferLevel(config.LogLevel),
-			logger: config.Logger,
-		}
+	if config.MaxNetworkRetries == nil {
+		config.MaxNetworkRetries = Int64(DefaultMaxNetworkRetries)
 	}
 
 	switch backendType {
 	case APIBackend:
-		if config.URL == "" {
-			config.URL = apiURL
+		if config.URL == nil {
+			config.URL = String(apiURL)
 		}
 
-		config.URL = normalizeURL(config.URL)
+		config.URL = String(normalizeURL(*config.URL))
 
 		return newBackendImplementation(backendType, config)
 
 	case UploadsBackend:
-		if config.URL == "" {
-			config.URL = uploadsURL
+		if config.URL == nil {
+			config.URL = String(uploadsURL)
 		}
 
-		config.URL = normalizeURL(config.URL)
+		config.URL = String(normalizeURL(*config.URL))
 
 		return newBackendImplementation(backendType, config)
 
 	case ConnectBackend:
-		if config.URL == "" {
-			config.URL = ConnectURL
+		if config.URL == nil {
+			config.URL = String(ConnectURL)
 		}
 
-		config.URL = normalizeURL(config.URL)
+		config.URL = String(normalizeURL(*config.URL))
 
 		return newBackendImplementation(backendType, config)
 	}
@@ -1104,8 +1156,12 @@ func isHTTPWriteMethod(method string) bool {
 // The vast majority of the time you should be calling GetBackendWithConfig
 // instead of this function.
 func newBackendImplementation(backendType SupportedBackend, config *BackendConfig) Backend {
+	enableTelemetry := EnableTelemetry
+	if config.EnableTelemetry != nil {
+		enableTelemetry = *config.EnableTelemetry
+	}
+
 	var requestMetricsBuffer chan requestMetrics
-	enableTelemetry := config.EnableTelemetry || EnableTelemetry
 
 	// only allocate the requestMetrics buffer if client telemetry is enabled.
 	if enableTelemetry {
@@ -1115,9 +1171,9 @@ func newBackendImplementation(backendType SupportedBackend, config *BackendConfi
 	return &BackendImplementation{
 		HTTPClient:           config.HTTPClient,
 		LeveledLogger:        config.LeveledLogger,
-		MaxNetworkRetries:    config.MaxNetworkRetries,
+		MaxNetworkRetries:    *config.MaxNetworkRetries,
 		Type:                 backendType,
-		URL:                  config.URL,
+		URL:                  *config.URL,
 		enableTelemetry:      enableTelemetry,
 		networkRetriesSleep:  true,
 		requestMetricsBuffer: requestMetricsBuffer,

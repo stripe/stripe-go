@@ -193,10 +193,8 @@ type ChargePaymentMethodDetailsAchDebit struct {
 
 // ChargePaymentMethodDetailsAcssDebit represents details about the ACSS Debit PaymentMethod.
 type ChargePaymentMethodDetailsAcssDebit struct {
-	Country       string `json:"country"`
-	Fingerprint   string `json:"fingerprint"`
-	Last4         string `json:"last4"`
-	RoutingNumber string `json:"routing_number"`
+	Fingerprint string `json:"fingerprint"`
+	Last4       string `json:"last4"`
 }
 
 // ChargePaymentMethodDetailsAlipay represents details about the Alipay PaymentMethod.
@@ -458,6 +456,7 @@ type ChargeTransferData struct {
 // Charge is the resource representing a Stripe charge.
 // For more details see https://stripe.com/docs/api#charges.
 type Charge struct {
+	APIResource
 	Amount                        int64                       `json:"amount"`
 	AmountRefunded                int64                       `json:"amount_refunded"`
 	Application                   *Application                `json:"application"`
@@ -486,7 +485,7 @@ type Charge struct {
 	OnBehalfOf                    *Account                    `json:"on_behalf_of"`
 	Outcome                       *ChargeOutcome              `json:"outcome"`
 	Paid                          bool                        `json:"paid"`
-	PaymentIntent                 string                      `json:"payment_intent"`
+	PaymentIntent                 *PaymentIntent              `json:"payment_intent"`
 	PaymentMethod                 string                      `json:"payment_method"`
 	PaymentMethodDetails          *ChargePaymentMethodDetails `json:"payment_method_details"`
 	ReceiptEmail                  string                      `json:"receipt_email"`
@@ -527,6 +526,7 @@ func (c *Charge) UnmarshalJSON(data []byte) error {
 
 // ChargeList is a list of charges as retrieved from a list endpoint.
 type ChargeList struct {
+	APIResource
 	ListMeta
 	Data []*Charge `json:"data"`
 }

@@ -164,6 +164,7 @@ type PersonVerification struct {
 // Person is the resource representing a Stripe person.
 // For more details see https://stripe.com/docs/api#persons.
 type Person struct {
+	APIResource
 	Account          string              `json:"account"`
 	Address          *AccountAddress     `json:"address"`
 	AddressKana      *AccountAddress     `json:"address_kana"`
@@ -192,6 +193,7 @@ type Person struct {
 
 // PersonList is a list of persons as retrieved from a list endpoint.
 type PersonList struct {
+	APIResource
 	ListMeta
 	Data []*Person `json:"data"`
 }
