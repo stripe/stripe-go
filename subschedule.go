@@ -3,7 +3,7 @@ package stripe
 import (
 	"encoding/json"
 
-	"github.com/stripe/stripe-go/v70/form"
+	"github.com/stripe/stripe-go/v71/form"
 )
 
 // SubscriptionScheduleEndBehavior describe what happens to a schedule when it ends.

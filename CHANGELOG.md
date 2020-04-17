@@ -1,5 +1,19 @@
 # Changelog
 
+## 71.0.0 - 2020-04-17
+Version 71 of stripe-go contains some major changes. Many of them are breaking, but only in minor ways. We've written [a migration guide](https://github.com/stripe/stripe-go/blob/master/v71_migration_guide.md) with more details to help with the upgrade.
+
+* [#1052](https://github.com/stripe/stripe-go/pull/1052) Remove all beta features from Issuing APIs
+* [#1054](https://github.com/stripe/stripe-go/pull/1054) Make API response accessible on returned API structs
+* [#1061](https://github.com/stripe/stripe-go/pull/1061) Start using Go Modules
+* [#1068](https://github.com/stripe/stripe-go/pull/1068) Multiple breaking API changes
+  * `PaymentIntent` is now expandable on `Charge`
+  * `Percentage` was removed as a filter when listing `TaxRate`
+  * Removed `RenewalInterval` on `SubscriptionSchedule`
+  * Removed `Country` and `RoutingNumber` from `ChargePaymentMethodDetailsAcssDebit`
+* [#1069](https://github.com/stripe/stripe-go/pull/1069) Default number of network retries to 2
+* [#1070](https://github.com/stripe/stripe-go/pull/1070) Clean up logging for next major
+
 ## 70.15.0 - 2020-04-14
 * [#1066](https://github.com/stripe/stripe-go/pull/1066) Add support for `SecondaryColor` on `Account`
 
