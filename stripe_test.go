@@ -5,10 +5,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"regexp"
 	"runtime"
 	"sync"
@@ -18,6 +16,15 @@ import (
 
 	assert "github.com/stretchr/testify/require"
 )
+
+// A shortcut for a leveled logger that spits out all debug information (useful in tests).
+var debugLeveledLogger = &LeveledLogger{
+	Level: LevelDebug,
+}
+
+//
+// ---
+//
 
 func TestBearerAuth(t *testing.T) {
 	c := GetBackend(APIBackend).(*BackendImplementation)
@@ -93,7 +100,7 @@ func TestDo_Retry(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			LogLevel:          3,
+			LeveledLogger:     debugLeveledLogger,
 			MaxNetworkRetries: 5,
 			URL:               testServer.URL,
 		},
@@ -253,7 +260,7 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			LogLevel:          3,
+			LeveledLogger:     debugLeveledLogger,
 			MaxNetworkRetries: 1,
 			URL:               testServer.URL,
 			HTTPClient:        &http.Client{Timeout: timeout},
@@ -306,7 +313,7 @@ func TestDo_LastResponsePopulated(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			LogLevel:          3,
+			LeveledLogger:     debugLeveledLogger,
 			MaxNetworkRetries: 0,
 			URL:               testServer.URL,
 		},
@@ -365,7 +372,7 @@ func TestDo_TelemetryDisabled(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			LogLevel:          3,
+			LeveledLogger:     debugLeveledLogger,
 			MaxNetworkRetries: 0,
 			URL:               testServer.URL,
 		},
@@ -454,7 +461,7 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			LogLevel:          3,
+			LeveledLogger:     debugLeveledLogger,
 			MaxNetworkRetries: 0,
 			URL:               testServer.URL,
 			EnableTelemetry:   true,
@@ -512,7 +519,7 @@ func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			LogLevel:          3,
+			LeveledLogger:     debugLeveledLogger,
 			MaxNetworkRetries: 0,
 			URL:               testServer.URL,
 			EnableTelemetry:   true,
@@ -561,32 +568,15 @@ func TestFormatURLPath(t *testing.T) {
 
 func TestGetBackendWithConfig_Loggers(t *testing.T) {
 	leveledLogger := &LeveledLogger{}
-	logger := log.New(os.Stdout, "", 0)
 
-	// Prefers a LeveledLogger
-	{
-		backend := GetBackendWithConfig(
-			APIBackend,
-			&BackendConfig{
-				LeveledLogger: leveledLogger,
-				Logger:        logger,
-			},
-		).(*BackendImplementation)
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			LeveledLogger: leveledLogger,
+		},
+	).(*BackendImplementation)
 
-		assert.Equal(t, leveledLogger, backend.LeveledLogger)
-	}
-
-	// Falls back to Logger
-	{
-		backend := GetBackendWithConfig(
-			APIBackend,
-			&BackendConfig{
-				Logger: logger,
-			},
-		).(*BackendImplementation)
-
-		assert.NotNil(t, backend.LeveledLogger)
-	}
+	assert.Equal(t, leveledLogger, backend.LeveledLogger)
 }
 
 func TestGetBackendWithConfig_TrimV1Suffix(t *testing.T) {

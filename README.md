@@ -269,7 +269,8 @@ retries are safe.
 
 ### Configuring Logging
 
-Configure logging using the global `DefaultLeveledLogger` variable:
+By default, the library logs error messages only (which are sent to `stderr`).
+Configure default logging using the global `DefaultLeveledLogger` variable:
 
 ```go
 stripe.DefaultLeveledLogger = &stripe.LeveledLogger{

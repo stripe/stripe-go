@@ -176,27 +176,13 @@ type BackendConfig struct {
 	// also provides out-of-the-box compatibility with a Logrus Logger, but may
 	// require a thin shim for use with other logging libraries that use less
 	// standard conventions like Zap.
+	//
+	// Defaults to DefaultLeveledLogger.
+	//
+	// To set a logger that logs nothing, set this to a stripe.LeveledLogger
+	// with a Level of LevelNull (simply setting this field to nil will not
+	// work).
 	LeveledLogger LeveledLoggerInterface
-
-	// LogLevel is the logging level of the library and defined by:
-	//
-	// 0: no logging
-	// 1: errors only
-	// 2: errors + informational (default)
-	// 3: errors + informational + debug
-	//
-	// Defaults to 0 (no logging), so please make sure to set this if you want
-	// to see logging output in your custom configuration.
-	//
-	// Deprecated: Logging should be configured with LeveledLogger instead.
-	LogLevel int
-
-	// Logger is where this backend will write its logs.
-	//
-	// If left unset, it'll be set to Logger.
-	//
-	// Deprecated: Logging should be configured with LeveledLogger instead.
-	Logger Printfer
 
 	// MaxNetworkRetries sets maximum number of times that the library will
 	// retry requests that appear to have failed due to an intermittent
@@ -813,9 +799,7 @@ func GetBackend(backendType SupportedBackend) Backend {
 		backendType,
 		&BackendConfig{
 			HTTPClient:        httpClient,
-			LeveledLogger:     DefaultLeveledLogger,
-			LogLevel:          LogLevel,
-			Logger:            Logger,
+			LeveledLogger:     nil, // Set by GetBackendWithConfiguation when nil
 			MaxNetworkRetries: 0,
 			URL:               "", // Set by GetBackendWithConfiguation when empty
 		},
@@ -835,14 +819,7 @@ func GetBackendWithConfig(backendType SupportedBackend, config *BackendConfig) B
 	}
 
 	if config.LeveledLogger == nil {
-		if config.Logger == nil {
-			config.Logger = Logger
-		}
-
-		config.LeveledLogger = &leveledLoggerPrintferShim{
-			level:  printferLevel(config.LogLevel),
-			logger: config.Logger,
-		}
+		config.LeveledLogger = DefaultLeveledLogger
 	}
 
 	switch backendType {
