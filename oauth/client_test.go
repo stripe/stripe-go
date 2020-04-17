@@ -121,7 +121,7 @@ func stubConnectBackend(httpClient *http.Client) {
 	mockBackend := stripe.GetBackendWithConfig(
 		stripe.ConnectBackend,
 		&stripe.BackendConfig{
-			URL:        "https://localhost:12113",
+			URL:        stripe.String("https://localhost:12113"),
 			HTTPClient: httpClient,
 		},
 	)

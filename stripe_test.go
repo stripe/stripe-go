@@ -101,8 +101,8 @@ func TestDo_Retry(t *testing.T) {
 		APIBackend,
 		&BackendConfig{
 			LeveledLogger:     debugLeveledLogger,
-			MaxNetworkRetries: 5,
-			URL:               testServer.URL,
+			MaxNetworkRetries: Int64(5),
+			URL:               String(testServer.URL),
 		},
 	).(*BackendImplementation)
 
@@ -130,12 +130,12 @@ func TestDo_Retry(t *testing.T) {
 }
 
 func TestShouldRetry(t *testing.T) {
-	MaxNetworkRetries := 3
+	MaxNetworkRetries := int64(3)
 
 	c := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			MaxNetworkRetries: MaxNetworkRetries,
+			MaxNetworkRetries: Int64(MaxNetworkRetries),
 		},
 	).(*BackendImplementation)
 
@@ -144,7 +144,7 @@ func TestShouldRetry(t *testing.T) {
 		nil,
 		&http.Request{},
 		&http.Response{},
-		MaxNetworkRetries,
+		int(MaxNetworkRetries),
 	))
 
 	// Doesn't retry most Stripe errors (they must also match a status code
@@ -261,8 +261,8 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 		APIBackend,
 		&BackendConfig{
 			LeveledLogger:     debugLeveledLogger,
-			MaxNetworkRetries: 1,
-			URL:               testServer.URL,
+			MaxNetworkRetries: Int64(1),
+			URL:               String(testServer.URL),
 			HTTPClient:        &http.Client{Timeout: timeout},
 		},
 	).(*BackendImplementation)
@@ -314,8 +314,8 @@ func TestDo_LastResponsePopulated(t *testing.T) {
 		APIBackend,
 		&BackendConfig{
 			LeveledLogger:     debugLeveledLogger,
-			MaxNetworkRetries: 0,
-			URL:               testServer.URL,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
 		},
 	).(*BackendImplementation)
 
@@ -373,8 +373,8 @@ func TestDo_TelemetryDisabled(t *testing.T) {
 		APIBackend,
 		&BackendConfig{
 			LeveledLogger:     debugLeveledLogger,
-			MaxNetworkRetries: 0,
-			URL:               testServer.URL,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
 		},
 	).(*BackendImplementation)
 
@@ -461,10 +461,10 @@ func TestDo_TelemetryEnabled(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
+			EnableTelemetry:   Bool(true),
 			LeveledLogger:     debugLeveledLogger,
-			MaxNetworkRetries: 0,
-			URL:               testServer.URL,
-			EnableTelemetry:   true,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
 		},
 	).(*BackendImplementation)
 
@@ -519,10 +519,10 @@ func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
+			EnableTelemetry:   Bool(true),
 			LeveledLogger:     debugLeveledLogger,
-			MaxNetworkRetries: 0,
-			URL:               testServer.URL,
-			EnableTelemetry:   true,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
 		},
 	).(*BackendImplementation)
 
@@ -584,7 +584,7 @@ func TestGetBackendWithConfig_TrimV1Suffix(t *testing.T) {
 		backend := GetBackendWithConfig(
 			APIBackend,
 			&BackendConfig{
-				URL: "https://api.com/v1",
+				URL: String("https://api.com/v1"),
 			},
 		).(*BackendImplementation)
 
@@ -598,7 +598,7 @@ func TestGetBackendWithConfig_TrimV1Suffix(t *testing.T) {
 		backend := GetBackendWithConfig(
 			APIBackend,
 			&BackendConfig{
-				URL: "https://api.com/v1/",
+				URL: String("https://api.com/v1/"),
 			},
 		).(*BackendImplementation)
 
@@ -610,7 +610,7 @@ func TestGetBackendWithConfig_TrimV1Suffix(t *testing.T) {
 		backend := GetBackendWithConfig(
 			APIBackend,
 			&BackendConfig{
-				URL: "https://api.com",
+				URL: String("https://api.com"),
 			},
 		).(*BackendImplementation)
 

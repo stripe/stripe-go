@@ -64,7 +64,7 @@ func TestOrderReturn_RequestParams(t *testing.T) {
 
 	// Configure the stripe client to use the ephemeral backend.
 	backend := stripe.GetBackendWithConfig(stripe.APIBackend, &stripe.BackendConfig{
-		URL: ts.URL,
+		URL: stripe.String(ts.URL),
 	})
 	orderClient := Client{B: backend, Key: stripe.Key}
 
