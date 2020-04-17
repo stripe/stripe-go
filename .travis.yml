@@ -8,7 +8,6 @@ before_install:
   # Install lint / code coverage / coveralls tooling
   - travis_retry go get -u golang.org/x/net/http2
   - travis_retry go get -u golang.org/x/tools/cmd/cover
-  - travis_retry go get -u github.com/modocache/gover
   - travis_retry go get -u github.com/mattn/goveralls
   - travis_retry go get -u golang.org/x/lint/golint
 
@@ -36,7 +35,6 @@ env:
     - STRIPE_MOCK_VERSION=0.87.0
 
 go:
-  - "1.9.x"
   - "1.10.x"
   - "1.11.x"
   - "1.12.x"
@@ -56,9 +54,7 @@ script:
   - make coverage
 
 after_script:
-  # Merge all coverage reports located in subdirectories and put them under: gover.coverprofile
-  - gover
   # Send code coverage report to coveralls.io
-  - goveralls -service=travis-ci -coverprofile=gover.coverprofile
+  - goveralls -service=travis-ci -coverprofile=combined.coverprofile
 
 sudo: false
