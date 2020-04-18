@@ -1,5 +1,9 @@
 # Changelog
 
+## 71.1.0 - 2020-04-17
+* [#1074](https://github.com/stripe/stripe-go/pull/1074) Add `CardholderName` to `ChargePaymentMethodDetailsCardPresent` on `Charge`
+* [#1075](https://github.com/stripe/stripe-go/pull/1075) Add new enum values for `AccountCompanyStructure` on `Account`
+
 ## 71.0.0 - 2020-04-17
 Version 71 of stripe-go contains some major changes. Many of them are breaking, but only in minor ways. We've written [a migration guide](https://github.com/stripe/stripe-go/blob/master/v71_migration_guide.md) with more details to help with the upgrade.
 
