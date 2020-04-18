@@ -336,18 +336,19 @@ type ChargePaymentMethodDetailsCardPresentReceipt struct {
 
 // ChargePaymentMethodDetailsCardPresent represents details about the Card Present PaymentMethod.
 type ChargePaymentMethodDetailsCardPresent struct {
-	Brand         PaymentMethodCardBrand                        `json:"brand"`
-	Country       string                                        `json:"country"`
-	EmvAuthData   string                                        `json:"emv_auth_data"`
-	ExpMonth      uint64                                        `json:"exp_month"`
-	ExpYear       uint64                                        `json:"exp_year"`
-	Fingerprint   string                                        `json:"fingerprint"`
-	Funding       CardFunding                                   `json:"funding"`
-	GeneratedCard string                                        `json:"generated_card"`
-	Last4         string                                        `json:"last4"`
-	Network       PaymentMethodCardNetwork                      `json:"network"`
-	ReadMethod    string                                        `json:"read_method"`
-	Receipt       *ChargePaymentMethodDetailsCardPresentReceipt `json:"receipt"`
+	Brand          PaymentMethodCardBrand                        `json:"brand"`
+	CardholderName string                                        `json:"cardholder_name"`
+	Country        string                                        `json:"country"`
+	EmvAuthData    string                                        `json:"emv_auth_data"`
+	ExpMonth       uint64                                        `json:"exp_month"`
+	ExpYear        uint64                                        `json:"exp_year"`
+	Fingerprint    string                                        `json:"fingerprint"`
+	Funding        CardFunding                                   `json:"funding"`
+	GeneratedCard  string                                        `json:"generated_card"`
+	Last4          string                                        `json:"last4"`
+	Network        PaymentMethodCardNetwork                      `json:"network"`
+	ReadMethod     string                                        `json:"read_method"`
+	Receipt        *ChargePaymentMethodDetailsCardPresentReceipt `json:"receipt"`
 }
 
 // ChargePaymentMethodDetailsEps represents details about the EPS PaymentMethod.
