@@ -236,6 +236,7 @@ type Invoice struct {
 	DefaultPaymentMethod         *PaymentMethod           `json:"default_payment_method"`
 	DefaultSource                *PaymentSource           `json:"default_source"`
 	DefaultTaxRates              []*TaxRate               `json:"default_tax_rates"`
+	Deleted                      bool                     `json:"deleted"`
 	Description                  string                   `json:"description"`
 	Discount                     *Discount                `json:"discount"`
 	DueDate                      int64                    `json:"due_date"`
