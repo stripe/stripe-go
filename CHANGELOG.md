@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.2.0 - 2020-04-21
+* [#1076](https://github.com/stripe/stripe-go/pull/1076) Add `Deleted` on `Invoice`
+
 ## 71.1.0 - 2020-04-17
 * [#1074](https://github.com/stripe/stripe-go/pull/1074) Add `CardholderName` to `ChargePaymentMethodDetailsCardPresent` on `Charge`
 * [#1075](https://github.com/stripe/stripe-go/pull/1075) Add new enum values for `AccountCompanyStructure` on `Account`
