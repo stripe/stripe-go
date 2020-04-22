@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.4.0 - 2020-04-22
+* [#1079](https://github.com/stripe/stripe-go/pull/1079) Add support for `Coupon` when for subscriptions on Checkout
+
 ## 71.3.0 - 2020-04-22
 * [#1078](https://github.com/stripe/stripe-go/pull/1078) Add missing error codes such as `ErrorCodeCardDeclinedRateLimitExceeded`
 * [#1063](https://github.com/stripe/stripe-go/pull/1063) Add support for the `BillingPortal` namespace and the `Session` API and resource
