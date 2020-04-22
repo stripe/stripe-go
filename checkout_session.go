@@ -98,6 +98,7 @@ type CheckoutSessionSubscriptionDataItemsParams struct {
 type CheckoutSessionSubscriptionDataParams struct {
 	Params                `form:"*"`
 	ApplicationFeePercent *float64                                      `form:"application_fee_percent"`
+	Coupon                *string                                       `form:"coupon"`
 	DefaultTaxRates       []*string                                     `form:"default_tax_rates"`
 	Items                 []*CheckoutSessionSubscriptionDataItemsParams `form:"items"`
 	TrialEnd              *int64                                        `form:"trial_end"`
