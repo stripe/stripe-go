@@ -1,5 +1,9 @@
 # Changelog
 
+## 71.3.0 - 2020-04-22
+* [#1078](https://github.com/stripe/stripe-go/pull/1078) Add missing error codes such as `ErrorCodeCardDeclinedRateLimitExceeded`
+* [#1063](https://github.com/stripe/stripe-go/pull/1063) Add support for the `BillingPortal` namespace and the `Session` API and resource
+
 ## 71.2.0 - 2020-04-21
 * [#1076](https://github.com/stripe/stripe-go/pull/1076) Add `Deleted` on `Invoice`
 
