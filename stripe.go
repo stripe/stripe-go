@@ -360,7 +360,7 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 // the backend's HTTP client to execute the request and unmarshals the response
 // into v. It also handles unmarshaling errors returned by the API.
 func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v LastResponseSetter) error {
-	s.LeveledLogger.Infof("Requesting %v %v%v\n", req.Method, req.URL.Host, req.URL.Path)
+	s.LeveledLogger.Infof("Requesting %v %v%v", req.Method, req.URL.Host, req.URL.Path)
 
 	if s.enableTelemetry {
 		select {
@@ -503,7 +503,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 		return err
 	}
 
-	s.LeveledLogger.Debugf("Response: %s\n", string(resBody))
+	s.LeveledLogger.Debugf("Response: %s", string(resBody))
 
 	v.SetLastResponse(newAPIResponse(res, resBody))
 
