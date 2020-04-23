@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.5.0 - 2020-04-22
+* [#1080](https://github.com/stripe/stripe-go/pull/1080) Remove spurious newline in logs
+
 ## 71.4.0 - 2020-04-22
 * [#1079](https://github.com/stripe/stripe-go/pull/1079) Add support for `Coupon` when for subscriptions on Checkout
 
