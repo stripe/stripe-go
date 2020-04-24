@@ -1,5 +1,9 @@
 # Changelog
 
+## 71.6.0 - 2020-04-23
+* [#1083](https://github.com/stripe/stripe-go/pull/1083) Add support for `JCBPayments` and `CardIssuing` as a `Capability`
+* [#1082](https://github.com/stripe/stripe-go/pull/1082) Add support for expandable `CVC` and `Number` on Issuing `Card`
+
 ## 71.5.0 - 2020-04-22
 * [#1080](https://github.com/stripe/stripe-go/pull/1080) Remove spurious newline in logs
 
