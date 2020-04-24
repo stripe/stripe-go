@@ -193,12 +193,14 @@ type IssuingCard struct {
 	Cardholder         *IssuingCardholder            `json:"cardholder"`
 	Created            int64                         `json:"created"`
 	Currency           Currency                      `json:"currency"`
+	CVC                string                        `json:"cvc"`
 	ExpMonth           int64                         `json:"exp_month"`
 	ExpYear            int64                         `json:"exp_year"`
 	ID                 string                        `json:"id"`
 	Last4              string                        `json:"last4"`
 	Livemode           bool                          `json:"livemode"`
 	Metadata           map[string]string             `json:"metadata"`
+	Number             string                        `json:"number"`
 	Object             string                        `json:"object"`
 	ReplacedBy         *IssuingCard                  `json:"replaced_by"`
 	ReplacementFor     *IssuingCard                  `json:"replacement_for"`
