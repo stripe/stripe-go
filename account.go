@@ -24,6 +24,7 @@ const (
 	AccountCapabilityAUBECSDebitPayments    AccountCapability = "au_becs_debit_payments"
 	AccountCapabilityCardIssuing            AccountCapability = "card_issuing"
 	AccountCapabilityCardPayments           AccountCapability = "card_payments"
+	AccountCapabilityJCBPayments            AccountCapability = "jcb_payments"
 	AccountCapabilityLegacyPayments         AccountCapability = "legacy_payments"
 	AccountCapabilityTaxReportingUS1099K    AccountCapability = "tax_reporting_us_1099_k"
 	AccountCapabilityTaxReportingUS1099MISC AccountCapability = "tax_reporting_us_1099_misc"
@@ -340,7 +341,9 @@ type AccountBusinessProfile struct {
 // AccountCapabilities is the resource representing the capabilities enabled on that account.
 type AccountCapabilities struct {
 	AUBECSDebitPayments    AccountCapabilityStatus `json:"au_becs_debit_payments"`
+	CardIssuing            AccountCapabilityStatus `json:"card_issuing"`
 	CardPayments           AccountCapabilityStatus `json:"card_payments"`
+	JCBPayments            AccountCapabilityStatus `json:"jcb_payments"`
 	LegacyPayments         AccountCapabilityStatus `json:"legacy_payments"`
 	TaxReportingUS1099K    AccountCapabilityStatus `json:"tax_reporting_us_1099_k"`
 	TaxReportingUS1099MISC AccountCapabilityStatus `json:"tax_reporting_us_1099_misc"`
