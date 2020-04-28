@@ -73,7 +73,7 @@ const (
 //controlling when to request 3D Secure on a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 
-// List of values that PaymentIntentNextActionType can take.
+// List of values that PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure can take.
 const (
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAny       PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
