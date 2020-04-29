@@ -155,6 +155,7 @@ type BankAccount struct {
 	ID                 string                       `json:"id"`
 	Last4              string                       `json:"last4"`
 	Metadata           map[string]string            `json:"metadata"`
+	Object             string                       `json:"object"`
 	RoutingNumber      string                       `json:"routing_number"`
 	Status             BankAccountStatus            `json:"status"`
 }
