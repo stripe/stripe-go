@@ -22,6 +22,13 @@ var debugLeveledLogger = &LeveledLogger{
 	Level: LevelDebug,
 }
 
+// For tests that produce a lot of logging or alarming error logs on a
+// successful run (thereby making `go test . -test.v` quite noisy), use this
+// null leveled logger instead of the debug one above.
+var nullLeveledLogger = &LeveledLogger{
+	Level: LevelNull,
+}
+
 //
 // ---
 //
@@ -100,7 +107,7 @@ func TestDo_Retry(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			LeveledLogger:     debugLeveledLogger,
+			LeveledLogger:     nullLeveledLogger,
 			MaxNetworkRetries: Int64(5),
 			URL:               String(testServer.URL),
 		},
@@ -260,7 +267,7 @@ func TestDo_RetryOnTimeout(t *testing.T) {
 	backend := GetBackendWithConfig(
 		APIBackend,
 		&BackendConfig{
-			LeveledLogger:     debugLeveledLogger,
+			LeveledLogger:     nullLeveledLogger,
 			MaxNetworkRetries: Int64(1),
 			URL:               String(testServer.URL),
 			HTTPClient:        &http.Client{Timeout: timeout},
@@ -520,7 +527,7 @@ func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 		APIBackend,
 		&BackendConfig{
 			EnableTelemetry:   Bool(true),
-			LeveledLogger:     debugLeveledLogger,
+			LeveledLogger:     nullLeveledLogger,
 			MaxNetworkRetries: Int64(0),
 			URL:               String(testServer.URL),
 		},
