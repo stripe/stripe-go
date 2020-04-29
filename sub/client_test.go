@@ -35,20 +35,41 @@ func TestSubscriptionList(t *testing.T) {
 
 func TestSubscriptionNew(t *testing.T) {
 	subscription, err := New(&stripe.SubscriptionParams{
-		Customer: stripe.String("cus_123"),
-		Items: []*stripe.SubscriptionItemsParams{
+		AddInvoiceItems: []*stripe.SubscriptionAddInvoiceItemParams{
 			{
-				Plan:     stripe.String("plan_123"),
-				Quantity: stripe.Int64(10),
+				Price:    stripe.String("price_123"),
+				Quantity: stripe.Int64(2),
 			},
 			{
-				Plan:     stripe.String("plan_456"),
-				Quantity: stripe.Int64(20),
+				PriceData: &stripe.InvoiceItemPriceDataParams{
+					Currency:   stripe.String(string(stripe.CurrencyUSD)),
+					UnitAmount: stripe.Int64(1000),
+					Product:    stripe.String("prod_123"),
+				},
+				Quantity: stripe.Int64(4),
 			},
 		},
 		BillingCycleAnchor: stripe.Int64(time.Now().AddDate(0, 0, 12).Unix()),
 		CollectionMethod:   stripe.String(string(stripe.SubscriptionCollectionMethodChargeAutomatically)),
+		Customer:           stripe.String("cus_123"),
 		DaysUntilDue:       stripe.Int64(30),
+		Items: []*stripe.SubscriptionItemsParams{
+			{
+				Price:    stripe.String("price_ABC"),
+				Quantity: stripe.Int64(10),
+			},
+			{
+				PriceData: &stripe.SubscriptionItemPriceDataParams{
+					Currency: stripe.String(string(stripe.CurrencyUSD)),
+					Product:  stripe.String("prod_ABC"),
+					Recurring: &stripe.SubscriptionItemPriceDataRecurringParams{
+						Interval:      stripe.String(string(stripe.PriceRecurringIntervalMonth)),
+						IntervalCount: stripe.Int64(6),
+					},
+					UnitAmount: stripe.Int64(1000),
+				},
+			},
+		},
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, subscription)

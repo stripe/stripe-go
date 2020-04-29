@@ -73,6 +73,14 @@ const (
 	SubscriptionPendingInvoiceItemIntervalIntervalYear  SubscriptionPendingInvoiceItemIntervalInterval = "year"
 )
 
+// SubscriptionAddInvoiceItemParams is a structure representing the parameters allowed to control
+// the invoice items to add at to a subscription's first invoice.
+type SubscriptionAddInvoiceItemParams struct {
+	Price     *string                     `form:"price"`
+	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
+	Quantity  *int64                      `form:"quantity"`
+}
+
 // SubscriptionPauseCollectionParams is the set of parameters allowed for the pause_collection hash.
 type SubscriptionPauseCollectionParams struct {
 	Behavior  *string `form:"behavior"`
@@ -94,6 +102,7 @@ type SubscriptionTransferDataParams struct {
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubscriptionParams struct {
 	Params                      `form:"*"`
+	AddInvoiceItems             []*SubscriptionAddInvoiceItemParams           `form:"add_invoice_items"`
 	ApplicationFeePercent       *float64                                      `form:"application_fee_percent"`
 	BackdateStartDate           *int64                                        `form:"backdate_start_date"`
 	BillingCycleAnchor          *int64                                        `form:"billing_cycle_anchor"`
@@ -172,6 +181,8 @@ type SubscriptionItemsParams struct {
 	Deleted           *bool                                    `form:"deleted"`
 	ID                *string                                  `form:"id"`
 	Plan              *string                                  `form:"plan"`
+	Price             *string                                  `form:"price"`
+	PriceData         *SubscriptionItemPriceDataParams         `form:"price_data"`
 	Quantity          *int64                                   `form:"quantity"`
 	TaxRates          []*string                                `form:"tax_rates"`
 }
@@ -189,6 +200,7 @@ type SubscriptionListParams struct {
 	CurrentPeriodStartRange *RangeQueryParams `form:"current_period_start"`
 	Customer                string            `form:"customer"`
 	Plan                    string            `form:"plan"`
+	Price                   string            `form:"price"`
 	Status                  string            `form:"status"`
 }
 

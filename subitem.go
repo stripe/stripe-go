@@ -1,5 +1,25 @@
 package stripe
 
+// SubscriptionItemPriceDataRecurringParams is a structure representing the parameters to create
+// an inline recurring price for a subscription item.
+type SubscriptionItemPriceDataRecurringParams struct {
+	AggregateUsage  *string `form:"aggregate_usage"`
+	Interval        *string `form:"interval"`
+	IntervalCount   *int64  `form:"interval_count"`
+	TrialPeriodDays *int64  `form:"trial_period_days"`
+	UsageType       *string `form:"usage_type"`
+}
+
+// SubscriptionItemPriceDataParams is a structure representing the parameters to create an inline
+// price for a subscription item.
+type SubscriptionItemPriceDataParams struct {
+	Currency          *string                                   `form:"currency"`
+	Product           *string                                   `form:"product"`
+	Recurring         *SubscriptionItemPriceDataRecurringParams `form:"recurring"`
+	UnitAmount        *int64                                    `form:"unit_amount"`
+	UnitAmountDecimal *float64                                  `form:"unit_amount_decimal,high_precision"`
+}
+
 // SubscriptionItemParams is the set of parameters that can be used when creating or updating a subscription item.
 // For more details see https://stripe.com/docs/api#create_subscription_item and https://stripe.com/docs/api#update_subscription_item.
 type SubscriptionItemParams struct {
@@ -9,6 +29,8 @@ type SubscriptionItemParams struct {
 	ClearUsage        *bool                                    `form:"clear_usage"`
 	PaymentBehavior   *string                                  `form:"payment_behavior"`
 	Plan              *string                                  `form:"plan"`
+	Price             *string                                  `form:"price"`
+	PriceData         *SubscriptionItemPriceDataParams         `form:"price_data"`
 	Prorate           *bool                                    `form:"prorate"`
 	ProrationDate     *int64                                   `form:"proration_date"`
 	ProrationBehavior *string                                  `form:"proration_behavior"`
@@ -43,6 +65,7 @@ type SubscriptionItem struct {
 	ID                string                            `json:"id"`
 	Metadata          map[string]string                 `json:"metadata"`
 	Plan              *Plan                             `json:"plan"`
+	Price             *Price                            `json:"price"`
 	Quantity          int64                             `json:"quantity"`
 	Subscription      string                            `json:"subscription"`
 	TaxRates          []*TaxRate                        `json:"tax_rates"`

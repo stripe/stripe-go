@@ -43,11 +43,41 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	InvoiceSettings      *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
 }
 
+// SubscriptionSchedulePhaseAddInvoiceItemPriceDataRecurringParams is a structure representing the
+// parameters to create an inline recurring price for a given invoice item.
+type SubscriptionSchedulePhaseAddInvoiceItemPriceDataRecurringParams struct {
+	AggregateUsage  *string `form:"aggregate_usage"`
+	Interval        *string `form:"interval"`
+	IntervalCount   *int64  `form:"interval_count"`
+	TrialPeriodDays *int64  `form:"trial_period_days"`
+	UsageType       *string `form:"usage_type"`
+}
+
+// SubscriptionSchedulePhaseAddInvoiceItemPriceDataParams is a structure representing the parameters
+// to create an inline price for a given invoice item.
+type SubscriptionSchedulePhaseAddInvoiceItemPriceDataParams struct {
+	Currency          *string                                                          `form:"currency"`
+	Product           *string                                                          `form:"product"`
+	Recurring         *SubscriptionSchedulePhaseAddInvoiceItemPriceDataRecurringParams `form:"recurring"`
+	UnitAmount        *int64                                                           `form:"unit_amount"`
+	UnitAmountDecimal *float64                                                         `form:"unit_amount_decimal,high_precision"`
+}
+
+// SubscriptionSchedulePhaseAddInvoiceItemParams is a structure representing the parameters allowed to control
+// the invoice items to add at the start of a phase.
+type SubscriptionSchedulePhaseAddInvoiceItemParams struct {
+	Price     *string                     `form:"price"`
+	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
+	Quantity  *int64                      `form:"quantity"`
+}
+
 // SubscriptionSchedulePhaseItemParams is a structure representing the parameters allowed to control
 // a specic plan on a phase on a subscription schedule.
 type SubscriptionSchedulePhaseItemParams struct {
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	Plan              *string                                  `form:"plan"`
+	Price             *string                                  `form:"price"`
+	PriceData         *SubscriptionItemPriceDataParams         `form:"price_data"`
 	Quantity          *int64                                   `form:"quantity"`
 	TaxRates          []*string                                `form:"tax_rates"`
 }
@@ -55,20 +85,21 @@ type SubscriptionSchedulePhaseItemParams struct {
 // SubscriptionSchedulePhaseParams is a structure representing the parameters allowed to control
 // a phase on a subscription schedule.
 type SubscriptionSchedulePhaseParams struct {
-	ApplicationFeePercent *int64                                     `form:"application_fee_percent"`
-	BillingThresholds     *SubscriptionBillingThresholdsParams       `form:"billing_thresholds"`
-	CollectionMethod      *string                                    `form:"collection_method"`
-	Coupon                *string                                    `form:"coupon"`
-	DefaultPaymentMethod  *string                                    `form:"default_payment_method"`
-	DefaultTaxRates       []*string                                  `form:"default_tax_rates"`
-	EndDate               *int64                                     `form:"end_date"`
-	InvoiceSettings       *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
-	Iterations            *int64                                     `form:"iterations"`
-	Plans                 []*SubscriptionSchedulePhaseItemParams     `form:"plans"`
-	ProrationBehavior     *string                                    `form:"proration_behavior"`
-	StartDate             *int64                                     `form:"start_date"`
-	Trial                 *bool                                      `form:"trial"`
-	TrialEnd              *int64                                     `form:"trial_end"`
+	AddInvoiceItems       []*SubscriptionSchedulePhaseAddInvoiceItemParams `form:"add_invoice_items"`
+	ApplicationFeePercent *int64                                           `form:"application_fee_percent"`
+	BillingThresholds     *SubscriptionBillingThresholdsParams             `form:"billing_thresholds"`
+	CollectionMethod      *string                                          `form:"collection_method"`
+	Coupon                *string                                          `form:"coupon"`
+	DefaultPaymentMethod  *string                                          `form:"default_payment_method"`
+	DefaultTaxRates       []*string                                        `form:"default_tax_rates"`
+	EndDate               *int64                                           `form:"end_date"`
+	InvoiceSettings       *SubscriptionScheduleInvoiceSettingsParams       `form:"invoice_settings"`
+	Iterations            *int64                                           `form:"iterations"`
+	Plans                 []*SubscriptionSchedulePhaseItemParams           `form:"plans"`
+	ProrationBehavior     *string                                          `form:"proration_behavior"`
+	StartDate             *int64                                           `form:"start_date"`
+	Trial                 *bool                                            `form:"trial"`
+	TrialEnd              *int64                                           `form:"trial_end"`
 
 	// This parameter is deprecated and we recommend that you use TaxRates instead.
 	TaxPercent *float64 `form:"tax_percent"`
@@ -152,27 +183,35 @@ type SubscriptionScheduleDefaultSettings struct {
 	InvoiceSettings      *SubscriptionScheduleInvoiceSettings `json:"invoice_settings"`
 }
 
+// SubscriptionSchedulePhaseAddInvoiceItem represents the invoice items to add when the phase starts.
+type SubscriptionSchedulePhaseAddInvoiceItem struct {
+	Price    *Price `json:"price"`
+	Quantity int64  `json:"quantity"`
+}
+
 // SubscriptionSchedulePhaseItem represents plan details for a given phase
 type SubscriptionSchedulePhaseItem struct {
 	BillingThresholds *SubscriptionItemBillingThresholds `json:"billing_thresholds"`
 	Plan              *Plan                              `json:"plan"`
+	Price             *Price                             `json:"price"`
 	Quantity          int64                              `json:"quantity"`
 	TaxRates          []*TaxRate                         `json:"tax_rates"`
 }
 
 // SubscriptionSchedulePhase is a structure a phase of a subscription schedule.
 type SubscriptionSchedulePhase struct {
-	ApplicationFeePercent float64                              `json:"application_fee_percent"`
-	BillingThresholds     *SubscriptionBillingThresholds       `json:"billing_thresholds"`
-	CollectionMethod      SubscriptionCollectionMethod         `json:"collection_method"`
-	Coupon                *Coupon                              `json:"coupon"`
-	DefaultPaymentMethod  *PaymentMethod                       `json:"default_payment_method"`
-	DefaultTaxRates       []*TaxRate                           `json:"default_tax_rates"`
-	EndDate               int64                                `json:"end_date"`
-	InvoiceSettings       *SubscriptionScheduleInvoiceSettings `json:"invoice_settings"`
-	Plans                 []*SubscriptionSchedulePhaseItem     `json:"plans"`
-	StartDate             int64                                `json:"start_date"`
-	TrialEnd              int64                                `json:"trial_end"`
+	AddInvoiceItems       []*SubscriptionSchedulePhaseAddInvoiceItem `json:"add_invoice_items"`
+	ApplicationFeePercent float64                                    `json:"application_fee_percent"`
+	BillingThresholds     *SubscriptionBillingThresholds             `json:"billing_thresholds"`
+	CollectionMethod      SubscriptionCollectionMethod               `json:"collection_method"`
+	Coupon                *Coupon                                    `json:"coupon"`
+	DefaultPaymentMethod  *PaymentMethod                             `json:"default_payment_method"`
+	DefaultTaxRates       []*TaxRate                                 `json:"default_tax_rates"`
+	EndDate               int64                                      `json:"end_date"`
+	InvoiceSettings       *SubscriptionScheduleInvoiceSettings       `json:"invoice_settings"`
+	Plans                 []*SubscriptionSchedulePhaseItem           `json:"plans"`
+	StartDate             int64                                      `json:"start_date"`
+	TrialEnd              int64                                      `json:"trial_end"`
 
 	// This field is deprecated and we recommend that you use TaxRates instead.
 	TaxPercent float64 `json:"tax_percent"`
