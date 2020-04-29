@@ -8,6 +8,8 @@ type TaxIDType string
 // List of values that TaxIDType can take.
 const (
 	TaxIDTypeAUABN   TaxIDType = "au_abn"
+	TaxIDTypeBRCNPJ  TaxIDType = "br_cnpj"
+	TaxIDTypeBRCPF   TaxIDType = "br_cpf"
 	TaxIDTypeCABN    TaxIDType = "ca_bn"
 	TaxIDTypeCAQST   TaxIDType = "ca_qst"
 	TaxIDTypeCHVAT   TaxIDType = "ch_vat"
