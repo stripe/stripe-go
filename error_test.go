@@ -23,6 +23,10 @@ func TestErrorResponse(t *testing.T) {
 	defer ts.Close()
 
 	backend := GetBackendWithConfig(APIBackend, &BackendConfig{
+		// Suppress error log output to make a verbose run of this test less
+		// alarming (because we're testing specifically for an error).
+		LeveledLogger: &LeveledLogger{Level: LevelNull},
+
 		URL: String(ts.URL),
 	})
 
