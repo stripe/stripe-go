@@ -1,5 +1,10 @@
 # Changelog
 
+## 71.7.0 - 2020-04-29
+* [#1087](https://github.com/stripe/stripe-go/pull/1087) Add support for Brazilian tax ids on `TaxID`
+* [#1085](https://github.com/stripe/stripe-go/pull/1085) Add `Object` on `BankAccount`
+* [#1065](https://github.com/stripe/stripe-go/pull/1065) Adding support for the `Price` resource and APIs
+
 ## 71.6.0 - 2020-04-23
 * [#1083](https://github.com/stripe/stripe-go/pull/1083) Add support for `JCBPayments` and `CardIssuing` as a `Capability`
 * [#1082](https://github.com/stripe/stripe-go/pull/1082) Add support for expandable `CVC` and `Number` on Issuing `Card`
