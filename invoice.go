@@ -66,6 +66,8 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	Discountable      *bool                                   `form:"discountable"`
 	InvoiceItem       *string                                 `form:"invoiceitem"`
 	Period            *InvoiceUpcomingInvoiceItemPeriodParams `form:"period"`
+	Price             *string                                 `form:"price"`
+	PriceData         *InvoiceItemPriceDataParams             `form:"price_data"`
 	Quantity          *int64                                  `form:"quantity"`
 	Schedule          *string                                 `form:"schedule"`
 	TaxRates          []*string                               `form:"tax_rates"`
@@ -327,6 +329,7 @@ type InvoiceLine struct {
 	Metadata         map[string]string   `json:"metadata"`
 	Period           *Period             `json:"period"`
 	Plan             *Plan               `json:"plan"`
+	Price            *Price              `json:"price"`
 	Proration        bool                `json:"proration"`
 	Quantity         int64               `json:"quantity"`
 	Subscription     string              `json:"subscription"`

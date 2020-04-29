@@ -2,28 +2,38 @@ package stripe
 
 import "encoding/json"
 
-// InvoiceItemParams is the set of parameters that can be used when creating or updating an invoice item.
-// For more details see https://stripe.com/docs/api#create_invoiceitem and https://stripe.com/docs/api#update_invoiceitem.
-type InvoiceItemParams struct {
-	Params            `form:"*"`
-	Amount            *int64                   `form:"amount"`
-	Currency          *string                  `form:"currency"`
-	Customer          *string                  `form:"customer"`
-	Description       *string                  `form:"description"`
-	Discountable      *bool                    `form:"discountable"`
-	Invoice           *string                  `form:"invoice"`
-	Period            *InvoiceItemPeriodParams `form:"period"`
-	Quantity          *int64                   `form:"quantity"`
-	Subscription      *string                  `form:"subscription"`
-	TaxRates          []*string                `form:"tax_rates"`
-	UnitAmount        *int64                   `form:"unit_amount"`
-	UnitAmountDecimal *float64                 `form:"unit_amount_decimal,high_precision"`
-}
-
 // InvoiceItemPeriodParams represents the period associated with that invoice item.
 type InvoiceItemPeriodParams struct {
 	End   *int64 `form:"end"`
 	Start *int64 `form:"start"`
+}
+
+// InvoiceItemPriceDataParams is a structure representing the parameters to create an inline price.
+type InvoiceItemPriceDataParams struct {
+	Currency          *string  `form:"currency"`
+	Product           *string  `form:"product"`
+	UnitAmount        *int64   `form:"unit_amount"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// InvoiceItemParams is the set of parameters that can be used when creating or updating an invoice item.
+// For more details see https://stripe.com/docs/api#create_invoiceitem and https://stripe.com/docs/api#update_invoiceitem.
+type InvoiceItemParams struct {
+	Params            `form:"*"`
+	Amount            *int64                      `form:"amount"`
+	Currency          *string                     `form:"currency"`
+	Customer          *string                     `form:"customer"`
+	Description       *string                     `form:"description"`
+	Discountable      *bool                       `form:"discountable"`
+	Invoice           *string                     `form:"invoice"`
+	Period            *InvoiceItemPeriodParams    `form:"period"`
+	Price             *string                     `form:"price"`
+	PriceData         *InvoiceItemPriceDataParams `form:"price_data"`
+	Quantity          *int64                      `form:"quantity"`
+	Subscription      *string                     `form:"subscription"`
+	TaxRates          []*string                   `form:"tax_rates"`
+	UnitAmount        *int64                      `form:"unit_amount"`
+	UnitAmountDecimal *float64                    `form:"unit_amount_decimal,high_precision"`
 }
 
 // InvoiceItemListParams is the set of parameters that can be used when listing invoice items.
@@ -54,6 +64,7 @@ type InvoiceItem struct {
 	Metadata          map[string]string `json:"metadata"`
 	Period            *Period           `json:"period"`
 	Plan              *Plan             `json:"plan"`
+	Price             *Price            `json:"price"`
 	Proration         bool              `json:"proration"`
 	Quantity          int64             `json:"quantity"`
 	Subscription      *Subscription     `json:"subscription"`
