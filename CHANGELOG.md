@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.8.0 - 2020-05-01
+* [#1089](https://github.com/stripe/stripe-go/pull/1089) Add support for `Issuing` in `Balance`
+
 ## 71.7.0 - 2020-04-29
 * [#1087](https://github.com/stripe/stripe-go/pull/1087) Add support for Brazilian tax ids on `TaxID`
 * [#1085](https://github.com/stripe/stripe-go/pull/1085) Add `Object` on `BankAccount`
