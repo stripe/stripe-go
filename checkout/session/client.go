@@ -6,6 +6,7 @@ import (
 
 	stripe "github.com/stripe/stripe-go/v71"
 	"github.com/stripe/stripe-go/v71/form"
+	"github.com/stripe/stripe-go/v71/lineitem"
 )
 
 // Client is used to invoke /checkout_sessions APIs.
@@ -49,6 +50,27 @@ func (c Client) List(listParams *stripe.CheckoutSessionListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
 		list := &stripe.CheckoutSessionList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/checkout/sessions", c.Key, b, p, list)
+
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
+			ret[i] = v
+		}
+
+		return ret, list.ListMeta, err
+	})}
+}
+
+// ListLineItems returns a list of line items on a session.
+func ListLineItems(id string, params *stripe.CheckoutSessionListLineItemsParams) *lineitem.Iter {
+	return getC().ListLineItems(id, params)
+}
+
+// ListLineItems returns a list of line items on a session.
+func (c Client) ListLineItems(id string, listParams *stripe.CheckoutSessionListLineItemsParams) *lineitem.Iter {
+	path := stripe.FormatURLPath("/v1/checkout/sessions/%s/line_items", id)
+	return &lineitem.Iter{Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+		list := &stripe.LineItemList{}
+		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
 		ret := make([]interface{}, len(list.Data))
 		for i, v := range list.Data {
