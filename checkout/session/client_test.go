@@ -32,6 +32,10 @@ func TestCheckoutSessionNew(t *testing.T) {
 		},
 		PaymentIntentData: &stripe.CheckoutSessionPaymentIntentDataParams{
 			Description: stripe.String("description"),
+			Metadata: map[string]string{
+				"attr1": "val1",
+				"attr2": "val2",
+			},
 			Shipping: &stripe.ShippingDetailsParams{
 				Address: &stripe.AddressParams{
 					Line1: stripe.String("line1"),
@@ -50,6 +54,10 @@ func TestCheckoutSessionNew(t *testing.T) {
 					Plan:     stripe.String("plan"),
 					Quantity: stripe.Int64(2),
 				},
+			},
+			Metadata: map[string]string{
+				"attr1": "val1",
+				"attr2": "val2",
 			},
 		},
 		SuccessURL: stripe.String("https://stripe.com/success"),
