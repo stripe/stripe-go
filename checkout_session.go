@@ -62,6 +62,7 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	ApplicationFeeAmount      *int64                                              `form:"application_fee_amount"`
 	CaptureMethod             *string                                             `form:"capture_method"`
 	Description               *string                                             `form:"description"`
+	Metadata                  map[string]string                                   `form:"metadata"`
 	OnBehalfOf                *string                                             `form:"on_behalf_of"`
 	ReceiptEmail              *string                                             `form:"receipt_email"`
 	SetupFutureUsage          *string                                             `form:"setup_future_usage"`
@@ -101,6 +102,7 @@ type CheckoutSessionSubscriptionDataParams struct {
 	Coupon                *string                                       `form:"coupon"`
 	DefaultTaxRates       []*string                                     `form:"default_tax_rates"`
 	Items                 []*CheckoutSessionSubscriptionDataItemsParams `form:"items"`
+	Metadata              map[string]string                             `form:"metadata"`
 	TrialEnd              *int64                                        `form:"trial_end"`
 	TrialFromPlan         *bool                                         `form:"trial_from_plan"`
 	TrialPeriodDays       *int64                                        `form:"trial_period_days"`
