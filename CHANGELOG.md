@@ -1,5 +1,10 @@
 # Changelog
 
+## 71.9.0 - 2020-05-07
+* [#1093](https://github.com/stripe/stripe-go/pull/1093) Add support for `Metadata` for `PaymentIntentData` and `SubscriptionData` on Checkout `Session`
+* [#1095](https://github.com/stripe/stripe-go/pull/1095) Add `SupportAddress` in `BusinessProfile` on `Account` creation and update
+* [#1094](https://github.com/stripe/stripe-go/pull/1094) Fix parameters supported in `Recurring` for `PriceData` across the API
+
 ## 71.8.0 - 2020-05-01
 * [#1089](https://github.com/stripe/stripe-go/pull/1089) Add support for `Issuing` in `Balance`
 
