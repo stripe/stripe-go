@@ -139,13 +139,14 @@ const (
 
 // AccountBusinessProfileParams are the parameters allowed for an account's business information
 type AccountBusinessProfileParams struct {
-	MCC                *string `form:"mcc"`
-	Name               *string `form:"name"`
-	ProductDescription *string `form:"product_description"`
-	SupportEmail       *string `form:"support_email"`
-	SupportPhone       *string `form:"support_phone"`
-	SupportURL         *string `form:"support_url"`
-	URL                *string `form:"url"`
+	MCC                *string        `form:"mcc"`
+	Name               *string        `form:"name"`
+	ProductDescription *string        `form:"product_description"`
+	SupportAddress     *AddressParams `form:"support_address"`
+	SupportEmail       *string        `form:"support_email"`
+	SupportPhone       *string        `form:"support_phone"`
+	SupportURL         *string        `form:"support_url"`
+	URL                *string        `form:"url"`
 }
 
 // AccountCompanyVerificationDocumentParams are the parameters allowed to pass for a document
