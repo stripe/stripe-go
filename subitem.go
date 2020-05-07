@@ -3,11 +3,8 @@ package stripe
 // SubscriptionItemPriceDataRecurringParams is a structure representing the parameters to create
 // an inline recurring price for a subscription item.
 type SubscriptionItemPriceDataRecurringParams struct {
-	AggregateUsage  *string `form:"aggregate_usage"`
-	Interval        *string `form:"interval"`
-	IntervalCount   *int64  `form:"interval_count"`
-	TrialPeriodDays *int64  `form:"trial_period_days"`
-	UsageType       *string `form:"usage_type"`
+	Interval      *string `form:"interval"`
+	IntervalCount *int64  `form:"interval_count"`
 }
 
 // SubscriptionItemPriceDataParams is a structure representing the parameters to create an inline
