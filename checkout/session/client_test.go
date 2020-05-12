@@ -74,3 +74,13 @@ func TestCheckoutSessionList(t *testing.T) {
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.CheckoutSession())
 }
+
+func TestCheckoutSessionListLineItems(t *testing.T) {
+	params := &stripe.CheckoutSessionListLineItemsParams{}
+	i := ListLineItems("cs_123", params)
+
+	// Verify that we can get at least one line item.
+	assert.True(t, i.Next())
+	assert.Nil(t, i.Err())
+	assert.NotNil(t, i.LineItem())
+}

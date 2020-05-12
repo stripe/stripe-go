@@ -36,16 +36,38 @@ const (
 	CheckoutSessionModeSubscription CheckoutSessionMode = "subscription"
 )
 
+// CheckoutSessionLineItemPriceDataRecurringParams is the set of parameters for the recurring
+// components of a price created inline for a line item
+type CheckoutSessionLineItemPriceDataRecurringParams struct {
+	AggregateUsage  *string `form:"aggregate_usage"`
+	Interval        *string `form:"interval"`
+	IntervalCount   *int64  `form:"interval_count"`
+	TrialPeriodDays *int64  `form:"trial_period_days"`
+	UsageType       *string `form:"usage_type"`
+}
+
+// CheckoutSessionLineItemPriceDataParams is a structure representing the parameters to create
+// an inline price for a line item.
+type CheckoutSessionLineItemPriceDataParams struct {
+	Currency          *string                                          `form:"currency"`
+	Product           *string                                          `form:"product"`
+	Recurring         *CheckoutSessionLineItemPriceDataRecurringParams `form:"recurring"`
+	UnitAmount        *int64                                           `form:"unit_amount"`
+	UnitAmountDecimal *float64                                         `form:"unit_amount_decimal,high_precision"`
+}
+
 // CheckoutSessionLineItemParams is the set of parameters allowed for a line item
 // on a checkout session.
 type CheckoutSessionLineItemParams struct {
-	Amount      *int64    `form:"amount"`
-	Currency    *string   `form:"currency"`
-	Description *string   `form:"description"`
-	Images      []*string `form:"images"`
-	Name        *string   `form:"name"`
-	Quantity    *int64    `form:"quantity"`
-	TaxRates    []*string `form:"tax_rates"`
+	Amount      *int64                                  `form:"amount"`
+	Currency    *string                                 `form:"currency"`
+	Description *string                                 `form:"description"`
+	Images      []*string                               `form:"images"`
+	Name        *string                                 `form:"name"`
+	Price       *string                                 `form:"price"`
+	PriceData   *CheckoutSessionLineItemPriceDataParams `form:"price_data"`
+	Quantity    *int64                                  `form:"quantity"`
+	TaxRates    []*string                               `form:"tax_rates"`
 }
 
 // CheckoutSessionPaymentIntentDataTransferDataParams is the set of parameters allowed for the
@@ -130,6 +152,13 @@ type CheckoutSessionParams struct {
 	SuccessURL                *string                                         `form:"success_url"`
 }
 
+// CheckoutSessionListLineItemsParams is the set of parameters that can be
+// used when listing line items on a session.
+type CheckoutSessionListLineItemsParams struct {
+	ListParams `form:"*"`
+	Session    *string `form:"-"` // Included in URL
+}
+
 // CheckoutSessionListParams is the set of parameters that can be
 // used when listing sessions.
 // For more details see: https://stripe.com/docs/api/checkout/sessions/list
@@ -174,6 +203,7 @@ type CheckoutSession struct {
 	Deleted                   bool                                      `json:"deleted"`
 	DisplayItems              []*CheckoutSessionDisplayItem             `json:"display_items"`
 	ID                        string                                    `json:"id"`
+	LineItems                 []*LineItem                               `json:"line_items"`
 	Livemode                  bool                                      `json:"livemode"`
 	Locale                    string                                    `json:"locale"`
 	Metadata                  map[string]string                         `json:"metadata"`
