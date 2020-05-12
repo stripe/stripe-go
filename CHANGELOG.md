@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.10.0 - 2020-05-12
+* [#1091](https://github.com/stripe/stripe-go/pull/1091) Add support for the `LineItem` resource and APIs
+
 ## 71.9.0 - 2020-05-07
 * [#1093](https://github.com/stripe/stripe-go/pull/1093) Add support for `Metadata` for `PaymentIntentData` and `SubscriptionData` on Checkout `Session`
 * [#1095](https://github.com/stripe/stripe-go/pull/1095) Add `SupportAddress` in `BusinessProfile` on `Account` creation and update
