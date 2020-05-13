@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.11.0 - 2020-05-13
+* [#1096](https://github.com/stripe/stripe-go/pull/1096) Add support for `PurchaseDetails` on Issuing `Transaction`
+
 ## 71.10.0 - 2020-05-12
 * [#1091](https://github.com/stripe/stripe-go/pull/1091) Add support for the `LineItem` resource and APIs
 
