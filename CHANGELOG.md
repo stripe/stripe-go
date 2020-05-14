@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.11.1 - 2020-05-13
+* [#1097](https://github.com/stripe/stripe-go/pull/1097) Fixing `LineItems` to be `LineItemList` on Checkout `Session`
+
 ## 71.11.0 - 2020-05-13
 * [#1096](https://github.com/stripe/stripe-go/pull/1096) Add support for `PurchaseDetails` on Issuing `Transaction`
 
