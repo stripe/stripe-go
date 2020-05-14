@@ -203,7 +203,7 @@ type CheckoutSession struct {
 	Deleted                   bool                                      `json:"deleted"`
 	DisplayItems              []*CheckoutSessionDisplayItem             `json:"display_items"`
 	ID                        string                                    `json:"id"`
-	LineItems                 []*LineItem                               `json:"line_items"`
+	LineItems                 *LineItemList                             `json:"line_items"`
 	Livemode                  bool                                      `json:"livemode"`
 	Locale                    string                                    `json:"locale"`
 	Metadata                  map[string]string                         `json:"metadata"`
