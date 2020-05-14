@@ -15,7 +15,7 @@ func TestCheckoutSessionGet(t *testing.T) {
 }
 
 func TestCheckoutSessionNew(t *testing.T) {
-	session, err := New(&stripe.CheckoutSessionParams{
+	params := &stripe.CheckoutSessionParams{
 		CancelURL:         stripe.String("https://stripe.com/cancel"),
 		ClientReferenceID: stripe.String("1234"),
 		LineItems: []*stripe.CheckoutSessionLineItemParams{
@@ -61,9 +61,12 @@ func TestCheckoutSessionNew(t *testing.T) {
 			},
 		},
 		SuccessURL: stripe.String("https://stripe.com/success"),
-	})
+	}
+	params.AddExpand("line_items")
+	session, err := New(params)
 	assert.Nil(t, err)
 	assert.NotNil(t, session)
+	assert.Equal(t, session.LineItems.Data[0].Object, "item")
 }
 
 func TestCheckoutSessionList(t *testing.T) {
