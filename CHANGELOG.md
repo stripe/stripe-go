@@ -1,5 +1,13 @@
 # Changelog
 
+## 71.12.0 - 2020-05-18
+* [#1099](https://github.com/stripe/stripe-go/pull/1099) Multiple API changes
+  * Add `issuing_dispute` as a `type` on `BalanceTransaction`
+  * Add `BalanceTransactions` as a a list of `BalanceTransaction` on Issuing `Dispute`
+  * Add `Fingerprint` and `TransactionId` in `ChargePaymentMethodDetailsAlipay` on `Charge`
+  * Add `Amount` in `InvoiceTransferData` and `InvoiceTransferDataParams` on `Invoice`
+  * Add `AmountPercent` in `SubscriptionTransferData` and `SubscriptionTransferDataParams` on `Subscription`
+
 ## 71.11.1 - 2020-05-13
 * [#1097](https://github.com/stripe/stripe-go/pull/1097) Fixing `LineItems` to be `LineItemList` on Checkout `Session`
 
