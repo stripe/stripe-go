@@ -83,6 +83,7 @@ type InvoiceCustomFieldParams struct {
 
 // InvoiceTransferDataParams is the set of parameters allowed for the transfer_data hash.
 type InvoiceTransferDataParams struct {
+	Amount      *int64  `form:"amount"`
 	Destination *string `form:"destination"`
 }
 
@@ -342,6 +343,7 @@ type InvoiceLine struct {
 
 // InvoiceTransferData represents the information for the transfer_data associated with an invoice.
 type InvoiceTransferData struct {
+	Amount      int64    `json:"amount"`
 	Destination *Account `json:"destination"`
 }
 

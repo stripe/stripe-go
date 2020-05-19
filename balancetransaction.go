@@ -19,6 +19,7 @@ const (
 	BalanceTransactionTypeCharge                          BalanceTransactionType = "charge"
 	BalanceTransactionTypeIssuingAuthorizationHold        BalanceTransactionType = "issuing_authorization_hold"
 	BalanceTransactionTypeIssuingAuthorizationRelease     BalanceTransactionType = "issuing_authorization_release"
+	BalanceTransactionTypeIssuingAuthorizationDispute     BalanceTransactionType = "issuing_dispute"
 	BalanceTransactionTypeIssuingAuthorizationTransaction BalanceTransactionType = "issuing_transaction"
 	BalanceTransactionTypePayment                         BalanceTransactionType = "payment"
 	BalanceTransactionTypePaymentFailureRefund            BalanceTransactionType = "payment_failure_refund"

@@ -199,6 +199,8 @@ type ChargePaymentMethodDetailsAcssDebit struct {
 
 // ChargePaymentMethodDetailsAlipay represents details about the Alipay PaymentMethod.
 type ChargePaymentMethodDetailsAlipay struct {
+	Fingerprint   string `json:"fingerprint"`
+	TransactionID string `json:"transaction_id"`
 }
 
 // ChargePaymentMethodDetailsAUBECSDebit represents details about the AU BECS DD PaymentMethod.

@@ -15,9 +15,10 @@ type IssuingDisputeListParams struct {
 // IssuingDispute is the resource representing an issuing dispute.
 type IssuingDispute struct {
 	APIResource
-	ID       string `json:"id"`
-	Livemode bool   `json:"livemode"`
-	Object   string `json:"object"`
+	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
+	ID                  string                `json:"id"`
+	Livemode            bool                  `json:"livemode"`
+	Object              string                `json:"object"`
 }
 
 // IssuingDisputeList is a list of issuing disputes as retrieved from a list endpoint.

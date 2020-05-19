@@ -95,7 +95,8 @@ type SubscriptionPendingInvoiceItemIntervalParams struct {
 
 // SubscriptionTransferDataParams is the set of parameters allowed for the transfer_data hash.
 type SubscriptionTransferDataParams struct {
-	Destination *string `form:"destination"`
+	AmountPercent *float64 `form:"amount_percent"`
+	Destination   *string  `form:"destination"`
 }
 
 // SubscriptionParams is the set of parameters that can be used when creating or updating a subscription.
@@ -228,7 +229,8 @@ type SubscriptionPendingUpdate struct {
 
 // SubscriptionTransferData represents the information for the transfer_data associated with a subscription.
 type SubscriptionTransferData struct {
-	Destination *Account `json:"destination"`
+	AmountPercent float64  `json:"amount_percent"`
+	Destination   *Account `json:"destination"`
 }
 
 // Subscription is the resource representing a Stripe subscription.
