@@ -8,13 +8,14 @@ The official [Stripe][stripe] Go client library.
 
 ## Installation
 
-Install stripe-go with:
+Make sure your project is using Go Modules (it will have a `go.mod` file in its
+root if it already is):
 
-```sh
-go get -u github.com/stripe/stripe-go
+``` sh
+go mod init
 ```
 
-Then, import it using:
+Then, reference stripe-go in a Go program with `import`:
 
 ``` go
 import (
@@ -22,6 +23,9 @@ import (
     "github.com/stripe/stripe-go/v71/customer"
 )
 ```
+
+Run any of the normal `go` commands (`build`/`install`/`test`). The Go
+toolchain will resolve and fetch the stripe-go module automatically.
 
 ## Documentation
 
