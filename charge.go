@@ -40,6 +40,7 @@ const (
 	ChargePaymentMethodDetailsTypeFPX               ChargePaymentMethodDetailsType = "fpx"
 	ChargePaymentMethodDetailsTypeGiropay           ChargePaymentMethodDetailsType = "giropay"
 	ChargePaymentMethodDetailsTypeIdeal             ChargePaymentMethodDetailsType = "ideal"
+	ChargePaymentMethodDetailsTypeInteracPresent    ChargePaymentMethodDetailsType = "interac_present"
 	ChargePaymentMethodDetailsTypeKlarna            ChargePaymentMethodDetailsType = "klarna"
 	ChargePaymentMethodDetailsTypeMultibanco        ChargePaymentMethodDetailsType = "multibanco"
 	ChargePaymentMethodDetailsTypeP24               ChargePaymentMethodDetailsType = "p24"
@@ -379,6 +380,36 @@ type ChargePaymentMethodDetailsIdeal struct {
 	Bic          string `json:"bic"`
 	IbanLast4    string `json:"iban_last4"`
 	VerifiedName string `json:"verified_name"`
+}
+
+// ChargePaymentMethodDetailsInteracPresent represents details about the InteracPresent PaymentMethod.
+type ChargePaymentMethodDetailsInteracPresent struct {
+	Brand          string                                           `json:"brand"`
+	CardholderName string                                           `json:"cardholder_name"`
+	Country        string                                           `json:"country"`
+	EmvAuthData    string                                           `json:"emv_auth_data"`
+	ExpMonth       int64                                            `json:"exp_month"`
+	ExpYear        int64                                            `json:"exp_year"`
+	Fingerprint    string                                           `json:"fingerprint"`
+	Funding        string                                           `json:"funding"`
+	GeneratedCard  string                                           `json:"generated_card"`
+	Last4          string                                           `json:"last4"`
+	Network        string                                           `json:"network"`
+	ReadMethod     string                                           `json:"read_method"`
+	Receipt        *ChargePaymentMethodDetailsInteracPresentReceipt `json:"receipt"`
+}
+
+// ChargePaymentMethodDetailsInteracPresentReceipt represents details about the InteracPresent Receipt.
+type ChargePaymentMethodDetailsInteracPresentReceipt struct {
+	AccountType                  string `json:"account_type"`
+	ApplicationCryptogram        string `json:"application_cryptogram"`
+	ApplicationPreferredName     string `json:"application_preferred_name"`
+	AuthorizationCode            string `json:"authorization_code"`
+	AuthorizationResponseCode    string `json:"authorization_response_code"`
+	CardholderVerificationMethod string `json:"cardholder_verification_method"`
+	DedicatedFileName            string `json:"dedicated_file_name"`
+	TerminalVerificationResults  string `json:"terminal_verification_results"`
+	TransactionStatusInformation string `json:"transaction_status_information"`
 }
 
 // ChargePaymentMethodDetailsKlarna represents details for the Klarna
