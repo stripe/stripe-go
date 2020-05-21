@@ -1,5 +1,12 @@
 # Changelog
 
+## 71.13.0 - 2020-05-20
+* [#1101](https://github.com/stripe/stripe-go/pull/1101) Multiple API Changes
+  * Add `BalanceTransactionTypeAnticipationRepayment` as a `Type` on `BalanceTransaction`
+  * Add `PaymentMethodTypeInteracPresent` as a `Type` on `PaymentMethod`
+  * Add `ChargePaymentMethodDetailsInteracPresent` on `Charge`
+  * Add `TransferData ` on `SubscriptionSchedule`
+
 ## 71.12.0 - 2020-05-18
 * [#1099](https://github.com/stripe/stripe-go/pull/1099) Multiple API changes
   * Add `issuing_dispute` as a `type` on `BalanceTransaction`
