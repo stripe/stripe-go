@@ -16,12 +16,13 @@ type PaymentMethodType string
 
 // List of values that PaymentMethodType can take.
 const (
-	PaymentMethodTypeAUBECSDebit PaymentMethodType = "au_becs_debit"
-	PaymentMethodTypeCard        PaymentMethodType = "card"
-	PaymentMethodTypeCardPresent PaymentMethodType = "card_present"
-	PaymentMethodTypeFPX         PaymentMethodType = "fpx"
-	PaymentMethodTypeIdeal       PaymentMethodType = "ideal"
-	PaymentMethodTypeSepaDebit   PaymentMethodType = "sepa_debit"
+	PaymentMethodTypeAUBECSDebit    PaymentMethodType = "au_becs_debit"
+	PaymentMethodTypeCard           PaymentMethodType = "card"
+	PaymentMethodTypeCardPresent    PaymentMethodType = "card_present"
+	PaymentMethodTypeFPX            PaymentMethodType = "fpx"
+	PaymentMethodTypeIdeal          PaymentMethodType = "ideal"
+	PaymentMethodTypeInteracPresent PaymentMethodType = "interac_present"
+	PaymentMethodTypeSepaDebit      PaymentMethodType = "sepa_debit"
 )
 
 // PaymentMethodCardBrand is the list of allowed values for the brand property on a
@@ -110,6 +111,11 @@ type PaymentMethodIdealParams struct {
 	Bank *string `form:"bank"`
 }
 
+// PaymentMethodInteracPresentParams is the set of parameters allowed for the `interac_present` hash when creating a
+// PaymentMethod of type interac_present.
+type PaymentMethodInteracPresentParams struct {
+}
+
 // PaymentMethodSepaDebitParams is the set of parameters allowed for the `sepa_debit` hash when
 // creating a PaymentMethod of type sepa_debit.
 type PaymentMethodSepaDebitParams struct {
@@ -120,12 +126,13 @@ type PaymentMethodSepaDebitParams struct {
 // PaymentMethod.
 type PaymentMethodParams struct {
 	Params         `form:"*"`
-	AUBECSDebit    *PaymentMethodAUBECSDebitParams `form:"au_becs_debit"`
-	BillingDetails *BillingDetailsParams           `form:"billing_details"`
-	Card           *PaymentMethodCardParams        `form:"card"`
-	FPX            *PaymentMethodFPXParams         `form:"fpx"`
-	SepaDebit      *PaymentMethodSepaDebitParams   `form:"sepa_debit"`
-	Type           *string                         `form:"type"`
+	AUBECSDebit    *PaymentMethodAUBECSDebitParams    `form:"au_becs_debit"`
+	BillingDetails *BillingDetailsParams              `form:"billing_details"`
+	Card           *PaymentMethodCardParams           `form:"card"`
+	FPX            *PaymentMethodFPXParams            `form:"fpx"`
+	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
+	SepaDebit      *PaymentMethodSepaDebitParams      `form:"sepa_debit"`
+	Type           *string                            `form:"type"`
 
 	// The following parameters are used when cloning a PaymentMethod to the connected account
 	Customer      *string `form:"customer"`
@@ -223,6 +230,10 @@ type PaymentMethodIdeal struct {
 	Bic  string `json:"bic"`
 }
 
+// PaymentMethodInteracPresent represents the interac present properties.
+type PaymentMethodInteracPresent struct {
+}
+
 // PaymentMethodSepaDebit represents the SEPA-debit-specific properties.
 type PaymentMethodSepaDebit struct {
 	BankCode    string `json:"bank_code"`
@@ -235,20 +246,21 @@ type PaymentMethodSepaDebit struct {
 // PaymentMethod is the resource representing a PaymentMethod.
 type PaymentMethod struct {
 	APIResource
-	AUBECSDebit    *PaymentMethodAUBECSDebit `json:"au_becs_debit"`
-	BillingDetails *BillingDetails           `json:"billing_details"`
-	Card           *PaymentMethodCard        `json:"card"`
-	CardPresent    *PaymentMethodCardPresent `json:"card_present"`
-	Created        int64                     `json:"created"`
-	Customer       *Customer                 `json:"customer"`
-	FPX            *PaymentMethodFPX         `json:"fpx"`
-	ID             string                    `json:"id"`
-	Ideal          *PaymentMethodIdeal       `json:"ideal"`
-	Livemode       bool                      `json:"livemode"`
-	Metadata       map[string]string         `json:"metadata"`
-	Object         string                    `json:"object"`
-	SepaDebit      *PaymentMethodSepaDebit   `json:"sepa_debit"`
-	Type           PaymentMethodType         `json:"type"`
+	AUBECSDebit    *PaymentMethodAUBECSDebit    `json:"au_becs_debit"`
+	BillingDetails *BillingDetails              `json:"billing_details"`
+	Card           *PaymentMethodCard           `json:"card"`
+	CardPresent    *PaymentMethodCardPresent    `json:"card_present"`
+	Created        int64                        `json:"created"`
+	Customer       *Customer                    `json:"customer"`
+	FPX            *PaymentMethodFPX            `json:"fpx"`
+	ID             string                       `json:"id"`
+	Ideal          *PaymentMethodIdeal          `json:"ideal"`
+	InteracPresent *PaymentMethodInteracPresent `json:"interac_present"`
+	Livemode       bool                         `json:"livemode"`
+	Metadata       map[string]string            `json:"metadata"`
+	Object         string                       `json:"object"`
+	SepaDebit      *PaymentMethodSepaDebit      `json:"sepa_debit"`
+	Type           PaymentMethodType            `json:"type"`
 }
 
 // PaymentMethodList is a list of PaymentMethods as retrieved from a list endpoint.

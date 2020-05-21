@@ -41,6 +41,7 @@ type SubscriptionScheduleDefaultSettingsParams struct {
 	CollectionMethod     *string                                    `form:"collection_method"`
 	DefaultPaymentMethod *string                                    `form:"default_payment_method"`
 	InvoiceSettings      *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
+	TransferData         *SubscriptionTransferDataParams            `form:"transfer_data"`
 }
 
 // SubscriptionSchedulePhaseAddInvoiceItemPriceDataRecurringParams is a structure representing the
@@ -98,6 +99,7 @@ type SubscriptionSchedulePhaseParams struct {
 	Plans                 []*SubscriptionSchedulePhaseItemParams           `form:"plans"`
 	ProrationBehavior     *string                                          `form:"proration_behavior"`
 	StartDate             *int64                                           `form:"start_date"`
+	TransferData          *SubscriptionTransferDataParams                  `form:"transfer_data"`
 	Trial                 *bool                                            `form:"trial"`
 	TrialEnd              *int64                                           `form:"trial_end"`
 
@@ -181,6 +183,7 @@ type SubscriptionScheduleDefaultSettings struct {
 	CollectionMethod     SubscriptionCollectionMethod         `json:"collection_method"`
 	DefaultPaymentMethod *PaymentMethod                       `json:"default_payment_method"`
 	InvoiceSettings      *SubscriptionScheduleInvoiceSettings `json:"invoice_settings"`
+	TransferData         *SubscriptionTransferData            `json:"transfer_data"`
 }
 
 // SubscriptionSchedulePhaseAddInvoiceItem represents the invoice items to add when the phase starts.
@@ -211,6 +214,7 @@ type SubscriptionSchedulePhase struct {
 	InvoiceSettings       *SubscriptionScheduleInvoiceSettings       `json:"invoice_settings"`
 	Plans                 []*SubscriptionSchedulePhaseItem           `json:"plans"`
 	StartDate             int64                                      `json:"start_date"`
+	TransferData          *SubscriptionTransferData                  `json:"transfer_data"`
 	TrialEnd              int64                                      `json:"trial_end"`
 
 	// This field is deprecated and we recommend that you use TaxRates instead.

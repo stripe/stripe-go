@@ -14,6 +14,7 @@ type BalanceTransactionType string
 // List of values that BalanceTransactionType can take.
 const (
 	BalanceTransactionTypeAdjustment                      BalanceTransactionType = "adjustment"
+	BalanceTransactionTypeAnticipationRepayment           BalanceTransactionType = "anticipation_repayment"
 	BalanceTransactionTypeApplicationFee                  BalanceTransactionType = "application_fee"
 	BalanceTransactionTypeApplicationFeeRefund            BalanceTransactionType = "application_fee_refund"
 	BalanceTransactionTypeCharge                          BalanceTransactionType = "charge"
