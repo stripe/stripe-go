@@ -1,5 +1,9 @@
 # Changelog
 
+## 71.14.0 - 2020-05-22
+* [#1104](https://github.com/stripe/stripe-go/pull/1104) Add support for `TaxIDTypeAETRN`, `TaxIDTypeCLTIN` and `TaxIDTypeSAVAT` on `TaxId`
+* [#1103](https://github.com/stripe/stripe-go/pull/1103) Add support for `Result` and `ResultReason` on `ChargePaymentMethodDetailsCardThreeDSecure`
+
 ## 71.13.0 - 2020-05-20
 * [#1101](https://github.com/stripe/stripe-go/pull/1101) Multiple API Changes
   * Add `BalanceTransactionTypeAnticipationRepayment` as a `Type` on `BalanceTransaction`
