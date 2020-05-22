@@ -21,6 +21,33 @@ const (
 	ChargeFraudStripeReportFraudulent ChargeFraudStripeReport = "fraudulent"
 )
 
+// ChargePaymentMethodDetailsCardThreeDSecureResult indicates the outcome of 3D Secure authentication.
+type ChargePaymentMethodDetailsCardThreeDSecureResult string
+
+// List of values that ChargePaymentMethodDetailsCardThreeDSecureResult can take.
+const (
+	ChargePaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged ChargePaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
+	ChargePaymentMethodDetailsCardThreeDSecureResultAuthenticated       ChargePaymentMethodDetailsCardThreeDSecureResult = "authenticated"
+	ChargePaymentMethodDetailsCardThreeDSecureResultFailed              ChargePaymentMethodDetailsCardThreeDSecureResult = "failed"
+	ChargePaymentMethodDetailsCardThreeDSecureResultNotSupported        ChargePaymentMethodDetailsCardThreeDSecureResult = "not_supported"
+	ChargePaymentMethodDetailsCardThreeDSecureResultProcessingError     ChargePaymentMethodDetailsCardThreeDSecureResult = "processing_error"
+)
+
+// ChargePaymentMethodDetailsCardThreeDSecureResultReason represents dditional information about why
+// 3D Secure succeeded or failed
+type ChargePaymentMethodDetailsCardThreeDSecureResultReason string
+
+// List of values that ChargePaymentMethodDetailsCardThreeDSecureResultReason can take.
+const (
+	ChargePaymentMethodDetailsCardThreeDSecureResultReasonAbandoned           ChargePaymentMethodDetailsCardThreeDSecureResultReason = "abandoned"
+	ChargePaymentMethodDetailsCardThreeDSecureResultReasonBypassed            ChargePaymentMethodDetailsCardThreeDSecureResultReason = "bypassed"
+	ChargePaymentMethodDetailsCardThreeDSecureResultReasonCanceled            ChargePaymentMethodDetailsCardThreeDSecureResultReason = "canceled"
+	ChargePaymentMethodDetailsCardThreeDSecureResultReasonCardNotEnrolled     ChargePaymentMethodDetailsCardThreeDSecureResultReason = "card_not_enrolled"
+	ChargePaymentMethodDetailsCardThreeDSecureResultReasonNetworkNotSupported ChargePaymentMethodDetailsCardThreeDSecureResultReason = "network_not_supported"
+	ChargePaymentMethodDetailsCardThreeDSecureResultReasonProtocolError       ChargePaymentMethodDetailsCardThreeDSecureResultReason = "protocol_error"
+	ChargePaymentMethodDetailsCardThreeDSecureResultReasonRejected            ChargePaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
+)
+
 // ChargePaymentMethodDetailsType is the type of the PaymentMethod associated with the Charge's
 // payment method details.
 type ChargePaymentMethodDetailsType string
@@ -249,9 +276,11 @@ type ChargePaymentMethodDetailsCardInstallments struct {
 // ChargePaymentMethodDetailsCardThreeDSecure represents details about 3DS associated with the
 // charge's PaymentMethod.
 type ChargePaymentMethodDetailsCardThreeDSecure struct {
-	Authenticated bool   `json:"authenticated"`
-	Succeeded     bool   `json:"succeeded"`
-	Version       string `json:"version"`
+	Authenticated bool                                                   `json:"authenticated"`
+	Result        ChargePaymentMethodDetailsCardThreeDSecureResult       `json:"result"`
+	ResultReason  ChargePaymentMethodDetailsCardThreeDSecureResultReason `json:"result_reason"`
+	Succeeded     bool                                                   `json:"succeeded"`
+	Version       string                                                 `json:"version"`
 }
 
 // ChargePaymentMethodDetailsCardWalletAmexExpressCheckout represents the details of the Amex
