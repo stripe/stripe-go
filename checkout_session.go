@@ -36,8 +36,17 @@ const (
 	CheckoutSessionModeSubscription CheckoutSessionMode = "subscription"
 )
 
+// CheckoutSessionLineItemPriceDataProductDataParams is the set of parameters that can be used when
+// creating a product created inline for a line item.
+type CheckoutSessionLineItemPriceDataProductDataParams struct {
+	Description *string           `form:"description"`
+	Images      []*string         `form:"images"`
+	Metadata    map[string]string `form:"metadata"`
+	Name        *string           `form:"name"`
+}
+
 // CheckoutSessionLineItemPriceDataRecurringParams is the set of parameters for the recurring
-// components of a price created inline for a line item
+// components of a price created inline for a line item.
 type CheckoutSessionLineItemPriceDataRecurringParams struct {
 	AggregateUsage  *string `form:"aggregate_usage"`
 	Interval        *string `form:"interval"`
@@ -49,11 +58,12 @@ type CheckoutSessionLineItemPriceDataRecurringParams struct {
 // CheckoutSessionLineItemPriceDataParams is a structure representing the parameters to create
 // an inline price for a line item.
 type CheckoutSessionLineItemPriceDataParams struct {
-	Currency          *string                                          `form:"currency"`
-	Product           *string                                          `form:"product"`
-	Recurring         *CheckoutSessionLineItemPriceDataRecurringParams `form:"recurring"`
-	UnitAmount        *int64                                           `form:"unit_amount"`
-	UnitAmountDecimal *float64                                         `form:"unit_amount_decimal,high_precision"`
+	Currency          *string                                            `form:"currency"`
+	Product           *string                                            `form:"product"`
+	ProductData       *CheckoutSessionLineItemPriceDataProductDataParams `form:"product_data"`
+	Recurring         *CheckoutSessionLineItemPriceDataRecurringParams   `form:"recurring"`
+	UnitAmount        *int64                                             `form:"unit_amount"`
+	UnitAmountDecimal *float64                                           `form:"unit_amount_decimal,high_precision"`
 }
 
 // CheckoutSessionLineItemParams is the set of parameters allowed for a line item
