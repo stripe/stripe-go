@@ -21,6 +21,16 @@ const (
 	ChargeFraudStripeReportFraudulent ChargeFraudStripeReport = "fraudulent"
 )
 
+// ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow indicates the type of 3D Secure
+// authentication performed.
+type ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
+
+// List of values that ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow can take.
+const (
+	ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlowChallenge    ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow = "challenge"
+	ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlowFrictionless ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow = "frictionless"
+)
+
 // ChargePaymentMethodDetailsCardThreeDSecureResult indicates the outcome of 3D Secure authentication.
 type ChargePaymentMethodDetailsCardThreeDSecureResult string
 
@@ -276,11 +286,12 @@ type ChargePaymentMethodDetailsCardInstallments struct {
 // ChargePaymentMethodDetailsCardThreeDSecure represents details about 3DS associated with the
 // charge's PaymentMethod.
 type ChargePaymentMethodDetailsCardThreeDSecure struct {
-	Authenticated bool                                                   `json:"authenticated"`
-	Result        ChargePaymentMethodDetailsCardThreeDSecureResult       `json:"result"`
-	ResultReason  ChargePaymentMethodDetailsCardThreeDSecureResultReason `json:"result_reason"`
-	Succeeded     bool                                                   `json:"succeeded"`
-	Version       string                                                 `json:"version"`
+	Authenticated      bool                                                         `json:"authenticated"`
+	AuthenticationFlow ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow `json:"authentication_flow"`
+	Result             ChargePaymentMethodDetailsCardThreeDSecureResult             `json:"result"`
+	ResultReason       ChargePaymentMethodDetailsCardThreeDSecureResultReason       `json:"result_reason"`
+	Succeeded          bool                                                         `json:"succeeded"`
+	Version            string                                                       `json:"version"`
 }
 
 // ChargePaymentMethodDetailsCardWalletAmexExpressCheckout represents the details of the Amex
