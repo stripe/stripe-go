@@ -1,5 +1,9 @@
 # Changelog
 
+## 71.15.0 - 2020-05-28
+* [#1106](https://github.com/stripe/stripe-go/pull/1106) Add support for `ProductData` on `LineItems` for Checkout `Session`
+* [#1105](https://github.com/stripe/stripe-go/pull/1105) Add `AuthenticationFlow` to `ChargePaymentMethodDetailsCardThreeDSecure`
+
 ## 71.14.0 - 2020-05-22
 * [#1104](https://github.com/stripe/stripe-go/pull/1104) Add support for `TaxIDTypeAETRN`, `TaxIDTypeCLTIN` and `TaxIDTypeSAVAT` on `TaxId`
 * [#1103](https://github.com/stripe/stripe-go/pull/1103) Add support for `Result` and `ResultReason` on `ChargePaymentMethodDetailsCardThreeDSecure`
