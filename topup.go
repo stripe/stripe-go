@@ -40,7 +40,6 @@ type TopupList struct {
 type Topup struct {
 	APIResource
 	Amount                   int64               `json:"amount"`
-	ArrivalDate              int64               `json:"arrival_date"`
 	BalanceTransaction       *BalanceTransaction `json:"balance_transaction"`
 	Created                  int64               `json:"created"`
 	Currency                 Currency            `json:"currency"`
@@ -50,8 +49,13 @@ type Topup struct {
 	FailureMessage           string              `json:"failure_message"`
 	ID                       string              `json:"id"`
 	Livemode                 bool                `json:"livemode"`
+	Metadata                 map[string]string   `json:"metadata"`
+	Object                   string              `json:"object"`
 	Source                   *PaymentSource      `json:"source"`
 	StatementDescriptor      string              `json:"statement_descriptor"`
 	Status                   string              `json:"status"`
 	TransferGroup            string              `json:"transfer_group"`
+
+	// The following property is deprecated
+	ArrivalDate int64 `json:"arrival_date"`
 }
