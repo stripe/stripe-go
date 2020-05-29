@@ -9,7 +9,7 @@ const (
 )
 
 // MandateCustomerAcceptanceType is the list of allowed values for the type of customer acceptance
-// for a given mandate..
+// for a given mandate.
 type MandateCustomerAcceptanceType string
 
 // List of values that MandateStatus can take.
@@ -17,6 +17,18 @@ const (
 	MandateStatusActive   MandateStatus = "active"
 	MandateStatusInactive MandateStatus = "inactive"
 	MandateStatusPending  MandateStatus = "pending"
+)
+
+// MandatePaymentMethodDetailsBACSDebitNetworkStatus is the list of allowed values for the status
+// with the network for a given mandate.
+type MandatePaymentMethodDetailsBACSDebitNetworkStatus string
+
+// List of values that MandateStatus can take.
+const (
+	MandatePaymentMethodDetailsBACSDebitNetworkStatusAccepted MandatePaymentMethodDetailsBACSDebitNetworkStatus = "accepted"
+	MandatePaymentMethodDetailsBACSDebitNetworkStatusPending  MandatePaymentMethodDetailsBACSDebitNetworkStatus = "pending"
+	MandatePaymentMethodDetailsBACSDebitNetworkStatusRefused  MandatePaymentMethodDetailsBACSDebitNetworkStatus = "refused"
+	MandatePaymentMethodDetailsBACSDebitNetworkStatusRevoked  MandatePaymentMethodDetailsBACSDebitNetworkStatus = "revoked"
 )
 
 // MandateStatus is the list of allowed values for the mandate status.
@@ -66,6 +78,14 @@ type MandatePaymentMethodDetailsAUBECSDebit struct {
 	URL string `json:"url"`
 }
 
+// MandatePaymentMethodDetailsBACSDebit represents details about the BACS debit account
+// associated with this mandate.
+type MandatePaymentMethodDetailsBACSDebit struct {
+	NetworkStatus MandatePaymentMethodDetailsBACSDebitNetworkStatus `json:"network_status"`
+	Reference     string                                            `json:"reference"`
+	URL           string                                            `json:"url"`
+}
+
 // MandatePaymentMethodDetailsCard represents details about the card associated with this mandate.
 type MandatePaymentMethodDetailsCard struct {
 }
@@ -81,6 +101,7 @@ type MandatePaymentMethodDetailsSepaDebit struct {
 // mandate.
 type MandatePaymentMethodDetails struct {
 	AUBECSDebit *MandatePaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
+	BACSDebit   *MandatePaymentMethodDetailsBACSDebit   `json:"bacs_debit"`
 	Card        *MandatePaymentMethodDetailsCard        `json:"card"`
 	SepaDebit   *MandatePaymentMethodDetailsSepaDebit   `json:"sepa_debit"`
 	Type        PaymentMethodType                       `json:"type"`

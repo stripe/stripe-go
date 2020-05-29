@@ -196,6 +196,12 @@ type AccountSettingsBrandingParams struct {
 	SecondaryColor *string `form:"secondary_color"`
 }
 
+// AccountSettingsBACSDebitPaymentsParams represent allowed parameters to configure settings specific to
+// BACS Debit charging on the account.
+type AccountSettingsBACSDebitPaymentsParams struct {
+	DisplayName *string `form:"display_name"`
+}
+
 // AccountSettingsCardPaymentsParams represent allowed parameters to configure settings specific to
 // card charging on the account.
 type AccountSettingsCardPaymentsParams struct {
@@ -228,11 +234,12 @@ type AccountSettingsPayoutsParams struct {
 
 // AccountSettingsParams are the parameters allowed for the account's settings.
 type AccountSettingsParams struct {
-	Branding     *AccountSettingsBrandingParams     `form:"branding"`
-	CardPayments *AccountSettingsCardPaymentsParams `form:"card_payments"`
-	Dashboard    *AccountSettingsDashboardParams    `form:"dashboard"`
-	Payments     *AccountSettingsPaymentsParams     `form:"payments"`
-	Payouts      *AccountSettingsPayoutsParams      `form:"payouts"`
+	BACSDebitPayments *AccountSettingsBACSDebitPaymentsParams `form:"bacs_debit_payments"`
+	Branding          *AccountSettingsBrandingParams          `form:"branding"`
+	CardPayments      *AccountSettingsCardPaymentsParams      `form:"card_payments"`
+	Dashboard         *AccountSettingsDashboardParams         `form:"dashboard"`
+	Payments          *AccountSettingsPaymentsParams          `form:"payments"`
+	Payouts           *AccountSettingsPayoutsParams           `form:"payouts"`
 }
 
 // PayoutScheduleParams are the parameters allowed for payout schedules.
