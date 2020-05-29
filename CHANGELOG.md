@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.16.0 - 2020-05-29
+* [#1108](https://github.com/stripe/stripe-go/pull/1108) Add `Metadata` and `Object` on `Topup`
+
 ## 71.15.0 - 2020-05-28
 * [#1106](https://github.com/stripe/stripe-go/pull/1106) Add support for `ProductData` on `LineItems` for Checkout `Session`
 * [#1105](https://github.com/stripe/stripe-go/pull/1105) Add `AuthenticationFlow` to `ChargePaymentMethodDetailsCardThreeDSecure`
