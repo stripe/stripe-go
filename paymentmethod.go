@@ -17,6 +17,7 @@ type PaymentMethodType string
 // List of values that PaymentMethodType can take.
 const (
 	PaymentMethodTypeAUBECSDebit    PaymentMethodType = "au_becs_debit"
+	PaymentMethodTypeBACSDebit      PaymentMethodType = "bacs_debit"
 	PaymentMethodTypeCard           PaymentMethodType = "card"
 	PaymentMethodTypeCardPresent    PaymentMethodType = "card_present"
 	PaymentMethodTypeFPX            PaymentMethodType = "fpx"
@@ -88,6 +89,12 @@ type PaymentMethodAUBECSDebitParams struct {
 	BSBNumber     *string `form:"bsb_number"`
 }
 
+// PaymentMethodBACSDebitParams is the set of parameters allowed for BACS Debit payment method.
+type PaymentMethodBACSDebitParams struct {
+	AccountNumber *string `form:"account_number"`
+	SortCode      *string `form:"sort_code"`
+}
+
 // PaymentMethodCardParams is the set of parameters allowed for the `card` hash when creating a
 // PaymentMethod of type card.
 type PaymentMethodCardParams struct {
@@ -127,6 +134,7 @@ type PaymentMethodSepaDebitParams struct {
 type PaymentMethodParams struct {
 	Params         `form:"*"`
 	AUBECSDebit    *PaymentMethodAUBECSDebitParams    `form:"au_becs_debit"`
+	BACSDebit      *PaymentMethodBACSDebitParams      `form:"bacs_debit"`
 	BillingDetails *BillingDetailsParams              `form:"billing_details"`
 	Card           *PaymentMethodCardParams           `form:"card"`
 	FPX            *PaymentMethodFPXParams            `form:"fpx"`

@@ -69,6 +69,7 @@ const (
 	ChargePaymentMethodDetailsTypeAcssDebit         ChargePaymentMethodDetailsType = "acss_debit"
 	ChargePaymentMethodDetailsTypeAlipay            ChargePaymentMethodDetailsType = "alipay"
 	ChargePaymentMethodDetailsTypeAUBECSDebit       ChargePaymentMethodDetailsType = "au_becs_debit"
+	ChargePaymentMethodDetailsTypeBACSDebit         ChargePaymentMethodDetailsType = "bacs_debit"
 	ChargePaymentMethodDetailsTypeBancontact        ChargePaymentMethodDetailsType = "bancontact"
 	ChargePaymentMethodDetailsTypeBitcoin           ChargePaymentMethodDetailsType = "bitcoin" // This is unsupported today and is here for legacy charges.
 	ChargePaymentMethodDetailsTypeCard              ChargePaymentMethodDetailsType = "card"
@@ -247,6 +248,14 @@ type ChargePaymentMethodDetailsAUBECSDebit struct {
 	Fingerprint string `json:"fingerprint"`
 	Last4       string `json:"last4"`
 	Mandate     string `json:"mandate"`
+}
+
+// ChargePaymentMethodDetailsBACSDebit represents details about the BECS Debit PaymentMethod.
+type ChargePaymentMethodDetailsBACSDebit struct {
+	Fingerprint string `json:"fingerprint"`
+	Last4       string `json:"last4"`
+	Mandate     string `json:"mandate"`
+	SortCode    string `json:"sort_code"`
 }
 
 // ChargePaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.
@@ -501,9 +510,11 @@ type ChargePaymentMethodDetailsWechat struct {
 type ChargePaymentMethodDetails struct {
 	AchCreditTransfer *ChargePaymentMethodDetailsAchCreditTransfer `json:"ach_credit_transfer"`
 	AchDebit          *ChargePaymentMethodDetailsAchDebit          `json:"ach_debit"`
+	AcssDebit         *ChargePaymentMethodDetailsAcssDebit         `json:"acss_debit"`
 	Alipay            *ChargePaymentMethodDetailsAlipay            `json:"alipay"`
-	Bancontact        *ChargePaymentMethodDetailsBancontact        `json:"bancontact"`
 	AUBECSDebit       *ChargePaymentMethodDetailsAUBECSDebit       `json:"au_becs_debit"`
+	BACSDebit         *ChargePaymentMethodDetailsBACSDebit         `json:"bacs_debit"`
+	Bancontact        *ChargePaymentMethodDetailsBancontact        `json:"bancontact"`
 	Bitcoin           *ChargePaymentMethodDetailsBitcoin           `json:"bitcoin"`
 	Card              *ChargePaymentMethodDetailsCard              `json:"card"`
 	CardPresent       *ChargePaymentMethodDetailsCardPresent       `json:"card_present"`
