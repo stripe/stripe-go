@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.17.0 - 2020-05-29
+* [#1109](https://github.com/stripe/stripe-go/pull/1109) Add support for BACS Debit as a `PaymentMethod`
+
 ## 71.16.0 - 2020-05-29
 * [#1108](https://github.com/stripe/stripe-go/pull/1108) Add `Metadata` and `Object` on `Topup`
 
