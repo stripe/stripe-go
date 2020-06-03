@@ -164,6 +164,12 @@ type PaymentIntentMandateDataParams struct {
 	CustomerAcceptance *PaymentIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
 }
 
+// PaymentIntentPaymentMethodOptionsBancontactParams represents the bancontact-specific options
+// applied to a PaymentIntent.
+type PaymentIntentPaymentMethodOptionsBancontactParams struct {
+	PreferredLanguage *string `form:"preferred_language"`
+}
+
 // PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams represents details about the
 // installment plan chosen for this payment intent.
 type PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams struct {
@@ -190,7 +196,8 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 // PaymentIntentPaymentMethodOptionsParams represents the type-specific payment method options
 // applied to a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsParams struct {
-	Card *PaymentIntentPaymentMethodOptionsCardParams `form:"card"`
+	Bancontact *PaymentIntentPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	Card       *PaymentIntentPaymentMethodOptionsCardParams       `form:"card"`
 }
 
 // PaymentIntentTransferDataParams is the set of parameters allowed for the transfer hash.
@@ -270,6 +277,12 @@ type PaymentIntentPaymentMethodOptionsCardInstallments struct {
 	Plan           *PaymentIntentPaymentMethodOptionsCardInstallmentsPlan   `json:"plan"`
 }
 
+// PaymentIntentPaymentMethodOptionsBancontact is the set of bancontact-specific options associated
+// with that payment intent.
+type PaymentIntentPaymentMethodOptionsBancontact struct {
+	PreferredLanguage string `json:"preferred_language"`
+}
+
 // PaymentIntentPaymentMethodOptionsCard is the set of card-specific options associated with that
 // payment intent.
 type PaymentIntentPaymentMethodOptionsCard struct {
@@ -280,7 +293,8 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 // PaymentIntentPaymentMethodOptions is the set of payment method-specific options associated with
 // that payment intent.
 type PaymentIntentPaymentMethodOptions struct {
-	Card *PaymentIntentPaymentMethodOptionsCard `json:"card"`
+	Bancontact *PaymentIntentPaymentMethodOptionsBancontact `json:"bancontact"`
+	Card       *PaymentIntentPaymentMethodOptionsCard       `json:"card"`
 }
 
 // PaymentIntentTransferData represents the information for the transfer associated with a payment intent.
