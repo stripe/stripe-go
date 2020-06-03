@@ -22,6 +22,7 @@ type AccountCapability string
 // List of values that AccountCapability can take.
 const (
 	AccountCapabilityAUBECSDebitPayments    AccountCapability = "au_becs_debit_payments"
+	AccountCapabilityBACSDebitPayments      AccountCapability = "bacs_debit_payments"
 	AccountCapabilityCardIssuing            AccountCapability = "card_issuing"
 	AccountCapabilityCardPayments           AccountCapability = "card_payments"
 	AccountCapabilityJCBPayments            AccountCapability = "jcb_payments"
@@ -349,6 +350,7 @@ type AccountBusinessProfile struct {
 // AccountCapabilities is the resource representing the capabilities enabled on that account.
 type AccountCapabilities struct {
 	AUBECSDebitPayments    AccountCapabilityStatus `json:"au_becs_debit_payments"`
+	BACSDebitPayments      AccountCapabilityStatus `json:"bacs_debit_payments"`
 	CardIssuing            AccountCapabilityStatus `json:"card_issuing"`
 	CardPayments           AccountCapabilityStatus `json:"card_payments"`
 	JCBPayments            AccountCapabilityStatus `json:"jcb_payments"`
