@@ -102,6 +102,7 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	StatementDescriptor       *string                                             `form:"statement_descriptor"`
 	StatementDescriptorSuffix *string                                             `form:"statement_descriptor_suffix"`
 	TransferData              *CheckoutSessionPaymentIntentDataTransferDataParams `form:"transfer_data"`
+	TransferGroup             *string                                             `form:"transfer_group"`
 }
 
 // CheckoutSessionSetupIntentDataParams is the set of parameters allowed for the setup intent
