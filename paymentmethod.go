@@ -23,6 +23,7 @@ const (
 	PaymentMethodTypeFPX            PaymentMethodType = "fpx"
 	PaymentMethodTypeIdeal          PaymentMethodType = "ideal"
 	PaymentMethodTypeInteracPresent PaymentMethodType = "interac_present"
+	PaymentMethodTypeP24            PaymentMethodType = "p24"
 	PaymentMethodTypeSepaDebit      PaymentMethodType = "sepa_debit"
 )
 
@@ -95,6 +96,11 @@ type PaymentMethodBACSDebitParams struct {
 	SortCode      *string `form:"sort_code"`
 }
 
+// PaymentMethodBancontactParams is the set of parameters allowed for the `bancontact` hash when creating a
+// PaymentMethod of type Bancontact.
+type PaymentMethodBancontactParams struct {
+}
+
 // PaymentMethodCardParams is the set of parameters allowed for the `card` hash when creating a
 // PaymentMethod of type card.
 type PaymentMethodCardParams struct {
@@ -105,11 +111,21 @@ type PaymentMethodCardParams struct {
 	Token    *string `form:"token"`
 }
 
+// PaymentMethodEPSParams is the set of parameters allowed for the `eps` hash when creating a
+// PaymentMethod of type EPS.
+type PaymentMethodEPSParams struct {
+}
+
 // PaymentMethodFPXParams is the set of parameters allowed for the `fpx` hash when creating a
 // PaymentMethod of type fpx.
 type PaymentMethodFPXParams struct {
 	AccountHolderType *string `form:"account_holder_type"`
 	Bank              *string `form:"bank"`
+}
+
+// PaymentMethodGiropayParams is the set of parameters allowed for the `giropay` hash when creating a
+// PaymentMethod of type Giropay.
+type PaymentMethodGiropayParams struct {
 }
 
 // PaymentMethodIdealParams is the set of parameters allowed for the `ideal` hash when creating a
@@ -121,6 +137,11 @@ type PaymentMethodIdealParams struct {
 // PaymentMethodInteracPresentParams is the set of parameters allowed for the `interac_present` hash when creating a
 // PaymentMethod of type interac_present.
 type PaymentMethodInteracPresentParams struct {
+}
+
+// PaymentMethodP24Params is the set of parameters allowed for the `p24` hash when creating a
+// PaymentMethod of type P24.
+type PaymentMethodP24Params struct {
 }
 
 // PaymentMethodSepaDebitParams is the set of parameters allowed for the `sepa_debit` hash when
@@ -135,10 +156,14 @@ type PaymentMethodParams struct {
 	Params         `form:"*"`
 	AUBECSDebit    *PaymentMethodAUBECSDebitParams    `form:"au_becs_debit"`
 	BACSDebit      *PaymentMethodBACSDebitParams      `form:"bacs_debit"`
+	Bancontact     *PaymentMethodBancontactParams     `form:"bancontact"`
 	BillingDetails *BillingDetailsParams              `form:"billing_details"`
 	Card           *PaymentMethodCardParams           `form:"card"`
+	EPS            *PaymentMethodEPSParams            `form:"eps"`
 	FPX            *PaymentMethodFPXParams            `form:"fpx"`
+	Giropay        *PaymentMethodGiropayParams        `form:"giropay"`
 	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
+	P24            *PaymentMethodP24Params            `form:"p24"`
 	SepaDebit      *PaymentMethodSepaDebitParams      `form:"sepa_debit"`
 	Type           *string                            `form:"type"`
 
@@ -180,6 +205,14 @@ type PaymentMethodAUBECSDebit struct {
 	BSBNumber   string `json:"bsb_number"`
 	Fingerprint string `json:"fingerprint"`
 	Last4       string `json:"last4"`
+}
+
+// PaymentMethodBACSDebit represents the BACS Debit properties.
+type PaymentMethodBACSDebit struct {
+}
+
+// PaymentMethodBancontact represents the Bancontact properties.
+type PaymentMethodBancontact struct {
 }
 
 // PaymentMethodCardChecks represents the checks associated with a Card PaymentMethod.
@@ -225,11 +258,19 @@ type PaymentMethodCard struct {
 type PaymentMethodCardPresent struct {
 }
 
+// PaymentMethodEPS represents the EPS properties.
+type PaymentMethodEPS struct {
+}
+
 // PaymentMethodFPX represents FPX-specific properties (Malaysia Only).
 type PaymentMethodFPX struct {
 	AccountHolderType PaymentMethodFPXAccountHolderType `json:"account_holder_type"`
 	Bank              string                            `json:"bank"`
 	TransactionID     string                            `json:"transaction_id"`
+}
+
+// PaymentMethodGiropay represents the Giropay properties.
+type PaymentMethodGiropay struct {
 }
 
 // PaymentMethodIdeal represents the iDEAL-specific properties.
@@ -240,6 +281,10 @@ type PaymentMethodIdeal struct {
 
 // PaymentMethodInteracPresent represents the interac present properties.
 type PaymentMethodInteracPresent struct {
+}
+
+// PaymentMethodP24 represents the P24 properties.
+type PaymentMethodP24 struct {
 }
 
 // PaymentMethodSepaDebit represents the SEPA-debit-specific properties.
@@ -255,18 +300,23 @@ type PaymentMethodSepaDebit struct {
 type PaymentMethod struct {
 	APIResource
 	AUBECSDebit    *PaymentMethodAUBECSDebit    `json:"au_becs_debit"`
+	BACSDebit      *PaymentMethodBACSDebit      `json:"bacs_debit"`
+	Bancontact     *PaymentMethodBancontact     `json:"bancontact"`
 	BillingDetails *BillingDetails              `json:"billing_details"`
 	Card           *PaymentMethodCard           `json:"card"`
 	CardPresent    *PaymentMethodCardPresent    `json:"card_present"`
 	Created        int64                        `json:"created"`
 	Customer       *Customer                    `json:"customer"`
+	EPS            *PaymentMethodEPS            `json:"eps"`
 	FPX            *PaymentMethodFPX            `json:"fpx"`
+	Giropay        *PaymentMethodGiropay        `json:"giropay"`
 	ID             string                       `json:"id"`
 	Ideal          *PaymentMethodIdeal          `json:"ideal"`
 	InteracPresent *PaymentMethodInteracPresent `json:"interac_present"`
 	Livemode       bool                         `json:"livemode"`
 	Metadata       map[string]string            `json:"metadata"`
 	Object         string                       `json:"object"`
+	P24            *PaymentMethodP24            `json:"p24"`
 	SepaDebit      *PaymentMethodSepaDebit      `json:"sepa_debit"`
 	Type           PaymentMethodType            `json:"type"`
 }
