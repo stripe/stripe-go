@@ -422,6 +422,12 @@ type AccountRequirements struct {
 	PendingVerification []string                          `json:"pending_verification"`
 }
 
+// AccountSettingsBACSDebitPayments represents settings specific to the account’s charging
+// via BACS Debit.
+type AccountSettingsBACSDebitPayments struct {
+	DisplayName string `json:"display_name"`
+}
+
 // AccountSettingsBranding represents settings specific to the account's branding.
 type AccountSettingsBranding struct {
 	Icon           *File  `json:"icon"`
@@ -457,13 +463,21 @@ type AccountSettingsPayouts struct {
 	StatementDescriptor   string                 `json:"statement_descriptor"`
 }
 
+// AccountSettingsSEPADebitPayments represents settings specific to the account’s charging
+// via SEPA Debit.
+type AccountSettingsSEPADebitPayments struct {
+	CreditorID string `json:"creditor_id"`
+}
+
 // AccountSettings represents options for customizing how the account functions within Stripe.
 type AccountSettings struct {
-	Branding     *AccountSettingsBranding     `json:"branding"`
-	CardPayments *AccountSettingsCardPayments `json:"card_payments"`
-	Dashboard    *AccountSettingsDashboard    `json:"dashboard"`
-	Payments     *AccountSettingsPayments     `json:"payments"`
-	Payouts      *AccountSettingsPayouts      `json:"payouts"`
+	BACSDebitPayments *AccountSettingsBACSDebitPayments `json:"bacs_debit_payments"`
+	Branding          *AccountSettingsBranding          `json:"branding"`
+	CardPayments      *AccountSettingsCardPayments      `json:"card_payments"`
+	Dashboard         *AccountSettingsDashboard         `json:"dashboard"`
+	Payments          *AccountSettingsPayments          `json:"payments"`
+	Payouts           *AccountSettingsPayouts           `json:"payouts"`
+	SEPADebitPayments *AccountSettingsSEPADebitPayments `json:"sepa_debit_payments"`
 }
 
 // AccountTOSAcceptance represents status of acceptance of our terms of services for the account.
