@@ -1,5 +1,10 @@
 # Changelog
 
+## 71.18.0 - 2020-06-03
+* [#1110](https://github.com/stripe/stripe-go/pull/1110) Add support for reading SEPA and BACS debit settings on `Account`
+* [#1111](https://github.com/stripe/stripe-go/pull/1111) Add support for Bancontact, EPS, Giropay and P24 on `PaymentMethod`
+* [#1112](https://github.com/stripe/stripe-go/pull/1112) Add support for BACS Debit as a `Capability` on `Account`
+
 ## 71.17.0 - 2020-05-29
 * [#1109](https://github.com/stripe/stripe-go/pull/1109) Add support for BACS Debit as a `PaymentMethod`
 
