@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.19.0 - 2020-06-03
+* [#1113](https://github.com/stripe/stripe-go/pull/1113) Add support for `TransferGroup` on Checkout `Session`
+
 ## 71.18.0 - 2020-06-03
 * [#1110](https://github.com/stripe/stripe-go/pull/1110) Add support for reading SEPA and BACS debit settings on `Account`
 * [#1111](https://github.com/stripe/stripe-go/pull/1111) Add support for Bancontact, EPS, Giropay and P24 on `PaymentMethod`
