@@ -900,6 +900,7 @@ func TestResponseToError(t *testing.T) {
 	assert.Equal(t, res.Header.Get("Request-Id"), stripeErr.RequestID)
 	assert.Equal(t, res.StatusCode, stripeErr.HTTPStatusCode)
 	assert.Equal(t, expectedErr.Type, stripeErr.Type)
+	assert.Equal(t, expectedDeclineCode, stripeErr.DeclineCode)
 
 	// Not exhaustive, but verify LastResponse is basically working as
 	// expected.
@@ -914,6 +915,9 @@ func TestResponseToError(t *testing.T) {
 
 	cardErr, ok := stripeErr.Err.(*CardError)
 	assert.True(t, ok)
+
+	// For backwards compatibility, `DeclineCode` is also set on the
+	// `CardError` structure.
 	assert.Equal(t, expectedDeclineCode, cardErr.DeclineCode)
 }
 
