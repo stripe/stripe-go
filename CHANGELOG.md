@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.20.0 - 2020-06-04
+* [#1116](https://github.com/stripe/stripe-go/pull/1116) Clean up the error deserialization and ensure `DeclineCode` is properly set.
+
 ## 71.19.0 - 2020-06-03
 * [#1113](https://github.com/stripe/stripe-go/pull/1113) Add support for `TransferGroup` on Checkout `Session`
 
