@@ -520,11 +520,11 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 	if s.Type == ConnectBackend {
 		// If this is an OAuth request, deserialize as Error because OAuth errors
 		// are a different shape from the standard API errors.
-		var topLevelError rawErrorInternal
+		var topLevelError Error
 		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &topLevelError); err != nil {
 			return err
 		}
-		raw.E = &topLevelError
+		raw.Error = &topLevelError
 	} else {
 		if err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, &raw); err != nil {
 			return err
@@ -532,39 +532,44 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 	}
 
 	// no error in resBody
-	if raw.E == nil {
+	if raw.Error == nil {
 		err := errors.New(string(resBody))
 		return err
 	}
-	raw.E.HTTPStatusCode = res.StatusCode
-	raw.E.RequestID = res.Header.Get("Request-Id")
+	raw.Error.HTTPStatusCode = res.StatusCode
+	raw.Error.RequestID = res.Header.Get("Request-Id")
 
 	var typedError error
-	switch raw.E.Type {
+	switch raw.Error.Type {
 	case ErrorTypeAPI:
-		typedError = &APIError{stripeErr: raw.E.Error}
+		typedError = &APIError{stripeErr: raw.Error}
 	case ErrorTypeAPIConnection:
-		typedError = &APIConnectionError{stripeErr: raw.E.Error}
+		typedError = &APIConnectionError{stripeErr: raw.Error}
 	case ErrorTypeAuthentication:
-		typedError = &AuthenticationError{stripeErr: raw.E.Error}
+		typedError = &AuthenticationError{stripeErr: raw.Error}
 	case ErrorTypeCard:
-		cardErr := &CardError{stripeErr: raw.E.Error}
-		if raw.E.DeclineCode != nil {
-			cardErr.DeclineCode = *raw.E.DeclineCode
+		cardErr := &CardError{stripeErr: raw.Error}
+
+		// `DeclineCode` was traditionally only available on `CardError`, but
+		// we ended up moving it to the top-level error as well. However, keep
+		// it on `CardError` for backwards compatibility.
+		if raw.Error.DeclineCode != "" {
+			cardErr.DeclineCode = raw.Error.DeclineCode
 		}
+
 		typedError = cardErr
 	case ErrorTypeInvalidRequest:
-		typedError = &InvalidRequestError{stripeErr: raw.E.Error}
+		typedError = &InvalidRequestError{stripeErr: raw.Error}
 	case ErrorTypePermission:
-		typedError = &PermissionError{stripeErr: raw.E.Error}
+		typedError = &PermissionError{stripeErr: raw.Error}
 	case ErrorTypeRateLimit:
-		typedError = &RateLimitError{stripeErr: raw.E.Error}
+		typedError = &RateLimitError{stripeErr: raw.Error}
 	}
-	raw.E.Err = typedError
+	raw.Error.Err = typedError
 
-	raw.E.SetLastResponse(newAPIResponse(res, resBody))
+	raw.Error.SetLastResponse(newAPIResponse(res, resBody))
 
-	return raw.E.Error
+	return raw.Error
 }
 
 // SetMaxNetworkRetries sets max number of retries on failed requests
