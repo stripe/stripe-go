@@ -550,6 +550,7 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 	case ErrorTypeCard:
 		cardErr := &CardError{stripeErr: raw.E.Error}
 		if raw.E.DeclineCode != nil {
+			cardErr.stripeErr.DeclineCode = *raw.E.DeclineCode
 			cardErr.DeclineCode = *raw.E.DeclineCode
 		}
 		typedError = cardErr
