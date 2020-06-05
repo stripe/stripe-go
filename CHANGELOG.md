@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.21.0 - 2020-06-05
+* [#1117](https://github.com/stripe/stripe-go/pull/1117) Add `PaymentMethodIdealParams` to `PaymentMethodParams`
+
 ## 71.20.0 - 2020-06-04
 * [#1116](https://github.com/stripe/stripe-go/pull/1116) Clean up the error deserialization and ensure `DeclineCode` is properly set.
 
