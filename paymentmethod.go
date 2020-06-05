@@ -162,6 +162,7 @@ type PaymentMethodParams struct {
 	EPS            *PaymentMethodEPSParams            `form:"eps"`
 	FPX            *PaymentMethodFPXParams            `form:"fpx"`
 	Giropay        *PaymentMethodGiropayParams        `form:"giropay"`
+	Ideal          *PaymentMethodIdealParams          `form:"ideal"`
 	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
 	P24            *PaymentMethodP24Params            `form:"p24"`
 	SepaDebit      *PaymentMethodSepaDebitParams      `form:"sepa_debit"`
