@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.22.0 - 2020-06-09
+* [#1118](https://github.com/stripe/stripe-go/pull/1118) Add missing information for BACS Debit in `PaymentMethod`
+
 ## 71.21.0 - 2020-06-05
 * [#1117](https://github.com/stripe/stripe-go/pull/1117) Add `PaymentMethodIdealParams` to `PaymentMethodParams`
 
