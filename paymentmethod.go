@@ -210,6 +210,9 @@ type PaymentMethodAUBECSDebit struct {
 
 // PaymentMethodBACSDebit represents the BACS Debit properties.
 type PaymentMethodBACSDebit struct {
+	Fingerprint string `json:"fingerprint"`
+	Last4       string `json:"last4"`
+	SortCode    string `json:"sort_code"`
 }
 
 // PaymentMethodBancontact represents the Bancontact properties.
