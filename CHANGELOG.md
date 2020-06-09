@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.23.0 - 2020-06-09
+* [#1119](https://github.com/stripe/stripe-go/pull/1119) Add support for `TaxIDTypeIDNPWP` and `TaxIDTypeMYFRP` on `TaxId`
+
 ## 71.22.0 - 2020-06-09
 * [#1118](https://github.com/stripe/stripe-go/pull/1118) Add missing information for BACS Debit in `PaymentMethod`
 
