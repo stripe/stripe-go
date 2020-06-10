@@ -226,6 +226,12 @@ type PaymentMethodCardChecks struct {
 	CVCCheck               CardVerification `json:"cvc_check"`
 }
 
+// PaymentMethodCardNetworks represents the card networks that can be used to process the payment.
+type PaymentMethodCardNetworks struct {
+	Available []PaymentMethodCardNetwork `json:"available"`
+	Preferred PaymentMethodCardNetwork   `json:"preferred"`
+}
+
 // PaymentMethodCardThreeDSecureUsage represents the 3DS usage for that Card PaymentMethod.
 type PaymentMethodCardThreeDSecureUsage struct {
 	Supported bool `json:"supported"`
@@ -248,6 +254,7 @@ type PaymentMethodCard struct {
 	Fingerprint       string                              `json:"fingerprint"`
 	Funding           CardFunding                         `json:"funding"`
 	Last4             string                              `json:"last4"`
+	Networks          *PaymentMethodCardNetworks          `json:"networks"`
 	ThreeDSecureUsage *PaymentMethodCardThreeDSecureUsage `json:"three_d_secure_usage"`
 	Wallet            *PaymentMethodCardWallet            `json:"wallet"`
 
