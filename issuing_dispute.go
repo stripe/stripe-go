@@ -19,6 +19,7 @@ type IssuingDispute struct {
 	ID                  string                `json:"id"`
 	Livemode            bool                  `json:"livemode"`
 	Object              string                `json:"object"`
+	Transaction         *IssuingTransaction   `json:"transaction"`
 }
 
 // IssuingDisputeList is a list of issuing disputes as retrieved from a list endpoint.
