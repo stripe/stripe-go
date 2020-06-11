@@ -505,13 +505,10 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 
 	s.LeveledLogger.Debugf("Response: %s", string(resBody))
 
+	err = s.UnmarshalJSONVerbose(res.StatusCode, resBody, v)
 	v.SetLastResponse(newAPIResponse(res, resBody))
 
-	if v != nil {
-		return s.UnmarshalJSONVerbose(res.StatusCode, resBody, v)
-	}
-
-	return nil
+	return err
 }
 
 // ResponseToError converts a stripe response to an Error.
