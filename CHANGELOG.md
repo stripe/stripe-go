@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.24.0 - 2020-06-10
+* [#1120](https://github.com/stripe/stripe-go/pull/1120) Add support for Cartes Bancaires payments on `PaymentIntent` and `PaymentMethod`
+
 ## 71.23.0 - 2020-06-09
 * [#1119](https://github.com/stripe/stripe-go/pull/1119) Add support for `TaxIDTypeIDNPWP` and `TaxIDTypeMYFRP` on `TaxId`
 
