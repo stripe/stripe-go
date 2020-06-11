@@ -1,5 +1,9 @@
 # Changelog
 
+## 71.25.0 - 2020-06-11
+* [#1122](https://github.com/stripe/stripe-go/pull/1122) Add support for `Transaction` on Issuing `Dispute`
+* [#1121](https://github.com/stripe/stripe-go/pull/1121) Add `Mandate`, `InstitutionNumber` and `TransitNumber` to `ChargePaymentMethodDetailsAcssDebit`
+
 ## 71.24.0 - 2020-06-10
 * [#1120](https://github.com/stripe/stripe-go/pull/1120) Add support for Cartes Bancaires payments on `PaymentIntent` and `PaymentMethod`
 
