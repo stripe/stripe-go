@@ -232,8 +232,11 @@ type ChargePaymentMethodDetailsAchDebit struct {
 
 // ChargePaymentMethodDetailsAcssDebit represents details about the ACSS Debit PaymentMethod.
 type ChargePaymentMethodDetailsAcssDebit struct {
-	Fingerprint string `json:"fingerprint"`
-	Last4       string `json:"last4"`
+	Fingerprint       string `json:"fingerprint"`
+	InstitutionNumber string `json:"institution_number"`
+	Last4             string `json:"last4"`
+	Mandate           string `json:"mandate"`
+	TransitNumber     string `json:"transit_number"`
 }
 
 // ChargePaymentMethodDetailsAlipay represents details about the Alipay PaymentMethod.
