@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.25.1 - 2020-06-11
+* [#1123](https://github.com/stripe/stripe-go/pull/1123) Attach LastResponse after unmarshaling
+
 ## 71.25.0 - 2020-06-11
 * [#1122](https://github.com/stripe/stripe-go/pull/1122) Add support for `Transaction` on Issuing `Dispute`
 * [#1121](https://github.com/stripe/stripe-go/pull/1121) Add `Mandate`, `InstitutionNumber` and `TransitNumber` to `ChargePaymentMethodDetailsAcssDebit`
