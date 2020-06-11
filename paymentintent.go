@@ -190,6 +190,7 @@ type PaymentIntentPaymentMethodOptionsCardInstallmentsParams struct {
 type PaymentIntentPaymentMethodOptionsCardParams struct {
 	Installments        *PaymentIntentPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
 	MOTO                *bool                                                    `form:"moto"`
+	Network             *string                                                  `form:"network"`
 	RequestThreeDSecure *string                                                  `form:"request_three_d_secure"`
 }
 
@@ -287,6 +288,7 @@ type PaymentIntentPaymentMethodOptionsBancontact struct {
 // payment intent.
 type PaymentIntentPaymentMethodOptionsCard struct {
 	Installments        *PaymentIntentPaymentMethodOptionsCardInstallments       `json:"installments"`
+	Network             PaymentMethodCardNetwork                                 `json:"network"`
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 
