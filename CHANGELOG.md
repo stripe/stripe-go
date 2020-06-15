@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.26.0 - 2020-06-15
+* [#1090](https://github.com/stripe/stripe-go/pull/1090) Add support for `PaymentMethodData` on `PaymentIntent`
+
 ## 71.25.1 - 2020-06-11
 * [#1123](https://github.com/stripe/stripe-go/pull/1123) Attach LastResponse after unmarshaling
 
