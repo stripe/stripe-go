@@ -126,6 +126,7 @@ type PaymentIntentConfirmParams struct {
 	MandateData           *PaymentIntentMandateDataParams          `form:"mandate_data"`
 	OffSession            *bool                                    `form:"off_session"`
 	PaymentMethod         *string                                  `form:"payment_method"`
+	PaymentMethodData     *PaymentIntentPaymentMethodDataParams    `form:"payment_method_data"`
 	PaymentMethodOptions  *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	PaymentMethodTypes    []*string                                `form:"payment_method_types"`
 	ReceiptEmail          *string                                  `form:"receipt_email"`
@@ -162,6 +163,18 @@ type PaymentIntentMandateDataCustomerAcceptanceParams struct {
 // associated with this PaymentIntent.
 type PaymentIntentMandateDataParams struct {
 	CustomerAcceptance *PaymentIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
+}
+
+// PaymentIntentPaymentMethodDataParams represents the type-specific parameters associated with a
+// payment method on payment intent.
+type PaymentIntentPaymentMethodDataParams struct {
+	AUBECSDebit    *PaymentMethodAUBECSDebitParams `form:"au_becs_debit"`
+	BillingDetails *BillingDetailsParams           `form:"billing_details"`
+	Card           *PaymentMethodCardParams        `form:"card"`
+	FPX            *PaymentMethodFPXParams         `form:"fpx"`
+	Ideal          *PaymentMethodIdealParams       `form:"ideal"`
+	SepaDebit      *PaymentMethodSepaDebitParams   `form:"sepa_debit"`
+	Type           *string                         `form:"type"`
 }
 
 // PaymentIntentPaymentMethodOptionsBancontactParams represents the bancontact-specific options
@@ -222,6 +235,7 @@ type PaymentIntentParams struct {
 	MandateData               *PaymentIntentMandateDataParams          `form:"mandate_data"`
 	OnBehalfOf                *string                                  `form:"on_behalf_of"`
 	PaymentMethod             *string                                  `form:"payment_method"`
+	PaymentMethodData         *PaymentIntentPaymentMethodDataParams    `form:"payment_method_data"`
 	PaymentMethodOptions      *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	PaymentMethodTypes        []*string                                `form:"payment_method_types"`
 	ReceiptEmail              *string                                  `form:"receipt_email"`
