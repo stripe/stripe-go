@@ -23,9 +23,14 @@ type AccountLinkParams struct {
 	Params     `form:"*"`
 	Account    *string `form:"account"`
 	Collect    *string `form:"collect"`
+	RefreshURL *string `form:"refresh_url"`
+	ReturnURL  *string `form:"return_url"`
+	Type       *string `form:"type"`
+
+	// TODO remove in the next major version
+	// Those parameters are deprecated.
 	FailureURL *string `form:"failure_url"`
 	SuccessURL *string `form:"success_url"`
-	Type       *string `form:"type"`
 }
 
 // AccountLink is the resource representing an account link.
