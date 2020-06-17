@@ -25,6 +25,7 @@ const (
 	PaymentMethodTypeInteracPresent PaymentMethodType = "interac_present"
 	PaymentMethodTypeP24            PaymentMethodType = "p24"
 	PaymentMethodTypeSepaDebit      PaymentMethodType = "sepa_debit"
+	PaymentMethodTypeSofort         PaymentMethodType = "sofort"
 )
 
 // PaymentMethodCardBrand is the list of allowed values for the brand property on a
@@ -150,6 +151,12 @@ type PaymentMethodSepaDebitParams struct {
 	Iban *string `form:"iban"`
 }
 
+// PaymentMethodSofortParams is the set of parameters allowed for the `sofort` hash when
+// creating a PaymentMethod of type sofort.
+type PaymentMethodSofortParams struct {
+	Country *string `form:"country"`
+}
+
 // PaymentMethodParams is the set of parameters that can be used when creating or updating a
 // PaymentMethod.
 type PaymentMethodParams struct {
@@ -166,6 +173,7 @@ type PaymentMethodParams struct {
 	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
 	P24            *PaymentMethodP24Params            `form:"p24"`
 	SepaDebit      *PaymentMethodSepaDebitParams      `form:"sepa_debit"`
+	Sofort         *PaymentMethodSofortParams         `form:"sofort"`
 	Type           *string                            `form:"type"`
 
 	// The following parameters are used when cloning a PaymentMethod to the connected account
@@ -307,6 +315,11 @@ type PaymentMethodSepaDebit struct {
 	Last4       string `json:"last4"`
 }
 
+// PaymentMethodSofort represents the Sofort-specific properties.
+type PaymentMethodSofort struct {
+	Country string `json:"country"`
+}
+
 // PaymentMethod is the resource representing a PaymentMethod.
 type PaymentMethod struct {
 	APIResource
@@ -329,6 +342,7 @@ type PaymentMethod struct {
 	Object         string                       `json:"object"`
 	P24            *PaymentMethodP24            `json:"p24"`
 	SepaDebit      *PaymentMethodSepaDebit      `json:"sepa_debit"`
+	Sofort         *PaymentMethodSofort         `json:"sofort"`
 	Type           PaymentMethodType            `json:"type"`
 }
 

@@ -174,6 +174,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	FPX            *PaymentMethodFPXParams         `form:"fpx"`
 	Ideal          *PaymentMethodIdealParams       `form:"ideal"`
 	SepaDebit      *PaymentMethodSepaDebitParams   `form:"sepa_debit"`
+	Sofort         *PaymentMethodSofortParams      `form:"sofort"`
 	Type           *string                         `form:"type"`
 }
 
