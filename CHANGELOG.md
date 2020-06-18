@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.27.0 - 2020-06-18
+* [#1124](https://github.com/stripe/stripe-go/pull/1124) Add support for `RefreshURL` and `ReturnURL` on `AccountLink`
+
 ## 71.26.0 - 2020-06-15
 * [#1090](https://github.com/stripe/stripe-go/pull/1090) Add support for `PaymentMethodData` on `PaymentIntent`
 
