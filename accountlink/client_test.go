@@ -12,8 +12,8 @@ func TestAccountLinkNew(t *testing.T) {
 	params := &stripe.AccountLinkParams{
 		Account:    stripe.String("acct_123"),
 		Collect:    stripe.String(string(stripe.AccountLinkCollectCurrentlyDue)),
-		FailureURL: stripe.String("https://stripe.com/failure"),
-		SuccessURL: stripe.String("https://stripe.com/success"),
+		RefreshURL: stripe.String("https://stripe.com/refresh"),
+		ReturnURL:  stripe.String("https://stripe.com/return"),
 		Type:       stripe.String(string(stripe.AccountLinkTypeCustomAccountVerification)),
 	}
 	link, err := New(params)
