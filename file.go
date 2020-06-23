@@ -16,17 +16,18 @@ type FilePurpose string
 
 // List of values that FilePurpose can take.
 const (
-	FilePurposeAdditionalVerification FilePurpose = "additional_verification"
-	FilePurposeBusinessIcon           FilePurpose = "business_icon"
-	FilePurposeBusinessLogo           FilePurpose = "business_logo"
-	FilePurposeCustomerSignature      FilePurpose = "customer_signature"
-	FilePurposeDisputeEvidence        FilePurpose = "dispute_evidence"
-	FilePurposeFinanceReportRun       FilePurpose = "finance_report_run"
-	FilePurposeFoundersStockDocument  FilePurpose = "founders_stock_document"
-	FilePurposeIdentityDocument       FilePurpose = "identity_document"
-	FilePurposePCIDocument            FilePurpose = "pci_document"
-	FilePurposeSigmaScheduledQuery    FilePurpose = "sigma_scheduled_query"
-	FilePurposeTaxDocumentUserUpload  FilePurpose = "tax_document_user_upload"
+	FilePurposeAdditionalVerification           FilePurpose = "additional_verification"
+	FilePurposeBusinessIcon                     FilePurpose = "business_icon"
+	FilePurposeBusinessLogo                     FilePurpose = "business_logo"
+	FilePurposeCustomerSignature                FilePurpose = "customer_signature"
+	FilePurposeDocumentProviderIdentityDocument FilePurpose = "document_provider_identity_document"
+	FilePurposeDisputeEvidence                  FilePurpose = "dispute_evidence"
+	FilePurposeFinanceReportRun                 FilePurpose = "finance_report_run"
+	FilePurposeFoundersStockDocument            FilePurpose = "founders_stock_document"
+	FilePurposeIdentityDocument                 FilePurpose = "identity_document"
+	FilePurposePCIDocument                      FilePurpose = "pci_document"
+	FilePurposeSigmaScheduledQuery              FilePurpose = "sigma_scheduled_query"
+	FilePurposeTaxDocumentUserUpload            FilePurpose = "tax_document_user_upload"
 )
 
 // FileParams is the set of parameters that can be used when creating a file.
