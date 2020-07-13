@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.29.0 - 2020-07-13
+* [#1131](https://github.com/stripe/stripe-go/pull/1131) Add `billing_cycle_anchor` to `default_settings` and `phases` for `SubscriptionSchedules`
+
 ## 71.28.0 - 2020-06-23
 * [#1127](https://github.com/stripe/stripe-go/pull/1127) Add `FilePurposeDocumentProviderIdentityDocument` on `File`
 * [#1126](https://github.com/stripe/stripe-go/pull/1126) Add support for `Discounts` on `LineItem`
