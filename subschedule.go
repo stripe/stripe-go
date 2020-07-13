@@ -27,6 +27,16 @@ const (
 	SubscriptionScheduleStatusTrialing  SubscriptionScheduleStatus = "released"
 )
 
+// SubscriptionSchedulePhaseBillingCycleAnchor is the list of allowed values for the
+// schedule's billing_cycle_anchor.
+type SubscriptionSchedulePhaseBillingCycleAnchor string
+
+// List of values for SubscriptionSchedulePhaseBillingCycleAnchor
+const (
+	SubscriptionSchedulePhaseBillingCycleAnchorAutomatic  SubscriptionSchedulePhaseBillingCycleAnchor = "automatic"
+	SubscriptionSchedulePhaseBillingCycleAnchorPhaseStart SubscriptionSchedulePhaseBillingCycleAnchor = "phase_start"
+)
+
 // SubscriptionScheduleInvoiceSettingsParams is a structure representing the parameters allowed to
 // control invoice settings on invoices associated with a subscription schedule.
 type SubscriptionScheduleInvoiceSettingsParams struct {
@@ -37,6 +47,7 @@ type SubscriptionScheduleInvoiceSettingsParams struct {
 // representing the subscription schedule’s default settings.
 type SubscriptionScheduleDefaultSettingsParams struct {
 	Params               `form:"*"`
+	BillingCycleAnchor   *string                                    `form:"billing_cycle_anchor"`
 	BillingThresholds    *SubscriptionBillingThresholdsParams       `form:"billing_thresholds"`
 	CollectionMethod     *string                                    `form:"collection_method"`
 	DefaultPaymentMethod *string                                    `form:"default_payment_method"`
@@ -88,6 +99,7 @@ type SubscriptionSchedulePhaseItemParams struct {
 type SubscriptionSchedulePhaseParams struct {
 	AddInvoiceItems       []*SubscriptionSchedulePhaseAddInvoiceItemParams `form:"add_invoice_items"`
 	ApplicationFeePercent *int64                                           `form:"application_fee_percent"`
+	BillingCycleAnchor    *string                                          `form:"billing_cycle_anchor"`
 	BillingThresholds     *SubscriptionBillingThresholdsParams             `form:"billing_thresholds"`
 	CollectionMethod      *string                                          `form:"collection_method"`
 	Coupon                *string                                          `form:"coupon"`
@@ -179,11 +191,12 @@ type SubscriptionScheduleInvoiceSettings struct {
 // SubscriptionScheduleDefaultSettings is a structure representing the
 // subscription schedule’s default settings.
 type SubscriptionScheduleDefaultSettings struct {
-	BillingThresholds    *SubscriptionBillingThresholds       `json:"billing_thresholds"`
-	CollectionMethod     SubscriptionCollectionMethod         `json:"collection_method"`
-	DefaultPaymentMethod *PaymentMethod                       `json:"default_payment_method"`
-	InvoiceSettings      *SubscriptionScheduleInvoiceSettings `json:"invoice_settings"`
-	TransferData         *SubscriptionTransferData            `json:"transfer_data"`
+	BillingCycleAnchor   SubscriptionSchedulePhaseBillingCycleAnchor `json:"billing_cycle_anchor"`
+	BillingThresholds    *SubscriptionBillingThresholds              `json:"billing_thresholds"`
+	CollectionMethod     SubscriptionCollectionMethod                `json:"collection_method"`
+	DefaultPaymentMethod *PaymentMethod                              `json:"default_payment_method"`
+	InvoiceSettings      *SubscriptionScheduleInvoiceSettings        `json:"invoice_settings"`
+	TransferData         *SubscriptionTransferData                   `json:"transfer_data"`
 }
 
 // SubscriptionSchedulePhaseAddInvoiceItem represents the invoice items to add when the phase starts.
@@ -203,19 +216,20 @@ type SubscriptionSchedulePhaseItem struct {
 
 // SubscriptionSchedulePhase is a structure a phase of a subscription schedule.
 type SubscriptionSchedulePhase struct {
-	AddInvoiceItems       []*SubscriptionSchedulePhaseAddInvoiceItem `json:"add_invoice_items"`
-	ApplicationFeePercent float64                                    `json:"application_fee_percent"`
-	BillingThresholds     *SubscriptionBillingThresholds             `json:"billing_thresholds"`
-	CollectionMethod      SubscriptionCollectionMethod               `json:"collection_method"`
-	Coupon                *Coupon                                    `json:"coupon"`
-	DefaultPaymentMethod  *PaymentMethod                             `json:"default_payment_method"`
-	DefaultTaxRates       []*TaxRate                                 `json:"default_tax_rates"`
-	EndDate               int64                                      `json:"end_date"`
-	InvoiceSettings       *SubscriptionScheduleInvoiceSettings       `json:"invoice_settings"`
-	Plans                 []*SubscriptionSchedulePhaseItem           `json:"plans"`
-	StartDate             int64                                      `json:"start_date"`
-	TransferData          *SubscriptionTransferData                  `json:"transfer_data"`
-	TrialEnd              int64                                      `json:"trial_end"`
+	AddInvoiceItems       []*SubscriptionSchedulePhaseAddInvoiceItem  `json:"add_invoice_items"`
+	ApplicationFeePercent float64                                     `json:"application_fee_percent"`
+	BillingCycleAnchor    SubscriptionSchedulePhaseBillingCycleAnchor `json:"billing_cycle_anchor"`
+	BillingThresholds     *SubscriptionBillingThresholds              `json:"billing_thresholds"`
+	CollectionMethod      SubscriptionCollectionMethod                `json:"collection_method"`
+	Coupon                *Coupon                                     `json:"coupon"`
+	DefaultPaymentMethod  *PaymentMethod                              `json:"default_payment_method"`
+	DefaultTaxRates       []*TaxRate                                  `json:"default_tax_rates"`
+	EndDate               int64                                       `json:"end_date"`
+	InvoiceSettings       *SubscriptionScheduleInvoiceSettings        `json:"invoice_settings"`
+	Plans                 []*SubscriptionSchedulePhaseItem            `json:"plans"`
+	StartDate             int64                                       `json:"start_date"`
+	TransferData          *SubscriptionTransferData                   `json:"transfer_data"`
+	TrialEnd              int64                                       `json:"trial_end"`
 
 	// This field is deprecated and we recommend that you use TaxRates instead.
 	TaxPercent float64 `json:"tax_percent"`
