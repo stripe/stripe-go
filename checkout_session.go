@@ -203,12 +203,40 @@ type CheckoutSessionShippingAddressCollection struct {
 	AllowedCountries []string `json:"allowed_countries"`
 }
 
+// CheckoutSessionTotalDetailsBreakdownDiscount represent the details of one discount applied to a session.
+type CheckoutSessionTotalDetailsBreakdownDiscount struct {
+	Amount   int64     `json:"amount"`
+	Discount *Discount `json:"discount"`
+}
+
+// CheckoutSessionTotalDetailsBreakdownTax represent the details of tax rate applied to a session.
+type CheckoutSessionTotalDetailsBreakdownTax struct {
+	Amount  int64    `json:"amount"`
+	TaxRate *TaxRate `json:"tax_rate"`
+}
+
+// CheckoutSessionTotalDetailsBreakdown is the set of properties detailing a breakdown of taxes and discounts applied to a session if any.
+type CheckoutSessionTotalDetailsBreakdown struct {
+	Discounts []*CheckoutSessionTotalDetailsBreakdownDiscount `json:"discounts"`
+	Taxes     []*CheckoutSessionTotalDetailsBreakdownTax      `json:"taxes"`
+}
+
+// CheckoutSessionTotalDetails is the set of properties detailing how the amounts were calculated.
+type CheckoutSessionTotalDetails struct {
+	AmountDiscount int64                                 `json:"amount_discount"`
+	AmountTax      int64                                 `json:"amount_tax"`
+	Breakdown      *CheckoutSessionTotalDetailsBreakdown `json:"breakdown"`
+}
+
 // CheckoutSession is the resource representing a Stripe checkout session.
 // For more details see https://stripe.com/docs/api/checkout/sessions/object
 type CheckoutSession struct {
 	APIResource
 	CancelURL                 string                                    `json:"cancel_url"`
+	AmountSubtotal            int64                                     `json:"amount_subtotal"`
+	AmountTotal               int64                                     `json:"amount_total"`
 	ClientReferenceID         string                                    `json:"client_reference_id"`
+	Currency                  Currency                                  `json:"currency"`
 	Customer                  *Customer                                 `json:"customer"`
 	CustomerEmail             string                                    `json:"customer_email"`
 	Deleted                   bool                                      `json:"deleted"`
@@ -228,6 +256,7 @@ type CheckoutSession struct {
 	Subscription              *Subscription                             `json:"subscription"`
 	SubmitType                CheckoutSessionSubmitType                 `json:"submit_type"`
 	SuccessURL                string                                    `json:"success_url"`
+	TotalDetails              *CheckoutSessionTotalDetails              `json:"total_details"`
 }
 
 // CheckoutSessionList is a list of sessions as retrieved from a list endpoint.
