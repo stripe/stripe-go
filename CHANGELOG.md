@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.30.0 - 2020-07-15
+* [#1132](https://github.com/stripe/stripe-go/pull/1132) Add support for `AmountTotal`, `AmountSubtotal`, `Currency` and `TotalDetails` on Checkout `Session`
+
 ## 71.29.0 - 2020-07-13
 * [#1131](https://github.com/stripe/stripe-go/pull/1131) Add `billing_cycle_anchor` to `default_settings` and `phases` for `SubscriptionSchedules`
 
