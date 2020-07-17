@@ -1,5 +1,9 @@
 # Changelog
 
+## 71.31.0 - 2020-07-16
+* [#1133](https://github.com/stripe/stripe-go/pull/1133) Add support for `Deleted` on `LineItem`
+* [#1134](https://github.com/stripe/stripe-go/pull/1134) Add support for new constants for `AccountLinkType`
+
 ## 71.30.0 - 2020-07-15
 * [#1132](https://github.com/stripe/stripe-go/pull/1132) Add support for `AmountTotal`, `AmountSubtotal`, `Currency` and `TotalDetails` on Checkout `Session`
 
