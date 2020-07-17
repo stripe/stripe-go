@@ -24,6 +24,15 @@ const (
 	VerificationDocumentDetailsCodeDocumentTooLarge              VerificationDocumentDetailsCode = "document_too_large"
 )
 
+// PersonPoliticalExposure describes the political exposure of a given person.
+type PersonPoliticalExposure string
+
+// List of values that IdentityVerificationStatus can take.
+const (
+	PersonPoliticalExposureExisting PersonPoliticalExposure = "existing"
+	PersonPoliticalExposureNone     PersonPoliticalExposure = "none"
+)
+
 // PersonVerificationDetailsCode is a machine-readable code specifying the verification state of a
 // person.
 type PersonVerificationDetailsCode string
@@ -79,27 +88,28 @@ type PersonVerificationParams struct {
 // PersonParams is the set of parameters that can be used when creating or updating a person.
 // For more details see https://stripe.com/docs/api#create_person.
 type PersonParams struct {
-	Params         `form:"*"`
-	Account        *string                   `form:"-"` // Included in URL
-	Address        *AccountAddressParams     `form:"address"`
-	AddressKana    *AccountAddressParams     `form:"address_kana"`
-	AddressKanji   *AccountAddressParams     `form:"address_kanji"`
-	DOB            *DOBParams                `form:"dob"`
-	Email          *string                   `form:"email"`
-	FirstName      *string                   `form:"first_name"`
-	FirstNameKana  *string                   `form:"first_name_kana"`
-	FirstNameKanji *string                   `form:"first_name_kanji"`
-	Gender         *string                   `form:"gender"`
-	IDNumber       *string                   `form:"id_number"`
-	LastName       *string                   `form:"last_name"`
-	LastNameKana   *string                   `form:"last_name_kana"`
-	LastNameKanji  *string                   `form:"last_name_kanji"`
-	MaidenName     *string                   `form:"maiden_name"`
-	PersonToken    *string                   `form:"person_token"`
-	Phone          *string                   `form:"phone"`
-	Relationship   *RelationshipParams       `form:"relationship"`
-	SSNLast4       *string                   `form:"ssn_last_4"`
-	Verification   *PersonVerificationParams `form:"verification"`
+	Params            `form:"*"`
+	Account           *string                   `form:"-"` // Included in URL
+	Address           *AccountAddressParams     `form:"address"`
+	AddressKana       *AccountAddressParams     `form:"address_kana"`
+	AddressKanji      *AccountAddressParams     `form:"address_kanji"`
+	DOB               *DOBParams                `form:"dob"`
+	Email             *string                   `form:"email"`
+	FirstName         *string                   `form:"first_name"`
+	FirstNameKana     *string                   `form:"first_name_kana"`
+	FirstNameKanji    *string                   `form:"first_name_kanji"`
+	Gender            *string                   `form:"gender"`
+	IDNumber          *string                   `form:"id_number"`
+	LastName          *string                   `form:"last_name"`
+	LastNameKana      *string                   `form:"last_name_kana"`
+	LastNameKanji     *string                   `form:"last_name_kanji"`
+	MaidenName        *string                   `form:"maiden_name"`
+	PersonToken       *string                   `form:"person_token"`
+	Phone             *string                   `form:"phone"`
+	PoliticalExposure *string                   `form:"political_exposure"`
+	Relationship      *RelationshipParams       `form:"relationship"`
+	SSNLast4          *string                   `form:"ssn_last_4"`
+	Verification      *PersonVerificationParams `form:"verification"`
 }
 
 // RelationshipListParams is used to filter persons by the relationship
@@ -165,30 +175,31 @@ type PersonVerification struct {
 // For more details see https://stripe.com/docs/api#persons.
 type Person struct {
 	APIResource
-	Account          string              `json:"account"`
-	Address          *AccountAddress     `json:"address"`
-	AddressKana      *AccountAddress     `json:"address_kana"`
-	AddressKanji     *AccountAddress     `json:"address_kanji"`
-	Deleted          bool                `json:"deleted"`
-	DOB              *DOB                `json:"dob"`
-	Email            string              `json:"email"`
-	FirstName        string              `json:"first_name"`
-	FirstNameKana    string              `json:"first_name_kana"`
-	FirstNameKanji   string              `json:"first_name_kanji"`
-	Gender           string              `json:"gender"`
-	ID               string              `json:"id"`
-	IDNumberProvided bool                `json:"id_number_provided"`
-	LastName         string              `json:"last_name"`
-	LastNameKana     string              `json:"last_name_kana"`
-	LastNameKanji    string              `json:"last_name_kanji"`
-	MaidenName       string              `json:"maiden_name"`
-	Metadata         map[string]string   `json:"metadata"`
-	Object           string              `json:"object"`
-	Phone            string              `json:"phone"`
-	Relationship     *Relationship       `json:"relationship"`
-	Requirements     *Requirements       `json:"requirements"`
-	SSNLast4Provided bool                `json:"ssn_last_4_provided"`
-	Verification     *PersonVerification `json:"verification"`
+	Account           string                  `json:"account"`
+	Address           *AccountAddress         `json:"address"`
+	AddressKana       *AccountAddress         `json:"address_kana"`
+	AddressKanji      *AccountAddress         `json:"address_kanji"`
+	Deleted           bool                    `json:"deleted"`
+	DOB               *DOB                    `json:"dob"`
+	Email             string                  `json:"email"`
+	FirstName         string                  `json:"first_name"`
+	FirstNameKana     string                  `json:"first_name_kana"`
+	FirstNameKanji    string                  `json:"first_name_kanji"`
+	Gender            string                  `json:"gender"`
+	ID                string                  `json:"id"`
+	IDNumberProvided  bool                    `json:"id_number_provided"`
+	LastName          string                  `json:"last_name"`
+	LastNameKana      string                  `json:"last_name_kana"`
+	LastNameKanji     string                  `json:"last_name_kanji"`
+	MaidenName        string                  `json:"maiden_name"`
+	Metadata          map[string]string       `json:"metadata"`
+	Object            string                  `json:"object"`
+	Phone             string                  `json:"phone"`
+	PoliticalExposure PersonPoliticalExposure `json:"political_exposure"`
+	Relationship      *Relationship           `json:"relationship"`
+	Requirements      *Requirements           `json:"requirements"`
+	SSNLast4Provided  bool                    `json:"ssn_last_4_provided"`
+	Verification      *PersonVerification     `json:"verification"`
 }
 
 // PersonList is a list of persons as retrieved from a list endpoint.
