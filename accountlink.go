@@ -5,6 +5,10 @@ type AccountLinkType string
 
 // List of values that AccountLinkType can take.
 const (
+	AccountLinkTypeAccountOnboarding AccountLinkType = "account_onboarding"
+	AccountLinkTypeAccountUpdate     AccountLinkType = "account_update"
+
+	// TODO: The following constants are deprecated
 	AccountLinkTypeCustomAccountUpdate       AccountLinkType = "custom_account_update"
 	AccountLinkTypeCustomAccountVerification AccountLinkType = "custom_account_verification"
 )
