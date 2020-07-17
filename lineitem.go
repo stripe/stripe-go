@@ -24,6 +24,7 @@ type LineItem struct {
 	Currency       Currency            `json:"currency"`
 	Description    string              `json:"description"`
 	Discounts      []*LineItemDiscount `json:"discounts"`
+	Deleted        bool                `json:"deleted"`
 	ID             string              `json:"id"`
 	Object         string              `json:"object"`
 	Price          *Price              `json:"price"`
