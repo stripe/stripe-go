@@ -64,6 +64,7 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	Currency          *string                                 `form:"currency"`
 	Description       *string                                 `form:"description"`
 	Discountable      *bool                                   `form:"discountable"`
+	Discounts         []*InvoiceItemDiscountParams            `form:"discounts"`
 	InvoiceItem       *string                                 `form:"invoiceitem"`
 	Period            *InvoiceUpcomingInvoiceItemPeriodParams `form:"period"`
 	Price             *string                                 `form:"price"`
@@ -79,6 +80,12 @@ type InvoiceUpcomingInvoiceItemParams struct {
 type InvoiceCustomFieldParams struct {
 	Name  *string `form:"name"`
 	Value *string `form:"value"`
+}
+
+// InvoiceDiscountParams represents the parameters associated with the discounts to apply to an invoice.
+type InvoiceDiscountParams struct {
+	Coupon   *string `form:"coupon"`
+	Discount *string `form:"discount"`
 }
 
 // InvoiceTransferDataParams is the set of parameters allowed for the transfer_data hash.
@@ -101,6 +108,7 @@ type InvoiceParams struct {
 	DefaultSource        *string                     `form:"default_source"`
 	DefaultTaxRates      []*string                   `form:"default_tax_rates"`
 	Description          *string                     `form:"description"`
+	Discounts            []*InvoiceDiscountParams    `form:"discounts"`
 	DueDate              *int64                      `form:"due_date"`
 	Footer               *string                     `form:"footer"`
 	Paid                 *bool                       `form:"paid"`
@@ -242,6 +250,7 @@ type Invoice struct {
 	Deleted                      bool                     `json:"deleted"`
 	Description                  string                   `json:"description"`
 	Discount                     *Discount                `json:"discount"`
+	Discounts                    []*Discount              `json:"discounts"`
 	DueDate                      int64                    `json:"due_date"`
 	EndingBalance                int64                    `json:"ending_balance"`
 	Footer                       string                   `json:"footer"`
@@ -253,6 +262,7 @@ type Invoice struct {
 	Metadata                     map[string]string        `json:"metadata"`
 	NextPaymentAttempt           int64                    `json:"next_payment_attempt"`
 	Number                       string                   `json:"number"`
+	Object                       string                   `json:"object"`
 	Paid                         bool                     `json:"paid"`
 	PaymentIntent                *PaymentIntent           `json:"payment_intent"`
 	PeriodEnd                    int64                    `json:"period_end"`
@@ -270,6 +280,7 @@ type Invoice struct {
 	Tax                          int64                    `json:"tax"`
 	ThreasholdReason             *InvoiceThresholdReason  `json:"threshold_reason"`
 	Total                        int64                    `json:"total"`
+	TotalDiscountAmounts         []*InvoiceDiscountAmount `json:"total_discount_amounts"`
 	TotalTaxAmounts              []*InvoiceTaxAmount      `json:"total_tax_amounts"`
 	TransferData                 *InvoiceTransferData     `json:"transfer_data"`
 	WebhooksDeliveredAt          int64                    `json:"webhooks_delivered_at"`
@@ -288,6 +299,12 @@ type InvoiceCustomField struct {
 type InvoiceCustomerTaxID struct {
 	Type  TaxIDType `json:"type"`
 	Value string    `json:"value"`
+}
+
+// InvoiceDiscountAmount represents the aggregate amounts calculated per discount for all line items.
+type InvoiceDiscountAmount struct {
+	Amount   int64     `json:"amount"`
+	Discount *Discount `json:"discount"`
 }
 
 // InvoiceTaxAmount is a structure representing one of the tax amounts on an invoice.
@@ -317,28 +334,37 @@ type InvoiceList struct {
 	Data []*Invoice `json:"data"`
 }
 
+// InvoiceLineDiscountAmount represents the amount of discount calculated per discount for this line item.
+type InvoiceLineDiscountAmount struct {
+	Amount   int64     `json:"amount"`
+	Discount *Discount `json:"discount"`
+}
+
 // InvoiceLine is the resource representing a Stripe invoice line item.
 // For more details see https://stripe.com/docs/api#invoice_line_item_object.
 type InvoiceLine struct {
-	Amount           int64               `json:"amount"`
-	Currency         Currency            `json:"currency"`
-	Description      string              `json:"description"`
-	Discountable     bool                `json:"discountable"`
-	ID               string              `json:"id"`
-	InvoiceItem      string              `json:"invoice_item"`
-	Livemode         bool                `json:"livemode"`
-	Metadata         map[string]string   `json:"metadata"`
-	Period           *Period             `json:"period"`
-	Plan             *Plan               `json:"plan"`
-	Price            *Price              `json:"price"`
-	Proration        bool                `json:"proration"`
-	Quantity         int64               `json:"quantity"`
-	Subscription     string              `json:"subscription"`
-	SubscriptionItem string              `json:"subscription_item"`
-	TaxAmounts       []*InvoiceTaxAmount `json:"tax_amounts"`
-	TaxRates         []*TaxRate          `json:"tax_rates"`
-	Type             InvoiceLineType     `json:"type"`
-	UnifiedProration bool                `json:"unified_proration"`
+	Amount           int64                        `json:"amount"`
+	Currency         Currency                     `json:"currency"`
+	Description      string                       `json:"description"`
+	Discountable     bool                         `json:"discountable"`
+	Discounts        []*Discount                  `json:"discounts"`
+	DiscountAmounts  []*InvoiceLineDiscountAmount `json:"discount_amounts"`
+	ID               string                       `json:"id"`
+	InvoiceItem      string                       `json:"invoice_item"`
+	Livemode         bool                         `json:"livemode"`
+	Metadata         map[string]string            `json:"metadata"`
+	Object           string                       `json:"object"`
+	Period           *Period                      `json:"period"`
+	Plan             *Plan                        `json:"plan"`
+	Price            *Price                       `json:"price"`
+	Proration        bool                         `json:"proration"`
+	Quantity         int64                        `json:"quantity"`
+	Subscription     string                       `json:"subscription"`
+	SubscriptionItem string                       `json:"subscription_item"`
+	TaxAmounts       []*InvoiceTaxAmount          `json:"tax_amounts"`
+	TaxRates         []*TaxRate                   `json:"tax_rates"`
+	Type             InvoiceLineType              `json:"type"`
+	UnifiedProration bool                         `json:"unified_proration"`
 }
 
 // InvoiceTransferData represents the information for the transfer_data associated with an invoice.

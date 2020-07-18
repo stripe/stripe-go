@@ -50,6 +50,7 @@ type Coupon struct {
 	MaxRedemptions   int64             `json:"max_redemptions"`
 	Metadata         map[string]string `json:"metadata"`
 	Name             string            `json:"name"`
+	Object           string            `json:"object"`
 	PercentOff       float64           `json:"percent_off"`
 	RedeemBy         int64             `json:"redeem_by"`
 	TimesRedeemed    int64             `json:"times_redeemed"`

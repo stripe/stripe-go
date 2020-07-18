@@ -118,6 +118,12 @@ type CreditNoteVoidParams struct {
 	Params `form:"*"`
 }
 
+// CreditNoteDiscountAmount represents the aggregate amounts calculated per discount for all line items.
+type CreditNoteDiscountAmount struct {
+	Amount   int64     `json:"amount"`
+	Discount *Discount `json:"discount"`
+}
+
 // CreditNoteTaxAmount represent the tax amount applied to a credit note.
 type CreditNoteTaxAmount struct {
 	Amount    int64    `json:"amount"`
@@ -135,6 +141,7 @@ type CreditNote struct {
 	Customer                   *Customer                   `json:"customer"`
 	CustomerBalanceTransaction *CustomerBalanceTransaction `json:"customer_balance_transaction"`
 	DiscountAmount             int64                       `json:"discount_amount"`
+	DiscountAmounts            []*CreditNoteDiscountAmount `json:"discount_amounts"`
 	Invoice                    *Invoice                    `json:"invoice"`
 	ID                         string                      `json:"id"`
 	Lines                      *CreditNoteLineItemList     `json:"lines"`
@@ -155,22 +162,29 @@ type CreditNote struct {
 	VoidedAt                   int64                       `json:"voided_at"`
 }
 
+// CreditNoteLineItemDiscountAmount represents the amount of discount calculated per discount for this line item.
+type CreditNoteLineItemDiscountAmount struct {
+	Amount   int64     `json:"amount"`
+	Discount *Discount `json:"discount"`
+}
+
 // CreditNoteLineItem is the resource representing a Stripe credit note line item.
 // For more details see https://stripe.com/docs/api/credit_notes/line_item
 type CreditNoteLineItem struct {
-	Amount            int64                  `json:"amount"`
-	Description       string                 `json:"description"`
-	DiscountAmount    int64                  `json:"discount_amount"`
-	ID                string                 `json:"id"`
-	InvoiceLineItem   string                 `json:"invoice_line_item"`
-	Livemode          bool                   `json:"livemode"`
-	Object            string                 `json:"object"`
-	Quantity          int64                  `json:"quantity"`
-	TaxAmounts        []*CreditNoteTaxAmount `json:"tax_amounts"`
-	TaxRates          []*TaxRate             `json:"tax_rates"`
-	Type              CreditNoteLineItemType `json:"type"`
-	UnitAmount        int64                  `json:"unit_amount"`
-	UnitAmountDecimal float64                `json:"unit_amount_decimal,string"`
+	Amount            int64                               `json:"amount"`
+	Description       string                              `json:"description"`
+	DiscountAmount    int64                               `json:"discount_amount"`
+	DiscountAmounts   []*CreditNoteLineItemDiscountAmount `json:"discount_amounts"`
+	ID                string                              `json:"id"`
+	InvoiceLineItem   string                              `json:"invoice_line_item"`
+	Livemode          bool                                `json:"livemode"`
+	Object            string                              `json:"object"`
+	Quantity          int64                               `json:"quantity"`
+	TaxAmounts        []*CreditNoteTaxAmount              `json:"tax_amounts"`
+	TaxRates          []*TaxRate                          `json:"tax_rates"`
+	Type              CreditNoteLineItemType              `json:"type"`
+	UnitAmount        int64                               `json:"unit_amount"`
+	UnitAmountDecimal float64                             `json:"unit_amount_decimal,string"`
 }
 
 // CreditNoteList is a list of credit notes as retrieved from a list endpoint.
