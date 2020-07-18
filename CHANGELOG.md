@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.32.0 - 2020-07-17
+* [#1135](https://github.com/stripe/stripe-go/pull/1135) Add support for `PoliticalExposure` on `Person`
+
 ## 71.31.0 - 2020-07-16
 * [#1133](https://github.com/stripe/stripe-go/pull/1133) Add support for `Deleted` on `LineItem`
 * [#1134](https://github.com/stripe/stripe-go/pull/1134) Add support for new constants for `AccountLinkType`
