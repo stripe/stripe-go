@@ -37,6 +37,7 @@ type SigmaScheduledQueryRun struct {
 	SQL                  string                       `json:"sql"`
 	Status               SigmaScheduledQueryRunStatus `json:"status"`
 	Query                string                       `json:"query"`
+	Title                string                       `json:"title"`
 }
 
 // SigmaScheduledQueryRunList is a list of scheduled query runs as retrieved from a list endpoint.
