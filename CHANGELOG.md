@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.33.0 - 2020-07-19
+* [#1137](https://github.com/stripe/stripe-go/pull/1137) Add support for `Title` on Sigma `ScheduledQueryRun`
+
 ## 71.32.0 - 2020-07-17
 * [#1135](https://github.com/stripe/stripe-go/pull/1135) Add support for `PoliticalExposure` on `Person`
 
