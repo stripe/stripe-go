@@ -180,13 +180,13 @@ type AccountCapabilitiesLegacyPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesTaxReportingUs1099KParams represent allowed parameters to configure the 1099-K capability on an account.
-type AccountCapabilitiesTaxReportingUs1099KParams struct {
+// AccountCapabilitiesTaxReportingUS1099KParams represent allowed parameters to configure the 1099-K capability on an account.
+type AccountCapabilitiesTaxReportingUS1099KParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesTaxReportingUs1099MISCParams represent allowed parameters to configure the 1099-Misc capability on an account.
-type AccountCapabilitiesTaxReportingUs1099MISCParams struct {
+// AccountCapabilitiesTaxReportingUS1099MISCParams represent allowed parameters to configure the 1099-Misc capability on an account.
+type AccountCapabilitiesTaxReportingUS1099MISCParams struct {
 	Requested *bool `form:"requested"`
 }
 
@@ -203,8 +203,8 @@ type AccountCapabilitiesParams struct {
 	CardPayments           *AccountCapabilitiesCardPaymentsParams           `form:"card_payments"`
 	JCBPayments            *AccountCapabilitiesJCBPaymentsParams            `form:"jcb_payments"`
 	LegacyPayments         *AccountCapabilitiesLegacyPaymentsParams         `form:"legacy_payments"`
-	TaxReportingUs1099K    *AccountCapabilitiesTaxReportingUs1099KParams    `form:"tax_reporting_us_1099_k"`
-	TaxReportingUs1099MISC *AccountCapabilitiesTaxReportingUs1099MISCParams `form:"tax_reporting_us_1099_misc"`
+	TaxReportingUS1099K    *AccountCapabilitiesTaxReportingUS1099KParams    `form:"tax_reporting_us_1099_k"`
+	TaxReportingUS1099MISC *AccountCapabilitiesTaxReportingUS1099MISCParams `form:"tax_reporting_us_1099_misc"`
 	Transfers              *AccountCapabilitiesTransfersParams              `form:"transfers"`
 }
 
