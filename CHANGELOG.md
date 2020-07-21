@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.34.0 - 2020-07-20
+* [#1138](https://github.com/stripe/stripe-go/pull/1138) Add support for `Capabilities` on `Account` create and update
+
 ## 71.33.0 - 2020-07-19
 * [#1137](https://github.com/stripe/stripe-go/pull/1137) Add support for `Title` on Sigma `ScheduledQueryRun`
 
