@@ -2,8 +2,20 @@ before_install:
   # Install various build dependencies. We use `travis_retry` because `go get`
   # will occasionally fail intermittently.
 
-  # The testify require framework is used for assertions in the test suite
-  - travis_retry go get -u github.com/stretchr/testify/require
+  # Testify is used for assertions in the test suite.
+  #
+  # Unfortunately, they broke versions of Go < 1.13. so we conditionally fetch
+  # and test only on newer versions of Go. We can back this conditional out
+  # once we've dropped < 1.13.
+  #
+  # Comparing versions lexically like this is technically not safe, but I'm
+  # cheating a bit by taking advantage of the fact that we only support > 1.9,
+  # so comparing Go versions lexically will be safe for quite some time -- well
+  # beyond the point where we back this out. `tip` also sorts after any version.
+  - |
+    if [[ "$TRAVIS_GO_VERSION" > "1.13" ]]; then
+      travis_retry go get -u github.com/stretchr/testify/require
+    fi
 
   # Install lint / code coverage / coveralls tooling
   - travis_retry go get -u golang.org/x/net/http2
@@ -50,8 +62,17 @@ matrix:
   fast_finish: true
 
 script:
-  - make
-  - make coverage
+  - |
+    # See note above, but Testify broke versions < 1.13, so we only build (and
+    # not test) on older versions. Drop this after we've dropped support for <
+    # 1.13.
+    if [[ "$TRAVIS_GO_VERSION" > "1.13" ]]; then
+      make
+      make coverage
+    else
+      make build
+    fi
+
 
 after_script:
   # Send code coverage report to coveralls.io
