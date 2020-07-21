@@ -150,6 +150,64 @@ type AccountBusinessProfileParams struct {
 	URL                *string        `form:"url"`
 }
 
+// AccountCapabilitiesAUBECSDebitPaymentsParams represent allowed parameters to configure the AU BECS Debit capability on an account.
+type AccountCapabilitiesAUBECSDebitPaymentsParams struct {
+	Requested *bool `form:"requested"`
+}
+
+// AccountCapabilitiesBACSDebitPaymentsParams represent allowed parameters to configure the BACS Debit capability on an account.
+type AccountCapabilitiesBACSDebitPaymentsParams struct {
+	Requested *bool `form:"requested"`
+}
+
+// AccountCapabilitiesCardIssuingParams represent allowed parameters to configure the Issuing capability on an account.
+type AccountCapabilitiesCardIssuingParams struct {
+	Requested *bool `form:"requested"`
+}
+
+// AccountCapabilitiesCardPaymentsParams represent allowed parameters to configure the card payments capability on an account.
+type AccountCapabilitiesCardPaymentsParams struct {
+	Requested *bool `form:"requested"`
+}
+
+// AccountCapabilitiesJCBPaymentsParams represent allowed parameters to configure the JCB payments capability on an account.
+type AccountCapabilitiesJCBPaymentsParams struct {
+	Requested *bool `form:"requested"`
+}
+
+// AccountCapabilitiesLegacyPaymentsParams represent allowed parameters to configure the legacy payments capability on an account.
+type AccountCapabilitiesLegacyPaymentsParams struct {
+	Requested *bool `form:"requested"`
+}
+
+// AccountCapabilitiesTaxReportingUS1099KParams represent allowed parameters to configure the 1099-K capability on an account.
+type AccountCapabilitiesTaxReportingUS1099KParams struct {
+	Requested *bool `form:"requested"`
+}
+
+// AccountCapabilitiesTaxReportingUS1099MISCParams represent allowed parameters to configure the 1099-Misc capability on an account.
+type AccountCapabilitiesTaxReportingUS1099MISCParams struct {
+	Requested *bool `form:"requested"`
+}
+
+// AccountCapabilitiesTransfersParams represent allowed parameters to configure the transfers capability on an account.
+type AccountCapabilitiesTransfersParams struct {
+	Requested *bool `form:"requested"`
+}
+
+// AccountCapabilitiesParams represent allowed parameters to configure capabilities on an account.
+type AccountCapabilitiesParams struct {
+	AUBECSDebitPayments    *AccountCapabilitiesAUBECSDebitPaymentsParams    `form:"au_becs_debit_payments"`
+	BACSDebitPayments      *AccountCapabilitiesBACSDebitPaymentsParams      `form:"bacs_debit_payments"`
+	CardIssuing            *AccountCapabilitiesCardIssuingParams            `form:"card_issuing"`
+	CardPayments           *AccountCapabilitiesCardPaymentsParams           `form:"card_payments"`
+	JCBPayments            *AccountCapabilitiesJCBPaymentsParams            `form:"jcb_payments"`
+	LegacyPayments         *AccountCapabilitiesLegacyPaymentsParams         `form:"legacy_payments"`
+	TaxReportingUS1099K    *AccountCapabilitiesTaxReportingUS1099KParams    `form:"tax_reporting_us_1099_k"`
+	TaxReportingUS1099MISC *AccountCapabilitiesTaxReportingUS1099MISCParams `form:"tax_reporting_us_1099_misc"`
+	Transfers              *AccountCapabilitiesTransfersParams              `form:"transfers"`
+}
+
 // AccountCompanyVerificationDocumentParams are the parameters allowed to pass for a document
 // verifying a company.
 type AccountCompanyVerificationDocumentParams struct {
@@ -262,20 +320,23 @@ func (p *PayoutScheduleParams) AppendTo(body *form.Values, keyParts []string) {
 
 // AccountParams are the parameters allowed during account creation/updates.
 type AccountParams struct {
-	Params                `form:"*"`
-	AccountToken          *string                       `form:"account_token"`
-	BusinessProfile       *AccountBusinessProfileParams `form:"business_profile"`
-	BusinessType          *string                       `form:"business_type"`
-	Company               *AccountCompanyParams         `form:"company"`
-	Country               *string                       `form:"country"`
-	DefaultCurrency       *string                       `form:"default_currency"`
-	Email                 *string                       `form:"email"`
-	ExternalAccount       *AccountExternalAccountParams `form:"external_account"`
-	Individual            *PersonParams                 `form:"individual"`
-	RequestedCapabilities []*string                     `form:"requested_capabilities"`
-	Settings              *AccountSettingsParams        `form:"settings"`
-	TOSAcceptance         *AccountTOSAcceptanceParams   `form:"tos_acceptance"`
-	Type                  *string                       `form:"type"`
+	Params          `form:"*"`
+	AccountToken    *string                       `form:"account_token"`
+	BusinessProfile *AccountBusinessProfileParams `form:"business_profile"`
+	BusinessType    *string                       `form:"business_type"`
+	Capabilities    *AccountCapabilitiesParams    `form:"capabilities"`
+	Company         *AccountCompanyParams         `form:"company"`
+	Country         *string                       `form:"country"`
+	DefaultCurrency *string                       `form:"default_currency"`
+	Email           *string                       `form:"email"`
+	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
+	Individual      *PersonParams                 `form:"individual"`
+	Settings        *AccountSettingsParams        `form:"settings"`
+	TOSAcceptance   *AccountTOSAcceptanceParams   `form:"tos_acceptance"`
+	Type            *string                       `form:"type"`
+
+	// This parameter is deprecated. Prefer using Capabilities instead.
+	RequestedCapabilities []*string `form:"requested_capabilities"`
 }
 
 // AccountAddressParams represents an address during account creation/updates.
