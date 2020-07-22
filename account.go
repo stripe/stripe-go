@@ -21,15 +21,16 @@ type AccountCapability string
 
 // List of values that AccountCapability can take.
 const (
-	AccountCapabilityAUBECSDebitPayments    AccountCapability = "au_becs_debit_payments"
-	AccountCapabilityBACSDebitPayments      AccountCapability = "bacs_debit_payments"
-	AccountCapabilityCardIssuing            AccountCapability = "card_issuing"
-	AccountCapabilityCardPayments           AccountCapability = "card_payments"
-	AccountCapabilityJCBPayments            AccountCapability = "jcb_payments"
-	AccountCapabilityLegacyPayments         AccountCapability = "legacy_payments"
-	AccountCapabilityTaxReportingUS1099K    AccountCapability = "tax_reporting_us_1099_k"
-	AccountCapabilityTaxReportingUS1099MISC AccountCapability = "tax_reporting_us_1099_misc"
-	AccountCapabilityTransfers              AccountCapability = "transfers"
+	AccountCapabilityAUBECSDebitPayments     AccountCapability = "au_becs_debit_payments"
+	AccountCapabilityBACSDebitPayments       AccountCapability = "bacs_debit_payments"
+	AccountCapabilityCardIssuing             AccountCapability = "card_issuing"
+	AccountCapabilityCardPayments            AccountCapability = "card_payments"
+	AccountCapabilityCartesBancairesPayments AccountCapability = "cartes_bancaires_payments"
+	AccountCapabilityJCBPayments             AccountCapability = "jcb_payments"
+	AccountCapabilityLegacyPayments          AccountCapability = "legacy_payments"
+	AccountCapabilityTaxReportingUS1099K     AccountCapability = "tax_reporting_us_1099_k"
+	AccountCapabilityTaxReportingUS1099MISC  AccountCapability = "tax_reporting_us_1099_misc"
+	AccountCapabilityTransfers               AccountCapability = "transfers"
 )
 
 // AccountCapabilityStatus is the status a given capability can have
@@ -170,6 +171,11 @@ type AccountCapabilitiesCardPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// AccountCapabilitiesCartesBancairesPaymentsParams represent allowed parameters to configure the Cartes Bancaires payments capability on an account.
+type AccountCapabilitiesCartesBancairesPaymentsParams struct {
+	Requested *bool `form:"requested"`
+}
+
 // AccountCapabilitiesJCBPaymentsParams represent allowed parameters to configure the JCB payments capability on an account.
 type AccountCapabilitiesJCBPaymentsParams struct {
 	Requested *bool `form:"requested"`
@@ -197,15 +203,16 @@ type AccountCapabilitiesTransfersParams struct {
 
 // AccountCapabilitiesParams represent allowed parameters to configure capabilities on an account.
 type AccountCapabilitiesParams struct {
-	AUBECSDebitPayments    *AccountCapabilitiesAUBECSDebitPaymentsParams    `form:"au_becs_debit_payments"`
-	BACSDebitPayments      *AccountCapabilitiesBACSDebitPaymentsParams      `form:"bacs_debit_payments"`
-	CardIssuing            *AccountCapabilitiesCardIssuingParams            `form:"card_issuing"`
-	CardPayments           *AccountCapabilitiesCardPaymentsParams           `form:"card_payments"`
-	JCBPayments            *AccountCapabilitiesJCBPaymentsParams            `form:"jcb_payments"`
-	LegacyPayments         *AccountCapabilitiesLegacyPaymentsParams         `form:"legacy_payments"`
-	TaxReportingUS1099K    *AccountCapabilitiesTaxReportingUS1099KParams    `form:"tax_reporting_us_1099_k"`
-	TaxReportingUS1099MISC *AccountCapabilitiesTaxReportingUS1099MISCParams `form:"tax_reporting_us_1099_misc"`
-	Transfers              *AccountCapabilitiesTransfersParams              `form:"transfers"`
+	AUBECSDebitPayments     *AccountCapabilitiesAUBECSDebitPaymentsParams     `form:"au_becs_debit_payments"`
+	BACSDebitPayments       *AccountCapabilitiesBACSDebitPaymentsParams       `form:"bacs_debit_payments"`
+	CardIssuing             *AccountCapabilitiesCardIssuingParams             `form:"card_issuing"`
+	CardPayments            *AccountCapabilitiesCardPaymentsParams            `form:"card_payments"`
+	CartesBancairesPayments *AccountCapabilitiesCartesBancairesPaymentsParams `form:"cartes_bancaires_payments"`
+	JCBPayments             *AccountCapabilitiesJCBPaymentsParams             `form:"jcb_payments"`
+	LegacyPayments          *AccountCapabilitiesLegacyPaymentsParams          `form:"legacy_payments"`
+	TaxReportingUS1099K     *AccountCapabilitiesTaxReportingUS1099KParams     `form:"tax_reporting_us_1099_k"`
+	TaxReportingUS1099MISC  *AccountCapabilitiesTaxReportingUS1099MISCParams  `form:"tax_reporting_us_1099_misc"`
+	Transfers               *AccountCapabilitiesTransfersParams               `form:"transfers"`
 }
 
 // AccountCompanyVerificationDocumentParams are the parameters allowed to pass for a document
@@ -410,15 +417,16 @@ type AccountBusinessProfile struct {
 
 // AccountCapabilities is the resource representing the capabilities enabled on that account.
 type AccountCapabilities struct {
-	AUBECSDebitPayments    AccountCapabilityStatus `json:"au_becs_debit_payments"`
-	BACSDebitPayments      AccountCapabilityStatus `json:"bacs_debit_payments"`
-	CardIssuing            AccountCapabilityStatus `json:"card_issuing"`
-	CardPayments           AccountCapabilityStatus `json:"card_payments"`
-	JCBPayments            AccountCapabilityStatus `json:"jcb_payments"`
-	LegacyPayments         AccountCapabilityStatus `json:"legacy_payments"`
-	TaxReportingUS1099K    AccountCapabilityStatus `json:"tax_reporting_us_1099_k"`
-	TaxReportingUS1099MISC AccountCapabilityStatus `json:"tax_reporting_us_1099_misc"`
-	Transfers              AccountCapabilityStatus `json:"transfers"`
+	AUBECSDebitPayments     AccountCapabilityStatus `json:"au_becs_debit_payments"`
+	BACSDebitPayments       AccountCapabilityStatus `json:"bacs_debit_payments"`
+	CardIssuing             AccountCapabilityStatus `json:"card_issuing"`
+	CardPayments            AccountCapabilityStatus `json:"card_payments"`
+	CartesBancairesPayments AccountCapabilityStatus `json:"cartes_bancaires_payments"`
+	JCBPayments             AccountCapabilityStatus `json:"jcb_payments"`
+	LegacyPayments          AccountCapabilityStatus `json:"legacy_payments"`
+	TaxReportingUS1099K     AccountCapabilityStatus `json:"tax_reporting_us_1099_k"`
+	TaxReportingUS1099MISC  AccountCapabilityStatus `json:"tax_reporting_us_1099_misc"`
+	Transfers               AccountCapabilityStatus `json:"transfers"`
 }
 
 // AccountCompanyVerificationDocument represents details about a company's verification state.
