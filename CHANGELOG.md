@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.35.0 - 2020-07-22
+* [#1140](https://github.com/stripe/stripe-go/pull/1140) Add support for `CartesBancairesPayments` as a `Capability`
+
 ## 71.34.0 - 2020-07-20
 * [#1138](https://github.com/stripe/stripe-go/pull/1138) Add support for `Capabilities` on `Account` create and update
 
