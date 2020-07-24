@@ -46,7 +46,7 @@ func (e *EphemeralKey) UnmarshalJSON(data []byte) error {
 		*e = EphemeralKey(ee)
 	}
 
-	e.RawJSON = data
+	e.RawJSON = append(e.RawJSON[:0], data...)
 
 	return nil
 }
