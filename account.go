@@ -429,6 +429,7 @@ type AccountCapabilities struct {
 	CardIssuing             AccountCapabilityStatus `json:"card_issuing"`
 	CardPayments            AccountCapabilityStatus `json:"card_payments"`
 	CartesBancairesPayments AccountCapabilityStatus `json:"cartes_bancaires_payments"`
+	FPXPayments             AccountCapabilityStatus `json:"fpx_payments"`
 	JCBPayments             AccountCapabilityStatus `json:"jcb_payments"`
 	LegacyPayments          AccountCapabilityStatus `json:"legacy_payments"`
 	TaxReportingUS1099K     AccountCapabilityStatus `json:"tax_reporting_us_1099_k"`
