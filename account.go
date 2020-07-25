@@ -26,6 +26,7 @@ const (
 	AccountCapabilityCardIssuing             AccountCapability = "card_issuing"
 	AccountCapabilityCardPayments            AccountCapability = "card_payments"
 	AccountCapabilityCartesBancairesPayments AccountCapability = "cartes_bancaires_payments"
+	AccountCapabilityFPXPayments             AccountCapability = "fpx_payments"
 	AccountCapabilityJCBPayments             AccountCapability = "jcb_payments"
 	AccountCapabilityLegacyPayments          AccountCapability = "legacy_payments"
 	AccountCapabilityTaxReportingUS1099K     AccountCapability = "tax_reporting_us_1099_k"
@@ -176,6 +177,11 @@ type AccountCapabilitiesCartesBancairesPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// AccountCapabilitiesFPXPaymentsParams represent allowed parameters to configure the FPX payments capability on an account.
+type AccountCapabilitiesFPXPaymentsParams struct {
+	Requested *bool `form:"requested"`
+}
+
 // AccountCapabilitiesJCBPaymentsParams represent allowed parameters to configure the JCB payments capability on an account.
 type AccountCapabilitiesJCBPaymentsParams struct {
 	Requested *bool `form:"requested"`
@@ -208,6 +214,7 @@ type AccountCapabilitiesParams struct {
 	CardIssuing             *AccountCapabilitiesCardIssuingParams             `form:"card_issuing"`
 	CardPayments            *AccountCapabilitiesCardPaymentsParams            `form:"card_payments"`
 	CartesBancairesPayments *AccountCapabilitiesCartesBancairesPaymentsParams `form:"cartes_bancaires_payments"`
+	FPXPayments             *AccountCapabilitiesFPXPaymentsParams             `form:"fpx_payments"`
 	JCBPayments             *AccountCapabilitiesJCBPaymentsParams             `form:"jcb_payments"`
 	LegacyPayments          *AccountCapabilitiesLegacyPaymentsParams          `form:"legacy_payments"`
 	TaxReportingUS1099K     *AccountCapabilitiesTaxReportingUS1099KParams     `form:"tax_reporting_us_1099_k"`
