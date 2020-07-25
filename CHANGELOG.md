@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.36.0 - 2020-07-24
+* [#1143](https://github.com/stripe/stripe-go/pull/1143) Add support for `FPXPayments` as a `Capability` on `Account` create and update
+
 ## 71.35.0 - 2020-07-22
 * [#1140](https://github.com/stripe/stripe-go/pull/1140) Add support for `CartesBancairesPayments` as a `Capability`
 
