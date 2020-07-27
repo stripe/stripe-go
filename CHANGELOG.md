@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.39.0 - 2020-07-27
+* [#1142](https://github.com/stripe/stripe-go/pull/1142) Bug fix: Copy the JSON data of ephemeral keys to own buffer
+
 ## 71.38.0 - 2020-07-27
 * [#1145](https://github.com/stripe/stripe-go/pull/1145) Fix `ApplicationFeePercent` on `SubscriptionSchedule` to support floats
 
