@@ -97,23 +97,25 @@ type SubscriptionSchedulePhaseItemParams struct {
 // SubscriptionSchedulePhaseParams is a structure representing the parameters allowed to control
 // a phase on a subscription schedule.
 type SubscriptionSchedulePhaseParams struct {
-	AddInvoiceItems       []*SubscriptionSchedulePhaseAddInvoiceItemParams `form:"add_invoice_items"`
-	ApplicationFeePercent *int64                                           `form:"application_fee_percent"`
-	BillingCycleAnchor    *string                                          `form:"billing_cycle_anchor"`
-	BillingThresholds     *SubscriptionBillingThresholdsParams             `form:"billing_thresholds"`
-	CollectionMethod      *string                                          `form:"collection_method"`
-	Coupon                *string                                          `form:"coupon"`
-	DefaultPaymentMethod  *string                                          `form:"default_payment_method"`
-	DefaultTaxRates       []*string                                        `form:"default_tax_rates"`
-	EndDate               *int64                                           `form:"end_date"`
-	InvoiceSettings       *SubscriptionScheduleInvoiceSettingsParams       `form:"invoice_settings"`
-	Iterations            *int64                                           `form:"iterations"`
-	Plans                 []*SubscriptionSchedulePhaseItemParams           `form:"plans"`
-	ProrationBehavior     *string                                          `form:"proration_behavior"`
-	StartDate             *int64                                           `form:"start_date"`
-	TransferData          *SubscriptionTransferDataParams                  `form:"transfer_data"`
-	Trial                 *bool                                            `form:"trial"`
-	TrialEnd              *int64                                           `form:"trial_end"`
+	AddInvoiceItems []*SubscriptionSchedulePhaseAddInvoiceItemParams `form:"add_invoice_items"`
+	// This parameter expects a *float64 but was defined as *int64 so we're adding support for both
+	// TODO: Remove in the next major
+	ApplicationFeePercent interface{}                                `form:"application_fee_percent"`
+	BillingCycleAnchor    *string                                    `form:"billing_cycle_anchor"`
+	BillingThresholds     *SubscriptionBillingThresholdsParams       `form:"billing_thresholds"`
+	CollectionMethod      *string                                    `form:"collection_method"`
+	Coupon                *string                                    `form:"coupon"`
+	DefaultPaymentMethod  *string                                    `form:"default_payment_method"`
+	DefaultTaxRates       []*string                                  `form:"default_tax_rates"`
+	EndDate               *int64                                     `form:"end_date"`
+	InvoiceSettings       *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
+	Iterations            *int64                                     `form:"iterations"`
+	Plans                 []*SubscriptionSchedulePhaseItemParams     `form:"plans"`
+	ProrationBehavior     *string                                    `form:"proration_behavior"`
+	StartDate             *int64                                     `form:"start_date"`
+	TransferData          *SubscriptionTransferDataParams            `form:"transfer_data"`
+	Trial                 *bool                                      `form:"trial"`
+	TrialEnd              *int64                                     `form:"trial_end"`
 
 	// This parameter is deprecated and we recommend that you use TaxRates instead.
 	TaxPercent *float64 `form:"tax_percent"`

@@ -71,6 +71,36 @@ func TestSubscriptionScheduleNew(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, schedule)
 }
+func TestSubscriptionScheduleNew_ApplicationFeePercent(t *testing.T) {
+	params := &stripe.SubscriptionScheduleParams{
+		Customer:     stripe.String("cus_123"),
+		StartDateNow: stripe.Bool(true),
+		Phases: []*stripe.SubscriptionSchedulePhaseParams{
+			{
+				ApplicationFeePercent: stripe.Float64(10.123),
+				Plans: []*stripe.SubscriptionSchedulePhaseItemParams{
+					{
+						Plan:     stripe.String("plan_123"),
+						Quantity: stripe.Int64(10),
+					},
+				},
+			},
+			{
+				ApplicationFeePercent: stripe.Int64(10),
+				Plans: []*stripe.SubscriptionSchedulePhaseItemParams{
+					{
+						Plan:     stripe.String("plan_789"),
+						Quantity: stripe.Int64(30),
+					},
+				},
+			},
+		},
+		EndBehavior: stripe.String(string(stripe.SubscriptionScheduleEndBehaviorCancel)),
+	}
+	schedule, err := New(params)
+	assert.Nil(t, err)
+	assert.NotNil(t, schedule)
+}
 
 func TestSubscriptionScheduleRelease(t *testing.T) {
 	params := &stripe.SubscriptionScheduleReleaseParams{
