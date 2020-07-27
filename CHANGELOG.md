@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.38.0 - 2020-07-27
+* [#1145](https://github.com/stripe/stripe-go/pull/1145) Fix `ApplicationFeePercent` on `SubscriptionSchedule` to support floats
+
 ## 71.37.0 - 2020-07-25
 * [#1144](https://github.com/stripe/stripe-go/pull/1144) Add support for `FPXPayments` as a property on `AccountCapabilities`
 
