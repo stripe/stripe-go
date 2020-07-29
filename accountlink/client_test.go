@@ -14,7 +14,7 @@ func TestAccountLinkNew(t *testing.T) {
 		Collect:    stripe.String(string(stripe.AccountLinkCollectCurrentlyDue)),
 		RefreshURL: stripe.String("https://stripe.com/refresh"),
 		ReturnURL:  stripe.String("https://stripe.com/return"),
-		Type:       stripe.String(string(stripe.AccountLinkTypeCustomAccountVerification)),
+		Type:       stripe.String(string(stripe.AccountLinkTypeAccountOnboarding)),
 	}
 	link, err := New(params)
 	assert.Nil(t, err)

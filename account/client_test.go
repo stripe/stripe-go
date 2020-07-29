@@ -44,6 +44,14 @@ func TestAccountNew(t *testing.T) {
 			SupportPhone: stripe.String("4151234567"),
 		},
 		BusinessType: stripe.String(string(stripe.AccountBusinessTypeCompany)),
+		Capabilities: &stripe.AccountCapabilitiesParams{
+			CardPayments: &stripe.AccountCapabilitiesCardPaymentsParams{
+				Requested: stripe.Bool(true),
+			},
+			Transfers: &stripe.AccountCapabilitiesTransfersParams{
+				Requested: stripe.Bool(true),
+			},
+		},
 		Company: &stripe.AccountCompanyParams{
 			DirectorsProvided: stripe.Bool(true),
 			Name:              stripe.String("company_name"),
@@ -58,9 +66,6 @@ func TestAccountNew(t *testing.T) {
 		ExternalAccount: &stripe.AccountExternalAccountParams{
 			Token: stripe.String("tok_123"),
 		},
-		RequestedCapabilities: stripe.StringSlice([]string{
-			"card_payments",
-		}),
 		Settings: &stripe.AccountSettingsParams{
 			Branding: &stripe.AccountSettingsBrandingParams{
 				Icon: stripe.String("file_123"),
