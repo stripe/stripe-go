@@ -22,8 +22,9 @@ type Iter struct {
 	cur        interface{}
 	err        error
 	formValues *form.Values
+	list       ListContainer
 	listParams ListParams
-	meta       ListMeta
+	meta       *ListMeta
 	query      Query
 	values     []interface{}
 }
@@ -42,9 +43,15 @@ func (it *Iter) Err() error {
 	return it.err
 }
 
+// List returns the current list object which the iterator is currently using.
+// List objects will change as new API calls are made to continue pagination.
+func (it *Iter) List() ListContainer {
+	return it.list
+}
+
 // Meta returns the list metadata.
 func (it *Iter) Meta() *ListMeta {
-	return &it.meta
+	return it.meta
 }
 
 // Next advances the Iter to the next item in the list,
@@ -73,7 +80,8 @@ func (it *Iter) Next() bool {
 }
 
 func (it *Iter) getPage() {
-	it.values, it.meta, it.err = it.query(it.listParams.GetParams(), it.formValues)
+	it.values, it.list, it.err = it.query(it.listParams.GetParams(), it.formValues)
+	it.meta = it.list.GetListMeta()
 
 	if it.listParams.EndingBefore != nil {
 		// We are moving backward,
@@ -83,7 +91,7 @@ func (it *Iter) getPage() {
 }
 
 // Query is the function used to get a page listing.
-type Query func(*Params, *form.Values) ([]interface{}, ListMeta, error)
+type Query func(*Params, *form.Values) ([]interface{}, ListContainer, error)
 
 //
 // Public functions

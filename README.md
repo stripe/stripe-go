@@ -247,6 +247,31 @@ if err := i.Err(); err != nil {
 }
 ```
 
+### Accessing the Last Response
+
+Use `LastResponse` on any `APIResource` to look at the API response that
+generated the current object:
+
+``` go
+coupon, err := coupon.New(...)
+requestID := coupon.LastResponse.RequestID
+```
+
+Similarly, for `List` operations, the last response is available on the list
+object attached to the iterator:
+
+``` go
+it := coupon.List(...)
+for it.Next() {
+    requestID := it.CouponList().LastResponse.RequestID
+}
+```
+
+See the definition of [`APIResponse`][apiresponse] for available fields.
+
+Note that where API resources are nested in other API resources, only
+`LastResponse` on the top-level resource is set.
+
 ### Automatic Retries
 
 The library automatically retries requests on intermittent failures like on a
@@ -387,6 +412,7 @@ pull request][pulls].
 
 [api-docs]: https://stripe.com/docs/api/go
 [api-changelog]: https://stripe.com/docs/upgrades
+[apiresponse]: https://godoc.org/github.com/stripe/stripe-go#APIResponse
 [connect]: https://stripe.com/docs/connect/authentication
 [depgomodsupport]: https://github.com/golang/dep/pull/1963
 [godoc]: http://godoc.org/github.com/stripe/stripe-go

@@ -97,7 +97,7 @@ func List(params *stripe.InvoiceListParams) *Iter {
 
 // List returns a list of invoices.
 func (c Client) List(listParams *stripe.InvoiceListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.InvoiceList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/invoices", c.Key, b, p, list)
 
@@ -106,7 +106,7 @@ func (c Client) List(listParams *stripe.InvoiceListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -118,7 +118,7 @@ func ListLines(params *stripe.InvoiceLineListParams) *LineIter {
 // ListLines returns a list of line items on an invoice.
 func (c Client) ListLines(listParams *stripe.InvoiceLineListParams) *LineIter {
 	path := stripe.FormatURLPath("/v1/invoices/%s/lines", stripe.StringValue(listParams.ID))
-	return &LineIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &LineIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.InvoiceLineList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
@@ -127,7 +127,7 @@ func (c Client) ListLines(listParams *stripe.InvoiceLineListParams) *LineIter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -193,6 +193,13 @@ func (i *Iter) Invoice() *stripe.Invoice {
 	return i.Current().(*stripe.Invoice)
 }
 
+// InvoiceList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) InvoiceList() *stripe.InvoiceList {
+	return i.List().(*stripe.InvoiceList)
+}
+
 // LineIter is an iterator for line items on an invoice.
 type LineIter struct {
 	*stripe.Iter
@@ -201,6 +208,13 @@ type LineIter struct {
 // InvoiceLine returns the line item which the iterator is currently pointing to.
 func (i *LineIter) InvoiceLine() *stripe.InvoiceLine {
 	return i.Current().(*stripe.InvoiceLine)
+}
+
+// InvoiceLineList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) InvoiceLineList() *stripe.InvoiceLineList {
+	return i.List().(*stripe.InvoiceLineList)
 }
 
 func getC() Client {
