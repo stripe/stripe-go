@@ -27,6 +27,12 @@ import (
 Run any of the normal `go` commands (`build`/`install`/`test`). The Go
 toolchain will resolve and fetch the stripe-go module automatically.
 
+Alternatively, you can also explicitly `go get` the package into a project:
+
+```
+go get -u github.com/stripe/stripe-go/v71
+```
+
 ## Documentation
 
 For a comprehensive list of examples, check out the [API
