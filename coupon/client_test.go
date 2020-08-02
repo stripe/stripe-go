@@ -31,6 +31,12 @@ func TestCouponList(t *testing.T) {
 
 func TestCouponNew(t *testing.T) {
 	coupon, err := New(&stripe.CouponParams{
+		AppliesTo: &stripe.CouponAppliesToParams{
+			Products: stripe.StringSlice([]string{
+				"prod_123",
+				"prod_abc",
+			}),
+		},
 		Currency:         stripe.String(string(stripe.CurrencyUSD)),
 		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
 		DurationInMonths: stripe.Int64(3),

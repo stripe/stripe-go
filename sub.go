@@ -127,6 +127,7 @@ type SubscriptionParams struct {
 	PaymentBehavior             *string                                       `form:"payment_behavior"`
 	PendingInvoiceItemInterval  *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	Plan                        *string                                       `form:"plan"`
+	PromotionCode               *string                                       `form:"promotion_code"`
 	Prorate                     *bool                                         `form:"prorate"`
 	ProrationBehavior           *string                                       `form:"proration_behavior"`
 	ProrationDate               *int64                                        `form:"proration_date"`

@@ -31,6 +31,7 @@ type CustomerParams struct {
 	PaymentMethod       *string                        `form:"payment_method"`
 	Phone               *string                        `form:"phone"`
 	PreferredLocales    []*string                      `form:"preferred_locales"`
+	PromotionCode       *string                        `form:"promotion_code"`
 	Shipping            *CustomerShippingDetailsParams `form:"shipping"`
 	Source              *SourceParams                  `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 	TaxExempt           *string                        `form:"tax_exempt"`
