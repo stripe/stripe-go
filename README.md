@@ -263,6 +263,10 @@ object attached to the iterator:
 ``` go
 it := coupon.List(...)
 for it.Next() {
+    // Last response *NOT* on the individual iterator object
+    it.Coupon().LastResponse // wrong
+
+    // But rather on the list object, also accessible through the iterator
     requestID := it.CouponList().LastResponse.RequestID
 }
 ```
