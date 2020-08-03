@@ -29,6 +29,7 @@ func TestChargeList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Charge())
+	assert.NotNil(t, i.ChargeList())
 }
 
 func TestChargeNew(t *testing.T) {

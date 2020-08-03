@@ -27,6 +27,7 @@ func TestSKUList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.SKU())
+	assert.NotNil(t, i.SKUList())
 }
 
 func TestSKUNew(t *testing.T) {

@@ -30,6 +30,7 @@ func TestTerminalLocationList(t *testing.T) {
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.TerminalLocation())
 	assert.Equal(t, "terminal.location", i.TerminalLocation().Object)
+	assert.NotNil(t, i.TerminalLocationList())
 }
 
 func TestTerminalLocationNew(t *testing.T) {

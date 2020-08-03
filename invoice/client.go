@@ -213,7 +213,7 @@ func (i *LineIter) InvoiceLine() *stripe.InvoiceLine {
 // InvoiceLineList returns the current list object which the iterator is currently
 // using. List objects will change as new API calls are made to continue
 // pagination.
-func (i *Iter) InvoiceLineList() *stripe.InvoiceLineList {
+func (i *LineIter) InvoiceLineList() *stripe.InvoiceLineList {
 	return i.List().(*stripe.InvoiceLineList)
 }
 

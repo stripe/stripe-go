@@ -37,6 +37,7 @@ func TestSetupIntentList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.SetupIntent())
+	assert.NotNil(t, i.SetupIntentList())
 }
 
 func TestSetupIntentNew(t *testing.T) {

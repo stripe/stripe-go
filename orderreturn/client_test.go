@@ -23,4 +23,5 @@ func TestOrderReturnList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.OrderReturn())
+	assert.NotNil(t, i.OrderReturnList())
 }

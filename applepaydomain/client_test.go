@@ -27,6 +27,7 @@ func TestApplePayDomainList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.ApplePayDomain())
+	assert.NotNil(t, i.ApplePayDomainList())
 }
 
 func TestApplePayDomainNew(t *testing.T) {

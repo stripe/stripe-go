@@ -21,6 +21,7 @@ func TestBitcoinReceiverList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.BitcoinReceiver())
+	assert.NotNil(t, i.BitcoinReceiverList())
 }
 
 // New and Update endpoints for Bitcoin receivers no longer exist in the API or

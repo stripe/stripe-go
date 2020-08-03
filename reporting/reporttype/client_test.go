@@ -23,4 +23,5 @@ func TestReportTestList(t *testing.T) {
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.ReportType())
 	assert.Equal(t, "reporting.report_type", i.ReportType().Object)
+	assert.NotNil(t, i.ReportTypeList())
 }

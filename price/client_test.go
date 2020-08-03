@@ -32,6 +32,7 @@ func TestPriceList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Price())
+	assert.NotNil(t, i.PriceList())
 }
 
 func TestPriceNew(t *testing.T) {

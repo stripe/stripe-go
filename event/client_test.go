@@ -21,4 +21,5 @@ func TestEventList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Event())
+	assert.NotNil(t, i.EventList())
 }

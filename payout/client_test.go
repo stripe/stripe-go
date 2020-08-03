@@ -27,6 +27,7 @@ func TestPayoutList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Payout())
+	assert.NotNil(t, i.PayoutList())
 }
 
 func TestPayoutNew(t *testing.T) {

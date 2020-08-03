@@ -21,6 +21,7 @@ func TestInvoiceList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Invoice())
+	assert.NotNil(t, i.InvoiceList())
 }
 
 func TestInvoiceListLines(t *testing.T) {
@@ -32,6 +33,7 @@ func TestInvoiceListLines(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.InvoiceLine())
+	assert.NotNil(t, i.InvoiceLineList())
 }
 
 func TestInvoiceNew(t *testing.T) {

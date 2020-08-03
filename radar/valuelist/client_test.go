@@ -30,6 +30,7 @@ func TestRadarValueListList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.RadarValueList())
+	assert.NotNil(t, i.RadarValueListList())
 }
 
 func TestRadarValueListNew(t *testing.T) {

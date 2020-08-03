@@ -25,6 +25,7 @@ func TestReversalList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Reversal())
+	assert.NotNil(t, i.ReversalList())
 }
 
 func TestReversalNew(t *testing.T) {

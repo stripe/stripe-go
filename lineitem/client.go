@@ -17,5 +17,5 @@ func (i *Iter) LineItem() *stripe.LineItem {
 
 // LineItemList returns the line item which the iterator is currently pointing to.
 func (i *Iter) LineItemList() *stripe.LineItemList {
-	return i.Current().(*stripe.LineItemList)
+	return i.List().(*stripe.LineItemList)
 }

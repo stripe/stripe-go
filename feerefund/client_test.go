@@ -25,6 +25,7 @@ func TestFeeRefundList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.FeeRefund())
+	assert.NotNil(t, i.FeeRefundList())
 }
 
 func TestFeeRefundNew(t *testing.T) {

@@ -27,6 +27,7 @@ func TestRecipientList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Recipient())
+	assert.NotNil(t, i.RecipientList())
 }
 
 func TestRecipientUpdate(t *testing.T) {

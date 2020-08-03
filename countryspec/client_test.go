@@ -21,4 +21,5 @@ func TestCountrySpecList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.CountrySpec())
+	assert.NotNil(t, i.CountrySpecList())
 }

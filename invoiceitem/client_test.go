@@ -27,6 +27,7 @@ func TestInvoiceItemList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.InvoiceItem())
+	assert.NotNil(t, i.InvoiceItemList())
 }
 
 func TestInvoiceItemNew(t *testing.T) {

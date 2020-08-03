@@ -25,6 +25,7 @@ func TestCapabilityList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Capability())
+	assert.NotNil(t, i.CapabilityList())
 }
 
 func TestCapabilityUpdate(t *testing.T) {

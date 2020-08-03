@@ -30,6 +30,7 @@ func TestTerminalReaderList(t *testing.T) {
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.TerminalReader())
 	assert.Equal(t, "terminal.reader", i.TerminalReader().Object)
+	assert.NotNil(t, i.TerminalReaderList())
 }
 
 func TestTerminalReaderNew(t *testing.T) {

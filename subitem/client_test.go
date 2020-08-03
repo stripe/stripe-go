@@ -29,6 +29,7 @@ func TestSubscriptionItemList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.SubscriptionItem())
+	assert.NotNil(t, i.SubscriptionItemList())
 }
 
 func TestSubscriptionItemNew(t *testing.T) {

@@ -29,6 +29,7 @@ func TestRadarValueListItemList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.RadarValueListItem())
+	assert.NotNil(t, i.RadarValueListItemList())
 }
 
 func TestRadarValueListItemNew(t *testing.T) {

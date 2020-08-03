@@ -21,4 +21,5 @@ func TestBalanceTransactionList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.BalanceTransaction())
+	assert.NotNil(t, i.BalanceTransactionList())
 }

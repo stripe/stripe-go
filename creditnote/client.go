@@ -168,7 +168,7 @@ func (i *LineItemIter) CreditNoteLineItem() *stripe.CreditNoteLineItem {
 // CreditNoteLineItemList returns the current list object which the iterator is
 // currently using. List objects will change as new API calls are made to
 // continue pagination.
-func (i *Iter) CreditNoteLineItemList() *stripe.CreditNoteLineItemList {
+func (i *LineItemIter) CreditNoteLineItemList() *stripe.CreditNoteLineItemList {
 	return i.List().(*stripe.CreditNoteLineItemList)
 }
 

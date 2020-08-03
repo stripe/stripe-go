@@ -76,6 +76,7 @@ func TestCheckoutSessionList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.CheckoutSession())
+	assert.NotNil(t, i.CheckoutSessionList())
 }
 
 func TestCheckoutSessionListLineItems(t *testing.T) {
@@ -86,4 +87,5 @@ func TestCheckoutSessionListLineItems(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.LineItem())
+	assert.NotNil(t, i.LineItemList())
 }

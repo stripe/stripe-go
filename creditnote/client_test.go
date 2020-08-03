@@ -24,6 +24,7 @@ func TestCreditNoteList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.CreditNote())
+	assert.NotNil(t, i.CreditNoteList())
 }
 
 func TestCreditNoteListLines(t *testing.T) {
@@ -35,6 +36,7 @@ func TestCreditNoteListLines(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.CreditNoteLineItem())
+	assert.NotNil(t, i.CreditNoteLineItemList())
 }
 
 func TestCreditNoteListPreviewLines(t *testing.T) {
