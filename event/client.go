@@ -34,7 +34,7 @@ func List(params *stripe.EventListParams) *Iter {
 
 // List returns a list of events.
 func (c Client) List(listParams *stripe.EventListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.EventList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/events", c.Key, b, p, list)
 
@@ -43,7 +43,7 @@ func (c Client) List(listParams *stripe.EventListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -55,6 +55,13 @@ type Iter struct {
 // Event returns the event which the iterator is currently pointing to.
 func (i *Iter) Event() *stripe.Event {
 	return i.Current().(*stripe.Event)
+}
+
+// EventList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) EventList() *stripe.EventList {
+	return i.List().(*stripe.EventList)
 }
 
 func getC() Client {

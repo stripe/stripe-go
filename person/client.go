@@ -83,7 +83,7 @@ func List(params *stripe.PersonListParams) *Iter {
 func (c Client) List(listParams *stripe.PersonListParams) *Iter {
 	path := stripe.FormatURLPath("/v1/accounts/%s/persons", stripe.StringValue(listParams.Account))
 
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.PersonList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
@@ -92,7 +92,7 @@ func (c Client) List(listParams *stripe.PersonListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -104,6 +104,13 @@ type Iter struct {
 // Person returns the account person which the iterator is currently pointing to.
 func (i *Iter) Person() *stripe.Person {
 	return i.Current().(*stripe.Person)
+}
+
+// PersonList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) PersonList() *stripe.PersonList {
+	return i.List().(*stripe.PersonList)
 }
 
 func getC() Client {

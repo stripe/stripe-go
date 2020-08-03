@@ -59,7 +59,7 @@ func List(params *stripe.CreditNoteListParams) *Iter {
 
 // List returns a list of credit notes.
 func (c Client) List(listParams *stripe.CreditNoteListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.CreditNoteList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes", c.Key, b, p, list)
 
@@ -68,7 +68,7 @@ func (c Client) List(listParams *stripe.CreditNoteListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -80,7 +80,7 @@ func ListLines(params *stripe.CreditNoteLineItemListParams) *LineItemIter {
 // ListLines returns a list of credit note line items on a credit note.
 func (c Client) ListLines(listParams *stripe.CreditNoteLineItemListParams) *LineItemIter {
 	path := stripe.FormatURLPath("/v1/credit_notes/%s/lines", stripe.StringValue(listParams.ID))
-	return &LineItemIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &LineItemIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.CreditNoteLineItemList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
@@ -89,7 +89,7 @@ func (c Client) ListLines(listParams *stripe.CreditNoteLineItemListParams) *Line
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -100,7 +100,7 @@ func ListPreviewLines(params *stripe.CreditNoteLineItemListPreviewParams) *LineI
 
 // ListPreviewLines returns a list of lines on a previewed credit note.
 func (c Client) ListPreviewLines(listParams *stripe.CreditNoteLineItemListPreviewParams) *LineItemIter {
-	return &LineItemIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &LineItemIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.CreditNoteLineItemList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/credit_notes/preview/lines", c.Key, b, p, list)
 
@@ -109,7 +109,7 @@ func (c Client) ListPreviewLines(listParams *stripe.CreditNoteLineItemListPrevie
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -148,6 +148,13 @@ func (i *Iter) CreditNote() *stripe.CreditNote {
 	return i.Current().(*stripe.CreditNote)
 }
 
+// CreditNoteList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) CreditNoteList() *stripe.CreditNoteList {
+	return i.List().(*stripe.CreditNoteList)
+}
+
 // LineItemIter is an iterator for credit note line items on a credit note.
 type LineItemIter struct {
 	*stripe.Iter
@@ -156,6 +163,13 @@ type LineItemIter struct {
 // CreditNoteLineItem returns the credit note line item which the iterator is currently pointing to.
 func (i *LineItemIter) CreditNoteLineItem() *stripe.CreditNoteLineItem {
 	return i.Current().(*stripe.CreditNoteLineItem)
+}
+
+// CreditNoteLineItemList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) CreditNoteLineItemList() *stripe.CreditNoteLineItemList {
+	return i.List().(*stripe.CreditNoteLineItemList)
 }
 
 func getC() Client {

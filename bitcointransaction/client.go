@@ -21,7 +21,7 @@ func List(params *stripe.BitcoinTransactionListParams) *Iter {
 
 // List returns a list of bitcoin transactions.
 func (c Client) List(listParams *stripe.BitcoinTransactionListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		path := stripe.FormatURLPath("/v1/bitcoin/receivers/%s/transactions",
 			stripe.StringValue(listParams.Receiver))
 		list := &stripe.BitcoinTransactionList{}
@@ -32,7 +32,7 @@ func (c Client) List(listParams *stripe.BitcoinTransactionListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -44,6 +44,13 @@ type Iter struct {
 // BitcoinTransaction returns the bitcoin transaction which the iterator is currently pointing to.
 func (i *Iter) BitcoinTransaction() *stripe.BitcoinTransaction {
 	return i.Current().(*stripe.BitcoinTransaction)
+}
+
+// BitcoinTransactionList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) BitcoinTransactionList() *stripe.BitcoinTransactionList {
+	return i.List().(*stripe.BitcoinTransactionList)
 }
 
 func getC() Client {

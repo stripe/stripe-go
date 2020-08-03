@@ -21,7 +21,7 @@ func List(params *stripe.UsageRecordSummaryListParams) *Iter {
 
 // List returns an iterator that iterates all usage record summaries.
 func (c Client) List(listParams *stripe.UsageRecordSummaryListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		path := stripe.FormatURLPath("/v1/subscription_items/%s/usage_record_summaries", stripe.StringValue(listParams.SubscriptionItem))
 		list := &stripe.UsageRecordSummaryList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
@@ -31,7 +31,7 @@ func (c Client) List(listParams *stripe.UsageRecordSummaryListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -43,6 +43,13 @@ type Iter struct {
 // UsageRecordSummary returns the usage record summary which the iterator is currently pointing to.
 func (i *Iter) UsageRecordSummary() *stripe.UsageRecordSummary {
 	return i.Current().(*stripe.UsageRecordSummary)
+}
+
+// UsageRecordSummaryList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) UsageRecordSummaryList() *stripe.UsageRecordSummaryList {
+	return i.List().(*stripe.UsageRecordSummaryList)
 }
 
 func getC() Client {

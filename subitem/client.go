@@ -73,7 +73,7 @@ func List(params *stripe.SubscriptionItemListParams) *Iter {
 
 // List returns a list of subscription items.
 func (c Client) List(listParams *stripe.SubscriptionItemListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.SubscriptionItemList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/subscription_items", c.Key, b, p, list)
 
@@ -82,7 +82,7 @@ func (c Client) List(listParams *stripe.SubscriptionItemListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -94,6 +94,13 @@ type Iter struct {
 // SubscriptionItem returns the subscription item which the iterator is currently pointing to.
 func (i *Iter) SubscriptionItem() *stripe.SubscriptionItem {
 	return i.Current().(*stripe.SubscriptionItem)
+}
+
+// SubscriptionItemList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) SubscriptionItemList() *stripe.SubscriptionItemList {
+	return i.List().(*stripe.SubscriptionItemList)
 }
 
 func getC() Client {

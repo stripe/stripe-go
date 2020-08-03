@@ -37,7 +37,7 @@ func List(params *stripe.RadarEarlyFraudWarningListParams) *Iter {
 
 // List returns a list of early fraud warnings.
 func (c Client) List(listParams *stripe.RadarEarlyFraudWarningListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.RadarEarlyFraudWarningList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/radar/early_fraud_warnings", c.Key, b, p, list)
 
@@ -46,7 +46,7 @@ func (c Client) List(listParams *stripe.RadarEarlyFraudWarningListParams) *Iter 
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -58,6 +58,13 @@ type Iter struct {
 // RadarEarlyFraudWarning returns the early fraud warning which the iterator is currently pointing to.
 func (i *Iter) RadarEarlyFraudWarning() *stripe.RadarEarlyFraudWarning {
 	return i.Current().(*stripe.RadarEarlyFraudWarning)
+}
+
+// RadarEarlyFraudWarningList returns the current list object which the
+// iterator is currently using. List objects will change as new API calls are
+// made to continue pagination.
+func (i *Iter) RadarEarlyFraudWarningList() *stripe.RadarEarlyFraudWarningList {
+	return i.List().(*stripe.RadarEarlyFraudWarningList)
 }
 
 func getC() Client {

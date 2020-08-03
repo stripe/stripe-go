@@ -61,7 +61,7 @@ func List(params *stripe.IssuingDisputeListParams) *Iter {
 
 // List returns a list of issuing disputes.
 func (c Client) List(listParams *stripe.IssuingDisputeListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.IssuingDisputeList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/disputes", c.Key, b, p, list)
 
@@ -70,7 +70,7 @@ func (c Client) List(listParams *stripe.IssuingDisputeListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -82,6 +82,13 @@ type Iter struct {
 // IssuingDispute returns the issuing dispute which the iterator is currently pointing to.
 func (i *Iter) IssuingDispute() *stripe.IssuingDispute {
 	return i.Current().(*stripe.IssuingDispute)
+}
+
+// IssuingDisputeList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) IssuingDisputeList() *stripe.IssuingDisputeList {
+	return i.List().(*stripe.IssuingDisputeList)
 }
 
 func getC() Client {

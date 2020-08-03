@@ -61,7 +61,7 @@ func List(params *stripe.RadarValueListItemListParams) *Iter {
 
 // List returns a list of vlis.
 func (c Client) List(listParams *stripe.RadarValueListItemListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.RadarValueListItemList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/radar/value_list_items", c.Key, b, p, list)
 
@@ -70,7 +70,7 @@ func (c Client) List(listParams *stripe.RadarValueListItemListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -82,6 +82,13 @@ type Iter struct {
 // RadarValueListItem returns the vli which the iterator is currently pointing to.
 func (i *Iter) RadarValueListItem() *stripe.RadarValueListItem {
 	return i.Current().(*stripe.RadarValueListItem)
+}
+
+// RadarValueListItemList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) RadarValueListItemList() *stripe.RadarValueListItemList {
+	return i.List().(*stripe.RadarValueListItemList)
 }
 
 func getC() Client {

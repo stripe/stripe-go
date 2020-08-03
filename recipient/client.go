@@ -63,7 +63,7 @@ func List(params *stripe.RecipientListParams) *Iter {
 
 // List returns a list of recipients.
 func (c Client) List(listParams *stripe.RecipientListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.RecipientList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/recipients", c.Key, b, p, list)
 
@@ -72,7 +72,7 @@ func (c Client) List(listParams *stripe.RecipientListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -84,6 +84,13 @@ type Iter struct {
 // Recipient returns the recipient which the iterator is currently pointing to.
 func (i *Iter) Recipient() *stripe.Recipient {
 	return i.Current().(*stripe.Recipient)
+}
+
+// RecipientList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) RecipientList() *stripe.RecipientList {
+	return i.List().(*stripe.RecipientList)
 }
 
 func getC() Client {

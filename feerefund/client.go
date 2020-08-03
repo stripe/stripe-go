@@ -89,7 +89,7 @@ func (c Client) List(listParams *stripe.FeeRefundListParams) *Iter {
 	path := stripe.FormatURLPath("/v1/application_fees/%s/refunds",
 		stripe.StringValue(listParams.ApplicationFee))
 
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.FeeRefundList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
@@ -98,7 +98,7 @@ func (c Client) List(listParams *stripe.FeeRefundListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -110,6 +110,13 @@ type Iter struct {
 // FeeRefund returns the application fee refund which the iterator is currently pointing to.
 func (i *Iter) FeeRefund() *stripe.FeeRefund {
 	return i.Current().(*stripe.FeeRefund)
+}
+
+// FeeRefundList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) FeeRefundList() *stripe.FeeRefundList {
+	return i.List().(*stripe.FeeRefundList)
 }
 
 func getC() Client {

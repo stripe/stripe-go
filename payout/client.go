@@ -72,7 +72,7 @@ func List(params *stripe.PayoutListParams) *Iter {
 
 // List returns a list of payouts.
 func (c Client) List(listParams *stripe.PayoutListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.PayoutList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/payouts", c.Key, b, p, list)
 
@@ -81,7 +81,7 @@ func (c Client) List(listParams *stripe.PayoutListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -93,6 +93,13 @@ type Iter struct {
 // Payout returns the payout which the iterator is currently pointing to.
 func (i *Iter) Payout() *stripe.Payout {
 	return i.Current().(*stripe.Payout)
+}
+
+// PayoutList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) PayoutList() *stripe.PayoutList {
+	return i.List().(*stripe.PayoutList)
 }
 
 func getC() Client {

@@ -58,7 +58,7 @@ func List(params *stripe.ProductListParams) *Iter {
 
 // List returns a list of products.
 func (c Client) List(listParams *stripe.ProductListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.ProductList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/products", c.Key, b, p, list)
 
@@ -67,7 +67,7 @@ func (c Client) List(listParams *stripe.ProductListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -93,6 +93,13 @@ type Iter struct {
 // Product returns the product which the iterator is currently pointing to.
 func (i *Iter) Product() *stripe.Product {
 	return i.Current().(*stripe.Product)
+}
+
+// ProductList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) ProductList() *stripe.ProductList {
+	return i.List().(*stripe.ProductList)
 }
 
 func getC() Client {

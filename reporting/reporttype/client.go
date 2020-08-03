@@ -36,7 +36,7 @@ func List(params *stripe.ReportTypeListParams) *Iter {
 
 // List returns a list of report types.
 func (c Client) List(listParams *stripe.ReportTypeListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.ReportTypeList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/reporting/report_types", c.Key, b, p, list)
 
@@ -45,7 +45,7 @@ func (c Client) List(listParams *stripe.ReportTypeListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -57,6 +57,13 @@ type Iter struct {
 // ReportType returns the report type which the iterator is currently pointing to.
 func (i *Iter) ReportType() *stripe.ReportType {
 	return i.Current().(*stripe.ReportType)
+}
+
+// ReportTypeList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) ReportTypeList() *stripe.ReportTypeList {
+	return i.List().(*stripe.ReportTypeList)
 }
 
 func getC() Client {

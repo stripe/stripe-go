@@ -151,11 +151,11 @@ func (c Client) List(listParams *stripe.BankAccountListParams) *Iter {
 		outerErr = errors.New("Invalid bank account params: either Customer or Account need to be set")
 	}
 
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.BankAccountList{}
 
 		if outerErr != nil {
-			return nil, list.ListMeta, outerErr
+			return nil, list, outerErr
 		}
 
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
@@ -165,7 +165,7 @@ func (c Client) List(listParams *stripe.BankAccountListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -177,6 +177,13 @@ type Iter struct {
 // BankAccount returns the bank account which the iterator is currently pointing to.
 func (i *Iter) BankAccount() *stripe.BankAccount {
 	return i.Current().(*stripe.BankAccount)
+}
+
+// BankAccountList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) BankAccountList() *stripe.BankAccountList {
+	return i.List().(*stripe.BankAccountList)
 }
 
 func getC() Client {

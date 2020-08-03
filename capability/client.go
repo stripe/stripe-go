@@ -56,7 +56,7 @@ func List(params *stripe.CapabilityListParams) *Iter {
 func (c Client) List(listParams *stripe.CapabilityListParams) *Iter {
 	path := stripe.FormatURLPath("/v1/accounts/%s/capabilities", stripe.StringValue(listParams.Account))
 
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.CapabilityList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
@@ -65,7 +65,7 @@ func (c Client) List(listParams *stripe.CapabilityListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -77,6 +77,13 @@ type Iter struct {
 // Capability returns the account capability which the iterator is currently pointing to.
 func (i *Iter) Capability() *stripe.Capability {
 	return i.Current().(*stripe.Capability)
+}
+
+// CapabilityList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) CapabilityList() *stripe.CapabilityList {
+	return i.List().(*stripe.CapabilityList)
 }
 
 func getC() Client {

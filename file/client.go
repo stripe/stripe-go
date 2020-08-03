@@ -58,7 +58,7 @@ func List(params *stripe.FileListParams) *Iter {
 
 // List returns a list of files.
 func (c Client) List(listParams *stripe.FileListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.FileList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/files", c.Key, b, p, list)
 
@@ -67,7 +67,7 @@ func (c Client) List(listParams *stripe.FileListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -79,6 +79,13 @@ type Iter struct {
 // File returns the file which the iterator is currently pointing to.
 func (i *Iter) File() *stripe.File {
 	return i.Current().(*stripe.File)
+}
+
+// FileList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) FileList() *stripe.FileList {
+	return i.List().(*stripe.FileList)
 }
 
 func getC() Client {
