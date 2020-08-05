@@ -104,9 +104,10 @@ func TestAccount_Unmarshal(t *testing.T) {
 			},
 		},
 		"tos_acceptance": map[string]interface{}{
-			"date":       1528573382,
-			"ip":         "127.0.0.1",
-			"user_agent": "user agent",
+			"date":              1528573382,
+			"ip":                "127.0.0.1",
+			"user_agent":        "user agent",
+			"service_agreement": "limited",
 		},
 		"type": "custom",
 	}
@@ -158,6 +159,7 @@ func TestAccount_Unmarshal(t *testing.T) {
 	assert.Equal(t, int64(1528573382), account.TOSAcceptance.Date)
 	assert.Equal(t, "127.0.0.1", account.TOSAcceptance.IP)
 	assert.Equal(t, "user agent", account.TOSAcceptance.UserAgent)
+	assert.Equal(t, "limited", account.TOSAcceptance.ServiceAgreement)
 
 	assert.Equal(t, AccountTypeCustom, account.Type)
 }

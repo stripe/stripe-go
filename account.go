@@ -369,9 +369,10 @@ type AccountAddressParams struct {
 
 // AccountTOSAcceptanceParams represents tos_acceptance during account creation/updates.
 type AccountTOSAcceptanceParams struct {
-	Date      *int64  `form:"date"`
-	IP        *string `form:"ip"`
-	UserAgent *string `form:"user_agent"`
+	Date             *int64  `form:"date"`
+	IP               *string `form:"ip"`
+	UserAgent        *string `form:"user_agent"`
+	ServiceAgreement *string `form:"service_agreement"`
 }
 
 // AccountListParams are the parameters allowed during account listing.
@@ -561,9 +562,10 @@ type AccountSettings struct {
 
 // AccountTOSAcceptance represents status of acceptance of our terms of services for the account.
 type AccountTOSAcceptance struct {
-	Date      int64  `json:"date"`
-	IP        string `json:"ip"`
-	UserAgent string `json:"user_agent"`
+	Date             int64  `json:"date"`
+	IP               string `json:"ip"`
+	UserAgent        string `json:"user_agent"`
+	ServiceAgreement string `json:"service_agreement"`
 }
 
 // Account is the resource representing your Stripe account.
