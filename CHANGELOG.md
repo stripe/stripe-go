@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.42.0 - 2020-08-05
+* [#1150](https://github.com/stripe/stripe-go/pull/1150) Add support for the PromotionCode resource and APIs
+
 ## 71.41.0 - 2020-08-04
 * [#1152](https://github.com/stripe/stripe-go/pull/1152) Add support for `AccountType` in `ChargePaymentMethodDetailsCardPresentReceipt`
 
