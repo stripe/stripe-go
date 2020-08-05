@@ -12,19 +12,25 @@ const (
 	CouponDurationRepeating CouponDuration = "repeating"
 )
 
+// CouponAppliesToParams controls the products that a coupon applies to.
+type CouponAppliesToParams struct {
+	Products []*string `form:"products"`
+}
+
 // CouponParams is the set of parameters that can be used when creating a coupon.
 // For more details see https://stripe.com/docs/api#create_coupon.
 type CouponParams struct {
 	Params           `form:"*"`
-	AmountOff        *int64   `form:"amount_off"`
-	Currency         *string  `form:"currency"`
-	Duration         *string  `form:"duration"`
-	DurationInMonths *int64   `form:"duration_in_months"`
-	ID               *string  `form:"id"`
-	MaxRedemptions   *int64   `form:"max_redemptions"`
-	Name             *string  `form:"name"`
-	PercentOff       *float64 `form:"percent_off"`
-	RedeemBy         *int64   `form:"redeem_by"`
+	AmountOff        *int64                 `form:"amount_off"`
+	AppliesTo        *CouponAppliesToParams `form:"applies_to"`
+	Currency         *string                `form:"currency"`
+	Duration         *string                `form:"duration"`
+	DurationInMonths *int64                 `form:"duration_in_months"`
+	ID               *string                `form:"id"`
+	MaxRedemptions   *int64                 `form:"max_redemptions"`
+	Name             *string                `form:"name"`
+	PercentOff       *float64               `form:"percent_off"`
+	RedeemBy         *int64                 `form:"redeem_by"`
 }
 
 // CouponListParams is the set of parameters that can be used when listing coupons.
@@ -35,11 +41,17 @@ type CouponListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 }
 
+// CouponAppliesTo represents the products a coupon applies to.
+type CouponAppliesTo struct {
+	Products []string `json:"products"`
+}
+
 // Coupon is the resource representing a Stripe coupon.
 // For more details see https://stripe.com/docs/api#coupons.
 type Coupon struct {
 	APIResource
 	AmountOff        int64             `json:"amount_off"`
+	AppliesTo        *CouponAppliesTo  `json:"applies_to"`
 	Created          int64             `json:"created"`
 	Currency         Currency          `json:"currency"`
 	Deleted          bool              `json:"deleted"`
