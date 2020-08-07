@@ -83,6 +83,11 @@ type BillingDetailsParams struct {
 	Phone   *string        `form:"phone"`
 }
 
+// PaymentMethodAlipayParams is the set of parameters allowed for the `alipay` hash when creating a
+// PaymentMethod of type Alipay.
+type PaymentMethodAlipayParams struct {
+}
+
 // PaymentMethodAUBECSDebitParams is the set of parameters allowed for the `AUBECSDebit` hash when creating a
 // PaymentMethod of type AUBECSDebit.
 type PaymentMethodAUBECSDebitParams struct {
@@ -154,6 +159,7 @@ type PaymentMethodSepaDebitParams struct {
 // PaymentMethod.
 type PaymentMethodParams struct {
 	Params         `form:"*"`
+	Alipay         *PaymentMethodAlipayParams         `form:"alipay"`
 	AUBECSDebit    *PaymentMethodAUBECSDebitParams    `form:"au_becs_debit"`
 	BACSDebit      *PaymentMethodBACSDebitParams      `form:"bacs_debit"`
 	Bancontact     *PaymentMethodBancontactParams     `form:"bancontact"`
@@ -199,6 +205,10 @@ type BillingDetails struct {
 	Email   string   `json:"email"`
 	Name    string   `json:"name"`
 	Phone   string   `json:"phone"`
+}
+
+// PaymentMethodAlipay represents the Alipay properties.
+type PaymentMethodAlipay struct {
 }
 
 // PaymentMethodAUBECSDebit represents AUBECSDebit-specific properties (Australia Only).
@@ -310,6 +320,7 @@ type PaymentMethodSepaDebit struct {
 // PaymentMethod is the resource representing a PaymentMethod.
 type PaymentMethod struct {
 	APIResource
+	Alipay         *PaymentMethodAlipay         `json:"alipay"`
 	AUBECSDebit    *PaymentMethodAUBECSDebit    `json:"au_becs_debit"`
 	BACSDebit      *PaymentMethodBACSDebit      `json:"bacs_debit"`
 	Bancontact     *PaymentMethodBancontact     `json:"bancontact"`
