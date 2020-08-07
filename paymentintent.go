@@ -168,6 +168,7 @@ type PaymentIntentMandateDataParams struct {
 // PaymentIntentPaymentMethodDataParams represents the type-specific parameters associated with a
 // payment method on payment intent.
 type PaymentIntentPaymentMethodDataParams struct {
+	Alipay         *PaymentMethodAlipayParams      `form:"alipay"`
 	AUBECSDebit    *PaymentMethodAUBECSDebitParams `form:"au_becs_debit"`
 	BillingDetails *BillingDetailsParams           `form:"billing_details"`
 	Card           *PaymentMethodCardParams        `form:"card"`
@@ -175,6 +176,11 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Ideal          *PaymentMethodIdealParams       `form:"ideal"`
 	SepaDebit      *PaymentMethodSepaDebitParams   `form:"sepa_debit"`
 	Type           *string                         `form:"type"`
+}
+
+// PaymentIntentPaymentMethodOptionsAlipayParams represents the Alipay-specific options
+// applied to a PaymentIntent.
+type PaymentIntentPaymentMethodOptionsAlipayParams struct {
 }
 
 // PaymentIntentPaymentMethodOptionsBancontactParams represents the bancontact-specific options
@@ -210,6 +216,7 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 // PaymentIntentPaymentMethodOptionsParams represents the type-specific payment method options
 // applied to a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsParams struct {
+	Alipay     *PaymentIntentPaymentMethodOptionsAlipayParams     `form:"alipay"`
 	Bancontact *PaymentIntentPaymentMethodOptionsBancontactParams `form:"bancontact"`
 	Card       *PaymentIntentPaymentMethodOptionsCardParams       `form:"card"`
 }
@@ -264,6 +271,15 @@ type PaymentIntentListParams struct {
 	Customer     *string           `form:"customer"`
 }
 
+// PaymentIntentNextActionAlipayHandleRedirect represents the resource for the next action of type
+// "handle_alipay_redirect".
+type PaymentIntentNextActionAlipayHandleRedirect struct {
+	NativeData string `json:"native_data"`
+	NativeURL  string `json:"native_url"`
+	ReturnURL  string `json:"return_url"`
+	URL        string `json:"url"`
+}
+
 // PaymentIntentNextActionRedirectToURL represents the resource for the next action of type
 // "redirect_to_url".
 type PaymentIntentNextActionRedirectToURL struct {
@@ -273,8 +289,9 @@ type PaymentIntentNextActionRedirectToURL struct {
 
 // PaymentIntentNextAction represents the type of action to take on a payment intent.
 type PaymentIntentNextAction struct {
-	RedirectToURL *PaymentIntentNextActionRedirectToURL `json:"redirect_to_url"`
-	Type          PaymentIntentNextActionType           `json:"type"`
+	AlipayHandleRedirect *PaymentIntentNextActionAlipayHandleRedirect `json:"alipay_handle_redirect"`
+	RedirectToURL        *PaymentIntentNextActionRedirectToURL        `json:"redirect_to_url"`
+	Type                 PaymentIntentNextActionType                  `json:"type"`
 }
 
 // PaymentIntentPaymentMethodOptionsCardInstallmentsPlan describe a specific card installment plan.
@@ -290,6 +307,11 @@ type PaymentIntentPaymentMethodOptionsCardInstallments struct {
 	AvailablePlans []*PaymentIntentPaymentMethodOptionsCardInstallmentsPlan `json:"available_plans"`
 	Enabled        bool                                                     `json:"enabled"`
 	Plan           *PaymentIntentPaymentMethodOptionsCardInstallmentsPlan   `json:"plan"`
+}
+
+// PaymentIntentPaymentMethodOptionsAlipay is the set of Alipay-specific options associated
+// with that payment intent.
+type PaymentIntentPaymentMethodOptionsAlipay struct {
 }
 
 // PaymentIntentPaymentMethodOptionsBancontact is the set of bancontact-specific options associated
@@ -309,6 +331,7 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 // PaymentIntentPaymentMethodOptions is the set of payment method-specific options associated with
 // that payment intent.
 type PaymentIntentPaymentMethodOptions struct {
+	Alipay     *PaymentIntentPaymentMethodOptionsAlipay     `json:"alipay"`
 	Bancontact *PaymentIntentPaymentMethodOptionsBancontact `json:"bancontact"`
 	Card       *PaymentIntentPaymentMethodOptionsCard       `json:"card"`
 }
