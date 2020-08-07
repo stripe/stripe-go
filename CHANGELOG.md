@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.43.0 - 2020-08-07
+* [#1154](https://github.com/stripe/stripe-go/pull/1154) Add support for Alipay on `PaymentMethod` and `PaymentIntent`
+
 ## 71.42.0 - 2020-08-05
 * [#1150](https://github.com/stripe/stripe-go/pull/1150) Add support for the PromotionCode resource and APIs
 
