@@ -59,7 +59,7 @@ func List(params *stripe.PromotionCodeListParams) *Iter {
 
 // List returns a list of promotion codes.
 func (c Client) List(listParams *stripe.PromotionCodeListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.PromotionCodeList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/promotion_codes", c.Key, b, p, list)
 
@@ -68,7 +68,7 @@ func (c Client) List(listParams *stripe.PromotionCodeListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -80,6 +80,13 @@ type Iter struct {
 // PromotionCode returns the promotion code which the iterator is currently pointing to.
 func (i *Iter) PromotionCode() *stripe.PromotionCode {
 	return i.Current().(*stripe.PromotionCode)
+}
+
+// PromotionCodeList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) PromotionCodeList() *stripe.PromotionCodeList {
+	return i.List().(*stripe.PromotionCodeList)
 }
 
 func getC() Client {

@@ -26,6 +26,7 @@ func TestPromotionCodeList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.PromotionCode())
+	assert.NotNil(t, i.PromotionCodeList())
 }
 
 func TestPromotionCodeNew(t *testing.T) {
