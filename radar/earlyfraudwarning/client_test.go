@@ -21,6 +21,7 @@ func TestRadarEarlyFraudWarningList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.RadarEarlyFraudWarning())
+	assert.NotNil(t, i.RadarEarlyFraudWarningList())
 }
 
 func TestRadarEarlyFraudWarningListByChargeID(t *testing.T) {
@@ -32,4 +33,5 @@ func TestRadarEarlyFraudWarningListByChargeID(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.RadarEarlyFraudWarning())
+	assert.NotNil(t, i.RadarEarlyFraudWarningList())
 }

@@ -27,6 +27,7 @@ func TestProductList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Product())
+	assert.NotNil(t, i.ProductList())
 }
 
 func TestProductNew(t *testing.T) {

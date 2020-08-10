@@ -99,7 +99,7 @@ func List(params *stripe.AccountListParams) *Iter {
 
 // List returns an iterator that iterates all accounts.
 func (c Client) List(listParams *stripe.AccountListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.AccountList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/accounts", c.Key, b, p, list)
 
@@ -108,7 +108,7 @@ func (c Client) List(listParams *stripe.AccountListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -120,6 +120,13 @@ type Iter struct {
 // Account returns the account which the iterator is currently pointing to.
 func (i *Iter) Account() *stripe.Account {
 	return i.Current().(*stripe.Account)
+}
+
+// AccountList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) AccountList() *stripe.AccountList {
+	return i.List().(*stripe.AccountList)
 }
 
 func getC() Client {

@@ -36,6 +36,7 @@ func TestPersonList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Person())
+	assert.NotNil(t, i.PersonList())
 }
 
 func TestPersonNew(t *testing.T) {

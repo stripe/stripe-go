@@ -46,6 +46,7 @@ func TestPaymentIntentList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.PaymentIntent())
+	assert.NotNil(t, i.PaymentIntentList())
 }
 
 func TestPaymentIntentNew(t *testing.T) {

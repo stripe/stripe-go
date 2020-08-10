@@ -21,6 +21,7 @@ func TestRefundList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Refund())
+	assert.NotNil(t, i.RefundList())
 }
 
 func TestRefundNew(t *testing.T) {

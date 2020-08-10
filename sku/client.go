@@ -58,7 +58,7 @@ func List(params *stripe.SKUListParams) *Iter {
 
 // List returns a list of SKUs.
 func (c Client) List(listParams *stripe.SKUListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.SKUList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/skus", c.Key, b, p, list)
 
@@ -67,7 +67,7 @@ func (c Client) List(listParams *stripe.SKUListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -93,6 +93,13 @@ type Iter struct {
 // SKU returns the SKU which the iterator is currently pointing to.
 func (i *Iter) SKU() *stripe.SKU {
 	return i.Current().(*stripe.SKU)
+}
+
+// SKUList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) SKUList() *stripe.SKUList {
+	return i.List().(*stripe.SKUList)
 }
 
 func getC() Client {

@@ -87,7 +87,7 @@ func List(params *stripe.SetupIntentListParams) *Iter {
 
 // List returns a list of setup intents.
 func (c Client) List(listParams *stripe.SetupIntentListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.SetupIntentList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/setup_intents", c.Key, b, p, list)
 
@@ -96,7 +96,7 @@ func (c Client) List(listParams *stripe.SetupIntentListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -108,6 +108,13 @@ type Iter struct {
 // SetupIntent returns the setup intent which the iterator is currently pointing to.
 func (i *Iter) SetupIntent() *stripe.SetupIntent {
 	return i.Current().(*stripe.SetupIntent)
+}
+
+// SetupIntentList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) SetupIntentList() *stripe.SetupIntentList {
+	return i.List().(*stripe.SetupIntentList)
 }
 
 func getC() Client {

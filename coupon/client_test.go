@@ -27,6 +27,7 @@ func TestCouponList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Coupon())
+	assert.NotNil(t, i.CouponList())
 }
 
 func TestCouponNew(t *testing.T) {

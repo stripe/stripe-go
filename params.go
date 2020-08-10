@@ -66,6 +66,13 @@ func (f Filters) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
+// ListContainer is a general interface for which all list object structs
+// should comply. They achieve this by embedding a ListMeta struct and
+// inheriting its implementation of this interface.
+type ListContainer interface {
+	GetListMeta() *ListMeta
+}
+
 // ListMeta is the structure that contains the common properties
 // of List iterators. The Count property is only populated if the
 // total_count include option is passed in (see tests for example).
@@ -73,6 +80,13 @@ type ListMeta struct {
 	HasMore    bool   `json:"has_more"`
 	TotalCount uint32 `json:"total_count"`
 	URL        string `json:"url"`
+}
+
+// GetListMeta returns a ListMeta struct (itself). It exists because any
+// structs that embed ListMeta will inherit it, and thus implement the
+// ListContainer interface.
+func (l *ListMeta) GetListMeta() *ListMeta {
+	return l
 }
 
 // ListParams is the structure that contains the common properties

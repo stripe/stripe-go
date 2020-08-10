@@ -100,7 +100,7 @@ func List(params *stripe.PaymentIntentListParams) *Iter {
 
 // List returns a list of payment intents.
 func (c Client) List(listParams *stripe.PaymentIntentListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.PaymentIntentList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents", c.Key, b, p, list)
 
@@ -109,7 +109,7 @@ func (c Client) List(listParams *stripe.PaymentIntentListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -121,6 +121,13 @@ type Iter struct {
 // PaymentIntent returns the payment intent which the iterator is currently pointing to.
 func (i *Iter) PaymentIntent() *stripe.PaymentIntent {
 	return i.Current().(*stripe.PaymentIntent)
+}
+
+// PaymentIntentList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) PaymentIntentList() *stripe.PaymentIntentList {
+	return i.List().(*stripe.PaymentIntentList)
 }
 
 func getC() Client {

@@ -74,7 +74,7 @@ func List(params *stripe.ChargeListParams) *Iter {
 
 // List returns an iterator that iterates all charges.
 func (c Client) List(listParams *stripe.ChargeListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.ChargeList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/charges", c.Key, b, p, list)
 
@@ -83,7 +83,7 @@ func (c Client) List(listParams *stripe.ChargeListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -95,6 +95,13 @@ type Iter struct {
 // Charge returns the charge which the iterator is currently pointing to.
 func (i *Iter) Charge() *stripe.Charge {
 	return i.Current().(*stripe.Charge)
+}
+
+// ChargeList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) ChargeList() *stripe.ChargeList {
+	return i.List().(*stripe.ChargeList)
 }
 
 func getC() Client {

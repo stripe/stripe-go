@@ -59,7 +59,7 @@ func List(params *stripe.PriceListParams) *Iter {
 
 // List returns a list of prices.
 func (c Client) List(listParams *stripe.PriceListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.PriceList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/prices", c.Key, b, p, list)
 
@@ -68,7 +68,7 @@ func (c Client) List(listParams *stripe.PriceListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -80,6 +80,13 @@ type Iter struct {
 // Price returns the price which the iterator is currently pointing to.
 func (i *Iter) Price() *stripe.Price {
 	return i.Current().(*stripe.Price)
+}
+
+// PriceList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) PriceList() *stripe.PriceList {
+	return i.List().(*stripe.PriceList)
 }
 
 func getC() Client {

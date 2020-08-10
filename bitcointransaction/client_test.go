@@ -17,4 +17,5 @@ func TestBitcoinTransactionList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.BitcoinTransaction())
+	assert.NotNil(t, i.BitcoinTransactionList())
 }

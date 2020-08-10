@@ -33,6 +33,7 @@ func TestAccountList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Account())
+	assert.NotNil(t, i.AccountList())
 }
 
 func TestAccountNew(t *testing.T) {

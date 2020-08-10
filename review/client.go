@@ -47,7 +47,7 @@ func List(params *stripe.ReviewListParams) *Iter {
 
 // List returns a list of reviews.
 func (c Client) List(listParams *stripe.ReviewListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.ReviewList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/reviews", c.Key, b, p, list)
 
@@ -56,7 +56,7 @@ func (c Client) List(listParams *stripe.ReviewListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -68,6 +68,13 @@ type Iter struct {
 // Review returns the review which the iterator is currently pointing to.
 func (i *Iter) Review() *stripe.Review {
 	return i.Current().(*stripe.Review)
+}
+
+// ReviewList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) ReviewList() *stripe.ReviewList {
+	return i.List().(*stripe.ReviewList)
 }
 
 func getC() Client {

@@ -59,7 +59,7 @@ func List(params *stripe.RefundListParams) *Iter {
 
 // List returns a list of refunds.
 func (c Client) List(listParams *stripe.RefundListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.RefundList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/refunds", c.Key, b, p, list)
 
@@ -68,7 +68,7 @@ func (c Client) List(listParams *stripe.RefundListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -80,6 +80,13 @@ type Iter struct {
 // Refund returns the refund which the iterator is currently pointing to.
 func (i *Iter) Refund() *stripe.Refund {
 	return i.Current().(*stripe.Refund)
+}
+
+// RefundList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) RefundList() *stripe.RefundList {
+	return i.List().(*stripe.RefundList)
 }
 
 func getC() Client {

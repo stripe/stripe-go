@@ -41,6 +41,7 @@ func TestCardList_ByCustomer(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Card())
+	assert.NotNil(t, i.CardList())
 }
 
 func TestCardList_RequiresParams(t *testing.T) {

@@ -21,4 +21,5 @@ func TestExchangeRateList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.ExchangeRate())
+	assert.NotNil(t, i.ExchangeRateList())
 }

@@ -27,6 +27,7 @@ func TestDisputeList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Dispute())
+	assert.NotNil(t, i.DisputeList())
 }
 
 func TestDisputeUpdate(t *testing.T) {

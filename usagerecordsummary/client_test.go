@@ -18,4 +18,5 @@ func TestUsageRecordSummaryList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.UsageRecordSummary())
+	assert.NotNil(t, i.UsageRecordSummaryList())
 }

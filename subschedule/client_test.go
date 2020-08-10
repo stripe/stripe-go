@@ -36,6 +36,7 @@ func TestSubscriptionScheduleList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.SubscriptionSchedule())
+	assert.NotNil(t, i.SubscriptionScheduleList())
 }
 
 func TestSubscriptionScheduleNew(t *testing.T) {

@@ -21,6 +21,7 @@ func TestTransferList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Transfer())
+	assert.NotNil(t, i.TransferList())
 }
 
 func TestTransferNew(t *testing.T) {

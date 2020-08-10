@@ -25,6 +25,7 @@ func TestCustomerBalanceTransactionList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.CustomerBalanceTransaction())
+	assert.NotNil(t, i.CustomerBalanceTransactionList())
 }
 
 func TestCustomerBalanceTransactionNew(t *testing.T) {

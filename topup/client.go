@@ -71,7 +71,7 @@ func List(params *stripe.TopupListParams) *Iter {
 
 // List returns a list of topups.
 func (c Client) List(listParams *stripe.TopupListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.TopupList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/topups", c.Key, b, p, list)
 
@@ -80,7 +80,7 @@ func (c Client) List(listParams *stripe.TopupListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -92,6 +92,13 @@ type Iter struct {
 // Topup returns the topup item which the iterator is currently pointing to.
 func (i *Iter) Topup() *stripe.Topup {
 	return i.Current().(*stripe.Topup)
+}
+
+// TopupList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) TopupList() *stripe.TopupList {
+	return i.List().(*stripe.TopupList)
 }
 
 func getC() Client {

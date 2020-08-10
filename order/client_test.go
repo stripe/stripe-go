@@ -25,6 +25,7 @@ func TestOrderList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Order())
+	assert.NotNil(t, i.OrderList())
 }
 
 func TestOrderNew(t *testing.T) {

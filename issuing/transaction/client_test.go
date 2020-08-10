@@ -23,6 +23,7 @@ func TestIssuingTransactionList(t *testing.T) {
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.IssuingTransaction())
 	assert.Equal(t, "issuing.transaction", i.IssuingTransaction().Object)
+	assert.NotNil(t, i.IssuingTransactionList())
 }
 
 func TestIssuingTransactionUpdate(t *testing.T) {

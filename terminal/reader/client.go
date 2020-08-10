@@ -72,7 +72,7 @@ func List(params *stripe.TerminalReaderListParams) *Iter {
 
 // List returns a list of terminal readers.
 func (c Client) List(listParams *stripe.TerminalReaderListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.TerminalReaderList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/terminal/readers", c.Key, b, p, list)
 
@@ -81,7 +81,7 @@ func (c Client) List(listParams *stripe.TerminalReaderListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -93,6 +93,13 @@ type Iter struct {
 // TerminalReader returns the terminal reader which the iterator is currently pointing to.
 func (i *Iter) TerminalReader() *stripe.TerminalReader {
 	return i.Current().(*stripe.TerminalReader)
+}
+
+// TerminalReaderList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) TerminalReaderList() *stripe.TerminalReaderList {
+	return i.List().(*stripe.TerminalReaderList)
 }
 
 func getC() Client {

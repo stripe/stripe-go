@@ -21,4 +21,5 @@ func TestApplicationFeeList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.ApplicationFee())
+	assert.NotNil(t, i.ApplicationFeeList())
 }

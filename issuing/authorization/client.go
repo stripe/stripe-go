@@ -75,7 +75,7 @@ func List(params *stripe.IssuingAuthorizationListParams) *Iter {
 
 // List returns a list of issuing authorizations.
 func (c Client) List(listParams *stripe.IssuingAuthorizationListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.IssuingAuthorizationList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/authorizations", c.Key, b, p, list)
 
@@ -84,7 +84,7 @@ func (c Client) List(listParams *stripe.IssuingAuthorizationListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -96,6 +96,13 @@ type Iter struct {
 // IssuingAuthorization returns the issuing authorization which the iterator is currently pointing to.
 func (i *Iter) IssuingAuthorization() *stripe.IssuingAuthorization {
 	return i.Current().(*stripe.IssuingAuthorization)
+}
+
+// IssuingAuthorizationList returns the current list object which the iterator
+// is currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) IssuingAuthorizationList() *stripe.IssuingAuthorizationList {
+	return i.List().(*stripe.IssuingAuthorizationList)
 }
 
 func getC() Client {

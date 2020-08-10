@@ -38,6 +38,7 @@ func TestFileList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.File())
+	assert.NotNil(t, i.FileList())
 }
 
 func TestFileNew(t *testing.T) {

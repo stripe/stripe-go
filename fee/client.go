@@ -34,7 +34,7 @@ func List(params *stripe.ApplicationFeeListParams) *Iter {
 
 // List returns a list of application fees.
 func (c Client) List(listParams *stripe.ApplicationFeeListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.ApplicationFeeList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/application_fees", c.Key, b, p, list)
 
@@ -43,7 +43,7 @@ func (c Client) List(listParams *stripe.ApplicationFeeListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -55,6 +55,13 @@ type Iter struct {
 // ApplicationFee returns the application fee which the iterator is currently pointing to.
 func (i *Iter) ApplicationFee() *stripe.ApplicationFee {
 	return i.Current().(*stripe.ApplicationFee)
+}
+
+// ApplicationFeeList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) ApplicationFeeList() *stripe.ApplicationFeeList {
+	return i.List().(*stripe.ApplicationFeeList)
 }
 
 func getC() Client {

@@ -169,11 +169,11 @@ func (c Client) List(listParams *stripe.CardListParams) *Iter {
 		outerErr = errors.New("Invalid card params: either account, customer or recipient need to be set")
 	}
 
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.CardList{}
 
 		if outerErr != nil {
-			return nil, list.ListMeta, outerErr
+			return nil, list, outerErr
 		}
 
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
@@ -183,7 +183,7 @@ func (c Client) List(listParams *stripe.CardListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -195,6 +195,13 @@ type Iter struct {
 // Card returns the card which the iterator is currently pointing to.
 func (i *Iter) Card() *stripe.Card {
 	return i.Current().(*stripe.Card)
+}
+
+// CardList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) CardList() *stripe.CardList {
+	return i.List().(*stripe.CardList)
 }
 
 func getC() Client {

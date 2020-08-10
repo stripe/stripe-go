@@ -75,7 +75,7 @@ func List(params *stripe.TaxIDListParams) *Iter {
 func (c Client) List(listParams *stripe.TaxIDListParams) *Iter {
 	path := stripe.FormatURLPath("/v1/customers/%s/tax_ids", stripe.StringValue(listParams.Customer))
 
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.TaxIDList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
@@ -84,7 +84,7 @@ func (c Client) List(listParams *stripe.TaxIDListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -96,6 +96,13 @@ type Iter struct {
 // TaxID returns the tax id which the iterator is currently pointing to.
 func (i *Iter) TaxID() *stripe.TaxID {
 	return i.Current().(*stripe.TaxID)
+}
+
+// TaxIDList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) TaxIDList() *stripe.TaxIDList {
+	return i.List().(*stripe.TaxIDList)
 }
 
 func getC() Client {

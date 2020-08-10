@@ -61,7 +61,7 @@ func List(params *stripe.IssuingCardholderListParams) *Iter {
 
 // List returns a list of issuing cardholders.
 func (c Client) List(listParams *stripe.IssuingCardholderListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.IssuingCardholderList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/cardholders", c.Key, b, p, list)
 
@@ -70,7 +70,7 @@ func (c Client) List(listParams *stripe.IssuingCardholderListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -82,6 +82,13 @@ type Iter struct {
 // IssuingCardholder returns the issuing cardholder which the iterator is currently pointing to.
 func (i *Iter) IssuingCardholder() *stripe.IssuingCardholder {
 	return i.Current().(*stripe.IssuingCardholder)
+}
+
+// IssuingCardholderList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) IssuingCardholderList() *stripe.IssuingCardholderList {
+	return i.List().(*stripe.IssuingCardholderList)
 }
 
 func getC() Client {

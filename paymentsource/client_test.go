@@ -25,6 +25,7 @@ func TestSourceList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.PaymentSource())
+	assert.NotNil(t, i.SourceList())
 }
 
 func TestSourceNew(t *testing.T) {

@@ -21,6 +21,7 @@ func TestFileLinkList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.FileLink())
+	assert.NotNil(t, i.FileLinkList())
 }
 
 func TestFileLinkNew(t *testing.T) {

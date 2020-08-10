@@ -37,7 +37,7 @@ func List(params *stripe.BitcoinReceiverListParams) *Iter {
 
 // List returns a list of bitcoin receivers.
 func (c Client) List(listParams *stripe.BitcoinReceiverListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.BitcoinReceiverList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/bitcoin/receivers", c.Key, b, p, list)
 
@@ -46,7 +46,7 @@ func (c Client) List(listParams *stripe.BitcoinReceiverListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -58,6 +58,13 @@ type Iter struct {
 // BitcoinReceiver returns the bitcoin receiver which the iterator is currently pointing to.
 func (i *Iter) BitcoinReceiver() *stripe.BitcoinReceiver {
 	return i.Current().(*stripe.BitcoinReceiver)
+}
+
+// BitcoinReceiverList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) BitcoinReceiverList() *stripe.BitcoinReceiverList {
+	return i.List().(*stripe.BitcoinReceiverList)
 }
 
 func getC() Client {

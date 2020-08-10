@@ -35,7 +35,7 @@ func List(params *stripe.ExchangeRateListParams) *Iter {
 
 // List lists available exchange rates.
 func (c Client) List(listParams *stripe.ExchangeRateListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.ExchangeRateList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/exchange_rates", c.Key, b, p, list)
 
@@ -44,7 +44,7 @@ func (c Client) List(listParams *stripe.ExchangeRateListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -56,6 +56,13 @@ type Iter struct {
 // ExchangeRate returns the exchange rate which the iterator is currently pointing to.
 func (i *Iter) ExchangeRate() *stripe.ExchangeRate {
 	return i.Current().(*stripe.ExchangeRate)
+}
+
+// ExchangeRateList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) ExchangeRateList() *stripe.ExchangeRateList {
+	return i.List().(*stripe.ExchangeRateList)
 }
 
 func getC() Client {

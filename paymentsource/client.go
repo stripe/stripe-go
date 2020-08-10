@@ -118,11 +118,11 @@ func (s Client) List(listParams *stripe.SourceListParams) *Iter {
 			stripe.StringValue(listParams.Customer))
 	}
 
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.SourceList{}
 
 		if outerErr != nil {
-			return nil, list.ListMeta, outerErr
+			return nil, list, outerErr
 		}
 
 		err := s.B.CallRaw(http.MethodGet, path, s.Key, b, p, list)
@@ -132,7 +132,7 @@ func (s Client) List(listParams *stripe.SourceListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -170,6 +170,13 @@ type Iter struct {
 // PaymentSource returns the source which the iterator is currently pointing to.
 func (i *Iter) PaymentSource() *stripe.PaymentSource {
 	return i.Current().(*stripe.PaymentSource)
+}
+
+// SourceList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) SourceList() *stripe.SourceList {
+	return i.List().(*stripe.SourceList)
 }
 
 func getC() Client {

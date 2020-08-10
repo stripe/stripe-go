@@ -47,7 +47,7 @@ func List(params *stripe.CheckoutSessionListParams) *Iter {
 
 // List returns a list of sessions.
 func (c Client) List(listParams *stripe.CheckoutSessionListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.CheckoutSessionList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/checkout/sessions", c.Key, b, p, list)
 
@@ -56,7 +56,7 @@ func (c Client) List(listParams *stripe.CheckoutSessionListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -68,7 +68,7 @@ func ListLineItems(id string, params *stripe.CheckoutSessionListLineItemsParams)
 // ListLineItems returns a list of line items on a session.
 func (c Client) ListLineItems(id string, listParams *stripe.CheckoutSessionListLineItemsParams) *lineitem.Iter {
 	path := stripe.FormatURLPath("/v1/checkout/sessions/%s/line_items", id)
-	return &lineitem.Iter{Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &lineitem.Iter{Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.LineItemList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
@@ -77,7 +77,7 @@ func (c Client) ListLineItems(id string, listParams *stripe.CheckoutSessionListL
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -89,6 +89,13 @@ type Iter struct {
 // CheckoutSession returns the session which the iterator is currently pointing to.
 func (i *Iter) CheckoutSession() *stripe.CheckoutSession {
 	return i.Current().(*stripe.CheckoutSession)
+}
+
+// CheckoutSessionList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) CheckoutSessionList() *stripe.CheckoutSessionList {
+	return i.List().(*stripe.CheckoutSessionList)
 }
 
 func getC() Client {

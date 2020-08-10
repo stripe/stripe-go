@@ -69,7 +69,7 @@ func List(params *stripe.ReversalListParams) *Iter {
 func (c Client) List(listParams *stripe.ReversalListParams) *Iter {
 	path := stripe.FormatURLPath("/v1/transfers/%s/reversals", stripe.StringValue(listParams.Transfer))
 
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.ReversalList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
@@ -78,7 +78,7 @@ func (c Client) List(listParams *stripe.ReversalListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -90,6 +90,13 @@ type Iter struct {
 // Reversal returns the transfer reversal which the iterator is currently pointing to.
 func (i *Iter) Reversal() *stripe.Reversal {
 	return i.Current().(*stripe.Reversal)
+}
+
+// ReversalList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) ReversalList() *stripe.ReversalList {
+	return i.List().(*stripe.ReversalList)
 }
 
 func getC() Client {

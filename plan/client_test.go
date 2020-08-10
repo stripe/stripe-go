@@ -27,6 +27,7 @@ func TestPlanList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.Plan())
+	assert.NotNil(t, i.PlanList())
 }
 
 func TestPlanNew(t *testing.T) {

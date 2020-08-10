@@ -27,6 +27,7 @@ func TestWebhookEndpointList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.WebhookEndpoint())
+	assert.NotNil(t, i.WebhookEndpointList())
 }
 
 func TestWebhookEndpointNew(t *testing.T) {

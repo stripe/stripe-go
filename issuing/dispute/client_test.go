@@ -23,6 +23,7 @@ func TestIssuingDisputeList(t *testing.T) {
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.IssuingDispute())
 	assert.Equal(t, "issuing.dispute", i.IssuingDispute().Object)
+	assert.NotNil(t, i.IssuingDisputeList())
 }
 
 func TestIssuingDisputeNew(t *testing.T) {

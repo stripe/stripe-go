@@ -43,6 +43,7 @@ func TestBankAccountList_ByCustomer(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.BankAccount())
+	assert.NotNil(t, i.BankAccountList())
 }
 
 func TestBankAccountNew_ByAccount(t *testing.T) {

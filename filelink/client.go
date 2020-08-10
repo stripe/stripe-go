@@ -61,7 +61,7 @@ func List(params *stripe.FileLinkListParams) *Iter {
 
 // List returns an iterator that iterates all file links.
 func (c Client) List(listParams *stripe.FileLinkListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.FileLinkList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/file_links", c.Key, b, p, list)
 
@@ -70,7 +70,7 @@ func (c Client) List(listParams *stripe.FileLinkListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -82,6 +82,13 @@ type Iter struct {
 // FileLink returns the file link which the iterator is currently pointing to.
 func (i *Iter) FileLink() *stripe.FileLink {
 	return i.Current().(*stripe.FileLink)
+}
+
+// FileLinkList returns the current list object which the iterator is currently
+// using. List objects will change as new API calls are made to continue
+// pagination.
+func (i *Iter) FileLinkList() *stripe.FileLinkList {
+	return i.List().(*stripe.FileLinkList)
 }
 
 func getC() Client {

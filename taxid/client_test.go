@@ -33,6 +33,7 @@ func TestTaxIDList(t *testing.T) {
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
 	assert.NotNil(t, i.TaxID())
+	assert.NotNil(t, i.TaxIDList())
 }
 
 func TestTaxIDNew(t *testing.T) {

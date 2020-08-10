@@ -72,7 +72,7 @@ func List(params *stripe.TerminalLocationListParams) *Iter {
 
 // List returns a list of terminal location.
 func (c Client) List(listParams *stripe.TerminalLocationListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.TerminalLocationList{}
 		err := c.B.CallRaw(http.MethodGet, "/v1/terminal/locations", c.Key, b, p, list)
 
@@ -81,7 +81,7 @@ func (c Client) List(listParams *stripe.TerminalLocationListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -93,6 +93,13 @@ type Iter struct {
 // TerminalLocation returns the terminal location which the iterator is currently pointing to.
 func (i *Iter) TerminalLocation() *stripe.TerminalLocation {
 	return i.Current().(*stripe.TerminalLocation)
+}
+
+// TerminalLocationList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) TerminalLocationList() *stripe.TerminalLocationList {
+	return i.List().(*stripe.TerminalLocationList)
 }
 
 func getC() Client {

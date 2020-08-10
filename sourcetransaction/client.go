@@ -32,11 +32,11 @@ func (c Client) List(listParams *stripe.SourceTransactionListParams) *Iter {
 			stripe.StringValue(listParams.Source))
 	}
 
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListMeta, error) {
+	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.SourceTransactionList{}
 
 		if outerErr != nil {
-			return nil, list.ListMeta, outerErr
+			return nil, list, outerErr
 		}
 
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
@@ -46,7 +46,7 @@ func (c Client) List(listParams *stripe.SourceTransactionListParams) *Iter {
 			ret[i] = v
 		}
 
-		return ret, list.ListMeta, err
+		return ret, list, err
 	})}
 }
 
@@ -58,6 +58,13 @@ type Iter struct {
 // SourceTransaction returns the source transaction which the iterator is currently pointing to.
 func (i *Iter) SourceTransaction() *stripe.SourceTransaction {
 	return i.Current().(*stripe.SourceTransaction)
+}
+
+// SourceTransactionList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) SourceTransactionList() *stripe.SourceTransactionList {
+	return i.List().(*stripe.SourceTransactionList)
 }
 
 func getC() Client {
