@@ -1064,6 +1064,9 @@ var encodedUserAgent string
 //
 // Can be overridden with the function `SetHTTPClient` or by setting the
 // `HTTPClient` value when using `BackendConfig`.
+//
+// When adding something new here, see also `stripe_go115.go` where you'll want
+// to add it as well.
 var httpClient = &http.Client{
 	Timeout: defaultHTTPTimeout,
 
@@ -1093,7 +1096,7 @@ var httpClient = &http.Client{
 	// (Written 2019/07/24.)
 	//
 	// UPDATE: With the release of Go 1.15, this bug has been fixed.
-	// As such, stripego115.go contains conditionally-compiled code that sets
+	// As such, `stripe_go115.go` contains conditionally-compiled code that sets
 	// a different HTTP client as the default, since Go 1.15+ does not contain
 	// the aforementioned HTTP/2 bug.
 	Transport: &http.Transport{
