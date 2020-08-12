@@ -1091,6 +1091,11 @@ var httpClient = &http.Client{
 	// own HTTP client with it enabled. See `testing/testing.go`.
 	//
 	// (Written 2019/07/24.)
+	//
+	// UPDATE: With the release of Go 1.15, this bug has been fixed.
+	// As such, stripego115.go contains conditionally-compiled code that sets
+	// a different HTTP client as the default, since Go 1.15+ does not contain
+	// the aforementioned HTTP/2 bug.
 	Transport: &http.Transport{
 		TLSNextProto: make(map[string]func(string, *tls.Conn) http.RoundTripper),
 	},
