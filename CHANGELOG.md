@@ -2,8 +2,7 @@
 
 ## 71.45.0 - 2020-08-13
 * [#1160](https://github.com/stripe/stripe-go/pull/1160) Add support for `BankName` on `ChargePaymentMethodDetailsAcssDebit`
-* [#1158](https://github.com/stripe/stripe-go/pull/1158) Add Go 1.15 to the build matrix
-* [#1156](https://github.com/stripe/stripe-go/pull/1156) Re-enable H/2 on the default HTTP client for Go 1.15+
+* [#1156](https://github.com/stripe/stripe-go/pull/1156) Re-enable HTTP/2 on the default HTTP client for Go 1.15+
 
 ## 71.44.0 - 2020-08-10
 * [#1148](https://github.com/stripe/stripe-go/pull/1148) Make original list object accessible on iterators
