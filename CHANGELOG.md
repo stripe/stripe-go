@@ -1,5 +1,10 @@
 # Changelog
 
+## 71.45.0 - 2020-08-13
+* [#1160](https://github.com/stripe/stripe-go/pull/1160) Add support for `BankName` on `ChargePaymentMethodDetailsAcssDebit`
+* [#1158](https://github.com/stripe/stripe-go/pull/1158) Add Go 1.15 to the build matrix
+* [#1156](https://github.com/stripe/stripe-go/pull/1156) Re-enable H/2 on the default HTTP client for Go 1.15+
+
 ## 71.44.0 - 2020-08-10
 * [#1148](https://github.com/stripe/stripe-go/pull/1148) Make original list object accessible on iterators
     * This change is technically breaking in that an exported type, `stripe.Query`, changes from `type Query func(*Params, *form.Values) ([]interface{}, ListMeta, error)` to `type Query func(*Params, *form.Values) ([]interface{}, ListContainer, error)`. We've opted to ship this as a minor version anyway because although exported, `Query` is meant for internal use in other stripe-go packages and the vast majority of users are unlikely to be referencing it. If you are, please refer to the diff in https://github.com/stripe/stripe-go/pull/1148 for how to update callsites accordingly. If you think there is a major use of `Query` that we've likely overlooked, please open an issue.
