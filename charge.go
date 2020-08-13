@@ -243,6 +243,7 @@ type ChargePaymentMethodDetailsAchDebit struct {
 
 // ChargePaymentMethodDetailsAcssDebit represents details about the ACSS Debit PaymentMethod.
 type ChargePaymentMethodDetailsAcssDebit struct {
+	BankName          string `json:"bank_name"`
 	Fingerprint       string `json:"fingerprint"`
 	InstitutionNumber string `json:"institution_number"`
 	Last4             string `json:"last4"`
