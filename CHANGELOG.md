@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.46.0 - 2020-08-17
+* [#1163](https://github.com/stripe/stripe-go/pull/1163) Add support for `AmountDetails` on Issuing `Authorization` and `Transaction`
+
 ## 71.45.0 - 2020-08-13
 * [#1160](https://github.com/stripe/stripe-go/pull/1160) Add support for `BankName` on `ChargePaymentMethodDetailsAcssDebit`
 * [#1156](https://github.com/stripe/stripe-go/pull/1156) Re-enable HTTP/2 on the default HTTP client for Go 1.15+
