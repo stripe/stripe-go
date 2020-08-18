@@ -46,6 +46,11 @@ type IssuingTransactionListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 }
 
+// IssuingTransactionAmountDetails is the resource representing the breakdown of the amount.
+type IssuingTransactionAmountDetails struct {
+	ATMFee int64 `json:"atm_fee"`
+}
+
 // IssuingTransactionPurchaseDetailsFlightSegment contains extra information about the flight in this transaction.
 type IssuingTransactionPurchaseDetailsFlightSegment struct {
 	ArrivalAirportCode   string `json:"arrival_airport_code"`
@@ -100,6 +105,7 @@ type IssuingTransactionPurchaseDetails struct {
 type IssuingTransaction struct {
 	APIResource
 	Amount             int64                              `json:"amount"`
+	AmountDetails      *IssuingTransactionAmountDetails   `json:"amount_details"`
 	Authorization      *IssuingAuthorization              `json:"authorization"`
 	BalanceTransaction *BalanceTransaction                `json:"balance_transaction"`
 	Card               *IssuingCard                       `json:"card"`

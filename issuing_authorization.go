@@ -117,6 +117,11 @@ type IssuingAuthorizationListParams struct {
 	Status       *string           `form:"status"`
 }
 
+// IssuingAuthorizationAmountDetails is the resource representing the breakdown of the amount.
+type IssuingAuthorizationAmountDetails struct {
+	ATMFee int64 `json:"atm_fee"`
+}
+
 // IssuingAuthorizationMerchantData is the resource representing merchant data on Issuing APIs.
 type IssuingAuthorizationMerchantData struct {
 	Category   string `json:"category"`
@@ -130,16 +135,18 @@ type IssuingAuthorizationMerchantData struct {
 
 // IssuingAuthorizationPendingRequest is the resource representing details about the pending authorization request.
 type IssuingAuthorizationPendingRequest struct {
-	Amount               int64    `json:"amount"`
-	Currency             Currency `json:"currency"`
-	IsAmountControllable bool     `json:"is_amount_controllable"`
-	MerchantAmount       int64    `json:"merchant_amount"`
-	MerchantCurrency     Currency `json:"merchant_currency"`
+	Amount               int64                              `json:"amount"`
+	AmountDetails        *IssuingAuthorizationAmountDetails `json:"amount_details"`
+	Currency             Currency                           `json:"currency"`
+	IsAmountControllable bool                               `json:"is_amount_controllable"`
+	MerchantAmount       int64                              `json:"merchant_amount"`
+	MerchantCurrency     Currency                           `json:"merchant_currency"`
 }
 
 // IssuingAuthorizationRequestHistory is the resource representing a request history on an issuing authorization.
 type IssuingAuthorizationRequestHistory struct {
 	Amount           int64                                    `json:"amount"`
+	AmountDetails    *IssuingAuthorizationAmountDetails       `json:"amount_details"`
 	Approved         bool                                     `json:"approved"`
 	Created          int64                                    `json:"created"`
 	Currency         Currency                                 `json:"currency"`
@@ -160,6 +167,7 @@ type IssuingAuthorizationVerificationData struct {
 type IssuingAuthorization struct {
 	APIResource
 	Amount              int64                                   `json:"amount"`
+	AmountDetails       *IssuingAuthorizationAmountDetails      `json:"amount_details"`
 	Approved            bool                                    `json:"approved"`
 	AuthorizationMethod IssuingAuthorizationAuthorizationMethod `json:"authorization_method"`
 	BalanceTransactions []*BalanceTransaction                   `json:"balance_transactions"`
