@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.47.0 - 2020-08-19
+* [#1165](https://github.com/stripe/stripe-go/pull/1165) Add support for `ExpiresAt` on `File`
+
 ## 71.46.0 - 2020-08-17
 * [#1163](https://github.com/stripe/stripe-go/pull/1163) Add support for `AmountDetails` on Issuing `Authorization` and `Transaction`
 
