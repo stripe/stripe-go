@@ -67,14 +67,16 @@ type FileListParams struct {
 // For more details see https://stripe.com/docs/api#file_object.
 type File struct {
 	APIResource
-	Created  int64         `json:"created"`
-	ID       string        `json:"id"`
-	Filename string        `json:"filename"`
-	Links    *FileLinkList `json:"links"`
-	Purpose  FilePurpose   `json:"purpose"`
-	Size     int64         `json:"size"`
-	Type     string        `json:"type"`
-	URL      string        `json:"url"`
+	Created   int64         `json:"created"`
+	ExpiresAt int64         `json:"expires_at"`
+	Filename  string        `json:"filename"`
+	ID        string        `json:"id"`
+	Links     *FileLinkList `json:"links"`
+	Object    string        `json:"object"`
+	Purpose   FilePurpose   `json:"purpose"`
+	Size      int64         `json:"size"`
+	Type      string        `json:"type"`
+	URL       string        `json:"url"`
 }
 
 // FileList is a list of files as retrieved from a list endpoint.
