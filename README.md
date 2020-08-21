@@ -364,6 +364,7 @@ c.Customer.Name  // All other fields are always empty
 //
 p := &CustomerParams{}
 p.AddExpand("customer")
+c, _ := charge.Retrieve("ch_123", p)
 
 c.Customer.ID    // ID is still available
 c.Customer.Name  // Name is now also available (if it had a value)
