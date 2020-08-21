@@ -343,6 +343,32 @@ support this interface out-of-the-box so it's possible to set
 `DefaultLeveledLogger` to a `*logrus.Logger` or `*zap.SugaredLogger` directly.
 For others it may be necessary to write a thin shim layer to support them.
 
+### Expanding Objects
+
+All [expandable objects][expandableobjects] in stripe-go take the form of a
+full resource struct, but unless expansion is requested, only the `ID` field of
+that struct is populated. Expansion is requested by calling `AddExpand` on
+parameter structs. For example:
+
+``` go
+//
+// *Without* expansion
+//
+c, _ := charge.Retrieve("ch_123", nil)
+
+c.Customer.ID    // Only ID is populated
+c.Customer.Name  // All other fields are always empty
+
+//
+// With expansion
+//
+p := &CustomerParams{}
+p.AddExpand("customer")
+
+c.Customer.ID    // ID is still available
+c.Customer.Name  // Name is now also available (if it had a value)
+```
+
 ### Writing a Plugin
 
 If you're writing a plugin that uses the library, we'd appreciate it if you
@@ -419,6 +445,7 @@ pull request][pulls].
 [apiresponse]: https://godoc.org/github.com/stripe/stripe-go#APIResponse
 [connect]: https://stripe.com/docs/connect/authentication
 [depgomodsupport]: https://github.com/golang/dep/pull/1963
+[expandableobjects]: https://stripe.com/docs/api/expanding_objects
 [godoc]: http://godoc.org/github.com/stripe/stripe-go
 [gomodrevert]: https://github.com/stripe/stripe-go/pull/774
 [gomodvsdep]: https://github.com/stripe/stripe-go/pull/712
