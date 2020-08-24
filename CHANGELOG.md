@@ -1,5 +1,8 @@
 # Changelog
 
+## 71.48.0 - 2020-08-24
+* [#1153](https://github.com/stripe/stripe-go/pull/1153) Add support for `ServiceAgreement` in `AccountTOSAcceptance` on `Account`
+
 ## 71.47.0 - 2020-08-19
 * [#1165](https://github.com/stripe/stripe-go/pull/1165) Add support for `ExpiresAt` on `File`
 
