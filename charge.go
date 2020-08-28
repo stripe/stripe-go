@@ -82,7 +82,6 @@ const (
 	ChargePaymentMethodDetailsTypeAUBECSDebit       ChargePaymentMethodDetailsType = "au_becs_debit"
 	ChargePaymentMethodDetailsTypeBACSDebit         ChargePaymentMethodDetailsType = "bacs_debit"
 	ChargePaymentMethodDetailsTypeBancontact        ChargePaymentMethodDetailsType = "bancontact"
-	ChargePaymentMethodDetailsTypeBitcoin           ChargePaymentMethodDetailsType = "bitcoin" // This is unsupported today and is here for legacy charges.
 	ChargePaymentMethodDetailsTypeCard              ChargePaymentMethodDetailsType = "card"
 	ChargePaymentMethodDetailsTypeCardPresent       ChargePaymentMethodDetailsType = "card_present"
 	ChargePaymentMethodDetailsTypeEps               ChargePaymentMethodDetailsType = "eps"
@@ -281,16 +280,6 @@ type ChargePaymentMethodDetailsBancontact struct {
 	IbanLast4         string `json:"iban_last4"`
 	PreferredLanguage string `json:"preferred_language"`
 	VerifiedName      string `json:"verified_name"`
-}
-
-// ChargePaymentMethodDetailsBitcoin represents details about the Bitcoin PaymentMethod.
-type ChargePaymentMethodDetailsBitcoin struct {
-	Address        string `json:"address"`
-	Amount         int64  `json:"amount"`
-	AmountCharged  int64  `json:"amount_charged"`
-	AmountReceived int64  `json:"amount_received"`
-	AmountReturned int64  `json:"amount_returned"`
-	RefundAddress  string `json:"refund_address"`
 }
 
 // ChargePaymentMethodDetailsCardChecks represents the checks associated with the charge's Card
@@ -531,7 +520,6 @@ type ChargePaymentMethodDetails struct {
 	AUBECSDebit       *ChargePaymentMethodDetailsAUBECSDebit       `json:"au_becs_debit"`
 	BACSDebit         *ChargePaymentMethodDetailsBACSDebit         `json:"bacs_debit"`
 	Bancontact        *ChargePaymentMethodDetailsBancontact        `json:"bancontact"`
-	Bitcoin           *ChargePaymentMethodDetailsBitcoin           `json:"bitcoin"`
 	Card              *ChargePaymentMethodDetailsCard              `json:"card"`
 	CardPresent       *ChargePaymentMethodDetailsCardPresent       `json:"card_present"`
 	Eps               *ChargePaymentMethodDetailsEps               `json:"eps"`

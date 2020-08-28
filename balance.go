@@ -5,11 +5,9 @@ type BalanceSourceType string
 
 // List of values that BalanceSourceType can take.
 const (
-	BalanceSourceTypeAlipayAccount   BalanceSourceType = "alipay_account"
-	BalanceSourceTypeBankAccount     BalanceSourceType = "bank_account"
-	BalanceSourceTypeBitcoinReceiver BalanceSourceType = "bitcoin_receiver"
-	BalanceSourceTypeCard            BalanceSourceType = "card"
-	BalanceSourceTypeFPX             BalanceSourceType = "fpx"
+	BalanceSourceTypeBankAccount BalanceSourceType = "bank_account"
+	BalanceSourceTypeCard        BalanceSourceType = "card"
+	BalanceSourceTypeFPX         BalanceSourceType = "fpx"
 )
 
 // BalanceTransactionStatus is the list of allowed values for the balance transaction's status.

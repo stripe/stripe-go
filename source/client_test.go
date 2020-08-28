@@ -16,7 +16,7 @@ func TestSourceGet(t *testing.T) {
 
 func TestSourceNew(t *testing.T) {
 	source, err := New(&stripe.SourceObjectParams{
-		Type:     stripe.String("bitcoin"),
+		Type:     stripe.String("ach_credit_transfer"),
 		Amount:   stripe.Int64(1000),
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
 		Flow:     stripe.String(string(stripe.SourceFlowReceiver)),

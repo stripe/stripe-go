@@ -12,11 +12,10 @@ type PaymentSourceType string
 
 // List of values that PaymentSourceType can take.
 const (
-	PaymentSourceTypeAccount         PaymentSourceType = "account"
-	PaymentSourceTypeBankAccount     PaymentSourceType = "bank_account"
-	PaymentSourceTypeBitcoinReceiver PaymentSourceType = "bitcoin_receiver"
-	PaymentSourceTypeCard            PaymentSourceType = "card"
-	PaymentSourceTypeObject          PaymentSourceType = "source"
+	PaymentSourceTypeAccount     PaymentSourceType = "account"
+	PaymentSourceTypeBankAccount PaymentSourceType = "bank_account"
+	PaymentSourceTypeCard        PaymentSourceType = "card"
+	PaymentSourceTypeObject      PaymentSourceType = "source"
 )
 
 // SourceParams is a union struct used to describe an
@@ -64,7 +63,7 @@ func (cp *CustomerSourceParams) SetSource(sp interface{}) error {
 //
 // Currently supported source types are Card (CardParams) and
 // Tokens/IDs (string), where Tokens could be single use card
-// tokens or bitcoin receiver ids
+// tokens
 func SourceParamsFor(obj interface{}) (*SourceParams, error) {
 	var sp *SourceParams
 	var err error
@@ -84,17 +83,16 @@ func SourceParamsFor(obj interface{}) (*SourceParams, error) {
 }
 
 // PaymentSource describes the payment source used to make a Charge.
-// The Type should indicate which object is fleshed out (eg. BitcoinReceiver or Card)
+// The Type should indicate which object is fleshed out (eg. BankAccount or Card)
 // For more details see https://stripe.com/docs/api#retrieve_charge
 type PaymentSource struct {
 	APIResource
-	BankAccount     *BankAccount      `json:"-"`
-	BitcoinReceiver *BitcoinReceiver  `json:"-"`
-	Card            *Card             `json:"-"`
-	Deleted         bool              `json:"deleted"`
-	ID              string            `json:"id"`
-	SourceObject    *Source           `json:"-"`
-	Type            PaymentSourceType `json:"object"`
+	BankAccount  *BankAccount      `json:"-"`
+	Card         *Card             `json:"-"`
+	Deleted      bool              `json:"deleted"`
+	ID           string            `json:"id"`
+	SourceObject *Source           `json:"-"`
+	Type         PaymentSourceType `json:"object"`
 }
 
 // SourceList is a list object for cards.
@@ -132,8 +130,6 @@ func (s *PaymentSource) UnmarshalJSON(data []byte) error {
 	switch s.Type {
 	case PaymentSourceTypeBankAccount:
 		err = json.Unmarshal(data, &s.BankAccount)
-	case PaymentSourceTypeBitcoinReceiver:
-		err = json.Unmarshal(data, &s.BitcoinReceiver)
 	case PaymentSourceTypeCard:
 		err = json.Unmarshal(data, &s.Card)
 	case PaymentSourceTypeObject:
@@ -150,14 +146,6 @@ func (s *PaymentSource) MarshalJSON() ([]byte, error) {
 	var target interface{}
 
 	switch s.Type {
-	case PaymentSourceTypeBitcoinReceiver:
-		target = struct {
-			*BitcoinReceiver
-			Type PaymentSourceType `json:"object"`
-		}{
-			BitcoinReceiver: s.BitcoinReceiver,
-			Type:            s.Type,
-		}
 	case PaymentSourceTypeCard:
 		var customerID *string
 		if s.Card.Customer != nil {

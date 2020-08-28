@@ -10,8 +10,6 @@ import (
 	"github.com/stripe/stripe-go/v71/balancetransaction"
 	"github.com/stripe/stripe-go/v71/bankaccount"
 	billingportalsession "github.com/stripe/stripe-go/v71/billingportal/session"
-	"github.com/stripe/stripe-go/v71/bitcoinreceiver"
-	"github.com/stripe/stripe-go/v71/bitcointransaction"
 	"github.com/stripe/stripe-go/v71/capability"
 	"github.com/stripe/stripe-go/v71/card"
 	"github.com/stripe/stripe-go/v71/charge"
@@ -25,7 +23,6 @@ import (
 	"github.com/stripe/stripe-go/v71/dispute"
 	"github.com/stripe/stripe-go/v71/ephemeralkey"
 	"github.com/stripe/stripe-go/v71/event"
-	"github.com/stripe/stripe-go/v71/exchangerate"
 	"github.com/stripe/stripe-go/v71/fee"
 	"github.com/stripe/stripe-go/v71/feerefund"
 	"github.com/stripe/stripe-go/v71/file"
@@ -54,7 +51,6 @@ import (
 	"github.com/stripe/stripe-go/v71/radar/earlyfraudwarning"
 	"github.com/stripe/stripe-go/v71/radar/valuelist"
 	"github.com/stripe/stripe-go/v71/radar/valuelistitem"
-	"github.com/stripe/stripe-go/v71/recipient"
 	"github.com/stripe/stripe-go/v71/refund"
 	"github.com/stripe/stripe-go/v71/reporting/reportrun"
 	"github.com/stripe/stripe-go/v71/reporting/reporttype"
@@ -73,7 +69,6 @@ import (
 	terminalconnectiontoken "github.com/stripe/stripe-go/v71/terminal/connectiontoken"
 	terminallocation "github.com/stripe/stripe-go/v71/terminal/location"
 	terminalreader "github.com/stripe/stripe-go/v71/terminal/reader"
-	"github.com/stripe/stripe-go/v71/threedsecure"
 	"github.com/stripe/stripe-go/v71/token"
 	"github.com/stripe/stripe-go/v71/topup"
 	"github.com/stripe/stripe-go/v71/transfer"
@@ -98,10 +93,6 @@ type API struct {
 	BankAccounts *bankaccount.Client
 	// BillingPortalSessions is the client used to invoke /billing_portal/sessions APIs.
 	BillingPortalSessions *billingportalsession.Client
-	// BitcoinReceivers is the client used to invoke /bitcoin/receivers APIs.
-	BitcoinReceivers *bitcoinreceiver.Client
-	// BitcoinTransactions is the client used to invoke /bitcoin/transactions APIs.
-	BitcoinTransactions *bitcointransaction.Client
 	// Capabilities is the client used to invoke capability related APIs.
 	Capabilities *capability.Client
 	// Cards is the client used to invoke card related APIs.
@@ -128,8 +119,6 @@ type API struct {
 	EphemeralKeys *ephemeralkey.Client
 	// Events is the client used to invoke /events APIs.
 	Events *event.Client
-	// ExchangeRates is the client used to invoke /exchange_rates APIs.
-	ExchangeRates *exchangerate.Client
 	// Fees is the client used to invoke /application_fees APIs.
 	Fees *fee.Client
 	// FeeRefunds is the client used to invoke /application_fees/refunds APIs.
@@ -186,8 +175,6 @@ type API struct {
 	RadarValueLists *valuelist.Client
 	// RadarValueListItems is the client used to invoke /radar/value_list_items APIs.
 	RadarValueListItems *valuelistitem.Client
-	// Recipients is the client used to invoke /recipients APIs.
-	Recipients *recipient.Client
 	// Refunds is the client used to invoke /refunds APIs.
 	Refunds *refund.Client
 	// ReportRuns is the client used to invoke /reporting/report_runs APIs.
@@ -224,8 +211,6 @@ type API struct {
 	TerminalLocations *terminallocation.Client
 	// TerminalReaders is the client used to invoke /terminal/readers related APIs.
 	TerminalReaders *terminalreader.Client
-	// ThreeDSecures is the client used to invoke /3d_secure related APIs.
-	ThreeDSecures *threedsecure.Client
 	// Tokens is the client used to invoke /tokens APIs.
 	Tokens *token.Client
 	// Topups is the client used to invoke /tokens APIs.
@@ -258,8 +243,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BalanceTransaction = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BillingPortalSessions = &billingportalsession.Client{B: backends.API, Key: key}
-	a.BitcoinReceivers = &bitcoinreceiver.Client{B: backends.API, Key: key}
-	a.BitcoinTransactions = &bitcointransaction.Client{B: backends.API, Key: key}
 	a.Capabilities = &capability.Client{B: backends.API, Key: key}
 	a.Cards = &card.Client{B: backends.API, Key: key}
 	a.Charges = &charge.Client{B: backends.API, Key: key}
@@ -272,7 +255,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Discounts = &discount.Client{B: backends.API, Key: key}
 	a.Disputes = &dispute.Client{B: backends.API, Key: key}
 	a.EphemeralKeys = &ephemeralkey.Client{B: backends.API, Key: key}
-	a.ExchangeRates = &exchangerate.Client{B: backends.API, Key: key}
 	a.Events = &event.Client{B: backends.API, Key: key}
 	a.Fees = &fee.Client{B: backends.API, Key: key}
 	a.FeeRefunds = &feerefund.Client{B: backends.API, Key: key}
@@ -302,7 +284,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.RadarEarlyFraudWarnings = &earlyfraudwarning.Client{B: backends.API, Key: key}
 	a.RadarValueLists = &valuelist.Client{B: backends.API, Key: key}
 	a.RadarValueListItems = &valuelistitem.Client{B: backends.API, Key: key}
-	a.Recipients = &recipient.Client{B: backends.API, Key: key}
 	a.Refunds = &refund.Client{B: backends.API, Key: key}
 	a.ReportRuns = &reportrun.Client{B: backends.API, Key: key}
 	a.ReportTypes = &reporttype.Client{B: backends.API, Key: key}
@@ -321,7 +302,6 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TerminalConnectionTokens = &terminalconnectiontoken.Client{B: backends.API, Key: key}
 	a.TerminalLocations = &terminallocation.Client{B: backends.API, Key: key}
 	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
-	a.ThreeDSecures = &threedsecure.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
 	a.Topups = &topup.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}

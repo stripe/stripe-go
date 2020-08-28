@@ -33,11 +33,9 @@ type PayoutSourceType string
 
 // List of values that PayoutSourceType can take.
 const (
-	PayoutSourceTypeAlipayAccount   PayoutSourceType = "alipay_account"
-	PayoutSourceTypeBankAccount     PayoutSourceType = "bank_account"
-	PayoutSourceTypeBitcoinReceiver PayoutSourceType = "bitcoin_receiver"
-	PayoutSourceTypeCard            PayoutSourceType = "card"
-	PayoutSourceTypeFPX             PayoutSourceType = "fpx"
+	PayoutSourceTypeBankAccount PayoutSourceType = "bank_account"
+	PayoutSourceTypeCard        PayoutSourceType = "card"
+	PayoutSourceTypeFPX         PayoutSourceType = "fpx"
 )
 
 // PayoutStatus is the list of allowed values for the payout's status.
