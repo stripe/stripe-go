@@ -128,7 +128,6 @@ type SubscriptionParams struct {
 	PendingInvoiceItemInterval  *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	Plan                        *string                                       `form:"plan"`
 	PromotionCode               *string                                       `form:"promotion_code"`
-	Prorate                     *bool                                         `form:"prorate"`
 	ProrationBehavior           *string                                       `form:"proration_behavior"`
 	ProrationDate               *int64                                        `form:"proration_date"`
 	Quantity                    *int64                                        `form:"quantity"`
@@ -137,9 +136,6 @@ type SubscriptionParams struct {
 	TrialEndNow                 *bool                                         `form:"-"` // See custom AppendTo
 	TrialFromPlan               *bool                                         `form:"trial_from_plan"`
 	TrialPeriodDays             *int64                                        `form:"trial_period_days"`
-
-	// This parameter is deprecated and we recommend that you use TaxRates instead.
-	TaxPercent *float64 `form:"tax_percent"`
 }
 
 // SubscriptionBillingThresholdsParams is a structure representing the parameters allowed to control
@@ -275,9 +271,6 @@ type Subscription struct {
 	TransferData                  *SubscriptionTransferData              `json:"transfer_data"`
 	TrialEnd                      int64                                  `json:"trial_end"`
 	TrialStart                    int64                                  `json:"trial_start"`
-
-	// This field is deprecated and we recommend that you use TaxRates instead.
-	TaxPercent float64 `json:"tax_percent"`
 }
 
 // SubscriptionBillingThresholds is a structure representing the billing thresholds for a subscription.

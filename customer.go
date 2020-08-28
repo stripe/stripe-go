@@ -37,12 +37,6 @@ type CustomerParams struct {
 	TaxExempt           *string                        `form:"tax_exempt"`
 	TaxIDData           []*CustomerTaxIDDataParams     `form:"tax_id_data"`
 	Token               *string                        `form:"-"` // This doesn't seem to be used?
-
-	// The parameters below are considered deprecated. Consider creating a Subscription separately instead.
-	Plan       *string  `form:"plan"`
-	Quantity   *int64   `form:"quantity"`
-	TaxPercent *float64 `form:"tax_percent"`
-	TrialEnd   *int64   `form:"trial_end"`
 }
 
 // CustomerInvoiceCustomFieldParams represents the parameters associated with one custom field on
