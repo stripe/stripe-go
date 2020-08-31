@@ -28,9 +28,6 @@ const (
 	BalanceTransactionTypePayout                          BalanceTransactionType = "payout"
 	BalanceTransactionTypePayoutCancel                    BalanceTransactionType = "payout_cancel"
 	BalanceTransactionTypePayoutFailure                   BalanceTransactionType = "payout_failure"
-	BalanceTransactionTypeRecipientTransfer               BalanceTransactionType = "recipient_transfer"
-	BalanceTransactionTypeRecipientTransferCancel         BalanceTransactionType = "recipient_transfer_cancel"
-	BalanceTransactionTypeRecipientTransferFailure        BalanceTransactionType = "recipient_transfer_failure"
 	BalanceTransactionTypeRefund                          BalanceTransactionType = "refund"
 	BalanceTransactionTypeStripeFee                       BalanceTransactionType = "stripe_fee"
 	BalanceTransactionTypeTransfer                        BalanceTransactionType = "transfer"
@@ -48,7 +45,6 @@ const (
 	BalanceTransactionSourceTypeIssuingAuthorization BalanceTransactionSourceType = "issuing.authorization"
 	BalanceTransactionSourceTypeIssuingTransaction   BalanceTransactionSourceType = "issuing.transaction"
 	BalanceTransactionSourceTypePayout               BalanceTransactionSourceType = "payout"
-	BalanceTransactionSourceTypeRecipientTransfer    BalanceTransactionSourceType = "recipient_transfer"
 	BalanceTransactionSourceTypeRefund               BalanceTransactionSourceType = "refund"
 	BalanceTransactionSourceTypeReversal             BalanceTransactionSourceType = "reversal"
 	BalanceTransactionSourceTypeTransfer             BalanceTransactionSourceType = "transfer"
@@ -98,7 +94,6 @@ type BalanceTransactionSource struct {
 	IssuingAuthorization *IssuingAuthorization        `json:"-"`
 	IssuingTransaction   *IssuingAuthorization        `json:"-"`
 	Payout               *Payout                      `json:"-"`
-	RecipientTransfer    *RecipientTransfer           `json:"-"`
 	Refund               *Refund                      `json:"-"`
 	Reversal             *Reversal                    `json:"-"`
 	Transfer             *Transfer                    `json:"-"`
@@ -139,7 +134,6 @@ type BalanceTransaction struct {
 	Fee               int64                               `json:"fee"`
 	FeeDetails        []*BalanceTransactionFee            `json:"fee_details"`
 	Net               int64                               `json:"net"`
-	Recipient         string                              `json:"recipient"`
 	ReportingCategory BalanceTransactionReportingCategory `json:"reporting_category"`
 	Source            *BalanceTransactionSource           `json:"source"`
 	Status            BalanceTransactionStatus            `json:"status"`
@@ -212,8 +206,6 @@ func (s *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &s.IssuingTransaction)
 	case BalanceTransactionSourceTypePayout:
 		err = json.Unmarshal(data, &s.Payout)
-	case BalanceTransactionSourceTypeRecipientTransfer:
-		err = json.Unmarshal(data, &s.RecipientTransfer)
 	case BalanceTransactionSourceTypeRefund:
 		err = json.Unmarshal(data, &s.Refund)
 	case BalanceTransactionSourceTypeReversal:

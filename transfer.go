@@ -7,11 +7,9 @@ type TransferSourceType string
 
 // List of values that TransferSourceType can take.
 const (
-	TransferSourceTypeAlipayAccount   TransferSourceType = "alipay_account"
-	TransferSourceTypeBankAccount     TransferSourceType = "bank_account"
-	TransferSourceTypeBitcoinReceiver TransferSourceType = "bitcoin_receiver"
-	TransferSourceTypeCard            TransferSourceType = "card"
-	TransferSourceTypeFPX             TransferSourceType = "fpx"
+	TransferSourceTypeBankAccount TransferSourceType = "bank_account"
+	TransferSourceTypeCard        TransferSourceType = "card"
+	TransferSourceTypeFPX         TransferSourceType = "fpx"
 )
 
 // TransferDestination describes the destination of a Transfer.

@@ -89,7 +89,6 @@ type CardParams struct {
 	ExpYear            *string `form:"exp_year"`
 	Name               *string `form:"name"`
 	Number             *string `form:"number"`
-	Recipient          *string `form:"-"`
 	Token              *string `form:"-"`
 
 	// ID is used when tokenizing a card for shared customers
@@ -182,7 +181,6 @@ type CardListParams struct {
 	ListParams `form:"*"`
 	Account    *string `form:"-"`
 	Customer   *string `form:"-"`
-	Recipient  *string `form:"-"`
 }
 
 // AppendTo implements custom encoding logic for CardListParams
@@ -244,7 +242,6 @@ type Card struct {
 	Last4              string                 `json:"last4"`
 	Metadata           map[string]string      `json:"metadata"`
 	Name               string                 `json:"name"`
-	Recipient          *Recipient             `json:"recipient"`
 	ThreeDSecure       *ThreeDSecure          `json:"three_d_secure"`
 	TokenizationMethod CardTokenizationMethod `json:"tokenization_method"`
 }

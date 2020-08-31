@@ -26,16 +26,6 @@ func TestCardListParams_AppendTo(t *testing.T) {
 		t.Logf("body = %+v", body)
 		assert.Equal(t, []string{"card"}, body.Get("object"))
 	}
-
-	// *Doesn't* add `object` for recipient (this will hit the recipient cards
-	// endpoint, so all possible resources are cards)
-	{
-		params := &CardListParams{Recipient: String("rp_123")}
-		body := &form.Values{}
-		form.AppendTo(body, params)
-		t.Logf("body = %+v", body)
-		assert.Equal(t, []string(nil), body.Get("object"))
-	}
 }
 
 func TestCard_UnmarshalJSON(t *testing.T) {
