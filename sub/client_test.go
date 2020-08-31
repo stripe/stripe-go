@@ -5,8 +5,8 @@ import (
 	"time"
 
 	assert "github.com/stretchr/testify/require"
-	stripe "github.com/stripe/stripe-go/v71"
-	_ "github.com/stripe/stripe-go/v71/testing"
+	stripe "github.com/stripe/stripe-go/v72"
+	_ "github.com/stripe/stripe-go/v72/testing"
 )
 
 func TestSubscriptionCancel(t *testing.T) {

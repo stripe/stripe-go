@@ -1,5 +1,25 @@
 # Changelog
 
+## 72.0.0 - 2020-08-31
+* [#1170](https://github.com/stripe/stripe-go/pull/1170) Multiple API changes
+  * Move to latest API version `2020-08-27`
+  * Remove `Prorate` across Billing APIs in favor of `ProrationBehavior`
+  * Remove `TaxPercent` across Billing APIs in favor of `TaxRate`-related parameters and properties
+  * Remove `DisplayItems` on Checkout `Session` in favor of `LineItems`
+  * Remove `FailureURL` and `SuccessURL` on `AccountLink` in favor of `RefreshURL` and `ReturnURL`
+  * Remove `AccountLinkTypeCustomAccountUpdate ` and `AccountLinkTypeCustomAccountVerification ` on `AccountLink` in favor of `AccountLinkTypeAccountOnboarding ` and `AccountLinkTypeAccountUpdate `
+  * Remove `Authenticated` and `Succeeded` on `ChargePaymentMethodDetailsCardThreeDSecure`
+  * Remove `Plan`, `Quantity`, `TaxPercent` and `TrialEnd` from `Customer` creation or update in favor of the Subscription API
+  * Rename `Plans` to `Items` on `SubscriptionSchedule`
+* [#1171](https://github.com/stripe/stripe-go/pull/1171) Remove multiple deprecated APIs
+  * Remove support for the `Recipient` API
+  * Remove support for the `RecipientTransfer` API
+  * Remove support for the `BitcoinReceiver` API
+  * Remove support for the `ThreeDSecure` API which has been replaced by PaymentIntent and PaymentMethod
+  * Remove support for the `ExchangeRate` API which has never shipped publicly and is being reworked
+* [#1172](https://github.com/stripe/stripe-go/pull/1172) Properly remove ThreeDSecure class entirely
+* [#1173](https://github.com/stripe/stripe-go/pull/1173) Remove deprecated parameters `SavePaymentMethod` and `Source` on `PaymentIntent`
+
 ## 71.48.0 - 2020-08-24
 * [#1153](https://github.com/stripe/stripe-go/pull/1153) Add support for `ServiceAgreement` in `AccountTOSAcceptance` on `Account`
 

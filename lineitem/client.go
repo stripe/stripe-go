@@ -2,7 +2,7 @@
 package lineitem
 
 import (
-	stripe "github.com/stripe/stripe-go/v71"
+	stripe "github.com/stripe/stripe-go/v72"
 )
 
 // Iter is an iterator for line items across various resources.

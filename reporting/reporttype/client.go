@@ -6,8 +6,8 @@ package reporttype
 import (
 	"net/http"
 
-	stripe "github.com/stripe/stripe-go/v71"
-	"github.com/stripe/stripe-go/v71/form"
+	stripe "github.com/stripe/stripe-go/v72"
+	"github.com/stripe/stripe-go/v72/form"
 )
 
 // Client is used to invoke /reporting/report_types APIs.
