@@ -28,7 +28,6 @@ type SubscriptionItemParams struct {
 	Plan              *string                                  `form:"plan"`
 	Price             *string                                  `form:"price"`
 	PriceData         *SubscriptionItemPriceDataParams         `form:"price_data"`
-	Prorate           *bool                                    `form:"prorate"`
 	ProrationDate     *int64                                   `form:"proration_date"`
 	ProrationBehavior *string                                  `form:"proration_behavior"`
 	Quantity          *int64                                   `form:"quantity"`

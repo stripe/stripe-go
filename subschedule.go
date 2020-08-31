@@ -97,28 +97,23 @@ type SubscriptionSchedulePhaseItemParams struct {
 // SubscriptionSchedulePhaseParams is a structure representing the parameters allowed to control
 // a phase on a subscription schedule.
 type SubscriptionSchedulePhaseParams struct {
-	AddInvoiceItems []*SubscriptionSchedulePhaseAddInvoiceItemParams `form:"add_invoice_items"`
-	// This parameter expects a *float64 but was defined as *int64 so we're adding support for both
-	// TODO: Remove in the next major
-	ApplicationFeePercent interface{}                                `form:"application_fee_percent"`
-	BillingCycleAnchor    *string                                    `form:"billing_cycle_anchor"`
-	BillingThresholds     *SubscriptionBillingThresholdsParams       `form:"billing_thresholds"`
-	CollectionMethod      *string                                    `form:"collection_method"`
-	Coupon                *string                                    `form:"coupon"`
-	DefaultPaymentMethod  *string                                    `form:"default_payment_method"`
-	DefaultTaxRates       []*string                                  `form:"default_tax_rates"`
-	EndDate               *int64                                     `form:"end_date"`
-	InvoiceSettings       *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
-	Iterations            *int64                                     `form:"iterations"`
-	Plans                 []*SubscriptionSchedulePhaseItemParams     `form:"plans"`
-	ProrationBehavior     *string                                    `form:"proration_behavior"`
-	StartDate             *int64                                     `form:"start_date"`
-	TransferData          *SubscriptionTransferDataParams            `form:"transfer_data"`
-	Trial                 *bool                                      `form:"trial"`
-	TrialEnd              *int64                                     `form:"trial_end"`
-
-	// This parameter is deprecated and we recommend that you use TaxRates instead.
-	TaxPercent *float64 `form:"tax_percent"`
+	AddInvoiceItems       []*SubscriptionSchedulePhaseAddInvoiceItemParams `form:"add_invoice_items"`
+	ApplicationFeePercent *float64                                         `form:"application_fee_percent"`
+	BillingCycleAnchor    *string                                          `form:"billing_cycle_anchor"`
+	BillingThresholds     *SubscriptionBillingThresholdsParams             `form:"billing_thresholds"`
+	CollectionMethod      *string                                          `form:"collection_method"`
+	Coupon                *string                                          `form:"coupon"`
+	DefaultPaymentMethod  *string                                          `form:"default_payment_method"`
+	DefaultTaxRates       []*string                                        `form:"default_tax_rates"`
+	EndDate               *int64                                           `form:"end_date"`
+	InvoiceSettings       *SubscriptionScheduleInvoiceSettingsParams       `form:"invoice_settings"`
+	Iterations            *int64                                           `form:"iterations"`
+	Items                 []*SubscriptionSchedulePhaseItemParams           `form:"items"`
+	ProrationBehavior     *string                                          `form:"proration_behavior"`
+	StartDate             *int64                                           `form:"start_date"`
+	TransferData          *SubscriptionTransferDataParams                  `form:"transfer_data"`
+	Trial                 *bool                                            `form:"trial"`
+	TrialEnd              *int64                                           `form:"trial_end"`
 }
 
 // SubscriptionScheduleParams is the set of parameters that can be used when creating or updating a
@@ -133,10 +128,6 @@ type SubscriptionScheduleParams struct {
 	Phases            []*SubscriptionSchedulePhaseParams         `form:"phases"`
 	StartDate         *int64                                     `form:"start_date"`
 	StartDateNow      *bool                                      `form:"-"` // See custom AppendTo
-
-	// TODO remove in the next major version
-	// This propery is considered deprecated. Use ProrationBehavior instead
-	Prorate *bool `form:"prorate"`
 }
 
 // AppendTo implements custom encoding logic for SubscriptionScheduleParams so that the special
@@ -228,13 +219,10 @@ type SubscriptionSchedulePhase struct {
 	DefaultTaxRates       []*TaxRate                                  `json:"default_tax_rates"`
 	EndDate               int64                                       `json:"end_date"`
 	InvoiceSettings       *SubscriptionScheduleInvoiceSettings        `json:"invoice_settings"`
-	Plans                 []*SubscriptionSchedulePhaseItem            `json:"plans"`
+	Items                 []*SubscriptionSchedulePhaseItem            `json:"items"`
 	StartDate             int64                                       `json:"start_date"`
 	TransferData          *SubscriptionTransferData                   `json:"transfer_data"`
 	TrialEnd              int64                                       `json:"trial_end"`
-
-	// This field is deprecated and we recommend that you use TaxRates instead.
-	TaxPercent float64 `json:"tax_percent"`
 }
 
 // SubscriptionSchedule is the resource representing a Stripe subscription schedule.

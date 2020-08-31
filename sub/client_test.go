@@ -91,9 +91,10 @@ func TestSubscriptionNew_WithItems(t *testing.T) {
 }
 
 func TestSubscriptionUpdate(t *testing.T) {
-	subscription, err := Update("sub_123", &stripe.SubscriptionParams{
-		Prorate: stripe.Bool(true),
-	})
+	params := &stripe.SubscriptionParams{
+		ProrationBehavior: stripe.String(string(stripe.SubscriptionProrationBehaviorNone)),
+	}
+	subscription, err := Update("sub_123", params)
 	assert.Nil(t, err)
 	assert.NotNil(t, subscription)
 }

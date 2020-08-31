@@ -7,10 +7,6 @@ type AccountLinkType string
 const (
 	AccountLinkTypeAccountOnboarding AccountLinkType = "account_onboarding"
 	AccountLinkTypeAccountUpdate     AccountLinkType = "account_update"
-
-	// TODO: The following constants are deprecated
-	AccountLinkTypeCustomAccountUpdate       AccountLinkType = "custom_account_update"
-	AccountLinkTypeCustomAccountVerification AccountLinkType = "custom_account_verification"
 )
 
 // AccountLinkCollect describes what information the platform wants to collect with the account link.
@@ -30,11 +26,6 @@ type AccountLinkParams struct {
 	RefreshURL *string `form:"refresh_url"`
 	ReturnURL  *string `form:"return_url"`
 	Type       *string `form:"type"`
-
-	// TODO remove in the next major version
-	// Those parameters are deprecated.
-	FailureURL *string `form:"failure_url"`
-	SuccessURL *string `form:"success_url"`
 }
 
 // AccountLink is the resource representing an account link.

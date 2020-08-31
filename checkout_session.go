@@ -16,16 +16,6 @@ const (
 	CheckoutSessionSubmitTypePay    CheckoutSessionSubmitType = "pay"
 )
 
-// CheckoutSessionDisplayItemType is the list of allowed values for the display item type.
-type CheckoutSessionDisplayItemType string
-
-// List of values that CheckoutSessionDisplayItemType can take.
-const (
-	CheckoutSessionDisplayItemTypeCustom CheckoutSessionDisplayItemType = "custom"
-	CheckoutSessionDisplayItemTypePlan   CheckoutSessionDisplayItemType = "plan"
-	CheckoutSessionDisplayItemTypeSKU    CheckoutSessionDisplayItemType = "sku"
-)
-
 // CheckoutSessionMode is the list of allowed values for the mode on a Session.
 type CheckoutSessionMode string
 
@@ -180,24 +170,6 @@ type CheckoutSessionListParams struct {
 	Subscription  *string `form:"subscription"`
 }
 
-// CheckoutSessionDisplayItemCustom represents an item of type custom in a checkout session
-type CheckoutSessionDisplayItemCustom struct {
-	Description string   `json:"description"`
-	Images      []string `json:"images"`
-	Name        string   `json:"name"`
-}
-
-// CheckoutSessionDisplayItem represents one of the items in a checkout session.
-type CheckoutSessionDisplayItem struct {
-	Amount   int64                             `json:"amount"`
-	Currency Currency                          `json:"currency"`
-	Custom   *CheckoutSessionDisplayItemCustom `json:"custom"`
-	Quantity int64                             `json:"quantity"`
-	Plan     *Plan                             `json:"plan"`
-	SKU      *SKU                              `json:"sku"`
-	Type     CheckoutSessionDisplayItemType    `json:"type"`
-}
-
 // CheckoutSessionShippingAddressCollection is the set of parameters allowed for the
 // shipping address collection.
 type CheckoutSessionShippingAddressCollection struct {
@@ -242,7 +214,6 @@ type CheckoutSession struct {
 	Customer                  *Customer                                 `json:"customer"`
 	CustomerEmail             string                                    `json:"customer_email"`
 	Deleted                   bool                                      `json:"deleted"`
-	DisplayItems              []*CheckoutSessionDisplayItem             `json:"display_items"`
 	ID                        string                                    `json:"id"`
 	LineItems                 *LineItemList                             `json:"line_items"`
 	Livemode                  bool                                      `json:"livemode"`

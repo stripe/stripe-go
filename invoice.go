@@ -129,18 +129,11 @@ type InvoiceParams struct {
 	SubscriptionDefaultTaxRates             []*string                           `form:"subscription_default_tax_rates"`
 	SubscriptionItems                       []*SubscriptionItemsParams          `form:"subscription_items"`
 	SubscriptionPlan                        *string                             `form:"subscription_plan"`
-	SubscriptionProrate                     *bool                               `form:"subscription_prorate"`
 	SubscriptionProrationBehavior           *string                             `form:"subscription_proration_behavior"`
 	SubscriptionProrationDate               *int64                              `form:"subscription_proration_date"`
 	SubscriptionQuantity                    *int64                              `form:"subscription_quantity"`
 	SubscriptionTrialEnd                    *int64                              `form:"subscription_trial_end"`
 	SubscriptionTrialFromPlan               *bool                               `form:"subscription_trial_from_plan"`
-
-	// This parameter is deprecated and we recommend that you use DefaultTaxRates instead.
-	TaxPercent *float64 `form:"tax_percent"`
-
-	// This parameter is deprecated and we recommend that you use SubscriptionDefaultTaxRates instead.
-	SubscriptionTaxPercent *float64 `form:"subscription_tax_percent"`
 }
 
 // AppendTo implements custom encoding logic for InvoiceParams so that the special
@@ -284,9 +277,6 @@ type Invoice struct {
 	TotalTaxAmounts              []*InvoiceTaxAmount      `json:"total_tax_amounts"`
 	TransferData                 *InvoiceTransferData     `json:"transfer_data"`
 	WebhooksDeliveredAt          int64                    `json:"webhooks_delivered_at"`
-
-	// This field is deprecated and we recommend that you use TaxRates instead.
-	TaxPercent float64 `json:"tax_percent"`
 }
 
 // InvoiceCustomField is a structure representing a custom field on an invoice.
