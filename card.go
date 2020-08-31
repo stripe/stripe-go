@@ -242,7 +242,6 @@ type Card struct {
 	Last4              string                 `json:"last4"`
 	Metadata           map[string]string      `json:"metadata"`
 	Name               string                 `json:"name"`
-	ThreeDSecure       *ThreeDSecure          `json:"three_d_secure"`
 	TokenizationMethod CardTokenizationMethod `json:"tokenization_method"`
 }
 
