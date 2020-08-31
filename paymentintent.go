@@ -131,10 +131,8 @@ type PaymentIntentConfirmParams struct {
 	PaymentMethodTypes    []*string                                `form:"payment_method_types"`
 	ReceiptEmail          *string                                  `form:"receipt_email"`
 	ReturnURL             *string                                  `form:"return_url"`
-	SavePaymentMethod     *bool                                    `form:"save_payment_method"`
 	SetupFutureUsage      *string                                  `form:"setup_future_usage"`
 	Shipping              *ShippingDetailsParams                   `form:"shipping"`
-	Source                *string                                  `form:"source"`
 	UseStripeSDK          *bool                                    `form:"use_stripe_sdk"`
 }
 
@@ -247,10 +245,8 @@ type PaymentIntentParams struct {
 	PaymentMethodTypes        []*string                                `form:"payment_method_types"`
 	ReceiptEmail              *string                                  `form:"receipt_email"`
 	ReturnURL                 *string                                  `form:"return_url"`
-	SavePaymentMethod         *bool                                    `form:"save_payment_method"`
 	SetupFutureUsage          *string                                  `form:"setup_future_usage"`
 	Shipping                  *ShippingDetailsParams                   `form:"shipping"`
-	Source                    *string                                  `form:"source"`
 	StatementDescriptor       *string                                  `form:"statement_descriptor"`
 	StatementDescriptorSuffix *string                                  `form:"statement_descriptor_suffix"`
 	TransferData              *PaymentIntentTransferDataParams         `form:"transfer_data"`
