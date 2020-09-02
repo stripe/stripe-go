@@ -7,6 +7,15 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
+// BankAccountAvailablePayoutMethod is a set of available payout methods for the card.
+type BankAccountAvailablePayoutMethod string
+
+// List of values that CardAvailablePayoutMethod can take.
+const (
+	BankAccountAvailablePayoutMethodAvailablePayoutMethodInstant  BankAccountAvailablePayoutMethod = "instant"
+	BankAccountAvailablePayoutMethodAvailablePayoutMethodStandard BankAccountAvailablePayoutMethod = "standard"
+)
+
 // BankAccountStatus is the list of allowed values for the bank account's status.
 type BankAccountStatus string
 
@@ -142,22 +151,23 @@ func (p *BankAccountListParams) AppendTo(body *form.Values, keyParts []string) {
 // BankAccount represents a Stripe bank account.
 type BankAccount struct {
 	APIResource
-	Account            *Account                     `json:"account"`
-	AccountHolderName  string                       `json:"account_holder_name"`
-	AccountHolderType  BankAccountAccountHolderType `json:"account_holder_type"`
-	BankName           string                       `json:"bank_name"`
-	Country            string                       `json:"country"`
-	Currency           Currency                     `json:"currency"`
-	Customer           *Customer                    `json:"customer"`
-	DefaultForCurrency bool                         `json:"default_for_currency"`
-	Deleted            bool                         `json:"deleted"`
-	Fingerprint        string                       `json:"fingerprint"`
-	ID                 string                       `json:"id"`
-	Last4              string                       `json:"last4"`
-	Metadata           map[string]string            `json:"metadata"`
-	Object             string                       `json:"object"`
-	RoutingNumber      string                       `json:"routing_number"`
-	Status             BankAccountStatus            `json:"status"`
+	Account                *Account                           `json:"account"`
+	AccountHolderName      string                             `json:"account_holder_name"`
+	AccountHolderType      BankAccountAccountHolderType       `json:"account_holder_type"`
+	AvailablePayoutMethods []BankAccountAvailablePayoutMethod `json:"available_payout_methods"`
+	BankName               string                             `json:"bank_name"`
+	Country                string                             `json:"country"`
+	Currency               Currency                           `json:"currency"`
+	Customer               *Customer                          `json:"customer"`
+	DefaultForCurrency     bool                               `json:"default_for_currency"`
+	Deleted                bool                               `json:"deleted"`
+	Fingerprint            string                             `json:"fingerprint"`
+	ID                     string                             `json:"id"`
+	Last4                  string                             `json:"last4"`
+	Metadata               map[string]string                  `json:"metadata"`
+	Object                 string                             `json:"object"`
+	RoutingNumber          string                             `json:"routing_number"`
+	Status                 BankAccountStatus                  `json:"status"`
 }
 
 // BankAccountList is a list object for bank accounts.
