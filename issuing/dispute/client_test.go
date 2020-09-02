@@ -16,7 +16,11 @@ func TestIssuingDisputeGet(t *testing.T) {
 }
 
 func TestIssuingDisputeList(t *testing.T) {
-	i := List(&stripe.IssuingDisputeListParams{})
+	params := &stripe.IssuingDisputeListParams{
+		Status:      stripe.String(string(stripe.IssuingDisputeStatusWon)),
+		Transaction: stripe.String("ipi_123"),
+	}
+	i := List(params)
 
 	// Verify that we can get at least one dispute
 	assert.True(t, i.Next())
@@ -27,7 +31,33 @@ func TestIssuingDisputeList(t *testing.T) {
 }
 
 func TestIssuingDisputeNew(t *testing.T) {
-	dispute, err := New(&stripe.IssuingDisputeParams{})
+	params := &stripe.IssuingDisputeParams{
+		Evidence: &stripe.IssuingDisputeEvidenceParams{
+			Canceled: &stripe.IssuingDisputeEvidenceCanceledParams{
+				AdditionalDocumentation:    stripe.String("file_123"),
+				CanceledAt:                 stripe.Int64(1577836800),
+				CancellationPolicyProvided: stripe.Bool(true),
+				CancellationReason:         stripe.String("reason for cancellation"),
+				ExpectedAt:                 stripe.Int64(1577836800),
+				Explanation:                stripe.String("explanation"),
+				ProductDescription:         stripe.String("product description"),
+				ProductType:                stripe.String(string(stripe.IssuingDisputeEvidenceCanceledProductTypeMerchandise)),
+				ReturnStatus:               stripe.String(string(stripe.IssuingDisputeEvidenceCanceledReturnStatusMerchantRejected)),
+				ReturnedAt:                 stripe.Int64(1577836800),
+			},
+			Reason: stripe.String(string(stripe.IssuingDisputeEvidenceReasonCanceled)),
+		},
+		Transaction: stripe.String("ipi_123"),
+	}
+	dispute, err := New(params)
+	assert.Nil(t, err)
+	assert.NotNil(t, dispute)
+	assert.Equal(t, "issuing.dispute", dispute.Object)
+}
+
+func TestIssuingDisputeSubmit(t *testing.T) {
+	params := &stripe.IssuingDisputeSubmitParams{}
+	dispute, err := Submit("idp_123", params)
 	assert.Nil(t, err)
 	assert.NotNil(t, dispute)
 	assert.Equal(t, "issuing.dispute", dispute.Object)
