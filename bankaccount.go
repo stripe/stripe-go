@@ -12,8 +12,8 @@ type BankAccountAvailablePayoutMethod string
 
 // List of values that CardAvailablePayoutMethod can take.
 const (
-	BankAccountAvailablePayoutMethodAvailablePayoutMethodInstant  BankAccountAvailablePayoutMethod = "instant"
-	BankAccountAvailablePayoutMethodAvailablePayoutMethodStandard BankAccountAvailablePayoutMethod = "standard"
+	BankAccountAvailablePayoutMethodInstant  BankAccountAvailablePayoutMethod = "instant"
+	BankAccountAvailablePayoutMethodStandard BankAccountAvailablePayoutMethod = "standard"
 )
 
 // BankAccountStatus is the list of allowed values for the bank account's status.
