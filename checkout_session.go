@@ -4,18 +4,6 @@ import (
 	"encoding/json"
 )
 
-// CheckoutSessionSubmitType is the list of allowed values for the `submit_type`
-// of a Session.
-type CheckoutSessionSubmitType string
-
-// List of values that CheckoutSessionSubmitType can take.
-const (
-	CheckoutSessionSubmitTypeAuto   CheckoutSessionSubmitType = "auto"
-	CheckoutSessionSubmitTypeBook   CheckoutSessionSubmitType = "book"
-	CheckoutSessionSubmitTypeDonate CheckoutSessionSubmitType = "donate"
-	CheckoutSessionSubmitTypePay    CheckoutSessionSubmitType = "pay"
-)
-
 // CheckoutSessionMode is the list of allowed values for the mode on a Session.
 type CheckoutSessionMode string
 
@@ -24,6 +12,27 @@ const (
 	CheckoutSessionModePayment      CheckoutSessionMode = "payment"
 	CheckoutSessionModeSetup        CheckoutSessionMode = "setup"
 	CheckoutSessionModeSubscription CheckoutSessionMode = "subscription"
+)
+
+// CheckoutSessionPaymentStatus is the list of allowed values for the payment status on a Session.`
+type CheckoutSessionPaymentStatus string
+
+// List of values that CheckoutSessionPaymentStatus can take.
+const (
+	CheckoutSessionPaymentStatusNoPaymentRequired CheckoutSessionPaymentStatus = "no_payment_required"
+	CheckoutSessionPaymentStatusPaid              CheckoutSessionPaymentStatus = "paid"
+	CheckoutSessionPaymentStatusUnpaid            CheckoutSessionPaymentStatus = "unpaid"
+)
+
+// CheckoutSessionSubmitType is the list of allowed values for the submit type on  a Session.
+type CheckoutSessionSubmitType string
+
+// List of values that CheckoutSessionSubmitType can take.
+const (
+	CheckoutSessionSubmitTypeAuto   CheckoutSessionSubmitType = "auto"
+	CheckoutSessionSubmitTypeBook   CheckoutSessionSubmitType = "book"
+	CheckoutSessionSubmitTypeDonate CheckoutSessionSubmitType = "donate"
+	CheckoutSessionSubmitTypePay    CheckoutSessionSubmitType = "pay"
 )
 
 // CheckoutSessionLineItemPriceDataProductDataParams is the set of parameters that can be used when
@@ -223,6 +232,7 @@ type CheckoutSession struct {
 	Object                    string                                    `json:"object"`
 	PaymentIntent             *PaymentIntent                            `json:"payment_intent"`
 	PaymentMethodTypes        []string                                  `json:"payment_method_types"`
+	PaymentStatus             CheckoutSessionPaymentStatus              `json:"payment_status"`
 	SetupIntent               *SetupIntent                              `json:"setup_intent"`
 	Shipping                  *ShippingDetails                          `json:"shipping"`
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollection `json:"shipping_address_collection"`
