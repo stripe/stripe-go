@@ -1,5 +1,11 @@
 # Changelog
 
+## 72.1.0 - 2020-09-02
+* [#1178](https://github.com/stripe/stripe-go/pull/1178) Fix the constant names for `BankAccountAvailablePayoutMethod`
+* [#1177](https://github.com/stripe/stripe-go/pull/1177) Add support for `AvailablePayoutMethods` on `BankAccount`
+* [#1176](https://github.com/stripe/stripe-go/pull/1176) Add support for `PaymentStatus` on Checkout `Session`
+* [#1174](https://github.com/stripe/stripe-go/pull/1174) Add support for the Issuing Dispute APIs
+
 ## 72.0.0 - 2020-08-31
 * [#1170](https://github.com/stripe/stripe-go/pull/1170) Multiple API changes
   * Move to latest API version `2020-08-27`
