@@ -211,12 +211,19 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string                                                  `form:"request_three_d_secure"`
 }
 
+// PaymentIntentPaymentMethodOptionsSofortParams represents the sofort-specific options applied to a
+// PaymentIntent.
+type PaymentIntentPaymentMethodOptionsSofortParams struct {
+	PreferredLanguage *string `form:"preferred_language"`
+}
+
 // PaymentIntentPaymentMethodOptionsParams represents the type-specific payment method options
 // applied to a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsParams struct {
 	Alipay     *PaymentIntentPaymentMethodOptionsAlipayParams     `form:"alipay"`
 	Bancontact *PaymentIntentPaymentMethodOptionsBancontactParams `form:"bancontact"`
 	Card       *PaymentIntentPaymentMethodOptionsCardParams       `form:"card"`
+	Sofort     *PaymentIntentPaymentMethodOptionsSofortParams     `form:"sofort"`
 }
 
 // PaymentIntentTransferDataParams is the set of parameters allowed for the transfer hash.
@@ -324,12 +331,19 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 
+// PaymentIntentPaymentMethodOptionsSofort is the set of sofort-specific options associated
+// with that payment intent.
+type PaymentIntentPaymentMethodOptionsSofort struct {
+	PreferredLanguage string `json:"preferred_language"`
+}
+
 // PaymentIntentPaymentMethodOptions is the set of payment method-specific options associated with
 // that payment intent.
 type PaymentIntentPaymentMethodOptions struct {
 	Alipay     *PaymentIntentPaymentMethodOptionsAlipay     `json:"alipay"`
 	Bancontact *PaymentIntentPaymentMethodOptionsBancontact `json:"bancontact"`
 	Card       *PaymentIntentPaymentMethodOptionsCard       `json:"card"`
+	Sofort     *PaymentIntentPaymentMethodOptionsSofort     `json:"sofort"`
 }
 
 // PaymentIntentTransferData represents the information for the transfer associated with a payment intent.
