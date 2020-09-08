@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.2.0 - 2020-09-08
+* [#1180](https://github.com/stripe/stripe-go/pull/1180) Add support for Sofort on `PaymentMethod` and `PaymentIntent`
+
 ## 72.1.0 - 2020-09-02
 * [#1178](https://github.com/stripe/stripe-go/pull/1178) Fix the constant names for `BankAccountAvailablePayoutMethod`
 * [#1177](https://github.com/stripe/stripe-go/pull/1177) Add support for `AvailablePayoutMethods` on `BankAccount`
