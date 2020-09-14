@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.3.0 - 2020-09-14
+* [#1182](https://github.com/stripe/stripe-go/pull/1182) Add `Metadata` on `WebhookEndpoint`
+
 ## 72.2.0 - 2020-09-08
 * [#1180](https://github.com/stripe/stripe-go/pull/1180) Add support for Sofort on `PaymentMethod` and `PaymentIntent`
 
