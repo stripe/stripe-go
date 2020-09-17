@@ -475,6 +475,11 @@ type ChargePaymentMethodDetailsMultibanco struct {
 	Reference string `json:"reference"`
 }
 
+// ChargePaymentMethodDetailsOXXO represents details about the OXXO PaymentMethod.
+type ChargePaymentMethodDetailsOXXO struct {
+	Number string `json:"number"`
+}
+
 // ChargePaymentMethodDetailsP24 represents details about the P24 PaymentMethod.
 type ChargePaymentMethodDetailsP24 struct {
 	Reference    string `json:"reference"`
@@ -526,6 +531,7 @@ type ChargePaymentMethodDetails struct {
 	Ideal             *ChargePaymentMethodDetailsIdeal             `json:"ideal"`
 	Klarna            *ChargePaymentMethodDetailsKlarna            `json:"klarna"`
 	Multibanco        *ChargePaymentMethodDetailsMultibanco        `json:"multibanco"`
+	OXXO              *ChargePaymentMethodDetailsOXXO              `json:"oxxo"`
 	P24               *ChargePaymentMethodDetailsP24               `json:"p24"`
 	SepaDebit         *ChargePaymentMethodDetailsSepaDebit         `json:"sepa_debit"`
 	Sofort            *ChargePaymentMethodDetailsSofort            `json:"sofort"`
