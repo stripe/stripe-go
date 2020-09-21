@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.4.0 - 2020-09-21
+* [#1185](https://github.com/stripe/stripe-go/pull/1185) Add support for `AmountCaptured` on `Charge`
+* [#1186](https://github.com/stripe/stripe-go/pull/1186) Add support for `CheckoutSession` on `Discount`
+
 ## 72.3.0 - 2020-09-14
 * [#1182](https://github.com/stripe/stripe-go/pull/1182) Add `Metadata` on `WebhookEndpoint`
 
