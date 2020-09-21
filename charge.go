@@ -545,6 +545,7 @@ type ChargeTransferData struct {
 type Charge struct {
 	APIResource
 	Amount                        int64                       `json:"amount"`
+	AmountCaptured                int64                       `json:"amount_captured"`
 	AmountRefunded                int64                       `json:"amount_refunded"`
 	Application                   *Application                `json:"application"`
 	ApplicationFee                *ApplicationFee             `json:"application_fee"`
