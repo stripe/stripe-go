@@ -3,10 +3,12 @@ package stripe
 import (
 	"bytes"
 	"context"
+	"crypto/x509"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"regexp"
 	"runtime"
 	"sync"
@@ -154,6 +156,18 @@ func TestShouldRetry(t *testing.T) {
 		int(MaxNetworkRetries),
 	))
 
+	// Canceled context -- don't retry
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, "", nil)
+	assert.NoError(t, err)
+	assert.False(t, c.shouldRetry(
+		nil,
+		req,
+		&http.Response{StatusCode: http.StatusOK},
+		0,
+	))
+
 	// Doesn't retry most Stripe errors (they must also match a status code
 	// below to be retried)
 	assert.False(t, c.shouldRetry(
@@ -163,7 +177,31 @@ func TestShouldRetry(t *testing.T) {
 		0,
 	))
 
-	// Currently retries on any non-Stripe error (which we should fix)
+	// Don't retry too many redirects.
+	assert.False(t, c.shouldRetry(
+		&url.Error{Err: fmt.Errorf("stopped after 5 redirects")},
+		&http.Request{},
+		nil,
+		0,
+	))
+
+	// Don't retry invalid protocol scheme.
+	assert.False(t, c.shouldRetry(
+		&url.Error{Err: fmt.Errorf("unsupported protocol scheme")},
+		&http.Request{},
+		nil,
+		0,
+	))
+
+	// Don't retry TLS certificate validation problems.
+	assert.False(t, c.shouldRetry(
+		&url.Error{Err: x509.UnknownAuthorityError{}},
+		&http.Request{},
+		nil,
+		0,
+	))
+
+	// Retries most non-Stripe errors
 	assert.True(t, c.shouldRetry(
 		fmt.Errorf("an error"),
 		&http.Request{},

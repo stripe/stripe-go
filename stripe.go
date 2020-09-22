@@ -4,6 +4,7 @@ package stripe
 import (
 	"bytes"
 	"crypto/tls"
+	"crypto/x509"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -14,6 +15,7 @@ import (
 	"net/url"
 	"os/exec"
 	"reflect"
+	"regexp"
 	"runtime"
 	"strings"
 	"sync"
@@ -611,6 +613,14 @@ func (s *BackendImplementation) UnmarshalJSONVerbose(statusCode int, body []byte
 	return nil
 }
 
+// Regular expressions used to match a few error types that we know we don't
+// want to retry. Unfortunately these errors aren't typed so we match on the
+// error's message.
+var (
+	redirectsErrorRE = regexp.MustCompile(`stopped after \d+ redirects\z`)
+	schemeErrorRE    = regexp.MustCompile(`unsupported protocol scheme`)
+)
+
 // Checks if an error is a problem that we should retry on. This includes both
 // socket errors that may represent an intermittent problem and some special
 // HTTP statuses.
@@ -621,11 +631,37 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 
 	stripeErr, _ := err.(*Error)
 
-	// TODO: This retries any non-Stripe errors produced as part of the
-	// communication process. It generally works, but there are many errors
-	// that should *not* be retried. Try to make this more granular by
-	// including only connection errors, timeout errors, etc.
+	// Don't retry if the context was was cancelled or its deadline was
+	// exceeded.
+	if req.Context() != nil && req.Context().Err() != nil {
+		return false
+	}
+
+	// We retry most errors that come out of HTTP requests except for a curated
+	// list that we know not to be retryable. This list is probably not
+	// exhaustive, so it'd be okay to add new errors to it. It'd also be okay to
+	// flip this to an inverted strategy of retrying only errors that we know
+	// to be retryable in a future refactor, if a good methodology is found for
+	// identifying that full set of errors.
 	if stripeErr == nil && err != nil {
+		if urlErr, ok := err.(*url.Error); ok {
+			// Don't retry too many redirects.
+			if redirectsErrorRE.MatchString(urlErr.Error()) {
+				return false
+			}
+
+			// Don't retry invalid protocol scheme.
+			if schemeErrorRE.MatchString(urlErr.Error()) {
+				return false
+			}
+
+			// Don't retry TLS certificate validation problems.
+			if _, ok := urlErr.Err.(x509.UnknownAuthorityError); ok {
+				return false
+			}
+		}
+
+		// Do retry every other type of non-Stripe error.
 		return true
 	}
 
