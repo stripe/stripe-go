@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.5.0 - 2020-09-23
+* [#1187](https://github.com/stripe/stripe-go/pull/1187) Don't retry requests on context cancellation + a few other errors
+* [#1188](https://github.com/stripe/stripe-go/pull/1188) Add support for `InstantAvailable` on `Balance`
+
 ## 72.4.0 - 2020-09-21
 * [#1185](https://github.com/stripe/stripe-go/pull/1185) Add support for `AmountCaptured` on `Charge`
 * [#1186](https://github.com/stripe/stripe-go/pull/1186) Add support for `CheckoutSession` on `Discount`
