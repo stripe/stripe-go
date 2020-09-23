@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.6.0 - 2020-09-23
+* [#1189](https://github.com/stripe/stripe-go/pull/1189) When not retrying a request, log reason at info level
+
 ## 72.5.0 - 2020-09-23
 * [#1187](https://github.com/stripe/stripe-go/pull/1187) Don't retry requests on context cancellation + a few other errors
 * [#1188](https://github.com/stripe/stripe-go/pull/1188) Add support for `InstantAvailable` on `Balance`
