@@ -3,6 +3,7 @@ package stripe
 
 import (
 	"bytes"
+	"context"
 	"crypto/tls"
 	"crypto/x509"
 	"encoding/json"
@@ -471,7 +472,9 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 
 		// If the response was okay, or an error that shouldn't be retried,
 		// we're done, and it's safe to leave the retry loop.
-		if !s.shouldRetry(err, req, res, retry) {
+		shouldRetry, noRetryReason := s.shouldRetry(err, req, res, retry)
+		if !shouldRetry {
+			s.LeveledLogger.Infof("Not retrying request: %v", noRetryReason)
 			break
 		}
 
@@ -624,17 +627,28 @@ var (
 // Checks if an error is a problem that we should retry on. This includes both
 // socket errors that may represent an intermittent problem and some special
 // HTTP statuses.
-func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *http.Response, numRetries int) bool {
+//
+// Returns a boolean indicating whether a client should retry. If false, a
+// second string parameter is also returned with a short message indicating why
+// no retry should occur. This can be used for logging/informational purposes.
+func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *http.Response, numRetries int) (bool, string) {
 	if numRetries >= int(s.MaxNetworkRetries) {
-		return false
+		return false, "max retries exceeded"
 	}
 
 	stripeErr, _ := err.(*Error)
 
-	// Don't retry if the context was was cancelled or its deadline was
+	// Don't retry if the context was was canceled or its deadline was
 	// exceeded.
 	if req.Context() != nil && req.Context().Err() != nil {
-		return false
+		switch req.Context().Err() {
+		case context.Canceled:
+			return false, "context canceled"
+		case context.DeadlineExceeded:
+			return false, "context deadline exceeded"
+		default:
+			return false, fmt.Sprintf("unknown context error: %v", req.Context().Err())
+		}
 	}
 
 	// We retry most errors that come out of HTTP requests except for a curated
@@ -647,37 +661,37 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 		if urlErr, ok := err.(*url.Error); ok {
 			// Don't retry too many redirects.
 			if redirectsErrorRE.MatchString(urlErr.Error()) {
-				return false
+				return false, urlErr.Error()
 			}
 
 			// Don't retry invalid protocol scheme.
 			if schemeErrorRE.MatchString(urlErr.Error()) {
-				return false
+				return false, urlErr.Error()
 			}
 
 			// Don't retry TLS certificate validation problems.
 			if _, ok := urlErr.Err.(x509.UnknownAuthorityError); ok {
-				return false
+				return false, urlErr.Error()
 			}
 		}
 
 		// Do retry every other type of non-Stripe error.
-		return true
+		return true, ""
 	}
 
 	// The API may ask us not to retry (e.g. if doing so would be a no-op), or
 	// advise us to retry (e.g. in cases of lock timeouts). Defer to those
 	// instructions if given.
 	if resp.Header.Get("Stripe-Should-Retry") == "false" {
-		return false
+		return false, "`Stripe-Should-Retry` header returned `false`"
 	}
 	if resp.Header.Get("Stripe-Should-Retry") == "true" {
-		return true
+		return true, ""
 	}
 
 	// 409 Conflict
 	if resp.StatusCode == http.StatusConflict {
-		return true
+		return true, ""
 	}
 
 	// 429 Too Many Requests
@@ -690,7 +704,7 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 	// safe to retry.
 	if resp.StatusCode == http.StatusTooManyRequests {
 		if stripeErr != nil && stripeErr.Code == ErrorCodeLockTimeout {
-			return true
+			return true, ""
 		}
 	}
 
@@ -699,15 +713,15 @@ func (s *BackendImplementation) shouldRetry(err error, req *http.Request, resp *
 	// We only bother retrying these for non-POST requests. POSTs end up being
 	// cached by the idempotency layer so there's no purpose in retrying them.
 	if resp.StatusCode >= http.StatusInternalServerError && req.Method != http.MethodPost {
-		return true
+		return true, ""
 	}
 
 	// 503 Service Unavailable
 	if resp.StatusCode == http.StatusServiceUnavailable {
-		return true
+		return true, ""
 	}
 
-	return false
+	return false, "response not known to be safe for retry"
 }
 
 // sleepTime calculates sleeping/delay time in milliseconds between failure and a new one request.

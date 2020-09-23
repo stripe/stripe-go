@@ -149,142 +149,188 @@ func TestShouldRetry(t *testing.T) {
 	).(*BackendImplementation)
 
 	// Exceeded maximum number of retries
-	assert.False(t, c.shouldRetry(
-		nil,
-		&http.Request{},
-		&http.Response{},
-		int(MaxNetworkRetries),
-	))
+	t.Run("DontRetryOnExceededRetries", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			nil,
+			&http.Request{},
+			&http.Response{},
+			int(MaxNetworkRetries),
+		)
+		assert.False(t, shouldRetry)
+	})
 
 	// Canceled context -- don't retry
-	ctx, cancel := context.WithCancel(context.Background())
-	cancel()
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, "", nil)
-	assert.NoError(t, err)
-	assert.False(t, c.shouldRetry(
-		nil,
-		req,
-		&http.Response{StatusCode: http.StatusOK},
-		0,
-	))
+	t.Run("DontRetryOnCanceledContext", func(t *testing.T) {
+		ctx, cancel := context.WithCancel(context.Background())
+		cancel()
+		req, err := http.NewRequestWithContext(ctx, http.MethodPost, "", nil)
+		assert.NoError(t, err)
+
+		shouldRetry, _ := c.shouldRetry(
+			nil,
+			req,
+			&http.Response{StatusCode: http.StatusOK},
+			0,
+		)
+		assert.False(t, shouldRetry)
+	})
 
 	// Doesn't retry most Stripe errors (they must also match a status code
 	// below to be retried)
-	assert.False(t, c.shouldRetry(
-		&Error{Msg: "An error from Stripe"},
-		&http.Request{},
-		&http.Response{StatusCode: http.StatusBadRequest},
-		0,
-	))
+	t.Run("DontRetryOnStripeError", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			&Error{Msg: "An error from Stripe"},
+			&http.Request{},
+			&http.Response{StatusCode: http.StatusBadRequest},
+			0,
+		)
+		assert.False(t, shouldRetry)
+	})
 
 	// Don't retry too many redirects.
-	assert.False(t, c.shouldRetry(
-		&url.Error{Err: fmt.Errorf("stopped after 5 redirects")},
-		&http.Request{},
-		nil,
-		0,
-	))
+	t.Run("DontRetryOnTooManyRedirects", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			&url.Error{Err: fmt.Errorf("stopped after 5 redirects")},
+			&http.Request{},
+			nil,
+			0,
+		)
+		assert.False(t, shouldRetry)
+	})
 
 	// Don't retry invalid protocol scheme.
-	assert.False(t, c.shouldRetry(
-		&url.Error{Err: fmt.Errorf("unsupported protocol scheme")},
-		&http.Request{},
-		nil,
-		0,
-	))
+	t.Run("DontRetryOnInvalidProtocolScheme", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			&url.Error{Err: fmt.Errorf("unsupported protocol scheme")},
+			&http.Request{},
+			nil,
+			0,
+		)
+		assert.False(t, shouldRetry)
+	})
 
 	// Don't retry TLS certificate validation problems.
-	assert.False(t, c.shouldRetry(
-		&url.Error{Err: x509.UnknownAuthorityError{}},
-		&http.Request{},
-		nil,
-		0,
-	))
+	t.Run("DontRetryOnCertificateError", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			&url.Error{Err: x509.UnknownAuthorityError{}},
+			&http.Request{},
+			nil,
+			0,
+		)
+		assert.False(t, shouldRetry)
+	})
 
 	// Retries most non-Stripe errors
-	assert.True(t, c.shouldRetry(
-		fmt.Errorf("an error"),
-		&http.Request{},
-		nil,
-		0,
-	))
+	t.Run("RetryOnNonStripeError", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			fmt.Errorf("an error"),
+			&http.Request{},
+			nil,
+			0,
+		)
+		assert.True(t, shouldRetry)
+	})
 
 	// `Stripe-Should-Retry: false`
-	assert.False(t, c.shouldRetry(
-		nil,
-		&http.Request{},
-		&http.Response{
-			Header: http.Header(map[string][]string{
-				"Stripe-Should-Retry": {"false"},
-			}),
-			// Note we send status 409 here, which would normally be retried
-			StatusCode: http.StatusConflict,
-		},
-		0,
-	))
+	t.Run("DontRetryOnStripeRetryHeaderFalse", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			nil,
+			&http.Request{},
+			&http.Response{
+				Header: http.Header(map[string][]string{
+					"Stripe-Should-Retry": {"false"},
+				}),
+				// Note we send status 409 here, which would normally be retried
+				StatusCode: http.StatusConflict,
+			},
+			0,
+		)
+		assert.False(t, shouldRetry)
+	})
 
 	// `Stripe-Should-Retry: true`
-	assert.True(t, c.shouldRetry(
-		nil,
-		&http.Request{},
-		&http.Response{
-			Header: http.Header(map[string][]string{
-				"Stripe-Should-Retry": {"true"},
-			}),
-			// Note we send status 400 here, which would normally not be
-			// retried
-			StatusCode: http.StatusBadRequest,
-		},
-		0,
-	))
+	t.Run("RetryOnStripeRetryHeaderTrue", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			nil,
+			&http.Request{},
+			&http.Response{
+				Header: http.Header(map[string][]string{
+					"Stripe-Should-Retry": {"true"},
+				}),
+				// Note we send status 400 here, which would normally not be
+				// retried
+				StatusCode: http.StatusBadRequest,
+			},
+			0,
+		)
+		assert.True(t, shouldRetry)
+	})
 
 	// 409 Conflict
-	assert.True(t, c.shouldRetry(
-		nil,
-		&http.Request{},
-		&http.Response{StatusCode: http.StatusConflict},
-		0,
-	))
+	t.Run("RetryOn409Conflict", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			nil,
+			&http.Request{},
+			&http.Response{StatusCode: http.StatusConflict},
+			0,
+		)
+		assert.True(t, shouldRetry)
+	})
 
 	// 429 Too Many Requests -- retry on lock timeout
-	assert.True(t, c.shouldRetry(
-		&Error{Code: ErrorCodeLockTimeout},
-		&http.Request{},
-		&http.Response{StatusCode: http.StatusTooManyRequests},
-		0,
-	))
+	t.Run("RetryOn429TooManyRequestsLockTimeout", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			&Error{Code: ErrorCodeLockTimeout},
+			&http.Request{},
+			&http.Response{StatusCode: http.StatusTooManyRequests},
+			0,
+		)
+		assert.True(t, shouldRetry)
+	})
 
 	// 429 Too Many Requests -- don't retry normally
-	assert.False(t, c.shouldRetry(
-		nil,
-		&http.Request{},
-		&http.Response{StatusCode: http.StatusTooManyRequests},
-		0,
-	))
+	t.Run("DontRetryOn429TooManyRequests", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			nil,
+			&http.Request{},
+			&http.Response{StatusCode: http.StatusTooManyRequests},
+			0,
+		)
+		assert.False(t, shouldRetry)
+	})
 
 	// 500 Internal Server Error -- retry if non-POST
-	assert.True(t, c.shouldRetry(
-		nil,
-		&http.Request{Method: http.MethodGet},
-		&http.Response{StatusCode: http.StatusInternalServerError},
-		0,
-	))
+	t.Run("RetryOn500NonPost", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			nil,
+			&http.Request{Method: http.MethodGet},
+			&http.Response{StatusCode: http.StatusInternalServerError},
+			0,
+		)
+		assert.True(t, shouldRetry)
+	})
 
 	// 500 Internal Server Error -- don't retry POST
-	assert.False(t, c.shouldRetry(
-		nil,
-		&http.Request{Method: http.MethodPost},
-		&http.Response{StatusCode: http.StatusInternalServerError},
-		0,
-	))
+	t.Run("DontRetryOn500Post", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			nil,
+			&http.Request{Method: http.MethodPost},
+			&http.Response{StatusCode: http.StatusInternalServerError},
+			0,
+		)
+		assert.False(t, shouldRetry)
+	})
 
 	// 503 Service Unavailable
-	assert.True(t, c.shouldRetry(
-		nil,
-		&http.Request{},
-		&http.Response{StatusCode: http.StatusServiceUnavailable},
-		0,
-	))
+	t.Run("RetryOn503ServiceUnavailable", func(t *testing.T) {
+		shouldRetry, _ := c.shouldRetry(
+			nil,
+			&http.Request{},
+			&http.Response{StatusCode: http.StatusServiceUnavailable},
+			0,
+		)
+		assert.True(t, shouldRetry)
+	})
 }
 
 func TestDo_RetryOnTimeout(t *testing.T) {
