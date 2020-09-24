@@ -23,6 +23,7 @@ const (
 	PaymentMethodTypeFPX            PaymentMethodType = "fpx"
 	PaymentMethodTypeIdeal          PaymentMethodType = "ideal"
 	PaymentMethodTypeInteracPresent PaymentMethodType = "interac_present"
+	PaymentMethodTypeOXXO           PaymentMethodType = "oxxo"
 	PaymentMethodTypeP24            PaymentMethodType = "p24"
 	PaymentMethodTypeSepaDebit      PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort         PaymentMethodType = "sofort"
@@ -145,6 +146,11 @@ type PaymentMethodIdealParams struct {
 type PaymentMethodInteracPresentParams struct {
 }
 
+// PaymentMethodOXXOParams is the set of parameters allowed for the `oxxo` hash when creating a
+// PaymentMethod of type OXXO.
+type PaymentMethodOXXOParams struct {
+}
+
 // PaymentMethodP24Params is the set of parameters allowed for the `p24` hash when creating a
 // PaymentMethod of type P24.
 type PaymentMethodP24Params struct {
@@ -177,6 +183,7 @@ type PaymentMethodParams struct {
 	Giropay        *PaymentMethodGiropayParams        `form:"giropay"`
 	Ideal          *PaymentMethodIdealParams          `form:"ideal"`
 	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
+	OXXO           *PaymentMethodOXXOParams           `form:"oxxo"`
 	P24            *PaymentMethodP24Params            `form:"p24"`
 	SepaDebit      *PaymentMethodSepaDebitParams      `form:"sepa_debit"`
 	Sofort         *PaymentMethodSofortParams         `form:"sofort"`
@@ -312,6 +319,10 @@ type PaymentMethodIdeal struct {
 type PaymentMethodInteracPresent struct {
 }
 
+// PaymentMethodOXXO represents the OXXO-specific properties.
+type PaymentMethodOXXO struct {
+}
+
 // PaymentMethodP24 represents the P24 properties.
 type PaymentMethodP24 struct {
 }
@@ -351,6 +362,7 @@ type PaymentMethod struct {
 	Livemode       bool                         `json:"livemode"`
 	Metadata       map[string]string            `json:"metadata"`
 	Object         string                       `json:"object"`
+	OXXO           *PaymentMethodOXXO           `json:"oxxo"`
 	P24            *PaymentMethodP24            `json:"p24"`
 	SepaDebit      *PaymentMethodSepaDebit      `json:"sepa_debit"`
 	Sofort         *PaymentMethodSofort         `json:"sofort"`

@@ -41,7 +41,9 @@ type PaymentIntentNextActionType string
 
 // List of values that PaymentIntentNextActionType can take.
 const (
-	PaymentIntentNextActionTypeRedirectToURL PaymentIntentNextActionType = "redirect_to_url"
+	PaymentIntentNextActionTypeAlipayHandleRedirect PaymentIntentNextActionType = "alipay_handle_redirect"
+	PaymentIntentNextActionTypeOXXODisplayDetails   PaymentIntentNextActionType = "oxxo_display_details"
+	PaymentIntentNextActionTypeRedirectToURL        PaymentIntentNextActionType = "redirect_to_url"
 )
 
 // PaymentIntentOffSession is the list of allowed values for types of off-session.
@@ -172,6 +174,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Card           *PaymentMethodCardParams        `form:"card"`
 	FPX            *PaymentMethodFPXParams         `form:"fpx"`
 	Ideal          *PaymentMethodIdealParams       `form:"ideal"`
+	OXXO           *PaymentMethodOXXOParams        `form:"oxxo"`
 	SepaDebit      *PaymentMethodSepaDebitParams   `form:"sepa_debit"`
 	Type           *string                         `form:"type"`
 }
@@ -211,6 +214,12 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string                                                  `form:"request_three_d_secure"`
 }
 
+// PaymentIntentPaymentMethodOptionsOXXOParams represents the OXXO-specific options applied to a
+// PaymentIntent.
+type PaymentIntentPaymentMethodOptionsOXXOParams struct {
+	ExpiresAfterDays *int64 `form:"expires_after_days"`
+}
+
 // PaymentIntentPaymentMethodOptionsSofortParams represents the sofort-specific options applied to a
 // PaymentIntent.
 type PaymentIntentPaymentMethodOptionsSofortParams struct {
@@ -223,6 +232,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Alipay     *PaymentIntentPaymentMethodOptionsAlipayParams     `form:"alipay"`
 	Bancontact *PaymentIntentPaymentMethodOptionsBancontactParams `form:"bancontact"`
 	Card       *PaymentIntentPaymentMethodOptionsCardParams       `form:"card"`
+	OXXO       *PaymentIntentPaymentMethodOptionsOXXOParams       `form:"oxxo"`
 	Sofort     *PaymentIntentPaymentMethodOptionsSofortParams     `form:"sofort"`
 }
 
@@ -283,6 +293,14 @@ type PaymentIntentNextActionAlipayHandleRedirect struct {
 	URL        string `json:"url"`
 }
 
+// PaymentIntentNextActionOXXODisplayDetails represents the resource for the next action of type
+// "oxxo_display_details".
+type PaymentIntentNextActionOXXODisplayDetails struct {
+	ExpiresAfter     int64  `json:"expires_after"`
+	HostedVoucherURL string `json:"hosted_voucher_url"`
+	Number           string `json:"number"`
+}
+
 // PaymentIntentNextActionRedirectToURL represents the resource for the next action of type
 // "redirect_to_url".
 type PaymentIntentNextActionRedirectToURL struct {
@@ -293,6 +311,7 @@ type PaymentIntentNextActionRedirectToURL struct {
 // PaymentIntentNextAction represents the type of action to take on a payment intent.
 type PaymentIntentNextAction struct {
 	AlipayHandleRedirect *PaymentIntentNextActionAlipayHandleRedirect `json:"alipay_handle_redirect"`
+	OXXODisplayDetails   *PaymentIntentNextActionOXXODisplayDetails   `json:"oxxo_display_details"`
 	RedirectToURL        *PaymentIntentNextActionRedirectToURL        `json:"redirect_to_url"`
 	Type                 PaymentIntentNextActionType                  `json:"type"`
 }
@@ -331,6 +350,12 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 
+// PaymentIntentPaymentMethodOptionsOXXO is the set of OXXO-specific options associated
+// with that payment intent.
+type PaymentIntentPaymentMethodOptionsOXXO struct {
+	ExpiresAfterDays int64 `json:"expires_after_days"`
+}
+
 // PaymentIntentPaymentMethodOptionsSofort is the set of sofort-specific options associated
 // with that payment intent.
 type PaymentIntentPaymentMethodOptionsSofort struct {
@@ -343,6 +368,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Alipay     *PaymentIntentPaymentMethodOptionsAlipay     `json:"alipay"`
 	Bancontact *PaymentIntentPaymentMethodOptionsBancontact `json:"bancontact"`
 	Card       *PaymentIntentPaymentMethodOptionsCard       `json:"card"`
+	OXXO       *PaymentIntentPaymentMethodOptionsOXXO       `json:"oxxo"`
 	Sofort     *PaymentIntentPaymentMethodOptionsSofort     `json:"sofort"`
 }
 
