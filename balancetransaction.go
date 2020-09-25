@@ -18,6 +18,7 @@ const (
 	BalanceTransactionTypeApplicationFee                  BalanceTransactionType = "application_fee"
 	BalanceTransactionTypeApplicationFeeRefund            BalanceTransactionType = "application_fee_refund"
 	BalanceTransactionTypeCharge                          BalanceTransactionType = "charge"
+	BalanceTransactionTypeContribution                    BalanceTransactionType = "contribution"
 	BalanceTransactionTypeIssuingAuthorizationHold        BalanceTransactionType = "issuing_authorization_hold"
 	BalanceTransactionTypeIssuingAuthorizationRelease     BalanceTransactionType = "issuing_authorization_release"
 	BalanceTransactionTypeIssuingAuthorizationDispute     BalanceTransactionType = "issuing_dispute"
