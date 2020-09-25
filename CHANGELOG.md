@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.7.0 - 2020-09-24
+* [#1190](https://github.com/stripe/stripe-go/pull/1190) Add support for BalanceTransactionTypeContribution` on `BalanceTransaction`
+* [#1183](https://github.com/stripe/stripe-go/pull/1183) Add support for OXXO on `PaymentIntent` and `PaymentMethod`
+
 ## 72.6.0 - 2020-09-23
 * [#1189](https://github.com/stripe/stripe-go/pull/1189) When not retrying a request, log reason at info level
 
