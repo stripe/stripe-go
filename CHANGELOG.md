@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.8.0 - 2020-09-28
+* [#1192](https://github.com/stripe/stripe-go/pull/1192) Add support for OXXO Payments capability on `Account`
+
 ## 72.7.0 - 2020-09-24
 * [#1190](https://github.com/stripe/stripe-go/pull/1190) Add support for BalanceTransactionTypeContribution` on `BalanceTransaction`
 * [#1183](https://github.com/stripe/stripe-go/pull/1183) Add support for OXXO on `PaymentIntent` and `PaymentMethod`
