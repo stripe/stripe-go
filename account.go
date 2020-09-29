@@ -29,6 +29,7 @@ const (
 	AccountCapabilityFPXPayments             AccountCapability = "fpx_payments"
 	AccountCapabilityJCBPayments             AccountCapability = "jcb_payments"
 	AccountCapabilityLegacyPayments          AccountCapability = "legacy_payments"
+	AccountCapabilityOXXOPayments            AccountCapability = "oxxo_payments"
 	AccountCapabilityTaxReportingUS1099K     AccountCapability = "tax_reporting_us_1099_k"
 	AccountCapabilityTaxReportingUS1099MISC  AccountCapability = "tax_reporting_us_1099_misc"
 	AccountCapabilityTransfers               AccountCapability = "transfers"
@@ -201,6 +202,11 @@ type AccountCapabilitiesLegacyPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// AccountCapabilitiesOXXOPaymentsParams represent allowed parameters to configure the OXXO capability on an account.
+type AccountCapabilitiesOXXOPaymentsParams struct {
+	Requested *bool `form:"requested"`
+}
+
 // AccountCapabilitiesTaxReportingUS1099KParams represent allowed parameters to configure the 1099-K capability on an account.
 type AccountCapabilitiesTaxReportingUS1099KParams struct {
 	Requested *bool `form:"requested"`
@@ -226,6 +232,7 @@ type AccountCapabilitiesParams struct {
 	FPXPayments             *AccountCapabilitiesFPXPaymentsParams             `form:"fpx_payments"`
 	JCBPayments             *AccountCapabilitiesJCBPaymentsParams             `form:"jcb_payments"`
 	LegacyPayments          *AccountCapabilitiesLegacyPaymentsParams          `form:"legacy_payments"`
+	OXXOPayments            *AccountCapabilitiesOXXOPaymentsParams            `form:"oxxo_payments"`
 	TaxReportingUS1099K     *AccountCapabilitiesTaxReportingUS1099KParams     `form:"tax_reporting_us_1099_k"`
 	TaxReportingUS1099MISC  *AccountCapabilitiesTaxReportingUS1099MISCParams  `form:"tax_reporting_us_1099_misc"`
 	Transfers               *AccountCapabilitiesTransfersParams               `form:"transfers"`
@@ -442,6 +449,7 @@ type AccountCapabilities struct {
 	FPXPayments             AccountCapabilityStatus `json:"fpx_payments"`
 	JCBPayments             AccountCapabilityStatus `json:"jcb_payments"`
 	LegacyPayments          AccountCapabilityStatus `json:"legacy_payments"`
+	OXXOPayments            AccountCapabilityStatus `json:"oxxo_payments"`
 	TaxReportingUS1099K     AccountCapabilityStatus `json:"tax_reporting_us_1099_k"`
 	TaxReportingUS1099MISC  AccountCapabilityStatus `json:"tax_reporting_us_1099_misc"`
 	Transfers               AccountCapabilityStatus `json:"transfers"`
