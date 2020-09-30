@@ -179,6 +179,7 @@ type SetupIntent struct {
 	Description          string                           `json:"description"`
 	ID                   string                           `json:"id"`
 	LastSetupError       *Error                           `json:"last_setup_error"`
+	LatestAttempt        *SetupAttempt                    `json:"latest_attempt"`
 	Livemode             bool                             `json:"livemode"`
 	Mandate              *Mandate                         `json:"mandate"`
 	Metadata             map[string]string                `json:"metadata"`
