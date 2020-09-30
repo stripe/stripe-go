@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.9.0 - 2020-09-29
+* [#1194](https://github.com/stripe/stripe-go/pull/1194) Add support for the `SetupAttempt` resource and List API
+
 ## 72.8.0 - 2020-09-28
 * [#1192](https://github.com/stripe/stripe-go/pull/1192) Add support for OXXO Payments capability on `Account`
 
