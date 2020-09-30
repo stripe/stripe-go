@@ -48,7 +48,6 @@ func TestProductNew(t *testing.T) {
 			Width:  stripe.Float64(6.50),
 			Weight: stripe.Float64(10),
 		},
-		Type: stripe.String(string(stripe.ProductTypeGood)),
 	})
 	assert.Nil(t, err)
 	assert.NotNil(t, product)
