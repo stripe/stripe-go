@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.10.0 - 2020-10-02
+* [#1195](https://github.com/stripe/stripe-go/pull/1195) Add support for new payments capabilities on `Account`
+
 ## 72.9.0 - 2020-09-29
 * [#1194](https://github.com/stripe/stripe-go/pull/1194) Add support for the `SetupAttempt` resource and List API
 
