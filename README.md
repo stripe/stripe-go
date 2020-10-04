@@ -30,7 +30,7 @@ toolchain will resolve and fetch the stripe-go module automatically.
 Alternatively, you can also explicitly `go get` the package into a project:
 
 ```
-go get -u github.com/stripe/stripe-go/v71
+go get -u github.com/stripe/stripe-go/v72
 ```
 
 ## Documentation
