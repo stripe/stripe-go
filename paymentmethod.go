@@ -327,13 +327,21 @@ type PaymentMethodOXXO struct {
 type PaymentMethodP24 struct {
 }
 
+// PaymentMethodSepaDebitGeneratedFrom represents information about the object
+// that generated this PaymentMethod
+type PaymentMethodSepaDebitGeneratedFrom struct {
+	Charge       *Charge       `json:"charge"`
+	SetupAttempt *SetupAttempt `json:"setup_attempt"`
+}
+
 // PaymentMethodSepaDebit represents the SEPA-debit-specific properties.
 type PaymentMethodSepaDebit struct {
-	BankCode    string `json:"bank_code"`
-	BranchCode  string `json:"branch_code"`
-	Country     string `json:"country"`
-	Fingerprint string `json:"fingerprint"`
-	Last4       string `json:"last4"`
+	BankCode      string                              `json:"bank_code"`
+	BranchCode    string                              `json:"branch_code"`
+	Country       string                              `json:"country"`
+	Fingerprint   string                              `json:"fingerprint"`
+	Last4         string                              `json:"last4"`
+	GeneratedFrom PaymentMethodSepaDebitGeneratedFrom `json:"generated_from"`
 }
 
 // PaymentMethodSofort represents the Sofort-specific properties.
