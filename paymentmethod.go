@@ -336,12 +336,12 @@ type PaymentMethodSepaDebitGeneratedFrom struct {
 
 // PaymentMethodSepaDebit represents the SEPA-debit-specific properties.
 type PaymentMethodSepaDebit struct {
-	BankCode      string                              `json:"bank_code"`
-	BranchCode    string                              `json:"branch_code"`
-	Country       string                              `json:"country"`
-	Fingerprint   string                              `json:"fingerprint"`
-	Last4         string                              `json:"last4"`
-	GeneratedFrom PaymentMethodSepaDebitGeneratedFrom `json:"generated_from"`
+	BankCode      string                               `json:"bank_code"`
+	BranchCode    string                               `json:"branch_code"`
+	Country       string                               `json:"country"`
+	Fingerprint   string                               `json:"fingerprint"`
+	Last4         string                               `json:"last4"`
+	GeneratedFrom *PaymentMethodSepaDebitGeneratedFrom `json:"generated_from"`
 }
 
 // PaymentMethodSofort represents the Sofort-specific properties.
