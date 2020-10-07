@@ -268,7 +268,9 @@ type RangeQueryParams struct {
 func NewIdempotencyKey() string {
 	now := time.Now().UnixNano()
 	buf := make([]byte, 4)
-	rand.Read(buf)
+	if _, err := rand.Read(buf); err != nil {
+		panic(err)
+	}
 	return fmt.Sprintf("%v_%v", now, base64.URLEncoding.EncodeToString(buf)[:6])
 }
 
