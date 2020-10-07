@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.11.0 - 2020-10-06
+* [#1200](https://github.com/stripe/stripe-go/pull/1200) Handle randomness error when generating idempotency keys
+
 ## 72.10.0 - 2020-10-02
 * [#1195](https://github.com/stripe/stripe-go/pull/1195) Add support for new payments capabilities on `Account`
 
