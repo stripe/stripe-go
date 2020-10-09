@@ -85,15 +85,52 @@ type SetupAttemptPaymentMethodDetailsCardThreeDSecure struct {
 	Version            string                                                             `json:"version"`
 }
 
+// SetupAttemptPaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.
+type SetupAttemptPaymentMethodDetailsBancontact struct {
+	BankCode                  string         `json:"bank_code"`
+	BankName                  string         `json:"bank_name"`
+	Bic                       string         `json:"bic"`
+	GeneratedSepaDebit        *PaymentMethod `json:"generated_sepa_debit"`
+	GeneratedSepaDebitMandate *Mandate       `json:"generated_sepa_debit_mandate"`
+	IbanLast4                 string         `json:"iban_last4"`
+	PreferredLanguage         string         `json:"preferred_language"`
+	VerifiedName              string         `json:"verified_name"`
+}
+
 // SetupAttemptPaymentMethodDetailsCard represents details about the Card PaymentMethod.
 type SetupAttemptPaymentMethodDetailsCard struct {
 	ThreeDSecure *SetupAttemptPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 }
 
+// SetupAttemptPaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.
+type SetupAttemptPaymentMethodDetailsIdeal struct {
+	Bank                      string         `json:"bank"`
+	Bic                       string         `json:"bic"`
+	GeneratedSepaDebit        *PaymentMethod `json:"generated_sepa_debit"`
+	GeneratedSepaDebitMandate *Mandate       `json:"generated_sepa_debit_mandate"`
+	IbanLast4                 string         `json:"iban_last4"`
+	VerifiedName              string         `json:"verified_name"`
+}
+
+// SetupAttemptPaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.
+type SetupAttemptPaymentMethodDetailsSofort struct {
+	BankCode                  string         `json:"bank_code"`
+	BankName                  string         `json:"bank_name"`
+	Bic                       string         `json:"bic"`
+	GeneratedSepaDebit        *PaymentMethod `json:"generated_sepa_debit"`
+	GeneratedSepaDebitMandate *Mandate       `json:"generated_sepa_debit_mandate"`
+	IbanLast4                 string         `json:"iban_last4"`
+	PreferredLanguage         string         `json:"preferred_language"`
+	VerifiedName              string         `json:"verified_name"`
+}
+
 // SetupAttemptPaymentMethodDetails represents the details about the PaymentMethod associated with the setup attempt.
 type SetupAttemptPaymentMethodDetails struct {
-	Card *SetupAttemptPaymentMethodDetailsCard `json:"card"`
-	Type SetupAttemptPaymentMethodDetailsType  `json:"type"`
+	Bancontact *SetupAttemptPaymentMethodDetailsBancontact `json:"bancontact"`
+	Card       *SetupAttemptPaymentMethodDetailsCard       `json:"card"`
+	Ideal      *SetupAttemptPaymentMethodDetailsIdeal      `json:"ideal"`
+	Sofort     *SetupAttemptPaymentMethodDetailsSofort     `json:"sofort"`
+	Type       SetupAttemptPaymentMethodDetailsType        `json:"type"`
 }
 
 // SetupAttempt is the resource representing a Stripe setup attempt.

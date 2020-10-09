@@ -274,12 +274,14 @@ type ChargePaymentMethodDetailsBACSDebit struct {
 
 // ChargePaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.
 type ChargePaymentMethodDetailsBancontact struct {
-	BankCode          string `json:"bank_code"`
-	BankName          string `json:"bank_name"`
-	Bic               string `json:"bic"`
-	IbanLast4         string `json:"iban_last4"`
-	PreferredLanguage string `json:"preferred_language"`
-	VerifiedName      string `json:"verified_name"`
+	BankCode                  string         `json:"bank_code"`
+	BankName                  string         `json:"bank_name"`
+	Bic                       string         `json:"bic"`
+	IbanLast4                 string         `json:"iban_last4"`
+	PreferredLanguage         string         `json:"preferred_language"`
+	VerifiedName              string         `json:"verified_name"`
+	GeneratedSepaDebit        *PaymentMethod `json:"generated_sepa_debit"`
+	GeneratedSepaDebitMandate *Mandate       `json:"generated_sepa_debit_mandate"`
 }
 
 // ChargePaymentMethodDetailsCardChecks represents the checks associated with the charge's Card
@@ -428,10 +430,12 @@ type ChargePaymentMethodDetailsGiropay struct {
 
 // ChargePaymentMethodDetailsIdeal represents details about the Ideal PaymentMethod.
 type ChargePaymentMethodDetailsIdeal struct {
-	Bank         string `json:"bank"`
-	Bic          string `json:"bic"`
-	IbanLast4    string `json:"iban_last4"`
-	VerifiedName string `json:"verified_name"`
+	Bank                      string         `json:"bank"`
+	Bic                       string         `json:"bic"`
+	IbanLast4                 string         `json:"iban_last4"`
+	VerifiedName              string         `json:"verified_name"`
+	GeneratedSepaDebit        *PaymentMethod `json:"generated_sepa_debit"`
+	GeneratedSepaDebitMandate *Mandate       `json:"generated_sepa_debit_mandate"`
 }
 
 // ChargePaymentMethodDetailsInteracPresent represents details about the InteracPresent PaymentMethod.
@@ -497,12 +501,14 @@ type ChargePaymentMethodDetailsSepaDebit struct {
 
 // ChargePaymentMethodDetailsSofort represents details about the Sofort PaymentMethod.
 type ChargePaymentMethodDetailsSofort struct {
-	BankCode     string `json:"bank_code"`
-	BankName     string `json:"bank_name"`
-	Bic          string `json:"bic"`
-	Country      string `json:"country"`
-	IbanLast4    string `json:"iban_last4"`
-	VerifiedName string `json:"verified_name"`
+	BankCode                  string         `json:"bank_code"`
+	BankName                  string         `json:"bank_name"`
+	Bic                       string         `json:"bic"`
+	Country                   string         `json:"country"`
+	IbanLast4                 string         `json:"iban_last4"`
+	VerifiedName              string         `json:"verified_name"`
+	GeneratedSepaDebit        *PaymentMethod `json:"generated_sepa_debit"`
+	GeneratedSepaDebitMandate *Mandate       `json:"generated_sepa_debit_mandate"`
 }
 
 // ChargePaymentMethodDetailsStripeAccount represents details about the StripeAccount PaymentMethod.
