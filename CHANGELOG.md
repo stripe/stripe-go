@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.12.1 - 2020-10-09
+* [#1203](https://github.com/stripe/stripe-go/pull/1203) Bugfix: Balance.InstantAvailable should be of type Amount
+
 ## 72.12.0 - 2020-10-08
 * [#1199](https://github.com/stripe/stripe-go/pull/1199) Support sepa_debit for bancontact, ideal, sofort
 
