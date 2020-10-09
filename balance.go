@@ -37,7 +37,7 @@ type Balance struct {
 	APIResource
 	Available        []*Amount       `json:"available"`
 	ConnectReserved  []*Amount       `json:"connect_reserved"`
-	InstantAvailable *BalanceDetails `json:"instant_available"`
+	InstantAvailable []*Amount       `json:"instant_available"`
 	Issuing          *BalanceDetails `json:"issuing"`
 	Livemode         bool            `json:"livemode"`
 	Object           string          `json:"object"`
