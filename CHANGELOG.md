@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.12.0 - 2020-10-08
+* [#1199](https://github.com/stripe/stripe-go/pull/1199) Support sepa_debit for bancontact, ideal, sofort
+
 ## 72.11.0 - 2020-10-06
 * [#1200](https://github.com/stripe/stripe-go/pull/1200) Handle randomness error when generating idempotency keys
 
