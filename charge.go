@@ -492,11 +492,12 @@ type ChargePaymentMethodDetailsP24 struct {
 
 // ChargePaymentMethodDetailsSepaDebit represents details about the Sepa Debit PaymentMethod.
 type ChargePaymentMethodDetailsSepaDebit struct {
-	BankCode    string `json:"bank_code"`
-	BranchCode  string `json:"branch_code"`
-	Country     string `json:"country"`
-	Fingerprint string `json:"fingerprint"`
-	Last4       string `json:"last4"`
+	BankCode    string   `json:"bank_code"`
+	BranchCode  string   `json:"branch_code"`
+	Country     string   `json:"country"`
+	Fingerprint string   `json:"fingerprint"`
+	Last4       string   `json:"last4"`
+	Mandate     *Mandate `json:"mandate"`
 }
 
 // ChargePaymentMethodDetailsSofort represents details about the Sofort PaymentMethod.
