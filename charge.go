@@ -406,6 +406,12 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	Network        PaymentMethodCardNetwork                      `json:"network"`
 	ReadMethod     string                                        `json:"read_method"`
 	Receipt        *ChargePaymentMethodDetailsCardPresentReceipt `json:"receipt"`
+
+	// Please note that the fields below are for internal use only and are not returned
+	// as part of standard API requests.
+	Description string `json:"description"`
+	IIN         string `json:"iin"`
+	Issuer      string `json:"issuer"`
 }
 
 // ChargePaymentMethodDetailsEps represents details about the EPS PaymentMethod.
@@ -453,6 +459,12 @@ type ChargePaymentMethodDetailsInteracPresent struct {
 	Network        string                                           `json:"network"`
 	ReadMethod     string                                           `json:"read_method"`
 	Receipt        *ChargePaymentMethodDetailsInteracPresentReceipt `json:"receipt"`
+
+	// Please note that the fields below are for internal use only and are not returned
+	// as part of standard API requests.
+	Description string `json:"description"`
+	IIN         string `json:"iin"`
+	Issuer      string `json:"issuer"`
 }
 
 // ChargePaymentMethodDetailsInteracPresentReceipt represents details about the InteracPresent Receipt.
