@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.14.0 - 2020-10-12
+* [#1207](https://github.com/stripe/stripe-go/pull/1207) Add support for `Description`, `IIN` and `Issuer` on `Charge` for `CardPresent` and `InteracPresent
+
 ## 72.13.0 - 2020-10-11
 * [#1206](https://github.com/stripe/stripe-go/pull/1206) Add support for `Mandate` in `ChargePaymentMethodDetailsSepaDebit`
 
