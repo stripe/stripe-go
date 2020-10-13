@@ -65,6 +65,19 @@ func (c Client) Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, 
 	return payout, err
 }
 
+// Reverse reverses a pending payout.
+func Reverse(id string, params *stripe.PayoutReverseParams) (*stripe.Payout, error) {
+	return getC().Reverse(id, params)
+}
+
+// Reverse reverses a pending payout.
+func (c Client) Reverse(id string, params *stripe.PayoutReverseParams) (*stripe.Payout, error) {
+	path := stripe.FormatURLPath("/v1/payouts/%s/reverse", id)
+	payout := &stripe.Payout{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, payout)
+	return payout, err
+}
+
 // List returns a list of payouts.
 func List(params *stripe.PayoutListParams) *Iter {
 	return getC().List(params)

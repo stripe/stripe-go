@@ -21,7 +21,8 @@ func TestPayoutGet(t *testing.T) {
 }
 
 func TestPayoutList(t *testing.T) {
-	i := List(&stripe.PayoutListParams{})
+	params := &stripe.PayoutListParams{}
+	i := List(params)
 
 	// Verify that we can get at least one payout
 	assert.True(t, i.Next())
@@ -39,14 +40,22 @@ func TestPayoutNew(t *testing.T) {
 	assert.NotNil(t, payout)
 }
 
+func TestPayoutReverse(t *testing.T) {
+	params := &stripe.PayoutReverseParams{}
+	payout, err := Reverse("po_123", params)
+	assert.Nil(t, err)
+	assert.NotNil(t, payout)
+}
+
 func TestPayoutUpdate(t *testing.T) {
-	payout, err := Update("tr_123", &stripe.PayoutParams{
+	params := &stripe.PayoutParams{
 		Params: stripe.Params{
 			Metadata: map[string]string{
 				"foo": "bar",
 			},
 		},
-	})
+	}
+	payout, err := Update("po_123", params)
 	assert.Nil(t, err)
 	assert.NotNil(t, payout)
 }
