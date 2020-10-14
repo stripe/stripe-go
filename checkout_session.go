@@ -65,6 +65,13 @@ type CheckoutSessionLineItemPriceDataParams struct {
 	UnitAmountDecimal *float64                                           `form:"unit_amount_decimal,high_precision"`
 }
 
+// CheckoutSessionDiscountParams is the set of parameters allowed for discounts on
+// a checkout session.
+type CheckoutSessionDiscountParams struct {
+	Coupon        *string `form:"coupon"`
+	PromotionCode *string `form:"promotion_code"`
+}
+
 // CheckoutSessionLineItemParams is the set of parameters allowed for a line item
 // on a checkout session.
 type CheckoutSessionLineItemParams struct {
@@ -151,6 +158,7 @@ type CheckoutSessionParams struct {
 	ClientReferenceID         *string                                         `form:"client_reference_id"`
 	Customer                  *string                                         `form:"customer"`
 	CustomerEmail             *string                                         `form:"customer_email"`
+	Discounts                 []*CheckoutSessionDiscountParams                `form:"discounts"`
 	LineItems                 []*CheckoutSessionLineItemParams                `form:"line_items"`
 	Locale                    *string                                         `form:"locale"`
 	Mode                      *string                                         `form:"mode"`
