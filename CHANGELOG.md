@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.16.0 - 2020-10-14
+* [#1210](https://github.com/stripe/stripe-go/pull/1210) Add support for `Discounts` to `CheckoutSessionParams`
+
 ## 72.15.0 - 2020-10-14
 * [#1208](https://github.com/stripe/stripe-go/pull/1208) Add support for the Payout Reverse API
 
