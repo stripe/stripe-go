@@ -103,6 +103,11 @@ type PayoutListParams struct {
 	Status           *string           `form:"status"`
 }
 
+// PayoutReverseParams is the set of parameters that can be used when reversing a payout.
+type PayoutReverseParams struct {
+	Params `form:"*"`
+}
+
 // Payout is the resource representing a Stripe payout.
 // For more details see https://stripe.com/docs/api#payouts.
 type Payout struct {
@@ -124,6 +129,8 @@ type Payout struct {
 	Livemode                  bool                `json:"livemode"`
 	Metadata                  map[string]string   `json:"metadata"`
 	Method                    PayoutMethodType    `json:"method"`
+	OriginalPayout            *Payout             `json:"original_payout"`
+	ReversedBy                *Payout             `json:"reversed_by"`
 	SourceType                PayoutSourceType    `json:"source_type"`
 	StatementDescriptor       string              `json:"statement_descriptor"`
 	Status                    PayoutStatus        `json:"status"`
