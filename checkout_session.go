@@ -158,7 +158,7 @@ type CheckoutSessionParams struct {
 	ClientReferenceID         *string                                         `form:"client_reference_id"`
 	Customer                  *string                                         `form:"customer"`
 	CustomerEmail             *string                                         `form:"customer_email"`
-	Discounts                 *CheckoutSessionDiscountParams                  `form:"discounts"`
+	Discounts                 []*CheckoutSessionDiscountParams                `form:"discounts"`
 	LineItems                 []*CheckoutSessionLineItemParams                `form:"line_items"`
 	Locale                    *string                                         `form:"locale"`
 	Mode                      *string                                         `form:"mode"`
