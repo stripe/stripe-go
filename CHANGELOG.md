@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.15.0 - 2020-10-14
+* [#1208](https://github.com/stripe/stripe-go/pull/1208) Add support for the Payout Reverse API
+
 ## 72.14.0 - 2020-10-12
 * [#1207](https://github.com/stripe/stripe-go/pull/1207) Add support for `Description`, `IIN` and `Issuer` on `Charge` for `CardPresent` and `InteracPresent
 
