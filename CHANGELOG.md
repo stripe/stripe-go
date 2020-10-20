@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.17.0 - 2020-10-20
+* [#1212](https://github.com/stripe/stripe-go/pull/1212) Add `TaxIDTypeJPRN` and `TaxIDTypeRUKPP` on `TaxId`
+
 ## 72.16.0 - 2020-10-14
 * [#1210](https://github.com/stripe/stripe-go/pull/1210) Add support for `Discounts` to `CheckoutSessionParams`
 
