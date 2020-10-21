@@ -75,7 +75,7 @@ type ListContainer interface {
 
 // ListMeta is the structure that contains the common properties
 // of List iterators. The Count property is only populated if the
-// total_count include option is passed in (see tests for example).
+// total_count is a deprecated option that doesn't work anymore.
 type ListMeta struct {
 	HasMore    bool   `json:"has_more"`
 	TotalCount uint32 `json:"total_count"`
