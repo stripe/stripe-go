@@ -78,8 +78,14 @@ type ListContainer interface {
 // total_count include option is passed in (see tests for example).
 type ListMeta struct {
 	HasMore    bool   `json:"has_more"`
-	TotalCount uint32 `json:"total_count"`
 	URL        string `json:"url"`
+
+	// TotalCount is the total number of objects in the collection (beyond just
+	// on the current page). This is not returned in most list calls.
+	//
+	// Deprecated: TotalCount is only included in some legacy situations and
+	// not generally available anymore.
+	TotalCount uint32 `json:"total_count"`
 }
 
 // GetListMeta returns a ListMeta struct (itself). It exists because any
