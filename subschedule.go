@@ -81,6 +81,7 @@ type SubscriptionSchedulePhaseAddInvoiceItemParams struct {
 	Price     *string                     `form:"price"`
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
 	Quantity  *int64                      `form:"quantity"`
+	TaxRates  []*string                   `form:"tax_rates"`
 }
 
 // SubscriptionSchedulePhaseItemParams is a structure representing the parameters allowed to control
@@ -194,8 +195,9 @@ type SubscriptionScheduleDefaultSettings struct {
 
 // SubscriptionSchedulePhaseAddInvoiceItem represents the invoice items to add when the phase starts.
 type SubscriptionSchedulePhaseAddInvoiceItem struct {
-	Price    *Price `json:"price"`
-	Quantity int64  `json:"quantity"`
+	Price    *Price     `json:"price"`
+	Quantity int64      `json:"quantity"`
+	TaxRates []*TaxRate `json:"tax_rates"`
 }
 
 // SubscriptionSchedulePhaseItem represents plan details for a given phase

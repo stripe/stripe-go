@@ -79,6 +79,7 @@ type SubscriptionAddInvoiceItemParams struct {
 	Price     *string                     `form:"price"`
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
 	Quantity  *int64                      `form:"quantity"`
+	TaxRates  []*string                   `form:"tax_rates"`
 }
 
 // SubscriptionPauseCollectionParams is the set of parameters allowed for the pause_collection hash.
