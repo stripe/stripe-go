@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.19.0 - 2020-10-23
+* [#1217](https://github.com/stripe/stripe-go/pull/1217) Add support for passing `Bank` for P24 on `PaymentIntent` or `PaymentMethod`
+
 ## 72.18.0 - 2020-10-22
 * [#1215](https://github.com/stripe/stripe-go/pull/1215) Add missing constants for existing types on `PaymentMethod`
 * [#1216](https://github.com/stripe/stripe-go/pull/1216) Support passing `TaxRates` when creating invoice items through `Subscription` or `SubscriptionSchedule`
