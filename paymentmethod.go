@@ -158,6 +158,7 @@ type PaymentMethodOXXOParams struct {
 // PaymentMethodP24Params is the set of parameters allowed for the `p24` hash when creating a
 // PaymentMethod of type P24.
 type PaymentMethodP24Params struct {
+	Bank *string `form:"bank"`
 }
 
 // PaymentMethodSepaDebitParams is the set of parameters allowed for the `sepa_debit` hash when
@@ -329,6 +330,7 @@ type PaymentMethodOXXO struct {
 
 // PaymentMethodP24 represents the P24 properties.
 type PaymentMethodP24 struct {
+	Bank string `json:"bank"`
 }
 
 // PaymentMethodSepaDebitGeneratedFrom represents information about the object
