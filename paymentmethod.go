@@ -16,11 +16,15 @@ type PaymentMethodType string
 
 // List of values that PaymentMethodType can take.
 const (
+	PaymentMethodTypeAlipay         PaymentMethodType = "alipay"
 	PaymentMethodTypeAUBECSDebit    PaymentMethodType = "au_becs_debit"
 	PaymentMethodTypeBACSDebit      PaymentMethodType = "bacs_debit"
+	PaymentMethodTypeBancontact     PaymentMethodType = "bancontact"
 	PaymentMethodTypeCard           PaymentMethodType = "card"
 	PaymentMethodTypeCardPresent    PaymentMethodType = "card_present"
+	PaymentMethodTypeEPS            PaymentMethodType = "eps"
 	PaymentMethodTypeFPX            PaymentMethodType = "fpx"
+	PaymentMethodTypeGiropay        PaymentMethodType = "giropay"
 	PaymentMethodTypeIdeal          PaymentMethodType = "ideal"
 	PaymentMethodTypeInteracPresent PaymentMethodType = "interac_present"
 	PaymentMethodTypeOXXO           PaymentMethodType = "oxxo"
