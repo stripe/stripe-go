@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.20.0 - 2020-10-26
+* [#1218](https://github.com/stripe/stripe-go/pull/1218) Multiple API changes
+  * Add support for passing `CvcToken` in `PaymentIntentPaymentMethodOptionsCardOptions ` on `PaymentIntent`
+  * Add support for creating a CVC Token on `Token`.
+
 ## 72.19.0 - 2020-10-23
 * [#1217](https://github.com/stripe/stripe-go/pull/1217) Add support for passing `Bank` for P24 on `PaymentIntent` or `PaymentMethod`
 
