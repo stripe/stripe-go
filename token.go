@@ -6,18 +6,25 @@ type TokenType string
 // List of values that TokenType can take.
 const (
 	TokenTypeAccount     TokenType = "account"
-	TokenTypeCard        TokenType = "card"
 	TokenTypeBankAccount TokenType = "bank_account"
+	TokenTypeCard        TokenType = "card"
+	TokenTypeCVCUpdate   TokenType = "cvc_update"
 	TokenTypePII         TokenType = "pii"
 )
+
+// TokenCVCUpdateParams is the set of parameters that can be used when creating a CVC token.
+type TokenCVCUpdateParams struct {
+	CVC *string `form:"cvc"`
+}
 
 // TokenParams is the set of parameters that can be used when creating a token.
 // For more details see https://stripe.com/docs/api#create_card_token and https://stripe.com/docs/api#create_bank_account_token.
 type TokenParams struct {
 	Params      `form:"*"`
-	BankAccount *BankAccountParams `form:"bank_account"`
-	Card        *CardParams        `form:"card"`
-	Customer    *string            `form:"customer"`
+	BankAccount *BankAccountParams    `form:"bank_account"`
+	Card        *CardParams           `form:"card"`
+	Customer    *string               `form:"customer"`
+	CVCUpdate   *TokenCVCUpdateParams `form:"cvc_update"`
 
 	// Email is an undocumented parameter used by Stripe Checkout
 	// It may be removed from the API without notice.

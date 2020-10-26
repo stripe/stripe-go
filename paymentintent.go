@@ -208,6 +208,7 @@ type PaymentIntentPaymentMethodOptionsCardInstallmentsParams struct {
 // PaymentIntentPaymentMethodOptionsCardParams represents the card-specific options applied to a
 // PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardParams struct {
+	CVCToken            *string                                                  `form:"cvc_token"`
 	Installments        *PaymentIntentPaymentMethodOptionsCardInstallmentsParams `form:"installments"`
 	MOTO                *bool                                                    `form:"moto"`
 	Network             *string                                                  `form:"network"`
