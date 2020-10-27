@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.21.0 - 2020-10-27
+* [#1220](https://github.com/stripe/stripe-go/pull/1220) Add `PreferredLocales` on `Charge` for payments made via Interac Present transactions
+
 ## 72.20.0 - 2020-10-26
 * [#1218](https://github.com/stripe/stripe-go/pull/1218) Multiple API changes
   * Add support for passing `CvcToken` in `PaymentIntentPaymentMethodOptionsCardOptions ` on `PaymentIntent`
