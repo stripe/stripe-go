@@ -446,19 +446,20 @@ type ChargePaymentMethodDetailsIdeal struct {
 
 // ChargePaymentMethodDetailsInteracPresent represents details about the InteracPresent PaymentMethod.
 type ChargePaymentMethodDetailsInteracPresent struct {
-	Brand          string                                           `json:"brand"`
-	CardholderName string                                           `json:"cardholder_name"`
-	Country        string                                           `json:"country"`
-	EmvAuthData    string                                           `json:"emv_auth_data"`
-	ExpMonth       int64                                            `json:"exp_month"`
-	ExpYear        int64                                            `json:"exp_year"`
-	Fingerprint    string                                           `json:"fingerprint"`
-	Funding        string                                           `json:"funding"`
-	GeneratedCard  string                                           `json:"generated_card"`
-	Last4          string                                           `json:"last4"`
-	Network        string                                           `json:"network"`
-	ReadMethod     string                                           `json:"read_method"`
-	Receipt        *ChargePaymentMethodDetailsInteracPresentReceipt `json:"receipt"`
+	Brand            string                                           `json:"brand"`
+	CardholderName   string                                           `json:"cardholder_name"`
+	Country          string                                           `json:"country"`
+	EmvAuthData      string                                           `json:"emv_auth_data"`
+	ExpMonth         int64                                            `json:"exp_month"`
+	ExpYear          int64                                            `json:"exp_year"`
+	Fingerprint      string                                           `json:"fingerprint"`
+	Funding          string                                           `json:"funding"`
+	GeneratedCard    string                                           `json:"generated_card"`
+	Last4            string                                           `json:"last4"`
+	Network          string                                           `json:"network"`
+	PreferredLocales []string                                         `json:"preferred_locales"`
+	ReadMethod       string                                           `json:"read_method"`
+	Receipt          *ChargePaymentMethodDetailsInteracPresentReceipt `json:"receipt"`
 
 	// Please note that the fields below are for internal use only and are not returned
 	// as part of standard API requests.
