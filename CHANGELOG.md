@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.22.0 - 2020-11-04
+* [#1221](https://github.com/stripe/stripe-go/pull/1221) Add support for `RegistrationNumber` in `Company` on `Account`
+
 ## 72.21.0 - 2020-10-27
 * [#1220](https://github.com/stripe/stripe-go/pull/1220) Add `PreferredLocales` on `Charge` for payments made via Interac Present transactions
 
