@@ -310,6 +310,7 @@ type AccountCompanyParams struct {
 	NameKana           *string                           `form:"name_kana"`
 	NameKanji          *string                           `form:"name_kanji"`
 	OwnersProvided     *bool                             `form:"owners_provided"`
+	RegistrationNumber *string                           `form:"registration_number"`
 	Structure          *string                           `form:"structure"`
 	Phone              *string                           `form:"phone"`
 	TaxID              *string                           `form:"tax_id"`
@@ -536,6 +537,7 @@ type AccountCompany struct {
 	NameKanji          string                      `json:"name_kanji"`
 	OwnersProvided     bool                        `json:"owners_provided"`
 	Phone              string                      `json:"phone"`
+	RegistrationNumber string                      `json:"registration_number"`
 	Structure          AccountCompanyStructure     `json:"structure"`
 	TaxIDProvided      bool                        `json:"tax_id_provided"`
 	TaxIDRegistrar     string                      `json:"tax_id_registrar"`
