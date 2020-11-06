@@ -44,6 +44,7 @@ const (
 	BalanceTransactionSourceTypeCharge               BalanceTransactionSourceType = "charge"
 	BalanceTransactionSourceTypeDispute              BalanceTransactionSourceType = "dispute"
 	BalanceTransactionSourceTypeIssuingAuthorization BalanceTransactionSourceType = "issuing.authorization"
+	BalanceTransactionSourceTypeIssuingDispute       BalanceTransactionSourceType = "issuing.dispute"
 	BalanceTransactionSourceTypeIssuingTransaction   BalanceTransactionSourceType = "issuing.transaction"
 	BalanceTransactionSourceTypePayout               BalanceTransactionSourceType = "payout"
 	BalanceTransactionSourceTypeRefund               BalanceTransactionSourceType = "refund"
@@ -93,6 +94,7 @@ type BalanceTransactionSource struct {
 	Dispute              *Dispute                     `json:"-"`
 	ID                   string                       `json:"id"`
 	IssuingAuthorization *IssuingAuthorization        `json:"-"`
+	IssuingDispute       *IssuingDispute              `json:"-"`
 	IssuingTransaction   *IssuingAuthorization        `json:"-"`
 	Payout               *Payout                      `json:"-"`
 	Refund               *Refund                      `json:"-"`
@@ -203,6 +205,8 @@ func (s *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &s.Dispute)
 	case BalanceTransactionSourceTypeIssuingAuthorization:
 		err = json.Unmarshal(data, &s.IssuingAuthorization)
+	case BalanceTransactionSourceTypeIssuingDispute:
+		err = json.Unmarshal(data, &s.IssuingDispute)
 	case BalanceTransactionSourceTypeIssuingTransaction:
 		err = json.Unmarshal(data, &s.IssuingTransaction)
 	case BalanceTransactionSourceTypePayout:
