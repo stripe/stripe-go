@@ -193,15 +193,16 @@ type Error struct {
 	// exactly what went wrong during charging a card.
 	Err error `json:"-"`
 
-	HTTPStatusCode int            `json:"status,omitempty"`
-	Msg            string         `json:"message"`
-	Param          string         `json:"param,omitempty"`
-	PaymentIntent  *PaymentIntent `json:"payment_intent,omitempty"`
-	PaymentMethod  *PaymentMethod `json:"payment_method,omitempty"`
-	RequestID      string         `json:"request_id,omitempty"`
-	SetupIntent    *SetupIntent   `json:"setup_intent,omitempty"`
-	Source         *PaymentSource `json:"source,omitempty"`
-	Type           ErrorType      `json:"type"`
+	HTTPStatusCode    int               `json:"status,omitempty"`
+	Msg               string            `json:"message"`
+	Param             string            `json:"param,omitempty"`
+	PaymentIntent     *PaymentIntent    `json:"payment_intent,omitempty"`
+	PaymentMethod     *PaymentMethod    `json:"payment_method,omitempty"`
+	PaymentMethodType PaymentMethodType `json:"payment_method_type,omitempty"`
+	RequestID         string            `json:"request_id,omitempty"`
+	SetupIntent       *SetupIntent      `json:"setup_intent,omitempty"`
+	Source            *PaymentSource    `json:"source,omitempty"`
+	Type              ErrorType         `json:"type"`
 
 	// OAuth specific Error properties. Named OAuthError because of name conflict.
 	OAuthError            string `json:"error,omitempty"`
