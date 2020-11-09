@@ -250,6 +250,7 @@ type Invoice struct {
 	HostedInvoiceURL             string                   `json:"hosted_invoice_url"`
 	ID                           string                   `json:"id"`
 	InvoicePDF                   string                   `json:"invoice_pdf"`
+	LastFinalizationError        *Error                   `json:"last_finalization_error"`
 	Lines                        *InvoiceLineList         `json:"lines"`
 	Livemode                     bool                     `json:"livemode"`
 	Metadata                     map[string]string        `json:"metadata"`
