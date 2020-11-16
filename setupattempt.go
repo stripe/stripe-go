@@ -102,7 +102,7 @@ type SetupAttemptPaymentMethodDetailsCard struct {
 	ThreeDSecure *SetupAttemptPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 }
 
-// SetupAttemptPaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.
+// SetupAttemptPaymentMethodDetailsIdeal represents details about the Bancontact PaymentMethod.
 type SetupAttemptPaymentMethodDetailsIdeal struct {
 	Bank                      string         `json:"bank"`
 	Bic                       string         `json:"bic"`
@@ -112,7 +112,7 @@ type SetupAttemptPaymentMethodDetailsIdeal struct {
 	VerifiedName              string         `json:"verified_name"`
 }
 
-// SetupAttemptPaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.
+// SetupAttemptPaymentMethodDetailsSofort represents details about the Bancontact PaymentMethod.
 type SetupAttemptPaymentMethodDetailsSofort struct {
 	BankCode                  string         `json:"bank_code"`
 	BankName                  string         `json:"bank_name"`
