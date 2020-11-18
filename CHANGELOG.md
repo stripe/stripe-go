@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.24.0 - 2020-11-18
+* [#1224](https://github.com/stripe/stripe-go/pull/1224) Add support for GrabPay as a PaymentMethod
+* [#1225](https://github.com/stripe/stripe-go/pull/1225) Fix bad comments to make the linter happy
+
 ## 72.23.0 - 2020-11-09
 * [#1222](https://github.com/stripe/stripe-go/pull/1222) Add `LastFinalizationError` to `Invoice` and `PaymentMethodType` to `Error`
 * [#1223](https://github.com/stripe/stripe-go/pull/1223) Properly deserialize `IssuingDispute` on `BalanceTransaction`
