@@ -25,6 +25,7 @@ const (
 	PaymentMethodTypeEPS            PaymentMethodType = "eps"
 	PaymentMethodTypeFPX            PaymentMethodType = "fpx"
 	PaymentMethodTypeGiropay        PaymentMethodType = "giropay"
+	PaymentMethodTypeGrabpay        PaymentMethodType = "grabpay"
 	PaymentMethodTypeIdeal          PaymentMethodType = "ideal"
 	PaymentMethodTypeInteracPresent PaymentMethodType = "interac_present"
 	PaymentMethodTypeOXXO           PaymentMethodType = "oxxo"
@@ -139,6 +140,11 @@ type PaymentMethodFPXParams struct {
 type PaymentMethodGiropayParams struct {
 }
 
+// PaymentMethodGrabpayParams is the set of parameters allowed for the `grabpay` hash when creating a
+// PaymentMethod of type Grabpay.
+type PaymentMethodGrabpayParams struct {
+}
+
 // PaymentMethodIdealParams is the set of parameters allowed for the `ideal` hash when creating a
 // PaymentMethod of type ideal.
 type PaymentMethodIdealParams struct {
@@ -186,6 +192,7 @@ type PaymentMethodParams struct {
 	EPS            *PaymentMethodEPSParams            `form:"eps"`
 	FPX            *PaymentMethodFPXParams            `form:"fpx"`
 	Giropay        *PaymentMethodGiropayParams        `form:"giropay"`
+	Grabpay        *PaymentMethodGrabpayParams        `form:"grabpay"`
 	Ideal          *PaymentMethodIdealParams          `form:"ideal"`
 	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
 	OXXO           *PaymentMethodOXXOParams           `form:"oxxo"`
@@ -314,6 +321,10 @@ type PaymentMethodFPX struct {
 type PaymentMethodGiropay struct {
 }
 
+// PaymentMethodGrabpay represents the Grabpay properties.
+type PaymentMethodGrabpay struct {
+}
+
 // PaymentMethodIdeal represents the iDEAL-specific properties.
 type PaymentMethodIdeal struct {
 	Bank string `json:"bank"`
@@ -370,6 +381,7 @@ type PaymentMethod struct {
 	EPS            *PaymentMethodEPS            `json:"eps"`
 	FPX            *PaymentMethodFPX            `json:"fpx"`
 	Giropay        *PaymentMethodGiropay        `json:"giropay"`
+	Grabpay        *PaymentMethodGrabpay        `json:"grabpay"`
 	ID             string                       `json:"id"`
 	Ideal          *PaymentMethodIdeal          `json:"ideal"`
 	InteracPresent *PaymentMethodInteracPresent `json:"interac_present"`

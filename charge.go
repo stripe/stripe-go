@@ -87,6 +87,7 @@ const (
 	ChargePaymentMethodDetailsTypeEps               ChargePaymentMethodDetailsType = "eps"
 	ChargePaymentMethodDetailsTypeFPX               ChargePaymentMethodDetailsType = "fpx"
 	ChargePaymentMethodDetailsTypeGiropay           ChargePaymentMethodDetailsType = "giropay"
+	ChargePaymentMethodDetailsTypeGrabpay           ChargePaymentMethodDetailsType = "grabpay"
 	ChargePaymentMethodDetailsTypeIdeal             ChargePaymentMethodDetailsType = "ideal"
 	ChargePaymentMethodDetailsTypeInteracPresent    ChargePaymentMethodDetailsType = "interac_present"
 	ChargePaymentMethodDetailsTypeKlarna            ChargePaymentMethodDetailsType = "klarna"
@@ -434,6 +435,11 @@ type ChargePaymentMethodDetailsGiropay struct {
 	VerifiedName string `json:"verified_name"`
 }
 
+// ChargePaymentMethodDetailsGrabpay represents details about the Grabpay PaymentMethod.
+type ChargePaymentMethodDetailsGrabpay struct {
+	TransactionID string `json:"transaction_id"`
+}
+
 // ChargePaymentMethodDetailsIdeal represents details about the Ideal PaymentMethod.
 type ChargePaymentMethodDetailsIdeal struct {
 	Bank                      string         `json:"bank"`
@@ -548,6 +554,7 @@ type ChargePaymentMethodDetails struct {
 	Eps               *ChargePaymentMethodDetailsEps               `json:"eps"`
 	FPX               *ChargePaymentMethodDetailsFPX               `json:"fpx"`
 	Giropay           *ChargePaymentMethodDetailsGiropay           `json:"giropay"`
+	Grabpay           *ChargePaymentMethodDetailsGrabpay           `json:"grabpay"`
 	Ideal             *ChargePaymentMethodDetailsIdeal             `json:"ideal"`
 	Klarna            *ChargePaymentMethodDetailsKlarna            `json:"klarna"`
 	Multibanco        *ChargePaymentMethodDetailsMultibanco        `json:"multibanco"`

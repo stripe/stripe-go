@@ -173,6 +173,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	BillingDetails *BillingDetailsParams           `form:"billing_details"`
 	Card           *PaymentMethodCardParams        `form:"card"`
 	FPX            *PaymentMethodFPXParams         `form:"fpx"`
+	Grabpay        *PaymentMethodGrabpayParams     `form:"grabpay"`
 	Ideal          *PaymentMethodIdealParams       `form:"ideal"`
 	OXXO           *PaymentMethodOXXOParams        `form:"oxxo"`
 	SepaDebit      *PaymentMethodSepaDebitParams   `form:"sepa_debit"`
