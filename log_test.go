@@ -106,6 +106,37 @@ func TestLeveledLoggerErrorf(t *testing.T) {
 	}
 }
 
+func TestRedact(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+	logger := &LeveledLogger{stdoutOverride: &stdout, stderrOverride: &stderr}
+	for _, level := range []Level{LevelDebug, LevelInfo, LevelWarn, LevelError} {
+		assertRedact := func(expectedMsg string, msg string, v ...interface{}) {
+			clearBuffers(&stdout, &stderr)
+			logger.Level = level
+
+			logger.Errorf(msg, v...)
+			assert.Equal(t, "", stdout.String())
+			assert.Equal(t, "[ERROR] "+expectedMsg+"\n", stderr.String())
+		}
+
+		// Redacts secret and restricted keys in test and live mode
+		assertRedact("sk_live_01****6789", "sk_live_0123456789")
+		assertRedact("sk_test_01****6789", "sk_test_0123456789")
+		assertRedact("rk_live_01****6789", "rk_live_0123456789")
+		assertRedact("rk_test_01****6789", "rk_test_0123456789")
+
+		// Redacts key created by string interpolated
+		assertRedact("sk_live_01****6789", "sk_live_%s", "0123456789")
+
+		// Redacts key within a larger message
+		assertRedact("foo sk_live_01****6789 foo", "foo sk_live_0123456789 foo")
+
+		// Does not redact too-short keys
+		assertRedact("sk_live_01", "sk_live_01")
+		assertRedact("sk_live_01", "sk_live_%s", "01")
+	}
+}
+
 //
 // Private functions
 //
