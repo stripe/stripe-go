@@ -60,3 +60,31 @@ func TestTokenNew_SharedCustomerCard(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, token)
 }
+
+func TestTokenNew_WithAccount(t *testing.T) {
+	token, err := New(&stripe.TokenParams{
+		Account: &stripe.TokenAccountParams{
+			Individual: &stripe.PersonParams{
+				FirstName: stripe.String("Jane"),
+				LastName:  stripe.String("Doe"),
+			},
+			TOSShownAndAccepted: stripe.Bool(true),
+		},
+	})
+	assert.Nil(t, err)
+	assert.NotNil(t, token)
+}
+
+func TestTokenNew_WithPerson(t *testing.T) {
+	token, err := New(&stripe.TokenParams{
+		Person: &stripe.PersonParams{
+			FirstName: stripe.String("Jane"),
+			LastName:  stripe.String("Doe"),
+			Relationship: &stripe.RelationshipParams{
+				Owner: stripe.Bool(true),
+			},
+		},
+	})
+	assert.Nil(t, err)
+	assert.NotNil(t, token)
+}

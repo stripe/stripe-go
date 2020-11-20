@@ -17,14 +17,28 @@ type TokenCVCUpdateParams struct {
 	CVC *string `form:"cvc"`
 }
 
+// TokenAccountParams is the set of parameters that can be used when creating a Account token.
+type TokenAccountParams struct {
+	BusinessType        *string               `form:"business_type"`
+	Company             *AccountCompanyParams `form:"company"`
+	Individual          *PersonParams         `form:"individual"`
+	TOSShownAndAccepted *bool                 `form:"tos_shown_and_accepted"`
+}
+
 // TokenParams is the set of parameters that can be used when creating a token.
-// For more details see https://stripe.com/docs/api#create_card_token and https://stripe.com/docs/api#create_bank_account_token.
+// For more details see:
+// - https://stripe.com/docs/api#create_card_token
+// - https://stripe.com/docs/api#create_bank_account_token
+// - https://stripe.com/docs/api/tokens/create_account
+// - https://stripe.com/docs/api/tokens/create_person
 type TokenParams struct {
 	Params      `form:"*"`
+	Account     *TokenAccountParams   `form:"account"`
 	BankAccount *BankAccountParams    `form:"bank_account"`
 	Card        *CardParams           `form:"card"`
 	Customer    *string               `form:"customer"`
 	CVCUpdate   *TokenCVCUpdateParams `form:"cvc_update"`
+	Person      *PersonParams         `form:"person"`
 
 	// Email is an undocumented parameter used by Stripe Checkout
 	// It may be removed from the API without notice.
