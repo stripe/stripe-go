@@ -30,6 +30,7 @@ const (
 	AccountCapabilityEPSPayments             AccountCapability = "eps_payments"
 	AccountCapabilityFPXPayments             AccountCapability = "fpx_payments"
 	AccountCapabilityGiropayPayments         AccountCapability = "giropay_payments"
+	AccountCapabilityGrabpayPayments         AccountCapability = "grabpay_payments"
 	AccountCapabilityIdealPayments           AccountCapability = "ideal_payments"
 	AccountCapabilityJCBPayments             AccountCapability = "jcb_payments"
 	AccountCapabilityLegacyPayments          AccountCapability = "legacy_payments"
@@ -214,6 +215,11 @@ type AccountCapabilitiesGiropayPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// AccountCapabilitiesGrabpayPaymentsParams represent allowed parameters to configure the grabpay payments capability on an account.
+type AccountCapabilitiesGrabpayPaymentsParams struct {
+	Requested *bool `form:"requested"`
+}
+
 // AccountCapabilitiesIdealPaymentsParams represent allowed parameters to configure the ideal payments capability on an account.
 type AccountCapabilitiesIdealPaymentsParams struct {
 	Requested *bool `form:"requested"`
@@ -275,6 +281,7 @@ type AccountCapabilitiesParams struct {
 	EPSPayments             *AccountCapabilitiesEPSPaymentsParams             `form:"eps_payments"`
 	FPXPayments             *AccountCapabilitiesFPXPaymentsParams             `form:"fpx_payments"`
 	GiropayPayments         *AccountCapabilitiesGiropayPaymentsParams         `form:"giropay_payments"`
+	GrabpayPayments         *AccountCapabilitiesGrabpayPaymentsParams         `form:"grabpay_payments"`
 	IdealPayments           *AccountCapabilitiesIdealPaymentsParams           `form:"ideal_payments"`
 	JCBPayments             *AccountCapabilitiesJCBPaymentsParams             `form:"jcb_payments"`
 	LegacyPayments          *AccountCapabilitiesLegacyPaymentsParams          `form:"legacy_payments"`
@@ -500,6 +507,7 @@ type AccountCapabilities struct {
 	EPSPayments             AccountCapabilityStatus `json:"eps_payments"`
 	FPXPayments             AccountCapabilityStatus `json:"fpx_payments"`
 	GiropayPayments         AccountCapabilityStatus `json:"giropay_payments"`
+	GrabpayPayments         AccountCapabilityStatus `json:"grabpay_payments"`
 	IdealPayments           AccountCapabilityStatus `json:"ideal_payments"`
 	JCBPayments             AccountCapabilityStatus `json:"jcb_payments"`
 	LegacyPayments          AccountCapabilityStatus `json:"legacy_payments"`
