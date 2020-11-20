@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.25.0 - 2020-11-20
+* [#1229](https://github.com/stripe/stripe-go/pull/1229) Add support for `GrabpayPayments` as a capability on `Account`
+
 ## 72.24.0 - 2020-11-18
 * [#1224](https://github.com/stripe/stripe-go/pull/1224) Add support for GrabPay as a PaymentMethod
 * [#1225](https://github.com/stripe/stripe-go/pull/1225) Fix bad comments to make the linter happy
