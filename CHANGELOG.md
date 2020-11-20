@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.26.0 - 2020-11-20
+* [#1227](https://github.com/stripe/stripe-go/pull/1227) Add support for Account and Person `Token` creation
+
 ## 72.25.0 - 2020-11-20
 * [#1229](https://github.com/stripe/stripe-go/pull/1229) Add support for `GrabpayPayments` as a capability on `Account`
 
