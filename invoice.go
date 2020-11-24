@@ -98,6 +98,7 @@ type InvoiceTransferDataParams struct {
 // For more details see https://stripe.com/docs/api#create_invoice, https://stripe.com/docs/api#update_invoice.
 type InvoiceParams struct {
 	Params               `form:"*"`
+	AccountTaxIDs        []*string                   `form:"account_tax_ids"`
 	AutoAdvance          *bool                       `form:"auto_advance"`
 	ApplicationFeeAmount *int64                      `form:"application_fee_amount"`
 	CollectionMethod     *string                     `form:"collection_method"`
@@ -216,6 +217,7 @@ type Invoice struct {
 	APIResource
 	AccountCountry               string                   `json:"account_country"`
 	AccountName                  string                   `json:"account_name"`
+	AccountTaxIDs                []*TaxID                 `json:"account_tax_ids"`
 	AmountDue                    int64                    `json:"amount_due"`
 	AmountPaid                   int64                    `json:"amount_paid"`
 	AmountRemaining              int64                    `json:"amount_remaining"`
