@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.27.0 - 2020-11-24
+* [#1230](https://github.com/stripe/stripe-go/pull/1230) Add support for `AccountTaxIDs` on `Invoice`
+
 ## 72.26.0 - 2020-11-20
 * [#1227](https://github.com/stripe/stripe-go/pull/1227) Add support for Account and Person `Token` creation
 
