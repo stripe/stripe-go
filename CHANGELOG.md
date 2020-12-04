@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.28.0 - 2020-12-03
+* [#1234](https://github.com/stripe/stripe-go/pull/1234) Add support for `BankAccountOwnershipVerification` in `Documents` on `Account`
+
 ## 72.27.0 - 2020-11-24
 * [#1230](https://github.com/stripe/stripe-go/pull/1230) Add support for `AccountTaxIDs` on `Invoice`
 
