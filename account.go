@@ -333,6 +333,17 @@ type AccountDeclineSettingsParams struct {
 	CVCFailure *bool `form:"cvc_failure"`
 }
 
+// AccountDocumentsBankAccountOwnershipVerificationParams represents the parameters allowed for passing
+// bank account ownership verification documents on an account.
+type AccountDocumentsBankAccountOwnershipVerificationParams struct {
+	Files []*string `form:"files"`
+}
+
+// AccountDocumentsParams represents the parameters allowed for passing additional documents on an account.
+type AccountDocumentsParams struct {
+	BankAccountOwnershipVerification *AccountDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification"`
+}
+
 // AccountSettingsBrandingParams represent allowed parameters to configure settings specific to the
 // account’s branding.
 type AccountSettingsBrandingParams struct {
@@ -415,6 +426,7 @@ type AccountParams struct {
 	Company         *AccountCompanyParams         `form:"company"`
 	Country         *string                       `form:"country"`
 	DefaultCurrency *string                       `form:"default_currency"`
+	Documents       *AccountDocumentsParams       `form:"documents"`
 	Email           *string                       `form:"email"`
 	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
 	Individual      *PersonParams                 `form:"individual"`

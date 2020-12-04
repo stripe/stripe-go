@@ -16,6 +16,7 @@ type FilePurpose string
 
 // List of values that FilePurpose can take.
 const (
+	FilePurposeAccountRequirement               FilePurpose = "account_requirement"
 	FilePurposeAdditionalVerification           FilePurpose = "additional_verification"
 	FilePurposeBusinessIcon                     FilePurpose = "business_icon"
 	FilePurposeBusinessLogo                     FilePurpose = "business_logo"
