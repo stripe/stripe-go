@@ -126,6 +126,7 @@ type PaymentMethodCardParams struct {
 // PaymentMethodEPSParams is the set of parameters allowed for the `eps` hash when creating a
 // PaymentMethod of type EPS.
 type PaymentMethodEPSParams struct {
+	Bank *string `form:"bank"`
 }
 
 // PaymentMethodFPXParams is the set of parameters allowed for the `fpx` hash when creating a
@@ -164,7 +165,8 @@ type PaymentMethodOXXOParams struct {
 // PaymentMethodP24Params is the set of parameters allowed for the `p24` hash when creating a
 // PaymentMethod of type P24.
 type PaymentMethodP24Params struct {
-	Bank *string `form:"bank"`
+	Bank                *string `form:"bank"`
+	TOSShownAndAccepted *bool   `from:"tos_shown_and_accepted"`
 }
 
 // PaymentMethodSepaDebitParams is the set of parameters allowed for the `sepa_debit` hash when
@@ -308,6 +310,7 @@ type PaymentMethodCardPresent struct {
 
 // PaymentMethodEPS represents the EPS properties.
 type PaymentMethodEPS struct {
+	Bank string `json:"bank"`
 }
 
 // PaymentMethodFPX represents FPX-specific properties (Malaysia Only).

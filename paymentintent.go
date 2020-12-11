@@ -172,10 +172,12 @@ type PaymentIntentPaymentMethodDataParams struct {
 	AUBECSDebit    *PaymentMethodAUBECSDebitParams `form:"au_becs_debit"`
 	BillingDetails *BillingDetailsParams           `form:"billing_details"`
 	Card           *PaymentMethodCardParams        `form:"card"`
+	EPS            *PaymentMethodEPSParams         `form:"eps"`
 	FPX            *PaymentMethodFPXParams         `form:"fpx"`
 	Grabpay        *PaymentMethodGrabpayParams     `form:"grabpay"`
 	Ideal          *PaymentMethodIdealParams       `form:"ideal"`
 	OXXO           *PaymentMethodOXXOParams        `form:"oxxo"`
+	P24            *PaymentMethodP24Params         `form:"p24"`
 	SepaDebit      *PaymentMethodSepaDebitParams   `form:"sepa_debit"`
 	Type           *string                         `form:"type"`
 }
