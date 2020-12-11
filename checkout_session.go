@@ -142,6 +142,7 @@ type CheckoutSessionSubscriptionDataParams struct {
 	DefaultTaxRates       []*string                                     `form:"default_tax_rates"`
 	Items                 []*CheckoutSessionSubscriptionDataItemsParams `form:"items"`
 	Metadata              map[string]string                             `form:"metadata"`
+	PaymentBehavior       *string                                       `form:"payment_behavior"`
 	TrialEnd              *int64                                        `form:"trial_end"`
 	TrialFromPlan         *bool                                         `form:"trial_from_plan"`
 	TrialPeriodDays       *int64                                        `form:"trial_period_days"`
