@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"regexp"
 )
 
 //
@@ -77,42 +76,6 @@ type LeveledLogger struct {
 	stdoutOverride io.Writer
 }
 
-var apiKeyRegex *regexp.Regexp
-
-func init() {
-	var err error
-	apiKeyRegex, err = regexp.Compile("(sk_live|sk_test|rk_live|rk_test)_[a-zA-Z0-9]{2}[a-zA-Z0-9]{1,}")
-	if err != nil {
-		panic(err)
-	}
-}
-
-// Redact the middle of a string as needed and replace it with an asterisk.
-// Keep the given number of characters at the start and end of the string.
-func redactMiddle(msg string, startLen int, endLen int) string {
-	if len(msg) <= startLen+endLen {
-		return msg
-	}
-	redactedSubstr := ""
-	for i := 0; i < len(msg)-endLen-startLen; i++ {
-		redactedSubstr += "*"
-	}
-	return msg[:startLen] + redactedSubstr + msg[len(msg)-endLen:]
-}
-
-func redact(msg string) string {
-	return apiKeyRegex.ReplaceAllStringFunc(msg, func(str string) string {
-		return redactMiddle(str, 10, 4)
-	})
-}
-
-func (l *LeveledLogger) printLog(format string, tag string, level Level, output io.Writer, v ...interface{}) {
-	if l.Level >= level {
-		s := fmt.Sprintf(format, v...)
-		fmt.Fprintf(output, "[%s] %s\n", tag, redact(s))
-	}
-}
-
 // Debugf logs a debug message using Printf conventions.
 func (l *LeveledLogger) Debugf(format string, v ...interface{}) {
 	l.printLog(format, "DEBUG", LevelDebug, l.stdout(), v...)
@@ -167,4 +130,15 @@ type LeveledLoggerInterface interface {
 
 	// Warnf logs a warning message using Printf conventions.
 	Warnf(format string, v ...interface{})
+}
+
+//
+// Private functions
+//
+
+func (l *LeveledLogger) printLog(format string, tag string, level Level, output io.Writer, v ...interface{}) {
+	if l.Level >= level {
+		s := fmt.Sprintf(format, v...)
+		fmt.Fprintf(output, "[%s] %s\n", tag, s)
+	}
 }
