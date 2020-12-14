@@ -84,4 +84,3 @@ func TestErrorRedact(t *testing.T) {
 		assert.Equal(t, "foo", si.ClientSecret)
 		assert.Equal(t, "REDACTED", redacted.SetupIntent.ClientSecret)
 	})
-}
