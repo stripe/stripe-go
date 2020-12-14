@@ -295,8 +295,12 @@ func (e *RateLimitError) Error() string {
 }
 
 // redact returns a copy of the error object with sensitive fields replaced with
-// a placeholder value
+// a placeholder value.
 func (e *Error) redact() *Error {
+	// Fast path, since this applies to most cases
+	if e.PaymentIntent == nil && e.SetupIntent == nil {
+		return e
+	}
 	errCopy := *e
 	if e.PaymentIntent != nil {
 		pi := *e.PaymentIntent
