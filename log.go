@@ -78,22 +78,31 @@ type LeveledLogger struct {
 
 // Debugf logs a debug message using Printf conventions.
 func (l *LeveledLogger) Debugf(format string, v ...interface{}) {
-	l.printLog(format, "DEBUG", LevelDebug, l.stdout(), v...)
+	if l.Level >= LevelDebug {
+		fmt.Fprintf(l.stdout(), "[DEBUG] "+format+"\n", v...)
+	}
 }
 
 // Errorf logs a warning message using Printf conventions.
 func (l *LeveledLogger) Errorf(format string, v ...interface{}) {
-	l.printLog(format, "ERROR", LevelError, l.stderr(), v...)
+	// Infof logs a debug message using Printf conventions.
+	if l.Level >= LevelError {
+		fmt.Fprintf(l.stderr(), "[ERROR] "+format+"\n", v...)
+	}
 }
 
 // Infof logs an informational message using Printf conventions.
 func (l *LeveledLogger) Infof(format string, v ...interface{}) {
-	l.printLog(format, "INFO", LevelInfo, l.stdout(), v...)
+	if l.Level >= LevelInfo {
+		fmt.Fprintf(l.stdout(), "[INFO] "+format+"\n", v...)
+	}
 }
 
 // Warnf logs a warning message using Printf conventions.
 func (l *LeveledLogger) Warnf(format string, v ...interface{}) {
-	l.printLog(format, "WARN", LevelWarn, l.stderr(), v...)
+	if l.Level >= LevelWarn {
+		fmt.Fprintf(l.stderr(), "[WARN] "+format+"\n", v...)
+	}
 }
 
 func (l *LeveledLogger) stderr() io.Writer {
@@ -130,15 +139,4 @@ type LeveledLoggerInterface interface {
 
 	// Warnf logs a warning message using Printf conventions.
 	Warnf(format string, v ...interface{})
-}
-
-//
-// Private functions
-//
-
-func (l *LeveledLogger) printLog(format string, tag string, level Level, output io.Writer, v ...interface{}) {
-	if l.Level >= level {
-		s := fmt.Sprintf(format, v...)
-		fmt.Fprintf(output, "[%s] %s\n", tag, s)
-	}
 }
