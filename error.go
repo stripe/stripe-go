@@ -302,10 +302,13 @@ func (e *Error) redact() *Error {
 		pi := *e.PaymentIntent
 		errCopy.PaymentIntent = &pi
 		errCopy.PaymentIntent.ClientSecret = "REDACTED"
-		return &errCopy
-	} else {
-		return e
 	}
+	if e.SetupIntent != nil {
+		si := *e.SetupIntent
+		errCopy.SetupIntent = &si
+		errCopy.SetupIntent.ClientSecret = "REDACTED"
+	}
+	return &errCopy
 }
 
 // rawError deserializes the outer JSON object returned in an error response
