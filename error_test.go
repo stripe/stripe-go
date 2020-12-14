@@ -43,8 +43,7 @@ func TestErrorRedact(t *testing.T) {
 	pi := &PaymentIntent{Amount: int64(400), ClientSecret: "foo"}
 	si := &SetupIntent{Description: "keepme", ClientSecret: "foo"}
 
-	// Both
-	{
+	t.Run("BothIntentObjects", func(t *testing.T) {
 		err := &Error{PaymentIntent: pi, SetupIntent: si}
 		redacted := err.redact()
 		assert.Equal(t, int64(400), err.PaymentIntent.Amount)
@@ -57,18 +56,16 @@ func TestErrorRedact(t *testing.T) {
 		assert.Equal(t, "foo", si.ClientSecret)
 		assert.Equal(t, "REDACTED", redacted.PaymentIntent.ClientSecret)
 		assert.Equal(t, "REDACTED", redacted.SetupIntent.ClientSecret)
-	}
+	})
 
-	// Neither
-	{
+	t.Run("NeitherIntentObject", func(t *testing.T) {
 		err := Error{PaymentIntent: nil, SetupIntent: nil}
 		redacted := err.redact()
 		assert.Nil(t, err.PaymentIntent)
 		assert.Nil(t, redacted.PaymentIntent)
-	}
+	})
 
-	// Just PaymentIntent
-	{
+	t.Run("PaymentIntentAlonee", func(t *testing.T) {
 		err := &Error{PaymentIntent: pi}
 		redacted := err.redact()
 		assert.Equal(t, int64(400), err.PaymentIntent.Amount)
@@ -76,10 +73,9 @@ func TestErrorRedact(t *testing.T) {
 		assert.Equal(t, "foo", err.PaymentIntent.ClientSecret)
 		assert.Equal(t, "foo", pi.ClientSecret)
 		assert.Equal(t, "REDACTED", redacted.PaymentIntent.ClientSecret)
-	}
+	})
 
-	// Just SetupIntent
-	{
+	t.Run("SetupIntentAlone", func(t *testing.T) {
 		err := &Error{SetupIntent: si}
 		redacted := err.redact()
 		assert.Equal(t, "keepme", err.SetupIntent.Description)
@@ -87,6 +83,5 @@ func TestErrorRedact(t *testing.T) {
 		assert.Equal(t, "foo", err.SetupIntent.ClientSecret)
 		assert.Equal(t, "foo", si.ClientSecret)
 		assert.Equal(t, "REDACTED", redacted.SetupIntent.ClientSecret)
-	}
-
+	})
 }
