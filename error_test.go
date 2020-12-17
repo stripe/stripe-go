@@ -65,7 +65,7 @@ func TestErrorRedact(t *testing.T) {
 		assert.Nil(t, redacted.PaymentIntent)
 	})
 
-	t.Run("PaymentIntentAlonee", func(t *testing.T) {
+	t.Run("PaymentIntentAlone", func(t *testing.T) {
 		err := &Error{PaymentIntent: pi}
 		redacted := err.redact()
 		assert.Equal(t, int64(400), err.PaymentIntent.Amount)
