@@ -333,15 +333,52 @@ type AccountDeclineSettingsParams struct {
 	CVCFailure *bool `form:"cvc_failure"`
 }
 
-// AccountDocumentsBankAccountOwnershipVerificationParams represents the parameters allowed for passing
-// bank account ownership verification documents on an account.
+// AccountDocumentsBankAccountOwnershipVerificationParams represents the
+// parameters allowed for passing bank account ownership verification documents
+// on an account.
 type AccountDocumentsBankAccountOwnershipVerificationParams struct {
+	Files []*string `form:"files"`
+}
+
+// AccountDocumentsCompanyLicenseParams represents the parameters allowed for
+// passing company license verification documents on an account.
+type AccountDocumentsCompanyLicenseParams struct {
+	Files []*string `form:"files"`
+}
+
+// AccountDocumentsCompanyMemorandumOfAssociationParams represents the
+// parameters allowed for passing company memorandum of association documents
+// on an account.
+type AccountDocumentsCompanyMemorandumOfAssociationParams struct {
+	Files []*string `form:"files"`
+}
+
+// AccountDocumentsCompanyMinisterialDecreeParams represents the parameters
+// allowed for passing company ministerial decree documents on an account.
+type AccountDocumentsCompanyMinisterialDecreeParams struct {
+	Files []*string `form:"files"`
+}
+
+// AccountDocumentsCompanyRegistrationVerificationParams represents the
+// parameters allowed for passing company registration verification documents.
+type AccountDocumentsCompanyRegistrationVerificationParams struct {
+	Files []*string `form:"files"`
+}
+
+// AccountDocumentsCompanyTaxIdVerificationParams represents the parameters
+// allowed for passing company tax id verification documents on an account.
+type AccountDocumentsCompanyTaxIdVerificationParams struct {
 	Files []*string `form:"files"`
 }
 
 // AccountDocumentsParams represents the parameters allowed for passing additional documents on an account.
 type AccountDocumentsParams struct {
 	BankAccountOwnershipVerification *AccountDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification"`
+	CompanyLicense                   *AccountDocumentsCompanyLicenseParams                   `form:"company_license"`
+	CompanyMemorandumOfAssocation    *AccountDocumentsCompanyMemorandumOfAssociationParams   `form:"company_memorandum_of_association"`
+	CompanyMinisterialDecree         *AccountDocumentsCompanyMinisterialDecreeParams         `form:"company_ministerial_decree"`
+	CompanyRegistrationVerification  *AccountDocumentsCompanyRegistrationVerificationParams  `form:"company_registration_verification"`
+	ComparyTaxIdVerification         *AccountDocumentsCompanyTaxIdVerificationParams         `form:"company_tax_id_verification"`
 }
 
 // AccountSettingsBrandingParams represent allowed parameters to configure settings specific to the

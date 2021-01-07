@@ -63,6 +63,11 @@ func TestAccountNew(t *testing.T) {
 				},
 			},
 		},
+		Documents: &stripe.AccountDocumentsParams{
+			CompanyLicense: &stripe.AccountDocumentsCompanyLicenseParams{
+				Files: []*string{stripe.String("file_xyz")},
+			},
+		},
 		Country: stripe.String("CA"),
 		ExternalAccount: &stripe.AccountExternalAccountParams{
 			Token: stripe.String("tok_123"),
