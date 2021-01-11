@@ -378,7 +378,7 @@ type AccountDocumentsParams struct {
 	CompanyMemorandumOfAssocation    *AccountDocumentsCompanyMemorandumOfAssociationParams   `form:"company_memorandum_of_association"`
 	CompanyMinisterialDecree         *AccountDocumentsCompanyMinisterialDecreeParams         `form:"company_ministerial_decree"`
 	CompanyRegistrationVerification  *AccountDocumentsCompanyRegistrationVerificationParams  `form:"company_registration_verification"`
-	CompanyTaxIIVerification         *AccountDocumentsCompanyTaxIDVerificationParams         `form:"company_tax_id_verification"`
+	CompanyTaxIDVerification         *AccountDocumentsCompanyTaxIDVerificationParams         `form:"company_tax_id_verification"`
 }
 
 // AccountSettingsBrandingParams represent allowed parameters to configure settings specific to the
