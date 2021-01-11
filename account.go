@@ -365,9 +365,9 @@ type AccountDocumentsCompanyRegistrationVerificationParams struct {
 	Files []*string `form:"files"`
 }
 
-// AccountDocumentsCompanyTaxIdVerificationParams represents the parameters
+// AccountDocumentsCompanyTaxIDVerificationParams represents the parameters
 // allowed for passing company tax id verification documents on an account.
-type AccountDocumentsCompanyTaxIdVerificationParams struct {
+type AccountDocumentsCompanyTaxIDVerificationParams struct {
 	Files []*string `form:"files"`
 }
 
@@ -378,7 +378,7 @@ type AccountDocumentsParams struct {
 	CompanyMemorandumOfAssocation    *AccountDocumentsCompanyMemorandumOfAssociationParams   `form:"company_memorandum_of_association"`
 	CompanyMinisterialDecree         *AccountDocumentsCompanyMinisterialDecreeParams         `form:"company_ministerial_decree"`
 	CompanyRegistrationVerification  *AccountDocumentsCompanyRegistrationVerificationParams  `form:"company_registration_verification"`
-	ComparyTaxIdVerification         *AccountDocumentsCompanyTaxIdVerificationParams         `form:"company_tax_id_verification"`
+	CompanyTaxIIVerification         *AccountDocumentsCompanyTaxIDVerificationParams         `form:"company_tax_id_verification"`
 }
 
 // AccountSettingsBrandingParams represent allowed parameters to configure settings specific to the
