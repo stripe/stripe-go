@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.29.0 - 2021-01-11
+* [#1236](https://github.com/stripe/stripe-go/pull/1236) Add support for bank on eps/p24
+* [#1239](https://github.com/stripe/stripe-go/pull/1239) Add support for more verification documents in `Documents` on `Account`.
+
 ## 72.28.0 - 2020-12-03
 * [#1234](https://github.com/stripe/stripe-go/pull/1234) Add support for `BankAccountOwnershipVerification` in `Documents` on `Account`
 
