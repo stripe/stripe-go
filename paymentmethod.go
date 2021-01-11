@@ -166,7 +166,7 @@ type PaymentMethodOXXOParams struct {
 // PaymentMethod of type P24.
 type PaymentMethodP24Params struct {
 	Bank                *string `form:"bank"`
-	TOSShownAndAccepted *bool   `from:"tos_shown_and_accepted"`
+	TOSShownAndAccepted *bool   `form:"tos_shown_and_accepted"`
 }
 
 // PaymentMethodSepaDebitParams is the set of parameters allowed for the `sepa_debit` hash when
