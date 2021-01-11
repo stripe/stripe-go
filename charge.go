@@ -417,6 +417,7 @@ type ChargePaymentMethodDetailsCardPresent struct {
 
 // ChargePaymentMethodDetailsEps represents details about the EPS PaymentMethod.
 type ChargePaymentMethodDetailsEps struct {
+	Bank         string `json:"bank"`
 	VerifiedName string `json:"verified_name"`
 }
 
@@ -505,6 +506,7 @@ type ChargePaymentMethodDetailsOXXO struct {
 
 // ChargePaymentMethodDetailsP24 represents details about the P24 PaymentMethod.
 type ChargePaymentMethodDetailsP24 struct {
+	Bank         string `json:"bank"`
 	Reference    string `json:"reference"`
 	VerifiedName string `json:"verified_name"`
 }

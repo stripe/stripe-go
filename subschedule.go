@@ -46,13 +46,14 @@ type SubscriptionScheduleInvoiceSettingsParams struct {
 // SubscriptionScheduleDefaultSettingsParams is the set of parameters
 // representing the subscription schedule’s default settings.
 type SubscriptionScheduleDefaultSettingsParams struct {
-	Params               `form:"*"`
-	BillingCycleAnchor   *string                                    `form:"billing_cycle_anchor"`
-	BillingThresholds    *SubscriptionBillingThresholdsParams       `form:"billing_thresholds"`
-	CollectionMethod     *string                                    `form:"collection_method"`
-	DefaultPaymentMethod *string                                    `form:"default_payment_method"`
-	InvoiceSettings      *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
-	TransferData         *SubscriptionTransferDataParams            `form:"transfer_data"`
+	Params                `form:"*"`
+	ApplicationFeePercent *float64                                   `form:"application_fee_percent,high_precision"`
+	BillingCycleAnchor    *string                                    `form:"billing_cycle_anchor"`
+	BillingThresholds     *SubscriptionBillingThresholdsParams       `form:"billing_thresholds"`
+	CollectionMethod      *string                                    `form:"collection_method"`
+	DefaultPaymentMethod  *string                                    `form:"default_payment_method"`
+	InvoiceSettings       *SubscriptionScheduleInvoiceSettingsParams `form:"invoice_settings"`
+	TransferData          *SubscriptionTransferDataParams            `form:"transfer_data"`
 }
 
 // SubscriptionSchedulePhaseAddInvoiceItemPriceDataRecurringParams is a structure representing the
@@ -185,12 +186,13 @@ type SubscriptionScheduleInvoiceSettings struct {
 // SubscriptionScheduleDefaultSettings is a structure representing the
 // subscription schedule’s default settings.
 type SubscriptionScheduleDefaultSettings struct {
-	BillingCycleAnchor   SubscriptionSchedulePhaseBillingCycleAnchor `json:"billing_cycle_anchor"`
-	BillingThresholds    *SubscriptionBillingThresholds              `json:"billing_thresholds"`
-	CollectionMethod     SubscriptionCollectionMethod                `json:"collection_method"`
-	DefaultPaymentMethod *PaymentMethod                              `json:"default_payment_method"`
-	InvoiceSettings      *SubscriptionScheduleInvoiceSettings        `json:"invoice_settings"`
-	TransferData         *SubscriptionTransferData                   `json:"transfer_data"`
+	ApplicationFeePercent float64                                     `json:"application_fee_percent,string"`
+	BillingCycleAnchor    SubscriptionSchedulePhaseBillingCycleAnchor `json:"billing_cycle_anchor"`
+	BillingThresholds     *SubscriptionBillingThresholds              `json:"billing_thresholds"`
+	CollectionMethod      SubscriptionCollectionMethod                `json:"collection_method"`
+	DefaultPaymentMethod  *PaymentMethod                              `json:"default_payment_method"`
+	InvoiceSettings       *SubscriptionScheduleInvoiceSettings        `json:"invoice_settings"`
+	TransferData          *SubscriptionTransferData                   `json:"transfer_data"`
 }
 
 // SubscriptionSchedulePhaseAddInvoiceItem represents the invoice items to add when the phase starts.
