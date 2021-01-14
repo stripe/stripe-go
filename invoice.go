@@ -202,16 +202,16 @@ type InvoiceLineListParams struct {
 	Subscription *string `form:"subscription"`
 }
 
-// InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringParams lets you filter by
-// the properties inside Recurring inside the Price Data inside SubscriptionItems when you
+// InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringParams is the set of parameters
+// that can be used inside Recurring inside the Price Data inside SubscriptionItems when you
 // are listing the line items for an upcoming invoice.
 type InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringParams struct {
 	Interval      *InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringInterval `form:"interval"`
 	IntervalCount *int64                                                                  `form:"interval_count"`
 }
 
-// InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringParams lets you filter by
-// the properties inside PriceData inside SubscriptionItems when you are listing the
+// InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringParams is the set of parameters
+// that can be used inside PriceData inside SubscriptionItems when you are listing the
 // line items for an upcoming invoice.
 type InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataParams struct {
 	Currency          *string                                                               `form:"currency"`
@@ -221,15 +221,15 @@ type InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataParams struct {
 	UnitAmountDecimal *float64                                                              `form:"unit_amount_decimal,high_precision"`
 }
 
-// InvoiceUpcomingInvoiceLinesSubscriptionItemsBillingThresholdsParams lets you filter
-// by properties inside BillingThresholds inside SubscriptionItems when you are listing
+// InvoiceUpcomingInvoiceLinesSubscriptionItemsBillingThresholdsParams is the set of parameters
+// that can be used inside BillingThresholds inside SubscriptionItems when you are listing
 // the line items for an upcoming invoice.
 type InvoiceUpcomingInvoiceLinesSubscriptionItemsBillingThresholdsParams struct {
 	UsageGte *int64 `form:"usage_gte"`
 }
 
-// InvoiceUpcomingInvoiceLinesSubscriptionItemsParams lets you filter by properties inside
-// SubscriptionItems when you are listing the line items for an upcoming invoice.
+// InvoiceUpcomingInvoiceLinesSubscriptionItemsParams is the set of parameters that can be used
+// inside SubscriptionItems when you are listing the line items for an upcoming invoice.
 type InvoiceUpcomingInvoiceLinesSubscriptionItemsParams struct {
 	BillingThresholds *InvoiceUpcomingInvoiceLinesSubscriptionItemsBillingThresholdsParams `form:"billing_thresholds"`
 	ClearUsage        *bool                                                                `form:"clear_usage"`
@@ -243,9 +243,9 @@ type InvoiceUpcomingInvoiceLinesSubscriptionItemsParams struct {
 	TaxRates          *[]string                                                            `form:"tax_rates"`
 }
 
-// InvoiceUpcomingInvoiceLinesInvoiceItemsPriceDataParams lets you filter by properties
-// inside PriceData inside InvoiceItems when you are listing the upcoming invoice line items
-// of an invoice.
+// InvoiceUpcomingInvoiceLinesInvoiceItemsPriceDataParams is the set of parameters that can be
+// used inside PriceData inside InvoiceItems when you are listing the line items for an upcoming
+// invoice.
 type InvoiceUpcomingInvoiceLinesInvoiceItemsPriceDataParams struct {
 	Currency          *string  `form:"currency"`
 	Product           *string  `form:"product"`
@@ -253,24 +253,24 @@ type InvoiceUpcomingInvoiceLinesInvoiceItemsPriceDataParams struct {
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
-// InvoiceUpcomingInvoiceLinesInvoiceItemsPeriodParams lets you filter by properties
-// inside Period inside InvoiceItems when you are listing the upcoming invoice line
-// items of an invoice.
+// InvoiceUpcomingInvoiceLinesInvoiceItemsPeriodParams is the set of parameters that can be
+// used inside Period inside InvoiceItems when you are listing the line items of an upcoming
+// invoice.
 type InvoiceUpcomingInvoiceLinesInvoiceItemsPeriodParams struct {
 	End   *int64 `form:"end"`
 	Start *int64 `form:"start"`
 }
 
-// InvoiceUpcomingInvoiceLinesInvoiceItemsPeriodParams lets you filter by properties
-// inside Discounts inside InvoiceItems when you are listing the upcoming invoice line
-// items of an invoice.
+// InvoiceUpcomingInvoiceLinesInvoiceItemsPeriodParams is the set of parameters that can be
+// used inside Discounts inside InvoiceItems when you are listing the line items of an
+// upcoming invoice.
 type InvoiceUpcomingInvoiceLinesInvoiceItemsDiscountsParams struct {
 	Coupon   *string `form:"coupon"`
 	Discount *string `form:"discount"`
 }
 
-// InvoiceUpcomingInvoiceLinesInvoiceItemsParams lets you filter by properties inside
-// InvoiceItems when you are listing the line items for an upcoming invoice.
+// InvoiceUpcomingInvoiceLinesInvoiceItemsParams is the set of parameters that can be used
+// inside InvoiceItems when you are listing the line items for an upcoming invoice.
 type InvoiceUpcomingInvoiceLinesInvoiceItemsParams struct {
 	Amount            *int64                                                    `form:"amount"`
 	Currency          *string                                                   `form:"currency"`
@@ -288,15 +288,15 @@ type InvoiceUpcomingInvoiceLinesInvoiceItemsParams struct {
 	UnitAmountDecimal *float64                                                  `form:"unit_amount_decimal,high_precision"`
 }
 
-// InvoiceUpcomingInvoiceLinesDiscountsParams lets you filter by properties inside
-// Discounts when you are listing the line items for an upcoming invoice.
+// InvoiceUpcomingInvoiceLinesDiscountsParams is the set of parameters that can be used
+// inside Discounts when you are listing the line items for an upcoming invoice.
 type InvoiceUpcomingInvoiceLinesDiscountsParams struct {
 	Coupon   *string `form:"coupon"`
 	Discount *string `form:"discount"`
 }
 
-// InvoiceLineListParams is the set of parameters that can be used when listing invoice line items.
-// For more details see https://stripe.com/docs/api#invoice_lines.
+// InvoiceLineListParams is the set of parameters that can be used when listing the line items
+// for an upcoming invoice. For more details see https://stripe.com/docs/api#invoice_lines.
 type InvoiceUpcomingInvoiceLinesParams struct {
 	ListParams                              `form:"*"`
 	Coupon                                  *string                                                   `form:"coupon"`
@@ -325,6 +325,10 @@ type InvoiceUpcomingInvoiceLinesParams struct {
 	SubscriptionTrialFromPlan               *bool                                                     `form:"subscription_trial_from_plan"`
 }
 
+// AppendTo implements custom encoding logic for InvoiceParams so that the special
+// "now" and "unchanged" values for subscription_billing_cycle_anchor, and the
+// "now" value for subscription_trial_end can be implemented.  (they're otherwise
+// timestamps rather than strings).
 func (p *InvoiceUpcomingInvoiceLinesParams) AppendTo(body *form.Values, keyParts []string) {
 	if BoolValue(p.SubscriptionTrialEndNow) {
 		body.Add(form.FormatKey(append(keyParts, "subscription_trial_end")), "now")
