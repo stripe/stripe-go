@@ -94,3 +94,11 @@ func TestInvoiceVoidInvoice(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, invoice)
 }
+
+func TestInvoiceListUpcomingInvoiceLines(t *testing.T) {
+	i := ListUpcomingLines(&stripe.InvoiceUpcomingInvoiceLinesParams{})
+	assert.True(t, i.Next())
+	assert.Nil(t, i.Err())
+	assert.NotNil(t, i.InvoiceLine())
+	assert.NotNil(t, i.InvoiceLineList())
+}

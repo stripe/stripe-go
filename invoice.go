@@ -50,6 +50,31 @@ const (
 	InvoiceCollectionMethodSendInvoice         InvoiceCollectionMethod = "send_invoice"
 )
 
+// InvoiceUpcomingInvoiceLinesSubscriptionProrationBehavior lets you filter by
+// certain subscription proration behaviors when requesting the upcoming
+// invoice line items for an invoice.
+type InvoiceUpcomingInvoiceLinesSubscriptionProrationBehavior string
+
+// List of values that InvoiceUpcomingInvoiceLinesSubscriptionProrationBehavior can take
+const (
+	InvoiceUpcomingInvoiceLinesSubscriptionProrationBehaviorAlwaysInvoice    InvoiceUpcomingInvoiceLinesSubscriptionProrationBehavior = "always_invoice"
+	InvoiceUpcomingInvoiceLinesSubscriptionProrationBehaviorCreateProrations InvoiceUpcomingInvoiceLinesSubscriptionProrationBehavior = "create_prorations"
+	InvoiceUpcomingInvoiceLinesSubscriptionProrationBehaviorNone             InvoiceUpcomingInvoiceLinesSubscriptionProrationBehavior = "none"
+)
+
+// InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringInterval lets you filter
+// by the recurring interval inside the price data inside the subscription items when you
+// are requesting the line items for an upcoming invoice.
+type InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringInterval string
+
+// List of values that InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringInterval can take
+const (
+	InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringIntervalDay   InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringInterval = "day"
+	InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringIntervalMonth InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringInterval = "month"
+	InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringIntervalWeek  InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringInterval = "week"
+	InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringIntervalYear  InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringInterval = "year"
+)
+
 // InvoiceUpcomingInvoiceItemPeriodParams represents the period associated with that invoice item
 type InvoiceUpcomingInvoiceItemPeriodParams struct {
 	End   *int64 `form:"end"`
@@ -175,6 +200,141 @@ type InvoiceLineListParams struct {
 	ID *string `form:"-"` // Goes in the URL
 
 	Subscription *string `form:"subscription"`
+}
+
+// InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringParams lets you filter by
+// the properties inside Recurring inside the Price Data inside SubscriptionItems when you
+// are listing the line items for an upcoming invoice.
+type InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringParams struct {
+	Interval      *InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringInterval `form:"interval"`
+	IntervalCount *int64                                                                  `form:"interval_count"`
+}
+
+// InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringParams lets you filter by
+// the properties inside PriceData inside SubscriptionItems when you are listing the
+// line items for an upcoming invoice.
+type InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataParams struct {
+	Currency          *string                                                               `form:"currency"`
+	Product           *string                                                               `form:"product"`
+	Recurring         *InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataRecurringParams `form:"recurring"`
+	UnitAmount        *int64                                                                `form:"unit_amount"`
+	UnitAmountDecimal *float64                                                              `form:"unit_amount_decimal,high_precision"`
+}
+
+// InvoiceUpcomingInvoiceLinesSubscriptionItemsBillingThresholdsParams lets you filter
+// by properties inside BillingThresholds inside SubscriptionItems when you are listing
+// the line items for an upcoming invoice.
+type InvoiceUpcomingInvoiceLinesSubscriptionItemsBillingThresholdsParams struct {
+	UsageGte *int64 `form:"usage_gte"`
+}
+
+// InvoiceUpcomingInvoiceLinesSubscriptionItemsParams lets you filter by properties inside
+// SubscriptionItems when you are listing the line items for an upcoming invoice.
+type InvoiceUpcomingInvoiceLinesSubscriptionItemsParams struct {
+	BillingThresholds *InvoiceUpcomingInvoiceLinesSubscriptionItemsBillingThresholdsParams `form:"billing_thresholds"`
+	ClearUsage        *bool                                                                `form:"clear_usage"`
+	Deleted           *bool                                                                `form:"deleted"`
+	ID                *string                                                              `form:"id"`
+	Metadata          *map[string]string                                                   `form:"metadata"`
+	Plan              *string                                                              `form:"plan"`
+	Price             *string                                                              `form:"price"`
+	PriceData         *InvoiceUpcomingInvoiceLinesSubscriptionItemsPriceDataParams         `form:"price_data"`
+	Quantity          *int64                                                               `form:"quantity"`
+	TaxRates          *[]string                                                            `form:"tax_rates"`
+}
+
+// InvoiceUpcomingInvoiceLinesInvoiceItemsPriceDataParams lets you filter by properties
+// inside PriceData inside InvoiceItems when you are listing the upcoming invoice line items
+// of an invoice.
+type InvoiceUpcomingInvoiceLinesInvoiceItemsPriceDataParams struct {
+	Currency          *string  `form:"currency"`
+	Product           *string  `form:"product"`
+	UnitAmount        *int64   `form:"unit_amount"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+}
+
+// InvoiceUpcomingInvoiceLinesInvoiceItemsPeriodParams lets you filter by properties
+// inside Period inside InvoiceItems when you are listing the upcoming invoice line
+// items of an invoice.
+type InvoiceUpcomingInvoiceLinesInvoiceItemsPeriodParams struct {
+	End   *int64 `form:"end"`
+	Start *int64 `form:"start"`
+}
+
+// InvoiceUpcomingInvoiceLinesInvoiceItemsPeriodParams lets you filter by properties
+// inside Discounts inside InvoiceItems when you are listing the upcoming invoice line
+// items of an invoice.
+type InvoiceUpcomingInvoiceLinesInvoiceItemsDiscountsParams struct {
+	Coupon   *string `form:"coupon"`
+	Discount *string `form:"discount"`
+}
+
+// InvoiceUpcomingInvoiceLinesInvoiceItemsParams lets you filter by properties inside
+// InvoiceItems when you are listing the line items for an upcoming invoice.
+type InvoiceUpcomingInvoiceLinesInvoiceItemsParams struct {
+	Amount            *int64                                                    `form:"amount"`
+	Currency          *string                                                   `form:"currency"`
+	Description       *string                                                   `form:"description"`
+	Discountable      *bool                                                     `form:"discountable"`
+	Discounts         *[]InvoiceUpcomingInvoiceLinesInvoiceItemsDiscountsParams `form:"discounts"`
+	Invoiceitem       *string                                                   `form:"invoiceitem"`
+	Metadata          *map[string]string                                        `form:"metadata"`
+	Period            *InvoiceUpcomingInvoiceLinesInvoiceItemsPeriodParams      `form:"period"`
+	Price             *string                                                   `form:"price"`
+	PriceData         *InvoiceUpcomingInvoiceLinesInvoiceItemsPriceDataParams   `form:"price_data"`
+	Quantity          *int64                                                    `form:"quantity"`
+	TaxRates          *[]string                                                 `form:"tax_rates"`
+	UnitAmount        *int64                                                    `form:"unit_amount"`
+	UnitAmountDecimal *float64                                                  `form:"unit_amount_decimal,high_precision"`
+}
+
+// InvoiceUpcomingInvoiceLinesDiscountsParams lets you filter by properties inside
+// Discounts when you are listing the line items for an upcoming invoice.
+type InvoiceUpcomingInvoiceLinesDiscountsParams struct {
+	Coupon   *string `form:"coupon"`
+	Discount *string `form:"discount"`
+}
+
+// InvoiceLineListParams is the set of parameters that can be used when listing invoice line items.
+// For more details see https://stripe.com/docs/api#invoice_lines.
+type InvoiceUpcomingInvoiceLinesParams struct {
+	ListParams                              `form:"*"`
+	Coupon                                  *string                                                   `form:"coupon"`
+	Customer                                *string                                                   `form:"customer"`
+	Discounts                               *[]InvoiceUpcomingInvoiceLinesDiscountsParams             `form:"discounts"`
+	EndingBefore                            *string                                                   `form:"ending_before"`
+	Expand                                  []string                                                  `form:"expand"`
+	InvoiceItems                            []InvoiceUpcomingInvoiceLinesInvoiceItemsParams           `form:"invoice_items"`
+	Limit                                   *int64                                                    `form:"limit"`
+	Schedule                                *string                                                   `form:"schedule"`
+	StartingAfter                           *string                                                   `form:"starting_after"`
+	Subscription                            *string                                                   `form:"subscription"`
+	SubscriptionBillingCycleAnchor          *int64                                                    `form:"subscription_billing_cycle_anchor"`
+	SubscriptionBillingCycleAnchorNow       *bool                                                     `form:"-"`
+	SubscriptionBillingCycleAnchorUnchanged *bool                                                     `form:"-"`
+	SubscriptionCancelAt                    *int64                                                    `form:"subscription_cancel_at"`
+	SubscriptionCancelAtPeriodEnd           *bool                                                     `form:"subscription_cancel_at_period_end"`
+	SubscriptionCancelNow                   *bool                                                     `form:"subscription_cancel_now"`
+	SubscriptionDefaultTaxRates             *[]string                                                 `form:"subscription_default_tax_rates"`
+	SubscriptionItems                       []InvoiceUpcomingInvoiceLinesSubscriptionItemsParams      `form:"subscription_items"`
+	SubscriptionProrationBehavior           *InvoiceUpcomingInvoiceLinesSubscriptionProrationBehavior `form:"subscription_proration_behavior"`
+	SubscriptionProrationDate               *int64                                                    `form:"subscription_proration_date"`
+	SubscriptionStartDate                   *int64                                                    `form:"subscription_start_date"`
+	SubscriptionTrialEnd                    *int64                                                    `form:"subscription_trial_end"`
+	SubscriptionTrialEndNow                 *bool                                                     `form:"-"`
+	SubscriptionTrialFromPlan               *bool                                                     `form:"subscription_trial_from_plan"`
+}
+
+func (p *InvoiceUpcomingInvoiceLinesParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.SubscriptionTrialEndNow) {
+		body.Add(form.FormatKey(append(keyParts, "subscription_trial_end")), "now")
+	}
+	if BoolValue(p.SubscriptionBillingCycleAnchorNow) {
+		body.Add(form.FormatKey(append(keyParts, "subscription_billing_cycle_anchor")), "now")
+	}
+	if BoolValue(p.SubscriptionBillingCycleAnchorUnchanged) {
+		body.Add(form.FormatKey(append(keyParts, "subscription_billing_cycle_anchor")), "unchanged")
+	}
 }
 
 // InvoiceFinalizeParams is the set of parameters that can be used when finalizing invoices.
