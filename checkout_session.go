@@ -4,6 +4,58 @@ import (
 	"encoding/json"
 )
 
+// CheckoutSessionCustomerDetailsTaxIdsType is the list of allowed values for type
+// on the tax_ids inside customer_details of a checkout session.
+type CheckoutSessionCustomerDetailsTaxIdsType string
+
+// List of values that CheckoutSessionCustomerDetailsTaxIdsType can take.
+const (
+	CheckoutSessionCustomerDetailsTaxIdsTypeAETRN   CheckoutSessionCustomerDetailsTaxIdsType = "ae_trn"
+	CheckoutSessionCustomerDetailsTaxIdsTypeAUABN   CheckoutSessionCustomerDetailsTaxIdsType = "au_abn"
+	CheckoutSessionCustomerDetailsTaxIdsTypeBRCNPJ  CheckoutSessionCustomerDetailsTaxIdsType = "br_cnpj"
+	CheckoutSessionCustomerDetailsTaxIdsTypeBRCPF   CheckoutSessionCustomerDetailsTaxIdsType = "br_cpf"
+	CheckoutSessionCustomerDetailsTaxIdsTypeCABN    CheckoutSessionCustomerDetailsTaxIdsType = "ca_bn"
+	CheckoutSessionCustomerDetailsTaxIdsTypeCAQST   CheckoutSessionCustomerDetailsTaxIdsType = "ca_qst"
+	CheckoutSessionCustomerDetailsTaxIdsTypeCHVAT   CheckoutSessionCustomerDetailsTaxIdsType = "ch_vat"
+	CheckoutSessionCustomerDetailsTaxIdsTypeCLTIN   CheckoutSessionCustomerDetailsTaxIdsType = "cl_tin"
+	CheckoutSessionCustomerDetailsTaxIdsTypeESCIF   CheckoutSessionCustomerDetailsTaxIdsType = "es_cif"
+	CheckoutSessionCustomerDetailsTaxIdsTypeEUVAT   CheckoutSessionCustomerDetailsTaxIdsType = "eu_vat"
+	CheckoutSessionCustomerDetailsTaxIdsTypeHKBR    CheckoutSessionCustomerDetailsTaxIdsType = "hk_br"
+	CheckoutSessionCustomerDetailsTaxIdsTypeIDNPWP  CheckoutSessionCustomerDetailsTaxIdsType = "id_npwp"
+	CheckoutSessionCustomerDetailsTaxIdsTypeINGST   CheckoutSessionCustomerDetailsTaxIdsType = "in_gst"
+	CheckoutSessionCustomerDetailsTaxIdsTypeJPCN    CheckoutSessionCustomerDetailsTaxIdsType = "jp_cn"
+	CheckoutSessionCustomerDetailsTaxIdsTypeJPRN    CheckoutSessionCustomerDetailsTaxIdsType = "jp_rn"
+	CheckoutSessionCustomerDetailsTaxIdsTypeKRBRN   CheckoutSessionCustomerDetailsTaxIdsType = "kr_brn"
+	CheckoutSessionCustomerDetailsTaxIdsTypeLIUID   CheckoutSessionCustomerDetailsTaxIdsType = "li_uid"
+	CheckoutSessionCustomerDetailsTaxIdsTypeMXRFC   CheckoutSessionCustomerDetailsTaxIdsType = "mx_rfc"
+	CheckoutSessionCustomerDetailsTaxIdsTypeMYFRP   CheckoutSessionCustomerDetailsTaxIdsType = "my_frp"
+	CheckoutSessionCustomerDetailsTaxIdsTypeMYITN   CheckoutSessionCustomerDetailsTaxIdsType = "my_itn"
+	CheckoutSessionCustomerDetailsTaxIdsTypeMYSST   CheckoutSessionCustomerDetailsTaxIdsType = "my_sst"
+	CheckoutSessionCustomerDetailsTaxIdsTypeNOVAT   CheckoutSessionCustomerDetailsTaxIdsType = "no_vat"
+	CheckoutSessionCustomerDetailsTaxIdsTypeNZGST   CheckoutSessionCustomerDetailsTaxIdsType = "nz_gst"
+	CheckoutSessionCustomerDetailsTaxIdsTypeRUINN   CheckoutSessionCustomerDetailsTaxIdsType = "ru_inn"
+	CheckoutSessionCustomerDetailsTaxIdsTypeRUKPP   CheckoutSessionCustomerDetailsTaxIdsType = "ru_kpp"
+	CheckoutSessionCustomerDetailsTaxIdsTypeSAVAT   CheckoutSessionCustomerDetailsTaxIdsType = "sa_vat"
+	CheckoutSessionCustomerDetailsTaxIdsTypeSGGST   CheckoutSessionCustomerDetailsTaxIdsType = "sg_gst"
+	CheckoutSessionCustomerDetailsTaxIdsTypeSGUEN   CheckoutSessionCustomerDetailsTaxIdsType = "sg_uen"
+	CheckoutSessionCustomerDetailsTaxIdsTypeTHVAT   CheckoutSessionCustomerDetailsTaxIdsType = "th_vat"
+	CheckoutSessionCustomerDetailsTaxIdsTypeTWVAT   CheckoutSessionCustomerDetailsTaxIdsType = "tw_vat"
+	CheckoutSessionCustomerDetailsTaxIdsTypeUnknown CheckoutSessionCustomerDetailsTaxIdsType = "unknown"
+	CheckoutSessionCustomerDetailsTaxIdsTypeUSEIN   CheckoutSessionCustomerDetailsTaxIdsType = "us_ein"
+	CheckoutSessionCustomerDetailsTaxIdsTypeZAVAT   CheckoutSessionCustomerDetailsTaxIdsType = "za_vat"
+)
+
+// CheckoutSessionCustomerDetailsTaxExempt is the list of allowed values for
+// tax_exempt inside customer_details of a checkout session.
+type CheckoutSessionCustomerDetailsTaxExempt string
+
+// List of values that CheckoutSessionCustomerDetailsTaxExempt can take.
+const (
+	CheckoutSessionCustomerDetailsTaxExemptExempt  CheckoutSessionCustomerDetailsTaxExempt = "exempt"
+	CheckoutSessionCustomerDetailsTaxExemptNone    CheckoutSessionCustomerDetailsTaxExempt = "none"
+	CheckoutSessionCustomerDetailsTaxExemptReverse CheckoutSessionCustomerDetailsTaxExempt = "reverse"
+)
+
 // CheckoutSessionMode is the list of allowed values for the mode on a Session.
 type CheckoutSessionMode string
 
@@ -75,15 +127,16 @@ type CheckoutSessionDiscountParams struct {
 // CheckoutSessionLineItemParams is the set of parameters allowed for a line item
 // on a checkout session.
 type CheckoutSessionLineItemParams struct {
-	Amount      *int64                                  `form:"amount"`
-	Currency    *string                                 `form:"currency"`
-	Description *string                                 `form:"description"`
-	Images      []*string                               `form:"images"`
-	Name        *string                                 `form:"name"`
-	Price       *string                                 `form:"price"`
-	PriceData   *CheckoutSessionLineItemPriceDataParams `form:"price_data"`
-	Quantity    *int64                                  `form:"quantity"`
-	TaxRates    []*string                               `form:"tax_rates"`
+	Amount          *int64                                  `form:"amount"`
+	Currency        *string                                 `form:"currency"`
+	Description     *string                                 `form:"description"`
+	DynamicTaxRates []*string                               `form:"dynamic_tax_rates"`
+	Images          []*string                               `form:"images"`
+	Name            *string                                 `form:"name"`
+	Price           *string                                 `form:"price"`
+	PriceData       *CheckoutSessionLineItemPriceDataParams `form:"price_data"`
+	Quantity        *int64                                  `form:"quantity"`
+	TaxRates        []*string                               `form:"tax_rates"`
 }
 
 // CheckoutSessionPaymentIntentDataTransferDataParams is the set of parameters allowed for the
@@ -187,6 +240,21 @@ type CheckoutSessionListParams struct {
 	Subscription  *string `form:"subscription"`
 }
 
+// CheckoutSessionCustomerDetailsTaxIds represent customer's tax IDs at the
+// time of checkout.
+type CheckoutSessionCustomerDetailsTaxIds struct {
+	Type  CheckoutSessionCustomerDetailsTaxIdsType `json:"type"`
+	Value string                                   `json:"value"`
+}
+
+// CheckoutSessionCustomerDetails represent the customer details including
+// the tax exempt status and the customer's tax IDs.
+type CheckoutSessionCustomerDetails struct {
+	Email     string                                  `json:"email"`
+	TaxExempt CheckoutSessionCustomerDetailsTaxExempt `json:"tax_exempt"`
+	TaxIds    *[]CheckoutSessionCustomerDetailsTaxIds `json:"tax_ids"`
+}
+
 // CheckoutSessionShippingAddressCollection is the set of parameters allowed for the
 // shipping address collection.
 type CheckoutSessionShippingAddressCollection struct {
@@ -224,6 +292,7 @@ type CheckoutSession struct {
 	APIResource
 	AllowPromotionCodes       bool                                      `json:"allow_promotion_codes"`
 	CancelURL                 string                                    `json:"cancel_url"`
+	CustomerDetails           *CheckoutSessionCustomerDetails           `json:"customer_details"`
 	AmountSubtotal            int64                                     `json:"amount_subtotal"`
 	AmountTotal               int64                                     `json:"amount_total"`
 	ClientReferenceID         string                                    `json:"client_reference_id"`
