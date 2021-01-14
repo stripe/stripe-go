@@ -7,11 +7,13 @@ import "encoding/json"
 type TaxRateParams struct {
 	Params       `form:"*"`
 	Active       *bool    `form:"active"`
+	Country      *string  `form:"country"`
 	Description  *string  `form:"description"`
 	DisplayName  *string  `form:"display_name"`
 	Inclusive    *bool    `form:"inclusive"`
 	Jurisdiction *string  `form:"jurisdiction"`
 	Percentage   *float64 `form:"percentage"`
+	State        *string  `form:"state"`
 }
 
 // TaxRateListParams is the set of parameters that can be used when listing tax rates.
@@ -29,6 +31,7 @@ type TaxRateListParams struct {
 type TaxRate struct {
 	APIResource
 	Active       bool              `json:"active"`
+	Country      string            `json:"country"`
 	Created      int64             `json:"created"`
 	Description  string            `json:"description"`
 	DisplayName  string            `json:"display_name"`
@@ -39,6 +42,7 @@ type TaxRate struct {
 	Metadata     map[string]string `json:"metadata"`
 	Object       string            `json:"object"`
 	Percentage   float64           `json:"percentage"`
+	State        string            `json:"state"`
 }
 
 // TaxRateList is a list of tax rates as retrieved from a list endpoint.
