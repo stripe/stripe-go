@@ -44,6 +44,7 @@ type IssuingTransactionListParams struct {
 	Cardholder   *string           `form:"cardholder"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
+	Type         *string           `form:"type"`
 }
 
 // IssuingTransactionAmountDetails is the resource representing the breakdown of the amount.
