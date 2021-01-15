@@ -32,16 +32,6 @@ const (
 	IssuingTransactionPurchaseDetailsFuelUnitUSGallon IssuingTransactionPurchaseDetailsFuelUnit = "us_gallon"
 )
 
-// IssuingTransactionListType is the possible values for type when
-// listing issuing transactions.
-type IssuingTransactionListType string
-
-// List of values that IssuingTransactionListType can take.
-const (
-	IssuingTransactionListTypeCapture IssuingTransactionListType = "capture"
-	IssuingTransactionListTypeRefund  IssuingTransactionListType = "refund"
-)
-
 // IssuingTransactionParams is the set of parameters that can be used when creating or updating an issuing transaction.
 type IssuingTransactionParams struct {
 	Params `form:"*"`
@@ -50,11 +40,11 @@ type IssuingTransactionParams struct {
 // IssuingTransactionListParams is the set of parameters that can be used when listing issuing transactions.
 type IssuingTransactionListParams struct {
 	ListParams   `form:"*"`
-	Card         *string                     `form:"card"`
-	Cardholder   *string                     `form:"cardholder"`
-	Created      *int64                      `form:"created"`
-	CreatedRange *RangeQueryParams           `form:"created"`
-	Type         *IssuingTransactionListType `form:"type"`
+	Card         *string           `form:"card"`
+	Cardholder   *string           `form:"cardholder"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	Type         *string           `form:"type"`
 }
 
 // IssuingTransactionAmountDetails is the resource representing the breakdown of the amount.
