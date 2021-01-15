@@ -4,45 +4,45 @@ import (
 	"encoding/json"
 )
 
-// CheckoutSessionCustomerDetailsTaxIdsType is the list of allowed values for type
+// CheckoutSessionCustomerDetailsTaxIDsType is the list of allowed values for type
 // on the tax_ids inside customer_details of a checkout session.
-type CheckoutSessionCustomerDetailsTaxIdsType string
+type CheckoutSessionCustomerDetailsTaxIDsType string
 
-// List of values that CheckoutSessionCustomerDetailsTaxIdsType can take.
+// List of values that CheckoutSessionCustomerDetailsTaxIDsType can take.
 const (
-	CheckoutSessionCustomerDetailsTaxIdsTypeAETRN   CheckoutSessionCustomerDetailsTaxIdsType = "ae_trn"
-	CheckoutSessionCustomerDetailsTaxIdsTypeAUABN   CheckoutSessionCustomerDetailsTaxIdsType = "au_abn"
-	CheckoutSessionCustomerDetailsTaxIdsTypeBRCNPJ  CheckoutSessionCustomerDetailsTaxIdsType = "br_cnpj"
-	CheckoutSessionCustomerDetailsTaxIdsTypeBRCPF   CheckoutSessionCustomerDetailsTaxIdsType = "br_cpf"
-	CheckoutSessionCustomerDetailsTaxIdsTypeCABN    CheckoutSessionCustomerDetailsTaxIdsType = "ca_bn"
-	CheckoutSessionCustomerDetailsTaxIdsTypeCAQST   CheckoutSessionCustomerDetailsTaxIdsType = "ca_qst"
-	CheckoutSessionCustomerDetailsTaxIdsTypeCHVAT   CheckoutSessionCustomerDetailsTaxIdsType = "ch_vat"
-	CheckoutSessionCustomerDetailsTaxIdsTypeCLTIN   CheckoutSessionCustomerDetailsTaxIdsType = "cl_tin"
-	CheckoutSessionCustomerDetailsTaxIdsTypeESCIF   CheckoutSessionCustomerDetailsTaxIdsType = "es_cif"
-	CheckoutSessionCustomerDetailsTaxIdsTypeEUVAT   CheckoutSessionCustomerDetailsTaxIdsType = "eu_vat"
-	CheckoutSessionCustomerDetailsTaxIdsTypeHKBR    CheckoutSessionCustomerDetailsTaxIdsType = "hk_br"
-	CheckoutSessionCustomerDetailsTaxIdsTypeIDNPWP  CheckoutSessionCustomerDetailsTaxIdsType = "id_npwp"
-	CheckoutSessionCustomerDetailsTaxIdsTypeINGST   CheckoutSessionCustomerDetailsTaxIdsType = "in_gst"
-	CheckoutSessionCustomerDetailsTaxIdsTypeJPCN    CheckoutSessionCustomerDetailsTaxIdsType = "jp_cn"
-	CheckoutSessionCustomerDetailsTaxIdsTypeJPRN    CheckoutSessionCustomerDetailsTaxIdsType = "jp_rn"
-	CheckoutSessionCustomerDetailsTaxIdsTypeKRBRN   CheckoutSessionCustomerDetailsTaxIdsType = "kr_brn"
-	CheckoutSessionCustomerDetailsTaxIdsTypeLIUID   CheckoutSessionCustomerDetailsTaxIdsType = "li_uid"
-	CheckoutSessionCustomerDetailsTaxIdsTypeMXRFC   CheckoutSessionCustomerDetailsTaxIdsType = "mx_rfc"
-	CheckoutSessionCustomerDetailsTaxIdsTypeMYFRP   CheckoutSessionCustomerDetailsTaxIdsType = "my_frp"
-	CheckoutSessionCustomerDetailsTaxIdsTypeMYITN   CheckoutSessionCustomerDetailsTaxIdsType = "my_itn"
-	CheckoutSessionCustomerDetailsTaxIdsTypeMYSST   CheckoutSessionCustomerDetailsTaxIdsType = "my_sst"
-	CheckoutSessionCustomerDetailsTaxIdsTypeNOVAT   CheckoutSessionCustomerDetailsTaxIdsType = "no_vat"
-	CheckoutSessionCustomerDetailsTaxIdsTypeNZGST   CheckoutSessionCustomerDetailsTaxIdsType = "nz_gst"
-	CheckoutSessionCustomerDetailsTaxIdsTypeRUINN   CheckoutSessionCustomerDetailsTaxIdsType = "ru_inn"
-	CheckoutSessionCustomerDetailsTaxIdsTypeRUKPP   CheckoutSessionCustomerDetailsTaxIdsType = "ru_kpp"
-	CheckoutSessionCustomerDetailsTaxIdsTypeSAVAT   CheckoutSessionCustomerDetailsTaxIdsType = "sa_vat"
-	CheckoutSessionCustomerDetailsTaxIdsTypeSGGST   CheckoutSessionCustomerDetailsTaxIdsType = "sg_gst"
-	CheckoutSessionCustomerDetailsTaxIdsTypeSGUEN   CheckoutSessionCustomerDetailsTaxIdsType = "sg_uen"
-	CheckoutSessionCustomerDetailsTaxIdsTypeTHVAT   CheckoutSessionCustomerDetailsTaxIdsType = "th_vat"
-	CheckoutSessionCustomerDetailsTaxIdsTypeTWVAT   CheckoutSessionCustomerDetailsTaxIdsType = "tw_vat"
-	CheckoutSessionCustomerDetailsTaxIdsTypeUnknown CheckoutSessionCustomerDetailsTaxIdsType = "unknown"
-	CheckoutSessionCustomerDetailsTaxIdsTypeUSEIN   CheckoutSessionCustomerDetailsTaxIdsType = "us_ein"
-	CheckoutSessionCustomerDetailsTaxIdsTypeZAVAT   CheckoutSessionCustomerDetailsTaxIdsType = "za_vat"
+	CheckoutSessionCustomerDetailsTaxIDsTypeAETRN   CheckoutSessionCustomerDetailsTaxIDsType = "ae_trn"
+	CheckoutSessionCustomerDetailsTaxIDsTypeAUABN   CheckoutSessionCustomerDetailsTaxIDsType = "au_abn"
+	CheckoutSessionCustomerDetailsTaxIDsTypeBRCNPJ  CheckoutSessionCustomerDetailsTaxIDsType = "br_cnpj"
+	CheckoutSessionCustomerDetailsTaxIDsTypeBRCPF   CheckoutSessionCustomerDetailsTaxIDsType = "br_cpf"
+	CheckoutSessionCustomerDetailsTaxIDsTypeCABN    CheckoutSessionCustomerDetailsTaxIDsType = "ca_bn"
+	CheckoutSessionCustomerDetailsTaxIDsTypeCAQST   CheckoutSessionCustomerDetailsTaxIDsType = "ca_qst"
+	CheckoutSessionCustomerDetailsTaxIDsTypeCHVAT   CheckoutSessionCustomerDetailsTaxIDsType = "ch_vat"
+	CheckoutSessionCustomerDetailsTaxIDsTypeCLTIN   CheckoutSessionCustomerDetailsTaxIDsType = "cl_tin"
+	CheckoutSessionCustomerDetailsTaxIDsTypeESCIF   CheckoutSessionCustomerDetailsTaxIDsType = "es_cif"
+	CheckoutSessionCustomerDetailsTaxIDsTypeEUVAT   CheckoutSessionCustomerDetailsTaxIDsType = "eu_vat"
+	CheckoutSessionCustomerDetailsTaxIDsTypeHKBR    CheckoutSessionCustomerDetailsTaxIDsType = "hk_br"
+	CheckoutSessionCustomerDetailsTaxIDsTypeIDNPWP  CheckoutSessionCustomerDetailsTaxIDsType = "id_npwp"
+	CheckoutSessionCustomerDetailsTaxIDsTypeINGST   CheckoutSessionCustomerDetailsTaxIDsType = "in_gst"
+	CheckoutSessionCustomerDetailsTaxIDsTypeJPCN    CheckoutSessionCustomerDetailsTaxIDsType = "jp_cn"
+	CheckoutSessionCustomerDetailsTaxIDsTypeJPRN    CheckoutSessionCustomerDetailsTaxIDsType = "jp_rn"
+	CheckoutSessionCustomerDetailsTaxIDsTypeKRBRN   CheckoutSessionCustomerDetailsTaxIDsType = "kr_brn"
+	CheckoutSessionCustomerDetailsTaxIDsTypeLIUID   CheckoutSessionCustomerDetailsTaxIDsType = "li_uid"
+	CheckoutSessionCustomerDetailsTaxIDsTypeMXRFC   CheckoutSessionCustomerDetailsTaxIDsType = "mx_rfc"
+	CheckoutSessionCustomerDetailsTaxIDsTypeMYFRP   CheckoutSessionCustomerDetailsTaxIDsType = "my_frp"
+	CheckoutSessionCustomerDetailsTaxIDsTypeMYITN   CheckoutSessionCustomerDetailsTaxIDsType = "my_itn"
+	CheckoutSessionCustomerDetailsTaxIDsTypeMYSST   CheckoutSessionCustomerDetailsTaxIDsType = "my_sst"
+	CheckoutSessionCustomerDetailsTaxIDsTypeNOVAT   CheckoutSessionCustomerDetailsTaxIDsType = "no_vat"
+	CheckoutSessionCustomerDetailsTaxIDsTypeNZGST   CheckoutSessionCustomerDetailsTaxIDsType = "nz_gst"
+	CheckoutSessionCustomerDetailsTaxIDsTypeRUINN   CheckoutSessionCustomerDetailsTaxIDsType = "ru_inn"
+	CheckoutSessionCustomerDetailsTaxIDsTypeRUKPP   CheckoutSessionCustomerDetailsTaxIDsType = "ru_kpp"
+	CheckoutSessionCustomerDetailsTaxIDsTypeSAVAT   CheckoutSessionCustomerDetailsTaxIDsType = "sa_vat"
+	CheckoutSessionCustomerDetailsTaxIDsTypeSGGST   CheckoutSessionCustomerDetailsTaxIDsType = "sg_gst"
+	CheckoutSessionCustomerDetailsTaxIDsTypeSGUEN   CheckoutSessionCustomerDetailsTaxIDsType = "sg_uen"
+	CheckoutSessionCustomerDetailsTaxIDsTypeTHVAT   CheckoutSessionCustomerDetailsTaxIDsType = "th_vat"
+	CheckoutSessionCustomerDetailsTaxIDsTypeTWVAT   CheckoutSessionCustomerDetailsTaxIDsType = "tw_vat"
+	CheckoutSessionCustomerDetailsTaxIDsTypeUnknown CheckoutSessionCustomerDetailsTaxIDsType = "unknown"
+	CheckoutSessionCustomerDetailsTaxIDsTypeUSEIN   CheckoutSessionCustomerDetailsTaxIDsType = "us_ein"
+	CheckoutSessionCustomerDetailsTaxIDsTypeZAVAT   CheckoutSessionCustomerDetailsTaxIDsType = "za_vat"
 )
 
 // CheckoutSessionCustomerDetailsTaxExempt is the list of allowed values for
@@ -240,10 +240,10 @@ type CheckoutSessionListParams struct {
 	Subscription  *string `form:"subscription"`
 }
 
-// CheckoutSessionCustomerDetailsTaxIds represent customer's tax IDs at the
+// CheckoutSessionCustomerDetailsTaxIDs represent customer's tax IDs at the
 // time of checkout.
-type CheckoutSessionCustomerDetailsTaxIds struct {
-	Type  CheckoutSessionCustomerDetailsTaxIdsType `json:"type"`
+type CheckoutSessionCustomerDetailsTaxIDs struct {
+	Type  CheckoutSessionCustomerDetailsTaxIDsType `json:"type"`
 	Value string                                   `json:"value"`
 }
 
@@ -252,7 +252,7 @@ type CheckoutSessionCustomerDetailsTaxIds struct {
 type CheckoutSessionCustomerDetails struct {
 	Email     string                                  `json:"email"`
 	TaxExempt CheckoutSessionCustomerDetailsTaxExempt `json:"tax_exempt"`
-	TaxIds    []CheckoutSessionCustomerDetailsTaxIds `json:"tax_ids"`
+	TaxIDs    []CheckoutSessionCustomerDetailsTaxIDs  `json:"tax_ids"`
 }
 
 // CheckoutSessionShippingAddressCollection is the set of parameters allowed for the
