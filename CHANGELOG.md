@@ -1,5 +1,12 @@
 # Changelog
 
+## 72.30.0 - 2021-01-15
+* [#1241](https://github.com/stripe/stripe-go/pull/1241) Multiple API Changes
+  * Added support for `dynamic_tax_rates` on `CheckoutSessionParams.line_items`
+  * Added support for `customer_details` on `CheckoutSession`
+  * Added support for `type` on `IssuingTransactionListParams`
+  * Added support for `country` and `state` on `TaxRateParams` and `TaxRate`
+
 ## 72.29.0 - 2021-01-11
 * [#1236](https://github.com/stripe/stripe-go/pull/1236) Add support for bank on eps/p24
 * [#1239](https://github.com/stripe/stripe-go/pull/1239) Add support for more verification documents in `Documents` on `Account`.
