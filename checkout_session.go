@@ -252,7 +252,7 @@ type CheckoutSessionCustomerDetailsTaxIds struct {
 type CheckoutSessionCustomerDetails struct {
 	Email     string                                  `json:"email"`
 	TaxExempt CheckoutSessionCustomerDetailsTaxExempt `json:"tax_exempt"`
-	TaxIds    *[]CheckoutSessionCustomerDetailsTaxIds `json:"tax_ids"`
+	TaxIds    []CheckoutSessionCustomerDetailsTaxIds `json:"tax_ids"`
 }
 
 // CheckoutSessionShippingAddressCollection is the set of parameters allowed for the
