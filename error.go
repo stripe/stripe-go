@@ -294,6 +294,27 @@ func (e *RateLimitError) Error() string {
 	return e.stripeErr.Error()
 }
 
+// redact returns a copy of the error object with sensitive fields replaced with
+// a placeholder value.
+func (e *Error) redact() *Error {
+	// Fast path, since this applies to most cases
+	if e.PaymentIntent == nil && e.SetupIntent == nil {
+		return e
+	}
+	errCopy := *e
+	if e.PaymentIntent != nil {
+		pi := *e.PaymentIntent
+		errCopy.PaymentIntent = &pi
+		errCopy.PaymentIntent.ClientSecret = "REDACTED"
+	}
+	if e.SetupIntent != nil {
+		si := *e.SetupIntent
+		errCopy.SetupIntent = &si
+		errCopy.SetupIntent.ClientSecret = "REDACTED"
+	}
+	return &errCopy
+}
+
 // rawError deserializes the outer JSON object returned in an error response
 // from the API.
 type rawError struct {

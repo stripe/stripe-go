@@ -460,10 +460,10 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 				// and uses it in a broader sense.
 				if res.StatusCode == 402 {
 					s.LeveledLogger.Infof("User-compelled request error from Stripe (status %v): %v",
-						res.StatusCode, stripeErr)
+						res.StatusCode, stripeErr.redact())
 				} else {
 					s.LeveledLogger.Errorf("Request error from Stripe (status %v): %v",
-						res.StatusCode, stripeErr)
+						res.StatusCode, stripeErr.redact())
 				}
 			} else {
 				s.LeveledLogger.Errorf("Error decoding error from Stripe: %v", err)

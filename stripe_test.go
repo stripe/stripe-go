@@ -648,6 +648,53 @@ func TestDo_TelemetryEnabledNoDataRace(t *testing.T) {
 	assert.Equal(t, int32(times), requestNum)
 }
 
+func TestDo_Redaction(t *testing.T) {
+	type testServerResponse struct {
+		Error *Error `json:"error"`
+	}
+
+	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		w.WriteHeader(402)
+		data, err := json.Marshal(testServerResponse{Error: &Error{PaymentIntent: &PaymentIntent{ClientSecret: "SHOULDBEREDACTED"}}})
+		assert.NoError(t, err)
+
+		_, err = w.Write(data)
+		assert.NoError(t, err)
+
+	}))
+	defer testServer.Close()
+
+	var logs bytes.Buffer
+	logger := &LeveledLogger{Level: LevelDebug, stderrOverride: &logs, stdoutOverride: &logs}
+
+	backend := GetBackendWithConfig(
+		APIBackend,
+		&BackendConfig{
+			EnableTelemetry:   Bool(true),
+			LeveledLogger:     logger,
+			MaxNetworkRetries: Int64(0),
+			URL:               String(testServer.URL),
+		},
+	).(*BackendImplementation)
+
+	request, err := backend.NewRequest(
+		http.MethodGet,
+		"/hello",
+		"sk_test_123",
+		"application/x-www-form-urlencoded",
+		nil,
+	)
+	assert.NoError(t, err)
+
+	var response Charge
+	err = backend.Do(request, nil, &response)
+	assert.Error(t, err)
+
+	assert.NotContains(t, logs.String(), "SHOULDBEREDACTED")
+	assert.Contains(t, logs.String(), "REDACTED")
+}
+
 func TestFormatURLPath(t *testing.T) {
 	assert.Equal(t, "/v1/resources/1/subresources/2",
 		FormatURLPath("/v1/resources/%s/subresources/%s", "1", "2"))

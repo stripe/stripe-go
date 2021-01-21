@@ -38,3 +38,50 @@ func TestErrorResponse(t *testing.T) {
 	assert.Equal(t, "req_123", stripeErr.RequestID)
 	assert.Equal(t, 401, stripeErr.HTTPStatusCode)
 }
+
+func TestErrorRedact(t *testing.T) {
+	pi := &PaymentIntent{Amount: int64(400), ClientSecret: "foo"}
+	si := &SetupIntent{Description: "keepme", ClientSecret: "foo"}
+
+	t.Run("BothIntentObjects", func(t *testing.T) {
+		err := &Error{PaymentIntent: pi, SetupIntent: si}
+		redacted := err.redact()
+		assert.Equal(t, int64(400), err.PaymentIntent.Amount)
+		assert.Equal(t, int64(400), redacted.PaymentIntent.Amount)
+		assert.Equal(t, "keepme", err.SetupIntent.Description)
+		assert.Equal(t, "keepme", redacted.SetupIntent.Description)
+		assert.Equal(t, "foo", err.PaymentIntent.ClientSecret)
+		assert.Equal(t, "foo", err.SetupIntent.ClientSecret)
+		assert.Equal(t, "foo", pi.ClientSecret)
+		assert.Equal(t, "foo", si.ClientSecret)
+		assert.Equal(t, "REDACTED", redacted.PaymentIntent.ClientSecret)
+		assert.Equal(t, "REDACTED", redacted.SetupIntent.ClientSecret)
+	})
+
+	t.Run("NeitherIntentObject", func(t *testing.T) {
+		err := Error{PaymentIntent: nil, SetupIntent: nil}
+		redacted := err.redact()
+		assert.Nil(t, err.PaymentIntent)
+		assert.Nil(t, redacted.PaymentIntent)
+	})
+
+	t.Run("PaymentIntentAlone", func(t *testing.T) {
+		err := &Error{PaymentIntent: pi}
+		redacted := err.redact()
+		assert.Equal(t, int64(400), err.PaymentIntent.Amount)
+		assert.Equal(t, int64(400), redacted.PaymentIntent.Amount)
+		assert.Equal(t, "foo", err.PaymentIntent.ClientSecret)
+		assert.Equal(t, "foo", pi.ClientSecret)
+		assert.Equal(t, "REDACTED", redacted.PaymentIntent.ClientSecret)
+	})
+
+	t.Run("SetupIntentAlone", func(t *testing.T) {
+		err := &Error{SetupIntent: si}
+		redacted := err.redact()
+		assert.Equal(t, "keepme", err.SetupIntent.Description)
+		assert.Equal(t, "keepme", redacted.SetupIntent.Description)
+		assert.Equal(t, "foo", err.SetupIntent.ClientSecret)
+		assert.Equal(t, "foo", si.ClientSecret)
+		assert.Equal(t, "REDACTED", redacted.SetupIntent.ClientSecret)
+	})
+}
