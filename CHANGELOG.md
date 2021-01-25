@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.31.0 - 2021-01-25
+* [#1228](https://github.com/stripe/stripe-go/pull/1228) Redact client_secret from logs
+
 ## 72.30.0 - 2021-01-15
 * [#1241](https://github.com/stripe/stripe-go/pull/1241) Multiple API Changes
   * Added support for `dynamic_tax_rates` on `CheckoutSessionParams.line_items`
