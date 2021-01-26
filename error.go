@@ -151,6 +151,7 @@ const (
 	DeclineCodeInvalidAccount                 DeclineCode = "invalid_account"
 	DeclineCodeInvalidAmount                  DeclineCode = "invalid_amount"
 	DeclineCodeInvalidCVC                     DeclineCode = "invalid_cvc"
+	DeclineCodeInvalidExpiryMonth             DeclineCode = "invalid_expiry_month"
 	DeclineCodeInvalidExpiryYear              DeclineCode = "invalid_expiry_year"
 	DeclineCodeInvalidNumber                  DeclineCode = "invalid_number"
 	DeclineCodeInvalidPIN                     DeclineCode = "invalid_pin"
