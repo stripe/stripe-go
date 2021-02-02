@@ -20,6 +20,7 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDsTypeCLTIN   CheckoutSessionCustomerDetailsTaxIDsType = "cl_tin"
 	CheckoutSessionCustomerDetailsTaxIDsTypeESCIF   CheckoutSessionCustomerDetailsTaxIDsType = "es_cif"
 	CheckoutSessionCustomerDetailsTaxIDsTypeEUVAT   CheckoutSessionCustomerDetailsTaxIDsType = "eu_vat"
+	CheckoutSessionCustomerDetailsTaxIDsTypeGBVAT   CheckoutSessionCustomerDetailsTaxIDsType = "gb_vat"
 	CheckoutSessionCustomerDetailsTaxIDsTypeHKBR    CheckoutSessionCustomerDetailsTaxIDsType = "hk_br"
 	CheckoutSessionCustomerDetailsTaxIDsTypeIDNPWP  CheckoutSessionCustomerDetailsTaxIDsType = "id_npwp"
 	CheckoutSessionCustomerDetailsTaxIDsTypeINGST   CheckoutSessionCustomerDetailsTaxIDsType = "in_gst"
