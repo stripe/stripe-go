@@ -77,8 +77,8 @@ type ListContainer interface {
 // of List iterators. The Count property is only populated if the
 // total_count include option is passed in (see tests for example).
 type ListMeta struct {
-	HasMore    bool   `json:"has_more"`
-	URL        string `json:"url"`
+	HasMore bool   `json:"has_more"`
+	URL     string `json:"url"`
 
 	// TotalCount is the total number of objects in the collection (beyond just
 	// on the current page). This is not returned in most list calls.
