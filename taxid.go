@@ -17,6 +17,7 @@ const (
 	TaxIDTypeCLTIN   TaxIDType = "cl_tin"
 	TaxIDTypeESCIF   TaxIDType = "es_cif"
 	TaxIDTypeEUVAT   TaxIDType = "eu_vat"
+	TaxIDTypeGBVAT   TaxIDType = "gb_vat"
 	TaxIDTypeHKBR    TaxIDType = "hk_br"
 	TaxIDTypeIDNPWP  TaxIDType = "id_npwp"
 	TaxIDTypeINGST   TaxIDType = "in_gst"

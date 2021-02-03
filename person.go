@@ -104,6 +104,7 @@ type PersonParams struct {
 	LastNameKana      *string                   `form:"last_name_kana"`
 	LastNameKanji     *string                   `form:"last_name_kanji"`
 	MaidenName        *string                   `form:"maiden_name"`
+	Nationality       *string                   `form:"nationality"`
 	PersonToken       *string                   `form:"person_token"`
 	Phone             *string                   `form:"phone"`
 	PoliticalExposure *string                   `form:"political_exposure"`
@@ -192,6 +193,7 @@ type Person struct {
 	LastNameKana      string                  `json:"last_name_kana"`
 	LastNameKanji     string                  `json:"last_name_kanji"`
 	MaidenName        string                  `json:"maiden_name"`
+	Nationality       string                  `json:"nationality"`
 	Metadata          map[string]string       `json:"metadata"`
 	Object            string                  `json:"object"`
 	Phone             string                  `json:"phone"`
