@@ -133,6 +133,7 @@ type InvoiceParams struct {
 	SubscriptionProrationBehavior           *string                             `form:"subscription_proration_behavior"`
 	SubscriptionProrationDate               *int64                              `form:"subscription_proration_date"`
 	SubscriptionQuantity                    *int64                              `form:"subscription_quantity"`
+	SubscriptionStartDate                   *int64                              `form:"subscription_start_date"`
 	SubscriptionTrialEnd                    *int64                              `form:"subscription_trial_end"`
 	SubscriptionTrialFromPlan               *bool                               `form:"subscription_trial_from_plan"`
 }
