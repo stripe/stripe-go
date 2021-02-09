@@ -29,6 +29,35 @@ const (
 	InvoiceBillingReasonUpcoming              InvoiceBillingReason = "upcoming"
 )
 
+// InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure represents
+// the options for requesting 3D Secure.
+type InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure string
+
+// List of values that InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure can take.
+const (
+	InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecureAny       InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure = "any"
+	InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecureAutomatic InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
+)
+
+// InvoicePaymentSettingsPaymentMethodType represents the payment method type to provide to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodType string
+
+// List of values that InvoicePaymentSettingsPaymentMethodType can take.
+const (
+	InvoicePaymentSettingsPaymentMethodTypeAchCreditTransfer  InvoicePaymentSettingsPaymentMethodType = "ach_credit_transfer"
+	InvoicePaymentSettingsPaymentMethodTypeAchDebit           InvoicePaymentSettingsPaymentMethodType = "ach_debit"
+	InvoicePaymentSettingsPaymentMethodTypeAUBECSDebit        InvoicePaymentSettingsPaymentMethodType = "au_becs_debit"
+	InvoicePaymentSettingsPaymentMethodTypeBACSDebit          InvoicePaymentSettingsPaymentMethodType = "bacs_debit"
+	InvoicePaymentSettingsPaymentMethodTypeBancontact         InvoicePaymentSettingsPaymentMethodType = "bancontact"
+	InvoicePaymentSettingsPaymentMethodTypeCard               InvoicePaymentSettingsPaymentMethodType = "card"
+	InvoicePaymentSettingsPaymentMethodTypeFPX                InvoicePaymentSettingsPaymentMethodType = "fpx"
+	InvoicePaymentSettingsPaymentMethodTypeGiropay            InvoicePaymentSettingsPaymentMethodType = "giropay"
+	InvoicePaymentSettingsPaymentMethodTypeIdeal              InvoicePaymentSettingsPaymentMethodType = "ideal"
+	InvoicePaymentSettingsPaymentMethodTypeSepaCreditTransfer InvoicePaymentSettingsPaymentMethodType = "sepa_credit_transfer"
+	InvoicePaymentSettingsPaymentMethodTypeSepaDebit          InvoicePaymentSettingsPaymentMethodType = "sepa_debit"
+	InvoicePaymentSettingsPaymentMethodTypeSofort             InvoicePaymentSettingsPaymentMethodType = "sofort"
+)
+
 // InvoiceStatus is the reason why a given invoice was created
 type InvoiceStatus string
 
@@ -88,6 +117,31 @@ type InvoiceDiscountParams struct {
 	Discount *string `form:"discount"`
 }
 
+// InvoicePaymentSettingsPaymentMethodOptionsBancontactParams is the set of parameters allowed for
+// bancontact on payment_method_options on payment_settings on an invoice.
+type InvoicePaymentSettingsPaymentMethodOptionsBancontactParams struct {
+	PreferredLanguage *string `form:"preferred_language"`
+}
+
+// InvoicePaymentSettingsPaymentMethodOptionsCardParams is the set of parameters allowed for
+// payment method options when using the card payment method.
+type InvoicePaymentSettingsPaymentMethodOptionsCardParams struct {
+	RequestThreeDSecure *string `form:"request_three_d_secure"`
+}
+
+// InvoicePaymentSettingsParams is the set of parameters allowed for specific payment methods
+// on an invoice's payment settings.
+type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
+	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	Card       *InvoicePaymentSettingsPaymentMethodOptionsCardParams       `form:"card"`
+}
+
+// InvoicePaymentSettingsParams is the set of parameters allowed for the payment_settings on an invoice.
+type InvoicePaymentSettingsParams struct {
+	PaymentMethodOptions *InvoicePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodTypes   []*string                                         `form:"payment_method_types"`
+}
+
 // InvoiceTransferDataParams is the set of parameters allowed for the transfer_data hash.
 type InvoiceTransferDataParams struct {
 	Amount      *int64  `form:"amount"`
@@ -98,24 +152,25 @@ type InvoiceTransferDataParams struct {
 // For more details see https://stripe.com/docs/api#create_invoice, https://stripe.com/docs/api#update_invoice.
 type InvoiceParams struct {
 	Params               `form:"*"`
-	AccountTaxIDs        []*string                   `form:"account_tax_ids"`
-	AutoAdvance          *bool                       `form:"auto_advance"`
-	ApplicationFeeAmount *int64                      `form:"application_fee_amount"`
-	CollectionMethod     *string                     `form:"collection_method"`
-	CustomFields         []*InvoiceCustomFieldParams `form:"custom_fields"`
-	Customer             *string                     `form:"customer"`
-	DaysUntilDue         *int64                      `form:"days_until_due"`
-	DefaultPaymentMethod *string                     `form:"default_payment_method"`
-	DefaultSource        *string                     `form:"default_source"`
-	DefaultTaxRates      []*string                   `form:"default_tax_rates"`
-	Description          *string                     `form:"description"`
-	Discounts            []*InvoiceDiscountParams    `form:"discounts"`
-	DueDate              *int64                      `form:"due_date"`
-	Footer               *string                     `form:"footer"`
-	Paid                 *bool                       `form:"paid"`
-	StatementDescriptor  *string                     `form:"statement_descriptor"`
-	Subscription         *string                     `form:"subscription"`
-	TransferData         *InvoiceTransferDataParams  `form:"transfer_data"`
+	AccountTaxIDs        []*string                     `form:"account_tax_ids"`
+	AutoAdvance          *bool                         `form:"auto_advance"`
+	ApplicationFeeAmount *int64                        `form:"application_fee_amount"`
+	CollectionMethod     *string                       `form:"collection_method"`
+	CustomFields         []*InvoiceCustomFieldParams   `form:"custom_fields"`
+	Customer             *string                       `form:"customer"`
+	DaysUntilDue         *int64                        `form:"days_until_due"`
+	DefaultPaymentMethod *string                       `form:"default_payment_method"`
+	DefaultSource        *string                       `form:"default_source"`
+	DefaultTaxRates      []*string                     `form:"default_tax_rates"`
+	Description          *string                       `form:"description"`
+	Discounts            []*InvoiceDiscountParams      `form:"discounts"`
+	DueDate              *int64                        `form:"due_date"`
+	Footer               *string                       `form:"footer"`
+	Paid                 *bool                         `form:"paid"`
+	PaymentSettings      *InvoicePaymentSettingsParams `form:"payment_settings"`
+	StatementDescriptor  *string                       `form:"statement_descriptor"`
+	Subscription         *string                       `form:"subscription"`
+	TransferData         *InvoiceTransferDataParams    `form:"transfer_data"`
 
 	// These are all for exclusive use by GetNext.
 
@@ -262,6 +317,7 @@ type Invoice struct {
 	Object                       string                   `json:"object"`
 	Paid                         bool                     `json:"paid"`
 	PaymentIntent                *PaymentIntent           `json:"payment_intent"`
+	PaymentSettings              *InvoicePaymentSettings  `json:"payment_settings"`
 	PeriodEnd                    int64                    `json:"period_end"`
 	PeriodStart                  int64                    `json:"period_start"`
 	PostPaymentCreditNotesAmount int64                    `json:"post_payment_credit_notes_amount"`
@@ -378,6 +434,30 @@ type InvoiceLineList struct {
 	APIResource
 	ListMeta
 	Data []*InvoiceLine `json:"data"`
+}
+
+// InvoicePaymentSettingsPaymentMethodOptionsBancontact, if paying by `bancontact`, contains details about the Bancontact payment method options
+// to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
+	PreferredLanguage string `json:"preferred_language"`
+}
+
+// InvoicePaymentSettingsPaymentMethodOptionsCard, if paying by `card`, contains details about the Card payment method options to pass to the
+// invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsCard struct {
+	RequestThreeDSecure InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
+}
+
+// InvoicePaymentSettingsPaymentMethodOptions represents payment-method-specific configuration to provide to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptions struct {
+	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
+	Card       *InvoicePaymentSettingsPaymentMethodOptionsCard       `json:"card"`
+}
+
+// InvoicePaymentSettings represents configuration settings to provide to the invoice's PaymentIntent.
+type InvoicePaymentSettings struct {
+	PaymentMethodOptions *InvoicePaymentSettingsPaymentMethodOptions `json:"payment_method_options"`
+	PaymentMethodTypes   []InvoicePaymentSettingsPaymentMethodType   `json:"payment_method_types"`
 }
 
 // InvoiceStatusTransitions are the timestamps at which the invoice status was updated.
