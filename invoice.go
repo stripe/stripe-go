@@ -55,6 +55,7 @@ const (
 // InvoicePaymentSettingsPaymentMethodType represents the payment method type to provide to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodType string
 
+// List of values that InvoicePaymentSettingsPaymentMethodType can take.
 const (
 	InvoicePaymentSettingsPaymentMethodTypeAchCreditTransfer  InvoicePaymentSettingsPaymentMethodType = "ach_credit_transfer"
 	InvoicePaymentSettingsPaymentMethodTypeAchDebit           InvoicePaymentSettingsPaymentMethodType = "ach_debit"
