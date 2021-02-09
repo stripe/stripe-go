@@ -29,19 +29,6 @@ const (
 	InvoiceBillingReasonUpcoming              InvoiceBillingReason = "upcoming"
 )
 
-// InvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage is the
-// preferred language of the Bancontact authorization page that the customer is
-// redirected to.
-type InvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage string
-
-// List of values that InvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage can take.
-const (
-	InvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageDE InvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "de"
-	InvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageEN InvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "en"
-	InvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageFR InvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "fr"
-	InvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageNL InvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "nl"
-)
-
 // InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure represents
 // the options for requesting 3D Secure.
 type InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure string
@@ -136,14 +123,14 @@ type InvoicePaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language"`
 }
 
-// InvoicePaymentSettingsParams is the set of parameters allowed for card on payment_method_options on
-// payment_settings on an invoice.
+// InvoicePaymentSettingsPaymentMethodOptionsCardParams is the set of parameters allowed for
+// payment method options when using the card payment method.
 type InvoicePaymentSettingsPaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 }
 
-// InvoicePaymentSettingsParams is the set of parameters allowed for the payment_method_options on ther
-// payment_settings on an invoice.
+// InvoicePaymentSettingsParams is the set of parameters allowed for specific payment methods
+// on an invoice's payment settings.
 type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
 	Card       *InvoicePaymentSettingsPaymentMethodOptionsCardParams       `form:"card"`
@@ -452,7 +439,7 @@ type InvoiceLineList struct {
 // InvoicePaymentSettingsPaymentMethodOptionsBancontact, if paying by `bancontact`, contains details about the Bancontact payment method options
 // to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
-	PreferredLanguage InvoicePaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage `json:"preferred_language"`
+	PreferredLanguage string `json:"preferred_language"`
 }
 
 // InvoicePaymentSettingsPaymentMethodOptionsCard, if paying by `card`, contains details about the Card payment method options to pass to the
