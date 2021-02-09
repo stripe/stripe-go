@@ -152,7 +152,7 @@ type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 // InvoicePaymentSettingsParams is the set of parameters allowed for the payment_settings on an invoice.
 type InvoicePaymentSettingsParams struct {
 	PaymentMethodOptions *InvoicePaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
-	PaymentMethodTypes   *[]*string                                        `form:"payment_method_types"`
+	PaymentMethodTypes   []*string                                         `form:"payment_method_types"`
 }
 
 // InvoiceTransferDataParams is the set of parameters allowed for the transfer_data hash.
