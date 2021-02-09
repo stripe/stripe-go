@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.33.0 - 2021-02-09
+* [#1247](https://github.com/stripe/stripe-go/pull/1247) Added support for `payment_settings` to `Invoice`
+
 ## 72.32.0 - 2021-02-03
 * [#1245](https://github.com/stripe/stripe-go/pull/1245) API Updates
   * Add `nationality` to `Person` and `PersonParams` 
