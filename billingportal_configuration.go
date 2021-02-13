@@ -25,8 +25,8 @@ const (
 	BillingPortalConfigurationFeaturesSubscriptionCancelModeImmediately BillingPortalConfigurationFeaturesSubscriptionCancelMode = "immediately"
 )
 
-// BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior
-// describes whether to create prorations when canceling subscriptions.
+// BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior describes
+// whether to create prorations when canceling subscriptions.
 type BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior string
 
 // List of values that BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior can take.
@@ -36,9 +36,8 @@ const (
 	BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorNone             BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior = "none"
 )
 
-// BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate
-// describes a type of subscription update that may be supported on a portal
-// configuration.
+// BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate describes
+// a type of subscription update that may be supported on a portal configuration.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate string
 
 // List of values that BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate can take.
@@ -48,8 +47,8 @@ const (
 	BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdateQuantity      BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate = "quantity"
 )
 
-// BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior
-// determines how to handle prorations resulting from subscription updates.
+// BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior determines
+// how to handle prorations resulting from subscription updates.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior string
 
 // List of values that BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior can take.
@@ -82,7 +81,7 @@ type BillingPortalConfigurationFeaturesCustomerUpdateParams struct {
 	Enabled        *bool     `form:"enabled"`
 }
 
-// BillingPortalConfigurationFeaturesCustomerUpdateParams lets you pass the
+// BillingPortalConfigurationFeaturesInvoiceHistoryParams lets you pass the
 // invoice history details on a portal configuration.
 type BillingPortalConfigurationFeaturesInvoiceHistoryParams struct {
 	Enabled *bool `form:"enabled"`
