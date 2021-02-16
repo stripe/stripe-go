@@ -24,6 +24,14 @@ func TestInvoiceParams_AppendTo(t *testing.T) {
 		t.Logf("body = %+v", body)
 		assert.Equal(t, []string{"unchanged"}, body.Get("subscription_billing_cycle_anchor"))
 	}
+
+	{
+		params := &InvoiceParams{SubscriptionTrialEndNow: Bool(true)}
+		body := &form.Values{}
+		form.AppendTo(body, params)
+		t.Logf("body = %+v", body)
+		assert.Equal(t, []string{"now"}, body.Get("subscription_trial_end"))
+	}
 }
 
 func TestInvoice_Unmarshal(t *testing.T) {

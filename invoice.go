@@ -190,6 +190,7 @@ type InvoiceParams struct {
 	SubscriptionQuantity                    *int64                              `form:"subscription_quantity"`
 	SubscriptionStartDate                   *int64                              `form:"subscription_start_date"`
 	SubscriptionTrialEnd                    *int64                              `form:"subscription_trial_end"`
+	SubscriptionTrialEndNow                 *bool                               `form:"-"` // See custom AppendTo
 	SubscriptionTrialFromPlan               *bool                               `form:"subscription_trial_from_plan"`
 }
 
@@ -203,6 +204,10 @@ func (p *InvoiceParams) AppendTo(body *form.Values, keyParts []string) {
 
 	if BoolValue(p.SubscriptionBillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "subscription_billing_cycle_anchor")), "unchanged")
+	}
+
+	if BoolValue(p.SubscriptionTrialEndNow) {
+		body.Add(form.FormatKey(append(keyParts, "subscription_trial_end")), "now")
 	}
 }
 
