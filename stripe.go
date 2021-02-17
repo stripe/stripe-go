@@ -977,6 +977,11 @@ func ParseID(data []byte) (string, bool) {
 		return "", false
 	}
 
+	// Edge case that should never happen; found via fuzzing
+	if s == "\"" {
+		return "", false
+	}
+
 	return s[1 : len(s)-1], true
 }
 

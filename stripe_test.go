@@ -777,6 +777,13 @@ func TestParseID(t *testing.T) {
 		assert.Equal(t, "", id)
 		assert.False(t, ok)
 	}
+
+	// Edge case that should never happen; found via fuzzing
+	{
+		id, ok := ParseID([]byte(`"`))
+		assert.Equal(t, "", id)
+		assert.False(t, ok)
+	}
 }
 
 // TestMultipleAPICalls will fail the test run if a race condition is thrown while running multiple NewRequest calls.
