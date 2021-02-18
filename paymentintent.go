@@ -168,18 +168,19 @@ type PaymentIntentMandateDataParams struct {
 // PaymentIntentPaymentMethodDataParams represents the type-specific parameters associated with a
 // payment method on payment intent.
 type PaymentIntentPaymentMethodDataParams struct {
-	Alipay         *PaymentMethodAlipayParams      `form:"alipay"`
-	AUBECSDebit    *PaymentMethodAUBECSDebitParams `form:"au_becs_debit"`
-	BillingDetails *BillingDetailsParams           `form:"billing_details"`
-	Card           *PaymentMethodCardParams        `form:"card"`
-	EPS            *PaymentMethodEPSParams         `form:"eps"`
-	FPX            *PaymentMethodFPXParams         `form:"fpx"`
-	Grabpay        *PaymentMethodGrabpayParams     `form:"grabpay"`
-	Ideal          *PaymentMethodIdealParams       `form:"ideal"`
-	OXXO           *PaymentMethodOXXOParams        `form:"oxxo"`
-	P24            *PaymentMethodP24Params         `form:"p24"`
-	SepaDebit      *PaymentMethodSepaDebitParams   `form:"sepa_debit"`
-	Type           *string                         `form:"type"`
+	AfterpayClearpay *PaymentMethodAfterpayClearpayParams `form:"afterpay_clearpay"`
+	Alipay           *PaymentMethodAlipayParams           `form:"alipay"`
+	AUBECSDebit      *PaymentMethodAUBECSDebitParams      `form:"au_becs_debit"`
+	BillingDetails   *BillingDetailsParams                `form:"billing_details"`
+	Card             *PaymentMethodCardParams             `form:"card"`
+	EPS              *PaymentMethodEPSParams              `form:"eps"`
+	FPX              *PaymentMethodFPXParams              `form:"fpx"`
+	Grabpay          *PaymentMethodGrabpayParams          `form:"grabpay"`
+	Ideal            *PaymentMethodIdealParams            `form:"ideal"`
+	OXXO             *PaymentMethodOXXOParams             `form:"oxxo"`
+	P24              *PaymentMethodP24Params              `form:"p24"`
+	SepaDebit        *PaymentMethodSepaDebitParams        `form:"sepa_debit"`
+	Type             *string                              `form:"type"`
 }
 
 // PaymentIntentPaymentMethodOptionsAlipayParams represents the Alipay-specific options
