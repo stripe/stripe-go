@@ -1,5 +1,13 @@
 # Changelog
 
+## 72.34.0 - 2021-02-18
+* [#1252](https://github.com/stripe/stripe-go/pull/1252) API Updates
+  * Add support for `afterpay_clearpay` on `PaymentMethod`, `PaymentMethodParams`, `PaymentIntentPaymentMethodDataParams`, and `ChargePaymentMethodDetails`
+  * Add `afterpay_clearpay` as an enum member on `PaymentMethodType` 
+  * Add support for `adjustable_quantity` on `CheckoutSessionLineItemParams`
+  * Add support for `on_behalf_of` on `InvoiceParams` and `Invoice`
+* [#1249](https://github.com/stripe/stripe-go/pull/1249) Fix edge case panic in ParseID
+
 ## 72.33.0 - 2021-02-09
 * [#1247](https://github.com/stripe/stripe-go/pull/1247) Added support for `payment_settings` to `Invoice`
 
