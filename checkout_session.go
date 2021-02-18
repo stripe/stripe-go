@@ -88,6 +88,14 @@ const (
 	CheckoutSessionSubmitTypePay    CheckoutSessionSubmitType = "pay"
 )
 
+// CheckoutSessionLineItemAdjustableQuantityParams represents the parameters for
+// an adjustable quantity on a checkout session's line items.
+type CheckoutSessionLineItemAdjustableQuantityParams struct {
+	Enabled *bool  `form:"enabled"`
+	Maximum *int64 `form:"maximum"`
+	Minimum *int64 `form:"minimum"`
+}
+
 // CheckoutSessionLineItemPriceDataProductDataParams is the set of parameters that can be used when
 // creating a product created inline for a line item.
 type CheckoutSessionLineItemPriceDataProductDataParams struct {
@@ -128,16 +136,17 @@ type CheckoutSessionDiscountParams struct {
 // CheckoutSessionLineItemParams is the set of parameters allowed for a line item
 // on a checkout session.
 type CheckoutSessionLineItemParams struct {
-	Amount          *int64                                  `form:"amount"`
-	Currency        *string                                 `form:"currency"`
-	Description     *string                                 `form:"description"`
-	DynamicTaxRates []*string                               `form:"dynamic_tax_rates"`
-	Images          []*string                               `form:"images"`
-	Name            *string                                 `form:"name"`
-	Price           *string                                 `form:"price"`
-	PriceData       *CheckoutSessionLineItemPriceDataParams `form:"price_data"`
-	Quantity        *int64                                  `form:"quantity"`
-	TaxRates        []*string                               `form:"tax_rates"`
+	AdjustableQuantity *CheckoutSessionLineItemAdjustableQuantityParams `form:"adjustable_quantity"`
+	Amount             *int64                                           `form:"amount"`
+	Currency           *string                                          `form:"currency"`
+	Description        *string                                          `form:"description"`
+	DynamicTaxRates    []*string                                        `form:"dynamic_tax_rates"`
+	Images             []*string                                        `form:"images"`
+	Name               *string                                          `form:"name"`
+	Price              *string                                          `form:"price"`
+	PriceData          *CheckoutSessionLineItemPriceDataParams          `form:"price_data"`
+	Quantity           *int64                                           `form:"quantity"`
+	TaxRates           []*string                                        `form:"tax_rates"`
 }
 
 // CheckoutSessionPaymentIntentDataTransferDataParams is the set of parameters allowed for the

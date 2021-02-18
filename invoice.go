@@ -166,6 +166,7 @@ type InvoiceParams struct {
 	Discounts            []*InvoiceDiscountParams      `form:"discounts"`
 	DueDate              *int64                        `form:"due_date"`
 	Footer               *string                       `form:"footer"`
+	OnBehalfOf           *string                       `form:"on_behalf_of"`
 	Paid                 *bool                         `form:"paid"`
 	PaymentSettings      *InvoicePaymentSettingsParams `form:"payment_settings"`
 	StatementDescriptor  *string                       `form:"statement_descriptor"`
@@ -315,6 +316,7 @@ type Invoice struct {
 	NextPaymentAttempt           int64                    `json:"next_payment_attempt"`
 	Number                       string                   `json:"number"`
 	Object                       string                   `json:"object"`
+	OnBehalfOf                   *Account                 `json:"on_behalf_of"`
 	Paid                         bool                     `json:"paid"`
 	PaymentIntent                *PaymentIntent           `json:"payment_intent"`
 	PaymentSettings              *InvoicePaymentSettings  `json:"payment_settings"`

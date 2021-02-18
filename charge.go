@@ -251,6 +251,9 @@ type ChargePaymentMethodDetailsAcssDebit struct {
 	TransitNumber     string `json:"transit_number"`
 }
 
+// ChargePaymentMethodDetailsAfterpayClearpay represents details about the AfterpayClearpay PaymentMethod.
+type ChargePaymentMethodDetailsAfterpayClearpay struct{}
+
 // ChargePaymentMethodDetailsAlipay represents details about the Alipay PaymentMethod.
 type ChargePaymentMethodDetailsAlipay struct {
 	Fingerprint   string `json:"fingerprint"`
@@ -547,6 +550,7 @@ type ChargePaymentMethodDetails struct {
 	AchCreditTransfer *ChargePaymentMethodDetailsAchCreditTransfer `json:"ach_credit_transfer"`
 	AchDebit          *ChargePaymentMethodDetailsAchDebit          `json:"ach_debit"`
 	AcssDebit         *ChargePaymentMethodDetailsAcssDebit         `json:"acss_debit"`
+	AfterpayClearpay  *ChargePaymentMethodDetailsAfterpayClearpay  `json:"afterpay_clearpay"`
 	Alipay            *ChargePaymentMethodDetailsAlipay            `json:"alipay"`
 	AUBECSDebit       *ChargePaymentMethodDetailsAUBECSDebit       `json:"au_becs_debit"`
 	BACSDebit         *ChargePaymentMethodDetailsBACSDebit         `json:"bacs_debit"`

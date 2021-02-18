@@ -16,22 +16,23 @@ type PaymentMethodType string
 
 // List of values that PaymentMethodType can take.
 const (
-	PaymentMethodTypeAlipay         PaymentMethodType = "alipay"
-	PaymentMethodTypeAUBECSDebit    PaymentMethodType = "au_becs_debit"
-	PaymentMethodTypeBACSDebit      PaymentMethodType = "bacs_debit"
-	PaymentMethodTypeBancontact     PaymentMethodType = "bancontact"
-	PaymentMethodTypeCard           PaymentMethodType = "card"
-	PaymentMethodTypeCardPresent    PaymentMethodType = "card_present"
-	PaymentMethodTypeEPS            PaymentMethodType = "eps"
-	PaymentMethodTypeFPX            PaymentMethodType = "fpx"
-	PaymentMethodTypeGiropay        PaymentMethodType = "giropay"
-	PaymentMethodTypeGrabpay        PaymentMethodType = "grabpay"
-	PaymentMethodTypeIdeal          PaymentMethodType = "ideal"
-	PaymentMethodTypeInteracPresent PaymentMethodType = "interac_present"
-	PaymentMethodTypeOXXO           PaymentMethodType = "oxxo"
-	PaymentMethodTypeP24            PaymentMethodType = "p24"
-	PaymentMethodTypeSepaDebit      PaymentMethodType = "sepa_debit"
-	PaymentMethodTypeSofort         PaymentMethodType = "sofort"
+	PaymentMethodTypeAfterpayClearpay PaymentMethodType = "afterpay_clearpay"
+	PaymentMethodTypeAlipay           PaymentMethodType = "alipay"
+	PaymentMethodTypeAUBECSDebit      PaymentMethodType = "au_becs_debit"
+	PaymentMethodTypeBACSDebit        PaymentMethodType = "bacs_debit"
+	PaymentMethodTypeBancontact       PaymentMethodType = "bancontact"
+	PaymentMethodTypeCard             PaymentMethodType = "card"
+	PaymentMethodTypeCardPresent      PaymentMethodType = "card_present"
+	PaymentMethodTypeEPS              PaymentMethodType = "eps"
+	PaymentMethodTypeFPX              PaymentMethodType = "fpx"
+	PaymentMethodTypeGiropay          PaymentMethodType = "giropay"
+	PaymentMethodTypeGrabpay          PaymentMethodType = "grabpay"
+	PaymentMethodTypeIdeal            PaymentMethodType = "ideal"
+	PaymentMethodTypeInteracPresent   PaymentMethodType = "interac_present"
+	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
+	PaymentMethodTypeP24              PaymentMethodType = "p24"
+	PaymentMethodTypeSepaDebit        PaymentMethodType = "sepa_debit"
+	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
 )
 
 // PaymentMethodCardBrand is the list of allowed values for the brand property on a
@@ -89,6 +90,10 @@ type BillingDetailsParams struct {
 	Name    *string        `form:"name"`
 	Phone   *string        `form:"phone"`
 }
+
+// PaymentMethodAfterpayClearpay is the set of parameters allowed for the `afterpay_clearpay`
+// hash when creating a PaymentMethod of type AfterpayClearpay.
+type PaymentMethodAfterpayClearpayParams struct{}
 
 // PaymentMethodAlipayParams is the set of parameters allowed for the `alipay` hash when creating a
 // PaymentMethod of type Alipay.
@@ -184,24 +189,25 @@ type PaymentMethodSofortParams struct {
 // PaymentMethodParams is the set of parameters that can be used when creating or updating a
 // PaymentMethod.
 type PaymentMethodParams struct {
-	Params         `form:"*"`
-	Alipay         *PaymentMethodAlipayParams         `form:"alipay"`
-	AUBECSDebit    *PaymentMethodAUBECSDebitParams    `form:"au_becs_debit"`
-	BACSDebit      *PaymentMethodBACSDebitParams      `form:"bacs_debit"`
-	Bancontact     *PaymentMethodBancontactParams     `form:"bancontact"`
-	BillingDetails *BillingDetailsParams              `form:"billing_details"`
-	Card           *PaymentMethodCardParams           `form:"card"`
-	EPS            *PaymentMethodEPSParams            `form:"eps"`
-	FPX            *PaymentMethodFPXParams            `form:"fpx"`
-	Giropay        *PaymentMethodGiropayParams        `form:"giropay"`
-	Grabpay        *PaymentMethodGrabpayParams        `form:"grabpay"`
-	Ideal          *PaymentMethodIdealParams          `form:"ideal"`
-	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
-	OXXO           *PaymentMethodOXXOParams           `form:"oxxo"`
-	P24            *PaymentMethodP24Params            `form:"p24"`
-	SepaDebit      *PaymentMethodSepaDebitParams      `form:"sepa_debit"`
-	Sofort         *PaymentMethodSofortParams         `form:"sofort"`
-	Type           *string                            `form:"type"`
+	Params           `form:"*"`
+	AfterpayClearpay *PaymentMethodAfterpayClearpayParams `form:"afterpay_clearpay"`
+	Alipay           *PaymentMethodAlipayParams           `form:"alipay"`
+	AUBECSDebit      *PaymentMethodAUBECSDebitParams      `form:"au_becs_debit"`
+	BACSDebit        *PaymentMethodBACSDebitParams        `form:"bacs_debit"`
+	Bancontact       *PaymentMethodBancontactParams       `form:"bancontact"`
+	BillingDetails   *BillingDetailsParams                `form:"billing_details"`
+	Card             *PaymentMethodCardParams             `form:"card"`
+	EPS              *PaymentMethodEPSParams              `form:"eps"`
+	FPX              *PaymentMethodFPXParams              `form:"fpx"`
+	Giropay          *PaymentMethodGiropayParams          `form:"giropay"`
+	Grabpay          *PaymentMethodGrabpayParams          `form:"grabpay"`
+	Ideal            *PaymentMethodIdealParams            `form:"ideal"`
+	InteracPresent   *PaymentMethodInteracPresentParams   `form:"interac_present"`
+	OXXO             *PaymentMethodOXXOParams             `form:"oxxo"`
+	P24              *PaymentMethodP24Params              `form:"p24"`
+	SepaDebit        *PaymentMethodSepaDebitParams        `form:"sepa_debit"`
+	Sofort           *PaymentMethodSofortParams           `form:"sofort"`
+	Type             *string                              `form:"type"`
 
 	// The following parameters are used when cloning a PaymentMethod to the connected account
 	Customer      *string `form:"customer"`
@@ -234,6 +240,10 @@ type BillingDetails struct {
 	Email   string   `json:"email"`
 	Name    string   `json:"name"`
 	Phone   string   `json:"phone"`
+}
+
+// PaymentMethodAfterpayClearpay represents the AfterpayClearpay properties.
+type PaymentMethodAfterpayClearpay struct {
 }
 
 // PaymentMethodAlipay represents the Alipay properties.
@@ -372,30 +382,31 @@ type PaymentMethodSofort struct {
 // PaymentMethod is the resource representing a PaymentMethod.
 type PaymentMethod struct {
 	APIResource
-	Alipay         *PaymentMethodAlipay         `json:"alipay"`
-	AUBECSDebit    *PaymentMethodAUBECSDebit    `json:"au_becs_debit"`
-	BACSDebit      *PaymentMethodBACSDebit      `json:"bacs_debit"`
-	Bancontact     *PaymentMethodBancontact     `json:"bancontact"`
-	BillingDetails *BillingDetails              `json:"billing_details"`
-	Card           *PaymentMethodCard           `json:"card"`
-	CardPresent    *PaymentMethodCardPresent    `json:"card_present"`
-	Created        int64                        `json:"created"`
-	Customer       *Customer                    `json:"customer"`
-	EPS            *PaymentMethodEPS            `json:"eps"`
-	FPX            *PaymentMethodFPX            `json:"fpx"`
-	Giropay        *PaymentMethodGiropay        `json:"giropay"`
-	Grabpay        *PaymentMethodGrabpay        `json:"grabpay"`
-	ID             string                       `json:"id"`
-	Ideal          *PaymentMethodIdeal          `json:"ideal"`
-	InteracPresent *PaymentMethodInteracPresent `json:"interac_present"`
-	Livemode       bool                         `json:"livemode"`
-	Metadata       map[string]string            `json:"metadata"`
-	Object         string                       `json:"object"`
-	OXXO           *PaymentMethodOXXO           `json:"oxxo"`
-	P24            *PaymentMethodP24            `json:"p24"`
-	SepaDebit      *PaymentMethodSepaDebit      `json:"sepa_debit"`
-	Sofort         *PaymentMethodSofort         `json:"sofort"`
-	Type           PaymentMethodType            `json:"type"`
+	AfterpayClearpay *PaymentMethodAfterpayClearpay `json:"afterpay_clearpay"`
+	Alipay           *PaymentMethodAlipay           `json:"alipay"`
+	AUBECSDebit      *PaymentMethodAUBECSDebit      `json:"au_becs_debit"`
+	BACSDebit        *PaymentMethodBACSDebit        `json:"bacs_debit"`
+	Bancontact       *PaymentMethodBancontact       `json:"bancontact"`
+	BillingDetails   *BillingDetails                `json:"billing_details"`
+	Card             *PaymentMethodCard             `json:"card"`
+	CardPresent      *PaymentMethodCardPresent      `json:"card_present"`
+	Created          int64                          `json:"created"`
+	Customer         *Customer                      `json:"customer"`
+	EPS              *PaymentMethodEPS              `json:"eps"`
+	FPX              *PaymentMethodFPX              `json:"fpx"`
+	Giropay          *PaymentMethodGiropay          `json:"giropay"`
+	Grabpay          *PaymentMethodGrabpay          `json:"grabpay"`
+	ID               string                         `json:"id"`
+	Ideal            *PaymentMethodIdeal            `json:"ideal"`
+	InteracPresent   *PaymentMethodInteracPresent   `json:"interac_present"`
+	Livemode         bool                           `json:"livemode"`
+	Metadata         map[string]string              `json:"metadata"`
+	Object           string                         `json:"object"`
+	OXXO             *PaymentMethodOXXO             `json:"oxxo"`
+	P24              *PaymentMethodP24              `json:"p24"`
+	SepaDebit        *PaymentMethodSepaDebit        `json:"sepa_debit"`
+	Sofort           *PaymentMethodSofort           `json:"sofort"`
+	Type             PaymentMethodType              `json:"type"`
 }
 
 // PaymentMethodList is a list of PaymentMethods as retrieved from a list endpoint.
