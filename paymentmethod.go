@@ -91,8 +91,8 @@ type BillingDetailsParams struct {
 	Phone   *string        `form:"phone"`
 }
 
-// PaymentMethodAfterpayClearpay is the set of parameters allowed for the `afterpay_clearpay`
-// hash when creating a PaymentMethod of type AfterpayClearpay.
+// PaymentMethodAfterpayClearpayParams is the set of parameters allowed for the
+// `afterpay_clearpay`  hash when creating a PaymentMethod of type AfterpayClearpay.
 type PaymentMethodAfterpayClearpayParams struct{}
 
 // PaymentMethodAlipayParams is the set of parameters allowed for the `alipay` hash when creating a

@@ -129,8 +129,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 }
 
-// InvoicePaymentSettingsParams is the set of parameters allowed for specific payment methods
-// on an invoice's payment settings.
+// InvoicePaymentSettingsPaymentMethodOptionsParams is the set of parameters allowed for
+// specific payment methods on an invoice's payment settings.
 type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
 	Card       *InvoicePaymentSettingsPaymentMethodOptionsCardParams       `form:"card"`
@@ -438,14 +438,14 @@ type InvoiceLineList struct {
 	Data []*InvoiceLine `json:"data"`
 }
 
-// InvoicePaymentSettingsPaymentMethodOptionsBancontact, if paying by `bancontact`, contains details about the Bancontact payment method options
-// to pass to the invoice's PaymentIntent.
+// InvoicePaymentSettingsPaymentMethodOptionsBancontact contains details about the Bancontact
+// payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsBancontact struct {
 	PreferredLanguage string `json:"preferred_language"`
 }
 
-// InvoicePaymentSettingsPaymentMethodOptionsCard, if paying by `card`, contains details about the Card payment method options to pass to the
-// invoice's PaymentIntent.
+// InvoicePaymentSettingsPaymentMethodOptionsCard contains details about the Card payment
+// method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsCard struct {
 	RequestThreeDSecure InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
