@@ -5,6 +5,7 @@ import "encoding/json"
 // BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate TODO docstring
 type BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate string
 
+// List of values that BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate can take.
 const (
 	BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateAddress  BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate = "address"
 	BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateEmail    BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate = "email"
@@ -16,6 +17,7 @@ const (
 // BillingPortalConfigurationFeaturesSubscriptionCancelMode TODO docstring
 type BillingPortalConfigurationFeaturesSubscriptionCancelMode string
 
+// List of values that BillingPortalConfigurationFeaturesSubscriptionCancelMode can take.
 const (
 	BillingPortalConfigurationFeaturesSubscriptionCancelModeAtPeriodEnd BillingPortalConfigurationFeaturesSubscriptionCancelMode = "at_period_end"
 	BillingPortalConfigurationFeaturesSubscriptionCancelModeImmediately BillingPortalConfigurationFeaturesSubscriptionCancelMode = "immediately"
@@ -24,6 +26,7 @@ const (
 // BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior TODO docstring
 type BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior string
 
+// List of values that BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior can take.
 const (
 	BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorAlwaysInvoice    BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior = "always_invoice"
 	BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorCreateProrations BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior = "create_prorations"
@@ -33,6 +36,7 @@ const (
 // BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate TODO docstring
 type BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate string
 
+// List of values that BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate can take.
 const (
 	BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdatePrice         BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate = "price"
 	BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdatePromotionCode BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate = "promotion_code"
@@ -42,6 +46,7 @@ const (
 // BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior TODO docstring
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior string
 
+// List of values that BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior can take.
 const (
 	BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehaviorAlwaysInvoice    BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior = "always_invoice"
 	BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehaviorCreateProrations BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior = "create_prorations"
