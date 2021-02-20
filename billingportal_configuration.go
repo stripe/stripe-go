@@ -125,17 +125,17 @@ type BillingPortalConfigurationParams struct {
 // BillingPortalConfiguration TODO docstring
 type BillingPortalConfiguration struct {
 	APIResource
-	Active           bool                                      `json:"active"`
-	Application      string                                    `json:"application"`
-	BusinessProfile  BillingPortalConfigurationBusinessProfile `json:"business_profile"`
-	Created          int64                                     `json:"created"`
-	DefaultReturnURL string                                    `json:"default_return_url"`
-	Features         BillingPortalConfigurationFeatures        `json:"features"`
-	ID               string                                    `json:"id"`
-	IsDefault        bool                                      `json:"is_default"`
-	Livemode         bool                                      `json:"livemode"`
-	Object           string                                    `json:"object"`
-	Updated          int64                                     `json:"updated"`
+	Active           bool                                       `json:"active"`
+	Application      string                                     `json:"application"`
+	BusinessProfile  *BillingPortalConfigurationBusinessProfile `json:"business_profile"`
+	Created          int64                                      `json:"created"`
+	DefaultReturnURL string                                     `json:"default_return_url"`
+	Features         *BillingPortalConfigurationFeatures        `json:"features"`
+	ID               string                                     `json:"id"`
+	IsDefault        bool                                       `json:"is_default"`
+	Livemode         bool                                       `json:"livemode"`
+	Object           string                                     `json:"object"`
+	Updated          int64                                      `json:"updated"`
 }
 
 // BillingPortalConfigurationBusinessProfile TODO docstring
@@ -163,14 +163,15 @@ type BillingPortalConfigurationFeaturesPaymentMethodUpdate struct {
 
 // BillingPortalConfigurationFeaturesSubscriptionCancel TODO docstring
 type BillingPortalConfigurationFeaturesSubscriptionCancel struct {
-	Enabled           bool                                                                  `json:"enabled"`
-	Mode              BillingPortalConfigurationFeaturesSubscriptionCancelMode              `json:"mode"`
-	ProrationBehavior BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior `json:"proration_behavior"`
+	Enabled           bool                                                                   `json:"enabled"`
+	Mode              *BillingPortalConfigurationFeaturesSubscriptionCancelMode              `json:"mode"`
+	ProrationBehavior *BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior `json:"proration_behavior"`
 }
 
 // BillingPortalConfigurationFeaturesSubscriptionUpdateProduct TODO docstring
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProduct struct {
-	Product string `json:"product"`
+	Prices  []string `json:"prices"`
+	Product string   `json:"product"`
 }
 
 // BillingPortalConfigurationFeaturesSubscriptionUpdate TODO docstring
@@ -178,16 +179,16 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdate struct {
 	DefaultAllowedUpdates []*BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate `json:"default_allowed_updates"`
 	Enabled               bool                                                                        `json:"enabled"`
 	Products              []*BillingPortalConfigurationFeaturesSubscriptionUpdateProduct              `json:"products"`
-	ProrationBehavior     BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior       `json:"proration_behavior"`
+	ProrationBehavior     *BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior      `json:"proration_behavior"`
 }
 
 // BillingPortalConfigurationFeatures TODO docstring
 type BillingPortalConfigurationFeatures struct {
-	CustomerUpdate      BillingPortalConfigurationFeaturesCustomerUpdate      `json:"customer_update"`
-	InvoiceHistory      BillingPortalConfigurationFeaturesInvoiceHistory      `json:"invoice_history"`
-	PaymentMethodUpdate BillingPortalConfigurationFeaturesPaymentMethodUpdate `json:"payment_method_update"`
-	SubscriptionCancel  BillingPortalConfigurationFeaturesSubscriptionCancel  `json:"subscription_cancel"`
-	SubscriptionUpdate  BillingPortalConfigurationFeaturesSubscriptionUpdate  `json:"subscription_update"`
+	CustomerUpdate      *BillingPortalConfigurationFeaturesCustomerUpdate      `json:"customer_update"`
+	InvoiceHistory      *BillingPortalConfigurationFeaturesInvoiceHistory      `json:"invoice_history"`
+	PaymentMethodUpdate *BillingPortalConfigurationFeaturesPaymentMethodUpdate `json:"payment_method_update"`
+	SubscriptionCancel  *BillingPortalConfigurationFeaturesSubscriptionCancel  `json:"subscription_cancel"`
+	SubscriptionUpdate  *BillingPortalConfigurationFeaturesSubscriptionUpdate  `json:"subscription_update"`
 }
 
 // BillingPortalConfigurationList TODO docstring
