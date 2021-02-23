@@ -26,27 +26,6 @@ func (c Client) New(params *stripe.BillingPortalConfigurationParams) (*stripe.Bi
 	return configuration, err
 }
 
-// Iter is an iterator for billing portal configurations.
-type Iter struct {
-	*stripe.Iter
-}
-
-// BillingPortalConfiguration returns the billing portal configuration which the iterator is currently pointing to.
-func (i *Iter) BillingPortalConfiguration() *stripe.BillingPortalConfiguration {
-	return i.Current().(*stripe.BillingPortalConfiguration)
-}
-
-// BillingPortalConfigurationList returns the current list object which the iterator is
-// currently using. List objects will change as new API calls are made to
-// continue pagination.
-func (i *Iter) BillingPortalConfigurationList() *stripe.BillingPortalConfigurationList {
-	return i.List().(*stripe.BillingPortalConfigurationList)
-}
-
-func getC() Client {
-	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
-}
-
 // Get returns the details of a billing portal configuration.
 func Get(id string, params *stripe.BillingPortalConfigurationParams) (*stripe.BillingPortalConfiguration, error) {
 	return getC().Get(id, params)
@@ -91,4 +70,25 @@ func (c Client) List(listParams *stripe.BillingPortalConfigurationListParams) *I
 
 		return ret, list, err
 	})}
+}
+
+// Iter is an iterator for billing portal configurations.
+type Iter struct {
+	*stripe.Iter
+}
+
+// BillingPortalConfiguration returns the billing portal configuration which the iterator is currently pointing to.
+func (i *Iter) BillingPortalConfiguration() *stripe.BillingPortalConfiguration {
+	return i.Current().(*stripe.BillingPortalConfiguration)
+}
+
+// BillingPortalConfigurationList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *Iter) BillingPortalConfigurationList() *stripe.BillingPortalConfigurationList {
+	return i.List().(*stripe.BillingPortalConfigurationList)
+}
+
+func getC() Client {
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }
