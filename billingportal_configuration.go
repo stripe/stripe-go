@@ -167,8 +167,8 @@ type BillingPortalConfigurationBusinessProfile struct {
 // BillingPortalConfigurationFeaturesCustomerUpdate represents the customer
 // update details on a portal configuration.
 type BillingPortalConfigurationFeaturesCustomerUpdate struct {
-	AllowedUpdates []*BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate `json:"allowed_updates"`
-	Enabled        bool                                                             `json:"enabled"`
+	AllowedUpdates []BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate `json:"allowed_updates"`
+	Enabled        bool                                                            `json:"enabled"`
 }
 
 // BillingPortalConfigurationFeaturesInvoiceHistory represents the invoice
@@ -201,10 +201,10 @@ type BillingPortalConfigurationFeaturesSubscriptionUpdateProduct struct {
 // BillingPortalConfigurationFeaturesSubscriptionUpdate represents the
 // subscription update details on a portal configuration.
 type BillingPortalConfigurationFeaturesSubscriptionUpdate struct {
-	DefaultAllowedUpdates []*BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate `json:"default_allowed_updates"`
-	Enabled               bool                                                                        `json:"enabled"`
-	Products              []*BillingPortalConfigurationFeaturesSubscriptionUpdateProduct              `json:"products"`
-	ProrationBehavior     BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior       `json:"proration_behavior"`
+	DefaultAllowedUpdates []BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate `json:"default_allowed_updates"`
+	Enabled               bool                                                                       `json:"enabled"`
+	Products              []*BillingPortalConfigurationFeaturesSubscriptionUpdateProduct             `json:"products"`
+	ProrationBehavior     BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior      `json:"proration_behavior"`
 }
 
 // BillingPortalConfigurationFeatures represents details about the features
