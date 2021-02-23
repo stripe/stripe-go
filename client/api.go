@@ -95,7 +95,7 @@ type API struct {
 	BankAccounts *bankaccount.Client
 	// BillingPortalSessions is the client used to invoke /billing_portal/sessions APIs.
 	BillingPortalSessions *billingportalsession.Client
-	// BillingPortalSessions is the client used to invoke /billing_portal/configurations APIs.
+	// BillingPortalConfigurations is the client used to invoke /billing_portal/configurations APIs.
 	BillingPortalConfigurations *billingportalconfiguration.Client
 	// Capabilities is the client used to invoke capability related APIs.
 	Capabilities *capability.Client
@@ -249,6 +249,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BalanceTransaction = &balancetransaction.Client{B: backends.API, Key: key}
 	a.BankAccounts = &bankaccount.Client{B: backends.API, Key: key}
 	a.BillingPortalSessions = &billingportalsession.Client{B: backends.API, Key: key}
+	a.BillingPortalConfigurations = &billingportalconfiguration.Client{B: backends.API, Key: key}
 	a.Capabilities = &capability.Client{B: backends.API, Key: key}
 	a.Cards = &card.Client{B: backends.API, Key: key}
 	a.Charges = &charge.Client{B: backends.API, Key: key}
