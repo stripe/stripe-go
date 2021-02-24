@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.35.0 - 2021-02-24
+* [#1254](https://github.com/stripe/stripe-go/pull/1254) Add support for the billing portal configuration API
+
 ## 72.34.0 - 2021-02-18
 * [#1252](https://github.com/stripe/stripe-go/pull/1252) API Updates
   * Add support for `afterpay_clearpay` on `PaymentMethod`, `PaymentMethodParams`, `PaymentIntentPaymentMethodDataParams`, and `ChargePaymentMethodDetails`
