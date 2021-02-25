@@ -1,0 +1,36 @@
+name: Test
+
+on: [pull_request]
+
+jobs:
+  go-test:
+    name: "Go Test"
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        go-version: [1.15.x]
+
+    services:
+      stripemock:
+        image: stripemock/stripe-mock:latest
+        ports:
+          - 12111:12111
+          - 12112:12112
+
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - name: Test
+        run: |
+          make test
