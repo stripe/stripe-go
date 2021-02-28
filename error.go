@@ -14,6 +14,7 @@ const (
 	ErrorTypeInvalidRequest ErrorType = "invalid_request_error"
 	ErrorTypePermission     ErrorType = "more_permissions_required"
 	ErrorTypeRateLimit      ErrorType = "rate_limit_error"
+	ErrorTypeIdempotency    ErrorType = "idempotency_error"
 )
 
 // ErrorCode is the list of allowed values for the error's code.
@@ -292,6 +293,17 @@ type RateLimitError struct {
 
 // Error serializes the error object to JSON and returns it as a string.
 func (e *RateLimitError) Error() string {
+	return e.stripeErr.Error()
+}
+
+// IdempotencyError occurs when an Idempotency-Key is re-used on a request
+// that does not match the first request's API endpoint and parameters.
+type IdempotencyError struct {
+	stripeErr *Error
+}
+
+// Error serializes the error object to JSON and returns it as a string.
+func (e *IdempotencyError) Error() string {
 	return e.stripeErr.Error()
 }
 

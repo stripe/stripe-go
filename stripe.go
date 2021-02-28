@@ -566,6 +566,8 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 		typedError = &PermissionError{stripeErr: raw.Error}
 	case ErrorTypeRateLimit:
 		typedError = &RateLimitError{stripeErr: raw.Error}
+	case ErrorTypeIdempotency:
+		typedError = &IdempotencyError{stripeErr: raw.Error}
 	}
 	raw.Error.Err = typedError
 
