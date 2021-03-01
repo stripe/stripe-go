@@ -11,10 +11,10 @@ const (
 	ErrorTypeAPIConnection  ErrorType = "api_connection_error"
 	ErrorTypeAuthentication ErrorType = "authentication_error"
 	ErrorTypeCard           ErrorType = "card_error"
+	ErrorTypeIdempotency    ErrorType = "idempotency_error"
 	ErrorTypeInvalidRequest ErrorType = "invalid_request_error"
 	ErrorTypePermission     ErrorType = "more_permissions_required"
 	ErrorTypeRateLimit      ErrorType = "rate_limit_error"
-	ErrorTypeIdempotency    ErrorType = "idempotency_error"
 )
 
 // ErrorCode is the list of allowed values for the error's code.
