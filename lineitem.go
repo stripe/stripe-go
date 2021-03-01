@@ -12,7 +12,11 @@ type LineItemDiscount struct {
 
 // LineItemTax represent the details of one tax rate applied to a line item.
 type LineItemTax struct {
-	Amount  int64    `json:"amount"`
+	Amount int64    `json:"amount"`
+	Rate   *TaxRate `json:"rate"`
+
+	// This property never worked. Use Rate instead.
+	// TODO: Remove in the next major version
 	TaxRate *TaxRate `json:"tax_rate"`
 }
 
