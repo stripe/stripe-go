@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.37.0 - 2021-03-01
+* [#1257](https://github.com/stripe/stripe-go/pull/1257) Adds ErrorType idempotency_error
+
 ## 72.36.0 - 2021-03-01
 * [#1259](https://github.com/stripe/stripe-go/pull/1259) Add configuration API to billingportal_session.go
 * [#1253](https://github.com/stripe/stripe-go/pull/1253) Fix `LineItemTax` to deserialize `Rate` properly
