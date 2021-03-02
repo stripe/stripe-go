@@ -560,6 +560,8 @@ func (s *BackendImplementation) ResponseToError(res *http.Response, resBody []by
 		}
 
 		typedError = cardErr
+	case ErrorTypeIdempotency:
+		typedError = &IdempotencyError{stripeErr: raw.Error}
 	case ErrorTypeInvalidRequest:
 		typedError = &InvalidRequestError{stripeErr: raw.Error}
 	case ErrorTypePermission:
