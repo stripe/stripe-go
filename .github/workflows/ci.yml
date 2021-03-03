@@ -26,6 +26,7 @@ jobs:
      strategy:
        matrix:
          go:
+           - "1.16"
            - "1.15"
            - "1.14"
            - "1.13"
@@ -80,4 +81,3 @@ jobs:
               cd $DIR/$MAJOR_VERSION &&
               go get -u "golang.org/x/net/http2" &&
               make build
-
