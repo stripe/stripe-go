@@ -1,4 +1,5 @@
 // File generated from our OpenAPI spec
+
 package stripe
 
 // RadarValueListItemType is the possible values for a type of value list items.

@@ -1,4 +1,5 @@
 // File generated from our OpenAPI spec
+
 package stripe
 
 // LoginLinkParams is the set of parameters that can be used when creating a login_link.
