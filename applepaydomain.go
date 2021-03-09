@@ -1,8 +1,20 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 // ApplePayDomainParams is the set of parameters that can be used when creating an ApplePayDomain object.
 type ApplePayDomainParams struct {
 	Params     `form:"*"`
+	DomainName *string `form:"domain_name"`
+}
+
+// ApplePayDomainListParams are the parameters allowed during ApplePayDomain listing.
+type ApplePayDomainListParams struct {
+	ListParams `form:"*"`
 	DomainName *string `form:"domain_name"`
 }
 
@@ -14,11 +26,7 @@ type ApplePayDomain struct {
 	DomainName string `json:"domain_name"`
 	ID         string `json:"id"`
 	Livemode   bool   `json:"livemode"`
-}
-
-// ApplePayDomainListParams are the parameters allowed during ApplePayDomain listing.
-type ApplePayDomainListParams struct {
-	ListParams `form:"*"`
+	Object     string `json:"object"`
 }
 
 // ApplePayDomainList is a list of ApplePayDomains as returned from a list endpoint.
