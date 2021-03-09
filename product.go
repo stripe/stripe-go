@@ -1,3 +1,4 @@
+// File generated from our OpenAPI spec
 package stripe
 
 import "encoding/json"
@@ -39,6 +40,18 @@ type ProductParams struct {
 	URL                 *string                  `form:"url"`
 }
 
+// ProductListParams is the set of parameters that can be used when listing products.
+type ProductListParams struct {
+	ListParams   `form:"*"`
+	Active       *bool             `form:"active"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	IDs          []*string         `form:"ids"`
+	Shippable    *bool             `form:"shippable"`
+	Type         *string           `form:"type"`
+	URL          *string           `form:"url"`
+}
+
 // PackageDimensions represents the dimension of a product or a SKU from the
 // perspective of shipping.
 type PackageDimensions struct {
@@ -57,19 +70,21 @@ type Product struct {
 	Caption             string             `json:"caption"`
 	Created             int64              `json:"created"`
 	DeactivateOn        []string           `json:"deactivate_on"`
+	Deleted             bool               `json:"deleted"`
 	Description         string             `json:"description"`
 	ID                  string             `json:"id"`
 	Images              []string           `json:"images"`
 	Livemode            bool               `json:"livemode"`
 	Metadata            map[string]string  `json:"metadata"`
 	Name                string             `json:"name"`
+	Object              string             `json:"object"`
 	PackageDimensions   *PackageDimensions `json:"package_dimensions"`
 	Shippable           bool               `json:"shippable"`
 	StatementDescriptor string             `json:"statement_descriptor"`
 	Type                ProductType        `json:"type"`
 	UnitLabel           string             `json:"unit_label"`
-	URL                 string             `json:"url"`
 	Updated             int64              `json:"updated"`
+	URL                 string             `json:"url"`
 }
 
 // ProductList is a list of products as retrieved from a list endpoint.
@@ -77,18 +92,6 @@ type ProductList struct {
 	APIResource
 	ListMeta
 	Data []*Product `json:"data"`
-}
-
-// ProductListParams is the set of parameters that can be used when listing products.
-type ProductListParams struct {
-	ListParams   `form:"*"`
-	Active       *bool             `form:"active"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	IDs          []*string         `form:"ids"`
-	Shippable    *bool             `form:"shippable"`
-	URL          *string           `form:"url"`
-	Type         *string           `form:"type"`
 }
 
 // UnmarshalJSON handles deserialization of a Product.

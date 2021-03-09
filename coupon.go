@@ -1,3 +1,4 @@
+// File generated from our OpenAPI spec
 package stripe
 
 import "encoding/json"

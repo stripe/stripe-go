@@ -1,3 +1,4 @@
+// File generated from our OpenAPI spec
 package stripe
 
 // LoginLinkParams is the set of parameters that can be used when creating a login_link.
@@ -13,5 +14,6 @@ type LoginLinkParams struct {
 type LoginLink struct {
 	APIResource
 	Created int64  `json:"created"`
+	Object  string `json:"object"`
 	URL     string `json:"url"`
 }

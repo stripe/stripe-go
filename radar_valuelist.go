@@ -1,3 +1,4 @@
+// File generated from our OpenAPI spec
 package stripe
 
 // RadarValueListItemType is the possible values for a type of value list items.
@@ -7,11 +8,11 @@ type RadarValueListItemType string
 const (
 	RadarValueListItemTypeCardBin             RadarValueListItemType = "card_bin"
 	RadarValueListItemTypeCardFingerprint     RadarValueListItemType = "card_fingerprint"
+	RadarValueListItemTypeCaseSensitiveString RadarValueListItemType = "case_sensitive_string"
 	RadarValueListItemTypeCountry             RadarValueListItemType = "country"
 	RadarValueListItemTypeEmail               RadarValueListItemType = "email"
 	RadarValueListItemTypeIPAddress           RadarValueListItemType = "ip_address"
 	RadarValueListItemTypeString              RadarValueListItemType = "string"
-	RadarValueListItemTypeCaseSensitiveString RadarValueListItemType = "case_sensitive_string"
 )
 
 // RadarValueListParams is the set of parameters that can be used when creating a value list.
