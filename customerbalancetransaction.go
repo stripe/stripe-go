@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -14,6 +20,8 @@ const (
 	CustomerBalanceTransactionTypeInitial               CustomerBalanceTransactionType = "initial"
 	CustomerBalanceTransactionTypeInvoiceTooLarge       CustomerBalanceTransactionType = "invoice_too_large"
 	CustomerBalanceTransactionTypeInvoiceTooSmall       CustomerBalanceTransactionType = "invoice_too_small"
+	CustomerBalanceTransactionTypeMigration             CustomerBalanceTransactionType = "migration"
+	CustomerBalanceTransactionTypeUnappliedFromInvoice  CustomerBalanceTransactionType = "unapplied_from_invoice"
 	CustomerBalanceTransactionTypeUnspentReceiverCredit CustomerBalanceTransactionType = "unspent_receiver_credit"
 )
 
@@ -22,8 +30,8 @@ const (
 // For more details see https://stripe.com/docs/api/customers/create_customer_balance_transaction
 type CustomerBalanceTransactionParams struct {
 	Params      `form:"*"`
+	Customer    *string `form:"-"` // Included in URL
 	Amount      *int64  `form:"amount"`
-	Customer    *string `form:"-"`
 	Currency    *string `form:"currency"`
 	Description *string `form:"description"`
 }
@@ -33,7 +41,7 @@ type CustomerBalanceTransactionParams struct {
 // For more detail see https://stripe.com/docs/api/customers/customer_balance_transactions
 type CustomerBalanceTransactionListParams struct {
 	ListParams `form:"*"`
-	Customer   *string `form:"-"`
+	Customer   *string `form:"-"` // Included in URL
 }
 
 // CustomerBalanceTransaction is the resource representing a customer balance transaction.
@@ -72,8 +80,8 @@ func (c *CustomerBalanceTransaction) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	type transaction CustomerBalanceTransaction
-	var v transaction
+	type customerBalanceTransaction CustomerBalanceTransaction
+	var v customerBalanceTransaction
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
