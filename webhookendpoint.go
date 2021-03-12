@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -55,18 +61,18 @@ type WebhookEndpointList struct {
 // UnmarshalJSON handles deserialization of a WebhookEndpoint.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (c *WebhookEndpoint) UnmarshalJSON(data []byte) error {
+func (w *WebhookEndpoint) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		c.ID = id
+		w.ID = id
 		return nil
 	}
 
-	type endpoint WebhookEndpoint
-	var v endpoint
+	type webhookEndpoint WebhookEndpoint
+	var v webhookEndpoint
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*c = WebhookEndpoint(v)
+	*w = WebhookEndpoint(v)
 	return nil
 }
