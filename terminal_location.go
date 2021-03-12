@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 // TerminalLocationParams is the set of parameters that can be used when creating or updating a terminal location.
@@ -15,13 +21,13 @@ type TerminalLocationListParams struct {
 // TerminalLocation is the resource representing a Stripe terminal location.
 type TerminalLocation struct {
 	APIResource
-	Address     *AccountAddressParams `json:"address"`
-	Deleted     bool                  `json:"deleted"`
-	DisplayName string                `json:"display_name"`
-	ID          string                `json:"id"`
-	Livemode    bool                  `json:"livemode"`
-	Metadata    map[string]string     `json:"metadata"`
-	Object      string                `json:"object"`
+	Address     *AccountAddress   `json:"address"`
+	Deleted     bool              `json:"deleted"`
+	DisplayName string            `json:"display_name"`
+	ID          string            `json:"id"`
+	Livemode    bool              `json:"livemode"`
+	Metadata    map[string]string `json:"metadata"`
+	Object      string            `json:"object"`
 }
 
 // TerminalLocationList is a list of terminal readers as retrieved from a list endpoint.
