@@ -1,5 +1,12 @@
 # Changelog
 
+## 72.38.0 - 2021-03-16
+* [#1264](https://github.com/stripe/stripe-go/pull/1264), [#1261](https://github.com/stripe/stripe-go/pull/1261) Codegen-related changes
+  * Introduce missing `Object` and `Deleted` properties to many structs
+  * Add two missing members to `CustomerBalanceTransactionType` enum
+  * Add `DomainName` to `ApplePayDomainListParams`
+* [#1250](https://github.com/stripe/stripe-go/pull/1250) Support `SubscriptionTrialEndNow` on the Retrieve Upcoming Invoice API
+
 ## 72.37.0 - 2021-03-01
 * [#1257](https://github.com/stripe/stripe-go/pull/1257) Adds ErrorType idempotency_error
 
