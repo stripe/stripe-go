@@ -1,11 +1,18 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
 
 // Application describes the properties for an Application.
 type Application struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID     string `json:"id"`
+	Name   string `json:"name"`
+	Object string `json:"object"`
 }
 
 // UnmarshalJSON handles deserialization of an Application.

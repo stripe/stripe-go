@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 // TerminalConnectionTokenParams is the set of parameters that can be used when creating a terminal connection token.

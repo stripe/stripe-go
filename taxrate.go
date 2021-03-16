@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -55,18 +61,18 @@ type TaxRateList struct {
 // UnmarshalJSON handles deserialization of a TaxRate.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (c *TaxRate) UnmarshalJSON(data []byte) error {
+func (t *TaxRate) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		c.ID = id
+		t.ID = id
 		return nil
 	}
 
-	type taxrate TaxRate
-	var v taxrate
+	type taxRate TaxRate
+	var v taxRate
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*c = TaxRate(v)
+	*t = TaxRate(v)
 	return nil
 }

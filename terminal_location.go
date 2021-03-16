@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 // TerminalLocationParams is the set of parameters that can be used when creating or updating a terminal location.

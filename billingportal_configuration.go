@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -224,12 +230,12 @@ type BillingPortalConfigurationList struct {
 	Data []*BillingPortalConfiguration `json:"data"`
 }
 
-// UnmarshalJSON handles deserialization of a BillingPortalConfiguration. This
-// custom unmarshaling is needed because the resulting property may be an id or
-// the full struct if it was expanded.
-func (c *BillingPortalConfiguration) UnmarshalJSON(data []byte) error {
+// UnmarshalJSON handles deserialization of a BillingPortalConfiguration.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (b *BillingPortalConfiguration) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		c.ID = id
+		b.ID = id
 		return nil
 	}
 
@@ -239,6 +245,6 @@ func (c *BillingPortalConfiguration) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*c = BillingPortalConfiguration(v)
+	*b = BillingPortalConfiguration(v)
 	return nil
 }
