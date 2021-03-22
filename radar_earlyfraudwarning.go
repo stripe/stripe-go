@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 // RadarEarlyFraudWarningFraudType are strings that map to the type of fraud labelled by the issuer.
@@ -29,14 +35,6 @@ type RadarEarlyFraudWarningListParams struct {
 	Charge     *string `form:"charge"`
 }
 
-// RadarEarlyFraudWarningList is a list of early fraud warnings as retrieved from a
-// list endpoint.
-type RadarEarlyFraudWarningList struct {
-	APIResource
-	ListMeta
-	Values []*RadarEarlyFraudWarning `json:"data"`
-}
-
 // RadarEarlyFraudWarning is the resource representing an early fraud warning. For
 // more details see https://stripe.com/docs/api/early_fraud_warnings/object.
 type RadarEarlyFraudWarning struct {
@@ -47,4 +45,13 @@ type RadarEarlyFraudWarning struct {
 	FraudType  RadarEarlyFraudWarningFraudType `json:"fraud_type"`
 	ID         string                          `json:"id"`
 	Livemode   bool                            `json:"livemode"`
+	Object     string                          `json:"object"`
+}
+
+// RadarEarlyFraudWarningList is a list of early fraud warnings as retrieved from a
+// list endpoint.
+type RadarEarlyFraudWarningList struct {
+	APIResource
+	ListMeta
+	Data []*RadarEarlyFraudWarning `json:"data"`
 }
