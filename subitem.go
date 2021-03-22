@@ -52,11 +52,8 @@ type SubscriptionItemBillingThresholdsParams struct {
 // SubscriptionItemListParams is the set of parameters that can be used when listing invoice items.
 // For more details see https://stripe.com/docs/api#list_invoiceitems.
 type SubscriptionItemListParams struct {
-	EndingBefore  *string   `form:"ending_before"`
-	Expand        []*string `form:"expand"`
-	Limit         *int64    `form:"limit"`
-	StartingAfter *string   `form:"starting_after"`
-	Subscription  *string   `form:"subscription"`
+	ListParams   `form:"*"`
+	Subscription *string `form:"subscription"`
 }
 
 // SubscriptionItem is the resource representing a Stripe subscription item.
