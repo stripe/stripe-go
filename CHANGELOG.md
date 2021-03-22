@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.39.0 - 2021-03-22
+* [#1268](https://github.com/stripe/stripe-go/pull/1268) API Updates
+  * Add support for `ShippingRates` on `CheckoutSessionParams`
+  * Add support for `AmountShipping`on `CheckoutSessionTotalDetails`
+
 ## 72.38.0 - 2021-03-16
 * [#1264](https://github.com/stripe/stripe-go/pull/1264), [#1261](https://github.com/stripe/stripe-go/pull/1261) Codegen-related changes
   * Introduce missing `Object` and `Deleted` properties to many structs
