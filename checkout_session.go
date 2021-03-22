@@ -229,8 +229,9 @@ type CheckoutSessionParams struct {
 	PaymentMethodTypes        []*string                                       `form:"payment_method_types"`
 	SetupIntentData           *CheckoutSessionSetupIntentDataParams           `form:"setup_intent_data"`
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollectionParams `form:"shipping_address_collection"`
-	SubscriptionData          *CheckoutSessionSubscriptionDataParams          `form:"subscription_data"`
+	ShippingRates             []*string                                       `form:"shipping_rates"`
 	SubmitType                *string                                         `form:"submit_type"`
+	SubscriptionData          *CheckoutSessionSubscriptionDataParams          `form:"subscription_data"`
 	SuccessURL                *string                                         `form:"success_url"`
 }
 
@@ -292,6 +293,7 @@ type CheckoutSessionTotalDetailsBreakdown struct {
 // CheckoutSessionTotalDetails is the set of properties detailing how the amounts were calculated.
 type CheckoutSessionTotalDetails struct {
 	AmountDiscount int64                                 `json:"amount_discount"`
+	AmountShipping int64                                 `json:"amount_shipping"`
 	AmountTax      int64                                 `json:"amount_tax"`
 	Breakdown      *CheckoutSessionTotalDetailsBreakdown `json:"breakdown"`
 }
