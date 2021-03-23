@@ -6,8 +6,10 @@
 
 package stripe
 
+// TerminalReaderDeviceType is the type of the terminal read.er device.
 type TerminalReaderDeviceType string
 
+// List of values that TerminalReaderDeviceType can take
 const (
 	TerminalReaderDeviceTypeBBPOSChipper2X TerminalReaderDeviceType = "bbpos_chipper2x"
 	TerminalReaderDeviceTypeVerifoneP400   TerminalReaderDeviceType = "verifone_P400"
