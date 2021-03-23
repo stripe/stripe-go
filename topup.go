@@ -27,9 +27,9 @@ type TopupParams struct {
 	Amount              *int64        `form:"amount"`
 	Currency            *string       `form:"currency"`
 	Description         *string       `form:"description"`
+	Source              *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 	StatementDescriptor *string       `form:"statement_descriptor"`
 	TransferGroup       *string       `form:"transfer_group"`
-	Source              *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 }
 
 // SetSource adds valid sources to a TopupParams object,
