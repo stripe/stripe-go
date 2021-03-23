@@ -29,7 +29,7 @@ type SubscriptionItemParams struct {
 	Params            `form:"*"`
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	ClearUsage        *bool                                    `form:"clear_usage"`
-	UsageGTE          *bool                                    `form:"off_session"` // Only supported on update
+	OffSession        *bool                                    `form:"off_session"` // Only supported on update
 	PaymentBehavior   *string                                  `form:"payment_behavior"`
 	Plan              *string                                  `form:"plan"`
 	Price             *string                                  `form:"price"`
