@@ -71,8 +71,8 @@ type Topup struct {
 	StatementDescriptor      string              `json:"statement_descriptor"`
 	Status                   TopupStatus         `json:"status"`
 	TransferGroup            string              `json:"transfer_group"`
-	// The following property is deprecated
 
+	// The following property is deprecated
 	ArrivalDate int64 `json:"arrival_date"`
 }
 
