@@ -20,7 +20,7 @@ type FileLinkParams struct {
 // AppendTo implements custom encoding logic for FileLinkParams.
 func (f *FileLinkParams) AppendTo(body *form.Values, keyParts []string) {
 	if BoolValue(f.ExpiresAtNow) {
-		body.Add(form.FormatKey(append(keyParts, "ExpiresAt")), "now")
+		body.Add(form.FormatKey(append(keyParts, "expires_at")), "now")
 	}
 }
 
