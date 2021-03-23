@@ -29,7 +29,7 @@ type SubscriptionItemParams struct {
 	Params            `form:"*"`
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	ClearUsage        *bool                                    `form:"clear_usage"`
-	OffSession        *bool                                    `form:"off_session"`
+	UsageGTE          *bool                                    `form:"off_session"` // Only supported on update
 	PaymentBehavior   *string                                  `form:"payment_behavior"`
 	Plan              *string                                  `form:"plan"`
 	Price             *string                                  `form:"price"`
@@ -60,23 +60,23 @@ type SubscriptionItemListParams struct {
 // For more details see https://stripe.com/docs/api#subscription_items.
 type SubscriptionItem struct {
 	APIResource
-	BillingThresholds *SubscriptionItemBillingThresholds `json:"billing_thresholds"`
-	Created           int64                              `json:"created"`
-	Deleted           bool                               `json:"deleted"`
-	ID                string                             `json:"id"`
-	Metadata          map[string]string                  `json:"metadata"`
-	Object            string                             `json:"object"`
-	Plan              *Plan                              `json:"plan"`
-	Price             *Price                             `json:"price"`
-	Quantity          int64                              `json:"quantity"`
-	Subscription      string                             `json:"subscription"`
-	TaxRates          []*TaxRate                         `json:"tax_rates"`
+	BillingThresholds SubscriptionItemBillingThresholds `json:"billing_thresholds"`
+	Created           int64                             `json:"created"`
+	Deleted           bool                              `json:"deleted"`
+	ID                string                            `json:"id"`
+	Metadata          map[string]string                 `json:"metadata"`
+	Object            string                            `json:"object"`
+	Plan              *Plan                             `json:"plan"`
+	Price             *Price                            `json:"price"`
+	Quantity          int64                             `json:"quantity"`
+	Subscription      string                            `json:"subscription"`
+	TaxRates          []*TaxRate                        `json:"tax_rates"`
 }
 
 // SubscriptionItemBillingThresholds is a structure representing the billing thresholds for a
 // subscription item.
 type SubscriptionItemBillingThresholds struct {
-	UsageGTE int64 `json:"usage_gte"`
+	UsageGTE int64 `form:"usage_gte"`
 }
 
 // SubscriptionItemList is a list of invoice items as retrieved from a list endpoint.
