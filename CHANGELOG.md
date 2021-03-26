@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.40.0 - 2021-03-26
+* [#1270](https://github.com/stripe/stripe-go/pull/1270) add card_issuing.tos_acceptance to account.go
+  * Add support for `AccountSettingsParams.CardIssuing.TOSAcceptance`
+  * Add support for `AccountSettingsCardPayments.CardIssuing.TOSAcceptance`
+
 ## 72.39.0 - 2021-03-22
 * [#1268](https://github.com/stripe/stripe-go/pull/1268) API Updates
   * Add support for `ShippingRates` on `CheckoutSessionParams`
