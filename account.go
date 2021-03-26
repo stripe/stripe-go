@@ -390,6 +390,10 @@ type AccountSettingsBrandingParams struct {
 	SecondaryColor *string `form:"secondary_color"`
 }
 
+type AccountSettingsCardIssuingParams struct {
+	TOSAcceptance *AccountTOSAcceptanceParams `form:"tos_acceptance"`
+}
+
 // AccountSettingsBACSDebitPaymentsParams represent allowed parameters to configure settings specific to
 // BACS Debit charging on the account.
 type AccountSettingsBACSDebitPaymentsParams struct {
@@ -430,6 +434,7 @@ type AccountSettingsPayoutsParams struct {
 type AccountSettingsParams struct {
 	BACSDebitPayments *AccountSettingsBACSDebitPaymentsParams `form:"bacs_debit_payments"`
 	Branding          *AccountSettingsBrandingParams          `form:"branding"`
+	CardIssuing       *AccountSettingsCardIssuingParams       `form:"card_issuing"`
 	CardPayments      *AccountSettingsCardPaymentsParams      `form:"card_payments"`
 	Dashboard         *AccountSettingsDashboardParams         `form:"dashboard"`
 	Payments          *AccountSettingsPaymentsParams          `form:"payments"`
@@ -648,6 +653,10 @@ type AccountSettingsBranding struct {
 	SecondaryColor string `json:"secondary_color"`
 }
 
+type AccountSettingsCardIssuing struct {
+	TOSAcceptance *AccountTOSAcceptance `json:"tos_acceptance"`
+}
+
 // AccountSettingsCardPayments represents settings specific to card charging on the account.
 type AccountSettingsCardPayments struct {
 	DeclineOn                 *AccountDeclineOn `json:"decline_on"`
@@ -686,6 +695,7 @@ type AccountSettings struct {
 	BACSDebitPayments *AccountSettingsBACSDebitPayments `json:"bacs_debit_payments"`
 	Branding          *AccountSettingsBranding          `json:"branding"`
 	CardPayments      *AccountSettingsCardPayments      `json:"card_payments"`
+	CardIssuing       *AccountSettingsCardIssuing       `json:"card_issuing"`
 	Dashboard         *AccountSettingsDashboard         `json:"dashboard"`
 	Payments          *AccountSettingsPayments          `json:"payments"`
 	Payouts           *AccountSettingsPayouts           `json:"payouts"`
