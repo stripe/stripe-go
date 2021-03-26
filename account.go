@@ -390,6 +390,7 @@ type AccountSettingsBrandingParams struct {
 	SecondaryColor *string `form:"secondary_color"`
 }
 
+// AccountSettingsCardIssuingParams represent allowed parameters relating to the acceptance of the terms of service agreement.
 type AccountSettingsCardIssuingParams struct {
 	TOSAcceptance *AccountTOSAcceptanceParams `form:"tos_acceptance"`
 }
@@ -653,6 +654,7 @@ type AccountSettingsBranding struct {
 	SecondaryColor string `json:"secondary_color"`
 }
 
+// AccountSettingsCardIssuing represents settings specific to card issuing on the account.
 type AccountSettingsCardIssuing struct {
 	TOSAcceptance *AccountTOSAcceptance `json:"tos_acceptance"`
 }
