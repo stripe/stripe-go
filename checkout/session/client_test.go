@@ -59,6 +59,7 @@ func TestCheckoutSessionNew(t *testing.T) {
 				"attr1": "val1",
 				"attr2": "val2",
 			},
+			PaymentBehavior: stripe.String("allow_incomplete"),
 		},
 		SuccessURL: stripe.String("https://stripe.com/success"),
 	}
