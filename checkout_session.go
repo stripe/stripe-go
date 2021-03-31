@@ -195,6 +195,9 @@ type CheckoutSessionSubscriptionDataItemsParams struct {
 	Quantity *int64    `form:"quantity"`
 	TaxRates []*string `form:"tax_rates"`
 }
+
+// CheckoutSessionSubscriptionDataTransferDataParams is the set of parameters allowed
+// for the transfer_data hash.
 type CheckoutSessionSubscriptionDataTransferDataParams struct {
 	AmountPercent *float64 `form:"amount_percent"`
 	Destination   *string  `form:"destination"`
