@@ -195,19 +195,24 @@ type CheckoutSessionSubscriptionDataItemsParams struct {
 	Quantity *int64    `form:"quantity"`
 	TaxRates []*string `form:"tax_rates"`
 }
+type CheckoutSessionSubscriptionDataTransferDataParams struct {
+	AmountPercent *float64 `form:"amount_percent"`
+	Destination   *string  `form:"destination"`
+}
 
 // CheckoutSessionSubscriptionDataParams is the set of parameters allowed for the subscription
 // creation on a checkout session.
 type CheckoutSessionSubscriptionDataParams struct {
 	Params                `form:"*"`
-	ApplicationFeePercent *float64                                      `form:"application_fee_percent"`
-	Coupon                *string                                       `form:"coupon"`
-	DefaultTaxRates       []*string                                     `form:"default_tax_rates"`
-	Items                 []*CheckoutSessionSubscriptionDataItemsParams `form:"items"`
-	Metadata              map[string]string                             `form:"metadata"`
-	TrialEnd              *int64                                        `form:"trial_end"`
-	TrialFromPlan         *bool                                         `form:"trial_from_plan"`
-	TrialPeriodDays       *int64                                        `form:"trial_period_days"`
+	ApplicationFeePercent *float64                                           `form:"application_fee_percent"`
+	Coupon                *string                                            `form:"coupon"`
+	DefaultTaxRates       []*string                                          `form:"default_tax_rates"`
+	Items                 []*CheckoutSessionSubscriptionDataItemsParams      `form:"items"`
+	Metadata              map[string]string                                  `form:"metadata"`
+	TransferData          *CheckoutSessionSubscriptionDataTransferDataParams `form:"transfer_data"`
+	TrialEnd              *int64                                             `form:"trial_end"`
+	TrialFromPlan         *bool                                              `form:"trial_from_plan"`
+	TrialPeriodDays       *int64                                             `form:"trial_period_days"`
 }
 
 // CheckoutSessionParams is the set of parameters that can be used when creating
