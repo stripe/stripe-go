@@ -1,4 +1,10 @@
-// Package configuration provides API functions related to billing portal configurations.
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package configuration provides the /billing_portal/configurations APIs
 package configuration
 
 import (
@@ -22,7 +28,13 @@ func New(params *stripe.BillingPortalConfigurationParams) (*stripe.BillingPortal
 // New creates a new billing portal configuration.
 func (c Client) New(params *stripe.BillingPortalConfigurationParams) (*stripe.BillingPortalConfiguration, error) {
 	configuration := &stripe.BillingPortalConfiguration{}
-	err := c.B.Call(http.MethodPost, "/v1/billing_portal/configurations", c.Key, params, configuration)
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/billing_portal/configurations",
+		c.Key,
+		params,
+		configuration,
+	)
 	return configuration, err
 }
 

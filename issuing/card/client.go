@@ -1,6 +1,10 @@
-// Package card provides API functions related to issuing cards.
 //
-// For more details, see: https://stripe.com/docs/api/go#issuing_cards
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package card provides the /issuing/cards APIs
 package card
 
 import (
@@ -41,12 +45,12 @@ func (c Client) Get(id string, params *stripe.IssuingCardParams) (*stripe.Issuin
 	return card, err
 }
 
-// Update updates an issuing card.
+// Update updates an issuing card's properties.
 func Update(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates an issuing card.
+// Update updates an issuing card's properties.
 func (c Client) Update(id string, params *stripe.IssuingCardParams) (*stripe.IssuingCard, error) {
 	path := stripe.FormatURLPath("/v1/issuing/cards/%s", id)
 	card := &stripe.IssuingCard{}

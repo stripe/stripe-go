@@ -1,6 +1,10 @@
-// Package accountlink provides API functions related to account links.
 //
-// For more details, see: https://stripe.com/docs/api/go#account_links.
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package accountlink provides the /account_links APIs
 package accountlink
 
 import (
@@ -9,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v72"
 )
 
-// Client is used to invoke APIs related to account links.
+// Client is used to invoke /account_links APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -22,9 +26,15 @@ func New(params *stripe.AccountLinkParams) (*stripe.AccountLink, error) {
 
 // New creates a new account link.
 func (c Client) New(params *stripe.AccountLinkParams) (*stripe.AccountLink, error) {
-	link := &stripe.AccountLink{}
-	err := c.B.Call(http.MethodPost, "/v1/account_links", c.Key, params, link)
-	return link, err
+	accountlink := &stripe.AccountLink{}
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/account_links",
+		c.Key,
+		params,
+		accountlink,
+	)
+	return accountlink, err
 }
 
 func getC() Client {

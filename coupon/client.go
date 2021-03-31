@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package coupon provides the /coupons APIs
 package coupon
 

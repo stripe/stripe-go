@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package price provides the /prices APIs
 package price
 
@@ -82,9 +88,9 @@ func (i *Iter) Price() *stripe.Price {
 	return i.Current().(*stripe.Price)
 }
 
-// PriceList returns the current list object which the iterator is currently
-// using. List objects will change as new API calls are made to continue
-// pagination.
+// PriceList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) PriceList() *stripe.PriceList {
 	return i.List().(*stripe.PriceList)
 }
