@@ -5,7 +5,6 @@
 //
 
 // Package scheduledqueryrun provides the /sigma/scheduled_query_runs APIs
-
 // For more details, see: https://stripe.com/docs/api#scheduled_queries
 package scheduledqueryrun
 
