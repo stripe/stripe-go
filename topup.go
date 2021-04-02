@@ -1,4 +1,24 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
+
+import "encoding/json"
+
+// TopupStatus is a status of a Topup.
+type TopupStatus string
+
+// List of values that TopupStatus can take.
+const (
+	TopupStatusCanceled  TopupStatus = "canceled"
+	TopupStatusFailed    TopupStatus = "failed"
+	TopupStatusPending   TopupStatus = "pending"
+	TopupStatusReversed  TopupStatus = "reversed"
+	TopupStatusSucceeded TopupStatus = "succeeded"
+)
 
 // TopupParams is the set of parameters that can be used when creating or updating a top-up.
 // For more details see https://stripe.com/docs/api#create_topup and https://stripe.com/docs/api#update_topup.
@@ -24,15 +44,11 @@ func (p *TopupParams) SetSource(sp interface{}) error {
 // For more details see https://stripe.com/docs/api#list_topups.
 type TopupListParams struct {
 	ListParams   `form:"*"`
+	Amount       *int64            `form:"amount"`
+	AmountRange  *RangeQueryParams `form:"amount"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-}
-
-// TopupList is a list of top-ups as retrieved from a list endpoint.
-type TopupList struct {
-	APIResource
-	ListMeta
-	Data []*Topup `json:"data"`
+	Status       *string           `form:"status"`
 }
 
 // Topup is the resource representing a Stripe top-up.
@@ -53,9 +69,35 @@ type Topup struct {
 	Object                   string              `json:"object"`
 	Source                   *PaymentSource      `json:"source"`
 	StatementDescriptor      string              `json:"statement_descriptor"`
-	Status                   string              `json:"status"`
+	Status                   TopupStatus         `json:"status"`
 	TransferGroup            string              `json:"transfer_group"`
 
 	// The following property is deprecated
 	ArrivalDate int64 `json:"arrival_date"`
+}
+
+// TopupList is a list of top-ups as retrieved from a list endpoint.
+type TopupList struct {
+	APIResource
+	ListMeta
+	Data []*Topup `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a Topup.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (t *Topup) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		t.ID = id
+		return nil
+	}
+
+	type topup Topup
+	var v topup
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*t = Topup(v)
+	return nil
 }

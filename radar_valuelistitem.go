@@ -1,10 +1,16 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 // RadarValueListItemParams is the set of parameters that can be used when creating a value list item.
 type RadarValueListItemParams struct {
 	Params         `form:"*"`
-	Value          *string `form:"value"`
 	RadarValueList *string `form:"value_list"`
+	Value          *string `form:"value"`
 }
 
 // RadarValueListItemListParams is the set of parameters that can be used when listing value list items.
@@ -26,8 +32,8 @@ type RadarValueListItem struct {
 	Livemode       bool   `json:"livemode"`
 	Name           string `json:"name"`
 	Object         string `json:"object"`
-	Value          string `json:"value"`
 	RadarValueList string `json:"value_list"`
+	Value          string `json:"value"`
 }
 
 // RadarValueListItemList is a list of value list items as retrieved from a list endpoint.

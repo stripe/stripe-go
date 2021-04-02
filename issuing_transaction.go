@@ -1,15 +1,12 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
-
-// IssuingTransactionType is the type of an issuing transaction.
-type IssuingTransactionType string
-
-// List of values that IssuingTransactionType can take.
-const (
-	IssuingTransactionTypeCapture IssuingTransactionType = "capture"
-	IssuingTransactionTypeRefund  IssuingTransactionType = "refund"
-)
 
 // IssuingTransactionPurchaseDetailsFuelType is the type of fuel purchased in a transaction.
 type IssuingTransactionPurchaseDetailsFuelType string
@@ -30,6 +27,15 @@ type IssuingTransactionPurchaseDetailsFuelUnit string
 const (
 	IssuingTransactionPurchaseDetailsFuelUnitLiter    IssuingTransactionPurchaseDetailsFuelUnit = "liter"
 	IssuingTransactionPurchaseDetailsFuelUnitUSGallon IssuingTransactionPurchaseDetailsFuelUnit = "us_gallon"
+)
+
+// IssuingTransactionType is the type of an issuing transaction.
+type IssuingTransactionType string
+
+// List of values that IssuingTransactionType can take.
+const (
+	IssuingTransactionTypeCapture IssuingTransactionType = "capture"
+	IssuingTransactionTypeRefund  IssuingTransactionType = "refund"
 )
 
 // IssuingTransactionParams is the set of parameters that can be used when creating or updating an issuing transaction.
@@ -116,9 +122,9 @@ type IssuingTransaction struct {
 	Dispute            *IssuingDispute                    `json:"dispute"`
 	ID                 string                             `json:"id"`
 	Livemode           bool                               `json:"livemode"`
-	MerchantData       *IssuingAuthorizationMerchantData  `json:"merchant_data"`
 	MerchantAmount     int64                              `json:"merchant_amount"`
 	MerchantCurrency   Currency                           `json:"merchant_currency"`
+	MerchantData       *IssuingAuthorizationMerchantData  `json:"merchant_data"`
 	Metadata           map[string]string                  `json:"metadata"`
 	Object             string                             `json:"object"`
 	PurchaseDetails    *IssuingTransactionPurchaseDetails `json:"purchase_details"`

@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 // ReportTypeListParams is the set of parameters that can be used when listing report types.
@@ -13,10 +19,10 @@ type ReportTypeParams struct {
 // ReportType is the resource representing a report type.
 type ReportType struct {
 	APIResource
-	DefaultColumns     []string `json:"default_columns"`
 	Created            int64    `json:"created"`
 	DataAvailableEnd   int64    `json:"data_available_end"`
 	DataAvailableStart int64    `json:"data_available_start"`
+	DefaultColumns     []string `json:"default_columns"`
 	ID                 string   `json:"id"`
 	Name               string   `json:"name"`
 	Object             string   `json:"object"`

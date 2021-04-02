@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -26,21 +32,21 @@ const (
 	TaxIDTypeKRBRN   TaxIDType = "kr_brn"
 	TaxIDTypeLIUID   TaxIDType = "li_uid"
 	TaxIDTypeMXRFC   TaxIDType = "mx_rfc"
-	TaxIDTypeMYITN   TaxIDType = "my_itn"
 	TaxIDTypeMYFRP   TaxIDType = "my_frp"
+	TaxIDTypeMYITN   TaxIDType = "my_itn"
 	TaxIDTypeMYSST   TaxIDType = "my_sst"
 	TaxIDTypeNOVAT   TaxIDType = "no_vat"
 	TaxIDTypeNZGST   TaxIDType = "nz_gst"
 	TaxIDTypeRUINN   TaxIDType = "ru_inn"
 	TaxIDTypeRUKPP   TaxIDType = "ru_kpp"
 	TaxIDTypeSAVAT   TaxIDType = "sa_vat"
-	TaxIDTypeSGUEN   TaxIDType = "sg_uen"
 	TaxIDTypeSGGST   TaxIDType = "sg_gst"
+	TaxIDTypeSGUEN   TaxIDType = "sg_uen"
 	TaxIDTypeTHVAT   TaxIDType = "th_vat"
 	TaxIDTypeTWVAT   TaxIDType = "tw_vat"
+	TaxIDTypeUnknown TaxIDType = "unknown"
 	TaxIDTypeUSEIN   TaxIDType = "us_ein"
 	TaxIDTypeZAVAT   TaxIDType = "za_vat"
-	TaxIDTypeUnknown TaxIDType = "unknown"
 )
 
 // TaxIDVerificationStatus is the list of allowed values for the tax id's verification status..
@@ -58,7 +64,7 @@ const (
 // For more details see https://stripe.com/docs/api/customers/create_tax_id
 type TaxIDParams struct {
 	Params   `form:"*"`
-	Customer *string `form:"-"`
+	Customer *string `form:"-"` // Included in URL
 	Type     *string `form:"type"`
 	Value    *string `form:"value"`
 }
@@ -67,7 +73,7 @@ type TaxIDParams struct {
 // For more detail see https://stripe.com/docs/api/customers/tax_ids
 type TaxIDListParams struct {
 	ListParams `form:"*"`
-	Customer   *string `form:"-"`
+	Customer   *string `form:"-"` // Included in URL
 }
 
 // TaxIDVerification represents the verification details of a customer's tax id.
@@ -103,18 +109,18 @@ type TaxIDList struct {
 // UnmarshalJSON handles deserialization of a TaxID.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (c *TaxID) UnmarshalJSON(data []byte) error {
+func (t *TaxID) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		c.ID = id
+		t.ID = id
 		return nil
 	}
 
-	type taxid TaxID
-	var v taxid
+	type taxID TaxID
+	var v taxID
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*c = TaxID(v)
+	*t = TaxID(v)
 	return nil
 }

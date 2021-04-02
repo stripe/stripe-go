@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -70,22 +76,17 @@ type InvoiceItem struct {
 	Invoice           *Invoice          `json:"invoice"`
 	Livemode          bool              `json:"livemode"`
 	Metadata          map[string]string `json:"metadata"`
+	Object            string            `json:"object"`
 	Period            *Period           `json:"period"`
 	Plan              *Plan             `json:"plan"`
 	Price             *Price            `json:"price"`
 	Proration         bool              `json:"proration"`
 	Quantity          int64             `json:"quantity"`
 	Subscription      *Subscription     `json:"subscription"`
+	SubscriptionItem  string            `json:"subscription_item"`
 	TaxRates          []*TaxRate        `json:"tax_rates"`
 	UnitAmount        int64             `json:"unit_amount"`
 	UnitAmountDecimal float64           `json:"unit_amount_decimal,string"`
-}
-
-// InvoiceItemList is a list of invoice items as retrieved from a list endpoint.
-type InvoiceItemList struct {
-	APIResource
-	ListMeta
-	Data []*InvoiceItem `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of an InvoiceItem.
@@ -105,4 +106,11 @@ func (i *InvoiceItem) UnmarshalJSON(data []byte) error {
 
 	*i = InvoiceItem(v)
 	return nil
+}
+
+// InvoiceItemList is a list of invoice items as retrieved from a list endpoint.
+type InvoiceItemList struct {
+	APIResource
+	ListMeta
+	Data []*InvoiceItem `json:"data"`
 }
