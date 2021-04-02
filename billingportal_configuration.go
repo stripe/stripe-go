@@ -106,6 +106,8 @@ type BillingPortalConfigurationFeaturesSubscriptionCancelParams struct {
 	Mode              *string `form:"mode"`
 	ProrationBehavior *string `form:"proration_behavior"`
 }
+// BillingPortalConfigurationFeaturesSubscriptionPauseParams lets you pass details on the
+// subscription pause on a portal configuration.
 type BillingPortalConfigurationFeaturesSubscriptionPauseParams struct {
 	Enabled *bool `form:"enabled"`
 }
@@ -199,6 +201,8 @@ type BillingPortalConfigurationFeaturesSubscriptionCancel struct {
 	Mode              BillingPortalConfigurationFeaturesSubscriptionCancelMode              `json:"mode"`
 	ProrationBehavior BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior `json:"proration_behavior"`
 }
+// BillingPortalConfigurationFeaturesSubscriptionPause lets you pass pause details
+// on the subscription update on a portal configuration.
 type BillingPortalConfigurationFeaturesSubscriptionPause struct {
 	Enabled bool `json:"enabled"`
 }
