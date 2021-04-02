@@ -1,3 +1,10 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package sku provides the /skus APIs
 package sku
 
 import (
@@ -13,50 +20,63 @@ type Client struct {
 	Key string
 }
 
-// New creates a new SKU.
+// New creates a new sku.
 func New(params *stripe.SKUParams) (*stripe.SKU, error) {
 	return getC().New(params)
 }
 
-// New creates a new SKU.
+// New creates a new sku.
 func (c Client) New(params *stripe.SKUParams) (*stripe.SKU, error) {
-	s := &stripe.SKU{}
-	err := c.B.Call(http.MethodPost, "/v1/skus", c.Key, params, s)
-	return s, err
+	sku := &stripe.SKU{}
+	err := c.B.Call(http.MethodPost, "/v1/skus", c.Key, params, sku)
+	return sku, err
 }
 
-// Update updates a SKU's properties.
-func Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
-	return getC().Update(id, params)
-}
-
-// Update updates a SKU's properties.
-func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
-	path := stripe.FormatURLPath("/v1/skus/%s", id)
-	s := &stripe.SKU{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, s)
-	return s, err
-}
-
-// Get returns the details of a SKU.
+// Get returns the details of a sku.
 func Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a SKU.
+// Get returns the details of a sku.
 func (c Client) Get(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
 	path := stripe.FormatURLPath("/v1/skus/%s", id)
-	s := &stripe.SKU{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, s)
-	return s, err
+	sku := &stripe.SKU{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, sku)
+	return sku, err
 }
 
-// List returns a list of SKUs.
+// Update updates a sku's properties.
+func Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
+	return getC().Update(id, params)
+}
+
+// Update updates a sku's properties.
+func (c Client) Update(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
+	path := stripe.FormatURLPath("/v1/skus/%s", id)
+	sku := &stripe.SKU{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, sku)
+	return sku, err
+}
+
+// Del removes a sku.
+func Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
+	return getC().Del(id, params)
+}
+
+// Del removes a sku.
+func (c Client) Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
+	path := stripe.FormatURLPath("/v1/skus/%s", id)
+	sku := &stripe.SKU{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, sku)
+	return sku, err
+}
+
+// List returns a list of skus.
 func List(params *stripe.SKUListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of SKUs.
+// List returns a list of skus.
 func (c Client) List(listParams *stripe.SKUListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.SKUList{}
@@ -71,33 +91,19 @@ func (c Client) List(listParams *stripe.SKUListParams) *Iter {
 	})}
 }
 
-// Del removes a SKU.
-func Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
-	return getC().Del(id, params)
-}
-
-// Del removes a SKU.
-func (c Client) Del(id string, params *stripe.SKUParams) (*stripe.SKU, error) {
-	path := stripe.FormatURLPath("/v1/skus/%s", id)
-	s := &stripe.SKU{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, s)
-
-	return s, err
-}
-
-// Iter is an iterator for SKUs.
+// Iter is an iterator for skus.
 type Iter struct {
 	*stripe.Iter
 }
 
-// SKU returns the SKU which the iterator is currently pointing to.
+// SKU returns the sku which the iterator is currently pointing to.
 func (i *Iter) SKU() *stripe.SKU {
 	return i.Current().(*stripe.SKU)
 }
 
-// SKUList returns the current list object which the iterator is currently
-// using. List objects will change as new API calls are made to continue
-// pagination.
+// SKUList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) SKUList() *stripe.SKUList {
 	return i.List().(*stripe.SKUList)
 }

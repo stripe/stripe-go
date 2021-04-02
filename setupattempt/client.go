@@ -1,6 +1,11 @@
-// Package setupattempt provides API functions related to setup attempts.
 //
-// For more details, see: https://stripe.com/docs/api/go#setup_attempts.
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package setupattempt provides the /setup_attempts APIs
+// For more details, see: https://stripe.com/docs/api/go#setup_attempts
 package setupattempt
 
 import (
@@ -10,7 +15,7 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// Client is used to invoke APIs related to setup attempts.
+// Client is used to invoke /setup_attempts APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string

@@ -1,5 +1,10 @@
-// Package scheduledqueryrun provides API functions related to scheduled query runs.
 //
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package scheduledqueryrun provides the /sigma/scheduled_query_runs APIs
 // For more details, see: https://stripe.com/docs/api#scheduled_queries
 package scheduledqueryrun
 
@@ -16,25 +21,25 @@ type Client struct {
 	Key string
 }
 
-// Get returns the details of an scheduled query run.
+// Get returns the details of a sigma scheduled query run.
 func Get(id string, params *stripe.SigmaScheduledQueryRunParams) (*stripe.SigmaScheduledQueryRun, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an scheduled query run.
+// Get returns the details of a sigma scheduled query run.
 func (c Client) Get(id string, params *stripe.SigmaScheduledQueryRunParams) (*stripe.SigmaScheduledQueryRun, error) {
 	path := stripe.FormatURLPath("/v1/sigma/scheduled_query_runs/%s", id)
-	run := &stripe.SigmaScheduledQueryRun{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, run)
-	return run, err
+	scheduledqueryrun := &stripe.SigmaScheduledQueryRun{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, scheduledqueryrun)
+	return scheduledqueryrun, err
 }
 
-// List returns a list of scheduled query runs.
+// List returns a list of sigma scheduled query runs.
 func List(params *stripe.SigmaScheduledQueryRunListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of scheduled query runs.
+// List returns a list of sigma scheduled query runs.
 func (c Client) List(listParams *stripe.SigmaScheduledQueryRunListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.SigmaScheduledQueryRunList{}
@@ -49,19 +54,19 @@ func (c Client) List(listParams *stripe.SigmaScheduledQueryRunListParams) *Iter 
 	})}
 }
 
-// Iter is an iterator for scheduled query runs.
+// Iter is an iterator for sigma scheduled query runs.
 type Iter struct {
 	*stripe.Iter
 }
 
-// SigmaScheduledQueryRun returns the scheduled query run which the iterator is currently pointing to.
+// SigmaScheduledQueryRun returns the sigma scheduled query run which the iterator is currently pointing to.
 func (i *Iter) SigmaScheduledQueryRun() *stripe.SigmaScheduledQueryRun {
 	return i.Current().(*stripe.SigmaScheduledQueryRun)
 }
 
-// SigmaScheduledQueryRunList returns the current list object which the
-// iterator is currently using. List objects will change as new API calls are
-// made to continue pagination.
+// SigmaScheduledQueryRunList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) SigmaScheduledQueryRunList() *stripe.SigmaScheduledQueryRunList {
 	return i.List().(*stripe.SigmaScheduledQueryRunList)
 }

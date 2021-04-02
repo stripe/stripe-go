@@ -1,4 +1,10 @@
-// Package connectiontoken provides API functions related to terminal connection tokens
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package connectiontoken provides the /terminal/connection_tokens APIs
 package connectiontoken
 
 import (
@@ -21,7 +27,13 @@ func New(params *stripe.TerminalConnectionTokenParams) (*stripe.TerminalConnecti
 // New creates a new terminal connection token.
 func (c Client) New(params *stripe.TerminalConnectionTokenParams) (*stripe.TerminalConnectionToken, error) {
 	connectiontoken := &stripe.TerminalConnectionToken{}
-	err := c.B.Call(http.MethodPost, "/v1/terminal/connection_tokens", c.Key, params, connectiontoken)
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/terminal/connection_tokens",
+		c.Key,
+		params,
+		connectiontoken,
+	)
 	return connectiontoken, err
 }
 

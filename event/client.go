@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package event provides the /events APIs
 package event
 
@@ -57,9 +63,9 @@ func (i *Iter) Event() *stripe.Event {
 	return i.Current().(*stripe.Event)
 }
 
-// EventList returns the current list object which the iterator is currently
-// using. List objects will change as new API calls are made to continue
-// pagination.
+// EventList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) EventList() *stripe.EventList {
 	return i.List().(*stripe.EventList)
 }

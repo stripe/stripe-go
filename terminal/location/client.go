@@ -1,4 +1,10 @@
-// Package location provides API functions related to terminal locations
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package location provides the /terminal/locations APIs
 package location
 
 import (
@@ -8,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// Client is used to invokte /terminal/locations APIs
+// Client is used to invoke /terminal/locations APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -22,7 +28,13 @@ func New(params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error
 // New creates a new terminal location.
 func (c Client) New(params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	location := &stripe.TerminalLocation{}
-	err := c.B.Call(http.MethodPost, "/v1/terminal/locations", c.Key, params, location)
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/terminal/locations",
+		c.Key,
+		params,
+		location,
+	)
 	return location, err
 }
 
@@ -39,12 +51,12 @@ func (c Client) Get(id string, params *stripe.TerminalLocationParams) (*stripe.T
 	return location, err
 }
 
-// Update updates a terminal location.
+// Update updates a terminal location's properties.
 func Update(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a terminal location.
+// Update updates a terminal location's properties.
 func (c Client) Update(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	path := stripe.FormatURLPath("/v1/terminal/locations/%s", id)
 	location := &stripe.TerminalLocation{}
@@ -52,12 +64,12 @@ func (c Client) Update(id string, params *stripe.TerminalLocationParams) (*strip
 	return location, err
 }
 
-// Del removes a location.
+// Del removes a terminal location.
 func Del(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	return getC().Del(id, params)
 }
 
-// Del removes a location.
+// Del removes a terminal location.
 func (c Client) Del(id string, params *stripe.TerminalLocationParams) (*stripe.TerminalLocation, error) {
 	path := stripe.FormatURLPath("/v1/terminal/locations/%s", id)
 	location := &stripe.TerminalLocation{}
@@ -65,12 +77,12 @@ func (c Client) Del(id string, params *stripe.TerminalLocationParams) (*stripe.T
 	return location, err
 }
 
-// List returns a list of terminal location.
+// List returns a list of terminal locations.
 func List(params *stripe.TerminalLocationListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of terminal location.
+// List returns a list of terminal locations.
 func (c Client) List(listParams *stripe.TerminalLocationListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.TerminalLocationList{}

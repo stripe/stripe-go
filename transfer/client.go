@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package transfer provides the /transfers APIs
 package transfer
 
@@ -82,9 +88,9 @@ func (i *Iter) Transfer() *stripe.Transfer {
 	return i.Current().(*stripe.Transfer)
 }
 
-// TransferList returns the current list object which the iterator is currently
-// using. List objects will change as new API calls are made to continue
-// pagination.
+// TransferList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) TransferList() *stripe.TransferList {
 	return i.List().(*stripe.TransferList)
 }

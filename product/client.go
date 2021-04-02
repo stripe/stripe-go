@@ -1,3 +1,10 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package product provides the /products APIs
 package product
 
 import (
@@ -20,22 +27,9 @@ func New(params *stripe.ProductParams) (*stripe.Product, error) {
 
 // New creates a new product.
 func (c Client) New(params *stripe.ProductParams) (*stripe.Product, error) {
-	p := &stripe.Product{}
-	err := c.B.Call(http.MethodPost, "/v1/products", c.Key, params, p)
-	return p, err
-}
-
-// Update updates a product's properties.
-func Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
-	return getC().Update(id, params)
-}
-
-// Update updates a product's properties.
-func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
-	path := stripe.FormatURLPath("/v1/products/%s", id)
-	p := &stripe.Product{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, p)
-	return p, err
+	product := &stripe.Product{}
+	err := c.B.Call(http.MethodPost, "/v1/products", c.Key, params, product)
+	return product, err
 }
 
 // Get returns the details of a product.
@@ -46,9 +40,35 @@ func Get(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 // Get returns the details of a product.
 func (c Client) Get(id string, params *stripe.ProductParams) (*stripe.Product, error) {
 	path := stripe.FormatURLPath("/v1/products/%s", id)
-	p := &stripe.Product{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, p)
-	return p, err
+	product := &stripe.Product{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, product)
+	return product, err
+}
+
+// Update updates a product's properties.
+func Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
+	return getC().Update(id, params)
+}
+
+// Update updates a product's properties.
+func (c Client) Update(id string, params *stripe.ProductParams) (*stripe.Product, error) {
+	path := stripe.FormatURLPath("/v1/products/%s", id)
+	product := &stripe.Product{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, product)
+	return product, err
+}
+
+// Del removes a product.
+func Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
+	return getC().Del(id, params)
+}
+
+// Del removes a product.
+func (c Client) Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
+	path := stripe.FormatURLPath("/v1/products/%s", id)
+	product := &stripe.Product{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, product)
+	return product, err
 }
 
 // List returns a list of products.
@@ -71,20 +91,6 @@ func (c Client) List(listParams *stripe.ProductListParams) *Iter {
 	})}
 }
 
-// Del deletes a product
-func Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
-	return getC().Del(id, params)
-}
-
-// Del deletes a product.
-func (c Client) Del(id string, params *stripe.ProductParams) (*stripe.Product, error) {
-	path := stripe.FormatURLPath("/v1/products/%s", id)
-	p := &stripe.Product{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, p)
-
-	return p, err
-}
-
 // Iter is an iterator for products.
 type Iter struct {
 	*stripe.Iter
@@ -95,9 +101,9 @@ func (i *Iter) Product() *stripe.Product {
 	return i.Current().(*stripe.Product)
 }
 
-// ProductList returns the current list object which the iterator is currently
-// using. List objects will change as new API calls are made to continue
-// pagination.
+// ProductList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) ProductList() *stripe.ProductList {
 	return i.List().(*stripe.ProductList)
 }

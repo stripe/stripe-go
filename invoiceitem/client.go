@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package invoiceitem provides the /invoiceitems APIs
 package invoiceitem
 
@@ -21,9 +27,15 @@ func New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 
 // New creates a new invoice item.
 func (c Client) New(params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
-	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call(http.MethodPost, "/v1/invoiceitems", c.Key, params, invoiceItem)
-	return invoiceItem, err
+	invoiceitem := &stripe.InvoiceItem{}
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/invoiceitems",
+		c.Key,
+		params,
+		invoiceitem,
+	)
+	return invoiceitem, err
 }
 
 // Get returns the details of an invoice item.
@@ -34,22 +46,22 @@ func Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 // Get returns the details of an invoice item.
 func (c Client) Get(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	path := stripe.FormatURLPath("/v1/invoiceitems/%s", id)
-	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, invoiceItem)
-	return invoiceItem, err
+	invoiceitem := &stripe.InvoiceItem{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, invoiceitem)
+	return invoiceitem, err
 }
 
-// Update updates an invoice item.
+// Update updates an invoice item's properties.
 func Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates an invoice item.
+// Update updates an invoice item's properties.
 func (c Client) Update(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	path := stripe.FormatURLPath("/v1/invoiceitems/%s", id)
-	invoiceItem := &stripe.InvoiceItem{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, invoiceItem)
-	return invoiceItem, err
+	invoiceitem := &stripe.InvoiceItem{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, invoiceitem)
+	return invoiceitem, err
 }
 
 // Del removes an invoice item.
@@ -60,9 +72,9 @@ func Del(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, erro
 // Del removes an invoice item.
 func (c Client) Del(id string, params *stripe.InvoiceItemParams) (*stripe.InvoiceItem, error) {
 	path := stripe.FormatURLPath("/v1/invoiceitems/%s", id)
-	ii := &stripe.InvoiceItem{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, ii)
-	return ii, err
+	invoiceitem := &stripe.InvoiceItem{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, invoiceitem)
+	return invoiceitem, err
 }
 
 // List returns a list of invoice items.

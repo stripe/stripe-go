@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package plan provides the /plans APIs
 package plan
 
@@ -95,9 +101,9 @@ func (i *Iter) Plan() *stripe.Plan {
 	return i.Current().(*stripe.Plan)
 }
 
-// PlanList returns the current list object which the iterator is currently
-// using. List objects will change as new API calls are made to continue
-// pagination.
+// PlanList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) PlanList() *stripe.PlanList {
 	return i.List().(*stripe.PlanList)
 }

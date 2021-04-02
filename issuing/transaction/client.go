@@ -1,6 +1,10 @@
-// Package transaction provides API functions related to issuing transactions.
 //
-// For more details, see: https://stripe.com/docs/api/go#issuing_transactions
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package transaction provides the /issuing/transactions APIs
 package transaction
 
 import (
@@ -29,12 +33,12 @@ func (c Client) Get(id string, params *stripe.IssuingTransactionParams) (*stripe
 	return transaction, err
 }
 
-// Update updates an issuing transaction.
+// Update updates an issuing transaction's properties.
 func Update(id string, params *stripe.IssuingTransactionParams) (*stripe.IssuingTransaction, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates an issuing transaction.
+// Update updates an issuing transaction's properties.
 func (c Client) Update(id string, params *stripe.IssuingTransactionParams) (*stripe.IssuingTransaction, error) {
 	path := stripe.FormatURLPath("/v1/issuing/transactions/%s", id)
 	transaction := &stripe.IssuingTransaction{}

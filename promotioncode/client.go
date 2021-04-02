@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package promotioncode provides the /promotion_codes APIs
 package promotioncode
 
@@ -21,9 +27,15 @@ func New(params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 
 // New creates a new promotion code.
 func (c Client) New(params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
-	pc := &stripe.PromotionCode{}
-	err := c.B.Call(http.MethodPost, "/v1/promotion_codes", c.Key, params, pc)
-	return pc, err
+	promotioncode := &stripe.PromotionCode{}
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/promotion_codes",
+		c.Key,
+		params,
+		promotioncode,
+	)
+	return promotioncode, err
 }
 
 // Get returns the details of a promotion code.
@@ -34,9 +46,9 @@ func Get(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCode, 
 // Get returns the details of a promotion code.
 func (c Client) Get(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	path := stripe.FormatURLPath("/v1/promotion_codes/%s", id)
-	pc := &stripe.PromotionCode{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, pc)
-	return pc, err
+	promotioncode := &stripe.PromotionCode{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, promotioncode)
+	return promotioncode, err
 }
 
 // Update updates a promotion code's properties.
@@ -47,9 +59,9 @@ func Update(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCod
 // Update updates a promotion code's properties.
 func (c Client) Update(id string, params *stripe.PromotionCodeParams) (*stripe.PromotionCode, error) {
 	path := stripe.FormatURLPath("/v1/promotion_codes/%s", id)
-	pc := &stripe.PromotionCode{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, pc)
-	return pc, err
+	promotioncode := &stripe.PromotionCode{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, promotioncode)
+	return promotioncode, err
 }
 
 // List returns a list of promotion codes.

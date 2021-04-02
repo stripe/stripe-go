@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package countryspec provides the /country_specs APIs
 package countryspec
 
@@ -8,31 +14,31 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// Client is used to invoke /country_specs and countryspec-related APIs.
+// Client is used to invoke /country_specs APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
 }
 
-// Get returns a Country Spec for a given country code.
-func Get(country string, params *stripe.CountrySpecParams) (*stripe.CountrySpec, error) {
-	return getC().Get(country, params)
+// Get returns the details of a country spec.
+func Get(id string, params *stripe.CountrySpecParams) (*stripe.CountrySpec, error) {
+	return getC().Get(id, params)
 }
 
-// Get returns a Country Spec for a given country code.
-func (c Client) Get(country string, params *stripe.CountrySpecParams) (*stripe.CountrySpec, error) {
-	path := stripe.FormatURLPath("/v1/country_specs/%s", country)
-	countrySpec := &stripe.CountrySpec{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, countrySpec)
-	return countrySpec, err
+// Get returns the details of a country spec.
+func (c Client) Get(id string, params *stripe.CountrySpecParams) (*stripe.CountrySpec, error) {
+	path := stripe.FormatURLPath("/v1/country_specs/%s", id)
+	countryspec := &stripe.CountrySpec{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, countryspec)
+	return countryspec, err
 }
 
-// List lists available Country Specs.
+// List returns a list of country specs.
 func List(params *stripe.CountrySpecListParams) *Iter {
 	return getC().List(params)
 }
 
-// List lists available Country Specs.
+// List returns a list of country specs.
 func (c Client) List(listParams *stripe.CountrySpecListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.CountrySpecList{}
@@ -47,12 +53,12 @@ func (c Client) List(listParams *stripe.CountrySpecListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for Country Specs.
+// Iter is an iterator for country specs.
 type Iter struct {
 	*stripe.Iter
 }
 
-// CountrySpec returns the Country Spec which the iterator is currently pointing to.
+// CountrySpec returns the country spec which the iterator is currently pointing to.
 func (i *Iter) CountrySpec() *stripe.CountrySpec {
 	return i.Current().(*stripe.CountrySpec)
 }

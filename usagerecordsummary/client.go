@@ -1,4 +1,10 @@
-// Package usagerecordsummary provides the /subscription_items/{SUBSCRIPTION_ITEM_ID}/usage_record_summaries APIs
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package usagerecordsummary provides the /subscription_items/{subscription_item}/usage_record_summaries APIs
 package usagerecordsummary
 
 import (
@@ -8,21 +14,24 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// Client is used to invoke APIs related to usage record summaries.
+// Client is used to invoke /subscription_items/{subscription_item}/usage_record_summaries APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
 }
 
-// List returns an iterator that iterates all usage record summaries.
+// List returns a list of usage record summaries.
 func List(params *stripe.UsageRecordSummaryListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns an iterator that iterates all usage record summaries.
+// List returns a list of usage record summaries.
 func (c Client) List(listParams *stripe.UsageRecordSummaryListParams) *Iter {
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		path := stripe.FormatURLPath("/v1/subscription_items/%s/usage_record_summaries", stripe.StringValue(listParams.SubscriptionItem))
+		path := stripe.FormatURLPath(
+			"/v1/subscription_items/%s/usage_record_summaries",
+			stripe.StringValue(listParams.SubscriptionItem),
+		)
 		list := &stripe.UsageRecordSummaryList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 

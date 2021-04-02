@@ -1,5 +1,10 @@
-// Package cardholder provides API functions related to issuing cardholders.
 //
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package cardholder provides the /issuing/cardholders APIs
 // For more details, see: https://stripe.com/docs/api/go#issuing_cardholders
 package cardholder
 
@@ -24,7 +29,13 @@ func New(params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, err
 // New creates a new issuing cardholder.
 func (c Client) New(params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, error) {
 	cardholder := &stripe.IssuingCardholder{}
-	err := c.B.Call(http.MethodPost, "/v1/issuing/cardholders", c.Key, params, cardholder)
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/issuing/cardholders",
+		c.Key,
+		params,
+		cardholder,
+	)
 	return cardholder, err
 }
 
@@ -41,12 +52,12 @@ func (c Client) Get(id string, params *stripe.IssuingCardholderParams) (*stripe.
 	return cardholder, err
 }
 
-// Update updates an issuing cardholder.
+// Update updates an issuing cardholder's properties.
 func Update(id string, params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates an issuing cardholder.
+// Update updates an issuing cardholder's properties.
 func (c Client) Update(id string, params *stripe.IssuingCardholderParams) (*stripe.IssuingCardholder, error) {
 	path := stripe.FormatURLPath("/v1/issuing/cardholders/%s", id)
 	cardholder := &stripe.IssuingCardholder{}

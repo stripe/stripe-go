@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package balancetransaction provides the /balance_transactions APIs
 package balancetransaction
 
@@ -22,9 +28,9 @@ func Get(id string, params *stripe.BalanceTransactionParams) (*stripe.BalanceTra
 // Get returns the details of a balance transaction.
 func (c Client) Get(id string, params *stripe.BalanceTransactionParams) (*stripe.BalanceTransaction, error) {
 	path := stripe.FormatURLPath("/v1/balance_transactions/%s", id)
-	transaction := &stripe.BalanceTransaction{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, transaction)
-	return transaction, err
+	balancetransaction := &stripe.BalanceTransaction{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, balancetransaction)
+	return balancetransaction, err
 }
 
 // List returns a list of balance transactions.
