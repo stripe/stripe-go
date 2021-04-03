@@ -1,5 +1,20 @@
 # Changelog
 
+## 72.41.0 - 2021-04-02
+* [#1273](https://github.com/stripe/stripe-go/pull/1273) API Updates
+  * Add support for `SubscriptionPause` on `BillingPortalConfigurationFeatures` and `BillingPortalConfigurationFeaturesParams`
+* [#1271](https://github.com/stripe/stripe-go/pull/1271) codegen: add several client.go files
+* [#1269](https://github.com/stripe/stripe-go/pull/1269) codegen: 13 more files
+  * Add missing `Object` property to several structs
+  * Add support for `ExpiresAtNow` to `FileLinkParams`
+  * Add support for `SubscriptionItem` to `InvoiceItem`
+  * Add enum definitions for `TerminalReader.DeviceType`
+  * Add enum definitions for `Topup.status`
+  * Add support for `Amount`, `AmountRange`, and `Status` to `TopupListParams`
+  * Added custom `UnmarshalJSON` method for `Topup`
+* [#1272](https://github.com/stripe/stripe-go/pull/1272) API Updates
+  * Add support for `TransferData` on `CheckoutSessionSubscriptionDataParams`
+
 ## 72.40.0 - 2021-03-26
 * [#1270](https://github.com/stripe/stripe-go/pull/1270) add card_issuing.tos_acceptance to account.go
   * Add support for `AccountSettingsParams.CardIssuing.TOSAcceptance`
