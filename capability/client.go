@@ -1,4 +1,10 @@
-// Package capability provides the /accounts/capabilities APIs
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package capability provides the /accounts/{account}/capabilities APIs
 package capability
 
 import (
@@ -9,53 +15,62 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// Client is used to invoke /accounts/capabilities APIs.
+// Client is used to invoke /accounts/{account}/capabilities APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
 }
 
-// Get returns the details of a account capability.
+// Get returns the details of a capability.
 func Get(id string, params *stripe.CapabilityParams) (*stripe.Capability, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a account capability.
+// Get returns the details of a capability.
 func (c Client) Get(id string, params *stripe.CapabilityParams) (*stripe.Capability, error) {
 	if params == nil {
-		return nil, fmt.Errorf("params cannot be nil, and params.Account must be set")
+		return nil, fmt.Errorf(
+			"params cannot be nil, and params.Account must be set",
+		)
 	}
-
-	path := stripe.FormatURLPath("/v1/accounts/%s/capabilities/%s",
-		stripe.StringValue(params.Account), id)
+	path := stripe.FormatURLPath(
+		"/v1/accounts/%s/capabilities/%s",
+		stripe.StringValue(params.Account),
+		id,
+	)
 	capability := &stripe.Capability{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, capability)
 	return capability, err
 }
 
-// Update updates a account capability's properties.
+// Update updates a capability's properties.
 func Update(id string, params *stripe.CapabilityParams) (*stripe.Capability, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a account capability's properties.
+// Update updates a capability's properties.
 func (c Client) Update(id string, params *stripe.CapabilityParams) (*stripe.Capability, error) {
-	path := stripe.FormatURLPath("/v1/accounts/%s/capabilities/%s",
-		stripe.StringValue(params.Account), id)
+	path := stripe.FormatURLPath(
+		"/v1/accounts/%s/capabilities/%s",
+		stripe.StringValue(params.Account),
+		id,
+	)
 	capability := &stripe.Capability{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, capability)
 	return capability, err
 }
 
-// List returns a list of account capabilities.
+// List returns a list of capabilities.
 func List(params *stripe.CapabilityListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of account capabilities.
+// List returns a list of capabilities.
 func (c Client) List(listParams *stripe.CapabilityListParams) *Iter {
-	path := stripe.FormatURLPath("/v1/accounts/%s/capabilities", stripe.StringValue(listParams.Account))
-
+	path := stripe.FormatURLPath(
+		"/v1/accounts/%s/capabilities",
+		stripe.StringValue(listParams.Account),
+	)
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
 		list := &stripe.CapabilityList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
@@ -69,12 +84,12 @@ func (c Client) List(listParams *stripe.CapabilityListParams) *Iter {
 	})}
 }
 
-// Iter is an iterator for account capabilities.
+// Iter is an iterator for capabilities.
 type Iter struct {
 	*stripe.Iter
 }
 
-// Capability returns the account capability which the iterator is currently pointing to.
+// Capability returns the capability which the iterator is currently pointing to.
 func (i *Iter) Capability() *stripe.Capability {
 	return i.Current().(*stripe.Capability)
 }

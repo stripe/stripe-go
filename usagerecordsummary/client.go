@@ -27,11 +27,11 @@ func List(params *stripe.UsageRecordSummaryListParams) *Iter {
 
 // List returns a list of usage record summaries.
 func (c Client) List(listParams *stripe.UsageRecordSummaryListParams) *Iter {
+	path := stripe.FormatURLPath(
+		"/v1/subscription_items/%s/usage_record_summaries",
+		stripe.StringValue(listParams.SubscriptionItem),
+	)
 	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		path := stripe.FormatURLPath(
-			"/v1/subscription_items/%s/usage_record_summaries",
-			stripe.StringValue(listParams.SubscriptionItem),
-		)
 		list := &stripe.UsageRecordSummaryList{}
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
