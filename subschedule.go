@@ -20,11 +20,11 @@ type SubscriptionScheduleStatus string
 
 // List of values that SubscriptionScheduleStatus can take.
 const (
-	SubscriptionScheduleStatusActive    SubscriptionScheduleStatus = "active"
-	SubscriptionScheduleStatusCanceled  SubscriptionScheduleStatus = "canceled"
-	SubscriptionScheduleStatusCompleted SubscriptionScheduleStatus = "completed"
-	SubscriptionScheduleStatusPastDue   SubscriptionScheduleStatus = "not_started"
-	SubscriptionScheduleStatusTrialing  SubscriptionScheduleStatus = "released"
+	SubscriptionScheduleStatusActive     SubscriptionScheduleStatus = "active"
+	SubscriptionScheduleStatusCanceled   SubscriptionScheduleStatus = "canceled"
+	SubscriptionScheduleStatusCompleted  SubscriptionScheduleStatus = "completed"
+	SubscriptionScheduleStatusNotStarted SubscriptionScheduleStatus = "not_started"
+	SubscriptionScheduleStatusReleased   SubscriptionScheduleStatus = "released"
 )
 
 // SubscriptionSchedulePhaseBillingCycleAnchor is the list of allowed values for the
