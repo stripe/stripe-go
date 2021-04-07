@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.41.1 - 2021-04-07
+* [#1274](https://github.com/stripe/stripe-go/pull/1274) Fix names of `SubscriptionScheduleStatus` constants (warning: this might be a minor breaking change if you'd been referencing a bad name)
+
 ## 72.41.0 - 2021-04-02
 * [#1273](https://github.com/stripe/stripe-go/pull/1273) API Updates
   * Add support for `SubscriptionPause` on `BillingPortalConfigurationFeatures` and `BillingPortalConfigurationFeaturesParams`
