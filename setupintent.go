@@ -220,7 +220,7 @@ type SetupIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 
 // SetupIntentPaymentMethodOptionsACSSDebit TODO
 type SetupIntentPaymentMethodOptionsACSSDebit struct {
-	Currency           SetupIntentPaymentMethodOptionsACSSDebitCurrency           `json:"currency"`
+	Currency           string                                                     `json:"currency"`
 	MandateOptions     *SetupIntentPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
 	VerificationMethod SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
