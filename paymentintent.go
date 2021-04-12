@@ -36,6 +36,35 @@ const (
 	PaymentIntentConfirmationMethodManual    PaymentIntentConfirmationMethod = "manual"
 )
 
+// PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule is the list of allowed values for payment_schedule.
+type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
+
+// List of values that PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule can take
+const (
+	PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleCombined PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "combined"
+	PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleInterval PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "interval"
+	PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleSporadic PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "sporadic"
+)
+
+// PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType is the list of allowed values for transaction_type.
+type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType string
+
+// List of values that PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType can take
+const (
+	PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypeBusiness PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "business"
+	PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
+)
+
+// PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod is the list of allowed values for verification_method.
+type PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod string
+
+// List of values that PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod can take
+const (
+	PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethodAutomatic     PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod = "automatic"
+	PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethodInstant       PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod = "instant"
+	PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
+)
+
 // PaymentIntentNextActionType is the list of allowed values for the next action's type.
 type PaymentIntentNextActionType string
 
@@ -168,6 +197,7 @@ type PaymentIntentMandateDataParams struct {
 // PaymentIntentPaymentMethodDataParams represents the type-specific parameters associated with a
 // payment method on payment intent.
 type PaymentIntentPaymentMethodDataParams struct {
+	ACSSDebit        *PaymentMethodACSSDebitParams        `form:"acss_debit"`
 	AfterpayClearpay *PaymentMethodAfterpayClearpayParams `form:"afterpay_clearpay"`
 	Alipay           *PaymentMethodAlipayParams           `form:"alipay"`
 	AUBECSDebit      *PaymentMethodAUBECSDebitParams      `form:"au_becs_debit"`
@@ -181,6 +211,22 @@ type PaymentIntentPaymentMethodDataParams struct {
 	P24              *PaymentMethodP24Params              `form:"p24"`
 	SepaDebit        *PaymentMethodSepaDebitParams        `form:"sepa_debit"`
 	Type             *string                              `form:"type"`
+}
+
+// PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsParams represents the mandate options
+// for ACSS on the payment intent.
+type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
+	CustomMandateURL    *string `form:"custom_mandate_url"`
+	IntervalDescription *string `form:"interval_description"`
+	PaymentSchedule     *string `form:"payment_schedule"`
+	TransactionType     *string `form:"transaction_type"`
+}
+
+// PaymentIntentPaymentMethodOptionsACSSDebitParams represents the ACSS debit-specific options
+// applieed to a PaymentIntent
+type PaymentIntentPaymentMethodOptionsACSSDebitParams struct {
+	MandateOptions     *PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
+	VerificationMethod *string                                                         `form:"verification_method"`
 }
 
 // PaymentIntentPaymentMethodOptionsAlipayParams represents the Alipay-specific options
@@ -234,6 +280,7 @@ type PaymentIntentPaymentMethodOptionsSofortParams struct {
 // PaymentIntentPaymentMethodOptionsParams represents the type-specific payment method options
 // applied to a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsParams struct {
+	ACSSDebit  *PaymentIntentPaymentMethodOptionsACSSDebitParams  `form:"acss_debit"`
 	Alipay     *PaymentIntentPaymentMethodOptionsAlipayParams     `form:"alipay"`
 	Bancontact *PaymentIntentPaymentMethodOptionsBancontactParams `form:"bancontact"`
 	Card       *PaymentIntentPaymentMethodOptionsCardParams       `form:"card"`
@@ -313,12 +360,25 @@ type PaymentIntentNextActionRedirectToURL struct {
 	URL       string `json:"url"`
 }
 
+// PaymentIntentNextActionUseStripeSDK represents the resource for the next action of typee "use_stripe_sdk".
+type PaymentIntentNextActionUseStripeSDK struct {
+}
+
+// PaymentIntentNextActionVerifyWithMicrodeposits represents the resource for the next action of type
+// "verify_with_microdeposits".
+type PaymentIntentNextActionVerifyWithMicrodeposits struct {
+	ArrivalDate           int64  `json:"arrival_date"`
+	HostedVerificationURL string `json:"hosted_verification_url"`
+}
+
 // PaymentIntentNextAction represents the type of action to take on a payment intent.
 type PaymentIntentNextAction struct {
-	AlipayHandleRedirect *PaymentIntentNextActionAlipayHandleRedirect `json:"alipay_handle_redirect"`
-	OXXODisplayDetails   *PaymentIntentNextActionOXXODisplayDetails   `json:"oxxo_display_details"`
-	RedirectToURL        *PaymentIntentNextActionRedirectToURL        `json:"redirect_to_url"`
-	Type                 PaymentIntentNextActionType                  `json:"type"`
+	AlipayHandleRedirect    *PaymentIntentNextActionAlipayHandleRedirect    `json:"alipay_handle_redirect"`
+	OXXODisplayDetails      *PaymentIntentNextActionOXXODisplayDetails      `json:"oxxo_display_details"`
+	RedirectToURL           *PaymentIntentNextActionRedirectToURL           `json:"redirect_to_url"`
+	Type                    PaymentIntentNextActionType                     `json:"type"`
+	UseStripeSDK            *PaymentIntentNextActionUseStripeSDK            `json:"use_stripe_sdk"`
+	VerifyWithMicrodeposits *PaymentIntentNextActionVerifyWithMicrodeposits `json:"verify_with_microdeposits"`
 }
 
 // PaymentIntentPaymentMethodOptionsCardInstallmentsPlan describe a specific card installment plan.
@@ -334,6 +394,22 @@ type PaymentIntentPaymentMethodOptionsCardInstallments struct {
 	AvailablePlans []*PaymentIntentPaymentMethodOptionsCardInstallmentsPlan `json:"available_plans"`
 	Enabled        bool                                                     `json:"enabled"`
 	Plan           *PaymentIntentPaymentMethodOptionsCardInstallmentsPlan   `json:"plan"`
+}
+
+// PaymentIntentPaymentMethodOptionsACSSDebitMandateOptions describe the mandate options for acss debit
+// associated with that payment intent.
+type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
+	CustomMandateURL    string                                                                  `json:"custom_mandate_url"`
+	IntervalDescription string                                                                  `json:"interval_description"`
+	PaymentSchedule     PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule `json:"payment_schedule"`
+	TransactionType     PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
+}
+
+// PaymentIntentPaymentMethodOptionsACSSDebit describes the ACSS debit-specific options associated
+// with that payment intent.
+type PaymentIntentPaymentMethodOptionsACSSDebit struct {
+	MandateOptions     *PaymentIntentPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
+	VerificationMethod PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 
 // PaymentIntentPaymentMethodOptionsAlipay is the set of Alipay-specific options associated
@@ -370,6 +446,7 @@ type PaymentIntentPaymentMethodOptionsSofort struct {
 // PaymentIntentPaymentMethodOptions is the set of payment method-specific options associated with
 // that payment intent.
 type PaymentIntentPaymentMethodOptions struct {
+	ACSSDebit  *PaymentIntentPaymentMethodOptionsACSSDebit  `json:"acss_debit"`
 	Alipay     *PaymentIntentPaymentMethodOptionsAlipay     `json:"alipay"`
 	Bancontact *PaymentIntentPaymentMethodOptionsBancontact `json:"bancontact"`
 	Card       *PaymentIntentPaymentMethodOptionsCard       `json:"card"`
