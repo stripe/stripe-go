@@ -19,6 +19,25 @@ const (
 	MandateStatusPending  MandateStatus = "pending"
 )
 
+// MandatePaymentMethodDetailsACSSDebitPaymentSchedule TODO
+type MandatePaymentMethodDetailsACSSDebitPaymentSchedule string
+
+// List of values that MandatePaymentMethodDetailsACSSDebitPaymentSchedule can take
+const (
+	MandatePaymentMethodDetailsACSSDebitPaymentScheduleCombined MandatePaymentMethodDetailsACSSDebitPaymentSchedule = "combined"
+	MandatePaymentMethodDetailsACSSDebitPaymentScheduleInterval MandatePaymentMethodDetailsACSSDebitPaymentSchedule = "interval"
+	MandatePaymentMethodDetailsACSSDebitPaymentScheduleSporadic MandatePaymentMethodDetailsACSSDebitPaymentSchedule = "sporadic"
+)
+
+// MandatePaymentMethodDetailsACSSDebitTransactionType TODO
+type MandatePaymentMethodDetailsACSSDebitTransactionType string
+
+// List of values that MandatePaymentMethodDetailsACSSDebitTransactionType can take
+const (
+	MandatePaymentMethodDetailsACSSDebitTransactionTypeBusiness MandatePaymentMethodDetailsACSSDebitTransactionType = "business"
+	MandatePaymentMethodDetailsACSSDebitTransactionTypePersonal MandatePaymentMethodDetailsACSSDebitTransactionType = "personal"
+)
+
 // MandatePaymentMethodDetailsBACSDebitNetworkStatus is the list of allowed values for the status
 // with the network for a given mandate.
 type MandatePaymentMethodDetailsBACSDebitNetworkStatus string
@@ -72,6 +91,13 @@ type MandateCustomerAcceptance struct {
 type MandateMultiUse struct {
 }
 
+// MandatePaymentMethodDetailsACSSDebit TODO
+type MandatePaymentMethodDetailsACSSDebit struct {
+	IntervalDescription string                                              `json:"interval_description"`
+	PaymentSchedule     MandatePaymentMethodDetailsACSSDebitPaymentSchedule `json:"payment_schedule"`
+	TransactionType     MandatePaymentMethodDetailsACSSDebitTransactionType `json:"transaction_type"`
+}
+
 // MandatePaymentMethodDetailsAUBECSDebit represents details about the Australia BECS debit account
 // associated with this mandate.
 type MandatePaymentMethodDetailsAUBECSDebit struct {
@@ -100,6 +126,7 @@ type MandatePaymentMethodDetailsSepaDebit struct {
 // MandatePaymentMethodDetails represents details about the payment method associated with this
 // mandate.
 type MandatePaymentMethodDetails struct {
+	ACSSDebit   *MandatePaymentMethodDetailsACSSDebit   `json:"acss_debit"`
 	AUBECSDebit *MandatePaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
 	BACSDebit   *MandatePaymentMethodDetailsBACSDebit   `json:"bacs_debit"`
 	Card        *MandatePaymentMethodDetailsCard        `json:"card"`

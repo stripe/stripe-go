@@ -23,6 +23,35 @@ const (
 	SetupIntentNextActionTypeRedirectToURL SetupIntentNextActionType = "redirect_to_url"
 )
 
+// SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule TODO
+type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
+
+// List of values that SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule can take.
+const (
+	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleCombined SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "combined"
+	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleInterval SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "interval"
+	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleSporadic SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "sporadic"
+)
+
+// SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType TODO
+type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType string
+
+// List of values that SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType can take.
+const (
+	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypeBusiness SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "business"
+	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
+)
+
+// SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod TODO
+type SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod string
+
+// List of values that SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod can take.
+const (
+	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodAutomatic     SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "automatic"
+	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodInstant       SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "instant"
+	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
+)
+
 // SetupIntentPaymentMethodOptionsCardRequestThreeDSecure is the list of allowed values controlling
 // when to request 3D Secure on a SetupIntent.
 type SetupIntentPaymentMethodOptionsCardRequestThreeDSecure string
@@ -91,6 +120,21 @@ type SetupIntentMandateDataCustomerAcceptanceParams struct {
 	Type       MandateCustomerAcceptanceType                          `form:"type"`
 }
 
+// SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams TODO
+type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
+	CustomMandateURL    *string `form:"custom_mandate_url"`
+	IntervalDescription *string `form:"interval_description"`
+	PaymentSchedule     *string `form:"payment_schedule"`
+	TransactionType     *string `form:"transaction_type"`
+}
+
+// SetupIntentPaymentMethodOptionsACSSDebitParams TODO
+type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
+	Currency           *string                                                       `form:"currency"`
+	MandateOptions     *SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
+	VerificationMethod *string                                                       `form:"verification_method"`
+}
+
 // SetupIntentMandateDataParams is the set of parameters controlling the creation of the mandate
 // associated with this SetupIntent.
 type SetupIntentMandateDataParams struct {
@@ -107,7 +151,8 @@ type SetupIntentPaymentMethodOptionsCardParams struct {
 // SetupIntentPaymentMethodOptionsParams represents the type-specific payment method options
 // applied to a SetupIntent.
 type SetupIntentPaymentMethodOptionsParams struct {
-	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
+	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
+	Card      *SetupIntentPaymentMethodOptionsCardParams      `form:"card"`
 }
 
 // SetupIntentSingleUseParams represents the single-use mandate-specific parameters.
@@ -149,10 +194,35 @@ type SetupIntentNextActionRedirectToURL struct {
 	URL       string `json:"url"`
 }
 
+// SetupIntentNextActionUseStripeSDK TODO
+type SetupIntentNextActionUseStripeSDK struct{}
+
+// SetupIntentNextActionVerifyWithMicrodeposits TODO
+type SetupIntentNextActionVerifyWithMicrodeposits struct {
+	ArrivalDate           int64  `json:"arrival_date"`
+	HostedVerificationURL string `json:"hosted_verification_url"`
+}
+
 // SetupIntentNextAction represents the type of action to take on a setup intent.
 type SetupIntentNextAction struct {
-	RedirectToURL *SetupIntentNextActionRedirectToURL `json:"redirect_to_url"`
-	Type          SetupIntentNextActionType           `json:"type"`
+	RedirectToURL           *SetupIntentNextActionRedirectToURL           `json:"redirect_to_url"`
+	Type                    SetupIntentNextActionType                     `json:"type"`
+	UseStripeSDK            *SetupIntentNextActionUseStripeSDK            `json:"use_stripe_sdk"`
+	VerifyWithMicrodeposits *SetupIntentNextActionVerifyWithMicrodeposits `json:"verify_with_microdeposits"`
+}
+
+type SetupIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
+	CustomMandateURL    string                                                                `json:"custom_mandate_url"`
+	IntervalDescription string                                                                `json:"interval_description"`
+	PaymentSchedule     SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule `json:"payment_schedule"`
+	TransactionType     SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
+}
+
+// SetupIntentPaymentMethodOptionsACSSDebit TODO
+type SetupIntentPaymentMethodOptionsACSSDebit struct {
+	Currency           SetupIntentPaymentMethodOptionsACSSDebitCurrency           `json:"currency"`
+	MandateOptions     *SetupIntentPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
+	VerificationMethod SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 
 // SetupIntentPaymentMethodOptionsCard represents the card-specific options applied to a
@@ -164,7 +234,8 @@ type SetupIntentPaymentMethodOptionsCard struct {
 // SetupIntentPaymentMethodOptions represents the type-specific payment method options applied to a
 // SetupIntent.
 type SetupIntentPaymentMethodOptions struct {
-	Card *SetupIntentPaymentMethodOptionsCard `json:"card"`
+	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebit `json:"acss_debit"`
+	Card      *SetupIntentPaymentMethodOptionsCard      `json:"card"`
 }
 
 // SetupIntent is the resource representing a Stripe payout.

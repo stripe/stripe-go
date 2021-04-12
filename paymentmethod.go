@@ -16,6 +16,7 @@ type PaymentMethodType string
 
 // List of values that PaymentMethodType can take.
 const (
+	PaymentMethodTypeACSSDebit        PaymentMethodType = "acss_debit"
 	PaymentMethodTypeAfterpayClearpay PaymentMethodType = "afterpay_clearpay"
 	PaymentMethodTypeAlipay           PaymentMethodType = "alipay"
 	PaymentMethodTypeAUBECSDebit      PaymentMethodType = "au_becs_debit"
@@ -89,6 +90,13 @@ type BillingDetailsParams struct {
 	Email   *string        `form:"email"`
 	Name    *string        `form:"name"`
 	Phone   *string        `form:"phone"`
+}
+
+// PaymentMethodACSSDebitParams TODO
+type PaymentMethodACSSDebitParams struct {
+	AccountNumber     *string `form:"account_number"`
+	InstitutionNumber *string `form:"institution_number"`
+	TransitNumber     *string `form:"transit_number"`
 }
 
 // PaymentMethodAfterpayClearpayParams is the set of parameters allowed for the
@@ -190,6 +198,7 @@ type PaymentMethodSofortParams struct {
 // PaymentMethod.
 type PaymentMethodParams struct {
 	Params           `form:"*"`
+	ACSSDebit        *PaymentMethodACSSDebitParams        `form:"acss_debit"`
 	AfterpayClearpay *PaymentMethodAfterpayClearpayParams `form:"afterpay_clearpay"`
 	Alipay           *PaymentMethodAlipayParams           `form:"alipay"`
 	AUBECSDebit      *PaymentMethodAUBECSDebitParams      `form:"au_becs_debit"`
@@ -240,6 +249,15 @@ type BillingDetails struct {
 	Email   string   `json:"email"`
 	Name    string   `json:"name"`
 	Phone   string   `json:"phone"`
+}
+
+// PaymentMethodACSSDebit TODO
+type PaymentMethodACSSDebit struct {
+	BankName          string `json:"bank_name"`
+	Fingerprint       string `json:"fingerprint"`
+	InstitutionNumber string `json:"institution_number"`
+	Last4             string `json:"last4"`
+	TransitNumber     string `json:"transit_number"`
 }
 
 // PaymentMethodAfterpayClearpay represents the AfterpayClearpay properties.
@@ -382,6 +400,7 @@ type PaymentMethodSofort struct {
 // PaymentMethod is the resource representing a PaymentMethod.
 type PaymentMethod struct {
 	APIResource
+	ACSSDebit        *PaymentMethodACSSDebit        `json:"acss_debit"`
 	AfterpayClearpay *PaymentMethodAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentMethodAlipay           `json:"alipay"`
 	AUBECSDebit      *PaymentMethodAUBECSDebit      `json:"au_becs_debit"`

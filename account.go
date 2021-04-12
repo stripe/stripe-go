@@ -170,6 +170,11 @@ type AccountBusinessProfileParams struct {
 	URL                *string        `form:"url"`
 }
 
+// AccountCapabilitiesACSSDebitPaymentsParams represent allowed parameters to configure the ACSS Debit capability on an account.
+type AccountCapabilitiesACSSDebitPaymentsParams struct {
+	Requested *bool `form:"requested"`
+}
+
 // AccountCapabilitiesAUBECSDebitPaymentsParams represent allowed parameters to configure the AU BECS Debit capability on an account.
 type AccountCapabilitiesAUBECSDebitPaymentsParams struct {
 	Requested *bool `form:"requested"`
@@ -272,6 +277,7 @@ type AccountCapabilitiesTransfersParams struct {
 
 // AccountCapabilitiesParams represent allowed parameters to configure capabilities on an account.
 type AccountCapabilitiesParams struct {
+	ACSSDebitPayments       *AccountCapabilitiesACSSDebitPaymentsParams       `form:"acss_debit_payments"`
 	AUBECSDebitPayments     *AccountCapabilitiesAUBECSDebitPaymentsParams     `form:"au_becs_debit_payments"`
 	BACSDebitPayments       *AccountCapabilitiesBACSDebitPaymentsParams       `form:"bacs_debit_payments"`
 	BancontactPayments      *AccountCapabilitiesBancontactPaymentsParams      `form:"bancontact_payments"`
@@ -553,6 +559,7 @@ type AccountBusinessProfile struct {
 
 // AccountCapabilities is the resource representing the capabilities enabled on that account.
 type AccountCapabilities struct {
+	ACSSDebitPayments       AccountCapabilityStatus `json:"acss_debit_payments"`
 	AUBECSDebitPayments     AccountCapabilityStatus `json:"au_becs_debit_payments"`
 	BACSDebitPayments       AccountCapabilityStatus `json:"bacs_debit_payments"`
 	BancontactPayments      AccountCapabilityStatus `json:"bancontact_payments"`

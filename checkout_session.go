@@ -67,6 +67,35 @@ const (
 	CheckoutSessionModeSubscription CheckoutSessionMode = "subscription"
 )
 
+// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule TODO
+type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
+
+// List of values that CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule can take
+const (
+	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleCombined CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "combined"
+	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleInterval CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "interval"
+	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleSporadic CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "sporadic"
+)
+
+// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType TODO
+type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType string
+
+// List of values that CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType can take
+const (
+	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypeBusiness CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "business"
+	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
+)
+
+// CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod TODO
+type CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethodAutomatic     CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod = "automatic"
+	CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethodInstant       CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod = "instant"
+	CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
+)
+
 // CheckoutSessionPaymentStatus is the list of allowed values for the payment status on a Session.`
 type CheckoutSessionPaymentStatus string
 
@@ -174,6 +203,26 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	TransferGroup             *string                                             `form:"transfer_group"`
 }
 
+// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams TODO
+type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
+	CustomMandateURL    *string `form:"custom_mandate_url"`
+	IntervalDescription *string `form:"interval_description"`
+	PaymentSchedule     *string `form:"payment_schedule"`
+	TransactionType     *string `form:"transaction_type"`
+}
+
+// CheckoutSessionPaymentMethodOptionsACSSDebitParams TODO
+type CheckoutSessionPaymentMethodOptionsACSSDebitParams struct {
+	Currency           *string                                                           `form:"currency"`
+	MandateOptions     *CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
+	VerificationMethod *string                                                           `form:"verification_method"`
+}
+
+// CheckoutSessionPaymentMethodOptionsParams TODO
+type CheckoutSessionPaymentMethodOptionsParams struct {
+	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
+}
+
 // CheckoutSessionSetupIntentDataParams is the set of parameters allowed for the setup intent
 // creation on a checkout session.
 type CheckoutSessionSetupIntentDataParams struct {
@@ -234,6 +283,7 @@ type CheckoutSessionParams struct {
 	Locale                    *string                                         `form:"locale"`
 	Mode                      *string                                         `form:"mode"`
 	PaymentIntentData         *CheckoutSessionPaymentIntentDataParams         `form:"payment_intent_data"`
+	PaymentMethodOptions      *CheckoutSessionPaymentMethodOptionsParams      `form:"payment_method_options"`
 	PaymentMethodTypes        []*string                                       `form:"payment_method_types"`
 	SetupIntentData           *CheckoutSessionSetupIntentDataParams           `form:"setup_intent_data"`
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollectionParams `form:"shipping_address_collection"`
@@ -272,6 +322,25 @@ type CheckoutSessionCustomerDetails struct {
 	Email     string                                  `json:"email"`
 	TaxExempt CheckoutSessionCustomerDetailsTaxExempt `json:"tax_exempt"`
 	TaxIDs    []*CheckoutSessionCustomerDetailsTaxIDs `json:"tax_ids"`
+}
+
+// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions TODO
+type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions struct {
+	CustomMandateURL    string                                                                    `json:"custom_mandate_url"`
+	IntervalDescription string                                                                    `json:"interval_description"`
+	PaymentSchedule     CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule `json:"payment_schedule"`
+	TransactionType     CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
+}
+
+// CheckoutSessionPaymentMethodOptionsACSSDebit TODO
+type CheckoutSessionPaymentMethodOptionsACSSDebit struct {
+	MandateOptions     *CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
+	VerificationMethod CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
+}
+
+// CheckoutSessionPaymentMethodOptions TODO
+type CheckoutSessionPaymentMethodOptions struct {
+	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 }
 
 // CheckoutSessionShippingAddressCollection is the set of parameters allowed for the
@@ -328,6 +397,7 @@ type CheckoutSession struct {
 	Mode                      CheckoutSessionMode                       `json:"mode"`
 	Object                    string                                    `json:"object"`
 	PaymentIntent             *PaymentIntent                            `json:"payment_intent"`
+	PaymentMethodOptions      *CheckoutSessionPaymentMethodOptions      `json:"payment_method_options"`
 	PaymentMethodTypes        []string                                  `json:"payment_method_types"`
 	PaymentStatus             CheckoutSessionPaymentStatus              `json:"payment_status"`
 	SetupIntent               *SetupIntent                              `json:"setup_intent"`
