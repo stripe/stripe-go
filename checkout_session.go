@@ -334,6 +334,7 @@ type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions struct {
 
 // CheckoutSessionPaymentMethodOptionsACSSDebit represent the options for acss debit on payment_method_options.
 type CheckoutSessionPaymentMethodOptionsACSSDebit struct {
+	Currency           string                                                         `json:"currency"`
 	MandateOptions     *CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
 	VerificationMethod CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
