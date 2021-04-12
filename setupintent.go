@@ -23,7 +23,8 @@ const (
 	SetupIntentNextActionTypeRedirectToURL SetupIntentNextActionType = "redirect_to_url"
 )
 
-// SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule TODO
+// SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule is the list of allowed values
+// for payment_schedule on mandate_options.
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
 
 // List of values that SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule can take.
@@ -33,7 +34,8 @@ const (
 	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleSporadic SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "sporadic"
 )
 
-// SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType TODO
+// SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType is the list of allowed values for
+// transaction_type on mandate_options.
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType string
 
 // List of values that SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType can take.
@@ -42,7 +44,8 @@ const (
 	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
 )
 
-// SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod TODO
+// SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod is the list of allowed values for
+// verification_method on acss_debit.
 type SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod string
 
 // List of values that SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod can take.
@@ -120,7 +123,8 @@ type SetupIntentMandateDataCustomerAcceptanceParams struct {
 	Type       MandateCustomerAcceptanceType                          `form:"type"`
 }
 
-// SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams TODO
+// SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams is the set of parameters for
+// mandate_options on acss_debit.
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	CustomMandateURL    *string `form:"custom_mandate_url"`
 	IntervalDescription *string `form:"interval_description"`
@@ -128,7 +132,8 @@ type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	TransactionType     *string `form:"transaction_type"`
 }
 
-// SetupIntentPaymentMethodOptionsACSSDebitParams TODO
+// SetupIntentPaymentMethodOptionsACSSDebitParams is the set of parameters for acss debit on
+// payment_method_options.
 type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 	Currency           *string                                                       `form:"currency"`
 	MandateOptions     *SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
@@ -194,10 +199,12 @@ type SetupIntentNextActionRedirectToURL struct {
 	URL       string `json:"url"`
 }
 
-// SetupIntentNextActionUseStripeSDK TODO
+// SetupIntentNextActionUseStripeSDK represents the resource for the next action of type
+// "use_stripe_sdk".
 type SetupIntentNextActionUseStripeSDK struct{}
 
-// SetupIntentNextActionVerifyWithMicrodeposits TODO
+// SetupIntentNextActionVerifyWithMicrodeposits represents the resource for the next action
+// of type "verify_with_microdeposits".
 type SetupIntentNextActionVerifyWithMicrodeposits struct {
 	ArrivalDate           int64  `json:"arrival_date"`
 	HostedVerificationURL string `json:"hosted_verification_url"`
@@ -218,7 +225,8 @@ type SetupIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 	TransactionType     SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
 }
 
-// SetupIntentPaymentMethodOptionsACSSDebit TODO
+// SetupIntentPaymentMethodOptionsACSSDebit represents the ACSS debit-specific options applied
+// to a SetupIntent.
 type SetupIntentPaymentMethodOptionsACSSDebit struct {
 	Currency           string                                                     `json:"currency"`
 	MandateOptions     *SetupIntentPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`

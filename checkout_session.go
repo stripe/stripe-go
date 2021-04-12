@@ -67,7 +67,7 @@ const (
 	CheckoutSessionModeSubscription CheckoutSessionMode = "subscription"
 )
 
-// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule TODO
+// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule is the list of allowed values for payment_schedule
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
 
 // List of values that CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule can take
@@ -77,7 +77,7 @@ const (
 	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleSporadic CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "sporadic"
 )
 
-// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType TODO
+// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType is the list of allowed values for transaction_type
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType string
 
 // List of values that CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType can take
@@ -86,7 +86,7 @@ const (
 	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
 )
 
-// CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod TODO
+// CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod is the list of allowed values for verification_method
 type CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod string
 
 // List of values that CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod can take
@@ -203,7 +203,7 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	TransferGroup             *string                                             `form:"transfer_group"`
 }
 
-// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams TODO
+// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams is the set of parameters allowed for mandate_options for acss debit.
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	CustomMandateURL    *string `form:"custom_mandate_url"`
 	IntervalDescription *string `form:"interval_description"`
@@ -211,14 +211,14 @@ type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	TransactionType     *string `form:"transaction_type"`
 }
 
-// CheckoutSessionPaymentMethodOptionsACSSDebitParams TODO
+// CheckoutSessionPaymentMethodOptionsACSSDebitParams is the set of parameters allowed for acss_debit on payment_method_options.
 type CheckoutSessionPaymentMethodOptionsACSSDebitParams struct {
 	Currency           *string                                                           `form:"currency"`
 	MandateOptions     *CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
 	VerificationMethod *string                                                           `form:"verification_method"`
 }
 
-// CheckoutSessionPaymentMethodOptionsParams TODO
+// CheckoutSessionPaymentMethodOptionsParams is the set of allowed parameters for payment_method_options on a checkout session.
 type CheckoutSessionPaymentMethodOptionsParams struct {
 	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
 }
@@ -324,7 +324,7 @@ type CheckoutSessionCustomerDetails struct {
 	TaxIDs    []*CheckoutSessionCustomerDetailsTaxIDs `json:"tax_ids"`
 }
 
-// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions TODO
+// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions represent mandate options for acss debit.
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions struct {
 	CustomMandateURL    string                                                                    `json:"custom_mandate_url"`
 	IntervalDescription string                                                                    `json:"interval_description"`
@@ -332,13 +332,13 @@ type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions struct {
 	TransactionType     CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
 }
 
-// CheckoutSessionPaymentMethodOptionsACSSDebit TODO
+// CheckoutSessionPaymentMethodOptionsACSSDebit represent the options for acss debit on payment_method_options.
 type CheckoutSessionPaymentMethodOptionsACSSDebit struct {
 	MandateOptions     *CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
 	VerificationMethod CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 
-// CheckoutSessionPaymentMethodOptions TODO
+// CheckoutSessionPaymentMethodOptions represent payment-method-specific options for a checkout session.
 type CheckoutSessionPaymentMethodOptions struct {
 	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 }

@@ -36,7 +36,7 @@ const (
 	PaymentIntentConfirmationMethodManual    PaymentIntentConfirmationMethod = "manual"
 )
 
-// PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule TODO
+// PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule is the list of allowed values for payment_schedule.
 type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
 
 // List of values that PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule can take
@@ -46,7 +46,7 @@ const (
 	PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleSporadic PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "sporadic"
 )
 
-// PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType TODO
+// PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType is the list of allowed values for transaction_type.
 type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType string
 
 // List of values that PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType can take
@@ -55,7 +55,7 @@ const (
 	PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
 )
 
-// PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod TODO
+// PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod is the list of allowed values for verification_method.
 type PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod string
 
 // List of values that PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod can take
@@ -213,7 +213,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Type             *string                              `form:"type"`
 }
 
-// PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsParams TODO
+// PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsParams represents the mandate options
+// for ACSS on the payment intent.
 type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	CustomMandateURL    *string `form:"custom_mandate_url"`
 	IntervalDescription *string `form:"interval_description"`
@@ -221,7 +222,8 @@ type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	TransactionType     *string `form:"transaction_type"`
 }
 
-// PaymentIntentPaymentMethodOptionsACSSDebitParams TODO
+// PaymentIntentPaymentMethodOptionsACSSDebitParams represents the ACSS debit-specific options
+// applieed to a PaymentIntent
 type PaymentIntentPaymentMethodOptionsACSSDebitParams struct {
 	MandateOptions     *PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
 	VerificationMethod *string                                                         `form:"verification_method"`
@@ -358,11 +360,12 @@ type PaymentIntentNextActionRedirectToURL struct {
 	URL       string `json:"url"`
 }
 
-// PaymentIntentNextActionUseStripeSDK TODO
+// PaymentIntentNextActionUseStripeSDK represents the resource for the next action of typee "use_stripe_sdk".
 type PaymentIntentNextActionUseStripeSDK struct {
 }
 
-// PaymentIntentNextActionVerifyWithMicrodeposits TODO
+// PaymentIntentNextActionVerifyWithMicrodeposits represents the resource for the next action of type
+// "verify_with_microdeposits".
 type PaymentIntentNextActionVerifyWithMicrodeposits struct {
 	ArrivalDate           int64  `json:"arrival_date"`
 	HostedVerificationURL string `json:"hosted_verification_url"`
@@ -393,7 +396,8 @@ type PaymentIntentPaymentMethodOptionsCardInstallments struct {
 	Plan           *PaymentIntentPaymentMethodOptionsCardInstallmentsPlan   `json:"plan"`
 }
 
-// PaymentIntentPaymentMethodOptionsACSSDebitMandateOptions TODO
+// PaymentIntentPaymentMethodOptionsACSSDebitMandateOptions describe the mandate options for acss debit
+// associated with that payment intent.
 type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 	CustomMandateURL    string                                                                  `json:"custom_mandate_url"`
 	IntervalDescription string                                                                  `json:"interval_description"`
@@ -401,7 +405,8 @@ type PaymentIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 	TransactionType     PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
 }
 
-// PaymentIntentPaymentMethodOptionsACSSDebit TODO
+// PaymentIntentPaymentMethodOptionsACSSDebit describes the ACSS debit-specific options associated
+// with that payment intent.
 type PaymentIntentPaymentMethodOptionsACSSDebit struct {
 	MandateOptions     *PaymentIntentPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
 	VerificationMethod PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`

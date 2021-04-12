@@ -19,7 +19,7 @@ const (
 	MandateStatusPending  MandateStatus = "pending"
 )
 
-// MandatePaymentMethodDetailsACSSDebitPaymentSchedule TODO
+// MandatePaymentMethodDetailsACSSDebitPaymentSchedule is the list of allowed values for an acss debit payment_schedule on payment_method_details
 type MandatePaymentMethodDetailsACSSDebitPaymentSchedule string
 
 // List of values that MandatePaymentMethodDetailsACSSDebitPaymentSchedule can take
@@ -29,7 +29,7 @@ const (
 	MandatePaymentMethodDetailsACSSDebitPaymentScheduleSporadic MandatePaymentMethodDetailsACSSDebitPaymentSchedule = "sporadic"
 )
 
-// MandatePaymentMethodDetailsACSSDebitTransactionType TODO
+// MandatePaymentMethodDetailsACSSDebitTransactionType is the list of allowed values for an acss debit transaction type
 type MandatePaymentMethodDetailsACSSDebitTransactionType string
 
 // List of values that MandatePaymentMethodDetailsACSSDebitTransactionType can take
@@ -91,7 +91,7 @@ type MandateCustomerAcceptance struct {
 type MandateMultiUse struct {
 }
 
-// MandatePaymentMethodDetailsACSSDebit TODO
+// MandatePaymentMethodDetailsACSSDebit represent details about the acss debit associated with this mandate.
 type MandatePaymentMethodDetailsACSSDebit struct {
 	IntervalDescription string                                              `json:"interval_description"`
 	PaymentSchedule     MandatePaymentMethodDetailsACSSDebitPaymentSchedule `json:"payment_schedule"`
