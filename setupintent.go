@@ -218,6 +218,8 @@ type SetupIntentNextAction struct {
 	VerifyWithMicrodeposits *SetupIntentNextActionVerifyWithMicrodeposits `json:"verify_with_microdeposits"`
 }
 
+// SetupIntentPaymentMethodOptionsACSSDebitMandateOptions describe the mandate options for
+// acss debit associated with a setup intent.
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 	CustomMandateURL    string                                                                `json:"custom_mandate_url"`
 	IntervalDescription string                                                                `json:"interval_description"`
