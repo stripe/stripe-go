@@ -1,5 +1,13 @@
 # Changelog
 
+## 72.42.0 - 2021-04-13
+* [#1275](https://github.com/stripe/stripe-go/pull/1275) Add support for ACSS debit payment method
+  * Add support for `acss_debit` as value for `PaymentMethodType`.
+  * Add support for `ACSSDebit` on `PaymentMethod`, `PaymentMethodParams`, `PaymentIntentPaymentMethodOptions`,  `PaymentIntentPaymentMethodOptionsParams`, `MandatePaymentMethodDetails`, `SetupIntentPaymentMethodOptions`, and `SetupIntentPaymentOptionsParams`.
+  * Add support for `ACSSDebitPayments` on `AccountCapabilities`
+  * Add support for `PaymentMethodOptions` on `CheckoutSession`
+  * Add support for `verify_with_microdeposits` and `use_stripe_sdk` on `PaymentIntentNextAction` and `SetupIntentNextAction`
+
 ## 72.41.1 - 2021-04-07
 * [#1274](https://github.com/stripe/stripe-go/pull/1274) Fix names of `SubscriptionScheduleStatus` constants (warning: this might be a minor breaking change if you'd been referencing a bad name)
 
