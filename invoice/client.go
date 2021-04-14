@@ -131,6 +131,27 @@ func (c Client) ListLines(listParams *stripe.InvoiceLineListParams) *LineIter {
 	})}
 }
 
+// ListUpcomingLines returns a list of line items on an upcoming invoice.
+func (c Client) ListUpcomingLines(listParams *stripe.InvoiceUpcomingInvoiceLinesParams) *LineIter {
+	path := "/v1/invoices/upcoming/lines"
+	return &LineIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+		list := &stripe.InvoiceLineList{}
+		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+
+		ret := make([]interface{}, len(list.Data))
+		for i, v := range list.Data {
+			ret[i] = v
+		}
+
+		return ret, list, err
+	})}
+}
+
+// ListLines returns a list of line items on an upcoming invoice.
+func ListUpcomingLines(params *stripe.InvoiceUpcomingInvoiceLinesParams) *LineIter {
+	return getC().ListUpcomingLines(params)
+}
+
 // FinalizeInvoice finalizes an invoice.
 func FinalizeInvoice(id string, params *stripe.InvoiceFinalizeParams) (*stripe.Invoice, error) {
 	return getC().FinalizeInvoice(id, params)
