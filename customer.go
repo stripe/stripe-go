@@ -121,8 +121,8 @@ type Customer struct {
 
 // CustomerInvoiceCustomField represents a custom field associated with the customer's invoices.
 type CustomerInvoiceCustomField struct {
-	Name  *string `json:"name"`
-	Value *string `json:"value"`
+	Name  *string `form:"name"`
+	Value *string `form:"value"`
 }
 
 // CustomerInvoiceSettings is the structure containing the default settings for invoices associated
