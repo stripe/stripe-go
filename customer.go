@@ -1,8 +1,12 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
-import (
-	"encoding/json"
-)
+import "encoding/json"
 
 // CustomerTaxExempt is the type of tax exemption associated with a customer.
 type CustomerTaxExempt string
@@ -105,6 +109,7 @@ type Customer struct {
 	Metadata            map[string]string        `json:"metadata"`
 	Name                string                   `json:"name"`
 	NextInvoiceSequence int64                    `json:"next_invoice_sequence"`
+	Object              string                   `json:"object"`
 	Phone               string                   `json:"phone"`
 	PreferredLocales    []string                 `json:"preferred_locales"`
 	Shipping            *CustomerShippingDetails `json:"shipping"`
@@ -116,8 +121,8 @@ type Customer struct {
 
 // CustomerInvoiceCustomField represents a custom field associated with the customer's invoices.
 type CustomerInvoiceCustomField struct {
-	Name  *string `form:"name"`
-	Value *string `form:"value"`
+	Name  *string `json:"name"`
+	Value *string `json:"value"`
 }
 
 // CustomerInvoiceSettings is the structure containing the default settings for invoices associated
@@ -128,18 +133,18 @@ type CustomerInvoiceSettings struct {
 	Footer               string                        `json:"footer"`
 }
 
-// CustomerList is a list of customers as retrieved from a list endpoint.
-type CustomerList struct {
-	APIResource
-	ListMeta
-	Data []*Customer `json:"data"`
-}
-
 // CustomerShippingDetails is the structure containing shipping information.
 type CustomerShippingDetails struct {
 	Address Address `json:"address"`
 	Name    string  `json:"name"`
 	Phone   string  `json:"phone"`
+}
+
+// CustomerList is a list of customers as retrieved from a list endpoint.
+type CustomerList struct {
+	APIResource
+	ListMeta
+	Data []*Customer `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a Customer.

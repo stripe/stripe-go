@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package customer provides the /customers APIs
 package customer
 
@@ -21,9 +27,9 @@ func New(params *stripe.CustomerParams) (*stripe.Customer, error) {
 
 // New creates a new customer.
 func (c Client) New(params *stripe.CustomerParams) (*stripe.Customer, error) {
-	cust := &stripe.Customer{}
-	err := c.B.Call(http.MethodPost, "/v1/customers", c.Key, params, cust)
-	return cust, err
+	customer := &stripe.Customer{}
+	err := c.B.Call(http.MethodPost, "/v1/customers", c.Key, params, customer)
+	return customer, err
 }
 
 // Get returns the details of a customer.
@@ -34,9 +40,9 @@ func Get(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 // Get returns the details of a customer.
 func (c Client) Get(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 	path := stripe.FormatURLPath("/v1/customers/%s", id)
-	cust := &stripe.Customer{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, cust)
-	return cust, err
+	customer := &stripe.Customer{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, customer)
+	return customer, err
 }
 
 // Update updates a customer's properties.
@@ -47,9 +53,9 @@ func Update(id string, params *stripe.CustomerParams) (*stripe.Customer, error) 
 // Update updates a customer's properties.
 func (c Client) Update(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 	path := stripe.FormatURLPath("/v1/customers/%s", id)
-	cust := &stripe.Customer{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, cust)
-	return cust, err
+	customer := &stripe.Customer{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, customer)
+	return customer, err
 }
 
 // Del removes a customer.
@@ -60,9 +66,9 @@ func Del(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 // Del removes a customer.
 func (c Client) Del(id string, params *stripe.CustomerParams) (*stripe.Customer, error) {
 	path := stripe.FormatURLPath("/v1/customers/%s", id)
-	cust := &stripe.Customer{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, cust)
-	return cust, err
+	customer := &stripe.Customer{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, customer)
+	return customer, err
 }
 
 // List returns a list of customers.
@@ -95,9 +101,9 @@ func (i *Iter) Customer() *stripe.Customer {
 	return i.Current().(*stripe.Customer)
 }
 
-// CustomerList returns the current list object which the iterator is currently
-// using. List objects will change as new API calls are made to continue
-// pagination.
+// CustomerList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) CustomerList() *stripe.CustomerList {
 	return i.List().(*stripe.CustomerList)
 }
