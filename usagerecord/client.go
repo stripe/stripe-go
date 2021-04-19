@@ -1,4 +1,10 @@
-// Package usagerecord provides the /subscription_items/{SUBSCRIPTION_ITEM_ID}/usage_records APIs
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package usagerecord provides the /subscription_items/{subscription_item}/usage_records APIs
 package usagerecord
 
 import (
@@ -7,7 +13,7 @@ import (
 	stripe "github.com/stripe/stripe-go/v72"
 )
 
-// Client is used to invoke APIs related to usage records.
+// Client is used to invoke /subscription_items/{subscription_item}/usage_records APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -20,10 +26,13 @@ func New(params *stripe.UsageRecordParams) (*stripe.UsageRecord, error) {
 
 // New creates a new usage record.
 func (c Client) New(params *stripe.UsageRecordParams) (*stripe.UsageRecord, error) {
-	path := stripe.FormatURLPath("/v1/subscription_items/%s/usage_records", stripe.StringValue(params.SubscriptionItem))
-	record := &stripe.UsageRecord{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, record)
-	return record, err
+	path := stripe.FormatURLPath(
+		"/v1/subscription_items/%s/usage_records",
+		stripe.StringValue(params.SubscriptionItem),
+	)
+	usagerecord := &stripe.UsageRecord{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, usagerecord)
+	return usagerecord, err
 }
 
 func getC() Client {
