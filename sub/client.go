@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package sub provides the /subscriptions APIs
 package sub
 
@@ -21,9 +27,15 @@ func New(params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 
 // New creates a new subscription.
 func (c Client) New(params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
-	sub := &stripe.Subscription{}
-	err := c.B.Call(http.MethodPost, "/v1/subscriptions", c.Key, params, sub)
-	return sub, err
+	subscription := &stripe.Subscription{}
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/subscriptions",
+		c.Key,
+		params,
+		subscription,
+	)
+	return subscription, err
 }
 
 // Get returns the details of a subscription.
@@ -34,9 +46,9 @@ func Get(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, er
 // Get returns the details of a subscription.
 func (c Client) Get(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/v1/subscriptions/%s", id)
-	sub := &stripe.Subscription{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, sub)
-	return sub, err
+	subscription := &stripe.Subscription{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, subscription)
+	return subscription, err
 }
 
 // Update updates a subscription's properties.
@@ -47,10 +59,9 @@ func Update(id string, params *stripe.SubscriptionParams) (*stripe.Subscription,
 // Update updates a subscription's properties.
 func (c Client) Update(id string, params *stripe.SubscriptionParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/v1/subscriptions/%s", id)
-	sub := &stripe.Subscription{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, sub)
-
-	return sub, err
+	subscription := &stripe.Subscription{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, subscription)
+	return subscription, err
 }
 
 // Cancel removes a subscription.
@@ -61,9 +72,9 @@ func Cancel(id string, params *stripe.SubscriptionCancelParams) (*stripe.Subscri
 // Cancel removes a subscription.
 func (c Client) Cancel(id string, params *stripe.SubscriptionCancelParams) (*stripe.Subscription, error) {
 	path := stripe.FormatURLPath("/v1/subscriptions/%s", id)
-	sub := &stripe.Subscription{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, sub)
-	return sub, err
+	subscription := &stripe.Subscription{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, subscription)
+	return subscription, err
 }
 
 // List returns a list of subscriptions.

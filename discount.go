@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -28,9 +34,9 @@ type Discount struct {
 // UnmarshalJSON handles deserialization of a Discount.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (s *Discount) UnmarshalJSON(data []byte) error {
+func (d *Discount) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		s.ID = id
+		d.ID = id
 		return nil
 	}
 
@@ -40,6 +46,6 @@ func (s *Discount) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*s = Discount(v)
+	*d = Discount(v)
 	return nil
 }

@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package discount provides the discount-related APIs
 package discount
 
@@ -14,29 +20,28 @@ type Client struct {
 }
 
 // Del removes a discount from a customer.
-func Del(customerID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
-	return getC().Del(customerID, params)
+func Del(id string, params *stripe.DiscountParams) (*stripe.Discount, error) {
+	return getC().Del(id, params)
 }
 
 // Del removes a discount from a customer.
-func (c Client) Del(customerID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
-	path := stripe.FormatURLPath("/v1/customers/%s/discount", customerID)
+func (c Client) Del(id string, params *stripe.DiscountParams) (*stripe.Discount, error) {
+	path := stripe.FormatURLPath("/v1/customers/%s/discount", id)
 	discount := &stripe.Discount{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, discount)
 	return discount, err
 }
 
 // DelSubscription removes a discount from a customer's subscription.
-func DelSubscription(subscriptionID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
-	return getC().DelSub(subscriptionID, params)
+func DelSubscription(id string, params *stripe.DiscountParams) (*stripe.Discount, error) {
+	return getC().DelSub(id, params)
 }
 
 // DelSub removes a discount from a customer's subscription.
-func (c Client) DelSub(subscriptionID string, params *stripe.DiscountParams) (*stripe.Discount, error) {
-	path := stripe.FormatURLPath("/v1/subscriptions/%s/discount", subscriptionID)
+func (c Client) DelSub(id string, params *stripe.DiscountParams) (*stripe.Discount, error) {
+	path := stripe.FormatURLPath("/v1/subscriptions/%s/discount", id)
 	discount := &stripe.Discount{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, discount)
-
 	return discount, err
 }
 
