@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.43.0 - 2021-04-19
+* [#1277](https://github.com/stripe/stripe-go/pull/1277), [#1276](https://github.com/stripe/stripe-go/pull/1276) Codegen-related changes
+  * Add missing `Object` field to several structs.
+  * Set `path` in `usagerecordsummary.List` only once, not once per iteration.
+
 ## 72.42.0 - 2021-04-13
 * [#1275](https://github.com/stripe/stripe-go/pull/1275) Add support for ACSS debit payment method
   * Add support for `acss_debit` as value for `PaymentMethodType`.
