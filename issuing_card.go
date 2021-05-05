@@ -30,8 +30,10 @@ type IssuingCardShippingCarrier string
 
 // List of values that IssuingCardShippingCarrier can take.
 const (
-	IssuingCardShippingCarrierFEDEX IssuingCardShippingCarrier = "fedex"
-	IssuingCardShippingCarrierUSPS  IssuingCardShippingCarrier = "usps"
+	IssuingCardShippingCarrierDHL       IssuingCardShippingCarrier = "dhl"
+	IssuingCardShippingCarrierFEDEX     IssuingCardShippingCarrier = "fedex"
+	IssuingCardShippingCarrierRoyalMail IssuingCardShippingCarrier = "royal_mail"
+	IssuingCardShippingCarrierUSPS      IssuingCardShippingCarrier = "usps"
 )
 
 // IssuingCardShippingService is the shipment service for a card.
