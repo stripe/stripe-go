@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.44.0 - 2021-05-05
+* [#1278](https://github.com/stripe/stripe-go/pull/1278) API updates
+  * Add support for `dhl` and `royal_mail` as enum members of `IssuingCardShippingCarrier`.
+  * Add support for `single_member_llc` as an enum member of `AccountCompanyStructure`.
+
 ## 72.43.0 - 2021-04-19
 * [#1277](https://github.com/stripe/stripe-go/pull/1277), [#1276](https://github.com/stripe/stripe-go/pull/1276) Codegen-related changes
   * Add missing `Object` field to several structs.
