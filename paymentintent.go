@@ -287,8 +287,8 @@ type PaymentIntentPaymentMethodOptionsSofortParams struct {
 // applied to a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsParams struct {
 	ACSSDebit        *PaymentIntentPaymentMethodOptionsACSSDebitParams        `form:"acss_debit"`
-	Alipay           *PaymentIntentPaymentMethodOptionsAlipayParams           `form:"alipay"`
 	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
+	Alipay           *PaymentIntentPaymentMethodOptionsAlipayParams           `form:"alipay"`
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontactParams       `form:"bancontact"`
 	Card             *PaymentIntentPaymentMethodOptionsCardParams             `form:"card"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXOParams             `form:"oxxo"`
