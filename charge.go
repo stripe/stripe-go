@@ -252,7 +252,9 @@ type ChargePaymentMethodDetailsAcssDebit struct {
 }
 
 // ChargePaymentMethodDetailsAfterpayClearpay represents details about the AfterpayClearpay PaymentMethod.
-type ChargePaymentMethodDetailsAfterpayClearpay struct{}
+type ChargePaymentMethodDetailsAfterpayClearpay struct {
+	Reference string `json:"reference"`
+}
 
 // ChargePaymentMethodDetailsAlipay represents details about the Alipay PaymentMethod.
 type ChargePaymentMethodDetailsAlipay struct {

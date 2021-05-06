@@ -229,6 +229,12 @@ type PaymentIntentPaymentMethodOptionsACSSDebitParams struct {
 	VerificationMethod *string                                                         `form:"verification_method"`
 }
 
+// PaymentIntentPaymentMethodOptionsAfterpayClearpayParams represents the AfterpayClearpay-specific options
+// applied to a PaymentIntent.
+type PaymentIntentPaymentMethodOptionsAfterpayClearpayParams struct {
+	Reference *string `form:"reference"`
+}
+
 // PaymentIntentPaymentMethodOptionsAlipayParams represents the Alipay-specific options
 // applied to a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsAlipayParams struct {
@@ -280,12 +286,13 @@ type PaymentIntentPaymentMethodOptionsSofortParams struct {
 // PaymentIntentPaymentMethodOptionsParams represents the type-specific payment method options
 // applied to a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsParams struct {
-	ACSSDebit  *PaymentIntentPaymentMethodOptionsACSSDebitParams  `form:"acss_debit"`
-	Alipay     *PaymentIntentPaymentMethodOptionsAlipayParams     `form:"alipay"`
-	Bancontact *PaymentIntentPaymentMethodOptionsBancontactParams `form:"bancontact"`
-	Card       *PaymentIntentPaymentMethodOptionsCardParams       `form:"card"`
-	OXXO       *PaymentIntentPaymentMethodOptionsOXXOParams       `form:"oxxo"`
-	Sofort     *PaymentIntentPaymentMethodOptionsSofortParams     `form:"sofort"`
+	ACSSDebit        *PaymentIntentPaymentMethodOptionsACSSDebitParams        `form:"acss_debit"`
+	Alipay           *PaymentIntentPaymentMethodOptionsAlipayParams           `form:"alipay"`
+	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
+	Bancontact       *PaymentIntentPaymentMethodOptionsBancontactParams       `form:"bancontact"`
+	Card             *PaymentIntentPaymentMethodOptionsCardParams             `form:"card"`
+	OXXO             *PaymentIntentPaymentMethodOptionsOXXOParams             `form:"oxxo"`
+	Sofort           *PaymentIntentPaymentMethodOptionsSofortParams           `form:"sofort"`
 }
 
 // PaymentIntentTransferDataParams is the set of parameters allowed for the transfer hash.
