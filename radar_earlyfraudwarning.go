@@ -31,21 +31,23 @@ type RadarEarlyFraudWarningParams struct {
 // listing early fraud warnings. For more details see
 // https://stripe.com/docs/api/early_fraud_warnings/list.
 type RadarEarlyFraudWarningListParams struct {
-	ListParams `form:"*"`
-	Charge     *string `form:"charge"`
+	ListParams    `form:"*"`
+	Charge        *string `form:"charge"`
+	PaymentIntent *string `form:"payment_intent"`
 }
 
 // RadarEarlyFraudWarning is the resource representing an early fraud warning. For
 // more details see https://stripe.com/docs/api/early_fraud_warnings/object.
 type RadarEarlyFraudWarning struct {
 	APIResource
-	Actionable bool                            `json:"actionable"`
-	Charge     *Charge                         `json:"charge"`
-	Created    int64                           `json:"created"`
-	FraudType  RadarEarlyFraudWarningFraudType `json:"fraud_type"`
-	ID         string                          `json:"id"`
-	Livemode   bool                            `json:"livemode"`
-	Object     string                          `json:"object"`
+	Actionable    bool                            `json:"actionable"`
+	Charge        *Charge                         `json:"charge"`
+	Created       int64                           `json:"created"`
+	FraudType     RadarEarlyFraudWarningFraudType `json:"fraud_type"`
+	ID            string                          `json:"id"`
+	Livemode      bool                            `json:"livemode"`
+	Object        string                          `json:"object"`
+	PaymentIntent *PaymentIntent                  `json:"payment_intent"`
 }
 
 // RadarEarlyFraudWarningList is a list of early fraud warnings as retrieved from a
