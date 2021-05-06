@@ -419,6 +419,12 @@ type PaymentIntentPaymentMethodOptionsACSSDebit struct {
 	VerificationMethod PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 
+// PaymentIntentPaymentMethodOptionsAfterpayClearpay describes the AfterpayClearpay-specific options associated
+// with that payment intent.
+type PaymentIntentPaymentMethodOptionsAfterpayClearpay struct {
+	Reference string `json:"reference"`
+}
+
 // PaymentIntentPaymentMethodOptionsAlipay is the set of Alipay-specific options associated
 // with that payment intent.
 type PaymentIntentPaymentMethodOptionsAlipay struct {
@@ -453,12 +459,13 @@ type PaymentIntentPaymentMethodOptionsSofort struct {
 // PaymentIntentPaymentMethodOptions is the set of payment method-specific options associated with
 // that payment intent.
 type PaymentIntentPaymentMethodOptions struct {
-	ACSSDebit  *PaymentIntentPaymentMethodOptionsACSSDebit  `json:"acss_debit"`
-	Alipay     *PaymentIntentPaymentMethodOptionsAlipay     `json:"alipay"`
-	Bancontact *PaymentIntentPaymentMethodOptionsBancontact `json:"bancontact"`
-	Card       *PaymentIntentPaymentMethodOptionsCard       `json:"card"`
-	OXXO       *PaymentIntentPaymentMethodOptionsOXXO       `json:"oxxo"`
-	Sofort     *PaymentIntentPaymentMethodOptionsSofort     `json:"sofort"`
+	ACSSDebit        *PaymentIntentPaymentMethodOptionsACSSDebit        `json:"acss_debit"`
+	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpay `json:"afterpay_clearpay"`
+	Alipay           *PaymentIntentPaymentMethodOptionsAlipay           `json:"alipay"`
+	Bancontact       *PaymentIntentPaymentMethodOptionsBancontact       `json:"bancontact"`
+	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
+	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
+	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
 }
 
 // PaymentIntentTransferData represents the information for the transfer associated with a payment intent.
