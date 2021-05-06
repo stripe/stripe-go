@@ -229,6 +229,12 @@ type PaymentIntentPaymentMethodOptionsACSSDebitParams struct {
 	VerificationMethod *string                                                         `form:"verification_method"`
 }
 
+// PaymentIntentPaymentMethodOptionsAfterpayClearpayParams represents the AfterpayClearpay-specific options
+// applied to a PaymentIntent.
+type PaymentIntentPaymentMethodOptionsAfterpayClearpayParams struct {
+	Reference *string `form:"reference"`
+}
+
 // PaymentIntentPaymentMethodOptionsAlipayParams represents the Alipay-specific options
 // applied to a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsAlipayParams struct {
@@ -280,12 +286,13 @@ type PaymentIntentPaymentMethodOptionsSofortParams struct {
 // PaymentIntentPaymentMethodOptionsParams represents the type-specific payment method options
 // applied to a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsParams struct {
-	ACSSDebit  *PaymentIntentPaymentMethodOptionsACSSDebitParams  `form:"acss_debit"`
-	Alipay     *PaymentIntentPaymentMethodOptionsAlipayParams     `form:"alipay"`
-	Bancontact *PaymentIntentPaymentMethodOptionsBancontactParams `form:"bancontact"`
-	Card       *PaymentIntentPaymentMethodOptionsCardParams       `form:"card"`
-	OXXO       *PaymentIntentPaymentMethodOptionsOXXOParams       `form:"oxxo"`
-	Sofort     *PaymentIntentPaymentMethodOptionsSofortParams     `form:"sofort"`
+	ACSSDebit        *PaymentIntentPaymentMethodOptionsACSSDebitParams        `form:"acss_debit"`
+	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
+	Alipay           *PaymentIntentPaymentMethodOptionsAlipayParams           `form:"alipay"`
+	Bancontact       *PaymentIntentPaymentMethodOptionsBancontactParams       `form:"bancontact"`
+	Card             *PaymentIntentPaymentMethodOptionsCardParams             `form:"card"`
+	OXXO             *PaymentIntentPaymentMethodOptionsOXXOParams             `form:"oxxo"`
+	Sofort           *PaymentIntentPaymentMethodOptionsSofortParams           `form:"sofort"`
 }
 
 // PaymentIntentTransferDataParams is the set of parameters allowed for the transfer hash.
@@ -412,6 +419,12 @@ type PaymentIntentPaymentMethodOptionsACSSDebit struct {
 	VerificationMethod PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 
+// PaymentIntentPaymentMethodOptionsAfterpayClearpay describes the AfterpayClearpay-specific options associated
+// with that payment intent.
+type PaymentIntentPaymentMethodOptionsAfterpayClearpay struct {
+	Reference string `json:"reference"`
+}
+
 // PaymentIntentPaymentMethodOptionsAlipay is the set of Alipay-specific options associated
 // with that payment intent.
 type PaymentIntentPaymentMethodOptionsAlipay struct {
@@ -446,12 +459,13 @@ type PaymentIntentPaymentMethodOptionsSofort struct {
 // PaymentIntentPaymentMethodOptions is the set of payment method-specific options associated with
 // that payment intent.
 type PaymentIntentPaymentMethodOptions struct {
-	ACSSDebit  *PaymentIntentPaymentMethodOptionsACSSDebit  `json:"acss_debit"`
-	Alipay     *PaymentIntentPaymentMethodOptionsAlipay     `json:"alipay"`
-	Bancontact *PaymentIntentPaymentMethodOptionsBancontact `json:"bancontact"`
-	Card       *PaymentIntentPaymentMethodOptionsCard       `json:"card"`
-	OXXO       *PaymentIntentPaymentMethodOptionsOXXO       `json:"oxxo"`
-	Sofort     *PaymentIntentPaymentMethodOptionsSofort     `json:"sofort"`
+	ACSSDebit        *PaymentIntentPaymentMethodOptionsACSSDebit        `json:"acss_debit"`
+	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpay `json:"afterpay_clearpay"`
+	Alipay           *PaymentIntentPaymentMethodOptionsAlipay           `json:"alipay"`
+	Bancontact       *PaymentIntentPaymentMethodOptionsBancontact       `json:"bancontact"`
+	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
+	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
+	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
 }
 
 // PaymentIntentTransferData represents the information for the transfer associated with a payment intent.
