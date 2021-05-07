@@ -1,5 +1,12 @@
 # Changelog
 
+## 72.45.0 - 2021-05-06
+* [#1280](https://github.com/stripe/stripe-go/pull/1280) API Updates
+  * Added support for `reference` on `Charge.payment_method_details.afterpay_clearpay`
+  * Added support for `afterpay_clearpay` on `PaymentIntent.payment_method_options`.
+* [#1279](https://github.com/stripe/stripe-go/pull/1279) API Updates
+  * Add support for `payment_intent` on `RadarEarlyFraudWarning` and `RadarEarlyFraudWarningListParams`.
+
 ## 72.44.0 - 2021-05-05
 * [#1278](https://github.com/stripe/stripe-go/pull/1278) API updates
   * Add support for `dhl` and `royal_mail` as enum members of `IssuingCardShippingCarrier`.
