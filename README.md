@@ -182,24 +182,25 @@ import (
 // Setup
 stripe.Key = "sk_key"
 
-stripe.SetBackend("api", backend) // optional, useful for mocking
+// Set backend (optional, useful for mocking)
+// stripe.SetBackend("api", backend)
 
 // Create
-$resource$, err := $resource$.New(stripe.$Resource$Params)
+resource, err := $resource$.New(&stripe.$Resource$Params{})
 
 // Get
-$resource$, err := $resource$.Get(id, stripe.$Resource$Params)
+resource, err = $resource$.Get(id, &stripe.$Resource$Params{})
 
 // Update
-$resource$, err := $resource$.Update(stripe.$Resource$Params)
+resource, err = $resource$.Update(id, &stripe.$Resource$Params{})
 
 // Delete
-resourceDeleted, err := $resource$.Del(id, stripe.$Resource$Params)
+resourceDeleted, err := $resource$.Del(id, &stripe.$Resource$Params{})
 
 // List
-i := $resource$.List(stripe.$Resource$ListParams)
+i := $resource$.List(&stripe.$Resource$ListParams{})
 for i.Next() {
-	$resource$ := i.$Resource$()
+	resource := i.$Resource$()
 }
 
 if err := i.Err(); err != nil {
@@ -224,21 +225,21 @@ sc := &client.API{}
 sc.Init("sk_key", nil) // the second parameter overrides the backends used if needed for mocking
 
 // Create
-$resource$, err := sc.$Resource$s.New(stripe.$Resource$Params)
+$resource$, err := sc.$Resource$s.New(&stripe.$Resource$Params{})
 
 // Get
-$resource$, err := sc.$Resource$s.Get(id, stripe.$Resource$Params)
+$resource$, err = sc.$Resource$s.Get(id, &stripe.$Resource$Params{})
 
 // Update
-$resource$, err := sc.$Resource$s.Update(stripe.$Resource$Params)
+$resource$, err = sc.$Resource$s.Update(id, &stripe.$Resource$Params{})
 
 // Delete
-resourceDeleted, err := sc.$Resource$s.Del(id, stripe.$Resource$Params)
+$resource$Deleted, err := sc.$Resource$s.Del(id, &stripe.$Resource$Params{})
 
 // List
-i := sc.$Resource$s.List(stripe.$Resource$ListParams)
+i := sc.$Resource$s.List(&stripe.$Resource$ListParams{})
 for i.Next() {
-	resource := i.$Resource$()
+	$resource$ := i.$Resource$()
 }
 
 if err := i.Err(); err != nil {
