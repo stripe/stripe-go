@@ -148,7 +148,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
         c := appengine.NewContext(r)
         httpClient := urlfetch.Client(c)
 
-        sc := stripeClient.New("sk_test_123", stripe.NewBackends(httpClient))
+        sc := client.New("sk_test_123", stripe.NewBackends(httpClient))
 
         params := &stripe.CustomerParams{
             Description: stripe.String("Stripe Developer"),
