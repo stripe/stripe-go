@@ -63,9 +63,6 @@ params := &stripe.PaymentIntentListParams{
     Customer: stripe.String(customer.ID),
 }
 
-// set this so you can easily retry your request in case of a timeout
-params.Params.IdempotencyKey = stripe.NewIdempotencyKey()
-
 i := paymentintent.List(params)
 for i.Next() {
 	pi := i.PaymentIntent()
