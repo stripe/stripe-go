@@ -439,6 +439,47 @@ func resetBodyReader(body *bytes.Buffer, req *http.Request) {
 	}
 }
 
+func (s *BackendImplementation) handleResponse(res *http.Response, err error) ([]byte, error) {
+	var resBody []byte
+	if err == nil {
+		resBody, err = ioutil.ReadAll(res.Body)
+		res.Body.Close()
+	}
+
+	if err != nil {
+		s.LeveledLogger.Errorf("Request failed with error: %v", err)
+	} else if res.StatusCode >= 400 {
+		err = s.ResponseToError(res, resBody)
+
+		if stripeErr, ok := err.(*Error); ok {
+			// The Stripe API makes a distinction between errors that were
+			// caused by invalid parameters or something else versus those
+			// that occurred *despite* valid parameters, the latter coming
+			// back with status 402.
+			//
+			// On a 402, log to info so as to not make an integration's log
+			// noisy with error messages that they don't have much control
+			// over.
+			//
+			// Note I use the constant 402 instead of an `http.Status*`
+			// constant because technically 402 is "Payment required". The
+			// Stripe API doesn't comply to the letter of the specification
+			// and uses it in a broader sense.
+			if res.StatusCode == 402 {
+				s.LeveledLogger.Infof("User-compelled request error from Stripe (status %v): %v",
+					res.StatusCode, stripeErr.redact())
+			} else {
+				s.LeveledLogger.Errorf("Request error from Stripe (status %v): %v",
+					res.StatusCode, stripeErr.redact())
+			}
+		} else {
+			s.LeveledLogger.Errorf("Error decoding error from Stripe: %v", err)
+		}
+	}
+
+	return resBody, err
+}
+
 // Do is used by Call to execute an API request and parse the response. It uses
 // the backend's HTTP client to execute the request and unmarshals the response
 // into v. It also handles unmarshaling errors returned by the API.
@@ -451,7 +492,6 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 	var resBody []byte
 	for retry := 0; ; {
 		start := time.Now()
-
 		resetBodyReader(body, req)
 
 		res, err = s.HTTPClient.Do(req)
@@ -459,45 +499,12 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 		requestDuration = time.Since(start)
 		s.LeveledLogger.Infof("Request completed in %v (retry: %v)", requestDuration, retry)
 
-		if err == nil {
-			resBody, err = ioutil.ReadAll(res.Body)
-			res.Body.Close()
-		}
-
-		if err != nil {
-			s.LeveledLogger.Errorf("Request failed with error: %v", err)
-		} else if res.StatusCode >= 400 {
-			err = s.ResponseToError(res, resBody)
-
-			if stripeErr, ok := err.(*Error); ok {
-				// The Stripe API makes a distinction between errors that were
-				// caused by invalid parameters or something else versus those
-				// that occurred *despite* valid parameters, the latter coming
-				// back with status 402.
-				//
-				// On a 402, log to info so as to not make an integration's log
-				// noisy with error messages that they don't have much control
-				// over.
-				//
-				// Note I use the constant 402 instead of an `http.Status*`
-				// constant because technically 402 is "Payment required". The
-				// Stripe API doesn't comply to the letter of the specification
-				// and uses it in a broader sense.
-				if res.StatusCode == 402 {
-					s.LeveledLogger.Infof("User-compelled request error from Stripe (status %v): %v",
-						res.StatusCode, stripeErr.redact())
-				} else {
-					s.LeveledLogger.Errorf("Request error from Stripe (status %v): %v",
-						res.StatusCode, stripeErr.redact())
-				}
-			} else {
-				s.LeveledLogger.Errorf("Error decoding error from Stripe: %v", err)
-			}
-		}
+		resBody, err = s.handleResponse(res, err)
 
 		// If the response was okay, or an error that shouldn't be retried,
 		// we're done, and it's safe to leave the retry loop.
 		shouldRetry, noRetryReason := s.shouldRetry(err, req, res, retry)
+
 		if !shouldRetry {
 			s.LeveledLogger.Infof("Not retrying request: %v", noRetryReason)
 			break
