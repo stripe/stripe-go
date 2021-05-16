@@ -359,12 +359,7 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 	return req, nil
 }
 
-// Do is used by Call to execute an API request and parse the response. It uses
-// the backend's HTTP client to execute the request and unmarshals the response
-// into v. It also handles unmarshaling errors returned by the API.
-func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v LastResponseSetter) error {
-	s.LeveledLogger.Infof("Requesting %v %v%v", req.Method, req.URL.Host, req.URL.Path)
-
+func (s *BackendImplementation) maybeSetTelemetryHeader(req *http.Request) {
 	if s.enableTelemetry {
 		select {
 		case metrics := <-s.requestMetricsBuffer:
@@ -380,7 +375,76 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 			// empty requestMetricsBuffer.
 		}
 	}
+}
 
+func (s *BackendImplementation) maybeEnqueueTelemetryMetrics(res *http.Response, requestDuration time.Duration) {
+	if s.enableTelemetry && res != nil {
+		reqID := res.Header.Get("Request-Id")
+		if len(reqID) > 0 {
+			metrics := requestMetrics{
+				RequestDurationMS: int(requestDuration / time.Millisecond),
+				RequestID:         reqID,
+			}
+
+			// If the metrics buffer is full, discard the new metrics. Otherwise, add
+			// them to the buffer.
+			select {
+			case s.requestMetricsBuffer <- metrics:
+			default:
+			}
+		}
+	}
+}
+
+func resetBodyReader(body *bytes.Buffer, req *http.Request) {
+	// This might look a little strange, but we set the request's body
+	// outside of `NewRequest` so that we can get a fresh version every
+	// time.
+	//
+	// The background is that back in the era of old style HTTP, it was
+	// safe to reuse `Request` objects, but with the addition of HTTP/2,
+	// it's now only sometimes safe. Reusing a `Request` with a body will
+	// break.
+	//
+	// See some details here:
+	//
+	//     https://github.com/golang/go/issues/19653#issuecomment-341539160
+	//
+	// And our original bug report here:
+	//
+	//     https://github.com/stripe/stripe-go/issues/642
+	//
+	// To workaround the problem, we put a fresh `Body` onto the `Request`
+	// every time we execute it, and this seems to empirically resolve the
+	// problem.
+	if body != nil {
+		// We can safely reuse the same buffer that we used to encode our body,
+		// but return a new reader to it everytime so that each read is from
+		// the beginning.
+		reader := bytes.NewReader(body.Bytes())
+
+		req.Body = nopReadCloser{reader}
+
+		// And also add the same thing to `Request.GetBody`, which allows
+		// `net/http` to get a new body in cases like a redirect. This is
+		// usually not used, but it doesn't hurt to set it in case it's
+		// needed. See:
+		//
+		//     https://github.com/stripe/stripe-go/issues/710
+		//
+		req.GetBody = func() (io.ReadCloser, error) {
+			reader := bytes.NewReader(body.Bytes())
+			return nopReadCloser{reader}, nil
+		}
+	}
+}
+
+// Do is used by Call to execute an API request and parse the response. It uses
+// the backend's HTTP client to execute the request and unmarshals the response
+// into v. It also handles unmarshaling errors returned by the API.
+func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v LastResponseSetter) error {
+	s.LeveledLogger.Infof("Requesting %v %v%v", req.Method, req.URL.Host, req.URL.Path)
+	s.maybeSetTelemetryHeader(req)
 	var res *http.Response
 	var err error
 	var requestDuration time.Duration
@@ -388,46 +452,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 	for retry := 0; ; {
 		start := time.Now()
 
-		// This might look a little strange, but we set the request's body
-		// outside of `NewRequest` so that we can get a fresh version every
-		// time.
-		//
-		// The background is that back in the era of old style HTTP, it was
-		// safe to reuse `Request` objects, but with the addition of HTTP/2,
-		// it's now only sometimes safe. Reusing a `Request` with a body will
-		// break.
-		//
-		// See some details here:
-		//
-		//     https://github.com/golang/go/issues/19653#issuecomment-341539160
-		//
-		// And our original bug report here:
-		//
-		//     https://github.com/stripe/stripe-go/issues/642
-		//
-		// To workaround the problem, we put a fresh `Body` onto the `Request`
-		// every time we execute it, and this seems to empirically resolve the
-		// problem.
-		if body != nil {
-			// We can safely reuse the same buffer that we used to encode our body,
-			// but return a new reader to it everytime so that each read is from
-			// the beginning.
-			reader := bytes.NewReader(body.Bytes())
-
-			req.Body = nopReadCloser{reader}
-
-			// And also add the same thing to `Request.GetBody`, which allows
-			// `net/http` to get a new body in cases like a redirect. This is
-			// usually not used, but it doesn't hurt to set it in case it's
-			// needed. See:
-			//
-			//     https://github.com/stripe/stripe-go/issues/710
-			//
-			req.GetBody = func() (io.ReadCloser, error) {
-				reader := bytes.NewReader(body.Bytes())
-				return nopReadCloser{reader}, nil
-			}
-		}
+		resetBodyReader(body, req)
 
 		res, err = s.HTTPClient.Do(req)
 
@@ -487,22 +512,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 		time.Sleep(sleepDuration)
 	}
 
-	if s.enableTelemetry && res != nil {
-		reqID := res.Header.Get("Request-Id")
-		if len(reqID) > 0 {
-			metrics := requestMetrics{
-				RequestDurationMS: int(requestDuration / time.Millisecond),
-				RequestID:         reqID,
-			}
-
-			// If the metrics buffer is full, discard the new metrics. Otherwise, add
-			// them to the buffer.
-			select {
-			case s.requestMetricsBuffer <- metrics:
-			default:
-			}
-		}
-	}
+	s.maybeEnqueueTelemetryMetrics(res, requestDuration)
 
 	if err != nil {
 		return err
