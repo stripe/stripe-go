@@ -107,11 +107,36 @@ type APIResponse struct {
 	StatusCode int
 }
 
+// StreamingAPIResponse encapsulates some common features of a response from the
+// Stripe API whose body can be streamed. This is used for "file downloads", and
+// the `Body` property is an io.ReadCloser, so the user can stream it to another
+// location such as a file or network request without buffering the entire body
+// into meemory.
+type StreamingAPIResponse struct {
+	Header         http.Header
+	IdempotencyKey string
+	Body           io.ReadCloser
+	RequestID      string
+	Status         string
+	StatusCode     int
+}
+
 func newAPIResponse(res *http.Response, resBody []byte) *APIResponse {
 	return &APIResponse{
 		Header:         res.Header,
 		IdempotencyKey: res.Header.Get("Idempotency-Key"),
 		RawJSON:        resBody,
+		RequestID:      res.Header.Get("Request-Id"),
+		Status:         res.Status,
+		StatusCode:     res.StatusCode,
+	}
+}
+
+func newStreamingAPIResponse(res *http.Response, body io.ReadCloser) *StreamingAPIResponse {
+	return &StreamingAPIResponse{
+		Header:         res.Header,
+		IdempotencyKey: res.Header.Get("Idempotency-Key"),
+		Body:           body,
 		RequestID:      res.Header.Get("Request-Id"),
 		Status:         res.Status,
 		StatusCode:     res.StatusCode,
@@ -124,8 +149,19 @@ type APIResource struct {
 	LastResponse *APIResponse `json:"-"`
 }
 
+// APIResource is a type assigned to structs that may come from Stripe API
+// endpoints and contains facilities common to all of them.
+type APIStream struct {
+	LastResponse *StreamingAPIResponse `json:"-"`
+}
+
 // SetLastResponse sets the HTTP response that returned the API resource.
 func (r *APIResource) SetLastResponse(response *APIResponse) {
+	r.LastResponse = response
+}
+
+// SetLastResponse sets the HTTP response that returned the API resource.
+func (r *APIStream) SetLastResponse(response *StreamingAPIResponse) {
 	r.LastResponse = response
 }
 
@@ -157,6 +193,7 @@ func (a *AppInfo) formatUserAgent() string {
 // This interface exists to enable mocking for during testing if needed.
 type Backend interface {
 	Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error
+	CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error
 	CallRaw(method, path, key string, body *form.Values, params *Params, v LastResponseSetter) error
 	CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error
 	SetMaxNetworkRetries(maxNetworkRetries int64)
@@ -260,6 +297,46 @@ func (s *BackendImplementation) Call(method, path, key string, params ParamsCont
 	}
 
 	return s.CallRaw(method, path, key, body, commonParams, v)
+}
+
+// CallStreaming is the Backend.Call implementation for invoking Stripe APIs
+// without buffering the response into memory.
+func (s *BackendImplementation) CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error {
+	var formValues *form.Values
+	var commonParams *Params
+
+	if params != nil {
+		reflectValue := reflect.ValueOf(params)
+
+		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
+			commonParams = params.GetParams()
+			formValues = &form.Values{}
+			form.AppendTo(formValues, params)
+		}
+	}
+
+	var body string
+	if formValues != nil && !formValues.Empty() {
+		body = formValues.Encode()
+
+		// On `GET`, move the payload into the URL
+		if method == http.MethodGet {
+			path += "?" + body
+			body = ""
+		}
+	}
+	bodyBuffer := bytes.NewBufferString(body)
+
+	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", commonParams)
+	if err != nil {
+		return err
+	}
+
+	if err := s.DoStreaming(req, bodyBuffer, v); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
@@ -490,6 +567,54 @@ func (s *BackendImplementation) execute(
 	}
 
 	return handleResult(res, result)
+}
+
+func (s *BackendImplementation) DoStreaming(req *http.Request, body *bytes.Buffer, v StreamingLastResponseSetter) error {
+	handleResponse := func(res *http.Response, err error) (interface{}, error) {
+		if err != nil {
+			s.LeveledLogger.Errorf("Request failed with error: %v", err)
+		} else if res.StatusCode >= 400 {
+			var resBody []byte
+			if err == nil {
+				resBody, err = ioutil.ReadAll(res.Body)
+				res.Body.Close()
+			}
+			err = s.ResponseToError(res, resBody)
+
+			if stripeErr, ok := err.(*Error); ok {
+				// The Stripe API makes a distinction between errors that were
+				// caused by invalid parameters or something else versus those
+				// that occurred *despite* valid parameters, the latter coming
+				// back with status 402.
+				//
+				// On a 402, log to info so as to not make an integration's log
+				// noisy with error messages that they don't have much control
+				// over.
+				//
+				// Note I use the constant 402 instead of an `http.Status*`
+				// constant because technically 402 is "Payment required". The
+				// Stripe API doesn't comply to the letter of the specification
+				// and uses it in a broader sense.
+				if res.StatusCode == 402 {
+					s.LeveledLogger.Infof("User-compelled request error from Stripe (status %v): %v",
+						res.StatusCode, stripeErr.redact())
+				} else {
+					s.LeveledLogger.Errorf("Request error from Stripe (status %v): %v",
+						res.StatusCode, stripeErr.redact())
+				}
+			} else {
+				s.LeveledLogger.Errorf("Error decoding error from Stripe: %v", err)
+			}
+		}
+
+		return res.Body, err
+	}
+	handleResult := func(res *http.Response, result interface{}) error {
+		body := result.(io.ReadCloser)
+		v.SetLastResponse(newStreamingAPIResponse(res, body))
+		return nil
+	}
+	return s.execute(req, body, handleResponse, handleResult)
 }
 
 // Do is used by Call to execute an API request and parse the response. It uses
@@ -794,6 +919,12 @@ type Backends struct {
 // API endpoint.
 type LastResponseSetter interface {
 	SetLastResponse(response *APIResponse)
+}
+
+// StreamingLastResponseSetter defines a type that contains an HTTP response from a Stripe
+// API endpoint.
+type StreamingLastResponseSetter interface {
+	SetLastResponse(response *StreamingAPIResponse)
 }
 
 // SupportedBackend is an enumeration of supported Stripe endpoints.
