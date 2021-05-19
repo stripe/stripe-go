@@ -35,13 +35,8 @@ func TestProductNew(t *testing.T) {
 		Active:      stripe.Bool(true),
 		Name:        stripe.String("Test Name"),
 		Description: stripe.String("This is a description"),
-		Caption:     stripe.String("This is a caption"),
-		Attributes: stripe.StringSlice([]string{
-			"Attr1",
-			"Attr2",
-		}),
-		URL:       stripe.String("http://example.com"),
-		Shippable: stripe.Bool(true),
+		URL:         stripe.String("http://example.com"),
+		Shippable:   stripe.Bool(true),
 		PackageDimensions: &stripe.PackageDimensionsParams{
 			Height: stripe.Float64(2.234),
 			Length: stripe.Float64(5.10),
