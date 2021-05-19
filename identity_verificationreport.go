@@ -43,8 +43,8 @@ type IdentityVerificationReportIDNumberIDNumberType string
 
 const (
 	IdentityVerificationReportIDNumberIDNumberTypeBRCPF  IdentityVerificationReportIDNumberIDNumberType = "br_cpf"
-	IdentityVerificationReportIDNumberIDNumberTypeSgNric IdentityVerificationReportIDNumberIDNumberType = "sg_nric"
-	IdentityVerificationReportIDNumberIDNumberTypeUsSsn  IdentityVerificationReportIDNumberIDNumberType = "us_ssn"
+	IdentityVerificationReportIDNumberIDNumberTypeSGNRIC IdentityVerificationReportIDNumberIDNumberType = "sg_nric"
+	IdentityVerificationReportIDNumberIDNumberTypeUSSSN  IdentityVerificationReportIDNumberIDNumberType = "us_ssn"
 )
 
 type IdentityVerificationReportIDNumberStatus string
@@ -95,7 +95,7 @@ type IdentityVerificationReportListParams struct {
 	Type                *string           `form:"type"`
 	VerificationSession *string           `form:"verification_session"`
 }
-type IdentityVerificationReportDocumentDob struct {
+type IdentityVerificationReportDocumentDOB struct {
 	Day   int64 `json:"day"`
 	Month int64 `json:"month"`
 	Year  int64 `json:"year"`
@@ -116,7 +116,7 @@ type IdentityVerificationReportDocumentIssuedDate struct {
 }
 type IdentityVerificationReportDocument struct {
 	Address        *Address                                          `json:"address"`
-	Dob            *IdentityVerificationReportDocumentDob            `json:"dob"`
+	DOB            *IdentityVerificationReportDocumentDOB            `json:"dob"`
 	Error          *IdentityVerificationReportDocumentError          `json:"error"`
 	ExpirationDate *IdentityVerificationReportDocumentExpirationDate `json:"expiration_date"`
 	Files          []string                                          `json:"files"`
@@ -128,7 +128,7 @@ type IdentityVerificationReportDocument struct {
 	Status         IdentityVerificationReportDocumentStatus          `json:"status"`
 	Type           IdentityVerificationReportDocumentType            `json:"type"`
 }
-type IdentityVerificationReportIDNumberDob struct {
+type IdentityVerificationReportIDNumberDOB struct {
 	Day   int64 `json:"day"`
 	Month int64 `json:"month"`
 	Year  int64 `json:"year"`
@@ -138,7 +138,7 @@ type IdentityVerificationReportIDNumberError struct {
 	Reason string                                      `json:"reason"`
 }
 type IdentityVerificationReportIDNumber struct {
-	Dob          *IdentityVerificationReportIDNumberDob         `json:"dob"`
+	DOB          *IdentityVerificationReportIDNumberDOB         `json:"dob"`
 	Error        *IdentityVerificationReportIDNumberError       `json:"error"`
 	FirstName    string                                         `json:"first_name"`
 	IDNumber     string                                         `json:"id_number"`
