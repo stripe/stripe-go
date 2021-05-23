@@ -569,6 +569,33 @@ func (s *BackendImplementation) execute(
 	return handleResult(res, result)
 }
 
+func (s *BackendImplementation) logError(statusCode int, err error) {
+	if stripeErr, ok := err.(*Error); ok {
+		// The Stripe API makes a distinction between errors that were
+		// caused by invalid parameters or something else versus those
+		// that occurred *despite* valid parameters, the latter coming
+		// back with status 402.
+		//
+		// On a 402, log to info so as to not make an integration's log
+		// noisy with error messages that they don't have much control
+		// over.
+		//
+		// Note I use the constant 402 instead of an `http.Status*`
+		// constant because technically 402 is "Payment required". The
+		// Stripe API doesn't comply to the letter of the specification
+		// and uses it in a broader sense.
+		if statusCode == 402 {
+			s.LeveledLogger.Infof("User-compelled request error from Stripe (status %v): %v",
+				statusCode, stripeErr.redact())
+		} else {
+			s.LeveledLogger.Errorf("Request error from Stripe (status %v): %v",
+				statusCode, stripeErr.redact())
+		}
+	} else {
+		s.LeveledLogger.Errorf("Error decoding error from Stripe: %v", err)
+	}
+}
+
 func (s *BackendImplementation) DoStreaming(req *http.Request, body *bytes.Buffer, v StreamingLastResponseSetter) error {
 	handleResponse := func(res *http.Response, err error) (interface{}, error) {
 		if err != nil {
@@ -581,30 +608,7 @@ func (s *BackendImplementation) DoStreaming(req *http.Request, body *bytes.Buffe
 			}
 			err = s.ResponseToError(res, resBody)
 
-			if stripeErr, ok := err.(*Error); ok {
-				// The Stripe API makes a distinction between errors that were
-				// caused by invalid parameters or something else versus those
-				// that occurred *despite* valid parameters, the latter coming
-				// back with status 402.
-				//
-				// On a 402, log to info so as to not make an integration's log
-				// noisy with error messages that they don't have much control
-				// over.
-				//
-				// Note I use the constant 402 instead of an `http.Status*`
-				// constant because technically 402 is "Payment required". The
-				// Stripe API doesn't comply to the letter of the specification
-				// and uses it in a broader sense.
-				if res.StatusCode == 402 {
-					s.LeveledLogger.Infof("User-compelled request error from Stripe (status %v): %v",
-						res.StatusCode, stripeErr.redact())
-				} else {
-					s.LeveledLogger.Errorf("Request error from Stripe (status %v): %v",
-						res.StatusCode, stripeErr.redact())
-				}
-			} else {
-				s.LeveledLogger.Errorf("Error decoding error from Stripe: %v", err)
-			}
+			s.logError(res.StatusCode, err)
 		}
 
 		return res.Body, err
@@ -633,30 +637,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 		} else if res.StatusCode >= 400 {
 			err = s.ResponseToError(res, resBody)
 
-			if stripeErr, ok := err.(*Error); ok {
-				// The Stripe API makes a distinction between errors that were
-				// caused by invalid parameters or something else versus those
-				// that occurred *despite* valid parameters, the latter coming
-				// back with status 402.
-				//
-				// On a 402, log to info so as to not make an integration's log
-				// noisy with error messages that they don't have much control
-				// over.
-				//
-				// Note I use the constant 402 instead of an `http.Status*`
-				// constant because technically 402 is "Payment required". The
-				// Stripe API doesn't comply to the letter of the specification
-				// and uses it in a broader sense.
-				if res.StatusCode == 402 {
-					s.LeveledLogger.Infof("User-compelled request error from Stripe (status %v): %v",
-						res.StatusCode, stripeErr.redact())
-				} else {
-					s.LeveledLogger.Errorf("Request error from Stripe (status %v): %v",
-						res.StatusCode, stripeErr.redact())
-				}
-			} else {
-				s.LeveledLogger.Errorf("Error decoding error from Stripe: %v", err)
-			}
+			s.logError(res.StatusCode, err)
 		}
 
 		return resBody, err
