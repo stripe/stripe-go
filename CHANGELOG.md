@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.46.0 - 2021-05-25
+* [#1285](https://github.com/stripe/stripe-go/pull/1285) API Updates
+  * Add support for Identity VerificationSession and VerificationReport APIs
+
 ## 72.45.0 - 2021-05-06
 * [#1280](https://github.com/stripe/stripe-go/pull/1280) API Updates
   * Added support for `reference` on `Charge.payment_method_details.afterpay_clearpay`
