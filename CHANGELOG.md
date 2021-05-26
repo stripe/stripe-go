@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.47.0 - 2021-05-26
+* [#1286](https://github.com/stripe/stripe-go/pull/1286) API Updates
+  * Added support for `Documents` to `PersonParams`
+
 ## 72.46.0 - 2021-05-25
 * [#1285](https://github.com/stripe/stripe-go/pull/1285) API Updates
   * Add support for Identity VerificationSession and VerificationReport APIs
