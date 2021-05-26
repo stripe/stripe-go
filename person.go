@@ -61,6 +61,21 @@ type DOBParams struct {
 	Year  *int64 `form:"year"`
 }
 
+type DocumentsCompanyAuthorizationParams struct {
+	Files []*string `form:"files"`
+}
+type DocumentsPassportParams struct {
+	Files []*string `form:"files"`
+}
+type DocumentsVisaParams struct {
+	Files []*string `form:"files"`
+}
+type DocumentsParams struct {
+	CompanyAuthorization *DocumentsCompanyAuthorizationParams `form:"company_authorization"`
+	Passport             *DocumentsPassportParams             `form:"passport"`
+	Visa                 *DocumentsVisaParams                 `form:"visa"`
+}
+
 // RelationshipParams is used to set the relationship between an account and a person.
 type RelationshipParams struct {
 	Director         *bool    `form:"director"`
@@ -94,6 +109,7 @@ type PersonParams struct {
 	AddressKana       *AccountAddressParams     `form:"address_kana"`
 	AddressKanji      *AccountAddressParams     `form:"address_kanji"`
 	DOB               *DOBParams                `form:"dob"`
+	Documents         *DocumentsParams          `form:"documents"`
 	Email             *string                   `form:"email"`
 	FirstName         *string                   `form:"first_name"`
 	FirstNameKana     *string                   `form:"first_name_kana"`
