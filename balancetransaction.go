@@ -85,24 +85,6 @@ const (
 	BalanceTransactionReportingCategoryTransferReversal            BalanceTransactionReportingCategory = "transfer_reversal"
 )
 
-// BalanceTransactionSource describes the source of a balance Transaction.
-// The Type should indicate which object is fleshed out.
-// For more details see https://stripe.com/docs/api#retrieve_balance_transaction
-type BalanceTransactionSource struct {
-	ApplicationFee       *ApplicationFee              `json:"-"`
-	Charge               *Charge                      `json:"-"`
-	Dispute              *Dispute                     `json:"-"`
-	ID                   string                       `json:"id"`
-	IssuingAuthorization *IssuingAuthorization        `json:"-"`
-	IssuingDispute       *IssuingDispute              `json:"-"`
-	IssuingTransaction   *IssuingAuthorization        `json:"-"`
-	Payout               *Payout                      `json:"-"`
-	Refund               *Refund                      `json:"-"`
-	Reversal             *Reversal                    `json:"-"`
-	Transfer             *Transfer                    `json:"-"`
-	Type                 BalanceTransactionSourceType `json:"object"`
-}
-
 // BalanceTransactionParams is the set of parameters that can be used when retrieving a transaction.
 // For more details see https://stripe.com/docs/api#retrieve_balance_transaction.
 type BalanceTransactionParams struct {
@@ -121,6 +103,24 @@ type BalanceTransactionListParams struct {
 	Payout           *string           `form:"payout"`
 	Source           *string           `form:"source"`
 	Type             *string           `form:"type"`
+}
+
+// BalanceTransactionSource describes the source of a balance Transaction.
+// The Type should indicate which object is fleshed out.
+// For more details see https://stripe.com/docs/api#retrieve_balance_transaction
+type BalanceTransactionSource struct {
+	ApplicationFee       *ApplicationFee              `json:"-"`
+	Charge               *Charge                      `json:"-"`
+	Dispute              *Dispute                     `json:"-"`
+	ID                   string                       `json:"id"`
+	IssuingAuthorization *IssuingAuthorization        `json:"-"`
+	IssuingDispute       *IssuingDispute              `json:"-"`
+	IssuingTransaction   *IssuingAuthorization        `json:"-"`
+	Payout               *Payout                      `json:"-"`
+	Refund               *Refund                      `json:"-"`
+	Reversal             *Reversal                    `json:"-"`
+	Transfer             *Transfer                    `json:"-"`
+	Type                 BalanceTransactionSourceType `json:"object"`
 }
 
 // BalanceTransaction is the resource representing the balance transaction.
