@@ -70,7 +70,7 @@ const (
 	BalanceTransactionSourceTypePlatformTaxFee            BalanceTransactionSourceType = "platform_tax_fee"
 	BalanceTransactionSourceTypeRefund                    BalanceTransactionSourceType = "refund"
 	BalanceTransactionSourceTypeReserveTransaction        BalanceTransactionSourceType = "reserve_transaction"
-	BalanceTransactionSourceTypeReversal                  BalanceTransactionSourceType = "transfer_reversal"
+	BalanceTransactionSourceTypeReversal                  BalanceTransactionSourceType = "reversal"
 	BalanceTransactionSourceTypeTaxDeductedAtSource       BalanceTransactionSourceType = "tax_deducted_at_source"
 	BalanceTransactionSourceTypeTopup                     BalanceTransactionSourceType = "topup"
 	BalanceTransactionSourceTypeTransfer                  BalanceTransactionSourceType = "transfer"
@@ -143,7 +143,7 @@ type BalanceTransactionSource struct {
 	FeeRefund                 *FeeRefund                 `json:"-"`
 	IssuingAuthorization      *IssuingAuthorization      `json:"-"`
 	IssuingDispute            *IssuingDispute            `json:"-"`
-	IssuingTransaction        *IssuingTransaction        `json:"-"`
+	IssuingTransaction        *IssuingAuthorization      `json:"-"`
 	Payout                    *Payout                    `json:"-"`
 	PlatformTaxFee            *PlatformTaxFee            `json:"-"`
 	Refund                    *Refund                    `json:"-"`
