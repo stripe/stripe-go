@@ -58,22 +58,18 @@ type BalanceTransactionSourceType string
 
 // List of values that BalanceTransactionSourceType can take.
 const (
-	BalanceTransactionSourceTypeApplicationFee            BalanceTransactionSourceType = "application_fee"
-	BalanceTransactionSourceTypeCharge                    BalanceTransactionSourceType = "charge"
-	BalanceTransactionSourceTypeConnectCollectionTransfer BalanceTransactionSourceType = "connect_collection_transfer"
-	BalanceTransactionSourceTypeDispute                   BalanceTransactionSourceType = "dispute"
-	BalanceTransactionSourceTypeFeeRefund                 BalanceTransactionSourceType = "fee_refund"
-	BalanceTransactionSourceTypeIssuingAuthorization      BalanceTransactionSourceType = "issuing.authorization"
-	BalanceTransactionSourceTypeIssuingDispute            BalanceTransactionSourceType = "issuing.dispute"
-	BalanceTransactionSourceTypeIssuingTransaction        BalanceTransactionSourceType = "issuing.transaction"
-	BalanceTransactionSourceTypePayout                    BalanceTransactionSourceType = "payout"
-	BalanceTransactionSourceTypePlatformTaxFee            BalanceTransactionSourceType = "platform_tax_fee"
-	BalanceTransactionSourceTypeRefund                    BalanceTransactionSourceType = "refund"
-	BalanceTransactionSourceTypeReserveTransaction        BalanceTransactionSourceType = "reserve_transaction"
-	BalanceTransactionSourceTypeReversal                  BalanceTransactionSourceType = "reversal"
-	BalanceTransactionSourceTypeTaxDeductedAtSource       BalanceTransactionSourceType = "tax_deducted_at_source"
-	BalanceTransactionSourceTypeTopup                     BalanceTransactionSourceType = "topup"
-	BalanceTransactionSourceTypeTransfer                  BalanceTransactionSourceType = "transfer"
+	BalanceTransactionSourceTypeApplicationFee       BalanceTransactionSourceType = "application_fee"
+	BalanceTransactionSourceTypeCharge               BalanceTransactionSourceType = "charge"
+	BalanceTransactionSourceTypeDispute              BalanceTransactionSourceType = "dispute"
+	BalanceTransactionSourceTypeFeeRefund            BalanceTransactionSourceType = "fee_refund"
+	BalanceTransactionSourceTypeIssuingAuthorization BalanceTransactionSourceType = "issuing.authorization"
+	BalanceTransactionSourceTypeIssuingDispute       BalanceTransactionSourceType = "issuing.dispute"
+	BalanceTransactionSourceTypeIssuingTransaction   BalanceTransactionSourceType = "issuing.transaction"
+	BalanceTransactionSourceTypePayout               BalanceTransactionSourceType = "payout"
+	BalanceTransactionSourceTypeRefund               BalanceTransactionSourceType = "refund"
+	BalanceTransactionSourceTypeReversal             BalanceTransactionSourceType = "reversal"
+	BalanceTransactionSourceTypeTopup                BalanceTransactionSourceType = "topup"
+	BalanceTransactionSourceTypeTransfer             BalanceTransactionSourceType = "transfer"
 )
 
 // BalanceTransactionReportingCategory represents reporting categories for balance transactions.
@@ -136,22 +132,18 @@ type BalanceTransactionSource struct {
 	ID   string                       `json:"id"`
 	Type BalanceTransactionSourceType `json:"object"`
 
-	ApplicationFee            *ApplicationFee            `json:"-"`
-	Charge                    *Charge                    `json:"-"`
-	ConnectCollectionTransfer *ConnectCollectionTransfer `json:"-"`
-	Dispute                   *Dispute                   `json:"-"`
-	FeeRefund                 *FeeRefund                 `json:"-"`
-	IssuingAuthorization      *IssuingAuthorization      `json:"-"`
-	IssuingDispute            *IssuingDispute            `json:"-"`
-	IssuingTransaction        *IssuingAuthorization      `json:"-"`
-	Payout                    *Payout                    `json:"-"`
-	PlatformTaxFee            *PlatformTaxFee            `json:"-"`
-	Refund                    *Refund                    `json:"-"`
-	ReserveTransaction        *ReserveTransaction        `json:"-"`
-	Reversal                  *Reversal                  `json:"-"`
-	TaxDeductedAtSource       *TaxDeductedAtSource       `json:"-"`
-	Topup                     *Topup                     `json:"-"`
-	Transfer                  *Transfer                  `json:"-"`
+	ApplicationFee       *ApplicationFee       `json:"-"`
+	Charge               *Charge               `json:"-"`
+	Dispute              *Dispute              `json:"-"`
+	FeeRefund            *FeeRefund            `json:"-"`
+	IssuingAuthorization *IssuingAuthorization `json:"-"`
+	IssuingDispute       *IssuingDispute       `json:"-"`
+	IssuingTransaction   *IssuingAuthorization `json:"-"`
+	Payout               *Payout               `json:"-"`
+	Refund               *Refund               `json:"-"`
+	Reversal             *Reversal             `json:"-"`
+	Topup                *Topup                `json:"-"`
+	Transfer             *Transfer             `json:"-"`
 }
 
 // BalanceTransaction is the resource representing the balance transaction.
@@ -233,8 +225,6 @@ func (b *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &b.ApplicationFee)
 	case BalanceTransactionSourceTypeCharge:
 		err = json.Unmarshal(data, &b.Charge)
-	case BalanceTransactionSourceTypeConnectCollectionTransfer:
-		err = json.Unmarshal(data, &b.ConnectCollectionTransfer)
 	case BalanceTransactionSourceTypeDispute:
 		err = json.Unmarshal(data, &b.Dispute)
 	case BalanceTransactionSourceTypeFeeRefund:
@@ -247,16 +237,10 @@ func (b *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &b.IssuingTransaction)
 	case BalanceTransactionSourceTypePayout:
 		err = json.Unmarshal(data, &b.Payout)
-	case BalanceTransactionSourceTypePlatformTaxFee:
-		err = json.Unmarshal(data, &b.PlatformTaxFee)
 	case BalanceTransactionSourceTypeRefund:
 		err = json.Unmarshal(data, &b.Refund)
-	case BalanceTransactionSourceTypeReserveTransaction:
-		err = json.Unmarshal(data, &b.ReserveTransaction)
 	case BalanceTransactionSourceTypeReversal:
 		err = json.Unmarshal(data, &b.Reversal)
-	case BalanceTransactionSourceTypeTaxDeductedAtSource:
-		err = json.Unmarshal(data, &b.TaxDeductedAtSource)
 	case BalanceTransactionSourceTypeTopup:
 		err = json.Unmarshal(data, &b.Topup)
 	case BalanceTransactionSourceTypeTransfer:
