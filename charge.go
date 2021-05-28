@@ -694,8 +694,6 @@ type ShippingDetails struct {
 	TrackingNumber string   `json:"tracking_number"`
 }
 
-var depth = -1
-
 // UnmarshalJSON handles deserialization of a ChargeOutcomeRule.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
