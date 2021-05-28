@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -14,10 +20,13 @@ type BalanceTransactionType string
 // List of values that BalanceTransactionType can take.
 const (
 	BalanceTransactionTypeAdjustment                      BalanceTransactionType = "adjustment"
+	BalanceTransactionTypeAdvance                         BalanceTransactionType = "advance"
+	BalanceTransactionTypeAdvanceFunding                  BalanceTransactionType = "advance_funding"
 	BalanceTransactionTypeAnticipationRepayment           BalanceTransactionType = "anticipation_repayment"
 	BalanceTransactionTypeApplicationFee                  BalanceTransactionType = "application_fee"
 	BalanceTransactionTypeApplicationFeeRefund            BalanceTransactionType = "application_fee_refund"
 	BalanceTransactionTypeCharge                          BalanceTransactionType = "charge"
+	BalanceTransactionTypeConnectCollectionTransfer       BalanceTransactionType = "connect_collection_transfer"
 	BalanceTransactionTypeContribution                    BalanceTransactionType = "contribution"
 	BalanceTransactionTypeIssuingAuthorizationHold        BalanceTransactionType = "issuing_authorization_hold"
 	BalanceTransactionTypeIssuingAuthorizationRelease     BalanceTransactionType = "issuing_authorization_release"
@@ -30,8 +39,17 @@ const (
 	BalanceTransactionTypePayoutCancel                    BalanceTransactionType = "payout_cancel"
 	BalanceTransactionTypePayoutFailure                   BalanceTransactionType = "payout_failure"
 	BalanceTransactionTypeRefund                          BalanceTransactionType = "refund"
+	BalanceTransactionTypeRefundFailure                   BalanceTransactionType = "refund_failure"
+	BalanceTransactionTypeReserveTransaction              BalanceTransactionType = "reserve_transaction"
+	BalanceTransactionTypeReservedFunds                   BalanceTransactionType = "reserved_funds"
 	BalanceTransactionTypeStripeFee                       BalanceTransactionType = "stripe_fee"
+	BalanceTransactionTypeStripeFxFee                     BalanceTransactionType = "stripe_fx_fee"
+	BalanceTransactionTypeTaxFee                          BalanceTransactionType = "tax_fee"
+	BalanceTransactionTypeTopup                           BalanceTransactionType = "topup"
+	BalanceTransactionTypeTopupReversal                   BalanceTransactionType = "topup_reversal"
 	BalanceTransactionTypeTransfer                        BalanceTransactionType = "transfer"
+	BalanceTransactionTypeTransferCancel                  BalanceTransactionType = "transfer_cancel"
+	BalanceTransactionTypeTransferFailure                 BalanceTransactionType = "transfer_failure"
 	BalanceTransactionTypeTransferRefund                  BalanceTransactionType = "transfer_refund"
 )
 
@@ -40,16 +58,22 @@ type BalanceTransactionSourceType string
 
 // List of values that BalanceTransactionSourceType can take.
 const (
-	BalanceTransactionSourceTypeApplicationFee       BalanceTransactionSourceType = "application_fee"
-	BalanceTransactionSourceTypeCharge               BalanceTransactionSourceType = "charge"
-	BalanceTransactionSourceTypeDispute              BalanceTransactionSourceType = "dispute"
-	BalanceTransactionSourceTypeIssuingAuthorization BalanceTransactionSourceType = "issuing.authorization"
-	BalanceTransactionSourceTypeIssuingDispute       BalanceTransactionSourceType = "issuing.dispute"
-	BalanceTransactionSourceTypeIssuingTransaction   BalanceTransactionSourceType = "issuing.transaction"
-	BalanceTransactionSourceTypePayout               BalanceTransactionSourceType = "payout"
-	BalanceTransactionSourceTypeRefund               BalanceTransactionSourceType = "refund"
-	BalanceTransactionSourceTypeReversal             BalanceTransactionSourceType = "reversal"
-	BalanceTransactionSourceTypeTransfer             BalanceTransactionSourceType = "transfer"
+	BalanceTransactionSourceTypeApplicationFee            BalanceTransactionSourceType = "application_fee"
+	BalanceTransactionSourceTypeCharge                    BalanceTransactionSourceType = "charge"
+	BalanceTransactionSourceTypeConnectCollectionTransfer BalanceTransactionSourceType = "connect_collection_transfer"
+	BalanceTransactionSourceTypeDispute                   BalanceTransactionSourceType = "dispute"
+	BalanceTransactionSourceTypeFeeRefund                 BalanceTransactionSourceType = "fee_refund"
+	BalanceTransactionSourceTypeIssuingAuthorization      BalanceTransactionSourceType = "issuing.authorization"
+	BalanceTransactionSourceTypeIssuingDispute            BalanceTransactionSourceType = "issuing.dispute"
+	BalanceTransactionSourceTypeIssuingTransaction        BalanceTransactionSourceType = "issuing.transaction"
+	BalanceTransactionSourceTypePayout                    BalanceTransactionSourceType = "payout"
+	BalanceTransactionSourceTypePlatformTaxFee            BalanceTransactionSourceType = "platform_tax_fee"
+	BalanceTransactionSourceTypeRefund                    BalanceTransactionSourceType = "refund"
+	BalanceTransactionSourceTypeReserveTransaction        BalanceTransactionSourceType = "reserve_transaction"
+	BalanceTransactionSourceTypeReversal                  BalanceTransactionSourceType = "transfer_reversal"
+	BalanceTransactionSourceTypeTaxDeductedAtSource       BalanceTransactionSourceType = "tax_deducted_at_source"
+	BalanceTransactionSourceTypeTopup                     BalanceTransactionSourceType = "topup"
+	BalanceTransactionSourceTypeTransfer                  BalanceTransactionSourceType = "transfer"
 )
 
 // BalanceTransactionReportingCategory represents reporting categories for balance transactions.
@@ -109,18 +133,25 @@ type BalanceTransactionListParams struct {
 // The Type should indicate which object is fleshed out.
 // For more details see https://stripe.com/docs/api#retrieve_balance_transaction
 type BalanceTransactionSource struct {
-	ApplicationFee       *ApplicationFee              `json:"-"`
-	Charge               *Charge                      `json:"-"`
-	Dispute              *Dispute                     `json:"-"`
-	ID                   string                       `json:"id"`
-	IssuingAuthorization *IssuingAuthorization        `json:"-"`
-	IssuingDispute       *IssuingDispute              `json:"-"`
-	IssuingTransaction   *IssuingAuthorization        `json:"-"`
-	Payout               *Payout                      `json:"-"`
-	Refund               *Refund                      `json:"-"`
-	Reversal             *Reversal                    `json:"-"`
-	Transfer             *Transfer                    `json:"-"`
-	Type                 BalanceTransactionSourceType `json:"object"`
+	ID   string                       `json:"id"`
+	Type BalanceTransactionSourceType `json:"object"`
+
+	ApplicationFee            *ApplicationFee            `json:"-"`
+	Charge                    *Charge                    `json:"-"`
+	ConnectCollectionTransfer *ConnectCollectionTransfer `json:"-"`
+	Dispute                   *Dispute                   `json:"-"`
+	FeeRefund                 *FeeRefund                 `json:"-"`
+	IssuingAuthorization      *IssuingAuthorization      `json:"-"`
+	IssuingDispute            *IssuingDispute            `json:"-"`
+	IssuingTransaction        *IssuingTransaction        `json:"-"`
+	Payout                    *Payout                    `json:"-"`
+	PlatformTaxFee            *PlatformTaxFee            `json:"-"`
+	Refund                    *Refund                    `json:"-"`
+	ReserveTransaction        *ReserveTransaction        `json:"-"`
+	Reversal                  *Reversal                  `json:"-"`
+	TaxDeductedAtSource       *TaxDeductedAtSource       `json:"-"`
+	Topup                     *Topup                     `json:"-"`
+	Transfer                  *Transfer                  `json:"-"`
 }
 
 // BalanceTransaction is the resource representing the balance transaction.
@@ -133,21 +164,15 @@ type BalanceTransaction struct {
 	Currency          Currency                            `json:"currency"`
 	Description       string                              `json:"description"`
 	ExchangeRate      float64                             `json:"exchange_rate"`
-	ID                string                              `json:"id"`
 	Fee               int64                               `json:"fee"`
 	FeeDetails        []*BalanceTransactionFee            `json:"fee_details"`
+	ID                string                              `json:"id"`
 	Net               int64                               `json:"net"`
+	Object            string                              `json:"object"`
 	ReportingCategory BalanceTransactionReportingCategory `json:"reporting_category"`
 	Source            *BalanceTransactionSource           `json:"source"`
 	Status            BalanceTransactionStatus            `json:"status"`
 	Type              BalanceTransactionType              `json:"type"`
-}
-
-// BalanceTransactionList is a list of transactions as returned from a list endpoint.
-type BalanceTransactionList struct {
-	APIResource
-	ListMeta
-	Data []*BalanceTransaction `json:"data"`
 }
 
 // BalanceTransactionFee is a structure that breaks down the fees in a transaction.
@@ -159,12 +184,19 @@ type BalanceTransactionFee struct {
 	Type        string   `json:"type"`
 }
 
-// UnmarshalJSON handles deserialization of a Transaction.
+// BalanceTransactionList is a list of transactions as returned from a list endpoint.
+type BalanceTransactionList struct {
+	APIResource
+	ListMeta
+	Data []*BalanceTransaction `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a BalanceTransaction.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (t *BalanceTransaction) UnmarshalJSON(data []byte) error {
+func (b *BalanceTransaction) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		t.ID = id
+		b.ID = id
 		return nil
 	}
 
@@ -174,16 +206,16 @@ func (t *BalanceTransaction) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*t = BalanceTransaction(v)
+	*b = BalanceTransaction(v)
 	return nil
 }
 
 // UnmarshalJSON handles deserialization of a BalanceTransactionSource.
-// This custom unmarshaling is needed because the specific
-// type of transaction source it refers to is specified in the JSON
-func (s *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
+// This custom unmarshaling is needed because the specific type of
+// BalanceTransactionSource it refers to is specified in the JSON
+func (b *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		s.ID = id
+		b.ID = id
 		return nil
 	}
 
@@ -193,31 +225,42 @@ func (s *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
+	*b = BalanceTransactionSource(v)
 	var err error
-	*s = BalanceTransactionSource(v)
 
-	switch s.Type {
+	switch b.Type {
 	case BalanceTransactionSourceTypeApplicationFee:
-		err = json.Unmarshal(data, &s.ApplicationFee)
+		err = json.Unmarshal(data, &b.ApplicationFee)
 	case BalanceTransactionSourceTypeCharge:
-		err = json.Unmarshal(data, &s.Charge)
+		err = json.Unmarshal(data, &b.Charge)
+	case BalanceTransactionSourceTypeConnectCollectionTransfer:
+		err = json.Unmarshal(data, &b.ConnectCollectionTransfer)
 	case BalanceTransactionSourceTypeDispute:
-		err = json.Unmarshal(data, &s.Dispute)
+		err = json.Unmarshal(data, &b.Dispute)
+	case BalanceTransactionSourceTypeFeeRefund:
+		err = json.Unmarshal(data, &b.FeeRefund)
 	case BalanceTransactionSourceTypeIssuingAuthorization:
-		err = json.Unmarshal(data, &s.IssuingAuthorization)
+		err = json.Unmarshal(data, &b.IssuingAuthorization)
 	case BalanceTransactionSourceTypeIssuingDispute:
-		err = json.Unmarshal(data, &s.IssuingDispute)
+		err = json.Unmarshal(data, &b.IssuingDispute)
 	case BalanceTransactionSourceTypeIssuingTransaction:
-		err = json.Unmarshal(data, &s.IssuingTransaction)
+		err = json.Unmarshal(data, &b.IssuingTransaction)
 	case BalanceTransactionSourceTypePayout:
-		err = json.Unmarshal(data, &s.Payout)
+		err = json.Unmarshal(data, &b.Payout)
+	case BalanceTransactionSourceTypePlatformTaxFee:
+		err = json.Unmarshal(data, &b.PlatformTaxFee)
 	case BalanceTransactionSourceTypeRefund:
-		err = json.Unmarshal(data, &s.Refund)
+		err = json.Unmarshal(data, &b.Refund)
+	case BalanceTransactionSourceTypeReserveTransaction:
+		err = json.Unmarshal(data, &b.ReserveTransaction)
 	case BalanceTransactionSourceTypeReversal:
-		err = json.Unmarshal(data, &s.Reversal)
+		err = json.Unmarshal(data, &b.Reversal)
+	case BalanceTransactionSourceTypeTaxDeductedAtSource:
+		err = json.Unmarshal(data, &b.TaxDeductedAtSource)
+	case BalanceTransactionSourceTypeTopup:
+		err = json.Unmarshal(data, &b.Topup)
 	case BalanceTransactionSourceTypeTransfer:
-		err = json.Unmarshal(data, &s.Transfer)
+		err = json.Unmarshal(data, &b.Transfer)
 	}
-
 	return err
 }
