@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: golint & go vet
+      - name: lint
         run: |
           go get -u honnef.co/go/tools/cmd/staticcheck@latest &&
           $HOME/go/bin/staticcheck &&
