@@ -13,7 +13,7 @@ check-gofmt:
 	scripts/check_gofmt.sh
 
 lint:
-	golint -set_exit_status ./...
+	staticcheck
 
 test:
 	go run scripts/test_with_stripe_mock/main.go -race ./...

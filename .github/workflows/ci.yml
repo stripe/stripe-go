@@ -17,8 +17,8 @@ jobs:
 
       - name: golint & go vet
         run: |
-          go get -u golang.org/x/lint/golint &&
-          $HOME/go/bin/golint -set_exit_status ./... &&
+          go get -u honnef.co/go/tools/cmd/staticcheck@latest &&
+          $HOME/go/bin/staticcheck &&
           make vet
 
   test:
