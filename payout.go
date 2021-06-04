@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -68,16 +74,6 @@ const (
 	PayoutMethodStandard PayoutMethodType = "standard"
 )
 
-// PayoutDestination describes the destination of a Payout.
-// The Type should indicate which object is fleshed out
-// For more details see https://stripe.com/docs/api/go#payout_object
-type PayoutDestination struct {
-	BankAccount *BankAccount          `json:"-"`
-	Card        *Card                 `json:"-"`
-	ID          string                `json:"id"`
-	Type        PayoutDestinationType `json:"object"`
-}
-
 // PayoutParams is the set of parameters that can be used when creating or updating a payout.
 // For more details see https://stripe.com/docs/api#create_payout and https://stripe.com/docs/api#update_payout.
 type PayoutParams struct {
@@ -108,6 +104,17 @@ type PayoutReverseParams struct {
 	Params `form:"*"`
 }
 
+// PayoutDestination describes the destination of a Payout.
+// The Type should indicate which object is fleshed out
+// For more details see https://stripe.com/docs/api/go#payout_object
+type PayoutDestination struct {
+	ID   string                `json:"id"`
+	Type PayoutDestinationType `json:"object"`
+
+	BankAccount *BankAccount `json:"-"`
+	Card        *Card        `json:"-"`
+}
+
 // Payout is the resource representing a Stripe payout.
 // For more details see https://stripe.com/docs/api#payouts.
 type Payout struct {
@@ -129,6 +136,7 @@ type Payout struct {
 	Livemode                  bool                `json:"livemode"`
 	Metadata                  map[string]string   `json:"metadata"`
 	Method                    PayoutMethodType    `json:"method"`
+	Object                    string              `json:"object"`
 	OriginalPayout            *Payout             `json:"original_payout"`
 	ReversedBy                *Payout             `json:"reversed_by"`
 	SourceType                PayoutSourceType    `json:"source_type"`
@@ -164,11 +172,11 @@ func (p *Payout) UnmarshalJSON(data []byte) error {
 }
 
 // UnmarshalJSON handles deserialization of a PayoutDestination.
-// This custom unmarshaling is needed because the specific
-// type of destination it refers to is specified in the JSON
-func (d *PayoutDestination) UnmarshalJSON(data []byte) error {
+// This custom unmarshaling is needed because the specific type of
+// PayoutDestination it refers to is specified in the JSON
+func (p *PayoutDestination) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		d.ID = id
+		p.ID = id
 		return nil
 	}
 
@@ -178,15 +186,14 @@ func (d *PayoutDestination) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
+	*p = PayoutDestination(v)
 	var err error
-	*d = PayoutDestination(v)
 
-	switch d.Type {
+	switch p.Type {
 	case PayoutDestinationTypeBankAccount:
-		err = json.Unmarshal(data, &d.BankAccount)
+		err = json.Unmarshal(data, &p.BankAccount)
 	case PayoutDestinationTypeCard:
-		err = json.Unmarshal(data, &d.Card)
+		err = json.Unmarshal(data, &p.Card)
 	}
-
 	return err
 }
