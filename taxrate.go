@@ -11,8 +11,8 @@ import "encoding/json"
 type TaxRateTaxType string
 
 const (
-	TaxRateTaxTypeGst      TaxRateTaxType = "gst"
-	TaxRateTaxTypeHst      TaxRateTaxType = "hst"
+	TaxRateTaxTypeGST      TaxRateTaxType = "gst"
+	TaxRateTaxTypeHST      TaxRateTaxType = "hst"
 	TaxRateTaxTypePST      TaxRateTaxType = "pst"
 	TaxRateTaxTypeQST      TaxRateTaxType = "qst"
 	TaxRateTaxTypeSalesTax TaxRateTaxType = "sales_tax"
