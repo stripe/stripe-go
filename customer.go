@@ -149,6 +149,7 @@ type Customer struct {
 	Shipping            *CustomerShippingDetails `json:"shipping"`
 	Sources             *SourceList              `json:"sources"`
 	Subscriptions       *SubscriptionList        `json:"subscriptions"`
+	Tax                 *CustomerTax             `json:"tax"`
 	TaxExempt           CustomerTaxExempt        `json:"tax_exempt"`
 	TaxIDs              *TaxIDList               `json:"tax_ids"`
 }
