@@ -106,6 +106,7 @@ type SubscriptionParams struct {
 	Params                      `form:"*"`
 	AddInvoiceItems             []*SubscriptionAddInvoiceItemParams           `form:"add_invoice_items"`
 	ApplicationFeePercent       *float64                                      `form:"application_fee_percent"`
+	AutomaticTax                *SubscriptionAutomaticTaxParams               `form:"automatic_tax"`
 	BackdateStartDate           *int64                                        `form:"backdate_start_date"`
 	BillingCycleAnchor          *int64                                        `form:"billing_cycle_anchor"`
 	BillingCycleAnchorNow       *bool                                         `form:"-"` // See custom AppendTo
@@ -137,6 +138,10 @@ type SubscriptionParams struct {
 	TrialEndNow                 *bool                                         `form:"-"` // See custom AppendTo
 	TrialFromPlan               *bool                                         `form:"trial_from_plan"`
 	TrialPeriodDays             *int64                                        `form:"trial_period_days"`
+}
+
+type SubscriptionAutomaticTaxParams struct {
+	Enabled *bool `form:"enabled"`
 }
 
 // SubscriptionBillingThresholdsParams is a structure representing the parameters allowed to control
@@ -236,6 +241,7 @@ type SubscriptionTransferData struct {
 type Subscription struct {
 	APIResource
 	ApplicationFeePercent         float64                                `json:"application_fee_percent"`
+	AutomaticTax                  *SubscriptionAutomaticTax              `json:"automatic_tax"`
 	BillingCycleAnchor            int64                                  `json:"billing_cycle_anchor"`
 	BillingThresholds             *SubscriptionBillingThresholds         `json:"billing_thresholds"`
 	CancelAt                      int64                                  `json:"cancel_at"`
@@ -272,6 +278,10 @@ type Subscription struct {
 	TransferData                  *SubscriptionTransferData              `json:"transfer_data"`
 	TrialEnd                      int64                                  `json:"trial_end"`
 	TrialStart                    int64                                  `json:"trial_start"`
+}
+
+type SubscriptionAutomaticTax struct {
+	Enabled bool `json:"enabled"`
 }
 
 // SubscriptionBillingThresholds is a structure representing the billing thresholds for a subscription.

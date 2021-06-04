@@ -48,6 +48,7 @@ type SubscriptionScheduleInvoiceSettingsParams struct {
 type SubscriptionScheduleDefaultSettingsParams struct {
 	Params                `form:"*"`
 	ApplicationFeePercent *float64                                   `form:"application_fee_percent,high_precision"`
+	AutomaticTax          *SubscriptionAutomaticTaxParams            `form:"automatic_tax"`
 	BillingCycleAnchor    *string                                    `form:"billing_cycle_anchor"`
 	BillingThresholds     *SubscriptionBillingThresholdsParams       `form:"billing_thresholds"`
 	CollectionMethod      *string                                    `form:"collection_method"`
@@ -72,6 +73,7 @@ type SubscriptionSchedulePhaseAddInvoiceItemPriceDataParams struct {
 	Currency          *string                                                          `form:"currency"`
 	Product           *string                                                          `form:"product"`
 	Recurring         *SubscriptionSchedulePhaseAddInvoiceItemPriceDataRecurringParams `form:"recurring"`
+	TaxBehavior       *string                                                          `form:"tax_behavior"`
 	UnitAmount        *int64                                                           `form:"unit_amount"`
 	UnitAmountDecimal *float64                                                         `form:"unit_amount_decimal,high_precision"`
 }
@@ -83,6 +85,10 @@ type SubscriptionSchedulePhaseAddInvoiceItemParams struct {
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
 	Quantity  *int64                      `form:"quantity"`
 	TaxRates  []*string                   `form:"tax_rates"`
+}
+
+type SubscriptionSchedulePhaseAutomaticTaxParams struct {
+	Enabled *bool `form:"enabled"`
 }
 
 // SubscriptionSchedulePhaseItemParams is a structure representing the parameters allowed to control
@@ -101,6 +107,7 @@ type SubscriptionSchedulePhaseItemParams struct {
 type SubscriptionSchedulePhaseParams struct {
 	AddInvoiceItems       []*SubscriptionSchedulePhaseAddInvoiceItemParams `form:"add_invoice_items"`
 	ApplicationFeePercent *float64                                         `form:"application_fee_percent"`
+	AutomaticTax          *SubscriptionSchedulePhaseAutomaticTaxParams     `form:"automatic_tax"`
 	BillingCycleAnchor    *string                                          `form:"billing_cycle_anchor"`
 	BillingThresholds     *SubscriptionBillingThresholdsParams             `form:"billing_thresholds"`
 	CollectionMethod      *string                                          `form:"collection_method"`
@@ -187,6 +194,7 @@ type SubscriptionScheduleInvoiceSettings struct {
 // subscription schedule’s default settings.
 type SubscriptionScheduleDefaultSettings struct {
 	ApplicationFeePercent float64                                     `json:"application_fee_percent,string"`
+	AutomaticTax          *SubscriptionAutomaticTax                   `json:"automatic_tax"`
 	BillingCycleAnchor    SubscriptionSchedulePhaseBillingCycleAnchor `json:"billing_cycle_anchor"`
 	BillingThresholds     *SubscriptionBillingThresholds              `json:"billing_thresholds"`
 	CollectionMethod      SubscriptionCollectionMethod                `json:"collection_method"`
@@ -215,6 +223,7 @@ type SubscriptionSchedulePhaseItem struct {
 type SubscriptionSchedulePhase struct {
 	AddInvoiceItems       []*SubscriptionSchedulePhaseAddInvoiceItem  `json:"add_invoice_items"`
 	ApplicationFeePercent float64                                     `json:"application_fee_percent"`
+	AutomaticTax          *SubscriptionAutomaticTax                   `json:"automatic_tax"`
 	BillingCycleAnchor    SubscriptionSchedulePhaseBillingCycleAnchor `json:"billing_cycle_anchor"`
 	BillingThresholds     *SubscriptionBillingThresholds              `json:"billing_thresholds"`
 	CollectionMethod      SubscriptionCollectionMethod                `json:"collection_method"`

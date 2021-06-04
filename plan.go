@@ -181,6 +181,7 @@ type PlanProductParams struct {
 	Name                *string           `form:"name"`
 	Metadata            map[string]string `form:"metadata"`
 	StatementDescriptor *string           `form:"statement_descriptor"`
+	TaxCode             *string           `form:"tax_code"`
 	UnitLabel           *string           `form:"unit_label"`
 }
 

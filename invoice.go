@@ -15,6 +15,14 @@ const (
 	InvoiceLineTypeSubscription InvoiceLineType = "subscription"
 )
 
+type InvoiceAutomaticTaxStatus string
+
+const (
+	InvoiceAutomaticTaxStatusComplete               InvoiceAutomaticTaxStatus = "complete"
+	InvoiceAutomaticTaxStatusFailed                 InvoiceAutomaticTaxStatus = "failed"
+	InvoiceAutomaticTaxStatusRequiresLocationInputs InvoiceAutomaticTaxStatus = "requires_location_inputs"
+)
+
 // InvoiceBillingReason is the reason why a given invoice was created
 type InvoiceBillingReason string
 
@@ -79,6 +87,33 @@ const (
 	InvoiceCollectionMethodSendInvoice         InvoiceCollectionMethod = "send_invoice"
 )
 
+type InvoiceUpcomingAutomaticTaxParams struct {
+	Enabled *bool `form:"enabled"`
+}
+
+type InvoiceUpcomingCustomerDetailsShippingParams struct {
+	Address *AddressParams `form:"address"`
+	Name    *string        `form:"name"`
+	Phone   *string        `form:"phone"`
+}
+
+type InvoiceUpcomingCustomerDetailsTaxParams struct {
+	IPAddress *string `form:"ip_address"`
+}
+
+type InvoiceUpcomingCustomerDetailsTaxIDParams struct {
+	Type  *string `form:"type"`
+	Value *string `form:"value"`
+}
+
+type InvoiceUpcomingCustomerDetailsParams struct {
+	Address   *AddressParams                                `form:"address"`
+	Shipping  *InvoiceUpcomingCustomerDetailsShippingParams `form:"shipping"`
+	Tax       *InvoiceUpcomingCustomerDetailsTaxParams      `form:"tax"`
+	TaxExempt *string                                       `form:"tax_exempt"`
+	TaxIDs    []*InvoiceUpcomingCustomerDetailsTaxIDParams  `form:"tax_ids"`
+}
+
 // InvoiceUpcomingInvoiceItemPeriodParams represents the period associated with that invoice item
 type InvoiceUpcomingInvoiceItemPeriodParams struct {
 	End   *int64 `form:"end"`
@@ -103,6 +138,10 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	TaxRates          []*string                               `form:"tax_rates"`
 	UnitAmount        *int64                                  `form:"unit_amount"`
 	UnitAmountDecimal *float64                                `form:"unit_amount_decimal,high_precision"`
+}
+
+type InvoiceAutomaticTaxParams struct {
+	Enabled *bool `form:"enabled"`
 }
 
 // InvoiceCustomFieldParams represents the parameters associated with one custom field on an invoice.
@@ -152,26 +191,28 @@ type InvoiceTransferDataParams struct {
 // For more details see https://stripe.com/docs/api#create_invoice, https://stripe.com/docs/api#update_invoice.
 type InvoiceParams struct {
 	Params               `form:"*"`
-	AccountTaxIDs        []*string                     `form:"account_tax_ids"`
-	AutoAdvance          *bool                         `form:"auto_advance"`
-	ApplicationFeeAmount *int64                        `form:"application_fee_amount"`
-	CollectionMethod     *string                       `form:"collection_method"`
-	CustomFields         []*InvoiceCustomFieldParams   `form:"custom_fields"`
-	Customer             *string                       `form:"customer"`
-	DaysUntilDue         *int64                        `form:"days_until_due"`
-	DefaultPaymentMethod *string                       `form:"default_payment_method"`
-	DefaultSource        *string                       `form:"default_source"`
-	DefaultTaxRates      []*string                     `form:"default_tax_rates"`
-	Description          *string                       `form:"description"`
-	Discounts            []*InvoiceDiscountParams      `form:"discounts"`
-	DueDate              *int64                        `form:"due_date"`
-	Footer               *string                       `form:"footer"`
-	OnBehalfOf           *string                       `form:"on_behalf_of"`
-	Paid                 *bool                         `form:"paid"`
-	PaymentSettings      *InvoicePaymentSettingsParams `form:"payment_settings"`
-	StatementDescriptor  *string                       `form:"statement_descriptor"`
-	Subscription         *string                       `form:"subscription"`
-	TransferData         *InvoiceTransferDataParams    `form:"transfer_data"`
+	AccountTaxIDs        []*string                             `form:"account_tax_ids"`
+	AutoAdvance          *bool                                 `form:"auto_advance"`
+	ApplicationFeeAmount *int64                                `form:"application_fee_amount"`
+	AutomaticTax         *InvoiceAutomaticTaxParams            `form:"automatic_tax"`
+	CustomerDetails      *InvoiceUpcomingCustomerDetailsParams `form:"customer_details"`
+	CollectionMethod     *string                               `form:"collection_method"`
+	CustomFields         []*InvoiceCustomFieldParams           `form:"custom_fields"`
+	Customer             *string                               `form:"customer"`
+	DaysUntilDue         *int64                                `form:"days_until_due"`
+	DefaultPaymentMethod *string                               `form:"default_payment_method"`
+	DefaultSource        *string                               `form:"default_source"`
+	DefaultTaxRates      []*string                             `form:"default_tax_rates"`
+	Description          *string                               `form:"description"`
+	Discounts            []*InvoiceDiscountParams              `form:"discounts"`
+	DueDate              *int64                                `form:"due_date"`
+	Footer               *string                               `form:"footer"`
+	OnBehalfOf           *string                               `form:"on_behalf_of"`
+	Paid                 *bool                                 `form:"paid"`
+	PaymentSettings      *InvoicePaymentSettingsParams         `form:"payment_settings"`
+	StatementDescriptor  *string                               `form:"statement_descriptor"`
+	Subscription         *string                               `form:"subscription"`
+	TransferData         *InvoiceTransferDataParams            `form:"transfer_data"`
 
 	// These are all for exclusive use by GetNext.
 
@@ -287,6 +328,7 @@ type Invoice struct {
 	AttemptCount                 int64                    `json:"attempt_count"`
 	Attempted                    bool                     `json:"attempted"`
 	AutoAdvance                  bool                     `json:"auto_advance"`
+	AutomaticTax                 *InvoiceAutomaticTax     `json:"automatic_tax"`
 	BillingReason                InvoiceBillingReason     `json:"billing_reason"`
 	Charge                       *Charge                  `json:"charge"`
 	CollectionMethod             *InvoiceCollectionMethod `json:"collection_method"`
@@ -344,6 +386,11 @@ type Invoice struct {
 	TotalTaxAmounts              []*InvoiceTaxAmount      `json:"total_tax_amounts"`
 	TransferData                 *InvoiceTransferData     `json:"transfer_data"`
 	WebhooksDeliveredAt          int64                    `json:"webhooks_delivered_at"`
+}
+
+type InvoiceAutomaticTax struct {
+	Enabled bool                      `json:"enabled"`
+	Status  InvoiceAutomaticTaxStatus `json:"status"`
 }
 
 // InvoiceCustomField is a structure representing a custom field on an invoice.

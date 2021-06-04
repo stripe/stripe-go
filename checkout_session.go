@@ -46,6 +46,14 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDsTypeZAVAT   CheckoutSessionCustomerDetailsTaxIDsType = "za_vat"
 )
 
+type CheckoutSessionAutomaticTaxStatus string
+
+const (
+	CheckoutSessionAutomaticTaxStatusComplete               CheckoutSessionAutomaticTaxStatus = "complete"
+	CheckoutSessionAutomaticTaxStatusFailed                 CheckoutSessionAutomaticTaxStatus = "failed"
+	CheckoutSessionAutomaticTaxStatusRequiresLocationInputs CheckoutSessionAutomaticTaxStatus = "requires_location_inputs"
+)
+
 // CheckoutSessionCustomerDetailsTaxExempt is the list of allowed values for
 // tax_exempt inside customer_details of a checkout session.
 type CheckoutSessionCustomerDetailsTaxExempt string
@@ -132,6 +140,7 @@ type CheckoutSessionLineItemPriceDataProductDataParams struct {
 	Images      []*string         `form:"images"`
 	Metadata    map[string]string `form:"metadata"`
 	Name        *string           `form:"name"`
+	TaxCode     *string           `form:"tax_code"`
 }
 
 // CheckoutSessionLineItemPriceDataRecurringParams is the set of parameters for the recurring
@@ -151,8 +160,19 @@ type CheckoutSessionLineItemPriceDataParams struct {
 	Product           *string                                            `form:"product"`
 	ProductData       *CheckoutSessionLineItemPriceDataProductDataParams `form:"product_data"`
 	Recurring         *CheckoutSessionLineItemPriceDataRecurringParams   `form:"recurring"`
+	TaxBehavior       *string                                            `form:"tax_behavior"`
 	UnitAmount        *int64                                             `form:"unit_amount"`
 	UnitAmountDecimal *float64                                           `form:"unit_amount_decimal,high_precision"`
+}
+
+type CheckoutSessionAutomaticTaxParams struct {
+	Enabled *bool `form:"enabled"`
+}
+
+type CheckoutSessionCustomerUpdateParams struct {
+	Address  *string `form:"address"`
+	Name     *string `form:"name"`
+	Shipping *string `form:"shipping"`
 }
 
 // CheckoutSessionDiscountParams is the set of parameters allowed for discounts on
@@ -273,11 +293,13 @@ type CheckoutSessionSubscriptionDataParams struct {
 type CheckoutSessionParams struct {
 	Params                    `form:"*"`
 	AllowPromotionCodes       *bool                                           `form:"allow_promotion_codes"`
+	AutomaticTax              *CheckoutSessionAutomaticTaxParams              `form:"automatic_tax"`
 	BillingAddressCollection  *string                                         `form:"billing_address_collection"`
 	CancelURL                 *string                                         `form:"cancel_url"`
 	ClientReferenceID         *string                                         `form:"client_reference_id"`
 	Customer                  *string                                         `form:"customer"`
 	CustomerEmail             *string                                         `form:"customer_email"`
+	CustomerUpdate            *CheckoutSessionCustomerUpdateParams            `form:"customer_update"`
 	Discounts                 []*CheckoutSessionDiscountParams                `form:"discounts"`
 	LineItems                 []*CheckoutSessionLineItemParams                `form:"line_items"`
 	Locale                    *string                                         `form:"locale"`
@@ -291,6 +313,11 @@ type CheckoutSessionParams struct {
 	SubmitType                *string                                         `form:"submit_type"`
 	SubscriptionData          *CheckoutSessionSubscriptionDataParams          `form:"subscription_data"`
 	SuccessURL                *string                                         `form:"success_url"`
+}
+
+type CheckoutSessionAutomaticTax struct {
+	Enabled bool                              `json:"enabled"`
+	Status  CheckoutSessionAutomaticTaxStatus `json:"status"`
 }
 
 // CheckoutSessionListLineItemsParams is the set of parameters that can be
@@ -385,6 +412,7 @@ type CheckoutSession struct {
 	CustomerDetails           *CheckoutSessionCustomerDetails           `json:"customer_details"`
 	AmountSubtotal            int64                                     `json:"amount_subtotal"`
 	AmountTotal               int64                                     `json:"amount_total"`
+	AutomaticTax              *CheckoutSessionAutomaticTax              `json:"automatic_tax"`
 	ClientReferenceID         string                                    `json:"client_reference_id"`
 	Currency                  Currency                                  `json:"currency"`
 	Customer                  *Customer                                 `json:"customer"`
