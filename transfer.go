@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -11,14 +17,6 @@ const (
 	TransferSourceTypeCard        TransferSourceType = "card"
 	TransferSourceTypeFPX         TransferSourceType = "fpx"
 )
-
-// TransferDestination describes the destination of a Transfer.
-// The Type should indicate which object is fleshed out
-// For more details see https://stripe.com/docs/api/go#transfer_object
-type TransferDestination struct {
-	Account *Account `json:"-"`
-	ID      string   `json:"id"`
-}
 
 // TransferParams is the set of parameters that can be used when creating or updating a transfer.
 // For more details see https://stripe.com/docs/api#create_transfer and https://stripe.com/docs/api#update_transfer.
@@ -43,6 +41,15 @@ type TransferListParams struct {
 	TransferGroup *string           `form:"transfer_group"`
 }
 
+// TransferDestination describes the destination of a Transfer.
+// The Type should indicate which object is fleshed out
+// For more details see https://stripe.com/docs/api/go#transfer_object
+type TransferDestination struct {
+	ID string `json:"id"`
+
+	Account *Account `json:"-"`
+}
+
 // Transfer is the resource representing a Stripe transfer.
 // For more details see https://stripe.com/docs/api#transfers.
 type Transfer struct {
@@ -58,6 +65,7 @@ type Transfer struct {
 	ID                 string                    `json:"id"`
 	Livemode           bool                      `json:"livemode"`
 	Metadata           map[string]string         `json:"metadata"`
+	Object             string                    `json:"object"`
 	Reversals          *ReversalList             `json:"reversals"`
 	Reversed           bool                      `json:"reversed"`
 	SourceTransaction  *BalanceTransactionSource `json:"source_transaction"`
@@ -92,11 +100,11 @@ func (t *Transfer) UnmarshalJSON(data []byte) error {
 }
 
 // UnmarshalJSON handles deserialization of a TransferDestination.
-// This custom unmarshaling is needed because the specific
-// type of destination it refers to is specified in the JSON
-func (d *TransferDestination) UnmarshalJSON(data []byte) error {
+// This custom unmarshaling is needed because the specific type of
+// TransferDestination it refers to is specified in the JSON
+func (t *TransferDestination) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		d.ID = id
+		t.ID = id
 		return nil
 	}
 
@@ -106,6 +114,7 @@ func (d *TransferDestination) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*d = TransferDestination(v)
-	return json.Unmarshal(data, &d.Account)
+	*t = TransferDestination(v)
+	err = json.Unmarshal(data, &d.Account)
+	return err
 }
