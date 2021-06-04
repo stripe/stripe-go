@@ -1,5 +1,15 @@
 # Changelog
 
+## 72.48.0 - 2021-06-04
+* [#1291](https://github.com/stripe/stripe-go/pull/1291) API Updates
+  * Add new resource `TaxCode`.
+  * Add support for `AutomaticTax` on `CheckoutSession`, `Invoice`, `Subscription`, and `SubscriptionScheduleDefaultSettings`.
+  * Add support for `CustomerUpdate` on `CheckoutSessionCustomerUpdateParams`
+  * Add support for `Tax` on `Customer` and `CustomerParams`
+  * Add support for `CustomerDetails` on `InvoiceParams`
+  * Add support for `TaxBehavior` on `Price`, `PriceParams`, `CheckoutSessionLineItemPriceDataParams`,  `PriceParams`, `SubscriptionItemPriceDataParams`, `SubscriptionSchedulePhaseAutomaticTaxParams`,`SubscriptionSchedulePhaseAddInvoiceItemPriceDataParams`, and `InvoiceItemPriceDataParams`
+  * Add support for `TaxCode` on `CheckoutSessionLineItemPriceDataProductParams`, `Product`, `ProductParams`, `PlanProductParams` and `PriceProductDataParams`
+
 ## 72.47.0 - 2021-05-26
 * [#1286](https://github.com/stripe/stripe-go/pull/1286) API Updates
   * Added support for `Documents` to `PersonParams`
