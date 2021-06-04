@@ -115,6 +115,6 @@ func (t *TransferDestination) UnmarshalJSON(data []byte) error {
 	}
 
 	*t = TransferDestination(v)
-	err = json.Unmarshal(data, &d.Account)
+	err := json.Unmarshal(data, &t.Account)
 	return err
 }
