@@ -191,49 +191,49 @@ type InvoiceTransferDataParams struct {
 // For more details see https://stripe.com/docs/api#create_invoice, https://stripe.com/docs/api#update_invoice.
 type InvoiceParams struct {
 	Params               `form:"*"`
-	AccountTaxIDs        []*string                             `form:"account_tax_ids"`
-	AutoAdvance          *bool                                 `form:"auto_advance"`
-	ApplicationFeeAmount *int64                                `form:"application_fee_amount"`
-	AutomaticTax         *InvoiceAutomaticTaxParams            `form:"automatic_tax"`
-	CustomerDetails      *InvoiceUpcomingCustomerDetailsParams `form:"customer_details"`
-	CollectionMethod     *string                               `form:"collection_method"`
-	CustomFields         []*InvoiceCustomFieldParams           `form:"custom_fields"`
-	Customer             *string                               `form:"customer"`
-	DaysUntilDue         *int64                                `form:"days_until_due"`
-	DefaultPaymentMethod *string                               `form:"default_payment_method"`
-	DefaultSource        *string                               `form:"default_source"`
-	DefaultTaxRates      []*string                             `form:"default_tax_rates"`
-	Description          *string                               `form:"description"`
-	Discounts            []*InvoiceDiscountParams              `form:"discounts"`
-	DueDate              *int64                                `form:"due_date"`
-	Footer               *string                               `form:"footer"`
-	OnBehalfOf           *string                               `form:"on_behalf_of"`
-	Paid                 *bool                                 `form:"paid"`
-	PaymentSettings      *InvoicePaymentSettingsParams         `form:"payment_settings"`
-	StatementDescriptor  *string                               `form:"statement_descriptor"`
-	Subscription         *string                               `form:"subscription"`
-	TransferData         *InvoiceTransferDataParams            `form:"transfer_data"`
+	AccountTaxIDs        []*string                     `form:"account_tax_ids"`
+	AutoAdvance          *bool                         `form:"auto_advance"`
+	ApplicationFeeAmount *int64                        `form:"application_fee_amount"`
+	AutomaticTax         *InvoiceAutomaticTaxParams    `form:"automatic_tax"`
+	CollectionMethod     *string                       `form:"collection_method"`
+	CustomFields         []*InvoiceCustomFieldParams   `form:"custom_fields"`
+	Customer             *string                       `form:"customer"`
+	DaysUntilDue         *int64                        `form:"days_until_due"`
+	DefaultPaymentMethod *string                       `form:"default_payment_method"`
+	DefaultSource        *string                       `form:"default_source"`
+	DefaultTaxRates      []*string                     `form:"default_tax_rates"`
+	Description          *string                       `form:"description"`
+	Discounts            []*InvoiceDiscountParams      `form:"discounts"`
+	DueDate              *int64                        `form:"due_date"`
+	Footer               *string                       `form:"footer"`
+	OnBehalfOf           *string                       `form:"on_behalf_of"`
+	Paid                 *bool                         `form:"paid"`
+	PaymentSettings      *InvoicePaymentSettingsParams `form:"payment_settings"`
+	StatementDescriptor  *string                       `form:"statement_descriptor"`
+	Subscription         *string                       `form:"subscription"`
+	TransferData         *InvoiceTransferDataParams    `form:"transfer_data"`
 
 	// These are all for exclusive use by GetNext.
 
-	Coupon                                  *string                             `form:"coupon"`
-	InvoiceItems                            []*InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
-	SubscriptionBillingCycleAnchor          *int64                              `form:"subscription_billing_cycle_anchor"`
-	SubscriptionBillingCycleAnchorNow       *bool                               `form:"-"` // See custom AppendTo
-	SubscriptionBillingCycleAnchorUnchanged *bool                               `form:"-"` // See custom AppendTo
-	SubscriptionCancelAt                    *int64                              `form:"subscription_cancel_at"`
-	SubscriptionCancelAtPeriodEnd           *bool                               `form:"subscription_cancel_at_period_end"`
-	SubscriptionCancelNow                   *bool                               `form:"subscription_cancel_now"`
-	SubscriptionDefaultTaxRates             []*string                           `form:"subscription_default_tax_rates"`
-	SubscriptionItems                       []*SubscriptionItemsParams          `form:"subscription_items"`
-	SubscriptionPlan                        *string                             `form:"subscription_plan"`
-	SubscriptionProrationBehavior           *string                             `form:"subscription_proration_behavior"`
-	SubscriptionProrationDate               *int64                              `form:"subscription_proration_date"`
-	SubscriptionQuantity                    *int64                              `form:"subscription_quantity"`
-	SubscriptionStartDate                   *int64                              `form:"subscription_start_date"`
-	SubscriptionTrialEnd                    *int64                              `form:"subscription_trial_end"`
-	SubscriptionTrialEndNow                 *bool                               `form:"-"` // See custom AppendTo
-	SubscriptionTrialFromPlan               *bool                               `form:"subscription_trial_from_plan"`
+	Coupon                                  *string                               `form:"coupon"`
+	CustomerDetails                         *InvoiceUpcomingCustomerDetailsParams `form:"customer_details"`
+	InvoiceItems                            []*InvoiceUpcomingInvoiceItemParams   `form:"invoice_items"`
+	SubscriptionBillingCycleAnchor          *int64                                `form:"subscription_billing_cycle_anchor"`
+	SubscriptionBillingCycleAnchorNow       *bool                                 `form:"-"` // See custom AppendTo
+	SubscriptionBillingCycleAnchorUnchanged *bool                                 `form:"-"` // See custom AppendTo
+	SubscriptionCancelAt                    *int64                                `form:"subscription_cancel_at"`
+	SubscriptionCancelAtPeriodEnd           *bool                                 `form:"subscription_cancel_at_period_end"`
+	SubscriptionCancelNow                   *bool                                 `form:"subscription_cancel_now"`
+	SubscriptionDefaultTaxRates             []*string                             `form:"subscription_default_tax_rates"`
+	SubscriptionItems                       []*SubscriptionItemsParams            `form:"subscription_items"`
+	SubscriptionPlan                        *string                               `form:"subscription_plan"`
+	SubscriptionProrationBehavior           *string                               `form:"subscription_proration_behavior"`
+	SubscriptionProrationDate               *int64                                `form:"subscription_proration_date"`
+	SubscriptionQuantity                    *int64                                `form:"subscription_quantity"`
+	SubscriptionStartDate                   *int64                                `form:"subscription_start_date"`
+	SubscriptionTrialEnd                    *int64                                `form:"subscription_trial_end"`
+	SubscriptionTrialEndNow                 *bool                                 `form:"-"` // See custom AppendTo
+	SubscriptionTrialFromPlan               *bool                                 `form:"subscription_trial_from_plan"`
 }
 
 // AppendTo implements custom encoding logic for InvoiceParams so that the special
