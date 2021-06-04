@@ -15,6 +15,14 @@ const (
 	InvoiceLineTypeSubscription InvoiceLineType = "subscription"
 )
 
+type InvoiceAutomaticTaxStatus string
+
+const (
+	InvoiceAutomaticTaxStatusComplete               InvoiceAutomaticTaxStatus = "complete"
+	InvoiceAutomaticTaxStatusFailed                 InvoiceAutomaticTaxStatus = "failed"
+	InvoiceAutomaticTaxStatusRequiresLocationInputs InvoiceAutomaticTaxStatus = "requires_location_inputs"
+)
+
 // InvoiceBillingReason is the reason why a given invoice was created
 type InvoiceBillingReason string
 
@@ -79,6 +87,33 @@ const (
 	InvoiceCollectionMethodSendInvoice         InvoiceCollectionMethod = "send_invoice"
 )
 
+type InvoiceUpcomingAutomaticTaxParams struct {
+	Enabled *bool `form:"enabled"`
+}
+
+type InvoiceUpcomingCustomerDetailsShippingParams struct {
+	Address *AddressParams `form:"address"`
+	Name    *string        `form:"name"`
+	Phone   *string        `form:"phone"`
+}
+
+type InvoiceUpcomingCustomerDetailsTaxParams struct {
+	IPAddress *string `form:"ip_address"`
+}
+
+type InvoiceUpcomingCustomerDetailsTaxIDParams struct {
+	Type  *string `form:"type"`
+	Value *string `form:"value"`
+}
+
+type InvoiceUpcomingCustomerDetailsParams struct {
+	Address   *AddressParams                                `form:"address"`
+	Shipping  *InvoiceUpcomingCustomerDetailsShippingParams `form:"shipping"`
+	Tax       *InvoiceUpcomingCustomerDetailsTaxParams      `form:"tax"`
+	TaxExempt *string                                       `form:"tax_exempt"`
+	TaxIDs    []*InvoiceUpcomingCustomerDetailsTaxIDParams  `form:"tax_ids"`
+}
+
 // InvoiceUpcomingInvoiceItemPeriodParams represents the period associated with that invoice item
 type InvoiceUpcomingInvoiceItemPeriodParams struct {
 	End   *int64 `form:"end"`
@@ -103,6 +138,10 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	TaxRates          []*string                               `form:"tax_rates"`
 	UnitAmount        *int64                                  `form:"unit_amount"`
 	UnitAmountDecimal *float64                                `form:"unit_amount_decimal,high_precision"`
+}
+
+type InvoiceAutomaticTaxParams struct {
+	Enabled *bool `form:"enabled"`
 }
 
 // InvoiceCustomFieldParams represents the parameters associated with one custom field on an invoice.
@@ -155,6 +194,7 @@ type InvoiceParams struct {
 	AccountTaxIDs        []*string                     `form:"account_tax_ids"`
 	AutoAdvance          *bool                         `form:"auto_advance"`
 	ApplicationFeeAmount *int64                        `form:"application_fee_amount"`
+	AutomaticTax         *InvoiceAutomaticTaxParams    `form:"automatic_tax"`
 	CollectionMethod     *string                       `form:"collection_method"`
 	CustomFields         []*InvoiceCustomFieldParams   `form:"custom_fields"`
 	Customer             *string                       `form:"customer"`
@@ -175,24 +215,25 @@ type InvoiceParams struct {
 
 	// These are all for exclusive use by GetNext.
 
-	Coupon                                  *string                             `form:"coupon"`
-	InvoiceItems                            []*InvoiceUpcomingInvoiceItemParams `form:"invoice_items"`
-	SubscriptionBillingCycleAnchor          *int64                              `form:"subscription_billing_cycle_anchor"`
-	SubscriptionBillingCycleAnchorNow       *bool                               `form:"-"` // See custom AppendTo
-	SubscriptionBillingCycleAnchorUnchanged *bool                               `form:"-"` // See custom AppendTo
-	SubscriptionCancelAt                    *int64                              `form:"subscription_cancel_at"`
-	SubscriptionCancelAtPeriodEnd           *bool                               `form:"subscription_cancel_at_period_end"`
-	SubscriptionCancelNow                   *bool                               `form:"subscription_cancel_now"`
-	SubscriptionDefaultTaxRates             []*string                           `form:"subscription_default_tax_rates"`
-	SubscriptionItems                       []*SubscriptionItemsParams          `form:"subscription_items"`
-	SubscriptionPlan                        *string                             `form:"subscription_plan"`
-	SubscriptionProrationBehavior           *string                             `form:"subscription_proration_behavior"`
-	SubscriptionProrationDate               *int64                              `form:"subscription_proration_date"`
-	SubscriptionQuantity                    *int64                              `form:"subscription_quantity"`
-	SubscriptionStartDate                   *int64                              `form:"subscription_start_date"`
-	SubscriptionTrialEnd                    *int64                              `form:"subscription_trial_end"`
-	SubscriptionTrialEndNow                 *bool                               `form:"-"` // See custom AppendTo
-	SubscriptionTrialFromPlan               *bool                               `form:"subscription_trial_from_plan"`
+	Coupon                                  *string                               `form:"coupon"`
+	CustomerDetails                         *InvoiceUpcomingCustomerDetailsParams `form:"customer_details"`
+	InvoiceItems                            []*InvoiceUpcomingInvoiceItemParams   `form:"invoice_items"`
+	SubscriptionBillingCycleAnchor          *int64                                `form:"subscription_billing_cycle_anchor"`
+	SubscriptionBillingCycleAnchorNow       *bool                                 `form:"-"` // See custom AppendTo
+	SubscriptionBillingCycleAnchorUnchanged *bool                                 `form:"-"` // See custom AppendTo
+	SubscriptionCancelAt                    *int64                                `form:"subscription_cancel_at"`
+	SubscriptionCancelAtPeriodEnd           *bool                                 `form:"subscription_cancel_at_period_end"`
+	SubscriptionCancelNow                   *bool                                 `form:"subscription_cancel_now"`
+	SubscriptionDefaultTaxRates             []*string                             `form:"subscription_default_tax_rates"`
+	SubscriptionItems                       []*SubscriptionItemsParams            `form:"subscription_items"`
+	SubscriptionPlan                        *string                               `form:"subscription_plan"`
+	SubscriptionProrationBehavior           *string                               `form:"subscription_proration_behavior"`
+	SubscriptionProrationDate               *int64                                `form:"subscription_proration_date"`
+	SubscriptionQuantity                    *int64                                `form:"subscription_quantity"`
+	SubscriptionStartDate                   *int64                                `form:"subscription_start_date"`
+	SubscriptionTrialEnd                    *int64                                `form:"subscription_trial_end"`
+	SubscriptionTrialEndNow                 *bool                                 `form:"-"` // See custom AppendTo
+	SubscriptionTrialFromPlan               *bool                                 `form:"subscription_trial_from_plan"`
 }
 
 // AppendTo implements custom encoding logic for InvoiceParams so that the special
@@ -287,6 +328,7 @@ type Invoice struct {
 	AttemptCount                 int64                    `json:"attempt_count"`
 	Attempted                    bool                     `json:"attempted"`
 	AutoAdvance                  bool                     `json:"auto_advance"`
+	AutomaticTax                 *InvoiceAutomaticTax     `json:"automatic_tax"`
 	BillingReason                InvoiceBillingReason     `json:"billing_reason"`
 	Charge                       *Charge                  `json:"charge"`
 	CollectionMethod             *InvoiceCollectionMethod `json:"collection_method"`
@@ -344,6 +386,11 @@ type Invoice struct {
 	TotalTaxAmounts              []*InvoiceTaxAmount      `json:"total_tax_amounts"`
 	TransferData                 *InvoiceTransferData     `json:"transfer_data"`
 	WebhooksDeliveredAt          int64                    `json:"webhooks_delivered_at"`
+}
+
+type InvoiceAutomaticTax struct {
+	Enabled bool                      `json:"enabled"`
+	Status  InvoiceAutomaticTaxStatus `json:"status"`
 }
 
 // InvoiceCustomField is a structure representing a custom field on an invoice.

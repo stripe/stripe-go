@@ -19,6 +19,7 @@ type SubscriptionItemPriceDataParams struct {
 	Currency          *string                                   `form:"currency"`
 	Product           *string                                   `form:"product"`
 	Recurring         *SubscriptionItemPriceDataRecurringParams `form:"recurring"`
+	TaxBehavior       *string                                   `form:"tax_behavior"`
 	UnitAmount        *int64                                    `form:"unit_amount"`
 	UnitAmountDecimal *float64                                  `form:"unit_amount_decimal,high_precision"`
 }

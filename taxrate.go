@@ -8,6 +8,17 @@ package stripe
 
 import "encoding/json"
 
+type TaxRateTaxType string
+
+const (
+	TaxRateTaxTypeGST      TaxRateTaxType = "gst"
+	TaxRateTaxTypeHST      TaxRateTaxType = "hst"
+	TaxRateTaxTypePST      TaxRateTaxType = "pst"
+	TaxRateTaxTypeQST      TaxRateTaxType = "qst"
+	TaxRateTaxTypeSalesTax TaxRateTaxType = "sales_tax"
+	TaxRateTaxTypeVAT      TaxRateTaxType = "vat"
+)
+
 // TaxRateParams is the set of parameters that can be used when creating a tax rate.
 // For more details see https://stripe.com/docs/api/tax_rates/create.
 type TaxRateParams struct {
@@ -20,6 +31,7 @@ type TaxRateParams struct {
 	Jurisdiction *string  `form:"jurisdiction"`
 	Percentage   *float64 `form:"percentage"`
 	State        *string  `form:"state"`
+	TaxType      *string  `form:"tax_type"`
 }
 
 // TaxRateListParams is the set of parameters that can be used when listing tax rates.
@@ -49,6 +61,7 @@ type TaxRate struct {
 	Object       string            `json:"object"`
 	Percentage   float64           `json:"percentage"`
 	State        string            `json:"state"`
+	TaxType      TaxRateTaxType    `json:"tax_type"`
 }
 
 // TaxRateList is a list of tax rates as retrieved from a list endpoint.

@@ -47,6 +47,14 @@ const (
 	PriceRecurringUsageTypeMetered  PriceRecurringUsageType = "metered"
 )
 
+type PriceTaxBehavior string
+
+const (
+	PriceTaxBehaviorExclusive   PriceTaxBehavior = "exclusive"
+	PriceTaxBehaviorInclusive   PriceTaxBehavior = "inclusive"
+	PriceTaxBehaviorUnspecified PriceTaxBehavior = "unspecified"
+)
+
 // PriceTiersMode is the list of allowed values for a price's tiers mode.
 type PriceTiersMode string
 
@@ -81,6 +89,7 @@ type PriceProductDataParams struct {
 	Name                *string           `form:"name"`
 	Metadata            map[string]string `form:"metadata"`
 	StatementDescriptor *string           `form:"statement_descriptor"`
+	TaxCode             *string           `form:"tax_code"`
 	UnitLabel           *string           `form:"unit_label"`
 }
 
@@ -130,6 +139,7 @@ type PriceParams struct {
 	Product           *string                       `form:"product"`
 	ProductData       *PriceProductDataParams       `form:"product_data"`
 	Recurring         *PriceRecurringParams         `form:"recurring"`
+	TaxBehavior       *string                       `form:"tax_behavior"`
 	Tiers             []*PriceTierParams            `form:"tiers"`
 	TiersMode         *string                       `form:"tiers_mode"`
 	TransferLookupKey *bool                         `form:"transfer_lookup_key"`
@@ -197,6 +207,7 @@ type Price struct {
 	Metadata          map[string]string       `json:"metadata"`
 	Nickname          string                  `json:"nickname"`
 	Object            string                  `json:"object"`
+	TaxBehavior       PriceTaxBehavior        `json:"tax_behavior"`
 	Product           *Product                `json:"product"`
 	Recurring         *PriceRecurring         `json:"recurring"`
 	Tiers             []*PriceTier            `json:"tiers"`

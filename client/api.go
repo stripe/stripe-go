@@ -68,6 +68,7 @@ import (
 	"github.com/stripe/stripe-go/v72/sub"
 	"github.com/stripe/stripe-go/v72/subitem"
 	"github.com/stripe/stripe-go/v72/subschedule"
+	"github.com/stripe/stripe-go/v72/taxcode"
 	"github.com/stripe/stripe-go/v72/taxid"
 	"github.com/stripe/stripe-go/v72/taxrate"
 	terminalconnectiontoken "github.com/stripe/stripe-go/v72/terminal/connectiontoken"
@@ -215,6 +216,8 @@ type API struct {
 	SubscriptionSchedules *subschedule.Client
 	// TaxIDs is the client used to invoke /tax_ids APIs.
 	TaxIDs *taxid.Client
+	// TaxCodes is the client used to invoke /tax_codes APIs.
+	TaxCodes *taxcode.Client
 	// TaxRates is the client used to invoke /tax_rates APIs.
 	TaxRates *taxrate.Client
 	// TerminalConnectionTokens is the client used to invoke /terminal/connectiontokens related APIs.
@@ -314,6 +317,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.SubscriptionItems = &subitem.Client{B: backends.API, Key: key}
 	a.SubscriptionSchedules = &subschedule.Client{B: backends.API, Key: key}
 	a.TaxIDs = &taxid.Client{B: backends.API, Key: key}
+	a.TaxCodes = &taxcode.Client{B: backends.API, Key: key}
 	a.TaxRates = &taxrate.Client{B: backends.API, Key: key}
 	a.TerminalConnectionTokens = &terminalconnectiontoken.Client{B: backends.API, Key: key}
 	a.TerminalLocations = &terminallocation.Client{B: backends.API, Key: key}

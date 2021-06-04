@@ -8,6 +8,24 @@ package stripe
 
 import "encoding/json"
 
+type CustomerTaxAutomaticTax string
+
+const (
+	CustomerTaxAutomaticTaxFailed               CustomerTaxAutomaticTax = "failed"
+	CustomerTaxAutomaticTaxNotCollecting        CustomerTaxAutomaticTax = "not_collecting"
+	CustomerTaxAutomaticTaxSupported            CustomerTaxAutomaticTax = "supported"
+	CustomerTaxAutomaticTaxUnrecognizedLocation CustomerTaxAutomaticTax = "unrecognized_location"
+)
+
+type CustomerTaxLocationSource string
+
+const (
+	CustomerTaxLocationSourceBillingAddress      CustomerTaxLocationSource = "billing_address"
+	CustomerTaxLocationSourceIPAddress           CustomerTaxLocationSource = "ip_address"
+	CustomerTaxLocationSourcePaymentMethod       CustomerTaxLocationSource = "payment_method"
+	CustomerTaxLocationSourceShippingDestination CustomerTaxLocationSource = "shipping_destination"
+)
+
 // CustomerTaxExempt is the type of tax exemption associated with a customer.
 type CustomerTaxExempt string
 
@@ -38,6 +56,7 @@ type CustomerParams struct {
 	PromotionCode       *string                        `form:"promotion_code"`
 	Shipping            *CustomerShippingDetailsParams `form:"shipping"`
 	Source              *SourceParams                  `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	Tax                 *CustomerTaxParams             `form:"tax"`
 	TaxExempt           *string                        `form:"tax_exempt"`
 	TaxIDData           []*CustomerTaxIDDataParams     `form:"tax_id_data"`
 	Token               *string                        `form:"-"` // This doesn't seem to be used?
@@ -65,6 +84,10 @@ type CustomerShippingDetailsParams struct {
 	Phone   *string        `form:"phone"`
 }
 
+type CustomerTaxParams struct {
+	IPAddress *string `form:"ip_address"`
+}
+
 // CustomerTaxIDDataParams lets you pass the tax id details associated with a Customer.
 type CustomerTaxIDDataParams struct {
 	Type  *string `form:"type"`
@@ -86,6 +109,17 @@ type CustomerListParams struct {
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 	Email        *string           `form:"email"`
+}
+
+type CustomerTaxLocation struct {
+	Country string                    `json:"country"`
+	Source  CustomerTaxLocationSource `json:"source"`
+	State   string                    `json:"state"`
+}
+type CustomerTax struct {
+	AutomaticTax CustomerTaxAutomaticTax `json:"automatic_tax"`
+	IPAddress    string                  `json:"ip_address"`
+	Location     *CustomerTaxLocation    `json:"location"`
 }
 
 // Customer is the resource representing a Stripe customer.
@@ -115,6 +149,7 @@ type Customer struct {
 	Shipping            *CustomerShippingDetails `json:"shipping"`
 	Sources             *SourceList              `json:"sources"`
 	Subscriptions       *SubscriptionList        `json:"subscriptions"`
+	Tax                 *CustomerTax             `json:"tax"`
 	TaxExempt           CustomerTaxExempt        `json:"tax_exempt"`
 	TaxIDs              *TaxIDList               `json:"tax_ids"`
 }

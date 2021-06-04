@@ -40,6 +40,7 @@ type ProductParams struct {
 	PackageDimensions   *PackageDimensionsParams `form:"package_dimensions"`
 	Shippable           *bool                    `form:"shippable"`
 	StatementDescriptor *string                  `form:"statement_descriptor"`
+	TaxCode             *string                  `form:"tax_code"`
 	Type                *string                  `form:"type"`
 	UnitLabel           *string                  `form:"unit_label"`
 	URL                 *string                  `form:"url"`
@@ -86,6 +87,7 @@ type Product struct {
 	PackageDimensions   *PackageDimensions `json:"package_dimensions"`
 	Shippable           bool               `json:"shippable"`
 	StatementDescriptor string             `json:"statement_descriptor"`
+	TaxCode             *TaxCode           `json:"tax_code"`
 	Type                ProductType        `json:"type"`
 	UnitLabel           string             `json:"unit_label"`
 	Updated             int64              `json:"updated"`
