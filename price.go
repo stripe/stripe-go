@@ -1,11 +1,13 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
-import (
-	"encoding/json"
-	"strconv"
-
-	"github.com/stripe/stripe-go/v72/form"
-)
+import "encoding/json"
+import "github.com/stripe/stripe-go/v72/form"
 
 // PriceBillingScheme is the list of allowed values for a price's billing scheme.
 type PriceBillingScheme string
@@ -33,8 +35,8 @@ type PriceRecurringInterval string
 // List of values that PriceRecurringInterval can take.
 const (
 	PriceRecurringIntervalDay   PriceRecurringInterval = "day"
-	PriceRecurringIntervalWeek  PriceRecurringInterval = "week"
 	PriceRecurringIntervalMonth PriceRecurringInterval = "month"
+	PriceRecurringIntervalWeek  PriceRecurringInterval = "week"
 	PriceRecurringIntervalYear  PriceRecurringInterval = "year"
 )
 
@@ -86,8 +88,8 @@ const (
 type PriceProductDataParams struct {
 	Active              *bool             `form:"active"`
 	ID                  *string           `form:"id"`
-	Name                *string           `form:"name"`
 	Metadata            map[string]string `form:"metadata"`
+	Name                *string           `form:"name"`
 	StatementDescriptor *string           `form:"statement_descriptor"`
 	TaxCode             *string           `form:"tax_code"`
 	UnitLabel           *string           `form:"unit_label"`
@@ -108,16 +110,14 @@ type PriceTierParams struct {
 	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
 	UnitAmount        *int64   `form:"unit_amount"`
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
-	UpTo              *int64   `form:"-"` // handled in custom AppendTo
-	UpToInf           *bool    `form:"-"` // handled in custom AppendTo
+	UpTo              *int64   `form:"up_to"`
+	UpToInf           *bool    `form:"-"` // See custom AppendTo
 }
 
-// AppendTo implements custom up_to serialisation logic for tiers configuration
+// AppendTo implements custom encoding logic for PriceTierParams.
 func (p *PriceTierParams) AppendTo(body *form.Values, keyParts []string) {
 	if BoolValue(p.UpToInf) {
 		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
-	} else {
-		body.Add(form.FormatKey(append(keyParts, "up_to")), strconv.FormatInt(Int64Value(p.UpTo), 10))
 	}
 }
 
@@ -228,9 +228,9 @@ type PriceList struct {
 // UnmarshalJSON handles deserialization of a Price.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (s *Price) UnmarshalJSON(data []byte) error {
+func (p *Price) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		s.ID = id
+		p.ID = id
 		return nil
 	}
 
@@ -240,6 +240,6 @@ func (s *Price) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*s = Price(v)
+	*p = Price(v)
 	return nil
 }
