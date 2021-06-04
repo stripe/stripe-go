@@ -96,6 +96,15 @@ const (
 	AccountCompanyStructureUnincorporatedNonProfit            AccountCompanyStructure = "unincorporated_non_profit"
 )
 
+// AccountControllerType describes the controller type of the account.
+type AccountControllerType string
+
+// List of values that AccountControllerType can take.
+const (
+	AccountControllerTypeAccount     AccountControllerType = "account"
+	AccountControllerTypeApplication AccountControllerType = "application"
+)
+
 // AccountRequirementsDisabledReason describes why an account is disabled.
 type AccountRequirementsDisabledReason string
 
@@ -616,6 +625,12 @@ type AccountCompany struct {
 	Verification       *AccountCompanyVerification `json:"verification"`
 }
 
+// AccountController contains information about the control of the account.
+type AccountController struct {
+	IsController bool                  `json:"is_controller"`
+	Type         AccountControllerType `json:"type"`
+}
+
 // AccountDeclineOn represents card charges decline behavior for that account.
 type AccountDeclineOn struct {
 	AVSFailure bool `json:"avs_failure"`
@@ -729,6 +744,7 @@ type Account struct {
 	Capabilities     *AccountCapabilities    `json:"capabilities"`
 	ChargesEnabled   bool                    `json:"charges_enabled"`
 	Company          *AccountCompany         `json:"company"`
+	Controller       *AccountController      `json:"controller"`
 	Country          string                  `json:"country"`
 	Created          int64                   `json:"created"`
 	DefaultCurrency  Currency                `json:"default_currency"`
