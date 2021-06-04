@@ -13,10 +13,10 @@ type TaxRateTaxType string
 const (
 	TaxRateTaxTypeGst      TaxRateTaxType = "gst"
 	TaxRateTaxTypeHst      TaxRateTaxType = "hst"
-	TaxRateTaxTypePst      TaxRateTaxType = "pst"
-	TaxRateTaxTypeQst      TaxRateTaxType = "qst"
+	TaxRateTaxTypePST      TaxRateTaxType = "pst"
+	TaxRateTaxTypeQST      TaxRateTaxType = "qst"
 	TaxRateTaxTypeSalesTax TaxRateTaxType = "sales_tax"
-	TaxRateTaxTypeVat      TaxRateTaxType = "vat"
+	TaxRateTaxTypeVAT      TaxRateTaxType = "vat"
 )
 
 // TaxRateParams is the set of parameters that can be used when creating a tax rate.
