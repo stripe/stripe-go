@@ -1,5 +1,15 @@
 # Changelog
 
+## 72.49.0 - 2021-06-04
+* [#1292](https://github.com/stripe/stripe-go/pull/1292) API Updates
+  * Add support for `Controller` to `Account`
+* [#1287](https://github.com/stripe/stripe-go/pull/1287) [#1293](https://github.com/stripe/stripe-go/pull/1293) [#1290](https://github.com/stripe/stripe-go/pull/1290) codegen: 4 files 
+  * Add missing enum members to `BalanceTransactionType`, `BalanceTransactionSourceType`
+  * Add support for `FeeRefund` and `Topup` to `BalanceTransactionSource`
+  * Add support for `Object` on `BalanceTransaction` and `Transfer`
+  * Removed a redundant form-encoding conversion for `UpTo` in `PriceTierParams.AppendTo` method
+
+
 ## 72.48.0 - 2021-06-04
 * [#1291](https://github.com/stripe/stripe-go/pull/1291) API Updates
   * Add new resource `TaxCode`.
