@@ -25,6 +25,7 @@ type EphemeralKey struct {
 	Expires  int64  `json:"expires"`
 	ID       string `json:"id"`
 	Livemode bool   `json:"livemode"`
+	Secret   string `json:"secret"`
 
 	// RawJSON is provided so that it may be passed back to the frontend
 	// unchanged.  Ephemeral keys are issued on behalf of another client which
