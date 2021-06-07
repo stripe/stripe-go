@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.50.0 - 2021-06-07
+* [#1295](https://github.com/stripe/stripe-go/pull/1295) Add Secret to EphemeralKey as it now should be accessed directly
+* [#1297](https://github.com/stripe/stripe-go/pull/1297) API Updates
+  * Add support for `TaxIDCollection` to `CheckoutSession` and `CheckoutSessionParams`.
+
 ## 72.49.0 - 2021-06-04
 * [#1292](https://github.com/stripe/stripe-go/pull/1292) API Updates
   * Add support for `Controller` to `Account`
