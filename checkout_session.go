@@ -286,6 +286,9 @@ type CheckoutSessionSubscriptionDataParams struct {
 	TrialFromPlan         *bool                                              `form:"trial_from_plan"`
 	TrialPeriodDays       *int64                                             `form:"trial_period_days"`
 }
+type CheckoutSessionTaxIDCollectionParams struct {
+	Enabled *bool `form:"enabled"`
+}
 
 // CheckoutSessionParams is the set of parameters that can be used when creating
 // a checkout session.
@@ -313,6 +316,7 @@ type CheckoutSessionParams struct {
 	SubmitType                *string                                         `form:"submit_type"`
 	SubscriptionData          *CheckoutSessionSubscriptionDataParams          `form:"subscription_data"`
 	SuccessURL                *string                                         `form:"success_url"`
+	TaxIDCollection           *CheckoutSessionTaxIDCollectionParams           `form:"tax_id_collection"`
 }
 
 type CheckoutSessionAutomaticTax struct {
@@ -376,6 +380,9 @@ type CheckoutSessionPaymentMethodOptions struct {
 type CheckoutSessionShippingAddressCollection struct {
 	AllowedCountries []string `json:"allowed_countries"`
 }
+type CheckoutSessionTaxIDCollection struct {
+	Enabled bool `json:"enabled"`
+}
 
 // CheckoutSessionTotalDetailsBreakdownDiscount represent the details of one discount applied to a session.
 type CheckoutSessionTotalDetailsBreakdownDiscount struct {
@@ -435,6 +442,7 @@ type CheckoutSession struct {
 	Subscription              *Subscription                             `json:"subscription"`
 	SubmitType                CheckoutSessionSubmitType                 `json:"submit_type"`
 	SuccessURL                string                                    `json:"success_url"`
+	TaxIDCollection           *CheckoutSessionTaxIDCollection           `json:"tax_id_collection"`
 	TotalDetails              *CheckoutSessionTotalDetails              `json:"total_details"`
 }
 
