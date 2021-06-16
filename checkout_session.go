@@ -444,6 +444,7 @@ type CheckoutSession struct {
 	SuccessURL                string                                    `json:"success_url"`
 	TaxIDCollection           *CheckoutSessionTaxIDCollection           `json:"tax_id_collection"`
 	TotalDetails              *CheckoutSessionTotalDetails              `json:"total_details"`
+	URL                       string                                    `json:"url"`
 }
 
 // CheckoutSessionList is a list of sessions as retrieved from a list endpoint.
