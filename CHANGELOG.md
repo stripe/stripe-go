@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.51.0 - 2021-06-16
+* [#1298](https://github.com/stripe/stripe-go/pull/1298) API Updates
+  * Add checkout.Session.URL
+
 ## 72.50.0 - 2021-06-07
 * [#1295](https://github.com/stripe/stripe-go/pull/1295) Add Secret to EphemeralKey as it now should be accessed directly
 * [#1297](https://github.com/stripe/stripe-go/pull/1297) API Updates
