@@ -6,6 +6,8 @@
 
 package stripe
 
+import "encoding/json"
+
 // TerminalLocationParams is the set of parameters that can be used when creating or updating a terminal location.
 type TerminalLocationParams struct {
 	Params      `form:"*"`
@@ -35,4 +37,23 @@ type TerminalLocationList struct {
 	APIResource
 	ListMeta
 	Data []*TerminalLocation `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a TerminalLocation.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (t *TerminalLocation) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		t.ID = id
+		return nil
+	}
+
+	type terminalLocation TerminalLocation
+	var v terminalLocation
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*t = TerminalLocation(v)
+	return nil
 }

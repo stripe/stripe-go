@@ -207,9 +207,9 @@ type Price struct {
 	Metadata          map[string]string       `json:"metadata"`
 	Nickname          string                  `json:"nickname"`
 	Object            string                  `json:"object"`
-	TaxBehavior       PriceTaxBehavior        `json:"tax_behavior"`
 	Product           *Product                `json:"product"`
 	Recurring         *PriceRecurring         `json:"recurring"`
+	TaxBehavior       PriceTaxBehavior        `json:"tax_behavior"`
 	Tiers             []*PriceTier            `json:"tiers"`
 	TiersMode         PriceTiersMode          `json:"tiers_mode"`
 	TransformQuantity *PriceTransformQuantity `json:"transform_quantity"`

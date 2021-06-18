@@ -83,7 +83,6 @@ type CustomerShippingDetailsParams struct {
 	Name    *string        `form:"name"`
 	Phone   *string        `form:"phone"`
 }
-
 type CustomerTaxParams struct {
 	IPAddress *string `form:"ip_address"`
 }
@@ -110,7 +109,6 @@ type CustomerListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	Email        *string           `form:"email"`
 }
-
 type CustomerTaxLocation struct {
 	Country string                    `json:"country"`
 	Source  CustomerTaxLocationSource `json:"source"`
