@@ -46,7 +46,7 @@ type TerminalReader struct {
 	IPAddress       string                   `json:"ip_address"`
 	Label           string                   `json:"label"`
 	Livemode        bool                     `json:"livemode"`
-	Location        *TerminalLocation        `json:"location"`
+	Location        string                   `json:"location"`
 	Metadata        map[string]string        `json:"metadata"`
 	Object          string                   `json:"object"`
 	SerialNumber    string                   `json:"serial_number"`
