@@ -149,8 +149,7 @@ type APIResource struct {
 	LastResponse *APIResponse `json:"-"`
 }
 
-// APIResource is a type assigned to structs that may come from Stripe API
-// endpoints and contains facilities common to all of them.
+// APIStream is a type assigned to streaming responses that may come from Stripe API
 type APIStream struct {
 	LastResponse *StreamingAPIResponse `json:"-"`
 }
@@ -598,16 +597,26 @@ func (s *BackendImplementation) logError(statusCode int, err error) {
 
 func (s *BackendImplementation) DoStreaming(req *http.Request, body *bytes.Buffer, v StreamingLastResponseSetter) error {
 	handleResponse := func(res *http.Response, err error) (interface{}, error) {
+
+		// Some sort of connection error
 		if err != nil {
 			s.LeveledLogger.Errorf("Request failed with error: %v", err)
-		} else if res.StatusCode >= 400 {
-			var resBody []byte
-			if err == nil {
-				resBody, err = ioutil.ReadAll(res.Body)
-				res.Body.Close()
-			}
-			err = s.ResponseToError(res, resBody)
+			return res.Body, err
+		}
 
+		// Successful response, return the body ReadCloser
+		if res.StatusCode < 400 {
+			return res.Body, err
+		}
+
+		// Failure: try and parse the json of the response
+		// when logging the error
+		var resBody []byte
+		resBody, err = ioutil.ReadAll(res.Body)
+		res.Body.Close()
+		if err == nil {
+			err = s.ResponseToError(res, resBody)
+		} else {
 			s.logError(res.StatusCode, err)
 		}
 

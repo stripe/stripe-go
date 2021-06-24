@@ -789,9 +789,6 @@ func TestDoStreaming_ParsableError(t *testing.T) {
 }
 
 func TestDoStreaming_UnparsableError(t *testing.T) {
-	type testServerResponse struct {
-		Error *Error `json:"error"`
-	}
 	testServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		var data []byte
