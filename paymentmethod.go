@@ -127,6 +127,7 @@ type PaymentMethodBACSDebitParams struct {
 type PaymentMethodBancontactParams struct {
 }
 
+// PaymentMethodBoletoParams is the set of parameters allowed for the `boleto` hash when creating a
 // PaymentMethod of type Boleto
 type PaymentMethodBoletoParams struct {
 	TaxID *string `form:"tax_id"`
@@ -293,7 +294,7 @@ type PaymentMethodBACSDebit struct {
 type PaymentMethodBancontact struct {
 }
 
-// PaymentMethodBancontact represents the Boleto properties.
+// PaymentMethodBoleto represents the Boleto properties.
 type PaymentMethodBoleto struct {
 	TaxID string `json:"tax_id"`
 }
