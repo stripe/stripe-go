@@ -111,7 +111,7 @@ type APIResponse struct {
 // Stripe API whose body can be streamed. This is used for "file downloads", and
 // the `Body` property is an io.ReadCloser, so the user can stream it to another
 // location such as a file or network request without buffering the entire body
-// into meemory.
+// into memory.
 type StreamingAPIResponse struct {
 	Header         http.Header
 	IdempotencyKey string
