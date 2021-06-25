@@ -515,15 +515,18 @@ func resetBodyReader(body *bytes.Buffer, req *http.Request) {
 	}
 }
 
-// Do is used by Call to execute an API request and parse the response. It uses
-// the backend's HTTP client to execute the request and unmarshals the response
-// into v. It also handles unmarshaling errors returned by the API.
-func (s *BackendImplementation) execute(
+// requestWithRetriesAndTelemetry uses s.HTTPClient to make an HTTP request,
+// and handles retries, telemetry, and emitting log statements.  It attempts to
+// avoid processing the *result* of the HTTP request. It receives a
+// "handleResponse" func from the caller, and it defers to that to determine
+// whether the request was a failure or success, and to convert the
+// response/error into the appropriate type of error or an appropriate result
+// type.
+func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 	req *http.Request,
 	body *bytes.Buffer,
 	handleResponse func(*http.Response, error) (interface{}, error),
-	handleResult func(*http.Response, interface{}) error,
-) error {
+) (error, *http.Response, interface{}) {
 	s.LeveledLogger.Infof("Requesting %v %v%v", req.Method, req.URL.Host, req.URL.Path)
 	s.maybeSetTelemetryHeader(req)
 	var res *http.Response
@@ -562,10 +565,10 @@ func (s *BackendImplementation) execute(
 	s.maybeEnqueueTelemetryMetrics(res, requestDuration)
 
 	if err != nil {
-		return err
+		return err, nil, nil
 	}
 
-	return handleResult(res, result)
+	return nil, res, result
 }
 
 func (s *BackendImplementation) logError(statusCode int, err error) {
@@ -622,12 +625,13 @@ func (s *BackendImplementation) DoStreaming(req *http.Request, body *bytes.Buffe
 
 		return res.Body, err
 	}
-	handleResult := func(res *http.Response, result interface{}) error {
-		body := result.(io.ReadCloser)
-		v.SetLastResponse(newStreamingAPIResponse(res, body))
-		return nil
+
+	err, res, result := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
+	if err != nil {
+		return err
 	}
-	return s.execute(req, body, handleResponse, handleResult)
+	v.SetLastResponse(newStreamingAPIResponse(res, result.(io.ReadCloser)))
+	return nil
 }
 
 // Do is used by Call to execute an API request and parse the response. It uses
@@ -651,14 +655,16 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 
 		return resBody, err
 	}
-	handleResult := func(res *http.Response, result interface{}) error {
-		resBody := result.([]byte)
-		s.LeveledLogger.Debugf("Response: %s", string(resBody))
-		err := s.UnmarshalJSONVerbose(res.StatusCode, resBody, v)
-		v.SetLastResponse(newAPIResponse(res, resBody))
+
+	err, res, result := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
+	if err != nil {
 		return err
 	}
-	return s.execute(req, body, handleResponse, handleResult)
+	resBody := result.([]byte)
+	s.LeveledLogger.Debugf("Response: %s", string(resBody))
+	err = s.UnmarshalJSONVerbose(res.StatusCode, resBody, v)
+	v.SetLastResponse(newAPIResponse(res, resBody))
+	return err
 }
 
 // ResponseToError converts a stripe response to an Error.
