@@ -272,9 +272,8 @@ type BackendImplementation struct {
 	requestMetricsBuffer chan requestMetrics
 }
 
-// Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
-	var body *form.Values
+func extractParams(params ParamsContainer) (*form.Values, *Params) {
+	var formValues *form.Values
 	var commonParams *Params
 
 	if params != nil {
@@ -290,29 +289,23 @@ func (s *BackendImplementation) Call(method, path, key string, params ParamsCont
 
 		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
 			commonParams = params.GetParams()
-			body = &form.Values{}
-			form.AppendTo(body, params)
+			formValues = &form.Values{}
+			form.AppendTo(formValues, params)
 		}
 	}
+	return formValues, commonParams
+}
 
+// Call is the Backend.Call implementation for invoking Stripe APIs.
+func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
+	body, commonParams := extractParams(params)
 	return s.CallRaw(method, path, key, body, commonParams, v)
 }
 
 // CallStreaming is the Backend.Call implementation for invoking Stripe APIs
 // without buffering the response into memory.
 func (s *BackendImplementation) CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error {
-	var formValues *form.Values
-	var commonParams *Params
-
-	if params != nil {
-		reflectValue := reflect.ValueOf(params)
-
-		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
-			commonParams = params.GetParams()
-			formValues = &form.Values{}
-			form.AppendTo(formValues, params)
-		}
-	}
+	formValues, commonParams := extractParams(params)
 
 	var body string
 	if formValues != nil && !formValues.Empty() {
@@ -526,7 +519,7 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 	req *http.Request,
 	body *bytes.Buffer,
 	handleResponse func(*http.Response, error) (interface{}, error),
-) (error, *http.Response, interface{}) {
+) (*http.Response, interface{}, error) {
 	s.LeveledLogger.Infof("Requesting %v %v%v", req.Method, req.URL.Host, req.URL.Path)
 	s.maybeSetTelemetryHeader(req)
 	var res *http.Response
@@ -565,10 +558,10 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 	s.maybeEnqueueTelemetryMetrics(res, requestDuration)
 
 	if err != nil {
-		return err, nil, nil
+		return nil, nil, err
 	}
 
-	return nil, res, result
+	return res, result, nil
 }
 
 func (s *BackendImplementation) logError(statusCode int, err error) {
@@ -626,7 +619,7 @@ func (s *BackendImplementation) DoStreaming(req *http.Request, body *bytes.Buffe
 		return res.Body, err
 	}
 
-	err, res, result := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
+	res, result, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
 	if err != nil {
 		return err
 	}
@@ -656,7 +649,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 		return resBody, err
 	}
 
-	err, res, result := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
+	res, result, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
 	if err != nil {
 		return err
 	}
