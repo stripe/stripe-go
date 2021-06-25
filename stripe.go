@@ -591,6 +591,10 @@ func (s *BackendImplementation) logError(statusCode int, err error) {
 	}
 }
 
+// DoStreaming is used by CallStreaming to execute an API request. It uses the
+// backend's HTTP client to execure the request.  In successful cases, it sets
+// a StreamingLastResponse onto v, but in unsuccessful cases handles unmarshaling
+// errors returned by the API.
 func (s *BackendImplementation) DoStreaming(req *http.Request, body *bytes.Buffer, v StreamingLastResponseSetter) error {
 	handleResponse := func(res *http.Response, err error) (interface{}, error) {
 
