@@ -151,7 +151,7 @@ type APIResource struct {
 
 // APIStream is a type assigned to streaming responses that may come from Stripe API
 type APIStream struct {
-	LastResponse *StreamingAPIResponse `json:"-"`
+	LastResponse *StreamingAPIResponse
 }
 
 // SetLastResponse sets the HTTP response that returned the API resource.
