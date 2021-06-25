@@ -30,6 +30,7 @@ const (
 	TaxIDTypeGBVAT    TaxIDType = "gb_vat"
 	TaxIDTypeHKBR     TaxIDType = "hk_br"
 	TaxIDTypeIDNPWP   TaxIDType = "id_npwp"
+	TaxIDTypeILVAT    TaxIDType = "il_vat"
 	TaxIDTypeINGST    TaxIDType = "in_gst"
 	TaxIDTypeJPCN     TaxIDType = "jp_cn"
 	TaxIDTypeJPRN     TaxIDType = "jp_rn"

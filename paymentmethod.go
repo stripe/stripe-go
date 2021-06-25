@@ -22,6 +22,7 @@ const (
 	PaymentMethodTypeAUBECSDebit      PaymentMethodType = "au_becs_debit"
 	PaymentMethodTypeBACSDebit        PaymentMethodType = "bacs_debit"
 	PaymentMethodTypeBancontact       PaymentMethodType = "bancontact"
+	PaymentMethodTypeBoleto           PaymentMethodType = "boleto"
 	PaymentMethodTypeCard             PaymentMethodType = "card"
 	PaymentMethodTypeCardPresent      PaymentMethodType = "card_present"
 	PaymentMethodTypeEPS              PaymentMethodType = "eps"
@@ -126,6 +127,12 @@ type PaymentMethodBACSDebitParams struct {
 type PaymentMethodBancontactParams struct {
 }
 
+// PaymentMethodBoletoParams is the set of parameters allowed for the `boleto` hash when creating a
+// PaymentMethod of type Boleto
+type PaymentMethodBoletoParams struct {
+	TaxID *string `form:"tax_id"`
+}
+
 // PaymentMethodCardParams is the set of parameters allowed for the `card` hash when creating a
 // PaymentMethod of type card.
 type PaymentMethodCardParams struct {
@@ -204,6 +211,7 @@ type PaymentMethodParams struct {
 	AUBECSDebit      *PaymentMethodAUBECSDebitParams      `form:"au_becs_debit"`
 	BACSDebit        *PaymentMethodBACSDebitParams        `form:"bacs_debit"`
 	Bancontact       *PaymentMethodBancontactParams       `form:"bancontact"`
+	Boleto           *PaymentMethodBoletoParams           `form:"boleto"`
 	BillingDetails   *BillingDetailsParams                `form:"billing_details"`
 	Card             *PaymentMethodCardParams             `form:"card"`
 	EPS              *PaymentMethodEPSParams              `form:"eps"`
@@ -284,6 +292,11 @@ type PaymentMethodBACSDebit struct {
 
 // PaymentMethodBancontact represents the Bancontact properties.
 type PaymentMethodBancontact struct {
+}
+
+// PaymentMethodBoleto represents the Boleto properties.
+type PaymentMethodBoleto struct {
+	TaxID string `json:"tax_id"`
 }
 
 // PaymentMethodCardChecks represents the checks associated with a Card PaymentMethod.
@@ -407,6 +420,7 @@ type PaymentMethod struct {
 	BACSDebit        *PaymentMethodBACSDebit        `json:"bacs_debit"`
 	Bancontact       *PaymentMethodBancontact       `json:"bancontact"`
 	BillingDetails   *BillingDetails                `json:"billing_details"`
+	Boleto           *PaymentMethodBoleto           `json:"boleto"`
 	Card             *PaymentMethodCard             `json:"card"`
 	CardPresent      *PaymentMethodCardPresent      `json:"card_present"`
 	Created          int64                          `json:"created"`

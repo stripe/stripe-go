@@ -202,6 +202,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	Alipay           *PaymentMethodAlipayParams           `form:"alipay"`
 	AUBECSDebit      *PaymentMethodAUBECSDebitParams      `form:"au_becs_debit"`
 	BillingDetails   *BillingDetailsParams                `form:"billing_details"`
+	Boleto           *PaymentMethodBoletoParams           `form:"boleto"`
 	Card             *PaymentMethodCardParams             `form:"card"`
 	EPS              *PaymentMethodEPSParams              `form:"eps"`
 	FPX              *PaymentMethodFPXParams              `form:"fpx"`
@@ -244,6 +245,12 @@ type PaymentIntentPaymentMethodOptionsAlipayParams struct {
 // applied to a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language"`
+}
+
+// PaymentIntentPaymentMethodOptionsBoletoParams represents the boleto-specific options
+// applied to a PaymentIntent.
+type PaymentIntentPaymentMethodOptionsBoletoParams struct {
+	ExpiresAfterDays *int64 `form:"expires_after_days"`
 }
 
 // PaymentIntentPaymentMethodOptionsCardInstallmentsPlanParams represents details about the
@@ -290,6 +297,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
 	Alipay           *PaymentIntentPaymentMethodOptionsAlipayParams           `form:"alipay"`
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontactParams       `form:"bancontact"`
+	Boleto           *PaymentIntentPaymentMethodOptionsBoletoParams           `form:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCardParams             `form:"card"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXOParams             `form:"oxxo"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofortParams           `form:"sofort"`
@@ -352,6 +360,15 @@ type PaymentIntentNextActionAlipayHandleRedirect struct {
 	URL        string `json:"url"`
 }
 
+// PaymentIntentNextActionBoletoDisplayDetails represents the resource for the next action of type
+// "boleto_display_details".
+type PaymentIntentNextActionBoletoDisplayDetails struct {
+	ExpiresAt        int64  `json:"expires_at"`
+	HostedVoucherURL string `json:"hosted_voucher_url"`
+	Number           string `json:"number"`
+	PDF              string `json:"pdf"`
+}
+
 // PaymentIntentNextActionOXXODisplayDetails represents the resource for the next action of type
 // "oxxo_display_details".
 type PaymentIntentNextActionOXXODisplayDetails struct {
@@ -381,11 +398,16 @@ type PaymentIntentNextActionVerifyWithMicrodeposits struct {
 // PaymentIntentNextAction represents the type of action to take on a payment intent.
 type PaymentIntentNextAction struct {
 	AlipayHandleRedirect    *PaymentIntentNextActionAlipayHandleRedirect    `json:"alipay_handle_redirect"`
+	BoletoDisplayDetails    *PaymentIntentNextActionBoletoDisplayDetails    `json:"boleto_display_details"`
 	OXXODisplayDetails      *PaymentIntentNextActionOXXODisplayDetails      `json:"oxxo_display_details"`
 	RedirectToURL           *PaymentIntentNextActionRedirectToURL           `json:"redirect_to_url"`
 	Type                    PaymentIntentNextActionType                     `json:"type"`
 	UseStripeSDK            *PaymentIntentNextActionUseStripeSDK            `json:"use_stripe_sdk"`
 	VerifyWithMicrodeposits *PaymentIntentNextActionVerifyWithMicrodeposits `json:"verify_with_microdeposits"`
+}
+
+type PaymentIntentPaymentMethodOptionsBoleto struct {
+	ExpiresAfterDays int64 `json:"expires_after_days"`
 }
 
 // PaymentIntentPaymentMethodOptionsCardInstallmentsPlan describe a specific card installment plan.
@@ -463,6 +485,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentIntentPaymentMethodOptionsAlipay           `json:"alipay"`
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontact       `json:"bancontact"`
+	Boleto           *PaymentIntentPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`

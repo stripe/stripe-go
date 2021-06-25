@@ -290,6 +290,11 @@ type ChargePaymentMethodDetailsBancontact struct {
 	GeneratedSepaDebitMandate *Mandate       `json:"generated_sepa_debit_mandate"`
 }
 
+// ChargePaymentMethodDetailsBoleto represents details about the Boleto PaymentMethod.
+type ChargePaymentMethodDetailsBoleto struct {
+	TaxID string `json:"tax_id"`
+}
+
 // ChargePaymentMethodDetailsCardChecks represents the checks associated with the charge's Card
 // PaymentMethod.
 type ChargePaymentMethodDetailsCardChecks struct {
@@ -557,6 +562,7 @@ type ChargePaymentMethodDetails struct {
 	AUBECSDebit       *ChargePaymentMethodDetailsAUBECSDebit       `json:"au_becs_debit"`
 	BACSDebit         *ChargePaymentMethodDetailsBACSDebit         `json:"bacs_debit"`
 	Bancontact        *ChargePaymentMethodDetailsBancontact        `json:"bancontact"`
+	Boleto            *ChargePaymentMethodDetailsBoleto            `json:"boleto"`
 	Card              *ChargePaymentMethodDetailsCard              `json:"card"`
 	CardPresent       *ChargePaymentMethodDetailsCardPresent       `json:"card_present"`
 	Eps               *ChargePaymentMethodDetailsEps               `json:"eps"`
