@@ -1,5 +1,14 @@
 # Changelog
 
+## 72.52.0 - 2021-06-25
+* [#1301](https://github.com/stripe/stripe-go/pull/1301) API Updates
+  * Add support for `boleto` as a `PaymentMethodType`
+  * Add support for `Boleto` on `ChargePaymentMethodDetails`, `PaymentMethod`, `PaymentMethodParams`, `PaymentIntentPaymentMethodOptions`, `PaymentIntentPaymentMethodDataParams`, and `PaymentIntentPaymentMethodOptionsParams`
+  * Add support for `BoletoDisplayDetails` on `PaymentIntentNextAction`
+  * Add support for `il_vat` on enums `CheckoutSessionCustomerDetailsTaxIDsType` and `TaxIDType`
+* [#1299](https://github.com/stripe/stripe-go/pull/1299) API Updates
+  * Add support for new TaxId types: `ca_pst_mb`, `ca_pst_bc`, `ca_gst_hst`, and `ca_pst_sk`.
+
 ## 72.51.0 - 2021-06-16
 * [#1298](https://github.com/stripe/stripe-go/pull/1298) API Updates
   * Add checkout.Session.URL
