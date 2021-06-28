@@ -320,7 +320,7 @@ type Source struct {
 	Type                string                `json:"type"`
 	TypeData            map[string]interface{}
 	Usage               SourceUsage        `json:"usage"`
-	Wechat              SourceWechatParams `json:wechat`
+	Wechat              SourceWechatParams `json:"wechat"`
 }
 
 // AppendTo implements custom encoding logic for SourceObjectParams so that the special
