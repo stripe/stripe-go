@@ -522,7 +522,7 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 ) (*http.Response, interface{}, error) {
 	s.LeveledLogger.Infof("Requesting %v %v%v", req.Method, req.URL.Host, req.URL.Path)
 	s.maybeSetTelemetryHeader(req)
-	var res *http.Response
+	var resp *http.Response
 	var err error
 	var requestDuration time.Duration
 	var result interface{}
@@ -530,16 +530,16 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 		start := time.Now()
 		resetBodyReader(body, req)
 
-		res, err = s.HTTPClient.Do(req)
+		resp, err = s.HTTPClient.Do(req)
 
 		requestDuration = time.Since(start)
 		s.LeveledLogger.Infof("Request completed in %v (retry: %v)", requestDuration, retry)
 
-		result, err = handleResponse(res, err)
+		result, err = handleResponse(resp, err)
 
 		// If the response was okay, or an error that shouldn't be retried,
 		// we're done, and it's safe to leave the retry loop.
-		shouldRetry, noRetryReason := s.shouldRetry(err, req, res, retry)
+		shouldRetry, noRetryReason := s.shouldRetry(err, req, resp, retry)
 
 		if !shouldRetry {
 			s.LeveledLogger.Infof("Not retrying request: %v", noRetryReason)
@@ -555,13 +555,13 @@ func (s *BackendImplementation) requestWithRetriesAndTelemetry(
 		time.Sleep(sleepDuration)
 	}
 
-	s.maybeEnqueueTelemetryMetrics(res, requestDuration)
+	s.maybeEnqueueTelemetryMetrics(resp, requestDuration)
 
 	if err != nil {
 		return nil, nil, err
 	}
 
-	return res, result, nil
+	return resp, result, nil
 }
 
 func (s *BackendImplementation) logError(statusCode int, err error) {
@@ -623,11 +623,11 @@ func (s *BackendImplementation) DoStreaming(req *http.Request, body *bytes.Buffe
 		return res.Body, err
 	}
 
-	res, result, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
+	resp, result, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
 	if err != nil {
 		return err
 	}
-	v.SetLastResponse(newStreamingAPIResponse(res, result.(io.ReadCloser)))
+	v.SetLastResponse(newStreamingAPIResponse(resp, result.(io.ReadCloser)))
 	return nil
 }
 
