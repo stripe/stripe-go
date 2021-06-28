@@ -289,6 +289,13 @@ type SourceSourceOrder struct {
 	Shipping *ShippingDetails          `json:"shipping"`
 }
 
+// SourceWechatParams returns wechat qrcode when create payment source with wechat.
+// For more details please see https://stripe.com/docs/sources/wechat-pay
+//
+type SourceWechatParams struct {
+	QrCodeUrl *string `form:"qr_code_url"`
+}
+
 // Source is the resource representing a Source.
 // For more details see https://stripe.com/docs/api#sources.
 type Source struct {
@@ -312,7 +319,8 @@ type Source struct {
 	Status              SourceStatus          `json:"status"`
 	Type                string                `json:"type"`
 	TypeData            map[string]interface{}
-	Usage               SourceUsage `json:"usage"`
+	Usage               SourceUsage        `json:"usage"`
+	Wechat              SourceWechatParams `json:wechat`
 }
 
 // AppendTo implements custom encoding logic for SourceObjectParams so that the special
