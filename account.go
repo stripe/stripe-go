@@ -200,6 +200,11 @@ type AccountCapabilitiesBancontactPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// AccountCapabilitiesBoletoPaymentsParams represent allowed parameters to configure the boleto payments capability on an account.
+type AccountCapabilitiesBoletoPaymentsParams struct {
+	Requested *bool `form:"requested"`
+}
+
 // AccountCapabilitiesCardIssuingParams represent allowed parameters to configure the Issuing capability on an account.
 type AccountCapabilitiesCardIssuingParams struct {
 	Requested *bool `form:"requested"`
@@ -291,6 +296,7 @@ type AccountCapabilitiesParams struct {
 	AUBECSDebitPayments     *AccountCapabilitiesAUBECSDebitPaymentsParams     `form:"au_becs_debit_payments"`
 	BACSDebitPayments       *AccountCapabilitiesBACSDebitPaymentsParams       `form:"bacs_debit_payments"`
 	BancontactPayments      *AccountCapabilitiesBancontactPaymentsParams      `form:"bancontact_payments"`
+	BoletoPayments          *AccountCapabilitiesBoletoPaymentsParams          `form:"boleto_payments"`
 	CardIssuing             *AccountCapabilitiesCardIssuingParams             `form:"card_issuing"`
 	CardPayments            *AccountCapabilitiesCardPaymentsParams            `form:"card_payments"`
 	CartesBancairesPayments *AccountCapabilitiesCartesBancairesPaymentsParams `form:"cartes_bancaires_payments"`
