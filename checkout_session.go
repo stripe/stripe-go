@@ -243,9 +243,21 @@ type CheckoutSessionPaymentMethodOptionsACSSDebitParams struct {
 	VerificationMethod *string                                                           `form:"verification_method"`
 }
 
+// CheckoutSessionPaymentMethodOptionsBoletoParams is the set of parameters allowed for boleto on payment_method_options.
+type CheckoutSessionPaymentMethodOptionsBoletoParams struct {
+	ExpiresAfterDays *int64 `form:"expires_after_days"`
+}
+
+// CheckoutSessionPaymentMethodOptionsOXXOParams is the set of parameters allowed for boleto on payment_method_options.
+type CheckoutSessionPaymentMethodOptionsOXXOParams struct {
+	ExpiresAfterDays *int64 `form:"expires_after_days"`
+}
+
 // CheckoutSessionPaymentMethodOptionsParams is the set of allowed parameters for payment_method_options on a checkout session.
 type CheckoutSessionPaymentMethodOptionsParams struct {
 	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
+	Boleto    *CheckoutSessionPaymentMethodOptionsBoletoParams    `form:"boleto"`
+	OXXO      *CheckoutSessionPaymentMethodOptionsOXXOParams      `form:"oxxo"`
 }
 
 // CheckoutSessionSetupIntentDataParams is the set of parameters allowed for the setup intent
@@ -375,9 +387,21 @@ type CheckoutSessionPaymentMethodOptionsACSSDebit struct {
 	VerificationMethod CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 
+// CheckoutSessionPaymentMethodOptionsBoleto represent the options for boleto on payment_method_options.
+type CheckoutSessionPaymentMethodOptionsBoleto struct {
+	ExpiresAfterDays int64 `json:"expires_after_days"`
+}
+
+// CheckoutSessionPaymentMethodOptionsOXXO represent the options for oxxo on payment_method_options.
+type CheckoutSessionPaymentMethodOptionsOXXO struct {
+	ExpiresAfterDays int64 `json:"expires_after_days"`
+}
+
 // CheckoutSessionPaymentMethodOptions represent payment-method-specific options for a checkout session.
 type CheckoutSessionPaymentMethodOptions struct {
 	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebit `json:"acss_debit"`
+	Boleto    *CheckoutSessionPaymentMethodOptionsBoleto    `json:"boleto"`
+	OXXO      *CheckoutSessionPaymentMethodOptionsOXXO      `json:"oxxo"`
 }
 
 // CheckoutSessionShippingAddressCollection is the set of parameters allowed for the
