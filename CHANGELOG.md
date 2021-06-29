@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.53.0 - 2021-06-29
+* [#1303](https://github.com/stripe/stripe-go/pull/1303) API Updates
+  * Add support for `Boleto` and `OXXO` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
+  * Add support for `BoletoPayments` on `AccountCapabilities`
+
 ## 72.52.0 - 2021-06-25
 * [#1301](https://github.com/stripe/stripe-go/pull/1301) API Updates
   * Add support for `boleto` as a `PaymentMethodType`
