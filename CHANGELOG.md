@@ -1,5 +1,11 @@
 # Changelog
 
+## 72.54.0 - 2021-06-30
+* [#1304](https://github.com/stripe/stripe-go/pull/1304) Add support for Wechat Pay
+  * Add support for `WechatPay` on `ChargePaymentMethodDetails`, `CheckoutSessionPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, and `PaymentMethod`
+  * Add support for new value `wechat_pay` on enums `InvoicePaymentSettingsPaymentMethodType` and `PaymentMethodType`
+  * Add support for `WechatPayDisplayQRCode`, `WechatPayRedirectToAndroidApp`, and `WechatPayRedirectToIOSApp` on `PaymentIntentNextAction`
+
 ## 72.53.0 - 2021-06-29
 * [#1303](https://github.com/stripe/stripe-go/pull/1303) API Updates
   * Add support for `Boleto` and `OXXO` on `CheckoutSessionPaymentMethodOptionsParams` and `CheckoutSessionPaymentMethodOptions`
