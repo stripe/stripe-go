@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.55.0 - 2021-06-30
+* [#1306](https://github.com/stripe/stripe-go/pull/1306) API Updates
+  * Add support for `boleto` on `InvoicePaymentSettingsPaymentMethodType`.
+
 ## 72.54.0 - 2021-06-30
 * [#1304](https://github.com/stripe/stripe-go/pull/1304) Add support for Wechat Pay
   * Add support for `WechatPay` on `ChargePaymentMethodDetails`, `CheckoutSessionPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, and `PaymentMethod`
