@@ -248,9 +248,15 @@ type CheckoutSessionPaymentMethodOptionsBoletoParams struct {
 	ExpiresAfterDays *int64 `form:"expires_after_days"`
 }
 
-// CheckoutSessionPaymentMethodOptionsOXXOParams is the set of parameters allowed for boleto on payment_method_options.
+// CheckoutSessionPaymentMethodOptionsOXXOParams is the set of parameters allowed for oxxo on payment_method_options.
 type CheckoutSessionPaymentMethodOptionsOXXOParams struct {
 	ExpiresAfterDays *int64 `form:"expires_after_days"`
+}
+
+// CheckoutSessionPaymentMethodOptionsWechatPayParams is the set of parameters allowed for wechat_pay on payment_method_options.
+type CheckoutSessionPaymentMethodOptionsWechatPayParams struct {
+	AppID  *string `form:"app_id"`
+	Client *string `form:"client"`
 }
 
 // CheckoutSessionPaymentMethodOptionsParams is the set of allowed parameters for payment_method_options on a checkout session.
@@ -258,6 +264,7 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
 	Boleto    *CheckoutSessionPaymentMethodOptionsBoletoParams    `form:"boleto"`
 	OXXO      *CheckoutSessionPaymentMethodOptionsOXXOParams      `form:"oxxo"`
+	WechatPay *CheckoutSessionPaymentMethodOptionsWechatPayParams `form:"wechat_pay"`
 }
 
 // CheckoutSessionSetupIntentDataParams is the set of parameters allowed for the setup intent
