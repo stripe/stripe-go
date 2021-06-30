@@ -35,6 +35,7 @@ const (
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
 	PaymentMethodTypeSepaDebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
+	PaymentMethodTypeWechatPay        PaymentMethodType = "wechat_pay"
 )
 
 // PaymentMethodCardBrand is the list of allowed values for the brand property on a
@@ -201,6 +202,10 @@ type PaymentMethodSofortParams struct {
 	Country *string `form:"country"`
 }
 
+// PaymentMethodWechatPayParams is the set of parameters allowed for the `wechat_pay` hash when
+// creating a PaymentMethod of type wechat_pay.
+type PaymentMethodWechatPayParams struct{}
+
 // PaymentMethodParams is the set of parameters that can be used when creating or updating a
 // PaymentMethod.
 type PaymentMethodParams struct {
@@ -224,6 +229,7 @@ type PaymentMethodParams struct {
 	P24              *PaymentMethodP24Params              `form:"p24"`
 	SepaDebit        *PaymentMethodSepaDebitParams        `form:"sepa_debit"`
 	Sofort           *PaymentMethodSofortParams           `form:"sofort"`
+	WechatPay        *PaymentMethodWechatPayParams        `form:"wechat_pay"`
 	Type             *string                              `form:"type"`
 
 	// The following parameters are used when cloning a PaymentMethod to the connected account
@@ -410,6 +416,10 @@ type PaymentMethodSofort struct {
 	Country string `json:"country"`
 }
 
+// PaymentMethodWechatPay represents the WeChatPay-specific properties.
+type PaymentMethodWechatPay struct {
+}
+
 // PaymentMethod is the resource representing a PaymentMethod.
 type PaymentMethod struct {
 	APIResource
@@ -440,6 +450,7 @@ type PaymentMethod struct {
 	SepaDebit        *PaymentMethodSepaDebit        `json:"sepa_debit"`
 	Sofort           *PaymentMethodSofort           `json:"sofort"`
 	Type             PaymentMethodType              `json:"type"`
+	WechatPay        *PaymentMethodWechatPay        `json:"wechat_pay"`
 }
 
 // PaymentMethodList is a list of PaymentMethods as retrieved from a list endpoint.

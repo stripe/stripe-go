@@ -551,6 +551,10 @@ type ChargePaymentMethodDetailsStripeAccount struct {
 type ChargePaymentMethodDetailsWechat struct {
 }
 
+// ChargePaymentMethodDetailsWechatPay represents details about the WechatPay PaymentMethod.
+type ChargePaymentMethodDetailsWechatPay struct {
+}
+
 // ChargePaymentMethodDetails represents the details about the PaymentMethod associated with the
 // charge.
 type ChargePaymentMethodDetails struct {
@@ -579,6 +583,7 @@ type ChargePaymentMethodDetails struct {
 	StripeAccount     *ChargePaymentMethodDetailsStripeAccount     `json:"stripe_account"`
 	Type              ChargePaymentMethodDetailsType               `json:"type"`
 	Wechat            *ChargePaymentMethodDetailsWechat            `json:"wechat"`
+	WechatPay         *ChargePaymentMethodDetailsWechatPay         `json:"wechat_pay"`
 }
 
 // ChargeTransferData represents the information for the transfer_data associated with a charge.
