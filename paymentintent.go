@@ -446,7 +446,7 @@ type PaymentIntentNextAction struct {
 	Type                          PaymentIntentNextActionType                           `json:"type"`
 	UseStripeSDK                  *PaymentIntentNextActionUseStripeSDK                  `json:"use_stripe_sdk"`
 	VerifyWithMicrodeposits       *PaymentIntentNextActionVerifyWithMicrodeposits       `json:"verify_with_microdeposits"`
-	WechatPayDisplayQrCode        *PaymentIntentNextActionWechatPayDisplayQRCode        `json:"wechat_pay_display_qr_code"`
+	WechatPayDisplayQRCode        *PaymentIntentNextActionWechatPayDisplayQRCode        `json:"wechat_pay_display_qr_code"`
 	WechatPayRedirectToAndroidApp *PaymentIntentNextActionWechatPayRedirectToAndroidApp `json:"wechat_pay_redirect_to_android_app"`
 	WechatPayRedirectToIOSApp     *PaymentIntentNextActionWechatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app"`
 }
