@@ -553,6 +553,8 @@ type ChargePaymentMethodDetailsWechat struct {
 
 // ChargePaymentMethodDetailsWechatPay represents details about the WechatPay PaymentMethod.
 type ChargePaymentMethodDetailsWechatPay struct {
+	Fingerprint   string `json:"fingerprint"`
+	TransactionID string `json:"transaction_id"`
 }
 
 // ChargePaymentMethodDetails represents the details about the PaymentMethod associated with the

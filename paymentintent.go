@@ -114,7 +114,7 @@ type PaymentIntentPaymentMethodOptionsWechatPayClient string
 
 const (
 	PaymentIntentPaymentMethodOptionsWechatPayClientAndroid PaymentIntentPaymentMethodOptionsWechatPayClient = "android"
-	PaymentIntentPaymentMethodOptionsWechatPayClientIos     PaymentIntentPaymentMethodOptionsWechatPayClient = "ios"
+	PaymentIntentPaymentMethodOptionsWechatPayClientIOS     PaymentIntentPaymentMethodOptionsWechatPayClient = "ios"
 	PaymentIntentPaymentMethodOptionsWechatPayClientWeb     PaymentIntentPaymentMethodOptionsWechatPayClient = "web"
 )
 
@@ -448,7 +448,7 @@ type PaymentIntentNextAction struct {
 	VerifyWithMicrodeposits       *PaymentIntentNextActionVerifyWithMicrodeposits       `json:"verify_with_microdeposits"`
 	WechatPayDisplayQrCode        *PaymentIntentNextActionWechatPayDisplayQRCode        `json:"wechat_pay_display_qr_code"`
 	WechatPayRedirectToAndroidApp *PaymentIntentNextActionWechatPayRedirectToAndroidApp `json:"wechat_pay_redirect_to_android_app"`
-	WechatPayRedirectToIosApp     *PaymentIntentNextActionWechatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app"`
+	WechatPayRedirectToIOSApp     *PaymentIntentNextActionWechatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app"`
 }
 
 type PaymentIntentPaymentMethodOptionsBoleto struct {
