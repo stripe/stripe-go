@@ -107,11 +107,36 @@ type APIResponse struct {
 	StatusCode int
 }
 
+// StreamingAPIResponse encapsulates some common features of a response from the
+// Stripe API whose body can be streamed. This is used for "file downloads", and
+// the `Body` property is an io.ReadCloser, so the user can stream it to another
+// location such as a file or network request without buffering the entire body
+// into memory.
+type StreamingAPIResponse struct {
+	Header         http.Header
+	IdempotencyKey string
+	Body           io.ReadCloser
+	RequestID      string
+	Status         string
+	StatusCode     int
+}
+
 func newAPIResponse(res *http.Response, resBody []byte) *APIResponse {
 	return &APIResponse{
 		Header:         res.Header,
 		IdempotencyKey: res.Header.Get("Idempotency-Key"),
 		RawJSON:        resBody,
+		RequestID:      res.Header.Get("Request-Id"),
+		Status:         res.Status,
+		StatusCode:     res.StatusCode,
+	}
+}
+
+func newStreamingAPIResponse(res *http.Response, body io.ReadCloser) *StreamingAPIResponse {
+	return &StreamingAPIResponse{
+		Header:         res.Header,
+		IdempotencyKey: res.Header.Get("Idempotency-Key"),
+		Body:           body,
 		RequestID:      res.Header.Get("Request-Id"),
 		Status:         res.Status,
 		StatusCode:     res.StatusCode,
@@ -124,8 +149,18 @@ type APIResource struct {
 	LastResponse *APIResponse `json:"-"`
 }
 
+// APIStream is a type assigned to streaming responses that may come from Stripe API
+type APIStream struct {
+	LastResponse *StreamingAPIResponse
+}
+
 // SetLastResponse sets the HTTP response that returned the API resource.
 func (r *APIResource) SetLastResponse(response *APIResponse) {
+	r.LastResponse = response
+}
+
+// SetLastResponse sets the HTTP response that returned the API resource.
+func (r *APIStream) SetLastResponse(response *StreamingAPIResponse) {
 	r.LastResponse = response
 }
 
@@ -157,6 +192,7 @@ func (a *AppInfo) formatUserAgent() string {
 // This interface exists to enable mocking for during testing if needed.
 type Backend interface {
 	Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error
+	CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error
 	CallRaw(method, path, key string, body *form.Values, params *Params, v LastResponseSetter) error
 	CallMultipart(method, path, key, boundary string, body *bytes.Buffer, params *Params, v LastResponseSetter) error
 	SetMaxNetworkRetries(maxNetworkRetries int64)
@@ -236,9 +272,8 @@ type BackendImplementation struct {
 	requestMetricsBuffer chan requestMetrics
 }
 
-// Call is the Backend.Call implementation for invoking Stripe APIs.
-func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
-	var body *form.Values
+func extractParams(params ParamsContainer) (*form.Values, *Params) {
+	var formValues *form.Values
 	var commonParams *Params
 
 	if params != nil {
@@ -254,12 +289,46 @@ func (s *BackendImplementation) Call(method, path, key string, params ParamsCont
 
 		if reflectValue.Kind() == reflect.Ptr && !reflectValue.IsNil() {
 			commonParams = params.GetParams()
-			body = &form.Values{}
-			form.AppendTo(body, params)
+			formValues = &form.Values{}
+			form.AppendTo(formValues, params)
 		}
 	}
+	return formValues, commonParams
+}
 
+// Call is the Backend.Call implementation for invoking Stripe APIs.
+func (s *BackendImplementation) Call(method, path, key string, params ParamsContainer, v LastResponseSetter) error {
+	body, commonParams := extractParams(params)
 	return s.CallRaw(method, path, key, body, commonParams, v)
+}
+
+// CallStreaming is the Backend.Call implementation for invoking Stripe APIs
+// without buffering the response into memory.
+func (s *BackendImplementation) CallStreaming(method, path, key string, params ParamsContainer, v StreamingLastResponseSetter) error {
+	formValues, commonParams := extractParams(params)
+
+	var body string
+	if formValues != nil && !formValues.Empty() {
+		body = formValues.Encode()
+
+		// On `GET`, move the payload into the URL
+		if method == http.MethodGet {
+			path += "?" + body
+			body = ""
+		}
+	}
+	bodyBuffer := bytes.NewBufferString(body)
+
+	req, err := s.NewRequest(method, path, key, "application/x-www-form-urlencoded", commonParams)
+	if err != nil {
+		return err
+	}
+
+	if err := s.DoStreaming(req, bodyBuffer, v); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // CallMultipart is the Backend.CallMultipart implementation for invoking Stripe APIs.
@@ -359,12 +428,7 @@ func (s *BackendImplementation) NewRequest(method, path, key, contentType string
 	return req, nil
 }
 
-// Do is used by Call to execute an API request and parse the response. It uses
-// the backend's HTTP client to execute the request and unmarshals the response
-// into v. It also handles unmarshaling errors returned by the API.
-func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v LastResponseSetter) error {
-	s.LeveledLogger.Infof("Requesting %v %v%v", req.Method, req.URL.Host, req.URL.Path)
-
+func (s *BackendImplementation) maybeSetTelemetryHeader(req *http.Request) {
 	if s.enableTelemetry {
 		select {
 		case metrics := <-s.requestMetricsBuffer:
@@ -380,113 +444,9 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 			// empty requestMetricsBuffer.
 		}
 	}
+}
 
-	var res *http.Response
-	var err error
-	var requestDuration time.Duration
-	var resBody []byte
-	for retry := 0; ; {
-		start := time.Now()
-
-		// This might look a little strange, but we set the request's body
-		// outside of `NewRequest` so that we can get a fresh version every
-		// time.
-		//
-		// The background is that back in the era of old style HTTP, it was
-		// safe to reuse `Request` objects, but with the addition of HTTP/2,
-		// it's now only sometimes safe. Reusing a `Request` with a body will
-		// break.
-		//
-		// See some details here:
-		//
-		//     https://github.com/golang/go/issues/19653#issuecomment-341539160
-		//
-		// And our original bug report here:
-		//
-		//     https://github.com/stripe/stripe-go/issues/642
-		//
-		// To workaround the problem, we put a fresh `Body` onto the `Request`
-		// every time we execute it, and this seems to empirically resolve the
-		// problem.
-		if body != nil {
-			// We can safely reuse the same buffer that we used to encode our body,
-			// but return a new reader to it everytime so that each read is from
-			// the beginning.
-			reader := bytes.NewReader(body.Bytes())
-
-			req.Body = nopReadCloser{reader}
-
-			// And also add the same thing to `Request.GetBody`, which allows
-			// `net/http` to get a new body in cases like a redirect. This is
-			// usually not used, but it doesn't hurt to set it in case it's
-			// needed. See:
-			//
-			//     https://github.com/stripe/stripe-go/issues/710
-			//
-			req.GetBody = func() (io.ReadCloser, error) {
-				reader := bytes.NewReader(body.Bytes())
-				return nopReadCloser{reader}, nil
-			}
-		}
-
-		res, err = s.HTTPClient.Do(req)
-
-		requestDuration = time.Since(start)
-		s.LeveledLogger.Infof("Request completed in %v (retry: %v)", requestDuration, retry)
-
-		if err == nil {
-			resBody, err = ioutil.ReadAll(res.Body)
-			res.Body.Close()
-		}
-
-		if err != nil {
-			s.LeveledLogger.Errorf("Request failed with error: %v", err)
-		} else if res.StatusCode >= 400 {
-			err = s.ResponseToError(res, resBody)
-
-			if stripeErr, ok := err.(*Error); ok {
-				// The Stripe API makes a distinction between errors that were
-				// caused by invalid parameters or something else versus those
-				// that occurred *despite* valid parameters, the latter coming
-				// back with status 402.
-				//
-				// On a 402, log to info so as to not make an integration's log
-				// noisy with error messages that they don't have much control
-				// over.
-				//
-				// Note I use the constant 402 instead of an `http.Status*`
-				// constant because technically 402 is "Payment required". The
-				// Stripe API doesn't comply to the letter of the specification
-				// and uses it in a broader sense.
-				if res.StatusCode == 402 {
-					s.LeveledLogger.Infof("User-compelled request error from Stripe (status %v): %v",
-						res.StatusCode, stripeErr.redact())
-				} else {
-					s.LeveledLogger.Errorf("Request error from Stripe (status %v): %v",
-						res.StatusCode, stripeErr.redact())
-				}
-			} else {
-				s.LeveledLogger.Errorf("Error decoding error from Stripe: %v", err)
-			}
-		}
-
-		// If the response was okay, or an error that shouldn't be retried,
-		// we're done, and it's safe to leave the retry loop.
-		shouldRetry, noRetryReason := s.shouldRetry(err, req, res, retry)
-		if !shouldRetry {
-			s.LeveledLogger.Infof("Not retrying request: %v", noRetryReason)
-			break
-		}
-
-		sleepDuration := s.sleepTime(retry)
-		retry++
-
-		s.LeveledLogger.Warnf("Initiating retry %v for request %v %v%v after sleeping %v",
-			retry, req.Method, req.URL.Host, req.URL.Path, sleepDuration)
-
-		time.Sleep(sleepDuration)
-	}
-
+func (s *BackendImplementation) maybeEnqueueTelemetryMetrics(res *http.Response, requestDuration time.Duration) {
 	if s.enableTelemetry && res != nil {
 		reqID := res.Header.Get("Request-Id")
 		if len(reqID) > 0 {
@@ -503,16 +463,204 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v Last
 			}
 		}
 	}
+}
 
+func resetBodyReader(body *bytes.Buffer, req *http.Request) {
+	// This might look a little strange, but we set the request's body
+	// outside of `NewRequest` so that we can get a fresh version every
+	// time.
+	//
+	// The background is that back in the era of old style HTTP, it was
+	// safe to reuse `Request` objects, but with the addition of HTTP/2,
+	// it's now only sometimes safe. Reusing a `Request` with a body will
+	// break.
+	//
+	// See some details here:
+	//
+	//     https://github.com/golang/go/issues/19653#issuecomment-341539160
+	//
+	// And our original bug report here:
+	//
+	//     https://github.com/stripe/stripe-go/issues/642
+	//
+	// To workaround the problem, we put a fresh `Body` onto the `Request`
+	// every time we execute it, and this seems to empirically resolve the
+	// problem.
+	if body != nil {
+		// We can safely reuse the same buffer that we used to encode our body,
+		// but return a new reader to it everytime so that each read is from
+		// the beginning.
+		reader := bytes.NewReader(body.Bytes())
+
+		req.Body = nopReadCloser{reader}
+
+		// And also add the same thing to `Request.GetBody`, which allows
+		// `net/http` to get a new body in cases like a redirect. This is
+		// usually not used, but it doesn't hurt to set it in case it's
+		// needed. See:
+		//
+		//     https://github.com/stripe/stripe-go/issues/710
+		//
+		req.GetBody = func() (io.ReadCloser, error) {
+			reader := bytes.NewReader(body.Bytes())
+			return nopReadCloser{reader}, nil
+		}
+	}
+}
+
+// requestWithRetriesAndTelemetry uses s.HTTPClient to make an HTTP request,
+// and handles retries, telemetry, and emitting log statements.  It attempts to
+// avoid processing the *result* of the HTTP request. It receives a
+// "handleResponse" func from the caller, and it defers to that to determine
+// whether the request was a failure or success, and to convert the
+// response/error into the appropriate type of error or an appropriate result
+// type.
+func (s *BackendImplementation) requestWithRetriesAndTelemetry(
+	req *http.Request,
+	body *bytes.Buffer,
+	handleResponse func(*http.Response, error) (interface{}, error),
+) (*http.Response, interface{}, error) {
+	s.LeveledLogger.Infof("Requesting %v %v%v", req.Method, req.URL.Host, req.URL.Path)
+	s.maybeSetTelemetryHeader(req)
+	var resp *http.Response
+	var err error
+	var requestDuration time.Duration
+	var result interface{}
+	for retry := 0; ; {
+		start := time.Now()
+		resetBodyReader(body, req)
+
+		resp, err = s.HTTPClient.Do(req)
+
+		requestDuration = time.Since(start)
+		s.LeveledLogger.Infof("Request completed in %v (retry: %v)", requestDuration, retry)
+
+		result, err = handleResponse(resp, err)
+
+		// If the response was okay, or an error that shouldn't be retried,
+		// we're done, and it's safe to leave the retry loop.
+		shouldRetry, noRetryReason := s.shouldRetry(err, req, resp, retry)
+
+		if !shouldRetry {
+			s.LeveledLogger.Infof("Not retrying request: %v", noRetryReason)
+			break
+		}
+
+		sleepDuration := s.sleepTime(retry)
+		retry++
+
+		s.LeveledLogger.Warnf("Initiating retry %v for request %v %v%v after sleeping %v",
+			retry, req.Method, req.URL.Host, req.URL.Path, sleepDuration)
+
+		time.Sleep(sleepDuration)
+	}
+
+	s.maybeEnqueueTelemetryMetrics(resp, requestDuration)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return resp, result, nil
+}
+
+func (s *BackendImplementation) logError(statusCode int, err error) {
+	if stripeErr, ok := err.(*Error); ok {
+		// The Stripe API makes a distinction between errors that were
+		// caused by invalid parameters or something else versus those
+		// that occurred *despite* valid parameters, the latter coming
+		// back with status 402.
+		//
+		// On a 402, log to info so as to not make an integration's log
+		// noisy with error messages that they don't have much control
+		// over.
+		//
+		// Note I use the constant 402 instead of an `http.Status*`
+		// constant because technically 402 is "Payment required". The
+		// Stripe API doesn't comply to the letter of the specification
+		// and uses it in a broader sense.
+		if statusCode == 402 {
+			s.LeveledLogger.Infof("User-compelled request error from Stripe (status %v): %v",
+				statusCode, stripeErr.redact())
+		} else {
+			s.LeveledLogger.Errorf("Request error from Stripe (status %v): %v",
+				statusCode, stripeErr.redact())
+		}
+	} else {
+		s.LeveledLogger.Errorf("Error decoding error from Stripe: %v", err)
+	}
+}
+
+// DoStreaming is used by CallStreaming to execute an API request. It uses the
+// backend's HTTP client to execure the request.  In successful cases, it sets
+// a StreamingLastResponse onto v, but in unsuccessful cases handles unmarshaling
+// errors returned by the API.
+func (s *BackendImplementation) DoStreaming(req *http.Request, body *bytes.Buffer, v StreamingLastResponseSetter) error {
+	handleResponse := func(res *http.Response, err error) (interface{}, error) {
+
+		// Some sort of connection error
+		if err != nil {
+			s.LeveledLogger.Errorf("Request failed with error: %v", err)
+			return res.Body, err
+		}
+
+		// Successful response, return the body ReadCloser
+		if res.StatusCode < 400 {
+			return res.Body, err
+		}
+
+		// Failure: try and parse the json of the response
+		// when logging the error
+		var resBody []byte
+		resBody, err = ioutil.ReadAll(res.Body)
+		res.Body.Close()
+		if err == nil {
+			err = s.ResponseToError(res, resBody)
+		} else {
+			s.logError(res.StatusCode, err)
+		}
+
+		return res.Body, err
+	}
+
+	resp, result, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
 	if err != nil {
 		return err
 	}
+	v.SetLastResponse(newStreamingAPIResponse(resp, result.(io.ReadCloser)))
+	return nil
+}
 
+// Do is used by Call to execute an API request and parse the response. It uses
+// the backend's HTTP client to execute the request and unmarshals the response
+// into v. It also handles unmarshaling errors returned by the API.
+func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v LastResponseSetter) error {
+	handleResponse := func(res *http.Response, err error) (interface{}, error) {
+		var resBody []byte
+		if err == nil {
+			resBody, err = ioutil.ReadAll(res.Body)
+			res.Body.Close()
+		}
+
+		if err != nil {
+			s.LeveledLogger.Errorf("Request failed with error: %v", err)
+		} else if res.StatusCode >= 400 {
+			err = s.ResponseToError(res, resBody)
+
+			s.logError(res.StatusCode, err)
+		}
+
+		return resBody, err
+	}
+
+	res, result, err := s.requestWithRetriesAndTelemetry(req, body, handleResponse)
+	if err != nil {
+		return err
+	}
+	resBody := result.([]byte)
 	s.LeveledLogger.Debugf("Response: %s", string(resBody))
-
 	err = s.UnmarshalJSONVerbose(res.StatusCode, resBody, v)
 	v.SetLastResponse(newAPIResponse(res, resBody))
-
 	return err
 }
 
@@ -764,6 +912,12 @@ type Backends struct {
 // API endpoint.
 type LastResponseSetter interface {
 	SetLastResponse(response *APIResponse)
+}
+
+// StreamingLastResponseSetter defines a type that contains an HTTP response from a Stripe
+// API endpoint.
+type StreamingLastResponseSetter interface {
+	SetLastResponse(response *StreamingAPIResponse)
 }
 
 // SupportedBackend is an enumeration of supported Stripe endpoints.
