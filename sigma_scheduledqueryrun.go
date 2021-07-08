@@ -23,12 +23,17 @@ type SigmaScheduledQueryRunListParams struct {
 	ListParams `form:"*"`
 }
 
+// SigmaScheduledQueryRunError is the resource representing an error on a scheduled query run.
+type SigmaScheduledQueryRunError struct {
+	Message string `json:"message"`
+}
+
 // SigmaScheduledQueryRun is the resource representing a scheduled query run.
 type SigmaScheduledQueryRun struct {
 	APIResource
 	Created              int64                        `json:"created"`
 	DataLoadTime         int64                        `json:"data_load_time"`
-	Error                string                       `json:"error"`
+	Error                *SigmaScheduledQueryRunError `json:"error"`
 	File                 *File                        `json:"file"`
 	ID                   string                       `json:"id"`
 	Livemode             bool                         `json:"livemode"`
