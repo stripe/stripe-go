@@ -10,6 +10,7 @@ import "encoding/json"
 
 type CustomerTaxAutomaticTax string
 
+// List of values that CustomerTaxAutomaticTax can take
 const (
 	CustomerTaxAutomaticTaxFailed               CustomerTaxAutomaticTax = "failed"
 	CustomerTaxAutomaticTaxNotCollecting        CustomerTaxAutomaticTax = "not_collecting"
@@ -19,6 +20,7 @@ const (
 
 type CustomerTaxLocationSource string
 
+// List of values that CustomerTaxLocationSource can take
 const (
 	CustomerTaxLocationSourceBillingAddress      CustomerTaxLocationSource = "billing_address"
 	CustomerTaxLocationSourceIPAddress           CustomerTaxLocationSource = "ip_address"
@@ -83,6 +85,8 @@ type CustomerShippingDetailsParams struct {
 	Name    *string        `form:"name"`
 	Phone   *string        `form:"phone"`
 }
+
+// Tax details about the customer.
 type CustomerTaxParams struct {
 	IPAddress *string `form:"ip_address"`
 }
@@ -109,6 +113,8 @@ type CustomerListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	Email        *string           `form:"email"`
 }
+
+// The customer's location as identified by Stripe Tax.
 type CustomerTaxLocation struct {
 	Country string                    `json:"country"`
 	Source  CustomerTaxLocationSource `json:"source"`

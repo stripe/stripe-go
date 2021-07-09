@@ -51,6 +51,7 @@ const (
 
 type PriceTaxBehavior string
 
+// List of values that PriceTaxBehavior can take
 const (
 	PriceTaxBehaviorExclusive   PriceTaxBehavior = "exclusive"
 	PriceTaxBehaviorInclusive   PriceTaxBehavior = "inclusive"

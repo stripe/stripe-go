@@ -10,6 +10,7 @@ import "encoding/json"
 
 type TaxRateTaxType string
 
+// List of values that TaxRateTaxType can take
 const (
 	TaxRateTaxTypeGST      TaxRateTaxType = "gst"
 	TaxRateTaxTypeHST      TaxRateTaxType = "hst"
