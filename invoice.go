@@ -29,6 +29,7 @@ type InvoiceBillingReason string
 // List of values that InvoiceBillingReason can take.
 const (
 	InvoiceBillingReasonManual                InvoiceBillingReason = "manual"
+	InvoiceBillingReasonQuoteAccept           InvoiceBillingReason = "quote_accept"
 	InvoiceBillingReasonSubscription          InvoiceBillingReason = "subscription"
 	InvoiceBillingReasonSubscriptionCreate    InvoiceBillingReason = "subscription_create"
 	InvoiceBillingReasonSubscriptionCycle     InvoiceBillingReason = "subscription_cycle"
@@ -373,6 +374,7 @@ type Invoice struct {
 	PeriodStart                  int64                    `json:"period_start"`
 	PostPaymentCreditNotesAmount int64                    `json:"post_payment_credit_notes_amount"`
 	PrePaymentCreditNotesAmount  int64                    `json:"pre_payment_credit_notes_amount"`
+	Quote                        *Quote                   `json:"quote"`
 	ReceiptNumber                string                   `json:"receipt_number"`
 	StartingBalance              int64                    `json:"starting_balance"`
 	StatementDescriptor          string                   `json:"statement_descriptor"`
