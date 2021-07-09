@@ -1,5 +1,12 @@
 # Changelog
 
+## 72.56.0 - 2021-07-09
+* [#1310](https://github.com/stripe/stripe-go/pull/1310) [#1283](https://github.com/stripe/stripe-go/pull/1283) API Updates
+  * Add support for new resource `Quote`
+  * Add support for `Quote` on `Invoice`
+  * Add support for new value `quote_accept` on enum `InvoiceBillingReason`
+* [#1309](https://github.com/stripe/stripe-go/pull/1309) Fix deserialization of Error on Sigma ScheduledQueryRun (warning: this might be a minor breaking change if you attempted to reference this broken field)
+
 ## 72.55.0 - 2021-06-30
 * [#1306](https://github.com/stripe/stripe-go/pull/1306) API Updates
   * Add support for `boleto` on `InvoicePaymentSettingsPaymentMethodType`.
