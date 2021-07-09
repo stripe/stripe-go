@@ -51,6 +51,7 @@ import (
 	"github.com/stripe/stripe-go/v72/price"
 	"github.com/stripe/stripe-go/v72/product"
 	"github.com/stripe/stripe-go/v72/promotioncode"
+	"github.com/stripe/stripe-go/v72/quote"
 	"github.com/stripe/stripe-go/v72/radar/earlyfraudwarning"
 	"github.com/stripe/stripe-go/v72/radar/valuelist"
 	"github.com/stripe/stripe-go/v72/radar/valuelistitem"
@@ -180,6 +181,8 @@ type API struct {
 	Products *product.Client
 	// PromotionCodes is the client used to invoke /promotion_codes APIs.
 	PromotionCodes *promotioncode.Client
+	// Quote is the client used to invoke /quotes APIs.
+	Quotes *quote.Client
 	// RadarEarlyFraudWarnings is the client used to invoke /radar/early_fraud_warnings APIs.
 	RadarEarlyFraudWarnings *earlyfraudwarning.Client
 	// RadarValueLists is the client used to invoke /radar/value_lists APIs.
@@ -299,6 +302,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Prices = &price.Client{B: backends.API, Key: key}
 	a.Products = &product.Client{B: backends.API, Key: key}
 	a.PromotionCodes = &promotioncode.Client{B: backends.API, Key: key}
+	a.Quotes = &quote.Client{B: backends.API, PDFBackend: backends.Uploads, Key: key}
 	a.RadarEarlyFraudWarnings = &earlyfraudwarning.Client{B: backends.API, Key: key}
 	a.RadarValueLists = &valuelist.Client{B: backends.API, Key: key}
 	a.RadarValueListItems = &valuelistitem.Client{B: backends.API, Key: key}
