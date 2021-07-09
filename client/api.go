@@ -302,7 +302,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.Prices = &price.Client{B: backends.API, Key: key}
 	a.Products = &product.Client{B: backends.API, Key: key}
 	a.PromotionCodes = &promotioncode.Client{B: backends.API, Key: key}
-	a.Quotes = &quote.Client{B: backends.API, Key: key}
+	a.Quotes = &quote.Client{B: backends.API, PDFBackend: backends.Uploads, Key: key}
 	a.RadarEarlyFraudWarnings = &earlyfraudwarning.Client{B: backends.API, Key: key}
 	a.RadarValueLists = &valuelist.Client{B: backends.API, Key: key}
 	a.RadarValueListItems = &valuelistitem.Client{B: backends.API, Key: key}

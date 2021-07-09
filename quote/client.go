@@ -16,8 +16,9 @@ import (
 
 // Client is used to invoke /quotes/{quote}/computed_upfront_line_items APIs.
 type Client struct {
-	B   stripe.Backend
-	Key string
+	B          stripe.Backend
+	PDFBackend stripe.Backend
+	Key        string
 }
 
 // New creates a new quote.
@@ -106,7 +107,7 @@ func PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 func (c Client) PDF(id string, params *stripe.QuotePDFParams) (*stripe.APIStream, error) {
 	path := stripe.FormatURLPath("/v1/quotes/%s/pdf", id)
 	stream := &stripe.APIStream{}
-	err := c.B.CallStreaming(http.MethodGet, path, c.Key, params, stream)
+	err := c.PDFBackend.CallStreaming(http.MethodGet, path, c.Key, params, stream)
 	return stream, err
 }
 
@@ -189,5 +190,5 @@ func (i *LineItemIter) LineItemList() *stripe.LineItemList {
 }
 
 func getC() Client {
-	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
+	return Client{stripe.GetBackend(stripe.APIBackend), stripe.GetBackend(stripe.UploadsBackend), stripe.Key}
 }
