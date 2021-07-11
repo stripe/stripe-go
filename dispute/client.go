@@ -1,3 +1,10 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package dispute provides the /disputes APIs
 package dispute
 
 import (
@@ -7,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// Client is used to invoke dispute-related APIs.
+// Client is used to invoke /disputes APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -23,6 +30,32 @@ func (c Client) Get(id string, params *stripe.DisputeParams) (*stripe.Dispute, e
 	path := stripe.FormatURLPath("/v1/disputes/%s", id)
 	dispute := &stripe.Dispute{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, dispute)
+	return dispute, err
+}
+
+// Update updates a dispute's properties.
+func Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
+	return getC().Update(id, params)
+}
+
+// Update updates a dispute's properties.
+func (c Client) Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
+	path := stripe.FormatURLPath("/v1/disputes/%s", id)
+	dispute := &stripe.Dispute{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
+	return dispute, err
+}
+
+// Close is the method for the `POST /v1/disputes/{dispute}/close` API.
+func Close(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
+	return getC().Close(id, params)
+}
+
+// Close is the method for the `POST /v1/disputes/{dispute}/close` API.
+func (c Client) Close(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
+	path := stripe.FormatURLPath("/v1/disputes/%s/close", id)
+	dispute := &stripe.Dispute{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
 	return dispute, err
 }
 
@@ -46,32 +79,6 @@ func (c Client) List(listParams *stripe.DisputeListParams) *Iter {
 	})}
 }
 
-// Update updates a dispute.
-func Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	return getC().Update(id, params)
-}
-
-// Update updates a dispute.
-func (c Client) Update(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	path := stripe.FormatURLPath("/v1/disputes/%s", id)
-	dispute := &stripe.Dispute{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
-	return dispute, err
-}
-
-// Close dismisses a dispute in the customer's favor.
-func Close(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	return getC().Close(id, params)
-}
-
-// Close dismisses a dispute in the customer's favor.
-func (c Client) Close(id string, params *stripe.DisputeParams) (*stripe.Dispute, error) {
-	path := stripe.FormatURLPath("/v1/disputes/%s/close", id)
-	dispute := &stripe.Dispute{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
-	return dispute, err
-}
-
 // Iter is an iterator for disputes.
 type Iter struct {
 	*stripe.Iter
@@ -82,9 +89,9 @@ func (i *Iter) Dispute() *stripe.Dispute {
 	return i.Current().(*stripe.Dispute)
 }
 
-// DisputeList returns the current list object which the iterator is currently
-// using. List objects will change as new API calls are made to continue
-// pagination.
+// DisputeList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) DisputeList() *stripe.DisputeList {
 	return i.List().(*stripe.DisputeList)
 }

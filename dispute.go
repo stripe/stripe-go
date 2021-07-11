@@ -1,8 +1,12 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
-import (
-	"encoding/json"
-)
+import "encoding/json"
 
 // DisputeReason is the list of allowed values for a discount's reason.
 type DisputeReason string
@@ -99,16 +103,11 @@ type Dispute struct {
 	IsChargeRefundable  bool                  `json:"is_charge_refundable"`
 	Livemode            bool                  `json:"livemode"`
 	Metadata            map[string]string     `json:"metadata"`
+	NetworkReasonCode   string                `json:"network_reason_code"`
+	Object              string                `json:"object"`
 	PaymentIntent       *PaymentIntent        `json:"payment_intent"`
 	Reason              DisputeReason         `json:"reason"`
 	Status              DisputeStatus         `json:"status"`
-}
-
-// DisputeList is a list of disputes as retrieved from a list endpoint.
-type DisputeList struct {
-	APIResource
-	ListMeta
-	Data []*Dispute `json:"data"`
 }
 
 // EvidenceDetails is the structure representing more details about
@@ -152,6 +151,13 @@ type DisputeEvidence struct {
 	ShippingTrackingNumber       string `json:"shipping_tracking_number"`
 	UncategorizedFile            *File  `json:"uncategorized_file"`
 	UncategorizedText            string `json:"uncategorized_text"`
+}
+
+// DisputeList is a list of disputes as retrieved from a list endpoint.
+type DisputeList struct {
+	APIResource
+	ListMeta
+	Data []*Dispute `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a Dispute.
