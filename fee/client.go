@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package fee provides the /application_fees APIs
 package fee
 
@@ -8,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// Client is used to invoke application_fees APIs.
+// Client is used to invoke /application_fees APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -22,9 +28,9 @@ func Get(id string, params *stripe.ApplicationFeeParams) (*stripe.ApplicationFee
 // Get returns the details of an application fee.
 func (c Client) Get(id string, params *stripe.ApplicationFeeParams) (*stripe.ApplicationFee, error) {
 	path := stripe.FormatURLPath("/v1/application_fees/%s", id)
-	fee := &stripe.ApplicationFee{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, fee)
-	return fee, err
+	applicationfee := &stripe.ApplicationFee{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, applicationfee)
+	return applicationfee, err
 }
 
 // List returns a list of application fees.

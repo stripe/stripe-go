@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -31,12 +37,13 @@ type ApplicationFee struct {
 	Currency               Currency            `json:"currency"`
 	ID                     string              `json:"id"`
 	Livemode               bool                `json:"livemode"`
+	Object                 string              `json:"object"`
 	OriginatingTransaction *Charge             `json:"originating_transaction"`
 	Refunded               bool                `json:"refunded"`
 	Refunds                *FeeRefundList      `json:"refunds"`
 }
 
-//ApplicationFeeList is a list of application fees as retrieved from a list endpoint.
+// ApplicationFeeList is a list of application fees as retrieved from a list endpoint.
 type ApplicationFeeList struct {
 	APIResource
 	ListMeta
@@ -46,9 +53,9 @@ type ApplicationFeeList struct {
 // UnmarshalJSON handles deserialization of an ApplicationFee.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (f *ApplicationFee) UnmarshalJSON(data []byte) error {
+func (a *ApplicationFee) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		f.ID = id
+		a.ID = id
 		return nil
 	}
 
@@ -58,6 +65,6 @@ func (f *ApplicationFee) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*f = ApplicationFee(v)
+	*a = ApplicationFee(v)
 	return nil
 }
