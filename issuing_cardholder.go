@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -33,6 +39,7 @@ type IssuingCardholderStatus string
 // List of values that IssuingCardholderStatus can take.
 const (
 	IssuingCardholderStatusActive   IssuingCardholderStatus = "active"
+	IssuingCardholderStatusBlocked  IssuingCardholderStatus = "blocked"
 	IssuingCardholderStatusInactive IssuingCardholderStatus = "inactive"
 )
 
