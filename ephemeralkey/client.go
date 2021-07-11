@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package ephemeralkey provides the /ephemeral_keys APIs
 package ephemeralkey
 
@@ -14,12 +20,12 @@ type Client struct {
 	Key string
 }
 
-// New create a new ephemeral key.
+// New creates a new ephemeral key.
 func New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, error) {
 	return getC().New(params)
 }
 
-// New create a new ephemeral key.
+// New creates a new ephemeral key.
 func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, error) {
 	if params.StripeVersion == nil || len(stripe.StringValue(params.StripeVersion)) == 0 {
 		return nil, fmt.Errorf("params.StripeVersion must be specified")
@@ -30,9 +36,15 @@ func (c Client) New(params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 	}
 	params.Headers.Add("Stripe-Version", stripe.StringValue(params.StripeVersion))
 
-	ephemeralKey := &stripe.EphemeralKey{}
-	err := c.B.Call(http.MethodPost, "/v1/ephemeral_keys", c.Key, params, ephemeralKey)
-	return ephemeralKey, err
+	ephemeralkey := &stripe.EphemeralKey{}
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/ephemeral_keys",
+		c.Key,
+		params,
+		ephemeralkey,
+	)
+	return ephemeralkey, err
 }
 
 // Del removes an ephemeral key.
@@ -43,9 +55,9 @@ func Del(id string, params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, er
 // Del removes an ephemeral key.
 func (c Client) Del(id string, params *stripe.EphemeralKeyParams) (*stripe.EphemeralKey, error) {
 	path := stripe.FormatURLPath("/v1/ephemeral_keys/%s", id)
-	ephemeralKey := &stripe.EphemeralKey{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, ephemeralKey)
-	return ephemeralKey, err
+	ephemeralkey := &stripe.EphemeralKey{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, ephemeralkey)
+	return ephemeralkey, err
 }
 
 func getC() Client {
