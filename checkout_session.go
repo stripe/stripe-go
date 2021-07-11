@@ -1,8 +1,12 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
-import (
-	"encoding/json"
-)
+import "encoding/json"
 
 // CheckoutSessionCustomerDetailsTaxIDsType is the list of allowed values for type
 // on the tax_ids inside customer_details of a checkout session.
@@ -53,10 +57,20 @@ const (
 
 type CheckoutSessionAutomaticTaxStatus string
 
+// List of values that CheckoutSessionAutomaticTaxStatus can take
 const (
 	CheckoutSessionAutomaticTaxStatusComplete               CheckoutSessionAutomaticTaxStatus = "complete"
 	CheckoutSessionAutomaticTaxStatusFailed                 CheckoutSessionAutomaticTaxStatus = "failed"
 	CheckoutSessionAutomaticTaxStatusRequiresLocationInputs CheckoutSessionAutomaticTaxStatus = "requires_location_inputs"
+)
+
+// Describes whether Checkout should collect the customer's billing address.
+type CheckoutSessionBillingAddressCollection string
+
+// List of values that CheckoutSessionBillingAddressCollection can take
+const (
+	CheckoutSessionBillingAddressCollectionAuto     CheckoutSessionBillingAddressCollection = "auto"
+	CheckoutSessionBillingAddressCollectionRequired CheckoutSessionBillingAddressCollection = "required"
 )
 
 // CheckoutSessionCustomerDetailsTaxExempt is the list of allowed values for
@@ -169,11 +183,11 @@ type CheckoutSessionLineItemPriceDataParams struct {
 	UnitAmount        *int64                                             `form:"unit_amount"`
 	UnitAmountDecimal *float64                                           `form:"unit_amount_decimal,high_precision"`
 }
-
 type CheckoutSessionAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// Controls what fields on Customer can be updated by the Checkout Session. Can only be provided when `customer` is provided.
 type CheckoutSessionCustomerUpdateParams struct {
 	Address  *string `form:"address"`
 	Name     *string `form:"name"`
@@ -310,6 +324,8 @@ type CheckoutSessionSubscriptionDataParams struct {
 	TrialFromPlan         *bool                                              `form:"trial_from_plan"`
 	TrialPeriodDays       *int64                                             `form:"trial_period_days"`
 }
+
+// Controls tax ID collection settings for the session.
 type CheckoutSessionTaxIDCollectionParams struct {
 	Enabled *bool `form:"enabled"`
 }
@@ -343,11 +359,6 @@ type CheckoutSessionParams struct {
 	TaxIDCollection           *CheckoutSessionTaxIDCollectionParams           `form:"tax_id_collection"`
 }
 
-type CheckoutSessionAutomaticTax struct {
-	Enabled bool                              `json:"enabled"`
-	Status  CheckoutSessionAutomaticTaxStatus `json:"status"`
-}
-
 // CheckoutSessionListLineItemsParams is the set of parameters that can be
 // used when listing line items on a session.
 type CheckoutSessionListLineItemsParams struct {
@@ -362,6 +373,10 @@ type CheckoutSessionListParams struct {
 	ListParams    `form:"*"`
 	PaymentIntent *string `form:"payment_intent"`
 	Subscription  *string `form:"subscription"`
+}
+type CheckoutSessionAutomaticTax struct {
+	Enabled bool                              `json:"enabled"`
+	Status  CheckoutSessionAutomaticTaxStatus `json:"status"`
 }
 
 // CheckoutSessionCustomerDetailsTaxIDs represent customer's tax IDs at the
@@ -429,7 +444,8 @@ type CheckoutSessionTotalDetailsBreakdownDiscount struct {
 // CheckoutSessionTotalDetailsBreakdownTax represent the details of tax rate applied to a session.
 type CheckoutSessionTotalDetailsBreakdownTax struct {
 	Amount  int64    `json:"amount"`
-	TaxRate *TaxRate `json:"tax_rate"`
+	Rate    *TaxRate `json:"rate"`
+	TaxRate *TaxRate `json:"tax_rate"` // Do not use: use `Rate`
 }
 
 // CheckoutSessionTotalDetailsBreakdown is the set of properties detailing a breakdown of taxes and discounts applied to a session if any.
@@ -451,14 +467,15 @@ type CheckoutSessionTotalDetails struct {
 type CheckoutSession struct {
 	APIResource
 	AllowPromotionCodes       bool                                      `json:"allow_promotion_codes"`
-	CancelURL                 string                                    `json:"cancel_url"`
-	CustomerDetails           *CheckoutSessionCustomerDetails           `json:"customer_details"`
 	AmountSubtotal            int64                                     `json:"amount_subtotal"`
 	AmountTotal               int64                                     `json:"amount_total"`
 	AutomaticTax              *CheckoutSessionAutomaticTax              `json:"automatic_tax"`
+	BillingAddressCollection  CheckoutSessionBillingAddressCollection   `json:"billing_address_collection"`
+	CancelURL                 string                                    `json:"cancel_url"`
 	ClientReferenceID         string                                    `json:"client_reference_id"`
 	Currency                  Currency                                  `json:"currency"`
 	Customer                  *Customer                                 `json:"customer"`
+	CustomerDetails           *CheckoutSessionCustomerDetails           `json:"customer_details"`
 	CustomerEmail             string                                    `json:"customer_email"`
 	Deleted                   bool                                      `json:"deleted"`
 	ID                        string                                    `json:"id"`
@@ -475,12 +492,31 @@ type CheckoutSession struct {
 	SetupIntent               *SetupIntent                              `json:"setup_intent"`
 	Shipping                  *ShippingDetails                          `json:"shipping"`
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollection `json:"shipping_address_collection"`
-	Subscription              *Subscription                             `json:"subscription"`
 	SubmitType                CheckoutSessionSubmitType                 `json:"submit_type"`
+	Subscription              *Subscription                             `json:"subscription"`
 	SuccessURL                string                                    `json:"success_url"`
 	TaxIDCollection           *CheckoutSessionTaxIDCollection           `json:"tax_id_collection"`
 	TotalDetails              *CheckoutSessionTotalDetails              `json:"total_details"`
 	URL                       string                                    `json:"url"`
+}
+
+// UnmarshalJSON handles deserialization of a CheckoutSession.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (c *CheckoutSession) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		c.ID = id
+		return nil
+	}
+
+	type checkoutSession CheckoutSession
+	var v checkoutSession
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*c = CheckoutSession(v)
+	return nil
 }
 
 // CheckoutSessionList is a list of sessions as retrieved from a list endpoint.
@@ -488,23 +524,4 @@ type CheckoutSessionList struct {
 	APIResource
 	ListMeta
 	Data []*CheckoutSession `json:"data"`
-}
-
-// UnmarshalJSON handles deserialization of a checkout session.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (p *CheckoutSession) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		p.ID = id
-		return nil
-	}
-
-	type session CheckoutSession
-	var v session
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*p = CheckoutSession(v)
-	return nil
 }
