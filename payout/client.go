@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package payout provides the /payouts APIs
 package payout
 
@@ -52,12 +58,12 @@ func (c Client) Update(id string, params *stripe.PayoutParams) (*stripe.Payout, 
 	return payout, err
 }
 
-// Cancel cancels a pending payout.
+// Cancel is the method for the `POST /v1/payouts/{payout}/cancel` API.
 func Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	return getC().Cancel(id, params)
 }
 
-// Cancel cancels a pending payout.
+// Cancel is the method for the `POST /v1/payouts/{payout}/cancel` API.
 func (c Client) Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, error) {
 	path := stripe.FormatURLPath("/v1/payouts/%s/cancel", id)
 	payout := &stripe.Payout{}
@@ -65,12 +71,12 @@ func (c Client) Cancel(id string, params *stripe.PayoutParams) (*stripe.Payout, 
 	return payout, err
 }
 
-// Reverse reverses a pending payout.
+// Reverse is the method for the `POST /v1/payouts/{payout}/reverse` API.
 func Reverse(id string, params *stripe.PayoutReverseParams) (*stripe.Payout, error) {
 	return getC().Reverse(id, params)
 }
 
-// Reverse reverses a pending payout.
+// Reverse is the method for the `POST /v1/payouts/{payout}/reverse` API.
 func (c Client) Reverse(id string, params *stripe.PayoutReverseParams) (*stripe.Payout, error) {
 	path := stripe.FormatURLPath("/v1/payouts/%s/reverse", id)
 	payout := &stripe.Payout{}

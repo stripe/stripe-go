@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -65,8 +71,9 @@ type Refund struct {
 	Charge                    *Charge             `json:"charge"`
 	Created                   int64               `json:"created"`
 	Currency                  Currency            `json:"currency"`
-	FailureReason             RefundFailureReason `json:"failure_reason"`
+	Description               string              `json:"description"`
 	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction"`
+	FailureReason             RefundFailureReason `json:"failure_reason"`
 	ID                        string              `json:"id"`
 	Metadata                  map[string]string   `json:"metadata"`
 	Object                    string              `json:"object"`

@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 // Package subitem provides the /subscription_items APIs
 package subitem
 
@@ -8,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// Client is used to invoke /subscriptions APIs.
+// Client is used to invoke /subscription_items APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -21,9 +27,15 @@ func New(params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error
 
 // New creates a new subscription item.
 func (c Client) New(params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
-	item := &stripe.SubscriptionItem{}
-	err := c.B.Call(http.MethodPost, "/v1/subscription_items", c.Key, params, item)
-	return item, err
+	subscriptionitem := &stripe.SubscriptionItem{}
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/subscription_items",
+		c.Key,
+		params,
+		subscriptionitem,
+	)
+	return subscriptionitem, err
 }
 
 // Get returns the details of a subscription item.
@@ -34,9 +46,9 @@ func Get(id string, params *stripe.SubscriptionItemParams) (*stripe.Subscription
 // Get returns the details of a subscription item.
 func (c Client) Get(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	path := stripe.FormatURLPath("/v1/subscription_items/%s", id)
-	item := &stripe.SubscriptionItem{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, item)
-	return item, err
+	subscriptionitem := &stripe.SubscriptionItem{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, subscriptionitem)
+	return subscriptionitem, err
 }
 
 // Update updates a subscription item's properties.
@@ -47,9 +59,9 @@ func Update(id string, params *stripe.SubscriptionItemParams) (*stripe.Subscript
 // Update updates a subscription item's properties.
 func (c Client) Update(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	path := stripe.FormatURLPath("/v1/subscription_items/%s", id)
-	subi := &stripe.SubscriptionItem{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, subi)
-	return subi, err
+	subscriptionitem := &stripe.SubscriptionItem{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, subscriptionitem)
+	return subscriptionitem, err
 }
 
 // Del removes a subscription item.
@@ -60,10 +72,9 @@ func Del(id string, params *stripe.SubscriptionItemParams) (*stripe.Subscription
 // Del removes a subscription item.
 func (c Client) Del(id string, params *stripe.SubscriptionItemParams) (*stripe.SubscriptionItem, error) {
 	path := stripe.FormatURLPath("/v1/subscription_items/%s", id)
-	item := &stripe.SubscriptionItem{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, item)
-
-	return item, err
+	subscriptionitem := &stripe.SubscriptionItem{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, subscriptionitem)
+	return subscriptionitem, err
 }
 
 // List returns a list of subscription items.
