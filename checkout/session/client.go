@@ -110,7 +110,7 @@ func (c Client) ListLineItems(id string, listParams *stripe.CheckoutSessionListL
 	})}
 }
 
-type LineItemIter lineitem.Iter
+type LineItemIter = lineitem.Iter
 
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
