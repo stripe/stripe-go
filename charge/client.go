@@ -10,7 +10,7 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// Client is used to invoke APIs related to charges.
+// Client is used to invoke /charges APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -28,12 +28,12 @@ func (c Client) New(params *stripe.ChargeParams) (*stripe.Charge, error) {
 	return charge, err
 }
 
-// Get retrieves a charge.
+// Get returns the details of a charge.
 func Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	return getC().Get(id, params)
 }
 
-// Get retrieves a charge.
+// Get returns the details of a charge.
 func (c Client) Get(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	path := stripe.FormatURLPath("/v1/charges/%s", id)
 	charge := &stripe.Charge{}
@@ -41,12 +41,12 @@ func (c Client) Get(id string, params *stripe.ChargeParams) (*stripe.Charge, err
 	return charge, err
 }
 
-// Update updates a charge.
+// Update updates a charge's properties.
 func Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a charge.
+// Update updates a charge's properties.
 func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, error) {
 	path := stripe.FormatURLPath("/v1/charges/%s", id)
 	charge := &stripe.Charge{}
@@ -54,12 +54,12 @@ func (c Client) Update(id string, params *stripe.ChargeParams) (*stripe.Charge, 
 	return charge, err
 }
 
-// Capture captures a charge that's not yet captured.
+// Capture is the method for the `POST /v1/charges/{charge}/capture` API.
 func Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 	return getC().Capture(id, params)
 }
 
-// Capture captures a charge that's not yet captured.
+// Capture is the method for the `POST /v1/charges/{charge}/capture` API.
 func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge, error) {
 	path := stripe.FormatURLPath("/v1/charges/%s/capture", id)
 	charge := &stripe.Charge{}
@@ -67,12 +67,12 @@ func (c Client) Capture(id string, params *stripe.CaptureParams) (*stripe.Charge
 	return charge, err
 }
 
-// List returns an iterator that iterates all charges.
+// List returns a list of charges.
 func List(params *stripe.ChargeListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns an iterator that iterates all charges.
+// List returns a list of charges.
 func (c Client) List(listParams *stripe.ChargeListParams) *Iter {
 	return &Iter{
 		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
@@ -99,9 +99,9 @@ func (i *Iter) Charge() *stripe.Charge {
 	return i.Current().(*stripe.Charge)
 }
 
-// ChargeList returns the current list object which the iterator is currently
-// using. List objects will change as new API calls are made to continue
-// pagination.
+// ChargeList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) ChargeList() *stripe.ChargeList {
 	return i.List().(*stripe.ChargeList)
 }
