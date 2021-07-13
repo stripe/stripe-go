@@ -154,15 +154,6 @@ type ChargeParams struct {
 	TransferGroup             *string                   `form:"transfer_group"`
 }
 
-// ShippingDetailsParams is the structure containing shipping information as parameters
-type ShippingDetailsParams struct {
-	Address        *AddressParams `form:"address"`
-	Carrier        *string        `form:"carrier"`
-	Name           *string        `form:"name"`
-	Phone          *string        `form:"phone"`
-	TrackingNumber *string        `form:"tracking_number"`
-}
-
 // SetSource adds valid sources to a ChargeParams object,
 // returning an error for unsupported sources.
 func (p *ChargeParams) SetSource(sp interface{}) error {

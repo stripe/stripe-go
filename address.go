@@ -19,3 +19,12 @@ type Address struct {
 	PostalCode string `json:"postal_code"`
 	State      string `json:"state"`
 }
+
+// ShippingDetailsParams is the structure containing shipping information as parameters
+type ShippingDetailsParams struct {
+	Address        *AddressParams `form:"address"`
+	Carrier        *string        `form:"carrier"`
+	Name           *string        `form:"name"`
+	Phone          *string        `form:"phone"`
+	TrackingNumber *string        `form:"tracking_number"`
+}
