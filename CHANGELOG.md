@@ -1,5 +1,16 @@
 # Changelog
 
+## 72.57.0 - 2021-07-14
+* [#1314](https://github.com/stripe/stripe-go/pull/1314) API Updates
+  * Add support for `ListComputedUpfrontLineItems` method on resource `Quote`
+* [#1312](https://github.com/stripe/stripe-go/pull/1312) codegen: 14 more files
+    * Add support for `BillingAddressCollection` to `CheckoutSession`
+    * Add support for `NetworkReasonCode` to `DisputeReason`
+    * Add support for `Object` to `EphemeralKey`, `ApplicationFee`, and `DisputeReason`
+    * Add support for `Description` to `Refund`
+    * Add const definition for value `blocked` on enum `IssuingCardholderStatus`
+    * Bugfix: add support for `Rate` on `CheckoutSessionTotalDetailsBreakdownTax` -- the existing field `TaxRate` has the wrong json annotation and should be deprecated.
+
 ## 72.56.0 - 2021-07-09
 * [#1310](https://github.com/stripe/stripe-go/pull/1310) [#1283](https://github.com/stripe/stripe-go/pull/1283) API Updates
   * Add support for new resource `Quote`
