@@ -6,8 +6,11 @@
 
 package stripe
 
-import "encoding/json"
-import "github.com/stripe/stripe-go/v72/form"
+import (
+	"encoding/json"
+
+	"github.com/stripe/stripe-go/v72/form"
+)
 
 // The status of the most recent automated tax calculation for this quote.
 type QuoteAutomaticTaxStatus string
@@ -165,6 +168,12 @@ type QuoteAcceptParams struct {
 
 // When retrieving a quote, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type QuoteListLineItemsParams struct {
+	ListParams `form:"*"`
+	Quote      *string `form:"-"` // Included in URL
+}
+
+// When retrieving a quote, there is an includable upfront.line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
+type QuoteListComputedUpfrontLineItemsParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL
 }

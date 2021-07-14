@@ -25,6 +25,18 @@ func TestQuoteList(t *testing.T) {
 	assert.NotNil(t, i.QuoteList())
 }
 
+func TestQuoteListComputedUpfrontLineItems(t *testing.T) {
+	i := ListComputedUpfrontLineItems(&stripe.QuoteListComputedUpfrontLineItemsParams{
+		Quote: stripe.String("qt_123"),
+	})
+
+	// Verify that we can get at least line item
+	assert.True(t, i.Next())
+	assert.Nil(t, i.Err())
+	assert.NotNil(t, i.LineItem())
+	assert.NotNil(t, i.LineItemList())
+}
+
 func TestQuoteListLineItems(t *testing.T) {
 	i := ListLineItems(&stripe.QuoteListLineItemsParams{
 		Quote: stripe.String("qt_123"),
