@@ -59,17 +59,19 @@ func List(params *stripe.CheckoutSessionListParams) *Iter {
 
 // List returns a list of checkout sessions.
 func (c Client) List(listParams *stripe.CheckoutSessionListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.CheckoutSessionList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/checkout/sessions", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.CheckoutSessionList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/checkout/sessions", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for checkout sessions.
@@ -97,17 +99,19 @@ func ListLineItems(id string, params *stripe.CheckoutSessionListLineItemsParams)
 // ListLineItems is the method for the `GET /v1/checkout/sessions/{session}/line_items` API.
 func (c Client) ListLineItems(id string, listParams *stripe.CheckoutSessionListLineItemsParams) *LineItemIter {
 	path := stripe.FormatURLPath("/v1/checkout/sessions/%s/line_items", id)
-	return &LineItemIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.LineItemList{}
-		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+	return &LineItemIter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.LineItemList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 type LineItemIter = lineitem.Iter

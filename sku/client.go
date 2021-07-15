@@ -78,17 +78,19 @@ func List(params *stripe.SKUListParams) *Iter {
 
 // List returns a list of skus.
 func (c Client) List(listParams *stripe.SKUListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.SKUList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/skus", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.SKUList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/skus", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for skus.

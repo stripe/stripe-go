@@ -110,17 +110,19 @@ func (c Client) List(listParams *stripe.CustomerBalanceTransactionListParams) *I
 		"/v1/customers/%s/balance_transactions",
 		stripe.StringValue(listParams.Customer),
 	)
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.CustomerBalanceTransactionList{}
-		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.CustomerBalanceTransactionList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for customer balance transactions.

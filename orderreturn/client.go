@@ -40,17 +40,19 @@ func List(params *stripe.OrderReturnListParams) *Iter {
 
 // List returns a list of order returns.
 func (c Client) List(listParams *stripe.OrderReturnListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.OrderReturnList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/order_returns", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.OrderReturnList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/order_returns", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for order returns.

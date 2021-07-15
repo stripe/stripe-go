@@ -84,17 +84,19 @@ func List(params *stripe.TerminalLocationListParams) *Iter {
 
 // List returns a list of terminal locations.
 func (c Client) List(listParams *stripe.TerminalLocationListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.TerminalLocationList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/terminal/locations", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.TerminalLocationList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/terminal/locations", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for terminal locations.
