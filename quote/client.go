@@ -118,17 +118,19 @@ func List(params *stripe.QuoteListParams) *Iter {
 
 // List returns a list of quotes.
 func (c Client) List(listParams *stripe.QuoteListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.QuoteList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/quotes", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.QuoteList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/quotes", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for quotes.
@@ -159,17 +161,19 @@ func (c Client) ListComputedUpfrontLineItems(listParams *stripe.QuoteListCompute
 		"/v1/quotes/%s/computed_upfront_line_items",
 		stripe.StringValue(listParams.Quote),
 	)
-	return &LineItemIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.LineItemList{}
-		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+	return &LineItemIter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.LineItemList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // ListLineItems is the method for the `GET /v1/quotes/{quote}/line_items` API.
@@ -183,17 +187,19 @@ func (c Client) ListLineItems(listParams *stripe.QuoteListLineItemsParams) *Line
 		"/v1/quotes/%s/line_items",
 		stripe.StringValue(listParams.Quote),
 	)
-	return &LineItemIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.LineItemList{}
-		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+	return &LineItemIter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.LineItemList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // LineItemIter is an iterator for line items.

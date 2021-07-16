@@ -78,17 +78,19 @@ func List(params *stripe.CustomerListParams) *Iter {
 
 // List returns a list of customers.
 func (c Client) List(listParams *stripe.CustomerListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.CustomerList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/customers", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.CustomerList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/customers", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for customers.

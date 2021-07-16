@@ -40,17 +40,19 @@ func List(params *stripe.CountrySpecListParams) *Iter {
 
 // List returns a list of country specs.
 func (c Client) List(listParams *stripe.CountrySpecListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.CountrySpecList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/country_specs", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.CountrySpecList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/country_specs", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for country specs.

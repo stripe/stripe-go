@@ -53,17 +53,19 @@ func List(params *stripe.IssuingTransactionListParams) *Iter {
 
 // List returns a list of issuing transactions.
 func (c Client) List(listParams *stripe.IssuingTransactionListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.IssuingTransactionList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/transactions", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.IssuingTransactionList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/transactions", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for issuing transactions.

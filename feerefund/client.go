@@ -100,17 +100,19 @@ func (c Client) List(listParams *stripe.FeeRefundListParams) *Iter {
 		"/v1/application_fees/%s/refunds",
 		stripe.StringValue(listParams.ApplicationFee),
 	)
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.FeeRefundList{}
-		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.FeeRefundList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for fee refunds.

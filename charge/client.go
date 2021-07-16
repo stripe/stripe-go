@@ -74,17 +74,19 @@ func List(params *stripe.ChargeListParams) *Iter {
 
 // List returns an iterator that iterates all charges.
 func (c Client) List(listParams *stripe.ChargeListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.ChargeList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/charges", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.ChargeList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/charges", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for charges.
