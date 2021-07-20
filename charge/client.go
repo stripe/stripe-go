@@ -1,6 +1,10 @@
-// Package charge provides API functions related to charges.
 //
-// For more details, see: https://stripe.com/docs/api/go#charges.
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package charge provides the /charges APIs
 package charge
 
 import (
