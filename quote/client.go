@@ -4,7 +4,7 @@
 //
 //
 
-// Package quote provides the /quotes/{quote}/computed_upfront_line_items APIs
+// Package quote provides the /quotes APIs
 package quote
 
 import (
@@ -14,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// Client is used to invoke /quotes/{quote}/computed_upfront_line_items APIs.
+// Client is used to invoke /quotes APIs.
 type Client struct {
 	B          stripe.Backend
 	PDFBackend stripe.Backend
