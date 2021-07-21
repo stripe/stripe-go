@@ -53,6 +53,7 @@ type CustomerParams struct {
 	Name                *string                        `form:"name"`
 	NextInvoiceSequence *int64                         `form:"next_invoice_sequence"`
 	PaymentMethod       *string                        `form:"payment_method"`
+	PaymentSettings     *CustomerPaymentSettingsParams `form:"payment_settings"`
 	Phone               *string                        `form:"phone"`
 	PreferredLocales    []*string                      `form:"preferred_locales"`
 	PromotionCode       *string                        `form:"promotion_code"`
@@ -77,6 +78,28 @@ type CustomerInvoiceSettingsParams struct {
 	CustomFields         []*CustomerInvoiceCustomFieldParams `form:"custom_fields"`
 	DefaultPaymentMethod *string                             `form:"default_payment_method"`
 	Footer               *string                             `form:"footer"`
+}
+
+// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
+type CustomerPaymentSettingsPaymentMethodOptionsBancontactParams struct {
+	PreferredLanguage *string `form:"preferred_language"`
+}
+
+// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
+type CustomerPaymentSettingsPaymentMethodOptionsCardParams struct {
+	RequestThreeDSecure *string `form:"request_three_d_secure"`
+}
+
+// Payment-method-specific configuration to provide to invoices created by the subscription.
+type CustomerPaymentSettingsPaymentMethodOptionsParams struct {
+	Bancontact *CustomerPaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	Card       *CustomerPaymentSettingsPaymentMethodOptionsCardParams       `form:"card"`
+}
+
+// Payment settings to pass to invoices created by the subscription.
+type CustomerPaymentSettingsParams struct {
+	PaymentMethodOptions *CustomerPaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodTypes   []*string                                          `form:"payment_method_types"`
 }
 
 // CustomerShippingDetailsParams is the structure containing shipping information.
