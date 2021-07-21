@@ -38,6 +38,16 @@ const (
 	IssuingTransactionTypeRefund  IssuingTransactionType = "refund"
 )
 
+// The digital wallet used for this transaction. One of `apple_pay`, `google_pay`, or `samsung_pay`.
+type IssuingTransactionWallet string
+
+// List of values that IssuingTransactionWallet can take
+const (
+	IssuingTransactionWalletApplePay   IssuingTransactionWallet = "apple_pay"
+	IssuingTransactionWalletGooglePay  IssuingTransactionWallet = "google_pay"
+	IssuingTransactionWalletSamsungPay IssuingTransactionWallet = "samsung_pay"
+)
+
 // IssuingTransactionParams is the set of parameters that can be used when creating or updating an issuing transaction.
 type IssuingTransactionParams struct {
 	Params `form:"*"`
@@ -129,6 +139,7 @@ type IssuingTransaction struct {
 	Object             string                             `json:"object"`
 	PurchaseDetails    *IssuingTransactionPurchaseDetails `json:"purchase_details"`
 	Type               IssuingTransactionType             `json:"type"`
+	Wallet             IssuingTransactionWallet           `json:"wallet"`
 }
 
 // IssuingTransactionList is a list of issuing transactions as retrieved from a list endpoint.
