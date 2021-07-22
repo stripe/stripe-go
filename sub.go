@@ -40,17 +40,6 @@ const (
 	SubscriptionPauseCollectionBehaviorVoid              SubscriptionPauseCollectionBehavior = "void"
 )
 
-// Preferred language of the Bancontact authorization page that the customer is redirected to.
-type SubscriptionPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage string
-
-// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage can take
-const (
-	SubscriptionPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageDe SubscriptionPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "de"
-	SubscriptionPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageEn SubscriptionPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "en"
-	SubscriptionPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageFr SubscriptionPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "fr"
-	SubscriptionPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguageNl SubscriptionPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage = "nl"
-)
-
 // We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure string
 
@@ -280,7 +269,7 @@ type SubscriptionPauseCollection struct {
 
 // This sub-hash contains details about the Bancontact payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsBancontact struct {
-	PreferredLanguage SubscriptionPaymentSettingsPaymentMethodOptionsBancontactPreferredLanguage `json:"preferred_language"`
+	PreferredLanguage string `json:"preferred_language"`
 }
 
 // This sub-hash contains details about the Card payment method options to pass to invoices created by the subscription.
