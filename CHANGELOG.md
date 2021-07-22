@@ -1,5 +1,14 @@
 # Changelog
 
+## 72.58.0 - 2021-07-22
+* [#1319](https://github.com/stripe/stripe-go/pull/1319) API Updates
+  * Add support for `payment_settings` on `Subscription` and `SubscriptionParams`.
+* [#1320](https://github.com/stripe/stripe-go/pull/1320) Stop using uploads.stripe.com for the files backend.
+* [#1318](https://github.com/stripe/stripe-go/pull/1318) API Updates
+  * Add support for `Wallet` on `IssuingTransaction`
+  * Add support for `Ideal` on `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
+* [#1315](https://github.com/stripe/stripe-go/pull/1315) Explicit iter property
+
 ## 72.57.0 - 2021-07-14
 * [#1314](https://github.com/stripe/stripe-go/pull/1314) API Updates
   * Add support for `ListComputedUpfrontLineItems` method on resource `Quote`
