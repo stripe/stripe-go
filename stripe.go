@@ -1050,7 +1050,7 @@ func GetBackendWithConfig(backendType SupportedBackend, config *BackendConfig) B
 	switch backendType {
 	case APIBackend:
 		if config.URL == nil {
-			config.URL = String(apiURL)
+			config.URL = String(APIURL)
 		}
 
 		config.URL = String(normalizeURL(*config.URL))
@@ -1059,7 +1059,7 @@ func GetBackendWithConfig(backendType SupportedBackend, config *BackendConfig) B
 
 	case UploadsBackend:
 		if config.URL == nil {
-			config.URL = String(uploadsURL)
+			config.URL = String(UploadsURL)
 		}
 
 		config.URL = String(normalizeURL(*config.URL))
@@ -1202,8 +1202,6 @@ func StringSlice(v []string) []*string {
 // Private constants
 //
 
-const apiURL = "https://api.stripe.com"
-
 // clientversion is the binding version
 const clientversion = "72.57.0"
 
@@ -1220,8 +1218,6 @@ const minNetworkRetriesDelay = 500 * time.Millisecond
 // The number of requestMetric objects to buffer for client telemetry. When the
 // buffer is full, new requestMetrics are dropped.
 const telemetryBufferSize = 16
-
-const uploadsURL = "https://uploads.stripe.com"
 
 //
 // Private types
