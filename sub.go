@@ -40,6 +40,36 @@ const (
 	SubscriptionPauseCollectionBehaviorVoid              SubscriptionPauseCollectionBehavior = "void"
 )
 
+// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
+type SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecureAny       SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure = "any"
+	SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecureAutomatic SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
+)
+
+// The list of payment method types to provide to every invoice created by the subscription. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
+type SubscriptionPaymentSettingsPaymentMethodType string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodType can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodTypeAchCreditTransfer  SubscriptionPaymentSettingsPaymentMethodType = "ach_credit_transfer"
+	SubscriptionPaymentSettingsPaymentMethodTypeAchDebit           SubscriptionPaymentSettingsPaymentMethodType = "ach_debit"
+	SubscriptionPaymentSettingsPaymentMethodTypeAUBECSDebit        SubscriptionPaymentSettingsPaymentMethodType = "au_becs_debit"
+	SubscriptionPaymentSettingsPaymentMethodTypeBACSDebit          SubscriptionPaymentSettingsPaymentMethodType = "bacs_debit"
+	SubscriptionPaymentSettingsPaymentMethodTypeBancontact         SubscriptionPaymentSettingsPaymentMethodType = "bancontact"
+	SubscriptionPaymentSettingsPaymentMethodTypeBoleto             SubscriptionPaymentSettingsPaymentMethodType = "boleto"
+	SubscriptionPaymentSettingsPaymentMethodTypeCard               SubscriptionPaymentSettingsPaymentMethodType = "card"
+	SubscriptionPaymentSettingsPaymentMethodTypeFPX                SubscriptionPaymentSettingsPaymentMethodType = "fpx"
+	SubscriptionPaymentSettingsPaymentMethodTypeGiropay            SubscriptionPaymentSettingsPaymentMethodType = "giropay"
+	SubscriptionPaymentSettingsPaymentMethodTypeIdeal              SubscriptionPaymentSettingsPaymentMethodType = "ideal"
+	SubscriptionPaymentSettingsPaymentMethodTypeSepaCreditTransfer SubscriptionPaymentSettingsPaymentMethodType = "sepa_credit_transfer"
+	SubscriptionPaymentSettingsPaymentMethodTypeSepaDebit          SubscriptionPaymentSettingsPaymentMethodType = "sepa_debit"
+	SubscriptionPaymentSettingsPaymentMethodTypeSofort             SubscriptionPaymentSettingsPaymentMethodType = "sofort"
+	SubscriptionPaymentSettingsPaymentMethodTypeWechatPay          SubscriptionPaymentSettingsPaymentMethodType = "wechat_pay"
+)
+
 // SubscriptionPaymentBehavior lets you control the behavior of subscription creation in case of
 // a failed payment.
 type SubscriptionPaymentBehavior string
@@ -88,6 +118,28 @@ type SubscriptionPauseCollectionParams struct {
 	ResumesAt *int64  `form:"resumes_at"`
 }
 
+// This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams struct {
+	PreferredLanguage *string `form:"preferred_language"`
+}
+
+// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsCardParams struct {
+	RequestThreeDSecure *string `form:"request_three_d_secure"`
+}
+
+// Payment-method-specific configuration to provide to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
+	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
+	Card       *SubscriptionPaymentSettingsPaymentMethodOptionsCardParams       `form:"card"`
+}
+
+// Payment settings to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsParams struct {
+	PaymentMethodOptions *SubscriptionPaymentSettingsPaymentMethodOptionsParams `form:"payment_method_options"`
+	PaymentMethodTypes   []*string                                              `form:"payment_method_types"`
+}
+
 // SubscriptionPendingInvoiceItemIntervalParams is the set of parameters allowed for the transfer_data hash.
 type SubscriptionPendingInvoiceItemIntervalParams struct {
 	Interval      *string `form:"interval"`
@@ -127,6 +179,7 @@ type SubscriptionParams struct {
 	OnBehalfOf                  *string                                       `form:"on_behalf_of"`
 	PauseCollection             *SubscriptionPauseCollectionParams            `form:"pause_collection"`
 	PaymentBehavior             *string                                       `form:"payment_behavior"`
+	PaymentSettings             *SubscriptionPaymentSettingsParams            `form:"payment_settings"`
 	PendingInvoiceItemInterval  *SubscriptionPendingInvoiceItemIntervalParams `form:"pending_invoice_item_interval"`
 	Plan                        *string                                       `form:"plan"`
 	PromotionCode               *string                                       `form:"promotion_code"`
@@ -214,6 +267,28 @@ type SubscriptionPauseCollection struct {
 	ResumesAt int64                               `json:"resumes_at"`
 }
 
+// This sub-hash contains details about the Bancontact payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsBancontact struct {
+	PreferredLanguage string `json:"preferred_language"`
+}
+
+// This sub-hash contains details about the Card payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsCard struct {
+	RequestThreeDSecure SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
+}
+
+// Payment-method-specific configuration to provide to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptions struct {
+	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
+	Card       *SubscriptionPaymentSettingsPaymentMethodOptionsCard       `json:"card"`
+}
+
+// Payment settings passed on to invoices created by the subscription.
+type SubscriptionPaymentSettings struct {
+	PaymentMethodOptions *SubscriptionPaymentSettingsPaymentMethodOptions `json:"payment_method_options"`
+	PaymentMethodTypes   []SubscriptionPaymentSettingsPaymentMethodType   `json:"payment_method_types"`
+}
+
 // SubscriptionPendingInvoiceItemInterval represents the interval at which to invoice pending invoice
 // items.
 type SubscriptionPendingInvoiceItemInterval struct {
@@ -267,6 +342,7 @@ type Subscription struct {
 	Object                        string                                 `json:"object"`
 	OnBehalfOf                    *Account                               `json:"on_behalf_of"`
 	PauseCollection               SubscriptionPauseCollection            `json:"pause_collection"`
+	PaymentSettings               *SubscriptionPaymentSettings           `json:"payment_settings"`
 	PendingInvoiceItemInterval    SubscriptionPendingInvoiceItemInterval `json:"pending_invoice_item_interval"`
 	PendingSetupIntent            *SetupIntent                           `json:"pending_setup_intent"`
 	PendingUpdate                 *SubscriptionPendingUpdate             `json:"pending_update"`
