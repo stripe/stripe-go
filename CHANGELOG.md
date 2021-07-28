@@ -1,5 +1,11 @@
 # Changelog
 
+## 72.59.0 - 2021-07-28
+* [#1322](https://github.com/stripe/stripe-go/pull/1322) API Updates
+  * Add support for `AccountType` on `BankAccount`, `BankAccountParams`, and `CardParams`.
+  * Add support for `CategoryCode` on `IssuingAuthorizationMerchantData`.
+  * Add const definition for value `redacted` on enum `ReviewClosedReason`.
+
 ## 72.58.0 - 2021-07-22
 * [#1319](https://github.com/stripe/stripe-go/pull/1319) API Updates
   * Add support for `payment_settings` on `Subscription` and `SubscriptionParams`.
