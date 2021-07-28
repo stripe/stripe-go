@@ -75,6 +75,7 @@ const cardSource = "source"
 type CardParams struct {
 	Params             `form:"*"`
 	Account            *string `form:"-"`
+	AccountType        *string `form:"account_type"`
 	AddressCity        *string `form:"address_city"`
 	AddressCountry     *string `form:"address_country"`
 	AddressLine1       *string `form:"address_line1"`

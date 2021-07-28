@@ -52,6 +52,7 @@ type BankAccountParams struct {
 
 	AccountHolderName  *string `form:"account_holder_name"`
 	AccountHolderType  *string `form:"account_holder_type"`
+	AccountType        *string `form:"account_type"`
 	AccountNumber      *string `form:"account_number"`
 	Country            *string `form:"country"`
 	Currency           *string `form:"currency"`
@@ -154,6 +155,7 @@ type BankAccount struct {
 	Account                *Account                           `json:"account"`
 	AccountHolderName      string                             `json:"account_holder_name"`
 	AccountHolderType      BankAccountAccountHolderType       `json:"account_holder_type"`
+	AccountType            *string                            `form:"account_type"`
 	AvailablePayoutMethods []BankAccountAvailablePayoutMethod `json:"available_payout_methods"`
 	BankName               string                             `json:"bank_name"`
 	Country                string                             `json:"country"`

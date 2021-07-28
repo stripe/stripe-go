@@ -124,13 +124,14 @@ type IssuingAuthorizationAmountDetails struct {
 
 // IssuingAuthorizationMerchantData is the resource representing merchant data on Issuing APIs.
 type IssuingAuthorizationMerchantData struct {
-	Category   string `json:"category"`
-	City       string `json:"city"`
-	Country    string `json:"country"`
-	Name       string `json:"name"`
-	NetworkID  string `json:"network_id"`
-	PostalCode string `json:"postal_code"`
-	State      string `json:"state"`
+	Category     string `json:"category"`
+	CategoryCode string `json:"category_code"`
+	City         string `json:"city"`
+	Country      string `json:"country"`
+	Name         string `json:"name"`
+	NetworkID    string `json:"network_id"`
+	PostalCode   string `json:"postal_code"`
+	State        string `json:"state"`
 }
 
 // IssuingAuthorizationPendingRequest is the resource representing details about the pending authorization request.
