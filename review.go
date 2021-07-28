@@ -9,6 +9,7 @@ type ReviewClosedReason string
 const (
 	ReviewClosedReasonApproved        ReviewClosedReason = "approved"
 	ReviewClosedReasonDisputed        ReviewClosedReason = "disputed"
+	ReviewClosedReasonRedacted        ReviewClosedReason = "redacted"
 	ReviewClosedReasonRefunded        ReviewClosedReason = "refunded"
 	ReviewClosedReasonRefundedAsFraud ReviewClosedReason = "refunded_as_fraud"
 )
