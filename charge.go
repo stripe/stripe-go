@@ -1,8 +1,12 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
-import (
-	"encoding/json"
-)
+import "encoding/json"
 
 // ChargeFraudUserReport is the list of allowed values for reporting fraud.
 type ChargeFraudUserReport string
@@ -115,8 +119,8 @@ type ChargeLevel3Params struct {
 	LineItems          []*ChargeLevel3LineItemsParams `form:"line_items"`
 	MerchantReference  *string                        `form:"merchant_reference"`
 	ShippingAddressZip *string                        `form:"shipping_address_zip"`
-	ShippingFromZip    *string                        `form:"shipping_from_zip"`
 	ShippingAmount     *int64                         `form:"shipping_amount"`
+	ShippingFromZip    *string                        `form:"shipping_from_zip"`
 }
 
 // ChargeTransferDataParams is the set of parameters allowed for the transfer_data hash.
@@ -130,6 +134,7 @@ type ChargeTransferDataParams struct {
 type ChargeParams struct {
 	Params                    `form:"*"`
 	Amount                    *int64                    `form:"amount"`
+	ApplicationFee            *int64                    `form:"application_fee"`
 	ApplicationFeeAmount      *int64                    `form:"application_fee_amount"`
 	Capture                   *bool                     `form:"capture"`
 	Currency                  *string                   `form:"currency"`
@@ -147,15 +152,6 @@ type ChargeParams struct {
 	StatementDescriptorSuffix *string                   `form:"statement_descriptor_suffix"`
 	TransferData              *ChargeTransferDataParams `form:"transfer_data"`
 	TransferGroup             *string                   `form:"transfer_group"`
-}
-
-// ShippingDetailsParams is the structure containing shipping information as parameters
-type ShippingDetailsParams struct {
-	Address        *AddressParams `form:"address"`
-	Carrier        *string        `form:"carrier"`
-	Name           *string        `form:"name"`
-	Phone          *string        `form:"phone"`
-	TrackingNumber *string        `form:"tracking_number"`
 }
 
 // SetSource adds valid sources to a ChargeParams object,
@@ -191,13 +187,14 @@ type ChargeListParams struct {
 type CaptureParams struct {
 	Params                    `form:"*"`
 	Amount                    *int64                    `form:"amount"`
+	ApplicationFee            *int64                    `form:"application_fee"`
 	ApplicationFeeAmount      *int64                    `form:"application_fee_amount"`
 	ExchangeRate              *float64                  `form:"exchange_rate"`
 	ReceiptEmail              *string                   `form:"receipt_email"`
 	StatementDescriptor       *string                   `form:"statement_descriptor"`
 	StatementDescriptorSuffix *string                   `form:"statement_descriptor_suffix"`
-	TransferGroup             *string                   `form:"transfer_group"`
 	TransferData              *ChargeTransferDataParams `form:"transfer_data"`
+	TransferGroup             *string                   `form:"transfer_group"`
 }
 
 // ChargeLevel3LineItem represents a line item on level III data.
@@ -218,8 +215,8 @@ type ChargeLevel3 struct {
 	LineItems          []*ChargeLevel3LineItem `json:"line_items"`
 	MerchantReference  string                  `json:"merchant_reference"`
 	ShippingAddressZip string                  `json:"shipping_address_zip"`
-	ShippingFromZip    string                  `json:"shipping_from_zip"`
 	ShippingAmount     int64                   `json:"shipping_amount"`
+	ShippingFromZip    string                  `json:"shipping_from_zip"`
 }
 
 // ChargePaymentMethodDetailsAchCreditTransfer represents details about the ACH Credit Transfer
@@ -283,11 +280,11 @@ type ChargePaymentMethodDetailsBancontact struct {
 	BankCode                  string         `json:"bank_code"`
 	BankName                  string         `json:"bank_name"`
 	Bic                       string         `json:"bic"`
+	GeneratedSepaDebit        *PaymentMethod `json:"generated_sepa_debit"`
+	GeneratedSepaDebitMandate *Mandate       `json:"generated_sepa_debit_mandate"`
 	IbanLast4                 string         `json:"iban_last4"`
 	PreferredLanguage         string         `json:"preferred_language"`
 	VerifiedName              string         `json:"verified_name"`
-	GeneratedSepaDebit        *PaymentMethod `json:"generated_sepa_debit"`
-	GeneratedSepaDebitMandate *Mandate       `json:"generated_sepa_debit_mandate"`
 }
 
 // ChargePaymentMethodDetailsBoleto represents details about the Boleto PaymentMethod.
@@ -320,16 +317,13 @@ type ChargePaymentMethodDetailsCardThreeDSecure struct {
 
 // ChargePaymentMethodDetailsCardWalletAmexExpressCheckout represents the details of the Amex
 // Express Checkout wallet.
-type ChargePaymentMethodDetailsCardWalletAmexExpressCheckout struct {
-}
+type ChargePaymentMethodDetailsCardWalletAmexExpressCheckout struct{}
 
 // ChargePaymentMethodDetailsCardWalletApplePay represents the details of the Apple Pay wallet.
-type ChargePaymentMethodDetailsCardWalletApplePay struct {
-}
+type ChargePaymentMethodDetailsCardWalletApplePay struct{}
 
 // ChargePaymentMethodDetailsCardWalletGooglePay represents the details of the Google Pay wallet.
-type ChargePaymentMethodDetailsCardWalletGooglePay struct {
-}
+type ChargePaymentMethodDetailsCardWalletGooglePay struct{}
 
 // ChargePaymentMethodDetailsCardWalletMasterpass represents the details of the Masterpass wallet.
 type ChargePaymentMethodDetailsCardWalletMasterpass struct {
@@ -340,8 +334,7 @@ type ChargePaymentMethodDetailsCardWalletMasterpass struct {
 }
 
 // ChargePaymentMethodDetailsCardWalletSamsungPay represents the details of the Samsung Pay wallet.
-type ChargePaymentMethodDetailsCardWalletSamsungPay struct {
-}
+type ChargePaymentMethodDetailsCardWalletSamsungPay struct{}
 
 // ChargePaymentMethodDetailsCardWalletVisaCheckout represents the details of the Visa Checkout
 // wallet.
@@ -455,10 +448,10 @@ type ChargePaymentMethodDetailsGrabpay struct {
 type ChargePaymentMethodDetailsIdeal struct {
 	Bank                      string         `json:"bank"`
 	Bic                       string         `json:"bic"`
-	IbanLast4                 string         `json:"iban_last4"`
-	VerifiedName              string         `json:"verified_name"`
 	GeneratedSepaDebit        *PaymentMethod `json:"generated_sepa_debit"`
 	GeneratedSepaDebitMandate *Mandate       `json:"generated_sepa_debit_mandate"`
+	IbanLast4                 string         `json:"iban_last4"`
+	VerifiedName              string         `json:"verified_name"`
 }
 
 // ChargePaymentMethodDetailsInteracPresent represents details about the InteracPresent PaymentMethod.
@@ -500,8 +493,7 @@ type ChargePaymentMethodDetailsInteracPresentReceipt struct {
 
 // ChargePaymentMethodDetailsKlarna represents details for the Klarna
 // PaymentMethod.
-type ChargePaymentMethodDetailsKlarna struct {
-}
+type ChargePaymentMethodDetailsKlarna struct{}
 
 // ChargePaymentMethodDetailsMultibanco represents details about the Multibanco PaymentMethod.
 type ChargePaymentMethodDetailsMultibanco struct {
@@ -537,19 +529,18 @@ type ChargePaymentMethodDetailsSofort struct {
 	BankName                  string         `json:"bank_name"`
 	Bic                       string         `json:"bic"`
 	Country                   string         `json:"country"`
-	IbanLast4                 string         `json:"iban_last4"`
-	VerifiedName              string         `json:"verified_name"`
 	GeneratedSepaDebit        *PaymentMethod `json:"generated_sepa_debit"`
 	GeneratedSepaDebitMandate *Mandate       `json:"generated_sepa_debit_mandate"`
+	IbanLast4                 string         `json:"iban_last4"`
+	PreferredLanguage         string         `json:"preferred_language"`
+	VerifiedName              string         `json:"verified_name"`
 }
 
 // ChargePaymentMethodDetailsStripeAccount represents details about the StripeAccount PaymentMethod.
-type ChargePaymentMethodDetailsStripeAccount struct {
-}
+type ChargePaymentMethodDetailsStripeAccount struct{}
 
 // ChargePaymentMethodDetailsWechat represents details about the Wechat PaymentMethod.
-type ChargePaymentMethodDetailsWechat struct {
-}
+type ChargePaymentMethodDetailsWechat struct{}
 
 // ChargePaymentMethodDetailsWechatPay represents details about the WechatPay PaymentMethod.
 type ChargePaymentMethodDetailsWechatPay struct {
@@ -590,7 +581,7 @@ type ChargePaymentMethodDetails struct {
 
 // ChargeTransferData represents the information for the transfer_data associated with a charge.
 type ChargeTransferData struct {
-	Amount      int64    `form:"amount"`
+	Amount      int64    `json:"amount"`
 	Destination *Account `json:"destination"`
 }
 
