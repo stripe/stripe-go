@@ -42,7 +42,7 @@ type SearchParams struct {
 	// key or query the state of the API.
 	Context context.Context `form:"-"`
 
-	Query        string    `form:"string"`
+	Query        string    `form:"query"`
 	Expand       []*string `form:"expand"`
 	SearchWindow *string   `form:"search_window"`
 	SortOrder    *string   `form:"sort_order"`
