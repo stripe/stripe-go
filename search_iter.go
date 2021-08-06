@@ -72,8 +72,8 @@ func (it *SearchIter) Next() bool {
 	if len(it.values) == 0 && it.meta.HasMore && !it.searchParams.Single {
 		if it.meta.NextPage != nil {
 			it.formValues.Set(NextPage, *it.meta.NextPage)
+			it.getPage()
 		}
-		it.getPage()
 	}
 	if len(it.values) == 0 {
 		return false
