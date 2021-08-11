@@ -13,6 +13,7 @@ type BillingPortalSessionParams struct {
 	Params        `form:"*"`
 	Configuration *string `form:"configuration"`
 	Customer      *string `form:"customer"`
+	Locale        *string `form:"locale"`
 	OnBehalfOf    *string `form:"on_behalf_of"`
 	ReturnURL     *string `form:"return_url"`
 }
@@ -25,6 +26,7 @@ type BillingPortalSession struct {
 	Customer      string                      `json:"customer"`
 	ID            string                      `json:"id"`
 	Livemode      bool                        `json:"livemode"`
+	Locale        string                      `json:"locale"`
 	Object        string                      `json:"object"`
 	OnBehalfOf    string                      `json:"on_behalf_of"`
 	ReturnURL     string                      `json:"return_url"`
