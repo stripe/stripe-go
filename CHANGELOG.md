@@ -1,5 +1,13 @@
 # Changelog
 
+## 72.60.0 - 2021-08-11
+* [#1325](https://github.com/stripe/stripe-go/pull/1325) API Updates
+  * Add support for `locale` on ` BillingPortalSessionParams` and ` BillingPortalSession`
+* [#1317](https://github.com/stripe/stripe-go/pull/1317) codegen: charge, taxrate
+  * Add support for `ApplicationFee` on (Charge) `CaptureParams`
+  * Add support for `PreferredLanguage` on `ChargePaymentMethodDetailsSofort`
+  * Bugfix: correctly deserialize `amount` on `ChargeTransferData`
+
 ## 72.59.0 - 2021-07-28
 * [#1322](https://github.com/stripe/stripe-go/pull/1322) API Updates
   * Add support for `AccountType` on `BankAccount`, `BankAccountParams`, and `CardParams`.
