@@ -1,11 +1,17 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
 
-// ReviewClosedReason describes the reason why the review is closed.
+// The reason the review was closed, or null if it has not yet been closed. One of `approved`, `refunded`, `refunded_as_fraud`, `disputed`, or `redacted`.
 type ReviewClosedReason string
 
-// List of values that ReviewClosedReason can take.
+// List of values that ReviewClosedReason can take
 const (
 	ReviewClosedReasonApproved        ReviewClosedReason = "approved"
 	ReviewClosedReasonDisputed        ReviewClosedReason = "disputed"
@@ -14,46 +20,49 @@ const (
 	ReviewClosedReasonRefundedAsFraud ReviewClosedReason = "refunded_as_fraud"
 )
 
-// ReviewOpenedReason describes the reason why the review is opened.
+// The reason the review was opened. One of `rule` or `manual`.
 type ReviewOpenedReason string
 
-// List of values that ReviewOpenedReason can take.
+// List of values that ReviewOpenedReason can take
 const (
 	ReviewOpenedReasonManual ReviewOpenedReason = "manual"
 	ReviewOpenedReasonRule   ReviewOpenedReason = "rule"
 )
 
-// ReviewReasonType describes the reason why the review is open or closed.
-type ReviewReasonType string
+// The reason the review is currently open or closed. One of `rule`, `manual`, `approved`, `refunded`, `refunded_as_fraud`, `disputed`, or `redacted`.
+type ReviewReason string
 
-// List of values that ReviewReasonType can take.
+// Deprecated: we preserve this name for backwards-compatibility, prefer `ReviewReason`.
+type ReviewReasonType = ReviewReason
+
+// List of values that ReviewReason can take
 const (
-	ReviewReasonApproved        ReviewReasonType = "approved"
-	ReviewReasonDisputed        ReviewReasonType = "disputed"
-	ReviewReasonManual          ReviewReasonType = "manual"
-	ReviewReasonRefunded        ReviewReasonType = "refunded"
-	ReviewReasonRefundedAsFraud ReviewReasonType = "refunded_as_fraud"
-	ReviewReasonRule            ReviewReasonType = "rule"
+	ReviewReasonApproved        ReviewReason = "approved"
+	ReviewReasonDisputed        ReviewReason = "disputed"
+	ReviewReasonManual          ReviewReason = "manual"
+	ReviewReasonRefunded        ReviewReason = "refunded"
+	ReviewReasonRefundedAsFraud ReviewReason = "refunded_as_fraud"
+	ReviewReasonRule            ReviewReason = "rule"
 )
 
-// ReviewParams is the set of parameters that can be used when approving a review.
-type ReviewParams struct {
-	Params `form:"*"`
-}
-
-// ReviewApproveParams is the set of parameters that can be used when approving a review.
-type ReviewApproveParams struct {
-	Params `form:"*"`
-}
-
-// ReviewListParams is the set of parameters that can be used when listing reviews.
+// Returns a list of Review objects that have open set to true. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type ReviewListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 }
 
-// ReviewIPAddressLocation represents information about the IP associated with a review.
+// Retrieves a Review object.
+type ReviewParams struct {
+	Params `form:"*"`
+}
+
+// Approves a Review object, closing it and removing it from the list of reviews.
+type ReviewApproveParams struct {
+	Params `form:"*"`
+}
+
+// Information related to the location of the payment. Note that this information is an approximation and attempts to locate the nearest population center - it should not be used to determine a specific address.
 type ReviewIPAddressLocation struct {
 	City      string  `json:"city"`
 	Country   string  `json:"country"`
@@ -62,7 +71,7 @@ type ReviewIPAddressLocation struct {
 	Region    string  `json:"region"`
 }
 
-// ReviewSession represents information about the browser session associated with a review.
+// Information related to the browsing session of the user who initiated the payment.
 type ReviewSession struct {
 	Browser  string `json:"browser"`
 	Device   string `json:"device"`
@@ -70,8 +79,10 @@ type ReviewSession struct {
 	Version  string `json:"version"`
 }
 
-// Review is the resource representing a Radar review.
-// For more details see https://stripe.com/docs/api#reviews.
+// Reviews can be used to supplement automated fraud detection with human expertise.
+//
+// Learn more about [Radar](https://stripe.com/radar) and reviewing payments
+// [here](https://stripe.com/docs/radar/reviews).
 type Review struct {
 	APIResource
 	BillingZip        string                   `json:"billing_zip"`
@@ -86,11 +97,11 @@ type Review struct {
 	Open              bool                     `json:"open"`
 	OpenedReason      ReviewOpenedReason       `json:"opened_reason"`
 	PaymentIntent     *PaymentIntent           `json:"payment_intent"`
-	Reason            ReviewReasonType         `json:"reason"`
+	Reason            ReviewReason             `json:"reason"`
 	Session           *ReviewSession           `json:"session"`
 }
 
-// ReviewList is a list of reviews as retrieved from a list endpoint.
+// ReviewList is a list of Reviews as retrieved from a list endpoint.
 type ReviewList struct {
 	APIResource
 	ListMeta

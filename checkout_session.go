@@ -183,6 +183,8 @@ type CheckoutSessionLineItemPriceDataParams struct {
 	UnitAmount        *int64                                             `form:"unit_amount"`
 	UnitAmountDecimal *float64                                           `form:"unit_amount_decimal,high_precision"`
 }
+
+// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
 type CheckoutSessionAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }

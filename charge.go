@@ -360,25 +360,28 @@ type ChargePaymentMethodDetailsCardWallet struct {
 
 // ChargePaymentMethodDetailsCard represents details about the Card PaymentMethod.
 type ChargePaymentMethodDetailsCard struct {
-	Brand        PaymentMethodCardBrand                      `json:"brand"`
-	Checks       *ChargePaymentMethodDetailsCardChecks       `json:"checks"`
-	Country      string                                      `json:"country"`
-	ExpMonth     uint64                                      `json:"exp_month"`
-	ExpYear      uint64                                      `json:"exp_year"`
-	Fingerprint  string                                      `json:"fingerprint"`
-	Funding      CardFunding                                 `json:"funding"`
+	Brand   PaymentMethodCardBrand                `json:"brand"`
+	Checks  *ChargePaymentMethodDetailsCardChecks `json:"checks"`
+	Country string                                `json:"country"`
+	// Please note that this field is for internal use only and is not returned
+	// as part of standard API requests.
+	Description string      `json:"description"`
+	ExpMonth    uint64      `json:"exp_month"`
+	ExpYear     uint64      `json:"exp_year"`
+	Fingerprint string      `json:"fingerprint"`
+	Funding     CardFunding `json:"funding"`
+	// Please note that this field is for internal use only and is not returned
+	// as part of standard API requests.
+	IIN          string                                      `json:"iin"`
 	Installments *ChargePaymentMethodDetailsCardInstallments `json:"installments"`
+	// Please note that this field is for internal use only and is not returned
+	// as part of standard API requests.
+	Issuer       string                                      `json:"issuer"`
 	Last4        string                                      `json:"last4"`
-	Network      PaymentMethodCardNetwork                    `json:"network"`
 	MOTO         bool                                        `json:"moto"`
+	Network      PaymentMethodCardNetwork                    `json:"network"`
 	ThreeDSecure *ChargePaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 	Wallet       *ChargePaymentMethodDetailsCardWallet       `json:"wallet"`
-
-	// Please note that the fields below are for internal use only and are not returned
-	// as part of standard API requests.
-	Description string `json:"description"`
-	IIN         string `json:"iin"`
-	Issuer      string `json:"issuer"`
 }
 
 // ChargePaymentMethodDetailsCardPresentReceipt represents details about the receipt on a
@@ -397,25 +400,28 @@ type ChargePaymentMethodDetailsCardPresentReceipt struct {
 
 // ChargePaymentMethodDetailsCardPresent represents details about the Card Present PaymentMethod.
 type ChargePaymentMethodDetailsCardPresent struct {
-	Brand          PaymentMethodCardBrand                        `json:"brand"`
-	CardholderName string                                        `json:"cardholder_name"`
-	Country        string                                        `json:"country"`
-	EmvAuthData    string                                        `json:"emv_auth_data"`
-	ExpMonth       uint64                                        `json:"exp_month"`
-	ExpYear        uint64                                        `json:"exp_year"`
-	Fingerprint    string                                        `json:"fingerprint"`
-	Funding        CardFunding                                   `json:"funding"`
-	GeneratedCard  string                                        `json:"generated_card"`
-	Last4          string                                        `json:"last4"`
-	Network        PaymentMethodCardNetwork                      `json:"network"`
-	ReadMethod     string                                        `json:"read_method"`
-	Receipt        *ChargePaymentMethodDetailsCardPresentReceipt `json:"receipt"`
-
-	// Please note that the fields below are for internal use only and are not returned
+	Brand          PaymentMethodCardBrand `json:"brand"`
+	CardholderName string                 `json:"cardholder_name"`
+	Country        string                 `json:"country"`
+	// Please note that this field is for internal use only and is not returned
 	// as part of standard API requests.
-	Description string `json:"description"`
-	IIN         string `json:"iin"`
-	Issuer      string `json:"issuer"`
+	Description   string      `json:"description"`
+	EmvAuthData   string      `json:"emv_auth_data"`
+	ExpMonth      uint64      `json:"exp_month"`
+	ExpYear       uint64      `json:"exp_year"`
+	Fingerprint   string      `json:"fingerprint"`
+	Funding       CardFunding `json:"funding"`
+	GeneratedCard string      `json:"generated_card"`
+	// Please note that this field is for internal use only and is not returned
+	// as part of standard API requests.
+	IIN string `json:"iin"`
+	// Please note that this field is for internal use only and is not returned
+	// as part of standard API requests.
+	Issuer     string                                        `json:"issuer"`
+	Last4      string                                        `json:"last4"`
+	Network    PaymentMethodCardNetwork                      `json:"network"`
+	ReadMethod string                                        `json:"read_method"`
+	Receipt    *ChargePaymentMethodDetailsCardPresentReceipt `json:"receipt"`
 }
 
 // ChargePaymentMethodDetailsEps represents details about the EPS PaymentMethod.
@@ -456,26 +462,29 @@ type ChargePaymentMethodDetailsIdeal struct {
 
 // ChargePaymentMethodDetailsInteracPresent represents details about the InteracPresent PaymentMethod.
 type ChargePaymentMethodDetailsInteracPresent struct {
-	Brand            string                                           `json:"brand"`
-	CardholderName   string                                           `json:"cardholder_name"`
-	Country          string                                           `json:"country"`
-	EmvAuthData      string                                           `json:"emv_auth_data"`
-	ExpMonth         int64                                            `json:"exp_month"`
-	ExpYear          int64                                            `json:"exp_year"`
-	Fingerprint      string                                           `json:"fingerprint"`
-	Funding          string                                           `json:"funding"`
-	GeneratedCard    string                                           `json:"generated_card"`
+	Brand          string `json:"brand"`
+	CardholderName string `json:"cardholder_name"`
+	Country        string `json:"country"`
+	// Please note that this field is for internal use only and is not returned
+	// as part of standard API requests.
+	Description   string `json:"description"`
+	EmvAuthData   string `json:"emv_auth_data"`
+	ExpMonth      int64  `json:"exp_month"`
+	ExpYear       int64  `json:"exp_year"`
+	Fingerprint   string `json:"fingerprint"`
+	Funding       string `json:"funding"`
+	GeneratedCard string `json:"generated_card"`
+	// Please note that this field is for internal use only and is not returned
+	// as part of standard API requests.
+	IIN string `json:"iin"`
+	// Please note that this field is for internal use only and is not returned
+	// as part of standard API requests.
+	Issuer           string                                           `json:"issuer"`
 	Last4            string                                           `json:"last4"`
 	Network          string                                           `json:"network"`
 	PreferredLocales []string                                         `json:"preferred_locales"`
 	ReadMethod       string                                           `json:"read_method"`
 	Receipt          *ChargePaymentMethodDetailsInteracPresentReceipt `json:"receipt"`
-
-	// Please note that the fields below are for internal use only and are not returned
-	// as part of standard API requests.
-	Description string `json:"description"`
-	IIN         string `json:"iin"`
-	Issuer      string `json:"issuer"`
 }
 
 // ChargePaymentMethodDetailsInteracPresentReceipt represents details about the InteracPresent Receipt.
@@ -511,6 +520,11 @@ type ChargePaymentMethodDetailsP24 struct {
 	Bank         string `json:"bank"`
 	Reference    string `json:"reference"`
 	VerifiedName string `json:"verified_name"`
+}
+type ChargePaymentMethodDetailsSepaCreditTransfer struct {
+	BankName string `json:"bank_name"`
+	Bic      string `json:"bic"`
+	Iban     string `json:"iban"`
 }
 
 // ChargePaymentMethodDetailsSepaDebit represents details about the Sepa Debit PaymentMethod.
@@ -551,32 +565,34 @@ type ChargePaymentMethodDetailsWechatPay struct {
 // ChargePaymentMethodDetails represents the details about the PaymentMethod associated with the
 // charge.
 type ChargePaymentMethodDetails struct {
-	AchCreditTransfer *ChargePaymentMethodDetailsAchCreditTransfer `json:"ach_credit_transfer"`
-	AchDebit          *ChargePaymentMethodDetailsAchDebit          `json:"ach_debit"`
-	AcssDebit         *ChargePaymentMethodDetailsAcssDebit         `json:"acss_debit"`
-	AfterpayClearpay  *ChargePaymentMethodDetailsAfterpayClearpay  `json:"afterpay_clearpay"`
-	Alipay            *ChargePaymentMethodDetailsAlipay            `json:"alipay"`
-	AUBECSDebit       *ChargePaymentMethodDetailsAUBECSDebit       `json:"au_becs_debit"`
-	BACSDebit         *ChargePaymentMethodDetailsBACSDebit         `json:"bacs_debit"`
-	Bancontact        *ChargePaymentMethodDetailsBancontact        `json:"bancontact"`
-	Boleto            *ChargePaymentMethodDetailsBoleto            `json:"boleto"`
-	Card              *ChargePaymentMethodDetailsCard              `json:"card"`
-	CardPresent       *ChargePaymentMethodDetailsCardPresent       `json:"card_present"`
-	Eps               *ChargePaymentMethodDetailsEps               `json:"eps"`
-	FPX               *ChargePaymentMethodDetailsFPX               `json:"fpx"`
-	Giropay           *ChargePaymentMethodDetailsGiropay           `json:"giropay"`
-	Grabpay           *ChargePaymentMethodDetailsGrabpay           `json:"grabpay"`
-	Ideal             *ChargePaymentMethodDetailsIdeal             `json:"ideal"`
-	Klarna            *ChargePaymentMethodDetailsKlarna            `json:"klarna"`
-	Multibanco        *ChargePaymentMethodDetailsMultibanco        `json:"multibanco"`
-	OXXO              *ChargePaymentMethodDetailsOXXO              `json:"oxxo"`
-	P24               *ChargePaymentMethodDetailsP24               `json:"p24"`
-	SepaDebit         *ChargePaymentMethodDetailsSepaDebit         `json:"sepa_debit"`
-	Sofort            *ChargePaymentMethodDetailsSofort            `json:"sofort"`
-	StripeAccount     *ChargePaymentMethodDetailsStripeAccount     `json:"stripe_account"`
-	Type              ChargePaymentMethodDetailsType               `json:"type"`
-	Wechat            *ChargePaymentMethodDetailsWechat            `json:"wechat"`
-	WechatPay         *ChargePaymentMethodDetailsWechatPay         `json:"wechat_pay"`
+	AchCreditTransfer  *ChargePaymentMethodDetailsAchCreditTransfer  `json:"ach_credit_transfer"`
+	AchDebit           *ChargePaymentMethodDetailsAchDebit           `json:"ach_debit"`
+	AcssDebit          *ChargePaymentMethodDetailsAcssDebit          `json:"acss_debit"`
+	AfterpayClearpay   *ChargePaymentMethodDetailsAfterpayClearpay   `json:"afterpay_clearpay"`
+	Alipay             *ChargePaymentMethodDetailsAlipay             `json:"alipay"`
+	AUBECSDebit        *ChargePaymentMethodDetailsAUBECSDebit        `json:"au_becs_debit"`
+	BACSDebit          *ChargePaymentMethodDetailsBACSDebit          `json:"bacs_debit"`
+	Bancontact         *ChargePaymentMethodDetailsBancontact         `json:"bancontact"`
+	Boleto             *ChargePaymentMethodDetailsBoleto             `json:"boleto"`
+	Card               *ChargePaymentMethodDetailsCard               `json:"card"`
+	CardPresent        *ChargePaymentMethodDetailsCardPresent        `json:"card_present"`
+	Eps                *ChargePaymentMethodDetailsEps                `json:"eps"`
+	FPX                *ChargePaymentMethodDetailsFPX                `json:"fpx"`
+	Giropay            *ChargePaymentMethodDetailsGiropay            `json:"giropay"`
+	Grabpay            *ChargePaymentMethodDetailsGrabpay            `json:"grabpay"`
+	Ideal              *ChargePaymentMethodDetailsIdeal              `json:"ideal"`
+	InteracPresent     *ChargePaymentMethodDetailsInteracPresent     `json:"interac_present"`
+	Klarna             *ChargePaymentMethodDetailsKlarna             `json:"klarna"`
+	Multibanco         *ChargePaymentMethodDetailsMultibanco         `json:"multibanco"`
+	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo"`
+	P24                *ChargePaymentMethodDetailsP24                `json:"p24"`
+	SepaCreditTransfer *ChargePaymentMethodDetailsSepaCreditTransfer `json:"sepa_credit_transfer"`
+	SepaDebit          *ChargePaymentMethodDetailsSepaDebit          `json:"sepa_debit"`
+	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort"`
+	StripeAccount      *ChargePaymentMethodDetailsStripeAccount      `json:"stripe_account"`
+	Type               ChargePaymentMethodDetailsType                `json:"type"`
+	Wechat             *ChargePaymentMethodDetailsWechat             `json:"wechat"`
+	WechatPay          *ChargePaymentMethodDetailsWechatPay          `json:"wechat_pay"`
 }
 
 // ChargeTransferData represents the information for the transfer_data associated with a charge.
@@ -615,7 +631,9 @@ type Charge struct {
 	Level3                        ChargeLevel3                `json:"level3"`
 	Livemode                      bool                        `json:"livemode"`
 	Metadata                      map[string]string           `json:"metadata"`
+	Object                        string                      `json:"object"`
 	OnBehalfOf                    *Account                    `json:"on_behalf_of"`
+	Order                         *Order                      `json:"order"`
 	Outcome                       *ChargeOutcome              `json:"outcome"`
 	Paid                          bool                        `json:"paid"`
 	PaymentIntent                 *PaymentIntent              `json:"payment_intent"`
@@ -638,36 +656,10 @@ type Charge struct {
 	TransferGroup                 string                      `json:"transfer_group"`
 }
 
-// UnmarshalJSON handles deserialization of a charge.
-// This custom unmarshaling is needed because the resulting
-// property may be an ID or the full struct if it was expanded.
-func (c *Charge) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		c.ID = id
-		return nil
-	}
-
-	type charge Charge
-	var v charge
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*c = Charge(v)
-	return nil
-}
-
-// ChargeList is a list of charges as retrieved from a list endpoint.
-type ChargeList struct {
-	APIResource
-	ListMeta
-	Data []*Charge `json:"data"`
-}
-
 // FraudDetails is the structure detailing fraud status.
 type FraudDetails struct {
-	UserReport   ChargeFraudUserReport   `json:"user_report"`
 	StripeReport ChargeFraudStripeReport `json:"stripe_report"`
+	UserReport   ChargeFraudUserReport   `json:"user_report"`
 }
 
 // ChargeOutcomeRule tells you the Radar rule that blocked the charge, if any.
@@ -689,15 +681,6 @@ type ChargeOutcome struct {
 	Type          string             `json:"type"`
 }
 
-// ShippingDetails is the structure containing shipping information.
-type ShippingDetails struct {
-	Address        *Address `json:"address"`
-	Carrier        string   `json:"carrier"`
-	Name           string   `json:"name"`
-	Phone          string   `json:"phone"`
-	TrackingNumber string   `json:"tracking_number"`
-}
-
 // UnmarshalJSON handles deserialization of a ChargeOutcomeRule.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
@@ -714,5 +697,31 @@ func (c *ChargeOutcomeRule) UnmarshalJSON(data []byte) error {
 	}
 
 	*c = ChargeOutcomeRule(v)
+	return nil
+}
+
+// ChargeList is a list of charges as retrieved from a list endpoint.
+type ChargeList struct {
+	APIResource
+	ListMeta
+	Data []*Charge `json:"data"`
+}
+
+// UnmarshalJSON handles deserialization of a Charge.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (c *Charge) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		c.ID = id
+		return nil
+	}
+
+	type charge Charge
+	var v charge
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*c = Charge(v)
 	return nil
 }
