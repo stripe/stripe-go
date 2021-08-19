@@ -169,7 +169,7 @@ type QuoteListLineItemsParams struct {
 	Quote      *string `form:"-"` // Included in URL
 }
 
-// When retrieving a quote, there is an includable upfront.line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
+// When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
 type QuoteListComputedUpfrontLineItemsParams struct {
 	ListParams `form:"*"`
 	Quote      *string `form:"-"` // Included in URL

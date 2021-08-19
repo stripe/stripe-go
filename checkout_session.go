@@ -16,6 +16,7 @@ type CheckoutSessionCustomerDetailsTaxIDsType string
 const (
 	CheckoutSessionCustomerDetailsTaxIDsTypeAETRN    CheckoutSessionCustomerDetailsTaxIDsType = "ae_trn"
 	CheckoutSessionCustomerDetailsTaxIDsTypeAUABN    CheckoutSessionCustomerDetailsTaxIDsType = "au_abn"
+	CheckoutSessionCustomerDetailsTaxIDsTypeAUARN    CheckoutSessionCustomerDetailsTaxIDsType = "au_arn"
 	CheckoutSessionCustomerDetailsTaxIDsTypeBRCNPJ   CheckoutSessionCustomerDetailsTaxIDsType = "br_cnpj"
 	CheckoutSessionCustomerDetailsTaxIDsTypeBRCPF    CheckoutSessionCustomerDetailsTaxIDsType = "br_cpf"
 	CheckoutSessionCustomerDetailsTaxIDsTypeCABN     CheckoutSessionCustomerDetailsTaxIDsType = "ca_bn"
@@ -183,6 +184,8 @@ type CheckoutSessionLineItemPriceDataParams struct {
 	UnitAmount        *int64                                             `form:"unit_amount"`
 	UnitAmountDecimal *float64                                           `form:"unit_amount_decimal,high_precision"`
 }
+
+// Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
 type CheckoutSessionAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }

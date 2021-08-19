@@ -15,6 +15,7 @@ type TaxIDType string
 const (
 	TaxIDTypeAETRN    TaxIDType = "ae_trn"
 	TaxIDTypeAUABN    TaxIDType = "au_abn"
+	TaxIDTypeAUARN    TaxIDType = "au_arn"
 	TaxIDTypeBRCNPJ   TaxIDType = "br_cnpj"
 	TaxIDTypeBRCPF    TaxIDType = "br_cpf"
 	TaxIDTypeCABN     TaxIDType = "ca_bn"

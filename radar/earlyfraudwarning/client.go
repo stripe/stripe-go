@@ -1,7 +1,10 @@
-// Package earlyfraudwarning provides API functions related to early fraud
-// warnings.
 //
-// For more details, see: https://stripe.com/docs/api/early_fraud_warnings?lang=go
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package earlyfraudwarning provides the /radar/early_fraud_warnings APIs
 package earlyfraudwarning
 
 import (
@@ -11,58 +14,60 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// Client is used to interact with the /radar/early_fraud_warnings API.
+// Client is used to invoke /radar/early_fraud_warnings APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
 }
 
-// Get returns the details of an early fraud warning.
+// Get returns the details of a radar early fraud warning.
 func Get(id string, params *stripe.RadarEarlyFraudWarningParams) (*stripe.RadarEarlyFraudWarning, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of an early fraud warning.
+// Get returns the details of a radar early fraud warning.
 func (c Client) Get(id string, params *stripe.RadarEarlyFraudWarningParams) (*stripe.RadarEarlyFraudWarning, error) {
 	path := stripe.FormatURLPath("/v1/radar/early_fraud_warnings/%s", id)
-	ifr := &stripe.RadarEarlyFraudWarning{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, ifr)
-	return ifr, err
+	earlyfraudwarning := &stripe.RadarEarlyFraudWarning{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, earlyfraudwarning)
+	return earlyfraudwarning, err
 }
 
-// List returns a list of early fraud warnings.
+// List returns a list of radar early fraud warnings.
 func List(params *stripe.RadarEarlyFraudWarningListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of early fraud warnings.
+// List returns a list of radar early fraud warnings.
 func (c Client) List(listParams *stripe.RadarEarlyFraudWarningListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.RadarEarlyFraudWarningList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/radar/early_fraud_warnings", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.RadarEarlyFraudWarningList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/radar/early_fraud_warnings", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Values))
-		for i, v := range list.Values {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Values))
+			for i, v := range list.Values {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
-// Iter is an iterator for early fraud warnings.
+// Iter is an iterator for radar early fraud warnings.
 type Iter struct {
 	*stripe.Iter
 }
 
-// RadarEarlyFraudWarning returns the early fraud warning which the iterator is currently pointing to.
+// RadarEarlyFraudWarning returns the radar early fraud warning which the iterator is currently pointing to.
 func (i *Iter) RadarEarlyFraudWarning() *stripe.RadarEarlyFraudWarning {
 	return i.Current().(*stripe.RadarEarlyFraudWarning)
 }
 
-// RadarEarlyFraudWarningList returns the current list object which the
-// iterator is currently using. List objects will change as new API calls are
-// made to continue pagination.
+// RadarEarlyFraudWarningList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) RadarEarlyFraudWarningList() *stripe.RadarEarlyFraudWarningList {
 	return i.List().(*stripe.RadarEarlyFraudWarningList)
 }

@@ -28,3 +28,12 @@ type ShippingDetailsParams struct {
 	Phone          *string        `form:"phone"`
 	TrackingNumber *string        `form:"tracking_number"`
 }
+
+// ShippingDetails is the structure containing shipping information.
+type ShippingDetails struct {
+	Address        *Address `json:"address"`
+	Carrier        string   `json:"carrier"`
+	Name           string   `json:"name"`
+	Phone          string   `json:"phone"`
+	TrackingNumber string   `json:"tracking_number"`
+}
