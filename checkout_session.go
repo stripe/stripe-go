@@ -16,7 +16,7 @@ type CheckoutSessionCustomerDetailsTaxIDsType string
 const (
 	CheckoutSessionCustomerDetailsTaxIDsTypeAETRN    CheckoutSessionCustomerDetailsTaxIDsType = "ae_trn"
 	CheckoutSessionCustomerDetailsTaxIDsTypeAUABN    CheckoutSessionCustomerDetailsTaxIDsType = "au_abn"
-	CheckoutSessionCustomerDetailsTaxIDsTypeAuArn    CheckoutSessionCustomerDetailsTaxIDsType = "au_arn"
+	CheckoutSessionCustomerDetailsTaxIDsTypeAUARN    CheckoutSessionCustomerDetailsTaxIDsType = "au_arn"
 	CheckoutSessionCustomerDetailsTaxIDsTypeBRCNPJ   CheckoutSessionCustomerDetailsTaxIDsType = "br_cnpj"
 	CheckoutSessionCustomerDetailsTaxIDsTypeBRCPF    CheckoutSessionCustomerDetailsTaxIDsType = "br_cpf"
 	CheckoutSessionCustomerDetailsTaxIDsTypeCABN     CheckoutSessionCustomerDetailsTaxIDsType = "ca_bn"
