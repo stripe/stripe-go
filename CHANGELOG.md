@@ -1,5 +1,16 @@
 # Changelog
 
+## 72.61.0 - 2021-08-19
+* [#1328](https://github.com/stripe/stripe-go/pull/1328) API Updates
+  * Add support for new TaxId type: `au_arn`
+  * Add support for `InteracPresent` on `ChargePaymentMethodDetails`
+  * Add support for `SepaCreditTransfer` on `ChargePaymentMethodDetails`
+  * Codegen related changes:
+    * Moved `ShippingDetails` into `address.go`
+    * Add support for `Object` and `Order` to `Charge`
+    * Renamed `ReviewReasonType` enum to `ReviewReason` but added a type alias to preserve backwards compatibility
+* [#1323](https://github.com/stripe/stripe-go/pull/1323) codegen: api.go
+
 ## 72.60.0 - 2021-08-11
 * [#1325](https://github.com/stripe/stripe-go/pull/1325) API Updates
   * Add support for `locale` on ` BillingPortalSessionParams` and ` BillingPortalSession`
