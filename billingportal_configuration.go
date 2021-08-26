@@ -21,6 +21,21 @@ const (
 	BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateTaxID    BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate = "tax_id"
 )
 
+// Which cancellation reasons will be given as options to the customer.
+type BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption string
+
+// List of values that BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption can take
+const (
+	BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOptionCustomerService BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption = "customer_service"
+	BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOptionLowQuality      BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption = "low_quality"
+	BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOptionMissingFeatures BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption = "missing_features"
+	BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOptionOther           BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption = "other"
+	BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOptionSwitchedService BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption = "switched_service"
+	BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOptionTooComplex      BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption = "too_complex"
+	BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOptionTooExpensive    BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption = "too_expensive"
+	BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOptionUnused          BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption = "unused"
+)
+
 // BillingPortalConfigurationFeaturesSubscriptionCancelMode describes whether
 // to cancel subscriptions immediately or at the end of the billing period.
 type BillingPortalConfigurationFeaturesSubscriptionCancelMode string
@@ -99,12 +114,19 @@ type BillingPortalConfigurationFeaturesPaymentMethodUpdateParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer
+type BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParams struct {
+	Enabled *bool     `form:"enabled"`
+	Options []*string `form:"options"`
+}
+
 // BillingPortalConfigurationFeaturesSubscriptionCancelParams lets you pass the
 // subscription cancel deetails on a portal configuration.
 type BillingPortalConfigurationFeaturesSubscriptionCancelParams struct {
-	Enabled           *bool   `form:"enabled"`
-	Mode              *string `form:"mode"`
-	ProrationBehavior *string `form:"proration_behavior"`
+	CancellationReason *BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParams `form:"cancellation_reason"`
+	Enabled            *bool                                                                         `form:"enabled"`
+	Mode               *string                                                                       `form:"mode"`
+	ProrationBehavior  *string                                                                       `form:"proration_behavior"`
 }
 
 // BillingPortalConfigurationFeaturesSubscriptionPauseParams lets you pass details on the
@@ -194,13 +216,18 @@ type BillingPortalConfigurationFeaturesInvoiceHistory struct {
 type BillingPortalConfigurationFeaturesPaymentMethodUpdate struct {
 	Enabled bool `json:"enabled"`
 }
+type BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReason struct {
+	Enabled bool                                                                           `json:"enabled"`
+	Options []BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption `json:"options"`
+}
 
 // BillingPortalConfigurationFeaturesSubscriptionCancel represents the
 // subscription cancel details on a portal configuration.
 type BillingPortalConfigurationFeaturesSubscriptionCancel struct {
-	Enabled           bool                                                                  `json:"enabled"`
-	Mode              BillingPortalConfigurationFeaturesSubscriptionCancelMode              `json:"mode"`
-	ProrationBehavior BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior `json:"proration_behavior"`
+	CancellationReason *BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReason `json:"cancellation_reason"`
+	Enabled            bool                                                                    `json:"enabled"`
+	Mode               BillingPortalConfigurationFeaturesSubscriptionCancelMode                `json:"mode"`
+	ProrationBehavior  BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior   `json:"proration_behavior"`
 }
 
 // BillingPortalConfigurationFeaturesSubscriptionPause lets you pass pause details
