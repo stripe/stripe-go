@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.62.0 - 2021-08-27
+* [#1329](https://github.com/stripe/stripe-go/pull/1329) API Updates
+  * Add support for `CancellationReason` on `BillingPortalConfigurationFeaturesSubscriptionCancelParams`, `BillingPortalConfigurationFeaturesSubscriptionCancelParams`, and `BillingPortalConfigurationFeaturesSubscriptionCancel`
+
 ## 72.61.0 - 2021-08-19
 * [#1328](https://github.com/stripe/stripe-go/pull/1328) API Updates
   * Add support for new TaxId type: `au_arn`
