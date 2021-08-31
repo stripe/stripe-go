@@ -84,6 +84,16 @@ const (
 	CheckoutSessionConsentPromotionsOptOut CheckoutSessionConsentPromotions = "opt_out"
 )
 
+// If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
+// Session will determine whether to display an option to opt into promotional communication
+// from the merchant depending on the customer's locale. Only available to US merchants.
+type CheckoutSessionConsentCollectionPromotions string
+
+// List of values that CheckoutSessionConsentCollectionPromotions can take
+const (
+	CheckoutSessionConsentCollectionPromotionsAuto CheckoutSessionConsentCollectionPromotions = "auto"
+)
+
 // CheckoutSessionCustomerDetailsTaxExempt is the list of allowed values for
 // tax_exempt inside customer_details of a checkout session.
 type CheckoutSessionCustomerDetailsTaxExempt string
@@ -431,7 +441,7 @@ type CheckoutSessionConsent struct {
 
 // When set, provides configuration for the Checkout Session to gather active consent from customers.
 type CheckoutSessionConsentCollection struct {
-	Promotions *string `json:"promotions"`
+	Promotions CheckoutSessionConsentCollectionPromotions `json:"promotions"`
 }
 
 // CheckoutSessionCustomerDetailsTaxIDs represent customer's tax IDs at the
