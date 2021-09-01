@@ -1,5 +1,11 @@
 # Changelog
 
+## 72.63.0 - 2021-09-01
+* [#1332](https://github.com/stripe/stripe-go/pull/1332) API Updates
+  * Add support for `AfterExpiration`, `ConsentCollection`, and `ExpiresAt` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `Consent` and `RecoveredFrom` on `CheckoutSession`
+
+
 ## 72.62.0 - 2021-08-27
 * [#1329](https://github.com/stripe/stripe-go/pull/1329) API Updates
   * Add support for `CancellationReason` on `BillingPortalConfigurationFeaturesSubscriptionCancelParams`, `BillingPortalConfigurationFeaturesSubscriptionCancelParams`, and `BillingPortalConfigurationFeaturesSubscriptionCancel`
