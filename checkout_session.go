@@ -74,6 +74,26 @@ const (
 	CheckoutSessionBillingAddressCollectionRequired CheckoutSessionBillingAddressCollection = "required"
 )
 
+// If `opt_in`, the customer consents to receiving promotional communications
+// from the merchant about this Checkout Session.
+type CheckoutSessionConsentPromotions string
+
+// List of values that CheckoutSessionConsentPromotions can take
+const (
+	CheckoutSessionConsentPromotionsOptIn  CheckoutSessionConsentPromotions = "opt_in"
+	CheckoutSessionConsentPromotionsOptOut CheckoutSessionConsentPromotions = "opt_out"
+)
+
+// If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
+// Session will determine whether to display an option to opt into promotional communication
+// from the merchant depending on the customer's locale. Only available to US merchants.
+type CheckoutSessionConsentCollectionPromotions string
+
+// List of values that CheckoutSessionConsentCollectionPromotions can take
+const (
+	CheckoutSessionConsentCollectionPromotionsAuto CheckoutSessionConsentCollectionPromotions = "auto"
+)
+
 // CheckoutSessionCustomerDetailsTaxExempt is the list of allowed values for
 // tax_exempt inside customer_details of a checkout session.
 type CheckoutSessionCustomerDetailsTaxExempt string
@@ -185,9 +205,25 @@ type CheckoutSessionLineItemPriceDataParams struct {
 	UnitAmountDecimal *float64                                           `form:"unit_amount_decimal,high_precision"`
 }
 
+// Configure a Checkout Session that can be used to recover an expired session.
+type CheckoutSessionAfterExpirationRecoveryParams struct {
+	AllowPromotionCodes *bool `form:"allow_promotion_codes"`
+	Enabled             *bool `form:"enabled"`
+}
+
+// Configure actions after a Checkout Session has expired.
+type CheckoutSessionAfterExpirationParams struct {
+	Recovery *CheckoutSessionAfterExpirationRecoveryParams `form:"recovery"`
+}
+
 // Settings for automatic tax lookup for this session and resulting payments, invoices, and subscriptions.
 type CheckoutSessionAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
+}
+
+// Configure fields for the Checkout Session to gather active consent from customers.
+type CheckoutSessionConsentCollectionParams struct {
+	Promotions *string `form:"promotions"`
 }
 
 // Controls what fields on Customer can be updated by the Checkout Session. Can only be provided when `customer` is provided.
@@ -338,15 +374,18 @@ type CheckoutSessionTaxIDCollectionParams struct {
 // For more details see https://stripe.com/docs/api/checkout/sessions/create
 type CheckoutSessionParams struct {
 	Params                    `form:"*"`
+	AfterExpiration           *CheckoutSessionAfterExpirationParams           `form:"after_expiration"`
 	AllowPromotionCodes       *bool                                           `form:"allow_promotion_codes"`
 	AutomaticTax              *CheckoutSessionAutomaticTaxParams              `form:"automatic_tax"`
 	BillingAddressCollection  *string                                         `form:"billing_address_collection"`
 	CancelURL                 *string                                         `form:"cancel_url"`
 	ClientReferenceID         *string                                         `form:"client_reference_id"`
+	ConsentCollection         *CheckoutSessionConsentCollectionParams         `form:"consent_collection"`
 	Customer                  *string                                         `form:"customer"`
 	CustomerEmail             *string                                         `form:"customer_email"`
 	CustomerUpdate            *CheckoutSessionCustomerUpdateParams            `form:"customer_update"`
 	Discounts                 []*CheckoutSessionDiscountParams                `form:"discounts"`
+	ExpiresAt                 *int64                                          `form:"expires_at"`
 	LineItems                 []*CheckoutSessionLineItemParams                `form:"line_items"`
 	Locale                    *string                                         `form:"locale"`
 	Mode                      *string                                         `form:"mode"`
@@ -377,9 +416,32 @@ type CheckoutSessionListParams struct {
 	PaymentIntent *string `form:"payment_intent"`
 	Subscription  *string `form:"subscription"`
 }
+
+// When set, configuration used to recover the Checkout Session on expiry.
+type CheckoutSessionAfterExpirationRecovery struct {
+	AllowPromotionCodes bool   `json:"allow_promotion_codes"`
+	Enabled             bool   `json:"enabled"`
+	ExpiresAt           int64  `json:"expires_at"`
+	URL                 string `json:"url"`
+}
+
+// When set, provides configuration for actions to take if this Checkout Session expires.
+type CheckoutSessionAfterExpiration struct {
+	Recovery *CheckoutSessionAfterExpirationRecovery `json:"recovery"`
+}
 type CheckoutSessionAutomaticTax struct {
 	Enabled bool                              `json:"enabled"`
 	Status  CheckoutSessionAutomaticTaxStatus `json:"status"`
+}
+
+// Results of `consent_collection` for this session.
+type CheckoutSessionConsent struct {
+	Promotions CheckoutSessionConsentPromotions `json:"promotions"`
+}
+
+// When set, provides configuration for the Checkout Session to gather active consent from customers.
+type CheckoutSessionConsentCollection struct {
+	Promotions CheckoutSessionConsentCollectionPromotions `json:"promotions"`
 }
 
 // CheckoutSessionCustomerDetailsTaxIDs represent customer's tax IDs at the
@@ -469,6 +531,7 @@ type CheckoutSessionTotalDetails struct {
 // For more details see https://stripe.com/docs/api/checkout/sessions/object
 type CheckoutSession struct {
 	APIResource
+	AfterExpiration           *CheckoutSessionAfterExpiration           `json:"after_expiration"`
 	AllowPromotionCodes       bool                                      `json:"allow_promotion_codes"`
 	AmountSubtotal            int64                                     `json:"amount_subtotal"`
 	AmountTotal               int64                                     `json:"amount_total"`
@@ -476,11 +539,14 @@ type CheckoutSession struct {
 	BillingAddressCollection  CheckoutSessionBillingAddressCollection   `json:"billing_address_collection"`
 	CancelURL                 string                                    `json:"cancel_url"`
 	ClientReferenceID         string                                    `json:"client_reference_id"`
+	Consent                   *CheckoutSessionConsent                   `json:"consent"`
+	ConsentCollection         *CheckoutSessionConsentCollection         `json:"consent_collection"`
 	Currency                  Currency                                  `json:"currency"`
 	Customer                  *Customer                                 `json:"customer"`
 	CustomerDetails           *CheckoutSessionCustomerDetails           `json:"customer_details"`
 	CustomerEmail             string                                    `json:"customer_email"`
 	Deleted                   bool                                      `json:"deleted"`
+	ExpiresAt                 int64                                     `json:"expires_at"`
 	ID                        string                                    `json:"id"`
 	LineItems                 *LineItemList                             `json:"line_items"`
 	Livemode                  bool                                      `json:"livemode"`
@@ -492,6 +558,7 @@ type CheckoutSession struct {
 	PaymentMethodOptions      *CheckoutSessionPaymentMethodOptions      `json:"payment_method_options"`
 	PaymentMethodTypes        []string                                  `json:"payment_method_types"`
 	PaymentStatus             CheckoutSessionPaymentStatus              `json:"payment_status"`
+	RecoveredFrom             string                                    `json:"recovered_from"`
 	SetupIntent               *SetupIntent                              `json:"setup_intent"`
 	Shipping                  *ShippingDetails                          `json:"shipping"`
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollection `json:"shipping_address_collection"`
