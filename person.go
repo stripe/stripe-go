@@ -145,6 +145,52 @@ type PersonListParams struct {
 	Relationship *RelationshipListParams `form:"relationship"`
 }
 
+// PersonVerificationDocument represents the documents associated with a Person.
+type PersonVerificationDocument struct {
+	Back        *File                           `json:"back"`
+	Details     string                          `json:"details"`
+	DetailsCode VerificationDocumentDetailsCode `json:"details_code"`
+	Front       *File                           `json:"front"`
+}
+
+// PersonVerification is the structure for a person's verification details.
+type PersonVerification struct {
+	AdditionalDocument *PersonVerificationDocument   `json:"additional_document"`
+	Details            string                        `json:"details"`
+	DetailsCode        PersonVerificationDetailsCode `json:"details_code"`
+	Document           *PersonVerificationDocument   `json:"document"`
+	Status             IdentityVerificationStatus    `json:"status"`
+}
+
+// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+type PersonFutureRequirementsAlternative struct {
+	AlternativeFieldsDue []string `json:"alternative_fields_due"`
+	OriginalFieldsDue    []string `json:"original_fields_due"`
+}
+
+// Fields that are `currently_due` and need to be collected again because validation or verification failed.
+type PersonFutureRequirementsError struct {
+	Code        string `json:"code"`
+	Reason      string `json:"reason"`
+	Requirement string `json:"requirement"`
+}
+
+// Information about the upcoming new requirements for this person, including what information needs to be collected, and by when.
+type PersonFutureRequirements struct {
+	Alternatives        []*PersonFutureRequirementsAlternative `json:"alternatives"`
+	CurrentlyDue        []string                               `json:"currently_due"`
+	Errors              []*PersonFutureRequirementsError       `json:"errors"`
+	EventuallyDue       []string                               `json:"eventually_due"`
+	PastDue             []string                               `json:"past_due"`
+	PendingVerification []string                               `json:"pending_verification"`
+}
+
+// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+type PersonRequirementsAlternative struct {
+	AlternativeFieldsDue []string `json:"alternative_fields_due"`
+	OriginalFieldsDue    []string `json:"original_fields_due"`
+}
+
 // DOB represents a Person's date of birth.
 type DOB struct {
 	Day   int64 `json:"day"`
@@ -164,60 +210,45 @@ type Relationship struct {
 
 // Requirements represents what's missing to verify a Person.
 type Requirements struct {
-	CurrentlyDue        []string                    `json:"currently_due"`
-	Errors              []*AccountRequirementsError `json:"errors"`
-	EventuallyDue       []string                    `json:"eventually_due"`
-	PastDue             []string                    `json:"past_due"`
-	PendingVerification []string                    `json:"pending_verification"`
-}
-
-// PersonVerificationDocument represents the documents associated with a Person.
-type PersonVerificationDocument struct {
-	Back        *File                           `json:"back"`
-	Details     string                          `json:"details"`
-	DetailsCode VerificationDocumentDetailsCode `json:"details_code"`
-	Front       *File                           `json:"front"`
-}
-
-// PersonVerification is the structure for a person's verification details.
-type PersonVerification struct {
-	AdditionalDocument *PersonVerificationDocument   `json:"additional_document"`
-	Details            string                        `json:"details"`
-	DetailsCode        PersonVerificationDetailsCode `json:"details_code"`
-	Document           *PersonVerificationDocument   `json:"document"`
-	Status             IdentityVerificationStatus    `json:"status"`
+	Alternatives        []*PersonRequirementsAlternative `json:"alternatives"`
+	CurrentlyDue        []string                         `json:"currently_due"`
+	Errors              []*AccountRequirementsError      `json:"errors"`
+	EventuallyDue       []string                         `json:"eventually_due"`
+	PastDue             []string                         `json:"past_due"`
+	PendingVerification []string                         `json:"pending_verification"`
 }
 
 // Person is the resource representing a Stripe person.
 // For more details see https://stripe.com/docs/api#persons.
 type Person struct {
 	APIResource
-	Account           string                  `json:"account"`
-	Address           *AccountAddress         `json:"address"`
-	AddressKana       *AccountAddress         `json:"address_kana"`
-	AddressKanji      *AccountAddress         `json:"address_kanji"`
-	Deleted           bool                    `json:"deleted"`
-	DOB               *DOB                    `json:"dob"`
-	Email             string                  `json:"email"`
-	FirstName         string                  `json:"first_name"`
-	FirstNameKana     string                  `json:"first_name_kana"`
-	FirstNameKanji    string                  `json:"first_name_kanji"`
-	Gender            string                  `json:"gender"`
-	ID                string                  `json:"id"`
-	IDNumberProvided  bool                    `json:"id_number_provided"`
-	LastName          string                  `json:"last_name"`
-	LastNameKana      string                  `json:"last_name_kana"`
-	LastNameKanji     string                  `json:"last_name_kanji"`
-	MaidenName        string                  `json:"maiden_name"`
-	Nationality       string                  `json:"nationality"`
-	Metadata          map[string]string       `json:"metadata"`
-	Object            string                  `json:"object"`
-	Phone             string                  `json:"phone"`
-	PoliticalExposure PersonPoliticalExposure `json:"political_exposure"`
-	Relationship      *Relationship           `json:"relationship"`
-	Requirements      *Requirements           `json:"requirements"`
-	SSNLast4Provided  bool                    `json:"ssn_last_4_provided"`
-	Verification      *PersonVerification     `json:"verification"`
+	Account            string                    `json:"account"`
+	Address            *AccountAddress           `json:"address"`
+	AddressKana        *AccountAddress           `json:"address_kana"`
+	AddressKanji       *AccountAddress           `json:"address_kanji"`
+	Deleted            bool                      `json:"deleted"`
+	DOB                *DOB                      `json:"dob"`
+	Email              string                    `json:"email"`
+	FirstName          string                    `json:"first_name"`
+	FirstNameKana      string                    `json:"first_name_kana"`
+	FirstNameKanji     string                    `json:"first_name_kanji"`
+	FutureRequirements *PersonFutureRequirements `json:"future_requirements"`
+	Gender             string                    `json:"gender"`
+	ID                 string                    `json:"id"`
+	IDNumberProvided   bool                      `json:"id_number_provided"`
+	LastName           string                    `json:"last_name"`
+	LastNameKana       string                    `json:"last_name_kana"`
+	LastNameKanji      string                    `json:"last_name_kanji"`
+	MaidenName         string                    `json:"maiden_name"`
+	Nationality        string                    `json:"nationality"`
+	Metadata           map[string]string         `json:"metadata"`
+	Object             string                    `json:"object"`
+	Phone              string                    `json:"phone"`
+	PoliticalExposure  PersonPoliticalExposure   `json:"political_exposure"`
+	Relationship       *Relationship             `json:"relationship"`
+	Requirements       *Requirements             `json:"requirements"`
+	SSNLast4Provided   bool                      `json:"ssn_last_4_provided"`
+	Verification       *PersonVerification       `json:"verification"`
 }
 
 // PersonList is a list of persons as retrieved from a list endpoint.
