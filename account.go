@@ -637,6 +637,36 @@ type AccountController struct {
 	Type         AccountControllerType `json:"type"`
 }
 
+// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+type AccountFutureRequirementsAlternative struct {
+	AlternativeFieldsDue []string `json:"alternative_fields_due"`
+	OriginalFieldsDue    []string `json:"original_fields_due"`
+}
+
+// Fields that are `currently_due` and need to be collected again because validation or verification failed.
+type AccountFutureRequirementsError struct {
+	Code        string `json:"code"`
+	Reason      string `json:"reason"`
+	Requirement string `json:"requirement"`
+}
+
+type AccountFutureRequirements struct {
+	Alternatives        []*AccountFutureRequirementsAlternative `json:"alternatives"`
+	CurrentDeadline     int64                                   `json:"current_deadline"`
+	CurrentlyDue        []string                                `json:"currently_due"`
+	DisabledReason      string                                  `json:"disabled_reason"`
+	Errors              []*AccountFutureRequirementsError       `json:"errors"`
+	EventuallyDue       []string                                `json:"eventually_due"`
+	PastDue             []string                                `json:"past_due"`
+	PendingVerification []string                                `json:"pending_verification"`
+}
+
+// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+type AccountRequirementsAlternative struct {
+	AlternativeFieldsDue []string `json:"alternative_fields_due"`
+	OriginalFieldsDue    []string `json:"original_fields_due"`
+}
+
 // AccountDeclineOn represents card charges decline behavior for that account.
 type AccountDeclineOn struct {
 	AVSFailure bool `json:"avs_failure"`
@@ -660,6 +690,7 @@ type AccountRequirementsError struct {
 
 // AccountRequirements represents information that needs to be collected for an account.
 type AccountRequirements struct {
+	Alternatives        []*AccountRequirementsAlternative `json:"alternatives"`
 	CurrentDeadline     int64                             `json:"current_deadline"`
 	CurrentlyDue        []string                          `json:"currently_due"`
 	DisabledReason      AccountRequirementsDisabledReason `json:"disabled_reason"`
@@ -745,28 +776,29 @@ type AccountTOSAcceptance struct {
 // For more details see https://stripe.com/docs/api/#account.
 type Account struct {
 	APIResource
-	BusinessProfile  *AccountBusinessProfile `json:"business_profile"`
-	BusinessType     AccountBusinessType     `json:"business_type"`
-	Capabilities     *AccountCapabilities    `json:"capabilities"`
-	ChargesEnabled   bool                    `json:"charges_enabled"`
-	Company          *AccountCompany         `json:"company"`
-	Controller       *AccountController      `json:"controller"`
-	Country          string                  `json:"country"`
-	Created          int64                   `json:"created"`
-	DefaultCurrency  Currency                `json:"default_currency"`
-	Deleted          bool                    `json:"deleted"`
-	DetailsSubmitted bool                    `json:"details_submitted"`
-	Email            string                  `json:"email"`
-	ExternalAccounts *ExternalAccountList    `json:"external_accounts"`
-	ID               string                  `json:"id"`
-	Individual       *Person                 `json:"individual"`
-	Metadata         map[string]string       `json:"metadata"`
-	Object           string                  `json:"object"`
-	PayoutsEnabled   bool                    `json:"payouts_enabled"`
-	Requirements     *AccountRequirements    `json:"requirements"`
-	Settings         *AccountSettings        `json:"settings"`
-	TOSAcceptance    *AccountTOSAcceptance   `json:"tos_acceptance"`
-	Type             AccountType             `json:"type"`
+	BusinessProfile    *AccountBusinessProfile    `json:"business_profile"`
+	BusinessType       AccountBusinessType        `json:"business_type"`
+	Capabilities       *AccountCapabilities       `json:"capabilities"`
+	ChargesEnabled     bool                       `json:"charges_enabled"`
+	Company            *AccountCompany            `json:"company"`
+	Controller         *AccountController         `json:"controller"`
+	Country            string                     `json:"country"`
+	Created            int64                      `json:"created"`
+	DefaultCurrency    Currency                   `json:"default_currency"`
+	Deleted            bool                       `json:"deleted"`
+	DetailsSubmitted   bool                       `json:"details_submitted"`
+	Email              string                     `json:"email"`
+	ExternalAccounts   *ExternalAccountList       `json:"external_accounts"`
+	FutureRequirements *AccountFutureRequirements `json:"future_requirements"`
+	ID                 string                     `json:"id"`
+	Individual         *Person                    `json:"individual"`
+	Metadata           map[string]string          `json:"metadata"`
+	Object             string                     `json:"object"`
+	PayoutsEnabled     bool                       `json:"payouts_enabled"`
+	Requirements       *AccountRequirements       `json:"requirements"`
+	Settings           *AccountSettings           `json:"settings"`
+	TOSAcceptance      *AccountTOSAcceptance      `json:"tos_acceptance"`
+	Type               AccountType                `json:"type"`
 }
 
 // UnmarshalJSON handles deserialization of an account.
