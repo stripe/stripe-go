@@ -43,6 +43,7 @@ import (
 	issuingcardholder "github.com/stripe/stripe-go/v72/issuing/cardholder"
 	issuingdispute "github.com/stripe/stripe-go/v72/issuing/dispute"
 	issuingtransaction "github.com/stripe/stripe-go/v72/issuing/transaction"
+	"github.com/stripe/stripe-go/v72/lineitem"
 	"github.com/stripe/stripe-go/v72/loginlink"
 	"github.com/stripe/stripe-go/v72/mandate"
 	"github.com/stripe/stripe-go/v72/oauth"
