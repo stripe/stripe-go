@@ -317,7 +317,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Card             *PaymentIntentPaymentMethodOptionsCardParams             `form:"card"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXOParams             `form:"oxxo"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofortParams           `form:"sofort"`
-	WechatPay        *PaymentIntentPaymentMethodOptionsWechatPayParams        `form:"sofort"`
+	WechatPay        *PaymentIntentPaymentMethodOptionsWechatPayParams        `form:"wechat_pay"`
 }
 
 // PaymentIntentTransferDataParams is the set of parameters allowed for the transfer hash.
