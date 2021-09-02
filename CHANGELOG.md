@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.64.0 - 2021-09-01
+* [#1334](https://github.com/stripe/stripe-go/pull/1334) API Updates
+  * Add support for `FutureRequirements` on `Account`, `Capability`, and `Person`
+  * Add support for `Alternatives` on `AccountRequirements`, `CapabilityRequirements`, and `PersonRequirements`
+
 ## 72.63.0 - 2021-09-01
 * [#1332](https://github.com/stripe/stripe-go/pull/1332) API Updates
   * Add support for `AfterExpiration`, `ConsentCollection`, and `ExpiresAt` on `CheckoutSessionParams` and `CheckoutSession`
