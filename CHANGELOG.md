@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.64.1 - 2021-09-03
+* [#1335](https://github.com/stripe/stripe-go/pull/1335) Bugfix: prop `form` annotation for `WechatPay` on `PaymentIntentPaymentMethodOptions`
+
 ## 72.64.0 - 2021-09-01
 * [#1334](https://github.com/stripe/stripe-go/pull/1334) API Updates
   * Add support for `FutureRequirements` on `Account`, `Capability`, and `Person`
