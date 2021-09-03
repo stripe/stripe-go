@@ -8,6 +8,8 @@ import (
 	account "github.com/stripe/stripe-go/v72/account"
 	accountlink "github.com/stripe/stripe-go/v72/accountlink"
 	balancetransaction "github.com/stripe/stripe-go/v72/balancetransaction"
+	configuration "github.com/stripe/stripe-go/v72/billingportal/configuration"
+	billingportal_session "github.com/stripe/stripe-go/v72/billingportal/session"
 	capability "github.com/stripe/stripe-go/v72/capability"
 	charge "github.com/stripe/stripe-go/v72/charge"
 	session "github.com/stripe/stripe-go/v72/checkout/session"
@@ -22,6 +24,7 @@ import (
 	authorization "github.com/stripe/stripe-go/v72/issuing/authorization"
 	card "github.com/stripe/stripe-go/v72/issuing/card"
 	cardholder "github.com/stripe/stripe-go/v72/issuing/cardholder"
+	issuing_dispute "github.com/stripe/stripe-go/v72/issuing/dispute"
 	transaction "github.com/stripe/stripe-go/v72/issuing/transaction"
 	mandate "github.com/stripe/stripe-go/v72/mandate"
 	order "github.com/stripe/stripe-go/v72/order"
@@ -511,6 +514,61 @@ func TestCustomerBalanceTransactionList(t *testing.T) {
 	params := &stripe.CustomerBalanceTransactionListParams{}
 	params.Filters.AddFilter("limit", "", "3")
 	result := customerbalancetransaction.List(params)
+	assert.NotNil(t, result)
+}
+
+func TestBillingPortalSessionCreate(t *testing.T) {
+	params := &stripe.BillingPortalSessionParams{
+		Customer:  stripe.String("cus_xxxxxxxxxxxxx"),
+		ReturnURL: stripe.String("https://example.com/account"),
+	}
+	result, _ := billingportal_session.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestBillingPortalConfigurationCreate(t *testing.T) {
+	params := &stripe.BillingPortalConfigurationParams{
+		Features: &stripe.BillingPortalConfigurationFeaturesParams{
+			CustomerUpdate: &stripe.BillingPortalConfigurationFeaturesCustomerUpdateParams{
+				AllowedUpdates: []*string{
+					stripe.String("email"),
+					stripe.String("tax_id"),
+				},
+				Enabled: stripe.Bool(true),
+			},
+			InvoiceHistory: &stripe.BillingPortalConfigurationFeaturesInvoiceHistoryParams{
+				Enabled: stripe.Bool(true),
+			},
+		},
+		BusinessProfile: &stripe.BillingPortalConfigurationBusinessProfileParams{
+			PrivacyPolicyURL:  stripe.String("https://example.com/privacy"),
+			TermsOfServiceURL: stripe.String("https://example.com/terms"),
+		},
+	}
+	result, _ := configuration.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestBillingPortalConfigurationUpdate(t *testing.T) {
+	params := &stripe.BillingPortalConfigurationParams{
+		BusinessProfile: &stripe.BillingPortalConfigurationBusinessProfileParams{
+			PrivacyPolicyURL:  stripe.String("https://example.com/privacy"),
+			TermsOfServiceURL: stripe.String("https://example.com/terms"),
+		},
+	}
+	result, _ := configuration.Update("configurations", params)
+	assert.NotNil(t, result)
+}
+
+func TestBillingPortalConfigurationRetrieve(t *testing.T) {
+	result, _ := configuration.Get("configurations", nil)
+	assert.NotNil(t, result)
+}
+
+func TestBillingPortalConfigurationList(t *testing.T) {
+	params := &stripe.BillingPortalConfigurationListParams{}
+	params.Filters.AddFilter("limit", "", "3")
+	result := configuration.List(params)
 	assert.NotNil(t, result)
 }
 
@@ -1025,6 +1083,53 @@ func TestIssuingCardList(t *testing.T) {
 	params := &stripe.IssuingCardListParams{}
 	params.Filters.AddFilter("limit", "", "3")
 	result := card.List(params)
+	assert.NotNil(t, result)
+}
+
+func TestIssuingDisputeCreate(t *testing.T) {
+	params := &stripe.IssuingDisputeParams{
+		Transaction: stripe.String("ipi_xxxxxxxxxxxxx"),
+		Evidence: &stripe.IssuingDisputeEvidenceParams{
+			Reason: stripe.String("fraudulent"),
+			Fraudulent: &stripe.IssuingDisputeEvidenceFraudulentParams{
+				Explanation: stripe.String("Purchase was unrecognized."),
+			},
+		},
+	}
+	result, _ := issuing_dispute.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestIssuingDisputeSubmit(t *testing.T) {
+	result, _ := issuing_dispute.Submit("disputes", nil)
+	assert.NotNil(t, result)
+}
+
+func TestIssuingDisputeRetrieve(t *testing.T) {
+	result, _ := issuing_dispute.Get("disputes", nil)
+	assert.NotNil(t, result)
+}
+
+func TestIssuingDisputeUpdate(t *testing.T) {
+	params := &stripe.IssuingDisputeParams{
+		Evidence: &stripe.IssuingDisputeEvidenceParams{
+			Reason: stripe.String("not_received"),
+			NotReceived: &stripe.IssuingDisputeEvidenceNotReceivedParams{
+				ExpectedAt:         stripe.Int64(1590000000),
+				Explanation:        stripe.String(""),
+				ProductDescription: stripe.String("Baseball cap"),
+				ProductType:        stripe.String("merchandise"),
+			},
+		},
+	}
+	result, _ := issuing_dispute.Update("disputes", params)
+	assert.NotNil(t, result)
+}
+
+func TestIssuingDisputeList(t *testing.T) {
+	params := &stripe.IssuingDisputeListParams{}
+	params.Filters.AddFilter("limit", "", "3")
+	result := issuing_dispute.List(params)
 	assert.NotNil(t, result)
 }
 
