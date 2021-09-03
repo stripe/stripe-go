@@ -48,6 +48,7 @@ import (
 	source "github.com/stripe/stripe-go/v72/source"
 	taxid "github.com/stripe/stripe-go/v72/taxid"
 	taxrate "github.com/stripe/stripe-go/v72/taxrate"
+	location "github.com/stripe/stripe-go/v72/terminal/location"
 	reader "github.com/stripe/stripe-go/v72/terminal/reader"
 	_ "github.com/stripe/stripe-go/v72/testing"
 	topup "github.com/stripe/stripe-go/v72/topup"
@@ -1149,6 +1150,45 @@ func TestIssuingTransactionList(t *testing.T) {
 	params := &stripe.IssuingTransactionListParams{}
 	params.Filters.AddFilter("limit", "", "3")
 	result := transaction.List(params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalLocationCreate(t *testing.T) {
+	params := &stripe.TerminalLocationParams{
+		DisplayName: stripe.String("My First Store"),
+		Address: &stripe.AccountAddressParams{
+			Line1:      stripe.String("1234 Main Street"),
+			City:       stripe.String("San Francisco"),
+			Country:    stripe.String("US"),
+			PostalCode: stripe.String("94111"),
+		},
+	}
+	result, _ := location.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalLocationRetrieve(t *testing.T) {
+	result, _ := location.Get("locations", nil)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalLocationUpdate(t *testing.T) {
+	params := &stripe.TerminalLocationParams{
+		DisplayName: stripe.String("My First Store"),
+	}
+	result, _ := location.Update("locations", params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalLocationDelete(t *testing.T) {
+	result, _ := location.Del("locations", nil)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalLocationList(t *testing.T) {
+	params := &stripe.TerminalLocationListParams{}
+	params.Filters.AddFilter("limit", "", "3")
+	result := location.List(params)
 	assert.NotNil(t, result)
 }
 
