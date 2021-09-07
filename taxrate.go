@@ -16,6 +16,7 @@ const (
 	TaxRateTaxTypeHST      TaxRateTaxType = "hst"
 	TaxRateTaxTypePST      TaxRateTaxType = "pst"
 	TaxRateTaxTypeQST      TaxRateTaxType = "qst"
+	TaxRateTaxTypeRST      TaxRateTaxType = "rst"
 	TaxRateTaxTypeSalesTax TaxRateTaxType = "sales_tax"
 	TaxRateTaxTypeVAT      TaxRateTaxType = "vat"
 )
