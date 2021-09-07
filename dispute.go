@@ -13,14 +13,20 @@ type DisputeReason string
 
 // List of values that DisputeReason can take.
 const (
-	DisputeReasonCreditNotProcessed   DisputeReason = "credit_not_processed"
-	DisputeReasonDuplicate            DisputeReason = "duplicate"
-	DisputeReasonFraudulent           DisputeReason = "fraudulent"
-	DisputeReasonGeneral              DisputeReason = "general"
-	DisputeReasonProductNotReceived   DisputeReason = "product_not_received"
-	DisputeReasonProductUnacceptable  DisputeReason = "product_unacceptable"
-	DisputeReasonSubscriptionCanceled DisputeReason = "subscription_canceled"
-	DisputeReasonUnrecognized         DisputeReason = "unrecognized"
+	DisputeReasonBankCannotProcess       DisputeReason = "bank_cannot_process"
+	DisputeReasonCheckReturned           DisputeReason = "check_returned"
+	DisputeReasonCreditNotProcessed      DisputeReason = "credit_not_processed"
+	DisputeReasonCustomerInitiated       DisputeReason = "customer_initiated"
+	DisputeReasonDebitNotAuthorized      DisputeReason = "debit_not_authorized"
+	DisputeReasonDuplicate               DisputeReason = "duplicate"
+	DisputeReasonFraudulent              DisputeReason = "fraudulent"
+	DisputeReasonGeneral                 DisputeReason = "general"
+	DisputeReasonIncorrectAccountDetails DisputeReason = "incorrect_account_details"
+	DisputeReasonInsufficientFunds       DisputeReason = "insufficient_funds"
+	DisputeReasonProductNotReceived      DisputeReason = "product_not_received"
+	DisputeReasonProductUnacceptable     DisputeReason = "product_unacceptable"
+	DisputeReasonSubscriptionCanceled    DisputeReason = "subscription_canceled"
+	DisputeReasonUnrecognized            DisputeReason = "unrecognized"
 )
 
 // DisputeStatus is the list of allowed values for a discount's status.
