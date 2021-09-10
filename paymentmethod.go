@@ -409,6 +409,7 @@ type PaymentMethodSepaDebit struct {
 	Fingerprint   string                               `json:"fingerprint"`
 	Last4         string                               `json:"last4"`
 	GeneratedFrom *PaymentMethodSepaDebitGeneratedFrom `json:"generated_from"`
+	Mandate       string                               `json:"mandate"`
 }
 
 // PaymentMethodSofort represents the Sofort-specific properties.
