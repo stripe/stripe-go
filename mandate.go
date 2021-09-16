@@ -19,6 +19,15 @@ const (
 	MandateStatusPending  MandateStatus = "pending"
 )
 
+// List of Stripe products where this mandate can be selected automatically.
+type MandatePaymentMethodDetailsACSSDebitDefaultFor string
+
+// List of values that MandatePaymentMethodDetailsACSSDebitDefaultFor can take
+const (
+	MandatePaymentMethodDetailsACSSDebitDefaultForInvoice      MandatePaymentMethodDetailsACSSDebitDefaultFor = "invoice"
+	MandatePaymentMethodDetailsACSSDebitDefaultForSubscription MandatePaymentMethodDetailsACSSDebitDefaultFor = "subscription"
+)
+
 // MandatePaymentMethodDetailsACSSDebitPaymentSchedule is the list of allowed values for an acss debit payment_schedule on payment_method_details
 type MandatePaymentMethodDetailsACSSDebitPaymentSchedule string
 
@@ -93,6 +102,7 @@ type MandateMultiUse struct {
 
 // MandatePaymentMethodDetailsACSSDebit represent details about the acss debit associated with this mandate.
 type MandatePaymentMethodDetailsACSSDebit struct {
+	DefaultFor          []MandatePaymentMethodDetailsACSSDebitDefaultFor    `json:"default_for"`
 	IntervalDescription string                                              `json:"interval_description"`
 	PaymentSchedule     MandatePaymentMethodDetailsACSSDebitPaymentSchedule `json:"payment_schedule"`
 	TransactionType     MandatePaymentMethodDetailsACSSDebitTransactionType `json:"transaction_type"`

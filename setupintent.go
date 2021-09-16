@@ -23,6 +23,15 @@ const (
 	SetupIntentNextActionTypeRedirectToURL SetupIntentNextActionType = "redirect_to_url"
 )
 
+// List of Stripe products where this mandate can be selected automatically.
+type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor string
+
+// List of values that SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor can take
+const (
+	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsDefaultForInvoice      SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor = "invoice"
+	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsDefaultForSubscription SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor = "subscription"
+)
+
 // SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule is the list of allowed values
 // for payment_schedule on mandate_options.
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
@@ -126,10 +135,11 @@ type SetupIntentMandateDataCustomerAcceptanceParams struct {
 // SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams is the set of parameters for
 // mandate_options on acss_debit.
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
-	CustomMandateURL    *string `form:"custom_mandate_url"`
-	IntervalDescription *string `form:"interval_description"`
-	PaymentSchedule     *string `form:"payment_schedule"`
-	TransactionType     *string `form:"transaction_type"`
+	CustomMandateURL    *string   `form:"custom_mandate_url"`
+	DefaultFor          []*string `form:"default_for"`
+	IntervalDescription *string   `form:"interval_description"`
+	PaymentSchedule     *string   `form:"payment_schedule"`
+	TransactionType     *string   `form:"transaction_type"`
 }
 
 // SetupIntentPaymentMethodOptionsACSSDebitParams is the set of parameters for acss debit on
@@ -222,6 +232,7 @@ type SetupIntentNextAction struct {
 // acss debit associated with a setup intent.
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 	CustomMandateURL    string                                                                `json:"custom_mandate_url"`
+	DefaultFor          []SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor    `json:"default_for"`
 	IntervalDescription string                                                                `json:"interval_description"`
 	PaymentSchedule     SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule `json:"payment_schedule"`
 	TransactionType     SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
