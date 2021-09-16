@@ -1,5 +1,17 @@
 # Changelog
 
+## 72.65.0 - 2021-09-16
+* [#1342](https://github.com/stripe/stripe-go/pull/1342) API Updates
+  * Add support for `Livemode` on `ReportingReportType`.
+  * Add support for `DefaultFor` on `CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams`, `CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions`, `MandatePaymentMethodDetailsACSSDebit`, `SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams`, and `SetupIntentPaymentMethodOptionsACSSDebitMandateOptions`.
+  * Add support for `ACSSDebit` on `InvoicePaymentSettingsPaymentMethodOptionsParams`, `InvoicePaymentSettingsPaymentMethodOptionsParams`, `InvoicePaymentSettingsPaymentMethodOptions`, `SubscriptionPaymentSettingsPaymentMethodOptionsParams`, `SubscriptionPaymentSettingsPaymentMethodOptionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptions`.
+  * Add support for new value `acss_debit` on enums `InvoicePaymentSettingsPaymentMethodType` and `SubscriptionPaymentSettingsPaymentMethodType`.
+  * Add support for `FullNameAliases` on `PersonParams` and `Person`.
+* [#1339](https://github.com/stripe/stripe-go/pull/1339) API Updates
+  * Add support for new value `rst` on enum `TaxRateTaxType`
+* [#1336](https://github.com/stripe/stripe-go/pull/1336) Adding missing dispute reasons following official documentation (http…
+* [#1337](https://github.com/stripe/stripe-go/pull/1337) Generated go test suites
+
 ## 72.64.1 - 2021-09-03
 * [#1335](https://github.com/stripe/stripe-go/pull/1335) Bugfix: prop `form` annotation for `WechatPay` on `PaymentIntentPaymentMethodOptions`
 
