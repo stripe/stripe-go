@@ -24,6 +24,7 @@ type ReportType struct {
 	DataAvailableStart int64    `json:"data_available_start"`
 	DefaultColumns     []string `json:"default_columns"`
 	ID                 string   `json:"id"`
+	Livemode           bool     `json:"livemode"`
 	Name               string   `json:"name"`
 	Object             string   `json:"object"`
 	Updated            int64    `json:"updated"`

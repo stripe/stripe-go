@@ -115,6 +115,15 @@ const (
 	CheckoutSessionModeSubscription CheckoutSessionMode = "subscription"
 )
 
+// List of Stripe products where this mandate can be selected automatically. Returned when the Session is in `setup` mode.
+type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor string
+
+// List of values that CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor can take
+const (
+	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsDefaultForInvoice      CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor = "invoice"
+	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsDefaultForSubscription CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor = "subscription"
+)
+
 // CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule is the list of allowed values for payment_schedule
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
 
@@ -283,10 +292,11 @@ type CheckoutSessionPaymentIntentDataParams struct {
 
 // CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams is the set of parameters allowed for mandate_options for acss debit.
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
-	CustomMandateURL    *string `form:"custom_mandate_url"`
-	IntervalDescription *string `form:"interval_description"`
-	PaymentSchedule     *string `form:"payment_schedule"`
-	TransactionType     *string `form:"transaction_type"`
+	CustomMandateURL    *string   `form:"custom_mandate_url"`
+	DefaultFor          []*string `form:"default_for"`
+	IntervalDescription *string   `form:"interval_description"`
+	PaymentSchedule     *string   `form:"payment_schedule"`
+	TransactionType     *string   `form:"transaction_type"`
 }
 
 // CheckoutSessionPaymentMethodOptionsACSSDebitParams is the set of parameters allowed for acss_debit on payment_method_options.
@@ -462,6 +472,7 @@ type CheckoutSessionCustomerDetails struct {
 // CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions represent mandate options for acss debit.
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions struct {
 	CustomMandateURL    string                                                                    `json:"custom_mandate_url"`
+	DefaultFor          []CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor    `json:"default_for"`
 	IntervalDescription string                                                                    `json:"interval_description"`
 	PaymentSchedule     CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule `json:"payment_schedule"`
 	TransactionType     CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`

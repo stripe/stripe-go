@@ -40,6 +40,25 @@ const (
 	SubscriptionPauseCollectionBehaviorVoid              SubscriptionPauseCollectionBehavior = "void"
 )
 
+// Transaction type of the mandate.
+type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypeBusiness SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "business"
+	SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
+)
+
+// Bank account verification method.
+type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodAutomatic     SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "automatic"
+	SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodInstant       SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "instant"
+	SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
+)
+
 // We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure string
 
@@ -56,6 +75,7 @@ type SubscriptionPaymentSettingsPaymentMethodType string
 const (
 	SubscriptionPaymentSettingsPaymentMethodTypeAchCreditTransfer  SubscriptionPaymentSettingsPaymentMethodType = "ach_credit_transfer"
 	SubscriptionPaymentSettingsPaymentMethodTypeAchDebit           SubscriptionPaymentSettingsPaymentMethodType = "ach_debit"
+	SubscriptionPaymentSettingsPaymentMethodTypeACSSDebit          SubscriptionPaymentSettingsPaymentMethodType = "acss_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeAUBECSDebit        SubscriptionPaymentSettingsPaymentMethodType = "au_becs_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeBACSDebit          SubscriptionPaymentSettingsPaymentMethodType = "bacs_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeBancontact         SubscriptionPaymentSettingsPaymentMethodType = "bancontact"
@@ -118,6 +138,17 @@ type SubscriptionPauseCollectionParams struct {
 	ResumesAt *int64  `form:"resumes_at"`
 }
 
+// Additional fields for Mandate creation
+type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
+	TransactionType *string `form:"transaction_type"`
+}
+
+// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitParams struct {
+	MandateOptions     *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
+	VerificationMethod *string                                                                       `form:"verification_method"`
+}
+
 // This sub-hash contains details about the Bancontact payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language"`
@@ -130,6 +161,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCardParams struct {
 
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
+	ACSSDebit  *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitParams  `form:"acss_debit"`
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
 	Card       *SubscriptionPaymentSettingsPaymentMethodOptionsCardParams       `form:"card"`
 }
@@ -267,6 +299,16 @@ type SubscriptionPauseCollection struct {
 	ResumesAt int64                               `json:"resumes_at"`
 }
 
+type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
+	TransactionType SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
+}
+
+// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebit struct {
+	MandateOptions     *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
+	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
+}
+
 // This sub-hash contains details about the Bancontact payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsBancontact struct {
 	PreferredLanguage string `json:"preferred_language"`
@@ -279,6 +321,7 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCard struct {
 
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptions struct {
+	ACSSDebit  *SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebit  `json:"acss_debit"`
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
 	Card       *SubscriptionPaymentSettingsPaymentMethodOptionsCard       `json:"card"`
 }
