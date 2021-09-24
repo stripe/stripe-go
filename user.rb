@@ -1,10 +1,11 @@
 module StripeForce
   class User < Sequel::Model
     def sf_client
-      Restforce.new(
-        oauth_token: ENV.fetch('SF_ACCESS_TOKEN'),
-        refresh_token: ENV.fetch('SF_REFRESH_TOKEN'),
+      client = Restforce.new(
+        oauth_token: salesforce_token,
+        refresh_token: salesforce_refresh_token,
         instance_url: sf_endpoint,
+
         client_id: ENV.fetch('SF_CONSUMER_KEY'),
         client_secret: ENV.fetch('SF_CONSUMER_SECRET'),
 
@@ -17,10 +18,14 @@ module StripeForce
         log: true,
         log_level: :debug
       )
+
+      client.authenticate!
+
+      client
     end
 
     def sf_endpoint
-      "https://#{ENV.fetch('SF_INSTANCE')}.my.salesforce.com"
+      self.salesforce_instance_url
     end
   end
 end

@@ -21,3 +21,8 @@ user = StripeForce::User.new
 StripeForce::OrderPoller.perform(user: user)
 
 # sf.authenticate! will refresh oauth tokens
+
+# oauth_token: ENV.fetch('SF_ACCESS_TOKEN'),
+# refresh_token: ENV.fetch('SF_REFRESH_TOKEN'),
+# instance_url: sf_endpoint,
+# "https://#{ENV.fetch('SF_INSTANCE')}.my.salesforce.com"

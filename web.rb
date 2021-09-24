@@ -49,23 +49,23 @@ get '/auth/salesforce/callback' do
   user = StripeForce::User.find(salesforce_account_id: sf_account_id)
 
   if !user
-    sf_credentials = sf_auth["credentials"]
-    sf_refresh_token = sf_credentials["refresh_token"]
-    sf_instance_url = sf_credentials["instance_url"]
-    sf_token = sf_credentials["token"]
-
-    user = StripeForce::User.new(
-      salesforce_account_id: sf_account_id,
-      salesforce_refresh_token: sf_refresh_token,
-      salesforce_instance_url: sf_instance_url,
-      salesforce_token: sf_token,
-
-      name: sf_auth["extra"]["display_name"],
-      email: sf_auth["extra"]["email"]
-    )
-
-    user.save
+    user = StripeForce::User.new(salesforce_account_id: sf_account_id)
   end
+
+  sf_credentials = sf_auth["credentials"]
+  sf_refresh_token = sf_credentials["refresh_token"]
+  sf_instance_url = sf_credentials["instance_url"]
+  sf_token = sf_credentials["token"]
+
+  user.salesforce_account_id = sf_account_id,
+  user.salesforce_refresh_token = sf_refresh_token,
+  user.salesforce_instance_url = sf_instance_url,
+  user.salesforce_token = sf_token,
+
+  user.name = sf_auth["extra"]["display_name"],
+  user.email = sf_auth["extra"]["email"]
+
+  user.save
 
   session[:user_id] = user.id
 
