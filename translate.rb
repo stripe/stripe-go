@@ -169,12 +169,12 @@ class StripeForce::Translate
       price = create_price_for_order_item(sf_order_item)
 
       if !is_recurring_order
-        Stripe::InvoiceItem.create(
+        Stripe::InvoiceItem.create({
           customer: stripe_customer,
           price: price,
           # TODO does SF really allow floats for quantity? Really?
           quantity: sf_order_item.Quantity.to_i
-        )
+        }, @user.stripe_credentials)
       else
         subscription_items << {
           price: price
