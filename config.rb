@@ -10,7 +10,7 @@ end
 Bundler.require(:default, :development)
 
 # CREATE DATABASE stripeforce
-DB = Sequel.connect(ENV.fetch('DATABASE'))
+DB = Sequel.connect(ENV.fetch('DATABASE_URL'))
 
 Restforce.configure do |config|
   config.log_level = :debug
