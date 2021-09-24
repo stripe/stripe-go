@@ -79,7 +79,7 @@ GEM
     tilt (2.0.10)
 
 PLATFORMS
-  x86_64-darwin-20
+  ruby
 
 DEPENDENCIES
   better_errors (~> 2.9.1)
