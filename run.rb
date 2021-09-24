@@ -12,6 +12,7 @@ Bundler.require(:default, :development)
 
 require_relative 'user'
 require_relative 'translate'
+require_relative 'polling'
 
 Stripe.api_key = ENV['STRIPE_KEY']
 Stripe.api_version = '2020-08-27'
@@ -30,20 +31,7 @@ end
 # really? Can't set this on an instance or `configure` level?
 Restforce.log = ENV.fetch('SALESFORCE_LOG', 'false') == 'true'
 
-def poll_orders
-  user = StripeForce::User.new
-  sf = user.sf_client
-
-  updated_orders = sf.get_updated('Order', DateTime.now - 1, DateTime.now)
-  # anything else but "ids" in the hash?
-  updated_orders = updated_orders["ids"] if updated_orders.is_a?(Hash)
-
-  updated_orders.each do |sf_order_id|
-    sf_order = sf.find('Order', sf_order_id)
-    StripeForce::Translate.perform(user: user, sf_object: sf_order)
-  end
-end
-
-poll_orders
+user = StripeForce::User.new
+StripeForce::OrderPoller.perform(user: user)
 
 # sf.authenticate! will refresh oauth tokens
