@@ -3,6 +3,8 @@ require_relative 'config'
 include SimpleStructuredLogger
 
 loop do
+  log.info 'initiating poll'
+
   begin
     StripeForce::User.each do |user|
       log.info 'polling user'
