@@ -11,7 +11,9 @@ loop do
       StripeForce::OrderPoller.perform(user: user)
     end
   rescue => e
-    puts "Error! #{e}"
+    puts "Worker Error"
+    puts e.message
+    puts e.backtrace
   end
 
   sleep(30)
