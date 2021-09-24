@@ -3,6 +3,8 @@ require 'dotenv/load'
 require 'rubygems'
 require 'bundler'
 
+$stdout.sync = true
+
 module StripeForce
 
 end
