@@ -19,6 +19,7 @@ GEM
     interception (0.5)
     jwt (2.2.3)
     method_source (0.9.2)
+    minitest (5.14.4)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
@@ -88,6 +89,7 @@ DEPENDENCIES
   better_errors (~> 2.9.1)
   binding_of_caller (~> 1.0.0)
   dotenv
+  minitest (~> 5.14.1)
   omniauth-salesforce
   omniauth-stripe
   pg

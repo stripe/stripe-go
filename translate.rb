@@ -1,18 +1,6 @@
 class StripeForce::Translate
   include SimpleStructuredLogger
-
-  CPQ_QUOTE = 'SBQQ__Quote__c'.freeze
-  CPQ_QUOTE_PRIMARY_CONTACT = 'SBQQ__PrimaryContact__c'.freeze
-  CPQ_QUOTE_OPPORTUNITY = 'SBQQ__Opportunity2__c'.freeze
-  CPQ_QUOTE_ORDERED = 'SBQQ__Ordered__c'.freeze
-  CPQ_QUOTE_PRIMARY = 'SBQQ__Primary__c'.freeze
-  CPQ_QUOTE_LINE = 'SBQQ__QuoteLine__c'.freeze
-  CPQ_QUOTE_LINE_PRODUCT = 'SBQQ__Product__c'.freeze
-  CPQ_QUOTE_LINE_PRICEBOOK_ENTRY = 'SBQQ__PricebookEntryId__c'.freeze
-
-  OPPORTUNITY_STRIPE_ID = 'Stripe_Customer_ID__c'.freeze
-  ORDER_STRIPE_ID = 'Stripe_Transaction_ID__c'.freeze
-  PRICE_BOOK_STRIPE_ID = 'Stripe_Price_ID__c'.freeze
+  include StripeForce::Constants
 
   def self.perform(user:, sf_object:)
     interactor = self.new(user)
@@ -97,7 +85,11 @@ class StripeForce::Translate
     stripe_price_id = sf_pricebook_entry[PRICE_BOOK_STRIPE_ID]
     if !stripe_price_id.nil?
       log.info 'price already pushed, retrieving from stripe', stripe_resource_id: stripe_price_id
-      return Stripe::Price.retrieve(stripe_price_id, @user.stripe_credentials)
+      begin
+        return Stripe::Price.retrieve(stripe_price_id, @user.stripe_credentials)
+      rescue => e
+        # TODO report this
+      end
     end
 
     if sf_pricebook_entry.UnitPrice != sf_order_item.UnitPrice

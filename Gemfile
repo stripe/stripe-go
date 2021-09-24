@@ -38,11 +38,11 @@ gem 'rake'
 # gem 'redis-namespace', '1.8.0'
 # gem 'redis', '~> 4.1.4'
 
-# group :test do
+group :test do
 #   gem 'bundler-audit', '~> 0.7.0.1', require: false
 #   gem 'brakeman', '~> 4.10', require: false
 
-#   gem 'minitest', '~> 5.14.1'
+  gem 'minitest', '~> 5.14.1'
 #   gem 'minitest-ci', '~> 3.4.0'
 #   gem 'minitest-profile'
 #   gem 'minitest-reporters', '~> 1.4.2'
@@ -64,7 +64,7 @@ gem 'rake'
 #   # Dependencies to debug the Ruby tests
 #   gem 'ruby-debug-ide'
 #   gem 'debase'
-# end
+end
 
 group :development do
   gem 'pry', '~> 0.12.2'

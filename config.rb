@@ -22,6 +22,7 @@ end
 # really? Can't set this on an instance or `configure` level?
 Restforce.log = ENV.fetch('SALESFORCE_LOG', 'false') == 'true'
 
+require_relative 'constants'
 require_relative 'user'
 require_relative 'translate'
 require_relative 'polling'
