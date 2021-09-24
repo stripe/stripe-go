@@ -2,6 +2,7 @@ class StripeForce::Translate
   include SimpleStructuredLogger
 
   CPQ_QUOTE = 'SBQQ__Quote__c'.freeze
+  CPQ_QUOTE_PRIMARY_CONTACT = 'SBQQ__PrimaryContact__c'.freeze
   CPQ_QUOTE_OPPORTUNITY = 'SBQQ__Opportunity2__c'.freeze
   CPQ_QUOTE_ORDERED = 'SBQQ__Ordered__c'.freeze
   CPQ_QUOTE_PRIMARY = 'SBQQ__Primary__c'.freeze
@@ -9,6 +10,7 @@ class StripeForce::Translate
   CPQ_QUOTE_LINE_PRODUCT = 'SBQQ__Product__c'.freeze
   CPQ_QUOTE_LINE_PRICEBOOK_ENTRY = 'SBQQ__PricebookEntryId__c'.freeze
 
+  OPPORTUNITY_STRIPE_ID = 'Stripe_Customer_ID__c'.freeze
   ORDER_STRIPE_ID = 'Stripe_Transaction_ID__c'.freeze
   PRICE_BOOK_STRIPE_ID = 'Stripe_Price_ID__c'.freeze
 
@@ -42,18 +44,29 @@ class StripeForce::Translate
     }
   end
 
-  def create_customer_from_sf_customer(sf_customer)
-    # TODO pull contact information? Specifically the email?
+  def create_customer_from_sf_order(sf_order)
+    # opportunity, instead of contact/customer, is used here since {customer, contact} pairs don't map to Stripe a customer`
+    # each oppt can use a unique contact/customer pair, this feels like the best fit for now
+    sf_quote = sf.find(CPQ_QUOTE, sf_order[CPQ_QUOTE])
+    sf_opportunity = sf.find('Opportunity', sf_quote[CPQ_QUOTE_OPPORTUNITY])
+
+    stripe_customer_id = sf_opportunity[OPPORTUNITY_STRIPE_ID]
+    if !stripe_customer_id.nil?
+      return Stripe::Customer.retrieve(stripe_customer_id, @user.stripe_credentials)
+    end
+
+    sf_account = sf.find('Account', sf_order.AccountId)
+    sf_primary_contact = sf.find('Contact', sf_quote[CPQ_QUOTE_PRIMARY_CONTACT])
 
     customer = Stripe::Customer.create({
-      # TODO to be pulled from the contact
-      email: "salesforce+#{Time.now.to_i}@stripe.com",
-
-      name: sf_customer.Name,
-      metadata: sf_metadata(sf_customer)
+      email: sf_primary_contact.Email,
+      name: sf_account.Name,
+      metadata: sf_metadata(sf_opportunity)
     }, @user.stripe_credentials)
 
-    # TODO update ext ID in SF
+    sf.update!('Opportunity', 'Id' => sf_opportunity.Id, OPPORTUNITY_STRIPE_ID => customer.id)
+
+    customer
   end
 
   def create_product_from_sf_product(sf_product)
@@ -125,7 +138,7 @@ class StripeForce::Translate
       metadata: sf_metadata(sf_pricebook_entry)
     }.merge(optional_params), @user.stripe_credentials)
 
-    sf.update('PricebookEntry', 'Id' => sf_pricebook_entry.Id, PRICE_BOOK_STRIPE_ID => price.id)
+    sf.update!('PricebookEntry', 'Id' => sf_pricebook_entry.Id, PRICE_BOOK_STRIPE_ID => price.id)
 
     price
   end
@@ -147,10 +160,7 @@ class StripeForce::Translate
       return
     end
 
-    # TODO should use opportunity instead here since {customer, contact} pairs don't map to Stripe
-    sf_account_id = sf_order.AccountId
-    sf_account = sf.find('Account', sf_account_id)
-    stripe_customer = create_customer_from_sf_customer(sf_account)
+    stripe_customer = create_customer_from_sf_order(sf_order)
 
     # https://github.com/Neuralab/WooCommerce-Salesforce-integration/blob/3af9ecf491f770ece9cdce993c21cee45f2647a0/includes/controllers/core/class-nwsi-salesforce-object-manager.php#L306
     # https://salesforce.stackexchange.com/questions/251904/get-sales-order-line-on-rest-api
