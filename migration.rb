@@ -1,4 +1,7 @@
-require_relative 'config'
+# heroku run bundle exec ruby migration.rb
+
+require 'sequel'
+DB = Sequel.connect(ENV.fetch('DATABASE_URL'))
 
 DB.create_table :users do
   primary_key :id
