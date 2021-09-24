@@ -1,18 +1,4 @@
-require 'dotenv/load'
-
-require 'rubygems'
-require 'bundler'
-
-module StripeForce
-
-end
-
-
-Bundler.require(:default, :development)
-
-require_relative 'user'
-require_relative 'translate'
-require_relative 'polling'
+require_relative 'config'
 
 Stripe.api_key = ENV['STRIPE_KEY']
 Stripe.api_version = '2020-08-27'

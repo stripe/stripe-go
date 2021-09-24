@@ -12,7 +12,9 @@ gem 'simple_structured_logger'
 
 gem 'sinatra', require: false
 gem 'omniauth-salesforce'
+gem 'omniauth-stripe'
 
+gem 'pg'
 gem 'sequel', '5.48.0'
 
 # translator
