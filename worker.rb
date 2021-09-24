@@ -14,5 +14,5 @@ loop do
     puts "Error! #{e}"
   end
 
-  sleep(50)
+  sleep(30)
 end
