@@ -56,7 +56,7 @@ Restforce.log = true
 def salesforce_client
   Restforce.new(
     oauth_token: ENV.fetch('SF_ACCESS_TOKEN'),
-    # refresh_token: credentials['refreshToken'],
+    refresh_token: ENV.fetch('SF_REFRESH_TOKEN'),
     instance_url: sf_endpoint,
     client_id: ENV.fetch('SF_CONSUMER_KEY'),
     client_secret: ENV.fetch('SF_CONSUMER_SECRET'),
@@ -77,6 +77,12 @@ alias :sf :salesforce_client
 Restforce::Data::Client.class_eval do
 
 end
+
+# Really? https://github.com/lsegal/yard/blob/9865620413d3519b561d87479e44f1b4fe782904/lib/yard/globals.rb#L20
+# pry-doc loads yard and will clobber a global logger
+# require 'yard'
+include SimpleStructuredLogger
+log = SimpleStructuredLogger::Writer.instance
 
 def sf_metadata(sf_object)
   {
@@ -102,7 +108,11 @@ CPQ_QUOTE_LINE = 'SBQQ__QuoteLine__c'.freeze
 CPQ_QUOTE_LINE_PRODUCT = 'SBQQ__Product__c'.freeze
 CPQ_QUOTE_LINE_PRICEBOOK_ENTRY = 'SBQQ__PricebookEntryId__c'.freeze
 
+ORDER_STRIPE_ID = 'Stripe_Transaction_ID__c'.freeze
+PRICE_BOOK_STRIPE_ID = 'Stripe_Price_ID__c'.freeze
+
 def create_salesforce_order
+  # TODO pull these dynamically
   product_id = '01t5e000003DsarAAC'
   pricebook_entry_id = '01u5e000000jGn6AAE'
 
@@ -180,7 +190,7 @@ def create_salesforce_order
 end
 
 def create_customer_from_sf_customer(sf_customer)
-  # TODO pull contact information?
+  # TODO pull contact information? Specifically the email?
 
   customer = Stripe::Customer.create({
     # TODO to be pulled from the contact
@@ -220,6 +230,13 @@ def create_price_for_order_item(sf_order_item)
 
   sf_pricebook_entry = sf.find('PricebookEntry', sf_order_item.PricebookEntryId)
 
+  # have we already pushed this to Stripe?
+  stripe_price_id = sf_pricebook_entry[PRICE_BOOK_STRIPE_ID]
+  if !stripe_price_id.nil?
+    log.info 'price already pushed, retrieving from stripe'
+    return Stripe::Price.retrieve(stripe_price_id)
+  end
+
   if sf_pricebook_entry.UnitPrice != sf_order_item.UnitPrice
     raise 'unit prices should not be different'
   end
@@ -235,9 +252,9 @@ def create_price_for_order_item(sf_order_item)
     }
   end
 
-  # TODO we need to dedup this
+  log.info 'creating price in stripe', sf_resource: sf_pricebook_entry
 
-  Stripe::Price.create({
+  price = Stripe::Price.create({
     # TODO there is an undocumented id param, but it doesn't seem to work
     # id: sf_pricebook_entry.Id,
 
@@ -258,7 +275,9 @@ def create_price_for_order_item(sf_order_item)
     metadata: sf_metadata(sf_pricebook_entry)
   }.merge(optional_params))
 
-  # TODO update ext ID in SF
+  sf.update('PricebookEntry', Id => sf_pricebook_entry.Id, PRICE_BOOK_STRIPE_ID => price.id)
+
+  price
 end
 
 def create_subscription_item_from_order_item(sf_order_item)
@@ -270,7 +289,19 @@ def recurring_item?(sf_order_item)
   !sf_order_item.SBQQ__ChargeType__c.nil? || !sf_order_item.SBQQ__SubscriptionType__c.nil?
 end
 
-def create_subscription_from_sf_order(sf_order)
+def create_stripe_transaction_from_sf_order(sf_order)
+  if sf_order.Status != 'Activated'
+    log.info 'order is not activated, skipping'
+    return
+  end
+
+  stripe_transaction_id = sf_order[ORDER_STRIPE_ID]
+  if !stripe_transaction_id.nil?
+    log.info 'order already translated', stripe_resource_id: stripe_transaction_id
+    return
+  end
+
+  # TODO should use opportunity instead here since {customer, contact} pairs don't map to Stripe
   sf_account_id = sf_order.AccountId
   sf_account = sf.find('Account', sf_account_id)
   stripe_customer = create_customer_from_sf_customer(sf_account)
@@ -323,13 +354,21 @@ def create_subscription_from_sf_order(sf_order)
     })
   end
 
-  # TODO update order with subscription ID
-  binding.pry
+  log.info 'stripe txn created', stripe_resource_id: stripe_transaction.id
+
+  sf.update('Order', 'Id' => sf_order.Id, ORDER_STRIPE_ID => stripe_transaction.id)
+
   stripe_transaction
 end
 
-create_subscription_from_sf_order(example_sf_order)
+updated_orders = sf.get_updated('Order', DateTime.now - 1, DateTime.now)["ids"]
+updated_orders.each do |sf_order_id|
+  sf_order = sf.find('Order', sf_order_id)
+  create_stripe_transaction_from_sf_order(sf_order)
+end
+
+# sf.authenticate! will refresh oauth tokens
+
+create_stripe_transaction_from_sf_order(example_sf_order)
 
 # create_salesforce_order
-
-binding.pry

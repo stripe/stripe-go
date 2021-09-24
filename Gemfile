@@ -8,6 +8,7 @@ gem 'sorbet-runtime'
 
 gem 'dotenv'
 gem 'rails', '6.1.4.1'
+gem 'simple_structured_logger'
 
 # translator
 gem 'money', '~> 6.13.8'
@@ -71,7 +72,7 @@ group :development do
   gem 'pry-remote', '~> 0.1.8'
   gem 'pry-nav', '~> 0.3.0'
   gem 'pry-rails', '~> 0.3.9'
-  gem 'pry-doc', '~> 1.1.0'
+  # gem 'pry-doc', '~> 1.1.0'
 
   gem 'derailed_benchmarks', '~> 1.8.1'
 
