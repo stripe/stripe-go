@@ -27,5 +27,13 @@ module StripeForce
     def sf_endpoint
       self.salesforce_instance_url
     end
+
+    def stripe_credentials
+      {
+        api_key: ENV['STRIPE_CLIENT_SECRET'],
+        stripe_account: stripe_account_id,
+        stripe_version: '2020-08-27'
+      }
+    end
   end
 end

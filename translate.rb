@@ -51,25 +51,25 @@ class StripeForce::Translate
 
       name: sf_customer.Name,
       metadata: sf_metadata(sf_customer)
-    })
+    }, @user.stripe_credentials)
 
     # TODO update ext ID in SF
   end
 
   def create_product_from_sf_product(sf_product)
     begin
-      return Stripe::Product.retrieve(sf_product.Id)
+      return Stripe::Product.retrieve(sf_product.Id, @user.stripe_credentials)
     rescue Stripe::InvalidRequestError => e
       raise if e.code != 'resource_missing'
     end
 
-    Stripe::Product.create(
+    Stripe::Product.create({
       # TODO setting custom Ids may not be the best idea here
       id: sf_product.Id,
       name: sf_product.Name,
       description: sf_product.Description,
       metadata: sf_metadata(sf_product)
-    )
+    }, @user.stripe_credentials)
 
     # TODO update SF ID
   end
@@ -84,7 +84,7 @@ class StripeForce::Translate
     stripe_price_id = sf_pricebook_entry[PRICE_BOOK_STRIPE_ID]
     if !stripe_price_id.nil?
       log.info 'price already pushed, retrieving from stripe', stripe_resource_id: stripe_price_id
-      return Stripe::Price.retrieve(stripe_price_id)
+      return Stripe::Price.retrieve(stripe_price_id, @user.stripe_credentials)
     end
 
     if sf_pricebook_entry.UnitPrice != sf_order_item.UnitPrice
@@ -123,7 +123,7 @@ class StripeForce::Translate
       # recurring: {interval: 'month'},
 
       metadata: sf_metadata(sf_pricebook_entry)
-    }.merge(optional_params))
+    }.merge(optional_params), @user.stripe_credentials)
 
     sf.update('PricebookEntry', 'Id' => sf_pricebook_entry.Id, PRICE_BOOK_STRIPE_ID => price.id)
 
@@ -141,11 +141,11 @@ class StripeForce::Translate
       return
     end
 
-    # stripe_transaction_id = sf_order[ORDER_STRIPE_ID]
-    # if !stripe_transaction_id.nil?
-    #   log.info 'order already translated', stripe_resource_id: stripe_transaction_id
-    #   return
-    # end
+    stripe_transaction_id = sf_order[ORDER_STRIPE_ID]
+    if !stripe_transaction_id.nil?
+      log.info 'order already translated', stripe_resource_id: stripe_transaction_id
+      return
+    end
 
     # TODO should use opportunity instead here since {customer, contact} pairs don't map to Stripe
     sf_account_id = sf_order.AccountId
@@ -192,12 +192,12 @@ class StripeForce::Translate
         collection_method: 'send_invoice',
         days_until_due: 30
 
-      })
+      }, @user.stripe_credentials)
     else
       stripe_transaction = Stripe::Invoice.create({
         customer: stripe_customer,
         metadata: sf_metadata(sf_order)
-      })
+      }, @user.stripe_credentials)
     end
 
     log.info 'stripe txn created', stripe_resource_id: stripe_transaction.id
