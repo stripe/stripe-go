@@ -1,3 +1,12 @@
+def example_sf_order
+  # sf.find('Order', '8015e000000IJ1rAAG')
+
+  # order with recurring item
+  # sf.find('Order', '8015e000000IJDxAAO')
+
+  sf.find('Order', '8015e000000IJF5AAO')
+end
+
 def create_salesforce_order
   # TODO pull these dynamically
   product_id = '01t5e000003DsarAAC'
