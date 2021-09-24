@@ -22,6 +22,10 @@ class StripeForce::Translate
     # init_error_context
   end
 
+  def sf
+    @user.sf_client
+  end
+
   def translate(sf_object)
     # assume order
     translate_order(sf_object)
@@ -46,10 +50,7 @@ class StripeForce::Translate
       email: "salesforce+#{Time.now.to_i}@stripe.com",
 
       name: sf_customer.Name,
-      metadata: {
-        salesforce_id: sf_customer.Id,
-        salesforce_url: "#{sf_endpoint}/#{sf_customer.Id}"
-      }
+      metadata: sf_metadata(sf_customer)
     })
 
     # TODO update ext ID in SF
@@ -82,7 +83,7 @@ class StripeForce::Translate
     # have we already pushed this to Stripe?
     stripe_price_id = sf_pricebook_entry[PRICE_BOOK_STRIPE_ID]
     if !stripe_price_id.nil?
-      log.info 'price already pushed, retrieving from stripe'
+      log.info 'price already pushed, retrieving from stripe', stripe_resource_id: stripe_price_id
       return Stripe::Price.retrieve(stripe_price_id)
     end
 
@@ -124,7 +125,7 @@ class StripeForce::Translate
       metadata: sf_metadata(sf_pricebook_entry)
     }.merge(optional_params))
 
-    sf.update('PricebookEntry', Id => sf_pricebook_entry.Id, PRICE_BOOK_STRIPE_ID => price.id)
+    sf.update('PricebookEntry', 'Id' => sf_pricebook_entry.Id, PRICE_BOOK_STRIPE_ID => price.id)
 
     price
   end
@@ -140,11 +141,11 @@ class StripeForce::Translate
       return
     end
 
-    stripe_transaction_id = sf_order[ORDER_STRIPE_ID]
-    if !stripe_transaction_id.nil?
-      log.info 'order already translated', stripe_resource_id: stripe_transaction_id
-      return
-    end
+    # stripe_transaction_id = sf_order[ORDER_STRIPE_ID]
+    # if !stripe_transaction_id.nil?
+    #   log.info 'order already translated', stripe_resource_id: stripe_transaction_id
+    #   return
+    # end
 
     # TODO should use opportunity instead here since {customer, contact} pairs don't map to Stripe
     sf_account_id = sf_order.AccountId
