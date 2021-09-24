@@ -3,12 +3,17 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.8'
 
-gem 'sorbet'
-gem 'sorbet-runtime'
+# gem 'sorbet'
+# gem 'sorbet-runtime'
 
 gem 'dotenv'
 gem 'rails', '6.1.4.1'
 gem 'simple_structured_logger'
+
+gem 'sinatra', require: false
+gem 'omniauth-salesforce'
+
+gem 'sequel', '5.48.0'
 
 # translator
 gem 'money', '~> 6.13.8'
