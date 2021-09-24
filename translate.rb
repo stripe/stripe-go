@@ -184,6 +184,8 @@ class StripeForce::Translate
       end
     end
 
+    order_update_params = {}
+
     if is_recurring_order
       stripe_transaction = Stripe::Subscription.create({
         customer: stripe_customer,
@@ -198,13 +200,20 @@ class StripeForce::Translate
     else
       stripe_transaction = Stripe::Invoice.create({
         customer: stripe_customer,
-        metadata: sf_metadata(sf_order)
+        metadata: sf_metadata(sf_order),
+
+        collection_method: 'send_invoice',
+        days_until_due: 30
       }, @user.stripe_credentials)
+
+      stripe_transaction.finalize_invoice
+
+      order_update_params['Stripe_Invoice_Payment_Link__c'] = stripe_transaction.hosted_invoice_url
     end
 
     log.info 'stripe txn created', stripe_resource_id: stripe_transaction.id
 
-    sf.update('Order', 'Id' => sf_order.Id, ORDER_STRIPE_ID => stripe_transaction.id)
+    sf.update('Order', {'Id' => sf_order.Id, ORDER_STRIPE_ID => stripe_transaction.id}.merge(order_update_params))
 
     stripe_transaction
   end

@@ -12,6 +12,8 @@ class FunctionalTests < MiniTest::Spec
       salesforce_token: ENV.fetch('SF_ACCESS_TOKEN'),
       salesforce_refresh_token: ENV.fetch('SF_REFRESH_TOKEN'),
       salesforce_instance_url: "https://#{ENV.fetch('SF_INSTANCE')}.my.salesforce.com",
+
+      stripe_account_id: 'acct_15uapDIsgf92XbAO'
     )
   end
 
@@ -19,12 +21,15 @@ class FunctionalTests < MiniTest::Spec
     @user.sf_client
   end
 
-  def create_salesforce_order
+  def standalone_item_id
+    '01t5e000002bEQTAA2'
+  end
+
+  def create_salesforce_order(sf_product_id: nil)
     # https://github.com/sseixas/CPQ-JS
 
     # TODO pull these dynamically
-    product_id = '01t5e000003DsarAAC'
-    pricebook_entry_id = '01u5e000000jGn6AAE'
+    sf_product_id ||= '01t5e000003DsarAAC'
     pricebook_id = '01s5e00000BAoBVAA1'
 
     account_id = sf.create!('Account', Name: "REST Customer #{DateTime.now}")
@@ -43,7 +48,7 @@ class FunctionalTests < MiniTest::Spec
     # get CPQ version of the quote
     cpq_quote_representation = JSON.parse(sf.get("services/apexrest/SBQQ/ServiceRouter?reader=SBQQ.QuoteAPI.QuoteReader&uid=#{quote_id}").body)
 
-    cpq_product_representation = JSON.parse(sf.patch("services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.ProductAPI.ProductLoader&uid=#{product_id}", {
+    cpq_product_representation = JSON.parse(sf.patch("services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.ProductAPI.ProductLoader&uid=#{sf_product_id}", {
       context: {
         # productId: product_id,
         pricebookId: pricebook_id,
@@ -141,7 +146,19 @@ class FunctionalTests < MiniTest::Spec
   end
 
   it 'integrates a invoice order' do
+    sf_order = create_salesforce_order(sf_product_id: standalone_item_id)
 
+    StripeForce::Translate.perform(user: @user, sf_object: sf_order)
+
+    # TODO add refresh to library
+    sf_order = sf.find('Order', sf_order.Id)
+
+    stripe_id = sf_order[ORDER_STRIPE_ID]
+    invoice = Stripe::Invoice.retrieve(stripe_id, @user.stripe_credentials)
+    customer = Stripe::Customer.retrieve(invoice.customer, @user.stripe_credentials)
+    line = invoice.lines.first
+
+    puts sf_order.Id
   end
 end
 
