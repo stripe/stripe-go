@@ -33,6 +33,7 @@ const (
 	AccountCapabilityGrabpayPayments         AccountCapability = "grabpay_payments"
 	AccountCapabilityIdealPayments           AccountCapability = "ideal_payments"
 	AccountCapabilityJCBPayments             AccountCapability = "jcb_payments"
+	AccountCapabilityKlarnaPayments          AccountCapability = "klarna_payments"
 	AccountCapabilityLegacyPayments          AccountCapability = "legacy_payments"
 	AccountCapabilityOXXOPayments            AccountCapability = "oxxo_payments"
 	AccountCapabilityP24Payments             AccountCapability = "p24_payments"
@@ -250,6 +251,11 @@ type AccountCapabilitiesJCBPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// AccountCapabilitiesKlarnaPaymentsParams represent allowed parameters to configure the klarna payments capability on an account.
+type AccountCapabilitiesKlarnaPaymentsParams struct {
+	Requested *bool `form:"requested"`
+}
+
 // AccountCapabilitiesLegacyPaymentsParams represent allowed parameters to configure the legacy payments capability on an account.
 type AccountCapabilitiesLegacyPaymentsParams struct {
 	Requested *bool `form:"requested"`
@@ -306,6 +312,7 @@ type AccountCapabilitiesParams struct {
 	GrabpayPayments         *AccountCapabilitiesGrabpayPaymentsParams         `form:"grabpay_payments"`
 	IdealPayments           *AccountCapabilitiesIdealPaymentsParams           `form:"ideal_payments"`
 	JCBPayments             *AccountCapabilitiesJCBPaymentsParams             `form:"jcb_payments"`
+	KlarnaPayments          *AccountCapabilitiesKlarnaPaymentsParams          `form:"klarna_payments"`
 	LegacyPayments          *AccountCapabilitiesLegacyPaymentsParams          `form:"legacy_payments"`
 	OXXOPayments            *AccountCapabilitiesOXXOPaymentsParams            `form:"oxxo_payments"`
 	P24Payments             *AccountCapabilitiesP24PaymentsParams             `form:"p24_payments"`
@@ -588,6 +595,7 @@ type AccountCapabilities struct {
 	GrabpayPayments         AccountCapabilityStatus `json:"grabpay_payments"`
 	IdealPayments           AccountCapabilityStatus `json:"ideal_payments"`
 	JCBPayments             AccountCapabilityStatus `json:"jcb_payments"`
+	KlarnaPayments          AccountCapabilityStatus `json:"klarna_payments"`
 	LegacyPayments          AccountCapabilityStatus `json:"legacy_payments"`
 	OXXOPayments            AccountCapabilityStatus `json:"oxxo_payments"`
 	P24Payments             AccountCapabilityStatus `json:"p24_payments"`
