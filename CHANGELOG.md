@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.67.0 - 2021-09-29
+* [#1345](https://github.com/stripe/stripe-go/pull/1345) API Updates
+  * Add support for `KlarnaPayments` on `AccountCapabilitiesParams`, `AccountCapabilitiesParams`, and `AccountCapabilities`
+
 ## 72.66.0 - 2021-09-28
 * [#1344](https://github.com/stripe/stripe-go/pull/1344) API Updates
   * Add support for `AmountAuthorized` and `OvercaptureSupported` on `ChargePaymentMethodDetailsCardPresent`
