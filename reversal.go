@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -5,10 +11,10 @@ import "encoding/json"
 // ReversalParams is the set of parameters that can be used when reversing a transfer.
 type ReversalParams struct {
 	Params               `form:"*"`
+	Transfer             *string `form:"-"` // Included in URL
 	Amount               *int64  `form:"amount"`
 	Description          *string `form:"description"`
 	RefundApplicationFee *bool   `form:"refund_application_fee"`
-	Transfer             *string `form:"-"` // Included in URL
 }
 
 // ReversalListParams is the set of parameters that can be used when listing reversals.
@@ -28,6 +34,7 @@ type Reversal struct {
 	DestinationPaymentRefund *Refund             `json:"destination_payment_refund"`
 	ID                       string              `json:"id"`
 	Metadata                 map[string]string   `json:"metadata"`
+	Object                   string              `json:"object"`
 	SourceRefund             *Refund             `json:"source_refund"`
 	Transfer                 string              `json:"transfer"`
 }
