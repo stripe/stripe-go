@@ -38,37 +38,32 @@ type TokenParams struct {
 	Card        *CardParams           `form:"card"`
 	Customer    *string               `form:"customer"`
 	CVCUpdate   *TokenCVCUpdateParams `form:"cvc_update"`
-	Person      *PersonParams         `form:"person"`
-
 	// Email is an undocumented parameter used by Stripe Checkout
 	// It may be removed from the API without notice.
-	Email *string `form:"email"`
-
-	PII *PIIParams `form:"pii"`
-}
-
-// Token is the resource representing a Stripe token.
-// For more details see https://stripe.com/docs/api#tokens.
-type Token struct {
-	APIResource
-
-	BankAccount *BankAccount `json:"bank_account"`
-	Card        *Card        `json:"card"`
-	ClientIP    string       `json:"client_ip"`
-	Created     int64        `json:"created"`
-
-	// Email is an undocumented field but included for all tokens created
-	// with Stripe Checkout.
-	Email string `json:"email"`
-
-	ID       string    `json:"id"`
-	Livemode bool      `json:"livemode"`
-	Type     TokenType `json:"type"`
-	Used     bool      `json:"used"`
+	Email  *string       `form:"email"`
+	Person *PersonParams `form:"person"`
+	PII    *PIIParams    `form:"pii"`
 }
 
 // PIIParams are parameters for personal identifiable information (PII).
 type PIIParams struct {
 	Params   `form:"*"`
 	IDNumber *string `form:"id_number"`
+}
+
+// Token is the resource representing a Stripe token.
+// For more details see https://stripe.com/docs/api#tokens.
+type Token struct {
+	APIResource
+	BankAccount *BankAccount `json:"bank_account"`
+	Card        *Card        `json:"card"`
+	ClientIP    string       `json:"client_ip"`
+	Created     int64        `json:"created"`
+	// Email is an undocumented field but included for all tokens created
+	// with Stripe Checkout.
+	Email    string    `json:"email"`
+	ID       string    `json:"id"`
+	Livemode bool      `json:"livemode"`
+	Type     TokenType `json:"type"`
+	Used     bool      `json:"used"`
 }
