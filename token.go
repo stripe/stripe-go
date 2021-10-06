@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 // TokenType is the list of allowed values for a token's type.
@@ -64,6 +70,7 @@ type Token struct {
 	Email    string    `json:"email"`
 	ID       string    `json:"id"`
 	Livemode bool      `json:"livemode"`
+	Object   string    `json:"object"`
 	Type     TokenType `json:"type"`
 	Used     bool      `json:"used"`
 }
