@@ -11,8 +11,8 @@ type TerminalReaderDeviceType string
 
 // List of values that TerminalReaderDeviceType can take
 const (
-	TerminalReaderDeviceTypeBBPOSChipper2X TerminalReaderDeviceType = "bbpos_chipper2x"
-	TerminalReaderDeviceTypeBbposWiseposE  TerminalReaderDeviceType = "bbpos_wisepos_e"
+	TerminalReaderDeviceTypeBBPOSChipper2x TerminalReaderDeviceType = "bbpos_chipper2x"
+	TerminalReaderDeviceTypeBBPOSWisePOSE  TerminalReaderDeviceType = "bbpos_wisepos_e"
 	TerminalReaderDeviceTypeVerifoneP400   TerminalReaderDeviceType = "verifone_P400"
 )
 
