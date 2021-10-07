@@ -1,5 +1,15 @@
 # Changelog
 
+## 72.68.0 - 2021-10-07
+* [#1351](https://github.com/stripe/stripe-go/pull/1351) API Updates
+  * Add support for `PhoneNumberCollection` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `Phone` on `CheckoutSessionCustomerDetails`
+  * Add support for new value `customer_id` on enum `RadarValueListItemType`
+  * Add support for new value `bbpos_wisepos_e` on enum `TerminalReaderDeviceType`
+* [#1350](https://github.com/stripe/stripe-go/pull/1350) [#1349](https://github.com/stripe/stripe-go/pull/1349) [#1347](https://github.com/stripe/stripe-go/pull/1347) [#1346](https://github.com/stripe/stripe-go/pull/1346) Codegen-related changes
+  * Add support for `Object` to `Token`
+  * Add support for `Object` on `Reversal`
+
 ## 72.67.0 - 2021-09-29
 * [#1345](https://github.com/stripe/stripe-go/pull/1345) API Updates
   * Add support for `KlarnaPayments` on `AccountCapabilitiesParams`, `AccountCapabilitiesParams`, and `AccountCapabilities`
