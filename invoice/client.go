@@ -161,17 +161,19 @@ func List(params *stripe.InvoiceListParams) *Iter {
 
 // List returns a list of invoices.
 func (c Client) List(listParams *stripe.InvoiceListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.InvoiceList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/invoices", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.InvoiceList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/invoices", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for invoices.
@@ -202,17 +204,19 @@ func (c Client) ListLines(listParams *stripe.InvoiceLineListParams) *LineIter {
 		"/v1/invoices/%s/lines",
 		stripe.StringValue(listParams.ID),
 	)
-	return &LineIter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.InvoiceLineList{}
-		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+	return &LineIter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.InvoiceLineList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // LineIter is an iterator for invoice line items.
