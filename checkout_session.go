@@ -330,6 +330,14 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	WechatPay *CheckoutSessionPaymentMethodOptionsWechatPayParams `form:"wechat_pay"`
 }
 
+// Controls phone number collection settings for the session.
+//
+// We recommend that you review your privacy policy and check with your legal contacts
+// before using this feature. Learn more about [collecting phone numbers with Checkout](https://stripe.com/docs/payments/checkout/phone-numbers).
+type CheckoutSessionPhoneNumberCollectionParams struct {
+	Enabled *bool `form:"enabled"`
+}
+
 // CheckoutSessionSetupIntentDataParams is the set of parameters allowed for the setup intent
 // creation on a checkout session.
 type CheckoutSessionSetupIntentDataParams struct {
@@ -402,6 +410,7 @@ type CheckoutSessionParams struct {
 	PaymentIntentData         *CheckoutSessionPaymentIntentDataParams         `form:"payment_intent_data"`
 	PaymentMethodOptions      *CheckoutSessionPaymentMethodOptionsParams      `form:"payment_method_options"`
 	PaymentMethodTypes        []*string                                       `form:"payment_method_types"`
+	PhoneNumberCollection     *CheckoutSessionPhoneNumberCollectionParams     `form:"phone_number_collection"`
 	SetupIntentData           *CheckoutSessionSetupIntentDataParams           `form:"setup_intent_data"`
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollectionParams `form:"shipping_address_collection"`
 	ShippingRates             []*string                                       `form:"shipping_rates"`
@@ -465,6 +474,7 @@ type CheckoutSessionCustomerDetailsTaxIDs struct {
 // the tax exempt status and the customer's tax IDs.
 type CheckoutSessionCustomerDetails struct {
 	Email     string                                  `json:"email"`
+	Phone     string                                  `json:"phone"`
 	TaxExempt CheckoutSessionCustomerDetailsTaxExempt `json:"tax_exempt"`
 	TaxIDs    []*CheckoutSessionCustomerDetailsTaxIDs `json:"tax_ids"`
 }
@@ -500,6 +510,9 @@ type CheckoutSessionPaymentMethodOptions struct {
 	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 	Boleto    *CheckoutSessionPaymentMethodOptionsBoleto    `json:"boleto"`
 	OXXO      *CheckoutSessionPaymentMethodOptionsOXXO      `json:"oxxo"`
+}
+type CheckoutSessionPhoneNumberCollection struct {
+	Enabled bool `json:"enabled"`
 }
 
 // CheckoutSessionShippingAddressCollection is the set of parameters allowed for the
@@ -569,6 +582,7 @@ type CheckoutSession struct {
 	PaymentMethodOptions      *CheckoutSessionPaymentMethodOptions      `json:"payment_method_options"`
 	PaymentMethodTypes        []string                                  `json:"payment_method_types"`
 	PaymentStatus             CheckoutSessionPaymentStatus              `json:"payment_status"`
+	PhoneNumberCollection     *CheckoutSessionPhoneNumberCollection     `json:"phone_number_collection"`
 	RecoveredFrom             string                                    `json:"recovered_from"`
 	SetupIntent               *SetupIntent                              `json:"setup_intent"`
 	Shipping                  *ShippingDetails                          `json:"shipping"`
