@@ -1256,9 +1256,3 @@ func TestWebhookEndpointDelete(t *testing.T) {
 	result, _ := webhookendpoint.Del("we_xxxxxxxxxxxxx", nil)
 	assert.NotNil(t, result)
 }
-
-func TestCustomerListPaymentMethods(t *testing.T) {
-	params := &stripe.CustomerListPaymentMethodsParams{}
-	result := customer.ListPaymentMethods(params)
-	assert.NotNil(t, result)
-}

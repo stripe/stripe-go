@@ -15,6 +15,7 @@ const (
 	RadarValueListItemTypeCardFingerprint     RadarValueListItemType = "card_fingerprint"
 	RadarValueListItemTypeCaseSensitiveString RadarValueListItemType = "case_sensitive_string"
 	RadarValueListItemTypeCountry             RadarValueListItemType = "country"
+	RadarValueListItemTypeCustomerID          RadarValueListItemType = "customer_id"
 	RadarValueListItemTypeEmail               RadarValueListItemType = "email"
 	RadarValueListItemTypeIPAddress           RadarValueListItemType = "ip_address"
 	RadarValueListItemTypeString              RadarValueListItemType = "string"
