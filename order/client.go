@@ -25,6 +25,19 @@ func (c Client) New(params *stripe.OrderParams) (*stripe.Order, error) {
 	return p, err
 }
 
+// Get returns the details of an order.
+func Get(id string, params *stripe.OrderParams) (*stripe.Order, error) {
+	return getC().Get(id, params)
+}
+
+// Get returns the details of an order.
+func (c Client) Get(id string, params *stripe.OrderParams) (*stripe.Order, error) {
+	path := stripe.FormatURLPath("/v1/orders/%s", id)
+	order := &stripe.Order{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, order)
+	return order, err
+}
+
 // Update updates an order's properties.
 func Update(id string, params *stripe.OrderUpdateParams) (*stripe.Order, error) {
 	return getC().Update(id, params)
@@ -51,17 +64,17 @@ func (c Client) Pay(id string, params *stripe.OrderPayParams) (*stripe.Order, er
 	return o, err
 }
 
-// Get returns the details of an order.
-func Get(id string, params *stripe.OrderParams) (*stripe.Order, error) {
-	return getC().Get(id, params)
+// Return returns all or part of an order.
+func Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
+	return getC().Return(id, params)
 }
 
-// Get returns the details of an order.
-func (c Client) Get(id string, params *stripe.OrderParams) (*stripe.Order, error) {
-	path := stripe.FormatURLPath("/v1/orders/%s", id)
-	order := &stripe.Order{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, order)
-	return order, err
+// Return returns all or part of an order.
+func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
+	path := stripe.FormatURLPath("/v1/orders/%s/returns", id)
+	ret := &stripe.OrderReturn{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, ret)
+	return ret, err
 }
 
 // List returns a list of orders.
@@ -82,19 +95,6 @@ func (c Client) List(listParams *stripe.OrderListParams) *Iter {
 
 		return ret, list, err
 	})}
-}
-
-// Return returns all or part of an order.
-func Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
-	return getC().Return(id, params)
-}
-
-// Return returns all or part of an order.
-func (c Client) Return(id string, params *stripe.OrderReturnParams) (*stripe.OrderReturn, error) {
-	path := stripe.FormatURLPath("/v1/orders/%s/returns", id)
-	ret := &stripe.OrderReturn{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, ret)
-	return ret, err
 }
 
 // Iter is an iterator for orders.

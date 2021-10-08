@@ -9,6 +9,14 @@ type OrderReturnParams struct {
 	Order  *string            `form:"-"` // Included in the URL
 }
 
+// OrderReturnListParams is the set of parameters that can be used when listing order returns.
+type OrderReturnListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	Order        *string           `form:"order"`
+}
+
 // OrderReturn is the resource representing an order return.
 // For more details see https://stripe.com/docs/api#order_returns.
 type OrderReturn struct {
@@ -28,14 +36,6 @@ type OrderReturnList struct {
 	APIResource
 	ListMeta
 	Data []*OrderReturn `json:"data"`
-}
-
-// OrderReturnListParams is the set of parameters that can be used when listing order returns.
-type OrderReturnListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	Order        *string           `form:"order"`
 }
 
 // UnmarshalJSON handles deserialization of an OrderReturn.

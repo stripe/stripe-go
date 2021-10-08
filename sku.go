@@ -44,6 +44,16 @@ type SKUParams struct {
 	Product           *string                  `form:"product"`
 }
 
+// SKUListParams is the set of parameters that can be used when listing SKUs.
+type SKUListParams struct {
+	ListParams `form:"*"`
+	Active     *bool             `form:"active"`
+	Attributes map[string]string `form:"attributes"`
+	IDs        []*string         `form:"ids"`
+	InStock    *bool             `form:"in_stock"`
+	Product    *string           `form:"product"`
+}
+
 // Inventory represents the inventory options of a SKU.
 type Inventory struct {
 	Quantity int64             `json:"quantity"`
@@ -76,16 +86,6 @@ type SKUList struct {
 	APIResource
 	ListMeta
 	Data []*SKU `json:"data"`
-}
-
-// SKUListParams is the set of parameters that can be used when listing SKUs.
-type SKUListParams struct {
-	ListParams `form:"*"`
-	Active     *bool             `form:"active"`
-	Attributes map[string]string `form:"attributes"`
-	IDs        []*string         `form:"ids"`
-	InStock    *bool             `form:"in_stock"`
-	Product    *string           `form:"product"`
 }
 
 // UnmarshalJSON handles deserialization of a SKU.

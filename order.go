@@ -75,6 +75,77 @@ type ShippingParams struct {
 	Phone   *string        `form:"phone"`
 }
 
+// OrderListParams is the set of parameters that can be used when listing orders.
+type OrderListParams struct {
+	ListParams        `form:"*"`
+	Created           *int64                         `form:"created"`
+	CreatedRange      *RangeQueryParams              `form:"created"`
+	Customer          *string                        `form:"customer"`
+	IDs               []*string                      `form:"ids"`
+	Status            *string                        `form:"status"`
+	StatusTransitions *StatusTransitionsFilterParams `form:"status_transitions"`
+	UpstreamIDs       []*string                      `form:"upstream_ids"`
+}
+
+// StatusTransitionsFilterParams are parameters that can used to filter on status_transition when listing orders.
+type StatusTransitionsFilterParams struct {
+	Canceled       *int64            `form:"canceled"`
+	CanceledRange  *RangeQueryParams `form:"canceled"`
+	Fulfilled      *int64            `form:"fulfilled"`
+	FulfilledRange *RangeQueryParams `form:"fulfilled"`
+	Paid           *int64            `form:"paid"`
+	PaidRange      *RangeQueryParams `form:"paid"`
+	Returned       *int64            `form:"returned"`
+	ReturnedRange  *RangeQueryParams `form:"returned"`
+}
+
+// OrderPayParams is the set of parameters that can be used when paying orders.
+type OrderPayParams struct {
+	Params         `form:"*"`
+	ApplicationFee *int64        `form:"application_fee"`
+	Customer       *string       `form:"customer"`
+	Email          *string       `form:"email"`
+	Source         *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+}
+
+// SetSource adds valid sources to a OrderParams object,
+// returning an error for unsupported sources.
+func (op *OrderPayParams) SetSource(sp interface{}) error {
+	source, err := SourceParamsFor(sp)
+	op.Source = source
+	return err
+}
+
+// OrderItemParams is the set of parameters describing an order item on order creation or update.
+type OrderItemParams struct {
+	Amount      *int64  `form:"amount"`
+	Currency    *string `form:"currency"`
+	Description *string `form:"description"`
+	Parent      *string `form:"parent"`
+	Quantity    *int64  `form:"quantity"`
+	Type        *string `form:"type"`
+}
+
+// ShippingMethod describes a shipping method as available on an order.
+type ShippingMethod struct {
+	Amount           int64             `json:"amount"`
+	ID               string            `json:"id"`
+	Currency         Currency          `json:"currency"`
+	DeliveryEstimate *DeliveryEstimate `json:"delivery_estimate"`
+	Description      string            `json:"description"`
+}
+
+// DeliveryEstimate represent the properties available for a shipping method's
+// estimated delivery.
+type DeliveryEstimate struct {
+	// If Type == Exact
+	Date string `json:"date"`
+	// If Type == Range
+	Earliest string                    `json:"earliest"`
+	Latest   string                    `json:"latest"`
+	Type     OrderDeliveryEstimateType `json:"type"`
+}
+
 // OrderUpdateParams is the set of parameters that can be used when updating an order.
 type OrderUpdateParams struct {
 	Params                 `form:"*"`
@@ -98,26 +169,6 @@ type Shipping struct {
 	Name           string   `json:"name"`
 	Phone          string   `json:"phone"`
 	TrackingNumber string   `json:"tracking_number"`
-}
-
-// ShippingMethod describes a shipping method as available on an order.
-type ShippingMethod struct {
-	Amount           int64             `json:"amount"`
-	ID               string            `json:"id"`
-	Currency         Currency          `json:"currency"`
-	DeliveryEstimate *DeliveryEstimate `json:"delivery_estimate"`
-	Description      string            `json:"description"`
-}
-
-// DeliveryEstimate represent the properties available for a shipping method's
-// estimated delivery.
-type DeliveryEstimate struct {
-	// If Type == Exact
-	Date string `json:"date"`
-	// If Type == Range
-	Earliest string                    `json:"earliest"`
-	Latest   string                    `json:"latest"`
-	Type     OrderDeliveryEstimateType `json:"type"`
 }
 
 // Order is the resource representing a Stripe charge.
@@ -147,37 +198,6 @@ type Order struct {
 	UpstreamID             string            `json:"upstream_id"`
 }
 
-// OrderList is a list of orders as retrieved from a list endpoint.
-type OrderList struct {
-	APIResource
-	ListMeta
-	Data []*Order `json:"data"`
-}
-
-// OrderListParams is the set of parameters that can be used when listing orders.
-type OrderListParams struct {
-	ListParams        `form:"*"`
-	Created           *int64                         `form:"created"`
-	CreatedRange      *RangeQueryParams              `form:"created"`
-	Customer          *string                        `form:"customer"`
-	IDs               []*string                      `form:"ids"`
-	Status            *string                        `form:"status"`
-	StatusTransitions *StatusTransitionsFilterParams `form:"status_transitions"`
-	UpstreamIDs       []*string                      `form:"upstream_ids"`
-}
-
-// StatusTransitionsFilterParams are parameters that can used to filter on status_transition when listing orders.
-type StatusTransitionsFilterParams struct {
-	Canceled       *int64            `form:"canceled"`
-	CanceledRange  *RangeQueryParams `form:"canceled"`
-	Fulfilled      *int64            `form:"fulfilled"`
-	FulfilledRange *RangeQueryParams `form:"fulfilled"`
-	Paid           *int64            `form:"paid"`
-	PaidRange      *RangeQueryParams `form:"paid"`
-	Returned       *int64            `form:"returned"`
-	ReturnedRange  *RangeQueryParams `form:"returned"`
-}
-
 // StatusTransitions are the timestamps at which the order status was updated.
 type StatusTransitions struct {
 	Canceled  int64 `json:"canceled"`
@@ -186,23 +206,11 @@ type StatusTransitions struct {
 	Returned  int64 `json:"returned"`
 }
 
-// OrderPayParams is the set of parameters that can be used when paying orders.
-type OrderPayParams struct {
-	Params         `form:"*"`
-	ApplicationFee *int64        `form:"application_fee"`
-	Customer       *string       `form:"customer"`
-	Email          *string       `form:"email"`
-	Source         *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
-}
-
-// OrderItemParams is the set of parameters describing an order item on order creation or update.
-type OrderItemParams struct {
-	Amount      *int64  `form:"amount"`
-	Currency    *string `form:"currency"`
-	Description *string `form:"description"`
-	Parent      *string `form:"parent"`
-	Quantity    *int64  `form:"quantity"`
-	Type        *string `form:"type"`
+// OrderList is a list of orders as retrieved from a list endpoint.
+type OrderList struct {
+	APIResource
+	ListMeta
+	Data []*Order `json:"data"`
 }
 
 // OrderItem is the resource representing an order item.
@@ -213,14 +221,6 @@ type OrderItem struct {
 	Parent      *OrderItemParent `json:"parent"`
 	Quantity    int64            `json:"quantity"`
 	Type        OrderItemType    `json:"type"`
-}
-
-// SetSource adds valid sources to a OrderParams object,
-// returning an error for unsupported sources.
-func (op *OrderPayParams) SetSource(sp interface{}) error {
-	source, err := SourceParamsFor(sp)
-	op.Source = source
-	return err
 }
 
 // UnmarshalJSON handles deserialization of an OrderItemParent.
