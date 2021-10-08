@@ -55,12 +55,12 @@ func (c Client) List(listParams *stripe.ReportTypeListParams) *Iter {
 	}
 }
 
-// Iter is an iterator for reporting report types.
+// Iter is an iterator for report types.
 type Iter struct {
 	*stripe.Iter
 }
 
-// ReportType returns the reporting report type which the iterator is currently pointing to.
+// ReportType returns the report type which the iterator is currently pointing to.
 func (i *Iter) ReportType() *stripe.ReportType {
 	return i.Current().(*stripe.ReportType)
 }
