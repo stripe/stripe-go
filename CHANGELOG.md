@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.69.0 - 2021-10-11
+* [#1352](https://github.com/stripe/stripe-go/pull/1352) API Updates
+  * Add support for `ListPaymentMethods` method on resource `Customer`
+* [#1331](https://github.com/stripe/stripe-go/pull/1331) Add missing decline codes following official documentation.
+
 ## 72.68.0 - 2021-10-07
 * [#1351](https://github.com/stripe/stripe-go/pull/1351) API Updates
   * Add support for `PhoneNumberCollection` on `CheckoutSessionParams` and `CheckoutSession`
