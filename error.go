@@ -162,6 +162,8 @@ const (
 	DeclineCodeNewAccountInformationAvailable DeclineCode = "new_account_information_available"
 	DeclineCodeNoActionTaken                  DeclineCode = "no_action_taken"
 	DeclineCodeNotPermitted                   DeclineCode = "not_permitted"
+	DeclineCodeOfflinePINRequired             DeclineCode = "offline_pin_required"
+	DeclineCodeOnlineOrOfflinePINRequired     DeclineCode = "online_or_offline_pin_required"
 	DeclineCodePickupCard                     DeclineCode = "pickup_card"
 	DeclineCodePINTryExceeded                 DeclineCode = "pin_try_exceeded"
 	DeclineCodeProcessingError                DeclineCode = "processing_error"
