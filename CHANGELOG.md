@@ -1,5 +1,11 @@
 # Changelog
 
+## 72.70.0 - 2021-10-11
+* [#1354](https://github.com/stripe/stripe-go/pull/1354) API Updates
+  * Add support for `PaymentMethodCategory` and `PreferredLocale` on `ChargePaymentMethodDetailsKlarna`
+  * Add support for `Klarna` on `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, and `PaymentMethod`
+  * Add support for new value `klarna` on enum `PaymentMethodType`
+
 ## 72.69.0 - 2021-10-11
 * [#1352](https://github.com/stripe/stripe-go/pull/1352) API Updates
   * Add support for `ListPaymentMethods` method on resource `Customer`
