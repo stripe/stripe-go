@@ -62,6 +62,7 @@ func TestCustomerUpdate(t *testing.T) {
 func TestCustomerListPaymentMethods(t *testing.T) {
 	i := ListPaymentMethods(&stripe.CustomerListPaymentMethodsParams{
 		Customer: stripe.String("cus_123"),
+		Type:     stripe.String("card"),
 	})
 	assert.True(t, i.Next())
 	assert.Nil(t, i.Err())
