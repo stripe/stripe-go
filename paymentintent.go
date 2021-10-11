@@ -216,6 +216,7 @@ type PaymentIntentPaymentMethodDataParams struct {
 	FPX              *PaymentMethodFPXParams              `form:"fpx"`
 	Grabpay          *PaymentMethodGrabpayParams          `form:"grabpay"`
 	Ideal            *PaymentMethodIdealParams            `form:"ideal"`
+	Klarna           *PaymentMethodKlarnaParams           `form:"klarna"`
 	OXXO             *PaymentMethodOXXOParams             `form:"oxxo"`
 	P24              *PaymentMethodP24Params              `form:"p24"`
 	SepaDebit        *PaymentMethodSepaDebitParams        `form:"sepa_debit"`
@@ -287,6 +288,11 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string                                                  `form:"request_three_d_secure"`
 }
 
+// If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
+type PaymentIntentPaymentMethodOptionsKlarnaParams struct {
+	PreferredLocale *string `form:"preferred_locale"`
+}
+
 // PaymentIntentPaymentMethodOptionsOXXOParams represents the OXXO-specific options applied to a
 // PaymentIntent.
 type PaymentIntentPaymentMethodOptionsOXXOParams struct {
@@ -315,6 +321,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontactParams       `form:"bancontact"`
 	Boleto           *PaymentIntentPaymentMethodOptionsBoletoParams           `form:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCardParams             `form:"card"`
+	Klarna           *PaymentIntentPaymentMethodOptionsKlarnaParams           `form:"klarna"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXOParams             `form:"oxxo"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofortParams           `form:"sofort"`
 	WechatPay        *PaymentIntentPaymentMethodOptionsWechatPayParams        `form:"wechat_pay"`
@@ -511,6 +518,12 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 
+// PaymentIntentPaymentMethodOptionsKlarna is the set of Klarna-specific options associated
+// with that payment intent.
+type PaymentIntentPaymentMethodOptionsKlarna struct {
+	PreferredLocale string `json:"preferred_locale"`
+}
+
 // PaymentIntentPaymentMethodOptionsOXXO is the set of OXXO-specific options associated
 // with that payment intent.
 type PaymentIntentPaymentMethodOptionsOXXO struct {
@@ -539,6 +552,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontact       `json:"bancontact"`
 	Boleto           *PaymentIntentPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
+	Klarna           *PaymentIntentPaymentMethodOptionsKlarna           `json:"klarna"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
 	WechatPay        *PaymentIntentPaymentMethodOptionsWechatPay        `json:"wechat_pay"`
