@@ -495,7 +495,10 @@ type ChargePaymentMethodDetailsInteracPresentReceipt struct {
 
 // ChargePaymentMethodDetailsKlarna represents details for the Klarna
 // PaymentMethod.
-type ChargePaymentMethodDetailsKlarna struct{}
+type ChargePaymentMethodDetailsKlarna struct {
+	PaymentMethodCategory string `json:"payment_method_category"`
+	PreferredLocale       string `json:"preferred_locale"`
+}
 
 // ChargePaymentMethodDetailsMultibanco represents details about the Multibanco PaymentMethod.
 type ChargePaymentMethodDetailsMultibanco struct {
