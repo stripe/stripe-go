@@ -58,3 +58,13 @@ func TestCustomerUpdate(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, customer)
 }
+
+func TestCustomerListPaymentMethods(t *testing.T) {
+	i := ListPaymentMethods(&stripe.CustomerListPaymentMethodsParams{
+		Customer: stripe.String("cus_123"),
+	})
+	assert.True(t, i.Next())
+	assert.Nil(t, i.Err())
+	assert.NotNil(t, i.PaymentMethod())
+	assert.NotNil(t, i.PaymentMethodList())
+}
