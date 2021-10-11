@@ -110,6 +110,49 @@ func (i *Iter) CustomerList() *stripe.CustomerList {
 	return i.List().(*stripe.CustomerList)
 }
 
+// ListPaymentMethods is the method for the `GET /v1/customers/{customer}/payment_methods` API.
+func ListPaymentMethods(params *stripe.CustomerListPaymentMethodsParams) *PaymentMethodIter {
+	return getC().ListPaymentMethods(params)
+}
+
+// ListPaymentMethods is the method for the `GET /v1/customers/{customer}/payment_methods` API.
+func (c Client) ListPaymentMethods(listParams *stripe.CustomerListPaymentMethodsParams) *PaymentMethodIter {
+	path := stripe.FormatURLPath(
+		"/v1/customers/%s/payment_methods",
+		stripe.StringValue(listParams.Customer),
+	)
+	return &PaymentMethodIter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.PaymentMethodList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// PaymentMethodIter is an iterator for payment methods.
+type PaymentMethodIter struct {
+	*stripe.Iter
+}
+
+// PaymentMethod returns the payment method which the iterator is currently pointing to.
+func (i *PaymentMethodIter) PaymentMethod() *stripe.PaymentMethod {
+	return i.Current().(*stripe.PaymentMethod)
+}
+
+// PaymentMethodList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *PaymentMethodIter) PaymentMethodList() *stripe.PaymentMethodList {
+	return i.List().(*stripe.PaymentMethodList)
+}
+
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

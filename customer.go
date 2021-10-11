@@ -114,6 +114,13 @@ type CustomerListParams struct {
 	Email        *string           `form:"email"`
 }
 
+// Returns a list of PaymentMethods for a given Customer
+type CustomerListPaymentMethodsParams struct {
+	ListParams `form:"*"`
+	Customer   *string `form:"-"` // Included in URL
+	Type       *string `form:"type"`
+}
+
 // The customer's location as identified by Stripe Tax.
 type CustomerTaxLocation struct {
 	Country string                    `json:"country"`
