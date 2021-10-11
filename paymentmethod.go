@@ -31,6 +31,7 @@ const (
 	PaymentMethodTypeGrabpay          PaymentMethodType = "grabpay"
 	PaymentMethodTypeIdeal            PaymentMethodType = "ideal"
 	PaymentMethodTypeInteracPresent   PaymentMethodType = "interac_present"
+	PaymentMethodTypeKlarna           PaymentMethodType = "klarna"
 	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
 	PaymentMethodTypeSepaDebit        PaymentMethodType = "sepa_debit"
@@ -178,6 +179,18 @@ type PaymentMethodIdealParams struct {
 type PaymentMethodInteracPresentParams struct {
 }
 
+// Customer's date of birth
+type PaymentMethodKlarnaDOBParams struct {
+	Day   *int64 `form:"day"`
+	Month *int64 `form:"month"`
+	Year  *int64 `form:"year"`
+}
+
+// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
+type PaymentMethodKlarnaParams struct {
+	DOB *PaymentMethodKlarnaDOBParams `form:"dob"`
+}
+
 // PaymentMethodOXXOParams is the set of parameters allowed for the `oxxo` hash when creating a
 // PaymentMethod of type OXXO.
 type PaymentMethodOXXOParams struct {
@@ -225,6 +238,7 @@ type PaymentMethodParams struct {
 	Grabpay          *PaymentMethodGrabpayParams          `form:"grabpay"`
 	Ideal            *PaymentMethodIdealParams            `form:"ideal"`
 	InteracPresent   *PaymentMethodInteracPresentParams   `form:"interac_present"`
+	Klarna           *PaymentMethodKlarnaParams           `form:"klarna"`
 	OXXO             *PaymentMethodOXXOParams             `form:"oxxo"`
 	P24              *PaymentMethodP24Params              `form:"p24"`
 	SepaDebit        *PaymentMethodSepaDebitParams        `form:"sepa_debit"`
@@ -385,6 +399,16 @@ type PaymentMethodIdeal struct {
 type PaymentMethodInteracPresent struct {
 }
 
+// The customer's date of birth, if provided.
+type PaymentMethodKlarnaDOB struct {
+	Day   int64 `json:"day"`
+	Month int64 `json:"month"`
+	Year  int64 `json:"year"`
+}
+type PaymentMethodKlarna struct {
+	DOB *PaymentMethodKlarnaDOB `json:"dob"`
+}
+
 // PaymentMethodOXXO represents the OXXO-specific properties.
 type PaymentMethodOXXO struct {
 }
@@ -442,6 +466,7 @@ type PaymentMethod struct {
 	ID               string                         `json:"id"`
 	Ideal            *PaymentMethodIdeal            `json:"ideal"`
 	InteracPresent   *PaymentMethodInteracPresent   `json:"interac_present"`
+	Klarna           *PaymentMethodKlarna           `json:"klarna"`
 	Livemode         bool                           `json:"livemode"`
 	Metadata         map[string]string              `json:"metadata"`
 	Object           string                         `json:"object"`

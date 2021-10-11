@@ -73,6 +73,18 @@ const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonRejected            ChargePaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
 )
 
+// The Klarna payment method used for this transaction.
+// Can be one of `pay_later`, `pay_now`, `pay_with_financing`, or `pay_in_installments`
+type ChargePaymentMethodDetailsKlarnaPaymentMethodCategory string
+
+// List of values that ChargePaymentMethodDetailsKlarnaPaymentMethodCategory can take
+const (
+	ChargePaymentMethodDetailsKlarnaPaymentMethodCategoryPayLater          ChargePaymentMethodDetailsKlarnaPaymentMethodCategory = "pay_later"
+	ChargePaymentMethodDetailsKlarnaPaymentMethodCategoryPayNow            ChargePaymentMethodDetailsKlarnaPaymentMethodCategory = "pay_now"
+	ChargePaymentMethodDetailsKlarnaPaymentMethodCategoryPayWithFinancing  ChargePaymentMethodDetailsKlarnaPaymentMethodCategory = "pay_with_financing"
+	ChargePaymentMethodDetailsKlarnaPaymentMethodCategoryPayInInstallments ChargePaymentMethodDetailsKlarnaPaymentMethodCategory = "pay_in_installments"
+)
+
 // ChargePaymentMethodDetailsType is the type of the PaymentMethod associated with the Charge's
 // payment method details.
 type ChargePaymentMethodDetailsType string
@@ -495,7 +507,10 @@ type ChargePaymentMethodDetailsInteracPresentReceipt struct {
 
 // ChargePaymentMethodDetailsKlarna represents details for the Klarna
 // PaymentMethod.
-type ChargePaymentMethodDetailsKlarna struct{}
+type ChargePaymentMethodDetailsKlarna struct {
+	PaymentMethodCategory ChargePaymentMethodDetailsKlarnaPaymentMethodCategory `json:"payment_method_category"`
+	PreferredLocale       string                                                `json:"preferred_locale"`
+}
 
 // ChargePaymentMethodDetailsMultibanco represents details about the Multibanco PaymentMethod.
 type ChargePaymentMethodDetailsMultibanco struct {
