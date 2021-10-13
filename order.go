@@ -1,8 +1,12 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
-import (
-	"encoding/json"
-)
+import "encoding/json"
 
 // OrderStatus represents the statuses of an order object.
 type OrderStatus string
@@ -27,21 +31,25 @@ const (
 
 // OrderParams is the set of parameters that can be used when creating an order.
 type OrderParams struct {
-	Params   `form:"*"`
-	Coupon   *string            `form:"coupon"`
-	Currency *string            `form:"currency"`
-	Customer *string            `form:"customer"`
-	Email    *string            `form:"email"`
-	Items    []*OrderItemParams `form:"items"`
-	Shipping *ShippingParams    `form:"shipping"`
+	Params                 `form:"*"`
+	Coupon                 *string            `form:"coupon"`
+	Currency               *string            `form:"currency"`
+	Customer               *string            `form:"customer"`
+	Email                  *string            `form:"email"`
+	Items                  []*OrderItemParams `form:"items"`
+	SelectedShippingMethod *string            `form:"selected_shipping_method"`
+	Shipping               *ShippingParams    `form:"shipping"`
+	Status                 *string            `form:"status"`
 }
 
 // ShippingParams is the set of parameters that can be used for the shipping hash
 // on order creation.
 type ShippingParams struct {
-	Address *AddressParams `form:"address"`
-	Name    *string        `form:"name"`
-	Phone   *string        `form:"phone"`
+	Address        *AddressParams `form:"address"`
+	Carrier        *string        `form:"carrier"`
+	Name           *string        `form:"name"`
+	Phone          *string        `form:"phone"`
+	TrackingNumber *string        `form:"tracking_number"`
 }
 
 // OrderListParams is the set of parameters that can be used when listing orders.
@@ -77,11 +85,11 @@ type OrderPayParams struct {
 	Source         *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 }
 
-// SetSource adds valid sources to a OrderParams object,
+// SetSource adds valid sources to a OrderPayParams object,
 // returning an error for unsupported sources.
-func (op *OrderPayParams) SetSource(sp interface{}) error {
+func (p *OrderPayParams) SetSource(sp interface{}) error {
 	source, err := SourceParamsFor(sp)
-	op.Source = source
+	p.Source = source
 	return err
 }
 
@@ -98,10 +106,10 @@ type OrderItemParams struct {
 // ShippingMethod describes a shipping method as available on an order.
 type ShippingMethod struct {
 	Amount           int64             `json:"amount"`
-	ID               string            `json:"id"`
 	Currency         Currency          `json:"currency"`
 	DeliveryEstimate *DeliveryEstimate `json:"delivery_estimate"`
 	Description      string            `json:"description"`
+	ID               string            `json:"id"`
 }
 
 // DeliveryEstimate represent the properties available for a shipping method's
@@ -141,7 +149,7 @@ type Shipping struct {
 }
 
 // Order is the resource representing a Stripe charge.
-// For more details see https://stripe.com/docs/api#orders.
+// For more details see https://stripe.com/docs/api#orders_legacy.
 type Order struct {
 	APIResource
 	Amount                 int64             `json:"amount"`
@@ -153,10 +161,12 @@ type Order struct {
 	Currency               Currency          `json:"currency"`
 	Customer               Customer          `json:"customer"`
 	Email                  string            `json:"email"`
+	ExternalCouponCode     string            `json:"external_coupon_code"`
 	ID                     string            `json:"id"`
 	Items                  []*OrderItem      `json:"items"`
 	Livemode               bool              `json:"livemode"`
 	Metadata               map[string]string `json:"metadata"`
+	Object                 string            `json:"object"`
 	Returns                *OrderReturnList  `json:"returns"`
 	SelectedShippingMethod *string           `json:"selected_shipping_method"`
 	Shipping               *Shipping         `json:"shipping"`

@@ -1,11 +1,17 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
 
-// OrderItemType represents the type of order item
+// The type of line item. One of `sku`, `tax`, `shipping`, or `discount`.
 type OrderItemType string
 
-// List of values that OrderItemType can take.
+// List of values that OrderItemType can take
 const (
 	OrderItemTypeCoupon   OrderItemType = "coupon"
 	OrderItemTypeDiscount OrderItemType = "discount"
@@ -14,7 +20,6 @@ const (
 	OrderItemTypeTax      OrderItemType = "tax"
 )
 
-// OrderItemParentType represents the type of order item parent
 type OrderItemParentType string
 
 // List of values that OrderItemParentType can take.
@@ -33,11 +38,15 @@ type OrderItemParent struct {
 	Type OrderItemParentType `json:"object"`
 }
 
-// OrderItem is the resource representing an order item.
+// A representation of the constituent items of any given order. Can be used to
+// represent [SKUs](https://stripe.com/docs/api#skus), shipping costs, or taxes owed on the order.
+//
+// Related guide: [Orders](https://stripe.com/docs/orders/guide).
 type OrderItem struct {
 	Amount      int64            `json:"amount"`
 	Currency    Currency         `json:"currency"`
 	Description string           `json:"description"`
+	Object      string           `json:"object"`
 	Parent      *OrderItemParent `json:"parent"`
 	Quantity    int64            `json:"quantity"`
 	Type        OrderItemType    `json:"type"`

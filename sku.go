@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -69,12 +75,14 @@ type SKU struct {
 	Attributes        map[string]string  `json:"attributes"`
 	Created           int64              `json:"created"`
 	Currency          Currency           `json:"currency"`
+	Deleted           bool               `json:"deleted"`
 	Description       string             `json:"description"`
 	ID                string             `json:"id"`
 	Image             string             `json:"image"`
 	Inventory         *Inventory         `json:"inventory"`
 	Livemode          bool               `json:"livemode"`
 	Metadata          map[string]string  `json:"metadata"`
+	Object            string             `json:"object"`
 	PackageDimensions *PackageDimensions `json:"package_dimensions"`
 	Price             int64              `json:"price"`
 	Product           *Product           `json:"product"`
@@ -97,8 +105,8 @@ func (s *SKU) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	type sku SKU
-	var v sku
+	type sKU SKU
+	var v sKU
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
