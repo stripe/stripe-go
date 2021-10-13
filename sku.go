@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -44,6 +50,16 @@ type SKUParams struct {
 	Product           *string                  `form:"product"`
 }
 
+// SKUListParams is the set of parameters that can be used when listing SKUs.
+type SKUListParams struct {
+	ListParams `form:"*"`
+	Active     *bool             `form:"active"`
+	Attributes map[string]string `form:"attributes"`
+	IDs        []*string         `form:"ids"`
+	InStock    *bool             `form:"in_stock"`
+	Product    *string           `form:"product"`
+}
+
 // Inventory represents the inventory options of a SKU.
 type Inventory struct {
 	Quantity int64             `json:"quantity"`
@@ -59,12 +75,14 @@ type SKU struct {
 	Attributes        map[string]string  `json:"attributes"`
 	Created           int64              `json:"created"`
 	Currency          Currency           `json:"currency"`
+	Deleted           bool               `json:"deleted"`
 	Description       string             `json:"description"`
 	ID                string             `json:"id"`
 	Image             string             `json:"image"`
 	Inventory         *Inventory         `json:"inventory"`
 	Livemode          bool               `json:"livemode"`
 	Metadata          map[string]string  `json:"metadata"`
+	Object            string             `json:"object"`
 	PackageDimensions *PackageDimensions `json:"package_dimensions"`
 	Price             int64              `json:"price"`
 	Product           *Product           `json:"product"`
@@ -78,16 +96,6 @@ type SKUList struct {
 	Data []*SKU `json:"data"`
 }
 
-// SKUListParams is the set of parameters that can be used when listing SKUs.
-type SKUListParams struct {
-	ListParams `form:"*"`
-	Active     *bool             `form:"active"`
-	Attributes map[string]string `form:"attributes"`
-	IDs        []*string         `form:"ids"`
-	InStock    *bool             `form:"in_stock"`
-	Product    *string           `form:"product"`
-}
-
 // UnmarshalJSON handles deserialization of a SKU.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
@@ -97,8 +105,8 @@ func (s *SKU) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	type sku SKU
-	var v sku
+	type sKU SKU
+	var v sKU
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
