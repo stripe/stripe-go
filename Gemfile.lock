@@ -97,7 +97,7 @@ GEM
     sentry-ruby-core (4.7.3)
       concurrent-ruby
       faraday
-    sequel (5.48.0)
+    sequel (5.49.0)
     simple_structured_logger (0.1.5)
     sinatra (2.1.0)
       mustermann (~> 1.0)
@@ -118,7 +118,7 @@ DEPENDENCIES
   minitest (~> 5.14.4)
   omniauth-salesforce
   omniauth-stripe
-  pg
+  pg (~> 1.2.3)
   pry (~> 0.14.1)
   pry-doc (~> 1.2.0)
   pry-nav!
@@ -127,7 +127,7 @@ DEPENDENCIES
   rake
   restforce (~> 5.1.1)
   sentry-ruby
-  sequel (= 5.48.0)
+  sequel (= 5.49.0)
   simple_structured_logger
   sinatra
   stripe (~> 5.39.0)

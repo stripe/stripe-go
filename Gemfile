@@ -20,8 +20,8 @@ gem 'sinatra', require: false
 gem 'omniauth-salesforce'
 gem 'omniauth-stripe'
 
-gem 'pg'
-gem 'sequel', '5.48.0'
+gem 'pg', '~> 1.2.3'
+gem 'sequel', '5.49.0'
 
 # translator
 # gem 'money', '~> 6.13.8'
@@ -80,8 +80,6 @@ group :development do
   # gem 'pry-rails', '~> 0.3.9'
   gem 'pry-doc', '~> 1.2.0'
   # https://github.com/SudhagarS/pry-state
-
-  # gem 'derailed_benchmarks', '~> 1.8.1'
 
   # gem 'web-console', '~> 4.1.0'
   gem 'better_errors', '~> 2.9.1'
