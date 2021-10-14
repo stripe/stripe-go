@@ -6,6 +6,12 @@ ruby '2.6.8'
 # gem 'sorbet'
 # gem 'sorbet-runtime'
 
+# sentry
+gem "sentry-ruby"
+# gem "sentry-rails"
+# gem "sentry-sidekiq"
+# gem "sentry-resque"
+
 gem 'dotenv'
 # gem 'rails', '6.1.4.1'
 gem 'simple_structured_logger'
@@ -20,8 +26,7 @@ gem 'sequel', '5.48.0'
 # translator
 # gem 'money', '~> 6.13.8'
 # gem 'rest-client', '~> 2.0.2'
-gem 'sentry-raven', '~> 2.13.0'
-gem 'restforce'
+gem 'restforce', '~> 5.1.1'
 gem 'stripe', '~> 5.38.0'
 # gem 'countries', '~> 3.0.1'
 
