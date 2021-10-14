@@ -179,7 +179,8 @@ class StripeForce::Translate
         }, @user.stripe_credentials)
       else
         subscription_items << {
-          price: price
+          price: price,
+          # TODO why not quantity?
         }
       end
     end
@@ -208,7 +209,7 @@ class StripeForce::Translate
 
       stripe_transaction.finalize_invoice
 
-      order_update_params['Stripe_Invoice_Payment_Link__c'] = stripe_transaction.hosted_invoice_url
+      order_update_params[ORDER_INVOICE_PAYMENT_LINK] = stripe_transaction.hosted_invoice_url
     end
 
     log.info 'stripe txn created', stripe_resource_id: stripe_transaction.id
@@ -217,5 +218,4 @@ class StripeForce::Translate
 
     stripe_transaction
   end
-
 end

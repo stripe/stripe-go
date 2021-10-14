@@ -13,6 +13,7 @@ module StripeForce
 
     OPPORTUNITY_STRIPE_ID = 'Stripe_Customer_ID__c'
     ORDER_STRIPE_ID = 'Stripe_Transaction_ID__c'
+    ORDER_INVOICE_PAYMENT_LINK = 'Stripe_Invoice_Payment_Link__c'
     PRICE_BOOK_STRIPE_ID = 'Stripe_Price_ID__c'
   end
 end
