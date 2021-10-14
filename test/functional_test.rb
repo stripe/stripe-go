@@ -13,7 +13,7 @@ class FunctionalTests < MiniTest::Spec
       salesforce_refresh_token: ENV.fetch('SF_REFRESH_TOKEN'),
       salesforce_instance_url: "https://#{ENV.fetch('SF_INSTANCE')}.my.salesforce.com",
 
-      stripe_account_id: 'acct_15uapDIsgf92XbAO'
+      stripe_account_id: ENV.fetch('STRIPE_ACCOUNT_ID')
     )
   end
 
@@ -25,7 +25,7 @@ class FunctionalTests < MiniTest::Spec
     '01t5e000002bEQTAA2'
   end
 
-  def create_salesforce_order(sf_product_id: nil)
+  def create_salesforce_order(sf_product_id: nil, additional_order_fields: {})
     # https://github.com/sseixas/CPQ-JS
 
     # TODO pull these dynamically
@@ -42,7 +42,7 @@ class FunctionalTests < MiniTest::Spec
       CPQ_QUOTE_PRIMARY => true,
       'SBQQ__PrimaryContact__c' => contact_id,
       'SBQQ__PricebookId__c' => pricebook_id
-    })
+    }.merge(additional_order_fields))
 
     # https://developer.salesforce.com/docs/atlas.en-us.cpq_api_dev.meta/cpq_api_dev/cpq_api_read_quote.htm
     # get CPQ version of the quote
@@ -132,7 +132,10 @@ class FunctionalTests < MiniTest::Spec
   end
 
   it 'integrates a subscription order' do
-    sf_order = create_salesforce_order
+    sf_order = create_salesforce_order(additional_order_fields: {
+      CPQ_QUOTE_SUBSCRIPTION_START_DATE => "2021-10-01",
+      CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0
+    })
 
     StripeForce::Translate.perform(user: @user, sf_object: sf_order)
 
@@ -140,10 +143,29 @@ class FunctionalTests < MiniTest::Spec
     sf_order = sf.find('Order', sf_order.Id)
 
     stripe_id = sf_order[ORDER_STRIPE_ID]
-    subscription = Stripe::Subscription.retrieve(stripe_id, @user.stripe_credentials)
-    customer = Stripe::Customer.retrieve(subscription.customer, @user.stripe_credentials)
-    line = subscription.items.first
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+    customer = Stripe::Customer.retrieve(subscription_schedule.customer, @user.stripe_credentials)
+    # line = subscription.items.first
+
+    # TODO customer address assertions once mapping is complete
+
+    invoices = Stripe::Invoice.list({ subscription: subscription_schedule.subscription}, @user.stripe_credentials)
+
+    assert_equal(1, invoices.count)
+    invoice = invoices.first
+
+    # should be two lines since we are backdating the invoice
+    assert_equal(2, invoice.lines.count)
+
+    line = invoice.lines.data[-1]
+    assert_equal(1, line.quantity)
+    # TODO assert against amount when we are creating items dynamically
   end
+
+  # TODO multiple quantity
+  # TODO quantity as float
+  # TODO start date in the future
+  # TODO missing fields / failure
 
   it 'integrates a invoice order' do
     sf_order = create_salesforce_order(sf_product_id: standalone_item_id)
