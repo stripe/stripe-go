@@ -156,6 +156,7 @@ class StripeForce::Translate
     sf_order_item.Quantity.to_i == sf_order_item.Quantity.to_f
   end
 
+  # TODO How can we organize code to support CPQ & non-CPQ use-cases? how can this be abstracted away from the order?
   def create_stripe_transaction_from_sf_order(sf_order)
     if sf_order.Status != 'Activated'
       log.info 'order is not activated, skipping'
