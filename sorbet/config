@@ -1,0 +1,6 @@
+--dir
+.
+--ignore
+vendor/bundle
+--ignore
+node_modules
