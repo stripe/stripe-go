@@ -112,7 +112,7 @@ DEPENDENCIES
   better_errors (~> 2.9.1)
   binding_of_caller (~> 1.0.0)
   dotenv
-  minitest (~> 5.14.1)
+  minitest (~> 5.14.4)
   omniauth-salesforce
   omniauth-stripe
   pg
