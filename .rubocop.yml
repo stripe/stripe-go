@@ -1,0 +1,541 @@
+# Our suite-sync rubocop config.  Most of this was copied over from the pay-server
+# rubocop config and modified for our use.  We can't just use the stripe-rubocop
+# gem at this time because we are still in the public Github which can't access
+# the private internal Stripe gem.
+#
+# TODO: Replace this with the pay-server rubocop once we migrate to pay-server
+#
+# This file contains custom cop configurations, as well as all the deviations
+# from "standard rubocop" that we use
+#
+# It is broken into sections, so try to find the one your new annotation fits in
+# and put it there.
+#
+# When adding a config, please put a comment above explaining why.
+#
+# Prefer using rubocop_todo.yml to exclude files that are intended to conform to
+# a given cop, and this file for files that are intentionally excluded.
+#
+########################################################
+# General
+########################################################
+inherit_from:
+  - .rubocop_todo.yml
+
+inherit_mode:
+  merge:
+  - Exclude
+
+AllCops:
+  TargetRubyVersion: 2.6.8
+  DisplayCopNames: true
+  Include:
+    - Gemfile
+    - Gemfile-local
+    - Rakefile.rb
+    - '**/*.rb'
+  Exclude:
+    - 'scripts/_lib.rb'
+    - '**/node_modules/**/*'
+    - build/**/*
+    - sorbet_ruby/**/*
+    - tmp/**/*
+    # Rubocop editor extensions use --stdin [filename] --force-exclusion, which
+    # only looks at the "exclude" list to determine if a file is Rubocop-able.
+    # Explicitly exclude Sorbet interface files, as large ones can cause
+    # Rubocop to lock up for minutes at a time!
+    - 'sorbet/**/*.rbi'
+  AllowSymlinksInCacheRootDirectory: true
+
+
+########################################################
+# Severity
+########################################################
+Style:
+  Severity: error
+
+############################################################
+# Open Source Pending
+#
+# New open source cops which are disabled pending .rubocop_todo.yml update
+############################################################
+
+# this leads to false positives with T::Enum, we'd need to either live with a
+# lot of disables or land https://github.com/sorbet/sorbet/issues/2671
+Style/HashEachMethods:
+  Enabled: false
+
+############################################################
+# Open Source Enabled
+#
+# New open source cops which are `pending` by default so need
+# to be explicitly enabled.
+############################################################
+
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
+
+############################################################
+# Open Source Disables
+#
+# Open source cops which are specially disabled
+############################################################
+
+# Until we get indentation cops we can't do this. Please get them working if you
+# feel really excited about indentation!
+Layout/ArgumentAlignment:
+  Enabled: false
+Layout/ParameterAlignment:
+  Enabled: false
+Layout/IndentationWidth:
+  Enabled: false
+Layout/ElseAlignment:
+  Enabled: false
+# Extra lines can be semantic, and spacing is often there to help the reader
+Layout/EmptyLines:
+  Enabled: false
+# We use inline access modifiers, this is irrelevant
+Layout/EmptyLinesAroundAccessModifier:
+  Enabled: false
+# These are often useful in long array definitions.
+Layout/EmptyLinesAroundArguments:
+  Enabled: false
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: false
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+Layout/EmptyLinesAroundMethodBody:
+  Enabled: false
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: false
+Layout/EmptyLineAfterMagicComment:
+  Enabled: false
+Layout/EmptyLinesAroundBeginBody:
+  Enabled: false
+Layout/EmptyLinesAroundExceptionHandlingKeywords:
+  Enabled: false
+# Sadly without an indenting cop, this one autocorrect horribly
+Layout/MultilineMethodCallBraceLayout:
+  Enabled: false
+# Low-value and not supported by prevailing pay-server style
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+# Disabled until https://github.com/rubocop-hq/rubocop/issues/6004 is fixed
+Layout/AccessModifierIndentation:
+  Enabled: false
+# Forked as PrisonGuard/SigMultilineMethodCallIndentation to enforce a mix of
+# styles (aligned in sigs, indented otherwise).
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+# This aligns with `begin`, which interacts poorly with lines like `foo = begin`
+# What we actually want is alignment with rescue/end
+# See https://github.com/rubocop-hq/rubocop/issues/6254#issuecomment-424041759
+# as well as https://github.com/rubocop-hq/rubocop/issues/6774
+Layout/RescueEnsureAlignment:
+  Enabled: false
+# There were 0 instances where this correctly yelled at us
+Lint/BooleanSymbol:
+  Enabled: false
+# Disabled because this auto-corrects an expression to evaluate to something different
+# e.g.: auto-corrects `%w{"foo"}` to `%w{foo}`
+# but:
+#[3] pry(main)> %w{foo}
+#=> ["foo"]
+#[4] pry(main)> %w{"foo"}
+#=> ["\"foo\""]
+Lint/PercentStringArray:
+  Enabled: false
+# Too often we subclass and don't use all the args or stub in a test
+Lint/UnusedMethodArgument:
+  Enabled: false
+# Blocks always associate with what is immediately to the left, this isn't ambiguous.
+# Enabling this makes our DSLs that take procs ugly
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+Lint/ShadowedArgument:
+  IgnoreImplicitReferences: true
+# This is a buggy lint rule that tries to trace local variable usage but that treats multiple
+# assignment differently than single assignment and assumes lack of assignment side-effects.
+Lint/UselessSetterCall:
+  Enabled: false
+# Some setters like to return the value you passed in and our type system is
+# expecting these "void" methods to return `nil` for now.
+Lint/Void:
+  Enabled: false
+# Ratcheting these down is kind of outside the purview of a linter
+Metrics/AbcSize:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
+Metrics/BlockNesting:
+  Enabled: false
+Metrics/ClassLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
+# This is very ingrained into our codebase.
+Naming/HeredocDelimiterNaming:
+  Enabled: false
+# Sometimes you need to violate it, but try not to. E.g. foo_bar_TLS
+Naming/MethodName:
+  Enabled: false
+Naming/RescuedExceptionsVariableName:
+  Enabled: false
+Naming/VariableName:
+  Enabled: false
+# Although it helps consistency, being that pedantic is too much
+Naming/AccessorMethodName:
+  Enabled: false
+# You can convey semantic meaning by using is_foo?
+Naming/PredicateName:
+  Enabled: false
+# In different context one way is better and in other contexts the other way is
+Naming/VariableNumber:
+  Enabled: false
+# There is no way this is happening.
+Naming/MethodParameterName:
+  Enabled: false
+# We force Chalk::Tools::YAMLUtils.make_yaml_safe! at startup in extn/
+Security/YAMLLoad:
+  Enabled: false
+# This would be nice to enable, but require too much migration and too
+# large of a TODO file to be feasible
+Style/MutableConstant:
+  Enabled: false
+# We should consider enabling this, but some yaks need to be shaved. In particular,
+# Opus::Radar::Shield::Explanation.interpolate_explanation does its own interpretation of
+# format strings and would need to learn about the %<foo>x syntax.
+Style/FormatStringToken:
+  Enabled: false
+# This one is questionable. I think we'd want to get consensus first, and probably find a way
+# to exclude conditionals with only two comparisons.
+Style/MultipleComparison:
+  Enabled: false
+# `BSON::Binary` doesn't have unpack1 so we don't want to confuse folks until we
+# are typed
+Style/UnpackFirst:
+  Enabled: false
+# If it was varargs we want this, but otherwise not. In ruby that is impossible.
+Style/TrailingCommaInArguments:
+  Enabled: false
+# Only use the _ when appropriate
+Style/NumericLiterals:
+  Enabled: false
+# Tracking all TODOs and FIXMEs sadly is a pipe dream
+Style/CommentAnnotation:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+# Who has heard of Regexp.last_match?
+Style/PerlBackrefs:
+  Enabled: false
+# Having the _ after ensures that the , after the argument is more noticeable
+Style/TrailingUnderscoreVariable:
+  Enabled: false
+# This is sometimes nicer, sometimes not
+Style/WordArray:
+  Enabled: false
+# Sometimes unless is easier to read (not often, but sometimes)
+Style/NegatedIf:
+  Enabled: false
+Style/NegatedWhile:
+  Enabled: false
+# Post assignment logic is unexpected when reading
+Style/IfUnlessModifier:
+  Enabled: false
+Style/WhileUntilModifier:
+  Enabled: false
+# This might be more terse but is really hard to read
+Style/ConditionalAssignment:
+  Enabled: false
+# Allow normal array literals
+Style/SymbolArray:
+  Enabled: false
+# We want the opposite of this rule for `raise`
+Style/RedundantBegin:
+  Enabled: false
+# Super simple single line methods are totally fine
+Style/SingleLineMethods:
+  Enabled: false
+# EventMachine::Deferrable uses `fail` as an alias for `set_deferred_failure`
+# but `fail` is also an alias for `raise`, so it's not safe to replace `fail` with `raise`
+Style/SignalException:
+  Enabled: false
+# We'd like to actually enforce the other way. Other than for DSL things.
+Style/RedundantSelf:
+  Enabled: false
+# Sometimes parens can help readability
+Style/RedundantParentheses:
+  Enabled: false
+# The else block creates an explicit return contract
+Style/EmptyElse:
+  Enabled: false
+# Similarly .length doesn't imply .empty
+Style/ZeroLengthPredicate:
+  Enabled: false
+# Look skeptically on these but they sometimes have their place
+Style/ClassVars:
+  Enabled: false
+# We are ok with utf8 characters in our source files
+Style/AsciiComments:
+  Enabled: false
+# Most of these failures are better but there are some instances which you don't want this.
+Style/Next:
+  Enabled: false
+Style/GuardClause:
+  Enabled: false
+# The alternatives to check for false or nil suck
+Style/DoubleNegation:
+  Enabled: false
+# Just because I'm comparing a variable to 0 does NOT imply that my object has a
+# .zero? method.
+Style/NumericPredicate:
+  Enabled: false
+# There is no way we will get consensus
+Style/StringLiterals:
+  Enabled: false
+# Many times this makes it better, but sometimes it doesn't
+Style/IfInsideElse:
+  Enabled: false
+# Too pedantic. You don't read these much anyways.
+Style/ClassAndModuleChildren:
+  Enabled: false
+# There was only 1 violation and it wasn't even correct. Ignore this rule.
+Style/MinMax:
+  Enabled: false
+# We actually want the inverse, to ban `warn`. But that isn't an option.
+Style/StderrPuts:
+  Enabled: false
+# We like this cop, but the autocorrect is so unsound, and fixing them by hand
+# is way too much work. e.g. https://github.com/bbatsov/rubocop/issues/5527 and
+# https://github.com/bbatsov/rubocop/issues/5588
+Style/SafeNavigation:
+  Enabled: false
+# Sometimes the () give meaning other times they don't
+Style/TernaryParentheses:
+  Enabled: false
+
+# From the 0.89.1 update: some of these might be nice to enable
+Lint/MissingSuper:
+  Enabled: false
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: false
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: false
+Lint/BinaryOperatorWithIdenticalOperands:
+  Enabled: false
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: false
+Lint/DuplicateElsifCondition:
+  Enabled: false
+Lint/DuplicateRescueException:
+  Enabled: false
+Lint/EmptyConditionalBody:
+  Enabled: false
+Lint/FloatComparison:
+  Enabled: false
+Lint/MixedRegexpCaptureTypes:
+  Enabled: false
+Lint/OutOfRangeRegexpRef:
+  Enabled: false
+Lint/RaiseException:
+  Enabled: false
+Lint/SelfAssignment:
+  Enabled: false
+Lint/StructNewOverride:
+  Enabled: false
+Lint/TopLevelReturnWithArgument:
+  Enabled: false
+Lint/UnreachableLoop:
+  Enabled: false
+Style/AccessorGrouping:
+  Enabled: false
+Style/ArrayCoercion:
+  Enabled: false
+Style/BisectedAttrAccessor:
+  Enabled: false
+Style/CaseLikeIf:
+  Enabled: false
+Style/ExplicitBlockArgument:
+  Enabled: false
+Style/ExponentialNotation:
+  Enabled: false
+Style/GlobalStdStream:
+  Enabled: false
+Style/HashAsLastArrayItem:
+  Enabled: false
+Style/HashLikeCase:
+  Enabled: false
+Style/OptionalBooleanParameter:
+  Enabled: false
+Style/RedundantAssignment:
+  Enabled: false
+Style/RedundantFetchBlock:
+  Enabled: false
+Style/RedundantFileExtensionInRequire:
+  Enabled: false
+Style/RedundantRegexpCharacterClass:
+  Enabled: false
+Style/RedundantRegexpEscape:
+  Enabled: false
+Style/SingleArgumentDig:
+  Enabled: false
+Style/SlicingWithRange:
+  Enabled: false
+Style/StringConcatenation:
+  Enabled: false
+Lint/UriRegexp:
+  Enabled: false
+Bundler/OrderedGems:
+  Enabled: false
+
+############################################################
+# Open Source Customization
+#
+# Open source cops which are specially customized
+############################################################
+
+Layout/EmptyLineBetweenDefs:
+  AllowAdjacentOneLineDefs: true
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+Layout/FirstArgumentIndentation:
+  EnforcedStyle: consistent
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+Layout/CaseIndentation:
+  EnforcedStyle: end
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: start_of_line
+# Mostly to just make the .rubocop_todo.yml not generate this
+Layout/LineLength:
+  Enabled: false
+  Max: 8192
+# We like this way for aesthetics
+Layout/SpaceAroundEqualsInParameterDefault:
+  EnforcedStyle: no_space
+# This is closer to the method call syntax
+Layout/SpaceInsideBlockBraces:
+  # Ideally we want to enforce no_space but it is throwing infinite loop exceptions
+  #EnforcedStyle: no_space
+  SpaceBeforeBlockParameters: false
+# We just like this aesthetically
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+Lint/SuppressedException:
+  AllowComments: true
+Lint/InheritException:
+  EnforcedStyle: standard_error
+  Exclude:
+    # Autoload files recreate class declarations from the main codebase.
+    # Any errors here will already be reported (or ignored) there.
+    - build/*/autoloader/**/*
+Lint/InterpolationCheck:
+  Exclude:
+    # It's common to want to test interpolation strings in cop tests.
+    - 'dev/lib/prison_guard/test/**/*'
+Lint/ScriptPermission:
+  Exclude:
+    # We only add the shebang to Gemfile-local as a hack to get rubocop to analyze the file
+    - Gemfile-local
+    - 'manage/frontend/src/payments/timeline/get_charge_responses.rb'
+Lint/UnderscorePrefixedVariableName:
+  AllowKeywordBlockArguments: true
+Lint/UnusedBlockArgument:
+  AllowUnusedKeywordArguments: true
+# Any more than 4 is super hard to remember how many `nil`s it takes to get to a param
+# TODO: ratchet this down
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+  Max: 10
+Naming/ClassAndModuleCamelCase:
+  Exclude:
+    # We don't control the style output by the thrift compiler and copied
+    # into the autoloader files.
+    - build/dependency/autoloader/Opus/Picasso/Thrift/PicassoInterface/**/*
+    # We don't control the style output by the protoc compiler and copied
+    # into the autoloader files.
+    - 'build/dependency/autoloader/Opus/Autogen/Proto/**/*'
+    # These are derived from the protobuf produced classes above.
+    # So we do not control their style either.
+    - 'build/bazel/proto/events/Opus/Autogen/Event/**/*'
+    - 'build/dependency/autoloader/Opus/Autogen/Event/**/*'
+# These are intentionally allowed but the rest of the codebase should follow the rule
+Naming/FileName:
+  Exclude:
+    - 'build/*/autoloader/**/*'
+    - 'build/bazel/proto/events/**/*'
+    - '**/Gemfile*'
+    - 'Gemfile*'
+    - 'scripts/**/*'
+Style/InverseMethods:
+  InverseMethods:
+    :blank?: :present?
+# Trailing commas help with git blame when you add new parameters
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+# Consistently use {}
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%':  '{}'
+    '%i': '{}'
+    '%I': '{}'
+    '%q': '{}'
+    '%Q': '{}'
+    '%r': '{}'
+    '%s': '{}'
+    '%w': '{}'
+    '%W': '{}'
+    '%x': '{}'
+# %{} is weirder than %q{}
+Style/BarePercentLiterals:
+  EnforcedStyle: percent_q
+# In Ruby the default is usually what you want. Forcing you to write out the
+# class leads to errors like rescuing Exception or RuntimeError.
+Style/RescueStandardError:
+  EnforcedStyle: implicit
+Style/SpecialGlobalVars:
+  EnforcedStyle: use_english_names
+# `alias_method` has better semantics than `alias`
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+Style/TrivialAccessors:
+  # Predicates are ok per https://github.com/bbatsov/rubocop/issues/2763
+  AllowPredicates: true
+  # And writers per https://github.com/bbatsov/rubocop/issues/2821
+  AllowDSLWriters: true
+  IgnoreClassMethods: true
+Style/SymbolLiteral:
+  Exclude:
+    # Auto gen param stubs violates this test due to existing APIs which are named in strange ways.
+    - 'api/lib/param_specs/**/*'
+# `format` and `sprintf` are the same so we picked one. % leads to errors since we can't enforce the RHS to be an array.
+Style/FormatString:
+  EnforcedStyle: sprintf
+# This is much more explicit
+Style/RaiseArgs:
+  EnforcedStyle: compact
+# Putting these in context is way better.
+Style/AccessModifierDeclarations:
+  EnforcedStyle: inline
+Style/FrozenStringLiteralComment:
+  Exclude:
+    # Disabled because they're hard to migrate (low or unknown test coverage),
+    # or because the change would have limited value.
+    - 'migrations/**/*'
+    - 'scripts/**/*'
+# If you are doing it all on one line, fine
+Style/Semicolon:
+  AllowAsExpressionSeparator: true
