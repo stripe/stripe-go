@@ -1,30 +1,6 @@
-#!/usr/bin/env rake
+# Add your own tasks in files placed in lib/tasks ending in .rake,
+# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
-# require_relative 'config/application'
-# Rails.application.load_tasks
+require_relative "config/application"
 
-require 'resque/tasks'
-require 'resque/scheduler/tasks'
-
-namespace :resque do
-  task :setup => :environment do
-
-  end
-
-  task :setup_schedule => :setup do
-    # without `first_in` the job will only run after the first interval is complete
-    # for these jobs, that's waiting too long, so we wait a short period of time instead
-    Resque.schedule = {
-      InitiatePollsJobs: {
-        every: [
-          '90s',
-          { first_in: 10.seconds }
-        ]
-      },
-      InitiateBatchJobs: {
-        cron: '0 5 * * * America/Los_Angeles'
-      },
-    }
-  end
-  task :scheduler => :setup_schedule
-end
+Rails.application.load_tasks
