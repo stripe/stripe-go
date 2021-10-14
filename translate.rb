@@ -75,6 +75,11 @@ class StripeForce::Translate
     # TODO update SF ID
   end
 
+  # TODO this is defined globally in SF and needs to be pulled dynamically
+  def sf_cpq_term_interval
+    'month'
+  end
+
   def create_price_for_order_item(sf_order_item)
     sf_product = sf.find('Product2', sf_order_item.Product2Id)
     product = create_product_from_sf_product(sf_product)
@@ -96,14 +101,18 @@ class StripeForce::Translate
       raise 'unit prices should not be different'
     end
 
+    unless integer_quantity?(sf_order_item)
+      # TODO need to think about taxes calculated in SF at this point
+      raise 'implement calculating net price on item'
+    end
+
     # TODO check for float quantities
 
     optional_params = {}
 
     if recurring_item?(sf_order_item)
       optional_params[:recurring] = {
-        # TODO needs to dynamically pull from the recurring schedule
-        interval: 'month'
+        interval: sf_cpq_term_interval
       }
     end
 
@@ -140,6 +149,13 @@ class StripeForce::Translate
     !sf_order_item.SBQQ__ChargeType__c.nil? || !sf_order_item.SBQQ__SubscriptionType__c.nil?
   end
 
+  def integer_quantity?(sf_order_item)
+    log.warn 'user has float quantities defined on the line level'
+
+    # TODO this is naive
+    sf_order_item.Quantity.to_i == sf_order_item.Quantity.to_f
+  end
+
   def create_stripe_transaction_from_sf_order(sf_order)
     if sf_order.Status != 'Activated'
       log.info 'order is not activated, skipping'
@@ -152,13 +168,14 @@ class StripeForce::Translate
       return
     end
 
+    sf_quote = sf.find(CPQ_QUOTE, sf_order[CPQ_QUOTE])
     stripe_customer = create_customer_from_sf_order(sf_order)
 
     # https://github.com/Neuralab/WooCommerce-Salesforce-integration/blob/3af9ecf491f770ece9cdce993c21cee45f2647a0/includes/controllers/core/class-nwsi-salesforce-object-manager.php#L306
     # https://salesforce.stackexchange.com/questions/251904/get-sales-order-line-on-rest-api
     # https://developer.salesforce.com/docs/atlas.en-us.api_placeorder.meta/api_placeorder/sforce_placeorder_rest_api_get_details_order.htm
-    sf_order = sf.api_get("commerce/sale/order/#{sf_order.Id}").body.first
-    sf_order_items = sf_order.OrderItems
+    sf_order_with_lines = sf.api_get("commerce/sale/order/#{sf_order.Id}").body.first
+    sf_order_items = sf_order_with_lines.OrderItems
 
     # the OrderItems from the commerce API is some sort of limited version
     sf_order_items = sf_order_items.map { |o| sf.find('OrderItem', o.Id) }
@@ -170,17 +187,19 @@ class StripeForce::Translate
     stripe_prices = sf_order_items.map do |sf_order_item|
       price = create_price_for_order_item(sf_order_item)
 
+      # if the quantity is specified as a float, we normalize it to 1 since Stripe does not support quantities
+      quantity = integer_quantity?(sf_order_item) ? sf_order_item.Quantity.to_i : 1
+
       if !is_recurring_order
         Stripe::InvoiceItem.create({
-          customer: stripe_customer,
           price: price,
-          # TODO does SF really allow floats for quantity? Really?
-          quantity: sf_order_item.Quantity.to_i
+          customer: stripe_customer,
+          quantity: quantity
         }, @user.stripe_credentials)
       else
         subscription_items << {
           price: price,
-          # TODO why not quantity?
+          quantity: quantity
         }
       end
     end
@@ -188,17 +207,34 @@ class StripeForce::Translate
     order_update_params = {}
 
     if is_recurring_order
-      stripe_transaction = Stripe::Subscription.create({
+      log.info 'recurring items found, creating subscription schedule'
+      stripe_transaction = Stripe::SubscriptionSchedule.create({
         customer: stripe_customer,
-        items: stripe_prices,
-        metadata: sf_metadata(sf_order),
+
+        # TODO can we assume a consistent date format? What about TZs here?
+        start_date: DateTime.parse(sf_quote[CPQ_QUOTE_SUBSCRIPTION_START_DATE]).to_time.to_i,
+        end_behavior: 'cancel',
+
+        phases: [
+          {
+            items: stripe_prices,
+            # TODO we should ensure integer terms in SF
+            # TODO is the restforce gem somehow formatting everything as a float?
+            iterations: sf_quote[CPQ_QUOTE_SUBSCRIPTION_TERM].to_i,
+          },
+        ],
 
         # TODO mainly to avoid having to add a card right now, will need to map thi
-        collection_method: 'send_invoice',
-        days_until_due: 30
+        # collection_method: 'send_invoice',
+        # days_until_due: 30
 
+        metadata: sf_metadata(sf_order),
       }, @user.stripe_credentials)
+
+      # TODO should we propogate the metadata down to the subscription?
     else
+      log.info 'no recurring items found, creating a one-time invoice'
+
       stripe_transaction = Stripe::Invoice.create({
         customer: stripe_customer,
         metadata: sf_metadata(sf_order),

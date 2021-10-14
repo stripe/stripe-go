@@ -3,10 +3,14 @@
 module StripeForce
   module Constants
     CPQ_QUOTE = 'SBQQ__Quote__c'
+
     CPQ_QUOTE_PRIMARY_CONTACT = 'SBQQ__PrimaryContact__c'
     CPQ_QUOTE_OPPORTUNITY = 'SBQQ__Opportunity2__c'
     CPQ_QUOTE_ORDERED = 'SBQQ__Ordered__c'
     CPQ_QUOTE_PRIMARY = 'SBQQ__Primary__c'
+    CPQ_QUOTE_SUBSCRIPTION_START_DATE = 'SBQQ__StartDate__c'
+    CPQ_QUOTE_SUBSCRIPTION_TERM = 'SBQQ__SubscriptionTerm__c'
+
     CPQ_QUOTE_LINE = 'SBQQ__QuoteLine__c'
     CPQ_QUOTE_LINE_PRODUCT = 'SBQQ__Product__c'
     CPQ_QUOTE_LINE_PRICEBOOK_ENTRY = 'SBQQ__PricebookEntryId__c'
