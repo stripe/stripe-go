@@ -1,3 +1,4 @@
+# typed: true
 class StripeForce::Translate
   include SimpleStructuredLogger
   include StripeForce::Constants

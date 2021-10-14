@@ -1,3 +1,4 @@
+# typed: strict
 require_relative 'config'
 
 # credentials from the CLI tool is available here: /Users/mbianco/.sfdx/*.json

@@ -1,3 +1,4 @@
+# typed: true
 # ripped from rails
 class DateTime
   def utc

@@ -1,3 +1,4 @@
+# typed: false
 # heroku run bundle exec ruby migration.rb
 
 require 'sequel'

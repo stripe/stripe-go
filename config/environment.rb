@@ -1,3 +1,4 @@
+# typed: strict
 # Load the Rails application.
 require_relative "application"
 

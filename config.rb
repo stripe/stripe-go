@@ -1,3 +1,4 @@
+# typed: true
 require 'dotenv/load'
 
 require 'rubygems'

@@ -1,3 +1,4 @@
+# typed: strict
 require_relative "boot"
 
 require "action_controller/railtie"

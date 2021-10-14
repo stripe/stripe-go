@@ -1,3 +1,4 @@
+# typed: false
 require 'resque/server'
 require 'resque/scheduler/server'
 

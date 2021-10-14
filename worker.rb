@@ -1,3 +1,4 @@
+# typed: strict
 require_relative 'config'
 
 include SimpleStructuredLogger

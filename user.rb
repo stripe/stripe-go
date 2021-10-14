@@ -1,3 +1,4 @@
+# typed: false
 module StripeForce
   class User < Sequel::Model
     def sf_client

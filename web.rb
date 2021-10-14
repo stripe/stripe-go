@@ -1,3 +1,4 @@
+# typed: false
 # https://gist.github.com/cyberfox/44de7f5f70b5e8916425
 require_relative 'config'
 require 'sinatra'
