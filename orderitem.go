@@ -20,6 +20,7 @@ const (
 	OrderItemTypeTax      OrderItemType = "tax"
 )
 
+// OrderItemParentType represents the type of order item parent
 type OrderItemParentType string
 
 // List of values that OrderItemParentType can take.
