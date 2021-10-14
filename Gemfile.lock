@@ -102,7 +102,7 @@ GEM
       rack-protection (= 2.1.0)
       tilt (~> 2.0)
     slop (3.6.0)
-    stripe (5.38.0)
+    stripe (5.39.0)
     tilt (2.0.10)
 
 PLATFORMS
@@ -128,7 +128,7 @@ DEPENDENCIES
   sequel (= 5.48.0)
   simple_structured_logger
   sinatra
-  stripe (~> 5.38.0)
+  stripe (~> 5.39.0)
 
 RUBY VERSION
    ruby 2.6.8p205

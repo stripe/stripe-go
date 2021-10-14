@@ -27,7 +27,7 @@ gem 'sequel', '5.48.0'
 # gem 'money', '~> 6.13.8'
 # gem 'rest-client', '~> 2.0.2'
 gem 'restforce', '~> 5.1.1'
-gem 'stripe', '~> 5.38.0'
+gem 'stripe', '~> 5.39.0'
 # gem 'countries', '~> 3.0.1'
 
 # resque
