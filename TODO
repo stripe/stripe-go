@@ -1,2 +1,8 @@
 * invoice payment link on custom field
 * automated tests
+
+web server timeout
+https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#timeout
+
+# TODO maybe preload database connections here?
+# https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server

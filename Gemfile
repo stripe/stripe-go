@@ -74,6 +74,5 @@ group :development do
   # https://github.com/SudhagarS/pry-state
   gem 'binding_of_caller', '~> 1.0.0'
 
-  # gem 'spring'
-  # gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen'
 end
