@@ -3,17 +3,25 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.8'
 
-# gem 'sorbet'
-# gem 'sorbet-runtime'
+gem 'sorbet', '~> 0.5.6482', group: :development
+gem 'sorbet-runtime', '~> 0.5.6482', require: true
+gem 'sorbet-rails', '~> 0.7.4'
+
+gem 'dotenv-rails', '2.7.6', groups: [:development, :test]
+gem 'rails', '6.1.4.1'
+
+group :production do
+  gem 'unicorn', '~> 6.0.0'
+end
 
 # sentry
 gem "sentry-ruby"
-# gem "sentry-rails"
+gem "sentry-rails"
 # gem "sentry-sidekiq"
 # gem "sentry-resque"
 
 gem 'dotenv'
-# gem 'rails', '6.1.4.1'
+gem 'rails', '6.1.4.1'
 gem 'simple_structured_logger'
 
 gem 'sinatra', require: false
@@ -34,7 +42,6 @@ gem 'stripe', '~> 5.39.0'
 # gem 'resque', "~> 2.0.0"
 # gem 'resque-scheduler', "~> 4.4.0"
 # gem 'resque-retry', '~> 1.7.4'
-# gem 'resque-sentry', '~> 1.2.0'
 # gem 'resque-heroku-signals', '~> 2.0.0'
 
 gem 'rake'
