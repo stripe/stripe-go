@@ -34,6 +34,7 @@ gem 'sequel', '5.49.0'
 # auth
 gem 'omniauth-salesforce'
 gem 'omniauth-stripe'
+gem 'rack-attack', '~> 6.5.0'
 
 # translation
 gem 'restforce', '~> 5.1.1'

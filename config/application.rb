@@ -26,10 +26,16 @@ module StripeForce
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
+    # workaround no sessions on API-only applications; we need sessions for oauth
+    # https://github.com/omniauth/omniauth#integrating-omniauth-into-your-rails-api
+    Rails.application.config.session_store :cookie_store, key: '_stripe-salesforce_session'
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
+
     # https://github.com/stripe/stripe-netsuite/issues/712
     config.force_ssl = true
 
-    config.hosts += (ENV.fetch(SALESFORCE_HOST) || '').split(",")
+    config.hosts += ENV.fetch('SALESFORCE_HOST', '').split(",")
 
     # TODO I don't believe any emails we send will contain domains
     # config.action_controller.default_url_options = {

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 # typed: false
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :google_oauth2, ENV["GOOGLE_OAUTH_CLIENT"], ENV["GOOGLE_OAUTH_SECRET"]
+  provider :salesforce, ENV['SF_CONSUMER_KEY'], ENV['SF_CONSUMER_SECRET']
+  provider :stripe, ENV["STRIPE_CLIENT_ID"], ENV["STRIPE_CLIENT_SECRET"], scope: 'read_write'
 end

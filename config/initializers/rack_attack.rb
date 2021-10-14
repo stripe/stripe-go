@@ -18,7 +18,7 @@ class Rack::Attack
       # a unknown method on nil error when checking if the user is authenticated
       # related to: https://github.com/heartcombo/devise/issues/1670
 
-      StripeSuite::Log::Writer.instance.warn 'unable to determine path controller', error: e.message
+      SimpleStructuredLogger::Writer.instance.warn 'unable to determine path controller', error: e.message
       nil
     end
 
