@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 source 'https://rubygems.org'
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+git_source(:github) {|repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.8'
 
@@ -44,8 +45,8 @@ gem 'stripe', '~> 5.39.0'
 gem 'bootsnap', '>= 1.9.1', require: false
 
 group :test do
-#   gem 'bundler-audit', '~> 0.7.0.1', require: false
-#   gem 'brakeman', '~> 4.10', require: false
+  #   gem 'bundler-audit', '~> 0.7.0.1', require: false
+  #   gem 'brakeman', '~> 4.10', require: false
 
   gem 'minitest', '~> 5.14.4'
   gem 'minitest-ci', '~> 3.4.0'
@@ -76,4 +77,6 @@ group :development do
   gem 'binding_of_caller', '~> 1.0.0'
 
   gem 'listen'
+  gem 'spring'
+  gem 'rubocop'
 end

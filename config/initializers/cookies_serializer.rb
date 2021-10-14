@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 # typed: false
 # Be sure to restart your server when you modify this file.

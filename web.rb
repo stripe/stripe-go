@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # typed: false
 # https://gist.github.com/cyberfox/44de7f5f70b5e8916425
 require_relative 'config'
@@ -23,10 +24,10 @@ set :port, ENV.fetch("PORT")
 OmniAuth.config.full_host = ENV.fetch("DOMAIN")
 
 get '/' do
-  <<-EOL
-<p>StripeForce.</p>
-<p><a href="/auth/salesforce">Connect.</a></p>
-EOL
+  <<~EOL
+    <p>StripeForce.</p>
+    <p><a href="/auth/salesforce">Connect.</a></p>
+  EOL
 end
 
 get '/auth/stripe/callback' do
@@ -40,7 +41,7 @@ get '/auth/stripe/callback' do
 
   erb <<-EOL
   Great, your orders will now be synced
-EOL
+  EOL
 end
 
 get '/auth/salesforce/callback' do
@@ -59,12 +60,12 @@ get '/auth/salesforce/callback' do
   sf_token = sf_credentials["token"]
 
   user.salesforce_account_id = sf_account_id,
-  user.salesforce_refresh_token = sf_refresh_token,
-  user.salesforce_instance_url = sf_instance_url,
-  user.salesforce_token = sf_token,
+                               user.salesforce_refresh_token = sf_refresh_token,
+                               user.salesforce_instance_url = sf_instance_url,
+                               user.salesforce_token = sf_token,
 
-  user.name = sf_auth["extra"]["display_name"],
-  user.email = sf_auth["extra"]["email"]
+                               user.name = sf_auth["extra"]["display_name"],
+                               user.email = sf_auth["extra"]["email"]
 
   user.save
 
@@ -72,10 +73,10 @@ get '/auth/salesforce/callback' do
 
   # puts env['omniauth.auth'].inspect
 
-  erb <<-EOL
-<p>SalesForce connected. Let's login to Stripe.</p>
-<p><a href="/auth/stripe">Connect to Stripe</a>
-EOL
+  erb <<~EOL
+    <p>SalesForce connected. Let's login to Stripe.</p>
+    <p><a href="/auth/stripe">Connect to Stripe</a>
+  EOL
 end
 
 get '/auth/failure' do

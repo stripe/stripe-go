@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # typed: false
 require "minitest/autorun"
 require 'pry-rescue/minitest'
@@ -42,7 +43,7 @@ class FunctionalTests < MiniTest::Spec
       "SBQQ__Opportunity2__c": opportunity_id,
       CPQ_QUOTE_PRIMARY => true,
       'SBQQ__PrimaryContact__c' => contact_id,
-      'SBQQ__PricebookId__c' => pricebook_id
+      'SBQQ__PricebookId__c' => pricebook_id,
     }.merge(additional_order_fields))
 
     # https://developer.salesforce.com/docs/atlas.en-us.cpq_api_dev.meta/cpq_api_dev/cpq_api_read_quote.htm
@@ -54,18 +55,18 @@ class FunctionalTests < MiniTest::Spec
         # productId: product_id,
         pricebookId: pricebook_id,
         # currencyCode:
-      }.to_json
+      }.to_json,
     }).body)
 
     # https://gist.github.com/paustint/bd18bd281134a180e014829b49ed043a
     quote_with_product = JSON.parse(sf.patch('/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.QuoteAPI.QuoteProductAdder', {
       context: {
-          "quote": cpq_quote_representation,
-          "products": [
-            cpq_product_representation
-          ],
-          "groupKey": 0,
-          "ignoreCalculate": true
+        "quote": cpq_quote_representation,
+        "products": [
+          cpq_product_representation,
+        ],
+        "groupKey": 0,
+        "ignoreCalculate": true,
         # quote: {
         #   record: {
         #     Id: quote_id,
@@ -95,13 +96,13 @@ class FunctionalTests < MiniTest::Spec
       # "context": quote_with_product.to_json
       # "context": saved_quote.to_json
       # "context": sf.get("services/apexrest/SBQQ/ServiceRouter?reader=SBQQ.QuoteAPI.QuoteReader&uid=#{quote_id}").body
-      "context": { "quote" => quote_with_product }.to_json
+      "context": {"quote" => quote_with_product}.to_json,
     }).body)
 
     # https://developer.salesforce.com/docs/atlas.en-us.cpq_dev_api.meta/cpq_dev_api/cpq_quote_api_save_final.htm
     saved_quote = JSON.parse(sf.post('/services/apexrest/SBQQ/ServiceRouter', {
       "saver": "SBQQ.QuoteAPI.QuoteSaver",
-      "model": calculated_quote.to_json
+      "model": calculated_quote.to_json,
     }).body)
 
     # sf.create!(CPQ_QUOTE_LINE, {
@@ -135,7 +136,7 @@ class FunctionalTests < MiniTest::Spec
   it 'integrates a subscription order' do
     sf_order = create_salesforce_order(additional_order_fields: {
       CPQ_QUOTE_SUBSCRIPTION_START_DATE => "2021-10-01",
-      CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0
+      CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
     })
 
     StripeForce::Translate.perform(user: @user, sf_object: sf_order)
@@ -150,7 +151,7 @@ class FunctionalTests < MiniTest::Spec
 
     # TODO customer address assertions once mapping is complete
 
-    invoices = Stripe::Invoice.list({ subscription: subscription_schedule.subscription}, @user.stripe_credentials)
+    invoices = Stripe::Invoice.list({subscription: subscription_schedule.subscription}, @user.stripe_credentials)
 
     assert_equal(1, invoices.count)
     invoice = invoices.first

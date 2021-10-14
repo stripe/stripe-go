@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # typed: true
 # ripped from rails
 class DateTime
@@ -23,7 +24,7 @@ class StripeForce::OrderPoller
 
   def perform
     sf = @user.sf_client
-    one_minute = 1.0/24/60
+    one_minute = 1.0 / 24 / 60
 
     updated_orders = sf.get_updated('Order', DateTime.now - one_minute, DateTime.now)
     # anything else but "ids" in the hash?

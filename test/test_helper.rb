@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # typed: false
 ENV['RAILS_ENV'] ||= 'test'
 require_relative "../config/environment"

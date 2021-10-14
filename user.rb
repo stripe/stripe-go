@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # typed: false
 module StripeForce
   class User < Sequel::Model
@@ -33,7 +34,7 @@ module StripeForce
       {
         api_key: ENV['STRIPE_CLIENT_SECRET'],
         stripe_account: stripe_account_id,
-        stripe_version: '2020-08-27'
+        stripe_version: '2020-08-27',
       }
     end
   end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # typed: strict
 require "test_helper"
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # typed: true
 class StripeForce::Translate
   include SimpleStructuredLogger
@@ -29,7 +30,7 @@ class StripeForce::Translate
   def sf_metadata(sf_object)
     {
       salesforce_id: sf_object.Id,
-      salesforce_url: "#{@user.sf_endpoint}/#{sf_object.Id}"
+      salesforce_url: "#{@user.sf_endpoint}/#{sf_object.Id}",
     }
   end
 
@@ -50,7 +51,7 @@ class StripeForce::Translate
     customer = Stripe::Customer.create({
       email: sf_primary_contact.Email,
       name: sf_account.Name,
-      metadata: sf_metadata(sf_opportunity)
+      metadata: sf_metadata(sf_opportunity),
     }, @user.stripe_credentials)
 
     sf.update!('Opportunity', 'Id' => sf_opportunity.Id, OPPORTUNITY_STRIPE_ID => customer.id)
@@ -70,7 +71,7 @@ class StripeForce::Translate
       id: sf_product.Id,
       name: sf_product.Name,
       description: sf_product.Description,
-      metadata: sf_metadata(sf_product)
+      metadata: sf_metadata(sf_product),
     }, @user.stripe_credentials)
 
     # TODO update SF ID
@@ -113,7 +114,7 @@ class StripeForce::Translate
 
     if recurring_item?(sf_order_item)
       optional_params[:recurring] = {
-        interval: sf_cpq_term_interval
+        interval: sf_cpq_term_interval,
       }
     end
 
@@ -137,7 +138,7 @@ class StripeForce::Translate
 
       # recurring: {interval: 'month'},
 
-      metadata: sf_metadata(sf_pricebook_entry)
+      metadata: sf_metadata(sf_pricebook_entry),
     }.merge(optional_params), @user.stripe_credentials)
 
     sf.update!('PricebookEntry', 'Id' => sf_pricebook_entry.Id, PRICE_BOOK_STRIPE_ID => price.id)
@@ -180,9 +181,9 @@ class StripeForce::Translate
     sf_order_items = sf_order_with_lines.OrderItems
 
     # the OrderItems from the commerce API is some sort of limited version
-    sf_order_items = sf_order_items.map { |o| sf.find('OrderItem', o.Id) }
+    sf_order_items = sf_order_items.map {|o| sf.find('OrderItem', o.Id) }
 
-    sf_recurring_items, sf_one_time_items = sf_order_items.partition { |i| recurring_item?(i) }
+    sf_recurring_items, sf_one_time_items = sf_order_items.partition {|i| recurring_item?(i) }
     is_recurring_order = !sf_recurring_items.empty?
     subscription_items = []
 
@@ -196,12 +197,12 @@ class StripeForce::Translate
         Stripe::InvoiceItem.create({
           price: price,
           customer: stripe_customer,
-          quantity: quantity
+          quantity: quantity,
         }, @user.stripe_credentials)
       else
         subscription_items << {
           price: price,
-          quantity: quantity
+          quantity: quantity,
         }
       end
     end
@@ -242,7 +243,7 @@ class StripeForce::Translate
         metadata: sf_metadata(sf_order),
 
         collection_method: 'send_invoice',
-        days_until_due: 30
+        days_until_due: 30,
       }, @user.stripe_credentials)
 
       stripe_transaction.finalize_invoice
