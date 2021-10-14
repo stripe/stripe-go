@@ -3,11 +3,6 @@ require 'dotenv/load'
 require 'rubygems'
 require 'bundler'
 
-Sentry.init do |config|
-  config.dsn = ENV.fetch('SENTRY_DSN')
-  config.traces_sample_rate = 0.5
-end
-
 $stdout.sync = true
 
 module StripeForce
@@ -15,6 +10,11 @@ module StripeForce
 end
 
 Bundler.require(:default, :development)
+
+Sentry.init do |config|
+  config.dsn = ENV.fetch('SENTRY_DSN')
+  config.traces_sample_rate = 0.5
+end
 
 # CREATE DATABASE stripeforce
 DB = Sequel.connect(ENV.fetch('DATABASE_URL'))
