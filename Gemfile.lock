@@ -77,6 +77,9 @@ GEM
     pry-rescue (1.5.2)
       interception (>= 0.5)
       pry (>= 0.12.0)
+    pry-stack_explorer (0.6.1)
+      binding_of_caller (~> 1.0)
+      pry (~> 0.13)
     rack (2.2.3)
     rack-protection (2.1.0)
       rack
@@ -120,6 +123,7 @@ DEPENDENCIES
   pry-doc (~> 1.2.0)
   pry-nav!
   pry-rescue (~> 1.5.2)
+  pry-stack_explorer (~> 0.6.1)
   rake
   restforce (~> 5.1.1)
   sentry-ruby
