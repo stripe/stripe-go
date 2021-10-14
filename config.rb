@@ -5,6 +5,13 @@ require 'bundler'
 
 $stdout.sync = true
 
+# tired of writing binding.pry...
+module Kernel
+  def bp
+    Pry.start(binding.of_caller(1))
+  end
+end
+
 module StripeForce
 
 end
