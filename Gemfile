@@ -75,6 +75,8 @@ group :development do
   # https://github.com/SudhagarS/pry-state
   gem 'binding_of_caller', '~> 1.0.0'
 
+  gem 'better_errors', '~> 2.9.1'
+
   gem 'listen'
   gem 'spring'
 

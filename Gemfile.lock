@@ -71,6 +71,10 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     ansi (1.5.0)
     ast (2.4.2)
+    better_errors (2.9.1)
+      coderay (>= 1.0.0)
+      erubi (>= 1.0.0)
+      rack (>= 0.9.0)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
     bootsnap (1.9.1)
@@ -375,6 +379,7 @@ PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
+  better_errors (~> 2.9.1)
   binding_of_caller (~> 1.0.0)
   bootsnap (>= 1.9.1)
   capybara (~> 3.35.3)
