@@ -17,9 +17,8 @@ class StripeForce::OrderPoller
     log.info 'initiating order poll', user_id: @user.id
 
     sf = @user.sf_client
-    one_minute = 1.0 / 24 / 60
 
-    updated_orders = sf.get_updated('Order', DateTime.now - one_minute, DateTime.now)
+    updated_orders = sf.get_updated('Order', DateTime.now - 2.minutes, DateTime.now)
     # anything else but "ids" in the hash?
     updated_orders = updated_orders["ids"] if updated_orders.is_a?(Hash)
 
@@ -31,5 +30,7 @@ class StripeForce::OrderPoller
       sf_order = sf.find('Order', sf_order_id)
       StripeForce::Translate.perform(user: @user, sf_object: sf_order)
     end
+
+    log.info 'order poll complete'
   end
 end
