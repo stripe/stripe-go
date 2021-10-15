@@ -6,6 +6,8 @@
 
 package stripe
 
+import "github.com/stripe/stripe-go/v72/form"
+
 // Possible values for the action parameter on usage record creation.
 const (
 	UsageRecordActionIncrement string = "increment"
@@ -20,6 +22,14 @@ type UsageRecordParams struct {
 	Action           *string `form:"action"`
 	Quantity         *int64  `form:"quantity"`
 	Timestamp        *int64  `form:"timestamp"`
+	TimestampNow     *bool   `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for UsageRecordParams.
+func (u *UsageRecordParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(u.TimestampNow) {
+		body.Add(form.FormatKey(append(keyParts, "timestamp")), "now")
+	}
 }
 
 // UsageRecord represents a usage record.
