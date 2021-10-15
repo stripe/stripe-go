@@ -4,6 +4,7 @@ module Resque
   module Failure
     class Backtrace < Base
       def save
+        # TODO modify once we have the locktime defined here
         # if exception.class != StripeSuite::Errors::LockTimeout
         if true
           bt = filter_backtrace(exception.backtrace)
