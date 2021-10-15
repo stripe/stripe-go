@@ -2,6 +2,8 @@
 # typed: true
 
 class StripeForce::OrderPoller
+  include SimpleStructuredLogger
+
   def self.perform(user:)
     interactor = self.new(user)
     interactor.perform
@@ -12,6 +14,8 @@ class StripeForce::OrderPoller
   end
 
   def perform
+    log.info 'initiating order poll', user_id: @user.id
+
     sf = @user.sf_client
     one_minute = 1.0 / 24 / 60
 
@@ -22,6 +26,8 @@ class StripeForce::OrderPoller
     # TODO updating the line item does NOT update the order
 
     updated_orders.each do |sf_order_id|
+      log.info 'translating order', sf_order_id: sf_order_id
+
       sf_order = sf.find('Order', sf_order_id)
       StripeForce::Translate.perform(user: @user, sf_object: sf_order)
     end
