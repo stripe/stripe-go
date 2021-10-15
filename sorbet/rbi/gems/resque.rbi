@@ -459,6 +459,23 @@ class Resque::Failure::Multiple < Resque::Failure::Base
   def self.requeue_queue(queue); end
   def self.url; end
 end
+class Resque::Failure::Redis < Resque::Failure::Base
+  def data_store; end
+  def filter_backtrace(backtrace); end
+  def save; end
+  def self.all(offset = nil, limit = nil, queue = nil); end
+  def self.check_queue(queue); end
+  def self.clear(queue = nil); end
+  def self.count(queue = nil, class_name = nil); end
+  def self.data_store; end
+  def self.each(offset = nil, limit = nil, queue = nil, class_name = nil, order = nil); end
+  def self.queues; end
+  def self.remove(id, queue = nil); end
+  def self.remove_queue(queue); end
+  def self.requeue(id, queue = nil); end
+  def self.requeue_all; end
+  def self.requeue_queue(queue); end
+end
 class Resque::Server < Sinatra::Base
   def class_if_current(path = nil); end
   def current_page; end

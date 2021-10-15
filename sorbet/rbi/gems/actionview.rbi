@@ -78,10 +78,6 @@ class ActionView::PartialRenderer < ActionView::AbstractRenderer
   include ActionView::CollectionCaching
 end
 module ActionView::Helpers
-  def self.eager_load!; end
-  extend ActiveSupport::Autoload
-  extend ActiveSupport::Concern
-  include ActionView::Helpers::ActiveModelHelper
   include ActionView::Helpers::AssetTagHelper
   include ActionView::Helpers::AssetUrlHelper
   include ActionView::Helpers::AtomFeedHelper
@@ -104,7 +100,6 @@ module ActionView::Helpers
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::TranslationHelper
   include ActionView::Helpers::UrlHelper
-  include ActiveSupport::Benchmarkable
 end
 module ActionView::Helpers::ActiveModelHelper
 end
@@ -758,6 +753,24 @@ class ActionView::PathSet
   def unshift(*args); end
   include Enumerable
 end
+module ActionView::RoutingUrlFor
+  def _generate_paths_by_default; end
+  def _routes_context; end
+  def ensure_only_path_option(options); end
+  def optimize_routes_generation?; end
+  def url_for(options = nil); end
+  def url_options; end
+end
+class ActionView::LogSubscriber < ActiveSupport::LogSubscriber
+end
+module ActionView::Context
+  def _layout_for(name = nil); end
+  def _prepare_context; end
+  def output_buffer; end
+  def output_buffer=(arg0); end
+  def view_flow; end
+  def view_flow=(arg0); end
+end
 class ActionView::Template
   def compile!(view); end
   def compile(mod); end
@@ -925,24 +938,6 @@ class ActionView::FallbackFileSystemResolver < ActionView::FileSystemResolver
   def self.instances; end
   def self.new(*arg0); end
 end
-module ActionView::RoutingUrlFor
-  def _generate_paths_by_default; end
-  def _routes_context; end
-  def ensure_only_path_option(options); end
-  def optimize_routes_generation?; end
-  def url_for(options = nil); end
-  def url_options; end
-end
-class ActionView::LogSubscriber < ActiveSupport::LogSubscriber
-end
-module ActionView::Context
-  def _layout_for(name = nil); end
-  def _prepare_context; end
-  def output_buffer; end
-  def output_buffer=(arg0); end
-  def view_flow; end
-  def view_flow=(arg0); end
-end
 class ActionView::LookupContext
   def digest_cache; end
   def fallbacks; end
@@ -1033,6 +1028,23 @@ class ActionView::Template::Types::Type
   def to_s; end
   def to_str; end
   def to_sym; end
+end
+class ActionView::TemplateRenderer < ActionView::AbstractRenderer
+  def determine_template(options); end
+  def find_layout(layout, keys, formats); end
+  def render(context, options); end
+  def render_template(view, template, layout_name, locals); end
+  def render_with_layout(view, template, path, locals); end
+  def resolve_layout(layout, keys, formats); end
+end
+class ActionView::StreamingTemplateRenderer < ActionView::TemplateRenderer
+  def delayed_render(buffer, template, layout, view, locals); end
+  def render_template(view, template, layout_name = nil, locals = nil); end
+end
+class ActionView::StreamingTemplateRenderer::Body
+  def each(&block); end
+  def initialize(&start); end
+  def log_error(exception); end
 end
 class ActionView::Base
   def _routes; end

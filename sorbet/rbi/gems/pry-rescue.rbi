@@ -45,7 +45,3 @@ end
 class Minitest::Test < Minitest::Runnable
   def run_without_rescue; end
 end
-module Kernel
-end
-module StripeForce
-end

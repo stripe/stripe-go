@@ -2801,6 +2801,44 @@ class ActionController::Renderer
   def self.for(controller, env = nil, defaults = nil); end
   def with_defaults(defaults); end
 end
+module ActionController::Live
+  def log_error(exception); end
+  def new_controller_thread; end
+  def process(name); end
+  def response_body=(body); end
+  extend ActiveSupport::Concern
+end
+module ActionController::Live::ClassMethods
+  def make_response!(request); end
+end
+class ActionController::Live::SSE
+  def close; end
+  def initialize(stream, options = nil); end
+  def perform_write(json, options); end
+  def write(object, options = nil); end
+end
+class ActionController::Live::ClientDisconnected < RuntimeError
+end
+class ActionController::Live::Buffer < ActionDispatch::Response::Buffer
+  def abort; end
+  def build_queue(queue_size); end
+  def call_on_error; end
+  def close; end
+  def connected?; end
+  def each_chunk(&block); end
+  def ignore_disconnect; end
+  def ignore_disconnect=(arg0); end
+  def initialize(response); end
+  def on_error(&block); end
+  def self.queue_size; end
+  def self.queue_size=(arg0); end
+  def write(string); end
+  include MonitorMixin
+end
+class ActionController::Live::Response < ActionDispatch::Response
+  def before_committed; end
+  def build_buffer(response, body); end
+end
 class ActionController::Base < ActionController::Metal
   def __callbacks; end
   def __callbacks?; end
@@ -3055,6 +3093,8 @@ class ActionController::Base < ActionController::Metal
   include ActiveSupport::Benchmarkable
   include ActiveSupport::Callbacks
   include ActiveSupport::Rescuable
+  include Sentry::Rails::ControllerMethods
+  include Sentry::Rails::ControllerTransaction
 end
 module ActionController::Base::HelperMethods
   def alert(*args, &block); end
@@ -3185,6 +3225,8 @@ class ActionController::API < ActionController::Metal
   include ActiveSupport::Benchmarkable
   include ActiveSupport::Callbacks
   include ActiveSupport::Rescuable
+  include Sentry::Rails::ControllerMethods
+  include Sentry::Rails::ControllerTransaction
 end
 module Anonymous_Module_6
   def inherited(klass); end
@@ -3197,44 +3239,6 @@ module ActionController::Testing
 end
 module ActionController::Testing::Functional
   def recycle!; end
-end
-module ActionController::Live
-  def log_error(exception); end
-  def new_controller_thread; end
-  def process(name); end
-  def response_body=(body); end
-  extend ActiveSupport::Concern
-end
-module ActionController::Live::ClassMethods
-  def make_response!(request); end
-end
-class ActionController::Live::SSE
-  def close; end
-  def initialize(stream, options = nil); end
-  def perform_write(json, options); end
-  def write(object, options = nil); end
-end
-class ActionController::Live::ClientDisconnected < RuntimeError
-end
-class ActionController::Live::Buffer < ActionDispatch::Response::Buffer
-  def abort; end
-  def build_queue(queue_size); end
-  def call_on_error; end
-  def close; end
-  def connected?; end
-  def each_chunk(&block); end
-  def ignore_disconnect; end
-  def ignore_disconnect=(arg0); end
-  def initialize(response); end
-  def on_error(&block); end
-  def self.queue_size; end
-  def self.queue_size=(arg0); end
-  def write(string); end
-  include MonitorMixin
-end
-class ActionController::Live::Response < ActionDispatch::Response
-  def before_committed; end
-  def build_buffer(response, body); end
 end
 class ActionDispatch::Flash
   def self.new(app); end

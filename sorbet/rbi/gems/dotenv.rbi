@@ -66,8 +66,3 @@ end
 class Dotenv::MissingKeys < Dotenv::Error
   def initialize(keys); end
 end
-module Kernel
-  def bp; end
-end
-module StripeForce
-end

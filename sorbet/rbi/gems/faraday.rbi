@@ -605,6 +605,10 @@ module Faraday::AutoloadHelper
   def autoload_all(prefix, options); end
   def load_autoloaded_constants; end
 end
+class Faraday::Response::RaiseError < Faraday::Response::Middleware
+  def on_complete(env); end
+  def response_values(env); end
+end
 class Faraday::Request::UrlEncoded < Faraday::Middleware
   def call(env); end
   def match_content_type(env); end
@@ -622,8 +626,4 @@ class Faraday::Request::Multipart < Faraday::Request::UrlEncoded
   def process_params(params, prefix = nil, pieces = nil, &block); end
   def process_request?(env); end
   def unique_boundary; end
-end
-class Faraday::Response::RaiseError < Faraday::Response::Middleware
-  def on_complete(env); end
-  def response_values(env); end
 end

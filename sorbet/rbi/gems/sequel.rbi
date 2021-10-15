@@ -2106,3 +2106,305 @@ class Sequel::Model::Associations::EagerGraphLoader
   def row_procs; end
   def type_map; end
 end
+module Sequel::UnmodifiedIdentifiers
+end
+module Sequel::UnmodifiedIdentifiers::DatabaseMethods
+  def folds_unquoted_identifiers_to_uppercase?; end
+end
+module Sequel::UnmodifiedIdentifiers::DatasetMethods
+  def input_identifier(v); end
+  def output_identifier(v); end
+end
+module Sequel::Postgres
+  def self.mock_adapter_setup(db); end
+  def self.sequel_pg_version_supported?(version); end
+end
+module Sequel::Postgres::MockAdapterDatabaseMethods
+  def bound_variable_arg(arg, conn); end
+  def primary_key(table); end
+end
+class Sequel::Postgres::CreateTableGenerator < Sequel::Schema::CreateTableGenerator
+  def exclude(elements, opts = nil); end
+end
+class Sequel::Postgres::AlterTableGenerator < Sequel::Schema::AlterTableGenerator
+  def add_exclusion_constraint(elements, opts = nil); end
+  def validate_constraint(name); end
+end
+class Sequel::Postgres::CreatePartitionOfTableGenerator
+  def default; end
+  def from(*v); end
+  def hash_values; end
+  def initialize(&block); end
+  def list; end
+  def maxvalue; end
+  def minvalue; end
+  def modulus(v); end
+  def partition_type; end
+  def range; end
+  def remainder(v); end
+  def to(*v); end
+  def values_in(*v); end
+end
+class Sequel::Postgres::ExclusionConstraintViolation < Sequel::ConstraintViolation
+end
+module Sequel::Postgres::DatabaseMethods
+  def add_conversion_proc(oid, callable = nil, &block); end
+  def add_named_conversion_proc(name, &block); end
+  def alter_table_add_column_sql(table, op); end
+  def alter_table_drop_column_sql(table, op); end
+  def alter_table_generator_class; end
+  def alter_table_set_column_type_sql(table, op); end
+  def alter_table_validate_constraint_sql(table, op); end
+  def begin_new_transaction(conn, opts); end
+  def begin_savepoint(conn, opts); end
+  def check_constraints(table); end
+  def column_definition_collate_sql(sql, column); end
+  def column_definition_default_sql(sql, column); end
+  def column_schema_normalize_default(default, type); end
+  def combinable_alter_table_op?(op); end
+  def commit_prepared_transaction(transaction_id, opts = nil); end
+  def commit_transaction(conn, opts = nil); end
+  def connection_configuration_sqls(opts = nil); end
+  def constraint_definition_sql(constraint); end
+  def conversion_procs; end
+  def convert_serial_to_identity(table, opts = nil); end
+  def copy_into_sql(table, opts); end
+  def copy_table_sql(table, opts); end
+  def create_function(name, definition, opts = nil); end
+  def create_function_sql(name, definition, opts = nil); end
+  def create_language(name, opts = nil); end
+  def create_language_sql(name, opts = nil); end
+  def create_partition_of_table_from_generator(name, generator, options); end
+  def create_partition_of_table_sql(name, generator, options); end
+  def create_schema(name, opts = nil); end
+  def create_schema_sql(name, opts = nil); end
+  def create_table(name, options = nil, &block); end
+  def create_table?(name, options = nil, &block); end
+  def create_table_as_sql(name, sql, options); end
+  def create_table_generator_class; end
+  def create_table_prefix_sql(name, options); end
+  def create_table_sql(name, generator, options); end
+  def create_table_suffix_sql(name, options); end
+  def create_trigger(table, name, function, opts = nil); end
+  def create_trigger_sql(table, name, function, opts = nil); end
+  def create_view_prefix_sql(name, options); end
+  def database_error_regexps; end
+  def database_specific_error_class_from_sqlstate(sqlstate); end
+  def database_type; end
+  def do(code, opts = nil); end
+  def drop_function(name, opts = nil); end
+  def drop_function_sql(name, opts = nil); end
+  def drop_index_sql(table, op); end
+  def drop_language(name, opts = nil); end
+  def drop_language_sql(name, opts = nil); end
+  def drop_schema(name, opts = nil); end
+  def drop_schema_sql(name, opts = nil); end
+  def drop_table_sql(name, options); end
+  def drop_trigger(table, name, opts = nil); end
+  def drop_trigger_sql(table, name, opts = nil); end
+  def drop_view_sql(name, opts = nil); end
+  def filter_schema(ds, opts); end
+  def foreign_key_list(table, opts = nil); end
+  def freeze; end
+  def index_definition_sql(table_name, index); end
+  def indexes(table, opts = nil); end
+  def initialize_postgres_adapter; end
+  def locks; end
+  def notify(channel, opts = nil); end
+  def pg_class_relname(type, opts); end
+  def prepared_arg_placeholder; end
+  def primary_key(table, opts = nil); end
+  def primary_key_sequence(table, opts = nil); end
+  def refresh_view(name, opts = nil); end
+  def regclass_oid(expr, opts = nil); end
+  def remove_cached_schema(table); end
+  def rename_table_sql(name, new_name); end
+  def reset_primary_key_sequence(table); end
+  def rollback_prepared_transaction(transaction_id, opts = nil); end
+  def schema_column_type(db_type); end
+  def schema_parse_table(table_name, opts); end
+  def serial_primary_key_options; end
+  def server_version(server = nil); end
+  def set_transaction_isolation(conn, opts); end
+  def sql_function_args(args); end
+  def supports_combining_alter_table_ops?; end
+  def supports_create_or_replace_view?; end
+  def supports_create_table_if_not_exists?; end
+  def supports_deferrable_constraints?; end
+  def supports_deferrable_foreign_key_constraints?; end
+  def supports_drop_table_if_exists?; end
+  def supports_partial_indexes?; end
+  def supports_prepared_transactions?; end
+  def supports_savepoints?; end
+  def supports_transaction_isolation_levels?; end
+  def supports_transactional_ddl?; end
+  def supports_trigger_conditions?; end
+  def tables(opts = nil, &block); end
+  def type_literal_generic_bignum_symbol(column); end
+  def type_literal_generic_file(column); end
+  def type_literal_generic_integer(column); end
+  def type_literal_generic_string(column); end
+  def type_supported?(type); end
+  def values(v); end
+  def view_with_check_option_support; end
+  def views(opts = nil); end
+  include Sequel::UnmodifiedIdentifiers::DatabaseMethods
+end
+module Sequel::Postgres::DatasetMethods
+  def _import(columns, values, opts = nil); end
+  def _insert_sql; end
+  def _truncate_sql(table); end
+  def _update_sql; end
+  def analyze; end
+  def check_truncation_allowed!; end
+  def complex_expression_sql_append(sql, op, args); end
+  def compound_dataset_sql_append(sql, ds); end
+  def delete_from_sql(sql); end
+  def delete_sql; end
+  def delete_using_sql(sql); end
+  def disable_insert_returning; end
+  def explain(opts = nil); end
+  def for_share; end
+  def full_text_search(cols, terms, opts = nil); end
+  def full_text_string_join(cols); end
+  def insert(*values); end
+  def insert_conflict(opts = nil); end
+  def insert_conflict_sql(sql); end
+  def insert_ignore; end
+  def insert_into_sql(sql); end
+  def insert_pk; end
+  def insert_select(*values); end
+  def insert_select_sql(*values); end
+  def insert_values_sql(sql); end
+  def join_from_sql(type, sql); end
+  def join_table(type, table, expr = nil, options = nil, &block); end
+  def join_using_clause_using_sql_append(sql, using_columns); end
+  def literal_blob_append(sql, v); end
+  def literal_false; end
+  def literal_float(value); end
+  def literal_string_append(sql, v); end
+  def literal_true; end
+  def lock(mode, opts = nil); end
+  def multi_insert_sql_strategy; end
+  def non_sql_option?(key); end
+  def overriding_system_value; end
+  def overriding_user_value; end
+  def requires_like_escape?; end
+  def select_limit_sql(sql); end
+  def select_lock_sql(sql); end
+  def select_sql; end
+  def select_values_sql(sql); end
+  def select_with_sql_base; end
+  def server_version; end
+  def supports_cte?(type = nil); end
+  def supports_cte_in_subqueries?; end
+  def supports_distinct_on?; end
+  def supports_filtered_aggregates?; end
+  def supports_group_cube?; end
+  def supports_group_rollup?; end
+  def supports_grouping_sets?; end
+  def supports_insert_conflict?; end
+  def supports_insert_select?; end
+  def supports_lateral_subqueries?; end
+  def supports_modifying_joins?; end
+  def supports_nowait?; end
+  def supports_quoted_function_names?; end
+  def supports_regexp?; end
+  def supports_returning?(type); end
+  def supports_skip_locked?; end
+  def supports_timestamp_timezones?; end
+  def supports_window_clause?; end
+  def supports_window_function_frame_option?(option); end
+  def supports_window_functions?; end
+  def to_prepared_statement(type, *a); end
+  def truncate(opts = nil); end
+  def update_from_sql(sql); end
+  def update_table_sql(sql); end
+  def with_ties; end
+  include Sequel::UnmodifiedIdentifiers::DatasetMethods
+end
+class Sequel::Postgres::Adapter < PG::Connection
+  def check_disconnect_errors; end
+  def execute(sql, args = nil); end
+  def execute_query(sql, args); end
+  def prepared_statements; end
+end
+class Sequel::Postgres::Database < Sequel::Database
+  def _execute(conn, sql, opts, &block); end
+  def _execute_prepared_statement(conn, ps_name, args, opts); end
+  def adapter_initialize; end
+  def bound_variable_arg(arg, conn); end
+  def call_procedure(name, *args); end
+  def check_database_errors; end
+  def connect(server); end
+  def connection_configuration_sqls(opts = nil); end
+  def convert_infinite_timestamps; end
+  def convert_infinite_timestamps=(v); end
+  def copy_into(table, opts = nil); end
+  def copy_table(table, opts = nil); end
+  def database_error_classes; end
+  def database_exception_sqlstate(exception, opts); end
+  def dataset_class_default; end
+  def disconnect_connection(conn); end
+  def disconnect_error?(exception, opts); end
+  def error_info(e); end
+  def execute(sql, opts = nil, &block); end
+  def execute_prepared_statement(conn, name, opts = nil, &block); end
+  def listen(channels, opts = nil, &block); end
+  def log_connection_execute(conn, sql); end
+  def rollback_transaction(conn, opts = nil); end
+  def unescape_bytea(s); end
+  include Sequel::Postgres::DatabaseMethods
+end
+class Sequel::Postgres::Dataset < Sequel::Dataset
+  def bound_variable_modules; end
+  def call_procedure(name, args); end
+  def cursor_fetch_rows(sql); end
+  def fetch_rows(sql); end
+  def fetch_rows_set_cols(res); end
+  def literal_blob_append(sql, v); end
+  def literal_string_append(sql, v); end
+  def paged_each(opts = nil, &block); end
+  def prepared_arg_placeholder; end
+  def prepared_statement_modules; end
+  def use_cursor(opts = nil); end
+  def where_current_of(cursor_name = nil); end
+  def yield_hash_rows(res, cols); end
+  include Sequel::Postgres::DatasetMethods
+end
+module Sequel::Postgres::Dataset::ArgumentMapper
+  def map_to_prepared_args(hash); end
+  def prepared_arg(k); end
+  include Sequel::Dataset::ArgumentMapper
+end
+module Sequel::Postgres::Dataset::BindArgumentMethods
+  def execute(sql, opts = nil); end
+  def execute_dui(sql, opts = nil); end
+  include Sequel::Postgres::Dataset::ArgumentMapper
+end
+module Sequel::Postgres::Dataset::PreparedStatementMethods
+  def execute(sql, opts = nil); end
+  def execute_dui(sql, opts = nil); end
+  include Sequel::Postgres::Dataset::BindArgumentMethods
+end
+class Sequel::ThreadedConnectionPool < Sequel::ConnectionPool
+  def _size; end
+  def acquire(thread); end
+  def all_connections; end
+  def allocated; end
+  def assign_connection(thread); end
+  def available_connections; end
+  def checkin_connection(conn); end
+  def disconnect(opts = nil); end
+  def hold(server = nil); end
+  def initialize(db, opts = nil); end
+  def max_size; end
+  def next_available; end
+  def owned_connection(thread); end
+  def pool_type; end
+  def preconnect(concurrent = nil); end
+  def raise_pool_timeout(elapsed); end
+  def release(thread); end
+  def size; end
+  def sync; end
+end

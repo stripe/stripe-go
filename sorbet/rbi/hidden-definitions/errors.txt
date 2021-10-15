@@ -693,8 +693,6 @@
 # wrong constant name <Class:Renderer>
 # wrong constant name <Class:StreamingBuffer>
 # wrong constant name <Class:StreamingFlow>
-# wrong constant name <Class:StreamingTemplateRenderer>
-# wrong constant name <Class:TemplateRenderer>
 # uninitialized constant ActionView::Base::ARIA_PREFIXES
 # Did you mean?  ActionView::Base::DATA_PREFIXES
 # uninitialized constant ActionView::Base::ASSET_EXTENSIONS
@@ -807,22 +805,12 @@
 # wrong constant name <static-init>
 # wrong constant name initialize
 # wrong constant name <static-init>
-# wrong constant name <Class:Body>
-# uninitialized constant ActionView::StreamingTemplateRenderer::NO_DETAILS
-# wrong constant name render_template
-# wrong constant name each
-# wrong constant name initialize
-# wrong constant name <static-init>
-# wrong constant name <static-init>
 # wrong constant name format
 # wrong constant name identifier
 # wrong constant name initialize
 # wrong constant name render
 # wrong constant name <static-init>
 # wrong constant name initialize
-# wrong constant name <static-init>
-# uninitialized constant ActionView::TemplateRenderer::NO_DETAILS
-# wrong constant name render
 # wrong constant name <static-init>
 # uninitialized constant ActionView::TestCase::ARIA_PREFIXES
 # Did you mean?  ActionView::TestCase::DATA_PREFIXES
@@ -2085,32 +2073,32 @@
 # wrong constant name perform
 # wrong constant name <static-init>
 # uninitialized constant ActiveRecord::Enum::RUBYGEMS_ACTIVATION_MONITOR
-# uninitialized constant #<Class:0x00007f9f448b54f8>::ACTIONS
+# uninitialized constant #<Class:0x00007fd7a96b3090>::ACTIONS
 # Did you mean?  ActiveRecord::InternalMetadata::ACTIONS
 # wrong constant name <Class:ActiveRecord_AssociationRelation>
 # wrong constant name <Class:ActiveRecord_Associations_CollectionProxy>
 # wrong constant name <Class:ActiveRecord_Relation>
-# uninitialized constant #<Class:0x00007f9f448b54f8>::CALLBACKS
+# uninitialized constant #<Class:0x00007fd7a96b3090>::CALLBACKS
 # Did you mean?  ActiveRecord::InternalMetadata::Callbacks
 #                ActiveRecord::Callbacks
 #                ActiveRecord::InternalMetadata::Callback
 #                ActiveRecord::InternalMetadata::CALLBACKS
-# uninitialized constant #<Class:0x00007f9f448b54f8>::CALLBACK_FILTER_TYPES
+# uninitialized constant #<Class:0x00007fd7a96b3090>::CALLBACK_FILTER_TYPES
 # Did you mean?  ActiveRecord::InternalMetadata::CALLBACK_FILTER_TYPES
-# uninitialized constant #<Class:0x00007f9f448b54f8>::CALL_COMPILABLE_REGEXP
+# uninitialized constant #<Class:0x00007fd7a96b3090>::CALL_COMPILABLE_REGEXP
 # Did you mean?  ActiveRecord::InternalMetadata::CALL_COMPILABLE_REGEXP
 # wrong constant name <Class:GeneratedAssociationMethods>
 # wrong constant name <Class:GeneratedAttributeMethods>
 # wrong constant name <Class:GeneratedRelationMethods>
-# uninitialized constant #<Class:0x00007f9f448b54f8>::MAX_PASSWORD_LENGTH_ALLOWED
+# uninitialized constant #<Class:0x00007fd7a96b3090>::MAX_PASSWORD_LENGTH_ALLOWED
 # Did you mean?  ActiveRecord::InternalMetadata::MAX_PASSWORD_LENGTH_ALLOWED
-# uninitialized constant #<Class:0x00007f9f448b54f8>::MINIMUM_TOKEN_LENGTH
+# uninitialized constant #<Class:0x00007fd7a96b3090>::MINIMUM_TOKEN_LENGTH
 # Did you mean?  ActiveRecord::InternalMetadata::MINIMUM_TOKEN_LENGTH
-# uninitialized constant #<Class:0x00007f9f448b54f8>::NAME_COMPILABLE_REGEXP
+# uninitialized constant #<Class:0x00007fd7a96b3090>::NAME_COMPILABLE_REGEXP
 # Did you mean?  ActiveRecord::InternalMetadata::NAME_COMPILABLE_REGEXP
-# uninitialized constant #<Class:0x00007f9f448b54f8>::RESTRICTED_CLASS_METHODS
+# uninitialized constant #<Class:0x00007fd7a96b3090>::RESTRICTED_CLASS_METHODS
 # Did you mean?  ActiveRecord::InternalMetadata::RESTRICTED_CLASS_METHODS
-# uninitialized constant #<Class:0x00007f9f448b54f8>::UNASSIGNABLE_KEYS
+# uninitialized constant #<Class:0x00007fd7a96b3090>::UNASSIGNABLE_KEYS
 # Did you mean?  ActiveRecord::InternalMetadata::UNASSIGNABLE_KEYS
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_AssociationRelation::CLAUSE_METHODS
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_AssociationRelation::ClassMethods
@@ -2133,37 +2121,37 @@
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_AssociationRelation::VALUE_METHODS
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_AssociationRelation::CLAUSE_METHODS
 # wrong constant name <static-init>
-# uninitialized constant #<Class:0x00007f9f4491e0e8>::CLAUSE_METHODS
+# uninitialized constant #<Class:0x00007fd76a373cc0>::CLAUSE_METHODS
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::ClassMethods
 #                ActiveRecord::InternalMetadata::ClassMethods
 #                ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::VALUE_METHODS
 #                ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::CLAUSE_METHODS
-# uninitialized constant #<Class:0x00007f9f4491e0e8>::Elem
-# uninitialized constant #<Class:0x00007f9f4491e0e8>::FROZEN_EMPTY_ARRAY
+# uninitialized constant #<Class:0x00007fd76a373cc0>::Elem
+# uninitialized constant #<Class:0x00007fd76a373cc0>::FROZEN_EMPTY_ARRAY
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::FROZEN_EMPTY_HASH
 #                ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::FROZEN_EMPTY_ARRAY
-# uninitialized constant #<Class:0x00007f9f4491e0e8>::FROZEN_EMPTY_HASH
+# uninitialized constant #<Class:0x00007fd76a373cc0>::FROZEN_EMPTY_HASH
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::FROZEN_EMPTY_HASH
 #                ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::FROZEN_EMPTY_ARRAY
-# uninitialized constant #<Class:0x00007f9f4491e0e8>::INVALID_METHODS_FOR_DELETE_ALL
+# uninitialized constant #<Class:0x00007fd76a373cc0>::INVALID_METHODS_FOR_DELETE_ALL
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::INVALID_METHODS_FOR_DELETE_ALL
-# uninitialized constant #<Class:0x00007f9f4491e0e8>::MULTI_VALUE_METHODS
+# uninitialized constant #<Class:0x00007fd76a373cc0>::MULTI_VALUE_METHODS
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::MULTI_VALUE_METHODS
-# uninitialized constant #<Class:0x00007f9f4491e0e8>::NILCLASS_STRING
+# uninitialized constant #<Class:0x00007fd76a373cc0>::NILCLASS_STRING
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::NILCLASS_STRING
-# uninitialized constant #<Class:0x00007f9f4491e0e8>::ONE_AS_ONE
+# uninitialized constant #<Class:0x00007fd76a373cc0>::ONE_AS_ONE
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::ONE_AS_ONE
-# uninitialized constant #<Class:0x00007f9f4491e0e8>::ORDER_IGNORE_MESSAGE
+# uninitialized constant #<Class:0x00007fd76a373cc0>::ORDER_IGNORE_MESSAGE
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::ORDER_IGNORE_MESSAGE
-# uninitialized constant #<Class:0x00007f9f4491e0e8>::SINGLE_VALUE_METHODS
+# uninitialized constant #<Class:0x00007fd76a373cc0>::SINGLE_VALUE_METHODS
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::SINGLE_VALUE_METHODS
-# uninitialized constant #<Class:0x00007f9f4491e0e8>::STRUCTURAL_VALUE_METHODS
+# uninitialized constant #<Class:0x00007fd76a373cc0>::STRUCTURAL_VALUE_METHODS
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::STRUCTURAL_VALUE_METHODS
-# uninitialized constant #<Class:0x00007f9f4491e0e8>::VALID_DIRECTIONS
+# uninitialized constant #<Class:0x00007fd76a373cc0>::VALID_DIRECTIONS
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::VALID_DIRECTIONS
-# uninitialized constant #<Class:0x00007f9f4491e0e8>::VALID_UNSCOPING_VALUES
+# uninitialized constant #<Class:0x00007fd76a373cc0>::VALID_UNSCOPING_VALUES
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::VALID_UNSCOPING_VALUES
-# uninitialized constant #<Class:0x00007f9f4491e0e8>::VALUE_METHODS
+# uninitialized constant #<Class:0x00007fd76a373cc0>::VALUE_METHODS
 # Did you mean?  ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::VALUE_METHODS
 #                ActiveRecord::InternalMetadata::ActiveRecord_Associations_CollectionProxy::CLAUSE_METHODS
 # wrong constant name <static-init>
@@ -2465,32 +2453,32 @@
 # wrong constant name fk_ignore_pattern=
 # wrong constant name ignore_tables
 # wrong constant name ignore_tables=
-# uninitialized constant #<Class:0x00007f9f4494f170>::ACTIONS
+# uninitialized constant #<Class:0x00007fd76a3787e8>::ACTIONS
 # Did you mean?  ActiveRecord::SchemaMigration::ACTIONS
 # wrong constant name <Class:ActiveRecord_AssociationRelation>
 # wrong constant name <Class:ActiveRecord_Associations_CollectionProxy>
 # wrong constant name <Class:ActiveRecord_Relation>
-# uninitialized constant #<Class:0x00007f9f4494f170>::CALLBACKS
+# uninitialized constant #<Class:0x00007fd76a3787e8>::CALLBACKS
 # Did you mean?  ActiveRecord::SchemaMigration::Callbacks
 #                ActiveRecord::Callbacks
 #                ActiveRecord::SchemaMigration::Callback
 #                ActiveRecord::SchemaMigration::CALLBACKS
-# uninitialized constant #<Class:0x00007f9f4494f170>::CALLBACK_FILTER_TYPES
+# uninitialized constant #<Class:0x00007fd76a3787e8>::CALLBACK_FILTER_TYPES
 # Did you mean?  ActiveRecord::SchemaMigration::CALLBACK_FILTER_TYPES
-# uninitialized constant #<Class:0x00007f9f4494f170>::CALL_COMPILABLE_REGEXP
+# uninitialized constant #<Class:0x00007fd76a3787e8>::CALL_COMPILABLE_REGEXP
 # Did you mean?  ActiveRecord::SchemaMigration::CALL_COMPILABLE_REGEXP
 # wrong constant name <Class:GeneratedAssociationMethods>
 # wrong constant name <Class:GeneratedAttributeMethods>
 # wrong constant name <Class:GeneratedRelationMethods>
-# uninitialized constant #<Class:0x00007f9f4494f170>::MAX_PASSWORD_LENGTH_ALLOWED
+# uninitialized constant #<Class:0x00007fd76a3787e8>::MAX_PASSWORD_LENGTH_ALLOWED
 # Did you mean?  ActiveRecord::SchemaMigration::MAX_PASSWORD_LENGTH_ALLOWED
-# uninitialized constant #<Class:0x00007f9f4494f170>::MINIMUM_TOKEN_LENGTH
+# uninitialized constant #<Class:0x00007fd76a3787e8>::MINIMUM_TOKEN_LENGTH
 # Did you mean?  ActiveRecord::SchemaMigration::MINIMUM_TOKEN_LENGTH
-# uninitialized constant #<Class:0x00007f9f4494f170>::NAME_COMPILABLE_REGEXP
+# uninitialized constant #<Class:0x00007fd76a3787e8>::NAME_COMPILABLE_REGEXP
 # Did you mean?  ActiveRecord::SchemaMigration::NAME_COMPILABLE_REGEXP
-# uninitialized constant #<Class:0x00007f9f4494f170>::RESTRICTED_CLASS_METHODS
+# uninitialized constant #<Class:0x00007fd76a3787e8>::RESTRICTED_CLASS_METHODS
 # Did you mean?  ActiveRecord::SchemaMigration::RESTRICTED_CLASS_METHODS
-# uninitialized constant #<Class:0x00007f9f4494f170>::UNASSIGNABLE_KEYS
+# uninitialized constant #<Class:0x00007fd76a3787e8>::UNASSIGNABLE_KEYS
 # Did you mean?  ActiveRecord::SchemaMigration::UNASSIGNABLE_KEYS
 # wrong constant name version
 # uninitialized constant ActiveRecord::SchemaMigration::ActiveRecord_AssociationRelation::CLAUSE_METHODS
@@ -2514,37 +2502,37 @@
 # uninitialized constant ActiveRecord::SchemaMigration::ActiveRecord_AssociationRelation::VALUE_METHODS
 # Did you mean?  ActiveRecord::SchemaMigration::ActiveRecord_AssociationRelation::CLAUSE_METHODS
 # wrong constant name <static-init>
-# uninitialized constant #<Class:0x00007f9f4494e478>::CLAUSE_METHODS
+# uninitialized constant #<Class:0x00007fd76a3838c8>::CLAUSE_METHODS
 # Did you mean?  ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::ClassMethods
 #                ActiveRecord::SchemaMigration::ClassMethods
 #                ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::VALUE_METHODS
 #                ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::CLAUSE_METHODS
-# uninitialized constant #<Class:0x00007f9f4494e478>::Elem
-# uninitialized constant #<Class:0x00007f9f4494e478>::FROZEN_EMPTY_ARRAY
+# uninitialized constant #<Class:0x00007fd76a3838c8>::Elem
+# uninitialized constant #<Class:0x00007fd76a3838c8>::FROZEN_EMPTY_ARRAY
 # Did you mean?  ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::FROZEN_EMPTY_HASH
 #                ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::FROZEN_EMPTY_ARRAY
-# uninitialized constant #<Class:0x00007f9f4494e478>::FROZEN_EMPTY_HASH
+# uninitialized constant #<Class:0x00007fd76a3838c8>::FROZEN_EMPTY_HASH
 # Did you mean?  ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::FROZEN_EMPTY_HASH
 #                ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::FROZEN_EMPTY_ARRAY
-# uninitialized constant #<Class:0x00007f9f4494e478>::INVALID_METHODS_FOR_DELETE_ALL
+# uninitialized constant #<Class:0x00007fd76a3838c8>::INVALID_METHODS_FOR_DELETE_ALL
 # Did you mean?  ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::INVALID_METHODS_FOR_DELETE_ALL
-# uninitialized constant #<Class:0x00007f9f4494e478>::MULTI_VALUE_METHODS
+# uninitialized constant #<Class:0x00007fd76a3838c8>::MULTI_VALUE_METHODS
 # Did you mean?  ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::MULTI_VALUE_METHODS
-# uninitialized constant #<Class:0x00007f9f4494e478>::NILCLASS_STRING
+# uninitialized constant #<Class:0x00007fd76a3838c8>::NILCLASS_STRING
 # Did you mean?  ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::NILCLASS_STRING
-# uninitialized constant #<Class:0x00007f9f4494e478>::ONE_AS_ONE
+# uninitialized constant #<Class:0x00007fd76a3838c8>::ONE_AS_ONE
 # Did you mean?  ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::ONE_AS_ONE
-# uninitialized constant #<Class:0x00007f9f4494e478>::ORDER_IGNORE_MESSAGE
+# uninitialized constant #<Class:0x00007fd76a3838c8>::ORDER_IGNORE_MESSAGE
 # Did you mean?  ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::ORDER_IGNORE_MESSAGE
-# uninitialized constant #<Class:0x00007f9f4494e478>::SINGLE_VALUE_METHODS
+# uninitialized constant #<Class:0x00007fd76a3838c8>::SINGLE_VALUE_METHODS
 # Did you mean?  ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::SINGLE_VALUE_METHODS
-# uninitialized constant #<Class:0x00007f9f4494e478>::STRUCTURAL_VALUE_METHODS
+# uninitialized constant #<Class:0x00007fd76a3838c8>::STRUCTURAL_VALUE_METHODS
 # Did you mean?  ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::STRUCTURAL_VALUE_METHODS
-# uninitialized constant #<Class:0x00007f9f4494e478>::VALID_DIRECTIONS
+# uninitialized constant #<Class:0x00007fd76a3838c8>::VALID_DIRECTIONS
 # Did you mean?  ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::VALID_DIRECTIONS
-# uninitialized constant #<Class:0x00007f9f4494e478>::VALID_UNSCOPING_VALUES
+# uninitialized constant #<Class:0x00007fd76a3838c8>::VALID_UNSCOPING_VALUES
 # Did you mean?  ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::VALID_UNSCOPING_VALUES
-# uninitialized constant #<Class:0x00007f9f4494e478>::VALUE_METHODS
+# uninitialized constant #<Class:0x00007fd76a3838c8>::VALUE_METHODS
 # Did you mean?  ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::VALUE_METHODS
 #                ActiveRecord::SchemaMigration::ActiveRecord_Associations_CollectionProxy::CLAUSE_METHODS
 # wrong constant name <static-init>
@@ -2848,7 +2836,6 @@
 # wrong constant name new
 # wrong constant name clone
 # wrong constant name irb
-# wrong constant name <static-init>
 # wrong constant name status_code
 # wrong constant name <static-init>
 # wrong constant name jruby_30?
@@ -5052,9 +5039,8 @@
 # Did you mean?  File
 # uninitialized constant Fiddle
 # Did you mean?  File
-# wrong constant name atomic_write
 # wrong constant name exists?
-# wrong constant name probe_stat_in
+# wrong constant name open!
 # wrong constant name read_binary
 # uninitialized constant FileUtils::DryRun::LN_SUPPORTED
 # Did you mean?  FileUtils::LN_SUPPORTED
@@ -5297,6 +5283,28 @@
 # wrong constant name weekday
 # wrong constant name weekday_range
 # wrong constant name weekdays
+# uninitialized constant FunctionalTests::CPQ_QUOTE
+# uninitialized constant FunctionalTests::CPQ_QUOTE_LINE
+# uninitialized constant FunctionalTests::CPQ_QUOTE_LINE_PRICEBOOK_ENTRY
+# uninitialized constant FunctionalTests::CPQ_QUOTE_LINE_PRODUCT
+# uninitialized constant FunctionalTests::CPQ_QUOTE_OPPORTUNITY
+# uninitialized constant FunctionalTests::CPQ_QUOTE_ORDERED
+# uninitialized constant FunctionalTests::CPQ_QUOTE_PRIMARY
+# uninitialized constant FunctionalTests::CPQ_QUOTE_PRIMARY_CONTACT
+# uninitialized constant FunctionalTests::CPQ_QUOTE_SUBSCRIPTION_START_DATE
+# Did you mean?  FunctionalTests::CPQ_QUOTE_SUBSCRIPTION_TERM
+# uninitialized constant FunctionalTests::CPQ_QUOTE_SUBSCRIPTION_TERM
+# uninitialized constant FunctionalTests::E
+# uninitialized constant FunctionalTests::OPPORTUNITY_STRIPE_ID
+# uninitialized constant FunctionalTests::ORDER_INVOICE_PAYMENT_LINK
+# uninitialized constant FunctionalTests::ORDER_STRIPE_ID
+# uninitialized constant FunctionalTests::PASSTHROUGH_EXCEPTIONS
+# uninitialized constant FunctionalTests::PRICE_BOOK_STRIPE_ID
+# uninitialized constant FunctionalTests::SIGNALS
+# Did you mean?  Signal
+# uninitialized constant FunctionalTests::TEARDOWN_METHODS
+# uninitialized constant FunctionalTests::TYPES
+# uninitialized constant FunctionalTests::UNDEFINED
 # wrong constant name garbage_collect
 # wrong constant name verify_transient_heap_internal_consistency
 # uninitialized constant GDBM
@@ -5563,9 +5571,6 @@
 # wrong constant name rails_info_routes_path
 # wrong constant name rails_info_routes_url
 # wrong constant name rails_info_url
-# wrong constant name root_path
-# wrong constant name root_url
-# wrong constant name <static-init>
 # wrong constant name _routes
 # wrong constant name full_url_for
 # wrong constant name optimize_routes_generation?
@@ -5601,7 +5606,7 @@
 # wrong constant name locate_signed
 # wrong constant name use
 # wrong constant name <static-init>
-# wrong constant name from_trusted_xml
+# wrong constant name ruby2_keywords_hash?
 # wrong constant name <Class:Clash>
 # wrong constant name <Class:Dash>
 # wrong constant name <Class:Rash>
@@ -6092,7 +6097,6 @@
 # wrong constant name then
 # wrong constant name yield_self
 # wrong constant name at_exit
-# wrong constant name autoload
 # wrong constant name fork
 # uninitialized constant LUSolve
 # uninitialized constant LUSolve
@@ -9205,11 +9209,11 @@
 # uninitialized constant Net::FTPConnectionError
 # uninitialized constant Net::FTPConnectionError
 # uninitialized constant Net::FTPError
-# Did you mean?  Net::SMTPError
-#                Net::HTTPError
+# Did you mean?  Net::HTTPError
+#                Net::SMTPError
 # uninitialized constant Net::FTPError
-# Did you mean?  Net::SMTPError
-#                Net::HTTPError
+# Did you mean?  Net::HTTPError
+#                Net::SMTPError
 # uninitialized constant Net::FTPPermError
 # Did you mean?  FiberError
 # uninitialized constant Net::FTPPermError
@@ -9222,6 +9226,7 @@
 # Did you mean?  TypeError
 # uninitialized constant Net::FTPTempError
 # Did you mean?  TypeError
+# uninitialized constant Net::HTTP::OP_NAME
 # wrong constant name max_retries
 # wrong constant name max_retries=
 # wrong constant name max_version
@@ -9575,10 +9580,32 @@
 # uninitialized constant Nokogiri::XML::Node::LOOKS_LIKE_XPATH
 # uninitialized constant Nokogiri::XML::NodeSet::LOOKS_LIKE_XPATH
 # uninitialized constant RUBYGEMS_ACTIVATION_MONITOR
-# wrong constant name dclone
 # wrong constant name to_yaml
 # wrong constant name yaml_tag
 # wrong constant name <Class:Object>
+# wrong constant name internal_object_id
+# wrong constant name type
+# wrong constant name <static-init>
+# wrong constant name allocation_class_path
+# wrong constant name allocation_generation
+# wrong constant name allocation_method_id
+# wrong constant name allocation_sourcefile
+# wrong constant name allocation_sourceline
+# wrong constant name count_imemo_objects
+# wrong constant name count_nodes
+# wrong constant name count_objects_size
+# wrong constant name count_symbols
+# wrong constant name count_tdata_objects
+# wrong constant name dump
+# wrong constant name dump_all
+# wrong constant name internal_class_of
+# wrong constant name internal_super_of
+# wrong constant name memsize_of
+# wrong constant name memsize_of_all
+# wrong constant name reachable_objects_from
+# wrong constant name reachable_objects_from_root
+# wrong constant name trace_object_allocations
+# wrong constant name trace_object_allocations_debug_start
 # uninitialized constant Observable
 # uninitialized constant Observable
 # uninitialized constant OmniAuth::Strategies::Developer::CURRENT_PATH_REGEX
@@ -10500,30 +10527,30 @@
 # Did you mean?  PG::CONNECTION_AWAITING_RESPONSE
 # uninitialized constant PG::Connection::CONNECTION_BAD
 # Did you mean?  PG::ConnectionBad
-#                PG::CONNECTION_OK
 #                PG::Connection::CONNECTION_OK
+#                PG::CONNECTION_OK
 #                PG::CONNECTION_BAD
-#                PG::Connection::CONNECTION_MADE
 #                PG::CONNECTION_MADE
+#                PG::Connection::CONNECTION_MADE
 # uninitialized constant PG::Connection::CONNECTION_MADE
 # Did you mean?  PG::ConnectionBad
-#                PG::CONNECTION_OK
 #                PG::Connection::CONNECTION_OK
+#                PG::CONNECTION_OK
 #                PG::Connection::CONNECTION_BAD
 #                PG::CONNECTION_BAD
 #                PG::CONNECTION_MADE
-#                PG::CONNECTION_NEEDED
 #                PG::Connection::CONNECTION_NEEDED
+#                PG::CONNECTION_NEEDED
 # uninitialized constant PG::Connection::CONNECTION_NEEDED
-# Did you mean?  PG::CONNECTION_BAD
-#                PG::Connection::CONNECTION_BAD
-#                PG::CONNECTION_MADE
+# Did you mean?  PG::Connection::CONNECTION_BAD
+#                PG::CONNECTION_BAD
 #                PG::Connection::CONNECTION_MADE
-#                PG::Connection::CONNECTION_SETENV
+#                PG::CONNECTION_MADE
 #                PG::CONNECTION_NEEDED
 #                PG::CONNECTION_SETENV
-#                PG::Connection::CONNECTION_STARTED
+#                PG::Connection::CONNECTION_SETENV
 #                PG::CONNECTION_STARTED
+#                PG::Connection::CONNECTION_STARTED
 # uninitialized constant PG::Connection::CONNECTION_OK
 # Did you mean?  PG::ConnectionBad
 #                PG::CONNECTION_OK
@@ -10532,11 +10559,11 @@
 #                PG::Connection::CONNECTION_MADE
 #                PG::CONNECTION_MADE
 # uninitialized constant PG::Connection::CONNECTION_SETENV
-# Did you mean?  PG::Connection::CONNECTION_MADE
-#                PG::CONNECTION_MADE
+# Did you mean?  PG::CONNECTION_MADE
+#                PG::Connection::CONNECTION_MADE
+#                PG::Connection::CONNECTION_NEEDED
 #                PG::CONNECTION_NEEDED
 #                PG::CONNECTION_SETENV
-#                PG::Connection::CONNECTION_NEEDED
 #                PG::CONNECTION_STARTED
 #                PG::Connection::CONNECTION_STARTED
 # uninitialized constant PG::Connection::CONNECTION_SSL_STARTUP
@@ -10546,12 +10573,12 @@
 # uninitialized constant PG::Connection::CONNECTION_STARTED
 # Did you mean?  PG::Connection::CONNECTION_BAD
 #                PG::CONNECTION_BAD
-#                PG::Connection::CONNECTION_MADE
 #                PG::CONNECTION_MADE
+#                PG::Connection::CONNECTION_MADE
 #                PG::Connection::CONNECTION_SETENV
+#                PG::Connection::CONNECTION_NEEDED
 #                PG::CONNECTION_NEEDED
 #                PG::CONNECTION_SETENV
-#                PG::Connection::CONNECTION_NEEDED
 #                PG::CONNECTION_STARTED
 # uninitialized constant PG::Connection::INVALID_OID
 # Did you mean?  PG::Connection::InvalidOid
@@ -10563,8 +10590,8 @@
 # Did you mean?  PG::INV_WRITE
 # uninitialized constant PG::Connection::InvalidOid
 # Did you mean?  PG::InvalidOid
-#                PG::INVALID_OID
 #                PG::Connection::INVALID_OID
+#                PG::INVALID_OID
 # uninitialized constant PG::Connection::PGRES_BAD_RESPONSE
 # Did you mean?  PG::PGRES_BAD_RESPONSE
 # uninitialized constant PG::Connection::PGRES_COMMAND_OK
@@ -11033,15 +11060,15 @@
 #                PG::CONNECTION_NEEDED
 #                PG::Result::CONNECTION_NEEDED
 # uninitialized constant PG::Result::CONNECTION_NEEDED
-# Did you mean?  PG::CONNECTION_BAD
-#                PG::Result::CONNECTION_BAD
-#                PG::CONNECTION_MADE
+# Did you mean?  PG::Result::CONNECTION_BAD
+#                PG::CONNECTION_BAD
 #                PG::Result::CONNECTION_MADE
-#                PG::Result::CONNECTION_SETENV
+#                PG::CONNECTION_MADE
 #                PG::CONNECTION_NEEDED
 #                PG::CONNECTION_SETENV
-#                PG::Result::CONNECTION_STARTED
+#                PG::Result::CONNECTION_SETENV
 #                PG::CONNECTION_STARTED
+#                PG::Result::CONNECTION_STARTED
 # uninitialized constant PG::Result::CONNECTION_OK
 # Did you mean?  PG::Connection
 #                PG::ConnectionBad
@@ -11083,8 +11110,8 @@
 # Did you mean?  PG::INV_WRITE
 # uninitialized constant PG::Result::InvalidOid
 # Did you mean?  PG::InvalidOid
-#                PG::INVALID_OID
 #                PG::Result::INVALID_OID
+#                PG::INVALID_OID
 # uninitialized constant PG::Result::PGRES_BAD_RESPONSE
 # Did you mean?  PG::PGRES_BAD_RESPONSE
 # uninitialized constant PG::Result::PGRES_COMMAND_OK
@@ -12437,12 +12464,12 @@
 # Did you mean?  Puma::Binder::HTTP_X_FORWARDED_SSL
 #                Puma::Binder::HTTP_X_FORWARDED_PROTO
 # uninitialized constant Puma::Binder::HTTP_X_FORWARDED_PROTO
-# Did you mean?  Puma::Binder::HTTP_X_FORWARDED_FOR
-#                Puma::Binder::HTTP_X_FORWARDED_SSL
+# Did you mean?  Puma::Binder::HTTP_X_FORWARDED_SSL
+#                Puma::Binder::HTTP_X_FORWARDED_FOR
 #                Puma::Binder::HTTP_X_FORWARDED_SCHEME
 # uninitialized constant Puma::Binder::HTTP_X_FORWARDED_SCHEME
-# Did you mean?  Puma::Binder::HTTP_X_FORWARDED_FOR
-#                Puma::Binder::HTTP_X_FORWARDED_SSL
+# Did you mean?  Puma::Binder::HTTP_X_FORWARDED_SSL
+#                Puma::Binder::HTTP_X_FORWARDED_FOR
 #                Puma::Binder::HTTP_X_FORWARDED_PROTO
 # uninitialized constant Puma::Binder::HTTP_X_FORWARDED_SSL
 # Did you mean?  Puma::Binder::HTTP_X_FORWARDED_FOR
@@ -12549,12 +12576,12 @@
 # Did you mean?  Puma::Client::HTTP_X_FORWARDED_SSL
 #                Puma::Client::HTTP_X_FORWARDED_PROTO
 # uninitialized constant Puma::Client::HTTP_X_FORWARDED_PROTO
-# Did you mean?  Puma::Client::HTTP_X_FORWARDED_FOR
-#                Puma::Client::HTTP_X_FORWARDED_SSL
+# Did you mean?  Puma::Client::HTTP_X_FORWARDED_SSL
+#                Puma::Client::HTTP_X_FORWARDED_FOR
 #                Puma::Client::HTTP_X_FORWARDED_SCHEME
 # uninitialized constant Puma::Client::HTTP_X_FORWARDED_SCHEME
-# Did you mean?  Puma::Client::HTTP_X_FORWARDED_FOR
-#                Puma::Client::HTTP_X_FORWARDED_SSL
+# Did you mean?  Puma::Client::HTTP_X_FORWARDED_SSL
+#                Puma::Client::HTTP_X_FORWARDED_FOR
 #                Puma::Client::HTTP_X_FORWARDED_PROTO
 # uninitialized constant Puma::Client::HTTP_X_FORWARDED_SSL
 # Did you mean?  Puma::Client::HTTP_X_FORWARDED_FOR
@@ -12661,12 +12688,12 @@
 # Did you mean?  Puma::ErrorLogger::HTTP_X_FORWARDED_SSL
 #                Puma::ErrorLogger::HTTP_X_FORWARDED_PROTO
 # uninitialized constant Puma::ErrorLogger::HTTP_X_FORWARDED_PROTO
-# Did you mean?  Puma::ErrorLogger::HTTP_X_FORWARDED_FOR
-#                Puma::ErrorLogger::HTTP_X_FORWARDED_SSL
+# Did you mean?  Puma::ErrorLogger::HTTP_X_FORWARDED_SSL
+#                Puma::ErrorLogger::HTTP_X_FORWARDED_FOR
 #                Puma::ErrorLogger::HTTP_X_FORWARDED_SCHEME
 # uninitialized constant Puma::ErrorLogger::HTTP_X_FORWARDED_SCHEME
-# Did you mean?  Puma::ErrorLogger::HTTP_X_FORWARDED_FOR
-#                Puma::ErrorLogger::HTTP_X_FORWARDED_SSL
+# Did you mean?  Puma::ErrorLogger::HTTP_X_FORWARDED_SSL
+#                Puma::ErrorLogger::HTTP_X_FORWARDED_FOR
 #                Puma::ErrorLogger::HTTP_X_FORWARDED_PROTO
 # uninitialized constant Puma::ErrorLogger::HTTP_X_FORWARDED_SSL
 # Did you mean?  Puma::ErrorLogger::HTTP_X_FORWARDED_FOR
@@ -12776,12 +12803,12 @@
 # Did you mean?  Puma::Server::HTTP_X_FORWARDED_SSL
 #                Puma::Server::HTTP_X_FORWARDED_PROTO
 # uninitialized constant Puma::Server::HTTP_X_FORWARDED_PROTO
-# Did you mean?  Puma::Server::HTTP_X_FORWARDED_FOR
-#                Puma::Server::HTTP_X_FORWARDED_SSL
+# Did you mean?  Puma::Server::HTTP_X_FORWARDED_SSL
+#                Puma::Server::HTTP_X_FORWARDED_FOR
 #                Puma::Server::HTTP_X_FORWARDED_SCHEME
 # uninitialized constant Puma::Server::HTTP_X_FORWARDED_SCHEME
-# Did you mean?  Puma::Server::HTTP_X_FORWARDED_FOR
-#                Puma::Server::HTTP_X_FORWARDED_SSL
+# Did you mean?  Puma::Server::HTTP_X_FORWARDED_SSL
+#                Puma::Server::HTTP_X_FORWARDED_FOR
 #                Puma::Server::HTTP_X_FORWARDED_PROTO
 # uninitialized constant Puma::Server::HTTP_X_FORWARDED_SSL
 # Did you mean?  Puma::Server::HTTP_X_FORWARDED_FOR
@@ -12841,126 +12868,6 @@
 # uninitialized constant RDoc::Markup::Special
 # uninitialized constant RDoc::RipperStateLex
 # uninitialized constant RDoc::RipperStateLex
-# wrong constant name initialize
-# uninitialized constant REXML::Attribute::NAME
-# uninitialized constant REXML::Attribute::NAMECHAR
-# Did you mean?  REXML::Attribute::NAME_CHAR
-# uninitialized constant REXML::Attribute::NAMESPLIT
-# Did you mean?  REXML::Namespace
-# uninitialized constant REXML::Attribute::NAME_CHAR
-# Did you mean?  REXML::Attribute::NAME_STR
-#                REXML::Attribute::NAMECHAR
-# uninitialized constant REXML::Attribute::NAME_START_CHAR
-# uninitialized constant REXML::Attribute::NAME_STR
-# Did you mean?  REXML::Attribute::NCNAME_STR
-# uninitialized constant REXML::Attribute::NCNAME_STR
-# Did you mean?  REXML::Attribute::NAME_STR
-# uninitialized constant REXML::Attribute::NMTOKEN
-# Did you mean?  REXML::Attribute::NMTOKENS
-# uninitialized constant REXML::Attribute::NMTOKENS
-# Did you mean?  REXML::XMLTokens
-# uninitialized constant REXML::Attribute::REFERENCE
-# wrong constant name initialize
-# wrong constant name initialize
-# uninitialized constant REXML::CData::EREFERENCE
-# uninitialized constant REXML::CData::NEEDS_A_SECOND_CHECK
-# uninitialized constant REXML::CData::NUMERICENTITY
-# uninitialized constant REXML::CData::REFERENCE
-# uninitialized constant REXML::CData::SETUTITSBUS
-# uninitialized constant REXML::CData::SLAICEPS
-# uninitialized constant REXML::CData::SPECIALS
-# uninitialized constant REXML::CData::SUBSTITUTES
-# uninitialized constant REXML::CData::VALID_CHAR
-# uninitialized constant REXML::CData::VALID_XML_CHARS
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
-# uninitialized constant REXML::DocType::NAME
-# uninitialized constant REXML::DocType::NAMECHAR
-# Did you mean?  REXML::DocType::NAME_CHAR
-# uninitialized constant REXML::DocType::NAME_CHAR
-# Did you mean?  REXML::DocType::NAME_STR
-#                REXML::DocType::NAMECHAR
-# uninitialized constant REXML::DocType::NAME_START_CHAR
-# uninitialized constant REXML::DocType::NAME_STR
-# Did you mean?  REXML::DocType::NCNAME_STR
-# uninitialized constant REXML::DocType::NCNAME_STR
-# Did you mean?  REXML::DocType::NAME_STR
-# uninitialized constant REXML::DocType::NMTOKEN
-# Did you mean?  REXML::DocType::NMTOKENS
-# uninitialized constant REXML::DocType::NMTOKENS
-# Did you mean?  REXML::XMLTokens
-# uninitialized constant REXML::DocType::REFERENCE
-# wrong constant name initialize
-# uninitialized constant REXML::Document::NAME
-# uninitialized constant REXML::Document::NAMECHAR
-# Did you mean?  REXML::Document::NAME_CHAR
-# uninitialized constant REXML::Document::NAMESPLIT
-# Did you mean?  REXML::Namespace
-# uninitialized constant REXML::Document::NAME_CHAR
-# Did you mean?  REXML::Document::NAME_STR
-#                REXML::Document::NAMECHAR
-# uninitialized constant REXML::Document::NAME_START_CHAR
-# uninitialized constant REXML::Document::NAME_STR
-# Did you mean?  REXML::Document::NCNAME_STR
-# uninitialized constant REXML::Document::NCNAME_STR
-# Did you mean?  REXML::Document::NAME_STR
-# uninitialized constant REXML::Document::NMTOKEN
-# Did you mean?  REXML::Document::NMTOKENS
-# uninitialized constant REXML::Document::NMTOKENS
-# Did you mean?  REXML::XMLTokens
-# uninitialized constant REXML::Document::REFERENCE
-# uninitialized constant REXML::Document::UNDEFINED
-# wrong constant name initialize
-# uninitialized constant REXML::Element::NAME
-# uninitialized constant REXML::Element::NAMECHAR
-# Did you mean?  REXML::Element::NAME_CHAR
-# uninitialized constant REXML::Element::NAMESPLIT
-# Did you mean?  REXML::Namespace
-# uninitialized constant REXML::Element::NAME_CHAR
-# Did you mean?  REXML::Element::NAME_STR
-#                REXML::Element::NAMECHAR
-# uninitialized constant REXML::Element::NAME_START_CHAR
-# uninitialized constant REXML::Element::NAME_STR
-# Did you mean?  REXML::Element::NCNAME_STR
-# uninitialized constant REXML::Element::NCNAME_STR
-# Did you mean?  REXML::Element::NAME_STR
-# uninitialized constant REXML::Element::NMTOKEN
-# Did you mean?  REXML::Element::NMTOKENS
-# uninitialized constant REXML::Element::NMTOKENS
-# Did you mean?  REXML::XMLTokens
-# uninitialized constant REXML::Element::REFERENCE
-# wrong constant name initialize
-# wrong constant name initialize
-# uninitialized constant REXML::Entity::NAME
-# uninitialized constant REXML::Entity::NAMECHAR
-# Did you mean?  REXML::Entity::NAME_CHAR
-# uninitialized constant REXML::Entity::NAME_CHAR
-# Did you mean?  REXML::Entity::NAME_STR
-#                REXML::Entity::NAMECHAR
-# uninitialized constant REXML::Entity::NAME_START_CHAR
-# uninitialized constant REXML::Entity::NAME_STR
-# Did you mean?  REXML::Entity::NCNAME_STR
-# uninitialized constant REXML::Entity::NCNAME_STR
-# Did you mean?  REXML::Entity::NAME_STR
-# uninitialized constant REXML::Entity::NMTOKEN
-# Did you mean?  REXML::Entity::NMTOKENS
-# uninitialized constant REXML::Entity::NMTOKENS
-# Did you mean?  REXML::XMLTokens
-# uninitialized constant REXML::Entity::REFERENCE
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
 # uninitialized constant REXML::Parsers::XPathParser::NAME
 # Did you mean?  REXML::Parsers::XPathParser::QNAME
 # uninitialized constant REXML::Parsers::XPathParser::NAMECHAR
@@ -12980,24 +12887,10 @@
 # uninitialized constant REXML::Parsers::XPathParser::REFERENCE
 # uninitialized constant REXML::QuickPath
 # uninitialized constant REXML::QuickPath
-# wrong constant name initialize
-# wrong constant name write
-# wrong constant name <static-init>
 # uninitialized constant REXML::SAX2Listener
 # uninitialized constant REXML::SAX2Listener
-# wrong constant name initialize
-# uninitialized constant REXML::StreamListener
-# uninitialized constant REXML::StreamListener
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name initialize
-# wrong constant name context
-# wrong constant name initialize
-# wrong constant name position
-# wrong constant name raw_node
-# wrong constant name <static-init>
+# uninitialized constant REXML::SyncEnumerator
+# uninitialized constant REXML::SyncEnumerator
 # uninitialized constant REXML::XPathParser::NAME
 # uninitialized constant REXML::XPathParser::NAMECHAR
 # Did you mean?  REXML::XPathParser::NAME_CHAR
@@ -13014,7 +12907,6 @@
 # uninitialized constant REXML::XPathParser::NMTOKENS
 # Did you mean?  REXML::XMLTokens
 # uninitialized constant REXML::XPathParser::REFERENCE
-# wrong constant name initialize
 # wrong constant name <Class:CparseParams>
 # wrong constant name <static-init>
 # wrong constant name <static-init>
@@ -13456,9 +13348,32 @@
 # uninitialized constant Redis::EXCEPTION_IMMEDIATE
 # uninitialized constant Redis::EXCEPTION_NEVER
 # uninitialized constant Redis::Connection::Ruby::COMMAND_DELIMITER
+# wrong constant name extract_resources
+# wrong constant name initialize
+# wrong constant name initialize
+# wrong constant name initialize
+# wrong constant name initialize
+# wrong constant name initialize
+# wrong constant name lazy_initialize
+# wrong constant name initialize
+# wrong constant name initialize
+# wrong constant name initialize
+# wrong constant name lazy_initialize
+# wrong constant name initialize
+# uninitialized constant Resolv::DNS::Resource::LOC::ClassHash
+# Did you mean?  Resolv::DNS::Resource::ClassHash
+# uninitialized constant Resolv::DNS::Resource::LOC::ClassInsensitiveTypes
+# Did you mean?  Resolv::DNS::Resource::ClassInsensitiveTypes
+# uninitialized constant Resolv::DNS::Resource::LOC::ClassValue
+# Did you mean?  Resolv::DNS::Resource::ClassValue
+# wrong constant name initialize
+# wrong constant name allocate_request_id
+# wrong constant name bind_random_port
+# wrong constant name free_request_id
+# wrong constant name random
 # uninitialized constant Resque::Job::VERSION
-# Did you mean?  Resque Client connected to <Redis::Namespace v1.8.1 with client v4.5.0 for redis://localhost:6379/0/resque>::Version
-#                Resque Client connected to <Redis::Namespace v1.8.1 with client v4.5.0 for redis://localhost:6379/0/resque>::VERSION
+# Did you mean?  Resque Client connected to <Redis::Namespace v1.8.1 with client v4.5.0 for redis://127.0.0.1:6379/0/resque:salesforce>::Version
+#                Resque Client connected to <Redis::Namespace v1.8.1 with client v4.5.0 for redis://127.0.0.1:6379/0/resque:salesforce>::VERSION
 # wrong constant name <Class:Cli>
 # wrong constant name <Class:Util>
 # wrong constant name initialize
@@ -13697,69 +13612,69 @@
 # uninitialized constant Ripper::Lexer::EVENTS
 # Did you mean?  Ripper::EVENTS
 # uninitialized constant Ripper::Lexer::EXPR_ARG
-# Did you mean?  Ripper::Lexer::EXPR_BEG
+# Did you mean?  Ripper::EXPR_BEG
 #                Ripper::EXPR_ARG
-#                Ripper::EXPR_BEG
+#                Ripper::Lexer::EXPR_BEG
 # uninitialized constant Ripper::Lexer::EXPR_ARG_ANY
-# Did you mean?  Ripper::EXPR_ARG_ANY
-#                Ripper::EXPR_BEG_ANY
+# Did you mean?  Ripper::Lexer::EXPR_BEG_ANY
 #                Ripper::EXPR_END_ANY
-#                Ripper::Lexer::EXPR_END_ANY
-#                Ripper::Lexer::EXPR_BEG_ANY
-# uninitialized constant Ripper::Lexer::EXPR_BEG
-# Did you mean?  Ripper::EXPR_ARG
-#                Ripper::EXPR_BEG
-#                Ripper::Lexer::EXPR_ARG
-# uninitialized constant Ripper::Lexer::EXPR_BEG_ANY
-# Did you mean?  Ripper::Lexer::EXPR_ARG_ANY
 #                Ripper::EXPR_BEG_ANY
+#                Ripper::Lexer::EXPR_END_ANY
+#                Ripper::EXPR_ARG_ANY
+# uninitialized constant Ripper::Lexer::EXPR_BEG
+# Did you mean?  Ripper::Lexer::EXPR_ARG
+#                Ripper::EXPR_BEG
+#                Ripper::EXPR_ARG
+# uninitialized constant Ripper::Lexer::EXPR_BEG_ANY
+# Did you mean?  Ripper::EXPR_BEG_ANY
+#                Ripper::Lexer::EXPR_END_ANY
+#                Ripper::Lexer::EXPR_ARG_ANY
 #                Ripper::EXPR_ARG_ANY
 #                Ripper::EXPR_END_ANY
-#                Ripper::Lexer::EXPR_END_ANY
 # uninitialized constant Ripper::Lexer::EXPR_CLASS
 # Did you mean?  Ripper::EXPR_CLASS
 # uninitialized constant Ripper::Lexer::EXPR_CMDARG
-# Did you mean?  Ripper::EXPR_ARG
-#                Ripper::Lexer::EXPR_ARG
-#                Ripper::EXPR_ENDARG
-#                Ripper::Lexer::EXPR_ENDARG
+# Did you mean?  Ripper::Lexer::EXPR_ARG
+#                Ripper::EXPR_ARG
 #                Ripper::EXPR_CMDARG
+#                Ripper::Lexer::EXPR_ENDARG
+#                Ripper::EXPR_ENDARG
 # uninitialized constant Ripper::Lexer::EXPR_DOT
 # Did you mean?  Ripper::EXPR_DOT
 # uninitialized constant Ripper::Lexer::EXPR_END
 # Did you mean?  Ripper::Lexer::EXPR_MID
-#                Ripper::EXPR_END
 #                Ripper::EXPR_MID
-#                Ripper::EXPR_ENDFN
-#                Ripper::Lexer::EXPR_ENDFN
-# uninitialized constant Ripper::Lexer::EXPR_ENDARG
-# Did you mean?  Ripper::EXPR_ARG
 #                Ripper::EXPR_END
-#                Ripper::Lexer::EXPR_ARG
+#                Ripper::Lexer::EXPR_ENDFN
+#                Ripper::EXPR_ENDFN
+# uninitialized constant Ripper::Lexer::EXPR_ENDARG
+# Did you mean?  Ripper::Lexer::EXPR_ARG
+#                Ripper::EXPR_ARG
+#                Ripper::EXPR_END
 #                Ripper::EXPR_ENDFN
 #                Ripper::Lexer::EXPR_ENDFN
 #                Ripper::Lexer::EXPR_CMDARG
-#                Ripper::EXPR_ENDARG
 #                Ripper::EXPR_CMDARG
+#                Ripper::EXPR_ENDARG
 #                Ripper::Lexer::EXPR_END_ANY
 #                Ripper::EXPR_END_ANY
 # uninitialized constant Ripper::Lexer::EXPR_ENDFN
 # Did you mean?  Ripper::EXPR_END
 #                Ripper::EXPR_ENDFN
-#                Ripper::Lexer::EXPR_ENDARG
 #                Ripper::EXPR_ENDARG
+#                Ripper::Lexer::EXPR_ENDARG
 #                Ripper::Lexer::EXPR_END_ANY
 #                Ripper::EXPR_END_ANY
 # uninitialized constant Ripper::Lexer::EXPR_END_ANY
-# Did you mean?  Ripper::Lexer::EXPR_ARG_ANY
+# Did you mean?  Ripper::EXPR_END_ANY
+#                Ripper::Lexer::EXPR_ARG_ANY
 #                Ripper::Lexer::EXPR_BEG_ANY
-#                Ripper::EXPR_BEG_ANY
 #                Ripper::EXPR_ARG_ANY
-#                Ripper::EXPR_END_ANY
+#                Ripper::EXPR_BEG_ANY
 #                Ripper::Lexer::EXPR_ENDFN
 #                Ripper::EXPR_ENDFN
-#                Ripper::EXPR_ENDARG
 #                Ripper::Lexer::EXPR_ENDARG
+#                Ripper::EXPR_ENDARG
 # uninitialized constant Ripper::Lexer::EXPR_FITEM
 # Did you mean?  Ripper::EXPR_FITEM
 # uninitialized constant Ripper::Lexer::EXPR_FNAME
@@ -13767,23 +13682,23 @@
 #                Ripper::EXPR_NONE
 #                Ripper::EXPR_FNAME
 # uninitialized constant Ripper::Lexer::EXPR_LABEL
-# Did you mean?  Ripper::Lexer::EXPR_BEG
-#                Ripper::EXPR_BEG
+# Did you mean?  Ripper::EXPR_BEG
+#                Ripper::Lexer::EXPR_BEG
 #                Ripper::EXPR_LABEL
-#                Ripper::EXPR_LABELED
 #                Ripper::Lexer::EXPR_LABELED
+#                Ripper::EXPR_LABELED
 # uninitialized constant Ripper::Lexer::EXPR_LABELED
 # Did you mean?  Ripper::EXPR_LABEL
 #                Ripper::EXPR_LABELED
 # uninitialized constant Ripper::Lexer::EXPR_MID
 # Did you mean?  Ripper::Lexer::EXPR_END
-#                Ripper::EXPR_END
 #                Ripper::EXPR_MID
-# uninitialized constant Ripper::Lexer::EXPR_NONE
-# Did you mean?  Ripper::Lexer::EXPR_END
-#                Ripper::Lexer::EXPR_DOT
 #                Ripper::EXPR_END
+# uninitialized constant Ripper::Lexer::EXPR_NONE
+# Did you mean?  Ripper::Lexer::EXPR_DOT
+#                Ripper::Lexer::EXPR_END
 #                Ripper::EXPR_DOT
+#                Ripper::EXPR_END
 #                Ripper::EXPR_NONE
 #                Ripper::Lexer::EXPR_FNAME
 #                Ripper::EXPR_FNAME
@@ -13836,69 +13751,69 @@
 # uninitialized constant Ripper::SexpBuilder::EVENTS
 # Did you mean?  Ripper::EVENTS
 # uninitialized constant Ripper::SexpBuilder::EXPR_ARG
-# Did you mean?  Ripper::SexpBuilder::EXPR_BEG
+# Did you mean?  Ripper::EXPR_BEG
 #                Ripper::EXPR_ARG
-#                Ripper::EXPR_BEG
+#                Ripper::SexpBuilder::EXPR_BEG
 # uninitialized constant Ripper::SexpBuilder::EXPR_ARG_ANY
-# Did you mean?  Ripper::EXPR_ARG_ANY
-#                Ripper::EXPR_BEG_ANY
+# Did you mean?  Ripper::SexpBuilder::EXPR_BEG_ANY
 #                Ripper::EXPR_END_ANY
-#                Ripper::SexpBuilder::EXPR_END_ANY
-#                Ripper::SexpBuilder::EXPR_BEG_ANY
-# uninitialized constant Ripper::SexpBuilder::EXPR_BEG
-# Did you mean?  Ripper::EXPR_ARG
-#                Ripper::EXPR_BEG
-#                Ripper::SexpBuilder::EXPR_ARG
-# uninitialized constant Ripper::SexpBuilder::EXPR_BEG_ANY
-# Did you mean?  Ripper::SexpBuilder::EXPR_ARG_ANY
 #                Ripper::EXPR_BEG_ANY
+#                Ripper::SexpBuilder::EXPR_END_ANY
+#                Ripper::EXPR_ARG_ANY
+# uninitialized constant Ripper::SexpBuilder::EXPR_BEG
+# Did you mean?  Ripper::SexpBuilder::EXPR_ARG
+#                Ripper::EXPR_BEG
+#                Ripper::EXPR_ARG
+# uninitialized constant Ripper::SexpBuilder::EXPR_BEG_ANY
+# Did you mean?  Ripper::EXPR_BEG_ANY
+#                Ripper::SexpBuilder::EXPR_END_ANY
+#                Ripper::SexpBuilder::EXPR_ARG_ANY
 #                Ripper::EXPR_ARG_ANY
 #                Ripper::EXPR_END_ANY
-#                Ripper::SexpBuilder::EXPR_END_ANY
 # uninitialized constant Ripper::SexpBuilder::EXPR_CLASS
 # Did you mean?  Ripper::EXPR_CLASS
 # uninitialized constant Ripper::SexpBuilder::EXPR_CMDARG
-# Did you mean?  Ripper::EXPR_ARG
-#                Ripper::SexpBuilder::EXPR_ARG
-#                Ripper::EXPR_ENDARG
-#                Ripper::SexpBuilder::EXPR_ENDARG
+# Did you mean?  Ripper::SexpBuilder::EXPR_ARG
+#                Ripper::EXPR_ARG
 #                Ripper::EXPR_CMDARG
+#                Ripper::SexpBuilder::EXPR_ENDARG
+#                Ripper::EXPR_ENDARG
 # uninitialized constant Ripper::SexpBuilder::EXPR_DOT
 # Did you mean?  Ripper::EXPR_DOT
 # uninitialized constant Ripper::SexpBuilder::EXPR_END
 # Did you mean?  Ripper::SexpBuilder::EXPR_MID
-#                Ripper::EXPR_END
 #                Ripper::EXPR_MID
-#                Ripper::EXPR_ENDFN
-#                Ripper::SexpBuilder::EXPR_ENDFN
-# uninitialized constant Ripper::SexpBuilder::EXPR_ENDARG
-# Did you mean?  Ripper::EXPR_ARG
 #                Ripper::EXPR_END
-#                Ripper::SexpBuilder::EXPR_ARG
+#                Ripper::SexpBuilder::EXPR_ENDFN
+#                Ripper::EXPR_ENDFN
+# uninitialized constant Ripper::SexpBuilder::EXPR_ENDARG
+# Did you mean?  Ripper::SexpBuilder::EXPR_ARG
+#                Ripper::EXPR_ARG
+#                Ripper::EXPR_END
 #                Ripper::EXPR_ENDFN
 #                Ripper::SexpBuilder::EXPR_ENDFN
 #                Ripper::SexpBuilder::EXPR_CMDARG
-#                Ripper::EXPR_ENDARG
 #                Ripper::EXPR_CMDARG
+#                Ripper::EXPR_ENDARG
 #                Ripper::SexpBuilder::EXPR_END_ANY
 #                Ripper::EXPR_END_ANY
 # uninitialized constant Ripper::SexpBuilder::EXPR_ENDFN
 # Did you mean?  Ripper::EXPR_END
 #                Ripper::EXPR_ENDFN
-#                Ripper::SexpBuilder::EXPR_ENDARG
 #                Ripper::EXPR_ENDARG
+#                Ripper::SexpBuilder::EXPR_ENDARG
 #                Ripper::SexpBuilder::EXPR_END_ANY
 #                Ripper::EXPR_END_ANY
 # uninitialized constant Ripper::SexpBuilder::EXPR_END_ANY
-# Did you mean?  Ripper::SexpBuilder::EXPR_ARG_ANY
+# Did you mean?  Ripper::EXPR_END_ANY
+#                Ripper::SexpBuilder::EXPR_ARG_ANY
 #                Ripper::SexpBuilder::EXPR_BEG_ANY
-#                Ripper::EXPR_BEG_ANY
 #                Ripper::EXPR_ARG_ANY
-#                Ripper::EXPR_END_ANY
+#                Ripper::EXPR_BEG_ANY
 #                Ripper::SexpBuilder::EXPR_ENDFN
 #                Ripper::EXPR_ENDFN
-#                Ripper::EXPR_ENDARG
 #                Ripper::SexpBuilder::EXPR_ENDARG
+#                Ripper::EXPR_ENDARG
 # uninitialized constant Ripper::SexpBuilder::EXPR_FITEM
 # Did you mean?  Ripper::EXPR_FITEM
 # uninitialized constant Ripper::SexpBuilder::EXPR_FNAME
@@ -13906,23 +13821,23 @@
 #                Ripper::EXPR_NONE
 #                Ripper::EXPR_FNAME
 # uninitialized constant Ripper::SexpBuilder::EXPR_LABEL
-# Did you mean?  Ripper::SexpBuilder::EXPR_BEG
-#                Ripper::EXPR_BEG
+# Did you mean?  Ripper::EXPR_BEG
+#                Ripper::SexpBuilder::EXPR_BEG
 #                Ripper::EXPR_LABEL
-#                Ripper::EXPR_LABELED
 #                Ripper::SexpBuilder::EXPR_LABELED
+#                Ripper::EXPR_LABELED
 # uninitialized constant Ripper::SexpBuilder::EXPR_LABELED
 # Did you mean?  Ripper::EXPR_LABEL
 #                Ripper::EXPR_LABELED
 # uninitialized constant Ripper::SexpBuilder::EXPR_MID
 # Did you mean?  Ripper::SexpBuilder::EXPR_END
-#                Ripper::EXPR_END
 #                Ripper::EXPR_MID
-# uninitialized constant Ripper::SexpBuilder::EXPR_NONE
-# Did you mean?  Ripper::SexpBuilder::EXPR_END
-#                Ripper::SexpBuilder::EXPR_DOT
 #                Ripper::EXPR_END
+# uninitialized constant Ripper::SexpBuilder::EXPR_NONE
+# Did you mean?  Ripper::SexpBuilder::EXPR_DOT
+#                Ripper::SexpBuilder::EXPR_END
 #                Ripper::EXPR_DOT
+#                Ripper::EXPR_END
 #                Ripper::EXPR_NONE
 #                Ripper::SexpBuilder::EXPR_FNAME
 #                Ripper::EXPR_FNAME
@@ -14125,69 +14040,69 @@
 # uninitialized constant Ripper::SexpBuilderPP::EVENTS
 # Did you mean?  Ripper::EVENTS
 # uninitialized constant Ripper::SexpBuilderPP::EXPR_ARG
-# Did you mean?  Ripper::SexpBuilderPP::EXPR_BEG
+# Did you mean?  Ripper::EXPR_BEG
 #                Ripper::EXPR_ARG
-#                Ripper::EXPR_BEG
+#                Ripper::SexpBuilderPP::EXPR_BEG
 # uninitialized constant Ripper::SexpBuilderPP::EXPR_ARG_ANY
-# Did you mean?  Ripper::EXPR_ARG_ANY
-#                Ripper::EXPR_BEG_ANY
+# Did you mean?  Ripper::SexpBuilderPP::EXPR_BEG_ANY
 #                Ripper::EXPR_END_ANY
-#                Ripper::SexpBuilderPP::EXPR_END_ANY
-#                Ripper::SexpBuilderPP::EXPR_BEG_ANY
-# uninitialized constant Ripper::SexpBuilderPP::EXPR_BEG
-# Did you mean?  Ripper::EXPR_ARG
-#                Ripper::EXPR_BEG
-#                Ripper::SexpBuilderPP::EXPR_ARG
-# uninitialized constant Ripper::SexpBuilderPP::EXPR_BEG_ANY
-# Did you mean?  Ripper::SexpBuilderPP::EXPR_ARG_ANY
 #                Ripper::EXPR_BEG_ANY
+#                Ripper::SexpBuilderPP::EXPR_END_ANY
+#                Ripper::EXPR_ARG_ANY
+# uninitialized constant Ripper::SexpBuilderPP::EXPR_BEG
+# Did you mean?  Ripper::SexpBuilderPP::EXPR_ARG
+#                Ripper::EXPR_BEG
+#                Ripper::EXPR_ARG
+# uninitialized constant Ripper::SexpBuilderPP::EXPR_BEG_ANY
+# Did you mean?  Ripper::EXPR_BEG_ANY
+#                Ripper::SexpBuilderPP::EXPR_END_ANY
+#                Ripper::SexpBuilderPP::EXPR_ARG_ANY
 #                Ripper::EXPR_ARG_ANY
 #                Ripper::EXPR_END_ANY
-#                Ripper::SexpBuilderPP::EXPR_END_ANY
 # uninitialized constant Ripper::SexpBuilderPP::EXPR_CLASS
 # Did you mean?  Ripper::EXPR_CLASS
 # uninitialized constant Ripper::SexpBuilderPP::EXPR_CMDARG
-# Did you mean?  Ripper::EXPR_ARG
-#                Ripper::SexpBuilderPP::EXPR_ARG
-#                Ripper::EXPR_ENDARG
-#                Ripper::SexpBuilderPP::EXPR_ENDARG
+# Did you mean?  Ripper::SexpBuilderPP::EXPR_ARG
+#                Ripper::EXPR_ARG
 #                Ripper::EXPR_CMDARG
+#                Ripper::SexpBuilderPP::EXPR_ENDARG
+#                Ripper::EXPR_ENDARG
 # uninitialized constant Ripper::SexpBuilderPP::EXPR_DOT
 # Did you mean?  Ripper::EXPR_DOT
 # uninitialized constant Ripper::SexpBuilderPP::EXPR_END
 # Did you mean?  Ripper::SexpBuilderPP::EXPR_MID
-#                Ripper::EXPR_END
 #                Ripper::EXPR_MID
-#                Ripper::EXPR_ENDFN
-#                Ripper::SexpBuilderPP::EXPR_ENDFN
-# uninitialized constant Ripper::SexpBuilderPP::EXPR_ENDARG
-# Did you mean?  Ripper::EXPR_ARG
 #                Ripper::EXPR_END
-#                Ripper::SexpBuilderPP::EXPR_ARG
+#                Ripper::SexpBuilderPP::EXPR_ENDFN
+#                Ripper::EXPR_ENDFN
+# uninitialized constant Ripper::SexpBuilderPP::EXPR_ENDARG
+# Did you mean?  Ripper::SexpBuilderPP::EXPR_ARG
+#                Ripper::EXPR_ARG
+#                Ripper::EXPR_END
 #                Ripper::EXPR_ENDFN
 #                Ripper::SexpBuilderPP::EXPR_ENDFN
 #                Ripper::SexpBuilderPP::EXPR_CMDARG
-#                Ripper::EXPR_ENDARG
 #                Ripper::EXPR_CMDARG
+#                Ripper::EXPR_ENDARG
 #                Ripper::SexpBuilderPP::EXPR_END_ANY
 #                Ripper::EXPR_END_ANY
 # uninitialized constant Ripper::SexpBuilderPP::EXPR_ENDFN
 # Did you mean?  Ripper::EXPR_END
 #                Ripper::EXPR_ENDFN
-#                Ripper::SexpBuilderPP::EXPR_ENDARG
 #                Ripper::EXPR_ENDARG
+#                Ripper::SexpBuilderPP::EXPR_ENDARG
 #                Ripper::SexpBuilderPP::EXPR_END_ANY
 #                Ripper::EXPR_END_ANY
 # uninitialized constant Ripper::SexpBuilderPP::EXPR_END_ANY
-# Did you mean?  Ripper::SexpBuilderPP::EXPR_ARG_ANY
+# Did you mean?  Ripper::EXPR_END_ANY
+#                Ripper::SexpBuilderPP::EXPR_ARG_ANY
 #                Ripper::SexpBuilderPP::EXPR_BEG_ANY
-#                Ripper::EXPR_BEG_ANY
 #                Ripper::EXPR_ARG_ANY
-#                Ripper::EXPR_END_ANY
+#                Ripper::EXPR_BEG_ANY
 #                Ripper::SexpBuilderPP::EXPR_ENDFN
 #                Ripper::EXPR_ENDFN
-#                Ripper::EXPR_ENDARG
 #                Ripper::SexpBuilderPP::EXPR_ENDARG
+#                Ripper::EXPR_ENDARG
 # uninitialized constant Ripper::SexpBuilderPP::EXPR_FITEM
 # Did you mean?  Ripper::EXPR_FITEM
 # uninitialized constant Ripper::SexpBuilderPP::EXPR_FNAME
@@ -14195,23 +14110,23 @@
 #                Ripper::EXPR_NONE
 #                Ripper::EXPR_FNAME
 # uninitialized constant Ripper::SexpBuilderPP::EXPR_LABEL
-# Did you mean?  Ripper::SexpBuilderPP::EXPR_BEG
-#                Ripper::EXPR_BEG
+# Did you mean?  Ripper::EXPR_BEG
+#                Ripper::SexpBuilderPP::EXPR_BEG
 #                Ripper::EXPR_LABEL
-#                Ripper::EXPR_LABELED
 #                Ripper::SexpBuilderPP::EXPR_LABELED
+#                Ripper::EXPR_LABELED
 # uninitialized constant Ripper::SexpBuilderPP::EXPR_LABELED
 # Did you mean?  Ripper::EXPR_LABEL
 #                Ripper::EXPR_LABELED
 # uninitialized constant Ripper::SexpBuilderPP::EXPR_MID
 # Did you mean?  Ripper::SexpBuilderPP::EXPR_END
-#                Ripper::EXPR_END
 #                Ripper::EXPR_MID
-# uninitialized constant Ripper::SexpBuilderPP::EXPR_NONE
-# Did you mean?  Ripper::SexpBuilderPP::EXPR_END
-#                Ripper::SexpBuilderPP::EXPR_DOT
 #                Ripper::EXPR_END
+# uninitialized constant Ripper::SexpBuilderPP::EXPR_NONE
+# Did you mean?  Ripper::SexpBuilderPP::EXPR_DOT
+#                Ripper::SexpBuilderPP::EXPR_END
 #                Ripper::EXPR_DOT
+#                Ripper::EXPR_END
 #                Ripper::EXPR_NONE
 #                Ripper::SexpBuilderPP::EXPR_FNAME
 #                Ripper::EXPR_FNAME
@@ -14246,6 +14161,268 @@
 # wrong constant name dedent_string
 # wrong constant name lex_state_name
 # wrong constant name token_match
+# wrong constant name <Class:Colorizer>
+# wrong constant name <Class:InstrumentationSubcompiler>
+# wrong constant name <Class:NodePatternSubcompiler>
+# wrong constant name <Class:SequenceSubcompiler>
+# wrong constant name <Class:Trace>
+# wrong constant name comments
+# wrong constant name node_ids
+# wrong constant name tokens
+# wrong constant name <Class:Result>
+# wrong constant name compiler
+# wrong constant name initialize
+# wrong constant name node_pattern
+# wrong constant name pattern
+# wrong constant name test
+# uninitialized constant RuboCop::AST::NodePattern::Compiler::Debug::Colorizer::Result::Elem
+# wrong constant name color_map
+# wrong constant name colorize
+# wrong constant name colorizer
+# wrong constant name colorizer=
+# wrong constant name match_map
+# wrong constant name matched?
+# wrong constant name returned
+# wrong constant name returned=
+# wrong constant name ruby_ast
+# wrong constant name ruby_ast=
+# wrong constant name trace
+# wrong constant name trace=
+# wrong constant name <static-init>
+# wrong constant name []
+# wrong constant name members
+# wrong constant name <static-init>
+# wrong constant name do_compile
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# uninitialized constant RuboCop::AST::NodePattern::Compiler::Debug::SequenceSubcompiler::DELTA
+# wrong constant name <static-init>
+# wrong constant name enter
+# wrong constant name matched?
+# wrong constant name success
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# uninitialized constant RuboCop::AST::NodePattern::Node::Repetition::MAP
+# Did you mean?  RuboCop::AST::NodePattern::Node::MAP
+# uninitialized constant RuboCop::AST::NodePattern::Parser::Racc_Main_Parsing_Routine
+# uninitialized constant RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Id_C
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version_C
+# uninitialized constant RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version_C
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version_R
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Version
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Id_C
+# uninitialized constant RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version_C
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version_R
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Version
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Id_C
+# uninitialized constant RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version_R
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version_C
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Version
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Id_C
+# uninitialized constant RuboCop::AST::NodePattern::Parser::Racc_Runtime_Type
+# uninitialized constant RuboCop::AST::NodePattern::Parser::Racc_Runtime_Version
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version
+# uninitialized constant RuboCop::AST::NodePattern::Parser::Racc_YY_Parse_Method
+# wrong constant name <Class:WithMeta>
+# wrong constant name <Class:Builder>
+# wrong constant name <Class:Lexer>
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Main_Parsing_Routine
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_Main_Parsing_Routine
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Core_Id_C
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Id_C
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version_C
+#                RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Core_Version_C
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Core_Version
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version
+#                RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Core_Version_R
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version_C
+#                RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Core_Version_C
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version_R
+#                RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Version
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Version
+#                RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Core_Id_C
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Id_C
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Core_Version_C
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version_R
+#                RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Core_Version_R
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version_C
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version
+#                RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Version
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Version
+#                RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Core_Id_C
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Id_C
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Core_Version_R
+# Did you mean?  RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Core_Version_C
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version_R
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version_C
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version
+#                RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Version
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Version
+#                RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Core_Id_C
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Id_C
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Type
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_Runtime_Type
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Version
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_Runtime_Version
+#                RuboCop::AST::NodePattern::Parser::Racc_Runtime_Core_Version
+#                RuboCop::AST::NodePattern::Parser::WithMeta::Racc_Runtime_Core_Version
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Racc_YY_Parse_Method
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_YY_Parse_Method
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Racc_arg
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_arg
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Racc_debug_parser
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_debug_parser
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Racc_token_to_s_table
+# Did you mean?  RuboCop::AST::NodePattern::Parser::Racc_token_to_s_table
+# wrong constant name comments
+# wrong constant name tokens
+# wrong constant name emit_atom
+# wrong constant name emit_call
+# wrong constant name emit_list
+# wrong constant name emit_unary_op
+# wrong constant name <static-init>
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Lexer::IDENTIFIER
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Lexer::REGEXP
+# Did you mean?  Regexp
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Lexer::REGEXP_BODY
+# Did you mean?  RuboCop::AST::RegexpNode
+# uninitialized constant RuboCop::AST::NodePattern::Parser::WithMeta::Lexer::SYMBOL_NAME
+# Did you mean?  RuboCop::AST::SymbolNode
+# wrong constant name initialize
+# wrong constant name pos
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# uninitialized constant RuboCop::Cop::Gemspec::RequiredRubyVersion::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Gemspec::RequiredRubyVersion::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Layout::SpaceAroundMethodCallOperator::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Layout::SpaceAroundMethodCallOperator::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::BinaryOperatorWithIdenticalOperands::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::ConstantResolution::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::Debugger::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::DeprecatedClassMethods::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::DuplicateElsifCondition::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::DuplicateMethods::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::DuplicateRescueException::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::EmptyConditionalBody::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::FloatComparison::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::FormatParameterMismatch::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::MissingSuper::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::OutOfRangeRegexpRef::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::SelfAssignment::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::TopLevelReturnWithArgument::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::UnreachableLoop::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Lint::UriRegexp::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Metrics::Utils::AbcSizeCalculator::KNOWN_ITERATING_METHODS
+# uninitialized constant RuboCop::Cop::Metrics::Utils::CodeLengthCalculator::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::AssertEmpty::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::AssertEmpty::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::AssertEmptyLiteral::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::AssertEmptyLiteral::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::AssertEqual::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::AssertEqual::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::AssertIncludes::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::AssertIncludes::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::AssertInstanceOf::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::AssertInstanceOf::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::AssertKindOf::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::AssertKindOf::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::AssertMatch::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::AssertMatch::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::AssertNil::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::AssertNil::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::AssertOutput::ASSERTION_METHODS
+# uninitialized constant RuboCop::Cop::Minitest::AssertOutput::ASSERTION_PREFIXES
+# uninitialized constant RuboCop::Cop::Minitest::AssertOutput::LIFECYCLE_HOOK_METHODS
+# uninitialized constant RuboCop::Cop::Minitest::AssertOutput::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::AssertPathExists::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::AssertRespondTo::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::AssertRespondTo::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::AssertSilent::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::AssertTruthy::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::AssertTruthy::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::AssertionInLifecycleHook::ASSERTION_METHODS
+# uninitialized constant RuboCop::Cop::Minitest::AssertionInLifecycleHook::ASSERTION_PREFIXES
+# uninitialized constant RuboCop::Cop::Minitest::AssertionInLifecycleHook::LIFECYCLE_HOOK_METHODS
+# uninitialized constant RuboCop::Cop::Minitest::AssertionInLifecycleHook::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::GlobalExpectations::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::LiteralAsActualArgument::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::LiteralAsActualArgument::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::MultipleAssertions::ASSERTION_METHODS
+# uninitialized constant RuboCop::Cop::Minitest::MultipleAssertions::ASSERTION_PREFIXES
+# uninitialized constant RuboCop::Cop::Minitest::MultipleAssertions::LIFECYCLE_HOOK_METHODS
+# uninitialized constant RuboCop::Cop::Minitest::MultipleAssertions::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::RefuteEmpty::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::RefuteEmpty::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::RefuteEqual::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::RefuteEqual::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::RefuteFalse::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::RefuteFalse::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::RefuteIncludes::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::RefuteIncludes::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::RefuteInstanceOf::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::RefuteInstanceOf::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::RefuteKindOf::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::RefuteKindOf::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::RefuteMatch::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::RefuteMatch::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::RefuteNil::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::RefuteNil::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::RefutePathExists::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::RefuteRespondTo::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Minitest::RefuteRespondTo::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::TestMethodName::ASSERTION_METHODS
+# uninitialized constant RuboCop::Cop::Minitest::TestMethodName::ASSERTION_PREFIXES
+# uninitialized constant RuboCop::Cop::Minitest::TestMethodName::LIFECYCLE_HOOK_METHODS
+# uninitialized constant RuboCop::Cop::Minitest::TestMethodName::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Minitest::TestMethodName::NON_PUBLIC_MODIFIERS
+# uninitialized constant RuboCop::Cop::Minitest::UnspecifiedException::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Naming::AsciiIdentifiers::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Naming::AsciiIdentifiers::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Naming::BinaryOperatorParameterName::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::AccessModifierDeclarations::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::AccessorGrouping::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Style::AccessorGrouping::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::AccessorGrouping::VISIBILITY_SCOPES
+# uninitialized constant RuboCop::Cop::Style::ArrayCoercion::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::BisectedAttrAccessor::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::BisectedAttrAccessor::VISIBILITY_SCOPES
+# uninitialized constant RuboCop::Cop::Style::CaseLikeIf::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Style::CaseLikeIf::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::CommentedKeyword::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::EvalWithLocation::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::ExplicitBlockArgument::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Style::ExplicitBlockArgument::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::ExponentialNotation::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::FloatDivision::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::FormatString::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::GlobalStdStream::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::HashLikeCase::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::MultilineMemoization::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::NumericPredicate::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::OptionalBooleanParameter::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::RedundantAssignment::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::RedundantConditional::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::RedundantConditional::SPACE
+# uninitialized constant RuboCop::Cop::Style::RedundantException::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::RedundantFetchBlock::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Style::RedundantFetchBlock::FROZEN_STRING_LITERAL
+# Did you mean?  RuboCop::Cop::FrozenStringLiteral
+#                RuboCop::Cop::Style::RedundantFetchBlock::FROZEN_STRING_LITERAL_TYPES
+# uninitialized constant RuboCop::Cop::Style::RedundantFetchBlock::FROZEN_STRING_LITERAL_ENABLED
+# Did you mean?  RuboCop::Cop::Style::RedundantFetchBlock::FROZEN_STRING_LITERAL_TYPES
+# uninitialized constant RuboCop::Cop::Style::RedundantFetchBlock::FROZEN_STRING_LITERAL_TYPES
+# Did you mean?  RuboCop::Cop::Style::RedundantFetchBlock::FROZEN_STRING_LITERAL_ENABLED
+# uninitialized constant RuboCop::Cop::Style::RedundantFetchBlock::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::RedundantFileExtensionInRequire::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::RedundantSelf::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::RedundantSort::BYTE_ORDER_MARK
+# uninitialized constant RuboCop::Cop::Style::RedundantSort::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::SingleArgumentDig::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::StringConcatenation::LITERAL_REGEX
+# uninitialized constant RuboCop::Cop::Style::ZeroLengthPredicate::LITERAL_REGEX
+# wrong constant name <Class:Compiler>
+# wrong constant name <Class:Lexer>
 # wrong constant name pretty_print_children
 # wrong constant name <static-init>
 # wrong constant name enabled?
@@ -14287,6 +14464,7 @@
 # Did you mean?  Sentry::VERSION
 # uninitialized constant Sentry::Logger::WARN
 # uninitialized constant Sentry::Rails::BacktraceCleaner::FORMATTED_GEMS_PATTERN
+# wrong constant name instrument
 # uninitialized constant Sentry::Transaction::STATUS_MAP
 # uninitialized constant Sentry::TransactionEvent::MAX_MESSAGE_SIZE_IN_BYTES
 # uninitialized constant Sequel::CURRENT_DATE
@@ -14305,6 +14483,200 @@
 # uninitialized constant Sequel::Model::Associations::ManyToManyAssociationReflection::ASSOCIATION_DATASET_PROC
 # uninitialized constant Sequel::Model::Associations::ManyToOneAssociationReflection::ASSOCIATION_DATASET_PROC
 # uninitialized constant Sequel::Model::Associations::OneToManyAssociationReflection::ASSOCIATION_DATASET_PROC
+# uninitialized constant Sequel::Postgres::Adapter::CONNECTION_AUTH_OK
+# Did you mean?  Sequel::Postgres::Adapter::CONNECTION_OK
+# uninitialized constant Sequel::Postgres::Adapter::CONNECTION_AWAITING_RESPONSE
+# uninitialized constant Sequel::Postgres::Adapter::CONNECTION_BAD
+# Did you mean?  Sequel::ConnectionPool
+#                Sequel::Postgres::Adapter::CONNECTION_OK
+#                Sequel::Postgres::Adapter::CONNECTION_MADE
+# uninitialized constant Sequel::Postgres::Adapter::CONNECTION_MADE
+# Did you mean?  Sequel::Postgres::Adapter::CONNECTION_OK
+#                Sequel::Postgres::Adapter::CONNECTION_BAD
+#                Sequel::Postgres::Adapter::CONNECTION_NEEDED
+# uninitialized constant Sequel::Postgres::Adapter::CONNECTION_NEEDED
+# Did you mean?  Sequel::Postgres::Adapter::CONNECTION_BAD
+#                Sequel::Postgres::Adapter::CONNECTION_MADE
+#                Sequel::Postgres::Adapter::CONNECTION_SETENV
+#                Sequel::Postgres::Adapter::CONNECTION_STARTED
+# uninitialized constant Sequel::Postgres::Adapter::CONNECTION_OK
+# Did you mean?  Sequel::ConnectionPool
+#                Sequel::Postgres::Adapter::CONNECTION_BAD
+#                Sequel::Postgres::Adapter::CONNECTION_MADE
+# uninitialized constant Sequel::Postgres::Adapter::CONNECTION_SETENV
+# Did you mean?  Sequel::Postgres::Adapter::CONNECTION_MADE
+#                Sequel::Postgres::Adapter::CONNECTION_NEEDED
+#                Sequel::Postgres::Adapter::CONNECTION_STARTED
+# uninitialized constant Sequel::Postgres::Adapter::CONNECTION_SSL_STARTUP
+# Did you mean?  Sequel::Postgres::Adapter::CONNECTION_STARTED
+# uninitialized constant Sequel::Postgres::Adapter::CONNECTION_STARTED
+# Did you mean?  Sequel::Postgres::Adapter::CONNECTION_BAD
+#                Sequel::Postgres::Adapter::CONNECTION_MADE
+#                Sequel::Postgres::Adapter::CONNECTION_NEEDED
+#                Sequel::Postgres::Adapter::CONNECTION_SETENV
+# uninitialized constant Sequel::Postgres::Adapter::CONNECT_ARGUMENT_ORDER
+# uninitialized constant Sequel::Postgres::Adapter::INVALID_OID
+# Did you mean?  Sequel::Postgres::Adapter::InvalidOid
+# uninitialized constant Sequel::Postgres::Adapter::INV_READ
+# uninitialized constant Sequel::Postgres::Adapter::INV_WRITE
+# uninitialized constant Sequel::Postgres::Adapter::InvalidOid
+# Did you mean?  Sequel::Postgres::Adapter::INVALID_OID
+# uninitialized constant Sequel::Postgres::Adapter::PGRES_BAD_RESPONSE
+# uninitialized constant Sequel::Postgres::Adapter::PGRES_COMMAND_OK
+# uninitialized constant Sequel::Postgres::Adapter::PGRES_COPY_BOTH
+# Did you mean?  Sequel::Postgres::Adapter::PGRES_COPY_IN
+#                Sequel::Postgres::Adapter::PGRES_COPY_OUT
+# uninitialized constant Sequel::Postgres::Adapter::PGRES_COPY_IN
+# Did you mean?  Sequel::Postgres::Adapter::PGRES_COPY_OUT
+#                Sequel::Postgres::Adapter::PGRES_COPY_BOTH
+# uninitialized constant Sequel::Postgres::Adapter::PGRES_COPY_OUT
+# Did you mean?  Sequel::Postgres::Adapter::PGRES_COPY_IN
+#                Sequel::Postgres::Adapter::PGRES_COPY_BOTH
+# uninitialized constant Sequel::Postgres::Adapter::PGRES_EMPTY_QUERY
+# uninitialized constant Sequel::Postgres::Adapter::PGRES_FATAL_ERROR
+# Did you mean?  Sequel::Postgres::Adapter::PGRES_NONFATAL_ERROR
+# uninitialized constant Sequel::Postgres::Adapter::PGRES_NONFATAL_ERROR
+# Did you mean?  Sequel::Postgres::Adapter::PGRES_FATAL_ERROR
+# uninitialized constant Sequel::Postgres::Adapter::PGRES_POLLING_FAILED
+# uninitialized constant Sequel::Postgres::Adapter::PGRES_POLLING_OK
+# uninitialized constant Sequel::Postgres::Adapter::PGRES_POLLING_READING
+# Did you mean?  Sequel::Postgres::Adapter::PGRES_POLLING_FAILED
+#                Sequel::Postgres::Adapter::PGRES_POLLING_WRITING
+# uninitialized constant Sequel::Postgres::Adapter::PGRES_POLLING_WRITING
+# Did you mean?  Sequel::Postgres::Adapter::PGRES_POLLING_FAILED
+#                Sequel::Postgres::Adapter::PGRES_POLLING_READING
+# uninitialized constant Sequel::Postgres::Adapter::PGRES_SINGLE_TUPLE
+# uninitialized constant Sequel::Postgres::Adapter::PGRES_TUPLES_OK
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_COLUMN_NAME
+# Did you mean?  Sequel::Postgres::Adapter::PG_DIAG_SCHEMA_NAME
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_CONSTRAINT_NAME
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_CONTEXT
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_DATATYPE_NAME
+# Did you mean?  Sequel::Postgres::Adapter::PG_DIAG_TABLE_NAME
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_INTERNAL_POSITION
+# Did you mean?  Sequel::Postgres::Adapter::PG_DIAG_STATEMENT_POSITION
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_INTERNAL_QUERY
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_MESSAGE_DETAIL
+# Did you mean?  Sequel::Postgres::Adapter::PG_DIAG_MESSAGE_HINT
+#                Sequel::Postgres::Adapter::PG_DIAG_MESSAGE_PRIMARY
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_MESSAGE_HINT
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_MESSAGE_PRIMARY
+# Did you mean?  Sequel::Postgres::Adapter::PG_DIAG_MESSAGE_HINT
+#                Sequel::Postgres::Adapter::PG_DIAG_MESSAGE_DETAIL
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_SCHEMA_NAME
+# Did you mean?  Sequel::Postgres::Adapter::PG_DIAG_COLUMN_NAME
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_SEVERITY
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_SEVERITY_NONLOCALIZED
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_SOURCE_FILE
+# Did you mean?  Sequel::Postgres::Adapter::PG_DIAG_SOURCE_LINE
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_SOURCE_FUNCTION
+# Did you mean?  Sequel::Postgres::Adapter::PG_DIAG_SOURCE_FILE
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_SOURCE_LINE
+# Did you mean?  Sequel::Postgres::Adapter::PG_DIAG_SOURCE_FILE
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_SQLSTATE
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_STATEMENT_POSITION
+# Did you mean?  Sequel::Postgres::Adapter::PG_DIAG_INTERNAL_POSITION
+# uninitialized constant Sequel::Postgres::Adapter::PG_DIAG_TABLE_NAME
+# Did you mean?  Sequel::Postgres::Adapter::PG_DIAG_DATATYPE_NAME
+# uninitialized constant Sequel::Postgres::Adapter::PQERRORS_DEFAULT
+# uninitialized constant Sequel::Postgres::Adapter::PQERRORS_SQLSTATE
+# uninitialized constant Sequel::Postgres::Adapter::PQERRORS_TERSE
+# Did you mean?  Sequel::Postgres::Adapter::PQERRORS_VERBOSE
+# uninitialized constant Sequel::Postgres::Adapter::PQERRORS_VERBOSE
+# Did you mean?  Sequel::Postgres::Adapter::PQERRORS_TERSE
+# uninitialized constant Sequel::Postgres::Adapter::PQPING_NO_ATTEMPT
+# uninitialized constant Sequel::Postgres::Adapter::PQPING_NO_RESPONSE
+# uninitialized constant Sequel::Postgres::Adapter::PQPING_OK
+# uninitialized constant Sequel::Postgres::Adapter::PQPING_REJECT
+# uninitialized constant Sequel::Postgres::Adapter::PQSHOW_CONTEXT_ALWAYS
+# Did you mean?  Sequel::Postgres::Adapter::PQSHOW_CONTEXT_NEVER
+#                Sequel::Postgres::Adapter::PQSHOW_CONTEXT_ERRORS
+# uninitialized constant Sequel::Postgres::Adapter::PQSHOW_CONTEXT_ERRORS
+# Did you mean?  Sequel::Postgres::Adapter::PQSHOW_CONTEXT_NEVER
+#                Sequel::Postgres::Adapter::PQSHOW_CONTEXT_ALWAYS
+# uninitialized constant Sequel::Postgres::Adapter::PQSHOW_CONTEXT_NEVER
+# Did you mean?  Sequel::Postgres::Adapter::PQSHOW_CONTEXT_ERRORS
+# uninitialized constant Sequel::Postgres::Adapter::PQTRANS_ACTIVE
+# uninitialized constant Sequel::Postgres::Adapter::PQTRANS_IDLE
+# uninitialized constant Sequel::Postgres::Adapter::PQTRANS_INERROR
+# Did you mean?  Sequel::Postgres::Adapter::PQTRANS_INTRANS
+# uninitialized constant Sequel::Postgres::Adapter::PQTRANS_INTRANS
+# Did you mean?  Sequel::Postgres::Adapter::PQTRANS_INERROR
+# uninitialized constant Sequel::Postgres::Adapter::PQTRANS_UNKNOWN
+# uninitialized constant Sequel::Postgres::Adapter::REDIRECT_METHODS
+# uninitialized constant Sequel::Postgres::Adapter::SEEK_CUR
+# uninitialized constant Sequel::Postgres::Adapter::SEEK_END
+# uninitialized constant Sequel::Postgres::Adapter::SEEK_SET
+# uninitialized constant Sequel::Postgres::Database::ADAPTERS
+# Did you mean?  Sequel::Postgres::Adapter
+# uninitialized constant Sequel::Postgres::Database::CHECK_CONSTRAINT_SQLSTATES
+# uninitialized constant Sequel::Postgres::Database::COLUMN_DEFINITION_ORDER
+# uninitialized constant Sequel::Postgres::Database::COLUMN_SCHEMA_DATETIME_TYPES
+# Did you mean?  Sequel::Postgres::Database::COLUMN_SCHEMA_STRING_TYPES
+# uninitialized constant Sequel::Postgres::Database::COLUMN_SCHEMA_STRING_TYPES
+# Did you mean?  Sequel::Postgres::Database::COLUMN_SCHEMA_DATETIME_TYPES
+# uninitialized constant Sequel::Postgres::Database::COMBINABLE_ALTER_TABLE_OPS
+# uninitialized constant Sequel::Postgres::Database::DATABASE_ERROR_REGEXPS
+# Did you mean?  Sequel::Postgres::Database::DATABASE_ERROR_CLASSES
+# uninitialized constant Sequel::Postgres::Database::DEFAULT_DATABASE_ERROR_REGEXPS
+# uninitialized constant Sequel::Postgres::Database::DEFAULT_STRING_COLUMN_SIZE
+# uninitialized constant Sequel::Postgres::Database::EXTENSIONS
+# uninitialized constant Sequel::Postgres::Database::FOREIGN_KEY_CONSTRAINT_SQLSTATES
+# uninitialized constant Sequel::Postgres::Database::FOREIGN_KEY_LIST_ON_DELETE_MAP
+# uninitialized constant Sequel::Postgres::Database::NOT_NULL_CONSTRAINT_SQLSTATES
+# uninitialized constant Sequel::Postgres::Database::ON_COMMIT
+# uninitialized constant Sequel::Postgres::Database::OPTS
+# Did you mean?  Sequel::OPTS
+# uninitialized constant Sequel::Postgres::Database::PREPARED_ARG_PLACEHOLDER
+# uninitialized constant Sequel::Postgres::Database::SCHEMA_TYPE_CLASSES
+# uninitialized constant Sequel::Postgres::Database::SELECT_CUSTOM_SEQUENCE_SQL
+# Did you mean?  Sequel::Postgres::Database::SELECT_SERIAL_SEQUENCE_SQL
+# uninitialized constant Sequel::Postgres::Database::SELECT_PK_SQL
+# uninitialized constant Sequel::Postgres::Database::SELECT_SERIAL_SEQUENCE_SQL
+# Did you mean?  Sequel::Postgres::Database::SELECT_CUSTOM_SEQUENCE_SQL
+# uninitialized constant Sequel::Postgres::Database::SERIALIZATION_CONSTRAINT_SQLSTATES
+# uninitialized constant Sequel::Postgres::Database::TRANSACTION_ISOLATION_LEVELS
+# uninitialized constant Sequel::Postgres::Database::UNIQUE_CONSTRAINT_SQLSTATES
+# uninitialized constant Sequel::Postgres::Database::VALID_CLIENT_MIN_MESSAGES
+# uninitialized constant Sequel::Postgres::Dataset::ACTION_METHODS
+# uninitialized constant Sequel::Postgres::Dataset::BITWISE_METHOD_MAP
+# uninitialized constant Sequel::Postgres::Dataset::COLUMNS_CLONE_OPTIONS
+# uninitialized constant Sequel::Postgres::Dataset::COLUMN_CHANGE_OPTS
+# uninitialized constant Sequel::Postgres::Dataset::CONDITIONED_JOIN_TYPES
+# Did you mean?  Sequel::Postgres::Dataset::UNCONDITIONED_JOIN_TYPES
+# uninitialized constant Sequel::Postgres::Dataset::COUNT_FROM_SELF_OPTS
+# uninitialized constant Sequel::Postgres::Dataset::COUNT_OF_ALL_AS_COUNT
+# uninitialized constant Sequel::Postgres::Dataset::COUNT_SELECT
+# uninitialized constant Sequel::Postgres::Dataset::DEFAULT
+# Did you mean?  Sequel::DEFAULT
+# uninitialized constant Sequel::Postgres::Dataset::DEFAULT_PREPARED_STATEMENT_MODULE_METHODS
+# uninitialized constant Sequel::Postgres::Dataset::EMPTY_ARRAY
+# uninitialized constant Sequel::Postgres::Dataset::EMPTY_SELECT
+# uninitialized constant Sequel::Postgres::Dataset::EXISTS
+# uninitialized constant Sequel::Postgres::Dataset::EXTENSIONS
+# uninitialized constant Sequel::Postgres::Dataset::IS_LITERALS
+# uninitialized constant Sequel::Postgres::Dataset::IS_OPERATORS
+# Did you mean?  Sequel::Postgres::Dataset::LIKE_OPERATORS
+# uninitialized constant Sequel::Postgres::Dataset::JOIN_METHODS
+# uninitialized constant Sequel::Postgres::Dataset::LIKE_OPERATORS
+# Did you mean?  Sequel::Postgres::Dataset::IS_OPERATORS
+# uninitialized constant Sequel::Postgres::Dataset::LOCK_MODES
+# uninitialized constant Sequel::Postgres::Dataset::NON_SQL_OPTIONS
+# uninitialized constant Sequel::Postgres::Dataset::NULL
+# Did you mean?  Sequel::NULL
+# uninitialized constant Sequel::Postgres::Dataset::N_ARITY_OPERATORS
+# uninitialized constant Sequel::Postgres::Dataset::OPTS
+# Did you mean?  Sequel::OPTS
+# uninitialized constant Sequel::Postgres::Dataset::PREPARED_STATEMENT_MODULE_CODE
+# uninitialized constant Sequel::Postgres::Dataset::QUALIFY_KEYS
+# uninitialized constant Sequel::Postgres::Dataset::QUERY_METHODS
+# uninitialized constant Sequel::Postgres::Dataset::REGEXP_OPERATORS
+# uninitialized constant Sequel::Postgres::Dataset::SIMPLE_SELECT_ALL_ALLOWED_FROM
+# uninitialized constant Sequel::Postgres::Dataset::TRUE_FREEZE
+# uninitialized constant Sequel::Postgres::Dataset::TWO_ARITY_OPERATORS
+# uninitialized constant Sequel::Postgres::Dataset::UNCONDITIONED_JOIN_TYPES
+# Did you mean?  Sequel::Postgres::Dataset::CONDITIONED_JOIN_TYPES
+# uninitialized constant Sequel::Postgres::Dataset::WILDCARD
 # uninitialized constant Sequel::SQL::StringExpression::ASSOCIATIVE_OPERATORS
 # uninitialized constant Sequel::SQL::StringExpression::BITWISE_OPERATORS
 # Did you mean?  Sequel::SQL::StringExpression::LIKE_OPERATORS
@@ -14330,6 +14702,9 @@
 # uninitialized constant Sequel::SQL::StringExpression::OPERTATOR_INVERSIONS
 # uninitialized constant Sequel::SQL::StringExpression::REGEXP_OPERATORS
 # uninitialized constant Sequel::SQL::StringExpression::TWO_ARITY_OPERATORS
+# uninitialized constant Sequel::ThreadedConnectionPool::OPTS
+# Did you mean?  Sequel::OPTS
+# uninitialized constant Sequel::ThreadedConnectionPool::POOL_CLASS_MAP
 # wrong constant name ==
 # wrong constant name ===
 # wrong constant name compare_by_identity

@@ -11,11 +11,9 @@
 
 module Bootsnap
   def bundler?; end
-  def instrumentation_enabled=(arg0); end
   def self._instrument(event, path); end
   def self.default_setup; end
   def self.instrumentation=(callback); end
-  def self.instrumentation_enabled=(arg0); end
   def self.iseq_cache_supported?; end
   def self.log!; end
   def self.logger; end
@@ -151,78 +149,4 @@ end
 class Bootsnap::CompileCache::PermissionError < Bootsnap::CompileCache::Error
 end
 class Bootsnap::InvalidConfiguration < StandardError
-end
-module Bootsnap::LoadPathCache::CoreExt
-  def self.make_load_error(path); end
-end
-module Kernel
-  def load_without_bootsnap(*arg0); end
-  def require_relative_without_bootsnap(arg0); end
-  def require_with_bootsnap_lfi(path, resolved = nil); end
-  def require_without_bootsnap(arg0); end
-  def self.require_with_bootsnap_lfi(path, resolved = nil); end
-end
-class Module
-  def autoload_without_bootsnap(arg0, arg1); end
-end
-module Bootsnap::CompileCache::Native
-  def compile_option_crc32=(arg0); end
-  def coverage_running?; end
-  def fetch(arg0, arg1, arg2, arg3); end
-  def precompile(arg0, arg1, arg2); end
-  def self.compile_option_crc32=(arg0); end
-  def self.coverage_running?; end
-  def self.fetch(arg0, arg1, arg2, arg3); end
-  def self.precompile(arg0, arg1, arg2); end
-end
-module Bootsnap::CompileCache::ISeq
-  def self.cache_dir; end
-  def self.cache_dir=(arg0); end
-  def self.compile_option_updated; end
-  def self.fetch(path, cache_dir: nil); end
-  def self.input_to_output(_data, _kwargs); end
-  def self.input_to_storage(_, path); end
-  def self.install!(cache_dir); end
-  def self.precompile(path, cache_dir: nil); end
-  def self.storage_to_output(binary, _args); end
-end
-module Bootsnap::CompileCache::ISeq::InstructionSequenceMixin
-  def compile_option=(hash); end
-  def load_iseq(path); end
-end
-module Bootsnap::CompileCache::YAML
-  def self.cache_dir; end
-  def self.cache_dir=(arg0); end
-  def self.init!; end
-  def self.input_to_output(data, kwargs); end
-  def self.input_to_storage(contents, _); end
-  def self.install!(cache_dir); end
-  def self.msgpack_factory; end
-  def self.msgpack_factory=(arg0); end
-  def self.precompile(path, cache_dir: nil); end
-  def self.storage_to_output(data, kwargs); end
-  def self.strict_load(payload, *args); end
-  def self.strict_visitor; end
-  def self.supported_options; end
-  def self.supported_options=(arg0); end
-end
-module Bootsnap::CompileCache::YAML::Patch
-  def load_file(path, *args); end
-end
-module Bootsnap::CompileCache::JSON
-  def self.cache_dir; end
-  def self.cache_dir=(arg0); end
-  def self.init!; end
-  def self.input_to_output(data, kwargs); end
-  def self.input_to_storage(payload, _); end
-  def self.install!(cache_dir); end
-  def self.msgpack_factory; end
-  def self.msgpack_factory=(arg0); end
-  def self.precompile(path, cache_dir: nil); end
-  def self.storage_to_output(data, kwargs); end
-  def self.supported_options; end
-  def self.supported_options=(arg0); end
-end
-module Bootsnap::CompileCache::JSON::Patch
-  def load_file(path, *args); end
 end

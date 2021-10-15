@@ -16,6 +16,6 @@ class Proc
   def ruby2_keywords; end
 end
 class Hash
+  def self.from_trusted_xml(xml); end
   def self.ruby2_keywords_hash(hash); end
-  def self.ruby2_keywords_hash?(hash); end
 end

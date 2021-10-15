@@ -129,7 +129,7 @@ class Zeitwerk::GemInflector < Zeitwerk::Inflector
   def initialize(root_file); end
 end
 module Kernel
-  def zeitwerk_original_require(path); end
+  def zeitwerk_original_require(arg0); end
 end
 class Zeitwerk::Error < StandardError
 end

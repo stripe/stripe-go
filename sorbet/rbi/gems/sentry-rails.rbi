@@ -89,6 +89,23 @@ class Sentry::Railtie < Rails::Railtie
   def patch_background_worker; end
   def setup_backtrace_cleanup_callback; end
 end
+module Sentry::Rails::ControllerMethods
+  def capture_exception(exception, options = nil); end
+  def capture_message(message, options = nil); end
+  def with_request_scope; end
+end
+module Sentry::Rails::ControllerTransaction
+  def self.included(base); end
+end
+module Sentry::Rails::Overrides
+end
+module Sentry::Rails::Overrides::StreamingReporter
+  def log_error(exception); end
+end
+module Sentry::Rails::Overrides::OldStreamingReporter
+  def log_error_with_raven(exception); end
+  def self.included(base); end
+end
 class Sentry::SendEventJob
 end
 module Sentry::Rails::ActiveJobExtensions

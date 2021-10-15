@@ -3,7 +3,6 @@
 
 # typed: strong
 module ::Raven; end
-module ::Spring; end
 module AbstractController::AssetPaths; end
 module AbstractController::Caching; end
 module AbstractController::Caching::ClassMethods; end
@@ -42,6 +41,7 @@ module Mail::CheckDeliveryParams; end
 module Mail::Ruby19; end
 module Mime::AllType; end
 module Mime::Mimes; end
+module PG::Error; end
 module PG::TextDecoder::TimestampLocal; end
 module PG::TypeMap::DefaultTypeMappable; end
 module Rack::QueryParser::InvalidParameterError; end
