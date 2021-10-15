@@ -9,10 +9,15 @@ redis_uri = URI.parse(ENV.fetch("REDIS_URL"))
 
 Resque.logger.level = Logger::DEBUG
 Resque.redis = Redis.new(
-  host: redis_uri.host,
-  port: redis_uri.port,
-  password: redis_uri.password,
+  url: ENV.fetch("REDIS_URL"),
+  # host: redis_uri.host,
+  # port: redis_uri.port,
+  # password: redis_uri.password,
+
   thread_safe: true,
+
+  # https://stackoverflow.com/questions/65834575/how-to-enable-tls-for-redis-6-on-sidekiq
+  ssl_params: {verify_mode: OpenSSL::SSL::VERIFY_NONE},
 
   # stronger reconnection retry to avoid throwing errors when an intermittent connection failure occurs
   # https://github.com/redis/redis-rb#reconnections
