@@ -8,7 +8,6 @@ gem 'sorbet', '~> 0.5.6482', group: :development
 gem 'sorbet-runtime', '~> 0.5.6482', require: true
 gem 'sorbet-rails', '~> 0.7.4'
 
-
 gem 'dotenv-rails', '2.7.6', groups: [:development, :test]
 gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
 
@@ -78,5 +77,8 @@ group :development do
 
   gem 'listen'
   gem 'spring'
-  gem 'rubocop'
+
+  # lock to an old version to align with pay-server
+  gem 'rubocop', '0.89.1'
+  gem 'rubocop-minitest'
 end

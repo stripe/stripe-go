@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 # typed: false
-# require "minitest/autorun"
-# require 'pry-rescue/minitest'
+
 require_relative '../test_helper'
 
-# Bundler.require(:default, :development, :test)
-
-# class FunctionalTests < MiniTest::Spec
-class FunctionalTests < ActiveSupport::TestCase
+class FunctionalTests < MiniTest::Spec
+  # class FunctionalTests < ActiveSupport::TestCase
   include StripeForce::Constants
 
   before do

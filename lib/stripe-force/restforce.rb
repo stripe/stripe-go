@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+# typed: true
+
 Restforce.configure do |config|
   config.log_level = :debug
   # config.log = true

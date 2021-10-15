@@ -1,16 +1,5 @@
 # frozen_string_literal: true
 # typed: true
-# ripped from rails
-class DateTime
-  def utc
-    utc = new_offset(0)
-
-    Time.utc(
-      utc.year, utc.month, utc.day,
-      utc.hour, utc.min, utc.sec + utc.sec_fraction
-    )
-  end
-end
 
 class StripeForce::OrderPoller
   def self.perform(user:)

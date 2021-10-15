@@ -37,7 +37,7 @@ module StripeForce
     # https://github.com/stripe/stripe-netsuite/issues/712
     config.force_ssl = true
 
-    config.hosts += ENV.fetch('SALESFORCE_HOST', '').split(",")
+    config.hosts += ENV.fetch('STRIPEFORCE_HOSTS', '').split(",")
 
     # TODO I don't believe any emails we send will contain domains
     # config.action_controller.default_url_options = {

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: false
+# typed: true
 module StripeForce
   class User < Sequel::Model
     def sf_client
@@ -27,7 +27,7 @@ module StripeForce
     end
 
     def sf_endpoint
-      self.salesforce_instance_url
+      salesforce_instance_url
     end
 
     def stripe_credentials

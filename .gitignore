@@ -31,3 +31,4 @@
 /config/master.key
 
 .env
+test/reports/

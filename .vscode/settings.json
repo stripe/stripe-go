@@ -1,0 +1,12 @@
+{
+  "ruby.rubocop.onSave": true,
+  "ruby.rubocop.useBundler": true,
+  "editor.formatOnSave": true,
+  "cSpell.ignorePaths":[
+    "node_modules",
+    ".vscode",
+    "Gemfile",
+    "Gemfile.lock",
+    ".rubocop*"
+  ]
+}
