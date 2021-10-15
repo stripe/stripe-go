@@ -5,6 +5,10 @@ Next:
 - Pull over metrics
 - Pull over currency helpers
 - Pull over annotator
+- Pull over polling logic
+- Separate redis connection for locker
+- Lograge for better rails logs
+- Implement amendment logic
 
 - Future:
 
