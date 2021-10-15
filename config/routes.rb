@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   default_url_options protocol: :https
 
   root to: redirect('/auth/salesforce')
-  post '/auth/:provider/callback', to: 'sessions#create'
+  # post '/auth/:provider/callback', to: 'sessions#create'
+  get '/auth/salesforce/callback', to: 'sessions#salesforce_callback'
+  get '/auth/stripe/callback', to: 'sessions#stripe_callback'
 
   # TODO need basic auth
   # authenticated :admin, ->(u) { u.root? } do

@@ -12,8 +12,12 @@ class InitiatePollsJobs
 
     log.info 'queuing poll jobs'
 
-    StripeForce::User.where(disabled: false).extension(:pagination).each_page(50) do |page|
-      page.each {|user| queue_polls_for_user(user) }
+    # TODO need to add disabled flag
+    # StripeForce::User.where(disabled: false).extension(:pagination).each_page(50) do |page|
+    #   page.each {|user| queue_polls_for_user(user) }
+    # end
+    StripeForce::User.all.each do |user|
+      queue_polls_for_user(user)
     end
 
     # set_error_context
