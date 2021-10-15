@@ -1,7 +1,5 @@
 # TODO add typing
 
-
-require 'resque/tasks'
 require 'resque/scheduler/tasks'
 
 namespace :resque do
