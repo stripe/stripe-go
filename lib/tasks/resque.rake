@@ -1,4 +1,3 @@
-# require 'resque/tasks'
 require 'resque/scheduler/tasks'
 
 namespace :resque do
@@ -6,7 +5,7 @@ namespace :resque do
     # without `first_in` the job will only run after the first interval is complete
     # for these jobs, that's waiting too long, so we wait a short period of time instead
     Resque.schedule = {
-      InitiatePollsJobs: {
+      'StripeForce::InitiatePollsJobs': {
         every: [
           '90s',
           {first_in: 10.seconds},

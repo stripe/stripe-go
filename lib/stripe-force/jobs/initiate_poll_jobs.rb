@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 # typed: true
-class InitiatePollsJobs
+class StripeForce::InitiatePollsJobs
   extend SimpleStructuredLogger
   # extend StripeForce::ErrorContext
   # extend StripeForce::ResqueHooks
@@ -27,6 +27,7 @@ class InitiatePollsJobs
   def self.queue_polls_for_user(user)
     # set_error_context(user: user)
 
+    # TODO spit out to a separate job
     StripeForce::OrderPoller.perform(user: user)
   end
 end

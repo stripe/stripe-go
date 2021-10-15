@@ -1,8 +1,12 @@
-* invoice payment link on custom field
-* automated tests
+Next:
 
-web server timeout
-https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#timeout
+- Pull over locker
+- Pull over error context
+- Pull over metrics
+- Pull over currency helpers
+- Pull over annotator
 
-# TODO maybe preload database connections here?
-# https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
+- Future:
+
+- web server timeout for 30s heroku? https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#timeout
+- maybe preload database connections here? https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
