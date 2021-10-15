@@ -5,9 +5,8 @@ require 'resque/failure/redis'
 
 require './lib/resque_backtrace'
 
-redis_uri = URI.parse(ENV.fetch("REDIS_URL"))
-
 Resque.logger.level = Logger::DEBUG
+
 Resque.redis = Redis.new(
   url: ENV.fetch("REDIS_URL"),
   # host: redis_uri.host,

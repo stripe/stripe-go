@@ -16,4 +16,6 @@ module Kernel
   end
 end
 
+require_relative 'stripe-force/resque'
+
 Dir[File.join(File.dirname(__FILE__), "stripe-force/**/*.rb")].sort.each {|f| require f }
