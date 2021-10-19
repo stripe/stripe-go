@@ -14,6 +14,44 @@ type Client struct {
 	Key string
 }
 
+// New creates a new PaymentMethod.
+func New(params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
+	return getC().New(params)
+}
+
+// New creates a new PaymentMethod.
+func (c Client) New(params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
+	pm := &stripe.PaymentMethod{}
+	err := c.B.Call(http.MethodPost, "/v1/payment_methods", c.Key, params, pm)
+	return pm, err
+}
+
+// Get returns the details of a PaymentMethod.
+func Get(id string, params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
+	return getC().Get(id, params)
+}
+
+// Get returns the details of a PaymentMethod.
+func (c Client) Get(id string, params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
+	path := stripe.FormatURLPath("/v1/payment_methods/%s", id)
+	fee := &stripe.PaymentMethod{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, fee)
+	return fee, err
+}
+
+// Update updates a PaymentMethod.
+func Update(id string, params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
+	return getC().Update(id, params)
+}
+
+// Update updates a PaymentMethod.
+func (c Client) Update(id string, params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
+	path := stripe.FormatURLPath("/v1/payment_methods/%s", id)
+	pm := &stripe.PaymentMethod{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, pm)
+	return pm, err
+}
+
 // Attach attaches a PaymentMethod.
 func Attach(id string, params *stripe.PaymentMethodAttachParams) (*stripe.PaymentMethod, error) {
 	return getC().Attach(id, params)
@@ -40,19 +78,6 @@ func (c Client) Detach(id string, params *stripe.PaymentMethodDetachParams) (*st
 	return pm, err
 }
 
-// Get returns the details of a PaymentMethod.
-func Get(id string, params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
-	return getC().Get(id, params)
-}
-
-// Get returns the details of a PaymentMethod.
-func (c Client) Get(id string, params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
-	path := stripe.FormatURLPath("/v1/payment_methods/%s", id)
-	fee := &stripe.PaymentMethod{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, fee)
-	return fee, err
-}
-
 // List returns a list of PaymentMethods.
 func List(params *stripe.PaymentMethodListParams) *Iter {
 	return getC().List(params)
@@ -71,31 +96,6 @@ func (c Client) List(listParams *stripe.PaymentMethodListParams) *Iter {
 
 		return ret, list, err
 	})}
-}
-
-// New creates a new PaymentMethod.
-func New(params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
-	return getC().New(params)
-}
-
-// New creates a new PaymentMethod.
-func (c Client) New(params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
-	pm := &stripe.PaymentMethod{}
-	err := c.B.Call(http.MethodPost, "/v1/payment_methods", c.Key, params, pm)
-	return pm, err
-}
-
-// Update updates a PaymentMethod.
-func Update(id string, params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
-	return getC().Update(id, params)
-}
-
-// Update updates a PaymentMethod.
-func (c Client) Update(id string, params *stripe.PaymentMethodParams) (*stripe.PaymentMethod, error) {
-	path := stripe.FormatURLPath("/v1/payment_methods/%s", id)
-	pm := &stripe.PaymentMethod{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, pm)
-	return pm, err
 }
 
 // Iter is an iterator for PaymentMethods.
