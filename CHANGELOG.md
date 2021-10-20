@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.72.0 - 2021-10-20
+* [#1361](https://github.com/stripe/stripe-go/pull/1361) Bugfix: point client.API#Oauth to the Connect backend.
+* [#1358](https://github.com/stripe/stripe-go/pull/1358) API Updates
+  * Add support for `BuyerID` on `ChargePaymentMethodDetailsAlipay`
+
 ## 72.71.0 - 2021-10-15
 * [#1357](https://github.com/stripe/stripe-go/pull/1357) API Updates
   * Change type of `UsageRecordTimestampParams` from `integer` to `literal('now') | integer`
