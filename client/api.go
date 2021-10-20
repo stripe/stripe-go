@@ -295,7 +295,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.IssuingTransactions = &issuingtransaction.Client{B: backends.API, Key: key}
 	a.LoginLinks = &loginlink.Client{B: backends.API, Key: key}
 	a.Mandates = &mandate.Client{B: backends.API, Key: key}
-	a.OAuth = &oauth.Client{B: backends.API, Key: key}
+	a.OAuth = &oauth.Client{B: backends.Connect, Key: key}
 	a.OrderReturns = &orderreturn.Client{B: backends.API, Key: key}
 	a.Orders = &order.Client{B: backends.API, Key: key}
 	a.PaymentIntents = &paymentintent.Client{B: backends.API, Key: key}
