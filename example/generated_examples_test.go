@@ -939,19 +939,25 @@ func TestTransferList(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
-func TestTransferReversalCreate(t *testing.T) {
+func TestReversalCreate(t *testing.T) {
 	params := &stripe.ReversalParams{Amount: stripe.Int64(100)}
 	result, _ := reversal.New(params)
 	assert.NotNil(t, result)
 }
 
-func TestTransferReversalUpdate(t *testing.T) {
+func TestReversalRetrieve(t *testing.T) {
+	params := &stripe.ReversalParams{}
+	result, _ := reversal.Get("trr_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestReversalUpdate(t *testing.T) {
 	params := &stripe.ReversalParams{}
 	result, _ := reversal.Update("trr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
-func TestTransferReversalList(t *testing.T) {
+func TestReversalList(t *testing.T) {
 	params := &stripe.ReversalListParams{}
 	params.Filters.AddFilter("Limit", "", "3")
 	result := reversal.List(params)

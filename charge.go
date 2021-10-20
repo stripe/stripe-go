@@ -267,6 +267,7 @@ type ChargePaymentMethodDetailsAfterpayClearpay struct {
 
 // ChargePaymentMethodDetailsAlipay represents details about the Alipay PaymentMethod.
 type ChargePaymentMethodDetailsAlipay struct {
+	BuyerID       string `json:"buyer_id"`
 	Fingerprint   string `json:"fingerprint"`
 	TransactionID string `json:"transaction_id"`
 }
