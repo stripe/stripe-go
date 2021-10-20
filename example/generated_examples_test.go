@@ -97,6 +97,7 @@ func TestChargeRetrieve(t *testing.T) {
 
 func TestChargeUpdate(t *testing.T) {
 	params := &stripe.ChargeParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := charge.Update("ch_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -124,6 +125,7 @@ func TestCustomerRetrieve(t *testing.T) {
 
 func TestCustomerUpdate(t *testing.T) {
 	params := &stripe.CustomerParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := customer.Update("cus_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -149,6 +151,7 @@ func TestDisputeRetrieve(t *testing.T) {
 
 func TestDisputeUpdate(t *testing.T) {
 	params := &stripe.DisputeParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := dispute.Update("dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -197,6 +200,7 @@ func TestPaymentIntentRetrieve(t *testing.T) {
 
 func TestPaymentIntentUpdate(t *testing.T) {
 	params := &stripe.PaymentIntentParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := paymentintent.Update("pi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -244,6 +248,7 @@ func TestSetupIntentRetrieve(t *testing.T) {
 
 func TestSetupIntentUpdate(t *testing.T) {
 	params := &stripe.SetupIntentParams{}
+	params.AddMetadata("user_id", "3435453")
 	result, _ := setupintent.Update("seti_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -295,6 +300,7 @@ func TestPayoutRetrieve(t *testing.T) {
 
 func TestPayoutUpdate(t *testing.T) {
 	params := &stripe.PayoutParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := payout.Update("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -326,6 +332,7 @@ func TestProductRetrieve(t *testing.T) {
 
 func TestProductUpdate(t *testing.T) {
 	params := &stripe.ProductParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := product.Update("prod_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -362,6 +369,7 @@ func TestPriceRetrieve(t *testing.T) {
 
 func TestPriceUpdate(t *testing.T) {
 	params := &stripe.PriceParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := price.Update("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -387,6 +395,7 @@ func TestRefundRetrieve(t *testing.T) {
 
 func TestRefundUpdate(t *testing.T) {
 	params := &stripe.RefundParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := refund.Update("re_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -406,6 +415,7 @@ func TestPaymentMethodRetrieve(t *testing.T) {
 
 func TestPaymentMethodUpdate(t *testing.T) {
 	params := &stripe.PaymentMethodParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := paymentmethod.Update("pm_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -441,6 +451,7 @@ func TestSourceRetrieve(t *testing.T) {
 
 func TestSourceUpdate(t *testing.T) {
 	params := &stripe.SourceObjectParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := source.Update("src_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -476,6 +487,7 @@ func TestCouponRetrieve(t *testing.T) {
 
 func TestCouponUpdate(t *testing.T) {
 	params := &stripe.CouponParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := coupon.Update("co_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -504,6 +516,7 @@ func TestCustomerBalanceTransactionCreate(t *testing.T) {
 
 func TestCustomerBalanceTransactionUpdate(t *testing.T) {
 	params := &stripe.CustomerBalanceTransactionParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := customerbalancetransaction.Update("cbtxn_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -601,6 +614,7 @@ func TestInvoiceRetrieve(t *testing.T) {
 
 func TestInvoiceUpdate(t *testing.T) {
 	params := &stripe.InvoiceParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := invoice.Update("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -647,6 +661,7 @@ func TestInvoiceItemRetrieve(t *testing.T) {
 
 func TestInvoiceItemUpdate(t *testing.T) {
 	params := &stripe.InvoiceItemParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := invoiceitem.Update("ii_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -683,6 +698,7 @@ func TestPlanRetrieve(t *testing.T) {
 
 func TestPlanUpdate(t *testing.T) {
 	params := &stripe.PlanParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := plan.Update("price_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -708,6 +724,7 @@ func TestPromotionCodeCreate(t *testing.T) {
 
 func TestPromotionCodeUpdate(t *testing.T) {
 	params := &stripe.PromotionCodeParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := promotioncode.Update("promo_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -798,6 +815,7 @@ func TestAccountRetrieve(t *testing.T) {
 
 func TestAccountUpdate(t *testing.T) {
 	params := &stripe.AccountParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := account.Update("acct_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -868,6 +886,7 @@ func TestPersonCreate(t *testing.T) {
 
 func TestPersonUpdate(t *testing.T) {
 	params := &stripe.PersonParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := person.Update("person_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -898,6 +917,7 @@ func TestTopupRetrieve(t *testing.T) {
 
 func TestTopupUpdate(t *testing.T) {
 	params := &stripe.TopupParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := topup.Update("tu_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -928,6 +948,7 @@ func TestTransferRetrieve(t *testing.T) {
 
 func TestTransferUpdate(t *testing.T) {
 	params := &stripe.TransferParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := transfer.Update("tr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -953,6 +974,7 @@ func TestReversalRetrieve(t *testing.T) {
 
 func TestReversalUpdate(t *testing.T) {
 	params := &stripe.ReversalParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := reversal.Update("trr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -1004,6 +1026,7 @@ func TestIssuingAuthorizationRetrieve(t *testing.T) {
 
 func TestIssuingAuthorizationUpdate(t *testing.T) {
 	params := &stripe.IssuingAuthorizationParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := authorization.Update("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -1055,6 +1078,7 @@ func TestIssuingCardholderRetrieve(t *testing.T) {
 
 func TestIssuingCardholderUpdate(t *testing.T) {
 	params := &stripe.IssuingCardholderParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := cardholder.Update("ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -1084,6 +1108,7 @@ func TestIssuingCardRetrieve(t *testing.T) {
 
 func TestIssuingCardUpdate(t *testing.T) {
 	params := &stripe.IssuingCardParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := card.Update("ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -1152,6 +1177,7 @@ func TestIssuingTransactionRetrieve(t *testing.T) {
 
 func TestIssuingTransactionUpdate(t *testing.T) {
 	params := &stripe.IssuingTransactionParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := transaction.Update("ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
@@ -1315,6 +1341,7 @@ func TestSKURetrieve(t *testing.T) {
 
 func TestSKUUpdate(t *testing.T) {
 	params := &stripe.SKUParams{}
+	params.AddMetadata("order_id", "6735")
 	result, _ := sku.Update("sku_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
