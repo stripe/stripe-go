@@ -8,11 +8,11 @@ import (
 	account "github.com/stripe/stripe-go/v72/account"
 	accountlink "github.com/stripe/stripe-go/v72/accountlink"
 	balancetransaction "github.com/stripe/stripe-go/v72/balancetransaction"
-	configuration "github.com/stripe/stripe-go/v72/billingportal/configuration"
+	billingportal_configuration "github.com/stripe/stripe-go/v72/billingportal/configuration"
 	billingportal_session "github.com/stripe/stripe-go/v72/billingportal/session"
 	capability "github.com/stripe/stripe-go/v72/capability"
 	charge "github.com/stripe/stripe-go/v72/charge"
-	session "github.com/stripe/stripe-go/v72/checkout/session"
+	checkout_session "github.com/stripe/stripe-go/v72/checkout/session"
 	countryspec "github.com/stripe/stripe-go/v72/countryspec"
 	coupon "github.com/stripe/stripe-go/v72/coupon"
 	customer "github.com/stripe/stripe-go/v72/customer"
@@ -21,11 +21,11 @@ import (
 	event "github.com/stripe/stripe-go/v72/event"
 	invoice "github.com/stripe/stripe-go/v72/invoice"
 	invoiceitem "github.com/stripe/stripe-go/v72/invoiceitem"
-	authorization "github.com/stripe/stripe-go/v72/issuing/authorization"
-	card "github.com/stripe/stripe-go/v72/issuing/card"
-	cardholder "github.com/stripe/stripe-go/v72/issuing/cardholder"
+	issuing_authorization "github.com/stripe/stripe-go/v72/issuing/authorization"
+	issuing_card "github.com/stripe/stripe-go/v72/issuing/card"
+	issuing_cardholder "github.com/stripe/stripe-go/v72/issuing/cardholder"
 	issuing_dispute "github.com/stripe/stripe-go/v72/issuing/dispute"
-	transaction "github.com/stripe/stripe-go/v72/issuing/transaction"
+	issuing_transaction "github.com/stripe/stripe-go/v72/issuing/transaction"
 	mandate "github.com/stripe/stripe-go/v72/mandate"
 	order "github.com/stripe/stripe-go/v72/order"
 	orderreturn "github.com/stripe/stripe-go/v72/orderreturn"
@@ -37,19 +37,19 @@ import (
 	price "github.com/stripe/stripe-go/v72/price"
 	product "github.com/stripe/stripe-go/v72/product"
 	promotioncode "github.com/stripe/stripe-go/v72/promotioncode"
-	earlyfraudwarning "github.com/stripe/stripe-go/v72/radar/earlyfraudwarning"
+	radar_earlyfraudwarning "github.com/stripe/stripe-go/v72/radar/earlyfraudwarning"
 	refund "github.com/stripe/stripe-go/v72/refund"
 	reversal "github.com/stripe/stripe-go/v72/reversal"
 	review "github.com/stripe/stripe-go/v72/review"
 	setupattempt "github.com/stripe/stripe-go/v72/setupattempt"
 	setupintent "github.com/stripe/stripe-go/v72/setupintent"
-	scheduledqueryrun "github.com/stripe/stripe-go/v72/sigma/scheduledqueryrun"
+	sigma_scheduledqueryrun "github.com/stripe/stripe-go/v72/sigma/scheduledqueryrun"
 	sku "github.com/stripe/stripe-go/v72/sku"
 	source "github.com/stripe/stripe-go/v72/source"
 	taxid "github.com/stripe/stripe-go/v72/taxid"
 	taxrate "github.com/stripe/stripe-go/v72/taxrate"
-	location "github.com/stripe/stripe-go/v72/terminal/location"
-	reader "github.com/stripe/stripe-go/v72/terminal/reader"
+	terminal_location "github.com/stripe/stripe-go/v72/terminal/location"
+	terminal_reader "github.com/stripe/stripe-go/v72/terminal/reader"
 	_ "github.com/stripe/stripe-go/v72/testing"
 	topup "github.com/stripe/stripe-go/v72/topup"
 	transfer "github.com/stripe/stripe-go/v72/transfer"
@@ -458,14 +458,14 @@ func TestSourceUpdate(t *testing.T) {
 
 func TestCheckoutSessionRetrieve(t *testing.T) {
 	params := &stripe.CheckoutSessionParams{}
-	result, _ := session.Get("cs_test_xxxxxxxxxxxxx", params)
+	result, _ := checkout_session.Get("cs_test_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestCheckoutSessionList(t *testing.T) {
 	params := &stripe.CheckoutSessionListParams{}
 	params.Filters.AddFilter("Limit", "", "3")
-	result := session.List(params)
+	result := checkout_session.List(params)
 	assert.NotNil(t, result)
 }
 
@@ -556,7 +556,7 @@ func TestBillingPortalConfigurationCreate(t *testing.T) {
 			TermsOfServiceURL: stripe.String("https://example.com/terms"),
 		},
 	}
-	result, _ := configuration.New(params)
+	result, _ := billingportal_configuration.New(params)
 	assert.NotNil(t, result)
 }
 
@@ -567,20 +567,20 @@ func TestBillingPortalConfigurationUpdate(t *testing.T) {
 			TermsOfServiceURL: stripe.String("https://example.com/terms"),
 		},
 	}
-	result, _ := configuration.Update("bpc_xxxxxxxxxxxxx", params)
+	result, _ := billingportal_configuration.Update("bpc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestBillingPortalConfigurationRetrieve(t *testing.T) {
 	params := &stripe.BillingPortalConfigurationParams{}
-	result, _ := configuration.Get("bpc_xxxxxxxxxxxxx", params)
+	result, _ := billingportal_configuration.Get("bpc_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestBillingPortalConfigurationList(t *testing.T) {
 	params := &stripe.BillingPortalConfigurationListParams{}
 	params.Filters.AddFilter("Limit", "", "3")
-	result := configuration.List(params)
+	result := billingportal_configuration.List(params)
 	assert.NotNil(t, result)
 }
 
@@ -988,14 +988,14 @@ func TestReversalList(t *testing.T) {
 
 func TestRadarEarlyFraudWarningRetrieve(t *testing.T) {
 	params := &stripe.RadarEarlyFraudWarningParams{}
-	result, _ := earlyfraudwarning.Get("issfr_xxxxxxxxxxxxx", params)
+	result, _ := radar_earlyfraudwarning.Get("issfr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestRadarEarlyFraudWarningList(t *testing.T) {
 	params := &stripe.RadarEarlyFraudWarningListParams{}
 	params.Filters.AddFilter("Limit", "", "3")
-	result := earlyfraudwarning.List(params)
+	result := radar_earlyfraudwarning.List(params)
 	assert.NotNil(t, result)
 }
 
@@ -1020,33 +1020,33 @@ func TestReviewList(t *testing.T) {
 
 func TestIssuingAuthorizationRetrieve(t *testing.T) {
 	params := &stripe.IssuingAuthorizationParams{}
-	result, _ := authorization.Get("iauth_xxxxxxxxxxxxx", params)
+	result, _ := issuing_authorization.Get("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestIssuingAuthorizationUpdate(t *testing.T) {
 	params := &stripe.IssuingAuthorizationParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := authorization.Update("iauth_xxxxxxxxxxxxx", params)
+	result, _ := issuing_authorization.Update("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestIssuingAuthorizationApprove(t *testing.T) {
 	params := &stripe.IssuingAuthorizationApproveParams{}
-	result, _ := authorization.Approve("iauth_xxxxxxxxxxxxx", params)
+	result, _ := issuing_authorization.Approve("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestIssuingAuthorizationDecline(t *testing.T) {
 	params := &stripe.IssuingAuthorizationDeclineParams{}
-	result, _ := authorization.Decline("iauth_xxxxxxxxxxxxx", params)
+	result, _ := issuing_authorization.Decline("iauth_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestIssuingAuthorizationList(t *testing.T) {
 	params := &stripe.IssuingAuthorizationListParams{}
 	params.Filters.AddFilter("Limit", "", "3")
-	result := authorization.List(params)
+	result := issuing_authorization.List(params)
 	assert.NotNil(t, result)
 }
 
@@ -1066,27 +1066,27 @@ func TestIssuingCardholderCreate(t *testing.T) {
 			},
 		},
 	}
-	result, _ := cardholder.New(params)
+	result, _ := issuing_cardholder.New(params)
 	assert.NotNil(t, result)
 }
 
 func TestIssuingCardholderRetrieve(t *testing.T) {
 	params := &stripe.IssuingCardholderParams{}
-	result, _ := cardholder.Get("ich_xxxxxxxxxxxxx", params)
+	result, _ := issuing_cardholder.Get("ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestIssuingCardholderUpdate(t *testing.T) {
 	params := &stripe.IssuingCardholderParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := cardholder.Update("ich_xxxxxxxxxxxxx", params)
+	result, _ := issuing_cardholder.Update("ich_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestIssuingCardholderList(t *testing.T) {
 	params := &stripe.IssuingCardholderListParams{}
 	params.Filters.AddFilter("Limit", "", "3")
-	result := cardholder.List(params)
+	result := issuing_cardholder.List(params)
 	assert.NotNil(t, result)
 }
 
@@ -1096,27 +1096,27 @@ func TestIssuingCardCreate(t *testing.T) {
 		Currency:   stripe.String(string(stripe.CurrencyUSD)),
 		Type:       stripe.String("virtual"),
 	}
-	result, _ := card.New(params)
+	result, _ := issuing_card.New(params)
 	assert.NotNil(t, result)
 }
 
 func TestIssuingCardRetrieve(t *testing.T) {
 	params := &stripe.IssuingCardParams{}
-	result, _ := card.Get("ic_xxxxxxxxxxxxx", params)
+	result, _ := issuing_card.Get("ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestIssuingCardUpdate(t *testing.T) {
 	params := &stripe.IssuingCardParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := card.Update("ic_xxxxxxxxxxxxx", params)
+	result, _ := issuing_card.Update("ic_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestIssuingCardList(t *testing.T) {
 	params := &stripe.IssuingCardListParams{}
 	params.Filters.AddFilter("Limit", "", "3")
-	result := card.List(params)
+	result := issuing_card.List(params)
 	assert.NotNil(t, result)
 }
 
@@ -1171,21 +1171,21 @@ func TestIssuingDisputeList(t *testing.T) {
 
 func TestIssuingTransactionRetrieve(t *testing.T) {
 	params := &stripe.IssuingTransactionParams{}
-	result, _ := transaction.Get("ipi_xxxxxxxxxxxxx", params)
+	result, _ := issuing_transaction.Get("ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestIssuingTransactionUpdate(t *testing.T) {
 	params := &stripe.IssuingTransactionParams{}
 	params.AddMetadata("order_id", "6735")
-	result, _ := transaction.Update("ipi_xxxxxxxxxxxxx", params)
+	result, _ := issuing_transaction.Update("ipi_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestIssuingTransactionList(t *testing.T) {
 	params := &stripe.IssuingTransactionListParams{}
 	params.Filters.AddFilter("Limit", "", "3")
-	result := transaction.List(params)
+	result := issuing_transaction.List(params)
 	assert.NotNil(t, result)
 }
 
@@ -1199,13 +1199,13 @@ func TestTerminalLocationCreate(t *testing.T) {
 			PostalCode: stripe.String("94111"),
 		},
 	}
-	result, _ := location.New(params)
+	result, _ := terminal_location.New(params)
 	assert.NotNil(t, result)
 }
 
 func TestTerminalLocationRetrieve(t *testing.T) {
 	params := &stripe.TerminalLocationParams{}
-	result, _ := location.Get("tml_xxxxxxxxxxxxx", params)
+	result, _ := terminal_location.Get("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
@@ -1213,20 +1213,20 @@ func TestTerminalLocationUpdate(t *testing.T) {
 	params := &stripe.TerminalLocationParams{
 		DisplayName: stripe.String("My First Store"),
 	}
-	result, _ := location.Update("tml_xxxxxxxxxxxxx", params)
+	result, _ := terminal_location.Update("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestTerminalLocationDelete(t *testing.T) {
 	params := &stripe.TerminalLocationParams{}
-	result, _ := location.Del("tml_xxxxxxxxxxxxx", params)
+	result, _ := terminal_location.Del("tml_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestTerminalLocationList(t *testing.T) {
 	params := &stripe.TerminalLocationListParams{}
 	params.Filters.AddFilter("Limit", "", "3")
-	result := location.List(params)
+	result := terminal_location.List(params)
 	assert.NotNil(t, result)
 }
 
@@ -1236,26 +1236,26 @@ func TestTerminalReaderCreate(t *testing.T) {
 		Label:            stripe.String("Blue Rabbit"),
 		Location:         stripe.String("tml_1234"),
 	}
-	result, _ := reader.New(params)
+	result, _ := terminal_reader.New(params)
 	assert.NotNil(t, result)
 }
 
 func TestTerminalReaderUpdate(t *testing.T) {
 	params := &stripe.TerminalReaderParams{Label: stripe.String("Blue Rabbit")}
-	result, _ := reader.Update("tmr_P400-123-456-789", params)
+	result, _ := terminal_reader.Update("tmr_P400-123-456-789", params)
 	assert.NotNil(t, result)
 }
 
 func TestTerminalReaderDelete(t *testing.T) {
 	params := &stripe.TerminalReaderParams{}
-	result, _ := reader.Del("tmr_P400-123-456-789", params)
+	result, _ := terminal_reader.Del("tmr_P400-123-456-789", params)
 	assert.NotNil(t, result)
 }
 
 func TestTerminalReaderList(t *testing.T) {
 	params := &stripe.TerminalReaderListParams{}
 	params.Filters.AddFilter("Limit", "", "3")
-	result := reader.List(params)
+	result := terminal_reader.List(params)
 	assert.NotNil(t, result)
 }
 
@@ -1361,14 +1361,14 @@ func TestSKUDelete(t *testing.T) {
 
 func TestSigmaScheduledQueryRunRetrieve(t *testing.T) {
 	params := &stripe.SigmaScheduledQueryRunParams{}
-	result, _ := scheduledqueryrun.Get("sqr_xxxxxxxxxxxxx", params)
+	result, _ := sigma_scheduledqueryrun.Get("sqr_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
 func TestSigmaScheduledQueryRunList(t *testing.T) {
 	params := &stripe.SigmaScheduledQueryRunListParams{}
 	params.Filters.AddFilter("Limit", "", "3")
-	result := scheduledqueryrun.List(params)
+	result := sigma_scheduledqueryrun.List(params)
 	assert.NotNil(t, result)
 }
 
