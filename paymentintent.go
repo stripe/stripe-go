@@ -7,7 +7,6 @@
 package stripe
 
 import "encoding/json"
-import "github.com/stripe/stripe-go/v72/form"
 
 // PaymentIntentCancellationReason is the list of allowed values for the cancelation reason.
 type PaymentIntentCancellationReason string
@@ -171,8 +170,6 @@ type PaymentIntentConfirmParams struct {
 	Mandate               *string                                  `form:"mandate"`
 	MandateData           *PaymentIntentMandateDataParams          `form:"mandate_data"`
 	OffSession            *bool                                    `form:"off_session"`
-	OffSessionOneOff      *bool                                    `form:"-"` // See custom AppendTo
-	OffSessionRecurring   *bool                                    `form:"-"` // See custom AppendTo
 	PaymentMethod         *string                                  `form:"payment_method"`
 	PaymentMethodData     *PaymentIntentPaymentMethodDataParams    `form:"payment_method_data"`
 	PaymentMethodOptions  *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
@@ -182,16 +179,6 @@ type PaymentIntentConfirmParams struct {
 	SetupFutureUsage      *string                                  `form:"setup_future_usage"`
 	Shipping              *ShippingDetailsParams                   `form:"shipping"`
 	UseStripeSDK          *bool                                    `form:"use_stripe_sdk"`
-}
-
-// AppendTo implements custom encoding logic for PaymentIntentConfirmParams.
-func (p *PaymentIntentConfirmParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(p.OffSessionOneOff) {
-		body.Add(form.FormatKey(append(keyParts, "off_session")), "one_off")
-	}
-	if BoolValue(p.OffSessionRecurring) {
-		body.Add(form.FormatKey(append(keyParts, "off_session")), "recurring")
-	}
 }
 
 // PaymentIntentMandateDataCustomerAcceptanceOfflineParams is the set of parameters for the customer
@@ -393,8 +380,6 @@ type PaymentIntentParams struct {
 	Description               *string                                  `form:"description"`
 	Mandate                   *string                                  `form:"mandate"`
 	MandateData               *PaymentIntentMandateDataParams          `form:"mandate_data"`
-	OffSessionOneOff          *bool                                    `form:"-"` // See custom AppendTo
-	OffSessionRecurring       *bool                                    `form:"-"` // See custom AppendTo
 	OnBehalfOf                *string                                  `form:"on_behalf_of"`
 	PaymentMethod             *string                                  `form:"payment_method"`
 	PaymentMethodData         *PaymentIntentPaymentMethodDataParams    `form:"payment_method_data"`
@@ -408,20 +393,10 @@ type PaymentIntentParams struct {
 	StatementDescriptorSuffix *string                                  `form:"statement_descriptor_suffix"`
 	TransferData              *PaymentIntentTransferDataParams         `form:"transfer_data"`
 	TransferGroup             *string                                  `form:"transfer_group"`
-	// Those parameters only works if you confirm on creation.
+	// These parameters apply only for paymentIntent.New with `confirm=true`
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
 	OffSession            *bool `form:"off_session"`
 	UseStripeSDK          *bool `form:"use_stripe_sdk"`
-}
-
-// AppendTo implements custom encoding logic for PaymentIntentParams.
-func (p *PaymentIntentParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(p.OffSessionOneOff) {
-		body.Add(form.FormatKey(append(keyParts, "off_session")), "one_off")
-	}
-	if BoolValue(p.OffSessionRecurring) {
-		body.Add(form.FormatKey(append(keyParts, "off_session")), "recurring")
-	}
 }
 
 // PaymentIntentListParams is the set of parameters that can be used when listing payment intents.
