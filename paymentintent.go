@@ -1,8 +1,13 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
-import (
-	"encoding/json"
-)
+import "encoding/json"
+import "github.com/stripe/stripe-go/v72/form"
 
 // PaymentIntentCancellationReason is the list of allowed values for the cancelation reason.
 type PaymentIntentCancellationReason string
@@ -101,17 +106,19 @@ const (
 )
 
 // PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure is the list of allowed values
-//controlling when to request 3D Secure on a PaymentIntent.
+// //controlling when to request 3D Secure on a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure can take.
 const (
-	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAny       PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
-	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
+	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAny           PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
+	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic     PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
+	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge_only"
 )
 
 type PaymentIntentPaymentMethodOptionsWechatPayClient string
 
+// List of values that PaymentIntentPaymentMethodOptionsWechatPayClient can take
 const (
 	PaymentIntentPaymentMethodOptionsWechatPayClientAndroid PaymentIntentPaymentMethodOptionsWechatPayClient = "android"
 	PaymentIntentPaymentMethodOptionsWechatPayClientIOS     PaymentIntentPaymentMethodOptionsWechatPayClient = "ios"
@@ -164,6 +171,8 @@ type PaymentIntentConfirmParams struct {
 	Mandate               *string                                  `form:"mandate"`
 	MandateData           *PaymentIntentMandateDataParams          `form:"mandate_data"`
 	OffSession            *bool                                    `form:"off_session"`
+	OffSessionOneOff      *bool                                    `form:"-"` // See custom AppendTo
+	OffSessionRecurring   *bool                                    `form:"-"` // See custom AppendTo
 	PaymentMethod         *string                                  `form:"payment_method"`
 	PaymentMethodData     *PaymentIntentPaymentMethodDataParams    `form:"payment_method_data"`
 	PaymentMethodOptions  *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
@@ -175,10 +184,19 @@ type PaymentIntentConfirmParams struct {
 	UseStripeSDK          *bool                                    `form:"use_stripe_sdk"`
 }
 
+// AppendTo implements custom encoding logic for PaymentIntentConfirmParams.
+func (p *PaymentIntentConfirmParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.OffSessionOneOff) {
+		body.Add(form.FormatKey(append(keyParts, "off_session")), "one_off")
+	}
+	if BoolValue(p.OffSessionRecurring) {
+		body.Add(form.FormatKey(append(keyParts, "off_session")), "recurring")
+	}
+}
+
 // PaymentIntentMandateDataCustomerAcceptanceOfflineParams is the set of parameters for the customer
 // acceptance of an offline mandate.
-type PaymentIntentMandateDataCustomerAcceptanceOfflineParams struct {
-}
+type PaymentIntentMandateDataCustomerAcceptanceOfflineParams struct{}
 
 // PaymentIntentMandateDataCustomerAcceptanceOnlineParams is the set of parameters for the customer
 // acceptance of an online mandate.
@@ -209,19 +227,25 @@ type PaymentIntentPaymentMethodDataParams struct {
 	AfterpayClearpay *PaymentMethodAfterpayClearpayParams `form:"afterpay_clearpay"`
 	Alipay           *PaymentMethodAlipayParams           `form:"alipay"`
 	AUBECSDebit      *PaymentMethodAUBECSDebitParams      `form:"au_becs_debit"`
+	BACSDebit        *PaymentMethodBACSDebitParams        `form:"bacs_debit"`
+	Bancontact       *PaymentMethodBancontactParams       `form:"bancontact"`
 	BillingDetails   *BillingDetailsParams                `form:"billing_details"`
 	Boleto           *PaymentMethodBoletoParams           `form:"boleto"`
 	Card             *PaymentMethodCardParams             `form:"card"`
 	EPS              *PaymentMethodEPSParams              `form:"eps"`
 	FPX              *PaymentMethodFPXParams              `form:"fpx"`
+	Giropay          *PaymentMethodGiropayParams          `form:"giropay"`
 	Grabpay          *PaymentMethodGrabpayParams          `form:"grabpay"`
 	Ideal            *PaymentMethodIdealParams            `form:"ideal"`
+	InteracPresent   *PaymentMethodInteracPresentParams   `form:"interac_present"`
 	Klarna           *PaymentMethodKlarnaParams           `form:"klarna"`
+	Metadata         map[string]string                    `form:"metadata"`
 	OXXO             *PaymentMethodOXXOParams             `form:"oxxo"`
 	P24              *PaymentMethodP24Params              `form:"p24"`
 	SepaDebit        *PaymentMethodSepaDebitParams        `form:"sepa_debit"`
-	WechatPay        *PaymentMethodWechatPayParams        `form:"sepa_debit"`
+	Sofort           *PaymentMethodSofortParams           `form:"sofort"`
 	Type             *string                              `form:"type"`
+	WechatPay        *PaymentMethodWechatPayParams        `form:"wechat_pay"`
 }
 
 // PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsParams represents the mandate options
@@ -248,8 +272,7 @@ type PaymentIntentPaymentMethodOptionsAfterpayClearpayParams struct {
 
 // PaymentIntentPaymentMethodOptionsAlipayParams represents the Alipay-specific options
 // applied to a PaymentIntent.
-type PaymentIntentPaymentMethodOptionsAlipayParams struct {
-}
+type PaymentIntentPaymentMethodOptionsAlipayParams struct{}
 
 // PaymentIntentPaymentMethodOptionsBancontactParams represents the bancontact-specific options
 // applied to a PaymentIntent.
@@ -288,6 +311,12 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string                                                  `form:"request_three_d_secure"`
 }
 
+// If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
+type PaymentIntentPaymentMethodOptionsCardPresentParams struct{}
+
+// If this is a `ideal` PaymentMethod, this sub-hash contains details about the Ideal payment method options.
+type PaymentIntentPaymentMethodOptionsIdealParams struct{}
+
 // If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
 type PaymentIntentPaymentMethodOptionsKlarnaParams struct {
 	PreferredLocale *string `form:"preferred_locale"`
@@ -297,6 +326,19 @@ type PaymentIntentPaymentMethodOptionsKlarnaParams struct {
 // PaymentIntent.
 type PaymentIntentPaymentMethodOptionsOXXOParams struct {
 	ExpiresAfterDays *int64 `form:"expires_after_days"`
+}
+
+// If this is a `p24` PaymentMethod, this sub-hash contains details about the Przelewy24 payment method options.
+type PaymentIntentPaymentMethodOptionsP24Params struct {
+	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
+}
+
+// Additional fields for Mandate creation
+type PaymentIntentPaymentMethodOptionsSepaDebitMandateOptionsParams struct{}
+
+// If this is a `sepa_debit` PaymentIntent, this sub-hash contains details about the SEPA Debit payment method options.
+type PaymentIntentPaymentMethodOptionsSepaDebitParams struct {
+	MandateOptions *PaymentIntentPaymentMethodOptionsSepaDebitMandateOptionsParams `form:"mandate_options"`
 }
 
 // PaymentIntentPaymentMethodOptionsSofortParams represents the sofort-specific options applied to a
@@ -321,8 +363,12 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontactParams       `form:"bancontact"`
 	Boleto           *PaymentIntentPaymentMethodOptionsBoletoParams           `form:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCardParams             `form:"card"`
+	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresentParams      `form:"card_present"`
+	Ideal            *PaymentIntentPaymentMethodOptionsIdealParams            `form:"ideal"`
 	Klarna           *PaymentIntentPaymentMethodOptionsKlarnaParams           `form:"klarna"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXOParams             `form:"oxxo"`
+	P24              *PaymentIntentPaymentMethodOptionsP24Params              `form:"p24"`
+	SepaDebit        *PaymentIntentPaymentMethodOptionsSepaDebitParams        `form:"sepa_debit"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofortParams           `form:"sofort"`
 	WechatPay        *PaymentIntentPaymentMethodOptionsWechatPayParams        `form:"wechat_pay"`
 }
@@ -339,6 +385,7 @@ type PaymentIntentParams struct {
 	Amount                    *int64                                   `form:"amount"`
 	ApplicationFeeAmount      *int64                                   `form:"application_fee_amount"`
 	CaptureMethod             *string                                  `form:"capture_method"`
+	ClientSecret              *string                                  `form:"client_secret"`
 	Confirm                   *bool                                    `form:"confirm"`
 	ConfirmationMethod        *string                                  `form:"confirmation_method"`
 	Currency                  *string                                  `form:"currency"`
@@ -346,6 +393,8 @@ type PaymentIntentParams struct {
 	Description               *string                                  `form:"description"`
 	Mandate                   *string                                  `form:"mandate"`
 	MandateData               *PaymentIntentMandateDataParams          `form:"mandate_data"`
+	OffSessionOneOff          *bool                                    `form:"-"` // See custom AppendTo
+	OffSessionRecurring       *bool                                    `form:"-"` // See custom AppendTo
 	OnBehalfOf                *string                                  `form:"on_behalf_of"`
 	PaymentMethod             *string                                  `form:"payment_method"`
 	PaymentMethodData         *PaymentIntentPaymentMethodDataParams    `form:"payment_method_data"`
@@ -359,11 +408,20 @@ type PaymentIntentParams struct {
 	StatementDescriptorSuffix *string                                  `form:"statement_descriptor_suffix"`
 	TransferData              *PaymentIntentTransferDataParams         `form:"transfer_data"`
 	TransferGroup             *string                                  `form:"transfer_group"`
-
 	// Those parameters only works if you confirm on creation.
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
 	OffSession            *bool `form:"off_session"`
 	UseStripeSDK          *bool `form:"use_stripe_sdk"`
+}
+
+// AppendTo implements custom encoding logic for PaymentIntentParams.
+func (p *PaymentIntentParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.OffSessionOneOff) {
+		body.Add(form.FormatKey(append(keyParts, "off_session")), "one_off")
+	}
+	if BoolValue(p.OffSessionRecurring) {
+		body.Add(form.FormatKey(append(keyParts, "off_session")), "recurring")
+	}
 }
 
 // PaymentIntentListParams is the set of parameters that can be used when listing payment intents.
@@ -409,8 +467,7 @@ type PaymentIntentNextActionRedirectToURL struct {
 }
 
 // PaymentIntentNextActionUseStripeSDK represents the resource for the next action of typee "use_stripe_sdk".
-type PaymentIntentNextActionUseStripeSDK struct {
-}
+type PaymentIntentNextActionUseStripeSDK struct{}
 
 // PaymentIntentNextActionVerifyWithMicrodeposits represents the resource for the next action of type
 // "verify_with_microdeposits".
@@ -457,7 +514,6 @@ type PaymentIntentNextAction struct {
 	WechatPayRedirectToAndroidApp *PaymentIntentNextActionWechatPayRedirectToAndroidApp `json:"wechat_pay_redirect_to_android_app"`
 	WechatPayRedirectToIOSApp     *PaymentIntentNextActionWechatPayRedirectToIOSApp     `json:"wechat_pay_redirect_to_ios_app"`
 }
-
 type PaymentIntentPaymentMethodOptionsBoleto struct {
 	ExpiresAfterDays int64 `json:"expires_after_days"`
 }
@@ -501,8 +557,7 @@ type PaymentIntentPaymentMethodOptionsAfterpayClearpay struct {
 
 // PaymentIntentPaymentMethodOptionsAlipay is the set of Alipay-specific options associated
 // with that payment intent.
-type PaymentIntentPaymentMethodOptionsAlipay struct {
-}
+type PaymentIntentPaymentMethodOptionsAlipay struct{}
 
 // PaymentIntentPaymentMethodOptionsBancontact is the set of bancontact-specific options associated
 // with that payment intent.
@@ -518,6 +573,14 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 
+// PaymentIntentPaymentMethodOptionsCardPresent is the set of Card Present-specific options associated
+// with that payment intent.
+type PaymentIntentPaymentMethodOptionsCardPresent struct{}
+
+// PaymentIntentPaymentMethodOptionsIdeal is the set of Ideal-specific options associated
+// with that payment intent.
+type PaymentIntentPaymentMethodOptionsIdeal struct{}
+
 // PaymentIntentPaymentMethodOptionsKlarna is the set of Klarna-specific options associated
 // with that payment intent.
 type PaymentIntentPaymentMethodOptionsKlarna struct {
@@ -528,6 +591,17 @@ type PaymentIntentPaymentMethodOptionsKlarna struct {
 // with that payment intent.
 type PaymentIntentPaymentMethodOptionsOXXO struct {
 	ExpiresAfterDays int64 `json:"expires_after_days"`
+}
+
+// PaymentIntentPaymentMethodOptionsP24 is the set of P24-specific options associated
+// with that payment intent.
+type PaymentIntentPaymentMethodOptionsP24 struct{}
+type PaymentIntentPaymentMethodOptionsSepaDebitMandateOptions struct{}
+
+// PaymentIntentPaymentMethodOptionsSepaDebit is the set of SEPA Debit-specific options associated
+// with that payment intent.
+type PaymentIntentPaymentMethodOptionsSepaDebit struct {
+	MandateOptions *PaymentIntentPaymentMethodOptionsSepaDebitMandateOptions `json:"mandate_options"`
 }
 
 // PaymentIntentPaymentMethodOptionsSofort is the set of sofort-specific options associated
@@ -552,8 +626,12 @@ type PaymentIntentPaymentMethodOptions struct {
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontact       `json:"bancontact"`
 	Boleto           *PaymentIntentPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
+	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresent      `json:"card_present"`
+	Ideal            *PaymentIntentPaymentMethodOptionsIdeal            `json:"ideal"`
 	Klarna           *PaymentIntentPaymentMethodOptionsKlarna           `json:"klarna"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
+	P24              *PaymentIntentPaymentMethodOptionsP24              `json:"p24"`
+	SepaDebit        *PaymentIntentPaymentMethodOptionsSepaDebit        `json:"sepa_debit"`
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
 	WechatPay        *PaymentIntentPaymentMethodOptionsWechatPay        `json:"wechat_pay"`
 }
@@ -583,12 +661,13 @@ type PaymentIntent struct {
 	Currency                  string                             `json:"currency"`
 	Customer                  *Customer                          `json:"customer"`
 	Description               string                             `json:"description"`
+	ID                        string                             `json:"id"`
 	Invoice                   *Invoice                           `json:"invoice"`
 	LastPaymentError          *Error                             `json:"last_payment_error"`
 	Livemode                  bool                               `json:"livemode"`
-	ID                        string                             `json:"id"`
 	Metadata                  map[string]string                  `json:"metadata"`
 	NextAction                *PaymentIntentNextAction           `json:"next_action"`
+	Object                    string                             `json:"object"`
 	OnBehalfOf                *Account                           `json:"on_behalf_of"`
 	PaymentMethod             *PaymentMethod                     `json:"payment_method"`
 	PaymentMethodOptions      *PaymentIntentPaymentMethodOptions `json:"payment_method_options"`
@@ -612,7 +691,7 @@ type PaymentIntentList struct {
 	Data []*PaymentIntent `json:"data"`
 }
 
-// UnmarshalJSON handles deserialization of a Payment Intent.
+// UnmarshalJSON handles deserialization of a PaymentIntent.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
 func (p *PaymentIntent) UnmarshalJSON(data []byte) error {
@@ -621,8 +700,8 @@ func (p *PaymentIntent) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	type paymentintent PaymentIntent
-	var v paymentintent
+	type paymentIntent PaymentIntent
+	var v paymentIntent
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}

@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -7,8 +13,8 @@ type PaymentMethodFPXAccountHolderType string
 
 // List of values that PaymentMethodFPXAccountHolderType can take
 const (
-	PaymentMethodFPXAccountHolderTypeIndividual PaymentMethodFPXAccountHolderType = "individual"
 	PaymentMethodFPXAccountHolderTypeCompany    PaymentMethodFPXAccountHolderType = "company"
+	PaymentMethodFPXAccountHolderTypeIndividual PaymentMethodFPXAccountHolderType = "individual"
 )
 
 // PaymentMethodType is the list of allowed values for the payment method type.
@@ -108,8 +114,7 @@ type PaymentMethodAfterpayClearpayParams struct{}
 
 // PaymentMethodAlipayParams is the set of parameters allowed for the `alipay` hash when creating a
 // PaymentMethod of type Alipay.
-type PaymentMethodAlipayParams struct {
-}
+type PaymentMethodAlipayParams struct{}
 
 // PaymentMethodAUBECSDebitParams is the set of parameters allowed for the `AUBECSDebit` hash when creating a
 // PaymentMethod of type AUBECSDebit.
@@ -126,8 +131,7 @@ type PaymentMethodBACSDebitParams struct {
 
 // PaymentMethodBancontactParams is the set of parameters allowed for the `bancontact` hash when creating a
 // PaymentMethod of type Bancontact.
-type PaymentMethodBancontactParams struct {
-}
+type PaymentMethodBancontactParams struct{}
 
 // PaymentMethodBoletoParams is the set of parameters allowed for the `boleto` hash when creating a
 // PaymentMethod of type Boleto
@@ -160,13 +164,11 @@ type PaymentMethodFPXParams struct {
 
 // PaymentMethodGiropayParams is the set of parameters allowed for the `giropay` hash when creating a
 // PaymentMethod of type Giropay.
-type PaymentMethodGiropayParams struct {
-}
+type PaymentMethodGiropayParams struct{}
 
 // PaymentMethodGrabpayParams is the set of parameters allowed for the `grabpay` hash when creating a
 // PaymentMethod of type Grabpay.
-type PaymentMethodGrabpayParams struct {
-}
+type PaymentMethodGrabpayParams struct{}
 
 // PaymentMethodIdealParams is the set of parameters allowed for the `ideal` hash when creating a
 // PaymentMethod of type ideal.
@@ -176,8 +178,7 @@ type PaymentMethodIdealParams struct {
 
 // PaymentMethodInteracPresentParams is the set of parameters allowed for the `interac_present` hash when creating a
 // PaymentMethod of type interac_present.
-type PaymentMethodInteracPresentParams struct {
-}
+type PaymentMethodInteracPresentParams struct{}
 
 // Customer's date of birth
 type PaymentMethodKlarnaDOBParams struct {
@@ -193,8 +194,7 @@ type PaymentMethodKlarnaParams struct {
 
 // PaymentMethodOXXOParams is the set of parameters allowed for the `oxxo` hash when creating a
 // PaymentMethod of type OXXO.
-type PaymentMethodOXXOParams struct {
-}
+type PaymentMethodOXXOParams struct{}
 
 // PaymentMethodP24Params is the set of parameters allowed for the `p24` hash when creating a
 // PaymentMethod of type P24.
@@ -229,8 +229,8 @@ type PaymentMethodParams struct {
 	AUBECSDebit      *PaymentMethodAUBECSDebitParams      `form:"au_becs_debit"`
 	BACSDebit        *PaymentMethodBACSDebitParams        `form:"bacs_debit"`
 	Bancontact       *PaymentMethodBancontactParams       `form:"bancontact"`
-	Boleto           *PaymentMethodBoletoParams           `form:"boleto"`
 	BillingDetails   *BillingDetailsParams                `form:"billing_details"`
+	Boleto           *PaymentMethodBoletoParams           `form:"boleto"`
 	Card             *PaymentMethodCardParams             `form:"card"`
 	EPS              *PaymentMethodEPSParams              `form:"eps"`
 	FPX              *PaymentMethodFPXParams              `form:"fpx"`
@@ -243,9 +243,8 @@ type PaymentMethodParams struct {
 	P24              *PaymentMethodP24Params              `form:"p24"`
 	SepaDebit        *PaymentMethodSepaDebitParams        `form:"sepa_debit"`
 	Sofort           *PaymentMethodSofortParams           `form:"sofort"`
-	WechatPay        *PaymentMethodWechatPayParams        `form:"wechat_pay"`
 	Type             *string                              `form:"type"`
-
+	WechatPay        *PaymentMethodWechatPayParams        `form:"wechat_pay"`
 	// The following parameters are used when cloning a PaymentMethod to the connected account
 	Customer      *string `form:"customer"`
 	PaymentMethod *string `form:"payment_method"`
@@ -289,12 +288,10 @@ type PaymentMethodACSSDebit struct {
 }
 
 // PaymentMethodAfterpayClearpay represents the AfterpayClearpay properties.
-type PaymentMethodAfterpayClearpay struct {
-}
+type PaymentMethodAfterpayClearpay struct{}
 
 // PaymentMethodAlipay represents the Alipay properties.
-type PaymentMethodAlipay struct {
-}
+type PaymentMethodAlipay struct{}
 
 // PaymentMethodAUBECSDebit represents AUBECSDebit-specific properties (Australia Only).
 type PaymentMethodAUBECSDebit struct {
@@ -311,8 +308,7 @@ type PaymentMethodBACSDebit struct {
 }
 
 // PaymentMethodBancontact represents the Bancontact properties.
-type PaymentMethodBancontact struct {
-}
+type PaymentMethodBancontact struct{}
 
 // PaymentMethodBoleto represents the Boleto properties.
 type PaymentMethodBoleto struct {
@@ -336,12 +332,34 @@ type PaymentMethodCardNetworks struct {
 type PaymentMethodCardThreeDSecureUsage struct {
 	Supported bool `json:"supported"`
 }
+type PaymentMethodCardWalletAmexExpressCheckout struct{}
+type PaymentMethodCardWalletApplePay struct{}
+type PaymentMethodCardWalletGooglePay struct{}
+type PaymentMethodCardWalletMasterpass struct {
+	BillingAddress  *Address `json:"billing_address"`
+	Email           string   `json:"email"`
+	Name            string   `json:"name"`
+	ShippingAddress *Address `json:"shipping_address"`
+}
+type PaymentMethodCardWalletSamsungPay struct{}
+type PaymentMethodCardWalletVisaCheckout struct {
+	BillingAddress  *Address `json:"billing_address"`
+	Email           string   `json:"email"`
+	Name            string   `json:"name"`
+	ShippingAddress *Address `json:"shipping_address"`
+}
 
 // PaymentMethodCardWallet represents the details of the card wallet if this Card PaymentMethod
 // is part of a card wallet.
 type PaymentMethodCardWallet struct {
-	DynamicLast4 string                      `json:"dynamic_last4"`
-	Type         PaymentMethodCardWalletType `json:"type"`
+	AmexExpressCheckout *PaymentMethodCardWalletAmexExpressCheckout `json:"amex_express_checkout"`
+	ApplePay            *PaymentMethodCardWalletApplePay            `json:"apple_pay"`
+	DynamicLast4        string                                      `json:"dynamic_last4"`
+	GooglePay           *PaymentMethodCardWalletGooglePay           `json:"google_pay"`
+	Masterpass          *PaymentMethodCardWalletMasterpass          `json:"masterpass"`
+	SamsungPay          *PaymentMethodCardWalletSamsungPay          `json:"samsung_pay"`
+	Type                PaymentMethodCardWalletType                 `json:"type"`
+	VisaCheckout        *PaymentMethodCardWalletVisaCheckout        `json:"visa_checkout"`
 }
 
 // PaymentMethodCard represents the card-specific properties.
@@ -357,7 +375,6 @@ type PaymentMethodCard struct {
 	Networks          *PaymentMethodCardNetworks          `json:"networks"`
 	ThreeDSecureUsage *PaymentMethodCardThreeDSecureUsage `json:"three_d_secure_usage"`
 	Wallet            *PaymentMethodCardWallet            `json:"wallet"`
-
 	// Please note that the fields below are for internal use only and are not returned
 	// as part of standard API requests.
 	Description string `json:"description"`
@@ -366,8 +383,7 @@ type PaymentMethodCard struct {
 }
 
 // PaymentMethodCardPresent represents the card-present-specific properties.
-type PaymentMethodCardPresent struct {
-}
+type PaymentMethodCardPresent struct{}
 
 // PaymentMethodEPS represents the EPS properties.
 type PaymentMethodEPS struct {
@@ -382,12 +398,10 @@ type PaymentMethodFPX struct {
 }
 
 // PaymentMethodGiropay represents the Giropay properties.
-type PaymentMethodGiropay struct {
-}
+type PaymentMethodGiropay struct{}
 
 // PaymentMethodGrabpay represents the Grabpay properties.
-type PaymentMethodGrabpay struct {
-}
+type PaymentMethodGrabpay struct{}
 
 // PaymentMethodIdeal represents the iDEAL-specific properties.
 type PaymentMethodIdeal struct {
@@ -396,8 +410,7 @@ type PaymentMethodIdeal struct {
 }
 
 // PaymentMethodInteracPresent represents the interac present properties.
-type PaymentMethodInteracPresent struct {
-}
+type PaymentMethodInteracPresent struct{}
 
 // The customer's date of birth, if provided.
 type PaymentMethodKlarnaDOB struct {
@@ -410,8 +423,7 @@ type PaymentMethodKlarna struct {
 }
 
 // PaymentMethodOXXO represents the OXXO-specific properties.
-type PaymentMethodOXXO struct {
-}
+type PaymentMethodOXXO struct{}
 
 // PaymentMethodP24 represents the P24 properties.
 type PaymentMethodP24 struct {
@@ -431,8 +443,8 @@ type PaymentMethodSepaDebit struct {
 	BranchCode    string                               `json:"branch_code"`
 	Country       string                               `json:"country"`
 	Fingerprint   string                               `json:"fingerprint"`
-	Last4         string                               `json:"last4"`
 	GeneratedFrom *PaymentMethodSepaDebitGeneratedFrom `json:"generated_from"`
+	Last4         string                               `json:"last4"`
 }
 
 // PaymentMethodSofort represents the Sofort-specific properties.
@@ -441,8 +453,7 @@ type PaymentMethodSofort struct {
 }
 
 // PaymentMethodWechatPay represents the WeChatPay-specific properties.
-type PaymentMethodWechatPay struct {
-}
+type PaymentMethodWechatPay struct{}
 
 // PaymentMethod is the resource representing a PaymentMethod.
 type PaymentMethod struct {
@@ -488,18 +499,18 @@ type PaymentMethodList struct {
 // UnmarshalJSON handles deserialization of a PaymentMethod.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (i *PaymentMethod) UnmarshalJSON(data []byte) error {
+func (p *PaymentMethod) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		i.ID = id
+		p.ID = id
 		return nil
 	}
 
-	type pm PaymentMethod
-	var v pm
+	type paymentMethod PaymentMethod
+	var v paymentMethod
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*i = PaymentMethod(v)
+	*p = PaymentMethod(v)
 	return nil
 }
