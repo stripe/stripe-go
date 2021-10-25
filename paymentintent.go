@@ -106,7 +106,7 @@ const (
 )
 
 // PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure is the list of allowed values
-// //controlling when to request 3D Secure on a PaymentIntent.
+// controlling when to request 3D Secure on a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure string
 
 // List of values that PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure can take.
