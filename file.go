@@ -21,8 +21,8 @@ const (
 	FilePurposeBusinessIcon                     FilePurpose = "business_icon"
 	FilePurposeBusinessLogo                     FilePurpose = "business_logo"
 	FilePurposeCustomerSignature                FilePurpose = "customer_signature"
-	FilePurposeDocumentProviderIdentityDocument FilePurpose = "document_provider_identity_document"
 	FilePurposeDisputeEvidence                  FilePurpose = "dispute_evidence"
+	FilePurposeDocumentProviderIdentityDocument FilePurpose = "document_provider_identity_document"
 	FilePurposeFinanceReportRun                 FilePurpose = "finance_report_run"
 	FilePurposeFoundersStockDocument            FilePurpose = "founders_stock_document"
 	FilePurposeIdentityDocument                 FilePurpose = "identity_document"
@@ -30,6 +30,14 @@ const (
 	FilePurposeSigmaScheduledQuery              FilePurpose = "sigma_scheduled_query"
 	FilePurposeTaxDocumentUserUpload            FilePurpose = "tax_document_user_upload"
 )
+
+// FileFileLinkDataParams is the set of parameters allowed for the
+// file_link_data hash.
+type FileFileLinkDataParams struct {
+	Params    `form:"*"`
+	Create    *bool  `form:"create"`
+	ExpiresAt *int64 `form:"expires_at"`
+}
 
 // FileParams is the set of parameters that can be used when creating a file.
 // For more details see https://stripe.com/docs/api#create_file.
@@ -45,14 +53,6 @@ type FileParams struct {
 	Purpose *string
 
 	FileLinkData *FileFileLinkDataParams
-}
-
-// FileFileLinkDataParams is the set of parameters allowed for the
-// file_link_data hash.
-type FileFileLinkDataParams struct {
-	Params    `form:"*"`
-	Create    *bool  `form:"create"`
-	ExpiresAt *int64 `form:"expires_at"`
 }
 
 // FileListParams is the set of parameters that can be used when listing
