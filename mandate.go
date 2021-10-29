@@ -2,21 +2,14 @@ package stripe
 
 import "encoding/json"
 
-// List of values that MandateStatus can take.
-const (
-	MandateCustomerAcceptanceTypeOffline MandateCustomerAcceptanceType = "offline"
-	MandateCustomerAcceptanceTypeOnline  MandateCustomerAcceptanceType = "online"
-)
-
 // MandateCustomerAcceptanceType is the list of allowed values for the type of customer acceptance
 // for a given mandate.
 type MandateCustomerAcceptanceType string
 
 // List of values that MandateStatus can take.
 const (
-	MandateStatusActive   MandateStatus = "active"
-	MandateStatusInactive MandateStatus = "inactive"
-	MandateStatusPending  MandateStatus = "pending"
+	MandateCustomerAcceptanceTypeOffline MandateCustomerAcceptanceType = "offline"
+	MandateCustomerAcceptanceTypeOnline  MandateCustomerAcceptanceType = "online"
 )
 
 // List of Stripe products where this mandate can be selected automatically.
@@ -62,14 +55,21 @@ const (
 // MandateStatus is the list of allowed values for the mandate status.
 type MandateStatus string
 
+// List of values that MandateStatus can take.
+const (
+	MandateStatusActive   MandateStatus = "active"
+	MandateStatusInactive MandateStatus = "inactive"
+	MandateStatusPending  MandateStatus = "pending"
+)
+
+// MandateType is the list of allowed values for the mandate type.
+type MandateType string
+
 // List of values that MandateType can take.
 const (
 	MandateTypeMultiUse  MandateType = "multi_use"
 	MandateTypeSingleUse MandateType = "single_use"
 )
-
-// MandateType is the list of allowed values for the mandate type.
-type MandateType string
 
 // MandateParams is the set of parameters that can be used when retrieving a mandate.
 type MandateParams struct {
