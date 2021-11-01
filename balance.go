@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 // BalanceSourceType is the list of allowed values for the balance amount's source_type field keys.
