@@ -323,6 +323,13 @@ type AccountCapabilitiesParams struct {
 	Transfers               *AccountCapabilitiesTransfersParams               `form:"transfers"`
 }
 
+// This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
+type AccountCompanyOwnershipDeclarationParams struct {
+	Date      *int64  `form:"date"`
+	IP        *string `form:"ip"`
+	UserAgent *string `form:"user_agent"`
+}
+
 // AccountCompanyVerificationDocumentParams are the parameters allowed to pass for a document
 // verifying a company.
 type AccountCompanyVerificationDocumentParams struct {
@@ -337,22 +344,23 @@ type AccountCompanyVerificationParams struct {
 
 // AccountCompanyParams are the parameters describing the company associated with the account.
 type AccountCompanyParams struct {
-	Address            *AccountAddressParams             `form:"address"`
-	AddressKana        *AccountAddressParams             `form:"address_kana"`
-	AddressKanji       *AccountAddressParams             `form:"address_kanji"`
-	DirectorsProvided  *bool                             `form:"directors_provided"`
-	ExecutivesProvided *bool                             `form:"executives_provided"`
-	Name               *string                           `form:"name"`
-	NameKana           *string                           `form:"name_kana"`
-	NameKanji          *string                           `form:"name_kanji"`
-	OwnersProvided     *bool                             `form:"owners_provided"`
-	RegistrationNumber *string                           `form:"registration_number"`
-	Structure          *string                           `form:"structure"`
-	Phone              *string                           `form:"phone"`
-	TaxID              *string                           `form:"tax_id"`
-	TaxIDRegistrar     *string                           `form:"tax_id_registrar"`
-	VATID              *string                           `form:"vat_id"`
-	Verification       *AccountCompanyVerificationParams `form:"verification"`
+	Address              *AccountAddressParams                     `form:"address"`
+	AddressKana          *AccountAddressParams                     `form:"address_kana"`
+	AddressKanji         *AccountAddressParams                     `form:"address_kanji"`
+	DirectorsProvided    *bool                                     `form:"directors_provided"`
+	ExecutivesProvided   *bool                                     `form:"executives_provided"`
+	Name                 *string                                   `form:"name"`
+	NameKana             *string                                   `form:"name_kana"`
+	NameKanji            *string                                   `form:"name_kanji"`
+	OwnershipDeclaration *AccountCompanyOwnershipDeclarationParams `form:"ownership_declaration"`
+	OwnersProvided       *bool                                     `form:"owners_provided"`
+	RegistrationNumber   *string                                   `form:"registration_number"`
+	Structure            *string                                   `form:"structure"`
+	Phone                *string                                   `form:"phone"`
+	TaxID                *string                                   `form:"tax_id"`
+	TaxIDRegistrar       *string                                   `form:"tax_id_registrar"`
+	VATID                *string                                   `form:"vat_id"`
+	Verification         *AccountCompanyVerificationParams         `form:"verification"`
 }
 
 // AccountDeclineSettingsParams represents the parameters allowed for configuring
@@ -400,6 +408,11 @@ type AccountDocumentsCompanyTaxIDVerificationParams struct {
 	Files []*string `form:"files"`
 }
 
+// One or more documents showing the company's proof of registration with the national business registry.
+type AccountDocumentsProofOfRegistrationParams struct {
+	Files []*string `form:"files"`
+}
+
 // AccountDocumentsParams represents the parameters allowed for passing additional documents on an account.
 type AccountDocumentsParams struct {
 	BankAccountOwnershipVerification *AccountDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification"`
@@ -408,6 +421,7 @@ type AccountDocumentsParams struct {
 	CompanyMinisterialDecree         *AccountDocumentsCompanyMinisterialDecreeParams         `form:"company_ministerial_decree"`
 	CompanyRegistrationVerification  *AccountDocumentsCompanyRegistrationVerificationParams  `form:"company_registration_verification"`
 	CompanyTaxIDVerification         *AccountDocumentsCompanyTaxIDVerificationParams         `form:"company_tax_id_verification"`
+	ProofOfRegistration              *AccountDocumentsProofOfRegistrationParams              `form:"proof_of_registration"`
 }
 
 // AccountSettingsBrandingParams represent allowed parameters to configure settings specific to the
@@ -606,6 +620,13 @@ type AccountCapabilities struct {
 	Transfers               AccountCapabilityStatus `json:"transfers"`
 }
 
+// This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
+type AccountCompanyOwnershipDeclaration struct {
+	Date      int64  `json:"date"`
+	IP        string `json:"ip"`
+	UserAgent string `json:"user_agent"`
+}
+
 // AccountCompanyVerificationDocument represents details about a company's verification state.
 type AccountCompanyVerificationDocument struct {
 	Back        *File                                         `json:"back"`
@@ -621,22 +642,23 @@ type AccountCompanyVerification struct {
 
 // AccountCompany represents details about the company or business associated with the account.
 type AccountCompany struct {
-	Address            *AccountAddress             `json:"address"`
-	AddressKana        *AccountAddress             `json:"address_kana"`
-	AddressKanji       *AccountAddress             `json:"address_kanji"`
-	DirectorsProvided  bool                        `json:"directors_provided"`
-	ExecutivesProvided bool                        `json:"executives_provided"`
-	Name               string                      `json:"name"`
-	NameKana           string                      `json:"name_kana"`
-	NameKanji          string                      `json:"name_kanji"`
-	OwnersProvided     bool                        `json:"owners_provided"`
-	Phone              string                      `json:"phone"`
-	RegistrationNumber string                      `json:"registration_number"`
-	Structure          AccountCompanyStructure     `json:"structure"`
-	TaxIDProvided      bool                        `json:"tax_id_provided"`
-	TaxIDRegistrar     string                      `json:"tax_id_registrar"`
-	VATIDProvided      bool                        `json:"vat_id_provided"`
-	Verification       *AccountCompanyVerification `json:"verification"`
+	Address              *AccountAddress                     `json:"address"`
+	AddressKana          *AccountAddress                     `json:"address_kana"`
+	AddressKanji         *AccountAddress                     `json:"address_kanji"`
+	DirectorsProvided    bool                                `json:"directors_provided"`
+	ExecutivesProvided   bool                                `json:"executives_provided"`
+	Name                 string                              `json:"name"`
+	NameKana             string                              `json:"name_kana"`
+	NameKanji            string                              `json:"name_kanji"`
+	OwnershipDeclaration *AccountCompanyOwnershipDeclaration `json:"ownership_declaration"`
+	OwnersProvided       bool                                `json:"owners_provided"`
+	Phone                string                              `json:"phone"`
+	RegistrationNumber   string                              `json:"registration_number"`
+	Structure            AccountCompanyStructure             `json:"structure"`
+	TaxIDProvided        bool                                `json:"tax_id_provided"`
+	TaxIDRegistrar       string                              `json:"tax_id_registrar"`
+	VATIDProvided        bool                                `json:"vat_id_provided"`
+	Verification         *AccountCompanyVerification         `json:"verification"`
 }
 
 // AccountController contains information about the control of the account.

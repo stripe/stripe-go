@@ -25,10 +25,11 @@ type TokenCVCUpdateParams struct {
 
 // TokenAccountParams is the set of parameters that can be used when creating a Account token.
 type TokenAccountParams struct {
-	BusinessType        *string               `form:"business_type"`
-	Company             *AccountCompanyParams `form:"company"`
-	Individual          *PersonParams         `form:"individual"`
-	TOSShownAndAccepted *bool                 `form:"tos_shown_and_accepted"`
+	BusinessType                       *string               `form:"business_type"`
+	Company                            *AccountCompanyParams `form:"company"`
+	Individual                         *PersonParams         `form:"individual"`
+	OwnershipDeclarationShownAndSigned *bool                 `form:"ownership_declaration_shown_and_signed"`
+	TOSShownAndAccepted                *bool                 `form:"tos_shown_and_accepted"`
 }
 
 // TokenParams is the set of parameters that can be used when creating a token.
