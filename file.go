@@ -1,14 +1,19 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/stripe/stripe-go/v72/form"
 	"io"
 	"mime/multipart"
 	"net/url"
 	"path/filepath"
-
-	"github.com/stripe/stripe-go/v72/form"
 )
 
 // FilePurpose is the purpose of a particular file.
@@ -21,15 +26,25 @@ const (
 	FilePurposeBusinessIcon                     FilePurpose = "business_icon"
 	FilePurposeBusinessLogo                     FilePurpose = "business_logo"
 	FilePurposeCustomerSignature                FilePurpose = "customer_signature"
-	FilePurposeDocumentProviderIdentityDocument FilePurpose = "document_provider_identity_document"
 	FilePurposeDisputeEvidence                  FilePurpose = "dispute_evidence"
+	FilePurposeDocumentProviderIdentityDocument FilePurpose = "document_provider_identity_document"
 	FilePurposeFinanceReportRun                 FilePurpose = "finance_report_run"
 	FilePurposeFoundersStockDocument            FilePurpose = "founders_stock_document"
 	FilePurposeIdentityDocument                 FilePurpose = "identity_document"
+	FilePurposeIdentityDocumentDownloadable     FilePurpose = "identity_document_downloadable"
 	FilePurposePCIDocument                      FilePurpose = "pci_document"
+	FilePurposeSelfie                           FilePurpose = "selfie"
 	FilePurposeSigmaScheduledQuery              FilePurpose = "sigma_scheduled_query"
 	FilePurposeTaxDocumentUserUpload            FilePurpose = "tax_document_user_upload"
 )
+
+// FileFileLinkDataParams is the set of parameters allowed for the
+// file_link_data hash.
+type FileFileLinkDataParams struct {
+	Params    `form:"*"`
+	Create    *bool  `form:"create"`
+	ExpiresAt *int64 `form:"expires_at"`
+}
 
 // FileParams is the set of parameters that can be used when creating a file.
 // For more details see https://stripe.com/docs/api#create_file.
@@ -40,19 +55,9 @@ type FileParams struct {
 	FileReader io.Reader
 
 	// Filename is just the name of the file without path information.
-	Filename *string
-
-	Purpose *string
-
+	Filename     *string
+	Purpose      *string
 	FileLinkData *FileFileLinkDataParams
-}
-
-// FileFileLinkDataParams is the set of parameters allowed for the
-// file_link_data hash.
-type FileFileLinkDataParams struct {
-	Params    `form:"*"`
-	Create    *bool  `form:"create"`
-	ExpiresAt *int64 `form:"expires_at"`
 }
 
 // FileListParams is the set of parameters that can be used when listing
@@ -76,6 +81,7 @@ type File struct {
 	Object    string        `json:"object"`
 	Purpose   FilePurpose   `json:"purpose"`
 	Size      int64         `json:"size"`
+	Title     string        `json:"title"`
 	Type      string        `json:"type"`
 	URL       string        `json:"url"`
 }
@@ -101,7 +107,11 @@ func (f *FileParams) GetBody() (*bytes.Buffer, string, error) {
 	}
 
 	if f.FileReader != nil && f.Filename != nil {
-		part, err := writer.CreateFormFile("file", filepath.Base(StringValue(f.Filename)))
+		part, err := writer.CreateFormFile(
+			"file",
+			filepath.Base(StringValue(f.Filename)),
+		)
+
 		if err != nil {
 			return nil, "", err
 		}

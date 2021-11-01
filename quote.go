@@ -6,8 +6,10 @@
 
 package stripe
 
-import "encoding/json"
-import "github.com/stripe/stripe-go/v72/form"
+import (
+	"encoding/json"
+	"github.com/stripe/stripe-go/v72/form"
+)
 
 // The status of the most recent automated tax calculation for this quote.
 type QuoteAutomaticTaxStatus string
