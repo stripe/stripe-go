@@ -48,6 +48,7 @@ import (
 	source "github.com/stripe/stripe-go/v72/source"
 	taxid "github.com/stripe/stripe-go/v72/taxid"
 	taxrate "github.com/stripe/stripe-go/v72/taxrate"
+	terminal_connectiontoken "github.com/stripe/stripe-go/v72/terminal/connectiontoken"
 	terminal_location "github.com/stripe/stripe-go/v72/terminal/location"
 	terminal_reader "github.com/stripe/stripe-go/v72/terminal/reader"
 	_ "github.com/stripe/stripe-go/v72/testing"
@@ -102,6 +103,12 @@ func TestChargeUpdate(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
+func TestChargeCapture(t *testing.T) {
+	params := &stripe.CaptureParams{}
+	result, _ := charge.Capture("ch_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
 func TestChargeList(t *testing.T) {
 	params := &stripe.ChargeListParams{}
 	params.Filters.AddFilter("Limit", "", "3")
@@ -153,6 +160,12 @@ func TestDisputeUpdate(t *testing.T) {
 	params := &stripe.DisputeParams{}
 	params.AddMetadata("order_id", "6735")
 	result, _ := dispute.Update("dp_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestDisputeClose(t *testing.T) {
+	params := &stripe.DisputeParams{}
+	result, _ := dispute.Close("dp_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
@@ -309,6 +322,12 @@ func TestPayoutList(t *testing.T) {
 	params := &stripe.PayoutListParams{}
 	params.Filters.AddFilter("Limit", "", "3")
 	result := payout.List(params)
+	assert.NotNil(t, result)
+}
+
+func TestPayoutCancel(t *testing.T) {
+	params := &stripe.PayoutParams{}
+	result, _ := payout.Cancel("po_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
@@ -514,6 +533,12 @@ func TestCustomerBalanceTransactionCreate(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
+func TestCustomerBalanceTransactionRetrieve(t *testing.T) {
+	params := &stripe.CustomerBalanceTransactionParams{}
+	result, _ := customerbalancetransaction.Get("cbtxn_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
 func TestCustomerBalanceTransactionUpdate(t *testing.T) {
 	params := &stripe.CustomerBalanceTransactionParams{}
 	params.AddMetadata("order_id", "6735")
@@ -593,6 +618,18 @@ func TestTaxIDCreate(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
+func TestTaxIDRetrieve(t *testing.T) {
+	params := &stripe.TaxIDParams{}
+	result, _ := taxid.Get("txi_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTaxIDDelete(t *testing.T) {
+	params := &stripe.TaxIDParams{}
+	result, _ := taxid.Del("txi_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
 func TestTaxIDList(t *testing.T) {
 	params := &stripe.TaxIDListParams{}
 	params.Filters.AddFilter("Limit", "", "3")
@@ -625,9 +662,27 @@ func TestInvoiceDelete(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
+func TestInvoiceFinalizeInvoice(t *testing.T) {
+	params := &stripe.InvoiceFinalizeParams{}
+	result, _ := invoice.FinalizeInvoice("in_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
 func TestInvoicePay(t *testing.T) {
 	params := &stripe.InvoicePayParams{}
 	result, _ := invoice.Pay("in_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestInvoiceSendInvoice(t *testing.T) {
+	params := &stripe.InvoiceSendParams{}
+	result, _ := invoice.SendInvoice("in_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestInvoiceVoidInvoice(t *testing.T) {
+	params := &stripe.InvoiceVoidParams{}
+	result, _ := invoice.VoidInvoice("in_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
@@ -847,6 +902,12 @@ func TestAccountLinkCreate(t *testing.T) {
 		Type:       stripe.String("account_onboarding"),
 	}
 	result, _ := accountlink.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestCapabilityRetrieve(t *testing.T) {
+	params := &stripe.CapabilityParams{}
+	result, _ := capability.Get("card_payments", params)
 	assert.NotNil(t, result)
 }
 
@@ -1189,6 +1250,12 @@ func TestIssuingTransactionList(t *testing.T) {
 	assert.NotNil(t, result)
 }
 
+func TestTerminalConnectionTokenCreate(t *testing.T) {
+	params := &stripe.TerminalConnectionTokenParams{}
+	result, _ := terminal_connectiontoken.New(params)
+	assert.NotNil(t, result)
+}
+
 func TestTerminalLocationCreate(t *testing.T) {
 	params := &stripe.TerminalLocationParams{
 		DisplayName: stripe.String("My First Store"),
@@ -1287,6 +1354,13 @@ func TestOrderCreate(t *testing.T) {
 func TestOrderRetrieve(t *testing.T) {
 	params := &stripe.OrderParams{}
 	result, _ := order.Get("or_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestOrderUpdate(t *testing.T) {
+	params := &stripe.OrderUpdateParams{}
+	params.AddMetadata("order_id", "6735")
+	result, _ := order.Update("or_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 
