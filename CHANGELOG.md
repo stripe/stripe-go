@@ -1,5 +1,24 @@
 # Changelog
 
+## 72.73.0 - 2021-11-01
+* [#1368](https://github.com/stripe/stripe-go/pull/1368) API Updates
+  * Add support for `OwnershipDeclaration` on `AccountCompanyParams`, `AccountCompanyParams`, `AccountCompany`, and `TokenAccountCompanyParams`
+  * Add support for `ProofOfRegistration` on `AccountDocumentsParams` and `AccountDocumentsParams`
+  * Add support for `OwnershipDeclarationShownAndSigned` on `TokenAccountParams`
+* [#1366](https://github.com/stripe/stripe-go/pull/1366) Make File resource and client codegen-able
+  - Add support for `"selfie"` and `"identity_document_downloadable"` as `FilePurpose` options
+  - Add support for `title` field on `File`
+* [#1365](https://github.com/stripe/stripe-go/pull/1365) Make paymentintent and paymentmethod codegen-able
+  * Fix `WechatPay` form name in `PaymentIntentPaymentMethodDataParams`
+  * Add support for `"challenge_only"` as `PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure` option
+  * Add support for `OffSessionOneOff` and `OffSessionRecurring` on `PaymentIntentConfirmParams`
+  * Add support for `BACSDebit`, `Bancontact`, `Giropay`, `InteracPresent`, `Metadata`, and `Sofort` on `PaymentIntentPaymentMethodDataParams`
+  * Add support for `CardPresent`, `Ideal`, `P24`, and `SepaDebit` on `PaymentIntentPaymentMethodOptionsParams` and `PaymentIntentPaymentMethodOptions`
+  * Add support for `ClientSecret`, `OffSessionOneOff`, and `OffSessionRecurring` on `PaymentIntentParams`
+  * Add support for `Object` on `PaymentIntent`
+  * Add support for `AmexExpressCheckout`, `ApplePay`, `GooglePay`, `Masterpass`, `SamsungPay`, and `VisaCheckout` on `PaymentMethodCardWallet`
+* [#1364](https://github.com/stripe/stripe-go/pull/1364) Update references in test suite to be fully qualified.
+
 ## 72.72.0 - 2021-10-20
 * [#1361](https://github.com/stripe/stripe-go/pull/1361) Bugfix: point client.API#Oauth to the Connect backend.
 * [#1358](https://github.com/stripe/stripe-go/pull/1358) API Updates
