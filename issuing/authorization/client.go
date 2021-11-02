@@ -16,32 +16,6 @@ type Client struct {
 	Key string
 }
 
-// Approve approves an issuing authorization.
-func Approve(id string, params *stripe.IssuingAuthorizationApproveParams) (*stripe.IssuingAuthorization, error) {
-	return getC().Approve(id, params)
-}
-
-// Approve updates an issuing authorization.
-func (c Client) Approve(id string, params *stripe.IssuingAuthorizationApproveParams) (*stripe.IssuingAuthorization, error) {
-	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s/approve", id)
-	authorization := &stripe.IssuingAuthorization{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
-	return authorization, err
-}
-
-// Decline decline an issuing authorization.
-func Decline(id string, params *stripe.IssuingAuthorizationDeclineParams) (*stripe.IssuingAuthorization, error) {
-	return getC().Decline(id, params)
-}
-
-// Decline updates an issuing authorization.
-func (c Client) Decline(id string, params *stripe.IssuingAuthorizationDeclineParams) (*stripe.IssuingAuthorization, error) {
-	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s/decline", id)
-	authorization := &stripe.IssuingAuthorization{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
-	return authorization, err
-}
-
 // Get returns the details of an issuing authorization.
 func Get(id string, params *stripe.IssuingAuthorizationParams) (*stripe.IssuingAuthorization, error) {
 	return getC().Get(id, params)
@@ -63,6 +37,32 @@ func Update(id string, params *stripe.IssuingAuthorizationParams) (*stripe.Issui
 // Update updates an issuing authorization.
 func (c Client) Update(id string, params *stripe.IssuingAuthorizationParams) (*stripe.IssuingAuthorization, error) {
 	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s", id)
+	authorization := &stripe.IssuingAuthorization{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
+	return authorization, err
+}
+
+// Approve approves an issuing authorization.
+func Approve(id string, params *stripe.IssuingAuthorizationApproveParams) (*stripe.IssuingAuthorization, error) {
+	return getC().Approve(id, params)
+}
+
+// Approve updates an issuing authorization.
+func (c Client) Approve(id string, params *stripe.IssuingAuthorizationApproveParams) (*stripe.IssuingAuthorization, error) {
+	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s/approve", id)
+	authorization := &stripe.IssuingAuthorization{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
+	return authorization, err
+}
+
+// Decline decline an issuing authorization.
+func Decline(id string, params *stripe.IssuingAuthorizationDeclineParams) (*stripe.IssuingAuthorization, error) {
+	return getC().Decline(id, params)
+}
+
+// Decline updates an issuing authorization.
+func (c Client) Decline(id string, params *stripe.IssuingAuthorizationDeclineParams) (*stripe.IssuingAuthorization, error) {
+	path := stripe.FormatURLPath("/v1/issuing/authorizations/%s/decline", id)
 	authorization := &stripe.IssuingAuthorization{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, authorization)
 	return authorization, err
