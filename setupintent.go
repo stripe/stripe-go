@@ -1,8 +1,12 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
-import (
-	"encoding/json"
-)
+import "encoding/json"
 
 // SetupIntentCancellationReason is the list of allowed values for the cancelation reason.
 type SetupIntentCancellationReason string
@@ -10,6 +14,7 @@ type SetupIntentCancellationReason string
 // List of values that SetupIntentCancellationReason can take.
 const (
 	SetupIntentCancellationReasonAbandoned           SetupIntentCancellationReason = "abandoned"
+	SetupIntentCancellationReasonDuplicate           SetupIntentCancellationReason = "duplicate"
 	SetupIntentCancellationReasonFailedInvoice       SetupIntentCancellationReason = "failed_invoice"
 	SetupIntentCancellationReasonFraudulent          SetupIntentCancellationReason = "fraudulent"
 	SetupIntentCancellationReasonRequestedByCustomer SetupIntentCancellationReason = "requested_by_customer"
@@ -21,6 +26,15 @@ type SetupIntentNextActionType string
 // List of values that SetupIntentNextActionType can take.
 const (
 	SetupIntentNextActionTypeRedirectToURL SetupIntentNextActionType = "redirect_to_url"
+)
+
+// Currency supported by the bank account
+type SetupIntentPaymentMethodOptionsACSSDebitCurrency string
+
+// List of values that SetupIntentPaymentMethodOptionsACSSDebitCurrency can take
+const (
+	SetupIntentPaymentMethodOptionsACSSDebitCurrencyCAD SetupIntentPaymentMethodOptionsACSSDebitCurrency = "cad"
+	SetupIntentPaymentMethodOptionsACSSDebitCurrencyUSD SetupIntentPaymentMethodOptionsACSSDebitCurrency = "usd"
 )
 
 // List of Stripe products where this mandate can be selected automatically.
@@ -70,8 +84,9 @@ type SetupIntentPaymentMethodOptionsCardRequestThreeDSecure string
 
 // List of values that SetupIntentNextActionType can take.
 const (
-	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureAny       SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
-	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
+	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureAny           SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
+	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic     SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
+	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge_only"
 )
 
 // SetupIntentStatus is the list of allowed values for the setup intent's status.
@@ -113,8 +128,7 @@ type SetupIntentConfirmParams struct {
 
 // SetupIntentMandateDataCustomerAcceptanceOfflineParams is the set of parameters for the customer
 // acceptance of an offline mandate.
-type SetupIntentMandateDataCustomerAcceptanceOfflineParams struct {
-}
+type SetupIntentMandateDataCustomerAcceptanceOfflineParams struct{}
 
 // SetupIntentMandateDataCustomerAcceptanceOnlineParams is the set of parameters for the customer
 // acceptance of an online mandate.
@@ -163,11 +177,20 @@ type SetupIntentPaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 }
 
+// Additional fields for Mandate creation
+type SetupIntentPaymentMethodOptionsSepaDebitMandateOptionsParams struct{}
+
+// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
+type SetupIntentPaymentMethodOptionsSepaDebitParams struct {
+	MandateOptions *SetupIntentPaymentMethodOptionsSepaDebitMandateOptionsParams `form:"mandate_options"`
+}
+
 // SetupIntentPaymentMethodOptionsParams represents the type-specific payment method options
 // applied to a SetupIntent.
 type SetupIntentPaymentMethodOptionsParams struct {
 	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
 	Card      *SetupIntentPaymentMethodOptionsCardParams      `form:"card"`
+	SepaDebit *SetupIntentPaymentMethodOptionsSepaDebitParams `form:"sepa_debit"`
 }
 
 // SetupIntentSingleUseParams represents the single-use mandate-specific parameters.
@@ -179,6 +202,7 @@ type SetupIntentSingleUseParams struct {
 // SetupIntentParams is the set of parameters that can be used when handling a setup intent.
 type SetupIntentParams struct {
 	Params               `form:"*"`
+	ClientSecret         *string                                `form:"client_secret"`
 	Confirm              *bool                                  `form:"confirm"`
 	Customer             *string                                `form:"customer"`
 	Description          *string                                `form:"description"`
@@ -241,6 +265,7 @@ type SetupIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 // SetupIntentPaymentMethodOptionsACSSDebit represents the ACSS debit-specific options applied
 // to a SetupIntent.
 type SetupIntentPaymentMethodOptionsACSSDebit struct {
+	// See SetupIntentPaymentMethodOptionsACSSDebitCurrency for allowed values
 	Currency           string                                                     `json:"currency"`
 	MandateOptions     *SetupIntentPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
 	VerificationMethod SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
@@ -251,12 +276,17 @@ type SetupIntentPaymentMethodOptionsACSSDebit struct {
 type SetupIntentPaymentMethodOptionsCard struct {
 	RequestThreeDSecure SetupIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
+type SetupIntentPaymentMethodOptionsSepaDebitMandateOptions struct{}
+type SetupIntentPaymentMethodOptionsSepaDebit struct {
+	MandateOptions *SetupIntentPaymentMethodOptionsSepaDebitMandateOptions `json:"mandate_options"`
+}
 
 // SetupIntentPaymentMethodOptions represents the type-specific payment method options applied to a
 // SetupIntent.
 type SetupIntentPaymentMethodOptions struct {
 	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 	Card      *SetupIntentPaymentMethodOptionsCard      `json:"card"`
+	SepaDebit *SetupIntentPaymentMethodOptionsSepaDebit `json:"sepa_debit"`
 }
 
 // SetupIntent is the resource representing a Stripe payout.
@@ -296,9 +326,9 @@ type SetupIntentList struct {
 // UnmarshalJSON handles deserialization of a SetupIntent.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (p *SetupIntent) UnmarshalJSON(data []byte) error {
+func (s *SetupIntent) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		p.ID = id
+		s.ID = id
 		return nil
 	}
 
@@ -308,6 +338,6 @@ func (p *SetupIntent) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*p = SetupIntent(v)
+	*s = SetupIntent(v)
 	return nil
 }
