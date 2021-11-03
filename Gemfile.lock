@@ -285,7 +285,7 @@ GEM
       redis (>= 3.3)
       resque (>= 1.27)
       rufus-scheduler (~> 3.2, < 3.7)
-    restforce (5.1.1)
+    restforce (5.2.0)
       faraday (>= 0.9.0, <= 2.0)
       faraday_middleware (>= 0.8.8, <= 2.0)
       hashie (>= 1.2.0, < 5.0)
@@ -415,7 +415,7 @@ DEPENDENCIES
   resque-heroku-signals (~> 2.1.0)
   resque-retry (~> 1.7.6)
   resque-scheduler (~> 4.5.0)
-  restforce (~> 5.1.1)
+  restforce (~> 5.2.0)
   rubocop (= 0.89.1)
   rubocop-minitest
   selenium-webdriver (~> 3.142.7)

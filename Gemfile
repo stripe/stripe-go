@@ -38,7 +38,7 @@ gem 'omniauth-stripe'
 gem 'rack-attack', '~> 6.5.0'
 
 # translation
-gem 'restforce', '~> 5.1.1'
+gem 'restforce', '~> 5.2.0'
 gem 'stripe', '~> 5.39.0'
 
 # Reduces boot times through caching; required in config/boot.rb
