@@ -1,6 +1,9 @@
 # typed: strict
 module Integrations
   module Errors
+    class LockTimeout < StandardError; end
+    class DyingWorkerError < StandardError; end
+
     class BaseIntegrationError < StandardError
 
     end
