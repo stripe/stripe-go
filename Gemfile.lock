@@ -225,7 +225,7 @@ GEM
     puma (5.5.2)
       nio4r (~> 2.0)
     raabro (1.4.0)
-    racc (1.5.2)
+    racc (1.6.0)
     rack (2.2.3)
     rack-attack (6.5.0)
       rack (>= 1.0, < 3)
@@ -395,6 +395,7 @@ DEPENDENCIES
   minitest-rails (~> 6.1.0)
   minitest-reporters (~> 1.4.2)
   mocha (~> 1.9)
+  nokogiri (>= 1.12.5)
   omniauth-salesforce
   omniauth-stripe
   pg (~> 1.2.3)
