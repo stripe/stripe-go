@@ -22,7 +22,8 @@ gem "sentry-resque"
 gem 'simple_structured_logger'
 
 # resque
-gem 'resque', "~> 2.1.0"
+# gem 'resque', "~> 2.1.0"
+gem 'resque', github: 'resque/resque', ref: '92a4564fac9af56ad0b1b2a37ad51dbea5c2bf36'
 gem 'resque-scheduler', "~> 4.5.0"
 gem 'resque-retry', '~> 1.7.6'
 gem 'resque-heroku-signals', '~> 2.1.0'

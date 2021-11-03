@@ -1,3 +1,15 @@
+GIT
+  remote: https://github.com/resque/resque.git
+  revision: 92a4564fac9af56ad0b1b2a37ad51dbea5c2bf36
+  ref: 92a4564fac9af56ad0b1b2a37ad51dbea5c2bf36
+  specs:
+    resque (2.1.0)
+      mono_logger (~> 1.0)
+      multi_json (~> 1.0)
+      redis-namespace (~> 1.6)
+      sinatra (>= 0.9.2)
+      vegas (~> 0.1.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -263,12 +275,6 @@ GEM
     redis-namespace (1.8.1)
       redis (>= 3.0.4)
     regexp_parser (2.1.1)
-    resque (2.1.0)
-      mono_logger (~> 1.0)
-      multi_json (~> 1.0)
-      redis-namespace (~> 1.6)
-      sinatra (>= 0.9.2)
-      vegas (~> 0.1.2)
     resque-heroku-signals (2.1.0)
       resque (= 2.1.0)
     resque-retry (1.7.6)
@@ -405,7 +411,7 @@ DEPENDENCIES
   rack-attack (~> 6.5.0)
   rack-test (~> 1.1.0)
   rails (~> 6.1.4, >= 6.1.4.1)
-  resque (~> 2.1.0)
+  resque!
   resque-heroku-signals (~> 2.1.0)
   resque-retry (~> 1.7.6)
   resque-scheduler (~> 4.5.0)
