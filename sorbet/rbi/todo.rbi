@@ -43,10 +43,6 @@ module ActiveStorage::Blob::Analyzable; end
 module ActiveStorage::Blob::Identifiable; end
 module ActiveStorage::Variant; end
 module Arel::Attributes::Attribute; end
-module Integrations::ErrorContext::Raven; end
-module Integrations::ErrorContext::Raven::Context; end
-module Integrations::ErrorContext::Raven::Event; end
-module Integrations::Errors::BaseTranslationError; end
 module Mail::CheckDeliveryParams; end
 module Mail::Ruby19; end
 module Mime::AllType; end
@@ -62,6 +58,10 @@ module T::Private::Abstract::Hooks; end
 module T::Private::Methods::MethodHooks; end
 module T::Private::Methods::SingletonMethodHooks; end
 module Thor::Actions; end
+module UserLocker::CacheKeyService; end
+module UserLocker::StripeSuite::Errors::LockTimeout; end
+module UserLocker::StripeSuite::Log; end
+module UserLocker::StripeSuite::User; end
 module Zip::CompressionMethodError; end
 module Zip::DestinationFileExistsError; end
 module Zip::EntryExistsError; end

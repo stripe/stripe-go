@@ -1789,21 +1789,21 @@
 # wrong constant name perform
 # wrong constant name <static-init>
 # uninitialized constant ActiveRecord::Enum::RUBYGEMS_ACTIVATION_MONITOR
-# uninitialized constant #<Class:0x00007fc7027615f8>::ACTIONS
+# uninitialized constant #<Class:0x00007faff6f35810>::ACTIONS
 # wrong constant name <Class:ActiveRecord_AssociationRelation>
 # wrong constant name <Class:ActiveRecord_Associations_CollectionProxy>
 # wrong constant name <Class:ActiveRecord_Relation>
-# uninitialized constant #<Class:0x00007fc7027615f8>::CALLBACKS
-# uninitialized constant #<Class:0x00007fc7027615f8>::CALLBACK_FILTER_TYPES
-# uninitialized constant #<Class:0x00007fc7027615f8>::CALL_COMPILABLE_REGEXP
+# uninitialized constant #<Class:0x00007faff6f35810>::CALLBACKS
+# uninitialized constant #<Class:0x00007faff6f35810>::CALLBACK_FILTER_TYPES
+# uninitialized constant #<Class:0x00007faff6f35810>::CALL_COMPILABLE_REGEXP
 # wrong constant name <Class:GeneratedAssociationMethods>
 # wrong constant name <Class:GeneratedAttributeMethods>
 # wrong constant name <Class:GeneratedRelationMethods>
-# uninitialized constant #<Class:0x00007fc7027615f8>::MAX_PASSWORD_LENGTH_ALLOWED
-# uninitialized constant #<Class:0x00007fc7027615f8>::MINIMUM_TOKEN_LENGTH
-# uninitialized constant #<Class:0x00007fc7027615f8>::NAME_COMPILABLE_REGEXP
-# uninitialized constant #<Class:0x00007fc7027615f8>::RESTRICTED_CLASS_METHODS
-# uninitialized constant #<Class:0x00007fc7027615f8>::UNASSIGNABLE_KEYS
+# uninitialized constant #<Class:0x00007faff6f35810>::MAX_PASSWORD_LENGTH_ALLOWED
+# uninitialized constant #<Class:0x00007faff6f35810>::MINIMUM_TOKEN_LENGTH
+# uninitialized constant #<Class:0x00007faff6f35810>::NAME_COMPILABLE_REGEXP
+# uninitialized constant #<Class:0x00007faff6f35810>::RESTRICTED_CLASS_METHODS
+# uninitialized constant #<Class:0x00007faff6f35810>::UNASSIGNABLE_KEYS
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_AssociationRelation::CLAUSE_METHODS
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_AssociationRelation::Elem
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_AssociationRelation::FROZEN_EMPTY_ARRAY
@@ -1819,20 +1819,20 @@
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_AssociationRelation::VALID_UNSCOPING_VALUES
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_AssociationRelation::VALUE_METHODS
 # wrong constant name <static-init>
-# uninitialized constant #<Class:0x00007fc70342e6f0>::CLAUSE_METHODS
-# uninitialized constant #<Class:0x00007fc70342e6f0>::Elem
-# uninitialized constant #<Class:0x00007fc70342e6f0>::FROZEN_EMPTY_ARRAY
-# uninitialized constant #<Class:0x00007fc70342e6f0>::FROZEN_EMPTY_HASH
-# uninitialized constant #<Class:0x00007fc70342e6f0>::INVALID_METHODS_FOR_DELETE_ALL
-# uninitialized constant #<Class:0x00007fc70342e6f0>::MULTI_VALUE_METHODS
-# uninitialized constant #<Class:0x00007fc70342e6f0>::NILCLASS_STRING
-# uninitialized constant #<Class:0x00007fc70342e6f0>::ONE_AS_ONE
-# uninitialized constant #<Class:0x00007fc70342e6f0>::ORDER_IGNORE_MESSAGE
-# uninitialized constant #<Class:0x00007fc70342e6f0>::SINGLE_VALUE_METHODS
-# uninitialized constant #<Class:0x00007fc70342e6f0>::STRUCTURAL_VALUE_METHODS
-# uninitialized constant #<Class:0x00007fc70342e6f0>::VALID_DIRECTIONS
-# uninitialized constant #<Class:0x00007fc70342e6f0>::VALID_UNSCOPING_VALUES
-# uninitialized constant #<Class:0x00007fc70342e6f0>::VALUE_METHODS
+# uninitialized constant #<Class:0x00007fb062148470>::CLAUSE_METHODS
+# uninitialized constant #<Class:0x00007fb062148470>::Elem
+# uninitialized constant #<Class:0x00007fb062148470>::FROZEN_EMPTY_ARRAY
+# uninitialized constant #<Class:0x00007fb062148470>::FROZEN_EMPTY_HASH
+# uninitialized constant #<Class:0x00007fb062148470>::INVALID_METHODS_FOR_DELETE_ALL
+# uninitialized constant #<Class:0x00007fb062148470>::MULTI_VALUE_METHODS
+# uninitialized constant #<Class:0x00007fb062148470>::NILCLASS_STRING
+# uninitialized constant #<Class:0x00007fb062148470>::ONE_AS_ONE
+# uninitialized constant #<Class:0x00007fb062148470>::ORDER_IGNORE_MESSAGE
+# uninitialized constant #<Class:0x00007fb062148470>::SINGLE_VALUE_METHODS
+# uninitialized constant #<Class:0x00007fb062148470>::STRUCTURAL_VALUE_METHODS
+# uninitialized constant #<Class:0x00007fb062148470>::VALID_DIRECTIONS
+# uninitialized constant #<Class:0x00007fb062148470>::VALID_UNSCOPING_VALUES
+# uninitialized constant #<Class:0x00007fb062148470>::VALUE_METHODS
 # wrong constant name <static-init>
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_Relation::CLAUSE_METHODS
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_Relation::Elem
@@ -2119,21 +2119,21 @@
 # wrong constant name fk_ignore_pattern=
 # wrong constant name ignore_tables
 # wrong constant name ignore_tables=
-# uninitialized constant #<Class:0x00007fc7042d3958>::ACTIONS
+# uninitialized constant #<Class:0x00007fb065ac59c8>::ACTIONS
 # wrong constant name <Class:ActiveRecord_AssociationRelation>
 # wrong constant name <Class:ActiveRecord_Associations_CollectionProxy>
 # wrong constant name <Class:ActiveRecord_Relation>
-# uninitialized constant #<Class:0x00007fc7042d3958>::CALLBACKS
-# uninitialized constant #<Class:0x00007fc7042d3958>::CALLBACK_FILTER_TYPES
-# uninitialized constant #<Class:0x00007fc7042d3958>::CALL_COMPILABLE_REGEXP
+# uninitialized constant #<Class:0x00007fb065ac59c8>::CALLBACKS
+# uninitialized constant #<Class:0x00007fb065ac59c8>::CALLBACK_FILTER_TYPES
+# uninitialized constant #<Class:0x00007fb065ac59c8>::CALL_COMPILABLE_REGEXP
 # wrong constant name <Class:GeneratedAssociationMethods>
 # wrong constant name <Class:GeneratedAttributeMethods>
 # wrong constant name <Class:GeneratedRelationMethods>
-# uninitialized constant #<Class:0x00007fc7042d3958>::MAX_PASSWORD_LENGTH_ALLOWED
-# uninitialized constant #<Class:0x00007fc7042d3958>::MINIMUM_TOKEN_LENGTH
-# uninitialized constant #<Class:0x00007fc7042d3958>::NAME_COMPILABLE_REGEXP
-# uninitialized constant #<Class:0x00007fc7042d3958>::RESTRICTED_CLASS_METHODS
-# uninitialized constant #<Class:0x00007fc7042d3958>::UNASSIGNABLE_KEYS
+# uninitialized constant #<Class:0x00007fb065ac59c8>::MAX_PASSWORD_LENGTH_ALLOWED
+# uninitialized constant #<Class:0x00007fb065ac59c8>::MINIMUM_TOKEN_LENGTH
+# uninitialized constant #<Class:0x00007fb065ac59c8>::NAME_COMPILABLE_REGEXP
+# uninitialized constant #<Class:0x00007fb065ac59c8>::RESTRICTED_CLASS_METHODS
+# uninitialized constant #<Class:0x00007fb065ac59c8>::UNASSIGNABLE_KEYS
 # wrong constant name version
 # uninitialized constant ActiveRecord::SchemaMigration::ActiveRecord_AssociationRelation::CLAUSE_METHODS
 # uninitialized constant ActiveRecord::SchemaMigration::ActiveRecord_AssociationRelation::Elem
@@ -2150,20 +2150,20 @@
 # uninitialized constant ActiveRecord::SchemaMigration::ActiveRecord_AssociationRelation::VALID_UNSCOPING_VALUES
 # uninitialized constant ActiveRecord::SchemaMigration::ActiveRecord_AssociationRelation::VALUE_METHODS
 # wrong constant name <static-init>
-# uninitialized constant #<Class:0x00007fc7042d23f0>::CLAUSE_METHODS
-# uninitialized constant #<Class:0x00007fc7042d23f0>::Elem
-# uninitialized constant #<Class:0x00007fc7042d23f0>::FROZEN_EMPTY_ARRAY
-# uninitialized constant #<Class:0x00007fc7042d23f0>::FROZEN_EMPTY_HASH
-# uninitialized constant #<Class:0x00007fc7042d23f0>::INVALID_METHODS_FOR_DELETE_ALL
-# uninitialized constant #<Class:0x00007fc7042d23f0>::MULTI_VALUE_METHODS
-# uninitialized constant #<Class:0x00007fc7042d23f0>::NILCLASS_STRING
-# uninitialized constant #<Class:0x00007fc7042d23f0>::ONE_AS_ONE
-# uninitialized constant #<Class:0x00007fc7042d23f0>::ORDER_IGNORE_MESSAGE
-# uninitialized constant #<Class:0x00007fc7042d23f0>::SINGLE_VALUE_METHODS
-# uninitialized constant #<Class:0x00007fc7042d23f0>::STRUCTURAL_VALUE_METHODS
-# uninitialized constant #<Class:0x00007fc7042d23f0>::VALID_DIRECTIONS
-# uninitialized constant #<Class:0x00007fc7042d23f0>::VALID_UNSCOPING_VALUES
-# uninitialized constant #<Class:0x00007fc7042d23f0>::VALUE_METHODS
+# uninitialized constant #<Class:0x00007fb065ac4cd0>::CLAUSE_METHODS
+# uninitialized constant #<Class:0x00007fb065ac4cd0>::Elem
+# uninitialized constant #<Class:0x00007fb065ac4cd0>::FROZEN_EMPTY_ARRAY
+# uninitialized constant #<Class:0x00007fb065ac4cd0>::FROZEN_EMPTY_HASH
+# uninitialized constant #<Class:0x00007fb065ac4cd0>::INVALID_METHODS_FOR_DELETE_ALL
+# uninitialized constant #<Class:0x00007fb065ac4cd0>::MULTI_VALUE_METHODS
+# uninitialized constant #<Class:0x00007fb065ac4cd0>::NILCLASS_STRING
+# uninitialized constant #<Class:0x00007fb065ac4cd0>::ONE_AS_ONE
+# uninitialized constant #<Class:0x00007fb065ac4cd0>::ORDER_IGNORE_MESSAGE
+# uninitialized constant #<Class:0x00007fb065ac4cd0>::SINGLE_VALUE_METHODS
+# uninitialized constant #<Class:0x00007fb065ac4cd0>::STRUCTURAL_VALUE_METHODS
+# uninitialized constant #<Class:0x00007fb065ac4cd0>::VALID_DIRECTIONS
+# uninitialized constant #<Class:0x00007fb065ac4cd0>::VALID_UNSCOPING_VALUES
+# uninitialized constant #<Class:0x00007fb065ac4cd0>::VALUE_METHODS
 # wrong constant name <static-init>
 # uninitialized constant ActiveRecord::SchemaMigration::ActiveRecord_Relation::CLAUSE_METHODS
 # uninitialized constant ActiveRecord::SchemaMigration::ActiveRecord_Relation::Elem
@@ -4305,8 +4305,8 @@
 # uninitialized constant Fiddle
 # uninitialized constant Fiddle
 # wrong constant name exists?
+# wrong constant name open!
 # wrong constant name read_binary
-# wrong constant name relative_path
 # uninitialized constant FileUtils::DryRun::LN_SUPPORTED
 # uninitialized constant FileUtils::DryRun::RUBY
 # uninitialized constant FileUtils::DryRun::VERSION
@@ -9888,6 +9888,7 @@
 # uninitialized constant Restforce::Attachment::V
 # wrong constant name <static-init>
 # uninitialized constant Restforce::Collection::Elem
+# wrong constant name count
 # wrong constant name current_page
 # wrong constant name each
 # wrong constant name empty?
@@ -9957,6 +9958,11 @@
 # wrong constant name without_caching
 # wrong constant name <static-init>
 # wrong constant name decode_signed_request
+# wrong constant name <static-init>
+# wrong constant name api_post
+# wrong constant name composite
+# wrong constant name composite!
+# wrong constant name post
 # wrong constant name <static-init>
 # wrong constant name builder
 # wrong constant name middleware
@@ -10979,6 +10985,9 @@
 # uninitialized constant Stripe::UsageRecord::RESERVED_FIELD_NAMES
 # uninitialized constant Stripe::UsageRecordSummary::RESERVED_FIELD_NAMES
 # uninitialized constant Stripe::WebhookEndpoint::RESERVED_FIELD_NAMES
+# uninitialized constant StripeForce::User::HOOKS
+# uninitialized constant StripeForce::User::OPTS
+# uninitialized constant StripeForce::User::RESTRICTED_SETTER_METHODS
 # wrong constant name filter
 # wrong constant name <Class:Struct>
 # wrong constant name from_msgpack_ext
@@ -11013,7 +11022,6 @@
 # wrong constant name <Class:NokogiriTemplate>
 # wrong constant name <Class:PlainTemplate>
 # wrong constant name <Class:RDocTemplate>
-# wrong constant name <Class:SassTemplate>
 # wrong constant name <Class:SigilTemplate>
 # wrong constant name <Class:StringTemplate>
 # wrong constant name precompiled_postamble
@@ -11036,7 +11044,6 @@
 # wrong constant name <static-init>
 # wrong constant name allows_script?
 # wrong constant name markup
-# wrong constant name <static-init>
 # wrong constant name <static-init>
 # wrong constant name allows_script?
 # wrong constant name <static-init>

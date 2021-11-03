@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/restforce/all/restforce.rbi
 #
-# restforce-5.1.1
+# restforce-5.2.0
 
 module Restforce
   def self.configuration; end
@@ -497,6 +497,8 @@ end
 class Restforce::APIVersionError < Restforce::Error
 end
 class Restforce::BatchAPIError < Restforce::Error
+end
+class Restforce::CompositeAPIError < Restforce::Error
 end
 class Restforce::NotFoundError < Faraday::ResourceNotFound
 end

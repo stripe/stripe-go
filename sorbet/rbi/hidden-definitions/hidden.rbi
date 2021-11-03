@@ -9769,9 +9769,9 @@ end
 class File
   def self.exists?(arg); end
 
-  def self.read_binary(file); end
+  def self.open!(file, *args, &block); end
 
-  def self.relative_path(from, to); end
+  def self.read_binary(file); end
 end
 
 FileList = Rake::FileList
@@ -18402,6 +18402,7 @@ class Restforce::AbstractClient
   include ::Restforce::Concerns::Caching
   include ::Restforce::Concerns::API
   include ::Restforce::Concerns::BatchAPI
+  include ::Restforce::Concerns::CompositeAPI
 end
 
 class Restforce::AbstractClient
@@ -18418,6 +18419,8 @@ Restforce::Client = Restforce::Data::Client
 
 class Restforce::Collection
   include ::Enumerable
+  def count(*args); end
+
   def current_page(); end
 
   def each(&block); end
@@ -18578,6 +18581,20 @@ module Restforce::Concerns::Canvas
 end
 
 module Restforce::Concerns::Canvas
+end
+
+module Restforce::Concerns::CompositeAPI
+  def api_post(*args, &block); end
+
+  def composite(all_or_none: T.unsafe(nil), collate_subrequests: T.unsafe(nil)); end
+
+  def composite!(collate_subrequests: T.unsafe(nil), &block); end
+
+  def post(*args, &block); end
+end
+
+module Restforce::Concerns::CompositeAPI
+  extend ::Restforce::Concerns::Verbs
 end
 
 module Restforce::Concerns::Connection
@@ -20566,6 +20583,10 @@ module Sequel::Plugins
   SEQUEL_METHOD_NAME = ::T.let(nil, ::T.untyped)
 end
 
+module Sequel::Plugins::Serialization
+  REGISTERED_FORMATS = ::T.let(nil, ::T.untyped)
+end
+
 module Sequel::Postgres
   CONVERSION_PROCS = ::T.let(nil, ::T.untyped)
   MINUS_INFINITY = ::T.let(nil, ::T.untyped)
@@ -21410,6 +21431,18 @@ class Stripe::WebhookEndpoint
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
 end
 
+class StripeForce::User
+  include ::Sequel::Plugins::Timestamps::InstanceMethods
+  include ::Sequel::Plugins::AfterInitialize::InstanceMethods
+  include ::Sequel::Plugins::Serialization::InstanceMethods
+end
+
+class StripeForce::User
+  extend ::Sequel::Plugins::Timestamps::ClassMethods
+  extend ::Sequel::Plugins::AfterInitialize::ClassMethods
+  extend ::Sequel::Plugins::Serialization::ClassMethods
+end
+
 class Struct
   def filter(*arg); end
 end
@@ -21528,12 +21561,6 @@ class Tilt::RDocTemplate
 end
 
 class Tilt::RDocTemplate
-end
-
-class Tilt::SassTemplate
-end
-
-class Tilt::SassTemplate
 end
 
 class Tilt::SigilTemplate

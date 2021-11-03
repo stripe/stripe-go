@@ -2408,3 +2408,52 @@ class Sequel::ThreadedConnectionPool < Sequel::ConnectionPool
   def size; end
   def sync; end
 end
+module Sequel::Plugins::Timestamps
+  def self.configure(model, opts = nil); end
+end
+module Sequel::Plugins::Timestamps::ClassMethods
+  def allow_manual_timestamp_update?; end
+  def create_timestamp_field; end
+  def create_timestamp_overwrite?; end
+  def inherited_instance_variables; end
+  def set_update_timestamp_on_create?; end
+  def update_timestamp_field; end
+end
+module Sequel::Plugins::Timestamps::InstanceMethods
+  def before_update; end
+  def before_validation; end
+  def set_create_timestamp(time = nil); end
+  def set_update_timestamp(time = nil); end
+end
+module Sequel::Plugins::AfterInitialize
+end
+module Sequel::Plugins::AfterInitialize::ClassMethods
+  def call(_); end
+end
+module Sequel::Plugins::AfterInitialize::InstanceMethods
+  def after_initialize; end
+  def initialize(h = nil); end
+end
+module Sequel::Plugins::Serialization
+  def self.apply(model, *args); end
+  def self.configure(model, format = nil, *columns); end
+  def self.register_format(format, serializer, deserializer); end
+end
+module Sequel::Plugins::Serialization::ClassMethods
+  def define_serialized_attribute_accessor(serializer, deserializer, *columns); end
+  def deserialization_map; end
+  def freeze; end
+  def inherited_instance_variables; end
+  def serialization_map; end
+  def serialize_attributes(format, *columns); end
+end
+module Sequel::Plugins::Serialization::InstanceMethods
+  def _refresh_set_values(hash); end
+  def before_validation; end
+  def deserialize_value(column, v); end
+  def deserialized_values; end
+  def freeze; end
+  def initialize_copy(other); end
+  def serialize_deserialized_values; end
+  def serialize_value(column, v); end
+end

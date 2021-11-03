@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/sorbet-rails/all/sorbet-rails.rbi
 #
-# sorbet-rails-0.7.4
+# sorbet-rails-0.7.25
 
 module SorbetRails
   def self.config(&blk); end
@@ -321,6 +321,7 @@ module SorbetRails::CustomFinderMethods
   def find_n(*ids); end
   def first_n(n); end
   def last_n(n); end
+  def select_columns(*args); end
 end
 module SorbetRails::PluckToTStruct
   def map_nil_values_to_default(*args, &blk); end
