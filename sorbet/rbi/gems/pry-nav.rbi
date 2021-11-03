@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/pry-nav/all/pry-nav.rbi
 #
-# pry-nav-b194339f4107
+# pry-nav-1.0.0
 
 module PryNav
   def check_file_context(target); end

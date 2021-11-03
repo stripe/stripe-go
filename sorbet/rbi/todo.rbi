@@ -18,8 +18,10 @@ module ActionController::MimeResponds::Collector; end
 module ActionController::TemplateAssertions; end
 module ActionDispatch::Assertions::RoutingAssertions; end
 module ActionDispatch::Cookies::ChainedCookieJars; end
+module ActionDispatch::Flash::FlashHash; end
 module ActionDispatch::Flash::RequestMethods; end
 module ActionDispatch::Integration::RequestHelpers; end
+module ActionDispatch::Request::Session; end
 module ActionDispatch::Response::ContentTypeHeader; end
 module ActionDispatch::Routing::PolymorphicRoutes; end
 module ActionDispatch::Routing::UrlFor; end
@@ -36,7 +38,15 @@ module ActiveRecord::SpawnMethods; end
 module ActiveRecord::TestDatabases; end
 module ActiveRecord::TestFixtures; end
 module ActiveRecord::TestFixtures::ClassMethods; end
+module ActiveStorage::Attachment; end
+module ActiveStorage::Blob::Analyzable; end
+module ActiveStorage::Blob::Identifiable; end
+module ActiveStorage::Variant; end
 module Arel::Attributes::Attribute; end
+module Integrations::ErrorContext::Raven; end
+module Integrations::ErrorContext::Raven::Context; end
+module Integrations::ErrorContext::Raven::Event; end
+module Integrations::Errors::BaseTranslationError; end
 module Mail::CheckDeliveryParams; end
 module Mail::Ruby19; end
 module Mime::AllType; end

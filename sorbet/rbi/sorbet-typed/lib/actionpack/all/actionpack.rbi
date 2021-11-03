@@ -327,6 +327,15 @@ module ActionDispatch::Http::Parameters
   def params(); end
 end
 
+# these methods are delegated out, sorbet gets confused with them
+class ActionDispatch::IntegrationTest
+  sig { returns(ActionDispatch::Flash::FlashHash) }
+  def flash; end
+
+  sig { returns(ActionDispatch::Request::Session) }
+  def session; end
+end
+
 class ActionDispatch::RemoteIp::IpSpoofAttackError < ::StandardError
 end
 
@@ -504,7 +513,7 @@ ActionDispatch::Http::Headers::DEFAULT = T.let(T.unsafe(nil), Object)
 ActionDispatch::Http::Headers::HTTP_HEADER = T.let(T.unsafe(nil), Regexp)
 
 class ActionController::Parameters
-  sig { params(other: ActionController::Parameters).returns(T::Boolean) }
+  sig { params(other: T.any(String, ActionController::Parameters)).returns(T::Boolean) }
   def ==(other); end
 
   sig { params(key: T.any(String, Symbol), value: T.untyped).void }

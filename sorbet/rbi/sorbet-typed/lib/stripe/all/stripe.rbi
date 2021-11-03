@@ -30,13 +30,14 @@ module Stripe
   end
 
   class Address < StripeObject
-    extend T::Sig
-
     sig { returns(String) }
     def city; end
 
     sig { returns(String) }
     def country; end
+
+    sig { params(arg: String).void }
+    def country=(arg); end
 
     sig { returns(String) }
     def line1; end
@@ -46,6 +47,9 @@ module Stripe
 
     sig { returns(String) }
     def postal_code; end
+
+    sig { params(arg: String).void }
+    def postal_code=(arg); end
 
     sig { returns(String) }
     def state; end
@@ -65,7 +69,12 @@ module Stripe
     def phone; end
   end
 
-  class Card < Stripe::APIResource
+  class Source < APIResource
+    sig { params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])).returns(Stripe::Source) }
+    def self.retrieve(id, opts = nil); end
+  end
+
+  class Card < APIResource
     sig { returns(String) }
     def country; end
 
@@ -88,6 +97,7 @@ module Stripe
     sig { returns(String) }
     def id; end
 
+    # not all objects, at all times have metadata (deleted customers for instance)
     sig { returns(T::Hash[T.any(String, Symbol), T.untyped]) }
     def metadata; end
 
@@ -104,16 +114,28 @@ module Stripe
 
     sig { returns(Stripe::BillingDetails) }
     def billing_details; end
+
+    sig { returns(String) }
+    def type; end
+
+    sig { params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])).returns(Stripe::PaymentMethod) }
+    def self.retrieve(id, opts = nil); end
   end
 
   class InvoiceSettings < StripeObject
-    sig { returns(T.nilable(PaymentMethod)) }
+    sig { returns(T.nilable(T.any(String, PaymentMethod))) }
     def default_payment_method; end
+
+    sig { params(arg: String).void }
+    def default_payment_method=(arg); end
   end
 
   class Customer < APIResource
     sig { returns(String) }
     def default_source; end
+
+    sig { params(arg: String).void }
+    def default_source=(arg); end
 
     sig { returns(Stripe::ListObject) }
     def sources; end
@@ -130,11 +152,39 @@ module Stripe
     sig { returns(T.nilable(Stripe::Address)) }
     def address; end
 
+    sig { params(arg: Hash).void }
+    def address=(arg); end
+
     sig { returns(String) }
     def name; end
 
+    sig { returns(Integer) }
+    def account_balance; end
+
+    sig { params(arg: Integer).void }
+    def account_balance=(arg); end
+
+    sig { returns(Stripe::ListObject) }
+    def subscriptions; end
+
+    sig { returns(T.nilable(String)) }
+    def email; end
+
     sig { returns(Customer).params(id: T.any(String, T::Hash[Symbol, T.any(String, T::Array[String])]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
     def self.retrieve(id, opts = nil); end
+  end
+
+  class Discount
+    sig { returns(Stripe::Coupon) }
+    def coupon; end
+  end
+
+  class Coupon < APIResource
+    sig { params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])).returns(Stripe::Coupon) }
+    def self.retrieve(id, opts = nil); end
+
+    sig { returns(T.nilable(String)) }
+    def name; end
   end
 
   class PaymentIntent < APIResource
@@ -146,6 +196,9 @@ module Stripe
 
     sig { returns(Stripe::ListObject) }
     def charges; end
+
+    sig { returns(Stripe::ListObject) }
+    def line_items; end
 
     sig { returns(PaymentIntent).params(id: T.any(String, T::Hash[Symbol, T.any(String, T::Array[String])]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
     def self.retrieve(id, opts = nil); end
@@ -179,6 +232,18 @@ module Stripe
     sig { returns(T.any(String, Stripe::Charge)) }
     def charge; end
 
+    sig { returns(T::Boolean)}
+    def paid; end
+
+    sig { params(other: T::Boolean).void }
+    def paid=(other); end
+
+    sig { returns(String) }
+    def billing; end
+
+    sig { returns(Integer) }
+    def subtotal; end
+
     def status_transitions; end
   end
 
@@ -192,6 +257,12 @@ module Stripe
     sig { returns(T.nilable(String))}
     def description; end
 
+    sig { returns(T.any(Stripe::Customer, String))}
+    def customer; end
+
+    sig { returns(T.any(Stripe::Invoice, String))}
+    def invoice; end
+
     # unsure how to represent a StripeObject with specific keys/mmethods without causing typing errors
     def period; end
   end
@@ -199,6 +270,37 @@ module Stripe
   class Plan < APIResource
     # unsure how to represent a StripeObject with specific keys/mmethods without causing typing errors
     def period; end
+
+    sig { returns(T.any(String, Stripe::Product))}
+    def product; end
+
+    sig { returns(Stripe::Plan).params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
+    def self.retrieve(id, opts={}); end
+  end
+
+  class Product < APIResource
+    sig { returns(Stripe::Product).params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
+    def self.retrieve(id, opts={}); end
+
+    sig { returns(String) }
+    def name; end
+
+    sig { returns(T.nilable(String)) }
+    def description; end
+
+    sig { returns(T::Boolean) }
+    def shippable; end
+  end
+
+  class TaxRate < APIResource
+    sig { returns(T.nilable(String)) }
+    def description; end
+
+    sig { returns(String) }
+    def display_name; end
+
+    sig { returns(Integer) }
+    def percentage; end
   end
 
   class Subscription < APIResource
@@ -305,6 +407,20 @@ module Stripe
     def self.retrieve(id, opts = nil); end
   end
 
+  class BankAccount < APIResource
+    sig {returns(String)}
+    def fingerprint; end
+
+    sig { returns(String) }
+    def bank_name; end
+
+    sig { returns(String) }
+    def routing_number; end
+
+    sig { returns(String) }
+    def last4; end
+  end
+
   class StripeError
     extend T::Sig
 
@@ -332,15 +448,7 @@ class Stripe::Token
   def bank_account; end
 end
 
-class Stripe::BankAccount
-  sig {returns(String)}
-  def fingerprint; end
-end
-
-class Stripe::Card
-  sig { returns(String) }
-  def id; end
-
+class Stripe::Card < Stripe::APIResource
   sig { returns(String) }
   def brand; end
 
@@ -378,6 +486,46 @@ class Stripe::Refund < Stripe::APIResource
 
   sig { returns(Integer) }
   def amount; end
+
+  sig { returns(T.nilable(T.any(String, Stripe::CreditNote)))}
+  def credit_note; end
+
+  sig { returns(String)}
+  def currency; end
+
+  sig { returns(Integer)}
+  def created; end
+end
+
+class Stripe::Dispute < Stripe::APIResource
+  sig { returns(T.nilable(String)) }
+  def balance_transaction; end
+
+  sig { returns(Integer) }
+  def created; end
+
+  sig { returns(Integer) }
+  def amount; end
+
+  sig { returns(T::Array[Stripe::BalanceTransaction]) }
+  def balance_transactions; end
+end
+
+class Stripe::ChargeOutcome < Stripe::StripeObject
+  sig { returns(String) }
+  def network_status; end
+
+  sig { returns(String) }
+  def risk_level; end
+
+  sig { returns(String) }
+  def type; end
+
+  sig { returns(String) }
+  def reason; end
+
+  sig { returns(String) }
+  def seller_message; end
 end
 
 class Stripe::Charge < Stripe::APIResource
@@ -418,13 +566,31 @@ class Stripe::Charge < Stripe::APIResource
   def paid; end
 
   sig { returns(String) }
+  def status; end
+
+  sig { returns(Stripe::ChargeOutcome) }
+  def outcome; end
+
+  sig { returns(Integer) }
+  def amount; end
+
+  sig { returns(String) }
+  def currency; end
+
+  sig { returns(String) }
+  def statement_descriptor; end
+
+  sig { returns(T.nilable(String)) }
+  def description; end
+
+  sig { returns(T.any(String, Stripe::PaymentIntent)) }
+  def payment_intent; end
+
+  sig { returns(T.nilable(T.any(String, Stripe::Customer)))}
   def customer; end
 end
 
-class Stripe::Payout
-  sig { returns(String) }
-  def id; end
-
+class Stripe::Payout < Stripe::APIResource
   sig { returns(Integer) }
   def created; end
 
@@ -438,14 +604,15 @@ class Stripe::Payout
   def self.retrieve(id, opts={}); end
 end
 
-class Stripe::BalanceTransaction
-  sig { returns(String) }
-  def id; end
-
+class Stripe::BalanceTransaction < Stripe::APIResource
   sig { returns(String) }
   def type; end
 
-  sig { returns(String) }
+  sig { returns(String)}
+  def currency; end
+
+  # if resource is expanded, the actual object is returned
+  sig { returns(T.any(String, Stripe::Charge, Stripe::Refund))}
   def source; end
 
   sig { returns(Integer) }
@@ -464,7 +631,7 @@ class Stripe::BalanceTransaction
   def self.retrieve(id, opts={}); end
 end
 
-class Stripe::ApplicationFee
+class Stripe::ApplicationFee < Stripe::APIResource
   sig { returns(String) }
   def id; end
 end

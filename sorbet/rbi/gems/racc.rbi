@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/racc/all/racc.rbi
 #
-# racc-1.5.2
+# racc-1.6.0
 
 module Racc
 end

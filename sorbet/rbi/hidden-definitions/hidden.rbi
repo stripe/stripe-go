@@ -5888,6 +5888,12 @@ end
 class Bundler::Plugin::Installer
 end
 
+class Bundler::Plugin::PluginInstallError
+end
+
+class Bundler::Plugin::PluginInstallError
+end
+
 class Bundler::Plugin::SourceList
 end
 
@@ -5896,6 +5902,8 @@ end
 
 module Bundler::Plugin
   def self.list(); end
+
+  def self.save_plugin(name, spec, optional_plugin=T.unsafe(nil)); end
 
   def self.uninstall(names, options); end
 end
@@ -6062,6 +6070,8 @@ class Bundler::Source
   def remote!(); end
 
   def spec_names(); end
+
+  def to_err(); end
 end
 
 class Bundler::Source::Git
@@ -6074,6 +6084,10 @@ class Bundler::Source::Rubygems
   def dependency_api_available?(); end
 
   def multiple_remotes?(); end
+
+  def no_remotes?(); end
+
+  def remote_names(); end
 end
 
 class Bundler::Source::RubygemsAggregate
@@ -6084,6 +6098,8 @@ class Bundler::Source::RubygemsAggregate
   def sources(); end
 
   def specs(); end
+
+  def to_err(); end
 end
 
 class Bundler::Source::RubygemsAggregate
@@ -6097,6 +6113,8 @@ class Bundler::SourceList
   def expired_sources?(replacement_sources); end
 
   def global_path_source(); end
+
+  def implicit_global_source?(); end
 
   def local_only!(); end
 
@@ -6132,6 +6150,7 @@ end
 
 class Bundler::SpecSet
   include ::Enumerable
+  def missing_specs(); end
 end
 
 class Bundler::StubSpecification
@@ -6147,6 +6166,7 @@ class Bundler::Thor
   include ::Bundler::Thor::Invocation
   include ::Bundler::Thor::Shell
   def help(command=T.unsafe(nil), subcommand=T.unsafe(nil)); end
+  Correctable = ::T.let(nil, ::T.untyped)
   HELP_MAPPINGS = ::T.let(nil, ::T.untyped)
   TEMPLATE_EXTNAME = ::T.let(nil, ::T.untyped)
   THOR_RESERVED_WORDS = ::T.let(nil, ::T.untyped)
@@ -6627,8 +6647,6 @@ end
 module Bundler::Thor::CoreExt
 end
 
-Bundler::Thor::Correctable = DidYouMean::Correctable
-
 class Bundler::Thor::DynamicCommand
   def initialize(name, options=T.unsafe(nil)); end
 end
@@ -6783,13 +6801,6 @@ class Bundler::Thor::NestedContext
 end
 
 class Bundler::Thor::NestedContext
-end
-
-class Bundler::Thor::NoKwargSpellChecker
-  def initialize(dictionary); end
-end
-
-class Bundler::Thor::NoKwargSpellChecker
 end
 
 class Bundler::Thor::Option
@@ -7082,7 +7093,6 @@ end
 Bundler::Thor::Task = Bundler::Thor::Command
 
 class Bundler::Thor::UndefinedCommandError
-  include ::DidYouMean::Correctable
   def all_commands(); end
 
   def command(); end
@@ -7109,7 +7119,6 @@ end
 Bundler::Thor::UndefinedTaskError = Bundler::Thor::UndefinedCommandError
 
 class Bundler::Thor::UnknownArgumentError
-  include ::DidYouMean::Correctable
   def initialize(switches, unknown); end
 
   def switches(); end
@@ -7804,6 +7813,8 @@ module Bundler::VersionRanges
 end
 
 module Bundler
+  def self.configure_gem_home_and_path(path=T.unsafe(nil)); end
+
   def self.most_specific_locked_platform?(platform); end
 
   def self.original_exec(*args); end
@@ -8569,100 +8580,6 @@ end
 
 class Date::Infinity
   def initialize(d=T.unsafe(nil)); end
-end
-
-class DidYouMean::ClassNameChecker
-  def class_name(); end
-
-  def class_names(); end
-
-  def corrections(); end
-
-  def initialize(exception); end
-
-  def scopes(); end
-end
-
-module DidYouMean::Correctable
-  def corrections(); end
-
-  def original_message(); end
-
-  def spell_checker(); end
-
-  def to_s(); end
-end
-
-module DidYouMean::Jaro
-  def self.distance(str1, str2); end
-end
-
-module DidYouMean::JaroWinkler
-  def self.distance(str1, str2); end
-end
-
-class DidYouMean::KeyErrorChecker
-  def corrections(); end
-
-  def initialize(key_error); end
-end
-
-class DidYouMean::KeyErrorChecker
-end
-
-module DidYouMean::Levenshtein
-  def self.distance(str1, str2); end
-
-  def self.min3(a, b, c); end
-end
-
-class DidYouMean::MethodNameChecker
-  def corrections(); end
-
-  def initialize(exception); end
-
-  def method_name(); end
-
-  def method_names(); end
-
-  def receiver(); end
-  RB_RESERVED_WORDS = ::T.let(nil, ::T.untyped)
-end
-
-class DidYouMean::NullChecker
-  def corrections(); end
-
-  def initialize(*arg); end
-end
-
-class DidYouMean::PlainFormatter
-  def message_for(corrections); end
-end
-
-class DidYouMean::PlainFormatter
-end
-
-class DidYouMean::VariableNameChecker
-  def corrections(); end
-
-  def cvar_names(); end
-
-  def initialize(exception); end
-
-  def ivar_names(); end
-
-  def lvar_names(); end
-
-  def method_names(); end
-
-  def name(); end
-  RB_RESERVED_WORDS = ::T.let(nil, ::T.untyped)
-end
-
-module DidYouMean
-  def self.formatter(); end
-
-  def self.formatter=(formatter); end
 end
 
 module Digest::UUID
@@ -9481,12 +9398,23 @@ Faraday::Request::OAuth = FaradayMiddleware::OAuth
 Faraday::Request::OAuth2 = FaradayMiddleware::OAuth2
 
 class Faraday::Request::Retry
+  def build_exception_matcher(exceptions); end
+
+  def calculate_sleep_amount(retries, env); end
+
+  def initialize(app, options=T.unsafe(nil)); end
   DEFAULT_EXCEPTIONS = ::T.let(nil, ::T.untyped)
   IDEMPOTENT_METHODS = ::T.let(nil, ::T.untyped)
 end
 
 class Faraday::Request::Retry::Options
   DEFAULT_CHECK = ::T.let(nil, ::T.untyped)
+end
+
+class Faraday::Request::Retry::Options
+end
+
+class Faraday::Request::Retry
 end
 
 class Faraday::Request::TokenAuthentication
@@ -9841,9 +9769,9 @@ end
 class File
   def self.exists?(arg); end
 
-  def self.open!(file, *args, &block); end
-
   def self.read_binary(file); end
+
+  def self.relative_path(from, to); end
 end
 
 FileList = Rake::FileList
@@ -10380,16 +10308,6 @@ end
 
 Gem::Cache = Gem::SourceIndex
 
-class Gem::DependencyInstaller
-  def _deprecated_add_found_dependencies(to_do, dependency_list); end
-
-  def _deprecated_gather_dependencies(); end
-
-  def add_found_dependencies(*args, &block); end
-
-  def gather_dependencies(*args, &block); end
-end
-
 class Gem::Exception
   extend ::Gem::Deprecate
 end
@@ -10626,32 +10544,6 @@ class Gem::Platform
   def self.match_gem?(platform, gem_name); end
 
   def self.match_spec?(spec); end
-end
-
-class Gem::RemoteFetcher
-  def correct_for_windows_path(path); end
-
-  def s3_expiration(); end
-
-  def sign_s3_url(uri, expiration=T.unsafe(nil)); end
-  BASE64_URI_TRANSLATE = ::T.let(nil, ::T.untyped)
-end
-
-class Gem::RemoteFetcher::FetchError
-  def initialize(message, uri); end
-
-  def uri(); end
-
-  def uri=(uri); end
-end
-
-class Gem::RemoteFetcher::FetchError
-end
-
-class Gem::RemoteFetcher::UnknownHostError
-end
-
-class Gem::RemoteFetcher::UnknownHostError
 end
 
 class Gem::Request
@@ -11106,7 +10998,7 @@ class Hash
 end
 
 class Hash
-  def self.ruby2_keywords_hash?(hash); end
+  def self.from_trusted_xml(xml); end
 end
 
 module Hashie
@@ -12242,10 +12134,6 @@ module Kernel
   def self.at_exit(); end
 
   def self.fork(); end
-end
-
-class KeyError
-  include ::DidYouMean::Correctable
 end
 
 module Launchy
@@ -13598,10 +13486,6 @@ end
 class NIO::ByteBuffer::UnderflowError
 end
 
-class NameError
-  include ::DidYouMean::Correctable
-end
-
 class Net::APOP
 end
 
@@ -13654,9 +13538,13 @@ end
 
 Net::HTTPFatalErrorCode = Net::HTTPClientError
 
-Net::HTTPInformation::EXCEPTION_TYPE = Net::HTTPError
+class Net::HTTPInformation
+end
 
-Net::HTTPInformationCode = Net::HTTPInformation
+Net::HTTPInformationCode::EXCEPTION_TYPE = Net::HTTPError
+
+class Net::HTTPInformation
+end
 
 class Net::HTTPLoopDetected
   HAS_BODY = ::T.let(nil, ::T.untyped)
@@ -21640,6 +21528,12 @@ class Tilt::RDocTemplate
 end
 
 class Tilt::RDocTemplate
+end
+
+class Tilt::SassTemplate
+end
+
+class Tilt::SassTemplate
 end
 
 class Tilt::SigilTemplate

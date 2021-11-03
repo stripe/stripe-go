@@ -694,7 +694,7 @@ class Nokogiri::XML::SAX::Parser
   def parse_io(io, encoding = nil); end
   def parse_memory(data); end
 end
-class Anonymous_Struct_19 < Struct
+class Anonymous_Struct_18 < Struct
   def localname; end
   def localname=(_); end
   def prefix; end
@@ -708,7 +708,7 @@ class Anonymous_Struct_19 < Struct
   def value; end
   def value=(_); end
 end
-class Nokogiri::XML::SAX::Parser::Attribute < Anonymous_Struct_19
+class Nokogiri::XML::SAX::Parser::Attribute < Anonymous_Struct_18
 end
 module Nokogiri::XML::Searchable
   def %(*args); end
@@ -805,7 +805,7 @@ class Nokogiri::XML::Builder::NodeBuilder
   def initialize(node, doc_builder); end
   def method_missing(method, *args, &block); end
 end
-class Anonymous_Struct_20 < Struct
+class Anonymous_Struct_19 < Struct
   def name; end
   def name=(_); end
   def public_id; end
@@ -817,13 +817,13 @@ class Anonymous_Struct_20 < Struct
   def system_id; end
   def system_id=(_); end
 end
-class Nokogiri::XML::Notation < Anonymous_Struct_20
+class Nokogiri::XML::Notation < Anonymous_Struct_19
 end
 module Nokogiri::HTML4
   def self.fragment(string, encoding = nil); end
   def self.parse(input, url = nil, encoding = nil, options = nil, &block); end
 end
-class Anonymous_Struct_21 < Struct
+class Anonymous_Struct_20 < Struct
   def description; end
   def description=(_); end
   def name; end
@@ -835,7 +835,7 @@ class Anonymous_Struct_21 < Struct
   def value; end
   def value=(_); end
 end
-class Nokogiri::HTML4::EntityDescription < Anonymous_Struct_21
+class Nokogiri::HTML4::EntityDescription < Anonymous_Struct_20
 end
 class Nokogiri::HTML4::Document::EncodingFound < StandardError
   def found_encoding; end

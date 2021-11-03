@@ -122,9 +122,6 @@ class Thor::CoreExt::HashWithIndifferentAccess < Hash
   def to_hash; end
   def values_at(*indices); end
 end
-class Thor::NoKwargSpellChecker < DidYouMean::SpellChecker
-  def initialize(dictionary); end
-end
 class Thor::Error < StandardError
 end
 class Thor::UndefinedCommandError < Thor::Error

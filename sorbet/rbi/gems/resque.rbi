@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/resque/all/resque.rbi
 #
-# resque-2.1.0
+# resque-92a4564fac9a
 
 module Resque
   def after_fork(&block); end
@@ -92,6 +92,7 @@ module Resque::Failure
   def self.backend; end
   def self.backend=(backend); end
   def self.clear(queue = nil); end
+  def self.clear_retried; end
   def self.count(queue = nil, class_name = nil); end
   def self.create(options = nil); end
   def self.each(offset = nil, limit = nil, queue = nil, class_name = nil, order = nil, &block); end

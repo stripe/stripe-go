@@ -69,8 +69,8 @@ module ActiveRecord::Suppressor
 
   mixes_in_class_methods(::ActiveRecord::Suppressor::ClassMethods)
 
-  def save(*_, **_); end
-  def save!(*_, **_); end
+  def save(*arg0, **arg1); end
+  def save!(*arg0, **arg1); end
 end
 
 module ActiveRecord::Suppressor::ClassMethods
@@ -86,7 +86,7 @@ module ActiveRecord::TouchLater
   extend(::ActiveSupport::Concern)
 
   def touch(*names, time: T.unsafe(nil)); end
-  def touch_later(*names, **_); end
+  def touch_later(*names, **arg1); end
 
   private
 

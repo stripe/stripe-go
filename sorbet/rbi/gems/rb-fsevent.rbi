@@ -16,6 +16,8 @@ module OTNetstring
 end
 class OTNetstring::Error < StandardError
 end
+module ActionView
+end
 module ActionView::Helpers
   def self.eager_load!; end
   extend ActiveSupport::Autoload
@@ -35,6 +37,4 @@ class FSEvent
   def self.watcher_path; end
   def stop; end
   def watch(watch_paths, options = nil, &block); end
-end
-module ActionView
 end
