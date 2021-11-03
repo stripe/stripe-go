@@ -9,14 +9,8 @@ Resque.logger.level = Logger::DEBUG
 
 Resque.redis = Redis.new(
   url: ENV.fetch("REDIS_URL"),
-  # host: redis_uri.host,
-  # port: redis_uri.port,
-  # password: redis_uri.password,
 
   thread_safe: true,
-
-  # https://stackoverflow.com/questions/65834575/how-to-enable-tls-for-redis-6-on-sidekiq
-  ssl_params: {verify_mode: OpenSSL::SSL::VERIFY_NONE},
 
   # stronger reconnection retry to avoid throwing errors when an intermittent connection failure occurs
   # https://github.com/redis/redis-rb#reconnections
@@ -54,4 +48,16 @@ Resque::Failure.backend = Resque::Failure::Multiple
 # related PR: https://github.com/stripe/stripe-netsuite/pull/2185
 Resque::DataStore::StatsAccess.class_eval do
   def increment_stat(stat, by=1); end
+end
+
+# `redis.exists?` is not available < redis 4.2.0
+# however, there's a bug in redis-namespace that reports that exists? is available when it is not:
+#   https://github.com/resque/redis-namespace/blob/6f1bb31bbddd2efc9e16c53759d986b29206a12e/lib/redis/namespace.rb#L71-L72
+# the implementation of `redis_key_exists?` is overwritten here to avoid using `exists?`
+#   https://github.com/lantins/resque-retry/blob/f53624e3961a0f33493a0a9f37b78f79ff573438/lib/resque/failure/multiple_with_retry_suppression.rb#L151
+# the root fix here is update to redis, or fix the bug in redis-namespace, but we can't do that without removing sidekiq
+Resque::Failure::MultipleWithRetrySuppression.class_eval do
+  def redis_key_exists?(key)
+    ![false, 0].include?(Resque.redis.exists(key) || false)
+  end
 end
