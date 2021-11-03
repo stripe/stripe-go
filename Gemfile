@@ -6,7 +6,7 @@ ruby '2.6.8'
 
 gem 'sorbet', '~> 0.5.9238', group: :development
 gem 'sorbet-runtime', '~> 0.5.9238', require: true
-gem 'sorbet-rails', '~> 0.7.4'
+gem 'sorbet-rails', '~> 0.7.25'
 
 gem 'dotenv-rails', '2.7.6', groups: [:development, :test]
 gem 'rails', '~> 6.1.4', '>= 6.1.4.1'

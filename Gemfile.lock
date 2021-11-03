@@ -340,7 +340,7 @@ GEM
       polyfill (~> 1.8)
       safe_type (~> 1.1, >= 1.1.1)
       sorbet-runtime (>= 0.4.4704)
-    sorbet-rails (0.7.4)
+    sorbet-rails (0.7.25)
       method_source (>= 0.9.2)
       parlour (>= 4.0.1)
       parser (>= 2.7)
@@ -425,7 +425,7 @@ DEPENDENCIES
   sequel (= 5.49.0)
   simple_structured_logger
   sorbet (~> 0.5.9238)
-  sorbet-rails (~> 0.7.4)
+  sorbet-rails (~> 0.7.25)
   sorbet-runtime (~> 0.5.9238)
   spring
   stripe (~> 5.39.0)
