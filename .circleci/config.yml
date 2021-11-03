@@ -1,0 +1,295 @@
+version: 2.1
+
+# if `workflows` is not specified only the `build` job is run
+# prevent more than a single build from running at one time
+# https://jira.corp.stripe.com/browse/REPROD-1231
+orbs:
+  ruby: circleci/ruby@1.1.4
+  browser-tools: circleci/browser-tools@1.2.2
+workflows:
+  version: 2
+  build_typecheck_rubocop:
+    jobs: &build_typecheck_rubocop_jobs
+      - block_workflow:
+          # builds can take ~2hrs when NetSuite is slow and
+          # a build could be pending on multiple builds
+          # 6hrs is an insane value, but it's better than waking up to a bunch of
+          # broken builds that you need to re-run
+          time: '1440'
+      - build:
+          requires:
+            # We will wait for the block and typecheck tasks to complete
+            # We intentionally do not wait for the results of rubocop as it's not necessary
+            - block_workflow
+            - typecheck
+      - typecheck
+      - rubocop
+
+  nightly:
+    jobs: *build_typecheck_rubocop_jobs
+
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+
+jobs:
+  typecheck:
+    docker:
+    - image: cimg/ruby:2.6.8
+    steps:
+      - checkout
+      - ruby/install-deps
+      - run: bundle exec srb tc
+  rubocop:
+    docker:
+    - image: cimg/ruby:2.6.8
+    steps:
+      - checkout
+      - ruby/install-deps
+      - run: bundle exec rubocop
+  build:
+    working_directory: ~/stripe-netsuite
+    parallelism: 23
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/artifacts
+      CIRCLE_TEST_REPORTS: /tmp/test-results
+      BUNDLE_JOBS: 3
+      BUNDLE_RETRY: 3
+      BUNDLE_PATH: vendor/bundle
+      RAILS_TEST_SERVER_PORT: 8081
+      TEST_DATABASE_URL: postgres://ubuntu:@127.0.0.1:5432/circle_test
+      REDIS_URL: redis://localhost:6379
+      RAISE_EXCEPTIONS: 'true'
+      # providing a fake DSN ensures sentry tests run with production parity
+      SENTRY_DSN: stdout://12345:67890@sentry.localdomain/prefix/sentry/42
+      RAILS_ENV: test
+      RACK_ENV: test
+    # TODO possibly use the heroku image instead?
+    docker:
+      # replace `:.*` with `@sha256:THE_SHA` to lock the build to a specific container SHA
+    - image: cimg/ruby:2.6.8-browsers
+    - image: circleci/postgres:13-alpine-ram
+      environment:
+        POSTGRES_DB: circle_test
+        POSTGRES_USER: ubuntu
+        POSTGRES_PASSWORD: ""
+    - image: circleci/redis:6.2.3
+
+    steps:
+    - browser-tools/install-browser-tools
+    - checkout
+    - run:
+        working_directory: ~/stripe-netsuite
+        command: |
+          mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+          gem install bundler -v 2.2.29
+
+    # rails circle2 example:
+    # https://github.com/CircleCI-Public/circleci-demo-ruby-rails/blob/master/.circleci/config.yml
+    - restore_cache:
+        keys:
+          - rails-bundle-{{ checksum "Gemfile.lock" }}
+    - run:
+        command: |
+          bundle check || bundle install
+    - save_cache:
+        key: rails-bundle-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+    - run:
+        name: Setting up https proxy
+        command: |
+          printf '127.0.0.1 stripe-netsuite-test.dev' | sudo tee -a /etc/hosts
+
+          # https://github.com/stripe/stripe-netsuite/issues/1736
+          sudo npm install -g nassau-https-proxy@1.0.4
+    - run:
+        name: Running https proxy
+        # wait for up to 30m to ensure NS communication doesn't timeout; backoffs and temporary slowdowns could cause intermittent failures
+        command: sudo PROXY_TIMEOUT=1800 FORWARD_PORT=$RAILS_TEST_SERVER_PORT nassau-https-proxy
+        background: true
+
+    - run: bundle exec sequel -m migrations $TEST_DATABASE_URL
+
+    # always run bundle-audit in case new security issues are found without a Gemfile change
+    # https://github.com/stripe/stripe-netsuite/issues/1713
+    - run:
+        name: Gem Security Audit
+        command: |
+          if [ "$CIRCLE_NODE_INDEX" == "0" ]; then
+            bundle exec bundle-audit update && bundle exec bundle-audit check
+          fi
+
+    - run:
+        name: Code Security Audit
+        command: |
+          if [ "$CIRCLE_NODE_INDEX" == "0" ]; then
+            bundle exec brakeman -z
+          fi
+
+    - run:
+        when: always
+        no_output_timeout: "20m"
+        command: |
+          # https://discuss.circleci.com/t/test-timings-are-still-missing-with-2-0-and-workflows/21247/14
+          # https://github.com/CircleCI-Public/circleci-cli/blob/master/cmd/tests.go#L54
+          SPLIT_TEST_FILES=$(circleci tests glob "test/**/test*.rb" | circleci tests split --split-by=timings --timings-type=filename)
+          echo $SPLIT_TEST_FILES
+          bundle exec rails test --ci-dir $CIRCLE_TEST_REPORTS --profile $SPLIT_TEST_FILES
+
+    - run:
+        # DO NOT change the name of this task; email redirects to data-io-bots match against this name
+        name: Nightly Test Environment Cleanup
+        when: always
+        command: |
+          # more info on why `CIRCLE_USERNAME` is used: https://github.com/stripe/stripe-netsuite/pull/2455
+          if [ -z "$CIRCLE_USERNAME" ] && [ "$CIRCLE_NODE_INDEX" == "0" ]; then
+            echo "Cleaning Test Environment"
+          fi
+
+    - store_test_results:
+        path: /tmp/test-results
+
+    # one entry for each directory we want to store
+    - store_artifacts:
+        path: /tmp/artifacts
+    - store_artifacts:
+        path: /tmp/test-results
+
+  # prevent more than a single build from running at one time
+  # https://jira.corp.stripe.com/browse/REPROD-1231
+  # https://github.com/eddiewebb/circleci-queue/blob/9e7fc054183e0bcd891f9258d2661bd9223ffe06/src/commands/until_front_of_line.yml#L36
+  block_workflow:
+    docker:
+      - image: cimg/base:stable
+    resource_class: small
+    parameters:
+      time:
+        type: string
+        default: "10"
+        description: "How long to wait before giving up."
+      confidence:
+        type: string
+        default: "1"
+        description: "Due to scarce API, we need to requery the recent jobs list to ensure we're not just in a pending state for previous jobs.  This number indicates the threhold for API returning no previous pending jobs. Default is a single confirmation."
+    steps:
+      - run:
+          name: Queue Until Front of Line
+          command: |
+            load_variables(){
+              # just confirm our required variables are present
+              : ${CIRCLE_BUILD_NUM:?"Required Env Variable not found!"}
+              : ${CIRCLE_PROJECT_USERNAME:?"Required Env Variable not found!"}
+              : ${CIRCLE_PROJECT_REPONAME:?"Required Env Variable not found!"}
+              : ${CIRCLE_REPOSITORY_URL:?"Required Env Variable not found!"}
+              : ${CIRCLE_JOB:?"Required Env Variable not found!"}
+              VCS_TYPE="github"
+            }
+            fetch_filtered_active_builds(){
+              jobs_api_url_template="https://circleci.com/api/v1.1/project/${VCS_TYPE}/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}?circle-token=${CIRCLECI_API_KEY}&filter=running"
+              echo "Attempting to access CircleCI api. If the build process fails after this step, ensure your CIRCLECI_API_KEY is set."
+              curl -f -s $jobs_api_url_template > /tmp/jobstatus.json
+              echo "API access successful"
+            }
+            fetch_active_workflows(){
+              cp /tmp/jobstatus.json /tmp/augmented_jobstatus.json
+              for workflow in `jq -r ".[] | .workflows.workflow_id" /tmp/augmented_jobstatus.json | uniq`
+              do
+                echo "Checking time of workflow: ${workflow}"
+                workflow_file=/tmp/workflow-${workflow}.json
+                curl -f -s "https://circleci.com/api/v2/workflow/${workflow}?circle-token=${CIRCLECI_API_KEY}" > ${workflow_file}
+                created_at=`jq -r '.created_at' ${workflow_file}`
+                echo "Workflow was created at: ${created_at}"
+                cat /tmp/augmented_jobstatus.json | jq --arg created_at "${created_at}" --arg workflow "${workflow}" '(.[] | select(.workflows.workflow_id == $workflow) | .workflows) |= . + {created_at:$created_at}' > /tmp/augmented_jobstatus-${workflow}.json
+                #DEBUG echo "new augmented_jobstatus:"
+                #DEBUG cat /tmp/augmented_jobstatus-${workflow}.json
+                mv /tmp/augmented_jobstatus-${workflow}.json /tmp/augmented_jobstatus.json
+              done
+            }
+            update_comparables(){
+              fetch_filtered_active_builds
+              fetch_active_workflows
+              load_current_workflow_values
+
+              echo "This job will block until no previous workflows have *any* jobs running."
+              oldest_running_build_num=`jq 'sort_by(.workflows.created_at)| .[0].build_num' /tmp/augmented_jobstatus.json`
+              oldest_commit_time=`jq 'sort_by(.workflows.created_at)| .[0].workflows.created_at' /tmp/augmented_jobstatus.json`
+
+              echo "Oldest job: $oldest_running_build_num"
+              if [ -z $oldest_commit_time ];then
+                echo "API Call for existing jobs failed, failing this build.  Please check API token"
+                echo "All running jobs:"
+                cat /tmp/jobstatus.json || exit 0
+                echo "All running jobs with created_at:"
+                cat /tmp/augmented_jobstatus.json || exit 0
+                echo "All worfklow details."
+                cat /tmp/workflow-*.json
+                exit 1
+              fi
+            }
+            load_current_workflow_values(){
+              my_commit_time=`jq '.[] | select( .build_num == '"${CIRCLE_BUILD_NUM}"').workflows.created_at' /tmp/augmented_jobstatus.json`
+            }
+            cancel_current_build(){
+              echo "Cancelleing build ${CIRCLE_BUILD_NUM}"
+              cancel_api_url_template="https://circleci.com/api/v1.1/project/${VCS_TYPE}/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BUILD_NUM}/cancel?circle-token=${CIRCLECI_API_KEY}"
+              curl -s -X POST $cancel_api_url_template > /dev/null
+            }
+            #
+            # We can skip a few use cases without calling API
+            #
+            if [ ! -z "$CIRCLE_PR_REPONAME" ]; then
+              echo "Queueing on forks is not supported. Skipping queue..."
+              # It's important that we not fail here because it could cause issues on the main repo's branch
+              exit 0
+            fi
+
+            #
+            # Set values that wont change while we wait
+            #
+            load_variables
+            max_time=<<parameters.time>>
+            echo "This build will block until all previous builds complete."
+            echo "Max Queue Time: ${max_time} minutes."
+            wait_time=0
+            loop_time=11
+            max_time_seconds=$((max_time * 60))
+            #
+            # Queue Loop
+            #
+            confidence=0
+            while true; do
+              update_comparables
+              echo "This Workflow Timestamp: $my_commit_time"
+              echo "Oldest Workflow Timestamp: $oldest_commit_time"
+              if [[ "$oldest_commit_time" > "$my_commit_time" ]] || [[ "$oldest_commit_time" = "$my_commit_time" ]] ; then
+                # API returns Y-M-D HH:MM (with 24 hour clock) so alphabetical string compare is accurate to timestamp compare as well
+                # recent-jobs API does not include pending, so it is possible we queried in between a workfow transition, and we;re NOT really front of line.
+                if [ $confidence -lt <<parameters.confidence>> ];then
+                  # To grow confidence, we check again with a delay.
+                  confidence=$((confidence+1))
+                  echo "API shows no previous jobs/workflows, but it is possible a previous workflow has pending jobs not yet visible in API."
+                  echo "Rerunning check ${confidence}/<<parameters.confidence>>"
+                else
+                  echo "Front of the line, WooHoo!, Build continuing"
+                  break
+                fi
+              else
+                echo "This build (${CIRCLE_BUILD_NUM}) is queued, waiting for build number (${oldest_running_build_num}) to complete."
+                echo "Total Queue time: ${wait_time} seconds."
+              fi
+              if [ $wait_time -ge $max_time_seconds ]; then
+                echo "Max wait time exceeded, cancelling build."
+                cancel_current_build
+                sleep 10 # wait for API to cancel this job, rather than showing as failure
+                exit 1 # but just in case, fail job
+              fi
+              sleep $loop_time
+              wait_time=$(( loop_time + wait_time ))
+            done
