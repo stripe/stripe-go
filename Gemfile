@@ -43,6 +43,13 @@ gem 'stripe', '~> 5.39.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.9.1', require: false
 
+# TODO: Update omniauth above 2.X
+# Can't upgrade because of https://github.com/realdoug/omniauth-salesforce/issues/31
+# gem 'omniauth', '~> 2.0.4'
+
+# CVE-2019-13117 https://github.com/sparklemotion/nokogiri/issues/1943
+gem 'nokogiri', '>= 1.12.5'
+
 group :test do
   #   gem 'bundler-audit', '~> 0.7.0.1', require: false
   #   gem 'brakeman', '~> 4.10', require: false
