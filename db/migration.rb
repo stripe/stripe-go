@@ -15,6 +15,10 @@ end
 DB.create_table(:users) do
   primary_key :id
 
+  column :field_defaults, :jsonb, default: '{}', null: false
+  column :field_mappings, :jsonb, default: '{}', null: false
+  column :feature_flags, :jsonb, default: '[]', null: false
+
   DateTime :created_at, null: false
   DateTime :updated_at, null: false
 
