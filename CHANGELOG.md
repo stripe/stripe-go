@@ -1,5 +1,11 @@
 # Changelog
 
+## 72.73.1 - 2021-11-04
+* [#1371](https://github.com/stripe/stripe-go/pull/1371) API Updates
+  * Remove support for `OwnershipDeclarationShownAndSigned` on `TokenAccountParams`. This API was unused.
+  * Add support for `OwnershipDeclarationShownAndSigned` on `TokenAccountCompanyParams`
+  
+
 ## 72.73.0 - 2021-11-01
 * [#1368](https://github.com/stripe/stripe-go/pull/1368) API Updates
   * Add support for `OwnershipDeclaration` on `AccountCompanyParams`, `AccountCompanyParams`, `AccountCompany`, and `TokenAccountCompanyParams`
