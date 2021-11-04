@@ -447,7 +447,6 @@ DEPENDENCIES
   simple_structured_logger
   sorbet (~> 0.5.9300)
   sorbet-rails (~> 0.7.25)
-  sorbet-runtime (~> 0.5.9300)
   spring
   stripe (~> 5.39.0)
   webdrivers (~> 4.6.0)
