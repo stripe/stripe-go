@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 # typed: false
+
 # heroku run bundle exec ruby migration.rb
+# CREATE DATABASE stripeforce
 
 require 'sequel'
 
