@@ -10,27 +10,26 @@ module Integrations
 
     include Log
 
-    def report_edge_case(message, stripe_resource: nil, ns_record: nil, metadata: nil)
-      report_error(Integrations::Errors::UnhandledEdgeCase, message, stripe_resource: stripe_resource, ns_record: ns_record, metadata: metadata)
+    def report_edge_case(message, stripe_resource: nil, integration_record: nil, metadata: nil)
+      report_error(Integrations::Errors::UnhandledEdgeCase, message, stripe_resource: stripe_resource, integration_record: integration_record, metadata: metadata)
     end
 
-    def report_feature_usage(message, stripe_resource: nil, ns_record: nil, metadata: nil)
-      report_error(Integrations::Errors::FeatureUsage, message, stripe_resource: stripe_resource, ns_record: ns_record, metadata: metadata)
+    def report_feature_usage(message, stripe_resource: nil, integration_record: nil, metadata: nil)
+      report_error(Integrations::Errors::FeatureUsage, message, stripe_resource: stripe_resource, integration_record: integration_record, metadata: metadata)
     end
 
-    # TODO stripe type should be `T.class_of(Stripe::StripeObject)` but Stripe types need to be cleaned up first
-    sig { params(error_class: T.class_of(Integrations::Errors::BaseIntegrationError), message: String, stripe_resource: T.nilable(T.untyped), ns_record: T.nilable(T.untyped), metadata: T.nilable(Hash)).returns(T.any(Sentry::Event, T::Boolean)) }
-    def report_error(error_class, message, stripe_resource: nil, ns_record: nil, metadata: nil)
+    sig { params(error_class: T.class_of(Integrations::Errors::BaseIntegrationError), message: String, stripe_resource: T.nilable(Stripe::StripeObject), integration_record: T.nilable(T.untyped), metadata: T.nilable(Hash)).returns(T.any(Sentry::Event, T::Boolean)) }
+    def report_error(error_class, message, stripe_resource: nil, integration_record: nil, metadata: nil)
       sentry_options = {tags: metadata&.delete(:tags)}.compact
 
-      log.error message, {stripe_resource: stripe_resource, ns_record: ns_record}.merge(metadata || {})
+      log.error message, {stripe_resource: stripe_resource, integration_record: integration_record}.merge(metadata || {})
 
       exception = error_class.new(
         message,
 
         # TODO add additional context
         # stripe_resource: stripe_resource,
-        # ns_record: ns_record,
+        # integration_record: integration_record,
         # metadata: metadata
       )
 
@@ -45,12 +44,9 @@ module Integrations
     sig { params(user: T.nilable(StripeForce::User), stripe_resource: T.nilable(Stripe::APIResource), integration_record: T.untyped, tags: T.untyped).void }
     def set_error_context(user: nil, stripe_resource: nil, integration_record: nil, **tags)
       # clear out all of the context
-      Sentry.set_context({})
+      Sentry.set_extras({})
       Sentry.set_user({})
       Sentry.set_tags({})
-
-      # if a user isn't specified directly, pull it from the current context
-      user ||= T.let(@user, StripeForce::User)
 
       # Sentry allows you to filter on some user context fields and all tags
       tags_context = {}
@@ -104,10 +100,10 @@ module Integrations
       end
 
       if integration_record
-        extra_context['ns_record_type'] = integration_record.class.to_s
-        extra_context['ns_record_id'] = integration_record.internal_id
+        extra_context['integration_record_type'] = integration_record.class.to_s
+        extra_context['integration_record_id'] = integration_record.internal_id
 
-        tags_context['ns_record_id'] = integration_record.internal_id
+        tags_context['integration_record_id'] = integration_record.internal_id
       end
 
       if !tags.empty?
@@ -116,15 +112,15 @@ module Integrations
 
       Sentry.set_user(user_context)
       Sentry.set_tags(tags_context)
-      Sentry.set_context(extra_context)
+      Sentry.set_extras(extra_context)
 
       # TODO think about 'replace + append, but not reset' mode to keep job harness tags in place
       log.set_context(user, stripe_resource)
 
-      # TODO `log#set_context` should use keyword arguments and ns_record explosion should be built-in
+      # TODO `log#set_context` should use keyword arguments and integration_record explosion should be built-in
       if integration_record
-        log.default_tags[:ns_record_type] = integration_record.class.to_s
-        log.default_tags[:ns_record_id] = integration_record.internal_id
+        log.default_tags[:integration_record_type] = integration_record.class.to_s
+        log.default_tags[:integration_record_id] = integration_record.internal_id
       end
 
       # useful for the dashboard, add the admin user to all logging and errors
