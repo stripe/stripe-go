@@ -114,13 +114,17 @@ module Integrations
       Sentry.set_tags(tags_context)
       Sentry.set_extras(extra_context)
 
-      # TODO think about 'replace + append, but not reset' mode to keep job harness tags in place
-      log.set_context(user, stripe_resource)
+      log.set_context({
+        stripe_account_id: user&.stripe_account_id,
+        salesforce_account_id: user&.salesforce_account_id,
+        livemode: user&.livemode,
+        stripe_resource_id: stripe_resource&.id,
+        stripe_resource_type: stripe_resource&.class,
+      }.compact)
 
-      # TODO `log#set_context` should use keyword arguments and integration_record explosion should be built-in
       if integration_record
-        log.default_tags[:integration_record_type] = integration_record.class.to_s
-        log.default_tags[:integration_record_id] = integration_record.internal_id
+        log.default_tags[:integration_record_type] = integration_record.sobject_type
+        log.default_tags[:integration_record_id] = integration_record.Id
       end
 
       # useful for the dashboard, add the admin user to all logging and errors
@@ -143,8 +147,8 @@ module Integrations
 
       if !env_log_level.nil? && Logger::Severity.const_defined?(env_log_level)
         log.level(Logger::Severity.const_get(env_log_level))
-      # elsif user&.sandbox? && !user.feature_enabled?(:loud_sandbox_logging)
-      #   log.level(Logger::Severity::WARN)
+      elsif user&.sandbox? && !user.feature_enabled?(:loud_sandbox_logging)
+        log.level(Logger::Severity::WARN)
       else
         log.level(Logger::Severity::INFO)
       end
