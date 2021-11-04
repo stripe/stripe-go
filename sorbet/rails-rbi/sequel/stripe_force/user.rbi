@@ -2,10 +2,16 @@
 # Please rerun bundle exec scripts/sequel-types.rb to regenerate
 # typed: strong
 module StripeForce::User::GeneratedAttributeMethods
+  sig { returns(DateTime) }
+  def created_at; end
+
+  sig { params(value: T.any(DateTime, Date, Time)).void }
+  def created_at=(value); end
+
   sig { returns(T.nilable(String)) }
   def email; end
 
-  sig { params(value: T.nilable(String)).void }
+  sig { params(value: T.nilable(T.any(String, Symbol))).void }
   def email=(value); end
 
   sig { returns(T.nilable(T::Boolean)) }
@@ -17,56 +23,62 @@ module StripeForce::User::GeneratedAttributeMethods
   sig { returns(Integer) }
   def id; end
 
-  sig { params(value: Integer).void }
+  sig { params(value: T.any(Numeric)).void }
   def id=(value); end
 
   sig { returns(T.nilable(String)) }
   def name; end
 
-  sig { params(value: T.nilable(String)).void }
+  sig { params(value: T.nilable(T.any(String, Symbol))).void }
   def name=(value); end
 
   sig { returns(String) }
   def salesforce_account_id; end
 
-  sig { params(value: String).void }
+  sig { params(value: T.any(String, Symbol)).void }
   def salesforce_account_id=(value); end
 
   sig { returns(String) }
   def salesforce_instance_url; end
 
-  sig { params(value: String).void }
+  sig { params(value: T.any(String, Symbol)).void }
   def salesforce_instance_url=(value); end
 
   sig { returns(String) }
   def salesforce_refresh_token; end
 
-  sig { params(value: String).void }
+  sig { params(value: T.any(String, Symbol)).void }
   def salesforce_refresh_token=(value); end
 
   sig { returns(String) }
   def salesforce_token; end
 
-  sig { params(value: String).void }
+  sig { params(value: T.any(String, Symbol)).void }
   def salesforce_token=(value); end
 
   sig { returns(T.nilable(String)) }
   def stripe_account_id; end
 
-  sig { params(value: T.nilable(String)).void }
+  sig { params(value: T.nilable(T.any(String, Symbol))).void }
   def stripe_account_id=(value); end
 
   sig { returns(T.nilable(String)) }
   def stripe_public_token; end
 
-  sig { params(value: T.nilable(String)).void }
+  sig { params(value: T.nilable(T.any(String, Symbol))).void }
   def stripe_public_token=(value); end
 
   sig { returns(T.nilable(String)) }
   def stripe_refresh_token; end
 
-  sig { params(value: T.nilable(String)).void }
+  sig { params(value: T.nilable(T.any(String, Symbol))).void }
   def stripe_refresh_token=(value); end
+
+  sig { returns(DateTime) }
+  def updated_at; end
+
+  sig { params(value: T.any(DateTime, Date, Time)).void }
+  def updated_at=(value); end
 end
 
 class StripeForce::User
