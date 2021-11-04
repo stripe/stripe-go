@@ -8,6 +8,10 @@ module StripeForce
 
 end
 
+module Integrations
+
+end
+
 # TODO move this somewhere else
 # tired of writing binding.pry...
 module Kernel
@@ -17,5 +21,4 @@ module Kernel
 end
 
 require_relative 'stripe-force/resque'
-
 Dir[File.join(File.dirname(__FILE__), "stripe-force/**/*.rb")].sort.each {|f| require f }

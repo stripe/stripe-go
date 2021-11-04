@@ -2,7 +2,7 @@
 # typed: true
 
 class StripeForce::OrderPoller
-  include SimpleStructuredLogger
+  include Integrations::Log
 
   def self.perform(user:)
     interactor = self.new(user)
