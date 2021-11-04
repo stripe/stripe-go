@@ -1,0 +1,123 @@
+#!/bin/bash
+
+set -e
+
+COMMAND_PREFIX="bundle exec"
+
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  if [ -f "/etc/fedora-release" ]; then
+    NETCAT_CMD="nc"
+  else
+    NETCAT_CMD="nc -N"
+  fi
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  NETCAT_CMD="nc"
+elif [[ "$OSTYPE" == "freebsd"* ]]; then
+  # https://www.freebsd.org/cgi/man.cgi?query=netcat&manpath=SuSE+Linux/i386+11.3
+  NETCAT_CMD="nc"
+else
+  echo "Sorry, we're not sure if the rubocop-daemon-wrapper script will work" \
+    "on your OS: \"$OSTYPE\"" >&2
+  echo "Try to comment out this message in the script, and use one of the following:" >&2
+  echo >&2
+  echo "NETCAT_CMD=\"nc\"" >&2
+  echo "# Or" >&2
+  echo "NETCAT_CMD=\"nc -N\"" >&2
+  echo >&2
+  echo "Then please leave a comment on this GitHub issue and" \
+    "let us know which one worked:" >&2
+  echo >&2
+  echo "* https://github.com/fohte/rubocop-daemon/issues/4" >&2
+  echo >&2
+  exit 1
+fi
+
+find_project_root() {
+  path=$(pwd -P)
+  while [[ "$path" != "" && ! -f "$path/Gemfile" && ! -f "$path/gems.rb" ]]; do
+    path=${path%/*}
+  done
+  echo "$path"
+}
+
+PROJECT_ROOT="$(find_project_root)"
+if [ -z "$PROJECT_ROOT" ]; then
+  # If we can't find a Gemfile, just use the current directory
+  PROJECT_ROOT="$(pwd -P)"
+fi
+
+CACHE_DIR="$HOME/.cache/rubocop-daemon"
+PROJECT_CACHE_KEY="$(echo ${PROJECT_ROOT:1} | tr '/' '+')"
+PROJECT_CACHE_DIR="$CACHE_DIR/$PROJECT_CACHE_KEY"
+TOKEN_PATH="$PROJECT_CACHE_DIR/token"
+PORT_PATH="$PROJECT_CACHE_DIR/port"
+STDIN_PATH="$PROJECT_CACHE_DIR/stdin"
+STATUS_PATH="$PROJECT_CACHE_DIR/status"
+LOCK_PATH="$CACHE_DIR/running.lock"
+RUBOCOP_DAEMON="$COMMAND_PREFIX rubocop-daemon"
+
+# If a lock file exist, wait up to 5 seconds.
+i=0
+while [ -d "$LOCK_PATH" ]; do
+  # rubocop-daemon is already processing a request. Pause before trying again...
+  sleep 1
+  i=$((i + 1))
+  if [ $i -ge 5 ]; then
+    echo "rubocop-daemon-wrapper: Waited more than 5 seconds; ignoring the lock and proceeding." >&2
+    break
+  fi
+done
+
+unlock() {
+  rm -r "$LOCK_PATH" 2> /dev/null
+}
+
+trap unlock EXIT
+
+# Acquire a file lock before proceeding.
+# Macs don't support the `lockfile` command, so just use mkdir.
+mkdir -p "$LOCK_PATH"
+
+# If -s or --stdin args are present, read stdin with `cat`
+for ARG in $@; do
+  if [ -z "$STDIN_CONTENT" ] && [ "$ARG" == "--stdin" ] || [ "$ARG" == "-s" ]; then
+    # Preserve final new lines when ingesting from STDIN
+    STDIN_CONTENT="$(cat; printf x)"
+    STDIN_CONTENT=${STDIN_CONTENT%x}
+  fi
+done
+
+if [ ! -f "$TOKEN_PATH" ]; then
+  $RUBOCOP_DAEMON start
+fi
+
+run_rubocop_command() {
+  TOKEN="$(cat "$TOKEN_PATH")"
+  PORT="$(cat "$PORT_PATH")"
+  COMMAND="$TOKEN $PROJECT_ROOT exec $@"
+  rm -f "$STATUS_PATH" # Clear the previous status
+  if printf '%s\n%s' "$COMMAND" "$STDIN_CONTENT" | $NETCAT_CMD localhost "$PORT"; then
+    if [ -f "$STATUS_PATH" ]; then
+      exit "$(cat $STATUS_PATH)"
+    else
+      echo "rubocop-daemon-wrapper: server did not write status to $STATUS_PATH!" >&2
+      exit 1
+    fi
+  fi
+  return 1
+}
+
+if ! run_rubocop_command $@; then
+  echo "rubocop-daemon-wrapper: Error sending command to localhost:$PORT ($COMMAND)" >&2
+  echo "Killing all rubocop-daemon processes and removing cache directory..." >&2
+  rm -rf "$CACHE_DIR"
+  pkill -f "rubocop-daemon (re)?start"
+  echo "Starting new rubocop-daemon server..." >&2
+  $RUBOCOP_DAEMON start
+  if ! run_rubocop_command $@; then
+    echo "Sorry, something went wrong with rubocop-daemon!" >&2
+    echo "Please try updating the gem or re-installing the rubocop-daemon-wrapper script."
+    echo "If that doesn't work, please open an issue on GitHub:" \
+      "https://github.com/fohte/rubocop-daemon/issues/new" >&2
+  fi
+fi
