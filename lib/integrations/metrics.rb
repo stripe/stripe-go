@@ -8,6 +8,15 @@ module Integrations
       Integrations::Metrics::Writer.instance
     end
 
+    # adds class method when the method is included for convenience
+    def self.included(klass)
+      klass.class_eval do
+        def self.log
+          Integrations::Metrics::Writer.instance
+        end
+      end
+    end
+
     QueuedMessage = Struct.new(:category, :data)
 
     class Writer
