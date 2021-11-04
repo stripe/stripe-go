@@ -5,30 +5,28 @@ class SessionsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :create
 
   def create
-    # @user = User.find_or_create_from_auth_hash(auth_hash)
-    # self.current_user = @user
-
-    # <<~EOL
-    #   <p>StripeForce.</p>
-    #   <p><a href="/auth/salesforce">Connect.</a></p>
-    # EOL
-
     redirect_to '/'
   end
 
   def salesforce_callback
     sf_auth = auth_hash
-    sf_account_id = sf_auth["uid"]
+    raw_sf_account_url = sf_auth["uid"]
+
+    # first ID in the URL is the organizational ID
+    # ex: "https://login.salesforce.com/id/00D5e000003V0C7EAK/0055e000005HBroAAG",
+    sf_account_id = raw_sf_account_url.match(%r{id/([^/]+)/})[1]
 
     user = StripeForce::User.find(salesforce_account_id: sf_account_id)
 
     if !user
       log.info 'creating new user', sf_account_id: sf_account_id
       user = StripeForce::User.new(salesforce_account_id: sf_account_id)
+
+      report_feature_usage("new user #{sf_account_id}")
     end
 
     sf_credentials = sf_auth["credentials"]
-    sf_refresh_token = sf_credentials["refresh_token"]
+    sf_refresh_token = sf_credentials['refresh_token']
     sf_instance_url = sf_credentials["instance_url"]
     sf_token = sf_credentials["token"]
 
