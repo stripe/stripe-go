@@ -1,13 +1,14 @@
 # typed: true
 require File.expand_path('../config/environment', __dir__)
 
+# https://github.com/chanzuckerberg/sorbet-rails/blob/master/lib/sorbet-rails/model_plugins/active_record_attribute.rb
 class SequelSorbetPlugin
   extend T::Sig
 
   class ColumnType < T::Struct
     extend T::Sig
 
-    const :base_type, T.any(Class, String)
+    const :base_type, T.any(T.class_of(Class), String)
     const :nilable, T.nilable(T::Boolean)
     const :array_type, T.nilable(T::Boolean)
 
@@ -63,15 +64,17 @@ class SequelSorbetPlugin
     end
   end
 
-  sig { params(sequel_type: Symbol).returns(String) }
+  # sig { params(sequel_type: Symbol).returns(Class) }
   def sequel_to_ruby_type(sequel_type)
     case sequel_type
     when :integer
-      "Integer"
+      Integer
     when :string
-      "String"
+      String
     when :boolean
-      "T::Boolean"
+      T::Boolean
+    when :datetime
+      DateTime
     else
       raise 'unsupported type'
     end
@@ -79,12 +82,11 @@ class SequelSorbetPlugin
 
   sig { params(column_type: ColumnType).returns(String) }
   def value_type_for_attr_writer(column_type)
-    assignable_time_supertypes = [Date, Time].map(&:to_s)
+    assignable_time_supertypes = [DateTime, Date, Time].map(&:to_s)
 
     type = column_type.base_type
     if type.is_a?(Class)
-      # TODO this needs to handle sequel date classes
-      if type == ActiveSupport::TimeWithZone
+      if type == DateTime
         type = "T.any(#{assignable_time_supertypes.join(', ')})"
       elsif type < Numeric
         type = "T.any(Numeric)"
@@ -102,6 +104,7 @@ class SequelSorbetPlugin
 end
 
 # https://github.com/chanzuckerberg/sorbet-rails/blob/8337c1cea41490b0c21fb67153129912eeb3504a/lib/sorbet-rails/model_rbi_formatter.rb
+# https://github.com/chanzuckerberg/sorbet-rails/blob/master/lib/sorbet-rails/tasks/rails_rbi.rake
 
 Sequel::Model.descendants.each do |sequel_model|
   puts "Generating #{sequel_model}..."
