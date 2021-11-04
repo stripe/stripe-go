@@ -5,6 +5,7 @@
   "cSpell.ignorePaths":[
     "node_modules",
     ".vscode",
+    ".circleci",
     "Gemfile",
     "Gemfile.lock",
     ".rubocop*"
