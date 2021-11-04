@@ -16,7 +16,8 @@ require 'minitest/profile'
 require "mocha/minitest"
 require 'pry-rescue/minitest' unless ENV['CI'] || ENV['EXT_DIR']
 
-Dir[File.join(File.dirname(__FILE__), "test/support/**/*.rb")].sort.each {|f| require f }
+require_relative 'support/common_helpers'
+Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].sort.each {|f| require f }
 
 Minitest::Ci.clean = false if ENV['CI']
 
