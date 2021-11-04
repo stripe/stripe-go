@@ -8,7 +8,8 @@ class SequelSorbetPlugin
   class ColumnType < T::Struct
     extend T::Sig
 
-    const :base_type, T.any(T.class_of(Class), String)
+    # const :base_type, T.any(T.class_of(Class), String)
+    const :base_type, T.untyped
     const :nilable, T.nilable(T::Boolean)
     const :array_type, T.nilable(T::Boolean)
 
