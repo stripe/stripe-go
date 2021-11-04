@@ -353,14 +353,16 @@ type AccountCompanyParams struct {
 	NameKana             *string                                   `form:"name_kana"`
 	NameKanji            *string                                   `form:"name_kanji"`
 	OwnershipDeclaration *AccountCompanyOwnershipDeclarationParams `form:"ownership_declaration"`
-	OwnersProvided       *bool                                     `form:"owners_provided"`
-	RegistrationNumber   *string                                   `form:"registration_number"`
-	Structure            *string                                   `form:"structure"`
-	Phone                *string                                   `form:"phone"`
-	TaxID                *string                                   `form:"tax_id"`
-	TaxIDRegistrar       *string                                   `form:"tax_id_registrar"`
-	VATID                *string                                   `form:"vat_id"`
-	Verification         *AccountCompanyVerificationParams         `form:"verification"`
+	// This parameter can only be used on Token creation.
+	OwnershipDeclarationShownAndSigned *bool                             `form:"ownership_declaration_shown_and_signed"`
+	OwnersProvided                     *bool                             `form:"owners_provided"`
+	RegistrationNumber                 *string                           `form:"registration_number"`
+	Structure                          *string                           `form:"structure"`
+	Phone                              *string                           `form:"phone"`
+	TaxID                              *string                           `form:"tax_id"`
+	TaxIDRegistrar                     *string                           `form:"tax_id_registrar"`
+	VATID                              *string                           `form:"vat_id"`
+	Verification                       *AccountCompanyVerificationParams `form:"verification"`
 }
 
 // AccountDeclineSettingsParams represents the parameters allowed for configuring
