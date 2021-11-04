@@ -1,6 +1,10 @@
-// Package valuelist provides API functions related to value lists.
 //
-// For more details, see: https://stripe.com/docs/api/radar/lists?lang=go
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package valuelist provides the /radar/value_lists APIs
 package valuelist
 
 import (
@@ -16,83 +20,91 @@ type Client struct {
 	Key string
 }
 
-// New creates a new value list.
+// New creates a new radar value list.
 func New(params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	return getC().New(params)
 }
 
-// New creates a new value list.
+// New creates a new radar value list.
 func (c Client) New(params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
-	vl := &stripe.RadarValueList{}
-	err := c.B.Call(http.MethodPost, "/v1/radar/value_lists", c.Key, params, vl)
-	return vl, err
+	valuelist := &stripe.RadarValueList{}
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/radar/value_lists",
+		c.Key,
+		params,
+		valuelist,
+	)
+	return valuelist, err
 }
 
-// Get returns the details of a value list.
+// Get returns the details of a radar value list.
 func Get(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	return getC().Get(id, params)
 }
 
-// Get returns the details of a value list.
+// Get returns the details of a radar value list.
 func (c Client) Get(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	path := stripe.FormatURLPath("/v1/radar/value_lists/%s", id)
-	vl := &stripe.RadarValueList{}
-	err := c.B.Call(http.MethodGet, path, c.Key, params, vl)
-	return vl, err
+	valuelist := &stripe.RadarValueList{}
+	err := c.B.Call(http.MethodGet, path, c.Key, params, valuelist)
+	return valuelist, err
 }
 
-// Update updates a vl's properties.
+// Update updates a radar value list's properties.
 func Update(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a vl's properties.
+// Update updates a radar value list's properties.
 func (c Client) Update(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	path := stripe.FormatURLPath("/v1/radar/value_lists/%s", id)
-	vl := &stripe.RadarValueList{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, vl)
-	return vl, err
+	valuelist := &stripe.RadarValueList{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, valuelist)
+	return valuelist, err
 }
 
-// Del removes a value list.
+// Del removes a radar value list.
 func Del(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	return getC().Del(id, params)
 }
 
-// Del removes a value list.
+// Del removes a radar value list.
 func (c Client) Del(id string, params *stripe.RadarValueListParams) (*stripe.RadarValueList, error) {
 	path := stripe.FormatURLPath("/v1/radar/value_lists/%s", id)
-	vl := &stripe.RadarValueList{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, vl)
-	return vl, err
+	valuelist := &stripe.RadarValueList{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, valuelist)
+	return valuelist, err
 }
 
-// List returns a list of vls.
+// List returns a list of radar value lists.
 func List(params *stripe.RadarValueListListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns a list of vls.
+// List returns a list of radar value lists.
 func (c Client) List(listParams *stripe.RadarValueListListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.RadarValueListList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/radar/value_lists", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.RadarValueListList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/radar/value_lists", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
-// Iter is an iterator for vls.
+// Iter is an iterator for radar value lists.
 type Iter struct {
 	*stripe.Iter
 }
 
-// RadarValueList returns the vl which the iterator is currently pointing to.
+// RadarValueList returns the radar value list which the iterator is currently pointing to.
 func (i *Iter) RadarValueList() *stripe.RadarValueList {
 	return i.Current().(*stripe.RadarValueList)
 }

@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 // BalanceSourceType is the list of allowed values for the balance amount's source_type field keys.
@@ -21,9 +27,9 @@ type BalanceParams struct {
 
 // Amount is a structure wrapping an amount value and its currency.
 type Amount struct {
+	Value       int64                       `json:"amount"`
 	Currency    Currency                    `json:"currency"`
 	SourceTypes map[BalanceSourceType]int64 `json:"source_types"`
-	Value       int64                       `json:"amount"`
 }
 
 // BalanceDetails is the resource representing details about a specific product's balance.
