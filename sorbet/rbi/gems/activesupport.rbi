@@ -2094,7 +2094,7 @@ module Digest::UUID
 end
 class File < IO
   def self.atomic_write(file_name, temp_dir = nil); end
-  def self.probe_stat_in(dir); end
+  def self.relative_path(from, to); end
 end
 module Module::Concerning
   def concern(topic, &module_definition); end

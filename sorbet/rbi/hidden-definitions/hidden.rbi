@@ -5244,46 +5244,6 @@ module BindingOfCaller
   VERSION = ::T.let(nil, ::T.untyped)
 end
 
-module Bootsnap
-  VERSION = ::T.let(nil, ::T.untyped)
-end
-
-module Bootsnap::ExplicitRequire
-  ARCHDIR = ::T.let(nil, ::T.untyped)
-  DLEXT = ::T.let(nil, ::T.untyped)
-  RUBYLIBDIR = ::T.let(nil, ::T.untyped)
-end
-
-module Bootsnap::LoadPathCache
-  CACHED_EXTENSIONS = ::T.let(nil, ::T.untyped)
-  DLEXT = ::T.let(nil, ::T.untyped)
-  DLEXT2 = ::T.let(nil, ::T.untyped)
-  DL_EXTENSIONS = ::T.let(nil, ::T.untyped)
-  DOT_RB = ::T.let(nil, ::T.untyped)
-  DOT_SO = ::T.let(nil, ::T.untyped)
-  ERROR_TAG_IVAR = ::T.let(nil, ::T.untyped)
-  SLASH = ::T.let(nil, ::T.untyped)
-end
-
-class Bootsnap::LoadPathCache::Cache
-  AGE_THRESHOLD = ::T.let(nil, ::T.untyped)
-  BUILTIN_FEATURES = ::T.let(nil, ::T.untyped)
-end
-
-class Bootsnap::LoadPathCache::Path
-  RUBY_LIBDIR = ::T.let(nil, ::T.untyped)
-  RUBY_SITEDIR = ::T.let(nil, ::T.untyped)
-  STABLE = ::T.let(nil, ::T.untyped)
-  VOLATILE = ::T.let(nil, ::T.untyped)
-end
-
-module Bootsnap::LoadPathCache::PathScanner
-  ALTERNATIVE_NATIVE_EXTENSIONS_PATTERN = ::T.let(nil, ::T.untyped)
-  BUNDLE_PATH = ::T.let(nil, ::T.untyped)
-  NORMALIZE_NATIVE_EXTENSIONS = ::T.let(nil, ::T.untyped)
-  REQUIRABLE_EXTENSIONS = ::T.let(nil, ::T.untyped)
-end
-
 Builder::BlankSlate = BasicObject
 
 module Builder::XChar
@@ -8599,6 +8559,32 @@ class Dir
   def self.exists?(arg); end
 end
 
+class DomainName
+  DOT = ::T.let(nil, ::T.untyped)
+  ETLD_DATA = ::T.let(nil, ::T.untyped)
+  ETLD_DATA_DATE = ::T.let(nil, ::T.untyped)
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
+module DomainName::Punycode
+  BASE = ::T.let(nil, ::T.untyped)
+  CUTOFF = ::T.let(nil, ::T.untyped)
+  DAMP = ::T.let(nil, ::T.untyped)
+  DECODE_DIGIT = ::T.let(nil, ::T.untyped)
+  DELIMITER = ::T.let(nil, ::T.untyped)
+  DOT = ::T.let(nil, ::T.untyped)
+  ENCODE_DIGIT = ::T.let(nil, ::T.untyped)
+  INITIAL_BIAS = ::T.let(nil, ::T.untyped)
+  INITIAL_N = ::T.let(nil, ::T.untyped)
+  LOBASE = ::T.let(nil, ::T.untyped)
+  MAXINT = ::T.let(nil, ::T.untyped)
+  PREFIX = ::T.let(nil, ::T.untyped)
+  RE_NONBASIC = ::T.let(nil, ::T.untyped)
+  SKEW = ::T.let(nil, ::T.untyped)
+  TMAX = ::T.let(nil, ::T.untyped)
+  TMIN = ::T.let(nil, ::T.untyped)
+end
+
 class Dotenv::Parser
   LINE = ::T.let(nil, ::T.untyped)
 end
@@ -9769,7 +9755,7 @@ end
 class File
   def self.exists?(arg); end
 
-  def self.open!(file, *args, &block); end
+  def self.probe_stat_in(dir); end
 
   def self.read_binary(file); end
 end
@@ -10993,6 +10979,75 @@ class HTMLSelector
   NO_STRIP = ::T.let(nil, ::T.untyped)
 end
 
+module HTTP::Accept
+  QUOTED_STRING = ::T.let(nil, ::T.untyped)
+  TOKEN = ::T.let(nil, ::T.untyped)
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
+module HTTP::Accept::Encodings
+  CODINGS = ::T.let(nil, ::T.untyped)
+  CONTENT_CODING = ::T.let(nil, ::T.untyped)
+  HTTP_ACCEPT_ENCODING = ::T.let(nil, ::T.untyped)
+  IDENTITY_CONTENT_CODING = ::T.let(nil, ::T.untyped)
+  QVALUE = ::T.let(nil, ::T.untyped)
+  WILDCARD_CONTENT_CODING = ::T.let(nil, ::T.untyped)
+end
+
+module HTTP::Accept::Languages
+  LANGUAGE_RANGE = ::T.let(nil, ::T.untyped)
+  LOCALE = ::T.let(nil, ::T.untyped)
+  QVALUE = ::T.let(nil, ::T.untyped)
+end
+
+module HTTP::Accept::MediaTypes
+  HTTP_ACCEPT = ::T.let(nil, ::T.untyped)
+  MIME_TYPE = ::T.let(nil, ::T.untyped)
+  PARAMETER = ::T.let(nil, ::T.untyped)
+  WILDCARD_MEDIA_RANGE = ::T.let(nil, ::T.untyped)
+end
+
+class HTTP::Accept::MediaTypes::Map
+  WILDCARD = ::T.let(nil, ::T.untyped)
+end
+
+class HTTP::Cookie
+  MAX_COOKIES_PER_DOMAIN = ::T.let(nil, ::T.untyped)
+  MAX_COOKIES_TOTAL = ::T.let(nil, ::T.untyped)
+  MAX_LENGTH = ::T.let(nil, ::T.untyped)
+  PERSISTENT_PROPERTIES = ::T.let(nil, ::T.untyped)
+  UNIX_EPOCH = ::T.let(nil, ::T.untyped)
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
+class HTTP::Cookie::Scanner
+  def initialize(string, logger=T.unsafe(nil)); end
+
+  def parse_cookie_date(s); end
+
+  def scan_cookie(); end
+
+  def scan_dquoted(); end
+
+  def scan_name(); end
+
+  def scan_name_value(comma_as_separator=T.unsafe(nil)); end
+
+  def scan_set_cookie(); end
+
+  def scan_value(comma_as_separator=T.unsafe(nil)); end
+
+  def skip_wsp(); end
+  RE_BAD_CHAR = ::T.let(nil, ::T.untyped)
+  RE_COOKIE_COMMA = ::T.let(nil, ::T.untyped)
+  RE_NAME = ::T.let(nil, ::T.untyped)
+  RE_WSP = ::T.let(nil, ::T.untyped)
+end
+
+class HTTP::Cookie::Scanner
+  def self.quote(s); end
+end
+
 class Hash
   include ::JSON::Ext::Generator::GeneratorMethods::Hash
 end
@@ -12034,6 +12089,27 @@ class Integer
   GMP_VERSION = ::T.let(nil, ::T.untyped)
 end
 
+module Integrations::ErrorContext
+  include ::ActiveSupport::ForkTracker::CoreExtPrivate
+  include ::ActiveSupport::ForkTracker::CoreExt
+end
+
+module Integrations::ErrorContext
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
+class Integrations::Metrics::QueuedMessage
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+class Integrations::UserLocker
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
 class JSON::Ext::Generator::State
   def self.from_state(arg); end
 end
@@ -12293,6 +12369,27 @@ end
 
 module Loofah::Scrubbers
   MAP = ::T.let(nil, ::T.untyped)
+end
+
+class MIME::Type
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
+class MIME::Types
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
+module MIME::Types::Columnar
+  LOAD_MUTEX = ::T.let(nil, ::T.untyped)
+end
+
+module MIME::Types::Data
+  PATH = ::T.let(nil, ::T.untyped)
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
+class MIME::Types
+  extend ::Enumerable
 end
 
 module Mail
@@ -13087,22 +13184,6 @@ class Matrix
   def self.included(mod); end
 end
 
-module MessagePack
-  DEFAULT_EMPTY_PARAMS = ::T.let(nil, ::T.untyped)
-end
-
-module MessagePack::Time
-  Packer = ::T.let(nil, ::T.untyped)
-  TIME_AT_3_AVAILABLE = ::T.let(nil, ::T.untyped)
-  Unpacker = ::T.let(nil, ::T.untyped)
-end
-
-class MessagePack::Timestamp
-  TIMESTAMP32_MAX_SEC = ::T.let(nil, ::T.untyped)
-  TIMESTAMP64_MAX_SEC = ::T.let(nil, ::T.untyped)
-  TYPE = ::T.let(nil, ::T.untyped)
-end
-
 module MethodSource
   VERSION = ::T.let(nil, ::T.untyped)
 end
@@ -13840,6 +13921,12 @@ class Net::WriteTimeout
   def initialize(io=T.unsafe(nil)); end
 
   def io(); end
+end
+
+class Netrc
+  CYGWIN = ::T.let(nil, ::T.untyped)
+  VERSION = ::T.let(nil, ::T.untyped)
+  WINDOWS = ::T.let(nil, ::T.untyped)
 end
 
 class NilClass
@@ -18391,6 +18478,33 @@ module ResqueRetry
   VERSION = ::T.let(nil, ::T.untyped)
 end
 
+module RestClient
+  STATUSES = ::T.let(nil, ::T.untyped)
+  STATUSES_COMPATIBILITY = ::T.let(nil, ::T.untyped)
+  VERSION = ::T.let(nil, ::T.untyped)
+  VERSION_INFO = ::T.let(nil, ::T.untyped)
+end
+
+module RestClient::Exceptions
+  EXCEPTIONS_MAP = ::T.let(nil, ::T.untyped)
+end
+
+class RestClient::Payload::Multipart
+  EOL = ::T.let(nil, ::T.untyped)
+end
+
+class RestClient::Request
+  SSLOptionList = ::T.let(nil, ::T.untyped)
+end
+
+RestClient::RequestEntityTooLarge = RestClient::PayloadTooLarge
+
+RestClient::RequestURITooLong = RestClient::URITooLong
+
+RestClient::RequestedRangeNotSatisfiable = RestClient::RangeNotSatisfiable
+
+RestClient::ResourceNotFound = RestClient::NotFound
+
 module Restforce
   VERSION = ::T.let(nil, ::T.untyped)
 end
@@ -19352,15 +19466,6 @@ class Ripper::SexpBuilder
   def on_yield0(*args); end
 
   def on_zsuper(*args); end
-end
-
-class Ripper::SexpBuilder
-end
-
-class Ripper::SexpBuilderPP
-end
-
-class Ripper::SexpBuilderPP
 end
 
 class Ripper::TokenPattern
@@ -20692,6 +20797,17 @@ end
 
 Sequel::Timezones = Sequel::SequelMethods
 
+class SequelSorbetPlugin::ColumnType
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+  def self.inherited(s); end
+end
+
+class SequelSorbetPlugin
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
 class Set
   def ==(other); end
 
@@ -21431,6 +21547,14 @@ class Stripe::WebhookEndpoint
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
 end
 
+class StripeForce::PollTimestamp
+  include ::Sequel::Plugins::Timestamps::InstanceMethods
+end
+
+class StripeForce::PollTimestamp
+  extend ::Sequel::Plugins::Timestamps::ClassMethods
+end
+
 class StripeForce::User
   include ::Sequel::Plugins::Timestamps::InstanceMethods
   include ::Sequel::Plugins::AfterInitialize::InstanceMethods
@@ -21452,10 +21576,6 @@ Struct::Group = Etc::Group
 Struct::Passwd = Etc::Passwd
 
 Struct::Tms = Process::Tms
-
-class Symbol
-  def self.from_msgpack_ext(data); end
-end
 
 class TA
   Elem = type_member
@@ -21563,6 +21683,12 @@ end
 class Tilt::RDocTemplate
 end
 
+class Tilt::SassTemplate
+end
+
+class Tilt::SassTemplate
+end
+
 class Tilt::SigilTemplate
   def allows_script?(); end
 end
@@ -21606,6 +21732,22 @@ end
 
 class TypeCoerce::Converter
   PRIMITIVE_TYPES = ::T.let(nil, ::T.untyped)
+end
+
+module UNF
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
+class UNF::Normalizer
+  include ::Singleton
+  def normalize(arg, arg1); end
+end
+
+class UNF::Normalizer
+  extend ::Singleton::SingletonClassMethods
+  def self.instance(); end
+
+  def self.normalize(string, form); end
 end
 
 module URI

@@ -116,7 +116,7 @@ end
 class File < IO
   def self.cleanpath(path, rel_root = nil); end
   def self.empty?(arg0); end
-  def self.relative_path(from, to); end
+  def self.open!(file, *args, &block); end
   def self.split(arg0); end
 end
 module Gem

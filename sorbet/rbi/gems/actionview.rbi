@@ -78,6 +78,7 @@ class ActionView::PartialRenderer < ActionView::AbstractRenderer
   include ActionView::CollectionCaching
 end
 module ActionView::Helpers
+  include ActionView::Helpers::ActiveModelHelper
   include ActionView::Helpers::AssetTagHelper
   include ActionView::Helpers::AssetUrlHelper
   include ActionView::Helpers::AtomFeedHelper
