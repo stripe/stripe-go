@@ -657,78 +657,6 @@ end
 class ActionMailer::MailDeliveryJob
 end
 
-class ActionMailer::TestCase
-  include ::ActiveSupport::Testing::ConstantLookup
-  include ::ActionMailer::TestCase::Behavior
-  include ::ActionMailer::TestHelper
-  include ::ActiveJob::TestHelper
-  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
-  include ::Rails::Dom::Testing::Assertions::SelectorAssertions::CountDescribable
-  include ::Rails::Dom::Testing::Assertions::DomAssertions
-  def _mailer_class(); end
-
-  def _mailer_class=(_mailer_class); end
-
-  def _mailer_class?(); end
-end
-
-module ActionMailer::TestCase::Behavior
-  include ::ActionMailer::TestHelper
-  include ::ActiveJob::TestHelper
-  include ::ActiveSupport::Testing::Assertions
-  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
-  include ::Rails::Dom::Testing::Assertions::SelectorAssertions::CountDescribable
-  include ::Rails::Dom::Testing::Assertions::DomAssertions
-end
-
-module ActionMailer::TestCase::Behavior::ClassMethods
-  def determine_default_mailer(name); end
-
-  def mailer_class(); end
-
-  def tests(mailer); end
-end
-
-module ActionMailer::TestCase::Behavior::ClassMethods
-end
-
-module ActionMailer::TestCase::Behavior
-  extend ::ActiveSupport::Concern
-end
-
-module ActionMailer::TestCase::ClearTestDeliveries
-end
-
-module ActionMailer::TestCase::ClearTestDeliveries
-  extend ::ActiveSupport::Concern
-end
-
-class ActionMailer::TestCase
-  extend ::ActionMailer::TestCase::Behavior::ClassMethods
-  def self._mailer_class(); end
-
-  def self._mailer_class=(value); end
-
-  def self._mailer_class?(); end
-end
-
-module ActionMailer::TestHelper
-  include ::ActiveJob::TestHelper
-  include ::ActiveSupport::Testing::Assertions
-  def assert_emails(number, &block); end
-
-  def assert_enqueued_email_with(mailer, method, args: T.unsafe(nil), queue: T.unsafe(nil), &block); end
-
-  def assert_enqueued_emails(number, &block); end
-
-  def assert_no_emails(&block); end
-
-  def assert_no_enqueued_emails(&block); end
-end
-
-module ActionMailer::TestHelper
-end
-
 module ActionMailer::VERSION
   MAJOR = ::T.let(nil, ::T.untyped)
   MINOR = ::T.let(nil, ::T.untyped)
@@ -1058,16 +986,6 @@ module ActiveJob::Arguments
   OBJECT_SERIALIZER_KEY = ::T.let(nil, ::T.untyped)
 end
 
-class ActiveJob::Base
-  include ::ActiveJob::TestHelper::TestQueueAdapter
-end
-
-class ActiveJob::Base
-  def self._test_adapter(); end
-
-  def self._test_adapter=(value); end
-end
-
 module ActiveJob::Callbacks
   extend ::ActiveSupport::Callbacks
 end
@@ -1273,56 +1191,6 @@ module ActiveJob::Serializers
   def self.serialize(argument); end
 
   def self.serializers(); end
-end
-
-class ActiveJob::TestCase
-  include ::ActiveJob::TestHelper
-end
-
-class ActiveJob::TestCase
-end
-
-module ActiveJob::TestHelper
-  include ::ActiveSupport::Testing::Assertions
-  def after_teardown(); end
-
-  def assert_enqueued_jobs(number, only: T.unsafe(nil), except: T.unsafe(nil), queue: T.unsafe(nil), &block); end
-
-  def assert_enqueued_with(job: T.unsafe(nil), args: T.unsafe(nil), at: T.unsafe(nil), queue: T.unsafe(nil), &block); end
-
-  def assert_no_enqueued_jobs(only: T.unsafe(nil), except: T.unsafe(nil), queue: T.unsafe(nil), &block); end
-
-  def assert_no_performed_jobs(only: T.unsafe(nil), except: T.unsafe(nil), queue: T.unsafe(nil), &block); end
-
-  def assert_performed_jobs(number, only: T.unsafe(nil), except: T.unsafe(nil), queue: T.unsafe(nil), &block); end
-
-  def assert_performed_with(job: T.unsafe(nil), args: T.unsafe(nil), at: T.unsafe(nil), queue: T.unsafe(nil), &block); end
-
-  def before_setup(); end
-
-  def enqueued_jobs(*args, &block); end
-
-  def enqueued_jobs=(arg); end
-
-  def perform_enqueued_jobs(only: T.unsafe(nil), except: T.unsafe(nil), queue: T.unsafe(nil), at: T.unsafe(nil), &block); end
-
-  def performed_jobs(*args, &block); end
-
-  def performed_jobs=(arg); end
-
-  def queue_adapter(); end
-
-  def queue_adapter_for_test(); end
-end
-
-module ActiveJob::TestHelper::TestQueueAdapter
-end
-
-module ActiveJob::TestHelper::TestQueueAdapter
-  extend ::ActiveSupport::Concern
-end
-
-module ActiveJob::TestHelper
 end
 
 module ActiveJob::VERSION
@@ -12110,6 +11978,11 @@ class Integrations::UserLocker
   extend ::T::Private::Methods::SingletonMethodHooks
 end
 
+module Integrations::Utilities
+  include ::ActiveSupport::ForkTracker::CoreExtPrivate
+  include ::ActiveSupport::ForkTracker::CoreExt
+end
+
 class JSON::Ext::Generator::State
   def self.from_state(arg); end
 end
@@ -13223,6 +13096,10 @@ end
 
 class Minitest::BacktraceFilter
   MT_RE = ::T.let(nil, ::T.untyped)
+end
+
+class Minitest::ProfileReporter
+  VERSION = ::T.let(nil, ::T.untyped)
 end
 
 module Minitest::Rails
@@ -21547,6 +21424,13 @@ class Stripe::WebhookEndpoint
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
 end
 
+class StripeForce::PollBase
+  extend ::T::Private::Abstract::Hooks
+  extend ::T::InterfaceWrapper::Helpers
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
 class StripeForce::PollTimestamp
   include ::Sequel::Plugins::Timestamps::InstanceMethods
 end
@@ -21681,12 +21565,6 @@ class Tilt::RDocTemplate
 end
 
 class Tilt::RDocTemplate
-end
-
-class Tilt::SassTemplate
-end
-
-class Tilt::SassTemplate
 end
 
 class Tilt::SigilTemplate
