@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 # typed: true
 
+require_relative 'log'
+
 module Integrations
   module ErrorContext
     extend T::Sig
@@ -60,18 +62,18 @@ module Integrations
 
       if user
         user_context = {
-          id: user.stripe_user_id,
-          email: user.stripe_email,
+          id: user.stripe_account_id,
+          email: user.email,
           livemode: user.livemode,
-          sandbox: user.sandbox?,
-          username: user.username,
+          # sandbox: user.sandbox?,
+          username: user.name,
         }
 
         tags_context['production'] = user.in_production?
 
         extra_context.merge!({
-          'netsuite_email' => user.netsuite_email,
-          'netsuite_sandbox' => user.sandbox?,
+          'netsuite_email' => user.email,
+          # 'netsuite_sandbox' => user.sandbox?,
         })
       end
 
@@ -145,8 +147,8 @@ module Integrations
 
       if !env_log_level.nil? && Logger::Severity.const_defined?(env_log_level)
         log.level(Logger::Severity.const_get(env_log_level))
-      elsif user&.sandbox? && !user.feature_enabled?(:loud_sandbox_logging)
-        log.level(Logger::Severity::WARN)
+      # elsif user&.sandbox? && !user.feature_enabled?(:loud_sandbox_logging)
+      #   log.level(Logger::Severity::WARN)
       else
         log.level(Logger::Severity::INFO)
       end
