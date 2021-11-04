@@ -12,12 +12,14 @@ class SequelSorbetPlugin
     const :base_type, T.untyped
     const :nilable, T.nilable(T::Boolean)
     const :array_type, T.nilable(T::Boolean)
+    const :json_type, T.nilable(T::Boolean)
 
     sig { returns(String) }
     def to_s
       type = base_type.to_s
       # A nullable array column should be T.nilable(T::Array[column_type]) not T::Array[T.nilable(column_type)]
       type = "T::Array[#{type}]" if array_type
+      type = "T.any(Array, Hash)" if json_type
       type = "T.nilable(#{type})" if nilable
       type
     end
@@ -42,12 +44,13 @@ class SequelSorbetPlugin
     @model_class.columns.sort.each do |column_name|
       # => {:oid=>23, :db_type=>"integer", :default=>nil, :allow_null=>false, :primary_key=>true, :type=>:integer, :auto_increment=>true, :ruby_default=>nil}
       column_schema = table_schema.detect {|c| c[0] == column_name }[1]
-      ruby_column_type = sequel_to_ruby_type(column_schema[:type])
+      ruby_column_type = sequel_to_ruby_type(column_schema[:type] || column_schema[:db_type])
 
       column_type = ColumnType.new(
         base_type: ruby_column_type,
         nilable: column_schema[:allow_null],
-        array_type: false
+        array_type: false,
+        json_type: column_schema[:db_type] == "jsonb"
       )
 
       attribute_module_rbi.create_method(
@@ -76,6 +79,8 @@ class SequelSorbetPlugin
       T::Boolean
     when :datetime
       DateTime
+    when 'jsonb'
+      nil
     else
       raise 'unsupported type'
     end
@@ -86,6 +91,7 @@ class SequelSorbetPlugin
     assignable_time_supertypes = [DateTime, Date, Time].map(&:to_s)
 
     type = column_type.base_type
+
     if type.is_a?(Class)
       if type == DateTime
         type = "T.any(#{assignable_time_supertypes.join(', ')})"
@@ -99,7 +105,8 @@ class SequelSorbetPlugin
     ColumnType.new(
       base_type: type,
       nilable: column_type.nilable,
-      array_type: column_type.array_type
+      array_type: column_type.array_type,
+      json_type: column_type.json_type
     ).to_s
   end
 end
