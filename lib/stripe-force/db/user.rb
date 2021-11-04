@@ -1,11 +1,13 @@
 # frozen_string_literal: true
-# typed: true
+# typed: false
 module StripeForce
   class User < Sequel::Model
     plugin :timestamps, update_on_create: true
     plugin :after_initialize
 
     plugin :serialization, :json, :feature_flags
+    plugin :serialization, :json, :field_defaults
+    plugin :serialization, :json, :field_mappings
 
     SF_CONSUMER_KEY = ENV.fetch('SF_CONSUMER_KEY')
     SF_CONSUMER_SECRET = ENV.fetch('SF_CONSUMER_SECRET')
