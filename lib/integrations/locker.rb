@@ -9,26 +9,19 @@ module Integrations
     extend T::Sig
     include Log
 
-    # TODO what should the lock expiration be here?
+    # expiration should exceed NS timeouts configured in `init_netsuite_client`
     LOCK_EXPIRATION_TIME = 60 * 5
+    NETSUITE_DEFAULT_SUITECLOUD_CONNECTIONS = 10
 
     # TODO https://github.com/stripe/stripe-netsuite/issues/902
     sig { params(user: StripeForce::User).returns(String) }
     def self.generate_netsuite_account_lock_key(user)
-      "user-#{user.netsuite_account}-#{user.sandbox}"
-    end
-
-    # https://github.com/stripe/stripe-netsuite/issues/894
-    def self.generate_base_user_lock_key(user)
-      generate_netsuite_account_lock_key(user) + if user.is_token_based_authentication?
-        "-#{user.netsuite_token_id}"
-      else
-        "-#{user.netsuite_email}"
-      end
+      "user-#{user.salesforce_account_id}"
     end
 
     attr_accessor :user, :user_key
 
+    sig { params(user: StripeForce::User).void }
     def initialize(user)
       @user = user
 
@@ -39,6 +32,7 @@ module Integrations
     # TODO https://github.com/stripe/stripe-netsuite/issues/1516
 
     # https://github.com/stripe/stripe-netsuite/issues/903
+    sig { params(expiration_time: T.nilable(Integer)).void }
     def refresh_user_lock(expiration_time: nil)
       if !user_key.nil?
         # NOTE setting @expiration is critical! `lock_on_user` looks at this variable after the passed block is yield'd
@@ -49,6 +43,7 @@ module Integrations
 
     # `except` must be an array of Stripe or NetSuite record instances, or an empty array
     # this allows the payout transactions to be backfilled without loosing the payout lock
+    sig { params(except: T.untyped).void }
     def clear_locked_resources(except: [])
       if !except.is_a?(Array)
         except = [except]
@@ -70,17 +65,13 @@ module Integrations
     end
 
     # https://github.com/stripe/stripe-netsuite/issues/1152
+    sig { params(job: Class).void }
     def lock_on_poll_job(job)
-      job_key = "#{@user.stripe_user_id}-#{job}"
+      job_key = "#{@user.stripe_account_id}-#{job}"
       acquire_or_refresh_resource_lock(job_key)
     end
 
-    # https://github.com/stripe/stripe-netsuite/pull/1493#issuecomment-414010993
-    def refresh_user_and_payout_lock(stripe_payout, expiration_time: nil)
-      self.refresh_user_lock(expiration_time: expiration_time)
-      self.lock_stripe_resource(stripe_payout, expiration_time: expiration_time)
-    end
-
+    sig { params(stripe_resource: Stripe::APIResource, expiration_time: T.nilable(Integer)).void }
     def lock_stripe_resource(stripe_resource, expiration_time: nil)
       resource_lock_key = generate_stripe_resource_lock_key(stripe_resource)
       acquire_or_refresh_resource_lock(resource_lock_key, expiration_time)
@@ -128,6 +119,7 @@ module Integrations
       end
     end
 
+    sig { params(key: String).returns(T::Boolean) }
     def key_expired?(key)
       redis.get(key).to_f < Time.now.to_f
     end
@@ -141,6 +133,7 @@ module Integrations
       )
     end
 
+    sig { params(stripe_resource: Stripe::APIResource).returns(String) }
     def generate_stripe_resource_lock_key(stripe_resource)
       resource_lock_key = stripe_resource.id
 
@@ -150,7 +143,7 @@ module Integrations
         resource_lock_key = "#{stripe_resource.class}-#{resource_lock_key}"
       end
 
-      "resource-#{@user.stripe_user_id}-#{resource_lock_key}"
+      "resource-#{@user.stripe_account_id}-#{resource_lock_key}"
     end
 
     # TODO we should really namespace our access to redis
@@ -158,17 +151,19 @@ module Integrations
       Resque.redis
     end
 
+    sig { params(resource_lock_key: String, expiration_time: T.nilable(Integer)).void }
     def acquire_or_refresh_resource_lock(resource_lock_key, expiration_time=nil)
       if @locked_resource_keys.include?(resource_lock_key)
         log.info 'resource is already locked, refreshing', key: resource_lock_key
         redis.set(resource_lock_key, generate_expiration(expiration_time: expiration_time))
-        return resource_lock_key
+        return
       end
 
       acquire_lock(resource_lock_key)
       @locked_resource_keys << resource_lock_key
     end
 
+    sig { params(key: String).returns(Float) }
     def acquire_lock(key)
       expiration = generate_expiration
 
@@ -192,43 +187,37 @@ module Integrations
         end
       end
 
-      log.debug 'could not acquire lock', key: key, connections: (@user.netsuite_suitecloud_plus_usage || 1)
+      log.debug 'could not acquire lock', key: key
       raise Integrations::Errors::LockTimeout.new("lock #{key} not available")
     end
 
     # https://github.com/stripe/stripe-netsuite/issues/751
+    sig { params(user: StripeForce::User).returns(String) }
     def generate_user_lock_key(user)
-      base_key = self.class.generate_base_user_lock_key(user)
+      base_key = self.class.generate_netsuite_account_lock_key(user)
 
-      if user.feature_enabled?(:suitecloud_plus)
-        suitecloud_plus_usage = if user.netsuite_suitecloud_plus_usage.nil?
-          10
-        else
-          # NOTE usage should be 1 less than the desired amount because of base_key
-          user.netsuite_suitecloud_plus_usage - 1
-        end
+      # NOTE usage should be 1 less than the desired amount because of base_key
+      concurrent_connection_limit = user.concurrent_connections - 1
 
-        possible_keys = [base_key]
-        possible_keys += (1..suitecloud_plus_usage).map do |n|
-          "#{base_key}-#{n}"
-        end
-
-        possible_keys.shuffle!
-
-        available_key = possible_keys.detect {|k| redis.get(k).nil? }
-
-        if !available_key.nil?
-          return available_key
-        end
-
-        possible_keys.detect {|k| key_expired?(k) } ||
-          # pick a random key to attempt to lock on
-          possible_keys.sample
-      else
-        base_key
+      possible_keys = [base_key]
+      possible_keys += (1..concurrent_connection_limit).map do |n|
+        "#{base_key}-#{n}"
       end
+
+      possible_keys.shuffle!
+
+      available_key = possible_keys.detect {|k| redis.get(k).nil? }
+
+      if !available_key.nil?
+        return available_key
+      end
+
+      possible_keys.detect {|k| key_expired?(k) } ||
+        # pick a random key to attempt to lock on
+        T.cast(possible_keys.sample, String)
     end
 
+    sig { params(expiration_time: T.nilable(Integer)).returns(Float) }
     def generate_expiration(expiration_time: nil)
       # ensure a minimum expiration time is in place
       expiration_time ||= LOCK_EXPIRATION_TIME
