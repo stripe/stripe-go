@@ -88,6 +88,7 @@ group :development do
 
   gem 'listen'
   gem 'spring'
+  gem 'rubocop-daemon', require: false
 
   # lock to an old version to align with pay-server
   gem 'rubocop', '0.89.1'

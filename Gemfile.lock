@@ -316,6 +316,8 @@ GEM
       unicode-display_width (>= 1.4.0, < 2.0)
     rubocop-ast (0.8.0)
       parser (>= 2.7.1.5)
+    rubocop-daemon (0.3.2)
+      rubocop
     rubocop-minitest (0.10.3)
       rubocop (>= 0.87, < 2.0)
     ruby-progressbar (1.11.0)
@@ -435,6 +437,7 @@ DEPENDENCIES
   rest-client (~> 2.1.0)
   restforce (~> 5.2.0)
   rubocop (= 0.89.1)
+  rubocop-daemon
   rubocop-minitest
   selenium-webdriver (~> 3.142.7)
   sentry-rails
