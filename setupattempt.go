@@ -1,8 +1,12 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
-import (
-	"encoding/json"
-)
+import "encoding/json"
 
 // SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlow indicates the type of 3D Secure authentication performed.
 type SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
@@ -84,6 +88,9 @@ type SetupAttemptPaymentMethodDetailsCardThreeDSecure struct {
 	ResultReason       SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReason       `json:"result_reason"`
 	Version            string                                                             `json:"version"`
 }
+type SetupAttemptPaymentMethodDetailsACSSDebit struct{}
+type SetupAttemptPaymentMethodDetailsAUBECSDebit struct{}
+type SetupAttemptPaymentMethodDetailsBACSDebit struct{}
 
 // SetupAttemptPaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.
 type SetupAttemptPaymentMethodDetailsBancontact struct {
@@ -101,6 +108,9 @@ type SetupAttemptPaymentMethodDetailsBancontact struct {
 type SetupAttemptPaymentMethodDetailsCard struct {
 	ThreeDSecure *SetupAttemptPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 }
+type SetupAttemptPaymentMethodDetailsCardPresent struct {
+	GeneratedCard *PaymentMethod `json:"generated_card"`
+}
 
 // SetupAttemptPaymentMethodDetailsIdeal represents details about the Bancontact PaymentMethod.
 type SetupAttemptPaymentMethodDetailsIdeal struct {
@@ -111,6 +121,7 @@ type SetupAttemptPaymentMethodDetailsIdeal struct {
 	IbanLast4                 string         `json:"iban_last4"`
 	VerifiedName              string         `json:"verified_name"`
 }
+type SetupAttemptPaymentMethodDetailsSepaDebit struct{}
 
 // SetupAttemptPaymentMethodDetailsSofort represents details about the Bancontact PaymentMethod.
 type SetupAttemptPaymentMethodDetailsSofort struct {
@@ -126,11 +137,16 @@ type SetupAttemptPaymentMethodDetailsSofort struct {
 
 // SetupAttemptPaymentMethodDetails represents the details about the PaymentMethod associated with the setup attempt.
 type SetupAttemptPaymentMethodDetails struct {
-	Bancontact *SetupAttemptPaymentMethodDetailsBancontact `json:"bancontact"`
-	Card       *SetupAttemptPaymentMethodDetailsCard       `json:"card"`
-	Ideal      *SetupAttemptPaymentMethodDetailsIdeal      `json:"ideal"`
-	Sofort     *SetupAttemptPaymentMethodDetailsSofort     `json:"sofort"`
-	Type       SetupAttemptPaymentMethodDetailsType        `json:"type"`
+	ACSSDebit   *SetupAttemptPaymentMethodDetailsACSSDebit   `json:"acss_debit"`
+	AUBECSDebit *SetupAttemptPaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
+	BACSDebit   *SetupAttemptPaymentMethodDetailsBACSDebit   `json:"bacs_debit"`
+	Bancontact  *SetupAttemptPaymentMethodDetailsBancontact  `json:"bancontact"`
+	Card        *SetupAttemptPaymentMethodDetailsCard        `json:"card"`
+	CardPresent *SetupAttemptPaymentMethodDetailsCardPresent `json:"card_present"`
+	Ideal       *SetupAttemptPaymentMethodDetailsIdeal       `json:"ideal"`
+	SepaDebit   *SetupAttemptPaymentMethodDetailsSepaDebit   `json:"sepa_debit"`
+	Sofort      *SetupAttemptPaymentMethodDetailsSofort      `json:"sofort"`
+	Type        SetupAttemptPaymentMethodDetailsType         `json:"type"`
 }
 
 // SetupAttempt is the resource representing a Stripe setup attempt.
@@ -146,6 +162,7 @@ type SetupAttempt struct {
 	PaymentMethod        *PaymentMethod                    `json:"payment_method"`
 	PaymentMethodDetails *SetupAttemptPaymentMethodDetails `json:"payment_method_details"`
 	SetupError           *Error                            `json:"setup_error"`
+	SetupIntent          *SetupIntent                      `json:"setup_intent"`
 	Status               SetupAttemptStatus                `json:"status"`
 	Usage                SetupAttemptUsage                 `json:"usage"`
 }
@@ -160,9 +177,9 @@ type SetupAttemptList struct {
 // UnmarshalJSON handles deserialization of a SetupAttempt.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (p *SetupAttempt) UnmarshalJSON(data []byte) error {
+func (s *SetupAttempt) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		p.ID = id
+		s.ID = id
 		return nil
 	}
 
@@ -172,6 +189,6 @@ func (p *SetupAttempt) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*p = SetupAttempt(v)
+	*s = SetupAttempt(v)
 	return nil
 }
