@@ -3,6 +3,8 @@
 
 module StripeForce
   module Constants
+    SF_ORDER = 'Order'
+
     CPQ_QUOTE = 'SBQQ__Quote__c'
 
     CPQ_QUOTE_PRIMARY_CONTACT = 'SBQQ__PrimaryContact__c'
