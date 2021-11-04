@@ -26,6 +26,12 @@ module StripeForce::User::GeneratedAttributeMethods
   sig { params(value: T.any(Numeric)).void }
   def id=(value); end
 
+  sig { returns(T.nilable(T::Boolean)) }
+  def livemode; end
+
+  sig { params(value: T.nilable(T::Boolean)).void }
+  def livemode=(value); end
+
   sig { returns(T.nilable(String)) }
   def name; end
 
