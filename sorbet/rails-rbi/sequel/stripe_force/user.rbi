@@ -20,6 +20,24 @@ module StripeForce::User::GeneratedAttributeMethods
   sig { params(value: T.nilable(T::Boolean)).void }
   def enabled=(value); end
 
+  sig { returns(T.any(Array, Hash)) }
+  def feature_flags; end
+
+  sig { params(value: T.any(Array, Hash)).void }
+  def feature_flags=(value); end
+
+  sig { returns(T.any(Array, Hash)) }
+  def field_defaults; end
+
+  sig { params(value: T.any(Array, Hash)).void }
+  def field_defaults=(value); end
+
+  sig { returns(T.any(Array, Hash)) }
+  def field_mappings; end
+
+  sig { params(value: T.any(Array, Hash)).void }
+  def field_mappings=(value); end
+
   sig { returns(Integer) }
   def id; end
 
