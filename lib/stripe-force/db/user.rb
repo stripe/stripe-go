@@ -2,14 +2,22 @@
 # typed: true
 module StripeForce
   class User < Sequel::Model
+    plugin :timestamps, update_on_create: true
+    plugin :after_initialize
+
+    plugin :serialization, :json, :feature_flags
+
+    SF_CONSUMER_KEY = ENV.fetch('SF_CONSUMER_KEY')
+    SF_CONSUMER_SECRET = ENV.fetch('SF_CONSUMER_SECRET')
+
     def sf_client
       client = Restforce.new(
         oauth_token: salesforce_token,
         refresh_token: salesforce_refresh_token,
         instance_url: sf_endpoint,
 
-        client_id: ENV.fetch('SF_CONSUMER_KEY'),
-        client_secret: ENV.fetch('SF_CONSUMER_SECRET'),
+        client_id: SF_CONSUMER_KEY,
+        client_secret: SF_CONSUMER_SECRET,
 
         # authentication_callback: Proc.new { |x| Rails.logger.debug x.to_s },
 
@@ -24,6 +32,43 @@ module StripeForce
       client.authenticate!
 
       client
+    end
+
+    # TODO there's not a practical limit here
+    # https://www.infallibletechie.com/2018/12/what-is-concurrent-api-request-limit-in.html
+    def concurrent_connections
+      10
+    end
+
+    def in_production?
+      livemode && !sandbox
+    end
+
+    def enable_feature(feature, update: false)
+      feature = feature.to_sym if !feature.is_a?(Symbol)
+
+      # TODO use Set to avoid duplicates instead?
+      if !feature_flags.include?(feature)
+        feature_flags << feature
+
+        if update
+          self.save(columns: [:feature_flags])
+        end
+      end
+    end
+
+    def disable_feature(feature, update: false)
+      feature = feature.to_sym if !feature.is_a?(Symbol)
+
+      if !feature_flags.delete(feature).nil? && update
+        save(columns: [:feature_flags])
+      end
+    end
+
+    def feature_enabled?(feature)
+      feature = feature.to_sym if !feature.is_a?(Symbol)
+
+      self.feature_flags.include?(feature)
     end
 
     def sf_endpoint
