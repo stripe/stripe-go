@@ -437,9 +437,9 @@ DEPENDENCIES
   rubocop-daemon
   rubocop-minitest
   selenium-webdriver (~> 3.142.7)
-  sentry-rails
-  sentry-resque
-  sentry-ruby
+  sentry-rails (~> 4.7.3)
+  sentry-resque (~> 4.7.3)
+  sentry-ruby (~> 4.7.3)
   sequel (= 5.49.0)
   simple_structured_logger
   sorbet (~> 0.5.9300)
