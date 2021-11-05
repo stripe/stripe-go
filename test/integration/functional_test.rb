@@ -1,24 +1,11 @@
 # frozen_string_literal: true
-# typed: false
+# typed: true
 
 require_relative '../test_helper'
 
-class FunctionalTests < MiniTest::Spec
-  # class FunctionalTests < ActiveSupport::TestCase
-  include StripeForce::Constants
-
+class OrderTranslation < FunctionalTest
   before do
-    @user = StripeForce::User.new(
-      salesforce_token: ENV.fetch('SF_ACCESS_TOKEN'),
-      salesforce_refresh_token: ENV.fetch('SF_REFRESH_TOKEN'),
-      salesforce_instance_url: "https://#{ENV.fetch('SF_INSTANCE')}.my.salesforce.com",
-
-      stripe_account_id: ENV.fetch('STRIPE_ACCOUNT_ID')
-    )
-  end
-
-  def sf
-    @user.sf_client
+    @user = make_user
   end
 
   def standalone_item_id
@@ -146,7 +133,7 @@ class FunctionalTests < MiniTest::Spec
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
     customer = Stripe::Customer.retrieve(subscription_schedule.customer, @user.stripe_credentials)
     # line = subscription.items.first
-
+    binding.pry
     # TODO customer address assertions once mapping is complete
 
     invoices = Stripe::Invoice.list({subscription: subscription_schedule.subscription}, @user.stripe_credentials)
@@ -182,13 +169,4 @@ class FunctionalTests < MiniTest::Spec
 
     puts sf_order.Id
   end
-end
-
-def example_sf_order
-  # sf.find('Order', '8015e000000IJ1rAAG')
-
-  # order with recurring item
-  # sf.find('Order', '8015e000000IJDxAAO')
-
-  sf.find('Order', '8015e000000IJF5AAO')
 end

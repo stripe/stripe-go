@@ -2,14 +2,13 @@
 # typed: true
 
 class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
-  # include Devise::Test::IntegrationHelpers
-  # include StripeSuiteTestHelpers::Common
+  include CommonHelpers
 
-  # def setup
-  #   common_setup
-  # end
+  def setup
+    common_setup
+  end
 
-  # def teardown
-  #   common_teardown
-  # end
+  def teardown
+    common_teardown
+  end
 end
