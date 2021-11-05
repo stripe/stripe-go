@@ -118,19 +118,13 @@ module Integrations
         stripe_account_id: user&.stripe_account_id,
         salesforce_account_id: user&.salesforce_account_id,
         livemode: user&.livemode,
+
         stripe_resource_id: stripe_resource&.id,
         stripe_resource_type: stripe_resource&.class,
+
+        integration_record_type: integration_record&.sobject_type,
+        integration_record_id: integration_record&.Id,
       }.compact)
-
-      if integration_record
-        log.default_tags[:integration_record_type] = integration_record.sobject_type
-        log.default_tags[:integration_record_id] = integration_record.Id
-      end
-
-      # useful for the dashboard, add the admin user to all logging and errors
-      if @admin
-        log.default_tags[:admin_id] = @admin.id
-      end
 
       # if `set_error_context` is run from a class method, we want to display the class name
       log.default_tags[:job] = if self.instance_of?(Class)
