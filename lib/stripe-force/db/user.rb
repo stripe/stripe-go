@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: false
+# typed: true
 module StripeForce
   class User < Sequel::Model
     plugin :timestamps, update_on_create: true
@@ -11,6 +11,14 @@ module StripeForce
 
     SF_CONSUMER_KEY = ENV.fetch('SF_CONSUMER_KEY')
     SF_CONSUMER_SECRET = ENV.fetch('SF_CONSUMER_SECRET')
+
+    def after_initialize
+      if self.new?
+        self.field_defaults ||= {}
+        self.field_mappings ||= {}
+        self.feature_flags ||= []
+      end
+    end
 
     def sf_client
       client = Restforce.new(
@@ -42,8 +50,12 @@ module StripeForce
       10
     end
 
+    def sandbox?
+      true
+    end
+
     def in_production?
-      livemode && !sandbox
+      livemode && !sandbox?
     end
 
     def enable_feature(feature, update: false)
