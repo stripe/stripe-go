@@ -24,9 +24,9 @@ Sequel::Plugins::DefaultsSetter::ClassMethods.class_eval do
   end
 end
 
-is_test_environment = ENV['RAILS_ENV'] && ENV['RAILS_ENV'] == 'test' && !ENV['TEST_DATABASE_URL'].nil?
+is_test_environment = ENV['RAILS_ENV'] && ENV['RAILS_ENV'] == 'test'
 
-url = if is_test_environment
+url = if is_test_environment && !ENV['CI']
   ENV.fetch('TEST_DATABASE_URL')
 else
   ENV.fetch('DATABASE_URL')
