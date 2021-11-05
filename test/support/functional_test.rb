@@ -1,11 +1,16 @@
 # typed: true
 
-# class FunctionalTest < MiniTest::Spec
-class FunctionalTest < ActiveSupport::TestCase
+class ActiveSupport::TestCase
+  # our code is not thread safe, so we have to ensure tests are not run in multiple threads
+  parallelize(workers: 1)
+end
+
+# ActiveSupport::TestCase gives us the ability to run tests by line number
+
+class Critic::FunctionalTest < ActiveSupport::TestCase
   include CommonHelpers
 end
 
-# class UnitTest < MiniTest::Spec
-class UnitTest < ActiveSupport::TestCase
+class Critic::UnitTest < ActiveSupport::TestCase
   include CommonHelpers
 end

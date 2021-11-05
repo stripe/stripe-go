@@ -3,7 +3,7 @@
 
 require_relative '../test_helper'
 
-class OrderTranslation < FunctionalTest
+class Critic::OrderTranslation < Critic::FunctionalTest
   before do
     @user = make_user
   end

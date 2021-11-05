@@ -9,6 +9,10 @@ require "rails/test_help"
 # https://github.com/rails/rails/blob/6-1-stable/railties/lib/rails/test_unit/testing.rake
 # https://github.com/rails/rails/blob/6-1-stable/railties/lib/rails/test_unit/runner.rb
 
+module Critic
+
+end
+
 require "minitest/autorun"
 require "minitest/rails"
 require 'minitest/spec'
@@ -20,8 +24,3 @@ require_relative 'support/common_helpers'
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].sort.each {|f| require f }
 
 Minitest::Ci.clean = false if ENV['CI']
-
-class ActiveSupport::TestCase
-  # Run tests in parallel with specified workers
-  parallelize(workers: :number_of_processors)
-end

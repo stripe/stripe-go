@@ -39,11 +39,19 @@ module CommonHelpers
     @user.sf_client
   end
 
+  def inline_job_processing!
+    Resque.inline = true
+  end
+
+  def normal_job_processing!
+    Resque.inline = false
+  end
+
   def common_setup
     # https://github.com/resque/resque-scheduler/pull/602
     redis.redis.flushdb
 
-    # normal_job_processing!
+    normal_job_processing!
 
     DatabaseCleaner.start
 

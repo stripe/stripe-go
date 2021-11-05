@@ -3,10 +3,10 @@
 
 require_relative '../test_helper'
 
-class OrderPollerTest < UnitTest
+class Critic::OrderPollerTest < Critic::UnitTest
   before do
     @user = make_user
-    # inline_job_processing!
+    inline_job_processing!
   end
 
   def initial_poll_delta; 60 * 60 * 24 end
