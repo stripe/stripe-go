@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 # typed: true
 
+require_relative 'poller_base'
+
 class StripeForce::OrderPoller < StripeForce::PollerBase
   def perform
     # TODO lock on job and user in a separate job
@@ -23,11 +25,7 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
     # TODO updating the line item does NOT update the order
 
     updated_orders.each do |sf_order_id|
-      log.info 'translating order', sf_order_id: sf_order_id
-
-      # TODO should split out into a separate job
-      sf_order = sf.find(SF_ORDER, sf_order_id)
-      StripeForce::Translate.perform(user: @user, sf_object: sf_order)
+      SalesforceTranslateRecordJob.work(@user, SF_ORDER, sf_order_id)
     end
 
     log.info 'poll complete'

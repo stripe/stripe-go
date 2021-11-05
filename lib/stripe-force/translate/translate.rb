@@ -1,17 +1,20 @@
 # frozen_string_literal: true
 # typed: true
 class StripeForce::Translate
-  include SimpleStructuredLogger
+  include Integrations::Log
+  include Integrations::ErrorContext
   include StripeForce::Constants
 
-  def self.perform(user:, sf_object:)
-    interactor = self.new(user)
+  def self.perform(user:, sf_object:, locker:)
+    interactor = self.new(user, locker)
     interactor.translate(sf_object)
   end
 
-  def initialize(user)
+  def initialize(user, locker)
     @user = user
-    # init_error_context
+    @locker = locker
+
+    set_error_context(user: user)
   end
 
   def sf
@@ -82,6 +85,7 @@ class StripeForce::Translate
     'month'
   end
 
+  # TODO what if the list price is updated in SF? We shouldn't probably create a new price object
   def create_price_for_order_item(sf_order_item)
     sf_product = sf.find('Product2', sf_order_item.Product2Id)
     product = create_product_from_sf_product(sf_product)
@@ -102,6 +106,9 @@ class StripeForce::Translate
     if sf_pricebook_entry.UnitPrice != sf_order_item.UnitPrice
       raise 'unit prices should not be different'
     end
+
+    # TODO the pricebook entry is really a 'suggested' price and it can be overwritten by the quote or order line
+    # TODO if the list price is used, we shoudl try to create a price for this in Stripe, otherwise we'll create a price and use that
 
     unless integer_quantity?(sf_order_item)
       # TODO need to think about taxes calculated in SF at this point
@@ -209,8 +216,15 @@ class StripeForce::Translate
 
     order_update_params = {}
 
+    sf_params = extract_salesforce_params!(sf_quote, {
+      start_date: CPQ_QUOTE_SUBSCRIPTION_START_DATE,
+      subscription_iterations: CPQ_QUOTE_SUBSCRIPTION_TERM,
+    })
+
     if is_recurring_order
       log.info 'recurring items found, creating subscription schedule'
+
+      # TODO subs in SF must always have an end date
       stripe_transaction = Stripe::SubscriptionSchedule.create({
         customer: stripe_customer,
 
@@ -256,5 +270,19 @@ class StripeForce::Translate
     sf.update('Order', {'Id' => sf_order.Id, ORDER_STRIPE_ID => stripe_transaction.id}.merge(order_update_params))
 
     stripe_transaction
+  end
+
+  def extract_salesforce_params!(sf_record, param_mapping)
+    result_params = param_mapping.each_with_object({}) do |(k, sf_key), h|
+      h[k] = sf_record[sf_key]
+    end
+
+    missing_fields = result_params.select {|_k, v| v.nil? }
+
+    if missing_fields.present?
+      raise Integrations::Errors::MissingRequiredFields.new("missing required params #{missing_fields}")
+    end
+
+    result_params
   end
 end
