@@ -15,7 +15,10 @@ module StripeForce
 
     def after_initialize
       if self.new?
+        self.enable_feature(:loud_sandbox_logging)
       end
+
+      self.feature_flags.map!(&:to_sym)
     end
 
     def sf_client
