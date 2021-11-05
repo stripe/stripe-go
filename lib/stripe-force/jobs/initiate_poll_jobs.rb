@@ -9,10 +9,9 @@ class StripeForce::InitiatePollsJobs
 
   def self.perform
     set_error_context
-
     log.info 'queuing poll jobs'
 
-    StripeForce::User.where(enabled: true).select_all.extension(:pagination).each_page(50) do |page|
+    StripeForce::User.where(enabled: true).extension(:pagination).each_page(50) do |page|
       page.each {|user| queue_polls_for_user(user) }
     end
 
@@ -22,6 +21,8 @@ class StripeForce::InitiatePollsJobs
 
   def self.queue_polls_for_user(user)
     set_error_context(user: user)
+
+    log.info 'queuing poll', poll_job: StripeForce::OrderPoller
 
     # TODO spit out to a separate job
     StripeForce::OrderPoller.perform(user: user)
