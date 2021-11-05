@@ -22,6 +22,7 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
 
     fail_if_dying_worker!
 
+    # TODO should refresh the poll lock
     # TODO updating the line item does NOT update the order
 
     updated_orders.each do |sf_order_id|

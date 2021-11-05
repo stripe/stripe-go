@@ -27,6 +27,8 @@ class StripeForce::Translate
   end
 
   def translate_order(sf_object)
+    log.info 'translating order'
+
     create_stripe_transaction_from_sf_order(sf_object)
   end
 
@@ -133,8 +135,8 @@ class StripeForce::Translate
 
       product: product,
 
-      # TODO not seeing currency anywhere
-      unit_amount_decimal: sf_pricebook_entry.UnitPrice,
+      # TODO not seeing currency anywhere? This is only enabled on certain accounts
+      unit_amount_decimal: sf_pricebook_entry.UnitPrice * 100,
       currency: 'usd',
 
       # using a `lookup_key` here would allow users to easily update prices
@@ -224,7 +226,6 @@ class StripeForce::Translate
         start_date: CPQ_QUOTE_SUBSCRIPTION_START_DATE,
         subscription_iterations: CPQ_QUOTE_SUBSCRIPTION_TERM,
       })
-
 
       # TODO subs in SF must always have an end date
       stripe_transaction = Stripe::SubscriptionSchedule.create({

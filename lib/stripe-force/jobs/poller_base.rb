@@ -37,7 +37,7 @@ class StripeForce::PollerBase
     should_poll = execution_time.to_i - poll_record.last_polled_at.to_i > poll_frequency
 
     if !should_poll
-      log.debug 'skipping poll'
+      log.info 'skipping poll'
     end
 
     should_poll
