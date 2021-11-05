@@ -51,15 +51,3 @@ Resque::Failure.backend = Resque::Failure::Multiple
 Resque::DataStore::StatsAccess.class_eval do
   def increment_stat(stat, by=1); end
 end
-
-# `redis.exists?` is not available < redis 4.2.0
-# however, there's a bug in redis-namespace that reports that exists? is available when it is not:
-#   https://github.com/resque/redis-namespace/blob/6f1bb31bbddd2efc9e16c53759d986b29206a12e/lib/redis/namespace.rb#L71-L72
-# the implementation of `redis_key_exists?` is overwritten here to avoid using `exists?`
-#   https://github.com/lantins/resque-retry/blob/f53624e3961a0f33493a0a9f37b78f79ff573438/lib/resque/failure/multiple_with_retry_suppression.rb#L151
-# the root fix here is update to redis, or fix the bug in redis-namespace, but we can't do that without removing sidekiq
-Resque::Failure::MultipleWithRetrySuppression.class_eval do
-  def redis_key_exists?(key)
-    ![false, 0].include?(Resque.redis.exists(key) || false)
-  end
-end
