@@ -133,7 +133,7 @@ class OrderTranslation < FunctionalTest
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
     customer = Stripe::Customer.retrieve(subscription_schedule.customer, @user.stripe_credentials)
     # line = subscription.items.first
-    binding.pry
+
     # TODO customer address assertions once mapping is complete
 
     invoices = Stripe::Invoice.list({subscription: subscription_schedule.subscription}, @user.stripe_credentials)
