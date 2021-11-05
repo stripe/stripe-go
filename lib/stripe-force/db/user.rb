@@ -4,6 +4,7 @@ module StripeForce
   class User < Sequel::Model
     plugin :timestamps, update_on_create: true
     plugin :after_initialize
+    plugin :defaults_setter
 
     plugin :serialization, :json, :feature_flags
     plugin :serialization, :json, :field_defaults
@@ -14,9 +15,6 @@ module StripeForce
 
     def after_initialize
       if self.new?
-        self.field_defaults ||= {}
-        self.field_mappings ||= {}
-        self.feature_flags ||= []
       end
     end
 
