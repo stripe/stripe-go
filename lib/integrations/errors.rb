@@ -11,5 +11,6 @@ module Integrations
     class UnhandledEdgeCase < BaseIntegrationError; end
     class FeatureUsage < BaseIntegrationError; end
     class ImpossibleState < BaseIntegrationError; end
+    class MissingRequiredFields < BaseIntegrationError; end
   end
 end
