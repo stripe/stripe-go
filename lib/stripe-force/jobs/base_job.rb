@@ -31,12 +31,12 @@ class StripeForce::BaseJob
   sig { abstract.params(stripe_account_id: String, stripe_livemode: T::Boolean, sf_record_type: String, sf_record_id: String).void }
   def self.perform(stripe_account_id, stripe_livemode, sf_record_type, sf_record_id); end
 
-  sig { params(stripe_user_id: String, livemode: T::Boolean).returns(StripeForce::User) }
-  def self.user_reference(stripe_user_id, livemode)
-    user = StripeForce::User.find(stripe_user_id: stripe_user_id, livemode: livemode)
+  sig { params(stripe_account_id: String, livemode: T::Boolean).returns(StripeForce::User) }
+  def self.user_reference(stripe_account_id, livemode)
+    user = StripeForce::User.find(stripe_account_id: stripe_account_id, livemode: livemode)
 
     if user.nil?
-      raise StripeForce::Errors::UserError.new("#{stripe_user_id} not available for specified mode. livemode=#{livemode}")
+      raise StripeForce::Errors::UserError.new("#{stripe_account_id} not available for specified mode. livemode=#{livemode}")
     end
 
     user

@@ -32,7 +32,7 @@ class SalesforceTranslateRecordJob < StripeForce::BaseJob
 
     locker = Integrations::Locker.new(user)
     locker.lock_on_user do
-      sf_object = user.sf_client.get(sf_record_type, sf_record_id)
+      sf_object = user.sf_client.find(sf_record_type, sf_record_id)
 
       StripeForce::Translate.perform(
         user: user,

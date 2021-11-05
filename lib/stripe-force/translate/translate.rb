@@ -216,13 +216,15 @@ class StripeForce::Translate
 
     order_update_params = {}
 
-    sf_params = extract_salesforce_params!(sf_quote, {
-      start_date: CPQ_QUOTE_SUBSCRIPTION_START_DATE,
-      subscription_iterations: CPQ_QUOTE_SUBSCRIPTION_TERM,
-    })
 
     if is_recurring_order
       log.info 'recurring items found, creating subscription schedule'
+
+      sf_params = extract_salesforce_params!(sf_quote, {
+        start_date: CPQ_QUOTE_SUBSCRIPTION_START_DATE,
+        subscription_iterations: CPQ_QUOTE_SUBSCRIPTION_TERM,
+      })
+
 
       # TODO subs in SF must always have an end date
       stripe_transaction = Stripe::SubscriptionSchedule.create({
