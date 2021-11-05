@@ -26,6 +26,7 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
     # TODO updating the line item does NOT update the order
 
     updated_orders.each do |sf_order_id|
+      log.info 'queuing order', sf_order_id: sf_order_id
       SalesforceTranslateRecordJob.work(@user, SF_ORDER, sf_order_id)
     end
 
