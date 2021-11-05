@@ -49,6 +49,7 @@ module StripeForce
     end
 
     def sandbox?
+      # [SELECT IsSandbox FROM Organization]
       true
     end
 
