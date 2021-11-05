@@ -14,10 +14,10 @@ module StripeForce
 
     def self.build_timestamp_search(user, ns_record_class)
       {
-        stripe_user_id: user.stripe_user_id,
+        stripe_account_id: user.stripe_account_id,
         livemode: user.livemode,
-        sandbox: user.sandbox,
-        netsuite_record_type: ns_record_class.to_s,
+        # sandbox: user.sandbox?,
+        integration_record_type: ns_record_class.to_s,
       }
     end
 

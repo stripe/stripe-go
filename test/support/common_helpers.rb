@@ -1,0 +1,63 @@
+module CommonHelpers
+  include StripeForce::Constants
+
+  def make_user(sandbox: false)
+    user = StripeForce::User.new(
+      livemode: false,
+
+      salesforce_account_id: ENV.fetch('SF_INSTANCE_ID'),
+      salesforce_token: ENV.fetch('SF_ACCESS_TOKEN'),
+      salesforce_refresh_token: ENV.fetch('SF_REFRESH_TOKEN'),
+      salesforce_instance_url: "https://#{ENV.fetch('SF_INSTANCE_DOMAIN')}.my.salesforce.com",
+
+      stripe_account_id: ENV.fetch('STRIPE_ACCOUNT_ID')
+    )
+
+    # TODO major hack until we figure out what we are doing with snadboxes
+    user.instance_variable_set('@sandbox', sandbox)
+    def user.sandbox?
+      @sandbox
+    end
+
+    user
+  end
+
+  def create_id(prefix)
+    # NOTE: The number after the underscore has significance for Stripe's internal routing.
+    #   While we don't expect these IDs to be used for real API calls, we want to ensure
+    #   they don't lead to unexpected behavior if they are.
+    random_id = "_1" + SecureRandom.alphanumeric(29)
+
+    if ENV['CIRCLE_NODE_INDEX']
+      random_id = "#{random_id}#{ENV['CIRCLE_NODE_INDEX']}"
+    end
+
+    prefix.to_s + random_id
+  end
+
+  def sf
+    @user.sf_client
+  end
+
+  def common_setup
+    # https://github.com/resque/resque-scheduler/pull/602
+    redis.redis.flushdb
+
+    # normal_job_processing!
+
+    DatabaseCleaner.start
+
+    # KMSEncryptionTestHelpers.mock_encryption_fields(StripeSuite::User)
+
+    Integrations::Metrics::Writer.instance.timer.shutdown
+    Integrations::Metrics::Writer.instance.queue.clear
+
+    # output current test, useful for debugging which fail because of CI timeout limits
+    puts self.location
+  end
+
+  def common_teardown
+    DatabaseCleaner.clean
+  end
+
+end
