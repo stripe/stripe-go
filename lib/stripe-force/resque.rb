@@ -12,6 +12,8 @@ Resque.redis = Redis.new(
 
   thread_safe: true,
 
+  ssl_params: {verify_mode: OpenSSL::SSL::VERIFY_NONE},
+
   # stronger reconnection retry to avoid throwing errors when an intermittent connection failure occurs
   # https://github.com/redis/redis-rb#reconnections
   reconnect_attempts: 10,
