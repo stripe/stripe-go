@@ -27,6 +27,8 @@ class StripeForce::PollBase
 
   abstract!
 
+  attr_accessor :locker
+
   def self.perform(user:, locker: nil)
     interactor = self.new(user)
     interactor.locker = locker
@@ -74,6 +76,9 @@ class StripeForce::PollBase
 
   sig { abstract.returns(String) }
   def poll_type; end
+
+  sig { abstract.returns(Array) }
+  def perform; end
 end
 
 class StripeForce::OrderPoller < StripeForce::PollBase
