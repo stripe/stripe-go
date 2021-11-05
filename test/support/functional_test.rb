@@ -9,8 +9,24 @@ end
 
 class Critic::FunctionalTest < ActiveSupport::TestCase
   include CommonHelpers
+
+  def setup
+    common_setup
+  end
+
+  def teardown
+    common_teardown
+  end
 end
 
 class Critic::UnitTest < ActiveSupport::TestCase
   include CommonHelpers
+
+  def setup
+    common_setup
+  end
+
+  def teardown
+    common_teardown
+  end
 end

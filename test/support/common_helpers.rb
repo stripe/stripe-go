@@ -51,7 +51,7 @@ module CommonHelpers
     # https://github.com/resque/resque-scheduler/pull/602
     redis.redis.flushdb
 
-    normal_job_processing!
+    inline_job_processing!
 
     DatabaseCleaner.start
 
@@ -68,4 +68,7 @@ module CommonHelpers
     DatabaseCleaner.clean
   end
 
+  def redis
+    Resque.redis
+  end
 end

@@ -124,7 +124,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
     })
 
-    StripeForce::Translate.perform(user: @user, sf_object: sf_order)
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
 
     # TODO add refresh to library
     sf_order = sf.find('Order', sf_order.Id)
@@ -149,6 +149,19 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     # TODO assert against amount when we are creating items dynamically
   end
 
+  describe 'failures' do
+    it 'gracefully fails when the subscription term and start date does not exist' do
+      sf_order = create_salesforce_order
+
+      assert_raises(Integrations::Errors::MissingRequiredFields) do
+        SalesforceTranslateRecordJob.translate(@user, sf_order)
+      end
+
+      # TODO assert on specific fields which are missing
+      # TODO assert on custom object in SF
+    end
+  end
+
   # TODO multiple quantity
   # TODO quantity as float
   # TODO start date in the future
@@ -157,7 +170,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   it 'integrates a invoice order' do
     sf_order = create_salesforce_order(sf_product_id: standalone_item_id)
 
-    StripeForce::Translate.perform(user: @user, sf_object: sf_order)
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
 
     # TODO add refresh to library
     sf_order = sf.find('Order', sf_order.Id)
