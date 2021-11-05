@@ -58,5 +58,5 @@ DB.create_table(:poll_timestamps) do
   DateTime :created_at, null: false
   DateTime :updated_at, null: false
 
-  # unique [:stripe_account_id, :stripe_account_id, :livemode]
+  unique [:stripe_account_id, :livemode, :integration_record_type]
 end
