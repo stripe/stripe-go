@@ -5,13 +5,12 @@
 # https://github.com/nateware/redis-objects/blob/master/lib/redis/lock.rb
 
 module Integrations
-  class UserLocker
+  class Locker
     extend T::Sig
     include Log
 
     # expiration should exceed NS timeouts configured in `init_netsuite_client`
     LOCK_EXPIRATION_TIME = 60 * 5
-    NETSUITE_DEFAULT_SUITECLOUD_CONNECTIONS = 10
 
     # TODO https://github.com/stripe/stripe-netsuite/issues/902
     sig { params(user: StripeForce::User).returns(String) }
@@ -52,8 +51,8 @@ module Integrations
       keys_to_clear = @locked_resource_keys - except.map do |r|
         if r.class.to_s.start_with?('Stripe::')
           generate_stripe_resource_lock_key(r)
-        elsif r.class.to_s.start_with?('NetSuite::')
-          generate_netsuite_record_lock_key(r)
+        elsif r.class == Restforce::SObject
+          generate_salesforce_record_lock_key(r)
         else
           raise "unsupported exception key #{r}"
         end
@@ -77,8 +76,8 @@ module Integrations
       acquire_or_refresh_resource_lock(resource_lock_key, expiration_time)
     end
 
-    def lock_netsuite_record(ns_record)
-      record_lock_key = generate_netsuite_record_lock_key(ns_record)
+    def lock_salesforce_record(ns_record)
+      record_lock_key = generate_salesforce_record_lock_key(ns_record)
 
       # TODO we should probably refresh the lock here
       if @locked_resource_keys.include?(record_lock_key)
@@ -126,11 +125,13 @@ module Integrations
 
     private
 
-    def generate_netsuite_record_lock_key(ns_record)
-      CacheKeyService.netsuite_record_cache_key(
-        user: @user,
-        record: ns_record
-      )
+    def generate_salesforce_record_lock_key(sf_record)
+      [
+        generate_user_lock_key(user),
+        'record',
+        sf_record.sobject_type,
+        sf_record.Id,
+      ].compact.map(&:to_s).join('-')
     end
 
     sig { params(stripe_resource: Stripe::APIResource).returns(String) }
