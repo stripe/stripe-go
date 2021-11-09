@@ -1,5 +1,5 @@
 # typed: true
-require File.expand_path('../config/environment', __dir__)
+require File.expand_path('../config/boot', __dir__)
 
 # https://github.com/chanzuckerberg/sorbet-rails/blob/master/lib/sorbet-rails/model_plugins/active_record_attribute.rb
 class SequelSorbetPlugin

@@ -1,4 +1,4 @@
-require File.expand_path('../config/environment', __dir__)
+require File.expand_path('../config/boot', __dir__)
 
 user = StripeForce::User.find(salesforce_account_id: ENV.fetch('SF_INSTANCE_ID'))
 
