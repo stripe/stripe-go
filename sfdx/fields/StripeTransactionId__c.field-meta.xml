@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+	<fullName>StripeTransactionId__c</fullName>
+	<fieldManageability>DeveloperControlled</fieldManageability>
+	<label>StripeTransactionId</label>
+	<type>Text</type>
+	<unique>false</unique>
+	<length>100</length>
+</CustomField>
