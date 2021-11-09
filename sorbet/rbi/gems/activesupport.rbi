@@ -1369,7 +1369,7 @@ class ActiveSupport::Notifications::Instrumenter
   def finish_with_state(listeners_state, name, payload); end
   def id; end
   def initialize(notifier); end
-  def instrument(name, payload = nil, &block); end
+  def instrument(name, payload = nil); end
   def start(name, payload); end
   def unique_id; end
 end
@@ -2093,7 +2093,7 @@ module Digest::UUID
   def self.uuid_v5(uuid_namespace, name); end
 end
 class File < IO
-  def self.atomic_write(file_name, temp_dir = nil); end
+  def self.join(*arg0); end
   def self.relative_path(from, to); end
 end
 module Module::Concerning
@@ -2768,9 +2768,4 @@ class ActiveSupport::Duration::ISO8601Serializer
   def normalize; end
   def serialize; end
   def week_mixed_with_date?(parts); end
-end
-module ActiveSupport::Testing::Stream
-  def capture(stream); end
-  def quietly; end
-  def silence_stream(stream); end
 end

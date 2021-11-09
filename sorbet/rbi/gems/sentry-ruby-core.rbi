@@ -680,3 +680,9 @@ module Sentry::Integrable
   def integration_name; end
   def register_integration(name:, version:); end
 end
+module Sentry::Breadcrumb::SentryLogger
+  def add(*args, &block); end
+  def add_breadcrumb(severity, message = nil, progname = nil); end
+  def current_breadcrumbs; end
+  def ignored_logger?(progname); end
+end

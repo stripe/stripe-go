@@ -730,6 +730,7 @@ module RuboCop::AST::CollectionNode
   def to_default_s(*args, &block); end
   def to_formatted_s(*args, &block); end
   def to_h(*args, &block); end
+  def to_msgpack(*args, &block); end
   def to_sentence(*args, &block); end
   def to_set(*args, &block); end
   def to_xml(*args, &block); end

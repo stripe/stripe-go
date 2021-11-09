@@ -42,6 +42,3 @@ end
 module PryRescue::SourceLocation
   def self.call(b); end
 end
-class Minitest::Test < Minitest::Runnable
-  def run_without_rescue; end
-end

@@ -5,7 +5,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/edit/master/lib/activerecord/~>6.1.0.rc1/activerecord.rbi
 #
-# typed: strict
+# typed: strong
 
 class ActiveRecord::Migration::Compatibility::V5_1 < ActiveRecord::Migration::Compatibility::V5_2; end
 

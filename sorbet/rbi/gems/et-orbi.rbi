@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/et-orbi/all/et-orbi.rbi
 #
-# et-orbi-1.2.5
+# et-orbi-1.2.6
 
 module EtOrbi
   def self._make_info; end

@@ -355,16 +355,218 @@ module ActionDispatch::Http::Cache::Response
   NO_STORE = ::T.let(nil, ::T.untyped)
 end
 
+module ActionDispatch::Integration::RequestHelpers
+  def delete(path, **args); end
+
+  def follow_redirect!(**args); end
+
+  def get(path, **args); end
+
+  def head(path, **args); end
+
+  def options(path, **args); end
+
+  def patch(path, **args); end
+
+  def post(path, **args); end
+
+  def put(path, **args); end
+end
+
 module ActionDispatch::Integration::Runner
+  include ::Rails::Dom::Testing::Assertions
+  include ::Rails::Dom::Testing::Assertions::DomAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions::CountDescribable
+  include ::ActionDispatch::Assertions
+  include ::ActionDispatch::Assertions::ResponseAssertions
+  include ::ActionDispatch::Assertions::RoutingAssertions
+  def app(); end
+
+  def assertions(); end
+
+  def assertions=(assertions); end
+
+  def assigns(*args); end
+
+  def before_setup(); end
+
+  def cookies(*args); end
+
+  def copy_session_variables!(); end
+
+  def create_session(app); end
+
+  def default_url_options(); end
+
+  def default_url_options=(options); end
+
+  def delete(*args); end
+
+  def follow_redirect!(*args); end
+
+  def get(*args); end
+
+  def head(*args); end
+
+  def initialize(*args, &blk); end
+
+  def integration_session(); end
+
+  def open_session(); end
+
+  def patch(*args); end
+
+  def post(*args); end
+
+  def put(*args); end
+
+  def remove!(); end
+
+  def reset!(); end
+
+  def root_session(); end
+
+  def root_session=(root_session); end
   APP_SESSIONS = ::T.let(nil, ::T.untyped)
 end
 
+module ActionDispatch::Integration::Runner
+end
+
 class ActionDispatch::Integration::Session
+  include ::Minitest::Assertions
+  include ::Rails::Dom::Testing::Assertions
+  include ::Rails::Dom::Testing::Assertions::DomAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions::CountDescribable
   include ::ActionDispatch::Assertions
   include ::ActionDispatch::Assertions::ResponseAssertions
   include ::ActionDispatch::Assertions::RoutingAssertions
   include ::ActionDispatch::Integration::RequestHelpers
+  include ::ActionDispatch::TestProcess
+  include ::ActionDispatch::TestProcess::FixtureFile
+  include ::ActionDispatch::Routing::UrlFor
+  include ::ActionDispatch::Routing::PolymorphicRoutes
+  def accept(); end
+
+  def accept=(accept); end
+
+  def body(*args, &block); end
+
+  def controller(); end
+
+  def default_url_options(); end
+
+  def default_url_options=(default_url_options); end
+
+  def default_url_options?(); end
+
+  def headers(*args, &block); end
+
+  def host(); end
+
+  def host!(arg); end
+
+  def host=(host); end
+
+  def https!(flag=T.unsafe(nil)); end
+
+  def https?(); end
+
+  def initialize(app); end
+
+  def path(*args, &block); end
+
+  def process(method, path, params: T.unsafe(nil), headers: T.unsafe(nil), env: T.unsafe(nil), xhr: T.unsafe(nil), as: T.unsafe(nil)); end
+
+  def redirect?(*args, &block); end
+
+  def remote_addr(); end
+
+  def remote_addr=(remote_addr); end
+
+  def request(); end
+
+  def request_count(); end
+
+  def request_count=(request_count); end
+
+  def reset!(); end
+
+  def response(); end
+
+  def status(*args, &block); end
+
+  def status_message(*args, &block); end
   DEFAULT_HOST = ::T.let(nil, ::T.untyped)
+end
+
+class ActionDispatch::Integration::Session
+  def self.default_url_options(); end
+
+  def self.default_url_options=(value); end
+
+  def self.default_url_options?(); end
+end
+
+class ActionDispatch::IntegrationTest
+  include ::ActionDispatch::TestProcess::FixtureFile
+  include ::ActionDispatch::IntegrationTest::Behavior
+  include ::ActionDispatch::Integration::Runner
+  include ::Rails::Dom::Testing::Assertions
+  include ::Rails::Dom::Testing::Assertions::DomAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions::CountDescribable
+  include ::ActionDispatch::Assertions
+  include ::ActionDispatch::Assertions::ResponseAssertions
+  include ::ActionDispatch::Assertions::RoutingAssertions
+  include ::ActionController::TemplateAssertions
+  include ::ActionDispatch::Routing::UrlFor
+  include ::ActionDispatch::Routing::PolymorphicRoutes
+  include ::ActionDispatch::IntegrationTest::UrlOptions
+end
+
+module ActionDispatch::IntegrationTest::Behavior
+  include ::ActionDispatch::Integration::Runner
+  include ::Rails::Dom::Testing::Assertions
+  include ::Rails::Dom::Testing::Assertions::DomAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions::CountDescribable
+  include ::ActionDispatch::Assertions
+  include ::ActionDispatch::Assertions::ResponseAssertions
+  include ::ActionDispatch::Assertions::RoutingAssertions
+  include ::ActionController::TemplateAssertions
+  def app(); end
+
+  def document_root_element(); end
+end
+
+module ActionDispatch::IntegrationTest::Behavior::ClassMethods
+  def app(); end
+
+  def app=(app); end
+
+  def register_encoder(*args, **options); end
+end
+
+module ActionDispatch::IntegrationTest::Behavior::ClassMethods
+end
+
+module ActionDispatch::IntegrationTest::Behavior
+  extend ::ActiveSupport::Concern
+end
+
+module ActionDispatch::IntegrationTest::UrlOptions
+  def url_options(); end
+end
+
+module ActionDispatch::IntegrationTest::UrlOptions
+  extend ::ActiveSupport::Concern
+end
+
+class ActionDispatch::IntegrationTest
+  extend ::ActionDispatch::IntegrationTest::Behavior::ClassMethods
 end
 
 class ActionDispatch::Journey::Format
@@ -655,6 +857,78 @@ class ActionMailer::MailDeliveryJob
 end
 
 class ActionMailer::MailDeliveryJob
+end
+
+class ActionMailer::TestCase
+  include ::ActiveSupport::Testing::ConstantLookup
+  include ::ActionMailer::TestCase::Behavior
+  include ::ActionMailer::TestHelper
+  include ::ActiveJob::TestHelper
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions::CountDescribable
+  include ::Rails::Dom::Testing::Assertions::DomAssertions
+  def _mailer_class(); end
+
+  def _mailer_class=(_mailer_class); end
+
+  def _mailer_class?(); end
+end
+
+module ActionMailer::TestCase::Behavior
+  include ::ActionMailer::TestHelper
+  include ::ActiveJob::TestHelper
+  include ::ActiveSupport::Testing::Assertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions::CountDescribable
+  include ::Rails::Dom::Testing::Assertions::DomAssertions
+end
+
+module ActionMailer::TestCase::Behavior::ClassMethods
+  def determine_default_mailer(name); end
+
+  def mailer_class(); end
+
+  def tests(mailer); end
+end
+
+module ActionMailer::TestCase::Behavior::ClassMethods
+end
+
+module ActionMailer::TestCase::Behavior
+  extend ::ActiveSupport::Concern
+end
+
+module ActionMailer::TestCase::ClearTestDeliveries
+end
+
+module ActionMailer::TestCase::ClearTestDeliveries
+  extend ::ActiveSupport::Concern
+end
+
+class ActionMailer::TestCase
+  extend ::ActionMailer::TestCase::Behavior::ClassMethods
+  def self._mailer_class(); end
+
+  def self._mailer_class=(value); end
+
+  def self._mailer_class?(); end
+end
+
+module ActionMailer::TestHelper
+  include ::ActiveJob::TestHelper
+  include ::ActiveSupport::Testing::Assertions
+  def assert_emails(number, &block); end
+
+  def assert_enqueued_email_with(mailer, method, args: T.unsafe(nil), queue: T.unsafe(nil), &block); end
+
+  def assert_enqueued_emails(number, &block); end
+
+  def assert_no_emails(&block); end
+
+  def assert_no_enqueued_emails(&block); end
+end
+
+module ActionMailer::TestHelper
 end
 
 module ActionMailer::VERSION
@@ -986,6 +1260,16 @@ module ActiveJob::Arguments
   OBJECT_SERIALIZER_KEY = ::T.let(nil, ::T.untyped)
 end
 
+class ActiveJob::Base
+  include ::ActiveJob::TestHelper::TestQueueAdapter
+end
+
+class ActiveJob::Base
+  def self._test_adapter(); end
+
+  def self._test_adapter=(value); end
+end
+
 module ActiveJob::Callbacks
   extend ::ActiveSupport::Callbacks
 end
@@ -1193,6 +1477,56 @@ module ActiveJob::Serializers
   def self.serializers(); end
 end
 
+class ActiveJob::TestCase
+  include ::ActiveJob::TestHelper
+end
+
+class ActiveJob::TestCase
+end
+
+module ActiveJob::TestHelper
+  include ::ActiveSupport::Testing::Assertions
+  def after_teardown(); end
+
+  def assert_enqueued_jobs(number, only: T.unsafe(nil), except: T.unsafe(nil), queue: T.unsafe(nil), &block); end
+
+  def assert_enqueued_with(job: T.unsafe(nil), args: T.unsafe(nil), at: T.unsafe(nil), queue: T.unsafe(nil), &block); end
+
+  def assert_no_enqueued_jobs(only: T.unsafe(nil), except: T.unsafe(nil), queue: T.unsafe(nil), &block); end
+
+  def assert_no_performed_jobs(only: T.unsafe(nil), except: T.unsafe(nil), queue: T.unsafe(nil), &block); end
+
+  def assert_performed_jobs(number, only: T.unsafe(nil), except: T.unsafe(nil), queue: T.unsafe(nil), &block); end
+
+  def assert_performed_with(job: T.unsafe(nil), args: T.unsafe(nil), at: T.unsafe(nil), queue: T.unsafe(nil), &block); end
+
+  def before_setup(); end
+
+  def enqueued_jobs(*args, &block); end
+
+  def enqueued_jobs=(arg); end
+
+  def perform_enqueued_jobs(only: T.unsafe(nil), except: T.unsafe(nil), queue: T.unsafe(nil), at: T.unsafe(nil), &block); end
+
+  def performed_jobs(*args, &block); end
+
+  def performed_jobs=(arg); end
+
+  def queue_adapter(); end
+
+  def queue_adapter_for_test(); end
+end
+
+module ActiveJob::TestHelper::TestQueueAdapter
+end
+
+module ActiveJob::TestHelper::TestQueueAdapter
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveJob::TestHelper
+end
+
 module ActiveJob::VERSION
   MAJOR = ::T.let(nil, ::T.untyped)
   MINOR = ::T.let(nil, ::T.untyped)
@@ -1201,8 +1535,15 @@ module ActiveJob::VERSION
   TINY = ::T.let(nil, ::T.untyped)
 end
 
-class ActiveModel::AttributeMutationTracker
-  OPTION_NOT_GIVEN = ::T.let(nil, ::T.untyped)
+class ActiveModel::Attribute::UserProvidedDefault
+  def initialize(name, value, type, database_default); end
+
+  def marshal_dump(); end
+
+  def marshal_load(values); end
+end
+
+class ActiveModel::Attribute::UserProvidedDefault
 end
 
 module ActiveModel::Attributes
@@ -1225,6 +1566,32 @@ module ActiveModel::Attributes::ClassMethods
 end
 
 module ActiveModel::Attributes
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveModel::Dirty
+  def as_json(options=T.unsafe(nil)); end
+
+  def attribute_previously_was(attr_name); end
+
+  def attribute_was(attr_name); end
+
+  def changed(); end
+
+  def changed_attributes(); end
+
+  def changes(); end
+
+  def changes_applied(); end
+
+  def clear_attribute_changes(attr_names); end
+
+  def clear_changes_information(); end
+
+  def restore_attributes(attr_names=T.unsafe(nil)); end
+end
+
+module ActiveModel::Dirty
   extend ::ActiveSupport::Concern
 end
 
@@ -1256,24 +1623,244 @@ end
 module ActiveModel::Lint
 end
 
+module ActiveModel::SecurePassword::ClassMethods
+  def has_secure_password(attribute=T.unsafe(nil), validations: T.unsafe(nil)); end
+end
+
+class ActiveModel::SecurePassword::InstanceMethodsOnActivation
+  def initialize(attribute); end
+end
+
+class ActiveModel::SecurePassword::InstanceMethodsOnActivation
+end
+
+module ActiveModel::SecurePassword
+  extend ::ActiveSupport::Concern
+  def self.min_cost(); end
+
+  def self.min_cost=(min_cost); end
+end
+
+module ActiveModel::Serialization
+  def read_attribute_for_serialization(*arg); end
+
+  def serializable_hash(options=T.unsafe(nil)); end
+end
+
+module ActiveModel::Serialization
+end
+
+module ActiveModel::Serializers::JSON
+  include ::ActiveModel::Serialization
+  def as_json(options=T.unsafe(nil)); end
+
+  def from_json(json, include_root=T.unsafe(nil)); end
+end
+
+module ActiveModel::Serializers::JSON
+  extend ::ActiveSupport::Concern
+end
+
+class ActiveModel::Type::Binary
+  def changed_in_place?(raw_old_value, value); end
+end
+
+class ActiveModel::Type::Binary::Data
+  def ==(other); end
+
+  def hex(); end
+
+  def initialize(value); end
+
+  def to_str(); end
+end
+
+class ActiveModel::Type::Binary::Data
+end
+
 class ActiveModel::Type::Boolean
   FALSE_VALUES = ::T.let(nil, ::T.untyped)
 end
 
 class ActiveModel::Type::Date
+  include ::ActiveModel::Type::Helpers::Timezone
+  include ::ActiveModel::Type::Helpers::AcceptsMultiparameterTime::InstanceMethods
   ISO_DATE = ::T.let(nil, ::T.untyped)
 end
 
+class ActiveModel::Type::DateTime
+  include ::ActiveModel::Type::Helpers::Timezone
+  include ::ActiveModel::Type::Helpers::TimeValue
+  include ::ActiveModel::Type::Helpers::AcceptsMultiparameterTime::InstanceMethods
+end
+
 class ActiveModel::Type::Decimal
+  include ::ActiveModel::Type::Helpers::Numeric
   BIGDECIMAL_PRECISION = ::T.let(nil, ::T.untyped)
 end
 
+class ActiveModel::Type::Float
+  include ::ActiveModel::Type::Helpers::Numeric
+end
+
+module ActiveModel::Type::Helpers
+end
+
+class ActiveModel::Type::Helpers::AcceptsMultiparameterTime
+  def initialize(defaults: T.unsafe(nil)); end
+end
+
+module ActiveModel::Type::Helpers::AcceptsMultiparameterTime::InstanceMethods
+  def assert_valid_value(value); end
+
+  def cast(value); end
+
+  def serialize(value); end
+
+  def value_constructed_by_mass_assignment?(value); end
+end
+
+module ActiveModel::Type::Helpers::AcceptsMultiparameterTime::InstanceMethods
+end
+
+class ActiveModel::Type::Helpers::AcceptsMultiparameterTime
+end
+
+module ActiveModel::Type::Helpers::Mutable
+  def cast(value); end
+
+  def changed_in_place?(raw_old_value, new_value); end
+end
+
+module ActiveModel::Type::Helpers::Mutable
+end
+
+module ActiveModel::Type::Helpers::Numeric
+  def cast(value); end
+
+  def changed?(old_value, _new_value, new_value_before_type_cast); end
+
+  def serialize(value); end
+end
+
+module ActiveModel::Type::Helpers::Numeric
+end
+
 module ActiveModel::Type::Helpers::TimeValue
+  def apply_seconds_precision(value); end
+
+  def serialize(value); end
+
+  def type_cast_for_schema(value); end
+
+  def user_input_in_time_zone(value); end
   ISO_DATETIME = ::T.let(nil, ::T.untyped)
 end
 
+module ActiveModel::Type::Helpers::TimeValue
+end
+
+module ActiveModel::Type::Helpers::Timezone
+  def default_timezone(); end
+
+  def is_utc?(); end
+end
+
+module ActiveModel::Type::Helpers::Timezone
+end
+
+module ActiveModel::Type::Helpers
+end
+
+class ActiveModel::Type::ImmutableString
+  def initialize(**args); end
+end
+
 class ActiveModel::Type::Integer
+  include ::ActiveModel::Type::Helpers::Numeric
+  def initialize(**arg); end
   DEFAULT_LIMIT = ::T.let(nil, ::T.untyped)
+end
+
+class ActiveModel::Type::Registration
+  def call(_registry, *args, **kwargs); end
+
+  def initialize(name, block, **arg); end
+
+  def matches?(type_name, *args, **kwargs); end
+end
+
+class ActiveModel::Type::Registration
+end
+
+class ActiveModel::Type::Registry
+  def lookup(symbol, *args, **kwargs); end
+
+  def register(type_name, klass=T.unsafe(nil), **options, &block); end
+end
+
+class ActiveModel::Type::Registry
+end
+
+class ActiveModel::Type::String
+  def to_immutable_string(); end
+end
+
+class ActiveModel::Type::Time
+  include ::ActiveModel::Type::Helpers::Timezone
+  include ::ActiveModel::Type::Helpers::TimeValue
+  include ::ActiveModel::Type::Helpers::AcceptsMultiparameterTime::InstanceMethods
+end
+
+class ActiveModel::Type::Time
+end
+
+class ActiveModel::Type::Value
+  def ==(other); end
+
+  def assert_valid_value(_); end
+
+  def binary?(); end
+
+  def changed?(old_value, new_value, _new_value_before_type_cast); end
+
+  def changed_in_place?(raw_old_value, new_value); end
+
+  def deserialize(value); end
+
+  def eql?(other); end
+
+  def force_equality?(_value); end
+
+  def limit(); end
+
+  def map(value); end
+
+  def precision(); end
+
+  def scale(); end
+
+  def serializable?(value); end
+
+  def serialize(value); end
+
+  def type(); end
+
+  def type_cast_for_schema(value); end
+
+  def value_constructed_by_mass_assignment?(_value); end
+end
+
+module ActiveModel::Type
+  def self.default_value(); end
+
+  def self.lookup(*args, **kwargs); end
+
+  def self.register(type_name, klass=T.unsafe(nil), **options, &block); end
+
+  def self.registry(); end
+
+  def self.registry=(registry); end
 end
 
 module ActiveModel::VERSION
@@ -1288,6 +1875,17 @@ class ActiveModel::Validations::LengthValidator
   CHECKS = ::T.let(nil, ::T.untyped)
   MESSAGES = ::T.let(nil, ::T.untyped)
   RESERVED_OPTIONS = ::T.let(nil, ::T.untyped)
+end
+
+module ActiveRecord::Aggregations
+  def reload(*arg); end
+end
+
+module ActiveRecord::Aggregations::ClassMethods
+  def composed_of(part_id, options=T.unsafe(nil)); end
+end
+
+module ActiveRecord::Aggregations::ClassMethods
 end
 
 class ActiveRecord::AssociationRelation
@@ -1309,6 +1907,14 @@ class ActiveRecord::AssociationRelation
 end
 
 class ActiveRecord::AssociationRelation
+end
+
+module ActiveRecord::Associations
+  def association(name); end
+
+  def association_cached?(name); end
+
+  def reload(*arg); end
 end
 
 class ActiveRecord::Associations::AliasTracker
@@ -1435,8 +2041,21 @@ end
 class ActiveRecord::Associations::BelongsToPolymorphicAssociation
 end
 
+module ActiveRecord::Associations::Builder
+end
+
 class ActiveRecord::Associations::Builder::Association
   VALID_OPTIONS = ::T.let(nil, ::T.untyped)
+end
+
+class ActiveRecord::Associations::Builder::Association
+  def self.build(model, name, scope, options, &block); end
+
+  def self.create_reflection(model, name, scope, options, &block); end
+
+  def self.extensions(); end
+
+  def self.extensions=(extensions); end
 end
 
 class ActiveRecord::Associations::Builder::BelongsTo
@@ -1487,6 +2106,9 @@ class ActiveRecord::Associations::Builder::SingularAssociation
 end
 
 class ActiveRecord::Associations::Builder::SingularAssociation
+end
+
+module ActiveRecord::Associations::Builder
 end
 
 class ActiveRecord::Associations::CollectionAssociation
@@ -2071,7 +2693,394 @@ end
 module ActiveRecord::Associations::ThroughAssociation
 end
 
+module ActiveRecord::Associations
+  extend ::ActiveSupport::Autoload
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::AttributeAssignment
+  include ::ActiveModel::AttributeAssignment
+  include ::ActiveModel::ForbiddenAttributesProtection
+end
+
+module ActiveRecord::AttributeMethods::BeforeTypeCast
+  def attributes_before_type_cast(); end
+
+  def read_attribute_before_type_cast(attr_name); end
+end
+
+module ActiveRecord::AttributeMethods::BeforeTypeCast
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::AttributeMethods::Dirty
+  def attribute_before_last_save(attr_name); end
+
+  def attribute_change_to_be_saved(attr_name); end
+
+  def attribute_in_database(attr_name); end
+
+  def attributes_in_database(); end
+
+  def changed_attribute_names_to_save(); end
+
+  def changes_to_save(); end
+
+  def has_changes_to_save?(); end
+
+  def reload(*arg); end
+
+  def saved_change_to_attribute(attr_name); end
+
+  def saved_changes(); end
+
+  def saved_changes?(); end
+
+  def will_save_change_to_attribute?(attr_name, **options); end
+end
+
+module ActiveRecord::AttributeMethods::Dirty
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::AttributeMethods::PrimaryKey
+  def id(); end
+
+  def id=(value); end
+
+  def id?(); end
+
+  def id_before_type_cast(); end
+
+  def id_for_database(); end
+
+  def id_in_database(); end
+
+  def id_was(); end
+
+  def to_key(); end
+end
+
+module ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods
+  def dangerous_attribute_method?(method_name); end
+
+  def get_primary_key(base_name); end
+
+  def instance_method_already_implemented?(method_name); end
+
+  def primary_key(); end
+
+  def primary_key=(value); end
+
+  def quoted_primary_key(); end
+
+  def reset_primary_key(); end
+end
+
+module ActiveRecord::AttributeMethods::PrimaryKey
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::AttributeMethods::Query
+  def query_attribute(attr_name); end
+end
+
+module ActiveRecord::AttributeMethods::Query
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::AttributeMethods::Read
+  def _read_attribute(attr_name, &block); end
+
+  def read_attribute(attr_name, &block); end
+end
+
+module ActiveRecord::AttributeMethods::Read
+  extend ::ActiveSupport::Concern
+end
+
+class ActiveRecord::AttributeMethods::Serialization::ColumnNotSerializableError
+  def initialize(name, type); end
+end
+
+class ActiveRecord::AttributeMethods::Serialization::ColumnNotSerializableError
+end
+
+module ActiveRecord::AttributeMethods::Serialization
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::AttributeMethods::TimeZoneConversion::ClassMethods
+  def define_attribute(name, cast_type, **arg); end
+end
+
 class ActiveRecord::AttributeMethods::TimeZoneConversion::TimeZoneConverter
+  def cast(value); end
+
+  def deserialize(value); end
+end
+
+class ActiveRecord::AttributeMethods::TimeZoneConversion::TimeZoneConverter
+  def self.new(subtype); end
+end
+
+module ActiveRecord::AttributeMethods::TimeZoneConversion
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::AttributeMethods::Write
+  def _write_attribute(attr_name, value); end
+
+  def write_attribute(attr_name, value); end
+end
+
+module ActiveRecord::AttributeMethods::Write
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::Attributes
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::AutosaveAssociation
+  def changed_for_autosave?(); end
+
+  def destroyed_by_association(); end
+
+  def destroyed_by_association=(reflection); end
+
+  def mark_for_destruction(); end
+
+  def marked_for_destruction?(); end
+
+  def reload(options=T.unsafe(nil)); end
+end
+
+module ActiveRecord::AutosaveAssociation::AssociationBuilderExtension
+end
+
+module ActiveRecord::AutosaveAssociation::AssociationBuilderExtension
+  def self.build(model, reflection); end
+
+  def self.valid_options(); end
+end
+
+module ActiveRecord::AutosaveAssociation
+  extend ::ActiveSupport::Concern
+end
+
+class ActiveRecord::Base
+  include ::ActiveModel::AttributeAssignment
+  include ::ActiveModel::ForbiddenAttributesProtection
+  include ::ActiveRecord::Validations
+  include ::ActiveRecord::Base::GeneratedAttributeMethods
+  include ::ActiveRecord::Base::GeneratedAssociationMethods
+  include ::ActiveModel::Dirty
+  include ::ActiveModel::Serializers::JSON
+  include ::ActiveModel::Serialization
+  include ::ActiveRecord::SignedId
+  def __callbacks(); end
+
+  def __callbacks?(); end
+
+  def _before_commit_callbacks(); end
+
+  def _commit_callbacks(); end
+
+  def _create_callbacks(); end
+
+  def _destroy_callbacks(); end
+
+  def _find_callbacks(); end
+
+  def _initialize_callbacks(); end
+
+  def _reflections(); end
+
+  def _reflections?(); end
+
+  def _rollback_callbacks(); end
+
+  def _run_before_commit_callbacks(&block); end
+
+  def _run_commit_callbacks(&block); end
+
+  def _run_create_callbacks(&block); end
+
+  def _run_destroy_callbacks(&block); end
+
+  def _run_find_callbacks(&block); end
+
+  def _run_initialize_callbacks(&block); end
+
+  def _run_rollback_callbacks(&block); end
+
+  def _run_save_callbacks(&block); end
+
+  def _run_touch_callbacks(&block); end
+
+  def _run_update_callbacks(&block); end
+
+  def _run_validate_callbacks(&block); end
+
+  def _run_validation_callbacks(&block); end
+
+  def _save_callbacks(); end
+
+  def _touch_callbacks(); end
+
+  def _update_callbacks(); end
+
+  def _validate_callbacks(); end
+
+  def _validation_callbacks(); end
+
+  def _validators(); end
+
+  def _validators?(); end
+
+  def aggregate_reflections(); end
+
+  def aggregate_reflections?(); end
+
+  def attribute_aliases(); end
+
+  def attribute_aliases?(); end
+
+  def attribute_method_matchers(); end
+
+  def attribute_method_matchers?(); end
+
+  def cache_timestamp_format(); end
+
+  def cache_timestamp_format?(); end
+
+  def cache_versioning(); end
+
+  def cache_versioning?(); end
+
+  def collection_cache_versioning(); end
+
+  def collection_cache_versioning?(); end
+
+  def column_for_attribute(*args, &block); end
+
+  def default_connection_handler(); end
+
+  def default_connection_handler?(); end
+
+  def default_role(); end
+
+  def default_role?(); end
+
+  def default_scope_override(); end
+
+  def default_scopes(); end
+
+  def default_shard(); end
+
+  def default_shard?(); end
+
+  def default_timezone(); end
+
+  def defined_enums(); end
+
+  def defined_enums?(); end
+
+  def destroy_association_async_job(); end
+
+  def dump_schema_after_migration(); end
+
+  def dump_schemas(); end
+
+  def error_on_ignored_order(); end
+
+  def include_root_in_json(); end
+
+  def include_root_in_json?(); end
+
+  def index_nested_attribute_errors(); end
+
+  def legacy_connection_handling(); end
+
+  def lock_optimistically(); end
+
+  def lock_optimistically?(); end
+
+  def logger(); end
+
+  def model_name(*args, &block); end
+
+  def nested_attributes_options(); end
+
+  def nested_attributes_options?(); end
+
+  def partial_writes(); end
+
+  def partial_writes?(); end
+
+  def pluralize_table_names(); end
+
+  def pluralize_table_names?(); end
+
+  def primary_key_prefix_type(); end
+
+  def record_timestamps(); end
+
+  def record_timestamps=(record_timestamps); end
+
+  def record_timestamps?(); end
+
+  def schema_format(); end
+
+  def signed_id_verifier_secret(); end
+
+  def skip_time_zone_conversion_for_attributes(); end
+
+  def skip_time_zone_conversion_for_attributes?(); end
+
+  def store_full_class_name(); end
+
+  def store_full_class_name?(); end
+
+  def store_full_sti_class(); end
+
+  def store_full_sti_class?(); end
+
+  def suppress_multiple_database_warning(); end
+
+  def table_name_prefix(); end
+
+  def table_name_prefix?(); end
+
+  def table_name_suffix(); end
+
+  def table_name_suffix?(); end
+
+  def time_zone_aware_attributes(); end
+
+  def time_zone_aware_types(); end
+
+  def time_zone_aware_types?(); end
+
+  def timestamped_migrations(); end
+
+  def type_for_attribute(*args, &block); end
+
+  def validation_context(); end
+
+  def verbose_query_logs(); end
+
+  def warn_on_records_fetched_greater_than(); end
+end
+
+module ActiveRecord::Base::GeneratedAssociationMethods
+end
+
+module ActiveRecord::Base::GeneratedAssociationMethods
+end
+
+module ActiveRecord::Base::GeneratedAttributeMethods
 end
 
 module ActiveRecord::Base::GeneratedAttributeMethods
@@ -2079,11 +3088,34 @@ module ActiveRecord::Base::GeneratedAttributeMethods
 end
 
 class ActiveRecord::Base
+  extend ::ActiveModel::Translation
+  extend ::ActiveRecord::DelegatedType
+  extend ::ActiveRecord::Enum
+  extend ::ActiveRecord::Aggregations::ClassMethods
+  extend ::ActiveRecord::Scoping::ClassMethods
+  extend ::ActiveRecord::Integration::ClassMethods
+  extend ::ActiveModel::Validations::HelperMethods
+  extend ::ActiveRecord::Validations::ClassMethods
+  extend ::ActiveRecord::CounterCache::ClassMethods
+  extend ::ActiveModel::AttributeMethods::ClassMethods
+  extend ::ActiveRecord::Callbacks::ClassMethods
+  extend ::ActiveRecord::Timestamp::ClassMethods
+  extend ::ActiveRecord::NoTouching::ClassMethods
+  extend ::ActiveRecord::Reflection::ClassMethods
+  extend ::ActiveRecord::SignedId::ClassMethods
+  extend ::SorbetRails::CustomFinderMethods
+  extend ::SorbetRails::PluckToTStruct
   def self.__callbacks(); end
 
   def self.__callbacks=(value); end
 
   def self.__callbacks?(); end
+
+  def self._attr_readonly(); end
+
+  def self._attr_readonly=(value); end
+
+  def self._attr_readonly?(); end
 
   def self._before_commit_callbacks(); end
 
@@ -2145,6 +3177,10 @@ class ActiveRecord::Base
 
   def self._validators?(); end
 
+  def self.action_on_strict_loading_violation(); end
+
+  def self.action_on_strict_loading_violation=(val); end
+
   def self.after_find(*args, **options, &block); end
 
   def self.after_initialize(*args, **options, &block); end
@@ -2156,6 +3192,10 @@ class ActiveRecord::Base
   def self.aggregate_reflections=(value); end
 
   def self.aggregate_reflections?(); end
+
+  def self.allow_unsafe_raw_sql(); end
+
+  def self.allow_unsafe_raw_sql=(value); end
 
   def self.attribute_aliases(); end
 
@@ -2175,6 +3215,12 @@ class ActiveRecord::Base
 
   def self.attributes_to_define_after_schema_loads?(); end
 
+  def self.belongs_to_required_by_default(); end
+
+  def self.belongs_to_required_by_default=(value); end
+
+  def self.belongs_to_required_by_default?(); end
+
   def self.cache_timestamp_format(); end
 
   def self.cache_timestamp_format=(value); end
@@ -2193,6 +3239,102 @@ class ActiveRecord::Base
 
   def self.collection_cache_versioning?(); end
 
+  def self.configurations(); end
+
+  def self.configurations=(config); end
+
+  def self.connected_to_stack(); end
+
+  def self.connection_class(); end
+
+  def self.connection_class=(b); end
+
+  def self.connection_class?(); end
+
+  def self.connection_classes(); end
+
+  def self.connection_handler(); end
+
+  def self.connection_handler=(handler); end
+
+  def self.connection_handlers(); end
+
+  def self.connection_handlers=(handlers); end
+
+  def self.current_preventing_writes(); end
+
+  def self.current_role(); end
+
+  def self.current_shard(); end
+
+  def self.default_connection_handler(); end
+
+  def self.default_connection_handler=(value); end
+
+  def self.default_connection_handler?(); end
+
+  def self.default_role(); end
+
+  def self.default_role=(value); end
+
+  def self.default_role?(); end
+
+  def self.default_scope_override(); end
+
+  def self.default_scope_override=(value); end
+
+  def self.default_scopes(); end
+
+  def self.default_scopes=(value); end
+
+  def self.default_shard(); end
+
+  def self.default_shard=(value); end
+
+  def self.default_shard?(); end
+
+  def self.default_timezone(); end
+
+  def self.default_timezone=(val); end
+
+  def self.defined_enums(); end
+
+  def self.defined_enums=(value); end
+
+  def self.defined_enums?(); end
+
+  def self.destroy_association_async_job(); end
+
+  def self.destroy_association_async_job=(value); end
+
+  def self.dump_schema_after_migration(); end
+
+  def self.dump_schema_after_migration=(val); end
+
+  def self.dump_schemas(); end
+
+  def self.dump_schemas=(val); end
+
+  def self.error_on_ignored_order(); end
+
+  def self.error_on_ignored_order=(val); end
+
+  def self.has_many_inversing(); end
+
+  def self.has_many_inversing=(val); end
+
+  def self.immutable_strings_by_default(); end
+
+  def self.immutable_strings_by_default=(value); end
+
+  def self.immutable_strings_by_default?(); end
+
+  def self.implicit_order_column(); end
+
+  def self.implicit_order_column=(value); end
+
+  def self.implicit_order_column?(); end
+
   def self.include_root_in_json(); end
 
   def self.include_root_in_json=(value); end
@@ -2205,6 +3347,16 @@ class ActiveRecord::Base
 
   def self.inherited(child); end
 
+  def self.internal_metadata_table_name(); end
+
+  def self.internal_metadata_table_name=(value); end
+
+  def self.internal_metadata_table_name?(); end
+
+  def self.legacy_connection_handling(); end
+
+  def self.legacy_connection_handling=(val); end
+
   def self.local_stored_attributes(); end
 
   def self.local_stored_attributes=(local_stored_attributes); end
@@ -2214,6 +3366,14 @@ class ActiveRecord::Base
   def self.lock_optimistically=(value); end
 
   def self.lock_optimistically?(); end
+
+  def self.logger(); end
+
+  def self.logger=(val); end
+
+  def self.maintain_test_schema(); end
+
+  def self.maintain_test_schema=(val); end
 
   def self.nested_attributes_options(); end
 
@@ -2227,6 +3387,24 @@ class ActiveRecord::Base
 
   def self.partial_writes?(); end
 
+  def self.pluralize_table_names(); end
+
+  def self.pluralize_table_names=(value); end
+
+  def self.pluralize_table_names?(); end
+
+  def self.primary_key_prefix_type(); end
+
+  def self.primary_key_prefix_type=(val); end
+
+  def self.queues(); end
+
+  def self.queues=(val); end
+
+  def self.reading_role(); end
+
+  def self.reading_role=(val); end
+
   def self.record_timestamps(); end
 
   def self.record_timestamps=(value); end
@@ -2234,6 +3412,16 @@ class ActiveRecord::Base
   def self.record_timestamps?(); end
 
   def self.sbr_old_inherited(child_class); end
+
+  def self.schema_format(); end
+
+  def self.schema_format=(val); end
+
+  def self.schema_migrations_table_name(); end
+
+  def self.schema_migrations_table_name=(value); end
+
+  def self.schema_migrations_table_name?(); end
 
   def self.signed_id_verifier_secret(); end
 
@@ -2245,6 +3433,42 @@ class ActiveRecord::Base
 
   def self.skip_time_zone_conversion_for_attributes?(); end
 
+  def self.store_full_class_name(); end
+
+  def self.store_full_class_name=(value); end
+
+  def self.store_full_class_name?(); end
+
+  def self.store_full_sti_class(); end
+
+  def self.store_full_sti_class=(value); end
+
+  def self.store_full_sti_class?(); end
+
+  def self.strict_loading_by_default(); end
+
+  def self.strict_loading_by_default=(value); end
+
+  def self.strict_loading_by_default?(); end
+
+  def self.strict_loading_violation!(owner:, reflection:); end
+
+  def self.suppress_multiple_database_warning(); end
+
+  def self.suppress_multiple_database_warning=(val); end
+
+  def self.table_name_prefix(); end
+
+  def self.table_name_prefix=(value); end
+
+  def self.table_name_prefix?(); end
+
+  def self.table_name_suffix(); end
+
+  def self.table_name_suffix=(value); end
+
+  def self.table_name_suffix?(); end
+
   def self.time_zone_aware_attributes(); end
 
   def self.time_zone_aware_attributes=(val); end
@@ -2254,14 +3478,92 @@ class ActiveRecord::Base
   def self.time_zone_aware_types=(value); end
 
   def self.time_zone_aware_types?(); end
+
+  def self.timestamped_migrations(); end
+
+  def self.timestamped_migrations=(val); end
+
+  def self.verbose_query_logs(); end
+
+  def self.verbose_query_logs=(val); end
+
+  def self.warn_on_records_fetched_greater_than(); end
+
+  def self.warn_on_records_fetched_greater_than=(val); end
+
+  def self.writing_role(); end
+
+  def self.writing_role=(val); end
 end
 
 module ActiveRecord::Batches
+  def find_each(start: T.unsafe(nil), finish: T.unsafe(nil), batch_size: T.unsafe(nil), error_on_ignore: T.unsafe(nil), order: T.unsafe(nil)); end
+
+  def find_in_batches(start: T.unsafe(nil), finish: T.unsafe(nil), batch_size: T.unsafe(nil), error_on_ignore: T.unsafe(nil), order: T.unsafe(nil)); end
+
+  def in_batches(of: T.unsafe(nil), start: T.unsafe(nil), finish: T.unsafe(nil), load: T.unsafe(nil), error_on_ignore: T.unsafe(nil), order: T.unsafe(nil)); end
   ORDER_IGNORE_MESSAGE = ::T.let(nil, ::T.untyped)
 end
 
+class ActiveRecord::Batches::BatchEnumerator
+  include ::Enumerable
+  def delete_all(); end
+
+  def destroy_all(); end
+
+  def each(&blk); end
+
+  def each_record(); end
+
+  def initialize(relation:, of: T.unsafe(nil), start: T.unsafe(nil), finish: T.unsafe(nil)); end
+
+  def update_all(updates); end
+end
+
+class ActiveRecord::Batches::BatchEnumerator
+end
+
+module ActiveRecord::Batches
+end
+
+module ActiveRecord::Calculations
+  def average(column_name); end
+
+  def calculate(operation, column_name); end
+
+  def count(column_name=T.unsafe(nil)); end
+
+  def ids(); end
+
+  def maximum(column_name); end
+
+  def minimum(column_name); end
+
+  def pick(*column_names); end
+
+  def pluck(*column_names); end
+
+  def sum(column_name=T.unsafe(nil)); end
+end
+
 module ActiveRecord::Callbacks
+  def destroy(); end
+
+  def increment!(attribute, by=T.unsafe(nil), touch: T.unsafe(nil)); end
+
+  def touch(*arg, **arg1); end
   CALLBACKS = ::T.let(nil, ::T.untyped)
+end
+
+module ActiveRecord::Callbacks::ClassMethods
+  include ::ActiveModel::Callbacks
+end
+
+module ActiveRecord::Callbacks::ClassMethods
+end
+
+module ActiveRecord::Callbacks
+  extend ::ActiveSupport::Concern
 end
 
 class ActiveRecord::Coders::JSON
@@ -2547,6 +3849,15 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   def self.type_cast_config_to_integer(config); end
 end
 
+module ActiveRecord::ConnectionAdapters::AbstractPool
+  def get_schema_cache(connection); end
+
+  def set_schema_cache(cache); end
+end
+
+module ActiveRecord::ConnectionAdapters::AbstractPool
+end
+
 class ActiveRecord::ConnectionAdapters::AlterTable
   def add_check_constraint(expression, options); end
 
@@ -2725,6 +4036,183 @@ end
 
 module ActiveRecord::ConnectionAdapters::ColumnMethods
   extend ::ActiveSupport::Concern
+end
+
+class ActiveRecord::ConnectionAdapters::ConnectionHandler
+  def active_connections?(role=T.unsafe(nil)); end
+
+  def all_connection_pools(); end
+
+  def clear_active_connections!(role=T.unsafe(nil)); end
+
+  def clear_all_connections!(role=T.unsafe(nil)); end
+
+  def clear_reloadable_connections!(role=T.unsafe(nil)); end
+
+  def connected?(spec_name, role: T.unsafe(nil), shard: T.unsafe(nil)); end
+
+  def connection_pool_list(role=T.unsafe(nil)); end
+
+  def connection_pool_names(); end
+
+  def connection_pools(role=T.unsafe(nil)); end
+
+  def establish_connection(config, owner_name: T.unsafe(nil), role: T.unsafe(nil), shard: T.unsafe(nil)); end
+
+  def flush_idle_connections!(role=T.unsafe(nil)); end
+
+  def prevent_writes(); end
+
+  def prevent_writes=(prevent_writes); end
+
+  def remove_connection(*args, &block); end
+
+  def remove_connection_pool(owner, role: T.unsafe(nil), shard: T.unsafe(nil)); end
+
+  def retrieve_connection(spec_name, role: T.unsafe(nil), shard: T.unsafe(nil)); end
+
+  def retrieve_connection_pool(owner, role: T.unsafe(nil), shard: T.unsafe(nil)); end
+
+  def while_preventing_writes(enabled=T.unsafe(nil)); end
+end
+
+class ActiveRecord::ConnectionAdapters::ConnectionHandler
+end
+
+class ActiveRecord::ConnectionAdapters::ConnectionPool
+  include ::MonitorMixin
+  include ::ActiveRecord::ConnectionAdapters::QueryCache::ConnectionPoolConfiguration
+  include ::ActiveRecord::ConnectionAdapters::AbstractPool
+  def active_connection?(); end
+
+  def automatic_reconnect(); end
+
+  def automatic_reconnect=(automatic_reconnect); end
+
+  def checkin(conn); end
+
+  def checkout(checkout_timeout=T.unsafe(nil)); end
+
+  def checkout_timeout(); end
+
+  def checkout_timeout=(checkout_timeout); end
+
+  def clear_reloadable_connections(raise_on_acquisition_timeout=T.unsafe(nil)); end
+
+  def clear_reloadable_connections!(); end
+
+  def connected?(); end
+
+  def connection(); end
+
+  def connection_klass(); end
+
+  def connections(); end
+
+  def db_config(); end
+
+  def discard!(); end
+
+  def discarded?(); end
+
+  def disconnect(raise_on_acquisition_timeout=T.unsafe(nil)); end
+
+  def disconnect!(); end
+
+  def flush(minimum_idle=T.unsafe(nil)); end
+
+  def flush!(); end
+
+  def initialize(pool_config); end
+
+  def lock_thread=(lock_thread); end
+
+  def num_waiting_in_queue(); end
+
+  def pool_config(); end
+
+  def reap(); end
+
+  def reaper(); end
+
+  def release_connection(owner_thread=T.unsafe(nil)); end
+
+  def remove(conn); end
+
+  def schema_cache(*args, &block); end
+
+  def schema_cache=(arg); end
+
+  def size(); end
+
+  def stat(); end
+
+  def with_connection(); end
+end
+
+module ActiveRecord::ConnectionAdapters::ConnectionPool::BiasableQueue
+  def with_a_bias_for(thread); end
+end
+
+class ActiveRecord::ConnectionAdapters::ConnectionPool::BiasableQueue::BiasedConditionVariable
+  def broadcast(); end
+
+  def broadcast_on_biased(); end
+
+  def initialize(lock, other_cond, preferred_thread); end
+
+  def signal(); end
+
+  def wait(timeout); end
+end
+
+class ActiveRecord::ConnectionAdapters::ConnectionPool::BiasableQueue::BiasedConditionVariable
+end
+
+module ActiveRecord::ConnectionAdapters::ConnectionPool::BiasableQueue
+end
+
+class ActiveRecord::ConnectionAdapters::ConnectionPool::ConnectionLeasingQueue
+  include ::ActiveRecord::ConnectionAdapters::ConnectionPool::BiasableQueue
+end
+
+class ActiveRecord::ConnectionAdapters::ConnectionPool::ConnectionLeasingQueue
+end
+
+class ActiveRecord::ConnectionAdapters::ConnectionPool::Queue
+  def add(element); end
+
+  def any_waiting?(); end
+
+  def clear(); end
+
+  def delete(element); end
+
+  def initialize(lock=T.unsafe(nil)); end
+
+  def num_waiting(); end
+
+  def poll(timeout=T.unsafe(nil)); end
+end
+
+class ActiveRecord::ConnectionAdapters::ConnectionPool::Queue
+end
+
+class ActiveRecord::ConnectionAdapters::ConnectionPool::Reaper
+  def frequency(); end
+
+  def initialize(pool, frequency); end
+
+  def pool(); end
+
+  def run(); end
+end
+
+class ActiveRecord::ConnectionAdapters::ConnectionPool::Reaper
+  def self.register_pool(pool, frequency); end
+end
+
+class ActiveRecord::ConnectionAdapters::ConnectionPool
 end
 
 module ActiveRecord::ConnectionAdapters::DatabaseLimits
@@ -2960,6 +4448,18 @@ end
 class ActiveRecord::ConnectionAdapters::LegacyPoolManager
 end
 
+class ActiveRecord::ConnectionAdapters::NullPool
+  include ::ActiveRecord::ConnectionAdapters::AbstractPool
+  def connection_klass(); end
+
+  def schema_cache(); end
+
+  def schema_cache=(schema_cache); end
+end
+
+class ActiveRecord::ConnectionAdapters::NullPool
+end
+
 class ActiveRecord::ConnectionAdapters::NullTransaction
   def add_record(record, _=T.unsafe(nil)); end
 
@@ -3027,6 +4527,45 @@ class ActiveRecord::ConnectionAdapters::PoolManager
 end
 
 class ActiveRecord::ConnectionAdapters::PoolManager
+end
+
+module ActiveRecord::ConnectionAdapters::QueryCache
+  def cache(); end
+
+  def clear_query_cache(); end
+
+  def disable_query_cache!(); end
+
+  def enable_query_cache!(); end
+
+  def initialize(*arg); end
+
+  def query_cache(); end
+
+  def query_cache_enabled(); end
+
+  def select_all(arel, name=T.unsafe(nil), binds=T.unsafe(nil), preparable: T.unsafe(nil)); end
+
+  def uncached(); end
+end
+
+module ActiveRecord::ConnectionAdapters::QueryCache::ConnectionPoolConfiguration
+  def disable_query_cache!(); end
+
+  def enable_query_cache!(); end
+
+  def initialize(*arg); end
+
+  def query_cache_enabled(); end
+end
+
+module ActiveRecord::ConnectionAdapters::QueryCache::ConnectionPoolConfiguration
+end
+
+module ActiveRecord::ConnectionAdapters::QueryCache
+  def self.dirties_query_cache(base, *method_names); end
+
+  def self.included(base); end
 end
 
 module ActiveRecord::ConnectionAdapters::Quoting
@@ -3500,9 +5039,240 @@ end
 class ActiveRecord::ConnectionAdapters::TransactionState
 end
 
+module ActiveRecord::ConnectionAdapters
+  extend ::ActiveSupport::Autoload
+end
+
 module ActiveRecord::ConnectionHandling
+  def clear_active_connections!(*args, &block); end
+
+  def clear_all_connections!(*args, &block); end
+
+  def clear_cache!(); end
+
+  def clear_query_caches_for_current_thread(); end
+
+  def clear_reloadable_connections!(*args, &block); end
+
+  def connected?(); end
+
+  def connected_to_many(*classes, role:, shard: T.unsafe(nil), prevent_writes: T.unsafe(nil)); end
+
+  def connecting_to(role: T.unsafe(nil), shard: T.unsafe(nil), prevent_writes: T.unsafe(nil)); end
+
+  def connection(); end
+
+  def connection_config(*args, &block); end
+
+  def connection_db_config(); end
+
+  def connection_pool(); end
+
+  def connection_specification_name(); end
+
+  def connection_specification_name=(connection_specification_name); end
+
+  def establish_connection(config_or_env=T.unsafe(nil)); end
+
+  def flush_idle_connections!(*args, &block); end
+
+  def lookup_connection_handler(handler_key); end
+
+  def primary_class?(); end
+
+  def remove_connection(name=T.unsafe(nil)); end
+
+  def retrieve_connection(); end
+
+  def while_preventing_writes(enabled=T.unsafe(nil), &block); end
   DEFAULT_ENV = ::T.let(nil, ::T.untyped)
   RAILS_ENV = ::T.let(nil, ::T.untyped)
+end
+
+module ActiveRecord::Core
+  def ==(comparison_object); end
+
+  def connection_handler(); end
+
+  def encode_with(coder); end
+
+  def eql?(comparison_object); end
+
+  def freeze(); end
+
+  def frozen?(); end
+
+  def hash(); end
+
+  def init_with(coder, &block); end
+
+  def init_with_attributes(attributes, new_record=T.unsafe(nil)); end
+
+  def initialize(attributes=T.unsafe(nil)); end
+
+  def inspect(); end
+
+  def pretty_print(pp); end
+
+  def readonly!(); end
+
+  def readonly?(); end
+
+  def slice(*methods); end
+
+  def strict_loading!(); end
+
+  def strict_loading?(); end
+
+  def values_at(*methods); end
+end
+
+module ActiveRecord::Core::ClassMethods
+  def ===(object); end
+
+  def _internal?(); end
+
+  def arel_attribute(*args, &block); end
+
+  def arel_table(); end
+
+  def cached_find_by_statement(key, &block); end
+
+  def filter_attributes(); end
+
+  def filter_attributes=(filter_attributes); end
+
+  def find(*ids); end
+
+  def find_by(*args); end
+
+  def find_by!(*args); end
+
+  def generated_association_methods(); end
+
+  def inherited(child_class); end
+
+  def initialize_find_by_cache(); end
+
+  def initialize_generated_modules(); end
+
+  def inspect(); end
+
+  def inspection_filter(); end
+
+  def predicate_builder(); end
+
+  def type_caster(); end
+end
+
+module ActiveRecord::Core
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::CounterCache::ClassMethods
+  def decrement_counter(counter_name, id, touch: T.unsafe(nil)); end
+
+  def increment_counter(counter_name, id, touch: T.unsafe(nil)); end
+
+  def reset_counters(id, *counters, touch: T.unsafe(nil)); end
+
+  def update_counters(id, counters); end
+end
+
+module ActiveRecord::CounterCache::ClassMethods
+end
+
+module ActiveRecord::CounterCache
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::DelegatedType
+  def delegated_type(role, types:, **options); end
+end
+
+module ActiveRecord::DelegatedType
+end
+
+module ActiveRecord::Delegation
+  def &(*args, &block); end
+
+  def +(*args, &block); end
+
+  def -(*args, &block); end
+
+  def [](*args, &block); end
+
+  def as_json(*args, &block); end
+
+  def compact(*args, &block); end
+
+  def connection(*args, &block); end
+
+  def each(*args, &block); end
+
+  def encode_with(*args, &block); end
+
+  def in_groups(*args, &block); end
+
+  def in_groups_of(*args, &block); end
+
+  def index(*args, &block); end
+
+  def join(*args, &block); end
+
+  def length(*args, &block); end
+
+  def primary_key(*args, &block); end
+
+  def reverse(*args, &block); end
+
+  def rindex(*args, &block); end
+
+  def rotate(*args, &block); end
+
+  def sample(*args, &block); end
+
+  def shuffle(*args, &block); end
+
+  def slice(*args, &block); end
+
+  def split(*args, &block); end
+
+  def to_formatted_s(*args, &block); end
+
+  def to_sentence(*args, &block); end
+
+  def to_xml(*args, &block); end
+
+  def |(*args, &block); end
+end
+
+module ActiveRecord::Delegation::ClassMethods
+  def create(klass, *args, **kwargs); end
+end
+
+module ActiveRecord::Delegation::ClassSpecificRelation::ClassMethods
+  def name(); end
+end
+
+module ActiveRecord::Delegation::ClassSpecificRelation
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::Delegation::DelegateCache
+  def generate_relation_method(method); end
+
+  def include_relation_methods(delegate); end
+
+  def inherited(child_class); end
+
+  def initialize_relation_delegate_cache(); end
+
+  def relation_delegate_class(klass); end
+end
+
+module ActiveRecord::Delegation
+  extend ::ActiveSupport::Concern
 end
 
 class ActiveRecord::DestroyAssociationAsyncJob
@@ -3512,23 +5282,217 @@ end
 class ActiveRecord::DestroyAssociationAsyncJob
 end
 
+class ActiveRecord::DynamicMatchers::FindBy
+end
+
+class ActiveRecord::DynamicMatchers::FindBy
+end
+
+class ActiveRecord::DynamicMatchers::FindByBang
+end
+
+class ActiveRecord::DynamicMatchers::FindByBang
+end
+
+class ActiveRecord::DynamicMatchers::Method
+  def attribute_names(); end
+
+  def define(); end
+
+  def initialize(model, method_name); end
+
+  def model(); end
+
+  def name(); end
+
+  def valid?(); end
+end
+
+class ActiveRecord::DynamicMatchers::Method
+  def self.match(model, name); end
+
+  def self.matchers(); end
+
+  def self.pattern(); end
+
+  def self.prefix(); end
+
+  def self.suffix(); end
+end
+
 module ActiveRecord::Enum
+  include ::Kernel
   include ::ActiveSupport::ForkTracker::CoreExtPrivate
   include ::ActiveSupport::ForkTracker::CoreExt
+  def _define_enum(*args, &blk); end
+
+  def _define_typed_enum(*args, &blk); end
+
+  def enum(*args, &blk); end
+
+  def extract_enum_values(*args, &blk); end
+
+  def gen_typed_enum_values(*args, &blk); end
+
+  def inherited(base); end
+
+  def old_enum(definitions); end
+
+  def typed_enum(*args, &blk); end
+
+  def typed_enum_reflections(*args, &blk); end
   SR_ENUM_KEYWORDS = ::T.let(nil, ::T.untyped)
 end
 
-class ActiveRecord::ExplainSubscriber
-  EXPLAINED_SQLS = ::T.let(nil, ::T.untyped)
-  IGNORED_PAYLOADS = ::T.let(nil, ::T.untyped)
+class ActiveRecord::Enum::ConflictTypedEnumNameError
+end
+
+class ActiveRecord::Enum::ConflictTypedEnumNameError
+end
+
+class ActiveRecord::Enum::EnumType
+  def assert_valid_value(value); end
+
+  def initialize(name, mapping, subtype); end
+
+  def subtype(); end
+
+  def type(*args, &block); end
+end
+
+class ActiveRecord::Enum::EnumType
+end
+
+class ActiveRecord::Enum::MultipleEnumsDefinedError
+end
+
+class ActiveRecord::Enum::MultipleEnumsDefinedError
+end
+
+module ActiveRecord::Enum
+  extend ::T::Sig
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+  def self.extended(base); end
+end
+
+module ActiveRecord::Explain
+  def collecting_queries_for_explain(); end
+
+  def exec_explain(queries); end
 end
 
 module ActiveRecord::FinderMethods
+  def exists?(conditions=T.unsafe(nil)); end
+
+  def fifth(); end
+
+  def fifth!(); end
+
+  def find(*args); end
+
+  def find_by(arg, *args); end
+
+  def find_by!(arg, *args); end
+
+  def first(limit=T.unsafe(nil)); end
+
+  def first!(); end
+
+  def forty_two(); end
+
+  def forty_two!(); end
+
+  def fourth(); end
+
+  def fourth!(); end
+
+  def include?(record); end
+
+  def last(limit=T.unsafe(nil)); end
+
+  def last!(); end
+
+  def member?(record); end
+
+  def raise_record_not_found_exception!(ids=T.unsafe(nil), result_size=T.unsafe(nil), expected_size=T.unsafe(nil), key=T.unsafe(nil), not_found_ids=T.unsafe(nil)); end
+
+  def second(); end
+
+  def second!(); end
+
+  def second_to_last(); end
+
+  def second_to_last!(); end
+
+  def take(limit=T.unsafe(nil)); end
+
+  def take!(); end
+
+  def third(); end
+
+  def third!(); end
+
+  def third_to_last(); end
+
+  def third_to_last!(); end
   ONE_AS_ONE = ::T.let(nil, ::T.untyped)
 end
 
-class ActiveRecord::FixtureSet
-  MAX_ID = ::T.let(nil, ::T.untyped)
+module ActiveRecord::FinderMethods
+end
+
+module ActiveRecord::Inheritance::ClassMethods
+  def abstract_class?(); end
+
+  def base_class(); end
+
+  def base_class?(); end
+
+  def compute_type(type_name); end
+
+  def descends_from_active_record?(); end
+
+  def finder_needs_type_condition?(); end
+
+  def inherited(subclass); end
+
+  def new(attributes=T.unsafe(nil), &block); end
+
+  def polymorphic_class_for(name); end
+
+  def polymorphic_name(); end
+
+  def sti_class_for(type_name); end
+
+  def sti_name(); end
+end
+
+module ActiveRecord::Inheritance
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::Integration
+  def cache_key(); end
+
+  def cache_key_with_version(); end
+
+  def cache_version(); end
+
+  def to_param(); end
+end
+
+module ActiveRecord::Integration::ClassMethods
+  def collection_cache_key(collection=T.unsafe(nil), timestamp_column=T.unsafe(nil)); end
+
+  def to_param(method_name=T.unsafe(nil)); end
+end
+
+module ActiveRecord::Integration::ClassMethods
+end
+
+module ActiveRecord::Integration
+  extend ::ActiveSupport::Concern
 end
 
 class ActiveRecord::InternalMetadata
@@ -3610,18 +5574,31 @@ module ActiveRecord::LegacyYamlAdapter
 end
 
 class ActiveRecord::Locking::LockingType
+  def deserialize(value); end
+
+  def encode_with(coder); end
+
+  def init_with(coder); end
+
+  def serialize(value); end
 end
 
-class ActiveRecord::LogSubscriber
-  def backtrace_cleaner(); end
+class ActiveRecord::Locking::LockingType
+  def self.new(subtype); end
+end
 
-  def backtrace_cleaner=(backtrace_cleaner); end
+module ActiveRecord::Locking::Optimistic
+  def increment!(*arg, **arg1); end
 
-  def backtrace_cleaner?(); end
+  def locking_enabled?(); end
+end
 
-  def sql(event); end
+module ActiveRecord::Locking::Optimistic
+  extend ::ActiveSupport::Concern
+end
 
-  def strict_loading_violation(event); end
+module ActiveRecord::Locking::Pessimistic
+  def lock!(lock=T.unsafe(nil)); end
 end
 
 class ActiveRecord::Middleware::DatabaseSelector
@@ -3926,12 +5903,82 @@ end
 module ActiveRecord::Migration::JoinTable
 end
 
+module ActiveRecord::ModelSchema::ClassMethods
+  def _default_attributes(); end
+
+  def attribute_types(); end
+
+  def attributes_builder(); end
+
+  def column_for_attribute(name); end
+
+  def column_names(); end
+
+  def full_table_name_prefix(); end
+
+  def full_table_name_suffix(); end
+
+  def initialize_load_schema_monitor(); end
+
+  def next_sequence_value(); end
+
+  def reset_column_information(); end
+
+  def reset_sequence_name(); end
+
+  def reset_table_name(); end
+
+  def symbol_column_to_string(name_symbol); end
+
+  def type_for_attribute(attr_name, &block); end
+
+  def yaml_encoder(); end
+end
+
+module ActiveRecord::ModelSchema
+  extend ::ActiveSupport::Concern
+  def self.derive_join_table_name(first_table, second_table); end
+end
+
 module ActiveRecord::NestedAttributes
+  def _destroy(); end
   UNASSIGNABLE_KEYS = ::T.let(nil, ::T.untyped)
 end
 
 module ActiveRecord::NestedAttributes::ClassMethods
   REJECT_ALL_BLANK_PROC = ::T.let(nil, ::T.untyped)
+end
+
+class ActiveRecord::NestedAttributes::TooManyRecords
+end
+
+class ActiveRecord::NestedAttributes::TooManyRecords
+end
+
+module ActiveRecord::NestedAttributes
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::NoTouching
+  def no_touching?(); end
+
+  def touch(*arg, **arg1); end
+
+  def touch_later(*arg); end
+end
+
+module ActiveRecord::NoTouching::ClassMethods
+  def no_touching(&block); end
+end
+
+module ActiveRecord::NoTouching::ClassMethods
+end
+
+module ActiveRecord::NoTouching
+  extend ::ActiveSupport::Concern
+  def self.applied_to?(klass); end
+
+  def self.apply_to(klass); end
 end
 
 module ActiveRecord::NullRelation
@@ -3963,6 +6010,22 @@ module ActiveRecord::NullRelation
 end
 
 module ActiveRecord::NullRelation
+end
+
+module ActiveRecord::Persistence
+  def previously_new_record?(); end
+end
+
+module ActiveRecord::Persistence::ClassMethods
+  def _delete_record(constraints); end
+
+  def _insert_record(values); end
+
+  def _update_record(values, constraints); end
+end
+
+module ActiveRecord::Persistence
+  extend ::ActiveSupport::Concern
 end
 
 class ActiveRecord::PredicateBuilder
@@ -4066,7 +6129,265 @@ class ActiveRecord::PredicateBuilder
   def self.references(attributes); end
 end
 
+module ActiveRecord::QueryCache::ClassMethods
+  def cache(&block); end
+
+  def uncached(&block); end
+end
+
+class ActiveRecord::QueryCache
+  def self.complete(pools); end
+
+  def self.install_executor_hooks(executor=T.unsafe(nil)); end
+
+  def self.run(); end
+end
+
 module ActiveRecord::QueryMethods
+  include ::ActiveModel::ForbiddenAttributesProtection
+  def _select!(*fields); end
+
+  def and(other); end
+
+  def and!(other); end
+
+  def annotate(*args); end
+
+  def annotate!(*args); end
+
+  def annotate_values(); end
+
+  def annotate_values=(value); end
+
+  def arel(aliases=T.unsafe(nil)); end
+
+  def build_having_clause(opts, rest=T.unsafe(nil)); end
+
+  def build_subquery(subquery_alias, select_value); end
+
+  def build_where_clause(opts, rest=T.unsafe(nil)); end
+
+  def construct_join_dependency(associations, join_type); end
+
+  def create_with(value); end
+
+  def create_with!(value); end
+
+  def create_with_value(); end
+
+  def create_with_value=(value); end
+
+  def distinct(value=T.unsafe(nil)); end
+
+  def distinct!(value=T.unsafe(nil)); end
+
+  def distinct_value(); end
+
+  def distinct_value=(value); end
+
+  def eager_load(*args); end
+
+  def eager_load!(*args); end
+
+  def eager_load_values(); end
+
+  def eager_load_values=(value); end
+
+  def extending(*modules, &block); end
+
+  def extending!(*modules, &block); end
+
+  def extending_values(); end
+
+  def extending_values=(value); end
+
+  def extensions(); end
+
+  def extract_associated(association); end
+
+  def from(value, subquery_name=T.unsafe(nil)); end
+
+  def from!(value, subquery_name=T.unsafe(nil)); end
+
+  def from_clause(); end
+
+  def from_clause=(value); end
+
+  def group(*args); end
+
+  def group!(*args); end
+
+  def group_values(); end
+
+  def group_values=(value); end
+
+  def having(opts, *rest); end
+
+  def having!(opts, *rest); end
+
+  def having_clause(); end
+
+  def having_clause=(value); end
+
+  def includes(*args); end
+
+  def includes!(*args); end
+
+  def includes_values(); end
+
+  def includes_values=(value); end
+
+  def joins(*args); end
+
+  def joins!(*args); end
+
+  def joins_values(); end
+
+  def joins_values=(value); end
+
+  def left_joins(*args); end
+
+  def left_outer_joins(*args); end
+
+  def left_outer_joins!(*args); end
+
+  def left_outer_joins_values(); end
+
+  def left_outer_joins_values=(value); end
+
+  def limit(value); end
+
+  def limit!(value); end
+
+  def limit_value(); end
+
+  def limit_value=(value); end
+
+  def lock(locks=T.unsafe(nil)); end
+
+  def lock!(locks=T.unsafe(nil)); end
+
+  def lock_value(); end
+
+  def lock_value=(value); end
+
+  def none(); end
+
+  def none!(); end
+
+  def offset(value); end
+
+  def offset!(value); end
+
+  def offset_value(); end
+
+  def offset_value=(value); end
+
+  def optimizer_hints(*args); end
+
+  def optimizer_hints!(*args); end
+
+  def optimizer_hints_values(); end
+
+  def optimizer_hints_values=(value); end
+
+  def or(other); end
+
+  def or!(other); end
+
+  def order(*args); end
+
+  def order!(*args); end
+
+  def order_values(); end
+
+  def order_values=(value); end
+
+  def preload(*args); end
+
+  def preload!(*args); end
+
+  def preload_values(); end
+
+  def preload_values=(value); end
+
+  def readonly(value=T.unsafe(nil)); end
+
+  def readonly!(value=T.unsafe(nil)); end
+
+  def readonly_value(); end
+
+  def readonly_value=(value); end
+
+  def references(*table_names); end
+
+  def references!(*table_names); end
+
+  def references_values(); end
+
+  def references_values=(value); end
+
+  def reorder(*args); end
+
+  def reorder!(*args); end
+
+  def reordering_value(); end
+
+  def reordering_value=(value); end
+
+  def reselect(*args); end
+
+  def reselect!(*args); end
+
+  def reverse_order(); end
+
+  def reverse_order!(); end
+
+  def reverse_order_value(); end
+
+  def reverse_order_value=(value); end
+
+  def rewhere(conditions); end
+
+  def select(*fields); end
+
+  def select_values(); end
+
+  def select_values=(value); end
+
+  def skip_preloading!(); end
+
+  def skip_query_cache!(value=T.unsafe(nil)); end
+
+  def skip_query_cache_value(); end
+
+  def skip_query_cache_value=(value); end
+
+  def strict_loading(value=T.unsafe(nil)); end
+
+  def strict_loading!(value=T.unsafe(nil)); end
+
+  def strict_loading_value(); end
+
+  def strict_loading_value=(value); end
+
+  def uniq!(name); end
+
+  def unscope(*args); end
+
+  def unscope!(*args); end
+
+  def unscope_values(); end
+
+  def unscope_values=(value); end
+
+  def where(*args); end
+
+  def where!(opts, *rest); end
+
+  def where_clause(); end
+
+  def where_clause=(value); end
   FROZEN_EMPTY_ARRAY = ::T.let(nil, ::T.untyped)
   FROZEN_EMPTY_HASH = ::T.let(nil, ::T.untyped)
   STRUCTURAL_VALUE_METHODS = ::T.let(nil, ::T.untyped)
@@ -4074,8 +6395,218 @@ module ActiveRecord::QueryMethods
   VALID_UNSCOPING_VALUES = ::T.let(nil, ::T.untyped)
 end
 
+class ActiveRecord::QueryMethods::WhereChain
+  def initialize(scope); end
+
+  def missing(*args); end
+
+  def not(opts, *rest); end
+end
+
+class ActiveRecord::QueryMethods::WhereChain
+end
+
+module ActiveRecord::QueryMethods
+  extend ::ActiveSupport::Concern
+end
+
 module ActiveRecord::Querying
+  def and(*args, &block); end
+
+  def annotate(*args, &block); end
+
+  def any?(*args, &block); end
+
+  def average(*args, &block); end
+
+  def calculate(*args, &block); end
+
+  def count(*args, &block); end
+
+  def count_by_sql(sql); end
+
+  def create_or_find_by(*args, &block); end
+
+  def create_or_find_by!(*args, &block); end
+
+  def create_with(*args, &block); end
+
+  def delete_all(*args, &block); end
+
+  def delete_by(*args, &block); end
+
+  def destroy_all(*args, &block); end
+
+  def destroy_by(*args, &block); end
+
+  def distinct(*args, &block); end
+
+  def eager_load(*args, &block); end
+
+  def except(*args, &block); end
+
+  def exists?(*args, &block); end
+
+  def extending(*args, &block); end
+
+  def extract_associated(*args, &block); end
+
+  def fifth(*args, &block); end
+
+  def fifth!(*args, &block); end
+
+  def find(*args, &block); end
+
+  def find_by(*args, &block); end
+
+  def find_by!(*args, &block); end
+
+  def find_by_sql(sql, binds=T.unsafe(nil), preparable: T.unsafe(nil), &block); end
+
+  def find_each(*args, &block); end
+
+  def find_in_batches(*args, &block); end
+
+  def find_or_create_by(*args, &block); end
+
+  def find_or_create_by!(*args, &block); end
+
+  def find_or_initialize_by(*args, &block); end
+
+  def first(*args, &block); end
+
+  def first!(*args, &block); end
+
+  def first_or_create(*args, &block); end
+
+  def first_or_create!(*args, &block); end
+
+  def first_or_initialize(*args, &block); end
+
+  def forty_two(*args, &block); end
+
+  def forty_two!(*args, &block); end
+
+  def fourth(*args, &block); end
+
+  def fourth!(*args, &block); end
+
+  def from(*args, &block); end
+
+  def group(*args, &block); end
+
+  def having(*args, &block); end
+
+  def ids(*args, &block); end
+
+  def in_batches(*args, &block); end
+
+  def includes(*args, &block); end
+
+  def joins(*args, &block); end
+
+  def last(*args, &block); end
+
+  def last!(*args, &block); end
+
+  def left_joins(*args, &block); end
+
+  def left_outer_joins(*args, &block); end
+
+  def limit(*args, &block); end
+
+  def lock(*args, &block); end
+
+  def many?(*args, &block); end
+
+  def maximum(*args, &block); end
+
+  def merge(*args, &block); end
+
+  def minimum(*args, &block); end
+
+  def none(*args, &block); end
+
+  def none?(*args, &block); end
+
+  def offset(*args, &block); end
+
+  def one?(*args, &block); end
+
+  def only(*args, &block); end
+
+  def optimizer_hints(*args, &block); end
+
+  def or(*args, &block); end
+
+  def order(*args, &block); end
+
+  def pick(*args, &block); end
+
+  def pluck(*args, &block); end
+
+  def preload(*args, &block); end
+
+  def readonly(*args, &block); end
+
+  def references(*args, &block); end
+
+  def reorder(*args, &block); end
+
+  def reselect(*args, &block); end
+
+  def rewhere(*args, &block); end
+
+  def second(*args, &block); end
+
+  def second!(*args, &block); end
+
+  def second_to_last(*args, &block); end
+
+  def second_to_last!(*args, &block); end
+
+  def select(*args, &block); end
+
+  def strict_loading(*args, &block); end
+
+  def sum(*args, &block); end
+
+  def take(*args, &block); end
+
+  def take!(*args, &block); end
+
+  def third(*args, &block); end
+
+  def third!(*args, &block); end
+
+  def third_to_last(*args, &block); end
+
+  def third_to_last!(*args, &block); end
+
+  def touch_all(*args, &block); end
+
+  def unscope(*args, &block); end
+
+  def update_all(*args, &block); end
+
+  def where(*args, &block); end
   QUERYING_METHODS = ::T.let(nil, ::T.untyped)
+end
+
+module ActiveRecord::ReadonlyAttributes::ClassMethods
+  def attr_readonly(*attributes); end
+
+  def readonly_attribute?(name); end
+
+  def readonly_attributes(); end
+end
+
+module ActiveRecord::ReadonlyAttributes
+  extend ::ActiveSupport::Concern
+end
+
+class ActiveRecord::RecordInvalid
+  def initialize(record=T.unsafe(nil)); end
 end
 
 class ActiveRecord::Reflection::AssociationReflection
@@ -4084,6 +6615,7 @@ class ActiveRecord::Reflection::AssociationReflection
 end
 
 class ActiveRecord::Relation
+  include ::Enumerable
   include ::ActiveRecord::Delegation
   include ::ActiveRecord::Explain
   include ::ActiveRecord::Batches
@@ -4091,6 +6623,122 @@ class ActiveRecord::Relation
   include ::ActiveModel::ForbiddenAttributesProtection
   include ::ActiveRecord::SpawnMethods
   include ::ActiveRecord::Calculations
+  include ::ActiveRecord::FinderMethods
+  include ::SorbetRails::CustomFinderMethods
+  include ::SorbetRails::PluckToTStruct
+  def ==(other); end
+
+  def _exec_scope(*args, &block); end
+
+  def alias_tracker(joins=T.unsafe(nil), aliases=T.unsafe(nil)); end
+
+  def arel_attribute(*args, &block); end
+
+  def bind_attribute(name, value); end
+
+  def build(attributes=T.unsafe(nil), &block); end
+
+  def cache_key(timestamp_column=T.unsafe(nil)); end
+
+  def cache_key_with_version(); end
+
+  def cache_version(timestamp_column=T.unsafe(nil)); end
+
+  def create(attributes=T.unsafe(nil), &block); end
+
+  def create!(attributes=T.unsafe(nil), &block); end
+
+  def create_or_find_by(attributes, &block); end
+
+  def create_or_find_by!(attributes, &block); end
+
+  def delete_by(*args); end
+
+  def destroy_all(); end
+
+  def destroy_by(*args); end
+
+  def eager_loading?(); end
+
+  def empty_scope?(); end
+
+  def encode_with(coder); end
+
+  def explain(); end
+
+  def find_or_create_by(attributes, &block); end
+
+  def find_or_create_by!(attributes, &block); end
+
+  def find_or_initialize_by(attributes, &block); end
+
+  def first_or_create(attributes=T.unsafe(nil), &block); end
+
+  def first_or_create!(attributes=T.unsafe(nil), &block); end
+
+  def first_or_initialize(attributes=T.unsafe(nil), &block); end
+
+  def has_limit_or_offset?(); end
+
+  def initialize(klass, table: T.unsafe(nil), predicate_builder: T.unsafe(nil), values: T.unsafe(nil)); end
+
+  def joined_includes_values(); end
+
+  def klass(); end
+
+  def load(&block); end
+
+  def load_records(records); end
+
+  def loaded(); end
+
+  def loaded?(); end
+
+  def locked?(); end
+
+  def model(); end
+
+  def new(attributes=T.unsafe(nil), &block); end
+
+  def null_relation?(); end
+
+  def predicate_builder(); end
+
+  def preload_associations(records); end
+
+  def records(); end
+
+  def reload(); end
+
+  def reset(); end
+
+  def scope_for_create(); end
+
+  def scoping(); end
+
+  def skip_preloading_value(); end
+
+  def skip_preloading_value=(skip_preloading_value); end
+
+  def table(); end
+
+  def to_a(); end
+
+  def to_ary(); end
+
+  def to_sql(); end
+
+  def touch_all(*names, time: T.unsafe(nil)); end
+
+  def update(id=T.unsafe(nil), attributes); end
+
+  def update_all(updates); end
+
+  def update_counters(counters); end
+
+  def values(); end
+
+  def where_values_hash(relation_table_name=T.unsafe(nil)); end
   CLAUSE_METHODS = ::T.let(nil, ::T.untyped)
   INVALID_METHODS_FOR_DELETE_ALL = ::T.let(nil, ::T.untyped)
   MULTI_VALUE_METHODS = ::T.let(nil, ::T.untyped)
@@ -4098,12 +6746,124 @@ class ActiveRecord::Relation
   VALUE_METHODS = ::T.let(nil, ::T.untyped)
 end
 
+class ActiveRecord::Relation::FromClause
+  def ==(other); end
+
+  def empty?(); end
+
+  def initialize(value, name); end
+
+  def merge(other); end
+
+  def name(); end
+
+  def value(); end
+end
+
+class ActiveRecord::Relation::FromClause
+  def self.empty(); end
+end
+
+class ActiveRecord::Relation::HashMerger
+  def initialize(relation, hash, rewhere=T.unsafe(nil)); end
+
+  def merge(); end
+
+  def other(); end
+
+  def relation(); end
+end
+
+class ActiveRecord::Relation::HashMerger
+end
+
 class ActiveRecord::Relation::Merger
+  def initialize(relation, other, rewhere=T.unsafe(nil)); end
+
+  def merge(); end
+
+  def normal_values(); end
+
+  def other(); end
+
+  def relation(); end
+
+  def values(); end
   NORMAL_VALUES = ::T.let(nil, ::T.untyped)
 end
 
+class ActiveRecord::Relation::Merger
+end
+
+class ActiveRecord::Relation::QueryAttribute
+  def infinite?(); end
+
+  def type_cast(value); end
+
+  def unboundable?(); end
+end
+
+class ActiveRecord::Relation::QueryAttribute
+end
+
+class ActiveRecord::Relation::StrictLoadingScope
+end
+
+class ActiveRecord::Relation::StrictLoadingScope
+  def self.empty_scope?(); end
+
+  def self.strict_loading_value(); end
+end
+
 class ActiveRecord::Relation::WhereClause
+  def +(other); end
+
+  def -(other); end
+
+  def ==(other); end
+
+  def any?(*args, &block); end
+
+  def ast(); end
+
+  def contradiction?(); end
+
+  def empty?(*args, &block); end
+
+  def except(*columns); end
+
+  def extract_attributes(); end
+
+  def initialize(predicates); end
+
+  def invert(); end
+
+  def merge(other, rewhere=T.unsafe(nil)); end
+
+  def or(other); end
+
+  def predicates(); end
+
+  def referenced_columns(); end
+
+  def to_h(table_name=T.unsafe(nil), equality_only: T.unsafe(nil)); end
+
+  def |(other); end
   ARRAY_WITH_EMPTY_STRING = ::T.let(nil, ::T.untyped)
+end
+
+class ActiveRecord::Relation::WhereClause
+  def self.empty(); end
+end
+
+class ActiveRecord::Relation::WhereClauseFactory
+end
+
+class ActiveRecord::Relation::WhereClauseFactory
+end
+
+class ActiveRecord::Relation
+  extend ::ActiveRecord::Delegation::ClassMethods
 end
 
 class ActiveRecord::Result
@@ -4149,6 +6909,14 @@ class ActiveRecord::RuntimeRegistry
   def self.sql_runtime(); end
 
   def self.sql_runtime=(x); end
+end
+
+module ActiveRecord::Sanitization::ClassMethods
+  def disallow_raw_sql!(args, permit: T.unsafe(nil)); end
+end
+
+module ActiveRecord::Sanitization
+  extend ::ActiveSupport::Concern
 end
 
 class ActiveRecord::SchemaDumper
@@ -4251,12 +7019,69 @@ class ActiveRecord::SchemaMigration
   def self.normalized_versions(); end
 end
 
+module ActiveRecord::Scoping::Default
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::Scoping::Named
+  extend ::ActiveSupport::Concern
+end
+
 class ActiveRecord::Scoping::ScopeRegistry
   VALID_SCOPE_TYPES = ::T.let(nil, ::T.untyped)
 end
 
 module ActiveRecord::SecureToken
   MINIMUM_TOKEN_LENGTH = ::T.let(nil, ::T.untyped)
+end
+
+class ActiveRecord::SecureToken::MinimumLengthError
+end
+
+class ActiveRecord::SecureToken::MinimumLengthError
+end
+
+module ActiveRecord::Serialization
+  def serializable_hash(options=T.unsafe(nil)); end
+end
+
+module ActiveRecord::Serialization
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::SignedId
+  def signed_id(expires_in: T.unsafe(nil), purpose: T.unsafe(nil)); end
+end
+
+module ActiveRecord::SignedId::ClassMethods
+  def combine_signed_id_purposes(purpose); end
+
+  def find_signed(signed_id, purpose: T.unsafe(nil)); end
+
+  def find_signed!(signed_id, purpose: T.unsafe(nil)); end
+
+  def signed_id_verifier(); end
+
+  def signed_id_verifier=(verifier); end
+end
+
+module ActiveRecord::SignedId::ClassMethods
+end
+
+module ActiveRecord::SignedId
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::SpawnMethods
+  def except(*skips); end
+
+  def merge(other, *rest); end
+
+  def merge!(other, *rest); end
+
+  def only(*onlies); end
+
+  def spawn(); end
 end
 
 class ActiveRecord::StatementCache
@@ -4330,6 +7155,50 @@ class ActiveRecord::StatementCache
   def self.query(sql); end
 
   def self.unsupported_value?(value); end
+end
+
+module ActiveRecord::Store::ClassMethods
+  def _store_accessors_module(); end
+end
+
+class ActiveRecord::Store::HashAccessor
+end
+
+class ActiveRecord::Store::HashAccessor
+  def self.prepare(object, attribute); end
+
+  def self.read(object, attribute, key); end
+
+  def self.write(object, attribute, key, value); end
+end
+
+class ActiveRecord::Store::IndifferentCoder
+  def dump(obj); end
+
+  def initialize(attr_name, coder_or_class_name); end
+
+  def load(yaml); end
+end
+
+class ActiveRecord::Store::IndifferentCoder
+  def self.as_indifferent_hash(obj); end
+end
+
+class ActiveRecord::Store::IndifferentHashAccessor
+end
+
+class ActiveRecord::Store::IndifferentHashAccessor
+  def self.prepare(object, store_attribute); end
+end
+
+class ActiveRecord::Store::StringKeyedHashAccessor
+end
+
+class ActiveRecord::Store::StringKeyedHashAccessor
+end
+
+module ActiveRecord::Store
+  extend ::ActiveSupport::Concern
 end
 
 class ActiveRecord::TableMetadata
@@ -4573,16 +7442,291 @@ class ActiveRecord::Tasks::SQLiteDatabaseTasks
   def self.using_database_configurations?(); end
 end
 
+module ActiveRecord::TestDatabases
+  def self.create_and_load_schema(i, env_name:); end
+end
+
+module ActiveRecord::TestFixtures
+  def after_teardown(); end
+
+  def before_setup(); end
+
+  def enlist_fixture_connections(); end
+
+  def run_in_transaction?(); end
+
+  def setup_fixtures(config=T.unsafe(nil)); end
+
+  def teardown_fixtures(); end
+end
+
+module ActiveRecord::TestFixtures::ClassMethods
+  def fixtures(*fixture_set_names); end
+
+  def set_fixture_class(class_names=T.unsafe(nil)); end
+
+  def setup_fixture_accessors(fixture_set_names=T.unsafe(nil)); end
+
+  def uses_transaction(*methods); end
+
+  def uses_transaction?(method); end
+end
+
+module ActiveRecord::TestFixtures
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::Timestamp::ClassMethods
+  def all_timestamp_attributes_in_model(); end
+
+  def current_time_from_proper_timezone(); end
+
+  def timestamp_attributes_for_create_in_model(); end
+
+  def timestamp_attributes_for_update_in_model(); end
+
+  def touch_attributes_with_time(*names, time: T.unsafe(nil)); end
+end
+
+module ActiveRecord::Timestamp::ClassMethods
+end
+
+module ActiveRecord::Timestamp
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::TouchLater
+  def before_committed!(); end
+end
+
 module ActiveRecord::Transactions
+  def before_committed!(); end
+
+  def committed!(should_run_callbacks: T.unsafe(nil)); end
+
+  def destroy(); end
+
+  def rolledback!(force_restore_state: T.unsafe(nil), should_run_callbacks: T.unsafe(nil)); end
+
+  def save(**arg); end
+
+  def save!(**arg); end
+
+  def touch(*arg, **arg1); end
+
+  def transaction(**options, &block); end
+
+  def trigger_transactional_callbacks?(); end
+
+  def with_transaction_returning_status(); end
   ACTIONS = ::T.let(nil, ::T.untyped)
+end
+
+module ActiveRecord::Transactions::ClassMethods
+  def after_commit(*args, &block); end
+
+  def after_create_commit(*args, &block); end
+
+  def after_destroy_commit(*args, &block); end
+
+  def after_rollback(*args, &block); end
+
+  def after_save_commit(*args, &block); end
+
+  def after_update_commit(*args, &block); end
+
+  def before_commit(*args, &block); end
+end
+
+module ActiveRecord::Transactions
+  extend ::ActiveSupport::Concern
+end
+
+module ActiveRecord::Translation
+  include ::ActiveModel::Translation
+  include ::ActiveModel::Naming
+  def i18n_scope(); end
+
+  def lookup_ancestors(); end
+end
+
+class ActiveRecord::Type::AdapterSpecificRegistry
+  def add_modifier(options, klass, **args); end
+end
+
+class ActiveRecord::Type::AdapterSpecificRegistry
+end
+
+class ActiveRecord::Type::Date
+  include ::ActiveRecord::Type::Internal::Timezone
+end
+
+class ActiveRecord::Type::Date
+end
+
+class ActiveRecord::Type::DateTime
+  include ::ActiveRecord::Type::Internal::Timezone
+end
+
+class ActiveRecord::Type::DateTime
+end
+
+class ActiveRecord::Type::DecimalWithoutScale
+end
+
+class ActiveRecord::Type::DecimalWithoutScale
+end
+
+class ActiveRecord::Type::DecorationRegistration
+  def call(registry, *args, **kwargs); end
+
+  def initialize(options, klass, adapter: T.unsafe(nil)); end
+
+  def matches?(*args, **kwargs); end
+end
+
+class ActiveRecord::Type::DecorationRegistration
+end
+
+class ActiveRecord::Type::HashLookupTypeMap
+  def alias_type(type, alias_type); end
+
+  def key?(key); end
+
+  def keys(); end
+end
+
+class ActiveRecord::Type::HashLookupTypeMap
 end
 
 ActiveRecord::Type::ImmutableString = ActiveModel::Type::ImmutableString
 
+module ActiveRecord::Type::Internal
+end
+
+module ActiveRecord::Type::Internal::Timezone
+  def default_timezone(); end
+
+  def is_utc?(); end
+end
+
+module ActiveRecord::Type::Internal::Timezone
+end
+
+module ActiveRecord::Type::Internal
+end
+
+class ActiveRecord::Type::Json
+  include ::ActiveModel::Type::Helpers::Mutable
+  def accessor(); end
+end
+
+class ActiveRecord::Type::Json
+end
+
+class ActiveRecord::Type::Registration
+  def adapter(); end
+
+  def block(); end
+
+  def call(_registry, *args, adapter: T.unsafe(nil), **kwargs); end
+
+  def initialize(name, block, adapter: T.unsafe(nil), override: T.unsafe(nil)); end
+
+  def matches?(type_name, *args, **kwargs); end
+
+  def name(); end
+
+  def override(); end
+
+  def priority(); end
+
+  def priority_except_adapter(); end
+end
+
+class ActiveRecord::Type::Registration
+end
+
+class ActiveRecord::Type::Serialized
+  include ::ActiveModel::Type::Helpers::Mutable
+  def accessor(); end
+
+  def assert_valid_value(value); end
+
+  def changed_in_place?(raw_old_value, value); end
+
+  def coder(); end
+
+  def deserialize(value); end
+
+  def force_equality?(value); end
+
+  def initialize(subtype, coder); end
+
+  def inspect(); end
+
+  def serialize(value); end
+
+  def subtype(); end
+end
+
 class ActiveRecord::Type::Serialized
 end
 
+class ActiveRecord::Type::Text
+end
+
+class ActiveRecord::Type::Text
+end
+
+class ActiveRecord::Type::Time
+  include ::ActiveRecord::Type::Internal::Timezone
+end
+
 class ActiveRecord::Type::Time::Value
+end
+
+class ActiveRecord::Type::Time::Value
+end
+
+class ActiveRecord::Type::Time
+end
+
+class ActiveRecord::Type::TypeMap
+  def alias_type(key, target_key); end
+
+  def clear(); end
+
+  def fetch(lookup_key, *args, &block); end
+
+  def lookup(lookup_key, *args); end
+
+  def register_type(key, value=T.unsafe(nil), &block); end
+end
+
+class ActiveRecord::Type::TypeMap
+end
+
+class ActiveRecord::Type::UnsignedInteger
+end
+
+class ActiveRecord::Type::UnsignedInteger
+end
+
+module ActiveRecord::Type
+  def self.adapter_name_from(model); end
+
+  def self.add_modifier(*args, &block); end
+
+  def self.default_value(); end
+
+  def self.lookup(*args, adapter: T.unsafe(nil), **kwargs); end
+
+  def self.register(type_name, klass=T.unsafe(nil), **options, &block); end
+
+  def self.registry(); end
+
+  def self.registry=(registry); end
 end
 
 module ActiveRecord::VERSION
@@ -4591,6 +7735,79 @@ module ActiveRecord::VERSION
   PRE = ::T.let(nil, ::T.untyped)
   STRING = ::T.let(nil, ::T.untyped)
   TINY = ::T.let(nil, ::T.untyped)
+end
+
+module ActiveRecord::Validations
+  def save(**options); end
+
+  def save!(**options); end
+
+  def valid?(context=T.unsafe(nil)); end
+
+  def validate(context=T.unsafe(nil)); end
+end
+
+class ActiveRecord::Validations::AbsenceValidator
+  def validate_each(record, attribute, association_or_value); end
+end
+
+class ActiveRecord::Validations::AbsenceValidator
+end
+
+class ActiveRecord::Validations::AssociatedValidator
+end
+
+class ActiveRecord::Validations::AssociatedValidator
+end
+
+module ActiveRecord::Validations::ClassMethods
+  def validates_absence_of(*attr_names); end
+
+  def validates_associated(*attr_names); end
+
+  def validates_length_of(*attr_names); end
+
+  def validates_numericality_of(*attr_names); end
+
+  def validates_presence_of(*attr_names); end
+
+  def validates_size_of(*attr_names); end
+
+  def validates_uniqueness_of(*attr_names); end
+end
+
+module ActiveRecord::Validations::ClassMethods
+end
+
+class ActiveRecord::Validations::LengthValidator
+  def validate_each(record, attribute, association_or_value); end
+end
+
+class ActiveRecord::Validations::LengthValidator
+end
+
+class ActiveRecord::Validations::NumericalityValidator
+  def validate_each(record, attribute, value, precision: T.unsafe(nil), scale: T.unsafe(nil)); end
+end
+
+class ActiveRecord::Validations::NumericalityValidator
+end
+
+class ActiveRecord::Validations::PresenceValidator
+  def validate_each(record, attribute, association_or_value); end
+end
+
+class ActiveRecord::Validations::PresenceValidator
+end
+
+class ActiveRecord::Validations::UniquenessValidator
+end
+
+class ActiveRecord::Validations::UniquenessValidator
+end
+
+module ActiveRecord::Validations
+  extend ::ActiveSupport::Concern
 end
 
 class ActiveStorage::LogSubscriber
@@ -4785,10 +8002,6 @@ class ActiveSupport::MessageVerifier
   include ::ActiveSupport::Messages::Rotator
 end
 
-class ActiveSupport::Notifications::Instrumenter
-  include ::Sentry::Rails::Tracing::SentryNotificationExtension
-end
-
 class ActiveSupport::NumberHelper::NumberConverter
   DEFAULTS = ::T.let(nil, ::T.untyped)
 end
@@ -4834,7 +8047,6 @@ class ActiveSupport::Subscriber
 end
 
 class ActiveSupport::TestCase
-  include ::Minitest::Parallel::Test
   include ::ActiveSupport::Testing::SetupAndTeardown
 end
 
@@ -5040,6 +8252,12 @@ end
 class Arel::Collectors::SubstituteBinds
 end
 
+class Arel::Nodes::LeadingJoin
+end
+
+class Arel::Nodes::LeadingJoin
+end
+
 class Arel::SelectManager
   STRING_OR_SYMBOL_CLASS = ::T.let(nil, ::T.untyped)
 end
@@ -5110,6 +8328,52 @@ end
 
 module BindingOfCaller
   VERSION = ::T.let(nil, ::T.untyped)
+end
+
+module Bootsnap
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
+class Bootsnap::CompileCache::Uncompilable
+end
+
+class Bootsnap::CompileCache::Uncompilable
+end
+
+module Bootsnap::ExplicitRequire
+  ARCHDIR = ::T.let(nil, ::T.untyped)
+  DLEXT = ::T.let(nil, ::T.untyped)
+  RUBYLIBDIR = ::T.let(nil, ::T.untyped)
+end
+
+module Bootsnap::LoadPathCache
+  CACHED_EXTENSIONS = ::T.let(nil, ::T.untyped)
+  DLEXT = ::T.let(nil, ::T.untyped)
+  DLEXT2 = ::T.let(nil, ::T.untyped)
+  DL_EXTENSIONS = ::T.let(nil, ::T.untyped)
+  DOT_RB = ::T.let(nil, ::T.untyped)
+  DOT_SO = ::T.let(nil, ::T.untyped)
+  ERROR_TAG_IVAR = ::T.let(nil, ::T.untyped)
+  SLASH = ::T.let(nil, ::T.untyped)
+end
+
+class Bootsnap::LoadPathCache::Cache
+  AGE_THRESHOLD = ::T.let(nil, ::T.untyped)
+  BUILTIN_FEATURES = ::T.let(nil, ::T.untyped)
+end
+
+class Bootsnap::LoadPathCache::Path
+  RUBY_LIBDIR = ::T.let(nil, ::T.untyped)
+  RUBY_SITEDIR = ::T.let(nil, ::T.untyped)
+  STABLE = ::T.let(nil, ::T.untyped)
+  VOLATILE = ::T.let(nil, ::T.untyped)
+end
+
+module Bootsnap::LoadPathCache::PathScanner
+  ALTERNATIVE_NATIVE_EXTENSIONS_PATTERN = ::T.let(nil, ::T.untyped)
+  BUNDLE_PATH = ::T.let(nil, ::T.untyped)
+  NORMALIZE_NATIVE_EXTENSIONS = ::T.let(nil, ::T.untyped)
+  REQUIRABLE_EXTENSIONS = ::T.let(nil, ::T.untyped)
 end
 
 Builder::BlankSlate = BasicObject
@@ -9621,6 +12885,8 @@ class File
 end
 
 class File
+  def self.atomic_write(file_name, temp_dir=T.unsafe(nil)); end
+
   def self.exists?(arg); end
 
   def self.probe_stat_in(dir); end
@@ -10139,9 +13405,6 @@ module Fugit::Nat::Parser
   POINT_REX = ::T.let(nil, ::T.untyped)
   WEEKDAYS = ::T.let(nil, ::T.untyped)
   WEEKDAY_REX = ::T.let(nil, ::T.untyped)
-end
-
-class FunctionalTests
 end
 
 module GC
@@ -11967,20 +15230,47 @@ module Integrations::ErrorContext
   extend ::T::Private::Methods::SingletonMethodHooks
 end
 
+class Integrations::Locker
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
+class Integrations::Mapper
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
 class Integrations::Metrics::QueuedMessage
   def self.[](*arg); end
 
   def self.members(); end
 end
 
-class Integrations::UserLocker
+module Integrations::Utilities
+  include ::ActiveSupport::ForkTracker::CoreExtPrivate
+  include ::ActiveSupport::ForkTracker::CoreExt
+end
+
+module Integrations::Utilities::Currency
+  include ::ActiveSupport::ForkTracker::CoreExtPrivate
+  include ::ActiveSupport::ForkTracker::CoreExt
+end
+
+module Integrations::Utilities::Currency
   extend ::T::Private::Methods::MethodHooks
   extend ::T::Private::Methods::SingletonMethodHooks
 end
 
-module Integrations::Utilities
+module Integrations::Utilities::Stripe
   include ::ActiveSupport::ForkTracker::CoreExtPrivate
   include ::ActiveSupport::ForkTracker::CoreExt
+end
+
+module Integrations::Utilities::Stripe
+  extend ::T::Private::Abstract::Hooks
+  extend ::T::InterfaceWrapper::Helpers
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 class JSON::Ext::Generator::State
@@ -12082,6 +15372,8 @@ end
 module Kernel
   def self.at_exit(); end
 
+  def self.autoload(arg, arg1); end
+
   def self.fork(); end
 end
 
@@ -12161,6 +15453,7 @@ class Listen::Silencer
 end
 
 class Logger
+  include ::Sentry::Breadcrumb::SentryLogger
   SEV_LABEL = ::T.let(nil, ::T.untyped)
 end
 
@@ -13057,6 +16350,22 @@ class Matrix
   def self.included(mod); end
 end
 
+module MessagePack
+  DEFAULT_EMPTY_PARAMS = ::T.let(nil, ::T.untyped)
+end
+
+module MessagePack::Time
+  Packer = ::T.let(nil, ::T.untyped)
+  TIME_AT_3_AVAILABLE = ::T.let(nil, ::T.untyped)
+  Unpacker = ::T.let(nil, ::T.untyped)
+end
+
+class MessagePack::Timestamp
+  TIMESTAMP32_MAX_SEC = ::T.let(nil, ::T.untyped)
+  TIMESTAMP64_MAX_SEC = ::T.let(nil, ::T.untyped)
+  TYPE = ::T.let(nil, ::T.untyped)
+end
+
 module MethodSource
   VERSION = ::T.let(nil, ::T.untyped)
 end
@@ -13096,10 +16405,6 @@ end
 
 class Minitest::BacktraceFilter
   MT_RE = ::T.let(nil, ::T.untyped)
-end
-
-class Minitest::ProfileReporter
-  VERSION = ::T.let(nil, ::T.untyped)
 end
 
 module Minitest::Rails
@@ -13302,6 +16607,10 @@ class Minitest::Runnable
 end
 
 class Minitest::Spec
+  TYPES = ::T.let(nil, ::T.untyped)
+end
+
+module Minitest::Spec::DSL
   TYPES = ::T.let(nil, ::T.untyped)
 end
 
@@ -16629,6 +19938,7 @@ module Psych
 end
 
 module Psych
+  extend ::Bootsnap::CompileCache::YAML::Patch
   def self.add_builtin_type(type_tag, &block); end
 
   def self.add_domain_type(domain, type_tag, &block); end
@@ -17478,244 +20788,6 @@ end
 
 module Rails::Autoloaders
   extend ::Enumerable
-end
-
-module Rails::Command::Actions
-  def load_generators(); end
-
-  def load_tasks(); end
-
-  def require_application!(); end
-
-  def require_application_and_environment!(); end
-
-  def require_environment!(); end
-
-  def set_application_directory!(); end
-end
-
-module Rails::Command::Actions
-end
-
-class Rails::Command::Base
-  include ::Rails::Command::Actions
-  def help(); end
-end
-
-class Rails::Command::Base::Error
-end
-
-class Rails::Command::Base::Error
-end
-
-class Rails::Command::Base
-  def self.banner(*arg); end
-
-  def self.base_name(); end
-
-  def self.command_name(); end
-
-  def self.default_command_root(); end
-
-  def self.desc(usage=T.unsafe(nil), description=T.unsafe(nil), options=T.unsafe(nil)); end
-
-  def self.engine?(); end
-
-  def self.executable(); end
-
-  def self.hide_command!(); end
-
-  def self.inherited(base); end
-
-  def self.perform(command, args, config); end
-
-  def self.printing_commands(); end
-
-  def self.usage_path(); end
-end
-
-module Rails::Command::Spellchecker
-end
-
-module Rails::Command::Spellchecker
-  def self.suggest(word, from:); end
-end
-
-module Rails::Generators::Actions
-  def add_source(source, options=T.unsafe(nil), &block); end
-
-  def application(data=T.unsafe(nil), options=T.unsafe(nil)); end
-
-  def environment(data=T.unsafe(nil), options=T.unsafe(nil)); end
-
-  def gem(*args); end
-
-  def gem_group(*names, &block); end
-
-  def generate(what, *args); end
-
-  def git(commands=T.unsafe(nil)); end
-
-  def github(repo, options=T.unsafe(nil), &block); end
-
-  def initialize(*arg); end
-
-  def initializer(filename, data=T.unsafe(nil)); end
-
-  def lib(filename, data=T.unsafe(nil)); end
-
-  def rails_command(command, options=T.unsafe(nil)); end
-
-  def rake(command, options=T.unsafe(nil)); end
-
-  def rakefile(filename, data=T.unsafe(nil)); end
-
-  def readme(path); end
-
-  def route(routing_code, namespace: T.unsafe(nil)); end
-
-  def vendor(filename, data=T.unsafe(nil)); end
-end
-
-class Rails::Generators::Actions::CreateMigration
-  def existing_migration(); end
-
-  def migration_dir(); end
-
-  def migration_file_name(); end
-
-  def relative_existing_migration(); end
-end
-
-class Rails::Generators::Actions::CreateMigration
-end
-
-module Rails::Generators::Actions
-end
-
-class Rails::Generators::ActiveModel
-  def destroy(); end
-
-  def errors(); end
-
-  def initialize(name); end
-
-  def name(); end
-
-  def save(); end
-
-  def update(params=T.unsafe(nil)); end
-end
-
-class Rails::Generators::ActiveModel
-  def self.all(klass); end
-
-  def self.build(klass, params=T.unsafe(nil)); end
-
-  def self.find(klass, params=T.unsafe(nil)); end
-end
-
-class Rails::Generators::Base
-  include ::Thor::Actions
-  include ::Rails::Generators::Actions
-end
-
-class Rails::Generators::Base
-  def self.add_shebang_option!(); end
-
-  def self.base_name(); end
-
-  def self.base_root(); end
-
-  def self.default_aliases_for_option(name, options); end
-
-  def self.default_for_option(config, name, options, default); end
-
-  def self.default_generator_root(); end
-
-  def self.default_source_root(); end
-
-  def self.default_value_for_option(name, options); end
-
-  def self.generator_name(); end
-
-  def self.hide!(); end
-
-  def self.hook_for(*names, &block); end
-
-  def self.hooks(); end
-
-  def self.inherited(base); end
-
-  def self.prepare_for_invocation(name, value); end
-
-  def self.remove_hook_for(*names); end
-
-  def self.usage_path(); end
-end
-
-module Rails::Generators::Database
-  def convert_database_option_for_jruby(); end
-
-  def gem_for_database(database=T.unsafe(nil)); end
-
-  def initialize(*arg); end
-end
-
-module Rails::Generators::Migration
-  def create_migration(destination, data, config=T.unsafe(nil), &block); end
-
-  def migration_class_name(); end
-
-  def migration_file_name(); end
-
-  def migration_number(); end
-
-  def migration_template(source, destination, config=T.unsafe(nil)); end
-
-  def set_migration_assigns!(destination); end
-end
-
-module Rails::Generators::Migration::ClassMethods
-  def current_migration_number(dirname); end
-
-  def migration_exists?(dirname, file_name); end
-
-  def migration_lookup_at(dirname); end
-
-  def next_migration_number(dirname); end
-end
-
-module Rails::Generators::Migration
-  extend ::ActiveSupport::Concern
-end
-
-class Rails::Generators::NamedBase
-  def file_name(); end
-
-  def initialize(args, *options); end
-
-  def js_template(source, destination); end
-
-  def name(); end
-
-  def name=(name); end
-end
-
-class Rails::Generators::NamedBase
-  def self.check_class_collision(options=T.unsafe(nil)); end
-end
-
-module Rails::Generators::ResourceHelpers
-  def initialize(*args); end
-end
-
-module Rails::Generators::ResourceHelpers
-  def self.included(base); end
-end
-
-class Rails::Generators::TestCase
-  include ::FileUtils::StreamUtils_
 end
 
 module Rails::Html
@@ -18840,9 +21912,6 @@ class Restforce::SObject
   def sobject_type(); end
 
   def to_sparam(); end
-end
-
-class Restforce::SObject
 end
 
 class Restforce::SignedRequest
@@ -20084,6 +23153,10 @@ class RubyVM::DebugInspector
   VERSION = ::T.let(nil, ::T.untyped)
 end
 
+class RubyVM::InstructionSequence
+  extend ::Bootsnap::CompileCache::ISeq::InstructionSequenceMixin
+end
+
 module RubyVM::MJIT
 end
 
@@ -20327,6 +23400,10 @@ module Sentry
   VERSION = ::T.let(nil, ::T.untyped)
 end
 
+class Sentry::BackgroundWorker
+  def drain_and_shutdown(timeout=T.unsafe(nil)); end
+end
+
 class Sentry::Backtrace
   APP_DIRS_PATTERN = ::T.let(nil, ::T.untyped)
 end
@@ -20339,6 +23416,10 @@ end
 
 class Sentry::Breadcrumb
   DATA_SERIALIZATION_ERROR_MESSAGE = ::T.let(nil, ::T.untyped)
+end
+
+module Sentry::Breadcrumb::SentryLogger
+  LEVELS = ::T.let(nil, ::T.untyped)
 end
 
 class Sentry::BreadcrumbBuffer
@@ -20411,10 +23492,6 @@ end
 class Sentry::Rails::Tracing::ActiveRecordSubscriber
   EVENT_NAME = ::T.let(nil, ::T.untyped)
   EXCLUDED_EVENTS = ::T.let(nil, ::T.untyped)
-end
-
-module Sentry::Rails::Tracing::SentryNotificationExtension
-  def instrument(name, payload=T.unsafe(nil), &block); end
 end
 
 class Sentry::RequestInterface
@@ -20742,6 +23819,10 @@ class SignedGlobalID
   def self.verifier=(verifier); end
 end
 
+class SimpleStructuredLogger::Writer
+  def level(level=T.unsafe(nil)); end
+end
+
 module Sinatra
   VERSION = ::T.let(nil, ::T.untyped)
 end
@@ -20976,6 +24057,23 @@ module Socket::Constants
   TCP_NOPUSH = ::T.let(nil, ::T.untyped)
 end
 
+module SorbetRails::CustomFinderMethods
+  def find_by_id(id); end
+
+  def find_by_id!(id); end
+
+  def find_n(*ids); end
+
+  def first_n(n); end
+
+  def last_n(n); end
+
+  def select_columns(*args); end
+end
+
+module SorbetRails::CustomFinderMethods
+end
+
 SorbetRails::JobRbiFormatter::Parameter = Parlour::RbiGenerator::Parameter
 
 SorbetRails::MailerRbiFormatter::Parameter = Parlour::RbiGenerator::Parameter
@@ -20988,12 +24086,31 @@ end
 SorbetRails::ModelPlugins::Base::Parameter = Parlour::RbiGenerator::Parameter
 
 module SorbetRails::PluckToTStruct
+  def pluck_to_tstruct(*args, &blk); end
   NILCLASS_STRING = ::T.let(nil, ::T.untyped)
+end
+
+module SorbetRails::PluckToTStruct
+  extend ::T::Sig
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 module SorbetRails::SorbetUtils
   include ::ActiveSupport::ForkTracker::CoreExtPrivate
   include ::ActiveSupport::ForkTracker::CoreExt
+end
+
+class SorbetRails::TypedEnumConfig
+  def class_name(); end
+
+  def initialize(hash=T.unsafe(nil)); end
+
+  def strict_mode(); end
+end
+
+class SorbetRails::TypedEnumConfig
+  def self.inherited(s); end
 end
 
 module SorbetRails
@@ -21424,7 +24541,11 @@ class Stripe::WebhookEndpoint
   OBJECT_NAME = ::T.let(nil, ::T.untyped)
 end
 
-class StripeForce::PollBase
+class StripeForce::BaseJob
+  def initialize(*args, &blk); end
+end
+
+class StripeForce::BaseJob
   extend ::T::Private::Abstract::Hooks
   extend ::T::InterfaceWrapper::Helpers
   extend ::T::Private::Methods::MethodHooks
@@ -21439,15 +24560,24 @@ class StripeForce::PollTimestamp
   extend ::Sequel::Plugins::Timestamps::ClassMethods
 end
 
+class StripeForce::PollerBase
+  extend ::T::Private::Abstract::Hooks
+  extend ::T::InterfaceWrapper::Helpers
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
 class StripeForce::User
   include ::Sequel::Plugins::Timestamps::InstanceMethods
   include ::Sequel::Plugins::AfterInitialize::InstanceMethods
+  include ::Sequel::Plugins::DefaultsSetter::InstanceMethods
   include ::Sequel::Plugins::Serialization::InstanceMethods
 end
 
 class StripeForce::User
   extend ::Sequel::Plugins::Timestamps::ClassMethods
   extend ::Sequel::Plugins::AfterInitialize::ClassMethods
+  extend ::Sequel::Plugins::DefaultsSetter::ClassMethods
   extend ::Sequel::Plugins::Serialization::ClassMethods
 end
 
@@ -21460,6 +24590,10 @@ Struct::Group = Etc::Group
 Struct::Passwd = Etc::Passwd
 
 Struct::Tms = Process::Tms
+
+class Symbol
+  def self.from_msgpack_ext(data); end
+end
 
 class TA
   Elem = type_member
@@ -21482,11 +24616,6 @@ class Tempfile::Remover
 end
 
 class Tempfile::Remover
-end
-
-module Thor::RakeCompat
-  include ::Rake::DSL
-  include ::Rake::FileUtilsExt
 end
 
 module Tilt
@@ -25021,6 +28150,10 @@ class YARD::Verifier
 end
 
 class YARD::Verifier
+end
+
+module Zeitwerk
+  VERSION = ::T.let(nil, ::T.untyped)
 end
 
 module Zeitwerk::ExplicitNamespace

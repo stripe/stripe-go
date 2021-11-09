@@ -224,8 +224,6 @@ class ActiveJob::Base
   def self._queue_adapter=(value); end
   def self._queue_adapter_name; end
   def self._queue_adapter_name=(value); end
-  def self._test_adapter; end
-  def self._test_adapter=(value); end
   def self.log_arguments; end
   def self.log_arguments=(value); end
   def self.log_arguments?; end
@@ -260,7 +258,6 @@ class ActiveJob::Base
   extend ActiveJob::QueueAdapter::ClassMethods
   extend ActiveJob::QueueName::ClassMethods
   extend ActiveJob::QueuePriority::ClassMethods
-  extend ActiveJob::TestHelper::TestQueueAdapter::ClassMethods
   extend ActiveSupport::Callbacks::ClassMethods
   extend ActiveSupport::DescendantsTracker
   extend ActiveSupport::Rescuable::ClassMethods
@@ -274,50 +271,8 @@ class ActiveJob::Base
   include ActiveJob::QueueAdapter
   include ActiveJob::QueueName
   include ActiveJob::QueuePriority
-  include ActiveJob::TestHelper::TestQueueAdapter
   include ActiveJob::Timezones
   include ActiveJob::Translation
   include ActiveSupport::Callbacks
   include ActiveSupport::Rescuable
-end
-module ActiveJob::TestHelper
-  def after_teardown; end
-  def assert_enqueued_jobs(number, only: nil, except: nil, queue: nil, &block); end
-  def assert_enqueued_with(job: nil, args: nil, at: nil, queue: nil, &block); end
-  def assert_no_enqueued_jobs(only: nil, except: nil, queue: nil, &block); end
-  def assert_no_performed_jobs(only: nil, except: nil, queue: nil, &block); end
-  def assert_performed_jobs(number, only: nil, except: nil, queue: nil, &block); end
-  def assert_performed_with(job: nil, args: nil, at: nil, queue: nil, &block); end
-  def before_setup; end
-  def clear_enqueued_jobs; end
-  def clear_performed_jobs; end
-  def deserialize_args_for_assertion(job); end
-  def enqueued_jobs(*args, &block); end
-  def enqueued_jobs=(arg); end
-  def enqueued_jobs_with(only: nil, except: nil, queue: nil, at: nil, &block); end
-  def filter_as_proc(filter); end
-  def flush_enqueued_jobs(only: nil, except: nil, queue: nil, at: nil); end
-  def instantiate_job(payload); end
-  def jobs_with(jobs, only: nil, except: nil, queue: nil, at: nil); end
-  def perform_enqueued_jobs(only: nil, except: nil, queue: nil, at: nil, &block); end
-  def performed_jobs(*args, &block); end
-  def performed_jobs=(arg); end
-  def performed_jobs_with(only: nil, except: nil, queue: nil, &block); end
-  def prepare_args_for_assertion(args); end
-  def queue_adapter; end
-  def queue_adapter_changed_jobs; end
-  def queue_adapter_for_test; end
-  def validate_option(only: nil, except: nil); end
-  include ActiveSupport::Testing::Assertions
-end
-module ActiveJob::TestHelper::TestQueueAdapter
-  extend ActiveSupport::Concern
-end
-module ActiveJob::TestHelper::TestQueueAdapter::ClassMethods
-  def disable_test_adapter; end
-  def enable_test_adapter(test_adapter); end
-  def queue_adapter; end
-end
-class ActiveJob::TestCase < ActiveSupport::TestCase
-  include ActiveJob::TestHelper
 end

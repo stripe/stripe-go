@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/omniauth-oauth2/all/omniauth-oauth2.rbi
 #
-# omniauth-oauth2-1.7.1
+# omniauth-oauth2-1.7.2
 
 module OmniAuth
 end

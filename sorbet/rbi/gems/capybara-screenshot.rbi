@@ -111,7 +111,7 @@ class Capybara::Screenshot::Saver
   include Capybara::Screenshot::Callbacks
   include Capybara::Screenshot::Callbacks::InstanceMethods
 end
-module InvalidName___Class_0x00___ScreenshotOverrides_36
+module InvalidName___Class_0x00___ScreenshotOverrides_28
   def using_session(name, &block); end
   def using_session_with_screenshot(name, &block); end
 end

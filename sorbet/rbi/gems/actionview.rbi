@@ -78,6 +78,9 @@ class ActionView::PartialRenderer < ActionView::AbstractRenderer
   include ActionView::CollectionCaching
 end
 module ActionView::Helpers
+  def self.eager_load!; end
+  extend ActiveSupport::Autoload
+  extend ActiveSupport::Concern
   include ActionView::Helpers::ActiveModelHelper
   include ActionView::Helpers::AssetTagHelper
   include ActionView::Helpers::AssetUrlHelper
@@ -101,6 +104,7 @@ module ActionView::Helpers
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::TranslationHelper
   include ActionView::Helpers::UrlHelper
+  include ActiveSupport::Benchmarkable
 end
 module ActionView::Helpers::ActiveModelHelper
 end

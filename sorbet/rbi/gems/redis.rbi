@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/redis/all/redis.rbi
 #
-# redis-4.5.0
+# redis-4.5.1
 
 class Redis
   def _bpop(cmd, args, &blk); end

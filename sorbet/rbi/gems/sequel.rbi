@@ -2106,6 +2106,21 @@ class Sequel::Model::Associations::EagerGraphLoader
   def row_procs; end
   def type_map; end
 end
+module Sequel::Plugins::DefaultsSetter
+  def self.configure(model, opts = nil); end
+end
+module Sequel::Plugins::DefaultsSetter::ClassMethods
+  def cache_default_values?; end
+  def convert_default_value(v); end
+  def default_values; end
+  def freeze; end
+  def inherited_instance_variables; end
+  def set_dataset(*a); end
+  def set_default_values; end
+end
+module Sequel::Plugins::DefaultsSetter::InstanceMethods
+  def [](k); end
+end
 module Sequel::UnmodifiedIdentifiers
 end
 module Sequel::UnmodifiedIdentifiers::DatabaseMethods
