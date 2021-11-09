@@ -189,49 +189,21 @@ jobs:
               : ${CIRCLE_PROJECT_REPONAME:?"Required Env Variable not found!"}
               : ${CIRCLE_REPOSITORY_URL:?"Required Env Variable not found!"}
               : ${CIRCLE_JOB:?"Required Env Variable not found!"}
-              # Only needed for private projects
-              if [ -z "${<< parameters.circleci-api-key >>}" ]; then
-                echo "<< parameters.circleci-api-key >> not set. Private projects will be inaccessible."
-              fi
-              VCS_TYPE="<<parameters.vcs-type>>"
+              VCS_TYPE="github"
             }
             fetch_filtered_active_builds(){
-              if [ "<<parameters.consider-branch>>" != "true" ];then
-                echo "Orb parameter 'consider-branch' is false, will block previous builds on any branch."
-                jobs_api_url_template="https://circleci.com/api/v1.1/project/${VCS_TYPE}/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}?circle-token=${<< parameters.circleci-api-key >>}&filter=running"
-              elif [ -n "${CIRCLE_TAG:x}" ] && [ "<<parameters.tag-pattern>>" != "" ]; then
-                echo "CIRCLE_TAG and orb parameter tag-pattern is set, fetch active builds"
-                jobs_api_url_template="https://circleci.com/api/v1.1/project/${VCS_TYPE}/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}?circle-token=${<< parameters.circleci-api-key >>}&filter=running"
-              else
-                echo "Only blocking execution if running previous jobs on branch: ${CIRCLE_BRANCH}"
-                : ${CIRCLE_BRANCH:?"Required Env Variable not found!"}
-                jobs_api_url_template="https://circleci.com/api/v1.1/project/${VCS_TYPE}/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/tree/${CIRCLE_BRANCH}?circle-token=${<< parameters.circleci-api-key >>}&filter=running"
-              fi
-              if [ ! -z $TESTING_MOCK_RESPONSE ] && [ -f $TESTING_MOCK_RESPONSE ];then
-                echo "Using test mock response"
-                cat $TESTING_MOCK_RESPONSE > /tmp/jobstatus.json
-              else
-                echo "Attempting to access CircleCI api. If the build process fails after this step, ensure your << parameters.circleci-api-key >> is set."
-                if [ -n "${CIRCLE_TAG:x}" ] && [ "<<parameters.tag-pattern>>" != "" ]; then
-                  curl -f -s $jobs_api_url_template | jq '[ .[] | select(.vcs_tag | . != null) | select(.vcs_tag | test("<<parameters.tag-pattern>>") ) ]' > /tmp/jobstatus.json
-                else
-                  curl -f -s $jobs_api_url_template > /tmp/jobstatus.json
-                fi
-                echo "API access successful"
-              fi
+              jobs_api_url_template="https://circleci.com/api/v1.1/project/${VCS_TYPE}/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}?circle-token=${CIRCLECI_API_KEY}&filter=running"
+              echo "Attempting to access CircleCI api. If the build process fails after this step, ensure your CIRCLECI_API_KEY is set."
+              curl -f -s $jobs_api_url_template > /tmp/jobstatus.json
+              echo "API access successful"
             }
             fetch_active_workflows(){
               cp /tmp/jobstatus.json /tmp/augmented_jobstatus.json
-              for workflow in `jq -r ".[] | .workflows.workflow_id //empty" /tmp/augmented_jobstatus.json | uniq`
+              for workflow in `jq -r ".[] | .workflows.workflow_id" /tmp/augmented_jobstatus.json | uniq`
               do
                 echo "Checking time of workflow: ${workflow}"
                 workflow_file=/tmp/workflow-${workflow}.json
-                if [ ! -z $TESTING_MOCK_WORKFLOW_RESPONSES ] && [ -f $TESTING_MOCK_WORKFLOW_RESPONSES/${workflow}.json ]; then
-                  echo "Using test mock workflow response"
-                  cat $TESTING_MOCK_WORKFLOW_RESPONSES/${workflow}.json > ${workflow_file}
-                else
-                  curl -f -s "https://circleci.com/api/v2/workflow/${workflow}?circle-token=${<< parameters.circleci-api-key >>}" > ${workflow_file}
-                fi
+                curl -f -s "https://circleci.com/api/v2/workflow/${workflow}?circle-token=${CIRCLECI_API_KEY}" > ${workflow_file}
                 created_at=`jq -r '.created_at' ${workflow_file}`
                 echo "Workflow was created at: ${created_at}"
                 cat /tmp/augmented_jobstatus.json | jq --arg created_at "${created_at}" --arg workflow "${workflow}" '(.[] | select(.workflows.workflow_id == $workflow) | .workflows) |= . + {created_at:$created_at}' > /tmp/augmented_jobstatus-${workflow}.json
@@ -244,18 +216,11 @@ jobs:
               fetch_filtered_active_builds
               fetch_active_workflows
               load_current_workflow_values
-              # falsey parameters are empty strings, so always compare against 'true'
-              if [ "<<parameters.block-workflow>>" = "true" ] ;then
-                echo "Orb parameter block-workflow is true."
-                echo "This job will block until no previous workflows have *any* jobs running."
-                oldest_running_build_num=`jq 'sort_by(.workflows.created_at)| .[0].build_num' /tmp/augmented_jobstatus.json`
-                oldest_commit_time=`jq 'sort_by(.workflows.created_at)| .[0].workflows.created_at' /tmp/augmented_jobstatus.json`
-              else
-                echo "Orb parameter block-workflow is false."
-                echo "Only blocking execution if running previous jobs matching this job: ${CIRCLE_JOB}"
-                oldest_running_build_num=`jq ". | map(select(.build_parameters.CIRCLE_JOB==\"${CIRCLE_JOB}\")) | sort_by(.workflows.created_at)|  .[0].build_num" /tmp/augmented_jobstatus.json`
-                oldest_commit_time=`jq ". | map(select(.build_parameters.CIRCLE_JOB==\"${CIRCLE_JOB}\")) | sort_by(.workflows.created_at)|  .[0].workflows.created_at" /tmp/augmented_jobstatus.json`
-              fi
+
+              echo "This job will block until no previous workflows have *any* jobs running."
+              oldest_running_build_num=`jq 'sort_by(.workflows.created_at)| .[0].build_num' /tmp/augmented_jobstatus.json`
+              oldest_commit_time=`jq 'sort_by(.workflows.created_at)| .[0].workflows.created_at' /tmp/augmented_jobstatus.json`
+
               echo "Oldest job: $oldest_running_build_num"
               if [ -z $oldest_commit_time ];then
                 echo "API Call for existing jobs failed, failing this build.  Please check API token"
@@ -273,7 +238,7 @@ jobs:
             }
             cancel_current_build(){
               echo "Cancelleing build ${CIRCLE_BUILD_NUM}"
-              cancel_api_url_template="https://circleci.com/api/v1.1/project/${VCS_TYPE}/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BUILD_NUM}/cancel?circle-token=${<< parameters.circleci-api-key >>}"
+              cancel_api_url_template="https://circleci.com/api/v1.1/project/${VCS_TYPE}/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BUILD_NUM}/cancel?circle-token=${CIRCLECI_API_KEY}"
               curl -s -X POST $cancel_api_url_template > /dev/null
             }
             #
@@ -284,12 +249,7 @@ jobs:
               # It's important that we not fail here because it could cause issues on the main repo's branch
               exit 0
             fi
-            if [ "<<parameters.only-on-branch>>" = "*" ] || [ "<<parameters.only-on-branch>>" = "${CIRCLE_BRANCH}" ]; then
-              echo "${CIRCLE_BRANCH} queueable"
-            else
-              echo "Queueing only happens on <<parameters.only-on-branch>> branch, skipping queue"
-              exit 0
-            fi
+
             #
             # Set values that wont change while we wait
             #
@@ -308,9 +268,9 @@ jobs:
               update_comparables
               echo "This Workflow Timestamp: $my_commit_time"
               echo "Oldest Workflow Timestamp: $oldest_commit_time"
-              if [[ ! -z "$my_commit_time" ]] && [[ "$oldest_commit_time" > "$my_commit_time" || "$oldest_commit_time" = "$my_commit_time" ]] ; then
+              if [[ "$oldest_commit_time" > "$my_commit_time" ]] || [[ "$oldest_commit_time" = "$my_commit_time" ]] ; then
                 # API returns Y-M-D HH:MM (with 24 hour clock) so alphabetical string compare is accurate to timestamp compare as well
-                # recent-jobs API does not include pending, so it is posisble we queried in between a workfow transition, and we;re NOT really front of line.
+                # recent-jobs API does not include pending, so it is possible we queried in between a workfow transition, and we;re NOT really front of line.
                 if [ $confidence -lt <<parameters.confidence>> ];then
                   # To grow confidence, we check again with a delay.
                   confidence=$((confidence+1))
@@ -321,21 +281,14 @@ jobs:
                   break
                 fi
               else
-                # If we fail, reset confidence
-                confidence=0
                 echo "This build (${CIRCLE_BUILD_NUM}) is queued, waiting for build number (${oldest_running_build_num}) to complete."
                 echo "Total Queue time: ${wait_time} seconds."
               fi
               if [ $wait_time -ge $max_time_seconds ]; then
-                echo "Max wait time exceeded, considering response."
-                if [ "<<parameters.dont-quit>>" == "true" ];then
-                  echo "Orb parameter dont-quit is set to true, letting this job proceed!"
-                  exit 0
-                else
-                  cancel_current_build
-                  sleep 10 # wait for API to cancel this job, rather than showing as failure
-                  exit 1 # but just in case, fail job
-                fi
+                echo "Max wait time exceeded, cancelling build."
+                cancel_current_build
+                sleep 10 # wait for API to cancel this job, rather than showing as failure
+                exit 1 # but just in case, fail job
               fi
               sleep $loop_time
               wait_time=$(( loop_time + wait_time ))
