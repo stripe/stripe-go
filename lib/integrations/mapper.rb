@@ -57,17 +57,15 @@ module Integrations
       end
     end
 
-    protected
-
-    def is_record_reference_field?(field_name)
+    protected def is_record_reference_field?(field_name)
       field_name =~ /_id$/
     end
 
-    def is_date_field?(field_name)
+    protected def is_date_field?(field_name)
       field_name =~ /_date$/
     end
 
-    def build_dynamic_mapping_values(source_record, mapping_for_record)
+    protected def build_dynamic_mapping_values(source_record, mapping_for_record)
       # build annotations using stripe resource metadata and users table
       # of accepted stripe metadata values and their corresponding NS keys
       mapping_for_record.each_with_object({}) do |(key_path, destination_field_name), assignments|
@@ -91,7 +89,7 @@ module Integrations
       end
     end
 
-    def assign_values_from_hash(record, field_assignments)
+    protected def assign_values_from_hash(record, field_assignments)
       field_assignments.each do |k, v|
         # TODO need to handle nil values
         # TODO think on custom fields with NetSuite suffix `_id`

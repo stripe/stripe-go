@@ -31,12 +31,13 @@ AllCops:
   DisplayCopNames: true
   Include:
     - Gemfile
-    - Gemfile-local
     - Rakefile.rb
     - '**/*.rb'
   Exclude:
     - 'scripts/**/*'
+    - 'test/**/*'
     - 'bin/*'
+    - 'db/*'
     - '**/node_modules/**/*'
     - build/**/*
     - tmp/**/*

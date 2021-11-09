@@ -10,6 +10,10 @@ module Integrations
 
     include Log
 
+    def report_exception(exception)
+      Sentry.capture_exception(exception)
+    end
+
     def report_edge_case(message, stripe_resource: nil, integration_record: nil, metadata: nil)
       report_error(Integrations::Errors::UnhandledEdgeCase, message, stripe_resource: stripe_resource, integration_record: integration_record, metadata: metadata)
     end

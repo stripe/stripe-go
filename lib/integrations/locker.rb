@@ -123,9 +123,7 @@ module Integrations
       redis.get(key).to_f < Time.now.to_f
     end
 
-    private
-
-    def generate_salesforce_record_lock_key(sf_record)
+    private def generate_salesforce_record_lock_key(sf_record)
       [
         generate_user_lock_key(user),
         'record',
@@ -135,7 +133,7 @@ module Integrations
     end
 
     sig { params(stripe_resource: Stripe::APIResource).returns(String) }
-    def generate_stripe_resource_lock_key(stripe_resource)
+    private def generate_stripe_resource_lock_key(stripe_resource)
       resource_lock_key = stripe_resource.id
 
       # plans and coupons don't have unique IDs across accounts
@@ -153,7 +151,7 @@ module Integrations
     end
 
     sig { params(resource_lock_key: String, expiration_time: T.nilable(Integer)).void }
-    def acquire_or_refresh_resource_lock(resource_lock_key, expiration_time=nil)
+    private def acquire_or_refresh_resource_lock(resource_lock_key, expiration_time=nil)
       if @locked_resource_keys.include?(resource_lock_key)
         log.info 'resource is already locked, refreshing', key: resource_lock_key
         redis.set(resource_lock_key, generate_expiration(expiration_time: expiration_time))
@@ -165,7 +163,7 @@ module Integrations
     end
 
     sig { params(key: String).returns(Float) }
-    def acquire_lock(key)
+    private def acquire_lock(key)
       expiration = generate_expiration
 
       # Use the expiration as the value of the lock.
@@ -194,7 +192,7 @@ module Integrations
 
     # https://github.com/stripe/stripe-netsuite/issues/751
     sig { params(user: StripeForce::User).returns(String) }
-    def generate_user_lock_key(user)
+    private def generate_user_lock_key(user)
       base_key = self.class.generate_netsuite_account_lock_key(user)
 
       # NOTE usage should be 1 less than the desired amount because of base_key
@@ -219,7 +217,7 @@ module Integrations
     end
 
     sig { params(expiration_time: T.nilable(Integer)).returns(Float) }
-    def generate_expiration(expiration_time: nil)
+    private def generate_expiration(expiration_time: nil)
       # ensure a minimum expiration time is in place
       expiration_time ||= LOCK_EXPIRATION_TIME
       expiration_time = [expiration_time, LOCK_EXPIRATION_TIME].max

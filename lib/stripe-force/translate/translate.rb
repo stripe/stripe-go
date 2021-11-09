@@ -101,7 +101,7 @@ class StripeForce::Translate
       begin
         return Stripe::Price.retrieve(stripe_price_id, @user.stripe_credentials)
       rescue => e
-        # TODO report this
+        report_exception(e)
       end
     end
 
@@ -192,7 +192,7 @@ class StripeForce::Translate
     # the OrderItems from the commerce API is some sort of limited version
     sf_order_items = sf_order_items.map {|o| sf.find('OrderItem', o.Id) }
 
-    sf_recurring_items, sf_one_time_items = sf_order_items.partition {|i| recurring_item?(i) }
+    sf_recurring_items, _sf_one_time_items = sf_order_items.partition {|i| recurring_item?(i) }
     is_recurring_order = !sf_recurring_items.empty?
     subscription_items = []
 
@@ -222,7 +222,8 @@ class StripeForce::Translate
     if is_recurring_order
       log.info 'recurring items found, creating subscription schedule'
 
-      sf_params = extract_salesforce_params!(sf_quote, {
+      # TODO right now this just reports errors, but we should reference this for values in the future
+      extract_salesforce_params!(sf_quote, {
         start_date: CPQ_QUOTE_SUBSCRIPTION_START_DATE,
         subscription_iterations: CPQ_QUOTE_SUBSCRIPTION_TERM,
       })
@@ -276,8 +277,8 @@ class StripeForce::Translate
   end
 
   def extract_salesforce_params!(sf_record, param_mapping)
-    result_params = param_mapping.each_with_object({}) do |(k, sf_key), h|
-      h[k] = sf_record[sf_key]
+    result_params = param_mapping.transform_values do |sf_key|
+      sf_record[sf_key]
     end
 
     missing_fields = result_params.select {|_k, v| v.nil? }
