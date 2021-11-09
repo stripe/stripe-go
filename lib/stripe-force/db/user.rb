@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 # typed: true
+
 module StripeForce
   class User < Sequel::Model
     plugin :timestamps, update_on_create: true
@@ -22,7 +23,7 @@ module StripeForce
     end
 
     def sf_client
-      client = Restforce.new(
+      @client ||= Restforce.new(
         oauth_token: salesforce_token,
         refresh_token: salesforce_refresh_token,
         instance_url: sf_endpoint,
@@ -40,9 +41,10 @@ module StripeForce
         log_level: :debug
       )
 
-      client.authenticate!
+      # TODO should we conditionally do this?
+      # client.authenticate!
 
-      client
+      @client
     end
 
     # TODO there's not a practical limit here
@@ -52,6 +54,7 @@ module StripeForce
     end
 
     def sandbox?
+      # TODO cache this state in a status service or something
       # [SELECT IsSandbox FROM Organization]
       true
     end
