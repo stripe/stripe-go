@@ -63,9 +63,7 @@ module Integrations
       attr_reader :timer, :queue
       attr_accessor :max_queue_length
 
-      private
-
-      def send_async(category, data)
+      private def send_async(category, data)
         if @queue.length >= @max_queue_length
           log.warn 'dropping metric due to queue size'
           return
@@ -74,7 +72,7 @@ module Integrations
         @queue << QueuedMessage.new(category, data)
       end
 
-      def build_args(metric, value, dimensions)
+      private def build_args(metric, value, dimensions)
         {
           metric: "suitesync.#{metric}",
           dimensions: build_dimensions.merge(dimensions).transform_values(&:to_s),
@@ -83,13 +81,13 @@ module Integrations
         }
       end
 
-      def build_dimensions
+      private def build_dimensions
         {
           heroku_app: ENV.fetch('HEROKU_APP_NAME', ''),
         }
       end
 
-      def drain_queue
+      private def drain_queue
         rv = []
         begin
           until @queue.empty?
@@ -101,7 +99,7 @@ module Integrations
         rv
       end
 
-      def collate_queue(items)
+      private def collate_queue(items)
         rv = Hash.new {|h, k| h[k] = [] }
 
         items.each do |item|
@@ -115,14 +113,14 @@ module Integrations
         rv
       end
 
-      def process
+      private def process
         data = collate_queue(drain_queue)
         return if data.empty?
 
         send_signal(data)
       end
 
-      def send_signal(payload)
+      private def send_signal(payload)
         return if @token.nil? || @token.empty?
 
         headers = {
