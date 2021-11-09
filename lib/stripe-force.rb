@@ -1,5 +1,6 @@
 # typed: true
 # frozen_string_literal: true
+
 # NOTE ensure logs are pushed to heroku in real time
 # https://devcenter.heroku.com/articles/logging#writing-to-your-log
 $stdout.sync = true
