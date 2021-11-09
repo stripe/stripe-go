@@ -115,7 +115,11 @@ jobs:
         command: sudo PROXY_TIMEOUT=1800 FORWARD_PORT=$RAILS_TEST_SERVER_PORT nassau-https-proxy
         background: true
 
-    - run: bundle exec sequel -m migrations $TEST_DATABASE_URL
+    - run:
+        name: Database Migration
+        command: |
+          bundle exec ruby db/migration.rb
+          # bundle exec sequel -m migrations $TEST_DATABASE_URL
 
     # always run bundle-audit in case new security issues are found without a Gemfile change
     # https://github.com/stripe/stripe-netsuite/issues/1713
