@@ -73,11 +73,11 @@ jobs:
     docker:
       # replace `:.*` with `@sha256:THE_SHA` to lock the build to a specific container SHA
     - image: cimg/ruby:2.6.8-browsers
-    - image: circleci/postgres:13-alpine-ram
+    - image: cimg/postgres:13.2
       environment:
         POSTGRES_DB: circle_test
         POSTGRES_USER: ubuntu
-        POSTGRES_PASSWORD: ""
+        POSTGRES_PASSWORD: pg_password
     - image: circleci/redis:6.2.3
 
     steps:
@@ -163,6 +163,7 @@ jobs:
         path: /tmp/test-results
 
   # prevent more than a single build from running at one time
+  # the implementation below is customized to remove additional unneeded parameters
   # https://jira.corp.stripe.com/browse/REPROD-1231
   # https://github.com/eddiewebb/circleci-queue/blob/9e7fc054183e0bcd891f9258d2661bd9223ffe06/src/commands/until_front_of_line.yml#L36
   block_workflow:
