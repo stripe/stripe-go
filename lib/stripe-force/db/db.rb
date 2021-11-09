@@ -7,6 +7,8 @@ require 'sequel/plugins/defaults_setter'
 Sequel::Plugins::DefaultsSetter::ClassMethods.class_eval do
   # Parse the cached database schema for this model and set the default values appropriately.
   def set_default_values
+    T.bind(self, Sequel::Plugins::DefaultsSetter::ClassMethods)
+
     h = {}
     if @db_schema
       @db_schema.each do |k, v|
