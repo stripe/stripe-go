@@ -6,7 +6,7 @@ module Critic::Unit
   class MetricsTest < Critic::UnitTest
     before do
       # avoid using `instance` to ensure test mutations below don't effect the state of the global metrics object
-      @metrics = StripeForce::Metrics::Writer.send(:new)
+      @metrics = Integrations::Metrics::Writer.send(:new)
     end
 
     def drain_queue

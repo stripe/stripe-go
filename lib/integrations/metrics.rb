@@ -21,6 +21,7 @@ module Integrations
 
     class Writer
       include Singleton
+      include Integrations::Log
 
       def initialize
         @queue = Queue.new
