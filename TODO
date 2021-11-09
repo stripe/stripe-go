@@ -14,3 +14,4 @@ Next:
 
 - web server timeout for 30s heroku? https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#timeout
 - maybe preload database connections here? https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
+- https://github.com/fohte/rubocop-daemon
