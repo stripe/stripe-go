@@ -28,7 +28,7 @@ end
 
 is_test_environment = ENV['RAILS_ENV'] && ENV['RAILS_ENV'] == 'test'
 
-url = if is_test_environment && !ENV['CI']
+url = if is_test_environment
   ENV.fetch('TEST_DATABASE_URL')
 else
   ENV.fetch('DATABASE_URL')
