@@ -14,5 +14,6 @@ module Integrations
     end
 
     autoload :Stripe, 'integrations/utilities/stripe'
+    autoload :Currency, 'integrations/utilities/currency'
   end
 end
