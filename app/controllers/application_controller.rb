@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: true
+# typed: strict
 
 class ApplicationController < ActionController::Base
   include Integrations::ErrorContext
