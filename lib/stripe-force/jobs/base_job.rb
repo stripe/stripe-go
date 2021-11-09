@@ -7,6 +7,7 @@ class StripeForce::BaseJob
   include Integrations::Log
   extend Integrations::ErrorContext
   extend Integrations::Metrics::ResqueHooks
+  extend Integrations::Errors::ResqueHooks
 
   @queue = :high
   @retry_limit = 71
