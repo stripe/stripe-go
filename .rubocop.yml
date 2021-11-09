@@ -35,10 +35,10 @@ AllCops:
     - Rakefile.rb
     - '**/*.rb'
   Exclude:
-    - 'scripts/_lib.rb'
+    - 'scripts/**/*'
+    - 'bin/*'
     - '**/node_modules/**/*'
     - build/**/*
-    - sorbet_ruby/**/*
     - tmp/**/*
     # Rubocop editor extensions use --stdin [filename] --force-exclusion, which
     # only looks at the "exclude" list to determine if a file is Rubocop-able.
