@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# install: cp bin/pre-push .git/hooks/pre-push
+
+changed_files=$(git diff-tree -r --no-commit-id --name-only head origin/master | grep '\.rb$' | xargs ls -d 2>/dev/null)
+
+set -e
+
+echo "Running rubocop"
+bundle exec rubocop $changed_files
+
+echo "Running sorbet"
+bundle exec srb tc
