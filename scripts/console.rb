@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env bundle exec ruby
 
 # frozen_string_literal: true
 # typed: true
