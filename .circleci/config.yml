@@ -73,7 +73,7 @@ jobs:
     docker:
       # replace `:.*` with `@sha256:THE_SHA` to lock the build to a specific container SHA
     - image: cimg/ruby:2.6.8-browsers
-    - image: cimg/postgres:13.2
+    - image: circleci/postgres:13.2
       environment:
         POSTGRES_DB: circle_test
         POSTGRES_USER: ubuntu
