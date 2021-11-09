@@ -18,11 +18,11 @@ module Integrations
     # https://github.com/getsentry/sentry-ruby/issues/1612
     module ResqueHooks
       def after_perform_send_errors(*_args)
-        Sentry::BackgroundWorker.drain_and_shutdown
+        Sentry.background_worker.drain_and_shutdown
       end
 
       def on_failure_send_errors(*_args)
-        Sentry::BackgroundWorker.drain_and_shutdown
+        Sentry.background_worker.drain_and_shutdown
       end
     end
   end
