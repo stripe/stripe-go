@@ -3,16 +3,11 @@
 
 # typed: strong
 module ::Raven; end
-module ActionView::Context; end
 module ActiveStorage::Attachment; end
 module ActiveStorage::Blob::Analyzable; end
 module ActiveStorage::Blob::Identifiable; end
 module ActiveStorage::Variant; end
-module Mail::CheckDeliveryParams; end
-module Mail::Ruby19; end
-module PG::Error; end
 module PG::TextDecoder::TimestampLocal; end
-module PG::TypeMap::DefaultTypeMappable; end
 module T::InterfaceWrapper::Helpers; end
 module T::Private::Abstract::Hooks; end
 module T::Private::Methods::MethodHooks; end
