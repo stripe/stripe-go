@@ -1,5 +1,5 @@
 # typed: true
-require File.expand_path('../config/boot', __dir__)
+require File.expand_path('../config/environment', __dir__)
 
 # https://github.com/chanzuckerberg/sorbet-rails/blob/master/lib/sorbet-rails/model_plugins/active_record_attribute.rb
 class SequelSorbetPlugin
@@ -40,6 +40,24 @@ class SequelSorbetPlugin
     model_class_rbi.create_include(attribute_module_name)
 
     table_schema = @model_class.db.schema(@model_class.table_name)
+
+    model_class_rbi.create_method(
+      "self.[]",
+      parameters: [
+        Parlour::RbiGenerator::Parameter.new("value", type: "Integer")
+      ],
+      return_type: "T.nilable(#{@model_class})"
+    )
+
+    model_class_rbi.create_method(
+      "self.first",
+      return_type: "T.nilable(#{@model_class})"
+    )
+
+    model_class_rbi.create_method(
+      "self.last",
+      return_type: "T.nilable(#{@model_class})"
+    )
 
     @model_class.columns.sort.each do |column_name|
       # => {:oid=>23, :db_type=>"integer", :default=>nil, :allow_null=>false, :primary_key=>true, :type=>:integer, :auto_increment=>true, :ruby_default=>nil}
