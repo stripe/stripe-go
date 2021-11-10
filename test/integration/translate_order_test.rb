@@ -5,19 +5,24 @@ require_relative '../test_helper'
 
 class Critic::OrderTranslation < Critic::FunctionalTest
   before do
-    @user = make_user
+    @user = make_user(save: true)
   end
 
   def standalone_item_id
     '01t5e000002bEQTAA2'
   end
 
+  def default_pricebook_id
+    '01s5e00000BAoBVAA1'
+  end
+
+
   def create_salesforce_order(sf_product_id: nil, additional_order_fields: {})
     # https://github.com/sseixas/CPQ-JS
 
     # TODO pull these dynamically
     sf_product_id ||= '01t5e000003DsarAAC'
-    pricebook_id = '01s5e00000BAoBVAA1'
+    pricebook_id = default_pricebook_id
 
     account_id = sf.create!('Account', Name: "REST Customer #{DateTime.now}")
     opportunity_id = sf.create!('Opportunity', {Name: "REST Oppt #{DateTime.now}", "CloseDate": DateTime.now.iso8601, AccountId: account_id, StageName: "Closed/Won"})
@@ -146,6 +151,8 @@ class Critic::OrderTranslation < Critic::FunctionalTest
 
     line = invoice.lines.data[-1]
     assert_equal(1, line.quantity)
+    assert_equal(120, line.amount / 100.0)
+
     # TODO assert against amount when we are creating items dynamically
   end
 
