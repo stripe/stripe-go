@@ -74,16 +74,19 @@ group :test do
   gem 'database_cleaner', '~> 1.7.0'
 end
 
-group :development do
+group :test, :development do
   gem 'pry', '~> 0.14.1'
-  gem 'pry-rescue', '~> 1.5.2'
   gem 'pry-stack_explorer', '~> 0.6.1'
-  gem 'pry-remote', '~> 0.1.8'
   gem 'pry-nav', '~> 1.0.0'
   gem 'pry-rails', '~> 0.3.9'
   gem 'pry-doc', '~> 1.2.0'
   # https://github.com/SudhagarS/pry-state
   gem 'binding_of_caller', '~> 1.0.0'
+end
+
+group :development do
+  gem 'pry-rescue', '~> 1.5.2'
+  gem 'pry-remote', '~> 0.1.8'
 
   gem 'better_errors', '~> 2.9.1'
 
