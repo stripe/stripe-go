@@ -42,6 +42,14 @@ class SequelSorbetPlugin
     table_schema = @model_class.db.schema(@model_class.table_name)
 
     model_class_rbi.create_method(
+      "self.find",
+      parameters: [
+        Parlour::RbiGenerator::Parameter.new("value", type: "T::Hash[T.untyped, T.untyped]")
+      ],
+      return_type: "T.nilable(#{@model_class})"
+    )
+
+    model_class_rbi.create_method(
       "self.[]",
       parameters: [
         Parlour::RbiGenerator::Parameter.new("value", type: "Integer")
