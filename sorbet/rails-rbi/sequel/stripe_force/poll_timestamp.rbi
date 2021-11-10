@@ -48,6 +48,9 @@ end
 class StripeForce::PollTimestamp
   include StripeForce::PollTimestamp::GeneratedAttributeMethods
 
+  sig { params(value: T::Hash[T.untyped, T.untyped]).returns(T.nilable(StripeForce::PollTimestamp)) }
+  def self.find(value); end
+
   sig { params(value: Integer).returns(T.nilable(StripeForce::PollTimestamp)) }
   def self.[](value); end
 

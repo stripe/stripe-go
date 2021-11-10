@@ -108,6 +108,9 @@ end
 class StripeForce::User
   include StripeForce::User::GeneratedAttributeMethods
 
+  sig { params(value: T::Hash[T.untyped, T.untyped]).returns(T.nilable(StripeForce::User)) }
+  def self.find(value); end
+
   sig { params(value: Integer).returns(T.nilable(StripeForce::User)) }
   def self.[](value); end
 
