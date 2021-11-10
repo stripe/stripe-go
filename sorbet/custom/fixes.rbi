@@ -13,6 +13,13 @@ end
 class ActionController::API
   include AbstractController::Rendering
   def render(*args, &block); end
+
+  def head(*args); end
+
+  # include ActionController::ParamsWrapper::ClassMethods
+  def self.wrap_parameters(*args); end
+
+  def params; end
 end
 
 class StripeForce::User
