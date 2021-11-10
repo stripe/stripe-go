@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 # typed: true
+
 class StripeForce::Translate
+  extend T::Sig
+
   include Integrations::Log
   include Integrations::ErrorContext
+  include Integrations::Utilities::Currency
+
   include StripeForce::Constants
 
   def self.perform(user:, sf_object:, locker:)
@@ -10,6 +15,7 @@ class StripeForce::Translate
     interactor.translate(sf_object)
   end
 
+  sig { params(user: StripeForce::User, locker: Integrations::Locker).void }
   def initialize(user, locker)
     @user = user
     @locker = locker
@@ -22,8 +28,11 @@ class StripeForce::Translate
   end
 
   def translate(sf_object)
-    # assume order
-    translate_order(sf_object)
+    if sf_object.sobject_type == SF_ORDER
+      translate_order(sf_object)
+    else
+      raise 'only order translation is supported right now'
+    end
   end
 
   def translate_order(sf_object)
@@ -89,35 +98,50 @@ class StripeForce::Translate
 
   # TODO what if the list price is updated in SF? We shouldn't probably create a new price object
   def create_price_for_order_item(sf_order_item)
-    sf_product = sf.find('Product2', sf_order_item.Product2Id)
+    sf_product = sf.find(SF_PRODUCT, sf_order_item.Product2Id)
     product = create_product_from_sf_product(sf_product)
 
     sf_pricebook_entry = sf.find('PricebookEntry', sf_order_item.PricebookEntryId)
 
-    # have we already pushed this to Stripe?
-    stripe_price_id = sf_pricebook_entry[PRICE_BOOK_STRIPE_ID]
-    if !stripe_price_id.nil?
-      log.info 'price already pushed, retrieving from stripe', stripe_resource_id: stripe_price_id
-      begin
-        return Stripe::Price.retrieve(stripe_price_id, @user.stripe_credentials)
-      rescue => e
-        report_exception(e)
-      end
+    if sf_pricebook_entry.UnitPrice != sf_order_item.UnitPrice
+      raise 'unit prices between pricebook and order item should not be different'
     end
 
-    if sf_pricebook_entry.UnitPrice != sf_order_item.UnitPrice
-      raise 'unit prices should not be different'
+    unless integer_quantity?(sf_order_item)
+      # TODO need to think about taxes calculated in SF at this point
+      raise 'float quantities are not yet supported'
+    end
+
+    if high_precision_float?(sf_order_item)
+      # TODO this will probably require us to use `unit_price_decimal` on the price
+      raise 'float prices with more than two decimals of precision are not supported'
+    end
+
+    # TODO shouldn't be `to_s`ing this here, need to determine if SF is sending this as a float or what
+    unit_price_for_stripe = normalize_float_amount_for_stripe(sf_pricebook_entry.UnitPrice.to_s, @user)
+
+    # have we already pushed this to Stripe?
+    stripe_price_id = sf_pricebook_entry[PRICE_BOOK_STRIPE_ID]
+    if stripe_price_id.present?
+      log.info 'price already pushed, retrieving from stripe', stripe_resource_id: stripe_price_id
+
+      stripe_price = begin
+        Stripe::Price.retrieve(stripe_price_id, @user.stripe_credentials)
+      rescue => e
+        report_exception(e)
+        nil
+      end
+
+      # TODO if line item price is different than the stripe price, we need to create a new price
+      # TODO we probably shouldn't overwrite the price on the SF object in this case, need to think this through
+      if stripe_price && stripe_price.unit_amount != unit_price_for_stripe
+        report_edge_case("specified price is different than stripe price", integration_record: sf_order_item, stripe_resource: stripe_price)
+        stripe_price = nil
+      end
     end
 
     # TODO the pricebook entry is really a 'suggested' price and it can be overwritten by the quote or order line
     # TODO if the list price is used, we shoudl try to create a price for this in Stripe, otherwise we'll create a price and use that
-
-    unless integer_quantity?(sf_order_item)
-      # TODO need to think about taxes calculated in SF at this point
-      raise 'implement calculating net price on item'
-    end
-
-    # TODO check for float quantities
 
     optional_params = {}
 
@@ -129,15 +153,17 @@ class StripeForce::Translate
 
     log.info 'creating price in stripe', sf_resource: sf_pricebook_entry
 
-    price = Stripe::Price.create({
+    price = Stripe::Price.construct_from({
       # TODO there is an undocumented id param, but it doesn't seem to work
       # id: sf_pricebook_entry.Id,
 
       product: product,
 
+      unit_amount: unit_price_for_stripe,
+
+      # TODO most likely need to pass the order over? Can
       # TODO not seeing currency anywhere? This is only enabled on certain accounts
-      unit_amount_decimal: sf_pricebook_entry.UnitPrice * 100,
-      currency: 'usd',
+      currency: base_currency_iso(@user),
 
       # using a `lookup_key` here would allow users to easily update prices
       # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
@@ -150,6 +176,11 @@ class StripeForce::Translate
       metadata: sf_metadata(sf_pricebook_entry),
     }.merge(optional_params), @user.stripe_credentials)
 
+    # TODO should probably figure out the best pattern here and wrap this
+    apply_mapping(price, sf_pricebook_entry)
+    price.dirty!
+    price.save
+
     sf.update!('PricebookEntry', 'Id' => sf_pricebook_entry.Id, PRICE_BOOK_STRIPE_ID => price.id)
 
     price
@@ -161,10 +192,20 @@ class StripeForce::Translate
   end
 
   def integer_quantity?(sf_order_item)
-    log.warn 'user has float quantities defined on the line level'
+    # TODO this is naive, should investigate this logic further
+    is_float_quantity = sf_order_item.Quantity.to_i == sf_order_item.Quantity.to_f
 
-    # TODO this is naive
-    sf_order_item.Quantity.to_i == sf_order_item.Quantity.to_f
+    if is_float_quantity
+      log.warn 'user has float quantities defined on the line level'
+    end
+
+    is_float_quantity
+  end
+
+  def high_precision_float?(sf_order_item)
+    # unfortunately the UnitPrice seems to come back as a float, so we need to `to_s`
+    # TODO determine if Restforce is doing this translation or if it is us, we want the string float if we can
+    (BigDecimal(sf_order_item.UnitPrice.to_s) * 100.0).to_i != normalize_float_amount_for_stripe(sf_order_item.UnitPrice.to_s, @user)
   end
 
   # TODO How can we organize code to support CPQ & non-CPQ use-cases? how can this be abstracted away from the order?
@@ -288,5 +329,11 @@ class StripeForce::Translate
     end
 
     result_params
+  end
+
+  # TODO allow for multiple records to be linked?
+  def apply_mapping(record_to_map, source_record)
+    @mapper ||= Integrations::Mapper.new(@user)
+    @mapper.apply_mapping(record_to_map, source_record)
   end
 end

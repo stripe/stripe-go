@@ -4,6 +4,7 @@
 module StripeForce
   module Constants
     SF_ORDER = 'Order'
+    SF_PRODUCT = 'Product2'
 
     CPQ_QUOTE = 'SBQQ__Quote__c'
 
