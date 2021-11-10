@@ -1,7 +1,7 @@
 module CommonHelpers
   include StripeForce::Constants
 
-  def make_user(sandbox: false)
+  def make_user(sandbox: false, save: false)
     user = StripeForce::User.new(
       livemode: false,
 
@@ -18,6 +18,8 @@ module CommonHelpers
     def user.sandbox?
       @sandbox
     end
+
+    user.save if save
 
     user
   end
