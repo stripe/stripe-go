@@ -60,9 +60,6 @@ module Integrations
 
         # sfx assumes milliseconds, so we need to convert before sending
         track_gauge(name, (duration_in_seconds * 1_000), dimensions: dimensions)
-
-        # return is required inside of `ensure` to return a value
-        return duration_in_seconds
       end
 
       # For testing, poking with REPL
