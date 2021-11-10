@@ -13,7 +13,7 @@ module Integrations
       @user.feature_enabled?(flag)
     end
 
-    autoload :Stripe, 'integrations/utilities/stripe'
+    autoload :StripeUtil, 'integrations/utilities/stripe_util'
     autoload :Currency, 'integrations/utilities/currency'
   end
 end

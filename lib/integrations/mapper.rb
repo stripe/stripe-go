@@ -10,7 +10,7 @@ module Integrations
     include Integrations::Log
     include Integrations::ErrorContext
     include Integrations::Utilities
-    include Integrations::Utilities::Stripe
+    include Integrations::Utilities::StripeUtil
 
     attr_reader :user
 
@@ -40,7 +40,7 @@ module Integrations
     end
 
     sig { params(record_to_map: Stripe::APIResource, source_record: T.nilable(Restforce::SObject)).void }
-    def map(record_to_map, source_record=nil)
+    def apply_mapping(record_to_map, source_record=nil)
       record_to_map_key = mapping_key_for_record(record_to_map)
       field_defaults_for_record = @user.field_defaults[record_to_map_key]
 

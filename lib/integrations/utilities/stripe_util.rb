@@ -1,7 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
-module Integrations::Utilities::Stripe
+# StripeUtil to avoid namespace madness with Stripe::* objects
+module Integrations::Utilities::StripeUtil
   extend T::Helpers
   extend T::Sig
 
