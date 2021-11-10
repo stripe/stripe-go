@@ -5,9 +5,9 @@ require_relative './controller'
 
 module Api
   class AccountsController < Controller
-    def show
-      user = T.must(StripeForce::User.first)
+    wrap_parameters false
 
+    def show
       render json: {
         salesforce_account_id: user.salesforce_account_id,
         field_mappings: user.field_mappings,
@@ -20,6 +20,19 @@ module Api
       }
     end
 
-    def update; end
+    def update
+      safe_params = params.permit(field_defaults: {}, field_mappings: {})
+
+      user.update(
+        field_defaults: safe_params[:field_defaults],
+        field_mappings: safe_params[:field_mappings]
+      )
+
+      head :ok
+    end
+
+    def user
+      T.must(StripeForce::User.first)
+    end
   end
 end
