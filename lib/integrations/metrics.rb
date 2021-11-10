@@ -56,7 +56,13 @@ module Integrations
         yield
       ensure
         start = T.must(start)
-        track_gauge(name, ((Time.now - start) * 1000), dimensions: dimensions)
+        duration_in_seconds = Time.now - start
+
+        # sfx assumes milliseconds, so we need to convert before sending
+        track_gauge(name, (duration_in_seconds * 1_000), dimensions: dimensions)
+
+        # return is required inside of `ensure` to return a value
+        return duration_in_seconds
       end
 
       # For testing, poking with REPL
