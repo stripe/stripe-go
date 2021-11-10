@@ -47,4 +47,13 @@ end
 
 class StripeForce::PollTimestamp
   include StripeForce::PollTimestamp::GeneratedAttributeMethods
+
+  sig { params(value: Integer).returns(T.nilable(StripeForce::PollTimestamp)) }
+  def self.[](value); end
+
+  sig { returns(T.nilable(StripeForce::PollTimestamp)) }
+  def self.first; end
+
+  sig { returns(T.nilable(StripeForce::PollTimestamp)) }
+  def self.last; end
 end
