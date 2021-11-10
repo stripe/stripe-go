@@ -167,6 +167,15 @@ module ActionCable::VERSION
   TINY = ::T.let(nil, ::T.untyped)
 end
 
+class ActionController::API
+  MODULES = ::T.let(nil, ::T.untyped)
+end
+
+class ActionController::Base
+  MODULES = ::T.let(nil, ::T.untyped)
+  PROTECTED_IVARS = ::T.let(nil, ::T.untyped)
+end
+
 module ActionController::DataStreaming
   DEFAULT_SEND_FILE_DISPOSITION = ::T.let(nil, ::T.untyped)
   DEFAULT_SEND_FILE_TYPE = ::T.let(nil, ::T.untyped)
@@ -231,9 +240,30 @@ module ActionController::ParamsWrapper
   EXCLUDE_PARAMETERS = ::T.let(nil, ::T.untyped)
 end
 
+class ActionController::Renderer
+  DEFAULTS = ::T.let(nil, ::T.untyped)
+  RACK_KEY_TRANSLATION = ::T.let(nil, ::T.untyped)
+end
+
+module ActionController::Renderers
+  RENDERERS = ::T.let(nil, ::T.untyped)
+end
+
+module ActionController::Rendering
+  RENDER_FORMATS_IN_PRIORITY = ::T.let(nil, ::T.untyped)
+end
+
 module ActionController::RequestForgeryProtection
   AUTHENTICITY_TOKEN_LENGTH = ::T.let(nil, ::T.untyped)
   NULL_ORIGIN_MESSAGE = ::T.let(nil, ::T.untyped)
+end
+
+class ActionController::RespondToMismatchError
+  DEFAULT_MESSAGE = ::T.let(nil, ::T.untyped)
+end
+
+class ActionController::SessionOverflowError
+  DEFAULT_MESSAGE = ::T.let(nil, ::T.untyped)
 end
 
 class ActionController::TestRequest
@@ -351,8 +381,60 @@ class ActionDispatch::HostAuthorization
   VALID_ORIGIN_HOST = ::T.let(nil, ::T.untyped)
 end
 
+module ActionDispatch::Http::Cache::Request
+  HTTP_IF_MODIFIED_SINCE = ::T.let(nil, ::T.untyped)
+  HTTP_IF_NONE_MATCH = ::T.let(nil, ::T.untyped)
+end
+
 module ActionDispatch::Http::Cache::Response
+  DATE = ::T.let(nil, ::T.untyped)
+  DEFAULT_CACHE_CONTROL = ::T.let(nil, ::T.untyped)
+  LAST_MODIFIED = ::T.let(nil, ::T.untyped)
+  MUST_REVALIDATE = ::T.let(nil, ::T.untyped)
+  NO_CACHE = ::T.let(nil, ::T.untyped)
   NO_STORE = ::T.let(nil, ::T.untyped)
+  PRIVATE = ::T.let(nil, ::T.untyped)
+  PUBLIC = ::T.let(nil, ::T.untyped)
+  SPECIAL_KEYS = ::T.let(nil, ::T.untyped)
+end
+
+class ActionDispatch::Http::ContentDisposition
+  RFC_5987_ESCAPED_CHAR = ::T.let(nil, ::T.untyped)
+  TRADITIONAL_ESCAPED_CHAR = ::T.let(nil, ::T.untyped)
+end
+
+module ActionDispatch::Http::FilterParameters
+  ENV_MATCH = ::T.let(nil, ::T.untyped)
+  KV_RE = ::T.let(nil, ::T.untyped)
+  NULL_ENV_FILTER = ::T.let(nil, ::T.untyped)
+  NULL_PARAM_FILTER = ::T.let(nil, ::T.untyped)
+  PAIR_RE = ::T.let(nil, ::T.untyped)
+end
+
+module ActionDispatch::Http::FilterRedirect
+  FILTERED = ::T.let(nil, ::T.untyped)
+end
+
+class ActionDispatch::Http::Headers
+  CGI_VARIABLES = ::T.let(nil, ::T.untyped)
+  DEFAULT = ::T.let(nil, ::T.untyped)
+  HTTP_HEADER = ::T.let(nil, ::T.untyped)
+end
+
+module ActionDispatch::Http::MimeNegotiation
+  BROWSER_LIKE_ACCEPTS = ::T.let(nil, ::T.untyped)
+  RESCUABLE_MIME_FORMAT_ERRORS = ::T.let(nil, ::T.untyped)
+end
+
+module ActionDispatch::Http::Parameters
+  DEFAULT_PARSERS = ::T.let(nil, ::T.untyped)
+  PARAMETERS_KEY = ::T.let(nil, ::T.untyped)
+end
+
+module ActionDispatch::Http::URL
+  HOST_REGEXP = ::T.let(nil, ::T.untyped)
+  IP_HOST_REGEXP = ::T.let(nil, ::T.untyped)
+  PROTOCOL_REGEXP = ::T.let(nil, ::T.untyped)
 end
 
 module ActionDispatch::Integration
@@ -656,6 +738,10 @@ module ActionDispatch::PermissionsPolicy::Request
   POLICY = ::T.let(nil, ::T.untyped)
 end
 
+class ActionDispatch::RemoteIp
+  TRUSTED_PROXIES = ::T.let(nil, ::T.untyped)
+end
+
 class ActionDispatch::Request
   include ::ActionDispatch::Flash::RequestMethods
   ACTION_DISPATCH_REQUEST_ID = ::T.let(nil, ::T.untyped)
@@ -671,6 +757,15 @@ class ActionDispatch::Request
   RFC4791 = ::T.let(nil, ::T.untyped)
   RFC5323 = ::T.let(nil, ::T.untyped)
   RFC5789 = ::T.let(nil, ::T.untyped)
+end
+
+class ActionDispatch::Response
+  CONTENT_TYPE = ::T.let(nil, ::T.untyped)
+  CONTENT_TYPE_PARSER = ::T.let(nil, ::T.untyped)
+  LOCATION = ::T.let(nil, ::T.untyped)
+  NO_CONTENT_CODES = ::T.let(nil, ::T.untyped)
+  NullContentTypeHeader = ::T.let(nil, ::T.untyped)
+  SET_COOKIE = ::T.let(nil, ::T.untyped)
 end
 
 module ActionDispatch::Routing
@@ -778,9 +873,6 @@ end
 class ActionDispatch::Session::CacheStore
 end
 
-class ActionDispatch::Session::CookieStore::SessionId
-end
-
 class ActionDispatch::ShowExceptions
   FAILSAFE_RESPONSE = ::T.let(nil, ::T.untyped)
 end
@@ -848,11 +940,468 @@ module ActionMailbox::Callbacks
 end
 
 class ActionMailer::Base
+  include ::ActionMailer::DeliveryMethods
+  include ::ActiveSupport::Rescuable
+  include ::ActionMailer::Rescuable
+  include ::ActionMailer::Parameterized
+  include ::ActionMailer::Previews
+  include ::ActionView::ViewPaths
+  include ::AbstractController::Rendering
+  include ::AbstractController::Logger
+  include ::ActiveSupport::Benchmarkable
+  include ::AbstractController::Helpers
+  include ::AbstractController::Translation
+  include ::AbstractController::AssetPaths
+  include ::ActiveSupport::Callbacks
+  include ::AbstractController::Callbacks
+  include ::AbstractController::Caching::Fragments
+  include ::AbstractController::Caching
+  include ::AbstractController::Caching::ConfigMethods
+  include ::ActionView::Rendering
+  include ::ActionView::Layouts
+  def __callbacks(); end
+
+  def __callbacks?(); end
+
+  def _helper_methods(); end
+
+  def _helper_methods=(_helper_methods); end
+
+  def _helper_methods?(); end
+
+  def _process_action_callbacks(); end
+
+  def _run_process_action_callbacks(&block); end
+
+  def _view_cache_dependencies(); end
+
+  def _view_cache_dependencies=(_view_cache_dependencies); end
+
+  def _view_cache_dependencies?(); end
+
+  def asset_host(); end
+
+  def asset_host=(value); end
+
+  def assets_dir(); end
+
+  def assets_dir=(value); end
+
+  def attachments(); end
+
+  def default_asset_host_protocol(); end
+
+  def default_asset_host_protocol=(value); end
+
+  def default_params(); end
+
+  def default_params=(default_params); end
+
+  def default_params?(); end
+
+  def default_static_extension(); end
+
+  def default_static_extension=(value); end
+
+  def deliver_later_queue_name(); end
+
+  def deliver_later_queue_name=(val); end
+
+  def delivery_job(); end
+
+  def delivery_job=(delivery_job); end
+
+  def delivery_job?(); end
+
+  def delivery_method(); end
+
+  def delivery_method=(delivery_method); end
+
+  def delivery_method?(); end
+
+  def delivery_methods(); end
+
+  def delivery_methods=(delivery_methods); end
+
+  def delivery_methods?(); end
+
+  def email_address_with_name(address, name); end
+
+  def enable_fragment_cache_logging(); end
+
+  def enable_fragment_cache_logging=(value); end
+
+  def file_settings(); end
+
+  def file_settings=(file_settings); end
+
+  def file_settings?(); end
+
+  def fragment_cache_keys(); end
+
+  def fragment_cache_keys=(fragment_cache_keys); end
+
+  def fragment_cache_keys?(); end
+
+  def headers(args=T.unsafe(nil)); end
+
+  def initialize(); end
+
+  def javascripts_dir(); end
+
+  def javascripts_dir=(value); end
+
+  def logger(); end
+
+  def logger=(value); end
+
+  def mailer_name(); end
+
+  def message(); end
+
+  def message=(message); end
+
+  def params(); end
+
+  def params=(params); end
+
+  def perform_caching(); end
+
+  def perform_caching=(value); end
+
+  def perform_deliveries(); end
+
+  def perform_deliveries=(val); end
+
+  def preview_interceptors(); end
+
+  def preview_path(); end
+
+  def process(method_name, *args); end
+
+  def raise_delivery_errors(); end
+
+  def raise_delivery_errors=(val); end
+
+  def relative_url_root(); end
+
+  def relative_url_root=(value); end
+
+  def rescue_handlers(); end
+
+  def rescue_handlers=(rescue_handlers); end
+
+  def rescue_handlers?(); end
+
+  def sendmail_settings(); end
+
+  def sendmail_settings=(sendmail_settings); end
+
+  def sendmail_settings?(); end
+
+  def show_previews(); end
+
+  def smtp_settings(); end
+
+  def smtp_settings=(smtp_settings); end
+
+  def smtp_settings?(); end
+
+  def stylesheets_dir(); end
+
+  def stylesheets_dir=(value); end
+
+  def test_settings(); end
+
+  def test_settings=(test_settings); end
+
+  def test_settings?(); end
   PROTECTED_IVARS = ::T.let(nil, ::T.untyped)
 end
 
+module ActionMailer::Base::HelperMethods
+  include ::ActionMailer::MailHelper
+  def combined_fragment_cache_key(*args, &block); end
+
+  def view_cache_dependencies(*args, &block); end
+end
+
+module ActionMailer::Base::HelperMethods
+end
+
+class ActionMailer::Base::LateAttachmentsProxy
+  def []=(_name, _content); end
+
+  def inline(); end
+end
+
+class ActionMailer::Base::LateAttachmentsProxy
+end
+
+class ActionMailer::Base::NullMail
+  def body(); end
+
+  def header(); end
+
+  def method_missing(*args); end
+
+  def respond_to?(string, include_all=T.unsafe(nil)); end
+end
+
+class ActionMailer::Base::NullMail
+end
+
+class ActionMailer::Base
+  extend ::ActionMailer::DeliveryMethods::ClassMethods
+  extend ::ActionMailer::Rescuable::ClassMethods
+  extend ::ActionMailer::Parameterized::ClassMethods
+  extend ::ActionMailer::Previews::ClassMethods
+  extend ::AbstractController::Helpers::ClassMethods
+  extend ::AbstractController::Callbacks::ClassMethods
+  extend ::AbstractController::Caching::Fragments::ClassMethods
+  extend ::AbstractController::Caching::ClassMethods
+  extend ::AbstractController::Caching::ConfigMethods
+  def self.__callbacks(); end
+
+  def self.__callbacks=(value); end
+
+  def self.__callbacks?(); end
+
+  def self._helper_methods(); end
+
+  def self._helper_methods=(value); end
+
+  def self._helper_methods?(); end
+
+  def self._layout(); end
+
+  def self._layout=(value); end
+
+  def self._layout?(); end
+
+  def self._layout_conditions(); end
+
+  def self._layout_conditions=(value); end
+
+  def self._layout_conditions?(); end
+
+  def self._process_action_callbacks(); end
+
+  def self._process_action_callbacks=(value); end
+
+  def self._view_cache_dependencies(); end
+
+  def self._view_cache_dependencies=(value); end
+
+  def self._view_cache_dependencies?(); end
+
+  def self.asset_host(); end
+
+  def self.asset_host=(value); end
+
+  def self.assets_dir(); end
+
+  def self.assets_dir=(value); end
+
+  def self.default(value=T.unsafe(nil)); end
+
+  def self.default_asset_host_protocol(); end
+
+  def self.default_asset_host_protocol=(value); end
+
+  def self.default_options=(value=T.unsafe(nil)); end
+
+  def self.default_params(); end
+
+  def self.default_params=(value); end
+
+  def self.default_params?(); end
+
+  def self.default_static_extension(); end
+
+  def self.default_static_extension=(value); end
+
+  def self.deliver_later_queue_name(); end
+
+  def self.deliver_later_queue_name=(val); end
+
+  def self.deliver_mail(mail); end
+
+  def self.delivery_job(); end
+
+  def self.delivery_job=(value); end
+
+  def self.delivery_job?(); end
+
+  def self.delivery_method(); end
+
+  def self.delivery_method=(value); end
+
+  def self.delivery_method?(); end
+
+  def self.delivery_methods(); end
+
+  def self.delivery_methods=(value); end
+
+  def self.delivery_methods?(); end
+
+  def self.email_address_with_name(address, name); end
+
+  def self.enable_fragment_cache_logging(); end
+
+  def self.enable_fragment_cache_logging=(value); end
+
+  def self.file_settings(); end
+
+  def self.file_settings=(value); end
+
+  def self.file_settings?(); end
+
+  def self.fragment_cache_keys(); end
+
+  def self.fragment_cache_keys=(value); end
+
+  def self.fragment_cache_keys?(); end
+
+  def self.javascripts_dir(); end
+
+  def self.javascripts_dir=(value); end
+
+  def self.logger(); end
+
+  def self.logger=(value); end
+
+  def self.mailer_name(); end
+
+  def self.mailer_name=(mailer_name); end
+
+  def self.perform_caching(); end
+
+  def self.perform_caching=(value); end
+
+  def self.perform_deliveries(); end
+
+  def self.perform_deliveries=(val); end
+
+  def self.preview_interceptors(); end
+
+  def self.preview_interceptors=(val); end
+
+  def self.preview_path(); end
+
+  def self.preview_path=(val); end
+
+  def self.raise_delivery_errors(); end
+
+  def self.raise_delivery_errors=(val); end
+
+  def self.register_interceptor(interceptor); end
+
+  def self.register_interceptors(*interceptors); end
+
+  def self.register_observer(observer); end
+
+  def self.register_observers(*observers); end
+
+  def self.relative_url_root(); end
+
+  def self.relative_url_root=(value); end
+
+  def self.rescue_handlers(); end
+
+  def self.rescue_handlers=(value); end
+
+  def self.rescue_handlers?(); end
+
+  def self.sendmail_settings(); end
+
+  def self.sendmail_settings=(value); end
+
+  def self.sendmail_settings?(); end
+
+  def self.show_previews(); end
+
+  def self.show_previews=(val); end
+
+  def self.smtp_settings(); end
+
+  def self.smtp_settings=(value); end
+
+  def self.smtp_settings?(); end
+
+  def self.stylesheets_dir(); end
+
+  def self.stylesheets_dir=(value); end
+
+  def self.test_settings(); end
+
+  def self.test_settings=(value); end
+
+  def self.test_settings?(); end
+
+  def self.unregister_interceptor(interceptor); end
+
+  def self.unregister_interceptors(*interceptors); end
+
+  def self.unregister_observer(observer); end
+
+  def self.unregister_observers(*observers); end
+end
+
+class ActionMailer::Collector
+  include ::AbstractController::Collector
+  def all(*args, &block); end
+
+  def any(*args, &block); end
+
+  def custom(mime, options=T.unsafe(nil)); end
+
+  def initialize(context, &block); end
+
+  def responses(); end
+end
+
+class ActionMailer::Collector
+end
+
+class ActionMailer::DeliveryJob
+  def perform(mailer, mail_method, delivery_method, *args); end
+end
+
+class ActionMailer::DeliveryJob
+end
+
+module ActionMailer::DeliveryMethods
+  def wrap_delivery_behavior!(*args); end
+end
+
+module ActionMailer::DeliveryMethods::ClassMethods
+  def add_delivery_method(symbol, klass, default_options=T.unsafe(nil)); end
+
+  def deliveries(*args, &block); end
+
+  def deliveries=(arg); end
+
+  def wrap_delivery_behavior(mail, method=T.unsafe(nil), options=T.unsafe(nil)); end
+end
+
+module ActionMailer::DeliveryMethods::ClassMethods
+end
+
+module ActionMailer::DeliveryMethods
+  extend ::ActiveSupport::Concern
+end
+
 class ActionMailer::InlinePreviewInterceptor
+  include ::Base64
+  def initialize(message); end
+
+  def transform!(); end
   PATTERN = ::T.let(nil, ::T.untyped)
+end
+
+class ActionMailer::InlinePreviewInterceptor
+  def self.previewing_email(message); end
 end
 
 class ActionMailer::LogSubscriber
@@ -861,11 +1410,149 @@ class ActionMailer::LogSubscriber
   def process(event); end
 end
 
+class ActionMailer::LogSubscriber
+end
+
 class ActionMailer::MailDeliveryJob
   def perform(mailer, mail_method, delivery_method, args:, kwargs: T.unsafe(nil), params: T.unsafe(nil)); end
 end
 
 class ActionMailer::MailDeliveryJob
+end
+
+module ActionMailer::MailHelper
+  def attachments(); end
+
+  def block_format(text); end
+
+  def format_paragraph(text, len=T.unsafe(nil), indent=T.unsafe(nil)); end
+
+  def mailer(); end
+
+  def message(); end
+end
+
+module ActionMailer::MailHelper
+end
+
+class ActionMailer::MessageDelivery
+  def __setobj__(mail_message); end
+
+  def deliver_later(options=T.unsafe(nil)); end
+
+  def deliver_later!(options=T.unsafe(nil)); end
+
+  def deliver_now(); end
+
+  def deliver_now!(); end
+
+  def initialize(mailer_class, action, *args); end
+
+  def message(); end
+
+  def processed?(); end
+end
+
+class ActionMailer::MessageDelivery
+end
+
+module ActionMailer::Parameterized
+end
+
+module ActionMailer::Parameterized::ClassMethods
+  def with(params); end
+end
+
+module ActionMailer::Parameterized::ClassMethods
+end
+
+class ActionMailer::Parameterized::DeliveryJob
+  def perform(mailer, mail_method, delivery_method, params, *args); end
+end
+
+class ActionMailer::Parameterized::DeliveryJob
+end
+
+class ActionMailer::Parameterized::Mailer
+  def initialize(mailer, params); end
+end
+
+class ActionMailer::Parameterized::Mailer
+end
+
+class ActionMailer::Parameterized::MessageDelivery
+  def initialize(mailer_class, action, params, *args); end
+end
+
+class ActionMailer::Parameterized::MessageDelivery
+end
+
+module ActionMailer::Parameterized
+  extend ::ActiveSupport::Concern
+end
+
+class ActionMailer::Preview
+  def initialize(params=T.unsafe(nil)); end
+
+  def params(); end
+end
+
+class ActionMailer::Preview
+  extend ::ActiveSupport::DescendantsTracker
+  def self.all(); end
+
+  def self.call(email, params=T.unsafe(nil)); end
+
+  def self.email_exists?(email); end
+
+  def self.emails(); end
+
+  def self.exists?(preview); end
+
+  def self.find(preview); end
+
+  def self.preview_name(); end
+end
+
+module ActionMailer::Previews
+end
+
+module ActionMailer::Previews::ClassMethods
+  def register_preview_interceptor(interceptor); end
+
+  def register_preview_interceptors(*interceptors); end
+
+  def unregister_preview_interceptor(interceptor); end
+
+  def unregister_preview_interceptors(*interceptors); end
+end
+
+module ActionMailer::Previews::ClassMethods
+end
+
+module ActionMailer::Previews
+  extend ::ActiveSupport::Concern
+end
+
+class ActionMailer::Railtie
+end
+
+class ActionMailer::Railtie
+end
+
+module ActionMailer::Rescuable
+  def handle_exceptions(); end
+end
+
+module ActionMailer::Rescuable::ClassMethods
+  def handle_exception(exception); end
+end
+
+module ActionMailer::Rescuable::ClassMethods
+end
+
+module ActionMailer::Rescuable
+  extend ::ActiveSupport::Concern
 end
 
 class ActionMailer::TestCase
@@ -948,6 +1635,16 @@ module ActionMailer::VERSION
   TINY = ::T.let(nil, ::T.untyped)
 end
 
+module ActionMailer::VERSION
+end
+
+module ActionMailer
+  extend ::ActiveSupport::Autoload
+  def self.gem_version(); end
+
+  def self.version(); end
+end
+
 module ActionPack::VERSION
   MAJOR = ::T.let(nil, ::T.untyped)
   MINOR = ::T.let(nil, ::T.untyped)
@@ -992,22 +1689,274 @@ module ActionView
 end
 
 class ActionView::AbstractRenderer
+  def any_templates?(*args, &block); end
+
+  def formats(*args, &block); end
+
+  def initialize(lookup_context); end
+
+  def render(); end
+
+  def template_exists?(*args, &block); end
   NO_DETAILS = ::T.let(nil, ::T.untyped)
 end
 
 module ActionView::AbstractRenderer::ObjectRendering
+  def initialize(lookup_context, options); end
   IDENTIFIER_ERROR_MESSAGE = ::T.let(nil, ::T.untyped)
   OPTION_AS_ERROR_MESSAGE = ::T.let(nil, ::T.untyped)
   PREFIXED_PARTIAL_NAMES = ::T.let(nil, ::T.untyped)
 end
 
+module ActionView::AbstractRenderer::ObjectRendering
+end
+
+class ActionView::AbstractRenderer::RenderedCollection
+  def body(); end
+
+  def format(); end
+
+  def initialize(rendered_templates, spacer); end
+
+  def rendered_templates(); end
+end
+
+class ActionView::AbstractRenderer::RenderedCollection::EmptyCollection
+  def body(); end
+
+  def format(); end
+
+  def initialize(format); end
+end
+
+class ActionView::AbstractRenderer::RenderedCollection::EmptyCollection
+end
+
+class ActionView::AbstractRenderer::RenderedCollection
+  def self.empty(format); end
+end
+
 class ActionView::AbstractRenderer::RenderedTemplate
+  def body(); end
+
+  def format(); end
+
+  def initialize(body, template); end
+
+  def template(); end
   EMPTY_SPACER = ::T.let(nil, ::T.untyped)
+end
+
+class ActionView::AbstractRenderer::RenderedTemplate
+end
+
+class ActionView::AbstractRenderer
 end
 
 class ActionView::Base
   include ::ActionView::Context
   include ::ERB::Util
+  include ::ActionView::Helpers::AssetTagHelper
+  include ::ActionView::Helpers::UrlHelper
+  include ::ActionView::Helpers::FormTagHelper
+  include ::ActionView::Helpers::FormHelper
+  include ::ActionView::RecordIdentifier
+  include ::ActionView::ModelNaming
+  include ::ActionView::Helpers::TranslationHelper
+  include ::ActionView::Helpers
+  include ::ActiveSupport::Benchmarkable
+  include ::ActionView::Helpers::ActiveModelHelper
+  include ::ActionView::Helpers::AssetUrlHelper
+  include ::ActionView::Helpers::AtomFeedHelper
+  include ::ActionView::Helpers::CacheHelper
+  include ::ActionView::Helpers::ControllerHelper
+  include ::ActionView::Helpers::CspHelper
+  include ::ActionView::Helpers::CsrfHelper
+  include ::ActionView::Helpers::DateHelper
+  include ::ActionView::Helpers::DebugHelper
+  include ::ActionView::Helpers::FormOptionsHelper
+  include ::ActionView::Helpers::SanitizeHelper
+  include ::ActionView::Helpers::TagHelper
+  include ::ActionView::Helpers::CaptureHelper
+  include ::ActionView::Helpers::TextHelper
+  include ::ActionView::Helpers::OutputSafetyHelper
+  include ::ActionView::Helpers::JavaScriptHelper
+  include ::ActionView::Helpers::NumberHelper
+  include ::ActionView::Helpers::RenderingHelper
+  def _routes(); end
+
+  def _routes=(_routes); end
+
+  def _routes?(); end
+
+  def _run(method, template, locals, buffer, add_to_stack: T.unsafe(nil), &block); end
+
+  def annotate_rendered_view_with_filenames(); end
+
+  def annotate_rendered_view_with_filenames=(val); end
+
+  def assign(new_assigns); end
+
+  def assigns(); end
+
+  def assigns=(assigns); end
+
+  def automatically_disable_submit_tag(); end
+
+  def automatically_disable_submit_tag=(val); end
+
+  def compiled_method_container(); end
+
+  def config(); end
+
+  def config=(config); end
+
+  def debug_missing_translation(); end
+
+  def debug_missing_translation=(val); end
+
+  def default_formats(); end
+
+  def default_formats=(val); end
+
+  def field_error_proc(); end
+
+  def field_error_proc=(val); end
+
+  def formats(*args, &block); end
+
+  def formats=(arg); end
+
+  def in_rendering_context(options); end
+
+  def initialize(lookup_context, assigns, controller); end
+
+  def locale(*args, &block); end
+
+  def locale=(arg); end
+
+  def logger=(logger); end
+
+  def logger?(); end
+
+  def lookup_context(); end
+
+  def prefix_partial_path_with_controller_namespace(); end
+
+  def prefix_partial_path_with_controller_namespace=(prefix_partial_path_with_controller_namespace); end
+
+  def prefix_partial_path_with_controller_namespace?(); end
+
+  def raise_on_missing_translations(); end
+
+  def raise_on_missing_translations=(val); end
+
+  def streaming_completion_on_exception(); end
+
+  def streaming_completion_on_exception=(val); end
+
+  def view_paths(*args, &block); end
+
+  def view_paths=(arg); end
+
+  def view_renderer(); end
+end
+
+class ActionView::Base
+  def self._routes(); end
+
+  def self._routes=(value); end
+
+  def self._routes?(); end
+
+  def self.annotate_rendered_view_with_filenames(); end
+
+  def self.annotate_rendered_view_with_filenames=(val); end
+
+  def self.automatically_disable_submit_tag(); end
+
+  def self.automatically_disable_submit_tag=(val); end
+
+  def self.cache_template_loading(); end
+
+  def self.cache_template_loading=(value); end
+
+  def self.changed?(other); end
+
+  def self.debug_missing_translation(); end
+
+  def self.debug_missing_translation=(val); end
+
+  def self.default_form_builder(); end
+
+  def self.default_form_builder=(val); end
+
+  def self.default_formats(); end
+
+  def self.default_formats=(val); end
+
+  def self.empty(); end
+
+  def self.erb_trim_mode=(arg); end
+
+  def self.field_error_proc(); end
+
+  def self.field_error_proc=(val); end
+
+  def self.logger(); end
+
+  def self.logger=(value); end
+
+  def self.logger?(); end
+
+  def self.prefix_partial_path_with_controller_namespace(); end
+
+  def self.prefix_partial_path_with_controller_namespace=(value); end
+
+  def self.prefix_partial_path_with_controller_namespace?(); end
+
+  def self.raise_on_missing_translations(); end
+
+  def self.raise_on_missing_translations=(val); end
+
+  def self.streaming_completion_on_exception(); end
+
+  def self.streaming_completion_on_exception=(val); end
+
+  def self.with_context(context, assigns=T.unsafe(nil), controller=T.unsafe(nil)); end
+
+  def self.with_empty_template_cache(); end
+
+  def self.with_view_paths(view_paths, assigns=T.unsafe(nil), controller=T.unsafe(nil)); end
+
+  def self.xss_safe?(); end
+end
+
+class ActionView::CacheExpiry
+  def clear_cache(); end
+
+  def clear_cache_if_necessary(); end
+
+  def initialize(watcher:); end
+end
+
+class ActionView::CacheExpiry::Executor
+  def before(target); end
+
+  def initialize(watcher:); end
+end
+
+class ActionView::CacheExpiry::Executor
+end
+
+class ActionView::CacheExpiry
+end
+
+module ActionView::CollectionCaching
+end
+
+module ActionView::CollectionCaching
+  extend ::ActiveSupport::Concern
 end
 
 class ActionView::CollectionRenderer
@@ -1061,7 +2010,27 @@ end
 class ActionView::CollectionRenderer
 end
 
+module ActionView::Context
+  def _layout_for(name=T.unsafe(nil)); end
+
+  def _prepare_context(); end
+
+  def output_buffer(); end
+
+  def output_buffer=(output_buffer); end
+
+  def view_flow(); end
+
+  def view_flow=(view_flow); end
+end
+
+class ActionView::DependencyTracker
+end
+
 class ActionView::DependencyTracker::ERBTracker
+  def dependencies(); end
+
+  def initialize(name, template, view_paths=T.unsafe(nil)); end
   EXPLICIT_DEPENDENCY = ::T.let(nil, ::T.untyped)
   IDENTIFIER = ::T.let(nil, ::T.untyped)
   LAYOUT_DEPENDENCY = ::T.let(nil, ::T.untyped)
@@ -1072,10 +2041,709 @@ class ActionView::DependencyTracker::ERBTracker
   VARIABLE_OR_METHOD_CHAIN = ::T.let(nil, ::T.untyped)
 end
 
+class ActionView::DependencyTracker::ERBTracker
+  def self.call(name, template, view_paths=T.unsafe(nil)); end
+
+  def self.supports_view_paths?(); end
+end
+
+class ActionView::DependencyTracker
+  def self.find_dependencies(name, template, view_paths=T.unsafe(nil)); end
+
+  def self.register_tracker(extension, tracker); end
+
+  def self.remove_tracker(handler); end
+end
+
+class ActionView::Digestor
+end
+
+class ActionView::Digestor::Injected
+  def digest(finder, _=T.unsafe(nil)); end
+end
+
+class ActionView::Digestor::Injected
+end
+
+class ActionView::Digestor::Missing
+  def digest(finder, _=T.unsafe(nil)); end
+end
+
+class ActionView::Digestor::Missing
+end
+
+class ActionView::Digestor::Node
+  def children(); end
+
+  def dependency_digest(finder, stack); end
+
+  def digest(finder, stack=T.unsafe(nil)); end
+
+  def initialize(name, logical_name, template, children=T.unsafe(nil)); end
+
+  def logical_name(); end
+
+  def name(); end
+
+  def template(); end
+
+  def to_dep_map(); end
+end
+
+class ActionView::Digestor::Node
+  def self.create(name, logical_name, template, partial); end
+end
+
+class ActionView::Digestor::NullLogger
+end
+
+class ActionView::Digestor::NullLogger
+  def self.debug(_); end
+
+  def self.error(_); end
+end
+
+class ActionView::Digestor::Partial
+end
+
+class ActionView::Digestor::Partial
+end
+
+class ActionView::Digestor
+  def self.digest(name:, finder:, format: T.unsafe(nil), dependencies: T.unsafe(nil)); end
+
+  def self.logger(); end
+
+  def self.tree(name, finder, partial=T.unsafe(nil), seen=T.unsafe(nil)); end
+end
+
+class ActionView::FallbackFileSystemResolver
+  def build_unbound_template(template, _); end
+end
+
+class ActionView::FallbackFileSystemResolver
+  def self.instances(); end
+end
+
+class ActionView::FileSystemResolver
+  def ==(resolver); end
+
+  def eql?(resolver); end
+
+  def initialize(path); end
+
+  def path(); end
+
+  def to_path(); end
+end
+
+class ActionView::FileSystemResolver
+end
+
+module ActionView::Helpers
+  include ::ActiveSupport::Benchmarkable
+  include ::ActionView::Helpers::ActiveModelHelper
+  include ::ActionView::Helpers::AssetUrlHelper
+  include ::ActionView::Helpers::AtomFeedHelper
+  include ::ActionView::Helpers::CacheHelper
+  include ::ActionView::Helpers::ControllerHelper
+  include ::ActionView::Helpers::CspHelper
+  include ::ActionView::Helpers::CsrfHelper
+  include ::ActionView::Helpers::DateHelper
+  include ::ActionView::Helpers::DebugHelper
+  include ::ActionView::Helpers::FormOptionsHelper
+  include ::ActionView::Helpers::SanitizeHelper
+  include ::ActionView::Helpers::TagHelper
+  include ::ActionView::Helpers::CaptureHelper
+  include ::ActionView::Helpers::TextHelper
+  include ::ActionView::Helpers::OutputSafetyHelper
+  include ::ActionView::Helpers::JavaScriptHelper
+  include ::ActionView::Helpers::NumberHelper
+  include ::ActionView::Helpers::RenderingHelper
+end
+
+module ActionView::Helpers::ActiveModelHelper
+end
+
+module ActionView::Helpers::ActiveModelHelper
+end
+
+module ActionView::Helpers::AssetTagHelper
+  include ::ActionView::Helpers::AssetUrlHelper
+  def audio_tag(*sources); end
+
+  def auto_discovery_link_tag(type=T.unsafe(nil), url_options=T.unsafe(nil), tag_options=T.unsafe(nil)); end
+
+  def favicon_link_tag(source=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def image_tag(source, options=T.unsafe(nil)); end
+
+  def javascript_include_tag(*sources); end
+
+  def preload_link_tag(source, options=T.unsafe(nil)); end
+
+  def preload_links_header(); end
+
+  def preload_links_header=(val); end
+
+  def stylesheet_link_tag(*sources); end
+
+  def video_tag(*sources); end
+end
+
+module ActionView::Helpers::AssetTagHelper
+  extend ::ActiveSupport::Concern
+  def self.preload_links_header(); end
+
+  def self.preload_links_header=(val); end
+end
+
+module ActionView::Helpers::AssetUrlHelper
+  def asset_path(source, options=T.unsafe(nil)); end
+
+  def asset_url(source, options=T.unsafe(nil)); end
+
+  def audio_path(source, options=T.unsafe(nil)); end
+
+  def audio_url(source, options=T.unsafe(nil)); end
+
+  def compute_asset_extname(source, options=T.unsafe(nil)); end
+
+  def compute_asset_host(source=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def compute_asset_path(source, options=T.unsafe(nil)); end
+
+  def font_path(source, options=T.unsafe(nil)); end
+
+  def font_url(source, options=T.unsafe(nil)); end
+
+  def image_path(source, options=T.unsafe(nil)); end
+
+  def image_url(source, options=T.unsafe(nil)); end
+
+  def javascript_path(source, options=T.unsafe(nil)); end
+
+  def javascript_url(source, options=T.unsafe(nil)); end
+
+  def path_to_asset(source, options=T.unsafe(nil)); end
+
+  def path_to_audio(source, options=T.unsafe(nil)); end
+
+  def path_to_font(source, options=T.unsafe(nil)); end
+
+  def path_to_image(source, options=T.unsafe(nil)); end
+
+  def path_to_javascript(source, options=T.unsafe(nil)); end
+
+  def path_to_stylesheet(source, options=T.unsafe(nil)); end
+
+  def path_to_video(source, options=T.unsafe(nil)); end
+
+  def public_compute_asset_path(source, options=T.unsafe(nil)); end
+
+  def stylesheet_path(source, options=T.unsafe(nil)); end
+
+  def stylesheet_url(source, options=T.unsafe(nil)); end
+
+  def url_to_asset(source, options=T.unsafe(nil)); end
+
+  def url_to_audio(source, options=T.unsafe(nil)); end
+
+  def url_to_font(source, options=T.unsafe(nil)); end
+
+  def url_to_image(source, options=T.unsafe(nil)); end
+
+  def url_to_javascript(source, options=T.unsafe(nil)); end
+
+  def url_to_stylesheet(source, options=T.unsafe(nil)); end
+
+  def url_to_video(source, options=T.unsafe(nil)); end
+
+  def video_path(source, options=T.unsafe(nil)); end
+
+  def video_url(source, options=T.unsafe(nil)); end
+end
+
+module ActionView::Helpers::AtomFeedHelper
+  def atom_feed(options=T.unsafe(nil), &block); end
+end
+
+module ActionView::Helpers::CacheHelper
+  def cache(name=T.unsafe(nil), options=T.unsafe(nil), &block); end
+
+  def cache_fragment_name(name=T.unsafe(nil), skip_digest: T.unsafe(nil), digest_path: T.unsafe(nil)); end
+
+  def cache_if(condition, name=T.unsafe(nil), options=T.unsafe(nil), &block); end
+
+  def cache_unless(condition, name=T.unsafe(nil), options=T.unsafe(nil), &block); end
+
+  def digest_path_from_template(template); end
+end
+
+module ActionView::Helpers::CacheHelper
+end
+
+module ActionView::Helpers::CaptureHelper
+  def capture(*args); end
+
+  def content_for(name, content=T.unsafe(nil), options=T.unsafe(nil), &block); end
+
+  def content_for?(name); end
+
+  def provide(name, content=T.unsafe(nil), &block); end
+
+  def with_output_buffer(buf=T.unsafe(nil)); end
+end
+
+module ActionView::Helpers::CaptureHelper
+end
+
+module ActionView::Helpers::ControllerHelper
+  def action_name(*args, &block); end
+
+  def assign_controller(controller); end
+
+  def controller(); end
+
+  def controller=(controller); end
+
+  def controller_name(*args, &block); end
+
+  def controller_path(*args, &block); end
+
+  def cookies(*args, &block); end
+
+  def flash(*args, &block); end
+
+  def headers(*args, &block); end
+
+  def logger(); end
+
+  def params(*args, &block); end
+
+  def request(); end
+
+  def request=(request); end
+
+  def request_forgery_protection_token(*args, &block); end
+
+  def respond_to?(method_name, include_private=T.unsafe(nil)); end
+
+  def response(*args, &block); end
+
+  def session(*args, &block); end
+end
+
+module ActionView::Helpers::CspHelper
+  def csp_meta_tag(**options); end
+end
+
+module ActionView::Helpers::CspHelper
+end
+
+module ActionView::Helpers::CsrfHelper
+  def csrf_meta_tag(); end
+
+  def csrf_meta_tags(); end
+end
+
+module ActionView::Helpers::CsrfHelper
+end
+
+module ActionView::Helpers::DateHelper
+  def date_select(object_name, method, options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+
+  def datetime_select(object_name, method, options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+
+  def distance_of_time_in_words(from_time, to_time=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def distance_of_time_in_words_to_now(from_time, options=T.unsafe(nil)); end
+
+  def select_date(date=T.unsafe(nil), options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+
+  def select_datetime(datetime=T.unsafe(nil), options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+
+  def select_day(date, options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+
+  def select_hour(datetime, options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+
+  def select_minute(datetime, options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+
+  def select_month(date, options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+
+  def select_second(datetime, options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+
+  def select_time(datetime=T.unsafe(nil), options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+
+  def select_year(date, options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+
+  def time_ago_in_words(from_time, options=T.unsafe(nil)); end
+
+  def time_select(object_name, method, options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+
+  def time_tag(date_or_time, *args, &block); end
+end
+
+module ActionView::Helpers::DebugHelper
+  include ::ActionView::Helpers::TagHelper
+  include ::ActionView::Helpers::CaptureHelper
+  include ::ActionView::Helpers::OutputSafetyHelper
+  def debug(object); end
+end
+
+module ActionView::Helpers::DebugHelper
+end
+
+module ActionView::Helpers::FormHelper
+  include ::ActionView::RecordIdentifier
+  include ::ActionView::ModelNaming
+  def check_box(object_name, method, options=T.unsafe(nil), checked_value=T.unsafe(nil), unchecked_value=T.unsafe(nil)); end
+
+  def color_field(object_name, method, options=T.unsafe(nil)); end
+
+  def date_field(object_name, method, options=T.unsafe(nil)); end
+
+  def datetime_field(object_name, method, options=T.unsafe(nil)); end
+
+  def datetime_local_field(object_name, method, options=T.unsafe(nil)); end
+
+  def default_form_builder(); end
+
+  def default_form_builder=(default_form_builder); end
+
+  def email_field(object_name, method, options=T.unsafe(nil)); end
+
+  def fields(scope=T.unsafe(nil), model: T.unsafe(nil), **options, &block); end
+
+  def fields_for(record_name, record_object=T.unsafe(nil), options=T.unsafe(nil), &block); end
+
+  def file_field(object_name, method, options=T.unsafe(nil)); end
+
+  def form_for(record, options=T.unsafe(nil), &block); end
+
+  def form_with(model: T.unsafe(nil), scope: T.unsafe(nil), url: T.unsafe(nil), format: T.unsafe(nil), **options, &block); end
+
+  def form_with_generates_ids(); end
+
+  def form_with_generates_ids=(val); end
+
+  def form_with_generates_remote_forms(); end
+
+  def form_with_generates_remote_forms=(val); end
+
+  def hidden_field(object_name, method, options=T.unsafe(nil)); end
+
+  def label(object_name, method, content_or_options=T.unsafe(nil), options=T.unsafe(nil), &block); end
+
+  def month_field(object_name, method, options=T.unsafe(nil)); end
+
+  def number_field(object_name, method, options=T.unsafe(nil)); end
+
+  def password_field(object_name, method, options=T.unsafe(nil)); end
+
+  def phone_field(object_name, method, options=T.unsafe(nil)); end
+
+  def radio_button(object_name, method, tag_value, options=T.unsafe(nil)); end
+
+  def range_field(object_name, method, options=T.unsafe(nil)); end
+
+  def search_field(object_name, method, options=T.unsafe(nil)); end
+
+  def telephone_field(object_name, method, options=T.unsafe(nil)); end
+
+  def text_area(object_name, method, options=T.unsafe(nil)); end
+
+  def text_field(object_name, method, options=T.unsafe(nil)); end
+
+  def time_field(object_name, method, options=T.unsafe(nil)); end
+
+  def url_field(object_name, method, options=T.unsafe(nil)); end
+
+  def week_field(object_name, method, options=T.unsafe(nil)); end
+end
+
+module ActionView::Helpers::FormHelper
+  extend ::ActiveSupport::Concern
+  def self.form_with_generates_ids(); end
+
+  def self.form_with_generates_ids=(val); end
+
+  def self.form_with_generates_remote_forms(); end
+
+  def self.form_with_generates_remote_forms=(val); end
+end
+
+module ActionView::Helpers::FormOptionsHelper
+  include ::ActionView::Helpers::SanitizeHelper
+  include ::ActionView::Helpers::TagHelper
+  include ::ActionView::Helpers::CaptureHelper
+  include ::ActionView::Helpers::TextHelper
+  include ::ActionView::Helpers::OutputSafetyHelper
+  def collection_check_boxes(object, method, collection, value_method, text_method, options=T.unsafe(nil), html_options=T.unsafe(nil), &block); end
+
+  def collection_radio_buttons(object, method, collection, value_method, text_method, options=T.unsafe(nil), html_options=T.unsafe(nil), &block); end
+
+  def collection_select(object, method, collection, value_method, text_method, options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+
+  def grouped_collection_select(object, method, collection, group_method, group_label_method, option_key_method, option_value_method, options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+
+  def grouped_options_for_select(grouped_options, selected_key=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def option_groups_from_collection_for_select(collection, group_method, group_label_method, option_key_method, option_value_method, selected_key=T.unsafe(nil)); end
+
+  def options_for_select(container, selected=T.unsafe(nil)); end
+
+  def options_from_collection_for_select(collection, value_method, text_method, selected=T.unsafe(nil)); end
+
+  def select(object, method, choices=T.unsafe(nil), options=T.unsafe(nil), html_options=T.unsafe(nil), &block); end
+
+  def time_zone_options_for_select(selected=T.unsafe(nil), priority_zones=T.unsafe(nil), model=T.unsafe(nil)); end
+
+  def time_zone_select(object, method, priority_zones=T.unsafe(nil), options=T.unsafe(nil), html_options=T.unsafe(nil)); end
+end
+
+module ActionView::Helpers::FormOptionsHelper
+end
+
+module ActionView::Helpers::FormTagHelper
+  def button_tag(content_or_options=T.unsafe(nil), options=T.unsafe(nil), &block); end
+
+  def check_box_tag(name, value=T.unsafe(nil), checked=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def color_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def date_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def datetime_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def datetime_local_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def default_enforce_utf8(); end
+
+  def default_enforce_utf8=(val); end
+
+  def email_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def embed_authenticity_token_in_remote_forms(); end
+
+  def embed_authenticity_token_in_remote_forms=(val); end
+
+  def field_set_tag(legend=T.unsafe(nil), options=T.unsafe(nil), &block); end
+
+  def file_field_tag(name, options=T.unsafe(nil)); end
+
+  def form_tag(url_for_options=T.unsafe(nil), options=T.unsafe(nil), &block); end
+
+  def hidden_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def image_submit_tag(source, options=T.unsafe(nil)); end
+
+  def label_tag(name=T.unsafe(nil), content_or_options=T.unsafe(nil), options=T.unsafe(nil), &block); end
+
+  def month_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def number_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def password_field_tag(name=T.unsafe(nil), value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def phone_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def radio_button_tag(name, value, checked=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def range_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def search_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def select_tag(name, option_tags=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def submit_tag(value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def telephone_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def text_area_tag(name, content=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def text_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def time_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def url_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def utf8_enforcer_tag(); end
+
+  def week_field_tag(name, value=T.unsafe(nil), options=T.unsafe(nil)); end
+end
+
+module ActionView::Helpers::FormTagHelper
+  extend ::ActiveSupport::Concern
+  def self.default_enforce_utf8(); end
+
+  def self.default_enforce_utf8=(val); end
+
+  def self.embed_authenticity_token_in_remote_forms(); end
+
+  def self.embed_authenticity_token_in_remote_forms=(val); end
+end
+
+module ActionView::Helpers::JavaScriptHelper
+  def escape_javascript(javascript); end
+
+  def j(javascript); end
+
+  def javascript_cdata_section(content); end
+
+  def javascript_tag(content_or_options_with_block=T.unsafe(nil), html_options=T.unsafe(nil), &block); end
+end
+
+module ActionView::Helpers::OutputSafetyHelper
+  def raw(stringish); end
+
+  def safe_join(array, sep=T.unsafe(nil)); end
+
+  def to_sentence(array, options=T.unsafe(nil)); end
+end
+
+module ActionView::Helpers::OutputSafetyHelper
+end
+
+module ActionView::Helpers::RenderingHelper
+  def _layout_for(*args, &block); end
+
+  def render(options=T.unsafe(nil), locals=T.unsafe(nil), &block); end
+end
+
+module ActionView::Helpers::RenderingHelper
+end
+
+module ActionView::Helpers::SanitizeHelper
+  def sanitize(html, options=T.unsafe(nil)); end
+
+  def sanitize_css(style); end
+
+  def strip_links(html); end
+
+  def strip_tags(html); end
+end
+
+module ActionView::Helpers::SanitizeHelper
+  extend ::ActiveSupport::Concern
+end
+
 module ActionView::Helpers::TagHelper
+  include ::ActionView::Helpers::CaptureHelper
+  include ::ActionView::Helpers::OutputSafetyHelper
+  def cdata_section(content); end
+
+  def class_names(*args); end
+
+  def content_tag(name, content_or_options_with_block=T.unsafe(nil), options=T.unsafe(nil), escape=T.unsafe(nil), &block); end
+
+  def escape_once(html); end
+
+  def tag(name=T.unsafe(nil), options=T.unsafe(nil), open=T.unsafe(nil), escape=T.unsafe(nil)); end
+
+  def token_list(*args); end
   ARIA_PREFIXES = ::T.let(nil, ::T.untyped)
   DATA_PREFIXES = ::T.let(nil, ::T.untyped)
   TAG_TYPES = ::T.let(nil, ::T.untyped)
+end
+
+module ActionView::Helpers::TagHelper
+  extend ::ActiveSupport::Concern
+  def self.build_tag_values(*args); end
+end
+
+module ActionView::Helpers::TextHelper
+  include ::ActionView::Helpers::OutputSafetyHelper
+  def concat(string); end
+
+  def current_cycle(name=T.unsafe(nil)); end
+
+  def cycle(first_value, *values); end
+
+  def excerpt(text, phrase, options=T.unsafe(nil)); end
+
+  def highlight(text, phrases, options=T.unsafe(nil)); end
+
+  def pluralize(count, singular, plural_arg=T.unsafe(nil), plural: T.unsafe(nil), locale: T.unsafe(nil)); end
+
+  def reset_cycle(name=T.unsafe(nil)); end
+
+  def safe_concat(string); end
+
+  def simple_format(text, html_options=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def truncate(text, options=T.unsafe(nil), &block); end
+
+  def word_wrap(text, line_width: T.unsafe(nil), break_sequence: T.unsafe(nil)); end
+end
+
+module ActionView::Helpers::TextHelper
+  extend ::ActiveSupport::Concern
+end
+
+module ActionView::Helpers::TranslationHelper
+  def l(object, **options); end
+
+  def localize(object, **options); end
+
+  def t(key, **options); end
+
+  def translate(key, **options); end
+end
+
+module ActionView::Helpers::TranslationHelper
+  extend ::ActiveSupport::Concern
+  def self.i18n_option?(name); end
+end
+
+module ActionView::Helpers::UrlHelper
+  def button_to(name=T.unsafe(nil), options=T.unsafe(nil), html_options=T.unsafe(nil), &block); end
+
+  def link_to_unless(condition, name, options=T.unsafe(nil), html_options=T.unsafe(nil), &block); end
+
+  def link_to_unless_current(name, options=T.unsafe(nil), html_options=T.unsafe(nil), &block); end
+
+  def mail_to(email_address, name=T.unsafe(nil), html_options=T.unsafe(nil), &block); end
+
+  def phone_to(phone_number, name=T.unsafe(nil), html_options=T.unsafe(nil), &block); end
+
+  def sms_to(phone_number, name=T.unsafe(nil), html_options=T.unsafe(nil), &block); end
+
+  def url_for(options=T.unsafe(nil)); end
+end
+
+module ActionView::Helpers
+  extend ::ActiveSupport::Autoload
+  extend ::ActiveSupport::Concern
+end
+
+class ActionView::I18nProxy
+  def initialize(original_config, lookup_context); end
+
+  def locale=(value); end
+
+  def lookup_context(); end
+
+  def original_config(); end
+end
+
+class ActionView::I18nProxy
+end
+
+module ActionView::Layouts
+  def _layout_conditions(*args, &block); end
+
+  def _normalize_options(options); end
+
+  def action_has_layout=(action_has_layout); end
+
+  def action_has_layout?(); end
+
+  def initialize(*arg); end
+end
+
+module ActionView::Layouts
+  extend ::ActiveSupport::Concern
 end
 
 class ActionView::LogSubscriber
@@ -1090,8 +2758,144 @@ class ActionView::LogSubscriber
   VIEWS_PATTERN = ::T.let(nil, ::T.untyped)
 end
 
+class ActionView::LogSubscriber
+end
+
+class ActionView::LookupContext
+  include ::ActionView::LookupContext::Accessors
+  include ::ActionView::LookupContext::DetailsCache
+  include ::ActionView::LookupContext::ViewPaths
+  def digest_cache(); end
+
+  def fallbacks(); end
+
+  def fallbacks=(val); end
+
+  def formats=(values); end
+
+  def initialize(view_paths, details=T.unsafe(nil), prefixes=T.unsafe(nil)); end
+
+  def prefixes(); end
+
+  def prefixes=(prefixes); end
+
+  def registered_details(); end
+
+  def registered_details=(val); end
+
+  def rendered_format(); end
+
+  def rendered_format=(rendered_format); end
+
+  def with_prepended_formats(formats); end
+end
+
 module ActionView::LookupContext::Accessors
+  def default_formats(); end
+
+  def default_handlers(); end
+
+  def default_locale(); end
+
+  def default_variants(); end
+
+  def formats(); end
+
+  def formats=(value); end
+
+  def handlers(); end
+
+  def handlers=(value); end
+
+  def locale(); end
+
+  def locale=(value); end
+
+  def variants(); end
+
+  def variants=(value); end
   DEFAULT_PROCS = ::T.let(nil, ::T.untyped)
+end
+
+module ActionView::LookupContext::Accessors
+end
+
+module ActionView::LookupContext::DetailsCache
+  def cache(); end
+
+  def cache=(cache); end
+
+  def details_key(); end
+
+  def disable_cache(); end
+end
+
+module ActionView::LookupContext::DetailsCache
+end
+
+class ActionView::LookupContext::DetailsKey
+end
+
+class ActionView::LookupContext::DetailsKey
+  def self.clear(); end
+
+  def self.details_cache_key(details); end
+
+  def self.digest_cache(details); end
+
+  def self.digest_caches(); end
+
+  def self.view_context_class(klass); end
+end
+
+module ActionView::LookupContext::ViewPaths
+  def any?(name, prefixes=T.unsafe(nil), partial=T.unsafe(nil)); end
+
+  def any_templates?(name, prefixes=T.unsafe(nil), partial=T.unsafe(nil)); end
+
+  def exists?(name, prefixes=T.unsafe(nil), partial=T.unsafe(nil), keys=T.unsafe(nil), **options); end
+
+  def find(name, prefixes=T.unsafe(nil), partial=T.unsafe(nil), keys=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def find_all(name, prefixes=T.unsafe(nil), partial=T.unsafe(nil), keys=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def find_template(name, prefixes=T.unsafe(nil), partial=T.unsafe(nil), keys=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def html_fallback_for_js(); end
+
+  def template_exists?(name, prefixes=T.unsafe(nil), partial=T.unsafe(nil), keys=T.unsafe(nil), **options); end
+
+  def view_paths(); end
+
+  def with_fallbacks(); end
+end
+
+module ActionView::LookupContext::ViewPaths
+end
+
+class ActionView::LookupContext
+  def self.fallbacks(); end
+
+  def self.fallbacks=(val); end
+
+  def self.register_detail(name, &block); end
+
+  def self.registered_details(); end
+
+  def self.registered_details=(val); end
+end
+
+class ActionView::MissingTemplate
+  def initialize(paths, path, prefixes, partial, details, *arg); end
+end
+
+module ActionView::ModelNaming
+  def convert_to_model(object); end
+
+  def model_name_from_record_or_class(record_or_class); end
+end
+
+module ActionView::ModelNaming
 end
 
 class ActionView::ObjectRenderer
@@ -1102,6 +2906,12 @@ class ActionView::ObjectRenderer
 end
 
 class ActionView::ObjectRenderer
+end
+
+class ActionView::OptimizedFileSystemResolver
+end
+
+class ActionView::OptimizedFileSystemResolver
 end
 
 class ActionView::OutputBuffer
@@ -1132,9 +2942,91 @@ end
 class ActionView::OutputFlow
 end
 
+class ActionView::PartialRenderer
+  include ::ActionView::CollectionCaching
+  def collection_cache(); end
+
+  def collection_cache=(val); end
+
+  def initialize(lookup_context, options); end
+
+  def render(partial, context, block); end
+end
+
+class ActionView::PartialRenderer
+  def self.collection_cache(); end
+
+  def self.collection_cache=(val); end
+end
+
 class ActionView::PathResolver
   DEFAULT_PATTERN = ::T.let(nil, ::T.untyped)
   EXTENSIONS = ::T.let(nil, ::T.untyped)
+end
+
+class ActionView::PathResolver
+end
+
+class ActionView::PathSet
+  include ::Enumerable
+  def +(array); end
+
+  def <<(*args); end
+
+  def [](*args, &block); end
+
+  def compact(); end
+
+  def concat(*args); end
+
+  def each(*args, &block); end
+
+  def exists?(path, prefixes, *args); end
+
+  def find(*args); end
+
+  def find_all(path, prefixes=T.unsafe(nil), *args); end
+
+  def find_all_with_query(query); end
+
+  def include?(*args, &block); end
+
+  def initialize(paths=T.unsafe(nil)); end
+
+  def insert(*args); end
+
+  def paths(); end
+
+  def pop(*args, &block); end
+
+  def push(*args); end
+
+  def size(*args, &block); end
+
+  def to_ary(); end
+
+  def unshift(*args); end
+end
+
+class ActionView::PathSet
+end
+
+class ActionView::Railtie
+end
+
+class ActionView::Railtie
+end
+
+module ActionView::RecordIdentifier
+  include ::ActionView::ModelNaming
+  def dom_class(record_or_class, prefix=T.unsafe(nil)); end
+
+  def dom_id(record, prefix=T.unsafe(nil)); end
+end
+
+module ActionView::RecordIdentifier
+  extend ::ActionView::RecordIdentifier
+  extend ::ActionView::ModelNaming
 end
 
 class ActionView::Renderer
@@ -1164,12 +3056,106 @@ end
 class ActionView::Renderer
 end
 
+module ActionView::Rendering
+  def initialize(); end
+
+  def process(*arg); end
+
+  def render_to_body(options=T.unsafe(nil)); end
+
+  def rendered_format(); end
+
+  def view_context(); end
+
+  def view_context_class(); end
+
+  def view_renderer(); end
+end
+
+module ActionView::Rendering
+  extend ::ActiveSupport::Concern
+end
+
+class ActionView::Resolver
+  def caching(); end
+
+  def caching=(val); end
+
+  def caching?(*args, &block); end
+
+  def clear_cache(); end
+
+  def find_all(name, prefix=T.unsafe(nil), partial=T.unsafe(nil), details=T.unsafe(nil), key=T.unsafe(nil), locals=T.unsafe(nil)); end
+
+  def find_all_with_query(query); end
+end
+
 class ActionView::Resolver::Cache
+  def cache(key, name, prefix, partial, locals); end
+
+  def cache_query(query); end
+
+  def clear(); end
+
+  def size(); end
   KEY_BLOCK = ::T.let(nil, ::T.untyped)
   NAME_BLOCK = ::T.let(nil, ::T.untyped)
   NO_TEMPLATES = ::T.let(nil, ::T.untyped)
   PARTIAL_BLOCK = ::T.let(nil, ::T.untyped)
   PREFIX_BLOCK = ::T.let(nil, ::T.untyped)
+end
+
+class ActionView::Resolver::Cache::SmallCache
+  def initialize(options=T.unsafe(nil)); end
+end
+
+class ActionView::Resolver::Cache::SmallCache
+end
+
+class ActionView::Resolver::Cache
+end
+
+class ActionView::Resolver::Path
+  def initialize(name, prefix, partial, virtual); end
+
+  def name(); end
+
+  def partial(); end
+
+  def partial?(); end
+
+  def prefix(); end
+
+  def to_str(); end
+
+  def virtual(); end
+end
+
+class ActionView::Resolver::Path
+  def self.build(name, prefix, partial); end
+end
+
+class ActionView::Resolver::PathParser
+  def build_path_regex(); end
+
+  def parse(path); end
+end
+
+class ActionView::Resolver::PathParser
+end
+
+class ActionView::Resolver
+  def self.caching(); end
+
+  def self.caching=(val); end
+
+  def self.caching?(); end
+end
+
+module ActionView::RoutingUrlFor
+  def url_for(options=T.unsafe(nil)); end
+
+  def url_options(); end
 end
 
 class ActionView::StreamingBuffer
@@ -1198,24 +3184,227 @@ end
 class ActionView::StreamingFlow
 end
 
+class ActionView::StreamingTemplateRenderer
+  def render_template(view, template, layout_name=T.unsafe(nil), locals=T.unsafe(nil)); end
+end
+
 class ActionView::StreamingTemplateRenderer::Body
   include ::Sentry::Rails::Overrides::StreamingReporter
+  def each(&block); end
+
+  def initialize(&start); end
+end
+
+class ActionView::StreamingTemplateRenderer::Body
+end
+
+class ActionView::StreamingTemplateRenderer
+end
+
+class ActionView::SyntaxErrorInTemplate
+  def initialize(template, offending_code_string); end
+end
+
+class ActionView::Template
+  def encode!(); end
+
+  def format(); end
+
+  def handler(); end
+
+  def identifier(); end
+
+  def initialize(source, identifier, handler, locals:, format: T.unsafe(nil), variant: T.unsafe(nil), virtual_path: T.unsafe(nil)); end
+
+  def locals(); end
+
+  def marshal_dump(); end
+
+  def marshal_load(array); end
+
+  def render(view, locals, buffer=T.unsafe(nil), add_to_stack: T.unsafe(nil), &block); end
+
+  def short_identifier(); end
+
+  def source(); end
+
+  def supports_streaming?(); end
+
+  def type(); end
+
+  def variable(); end
+
+  def variant(); end
+
+  def virtual_path(); end
 end
 
 class ActionView::Template::Error
+  def annotated_source_code(); end
+
+  def file_name(); end
+
+  def initialize(template); end
+
+  def line_number(); end
+
+  def source_extract(indentation=T.unsafe(nil)); end
+
+  def sub_template_message(); end
+
+  def sub_template_of(template_path); end
   SOURCE_CODE_RADIUS = ::T.let(nil, ::T.untyped)
 end
 
+class ActionView::Template::HTML
+  def format(); end
+
+  def identifier(); end
+
+  def initialize(string, type); end
+
+  def render(*args); end
+
+  def to_str(); end
+
+  def type(); end
+end
+
+class ActionView::Template::HTML
+end
+
+module ActionView::Template::Handlers
+  def handler_for_extension(extension); end
+
+  def register_default_template_handler(extension, klass); end
+
+  def register_template_handler(*extensions, handler); end
+
+  def registered_template_handler(extension); end
+
+  def template_handler_extensions(); end
+
+  def unregister_template_handler(*extensions); end
+end
+
+class ActionView::Template::Handlers::Builder
+  def call(template, source); end
+
+  def default_format(); end
+
+  def default_format=(default_format); end
+
+  def default_format?(); end
+end
+
+class ActionView::Template::Handlers::Builder
+  def self.default_format(); end
+
+  def self.default_format=(value); end
+
+  def self.default_format?(); end
+end
+
 class ActionView::Template::Handlers::ERB
+  def call(template, source); end
+
+  def erb_implementation(); end
+
+  def erb_implementation=(erb_implementation); end
+
+  def erb_implementation?(); end
+
+  def erb_trim_mode(); end
+
+  def erb_trim_mode=(erb_trim_mode); end
+
+  def erb_trim_mode?(); end
+
+  def escape_ignore_list(); end
+
+  def escape_ignore_list=(escape_ignore_list); end
+
+  def escape_ignore_list?(); end
+
+  def handles_encoding?(); end
+
+  def supports_streaming?(); end
   ENCODING_TAG = ::T.let(nil, ::T.untyped)
 end
 
 class ActionView::Template::Handlers::ERB::Erubi
+  def evaluate(action_view_erb_handler_context); end
   BLOCK_EXPR = ::T.let(nil, ::T.untyped)
+end
+
+class ActionView::Template::Handlers::ERB::Erubi
+end
+
+class ActionView::Template::Handlers::ERB
+  def self.call(template, source); end
+
+  def self.erb_implementation(); end
+
+  def self.erb_implementation=(value); end
+
+  def self.erb_implementation?(); end
+
+  def self.erb_trim_mode(); end
+
+  def self.erb_trim_mode=(value); end
+
+  def self.erb_trim_mode?(); end
+
+  def self.escape_ignore_list(); end
+
+  def self.escape_ignore_list=(value); end
+
+  def self.escape_ignore_list?(); end
+end
+
+class ActionView::Template::Handlers::Html
+end
+
+class ActionView::Template::Handlers::Html
+end
+
+class ActionView::Template::Handlers::Raw
+  def call(template, source); end
+end
+
+class ActionView::Template::Handlers::Raw
+end
+
+module ActionView::Template::Handlers
+  def self.extended(base); end
+
+  def self.extensions(); end
 end
 
 class ActionView::Template::Inline
   Finalizer = ::T.let(nil, ::T.untyped)
+end
+
+class ActionView::Template::Inline
+end
+
+class ActionView::Template::RawFile
+  def format(); end
+
+  def format=(format); end
+
+  def identifier(); end
+
+  def initialize(filename); end
+
+  def render(*args); end
+
+  def type(); end
+
+  def type=(type); end
+end
+
+class ActionView::Template::RawFile
 end
 
 class ActionView::Template::Renderable
@@ -1231,6 +3420,9 @@ end
 class ActionView::Template::Renderable
 end
 
+module ActionView::Template::Sources
+end
+
 class ActionView::Template::Sources::File
   def initialize(filename); end
 end
@@ -1238,23 +3430,262 @@ end
 class ActionView::Template::Sources::File
 end
 
+module ActionView::Template::Sources
+  extend ::ActiveSupport::Autoload
+end
+
+class ActionView::Template::Text
+  def format(); end
+
+  def identifier(); end
+
+  def initialize(string); end
+
+  def render(*args); end
+
+  def to_str(); end
+
+  def type(); end
+
+  def type=(type); end
+end
+
+class ActionView::Template::Text
+end
+
+class ActionView::Template::Types
+  def type_klass(); end
+
+  def type_klass=(val); end
+end
+
 class ActionView::Template::Types::Type
+  def ==(type); end
+
+  def initialize(symbol); end
+
+  def ref(); end
+
+  def symbol(); end
+
+  def to_str(); end
+
+  def to_sym(); end
   SET = ::T.let(nil, ::T.untyped)
 end
 
+class ActionView::Template::Types::Type
+  def self.[](type); end
+end
+
+class ActionView::Template::Types
+  def self.[](type); end
+
+  def self.delegate_to(klass); end
+
+  def self.symbols(); end
+
+  def self.type_klass(); end
+
+  def self.type_klass=(val); end
+end
+
+class ActionView::Template
+  extend ::ActiveSupport::Autoload
+  extend ::ActionView::Template::Handlers
+end
+
+class ActionView::TemplateRenderer
+  def render(context, options); end
+end
+
+class ActionView::TemplateRenderer
+end
+
 class ActionView::TestCase
+  include ::Rails::Dom::Testing::Assertions
+  include ::Rails::Dom::Testing::Assertions::DomAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions
+  include ::Rails::Dom::Testing::Assertions::SelectorAssertions::CountDescribable
+  include ::ActionDispatch::Assertions
+  include ::ActionDispatch::Assertions::ResponseAssertions
+  include ::ActionDispatch::Assertions::RoutingAssertions
+  include ::AbstractController::Helpers
+  include ::ActionView::Helpers::AssetTagHelper
+  include ::ActionView::Helpers::UrlHelper
+  include ::ActionView::Helpers::FormTagHelper
+  include ::ActionView::Helpers::FormHelper
+  include ::ActionView::Helpers::TranslationHelper
+  include ::ActionView::Helpers
+  include ::ActiveSupport::Benchmarkable
+  include ::ActionView::Helpers::ActiveModelHelper
+  include ::ActionView::Helpers::AssetUrlHelper
+  include ::ActionView::Helpers::AtomFeedHelper
+  include ::ActionView::Helpers::CacheHelper
+  include ::ActionView::Helpers::ControllerHelper
+  include ::ActionView::Helpers::CspHelper
+  include ::ActionView::Helpers::CsrfHelper
+  include ::ActionView::Helpers::DateHelper
+  include ::ActionView::Helpers::DebugHelper
+  include ::ActionView::Helpers::FormOptionsHelper
+  include ::ActionView::Helpers::SanitizeHelper
+  include ::ActionView::Helpers::TagHelper
+  include ::ActionView::Helpers::CaptureHelper
+  include ::ActionView::Helpers::TextHelper
+  include ::ActionView::Helpers::OutputSafetyHelper
+  include ::ActionView::Helpers::JavaScriptHelper
+  include ::ActionView::Helpers::NumberHelper
+  include ::ActionView::Helpers::RenderingHelper
+  include ::ActiveSupport::Testing::ConstantLookup
+  include ::ActionView::TestCase::Behavior
   include ::ActionDispatch::TestProcess
   include ::ActionDispatch::TestProcess::FixtureFile
+  include ::ActionController::TemplateAssertions
+  include ::ActionView::Context
+  include ::ActionView::RecordIdentifier
+  include ::ActionView::ModelNaming
+  include ::ActionView::RoutingUrlFor
+  include ::ActionDispatch::Routing::UrlFor
+  include ::ActionDispatch::Routing::PolymorphicRoutes
+  def _helper_methods(); end
+
+  def _helper_methods=(_helper_methods); end
+
+  def _helper_methods?(); end
+
+  def debug_missing_translation(); end
+
+  def debug_missing_translation=(val); end
 end
 
 module ActionView::TestCase::Behavior
   include ::ActionDispatch::TestProcess
   include ::ActionDispatch::TestProcess::FixtureFile
+  include ::ActionController::TemplateAssertions
+  include ::ActionView::Context
+  include ::ActionView::RecordIdentifier
+  include ::ActionView::ModelNaming
+  include ::ActionView::RoutingUrlFor
+  include ::ActionDispatch::Routing::UrlFor
+  include ::ActionDispatch::Routing::PolymorphicRoutes
+  def _routes(); end
+
+  def config(); end
+
+  def controller(); end
+
+  def controller=(controller); end
+
+  def lookup_context(*args, &block); end
+
+  def output_buffer(); end
+
+  def output_buffer=(output_buffer); end
+
+  def render(options=T.unsafe(nil), local_assigns=T.unsafe(nil), &block); end
+
+  def rendered(); end
+
+  def rendered=(rendered); end
+
+  def rendered_views(); end
+
+  def setup_with_controller(); end
   INTERNAL_IVARS = ::T.let(nil, ::T.untyped)
+end
+
+module ActionView::TestCase::Behavior::ClassMethods
+  def determine_default_helper_class(name); end
+
+  def helper_class(); end
+
+  def helper_class=(helper_class); end
+
+  def helper_method(*methods); end
+
+  def new(*arg); end
+
+  def tests(helper_class); end
+end
+
+module ActionView::TestCase::Behavior::ClassMethods
+end
+
+module ActionView::TestCase::Behavior::Locals
+  def render(options=T.unsafe(nil), local_assigns=T.unsafe(nil)); end
+
+  def rendered_views(); end
+
+  def rendered_views=(rendered_views); end
+end
+
+module ActionView::TestCase::Behavior::Locals
+end
+
+class ActionView::TestCase::Behavior::RenderedViewsCollection
+  def add(view, locals); end
+
+  def locals_for(view); end
+
+  def rendered_views(); end
+
+  def view_rendered?(view, expected_locals); end
+end
+
+class ActionView::TestCase::Behavior::RenderedViewsCollection
+end
+
+module ActionView::TestCase::Behavior
+  extend ::ActiveSupport::Concern
+end
+
+module ActionView::TestCase::HelperMethods
+  def _test_case(); end
+
+  def protect_against_forgery?(); end
+end
+
+module ActionView::TestCase::HelperMethods
 end
 
 class ActionView::TestCase::TestController
   include ::GeneratedUrlHelpers
+  include ::ActionDispatch::TestProcess
+  include ::ActionDispatch::TestProcess::FixtureFile
+  def controller_path=(path); end
+
+  def initialize(); end
+
+  def params=(params); end
+end
+
+class ActionView::TestCase::TestController
+  def self.controller_path=(controller_path); end
+end
+
+class ActionView::TestCase
+  extend ::AbstractController::Helpers::ClassMethods
+  extend ::ActionView::TestCase::Behavior::ClassMethods
+  def self._helper_methods(); end
+
+  def self._helper_methods=(value); end
+
+  def self._helper_methods?(); end
+
+  def self._helpers(); end
+
+  def self.debug_missing_translation(); end
+
+  def self.debug_missing_translation=(val); end
+end
+
+class ActionView::UnboundTemplate
+  def bind_locals(locals); end
+
+  def initialize(source, identifier, handler, options); end
+end
+
+class ActionView::UnboundTemplate
 end
 
 module ActionView::VERSION
@@ -1263,6 +3694,55 @@ module ActionView::VERSION
   PRE = ::T.let(nil, ::T.untyped)
   STRING = ::T.let(nil, ::T.untyped)
   TINY = ::T.let(nil, ::T.untyped)
+end
+
+module ActionView::VERSION
+end
+
+module ActionView::ViewPaths
+  def _prefixes(); end
+
+  def any_templates?(*args, &block); end
+
+  def append_view_path(path); end
+
+  def details_for_lookup(); end
+
+  def formats(*args, &block); end
+
+  def formats=(arg); end
+
+  def locale(*args, &block); end
+
+  def locale=(arg); end
+
+  def lookup_context(); end
+
+  def prepend_view_path(path); end
+
+  def template_exists?(*args, &block); end
+
+  def view_paths(*args, &block); end
+end
+
+module ActionView::ViewPaths
+  extend ::ActiveSupport::Concern
+  def self.all_view_paths(); end
+
+  def self.get_view_paths(klass); end
+
+  def self.set_view_paths(klass, paths); end
+end
+
+class ActionView::WrongEncodingError
+  def initialize(string, encoding); end
+end
+
+module ActionView
+  extend ::ActiveSupport::Autoload
+  def self.gem_version(); end
+
+  def self.version(); end
 end
 
 module ActiveJob::Arguments
@@ -15605,6 +18085,47 @@ module Mail
   RANDOM_TAG = ::T.let(nil, ::T.untyped)
 end
 
+class Mail::Address
+  include ::Mail::Utilities
+  include ::Mail::Constants
+  def address(output_type=T.unsafe(nil)); end
+
+  def address=(value); end
+
+  def comments(); end
+
+  def decoded(); end
+
+  def display_name(output_type=T.unsafe(nil)); end
+
+  def display_name=(str); end
+
+  def domain(output_type=T.unsafe(nil)); end
+
+  def encoded(); end
+
+  def format(output_type=T.unsafe(nil)); end
+
+  def group(); end
+
+  def initialize(value=T.unsafe(nil)); end
+
+  def local(output_type=T.unsafe(nil)); end
+
+  def name(); end
+
+  def raw(); end
+end
+
+class Mail::AddressContainer
+  def <<(address); end
+
+  def initialize(field, list=T.unsafe(nil)); end
+end
+
+class Mail::AddressContainer
+end
+
 class Mail::AddressList
   def addresses(); end
 
@@ -15618,23 +18139,241 @@ end
 class Mail::AddressList
 end
 
+class Mail::AttachmentsList
+  def [](index_value); end
+
+  def []=(name, value); end
+
+  def guess_encoding(); end
+
+  def initialize(parts_list); end
+
+  def inline(); end
+
+  def set_mime_type(filename); end
+end
+
+class Mail::AttachmentsList
+end
+
 class Mail::BccField
+  include ::Mail::CommonAddress
+  def decoded(); end
+
+  def encoded(); end
+
+  def include_in_headers(); end
+
+  def include_in_headers=(include_in_headers); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
+  CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
+  FIELD_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::BccField
+end
+
+class Mail::Body
+  def <<(val); end
+
+  def ==(other); end
+
+  def =~(regexp); end
+
+  def ascii_only?(); end
+
+  def boundary(); end
+
+  def boundary=(val); end
+
+  def charset(); end
+
+  def charset=(val); end
+
+  def decoded(); end
+
+  def default_encoding(); end
+
+  def empty?(); end
+
+  def encoded(transfer_encoding=T.unsafe(nil)); end
+
+  def encoding(val=T.unsafe(nil)); end
+
+  def encoding=(val); end
+
+  def epilogue(); end
+
+  def epilogue=(val); end
+
+  def include?(other); end
+
+  def initialize(string=T.unsafe(nil)); end
+
+  def match(regexp); end
+
+  def multipart?(); end
+
+  def negotiate_best_encoding(message_encoding, allowed_encodings=T.unsafe(nil)); end
+
+  def parts(); end
+
+  def preamble(); end
+
+  def preamble=(val); end
+
+  def raw_source(); end
+
+  def set_sort_order(order); end
+
+  def sort_parts!(); end
+
+  def split!(boundary); end
+end
+
+class Mail::Body
+end
+
+class Mail::CcField
+  include ::Mail::CommonAddress
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::CcField
+end
+
+module Mail::CheckDeliveryParams
+  def self.check(mail); end
+
+  def self.check_addr(addr_name, addr); end
+
+  def self.check_from(addr); end
+
+  def self.check_message(message); end
+
+  def self.check_to(addrs); end
+
+  def self.validate_smtp_addr(addr); end
+end
+
+class Mail::CommentsField
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::CommentsField
-  CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
-  FIELD_NAME = ::T.let(nil, ::T.untyped)
+end
+
+module Mail::CommonAddress
+  def <<(val); end
+
+  def addresses(); end
+
+  def addrs(); end
+
+  def charset(); end
+
+  def decoded_group_addresses(); end
+
+  def default(); end
+
+  def display_names(); end
+
+  def each(&blk); end
+
+  def encode_if_needed(val); end
+
+  def encoded_group_addresses(); end
+
+  def formatted(); end
+
+  def group_addresses(); end
+
+  def group_names(); end
+
+  def groups(); end
+
+  def parse(val=T.unsafe(nil)); end
+
+  def value=(val); end
+end
+
+module Mail::CommonAddress
+end
+
+module Mail::CommonDate
+  def date_time(); end
+
+  def default(); end
+
+  def parse(val=T.unsafe(nil)); end
+end
+
+module Mail::CommonDate
 end
 
 module Mail::CommonField
+  include ::Mail::Constants
+  def default(); end
+
+  def field_length(); end
+
+  def name(); end
+
+  def name=(value); end
+
+  def responsible_for?(val); end
+
+  def to_s(); end
+
+  def value(); end
+
+  def value=(value); end
   FILENAME_RE = ::T.let(nil, ::T.untyped)
+end
+
+module Mail::CommonField
+end
+
+module Mail::CommonMessageId
+  def default(); end
+
+  def element(); end
+
+  def message_id(); end
+
+  def message_ids(); end
+
+  def parse(val=T.unsafe(nil)); end
+end
+
+module Mail::CommonMessageId
+end
+
+class Mail::Configuration
+  include ::Singleton
+  def delivery_method(method=T.unsafe(nil), settings=T.unsafe(nil)); end
+
+  def lookup_delivery_method(method); end
+
+  def lookup_retriever_method(method); end
+
+  def param_encode_language(value=T.unsafe(nil)); end
+
+  def retriever_method(method=T.unsafe(nil), settings=T.unsafe(nil)); end
+end
+
+class Mail::Configuration
+  extend ::Singleton::SingletonClassMethods
+  def self.instance(); end
 end
 
 module Mail::Constants
@@ -15674,9 +18413,16 @@ module Mail::Constants
   WSP = ::T.let(nil, ::T.untyped)
 end
 
+module Mail::Constants
+end
+
 class Mail::ContentDescriptionField
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::ContentDescriptionField
 end
 
 class Mail::ContentDispositionElement
@@ -15691,13 +18437,45 @@ class Mail::ContentDispositionElement
 end
 
 class Mail::ContentDispositionField
+  def decoded(); end
+
+  def disposition_type(); end
+
+  def element(); end
+
+  def encoded(); end
+
+  def filename(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
+
+  def parameters(); end
+
+  def parse(val=T.unsafe(nil)); end
+  CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
+  FIELD_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::ContentDispositionField
+end
+
+class Mail::ContentIdField
+  def content_id(); end
+
+  def decoded(); end
+
+  def element(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
+
+  def parse(val=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::ContentIdField
-  CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
-  FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::ContentLocationElement
@@ -15712,8 +18490,22 @@ class Mail::ContentLocationElement
 end
 
 class Mail::ContentLocationField
+  def decoded(); end
+
+  def element(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
+
+  def location(); end
+
+  def parse(val=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::ContentLocationField
 end
 
 class Mail::ContentTransferEncodingElement
@@ -15726,8 +18518,22 @@ class Mail::ContentTransferEncodingElement
 end
 
 class Mail::ContentTransferEncodingField
+  def decoded(); end
+
+  def element(); end
+
+  def encoded(); end
+
+  def encoding(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
+
+  def parse(val=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::ContentTransferEncodingField
 end
 
 class Mail::ContentTypeElement
@@ -15744,13 +18550,53 @@ class Mail::ContentTypeElement
 end
 
 class Mail::ContentTypeField
+  def attempt_to_clean(); end
+
+  def content_type(); end
+
+  def decoded(); end
+
+  def element(); end
+
+  def encoded(); end
+
+  def filename(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
+
+  def main_type(); end
+
+  def parameters(); end
+
+  def parse(val=T.unsafe(nil)); end
+
+  def string(); end
+
+  def stringify(params); end
+
+  def sub_type(); end
+  CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
+  FIELD_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::ContentTypeField
+  def self.generate_boundary(); end
+
+  def self.with_boundary(type); end
+end
+
+class Mail::DateField
+  include ::Mail::CommonDate
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::DateField
-  CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
-  FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::DateTimeElement
@@ -15764,9 +18610,16 @@ end
 class Mail::DateTimeElement
 end
 
+module Mail::Encodings
+  include ::Mail::Constants
+end
+
 class Mail::Encodings::Base64
   NAME = ::T.let(nil, ::T.untyped)
   PRIORITY = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::Encodings::Base64
 end
 
 class Mail::Encodings::Binary
@@ -15774,9 +18627,24 @@ class Mail::Encodings::Binary
   PRIORITY = ::T.let(nil, ::T.untyped)
 end
 
+class Mail::Encodings::Binary
+end
+
 class Mail::Encodings::EightBit
   NAME = ::T.let(nil, ::T.untyped)
   PRIORITY = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::Encodings::EightBit
+end
+
+class Mail::Encodings::Identity
+end
+
+class Mail::Encodings::Identity
+  def self.decode(str); end
+
+  def self.encode(str); end
 end
 
 class Mail::Encodings::QuotedPrintable
@@ -15784,9 +18652,15 @@ class Mail::Encodings::QuotedPrintable
   PRIORITY = ::T.let(nil, ::T.untyped)
 end
 
+class Mail::Encodings::QuotedPrintable
+end
+
 class Mail::Encodings::SevenBit
   NAME = ::T.let(nil, ::T.untyped)
   PRIORITY = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::Encodings::SevenBit
 end
 
 class Mail::Encodings::TransferEncoding
@@ -15794,8 +18668,93 @@ class Mail::Encodings::TransferEncoding
   PRIORITY = ::T.let(nil, ::T.untyped)
 end
 
+class Mail::Encodings::TransferEncoding
+  def self.can_encode?(enc); end
+
+  def self.can_transport?(enc); end
+
+  def self.compatible_input?(str); end
+
+  def self.cost(str); end
+
+  def self.lowest_cost(str, encodings); end
+
+  def self.negotiate(message_encoding, source_encoding, str, allowed_encodings=T.unsafe(nil)); end
+
+  def self.renegotiate(message_encoding, source_encoding, str, allowed_encodings=T.unsafe(nil)); end
+end
+
 class Mail::Encodings::UnixToUnix
   NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::Encodings::UnixToUnix
+  def self.decode(str); end
+
+  def self.encode(str); end
+end
+
+module Mail::Encodings
+  extend ::Mail::Utilities
+  extend ::Mail::Constants
+  def self.address_encode(address, charset=T.unsafe(nil)); end
+
+  def self.b_value_decode(str); end
+
+  def self.b_value_encode(string, encoding=T.unsafe(nil)); end
+
+  def self.collapse_adjacent_encodings(str); end
+
+  def self.decode_encode(str, output_type); end
+
+  def self.defined?(name); end
+
+  def self.each_base64_chunk_byterange(str, max_bytesize_per_base64_chunk, &block); end
+
+  def self.each_chunk_byterange(str, max_bytesize_per_chunk); end
+
+  def self.encode_non_usascii(address, charset); end
+
+  def self.find_encoding(str); end
+
+  def self.get_all(); end
+
+  def self.get_encoding(name); end
+
+  def self.get_name(name); end
+
+  def self.param_decode(str, encoding); end
+
+  def self.param_encode(str); end
+
+  def self.q_value_decode(str); end
+
+  def self.q_value_encode(encoded_str, encoding=T.unsafe(nil)); end
+
+  def self.register(name, cls); end
+
+  def self.transcode_charset(str, from_charset, to_charset=T.unsafe(nil)); end
+
+  def self.unquote_and_convert_to(str, to_encoding); end
+
+  def self.value_decode(str); end
+
+  def self.value_encoding_from_string(str); end
+
+  def self.with_ascii_kcode(); end
+end
+
+class Mail::Envelope
+  def date(); end
+
+  def element(); end
+
+  def from(); end
+
+  def initialize(*args); end
+end
+
+class Mail::Envelope
 end
 
 class Mail::EnvelopeFromElement
@@ -15819,6 +18778,34 @@ class Mail::Exim
 end
 
 class Mail::Field
+  include ::Mail::Utilities
+  include ::Mail::Constants
+  include ::Comparable
+  def ==(other); end
+
+  def field(); end
+
+  def field=(value); end
+
+  def field_order_id(); end
+
+  def initialize(name, value=T.unsafe(nil), charset=T.unsafe(nil)); end
+
+  def method_missing(name, *args, &block); end
+
+  def name(); end
+
+  def responsible_for?(val); end
+
+  def same(other); end
+
+  def unparsed_value(); end
+
+  def update(name, value); end
+
+  def value(); end
+
+  def value=(val); end
   FIELDS_MAP = ::T.let(nil, ::T.untyped)
   FIELD_NAME_MAP = ::T.let(nil, ::T.untyped)
   FIELD_ORDER = ::T.let(nil, ::T.untyped)
@@ -15827,13 +18814,133 @@ class Mail::Field
   STRUCTURED_FIELDS = ::T.let(nil, ::T.untyped)
 end
 
+class Mail::Field::FieldError
+end
+
+class Mail::Field::FieldError
+end
+
+class Mail::Field::IncompleteParseError
+  def initialize(element, original_text, unparsed_index); end
+end
+
+class Mail::Field::IncompleteParseError
+end
+
+class Mail::Field::NilParseError
+  def initialize(element); end
+end
+
+class Mail::Field::NilParseError
+end
+
+class Mail::Field::ParseError
+  def element(); end
+
+  def element=(element); end
+
+  def initialize(element, value, reason); end
+
+  def reason(); end
+
+  def reason=(reason); end
+
+  def value(); end
+
+  def value=(value); end
+end
+
+class Mail::Field::ParseError
+end
+
+class Mail::Field::SyntaxError
+end
+
+class Mail::Field::SyntaxError
+end
+
+class Mail::Field
+  def self.parse(field, charset=T.unsafe(nil)); end
+
+  def self.split(raw_field); end
+end
+
+class Mail::FieldList
+  def <<(new_field); end
+end
+
+class Mail::FieldList
+end
+
+class Mail::FileDelivery
+  def deliver!(mail); end
+
+  def initialize(values); end
+
+  def settings(); end
+
+  def settings=(settings); end
+end
+
+class Mail::FileDelivery
+end
+
 class Mail::FromField
+  include ::Mail::CommonAddress
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
+class Mail::FromField
+end
+
 class Mail::Header
+  include ::Mail::Utilities
+  include ::Mail::Constants
+  include ::Enumerable
+  def [](name); end
+
+  def []=(name, value); end
+
+  def charset(); end
+
+  def charset=(val); end
+
+  def decoded(); end
+
+  def encoded(); end
+
+  def errors(); end
+
+  def field_summary(); end
+
+  def fields(); end
+
+  def fields=(unfolded_fields); end
+
+  def has_content_id?(); end
+
+  def has_date?(); end
+
+  def has_message_id?(); end
+
+  def has_mime_version?(); end
+
+  def initialize(header_text=T.unsafe(nil), charset=T.unsafe(nil)); end
+
+  def raw_source(); end
   LIMITED_FIELDS = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::Header
+  def self.maximum_amount(); end
+
+  def self.maximum_amount=(value); end
 end
 
 class Mail::IMAP
@@ -15854,13 +18961,78 @@ class Mail::IMAP
 end
 
 class Mail::InReplyToField
+  include ::Mail::CommonMessageId
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
+  CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
+  FIELD_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::InReplyToField
+end
+
+class Mail::IndifferentHash
+  def []=(key, value); end
+
+  def convert_key(key); end
+
+  def convert_value(value); end
+
+  def default(key=T.unsafe(nil)); end
+
+  def delete(key); end
+
+  def fetch(key, *extras); end
+
+  def has_key?(key); end
+
+  def include?(key); end
+
+  def initialize(constructor=T.unsafe(nil)); end
+
+  def key?(key); end
+
+  def member?(key); end
+
+  def merge(hash); end
+
+  def merge!(other_hash); end
+
+  def regular_update(*arg); end
+
+  def regular_writer(arg, arg1); end
+
+  def store(key, value); end
+
+  def update(other_hash); end
+
+  def values_at(*indices); end
+end
+
+class Mail::IndifferentHash
+  def self.new_from_hash_copying_default(hash); end
+end
+
+class Mail::KeywordsField
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
+
+  def keywords(); end
+
+  def parse(val=T.unsafe(nil)); end
+
+  def phrase_list(); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::KeywordsField
-  CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
-  FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::LoggerDelivery
@@ -15879,13 +19051,463 @@ end
 class Mail::LoggerDelivery
 end
 
+module Mail::Matchers
+  def an_attachment_with_filename(filename); end
+
+  def any_attachment(); end
+
+  def have_sent_email(); end
+end
+
+class Mail::Matchers::AnyAttachmentMatcher
+  def ===(other); end
+end
+
+class Mail::Matchers::AnyAttachmentMatcher
+end
+
+class Mail::Matchers::AttachmentFilenameMatcher
+  def ===(other); end
+
+  def filename(); end
+
+  def initialize(filename); end
+end
+
+class Mail::Matchers::AttachmentFilenameMatcher
+end
+
+class Mail::Matchers::HasSentEmailMatcher
+  def bcc(recipient_or_list); end
+
+  def cc(recipient_or_list); end
+
+  def description(); end
+
+  def dump_deliveries(); end
+
+  def explain_expectations(); end
+
+  def failure_message(); end
+
+  def failure_message_when_negated(); end
+
+  def filter_matched_deliveries(deliveries); end
+
+  def from(sender); end
+
+  def initialize(_context); end
+
+  def matches?(subject); end
+
+  def matches_on_attachments?(delivery); end
+
+  def matches_on_blind_copy_recipients?(delivery); end
+
+  def matches_on_body?(delivery); end
+
+  def matches_on_body_matcher?(delivery); end
+
+  def matches_on_copy_recipients?(delivery); end
+
+  def matches_on_having_attachments?(delivery); end
+
+  def matches_on_html_part_body?(delivery); end
+
+  def matches_on_recipients?(delivery); end
+
+  def matches_on_sender?(delivery); end
+
+  def matches_on_subject?(delivery); end
+
+  def matches_on_subject_matcher?(delivery); end
+
+  def matches_on_text_part_body?(delivery); end
+
+  def matching_body(body_matcher); end
+
+  def matching_subject(subject_matcher); end
+
+  def to(recipient_or_list); end
+
+  def with_any_attachments(); end
+
+  def with_attachments(attachments); end
+
+  def with_body(body); end
+
+  def with_html(body); end
+
+  def with_no_attachments(); end
+
+  def with_subject(subject); end
+
+  def with_text(body); end
+end
+
+class Mail::Matchers::HasSentEmailMatcher
+end
+
+module Mail::Matchers
+end
+
 class Mail::Message
+  include ::Mail::Utilities
+  include ::Mail::Constants
+  def ==(other); end
+
+  def [](name); end
+
+  def []=(name, value); end
+
+  def action(); end
+
+  def add_charset(); end
+
+  def add_content_transfer_encoding(); end
+
+  def add_content_type(); end
+
+  def add_date(date_val=T.unsafe(nil)); end
+
+  def add_file(values); end
+
+  def add_message_id(msg_id_val=T.unsafe(nil)); end
+
+  def add_mime_version(ver_val=T.unsafe(nil)); end
+
+  def add_part(part); end
+
+  def add_transfer_encoding(); end
+
+  def all_parts(); end
+
+  def attachment(); end
+
+  def attachment?(); end
+
+  def attachments(); end
+
+  def bcc(val=T.unsafe(nil)); end
+
+  def bcc=(val); end
+
+  def bcc_addrs(); end
+
+  def body(value=T.unsafe(nil)); end
+
+  def body=(value); end
+
+  def body_encoding(value=T.unsafe(nil)); end
+
+  def body_encoding=(value); end
+
+  def bounced?(); end
+
+  def boundary(); end
+
+  def cc(val=T.unsafe(nil)); end
+
+  def cc=(val); end
+
+  def cc_addrs(); end
+
+  def charset(); end
+
+  def charset=(value); end
+
+  def comments(val=T.unsafe(nil)); end
+
+  def comments=(val); end
+
+  def content_description(val=T.unsafe(nil)); end
+
+  def content_description=(val); end
+
+  def content_disposition(val=T.unsafe(nil)); end
+
+  def content_disposition=(val); end
+
+  def content_id(val=T.unsafe(nil)); end
+
+  def content_id=(val); end
+
+  def content_location(val=T.unsafe(nil)); end
+
+  def content_location=(val); end
+
+  def content_transfer_encoding(val=T.unsafe(nil)); end
+
+  def content_transfer_encoding=(val); end
+
+  def content_type(val=T.unsafe(nil)); end
+
+  def content_type=(val); end
+
+  def content_type_parameters(); end
+
+  def convert_to_multipart(); end
+
+  def date(val=T.unsafe(nil)); end
+
+  def date=(val); end
+
+  def decode_body(); end
+
+  def decoded(); end
+
+  def default(sym, val=T.unsafe(nil)); end
+
+  def deliver(); end
+
+  def deliver!(); end
+
+  def delivery_handler(); end
+
+  def delivery_handler=(delivery_handler); end
+
+  def delivery_method(method=T.unsafe(nil), settings=T.unsafe(nil)); end
+
+  def delivery_status_part(); end
+
+  def delivery_status_report?(); end
+
+  def destinations(); end
+
+  def diagnostic_code(); end
+
+  def encode!(); end
+
+  def encoded(); end
+
+  def envelope_date(); end
+
+  def envelope_from(); end
+
+  def error_status(); end
+
+  def errors(); end
+
+  def filename(); end
+
+  def final_recipient(); end
+
+  def find_first_mime_type(mt); end
+
+  def from(val=T.unsafe(nil)); end
+
+  def from=(val); end
+
+  def from_addrs(); end
+
+  def has_attachments?(); end
+
+  def has_charset?(); end
+
+  def has_content_transfer_encoding?(); end
+
+  def has_content_type?(); end
+
+  def has_date?(); end
+
+  def has_message_id?(); end
+
+  def has_mime_version?(); end
+
+  def has_transfer_encoding?(); end
+
+  def header(value=T.unsafe(nil)); end
+
+  def header=(value); end
+
+  def header_fields(); end
+
+  def headers(hash=T.unsafe(nil)); end
+
+  def html_part(&block); end
+
+  def html_part=(msg); end
+
+  def in_reply_to(val=T.unsafe(nil)); end
+
+  def in_reply_to=(val); end
+
+  def inform_interceptors(); end
+
+  def inform_observers(); end
+
+  def initialize(*args, &block); end
+
+  def is_marked_for_delete?(); end
+
+  def keywords(val=T.unsafe(nil)); end
+
+  def keywords=(val); end
+
+  def main_type(); end
+
+  def mark_for_delete=(value=T.unsafe(nil)); end
+
+  def message_content_type(); end
+
+  def message_id(val=T.unsafe(nil)); end
+
+  def message_id=(val); end
+
+  def method_missing(name, *args, &block); end
+
+  def mime_parameters(); end
+
+  def mime_type(); end
+
+  def mime_version(val=T.unsafe(nil)); end
+
+  def mime_version=(val); end
+
+  def multipart?(); end
+
+  def multipart_report?(); end
+
+  def part(params=T.unsafe(nil)); end
+
+  def parts(); end
+
+  def perform_deliveries(); end
+
+  def perform_deliveries=(perform_deliveries); end
+
+  def raise_delivery_errors(); end
+
+  def raise_delivery_errors=(raise_delivery_errors); end
+
+  def raw_envelope(); end
+
+  def raw_source(); end
+
+  def read(); end
+
+  def ready_to_send!(); end
+
+  def received(val=T.unsafe(nil)); end
+
+  def received=(val); end
+
+  def references(val=T.unsafe(nil)); end
+
+  def references=(val); end
+
+  def register_for_delivery_notification(observer); end
+
+  def remote_mta(); end
+
+  def reply(*args, &block); end
+
+  def reply_to(val=T.unsafe(nil)); end
+
+  def reply_to=(val); end
+
+  def resent_bcc(val=T.unsafe(nil)); end
+
+  def resent_bcc=(val); end
+
+  def resent_cc(val=T.unsafe(nil)); end
+
+  def resent_cc=(val); end
+
+  def resent_date(val=T.unsafe(nil)); end
+
+  def resent_date=(val); end
+
+  def resent_from(val=T.unsafe(nil)); end
+
+  def resent_from=(val); end
+
+  def resent_message_id(val=T.unsafe(nil)); end
+
+  def resent_message_id=(val); end
+
+  def resent_sender(val=T.unsafe(nil)); end
+
+  def resent_sender=(val); end
+
+  def resent_to(val=T.unsafe(nil)); end
+
+  def resent_to=(val); end
+
+  def retryable?(); end
+
+  def return_path(val=T.unsafe(nil)); end
+
+  def return_path=(val); end
+
+  def sender(val=T.unsafe(nil)); end
+
+  def sender=(val); end
+
+  def set_envelope(val); end
+
+  def skip_deletion(); end
+
+  def smtp_envelope_from(val=T.unsafe(nil)); end
+
+  def smtp_envelope_from=(val); end
+
+  def smtp_envelope_to(val=T.unsafe(nil)); end
+
+  def smtp_envelope_to=(val); end
+
+  def sub_type(); end
+
+  def subject(val=T.unsafe(nil)); end
+
+  def subject=(val); end
+
+  def text?(); end
+
+  def text_part(&block); end
+
+  def text_part=(msg); end
+
+  def to(val=T.unsafe(nil)); end
+
+  def to=(val); end
+
+  def to_addrs(); end
+
+  def to_yaml(opts=T.unsafe(nil)); end
+
+  def transfer_encoding(); end
+
+  def transport_encoding(val=T.unsafe(nil)); end
+
+  def transport_encoding=(val); end
+
+  def without_attachments!(); end
   HEADER_SEPARATOR = ::T.let(nil, ::T.untyped)
 end
 
+class Mail::Message
+  def self.default_charset(); end
+
+  def self.default_charset=(charset); end
+
+  def self.from_hash(hash); end
+
+  def self.from_yaml(str); end
+end
+
 class Mail::MessageIdField
+  include ::Mail::CommonMessageId
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::MessageIdField
 end
 
 class Mail::MessageIdsElement
@@ -15911,15 +19533,135 @@ class Mail::MimeVersionElement
 end
 
 class Mail::MimeVersionField
+  def decoded(); end
+
+  def element(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
+
+  def major(); end
+
+  def minor(); end
+
+  def parse(val=T.unsafe(nil)); end
+
+  def version(); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::MimeVersionField
 end
 
 module Mail::Multibyte
   VALID_CHARACTER = ::T.let(nil, ::T.untyped)
 end
 
+class Mail::Multibyte::Chars
+  include ::Comparable
+  def =~(other); end
+
+  def [](*args); end
+
+  def []=(*args); end
+
+  def acts_like_string?(); end
+
+  def capitalize(); end
+
+  def capitalize!(*args); end
+
+  def chars(string); end
+
+  def compose(); end
+
+  def decompose(); end
+
+  def downcase(); end
+
+  def downcase!(*args); end
+
+  def g_length(); end
+
+  def initialize(string); end
+
+  def justify(integer, way, padstr=T.unsafe(nil)); end
+
+  def limit(limit); end
+
+  def method_missing(method, *args, &block); end
+
+  def normalize(form=T.unsafe(nil)); end
+
+  def padding(padsize, padstr=T.unsafe(nil)); end
+
+  def respond_to?(method, include_private=T.unsafe(nil)); end
+
+  def reverse(); end
+
+  def reverse!(*args); end
+
+  def slice(*args); end
+
+  def slice!(*args); end
+
+  def split(*args); end
+
+  def tidy_bytes(force=T.unsafe(nil)); end
+
+  def tidy_bytes!(*args); end
+
+  def titlecase(); end
+
+  def titleize(); end
+
+  def to_str(); end
+
+  def translate_offset(byte_offset); end
+
+  def upcase(); end
+
+  def upcase!(*args); end
+
+  def wrapped_string(); end
+end
+
+class Mail::Multibyte::Chars
+  def self.consumes?(string); end
+end
+
+class Mail::Multibyte::EncodingError
+end
+
+class Mail::Multibyte::EncodingError
+end
+
 module Mail::Multibyte::Unicode
+  def apply_mapping(string, mapping); end
+
+  def compose_codepoints(codepoints); end
+
+  def decompose_codepoints(type, codepoints); end
+
+  def default_normalization_form(); end
+
+  def default_normalization_form=(default_normalization_form); end
+
+  def g_pack(unpacked); end
+
+  def g_unpack(string); end
+
+  def in_char_class?(codepoint, classes); end
+
+  def normalize(string, form=T.unsafe(nil)); end
+
+  def reorder_characters(codepoints); end
+
+  def tidy_bytes(string, force=T.unsafe(nil)); end
+
+  def u_unpack(string); end
   HANGUL_JAMO_FIRST = ::T.let(nil, ::T.untyped)
   HANGUL_JAMO_LAST = ::T.let(nil, ::T.untyped)
   HANGUL_LBASE = ::T.let(nil, ::T.untyped)
@@ -15940,8 +19682,87 @@ module Mail::Multibyte::Unicode
   WHITESPACE = ::T.let(nil, ::T.untyped)
 end
 
+class Mail::Multibyte::Unicode::Codepoint
+  def code(); end
+
+  def code=(code); end
+
+  def combining_class(); end
+
+  def combining_class=(combining_class); end
+
+  def decomp_mapping(); end
+
+  def decomp_mapping=(decomp_mapping); end
+
+  def decomp_type(); end
+
+  def decomp_type=(decomp_type); end
+
+  def lowercase_mapping(); end
+
+  def lowercase_mapping=(lowercase_mapping); end
+
+  def swapcase_mapping(); end
+
+  def uppercase_mapping(); end
+
+  def uppercase_mapping=(uppercase_mapping); end
+end
+
+class Mail::Multibyte::Unicode::Codepoint
+end
+
 class Mail::Multibyte::Unicode::UnicodeDatabase
+  def boundary(); end
+
+  def boundary=(boundary); end
+
+  def codepoints(); end
+
+  def codepoints=(codepoints); end
+
+  def composition_exclusion(); end
+
+  def composition_exclusion=(composition_exclusion); end
+
+  def composition_map(); end
+
+  def composition_map=(composition_map); end
+
+  def cp1252(); end
+
+  def cp1252=(cp1252); end
+
+  def load(); end
   ATTRIBUTES = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::Multibyte::Unicode::UnicodeDatabase
+  def self.dirname(); end
+
+  def self.filename(); end
+end
+
+module Mail::Multibyte::Unicode
+  extend ::Mail::Multibyte::Unicode
+  def self.codepoints_to_pattern(array_of_codepoints); end
+end
+
+module Mail::Multibyte
+  def self.clean(string); end
+
+  def self.mb_chars(str); end
+
+  def self.proxy_class(); end
+
+  def self.proxy_class=(proxy_class); end
+
+  def self.valid_character(); end
+
+  def self.verify(string); end
+
+  def self.verify!(string); end
 end
 
 class Mail::OptionalField
@@ -15965,6 +19786,637 @@ class Mail::POP3
 end
 
 class Mail::POP3
+end
+
+class Mail::ParameterHash
+  include ::Mail::Utilities
+  include ::Mail::Constants
+  def [](key_name); end
+
+  def decoded(); end
+
+  def encoded(); end
+end
+
+class Mail::ParameterHash
+end
+
+module Mail::ParserTools
+  def chars(data, from_bytes, to_bytes); end
+end
+
+module Mail::ParserTools
+end
+
+module Mail::Parsers
+end
+
+module Mail::Parsers::AddressListsParser
+end
+
+class Mail::Parsers::AddressListsParser::AddressListStruct
+  def addresses(); end
+
+  def addresses=(_); end
+
+  def error(); end
+
+  def error=(_); end
+
+  def group_names(); end
+
+  def group_names=(_); end
+end
+
+class Mail::Parsers::AddressListsParser::AddressListStruct
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+class Mail::Parsers::AddressListsParser::AddressStruct
+  def comments(); end
+
+  def comments=(_); end
+
+  def display_name(); end
+
+  def display_name=(_); end
+
+  def domain(); end
+
+  def domain=(_); end
+
+  def error(); end
+
+  def error=(_); end
+
+  def group(); end
+
+  def group=(_); end
+
+  def local(); end
+
+  def local=(_); end
+
+  def obs_domain_list(); end
+
+  def obs_domain_list=(_); end
+
+  def raw(); end
+
+  def raw=(_); end
+end
+
+class Mail::Parsers::AddressListsParser::AddressStruct
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+module Mail::Parsers::AddressListsParser
+  extend ::Mail::ParserTools
+  def self.en_comment_tail(); end
+
+  def self.en_comment_tail=(en_comment_tail); end
+
+  def self.en_main(); end
+
+  def self.en_main=(en_main); end
+
+  def self.error(); end
+
+  def self.error=(error); end
+
+  def self.first_final(); end
+
+  def self.first_final=(first_final); end
+
+  def self.parse(data); end
+
+  def self.start(); end
+
+  def self.start=(start); end
+end
+
+module Mail::Parsers::ContentDispositionParser
+end
+
+class Mail::Parsers::ContentDispositionParser::ContentDispositionStruct
+  def disposition_type(); end
+
+  def disposition_type=(_); end
+
+  def error(); end
+
+  def error=(_); end
+
+  def parameters(); end
+
+  def parameters=(_); end
+end
+
+class Mail::Parsers::ContentDispositionParser::ContentDispositionStruct
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+module Mail::Parsers::ContentDispositionParser
+  extend ::Mail::ParserTools
+  def self.en_comment_tail(); end
+
+  def self.en_comment_tail=(en_comment_tail); end
+
+  def self.en_main(); end
+
+  def self.en_main=(en_main); end
+
+  def self.error(); end
+
+  def self.error=(error); end
+
+  def self.first_final(); end
+
+  def self.first_final=(first_final); end
+
+  def self.parse(data); end
+
+  def self.start(); end
+
+  def self.start=(start); end
+end
+
+module Mail::Parsers::ContentLocationParser
+end
+
+class Mail::Parsers::ContentLocationParser::ContentLocationStruct
+  def error(); end
+
+  def error=(_); end
+
+  def location(); end
+
+  def location=(_); end
+end
+
+class Mail::Parsers::ContentLocationParser::ContentLocationStruct
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+module Mail::Parsers::ContentLocationParser
+  extend ::Mail::ParserTools
+  def self.en_comment_tail(); end
+
+  def self.en_comment_tail=(en_comment_tail); end
+
+  def self.en_main(); end
+
+  def self.en_main=(en_main); end
+
+  def self.error(); end
+
+  def self.error=(error); end
+
+  def self.first_final(); end
+
+  def self.first_final=(first_final); end
+
+  def self.parse(data); end
+
+  def self.start(); end
+
+  def self.start=(start); end
+end
+
+module Mail::Parsers::ContentTransferEncodingParser
+end
+
+class Mail::Parsers::ContentTransferEncodingParser::ContentTransferEncodingStruct
+  def encoding(); end
+
+  def encoding=(_); end
+
+  def error(); end
+
+  def error=(_); end
+end
+
+class Mail::Parsers::ContentTransferEncodingParser::ContentTransferEncodingStruct
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+module Mail::Parsers::ContentTransferEncodingParser
+  extend ::Mail::ParserTools
+  def self.en_comment_tail(); end
+
+  def self.en_comment_tail=(en_comment_tail); end
+
+  def self.en_main(); end
+
+  def self.en_main=(en_main); end
+
+  def self.error(); end
+
+  def self.error=(error); end
+
+  def self.first_final(); end
+
+  def self.first_final=(first_final); end
+
+  def self.parse(data); end
+
+  def self.start(); end
+
+  def self.start=(start); end
+end
+
+module Mail::Parsers::ContentTypeParser
+end
+
+class Mail::Parsers::ContentTypeParser::ContentTypeStruct
+  def error(); end
+
+  def error=(_); end
+
+  def main_type(); end
+
+  def main_type=(_); end
+
+  def parameters(); end
+
+  def parameters=(_); end
+
+  def sub_type(); end
+
+  def sub_type=(_); end
+end
+
+class Mail::Parsers::ContentTypeParser::ContentTypeStruct
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+module Mail::Parsers::ContentTypeParser
+  extend ::Mail::ParserTools
+  def self.en_comment_tail(); end
+
+  def self.en_comment_tail=(en_comment_tail); end
+
+  def self.en_main(); end
+
+  def self.en_main=(en_main); end
+
+  def self.error(); end
+
+  def self.error=(error); end
+
+  def self.first_final(); end
+
+  def self.first_final=(first_final); end
+
+  def self.parse(data); end
+
+  def self.start(); end
+
+  def self.start=(start); end
+end
+
+module Mail::Parsers::DateTimeParser
+end
+
+class Mail::Parsers::DateTimeParser::DateTimeStruct
+  def date_string(); end
+
+  def date_string=(_); end
+
+  def error(); end
+
+  def error=(_); end
+
+  def time_string(); end
+
+  def time_string=(_); end
+end
+
+class Mail::Parsers::DateTimeParser::DateTimeStruct
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+module Mail::Parsers::DateTimeParser
+  extend ::Mail::ParserTools
+  def self.en_comment_tail(); end
+
+  def self.en_comment_tail=(en_comment_tail); end
+
+  def self.en_main(); end
+
+  def self.en_main=(en_main); end
+
+  def self.error(); end
+
+  def self.error=(error); end
+
+  def self.first_final(); end
+
+  def self.first_final=(first_final); end
+
+  def self.parse(data); end
+
+  def self.start(); end
+
+  def self.start=(start); end
+end
+
+module Mail::Parsers::EnvelopeFromParser
+end
+
+class Mail::Parsers::EnvelopeFromParser::EnvelopeFromStruct
+  def address(); end
+
+  def address=(_); end
+
+  def ctime_date(); end
+
+  def ctime_date=(_); end
+
+  def error(); end
+
+  def error=(_); end
+end
+
+class Mail::Parsers::EnvelopeFromParser::EnvelopeFromStruct
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+module Mail::Parsers::EnvelopeFromParser
+  extend ::Mail::ParserTools
+  def self.en_comment_tail(); end
+
+  def self.en_comment_tail=(en_comment_tail); end
+
+  def self.en_main(); end
+
+  def self.en_main=(en_main); end
+
+  def self.error(); end
+
+  def self.error=(error); end
+
+  def self.first_final(); end
+
+  def self.first_final=(first_final); end
+
+  def self.parse(data); end
+
+  def self.start(); end
+
+  def self.start=(start); end
+end
+
+module Mail::Parsers::MessageIdsParser
+end
+
+class Mail::Parsers::MessageIdsParser::MessageIdsStruct
+  def error(); end
+
+  def error=(_); end
+
+  def message_ids(); end
+
+  def message_ids=(_); end
+end
+
+class Mail::Parsers::MessageIdsParser::MessageIdsStruct
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+module Mail::Parsers::MessageIdsParser
+  extend ::Mail::ParserTools
+  def self.en_comment_tail(); end
+
+  def self.en_comment_tail=(en_comment_tail); end
+
+  def self.en_main(); end
+
+  def self.en_main=(en_main); end
+
+  def self.error(); end
+
+  def self.error=(error); end
+
+  def self.first_final(); end
+
+  def self.first_final=(first_final); end
+
+  def self.parse(data); end
+
+  def self.start(); end
+
+  def self.start=(start); end
+end
+
+module Mail::Parsers::MimeVersionParser
+end
+
+class Mail::Parsers::MimeVersionParser::MimeVersionStruct
+  def error(); end
+
+  def error=(_); end
+
+  def major(); end
+
+  def major=(_); end
+
+  def minor(); end
+
+  def minor=(_); end
+end
+
+class Mail::Parsers::MimeVersionParser::MimeVersionStruct
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+module Mail::Parsers::MimeVersionParser
+  extend ::Mail::ParserTools
+  def self.en_comment_tail(); end
+
+  def self.en_comment_tail=(en_comment_tail); end
+
+  def self.en_main(); end
+
+  def self.en_main=(en_main); end
+
+  def self.error(); end
+
+  def self.error=(error); end
+
+  def self.first_final(); end
+
+  def self.first_final=(first_final); end
+
+  def self.parse(data); end
+
+  def self.start(); end
+
+  def self.start=(start); end
+end
+
+class Mail::Parsers::PhraseListsParser
+end
+
+class Mail::Parsers::PhraseListsParser::PhraseListsStruct
+  def error(); end
+
+  def error=(_); end
+
+  def phrases(); end
+
+  def phrases=(_); end
+end
+
+class Mail::Parsers::PhraseListsParser::PhraseListsStruct
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+class Mail::Parsers::PhraseListsParser
+  extend ::Mail::ParserTools
+  def self.en_comment_tail(); end
+
+  def self.en_comment_tail=(en_comment_tail); end
+
+  def self.en_main(); end
+
+  def self.en_main=(en_main); end
+
+  def self.error(); end
+
+  def self.error=(error); end
+
+  def self.first_final(); end
+
+  def self.first_final=(first_final); end
+
+  def self.parse(data); end
+
+  def self.start(); end
+
+  def self.start=(start); end
+end
+
+module Mail::Parsers::ReceivedParser
+end
+
+class Mail::Parsers::ReceivedParser::ReceivedStruct
+  def date(); end
+
+  def date=(_); end
+
+  def error(); end
+
+  def error=(_); end
+
+  def info(); end
+
+  def info=(_); end
+
+  def time(); end
+
+  def time=(_); end
+end
+
+class Mail::Parsers::ReceivedParser::ReceivedStruct
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+module Mail::Parsers::ReceivedParser
+  extend ::Mail::ParserTools
+  def self.en_comment_tail(); end
+
+  def self.en_comment_tail=(en_comment_tail); end
+
+  def self.en_main(); end
+
+  def self.en_main=(en_main); end
+
+  def self.error(); end
+
+  def self.error=(error); end
+
+  def self.first_final(); end
+
+  def self.first_final=(first_final); end
+
+  def self.parse(data); end
+
+  def self.start(); end
+
+  def self.start=(start); end
+end
+
+module Mail::Parsers
+end
+
+class Mail::Part
+  def add_content_id(content_id_val=T.unsafe(nil)); end
+
+  def cid(); end
+
+  def delivery_status_data(); end
+
+  def delivery_status_report_part?(); end
+
+  def has_content_id?(); end
+
+  def inline?(); end
+
+  def inline_content_id(); end
+
+  def url(); end
+end
+
+class Mail::Part
+end
+
+class Mail::PartsList
+  def attachments(); end
+
+  def collect(); end
+
+  def collect!(); end
+
+  def encode_with(coder); end
+
+  def initialize(*args); end
+
+  def map(); end
+
+  def map!(); end
+
+  def parts(); end
+
+  def sort(); end
+
+  def sort!(order); end
+
+  def to_yaml(options=T.unsafe(nil)); end
 end
 
 class Mail::PartsList
@@ -15995,64 +20447,259 @@ class Mail::ReceivedElement
 end
 
 class Mail::ReceivedField
+  def date_time(); end
+
+  def decoded(); end
+
+  def element(); end
+
+  def encoded(); end
+
+  def formatted_date(); end
+
+  def info(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
+
+  def parse(val=T.unsafe(nil)); end
+  CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
+  FIELD_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::ReceivedField
+end
+
+class Mail::ReferencesField
+  include ::Mail::CommonMessageId
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::ReferencesField
+end
+
+class Mail::ReplyToField
+  include ::Mail::CommonAddress
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::ReplyToField
+end
+
+class Mail::ResentBccField
+  include ::Mail::CommonAddress
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::ResentBccField
+end
+
+class Mail::ResentCcField
+  include ::Mail::CommonAddress
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::ResentCcField
+end
+
+class Mail::ResentDateField
+  include ::Mail::CommonDate
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::ResentDateField
+end
+
+class Mail::ResentFromField
+  include ::Mail::CommonAddress
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::ResentFromField
+end
+
+class Mail::ResentMessageIdField
+  include ::Mail::CommonMessageId
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::ResentMessageIdField
+end
+
+class Mail::ResentSenderField
+  include ::Mail::CommonAddress
+  def address(); end
+
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::ResentSenderField
+end
+
+class Mail::ResentToField
+  include ::Mail::CommonAddress
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::ResentToField
+end
+
+class Mail::Retriever
+  def all(options=T.unsafe(nil), &block); end
+
+  def find_and_delete(options=T.unsafe(nil), &block); end
+
+  def first(options=T.unsafe(nil), &block); end
+
+  def last(options=T.unsafe(nil), &block); end
+end
+
+class Mail::Retriever
+end
+
+class Mail::ReturnPathField
+  include ::Mail::CommonAddress
+  def address(); end
+
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
 class Mail::ReturnPathField
-  CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
-  FIELD_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::Ruby19::BestEffortCharsetEncoder
+  def encode(string, charset); end
+end
+
+class Mail::Ruby19::BestEffortCharsetEncoder
+end
+
+class Mail::Ruby19::StrictCharsetEncoder
+  def encode(string, charset); end
+end
+
+class Mail::Ruby19::StrictCharsetEncoder
+end
+
+class Mail::Ruby19
+  def self.b_value_decode(str); end
+
+  def self.b_value_encode(str, encoding=T.unsafe(nil)); end
+
+  def self.bracket(str); end
+
+  def self.charset_encoder(); end
+
+  def self.charset_encoder=(charset_encoder); end
+
+  def self.decode_base64(str); end
+
+  def self.decode_utf7(utf7); end
+
+  def self.encode_base64(str); end
+
+  def self.encode_utf7(string); end
+
+  def self.escape_bracket(str); end
+
+  def self.escape_paren(str); end
+
+  def self.get_constant(klass, string); end
+
+  def self.has_constant?(klass, string); end
+
+  def self.param_decode(str, encoding); end
+
+  def self.param_encode(str); end
+
+  def self.paren(str); end
+
+  def self.pick_encoding(charset); end
+
+  def self.q_value_decode(str); end
+
+  def self.q_value_encode(str, encoding=T.unsafe(nil)); end
+
+  def self.string_byteslice(str, *args); end
+
+  def self.transcode_charset(str, from_encoding, to_encoding=T.unsafe(nil)); end
+
+  def self.uri_parser(); end
 end
 
 Mail::RubyVer = Mail::Ruby19
 
 class Mail::SMTP
+  def deliver!(mail); end
+
+  def initialize(values); end
+
+  def settings(); end
+
+  def settings=(settings); end
   DEFAULTS = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::SMTP
 end
 
 class Mail::SMTPConnection
@@ -16073,17 +20720,79 @@ class Mail::SMTPConnection
 end
 
 class Mail::SenderField
+  include ::Mail::CommonAddress
+  def address(); end
+
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::SenderField
 end
 
 class Mail::Sendmail
+  def deliver!(mail); end
+
+  def initialize(values); end
+
+  def settings(); end
+
+  def settings=(settings); end
   DEFAULTS = ::T.let(nil, ::T.untyped)
 end
 
+class Mail::Sendmail
+  def self.call(path, arguments, destinations, encoded_message); end
+
+  def self.popen(command, &block); end
+
+  def self.shellquote(address); end
+end
+
+class Mail::StructuredField
+  include ::Mail::CommonField
+  include ::Mail::Utilities
+  include ::Mail::Constants
+  def charset(); end
+
+  def charset=(val); end
+
+  def errors(); end
+
+  def initialize(name=T.unsafe(nil), value=T.unsafe(nil), charset=T.unsafe(nil)); end
+end
+
+class Mail::StructuredField
+end
+
 class Mail::SubjectField
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
+end
+
+class Mail::SubjectField
+end
+
+class Mail::TestMailer
+  def deliver!(mail); end
+
+  def initialize(values); end
+
+  def settings(); end
+
+  def settings=(settings); end
+end
+
+class Mail::TestMailer
+  def self.deliveries(); end
+
+  def self.deliveries=(val); end
 end
 
 class Mail::TestRetriever
@@ -16099,14 +20808,111 @@ class Mail::TestRetriever
 end
 
 class Mail::ToField
+  include ::Mail::CommonAddress
+  def decoded(); end
+
+  def encoded(); end
+
+  def initialize(value=T.unsafe(nil), charset=T.unsafe(nil)); end
   CAPITALIZED_FIELD = ::T.let(nil, ::T.untyped)
   FIELD_NAME = ::T.let(nil, ::T.untyped)
 end
 
+class Mail::ToField
+end
+
+class Mail::UnknownEncodingType
+end
+
+class Mail::UnknownEncodingType
+end
+
+class Mail::UnstructuredField
+  include ::Mail::CommonField
+  include ::Mail::Utilities
+  include ::Mail::Constants
+  def charset(); end
+
+  def charset=(charset); end
+
+  def decoded(); end
+
+  def encoded(); end
+
+  def errors(); end
+
+  def initialize(name, value, charset=T.unsafe(nil)); end
+
+  def parse(); end
+end
+
+class Mail::UnstructuredField
+end
+
 module Mail::Utilities
+  include ::Mail::Constants
+  def atom_safe?(str); end
+
+  def bracket(str); end
+
+  def capitalize_field(str); end
+
+  def constantize(str); end
+
+  def dasherize(str); end
+
+  def dquote(str); end
+
+  def escape_paren(str); end
+
+  def map_lines(str, &block); end
+
+  def map_with_index(enum, &block); end
+
+  def match_to_s(obj1, obj2); end
+
+  def paren(str); end
+
+  def quote_atom(str); end
+
+  def quote_phrase(str); end
+
+  def quote_token(str); end
+
+  def token_safe?(str); end
+
+  def unbracket(str); end
+
+  def underscoreize(str); end
+
+  def unparen(str); end
+
+  def uri_escape(str); end
+
+  def uri_parser(); end
+
+  def uri_unescape(str); end
   CRLF = ::T.let(nil, ::T.untyped)
   LF = ::T.let(nil, ::T.untyped)
   TO_CRLF_REGEX = ::T.let(nil, ::T.untyped)
+end
+
+module Mail::Utilities
+  def self.binary_unsafe_to_crlf(string); end
+
+  def self.binary_unsafe_to_lf(string); end
+
+  def self.blank?(value); end
+
+  def self.safe_for_line_ending_conversion?(string); end
+
+  def self.to_crlf(string); end
+
+  def self.to_lf(string); end
+
+  def self.unescape(str); end
+
+  def self.unquote(str); end
 end
 
 module Mail::VERSION
@@ -16115,6 +20921,62 @@ module Mail::VERSION
   MINOR = ::T.let(nil, ::T.untyped)
   PATCH = ::T.let(nil, ::T.untyped)
   STRING = ::T.let(nil, ::T.untyped)
+end
+
+module Mail::VERSION
+  def self.version(); end
+end
+
+module Mail
+  def self.all(*args, &block); end
+
+  def self.connection(&block); end
+
+  def self.defaults(&block); end
+
+  def self.delete_all(*args, &block); end
+
+  def self.deliver(*args, &block); end
+
+  def self.delivery_method(); end
+
+  def self.eager_autoload!(); end
+
+  def self.find(*args, &block); end
+
+  def self.find_and_delete(*args, &block); end
+
+  def self.first(*args, &block); end
+
+  def self.inform_interceptors(mail); end
+
+  def self.inform_observers(mail); end
+
+  def self.last(*args, &block); end
+
+  def self.new(*args, &block); end
+
+  def self.random_tag(); end
+
+  def self.read(filename); end
+
+  def self.read_from_string(mail_as_string); end
+
+  def self.register_autoload(name, path); end
+
+  def self.register_interceptor(interceptor); end
+
+  def self.register_observer(observer); end
+
+  def self.retriever_method(); end
+
+  def self.something_random(); end
+
+  def self.uniq(); end
+
+  def self.unregister_interceptor(interceptor); end
+
+  def self.unregister_observer(observer); end
 end
 
 module Marcel
@@ -16416,6 +21278,21 @@ end
 module MethodSource::CodeHelpers::IncompleteExpression
   GENERIC_REGEXPS = ::T.let(nil, ::T.untyped)
   RBX_ONLY_REGEXPS = ::T.let(nil, ::T.untyped)
+end
+
+module Mime
+  ALL = ::T.let(nil, ::T.untyped)
+  EXTENSION_LOOKUP = ::T.let(nil, ::T.untyped)
+  LOOKUP = ::T.let(nil, ::T.untyped)
+  SET = ::T.let(nil, ::T.untyped)
+end
+
+class Mime::Type
+  MIME_NAME = ::T.let(nil, ::T.untyped)
+  MIME_PARAMETER = ::T.let(nil, ::T.untyped)
+  MIME_PARAMETER_KEY = ::T.let(nil, ::T.untyped)
+  MIME_PARAMETER_VALUE = ::T.let(nil, ::T.untyped)
+  MIME_REGEXP = ::T.let(nil, ::T.untyped)
 end
 
 module MiniMime
@@ -16751,18 +21628,750 @@ module Mustermann
   DEFAULT_TYPE = ::T.let(nil, ::T.untyped)
 end
 
+module Mustermann::AST
+end
+
+class Mustermann::AST::Boundaries
+  def set_boundaries(node, start, stop); end
+end
+
+class Mustermann::AST::Boundaries::NodeTranslator
+end
+
+class Mustermann::AST::Boundaries::NodeTranslator
+  def self.translator(); end
+end
+
+class Mustermann::AST::Boundaries
+  def self.set_boundaries(ast, string: T.unsafe(nil), start: T.unsafe(nil), stop: T.unsafe(nil)); end
+end
+
+class Mustermann::AST::Expander
+  def add(ast); end
+
+  def add_to(list, result); end
+
+  def error_for(values); end
+
+  def escape(string, *args); end
+
+  def expand(values); end
+
+  def expandable?(values); end
+
+  def expandable_keys(keys); end
+
+  def for_capture(node, **options); end
+
+  def keys(); end
+
+  def mappings(); end
+
+  def pattern(string=T.unsafe(nil), *keys, **filters); end
+
+  def pattern_for(node, **options); end
+end
+
+class Mustermann::AST::Expander::NodeTranslator
+end
+
+class Mustermann::AST::Expander::NodeTranslator
+  def self.translator(); end
+end
+
+class Mustermann::AST::Expander
+end
+
+class Mustermann::AST::Node
+  def each_leaf(&block); end
+
+  def initialize(payload=T.unsafe(nil), **options); end
+
+  def is_a?(type); end
+
+  def length(); end
+
+  def min_size(); end
+
+  def parse(); end
+
+  def payload(); end
+
+  def payload=(payload); end
+
+  def start(); end
+
+  def start=(start); end
+
+  def stop(); end
+
+  def stop=(stop); end
+
+  def type(); end
+end
+
+class Mustermann::AST::Node::Capture
+  def constraint(); end
+
+  def constraint=(constraint); end
+
+  def convert(); end
+
+  def convert=(convert); end
+
+  def name(); end
+
+  def qualifier(); end
+
+  def qualifier=(qualifier); end
+end
+
+class Mustermann::AST::Node::Capture
+end
+
+class Mustermann::AST::Node::Char
+end
+
+class Mustermann::AST::Node::Char
+end
+
+class Mustermann::AST::Node::Composition
+end
+
+class Mustermann::AST::Node::Composition
+end
+
+class Mustermann::AST::Node::Expression
+  def operator(); end
+
+  def operator=(operator); end
+end
+
+class Mustermann::AST::Node::Expression
+end
+
+class Mustermann::AST::Node::Group
+end
+
+class Mustermann::AST::Node::Group
+end
+
+class Mustermann::AST::Node::NamedSplat
+end
+
+class Mustermann::AST::Node::NamedSplat
+end
+
+class Mustermann::AST::Node::Optional
+end
+
+class Mustermann::AST::Node::Optional
+end
+
+class Mustermann::AST::Node::Or
+end
+
+class Mustermann::AST::Node::Or
+end
+
+class Mustermann::AST::Node::Root
+  def pattern(); end
+
+  def pattern=(pattern); end
+end
+
+class Mustermann::AST::Node::Root
+  def self.parse(string, &block); end
+end
+
+class Mustermann::AST::Node::Separator
+end
+
+class Mustermann::AST::Node::Separator
+end
+
+class Mustermann::AST::Node::Splat
+end
+
+class Mustermann::AST::Node::Splat
+end
+
+class Mustermann::AST::Node::Union
+end
+
+class Mustermann::AST::Node::Union
+end
+
+class Mustermann::AST::Node::Variable
+  def explode(); end
+
+  def explode=(explode); end
+
+  def prefix(); end
+
+  def prefix=(prefix); end
+end
+
+class Mustermann::AST::Node::Variable
+end
+
+class Mustermann::AST::Node::WithLookAhead
+  def at_end(); end
+
+  def at_end=(at_end); end
+
+  def head(); end
+
+  def head=(head); end
+
+  def initialize(payload, at_end, **options); end
+end
+
+class Mustermann::AST::Node::WithLookAhead
+end
+
+class Mustermann::AST::Node
+  def self.[](name); end
+
+  def self.constant_name(name); end
+
+  def self.parse(*args, &block); end
+
+  def self.type(); end
+end
+
+class Mustermann::AST::ParamScanner
+end
+
+class Mustermann::AST::ParamScanner::NodeTranslator
+end
+
+class Mustermann::AST::ParamScanner::NodeTranslator
+  def self.translator(); end
+end
+
+class Mustermann::AST::ParamScanner
+  def self.scan_params(ast); end
+end
+
+class Mustermann::AST::Parser
+  def buffer(); end
+
+  def default_node(char); end
+
+  def eos?(*args, &block); end
+
+  def expect(regexp, char: T.unsafe(nil), **options); end
+
+  def getch(*args, &block); end
+
+  def initialize(pattern: T.unsafe(nil), **options); end
+
+  def min_size(start, stop, node); end
+
+  def node(type, *args, &block); end
+
+  def parse(string); end
+
+  def pattern(); end
+
+  def pos(*args, &block); end
+
+  def read(); end
+
+  def read_args(key_separator, close, separator: T.unsafe(nil), symbol_keys: T.unsafe(nil), **options); end
+
+  def read_brackets(open, close, char: T.unsafe(nil), escape: T.unsafe(nil), quote: T.unsafe(nil), **options); end
+
+  def read_escaped(close, escape: T.unsafe(nil), **options); end
+
+  def read_list(*close, separator: T.unsafe(nil), escape: T.unsafe(nil), quotes: T.unsafe(nil), ignore: T.unsafe(nil), **options); end
+
+  def read_suffix(element); end
+
+  def scan(regexp); end
+
+  def string(); end
+
+  def unexpected(char=T.unsafe(nil), exception: T.unsafe(nil)); end
+end
+
+class Mustermann::AST::Parser
+  extend ::Forwardable
+  def self.on(*chars, &block); end
+
+  def self.parse(string, **options); end
+
+  def self.suffix(pattern=T.unsafe(nil), after: T.unsafe(nil), &block); end
+end
+
+class Mustermann::AST::Pattern
+  def boundaries(*args, &block); end
+
+  def compiler(*args, &block); end
+
+  def param_scanner(*args, &block); end
+
+  def parser(*args, &block); end
+
+  def template_generator(*args, &block); end
+
+  def to_ast(); end
+
+  def transformer(*args, &block); end
+
+  def validation(*args, &block); end
+end
+
 class Mustermann::AST::Pattern
   extend ::SingleForwardable
+  def self.boundaries(); end
+
+  def self.compiler(); end
+
+  def self.on(*args, &block); end
+
+  def self.param_scanner(); end
+
+  def self.parser(); end
+
+  def self.suffix(*args, &block); end
+
+  def self.template_generator(); end
+
+  def self.transformer(); end
+
+  def self.validation(); end
+end
+
+class Mustermann::AST::TemplateGenerator
+end
+
+class Mustermann::AST::TemplateGenerator::NodeTranslator
+end
+
+class Mustermann::AST::TemplateGenerator::NodeTranslator
+  def self.translator(); end
+end
+
+class Mustermann::AST::TemplateGenerator
+  def self.generate_templates(ast); end
+end
+
+class Mustermann::AST::Transformer
+end
+
+class Mustermann::AST::Transformer::ArrayTransform
+  def create_lookahead(elements, *args); end
+
+  def expect_lookahead?(element); end
+
+  def list_for(element); end
+
+  def lookahead?(element, in_lookahead=T.unsafe(nil)); end
+
+  def lookahead_buffer(); end
+
+  def lookahead_payload?(payload, in_lookahead); end
+
+  def payload(); end
+
+  def track(element); end
+
+  def translate(); end
+end
+
+class Mustermann::AST::Transformer::ArrayTransform
 end
 
 class Mustermann::AST::Transformer::ExpressionTransform
+  def translate(); end
   OPERATORS = ::T.let(nil, ::T.untyped)
 end
 
+class Mustermann::AST::Transformer::ExpressionTransform::Operator
+  def allow_reserved(); end
+
+  def allow_reserved=(_); end
+
+  def parametric(); end
+
+  def parametric=(_); end
+
+  def prefix(); end
+
+  def prefix=(_); end
+
+  def separator(); end
+
+  def separator=(_); end
+end
+
+class Mustermann::AST::Transformer::ExpressionTransform::Operator
+  def self.[](*arg); end
+
+  def self.members(); end
+end
+
+class Mustermann::AST::Transformer::ExpressionTransform
+end
+
+class Mustermann::AST::Transformer::GroupTransformer
+  def group(elements); end
+
+  def split_payload(); end
+
+  def translate(); end
+
+  def union(); end
+end
+
+class Mustermann::AST::Transformer::GroupTransformer
+end
+
+class Mustermann::AST::Transformer::NodeTranslator
+end
+
+class Mustermann::AST::Transformer::NodeTranslator
+  def self.translator(); end
+end
+
+class Mustermann::AST::Transformer::RootTransformer
+end
+
+class Mustermann::AST::Transformer::RootTransformer
+end
+
+class Mustermann::AST::Transformer
+  def self.transform(tree); end
+end
+
+class Mustermann::AST::Translator
+  def decorator_for(node); end
+
+  def error_class(); end
+
+  def escape(char, parser: T.unsafe(nil), escape: T.unsafe(nil), also_escape: T.unsafe(nil)); end
+
+  def translate(node, *args, &block); end
+end
+
 class Mustermann::AST::Translator::NodeTranslator
+  def initialize(node, translator); end
+
+  def node(); end
+
+  def t(*args, &block); end
+
+  def translator(); end
+end
+
+class Mustermann::AST::Translator::NodeTranslator
+  def self.register(*types); end
+end
+
+class Mustermann::AST::Translator
+  def self.create(&block); end
+
+  def self.dispatch_table(); end
+
+  def self.inherited(subclass); end
+
+  def self.raises(error); end
+
+  def self.translate(*types, &block); end
+end
+
+class Mustermann::AST::Validation
+  def check_name(name, forbidden: T.unsafe(nil)); end
+
+  def names(); end
+end
+
+class Mustermann::AST::Validation::NodeTranslator
+end
+
+class Mustermann::AST::Validation::NodeTranslator
+  def self.translator(); end
+end
+
+class Mustermann::AST::Validation
+  def self.validate(ast); end
+end
+
+module Mustermann::AST
 end
 
 class Mustermann::Caster
+  def cast(hash); end
+
+  def caster_for(type, &block); end
+
+  def initialize(*types, &block); end
+
+  def register(*types, &block); end
+end
+
+class Mustermann::Caster::Any
+  def cast(key, value); end
+
+  def initialize(&block); end
+end
+
+class Mustermann::Caster::Any
+end
+
+class Mustermann::Caster::Key
+  def initialize(type, &block); end
+end
+
+class Mustermann::Caster::Key
+end
+
+class Mustermann::Caster::Value
+  def initialize(type, &block); end
+end
+
+class Mustermann::Caster::Value
+end
+
+class Mustermann::Caster
+end
+
+class Mustermann::CompileError
+end
+
+class Mustermann::CompileError
+end
+
+class Mustermann::Composite
+  def ==(pattern); end
+
+  def eql?(pattern); end
+
+  def initialize(patterns, operator: T.unsafe(nil), **options); end
+
+  def operator(); end
+
+  def params(string); end
+
+  def patterns(); end
+end
+
+class Mustermann::Composite
+  def self.new(*patterns, **options); end
+
+  def self.supported?(option, type: T.unsafe(nil), **options); end
+end
+
+class Mustermann::Concat
+  def initialize(*arg, **arg1); end
+end
+
+module Mustermann::Concat::Native
+  def +(other); end
+
+  def look_ahead(other); end
+end
+
+module Mustermann::Concat::Native
+end
+
+class Mustermann::Concat
+end
+
+class Mustermann::EqualityMap
+  def fetch(key); end
+
+  def map(); end
+end
+
+class Mustermann::EqualityMap
+  def self.new(); end
+end
+
+class Mustermann::Error
+end
+
+class Mustermann::Error
+end
+
+class Mustermann::ExpandError
+end
+
+class Mustermann::ExpandError
+end
+
+class Mustermann::Expander
+  def <<(*patterns); end
+
+  def ==(other); end
+
+  def add(*patterns); end
+
+  def additional_values(); end
+
+  def cast(*types, &block); end
+
+  def eql?(other); end
+
+  def expand(behavior=T.unsafe(nil), values=T.unsafe(nil)); end
+
+  def expandable?(values); end
+
+  def initialize(*patterns, additional_values: T.unsafe(nil), **options, &block); end
+
+  def patterns(); end
+end
+
+class Mustermann::Expander
+end
+
+class Mustermann::Identity
+  include ::Mustermann::Concat::Native
+  def to_ast(); end
+end
+
+class Mustermann::Identity
+end
+
+class Mustermann::ParseError
+end
+
+class Mustermann::ParseError
+end
+
+class Mustermann::Pattern
+  include ::Mustermann
+  def &(other); end
+
+  def +(other); end
+
+  def ==(other); end
+
+  def ===(string); end
+
+  def =~(string); end
+
+  def ^(other); end
+
+  def always_array?(key); end
+
+  def eql?(other); end
+
+  def expand(behavior=T.unsafe(nil), values=T.unsafe(nil)); end
+
+  def initialize(string, uri_decode: T.unsafe(nil), **options); end
+
+  def match(string); end
+
+  def named_captures(); end
+
+  def names(); end
+
+  def options(); end
+
+  def params(string=T.unsafe(nil), captures: T.unsafe(nil), offset: T.unsafe(nil)); end
+
+  def peek(string); end
+
+  def peek_match(string); end
+
+  def peek_params(string); end
+
+  def peek_size(string); end
+
+  def respond_to?(method, *args); end
+
+  def simple_inspect(); end
+
+  def to_proc(); end
+
+  def to_templates(); end
+
+  def uri_decode(); end
+
+  def |(other); end
+end
+
+class Mustermann::Pattern
+  def self.new(string, ignore_unknown_options: T.unsafe(nil), **options); end
+
+  def self.register(*names); end
+
+  def self.supported?(option, **options); end
+
+  def self.supported_options(*list); end
+end
+
+class Mustermann::RegexpBased
+  def ===(*args, &block); end
+
+  def =~(*args, &block); end
+
+  def initialize(string, **options); end
+
+  def match(*args, &block); end
+
+  def named_captures(*args, &block); end
+
+  def names(*args, &block); end
+
+  def regexp(); end
+
+  def to_regexp(); end
+end
+
+class Mustermann::RegexpBased
+  extend ::Forwardable
+end
+
+class Mustermann::Regular
+  include ::Mustermann::Concat::Native
+  def initialize(string, check_anchors: T.unsafe(nil), **options); end
+end
+
+class Mustermann::Regular
+end
+
+class Mustermann::SimpleMatch
+  def +(other); end
+
+  def [](*args); end
+
+  def captures(); end
+
+  def initialize(string=T.unsafe(nil), names: T.unsafe(nil), captures: T.unsafe(nil)); end
+
+  def names(); end
+end
+
+class Mustermann::SimpleMatch
+end
+
+class Mustermann::Sinatra
+  include ::Mustermann::Concat::Native
+  def safe_string(); end
+end
+
+class Mustermann::Sinatra
+  def self.escape(string); end
+
+  def self.try_convert(input, **options); end
+end
+
+module Mustermann
+  def self.[](name); end
+
+  def self.extend_object(object); end
+
+  def self.new(*input, type: T.unsafe(nil), operator: T.unsafe(nil), **options); end
+
+  def self.normalized_type(type); end
+
+  def self.register(name, type); end
+
+  def self.try_require(path); end
 end
 
 module Mutex_m
@@ -17804,89 +23413,234 @@ end
 class PG::BadCopyFileFormat
 end
 
+class PG::BasicTypeMapBasedOnResult
+  include ::PG::BasicTypeRegistry
+  def initialize(connection); end
+end
+
+class PG::BasicTypeMapBasedOnResult
+end
+
 class PG::BasicTypeMapForQueries
+  include ::PG::BasicTypeRegistry
+  def encode_array_as(); end
+
+  def encode_array_as=(pg_type); end
+
+  def initialize(connection); end
   DEFAULT_ARRAY_TYPE_MAP = ::T.let(nil, ::T.untyped)
   DEFAULT_TYPE_MAP = ::T.let(nil, ::T.untyped)
 end
 
+class PG::BasicTypeMapForQueries
+end
+
+class PG::BasicTypeMapForResults
+  include ::PG::BasicTypeRegistry
+  def initialize(connection); end
+end
+
+class PG::BasicTypeMapForResults::WarningTypeMap
+  def initialize(typenames); end
+
+  def typecast_result_value(result, _tuple, field); end
+end
+
+class PG::BasicTypeMapForResults::WarningTypeMap
+end
+
+class PG::BasicTypeMapForResults
+end
+
 module PG::BasicTypeRegistry
+  def check_format_and_direction(format, direction); end
   CODERS_BY_NAME = ::T.let(nil, ::T.untyped)
   ValidDirections = ::T.let(nil, ::T.untyped)
   ValidFormats = ::T.let(nil, ::T.untyped)
 end
 
 class PG::BasicTypeRegistry::CoderMap
+  def coder_by_name(name); end
+
+  def coder_by_oid(oid); end
+
+  def coders(); end
+
+  def coders_by_name(); end
+
+  def coders_by_oid(); end
+
+  def initialize(result, coders_by_name, format, arraycoder); end
+
+  def typenames_by_oid(); end
   DONT_QUOTE_TYPES = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BasicTypeRegistry::CoderMap
+end
+
+module PG::BasicTypeRegistry
+  def self.alias_type(format, new, old); end
+
+  def self.register_coder(coder); end
+
+  def self.register_type(format, name, encoder_class, decoder_class); end
+end
+
+module PG::BinaryDecoder
 end
 
 class PG::BinaryDecoder::Boolean
   include ::PG::Coder::BinaryFormatting
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BinaryDecoder::Boolean
 end
 
 class PG::BinaryDecoder::Bytea
   include ::PG::Coder::BinaryFormatting
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BinaryDecoder::Bytea
 end
 
 class PG::BinaryDecoder::Float
   include ::PG::Coder::BinaryFormatting
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BinaryDecoder::Float
 end
 
 class PG::BinaryDecoder::Integer
   include ::PG::Coder::BinaryFormatting
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BinaryDecoder::Integer
 end
 
 class PG::BinaryDecoder::String
   include ::PG::Coder::BinaryFormatting
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BinaryDecoder::String
 end
 
 class PG::BinaryDecoder::Timestamp
   include ::PG::Coder::BinaryFormatting
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BinaryDecoder::Timestamp
+end
+
+class PG::BinaryDecoder::TimestampLocal
+end
+
+class PG::BinaryDecoder::TimestampLocal
+end
+
+class PG::BinaryDecoder::TimestampUtc
+end
+
+class PG::BinaryDecoder::TimestampUtc
+end
+
+class PG::BinaryDecoder::TimestampUtcToLocal
+end
+
+class PG::BinaryDecoder::TimestampUtcToLocal
 end
 
 class PG::BinaryDecoder::ToBase64
   include ::PG::Coder::BinaryFormatting
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BinaryDecoder::ToBase64
+end
+
+module PG::BinaryDecoder
+end
+
+module PG::BinaryEncoder
 end
 
 class PG::BinaryEncoder::Boolean
   include ::PG::Coder::BinaryFormatting
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BinaryEncoder::Boolean
 end
 
 class PG::BinaryEncoder::Bytea
   include ::PG::Coder::BinaryFormatting
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BinaryEncoder::Bytea
 end
 
 class PG::BinaryEncoder::FromBase64
   include ::PG::Coder::BinaryFormatting
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BinaryEncoder::FromBase64
 end
 
 class PG::BinaryEncoder::Int2
   include ::PG::Coder::BinaryFormatting
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BinaryEncoder::Int2
 end
 
 class PG::BinaryEncoder::Int4
   include ::PG::Coder::BinaryFormatting
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BinaryEncoder::Int4
 end
 
 class PG::BinaryEncoder::Int8
   include ::PG::Coder::BinaryFormatting
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BinaryEncoder::Int8
 end
 
 class PG::BinaryEncoder::String
   include ::PG::Coder::BinaryFormatting
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::BinaryEncoder::String
+end
+
+module PG::BinaryEncoder
 end
 
 class PG::BranchTransactionAlreadyActive
@@ -17938,6 +23692,33 @@ class PG::CheckViolation
 end
 
 class PG::Coder
+  def ==(v); end
+
+  def flags(); end
+
+  def flags=(flags); end
+
+  def format(); end
+
+  def format=(format); end
+
+  def initialize(params=T.unsafe(nil)); end
+
+  def inspect_short(); end
+
+  def marshal_dump(); end
+
+  def marshal_load(str); end
+
+  def name(); end
+
+  def name=(name); end
+
+  def oid(); end
+
+  def oid=(oid); end
+
+  def to_h(); end
   FORMAT_ERROR_MASK = ::T.let(nil, ::T.untyped)
   FORMAT_ERROR_TO_PARTIAL = ::T.let(nil, ::T.untyped)
   FORMAT_ERROR_TO_RAISE = ::T.let(nil, ::T.untyped)
@@ -17949,13 +23730,37 @@ class PG::Coder
 end
 
 module PG::Coder::BinaryFormatting
+  def initialize(params=T.unsafe(nil)); end
   Params = ::T.let(nil, ::T.untyped)
 end
 
+module PG::Coder::BinaryFormatting
+end
+
+class PG::Coder
+end
+
 class PG::CollationMismatch
 end
 
 class PG::CollationMismatch
+end
+
+class PG::CompositeCoder
+  def delimiter(); end
+
+  def delimiter=(delimiter); end
+
+  def elements_type(); end
+
+  def elements_type=(elements_type); end
+
+  def needs_quotation=(needs_quotation); end
+
+  def needs_quotation?(); end
+end
+
+class PG::CompositeCoder
 end
 
 class PG::CompositeDecoder
@@ -17984,8 +23789,319 @@ end
 
 class PG::Connection
   include ::PG::Constants
+  def async_describe_portal(arg); end
+
+  def async_describe_prepared(arg); end
+
+  def async_exec(*arg); end
+
+  def async_exec_params(*arg); end
+
+  def async_exec_prepared(*arg); end
+
+  def async_prepare(*arg); end
+
+  def async_query(*arg); end
+
+  def backend_pid(); end
+
+  def block(*arg); end
+
+  def cancel(); end
+
+  def client_encoding=(client_encoding); end
+
+  def close(); end
+
+  def conndefaults(); end
+
+  def conndefaults_hash(); end
+
+  def connect_poll(); end
+
+  def connection_needs_password(); end
+
+  def connection_used_password(); end
+
+  def conninfo(); end
+
+  def conninfo_hash(); end
+
+  def consume_input(); end
+
+  def copy_data(sql, coder=T.unsafe(nil)); end
+
+  def db(); end
+
+  def decoder_for_get_copy_data(); end
+
+  def decoder_for_get_copy_data=(decoder_for_get_copy_data); end
+
+  def describe_portal(arg); end
+
+  def describe_prepared(arg); end
+
+  def discard_results(); end
+
+  def encoder_for_put_copy_data(); end
+
+  def encoder_for_put_copy_data=(encoder_for_put_copy_data); end
+
+  def encrypt_password(*arg); end
+
+  def error_message(); end
+
+  def escape(arg); end
+
+  def escape_bytea(arg); end
+
+  def escape_identifier(arg); end
+
+  def escape_literal(arg); end
+
+  def escape_string(arg); end
+
+  def exec_params(*arg); end
+
+  def exec_prepared(*arg); end
+
+  def external_encoding(); end
+
+  def field_name_type(); end
+
+  def field_name_type=(field_name_type); end
+
+  def finish(); end
+
+  def finished?(); end
+
+  def flush(); end
+
+  def get_client_encoding(); end
+
+  def get_copy_data(*arg); end
+
+  def get_last_result(); end
+
+  def get_result(); end
+
+  def host(); end
+
+  def initialize(*arg); end
+
+  def internal_encoding(); end
+
+  def internal_encoding=(internal_encoding); end
+
+  def is_busy(); end
+
+  def isnonblocking(); end
+
+  def lo_close(arg); end
+
+  def lo_creat(*arg); end
+
+  def lo_create(arg); end
+
+  def lo_export(arg, arg1); end
+
+  def lo_import(arg); end
+
+  def lo_lseek(arg, arg1, arg2); end
+
+  def lo_open(*arg); end
+
+  def lo_read(arg, arg1); end
+
+  def lo_seek(arg, arg1, arg2); end
+
+  def lo_tell(arg); end
+
+  def lo_truncate(arg, arg1); end
+
+  def lo_unlink(arg); end
+
+  def lo_write(arg, arg1); end
+
+  def loclose(arg); end
+
+  def locreat(*arg); end
+
+  def locreate(arg); end
+
+  def loexport(arg, arg1); end
+
+  def loimport(arg); end
+
+  def lolseek(arg, arg1, arg2); end
+
+  def loopen(*arg); end
+
+  def loread(arg, arg1); end
+
+  def loseek(arg, arg1, arg2); end
+
+  def lotell(arg); end
+
+  def lotruncate(arg, arg1); end
+
+  def lounlink(arg); end
+
+  def lowrite(arg, arg1); end
+
+  def make_empty_pgresult(arg); end
+
+  def nonblocking?(); end
+
+  def notifies(); end
+
+  def notifies_wait(*arg); end
+
+  def options(); end
+
+  def parameter_status(arg); end
+
+  def pass(); end
+
+  def port(); end
+
+  def prepare(*arg); end
+
+  def protocol_version(); end
+
+  def put_copy_data(*arg); end
+
+  def put_copy_end(*arg); end
+
+  def query(*arg); end
+
+  def quote_ident(arg); end
+
+  def reset(); end
+
+  def reset_poll(); end
+
+  def reset_start(); end
+
+  def send_describe_portal(arg); end
+
+  def send_describe_prepared(arg); end
+
+  def send_prepare(*arg); end
+
+  def send_query(*arg); end
+
+  def send_query_params(*arg); end
+
+  def send_query_prepared(*arg); end
+
+  def server_version(); end
+
+  def set_client_encoding(arg); end
+
+  def set_default_encoding(); end
+
+  def set_error_context_visibility(arg); end
+
+  def set_error_verbosity(arg); end
+
+  def set_notice_processor(); end
+
+  def set_notice_receiver(); end
+
+  def set_single_row_mode(); end
+
+  def setnonblocking(arg); end
+
+  def socket(); end
+
+  def socket_io(); end
+
+  def ssl_attribute(arg); end
+
+  def ssl_attribute_names(); end
+
+  def ssl_attributes(); end
+
+  def ssl_in_use?(); end
+
+  def status(); end
+
+  def sync_describe_portal(arg); end
+
+  def sync_describe_prepared(arg); end
+
+  def sync_exec(*arg); end
+
+  def sync_exec_params(*arg); end
+
+  def sync_exec_prepared(*arg); end
+
+  def sync_prepare(*arg); end
+
+  def trace(arg); end
+
+  def transaction(); end
+
+  def transaction_status(); end
+
+  def tty(); end
+
+  def type_map_for_queries(); end
+
+  def type_map_for_queries=(type_map_for_queries); end
+
+  def type_map_for_results(); end
+
+  def type_map_for_results=(type_map_for_results); end
+
+  def unescape_bytea(arg); end
+
+  def untrace(); end
+
+  def user(); end
+
+  def wait_for_notify(*arg); end
   CONNECT_ARGUMENT_ORDER = ::T.let(nil, ::T.untyped)
   REDIRECT_METHODS = ::T.let(nil, ::T.untyped)
+end
+
+class PG::Connection
+  def self.async_api=(enable); end
+
+  def self.conndefaults(); end
+
+  def self.conndefaults_hash(); end
+
+  def self.connect(*arg); end
+
+  def self.connect_start(*arg); end
+
+  def self.encrypt_password(arg, arg1); end
+
+  def self.escape(arg); end
+
+  def self.escape_bytea(arg); end
+
+  def self.escape_string(arg); end
+
+  def self.isthreadsafe(); end
+
+  def self.open(*arg); end
+
+  def self.parse_connect_args(*args); end
+
+  def self.ping(*arg); end
+
+  def self.quote_connstr(value); end
+
+  def self.quote_ident(arg); end
+
+  def self.setdb(*arg); end
+
+  def self.setdblogin(*arg); end
+
+  def self.unescape_bytea(arg); end
 end
 
 class PG::ConnectionBad
@@ -18079,6 +24195,26 @@ module PG::Constants
   SEEK_SET = ::T.let(nil, ::T.untyped)
 end
 
+module PG::Constants
+end
+
+class PG::CopyCoder
+  def delimiter(); end
+
+  def delimiter=(delimiter); end
+
+  def null_string(); end
+
+  def null_string=(null_string); end
+
+  def type_map(); end
+
+  def type_map=(type_map); end
+end
+
+class PG::CopyCoder
+end
+
 class PG::CopyDecoder
   include ::PG::Coder::BinaryFormatting
 end
@@ -18277,6 +24413,14 @@ class PG::ERIETriggerProtocolViolated
 end
 
 class PG::ERIETriggerProtocolViolated
+end
+
+class PG::Error
+  def connection(); end
+
+  def error(); end
+
+  def result(); end
 end
 
 class PG::ErrorInAssignment
@@ -19011,6 +25155,12 @@ end
 class PG::NonstandardUseOfEscapeCharacter
 end
 
+class PG::NotAllCopyDataRetrieved
+end
+
+class PG::NotAllCopyDataRetrieved
+end
+
 class PG::NotAnXmlDocument
 end
 
@@ -19099,6 +25249,15 @@ class PG::ReadOnlySqlTransaction
 end
 
 class PG::ReadOnlySqlTransaction
+end
+
+class PG::RecordCoder
+  def type_map(); end
+
+  def type_map=(type_map); end
+end
+
+class PG::RecordCoder
 end
 
 class PG::RecordDecoder
@@ -19128,6 +25287,112 @@ end
 class PG::Result
   include ::Enumerable
   include ::PG::Constants
+  def [](arg); end
+
+  def autoclear?(); end
+
+  def check(); end
+
+  def check_result(); end
+
+  def clear(); end
+
+  def cleared?(); end
+
+  def cmd_status(); end
+
+  def cmd_tuples(); end
+
+  def cmdtuples(); end
+
+  def column_values(arg); end
+
+  def each(&blk); end
+
+  def each_row(); end
+
+  def error_field(arg); end
+
+  def error_message(); end
+
+  def fformat(arg); end
+
+  def field_name_type(); end
+
+  def field_name_type=(field_name_type); end
+
+  def field_names_as(type); end
+
+  def field_values(arg); end
+
+  def fields(); end
+
+  def fmod(arg); end
+
+  def fname(arg); end
+
+  def fnumber(arg); end
+
+  def fsize(arg); end
+
+  def ftable(arg); end
+
+  def ftablecol(arg); end
+
+  def ftype(arg); end
+
+  def getisnull(arg, arg1); end
+
+  def getlength(arg, arg1); end
+
+  def getvalue(arg, arg1); end
+
+  def map_types!(type_map); end
+
+  def nfields(); end
+
+  def nparams(); end
+
+  def ntuples(); end
+
+  def num_fields(); end
+
+  def num_tuples(); end
+
+  def oid_value(); end
+
+  def paramtype(arg); end
+
+  def res_status(arg); end
+
+  def result_error_field(arg); end
+
+  def result_error_message(); end
+
+  def result_status(); end
+
+  def result_verbose_error_message(arg, arg1); end
+
+  def stream_each(); end
+
+  def stream_each_row(); end
+
+  def stream_each_tuple(); end
+
+  def tuple(arg); end
+
+  def tuple_values(arg); end
+
+  def type_map(); end
+
+  def type_map=(type_map); end
+
+  def values(); end
+
+  def verbose_error_message(arg, arg1); end
+end
+
+class PG::Result
 end
 
 class PG::SEInvalidSpecification
@@ -19341,131 +25606,281 @@ class PG::TRStatementCompletionUnknown
 end
 
 class PG::TextDecoder::Array
+  def decode(*arg); end
+  CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::TextDecoder::Array
+end
+
+class PG::TextDecoder::Boolean
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextDecoder::Boolean
+end
+
+class PG::TextDecoder::Bytea
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextDecoder::Bytea
+end
+
+class PG::TextDecoder::CopyRow
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextDecoder::CopyRow
-  CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::TextDecoder::Date
+  def decode(string, tuple=T.unsafe(nil), field=T.unsafe(nil)); end
 end
 
 class PG::TextDecoder::Date
 end
 
 class PG::TextDecoder::Float
+  def decode(*arg); end
+  CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::TextDecoder::Float
+end
+
+class PG::TextDecoder::FromBase64
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextDecoder::FromBase64
+end
+
+class PG::TextDecoder::Identifier
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextDecoder::Identifier
+end
+
+class PG::TextDecoder::Inet
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextDecoder::Inet
+end
+
+class PG::TextDecoder::Integer
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextDecoder::Integer
-  CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::TextDecoder::JSON
+  def decode(string, tuple=T.unsafe(nil), field=T.unsafe(nil)); end
 end
 
 class PG::TextDecoder::JSON
 end
 
 class PG::TextDecoder::Numeric
+  def decode(*arg); end
+  CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::TextDecoder::Numeric
+end
+
+class PG::TextDecoder::Record
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextDecoder::Record
+end
+
+class PG::TextDecoder::String
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextDecoder::String
+end
+
+class PG::TextDecoder::Timestamp
+  def decode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextDecoder::Timestamp
-  CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::TextDecoder::TimestampUtc
+end
+
+class PG::TextDecoder::TimestampUtc
+end
+
+class PG::TextDecoder::TimestampUtcToLocal
+end
+
+class PG::TextDecoder::TimestampUtcToLocal
 end
 
 PG::TextDecoder::TimestampWithTimeZone = PG::TextDecoder::Timestamp
 
 PG::TextDecoder::TimestampWithoutTimeZone = PG::TextDecoder::TimestampLocal
 
+module PG::TextEncoder
+end
+
 class PG::TextEncoder::Array
+  def encode(*arg); end
+  CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::TextEncoder::Array
+end
+
+class PG::TextEncoder::Boolean
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextEncoder::Boolean
+end
+
+class PG::TextEncoder::Bytea
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextEncoder::Bytea
+end
+
+class PG::TextEncoder::CopyRow
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextEncoder::CopyRow
-  CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::TextEncoder::Date
+  def encode(value); end
 end
 
 class PG::TextEncoder::Date
 end
 
 class PG::TextEncoder::Float
+  def encode(*arg); end
+  CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::TextEncoder::Float
+end
+
+class PG::TextEncoder::Identifier
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextEncoder::Identifier
-  CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::TextEncoder::Inet
+  def encode(value); end
 end
 
 class PG::TextEncoder::Inet
 end
 
 class PG::TextEncoder::Integer
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::TextEncoder::Integer
+end
+
+class PG::TextEncoder::JSON
+  def encode(value); end
 end
 
 class PG::TextEncoder::JSON
 end
 
 class PG::TextEncoder::Numeric
+  def encode(*arg); end
+  CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::TextEncoder::Numeric
+end
+
+class PG::TextEncoder::QuotedLiteral
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextEncoder::QuotedLiteral
+end
+
+class PG::TextEncoder::Record
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextEncoder::Record
+end
+
+class PG::TextEncoder::String
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
 end
 
 class PG::TextEncoder::String
-  CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::TextEncoder::TimestampUtc
+  def encode(value); end
 end
 
 class PG::TextEncoder::TimestampUtc
 end
 
 class PG::TextEncoder::TimestampWithTimeZone
+  def encode(value); end
+end
+
+class PG::TextEncoder::TimestampWithTimeZone
+end
+
+class PG::TextEncoder::TimestampWithoutTimeZone
+  def encode(value); end
 end
 
 class PG::TextEncoder::TimestampWithoutTimeZone
 end
 
 class PG::TextEncoder::ToBase64
+  def encode(*arg); end
   CFUNC = ::T.let(nil, ::T.untyped)
+end
+
+class PG::TextEncoder::ToBase64
+end
+
+module PG::TextEncoder
 end
 
 class PG::TooManyArguments
@@ -19536,6 +25951,40 @@ end
 
 class PG::Tuple
   include ::Enumerable
+  def [](arg); end
+
+  def each(&blk); end
+
+  def each_key(&block); end
+
+  def each_value(); end
+
+  def fetch(*arg); end
+
+  def has_key?(key); end
+
+  def index(arg); end
+
+  def key?(key); end
+
+  def keys(); end
+
+  def length(); end
+
+  def size(); end
+
+  def values(); end
+end
+
+class PG::Tuple
+end
+
+module PG::TypeMap::DefaultTypeMappable
+  def default_type_map(); end
+
+  def default_type_map=(default_type_map); end
+
+  def with_default_type_map(arg); end
 end
 
 class PG::TypeMapAllStrings
@@ -19546,22 +25995,68 @@ end
 
 class PG::TypeMapByClass
   include ::PG::TypeMap::DefaultTypeMappable
+  def [](arg); end
+
+  def []=(arg, arg1); end
+
+  def coders(); end
+end
+
+class PG::TypeMapByClass
 end
 
 class PG::TypeMapByColumn
   include ::PG::TypeMap::DefaultTypeMappable
+  def coders(); end
+
+  def initialize(arg); end
+
+  def oids(); end
+end
+
+class PG::TypeMapByColumn
 end
 
 class PG::TypeMapByMriType
   include ::PG::TypeMap::DefaultTypeMappable
+  def [](arg); end
+
+  def []=(arg, arg1); end
+
+  def coders(); end
+end
+
+class PG::TypeMapByMriType
 end
 
 class PG::TypeMapByOid
   include ::PG::TypeMap::DefaultTypeMappable
+  def add_coder(arg); end
+
+  def build_column_map(arg); end
+
+  def coders(); end
+
+  def max_rows_for_online_lookup(); end
+
+  def max_rows_for_online_lookup=(max_rows_for_online_lookup); end
+
+  def rm_coder(arg, arg1); end
+end
+
+class PG::TypeMapByOid
 end
 
 class PG::TypeMapInRuby
   include ::PG::TypeMap::DefaultTypeMappable
+  def typecast_copy_get(arg, arg1, arg2, arg3); end
+
+  def typecast_query_param(arg, arg1); end
+
+  def typecast_result_value(arg, arg1, arg2); end
+end
+
+class PG::TypeMapInRuby
 end
 
 class PG::UnableToSend
@@ -19652,6 +26147,24 @@ class PG::ZeroLengthCharacterString
 end
 
 class PG::ZeroLengthCharacterString
+end
+
+module PG
+  def self.connect(*args); end
+
+  def self.init_openssl(arg, arg1); end
+
+  def self.init_ssl(arg); end
+
+  def self.is_threadsafe?(); end
+
+  def self.isthreadsafe(); end
+
+  def self.library_version(); end
+
+  def self.threadsafe?(); end
+
+  def self.version_string(include_buildnum=T.unsafe(nil)); end
 end
 
 module Parallel
@@ -20766,9 +27279,6 @@ end
 
 class Rack::Session::Abstract::SessionHash
   Unspecified = ::T.let(nil, ::T.untyped)
-end
-
-class Rack::Session::Cookie::SessionId
 end
 
 class Rack::Session::Pool
@@ -28207,6 +34717,49 @@ module Zeitwerk::ExplicitNamespace
 end
 
 module Zip
+  def case_insensitive_match(); end
+
+  def case_insensitive_match=(case_insensitive_match); end
+
+  def continue_on_exists_proc(); end
+
+  def continue_on_exists_proc=(continue_on_exists_proc); end
+
+  def default_compression(); end
+
+  def default_compression=(default_compression); end
+
+  def force_entry_names_encoding(); end
+
+  def force_entry_names_encoding=(force_entry_names_encoding); end
+
+  def on_exists_proc(); end
+
+  def on_exists_proc=(on_exists_proc); end
+
+  def reset!(); end
+
+  def setup(); end
+
+  def sort_entries(); end
+
+  def sort_entries=(sort_entries); end
+
+  def unicode_names(); end
+
+  def unicode_names=(unicode_names); end
+
+  def validate_entry_sizes(); end
+
+  def validate_entry_sizes=(validate_entry_sizes); end
+
+  def warn_invalid_date(); end
+
+  def warn_invalid_date=(warn_invalid_date); end
+
+  def write_zip64_support(); end
+
+  def write_zip64_support=(write_zip64_support); end
   CDIR_ENTRY_STATIC_HEADER_LENGTH = ::T.let(nil, ::T.untyped)
   CENTRAL_DIRECTORY_ENTRY_SIGNATURE = ::T.let(nil, ::T.untyped)
   COMPRESSION_METHODS = ::T.let(nil, ::T.untyped)
@@ -28264,6 +34817,36 @@ module Zip
 end
 
 class Zip::CentralDirectory
+  include ::Enumerable
+  def ==(other); end
+
+  def comment(); end
+
+  def each(&a_proc); end
+
+  def entries(); end
+
+  def get_64_e_o_c_d(buf); end
+
+  def get_e_o_c_d(buf); end
+
+  def initialize(entries=T.unsafe(nil), comment=T.unsafe(nil)); end
+
+  def read_64_e_o_c_d(buf); end
+
+  def read_central_directory_entries(io); end
+
+  def read_e_o_c_d(buf); end
+
+  def read_from_stream(io); end
+
+  def size(); end
+
+  def start_buf(io); end
+
+  def write_to_stream(io); end
+
+  def zip64_file?(buf); end
   END_OF_CDS = ::T.let(nil, ::T.untyped)
   MAX_END_OF_CDS_SIZE = ::T.let(nil, ::T.untyped)
   STATIC_EOCD_SIZE = ::T.let(nil, ::T.untyped)
@@ -28271,54 +34854,588 @@ class Zip::CentralDirectory
   ZIP64_EOCD_LOCATOR = ::T.let(nil, ::T.untyped)
 end
 
+class Zip::CentralDirectory
+  def self.read_from_stream(io); end
+end
+
+class Zip::Compressor
+  def finish(); end
+end
+
+class Zip::Compressor
+end
+
+class Zip::DOSTime
+  def dos_equals(other); end
+
+  def to_binary_dos_date(); end
+
+  def to_binary_dos_time(); end
+end
+
+class Zip::DOSTime
+  def self.from_time(time); end
+
+  def self.parse_binary_dos_format(bin_dos_date, bin_dos_time); end
+end
+
+class Zip::DecompressionError
+end
+
+class Zip::DecompressionError
+end
+
 class Zip::Decompressor
+  def decompressed_size(); end
+
+  def initialize(input_stream, decompressed_size=T.unsafe(nil)); end
+
+  def input_stream(); end
+  CHUNK_SIZE = ::T.let(nil, ::T.untyped)
+end
+
+class Zip::Decompressor
+  def self.decompressor_classes(); end
+
+  def self.find_by_compression_method(compression_method); end
+
+  def self.register(compression_method, decompressor_class); end
+end
+
+class Zip::DecryptedIo
+  def initialize(io, decrypter); end
+
+  def read(length=T.unsafe(nil), outbuf=T.unsafe(nil)); end
   CHUNK_SIZE = ::T.let(nil, ::T.untyped)
 end
 
 class Zip::DecryptedIo
-  CHUNK_SIZE = ::T.let(nil, ::T.untyped)
+end
+
+class Zip::Decrypter
+end
+
+class Zip::Decrypter
+end
+
+class Zip::Deflater
+  def <<(data); end
+
+  def crc(); end
+
+  def initialize(output_stream, level=T.unsafe(nil), encrypter=T.unsafe(nil)); end
+
+  def size(); end
+end
+
+class Zip::Deflater
+end
+
+class Zip::Encrypter
+end
+
+class Zip::Encrypter
 end
 
 class Zip::Entry
+  def ==(other); end
+
+  def calculate_local_header_size(); end
+
+  def cdir_header_size(); end
+
+  def check_c_dir_entry_comment_size(); end
+
+  def check_c_dir_entry_signature(); end
+
+  def check_c_dir_entry_static_header_length(buf); end
+
+  def check_name(name); end
+
+  def clean_up(); end
+
+  def comment(); end
+
+  def comment=(comment); end
+
+  def comment_size(); end
+
+  def compressed_size(); end
+
+  def compressed_size=(compressed_size); end
+
+  def compression_method(); end
+
+  def compression_method=(compression_method); end
+
+  def crc(); end
+
+  def crc=(crc); end
+
+  def directory?(); end
+
+  def dirty(); end
+
+  def dirty=(dirty); end
+
+  def encrypted?(); end
+
+  def external_file_attributes(); end
+
+  def external_file_attributes=(external_file_attributes); end
+
+  def extra(); end
+
+  def extra=(extra); end
+
+  def extra_size(); end
+
+  def extract(dest_path=T.unsafe(nil), &block); end
+
+  def file?(); end
+
+  def file_stat(path); end
+
+  def file_type_is?(type); end
+
+  def filepath(); end
+
+  def follow_symlinks(); end
+
+  def follow_symlinks=(follow_symlinks); end
+
+  def fstype(); end
+
+  def fstype=(fstype); end
+
+  def ftype(); end
+
+  def gather_fileinfo_from_srcpath(src_path); end
+
+  def get_extra_attributes_from_path(path); end
+
+  def get_input_stream(&block); end
+
+  def get_raw_input_stream(&block); end
+
+  def gp_flags(); end
+
+  def gp_flags=(gp_flags); end
+
+  def header_signature(); end
+
+  def header_signature=(header_signature); end
+
+  def incomplete?(); end
+
+  def initialize(*args); end
+
+  def internal_file_attributes(); end
+
+  def internal_file_attributes=(internal_file_attributes); end
+
+  def local_entry_offset(); end
+
+  def local_header_offset(); end
+
+  def local_header_offset=(local_header_offset); end
+
+  def mtime(); end
+
+  def name(); end
+
+  def name=(name); end
+
+  def name_is_directory?(); end
+
+  def name_safe?(); end
+
+  def name_size(); end
+
+  def next_header_offset(); end
+
+  def pack_c_dir_entry(); end
+
+  def pack_local_entry(); end
+
+  def parent_as_string(); end
+
+  def read_c_dir_entry(io); end
+
+  def read_c_dir_extra_field(io); end
+
+  def read_local_entry(io); end
+
+  def restore_ownership(); end
+
+  def restore_ownership=(restore_ownership); end
+
+  def restore_permissions(); end
+
+  def restore_permissions=(restore_permissions); end
+
+  def restore_times(); end
+
+  def restore_times=(restore_times); end
+
+  def set_default_vars_values(); end
+
+  def set_extra_attributes_on_path(dest_path); end
+
+  def set_ftype_from_c_dir_entry(); end
+
+  def set_unix_attributes_on_path(dest_path); end
+
+  def size(); end
+
+  def size=(size); end
+
+  def symlink?(); end
+
+  def time(); end
+
+  def time=(value); end
+
+  def unix_gid(); end
+
+  def unix_gid=(unix_gid); end
+
+  def unix_perms(); end
+
+  def unix_perms=(unix_perms); end
+
+  def unix_uid(); end
+
+  def unix_uid=(unix_uid); end
+
+  def unpack_c_dir_entry(buf); end
+
+  def unpack_local_entry(buf); end
+
+  def verify_local_header_size!(); end
+
+  def write_c_dir_entry(io); end
+
+  def write_local_entry(io, rewrite=T.unsafe(nil)); end
+
+  def write_to_zip_output_stream(zip_output_stream); end
+
+  def zipfile(); end
+
+  def zipfile=(zipfile); end
   DEFLATED = ::T.let(nil, ::T.untyped)
   EFS = ::T.let(nil, ::T.untyped)
   STORED = ::T.let(nil, ::T.untyped)
 end
 
+class Zip::Entry
+  def self.read_c_dir_entry(io); end
+
+  def self.read_local_entry(io); end
+
+  def self.read_zip_64_long(io); end
+
+  def self.read_zip_long(io); end
+
+  def self.read_zip_short(io); end
+end
+
+class Zip::EntrySet
+  include ::Enumerable
+  def <<(entry); end
+
+  def ==(other); end
+
+  def delete(entry); end
+
+  def each(&blk); end
+
+  def entries(); end
+
+  def entry_order(); end
+
+  def entry_order=(entry_order); end
+
+  def entry_set(); end
+
+  def entry_set=(entry_set); end
+
+  def find_entry(entry); end
+
+  def glob(pattern, flags=T.unsafe(nil)); end
+
+  def include?(entry); end
+
+  def initialize(an_enumerable=T.unsafe(nil)); end
+
+  def length(); end
+
+  def parent(entry); end
+
+  def push(entry); end
+
+  def size(); end
+
+  def sorted_entries(); end
+end
+
+class Zip::EntrySet
+end
+
+class Zip::EntrySizeError
+end
+
+class Zip::EntrySizeError
+end
+
 class Zip::ExtraField
+  def c_dir_size(); end
+
+  def create(name); end
+
+  def create_unknown_item(); end
+
+  def extra_field_type_exist(binstr, id, len, index); end
+
+  def extra_field_type_unknown(binstr, len, index); end
+
+  def initialize(binstr=T.unsafe(nil)); end
+
+  def local_size(); end
+
+  def merge(binstr); end
+
+  def ordered_values(); end
+
+  def to_c_dir_bin(); end
+
+  def to_local_bin(); end
   ID_MAP = ::T.let(nil, ::T.untyped)
 end
 
+class Zip::ExtraField::Generic
+  def ==(other); end
+
+  def initial_parse(binstr); end
+
+  def to_c_dir_bin(); end
+
+  def to_local_bin(); end
+end
+
+class Zip::ExtraField::Generic
+  def self.register_map(); end
+end
+
 class Zip::ExtraField::IUnix
+  def gid(); end
+
+  def gid=(gid); end
+
+  def initialize(binstr=T.unsafe(nil)); end
+
+  def merge(binstr); end
+
+  def pack_for_c_dir(); end
+
+  def pack_for_local(); end
+
+  def uid(); end
+
+  def uid=(uid); end
   HEADER_ID = ::T.let(nil, ::T.untyped)
 end
 
+class Zip::ExtraField::IUnix
+end
+
 class Zip::ExtraField::NTFS
+  def atime(); end
+
+  def atime=(atime); end
+
+  def ctime(); end
+
+  def ctime=(ctime); end
+
+  def initialize(binstr=T.unsafe(nil)); end
+
+  def merge(binstr); end
+
+  def mtime(); end
+
+  def mtime=(mtime); end
+
+  def pack_for_c_dir(); end
+
+  def pack_for_local(); end
   HEADER_ID = ::T.let(nil, ::T.untyped)
   SEC_TO_UNIX_EPOCH = ::T.let(nil, ::T.untyped)
   WINDOWS_TICK = ::T.let(nil, ::T.untyped)
 end
 
+class Zip::ExtraField::NTFS
+end
+
 class Zip::ExtraField::OldUnix
+  def atime(); end
+
+  def atime=(atime); end
+
+  def gid(); end
+
+  def gid=(gid); end
+
+  def initialize(binstr=T.unsafe(nil)); end
+
+  def merge(binstr); end
+
+  def mtime(); end
+
+  def mtime=(mtime); end
+
+  def pack_for_c_dir(); end
+
+  def pack_for_local(); end
+
+  def uid(); end
+
+  def uid=(uid); end
   HEADER_ID = ::T.let(nil, ::T.untyped)
 end
 
+class Zip::ExtraField::OldUnix
+end
+
 class Zip::ExtraField::UniversalTime
+  def atime(); end
+
+  def atime=(time); end
+
+  def ctime(); end
+
+  def ctime=(time); end
+
+  def flag(); end
+
+  def initialize(binstr=T.unsafe(nil)); end
+
+  def merge(binstr); end
+
+  def mtime(); end
+
+  def mtime=(time); end
+
+  def pack_for_c_dir(); end
+
+  def pack_for_local(); end
   ATIME_MASK = ::T.let(nil, ::T.untyped)
   CTIME_MASK = ::T.let(nil, ::T.untyped)
   HEADER_ID = ::T.let(nil, ::T.untyped)
   MTIME_MASK = ::T.let(nil, ::T.untyped)
 end
 
+class Zip::ExtraField::UniversalTime
+end
+
 class Zip::ExtraField::Zip64
+  def compressed_size(); end
+
+  def compressed_size=(compressed_size); end
+
+  def disk_start_number(); end
+
+  def disk_start_number=(disk_start_number); end
+
+  def initialize(binstr=T.unsafe(nil)); end
+
+  def merge(binstr); end
+
+  def original_size(); end
+
+  def original_size=(original_size); end
+
+  def pack_for_c_dir(); end
+
+  def pack_for_local(); end
+
+  def parse(original_size, compressed_size, relative_header_offset=T.unsafe(nil), disk_start_number=T.unsafe(nil)); end
+
+  def relative_header_offset(); end
+
+  def relative_header_offset=(relative_header_offset); end
+  HEADER_ID = ::T.let(nil, ::T.untyped)
+end
+
+class Zip::ExtraField::Zip64
+end
+
+class Zip::ExtraField::Zip64Placeholder
+  def initialize(_binstr=T.unsafe(nil)); end
+
+  def pack_for_local(); end
   HEADER_ID = ::T.let(nil, ::T.untyped)
 end
 
 class Zip::ExtraField::Zip64Placeholder
-  HEADER_ID = ::T.let(nil, ::T.untyped)
+end
+
+class Zip::ExtraField
 end
 
 class Zip::File
+  include ::Zip::FileSystem
+  def add(entry, src_path, &continue_on_exists_proc); end
+
+  def add_stored(entry, src_path, &continue_on_exists_proc); end
+
+  def close(); end
+
+  def comment=(comment); end
+
+  def commit(); end
+
+  def commit_required?(); end
+
+  def extract(entry, dest_path, &block); end
+
+  def find_entry(entry_name); end
+
+  def get_entry(entry); end
+
+  def get_input_stream(entry, &a_proc); end
+
+  def get_output_stream(entry, permission_int=T.unsafe(nil), comment=T.unsafe(nil), extra=T.unsafe(nil), compressed_size=T.unsafe(nil), crc=T.unsafe(nil), compression_method=T.unsafe(nil), size=T.unsafe(nil), time=T.unsafe(nil), &a_proc); end
+
+  def glob(*args, &block); end
+
+  def initialize(path_or_io, create=T.unsafe(nil), buffer=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def mkdir(entry_name, permission=T.unsafe(nil)); end
+
+  def name(); end
+
+  def read(entry); end
+
+  def remove(entry); end
+
+  def rename(entry, new_name, &continue_on_exists_proc); end
+
+  def replace(entry, src_path); end
+
+  def restore_ownership(); end
+
+  def restore_ownership=(restore_ownership); end
+
+  def restore_permissions(); end
+
+  def restore_permissions=(restore_permissions); end
+
+  def restore_times(); end
+
+  def restore_times=(restore_times); end
+
+  def write_buffer(io=T.unsafe(nil)); end
   CREATE = ::T.let(nil, ::T.untyped)
   DATA_BUFFER_SIZE = ::T.let(nil, ::T.untyped)
   DEFAULT_OPTIONS = ::T.let(nil, ::T.untyped)
@@ -28329,24 +35446,628 @@ class Zip::File
   ZIP64_EOCD_SIGNATURE = ::T.let(nil, ::T.untyped)
 end
 
+class Zip::File
+  def self.add_buffer(); end
+
+  def self.foreach(zip_file_name, &block); end
+
+  def self.get_partial_zip_file_name(zip_file_name, partial_zip_file_name); end
+
+  def self.get_segment_count_for_split(zip_file_size, segment_size); end
+
+  def self.get_segment_size_for_split(segment_size); end
+
+  def self.open(file_name, create=T.unsafe(nil), options=T.unsafe(nil)); end
+
+  def self.open_buffer(io, options=T.unsafe(nil)); end
+
+  def self.put_split_signature(szip_file, segment_size); end
+
+  def self.save_splited_part(zip_file, partial_zip_file_name, zip_file_size, szip_file_index, segment_size, segment_count); end
+
+  def self.split(zip_file_name, segment_size=T.unsafe(nil), delete_zip_file=T.unsafe(nil), partial_zip_file_name=T.unsafe(nil)); end
+end
+
+module Zip::FileSystem
+  def dir(); end
+
+  def file(); end
+
+  def initialize(); end
+end
+
+class Zip::FileSystem::ZipFileNameMapper
+  include ::Enumerable
+  def each(&blk); end
+
+  def expand_path(path); end
+
+  def find_entry(filename); end
+
+  def get_entry(filename); end
+
+  def get_input_stream(filename, &a_proc); end
+
+  def get_output_stream(filename, permissions=T.unsafe(nil), &a_proc); end
+
+  def glob(pattern, *flags, &block); end
+
+  def initialize(zip_file); end
+
+  def mkdir(filename, permissions=T.unsafe(nil)); end
+
+  def pwd(); end
+
+  def pwd=(pwd); end
+
+  def read(filename); end
+
+  def remove(filename); end
+
+  def rename(filename, new_name, &continue_on_exists_proc); end
+end
+
+class Zip::FileSystem::ZipFileNameMapper
+end
+
+class Zip::FileSystem::ZipFsDir
+  def chdir(directory_name); end
+
+  def chroot(*_args); end
+
+  def delete(entry_name); end
+
+  def entries(directory_name); end
+
+  def file=(file); end
+
+  def foreach(directory_name); end
+
+  def getwd(); end
+
+  def glob(*args, &block); end
+
+  def initialize(mapped_zip); end
+
+  def mkdir(entry_name, permissions=T.unsafe(nil)); end
+
+  def new(directory_name); end
+
+  def open(directory_name); end
+
+  def pwd(); end
+
+  def rmdir(entry_name); end
+
+  def unlink(entry_name); end
+end
+
+class Zip::FileSystem::ZipFsDir
+end
+
+class Zip::FileSystem::ZipFsDirIterator
+  include ::Enumerable
+  def close(); end
+
+  def each(&a_proc); end
+
+  def initialize(filenames); end
+
+  def read(); end
+
+  def rewind(); end
+
+  def seek(position); end
+
+  def tell(); end
+end
+
+class Zip::FileSystem::ZipFsDirIterator
+end
+
+class Zip::FileSystem::ZipFsFile
+  def atime(filename); end
+
+  def basename(filename); end
+
+  def blockdev?(_filename); end
+
+  def chardev?(_filename); end
+
+  def chmod(mode, *filenames); end
+
+  def chown(owner, group, *filenames); end
+
+  def ctime(filename); end
+
+  def delete(*args); end
+
+  def dir=(dir); end
+
+  def directory?(filename); end
+
+  def dirname(filename); end
+
+  def executable?(filename); end
+
+  def executable_real?(filename); end
+
+  def exist?(filename); end
+
+  def exists?(filename); end
+
+  def expand_path(path); end
+
+  def file?(filename); end
+
+  def foreach(filename, sep=T.unsafe(nil), &a_proc); end
+
+  def ftype(filename); end
+
+  def grpowned?(filename); end
+
+  def initialize(mapped_zip); end
+
+  def join(*fragments); end
+
+  def link(_filename, _symlink_name); end
+
+  def lstat(filename); end
+
+  def mtime(filename); end
+
+  def new(filename, mode=T.unsafe(nil)); end
+
+  def open(filename, mode=T.unsafe(nil), permissions=T.unsafe(nil), &block); end
+
+  def owned?(filename); end
+
+  def pipe(); end
+
+  def pipe?(_filename); end
+
+  def popen(*args, &a_proc); end
+
+  def read(filename); end
+
+  def readable?(filename); end
+
+  def readable_real?(filename); end
+
+  def readlines(filename); end
+
+  def readlink(_filename); end
+
+  def rename(file_to_rename, new_name); end
+
+  def setgid?(filename); end
+
+  def setuid?(filename); end
+
+  def size(filename); end
+
+  def size?(filename); end
+
+  def socket?(_filename); end
+
+  def split(filename); end
+
+  def stat(filename); end
+
+  def sticky?(filename); end
+
+  def symlink(_filename, _symlink_name); end
+
+  def symlink?(_filename); end
+
+  def truncate(_filename, _len); end
+
+  def umask(*args); end
+
+  def unlink(*args); end
+
+  def utime(modified_time, *filenames); end
+
+  def writable?(filename); end
+
+  def writable_real?(filename); end
+
+  def zero?(filename); end
+end
+
+class Zip::FileSystem::ZipFsFile::ZipFsStat
+  def atime(); end
+
+  def blksize(); end
+
+  def blockdev?(); end
+
+  def blocks(); end
+
+  def chardev?(); end
+
+  def ctime(); end
+
+  def dev(); end
+
+  def directory?(); end
+
+  def executable?(); end
+
+  def executable_real?(); end
+
+  def file?(); end
+
+  def ftype(); end
+
+  def gid(); end
+
+  def grpowned?(); end
+
+  def initialize(zip_fs_file, entry_name); end
+
+  def ino(); end
+
+  def kind_of?(type); end
+
+  def mode(); end
+
+  def mtime(); end
+
+  def nlink(); end
+
+  def owned?(); end
+
+  def pipe?(); end
+
+  def rdev(); end
+
+  def rdev_major(); end
+
+  def rdev_minor(); end
+
+  def readable?(); end
+
+  def readable_real?(); end
+
+  def setgid?(); end
+
+  def setuid?(); end
+
+  def size(); end
+
+  def size?(); end
+
+  def socket?(); end
+
+  def sticky?(); end
+
+  def symlink?(); end
+
+  def uid(); end
+
+  def writable?(); end
+
+  def writable_real?(); end
+
+  def zero?(); end
+end
+
+class Zip::FileSystem::ZipFsFile::ZipFsStat
+  def self.delegate_to_fs_file(*methods); end
+end
+
+class Zip::FileSystem::ZipFsFile
+end
+
+module Zip::FileSystem
+end
+
+class Zip::GPFBit3Error
+end
+
+class Zip::GPFBit3Error
+end
+
 module Zip::IOExtras
   CHUNK_SIZE = ::T.let(nil, ::T.untyped)
   RANGE_ALL = ::T.let(nil, ::T.untyped)
 end
 
 module Zip::IOExtras::AbstractInputStream
+  include ::Enumerable
   include ::ActiveSupport::ToJsonWithActiveSupportEncoder
+  include ::Zip::IOExtras::FakeIO
+  def each(a_sep_string=T.unsafe(nil), &blk); end
+
+  def each_line(a_sep_string=T.unsafe(nil)); end
+
+  def eof(); end
+
+  def eof?(); end
+
+  def flush(); end
+
+  def gets(a_sep_string=T.unsafe(nil), number_of_bytes=T.unsafe(nil)); end
+
+  def initialize(); end
+
+  def lineno(); end
+
+  def lineno=(lineno); end
+
+  def pos(); end
+
+  def read(number_of_bytes=T.unsafe(nil), buf=T.unsafe(nil)); end
+
+  def readline(a_sep_string=T.unsafe(nil)); end
+
+  def readlines(a_sep_string=T.unsafe(nil)); end
+
+  def ungetc(byte); end
+end
+
+module Zip::IOExtras::AbstractInputStream
+end
+
+module Zip::IOExtras::AbstractOutputStream
+  include ::Zip::IOExtras::FakeIO
+  def print(*params); end
+
+  def printf(a_format_string, *params); end
+
+  def putc(an_object); end
+
+  def puts(*params); end
+
+  def write(data); end
+end
+
+module Zip::IOExtras::AbstractOutputStream
+end
+
+module Zip::IOExtras::FakeIO
+  def kind_of?(object); end
+end
+
+module Zip::IOExtras::FakeIO
+end
+
+module Zip::IOExtras
+  def self.copy_stream(ostream, istream); end
+
+  def self.copy_stream_n(ostream, istream, nbytes); end
+end
+
+class Zip::Inflater
+  def eof(); end
+
+  def eof?(); end
+
+  def initialize(*args); end
+
+  def read(length=T.unsafe(nil), outbuf=T.unsafe(nil)); end
+end
+
+class Zip::Inflater
 end
 
 class Zip::InputStream
+  include ::Zip::IOExtras::AbstractInputStream
+  include ::Enumerable
+  include ::Zip::IOExtras::FakeIO
+  def close(); end
+
+  def get_decompressor(); end
+
+  def get_decrypted_io(); end
+
+  def get_io(io_or_file, offset=T.unsafe(nil)); end
+
+  def get_next_entry(); end
+
+  def initialize(context, offset=T.unsafe(nil), decrypter=T.unsafe(nil)); end
+
+  def input_finished?(); end
+
+  def open_entry(); end
+
+  def produce_input(); end
+
+  def rewind(); end
+
+  def sysread(length=T.unsafe(nil), outbuf=T.unsafe(nil)); end
   CHUNK_SIZE = ::T.let(nil, ::T.untyped)
 end
 
+class Zip::InputStream
+  def self.open(filename_or_io, offset=T.unsafe(nil), decrypter=T.unsafe(nil)); end
+
+  def self.open_buffer(filename_or_io, offset=T.unsafe(nil)); end
+end
+
+class Zip::NullCompressor
+  include ::Singleton
+  def <<(_data); end
+
+  def compressed_size(); end
+
+  def size(); end
+end
+
+class Zip::NullCompressor
+  extend ::Singleton::SingletonClassMethods
+  def self.instance(); end
+end
+
+module Zip::NullDecompressor
+end
+
+module Zip::NullDecompressor
+  def self.eof(); end
+
+  def self.read(_length=T.unsafe(nil), _outbuf=T.unsafe(nil)); end
+end
+
+class Zip::NullDecrypter
+  include ::Zip::NullEncryption
+  def decrypt(data); end
+
+  def reset!(_header); end
+end
+
+class Zip::NullDecrypter
+end
+
+class Zip::NullEncrypter
+  include ::Zip::NullEncryption
+  def data_descriptor(_crc32, _compressed_size, _uncomprssed_size); end
+
+  def encrypt(data); end
+
+  def header(_mtime); end
+
+  def reset!(); end
+end
+
+class Zip::NullEncrypter
+end
+
+module Zip::NullEncryption
+  def gp_flags(); end
+
+  def header_bytesize(); end
+end
+
+module Zip::NullEncryption
+end
+
 module Zip::NullInputStream
+  include ::Zip::NullDecompressor
+  include ::Zip::IOExtras::AbstractInputStream
+  include ::Enumerable
   include ::ActiveSupport::ToJsonWithActiveSupportEncoder
+  include ::Zip::IOExtras::FakeIO
+end
+
+module Zip::NullInputStream
+end
+
+class Zip::OutputStream
+  include ::Zip::IOExtras::AbstractOutputStream
+  include ::Zip::IOExtras::FakeIO
+  def <<(data); end
+
+  def close(); end
+
+  def close_buffer(); end
+
+  def comment(); end
+
+  def comment=(comment); end
+
+  def copy_raw_entry(entry); end
+
+  def finish(); end
+
+  def initialize(file_name, stream=T.unsafe(nil), encrypter=T.unsafe(nil)); end
+
+  def put_next_entry(entry_name, comment=T.unsafe(nil), extra=T.unsafe(nil), compression_method=T.unsafe(nil), level=T.unsafe(nil)); end
+end
+
+class Zip::OutputStream
+  def self.open(file_name, encrypter=T.unsafe(nil)); end
+
+  def self.write_buffer(io=T.unsafe(nil), encrypter=T.unsafe(nil)); end
+end
+
+class Zip::PassThruCompressor
+  def <<(data); end
+
+  def crc(); end
+
+  def initialize(output_stream); end
+
+  def size(); end
+end
+
+class Zip::PassThruCompressor
+end
+
+class Zip::PassThruDecompressor
+  def eof(); end
+
+  def eof?(); end
+
+  def initialize(*args); end
+
+  def read(length=T.unsafe(nil), outbuf=T.unsafe(nil)); end
+end
+
+class Zip::PassThruDecompressor
+end
+
+class Zip::StreamableDirectory
+  def initialize(zipfile, entry, src_path=T.unsafe(nil), permission=T.unsafe(nil)); end
+end
+
+class Zip::StreamableDirectory
 end
 
 class Zip::StreamableStream
+  def clean_up(); end
+
+  def get_input_stream(); end
+
+  def get_output_stream(); end
+
+  def initialize(entry); end
+
+  def write_to_zip_output_stream(output_stream); end
+end
+
+class Zip::StreamableStream
+end
+
+class Zip::TraditionalDecrypter
+  include ::Zip::TraditionalEncryption
+  def decrypt(data); end
+
+  def reset!(header); end
+end
+
+class Zip::TraditionalDecrypter
+end
+
+class Zip::TraditionalEncrypter
+  include ::Zip::TraditionalEncryption
+  def data_descriptor(crc32, compressed_size, uncomprssed_size); end
+
+  def encrypt(data); end
+
+  def header(mtime); end
+
+  def reset!(); end
+end
+
+class Zip::TraditionalEncrypter
+end
+
+module Zip::TraditionalEncryption
+  def decrypt_byte(); end
+
+  def gp_flags(); end
+
+  def header_bytesize(); end
+
+  def initialize(password); end
+
+  def reset_keys!(); end
+
+  def update_keys(num); end
+end
+
+module Zip::TraditionalEncryption
 end
 
 Zip::ZipCompressionMethodError = Zip::CompressionMethodError
@@ -28360,6 +36081,10 @@ Zip::ZipEntryNameError = Zip::EntryNameError
 Zip::ZipError = Zip::Error
 
 Zip::ZipInternalError = Zip::InternalError
+
+module Zip
+  extend ::Zip
+end
 
 class Zlib::Deflate
   def initialize(*arg); end
