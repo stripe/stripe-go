@@ -1,3 +1,4 @@
+# typed: strict
 module Api
   class RetryController < Controller
 

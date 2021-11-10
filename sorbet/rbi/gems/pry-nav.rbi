@@ -27,9 +27,3 @@ class Pry
   def self.start_with_pry_nav(target = nil, options = nil); end
   def self.start_without_pry_nav(target = nil, options = nil); end
 end
-module PryRemote
-end
-class PryRemote::Server
-  def teardown_with_pry_nav; end
-  def teardown_without_pry_nav; end
-end

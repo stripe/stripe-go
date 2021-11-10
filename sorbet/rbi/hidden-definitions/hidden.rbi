@@ -355,6 +355,9 @@ module ActionDispatch::Http::Cache::Response
   NO_STORE = ::T.let(nil, ::T.untyped)
 end
 
+module ActionDispatch::Integration
+end
+
 module ActionDispatch::Integration::RequestHelpers
   def delete(path, **args); end
 
@@ -371,6 +374,9 @@ module ActionDispatch::Integration::RequestHelpers
   def post(path, **args); end
 
   def put(path, **args); end
+end
+
+module ActionDispatch::Integration::RequestHelpers
 end
 
 module ActionDispatch::Integration::Runner
@@ -508,6 +514,9 @@ class ActionDispatch::Integration::Session
   def self.default_url_options=(value); end
 
   def self.default_url_options?(); end
+end
+
+module ActionDispatch::Integration
 end
 
 class ActionDispatch::IntegrationTest
@@ -2870,11 +2879,14 @@ module ActiveRecord::AutosaveAssociation
 end
 
 class ActiveRecord::Base
+  include ::ActiveRecord::Scoping::Default
   include ::ActiveModel::AttributeAssignment
   include ::ActiveModel::ForbiddenAttributesProtection
   include ::ActiveRecord::Validations
   include ::ActiveRecord::Base::GeneratedAttributeMethods
   include ::ActiveRecord::Base::GeneratedAssociationMethods
+  include ::ActiveRecord::AttributeMethods::BeforeTypeCast
+  include ::ActiveRecord::AttributeMethods::Query
   include ::ActiveModel::Dirty
   include ::ActiveModel::Serializers::JSON
   include ::ActiveModel::Serialization
@@ -3091,6 +3103,7 @@ class ActiveRecord::Base
   extend ::ActiveModel::Translation
   extend ::ActiveRecord::DelegatedType
   extend ::ActiveRecord::Enum
+  extend ::ActiveRecord::Delegation::DelegateCache
   extend ::ActiveRecord::Aggregations::ClassMethods
   extend ::ActiveRecord::Scoping::ClassMethods
   extend ::ActiveRecord::Integration::ClassMethods
@@ -3544,6 +3557,9 @@ module ActiveRecord::Calculations
   def pluck(*column_names); end
 
   def sum(column_name=T.unsafe(nil)); end
+end
+
+module ActiveRecord::Calculations
 end
 
 module ActiveRecord::Callbacks
@@ -5269,6 +5285,9 @@ module ActiveRecord::Delegation::DelegateCache
   def initialize_relation_delegate_cache(); end
 
   def relation_delegate_class(klass); end
+end
+
+module ActiveRecord::Delegation::DelegateCache
 end
 
 module ActiveRecord::Delegation
@@ -7020,6 +7039,9 @@ class ActiveRecord::SchemaMigration
 end
 
 module ActiveRecord::Scoping::Default
+end
+
+module ActiveRecord::Scoping::Default
   extend ::ActiveSupport::Concern
 end
 
@@ -7082,6 +7104,9 @@ module ActiveRecord::SpawnMethods
   def only(*onlies); end
 
   def spawn(); end
+end
+
+module ActiveRecord::SpawnMethods
 end
 
 class ActiveRecord::StatementCache
@@ -7443,6 +7468,9 @@ class ActiveRecord::Tasks::SQLiteDatabaseTasks
 end
 
 module ActiveRecord::TestDatabases
+end
+
+module ActiveRecord::TestDatabases
   def self.create_and_load_schema(i, env_name:); end
 end
 
@@ -7470,6 +7498,9 @@ module ActiveRecord::TestFixtures::ClassMethods
   def uses_transaction(*methods); end
 
   def uses_transaction?(method); end
+end
+
+module ActiveRecord::TestFixtures::ClassMethods
 end
 
 module ActiveRecord::TestFixtures
@@ -8189,6 +8220,10 @@ end
 
 class Addrinfo
   def connect_internal(local_addrinfo, timeout=T.unsafe(nil)); end
+end
+
+class Api::Controller
+  include ::GeneratedUrlHelpers
 end
 
 class ApplicationController
@@ -14020,6 +14055,14 @@ module GeneratedUrlHelpers
   def rails_info_routes_url(*args); end
 
   def rails_info_url(*args); end
+
+  def v1_account_path(*args); end
+
+  def v1_account_url(*args); end
+
+  def v1_path(*args); end
+
+  def v1_url(*args); end
 end
 
 module GeneratedUrlHelpers
@@ -15261,12 +15304,12 @@ module Integrations::Utilities::Currency
   extend ::T::Private::Methods::SingletonMethodHooks
 end
 
-module Integrations::Utilities::Stripe
+module Integrations::Utilities::StripeUtil
   include ::ActiveSupport::ForkTracker::CoreExtPrivate
   include ::ActiveSupport::ForkTracker::CoreExt
 end
 
-module Integrations::Utilities::Stripe
+module Integrations::Utilities::StripeUtil
   extend ::T::Private::Abstract::Hooks
   extend ::T::InterfaceWrapper::Helpers
   extend ::T::Private::Methods::MethodHooks
@@ -19702,8 +19745,6 @@ end
 
 class Pathname
   def fnmatch?(*arg); end
-
-  def glob(*arg); end
 
   def make_symlink(arg); end
 end
@@ -24563,6 +24604,11 @@ end
 class StripeForce::PollerBase
   extend ::T::Private::Abstract::Hooks
   extend ::T::InterfaceWrapper::Helpers
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
+class StripeForce::Translate
   extend ::T::Private::Methods::MethodHooks
   extend ::T::Private::Methods::SingletonMethodHooks
 end
