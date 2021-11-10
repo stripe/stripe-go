@@ -23,6 +23,7 @@ Sentry::BackgroundWorker.class_eval do
 
     return if @executor.class != Concurrent::ThreadPoolExecutor
 
+    # https://github.com/ruby-shoryuken/shoryuken/blob/0d89335abca86021a9d9036a93d43233aa8b061c/lib/shoryuken/launcher.rb#L26-L33
     @executor.shutdown
     return if @executor.wait_for_termination(timeout)
     @executor.kill
