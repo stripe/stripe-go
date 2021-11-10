@@ -1,7 +1,7 @@
 module CommonHelpers
   include StripeForce::Constants
 
-  def make_user(sandbox: false, save: false)
+  def make_user(sandbox: false, save: false, random_user_id: false)
     user = StripeForce::User.new(
       livemode: false,
 
@@ -10,7 +10,11 @@ module CommonHelpers
       salesforce_refresh_token: ENV.fetch('SF_REFRESH_TOKEN'),
       salesforce_instance_url: "https://#{ENV.fetch('SF_INSTANCE_DOMAIN')}.my.salesforce.com",
 
-      stripe_account_id: ENV.fetch('STRIPE_ACCOUNT_ID')
+      stripe_account_id: if random_user_id
+        create_id("acct_")
+      else
+        ENV.fetch('STRIPE_ACCOUNT_ID')
+      end
     )
 
     # TODO major hack until we figure out what we are doing with snadboxes

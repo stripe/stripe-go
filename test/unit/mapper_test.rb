@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 # typed: true
+
 require_relative '../_lib'
 
 module Critic::Unit
-  class NetSuiteAnnotatorTest < Critic::Test
+  class MapperTest < Critic::UnitTest
     before do
       @user = make_user(random_user_id: true)
-      @user.disable_feature(:annotator_v2)
-
-      @annotator = StripeSuite::Annotator.new(@user)
+      @annotator = Integrations::Mapper.new(@user)
     end
 
     it 'properly saves the annotator hashes' do
@@ -24,25 +23,25 @@ module Critic::Unit
         },
       }
 
-      @user.netsuite_static_annotations = annotation_table
-      @user.netsuite_dynamic_annotations = annotation_table
+      @user.field_defaults = annotation_table
+      @user.field_mappings = annotation_table
       @user.save
 
-      @user = T.must(StripeSuite::User.find(id: @user.id))
+      @user = T.must(StripeForce::User.find(id: @user.id))
 
-      assert_equal(annotation_table, @user.netsuite_static_annotations)
-      assert_equal(annotation_table, @user.netsuite_dynamic_annotations)
+      assert_equal(annotation_table, @user.field_defaults)
+      assert_equal(annotation_table, @user.field_mappings)
     end
 
     it 'assigns field values from static user table' do
-      @user.netsuite_static_annotations = {
+      @user.field_defaults = {
         "customer" => {
           "subsidiary_id" => 1,
           "custentity_invoiceform_id" => 104,
           "terms_id" => 2,
           "account_number" => 123,
         },
-        "sales_order" => {
+        "subscription_schedule" => {
           "account_id" => 3,
         },
         "invoice" => {
@@ -50,9 +49,9 @@ module Critic::Unit
         },
       }
 
-      ns_customer = NetSuite::Records::Customer.new
-      ns_sales_order = NetSuite::Records::SalesOrder.new
-      ns_invoice = NetSuite::Records::Invoice.new
+      stripe_customer = NetSuite::Records::Customer.new
+      stripe_sales_order = NetSuite::Records::SalesOrder.new
+      stripe_invoice = NetSuite::Records::Invoice.new
 
       # static annotations don't use stripe data; some legacy annotations do
       stripe_customer = Stripe::Customer.construct_from(id: create_id(:cus))
@@ -72,7 +71,7 @@ module Critic::Unit
     end
 
     it 'assigns field values from the dynamic user table and stripe resource metadata' do
-      @user.netsuite_dynamic_annotations = {
+      @user.field_mappings = {
         "customer" => {
           "ns_alt_name" => "alt_name",
           "ns_invoice_form_id" => "custentity_invoiceform_id",
@@ -122,13 +121,13 @@ module Critic::Unit
     end
 
     it 'defaults to the static table when metadata for the dynamic table value is not defined' do
-      @user.netsuite_static_annotations = {
+      @user.field_defaults = {
         "customer" => {
           "alt_name" => "Mike",
         },
       }
 
-      @user.netsuite_dynamic_annotations = {
+      @user.field_mappings = {
         "customer" => {
           "ns_alt_name" => "alt_name",
         },
@@ -178,7 +177,7 @@ module Critic::Unit
     # TODO this spec tests two approaches: we should eliminate the `cash_back_list_department_id` approach
     #      and use sublist item annotations instead
     it 'handles deposit sublist annotations' do
-      @user.netsuite_static_annotations['deposit_cash_back'] = {
+      @user.field_defaults['deposit_cash_back'] = {
         'department_id' => 1000,
         'klass_id' => nil,
       }
@@ -200,7 +199,7 @@ module Critic::Unit
 
       # https://github.com/stripe/stripe-netsuite/issues/825
       it 'handles associated object annotation' do
-        @user.netsuite_dynamic_annotations['invoice'] = {
+        @user.field_mappings['invoice'] = {
           'metadata.random_thing' => 'custbody_random',
           'metadata.random_float' => 'custbody_random_float',
           'id' => 'custbody_invoiceid',
@@ -217,7 +216,7 @@ module Critic::Unit
           'subscription.id' => 'custbody_subscriptionid',
         }
 
-        @user.netsuite_dynamic_annotations['invoice_item'] = {
+        @user.field_mappings['invoice_item'] = {
           'metadata.foo' => 'description',
         }
 
@@ -307,7 +306,7 @@ module Critic::Unit
           metadata: {}
         )
 
-        @user.netsuite_dynamic_annotations['customer_payment'] = {
+        @user.field_mappings['customer_payment'] = {
           'payment_intent.metadata.foo' => 'custbody_foo',
         }
 
@@ -316,83 +315,6 @@ module Critic::Unit
         @annotator.annotate(ns_customer_payment, charge)
 
         assert_equal(ns_customer_payment.custom_field_list.custbody_foo.value, 'bar')
-      end
-    end
-
-    # https://github.com/stripe/stripe-netsuite/issues/257
-    it 'handles annotating sublists that do not have unique sublist item classes' do
-      @user.netsuite_static_annotations['service_sale_item'] = {
-        'subsidiary_id' => 102,
-      }
-
-      ns_item = NetSuite::Records::ServiceSaleItem.new
-
-      @annotator.annotate(ns_item)
-
-      assert_equal(102, ns_item.subsidiary_list.record_ref.first.internal_id.to_i)
-    end
-
-    # https://jira.corp.stripe.com/browse/DATAIO-170
-    it 'gracefully fails with an error when a custom field is provided, but no custom field exists on the record' do
-      @user.netsuite_static_annotations['deposit_other'] = {
-        "custentity_cseg1" => 39,
-        "location_id" => 1,
-      }
-
-      # this record type does not contain a custom field list, this is very rare
-      ns_deposit_other = NetSuite::Records::DepositOther.new
-      refute(ns_deposit_other.respond_to?(:custom_field_list))
-
-      @annotator.annotate(ns_deposit_other)
-
-      assert_equal(1, ns_deposit_other.location.internal_id)
-    end
-
-    describe 'compound annotations' do
-      before { @user.enable_feature(:annotator_v2) }
-
-      it 'uses the same field defaults/static annotations key' do
-        @user.netsuite_static_annotations['credit_memo'] = {
-          "location_id" => 1,
-        }
-
-        ns_memo = NetSuite::Records::CreditMemo.new
-        stripe_credit_note = Stripe::CreditNote.construct_from(id: create_id(:cn))
-
-        @annotator.annotate(ns_memo, stripe_credit_note)
-
-        assert_equal(1, ns_memo.location.internal_id)
-      end
-
-      it 'uses a different dynamic annotations key' do
-        @user.netsuite_dynamic_annotations = {
-          "credit_memo_credit_note" => {
-            "memo" => "memo",
-            "metadata.custom_data" => 'other_ref_num',
-          },
-
-          "credit_memo": {
-            "memo" => "email",
-            "metadata.custom_data" => 'vat_reg_num',
-          },
-        }
-
-        ns_memo = NetSuite::Records::CreditMemo.new
-        stripe_credit_note = Stripe::CreditNote.construct_from(
-          id: create_id(:cn),
-          memo: 'amazing memo',
-          metadata: {
-            custom_data: 'custom data',
-          }
-        )
-
-        @annotator.annotate(ns_memo, stripe_credit_note)
-
-        assert_match("amazing memo", ns_memo.memo)
-        assert_equal('custom data', ns_memo.other_ref_num)
-
-        assert_nil(ns_memo.email)
-        assert_nil(ns_memo.vat_reg_num)
       end
     end
   end
