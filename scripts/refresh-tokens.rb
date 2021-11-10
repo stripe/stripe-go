@@ -1,5 +1,5 @@
 # typed: strict
-require File.expand_path('../config/boot', __dir__)
+require File.expand_path('../config/environment', __dir__)
 
 user = StripeForce::User.find(salesforce_account_id: ENV.fetch('SF_INSTANCE_ID'))
 
@@ -10,7 +10,9 @@ EOL
 
 puts shell_vars
 
-shell_vars.split("\n").each do |var|
-  name, value = var.split("=", 2)
-  `sed -i '' -e 's/#{name}.*/#{name}=#{value}/' '.env'`
+if Rails.env.development?
+  shell_vars.split("\n").each do |var|
+    name, value = var.split("=", 2)
+    `sed -i '' -e 's/#{name}.*/#{name}=#{value}/' '.env'`
+  end
 end

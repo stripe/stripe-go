@@ -19,7 +19,7 @@ class SequelSorbetPlugin
       type = base_type.to_s
       # A nullable array column should be T.nilable(T::Array[column_type]) not T::Array[T.nilable(column_type)]
       type = "T::Array[#{type}]" if array_type
-      type = "T.any(Array, Hash)" if json_type
+      type = "T.any(T::Array[T.untyped], T::Hash[String, T.untyped])" if json_type
       type = "T.nilable(#{type})" if nilable
       type
     end
