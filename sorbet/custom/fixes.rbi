@@ -6,6 +6,10 @@ class ActionController::Base
   def self.protect_from_forgery(*args); end
 end
 
+class ActiveSupport::StringInquirer
+  def development?; end
+end
+
 class ActionController::API
   include AbstractController::Rendering
   def render(*args, &block); end
