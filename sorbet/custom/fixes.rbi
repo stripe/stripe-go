@@ -6,6 +6,11 @@ class ActionController::Base
   def self.protect_from_forgery(*args); end
 end
 
+class ActionController::API
+  include AbstractController::Rendering
+  def render(*args, &block); end
+end
+
 class StripeForce::User
   sig { returns(T::Array[String]) }
   def feature_flags; end
