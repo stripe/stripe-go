@@ -136,7 +136,7 @@ class StripeForce::Translate
       # TODO we probably shouldn't overwrite the price on the SF object in this case, need to think this through
       if stripe_price && stripe_price.unit_amount != unit_price_for_stripe
         report_edge_case("specified price is different than stripe price", integration_record: sf_order_item, stripe_resource: stripe_price)
-        stripe_price = nil
+        stripe_price = nil # rubocop:disable Lint/UselessAssignment
       end
     end
 
