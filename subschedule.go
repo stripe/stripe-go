@@ -116,8 +116,8 @@ type SubscriptionSchedulePhaseParams struct {
 	DefaultTaxRates       []*string                                        `form:"default_tax_rates"`
 	EndDate               *int64                                           `form:"end_date"`
 	InvoiceSettings       *SubscriptionScheduleInvoiceSettingsParams       `form:"invoice_settings"`
-	Iterations            *int64                                           `form:"iterations"`
 	Items                 []*SubscriptionSchedulePhaseItemParams           `form:"items"`
+	Iterations            *int64                                           `form:"iterations"`
 	ProrationBehavior     *string                                          `form:"proration_behavior"`
 	StartDate             *int64                                           `form:"start_date"`
 	TransferData          *SubscriptionTransferDataParams                  `form:"transfer_data"`
@@ -133,8 +133,8 @@ type SubscriptionScheduleParams struct {
 	DefaultSettings   *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
 	EndBehavior       *string                                    `form:"end_behavior"`
 	FromSubscription  *string                                    `form:"from_subscription"`
-	ProrationBehavior *string                                    `form:"proration_behavior"`
 	Phases            []*SubscriptionSchedulePhaseParams         `form:"phases"`
+	ProrationBehavior *string                                    `form:"proration_behavior"`
 	StartDate         *int64                                     `form:"start_date"`
 	StartDateNow      *bool                                      `form:"-"` // See custom AppendTo
 }

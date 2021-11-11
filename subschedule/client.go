@@ -14,16 +14,15 @@ type Client struct {
 	Key string
 }
 
-// Cancel removes a subscription schedule.
-func Cancel(id string, params *stripe.SubscriptionScheduleCancelParams) (*stripe.SubscriptionSchedule, error) {
-	return getC().Cancel(id, params)
+// New creates a new subscription schedule.
+func New(params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
+	return getC().New(params)
 }
 
-// Cancel removes a subscription schedule.
-func (c Client) Cancel(id string, params *stripe.SubscriptionScheduleCancelParams) (*stripe.SubscriptionSchedule, error) {
-	path := stripe.FormatURLPath("/v1/subscription_schedules/%s/cancel", id)
+// New creates a new subscription schedule.
+func (c Client) New(params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
 	sched := &stripe.SubscriptionSchedule{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, sched)
+	err := c.B.Call(http.MethodPost, "/v1/subscription_schedules", c.Key, params, sched)
 	return sched, err
 }
 
@@ -37,6 +36,47 @@ func (c Client) Get(id string, params *stripe.SubscriptionScheduleParams) (*stri
 	path := stripe.FormatURLPath("/v1/subscription_schedules/%s", id)
 	sched := &stripe.SubscriptionSchedule{}
 	err := c.B.Call(http.MethodGet, path, c.Key, params, sched)
+	return sched, err
+}
+
+// Update updates a subscription schedule's properties.
+func Update(id string, params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
+	return getC().Update(id, params)
+}
+
+// Update updates a subscription schedule's properties.
+func (c Client) Update(id string, params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
+	path := stripe.FormatURLPath("/v1/subscription_schedules/%s", id)
+	sched := &stripe.SubscriptionSchedule{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, sched)
+
+	return sched, err
+}
+
+// Cancel removes a subscription schedule.
+func Cancel(id string, params *stripe.SubscriptionScheduleCancelParams) (*stripe.SubscriptionSchedule, error) {
+	return getC().Cancel(id, params)
+}
+
+// Cancel removes a subscription schedule.
+func (c Client) Cancel(id string, params *stripe.SubscriptionScheduleCancelParams) (*stripe.SubscriptionSchedule, error) {
+	path := stripe.FormatURLPath("/v1/subscription_schedules/%s/cancel", id)
+	sched := &stripe.SubscriptionSchedule{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, sched)
+	return sched, err
+}
+
+// Release releases a subscription schedule's properties.
+func Release(id string, params *stripe.SubscriptionScheduleReleaseParams) (*stripe.SubscriptionSchedule, error) {
+	return getC().Release(id, params)
+}
+
+// Release releases a subscription schedule's properties.
+func (c Client) Release(id string, params *stripe.SubscriptionScheduleReleaseParams) (*stripe.SubscriptionSchedule, error) {
+	path := stripe.FormatURLPath("/v1/subscription_schedules/%s/release", id)
+	sched := &stripe.SubscriptionSchedule{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, sched)
+
 	return sched, err
 }
 
@@ -58,46 +98,6 @@ func (c Client) List(listParams *stripe.SubscriptionScheduleListParams) *Iter {
 
 		return ret, list, err
 	})}
-}
-
-// New creates a new subscription schedule.
-func New(params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
-	return getC().New(params)
-}
-
-// New creates a new subscription schedule.
-func (c Client) New(params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
-	sched := &stripe.SubscriptionSchedule{}
-	err := c.B.Call(http.MethodPost, "/v1/subscription_schedules", c.Key, params, sched)
-	return sched, err
-}
-
-// Release releases a subscription schedule's properties.
-func Release(id string, params *stripe.SubscriptionScheduleReleaseParams) (*stripe.SubscriptionSchedule, error) {
-	return getC().Release(id, params)
-}
-
-// Release releases a subscription schedule's properties.
-func (c Client) Release(id string, params *stripe.SubscriptionScheduleReleaseParams) (*stripe.SubscriptionSchedule, error) {
-	path := stripe.FormatURLPath("/v1/subscription_schedules/%s/release", id)
-	sched := &stripe.SubscriptionSchedule{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, sched)
-
-	return sched, err
-}
-
-// Update updates a subscription schedule's properties.
-func Update(id string, params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
-	return getC().Update(id, params)
-}
-
-// Update updates a subscription schedule's properties.
-func (c Client) Update(id string, params *stripe.SubscriptionScheduleParams) (*stripe.SubscriptionSchedule, error) {
-	path := stripe.FormatURLPath("/v1/subscription_schedules/%s", id)
-	sched := &stripe.SubscriptionSchedule{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, sched)
-
-	return sched, err
 }
 
 // Iter is an iterator for subscription schedules.

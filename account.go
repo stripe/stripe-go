@@ -298,29 +298,29 @@ type AccountCapabilitiesTransfersParams struct {
 
 // AccountCapabilitiesParams represent allowed parameters to configure capabilities on an account.
 type AccountCapabilitiesParams struct {
-	ACSSDebitPayments       *AccountCapabilitiesACSSDebitPaymentsParams       `form:"acss_debit_payments"`
-	AUBECSDebitPayments     *AccountCapabilitiesAUBECSDebitPaymentsParams     `form:"au_becs_debit_payments"`
-	BACSDebitPayments       *AccountCapabilitiesBACSDebitPaymentsParams       `form:"bacs_debit_payments"`
-	BancontactPayments      *AccountCapabilitiesBancontactPaymentsParams      `form:"bancontact_payments"`
-	BoletoPayments          *AccountCapabilitiesBoletoPaymentsParams          `form:"boleto_payments"`
-	CardIssuing             *AccountCapabilitiesCardIssuingParams             `form:"card_issuing"`
-	CardPayments            *AccountCapabilitiesCardPaymentsParams            `form:"card_payments"`
-	CartesBancairesPayments *AccountCapabilitiesCartesBancairesPaymentsParams `form:"cartes_bancaires_payments"`
-	EPSPayments             *AccountCapabilitiesEPSPaymentsParams             `form:"eps_payments"`
-	FPXPayments             *AccountCapabilitiesFPXPaymentsParams             `form:"fpx_payments"`
-	GiropayPayments         *AccountCapabilitiesGiropayPaymentsParams         `form:"giropay_payments"`
-	GrabpayPayments         *AccountCapabilitiesGrabpayPaymentsParams         `form:"grabpay_payments"`
-	IdealPayments           *AccountCapabilitiesIdealPaymentsParams           `form:"ideal_payments"`
-	JCBPayments             *AccountCapabilitiesJCBPaymentsParams             `form:"jcb_payments"`
-	KlarnaPayments          *AccountCapabilitiesKlarnaPaymentsParams          `form:"klarna_payments"`
-	LegacyPayments          *AccountCapabilitiesLegacyPaymentsParams          `form:"legacy_payments"`
-	OXXOPayments            *AccountCapabilitiesOXXOPaymentsParams            `form:"oxxo_payments"`
-	P24Payments             *AccountCapabilitiesP24PaymentsParams             `form:"p24_payments"`
-	SEPADebitPayments       *AccountCapabilitiesSEPADebitPaymentsParams       `form:"sepa_debit_payments"`
-	SofortPayments          *AccountCapabilitiesSofortPaymentsParams          `form:"sofort_payments"`
-	TaxReportingUS1099K     *AccountCapabilitiesTaxReportingUS1099KParams     `form:"tax_reporting_us_1099_k"`
-	TaxReportingUS1099MISC  *AccountCapabilitiesTaxReportingUS1099MISCParams  `form:"tax_reporting_us_1099_misc"`
-	Transfers               *AccountCapabilitiesTransfersParams               `form:"transfers"`
+	ACSSDebitPayments        *AccountCapabilitiesACSSDebitPaymentsParams        `form:"acss_debit_payments"`
+	AUBECSDebitPayments      *AccountCapabilitiesAUBECSDebitPaymentsParams      `form:"au_becs_debit_payments"`
+	BACSDebitPayments        *AccountCapabilitiesBACSDebitPaymentsParams        `form:"bacs_debit_payments"`
+	BancontactPayments       *AccountCapabilitiesBancontactPaymentsParams       `form:"bancontact_payments"`
+	BoletoPayments           *AccountCapabilitiesBoletoPaymentsParams           `form:"boleto_payments"`
+	CardIssuing              *AccountCapabilitiesCardIssuingParams              `form:"card_issuing"`
+	CardPayments             *AccountCapabilitiesCardPaymentsParams             `form:"card_payments"`
+	CartesBancairesPayments  *AccountCapabilitiesCartesBancairesPaymentsParams  `form:"cartes_bancaires_payments"`
+	EPSPayments              *AccountCapabilitiesEPSPaymentsParams              `form:"eps_payments"`
+	FPXPayments              *AccountCapabilitiesFPXPaymentsParams              `form:"fpx_payments"`
+	GiropayPayments          *AccountCapabilitiesGiropayPaymentsParams          `form:"giropay_payments"`
+	GrabpayPayments          *AccountCapabilitiesGrabpayPaymentsParams          `form:"grabpay_payments"`
+	IdealPayments            *AccountCapabilitiesIdealPaymentsParams            `form:"ideal_payments"`
+	JCBPayments              *AccountCapabilitiesJCBPaymentsParams              `form:"jcb_payments"`
+	KlarnaPayments           *AccountCapabilitiesKlarnaPaymentsParams           `form:"klarna_payments"`
+	LegacyPayments           *AccountCapabilitiesLegacyPaymentsParams           `form:"legacy_payments"`
+	OXXOPayments             *AccountCapabilitiesOXXOPaymentsParams             `form:"oxxo_payments"`
+	P24Payments              *AccountCapabilitiesP24PaymentsParams              `form:"p24_payments"`
+	SEPADebitPayments        *AccountCapabilitiesSEPADebitPaymentsParams        `form:"sepa_debit_payments"`
+	SofortPayments           *AccountCapabilitiesSofortPaymentsParams           `form:"sofort_payments"`
+	TaxReportingUS1099K      *AccountCapabilitiesTaxReportingUS1099KParams      `form:"tax_reporting_us_1099_k"`
+	TaxReportingUS1099MISC   *AccountCapabilitiesTaxReportingUS1099MISCParams   `form:"tax_reporting_us_1099_misc"`
+	Transfers                *AccountCapabilitiesTransfersParams                `form:"transfers"`
 }
 
 // This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
@@ -356,9 +356,9 @@ type AccountCompanyParams struct {
 	// This parameter can only be used on Token creation.
 	OwnershipDeclarationShownAndSigned *bool                             `form:"ownership_declaration_shown_and_signed"`
 	OwnersProvided                     *bool                             `form:"owners_provided"`
+	Phone                              *string                           `form:"phone"`
 	RegistrationNumber                 *string                           `form:"registration_number"`
 	Structure                          *string                           `form:"structure"`
-	Phone                              *string                           `form:"phone"`
 	TaxID                              *string                           `form:"tax_id"`
 	TaxIDRegistrar                     *string                           `form:"tax_id_registrar"`
 	VATID                              *string                           `form:"vat_id"`
@@ -426,6 +426,12 @@ type AccountDocumentsParams struct {
 	ProofOfRegistration              *AccountDocumentsProofOfRegistrationParams              `form:"proof_of_registration"`
 }
 
+// AccountSettingsBACSDebitPaymentsParams represent allowed parameters to configure settings specific to
+// BACS Debit charging on the account.
+type AccountSettingsBACSDebitPaymentsParams struct {
+	DisplayName *string `form:"display_name"`
+}
+
 // AccountSettingsBrandingParams represent allowed parameters to configure settings specific to the
 // account’s branding.
 type AccountSettingsBrandingParams struct {
@@ -438,12 +444,6 @@ type AccountSettingsBrandingParams struct {
 // AccountSettingsCardIssuingParams represent allowed parameters relating to the acceptance of the terms of service agreement.
 type AccountSettingsCardIssuingParams struct {
 	TOSAcceptance *AccountTOSAcceptanceParams `form:"tos_acceptance"`
-}
-
-// AccountSettingsBACSDebitPaymentsParams represent allowed parameters to configure settings specific to
-// BACS Debit charging on the account.
-type AccountSettingsBACSDebitPaymentsParams struct {
-	DisplayName *string `form:"display_name"`
 }
 
 // AccountSettingsCardPaymentsParams represent allowed parameters to configure settings specific to
@@ -544,13 +544,13 @@ type AccountAddressParams struct {
 type AccountTOSAcceptanceParams struct {
 	Date             *int64  `form:"date"`
 	IP               *string `form:"ip"`
-	UserAgent        *string `form:"user_agent"`
 	ServiceAgreement *string `form:"service_agreement"`
+	UserAgent        *string `form:"user_agent"`
 }
 
 // AccountListParams are the parameters allowed during account listing.
 type AccountListParams struct {
-	ListParams `form:"*"`
+	ListParams   `form:"*"`
 }
 
 // AccountRejectParams is the structure for the Reject function.
@@ -598,28 +598,28 @@ type AccountBusinessProfile struct {
 
 // AccountCapabilities is the resource representing the capabilities enabled on that account.
 type AccountCapabilities struct {
-	ACSSDebitPayments       AccountCapabilityStatus `json:"acss_debit_payments"`
-	AUBECSDebitPayments     AccountCapabilityStatus `json:"au_becs_debit_payments"`
-	BACSDebitPayments       AccountCapabilityStatus `json:"bacs_debit_payments"`
-	BancontactPayments      AccountCapabilityStatus `json:"bancontact_payments"`
-	CardIssuing             AccountCapabilityStatus `json:"card_issuing"`
-	CardPayments            AccountCapabilityStatus `json:"card_payments"`
-	CartesBancairesPayments AccountCapabilityStatus `json:"cartes_bancaires_payments"`
-	EPSPayments             AccountCapabilityStatus `json:"eps_payments"`
-	FPXPayments             AccountCapabilityStatus `json:"fpx_payments"`
-	GiropayPayments         AccountCapabilityStatus `json:"giropay_payments"`
-	GrabpayPayments         AccountCapabilityStatus `json:"grabpay_payments"`
-	IdealPayments           AccountCapabilityStatus `json:"ideal_payments"`
-	JCBPayments             AccountCapabilityStatus `json:"jcb_payments"`
-	KlarnaPayments          AccountCapabilityStatus `json:"klarna_payments"`
-	LegacyPayments          AccountCapabilityStatus `json:"legacy_payments"`
-	OXXOPayments            AccountCapabilityStatus `json:"oxxo_payments"`
-	P24Payments             AccountCapabilityStatus `json:"p24_payments"`
-	SEPADebitPayments       AccountCapabilityStatus `json:"sepa_debit_payments"`
-	SofortPayments          AccountCapabilityStatus `json:"sofort_payments"`
-	TaxReportingUS1099K     AccountCapabilityStatus `json:"tax_reporting_us_1099_k"`
-	TaxReportingUS1099MISC  AccountCapabilityStatus `json:"tax_reporting_us_1099_misc"`
-	Transfers               AccountCapabilityStatus `json:"transfers"`
+	ACSSDebitPayments        AccountCapabilityStatus `json:"acss_debit_payments"`
+	AUBECSDebitPayments      AccountCapabilityStatus `json:"au_becs_debit_payments"`
+	BACSDebitPayments        AccountCapabilityStatus `json:"bacs_debit_payments"`
+	BancontactPayments       AccountCapabilityStatus `json:"bancontact_payments"`
+	CardIssuing              AccountCapabilityStatus `json:"card_issuing"`
+	CardPayments             AccountCapabilityStatus `json:"card_payments"`
+	CartesBancairesPayments  AccountCapabilityStatus `json:"cartes_bancaires_payments"`
+	EPSPayments              AccountCapabilityStatus `json:"eps_payments"`
+	FPXPayments              AccountCapabilityStatus `json:"fpx_payments"`
+	GiropayPayments          AccountCapabilityStatus `json:"giropay_payments"`
+	GrabpayPayments          AccountCapabilityStatus `json:"grabpay_payments"`
+	IdealPayments            AccountCapabilityStatus `json:"ideal_payments"`
+	JCBPayments              AccountCapabilityStatus `json:"jcb_payments"`
+	KlarnaPayments           AccountCapabilityStatus `json:"klarna_payments"`
+	LegacyPayments           AccountCapabilityStatus `json:"legacy_payments"`
+	OXXOPayments             AccountCapabilityStatus `json:"oxxo_payments"`
+	P24Payments              AccountCapabilityStatus `json:"p24_payments"`
+	SEPADebitPayments        AccountCapabilityStatus `json:"sepa_debit_payments"`
+	SofortPayments           AccountCapabilityStatus `json:"sofort_payments"`
+	TaxReportingUS1099K      AccountCapabilityStatus `json:"tax_reporting_us_1099_k"`
+	TaxReportingUS1099MISC   AccountCapabilityStatus `json:"tax_reporting_us_1099_misc"`
+	Transfers                AccountCapabilityStatus `json:"transfers"`
 }
 
 // This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
@@ -669,6 +669,20 @@ type AccountController struct {
 	Type         AccountControllerType `json:"type"`
 }
 
+// AccountDeclineOn represents card charges decline behavior for that account.
+type AccountDeclineOn struct {
+	AVSFailure bool `json:"avs_failure"`
+	CVCFailure bool `json:"cvc_failure"`
+}
+
+// AccountPayoutSchedule is the structure for an account's payout schedule.
+type AccountPayoutSchedule struct {
+	DelayDays     int64          `json:"delay_days"`
+	Interval      PayoutInterval `json:"interval"`
+	MonthlyAnchor int64          `json:"monthly_anchor"`
+	WeeklyAnchor  string         `json:"weekly_anchor"`
+}
+
 // Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
 type AccountFutureRequirementsAlternative struct {
 	AlternativeFieldsDue []string `json:"alternative_fields_due"`
@@ -697,20 +711,6 @@ type AccountFutureRequirements struct {
 type AccountRequirementsAlternative struct {
 	AlternativeFieldsDue []string `json:"alternative_fields_due"`
 	OriginalFieldsDue    []string `json:"original_fields_due"`
-}
-
-// AccountDeclineOn represents card charges decline behavior for that account.
-type AccountDeclineOn struct {
-	AVSFailure bool `json:"avs_failure"`
-	CVCFailure bool `json:"cvc_failure"`
-}
-
-// AccountPayoutSchedule is the structure for an account's payout schedule.
-type AccountPayoutSchedule struct {
-	DelayDays     int64          `json:"delay_days"`
-	Interval      PayoutInterval `json:"interval"`
-	MonthlyAnchor int64          `json:"monthly_anchor"`
-	WeeklyAnchor  string         `json:"weekly_anchor"`
 }
 
 // AccountRequirementsError represents details about an error with a requirement.
@@ -788,8 +788,8 @@ type AccountSettingsSEPADebitPayments struct {
 type AccountSettings struct {
 	BACSDebitPayments *AccountSettingsBACSDebitPayments `json:"bacs_debit_payments"`
 	Branding          *AccountSettingsBranding          `json:"branding"`
-	CardPayments      *AccountSettingsCardPayments      `json:"card_payments"`
 	CardIssuing       *AccountSettingsCardIssuing       `json:"card_issuing"`
+	CardPayments      *AccountSettingsCardPayments      `json:"card_payments"`
 	Dashboard         *AccountSettingsDashboard         `json:"dashboard"`
 	Payments          *AccountSettingsPayments          `json:"payments"`
 	Payouts           *AccountSettingsPayouts           `json:"payouts"`
@@ -800,8 +800,8 @@ type AccountSettings struct {
 type AccountTOSAcceptance struct {
 	Date             int64                                `json:"date"`
 	IP               string                               `json:"ip"`
-	UserAgent        string                               `json:"user_agent"`
 	ServiceAgreement AccountTOSAcceptanceServiceAgreement `json:"service_agreement"`
+	UserAgent        string                               `json:"user_agent"`
 }
 
 // Account is the resource representing your Stripe account.
@@ -833,23 +833,34 @@ type Account struct {
 	Type               AccountType                `json:"type"`
 }
 
-// UnmarshalJSON handles deserialization of an account.
-// This custom unmarshaling is needed because the resulting
-// property may be an ID or the full struct if it was expanded.
-func (a *Account) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		a.ID = id
-		return nil
-	}
+// ExternalAccount is an external account (a bank account or card) that's
+// attached to an account. It contains fields that will be conditionally
+// populated depending on its type.
+type ExternalAccount struct {
+	ID   string              `json:"id"`
+	Type ExternalAccountType `json:"object"`
 
-	type account Account
-	var v account
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
+	// BankAccount is a bank account attached to an account. Populated only if
+	// the external account is a bank account.
+	BankAccount *BankAccount
 
-	*a = Account(v)
-	return nil
+	// Card is a card attached to an account. Populated only if the external
+	// account is a card.
+	Card *Card
+}
+
+// AccountAddress is the structure for an account address.
+type AccountAddress struct {
+	City       string `json:"city"`
+	Country    string `json:"country"`
+	Line1      string `json:"line1"`
+	Line2      string `json:"line2"`
+	PostalCode string `json:"postal_code"`
+	State      string `json:"state"`
+
+	// Town/cho-me. Note that this is only used for Kana/Kanji representations
+	// of an address.
+	Town string `json:"town"`
 }
 
 // AccountList is a list of accounts as returned from a list endpoint.
@@ -870,20 +881,23 @@ type ExternalAccountList struct {
 	Data []*ExternalAccount `json:"data"`
 }
 
-// ExternalAccount is an external account (a bank account or card) that's
-// attached to an account. It contains fields that will be conditionally
-// populated depending on its type.
-type ExternalAccount struct {
-	// BankAccount is a bank account attached to an account. Populated only if
-	// the external account is a bank account.
-	BankAccount *BankAccount
+// UnmarshalJSON handles deserialization of an account.
+// This custom unmarshaling is needed because the resulting
+// property may be an ID or the full struct if it was expanded.
+func (a *Account) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		a.ID = id
+		return nil
+	}
 
-	// Card is a card attached to an account. Populated only if the external
-	// account is a card.
-	Card *Card
+	type account Account
+	var v account
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
 
-	ID   string              `json:"id"`
-	Type ExternalAccountType `json:"object"`
+	*a = Account(v)
+	return nil
 }
 
 // UnmarshalJSON implements Unmarshaler.UnmarshalJSON.
@@ -905,18 +919,4 @@ func (ea *ExternalAccount) UnmarshalJSON(data []byte) error {
 	}
 
 	return err
-}
-
-// AccountAddress is the structure for an account address.
-type AccountAddress struct {
-	City       string `json:"city"`
-	Country    string `json:"country"`
-	Line1      string `json:"line1"`
-	Line2      string `json:"line2"`
-	PostalCode string `json:"postal_code"`
-	State      string `json:"state"`
-
-	// Town/cho-me. Note that this is only used for Kana/Kanji representations
-	// of an address.
-	Town string `json:"town"`
 }
