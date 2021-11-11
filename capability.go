@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -21,6 +27,7 @@ type CapabilityStatus string
 // List of values that CapabilityStatus can take.
 const (
 	CapabilityStatusActive      CapabilityStatus = "active"
+	CapabilityStatusDisabled    CapabilityStatus = "disabled"
 	CapabilityStatusInactive    CapabilityStatus = "inactive"
 	CapabilityStatusPending     CapabilityStatus = "pending"
 	CapabilityStatusUnrequested CapabilityStatus = "unrequested"
@@ -53,7 +60,6 @@ type CapabilityFutureRequirementsError struct {
 	Reason      string `json:"reason"`
 	Requirement string `json:"requirement"`
 }
-
 type CapabilityFutureRequirements struct {
 	Alternatives        []*CapabilityFutureRequirementsAlternative `json:"alternatives"`
 	CurrentDeadline     int64                                      `json:"current_deadline"`

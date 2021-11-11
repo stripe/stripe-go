@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -22,8 +28,6 @@ type SigmaScheduledQueryRunParams struct {
 type SigmaScheduledQueryRunListParams struct {
 	ListParams `form:"*"`
 }
-
-// SigmaScheduledQueryRunError is the resource representing an error on a scheduled query run.
 type SigmaScheduledQueryRunError struct {
 	Message string `json:"message"`
 }
@@ -38,10 +42,10 @@ type SigmaScheduledQueryRun struct {
 	ID                   string                       `json:"id"`
 	Livemode             bool                         `json:"livemode"`
 	Object               string                       `json:"object"`
+	Query                string                       `json:"query"`
 	ResultAvailableUntil int64                        `json:"result_available_until"`
 	SQL                  string                       `json:"sql"`
 	Status               SigmaScheduledQueryRunStatus `json:"status"`
-	Query                string                       `json:"query"`
 	Title                string                       `json:"title"`
 }
 
@@ -52,12 +56,12 @@ type SigmaScheduledQueryRunList struct {
 	Data []*SigmaScheduledQueryRun `json:"data"`
 }
 
-// UnmarshalJSON handles deserialization of an SigmaScheduledQueryRun.
+// UnmarshalJSON handles deserialization of a SigmaScheduledQueryRun.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (i *SigmaScheduledQueryRun) UnmarshalJSON(data []byte) error {
+func (s *SigmaScheduledQueryRun) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		i.ID = id
+		s.ID = id
 		return nil
 	}
 
@@ -67,6 +71,6 @@ func (i *SigmaScheduledQueryRun) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*i = SigmaScheduledQueryRun(v)
+	*s = SigmaScheduledQueryRun(v)
 	return nil
 }
