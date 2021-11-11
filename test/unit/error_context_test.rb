@@ -18,11 +18,6 @@ class Critic::ErrorContextTest < Critic::UnitTest
   sig { returns(ErrorContextTester) }
   def error_context; ErrorContextTester.new end
 
-  def create_mock_salesforce_order
-    id = "8015e000000IJF5AAO"
-    Restforce::SObject.new({"attributes" => {"type" => "Order", "url" => "/services/data/v52.0/sobjects/Order/#{id}", "Id" => id}})
-  end
-
   it 'sets context with a user, stripe, netsuite reference' do
     user = make_user
     refute(user.sandbox?)
