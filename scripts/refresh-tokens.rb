@@ -1,7 +1,8 @@
-# typed: strict
+# typed: true
+
 require File.expand_path('../config/environment', __dir__)
 
-user = StripeForce::User.find(salesforce_account_id: ENV.fetch('SF_INSTANCE_ID'))
+user = T.must(StripeForce::User.find(salesforce_account_id: ENV.fetch('SF_INSTANCE_ID')))
 
 shell_vars = <<~EOL
   SF_REFRESH_TOKEN="#{user.salesforce_refresh_token}"
