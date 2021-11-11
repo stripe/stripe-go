@@ -17,6 +17,14 @@ class ActionMailer::Base
   include GeneratedUrlHelpers
 end
 
+class ActionDispatch::IntegrationTest
+  include GeneratedUrlHelpers
+end
+
+class ActionDispatch::SystemTestCase
+  include GeneratedUrlHelpers
+end
+
 module GeneratedUrlHelpers
   # Sigs for route /
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
@@ -38,4 +46,18 @@ module GeneratedUrlHelpers
 
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def auth_stripe_callback_url(*args, **kwargs); end
+
+  # Sigs for route /v1/accounts(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def api_accounts_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def api_accounts_url(*args, **kwargs); end
+
+  # Sigs for route /v1/retry/:object_type/:object_id(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def api_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def api_url(*args, **kwargs); end
 end
