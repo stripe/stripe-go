@@ -163,6 +163,16 @@ const (
 	CheckoutSessionPaymentStatusUnpaid            CheckoutSessionPaymentStatus = "unpaid"
 )
 
+// The status of the Checkout Session, one of `open`, `complete`, or `expired`.
+type CheckoutSessionStatus string
+
+// List of values that CheckoutSessionStatus can take
+const (
+	CheckoutSessionStatusComplete CheckoutSessionStatus = "complete"
+	CheckoutSessionStatusExpired  CheckoutSessionStatus = "expired"
+	CheckoutSessionStatusOpen     CheckoutSessionStatus = "open"
+)
+
 // CheckoutSessionSubmitType is the list of allowed values for the submit type on  a Session.
 type CheckoutSessionSubmitType string
 
@@ -420,6 +430,13 @@ type CheckoutSessionParams struct {
 	TaxIDCollection           *CheckoutSessionTaxIDCollectionParams           `form:"tax_id_collection"`
 }
 
+// A Session can be expired when it is in one of these statuses: open
+//
+// After it expires, a customer can't complete a Session and customers loading the Session see a message saying the Session is expired.
+type CheckoutSessionExpireParams struct {
+	Params `form:"*"`
+}
+
 // CheckoutSessionListLineItemsParams is the set of parameters that can be
 // used when listing line items on a session.
 type CheckoutSessionListLineItemsParams struct {
@@ -587,6 +604,7 @@ type CheckoutSession struct {
 	SetupIntent               *SetupIntent                              `json:"setup_intent"`
 	Shipping                  *ShippingDetails                          `json:"shipping"`
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollection `json:"shipping_address_collection"`
+	Status                    CheckoutSessionStatus                     `json:"status"`
 	SubmitType                CheckoutSessionSubmitType                 `json:"submit_type"`
 	Subscription              *Subscription                             `json:"subscription"`
 	SuccessURL                string                                    `json:"success_url"`
