@@ -1,5 +1,19 @@
 # Changelog
 
+## 72.74.0 - 2021-11-11
+* [#1374](https://github.com/stripe/stripe-go/pull/1374) API Updates
+  * Add support for `Expire` method on resource `Checkout.Session`
+  * Add support for `Status` on `CheckoutSession`
+* [#1373](https://github.com/stripe/stripe-go/pull/1373) [#1370](https://github.com/stripe/stripe-go/pull/1370) [#1369](https://github.com/stripe/stripe-go/pull/1369) Codegen-related updates
+  - Add support for `disabled` on `CapabilityStatus`
+*  Make more files codegen-able
+  - Add support for `acss_debit`, `au_becs_debit`, `bacs_debit`, and `sepa_debit` on `SetupAttemptPaymentMethodDetails`
+  - Add support for `setup_intent` on `SetupAttempt`
+  - Add support for `duplicate` option for `SetupIntentCancellationReason`
+  - Add support for `challenge_only` option for `SetupIntentPaymentMethodOptionsCardRequestThreeDSecure`
+  - Add support for `sepa_debit` on `SetupIntentPaymentMethodOptionsParams` and `SetupIntentPaymentMethodOptions`
+  - Add support for `client_secret` on `SetupIntentParams`
+
 ## 72.73.1 - 2021-11-04
 * [#1371](https://github.com/stripe/stripe-go/pull/1371) API Updates
   * Remove support for `OwnershipDeclarationShownAndSigned` on `TokenAccountParams`. This API was unused.
