@@ -14,3 +14,10 @@ class Restforce::SObject
   # TODO investigate why this isn't included by default on the type generation
   def [](arg); end
 end
+
+class Array
+  # pretty certain delete works for anything, not just symbols or strings, but the original def was just symbols
+  sig { params(obj: T.any(String, Symbol)).returns(T.nilable(T.any(String, Symbol)))}
+  def delete(obj); end
+end
+

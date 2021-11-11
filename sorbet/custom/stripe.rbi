@@ -7,3 +7,18 @@ class Stripe::Price
   sig { returns(Integer) }
   def unit_amount; end
 end
+
+class Stripe::Customer
+  sig { returns(String) }
+  def currency; end
+end
+
+class Stripe::SubscriptionScheduleSettings
+  sig { returns(String) }
+  def collection_method; end
+end
+
+class Stripe::SubscriptionSchedule
+  sig { returns(Stripe::SubscriptionScheduleSettings) }
+  def default_settings; end
+end

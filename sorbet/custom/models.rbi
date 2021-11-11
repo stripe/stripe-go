@@ -1,6 +1,6 @@
 # typed: strict
 class StripeForce::User
-  sig { returns(T::Array[String]) }
+  sig { returns(T::Array[Symbol]) }
   def feature_flags; end
 
   sig { returns(T::Hash[String, T::Hash[String, String]]) }
