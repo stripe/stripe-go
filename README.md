@@ -7,6 +7,14 @@ http://localhost:3100/
 
 # Development
 
+## API
+
+```
+http PUT https://stripe-force.herokuapp.com/v1/accounts/123 field_defaults:='{"subscription_schedule":{"STRIPE_FIELD_2":"value"}}' field_mappings:='{}'
+
+http https://stripe-force.herokuapp.com/v1/accounts/123
+```
+
 ## Processes
 
 `foreman start` will run all necessary processes with one command, or you can start them individually via `foreman run web`.
