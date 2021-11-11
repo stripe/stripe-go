@@ -11,9 +11,9 @@ Rails.application.routes.draw do
   get '/auth/salesforce/callback', to: 'sessions#salesforce_callback'
   get '/auth/stripe/callback', to: 'sessions#stripe_callback'
 
-  namespace :v1, module: 'api' do
-    resources :accounts, only: [:show, :update]
-    get 'retry/:object_type/:object_id' => 'retry#retry'
+  namespace :v1, module: 'api', as: 'api' do
+      resource :accounts, only: [:show, :update]
+      get 'retry/:object_type/:object_id' => 'retry#retry'
   end
 
   # TODO need basic auth
