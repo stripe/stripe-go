@@ -1492,3 +1492,9 @@ func TestCustomerListPaymentMethods(t *testing.T) {
 	result := customer.ListPaymentMethods(params)
 	assert.NotNil(t, result)
 }
+
+func TestCheckoutSessionExpire(t *testing.T) {
+	params := &stripe.CheckoutSessionExpireParams{}
+	result, _ := checkout_session.Expire("sess_xyz", params)
+	assert.NotNil(t, result)
+}
