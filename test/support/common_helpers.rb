@@ -1,5 +1,11 @@
+# typed: true
+# frozen_string_literal: true
+
+require_relative './salesforce_factory'
+
 module CommonHelpers
   include StripeForce::Constants
+  include Critic::SalesforceFactory
 
   def make_user(sandbox: false, save: false, random_user_id: false)
     user = StripeForce::User.new(
