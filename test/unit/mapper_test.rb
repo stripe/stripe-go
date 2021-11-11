@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 # typed: true
 
-require_relative '../_lib'
+require_relative '../test_helper'
 
 module Critic::Unit
   class MapperTest < Critic::UnitTest
     before do
       @user = make_user(random_user_id: true)
-      @annotator = Integrations::Mapper.new(@user)
+      @mapper = Integrations::Mapper.new(@user)
     end
 
     it 'properly saves the annotator hashes' do
@@ -33,41 +33,42 @@ module Critic::Unit
       assert_equal(annotation_table, @user.field_mappings)
     end
 
-    it 'assigns field values from static user table' do
+    it 'assigns field fields' do
       @user.field_defaults = {
         "customer" => {
-          "subsidiary_id" => 1,
-          "custentity_invoiceform_id" => 104,
-          "terms_id" => 2,
-          "account_number" => 123,
+          "address.line1" => '123 Great Street',
+          "metadata.from_salesforce" => true,
+          "email" => 'global@email.com',
+          "currency" => 'usd',
         },
         "subscription_schedule" => {
-          "account_id" => 3,
+          "default_settings.collection_method" => "send_invoice",
         },
-        "invoice" => {
-          "due_date_date" => 1493681421,
+        "price" => {
+          "metadata.tax_id" => 123,
         },
       }
 
-      stripe_customer = NetSuite::Records::Customer.new
-      stripe_sales_order = NetSuite::Records::SalesOrder.new
-      stripe_invoice = NetSuite::Records::Invoice.new
+      stripe_customer = Stripe::Customer.new
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.new
+      stripe_price = Stripe::Price.new
 
-      # static annotations don't use stripe data; some legacy annotations do
-      stripe_customer = Stripe::Customer.construct_from(id: create_id(:cus))
-      stripe_customer.metadata = {}
+      # these aren't used in the mapping logic, but are here to make sure passing them doesn't throw an exception
+      sf_customer = create_mock_salesforce_customer
+      sf_order = create_mock_salesforce_order
 
-      @annotator.annotate(ns_customer, stripe_customer)
-      @annotator.annotate(ns_sales_order, stripe_customer)
-      @annotator.annotate(ns_invoice)
+      @mapper.apply_mapping(stripe_customer, sf_customer)
+      @mapper.apply_mapping(stripe_subscription_schedule, sf_order)
+      @mapper.apply_mapping(stripe_price)
 
-      assert_equal(104, ns_customer.custom_field_list.custentity_invoiceform.value.internal_id)
-      assert_equal(1, ns_customer.subsidiary.internal_id)
-      assert_equal(123, ns_customer.account_number)
+      assert_equal("123 Great Street", T.must(stripe_customer.address).line1)
+      assert_equal(true, stripe_customer.metadata["from_salesforce"])
+      assert_equal("global@email.com", stripe_customer.email)
+      assert_equal("usd", stripe_customer.currency)
 
-      assert_equal(3, ns_sales_order.account.internal_id)
+      assert_equal("send_invoice", stripe_subscription_schedule.default_settings.collection_method)
 
-      assert_equal("2017-05-01T00:00:00-07:00", ns_invoice.due_date)
+      assert_equal(123, stripe_price.metadata["tax_id"])
     end
 
     it 'assigns field values from the dynamic user table and stripe resource metadata' do
@@ -80,14 +81,17 @@ module Critic::Unit
           'ns_another_body_field' => 'custbodynounderscore',
           'ns_is_person' => 'is_person',
         },
-        "credit_memo" => {
+        "subscription_schedule" => {
           'ns_body_field' => 'custbody_field',
           'ns_location' => 'location_id',
         },
       }
 
-      ns_customer = NetSuite::Records::Customer.new
-      ns_credit_memo = NetSuite::Records::CreditMemo.new
+      stripe_customer = Stripe::Customer.new
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.new
+
+      sf_customer = create_mock_salesforce_customer
+      sf_order = create_mock_salesforce_order
 
       stripe_customer = Stripe::Customer.construct_from(id: create_id(:cus))
       stripe_customer.metadata = {
@@ -161,37 +165,6 @@ module Critic::Unit
 
       refute_equal('Mike', ns_record.alt_name)
       assert_equal(false, ns_record.custom_field_list.respond_to?(:custentity_invoiceform))
-    end
-
-    it "handles stripe resources without metadata" do
-      stripe_customer = Stripe::Customer.construct_from(
-        deleted: true,
-        id: create_id(:cus)
-      )
-      ns_record = NetSuite::Records::Customer.new
-
-      @annotator.annotate(ns_record, stripe_customer)
-    end
-
-    # TODO this should be generalized https://github.com/stripe/stripe-netsuite/issues/257
-    # TODO this spec tests two approaches: we should eliminate the `cash_back_list_department_id` approach
-    #      and use sublist item annotations instead
-    it 'handles deposit sublist annotations' do
-      @user.field_defaults['deposit_cash_back'] = {
-        'department_id' => 1000,
-        'klass_id' => nil,
-      }
-
-      ns_deposit = NetSuite::Records::Deposit.new
-      ns_cash_back_item = ns_deposit.cash_back_list.sublist_class.new({
-        amount: 100,
-        klass: {internal_id: 123},
-      })
-
-      @annotator.annotate(ns_cash_back_item)
-
-      assert_equal(1000, ns_cash_back_item.department.internal_id)
-      assert_nil(ns_cash_back_item.klass.internal_id)
     end
 
     describe 'feature: annotator_v2' do
