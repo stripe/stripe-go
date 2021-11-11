@@ -90,32 +90,36 @@ module Integrations
     end
 
     protected def assign_values_from_hash(record, field_assignments)
-      field_assignments.each do |k, v|
+      field_assignments.each do |raw_field_path, v|
         # TODO need to handle nil values
         # TODO think on custom fields with NetSuite suffix `_id`
         # TODO nofify when an existing field is being overwritten
 
-        method = "#{k}=".to_sym
+        # TODO unsure if we need to special case this stuff right now
+        # if is_record_reference_field?(raw_field_path)
+        #   field_path = "#{raw_field_path[0..-4]}="
+        # elsif is_date_field?(raw_field_path)
+        #   field_path = "#{raw_field_path[0..-6]}="
+        # else
+        #   field_path = raw_field_path
+        # end
 
-        if is_record_reference_field?(k)
-          ref_method = "#{k[0..-4]}=".to_sym
-        elsif is_date_field?(k)
-          ref_method = "#{k[0..-6]}=".to_sym
-        end
+        field_path = raw_field_path
 
-        if is_record_reference_field?(k) && record.respond_to?(ref_method)
+        if is_record_reference_field?(field_path) && record.respond_to?(field_path)
           raise 'determine what salesforce record ref transformation requirements are'
-          # record.send(ref_method, ref_value)
-        elsif is_date_field?(k) && record.respond_to?(ref_method)
+          # record.send(field_path, ref_value)
+        elsif is_date_field?(field_path) && record.respond_to?(field_path)
           raise 'determine what salesforce date transformation requirements are'
-          # record.send(ref_method, ref_value)
-        elsif record.respond_to?(method)
-          record.send(method, v)
+          # record.send(field_path, ref_value)
         else
-          log.error 'invalid mapping field specified',
-            mapping_key: k,
-            mapping_value: v,
-            record: record
+          set_stripe_resource_field_path(record, field_path, v)
+          #   record.send(method, v)
+          # else
+          #   log.error 'invalid mapping field specified',
+          #     mapping_key: k,
+          #     mapping_value: v,
+          #     record: record
         end
       end
     end

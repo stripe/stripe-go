@@ -11,9 +11,29 @@ module Integrations::Utilities::StripeUtil
   include Integrations::Log
   include Integrations::ErrorContext
 
+  sig { params(stripe_resource: Stripe::APIResource, field_path: String, field_value: T.nilable(T.any(String, Integer, T::Boolean))).void }
+  def set_stripe_resource_field_path(stripe_resource, field_path, field_value)
+    components = field_path.split('.').map(&:strip)
+    target_object = T.let(stripe_resource, Stripe::StripeObject)
+
+    components.each_with_index do |field_name, i|
+      last_component = i == components.size - 1
+
+      if !last_component
+        if !target_object.respond_to?(field_name)
+          target_object[field_name] = {}
+        end
+
+        target_object = target_object[field_name]
+      else
+        target_object[field_name] = field_value
+      end
+    end
+  end
+
   sig { params(stripe_resource: Stripe::APIResource, field_path: String).returns(T.untyped) }
   def extract_stripe_resource_field(stripe_resource, field_path)
-    components = field_path.split('.')
+    components = field_path.split('.').map(&:strip)
     target_object = T.let(stripe_resource, T.nilable(Stripe::APIResource))
 
     components.each_with_index do |field_name, i|
