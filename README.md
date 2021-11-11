@@ -10,9 +10,9 @@ http://localhost:3100/
 ## API
 
 ```
-http PUT https://stripe-force.herokuapp.com/v1/accounts/123 field_defaults:='{"subscription_schedule":{"STRIPE_FIELD_2":"value"}}' field_mappings:='{}'
+http PUT https://stripe-force.herokuapp.com/v1/accounts field_defaults:='{"subscription_schedule":{"STRIPE_FIELD_2":"value"}}' field_mappings:='{}' Salesforce-Account-Id:00D5e000003V0C7EAK
 
-http https://stripe-force.herokuapp.com/v1/accounts/123
+http https://stripe-force.herokuapp.com/v1/accounts Salesforce-Account-Id:00D5e000003V0C7EAK
 ```
 
 ## Processes
