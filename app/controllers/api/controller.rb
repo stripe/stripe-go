@@ -7,6 +7,6 @@ module Api
     include Integrations::Log
 
     SALESFORCE_ACCOUNT_ID_HEADER = 'Salesforce-Account-Id'
-    SALESFORCE_ACCOUNT_ID_HEADER = 'Salesforce-Key'
+    SALESFORCE_KEY_HEADER = 'Salesforce-Key'
   end
 end
