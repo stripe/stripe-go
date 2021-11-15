@@ -3,7 +3,7 @@
 
 require_relative '../test_helper'
 
-class Critic::AccountsControllerTest < ApplicationIntegrationTest
+class Critic::ConfigurationControllerTest < ApplicationIntegrationTest
   before do
     @user = make_user
     @user.field_defaults = {
@@ -21,17 +21,17 @@ class Critic::AccountsControllerTest < ApplicationIntegrationTest
   end
 
   it 'throws a 404 if no user id is passed' do
-    get api_accounts_path
+    get api_configuration_path
     assert_response :not_found
   end
 
   it 'throws a 404 if invalid user is passed' do
-    get api_accounts_path, headers: {Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => create_salesforce_id}
+    get api_configuration_path, headers: {Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => create_salesforce_id}
     assert_response :not_found
   end
 
   it 'returns user status JSON' do
-    get api_accounts_path, headers: {Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => @user.salesforce_account_id}
+    get api_configuration_path, headers: {Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => @user.salesforce_account_id}
     assert_response :success
 
     result = parsed_json

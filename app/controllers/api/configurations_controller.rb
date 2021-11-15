@@ -4,16 +4,34 @@
 require_relative './controller'
 
 module Api
-  class AccountsController < Controller
+  class ConfigurationsController < Controller
     wrap_parameters false
 
     before_action(:set_error_context, :create_user_reference)
+
+    # called by salesforce after package install
+    def post_install
+      # TODO valid incoming SF API key
+
+      salesforce_account_id = request.headers[SALESFORCE_ACCOUNT_ID_HEADER]
+
+      if salesforce_account_id.blank?
+        log.warn 'no salesforce account ID specified'
+        head :not_found
+      end
+    end
 
     def show
       render json: {
         salesforce_account_id: @user.salesforce_account_id,
         field_mappings: @user.field_mappings,
         field_defaults: @user.field_defaults,
+        default_mapping: {
+
+        },
+        required_mapping: {
+
+        },
         feature_flags: @user.feature_flags,
         connection_status: {
           salesforce: true,
