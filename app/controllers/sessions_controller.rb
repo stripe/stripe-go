@@ -1,9 +1,13 @@
 # frozen_string_literal: true
-# typed: false
+# typed: true
 
 class SessionsController < ApplicationController
   # If you're using a strategy that POSTs during callback, you'll need to skip the authenticity token check for the callback action only.
   skip_before_action :verify_authenticity_token, only: :create
+
+  # rescue_from OAuth2::Error do
+  #   redirect_to '/'
+  # end
 
   def create
     redirect_to '/'
@@ -53,11 +57,18 @@ class SessionsController < ApplicationController
 
     if user_id.blank?
       log.warn 'callback requested with empty user id'
-      header :not_found
+      head :not_found
       return
     end
 
     user = StripeForce::User[user_id]
+
+    if user.blank?
+      report_edge_case("invalid user identifier", metadata: {user_id: user_id})
+      head :not_found
+      return
+    end
+
     stripe_auth = auth_hash
     stripe_user_id = stripe_auth["uid"]
 
@@ -75,6 +86,11 @@ class SessionsController < ApplicationController
       <p>Your Stripe & SalesForce accounts are connected. You can safely close this window.</p>
       <p>Navigate to SalesForce to configure this connector.</p>
     </div>
+    <script type="application/javascript">
+      if(window.opener) {
+        window.postMessage("connectionSuccessful", window.opener)
+      }
+    </script>
     EOL
   end
 
