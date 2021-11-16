@@ -16,9 +16,9 @@ group :production do
 end
 
 # sentry
-gem "sentry-ruby", "~> 4.7.3"
-gem "sentry-rails", "~> 4.7.3"
-gem "sentry-resque", "~> 4.7.3"
+gem "sentry-ruby", "~> 4.8.0"
+gem "sentry-rails", "~> 4.8.0"
+gem "sentry-resque", "~> 4.8.0"
 gem 'simple_structured_logger'
 
 # resque
@@ -31,7 +31,7 @@ gem 'redis', '~> 4.5.0'
 
 # database
 gem 'pg', '~> 1.2.3'
-gem 'sequel', '5.49.0'
+gem 'sequel', '5.50.0'
 
 # auth
 gem 'omniauth-salesforce'
@@ -40,7 +40,7 @@ gem 'rack-attack', '~> 6.5.0'
 
 # translation
 gem 'restforce', '~> 5.2.0'
-gem 'stripe', '~> 5.39.0'
+gem 'stripe', '~> 5.40.0'
 gem 'rest-client', '~> 2.1.0'
 
 # Reduces boot times through caching; required in config/boot.rb
@@ -64,7 +64,7 @@ group :test do
   gem 'minitest-rails', '~> 6.1.0'
 
   # feature test
-  gem 'capybara', '~> 3.35.3'
+  gem 'capybara', '~> 3.36.0'
   gem 'webdrivers', '~> 4.6.0'
   gem 'selenium-webdriver', '~> 3.142.7'
   gem 'capybara-screenshot', '~> 1.0.25'
