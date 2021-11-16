@@ -91,7 +91,7 @@ class SessionsController < ApplicationController
       <p>Navigate to SalesForce to configure this connector.</p>
     </div>
     <script type="application/javascript">
-      window.postMessage("connectionSuccessful", "#{user.salesforce_instance_url}")
+    window.opener.parent.postMessage("connectionSuccessful", "#{user.salesforce_instance_url}")
     </script>
     EOL
   end
