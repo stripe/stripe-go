@@ -92,6 +92,7 @@ class SessionsController < ApplicationController
     </div>
     <script type="application/javascript">
     window.opener.parent.postMessage("connectionSuccessful", "#{user.salesforce_instance_url}")
+    window.opener.parent.postMessage("connectionSuccessful", "#{T.must(user.salesforce_instance_url).sub('my.salesforce.com', 'lightning.salesforce.com')}")
     </script>
     EOL
   end
