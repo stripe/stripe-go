@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   namespace :v1, module: 'api', as: 'api', constraints: {format: 'json'} do
     resource :configuration, only: [:show, :update]
     post 'post-install' => 'configurations#post_install'
-    post 'translate' => 'configuration#translate'
+    post 'translate' => 'configurations#translate'
   end
 
   # TODO need basic auth

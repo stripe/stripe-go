@@ -9,7 +9,39 @@ module Api
 
     before_action(:set_error_context, :create_user_reference)
     skip_before_action(:create_user_reference, only: [:post_install])
-    before_action(:ensure_json_content, only: [:update, :post_install])
+    before_action(:ensure_json_content, only: [:update, :post_install, :translate])
+
+    rescue_from ActionController::ParameterMissing do
+      T.bind(self, Api::ConfigurationsController)
+
+      log.error 'invalid input parameters'
+      head :bad_request
+    end
+
+    # TODO should really belong in a separate controller, but this is the only method that doesn't fit so we are stuffing it here
+    def translate
+      sf_record_type, sf_record_ids = params.require([:object_type, :object_ids])
+
+      if ![SF_ORDER].include?(sf_record_type)
+        log.error 'invalid object type', object_type: sf_record_type
+        head :bad_request
+        return
+      end
+
+      if !sf_record_ids.is_a?(Array)
+        log.error 'must send array of object IDs', object_ids: sf_record_ids
+        head :bad_request
+        return
+      end
+
+      sf_record_ids.each do |sf_record_id|
+        # TODO validate that SF IDs look correct?
+        log.info 'queuing order', order_id: sf_record_id
+        SalesforceTranslateRecordJob.work(@user, sf_record_type, sf_record_id)
+      end
+
+      head :ok
+    end
 
     # called by salesforce after package install
     def post_install
@@ -49,8 +81,6 @@ module Api
       user.save
 
       head :ok
-    rescue ActionController::ParameterMissing
-      head :bad_request
     end
 
     def show
