@@ -1,6 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
+# NOTE these plugins are autoloaded, but for sorbet to pick up on them we need to explicitly include them here
+require 'sequel/plugins/update_or_create'
 require 'sequel/plugins/defaults_setter'
 
 # TODO submit a PR for this upstream
