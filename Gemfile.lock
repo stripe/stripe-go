@@ -188,6 +188,8 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.12.5-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.12.5-x86_64-linux)
+      racc (~> 1.4)
     oauth2 (1.4.7)
       faraday (>= 0.8, < 2.0)
       jwt (>= 1.0, < 3.0)
@@ -369,6 +371,7 @@ GEM
       sorbet-runtime (>= 0.5)
     sorbet-runtime (0.5.9303)
     sorbet-static (0.5.9318-universal-darwin-20)
+    sorbet-static (0.5.9318-x86_64-linux)
     spring (3.0.0)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -402,6 +405,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   better_errors (~> 2.9.1)
