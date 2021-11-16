@@ -17,11 +17,12 @@ global with sharing class restService {
                                                                 FROM Setup_Connection_Data__mdt
                                                                 WITH SECURITY_ENFORCED];    
             if(!setupConfigList.isEmpty()) {
-                if(setupConfigList[0].Salesforce_Connected__c == true && setupConfigList[0].Stripe_Connected__c == true) {
+                Setup_Connection_Data__mdt setupData = setupConfigList[0];
+                if(setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) {
                     String orgId = constants.ORG_ID;
-                    //String globalKey = setupConfigList[0].Global_Key__c; //Arnold comment out when in package 
+                    //String globalKey = setupData.Global_Key__c; //Arnold comment out when in package 
                     String globalKey = 'ABC123';
-                    String packageGuidKey = setupConfigList[0].API_Key__c;
+                    String packageGuidKey = setupData.API_Key__c;
                     if((orgId == reqOrgId) && (globalKey == reqGlobalKey) && (packageGuidKey == reqPackageGuidKey)) { */
                         //Validation complete do stuff now
                         Map<String, Object> parsedReqBody = (Map<String, Object>)JSON.deserializeUntyped(restRequest.requestBody.toString());

@@ -89,7 +89,8 @@ public with sharing class setupAssistant {
                                                                 FROM Setup_Connection_Data__mdt
                                                                 WITH SECURITY_ENFORCED];                                                              
             if(!setupConfigList.isEmpty()) {
-                if(setupConfigList[0].Salesforce_Connected__c == true && setupConfigList[0].Stripe_Connected__c == true){
+                Setup_Connection_Data__mdt setupData = setupConfigList[0];
+                if(setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true){
                     isConnected = true;
                     rd.put('isConnected',isConnected);
                     return rd.getJsonString();
@@ -102,14 +103,14 @@ public with sharing class setupAssistant {
                 if(response.getStatusCode() == 200) {
                     responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
                     Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
-                    if((Boolean)connectionStatus.get('salesforce') == true)setupConfigList[0].Salesforce_Connected__c = true; 
-                    if((Boolean)connectionStatus.get('stripe') == true)setupConfigList[0].Stripe_Connected__c = true; 
+                    if((Boolean)connectionStatus.get('salesforce') == true)setupData.Salesforce_Connected__c = true; 
+                    if((Boolean)connectionStatus.get('stripe') == true)setupData.Stripe_Connected__c = true; 
                     if(((Boolean)connectionStatus.get('stripe') == true) && ((Boolean)connectionStatus.get('salesforce') == true)) {
                         rd.put('isConnected','fresh');
                     } else {
                         rd.put('isConnected',isConnected);
                     }
-                    Map<String, Object> setupConfigMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(setupConfigList[0]));
+                    Map<String, Object> setupConfigMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(setupData));
                     metadataCRUD.saveSetupConfigData(setupConfigMap, 'Setup_Connection_Data__mdt.Default');
                 } else {
                     rd.put('isConnected',isConnected);

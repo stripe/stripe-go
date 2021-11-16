@@ -74,9 +74,10 @@ public with sharing class utilities {
                                                                 FROM Setup_Connection_Data__mdt
                                                                 WITH SECURITY_ENFORCED];    
             if(!setupConfigList.isEmpty()) {
-                if(setupConfigList[0].Salesforce_Connected__c == true && setupConfigList[0].Stripe_Connected__c == true) {
+                Setup_Connection_Data__mdt setupData = setupConfigList[0];
+                if(setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) {
                     String orgId = constants.ORG_ID;
-                    String packageGuidKey = setupConfigList[0].API_Key__c;
+                    String packageGuidKey = setupData.API_Key__c;
                     req.setHeader('Salesforce-Account-Id', orgId);
                     req.setHeader('key', packageGuidKey);
                 } 

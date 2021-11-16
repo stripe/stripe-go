@@ -1,4 +1,4 @@
-/*** Strike Toolbelt v2.0.1 ***/
+/*** Stripe Toolbelt v2.0.1 ***/
 public with sharing class constants {
     // Namespaces
     private static FINAL String thisString = String.valueOf(constants.class);

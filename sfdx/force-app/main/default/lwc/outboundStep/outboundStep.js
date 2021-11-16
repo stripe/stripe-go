@@ -23,7 +23,8 @@ export default class OutboundStep extends LightningElement {
         window.removeEventListener('message', this.postMessageListener);
     }
     connectToStripe() {
-        const rubyAuthURI = 'https://stripe-force.herokuapp.com/auth/salesforce';
+        //const rubyAuthURI = 'https://stripe-force.herokuapp.com/auth/salesforce'; //production
+        const rubyAuthURI = 'https://stripe-force.herokuapp.com/auth/salesforcesandbox'; //sandbox
         window.open(rubyAuthURI, '"_blank"').focus();;
     }
 
