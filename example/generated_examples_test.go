@@ -43,6 +43,7 @@ import (
 	review "github.com/stripe/stripe-go/v72/review"
 	setupattempt "github.com/stripe/stripe-go/v72/setupattempt"
 	setupintent "github.com/stripe/stripe-go/v72/setupintent"
+	shippingrate "github.com/stripe/stripe-go/v72/shippingrate"
 	sigma_scheduledqueryrun "github.com/stripe/stripe-go/v72/sigma/scheduledqueryrun"
 	sku "github.com/stripe/stripe-go/v72/sku"
 	source "github.com/stripe/stripe-go/v72/source"
@@ -1496,5 +1497,24 @@ func TestCustomerListPaymentMethods(t *testing.T) {
 func TestCheckoutSessionExpire(t *testing.T) {
 	params := &stripe.CheckoutSessionExpireParams{}
 	result, _ := checkout_session.Expire("sess_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestShippingRateCreate(t *testing.T) {
+	params := &stripe.ShippingRateParams{
+		DisplayName: stripe.String("Sample Shipper"),
+		FixedAmount: &stripe.ShippingRateFixedAmountParams{
+			Currency: stripe.String(string(stripe.CurrencyUSD)),
+			Amount:   stripe.Int64(400),
+		},
+		Type: stripe.String("fixed_amount"),
+	}
+	result, _ := shippingrate.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestShippingRateList(t *testing.T) {
+	params := &stripe.ShippingRateListParams{}
+	result := shippingrate.List(params)
 	assert.NotNil(t, result)
 }

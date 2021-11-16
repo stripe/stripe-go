@@ -362,6 +362,47 @@ type CheckoutSessionShippingAddressCollectionParams struct {
 	AllowedCountries []*string `form:"allowed_countries"`
 }
 
+// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
+type CheckoutSessionShippingOptionShippingRateDataDeliveryEstimateMaximumParams struct {
+	Unit  *string `form:"unit"`
+	Value *int64  `form:"value"`
+}
+
+// The lower bound of the estimated range. If empty, represents no lower bound.
+type CheckoutSessionShippingOptionShippingRateDataDeliveryEstimateMinimumParams struct {
+	Unit  *string `form:"unit"`
+	Value *int64  `form:"value"`
+}
+
+// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
+type CheckoutSessionShippingOptionShippingRateDataDeliveryEstimateParams struct {
+	Maximum *CheckoutSessionShippingOptionShippingRateDataDeliveryEstimateMaximumParams `form:"maximum"`
+	Minimum *CheckoutSessionShippingOptionShippingRateDataDeliveryEstimateMinimumParams `form:"minimum"`
+}
+
+// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+type CheckoutSessionShippingOptionShippingRateDataFixedAmountParams struct {
+	Amount   *int64  `form:"amount"`
+	Currency *string `form:"currency"`
+}
+
+// Parameters to be passed to Shipping Rate creation for this shipping option
+type CheckoutSessionShippingOptionShippingRateDataParams struct {
+	DeliveryEstimate *CheckoutSessionShippingOptionShippingRateDataDeliveryEstimateParams `form:"delivery_estimate"`
+	DisplayName      *string                                                              `form:"display_name"`
+	FixedAmount      *CheckoutSessionShippingOptionShippingRateDataFixedAmountParams      `form:"fixed_amount"`
+	Metadata         map[string]string                                                    `form:"metadata"`
+	TaxBehavior      *string                                                              `form:"tax_behavior"`
+	TaxCode          *string                                                              `form:"tax_code"`
+	Type             *string                                                              `form:"type"`
+}
+
+// The shipping rate options to apply to this Session.
+type CheckoutSessionShippingOptionParams struct {
+	ShippingRate     *string                                              `form:"shipping_rate"`
+	ShippingRateData *CheckoutSessionShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
+}
+
 // CheckoutSessionSubscriptionDataItemsParams is the set of parameters allowed for one item on a
 // checkout session associated with a subscription.
 type CheckoutSessionSubscriptionDataItemsParams struct {
@@ -423,6 +464,7 @@ type CheckoutSessionParams struct {
 	PhoneNumberCollection     *CheckoutSessionPhoneNumberCollectionParams     `form:"phone_number_collection"`
 	SetupIntentData           *CheckoutSessionSetupIntentDataParams           `form:"setup_intent_data"`
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollectionParams `form:"shipping_address_collection"`
+	ShippingOptions           []*CheckoutSessionShippingOptionParams          `form:"shipping_options"`
 	ShippingRates             []*string                                       `form:"shipping_rates"`
 	SubmitType                *string                                         `form:"submit_type"`
 	SubscriptionData          *CheckoutSessionSubscriptionDataParams          `form:"subscription_data"`
@@ -537,6 +579,12 @@ type CheckoutSessionPhoneNumberCollection struct {
 type CheckoutSessionShippingAddressCollection struct {
 	AllowedCountries []string `json:"allowed_countries"`
 }
+
+// The shipping rate options applied to this Session.
+type CheckoutSessionShippingOption struct {
+	ShippingAmount int64         `json:"shipping_amount"`
+	ShippingRate   *ShippingRate `json:"shipping_rate"`
+}
 type CheckoutSessionTaxIDCollection struct {
 	Enabled bool `json:"enabled"`
 }
@@ -604,6 +652,8 @@ type CheckoutSession struct {
 	SetupIntent               *SetupIntent                              `json:"setup_intent"`
 	Shipping                  *ShippingDetails                          `json:"shipping"`
 	ShippingAddressCollection *CheckoutSessionShippingAddressCollection `json:"shipping_address_collection"`
+	ShippingOptions           []*CheckoutSessionShippingOption          `json:"shipping_options"`
+	ShippingRate              *ShippingRate                             `json:"shipping_rate"`
 	Status                    CheckoutSessionStatus                     `json:"status"`
 	SubmitType                CheckoutSessionSubmitType                 `json:"submit_type"`
 	Subscription              *Subscription                             `json:"subscription"`
