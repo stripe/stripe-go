@@ -50,7 +50,7 @@ module StripeForce
       payload = {"params" => event.payload[:params].except('controller', 'action')}
 
       # TODO not sure exactly what is going on here...
-      payload.merge(event.payload.select {|k, v| [:admin_id, :stripe_user_id].include?(k) && v.present? })
+      payload.merge(event.payload.select {|k, v| [:salesforce_user_id, :stripe_user_id].include?(k) && v.present? })
     end
   end
 end
