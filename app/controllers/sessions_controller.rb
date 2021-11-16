@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
     if Rails.env.production?
       head :ok
     else
-      redirect_to '/'
+      redirect_to '/auth/salesforce'
     end
   end
 
