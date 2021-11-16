@@ -47,17 +47,24 @@ module GeneratedUrlHelpers
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def auth_stripe_callback_url(*args, **kwargs); end
 
-  # Sigs for route /v1/accounts(.:format)
+  # Sigs for route /v1/configuration(.:format)
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def api_accounts_path(*args, **kwargs); end
+  def api_configuration_path(*args, **kwargs); end
 
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def api_accounts_url(*args, **kwargs); end
+  def api_configuration_url(*args, **kwargs); end
 
-  # Sigs for route /v1/retry/:object_type/:object_id(.:format)
+  # Sigs for route /v1/post-install(.:format)
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def api_path(*args, **kwargs); end
+  def api_post_install_path(*args, **kwargs); end
 
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
-  def api_url(*args, **kwargs); end
+  def api_post_install_url(*args, **kwargs); end
+
+  # Sigs for route /v1/translate(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def api_translate_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def api_translate_url(*args, **kwargs); end
 end
