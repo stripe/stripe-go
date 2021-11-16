@@ -16,7 +16,9 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
 
     log.info 'initiating poll', from: poll_record.last_polled_at, to: execution_time
 
+    # TODO filter by activated orders without a Stripe ID
     updated_orders = sf.get_updated(SF_ORDER, poll_record.last_polled_at, execution_time)
+
     # TODO anything else but "ids" in the hash? Should verify this
     updated_orders = updated_orders["ids"] if updated_orders.is_a?(Hash)
 

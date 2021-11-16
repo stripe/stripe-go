@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 # typed: true
+
 module StripeForce
   class PollTimestamp < Sequel::Model
     plugin :timestamps, update_on_create: true
@@ -14,7 +15,7 @@ module StripeForce
 
     def self.build_timestamp_search(user, ns_record_class)
       {
-        stripe_account_id: user.stripe_account_id,
+        salesforce_account_id: user.salesforce_account_id,
         livemode: user.livemode,
         # sandbox: user.sandbox?,
         integration_record_type: ns_record_class.to_s,
