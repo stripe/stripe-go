@@ -3,9 +3,12 @@
 
 module StripeForce
   class User < Sequel::Model
+    extend T::Sig
+
     plugin :timestamps, update_on_create: true
     plugin :after_initialize
     plugin :defaults_setter
+    plugin :update_or_create
 
     plugin :serialization, :json, :feature_flags
     plugin :serialization, :json, :field_defaults
@@ -63,10 +66,8 @@ module StripeForce
       livemode && !sandbox?
     end
 
+    sig { params(feature: Symbol, update: T::Boolean).void }
     def enable_feature(feature, update: false)
-      feature = feature.to_sym if !feature.is_a?(Symbol)
-
-      # TODO use Set to avoid duplicates instead?
       if !feature_flags.include?(feature)
         feature_flags << feature
 
@@ -76,17 +77,15 @@ module StripeForce
       end
     end
 
+    sig { params(feature: Symbol, update: T::Boolean).void }
     def disable_feature(feature, update: false)
-      feature = feature.to_sym if !feature.is_a?(Symbol)
-
       if !feature_flags.delete(feature).nil? && update
         save(columns: [:feature_flags])
       end
     end
 
+    sig { params(feature: Symbol).returns(T::Boolean) }
     def feature_enabled?(feature)
-      feature = feature.to_sym if !feature.is_a?(Symbol)
-
       self.feature_flags.include?(feature)
     end
 
@@ -96,7 +95,7 @@ module StripeForce
 
     def stripe_credentials
       {
-        api_key: ENV['STRIPE_CLIENT_SECRET'],
+        api_key: ENV.fetch('STRIPE_CLIENT_SECRET'),
         stripe_account: stripe_account_id,
         stripe_version: '2020-08-27',
       }
