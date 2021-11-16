@@ -1,5 +1,11 @@
 # Changelog
 
+## 72.75.0 - 2021-11-16
+* [#1375](https://github.com/stripe/stripe-go/pull/1375) API Updates
+  * Add support for new resource `ShippingRate`
+  * Add support for `ShippingOptions` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `ShippingRate` on `CheckoutSession`
+
 ## 72.74.0 - 2021-11-11
 * [#1374](https://github.com/stripe/stripe-go/pull/1374) API Updates
   * Add support for `Expire` method on resource `Checkout.Session`
