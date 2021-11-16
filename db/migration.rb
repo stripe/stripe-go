@@ -20,6 +20,7 @@ begin
   DB.drop_table :users
   DB.drop_table :poll_timestamps
 rescue => e
+  puts "error dropping tables"
 end
 
 DB.create_table(:users) do
@@ -33,16 +34,17 @@ DB.create_table(:users) do
   DateTime :updated_at, null: false
 
   String :salesforce_account_id, unique: true, null: false
-  String :salesforce_refresh_token, null: false
-  String :salesforce_instance_url, null: false
-  String :salesforce_token, null: false
+  String :salesforce_refresh_token
+  String :salesforce_instance_url
+  String :salesforce_token
+  String :salesforce_organization_key, unique: true
 
   String :stripe_account_id
   String :stripe_refresh_token
   String :stripe_public_token
 
-  TrueClass :enabled, default: true
-  TrueClass :livemode, default: false
+  TrueClass :enabled, default: true, null: false
+  TrueClass :livemode, default: false, null: false
 
   String :name
   String :email
@@ -53,18 +55,17 @@ end
 DB.create_table(:poll_timestamps) do
   primary_key :id
 
-  String :stripe_account_id, null: false
-
-  TrueClass :livemode
+  String :salesforce_account_id, null: false
+  TrueClass :livemode, null: false
 
   # TODO this should be an enum
   # column :integration_record_type, :netsuite_record_types, null: false
-  String :integration_record_type
+  String :integration_record_type, null: false
   DateTime :last_polled_at, null: false
 
   # timestamps
   DateTime :created_at, null: false
   DateTime :updated_at, null: false
 
-  unique [:stripe_account_id, :livemode, :integration_record_type]
+  unique [:salesforce_account_id, :livemode, :integration_record_type]
 end
