@@ -1,5 +1,5 @@
 #!/usr/bin/env bundle exec ruby
-
+# Description: setup a REPL with a SF user and example records ready to go
 # frozen_string_literal: true
 # typed: true
 
