@@ -9,8 +9,12 @@ class SessionsController < ApplicationController
   #   redirect_to '/'
   # end
 
-  def create
-    redirect_to '/'
+  def root_action
+    if Rails.env.production?
+      head :ok
+    else
+      redirect_to '/'
+    end
   end
 
   def salesforce_callback

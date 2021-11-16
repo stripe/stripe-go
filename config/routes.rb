@@ -9,14 +9,14 @@ Rails.application.routes.draw do
 
   default_url_options protocol: :https
 
-  root to: redirect('/auth/salesforce')
+  root to: 'sessions#root_action'
   get '/auth/salesforce/callback', to: 'sessions#salesforce_callback'
   get '/auth/stripe/callback', to: 'sessions#stripe_callback'
 
-  namespace :v1, module: 'api', as: 'api' do
+  namespace :v1, module: 'api', as: 'api', constraints: {format: 'json'} do
     resource :configuration, only: [:show, :update]
-    post 'post-install' => 'configuration#post_install'
-    get 'retry/:object_type/:object_id' => 'retry#retry'
+    post 'post-install' => 'configurations#post_install'
+    post 'translate' => 'configuration#translate'
   end
 
   # TODO need basic auth
