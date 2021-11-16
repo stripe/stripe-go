@@ -1,4 +1,6 @@
 # typed: true
+# Description: the oauth tokens can easily break if you are testing prod
+#              if you reauth locally and then run this script, .env will be updated
 
 require File.expand_path('../config/environment', __dir__)
 
