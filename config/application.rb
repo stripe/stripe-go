@@ -43,6 +43,15 @@ module StripeForce
     # config.action_controller.default_url_options = {
     #   host: ENV.fetch('SALESFORCE_APP_DOMAIN'),
     # }
+
+    config.lograge.enabled = true
+    config.lograge.custom_options = lambda do |event|
+      # NOTE lograge doesn't include params by default, we need to manually include them here
+      payload = {"params" => event.payload[:params].except('controller', 'action')}
+
+      # TODO not sure exactly what is going on here...
+      payload.merge(event.payload.select {|k, v| [:salesforce_user_id, :stripe_user_id].include?(k) && v.present? })
+    end
   end
 end
 

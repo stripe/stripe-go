@@ -10,6 +10,7 @@ gem 'sorbet-rails', '~> 0.7.25'
 
 gem 'dotenv-rails', '2.7.6', groups: [:development, :test]
 gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
+gem 'lograge'
 
 group :production do
   gem 'puma', '~> 5.0'
@@ -22,11 +23,10 @@ gem "sentry-resque", "~> 4.8.0"
 gem 'simple_structured_logger'
 
 # resque
-# gem 'resque', "~> 2.1.0"
-gem 'resque', github: 'resque/resque', ref: '92a4564fac9af56ad0b1b2a37ad51dbea5c2bf36'
+gem 'resque', '~> 2.2.0'
 gem 'resque-scheduler', "~> 4.5.0"
 gem 'resque-retry', '~> 1.7.6'
-gem 'resque-heroku-signals', '~> 2.1.0'
+gem 'resque-heroku-signals', '~> 2.2.0'
 gem 'redis', '~> 4.5.0'
 
 # database
@@ -96,5 +96,5 @@ group :development do
 
   # lock to an old version to align with pay-server
   gem 'rubocop', '0.89.1'
-  gem 'rubocop-minitest'
+  gem 'rubocop-minitest', require: false
 end

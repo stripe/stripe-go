@@ -18,7 +18,7 @@ require "minitest/rails"
 require 'minitest/spec'
 require 'minitest/profile'
 require "mocha/minitest"
-require 'pry-rescue/minitest' unless ENV['CI'] || ENV['EXT_DIR']
+require 'pry-rescue/minitest' unless ENV['CI'] || ENV['EXT_DIR'] || ENV['NO_RESCUE']
 
 require_relative 'support/common_helpers'
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].sort.each {|f| require f }

@@ -8,7 +8,43 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
     {Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => @user.salesforce_account_id}
   end
 
-  describe 'post install' do
+  describe '#translate' do
+    before do
+      @user = make_user(save: true)
+    end
+
+    it 'validates the input' do
+      post api_translate_path, as: :json
+      assert_response :not_found
+
+      post api_translate_path, headers: authentication_headers
+      assert_response :not_acceptable
+
+      post api_translate_path, as: :json, headers: authentication_headers
+      assert_response :bad_request
+
+      post api_translate_path, as: :json, params: { object_type: 'invalid', object_ids: ["123"] }, headers: authentication_headers
+      assert_response :bad_request
+
+      post api_translate_path, as: :json, params: { object_type: 'Order', object_ids: 'not an array' }, headers: authentication_headers
+      assert_response :bad_request
+    end
+
+    it 'queues jobs for translation' do
+      number_of_orders = 5
+
+      order_ids = number_of_orders.times.map do
+        create_salesforce_id
+      end
+
+      SalesforceTranslateRecordJob.expects(:work).times(number_of_orders)
+
+      post api_translate_path, as: :json, params: { object_type: 'Order', object_ids: order_ids }, headers: authentication_headers
+      assert_response :success
+    end
+  end
+
+  describe '#post_install' do
     it 'rejects a invalid request' do
       post api_post_install_path, as: :json, headers: { Api::Controller::SALESFORCE_KEY_HEADER => '123'}
       assert_response :not_found

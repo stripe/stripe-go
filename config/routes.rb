@@ -11,12 +11,13 @@ Rails.application.routes.draw do
 
   root to: 'sessions#root_action'
   get '/auth/salesforce/callback', to: 'sessions#salesforce_callback'
+  get '/auth/salesforcesandbox/callback', to: 'sessions#salesforce_callback'
   get '/auth/stripe/callback', to: 'sessions#stripe_callback'
 
   namespace :v1, module: 'api', as: 'api', constraints: {format: 'json'} do
     resource :configuration, only: [:show, :update]
     post 'post-install' => 'configurations#post_install'
-    post 'translate' => 'configuration#translate'
+    post 'translate' => 'configurations#translate'
   end
 
   # TODO need basic auth

@@ -8,6 +8,14 @@
 
 class ActiveSupport::StringInquirer
   def development?; end
+  def production?; end
+end
+
+class ApplicationIntegrationTest
+  # include ActionController::Metal
+  def response; end
+
+  include Minitest::Assertions
 end
 
 class Restforce::SObject
