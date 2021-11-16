@@ -1,0 +1,12 @@
+<template>
+    <c-step header="Connect Salesforce to Stripe" container-size="small" back-hidden>
+        <p slot="description">Log in to your Stripe Billing instance to grant Salesforce access to Stripe.</p>
+        
+        <div class="slds-p-around_medium">
+            <c-connector
+            is-complete={isAuthComplete}
+            onauth={connectToStripe}
+            ></c-connector>
+        </div>
+    </c-step>
+</template> 

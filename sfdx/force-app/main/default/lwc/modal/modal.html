@@ -1,0 +1,37 @@
+<!-- [LWC] Strike Modal v2.1.0 -->
+<template>
+    <section role="dialog" class={modalClass} style={modalStyle} tabindex={tabIndex}>
+        <div class="slds-modal__container">
+            <!-- Modal Header -->
+            <header class={modalHeaderClass}>
+                <lightning-button-icon 
+                    icon-name="utility:close" 
+                    size="large"
+                    variant="bare-inverse" 
+                    class="slds-modal__close"
+                    onclick={close}>
+                </lightning-button-icon>
+                <template if:false={hideHeader}>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">{title}</h2>
+                    <slot name="tagline"></slot>
+                </template>
+            </header>
+            <!-- /Modal Header -->
+    
+            <!-- Modal Body -->
+            <div data-id="body" class={modalContentClass} style={modalContentStyle}>
+                <slot></slot>
+            </div>
+            <!-- /Modal Body -->
+    
+            <!-- Modal Footer -->
+            <template if:false={hideFooter}>
+                <footer class={modalFooterClass}>
+                    <slot name="footer"></slot>
+                </footer>
+            </template>
+            <!-- /Modal Footer -->
+        </div>
+    </section>
+    <div class={backdropClass} style={backdropStyle}></div>
+</template>

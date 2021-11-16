@@ -1,0 +1,37 @@
+.ap-toast_container {
+    pointer-events: none;
+}
+
+.ap-toast_container>* {
+    pointer-events: auto;
+}
+
+.ap-toast {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    opacity: 0;
+/*    border-radius: .25rem;*/
+    min-width: 0;
+    -webkit-transition: all ease-in 300ms 0ms;
+    -o-transition: all ease-in 300ms 0ms;
+    transition: all ease-in 300ms 0ms;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(.5);
+    font-weight: 400;
+}
+
+.ap-toast_shown {
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none;
+    opacity: 1;
+    -webkit-transition-timing-function: cubic-bezier(0.6, 0.4, 0.22, 1.32);
+    -o-transition-timing-function: cubic-bezier(0.6, 0.4, 0.22, 1.32);
+    transition-timing-function: cubic-bezier(0.6, 0.4, 0.22, 1.32);
+}
+
+.ap-toast .slds-notify__close {
+    margin-top: 1px;
+}

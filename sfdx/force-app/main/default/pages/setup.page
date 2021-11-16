@@ -1,0 +1,57 @@
+<apex:page sidebar="false" showHeader="false" controller="constants" title="Setup">
+    <apex:includeLightning />
+    <apex:slds />
+    <style type="text/css">
+        #lightning {
+            position: relative;
+            height: 100%;
+            min-height: 100vh;
+            background-color: #f9f9fa;
+        }
+        .noSidebarCell #lightning {
+            height: auto;
+            min-height: 0;
+            background-color: white;
+        }
+        .noSidebarCell #lightning #spinner {
+            min-height: 20rem;
+        }
+        .bodyDiv .outerNoSidebar,
+        .noSidebarCell,
+        .sidebarCell .fixed {
+            padding: 0;
+        }
+        #auraErrorMessage {
+            position: fixed;
+            top: 0;
+            z-index: 9999;
+        }
+        lightning-primitive-bubble {
+            top: 0;
+        }
+    </style>
+
+    <div id="lightning">
+        <div id="spinner">
+            <div role="status" class="slds-spinner slds-spinner_medium">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $Lightning.use('{!JSENCODE(namespace)}:lightningOut', function () {
+            document.getElementById('lightning').style.display = 'block';
+            $Lightning.createComponent('{!JSENCODE(namespace)}:setupAssistant', {
+                isClassic: {!'Theme3' == $User.UIThemeDisplayed}
+            }, 'lightning', function (component, status, errorMessage) {
+                document.getElementById('spinner').style.display = 'none';
+                if ('SUCCESS' != status) {
+                    console.log('***********' + errorMessage);
+                }
+            });
+        });
+    </script>
+</apex:page>

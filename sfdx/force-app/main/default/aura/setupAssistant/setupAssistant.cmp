@@ -1,0 +1,5 @@
+<!-- Strike Setup Assistant v3.0.2 -->
+<aura:component>
+    <aura:attribute name="isClassic" type="Boolean"/>
+    <c:setup isClassic="{!v.isClassic}"/>
+</aura:component>

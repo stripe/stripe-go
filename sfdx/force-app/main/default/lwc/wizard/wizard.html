@@ -1,0 +1,80 @@
+<!-- [LWC] Strike Wizard v2.2.0 -->
+<template>
+    <div class="strike-scope">
+        <div class="strike-wizard slds-is-absolute">
+            <div class="strike-wizard__vertical-layout slds-grid_vertical slds-grid">
+                <div class="slds-col slds-no-flex">
+                    <div class="slds-page-header slds-border_bottom slds-theme_default slds-is-relative">
+                        <slot name="header">
+                            <lightning-progress-indicator if:true={showProgressIndicator} class="strike-wizard__progress-indicator slds-is-absolute" current-step={currentStepIndex}>
+                                <template for:each={steps} for:item="step" for:index="index">
+                                    <lightning-progress-step key={step.header} label={step.header} value={index}></lightning-progress-step>
+                                </template>
+                            </lightning-progress-indicator>
+                            <div class="slds-grid slds-grid_vertical-align-center slds-gutters_direct-xx-small">
+                                <div class="slds-col slds-no-flex">
+                                    <lightning-icon icon-name="custom:custom67"></lightning-icon>
+                                </div>
+                                <div class="slds-col">
+                                    <nav role="navigation" aria-label="Breadcrumbs">
+                                        <ol class="slds-breadcrumb slds-list_horizontal slds-wrap">
+                                            <li class="slds-breadcrumb__item slds-text-title_caps">
+                                                <a href="javascript:void(0);" onclick={exit}>Setup</a>
+                                            </li>
+                                        </ol>
+                                    </nav>
+                                    <div class="slds-page-header__name">
+                                        <div class="slds-page-header__name-title">
+                                            <h1 class="slds-page-header__title" title={title}>
+                                                <strong>{title}</strong>
+                                            </h1>
+                                        </div>
+                                    </div>
+                                </div>
+                                <template if:true={showClose}>
+                                    <div class="slds-col slds-no-flex">
+                                        <lightning-button-icon variant="border-filled" icon-name="utility:close" size="medium" alternative-text="Close" onclick={exit}></lightning-button-icon>
+                                    </div>
+                                </template>
+                            </div>
+                        </slot>
+                    </div>
+                </div>
+                <div class="strike-wizard__content slds-col slds-scrollable">
+                    <!-- Content -->
+                    <slot></slot>
+                    <!-- /Content -->
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-notify_container">
+            <div class={toast.class} role="alert">
+                <template if:true={toast.icon}>
+                    <template if:true={toast.icon.name}>
+                        <span class="slds-assistive-text">{toast.type}</span>
+                        <span class={toast.icon.class} title={toast.type}>
+                            <lightning-icon icon-name={toast.icon.name} size="small" variant="inverse"></lightning-icon>
+                        </span>
+                    </template>
+                </template>
+                <div class="slds-notify__content">
+                    <h2 class="slds-text-heading_small ">
+                        {toast.title}
+                    </h2>
+                    <p if:true={toast.message}>{toast.message}</p>
+                </div>
+                <button if:true={toast.dismissible} class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close" onclick={hideToast}>
+                    <lightning-button-icon icon-name="utility:close" alternative-text="add" size="large" variant="bare-inverse"></lightning-button-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <slot name="modal">
+        <c-modal title="Are you sure?">
+            <p class="slds-text-align_center">Unsaved changes will be lost!</p>
+        </c-modal>
+    </slot>
+</template>

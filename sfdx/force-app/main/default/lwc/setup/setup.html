@@ -1,0 +1,16 @@
+<template>
+    <c-landing is-classic={isClassic}></c-landing>
+
+    <!-- Wizards and Steps -->
+    <c-wizard title="System Connections" description="Connect Stripe to your Salesforce org" setup show-close>
+        <c-outbound-step onshowtoast={showToast}></c-outbound-step>
+        <c-inbound-step onshowtoast={showToast}></c-inbound-step>
+    </c-wizard>
+    <c-wizard title="Data Mapping" description="Determine how data is transferred between Salesforce and Stripe" setup show-close>
+        <c-data-mapping-step onshowtoast={showToast}></c-data-mapping-step>
+    </c-wizard>
+    <c-wizard title="Synchronization Settings" description="Customize which data is shared between Salesforce and Stripe" setup show-close>
+        <c-order-filter-step onshowtoast={showToast}></c-order-filter-step>
+    </c-wizard>
+    <!-- /Wizards and Steps -->
+</template>

@@ -1,0 +1,19 @@
+<template>
+    <li role="presentation" class={listItemClassList} onmousedown={preventDefault} onclick={select} onmouseenter={updateFocusIndex} onmouseover={preventDefault}>
+        <div class={optionClasslist} role="option">
+            <template if:true={isSelected}>
+                <span class="slds-media__figure">
+                    <lightning-icon class="slds-listbox__icon-selected" icon-name="utility:check" size="x-small"></lightning-icon>
+                </span>
+            </template>
+            <span class="slds-media__body">
+                <template if:true={option.iconName}>
+                    <lightning-icon icon-name={option.iconName} size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                </template>
+                <span class="slds-truncate" title={option.label}>
+                    {option.label}
+                </span>
+            </span>
+        </div>
+    </li>
+</template>

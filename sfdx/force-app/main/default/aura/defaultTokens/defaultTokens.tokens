@@ -1,0 +1,23 @@
+<aura:tokens extends="force:base">
+    <aura:token name="fontSizeSmall" value="0.75rem"/>
+    <aura:token name="spacingXxLarge" value="3rem"/>
+    <aura:token name="fontSizeXxLarge" value="1.75rem"/>
+    <aura:token name="fontSizeXLarge" value="1.25rem"/>
+    <aura:token name="fontSizeXSmall" value="0.625rem"/>
+    <aura:token name="colorBorderInpuDisabled" value="#a8b7c7"/>
+    <aura:token name="fontSizeTextSmall" value="0.8125rem"/>
+    <aura:token name="colorBackgroundSuccess" value="#4bca81"/>
+    <aura:token name="colorBackgroundDestructive" value="#c23934"/>
+    <aura:token name="colorBackgroundDestructiveActive" value="#870500"/>
+    <aura:token name="colorBackgroundPathComplete" value="#4bca81"/>
+    <aura:token name="colorBackgroundPathCompleteHover" value="rgba(4,132,75,.95)"/>
+    <aura:token name="colorTextError" value="#c23934"/>
+    <aura:token name="colorBorderInverse" value="#061c3f"/>
+    <aura:token name="fontSizeTextXxSmall" value=".625rem"/>
+    <aura:token name="zIndexOverlay" value="8000"/>
+    <aura:token name="colorBackgroundInfo" value="#54698d"/>
+    <aura:token name="colorBackgroundWarning" value="#ffb75d"/>
+    <aura:token name="colorTextWarning" value="#ffb75d"/>
+    <aura:token name="colorTextSuccessInverse" value="#4bca81"/>
+    <aura:token name="brandBackgroundPrimary" value="#fafaf9"/>
+</aura:tokens>

@@ -1,0 +1,22 @@
+<template>
+    <div class="ap-toast_container slds-notify_container">
+        <div class={toastClassList} role="status">
+            <span class="slds-assistive-text">{variant}</span>
+            <div class="slds-media_figure slds-m-right_small">
+                <lightning-icon icon-name={iconName} size="small" variant="inverse"></lightning-icon>
+            </div>
+            <div class="slds-media__body">
+                <p>{message}</p>
+            </div>
+            <div if:true={showCloseButton} class="slds-notify__close">
+                <lightning-button-icon 
+                    icon-name="utility:close"
+                    variant="bare-inverse"
+                    size="medium"
+                    alternative-text="Close"
+                    onclick={hide}>
+                </lightning-button-icon>
+            </div>
+        </div>
+    </div>
+</template>

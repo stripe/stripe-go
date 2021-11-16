@@ -1,0 +1,116 @@
+:host {
+    display: block;
+}
+
+.sp-no-results.slds-lookup__result-text {
+    padding: .5rem .75rem;
+    margin-left: 20px;
+}
+
+.slds-has-error .slds-input.sp-input {
+    box-shadow: none;
+    border-color: #dddbda;
+}
+
+.slds-icon_container.slds-icon-utility-down.sp-dropdown-icon {
+    display: inline;
+    border-radius: 0;
+}
+
+.slds-picklist .slds-picklist__label .sp-selected-icon .slds-icon {
+    position: static;
+    margin-top: -.05rem;
+    margin-right: 0.5rem;
+}
+
+.slds-picklist .slds-picklist__input.sp-menu-button .slds-icon {
+    pointer-events: none;
+}
+
+.sp-picklist__input .slds-form-element {
+    width: unset;
+}
+
+.slds-picklist .slds-dropdown.sp-dropdown-control {
+    width: 100%;
+    max-width: none;
+    font-size: var(--lwc-fontSizeTextSmall);
+    top: initial;
+}
+
+.slds-button.slds-button_neutral.slds-picklist__label {
+    width: 100%;
+}
+
+.slds-form-element .slds-picklist .slds-dropdown.slds-listbox {
+    width: 100%;
+    max-width: none;
+}
+
+.slds-picklist.slds-dropdown-trigger {
+    display: block;
+}
+
+.slds-picklist .slds-button,
+.slds-picklist .slds-button:hover {
+    font-size: var(--lwc-fontSizeTextSmall);
+    color: var(--lwc-colorTextDefault);
+}
+
+.slds-picklist .sp-placeholder,
+.slds-picklist.sp-disabled .slds-button span {
+    color: rgb(107, 109, 112);
+}
+
+.slds-picklist.sp-disabled .slds-button,
+.slds-picklist.sp-disabled:hover .slds-button {
+    background-color: var(--lwc-colorBackgroundShade);
+    border-color: var(--lwc-colorBorderInputDisabled);
+    pointer-events: none;
+}
+
+.slds-picklist.sp-disabled:hover {
+    cursor: not-allowed;
+}
+
+.slds-picklist.sp-readonly .slds-button,
+.slds-picklist.sp-readonly:hover .slds-button {
+    padding-left: 0;
+    border-color: transparent;
+    background-color: transparent;
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+.slds-has-error .slds-picklist.sp-disabled .slds-button,
+.slds-has-error .slds-picklist.sp-disabled:hover .slds-button {
+    background-color: var(--lwc-colorBackgroundInput);
+    border-color: var(--lwc-colorBorderError);
+}
+
+.slds-picklist.sp-readonly .slds-button {
+    pointer-events: none;
+}
+
+.slds-picklist.sp-disabled.sp-readonly .slds-button {
+    pointer-events: all;
+}
+
+.slds-hide {
+    display: none !important;
+}
+
+.slds-picklist.sp-picklist_sticky-dropdown .slds-dropdown {
+    width: 100%;
+    transform: translateZ(0);
+    height: auto;
+    left: initial;
+    right: initial;
+}
+
+.sp-keyboard-mode {
+    pointer-events: none;
+}
+.sp-menu-button.slds-button:hover {
+    background-color: white;
+}

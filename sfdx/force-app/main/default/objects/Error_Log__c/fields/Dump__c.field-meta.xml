@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dump__c</fullName>
+    <description>Stores response body error when response is not successful</description>
+    <externalId>false</externalId>
+    <label>Dump</label>
+    <length>1025</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

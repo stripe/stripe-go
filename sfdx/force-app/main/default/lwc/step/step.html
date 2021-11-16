@@ -1,0 +1,25 @@
+<template>
+    <div class="strike-step-container">
+        <div class="slds-col">
+            <div class="slds-container slds-container_center slds-container_medium slds-m-bottom_large slds-text-align_center">
+                <div class="slds-text-heading_medium"><strong>{header}</strong></div>
+                <div class="slds-m-top_xx-small">
+                    <slot name="description"></slot>
+                </div>
+            </div>
+            <div class={containerClassList}>
+                <div class="slds-card slds-theme_default">
+                    <slot>
+                        <div class="slds-p-around_xx-large">
+                            <p class="slds-text-heading_small slds-text-align_center"><em class="slds-text-color_weak">Step content will appear here.</em></p>
+                        </div>
+                    </slot>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="strike-step-nav">
+        <lightning-button if:false={backHidden} class="slds-is-fixed strike-step-nav__back" label={backLabel} icon-name={backIconName} icon-position="left" onclick={fireBack}></lightning-button>
+        <lightning-button class="slds-is-fixed strike-step-nav__next" label={nextLabel} icon-name={nextIconName} icon-position="right" variant="brand" onclick={fireNext} disabled={nextDisabled}></lightning-button>
+    </div>
+</template>

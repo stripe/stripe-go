@@ -1,0 +1,8 @@
+.slds-modal,
+.slds-modal__content {
+    overscroll-behavior: none;
+}
+
+.sm-pointer-events_none {
+    pointer-events: none;
+}

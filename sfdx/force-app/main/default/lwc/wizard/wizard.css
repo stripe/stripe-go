@@ -1,0 +1,42 @@
+.strike-scope .strike-wizard {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.strike-scope.classic .strike-wizard {
+    top: initial;
+    right: initial;
+    bottom: initial;
+    left: initial;
+}
+
+.strike-scope .slds-page-header__icon .slds-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+}
+
+.strike-scope .strike-wizard__vertical-layout {
+    height: 100%;
+}
+
+.strike-scope .strike-wizard__content {
+    background-color: var(--lwc-colorBackground, #fafaf9);
+    flex-basis: 100%;
+    position: relative;
+}
+
+.strike-wizard__progress-indicator {
+    display: none;
+    width: 35%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media (min-width: 48em) {
+    .strike-wizard__progress-indicator {
+        display: block;
+    }
+}

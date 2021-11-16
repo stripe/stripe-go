@@ -1,0 +1,63 @@
+<!-- Strike Picklist v2.1.10 -->
+<template>
+    <div class={outerClassList} onclick={preventDefaultStopProp}>
+        <template if:false={labelHidden}>
+            <template if:true={required}>
+                <abbr class="slds-required" title="required">*</abbr>
+            </template>
+            <label class="slds-form-element__label">{label}</label>
+        </template>
+        <div class={picklistClassList} aria-expanded="true" onkeyup={handleKeyupOnPicklist} onkeydown={handleKeydownOnPicklist}>
+            <div class="slds-form-element__control" onblur={blur}>
+                <div class="slds-button slds-button_neutral slds-input slds-picklist__input slds-text-color_default slds-picklist__label sp-menu-button" aria-haspopup="true" tabindex="0" onblur={blur} onfocus={focus} onclick={click}>
+                    <span class={valueLabelClassList} title={valueLabel}>
+                        <input name={name} value={value} class="slds-hide"/>
+                        {valueLabel}
+                    </span>
+                    <template if:true={showDropdownIcon}>
+                        <lightning-icon class="sp-dropdown-icon" icon-name="utility:down" size="xx-small"></lightning-icon>
+                    </template>
+                </div>
+                <div role="listbox" class={dropdownClassList} onmousemove={disableKeyboardMode} style={dropdownStyles} onmousedown={handleDropdownMouseDown}>
+                    <div class={inputClassList}>
+                        <div class="slds-form-element slds-m-vertical_x-small slds-m-horizontal_small">
+                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                <lightning-icon class="slds-input__icon slds-icon-text-default" icon-name="utility:search" size="x-small"></lightning-icon>
+                                <input class="slds-input sp-input" type="text" onfocus={clearBlurTimeout} onblur={blur} onkeyup={handleKeyupOnInput} onkeydown={handleKeydownOnInput}>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sp-scrollable-list slds-is-relative" style={dropdownMenuStyles} onscroll={preventDefaultStopProp}>
+                        <ul role="menu">
+                            <template if:false={hasResults}>
+                                <li role="presentation">
+                                    <div class="sp-no-results slds-lookup__result-text">
+                                        No results found
+                                    </div>
+                                </li>
+                            </template>
+                            <template for:each={filteredOptions} for:item="option">
+                                <template if:true={option.isOptGroup}>
+                                    <li key={option.label} role="presentation" class="slds-listbox__item">
+                                        <div  role="presentation" class="slds-media slds-listbox__option slds-listbox__option_plain">
+                                            <h3 class="slds-listbox__option-header slds-truncate" role="presentation" title={option.label}>{option.label}</h3>
+                                        </div>
+                                    </li>
+                                    <template for:each={option.options} for:item="groupOption">
+                                        <c-picklist-option key={groupOption.value} option={groupOption} parent-value={value} onselect={select} onupdatefocusindex={updateFocusIndex}></c-picklist-option>
+                                    </template>
+                                </template>
+                                <template if:false={option.isOptGroup}>
+                                    <c-picklist-option key={option.value} option={option} parent-value={value} onselect={select} onupdatefocusindex={updateFocusIndex}></c-picklist-option>
+                                </template>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <template if:false={validity}>
+                <div class="slds-form-element__help">{errorMessage}</div>
+            </template>
+        </div>
+    </div>
+</template>

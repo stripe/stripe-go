@@ -1,0 +1,34 @@
+.so-disabled {
+    background-color: var(--lwc-colorBackground);
+    opacity: 0.5;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.so-disabled.slds-media:hover {
+    cursor: inherit;
+}
+
+.so-listbox__item_disabled {
+    cursor: -webkit-not-allowed;
+    cursor: not-allowed;
+}
+
+.slds-listbox__option .slds-media__body{
+    margin-left: 20px;
+}
+
+.slds-listbox__option.slds-is-selected .slds-media__body{
+    margin-left: 0;
+}
+
+.slds-listbox__option.slds-listbox__option_plain:hover {
+    background-color: transparent;
+}
+
+.slds-listbox__option.slds-listbox__option_plain.slds-has-focus,
+.slds-listbox__option.slds-listbox__option_plain.slds-has-focus:hover {
+    background-color: rgb(243, 242, 242);
+}

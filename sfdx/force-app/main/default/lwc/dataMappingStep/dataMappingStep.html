@@ -1,0 +1,119 @@
+<template>
+    <c-step header="Map Salesforce Fields to Stripe" container-size="large" next-label="Finish" next-icon-name="utility:check" back-hidden> 
+        <p slot="description">Map your Salesforce object fields to Stripe Billing fields, or provide static values.</p>
+
+        <div class="slds-grid">
+            <div class="slds-col slds-border_right slds-no-flex" style="width: 210px;">
+                <lightning-vertical-navigation selected-item="customer">
+                    <lightning-vertical-navigation-section label="Stripe Objects">
+                        <lightning-vertical-navigation-item label="Customer" name="customer"></lightning-vertical-navigation-item>
+                        <lightning-vertical-navigation-item label="Product" name="product"></lightning-vertical-navigation-item>
+                        <lightning-vertical-navigation-item label="Subscription" name="subscription"></lightning-vertical-navigation-item>
+                        <lightning-vertical-navigation-item label="Subscription Item" name="subscription-item"></lightning-vertical-navigation-item>
+                        <lightning-vertical-navigation-item label="Price" name="price"></lightning-vertical-navigation-item>
+                    </lightning-vertical-navigation-section>
+                </lightning-vertical-navigation>
+            </div>
+            <div class="slds-col slds-p-around_medium">
+                <!-- Mapper Main Content -->
+                <h1 class="slds-text-heading_medium slds-m-bottom_small">Customer</h1>
+                <!-- Object Selection -->
+                <!-- <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-2">
+                        <c-picklist label="Salesforce Object" options={sfObjectOptions} value="contact" required searchable></c-picklist>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <c-picklist label="Record Type" options={sfRecordTypeOptions} value="default" required searchable></c-picklist>
+                    </div>
+                </div>
+                <hr class="slds-m-vertical_medium"> -->
+                <!-- Field Mapping -->
+                <table class="slds-table slds-no-row-hover slds-table_bordered slds-table_cell-buffer slds-border_left slds-border_right">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="">Stripe Field</div>
+                            </th>
+                            <th class="" scope="col" style="width: 1px;">
+                                Static Value
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="">Salesforce Field</div>
+                            </th>
+                            <th class="" scope="col" style="width: 1px;">
+                                <!-- Actions -->
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={stripeCustomerFields} for:item="field" for:index="index">
+                            <tr key={field.name}>
+                                <td>
+                                    <div class="slds-truncate">{field.name}</div>
+                                </td>
+                                <td class="slds-text-align_center">
+                                    <lightning-input 
+                                        type="toggle" 
+                                        label="Static Value" 
+                                        variant="label-hidden" 
+                                        message-toggle-active="" 
+                                        message-toggle-inactive=""
+                                        class="slds-m-left_small"
+                                        checked={field.staticValue}>
+                                    </lightning-input>
+                                </td>
+                                <td>
+                                    <template if:true={field.staticValue}>
+                                        <lightning-input type="text" label="Salesforce Value" value={field.sfValue} variant="label-hidden"></lightning-input>
+                                    </template>
+                                    <template if:false={field.staticValue}>
+                                        <c-picklist label="Record Type" options={sfFieldOptions} value={field.sfValue} variant="label-hidden" searchable></c-picklist>
+                                    </template>
+                                </td>
+                                <td>
+    
+                                </td>
+                            </tr>
+                        </template>
+
+                        <!-- Blank -->
+                        <template for:each={customFields} for:item="field" for:index="index">
+                            <tr key={field.name}>
+                                <td>
+                                    <div class="slds-truncate">
+                                        <lightning-input type="text" label="Stripe Field" value={field.name} variant="label-hidden"></lightning-input>
+                                    </div>
+                                </td>
+                                <td class="slds-text-align_center">
+                                    <lightning-input 
+                                        type="toggle" 
+                                        label="Static Value" 
+                                        variant="label-hidden" 
+                                        message-toggle-active="" 
+                                        message-toggle-inactive=""
+                                        class="slds-m-left_small"
+                                        checked={field.staticValue}>
+                                    </lightning-input>
+                                </td>
+                                <td>
+                                    <template if:true={field.staticValue}>
+                                        <lightning-input type="text" label="Salesforce Value" value={field.sfValue} variant="label-hidden"></lightning-input>
+                                    </template>
+                                    <template if:false={field.staticValue}>
+                                        <c-picklist label="Record Type" options={sfFieldOptions} value={field.sfValue} variant="label-hidden" searchable></c-picklist>
+                                    </template>
+                                </td>
+                                <td>
+                                    <lightning-button-icon icon-name="utility:delete" size="small" variant="bare"></lightning-button-icon>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+                <div class="slds-m-top_small">
+                    <lightning-button label="Add Row" variant="neutral" icon-name="utility:add" icon-position="left"></lightning-button>
+                </div>
+            </div>
+        </div>
+    </c-step>
+</template>
