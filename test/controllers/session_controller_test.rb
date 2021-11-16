@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: ignore
+# typed: true
 require_relative '../test_helper'
 
 class SessionsControllerTest < ApplicationIntegrationTest
@@ -148,123 +148,40 @@ class SessionsControllerTest < ApplicationIntegrationTest
 
   def mock_omniauth_stripe; end
 
-  it 'should redirect to the salesforce login page by default' do
+  def create_post_install_user
+    # no other fields are configured after post-install
+    StripeForce::User.create(
+      salesforce_account_id: sf_account_id,
+      salesforce_organization_key: SecureRandom.alphanumeric(16)
+    )
+  end
+
+  # the account
+  it 'creates a new user when it is authorized with salesforce' do
+    user = create_post_install_user
+
     mock_omniauth_salesforce
 
-    Admin.expects(:from_omniauth).never
-
-    get admin_google_oauth2_omniauth_callback_url
-
-    assert_response :redirect
-    assert_equal(response.headers['Location'], login_url(mode: nil))
-    assert_match(/Contact support to setup an account/, flash[:notice])
-    assert_equal(true, Admin.all.empty?)
-  end
-
-  it 'should redirect the user to the page they originally tried to access' do
-    user = make_user(save: true)
-    attempt = create_attempt(user: user)
-
-    Admin.create(
-      email: admin_email,
-      stripe_user_id: user.stripe_user_id
-    )
-
-    target_location = translation_attempts_url(attempt)
-
-    get target_location
-
-    # redirects to login and stores accessed location in a cookie
-    assert_equal(response.headers["Location"], login_url(mode: nil))
-
-    mock_omniauth_google2
-    get admin_google_oauth2_omniauth_callback_url
-
-    assert_equal(target_location, response.headers["Location"])
-  end
-
-  it 'should login a standard admin associated with a stripe account' do
-    user = make_user(save: true)
-
-    Admin.create(
-      email: admin_email,
-      stripe_user_id: user.stripe_user_id
-    )
-
-    mock_omniauth_google2
-
-    get admin_google_oauth2_omniauth_callback_url
+    get auth_salesforce_callback_path
 
     assert_response :redirect
 
-    assert_nil(flash[:notice])
-    assert_equal(response.headers["Location"], dashboard_url)
+    assert_match(%r{/auth/stripe$}, response.headers['Location'])
 
-    admin = Admin.find(email: admin_email)
-    assert_equal(admin_uid, admin.uid)
-    assert_equal('view', admin.role)
-    assert_equal('google_oauth2', admin.provider)
+    user = StripeForce::User[user.id]
+
+    assert_equal(1, StripeForce::User.count)
+
+    refute_nil(user.salesforce_account_id)
+    refute_nil(user.salesforce_refresh_token)
+    refute_nil(user.salesforce_instance_url)
+    refute_nil(user.salesforce_token)
+
+    refute_nil(user.name)
+    refute_nil(user.email)
   end
 
-  it 'should allow root login if user on admin is nil but role is root' do
-    admin = Admin.create(
-      email: admin_email,
-      stripe_user_id: nil,
-      role: 'root',
-      provider: 'google_oauth2',
-      uid: admin_uid
-    )
+  it 'updates an existing user with stripe oauth information if the account is already authorized with salesforce' do
 
-    assert_equal(true, admin.root?)
-    assert_nil(admin.user)
-
-    mock_omniauth_google2
-
-    get admin_google_oauth2_omniauth_callback_url
-
-    assert_response :redirect
-
-    assert_nil(flash[:notice])
-    assert_equal(response.headers["Location"], users_url(mode: nil))
-  end
-
-  it 'should allow root login when a first login attempt from a stripe email is detected' do
-    stripe_email = 'netsuite@stripe.com'
-
-    admin = Admin.create(
-      email: stripe_email,
-      role: 'root',
-      provider: 'google_oauth2',
-    )
-
-    assert_nil(admin.uid)
-
-    mock_omniauth_google2(email: stripe_email)
-
-    get admin_google_oauth2_omniauth_callback_url
-
-    assert_response :redirect
-
-    assert_nil(flash[:notice])
-    assert_equal(users_url(mode: nil), response.headers["Location"])
-  end
-
-  it 'should not allow root login when a first login attempt is attempted from a non-stripe email' do
-    admin = Admin.create(
-      email: admin_email,
-      role: 'root',
-      provider: 'google_oauth2',
-    )
-
-    assert_nil(admin.uid)
-
-    mock_omniauth_google2
-
-    get admin_google_oauth2_omniauth_callback_url
-
-    assert_response :redirect
-
-    assert_match("Your account setup is not complete", flash[:notice])
-    assert_equal(login_url(mode: nil), response.headers["Location"])
   end
 end

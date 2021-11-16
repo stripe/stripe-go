@@ -7,11 +7,15 @@ module CommonHelpers
   include StripeForce::Constants
   include Critic::SalesforceFactory
 
+  def sf_account_id
+    ENV.fetch('SF_INSTANCE_ID')
+  end
+
   def make_user(sandbox: false, save: false, random_user_id: false)
     user = StripeForce::User.new(
       livemode: false,
 
-      salesforce_account_id: ENV.fetch('SF_INSTANCE_ID'),
+      salesforce_account_id: sf_account_id,
       salesforce_token: ENV.fetch('SF_ACCESS_TOKEN'),
       salesforce_refresh_token: ENV.fetch('SF_REFRESH_TOKEN'),
       salesforce_instance_url: "https://#{ENV.fetch('SF_INSTANCE_DOMAIN')}.my.salesforce.com",
