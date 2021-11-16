@@ -62,6 +62,7 @@ public with sharing class utilities {
  
         if(body != null) {
             req.setHeader('Content-Type', 'application/json');
+            req.setHeader('Accept', 'application/json');
             req.setBody(body);
         }
  
@@ -70,16 +71,19 @@ public with sharing class utilities {
                 req.setHeader(header, headers.get(header));
             }
         } else {
-            List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, API_Key__c
+            List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
                                                                 FROM Setup_Connection_Data__mdt
                                                                 WITH SECURITY_ENFORCED];    
             if(!setupConfigList.isEmpty()) {
                 Setup_Connection_Data__mdt setupData = setupConfigList[0];
                 if(setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) {
                     String orgId = constants.ORG_ID;
+                    //String globalKey = setupData.Global_Key__c; //Arnold comment out when in package 
+                    String globalKey = 'dee37489-9f31-91d5';
                     String packageGuidKey = setupData.API_Key__c;
                     req.setHeader('Salesforce-Account-Id', orgId);
-                    req.setHeader('key', packageGuidKey);
+                    req.setHeader('Salesforce-Key', globalKey);
+                    //req.setHeader('key', packageGuidKey);
                 } 
             } else {
                 throw new SetupIsNotCompleteException('Setup is not complete, contact your Salesforce administrator for further assistance.');

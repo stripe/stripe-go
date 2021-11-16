@@ -8,15 +8,17 @@ export default class OutboundStep extends LightningElement {
 
     connectedCallback() {
         this.template.addEventListener('next', this.next.bind(this));
-        this.stripeConnectedAppCallback();
+        //this.stripeConnectedAppCallback();
+        console.log('IS this being hit');
         this.postMessageListener = (event) => {
+            console.log('event')
             console.log(event)
-            /* if(event.origin === '' ) {
-                let connectionSuccessful = event.data.connectionSuccessful
-                if(connectionSuccessful)this.stripeConnectedAppCallback();
-            } */
-           } 
-        window.addEventListener('message', this.postMessageListener);
+            if(event.origin === 'https://connect.stripe.com' ) {
+                
+                //this.stripeConnectedAppCallback();
+            } 
+        } 
+       window.addEventListener('message', this.postMessageListener);
     }
 
     disconnectedCallback() {
