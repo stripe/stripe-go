@@ -54,7 +54,7 @@ gem 'bootsnap', '>= 1.9.1', require: false
 gem 'nokogiri', '>= 1.12.5'
 
 group :test do
-  gem 'bundler-audit', '~> 0.7.0.1', require: false
+  gem 'bundler-audit', '~> 0.9.0.1', require: false
   gem 'brakeman', '~> 5.1.2', require: false
 
   gem 'minitest', '~> 5.14.4'
