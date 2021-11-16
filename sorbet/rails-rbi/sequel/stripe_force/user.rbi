@@ -14,10 +14,10 @@ module StripeForce::User::GeneratedAttributeMethods
   sig { params(value: T.nilable(T.any(String, Symbol))).void }
   def email=(value); end
 
-  sig { returns(T.nilable(T::Boolean)) }
+  sig { returns(T::Boolean) }
   def enabled; end
 
-  sig { params(value: T.nilable(T::Boolean)).void }
+  sig { params(value: T::Boolean).void }
   def enabled=(value); end
 
   sig { returns(T.any(T::Array[T.untyped], T::Hash[String, T.untyped])) }
@@ -44,10 +44,10 @@ module StripeForce::User::GeneratedAttributeMethods
   sig { params(value: T.any(Numeric)).void }
   def id=(value); end
 
-  sig { returns(T.nilable(T::Boolean)) }
+  sig { returns(T::Boolean) }
   def livemode; end
 
-  sig { params(value: T.nilable(T::Boolean)).void }
+  sig { params(value: T::Boolean).void }
   def livemode=(value); end
 
   sig { returns(T.nilable(String)) }
@@ -62,10 +62,10 @@ module StripeForce::User::GeneratedAttributeMethods
   sig { params(value: T.any(String, Symbol)).void }
   def salesforce_account_id=(value); end
 
-  sig { returns(String) }
+  sig { returns(T.nilable(String)) }
   def salesforce_instance_url; end
 
-  sig { params(value: T.any(String, Symbol)).void }
+  sig { params(value: T.nilable(T.any(String, Symbol))).void }
   def salesforce_instance_url=(value); end
 
   sig { returns(T.nilable(String)) }
@@ -74,16 +74,16 @@ module StripeForce::User::GeneratedAttributeMethods
   sig { params(value: T.nilable(T.any(String, Symbol))).void }
   def salesforce_organization_key=(value); end
 
-  sig { returns(String) }
+  sig { returns(T.nilable(String)) }
   def salesforce_refresh_token; end
 
-  sig { params(value: T.any(String, Symbol)).void }
+  sig { params(value: T.nilable(T.any(String, Symbol))).void }
   def salesforce_refresh_token=(value); end
 
-  sig { returns(String) }
+  sig { returns(T.nilable(String)) }
   def salesforce_token; end
 
-  sig { params(value: T.any(String, Symbol)).void }
+  sig { params(value: T.nilable(T.any(String, Symbol))).void }
   def salesforce_token=(value); end
 
   sig { returns(T.nilable(String)) }
