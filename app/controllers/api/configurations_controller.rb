@@ -138,7 +138,11 @@ module Api
     end
 
     private def ensure_json_content
-      return if request.format == :json
+      return if request.content_type == 'application/json' && request.accept.include?('application/json')
+
+      # TODO ideally, we could just inspect the `format`, but it's broken: https://github.com/rails/rails/pull/14540/files
+      # return if request.format == :json
+
       log.warn 'not json, rejecting request'
       head :not_acceptable
     end
