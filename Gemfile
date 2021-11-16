@@ -64,7 +64,7 @@ group :test do
   gem 'minitest-rails', '~> 6.1.0'
 
   # feature test
-  gem 'capybara', '~> 3.35.3'
+  gem 'capybara', '~> 3.36.0'
   gem 'webdrivers', '~> 4.6.0'
   gem 'selenium-webdriver', '~> 3.142.7'
   gem 'capybara-screenshot', '~> 1.0.25'
