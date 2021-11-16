@@ -14,10 +14,10 @@ module StripeForce::PollTimestamp::GeneratedAttributeMethods
   sig { params(value: T.any(Numeric)).void }
   def id=(value); end
 
-  sig { returns(T.nilable(String)) }
+  sig { returns(String) }
   def integration_record_type; end
 
-  sig { params(value: T.nilable(T.any(String, Symbol))).void }
+  sig { params(value: T.any(String, Symbol)).void }
   def integration_record_type=(value); end
 
   sig { returns(DateTime) }
@@ -26,17 +26,17 @@ module StripeForce::PollTimestamp::GeneratedAttributeMethods
   sig { params(value: T.any(DateTime, Date, Time)).void }
   def last_polled_at=(value); end
 
-  sig { returns(T.nilable(T::Boolean)) }
+  sig { returns(T::Boolean) }
   def livemode; end
 
-  sig { params(value: T.nilable(T::Boolean)).void }
+  sig { params(value: T::Boolean).void }
   def livemode=(value); end
 
   sig { returns(String) }
-  def stripe_account_id; end
+  def salesforce_account_id; end
 
   sig { params(value: T.any(String, Symbol)).void }
-  def stripe_account_id=(value); end
+  def salesforce_account_id=(value); end
 
   sig { returns(DateTime) }
   def updated_at; end

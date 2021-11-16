@@ -68,6 +68,12 @@ module StripeForce::User::GeneratedAttributeMethods
   sig { params(value: T.any(String, Symbol)).void }
   def salesforce_instance_url=(value); end
 
+  sig { returns(T.nilable(String)) }
+  def salesforce_organization_key; end
+
+  sig { params(value: T.nilable(T.any(String, Symbol))).void }
+  def salesforce_organization_key=(value); end
+
   sig { returns(String) }
   def salesforce_refresh_token; end
 
