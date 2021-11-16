@@ -10,6 +10,7 @@ gem 'sorbet-rails', '~> 0.7.25'
 
 gem 'dotenv-rails', '2.7.6', groups: [:development, :test]
 gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
+gem 'lograge'
 
 group :production do
   gem 'puma', '~> 5.0'
