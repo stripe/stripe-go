@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.76.0 - 2021-11-17
+* [#1377](https://github.com/stripe/stripe-go/pull/1377) API Updates
+  * Add support for `AutomaticPaymentMethods` on `PaymentIntentParams` and `PaymentIntent`
+  
+
 ## 72.75.0 - 2021-11-16
 * [#1375](https://github.com/stripe/stripe-go/pull/1375) API Updates
   * Add support for new resource `ShippingRate`
