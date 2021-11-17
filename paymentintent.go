@@ -181,6 +181,11 @@ type PaymentIntentConfirmParams struct {
 	UseStripeSDK          *bool                                    `form:"use_stripe_sdk"`
 }
 
+// When enabled, this PaymentIntent will accept payment methods that you have enabled in the Dashboard and are compatible with this PaymentIntent's other parameters.
+type PaymentIntentAutomaticPaymentMethodsParams struct {
+	Enabled *bool `form:"enabled"`
+}
+
 // PaymentIntentMandateDataCustomerAcceptanceOfflineParams is the set of parameters for the customer
 // acceptance of an offline mandate.
 type PaymentIntentMandateDataCustomerAcceptanceOfflineParams struct{}
@@ -369,30 +374,31 @@ type PaymentIntentTransferDataParams struct {
 // PaymentIntentParams is the set of parameters that can be used when handling a payment intent.
 type PaymentIntentParams struct {
 	Params                    `form:"*"`
-	Amount                    *int64                                   `form:"amount"`
-	ApplicationFeeAmount      *int64                                   `form:"application_fee_amount"`
-	CaptureMethod             *string                                  `form:"capture_method"`
-	ClientSecret              *string                                  `form:"client_secret"`
-	Confirm                   *bool                                    `form:"confirm"`
-	ConfirmationMethod        *string                                  `form:"confirmation_method"`
-	Currency                  *string                                  `form:"currency"`
-	Customer                  *string                                  `form:"customer"`
-	Description               *string                                  `form:"description"`
-	Mandate                   *string                                  `form:"mandate"`
-	MandateData               *PaymentIntentMandateDataParams          `form:"mandate_data"`
-	OnBehalfOf                *string                                  `form:"on_behalf_of"`
-	PaymentMethod             *string                                  `form:"payment_method"`
-	PaymentMethodData         *PaymentIntentPaymentMethodDataParams    `form:"payment_method_data"`
-	PaymentMethodOptions      *PaymentIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	PaymentMethodTypes        []*string                                `form:"payment_method_types"`
-	ReceiptEmail              *string                                  `form:"receipt_email"`
-	ReturnURL                 *string                                  `form:"return_url"`
-	SetupFutureUsage          *string                                  `form:"setup_future_usage"`
-	Shipping                  *ShippingDetailsParams                   `form:"shipping"`
-	StatementDescriptor       *string                                  `form:"statement_descriptor"`
-	StatementDescriptorSuffix *string                                  `form:"statement_descriptor_suffix"`
-	TransferData              *PaymentIntentTransferDataParams         `form:"transfer_data"`
-	TransferGroup             *string                                  `form:"transfer_group"`
+	Amount                    *int64                                      `form:"amount"`
+	ApplicationFeeAmount      *int64                                      `form:"application_fee_amount"`
+	AutomaticPaymentMethods   *PaymentIntentAutomaticPaymentMethodsParams `form:"automatic_payment_methods"`
+	CaptureMethod             *string                                     `form:"capture_method"`
+	ClientSecret              *string                                     `form:"client_secret"`
+	Confirm                   *bool                                       `form:"confirm"`
+	ConfirmationMethod        *string                                     `form:"confirmation_method"`
+	Currency                  *string                                     `form:"currency"`
+	Customer                  *string                                     `form:"customer"`
+	Description               *string                                     `form:"description"`
+	Mandate                   *string                                     `form:"mandate"`
+	MandateData               *PaymentIntentMandateDataParams             `form:"mandate_data"`
+	OnBehalfOf                *string                                     `form:"on_behalf_of"`
+	PaymentMethod             *string                                     `form:"payment_method"`
+	PaymentMethodData         *PaymentIntentPaymentMethodDataParams       `form:"payment_method_data"`
+	PaymentMethodOptions      *PaymentIntentPaymentMethodOptionsParams    `form:"payment_method_options"`
+	PaymentMethodTypes        []*string                                   `form:"payment_method_types"`
+	ReceiptEmail              *string                                     `form:"receipt_email"`
+	ReturnURL                 *string                                     `form:"return_url"`
+	SetupFutureUsage          *string                                     `form:"setup_future_usage"`
+	Shipping                  *ShippingDetailsParams                      `form:"shipping"`
+	StatementDescriptor       *string                                     `form:"statement_descriptor"`
+	StatementDescriptorSuffix *string                                     `form:"statement_descriptor_suffix"`
+	TransferData              *PaymentIntentTransferDataParams            `form:"transfer_data"`
+	TransferGroup             *string                                     `form:"transfer_group"`
 	// These parameters apply only for paymentIntent.New with `confirm=true`
 	ErrorOnRequiresAction *bool `form:"error_on_requires_action"`
 	OffSession            *bool `form:"off_session"`
@@ -406,6 +412,11 @@ type PaymentIntentListParams struct {
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 	Customer     *string           `form:"customer"`
+}
+
+// Settings to configure compatible payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods)
+type PaymentIntentAutomaticPaymentMethods struct {
+	Enabled bool `json:"enabled"`
 }
 
 // PaymentIntentNextActionAlipayHandleRedirect represents the resource for the next action of type
@@ -621,42 +632,43 @@ type PaymentIntentTransferData struct {
 // For more details see https://stripe.com/docs/api#payment_intents.
 type PaymentIntent struct {
 	APIResource
-	Amount                    int64                              `json:"amount"`
-	AmountCapturable          int64                              `json:"amount_capturable"`
-	AmountReceived            int64                              `json:"amount_received"`
-	Application               *Application                       `json:"application"`
-	ApplicationFeeAmount      int64                              `json:"application_fee_amount"`
-	CanceledAt                int64                              `json:"canceled_at"`
-	CancellationReason        PaymentIntentCancellationReason    `json:"cancellation_reason"`
-	CaptureMethod             PaymentIntentCaptureMethod         `json:"capture_method"`
-	Charges                   *ChargeList                        `json:"charges"`
-	ClientSecret              string                             `json:"client_secret"`
-	ConfirmationMethod        PaymentIntentConfirmationMethod    `json:"confirmation_method"`
-	Created                   int64                              `json:"created"`
-	Currency                  string                             `json:"currency"`
-	Customer                  *Customer                          `json:"customer"`
-	Description               string                             `json:"description"`
-	ID                        string                             `json:"id"`
-	Invoice                   *Invoice                           `json:"invoice"`
-	LastPaymentError          *Error                             `json:"last_payment_error"`
-	Livemode                  bool                               `json:"livemode"`
-	Metadata                  map[string]string                  `json:"metadata"`
-	NextAction                *PaymentIntentNextAction           `json:"next_action"`
-	Object                    string                             `json:"object"`
-	OnBehalfOf                *Account                           `json:"on_behalf_of"`
-	PaymentMethod             *PaymentMethod                     `json:"payment_method"`
-	PaymentMethodOptions      *PaymentIntentPaymentMethodOptions `json:"payment_method_options"`
-	PaymentMethodTypes        []string                           `json:"payment_method_types"`
-	ReceiptEmail              string                             `json:"receipt_email"`
-	Review                    *Review                            `json:"review"`
-	SetupFutureUsage          PaymentIntentSetupFutureUsage      `json:"setup_future_usage"`
-	Shipping                  ShippingDetails                    `json:"shipping"`
-	Source                    *PaymentSource                     `json:"source"`
-	StatementDescriptor       string                             `json:"statement_descriptor"`
-	StatementDescriptorSuffix string                             `json:"statement_descriptor_suffix"`
-	Status                    PaymentIntentStatus                `json:"status"`
-	TransferData              *PaymentIntentTransferData         `json:"transfer_data"`
-	TransferGroup             string                             `json:"transfer_group"`
+	Amount                    int64                                 `json:"amount"`
+	AmountCapturable          int64                                 `json:"amount_capturable"`
+	AmountReceived            int64                                 `json:"amount_received"`
+	Application               *Application                          `json:"application"`
+	ApplicationFeeAmount      int64                                 `json:"application_fee_amount"`
+	AutomaticPaymentMethods   *PaymentIntentAutomaticPaymentMethods `json:"automatic_payment_methods"`
+	CanceledAt                int64                                 `json:"canceled_at"`
+	CancellationReason        PaymentIntentCancellationReason       `json:"cancellation_reason"`
+	CaptureMethod             PaymentIntentCaptureMethod            `json:"capture_method"`
+	Charges                   *ChargeList                           `json:"charges"`
+	ClientSecret              string                                `json:"client_secret"`
+	ConfirmationMethod        PaymentIntentConfirmationMethod       `json:"confirmation_method"`
+	Created                   int64                                 `json:"created"`
+	Currency                  string                                `json:"currency"`
+	Customer                  *Customer                             `json:"customer"`
+	Description               string                                `json:"description"`
+	ID                        string                                `json:"id"`
+	Invoice                   *Invoice                              `json:"invoice"`
+	LastPaymentError          *Error                                `json:"last_payment_error"`
+	Livemode                  bool                                  `json:"livemode"`
+	Metadata                  map[string]string                     `json:"metadata"`
+	NextAction                *PaymentIntentNextAction              `json:"next_action"`
+	Object                    string                                `json:"object"`
+	OnBehalfOf                *Account                              `json:"on_behalf_of"`
+	PaymentMethod             *PaymentMethod                        `json:"payment_method"`
+	PaymentMethodOptions      *PaymentIntentPaymentMethodOptions    `json:"payment_method_options"`
+	PaymentMethodTypes        []string                              `json:"payment_method_types"`
+	ReceiptEmail              string                                `json:"receipt_email"`
+	Review                    *Review                               `json:"review"`
+	SetupFutureUsage          PaymentIntentSetupFutureUsage         `json:"setup_future_usage"`
+	Shipping                  ShippingDetails                       `json:"shipping"`
+	Source                    *PaymentSource                        `json:"source"`
+	StatementDescriptor       string                                `json:"statement_descriptor"`
+	StatementDescriptorSuffix string                                `json:"statement_descriptor_suffix"`
+	Status                    PaymentIntentStatus                   `json:"status"`
+	TransferData              *PaymentIntentTransferData            `json:"transfer_data"`
+	TransferGroup             string                                `json:"transfer_group"`
 }
 
 // PaymentIntentList is a list of payment intents as retrieved from a list endpoint.

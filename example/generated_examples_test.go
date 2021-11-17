@@ -1518,3 +1518,15 @@ func TestShippingRateList(t *testing.T) {
 	result := shippingrate.List(params)
 	assert.NotNil(t, result)
 }
+
+func TestPaymentIntentCreate2(t *testing.T) {
+	params := &stripe.PaymentIntentParams{
+		Amount:   stripe.Int64(1099),
+		Currency: stripe.String(string(stripe.CurrencyEUR)),
+		AutomaticPaymentMethods: &stripe.PaymentIntentAutomaticPaymentMethodsParams{
+			Enabled: stripe.Bool(true),
+		},
+	}
+	result, _ := paymentintent.New(params)
+	assert.NotNil(t, result)
+}
