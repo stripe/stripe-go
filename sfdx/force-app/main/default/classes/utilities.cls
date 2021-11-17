@@ -76,15 +76,12 @@ public with sharing class utilities {
                                                                 WITH SECURITY_ENFORCED];    
             if(!setupConfigList.isEmpty()) {
                 Setup_Connection_Data__mdt setupData = setupConfigList[0];
-                if(setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) {
-                    String orgId = constants.ORG_ID;
-                    //String globalKey = setupData.Global_Key__c; //Arnold comment out when in package 
-                    String globalKey = 'dee37489-9f31-91d5';
-                    String packageGuidKey = setupData.API_Key__c;
-                    req.setHeader('Salesforce-Account-Id', orgId);
-                    req.setHeader('Salesforce-Key', globalKey);
-                    //req.setHeader('key', packageGuidKey);
-                } 
+                String orgId = constants.ORG_ID;
+                //String globalKey = setupData.Global_Key__c; 
+                String globalKey = 'dee37489-9f31-91d5';
+                String packageGuidKey = setupData.API_Key__c;
+                req.setHeader('Salesforce-Account-Id', orgId);
+                req.setHeader('Salesforce-Key', globalKey);
             } else {
                 throw new SetupIsNotCompleteException('Setup is not complete, contact your Salesforce administrator for further assistance.');
             }

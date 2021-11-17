@@ -11,5 +11,5 @@ declare module "@salesforce/apex/setupAssistant.isCpqEnabled" {
   export default function isCpqEnabled(): Promise<any>;
 }
 declare module "@salesforce/apex/setupAssistant.validateConnectionStatus" {
-  export default function validateConnectionStatus(): Promise<any>;
+  export default function validateConnectionStatus(param: {isConnectedCallback: any}): Promise<any>;
 }

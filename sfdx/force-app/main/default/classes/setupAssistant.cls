@@ -81,18 +81,19 @@ public with sharing class setupAssistant {
     }
 
     @AuraEnabled
-    public static String validateConnectionStatus() {
+    public static String validateConnectionStatus(Boolean isConnectedCallback) {
         responseData rd = new responseData();
         try {
-            Boolean isConnected = false;
             List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
                                                                 FROM Setup_Connection_Data__mdt
                                                                 WITH SECURITY_ENFORCED];                                                              
             if(!setupConfigList.isEmpty()) {
                 Setup_Connection_Data__mdt setupData = setupConfigList[0];
-                if(setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true){
-                    isConnected = true;
-                    rd.put('isConnected',isConnected);
+                if((setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) && isConnectedCallback == true) {
+                    rd.put('isConnected',true);
+                    return rd.getJsonString();
+                } else if ((setupData.Salesforce_Connected__c != true && setupData.Stripe_Connected__c != true) && isConnectedCallback == true) {
+                    rd.put('isConnected',false);
                     return rd.getJsonString();
                 }
                 String route = constants.RUBY_SERVICE_BASE_URI+'configuration';
@@ -108,12 +109,15 @@ public with sharing class setupAssistant {
                     if(((Boolean)connectionStatus.get('stripe') == true) && ((Boolean)connectionStatus.get('salesforce') == true)) {
                         rd.put('isConnected','fresh');
                     } else {
-                        rd.put('isConnected',isConnected);
+                        rd.put('isConnected',false);
                     }
-                    Map<String, Object> setupConfigMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(setupData));
+                    Map<String, Object> setupConfigMap = new Map<String, Object> {
+                        'Salesforce_Connected__c' => setupData.Salesforce_Connected__c,
+                        'Stripe_Connected__c' => setupData.Stripe_Connected__c 
+                    };
                     metadataCRUD.saveSetupConfigData(setupConfigMap, 'Setup_Connection_Data__mdt.Default');
                 } else {
-                    rd.put('isConnected',isConnected);
+                    rd.put('isConnected',false);
                     errorBody = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
                     errorLogger.create('validateConnectionStatus', (String)errorBody.get('message'), (String)response.getStatus(), JSON.serialize(errorBody));
                 }

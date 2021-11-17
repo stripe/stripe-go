@@ -16,13 +16,15 @@ global without sharing class PostInstallClass implements InstallHandler {
             HttpResponse response =  utilities.makeCallout(route,'POST', JSON.serialize(body));
 
             Map<String, Object> errorBody; 
-            if(response.getStatusCode() == 200) {
-                setupData.API_Key__c = packageGuidKey;
-                Map<String, Object> setupConfig = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(setupData));
-                metadataCRUD.saveSetupConfigData(setupConfig, 'Setup_Connection_Data__mdt.Default');
+            if(response.getStatusCode() == 200) {                
+                Map<String, Object> setupConfigMap = new Map<String, Object> {
+                    'API_Key__c' => packageGuidKey
+                };
+                metadataCRUD.saveSetupConfigData(setupConfigMap, 'Setup_Connection_Data__mdt.Default');
             } else {
-                errorBody = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
-                errorLogger.create('postInstallScript', (String)errorBody.get('message'), (String)response.getStatus(), JSON.serialize(errorBody));
+                //errorBody = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
+                //errorLogger.create('postInstallScript', (String)errorBody.get('message'), (String)response.getStatus(), JSON.serialize(errorBody));
+                errorLogger.create('postInstallScript', string.valueOf(response.getStatusCode()), (String)response.getStatus(), JSON.serialize(response));
             }
         }
     }
