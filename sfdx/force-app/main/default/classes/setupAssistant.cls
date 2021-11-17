@@ -80,13 +80,27 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
+    @testVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata { 
+        get {
+            if (setupConfigMetadata == null)
+                setupConfigMetadata = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
+                                       FROM Setup_Connection_Data__mdt
+                                       WITH SECURITY_ENFORCED]; 
+            return setupConfigMetadata;
+        } set; }
+
     @AuraEnabled
     public static String validateConnectionStatus(Boolean isConnectedCallback) {
         responseData rd = new responseData();
         try {
             List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
                                                                 FROM Setup_Connection_Data__mdt
-                                                                WITH SECURITY_ENFORCED];                                                              
+                                                                WITH SECURITY_ENFORCED];   
+                                                                
+            if(Test.isRunningTest()){  
+                setupConfigList = setupConfigMetadata;
+            }
+
             if(!setupConfigList.isEmpty()) {
                 Setup_Connection_Data__mdt setupData = setupConfigList[0];
                 if((setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) && isConnectedCallback == true) {

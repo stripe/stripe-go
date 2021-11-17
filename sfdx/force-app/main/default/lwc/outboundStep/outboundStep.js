@@ -1,16 +1,9 @@
 import { LightningElement, track, api, wire } from 'lwc';
 import saveData from '@salesforce/apex/setupAssistant.saveData';
 import validateConnectionStatus from '@salesforce/apex/setupAssistant.validateConnectionStatus';
-import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 
-export default class OutboundStep extends NavigationMixin(LightningElement) {
+export default class OutboundStep extends LightningElement {
     @api isAuthComplete = false;
-    @track currentDomain;
-    @wire(CurrentPageReference)
-    getpageRef(pageRef) {
-        console.log('data => ', JSON.stringify(pageRef));
-        this.currentDomain =  pageRef;
-    }
     
 
     connectedCallback() {
@@ -41,8 +34,6 @@ export default class OutboundStep extends NavigationMixin(LightningElement) {
         let rubyAuthURI = 'https://stripe-force.herokuapp.com/auth/salesforcesandbox'; //sandbox
         let connectWindow = window.open(rubyAuthURI, '"_blank"');
         connectWindow.postMessage(message, rubyAuthURI);
-        console.log('message');
-        console.log(message);
     }
 
     stripeConnectedAppCallback(isConnectedCallback) {
@@ -66,6 +57,7 @@ export default class OutboundStep extends NavigationMixin(LightningElement) {
             this.showToast(error.body.message, 'error');
         }).finally(() => {
             this.loading = false;
+            //if(isConnectedCallback === false)window.removeEventListener('message', this.postMessageListener);
         });
     }
 
