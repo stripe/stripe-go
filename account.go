@@ -1,8 +1,13 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import (
 	"encoding/json"
-
 	"github.com/stripe/stripe-go/v72/form"
 )
 
@@ -79,10 +84,13 @@ type AccountCompanyStructure string
 
 // List of values that AccountCompanyStructure can take.
 const (
+	AccountCompanyStructureFreeZoneEstablishment              AccountCompanyStructure = "free_zone_establishment"
+	AccountCompanyStructureFreeZoneLLC                        AccountCompanyStructure = "free_zone_llc"
 	AccountCompanyStructureGovernmentInstrumentality          AccountCompanyStructure = "government_instrumentality"
 	AccountCompanyStructureGovernmentalUnit                   AccountCompanyStructure = "governmental_unit"
 	AccountCompanyStructureIncorporatedNonProfit              AccountCompanyStructure = "incorporated_non_profit"
 	AccountCompanyStructureLimitedLiabilityPartnership        AccountCompanyStructure = "limited_liability_partnership"
+	AccountCompanyStructureLLC                                AccountCompanyStructure = "llc"
 	AccountCompanyStructureMultiMemberLLC                     AccountCompanyStructure = "multi_member_llc"
 	AccountCompanyStructurePrivateCompany                     AccountCompanyStructure = "private_company"
 	AccountCompanyStructurePrivateCorporation                 AccountCompanyStructure = "private_corporation"
@@ -91,6 +99,7 @@ const (
 	AccountCompanyStructurePublicCorporation                  AccountCompanyStructure = "public_corporation"
 	AccountCompanyStructurePublicPartnership                  AccountCompanyStructure = "public_partnership"
 	AccountCompanyStructureSingleMemberLLC                    AccountCompanyStructure = "single_member_llc"
+	AccountCompanyStructureSoleEstablishment                  AccountCompanyStructure = "sole_establishment"
 	AccountCompanyStructureSoleProprietorship                 AccountCompanyStructure = "sole_proprietorship"
 	AccountCompanyStructureTaxExemptGovernmentInstrumentality AccountCompanyStructure = "tax_exempt_government_instrumentality"
 	AccountCompanyStructureUnincorporatedAssociation          AccountCompanyStructure = "unincorporated_association"
@@ -186,6 +195,11 @@ type AccountCapabilitiesACSSDebitPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The afterpay_clearpay_payments capability.
+type AccountCapabilitiesAfterpayClearpayPaymentsParams struct {
+	Requested *bool `form:"requested"`
+}
+
 // AccountCapabilitiesAUBECSDebitPaymentsParams represent allowed parameters to configure the AU BECS Debit capability on an account.
 type AccountCapabilitiesAUBECSDebitPaymentsParams struct {
 	Requested *bool `form:"requested"`
@@ -251,7 +265,7 @@ type AccountCapabilitiesJCBPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesKlarnaPaymentsParams represent allowed parameters to configure the klarna payments capability on an account.
+// The klarna_payments capability.
 type AccountCapabilitiesKlarnaPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
@@ -298,7 +312,10 @@ type AccountCapabilitiesTransfersParams struct {
 
 // AccountCapabilitiesParams represent allowed parameters to configure capabilities on an account.
 type AccountCapabilitiesParams struct {
+	ListParams               `form:"*"`
+	Account                  *string                                            `form:"-"` // Included in URL
 	ACSSDebitPayments        *AccountCapabilitiesACSSDebitPaymentsParams        `form:"acss_debit_payments"`
+	AfterpayClearpayPayments *AccountCapabilitiesAfterpayClearpayPaymentsParams `form:"afterpay_clearpay_payments"`
 	AUBECSDebitPayments      *AccountCapabilitiesAUBECSDebitPaymentsParams      `form:"au_becs_debit_payments"`
 	BACSDebitPayments        *AccountCapabilitiesBACSDebitPaymentsParams        `form:"bacs_debit_payments"`
 	BancontactPayments       *AccountCapabilitiesBancontactPaymentsParams       `form:"bancontact_payments"`
@@ -496,8 +513,7 @@ type PayoutScheduleParams struct {
 	WeeklyAnchor     *string `form:"weekly_anchor"`
 }
 
-// AppendTo implements custom encoding logic for PayoutScheduleParams
-// so that we can send a special value for `delay_days` field if needed.
+// AppendTo implements custom encoding logic for PayoutScheduleParams.
 func (p *PayoutScheduleParams) AppendTo(body *form.Values, keyParts []string) {
 	if BoolValue(p.DelayDaysMinimum) {
 		body.Add(form.FormatKey(append(keyParts, "delay_days")), "minimum")
@@ -521,7 +537,6 @@ type AccountParams struct {
 	Settings        *AccountSettingsParams        `form:"settings"`
 	TOSAcceptance   *AccountTOSAcceptanceParams   `form:"tos_acceptance"`
 	Type            *string                       `form:"type"`
-
 	// This parameter is deprecated. Prefer using Capabilities instead.
 	RequestedCapabilities []*string `form:"requested_capabilities"`
 }
@@ -534,7 +549,6 @@ type AccountAddressParams struct {
 	Line2      *string `form:"line2"`
 	PostalCode *string `form:"postal_code"`
 	State      *string `form:"state"`
-
 	// Town/cho-me. Note that this is only used for Kana/Kanji representations
 	// of an address.
 	Town *string `form:"town"`
@@ -551,6 +565,8 @@ type AccountTOSAcceptanceParams struct {
 // AccountListParams are the parameters allowed during account listing.
 type AccountListParams struct {
 	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 }
 
 // AccountRejectParams is the structure for the Reject function.
@@ -599,9 +615,11 @@ type AccountBusinessProfile struct {
 // AccountCapabilities is the resource representing the capabilities enabled on that account.
 type AccountCapabilities struct {
 	ACSSDebitPayments        AccountCapabilityStatus `json:"acss_debit_payments"`
+	AfterpayClearpayPayments AccountCapabilityStatus `json:"afterpay_clearpay_payments"`
 	AUBECSDebitPayments      AccountCapabilityStatus `json:"au_becs_debit_payments"`
 	BACSDebitPayments        AccountCapabilityStatus `json:"bacs_debit_payments"`
 	BancontactPayments       AccountCapabilityStatus `json:"bancontact_payments"`
+	BoletoPayments           AccountCapabilityStatus `json:"boleto_payments"`
 	CardIssuing              AccountCapabilityStatus `json:"card_issuing"`
 	CardPayments             AccountCapabilityStatus `json:"card_payments"`
 	CartesBancairesPayments  AccountCapabilityStatus `json:"cartes_bancaires_payments"`
@@ -695,7 +713,6 @@ type AccountFutureRequirementsError struct {
 	Reason      string `json:"reason"`
 	Requirement string `json:"requirement"`
 }
-
 type AccountFutureRequirements struct {
 	Alternatives        []*AccountFutureRequirementsAlternative `json:"alternatives"`
 	CurrentDeadline     int64                                   `json:"current_deadline"`
@@ -842,11 +859,10 @@ type ExternalAccount struct {
 
 	// BankAccount is a bank account attached to an account. Populated only if
 	// the external account is a bank account.
-	BankAccount *BankAccount
-
+	BankAccount *BankAccount `json:"-"`
 	// Card is a card attached to an account. Populated only if the external
 	// account is a card.
-	Card *Card
+	Card *Card `json:"-"`
 }
 
 // AccountAddress is the structure for an account address.
@@ -857,7 +873,6 @@ type AccountAddress struct {
 	Line2      string `json:"line2"`
 	PostalCode string `json:"postal_code"`
 	State      string `json:"state"`
-
 	// Town/cho-me. Note that this is only used for Kana/Kanji representations
 	// of an address.
 	Town string `json:"town"`
@@ -881,9 +896,9 @@ type ExternalAccountList struct {
 	Data []*ExternalAccount `json:"data"`
 }
 
-// UnmarshalJSON handles deserialization of an account.
+// UnmarshalJSON handles deserialization of an Account.
 // This custom unmarshaling is needed because the resulting
-// property may be an ID or the full struct if it was expanded.
+// property may be an id or the full struct if it was expanded.
 func (a *Account) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
 		a.ID = id
@@ -900,23 +915,29 @@ func (a *Account) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// UnmarshalJSON implements Unmarshaler.UnmarshalJSON.
-func (ea *ExternalAccount) UnmarshalJSON(data []byte) error {
+// UnmarshalJSON handles deserialization of an ExternalAccount.
+// This custom unmarshaling is needed because the specific type of
+// ExternalAccount it refers to is specified in the JSON
+func (e *ExternalAccount) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		e.ID = id
+		return nil
+	}
+
 	type externalAccount ExternalAccount
 	var v externalAccount
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
+	*e = ExternalAccount(v)
 	var err error
-	*ea = ExternalAccount(v)
 
-	switch ea.Type {
+	switch e.Type {
 	case ExternalAccountTypeBankAccount:
-		err = json.Unmarshal(data, &ea.BankAccount)
+		err = json.Unmarshal(data, &e.BankAccount)
 	case ExternalAccountTypeCard:
-		err = json.Unmarshal(data, &ea.Card)
+		err = json.Unmarshal(data, &e.Card)
 	}
-
 	return err
 }
