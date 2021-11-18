@@ -93,9 +93,9 @@ type CreditNoteLineParams struct {
 	InvoiceLineItem   *string   `form:"invoice_line_item"`
 	Quantity          *int64    `form:"quantity"`
 	TaxRates          []*string `form:"tax_rates"`
+	Type              *string   `form:"type"`
 	UnitAmount        *int64    `form:"unit_amount"`
 	UnitAmountDecimal *float64  `form:"unit_amount_decimal,high_precision"`
-	Type              *string   `form:"type"`
 }
 
 // CreditNotePreviewParams is the set of parameters that can be used when previewing a credit note.
@@ -142,8 +142,8 @@ type CreditNote struct {
 	CustomerBalanceTransaction *CustomerBalanceTransaction `json:"customer_balance_transaction"`
 	DiscountAmount             int64                       `json:"discount_amount"`
 	DiscountAmounts            []*CreditNoteDiscountAmount `json:"discount_amounts"`
-	Invoice                    *Invoice                    `json:"invoice"`
 	ID                         string                      `json:"id"`
+	Invoice                    *Invoice                    `json:"invoice"`
 	Lines                      *CreditNoteLineItemList     `json:"lines"`
 	Livemode                   bool                        `json:"livemode"`
 	Memo                       string                      `json:"memo"`

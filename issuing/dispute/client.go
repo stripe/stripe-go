@@ -41,19 +41,6 @@ func (c Client) Get(id string, params *stripe.IssuingDisputeParams) (*stripe.Iss
 	return dispute, err
 }
 
-// Submit dismisses a dispute in the customer's favor.
-func Submit(id string, params *stripe.IssuingDisputeSubmitParams) (*stripe.IssuingDispute, error) {
-	return getC().Submit(id, params)
-}
-
-// Submit dismisses a dispute in the customer's favor.
-func (c Client) Submit(id string, params *stripe.IssuingDisputeSubmitParams) (*stripe.IssuingDispute, error) {
-	path := stripe.FormatURLPath("/v1/issuing/disputes/%s/submit", id)
-	dispute := &stripe.IssuingDispute{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
-	return dispute, err
-}
-
 // Update updates an issuing dispute.
 func Update(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 	return getC().Update(id, params)
@@ -62,6 +49,19 @@ func Update(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDisp
 // Update updates an issuing dispute.
 func (c Client) Update(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 	path := stripe.FormatURLPath("/v1/issuing/disputes/%s", id)
+	dispute := &stripe.IssuingDispute{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
+	return dispute, err
+}
+
+// Submit dismisses a dispute in the customer's favor.
+func Submit(id string, params *stripe.IssuingDisputeSubmitParams) (*stripe.IssuingDispute, error) {
+	return getC().Submit(id, params)
+}
+
+// Submit dismisses a dispute in the customer's favor.
+func (c Client) Submit(id string, params *stripe.IssuingDisputeSubmitParams) (*stripe.IssuingDispute, error) {
+	path := stripe.FormatURLPath("/v1/issuing/disputes/%s/submit", id)
 	dispute := &stripe.IssuingDispute{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
 	return dispute, err

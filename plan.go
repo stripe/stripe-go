@@ -13,8 +13,8 @@ type PlanInterval string
 // List of values that PlanInterval can take.
 const (
 	PlanIntervalDay   PlanInterval = "day"
-	PlanIntervalWeek  PlanInterval = "week"
 	PlanIntervalMonth PlanInterval = "month"
+	PlanIntervalWeek  PlanInterval = "week"
 	PlanIntervalYear  PlanInterval = "year"
 )
 
@@ -65,39 +65,6 @@ const (
 	PlanAggregateUsageSum              PlanAggregateUsage = "sum"
 )
 
-// Plan is the resource representing a Stripe plan.
-// For more details see https://stripe.com/docs/api#plans.
-type Plan struct {
-	APIResource
-	Active          bool                `json:"active"`
-	AggregateUsage  string              `json:"aggregate_usage"`
-	Amount          int64               `json:"amount"`
-	AmountDecimal   float64             `json:"amount_decimal,string"`
-	BillingScheme   PlanBillingScheme   `json:"billing_scheme"`
-	Created         int64               `json:"created"`
-	Currency        Currency            `json:"currency"`
-	Deleted         bool                `json:"deleted"`
-	ID              string              `json:"id"`
-	Interval        PlanInterval        `json:"interval"`
-	IntervalCount   int64               `json:"interval_count"`
-	Livemode        bool                `json:"livemode"`
-	Metadata        map[string]string   `json:"metadata"`
-	Nickname        string              `json:"nickname"`
-	Product         *Product            `json:"product"`
-	Tiers           []*PlanTier         `json:"tiers"`
-	TiersMode       string              `json:"tiers_mode"`
-	TransformUsage  *PlanTransformUsage `json:"transform_usage"`
-	TrialPeriodDays int64               `json:"trial_period_days"`
-	UsageType       PlanUsageType       `json:"usage_type"`
-}
-
-// PlanList is a list of plans as returned from a list endpoint.
-type PlanList struct {
-	APIResource
-	ListMeta
-	Data []*Plan `json:"data"`
-}
-
 // PlanListParams is the set of parameters that can be used when listing plans.
 // For more details see https://stripe.com/docs/api#list_plans.
 type PlanListParams struct {
@@ -129,21 +96,6 @@ type PlanParams struct {
 	TransformUsage  *PlanTransformUsageParams `form:"transform_usage"`
 	TrialPeriodDays *int64                    `form:"trial_period_days"`
 	UsageType       *string                   `form:"usage_type"`
-}
-
-// PlanTier configures tiered pricing
-type PlanTier struct {
-	FlatAmount        int64   `json:"flat_amount"`
-	FlatAmountDecimal float64 `json:"flat_amount_decimal,string"`
-	UnitAmount        int64   `json:"unit_amount"`
-	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
-	UpTo              int64   `json:"up_to"`
-}
-
-// PlanTransformUsage represents the bucket billing configuration.
-type PlanTransformUsage struct {
-	DivideBy int64                   `json:"divide_by"`
-	Round    PlanTransformUsageRound `json:"round"`
 }
 
 // PlanTransformUsageParams represents the bucket billing configuration.
@@ -178,11 +130,59 @@ func (p *PlanTierParams) AppendTo(body *form.Values, keyParts []string) {
 type PlanProductParams struct {
 	Active              *bool             `form:"active"`
 	ID                  *string           `form:"id"`
-	Name                *string           `form:"name"`
 	Metadata            map[string]string `form:"metadata"`
+	Name                *string           `form:"name"`
 	StatementDescriptor *string           `form:"statement_descriptor"`
 	TaxCode             *string           `form:"tax_code"`
 	UnitLabel           *string           `form:"unit_label"`
+}
+
+// Plan is the resource representing a Stripe plan.
+// For more details see https://stripe.com/docs/api#plans.
+type Plan struct {
+	APIResource
+	Active          bool                `json:"active"`
+	AggregateUsage  string              `json:"aggregate_usage"`
+	Amount          int64               `json:"amount"`
+	AmountDecimal   float64             `json:"amount_decimal,string"`
+	BillingScheme   PlanBillingScheme   `json:"billing_scheme"`
+	Created         int64               `json:"created"`
+	Currency        Currency            `json:"currency"`
+	Deleted         bool                `json:"deleted"`
+	ID              string              `json:"id"`
+	Interval        PlanInterval        `json:"interval"`
+	IntervalCount   int64               `json:"interval_count"`
+	Livemode        bool                `json:"livemode"`
+	Metadata        map[string]string   `json:"metadata"`
+	Nickname        string              `json:"nickname"`
+	Product         *Product            `json:"product"`
+	Tiers           []*PlanTier         `json:"tiers"`
+	TiersMode       string              `json:"tiers_mode"`
+	TransformUsage  *PlanTransformUsage `json:"transform_usage"`
+	TrialPeriodDays int64               `json:"trial_period_days"`
+	UsageType       PlanUsageType       `json:"usage_type"`
+}
+
+// PlanTier configures tiered pricing
+type PlanTier struct {
+	FlatAmount        int64   `json:"flat_amount"`
+	FlatAmountDecimal float64 `json:"flat_amount_decimal,string"`
+	UnitAmount        int64   `json:"unit_amount"`
+	UnitAmountDecimal float64 `json:"unit_amount_decimal,string"`
+	UpTo              int64   `json:"up_to"`
+}
+
+// PlanTransformUsage represents the bucket billing configuration.
+type PlanTransformUsage struct {
+	DivideBy int64                   `json:"divide_by"`
+	Round    PlanTransformUsageRound `json:"round"`
+}
+
+// PlanList is a list of plans as returned from a list endpoint.
+type PlanList struct {
+	APIResource
+	ListMeta
+	Data []*Plan `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a Plan.
