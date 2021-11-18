@@ -61,6 +61,7 @@ public with sharing class utilities {
         req.setTimeout(60000);
  
         if(body != null) {
+            //these headers are required for the API to respond properly 
             req.setHeader('Content-Type', 'application/json');
             req.setHeader('Accept', 'application/json');
             req.setBody(body);

@@ -1,5 +1,9 @@
 /*** Stripe Toolbelt v2.0.1 ***/
 public with sharing class constants {
+
+    public string ORG_DOMAIN { get; set; }
+
+
     // Namespaces
     private static FINAL String thisString = String.valueOf(constants.class);
     private static FINAL List<String> thisStrings = thisString.split('[.]', 2);
@@ -19,6 +23,7 @@ public with sharing class constants {
 
     //Stripe Ruby URIS
     public static FINAL String RUBY_SERVICE_BASE_URI = 'https://stripe-force.herokuapp.com/v1/';
+   
 
     // Blur
     public static FINAL String BLUR_STRING = '********';

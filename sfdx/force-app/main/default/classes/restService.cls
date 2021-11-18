@@ -1,17 +1,13 @@
 @RestResource(urlMapping='/batchApi')
 global with sharing class restService {
-    public class SetupIsNotCompleteException extends Exception {}
-    public class NotConnectedToStripeException extends Exception {}
     public class NotOrdersFoundException extends Exception {}
-    public class RequestAuthenticationFailedException extends Exception {}
+
     @HttpPost
     global static void restServiceEvents() {
         RestRequest restRequest = RestContext.request;
         RestResponse response = RestContext.response;
         try { 
             Map<String, Object> parsedReqBody = (Map<String, Object>)JSON.deserializeUntyped(restRequest.requestBody.toString());
-            System.debug('parsedReqBody');
-            System.debug(parsedReqBody);
             List<Object> orderIdsResponse = (List<Object>)parsedReqBody.get('order_ids');                    
             List<String> orderIds = new List<String> ();
             for(Object orderId: orderIdsResponse){
@@ -30,7 +26,6 @@ global with sharing class restService {
             String orderQuery = 'SELECT Id,'+ String.join((orderFields), ',')+', (SELECT Id,'+ String.join((product2Fields), ',')+' FROM OrderItems WHERE Id in :product2Ids) FROM Order WHERE Id in :orderIds  WITH SECURITY_ENFORCED';
             List<Order> orderData = Database.query(orderQuery);
 
-            //List<Object> responseOrderRecrods = new List<Object>();
             Map<Object, Object> responseOrderRecrodsMap = new Map<Object, Object>();
 
             if(!orderData.isEmpty()) {
@@ -47,7 +42,7 @@ global with sharing class restService {
                             //what should we do if there are no related orderITems Spencer
                         }
                     } else {
-                        responseOrderRecrodsMap.put((Object)orderRec, 'no order items found based on product2Ids passed in: ' + product2Ids); 
+                        responseOrderRecrodsMap.put((Object)orderRec, 'no order items found based on product2Ids passed in: ' + JSON.serialize(product2Ids)); 
                     }
                 }                          
             } else {

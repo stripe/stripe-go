@@ -103,10 +103,15 @@ public with sharing class setupAssistant {
 
             if(!setupConfigList.isEmpty()) {
                 Setup_Connection_Data__mdt setupData = setupConfigList[0];
+                String prefix = URL.getSalesforceBaseURL().toExternalForm().replace('https://', '').split('\\.')[0];
+                prefix = prefix.removeEnd('--c');
+                String domain = 'https://' + prefix.toLowerCase() + '.lightning.force.com';
                 if((setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) && isConnectedCallback == true) {
+                    rd.put('domain',System.Url.getOrgDomainUrl().toExternalForm());
                     rd.put('isConnected',true);
                     return rd.getJsonString();
                 } else if ((setupData.Salesforce_Connected__c != true && setupData.Stripe_Connected__c != true) && isConnectedCallback == true) {
+                    rd.put('domain',domain);
                     rd.put('isConnected',false);
                     return rd.getJsonString();
                 }
@@ -125,6 +130,7 @@ public with sharing class setupAssistant {
                     } else {
                         rd.put('isConnected',false);
                     }
+                    rd.put('domain',System.Url.getOrgDomainUrl().toExternalForm());
                     Map<String, Object> setupConfigMap = new Map<String, Object> {
                         'Salesforce_Connected__c' => setupData.Salesforce_Connected__c,
                         'Stripe_Connected__c' => setupData.Stripe_Connected__c 
@@ -135,10 +141,13 @@ public with sharing class setupAssistant {
                     errorBody = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
                     errorLogger.create('validateConnectionStatus', (String)errorBody.get('message'), (String)response.getStatus(), JSON.serialize(errorBody));
                 }
+                
             }
         } catch (Exception e) {
             rd.addError(e);
         }
+        System.debug('rd');
+        System.debug(rd);
         return rd.getJsonString();
     }
 }

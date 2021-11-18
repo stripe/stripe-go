@@ -4,22 +4,17 @@ import validateConnectionStatus from '@salesforce/apex/setupAssistant.validateCo
 
 export default class OutboundStep extends LightningElement {
     @api isAuthComplete = false;
+    @track domain;
     
 
     connectedCallback() {
         this.template.addEventListener('next', this.next.bind(this));
         this.stripeConnectedAppCallback(true);
-        console.log('IS this being hit');
-        console.log(this.currentDomain);
-        console.log( window.location.href);
-        console.log( window.location.hostname);
-        //console.log( window.parent.location.href);
         this.postMessageListener = (event) => {
             console.log('event')
             console.log(event)
-            if(event.origin === 'https://stripe-force.herokuapp.com' ) {
-                
-                //this.stripeConnectedAppCallback(false);
+            if(event.origin === 'https://stripe-force.herokuapp.com' || event.origin === 'https://connect.stripe.com') {
+                this.stripeConnectedAppCallback(false);
             } 
         } 
        window.addEventListener('message', this.postMessageListener);
@@ -29,7 +24,9 @@ export default class OutboundStep extends LightningElement {
         window.removeEventListener('message', this.postMessageListener);
     }
     connectToStripe() {
-        let message = {hostName : 'https://'+window.location.hostname.replace("--c.visualforce", ".lightning.force")};
+        console.log(this.domain);
+        let message = {hostName : this.domain};
+        console.log(message);
         //let rubyAuthURI = 'https://stripe-force.herokuapp.com/auth/salesforce'; //production
         let rubyAuthURI = 'https://stripe-force.herokuapp.com/auth/salesforcesandbox'; //sandbox
         let connectWindow = window.open(rubyAuthURI, '"_blank"');
@@ -45,6 +42,7 @@ export default class OutboundStep extends LightningElement {
            let responseData = JSON.parse(response);
             if(responseData.isSuccess) {
                 let isConnected = responseData.results.isConnected;
+                this.domain = responseData.results.domain;
                 if(isConnected === 'fresh') {
                     this.isAuthComplete = true;
                     this.showToast('Authorization successfully completed', 'success');

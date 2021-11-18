@@ -30,7 +30,7 @@
             top: 0;
         }
     </style>
-
+ 
     <div id="lightning">
         <div id="spinner">
             <div role="status" class="slds-spinner slds-spinner_medium">
