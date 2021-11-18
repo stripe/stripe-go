@@ -96,49 +96,6 @@ func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.A
 	return account, err
 }
 
-// Capabilities is the method for the `GET /v1/accounts/{account}/capabilities` API.
-func Capabilities(params *stripe.AccountCapabilitiesParams) *CapabilityIter {
-	return getC().Capabilities(params)
-}
-
-// Capabilities is the method for the `GET /v1/accounts/{account}/capabilities` API.
-func (c Client) Capabilities(listParams *stripe.AccountCapabilitiesParams) *CapabilityIter {
-	path := stripe.FormatURLPath(
-		"/v1/accounts/%s/capabilities",
-		stripe.StringValue(listParams.Account),
-	)
-	return &CapabilityIter{
-		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-			list := &stripe.CapabilityList{}
-			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
-
-			ret := make([]interface{}, len(list.Data))
-			for i, v := range list.Data {
-				ret[i] = v
-			}
-
-			return ret, list, err
-		}),
-	}
-}
-
-// CapabilityIter is an iterator for capabilities.
-type CapabilityIter struct {
-	*stripe.Iter
-}
-
-// Capability returns the capability which the iterator is currently pointing to.
-func (i *CapabilityIter) Capability() *stripe.Capability {
-	return i.Current().(*stripe.Capability)
-}
-
-// CapabilityList returns the current list object which the iterator is
-// currently using. List objects will change as new API calls are made to
-// continue pagination.
-func (i *CapabilityIter) CapabilityList() *stripe.CapabilityList {
-	return i.List().(*stripe.CapabilityList)
-}
-
 // List returns a list of accounts.
 func List(params *stripe.AccountListParams) *Iter {
 	return getC().List(params)
