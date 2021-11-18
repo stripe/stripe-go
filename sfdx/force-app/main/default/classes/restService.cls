@@ -33,20 +33,16 @@ global with sharing class restService {
                     List<Object> responseOrderRecrods = new List<Object>();
                     if(orderRec.getSObjects('OrderItems') != null) {
                         List<SObject> orderItemsData = orderRec.getSObjects('OrderItems');
-                        if(!orderItemsData.isEmpty()) {
-                            for(SObject orderItemRec : orderItemsData){
-                                responseOrderRecrods.add(orderItemRec);
-                            }
-                            responseOrderRecrodsMap.put((Object)orderRec, responseOrderRecrods);
-                        } else {
-                            //what should we do if there are no related orderITems Spencer
+                        for(SObject orderItemRec : orderItemsData){
+                            responseOrderRecrods.add(orderItemRec);
                         }
+                        responseOrderRecrodsMap.put((Object)orderRec, responseOrderRecrods);
                     } else {
-                        responseOrderRecrodsMap.put((Object)orderRec, 'no order items found based on product2Ids passed in: ' + JSON.serialize(product2Ids)); 
+                        responseOrderRecrodsMap.put((Object)orderRec, 'no order items found based on product2Ids passed in: ' + product2Ids); 
                     }
                 }                          
             } else {
-                throw new NotOrdersFoundException('There was no orders found based on the list of order Ids sent. value found. Order Ids sent: ' + JSON.serialize(orderIds));
+                throw new NotOrdersFoundException('There was no orders found based on the list of order Ids sent. value found. Order Ids sent: ' + orderIds);
             }
 
             response.addHeader('Content-Type', 'application/json');
