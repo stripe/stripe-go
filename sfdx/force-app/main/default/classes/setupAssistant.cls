@@ -107,7 +107,7 @@ public with sharing class setupAssistant {
                 prefix = prefix.removeEnd('--c');
                 String domain = 'https://' + prefix.toLowerCase() + '.lightning.force.com';
                 if((setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) && isConnectedCallback == true) {
-                    rd.put('domain',System.Url.getOrgDomainUrl().toExternalForm());
+                    rd.put('domain',domain);
                     rd.put('isConnected',true);
                     return rd.getJsonString();
                 } else if ((setupData.Salesforce_Connected__c != true && setupData.Stripe_Connected__c != true) && isConnectedCallback == true) {
@@ -130,7 +130,7 @@ public with sharing class setupAssistant {
                     } else {
                         rd.put('isConnected',false);
                     }
-                    rd.put('domain',System.Url.getOrgDomainUrl().toExternalForm());
+                    rd.put('domain',domain);
                     Map<String, Object> setupConfigMap = new Map<String, Object> {
                         'Salesforce_Connected__c' => setupData.Salesforce_Connected__c,
                         'Stripe_Connected__c' => setupData.Stripe_Connected__c 
