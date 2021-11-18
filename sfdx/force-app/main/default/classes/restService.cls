@@ -38,11 +38,11 @@ global with sharing class restService {
                         }
                         responseOrderRecrodsMap.put((Object)orderRec, responseOrderRecrods);
                     } else {
-                        responseOrderRecrodsMap.put((Object)orderRec, 'no order items found based on product2Ids passed in: ' + product2Ids); 
+                        responseOrderRecrodsMap.put((Object)orderRec, 'There were no order items found based on product2Ids sent. Here are the product2Ids that were sent: ' + product2Ids); 
                     }
                 }                          
             } else {
-                throw new NotOrdersFoundException('There was no orders found based on the list of order Ids sent. value found. Order Ids sent: ' + orderIds);
+                throw new NotOrdersFoundException('There were no orders found based on the list of order Ids sent. Here are the order Ids that were sent: ' + orderIds);
             }
 
             response.addHeader('Content-Type', 'application/json');
