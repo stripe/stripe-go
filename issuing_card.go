@@ -103,6 +103,26 @@ const (
 	IssuingCardTypeVirtual  IssuingCardType = "virtual"
 )
 
+// Reason the card is ineligible for Apple Pay
+type IssuingCardWalletsApplePayIneligibleReason string
+
+// List of values that IssuingCardWalletsApplePayIneligibleReason can take
+const (
+	IssuingCardWalletsApplePayIneligibleReasonMissingAgreement         IssuingCardWalletsApplePayIneligibleReason = "missing_agreement"
+	IssuingCardWalletsApplePayIneligibleReasonMissingCardholderContact IssuingCardWalletsApplePayIneligibleReason = "missing_cardholder_contact"
+	IssuingCardWalletsApplePayIneligibleReasonUnsupportedRegion        IssuingCardWalletsApplePayIneligibleReason = "unsupported_region"
+)
+
+// Reason the card is ineligible for Google Pay
+type IssuingCardWalletsGooglePayIneligibleReason string
+
+// List of values that IssuingCardWalletsGooglePayIneligibleReason can take
+const (
+	IssuingCardWalletsGooglePayIneligibleReasonMissingAgreement         IssuingCardWalletsGooglePayIneligibleReason = "missing_agreement"
+	IssuingCardWalletsGooglePayIneligibleReasonMissingCardholderContact IssuingCardWalletsGooglePayIneligibleReason = "missing_cardholder_contact"
+	IssuingCardWalletsGooglePayIneligibleReasonUnsupportedRegion        IssuingCardWalletsGooglePayIneligibleReason = "unsupported_region"
+)
+
 // IssuingCardShippingParams is the set of parameters that can be used for the shipping parameter.
 type IssuingCardShippingParams struct {
 	Address *AddressParams `form:"address"`
@@ -187,6 +207,23 @@ type IssuingCardSpendingControls struct {
 	SpendingLimitsCurrency Currency                                    `json:"spending_limits_currency"`
 }
 
+type IssuingCardWalletsApplePay struct {
+	Eligible         bool                                       `json:"eligible"`
+	IneligibleReason IssuingCardWalletsApplePayIneligibleReason `json:"ineligible_reason"`
+}
+
+type IssuingCardWalletsGooglePay struct {
+	Eligible         bool                                        `json:"eligible"`
+	IneligibleReason IssuingCardWalletsGooglePayIneligibleReason `json:"ineligible_reason"`
+}
+
+// Information relating to digital wallets (like Apple Pay and Google Pay).
+type IssuingCardWallets struct {
+	ApplePay                 *IssuingCardWalletsApplePay  `json:"apple_pay"`
+	GooglePay                *IssuingCardWalletsGooglePay `json:"google_pay"`
+	PrimaryAccountIdentifier string                       `json:"primary_account_identifier"`
+}
+
 // IssuingCard is the resource representing a Stripe issuing card.
 type IssuingCard struct {
 	APIResource
@@ -211,6 +248,7 @@ type IssuingCard struct {
 	SpendingControls   *IssuingCardSpendingControls  `json:"spending_controls"`
 	Status             IssuingCardStatus             `json:"status"`
 	Type               IssuingCardType               `json:"type"`
+	Wallets            *IssuingCardWallets           `json:"wallets"`
 }
 
 // IssuingCardList is a list of issuing cards as retrieved from a list endpoint.
