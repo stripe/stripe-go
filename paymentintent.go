@@ -309,6 +309,9 @@ type PaymentIntentPaymentMethodOptionsCardPresentParams struct{}
 // If this is a `ideal` PaymentMethod, this sub-hash contains details about the Ideal payment method options.
 type PaymentIntentPaymentMethodOptionsIdealParams struct{}
 
+// If this is a `interac_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
+type PaymentIntentPaymentMethodOptionsInteracPresentParams struct{}
+
 // If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
 type PaymentIntentPaymentMethodOptionsKlarnaParams struct {
 	PreferredLocale *string `form:"preferred_locale"`
@@ -357,6 +360,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Card             *PaymentIntentPaymentMethodOptionsCardParams             `form:"card"`
 	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresentParams      `form:"card_present"`
 	Ideal            *PaymentIntentPaymentMethodOptionsIdealParams            `form:"ideal"`
+	InteracPresent   *PaymentIntentPaymentMethodOptionsInteracPresentParams   `form:"interac_present"`
 	Klarna           *PaymentIntentPaymentMethodOptionsKlarnaParams           `form:"klarna"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXOParams             `form:"oxxo"`
 	P24              *PaymentIntentPaymentMethodOptionsP24Params              `form:"p24"`
@@ -566,6 +570,7 @@ type PaymentIntentPaymentMethodOptionsCardPresent struct{}
 // PaymentIntentPaymentMethodOptionsIdeal is the set of Ideal-specific options associated
 // with that payment intent.
 type PaymentIntentPaymentMethodOptionsIdeal struct{}
+type PaymentIntentPaymentMethodOptionsInteracPresent struct{}
 
 // PaymentIntentPaymentMethodOptionsKlarna is the set of Klarna-specific options associated
 // with that payment intent.
@@ -614,6 +619,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
 	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresent      `json:"card_present"`
 	Ideal            *PaymentIntentPaymentMethodOptionsIdeal            `json:"ideal"`
+	InteracPresent   *PaymentIntentPaymentMethodOptionsInteracPresent   `json:"interac_present"`
 	Klarna           *PaymentIntentPaymentMethodOptionsKlarna           `json:"klarna"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
 	P24              *PaymentIntentPaymentMethodOptionsP24              `json:"p24"`
