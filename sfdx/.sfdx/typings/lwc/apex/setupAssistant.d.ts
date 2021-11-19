@@ -13,3 +13,12 @@ declare module "@salesforce/apex/setupAssistant.isCpqEnabled" {
 declare module "@salesforce/apex/setupAssistant.validateConnectionStatus" {
   export default function validateConnectionStatus(param: {isConnectedCallback: any}): Promise<any>;
 }
+declare module "@salesforce/apex/setupAssistant.getMappingConfigurations" {
+  export default function getMappingConfigurations(): Promise<any>;
+}
+declare module "@salesforce/apex/setupAssistant.saveMappingConfigurations" {
+  export default function saveMappingConfigurations(param: {jsonMapObj: any}): Promise<any>;
+}
+declare module "@salesforce/apex/setupAssistant.manualRetry" {
+  export default function manualRetry(param: {jsonMapObj: any}): Promise<any>;
+}

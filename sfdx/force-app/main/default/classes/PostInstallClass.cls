@@ -22,8 +22,6 @@ global without sharing class PostInstallClass implements InstallHandler {
                 };
                 metadataCRUD.saveSetupConfigData(setupConfigMap, 'Setup_Connection_Data__mdt.Default');
             } else {
-                //errorBody = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
-                //errorLogger.create('postInstallScript', (String)errorBody.get('message'), (String)response.getStatus(), JSON.serialize(errorBody));
                 errorLogger.create('postInstallScript', string.valueOf(response.getStatusCode()), (String)response.getStatus(), JSON.serialize(response));
             }
         }

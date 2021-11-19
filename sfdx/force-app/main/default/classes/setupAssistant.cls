@@ -138,16 +138,191 @@ public with sharing class setupAssistant {
                     metadataCRUD.saveSetupConfigData(setupConfigMap, 'Setup_Connection_Data__mdt.Default');
                 } else {
                     rd.put('isConnected',false);
-                    errorBody = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
-                    errorLogger.create('validateConnectionStatus', (String)errorBody.get('message'), (String)response.getStatus(), JSON.serialize(errorBody));
+                    errorLogger.create('validateConnectionStatus', string.valueOf(response.getStatusCode()), (String)response.getStatus(), JSON.serialize(response));
                 }
                 
             }
         } catch (Exception e) {
             rd.addError(e);
         }
-        System.debug('rd');
-        System.debug(rd);
+        return rd.getJsonString();
+    }
+
+    @AuraEnabled
+    public static String getMappingConfigurations() {
+        responseData rd = new responseData();
+        try {
+            List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
+                                                                FROM Setup_Connection_Data__mdt
+                                                                WITH SECURITY_ENFORCED];   
+                                                                
+            if(Test.isRunningTest()){  
+                setupConfigList = setupConfigMetadata;
+            }
+
+            if(!setupConfigList.isEmpty()) {
+                Setup_Connection_Data__mdt setupData = setupConfigList[0];
+                if(setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) {                
+                    String route = constants.RUBY_SERVICE_BASE_URI+'configuration';
+                    HttpResponse response =  utilities.makeCallout(route,'GET');
+
+                    Map<String, Object> responseBody;
+                    if(response.getStatusCode() == 200) {
+                        responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+                        Map<String, Object> fieldMappingsMap = (Map<String,Object>)responseBody.get('field_mappings');
+                        Map<String,String> componentFieldMappings = new Map<String,String>();
+                        if (fieldMappingsMap != null || !fieldMappingsMap.isEmpty()) { 
+                            for(String key: fieldMappingsMap.keySet()) {
+                                componentFieldMappings.put(string.valueOf(key),string.valueOf(fieldMappingsMap.get(key)));
+                            }
+                            rd.put('componentFieldMappings',componentFieldMappings);
+                        }
+
+                        Map<String, Object> defualtMappingsMap = (Map<String,Object>)responseBody.get('default_mapping');
+                        Map<String,String> componentDefaultMappings = new Map<String,String>();
+                        if (defualtMappingsMap != null || !defualtMappingsMap.isEmpty()) { 
+                            for(String key: defualtMappingsMap.keySet()) {
+                                componentDefaultMappings.put(string.valueOf(key),string.valueOf(defualtMappingsMap.get(key)));
+                            }
+                            rd.put('componentDefaultMappings',componentDefaultMappings);
+                        }
+
+                        Map<String, Object> requiredMappingsMap = (Map<String,Object>)responseBody.get('required_mapping');
+                        Map<String,String> componentRequiredMappings = new Map<String,String>();
+                        if (requiredMappingsMap != null || !requiredMappingsMap.isEmpty()) { 
+                            for(String key: requiredMappingsMap.keySet()) {
+                                componentRequiredMappings.put(string.valueOf(key),string.valueOf(requiredMappingsMap.get(key)));
+                            }
+                            rd.put('componentRequiredMappings',componentRequiredMappings);
+                        }
+
+                        Map<String, Object> fieldDefaultsMappingsMap = (Map<String,Object>)responseBody.get('field_defaults');
+                        if (fieldDefaultsMappingsMap != null || !fieldDefaultsMappingsMap.isEmpty()) {
+                            Map<String, Object> subscriptionSchedMappingsMap = (Map<String,Object>)responseBody.get('subscription_schedule');
+                            Map<String,String> componentSubscriptionMappings = new Map<String,String>();
+                            if (subscriptionSchedMappingsMap != null || !subscriptionSchedMappingsMap.isEmpty()) {
+                                for(String key: subscriptionSchedMappingsMap.keySet()) {
+                                    componentSubscriptionMappings.put(string.valueOf(key),string.valueOf(subscriptionSchedMappingsMap.get(key)));
+                                }
+                                rd.put('componentSubscriptionMappings',componentSubscriptionMappings);
+                            }
+                        }
+                    } else {
+                        errorLogger.create('getMappingConfigurations', string.valueOf(response.getStatusCode()), (String)response.getStatus(), JSON.serialize(response));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            rd.addError(e);
+        }
+        return rd.getJsonString();
+    }
+
+    @AuraEnabled
+    public static String saveMappingConfigurations(String jsonMapObj) {
+        responseData rd = new responseData();
+        try {
+            List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
+                                                                FROM Setup_Connection_Data__mdt
+                                                                WITH SECURITY_ENFORCED];   
+                                                                
+            if(Test.isRunningTest()){  
+                setupConfigList = setupConfigMetadata;
+            }
+
+            if(!setupConfigList.isEmpty()) {
+                Setup_Connection_Data__mdt setupData = setupConfigList[0];
+                if(setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) {                
+                    String route = constants.RUBY_SERVICE_BASE_URI+'configuration';
+                    HttpResponse response =  utilities.makeCallout(route,'PUT',jsonMapObj);
+
+                    Map<String, Object> responseBody;
+                    if(response.getStatusCode() == 200) {
+                        //ARNOLD THINK ABOUT THIS DO WE WANT TO REPOPULATE MAPPER AFTER SAVE WITH WHATS RETURNED???
+                        //OR SHOULD WE JUST RETURN SOME SORT OF BOOLEAN DENOTING WE GOT A 200 RESPONSE. 
+                        responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+                        Map<String, Object> fieldMappingsMap = (Map<String,Object>)responseBody.get('field_mappings');
+                        Map<String,String> componentFieldMappings = new Map<String,String>();
+                        if (fieldMappingsMap != null || !fieldMappingsMap.isEmpty()) { 
+                            for(String key: fieldMappingsMap.keySet()) {
+                                componentFieldMappings.put(string.valueOf(key),string.valueOf(fieldMappingsMap.get(key)));
+                            }
+                            rd.put('componentFieldMappings',componentFieldMappings);
+                        }
+
+                        Map<String, Object> defualtMappingsMap = (Map<String,Object>)responseBody.get('default_mapping');
+                        Map<String,String> componentDefaultMappings = new Map<String,String>();
+                        if (defualtMappingsMap != null || !defualtMappingsMap.isEmpty()) { 
+                            for(String key: defualtMappingsMap.keySet()) {
+                                componentDefaultMappings.put(string.valueOf(key),string.valueOf(defualtMappingsMap.get(key)));
+                            }
+                            rd.put('componentDefaultMappings',componentDefaultMappings);
+                        }
+
+                        Map<String, Object> requiredMappingsMap = (Map<String,Object>)responseBody.get('required_mapping');
+                        Map<String,String> componentRequiredMappings = new Map<String,String>();
+                        if (requiredMappingsMap != null || !requiredMappingsMap.isEmpty()) { 
+                            for(String key: requiredMappingsMap.keySet()) {
+                                componentRequiredMappings.put(string.valueOf(key),string.valueOf(requiredMappingsMap.get(key)));
+                            }
+                            rd.put('componentRequiredMappings',componentRequiredMappings);
+                        }
+
+                        Map<String, Object> fieldDefaultsMappingsMap = (Map<String,Object>)responseBody.get('field_defaults');
+                        if (fieldDefaultsMappingsMap != null || !fieldDefaultsMappingsMap.isEmpty()) {
+                            Map<String, Object> subscriptionSchedMappingsMap = (Map<String,Object>)responseBody.get('subscription_schedule');
+                            Map<String,String> componentSubscriptionMappings = new Map<String,String>();
+                            if (subscriptionSchedMappingsMap != null || !subscriptionSchedMappingsMap.isEmpty()) {
+                                for(String key: subscriptionSchedMappingsMap.keySet()) {
+                                    componentSubscriptionMappings.put(string.valueOf(key),string.valueOf(subscriptionSchedMappingsMap.get(key)));
+                                }
+                                rd.put('componentSubscriptionMappings',componentSubscriptionMappings);
+                            }
+                        }
+                    } else {
+                        errorLogger.create('saveMappingConfigurations', string.valueOf(response.getStatusCode()), (String)response.getStatus(), JSON.serialize(response));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            rd.addError(e);
+        }
+        return rd.getJsonString();
+    }
+
+    @AuraEnabled
+    public static String manualRetry(String jsonMapObj) {
+        responseData rd = new responseData();
+        try {
+            List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
+                                                                FROM Setup_Connection_Data__mdt
+                                                                WITH SECURITY_ENFORCED];   
+                                                                
+            if(Test.isRunningTest()){  
+                setupConfigList = setupConfigMetadata;
+            }
+
+            if(!setupConfigList.isEmpty()) {
+                Setup_Connection_Data__mdt setupData = setupConfigList[0];
+                if(setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) {  
+                    //ARNOLD MIGHT NEED TO GET THE OBJECT CONFIG IF THERE IS NO CLEVER WAY TO PASS IT IN AS THE jsonMapObj param              
+                    String route = constants.RUBY_SERVICE_BASE_URI+'translate';
+                    HttpResponse response =  utilities.makeCallout(route,'POST',jsonMapObj);
+                    System.debug('response');
+                    System.debug(response);
+
+                    Map<String, Object> responseBody;
+                    if(response.getStatusCode() == 200) {
+
+
+                    } else {
+                        errorLogger.create('manualRetry', string.valueOf(response.getStatusCode()), (String)response.getStatus(), JSON.serialize(response));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            rd.addError(e);
+        }
         return rd.getJsonString();
     }
 }
