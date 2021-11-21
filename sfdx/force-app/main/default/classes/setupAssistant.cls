@@ -95,8 +95,7 @@ public with sharing class setupAssistant {
         try {
             List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
                                                                 FROM Setup_Connection_Data__mdt
-                                                                WITH SECURITY_ENFORCED];   
-                                                                
+                                                                WITH SECURITY_ENFORCED];                                                                 
             if(Test.isRunningTest()){  
                 setupConfigList = setupConfigMetadata;
             }
@@ -296,9 +295,8 @@ public with sharing class setupAssistant {
         try {
             List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
                                                                 FROM Setup_Connection_Data__mdt
-                                                                WITH SECURITY_ENFORCED];   
-                                                                
-            if(Test.isRunningTest()){  
+                                                                WITH SECURITY_ENFORCED];                                                                  
+            if(Test.isRunningTest()) {  
                 setupConfigList = setupConfigMetadata;
             }
 

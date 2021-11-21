@@ -42,7 +42,7 @@ public with sharing class tst_setupAssistant {
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
         Map<String, Object> connectecCallbackResultsMap = (Map<String, Object>)connectedCallbackResponseMap.get('results');
         System.assertEquals('fresh', resultsMap.get('isConnected'));
-        System.assertEquals(false, connectecCallbackResultsMap.get('isConnected'));
+        System.assertEquals(true, connectecCallbackResultsMap.get('isConnected'));
     }
 
     private class stripeSuccessMock implements HttpCalloutMock {
