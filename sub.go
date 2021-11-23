@@ -218,11 +218,28 @@ type SubscriptionParams struct {
 	ProrationBehavior           *string                                       `form:"proration_behavior"`
 	ProrationDate               *int64                                        `form:"proration_date"`
 	Quantity                    *int64                                        `form:"quantity"`
-	TrialEnd                    *int64                                        `form:"trial_end"`
 	TransferData                *SubscriptionTransferDataParams               `form:"transfer_data"`
+	TrialEnd                    *int64                                        `form:"trial_end"`
 	TrialEndNow                 *bool                                         `form:"-"` // See custom AppendTo
 	TrialFromPlan               *bool                                         `form:"trial_from_plan"`
 	TrialPeriodDays             *int64                                        `form:"trial_period_days"`
+}
+
+// AppendTo implements custom encoding logic for SubscriptionParams so that the special
+// "now" value for billing_cycle_anchor and trial_end can be implemented
+// (they're otherwise timestamps rather than strings).
+func (p *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.BillingCycleAnchorNow) {
+		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "now")
+	}
+
+	if BoolValue(p.BillingCycleAnchorUnchanged) {
+		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
+	}
+
+	if BoolValue(p.TrialEndNow) {
+		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
+	}
 }
 
 type SubscriptionAutomaticTaxParams struct {
@@ -242,23 +259,6 @@ type SubscriptionCancelParams struct {
 	Params     `form:"*"`
 	InvoiceNow *bool `form:"invoice_now"`
 	Prorate    *bool `form:"prorate"`
-}
-
-// AppendTo implements custom encoding logic for SubscriptionParams so that the special
-// "now" value for billing_cycle_anchor and trial_end can be implemented
-// (they're otherwise timestamps rather than strings).
-func (p *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(p.BillingCycleAnchorNow) {
-		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "now")
-	}
-
-	if BoolValue(p.BillingCycleAnchorUnchanged) {
-		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
-	}
-
-	if BoolValue(p.TrialEndNow) {
-		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
-	}
 }
 
 // SubscriptionItemsParams is the set of parameters that can be used when creating or updating a subscription item on a subscription
