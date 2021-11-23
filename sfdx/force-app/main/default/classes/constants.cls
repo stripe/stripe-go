@@ -5,6 +5,7 @@ public with sharing class constants {
 
 
     // Namespaces
+    //fetches the namespace of the package in case we need to prefix it any where in apex for CRUD or accessing anything that will be namespaced in a package
     private static FINAL String thisString = String.valueOf(constants.class);
     private static FINAL List<String> thisStrings = thisString.split('[.]', 2);
     public static FINAL String NAMESPACE = thisStrings.size() > 1 ? thisStrings[0] : 'c';
