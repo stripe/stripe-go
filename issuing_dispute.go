@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -143,9 +149,11 @@ type IssuingDisputeEvidenceOtherParams struct {
 type IssuingDisputeEvidenceServiceNotAsDescribedParams struct {
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	CanceledAt              *int64  `form:"canceled_at"`
+	CancellationReason      *string `form:"cancellation_reason"`
 	Explanation             *string `form:"explanation"`
 	ProductDescription      *string `form:"product_description"`
 	ProductType             *string `form:"product_type"`
+	ReceivedAt              *int64  `form:"received_at"`
 }
 
 // IssuingDisputeEvidenceParams is the set of parameters for the evidence on an issuing dispute
@@ -170,6 +178,8 @@ type IssuingDisputeParams struct {
 // IssuingDisputeListParams is the set of parameters that can be used when listing issuing dispute.
 type IssuingDisputeListParams struct {
 	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
 	Status       *string           `form:"status"`
 	Transaction  *string           `form:"transaction"`
 }
@@ -240,9 +250,11 @@ type IssuingDisputeEvidenceOther struct {
 type IssuingDisputeEvidenceServiceNotAsDescribed struct {
 	AdditionalDocumentation *File                                                  `json:"additional_documentation"`
 	CanceledAt              int64                                                  `json:"canceled_at"`
+	CancellationReason      string                                                 `json:"cancellation_reason"`
 	Explanation             string                                                 `json:"explanation"`
 	ProductDescription      string                                                 `json:"product_description"`
 	ProductType             IssuingDisputeEvidenceServiceNotAsDescribedProductType `json:"product_type"`
+	ReceivedAt              int64                                                  `json:"received_at"`
 }
 
 // IssuingDisputeEvidence is the resource representing the evidence of an issuing dispute.

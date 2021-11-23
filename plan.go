@@ -1,10 +1,15 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import (
 	"encoding/json"
-	"strconv"
-
 	"github.com/stripe/stripe-go/v72/form"
+	"strconv"
 )
 
 // PlanInterval is the list of allowed values for a plan's interval.
@@ -111,16 +116,19 @@ type PlanTierParams struct {
 	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
 	UnitAmount        *int64   `form:"unit_amount"`
 	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
-	UpTo              *int64   `form:"-"` // handled in custom AppendTo
-	UpToInf           *bool    `form:"-"` // handled in custom AppendTo
+	UpTo              *int64   `form:"-"` // See custom AppendTo
+	UpToInf           *bool    `form:"-"` // See custom AppendTo
 }
 
-// AppendTo implements custom up_to serialisation logic for tiers configuration
+// AppendTo implements custom encoding logic for PlanTierParams.
 func (p *PlanTierParams) AppendTo(body *form.Values, keyParts []string) {
 	if BoolValue(p.UpToInf) {
 		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
 	} else {
-		body.Add(form.FormatKey(append(keyParts, "up_to")), strconv.FormatInt(Int64Value(p.UpTo), 10))
+		body.Add(
+			form.FormatKey(append(keyParts, "up_to")),
+			strconv.FormatInt(Int64Value(p.UpTo), 10),
+		)
 	}
 }
 
@@ -155,6 +163,7 @@ type Plan struct {
 	Livemode        bool                `json:"livemode"`
 	Metadata        map[string]string   `json:"metadata"`
 	Nickname        string              `json:"nickname"`
+	Object          string              `json:"object"`
 	Product         *Product            `json:"product"`
 	Tiers           []*PlanTier         `json:"tiers"`
 	TiersMode       string              `json:"tiers_mode"`
@@ -188,9 +197,9 @@ type PlanList struct {
 // UnmarshalJSON handles deserialization of a Plan.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (s *Plan) UnmarshalJSON(data []byte) error {
+func (p *Plan) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		s.ID = id
+		p.ID = id
 		return nil
 	}
 
@@ -200,6 +209,6 @@ func (s *Plan) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*s = Plan(v)
+	*p = Plan(v)
 	return nil
 }

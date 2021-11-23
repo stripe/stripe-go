@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -57,9 +63,8 @@ type CreditNoteListParams struct {
 // CreditNoteLineItemListParams is the set of parameters that can be used when listing credit note line items.
 type CreditNoteLineItemListParams struct {
 	ListParams `form:"*"`
-
 	// ID is the credit note ID to list line items for.
-	ID *string `form:"-"` // Goes in the URL
+	ID *string `form:"-"` // Included in URL
 }
 
 // CreditNoteLineItemListPreviewParams is the set of parameters that can be used when previewing a credit note's line items
@@ -163,18 +168,18 @@ type CreditNoteList struct {
 // UnmarshalJSON handles deserialization of a CreditNote.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (i *CreditNote) UnmarshalJSON(data []byte) error {
+func (c *CreditNote) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		i.ID = id
+		c.ID = id
 		return nil
 	}
 
-	type note CreditNote
-	var v note
+	type creditNote CreditNote
+	var v creditNote
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*i = CreditNote(v)
+	*c = CreditNote(v)
 	return nil
 }
