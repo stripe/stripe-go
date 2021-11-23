@@ -1,9 +1,15 @@
 # Changelog
 
+## 72.77.0 - 2021-11-19
+* [#1381](https://github.com/stripe/stripe-go/pull/1381) Add support for `Wallets` on `IssuingCard`
+  * Add support for `Wallets` on `IssuingCard`
+* [#1380](https://github.com/stripe/stripe-go/pull/1380) API Updates
+  * Add support for `InteracPresent` on `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
+  * Add support for new value `jct` on enum `TaxRateTaxType`
+
 ## 72.76.0 - 2021-11-17
 * [#1377](https://github.com/stripe/stripe-go/pull/1377) API Updates
   * Add support for `AutomaticPaymentMethods` on `PaymentIntentParams` and `PaymentIntent`
-  
 
 ## 72.75.0 - 2021-11-16
 * [#1375](https://github.com/stripe/stripe-go/pull/1375) API Updates
