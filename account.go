@@ -917,11 +917,6 @@ func (a *Account) UnmarshalJSON(data []byte) error {
 // This custom unmarshaling is needed because the specific type of
 // ExternalAccount it refers to is specified in the JSON
 func (e *ExternalAccount) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		e.ID = id
-		return nil
-	}
-
 	type externalAccount ExternalAccount
 	var v externalAccount
 	if err := json.Unmarshal(data, &v); err != nil {
