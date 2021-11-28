@@ -1,6 +1,5 @@
 # Go Stripe
-
-[![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/stripe/stripe-go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/stripe/stripe-go)](https://pkg.go.dev/github.com/stripe/stripe-go)
 [![Build Status](https://travis-ci.org/stripe/stripe-go.svg?branch=master)](https://travis-ci.org/stripe/stripe-go)
 [![Coverage Status](https://coveralls.io/repos/github/stripe/stripe-go/badge.svg?branch=master)](https://coveralls.io/github/stripe/stripe-go?branch=master)
 
@@ -40,8 +39,8 @@ documentation][api-docs].
 
 See [video demonstrations][youtube-playlist] covering how to use the library.
 
-For details on all the functionality in this library, see the [GoDoc][godoc]
-documentation.
+For details on all the functionality in this library, see the [Go
+documentation][goref].
 
 Below are a few simple examples:
 
@@ -449,7 +448,7 @@ pull request][pulls].
 [connect]: https://stripe.com/docs/connect/authentication
 [depgomodsupport]: https://github.com/golang/dep/pull/1963
 [expandableobjects]: https://stripe.com/docs/api/expanding_objects
-[godoc]: http://godoc.org/github.com/stripe/stripe-go
+[goref]: https://pkg.go.dev/github.com/stripe/stripe-go
 [gomodrevert]: https://github.com/stripe/stripe-go/pull/774
 [gomodvsdep]: https://github.com/stripe/stripe-go/pull/712
 [idempotency-keys]: https://stripe.com/docs/api/ruby#idempotent_requests
