@@ -6,8 +6,7 @@ global without sharing class PostInstallClass implements InstallHandler {
         if(!setupConfigList.isEmpty() && String.isBlank(setupConfigList[0].API_Key__c)) {
             Setup_Connection_Data__mdt setupData = setupConfigList[0];
             Blob blb = Crypto.GenerateAESKey(128);
-            String hex = EncodingUtil.ConvertTohex(blb);
-            String packageGuidKey = hex.SubString(0,8)+ '-' + hex.SubString(8,12) + '-' + hex.SubString(12,16); 
+            String packageGuidKey = EncodingUtil.ConvertTohex(blb);
             String route = constants.RUBY_SERVICE_BASE_URI+'post-install';
 
             Map<String, Object> body = new Map<String, Object>{
