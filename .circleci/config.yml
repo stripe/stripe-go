@@ -1,4 +1,4 @@
-version: 2.1
+# version: 2.1
 
 # if `workflows` is not specified only the `build` job is run
 # prevent more than a single build from running at one time
@@ -299,7 +299,6 @@ version: 2.1
 #               wait_time=$(( loop_time + wait_time ))
 #             done
 
-            
 jobs:
   install_authenticate:
     executor: sfdx/default
@@ -313,7 +312,7 @@ jobs:
           scratch-config: ./config/project-scratch-def.json
       - sfdx/scratch-open:
           scratch-alias: stripeTestOrg
-      
+
       - run:
           name: "Authenticate into DevHub"
           command: >
@@ -343,4 +342,3 @@ workflows:
   basic-test:
     jobs:
       - install_authenticate
-
