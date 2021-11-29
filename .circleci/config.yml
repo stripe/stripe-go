@@ -336,7 +336,6 @@ jobs:
 
 orbs:
   salesforce-sfdx: circleci/salesforce-sfdx@2.2.0
-  sfdx: circleci/salesforce-sfdx@x.y
 version: 2.1
 workflows:
   basic-test:
