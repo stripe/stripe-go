@@ -304,7 +304,6 @@ jobs:
     executor: sfdx/default
     steps:
       - checkout
-      - sfdx/install
       - sfdx/auth:
           defaultusername: arnold@appiphony.com
       - sfdx/scratch-create:
