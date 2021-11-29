@@ -1,6 +1,6 @@
 {
     "orgName": "Appiphony, LLC",
-    "edition": "Developer",
+    "edition": "Enterprise",
     "settings": {
         "mobileSettings": {
             "enableS1EncryptedStoragePref2": false
@@ -9,5 +9,6 @@
             "enableS1DesktopEnabled": true
         }
     },
-    "hasSampleData": true
+    "hasSampleData": true,
+    "features": ["LightningServiceConsole","LiveAgent","Chatbot","ServiceCloud"]
 }

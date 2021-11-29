@@ -79,10 +79,12 @@ public with sharing class utilities {
                 Setup_Connection_Data__mdt setupData = setupConfigList[0];
                 String orgId = constants.ORG_ID;
                 //String globalKey = setupData.Global_Key__c; 
+                //String packageID = setupAssistant.getPackageVersion();
                 String globalKey = 'dee37489-9f31-91d5';
                 String packageGuidKey = setupData.API_Key__c;
                 req.setHeader('Salesforce-Account-Id', orgId);
                 req.setHeader('Salesforce-Key', globalKey);
+                //req.setHeader('Package-Id', packageID);
             } else {
                 throw new SetupIsNotCompleteException('Setup is not complete, contact your Salesforce administrator for further assistance.');
             }

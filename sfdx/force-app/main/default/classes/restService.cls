@@ -35,19 +35,21 @@ global with sharing class restService {
             String orderQuery = 'SELECT Id,'+ String.join((orderFields), ',')+', (SELECT Id,'+ String.join((product2Fields), ',')+' FROM OrderItems WHERE Id in :product2Ids) FROM Order WHERE Id in :orderIds  WITH SECURITY_ENFORCED';
             List<Order> orderData = Database.query(orderQuery);
 
-            Map<Object, Object> responseOrderRecrodsMap = new Map<Object, Object>();
+            //Map<Object, Object> responseOrderRecrodsMap = new Map<Object, Object>();
+            List<Object> responseOrderRecrods = new List<Object>();
 
             if(!orderData.isEmpty()) {
                 for(SObject orderRec : orderData){
-                    List<Object> responseOrderRecrods = new List<Object>();
+                    //List<Object> responseOrderRecrods = new List<Object>();
                     if(orderRec.getSObjects('OrderItems') != null) {
                         List<SObject> orderItemsData = orderRec.getSObjects('OrderItems');
                         for(SObject orderItemRec : orderItemsData){
-                            responseOrderRecrods.add(orderItemRec);
+                            //responseOrderRecrods.add(orderItemRec);
+                            responseOrderRecrods.add((Object)orderRec + '' + orderItemRec);
                         }
-                        responseOrderRecrodsMap.put((Object)orderRec, responseOrderRecrods);
+                        //responseOrderRecrodsMap.add((Object)orderRec + ',' + responseOrderRecrods);
                     } else {
-                        responseOrderRecrodsMap.put((Object)orderRec, 'There were no order items found based on product2Ids sent. Here are the product2Ids that were sent: ' + product2Ids); 
+                        responseOrderRecrods.add((Object)orderRec + 'There were no order items found based on product2Ids sent. Here are the product2Ids that were sent: ' + product2Ids); 
                     }
                 }                          
             } else {
@@ -60,7 +62,7 @@ global with sharing class restService {
             Map<String, List<Object>> orderDetails = new Map<String,List<Object>>();
             orderDetails.put('ORDER_UID',(List<Object>)orderData);
 
-            resBody.put('orders',(Object)responseOrderRecrodsMap);
+            resBody.put('orders',(Object)responseOrderRecrods);
             response.responseBody = Blob.valueOf(JSON.serialize(resBody));
 
         } catch(Exception e) {
