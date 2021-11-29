@@ -372,7 +372,7 @@ GEM
     sorbet-runtime (0.5.9303)
     sorbet-static (0.5.9363-universal-darwin-20)
     sorbet-static (0.5.9363-x86_64-linux)
-    spring (3.0.0)
+    spring (3.1.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
