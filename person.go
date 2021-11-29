@@ -146,21 +146,11 @@ type PersonListParams struct {
 	Relationship *RelationshipListParams `form:"relationship"`
 }
 
-// PersonVerificationDocument represents the documents associated with a Person.
-type PersonVerificationDocument struct {
-	Back        *File                           `json:"back"`
-	Details     string                          `json:"details"`
-	DetailsCode VerificationDocumentDetailsCode `json:"details_code"`
-	Front       *File                           `json:"front"`
-}
-
-// PersonVerification is the structure for a person's verification details.
-type PersonVerification struct {
-	AdditionalDocument *PersonVerificationDocument   `json:"additional_document"`
-	Details            string                        `json:"details"`
-	DetailsCode        PersonVerificationDetailsCode `json:"details_code"`
-	Document           *PersonVerificationDocument   `json:"document"`
-	Status             IdentityVerificationStatus    `json:"status"`
+// DOB represents a Person's date of birth.
+type DOB struct {
+	Day   int64 `json:"day"`
+	Month int64 `json:"month"`
+	Year  int64 `json:"year"`
 }
 
 // Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
@@ -186,19 +176,6 @@ type PersonFutureRequirements struct {
 	PendingVerification []string                               `json:"pending_verification"`
 }
 
-// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
-type PersonRequirementsAlternative struct {
-	AlternativeFieldsDue []string `json:"alternative_fields_due"`
-	OriginalFieldsDue    []string `json:"original_fields_due"`
-}
-
-// DOB represents a Person's date of birth.
-type DOB struct {
-	Day   int64 `json:"day"`
-	Month int64 `json:"month"`
-	Year  int64 `json:"year"`
-}
-
 // Relationship represents how the Person relates to the business.
 type Relationship struct {
 	Director         bool    `json:"director"`
@@ -209,6 +186,12 @@ type Relationship struct {
 	Title            string  `json:"title"`
 }
 
+// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+type PersonRequirementsAlternative struct {
+	AlternativeFieldsDue []string `json:"alternative_fields_due"`
+	OriginalFieldsDue    []string `json:"original_fields_due"`
+}
+
 // Requirements represents what's missing to verify a Person.
 type Requirements struct {
 	Alternatives        []*PersonRequirementsAlternative `json:"alternatives"`
@@ -217,6 +200,23 @@ type Requirements struct {
 	EventuallyDue       []string                         `json:"eventually_due"`
 	PastDue             []string                         `json:"past_due"`
 	PendingVerification []string                         `json:"pending_verification"`
+}
+
+// PersonVerificationDocument represents the documents associated with a Person.
+type PersonVerificationDocument struct {
+	Back        *File                           `json:"back"`
+	Details     string                          `json:"details"`
+	DetailsCode VerificationDocumentDetailsCode `json:"details_code"`
+	Front       *File                           `json:"front"`
+}
+
+// PersonVerification is the structure for a person's verification details.
+type PersonVerification struct {
+	AdditionalDocument *PersonVerificationDocument   `json:"additional_document"`
+	Details            string                        `json:"details"`
+	DetailsCode        PersonVerificationDetailsCode `json:"details_code"`
+	Document           *PersonVerificationDocument   `json:"document"`
+	Status             IdentityVerificationStatus    `json:"status"`
 }
 
 // Person is the resource representing a Stripe person.
@@ -242,8 +242,8 @@ type Person struct {
 	LastNameKana       string                    `json:"last_name_kana"`
 	LastNameKanji      string                    `json:"last_name_kanji"`
 	MaidenName         string                    `json:"maiden_name"`
-	Nationality        string                    `json:"nationality"`
 	Metadata           map[string]string         `json:"metadata"`
+	Nationality        string                    `json:"nationality"`
 	Object             string                    `json:"object"`
 	Phone              string                    `json:"phone"`
 	PoliticalExposure  PersonPoliticalExposure   `json:"political_exposure"`

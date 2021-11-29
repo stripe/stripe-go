@@ -28,14 +28,14 @@ type InvoiceBillingReason string
 
 // List of values that InvoiceBillingReason can take.
 const (
-	InvoiceBillingReasonManual                InvoiceBillingReason = "manual"
-	InvoiceBillingReasonQuoteAccept           InvoiceBillingReason = "quote_accept"
-	InvoiceBillingReasonSubscription          InvoiceBillingReason = "subscription"
-	InvoiceBillingReasonSubscriptionCreate    InvoiceBillingReason = "subscription_create"
-	InvoiceBillingReasonSubscriptionCycle     InvoiceBillingReason = "subscription_cycle"
-	InvoiceBillingReasonSubscriptionThreshold InvoiceBillingReason = "subscription_threshold"
-	InvoiceBillingReasonSubscriptionUpdate    InvoiceBillingReason = "subscription_update"
-	InvoiceBillingReasonUpcoming              InvoiceBillingReason = "upcoming"
+	InvoiceBillingReasonManual                             InvoiceBillingReason = "manual"
+	InvoiceBillingReasonQuoteAccept                        InvoiceBillingReason = "quote_accept"
+	InvoiceBillingReasonSubscription                       InvoiceBillingReason = "subscription"
+	InvoiceBillingReasonSubscriptionCreate                 InvoiceBillingReason = "subscription_create"
+	InvoiceBillingReasonSubscriptionCycle                  InvoiceBillingReason = "subscription_cycle"
+	InvoiceBillingReasonSubscriptionThreshold              InvoiceBillingReason = "subscription_threshold"
+	InvoiceBillingReasonSubscriptionUpdate                 InvoiceBillingReason = "subscription_update"
+	InvoiceBillingReasonUpcoming                           InvoiceBillingReason = "upcoming"
 )
 
 // Transaction type of the mandate.
@@ -227,8 +227,8 @@ type InvoiceTransferDataParams struct {
 type InvoiceParams struct {
 	Params               `form:"*"`
 	AccountTaxIDs        []*string                     `form:"account_tax_ids"`
-	AutoAdvance          *bool                         `form:"auto_advance"`
 	ApplicationFeeAmount *int64                        `form:"application_fee_amount"`
+	AutoAdvance          *bool                         `form:"auto_advance"`
 	AutomaticTax         *InvoiceAutomaticTaxParams    `form:"automatic_tax"`
 	CollectionMethod     *string                       `form:"collection_method"`
 	CustomFields         []*InvoiceCustomFieldParams   `form:"custom_fields"`
@@ -369,7 +369,6 @@ type Invoice struct {
 	CollectionMethod             *InvoiceCollectionMethod `json:"collection_method"`
 	Created                      int64                    `json:"created"`
 	Currency                     Currency                 `json:"currency"`
-	CustomFields                 []*InvoiceCustomField    `json:"custom_fields"`
 	Customer                     *Customer                `json:"customer"`
 	CustomerAddress              *Address                 `json:"customer_address"`
 	CustomerEmail                string                   `json:"customer_email"`
@@ -378,6 +377,7 @@ type Invoice struct {
 	CustomerShipping             *CustomerShippingDetails `json:"customer_shipping"`
 	CustomerTaxExempt            CustomerTaxExempt        `json:"customer_tax_exempt"`
 	CustomerTaxIDs               []*InvoiceCustomerTaxID  `json:"customer_tax_ids"`
+	CustomFields                 []*InvoiceCustomField    `json:"custom_fields"`
 	DefaultPaymentMethod         *PaymentMethod           `json:"default_payment_method"`
 	DefaultSource                *PaymentSource           `json:"default_source"`
 	DefaultTaxRates              []*TaxRate               `json:"default_tax_rates"`
