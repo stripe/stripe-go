@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import (
@@ -28,10 +34,12 @@ type EventListParams struct {
 type Event struct {
 	APIResource
 	Account         string        `json:"account"`
+	APIVersion      string        `json:"api_version"`
 	Created         int64         `json:"created"`
 	Data            *EventData    `json:"data"`
 	ID              string        `json:"id"`
 	Livemode        bool          `json:"livemode"`
+	Object          string        `json:"object"`
 	PendingWebhooks int64         `json:"pending_webhooks"`
 	Request         *EventRequest `json:"request"`
 	Type            string        `json:"type"`

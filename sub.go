@@ -1,8 +1,13 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import (
 	"encoding/json"
-
 	"github.com/stripe/stripe-go/v72/form"
 )
 
@@ -225,23 +230,20 @@ type SubscriptionParams struct {
 	TrialPeriodDays             *int64                                        `form:"trial_period_days"`
 }
 
-// AppendTo implements custom encoding logic for SubscriptionParams so that the special
-// "now" value for billing_cycle_anchor and trial_end can be implemented
-// (they're otherwise timestamps rather than strings).
-func (p *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(p.BillingCycleAnchorNow) {
+// AppendTo implements custom encoding logic for SubscriptionParams.
+func (s *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(s.BillingCycleAnchorNow) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "now")
 	}
-
-	if BoolValue(p.BillingCycleAnchorUnchanged) {
+	if BoolValue(s.BillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
 	}
-
-	if BoolValue(p.TrialEndNow) {
+	if BoolValue(s.TrialEndNow) {
 		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
 	}
 }
 
+// Automatic tax settings for this subscription.
 type SubscriptionAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
@@ -269,6 +271,7 @@ type SubscriptionItemsParams struct {
 	ClearUsage        *bool                                    `form:"clear_usage"`
 	Deleted           *bool                                    `form:"deleted"`
 	ID                *string                                  `form:"id"`
+	Metadata          map[string]string                        `form:"metadata"`
 	Plan              *string                                  `form:"plan"`
 	Price             *string                                  `form:"price"`
 	PriceData         *SubscriptionItemPriceDataParams         `form:"price_data"`
@@ -298,7 +301,6 @@ type SubscriptionPauseCollection struct {
 	Behavior  SubscriptionPauseCollectionBehavior `json:"behavior"`
 	ResumesAt int64                               `json:"resumes_at"`
 }
-
 type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 	TransactionType SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
 }
@@ -398,7 +400,6 @@ type Subscription struct {
 	TrialEnd                      int64                                  `json:"trial_end"`
 	TrialStart                    int64                                  `json:"trial_start"`
 }
-
 type SubscriptionAutomaticTax struct {
 	Enabled bool `json:"enabled"`
 }
