@@ -308,10 +308,7 @@ jobs:
       - sfdx/install
       - sfdx/auth:
           defaultusername: arnold@appiphony.com
-          # consumerKey: 3MVG9kBt168mda_8BiSZWrNL.LHW4jmvdfHFnZ4FtTSFOKcPVwfdZU6DpcPtFqFOzqakXPG.jYhQ_Cu62FS7O
-          # server_key: ./sfdx/JWT/server.key 
-          # jwtKey: ./sfdx/JWT/server.key.enc
-        - sfdx/scratch-create:
+      - sfdx/scratch-create:
           scratch-alias: stripeTestOrg
           scratch-config: ./config/project-scratch-def.json
       - sfdx/scratch-open:
@@ -326,16 +323,16 @@ jobs:
       - run:
           name: "Deploy code to Devhub"
           command: >
-          #Deploying code to scratch org
-          sfdx force:source:deploy --wait 10 -p ./sfdx/force-app/main/default/-u stripeTestOrg
+            #Deploying code to scratch org
+            sfdx force:source:deploy --wait 10 -p ./sfdx/force-app/main/default/-u stripeTestOrg
 
       - run:
           name: "Running all local test in scratch org"
           command: >
-          #Running all local tests.
-          sfdx force:apex:test:run --wait 10 -p ./sfdx/force-app/main/default/classes --testlevel RunLocalTests -u stripeTestOrg --codecoverage --resultformat human
+            #Running all local tests.
+            sfdx force:apex:test:run --wait 10 -p ./sfdx/force-app/main/default/classes --testlevel RunLocalTests -u stripeTestOrg --codecoverage --resultformat human
 
-        - sfdx/scratch-delete:
+      - sfdx/scratch-delete:
           scratch-alias: stripeTestOrg
 
 orbs:
