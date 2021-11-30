@@ -1,8 +1,13 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import (
 	"encoding/json"
-
 	"github.com/stripe/stripe-go/v72/form"
 )
 
@@ -12,7 +17,19 @@ type SubscriptionScheduleEndBehavior string
 // List of values that SubscriptionScheduleEndBehavior can take.
 const (
 	SubscriptionScheduleEndBehaviorCancel  SubscriptionScheduleEndBehavior = "cancel"
+	SubscriptionScheduleEndBehaviorNone    SubscriptionScheduleEndBehavior = "none"
 	SubscriptionScheduleEndBehaviorRelease SubscriptionScheduleEndBehavior = "release"
+	SubscriptionScheduleEndBehaviorRenew   SubscriptionScheduleEndBehavior = "renew"
+)
+
+// If the subscription schedule will prorate when transitioning to this phase. Possible values are `create_prorations` and `none`.
+type SubscriptionSchedulePhaseProrationBehavior string
+
+// List of values that SubscriptionSchedulePhaseProrationBehavior can take
+const (
+	SubscriptionSchedulePhaseProrationBehaviorAlwaysInvoice    SubscriptionSchedulePhaseProrationBehavior = "always_invoice"
+	SubscriptionSchedulePhaseProrationBehaviorCreateProrations SubscriptionSchedulePhaseProrationBehavior = "create_prorations"
+	SubscriptionSchedulePhaseProrationBehaviorNone             SubscriptionSchedulePhaseProrationBehavior = "none"
 )
 
 // SubscriptionScheduleStatus is the list of allowed values for the schedule's status.
@@ -87,6 +104,7 @@ type SubscriptionSchedulePhaseAddInvoiceItemParams struct {
 	TaxRates  []*string                   `form:"tax_rates"`
 }
 
+// Automatic tax settings for this phase.
 type SubscriptionSchedulePhaseAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
@@ -115,14 +133,30 @@ type SubscriptionSchedulePhaseParams struct {
 	DefaultPaymentMethod  *string                                          `form:"default_payment_method"`
 	DefaultTaxRates       []*string                                        `form:"default_tax_rates"`
 	EndDate               *int64                                           `form:"end_date"`
+	EndDateNow            *bool                                            `form:"-"` // See custom AppendTo
 	InvoiceSettings       *SubscriptionScheduleInvoiceSettingsParams       `form:"invoice_settings"`
-	Iterations            *int64                                           `form:"iterations"`
 	Items                 []*SubscriptionSchedulePhaseItemParams           `form:"items"`
+	Iterations            *int64                                           `form:"iterations"`
 	ProrationBehavior     *string                                          `form:"proration_behavior"`
 	StartDate             *int64                                           `form:"start_date"`
+	StartDateNow          *bool                                            `form:"-"` // See custom AppendTo
 	TransferData          *SubscriptionTransferDataParams                  `form:"transfer_data"`
 	Trial                 *bool                                            `form:"trial"`
 	TrialEnd              *int64                                           `form:"trial_end"`
+	TrialEndNow           *bool                                            `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for SubscriptionSchedulePhaseParams.
+func (s *SubscriptionSchedulePhaseParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(s.EndDateNow) {
+		body.Add(form.FormatKey(append(keyParts, "end_date")), "now")
+	}
+	if BoolValue(s.TrialEndNow) {
+		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
+	}
+	if BoolValue(s.StartDateNow) {
+		body.Add(form.FormatKey(append(keyParts, "start_date")), "now")
+	}
 }
 
 // SubscriptionScheduleParams is the set of parameters that can be used when creating or updating a
@@ -133,16 +167,15 @@ type SubscriptionScheduleParams struct {
 	DefaultSettings   *SubscriptionScheduleDefaultSettingsParams `form:"default_settings"`
 	EndBehavior       *string                                    `form:"end_behavior"`
 	FromSubscription  *string                                    `form:"from_subscription"`
-	ProrationBehavior *string                                    `form:"proration_behavior"`
 	Phases            []*SubscriptionSchedulePhaseParams         `form:"phases"`
+	ProrationBehavior *string                                    `form:"proration_behavior"`
 	StartDate         *int64                                     `form:"start_date"`
 	StartDateNow      *bool                                      `form:"-"` // See custom AppendTo
 }
 
-// AppendTo implements custom encoding logic for SubscriptionScheduleParams so that the special
-// "now" value for start_date can be implemented (they're otherwise timestamps rather than strings).
-func (p *SubscriptionScheduleParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(p.StartDateNow) {
+// AppendTo implements custom encoding logic for SubscriptionScheduleParams.
+func (s *SubscriptionScheduleParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(s.StartDateNow) {
 		body.Add(form.FormatKey(append(keyParts, "start_date")), "now")
 	}
 }
@@ -233,6 +266,7 @@ type SubscriptionSchedulePhase struct {
 	EndDate               int64                                       `json:"end_date"`
 	InvoiceSettings       *SubscriptionScheduleInvoiceSettings        `json:"invoice_settings"`
 	Items                 []*SubscriptionSchedulePhaseItem            `json:"items"`
+	ProrationBehavior     SubscriptionSchedulePhaseProrationBehavior  `json:"proration_behavior"`
 	StartDate             int64                                       `json:"start_date"`
 	TransferData          *SubscriptionTransferData                   `json:"transfer_data"`
 	TrialEnd              int64                                       `json:"trial_end"`
@@ -253,6 +287,7 @@ type SubscriptionSchedule struct {
 	Metadata             map[string]string                    `json:"metadata"`
 	Object               string                               `json:"object"`
 	Phases               []*SubscriptionSchedulePhase         `json:"phases"`
+	ReleasedAt           int64                                `json:"released_at"`
 	ReleasedSubscription *Subscription                        `json:"released_subscription"`
 	Status               SubscriptionScheduleStatus           `json:"status"`
 	Subscription         *Subscription                        `json:"subscription"`
@@ -274,8 +309,8 @@ func (s *SubscriptionSchedule) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	type schedule SubscriptionSchedule
-	var v schedule
+	type subscriptionSchedule SubscriptionSchedule
+	var v subscriptionSchedule
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
