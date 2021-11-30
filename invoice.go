@@ -6,15 +6,6 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// InvoiceLineType is the list of allowed values for the invoice line's type.
-type InvoiceLineType string
-
-// List of values that InvoiceLineType can take.
-const (
-	InvoiceLineTypeInvoiceItem  InvoiceLineType = "invoiceitem"
-	InvoiceLineTypeSubscription InvoiceLineType = "subscription"
-)
-
 type InvoiceAutomaticTaxStatus string
 
 const (
@@ -231,8 +222,8 @@ type InvoiceParams struct {
 	AutoAdvance          *bool                         `form:"auto_advance"`
 	AutomaticTax         *InvoiceAutomaticTaxParams    `form:"automatic_tax"`
 	CollectionMethod     *string                       `form:"collection_method"`
-	CustomFields         []*InvoiceCustomFieldParams   `form:"custom_fields"`
 	Customer             *string                       `form:"customer"`
+	CustomFields         []*InvoiceCustomFieldParams   `form:"custom_fields"`
 	DaysUntilDue         *int64                        `form:"days_until_due"`
 	DefaultPaymentMethod *string                       `form:"default_payment_method"`
 	DefaultSource        *string                       `form:"default_source"`
@@ -474,39 +465,6 @@ type InvoiceList struct {
 	Data []*Invoice `json:"data"`
 }
 
-// InvoiceLineDiscountAmount represents the amount of discount calculated per discount for this line item.
-type InvoiceLineDiscountAmount struct {
-	Amount   int64     `json:"amount"`
-	Discount *Discount `json:"discount"`
-}
-
-// InvoiceLine is the resource representing a Stripe invoice line item.
-// For more details see https://stripe.com/docs/api#invoice_line_item_object.
-type InvoiceLine struct {
-	Amount           int64                        `json:"amount"`
-	Currency         Currency                     `json:"currency"`
-	Description      string                       `json:"description"`
-	Discountable     bool                         `json:"discountable"`
-	Discounts        []*Discount                  `json:"discounts"`
-	DiscountAmounts  []*InvoiceLineDiscountAmount `json:"discount_amounts"`
-	ID               string                       `json:"id"`
-	InvoiceItem      string                       `json:"invoice_item"`
-	Livemode         bool                         `json:"livemode"`
-	Metadata         map[string]string            `json:"metadata"`
-	Object           string                       `json:"object"`
-	Period           *Period                      `json:"period"`
-	Plan             *Plan                        `json:"plan"`
-	Price            *Price                       `json:"price"`
-	Proration        bool                         `json:"proration"`
-	Quantity         int64                        `json:"quantity"`
-	Subscription     string                       `json:"subscription"`
-	SubscriptionItem string                       `json:"subscription_item"`
-	TaxAmounts       []*InvoiceTaxAmount          `json:"tax_amounts"`
-	TaxRates         []*TaxRate                   `json:"tax_rates"`
-	Type             InvoiceLineType              `json:"type"`
-	UnifiedProration bool                         `json:"unified_proration"`
-}
-
 // InvoiceTransferData represents the information for the transfer_data associated with an invoice.
 type InvoiceTransferData struct {
 	Amount      int64    `json:"amount"`
@@ -521,19 +479,6 @@ type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 type InvoicePaymentSettingsPaymentMethodOptionsACSSDebit struct {
 	MandateOptions     *InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
 	VerificationMethod InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
-}
-
-// Period is a structure representing a start and end dates.
-type Period struct {
-	End   int64 `json:"end"`
-	Start int64 `json:"start"`
-}
-
-// InvoiceLineList is a list object for invoice line items.
-type InvoiceLineList struct {
-	APIResource
-	ListMeta
-	Data []*InvoiceLine `json:"data"`
 }
 
 // InvoicePaymentSettingsPaymentMethodOptionsBancontact contains details about the Bancontact
