@@ -44,8 +44,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod strin
 // List of values that InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod can take
 const (
 	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodAutomatic     InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "automatic"
-	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodInstant       InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "instant"
+	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
 // InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure represents
@@ -284,9 +284,9 @@ func (p *InvoiceParams) AppendTo(body *form.Values, keyParts []string) {
 type InvoiceListParams struct {
 	ListParams       `form:"*"`
 	CollectionMethod *string           `form:"collection_method"`
-	Customer         *string           `form:"customer"`
 	Created          *int64            `form:"created"`
 	CreatedRange     *RangeQueryParams `form:"created"`
+	Customer         *string           `form:"customer"`
 	DueDate          *int64            `form:"due_date"`
 	DueDateRange     *RangeQueryParams `form:"due_date"`
 	Status           *string           `form:"status"`
@@ -297,12 +297,9 @@ type InvoiceListParams struct {
 // For more details see https://stripe.com/docs/api#invoice_lines.
 type InvoiceLineListParams struct {
 	ListParams `form:"*"`
-
-	Customer *string `form:"customer"`
-
 	// ID is the invoice ID to list invoice lines for.
-	ID *string `form:"-"` // Goes in the URL
-
+	ID           *string `form:"-"` // Goes in the URL
+	Customer     *string `form:"customer"`
 	Subscription *string `form:"subscription"`
 }
 
@@ -458,13 +455,6 @@ type InvoiceThresholdReasonItemReason struct {
 	UsageGTE    int64    `json:"usage_gte"`
 }
 
-// InvoiceList is a list of invoices as retrieved from a list endpoint.
-type InvoiceList struct {
-	APIResource
-	ListMeta
-	Data []*Invoice `json:"data"`
-}
-
 // InvoiceTransferData represents the information for the transfer_data associated with an invoice.
 type InvoiceTransferData struct {
 	Amount      int64    `json:"amount"`
@@ -512,6 +502,13 @@ type InvoiceStatusTransitions struct {
 	MarkedUncollectibleAt int64 `json:"marked_uncollectible_at"`
 	PaidAt                int64 `json:"paid_at"`
 	VoidedAt              int64 `json:"voided_at"`
+}
+
+// InvoiceList is a list of invoices as retrieved from a list endpoint.
+type InvoiceList struct {
+	APIResource
+	ListMeta
+	Data []*Invoice `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of an Invoice.

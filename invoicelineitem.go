@@ -22,8 +22,8 @@ type InvoiceLine struct {
 	Currency         Currency                     `json:"currency"`
 	Description      string                       `json:"description"`
 	Discountable     bool                         `json:"discountable"`
-	Discounts        []*Discount                  `json:"discounts"`
 	DiscountAmounts  []*InvoiceLineDiscountAmount `json:"discount_amounts"`
+	Discounts        []*Discount                  `json:"discounts"`
 	ID               string                       `json:"id"`
 	InvoiceItem      string                       `json:"invoice_item"`
 	Livemode         bool                         `json:"livemode"`
