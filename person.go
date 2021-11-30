@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -61,15 +67,22 @@ type DOBParams struct {
 	Year  *int64 `form:"year"`
 }
 
+// One or more documents that demonstrate proof that this person is authorized to represent the company.
 type DocumentsCompanyAuthorizationParams struct {
 	Files []*string `form:"files"`
 }
+
+// One or more documents showing the person's passport page with photo and personal data.
 type DocumentsPassportParams struct {
 	Files []*string `form:"files"`
 }
+
+// One or more documents showing the person's visa required for living in the country where they are residing.
 type DocumentsVisaParams struct {
 	Files []*string `form:"files"`
 }
+
+// Documents that may be submitted to satisfy various informational requests.
 type DocumentsParams struct {
 	CompanyAuthorization *DocumentsCompanyAuthorizationParams `form:"company_authorization"`
 	Passport             *DocumentsPassportParams             `form:"passport"`
@@ -227,6 +240,7 @@ type Person struct {
 	Address            *AccountAddress           `json:"address"`
 	AddressKana        *AccountAddress           `json:"address_kana"`
 	AddressKanji       *AccountAddress           `json:"address_kanji"`
+	Created            int64                     `json:"created"`
 	Deleted            bool                      `json:"deleted"`
 	DOB                *DOB                      `json:"dob"`
 	Email              string                    `json:"email"`
@@ -263,9 +277,9 @@ type PersonList struct {
 // UnmarshalJSON handles deserialization of a Person.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (c *Person) UnmarshalJSON(data []byte) error {
+func (p *Person) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		c.ID = id
+		p.ID = id
 		return nil
 	}
 
@@ -275,6 +289,6 @@ func (c *Person) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*c = Person(v)
+	*p = Person(v)
 	return nil
 }

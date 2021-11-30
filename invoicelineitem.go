@@ -1,22 +1,25 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
-// InvoiceLineType is the list of allowed values for the invoice line's type.
+// A string identifying the type of the source of this line item, either an `invoiceitem` or a `subscription`.
 type InvoiceLineType string
 
-// List of values that InvoiceLineType can take.
+// List of values that InvoiceLineType can take
 const (
 	InvoiceLineTypeInvoiceItem  InvoiceLineType = "invoiceitem"
 	InvoiceLineTypeSubscription InvoiceLineType = "subscription"
 )
 
-// InvoiceLineDiscountAmount represents the amount of discount calculated per discount for this line item.
+// The amount of discount calculated per discount for this line item.
 type InvoiceLineDiscountAmount struct {
 	Amount   int64     `json:"amount"`
 	Discount *Discount `json:"discount"`
 }
-
-// InvoiceLine is the resource representing a Stripe invoice line item.
-// For more details see https://stripe.com/docs/api#invoice_line_item_object.
 type InvoiceLine struct {
 	Amount           int64                        `json:"amount"`
 	Currency         Currency                     `json:"currency"`
@@ -48,7 +51,7 @@ type Period struct {
 	Start int64 `json:"start"`
 }
 
-// InvoiceLineList is a list object for invoice line items.
+// InvoiceLineList is a list of InvoiceLineItems as retrieved from a list endpoint.
 type InvoiceLineList struct {
 	APIResource
 	ListMeta
