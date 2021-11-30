@@ -1,8 +1,13 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import (
 	"encoding/json"
-
 	"github.com/stripe/stripe-go/v72/form"
 )
 
@@ -218,13 +223,27 @@ type SubscriptionParams struct {
 	ProrationBehavior           *string                                       `form:"proration_behavior"`
 	ProrationDate               *int64                                        `form:"proration_date"`
 	Quantity                    *int64                                        `form:"quantity"`
-	TrialEnd                    *int64                                        `form:"trial_end"`
 	TransferData                *SubscriptionTransferDataParams               `form:"transfer_data"`
+	TrialEnd                    *int64                                        `form:"trial_end"`
 	TrialEndNow                 *bool                                         `form:"-"` // See custom AppendTo
 	TrialFromPlan               *bool                                         `form:"trial_from_plan"`
 	TrialPeriodDays             *int64                                        `form:"trial_period_days"`
 }
 
+// AppendTo implements custom encoding logic for SubscriptionParams.
+func (s *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(s.BillingCycleAnchorNow) {
+		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "now")
+	}
+	if BoolValue(s.BillingCycleAnchorUnchanged) {
+		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
+	}
+	if BoolValue(s.TrialEndNow) {
+		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
+	}
+}
+
+// Automatic tax settings for this subscription.
 type SubscriptionAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
@@ -244,23 +263,6 @@ type SubscriptionCancelParams struct {
 	Prorate    *bool `form:"prorate"`
 }
 
-// AppendTo implements custom encoding logic for SubscriptionParams so that the special
-// "now" value for billing_cycle_anchor and trial_end can be implemented
-// (they're otherwise timestamps rather than strings).
-func (p *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(p.BillingCycleAnchorNow) {
-		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "now")
-	}
-
-	if BoolValue(p.BillingCycleAnchorUnchanged) {
-		body.Add(form.FormatKey(append(keyParts, "billing_cycle_anchor")), "unchanged")
-	}
-
-	if BoolValue(p.TrialEndNow) {
-		body.Add(form.FormatKey(append(keyParts, "trial_end")), "now")
-	}
-}
-
 // SubscriptionItemsParams is the set of parameters that can be used when creating or updating a subscription item on a subscription
 // For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
 type SubscriptionItemsParams struct {
@@ -269,6 +271,7 @@ type SubscriptionItemsParams struct {
 	ClearUsage        *bool                                    `form:"clear_usage"`
 	Deleted           *bool                                    `form:"deleted"`
 	ID                *string                                  `form:"id"`
+	Metadata          map[string]string                        `form:"metadata"`
 	Plan              *string                                  `form:"plan"`
 	Price             *string                                  `form:"price"`
 	PriceData         *SubscriptionItemPriceDataParams         `form:"price_data"`
@@ -298,7 +301,6 @@ type SubscriptionPauseCollection struct {
 	Behavior  SubscriptionPauseCollectionBehavior `json:"behavior"`
 	ResumesAt int64                               `json:"resumes_at"`
 }
-
 type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 	TransactionType SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
 }
@@ -398,7 +400,6 @@ type Subscription struct {
 	TrialEnd                      int64                                  `json:"trial_end"`
 	TrialStart                    int64                                  `json:"trial_start"`
 }
-
 type SubscriptionAutomaticTax struct {
 	Enabled bool `json:"enabled"`
 }
