@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -92,8 +98,8 @@ type IssuingDisputeEvidenceCanceledParams struct {
 	Explanation                *string `form:"explanation"`
 	ProductDescription         *string `form:"product_description"`
 	ProductType                *string `form:"product_type"`
-	ReturnStatus               *string `form:"return_status"`
 	ReturnedAt                 *int64  `form:"returned_at"`
+	ReturnStatus               *string `form:"return_status"`
 }
 
 // IssuingDisputeEvidenceDuplicateParams is the resource representing the evidence of an issuing dispute with a reason set to duplicate.
@@ -118,8 +124,8 @@ type IssuingDisputeEvidenceMerchandiseNotAsDescribedParams struct {
 	Explanation             *string `form:"explanation"`
 	ReceivedAt              *int64  `form:"received_at"`
 	ReturnDescription       *string `form:"return_description"`
-	ReturnStatus            *string `form:"return_status"`
 	ReturnedAt              *int64  `form:"returned_at"`
+	ReturnStatus            *string `form:"return_status"`
 }
 
 // IssuingDisputeEvidenceNotReceivedParams is the resource representing the evidence of an issuing dispute with a reason set to not received.
@@ -143,9 +149,11 @@ type IssuingDisputeEvidenceOtherParams struct {
 type IssuingDisputeEvidenceServiceNotAsDescribedParams struct {
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	CanceledAt              *int64  `form:"canceled_at"`
+	CancellationReason      *string `form:"cancellation_reason"`
 	Explanation             *string `form:"explanation"`
 	ProductDescription      *string `form:"product_description"`
 	ProductType             *string `form:"product_type"`
+	ReceivedAt              *int64  `form:"received_at"`
 }
 
 // IssuingDisputeEvidenceParams is the set of parameters for the evidence on an issuing dispute
@@ -169,9 +177,11 @@ type IssuingDisputeParams struct {
 
 // IssuingDisputeListParams is the set of parameters that can be used when listing issuing dispute.
 type IssuingDisputeListParams struct {
-	ListParams  `form:"*"`
-	Status      *string `form:"status"`
-	Transaction *string `form:"transaction"`
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	Status       *string           `form:"status"`
+	Transaction  *string           `form:"transaction"`
 }
 
 // IssuingDisputeSubmitParams is the set of parameters that can be used when submitting an issuing dispute.
@@ -189,8 +199,8 @@ type IssuingDisputeEvidenceCanceled struct {
 	Explanation                string                                     `json:"explanation"`
 	ProductDescription         string                                     `json:"product_description"`
 	ProductType                IssuingDisputeEvidenceCanceledProductType  `json:"product_type"`
-	ReturnStatus               IssuingDisputeEvidenceCanceledReturnStatus `json:"return_status"`
 	ReturnedAt                 int64                                      `json:"returned_at"`
+	ReturnStatus               IssuingDisputeEvidenceCanceledReturnStatus `json:"return_status"`
 }
 
 // IssuingDisputeEvidenceDuplicate is the resource representing the evidence of an issuing dispute with a reason set to duplicate.
@@ -215,8 +225,8 @@ type IssuingDisputeEvidenceMerchandiseNotAsDescribed struct {
 	Explanation             string                                                      `json:"explanation"`
 	ReceivedAt              int64                                                       `json:"received_at"`
 	ReturnDescription       string                                                      `json:"return_description"`
-	ReturnStatus            IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatus `json:"return_status"`
 	ReturnedAt              int64                                                       `json:"returned_at"`
+	ReturnStatus            IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatus `json:"return_status"`
 }
 
 // IssuingDisputeEvidenceNotReceived is the resource representing the evidence of an issuing dispute with a reason set to not received.
@@ -240,9 +250,11 @@ type IssuingDisputeEvidenceOther struct {
 type IssuingDisputeEvidenceServiceNotAsDescribed struct {
 	AdditionalDocumentation *File                                                  `json:"additional_documentation"`
 	CanceledAt              int64                                                  `json:"canceled_at"`
+	CancellationReason      string                                                 `json:"cancellation_reason"`
 	Explanation             string                                                 `json:"explanation"`
 	ProductDescription      string                                                 `json:"product_description"`
 	ProductType             IssuingDisputeEvidenceServiceNotAsDescribedProductType `json:"product_type"`
+	ReceivedAt              int64                                                  `json:"received_at"`
 }
 
 // IssuingDisputeEvidence is the resource representing the evidence of an issuing dispute.

@@ -1,4 +1,10 @@
-// Package reader provides API functions related to terminal readers
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package reader provides the /terminal/readers APIs
 package reader
 
 import (
@@ -22,7 +28,13 @@ func New(params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 // New creates a new terminal reader.
 func (c Client) New(params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	reader := &stripe.TerminalReader{}
-	err := c.B.Call(http.MethodPost, "/v1/terminal/readers", c.Key, params, reader)
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/terminal/readers",
+		c.Key,
+		params,
+		reader,
+	)
 	return reader, err
 }
 
@@ -39,12 +51,12 @@ func (c Client) Get(id string, params *stripe.TerminalReaderGetParams) (*stripe.
 	return reader, err
 }
 
-// Update updates a terminal reader.
+// Update updates a terminal reader's properties.
 func Update(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates a terminal reader.
+// Update updates a terminal reader's properties.
 func (c Client) Update(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s", id)
 	reader := &stripe.TerminalReader{}
@@ -52,12 +64,12 @@ func (c Client) Update(id string, params *stripe.TerminalReaderParams) (*stripe.
 	return reader, err
 }
 
-// Del removes a reader.
+// Del removes a terminal reader.
 func Del(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	return getC().Del(id, params)
 }
 
-// Del removes a reader.
+// Del removes a terminal reader.
 func (c Client) Del(id string, params *stripe.TerminalReaderParams) (*stripe.TerminalReader, error) {
 	path := stripe.FormatURLPath("/v1/terminal/readers/%s", id)
 	reader := &stripe.TerminalReader{}
@@ -72,17 +84,19 @@ func List(params *stripe.TerminalReaderListParams) *Iter {
 
 // List returns a list of terminal readers.
 func (c Client) List(listParams *stripe.TerminalReaderListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.TerminalReaderList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/terminal/readers", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.TerminalReaderList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/terminal/readers", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for terminal readers.

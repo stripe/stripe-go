@@ -1,10 +1,15 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import (
 	"encoding/json"
-	"strconv"
-
 	"github.com/stripe/stripe-go/v72/form"
+	"strconv"
 )
 
 // PlanInterval is the list of allowed values for a plan's interval.
@@ -13,8 +18,8 @@ type PlanInterval string
 // List of values that PlanInterval can take.
 const (
 	PlanIntervalDay   PlanInterval = "day"
-	PlanIntervalWeek  PlanInterval = "week"
 	PlanIntervalMonth PlanInterval = "month"
+	PlanIntervalWeek  PlanInterval = "week"
 	PlanIntervalYear  PlanInterval = "year"
 )
 
@@ -65,39 +70,6 @@ const (
 	PlanAggregateUsageSum              PlanAggregateUsage = "sum"
 )
 
-// Plan is the resource representing a Stripe plan.
-// For more details see https://stripe.com/docs/api#plans.
-type Plan struct {
-	APIResource
-	Active          bool                `json:"active"`
-	AggregateUsage  string              `json:"aggregate_usage"`
-	Amount          int64               `json:"amount"`
-	AmountDecimal   float64             `json:"amount_decimal,string"`
-	BillingScheme   PlanBillingScheme   `json:"billing_scheme"`
-	Created         int64               `json:"created"`
-	Currency        Currency            `json:"currency"`
-	Deleted         bool                `json:"deleted"`
-	ID              string              `json:"id"`
-	Interval        PlanInterval        `json:"interval"`
-	IntervalCount   int64               `json:"interval_count"`
-	Livemode        bool                `json:"livemode"`
-	Metadata        map[string]string   `json:"metadata"`
-	Nickname        string              `json:"nickname"`
-	Product         *Product            `json:"product"`
-	Tiers           []*PlanTier         `json:"tiers"`
-	TiersMode       string              `json:"tiers_mode"`
-	TransformUsage  *PlanTransformUsage `json:"transform_usage"`
-	TrialPeriodDays int64               `json:"trial_period_days"`
-	UsageType       PlanUsageType       `json:"usage_type"`
-}
-
-// PlanList is a list of plans as returned from a list endpoint.
-type PlanList struct {
-	APIResource
-	ListMeta
-	Data []*Plan `json:"data"`
-}
-
 // PlanListParams is the set of parameters that can be used when listing plans.
 // For more details see https://stripe.com/docs/api#list_plans.
 type PlanListParams struct {
@@ -131,6 +103,75 @@ type PlanParams struct {
 	UsageType       *string                   `form:"usage_type"`
 }
 
+// PlanTransformUsageParams represents the bucket billing configuration.
+type PlanTransformUsageParams struct {
+	DivideBy *int64  `form:"divide_by"`
+	Round    *string `form:"round"`
+}
+
+// PlanTierParams configures tiered pricing
+type PlanTierParams struct {
+	Params            `form:"*"`
+	FlatAmount        *int64   `form:"flat_amount"`
+	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
+	UnitAmount        *int64   `form:"unit_amount"`
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
+	UpTo              *int64   `form:"-"` // See custom AppendTo
+	UpToInf           *bool    `form:"-"` // See custom AppendTo
+}
+
+// AppendTo implements custom encoding logic for PlanTierParams.
+func (p *PlanTierParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(p.UpToInf) {
+		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
+	} else {
+		body.Add(
+			form.FormatKey(append(keyParts, "up_to")),
+			strconv.FormatInt(Int64Value(p.UpTo), 10),
+		)
+	}
+}
+
+// PlanProductParams is the set of parameters that can be used when creating a product inside a plan
+// This can only be used on plan creation and won't work on plan update.
+// For more details see https://stripe.com/docs/api#create_plan-product and https://stripe.com/docs/api#update_plan-product
+type PlanProductParams struct {
+	Active              *bool             `form:"active"`
+	ID                  *string           `form:"id"`
+	Metadata            map[string]string `form:"metadata"`
+	Name                *string           `form:"name"`
+	StatementDescriptor *string           `form:"statement_descriptor"`
+	TaxCode             *string           `form:"tax_code"`
+	UnitLabel           *string           `form:"unit_label"`
+}
+
+// Plan is the resource representing a Stripe plan.
+// For more details see https://stripe.com/docs/api#plans.
+type Plan struct {
+	APIResource
+	Active          bool                `json:"active"`
+	AggregateUsage  string              `json:"aggregate_usage"`
+	Amount          int64               `json:"amount"`
+	AmountDecimal   float64             `json:"amount_decimal,string"`
+	BillingScheme   PlanBillingScheme   `json:"billing_scheme"`
+	Created         int64               `json:"created"`
+	Currency        Currency            `json:"currency"`
+	Deleted         bool                `json:"deleted"`
+	ID              string              `json:"id"`
+	Interval        PlanInterval        `json:"interval"`
+	IntervalCount   int64               `json:"interval_count"`
+	Livemode        bool                `json:"livemode"`
+	Metadata        map[string]string   `json:"metadata"`
+	Nickname        string              `json:"nickname"`
+	Object          string              `json:"object"`
+	Product         *Product            `json:"product"`
+	Tiers           []*PlanTier         `json:"tiers"`
+	TiersMode       string              `json:"tiers_mode"`
+	TransformUsage  *PlanTransformUsage `json:"transform_usage"`
+	TrialPeriodDays int64               `json:"trial_period_days"`
+	UsageType       PlanUsageType       `json:"usage_type"`
+}
+
 // PlanTier configures tiered pricing
 type PlanTier struct {
 	FlatAmount        int64   `json:"flat_amount"`
@@ -146,51 +187,19 @@ type PlanTransformUsage struct {
 	Round    PlanTransformUsageRound `json:"round"`
 }
 
-// PlanTransformUsageParams represents the bucket billing configuration.
-type PlanTransformUsageParams struct {
-	DivideBy *int64  `form:"divide_by"`
-	Round    *string `form:"round"`
-}
-
-// PlanTierParams configures tiered pricing
-type PlanTierParams struct {
-	Params            `form:"*"`
-	FlatAmount        *int64   `form:"flat_amount"`
-	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
-	UnitAmount        *int64   `form:"unit_amount"`
-	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
-	UpTo              *int64   `form:"-"` // handled in custom AppendTo
-	UpToInf           *bool    `form:"-"` // handled in custom AppendTo
-}
-
-// AppendTo implements custom up_to serialisation logic for tiers configuration
-func (p *PlanTierParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(p.UpToInf) {
-		body.Add(form.FormatKey(append(keyParts, "up_to")), "inf")
-	} else {
-		body.Add(form.FormatKey(append(keyParts, "up_to")), strconv.FormatInt(Int64Value(p.UpTo), 10))
-	}
-}
-
-// PlanProductParams is the set of parameters that can be used when creating a product inside a plan
-// This can only be used on plan creation and won't work on plan update.
-// For more details see https://stripe.com/docs/api#create_plan-product and https://stripe.com/docs/api#update_plan-product
-type PlanProductParams struct {
-	Active              *bool             `form:"active"`
-	ID                  *string           `form:"id"`
-	Name                *string           `form:"name"`
-	Metadata            map[string]string `form:"metadata"`
-	StatementDescriptor *string           `form:"statement_descriptor"`
-	TaxCode             *string           `form:"tax_code"`
-	UnitLabel           *string           `form:"unit_label"`
+// PlanList is a list of plans as returned from a list endpoint.
+type PlanList struct {
+	APIResource
+	ListMeta
+	Data []*Plan `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of a Plan.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (s *Plan) UnmarshalJSON(data []byte) error {
+func (p *Plan) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		s.ID = id
+		p.ID = id
 		return nil
 	}
 
@@ -200,6 +209,6 @@ func (s *Plan) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*s = Plan(v)
+	*p = Plan(v)
 	return nil
 }

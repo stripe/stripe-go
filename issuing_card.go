@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -155,11 +161,10 @@ type IssuingCardParams struct {
 	Currency          *string                            `form:"currency"`
 	ReplacementFor    *string                            `form:"replacement_for"`
 	ReplacementReason *string                            `form:"replacement_reason"`
-	SpendingControls  *IssuingCardSpendingControlsParams `form:"spending_controls"`
 	Shipping          *IssuingCardShippingParams         `form:"shipping"`
+	SpendingControls  *IssuingCardSpendingControlsParams `form:"spending_controls"`
 	Status            *string                            `form:"status"`
 	Type              *string                            `form:"type"`
-
 	// The following parameter is only supported when updating a card
 	CancellationReason *string `form:"cancellation_reason"`
 }
@@ -206,12 +211,10 @@ type IssuingCardSpendingControls struct {
 	SpendingLimits         []*IssuingCardSpendingControlsSpendingLimit `json:"spending_limits"`
 	SpendingLimitsCurrency Currency                                    `json:"spending_limits_currency"`
 }
-
 type IssuingCardWalletsApplePay struct {
 	Eligible         bool                                       `json:"eligible"`
 	IneligibleReason IssuingCardWalletsApplePayIneligibleReason `json:"ineligible_reason"`
 }
-
 type IssuingCardWalletsGooglePay struct {
 	Eligible         bool                                        `json:"eligible"`
 	IneligibleReason IssuingCardWalletsGooglePayIneligibleReason `json:"ineligible_reason"`
