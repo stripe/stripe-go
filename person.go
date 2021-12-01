@@ -1,3 +1,9 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
@@ -61,15 +67,22 @@ type DOBParams struct {
 	Year  *int64 `form:"year"`
 }
 
+// One or more documents that demonstrate proof that this person is authorized to represent the company.
 type DocumentsCompanyAuthorizationParams struct {
 	Files []*string `form:"files"`
 }
+
+// One or more documents showing the person's passport page with photo and personal data.
 type DocumentsPassportParams struct {
 	Files []*string `form:"files"`
 }
+
+// One or more documents showing the person's visa required for living in the country where they are residing.
 type DocumentsVisaParams struct {
 	Files []*string `form:"files"`
 }
+
+// Documents that may be submitted to satisfy various informational requests.
 type DocumentsParams struct {
 	CompanyAuthorization *DocumentsCompanyAuthorizationParams `form:"company_authorization"`
 	Passport             *DocumentsPassportParams             `form:"passport"`
@@ -146,21 +159,11 @@ type PersonListParams struct {
 	Relationship *RelationshipListParams `form:"relationship"`
 }
 
-// PersonVerificationDocument represents the documents associated with a Person.
-type PersonVerificationDocument struct {
-	Back        *File                           `json:"back"`
-	Details     string                          `json:"details"`
-	DetailsCode VerificationDocumentDetailsCode `json:"details_code"`
-	Front       *File                           `json:"front"`
-}
-
-// PersonVerification is the structure for a person's verification details.
-type PersonVerification struct {
-	AdditionalDocument *PersonVerificationDocument   `json:"additional_document"`
-	Details            string                        `json:"details"`
-	DetailsCode        PersonVerificationDetailsCode `json:"details_code"`
-	Document           *PersonVerificationDocument   `json:"document"`
-	Status             IdentityVerificationStatus    `json:"status"`
+// DOB represents a Person's date of birth.
+type DOB struct {
+	Day   int64 `json:"day"`
+	Month int64 `json:"month"`
+	Year  int64 `json:"year"`
 }
 
 // Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
@@ -186,19 +189,6 @@ type PersonFutureRequirements struct {
 	PendingVerification []string                               `json:"pending_verification"`
 }
 
-// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
-type PersonRequirementsAlternative struct {
-	AlternativeFieldsDue []string `json:"alternative_fields_due"`
-	OriginalFieldsDue    []string `json:"original_fields_due"`
-}
-
-// DOB represents a Person's date of birth.
-type DOB struct {
-	Day   int64 `json:"day"`
-	Month int64 `json:"month"`
-	Year  int64 `json:"year"`
-}
-
 // Relationship represents how the Person relates to the business.
 type Relationship struct {
 	Director         bool    `json:"director"`
@@ -207,6 +197,12 @@ type Relationship struct {
 	PercentOwnership float64 `json:"percent_ownership"`
 	Representative   bool    `json:"representative"`
 	Title            string  `json:"title"`
+}
+
+// Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
+type PersonRequirementsAlternative struct {
+	AlternativeFieldsDue []string `json:"alternative_fields_due"`
+	OriginalFieldsDue    []string `json:"original_fields_due"`
 }
 
 // Requirements represents what's missing to verify a Person.
@@ -219,6 +215,23 @@ type Requirements struct {
 	PendingVerification []string                         `json:"pending_verification"`
 }
 
+// PersonVerificationDocument represents the documents associated with a Person.
+type PersonVerificationDocument struct {
+	Back        *File                           `json:"back"`
+	Details     string                          `json:"details"`
+	DetailsCode VerificationDocumentDetailsCode `json:"details_code"`
+	Front       *File                           `json:"front"`
+}
+
+// PersonVerification is the structure for a person's verification details.
+type PersonVerification struct {
+	AdditionalDocument *PersonVerificationDocument   `json:"additional_document"`
+	Details            string                        `json:"details"`
+	DetailsCode        PersonVerificationDetailsCode `json:"details_code"`
+	Document           *PersonVerificationDocument   `json:"document"`
+	Status             IdentityVerificationStatus    `json:"status"`
+}
+
 // Person is the resource representing a Stripe person.
 // For more details see https://stripe.com/docs/api#persons.
 type Person struct {
@@ -227,6 +240,7 @@ type Person struct {
 	Address            *AccountAddress           `json:"address"`
 	AddressKana        *AccountAddress           `json:"address_kana"`
 	AddressKanji       *AccountAddress           `json:"address_kanji"`
+	Created            int64                     `json:"created"`
 	Deleted            bool                      `json:"deleted"`
 	DOB                *DOB                      `json:"dob"`
 	Email              string                    `json:"email"`
@@ -242,8 +256,8 @@ type Person struct {
 	LastNameKana       string                    `json:"last_name_kana"`
 	LastNameKanji      string                    `json:"last_name_kanji"`
 	MaidenName         string                    `json:"maiden_name"`
-	Nationality        string                    `json:"nationality"`
 	Metadata           map[string]string         `json:"metadata"`
+	Nationality        string                    `json:"nationality"`
 	Object             string                    `json:"object"`
 	Phone              string                    `json:"phone"`
 	PoliticalExposure  PersonPoliticalExposure   `json:"political_exposure"`
@@ -263,9 +277,9 @@ type PersonList struct {
 // UnmarshalJSON handles deserialization of a Person.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (c *Person) UnmarshalJSON(data []byte) error {
+func (p *Person) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		c.ID = id
+		p.ID = id
 		return nil
 	}
 
@@ -275,6 +289,6 @@ func (c *Person) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	*c = Person(v)
+	*p = Person(v)
 	return nil
 }

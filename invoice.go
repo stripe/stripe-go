@@ -1,22 +1,19 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import (
 	"encoding/json"
-
 	"github.com/stripe/stripe-go/v72/form"
-)
-
-// InvoiceLineType is the list of allowed values for the invoice line's type.
-type InvoiceLineType string
-
-// List of values that InvoiceLineType can take.
-const (
-	InvoiceLineTypeInvoiceItem  InvoiceLineType = "invoiceitem"
-	InvoiceLineTypeSubscription InvoiceLineType = "subscription"
 )
 
 type InvoiceAutomaticTaxStatus string
 
+// List of values that InvoiceAutomaticTaxStatus can take
 const (
 	InvoiceAutomaticTaxStatusComplete               InvoiceAutomaticTaxStatus = "complete"
 	InvoiceAutomaticTaxStatusFailed                 InvoiceAutomaticTaxStatus = "failed"
@@ -28,14 +25,15 @@ type InvoiceBillingReason string
 
 // List of values that InvoiceBillingReason can take.
 const (
-	InvoiceBillingReasonManual                InvoiceBillingReason = "manual"
-	InvoiceBillingReasonQuoteAccept           InvoiceBillingReason = "quote_accept"
-	InvoiceBillingReasonSubscription          InvoiceBillingReason = "subscription"
-	InvoiceBillingReasonSubscriptionCreate    InvoiceBillingReason = "subscription_create"
-	InvoiceBillingReasonSubscriptionCycle     InvoiceBillingReason = "subscription_cycle"
-	InvoiceBillingReasonSubscriptionThreshold InvoiceBillingReason = "subscription_threshold"
-	InvoiceBillingReasonSubscriptionUpdate    InvoiceBillingReason = "subscription_update"
-	InvoiceBillingReasonUpcoming              InvoiceBillingReason = "upcoming"
+	InvoiceBillingReasonAutomaticPendingInvoiceItemInvoice InvoiceBillingReason = "automatic_pending_invoice_item_invoice"
+	InvoiceBillingReasonManual                             InvoiceBillingReason = "manual"
+	InvoiceBillingReasonQuoteAccept                        InvoiceBillingReason = "quote_accept"
+	InvoiceBillingReasonSubscription                       InvoiceBillingReason = "subscription"
+	InvoiceBillingReasonSubscriptionCreate                 InvoiceBillingReason = "subscription_create"
+	InvoiceBillingReasonSubscriptionCycle                  InvoiceBillingReason = "subscription_cycle"
+	InvoiceBillingReasonSubscriptionThreshold              InvoiceBillingReason = "subscription_threshold"
+	InvoiceBillingReasonSubscriptionUpdate                 InvoiceBillingReason = "subscription_update"
+	InvoiceBillingReasonUpcoming                           InvoiceBillingReason = "upcoming"
 )
 
 // Transaction type of the mandate.
@@ -53,8 +51,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod strin
 // List of values that InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod can take
 const (
 	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodAutomatic     InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "automatic"
-	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodInstant       InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "instant"
+	InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
 // InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure represents
@@ -94,6 +92,7 @@ type InvoiceStatus string
 
 // List of values that InvoiceStatus can take.
 const (
+	InvoiceStatusDeleted       InvoiceStatus = "deleted"
 	InvoiceStatusDraft         InvoiceStatus = "draft"
 	InvoiceStatusOpen          InvoiceStatus = "open"
 	InvoiceStatusPaid          InvoiceStatus = "paid"
@@ -114,21 +113,25 @@ type InvoiceUpcomingAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
+// The customer's shipping information. Appears on invoices emailed to this customer.
 type InvoiceUpcomingCustomerDetailsShippingParams struct {
 	Address *AddressParams `form:"address"`
 	Name    *string        `form:"name"`
 	Phone   *string        `form:"phone"`
 }
 
+// Tax details about the customer.
 type InvoiceUpcomingCustomerDetailsTaxParams struct {
 	IPAddress *string `form:"ip_address"`
 }
 
+// The customer's tax IDs.
 type InvoiceUpcomingCustomerDetailsTaxIDParams struct {
 	Type  *string `form:"type"`
 	Value *string `form:"value"`
 }
 
+// Details about the customer you want to invoice or overrides for an existing customer.
 type InvoiceUpcomingCustomerDetailsParams struct {
 	Address   *AddressParams                                `form:"address"`
 	Shipping  *InvoiceUpcomingCustomerDetailsShippingParams `form:"shipping"`
@@ -153,6 +156,7 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	Discountable      *bool                                   `form:"discountable"`
 	Discounts         []*InvoiceItemDiscountParams            `form:"discounts"`
 	InvoiceItem       *string                                 `form:"invoiceitem"`
+	Metadata          map[string]string                       `form:"metadata"`
 	Period            *InvoiceUpcomingInvoiceItemPeriodParams `form:"period"`
 	Price             *string                                 `form:"price"`
 	PriceData         *InvoiceItemPriceDataParams             `form:"price_data"`
@@ -163,6 +167,7 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	UnitAmountDecimal *float64                                `form:"unit_amount_decimal,high_precision"`
 }
 
+// Settings for automatic tax lookup for this invoice.
 type InvoiceAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
@@ -227,12 +232,12 @@ type InvoiceTransferDataParams struct {
 type InvoiceParams struct {
 	Params               `form:"*"`
 	AccountTaxIDs        []*string                     `form:"account_tax_ids"`
-	AutoAdvance          *bool                         `form:"auto_advance"`
 	ApplicationFeeAmount *int64                        `form:"application_fee_amount"`
+	AutoAdvance          *bool                         `form:"auto_advance"`
 	AutomaticTax         *InvoiceAutomaticTaxParams    `form:"automatic_tax"`
 	CollectionMethod     *string                       `form:"collection_method"`
-	CustomFields         []*InvoiceCustomFieldParams   `form:"custom_fields"`
 	Customer             *string                       `form:"customer"`
+	CustomFields         []*InvoiceCustomFieldParams   `form:"custom_fields"`
 	DaysUntilDue         *int64                        `form:"days_until_due"`
 	DefaultPaymentMethod *string                       `form:"default_payment_method"`
 	DefaultSource        *string                       `form:"default_source"`
@@ -244,12 +249,11 @@ type InvoiceParams struct {
 	OnBehalfOf           *string                       `form:"on_behalf_of"`
 	Paid                 *bool                         `form:"paid"`
 	PaymentSettings      *InvoicePaymentSettingsParams `form:"payment_settings"`
+	Schedule             *string                       `form:"schedule"`
 	StatementDescriptor  *string                       `form:"statement_descriptor"`
 	Subscription         *string                       `form:"subscription"`
 	TransferData         *InvoiceTransferDataParams    `form:"transfer_data"`
-
 	// These are all for exclusive use by GetNext.
-
 	Coupon                                  *string                               `form:"coupon"`
 	CustomerDetails                         *InvoiceUpcomingCustomerDetailsParams `form:"customer_details"`
 	InvoiceItems                            []*InvoiceUpcomingInvoiceItemParams   `form:"invoice_items"`
@@ -271,19 +275,15 @@ type InvoiceParams struct {
 	SubscriptionTrialFromPlan               *bool                                 `form:"subscription_trial_from_plan"`
 }
 
-// AppendTo implements custom encoding logic for InvoiceParams so that the special
-// "now" value for subscription_billing_cycle_anchor can be implemented
-// (they're otherwise timestamps rather than strings).
-func (p *InvoiceParams) AppendTo(body *form.Values, keyParts []string) {
-	if BoolValue(p.SubscriptionBillingCycleAnchorNow) {
+// AppendTo implements custom encoding logic for InvoiceParams.
+func (i *InvoiceParams) AppendTo(body *form.Values, keyParts []string) {
+	if BoolValue(i.SubscriptionBillingCycleAnchorNow) {
 		body.Add(form.FormatKey(append(keyParts, "subscription_billing_cycle_anchor")), "now")
 	}
-
-	if BoolValue(p.SubscriptionBillingCycleAnchorUnchanged) {
+	if BoolValue(i.SubscriptionBillingCycleAnchorUnchanged) {
 		body.Add(form.FormatKey(append(keyParts, "subscription_billing_cycle_anchor")), "unchanged")
 	}
-
-	if BoolValue(p.SubscriptionTrialEndNow) {
+	if BoolValue(i.SubscriptionTrialEndNow) {
 		body.Add(form.FormatKey(append(keyParts, "subscription_trial_end")), "now")
 	}
 }
@@ -293,9 +293,9 @@ func (p *InvoiceParams) AppendTo(body *form.Values, keyParts []string) {
 type InvoiceListParams struct {
 	ListParams       `form:"*"`
 	CollectionMethod *string           `form:"collection_method"`
-	Customer         *string           `form:"customer"`
 	Created          *int64            `form:"created"`
 	CreatedRange     *RangeQueryParams `form:"created"`
+	Customer         *string           `form:"customer"`
 	DueDate          *int64            `form:"due_date"`
 	DueDateRange     *RangeQueryParams `form:"due_date"`
 	Status           *string           `form:"status"`
@@ -306,12 +306,9 @@ type InvoiceListParams struct {
 // For more details see https://stripe.com/docs/api#invoice_lines.
 type InvoiceLineListParams struct {
 	ListParams `form:"*"`
-
-	Customer *string `form:"customer"`
-
 	// ID is the invoice ID to list invoice lines for.
-	ID *string `form:"-"` // Goes in the URL
-
+	ID           *string `form:"-"` // Included in URL
+	Customer     *string `form:"customer"`
 	Subscription *string `form:"subscription"`
 }
 
@@ -369,7 +366,6 @@ type Invoice struct {
 	CollectionMethod             *InvoiceCollectionMethod `json:"collection_method"`
 	Created                      int64                    `json:"created"`
 	Currency                     Currency                 `json:"currency"`
-	CustomFields                 []*InvoiceCustomField    `json:"custom_fields"`
 	Customer                     *Customer                `json:"customer"`
 	CustomerAddress              *Address                 `json:"customer_address"`
 	CustomerEmail                string                   `json:"customer_email"`
@@ -378,6 +374,7 @@ type Invoice struct {
 	CustomerShipping             *CustomerShippingDetails `json:"customer_shipping"`
 	CustomerTaxExempt            CustomerTaxExempt        `json:"customer_tax_exempt"`
 	CustomerTaxIDs               []*InvoiceCustomerTaxID  `json:"customer_tax_ids"`
+	CustomFields                 []*InvoiceCustomField    `json:"custom_fields"`
 	DefaultPaymentMethod         *PaymentMethod           `json:"default_payment_method"`
 	DefaultSource                *PaymentSource           `json:"default_source"`
 	DefaultTaxRates              []*TaxRate               `json:"default_tax_rates"`
@@ -423,7 +420,6 @@ type Invoice struct {
 	TransferData                 *InvoiceTransferData     `json:"transfer_data"`
 	WebhooksDeliveredAt          int64                    `json:"webhooks_delivered_at"`
 }
-
 type InvoiceAutomaticTax struct {
 	Enabled bool                      `json:"enabled"`
 	Status  InvoiceAutomaticTaxStatus `json:"status"`
@@ -467,52 +463,11 @@ type InvoiceThresholdReasonItemReason struct {
 	UsageGTE    int64    `json:"usage_gte"`
 }
 
-// InvoiceList is a list of invoices as retrieved from a list endpoint.
-type InvoiceList struct {
-	APIResource
-	ListMeta
-	Data []*Invoice `json:"data"`
-}
-
-// InvoiceLineDiscountAmount represents the amount of discount calculated per discount for this line item.
-type InvoiceLineDiscountAmount struct {
-	Amount   int64     `json:"amount"`
-	Discount *Discount `json:"discount"`
-}
-
-// InvoiceLine is the resource representing a Stripe invoice line item.
-// For more details see https://stripe.com/docs/api#invoice_line_item_object.
-type InvoiceLine struct {
-	Amount           int64                        `json:"amount"`
-	Currency         Currency                     `json:"currency"`
-	Description      string                       `json:"description"`
-	Discountable     bool                         `json:"discountable"`
-	Discounts        []*Discount                  `json:"discounts"`
-	DiscountAmounts  []*InvoiceLineDiscountAmount `json:"discount_amounts"`
-	ID               string                       `json:"id"`
-	InvoiceItem      string                       `json:"invoice_item"`
-	Livemode         bool                         `json:"livemode"`
-	Metadata         map[string]string            `json:"metadata"`
-	Object           string                       `json:"object"`
-	Period           *Period                      `json:"period"`
-	Plan             *Plan                        `json:"plan"`
-	Price            *Price                       `json:"price"`
-	Proration        bool                         `json:"proration"`
-	Quantity         int64                        `json:"quantity"`
-	Subscription     string                       `json:"subscription"`
-	SubscriptionItem string                       `json:"subscription_item"`
-	TaxAmounts       []*InvoiceTaxAmount          `json:"tax_amounts"`
-	TaxRates         []*TaxRate                   `json:"tax_rates"`
-	Type             InvoiceLineType              `json:"type"`
-	UnifiedProration bool                         `json:"unified_proration"`
-}
-
 // InvoiceTransferData represents the information for the transfer_data associated with an invoice.
 type InvoiceTransferData struct {
 	Amount      int64    `json:"amount"`
 	Destination *Account `json:"destination"`
 }
-
 type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 	TransactionType InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
 }
@@ -521,19 +476,6 @@ type InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions struct {
 type InvoicePaymentSettingsPaymentMethodOptionsACSSDebit struct {
 	MandateOptions     *InvoicePaymentSettingsPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
 	VerificationMethod InvoicePaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
-}
-
-// Period is a structure representing a start and end dates.
-type Period struct {
-	End   int64 `json:"end"`
-	Start int64 `json:"start"`
-}
-
-// InvoiceLineList is a list object for invoice line items.
-type InvoiceLineList struct {
-	APIResource
-	ListMeta
-	Data []*InvoiceLine `json:"data"`
 }
 
 // InvoicePaymentSettingsPaymentMethodOptionsBancontact contains details about the Bancontact
@@ -567,6 +509,13 @@ type InvoiceStatusTransitions struct {
 	MarkedUncollectibleAt int64 `json:"marked_uncollectible_at"`
 	PaidAt                int64 `json:"paid_at"`
 	VoidedAt              int64 `json:"voided_at"`
+}
+
+// InvoiceList is a list of invoices as retrieved from a list endpoint.
+type InvoiceList struct {
+	APIResource
+	ListMeta
+	Data []*Invoice `json:"data"`
 }
 
 // UnmarshalJSON handles deserialization of an Invoice.
