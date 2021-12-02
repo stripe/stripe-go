@@ -23,13 +23,13 @@ global with sharing class restService {
             }
 
             List<Object> orderFieldsResponse = (List<Object>)parsedReqBody.get('order_fields');
-            Set<String> orderFields = new Set<String>();
+            Set<String> listOfOrderFields = new Set<String>();
             if(!orderFieldsResponse.isEmpty()) {
                 for(Object orderField: orderFieldsResponse) {
-                    orderFields.add(String.escapeSingleQuotes(String.valueOf(orderField)));
+                    listOfOrderFields.add(String.escapeSingleQuotes(String.valueOf(orderField)));
                 }
             } else {
-                orderFields = getAccessableFieldsByObject('Order');
+                listOfOrderFields = getAccessableFieldsByObject('Order');
             }
 
             List<Object> product2FieldsResponse = (List<Object>)parsedReqBody.get('product2_fields');
@@ -43,23 +43,23 @@ global with sharing class restService {
             }
 
             Set<String> quoteFields = getAccessableFieldsByObject('SBQQ__Quote__c');
-            if(orderFields.contains('SBQQ__Quote__c')) { 
+            if(listOfOrderFields.contains('SBQQ__Quote__c')) { 
                 for(String quoteField : quoteFields) {
-                    orderFields.add('SBQQ__Quote__r.' + quoteField);
+                    listOfOrderFields.add('SBQQ__Quote__r.' + quoteField);
                 }
             }
 
             Set<String> accountFields = getAccessableFieldsByObject('Account');
-            if(orderFields.contains('AccountId')) { 
+            if(listOfOrderFields.contains('AccountId')) { 
                 for(String accountField : accountFields) {
-                    orderFields.add('Account.' + accountField);
+                    listOfOrderFields.add('Account.' + accountField);
                 }
             }
 
             Set<String> contractFields = getAccessableFieldsByObject('Contract');
-            if(orderFields.contains('ContractId')) { 
+            if(listOfOrderFields.contains('ContractId')) { 
                 for(String contractField : contractFields) {
-                    orderFields.add('Contract.' + contractField);
+                    listOfOrderFields.add('Contract.' + contractField);
                 }
             }
 
@@ -77,9 +77,10 @@ global with sharing class restService {
 
             String orderQuery;
             if(!product2Ids.isEmpty()){
-                orderQuery = 'SELECT '+ String.join(((Iterable<String>)orderFields), ',')+', (SELECT '+ String.join(((Iterable<String>)product2Fields), ',')+' FROM OrderItems WHERE Id in :product2Ids) FROM Order WHERE Id in :orderIds  WITH SECURITY_ENFORCED';
+                //in this case specific product Ids were sent so we will query all related products to the orderIds sent
+                orderQuery = 'SELECT '+ String.join(((Iterable<String>)listOfOrderFields), ',')+', (SELECT '+ String.join(((Iterable<String>)product2Fields), ',')+' FROM OrderItems WHERE Id in :product2Ids) FROM Order WHERE Id in :orderIds  WITH SECURITY_ENFORCED';
             } else {
-                orderQuery = 'SELECT '+ String.join(((Iterable<String>)orderFields), ',')+', (SELECT '+ String.join(((Iterable<String>)product2Fields), ',')+' FROM OrderItems) FROM Order WHERE Id in :orderIds  WITH SECURITY_ENFORCED';
+                orderQuery = 'SELECT '+ String.join(((Iterable<String>)listOfOrderFields), ',')+', (SELECT '+ String.join(((Iterable<String>)product2Fields), ',')+' FROM OrderItems) FROM Order WHERE Id in :orderIds  WITH SECURITY_ENFORCED';
             }
             System.debug(orderQuery);
             List<Order> orderData = Database.query(orderQuery);
@@ -98,10 +99,10 @@ global with sharing class restService {
                         jsonQueryValue = jsonQueryValue + JSON.serialize('OrderLines') +': ' + JSON.serialize(orderItemsIds);
                     }
 
-                    if(orderFields.contains('ContractId')) {
+                    if(listOfOrderFields.contains('ContractId')) {
                         String contractId = string.valueOf(orderRec.get('ContractId'));
                         if(contractId != null) {
-                            String contractOrderQuery = 'SELECT '+ String.join(((Iterable<String>)orderFields), ',')+' FROM Order WHERE ContractId = :contractId  WITH SECURITY_ENFORCED';
+                            String contractOrderQuery = 'SELECT '+ String.join(((Iterable<String>)listOfOrderFields), ',')+' FROM Order WHERE ContractId = :contractId  WITH SECURITY_ENFORCED';
                             List<Order> contractOrderData = Database.query(orderQuery);
                             if(!contractOrderData.isEmpty()) {
                                 jsonQueryValue = jsonQueryValue+JSON.serialize(contractOrderData);
@@ -126,7 +127,7 @@ global with sharing class restService {
                         }
                     }
                     //Can delete below most likey
-                    if(orderFields.contains('AccountId')) {
+                    if(listOfOrderFields.contains('AccountId')) {
                         String accountId = string.valueOf(orderRec.get('AccountId'));
                         if(accountId != null) {
                             String accountQuery = 'SELECT '+ String.join(((Iterable<String>)accountFields), ',')+' FROM Account WHERE Id = :accountId  WITH SECURITY_ENFORCED';
@@ -141,7 +142,7 @@ global with sharing class restService {
                             }
                         }
                     }  
-                    if(orderFields.contains('BillToContactId')) {
+                    if(listOfOrderFields.contains('BillToContactId')) {
                         String contactId = string.valueOf(orderRec.get('BillToContactId'));
                         if(contactId != null) {
                             Set<String> contactFields = getAccessableFieldsByObject('Contact');
@@ -159,7 +160,7 @@ global with sharing class restService {
                     } 
                     
                     //if(orderRec.get('OpportunityId') != null) {
-                    if(orderFields.contains('OpportunityId')) {
+                    if(listOfOrderFields.contains('OpportunityId')) {
                         String opportunityId = string.valueOf(orderRec.get('OpportunityId'));
                         if(opportunityId != null) {
                             Set<String> opportunityFields = getAccessableFieldsByObject('Opportunity');
@@ -177,7 +178,7 @@ global with sharing class restService {
                     } 
                     /*responseOrderRecrods.add(jsonQueryValue);      
                 }*/
-                    if(orderFields.contains('SBQQ__Quote__c')) {
+                    if(listOfOrderFields.contains('SBQQ__Quote__c')) {
                         String quoteId = string.valueOf(orderRec.get('SBQQ__Quote__c'));
                         if(quoteId != null) {
                             String quoteQuery = 'SELECT '+ String.join(((Iterable<String>)quoteFields), ',')+' FROM SBQQ__Quote__c WHERE Id = :quoteId  WITH SECURITY_ENFORCED';
