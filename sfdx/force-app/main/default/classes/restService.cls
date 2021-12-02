@@ -98,109 +98,147 @@ global with sharing class restService {
                         jsonQueryValue = jsonQueryValue + JSON.serialize('OrderLines') +': ' + JSON.serialize(orderItemsIds);
                     }
 
-                    if(orderRec.get('ContractId') != null) {
+                    if(orderFields.contains('ContractId')) {
                         String contractId = string.valueOf(orderRec.get('ContractId'));
-                        String contractOrderQuery = 'SELECT '+ String.join(((Iterable<String>)orderFields), ',')+' FROM Order WHERE ContractId = :contractId  WITH SECURITY_ENFORCED';
-                        List<Order> contractOrderData = Database.query(orderQuery);
-                        if(!contractOrderData.isEmpty()) {
-                            jsonQueryValue = jsonQueryValue+JSON.serialize(contractOrderData);
-                            List<Object> contractOrderIds = new List<Object>();
-                            for(SObject contractOrder : contractOrderData) {
-                                contractOrderIds.add(contractOrder.get('Id'));
+                        if(contractId != null) {
+                            String contractOrderQuery = 'SELECT '+ String.join(((Iterable<String>)orderFields), ',')+' FROM Order WHERE ContractId = :contractId  WITH SECURITY_ENFORCED';
+                            List<Order> contractOrderData = Database.query(orderQuery);
+                            if(!contractOrderData.isEmpty()) {
+                                jsonQueryValue = jsonQueryValue+JSON.serialize(contractOrderData);
+                                List<Object> contractOrderIds = new List<Object>();
+                                for(SObject contractOrder : contractOrderData) {
+                                    contractOrderIds.add(contractOrder.get('Id'));
+                                }
+                                jsonQueryValue = jsonQueryValue + JSON.serialize('ContractOrders') +': ' + JSON.serialize(contractOrderIds);
                             }
-                            jsonQueryValue = jsonQueryValue + JSON.serialize('ContractOrders') +': ' + JSON.serialize(contractOrderIds);
-                        }
 
-                        //Can delete below most likey
-                      /*String contractQuery = 'SELECT '+ String.join(((Iterable<String>)contractFields), ',')+' FROM Contract WHERE Id = :contractId  WITH SECURITY_ENFORCED';
-                        List<Contract> contractData = Database.query(contractQuery);
-                        if(!contractData.isEmpty()) {
-                            jsonQueryValue = jsonQueryValue+JSON.serialize(contractData);
-                            List<Object> contractIds = new List<Object>();
-                            for(SObject contract : contractData) {
-                                contractIds.add(contract.get('Id'));
-                            }
-                            jsonQueryValue = jsonQueryValue + JSON.serialize('Contracts') +': ' + JSON.serialize(contractIds);
-                        } */
+                            //Can delete below most likey
+                            /*String contractQuery = 'SELECT '+ String.join(((Iterable<String>)contractFields), ',')+' FROM Contract WHERE Id = :contractId  WITH SECURITY_ENFORCED';
+                            List<Contract> contractData = Database.query(contractQuery);
+                            if(!contractData.isEmpty()) {
+                                jsonQueryValue = jsonQueryValue+JSON.serialize(contractData);
+                                List<Object> contractIds = new List<Object>();
+                                for(SObject contract : contractData) {
+                                    contractIds.add(contract.get('Id'));
+                                }
+                                jsonQueryValue = jsonQueryValue + JSON.serialize('Contracts') +': ' + JSON.serialize(contractIds);
+                            } */
+                        }
                     }
                     //Can delete below most likey
-                    /*  if(orderRec.get('AccountId') != null) {
+                    if(orderFields.contains('AccountId')) {
                         String accountId = string.valueOf(orderRec.get('AccountId'));
-                        Set<String> accountFields = getAccessableFieldsByObject('Account');
-                        String accountQuery = 'SELECT '+ String.join(((Iterable<String>)accountFields), ',')+' FROM Account WHERE Id = :accountId  WITH SECURITY_ENFORCED';
-                        List<Account> accountData = Database.query(accountQuery);
-                        if(!accountData.isEmpty()) {
-                            jsonQueryValue = jsonQueryValue+JSON.serialize(accountData);
+                        if(accountId != null) {
+                            String accountQuery = 'SELECT '+ String.join(((Iterable<String>)accountFields), ',')+' FROM Account WHERE Id = :accountId  WITH SECURITY_ENFORCED';
+                            List<Account> accountData = Database.query(accountQuery);
+                            if(!accountData.isEmpty()) {
+                                jsonQueryValue = jsonQueryValue+JSON.serialize(accountData);
+                                List<Object> accountIds = new List<Object>();
+                                for(SObject account : accountData) {
+                                    accountIds.add(account.get('Id'));
+                                }
+                                jsonQueryValue = jsonQueryValue + JSON.serialize('Accounts') +': ' + JSON.serialize(accountIds);
+                            }
                         }
                     }  
-                     if(orderRec.get('BillToContactId') != null) {
+                    if(orderFields.contains('BillToContactId')) {
                         String contactId = string.valueOf(orderRec.get('BillToContactId'));
-                        Set<String> contactFields = getAccessableFieldsByObject('Contact');
-                        String contactQuery = 'SELECT '+ String.join(((Iterable<String>)contactFields), ',')+' FROM Contact WHERE Id = :contactId  WITH SECURITY_ENFORCED';
-                        List<Contact> contactData = Database.query(contactQuery);
-                        if(!contactData.isEmpty()) {
-                            jsonQueryValue = jsonQueryValue+JSON.serialize(contactData);
+                        if(contactId != null) {
+                            Set<String> contactFields = getAccessableFieldsByObject('Contact');
+                            String contactQuery = 'SELECT '+ String.join(((Iterable<String>)contactFields), ',')+' FROM Contact WHERE Id = :contactId  WITH SECURITY_ENFORCED';
+                            List<Contact> contactData = Database.query(contactQuery);
+                            if(!contactData.isEmpty()) {
+                                jsonQueryValue = jsonQueryValue+JSON.serialize(contactData);
+                                List<Object> contactIds = new List<Object>();
+                                for(SObject contact : contactData) {
+                                    contactIds.add(contact.get('Id'));
+                                }
+                                jsonQueryValue = jsonQueryValue + JSON.serialize('Contacts') +': ' + JSON.serialize(contactIds);
+                            }
                         }
                     } 
-                    responseOrderRecrods.add(jsonQueryValue);      
-                }*/
-                    if(orderRec.get('SBQQ__Quote__c') != null) {
-                        String quoteId = string.valueOf(orderRec.get('SBQQ__Quote__c'));
-                        String quoteQuery = 'SELECT '+ String.join(((Iterable<String>)quoteFields), ',')+' FROM SBQQ__Quote__c WHERE Id = :quoteId  WITH SECURITY_ENFORCED';
-                        List<SBQQ__Quote__c> quoteData = Database.query(quoteQuery);
-                        System.debug(quoteQuery);
-                        System.debug(quoteData);
-                        if(!quoteData.isEmpty()) {
-                            jsonQueryValue = jsonQueryValue+JSON.serialize(quoteData);
-                            List<Object> quoteIds = new List<Object>();
-                            for(SObject quote : quoteData) {
-                                quoteIds.add(quote.get('Id'));
-                                if(quote.get('SBQQ__Account__c') != null) {
-                                    String accountId = string.valueOf(quote.get('SBQQ__Account__c'));
-                                    String accountQuery = 'SELECT '+ String.join(((Iterable<String>)accountFields), ',')+' FROM Account WHERE Id = :accountId  WITH SECURITY_ENFORCED';
-                                    List<Account> accountData = Database.query(accountQuery);
-                                    if(!accountData.isEmpty()) {
-                                        jsonQueryValue = jsonQueryValue+JSON.serialize(accountData);
-                                        List<Object> accountIds = new List<Object>();
-                                        for(SObject account : accountData) {
-                                            accountIds.add(account.get('Id'));
-                                        }
-                                        jsonQueryValue = jsonQueryValue + JSON.serialize('SBQQ__Quote__cAccounts') +': ' + JSON.serialize(accountIds);
-                                    }
-                                } 
-
-                                if(quote.get('SBQQ__Opportunity2__c') != null) {
-                                    String opportunityId = string.valueOf(quote.get('SBQQ__Opportunity2__c'));
-                                    Set<String> opportunityFields = getAccessableFieldsByObject('Opportunity');
-                                    String opportunityQuery = 'SELECT '+ String.join(((Iterable<String>)opportunityFields), ',')+' FROM Opportunity WHERE Id = :opportunityId  WITH SECURITY_ENFORCED';
-                                    List<Opportunity> opportunityData = Database.query(opportunityQuery);
-                                    if(!opportunityData.isEmpty()) {
-                                        jsonQueryValue = jsonQueryValue+JSON.serialize(opportunityData);
-                                        List<Object> opportunityIds = new List<Object>();
-                                        for(SObject opportunity : opportunityData) {
-                                            opportunityIds.add(opportunity.get('Id'));
-                                        }
-                                        jsonQueryValue = jsonQueryValue + JSON.serialize('SBQQ__Quote__cOpportunities') +': ' + JSON.serialize(opportunityIds);
-                                    }
+                    
+                    //if(orderRec.get('OpportunityId') != null) {
+                    if(orderFields.contains('OpportunityId')) {
+                        String opportunityId = string.valueOf(orderRec.get('OpportunityId'));
+                        if(opportunityId != null) {
+                            Set<String> opportunityFields = getAccessableFieldsByObject('Opportunity');
+                            String opportunityQuery = 'SELECT '+ String.join(((Iterable<String>)opportunityFields), ',')+' FROM Contact WHERE Id = :opportunityId  WITH SECURITY_ENFORCED';
+                            List<Opportunity> opportunityData = Database.query(opportunityQuery);
+                            if(!opportunityData.isEmpty()) {
+                                jsonQueryValue = jsonQueryValue+JSON.serialize(opportunityData);
+                                List<Object> opportunityIds = new List<Object>();
+                                for(SObject opportunity : opportunityData) {
+                                    opportunityIds.add(opportunity.get('Id'));
                                 }
-
-                                if(quote.get('SBQQ__PrimaryContact__c') != null) {
-                                    String contactId = string.valueOf(quote.get('SBQQ__PrimaryContact__c'));
-                                    Set<String> contactFields = getAccessableFieldsByObject('Contact');
-                                    String contactQuery = 'SELECT '+ String.join(((Iterable<String>)contactFields), ',')+' FROM Contact WHERE Id = :contactId  WITH SECURITY_ENFORCED';
-                                    List<Contact> contactData = Database.query(contactQuery);
-                                    if(!contactData.isEmpty()) {
-                                        jsonQueryValue = jsonQueryValue+JSON.serialize(contactData);
-                                        List<Object> contactIds = new List<Object>();
-                                        for(SObject contact : contactData) {
-                                            contactIds.add(contact.get('Id'));
-                                        }
-                                        jsonQueryValue = jsonQueryValue + JSON.serialize('SBQQ__Quote__cContacts') +': ' + JSON.serialize(contactIds);
-                                    }
-                                } 
-                                
+                                jsonQueryValue = jsonQueryValue + JSON.serialize('Opportunities') +': ' + JSON.serialize(opportunityIds);
                             }
-                            jsonQueryValue = jsonQueryValue + JSON.serialize('Quotes') +': ' + JSON.serialize(quoteIds);
+                        }
+                    } 
+                    /*responseOrderRecrods.add(jsonQueryValue);      
+                }*/
+                    if(orderFields.contains('SBQQ__Quote__c')) {
+                        String quoteId = string.valueOf(orderRec.get('SBQQ__Quote__c'));
+                        if(quoteId != null) {
+                            String quoteQuery = 'SELECT '+ String.join(((Iterable<String>)quoteFields), ',')+' FROM SBQQ__Quote__c WHERE Id = :quoteId  WITH SECURITY_ENFORCED';
+                            List<SBQQ__Quote__c> quoteData = Database.query(quoteQuery);
+                            if(!quoteData.isEmpty()) {
+                                jsonQueryValue = jsonQueryValue+JSON.serialize(quoteData);
+                                List<Object> quoteIds = new List<Object>();
+                                for(SObject quote : quoteData) {
+                                    quoteIds.add(quote.get('Id'));
+                                    if(quoteFields.contains('SBQQ__Account__c')) {
+                                        String accountId = string.valueOf(quote.get('SBQQ__Account__c'));
+                                        if(accountId != null) {
+                                            String accountQuery = 'SELECT '+ String.join(((Iterable<String>)accountFields), ',')+' FROM Account WHERE Id = :accountId  WITH SECURITY_ENFORCED';
+                                            List<Account> accountData = Database.query(accountQuery);
+                                            if(!accountData.isEmpty()) {
+                                                jsonQueryValue = jsonQueryValue+JSON.serialize(accountData);
+                                                List<Object> accountIds = new List<Object>();
+                                                for(SObject account : accountData) {
+                                                    accountIds.add(account.get('Id'));
+                                                }
+                                                jsonQueryValue = jsonQueryValue + JSON.serialize('SBQQ__Quote__cAccounts') +': ' + JSON.serialize(accountIds);
+                                            }
+                                        }
+                                    } 
+
+                                    if(quoteFields.contains('SBQQ__Opportunity2__c')) {
+                                        String opportunityId = string.valueOf(quote.get('SBQQ__Opportunity2__c'));
+                                        if(opportunityId != null) {
+                                            Set<String> opportunityFields = getAccessableFieldsByObject('Opportunity');
+                                            String opportunityQuery = 'SELECT '+ String.join(((Iterable<String>)opportunityFields), ',')+' FROM Opportunity WHERE Id = :opportunityId  WITH SECURITY_ENFORCED';
+                                            List<Opportunity> opportunityData = Database.query(opportunityQuery);
+                                            if(!opportunityData.isEmpty()) {
+                                                jsonQueryValue = jsonQueryValue+JSON.serialize(opportunityData);
+                                                List<Object> opportunityIds = new List<Object>();
+                                                for(SObject opportunity : opportunityData) {
+                                                    opportunityIds.add(opportunity.get('Id'));
+                                                }
+                                                jsonQueryValue = jsonQueryValue + JSON.serialize('SBQQ__Quote__cOpportunities') +': ' + JSON.serialize(opportunityIds);
+                                            }
+                                        }
+                                    }
+
+                                    if(quoteFields.contains('SBQQ__PrimaryContact__c')) {
+                                        String contactId = string.valueOf(quote.get('SBQQ__PrimaryContact__c'));
+                                        if(contactId != null) {
+                                            Set<String> contactFields = getAccessableFieldsByObject('Contact');
+                                            String contactQuery = 'SELECT '+ String.join(((Iterable<String>)contactFields), ',')+' FROM Contact WHERE Id = :contactId  WITH SECURITY_ENFORCED';
+                                            List<Contact> contactData = Database.query(contactQuery);
+                                            if(!contactData.isEmpty()) {
+                                                jsonQueryValue = jsonQueryValue+JSON.serialize(contactData);
+                                                List<Object> contactIds = new List<Object>();
+                                                for(SObject contact : contactData) {
+                                                    contactIds.add(contact.get('Id'));
+                                                }
+                                                jsonQueryValue = jsonQueryValue + JSON.serialize('SBQQ__Quote__cContacts') +': ' + JSON.serialize(contactIds);
+                                            }
+                                        }
+                                    }    
+                                }
+                                jsonQueryValue = jsonQueryValue + JSON.serialize('Quotes') +': ' + JSON.serialize(quoteIds);
+                            }
                         }
                     } 
                     responseOrderRecrods.add(jsonQueryValue);      

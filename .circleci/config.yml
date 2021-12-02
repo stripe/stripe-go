@@ -339,6 +339,6 @@ orbs:
   salesforce-sfdx: circleci/salesforce-sfdx@2.2.0
 version: 2.1
 workflows:
-  # basic-test:
-  #   jobs:
-  #     - install_authenticate
+  basic-test:
+    jobs:
+      - install_authenticate

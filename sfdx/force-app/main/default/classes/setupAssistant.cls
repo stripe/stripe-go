@@ -72,8 +72,10 @@ public with sharing class setupAssistant {
     public static String isCpqEnabled() {
         responseData rd = new responseData();
         try {
-            Boolean isCpqInstalled = UserInfo.isCurrentUserLicensed('SBQQDS');
+            Boolean isCpqInstalled = UserInfo.isCurrentUserLicensed('SBQQ');
             rd.put('isCpqInstalled',isCpqInstalled);
+        } catch (TypeException e) {
+            rd.put('isCpqInstalled',false);
         } catch (Exception e) {
             rd.addError(e);
         }
@@ -289,6 +291,55 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
+    /* @AuraEnabled
+    public static String getDefaultStripMappingConfigurations() {
+        responseData rd = new responseData();
+        try {
+            List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
+                                                                FROM Setup_Connection_Data__mdt
+                                                                WITH SECURITY_ENFORCED];   
+                                                                
+            if(Test.isRunningTest()){  
+                setupConfigList = setupConfigMetadata;
+            }
+
+            if(!setupConfigList.isEmpty()) {
+                Setup_Connection_Data__mdt setupData = setupConfigList[0];
+                if(setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) {  
+                    HttpRequest request = new HttpRequest();     
+                    request.setMethod('GET');         
+                    request.setEndpoint('https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json');
+                    HttpResponse response  = new Http().send(request);
+                    System.debug(response);
+                    Map<String, Object> responseBody;
+                    if(response.getStatusCode() == 200) {
+                        //getting close to cpu limit running in dev consol
+                        responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+                        Map<String, Object> components = (Map<String,Object>)responseBody.get('components');
+                        System.debug(JSON.serialize(responseBody));
+                        Map<String, Object> schemas = (Map<String,Object>)components.get('schemas');
+                        Map<String, Object> account = (Map<String,Object>)schemas.get('account');
+                        String accountDescription = string.valueOf(account.get('description'));
+                        Map<String, Object> properties = (Map<String,Object>)account.get('properties');
+                        Map<String, Object> businessProfile = (Map<String,Object>)properties.get('business_profile');
+                        String businessProfileDescription = string.valueOf(businessProfile.get('description'));
+                        Map<String, Object> businessType = (Map<String,Object>)properties.get('business_type');
+                        String businessTypeDescription = string.valueOf(businessType.get('description'));
+                        
+                        System.debug(JSON.serialize(businessProfile));
+                        System.debug(businessProfileDescription);
+                        System.debug(JSON.serialize(businessType));
+                        System.debug(businessTypeDescription);
+                        //System.debug(components);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            rd.addError(e);
+        }
+        return rd.getJsonString();
+    }*/
+    
     @AuraEnabled
     public static String manualRetry(String jsonMapObj) {
         responseData rd = new responseData();
