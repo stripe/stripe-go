@@ -29,3 +29,7 @@ class Array
   def delete(obj); end
 end
 
+# TODO look into why this isn't autogen'd at all via sorbet
+class StripeForce::User
+  def find_or_new(*args); end
+end
