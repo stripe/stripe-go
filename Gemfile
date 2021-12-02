@@ -31,7 +31,7 @@ gem 'redis', '~> 4.5.0'
 
 # database
 gem 'pg', '~> 1.2.3'
-gem 'sequel', '5.50.0'
+gem 'sequel', '5.51.0'
 
 # auth
 gem 'omniauth-salesforce'
