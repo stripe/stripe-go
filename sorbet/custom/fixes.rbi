@@ -31,5 +31,5 @@ end
 
 # TODO look into why this isn't autogen'd at all via sorbet
 class StripeForce::User
-  def find_or_new(*args); end
+  def self.find_or_new(*args); end
 end
