@@ -68,10 +68,13 @@ public with sharing class utilities {
         }
  
         if(headers != null) {
+            //add headers to request if they exist
             for(String header : headers.keySet()) {
                 req.setHeader(header, headers.get(header));
             }
         } else {
+            /* these standard headers will be add to the request if none are provided
+             the ruby service expects these headers for all requests. */
             List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
                                                                 FROM Setup_Connection_Data__mdt
                                                                 WITH SECURITY_ENFORCED];    
