@@ -92,6 +92,7 @@ class SessionsController < ApplicationController
     </div>
     <script type="application/javascript">
     window.opener.parent.postMessage("connectionSuccessful", "https://#{user.sf_subdomain}.lightning.force.com")
+    window.opener.parent.postMessage("connectionSuccessful", "https://#{user.sf_subdomain}.visualforce.com")
     </script>
     EOL
   end
