@@ -91,8 +91,7 @@ class SessionsController < ApplicationController
       <p>Navigate to SalesForce to configure this connector.</p>
     </div>
     <script type="application/javascript">
-    // window.opener.parent.postMessage("connectionSuccessful", "https://#{user.sf_subdomain}.lightning.force.com")
-    window.opener.postMessage("connectionSuccessful", "https://#{user.sf_subdomain}.visualforce.com")
+    window.opener.postMessage("connectionSuccessful", "https://#{user.sf_subdomain}--c.visualforce.com")
     </script>
     EOL
   end
