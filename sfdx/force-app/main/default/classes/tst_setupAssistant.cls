@@ -10,6 +10,20 @@ public with sharing class tst_setupAssistant {
     }
 
     @isTest
+    static public void testSetupAssistant_isCpqEnabled() {
+        Test.startTest();
+        String response = setupAssistant.isCpqEnabled();
+        Test.stopTest();
+        
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+        System.assertEquals(true, responseMap.get('isSuccess'));
+
+        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+        System.assertEquals(true, resultsMap.get('isCpqInstalled'));
+    }
+
+    @isTest
     static public void testSetupAssistant_validateConnectionStatus() {
         Test.startTest();
         Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();

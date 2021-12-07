@@ -76,7 +76,7 @@ global with sharing class restService {
                     orderRecordMap = getRelatedOrderItemRecordsById(orderRecordMap,listOfOrderItemFields); 
                      
                     //adding modified order record to payload 
-                    responseJsonPayloadRecords.add((Object)orderRecordMap);
+                    if(orderRecordMap != null || !orderRecordMap.isEmpty())responseJsonPayloadRecords.add((Object)orderRecordMap);
                 }                          
             } else {
                 throw new NotOrdersFoundException('There were no orders found based on the list of order Ids sent. Here are the order Ids that were sent: ' + listOfOrderIds);
@@ -120,7 +120,7 @@ global with sharing class restService {
     //fetches all related object records that we care about based on the order record passed in 
     private static Map<String,Object> addRelatedOrderRecordsToPayload(Set<String> listOfOrderFields, Set<String> listOfOrderItemFields, Map<String,Object> orderRecordMap) {
 
-        if(listOfOrderFields.contains('ContractId') && Contract.sObjectType.getDescribe().accessible == true) {
+        if(listOfOrderFields.contains('ContractId')) {
             //gets related contract record based the contract this order looks up to 
             orderRecordMap = addRelatedRecordToPayload(orderRecordMap,'Contract','ContractId');
             String orderId = (String)orderRecordMap.get('Id');
@@ -143,19 +143,19 @@ global with sharing class restService {
             }
         }
         //gets related account record based the account this order looks up to 
-        if(listOfOrderFields.contains('AccountId') && Account.sObjectType.getDescribe().accessible == true) {
+        if(listOfOrderFields.contains('AccountId')) {
             orderRecordMap = addRelatedRecordToPayload(orderRecordMap,'Account','AccountId');
         }
         //gets related contact record based the contact this order looks up to 
-        if(listOfOrderFields.contains('BillToContactId') && Contact.sObjectType.getDescribe().accessible == true) {
+        if(listOfOrderFields.contains('BillToContactId')) {
             orderRecordMap = addRelatedRecordToPayload(orderRecordMap,'Contact','BillToContactId');
         }
         //gets related opportunity record based the opportunity this order looks up to 
-        if(listOfOrderFields.contains('OpportunityId') && Opportunity.sObjectType.getDescribe().accessible == true) {
+        if(listOfOrderFields.contains('OpportunityId')) {
             orderRecordMap = addRelatedRecordToPayload(orderRecordMap,'Opportunity','OpportunityId');
         }
         //gets related pricebook record based the pricebook this order looks up to 
-        if(listOfOrderFields.contains('Pricebook2Id') && Pricebook2.sObjectType.getDescribe().accessible == true) {
+        if(listOfOrderFields.contains('Pricebook2Id')) {
             orderRecordMap = addRelatedRecordToPayload(orderRecordMap,'Pricebook2','Pricebook2Id');
         }
 
@@ -181,21 +181,21 @@ global with sharing class restService {
                     orderRecordMap.put('Quotes',(Object)relatedQuoteRecordIdList);
 
                     //gets related primary contact based on the contact this quote looks up to 
-                    if(listOfQuoteFields.contains('SBQQ__PrimaryContact__c') && Contact.sObjectType.getDescribe().accessible == true) {
+                    if(listOfQuoteFields.contains('SBQQ__PrimaryContact__c')) {
                         quoteRecordMap = addRelatedRecordToPayload(quoteRecordMap,'Contact','SBQQ__PrimaryContact__c');
                     }
 
                     //gets related opportunity based on the opportunity this quote looks up to 
-                    if(listOfQuoteFields.contains('SBQQ__Opportunity2__c') && Opportunity.sObjectType.getDescribe().accessible == true) {
+                    if(listOfQuoteFields.contains('SBQQ__Opportunity2__c')) {
                         quoteRecordMap = addRelatedRecordToPayload(quoteRecordMap,'Opportunity','SBQQ__Opportunity2__c');
                     }
                     /* Do we want the Accounts related to the Order Or Quote? -Questiion for Mike ANd Spencer
-                    if(listOfQuoteFields.contains('SBQQ__Account__c') && Account.sObjectType.getDescribe().accessible == true) {
+                    if(listOfQuoteFields.contains('SBQQ__Account__c')) {
                         quoteRecordMap = addRelatedRecordToPayload(quoteRecordMap,'Account','SBQQ__Account__c');
                     } */
                     
                     //add modified quote record with lookup ID lists to records param in payload
-                    responseJsonPayloadRecords.add((Object)quoteRecordMap);
+                    if(quoteRecordMap != null || !quoteRecordMap.isEmpty())responseJsonPayloadRecords.add((Object)quoteRecordMap);
                 }
             }
         }
@@ -209,37 +209,45 @@ global with sharing class restService {
         //get related order Items based on the Id of the order record passed in 
         String orderItemQuery = 'SELECT '+ String.join(((Iterable<String>)listOfOrderItemFields), ',') + ' FROM OrderItem WHERE OrderId = :orderRecordId  WITH SECURITY_ENFORCED LIMIT 1';
         List<OrderItem> listOfOrderItemData = Database.query(orderItemQuery);
+
+        //create list to get all Order Item Ids that are related to the Order record passed in
+        List<String> listOfOrderItemIds = new List<String>();
         for(SObject orderItem : listOfOrderItemData) {
+
+            //add each related order item id to a list to put in record at the end
+            listOfOrderItemIds.add(string.valueOf(orderItem.get('Id'))); 
+
             //convert order item record to map so we can add related record Ids to it if they exist
             Map<String, Object> orderItemMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(orderItem));
 
             //gets related product this order item looks up to 
-            if(listOfOrderItemFields.contains('Product2Id') && Product2.sObjectType.getDescribe().accessible == true) {
+            if(listOfOrderItemFields.contains('Product2Id')) {
                 orderItemMap = addRelatedRecordToPayload(orderItemMap,'Product2','Product2Id');
             }
             //gets related price book entry this order item looks up to 
-            if(listOfOrderItemFields.contains('PricebookEntryId') && PricebookEntry.sObjectType.getDescribe().accessible == true) {
+            if(listOfOrderItemFields.contains('PricebookEntryId')) {
                 orderItemMap = addRelatedRecordToPayload(orderItemMap,'PricebookEntry','PricebookEntryId');
             }
             //gets related contract this order item looks up to 
-            if(listOfOrderItemFields.contains('SBQQ__Contract__c') && Contract.sObjectType.getDescribe().accessible == true) {
+            if(listOfOrderItemFields.contains('SBQQ__Contract__c')) {
                 orderItemMap = addRelatedRecordToPayload(orderItemMap,'Contract','SBQQ__Contract__c');
             }
             //gets related contract line item this order item looks up to 
-            if(listOfOrderItemFields.contains('SBQQSC__ContractLineItem__c') && ContractLineItem.sObjectType.getDescribe().accessible == true) {
+            if(listOfOrderItemFields.contains('SBQQSC__ContractLineItem__c')) {
                 orderItemMap = addRelatedRecordToPayload(orderItemMap,'ContractLineItem','SBQQSC__ContractLineItem__c');
             }
             //gets related quote line this order item looks up to 
-            if(listOfOrderItemFields.contains('SBQQ__QuoteLine__c') && SBQQ__QuoteLine__c.sObjectType.getDescribe().accessible == true) {
+            if(listOfOrderItemFields.contains('SBQQ__QuoteLine__c')) {
                 orderItemMap = addRelatedRecordToPayload(orderItemMap,'SBQQ__QuoteLine__c','SBQQ__QuoteLine__c');
             }
             //gets related subscribtion this order item looks up to 
-            if(listOfOrderItemFields.contains('SBQQ__Subscription__c') && SBQQ__Subscription__c.sObjectType.getDescribe().accessible == true) {
+            if(listOfOrderItemFields.contains('SBQQ__Subscription__c')) {
                 orderItemMap = addRelatedRecordToPayload(orderItemMap,'SBQQ__Subscription__c','SBQQ__Subscription__c');
             }  
             //add order item record to record payload param with ids of related objects included       
-            responseJsonPayloadRecords.add((Object)orderItemMap);
+            if(orderItemMap != null || !orderItemMap.isEmpty())responseJsonPayloadRecords.add((Object)orderItemMap);
         }
+        orderRecordMap.put('OrderItems',(Object)listOfOrderItemIds);
         return orderRecordMap;
     }
     
@@ -264,7 +272,7 @@ global with sharing class restService {
             /*add each related record to the records json response and add the Id to a list 
             to add back to parent record map after*/
             for(SObject relatedRecord : listOfRelatedRecordData) {                
-                responseJsonPayloadRecords.add((Object)relatedRecord);
+                if(relatedRecord != null)responseJsonPayloadRecords.add((Object)relatedRecord);
                 listOfRelatedRecordsIds.add(string.valueOf(relatedRecord.get('Id'))); 
             }
             if(!listOfRelatedRecordsIds.isEmpty()){
@@ -292,6 +300,9 @@ global with sharing class restService {
                     when 'Contract' {
                         objectApiName = 'Contracts';
                     }
+                    when 'Contact' {
+                        objectApiName = 'Contacts';
+                    }
                     when 'OrderItem' {
                         objectApiName = 'OrderItems';
                     }
@@ -305,26 +316,36 @@ global with sharing class restService {
 
     //get a set off all accesable fields to an object based on the objects api name passed in 
     private static Set<String> getAccessableFieldsByObject(String ObjectApiName) {
-        Schema.DescribeSObjectResult describedObj = Schema.describeSObjects(new List<String>{ObjectApiName}, SObjectDescribeOptions.DEFERRED).get(0);
-		Set<String> accessableFields = new Set<String>();
-        for(Schema.SObjectField fieldSchema : describedObj.fields.getMap().values()) {
-            Schema.DescribeFieldResult describedField = fieldSchema.getDescribe();
+        Set<String> accessableFields = new Set<String>();
+         //create error if we dont have access to this object 
+         if (Schema.describeSObjects(new List<String>{ objectApiName })[0].isAccessible()) {
+            Schema.DescribeSObjectResult describedObj = Schema.describeSObjects(new List<String>{ObjectApiName}, SObjectDescribeOptions.DEFERRED).get(0);
+            for(Schema.SObjectField fieldSchema : describedObj.fields.getMap().values()) {
+                Schema.DescribeFieldResult describedField = fieldSchema.getDescribe();
 
-            //create an error in the rest errors list if a field is not accessable
-            if(!describedField.isAccessible()) {
-
-                Map<String,Object> errorResponseMap = new Map<String,Object>{
-                    'error_type' => 'FieldNotAccessable',
-                    'error_message' => 'Field Not Accessable',
-                    'sobject_type' => ObjectApiName,
-                    'sobject_field' => describedField.getName()
-                };
-                responseJsonPayloadErrors.add((Object)errorResponseMap);
-                continue;
-            }
-            //add all accessable fields to a list 
-           accessableFields.add(describedField.getName());
-       }
+                //create an error in the rest errors list if a field is not accessable
+                if(!describedField.isAccessible()) {
+                    Map<String,Object> errorResponseMap = new Map<String,Object>{
+                        'error_type' => 'FieldNotAccessable',
+                        'error_message' => 'Field Not Accessable',
+                        'sobject_type' => ObjectApiName,
+                        'sobject_field' => describedField.getName()
+                    };
+                    responseJsonPayloadErrors.add((Object)errorResponseMap);
+                    continue;
+                }
+                //add all accessable fields to a list 
+            accessableFields.add(describedField.getName());
+        }
+    } else {
+        Map<String,Object> errorResponseMap = new Map<String,Object>{
+            'error_type' => 'ObjectNotAccessable',
+            'error_message' => 'Object Not Accessable',
+            'sobject_type' => ObjectApiName,
+            'sobject_field' => null
+        };
+        responseJsonPayloadErrors.add((Object)errorResponseMap);
+    }
        return accessableFields;
     }
 }
