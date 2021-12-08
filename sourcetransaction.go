@@ -8,13 +8,6 @@ type SourceTransactionListParams struct {
 	Source     *string `form:"-"` // Sent in with the URL
 }
 
-// SourceTransactionList is a list object for SourceTransactions.
-type SourceTransactionList struct {
-	APIResource
-	ListMeta
-	Data []*SourceTransaction `json:"data"`
-}
-
 // SourceTransaction is the resource representing a Stripe source transaction.
 type SourceTransaction struct {
 	Amount       int64    `json:"amount"`
@@ -53,4 +46,11 @@ func (t *SourceTransaction) UnmarshalJSON(data []byte) error {
 	}
 
 	return nil
+}
+
+// SourceTransactionList is a list object for SourceTransactions.
+type SourceTransactionList struct {
+	APIResource
+	ListMeta
+	Data []*SourceTransaction `json:"data"`
 }
