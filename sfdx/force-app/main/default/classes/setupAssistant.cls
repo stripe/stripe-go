@@ -72,27 +72,6 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
-    @AuraEnabled
-    public static String isCpqEnabled() {
-        responseData rd = new responseData();
-        try {
-            //just check if the namespace of SBQQ exists in the org 
-            List<PackageLicense> listOfOrgPackageLicenses = [SELECT Id, NamespacePrefix FROM PackageLicense];
-            if(!listOfOrgPackageLicenses.isEmpty()){
-                for(SObject packageLicenseRecord : listOfOrgPackageLicenses){
-                    if(string.valueOf(packageLicenseRecord.get('NamespacePrefix')).substring(0,4) == 'SBQQ') {
-                        rd.put('isCpqInstalled',true);
-                        return rd.getJsonString();
-                    }
-                }
-            }
-            rd.put('isCpqInstalled',false);
-        } catch (Exception e) {
-            rd.addError(e);
-        }
-        return rd.getJsonString();
-    }
-
     //used to create metadata record for test classes
     @testVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata { 
         get {

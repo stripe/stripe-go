@@ -10,9 +10,9 @@ public with sharing class tst_setupAssistant {
     }
 
     @isTest
-    static public void testSetupAssistant_isCpqEnabled() {
+    static public void testUtilities_isCpqEnabled() {
         Test.startTest();
-        String response = setupAssistant.isCpqEnabled();
+        String response = utilities.isCpqEnabled();
         Test.stopTest();
         
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);

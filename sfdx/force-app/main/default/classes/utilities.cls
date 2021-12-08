@@ -40,6 +40,27 @@ public with sharing class utilities {
         return (sObject)JSON.deserialize(JSON.serialize(objMap), Type.forName(sObjectName));
     }
 
+    @AuraEnabled
+    public static String isCpqEnabled() {
+        responseData rd = new responseData();
+        try {
+            //just check if the namespace of SBQQ exists in the org 
+            List<PackageLicense> listOfOrgPackageLicenses = [SELECT Id, NamespacePrefix FROM PackageLicense];
+            if(!listOfOrgPackageLicenses.isEmpty()){
+                for(SObject packageLicenseRecord : listOfOrgPackageLicenses){
+                    if(string.valueOf(packageLicenseRecord.get('NamespacePrefix')).substring(0,4) == 'SBQQ') {
+                        rd.put('isCpqInstalled',true);
+                        return rd.getJsonString();
+                    }
+                }
+            }
+            rd.put('isCpqInstalled',false);
+        } catch (Exception e) {
+            rd.addError(e);
+        }
+        return rd.getJsonString();
+    }
+
     public static HttpResponse makeCallout(String endPoint, String method){
         return makeCallout(endPoint, method, null, null);
     }
@@ -81,8 +102,9 @@ public with sharing class utilities {
             if(!setupConfigList.isEmpty()) {
                 Setup_Connection_Data__mdt setupData = setupConfigList[0];
                 String orgId = constants.ORG_ID;
-                //String globalKey = setupData.Global_Key__c; 
-                String packageID = setupAssistant.getPackageVersion();
+                //String globalKey = setupData.Global_Key__c;
+                //commented out because this fails when not in a package  
+                //String packageID = setupAssistant.getPackageVersion();
                 String globalKey = 'dee37489-9f31-91d5';
                 String packageGuidKey = setupData.API_Key__c;
                 req.setHeader('Salesforce-Account-Id', orgId);

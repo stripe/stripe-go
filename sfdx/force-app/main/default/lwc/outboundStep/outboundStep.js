@@ -1,6 +1,6 @@
 import { LightningElement, track, api, wire } from 'lwc';
 import saveData from '@salesforce/apex/setupAssistant.saveData';
-import isCpqEnabled from '@salesforce/apex/setupAssistant.isCpqEnabled';
+import isCpqEnabled from '@salesforce/apex/utilities.isCpqEnabled';
 import validateConnectionStatus from '@salesforce/apex/setupAssistant.validateConnectionStatus';
 
 export default class OutboundStep extends LightningElement {
@@ -65,7 +65,9 @@ export default class OutboundStep extends LightningElement {
     }
 
     checkIfCPQIsEnabled() {
-        isCpqEnabled()
+       /* This is the cpq check to determine if we should show an error toast or not
+       commented this out for now in case we decide we want to add this check back  
+       isCpqEnabled()
         .then(response => {
            let responseData = JSON.parse(response);
             if(responseData.isSuccess) {
@@ -81,7 +83,8 @@ export default class OutboundStep extends LightningElement {
         }).catch(error => {
             this.showToast(error.body.message, 'error');
             this.loading = false;
-        });
+        }); */
+        this.stripeConnectedAppCallback(true);
     }
 
     next(event) {
