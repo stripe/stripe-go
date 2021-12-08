@@ -2,7 +2,7 @@
 package sourcetransaction
 
 import (
-	"errors"
+	"fmt"
 	"net/http"
 
 	stripe "github.com/stripe/stripe-go/v72"
@@ -22,22 +22,19 @@ func List(params *stripe.SourceTransactionListParams) *Iter {
 
 // List returns a list of source transactions.
 func (c Client) List(listParams *stripe.SourceTransactionListParams) *Iter {
-	var outerErr error
-	var path string
-
 	if listParams == nil || listParams.Source == nil {
-		outerErr = errors.New("Invalid source transaction params: Source needs to be set")
-	} else {
-		path = stripe.FormatURLPath("/v1/sources/%s/source_transactions",
-			stripe.StringValue(listParams.Source))
-	}
-
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.SourceTransactionList{}
-
-		if outerErr != nil {
-			return nil, list, outerErr
+		return &Iter{
+			Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+				list := &stripe.SourceTransactionList{}
+				return nil, list, fmt.Errorf("Invalid source transaction params: Source needs to be set")
+			}),
 		}
+	}
+	path := stripe.FormatURLPath("/v1/sources/%s/source_transactions",
+		stripe.StringValue(listParams.Source))
+
+	return &Iter{Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+		list := &stripe.SourceTransactionList{}
 
 		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
