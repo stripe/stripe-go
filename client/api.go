@@ -218,7 +218,7 @@ type API struct {
 	Skus *sku.Client
 	// Sources is the client used to invoke /sources APIs.
 	Sources *source.Client
-	// SourceTransactions is the client used to invoke source transactions related APIs
+	// SourceTransactions is the client used to invoke sourcetransaction related APIs.
 	SourceTransactions *sourcetransaction.Client
 	// SubscriptionItems is the client used to invoke /subscription_items APIs.
 	SubscriptionItems *subitem.Client
