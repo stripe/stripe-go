@@ -43,7 +43,6 @@ export default class OutboundStep extends LightningElement {
            let responseData = JSON.parse(response);
             if(responseData.isSuccess) {
                 let isConnected = responseData.results.isConnected;
-                this.domain = responseData.results.domain;
                 if(isConnected === 'fresh') {
                     this.isAuthComplete = true;
                     this.showToast('Authorization successfully completed', 'success');
@@ -53,7 +52,6 @@ export default class OutboundStep extends LightningElement {
                 } else if (isConnected === true) {
                     this.isAuthComplete = true;
                 } 
-
             } else { 
                 this.showToast(responseData.error, 'error');
             }
