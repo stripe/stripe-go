@@ -1,5 +1,29 @@
 # Changelog
 
+## 72.78.0 - 2021-12-09
+* [#1389](https://github.com/stripe/stripe-go/pull/1389) API Updates
+  * Add support for new values `ge_vat` and `ua_vat` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, and `TaxIdType`
+  
+* [#1383](https://github.com/stripe/stripe-go/pull/1383) [#1379](https://github.com/stripe/stripe-go/pull/1379) [#1385](https://github.com/stripe/stripe-go/pull/1385) [#1386](https://github.com/stripe/stripe-go/pull/1386) Codegen-related updates
+  * Add support for `CancellationReason` and `ReceivedAt` on `IssuingDisputeEvidenceServiceNotAsDescribed` and `IssuingDisputeEvidenceServiceNotAsDescribedParams`
+  * Add support for `Created` on `IssuingDisputeListParams`
+  * Add support for `Object` on `Plan`
+  * Add support for `free_zone_establishment`, `free_zone_llc`, `llc`, and `sole_establishment` options for `AccountCompanyStructure`
+  * Add support for `AfterpayClearpayPayments` on `AccountCapabilitiesParams`
+  * Add support for `Created` and `CreatedRange` on `AccountListParams`
+  * Add support for `AfterpayClearpayPayments` and `BoletoPayments` on `AccountCapabilities`
+  * Add support for `Capability` and `Capabilities` method on Account client
+  * Add support for `none` and `renew` options for `SubscriptionScheduleEndBehavior`
+  * Add support for `"now"` string for `EndDate`, `StartDate`, and `TrialEnd` on `SubscriptionSchedulePhaseParams`
+  * Add support for `ProrationBehavior` on `SubscriptionSchedulePhase`
+  * Add support for `APIVersion` and `Object` on `Event`
+  * Add support for `Metadata` on `SubscriptionItemsParams`
+  * Add support for `'automatic_pending_invoice_item_invoice'` option for `InvoiceBillingReason`
+  * Add support for `'deleted'` option for `InvoiceStatus`
+  * Add support for `metadata` on `InvoiceUpcomingCustomerDetailsParams`
+  * Add support for `schedule` on `InvoiceParams`
+  * Add support for `created` on `Person`
+
 ## 72.77.0 - 2021-11-19
 * [#1381](https://github.com/stripe/stripe-go/pull/1381) Add support for `Wallets` on `IssuingCard`
   * Add support for `Wallets` on `IssuingCard`
