@@ -1,6 +1,7 @@
 package stripe
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -37,6 +38,8 @@ func TestErrorResponse(t *testing.T) {
 	assert.Equal(t, ErrorTypeInvalidRequest, stripeErr.Type)
 	assert.Equal(t, "req_123", stripeErr.RequestID)
 	assert.Equal(t, 401, stripeErr.HTTPStatusCode)
+	var invalidRequestErr *InvalidRequestError
+	assert.True(t, errors.As(err, &invalidRequestErr))
 }
 
 func TestErrorRedact(t *testing.T) {

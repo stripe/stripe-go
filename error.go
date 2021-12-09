@@ -219,6 +219,11 @@ func (e *Error) Error() string {
 	return string(ret)
 }
 
+// Unwrap returns the wrapped typed error.
+func (e *Error) Unwrap() error {
+	return e.Err
+}
+
 // APIConnectionError is a failure to connect to the Stripe API.
 type APIConnectionError struct {
 	stripeErr *Error
