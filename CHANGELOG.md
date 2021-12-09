@@ -1,5 +1,12 @@
 # Changelog
 
+## 72.79.0 - 2021-12-09
+* [#1390](https://github.com/stripe/stripe-go/pull/1390) API Updates
+  * Add support for `Metadata` on `BillingPortalConfiguration`
+* [#1382](https://github.com/stripe/stripe-go/pull/1382) Add unwrap capability to Error
+* [#1388](https://github.com/stripe/stripe-go/pull/1388) Codegen: `sourcetransaction.go` and `sourcetransaction/client.go`
+  * Add support for `Object` and `Status` on `SourceTransaction`.
+
 ## 72.78.0 - 2021-12-09
 * [#1389](https://github.com/stripe/stripe-go/pull/1389) API Updates
   * Add support for new values `ge_vat` and `ua_vat` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, and `TaxIdType`
