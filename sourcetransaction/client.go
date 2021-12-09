@@ -1,8 +1,14 @@
-// Package sourcetransaction provides the /source/transactions APIs.
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package sourcetransaction provides the TODO APIs
 package sourcetransaction
 
 import (
-	"errors"
+	"fmt"
 	"net/http"
 
 	stripe "github.com/stripe/stripe-go/v72"
@@ -22,32 +28,31 @@ func List(params *stripe.SourceTransactionListParams) *Iter {
 
 // List returns a list of source transactions.
 func (c Client) List(listParams *stripe.SourceTransactionListParams) *Iter {
-	var outerErr error
-	var path string
-
 	if listParams == nil || listParams.Source == nil {
-		outerErr = errors.New("Invalid source transaction params: Source needs to be set")
-	} else {
-		path = stripe.FormatURLPath("/v1/sources/%s/source_transactions",
-			stripe.StringValue(listParams.Source))
+		return &Iter{
+			Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+				list := &stripe.SourceTransactionList{}
+				return nil, list, fmt.Errorf("Invalid source transaction params: Source needs to be set")
+			}),
+		}
 	}
+	path := stripe.FormatURLPath(
+		"/v1/sources/%s/source_transactions",
+		stripe.StringValue(listParams.Source),
+	)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.SourceTransactionList{}
+			err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
 
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.SourceTransactionList{}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		if outerErr != nil {
-			return nil, list, outerErr
-		}
-
-		err := c.B.CallRaw(http.MethodGet, path, c.Key, b, p, list)
-
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
-
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for source transactions.
