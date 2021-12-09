@@ -186,6 +186,7 @@ type BillingPortalConfiguration struct {
 	ID               string                                     `json:"id"`
 	IsDefault        bool                                       `json:"is_default"`
 	Livemode         bool                                       `json:"livemode"`
+	Metadata         map[string]string                          `json:"metadata"`
 	Object           string                                     `json:"object"`
 	Updated          int64                                      `json:"updated"`
 }
