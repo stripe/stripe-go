@@ -11,7 +11,7 @@ global with sharing class restService {
     //builds json paylod 
     global static Set<Object> responseJsonPayloadRecords = new Set<Object>();
 
-    //readonly annotation is used to increase the SOQL limit from 50k to a million
+    //readonly annotation is used to increase the SOQL limit from 50k to a 100k 
     @ReadOnly
     @HttpGet
     global static void restServiceEvents() {
@@ -128,18 +128,12 @@ global with sharing class restService {
 
     //fetches all related object records that we care about based on the order record passed in 
     private static Set<Map<String,Object>> addRelatedOrderRecordsToPayload(Set<String> listOfOrderFields, Set<String> listOfOrderItemFields, Set<Map<String, Object>> listOforderRecordMapRecords, Set<String> listOfOrderIds) {
-        //get all related order items based on the orders contained in list
-        listOforderRecordMapRecords = getRelatedOrderItemRecordsById(listOforderRecordMapRecords,listOfOrderItemFields, listOfOrderIds);
-
         if(listOfOrderFields.contains('ContractId')) {
-            //gets related contracts record based the contracts these orders look up to 
-           listOforderRecordMapRecords = addRelatedRecordToPayload(listOforderRecordMapRecords,'Contract','ContractId');
-
-            //pulls out all contract Ids from order records into seperate list
-            Set<String> listOfContractRecordIds = new Set<String>();
-            for(Map<String,Object> orderRecordMap : listOforderRecordMapRecords) {
-                if(orderRecordMap.get('ContractId') != null)listOfContractRecordIds.add((String)orderRecordMap.get('ContractId'));
-            }
+           //pulls out all contract Ids from order records into seperate list
+           Set<String> listOfContractRecordIds = new Set<String>();
+           for(Map<String,Object> orderRecordMap : listOforderRecordMapRecords) {
+               if(orderRecordMap.get('ContractId') != null)listOfContractRecordIds.add((String)orderRecordMap.get('ContractId'));
+           }
 
             /*gets related orders for the contract that are not equal to our current list of order
             ids but lookup to any of the same contracts within our current order list*/
@@ -151,26 +145,31 @@ global with sharing class restService {
                 Add the records to a new list to recurse on and get the Ids to add to our order record*/
                 Set<Map<String, Object>> listOfContractOrderRecordMaps = new Set<Map<String,Object>>();
                 Map<String, Object> contractOrderRecordMap = new Map<String, Object>();
-                Set<String> listOfContractOrderRecordIds = new Set<String>();
+                Set<String> listOfContractOrderRecordIds = new Set<String>();//delete
                 for(Map<String,Object> orderRecordMap : listOforderRecordMapRecords) {
                     for(SObject contractOrderRecord : listOfContractOrderRecords) {
-                        contractOrderRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(contractOrderRecord));
-                        listOfContractOrderRecordMaps.add(contractOrderRecordMap);
-                        listOfContractOrderRecordIds.add((String)contractOrderRecordMap.get('Id'));
+                        if(orderRecordMap.get('ContractId') == contractOrderRecord.get('ContractId')) {
+                            contractOrderRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(contractOrderRecord));
+                            //adding all other orders that look up to the same contract to our list of order records to get related data below
+                            listOforderRecordMapRecords.add(contractOrderRecordMap);
+
+                            //creating seperate list so we can add back to each order record and the relation to the contract is shown
+                            listOfContractOrderRecordIds.add((String)contractOrderRecordMap.get('Id'));
+
+                            //adding new ids contract order ids to existing list so they will be excluded when we recurse
+                            listOfOrderIds.add((String)contractOrderRecordMap.get('Id'));
+                        }
                     }
                     orderRecordMap.put('ContractOrders',(Object)listOfContractOrderRecordIds);
                 }
-
-                /*recursively call this function to get all related data for all orders related 
-                to any contract an order in our listOforderRecordMapRecords looks up to*/
-                listOfContractOrderRecordMaps = addRelatedOrderRecordsToPayload(listOfOrderFields, listOfOrderItemFields, listOfContractOrderRecordMaps, listOfContractOrderRecordIds);
-
-                //add all other orders that look up to the same orderds in our list to payload
-                for(Map<String, Object> modifiedContractOrderRecordMap : listOfContractOrderRecordMaps) {
-                    if(modifiedContractOrderRecordMap != null || !modifiedContractOrderRecordMap.isEmpty())responseJsonPayloadRecords.add((Object)modifiedContractOrderRecordMap); 
-                }
+                 //gets related contracts record based the contracts these orders look up to 
+                listOforderRecordMapRecords = addRelatedRecordToPayload(listOforderRecordMapRecords,'Contract','ContractId');
             }
         }
+
+        //get all related order items based on the orders contained in list
+        listOforderRecordMapRecords = getRelatedOrderItemRecordsById(listOforderRecordMapRecords,listOfOrderItemFields, listOfOrderIds);
+
         //gets related account records based on the accounts any order in our list looks up to 
         if(listOfOrderFields.contains('AccountId')) {
             listOforderRecordMapRecords = addRelatedRecordToPayload(listOforderRecordMapRecords,'Account','AccountId');
@@ -313,8 +312,7 @@ global with sharing class restService {
     calling function for insertion into the payload */
     private static Set<Map<String, Object>> addRelatedRecordToPayload(Set<Map<String, Object>> listOfOrderRecordMapRecords, String objectApiName, String LookupField) {
         
-        //list to related record Ids to 
-        Set<String> listOfRelatedRecordsIds = new Set<String> ();
+        
 
          //gets list of all fields we have access to for an object
         Set<String> listOfObjectFields = getAccessableFieldsByObject(objectApiName);
@@ -334,6 +332,8 @@ global with sharing class restService {
                     /*add each related record to the records json response and add the Id to a list 
                     to add back to parent record map after*/
                     for(Map<String, Object> orderRecord : listOfOrderRecordMapRecords) {
+                        //list to related record Ids to populate and add per order record 
+                        Set<String> listOfRelatedRecordsIds = new Set<String> ();
                         for(SObject relatedRecord : listOfRelatedRecordData) { 
                             String orderRecordId = (String)orderRecord.get(LookupField);
                             if(orderRecordId == relatedRecord.get('Id')){
