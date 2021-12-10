@@ -97,7 +97,7 @@ public with sharing class tst_restService {
             BillToContactId = contact.id,
             ContractId = contract.id,
             OpportunityId = opportunity.id,
-            //SBQQ__Quote__c = quote.id, causing validation error need to dig on this Arnold 
+            
             status = 'Draft',
             EffectiveDate = system.today(),
             EndDate = system.today() + 40,
@@ -110,7 +110,6 @@ public with sharing class tst_restService {
             BillToContactId = contact.id,
             ContractId = contract.id,
             OpportunityId = opportunity.id,
-            //SBQQ__Quote__c = quote.id, causing validation error need to dig on this Arnold 
             status = 'Draft',
             EffectiveDate = system.today(),
             EndDate = system.today() + 40,
@@ -127,6 +126,17 @@ public with sharing class tst_restService {
             EndDate = system.today() + 14
         );
         insert orderItem;
+        OrderItem orderItem2 = new OrderItem(
+            OrderId = order2.id,
+            Quantity = 24,
+            UnitPrice = 240,
+            Product2id = product.id,
+            PricebookEntryId = standardPrice.id,
+            ServiceDate = system.today() + 4,
+            EndDate = system.today() + 14
+        );
+        insert orderItem2;
+        
         //make mock request
         List<String> listOfOrderIds = new List<String>{(String)order.id};
         Map<String,Object> requestOrderMap = new Map<String,Object> {
@@ -186,20 +196,34 @@ public with sharing class tst_restService {
                         System.assertEquals(recordMap.get('UnitPrice'), 1);
                     }
                     when 'OrderItem' {
-                        System.assertEquals((String)recordMap.get('Id'), (String)orderItem.id);
-                        System.assertEquals((String)recordMap.get('OrderId'), (String)order.id);
-                        System.assertEquals((String)recordMap.get('PricebookEntryId'), (String)standardPrice.id);
-                        System.assertEquals(recordMap.get('Quantity'), 24);
-                        System.assertEquals(recordMap.get('UnitPrice'), 240);
-                        System.assertEquals((String)recordMap.get('ServiceDate'), string.valueOf(system.today() + 4));
-                        System.assertEquals((String)recordMap.get('EndDate'), string.valueOf(system.today() + 14));
-                        List<Object> Products = (List<Object>)recordMap.get('Products');
-                        List<Object> PricebookEntries = (List<Object>)recordMap.get('PricebookEntries');
-                        System.assertEquals((String)Products[0], (String)product.id);
-                        System.assertEquals((String)PricebookEntries[0], (String)standardPrice.id);
+                        if((String)recordMap.get('Id') == orderItem.id) {
+                            System.assertEquals((String)recordMap.get('Id'), (String)orderItem.id);
+                            System.assertEquals((String)recordMap.get('OrderId'), (String)order.id);
+                            System.assertEquals((String)recordMap.get('PricebookEntryId'), (String)standardPrice.id);
+                            System.assertEquals(recordMap.get('Quantity'), 24);
+                            System.assertEquals(recordMap.get('UnitPrice'), 240);
+                            System.assertEquals((String)recordMap.get('ServiceDate'), string.valueOf(system.today() + 4));
+                            System.assertEquals((String)recordMap.get('EndDate'), string.valueOf(system.today() + 14));
+                            List<Object> Products = (List<Object>)recordMap.get('Products');
+                            List<Object> PricebookEntries = (List<Object>)recordMap.get('PricebookEntries');
+                            System.assertEquals((String)Products[0], (String)product.id);
+                            System.assertEquals((String)PricebookEntries[0], (String)standardPrice.id);
+                        } else {
+                            System.assertEquals((String)recordMap.get('Id'), (String)orderItem2.id);
+                            System.assertEquals((String)recordMap.get('OrderId'), (String)order2.id);
+                            System.assertEquals((String)recordMap.get('PricebookEntryId'), (String)standardPrice.id);
+                            System.assertEquals(recordMap.get('Quantity'), 24);
+                            System.assertEquals(recordMap.get('UnitPrice'), 240);
+                            System.assertEquals((String)recordMap.get('ServiceDate'), string.valueOf(system.today() + 4));
+                            System.assertEquals((String)recordMap.get('EndDate'), string.valueOf(system.today() + 14));
+                            List<Object> Products = (List<Object>)recordMap.get('Products');
+                            List<Object> PricebookEntries = (List<Object>)recordMap.get('PricebookEntries');
+                            System.assertEquals((String)Products[0], (String)product.id);
+                            System.assertEquals((String)PricebookEntries[0], (String)standardPrice.id);
+                        }
                     }
                     when 'Order' {
-                        if((String)recordMap.get('Id') == order.id){
+                        if((String)recordMap.get('Id') == order.id) {
                             System.assertEquals((String)recordMap.get('Id'), (String)order.id);
                             System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
                             System.assertEquals((String)recordMap.get('BillToContactId'), (String)contact.id);
@@ -219,6 +243,7 @@ public with sharing class tst_restService {
                             System.assertEquals((String)OrderItems[0], (String)orderItem.id);
                             System.assertEquals((String)ContractOrders[0], (String)order2.id);
                         } else {
+                            System.debug(json.serialize(recordMap));
                             System.assertEquals((String)recordMap.get('Id'), (String)order2.id);
                             System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
                             System.assertEquals((String)recordMap.get('BillToContactId'), (String)contact.id);
@@ -234,11 +259,8 @@ public with sharing class tst_restService {
                             System.assertEquals((String)Contracts[0], (String)contract.id);
                             System.assertEquals((String)Accounts[0], (String)account.id);
                             System.assertEquals((String)Contacts[0], (String)contact.id);
-                            System.assertEquals((String)OrderItems[0], (String)orderItem.id);
+                            System.assertEquals((String)OrderItems[0], (String)orderItem2.id);
                         }
- 
-                       /*   */
-                        
                     }
                     when 'Opportunity' {
                         System.assertEquals((String)recordMap.get('Id'), (String)opportunity.id);

@@ -202,7 +202,7 @@ global with sharing class restService {
         List<SBQQ__Quote__c> listOfQuoteRecords = new List<SBQQ__Quote__c>();
         Set<String> listOfQuoteFields = getAccessableFieldsByObject('SBQQ__Quote__c');
         if(!listOfOrderRecordQuoteId.isEmpty()) {
-            String quoteQuery = 'SELECT '+ String.join(((Iterable<String>)listOfQuoteFields), ',')+' FROM SBQQ__Quote__c WHERE Id IN :listOfOrderRecordQuoteId WITH SECURITY_ENFORCED LIMIT 1 ';
+            String quoteQuery = 'SELECT '+ String.join(((Iterable<String>)listOfQuoteFields), ',')+' FROM SBQQ__Quote__c WHERE Id IN :listOfOrderRecordQuoteId WITH SECURITY_ENFORCED';
             listOfQuoteRecords = Database.query(quoteQuery);
         }
 
@@ -212,9 +212,11 @@ global with sharing class restService {
             for(Map<String, Object> orderRecordMap : listOforderRecordMapRecords) {
                 List<Object> relatedQuoteRecordIdList = new List<Object>();
                 for(SObject quoteRecord : listOfQuoteRecords) {
-                    Map<String, Object> quoteRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(quoteRecord));
-                    listOfQuoteRecordMaps.add(quoteRecordMap); 
-                    relatedQuoteRecordIdList.add(quoteRecordMap.get('Id'));
+                    if(orderRecordMap.get('SBQQ__Quote__c') == quoteRecord.get('Id')) {
+                        Map<String, Object> quoteRecordMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(quoteRecord));
+                        listOfQuoteRecordMaps.add(quoteRecordMap); 
+                        relatedQuoteRecordIdList.add(quoteRecordMap.get('Id'));
+                    }
                 }
                 //adds list of the related quote ID to orderRecords
                 orderRecordMap.put('Quotes',(Object)relatedQuoteRecordIdList);
@@ -242,14 +244,13 @@ global with sharing class restService {
                 if(modifiedQuoteRecordMap != null || !modifiedQuoteRecordMap.isEmpty())responseJsonPayloadRecords.add((Object)modifiedQuoteRecordMap);
             }
         }
-        
         return listOforderRecordMapRecords;
     }
 
     //gets all related order item records and related child records that we care about
     private static Set<Map<String,Object>> getRelatedOrderItemRecordsById(Set<Map<String, Object>> listOfOrderRecordMapRecords, Set<String> listOfOrderItemFields, Set<String> listOfOrderIds) {
         //get related order Items based on the Ids in the order record list
-        String orderItemQuery = 'SELECT '+ String.join(((Iterable<String>)listOfOrderItemFields), ',') + ' FROM OrderItem WHERE OrderId IN :listOfOrderIds WITH SECURITY_ENFORCED LIMIT 1';
+        String orderItemQuery = 'SELECT '+ String.join(((Iterable<String>)listOfOrderItemFields), ',') + ' FROM OrderItem WHERE OrderId IN :listOfOrderIds WITH SECURITY_ENFORCED';
         List<OrderItem> listOfOrderItemData = Database.query(orderItemQuery);
 
         /*used to build list of order items and add a list of lookup Ids to each order item record based on 
@@ -261,14 +262,16 @@ global with sharing class restService {
             //create list to get all Order Item Ids that are related to the Order record passed in
             Set<String> listOfOrderItemIds = new Set<String>();
             for(SObject orderItem : listOfOrderItemData) {
-                //convert order item record to map so we can add related record Ids to it if they exist
-                Map<String, Object> orderItemMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(orderItem));
+                if(orderRecordId == orderItem.get('OrderId')) {
+                    //convert order item record to map so we can add related record Ids to it if they exist
+                    Map<String, Object> orderItemMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(orderItem));
 
-                //add each related order item id to a list to put in order record at the end
-                listOfOrderItemIds.add(string.valueOf(orderItemMap.get('Id'))); 
+                    //add each related order item id to a list to put in order record at the end
+                    listOfOrderItemIds.add(string.valueOf(orderItemMap.get('Id'))); 
 
-                //add each related order item to list
-                listOfOrderItemRecordMapRecords.add(orderItemMap);
+                    //add each related order item to list
+                    listOfOrderItemRecordMapRecords.add(orderItemMap);
+                }
             }
             orderRecord.put('OrderItems',(Object)listOfOrderItemIds);
         }
@@ -305,17 +308,14 @@ global with sharing class restService {
 
         return listOfOrderRecordMapRecords;
     }
-    
 
     /* this function gets the related records based on the list of records, object API name and lookupfield passed in.
     We then add a list of Ids with the corresponding plural object name to each record passed in and return to 
     calling function for insertion into the payload */
     private static Set<Map<String, Object>> addRelatedRecordToPayload(Set<Map<String, Object>> listOfOrderRecordMapRecords, String objectApiName, String LookupField) {
-        
-        
-
          //gets list of all fields we have access to for an object
         Set<String> listOfObjectFields = getAccessableFieldsByObject(objectApiName);
+
         if(!listOfObjectFields.isEmpty()) {
             //build list of lookup Ids based on lookup field name passed in from the list of records passed in
             Set<String> listOfOrderRecordIds = new Set<String>();
@@ -335,8 +335,8 @@ global with sharing class restService {
                         //list to related record Ids to populate and add per order record 
                         Set<String> listOfRelatedRecordsIds = new Set<String> ();
                         for(SObject relatedRecord : listOfRelatedRecordData) { 
-                            String orderRecordId = (String)orderRecord.get(LookupField);
-                            if(orderRecordId == relatedRecord.get('Id')){
+                            String orderRecordLookupId = (String)orderRecord.get(LookupField);
+                            if(orderRecordLookupId == relatedRecord.get('Id')){
                                 if(relatedRecord != null)responseJsonPayloadRecords.add((Object)relatedRecord);
                                 listOfRelatedRecordsIds.add(string.valueOf(relatedRecord.get('Id'))); 
                             }
@@ -380,7 +380,6 @@ global with sharing class restService {
                 }
             }
         }
-    
         return listOfOrderRecordMapRecords;
     }
 
