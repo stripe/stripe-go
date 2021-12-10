@@ -1,0 +1,25 @@
+.stripe-table_mapping.slds-table_bordered, 
+.stripe-table_metadata.slds-table_bordered {
+    border-bottom: none;
+}
+
+.stripe-table_mapping thead th,
+.stripe-table_metadata thead th {
+    background-color: #fafaf9;
+    color: #514f4d;
+}
+
+.stripe-table_mapping thead th {
+    width: 50%;
+}
+
+.stripe-table_mapping.slds-table td,
+.stripe-table_metadata.slds-table td  {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.stripe-table_mapping.slds-table td {
+    white-space: normal;
+    vertical-align: top;
+}
