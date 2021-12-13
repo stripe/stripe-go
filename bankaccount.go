@@ -44,19 +44,17 @@ const (
 // some unusual logic on creates that necessitates manual handling of all
 // parameters. See AppendToAsSourceOrExternalAccount.
 type BankAccountParams struct {
-	Params `form:"*"`
-
+	Params   `form:"*"`
+	Customer *string `form:"-"`
 	// Account is the identifier of the parent account under which bank
 	// accounts are nested.
-	Account *string `form:"-"`
-
+	Account            *string `form:"-"`
 	AccountHolderName  *string `form:"account_holder_name"`
 	AccountHolderType  *string `form:"account_holder_type"`
-	AccountType        *string `form:"account_type"`
 	AccountNumber      *string `form:"account_number"`
+	AccountType        *string `form:"account_type"`
 	Country            *string `form:"country"`
 	Currency           *string `form:"currency"`
-	Customer           *string `form:"-"`
 	DefaultForCurrency *bool   `form:"default_for_currency"`
 	RoutingNumber      *string `form:"routing_number"`
 

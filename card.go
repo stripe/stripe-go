@@ -74,23 +74,23 @@ const cardSource = "source"
 // of all parameters. See AppendToAsCardSourceOrExternalAccount.
 type CardParams struct {
 	Params             `form:"*"`
-	Account            *string `form:"-"`
-	AccountType        *string `form:"account_type"`
-	AddressCity        *string `form:"address_city"`
-	AddressCountry     *string `form:"address_country"`
-	AddressLine1       *string `form:"address_line1"`
-	AddressLine2       *string `form:"address_line2"`
-	AddressState       *string `form:"address_state"`
-	AddressZip         *string `form:"address_zip"`
-	CVC                *string `form:"cvc"`
-	Currency           *string `form:"currency"`
-	Customer           *string `form:"-"`
-	DefaultForCurrency *bool   `form:"default_for_currency"`
-	ExpMonth           *string `form:"exp_month"`
-	ExpYear            *string `form:"exp_year"`
-	Name               *string `form:"name"`
-	Number             *string `form:"number"`
-	Token              *string `form:"-"`
+	Account            *string          `form:"-"`
+	Customer           *string          `form:"-"`
+	Token              *string          `form:"-"`
+	AccountType        *string          `form:"account_type"`
+	AddressCity        *string          `form:"address_city"`
+	AddressCountry     *string          `form:"address_country"`
+	AddressLine1       *string          `form:"address_line1"`
+	AddressLine2       *string          `form:"address_line2"`
+	AddressState       *string          `form:"address_state"`
+	AddressZip         *string          `form:"address_zip"`
+	Currency           *string          `form:"currency"`
+	CVC                *string          `form:"cvc"`
+	DefaultForCurrency *bool            `form:"default_for_currency"`
+	ExpMonth           *string          `form:"exp_month"`
+	ExpYear            *string          `form:"exp_year"`
+	Name               *string          `form:"name"`
+	Number             *string          `form:"number"`
 
 	// ID is used when tokenizing a card for shared customers
 	ID string `form:"*"`
@@ -208,38 +208,33 @@ type Card struct {
 	AddressZipCheck        CardVerification            `json:"address_zip_check"`
 	AvailablePayoutMethods []CardAvailablePayoutMethod `json:"available_payout_methods"`
 	Brand                  CardBrand                   `json:"brand"`
-	CVCCheck               CardVerification            `json:"cvc_check"`
 	Country                string                      `json:"country"`
 	Currency               Currency                    `json:"currency"`
 	Customer               *Customer                   `json:"customer"`
+	CVCCheck               CardVerification            `json:"cvc_check"`
 	DefaultForCurrency     bool                        `json:"default_for_currency"`
 	Deleted                bool                        `json:"deleted"`
-
 	// Description is a succinct summary of the card's information.
 	//
 	// Please note that this field is for internal use only and is not returned
 	// as part of standard API requests.
-	Description string `json:"description"`
-
+	Description  string      `json:"description"`
 	DynamicLast4 string      `json:"dynamic_last4"`
 	ExpMonth     uint8       `json:"exp_month"`
 	ExpYear      uint16      `json:"exp_year"`
 	Fingerprint  string      `json:"fingerprint"`
 	Funding      CardFunding `json:"funding"`
 	ID           string      `json:"id"`
-
 	// IIN is the card's "Issuer Identification Number".
 	//
 	// Please note that this field is for internal use only and is not returned
 	// as part of standard API requests.
 	IIN string `json:"iin"`
-
 	// Issuer is a bank or financial institution that provides the card.
 	//
 	// Please note that this field is for internal use only and is not returned
 	// as part of standard API requests.
-	Issuer string `json:"issuer"`
-
+	Issuer             string                 `json:"issuer"`
 	Last4              string                 `json:"last4"`
 	Metadata           map[string]string      `json:"metadata"`
 	Name               string                 `json:"name"`
