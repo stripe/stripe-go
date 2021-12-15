@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.80.0 - 2021-12-15
+* [#1391](https://github.com/stripe/stripe-go/pull/1391) API Updates
+  * Add support for new resource `PaymentIntentTypeSpecificPaymentMethodOptionsClient`
+  * Add support for `SetupFutureUsage` on `PaymentIntentPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCardParams`, `PaymentIntentConfirmPaymentMethodOptionsCardParams`, and `PaymentIntentPaymentMethodOptionsCard`
+
 ## 72.79.0 - 2021-12-09
 * [#1390](https://github.com/stripe/stripe-go/pull/1390) API Updates
   * Add support for `Metadata` on `BillingPortalConfiguration`
