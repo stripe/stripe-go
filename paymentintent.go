@@ -115,6 +115,20 @@ const (
 	PaymentIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge_only"
 )
 
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+//
+// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsCardSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsCardSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "none"
+	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "off_session"
+	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "on_session"
+)
+
 type PaymentIntentPaymentMethodOptionsWechatPayClient string
 
 // List of values that PaymentIntentPaymentMethodOptionsWechatPayClient can take
@@ -301,6 +315,7 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 	MOTO                *bool                                                    `form:"moto"`
 	Network             *string                                                  `form:"network"`
 	RequestThreeDSecure *string                                                  `form:"request_three_d_secure"`
+	SetupFutureUsage    *string                                                  `form:"setup_future_usage"`
 }
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
@@ -565,6 +580,7 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 	Installments        *PaymentIntentPaymentMethodOptionsCardInstallments       `json:"installments"`
 	Network             PaymentMethodCardNetwork                                 `json:"network"`
 	RequestThreeDSecure PaymentIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
+	SetupFutureUsage    PaymentIntentPaymentMethodOptionsCardSetupFutureUsage    `json:"setup_future_usage"`
 }
 
 // PaymentIntentPaymentMethodOptionsCardPresent is the set of Card Present-specific options associated
