@@ -90,7 +90,7 @@ module StripeForce
     end
 
     def sf_subdomain
-      URI.parse(T.must(salesforce_instance_url))&.host&.split('.')&.first
+      URI.parse(T.must(salesforce_instance_url)).host&.split('.')&.first
     end
 
     def sf_endpoint
