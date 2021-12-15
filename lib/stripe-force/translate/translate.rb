@@ -28,8 +28,11 @@ class StripeForce::Translate
   end
 
   def translate(sf_object)
-    if sf_object.sobject_type == SF_ORDER
+    case sf_object.sobject_type
+    when SF_ORDER
       translate_order(sf_object)
+    when SF_PRODUCT
+      translate_product(sf_object)
     else
       raise 'only order translation is supported right now'
     end
@@ -39,6 +42,10 @@ class StripeForce::Translate
     log.info 'translating order'
 
     create_stripe_transaction_from_sf_order(sf_object)
+  end
+
+  def translate_product(sf_product)
+    create_product_from_sf_product(sf_product)
   end
 
   def sf_metadata(sf_object)
@@ -80,7 +87,7 @@ class StripeForce::Translate
       raise if e.code != 'resource_missing'
     end
 
-    Stripe::Product.create({
+    stripe_product = Stripe::Product.create({
       # TODO setting custom Ids may not be the best idea here
       id: sf_product.Id,
       name: sf_product.Name,
@@ -88,7 +95,9 @@ class StripeForce::Translate
       metadata: sf_metadata(sf_product),
     }, @user.stripe_credentials)
 
-    # TODO update SF ID
+    sf.update!(SF_PRODUCT, 'Id' => sf_product.Id, GENERIC_STRIPE_ID => stripe_product.id)
+
+    stripe_product
   end
 
   # TODO this is defined globally in SF and needs to be pulled dynamically
