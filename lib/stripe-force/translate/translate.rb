@@ -61,7 +61,7 @@ class StripeForce::Translate
     sf_quote = sf.find(CPQ_QUOTE, sf_order[CPQ_QUOTE])
     sf_opportunity = sf.find('Opportunity', sf_quote[CPQ_QUOTE_OPPORTUNITY])
 
-    stripe_customer_id = sf_opportunity[OPPORTUNITY_STRIPE_ID]
+    stripe_customer_id = sf_opportunity[GENERIC_STRIPE_ID]
     if !stripe_customer_id.nil?
       return Stripe::Customer.retrieve(stripe_customer_id, @user.stripe_credentials)
     end
@@ -75,7 +75,10 @@ class StripeForce::Translate
       metadata: sf_metadata(sf_opportunity),
     }, @user.stripe_credentials)
 
-    sf.update!('Opportunity', 'Id' => sf_opportunity.Id, OPPORTUNITY_STRIPE_ID => customer.id)
+    sf.update!('Opportunity', {
+      'Id' => sf_opportunity.Id,
+      GENERIC_STRIPE_ID => customer.id,
+    })
 
     customer
   end
@@ -237,7 +240,7 @@ class StripeForce::Translate
       return
     end
 
-    stripe_transaction_id = sf_order[ORDER_STRIPE_ID]
+    stripe_transaction_id = sf_order[GENERIC_STRIPE_ID]
     if !stripe_transaction_id.nil?
       log.info 'order already translated', stripe_resource_id: stripe_transaction_id
       return
@@ -317,7 +320,20 @@ class StripeForce::Translate
 
       # TODO should we propogate the metadata down to the subscription?
 
-      #
+      # TODO should we conditionally do this based on user config?
+      # TODO shluld we conditionally do this depending on if the user already has a payment method setup?
+
+      stripe_checkout_session = Stripe::Checkout::Session.create({
+        # TODO these will need to specified by the customer
+        success_url: 'https://example.com/success',
+        cancel_url: 'https://example.com/cancel',
+
+        customer: stripe_customer,
+        mode: 'setup',
+        payment_method_types: ['card'],
+      }, @user.stripe_credentials)
+
+      order_update_params[ORDER_SUBSCRIPTION_PAYMENT_LINK] = stripe_checkout_session.url
     else
       log.info 'no recurring items found, creating a one-time invoice'
 
@@ -334,9 +350,14 @@ class StripeForce::Translate
       order_update_params[ORDER_INVOICE_PAYMENT_LINK] = stripe_transaction.hosted_invoice_url
     end
 
-    log.info 'stripe txn created', stripe_resource_id: stripe_transaction.id
+    log.info 'stripe subscription or invoice created', stripe_resource_id: stripe_transaction.id
 
-    sf.update('Order', {'Id' => sf_order.Id, ORDER_STRIPE_ID => stripe_transaction.id}.merge(order_update_params))
+    sf.update!('Order', {
+      'Id' => sf_order.Id,
+      GENERIC_STRIPE_ID => stripe_transaction.id,
+    }.merge(order_update_params))
+
+    log.info 'sales order updated with stripe transaction', salesforce_resource: sf_order
 
     stripe_transaction
   end
