@@ -22,7 +22,6 @@ global without sharing class PostInstallClass implements InstallHandler {
 
             HttpResponse response =  utilities.makeCallout(route,'POST', JSON.serialize(body));
 
-            //parse response after confirming we got a 200 response code  
             Map<String, Object> errorBody; 
             if(response.getStatusCode() == 200) {                
                 Map<String, Object> setupConfigMap = new Map<String, Object> {
