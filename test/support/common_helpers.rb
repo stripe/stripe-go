@@ -74,6 +74,11 @@ module CommonHelpers
     Integrations::Metrics::Writer.instance.timer.shutdown
     Integrations::Metrics::Writer.instance.queue.clear
 
+    if respond_to?(:app)
+      T.bind(self, ApplicationIntegrationTest)
+      app.default_url_options[:mode] = "live"
+    end
+
     # output current test, useful for debugging which fail because of CI timeout limits
     T.bind(self, ActiveSupport::TestCase)
     puts self.location
