@@ -141,7 +141,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     # TODO add refresh to library
     sf_order = sf.find('Order', sf_order.Id)
 
-    stripe_id = sf_order[ORDER_STRIPE_ID]
+    stripe_id = sf_order[GENERIC_STRIPE_ID]
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
     customer = Stripe::Customer.retrieve(T.cast(subscription_schedule.customer, String), @user.stripe_credentials)
     # line = subscription.items.first
@@ -197,7 +197,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     # TODO add refresh to library
     sf_order = sf.find('Order', sf_order.Id)
 
-    stripe_id = sf_order[ORDER_STRIPE_ID]
+    stripe_id = sf_order[GENERIC_STRIPE_ID]
     invoice = Stripe::Invoice.retrieve(stripe_id, @user.stripe_credentials)
     customer = Stripe::Customer.retrieve(invoice.customer, @user.stripe_credentials)
     line = invoice.lines.first
