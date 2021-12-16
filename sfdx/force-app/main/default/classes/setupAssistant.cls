@@ -128,7 +128,7 @@ public with sharing class setupAssistant {
                     if(((Boolean)connectionStatus.get('stripe') == true) && ((Boolean)connectionStatus.get('salesforce') == true)) {
                         rd.put('isConnected','fresh');
                     } else {
-                        rd.put('isConnected',false);
+                        rd.put('isConnected','notConnected');
                     }
                     Map<String, Object> setupConfigMap = new Map<String, Object> {
                         'Salesforce_Connected__c' => setupData.Salesforce_Connected__c,

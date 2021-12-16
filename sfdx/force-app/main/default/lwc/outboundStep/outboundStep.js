@@ -12,10 +12,11 @@ export default class OutboundStep extends LightningElement {
     }
 
     stripeConnectedAppCallback(isCpqEnabled) {
+        const rubyServiceAuthOriginURI = 'https://stripe-force.herokuapp.com'
         if(isCpqEnabled === true) {
             this.validateConnectionStatus(true);
             this.postMessageListener = (event) => {
-                if(event.origin === 'https://stripe-force.herokuapp.com' && event.data === 'connectionSuccessful') {
+                if(event.origin === rubyServiceAuthOriginURI && event.data === 'connectionSuccessful') {
                     this.connectWindow.close()
                     this.validateConnectionStatus(false);
                 }  
@@ -29,8 +30,8 @@ export default class OutboundStep extends LightningElement {
     }
 
     connectToStripe() {
-        //let rubyAuthURI = 'https://stripe-force.herokuapp.com/auth/salesforce'; //production */
-        let rubyAuthURI = 'https://stripe-force.herokuapp.com/auth/salesforcesandbox'; //sandbox
+        //'https://stripe-force.herokuapp.com/auth/salesforce'; //production */
+        const rubyAuthURI = 'https://stripe-force.herokuapp.com/auth/salesforcesandbox'; //sandbox
         this.connectWindow = window.open(rubyAuthURI, '"_blank"');
     }
 
@@ -46,7 +47,10 @@ export default class OutboundStep extends LightningElement {
                 if(isConnected === 'fresh') {
                     this.isAuthComplete = true;
                     this.showToast('Authorization successfully completed', 'success');
-                } else if(isConnected === 'failed') {
+                } else if(isConnected === 'notConnected') {
+                    this.isAuthComplete = false;
+                    this.showToast('Your authorization expired, please reauthorize your stripe & salesforce accounts', 'error');
+                }else if(isConnected === 'failed') {
                     this.isAuthComplete = false;
                     this.showToast('Please refresh the page there was an error when checking your connection status', 'error');
                 } else if (isConnected === true) {
