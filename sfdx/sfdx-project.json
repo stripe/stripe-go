@@ -3,5 +3,5 @@
         "path": "force-app",
         "default": true
     }],
-    "sfdcLoginUrl" : "https://test.salesforce.com"
+    "sfdcLoginUrl" : "https://login.salesforce.com"
 }

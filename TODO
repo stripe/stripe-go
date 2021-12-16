@@ -1,16 +1,16 @@
 Next:
 
-- Pull over locker
-- Pull over error context
-- Pull over metrics
-- Pull over currency helpers
-- Pull over annotator
-- Pull over polling logic
+- validate incoming API key on all configuration requests
+- Status cache with sandbox, salesforce connection, stripe connection data, default currency
+- Separate order processing into a separate job
 - Separate redis connection for locker
 - Lograge for better rails logs
 - Implement amendment logic
+- resque pool
+- KMS
+- Validate
 
-- Future:
+Future:
 
 - web server timeout for 30s heroku? https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#timeout
 - maybe preload database connections here? https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server

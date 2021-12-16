@@ -6,6 +6,17 @@ https://stripe-force.herokuapp.com/auth/salesforce
 
 http://localhost:3100/
 
+# SalesForce
+
+## Connecting to a different org
+
+- `sfdx/sfdx-project.json` edit the `sfdcLoginUrl` to match the URL you are logging in against
+- `sfdx/.sfdx/sfdx-config.json` edit the `defaultdevhubusername` / `defaultusername` TODO confirm if this is needed
+
+## Pulling Custom Fields
+
+sfdx force:source:retrieve -m CustomField:Order.Stripe_Transaction_ID\_\_c
+
 # Development
 
 ## Helpful Scripts
@@ -30,3 +41,8 @@ http https://stripe-force.herokuapp.com/v1/configuration Salesforce-Account-Id:0
 
 - Strip out the logic which checks for where rubocop is located and add `bundle exec` to the command prefix
 - Start daemon in a separate terminal (`bundle exec rubocop-daemon start`)
+
+# Tests
+
+- `bundle exec rake` will run the entire test suite
+- `NO_RESCUE=1` to avoid autoloading pry-rescue in the test suite

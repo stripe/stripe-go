@@ -25,85 +25,86 @@ class Critic::OrderPollerTest < Critic::UnitTest
     initial_poll
   end
 
-  # it 'polls invoices and does not allow two polls to run at once' do
-  #   initial_poll = set_initial_poll_timestamp(SF_ORDER)
+  it 'polls invoices and does not allow two polls to run at once' do
+    skip("right now polling is handled directly in the poll initiator")
 
-  #   # stub_netsuite_batch_search_result(NetSuite::Records::Invoice)
+    initial_poll = set_initial_poll_timestamp(SF_ORDER)
 
-  #   StripeForce::Translate.expects(:perform).once.with do |*args|
-  #     # lock error should be raised if we try lock on another instance of the job
-  #     exception = assert_raises(StripeSuite::Errors::LockTimeout) do
-  #       NetsuitePollJob.work(@user, SuiteSync::InvoicePoller)
-  #     end
+    # stub_netsuite_batch_search_result(NetSuite::Records::Invoice)
 
-  #     # key is included in exception, and should include the job
-  #     # we were trying to lock, not the user key
-  #     assert_match("SuiteSync::InvoicePoller", exception.message)
+    StripeForce::Translate.expects(:perform).once.with do |*args|
+      # lock error should be raised if we try lock on another instance of the job
+      exception = assert_raises(Integrations::Errors::LockTimeout) do
+        NetsuitePollJob.work(@user, SuiteSync::InvoicePoller)
+      end
 
-  #     args[0].id == @user.id &&
-  #       args[1] == SuiteSync::InvoiceProcessor &&
-  #       args[2] == ns_record_id
-  #   end
+      # key is included in exception, and should include the job
+      # we were trying to lock, not the user key
+      assert_match("SuiteSync::InvoicePoller", exception.message)
 
-  #   NetsuitePollJob.work(@user, SuiteSync::InvoicePoller)
-  # end
+      args[0].id == @user.id &&
+        args[1] == SuiteSync::InvoiceProcessor &&
+        args[2] == ns_record_id
+    end
 
-  # it 'refreshes the poll lock if there are locks of records to process' do
-  #   inline_job_processing!
+    NetsuitePollJob.work(@user, SuiteSync::InvoicePoller)
+  end
 
-  #   initial_poll = set_initial_poll_timestamp(NetSuite::Records::Invoice)
+  it 'refreshes the poll lock if there are locks of records to process' do
+    skip("to implement after we split out the poll job into a separate resque job")
 
-  #   # lock is refreshed every 100 records
-  #   record_total = 105
-  #   stub_netsuite_batch_search_result(NetSuite::Records::Invoice, number_of_results: record_total)
+    inline_job_processing!
 
-  #   lock_key = nil
-  #   initial_lock_value = nil
-  #   final_lock_value = nil
-  #   queued_count = 0
+    initial_poll = set_initial_poll_timestamp(NetSuite::Records::Invoice)
 
-  #   NetsuiteProcessRecordJob.expects(:work).at_least_once.with do |*args|
-  #     # sleep for ~second to ensure the expiration time will change when refreshed
-  #     sleep 0.01
+    # lock is refreshed every 100 records
+    record_total = 105
+    stub_netsuite_batch_search_result(NetSuite::Records::Invoice, number_of_results: record_total)
 
-  #     queued_count += 1
+    lock_key = nil
+    initial_lock_value = nil
+    final_lock_value = nil
+    queued_count = 0
 
-  #     if queued_count == record_total
-  #       final_lock_value = redis.get(lock_key)
-  #     end
+    NetsuiteProcessRecordJob.expects(:work).at_least_once.with do |*args|
+      # sleep for ~second to ensure the expiration time will change when refreshed
+      sleep 0.01
 
-  #     # the first time `with` is run the poll job lock value would have already been set
-  #     # the key of the poll job lock key contains the poll job class, let's search redis keys
-  #     # for a poll job lock key and retrieve the expiration value to ensure it's refreshed
-  #     # later in the processing loop
-  #     if initial_lock_value.nil?
-  #       lock_key = redis.keys.detect {|k| k.include?('SuiteSync::InvoicePoller') }
-  #       initial_lock_value = redis.get(lock_key)
-  #     end
+      queued_count += 1
 
-  #     args[0].id == @user.id &&
-  #       args[1] == SuiteSync::InvoiceProcessor
-  #   end
+      if queued_count == record_total
+        final_lock_value = redis.get(lock_key)
+      end
 
-  #   NetsuitePollJob.work(@user, SuiteSync::InvoicePoller)
+      # the first time `with` is run the poll job lock value would have already been set
+      # the key of the poll job lock key contains the poll job class, let's search redis keys
+      # for a poll job lock key and retrieve the expiration value to ensure it's refreshed
+      # later in the processing loop
+      if initial_lock_value.nil?
+        lock_key = redis.keys.detect {|k| k.include?('SuiteSync::InvoicePoller') }
+        initial_lock_value = redis.get(lock_key)
+      end
 
-  #   refute_nil(initial_lock_value)
-  #   refute_nil(final_lock_value)
-  #   assert(final_lock_value > initial_lock_value)
-  # end
+      args[0].id == @user.id &&
+        args[1] == SuiteSync::InvoiceProcessor
+    end
 
-  # it 'does not run polls if netsuite credentials are invalid' do
-  #   @user.netsuite_email = 'bad-email@example.com'
-  #   @user.netsuite_password = 'bad-password'
+    NetsuitePollJob.work(@user, SuiteSync::InvoicePoller)
 
-  #   clear_token_based_auth(@user)
+    refute_nil(initial_lock_value)
+    refute_nil(final_lock_value)
+    assert(final_lock_value > initial_lock_value)
+  end
 
-  #   assert_equal(false, @user.status.valid_netsuite_credentials?(refresh: true))
+  it 'does not run polls if salesforce credentials are invalid' do
+    skip("implement after polling is in a separate job")
 
-  #   SuiteSync::InvoicePoller.expects(:perform).never
+    assert_equal(false, @user.status.valid_netsuite_credentials?(refresh: true))
 
-  #   NetsuitePollJob.work(@user, SuiteSync::InvoicePoller)
-  # end
+    SuiteSync::InvoicePoller.expects(:perform).never
+
+    NetsuitePollJob.work(@user, SuiteSync::InvoicePoller)
+  end
 
   # order poller is used for the remainder of the test suite since it is most commonly used
   describe 'basic test for all pollers' do
@@ -212,7 +213,7 @@ class Critic::OrderPollerTest < Critic::UnitTest
     end
   end
 
-  describe 'general tests using invoice poller' do
+  describe 'general tests using order poller' do
     it 'does not poll if no initial timestamp is set' do
       Restforce::Data::Client.any_instance.expects(:get_updated).never
 
@@ -224,95 +225,19 @@ class Critic::OrderPollerTest < Critic::UnitTest
     it 'polls if a timestamp is set' do
       initial_poll = set_initial_poll_timestamp(SF_ORDER)
 
-      stub_netsuite_batch_search_result(NetSuite::Records::Invoice)
+      Restforce::Data::Client.any_instance.expects(:get_updated).returns({"ids" => []})
 
-      NetsuiteProcessRecordJob.expects(:work).once
+      StripeForce::OrderPoller.perform(user: @user)
 
-      SuiteSync::InvoicePoller.perform(user: @user)
+      assert_equal(1, StripeForce::PollTimestamp.count)
 
-      assert_equal(1, SuiteSync::NetsuitePollTimestamp.count)
-
-      poll_timestamp = SuiteSync::NetsuitePollTimestamp.by_user_and_record(
+      poll_timestamp = StripeForce::PollTimestamp.by_user_and_record(
         @user,
-        NetSuite::Records::Invoice
+        SF_ORDER
       )
 
       assert(poll_timestamp.last_polled_at - initial_poll > initial_poll_delta)
-      assert_equal("NetSuite::Records::Invoice", poll_timestamp.netsuite_record_type)
-    end
-
-    it 'polls unpaid invoices if a timestamp is set' do
-      @user.enable_feature(:poll_paid_invoices)
-      set_initial_poll_timestamp(NetSuite::Records::Invoice)
-
-      # TODO why aren't we using the convenience method for stubbing here?
-
-      search_results = OpenStruct.new(
-        total_records: 1,
-        total_pages: 1,
-        page_index: 1
-      )
-
-      search_results.expects(:results_in_batches).twice.yields([NetSuite::Records::Invoice.new(internal_id: ns_record_id)])
-      NetSuite::Records::Invoice.expects(:search).twice.returns(search_results)
-
-      NetsuiteProcessRecordJob.expects(:work).twice
-
-      SuiteSync::InvoicePoller.perform(user: @user)
-
-      assert_equal(1, SuiteSync::NetsuitePollTimestamp.count)
-    end
-
-    # it 'polls credit memos if a timestamp is set'
-
-    it 'properly calculates the netsuite time drift' do
-      invoice_poller = SuiteSync::InvoicePoller.new(user: @user)
-      drift = invoice_poller.send(:netsuite_drift)
-
-      refute_nil(drift)
+      assert_equal(SF_ORDER, poll_timestamp.integration_record_type)
     end
   end
-
-  describe 'credit memo poller' do
-    it 'adjusts poll window by a delay amount' do
-      @user.netsuite_refund_delay = 60
-      @user.enable_feature(:poll_credit_memos)
-
-      initial_poll = set_initial_poll_timestamp(NetSuite::Records::CreditMemo)
-      current_time = DateTime.now
-
-      search_results = OpenStruct.new(
-        total_records: 1,
-        total_pages: 1,
-        page_index: 1
-      )
-
-      NetsuiteProcessRecordJob.expects(:work).once
-
-      # not using convience mocking method since we are mocking out the search
-
-      search_results.expects(:results_in_batches).once.yields([NetSuite::Records::CreditMemo.new(internal_id: ns_record_id)])
-      NetSuite::Records::CreditMemo.expects(:search).with do |criteria|
-        basic_criteria = criteria[:criteria][:basic]
-
-        within_criteria = basic_criteria.detect {|c| c[:field] == 'lastModifiedDate' && c[:operator] == 'within' }
-
-        refute_nil(within_criteria)
-
-        after_time = DateTime.parse(within_criteria[:value].first)
-        before_time = DateTime.parse(within_criteria[:value].last)
-
-        # 30s for drift & 15 second adjustment
-        poll_adjustment = initial_poll.to_i - after_time.to_i - @user.netsuite_refund_delay
-        assert(poll_adjustment < 30,
-          "poll adjustment (#{poll_adjustment}) is not within a reasonsable window. Most likely this is an intermittent NetSuite failure. " \
-          "but if it continues to occur it could indicate a bug (or that NetSuite is taking forever to accept a open TCP connection)."
-        )
-        assert((DateTime.now.to_i - before_time.to_i - @user.netsuite_refund_delay).abs < 1, "before window beyond reasonsable window")
-      end.returns(search_results)
-
-      SuiteSync::CreditMemoPoller.perform(user: @user)
-    end
-  end
-
 end

@@ -109,6 +109,8 @@ module Api
 
       @user = StripeForce::User.find(salesforce_account_id: salesforce_account_id)
 
+      # TODO validate incoming API key
+
       if @user.blank?
         log.warn 'invalid user ID specified', salesforce_account_id: salesforce_account_id
         head :not_found

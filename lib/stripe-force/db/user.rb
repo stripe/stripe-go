@@ -45,7 +45,7 @@ module StripeForce
       )
 
       # TODO should we conditionally do this?
-      # client.authenticate!
+      # @client.authenticate!
 
       @client
     end
