@@ -3,7 +3,7 @@
     <fullName>Stripe_ID__c</fullName>
     <externalId>true</externalId>
     <label>Stripe ID</label>
-    <length>200</length>
+    <length>255</length>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <type>Text</type>
