@@ -1,6 +1,6 @@
 global without sharing class PostInstallClass implements InstallHandler {
     global void onInstall(InstallContext context)  {
-        //grab packaged setup connection record with global API GUID for header
+        // grab packaged setup connection record with global API key used to communicate with the integration service
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
                                                             FROM Setup_Connection_Data__mdt
                                                             WITH SECURITY_ENFORCED
