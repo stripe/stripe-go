@@ -9,21 +9,9 @@ class Critic::ProductTranslation < Critic::FunctionalTest
     @locker = Integrations::Locker.new(@user)
   end
 
-  def sf_randomized_name(sf_object_name)
-    "REST Product #{DateTime.now}"
-  end
-
-  def create_salesforce_product
-    sf.create!(SF_PRODUCT,
-      "Name" => sf_randomized_name(SF_PRODUCT),
-      "Description" => "A great description",
-
-      # this field is an enum/picklist in SF
-      CPQ_PRODUCT_SUBSCRIPTION_TYPE => 'Renewable'
-    )
-  end
-
   it 'translates a subscription product' do
+    # TODO is product code a required field in SF?
+
     sf_product_id = create_salesforce_product
     sf_product = sf.find(SF_PRODUCT, sf_product_id)
 

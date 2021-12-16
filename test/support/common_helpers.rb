@@ -6,6 +6,7 @@ require_relative './salesforce_factory'
 module CommonHelpers
   include StripeForce::Constants
   include Critic::SalesforceFactory
+  include Kernel
 
   def sf_account_id
     ENV.fetch('SF_INSTANCE_ID')
@@ -77,6 +78,7 @@ module CommonHelpers
     Integrations::Metrics::Writer.instance.queue.clear
 
     # output current test, useful for debugging which fail because of CI timeout limits
+    T.bind(self, ActiveSupport::TestCase)
     puts self.location
   end
 
