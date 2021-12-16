@@ -11,7 +11,7 @@ global without sharing class PostInstallClass implements InstallHandler {
         if(!setupConfigList.isEmpty() && String.isBlank(setupConfigList[0].API_Key__c)) {
             Setup_Connection_Data__mdt setupData = setupConfigList[0];
 
-            //generate package GUID 
+            // generate unique key for this organization used to authenticate against the integration service
             Blob blb = Crypto.GenerateAESKey(128);
             String packageGuidKey = EncodingUtil.ConvertTohex(blb);
 
