@@ -120,6 +120,8 @@ class StripeForce::Translate
       raise 'unit prices between pricebook and order item should not be different'
     end
 
+    # TODO should be able to use the pricebook entries for these checks
+
     unless integer_quantity?(sf_order_item)
       # TODO need to think about taxes calculated in SF at this point
       raise 'float quantities are not yet supported'
@@ -158,6 +160,8 @@ class StripeForce::Translate
 
     optional_params = {}
 
+    # by omitting the recurring params it sets `type: one_time`
+    # this param cannot be set directly
     if recurring_item?(sf_order_item)
       optional_params[:recurring] = {
         interval: sf_cpq_term_interval,
@@ -188,11 +192,6 @@ class StripeForce::Translate
       # using a `lookup_key` here would allow users to easily update prices
       # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
 
-      # by omitting the recurring params it sets `type: one_time`
-      # you cannot set this param directly
-
-      # recurring: {interval: 'month'},
-
       metadata: sf_metadata(sf_pricebook_entry),
     }.merge(optional_params), @user.stripe_credentials)
 
@@ -210,8 +209,8 @@ class StripeForce::Translate
   end
 
   def recurring_item?(sf_order_item)
-    # TODO unsure why ChargeType is nil?
-    !sf_order_item.SBQQ__ChargeType__c.nil? || !sf_order_item.SBQQ__SubscriptionType__c.nil?
+    # TODO unsure why ChargeType is nil? do we actually need to check this?
+    !sf_order_item.SBQQ__ChargeType__c.nil? || !sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TYPE].nil?
   end
 
   def integer_quantity?(sf_order_item)
@@ -317,6 +316,8 @@ class StripeForce::Translate
       }, @user.stripe_credentials)
 
       # TODO should we propogate the metadata down to the subscription?
+
+      #
     else
       log.info 'no recurring items found, creating a one-time invoice'
 
