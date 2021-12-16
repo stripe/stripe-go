@@ -33,3 +33,8 @@ end
 class StripeForce::User
   def self.find_or_new(*args); end
 end
+
+class Restforce::SObject
+  # this is inherited from Mash, I don't know why sorbet isn't picking this up
+  def initialize(source_hash = nil, client = nil, default = nil, &blk); end
+end
