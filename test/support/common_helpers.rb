@@ -18,7 +18,7 @@ module CommonHelpers
 
       salesforce_account_id: sf_account_id,
       salesforce_token: ENV.fetch('SF_ACCESS_TOKEN'),
-      salesforce_refresh_token: ENV.fetch('SF_REFRESH_TOKEN'),
+      salesforce_refresh_token: ENV['SF_REFRESH_TOKEN'],
       salesforce_instance_url: "https://#{ENV.fetch('SF_INSTANCE_DOMAIN')}.my.salesforce.com",
 
       stripe_account_id: if random_user_id
