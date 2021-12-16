@@ -86,7 +86,7 @@ jobs:
     - image: circleci/redis:6.2.3
 
     steps:
-    - browser-tools/install-browser-tools
+    - browser-tools/install-chromedriver
     - checkout
     - run:
         working_directory: ~/stripe-netsuite
