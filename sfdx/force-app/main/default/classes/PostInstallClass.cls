@@ -15,7 +15,6 @@ global without sharing class PostInstallClass implements InstallHandler {
             Blob blb = Crypto.GenerateAESKey(128);
             String packageGuidKey = EncodingUtil.ConvertTohex(blb);
 
-            //create request
             String route = constants.RUBY_SERVICE_BASE_URI+'post-install';
             Map<String, Object> body = new Map<String, Object>{
                 'key' => packageGuidKey
