@@ -53,7 +53,7 @@ jobs:
       - run: bundle exec rubocop
   build:
     working_directory: ~/stripe-netsuite
-    parallelism: 23
+    parallelism: 1
     shell: /bin/bash --login
     environment:
       CIRCLE_ARTIFACTS: /tmp/artifacts
