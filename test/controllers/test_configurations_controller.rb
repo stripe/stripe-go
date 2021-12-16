@@ -66,7 +66,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       post api_post_install_path, params: { key: api_key }, as: :json, headers: { Api::Controller::SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
 
       assert_equal(1, StripeForce::User.count)
-      user = StripeForce::User.first
+      user = T.must(StripeForce::User.first)
 
       assert_equal(sf_account_id, user.salesforce_account_id)
       assert_equal(api_key, user.salesforce_organization_key)
@@ -140,7 +140,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
 
       result = parsed_json
 
-      @user = StripeForce::User[@user.id]
+      @user = T.must(StripeForce::User[@user.id])
 
       assert_equal(@user.field_mappings, updated_field_mapping)
       assert_equal(@user.field_defaults, updated_field_defaults)
