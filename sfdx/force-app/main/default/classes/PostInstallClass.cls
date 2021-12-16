@@ -28,7 +28,7 @@ global without sharing class PostInstallClass implements InstallHandler {
                     'API_Key__c' => packageGuidKey
                 };
 
-                //save package GUID in protected custom metadata
+                // save package GUID in protected custom metadata, which prevents other SF code from inspecting this value
                 metadataCRUD.saveSetupConfigData(setupConfigMap, 'Setup_Connection_Data__mdt.Default');
             } else {
 
