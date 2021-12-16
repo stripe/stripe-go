@@ -28,11 +28,8 @@ module CommonHelpers
       end
     )
 
-    # TODO major hack until we figure out what we are doing with snadboxes
+    # TODO major hack until we figure out what we are doing with sandboxes
     user.instance_variable_set('@sandbox', sandbox)
-    def user.sandbox?
-      @sandbox
-    end
 
     user.save if save
 
