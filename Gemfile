@@ -57,7 +57,7 @@ group :test do
   gem 'bundler-audit', '~> 0.9.0.1', require: false
   gem 'brakeman', '~> 5.1.2', require: false
 
-  gem 'minitest', '~> 5.14.4'
+  gem 'minitest', '~> 5.15.0'
   gem 'minitest-ci', '~> 3.4.0'
   gem 'minitest-profile'
   gem 'minitest-reporters', '~> 1.4.2'
