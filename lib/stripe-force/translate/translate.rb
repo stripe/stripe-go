@@ -110,7 +110,11 @@ class StripeForce::Translate
     sf_product = sf.find(SF_PRODUCT, sf_order_item.Product2Id)
     product = create_product_from_sf_product(sf_product)
 
-    sf_pricebook_entry = sf.find('PricebookEntry', sf_order_item.PricebookEntryId)
+    sf_pricebook_entry = sf.find(SF_PRICEBOOK_ENTRY, sf_order_item.PricebookEntryId)
+
+    if sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TERM] != sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TERM]
+      raise 'subscription term differs between pricebook and order item'
+    end
 
     if sf_pricebook_entry.UnitPrice != sf_order_item.UnitPrice
       raise 'unit prices between pricebook and order item should not be different'
@@ -130,7 +134,7 @@ class StripeForce::Translate
     unit_price_for_stripe = normalize_float_amount_for_stripe(sf_pricebook_entry.UnitPrice.to_s, @user)
 
     # have we already pushed this to Stripe?
-    stripe_price_id = sf_pricebook_entry[PRICE_BOOK_STRIPE_ID]
+    stripe_price_id = sf_pricebook_entry[GENERIC_STRIPE_ID]
     if stripe_price_id.present?
       log.info 'price already pushed, retrieving from stripe', stripe_resource_id: stripe_price_id
 
@@ -158,6 +162,13 @@ class StripeForce::Translate
       optional_params[:recurring] = {
         interval: sf_cpq_term_interval,
       }
+
+      if sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TERM].nil?
+        log.error 'no subscription term specified', salesforce_record: sf_order_item
+      else
+        # TODO need to some input validation here
+        optional_params[:interval_count] = sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TERM]
+      end
     end
 
     log.info 'creating price in stripe', sf_resource: sf_pricebook_entry
@@ -190,7 +201,10 @@ class StripeForce::Translate
     price.dirty!
     price.save
 
-    sf.update!('PricebookEntry', 'Id' => sf_pricebook_entry.Id, PRICE_BOOK_STRIPE_ID => price.id)
+    sf.update!(SF_PRICEBOOK_ENTRY,
+      'Id' => sf_pricebook_entry.Id,
+      GENERIC_STRIPE_ID => price.id
+    )
 
     price
   end
