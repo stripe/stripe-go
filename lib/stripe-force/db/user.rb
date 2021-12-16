@@ -59,8 +59,7 @@ module StripeForce
     def sandbox?
       # TODO cache this state in a status service or something
       # [SELECT IsSandbox FROM Organization]
-      @sandbox ||= true
-      @sandbox
+      !!@sandbox
     end
 
     def in_production?

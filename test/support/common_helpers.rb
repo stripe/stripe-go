@@ -7,11 +7,13 @@ module CommonHelpers
   include StripeForce::Constants
   include Critic::SalesforceFactory
   include Kernel
+  extend T::Sig
 
   def sf_account_id
     ENV.fetch('SF_INSTANCE_ID')
   end
 
+  sig { params(sandbox: T::Boolean, save: T::Boolean, random_user_id: T::Boolean).returns(StripeForce::User)}
   def make_user(sandbox: false, save: false, random_user_id: false)
     user = StripeForce::User.new(
       livemode: false,
