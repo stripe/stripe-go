@@ -71,6 +71,8 @@ jobs:
       RAILS_ENV: test
       RACK_ENV: test
       DISABLE_SPRING: 'true'
+      SF_INSTANCE_ID: 00D5e000003V0C7EAK
+      SF_INSTANCE_DOMAIN: biancodevorg-dev-ed
     # TODO possibly use the heroku image instead?
     docker:
       # replace `:.*` with `@sha256:THE_SHA` to lock the build to a specific container SHA
