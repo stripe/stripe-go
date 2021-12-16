@@ -20,7 +20,6 @@ global without sharing class PostInstallClass implements InstallHandler {
                 'key' => packageGuidKey
             };
 
-            //send request
             HttpResponse response =  utilities.makeCallout(route,'POST', JSON.serialize(body));
 
             //parse response after confirming we got a 200 response code  
