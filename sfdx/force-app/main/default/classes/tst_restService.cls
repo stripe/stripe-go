@@ -135,7 +135,13 @@ public with sharing class tst_restService {
             ServiceDate = system.today() + 4,
             EndDate = system.today() + 14
         );
-        insert orderItem2;
+        //this is an order ammendment
+        orderItem2.Quantity = 80;
+        orderItem2.UnitPrice = 500;
+        upsert orderItem2;
+
+        
+        
         
         //make mock request
         List<String> listOfOrderIds = new List<String>{(String)order.id};
@@ -148,9 +154,9 @@ public with sharing class tst_restService {
         RestContext.request = request;
         RestContext.response = new RestResponse();
         RestResponse response = RestContext.response;
-        Test.startTest(); 
+
         restService.restServiceEvents();
-        Test.stopTest();
+
         Map<String, Object> parsedReqBody = (Map<String, Object>)JSON.deserializeUntyped(response.responseBody.toString());
         List<Object> records = (List<Object>)parsedReqBody.get('records');
         
@@ -212,8 +218,9 @@ public with sharing class tst_restService {
                             System.assertEquals((String)recordMap.get('Id'), (String)orderItem2.id);
                             System.assertEquals((String)recordMap.get('OrderId'), (String)order2.id);
                             System.assertEquals((String)recordMap.get('PricebookEntryId'), (String)standardPrice.id);
-                            System.assertEquals(recordMap.get('Quantity'), 24);
-                            System.assertEquals(recordMap.get('UnitPrice'), 240);
+                            //checking that we get the updated quantity and price 
+                            System.assertEquals(recordMap.get('Quantity'), 80);
+                            System.assertEquals(recordMap.get('UnitPrice'), 500);
                             System.assertEquals((String)recordMap.get('ServiceDate'), string.valueOf(system.today() + 4));
                             System.assertEquals((String)recordMap.get('EndDate'), string.valueOf(system.today() + 14));
                             List<Object> Products = (List<Object>)recordMap.get('Products');
