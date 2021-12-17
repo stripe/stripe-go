@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 # typed: false
 
-Rack::Attack.enabled = true
+Rack::Attack.enabled = false
 
 class Rack::Attack
   THROTTLED_CONTROLLERS = %w{

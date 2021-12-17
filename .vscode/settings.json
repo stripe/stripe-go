@@ -2,6 +2,7 @@
   "ruby.rubocop.onSave": true,
   // "ruby.rubocop.useBundler": true,
   "ruby.rubocop.executePath": "/Users/mbianco/stripe/stripe-force/bin/rubocop-daemon-wrapper/",
+  // "editor.formatOnSaveTimeout": 1000,
   "editor.formatOnSave": true,
   "cSpell.ignorePaths":[
     "node_modules",

@@ -168,7 +168,7 @@ class SessionsControllerTest < ApplicationIntegrationTest
 
     assert_match(%r{/auth/stripe$}, response.headers['Location'])
 
-    user = StripeForce::User[user.id]
+    user = T.must(StripeForce::User[user.id])
 
     assert_equal(1, StripeForce::User.count)
 

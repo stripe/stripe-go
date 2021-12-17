@@ -23,6 +23,7 @@ public with sharing class responseData {
         results.put(key, val);
     }
 
+    //removes extra underscores that are typically appended to the end of the namespace
     public String getJsonString() {
         String jsonString = JSON.serialize(this);
         return jsonString.replaceAll('"' + constants.NAMESPACE_API + '([a-zA-Z0-9_]+?__(c|r))":', '"$1":');

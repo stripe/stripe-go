@@ -22,6 +22,8 @@
 inherit_from:
   - .rubocop_todo.yml
 
+require: rubocop-minitest
+
 inherit_mode:
   merge:
   - Exclude
@@ -54,6 +56,36 @@ AllCops:
 ########################################################
 Style:
   Severity: error
+
+############################################################
+# Open Source Pending
+
+Minitest/AssertInDelta:
+  Enabled: true
+Minitest/AssertionInLifecycleHook:
+  Enabled: true
+Minitest/AssertKindOf:
+  Enabled: true
+Minitest/AssertOutput:
+  Enabled: true
+Minitest/AssertPathExists:
+  Enabled: true
+Minitest/AssertSilent:
+  Enabled: true
+Minitest/LiteralAsActualArgument:
+  Enabled: true
+Minitest/MultipleAssertions:
+  Enabled: true
+Minitest/RefuteInDelta:
+  Enabled: true
+Minitest/RefuteKindOf:
+  Enabled: true
+Minitest/RefutePathExists:
+  Enabled: true
+Minitest/TestMethodName:
+  Enabled: true
+Minitest/UnspecifiedException:
+  Enabled: true
 
 ############################################################
 # Open Source Pending

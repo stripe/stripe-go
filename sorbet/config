@@ -4,5 +4,3 @@
 vendor/bundle
 --ignore
 node_modules
---ignore
-test/

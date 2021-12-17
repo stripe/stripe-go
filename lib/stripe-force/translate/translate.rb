@@ -28,8 +28,11 @@ class StripeForce::Translate
   end
 
   def translate(sf_object)
-    if sf_object.sobject_type == SF_ORDER
+    case sf_object.sobject_type
+    when SF_ORDER
       translate_order(sf_object)
+    when SF_PRODUCT
+      translate_product(sf_object)
     else
       raise 'only order translation is supported right now'
     end
@@ -39,6 +42,10 @@ class StripeForce::Translate
     log.info 'translating order'
 
     create_stripe_transaction_from_sf_order(sf_object)
+  end
+
+  def translate_product(sf_product)
+    create_product_from_sf_product(sf_product)
   end
 
   def sf_metadata(sf_object)
@@ -54,7 +61,7 @@ class StripeForce::Translate
     sf_quote = sf.find(CPQ_QUOTE, sf_order[CPQ_QUOTE])
     sf_opportunity = sf.find('Opportunity', sf_quote[CPQ_QUOTE_OPPORTUNITY])
 
-    stripe_customer_id = sf_opportunity[OPPORTUNITY_STRIPE_ID]
+    stripe_customer_id = sf_opportunity[GENERIC_STRIPE_ID]
     if !stripe_customer_id.nil?
       return Stripe::Customer.retrieve(stripe_customer_id, @user.stripe_credentials)
     end
@@ -68,7 +75,10 @@ class StripeForce::Translate
       metadata: sf_metadata(sf_opportunity),
     }, @user.stripe_credentials)
 
-    sf.update!('Opportunity', 'Id' => sf_opportunity.Id, OPPORTUNITY_STRIPE_ID => customer.id)
+    sf.update!('Opportunity', {
+      'Id' => sf_opportunity.Id,
+      GENERIC_STRIPE_ID => customer.id,
+    })
 
     customer
   end
@@ -80,7 +90,7 @@ class StripeForce::Translate
       raise if e.code != 'resource_missing'
     end
 
-    Stripe::Product.create({
+    stripe_product = Stripe::Product.create({
       # TODO setting custom Ids may not be the best idea here
       id: sf_product.Id,
       name: sf_product.Name,
@@ -88,7 +98,9 @@ class StripeForce::Translate
       metadata: sf_metadata(sf_product),
     }, @user.stripe_credentials)
 
-    # TODO update SF ID
+    sf.update!(SF_PRODUCT, 'Id' => sf_product.Id, GENERIC_STRIPE_ID => stripe_product.id)
+
+    stripe_product
   end
 
   # TODO this is defined globally in SF and needs to be pulled dynamically
@@ -101,11 +113,17 @@ class StripeForce::Translate
     sf_product = sf.find(SF_PRODUCT, sf_order_item.Product2Id)
     product = create_product_from_sf_product(sf_product)
 
-    sf_pricebook_entry = sf.find('PricebookEntry', sf_order_item.PricebookEntryId)
+    sf_pricebook_entry = sf.find(SF_PRICEBOOK_ENTRY, sf_order_item.PricebookEntryId)
 
-    if sf_pricebook_entry.UnitPrice != sf_order_item.UnitPrice
-      raise 'unit prices between pricebook and order item should not be different'
+    if sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TERM] != sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TERM]
+      raise 'subscription term differs between pricebook and order item'
     end
+
+    # if sf_pricebook_entry.UnitPrice != sf_order_item.UnitPrice
+    #   raise 'unit prices between pricebook and order item should not be different'
+    # end
+
+    # TODO should be able to use the pricebook entries for these checks
 
     unless integer_quantity?(sf_order_item)
       # TODO need to think about taxes calculated in SF at this point
@@ -121,7 +139,7 @@ class StripeForce::Translate
     unit_price_for_stripe = normalize_float_amount_for_stripe(sf_pricebook_entry.UnitPrice.to_s, @user)
 
     # have we already pushed this to Stripe?
-    stripe_price_id = sf_pricebook_entry[PRICE_BOOK_STRIPE_ID]
+    stripe_price_id = sf_pricebook_entry[GENERIC_STRIPE_ID]
     if stripe_price_id.present?
       log.info 'price already pushed, retrieving from stripe', stripe_resource_id: stripe_price_id
 
@@ -145,10 +163,19 @@ class StripeForce::Translate
 
     optional_params = {}
 
+    # by omitting the recurring params it sets `type: one_time`
+    # this param cannot be set directly
     if recurring_item?(sf_order_item)
       optional_params[:recurring] = {
         interval: sf_cpq_term_interval,
       }
+
+      if sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TERM].nil?
+        log.error 'no subscription term specified', salesforce_record: sf_order_item
+      else
+        # TODO need to some input validation here
+        optional_params[:recurring][:interval_count] = sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TERM].to_i
+      end
     end
 
     log.info 'creating price in stripe', sf_resource: sf_pricebook_entry
@@ -168,11 +195,6 @@ class StripeForce::Translate
       # using a `lookup_key` here would allow users to easily update prices
       # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
 
-      # by omitting the recurring params it sets `type: one_time`
-      # you cannot set this param directly
-
-      # recurring: {interval: 'month'},
-
       metadata: sf_metadata(sf_pricebook_entry),
     }.merge(optional_params), @user.stripe_credentials)
 
@@ -181,14 +203,17 @@ class StripeForce::Translate
     price.dirty!
     price.save
 
-    sf.update!('PricebookEntry', 'Id' => sf_pricebook_entry.Id, PRICE_BOOK_STRIPE_ID => price.id)
+    sf.update!(SF_PRICEBOOK_ENTRY,
+      'Id' => sf_pricebook_entry.Id,
+      GENERIC_STRIPE_ID => price.id
+    )
 
     price
   end
 
   def recurring_item?(sf_order_item)
-    # TODO unsure why ChargeType is nil?
-    !sf_order_item.SBQQ__ChargeType__c.nil? || !sf_order_item.SBQQ__SubscriptionType__c.nil?
+    # TODO unsure why ChargeType is nil? do we actually need to check this?
+    !sf_order_item.SBQQ__ChargeType__c.nil? || !sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TYPE].nil?
   end
 
   def integer_quantity?(sf_order_item)
@@ -215,7 +240,7 @@ class StripeForce::Translate
       return
     end
 
-    stripe_transaction_id = sf_order[ORDER_STRIPE_ID]
+    stripe_transaction_id = sf_order[GENERIC_STRIPE_ID]
     if !stripe_transaction_id.nil?
       log.info 'order already translated', stripe_resource_id: stripe_transaction_id
       return
@@ -294,6 +319,21 @@ class StripeForce::Translate
       }, @user.stripe_credentials)
 
       # TODO should we propogate the metadata down to the subscription?
+
+      # TODO should we conditionally do this based on user config?
+      # TODO shluld we conditionally do this depending on if the user already has a payment method setup?
+
+      stripe_checkout_session = Stripe::Checkout::Session.create({
+        # TODO these will need to specified by the customer
+        success_url: 'https://example.com/success',
+        cancel_url: 'https://example.com/cancel',
+
+        customer: stripe_customer,
+        mode: 'setup',
+        payment_method_types: ['card'],
+      }, @user.stripe_credentials)
+
+      order_update_params[ORDER_SUBSCRIPTION_PAYMENT_LINK] = stripe_checkout_session.url
     else
       log.info 'no recurring items found, creating a one-time invoice'
 
@@ -310,9 +350,14 @@ class StripeForce::Translate
       order_update_params[ORDER_INVOICE_PAYMENT_LINK] = stripe_transaction.hosted_invoice_url
     end
 
-    log.info 'stripe txn created', stripe_resource_id: stripe_transaction.id
+    log.info 'stripe subscription or invoice created', stripe_resource_id: stripe_transaction.id
 
-    sf.update('Order', {'Id' => sf_order.Id, ORDER_STRIPE_ID => stripe_transaction.id}.merge(order_update_params))
+    sf.update!('Order', {
+      'Id' => sf_order.Id,
+      GENERIC_STRIPE_ID => stripe_transaction.id,
+    }.merge(order_update_params))
+
+    log.info 'sales order updated with stripe transaction', salesforce_resource: sf_order
 
     stripe_transaction
   end

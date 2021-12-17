@@ -6,18 +6,21 @@ require_relative './salesforce_factory'
 module CommonHelpers
   include StripeForce::Constants
   include Critic::SalesforceFactory
+  include Kernel
+  extend T::Sig
 
   def sf_account_id
     ENV.fetch('SF_INSTANCE_ID')
   end
 
+  sig { params(sandbox: T::Boolean, save: T::Boolean, random_user_id: T::Boolean).returns(StripeForce::User)}
   def make_user(sandbox: false, save: false, random_user_id: false)
     user = StripeForce::User.new(
       livemode: false,
 
       salesforce_account_id: sf_account_id,
       salesforce_token: ENV.fetch('SF_ACCESS_TOKEN'),
-      salesforce_refresh_token: ENV.fetch('SF_REFRESH_TOKEN'),
+      salesforce_refresh_token: ENV['SF_REFRESH_TOKEN'],
       salesforce_instance_url: "https://#{ENV.fetch('SF_INSTANCE_DOMAIN')}.my.salesforce.com",
 
       stripe_account_id: if random_user_id
@@ -27,11 +30,8 @@ module CommonHelpers
       end
     )
 
-    # TODO major hack until we figure out what we are doing with snadboxes
+    # TODO major hack until we figure out what we are doing with sandboxes
     user.instance_variable_set('@sandbox', sandbox)
-    def user.sandbox?
-      @sandbox
-    end
 
     user.save if save
 
@@ -77,6 +77,7 @@ module CommonHelpers
     Integrations::Metrics::Writer.instance.queue.clear
 
     # output current test, useful for debugging which fail because of CI timeout limits
+    T.bind(self, ActiveSupport::TestCase)
     puts self.location
   end
 

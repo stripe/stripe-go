@@ -70,7 +70,7 @@ jobs:
       SIGNALFX_TOKEN: foo
       RAILS_ENV: test
       RACK_ENV: test
-      DISABLE_SPRING: "true"
+      DISABLE_SPRING: 'true'
       STRIPE_ACCOUNT_ID: acct_15uapDIsgf92XbAO
       SF_INSTANCE_ID: 00D5e000003V0C7EAK
       SF_INSTANCE_DOMAIN: biancodevorg-dev-ed
@@ -86,25 +86,71 @@ jobs:
       - image: circleci/redis:6.2.3
 
     steps:
-      - browser-tools/install-browser-tools
-      - checkout
-      - run:
-          working_directory: ~/stripe-netsuite
-          command: |
-            mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-            gem install bundler -v 2.2.29
-      # rails circle2 example:
-      # https://github.com/CircleCI-Public/circleci-demo-ruby-rails/blob/master/.circleci/config.yml
-      - restore_cache:
-          keys:
-            - rails-bundle-{{ checksum "Gemfile.lock" }}
-      - run:
-          command: |
-            bundle check || bundle install
-      - save_cache:
-          key: rails-bundle-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
+    - browser-tools/install-chromedriver
+    - checkout
+    - run:
+        working_directory: ~/stripe-netsuite
+        command: |
+          mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+          gem install bundler -v 2.2.29
+
+    # rails circle2 example:
+    # https://github.com/CircleCI-Public/circleci-demo-ruby-rails/blob/master/.circleci/config.yml
+    - restore_cache:
+        keys:
+          - rails-bundle-{{ checksum "Gemfile.lock" }}
+    - run:
+        command: |
+          bundle check || bundle install
+    - save_cache:
+        key: rails-bundle-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+    - run:
+        name: Setting up https proxy
+        command: |
+          printf '127.0.0.1 stripe-netsuite-test.dev' | sudo tee -a /etc/hosts
+
+          # https://github.com/stripe/stripe-netsuite/issues/1736
+          sudo npm install -g nassau-https-proxy@1.0.4
+    - run:
+        name: Running https proxy
+        # wait for up to 30m to ensure NS communication doesn't timeout; backoffs and temporary slowdowns could cause intermittent failures
+        command: sudo PROXY_TIMEOUT=1800 FORWARD_PORT=$RAILS_TEST_SERVER_PORT nassau-https-proxy
+        background: true
+
+    - run:
+        name: Database Migration
+        command: |
+          bundle exec ruby db/migration.rb
+          # bundle exec sequel -m migrations $TEST_DATABASE_URL
+
+    # always run bundle-audit in case new security issues are found without a Gemfile change
+    # https://github.com/stripe/stripe-netsuite/issues/1713
+    - run:
+        name: Gem Security Audit
+        command: |
+          if [ "$CIRCLE_NODE_INDEX" == "0" ]; then
+            bundle exec bundle-audit update && bundle exec bundle-audit check
+          fi
+
+    - run:
+        name: Code Security Audit
+        command: |
+          if [ "$CIRCLE_NODE_INDEX" == "0" ]; then
+            bundle exec brakeman -z
+          fi
+
+    - run:
+        when: always
+        no_output_timeout: "20m"
+        command: |
+          # https://discuss.circleci.com/t/test-timings-are-still-missing-with-2-0-and-workflows/21247/14
+          # https://github.com/CircleCI-Public/circleci-cli/blob/master/cmd/tests.go#L54
+          SPLIT_TEST_FILES=$(circleci tests glob "test/**/test*.rb" | circleci tests split --split-by=timings --timings-type=filename)
+          echo $SPLIT_TEST_FILES
+          bundle exec rails test --ci-dir $CIRCLE_TEST_REPORTS --profile $SPLIT_TEST_FILES
 
       - run:
           name: Setting up https proxy

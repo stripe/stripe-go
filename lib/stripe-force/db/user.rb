@@ -45,7 +45,7 @@ module StripeForce
       )
 
       # TODO should we conditionally do this?
-      # client.authenticate!
+      # @client.authenticate!
 
       @client
     end
@@ -59,7 +59,7 @@ module StripeForce
     def sandbox?
       # TODO cache this state in a status service or something
       # [SELECT IsSandbox FROM Organization]
-      true
+      !!@sandbox
     end
 
     def in_production?
@@ -87,6 +87,10 @@ module StripeForce
     sig { params(feature: Symbol).returns(T::Boolean) }
     def feature_enabled?(feature)
       self.feature_flags.include?(feature)
+    end
+
+    def sf_subdomain
+      URI.parse(T.must(salesforce_instance_url)).host&.split('.')&.first
     end
 
     def sf_endpoint

@@ -15,6 +15,8 @@ class ApplicationIntegrationTest
   # include ActionController::Metal
   def response; end
 
+  def https!; end
+
   include Minitest::Assertions
 end
 
@@ -29,3 +31,12 @@ class Array
   def delete(obj); end
 end
 
+# TODO look into why this isn't autogen'd at all via sorbet
+class StripeForce::User
+  def self.find_or_new(*args); end
+end
+
+class Restforce::SObject
+  # this is inherited from Mash, I don't know why sorbet isn't picking this up
+  def initialize(source_hash = nil, client = nil, default = nil, &blk); end
+end

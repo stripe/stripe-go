@@ -13,9 +13,8 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   end
 
   def default_pricebook_id
-    '01s5e00000BAoBVAA1'
+    '01s5e00000BAoBWAA1'
   end
-
 
   def create_salesforce_order(sf_product_id: nil, additional_order_fields: {})
     # https://github.com/sseixas/CPQ-JS
@@ -124,19 +123,27 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   end
 
   it 'integrates a subscription order' do
-    sf_order = create_salesforce_order(additional_order_fields: {
-      CPQ_QUOTE_SUBSCRIPTION_START_DATE => "2021-10-01",
-      CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
-    })
+    price_in_dollars = 240
+    sf_product_id = create_salesforce_product
+    sf_pricebook_entry_id = create_salesforce_price(sf_product_id: sf_product_id, price: price_in_dollars)
+
+    sf_order = create_salesforce_order(
+      sf_product_id: sf_product_id,
+
+      additional_order_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => "2021-10-01",
+        CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
+      }
+    )
 
     SalesforceTranslateRecordJob.translate(@user, sf_order)
 
     # TODO add refresh to library
     sf_order = sf.find('Order', sf_order.Id)
 
-    stripe_id = sf_order[ORDER_STRIPE_ID]
+    stripe_id = sf_order[GENERIC_STRIPE_ID]
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
-    customer = Stripe::Customer.retrieve(subscription_schedule.customer, @user.stripe_credentials)
+    customer = Stripe::Customer.retrieve(T.cast(subscription_schedule.customer, String), @user.stripe_credentials)
     # line = subscription.items.first
 
     # TODO customer address assertions once mapping is complete
@@ -151,9 +158,16 @@ class Critic::OrderTranslation < Critic::FunctionalTest
 
     line = invoice.lines.data[-1]
     assert_equal(1, line.quantity)
-    assert_equal(120, line.amount / 100.0)
+    assert_equal(price_in_dollars, line.amount / 100.0)
 
-    # TODO assert against amount when we are creating items dynamically
+    # right now, price translation is tied to both a pricebook and order line in SF
+    # test the price translation logic here right now instead of in a separate price test
+    price = line.price
+    assert_equal(price_in_dollars, price.unit_amount / 100)
+    assert_equal("recurring", price.type)
+    assert_equal("month", price.recurring.interval)
+    assert_equal(1, price.recurring.interval_count)
+    assert_equal("licensed", price.recurring.usage_type)
   end
 
   describe 'failures' do
@@ -173,6 +187,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   # TODO quantity as float
   # TODO start date in the future
   # TODO missing fields / failure
+  # TODO subscription term specified
 
   it 'integrates a invoice order' do
     sf_order = create_salesforce_order(sf_product_id: standalone_item_id)
@@ -182,7 +197,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     # TODO add refresh to library
     sf_order = sf.find('Order', sf_order.Id)
 
-    stripe_id = sf_order[ORDER_STRIPE_ID]
+    stripe_id = sf_order[GENERIC_STRIPE_ID]
     invoice = Stripe::Invoice.retrieve(stripe_id, @user.stripe_credentials)
     customer = Stripe::Customer.retrieve(invoice.customer, @user.stripe_credentials)
     line = invoice.lines.first

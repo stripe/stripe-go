@@ -8,8 +8,14 @@ class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
     JSON.parse(response.body)
   end
 
+  def use_https_protocol
+    https!
+    app.default_url_options[:protocol] = :https
+  end
+
   def setup
     common_setup
+    use_https_protocol
   end
 
   def teardown

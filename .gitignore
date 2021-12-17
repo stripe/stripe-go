@@ -30,5 +30,8 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+# Ignore the irb history
+irb.log
+
 .env
 test/reports/

@@ -4,9 +4,9 @@ git_source(:github) {|repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.8'
 
-gem 'sorbet', '~> 0.5.9363', group: :development
+gem 'sorbet', '~> 0.5.9455', group: :development
 # gem 'sorbet-runtime', '~> 0.5.9318', require: true
-gem 'sorbet-rails', '~> 0.7.25'
+gem 'sorbet-rails', '~> 0.7.27'
 
 gem 'dotenv-rails', '2.7.6', groups: [:development, :test]
 gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
@@ -31,7 +31,7 @@ gem 'redis', '~> 4.5.0'
 
 # database
 gem 'pg', '~> 1.2.3'
-gem 'sequel', '5.50.0'
+gem 'sequel', '5.51.0'
 
 # auth
 gem 'omniauth-salesforce'
@@ -39,7 +39,7 @@ gem 'omniauth-stripe'
 gem 'rack-attack', '~> 6.5.0'
 
 # translation
-gem 'restforce', '~> 5.2.0'
+gem 'restforce', '~> 5.2.1'
 gem 'stripe', '~> 5.41.0'
 gem 'rest-client', '~> 2.1.0'
 
@@ -57,7 +57,7 @@ group :test do
   gem 'bundler-audit', '~> 0.9.0.1', require: false
   gem 'brakeman', '~> 5.1.2', require: false
 
-  gem 'minitest', '~> 5.14.4'
+  gem 'minitest', '~> 5.15.0'
   gem 'minitest-ci', '~> 3.4.0'
   gem 'minitest-profile'
   gem 'minitest-reporters', '~> 1.4.2'
@@ -65,7 +65,7 @@ group :test do
 
   # feature test
   gem 'capybara', '~> 3.36.0'
-  gem 'webdrivers', '~> 4.6.0'
+  gem 'webdrivers', '~> 4.7.0'
   gem 'selenium-webdriver', '~> 3.142.7'
   gem 'capybara-screenshot', '~> 1.0.25'
 
@@ -92,9 +92,9 @@ group :development do
 
   gem 'listen'
   gem 'spring'
-  gem 'rubocop-daemon', require: false
 
   # lock to an old version to align with pay-server
   gem 'rubocop', '0.89.1'
+  gem 'rubocop-daemon', require: false
   gem 'rubocop-minitest', require: false
 end

@@ -27,7 +27,7 @@ module Integrations
         @queue = Queue.new
 
         @token = ENV.fetch('SIGNALFX_TOKEN')
-        @url = "#{ENV.fetch('SIGNALFX_URL_BASE')}/datapoint"
+        @url = "https://ingest.signalfx.com/v2/datapoint"
 
         @max_queue_length = 500
 
