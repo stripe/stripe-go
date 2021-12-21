@@ -36,9 +36,9 @@ func (p *SourceParams) AppendTo(body *form.Values, keyParts []string) {
 // Customer object's payment sources.
 // For more details see https://stripe.com/docs/api#sources
 type CustomerSourceParams struct {
-	Params   `form:"*"`
-	Customer *string       `form:"-"` // Goes in the URL
-	Source   *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	Params            `form:"*"`
+	Customer          *string                   `form:"-"` // Goes in the URL
+	Source            *SourceParams             `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 }
 
 // SourceVerifyParams are used to verify a customer source
@@ -48,6 +48,13 @@ type SourceVerifyParams struct {
 	Amounts  [2]int64  `form:"amounts"` // Amounts is used when verifying bank accounts
 	Customer *string   `form:"-"`       // Goes in the URL
 	Values   []*string `form:"values"`  // Values is used when verifying sources
+}
+
+// SourceListParams are used to enumerate the payment sources that are attached
+// to a Customer.
+type SourceListParams struct {
+	ListParams `form:"*"`
+	Customer   *string `form:"-"` // Handled in URL
 }
 
 // SetSource adds valid sources to a CustomerSourceParams object,
@@ -100,13 +107,6 @@ type SourceList struct {
 	APIResource
 	ListMeta
 	Data []*PaymentSource `json:"data"`
-}
-
-// SourceListParams are used to enumerate the payment sources that are attached
-// to a Customer.
-type SourceListParams struct {
-	ListParams `form:"*"`
-	Customer   *string `form:"-"` // Handled in URL
 }
 
 // UnmarshalJSON handles deserialization of a PaymentSource.

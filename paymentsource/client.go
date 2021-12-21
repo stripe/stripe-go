@@ -99,6 +99,32 @@ func (s Client) Del(id string, params *stripe.CustomerSourceParams) (*stripe.Pay
 	return source, err
 }
 
+// Verify verifies a source which is used for bank accounts.
+func Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource, error) {
+	return getC().Verify(id, params)
+}
+
+// Verify verifies a source which is used for bank accounts.
+func (s Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource, error) {
+	if params == nil {
+		return nil, errors.New("params should not be nil")
+	}
+
+	var path string
+	if params.Customer != nil {
+		path = stripe.FormatURLPath("/v1/customers/%s/sources/%s/verify",
+			stripe.StringValue(params.Customer), id)
+	} else if len(params.Values) > 0 {
+		path = stripe.FormatURLPath("/v1/sources/%s/verify", id)
+	} else {
+		return nil, errors.New("Only customer bank accounts or sources can be verified in this manner")
+	}
+
+	source := &stripe.PaymentSource{}
+	err := s.B.Call(http.MethodPost, path, s.Key, params, source)
+	return source, err
+}
+
 // List returns a list of sources.
 func List(params *stripe.SourceListParams) *Iter {
 	return getC().List(params)
@@ -134,32 +160,6 @@ func (s Client) List(listParams *stripe.SourceListParams) *Iter {
 
 		return ret, list, err
 	})}
-}
-
-// Verify verifies a source which is used for bank accounts.
-func Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource, error) {
-	return getC().Verify(id, params)
-}
-
-// Verify verifies a source which is used for bank accounts.
-func (s Client) Verify(id string, params *stripe.SourceVerifyParams) (*stripe.PaymentSource, error) {
-	if params == nil {
-		return nil, errors.New("params should not be nil")
-	}
-
-	var path string
-	if params.Customer != nil {
-		path = stripe.FormatURLPath("/v1/customers/%s/sources/%s/verify",
-			stripe.StringValue(params.Customer), id)
-	} else if len(params.Values) > 0 {
-		path = stripe.FormatURLPath("/v1/sources/%s/verify", id)
-	} else {
-		return nil, errors.New("Only customer bank accounts or sources can be verified in this manner")
-	}
-
-	source := &stripe.PaymentSource{}
-	err := s.B.Call(http.MethodPost, path, s.Key, params, source)
-	return source, err
 }
 
 // Iter is an iterator for sources.
