@@ -11,6 +11,7 @@ import (
 	billingportal_configuration "github.com/stripe/stripe-go/v72/billingportal/configuration"
 	billingportal_session "github.com/stripe/stripe-go/v72/billingportal/session"
 	capability "github.com/stripe/stripe-go/v72/capability"
+	card "github.com/stripe/stripe-go/v72/card"
 	charge "github.com/stripe/stripe-go/v72/charge"
 	checkout_session "github.com/stripe/stripe-go/v72/checkout/session"
 	countryspec "github.com/stripe/stripe-go/v72/countryspec"
@@ -460,6 +461,31 @@ func TestPaymentMethodAttach(t *testing.T) {
 func TestPaymentMethodDetach(t *testing.T) {
 	params := &stripe.PaymentMethodDetachParams{}
 	result, _ := paymentmethod.Detach("pm_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestCardUpdate(t *testing.T) {
+	params := &stripe.CardParams{}
+	params.AddMetadata("order_id", "6735")
+	result, _ := card.Update("ba_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestCardDelete(t *testing.T) {
+	params := &stripe.CardParams{}
+	result, _ := card.Del("ba_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestCardUpdate2(t *testing.T) {
+	params := &stripe.CardParams{Name: stripe.String("Jenny Rosen")}
+	result, _ := card.Update("card_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestCardDelete2(t *testing.T) {
+	params := &stripe.CardParams{}
+	result, _ := card.Del("card_xxxxxxxxxxxxx", params)
 	assert.NotNil(t, result)
 }
 

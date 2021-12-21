@@ -1,10 +1,15 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import (
 	"encoding/json"
-	"strconv"
-
 	"github.com/stripe/stripe-go/v72/form"
+	"strconv"
 )
 
 // CardAvailablePayoutMethod is a set of available payout methods for the card.
@@ -12,8 +17,8 @@ type CardAvailablePayoutMethod string
 
 // List of values that CardAvailablePayoutMethod can take.
 const (
-	CardAvailablePayoutMethodInstant  CardAvailablePayoutMethod = "Instant"
-	CardAvailablePayoutMethodStandard CardAvailablePayoutMethod = "Standard"
+	CardAvailablePayoutMethodInstant  CardAvailablePayoutMethod = "instant"
+	CardAvailablePayoutMethodStandard CardAvailablePayoutMethod = "standard"
 )
 
 // CardBrand is the list of allowed values for the card's brand.
@@ -62,6 +67,13 @@ const (
 	CardVerificationUnchecked   CardVerification = "unchecked"
 )
 
+type CardOwnerParams struct {
+	Address *AddressParams `form:"address"`
+	Email   *string        `form:"email"`
+	Name    *string        `form:"name"`
+	Phone   *string        `form:"phone"`
+}
+
 // cardSource is a string that's used to build card form parameters. It's a
 // constant just to make mistakes less likely.
 const cardSource = "source"
@@ -74,9 +86,11 @@ const cardSource = "source"
 // of all parameters. See AppendToAsCardSourceOrExternalAccount.
 type CardParams struct {
 	Params             `form:"*"`
-	Account            *string          `form:"-"`
-	Customer           *string          `form:"-"`
-	Token              *string          `form:"-"`
+	Account            *string          `form:"-"` // Included in URL
+	Token              *string          `form:"-"` // Included in URL
+	Customer           *string          `form:"-"` // Included in URL
+	AccountHolderName  *string          `form:"account_holder_name"`
+	AccountHolderType  *string          `form:"account_holder_type"`
 	AccountType        *string          `form:"account_type"`
 	AddressCity        *string          `form:"address_city"`
 	AddressCountry     *string          `form:"address_country"`
@@ -91,7 +105,7 @@ type CardParams struct {
 	ExpYear            *string          `form:"exp_year"`
 	Name               *string          `form:"name"`
 	Number             *string          `form:"number"`
-
+	Owner              *CardOwnerParams `form:"owner"`
 	// ID is used when tokenizing a card for shared customers
 	ID string `form:"*"`
 }
@@ -115,7 +129,10 @@ func (c *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, ke
 	form.AppendToPrefixed(body, c.Params, keyParts)
 
 	if c.DefaultForCurrency != nil {
-		body.Add(form.FormatKey(append(keyParts, "default_for_currency")), strconv.FormatBool(BoolValue(c.DefaultForCurrency)))
+		body.Add(
+			form.FormatKey(append(keyParts, "default_for_currency")),
+			strconv.FormatBool(BoolValue(c.DefaultForCurrency)),
+		)
 	}
 
 	if c.Token != nil {
@@ -180,8 +197,8 @@ func (c *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, ke
 // For more details see https://stripe.com/docs/api#list_cards.
 type CardListParams struct {
 	ListParams `form:"*"`
-	Account    *string `form:"-"`
-	Customer   *string `form:"-"`
+	Account    *string `form:"-"` // Included in URL
+	Customer   *string `form:"-"` // Included in URL
 }
 
 // AppendTo implements custom encoding logic for CardListParams
@@ -197,7 +214,7 @@ func (p *CardListParams) AppendTo(body *form.Values, keyParts []string) {
 // For more details see https://stripe.com/docs/api#cards.
 type Card struct {
 	APIResource
-
+	Account                *Account                    `json:"account"`
 	AddressCity            string                      `json:"address_city"`
 	AddressCountry         string                      `json:"address_country"`
 	AddressLine1           string                      `json:"address_line1"`
@@ -238,6 +255,7 @@ type Card struct {
 	Last4              string                 `json:"last4"`
 	Metadata           map[string]string      `json:"metadata"`
 	Name               string                 `json:"name"`
+	Object             string                 `json:"object"`
 	TokenizationMethod CardTokenizationMethod `json:"tokenization_method"`
 }
 
