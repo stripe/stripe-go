@@ -649,6 +649,13 @@ type PaymentIntentPaymentMethodOptions struct {
 	Sofort           *PaymentIntentPaymentMethodOptionsSofort           `json:"sofort"`
 	WechatPay        *PaymentIntentPaymentMethodOptionsWechatPay        `json:"wechat_pay"`
 }
+type PaymentIntentProcessingCard struct{}
+
+// If present, this property tells you about the processing state of the payment.
+type PaymentIntentProcessing struct {
+	Card *PaymentIntentProcessingCard `json:"card"`
+	Type string                       `json:"type"`
+}
 
 // PaymentIntentTransferData represents the information for the transfer associated with a payment intent.
 type PaymentIntentTransferData struct {
@@ -687,6 +694,7 @@ type PaymentIntent struct {
 	PaymentMethod             *PaymentMethod                        `json:"payment_method"`
 	PaymentMethodOptions      *PaymentIntentPaymentMethodOptions    `json:"payment_method_options"`
 	PaymentMethodTypes        []string                              `json:"payment_method_types"`
+	Processing                *PaymentIntentProcessing              `json:"processing"`
 	ReceiptEmail              string                                `json:"receipt_email"`
 	Review                    *Review                               `json:"review"`
 	SetupFutureUsage          PaymentIntentSetupFutureUsage         `json:"setup_future_usage"`
