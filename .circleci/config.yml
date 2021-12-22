@@ -86,6 +86,7 @@ jobs:
     - image: circleci/redis:6.2.3
 
     steps:
+    - browser-tools/install-chrome
     - browser-tools/install-chromedriver
     - checkout
     - run:
