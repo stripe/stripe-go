@@ -138,6 +138,14 @@ const (
 	PaymentIntentPaymentMethodOptionsWechatPayClientWeb     PaymentIntentPaymentMethodOptionsWechatPayClient = "web"
 )
 
+// Type of the payment method for which payment is in `processing` state, one of `card`.
+type PaymentIntentProcessingType string
+
+// List of values that PaymentIntentProcessingType can take
+const (
+	PaymentIntentProcessingTypeCard PaymentIntentProcessingType = "card"
+)
+
 // PaymentIntentSetupFutureUsage is the list of allowed values for SetupFutureUsage.
 type PaymentIntentSetupFutureUsage string
 
@@ -280,6 +288,9 @@ type PaymentIntentPaymentMethodOptionsAfterpayClearpayParams struct {
 // applied to a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsAlipayParams struct{}
 
+// If this is a `au_becs_debit` PaymentMethod, this sub-hash contains details about the AU BECS Direct Debit payment method options.
+type PaymentIntentPaymentMethodOptionsAUBECSDebitParams struct{}
+
 // PaymentIntentPaymentMethodOptionsBancontactParams represents the bancontact-specific options
 // applied to a PaymentIntent.
 type PaymentIntentPaymentMethodOptionsBancontactParams struct {
@@ -373,6 +384,7 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	ACSSDebit        *PaymentIntentPaymentMethodOptionsACSSDebitParams        `form:"acss_debit"`
 	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpayParams `form:"afterpay_clearpay"`
 	Alipay           *PaymentIntentPaymentMethodOptionsAlipayParams           `form:"alipay"`
+	AUBECSDebit      *PaymentIntentPaymentMethodOptionsAUBECSDebitParams      `form:"au_becs_debit"`
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontactParams       `form:"bancontact"`
 	Boleto           *PaymentIntentPaymentMethodOptionsBoletoParams           `form:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCardParams             `form:"card"`
@@ -567,6 +579,7 @@ type PaymentIntentPaymentMethodOptionsAfterpayClearpay struct {
 // PaymentIntentPaymentMethodOptionsAlipay is the set of Alipay-specific options associated
 // with that payment intent.
 type PaymentIntentPaymentMethodOptionsAlipay struct{}
+type PaymentIntentPaymentMethodOptionsAUBECSDebit struct{}
 
 // PaymentIntentPaymentMethodOptionsBancontact is the set of bancontact-specific options associated
 // with that payment intent.
@@ -635,6 +648,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	ACSSDebit        *PaymentIntentPaymentMethodOptionsACSSDebit        `json:"acss_debit"`
 	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentIntentPaymentMethodOptionsAlipay           `json:"alipay"`
+	AUBECSDebit      *PaymentIntentPaymentMethodOptionsAUBECSDebit      `json:"au_becs_debit"`
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontact       `json:"bancontact"`
 	Boleto           *PaymentIntentPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
@@ -654,7 +668,7 @@ type PaymentIntentProcessingCard struct{}
 // If present, this property tells you about the processing state of the payment.
 type PaymentIntentProcessing struct {
 	Card *PaymentIntentProcessingCard `json:"card"`
-	Type string                       `json:"type"`
+	Type PaymentIntentProcessingType  `json:"type"`
 }
 
 // PaymentIntentTransferData represents the information for the transfer associated with a payment intent.
