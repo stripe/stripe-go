@@ -33,10 +33,10 @@ func (c Client) New(params *stripe.CardParams) (*stripe.Card, error) {
 	}
 
 	var path string
-	if params.Customer != nil {
-		path = stripe.FormatURLPath("/v1/customers/%s/sources", stripe.StringValue(params.Customer))
-	} else if params.Account != nil {
+	if params.Account != nil {
 		path = stripe.FormatURLPath("/v1/accounts/%s/external_accounts", stripe.StringValue(params.Account))
+	} else if params.Customer != nil {
+		path = stripe.FormatURLPath("/v1/customers/%s/sources", stripe.StringValue(params.Customer))
 	} else {
 		return nil, fmt.Errorf("Invalid card params: either Customer or Account need to be set")
 	}
@@ -68,10 +68,10 @@ func (c Client) Get(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	}
 
 	var path string
-	if params != nil && params.Customer != nil {
-		path = stripe.FormatURLPath("/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
-	} else if params != nil && params.Account != nil {
+	if params != nil && params.Account != nil {
 		path = stripe.FormatURLPath("/v1/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id)
+	} else if params != nil && params.Customer != nil {
+		path = stripe.FormatURLPath("/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	} else {
 		return nil, fmt.Errorf("Invalid card params: either Customer or Account need to be set")
 	}
@@ -93,10 +93,10 @@ func (c Client) Update(id string, params *stripe.CardParams) (*stripe.Card, erro
 	}
 
 	var path string
-	if params.Customer != nil {
-		path = stripe.FormatURLPath("/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
-	} else if params.Account != nil {
+	if params.Account != nil {
 		path = stripe.FormatURLPath("/v1/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id)
+	} else if params.Customer != nil {
+		path = stripe.FormatURLPath("/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	} else {
 		return nil, fmt.Errorf("Invalid card params: either Customer or Account need to be set")
 	}
@@ -118,10 +118,10 @@ func (c Client) Del(id string, params *stripe.CardParams) (*stripe.Card, error) 
 	}
 
 	var path string
-	if params.Customer != nil {
-		path = stripe.FormatURLPath("/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
-	} else if params.Account != nil {
+	if params.Account != nil {
 		path = stripe.FormatURLPath("/v1/accounts/%s/external_accounts/%s", stripe.StringValue(params.Account), id)
+	} else if params.Customer != nil {
+		path = stripe.FormatURLPath("/v1/customers/%s/sources/%s", stripe.StringValue(params.Customer), id)
 	} else {
 		return nil, fmt.Errorf("Invalid card params: either Customer or Account need to be set")
 	}
@@ -147,12 +147,12 @@ func (c Client) List(listParams *stripe.CardListParams) *Iter {
 	// back with the response.
 	if listParams == nil {
 		outerErr = fmt.Errorf("params should not be nil")
-	} else if listParams.Customer != nil {
-		path = stripe.FormatURLPath("/v1/customers/%s/sources",
-			stripe.StringValue(listParams.Customer))
 	} else if listParams.Account != nil {
 		path = stripe.FormatURLPath("/v1/accounts/%s/external_accounts",
 			stripe.StringValue(listParams.Account))
+	} else if listParams.Customer != nil {
+		path = stripe.FormatURLPath("/v1/customers/%s/sources",
+			stripe.StringValue(listParams.Customer))
 	} else {
 		outerErr = fmt.Errorf("Invalid card params: either Customer or Account need to be set")
 	}
