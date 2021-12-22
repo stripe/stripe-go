@@ -80,6 +80,7 @@ type SetupAttemptListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	SetupIntent  *string           `form:"setup_intent"`
 }
+type SetupAttemptPaymentMethodDetailsBoleto struct{}
 
 // SetupAttemptPaymentMethodDetailsCardThreeDSecure represents details about 3DS associated with the setup attempt's payment method.
 type SetupAttemptPaymentMethodDetailsCardThreeDSecure struct {
@@ -141,6 +142,7 @@ type SetupAttemptPaymentMethodDetails struct {
 	AUBECSDebit *SetupAttemptPaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
 	BACSDebit   *SetupAttemptPaymentMethodDetailsBACSDebit   `json:"bacs_debit"`
 	Bancontact  *SetupAttemptPaymentMethodDetailsBancontact  `json:"bancontact"`
+	Boleto      *SetupAttemptPaymentMethodDetailsBoleto      `json:"boleto"`
 	Card        *SetupAttemptPaymentMethodDetailsCard        `json:"card"`
 	CardPresent *SetupAttemptPaymentMethodDetailsCardPresent `json:"card_present"`
 	Ideal       *SetupAttemptPaymentMethodDetailsIdeal       `json:"ideal"`
