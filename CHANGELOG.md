@@ -1,5 +1,16 @@
 # Changelog
 
+## 72.81.0 - 2021-12-22
+* [#1397](https://github.com/stripe/stripe-go/pull/1397) API Updates
+  * Add support for `AUBECSDebit` on `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
+  * Change type of `PaymentIntentProcessingType` from `string` to `literal('card')`. This is not considered a breaking change as the field was added in the same release.
+  
+* [#1395](https://github.com/stripe/stripe-go/pull/1395) API Updates
+  * Add support for `Boleto` on `SetupAttemptPaymentMethodDetails`
+  
+* [#1393](https://github.com/stripe/stripe-go/pull/1393) API Updates
+  * Add support for `Processing` on `PaymentIntent`
+
 ## 72.80.0 - 2021-12-15
 * [#1391](https://github.com/stripe/stripe-go/pull/1391) API Updates
   * Add support for new resource `PaymentIntentTypeSpecificPaymentMethodOptionsClient`
