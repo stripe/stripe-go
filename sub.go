@@ -64,6 +64,15 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
+// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsAmountType string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsAmountType can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsAmountTypeFixed   SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsAmountType = "fixed"
+	SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsAmountTypeMaximum SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsAmountType = "maximum"
+)
+
 // We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure string
 
@@ -159,9 +168,17 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams struct {
 	PreferredLanguage *string `form:"preferred_language"`
 }
 
+// Configuration options for setting up an eMandate for cards issued in India.
+type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsParams struct {
+	Amount      *int64  `form:"amount"`
+	AmountType  *string `form:"amount_type"`
+	Description *string `form:"description"`
+}
+
 // This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCardParams struct {
-	RequestThreeDSecure *string `form:"request_three_d_secure"`
+	MandateOptions      *SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options"`
+	RequestThreeDSecure *string                                                                  `form:"request_three_d_secure"`
 }
 
 // Payment-method-specific configuration to provide to invoices created by the subscription.
@@ -315,9 +332,15 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsACSSDebit struct {
 type SubscriptionPaymentSettingsPaymentMethodOptionsBancontact struct {
 	PreferredLanguage string `json:"preferred_language"`
 }
+type SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptions struct {
+	Amount      int64                                                                       `json:"amount"`
+	AmountType  SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptionsAmountType `json:"amount_type"`
+	Description string                                                                      `json:"description"`
+}
 
 // This sub-hash contains details about the Card payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsCard struct {
+	MandateOptions      *SubscriptionPaymentSettingsPaymentMethodOptionsCardMandateOptions     `json:"mandate_options"`
 	RequestThreeDSecure SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 
