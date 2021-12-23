@@ -443,7 +443,7 @@ Run a single test:
 For any requests, bug or comments, please [open an issue][issues] or [submit a
 pull request][pulls].
 
-[api-docs]: https://stripe.com/docs/api/go
+[api-docs]: https://stripe.com/docs/api/?lang=go
 [api-changelog]: https://stripe.com/docs/upgrades
 [apiresponse]: https://godoc.org/github.com/stripe/stripe-go#APIResponse
 [connect]: https://stripe.com/docs/connect/authentication
