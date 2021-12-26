@@ -11,7 +11,7 @@ export default class OutboundStep extends LightningElement {
         this.checkIfCPQIsEnabled();
     }
 
-    stripeConnectedAppCallback(isCpqEnabled) {
+   stripeConnectedAppCallback(isCpqEnabled) {
         const rubyServiceAuthOriginURI = 'https://stripe-force.herokuapp.com'
         if(isCpqEnabled === true) {
             this.validateConnectionStatus(true);
@@ -20,6 +20,7 @@ export default class OutboundStep extends LightningElement {
                     this.connectWindow.close()
                     this.validateConnectionStatus(false);
                 }  
+                console.log('Can we see dis in connectedCallback??')
             } 
             window.addEventListener("message", this.postMessageListener.bind(this));
         }
@@ -30,20 +31,20 @@ export default class OutboundStep extends LightningElement {
     }
 
     connectToStripe() {
-        //'https://stripe-force.herokuapp.com/auth/salesforce'; //production */
+        //'https://stripe-force.herokuapp.com/auth/salesforce'; //production 
         const rubyAuthURI = 'https://stripe-force.herokuapp.com/auth/salesforcesandbox'; //sandbox
         this.connectWindow = window.open(rubyAuthURI, '"_blank"');
     }
 
-    validateConnectionStatus(isConnectedCallback) {
+    async validateConnectionStatus(isConnectedCallback) {
         this.loading = true;
-        validateConnectionStatus({
-            isConnectedCallback : isConnectedCallback
-        })
-        .then(response => {
-           let responseData = JSON.parse(response);
-            if(responseData.isSuccess) {
-                let isConnected = responseData.results.isConnected;
+        try {
+            const validateConnection = await validateConnectionStatus({
+                isConnectedCallback : isConnectedCallback
+            });
+            this.data =  JSON.parse(validateConnection);
+            if(this.data.isSuccess) {
+                let isConnected = this.data.results.isConnected;
                 if(isConnected === 'fresh') {
                     this.isAuthComplete = true;
                     this.showToast('Authorization successfully completed', 'success');
@@ -56,64 +57,62 @@ export default class OutboundStep extends LightningElement {
                 } else if (isConnected === true) {
                     this.isAuthComplete = true;
                 } 
-            } else { 
-                this.showToast(responseData.error, 'error');
+                this.loading = false;
+            } else {
+                this.showToast(this.data.error, 'error');
             }
-        }).catch(error => {
-            this.showToast(error.body.message, 'error');
-        }).finally(() => {
-            this.loading = false;
-        });
+        } catch (error) {
+            this.showToast(error, 'error');
+        }
     }
 
     checkIfCPQIsEnabled() {
        /* This is the cpq check to determine if we should show an error toast or not
        commented this out for now in case we decide we want to add this check back  
-       isCpqEnabled()
-        .then(response => {
-           let responseData = JSON.parse(response);
-            if(responseData.isSuccess) {
-                 let isCpqInstalled = responseData.results.isCpqInstalled;
+        try {
+            const checkIfCpqIsEnabled = await isCpqEnabled();
+            this.data =  JSON.parse(checkIfCpqIsEnabled);
+            if(this.data.isSuccess) {
+                let isCpqInstalled = this.data.isCpqInstalled;
                 if(isCpqInstalled === true) {
                     this.stripeConnectedAppCallback(true);
                 } else {
                     this.showToast('The CPQ package is not installed in this org', 'error');
                 }
-            } else { 
-                this.showToast(responseData.error, 'error');
+            } else {
+                this.showToast(this.data.error, 'error');
             }
-        }).catch(error => {
-            this.showToast(error.body.message, 'error');
-            this.loading = false;
-        }); */
+        } catch (error) {
+            this.showToast(error, 'error');
+        }*/
         this.stripeConnectedAppCallback(true);
     }
 
-    next(event) {
-        if(this.isAuthComplete === true){
+    async next(event) {
+        if(this.isAuthComplete === true) {
             event.stopPropagation();
-            saveData({
-                setupData: {
-                    Steps_Completed__c: JSON.stringify({
-                        'C-OUTBOUND-STEP': 1
-                    })
-                }
-            }).then((responseDataString) => {
-                let responseData = JSON.parse(responseDataString);
-
-                if(responseData.isSuccess) {
-                    this.setupData = responseData.results.setupData;
+            try {
+                const saveSetupData = await saveData({
+                    setupData: {
+                        Steps_Completed__c: JSON.stringify({
+                            'C-OUTBOUND-STEP': 1
+                        })
+                    }
+                });
+                this.data =  JSON.parse(saveSetupData);
+                if(this.data.isSuccess) {
+                    this.setupData = this.data.setupData;
                     this.dispatchEvent(new CustomEvent('next', {
                         bubbles: true,
                         composed: true
                     }));
 
                 } else {
-                    this.showToast(responseData.error, 'error');
+                    this.showToast(this.data.error, 'error');
                 }
-            }).catch(error => {
+            } catch (error) {
                 this.showToast(error, 'error');
-            });
+            }
         }
     }
 
