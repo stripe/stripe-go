@@ -1,10 +1,15 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import (
 	"encoding/json"
-	"strconv"
-
 	"github.com/stripe/stripe-go/v72/form"
+	"strconv"
 )
 
 // BankAccountAvailablePayoutMethod is a set of available payout methods for the card.
@@ -44,26 +49,31 @@ const (
 // some unusual logic on creates that necessitates manual handling of all
 // parameters. See AppendToAsSourceOrExternalAccount.
 type BankAccountParams struct {
-	Params `form:"*"`
-
-	// Account is the identifier of the parent account under which bank
-	// accounts are nested.
-	Account *string `form:"-"`
-
-	AccountHolderName  *string `form:"account_holder_name"`
-	AccountHolderType  *string `form:"account_holder_type"`
-	AccountType        *string `form:"account_type"`
-	AccountNumber      *string `form:"account_number"`
-	Country            *string `form:"country"`
-	Currency           *string `form:"currency"`
-	Customer           *string `form:"-"`
-	DefaultForCurrency *bool   `form:"default_for_currency"`
-	RoutingNumber      *string `form:"routing_number"`
-
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
 	// Token is a token referencing an external account like one returned from
 	// Stripe.js.
-	Token *string `form:"-"`
-
+	Token *string `form:"-"` // Included in URL
+	// Account is the identifier of the parent account under which bank
+	// accounts are nested.
+	Account            *string `form:"-"` // Included in URL
+	AccountHolderName  *string `form:"account_holder_name"`
+	AccountHolderType  *string `form:"account_holder_type"`
+	AccountNumber      *string `form:"account_number"`
+	AccountType        *string `form:"account_type"`
+	AddressCity        *string `form:"address_city"`
+	AddressCountry     *string `form:"address_country"`
+	AddressLine1       *string `form:"address_line1"`
+	AddressLine2       *string `form:"address_line2"`
+	AddressState       *string `form:"address_state"`
+	AddressZip         *string `form:"address_zip"`
+	Country            *string `form:"country"`
+	Currency           *string `form:"currency"`
+	DefaultForCurrency *bool   `form:"default_for_currency"`
+	ExpMonth           *string `form:"exp_month"`
+	ExpYear            *string `form:"exp_year"`
+	Name               *string `form:"name"`
+	RoutingNumber      *string `form:"routing_number"`
 	// ID is used when tokenizing a bank account for shared customers
 	ID *string `form:"*"`
 }
@@ -100,7 +110,10 @@ func (a *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values)
 		body.Add(sourceType, StringValue(a.Token))
 
 		if a.DefaultForCurrency != nil {
-			body.Add("default_for_currency", strconv.FormatBool(BoolValue(a.DefaultForCurrency)))
+			body.Add(
+				"default_for_currency",
+				strconv.FormatBool(BoolValue(a.DefaultForCurrency)),
+			)
 		}
 	} else {
 		body.Add(sourceType+"[object]", "bank_account")
@@ -132,14 +145,12 @@ func (a *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values)
 // BankAccountListParams is the set of parameters that can be used when listing bank accounts.
 type BankAccountListParams struct {
 	ListParams `form:"*"`
-
 	// The identifier of the parent account under which the bank accounts are
 	// nested. Either Account or Customer should be populated.
-	Account *string `form:"-"`
-
+	Account *string `form:"-"` // Included in URL
 	// The identifier of the parent customer under which the bank accounts are
 	// nested. Either Account or Customer should be populated.
-	Customer *string `form:"-"`
+	Customer *string `form:"-"` // Included in URL
 }
 
 // AppendTo implements custom encoding logic for BankAccountListParams
@@ -155,7 +166,7 @@ type BankAccount struct {
 	Account                *Account                           `json:"account"`
 	AccountHolderName      string                             `json:"account_holder_name"`
 	AccountHolderType      BankAccountAccountHolderType       `json:"account_holder_type"`
-	AccountType            *string                            `form:"account_type"`
+	AccountType            string                             `json:"account_type"`
 	AvailablePayoutMethods []BankAccountAvailablePayoutMethod `json:"available_payout_methods"`
 	BankName               string                             `json:"bank_name"`
 	Country                string                             `json:"country"`
