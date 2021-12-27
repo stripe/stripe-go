@@ -1,9 +1,14 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import (
 	"encoding/json"
 	"fmt"
-
 	"github.com/stripe/stripe-go/v72/form"
 )
 
@@ -37,16 +42,34 @@ func (p *SourceParams) AppendTo(body *form.Values, keyParts []string) {
 // For more details see https://stripe.com/docs/api#sources
 type CustomerSourceParams struct {
 	Params            `form:"*"`
-	Customer          *string                   `form:"-"` // Goes in the URL
+	Customer          *string                   `form:"-"` // Included in URL
+	AccountHolderName *string                   `form:"account_holder_name"`
+	AccountHolderType *string                   `form:"account_holder_type"`
+	AddressCity       *string                   `form:"address_city"`
+	AddressCountry    *string                   `form:"address_country"`
+	AddressLine1      *string                   `form:"address_line1"`
+	AddressLine2      *string                   `form:"address_line2"`
+	AddressState      *string                   `form:"address_state"`
+	AddressZip        *string                   `form:"address_zip"`
+	ExpMonth          *string                   `form:"exp_month"`
+	ExpYear           *string                   `form:"exp_year"`
+	Name              *string                   `form:"name"`
+	Owner             *PaymentSourceOwnerParams `form:"owner"`
 	Source            *SourceParams             `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+}
+type PaymentSourceOwnerParams struct {
+	Address *AddressParams `form:"address"`
+	Email   *string        `form:"email"`
+	Name    *string        `form:"name"`
+	Phone   *string        `form:"phone"`
 }
 
 // SourceVerifyParams are used to verify a customer source
 // For more details see https://stripe.com/docs/guides/ach-beta
 type SourceVerifyParams struct {
 	Params   `form:"*"`
+	Customer *string   `form:"-"`       // Included in URL
 	Amounts  [2]int64  `form:"amounts"` // Amounts is used when verifying bank accounts
-	Customer *string   `form:"-"`       // Goes in the URL
 	Values   []*string `form:"values"`  // Values is used when verifying sources
 }
 
@@ -54,7 +77,8 @@ type SourceVerifyParams struct {
 // to a Customer.
 type SourceListParams struct {
 	ListParams `form:"*"`
-	Customer   *string `form:"-"` // Handled in URL
+	Customer   *string `form:"-"` // Included in URL
+	Object     *string `form:"object"`
 }
 
 // SetSource adds valid sources to a CustomerSourceParams object,
