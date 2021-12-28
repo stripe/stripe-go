@@ -307,8 +307,8 @@ type Source struct {
 	Owner               *SourceOwner          `json:"owner"`
 	Receiver            *ReceiverFlow         `json:"receiver,omitempty"`
 	Redirect            *RedirectFlow         `json:"redirect,omitempty"`
-	StatementDescriptor string                `json:"statement_descriptor"`
 	SourceOrder         *SourceSourceOrder    `json:"source_order"`
+	StatementDescriptor string                `json:"statement_descriptor"`
 	Status              SourceStatus          `json:"status"`
 	Type                string                `json:"type"`
 	TypeData            map[string]interface{}
