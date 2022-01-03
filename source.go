@@ -1,8 +1,13 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import (
 	"encoding/json"
-
 	"github.com/stripe/stripe-go/v72/form"
 )
 
@@ -156,6 +161,7 @@ type SourceOrderParams struct {
 type SourceObjectParams struct {
 	Params              `form:"*"`
 	Amount              *int64                `form:"amount"`
+	ClientSecret        *string               `form:"client_secret"`
 	Currency            *string               `form:"currency"`
 	Customer            *string               `form:"customer"`
 	Flow                *string               `form:"flow"`
@@ -199,8 +205,8 @@ type SourceMandateAcceptanceOfflineParams struct {
 // SourceMandateParams describes the set of parameters allowed for the `mandate` hash on
 // source creation or update.
 type SourceMandateParams struct {
-	Amount             *int64                         `form:"amount"`
 	Acceptance         *SourceMandateAcceptanceParams `form:"acceptance"`
+	Amount             *int64                         `form:"amount"`
 	Currency           *string                        `form:"currency"`
 	Interval           *string                        `form:"interval"`
 	NotificationMethod *string                        `form:"notification_method"`
@@ -216,7 +222,7 @@ type SourceReceiverParams struct {
 // a source from a customer.
 type SourceObjectDetachParams struct {
 	Params   `form:"*"`
-	Customer *string `form:"-"`
+	Customer *string `form:"-"` // Included in URL
 }
 
 // SourceOwner describes the owner hash on a source.
@@ -276,6 +282,7 @@ type SourceSourceOrderItems struct {
 	Amount      int64                     `json:"amount"`
 	Currency    Currency                  `json:"currency"`
 	Description string                    `json:"description"`
+	Parent      string                    `json:"parent"`
 	Quantity    int64                     `json:"quantity"`
 	Type        SourceSourceOrderItemType `json:"type"`
 }
@@ -304,11 +311,12 @@ type Source struct {
 	Livemode            bool                  `json:"livemode"`
 	Mandate             *SourceMandate        `json:"mandate"`
 	Metadata            map[string]string     `json:"metadata"`
+	Object              string                `json:"object"`
 	Owner               *SourceOwner          `json:"owner"`
 	Receiver            *ReceiverFlow         `json:"receiver,omitempty"`
 	Redirect            *RedirectFlow         `json:"redirect,omitempty"`
-	StatementDescriptor string                `json:"statement_descriptor"`
 	SourceOrder         *SourceSourceOrder    `json:"source_order"`
+	StatementDescriptor string                `json:"statement_descriptor"`
 	Status              SourceStatus          `json:"status"`
 	Type                string                `json:"type"`
 	TypeData            map[string]interface{}
@@ -327,7 +335,7 @@ func (p *SourceObjectParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
-// UnmarshalJSON handles deserialization of an Source. This custom unmarshaling
+// UnmarshalJSON handles deserialization of a Source. This custom unmarshaling
 // is needed to extract the type specific data (accessible under `TypeData`)
 // but stored in JSON under a hash named after the `type` of the source.
 func (s *Source) UnmarshalJSON(data []byte) error {
@@ -336,6 +344,7 @@ func (s *Source) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
+
 	*s = Source(v)
 
 	var raw map[string]interface{}
