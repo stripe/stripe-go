@@ -40,6 +40,27 @@ public with sharing class utilities {
         return (sObject)JSON.deserialize(JSON.serialize(objMap), Type.forName(sObjectName));
     }
 
+    @AuraEnabled
+    public static String isCpqEnabled() {
+        responseData rd = new responseData();
+        try {
+            //just check if the namespace of SBQQ exists in the org 
+            List<PackageLicense> listOfOrgPackageLicenses = [SELECT Id, NamespacePrefix FROM PackageLicense];
+            if(!listOfOrgPackageLicenses.isEmpty()){
+                for(SObject packageLicenseRecord : listOfOrgPackageLicenses){
+                    if(string.valueOf(packageLicenseRecord.get('NamespacePrefix')).substring(0,4) == 'SBQQ') {
+                        rd.put('isCpqInstalled',true);
+                        return rd.getJsonString();
+                    }
+                }
+            }
+            rd.put('isCpqInstalled',false);
+        } catch (Exception e) {
+            rd.addError(e);
+        }
+        return rd.getJsonString();
+    }
+
     public static HttpResponse makeCallout(String endPoint, String method){
         return makeCallout(endPoint, method, null, null);
     }
@@ -68,21 +89,27 @@ public with sharing class utilities {
         }
  
         if(headers != null) {
+            //add headers to request if they exist
             for(String header : headers.keySet()) {
                 req.setHeader(header, headers.get(header));
             }
         } else {
+            /* these standard headers will be add to the request if none are provided
+             the ruby service expects these headers for all requests. */
             List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
                                                                 FROM Setup_Connection_Data__mdt
                                                                 WITH SECURITY_ENFORCED];    
             if(!setupConfigList.isEmpty()) {
                 Setup_Connection_Data__mdt setupData = setupConfigList[0];
                 String orgId = constants.ORG_ID;
-                //String globalKey = setupData.Global_Key__c; 
-                String globalKey = 'dee37489-9f31-91d5';
+                String globalKey = setupData.Global_Key__c;
                 String packageGuidKey = setupData.API_Key__c;
                 req.setHeader('Salesforce-Account-Id', orgId);
                 req.setHeader('Salesforce-Key', globalKey);
+                if(!String.isEmpty(constants.NAMESPACE_API)) {
+                    String packageID = setupAssistant.getPackageVersion();
+                    req.setHeader('Package-Id', packageID);
+                }
             } else {
                 throw new SetupIsNotCompleteException('Setup is not complete, contact your Salesforce administrator for further assistance.');
             }

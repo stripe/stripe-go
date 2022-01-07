@@ -1,10 +1,12 @@
 public with sharing class setupAssistant {
+    //gets the namespace of the package
     public String namespace { get; set; }
 
     public setupAssistant() {
         namespace = constants.NAMESPACE;
     }
 
+    //gets package version
     @AuraEnabled
     public static String getPackageVersion() {
         responseData rd = new responseData();
@@ -18,6 +20,7 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
+    //saves steps completed as a setup data metadata record to manage/presist states
     @AuraEnabled
     public static String saveData(Map<String, Object> setupData) {
         responseData rd = new responseData();
@@ -43,6 +46,7 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
+    //gets steps completed from setup data to manage/presist states
     @AuraEnabled
     public static String getSetupData() {
         responseData rd = new responseData();
@@ -68,18 +72,7 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
-    @AuraEnabled
-    public static String isCpqEnabled() {
-        responseData rd = new responseData();
-        try {
-            Boolean isCpqInstalled = UserInfo.isCurrentUserLicensed('SBQQDS');
-            rd.put('isCpqInstalled',isCpqInstalled);
-        } catch (Exception e) {
-            rd.addError(e);
-        }
-        return rd.getJsonString();
-    }
-
+    //used to create metadata record for test classes
     @testVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata { 
         get {
             if (setupConfigMetadata == null)
@@ -89,57 +82,71 @@ public with sharing class setupAssistant {
             return setupConfigMetadata;
         } set; }
 
+    //validates connection status 
     @AuraEnabled
     public static String validateConnectionStatus(Boolean isConnectedCallback) {
         responseData rd = new responseData();
         try {
             List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
                                                                 FROM Setup_Connection_Data__mdt
-                                                                WITH SECURITY_ENFORCED];                                                                 
+                                                                WITH SECURITY_ENFORCED];      
+                                                                
+            //lets us create custom metadata record if we are in test context                                                    
             if(Test.isRunningTest()){  
                 setupConfigList = setupConfigMetadata;
             }
 
             if(!setupConfigList.isEmpty()) {
                 Setup_Connection_Data__mdt setupData = setupConfigList[0];
-                String prefix = URL.getSalesforceBaseURL().toExternalForm().replace('https://', '').split('\\.')[0];
-                prefix = prefix.removeEnd('--c');
-                String domain = 'https://' + prefix.toLowerCase() + '.lightning.force.com';
+
+                /*checks to see if the user is already connected this runs on render of the component 
+                by passing a boolean param to denote this is being called on render*/
                 if((setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) && isConnectedCallback == true) {
-                    rd.put('domain',domain);
                     rd.put('isConnected',true);
                     return rd.getJsonString();
                 } else if ((setupData.Salesforce_Connected__c != true && setupData.Stripe_Connected__c != true) && isConnectedCallback == true) {
-                    rd.put('domain',domain);
                     rd.put('isConnected',false);
                     return rd.getJsonString();
                 }
+                //make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
                 String route = constants.RUBY_SERVICE_BASE_URI+'configuration';
                 HttpResponse response =  utilities.makeCallout(route,'GET');
 
                 Map<String, Object> errorBody; 
                 Map<String, Object> responseBody;
+
+                /*if we get a 200 response code from the ruby service we will check the connection status object
+                in the payload to determine weather the user successfully connected to stripe or not*/
                 if(response.getStatusCode() == 200) {
                     responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
                     Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
                     if((Boolean)connectionStatus.get('salesforce') == true)setupData.Salesforce_Connected__c = true; 
                     if((Boolean)connectionStatus.get('stripe') == true)setupData.Stripe_Connected__c = true; 
+
+                    /*if the response shows they are connected we will udpate the Setup Connection metadata record to signify they are connected. 
+                    We return a connection status of fresh to determine if we should show a toast message of success or not*/
                     if(((Boolean)connectionStatus.get('stripe') == true) && ((Boolean)connectionStatus.get('salesforce') == true)) {
                         rd.put('isConnected','fresh');
                     } else {
-                        rd.put('isConnected',false);
+                        rd.put('isConnected','notConnected');
                     }
-                    rd.put('domain',domain);
                     Map<String, Object> setupConfigMap = new Map<String, Object> {
                         'Salesforce_Connected__c' => setupData.Salesforce_Connected__c,
                         'Stripe_Connected__c' => setupData.Stripe_Connected__c 
                     };
+                    //update record 
                     metadataCRUD.saveSetupConfigData(setupConfigMap, 'Setup_Connection_Data__mdt.Default');
                 } else {
-                    rd.put('isConnected',false);
+                    /*if we do not get a 200 status code back we create an error log record to show we did not get a success
+                    response from the ruby service and send a status of failed to signify to show an error toast*/
+                    rd.put('isConnected','failed');
                     errorLogger.create('validateConnectionStatus', string.valueOf(response.getStatusCode()), (String)response.getStatus(), JSON.serialize(response));
                 }
                 
+            } else {
+                //if there is no record saved we are not connected
+                rd.put('isConnected',false);
+                return rd.getJsonString();
             }
         } catch (Exception e) {
             rd.addError(e);
@@ -288,7 +295,7 @@ public with sharing class setupAssistant {
         }
         return rd.getJsonString();
     }
-
+    
     @AuraEnabled
     public static String manualRetry(String jsonMapObj) {
         responseData rd = new responseData();

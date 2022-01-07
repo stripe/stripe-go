@@ -2,6 +2,7 @@
     <c-landing is-classic={isClassic}></c-landing>
 
     <!-- Wizards and Steps -->
+    <c-toast></c-toast>
     <c-wizard title="System Connections" description="Connect Stripe to your Salesforce org" setup show-close>
         <c-outbound-step onshowtoast={showToast}></c-outbound-step>
         <c-inbound-step onshowtoast={showToast}></c-inbound-step>

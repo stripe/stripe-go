@@ -9,5 +9,6 @@
             "enableS1DesktopEnabled": true
         }
     },
-    "hasSampleData": true
+    "hasSampleData": true,
+    "features": ["LightningServiceConsole","LiveAgent","Chatbot","ServiceCloud"]
 }

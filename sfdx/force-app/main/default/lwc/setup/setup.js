@@ -1,4 +1,3 @@
-import isCpqEnabled from '@salesforce/apex/setupAssistant.isCpqEnabled';
 import { LightningElement } from 'lwc';
 
 export default class Setup extends LightningElement {
@@ -15,25 +14,6 @@ export default class Setup extends LightningElement {
         this.template.addEventListener('finish', this.showLanding.bind(this));
     }
 
-    connectedCallback() {
-        isCpqEnabled()
-        .then(response => {
-           let responseData = JSON.parse(response);
-            if(responseData.isSuccess) {
-                /* let isCpqInstalled = responseData.results.isCpqInstalled;
-                if(isCpqInstalled === false) {
-                    //Arnold Sync with sean and see how we want to handle this
-                    this.showToast('The CPQ package is not installed in this org', 'error');
-                } */
-            } else { 
-                this.showToast(responseData.error, 'error');
-            }
-        }).catch(error => {
-            this.showToast(error.body.message, 'error');
-            this.loading = false;
-        });
-    }
-
     renderedCallback() {
         if (this._init !== true) {
             this._init = true;
@@ -44,17 +24,9 @@ export default class Setup extends LightningElement {
     showLanding() {
         this.template.querySelector('c-landing').show(this.wizards);
     }
-    showToast(message, variant, mode) {
-        this.dispatchEvent(new CustomEvent('showtoast', {
-            bubbles: true,
-            composed: true,
-            detail: { 
-                toast: {
-                    message: message,
-                    variant: variant,
-                    mode: mode
-                }
-            }
-        })); 
+    showToast(event) {
+        event.stopPropagation();
+        let toast = event.detail.toast;
+        this.template.querySelector('c-toast').show(toast.message, toast.variant, toast.mode);
     }
 }

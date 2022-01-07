@@ -42,6 +42,7 @@
     </div>
 
     <script type="text/javascript">
+
         $Lightning.use('{!JSENCODE(namespace)}:lightningOut', function () {
             document.getElementById('lightning').style.display = 'block';
             $Lightning.createComponent('{!JSENCODE(namespace)}:setupAssistant', {
@@ -53,5 +54,7 @@
                 }
             });
         });
+
+        
     </script>
 </apex:page>
