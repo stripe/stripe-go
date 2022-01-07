@@ -4,7 +4,7 @@ git_source(:github) {|repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.8'
 
-gem 'sorbet', '~> 0.5.9455', group: :development
+gem 'sorbet', '~> 0.5.9475', group: :development
 # gem 'sorbet-runtime', '~> 0.5.9318', require: true
 gem 'sorbet-rails', '~> 0.7.27'
 
@@ -31,7 +31,7 @@ gem 'redis', '~> 4.5.0'
 
 # database
 gem 'pg', '~> 1.2.3'
-gem 'sequel', '5.51.0'
+gem 'sequel', '5.52.0'
 
 # auth
 gem 'omniauth-salesforce'
@@ -39,8 +39,8 @@ gem 'omniauth-stripe'
 gem 'rack-attack', '~> 6.5.0'
 
 # translation
-gem 'restforce', '~> 5.2.1'
-gem 'stripe', '~> 5.41.0'
+gem 'restforce', '~> 5.2.2'
+gem 'stripe', '~> 5.42.0'
 gem 'rest-client', '~> 2.1.0'
 
 # Reduces boot times through caching; required in config/boot.rb
@@ -55,7 +55,7 @@ gem 'nokogiri', '>= 1.12.5'
 
 group :test do
   gem 'bundler-audit', '~> 0.9.0.1', require: false
-  gem 'brakeman', '~> 5.1.2', require: false
+  gem 'brakeman', '~> 5.2.0', require: false
 
   gem 'minitest', '~> 5.15.0'
   gem 'minitest-ci', '~> 3.4.0'
