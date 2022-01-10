@@ -174,7 +174,7 @@ class StripeForce::Translate
         log.error 'no subscription term specified', salesforce_record: sf_order_item
       else
         # TODO need to some input validation here
-        optional_params[:recurring][:interval_count] = sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TERM].to_i
+        optional_params[:recurring][:interval_count] = sf_product[CPQ_PRODUCT_SUBSCRIPTION_TERM].to_i
       end
     end
 
