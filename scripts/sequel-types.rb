@@ -38,7 +38,7 @@ class SequelSorbetPlugin
     attribute_module_name = "#{@model_class}::GeneratedAttributeMethods"
     attribute_module_rbi = root.create_module(attribute_module_name)
 
-    model_class_rbi = root.create_class(@model_class.to_s)
+    model_class_rbi = root.create_class(@model_class.to_s, superclass: Sequel::Model.to_s)
     model_class_rbi.create_include(attribute_module_name)
 
     table_schema = @model_class.db.schema(@model_class.table_name)
