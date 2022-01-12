@@ -27,6 +27,7 @@ module ActiveRecord::AttributeMethods::Query; end
 module ActiveRecord::Calculations; end
 module ActiveRecord::ConnectionAdapters::QueryCache; end
 module ActiveRecord::Delegation::DelegateCache; end
+module ActiveRecord::Reflection::MacroReflection; end
 module ActiveRecord::Scoping::Default; end
 module ActiveRecord::SpawnMethods; end
 module ActiveRecord::TestDatabases; end
@@ -36,6 +37,7 @@ module ActiveStorage::Attachment; end
 module ActiveStorage::Blob::Analyzable; end
 module ActiveStorage::Blob::Identifiable; end
 module ActiveStorage::Variant; end
+module Arel::Attributes::Attribute; end
 module Mail::CheckDeliveryParams; end
 module Mail::Ruby19; end
 module PG::Error; end

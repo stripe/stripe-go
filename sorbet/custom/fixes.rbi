@@ -1,4 +1,4 @@
-# typed: strict
+# typed: true
 
 # class ActionController::Base
 #   # should be auto included, but sorbet is acting up
