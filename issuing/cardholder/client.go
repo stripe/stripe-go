@@ -5,7 +5,7 @@
 //
 
 // Package cardholder provides the /issuing/cardholders APIs
-// For more details, see: https://stripe.com/docs/api/go#issuing_cardholders
+// For more details, see: https://stripe.com/docs/api/?lang=go#issuing_cardholders
 package cardholder
 
 import (
