@@ -15,7 +15,7 @@ class ApplicationIntegrationTest
   # include ActionController::Metal
   def response; end
 
-  def https!; end
+  def https!(flag = nil); end
 
   include Minitest::Assertions
 end
