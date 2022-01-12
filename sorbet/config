@@ -4,3 +4,7 @@
 vendor/bundle
 --ignore
 node_modules
+--ignore
+scripts
+--ignore
+db
