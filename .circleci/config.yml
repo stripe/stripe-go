@@ -15,7 +15,7 @@ workflows:
           # a build could be pending on multiple builds
           # 6hrs is an insane value, but it's better than waking up to a bunch of
           # broken builds that you need to re-run
-          time: "1440"
+          time: '1440'
       - build:
           requires:
             # We will wait for the block and typecheck tasks to complete
@@ -39,14 +39,14 @@ workflows:
 jobs:
   typecheck:
     docker:
-      - image: cimg/ruby:2.6.8
+    - image: cimg/ruby:2.6.8
     steps:
       - checkout
       - ruby/install-deps
       - run: bundle exec srb tc
   rubocop:
     docker:
-      - image: cimg/ruby:2.6.8
+    - image: cimg/ruby:2.6.8
     steps:
       - checkout
       - ruby/install-deps
@@ -64,7 +64,7 @@ jobs:
       RAILS_TEST_SERVER_PORT: 8081
       TEST_DATABASE_URL: postgres://ubuntu:@127.0.0.1:5432/circle_test
       REDIS_URL: redis://localhost:6379
-      RAISE_EXCEPTIONS: "true"
+      RAISE_EXCEPTIONS: 'true'
       # providing a fake DSN ensures sentry tests run with production parity
       SENTRY_DSN: stdout://12345:67890@sentry.localdomain/prefix/sentry/42
       SIGNALFX_TOKEN: foo
@@ -77,13 +77,13 @@ jobs:
     # TODO possibly use the heroku image instead?
     docker:
       # replace `:.*` with `@sha256:THE_SHA` to lock the build to a specific container SHA
-      - image: cimg/ruby:2.6.8-browsers
-      - image: circleci/postgres:13.2
-        environment:
-          POSTGRES_DB: circle_test
-          POSTGRES_USER: ubuntu
-          POSTGRES_PASSWORD: pg_password
-      - image: circleci/redis:6.2.3
+    - image: cimg/ruby:2.6.8-browsers
+    - image: circleci/postgres:13.2
+      environment:
+        POSTGRES_DB: circle_test
+        POSTGRES_USER: ubuntu
+        POSTGRES_PASSWORD: pg_password
+    - image: circleci/redis:6.2.3
 
     steps:
     - browser-tools/install-chrome
@@ -153,63 +153,24 @@ jobs:
           echo $SPLIT_TEST_FILES
           bundle exec rails test --ci-dir $CIRCLE_TEST_REPORTS --profile $SPLIT_TEST_FILES
 
-      - run:
-          name: Setting up https proxy
-          command: |
-            printf '127.0.0.1 stripe-netsuite-test.dev' | sudo tee -a /etc/hosts
-            # https://github.com/stripe/stripe-netsuite/issues/1736
-            sudo npm install -g nassau-https-proxy@1.0.4
-      - run:
-          name: Running https proxy
-          # wait for up to 30m to ensure NS communication doesn't timeout; backoffs and temporary slowdowns could cause intermittent failures
-          command: sudo PROXY_TIMEOUT=1800 FORWARD_PORT=$RAILS_TEST_SERVER_PORT nassau-https-proxy
-          background: true
+    - run:
+        # DO NOT change the name of this task; email redirects to data-io-bots match against this name
+        name: Nightly Test Environment Cleanup
+        when: always
+        command: |
+          # more info on why `CIRCLE_USERNAME` is used: https://github.com/stripe/stripe-netsuite/pull/2455
+          if [ -z "$CIRCLE_USERNAME" ] && [ "$CIRCLE_NODE_INDEX" == "0" ]; then
+            echo "Cleaning Test Environment"
+          fi
 
-      - run:
-          name: Database Migration
-          command: |
-            bundle exec ruby db/migration.rb
-            # bundle exec sequel -m migrations $TEST_DATABASE_URL
-      # always run bundle-audit in case new security issues are found without a Gemfile change
-      # https://github.com/stripe/stripe-netsuite/issues/1713
-      - run:
-          name: Gem Security Audit
-          command: |
-            if [ "$CIRCLE_NODE_INDEX" == "0" ]; then
-              bundle exec bundle-audit update && bundle exec bundle-audit check
-            fi
-      - run:
-          name: Code Security Audit
-          command: |
-            if [ "$CIRCLE_NODE_INDEX" == "0" ]; then
-              bundle exec brakeman -z
-            fi
-      - run:
-          when: always
-          no_output_timeout: "20m"
-          command: |
-            # https://discuss.circleci.com/t/test-timings-are-still-missing-with-2-0-and-workflows/21247/14
-            # https://github.com/CircleCI-Public/circleci-cli/blob/master/cmd/tests.go#L54
-            SPLIT_TEST_FILES=$(circleci tests glob "test/**/test*.rb" | circleci tests split --split-by=timings --timings-type=filename)
-            echo $SPLIT_TEST_FILES
-            bundle exec rails test --ci-dir $CIRCLE_TEST_REPORTS --profile $SPLIT_TEST_FILES
-      - run:
-          # DO NOT change the name of this task; email redirects to data-io-bots match against this name
-          name: Nightly Test Environment Cleanup
-          when: always
-          command: |
-            # more info on why `CIRCLE_USERNAME` is used: https://github.com/stripe/stripe-netsuite/pull/2455
-            if [ -z "$CIRCLE_USERNAME" ] && [ "$CIRCLE_NODE_INDEX" == "0" ]; then
-              echo "Cleaning Test Environment"
-            fi
-      - store_test_results:
-          path: /tmp/test-results
+    - store_test_results:
+        path: /tmp/test-results
 
-      # one entry for each directory we want to store
-      - store_artifacts:
-          path: /tmp/artifacts
-      - store_artifacts:
-          path: /tmp/test-results
+    # one entry for each directory we want to store
+    - store_artifacts:
+        path: /tmp/artifacts
+    - store_artifacts:
+        path: /tmp/test-results
 
   # prevent more than a single build from running at one time
   # the implementation below is customized to remove additional unneeded parameters
@@ -266,9 +227,11 @@ jobs:
               fetch_filtered_active_builds
               fetch_active_workflows
               load_current_workflow_values
+
               echo "This job will block until no previous workflows have *any* jobs running."
               oldest_running_build_num=`jq 'sort_by(.workflows.created_at)| .[0].build_num' /tmp/augmented_jobstatus.json`
               oldest_commit_time=`jq 'sort_by(.workflows.created_at)| .[0].workflows.created_at' /tmp/augmented_jobstatus.json`
+
               echo "Oldest job: $oldest_running_build_num"
               if [ -z $oldest_commit_time ];then
                 echo "API Call for existing jobs failed, failing this build.  Please check API token"
@@ -297,6 +260,7 @@ jobs:
               # It's important that we not fail here because it could cause issues on the main repo's branch
               exit 0
             fi
+
             #
             # Set values that wont change while we wait
             #
