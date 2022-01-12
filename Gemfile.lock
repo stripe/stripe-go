@@ -186,9 +186,9 @@ GEM
       ruby2_keywords (~> 0.0.1)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.12.5-x86_64-darwin)
+    nokogiri (1.13.0-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.12.5-x86_64-linux)
+    nokogiri (1.13.0-x86_64-linux)
       racc (~> 1.4)
     oauth2 (1.4.7)
       faraday (>= 0.8, < 2.0)
@@ -425,7 +425,7 @@ DEPENDENCIES
   minitest-rails (~> 6.1.0)
   minitest-reporters (~> 1.4.2)
   mocha (~> 1.9)
-  nokogiri (>= 1.12.5)
+  nokogiri (>= 1.13.0)
   omniauth-salesforce
   omniauth-stripe
   pg (~> 1.2.3)

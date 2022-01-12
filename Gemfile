@@ -51,7 +51,7 @@ gem 'bootsnap', '>= 1.9.1', require: false
 # gem 'omniauth', '~> 2.0.4'
 
 # CVE-2019-13117 https://github.com/sparklemotion/nokogiri/issues/1943
-gem 'nokogiri', '>= 1.12.5'
+gem 'nokogiri', '>= 1.13.0'
 
 group :test do
   gem 'bundler-audit', '~> 0.9.0.1', require: false
