@@ -16,17 +16,3 @@ Sentry.init do |config|
   # `DYNO` is formatted as `worker.12`, `scheduler.1`, etc
   config.server_name = ENV.fetch('DYNO')[/[^.]+/, 0] if ENV['DYNO']
 end
-
-# https://github.com/getsentry/sentry-ruby/issues/1612
-Sentry::BackgroundWorker.class_eval do
-  def drain_and_shutdown(timeout=1)
-    T.bind(self, Sentry::BackgroundWorker)
-
-    return if @executor.class != Concurrent::ThreadPoolExecutor
-
-    # https://github.com/ruby-shoryuken/shoryuken/blob/0d89335abca86021a9d9036a93d43233aa8b061c/lib/shoryuken/launcher.rb#L26-L33
-    @executor.shutdown
-    return if @executor.wait_for_termination(timeout)
-    @executor.kill
-  end
-end
