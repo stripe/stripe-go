@@ -111,7 +111,7 @@ module StripeForce::User::GeneratedAttributeMethods
   def updated_at=(value); end
 end
 
-class StripeForce::User
+class StripeForce::User < Sequel::Model
   include StripeForce::User::GeneratedAttributeMethods
 
   sig { params(value: T::Hash[T.untyped, T.untyped]).returns(T.nilable(StripeForce::User)) }

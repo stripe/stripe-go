@@ -45,7 +45,7 @@ module StripeForce::PollTimestamp::GeneratedAttributeMethods
   def updated_at=(value); end
 end
 
-class StripeForce::PollTimestamp
+class StripeForce::PollTimestamp < Sequel::Model
   include StripeForce::PollTimestamp::GeneratedAttributeMethods
 
   sig { params(value: T::Hash[T.untyped, T.untyped]).returns(T.nilable(StripeForce::PollTimestamp)) }
