@@ -79,7 +79,7 @@ group :test, :development do
   gem 'pry-stack_explorer', '~> 0.6.1'
   gem 'pry-nav', '~> 1.0.0'
   gem 'pry-rails', '~> 0.3.9'
-  gem 'pry-doc', '~> 1.2.0'
+  gem 'pry-doc', '~> 1.3.0'
   # https://github.com/SudhagarS/pry-state
   gem 'binding_of_caller', '~> 1.0.0'
 end
