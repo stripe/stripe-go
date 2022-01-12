@@ -5,7 +5,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/edit/master/lib/activerecord/all/activerecord.rbi
 #
-# typed: strong
+# typed: strict
 
 VariadicUntypedFunction = T.type_alias { Proc }
 AssociationCallback = T.type_alias do

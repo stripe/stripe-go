@@ -5,7 +5,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/edit/master/lib/actionview/all/actionview.rbi
 #
-# typed: strict
+# typed: strong
 
 module ActionView
   class ActionViewError < StandardError; end
@@ -157,8 +157,8 @@ module ActionView::Helpers::UrlHelper
   # ```
   #
   # We can also pass in the symbol arguments instead of strings.
-  sig { params(options: T.untyped, check_parameters: T::Boolean).returns(T::Boolean) }
-  def current_page?(options, check_parameters: false); end
+  sig { params(options: T.untyped, check_parameters: T::Boolean, options_as_kwargs: T::Hash[T.untyped, T.untyped]).returns(T::Boolean) }
+  def current_page?(options, check_parameters: false, **options_as_kwargs); end
 
   # Creates an anchor element of the given `name` using a URL created by the set of `options`.
   # See the valid options in the documentation for `url_for`. It's also possible to

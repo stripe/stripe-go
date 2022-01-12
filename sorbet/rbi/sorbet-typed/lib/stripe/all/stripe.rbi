@@ -389,6 +389,27 @@ module Stripe
   class CustomerBalanceTransaction < APIResource
     sig { returns(Integer) }
     def amount; end
+
+    sig { returns(Integer) }
+    def created; end
+
+    sig { returns(T.nilable(String)) }
+    def credit_note; end
+
+    sig { returns(String) }
+    def currency; end
+
+    sig { returns(String) }
+    def customer; end
+
+    sig { returns(Integer) }
+    def ending_balance; end
+
+    sig { returns(T.nilable(String)) }
+    def invoice; end
+
+    sig { returns(String) }
+    def type; end
   end
 
   class Event < APIResource

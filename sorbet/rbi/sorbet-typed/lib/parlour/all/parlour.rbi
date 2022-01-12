@@ -5,7 +5,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/edit/master/lib/parlour/all/parlour.rbi
 #
-# typed: strict
+# typed: false
 module Kernel
 end
 

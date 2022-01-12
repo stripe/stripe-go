@@ -5,7 +5,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/edit/master/lib/activerecord/>=5/activerecord.rbi
 #
-# typed: strict
+# typed: false
 
 class ActiveRecord::Base
 
