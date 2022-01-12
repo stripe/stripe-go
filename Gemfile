@@ -67,7 +67,7 @@ group :test do
   gem 'capybara', '~> 3.36.0'
   gem 'webdrivers', '~> 4.7.0'
   gem 'selenium-webdriver', '~> 3.142.7'
-  gem 'capybara-screenshot', '~> 1.0.25'
+  gem 'capybara-screenshot', '~> 1.0.26'
 
   gem 'mocha', '~> 1.9'
   gem 'rack-test', '~> 1.1.0'
