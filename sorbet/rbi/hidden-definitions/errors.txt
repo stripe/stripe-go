@@ -16,7 +16,6 @@
 # wrong constant name <RESERVED_0>
 # wrong constant name <RESERVED_10>
 # wrong constant name <RESERVED_11>
-# wrong constant name <RESERVED_12>
 # wrong constant name <RESERVED_1>
 # wrong constant name <RESERVED_2>
 # wrong constant name <RESERVED_3>
@@ -129,6 +128,42 @@
 # uninitialized constant ANSI::Logger::WARN
 # uninitialized constant Abbrev
 # uninitialized constant Abbrev
+# uninitialized constant ActionCable::Channel::TestCase::CALLBACK_FILTER_TYPES
+# uninitialized constant ActionCable::Channel::TestCase::CHANNEL_IDENTIFIER
+# uninitialized constant ActionCable::Channel::TestCase::E
+# uninitialized constant ActionCable::Channel::TestCase::PASSTHROUGH_EXCEPTIONS
+# uninitialized constant ActionCable::Channel::TestCase::SIGNALS
+# uninitialized constant ActionCable::Channel::TestCase::TEARDOWN_METHODS
+# uninitialized constant ActionCable::Channel::TestCase::UNDEFINED
+# uninitialized constant ActionCable::Channel::TestCase::UNTRACKED
+# wrong constant name must_broadcast_on
+# wrong constant name must_have_broadcasts
+# wrong constant name must_have_stream_for
+# wrong constant name must_have_streams
+# wrong constant name refute_broadcasts
+# wrong constant name refute_streams
+# wrong constant name wont_have_broadcasts
+# wrong constant name wont_have_streams
+# uninitialized constant ActionCable::Connection::TestCase::CALLBACK_FILTER_TYPES
+# uninitialized constant ActionCable::Connection::TestCase::DEFAULT_PATH
+# uninitialized constant ActionCable::Connection::TestCase::E
+# uninitialized constant ActionCable::Connection::TestCase::PASSTHROUGH_EXCEPTIONS
+# uninitialized constant ActionCable::Connection::TestCase::SIGNALS
+# uninitialized constant ActionCable::Connection::TestCase::TEARDOWN_METHODS
+# uninitialized constant ActionCable::Connection::TestCase::UNDEFINED
+# uninitialized constant ActionCable::Connection::TestCase::UNTRACKED
+# wrong constant name must_reject_connection
+# uninitialized constant ActionCable::TestCase::CALLBACK_FILTER_TYPES
+# uninitialized constant ActionCable::TestCase::E
+# uninitialized constant ActionCable::TestCase::PASSTHROUGH_EXCEPTIONS
+# uninitialized constant ActionCable::TestCase::SIGNALS
+# uninitialized constant ActionCable::TestCase::TEARDOWN_METHODS
+# uninitialized constant ActionCable::TestCase::UNDEFINED
+# uninitialized constant ActionCable::TestCase::UNTRACKED
+# wrong constant name must_broadcast_on
+# wrong constant name must_have_broadcasts
+# wrong constant name refute_broadcasts
+# wrong constant name wont_have_broadcasts
 # uninitialized constant ActionController::API::CALLBACK_FILTER_TYPES
 # uninitialized constant ActionController::API::DEFAULT_PROTECTED_INSTANCE_VARIABLES
 # uninitialized constant ActionController::API::DEFAULT_SEND_FILE_DISPOSITION
@@ -330,6 +365,12 @@
 # uninitialized constant ActionDispatch::IntegrationTest::UNDEFINED
 # uninitialized constant ActionDispatch::IntegrationTest::UNTRACKED
 # wrong constant name <Class:UrlOptions>
+# wrong constant name must_redirect_to
+# wrong constant name must_respond_with
+# wrong constant name must_select
+# wrong constant name must_select_email
+# wrong constant name must_select_encoded
+# wrong constant name refute_dom_equal
 # uninitialized constant ActionDispatch::IntegrationTest::Behavior::APP_SESSIONS
 # wrong constant name <Class:ClassMethods>
 # uninitialized constant ActionDispatch::IntegrationTest::Behavior::RESPONSE_PREDICATES
@@ -341,7 +382,6 @@
 # wrong constant name <static-init>
 # wrong constant name <static-init>
 # wrong constant name url_options
-# wrong constant name <static-init>
 # wrong constant name <static-init>
 # uninitialized constant ActionDispatch::Journey::Parser::Racc_Main_Parsing_Routine
 # uninitialized constant ActionDispatch::Journey::Parser::Racc_Runtime_Core_Id_C
@@ -382,6 +422,21 @@
 # uninitialized constant ActionDispatch::Request::POLICY_REPORT_ONLY
 # uninitialized constant ActionDispatch::Request::PROTOCOL_REGEXP
 # uninitialized constant ActionDispatch::Request::RESCUABLE_MIME_FORMAT_ERRORS
+# wrong constant name <Class:IdentityEncoder>
+# wrong constant name accept_header
+# wrong constant name content_type
+# wrong constant name encode_params
+# wrong constant name initialize
+# wrong constant name response_parser
+# wrong constant name accept_header
+# wrong constant name content_type
+# wrong constant name encode_params
+# wrong constant name response_parser
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name encoder
+# wrong constant name parser
+# wrong constant name register_encoder
 # uninitialized constant ActionDispatch::Response::DATE
 # uninitialized constant ActionDispatch::Response::DEFAULT_CACHE_CONTROL
 # uninitialized constant ActionDispatch::Response::EXCEPTION_IMMEDIATE
@@ -430,7 +485,6 @@
 # uninitialized constant ActionDispatch::SystemTestCase::UNDEFINED
 # uninitialized constant ActionDispatch::SystemTestCase::UNTRACKED
 # wrong constant name initialize
-# wrong constant name <static-init>
 # wrong constant name driven_by
 # wrong constant name driver
 # wrong constant name driver=
@@ -748,6 +802,8 @@
 # wrong constant name message
 # wrong constant name processed?
 # wrong constant name <static-init>
+# wrong constant name initialize
+# wrong constant name <static-init>
 # wrong constant name <Class:ClassMethods>
 # wrong constant name <Class:DeliveryJob>
 # wrong constant name <Class:Mailer>
@@ -798,6 +854,13 @@
 # wrong constant name _mailer_class
 # wrong constant name _mailer_class=
 # wrong constant name _mailer_class?
+# wrong constant name must_enqueue_email_with
+# wrong constant name must_have_emails
+# wrong constant name must_have_enqueued_emails
+# wrong constant name refute_emails
+# wrong constant name refute_enqueued_emails
+# wrong constant name wont_have_emails
+# wrong constant name wont_have_enqueued_emails
 # wrong constant name <Class:ClassMethods>
 # uninitialized constant ActionMailer::TestCase::Behavior::UNTRACKED
 # wrong constant name determine_default_mailer
@@ -827,6 +890,7 @@
 # wrong constant name <Class:CacheExpiry>
 # wrong constant name <Class:CollectionCaching>
 # wrong constant name <Class:CollectionRenderer>
+# wrong constant name <Class:Context>
 # wrong constant name <Class:DependencyTracker>
 # wrong constant name <Class:Digestor>
 # wrong constant name <Class:FallbackFileSystemResolver>
@@ -1018,6 +1082,7 @@
 # wrong constant name output_buffer=
 # wrong constant name view_flow
 # wrong constant name view_flow=
+# wrong constant name <static-init>
 # wrong constant name <Class:ERBTracker>
 # wrong constant name dependencies
 # wrong constant name initialize
@@ -1733,6 +1798,7 @@
 # wrong constant name _helper_methods?
 # wrong constant name debug_missing_translation
 # wrong constant name debug_missing_translation=
+# wrong constant name refute_dom_equal
 # wrong constant name <Class:ClassMethods>
 # uninitialized constant ActionView::TestCase::Behavior::JOIN
 # wrong constant name <Class:Locals>
@@ -1923,6 +1989,14 @@
 # uninitialized constant ActiveJob::TestCase::TEARDOWN_METHODS
 # uninitialized constant ActiveJob::TestCase::UNDEFINED
 # uninitialized constant ActiveJob::TestCase::UNTRACKED
+# wrong constant name must_enqueue_jobs
+# wrong constant name must_enqueue_with
+# wrong constant name must_perform_jobs
+# wrong constant name must_perform_with
+# wrong constant name refute_enqueued_jobs
+# wrong constant name refute_performed_jobs
+# wrong constant name wont_enqueue_jobs
+# wrong constant name wont_perform_jobs
 # wrong constant name <static-init>
 # wrong constant name <Class:TestQueueAdapter>
 # uninitialized constant ActiveJob::TestHelper::UNTRACKED
@@ -1947,6 +2021,18 @@
 # wrong constant name marshal_dump
 # wrong constant name marshal_load
 # wrong constant name <static-init>
+# wrong constant name any_changes?
+# wrong constant name change_to_attribute
+# wrong constant name changed?
+# wrong constant name changed_attribute_names
+# wrong constant name changed_in_place?
+# wrong constant name changed_values
+# wrong constant name changes
+# wrong constant name force_change
+# wrong constant name forget_change
+# wrong constant name initialize
+# wrong constant name original_value
+# wrong constant name <static-init>
 # wrong constant name <Class:ClassMethods>
 # wrong constant name attribute_names
 # wrong constant name attributes
@@ -1966,6 +2052,9 @@
 # wrong constant name clear_attribute_changes
 # wrong constant name clear_changes_information
 # wrong constant name restore_attributes
+# uninitialized constant ActiveModel::ForcedMutationTracker::OPTION_NOT_GIVEN
+# wrong constant name finalize_changes
+# wrong constant name <static-init>
 # wrong constant name <Class:Tests>
 # wrong constant name test_errors_aref
 # wrong constant name test_model_naming
@@ -1975,6 +2064,16 @@
 # wrong constant name test_to_partial_path
 # wrong constant name <static-init>
 # wrong constant name <static-init>
+# wrong constant name any_changes?
+# wrong constant name change_to_attribute
+# wrong constant name changed?
+# wrong constant name changed_attribute_names
+# wrong constant name changed_in_place?
+# wrong constant name changed_values
+# wrong constant name changes
+# wrong constant name original_value
+# wrong constant name <static-init>
+# wrong constant name instance
 # wrong constant name has_secure_password
 # uninitialized constant ActiveModel::SecurePassword::InstanceMethodsOnActivation::DELEGATION_RESERVED_KEYWORDS
 # uninitialized constant ActiveModel::SecurePassword::InstanceMethodsOnActivation::DELEGATION_RESERVED_METHOD_NAMES
@@ -2067,6 +2166,14 @@
 # wrong constant name <Class:ClassMethods>
 # wrong constant name reload
 # wrong constant name composed_of
+# wrong constant name <static-init>
+# wrong constant name initialize
+# wrong constant name <Class:Correction>
+# wrong constant name association_name
+# wrong constant name initialize
+# wrong constant name record
+# wrong constant name corrections
+# wrong constant name initialize
 # wrong constant name <static-init>
 # uninitialized constant ActiveRecord::AssociationRelation::CLAUSE_METHODS
 # uninitialized constant ActiveRecord::AssociationRelation::Elem
@@ -2527,6 +2634,10 @@
 # wrong constant name new
 # wrong constant name _write_attribute
 # wrong constant name write_attribute
+# wrong constant name attribute
+# wrong constant name define_attribute
+# wrong constant name load_schema!
+# wrong constant name <static-init>
 # wrong constant name <Class:AssociationBuilderExtension>
 # wrong constant name changed_for_autosave?
 # wrong constant name destroyed_by_association
@@ -3612,6 +3723,54 @@
 # wrong constant name reset_counters
 # wrong constant name update_counters
 # wrong constant name <static-init>
+# wrong constant name <Class:ConnectionUrlResolver>
+# wrong constant name <Class:DatabaseConfig>
+# wrong constant name <Class:HashConfig>
+# wrong constant name <Class:InvalidConfigurationError>
+# wrong constant name <Class:UrlConfig>
+# wrong constant name []
+# wrong constant name any?
+# wrong constant name configs_for
+# wrong constant name configurations
+# wrong constant name default_hash
+# wrong constant name empty?
+# wrong constant name find_db_config
+# wrong constant name initialize
+# wrong constant name primary?
+# wrong constant name resolve
+# wrong constant name to_h
+# wrong constant name initialize
+# wrong constant name to_hash
+# wrong constant name <static-init>
+# wrong constant name _database=
+# wrong constant name adapter
+# wrong constant name adapter_method
+# wrong constant name checkout_timeout
+# wrong constant name config
+# wrong constant name database
+# wrong constant name env_name
+# wrong constant name for_current_env?
+# wrong constant name host
+# wrong constant name idle_timeout
+# wrong constant name initialize
+# wrong constant name migrations_paths
+# wrong constant name name
+# wrong constant name owner_name
+# wrong constant name owner_name=
+# wrong constant name pool
+# wrong constant name reaping_frequency
+# wrong constant name replica?
+# wrong constant name schema_cache_path
+# wrong constant name spec_name
+# wrong constant name <static-init>
+# wrong constant name configuration_hash
+# wrong constant name initialize
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name initialize
+# wrong constant name url
+# wrong constant name <static-init>
+# wrong constant name <static-init>
 # wrong constant name delegated_type
 # wrong constant name <static-init>
 # wrong constant name &
@@ -3649,6 +3808,7 @@
 # wrong constant name initialize_relation_delegate_cache
 # wrong constant name relation_delegate_class
 # wrong constant name <static-init>
+# wrong constant name initialize
 # uninitialized constant ActiveRecord::DestroyAssociationAsyncJob::CALLBACK_FILTER_TYPES
 # wrong constant name perform
 # wrong constant name <static-init>
@@ -3666,6 +3826,7 @@
 # wrong constant name pattern
 # wrong constant name prefix
 # wrong constant name suffix
+# wrong constant name initialize
 # wrong constant name <Class:ConflictTypedEnumNameError>
 # wrong constant name <Class:EnumType>
 # wrong constant name <Class:MultipleEnumsDefinedError>
@@ -3690,6 +3851,17 @@
 # wrong constant name extended
 # wrong constant name collecting_queries_for_explain
 # wrong constant name exec_explain
+# wrong constant name collect
+# wrong constant name collect=
+# wrong constant name collect?
+# wrong constant name queries
+# wrong constant name queries=
+# wrong constant name reset
+# wrong constant name <static-init>
+# wrong constant name finish
+# wrong constant name ignore_payload?
+# wrong constant name start
+# wrong constant name <static-init>
 # wrong constant name exists?
 # wrong constant name fifth
 # wrong constant name fifth!
@@ -3718,6 +3890,108 @@
 # wrong constant name third_to_last
 # wrong constant name third_to_last!
 # wrong constant name <static-init>
+# uninitialized constant ActiveRecord::Fixture::Elem
+# wrong constant name <Class:FixtureError>
+# wrong constant name <Class:FormatError>
+# wrong constant name []
+# wrong constant name class_name
+# wrong constant name each
+# wrong constant name find
+# wrong constant name fixture
+# wrong constant name initialize
+# wrong constant name model_class
+# wrong constant name to_hash
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name <Class:ClassCache>
+# wrong constant name <Class:File>
+# wrong constant name <Class:ModelMetadata>
+# wrong constant name <Class:RenderContext>
+# wrong constant name <Class:TableRow>
+# wrong constant name <Class:TableRows>
+# wrong constant name []
+# wrong constant name []=
+# wrong constant name all_loaded_fixtures
+# wrong constant name all_loaded_fixtures=
+# wrong constant name config
+# wrong constant name each
+# wrong constant name fixtures
+# wrong constant name ignored_fixtures
+# wrong constant name initialize
+# wrong constant name model_class
+# wrong constant name name
+# wrong constant name size
+# wrong constant name table_name
+# wrong constant name table_rows
+# wrong constant name []
+# wrong constant name initialize
+# wrong constant name <static-init>
+# uninitialized constant ActiveRecord::FixtureSet::File::Elem
+# wrong constant name each
+# wrong constant name ignored_fixtures
+# wrong constant name initialize
+# wrong constant name model_class
+# wrong constant name <static-init>
+# wrong constant name open
+# wrong constant name has_primary_key_column?
+# wrong constant name inheritance_column_name
+# wrong constant name initialize
+# wrong constant name primary_key_name
+# wrong constant name primary_key_type
+# wrong constant name timestamp_column_names
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name create_subclass
+# wrong constant name <Class:HasManyThroughProxy>
+# wrong constant name <Class:ReflectionProxy>
+# wrong constant name initialize
+# wrong constant name to_hash
+# wrong constant name lhs_key
+# wrong constant name rhs_key
+# wrong constant name <static-init>
+# wrong constant name initialize
+# wrong constant name join_table
+# wrong constant name name
+# wrong constant name primary_key_type
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name initialize
+# wrong constant name model_class
+# wrong constant name model_metadata
+# wrong constant name tables
+# wrong constant name to_hash
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name all_loaded_fixtures
+# wrong constant name all_loaded_fixtures=
+# wrong constant name cache_fixtures
+# wrong constant name cache_for_connection
+# wrong constant name cached_fixtures
+# wrong constant name context_class
+# wrong constant name create_fixtures
+# wrong constant name default_fixture_model_name
+# wrong constant name default_fixture_table_name
+# wrong constant name fixture_is_cached?
+# wrong constant name identify
+# wrong constant name instantiate_all_loaded_fixtures
+# wrong constant name instantiate_fixtures
+# wrong constant name reset_cache
+# wrong constant name signed_global_id
+# wrong constant name <Class:Correction>
+# wrong constant name initialize
+# wrong constant name owner_class
+# wrong constant name reflection
+# wrong constant name corrections
+# wrong constant name initialize
+# wrong constant name <static-init>
+# wrong constant name initialize
+# wrong constant name initialize
+# wrong constant name initialize
+# wrong constant name initialize
+# wrong constant name initialize
+# wrong constant name initialize
+# wrong constant name initialize
 # wrong constant name abstract_class?
 # wrong constant name base_class
 # wrong constant name base_class?
@@ -3730,6 +4004,34 @@
 # wrong constant name polymorphic_name
 # wrong constant name sti_class_for
 # wrong constant name sti_name
+# wrong constant name <Class:Builder>
+# wrong constant name connection
+# wrong constant name execute
+# wrong constant name initialize
+# wrong constant name inserts
+# wrong constant name keys
+# wrong constant name map_key_with_value
+# wrong constant name model
+# wrong constant name on_duplicate
+# wrong constant name primary_keys
+# wrong constant name returning
+# wrong constant name skip_duplicates?
+# wrong constant name unique_by
+# wrong constant name updatable_columns
+# wrong constant name update_duplicates?
+# wrong constant name conflict_target
+# wrong constant name initialize
+# wrong constant name into
+# wrong constant name keys
+# wrong constant name model
+# wrong constant name returning
+# wrong constant name skip_duplicates?
+# wrong constant name touch_model_timestamps_unless
+# wrong constant name updatable_columns
+# wrong constant name update_duplicates?
+# wrong constant name values_list
+# wrong constant name <static-init>
+# wrong constant name <static-init>
 # wrong constant name <Class:ClassMethods>
 # wrong constant name cache_key
 # wrong constant name cache_key_with_version
@@ -3738,21 +4040,21 @@
 # wrong constant name collection_cache_key
 # wrong constant name to_param
 # wrong constant name <static-init>
-# uninitialized constant #<Class:0x00007f88137e8b30>::ACTIONS
+# uninitialized constant #<Class:0x00007f7c1f94bab8>::ACTIONS
 # wrong constant name <Class:ActiveRecord_AssociationRelation>
 # wrong constant name <Class:ActiveRecord_Associations_CollectionProxy>
 # wrong constant name <Class:ActiveRecord_Relation>
-# uninitialized constant #<Class:0x00007f88137e8b30>::CALLBACKS
-# uninitialized constant #<Class:0x00007f88137e8b30>::CALLBACK_FILTER_TYPES
-# uninitialized constant #<Class:0x00007f88137e8b30>::CALL_COMPILABLE_REGEXP
+# uninitialized constant #<Class:0x00007f7c1f94bab8>::CALLBACKS
+# uninitialized constant #<Class:0x00007f7c1f94bab8>::CALLBACK_FILTER_TYPES
+# uninitialized constant #<Class:0x00007f7c1f94bab8>::CALL_COMPILABLE_REGEXP
 # wrong constant name <Class:GeneratedAssociationMethods>
 # wrong constant name <Class:GeneratedAttributeMethods>
 # wrong constant name <Class:GeneratedRelationMethods>
-# uninitialized constant #<Class:0x00007f88137e8b30>::MAX_PASSWORD_LENGTH_ALLOWED
-# uninitialized constant #<Class:0x00007f88137e8b30>::MINIMUM_TOKEN_LENGTH
-# uninitialized constant #<Class:0x00007f88137e8b30>::NAME_COMPILABLE_REGEXP
-# uninitialized constant #<Class:0x00007f88137e8b30>::RESTRICTED_CLASS_METHODS
-# uninitialized constant #<Class:0x00007f88137e8b30>::UNASSIGNABLE_KEYS
+# uninitialized constant #<Class:0x00007f7c1f94bab8>::MAX_PASSWORD_LENGTH_ALLOWED
+# uninitialized constant #<Class:0x00007f7c1f94bab8>::MINIMUM_TOKEN_LENGTH
+# uninitialized constant #<Class:0x00007f7c1f94bab8>::NAME_COMPILABLE_REGEXP
+# uninitialized constant #<Class:0x00007f7c1f94bab8>::RESTRICTED_CLASS_METHODS
+# uninitialized constant #<Class:0x00007f7c1f94bab8>::UNASSIGNABLE_KEYS
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_AssociationRelation::CLAUSE_METHODS
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_AssociationRelation::Elem
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_AssociationRelation::FROZEN_EMPTY_ARRAY
@@ -3768,20 +4070,20 @@
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_AssociationRelation::VALID_UNSCOPING_VALUES
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_AssociationRelation::VALUE_METHODS
 # wrong constant name <static-init>
-# uninitialized constant #<Class:0x00007f8784969750>::CLAUSE_METHODS
-# uninitialized constant #<Class:0x00007f8784969750>::Elem
-# uninitialized constant #<Class:0x00007f8784969750>::FROZEN_EMPTY_ARRAY
-# uninitialized constant #<Class:0x00007f8784969750>::FROZEN_EMPTY_HASH
-# uninitialized constant #<Class:0x00007f8784969750>::INVALID_METHODS_FOR_DELETE_ALL
-# uninitialized constant #<Class:0x00007f8784969750>::MULTI_VALUE_METHODS
-# uninitialized constant #<Class:0x00007f8784969750>::NILCLASS_STRING
-# uninitialized constant #<Class:0x00007f8784969750>::ONE_AS_ONE
-# uninitialized constant #<Class:0x00007f8784969750>::ORDER_IGNORE_MESSAGE
-# uninitialized constant #<Class:0x00007f8784969750>::SINGLE_VALUE_METHODS
-# uninitialized constant #<Class:0x00007f8784969750>::STRUCTURAL_VALUE_METHODS
-# uninitialized constant #<Class:0x00007f8784969750>::VALID_DIRECTIONS
-# uninitialized constant #<Class:0x00007f8784969750>::VALID_UNSCOPING_VALUES
-# uninitialized constant #<Class:0x00007f8784969750>::VALUE_METHODS
+# uninitialized constant #<Class:0x00007f7c1f94adc0>::CLAUSE_METHODS
+# uninitialized constant #<Class:0x00007f7c1f94adc0>::Elem
+# uninitialized constant #<Class:0x00007f7c1f94adc0>::FROZEN_EMPTY_ARRAY
+# uninitialized constant #<Class:0x00007f7c1f94adc0>::FROZEN_EMPTY_HASH
+# uninitialized constant #<Class:0x00007f7c1f94adc0>::INVALID_METHODS_FOR_DELETE_ALL
+# uninitialized constant #<Class:0x00007f7c1f94adc0>::MULTI_VALUE_METHODS
+# uninitialized constant #<Class:0x00007f7c1f94adc0>::NILCLASS_STRING
+# uninitialized constant #<Class:0x00007f7c1f94adc0>::ONE_AS_ONE
+# uninitialized constant #<Class:0x00007f7c1f94adc0>::ORDER_IGNORE_MESSAGE
+# uninitialized constant #<Class:0x00007f7c1f94adc0>::SINGLE_VALUE_METHODS
+# uninitialized constant #<Class:0x00007f7c1f94adc0>::STRUCTURAL_VALUE_METHODS
+# uninitialized constant #<Class:0x00007f7c1f94adc0>::VALID_DIRECTIONS
+# uninitialized constant #<Class:0x00007f7c1f94adc0>::VALID_UNSCOPING_VALUES
+# uninitialized constant #<Class:0x00007f7c1f94adc0>::VALUE_METHODS
 # wrong constant name <static-init>
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_Relation::CLAUSE_METHODS
 # uninitialized constant ActiveRecord::InternalMetadata::ActiveRecord_Relation::Elem
@@ -3802,6 +4104,13 @@
 # wrong constant name <static-init>
 # wrong constant name <static-init>
 # wrong constant name enabled?
+# wrong constant name <Class:Correction>
+# wrong constant name associated_class
+# wrong constant name initialize
+# wrong constant name reflection
+# wrong constant name corrections
+# wrong constant name initialize
+# wrong constant name <static-init>
 # wrong constant name <Class:Rails41>
 # wrong constant name <Class:Rails420>
 # wrong constant name <static-init>
@@ -3819,6 +4128,28 @@
 # wrong constant name increment!
 # wrong constant name locking_enabled?
 # wrong constant name lock!
+# uninitialized constant ActiveRecord::LogSubscriber::BLACK
+# uninitialized constant ActiveRecord::LogSubscriber::BLUE
+# uninitialized constant ActiveRecord::LogSubscriber::BOLD
+# uninitialized constant ActiveRecord::LogSubscriber::CLEAR
+# uninitialized constant ActiveRecord::LogSubscriber::CYAN
+# uninitialized constant ActiveRecord::LogSubscriber::GREEN
+# uninitialized constant ActiveRecord::LogSubscriber::MAGENTA
+# uninitialized constant ActiveRecord::LogSubscriber::RED
+# uninitialized constant ActiveRecord::LogSubscriber::WHITE
+# uninitialized constant ActiveRecord::LogSubscriber::YELLOW
+# wrong constant name backtrace_cleaner
+# wrong constant name backtrace_cleaner=
+# wrong constant name backtrace_cleaner?
+# wrong constant name sql
+# wrong constant name strict_loading_violation
+# wrong constant name <static-init>
+# wrong constant name backtrace_cleaner
+# wrong constant name backtrace_cleaner=
+# wrong constant name backtrace_cleaner?
+# wrong constant name reset_runtime
+# wrong constant name runtime
+# wrong constant name runtime=
 # wrong constant name <Class:Resolver>
 # wrong constant name call
 # wrong constant name context_klass
@@ -4436,21 +4767,21 @@
 # wrong constant name fk_ignore_pattern=
 # wrong constant name ignore_tables
 # wrong constant name ignore_tables=
-# uninitialized constant #<Class:0x00007f87829b7bf0>::ACTIONS
+# uninitialized constant #<Class:0x00007f7c1f943020>::ACTIONS
 # wrong constant name <Class:ActiveRecord_AssociationRelation>
 # wrong constant name <Class:ActiveRecord_Associations_CollectionProxy>
 # wrong constant name <Class:ActiveRecord_Relation>
-# uninitialized constant #<Class:0x00007f87829b7bf0>::CALLBACKS
-# uninitialized constant #<Class:0x00007f87829b7bf0>::CALLBACK_FILTER_TYPES
-# uninitialized constant #<Class:0x00007f87829b7bf0>::CALL_COMPILABLE_REGEXP
+# uninitialized constant #<Class:0x00007f7c1f943020>::CALLBACKS
+# uninitialized constant #<Class:0x00007f7c1f943020>::CALLBACK_FILTER_TYPES
+# uninitialized constant #<Class:0x00007f7c1f943020>::CALL_COMPILABLE_REGEXP
 # wrong constant name <Class:GeneratedAssociationMethods>
 # wrong constant name <Class:GeneratedAttributeMethods>
 # wrong constant name <Class:GeneratedRelationMethods>
-# uninitialized constant #<Class:0x00007f87829b7bf0>::MAX_PASSWORD_LENGTH_ALLOWED
-# uninitialized constant #<Class:0x00007f87829b7bf0>::MINIMUM_TOKEN_LENGTH
-# uninitialized constant #<Class:0x00007f87829b7bf0>::NAME_COMPILABLE_REGEXP
-# uninitialized constant #<Class:0x00007f87829b7bf0>::RESTRICTED_CLASS_METHODS
-# uninitialized constant #<Class:0x00007f87829b7bf0>::UNASSIGNABLE_KEYS
+# uninitialized constant #<Class:0x00007f7c1f943020>::MAX_PASSWORD_LENGTH_ALLOWED
+# uninitialized constant #<Class:0x00007f7c1f943020>::MINIMUM_TOKEN_LENGTH
+# uninitialized constant #<Class:0x00007f7c1f943020>::NAME_COMPILABLE_REGEXP
+# uninitialized constant #<Class:0x00007f7c1f943020>::RESTRICTED_CLASS_METHODS
+# uninitialized constant #<Class:0x00007f7c1f943020>::UNASSIGNABLE_KEYS
 # wrong constant name version
 # uninitialized constant ActiveRecord::SchemaMigration::ActiveRecord_AssociationRelation::CLAUSE_METHODS
 # uninitialized constant ActiveRecord::SchemaMigration::ActiveRecord_AssociationRelation::Elem
@@ -4467,20 +4798,20 @@
 # uninitialized constant ActiveRecord::SchemaMigration::ActiveRecord_AssociationRelation::VALID_UNSCOPING_VALUES
 # uninitialized constant ActiveRecord::SchemaMigration::ActiveRecord_AssociationRelation::VALUE_METHODS
 # wrong constant name <static-init>
-# uninitialized constant #<Class:0x00007f87829b6cc8>::CLAUSE_METHODS
-# uninitialized constant #<Class:0x00007f87829b6cc8>::Elem
-# uninitialized constant #<Class:0x00007f87829b6cc8>::FROZEN_EMPTY_ARRAY
-# uninitialized constant #<Class:0x00007f87829b6cc8>::FROZEN_EMPTY_HASH
-# uninitialized constant #<Class:0x00007f87829b6cc8>::INVALID_METHODS_FOR_DELETE_ALL
-# uninitialized constant #<Class:0x00007f87829b6cc8>::MULTI_VALUE_METHODS
-# uninitialized constant #<Class:0x00007f87829b6cc8>::NILCLASS_STRING
-# uninitialized constant #<Class:0x00007f87829b6cc8>::ONE_AS_ONE
-# uninitialized constant #<Class:0x00007f87829b6cc8>::ORDER_IGNORE_MESSAGE
-# uninitialized constant #<Class:0x00007f87829b6cc8>::SINGLE_VALUE_METHODS
-# uninitialized constant #<Class:0x00007f87829b6cc8>::STRUCTURAL_VALUE_METHODS
-# uninitialized constant #<Class:0x00007f87829b6cc8>::VALID_DIRECTIONS
-# uninitialized constant #<Class:0x00007f87829b6cc8>::VALID_UNSCOPING_VALUES
-# uninitialized constant #<Class:0x00007f87829b6cc8>::VALUE_METHODS
+# uninitialized constant #<Class:0x00007f7c1b72f648>::CLAUSE_METHODS
+# uninitialized constant #<Class:0x00007f7c1b72f648>::Elem
+# uninitialized constant #<Class:0x00007f7c1b72f648>::FROZEN_EMPTY_ARRAY
+# uninitialized constant #<Class:0x00007f7c1b72f648>::FROZEN_EMPTY_HASH
+# uninitialized constant #<Class:0x00007f7c1b72f648>::INVALID_METHODS_FOR_DELETE_ALL
+# uninitialized constant #<Class:0x00007f7c1b72f648>::MULTI_VALUE_METHODS
+# uninitialized constant #<Class:0x00007f7c1b72f648>::NILCLASS_STRING
+# uninitialized constant #<Class:0x00007f7c1b72f648>::ONE_AS_ONE
+# uninitialized constant #<Class:0x00007f7c1b72f648>::ORDER_IGNORE_MESSAGE
+# uninitialized constant #<Class:0x00007f7c1b72f648>::SINGLE_VALUE_METHODS
+# uninitialized constant #<Class:0x00007f7c1b72f648>::STRUCTURAL_VALUE_METHODS
+# uninitialized constant #<Class:0x00007f7c1b72f648>::VALID_DIRECTIONS
+# uninitialized constant #<Class:0x00007f7c1b72f648>::VALID_UNSCOPING_VALUES
+# uninitialized constant #<Class:0x00007f7c1b72f648>::VALUE_METHODS
 # wrong constant name <static-init>
 # uninitialized constant ActiveRecord::SchemaMigration::ActiveRecord_Relation::CLAUSE_METHODS
 # uninitialized constant ActiveRecord::SchemaMigration::ActiveRecord_Relation::Elem
@@ -4569,6 +4900,8 @@
 # wrong constant name as_indifferent_hash
 # wrong constant name <static-init>
 # wrong constant name prepare
+# wrong constant name <static-init>
+# wrong constant name suppressed
 # wrong constant name <static-init>
 # wrong constant name aggregated_with?
 # wrong constant name arel_table
@@ -4684,20 +5017,15 @@
 # wrong constant name using_database_configurations?
 # wrong constant name <static-init>
 # wrong constant name create_and_load_schema
-# wrong constant name <Class:ClassMethods>
 # wrong constant name after_teardown
 # wrong constant name before_setup
 # wrong constant name enlist_fixture_connections
 # wrong constant name run_in_transaction?
 # wrong constant name setup_fixtures
 # wrong constant name teardown_fixtures
-# wrong constant name fixtures
-# wrong constant name set_fixture_class
-# wrong constant name setup_fixture_accessors
-# wrong constant name uses_transaction
-# wrong constant name uses_transaction?
 # wrong constant name <static-init>
-# wrong constant name <static-init>
+# wrong constant name initialize
+# wrong constant name initialize
 # wrong constant name all_timestamp_attributes_in_model
 # wrong constant name current_time_from_proper_timezone
 # wrong constant name timestamp_attributes_for_create_in_model
@@ -4790,6 +5118,17 @@
 # wrong constant name register
 # wrong constant name registry
 # wrong constant name registry=
+# wrong constant name <Class:Connection>
+# wrong constant name <Class:Map>
+# wrong constant name initialize
+# wrong constant name type_cast_for_database
+# wrong constant name type_for_attribute
+# wrong constant name <static-init>
+# wrong constant name initialize
+# wrong constant name type_cast_for_database
+# wrong constant name type_for_attribute
+# wrong constant name <static-init>
+# wrong constant name <static-init>
 # wrong constant name <Class:AbsenceValidator>
 # wrong constant name <Class:AssociatedValidator>
 # wrong constant name <Class:ClassMethods>
@@ -4827,6 +5166,11 @@
 # wrong constant name <static-init>
 # wrong constant name <static-init>
 # wrong constant name <static-init>
+# wrong constant name enum_calls
+# wrong constant name get_enum_call
+# wrong constant name store_enum_call
+# wrong constant name <static-init>
+# wrong constant name instance
 # uninitialized constant ActiveStorage::LogSubscriber::BLACK
 # uninitialized constant ActiveStorage::LogSubscriber::BLUE
 # uninitialized constant ActiveStorage::LogSubscriber::BOLD
@@ -4894,15 +5238,77 @@
 # uninitialized constant ActiveSupport::TestCase::TEARDOWN_METHODS
 # uninitialized constant ActiveSupport::TestCase::UNDEFINED
 # uninitialized constant ActiveSupport::TestCase::UNTRACKED
+# wrong constant name fixture_class_names
+# wrong constant name fixture_class_names=
+# wrong constant name fixture_class_names?
+# wrong constant name fixture_path
+# wrong constant name fixture_path?
+# wrong constant name fixture_table_names
+# wrong constant name fixture_table_names=
+# wrong constant name fixture_table_names?
+# wrong constant name lock_threads
+# wrong constant name lock_threads=
+# wrong constant name lock_threads?
+# wrong constant name pre_loaded_fixtures
+# wrong constant name pre_loaded_fixtures=
+# wrong constant name pre_loaded_fixtures?
+# wrong constant name refute_changes
+# wrong constant name refute_difference
+# wrong constant name use_instantiated_fixtures
+# wrong constant name use_instantiated_fixtures=
+# wrong constant name use_instantiated_fixtures?
+# wrong constant name use_transactional_tests
+# wrong constant name use_transactional_tests=
+# wrong constant name use_transactional_tests?
+# wrong constant name fixture_class_names
+# wrong constant name fixture_class_names=
+# wrong constant name fixture_class_names?
+# wrong constant name fixture_path
+# wrong constant name fixture_path=
+# wrong constant name fixture_path?
+# wrong constant name fixture_table_names
+# wrong constant name fixture_table_names=
+# wrong constant name fixture_table_names?
+# wrong constant name lock_threads
+# wrong constant name lock_threads=
+# wrong constant name lock_threads?
+# wrong constant name pre_loaded_fixtures
+# wrong constant name pre_loaded_fixtures=
+# wrong constant name pre_loaded_fixtures?
+# wrong constant name use_instantiated_fixtures
+# wrong constant name use_instantiated_fixtures=
+# wrong constant name use_instantiated_fixtures?
+# wrong constant name use_transactional_tests
+# wrong constant name use_transactional_tests=
+# wrong constant name use_transactional_tests?
+# wrong constant name <static-init>
 # wrong constant name connect_internal
 # uninitialized constant Api::Controller::CALLBACK_FILTER_TYPES
+# uninitialized constant Api::Controller::CPQ_PRODUCT_SUBSCRIPTION_TERM
+# uninitialized constant Api::Controller::CPQ_PRODUCT_SUBSCRIPTION_TYPE
+# uninitialized constant Api::Controller::CPQ_QUOTE
+# uninitialized constant Api::Controller::CPQ_QUOTE_LINE
+# uninitialized constant Api::Controller::CPQ_QUOTE_LINE_PRICEBOOK_ENTRY
+# uninitialized constant Api::Controller::CPQ_QUOTE_LINE_PRODUCT
+# uninitialized constant Api::Controller::CPQ_QUOTE_OPPORTUNITY
+# uninitialized constant Api::Controller::CPQ_QUOTE_ORDERED
+# uninitialized constant Api::Controller::CPQ_QUOTE_PRIMARY
+# uninitialized constant Api::Controller::CPQ_QUOTE_PRIMARY_CONTACT
+# uninitialized constant Api::Controller::CPQ_QUOTE_SUBSCRIPTION_START_DATE
+# uninitialized constant Api::Controller::CPQ_QUOTE_SUBSCRIPTION_TERM
 # uninitialized constant Api::Controller::DEFAULT_PROTECTED_INSTANCE_VARIABLES
 # uninitialized constant Api::Controller::DEFAULT_SEND_FILE_DISPOSITION
 # uninitialized constant Api::Controller::DEFAULT_SEND_FILE_TYPE
 # uninitialized constant Api::Controller::EXCLUDE_PARAMETERS
+# uninitialized constant Api::Controller::GENERIC_STRIPE_ID
 # uninitialized constant Api::Controller::MODULES
+# uninitialized constant Api::Controller::ORDER_INVOICE_PAYMENT_LINK
+# uninitialized constant Api::Controller::ORDER_SUBSCRIPTION_PAYMENT_LINK
 # uninitialized constant Api::Controller::RENDERERS
 # uninitialized constant Api::Controller::RENDER_FORMATS_IN_PRIORITY
+# uninitialized constant Api::Controller::SF_ORDER
+# uninitialized constant Api::Controller::SF_PRICEBOOK_ENTRY
+# uninitialized constant Api::Controller::SF_PRODUCT
 # uninitialized constant ApplicationController::AUTHENTICITY_TOKEN_LENGTH
 # uninitialized constant ApplicationController::CALLBACK_FILTER_TYPES
 # uninitialized constant ApplicationController::DEFAULT_PROTECTED_INSTANCE_VARIABLES
@@ -6311,6 +6717,9 @@
 # uninitialized constant CMath
 # uninitialized constant CMath
 # wrong constant name <Class:Minitest>
+# wrong constant name use_html5_parsing
+# wrong constant name use_html5_parsing=
+# wrong constant name active_element
 # wrong constant name <Class:Assertions>
 # wrong constant name assert_all_of_selectors
 # wrong constant name assert_ancestor
@@ -6379,13 +6788,21 @@
 # uninitialized constant Capybara::Node::Element::DATALIST_OPTIONS_SCRIPT
 # uninitialized constant Capybara::Node::Element::RESET_STYLE_SCRIPT
 # uninitialized constant Capybara::Node::Element::UPDATE_STYLE_SCRIPT
+# uninitialized constant Capybara::Queries::ActiveElementQuery::COUNT_KEYS
+# wrong constant name initialize
+# wrong constant name resolve_for
+# wrong constant name <static-init>
 # uninitialized constant Capybara::Queries::SelectorQuery::COUNT_KEYS
 # uninitialized constant Capybara::RackTest::CSSHandlers::RUBYGEMS_ACTIVATION_MONITOR
+# wrong constant name readonly?
 # uninitialized constant Capybara::Selenium::Node::SCROLL_POSITIONS
 # uninitialized constant Capybara::Selenium::SafariNode::GET_XPATH_SCRIPT
 # uninitialized constant Capybara::Selenium::SafariNode::OBSCURED_OR_OFFSET_SCRIPT
 # uninitialized constant Capybara::Selenium::SafariNode::RAPID_APPEND_TEXT
 # uninitialized constant Capybara::Selenium::SafariNode::SCROLL_POSITIONS
+# wrong constant name active_element
+# wrong constant name use_html5_parsing
+# wrong constant name use_html5_parsing=
 # uninitialized constant Class::DELEGATION_RESERVED_KEYWORDS
 # uninitialized constant Class::DELEGATION_RESERVED_METHOD_NAMES
 # uninitialized constant Class::RUBY_RESERVED_KEYWORDS
@@ -6399,6 +6816,25 @@
 # uninitialized constant CodeRay::Scanners::Java::Version
 # uninitialized constant CodeRay::Scanners::Scanner::Id
 # uninitialized constant CodeRay::Scanners::Scanner::Version
+# uninitialized constant CommonHelpers::CPQ_PRODUCT_SUBSCRIPTION_TERM
+# uninitialized constant CommonHelpers::CPQ_PRODUCT_SUBSCRIPTION_TYPE
+# uninitialized constant CommonHelpers::CPQ_QUOTE
+# uninitialized constant CommonHelpers::CPQ_QUOTE_LINE
+# uninitialized constant CommonHelpers::CPQ_QUOTE_LINE_PRICEBOOK_ENTRY
+# uninitialized constant CommonHelpers::CPQ_QUOTE_LINE_PRODUCT
+# uninitialized constant CommonHelpers::CPQ_QUOTE_OPPORTUNITY
+# uninitialized constant CommonHelpers::CPQ_QUOTE_ORDERED
+# uninitialized constant CommonHelpers::CPQ_QUOTE_PRIMARY
+# uninitialized constant CommonHelpers::CPQ_QUOTE_PRIMARY_CONTACT
+# uninitialized constant CommonHelpers::CPQ_QUOTE_SUBSCRIPTION_START_DATE
+# uninitialized constant CommonHelpers::CPQ_QUOTE_SUBSCRIPTION_TERM
+# uninitialized constant CommonHelpers::GENERIC_STRIPE_ID
+# uninitialized constant CommonHelpers::ORDER_INVOICE_PAYMENT_LINK
+# uninitialized constant CommonHelpers::ORDER_SUBSCRIPTION_PAYMENT_LINK
+# uninitialized constant CommonHelpers::RUBYGEMS_ACTIVATION_MONITOR
+# uninitialized constant CommonHelpers::SF_ORDER
+# uninitialized constant CommonHelpers::SF_PRICEBOOK_ENTRY
+# uninitialized constant CommonHelpers::SF_PRODUCT
 # uninitialized constant Concurrent::AbstractExecutorService::DEBUG
 # uninitialized constant Concurrent::AbstractExecutorService::ERROR
 # uninitialized constant Concurrent::AbstractExecutorService::FATAL
@@ -6600,28 +7036,19 @@
 # wrong constant name each
 # wrong constant name members
 # wrong constant name <Class:Passwd>
-# wrong constant name <Class:ErrNotRegisteredException>
-# wrong constant name bind
-# wrong constant name <static-init>
-# uninitialized constant Exception2MessageMapper::Fail
-# uninitialized constant Exception2MessageMapper::Raise
-# wrong constant name def_e2message
-# wrong constant name def_exception
-# wrong constant name e2mm_message
-# wrong constant name extend_object
-# wrong constant name message
 # wrong constant name <Class:ErrDimensionMismatch>
 # wrong constant name <Class:ErrNotRegular>
 # wrong constant name <Class:ErrOperationNotDefined>
 # wrong constant name <Class:ErrOperationNotImplemented>
-# uninitialized constant ExceptionForMatrix::Fail
-# uninitialized constant ExceptionForMatrix::Raise
+# wrong constant name initialize
+# wrong constant name <static-init>
+# wrong constant name initialize
+# wrong constant name <static-init>
+# wrong constant name initialize
+# wrong constant name <static-init>
+# wrong constant name initialize
 # wrong constant name <static-init>
 # wrong constant name <static-init>
-# wrong constant name <static-init>
-# wrong constant name <static-init>
-# wrong constant name <static-init>
-# wrong constant name included
 # wrong constant name <static-init>
 # wrong constant name <Class:NativeType>
 # wrong constant name <Class:NullPointerError>
@@ -6631,6 +7058,8 @@
 # wrong constant name <static-init>
 # wrong constant name <static-init>
 # wrong constant name <static-init>
+# wrong constant name <Class:Multipart>
+# wrong constant name <Class:Retry>
 # wrong constant name <Class:Test>
 # wrong constant name <Class:Typhoeus>
 # uninitialized constant Faraday::Adapter::Excon::CONTENT_LENGTH
@@ -6679,6 +7108,31 @@
 # uninitialized constant Faraday::Adapter::Typhoeus::TIMEOUT_KEYS
 # wrong constant name call
 # wrong constant name <static-init>
+# wrong constant name <Class:CompositeReadIO>
+# wrong constant name <Class:Middleware>
+# wrong constant name <Class:ParamPart>
+# wrong constant name close
+# wrong constant name ensure_open_and_readable
+# wrong constant name initialize
+# wrong constant name length
+# wrong constant name read
+# wrong constant name rewind
+# wrong constant name <static-init>
+# uninitialized constant Faraday::Multipart::Middleware::CONTENT_TYPE
+# wrong constant name create_multipart
+# wrong constant name has_multipart?
+# wrong constant name part
+# wrong constant name process_params
+# wrong constant name unique_boundary
+# wrong constant name <static-init>
+# wrong constant name content_id
+# wrong constant name content_type
+# wrong constant name headers
+# wrong constant name initialize
+# wrong constant name to_part
+# wrong constant name value
+# wrong constant name <static-init>
+# wrong constant name <static-init>
 # wrong constant name initialize
 # wrong constant name on_request
 # wrong constant name <static-init>
@@ -6691,18 +7145,19 @@
 # wrong constant name initialize
 # wrong constant name <static-init>
 # wrong constant name <static-init>
-# uninitialized constant Faraday::Request::Multipart::CONTENT_TYPE
+# uninitialized constant Faraday::Request::TokenAuthentication::KEY
+# wrong constant name initialize
+# wrong constant name <static-init>
+# wrong constant name header
+# wrong constant name initialize
+# wrong constant name <static-init>
+# wrong constant name <Class:Middleware>
 # wrong constant name <Class:Options>
 # wrong constant name build_exception_matcher
 # wrong constant name calculate_sleep_amount
 # wrong constant name initialize
 # wrong constant name <static-init>
 # wrong constant name <static-init>
-# uninitialized constant Faraday::Request::TokenAuthentication::KEY
-# wrong constant name initialize
-# wrong constant name <static-init>
-# wrong constant name header
-# wrong constant name initialize
 # wrong constant name <static-init>
 # wrong constant name build_query
 # wrong constant name cache
@@ -7282,16 +7737,14 @@
 # wrong constant name default_gems_use_full_paths?
 # wrong constant name remove_unresolved_default_spec
 # wrong constant name _routes
+# wrong constant name auth_salesforcesandbox_callback_path
+# wrong constant name auth_salesforcesandbox_callback_url
 # wrong constant name rails_info_path
 # wrong constant name rails_info_properties_path
 # wrong constant name rails_info_properties_url
 # wrong constant name rails_info_routes_path
 # wrong constant name rails_info_routes_url
 # wrong constant name rails_info_url
-# wrong constant name v1_account_path
-# wrong constant name v1_account_url
-# wrong constant name v1_path
-# wrong constant name v1_url
 # wrong constant name _routes
 # wrong constant name full_url_for
 # wrong constant name optimize_routes_generation?
@@ -7367,6 +7820,7 @@
 # wrong constant name merge
 # wrong constant name merge!
 # wrong constant name replace
+# wrong constant name to_hash
 # wrong constant name update_attributes!
 # wrong constant name <static-init>
 # wrong constant name defaults
@@ -7408,6 +7862,8 @@
 # wrong constant name <static-init>
 # wrong constant name included
 # wrong constant name <Class:ClassMethods>
+# wrong constant name to_h
+# wrong constant name to_hash
 # wrong constant name property?
 # wrong constant name transformation_exists?
 # wrong constant name transformed_property
@@ -7416,6 +7872,16 @@
 # wrong constant name <static-init>
 # wrong constant name included
 # wrong constant name maybe_extend
+# wrong constant name <Class:ClassMethods>
+# wrong constant name <Class:InstanceMethods>
+# wrong constant name inherited
+# wrong constant name property
+# wrong constant name values_for_properties
+# wrong constant name <static-init>
+# wrong constant name initialize
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name included
 # wrong constant name <Class:ClassMethods>
 # wrong constant name <Class:InstanceMethods>
 # wrong constant name inherited
@@ -7469,7 +7935,10 @@
 # wrong constant name indifferent_writer
 # wrong constant name merge
 # wrong constant name merge!
+# wrong constant name slice
+# wrong constant name to_hash
 # wrong constant name <static-init>
+# wrong constant name convert_key
 # wrong constant name included
 # wrong constant name inject
 # wrong constant name inject!
@@ -7829,6 +8298,160 @@
 # uninitialized constant Logger::LogDevice::EXCEPTION_IMMEDIATE
 # uninitialized constant Logger::LogDevice::EXCEPTION_NEVER
 # uninitialized constant Logger::LogDevice::SiD
+# wrong constant name <Class:Formatters>
+# wrong constant name <Class:LogSubscribers>
+# wrong constant name <Class:OrderedOptions>
+# wrong constant name <Class:Railtie>
+# wrong constant name <Class:SilentLogger>
+# wrong constant name application
+# wrong constant name application=
+# wrong constant name before_format=
+# wrong constant name custom_options=
+# wrong constant name formatter
+# wrong constant name formatter=
+# wrong constant name ignore_tests=
+# wrong constant name log_level
+# wrong constant name log_level=
+# wrong constant name logger
+# wrong constant name logger=
+# wrong constant name <Class:Cee>
+# wrong constant name <Class:Graylog2>
+# wrong constant name <Class:Helpers>
+# wrong constant name <Class:Json>
+# wrong constant name <Class:KeyValue>
+# wrong constant name <Class:L2met>
+# wrong constant name <Class:LTSV>
+# wrong constant name <Class:Lines>
+# wrong constant name <Class:Logstash>
+# wrong constant name <Class:Raw>
+# wrong constant name call
+# wrong constant name <static-init>
+# wrong constant name call
+# wrong constant name short_message
+# wrong constant name underscore_prefix
+# wrong constant name <static-init>
+# wrong constant name <Class:MethodAndPath>
+# wrong constant name method_and_path_string
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name call
+# wrong constant name <static-init>
+# wrong constant name call
+# wrong constant name fields_to_display
+# wrong constant name format
+# wrong constant name parse_value
+# wrong constant name <static-init>
+# wrong constant name additional_fields
+# wrong constant name modify_payload
+# wrong constant name source_field
+# wrong constant name <static-init>
+# wrong constant name call
+# wrong constant name fields_to_display
+# wrong constant name format
+# wrong constant name <static-init>
+# wrong constant name call
+# wrong constant name load_dependencies
+# wrong constant name <static-init>
+# wrong constant name call
+# wrong constant name load_dependencies
+# wrong constant name <static-init>
+# wrong constant name call
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name <Class:ActionCable>
+# wrong constant name <Class:ActionController>
+# wrong constant name <Class:Base>
+# uninitialized constant Lograge::LogSubscribers::ActionCable::BLACK
+# uninitialized constant Lograge::LogSubscribers::ActionCable::BLUE
+# uninitialized constant Lograge::LogSubscribers::ActionCable::BOLD
+# uninitialized constant Lograge::LogSubscribers::ActionCable::CLEAR
+# uninitialized constant Lograge::LogSubscribers::ActionCable::CYAN
+# uninitialized constant Lograge::LogSubscribers::ActionCable::GREEN
+# uninitialized constant Lograge::LogSubscribers::ActionCable::MAGENTA
+# uninitialized constant Lograge::LogSubscribers::ActionCable::RED
+# uninitialized constant Lograge::LogSubscribers::ActionCable::WHITE
+# uninitialized constant Lograge::LogSubscribers::ActionCable::YELLOW
+# wrong constant name connect
+# wrong constant name disconnect
+# wrong constant name perform_action
+# wrong constant name subscribe
+# wrong constant name unsubscribe
+# wrong constant name <static-init>
+# uninitialized constant Lograge::LogSubscribers::ActionController::BLACK
+# uninitialized constant Lograge::LogSubscribers::ActionController::BLUE
+# uninitialized constant Lograge::LogSubscribers::ActionController::BOLD
+# uninitialized constant Lograge::LogSubscribers::ActionController::CLEAR
+# uninitialized constant Lograge::LogSubscribers::ActionController::CYAN
+# uninitialized constant Lograge::LogSubscribers::ActionController::GREEN
+# uninitialized constant Lograge::LogSubscribers::ActionController::MAGENTA
+# uninitialized constant Lograge::LogSubscribers::ActionController::RED
+# uninitialized constant Lograge::LogSubscribers::ActionController::WHITE
+# uninitialized constant Lograge::LogSubscribers::ActionController::YELLOW
+# wrong constant name process_action
+# wrong constant name redirect_to
+# wrong constant name unpermitted_parameters
+# wrong constant name <static-init>
+# uninitialized constant Lograge::LogSubscribers::Base::BLACK
+# uninitialized constant Lograge::LogSubscribers::Base::BLUE
+# uninitialized constant Lograge::LogSubscribers::Base::BOLD
+# uninitialized constant Lograge::LogSubscribers::Base::CLEAR
+# uninitialized constant Lograge::LogSubscribers::Base::CYAN
+# uninitialized constant Lograge::LogSubscribers::Base::GREEN
+# uninitialized constant Lograge::LogSubscribers::Base::MAGENTA
+# uninitialized constant Lograge::LogSubscribers::Base::RED
+# uninitialized constant Lograge::LogSubscribers::Base::WHITE
+# uninitialized constant Lograge::LogSubscribers::Base::YELLOW
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# uninitialized constant Lograge::OrderedOptions::Elem
+# uninitialized constant Lograge::OrderedOptions::K
+# uninitialized constant Lograge::OrderedOptions::V
+# wrong constant name custom_payload
+# wrong constant name <static-init>
+# uninitialized constant Lograge::Railtie::ABSTRACT_RAILTIES
+# wrong constant name <static-init>
+# wrong constant name debug
+# wrong constant name error
+# wrong constant name fatal
+# wrong constant name info
+# wrong constant name initialize
+# wrong constant name unknown
+# wrong constant name warn
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name application
+# wrong constant name application=
+# wrong constant name attach_to_action_cable
+# wrong constant name attach_to_action_controller
+# wrong constant name before_format
+# wrong constant name before_format=
+# wrong constant name controller_field
+# wrong constant name custom_options
+# wrong constant name custom_options=
+# wrong constant name disable_rack_cache_verbose_output
+# wrong constant name extend_base_class
+# wrong constant name formatter
+# wrong constant name formatter=
+# wrong constant name ignore
+# wrong constant name ignore?
+# wrong constant name ignore_actions
+# wrong constant name ignore_nothing
+# wrong constant name ignore_tests
+# wrong constant name ignore_tests=
+# wrong constant name keep_original_rails_log
+# wrong constant name log_level
+# wrong constant name log_level=
+# wrong constant name logger
+# wrong constant name logger=
+# wrong constant name lograge_config
+# wrong constant name remove_existing_log_subscriptions
+# wrong constant name set_formatter
+# wrong constant name set_ignores
+# wrong constant name set_lograge_log_options
+# wrong constant name setup
+# wrong constant name setup_custom_payload
+# wrong constant name support_deprecated_config
+# wrong constant name unsubscribe
 # uninitialized constant MIME::Types::Elem
 # wrong constant name <Class:AddressContainer>
 # wrong constant name <Class:AddressList>
@@ -7836,6 +8459,7 @@
 # wrong constant name <Class:BccField>
 # wrong constant name <Class:Body>
 # wrong constant name <Class:CcField>
+# wrong constant name <Class:CheckDeliveryParams>
 # wrong constant name <Class:CommentsField>
 # wrong constant name <Class:CommonAddress>
 # wrong constant name <Class:CommonDate>
@@ -7896,6 +8520,7 @@
 # wrong constant name <Class:ResentToField>
 # wrong constant name <Class:Retriever>
 # wrong constant name <Class:ReturnPathField>
+# wrong constant name <Class:Ruby19>
 # wrong constant name <Class:SMTP>
 # wrong constant name <Class:SMTPConnection>
 # wrong constant name <Class:SenderField>
@@ -8083,6 +8708,7 @@
 # wrong constant name decoded
 # wrong constant name encoded
 # wrong constant name initialize
+# wrong constant name <static-init>
 # wrong constant name <static-init>
 # wrong constant name check
 # wrong constant name check_addr
@@ -9570,7 +10196,7 @@
 # wrong constant name start
 # wrong constant name start=
 # wrong constant name <Class:ContentTransferEncodingStruct>
-# uninitialized constant #<Class:0x00007f8784910858>::Elem
+# uninitialized constant #<Class:0x00007f7c1b1784e8>::Elem
 # wrong constant name encoding
 # wrong constant name encoding=
 # wrong constant name error
@@ -10293,9 +10919,12 @@
 # wrong constant name encoded
 # wrong constant name initialize
 # wrong constant name <static-init>
+# wrong constant name <Class:BestEffortCharsetEncoder>
+# wrong constant name <Class:StrictCharsetEncoder>
 # wrong constant name encode
 # wrong constant name <static-init>
 # wrong constant name encode
+# wrong constant name <static-init>
 # wrong constant name <static-init>
 # wrong constant name b_value_decode
 # wrong constant name b_value_encode
@@ -10656,6 +11285,8 @@
 # wrong constant name <Class:Scalar>
 # wrong constant name []
 # wrong constant name []=
+# wrong constant name abs
+# wrong constant name adjoint
 # wrong constant name adjugate
 # wrong constant name antisymmetric?
 # wrong constant name coerce
@@ -10707,6 +11338,7 @@
 # wrong constant name normal?
 # wrong constant name orthogonal?
 # wrong constant name permutation?
+# wrong constant name power_int
 # wrong constant name rank
 # wrong constant name rank_e
 # wrong constant name real
@@ -10714,6 +11346,7 @@
 # wrong constant name rect
 # wrong constant name rectangular
 # wrong constant name regular?
+# wrong constant name rotate_entries
 # wrong constant name round
 # wrong constant name row
 # wrong constant name row_count
@@ -10767,8 +11400,246 @@
 # uninitialized constant Matrix::Scalar::TERABYTE
 # wrong constant name initialize
 # wrong constant name <static-init>
-# wrong constant name included
-# wrong constant name included
+# wrong constant name <Class:ProfileReporter>
+# wrong constant name must_dom_equal
+# wrong constant name must_route_for
+# wrong constant name must_route_from
+# wrong constant name must_route_to
+# wrong constant name wont_dom_equal
+# wrong constant name initialize
+# wrong constant name io
+# wrong constant name io=
+# wrong constant name results
+# wrong constant name results=
+# wrong constant name sorted_results
+# wrong constant name <static-init>
+# wrong constant name <Class:Expectations>
+# wrong constant name <Class:SpecTests>
+# wrong constant name <Class:ActionCable>
+# wrong constant name <Class:ActionDispatch>
+# wrong constant name <Class:ActionMailer>
+# wrong constant name <Class:ActiveJob>
+# wrong constant name <Class:ActiveSupport>
+# wrong constant name <Class:Channel>
+# wrong constant name <Class:Connection>
+# wrong constant name <Class:TestHelper>
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name must_dom_equal
+# wrong constant name must_route_for
+# wrong constant name must_route_from
+# wrong constant name must_route_to
+# wrong constant name wont_dom_equal
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# uninitialized constant Minitest::Rails::Expectations::ActiveJob::UNTRACKED
+# wrong constant name <static-init>
+# wrong constant name must_change
+# wrong constant name must_differ
+# wrong constant name wont_change
+# wrong constant name wont_differ
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name <Class:Test__configuration__test_controllers_test_configurations_controller_rb__76>
+# wrong constant name <Class:Test__configuration_errors__test_controllers_test_configurations_controller_rb__93>
+# wrong constant name <Class:Test__failures__test_integration_test_translate_order_rb__173>
+# wrong constant name <Class:Test__log_level_configuration__test_unit_test_error_context_rb__41>
+# wrong constant name <Class:Test__post_install__test_controllers_test_configurations_controller_rb__47>
+# wrong constant name <Class:Test__time__test_unit_test_metrics_rb__92>
+# wrong constant name <Class:Test__translate__test_controllers_test_configurations_controller_rb__11>
+# uninitialized constant #<Class:0x00007f7cbd72d148>::APP_SESSIONS
+# uninitialized constant #<Class:0x00007f7cbd72d148>::CALLBACK_FILTER_TYPES
+# uninitialized constant #<Class:0x00007f7cbd72d148>::CPQ_PRODUCT_SUBSCRIPTION_TERM
+# uninitialized constant #<Class:0x00007f7cbd72d148>::CPQ_PRODUCT_SUBSCRIPTION_TYPE
+# uninitialized constant #<Class:0x00007f7cbd72d148>::CPQ_QUOTE
+# uninitialized constant #<Class:0x00007f7cbd72d148>::CPQ_QUOTE_LINE
+# uninitialized constant #<Class:0x00007f7cbd72d148>::CPQ_QUOTE_LINE_PRICEBOOK_ENTRY
+# uninitialized constant #<Class:0x00007f7cbd72d148>::CPQ_QUOTE_LINE_PRODUCT
+# uninitialized constant #<Class:0x00007f7cbd72d148>::CPQ_QUOTE_OPPORTUNITY
+# uninitialized constant #<Class:0x00007f7cbd72d148>::CPQ_QUOTE_ORDERED
+# uninitialized constant #<Class:0x00007f7cbd72d148>::CPQ_QUOTE_PRIMARY
+# uninitialized constant #<Class:0x00007f7cbd72d148>::CPQ_QUOTE_PRIMARY_CONTACT
+# uninitialized constant #<Class:0x00007f7cbd72d148>::CPQ_QUOTE_SUBSCRIPTION_START_DATE
+# uninitialized constant #<Class:0x00007f7cbd72d148>::CPQ_QUOTE_SUBSCRIPTION_TERM
+# uninitialized constant #<Class:0x00007f7cbd72d148>::E
+# uninitialized constant #<Class:0x00007f7cbd72d148>::GENERIC_STRIPE_ID
+# uninitialized constant #<Class:0x00007f7cbd72d148>::ORDER_INVOICE_PAYMENT_LINK
+# uninitialized constant #<Class:0x00007f7cbd72d148>::ORDER_SUBSCRIPTION_PAYMENT_LINK
+# uninitialized constant #<Class:0x00007f7cbd72d148>::PASSTHROUGH_EXCEPTIONS
+# uninitialized constant #<Class:0x00007f7cbd72d148>::RESPONSE_PREDICATES
+# uninitialized constant #<Class:0x00007f7cbd72d148>::SF_ORDER
+# uninitialized constant #<Class:0x00007f7cbd72d148>::SF_PRICEBOOK_ENTRY
+# uninitialized constant #<Class:0x00007f7cbd72d148>::SF_PRODUCT
+# uninitialized constant #<Class:0x00007f7cbd72d148>::SIGNALS
+# uninitialized constant #<Class:0x00007f7cbd72d148>::TEARDOWN_METHODS
+# uninitialized constant #<Class:0x00007f7cbd72d148>::UNDEFINED
+# uninitialized constant #<Class:0x00007f7cbd72d148>::UNTRACKED
+# wrong constant name <static-init>
+# uninitialized constant #<Class:0x00007f7cbd72c450>::APP_SESSIONS
+# uninitialized constant #<Class:0x00007f7cbd72c450>::CALLBACK_FILTER_TYPES
+# uninitialized constant #<Class:0x00007f7cbd72c450>::CPQ_PRODUCT_SUBSCRIPTION_TERM
+# uninitialized constant #<Class:0x00007f7cbd72c450>::CPQ_PRODUCT_SUBSCRIPTION_TYPE
+# uninitialized constant #<Class:0x00007f7cbd72c450>::CPQ_QUOTE
+# uninitialized constant #<Class:0x00007f7cbd72c450>::CPQ_QUOTE_LINE
+# uninitialized constant #<Class:0x00007f7cbd72c450>::CPQ_QUOTE_LINE_PRICEBOOK_ENTRY
+# uninitialized constant #<Class:0x00007f7cbd72c450>::CPQ_QUOTE_LINE_PRODUCT
+# uninitialized constant #<Class:0x00007f7cbd72c450>::CPQ_QUOTE_OPPORTUNITY
+# uninitialized constant #<Class:0x00007f7cbd72c450>::CPQ_QUOTE_ORDERED
+# uninitialized constant #<Class:0x00007f7cbd72c450>::CPQ_QUOTE_PRIMARY
+# uninitialized constant #<Class:0x00007f7cbd72c450>::CPQ_QUOTE_PRIMARY_CONTACT
+# uninitialized constant #<Class:0x00007f7cbd72c450>::CPQ_QUOTE_SUBSCRIPTION_START_DATE
+# uninitialized constant #<Class:0x00007f7cbd72c450>::CPQ_QUOTE_SUBSCRIPTION_TERM
+# uninitialized constant #<Class:0x00007f7cbd72c450>::E
+# uninitialized constant #<Class:0x00007f7cbd72c450>::GENERIC_STRIPE_ID
+# uninitialized constant #<Class:0x00007f7cbd72c450>::ORDER_INVOICE_PAYMENT_LINK
+# uninitialized constant #<Class:0x00007f7cbd72c450>::ORDER_SUBSCRIPTION_PAYMENT_LINK
+# uninitialized constant #<Class:0x00007f7cbd72c450>::PASSTHROUGH_EXCEPTIONS
+# uninitialized constant #<Class:0x00007f7cbd72c450>::RESPONSE_PREDICATES
+# uninitialized constant #<Class:0x00007f7cbd72c450>::SF_ORDER
+# uninitialized constant #<Class:0x00007f7cbd72c450>::SF_PRICEBOOK_ENTRY
+# uninitialized constant #<Class:0x00007f7cbd72c450>::SF_PRODUCT
+# uninitialized constant #<Class:0x00007f7cbd72c450>::SIGNALS
+# uninitialized constant #<Class:0x00007f7cbd72c450>::TEARDOWN_METHODS
+# uninitialized constant #<Class:0x00007f7cbd72c450>::UNDEFINED
+# uninitialized constant #<Class:0x00007f7cbd72c450>::UNTRACKED
+# wrong constant name <static-init>
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::CALLBACK_FILTER_TYPES
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::CPQ_PRODUCT_SUBSCRIPTION_TERM
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::CPQ_PRODUCT_SUBSCRIPTION_TYPE
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::CPQ_QUOTE
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::CPQ_QUOTE_LINE
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::CPQ_QUOTE_LINE_PRICEBOOK_ENTRY
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::CPQ_QUOTE_LINE_PRODUCT
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::CPQ_QUOTE_OPPORTUNITY
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::CPQ_QUOTE_ORDERED
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::CPQ_QUOTE_PRIMARY
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::CPQ_QUOTE_PRIMARY_CONTACT
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::CPQ_QUOTE_SUBSCRIPTION_START_DATE
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::CPQ_QUOTE_SUBSCRIPTION_TERM
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::E
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::GENERIC_STRIPE_ID
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::ORDER_INVOICE_PAYMENT_LINK
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::ORDER_SUBSCRIPTION_PAYMENT_LINK
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::PASSTHROUGH_EXCEPTIONS
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::SF_ORDER
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::SF_PRICEBOOK_ENTRY
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::SF_PRODUCT
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::SIGNALS
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::TEARDOWN_METHODS
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::UNDEFINED
+# uninitialized constant #<Class:0x00007f7caa4a00f0>::UNTRACKED
+# wrong constant name <static-init>
+# uninitialized constant #<Class:0x00007f7c7a41e148>::CALLBACK_FILTER_TYPES
+# uninitialized constant #<Class:0x00007f7c7a41e148>::CPQ_PRODUCT_SUBSCRIPTION_TERM
+# uninitialized constant #<Class:0x00007f7c7a41e148>::CPQ_PRODUCT_SUBSCRIPTION_TYPE
+# uninitialized constant #<Class:0x00007f7c7a41e148>::CPQ_QUOTE
+# uninitialized constant #<Class:0x00007f7c7a41e148>::CPQ_QUOTE_LINE
+# uninitialized constant #<Class:0x00007f7c7a41e148>::CPQ_QUOTE_LINE_PRICEBOOK_ENTRY
+# uninitialized constant #<Class:0x00007f7c7a41e148>::CPQ_QUOTE_LINE_PRODUCT
+# uninitialized constant #<Class:0x00007f7c7a41e148>::CPQ_QUOTE_OPPORTUNITY
+# uninitialized constant #<Class:0x00007f7c7a41e148>::CPQ_QUOTE_ORDERED
+# uninitialized constant #<Class:0x00007f7c7a41e148>::CPQ_QUOTE_PRIMARY
+# uninitialized constant #<Class:0x00007f7c7a41e148>::CPQ_QUOTE_PRIMARY_CONTACT
+# uninitialized constant #<Class:0x00007f7c7a41e148>::CPQ_QUOTE_SUBSCRIPTION_START_DATE
+# uninitialized constant #<Class:0x00007f7c7a41e148>::CPQ_QUOTE_SUBSCRIPTION_TERM
+# uninitialized constant #<Class:0x00007f7c7a41e148>::E
+# uninitialized constant #<Class:0x00007f7c7a41e148>::GENERIC_STRIPE_ID
+# uninitialized constant #<Class:0x00007f7c7a41e148>::ORDER_INVOICE_PAYMENT_LINK
+# uninitialized constant #<Class:0x00007f7c7a41e148>::ORDER_SUBSCRIPTION_PAYMENT_LINK
+# uninitialized constant #<Class:0x00007f7c7a41e148>::PASSTHROUGH_EXCEPTIONS
+# uninitialized constant #<Class:0x00007f7c7a41e148>::SF_ORDER
+# uninitialized constant #<Class:0x00007f7c7a41e148>::SF_PRICEBOOK_ENTRY
+# uninitialized constant #<Class:0x00007f7c7a41e148>::SF_PRODUCT
+# uninitialized constant #<Class:0x00007f7c7a41e148>::SIGNALS
+# uninitialized constant #<Class:0x00007f7c7a41e148>::TEARDOWN_METHODS
+# uninitialized constant #<Class:0x00007f7c7a41e148>::UNDEFINED
+# uninitialized constant #<Class:0x00007f7c7a41e148>::UNTRACKED
+# wrong constant name <static-init>
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::APP_SESSIONS
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::CALLBACK_FILTER_TYPES
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::CPQ_PRODUCT_SUBSCRIPTION_TERM
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::CPQ_PRODUCT_SUBSCRIPTION_TYPE
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::CPQ_QUOTE
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::CPQ_QUOTE_LINE
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::CPQ_QUOTE_LINE_PRICEBOOK_ENTRY
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::CPQ_QUOTE_LINE_PRODUCT
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::CPQ_QUOTE_OPPORTUNITY
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::CPQ_QUOTE_ORDERED
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::CPQ_QUOTE_PRIMARY
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::CPQ_QUOTE_PRIMARY_CONTACT
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::CPQ_QUOTE_SUBSCRIPTION_START_DATE
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::CPQ_QUOTE_SUBSCRIPTION_TERM
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::E
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::GENERIC_STRIPE_ID
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::ORDER_INVOICE_PAYMENT_LINK
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::ORDER_SUBSCRIPTION_PAYMENT_LINK
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::PASSTHROUGH_EXCEPTIONS
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::RESPONSE_PREDICATES
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::SF_ORDER
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::SF_PRICEBOOK_ENTRY
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::SF_PRODUCT
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::SIGNALS
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::TEARDOWN_METHODS
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::UNDEFINED
+# uninitialized constant #<Class:0x00007f7cba5b8d38>::UNTRACKED
+# wrong constant name <static-init>
+# uninitialized constant #<Class:0x00007f7c7a46e850>::CALLBACK_FILTER_TYPES
+# uninitialized constant #<Class:0x00007f7c7a46e850>::CPQ_PRODUCT_SUBSCRIPTION_TERM
+# uninitialized constant #<Class:0x00007f7c7a46e850>::CPQ_PRODUCT_SUBSCRIPTION_TYPE
+# uninitialized constant #<Class:0x00007f7c7a46e850>::CPQ_QUOTE
+# uninitialized constant #<Class:0x00007f7c7a46e850>::CPQ_QUOTE_LINE
+# uninitialized constant #<Class:0x00007f7c7a46e850>::CPQ_QUOTE_LINE_PRICEBOOK_ENTRY
+# uninitialized constant #<Class:0x00007f7c7a46e850>::CPQ_QUOTE_LINE_PRODUCT
+# uninitialized constant #<Class:0x00007f7c7a46e850>::CPQ_QUOTE_OPPORTUNITY
+# uninitialized constant #<Class:0x00007f7c7a46e850>::CPQ_QUOTE_ORDERED
+# uninitialized constant #<Class:0x00007f7c7a46e850>::CPQ_QUOTE_PRIMARY
+# uninitialized constant #<Class:0x00007f7c7a46e850>::CPQ_QUOTE_PRIMARY_CONTACT
+# uninitialized constant #<Class:0x00007f7c7a46e850>::CPQ_QUOTE_SUBSCRIPTION_START_DATE
+# uninitialized constant #<Class:0x00007f7c7a46e850>::CPQ_QUOTE_SUBSCRIPTION_TERM
+# uninitialized constant #<Class:0x00007f7c7a46e850>::E
+# uninitialized constant #<Class:0x00007f7c7a46e850>::GENERIC_STRIPE_ID
+# uninitialized constant #<Class:0x00007f7c7a46e850>::ORDER_INVOICE_PAYMENT_LINK
+# uninitialized constant #<Class:0x00007f7c7a46e850>::ORDER_SUBSCRIPTION_PAYMENT_LINK
+# uninitialized constant #<Class:0x00007f7c7a46e850>::PASSTHROUGH_EXCEPTIONS
+# uninitialized constant #<Class:0x00007f7c7a46e850>::SF_ORDER
+# uninitialized constant #<Class:0x00007f7c7a46e850>::SF_PRICEBOOK_ENTRY
+# uninitialized constant #<Class:0x00007f7c7a46e850>::SF_PRODUCT
+# uninitialized constant #<Class:0x00007f7c7a46e850>::SIGNALS
+# uninitialized constant #<Class:0x00007f7c7a46e850>::TEARDOWN_METHODS
+# uninitialized constant #<Class:0x00007f7c7a46e850>::UNDEFINED
+# uninitialized constant #<Class:0x00007f7c7a46e850>::UNTRACKED
+# wrong constant name <static-init>
+# uninitialized constant #<Class:0x00007f7caa440740>::APP_SESSIONS
+# uninitialized constant #<Class:0x00007f7caa440740>::CALLBACK_FILTER_TYPES
+# uninitialized constant #<Class:0x00007f7caa440740>::CPQ_PRODUCT_SUBSCRIPTION_TERM
+# uninitialized constant #<Class:0x00007f7caa440740>::CPQ_PRODUCT_SUBSCRIPTION_TYPE
+# uninitialized constant #<Class:0x00007f7caa440740>::CPQ_QUOTE
+# uninitialized constant #<Class:0x00007f7caa440740>::CPQ_QUOTE_LINE
+# uninitialized constant #<Class:0x00007f7caa440740>::CPQ_QUOTE_LINE_PRICEBOOK_ENTRY
+# uninitialized constant #<Class:0x00007f7caa440740>::CPQ_QUOTE_LINE_PRODUCT
+# uninitialized constant #<Class:0x00007f7caa440740>::CPQ_QUOTE_OPPORTUNITY
+# uninitialized constant #<Class:0x00007f7caa440740>::CPQ_QUOTE_ORDERED
+# uninitialized constant #<Class:0x00007f7caa440740>::CPQ_QUOTE_PRIMARY
+# uninitialized constant #<Class:0x00007f7caa440740>::CPQ_QUOTE_PRIMARY_CONTACT
+# uninitialized constant #<Class:0x00007f7caa440740>::CPQ_QUOTE_SUBSCRIPTION_START_DATE
+# uninitialized constant #<Class:0x00007f7caa440740>::CPQ_QUOTE_SUBSCRIPTION_TERM
+# uninitialized constant #<Class:0x00007f7caa440740>::E
+# uninitialized constant #<Class:0x00007f7caa440740>::GENERIC_STRIPE_ID
+# uninitialized constant #<Class:0x00007f7caa440740>::ORDER_INVOICE_PAYMENT_LINK
+# uninitialized constant #<Class:0x00007f7caa440740>::ORDER_SUBSCRIPTION_PAYMENT_LINK
+# uninitialized constant #<Class:0x00007f7caa440740>::PASSTHROUGH_EXCEPTIONS
+# uninitialized constant #<Class:0x00007f7caa440740>::RESPONSE_PREDICATES
+# uninitialized constant #<Class:0x00007f7caa440740>::SF_ORDER
+# uninitialized constant #<Class:0x00007f7caa440740>::SF_PRICEBOOK_ENTRY
+# uninitialized constant #<Class:0x00007f7caa440740>::SF_PRODUCT
+# uninitialized constant #<Class:0x00007f7caa440740>::SIGNALS
+# uninitialized constant #<Class:0x00007f7caa440740>::TEARDOWN_METHODS
+# uninitialized constant #<Class:0x00007f7caa440740>::UNDEFINED
+# uninitialized constant #<Class:0x00007f7caa440740>::UNTRACKED
+# wrong constant name <static-init>
+# wrong constant name <static-init>
 # wrong constant name <Class:ANSI>
 # wrong constant name <Class:BaseReporter>
 # wrong constant name <Class:DefaultReporter>
@@ -11390,6 +12261,10 @@
 # uninitialized constant Minitest::Test::E
 # uninitialized constant Minitest::Test::SIGNALS
 # uninitialized constant Minitest::Test::UNDEFINED
+# wrong constant name run_without_rescue
+# wrong constant name sanitize_exception
+# wrong constant name plugin_profile_init
+# wrong constant name plugin_profile_options
 # uninitialized constant Monitor::EXCEPTION_IMMEDIATE
 # uninitialized constant Monitor::EXCEPTION_NEVER
 # wrong constant name enter
@@ -11968,6 +12843,7 @@
 # uninitialized constant Newton
 # uninitialized constant Newton
 # wrong constant name to_d
+# wrong constant name <Class:ClassResolver>
 # wrong constant name <Class:HTML>
 # uninitialized constant Nokogiri::CSS::Parser::Racc_Main_Parsing_Routine
 # uninitialized constant Nokogiri::CSS::Parser::Racc_Runtime_Core_Id_C
@@ -11977,8 +12853,21 @@
 # uninitialized constant Nokogiri::CSS::Parser::Racc_Runtime_Type
 # uninitialized constant Nokogiri::CSS::Parser::Racc_Runtime_Version
 # uninitialized constant Nokogiri::CSS::Parser::Racc_YY_Parse_Method
+# wrong constant name cache_key
+# wrong constant name <Class:BuiltinsConfig>
+# wrong constant name <Class:DoctypeConfig>
+# wrong constant name config
+# wrong constant name initialize
+# wrong constant name visit_attrib_name
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name new
+# wrong constant name new
+# wrong constant name related_class
+# wrong constant name <static-init>
 # wrong constant name <Class:ElementDescription>
 # wrong constant name <Class:Element>
+# uninitialized constant Nokogiri::XML::Builder::VALID_NAMESPACES
 # uninitialized constant Nokogiri::XML::Document::ATTRIBUTE_DECL
 # uninitialized constant Nokogiri::XML::Document::ATTRIBUTE_NODE
 # uninitialized constant Nokogiri::XML::Document::CDATA_SECTION_NODE
@@ -11999,8 +12888,10 @@
 # uninitialized constant Nokogiri::XML::Document::NOTATION_NODE
 # uninitialized constant Nokogiri::XML::Document::PI_NODE
 # uninitialized constant Nokogiri::XML::Document::TEXT_NODE
+# uninitialized constant Nokogiri::XML::Document::VALID_NAMESPACES
 # uninitialized constant Nokogiri::XML::Document::XINCLUDE_END
 # uninitialized constant Nokogiri::XML::Document::XINCLUDE_START
+# wrong constant name xpath_doctype
 # uninitialized constant Nokogiri::XML::Element::ATTRIBUTE_DECL
 # uninitialized constant Nokogiri::XML::Element::ATTRIBUTE_NODE
 # uninitialized constant Nokogiri::XML::Element::CDATA_SECTION_NODE
@@ -12023,6 +12914,7 @@
 # uninitialized constant Nokogiri::XML::Element::NOTATION_NODE
 # uninitialized constant Nokogiri::XML::Element::PI_NODE
 # uninitialized constant Nokogiri::XML::Element::TEXT_NODE
+# uninitialized constant Nokogiri::XML::Element::VALID_NAMESPACES
 # uninitialized constant Nokogiri::XML::Element::XINCLUDE_END
 # uninitialized constant Nokogiri::XML::Element::XINCLUDE_START
 # wrong constant name <static-init>
@@ -12047,10 +12939,17 @@
 # uninitialized constant Nokogiri::XML::EntityDecl::NOTATION_NODE
 # uninitialized constant Nokogiri::XML::EntityDecl::PI_NODE
 # uninitialized constant Nokogiri::XML::EntityDecl::TEXT_NODE
+# uninitialized constant Nokogiri::XML::EntityDecl::VALID_NAMESPACES
 # uninitialized constant Nokogiri::XML::EntityDecl::XINCLUDE_END
 # uninitialized constant Nokogiri::XML::EntityDecl::XINCLUDE_START
 # uninitialized constant Nokogiri::XML::Node::LOOKS_LIKE_XPATH
+# uninitialized constant Nokogiri::XML::Node::VALID_NAMESPACES
 # uninitialized constant Nokogiri::XML::NodeSet::LOOKS_LIKE_XPATH
+# wrong constant name big_lines
+# wrong constant name big_lines?
+# wrong constant name nobig_lines
+# wrong constant name >
+# wrong constant name libxml2_patches
 # uninitialized constant RUBYGEMS_ACTIVATION_MONITOR
 # wrong constant name to_yaml
 # wrong constant name yaml_tag
@@ -12218,6 +13117,7 @@
 # wrong constant name <Class:ERIENullValueNotAllowed>
 # wrong constant name <Class:ERIESrfProtocolViolated>
 # wrong constant name <Class:ERIETriggerProtocolViolated>
+# wrong constant name <Class:Error>
 # wrong constant name <Class:ErrorInAssignment>
 # wrong constant name <Class:EscapeCharacterConflict>
 # wrong constant name <Class:ExclusionViolation>
@@ -12465,6 +13365,7 @@
 # wrong constant name <Class:TriggeredDataChangeViolation>
 # wrong constant name <Class:TrimError>
 # wrong constant name <Class:Tuple>
+# wrong constant name <Class:TypeMap>
 # wrong constant name <Class:TypeMapAllStrings>
 # wrong constant name <Class:TypeMapByClass>
 # wrong constant name <Class:TypeMapByColumn>
@@ -13230,6 +14131,7 @@
 # wrong constant name <static-init>
 # wrong constant name <static-init>
 # wrong constant name <static-init>
+# wrong constant name <static-init>
 # uninitialized constant PG::RecordCoder::FORMAT_ERROR_MASK
 # uninitialized constant PG::RecordCoder::FORMAT_ERROR_TO_PARTIAL
 # uninitialized constant PG::RecordCoder::FORMAT_ERROR_TO_RAISE
@@ -13834,9 +14736,12 @@
 # wrong constant name size
 # wrong constant name values
 # wrong constant name <static-init>
+# wrong constant name <Class:DefaultTypeMappable>
 # wrong constant name default_type_map
 # wrong constant name default_type_map=
 # wrong constant name with_default_type_map
+# wrong constant name <static-init>
+# wrong constant name <static-init>
 # wrong constant name <static-init>
 # wrong constant name []
 # wrong constant name []=
@@ -13892,6 +14797,8 @@
 # uninitialized constant PackageSpec
 # uninitialized constant PackageSpec
 # wrong constant name <Class:PackageSpec>
+# wrong constant name pair_label
+# wrong constant name in_def_open_args?
 # uninitialized constant Parser::Ruby24::Racc_Main_Parsing_Routine
 # uninitialized constant Parser::Ruby24::Racc_Runtime_Core_Id_C
 # uninitialized constant Parser::Ruby24::Racc_Runtime_Core_Version
@@ -13908,8 +14815,8 @@
 # uninitialized constant Parser::Ruby26::Racc_Runtime_Type
 # uninitialized constant Parser::Ruby26::Racc_Runtime_Version
 # uninitialized constant Parser::Ruby26::Racc_YY_Parse_Method
-# wrong constant name fnmatch?
-# wrong constant name make_symlink
+# wrong constant name declare_anonymous_blockarg
+# wrong constant name declared_anonymous_blockarg?
 # uninitialized constant Prime
 # uninitialized constant Prime
 # wrong constant name <<
@@ -14495,6 +15402,216 @@
 # uninitialized constant Rails::ApplicationController::RENDER_FORMATS_IN_PRIORITY
 # wrong constant name <static-init>
 # uninitialized constant Rails::Autoloaders::Elem
+# wrong constant name <Class:Actions>
+# wrong constant name <Class:Base>
+# wrong constant name <Class:Spellchecker>
+# wrong constant name load_generators
+# wrong constant name load_tasks
+# wrong constant name require_application!
+# wrong constant name require_application_and_environment!
+# wrong constant name require_environment!
+# wrong constant name set_application_directory!
+# wrong constant name <static-init>
+# uninitialized constant Rails::Command::Base::Correctable
+# wrong constant name <Class:Error>
+# uninitialized constant Rails::Command::Base::HELP_MAPPINGS
+# uninitialized constant Rails::Command::Base::SHELL_DELEGATED_METHODS
+# uninitialized constant Rails::Command::Base::TEMPLATE_EXTNAME
+# uninitialized constant Rails::Command::Base::THOR_RESERVED_WORDS
+# wrong constant name help
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name banner
+# wrong constant name base_name
+# wrong constant name command_name
+# wrong constant name default_command_root
+# wrong constant name desc
+# wrong constant name engine?
+# wrong constant name executable
+# wrong constant name hide_command!
+# wrong constant name inherited
+# wrong constant name perform
+# wrong constant name printing_commands
+# wrong constant name usage_path
+# wrong constant name no_color!
+# wrong constant name subclasses
+# wrong constant name <static-init>
+# wrong constant name suggest
+# wrong constant name <static-init>
+# wrong constant name environment
+# wrong constant name find_by_namespace
+# wrong constant name hidden_commands
+# wrong constant name invoke
+# wrong constant name print_commands
+# wrong constant name root
+# wrong constant name <Class:Actions>
+# wrong constant name <Class:ActiveModel>
+# wrong constant name <Class:Base>
+# wrong constant name <Class:NamedBase>
+# wrong constant name <Class:ResourceHelpers>
+# wrong constant name <Class:TestCase>
+# wrong constant name <Class:Testing>
+# wrong constant name namespace
+# wrong constant name namespace=
+# wrong constant name <Class:CreateMigration>
+# wrong constant name add_source
+# wrong constant name application
+# wrong constant name environment
+# wrong constant name gem
+# wrong constant name gem_group
+# wrong constant name generate
+# wrong constant name git
+# wrong constant name github
+# wrong constant name initialize
+# wrong constant name initializer
+# wrong constant name lib
+# wrong constant name rails_command
+# wrong constant name rake
+# wrong constant name rakefile
+# wrong constant name readme
+# wrong constant name route
+# wrong constant name vendor
+# wrong constant name existing_migration
+# wrong constant name migration_dir
+# wrong constant name migration_file_name
+# wrong constant name relative_existing_migration
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name destroy
+# wrong constant name errors
+# wrong constant name initialize
+# wrong constant name name
+# wrong constant name save
+# wrong constant name update
+# wrong constant name <static-init>
+# wrong constant name all
+# wrong constant name build
+# wrong constant name find
+# uninitialized constant Rails::Generators::Base::SHELL_DELEGATED_METHODS
+# uninitialized constant Rails::Generators::Base::WARNINGS
+# wrong constant name <static-init>
+# wrong constant name add_shebang_option!
+# wrong constant name base_name
+# wrong constant name base_root
+# wrong constant name default_aliases_for_option
+# wrong constant name default_for_option
+# wrong constant name default_generator_root
+# wrong constant name default_source_root
+# wrong constant name default_value_for_option
+# wrong constant name generator_name
+# wrong constant name hide!
+# wrong constant name hook_for
+# wrong constant name hooks
+# wrong constant name inherited
+# wrong constant name prepare_for_invocation
+# wrong constant name remove_hook_for
+# wrong constant name usage_path
+# wrong constant name convert_database_option_for_jruby
+# wrong constant name gem_for_database
+# wrong constant name initialize
+# wrong constant name create_migration
+# wrong constant name migration_class_name
+# wrong constant name migration_file_name
+# wrong constant name migration_number
+# wrong constant name migration_template
+# wrong constant name set_migration_assigns!
+# wrong constant name current_migration_number
+# wrong constant name migration_exists?
+# wrong constant name migration_lookup_at
+# wrong constant name next_migration_number
+# uninitialized constant Rails::Generators::NamedBase::SHELL_DELEGATED_METHODS
+# uninitialized constant Rails::Generators::NamedBase::WARNINGS
+# wrong constant name file_name
+# wrong constant name initialize
+# wrong constant name js_template
+# wrong constant name name
+# wrong constant name name=
+# wrong constant name <static-init>
+# wrong constant name check_class_collision
+# wrong constant name initialize
+# wrong constant name <static-init>
+# wrong constant name included
+# uninitialized constant Rails::Generators::TestCase::CALLBACK_FILTER_TYPES
+# uninitialized constant Rails::Generators::TestCase::E
+# uninitialized constant Rails::Generators::TestCase::LN_SUPPORTED
+# uninitialized constant Rails::Generators::TestCase::LOW_METHODS
+# uninitialized constant Rails::Generators::TestCase::METHODS
+# uninitialized constant Rails::Generators::TestCase::OPT_TABLE
+# uninitialized constant Rails::Generators::TestCase::PASSTHROUGH_EXCEPTIONS
+# uninitialized constant Rails::Generators::TestCase::RUBY
+# uninitialized constant Rails::Generators::TestCase::SIGNALS
+# uninitialized constant Rails::Generators::TestCase::TEARDOWN_METHODS
+# uninitialized constant Rails::Generators::TestCase::UNDEFINED
+# uninitialized constant Rails::Generators::TestCase::UNTRACKED
+# uninitialized constant Rails::Generators::TestCase::VERSION
+# wrong constant name current_path
+# wrong constant name current_path=
+# wrong constant name current_path?
+# wrong constant name default_arguments
+# wrong constant name default_arguments=
+# wrong constant name default_arguments?
+# wrong constant name destination_root
+# wrong constant name destination_root=
+# wrong constant name destination_root?
+# wrong constant name generator_class
+# wrong constant name generator_class=
+# wrong constant name generator_class?
+# wrong constant name <static-init>
+# wrong constant name current_path
+# wrong constant name current_path=
+# wrong constant name current_path?
+# wrong constant name default_arguments
+# wrong constant name default_arguments=
+# wrong constant name default_arguments?
+# wrong constant name destination_root
+# wrong constant name destination_root=
+# wrong constant name destination_root?
+# wrong constant name generator_class
+# wrong constant name generator_class=
+# wrong constant name generator_class?
+# wrong constant name <Class:Assertions>
+# wrong constant name <Class:Behaviour>
+# wrong constant name <Class:SetupAndTeardown>
+# wrong constant name assert_class_method
+# wrong constant name assert_directory
+# wrong constant name assert_field_default_value
+# wrong constant name assert_field_type
+# wrong constant name assert_file
+# wrong constant name assert_instance_method
+# wrong constant name assert_method
+# wrong constant name assert_migration
+# wrong constant name assert_no_directory
+# wrong constant name assert_no_file
+# wrong constant name assert_no_migration
+# wrong constant name <static-init>
+# wrong constant name create_generated_attribute
+# wrong constant name generator
+# wrong constant name run_generator
+# wrong constant name <static-init>
+# wrong constant name setup
+# wrong constant name teardown
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name add_generated_file
+# wrong constant name after_generate_callbacks
+# wrong constant name aliases
+# wrong constant name api_only!
+# wrong constant name configure!
+# wrong constant name fallbacks
+# wrong constant name find_by_namespace
+# wrong constant name help
+# wrong constant name hidden_namespaces
+# wrong constant name hide_namespace
+# wrong constant name hide_namespaces
+# wrong constant name invoke
+# wrong constant name namespace
+# wrong constant name namespace=
+# wrong constant name options
+# wrong constant name print_generators
+# wrong constant name public_namespaces
+# wrong constant name sorted_groups
+# wrong constant name templates_path
 # wrong constant name properties
 # wrong constant name properties=
 # wrong constant name <static-init>
@@ -14545,7 +15662,9 @@
 # uninitialized constant Rails::Rack::Logger::RED
 # uninitialized constant Rails::Rack::Logger::WHITE
 # uninitialized constant Rails::Rack::Logger::YELLOW
+# wrong constant name before_dispatch
 # wrong constant name call
+# wrong constant name call_app
 # wrong constant name initialize
 # uninitialized constant Rails::WelcomeController::AUTHENTICITY_TOKEN_LENGTH
 # uninitialized constant Rails::WelcomeController::CALLBACK_FILTER_TYPES
@@ -14592,6 +15711,27 @@
 # uninitialized constant Redis::EXCEPTION_IMMEDIATE
 # uninitialized constant Redis::EXCEPTION_NEVER
 # uninitialized constant Redis::Connection::Ruby::COMMAND_DELIMITER
+# wrong constant name <Class:Middleware>
+# wrong constant name <Class:Railtie>
+# wrong constant name call
+# wrong constant name initialize
+# wrong constant name <static-init>
+# uninitialized constant RequestStore::Railtie::ABSTRACT_RAILTIES
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name []
+# wrong constant name []=
+# wrong constant name active?
+# wrong constant name begin!
+# wrong constant name clear!
+# wrong constant name delete
+# wrong constant name end!
+# wrong constant name exist?
+# wrong constant name fetch
+# wrong constant name read
+# wrong constant name store
+# wrong constant name store=
+# wrong constant name write
 # wrong constant name extract_resources
 # wrong constant name initialize
 # wrong constant name initialize
@@ -14749,6 +15889,12 @@
 # uninitialized constant Restforce::Document::Elem
 # uninitialized constant Restforce::Document::K
 # uninitialized constant Restforce::Document::V
+# wrong constant name <static-init>
+# wrong constant name <Class:InvalidSignupCountry>
+# wrong constant name <Class:MalformedSearch>
+# wrong constant name <Class:OperationTooLarge>
+# wrong constant name <static-init>
+# wrong constant name <static-init>
 # wrong constant name <static-init>
 # uninitialized constant Restforce::Mash::ALLOWED_SUFFIXES
 # uninitialized constant Restforce::Mash::Elem
@@ -15233,68 +16379,6 @@
 # uninitialized constant RuboCop::Cop::Lint::UriRegexp::LITERAL_REGEX
 # uninitialized constant RuboCop::Cop::Metrics::Utils::AbcSizeCalculator::KNOWN_ITERATING_METHODS
 # uninitialized constant RuboCop::Cop::Metrics::Utils::CodeLengthCalculator::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::AssertEmpty::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::AssertEmpty::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::AssertEmptyLiteral::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::AssertEmptyLiteral::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::AssertEqual::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::AssertEqual::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::AssertIncludes::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::AssertIncludes::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::AssertInstanceOf::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::AssertInstanceOf::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::AssertKindOf::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::AssertKindOf::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::AssertMatch::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::AssertMatch::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::AssertNil::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::AssertNil::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::AssertOutput::ASSERTION_METHODS
-# uninitialized constant RuboCop::Cop::Minitest::AssertOutput::ASSERTION_PREFIXES
-# uninitialized constant RuboCop::Cop::Minitest::AssertOutput::LIFECYCLE_HOOK_METHODS
-# uninitialized constant RuboCop::Cop::Minitest::AssertOutput::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::AssertPathExists::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::AssertRespondTo::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::AssertRespondTo::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::AssertSilent::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::AssertTruthy::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::AssertTruthy::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::AssertionInLifecycleHook::ASSERTION_METHODS
-# uninitialized constant RuboCop::Cop::Minitest::AssertionInLifecycleHook::ASSERTION_PREFIXES
-# uninitialized constant RuboCop::Cop::Minitest::AssertionInLifecycleHook::LIFECYCLE_HOOK_METHODS
-# uninitialized constant RuboCop::Cop::Minitest::AssertionInLifecycleHook::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::GlobalExpectations::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::LiteralAsActualArgument::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::LiteralAsActualArgument::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::MultipleAssertions::ASSERTION_METHODS
-# uninitialized constant RuboCop::Cop::Minitest::MultipleAssertions::ASSERTION_PREFIXES
-# uninitialized constant RuboCop::Cop::Minitest::MultipleAssertions::LIFECYCLE_HOOK_METHODS
-# uninitialized constant RuboCop::Cop::Minitest::MultipleAssertions::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::RefuteEmpty::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::RefuteEmpty::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::RefuteEqual::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::RefuteEqual::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::RefuteFalse::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::RefuteFalse::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::RefuteIncludes::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::RefuteIncludes::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::RefuteInstanceOf::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::RefuteInstanceOf::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::RefuteKindOf::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::RefuteKindOf::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::RefuteMatch::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::RefuteMatch::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::RefuteNil::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::RefuteNil::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::RefutePathExists::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::RefuteRespondTo::BYTE_ORDER_MARK
-# uninitialized constant RuboCop::Cop::Minitest::RefuteRespondTo::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::TestMethodName::ASSERTION_METHODS
-# uninitialized constant RuboCop::Cop::Minitest::TestMethodName::ASSERTION_PREFIXES
-# uninitialized constant RuboCop::Cop::Minitest::TestMethodName::LIFECYCLE_HOOK_METHODS
-# uninitialized constant RuboCop::Cop::Minitest::TestMethodName::LITERAL_REGEX
-# uninitialized constant RuboCop::Cop::Minitest::TestMethodName::NON_PUBLIC_MODIFIERS
-# uninitialized constant RuboCop::Cop::Minitest::UnspecifiedException::LITERAL_REGEX
 # uninitialized constant RuboCop::Cop::Naming::AsciiIdentifiers::BYTE_ORDER_MARK
 # uninitialized constant RuboCop::Cop::Naming::AsciiIdentifiers::LITERAL_REGEX
 # uninitialized constant RuboCop::Cop::Naming::BinaryOperatorParameterName::LITERAL_REGEX
@@ -15356,7 +16440,24 @@
 # uninitialized constant Selenium::WebDriver::Remote::Http::Default::MAX_REDIRECTS
 # uninitialized constant Selenium::WebDriver::Remote::OSS::Bridge::PORT
 # uninitialized constant Selenium::WebDriver::Remote::W3C::Bridge::PORT
+# wrong constant name <Class:CustomInspection>
+# wrong constant name <Class:Envelope>
+# wrong constant name <Class:ReleaseDetector>
 # wrong constant name drain_and_shutdown
+# wrong constant name shutdown
+# wrong constant name shutdown_timeout
+# wrong constant name shutdown_timeout=
+# wrong constant name capture_exception_frame_locals
+# wrong constant name capture_exception_frame_locals=
+# wrong constant name send_client_reports
+# wrong constant name send_client_reports=
+# wrong constant name inspect
+# wrong constant name <static-init>
+# wrong constant name add_item
+# wrong constant name initialize
+# wrong constant name <static-init>
+# uninitialized constant Sentry::HTTPTransport::CLIENT_REPORT_INTERVAL
+# uninitialized constant Sentry::HTTPTransport::CLIENT_REPORT_REASONS
 # uninitialized constant Sentry::HTTPTransport::PROTOCOL_VERSION
 # uninitialized constant Sentry::HTTPTransport::USER_AGENT
 # uninitialized constant Sentry::Logger::DEBUG
@@ -15370,8 +16471,21 @@
 # uninitialized constant Sentry::Logger::VERSION
 # uninitialized constant Sentry::Logger::WARN
 # uninitialized constant Sentry::Rails::BacktraceCleaner::FORMATTED_GEMS_PATTERN
+# wrong constant name <Class:ActiveStorageSubscriber>
+# wrong constant name <static-init>
+# wrong constant name <static-init>
+# wrong constant name detect_release
+# wrong constant name detect_release_from_capistrano
+# wrong constant name detect_release_from_env
+# wrong constant name detect_release_from_git
+# wrong constant name detect_release_from_heroku
 # uninitialized constant Sentry::Transaction::STATUS_MAP
 # uninitialized constant Sentry::TransactionEvent::MAX_MESSAGE_SIZE_IN_BYTES
+# uninitialized constant Sentry::TransactionEvent::SKIP_INSPECTION_ATTRIBUTES
+# wrong constant name discarded_events
+# wrong constant name last_client_report_sent
+# wrong constant name record_lost_event
+# wrong constant name exception_locals_tp
 # uninitialized constant Sequel::CURRENT_DATE
 # uninitialized constant Sequel::CURRENT_TIME
 # uninitialized constant Sequel::CURRENT_TIMESTAMP
@@ -15385,6 +16499,12 @@
 # uninitialized constant Sequel::Model::Associations::ManyToManyAssociationReflection::ASSOCIATION_DATASET_PROC
 # uninitialized constant Sequel::Model::Associations::ManyToOneAssociationReflection::ASSOCIATION_DATASET_PROC
 # uninitialized constant Sequel::Model::Associations::OneToManyAssociationReflection::ASSOCIATION_DATASET_PROC
+# wrong constant name <Class:UpdateOrCreate>
+# wrong constant name <Class:ClassMethods>
+# wrong constant name find_or_new
+# wrong constant name update_or_create
+# wrong constant name <static-init>
+# wrong constant name <static-init>
 # uninitialized constant Sequel::Postgres::Adapter::CONNECTION_AUTH_OK
 # uninitialized constant Sequel::Postgres::Adapter::CONNECTION_AWAITING_RESPONSE
 # uninitialized constant Sequel::Postgres::Adapter::CONNECTION_BAD
@@ -15528,8 +16648,6 @@
 # wrong constant name inherited
 # wrong constant name ==
 # wrong constant name ===
-# wrong constant name compare_by_identity
-# wrong constant name compare_by_identity?
 # wrong constant name divide
 # wrong constant name eql?
 # wrong constant name flatten_merge
@@ -15634,11 +16752,13 @@
 # uninitialized constant SortedSet::InspectKey
 # wrong constant name initialize
 # wrong constant name setup
+# wrong constant name gemfile_lock
 # wrong constant name parse_csv
 # wrong constant name shellescape
 # wrong constant name shellsplit
 # wrong constant name bol?
 # wrong constant name initialize
+# wrong constant name <Class:ShippingRate>
 # uninitialized constant Stripe::Account::RESERVED_FIELD_NAMES
 # uninitialized constant Stripe::AccountLink::RESERVED_FIELD_NAMES
 # uninitialized constant Stripe::AlipayAccount::RESERVED_FIELD_NAMES
@@ -15656,6 +16776,8 @@
 # uninitialized constant Stripe::Card::RESERVED_FIELD_NAMES
 # uninitialized constant Stripe::Charge::RESERVED_FIELD_NAMES
 # uninitialized constant Stripe::Checkout::Session::RESERVED_FIELD_NAMES
+# wrong constant name expire
+# wrong constant name expire
 # uninitialized constant Stripe::CountrySpec::RESERVED_FIELD_NAMES
 # uninitialized constant Stripe::Coupon::RESERVED_FIELD_NAMES
 # uninitialized constant Stripe::CreditNote::RESERVED_FIELD_NAMES
@@ -15708,6 +16830,9 @@
 # uninitialized constant Stripe::SKU::RESERVED_FIELD_NAMES
 # uninitialized constant Stripe::SetupAttempt::RESERVED_FIELD_NAMES
 # uninitialized constant Stripe::SetupIntent::RESERVED_FIELD_NAMES
+# uninitialized constant Stripe::ShippingRate::Elem
+# uninitialized constant Stripe::ShippingRate::RESERVED_FIELD_NAMES
+# wrong constant name <static-init>
 # uninitialized constant Stripe::Sigma::ScheduledQueryRun::RESERVED_FIELD_NAMES
 # uninitialized constant Stripe::Source::RESERVED_FIELD_NAMES
 # uninitialized constant Stripe::SourceTransaction::RESERVED_FIELD_NAMES
@@ -15748,10 +16873,16 @@
 # wrong constant name T.untyped
 # wrong constant name <Class:Remover>
 # wrong constant name _close
-# wrong constant name inspect
 # wrong constant name call
 # wrong constant name initialize
 # wrong constant name <static-init>
+# uninitialized constant Thor::RakeCompat::DEFAULT
+# uninitialized constant Thor::RakeCompat::LN_SUPPORTED
+# uninitialized constant Thor::RakeCompat::LOW_METHODS
+# uninitialized constant Thor::RakeCompat::METHODS
+# uninitialized constant Thor::RakeCompat::OPT_TABLE
+# uninitialized constant Thor::RakeCompat::RUBY
+# uninitialized constant Thor::RakeCompat::VERSION
 # uninitialized constant ThreadsWait
 # uninitialized constant ThreadsWait
 # wrong constant name <Class:BuilderTemplate>
@@ -15761,6 +16892,7 @@
 # wrong constant name <Class:NokogiriTemplate>
 # wrong constant name <Class:PlainTemplate>
 # wrong constant name <Class:RDocTemplate>
+# wrong constant name <Class:SassTemplate>
 # wrong constant name <Class:SigilTemplate>
 # wrong constant name <Class:StringTemplate>
 # wrong constant name precompiled_postamble
@@ -15783,6 +16915,7 @@
 # wrong constant name <static-init>
 # wrong constant name allows_script?
 # wrong constant name markup
+# wrong constant name <static-init>
 # wrong constant name <static-init>
 # wrong constant name allows_script?
 # wrong constant name <static-init>
@@ -15896,7 +17029,6 @@
 # wrong constant name initialize
 # wrong constant name map!
 # wrong constant name <static-init>
-# wrong constant name included
 # wrong constant name <Class:Runner>
 # wrong constant name announce_port_attempted
 # wrong constant name app
