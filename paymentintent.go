@@ -332,8 +332,14 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct{}
 
+// If this is a `fpx` PaymentMethod, this sub-hash contains details about the FPX payment method options.
+type PaymentIntentPaymentMethodOptionsFPXParams struct{}
+
 // If this is a `giropay` PaymentMethod, this sub-hash contains details about the Giropay payment method options.
 type PaymentIntentPaymentMethodOptionsGiropayParams struct{}
+
+// If this is a `grabpay` PaymentMethod, this sub-hash contains details about the Grabpay payment method options.
+type PaymentIntentPaymentMethodOptionsGrabpayParams struct{}
 
 // If this is a `ideal` PaymentMethod, this sub-hash contains details about the Ideal payment method options.
 type PaymentIntentPaymentMethodOptionsIdealParams struct{}
@@ -389,7 +395,9 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Boleto           *PaymentIntentPaymentMethodOptionsBoletoParams           `form:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCardParams             `form:"card"`
 	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresentParams      `form:"card_present"`
+	FPX              *PaymentIntentPaymentMethodOptionsFPXParams              `form:"fpx"`
 	Giropay          *PaymentIntentPaymentMethodOptionsGiropayParams          `form:"giropay"`
+	Grabpay          *PaymentIntentPaymentMethodOptionsGrabpayParams          `form:"grabpay"`
 	Ideal            *PaymentIntentPaymentMethodOptionsIdealParams            `form:"ideal"`
 	InteracPresent   *PaymentIntentPaymentMethodOptionsInteracPresentParams   `form:"interac_present"`
 	Klarna           *PaymentIntentPaymentMethodOptionsKlarnaParams           `form:"klarna"`
@@ -599,7 +607,9 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 // PaymentIntentPaymentMethodOptionsCardPresent is the set of Card Present-specific options associated
 // with that payment intent.
 type PaymentIntentPaymentMethodOptionsCardPresent struct{}
+type PaymentIntentPaymentMethodOptionsFPX struct{}
 type PaymentIntentPaymentMethodOptionsGiropay struct{}
+type PaymentIntentPaymentMethodOptionsGrabpay struct{}
 
 // PaymentIntentPaymentMethodOptionsIdeal is the set of Ideal-specific options associated
 // with that payment intent.
@@ -653,7 +663,9 @@ type PaymentIntentPaymentMethodOptions struct {
 	Boleto           *PaymentIntentPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
 	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresent      `json:"card_present"`
+	FPX              *PaymentIntentPaymentMethodOptionsFPX              `json:"fpx"`
 	Giropay          *PaymentIntentPaymentMethodOptionsGiropay          `json:"giropay"`
+	Grabpay          *PaymentIntentPaymentMethodOptionsGrabpay          `json:"grabpay"`
 	Ideal            *PaymentIntentPaymentMethodOptionsIdeal            `json:"ideal"`
 	InteracPresent   *PaymentIntentPaymentMethodOptionsInteracPresent   `json:"interac_present"`
 	Klarna           *PaymentIntentPaymentMethodOptionsKlarna           `json:"klarna"`

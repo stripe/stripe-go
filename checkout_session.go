@@ -96,6 +96,15 @@ const (
 	CheckoutSessionConsentCollectionPromotionsAuto CheckoutSessionConsentCollectionPromotions = "auto"
 )
 
+// Configure whether a Checkout Session creates a Customer when the Checkout Session completes.
+type CheckoutSessionCustomerCreation string
+
+// List of values that CheckoutSessionCustomerCreation can take
+const (
+	CheckoutSessionCustomerCreationAlways     CheckoutSessionCustomerCreation = "always"
+	CheckoutSessionCustomerCreationIfRequired CheckoutSessionCustomerCreation = "if_required"
+)
+
 // CheckoutSessionCustomerDetailsTaxExempt is the list of allowed values for
 // tax_exempt inside customer_details of a checkout session.
 type CheckoutSessionCustomerDetailsTaxExempt string
@@ -453,6 +462,7 @@ type CheckoutSessionParams struct {
 	ClientReferenceID         *string                                         `form:"client_reference_id"`
 	ConsentCollection         *CheckoutSessionConsentCollectionParams         `form:"consent_collection"`
 	Customer                  *string                                         `form:"customer"`
+	CustomerCreation          *string                                         `form:"customer_creation"`
 	CustomerEmail             *string                                         `form:"customer_email"`
 	CustomerUpdate            *CheckoutSessionCustomerUpdateParams            `form:"customer_update"`
 	Discounts                 []*CheckoutSessionDiscountParams                `form:"discounts"`
@@ -634,6 +644,7 @@ type CheckoutSession struct {
 	ConsentCollection         *CheckoutSessionConsentCollection         `json:"consent_collection"`
 	Currency                  Currency                                  `json:"currency"`
 	Customer                  *Customer                                 `json:"customer"`
+	CustomerCreation          CheckoutSessionCustomerCreation           `json:"customer_creation"`
 	CustomerDetails           *CheckoutSessionCustomerDetails           `json:"customer_details"`
 	CustomerEmail             string                                    `json:"customer_email"`
 	Deleted                   bool                                      `json:"deleted"`
