@@ -397,6 +397,7 @@ type Invoice struct {
 	Object                       string                   `json:"object"`
 	OnBehalfOf                   *Account                 `json:"on_behalf_of"`
 	Paid                         bool                     `json:"paid"`
+	PaidOutOfBand                bool                     `json:"paid_out_of_band"`
 	PaymentIntent                *PaymentIntent           `json:"payment_intent"`
 	PaymentSettings              *InvoicePaymentSettings  `json:"payment_settings"`
 	PeriodEnd                    int64                    `json:"period_end"`
