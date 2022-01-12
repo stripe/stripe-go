@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/sequel/all/sequel.rbi
 #
-# sequel-5.49.0
+# sequel-5.52.0
 
 module Sequel
   def self.Model(source); end
@@ -377,10 +377,10 @@ class Sequel::SQL::VirtualRow < Sequel::BasicObject
   def >(*args); end
   def >=(*args); end
   def initialize; end
-  include Anonymous_Module_16
+  include Anonymous_Module_17
   include Sequel::SQL::OperatorBuilders
 end
-module Anonymous_Module_16
+module Anonymous_Module_17
   def method_missing(m, *args); end
 end
 class Sequel::SQL::Window < Sequel::SQL::Expression
@@ -742,6 +742,7 @@ class Sequel::Dataset
   def select_window_sql(sql); end
   def select_with_sql(sql); end
   def select_with_sql_base; end
+  def select_with_sql_cte(sql, cte); end
   def select_with_sql_prefix(sql, w); end
   def self.clause_methods(type, clauses); end
   def self.def_sql_method(mod, type, clauses); end
@@ -1304,6 +1305,7 @@ class Sequel::Schema::AlterTableGenerator
   def set_column_type(name, type, opts = nil); end
 end
 module Sequel::SequelMethods
+  def _date_parse(string); end
   def adapter_method(adapter, *args, &block); end
   def application_timezone; end
   def application_timezone=(tz); end
@@ -2106,6 +2108,12 @@ class Sequel::Model::Associations::EagerGraphLoader
   def row_procs; end
   def type_map; end
 end
+module Sequel::Plugins::UpdateOrCreate
+end
+module Sequel::Plugins::UpdateOrCreate::ClassMethods
+  def find_or_new(attrs, set_attrs = nil); end
+  def update_or_create(attrs, set_attrs = nil, &block); end
+end
 module Sequel::Plugins::DefaultsSetter
   def self.configure(model, opts = nil); end
 end
@@ -2310,6 +2318,7 @@ module Sequel::Postgres::DatasetMethods
   def select_sql; end
   def select_values_sql(sql); end
   def select_with_sql_base; end
+  def select_with_sql_cte(sql, cte); end
   def server_version; end
   def supports_cte?(type = nil); end
   def supports_cte_in_subqueries?; end

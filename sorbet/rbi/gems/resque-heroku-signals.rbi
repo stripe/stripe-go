@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/resque-heroku-signals/all/resque-heroku-signals.rbi
 #
-# resque-heroku-signals-2.1.0
+# resque-heroku-signals-2.2.0
 
 module Resque
   def self.heroku_will_terminate?; end
