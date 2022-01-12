@@ -1,5 +1,26 @@
 # Changelog
 
+## 72.82.0 - 2022-01-12
+* [#1403](https://github.com/stripe/stripe-go/pull/1403) API Updates
+  * Add support for `CustomerCreation` on `CheckoutSessionParams` and `CheckoutSession`
+  * Add support for `FPX` and `Grabpay` on `PaymentIntentPaymentMethodOptionsParams` and `PaymentIntentPaymentMethodOptions`
+  
+* [#1399](https://github.com/stripe/stripe-go/pull/1399) API Updates
+  * Add support for `MandateOptions` on `SubscriptionPaymentSettingsPaymentMethodOptionsCardParams`, `SubscriptionPaymentSettingsPaymentMethodOptionsCardParams`, and `SubscriptionPaymentSettingsPaymentMethodOptionsCard`
+* [#1401](https://github.com/stripe/stripe-go/pull/1401) Make source.go and client codegen-able
+  * Add support for `object` on `Source` (value is the string "source")
+  * Add support for `client_secret` on `SourceObjectParams`
+  * Add support for `parent` on `SourceSourceOrderItems`
+* [#1400](https://github.com/stripe/stripe-go/pull/1400) Make paymentsource.go and client codegen-able
+  * Add support for `account_holder_name`, `account_holder_type`, `address_city`, `address_country`, `address_line1`, `address_line2`, `address_state`, `address_zip`, `exp_month`, `exp_year`, `name`, `owner` on `CustomerSourceParams`
+  * Add support for `PaymentSourceOwnerParams`
+  * Add support for `Object` on `SourceListParams`
+* [#1396](https://github.com/stripe/stripe-go/pull/1396) Make bankaccount and card codegen-able
+  * Add support for `address_city`, `address_country`, `address_line1`, `address_line2`, `address_state`, `address_zip`, `exp_month`, `exp_year`, and `name` on `BankAccountParams`
+  * Add support for `account_holder_name`, `account_holder_type`, and `owner` on `CardParams`
+  * Add support for `account` on `Card`
+* [#1398](https://github.com/stripe/stripe-go/pull/1398) Update docs URLs.
+
 ## 72.81.0 - 2021-12-22
 * [#1397](https://github.com/stripe/stripe-go/pull/1397) API Updates
   * Add support for `AUBECSDebit` on `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
