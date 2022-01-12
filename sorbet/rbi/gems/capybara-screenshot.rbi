@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/capybara-screenshot/all/capybara-screenshot.rbi
 #
-# capybara-screenshot-1.0.25
+# capybara-screenshot-1.0.26
 
 class CapybaraScreenshot
 end
@@ -107,6 +107,7 @@ class Capybara::Screenshot::Saver
   def self.after_save_html(&block); end
   def self.after_save_screenshot(&block); end
   def which(cmd); end
+  def within_offending_window; end
   extend Capybara::Screenshot::Callbacks::ClassMethods
   include Capybara::Screenshot::Callbacks
   include Capybara::Screenshot::Callbacks::InstanceMethods
@@ -118,6 +119,9 @@ end
 module Capybara::DSL
   def screenshot_and_open_image; end
   def screenshot_and_save_page; end
+end
+module Capybara::SessionScreenshotOverrides
+  def within_window(window_or_handle); end
 end
 class Capybara::Screenshot::Pruner
   def initialize(strategy); end

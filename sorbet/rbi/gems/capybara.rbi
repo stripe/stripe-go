@@ -444,7 +444,7 @@ class Capybara::Session
   def within_fieldset(locator, &block); end
   def within_frame(*args, **kw_args); end
   def within_table(locator, &block); end
-  def within_window(window_or_proc); end
+  def within_window(window_or_handle); end
   include Capybara::SessionMatchers
 end
 class Capybara::Window

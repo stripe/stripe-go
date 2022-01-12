@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/activesupport/all/activesupport.rbi
 #
-# activesupport-6.1.4.1
+# activesupport-6.1.4.4
 
 class Hash
   def _deep_transform_keys_in_object!(object, &block); end
@@ -38,8 +38,8 @@ class Hash
   def reverse_merge!(other_hash); end
   def reverse_merge(other_hash); end
   def reverse_update(other_hash); end
+  def self.[](*arg0); end
   def self.from_xml(xml, disallowed_types = nil); end
-  def self.try_convert(arg0); end
   def slice!(*keys); end
   def stringify_keys!; end
   def stringify_keys; end
@@ -1644,6 +1644,36 @@ class ActiveSupport::EnvironmentInquirer < ActiveSupport::StringInquirer
   def production?; end
   def test?; end
 end
+class ActiveSupport::Subscriber
+  def self.add_event_subscriber(event); end
+  def self.attach_to(namespace, subscriber = nil, notifier = nil, inherit_all: nil); end
+  def self.detach_from(namespace, notifier = nil); end
+  def self.fetch_public_methods(subscriber, inherit_all); end
+  def self.find_attached_subscriber; end
+  def self.invalid_event?(event); end
+  def self.method_added(event); end
+  def self.namespace; end
+  def self.notifier; end
+  def self.pattern_subscribed?(pattern); end
+  def self.prepare_pattern(event); end
+  def self.remove_event_subscriber(event); end
+  def self.subscriber; end
+  def self.subscribers; end
+end
+class ActiveSupport::SubscriberQueueRegistry
+  def get_queue(queue_key); end
+  def initialize; end
+  extend ActiveSupport::PerThreadRegistry
+end
+class ActiveSupport::LogSubscriber < ActiveSupport::Subscriber
+  def self.colorize_logging; end
+  def self.colorize_logging=(val); end
+  def self.fetch_public_methods(subscriber, inherit_all); end
+  def self.flush_all!; end
+  def self.log_subscribers; end
+  def self.logger; end
+  def self.logger=(arg0); end
+end
 class ActiveSupport::ParameterFilter
   def compiled_filter; end
   def filter(params); end
@@ -2310,36 +2340,6 @@ module ActiveSupport::Cache::MemoryStore::DupCoder
   def self.dump(entry); end
   def self.load(entry); end
 end
-class ActiveSupport::Subscriber
-  def self.add_event_subscriber(event); end
-  def self.attach_to(namespace, subscriber = nil, notifier = nil, inherit_all: nil); end
-  def self.detach_from(namespace, notifier = nil); end
-  def self.fetch_public_methods(subscriber, inherit_all); end
-  def self.find_attached_subscriber; end
-  def self.invalid_event?(event); end
-  def self.method_added(event); end
-  def self.namespace; end
-  def self.notifier; end
-  def self.pattern_subscribed?(pattern); end
-  def self.prepare_pattern(event); end
-  def self.remove_event_subscriber(event); end
-  def self.subscriber; end
-  def self.subscribers; end
-end
-class ActiveSupport::SubscriberQueueRegistry
-  def get_queue(queue_key); end
-  def initialize; end
-  extend ActiveSupport::PerThreadRegistry
-end
-class ActiveSupport::LogSubscriber < ActiveSupport::Subscriber
-  def self.colorize_logging; end
-  def self.colorize_logging=(val); end
-  def self.fetch_public_methods(subscriber, inherit_all); end
-  def self.flush_all!; end
-  def self.log_subscribers; end
-  def self.logger; end
-  def self.logger=(arg0); end
-end
 module ActiveSupport::ActionableError
   def self.actions(error); end
   def self.dispatch(error, name); end
@@ -2768,4 +2768,9 @@ class ActiveSupport::Duration::ISO8601Serializer
   def normalize; end
   def serialize; end
   def week_mixed_with_date?(parts); end
+end
+module ActiveSupport::Testing::Stream
+  def capture(stream); end
+  def quietly; end
+  def silence_stream(stream); end
 end

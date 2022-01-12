@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/sentry-rails/all/sentry-rails.rbi
 #
-# sentry-rails-4.7.3
+# sentry-rails-4.8.3
 
 module Sentry
   def self.railtie_helpers_paths; end
@@ -34,7 +34,7 @@ end
 class Sentry::Rails::Tracing::AbstractSubscriber
   def self.record_on_current_span(duration:, **options); end
   def self.subscribe!; end
-  def self.subscribe_to_event(event_name); end
+  def self.subscribe_to_event(event_names); end
   def self.unsubscribe!; end
 end
 module Sentry::Rails::InstrumentPayloadCleanupHelper
@@ -48,6 +48,9 @@ class Sentry::Rails::Tracing::ActionViewSubscriber < Sentry::Rails::Tracing::Abs
   def self.subscribe!; end
 end
 class Sentry::Rails::Tracing::ActiveRecordSubscriber < Sentry::Rails::Tracing::AbstractSubscriber
+  def self.subscribe!; end
+end
+class Sentry::Rails::Tracing::ActiveStorageSubscriber < Sentry::Rails::Tracing::AbstractSubscriber
   def self.subscribe!; end
 end
 class Sentry::Configuration
@@ -109,12 +112,9 @@ end
 class Sentry::SendEventJob
 end
 module Sentry::Rails::ActiveJobExtensions
-  def already_supported_by_specific_integration?(job); end
-  def capture_and_reraise_with_sentry(job, scope, block); end
-  def finish_transaction(transaction, status); end
-  def self.included(base); end
-  def sentry_context(job); end
-end
-class ActiveJob::Base
-  include Sentry::Rails::ActiveJobExtensions
+  def already_supported_by_sentry_integration?; end
+  def capture_and_reraise_with_sentry(scope, &block); end
+  def finish_sentry_transaction(transaction, status); end
+  def perform_now; end
+  def sentry_context; end
 end

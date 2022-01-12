@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/webdrivers/all/webdrivers.rbi
 #
-# webdrivers-4.6.1
+# webdrivers-4.7.0
 
 module Webdrivers
   def self.cache_time; end
@@ -87,6 +87,7 @@ class Webdrivers::Common
   def self.binary_version; end
   def self.correct_binary?; end
   def self.download_url; end
+  def self.download_version; end
   def self.driver_path; end
   def self.exists?; end
   def self.normalize_version(version); end
@@ -119,7 +120,7 @@ class Webdrivers::Chromedriver < Webdrivers::Common
   def self.chrome_version; end
   def self.current_build_version; end
   def self.current_version; end
-  def self.download_url; end
+  def self.direct_url(driver_version); end
   def self.driver_filename(driver_version); end
   def self.file_name; end
   def self.latest_point_release(version); end
@@ -130,7 +131,6 @@ class Webdrivers::Geckodriver < Webdrivers::Common
   def self.base_url; end
   def self.current_version; end
   def self.direct_url(version); end
-  def self.download_url; end
   def self.file_name; end
   def self.latest_version; end
   def self.platform_ext; end
@@ -150,15 +150,17 @@ class Webdrivers::Edgedriver < Webdrivers::Chromedriver
   def self.apple_m1_compatible?(driver_version); end
   def self.base_url; end
   def self.browser_version; end
-  def self.download_url; end
+  def self.direct_url(driver_version); end
   def self.driver_filename(driver_version); end
   def self.failed_to_find_message(version); end
   def self.file_name; end
   def self.latest_point_release(version); end
+  def self.linux_compatible?(driver_version); end
 end
 class Webdrivers::IEdriver < Webdrivers::Common
   def self.base_url; end
   def self.current_version; end
+  def self.direct_url(version); end
   def self.download_manifest; end
   def self.downloads; end
   def self.file_name; end

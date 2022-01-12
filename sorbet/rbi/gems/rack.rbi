@@ -139,6 +139,13 @@ class Rack::Utils::HeaderHash < Hash
   def self.[](headers); end
   def to_hash; end
 end
+class Rack::BodyProxy
+  def close; end
+  def closed?; end
+  def initialize(body, &block); end
+  def method_missing(method_name, *args, &block); end
+  def respond_to_missing?(method_name, include_all = nil); end
+end
 class Rack::Request
   def delete_param(k); end
   def initialize(env); end
@@ -369,13 +376,6 @@ end
 class Rack::Runtime
   def call(env); end
   def initialize(app, name = nil); end
-end
-class Rack::BodyProxy
-  def close; end
-  def closed?; end
-  def initialize(body, &block); end
-  def method_missing(method_name, *args, &block); end
-  def respond_to_missing?(method_name, include_all = nil); end
 end
 class Rack::Builder
   def call(env); end

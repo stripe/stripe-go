@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/resque/all/resque.rbi
 #
-# resque-92a4564fac9a
+# resque-2.2.0
 
 module Resque
   def after_fork(&block); end

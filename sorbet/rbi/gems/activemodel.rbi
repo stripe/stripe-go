@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/activemodel/all/activemodel.rbi
 #
-# activemodel-6.1.4.1
+# activemodel-6.1.4.4
 
 module ActiveModel
   def self.eager_load!; end
@@ -558,4 +558,294 @@ module ActiveModel::Translation
   def i18n_scope; end
   def lookup_ancestors; end
   include ActiveModel::Naming
+end
+class ActiveModel::Attribute::UserProvidedDefault < ActiveModel::Attribute::FromUser
+  def initialize(name, value, type, database_default); end
+  def marshal_dump; end
+  def marshal_load(values); end
+  def user_provided_value; end
+  def value_before_type_cast; end
+  def with_type(type); end
+end
+module ActiveModel::Type
+  def self.default_value; end
+  def self.lookup(*args, **kwargs); end
+  def self.register(type_name, klass = nil, **options, &block); end
+  def self.registry; end
+  def self.registry=(arg0); end
+end
+module ActiveModel::Type::Helpers
+end
+class ActiveModel::Type::Helpers::AcceptsMultiparameterTime < Module
+  def initialize(defaults: nil); end
+end
+module ActiveModel::Type::Helpers::AcceptsMultiparameterTime::InstanceMethods
+  def assert_valid_value(value); end
+  def cast(value); end
+  def serialize(value); end
+  def value_constructed_by_mass_assignment?(value); end
+end
+module ActiveModel::Type::Helpers::Numeric
+  def cast(value); end
+  def changed?(old_value, _new_value, new_value_before_type_cast); end
+  def non_numeric_string?(value); end
+  def number_to_non_number?(old_value, new_value_before_type_cast); end
+  def serialize(value); end
+end
+module ActiveModel::Type::Helpers::Mutable
+  def cast(value); end
+  def changed_in_place?(raw_old_value, new_value); end
+end
+module ActiveModel::Type::Helpers::TimeValue
+  def apply_seconds_precision(value); end
+  def fast_string_to_time(string); end
+  def new_time(year, mon, mday, hour, min, sec, microsec, offset = nil); end
+  def serialize(value); end
+  def type_cast_for_schema(value); end
+  def user_input_in_time_zone(value); end
+end
+module ActiveModel::Type::Helpers::Timezone
+  def default_timezone; end
+  def is_utc?; end
+end
+class ActiveModel::Type::Value
+  def ==(other); end
+  def assert_valid_value(_); end
+  def binary?; end
+  def cast(value); end
+  def cast_value(value); end
+  def changed?(old_value, new_value, _new_value_before_type_cast); end
+  def changed_in_place?(raw_old_value, new_value); end
+  def deserialize(value); end
+  def eql?(other); end
+  def force_equality?(_value); end
+  def hash; end
+  def initialize(precision: nil, limit: nil, scale: nil); end
+  def limit; end
+  def map(value); end
+  def precision; end
+  def scale; end
+  def serializable?(value); end
+  def serialize(value); end
+  def type; end
+  def type_cast_for_schema(value); end
+  def value_constructed_by_mass_assignment?(_value); end
+end
+class ActiveModel::Type::Integer < ActiveModel::Type::Value
+  def _limit; end
+  def cast_value(value); end
+  def deserialize(value); end
+  def ensure_in_range(value); end
+  def in_range?(value); end
+  def initialize(**arg0); end
+  def max_value; end
+  def min_value; end
+  def range; end
+  def serializable?(value); end
+  def serialize(value); end
+  def type; end
+  include ActiveModel::Type::Helpers::Numeric
+end
+class ActiveModel::Type::BigInteger < ActiveModel::Type::Integer
+  def max_value; end
+end
+class ActiveModel::Type::Binary < ActiveModel::Type::Value
+  def binary?; end
+  def cast(value); end
+  def changed_in_place?(raw_old_value, value); end
+  def serialize(value); end
+  def type; end
+end
+class ActiveModel::Type::Binary::Data
+  def ==(other); end
+  def hex; end
+  def initialize(value); end
+  def to_s; end
+  def to_str; end
+end
+class ActiveModel::Type::Boolean < ActiveModel::Type::Value
+  def cast_value(value); end
+  def serialize(value); end
+  def type; end
+end
+class ActiveModel::Type::Date < ActiveModel::Type::Value
+  def cast_value(value); end
+  def fallback_string_to_date(string); end
+  def fast_string_to_date(string); end
+  def new_date(year, mon, mday); end
+  def type; end
+  def type_cast_for_schema(value); end
+  def value_from_multiparameter_assignment(*arg0); end
+  include ActiveModel::Type::Helpers::Timezone
+  include Anonymous_ActiveModel_Type_Helpers_AcceptsMultiparameterTime_27
+end
+module Anonymous_ActiveModel_Type_Helpers_AcceptsMultiparameterTime_27
+  def value_from_multiparameter_assignment(values_hash); end
+  include ActiveModel::Type::Helpers::AcceptsMultiparameterTime::InstanceMethods
+end
+class ActiveModel::Type::DateTime < ActiveModel::Type::Value
+  def cast_value(value); end
+  def fallback_string_to_time(string); end
+  def microseconds(time); end
+  def type; end
+  def value_from_multiparameter_assignment(values_hash); end
+  include ActiveModel::Type::Helpers::TimeValue
+  include ActiveModel::Type::Helpers::Timezone
+  include Anonymous_ActiveModel_Type_Helpers_AcceptsMultiparameterTime_28
+end
+module Anonymous_ActiveModel_Type_Helpers_AcceptsMultiparameterTime_28
+  def value_from_multiparameter_assignment(values_hash); end
+  include ActiveModel::Type::Helpers::AcceptsMultiparameterTime::InstanceMethods
+end
+class ActiveModel::Type::Decimal < ActiveModel::Type::Value
+  def apply_scale(value); end
+  def cast_value(value); end
+  def convert_float_to_big_decimal(value); end
+  def float_precision; end
+  def type; end
+  def type_cast_for_schema(value); end
+  include ActiveModel::Type::Helpers::Numeric
+end
+class ActiveModel::Type::Float < ActiveModel::Type::Value
+  def cast_value(value); end
+  def type; end
+  def type_cast_for_schema(value); end
+  include ActiveModel::Type::Helpers::Numeric
+end
+class ActiveModel::Type::ImmutableString < ActiveModel::Type::Value
+  def cast_value(value); end
+  def initialize(**args); end
+  def serialize(value); end
+  def type; end
+end
+class ActiveModel::Type::String < ActiveModel::Type::ImmutableString
+  def cast_value(value); end
+  def changed_in_place?(raw_old_value, new_value); end
+  def to_immutable_string; end
+end
+class ActiveModel::Type::Time < ActiveModel::Type::Value
+  def cast_value(value); end
+  def type; end
+  def user_input_in_time_zone(value); end
+  include ActiveModel::Type::Helpers::TimeValue
+  include ActiveModel::Type::Helpers::Timezone
+  include Anonymous_ActiveModel_Type_Helpers_AcceptsMultiparameterTime_29
+end
+module Anonymous_ActiveModel_Type_Helpers_AcceptsMultiparameterTime_29
+  def value_from_multiparameter_assignment(values_hash); end
+  include ActiveModel::Type::Helpers::AcceptsMultiparameterTime::InstanceMethods
+end
+class ActiveModel::Type::Registry
+  def find_registration(symbol, *args, **kwargs); end
+  def initialize; end
+  def initialize_dup(other); end
+  def lookup(symbol, *args, **kwargs); end
+  def register(type_name, klass = nil, **options, &block); end
+  def registration_klass; end
+  def registrations; end
+end
+class ActiveModel::Type::Registration
+  def block; end
+  def call(_registry, *args, **kwargs); end
+  def initialize(name, block, **arg2); end
+  def matches?(type_name, *args, **kwargs); end
+  def name; end
+end
+class ActiveModel::AttributeMutationTracker
+  def any_changes?; end
+  def attr_names; end
+  def attribute_changed?(attr_name); end
+  def attributes; end
+  def change_to_attribute(attr_name); end
+  def changed?(attr_name, from: nil, to: nil); end
+  def changed_attribute_names; end
+  def changed_in_place?(attr_name); end
+  def changed_values; end
+  def changes; end
+  def fetch_value(attr_name); end
+  def force_change(attr_name); end
+  def forced_changes; end
+  def forget_change(attr_name); end
+  def initialize(attributes); end
+  def original_value(attr_name); end
+end
+class ActiveModel::ForcedMutationTracker < ActiveModel::AttributeMutationTracker
+  def attr_names; end
+  def attribute_changed?(attr_name); end
+  def change_to_attribute(attr_name); end
+  def changed_in_place?(attr_name); end
+  def clone_value(attr_name); end
+  def fetch_value(attr_name); end
+  def finalize_changes; end
+  def finalized_changes; end
+  def force_change(attr_name); end
+  def forget_change(attr_name); end
+  def initialize(attributes); end
+  def original_value(attr_name); end
+end
+class ActiveModel::NullMutationTracker
+  def any_changes?; end
+  def change_to_attribute(attr_name); end
+  def changed?(attr_name, **arg1); end
+  def changed_attribute_names; end
+  def changed_in_place?(attr_name); end
+  def changed_values; end
+  def changes; end
+  def original_value(attr_name); end
+  def self.allocate; end
+  def self.instance; end
+  def self.new(*arg0); end
+  extend Singleton::SingletonClassMethods
+  include Singleton
+end
+module ActiveModel::Dirty
+  def as_json(options = nil); end
+  def attribute_change(attr_name); end
+  def attribute_changed?(attr_name, **options); end
+  def attribute_changed_in_place?(attr_name); end
+  def attribute_previous_change(attr_name); end
+  def attribute_previously_changed?(attr_name, **options); end
+  def attribute_previously_was(attr_name); end
+  def attribute_was(attr_name); end
+  def attribute_will_change!(attr_name); end
+  def changed; end
+  def changed?; end
+  def changed_attributes; end
+  def changes; end
+  def changes_applied; end
+  def clear_attribute_change(attr_name); end
+  def clear_attribute_changes(attr_names); end
+  def clear_changes_information; end
+  def forget_attribute_assignments; end
+  def initialize_dup(other); end
+  def mutations_before_last_save; end
+  def mutations_from_database; end
+  def previous_changes; end
+  def restore_attribute!(attr_name); end
+  def restore_attributes(attr_names = nil); end
+  extend ActiveSupport::Concern
+  include ActiveModel::AttributeMethods
+end
+module ActiveModel::SecurePassword
+  def self.min_cost; end
+  def self.min_cost=(arg0); end
+  extend ActiveSupport::Concern
+end
+module ActiveModel::SecurePassword::ClassMethods
+  def has_secure_password(attribute = nil, validations: nil); end
+end
+class ActiveModel::SecurePassword::InstanceMethodsOnActivation < Module
+  def initialize(attribute); end
+end
+module ActiveModel::Serialization
+  def read_attribute_for_serialization(*arg0); end
+  def serializable_add_includes(options = nil); end
+  def serializable_attributes(attribute_names); end
+  def serializable_hash(options = nil); end
+end
+module ActiveModel::Serializers::JSON
+  def as_json(options = nil); end
+  def from_json(json, include_root = nil); end
+  extend ActiveSupport::Concern
+  include ActiveModel::Serialization
 end

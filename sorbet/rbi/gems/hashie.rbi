@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/hashie/all/hashie.rbi
 #
-# hashie-4.1.0
+# hashie-5.0.0
 
 module Hashie
   def self.logger; end
@@ -101,11 +101,9 @@ class Hashie::Mash < Hashie::Hash
   def extractable_options?; end
   def fetch(key, *args); end
   def has_key?(key); end
-  def hash_inspect; end
   def include?(key); end
   def initialize(source_hash = nil, default = nil, &blk); end
   def initializing_reader(key); end
-  def inspect; end
   def invert; end
   def key?(key); end
   def log_built_in_message(method_key); end
@@ -142,7 +140,6 @@ class Hashie::Mash < Hashie::Hash
   def with_accessors!; end
   extend Hashie::Extensions::KeyConflictWarning
   extend Hashie::Extensions::RubyVersionCheck::ClassMethods
-  include Hashie::Extensions::PrettyInspect
   include Hashie::Extensions::RubyVersionCheck
 end
 module Hashie::Extensions::SymbolizeKeys
@@ -150,6 +147,7 @@ module Hashie::Extensions::SymbolizeKeys
   def symbolize_keys; end
 end
 module Hashie::Extensions::SymbolizeKeys::ClassMethods
+  def convert_key(key); end
   def symbolize_keys!(hash); end
   def symbolize_keys(hash); end
   def symbolize_keys_recursively!(object); end

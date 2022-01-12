@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/globalid/all/globalid.rbi
 #
-# globalid-0.5.2
+# globalid-1.0.0
 
 module URI
 end

@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/actionpack/all/actionpack.rbi
 #
-# actionpack-6.1.4.1
+# actionpack-6.1.4.4
 
 module ActionPack
   def self.gem_version; end
@@ -193,6 +193,8 @@ module ActionController::Railties::Helpers
   def inherited(klass); end
 end
 class ActionController::Railtie < Rails::Railtie
+end
+class ActionController::LogSubscriber < ActiveSupport::LogSubscriber
 end
 module ActionDispatch::Routing
   extend ActiveSupport::Autoload
@@ -1315,6 +1317,22 @@ class ActionDispatch::Routing::RouteSet::Generator
   def use_recall_for(key); end
   def use_relative_controller!; end
 end
+class ActionDispatch::HostAuthorization
+  def authorized?(request); end
+  def call(env); end
+  def excluded?(request); end
+  def initialize(app, hosts, deprecated_response_app = nil, exclude: nil, response_app: nil); end
+  def mark_as_authorized(request); end
+end
+class ActionDispatch::HostAuthorization::Permissions
+  def allows?(host); end
+  def empty?; end
+  def extract_hostname(host); end
+  def initialize(hosts); end
+  def sanitize_hosts(hosts); end
+  def sanitize_regexp(host); end
+  def sanitize_string(host); end
+end
 class ActionDispatch::Cookies
   def call(env); end
   def initialize(app); end
@@ -1587,9 +1605,17 @@ module ActionController::Helpers::ClassMethods
   def helpers; end
   def modules_for_helpers(args); end
 end
-class ActionDispatch::Executor
+class ActionDispatch::RequestId
   def call(env); end
-  def initialize(app, executor); end
+  def initialize(app, header:); end
+  def internal_request_id; end
+  def make_request_id(request_id); end
+end
+class ActionDispatch::ShowExceptions
+  def call(env); end
+  def initialize(app, exceptions_app); end
+  def pass_response(status); end
+  def render_exception(request, exception); end
 end
 class ActionDispatch::Routing::RouteWrapper < SimpleDelegator
   def action; end
@@ -1701,21 +1727,6 @@ class ActionDispatch::MiddlewareStack::InstrumentationProxy
   def call(env); end
   def initialize(middleware, class_name); end
 end
-class ActionDispatch::HostAuthorization
-  def authorized?(request); end
-  def call(env); end
-  def excluded?(request); end
-  def initialize(app, hosts, deprecated_response_app = nil, exclude: nil, response_app: nil); end
-  def mark_as_authorized(request); end
-end
-class ActionDispatch::HostAuthorization::Permissions
-  def allows?(host); end
-  def empty?; end
-  def initialize(hosts); end
-  def sanitize_hosts(hosts); end
-  def sanitize_regexp(host); end
-  def sanitize_string(host); end
-end
 class ActionDispatch::Static
   def call(env); end
   def initialize(app, path, index: nil, headers: nil); end
@@ -1734,11 +1745,9 @@ class ActionDispatch::FileHandler
   def try_files(filepath, content_type, accept_encoding:); end
   def try_precompressed_files(filepath, headers, accept_encoding:); end
 end
-class ActionDispatch::RequestId
+class ActionDispatch::Executor
   def call(env); end
-  def initialize(app, header:); end
-  def internal_request_id; end
-  def make_request_id(request_id); end
+  def initialize(app, executor); end
 end
 class ActionDispatch::RemoteIp
   def call(env); end
@@ -1754,12 +1763,6 @@ class ActionDispatch::RemoteIp::GetIp
   def initialize(req, check_ip, proxies); end
   def ips_from(header); end
   def to_s; end
-end
-class ActionDispatch::ShowExceptions
-  def call(env); end
-  def initialize(app, exceptions_app); end
-  def pass_response(status); end
-  def render_exception(request, exception); end
 end
 class ActionDispatch::PublicExceptions
   def call(env); end
@@ -2032,8 +2035,6 @@ class ActionDispatch::Routing::Mapper::Scope
   def root?; end
   def scope_level; end
   include Enumerable
-end
-class ActionController::LogSubscriber < ActiveSupport::LogSubscriber
 end
 module ActionController::ParamsWrapper
   def _extract_parameters(parameters); end
@@ -3399,4 +3400,125 @@ module ActionController::TestCase::Behavior::ClassMethods
   def controller_class=(new_class); end
   def determine_default_controller_class(name); end
   def tests(controller_class); end
+end
+class ActionDispatch::RequestEncoder
+  def accept_header; end
+  def content_type; end
+  def encode_params(params); end
+  def initialize(mime_name, param_encoder, response_parser); end
+  def response_parser; end
+  def self.encoder(name); end
+  def self.parser(content_type); end
+  def self.register_encoder(mime_name, param_encoder: nil, response_parser: nil); end
+end
+class ActionDispatch::RequestEncoder::IdentityEncoder
+  def accept_header; end
+  def content_type; end
+  def encode_params(params); end
+  def response_parser; end
+end
+module ActionDispatch::Integration
+end
+module ActionDispatch::Integration::RequestHelpers
+  def delete(path, **args); end
+  def follow_redirect!(**args); end
+  def get(path, **args); end
+  def head(path, **args); end
+  def options(path, **args); end
+  def patch(path, **args); end
+  def post(path, **args); end
+  def put(path, **args); end
+end
+class ActionDispatch::Integration::Session
+  def _mock_session; end
+  def accept; end
+  def accept=(arg0); end
+  def body(*args, &block); end
+  def build_expanded_path(path); end
+  def build_full_uri(path, env); end
+  def controller; end
+  def cookies; end
+  def default_url_options; end
+  def default_url_options=(arg0); end
+  def default_url_options?; end
+  def headers(*args, &block); end
+  def host!(arg0); end
+  def host; end
+  def host=(arg0); end
+  def https!(flag = nil); end
+  def https?; end
+  def initialize(app); end
+  def path(*args, &block); end
+  def process(method, path, params: nil, headers: nil, env: nil, xhr: nil, as: nil); end
+  def redirect?(*args, &block); end
+  def remote_addr; end
+  def remote_addr=(arg0); end
+  def request; end
+  def request_count; end
+  def request_count=(arg0); end
+  def reset!; end
+  def response; end
+  def self.default_url_options; end
+  def self.default_url_options=(value); end
+  def self.default_url_options?; end
+  def status(*args, &block); end
+  def status_message(*args, &block); end
+  def url_options; end
+  include ActionDispatch::Routing::UrlFor
+  include ActionDispatch::TestProcess
+  include Minitest::Assertions
+  include Rails::Dom::Testing::Assertions
+end
+module ActionDispatch::Integration::Runner
+  def app; end
+  def assertions; end
+  def assertions=(assertions); end
+  def assigns(*args); end
+  def before_setup; end
+  def cookies(*args); end
+  def copy_session_variables!; end
+  def create_session(app); end
+  def default_url_options; end
+  def default_url_options=(options); end
+  def delete(*args); end
+  def follow_redirect!(*args); end
+  def get(*args); end
+  def head(*args); end
+  def initialize(*args, &blk); end
+  def integration_session; end
+  def method_missing(method, *args, &block); end
+  def open_session; end
+  def patch(*args); end
+  def post(*args); end
+  def put(*args); end
+  def remove!; end
+  def reset!; end
+  def respond_to_missing?(method, _); end
+  def root_session; end
+  def root_session=(arg0); end
+  include ActionDispatch::Assertions
+  include Rails::Dom::Testing::Assertions
+end
+class ActionDispatch::IntegrationTest < ActiveSupport::TestCase
+  extend ActionDispatch::IntegrationTest::Behavior::ClassMethods
+  include ActionDispatch::IntegrationTest::Behavior
+  include ActionDispatch::IntegrationTest::UrlOptions
+  include ActionDispatch::Routing::UrlFor
+  include ActionDispatch::TestProcess::FixtureFile
+end
+module ActionDispatch::IntegrationTest::UrlOptions
+  def url_options; end
+  extend ActiveSupport::Concern
+end
+module ActionDispatch::IntegrationTest::Behavior
+  def app; end
+  def document_root_element; end
+  extend ActiveSupport::Concern
+  include ActionController::TemplateAssertions
+  include ActionDispatch::Integration::Runner
+end
+module ActionDispatch::IntegrationTest::Behavior::ClassMethods
+  def app; end
+  def app=(app); end
+  def register_encoder(*args, **options); end
 end

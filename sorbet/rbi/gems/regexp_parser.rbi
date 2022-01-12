@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/regexp_parser/all/regexp_parser.rbi
 #
-# regexp_parser-2.1.1
+# regexp_parser-2.2.0
 
 class Regexp
 end
@@ -292,6 +292,9 @@ end
 class Regexp::Syntax::V2_6_3 < Regexp::Syntax::V2_6_2
   def initialize; end
 end
+class Regexp::Syntax::V3_1_0 < Regexp::Syntax::V2_6_3
+  def initialize; end
+end
 class Regexp::Syntax::SyntaxError < Regexp::Parser::Error
 end
 class Regexp::Lexer
@@ -315,6 +318,73 @@ class Regexp::Lexer
   def tokens=(arg0); end
 end
 module Regexp::Expression
+end
+class Regexp::Expression::Base
+  def =~(string, offset = nil); end
+  def a?; end
+  def ascii_classes?; end
+  def attributes; end
+  def base_length; end
+  def case_insensitive?; end
+  def coded_offset; end
+  def conditional_level; end
+  def conditional_level=(arg0); end
+  def d?; end
+  def default_classes?; end
+  def extended?; end
+  def free_spacing?; end
+  def full_length; end
+  def greedy?; end
+  def i?; end
+  def ignore_case?; end
+  def initialize(token, options = nil); end
+  def initialize_copy(orig); end
+  def is?(test_token, test_type = nil); end
+  def lazy?; end
+  def level; end
+  def level=(arg0); end
+  def m?; end
+  def match(string, offset = nil); end
+  def match?(string); end
+  def matches?(string); end
+  def multiline?; end
+  def nesting_level; end
+  def nesting_level=(arg0); end
+  def offset; end
+  def one_of?(scope, top = nil); end
+  def options; end
+  def options=(arg0); end
+  def possessive?; end
+  def quantified?; end
+  def quantifier; end
+  def quantifier=(arg0); end
+  def quantifier_affix(expression_format); end
+  def quantify(token, text, min = nil, max = nil, mode = nil); end
+  def quantity; end
+  def reluctant?; end
+  def repetitions; end
+  def set_level; end
+  def set_level=(arg0); end
+  def starts_at; end
+  def strfre(format = nil, indent_offset = nil, index = nil); end
+  def strfregexp(format = nil, indent_offset = nil, index = nil); end
+  def terminal?; end
+  def text; end
+  def text=(arg0); end
+  def to_h; end
+  def to_re(format = nil); end
+  def to_s(format = nil); end
+  def token; end
+  def token=(arg0); end
+  def ts; end
+  def ts=(arg0); end
+  def type; end
+  def type=(arg0); end
+  def type?(test_type); end
+  def u?; end
+  def unicode_classes?; end
+  def unquantified_clone; end
+  def x?; end
 end
 class Regexp::Expression::Quantifier
   def ==(other); end
@@ -444,6 +514,34 @@ end
 class Regexp::Expression::Backreference::NameRecursionLevel < Regexp::Expression::Backreference::Name
   def initialize(token, options = nil); end
   def recursion_level; end
+end
+class Regexp::Expression::CharacterSet < Regexp::Expression::Subexpression
+  def close; end
+  def closed; end
+  def closed=(arg0); end
+  def closed?; end
+  def initialize(token, options = nil); end
+  def match_length; end
+  def negate; end
+  def negated?; end
+  def negative; end
+  def negative=(arg0); end
+  def negative?; end
+  def to_s(format = nil); end
+end
+class Regexp::Expression::CharacterSet::IntersectedSequence < Regexp::Expression::Sequence
+  def match_length; end
+end
+class Regexp::Expression::CharacterSet::Intersection < Regexp::Expression::SequenceOperation
+  def match_length; end
+end
+class Regexp::Expression::CharacterSet::Range < Regexp::Expression::Subexpression
+  def <<(exp); end
+  def complete?; end
+  def match_length; end
+  def starts_at; end
+  def to_s(_format = nil); end
+  def ts; end
 end
 module Regexp::Expression::Conditional
 end
@@ -767,34 +865,6 @@ class Regexp::Expression::Root < Regexp::Expression::Subexpression
   def self.build(options = nil); end
   def self.build_token; end
 end
-class Regexp::Expression::CharacterSet < Regexp::Expression::Subexpression
-  def close; end
-  def closed; end
-  def closed=(arg0); end
-  def closed?; end
-  def initialize(token, options = nil); end
-  def match_length; end
-  def negate; end
-  def negated?; end
-  def negative; end
-  def negative=(arg0); end
-  def negative?; end
-  def to_s(format = nil); end
-end
-class Regexp::Expression::CharacterSet::IntersectedSequence < Regexp::Expression::Sequence
-  def match_length; end
-end
-class Regexp::Expression::CharacterSet::Intersection < Regexp::Expression::SequenceOperation
-  def match_length; end
-end
-class Regexp::Expression::CharacterSet::Range < Regexp::Expression::Subexpression
-  def <<(exp); end
-  def complete?; end
-  def match_length; end
-  def starts_at; end
-  def to_s(_format = nil); end
-  def ts; end
-end
 module Regexp::Expression::CharacterType
 end
 class Regexp::Expression::CharacterType::Base < Regexp::Expression::Base
@@ -821,73 +891,6 @@ end
 class Regexp::Expression::CharacterType::Linebreak < Regexp::Expression::CharacterType::Base
 end
 class Regexp::Expression::CharacterType::ExtendedGrapheme < Regexp::Expression::CharacterType::Base
-end
-class Regexp::Expression::Base
-  def =~(string, offset = nil); end
-  def a?; end
-  def ascii_classes?; end
-  def attributes; end
-  def base_length; end
-  def case_insensitive?; end
-  def coded_offset; end
-  def conditional_level; end
-  def conditional_level=(arg0); end
-  def d?; end
-  def default_classes?; end
-  def extended?; end
-  def free_spacing?; end
-  def full_length; end
-  def greedy?; end
-  def i?; end
-  def ignore_case?; end
-  def initialize(token, options = nil); end
-  def initialize_copy(orig); end
-  def is?(test_token, test_type = nil); end
-  def lazy?; end
-  def level; end
-  def level=(arg0); end
-  def m?; end
-  def match(string, offset = nil); end
-  def match?(string); end
-  def matches?(string); end
-  def multiline?; end
-  def nesting_level; end
-  def nesting_level=(arg0); end
-  def offset; end
-  def one_of?(scope, top = nil); end
-  def options; end
-  def options=(arg0); end
-  def possessive?; end
-  def quantified?; end
-  def quantifier; end
-  def quantifier=(arg0); end
-  def quantifier_affix(expression_format); end
-  def quantify(token, text, min = nil, max = nil, mode = nil); end
-  def quantity; end
-  def reluctant?; end
-  def repetitions; end
-  def set_level; end
-  def set_level=(arg0); end
-  def starts_at; end
-  def strfre(format = nil, indent_offset = nil, index = nil); end
-  def strfregexp(format = nil, indent_offset = nil, index = nil); end
-  def terminal?; end
-  def text; end
-  def text=(arg0); end
-  def to_h; end
-  def to_re(format = nil); end
-  def to_s(format = nil); end
-  def token; end
-  def token=(arg0); end
-  def ts; end
-  def ts=(arg0); end
-  def type; end
-  def type=(arg0); end
-  def type?(test_type); end
-  def u?; end
-  def unicode_classes?; end
-  def unquantified_clone; end
-  def x?; end
 end
 class Regexp::MatchLength
   def base_max; end

@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/sorbet-rails/all/sorbet-rails.rbi
 #
-# sorbet-rails-0.7.25
+# sorbet-rails-0.7.27
 
 module SorbetRails
   def self.config(&blk); end
@@ -272,4 +272,66 @@ class TA
   extend T::Private::Methods::SingletonMethodHooks
   extend T::Sig
   include ITypeAssert
+end
+class ActiveRecordOverrides
+  def enum_calls; end
+  def get_enum_call(klass, enum_sym); end
+  def initialize; end
+  def self.allocate; end
+  def self.instance; end
+  def self.new(*arg0); end
+  def store_enum_call(klass, kwargs); end
+  extend Singleton::SingletonClassMethods
+  include Singleton
+end
+class SorbetRails::TypedEnumConfig < T::Struct
+  def __t_props_generated_deserialize(*args); end
+  def __t_props_generated_serialize(*args); end
+  def class_name; end
+  def self.inherited(s); end
+  def strict_mode; end
+  extend T::Props::ClassMethods
+  extend T::Props::Plugin::ClassMethods
+  extend T::Props::Plugin::ClassMethods
+  extend T::Props::Plugin::ClassMethods
+  extend T::Props::Plugin::ClassMethods
+  extend T::Props::Plugin::ClassMethods
+  extend T::Props::Serializable::ClassMethods
+end
+module ActiveRecord::Enum
+  def _define_enum(*args, &blk); end
+  def _define_typed_enum(*args, &blk); end
+  def extract_enum_values(*args, &blk); end
+  def gen_typed_enum_values(*args, &blk); end
+  def old_enum(definitions); end
+  def typed_enum(*args, &blk); end
+  def typed_enum_reflections(*args, &blk); end
+  extend T::Private::Methods::MethodHooks
+  extend T::Private::Methods::SingletonMethodHooks
+  extend T::Sig
+  include Kernel
+end
+class ActiveRecord::Enum::MultipleEnumsDefinedError < StandardError
+end
+class ActiveRecord::Enum::ConflictTypedEnumNameError < StandardError
+end
+module SorbetRails::CustomFinderMethods
+  def find_by_id!(id); end
+  def find_by_id(id); end
+  def find_n(*ids); end
+  def first_n(n); end
+  def last_n(n); end
+  def select_columns(*args); end
+end
+module SorbetRails::PluckToTStruct
+  def map_nil_values_to_default(*args, &blk); end
+  def nilable?(*args, &blk); end
+  def pluck_to_tstruct(*args, &blk); end
+  extend T::Private::Methods::MethodHooks
+  extend T::Private::Methods::SingletonMethodHooks
+  extend T::Sig
+end
+class SorbetRails::PluckToTStruct::UnexpectedType < StandardError
+end
+class SorbetRails::PluckToTStruct::UnexpectedAssociations < StandardError
 end

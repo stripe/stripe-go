@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/sentry-resque/all/sentry-resque.rbi
 #
-# sentry-resque-4.7.3
+# sentry-resque-4.8.3
 
 module Sentry
 end
