@@ -42,6 +42,15 @@ http https://stripe-force.herokuapp.com/v1/configuration Salesforce-Account-Id:0
 - Strip out the logic which checks for where rubocop is located and add `bundle exec` to the command prefix
 - Start daemon in a separate terminal (`bundle exec rubocop-daemon start`)
 
+## Typechecking / Sorbet
+
+Want to reference a local copy?
+
+```shell
+export SRB_SORBET_TYPED_REPO="/Users/mbianco/Projects/sorbet-typed"
+export SRB_SORBET_TYPED_REVISION="mbianco/rails-fixes"
+```
+
 # Tests
 
 - `bundle exec rake` will run the entire test suite
