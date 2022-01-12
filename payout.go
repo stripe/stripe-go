@@ -106,7 +106,7 @@ type PayoutReverseParams struct {
 
 // PayoutDestination describes the destination of a Payout.
 // The Type should indicate which object is fleshed out
-// For more details see https://stripe.com/docs/api/?lang=go#payout_object
+// For more details see https://stripe.com/docs/api/go#payout_object
 type PayoutDestination struct {
 	ID   string                `json:"id"`
 	Type PayoutDestinationType `json:"object"`

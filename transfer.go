@@ -43,7 +43,7 @@ type TransferListParams struct {
 
 // TransferDestination describes the destination of a Transfer.
 // The Type should indicate which object is fleshed out
-// For more details see https://stripe.com/docs/api/?lang=go#transfer_object
+// For more details see https://stripe.com/docs/api/go#transfer_object
 type TransferDestination struct {
 	ID string `json:"id"`
 
