@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/spring/all/spring.rbi
 #
-# spring-3.0.0
+# spring-3.1.1
 
 module Spring
   def self.after_fork(&block); end
@@ -20,6 +20,7 @@ module Spring
   def self.commands; end
   def self.find_project_root(current_dir); end
   def self.gemfile; end
+  def self.gemfile_lock; end
   def self.project_root_path; end
   def self.quiet; end
   def self.quiet=(arg0); end

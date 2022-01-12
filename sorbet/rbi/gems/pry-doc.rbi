@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/pry-doc/all/pry-doc.rbi
 #
-# pry-doc-1.2.0
+# pry-doc-1.3.0
 
 module PryDoc
   def self.load_yardoc(version); end

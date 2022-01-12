@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/faraday/all/faraday.rbi
 #
-# faraday-1.8.0
+# faraday-1.9.3
 
 module Faraday
   def self.default_adapter; end
@@ -580,31 +580,6 @@ class Faraday::SSLError < Faraday::Error
 end
 class Faraday::ParsingError < Faraday::Error
 end
-class Faraday::RetriableResponse < Faraday::Error
-end
-class Faraday::CompositeReadIO
-  def advance_io; end
-  def close; end
-  def current_io; end
-  def ensure_open_and_readable; end
-  def initialize(*parts); end
-  def length; end
-  def read(length = nil, outbuf = nil); end
-  def rewind; end
-end
-class Faraday::ParamPart
-  def content_id; end
-  def content_type; end
-  def headers; end
-  def initialize(value, content_type, content_id = nil); end
-  def to_part(boundary, key); end
-  def value; end
-end
-module Faraday::AutoloadHelper
-  def all_loaded_constants; end
-  def autoload_all(prefix, options); end
-  def load_autoloaded_constants; end
-end
 class Faraday::Request::UrlEncoded < Faraday::Middleware
   def call(env); end
   def match_content_type(env); end
@@ -613,15 +588,10 @@ class Faraday::Request::UrlEncoded < Faraday::Middleware
   def self.mime_type; end
   def self.mime_type=(arg0); end
 end
-class Faraday::Request::Multipart < Faraday::Request::UrlEncoded
-  def call(env); end
-  def create_multipart(env, params); end
-  def has_multipart?(obj); end
-  def initialize(app = nil, options = nil); end
-  def part(boundary, key, value); end
-  def process_params(params, prefix = nil, pieces = nil, &block); end
-  def process_request?(env); end
-  def unique_boundary; end
+module Faraday::AutoloadHelper
+  def all_loaded_constants; end
+  def autoload_all(prefix, options); end
+  def load_autoloaded_constants; end
 end
 class Faraday::Response::RaiseError < Faraday::Response::Middleware
   def on_complete(env); end

@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/yard/all/yard.rbi
 #
-# yard-0.9.26
+# yard-0.9.27
 
 module YARD
   def self.load_plugins; end
@@ -16,6 +16,7 @@ module YARD
   def self.ruby18?; end
   def self.ruby19?; end
   def self.ruby2?; end
+  def self.ruby3?; end
   def self.windows?; end
 end
 module YARD::Server
@@ -1242,6 +1243,7 @@ class YARD::Tags::Directive
   def expanded_text=(arg0); end
   def handler; end
   def initialize(tag, parser); end
+  def inside_directive?; end
   def object; end
   def parser; end
   def parser=(arg0); end

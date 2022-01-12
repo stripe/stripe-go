@@ -518,7 +518,7 @@ class Zip::Deflater < Zip::Compressor
   def initialize(output_stream, level = nil, encrypter = nil); end
   def size; end
 end
-class Zip::StreamableStream < Anonymous_Delegator_29
+class Zip::StreamableStream < Anonymous_Delegator_38
   def clean_up; end
   def get_input_stream; end
   def get_output_stream; end

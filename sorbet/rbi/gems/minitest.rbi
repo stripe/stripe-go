@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/minitest/all/minitest.rbi
 #
-# minitest-5.14.4
+# minitest-5.15.0
 
 module Minitest
   def self.__run(reporter, options); end
@@ -113,6 +113,7 @@ class Minitest::Test < Minitest::Runnable
   def capture_exceptions; end
   def class_name; end
   def run; end
+  def sanitize_exception(e); end
   def self.i_suck_and_my_tests_are_order_dependent!; end
   def self.io_lock; end
   def self.io_lock=(arg0); end
@@ -386,7 +387,7 @@ class Module
   def infect_an_assertion(meth, new_name, dont_flip = nil); end
 end
 module Kernel
-  def describe(desc, *additional_desc, &block); end
+  def describe(*args, &block); end
 end
 class Minitest::Spec < Minitest::Test
   def initialize(name); end

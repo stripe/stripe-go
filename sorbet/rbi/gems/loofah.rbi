@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/loofah/all/loofah.rbi
 #
-# loofah-2.12.0
+# loofah-2.13.0
 
 module Loofah
   def self.document(*args, &block); end

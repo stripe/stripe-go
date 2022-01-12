@@ -7,12 +7,13 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/bootsnap/all/bootsnap.rbi
 #
-# bootsnap-1.9.1
+# bootsnap-1.9.4
 
 module Bootsnap
   def bundler?; end
   def instrumentation_enabled=(arg0); end
   def self._instrument(event, path); end
+  def self.absolute_path?(path); end
   def self.default_setup; end
   def self.instrumentation=(callback); end
   def self.instrumentation_enabled=(arg0); end
@@ -55,10 +56,9 @@ class Bootsnap::LoadPathCache::Path
   def volatile?; end
 end
 class Bootsnap::LoadPathCache::Cache
-  def absolute_path?(path); end
   def dir_changed?; end
   def expand_path(feature); end
-  def find(feature); end
+  def find(feature, try_extensions: nil); end
   def initialize(store, path_obj, development_mode: nil); end
   def load_dir(dir); end
   def maybe_append_extension(f); end
@@ -66,7 +66,7 @@ class Bootsnap::LoadPathCache::Cache
   def push_paths(sender, *paths); end
   def push_paths_locked(*paths); end
   def reinitialize(path_obj = nil); end
-  def search_index(f); end
+  def search_index(f, try_extensions: nil); end
   def stale?; end
   def try_ext(f); end
   def try_index(f); end
@@ -75,6 +75,7 @@ class Bootsnap::LoadPathCache::Cache
 end
 class Bootsnap::LoadPathCache::Store
   def commit_transaction; end
+  def default_data; end
   def dump_data; end
   def fetch(key); end
   def get(key); end

@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/restforce/all/restforce.rbi
 #
-# restforce-5.2.0
+# restforce-5.2.2
 
 module Restforce
   def self.configuration; end
@@ -322,6 +322,8 @@ class Restforce::ErrorCode::InvalidSaveAsActivityFlag < Restforce::ResponseError
 end
 class Restforce::ErrorCode::InvalidSessionId < Restforce::ResponseError
 end
+class Restforce::ErrorCode::InvalidSignupCountry < Restforce::ResponseError
+end
 class Restforce::ErrorCode::InvalidStatus < Restforce::ResponseError
 end
 class Restforce::ErrorCode::InvalidType < Restforce::ResponseError
@@ -351,6 +353,8 @@ end
 class Restforce::ErrorCode::MalformedId < Restforce::ResponseError
 end
 class Restforce::ErrorCode::MalformedQuery < Restforce::ResponseError
+end
+class Restforce::ErrorCode::MalformedSearch < Restforce::ResponseError
 end
 class Restforce::ErrorCode::ManagerNotDefined < Restforce::ResponseError
 end
@@ -407,6 +411,8 @@ end
 class Restforce::ErrorCode::NumHistoryFieldsBySobjectExceeded < Restforce::ResponseError
 end
 class Restforce::ErrorCode::OpWithInvalidUserTypeException < Restforce::ResponseError
+end
+class Restforce::ErrorCode::OperationTooLarge < Restforce::ResponseError
 end
 class Restforce::ErrorCode::OptedOutOfMassMail < Restforce::ResponseError
 end

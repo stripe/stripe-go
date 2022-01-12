@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/parser/all/parser.rbi
 #
-# parser-3.0.2.0
+# parser-3.0.3.1
 
 module Parser
   def self.warn_syntax_deviation(feature, version); end
@@ -495,8 +495,10 @@ class Parser::Diagnostic::Engine
 end
 class Parser::StaticEnvironment
   def declare(name); end
+  def declare_anonymous_blockarg; end
   def declare_forward_args; end
   def declared?(name); end
+  def declared_anonymous_blockarg?; end
   def declared_forward_args?; end
   def empty?; end
   def extend_dynamic; end
@@ -816,6 +818,7 @@ class Parser::Builders::Default
   def pair(key, assoc_t, value); end
   def pair_keyword(key_t, value); end
   def pair_keyword_map(key_t, value_e); end
+  def pair_label(key_t); end
   def pair_list_18(list); end
   def pair_quoted(begin_t, parts, end_t, value); end
   def pair_quoted_map(begin_t, end_t, value_e); end
@@ -885,6 +888,7 @@ class Parser::Builders::Default
   def unless_guard(unless_t, unless_body); end
   def unquoted_map(token); end
   def validate_definee(definee); end
+  def validate_no_forward_arg_after_restarg(args); end
   def value(token); end
   def var_send_map(variable_e); end
   def variable_map(name_t); end
@@ -899,6 +903,7 @@ class Parser::Context
   def empty?; end
   def in_block?; end
   def in_class?; end
+  def in_def_open_args?; end
   def in_dynamic_block?; end
   def in_lambda?; end
   def indirectly_in_def?; end

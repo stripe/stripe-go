@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/sentry-ruby-core/all/sentry-ruby-core.rbi
 #
-# sentry-ruby-core-4.7.3
+# sentry-ruby-core-4.8.3
 
 module Sentry
   def self.add_breadcrumb(breadcrumb, **options); end
@@ -21,6 +21,7 @@ module Sentry
   def self.configuration(*args, &block); end
   def self.configure_scope(&block); end
   def self.csp_report_uri; end
+  def self.exception_locals_tp; end
   def self.get_current_client; end
   def self.get_current_hub; end
   def self.get_current_scope; end
@@ -62,6 +63,9 @@ end
 module Sentry::Utils::ExceptionCauseChain
   def self.exception_to_array(exception); end
 end
+module Sentry::CustomInspection
+  def inspect; end
+end
 class Sentry::DSN
   def csp_report_uri; end
   def envelope_endpoint; end
@@ -77,16 +81,25 @@ class Sentry::DSN
   def to_s; end
   def valid?; end
 end
+class Sentry::ReleaseDetector
+  def self.detect_release(project_root:, running_on_heroku:); end
+  def self.detect_release_from_capistrano(project_root); end
+  def self.detect_release_from_env; end
+  def self.detect_release_from_git; end
+  def self.detect_release_from_heroku(running_on_heroku); end
+end
 class Sentry::Transport
-  def configuration; end
-  def configuration=(arg0); end
+  def discarded_events; end
   def encode(event); end
+  def fetch_pending_client_report; end
   def generate_auth_header; end
   def get_item_type(event_hash); end
   def initialize(configuration); end
   def is_rate_limited?(item_type); end
+  def last_client_report_sent; end
   def logger; end
   def rate_limits; end
+  def record_lost_event(reason, item_type); end
   def send_data(data, options = nil); end
   def send_event(event); end
   include Sentry::LoggingHelper
@@ -147,17 +160,16 @@ class Sentry::Configuration
   def before_send=(value); end
   def breadcrumbs_logger; end
   def breadcrumbs_logger=(logger); end
+  def capture_exception_frame_locals; end
+  def capture_exception_frame_locals=(arg0); end
   def capture_in_environment?; end
+  def check_callable!(name, value); end
   def context_lines; end
   def context_lines=(arg0); end
   def csp_report_uri; end
   def debug; end
   def debug=(arg0); end
   def detect_release; end
-  def detect_release_from_capistrano; end
-  def detect_release_from_env; end
-  def detect_release_from_git; end
-  def detect_release_from_heroku; end
   def dsn; end
   def dsn=(value); end
   def enabled_environments; end
@@ -177,6 +189,7 @@ class Sentry::Configuration
   def excluded_exceptions=(arg0); end
   def gem_specs; end
   def get_exception_class(x); end
+  def init_dsn(dsn_string); end
   def initialize; end
   def inspect_exception_causes_for_exclusion; end
   def inspect_exception_causes_for_exclusion=(arg0); end
@@ -189,14 +202,13 @@ class Sentry::Configuration
   def max_breadcrumbs; end
   def max_breadcrumbs=(arg0); end
   def project_root; end
-  def project_root=(root_dir); end
+  def project_root=(arg0); end
   def propagate_traces; end
   def propagate_traces=(arg0); end
   def rack_env_whitelist; end
   def rack_env_whitelist=(arg0); end
   def release; end
   def release=(arg0); end
-  def resolve_hostname; end
   def run_post_initialization_callbacks; end
   def running_on_heroku?; end
   def safe_const_get(x); end
@@ -205,6 +217,8 @@ class Sentry::Configuration
   def sample_rate=(arg0); end
   def self.add_post_initialization_callback(&block); end
   def self.post_initialization_callbacks; end
+  def send_client_reports; end
+  def send_client_reports=(arg0); end
   def send_default_pii; end
   def send_default_pii=(arg0); end
   def send_modules; end
@@ -226,6 +240,7 @@ class Sentry::Configuration
   def trusted_proxies; end
   def trusted_proxies=(arg0); end
   def valid?; end
+  include Sentry::CustomInspection
   include Sentry::LoggingHelper
 end
 class Sentry::Logger < Logger
@@ -270,10 +285,12 @@ class Sentry::SingleExceptionInterface < Sentry::Interface
   def to_hash; end
   def type; end
   def value; end
+  include Sentry::CustomInspection
 end
 class Sentry::StacktraceInterface
   def frames; end
   def initialize(frames:); end
+  def inspect; end
   def to_hash; end
 end
 class Sentry::StacktraceInterface::Frame < Sentry::Interface
@@ -300,6 +317,7 @@ class Sentry::StacktraceInterface::Frame < Sentry::Interface
   def pre_context=(arg0); end
   def set_context(linecache, context_lines); end
   def to_hash(*args); end
+  def to_s; end
   def under_project_root?; end
   def vars; end
   def vars=(arg0); end
@@ -398,6 +416,7 @@ class Sentry::Event
   def type; end
   def user; end
   def user=(arg0); end
+  include Sentry::CustomInspection
 end
 class Sentry::TransactionEvent < Sentry::Event
   def contexts; end
@@ -571,6 +590,11 @@ class Sentry::Scope
   def user=(arg0); end
   include Sentry::ArgumentCheckingHelper
 end
+class Sentry::Envelope
+  def add_item(headers, payload); end
+  def initialize(headers); end
+  def to_s; end
+end
 class Sentry::DummyTransport < Sentry::Transport
   def events; end
   def events=(arg0); end
@@ -634,11 +658,15 @@ class Sentry::Hub::Layer
   def scope; end
 end
 class Sentry::BackgroundWorker
+  def _perform(&block); end
   def initialize(configuration); end
   def logger; end
   def max_queue; end
   def number_of_threads; end
   def perform(&block); end
+  def shutdown; end
+  def shutdown_timeout; end
+  def shutdown_timeout=(arg0); end
   include Sentry::LoggingHelper
 end
 module Sentry::Rake
@@ -648,6 +676,12 @@ module Sentry::Rake::Application
 end
 module Sentry::Rake::Task
   def execute(args = nil); end
+end
+module Rake
+end
+class Rake::Application
+end
+class Rake::Task
 end
 module Sentry::Rack
 end

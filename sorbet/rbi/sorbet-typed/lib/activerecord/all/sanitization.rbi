@@ -5,7 +5,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/edit/master/lib/activerecord/all/sanitization.rbi
 #
-# typed: strong
+# typed: strict
 
 # https://github.com/rails/rails/blob/5-2-stable/activerecord/lib/active_record/sanitization.rb
 module ActiveRecord::Sanitization::ClassMethods

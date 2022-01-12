@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/stripe/all/stripe.rbi
 #
-# stripe-5.39.0
+# stripe-5.42.0
 
 module Stripe
   def self.api_base(*args, &block); end
@@ -249,7 +249,7 @@ class Stripe::StripeClient
   def initialize(config_arg = nil); end
   def last_response_has_key?(object_id); end
   def log_request(context, num_retries); end
-  def log_response(context, request_start, status, body); end
+  def log_response(context, request_start, status, body, resp); end
   def log_response_error(context, request_start, error); end
   def merge_query_params(query_params, path); end
   def notify_request_begin(context); end
@@ -634,6 +634,8 @@ end
 module Stripe::Checkout
 end
 class Stripe::Checkout::Session < Stripe::APIResource
+  def expire(params = nil, opts = nil); end
+  def self.expire(id, params = nil, opts = nil); end
   def self.line_items_url(id, nested_id = nil); end
   def self.list_line_items(id, params = nil, opts = nil); end
   extend Stripe::APIOperations::Create
@@ -992,6 +994,12 @@ class Stripe::SetupIntent < Stripe::APIResource
   def confirm(params = nil, opts = nil); end
   def self.cancel(id, params = nil, opts = nil); end
   def self.confirm(id, params = nil, opts = nil); end
+  extend Stripe::APIOperations::Create
+  extend Stripe::APIOperations::List
+  extend Stripe::APIOperations::Save::ClassMethods
+  include Stripe::APIOperations::Save
+end
+class Stripe::ShippingRate < Stripe::APIResource
   extend Stripe::APIOperations::Create
   extend Stripe::APIOperations::List
   extend Stripe::APIOperations::Save::ClassMethods

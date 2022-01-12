@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/capybara/all/capybara.rbi
 #
-# capybara-3.35.3
+# capybara-3.36.0
 
 module Capybara
   def self.HTML(html); end
@@ -98,6 +98,8 @@ module Capybara
   def self.threadsafe(*args, &block); end
   def self.threadsafe=(*args, &block); end
   def self.use_default_driver; end
+  def self.use_html5_parsing(*args, &block); end
+  def self.use_html5_parsing=(*args, &block); end
   def self.using_driver(driver); end
   def self.using_session(name, &block); end
   def self.using_wait_time(seconds); end
@@ -195,7 +197,7 @@ class Capybara::ReadOnlySessionConfig < SimpleDelegator
 end
 class Capybara::Config
   def allow_gumbo; end
-  def allow_gumbo=(arg0); end
+  def allow_gumbo=(val); end
   def always_include_port(*args, &block); end
   def always_include_port=(*args, &block); end
   def app; end
@@ -261,6 +263,8 @@ class Capybara::Config
   def test_id=(*args, &block); end
   def threadsafe; end
   def threadsafe=(bool); end
+  def use_html5_parsing; end
+  def use_html5_parsing=(arg0); end
   def visible_text_only(*args, &block); end
   def visible_text_only=(*args, &block); end
   def w3c_click_offset(*args, &block); end
@@ -316,6 +320,7 @@ class Capybara::Session
   def accept_confirm(text = nil, **options, &blk); end
   def accept_modal(type, text_or_options, options, &blk); end
   def accept_prompt(text = nil, **options, &blk); end
+  def active_element; end
   def adjust_server_port(uri); end
   def all(*args, &block); end
   def app; end
@@ -495,7 +500,8 @@ class Capybara::Server::Middleware::Counter
 end
 class Capybara::Server::AnimationDisabler
   def call(env); end
-  def disable_markup; end
+  def disable_css_markup; end
+  def disable_js_markup; end
   def html_content?; end
   def initialize(app); end
   def insert_disable(html); end
@@ -768,6 +774,7 @@ class Capybara::Queries::SelectorQuery < Capybara::Queries::BaseQuery
   def matches_exact_text_filter?(node); end
   def matches_filter_block?(node); end
   def matches_filters?(node, node_filter_errors = nil); end
+  def matches_focused_filter?(node); end
   def matches_id_filter?(node); end
   def matches_locator_filter?(node); end
   def matches_node_filters?(node, errors); end
@@ -799,6 +806,7 @@ class Capybara::Queries::SelectorQuery < Capybara::Queries::BaseQuery
   def to_element(node); end
   def try_text_match_in_expression?; end
   def use_default_class_filter?; end
+  def use_default_focused_filter?; end
   def use_default_id_filter?; end
   def use_default_style_filter?; end
   def use_spatial_filter?; end
@@ -876,6 +884,10 @@ class Capybara::Queries::StyleQuery < Capybara::Queries::BaseQuery
   def resolves_for?(node); end
   def stringify_keys(hsh); end
   def valid_keys; end
+end
+class Capybara::Queries::ActiveElementQuery < Capybara::Queries::BaseQuery
+  def initialize(**options); end
+  def resolve_for(session); end
 end
 module Capybara::Node
 end
@@ -984,6 +996,7 @@ module Capybara::Node::DocumentMatchers
   def has_title?(title, **options); end
 end
 class Capybara::Node::Simple
+  def ==(other); end
   def [](name); end
   def allow_reload!(*arg0); end
   def checked?; end
@@ -1070,13 +1083,14 @@ class Capybara::Node::Document < Capybara::Node::Base
   def evaluate_script(*args); end
   def execute_script(*args); end
   def inspect; end
-  def scroll_to(*args, **options); end
+  def scroll_to(*args, quirks: nil, **options); end
   def text(type = nil, normalize_ws: nil); end
   def title; end
   include Capybara::Node::DocumentMatchers
 end
 class Capybara::Driver::Base
   def accept_modal(type, **options, &blk); end
+  def active_element; end
   def close_window(handle); end
   def current_url; end
   def current_window_handle; end
@@ -1186,7 +1200,6 @@ end
 class Capybara::RackTest::Errors::StaleElementReferenceError < StandardError
 end
 class Capybara::RackTest::Node < Capybara::Driver::Node
-  def ==(other); end
   def [](*args); end
   def all_text(*args); end
   def attribute_is_not_blank?(attribute); end
@@ -1208,6 +1221,7 @@ class Capybara::RackTest::Node < Capybara::Driver::Node
   def path(*args); end
   def radio?; end
   def range?; end
+  def readonly?(*args); end
   def select_node; end
   def select_option(*args); end
   def selected?(*args); end
@@ -1232,6 +1246,7 @@ class Capybara::RackTest::Node < Capybara::Driver::Node
   def unchecked_find_css(locator, **_hints); end
   def unchecked_find_xpath(locator, **_hints); end
   def unchecked_path; end
+  def unchecked_readonly?; end
   def unchecked_select_option; end
   def unchecked_selected?; end
   def unchecked_set(value, **options); end
@@ -1321,7 +1336,6 @@ module Capybara::Selenium::Scroll
   def scroll_to_location(location); end
 end
 class Capybara::Selenium::Node < Capybara::Driver::Node
-  def ==(other); end
   def [](name); end
   def action_with_modifiers(click_options); end
   def all_text; end
@@ -1346,6 +1360,7 @@ class Capybara::Selenium::Node < Capybara::Driver::Node
   def modifiers_down(actions, keys); end
   def modifiers_up(actions, keys); end
   def multiple?; end
+  def native_id; end
   def normalize_keys(keys); end
   def obscured?(x: nil, y: nil); end
   def path; end
@@ -1579,6 +1594,7 @@ class Capybara::Selenium::Driver < Capybara::Driver::Base
   def invalid_element_errors; end
   def maximize_window(handle); end
   def modal_error; end
+  def native_active_element; end
   def native_args(args); end
   def navigate_with_accept(url); end
   def needs_server?; end

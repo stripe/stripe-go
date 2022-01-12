@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/actionview/all/actionview.rbi
 #
-# actionview-6.1.4.1
+# actionview-6.1.4.4
 
 module ActionView
   def self.eager_load!; end
@@ -18,6 +18,8 @@ end
 module ActionView::VERSION
 end
 class ActionView::Railtie < Rails::Engine
+end
+class ActionView::LogSubscriber < ActiveSupport::LogSubscriber
 end
 module ActionView::CollectionCaching
   def cache_collection_render(instrumentation_payload, view, template, collection); end
@@ -765,8 +767,6 @@ module ActionView::RoutingUrlFor
   def optimize_routes_generation?; end
   def url_for(options = nil); end
   def url_options; end
-end
-class ActionView::LogSubscriber < ActiveSupport::LogSubscriber
 end
 module ActionView::Context
   def _layout_for(name = nil); end
