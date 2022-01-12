@@ -34,7 +34,9 @@ gem 'pg', '~> 1.2.3'
 gem 'sequel', '5.52.0'
 
 # auth
-gem 'omniauth-salesforce'
+# TODO hack to get around https://github.com/realdoug/omniauth-salesforce/issues/31
+gem 'omniauth-rails_csrf_protection', '~> 1.0.0'
+gem 'omniauth-salesforce', github: 'accel-com/omniauth-salesforce'
 gem 'omniauth-stripe'
 gem 'rack-attack', '~> 6.5.0'
 
@@ -46,9 +48,7 @@ gem 'rest-client', '~> 2.1.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.9.1', require: false
 
-# TODO: Update omniauth above 2.X
-# Can't upgrade because of https://github.com/realdoug/omniauth-salesforce/issues/31
-# gem 'omniauth', '~> 2.0.4'
+gem 'omniauth', '~> 2.0.4'
 
 # CVE-2019-13117 https://github.com/sparklemotion/nokogiri/issues/1943
 gem 'nokogiri', '>= 1.13.0'
