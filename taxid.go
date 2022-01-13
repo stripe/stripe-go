@@ -8,10 +8,10 @@ package stripe
 
 import "encoding/json"
 
-// TaxIDType is the list of allowed values for the tax id's type..
+// Type of the tax ID, one of `ae_trn`, `au_abn`, `au_arn`, `br_cnpj`, `br_cpf`, `ca_bn`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `ca_qst`, `ch_vat`, `cl_tin`, `es_cif`, `eu_vat`, `gb_vat`, `ge_vat`, `hk_br`, `id_npwp`, `il_vat`, `in_gst`, `jp_cn`, `jp_rn`, `kr_brn`, `li_uid`, `mx_rfc`, `my_frp`, `my_itn`, `my_sst`, `no_vat`, `nz_gst`, `ru_inn`, `ru_kpp`, `sa_vat`, `sg_gst`, `sg_uen`, `th_vat`, `tw_vat`, `ua_vat`, `us_ein`, or `za_vat`. Note that some legacy tax IDs have type `unknown`
 type TaxIDType string
 
-// List of values that TaxIDType can take.
+// List of values that TaxIDType can take
 const (
 	TaxIDTypeAETRN    TaxIDType = "ae_trn"
 	TaxIDTypeAUABN    TaxIDType = "au_abn"
@@ -57,10 +57,10 @@ const (
 	TaxIDTypeZAVAT    TaxIDType = "za_vat"
 )
 
-// TaxIDVerificationStatus is the list of allowed values for the tax id's verification status..
+// Verification status, one of `pending`, `verified`, `unverified`, or `unavailable`.
 type TaxIDVerificationStatus string
 
-// List of values that TaxIDDuration can take.
+// List of values that TaxIDVerificationStatus can take
 const (
 	TaxIDVerificationStatusPending     TaxIDVerificationStatus = "pending"
 	TaxIDVerificationStatusUnavailable TaxIDVerificationStatus = "unavailable"
@@ -68,8 +68,7 @@ const (
 	TaxIDVerificationStatusVerified    TaxIDVerificationStatus = "verified"
 )
 
-// TaxIDParams is the set of parameters that can be used when creating a tax id.
-// For more details see https://stripe.com/docs/api/customers/create_tax_id
+// Creates a new TaxID object for a customer.
 type TaxIDParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
@@ -77,22 +76,23 @@ type TaxIDParams struct {
 	Value    *string `form:"value"`
 }
 
-// TaxIDListParams is the set of parameters that can be used when listing tax ids.
-// For more detail see https://stripe.com/docs/api/customers/tax_ids
+// Returns a list of tax IDs for a customer.
 type TaxIDListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
 }
 
-// TaxIDVerification represents the verification details of a customer's tax id.
+// Tax ID verification information.
 type TaxIDVerification struct {
 	Status          TaxIDVerificationStatus `json:"status"`
 	VerifiedAddress string                  `json:"verified_address"`
 	VerifiedName    string                  `json:"verified_name"`
 }
 
-// TaxID is the resource representing a customer's tax id.
-// For more details see https://stripe.com/docs/api/customers/tax_id_object
+// You can add one or multiple tax IDs to a [customer](https://stripe.com/docs/api/customers).
+// A customer's tax IDs are displayed on invoices and credit notes issued for the customer.
+//
+// Related guide: [Customer Tax Identification Numbers](https://stripe.com/docs/billing/taxes/tax-ids).
 type TaxID struct {
 	APIResource
 	Country      string             `json:"country"`
@@ -107,7 +107,7 @@ type TaxID struct {
 	Verification *TaxIDVerification `json:"verification"`
 }
 
-// TaxIDList is a list of tax ids as retrieved from a list endpoint.
+// TaxIDList is a list of TaxIds as retrieved from a list endpoint.
 type TaxIDList struct {
 	APIResource
 	ListMeta

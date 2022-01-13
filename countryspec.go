@@ -6,17 +6,17 @@
 
 package stripe
 
+// Lists all Country Spec objects available in the API.
+type CountrySpecListParams struct {
+	ListParams `form:"*"`
+}
+
 // Country is the list of supported countries
 type Country string
 
-// CountrySpecParams are the parameters allowed during CountrySpec retrieval.
+// Returns a Country Spec for a given Country code.
 type CountrySpecParams struct {
 	Params `form:"*"`
-}
-
-// CountrySpecListParams are the parameters allowed during CountrySpec listing.
-type CountrySpecListParams struct {
-	ListParams `form:"*"`
 }
 
 // VerificationFieldsList lists the fields needed for an account verification.
@@ -26,8 +26,12 @@ type VerificationFieldsList struct {
 	Minimum          []string `json:"minimum"`
 }
 
-// CountrySpec is the resource representing the rules required for a Stripe account.
-// For more details see https://stripe.com/docs/api/#country_specs.
+// Stripe needs to collect certain pieces of information about each account
+// created. These requirements can differ depending on the account's country. The
+// Country Specs API makes these rules available to your integration.
+//
+// You can also view the information from this API call as [an online
+// guide](https://stripe.com/docs/connect/required-verification-information).
 type CountrySpec struct {
 	APIResource
 	DefaultCurrency                Currency                                        `json:"default_currency"`
@@ -40,7 +44,7 @@ type CountrySpec struct {
 	VerificationFields             map[AccountBusinessType]*VerificationFieldsList `json:"verification_fields"`
 }
 
-// CountrySpecList is a list of country specs as retrieved from a list endpoint.
+// CountrySpecList is a list of CountrySpecs as retrieved from a list endpoint.
 type CountrySpecList struct {
 	APIResource
 	ListMeta

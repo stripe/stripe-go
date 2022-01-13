@@ -8,13 +8,13 @@ package stripe
 
 import "encoding/json"
 
-// LineItemDiscount represent the details of one discount applied to a line item.
+// The discounts applied to the line item.
 type LineItemDiscount struct {
 	Amount   int64     `json:"amount"`
 	Discount *Discount `json:"discount"`
 }
 
-// LineItemTax represent the details of one tax rate applied to a line item.
+// The taxes applied to the line item.
 type LineItemTax struct {
 	Amount int64    `json:"amount"`
 	Rate   *TaxRate `json:"rate"`
@@ -24,7 +24,7 @@ type LineItemTax struct {
 	TaxRate *TaxRate `json:"tax_rate"`
 }
 
-// LineItem is the resource representing a line item.
+// A line item.
 type LineItem struct {
 	APIResource
 	AmountSubtotal int64               `json:"amount_subtotal"`
@@ -59,7 +59,7 @@ func (l *LineItem) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// LineItemList is a list of prices as returned from a list endpoint.
+// LineItemList is a list of LineItems as retrieved from a list endpoint.
 type LineItemList struct {
 	APIResource
 	ListMeta

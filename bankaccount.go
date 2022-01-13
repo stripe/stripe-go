@@ -12,19 +12,30 @@ import (
 	"strconv"
 )
 
-// BankAccountAvailablePayoutMethod is a set of available payout methods for the card.
+// The type of entity that holds the account. This can be either `individual` or `company`.
+type BankAccountAccountHolderType string
+
+// List of values that BankAccountAccountHolderType can take
+const (
+	BankAccountAccountHolderTypeCompany    BankAccountAccountHolderType = "company"
+	BankAccountAccountHolderTypeIndividual BankAccountAccountHolderType = "individual"
+)
+
+// A set of available payout methods for this bank account. Only values from this set should be passed as the `method` when creating a payout.
 type BankAccountAvailablePayoutMethod string
 
-// List of values that CardAvailablePayoutMethod can take.
+// List of values that BankAccountAvailablePayoutMethod can take
 const (
 	BankAccountAvailablePayoutMethodInstant  BankAccountAvailablePayoutMethod = "instant"
 	BankAccountAvailablePayoutMethodStandard BankAccountAvailablePayoutMethod = "standard"
 )
 
-// BankAccountStatus is the list of allowed values for the bank account's status.
+// For bank accounts, possible values are `new`, `validated`, `verified`, `verification_failed`, or `errored`. A bank account that hasn't had any activity or validation performed is `new`. If Stripe can determine that the bank account exists, its status will be `validated`. Note that there often isn't enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be `verified`. If the verification failed for any reason, such as microdeposit failure, the status will be `verification_failed`. If a transfer sent to this bank account fails, we'll set the status to `errored` and will not continue to send transfers until the bank details are updated.
+//
+// For external accounts, possible values are `new` and `errored`. Validations aren't run against external accounts because they're only used for payouts. This means the other statuses don't apply. If a transfer fails, the status is set to `errored` and transfers are stopped until account details are updated.
 type BankAccountStatus string
 
-// List of values that BankAccountStatus can take.
+// List of values that BankAccountStatus can take
 const (
 	BankAccountStatusErrored            BankAccountStatus = "errored"
 	BankAccountStatusNew                BankAccountStatus = "new"
@@ -33,21 +44,9 @@ const (
 	BankAccountStatusVerified           BankAccountStatus = "verified"
 )
 
-// BankAccountAccountHolderType is the list of allowed values for the bank account holder type.
-type BankAccountAccountHolderType string
-
-// List of values that BankAccountAccountHolderType can take.
-const (
-	BankAccountAccountHolderTypeCompany    BankAccountAccountHolderType = "company"
-	BankAccountAccountHolderTypeIndividual BankAccountAccountHolderType = "individual"
-)
-
-// BankAccountParams is the set of parameters that can be used when updating a
-// bank account.
+// Updates the metadata, account holder name, account holder type of a bank account belonging to a [Custom account](https://stripe.com/docs/connect/custom-accounts), and optionally sets it as the default for its currency. Other bank account details are not editable by design.
 //
-// Note that while form annotations are used for updates, bank accounts have
-// some unusual logic on creates that necessitates manual handling of all
-// parameters. See AppendToAsSourceOrExternalAccount.
+// You can re-enable a disabled bank account by performing an update call without providing any arguments or changes.
 type BankAccountParams struct {
 	Params   `form:"*"`
 	Customer *string `form:"-"` // Included in URL
@@ -142,7 +141,6 @@ func (a *BankAccountParams) AppendToAsSourceOrExternalAccount(body *form.Values)
 	}
 }
 
-// BankAccountListParams is the set of parameters that can be used when listing bank accounts.
 type BankAccountListParams struct {
 	ListParams `form:"*"`
 	// The identifier of the parent account under which the bank accounts are
@@ -160,7 +158,13 @@ func (p *BankAccountListParams) AppendTo(body *form.Values, keyParts []string) {
 	body.Add(form.FormatKey(append(keyParts, "object")), "bank_account")
 }
 
-// BankAccount represents a Stripe bank account.
+// These bank accounts are payment methods on `Customer` objects.
+//
+// On the other hand [External Accounts](https://stripe.com/docs/api#external_accounts) are transfer
+// destinations on `Account` objects for [Custom accounts](https://stripe.com/docs/connect/custom-accounts).
+// They can be bank accounts or debit cards as well, and are documented in the links above.
+//
+// Related guide: [Bank Debits and Transfers](https://stripe.com/docs/payments/bank-debits-transfers).
 type BankAccount struct {
 	APIResource
 	Account                *Account                           `json:"account"`
@@ -183,7 +187,7 @@ type BankAccount struct {
 	Status                 BankAccountStatus                  `json:"status"`
 }
 
-// BankAccountList is a list object for bank accounts.
+// BankAccountList is a list of BankAccounts as retrieved from a list endpoint.
 type BankAccountList struct {
 	APIResource
 	ListMeta

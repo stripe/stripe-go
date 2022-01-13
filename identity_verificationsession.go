@@ -6,6 +6,7 @@
 
 package stripe
 
+// A short machine-readable string giving the reason for the verification or user-session failure.
 type IdentityVerificationSessionLastErrorCode string
 
 // List of values that IdentityVerificationSessionLastErrorCode can take
@@ -27,6 +28,7 @@ const (
 	IdentityVerificationSessionLastErrorCodeUnderSupportedAge                IdentityVerificationSessionLastErrorCode = "under_supported_age"
 )
 
+// Array of strings of allowed identity document types. If the provided identity document isn't one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
 type IdentityVerificationSessionOptionsDocumentAllowedType string
 
 // List of values that IdentityVerificationSessionOptionsDocumentAllowedType can take
@@ -36,6 +38,7 @@ const (
 	IdentityVerificationSessionOptionsDocumentAllowedTypePassport       IdentityVerificationSessionOptionsDocumentAllowedType = "passport"
 )
 
+// Indicates whether this object and its related objects have been redacted or not.
 type IdentityVerificationSessionRedactionStatus string
 
 // List of values that IdentityVerificationSessionRedactionStatus can take
@@ -44,6 +47,7 @@ const (
 	IdentityVerificationSessionRedactionStatusRedacted   IdentityVerificationSessionRedactionStatus = "redacted"
 )
 
+// Status of this VerificationSession. [Learn more about the lifecycle of sessions](https://stripe.com/docs/identity/how-sessions-work).
 type IdentityVerificationSessionStatus string
 
 // List of values that IdentityVerificationSessionStatus can take
@@ -54,6 +58,7 @@ const (
 	IdentityVerificationSessionStatusVerified      IdentityVerificationSessionStatus = "verified"
 )
 
+// The type of [verification check](https://stripe.com/docs/identity/verification-checks) to be performed.
 type IdentityVerificationSessionType string
 
 // List of values that IdentityVerificationSessionType can take
@@ -62,6 +67,7 @@ const (
 	IdentityVerificationSessionTypeIDNumber IdentityVerificationSessionType = "id_number"
 )
 
+// The user's verified id number type.
 type IdentityVerificationSessionVerifiedOutputsIDNumberType string
 
 // List of values that IdentityVerificationSessionVerifiedOutputsIDNumberType can take

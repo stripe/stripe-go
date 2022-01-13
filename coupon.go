@@ -8,23 +8,31 @@ package stripe
 
 import "encoding/json"
 
-// CouponDuration is the list of allowed values for the coupon's duration.
+// One of `forever`, `once`, and `repeating`. Describes how long a customer who applies this coupon will get the discount.
 type CouponDuration string
 
-// List of values that CouponDuration can take.
+// List of values that CouponDuration can take
 const (
 	CouponDurationForever   CouponDuration = "forever"
 	CouponDurationOnce      CouponDuration = "once"
 	CouponDurationRepeating CouponDuration = "repeating"
 )
 
-// CouponAppliesToParams controls the products that a coupon applies to.
+// Returns a list of your coupons.
+type CouponListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+}
+
+// A hash containing directions for what this Coupon will apply discounts to.
 type CouponAppliesToParams struct {
 	Products []*string `form:"products"`
 }
 
-// CouponParams is the set of parameters that can be used when creating a coupon.
-// For more details see https://stripe.com/docs/api#create_coupon.
+// You can create coupons easily via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. Coupon creation is also accessible via the API if you need to create coupons on the fly.
+//
+// A coupon has either a percent_off or an amount_off and currency. If you set an amount_off, that amount will be subtracted from any invoice's subtotal. For example, an invoice with a subtotal of 100 will have a final total of 0 if a coupon with an amount_off of 200 is applied to it and an invoice with a subtotal of 300 will have a final total of 100 if a coupon with an amount_off of 200 is applied to it.
 type CouponParams struct {
 	Params           `form:"*"`
 	AmountOff        *int64                 `form:"amount_off"`
@@ -38,22 +46,13 @@ type CouponParams struct {
 	PercentOff       *float64               `form:"percent_off"`
 	RedeemBy         *int64                 `form:"redeem_by"`
 }
-
-// CouponListParams is the set of parameters that can be used when listing coupons.
-// For more detail see https://stripe.com/docs/api#list_coupons.
-type CouponListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-}
-
-// CouponAppliesTo represents the products a coupon applies to.
 type CouponAppliesTo struct {
 	Products []string `json:"products"`
 }
 
-// Coupon is the resource representing a Stripe coupon.
-// For more details see https://stripe.com/docs/api#coupons.
+// A coupon contains information about a percent-off or amount-off discount you
+// might want to apply to a customer. Coupons may be applied to [invoices](https://stripe.com/docs/api#invoices) or
+// [orders](https://stripe.com/docs/api#create_order_legacy-coupon). Coupons do not work with conventional one-off [charges](https://stripe.com/docs/api#create_charge).
 type Coupon struct {
 	APIResource
 	AmountOff        int64             `json:"amount_off"`
@@ -75,7 +74,7 @@ type Coupon struct {
 	Valid            bool              `json:"valid"`
 }
 
-// CouponList is a list of coupons as retrieved from a list endpoint.
+// CouponList is a list of Coupons as retrieved from a list endpoint.
 type CouponList struct {
 	APIResource
 	ListMeta

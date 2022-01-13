@@ -8,21 +8,19 @@ package stripe
 
 import "encoding/json"
 
-// IssuingCardCancellationReason is the list of possible values for the cancellation reason
-// on an issuing card.
+// The reason why the card was canceled.
 type IssuingCardCancellationReason string
 
-// List of values that IssuingCardReplacementReason can take.
+// List of values that IssuingCardCancellationReason can take
 const (
 	IssuingCardCancellationReasonLost   IssuingCardCancellationReason = "lost"
 	IssuingCardCancellationReasonStolen IssuingCardCancellationReason = "stolen"
 )
 
-// IssuingCardReplacementReason is the list of possible values for the replacement reason on an
-// issuing card.
+// The reason why the previous card needed to be replaced.
 type IssuingCardReplacementReason string
 
-// List of values that IssuingCardReplacementReason can take.
+// List of values that IssuingCardReplacementReason can take
 const (
 	IssuingCardReplacementReasonDamaged IssuingCardReplacementReason = "damaged"
 	IssuingCardReplacementReasonExpired IssuingCardReplacementReason = "expired"
@@ -30,11 +28,10 @@ const (
 	IssuingCardReplacementReasonStolen  IssuingCardReplacementReason = "stolen"
 )
 
-// IssuingCardShippingCarrier is the list of possible values for the shipping carrier
-// on an issuing card.
+// The delivery company that shipped a card.
 type IssuingCardShippingCarrier string
 
-// List of values that IssuingCardShippingCarrier can take.
+// List of values that IssuingCardShippingCarrier can take
 const (
 	IssuingCardShippingCarrierDHL       IssuingCardShippingCarrier = "dhl"
 	IssuingCardShippingCarrierFEDEX     IssuingCardShippingCarrier = "fedex"
@@ -42,21 +39,20 @@ const (
 	IssuingCardShippingCarrierUSPS      IssuingCardShippingCarrier = "usps"
 )
 
-// IssuingCardShippingService is the shipment service for a card.
+// Shipment service, such as `standard` or `express`.
 type IssuingCardShippingService string
 
-// List of values that IssuingCardShippingService can take.
+// List of values that IssuingCardShippingService can take
 const (
 	IssuingCardShippingServiceExpress  IssuingCardShippingService = "express"
 	IssuingCardShippingServicePriority IssuingCardShippingService = "priority"
 	IssuingCardShippingServiceStandard IssuingCardShippingService = "standard"
 )
 
-// IssuingCardShippingStatus is the list of possible values for the shipping status
-// on an issuing card.
+// The delivery status of the card.
 type IssuingCardShippingStatus string
 
-// List of values that IssuingCardShippingStatus can take.
+// List of values that IssuingCardShippingStatus can take
 const (
 	IssuingCardShippingStatusCanceled  IssuingCardShippingStatus = "canceled"
 	IssuingCardShippingStatusDelivered IssuingCardShippingStatus = "delivered"
@@ -66,21 +62,19 @@ const (
 	IssuingCardShippingStatusShipped   IssuingCardShippingStatus = "shipped"
 )
 
-// IssuingCardShippingType is the list of possible values for the shipping type
-// on an issuing card.
+// Packaging options.
 type IssuingCardShippingType string
 
-// List of values that IssuingCardShippingType can take.
+// List of values that IssuingCardShippingType can take
 const (
 	IssuingCardShippingTypeBulk       IssuingCardShippingType = "bulk"
 	IssuingCardShippingTypeIndividual IssuingCardShippingType = "individual"
 )
 
-// IssuingCardSpendingControlsSpendingLimitInterval is the list of possible values for the interval
-// for a spending limit on an issuing card.
+// Interval (or event) to which the amount applies.
 type IssuingCardSpendingControlsSpendingLimitInterval string
 
-// List of values that IssuingCardShippingStatus can take.
+// List of values that IssuingCardSpendingControlsSpendingLimitInterval can take
 const (
 	IssuingCardSpendingControlsSpendingLimitIntervalAllTime          IssuingCardSpendingControlsSpendingLimitInterval = "all_time"
 	IssuingCardSpendingControlsSpendingLimitIntervalDaily            IssuingCardSpendingControlsSpendingLimitInterval = "daily"
@@ -90,20 +84,20 @@ const (
 	IssuingCardSpendingControlsSpendingLimitIntervalYearly           IssuingCardSpendingControlsSpendingLimitInterval = "yearly"
 )
 
-// IssuingCardStatus is the list of possible values for status on an issuing card.
+// Whether authorizations can be approved on this card.
 type IssuingCardStatus string
 
-// List of values that IssuingCardStatus can take.
+// List of values that IssuingCardStatus can take
 const (
 	IssuingCardStatusActive   IssuingCardStatus = "active"
 	IssuingCardStatusCanceled IssuingCardStatus = "canceled"
 	IssuingCardStatusInactive IssuingCardStatus = "inactive"
 )
 
-// IssuingCardType is the type of an issuing card.
+// The type of the card.
 type IssuingCardType string
 
-// List of values that IssuingCardType can take.
+// List of values that IssuingCardType can take
 const (
 	IssuingCardTypePhysical IssuingCardType = "physical"
 	IssuingCardTypeVirtual  IssuingCardType = "virtual"
@@ -129,7 +123,20 @@ const (
 	IssuingCardWalletsGooglePayIneligibleReasonUnsupportedRegion        IssuingCardWalletsGooglePayIneligibleReason = "unsupported_region"
 )
 
-// IssuingCardShippingParams is the set of parameters that can be used for the shipping parameter.
+// Returns a list of Issuing Card objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
+type IssuingCardListParams struct {
+	ListParams   `form:"*"`
+	Cardholder   *string           `form:"cardholder"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	ExpMonth     *int64            `form:"exp_month"`
+	ExpYear      *int64            `form:"exp_year"`
+	Last4        *string           `form:"last4"`
+	Status       *string           `form:"status"`
+	Type         *string           `form:"type"`
+}
+
+// The address where the card will be shipped.
 type IssuingCardShippingParams struct {
 	Address *AddressParams `form:"address"`
 	Name    string         `form:"name"`
@@ -137,16 +144,14 @@ type IssuingCardShippingParams struct {
 	Type    *string        `form:"type"`
 }
 
-// IssuingCardSpendingControlsSpendingLimitParams is the set of parameters that can be used to
-// represent a given spending limit for an issuing card.
+// Limit spending with amount-based rules that apply across any cards this card replaced (i.e., its `replacement_for` card and _that_ card's `replacement_for` card, up the chain).
 type IssuingCardSpendingControlsSpendingLimitParams struct {
 	Amount     *int64    `form:"amount"`
 	Categories []*string `form:"categories"`
 	Interval   *string   `form:"interval"`
 }
 
-// IssuingCardSpendingControlsParams is the set of parameters that can be used to configure
-// the spending controls for an issuing card
+// Rules that control spending for this card. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 type IssuingCardSpendingControlsParams struct {
 	AllowedCategories      []*string                                         `form:"allowed_categories"`
 	BlockedCategories      []*string                                         `form:"blocked_categories"`
@@ -154,7 +159,7 @@ type IssuingCardSpendingControlsParams struct {
 	SpendingLimitsCurrency *string                                           `form:"spending_limits_currency"`
 }
 
-// IssuingCardParams is the set of parameters that can be used when creating or updating an issuing card.
+// Creates an Issuing Card object.
 type IssuingCardParams struct {
 	Params            `form:"*"`
 	Cardholder        *string                            `form:"cardholder"`
@@ -169,20 +174,7 @@ type IssuingCardParams struct {
 	CancellationReason *string `form:"cancellation_reason"`
 }
 
-// IssuingCardListParams is the set of parameters that can be used when listing issuing cards.
-type IssuingCardListParams struct {
-	ListParams   `form:"*"`
-	Cardholder   *string           `form:"cardholder"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	ExpMonth     *int64            `form:"exp_month"`
-	ExpYear      *int64            `form:"exp_year"`
-	Last4        *string           `form:"last4"`
-	Status       *string           `form:"status"`
-	Type         *string           `form:"type"`
-}
-
-// IssuingCardShipping is the resource representing shipping on an issuing card.
+// Where and how the card will be shipped.
 type IssuingCardShipping struct {
 	Address        *Address                   `json:"address"`
 	Carrier        IssuingCardShippingCarrier `json:"carrier"`
@@ -195,16 +187,12 @@ type IssuingCardShipping struct {
 	Type           IssuingCardShippingType    `json:"type"`
 }
 
-// IssuingCardSpendingControlsSpendingLimit is the resource representing a spending limit
-// for an issuing card.
+// Limit spending with amount-based rules that apply across any cards this card replaced (i.e., its `replacement_for` card and _that_ card's `replacement_for` card, up the chain).
 type IssuingCardSpendingControlsSpendingLimit struct {
 	Amount     int64                                            `json:"amount"`
 	Categories []string                                         `json:"categories"`
 	Interval   IssuingCardSpendingControlsSpendingLimitInterval `json:"interval"`
 }
-
-// IssuingCardSpendingControls is the resource representing spending controls
-// for an issuing card.
 type IssuingCardSpendingControls struct {
 	AllowedCategories      []string                                    `json:"allowed_categories"`
 	BlockedCategories      []string                                    `json:"blocked_categories"`
@@ -227,7 +215,7 @@ type IssuingCardWallets struct {
 	PrimaryAccountIdentifier string                       `json:"primary_account_identifier"`
 }
 
-// IssuingCard is the resource representing a Stripe issuing card.
+// You can [create physical or virtual cards](https://stripe.com/docs/issuing/cards) that are issued to cardholders.
 type IssuingCard struct {
 	APIResource
 	Brand              string                        `json:"brand"`
@@ -254,7 +242,7 @@ type IssuingCard struct {
 	Wallets            *IssuingCardWallets           `json:"wallets"`
 }
 
-// IssuingCardList is a list of issuing cards as retrieved from a list endpoint.
+// IssuingCardList is a list of Cards as retrieved from a list endpoint.
 type IssuingCardList struct {
 	APIResource
 	ListMeta

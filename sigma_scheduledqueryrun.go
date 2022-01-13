@@ -8,10 +8,10 @@ package stripe
 
 import "encoding/json"
 
-// SigmaScheduledQueryRunStatus is the possible values for status for a scheduled query run.
+// The query's execution status, which will be `completed` for successful runs, and `canceled`, `failed`, or `timed_out` otherwise.
 type SigmaScheduledQueryRunStatus string
 
-// List of values that SigmaScheduledQueryRunStatus can take.
+// List of values that SigmaScheduledQueryRunStatus can take
 const (
 	SigmaScheduledQueryRunStatusCanceled  SigmaScheduledQueryRunStatus = "canceled"
 	SigmaScheduledQueryRunStatusCompleted SigmaScheduledQueryRunStatus = "completed"
@@ -19,20 +19,23 @@ const (
 	SigmaScheduledQueryRunStatusTimedOut  SigmaScheduledQueryRunStatus = "timed_out"
 )
 
-// SigmaScheduledQueryRunParams is the set of parameters that can be used when updating a scheduled query run.
-type SigmaScheduledQueryRunParams struct {
-	Params `form:"*"`
-}
-
-// SigmaScheduledQueryRunListParams is the set of parameters that can be used when listing scheduled query runs.
+// Returns a list of scheduled query runs.
 type SigmaScheduledQueryRunListParams struct {
 	ListParams `form:"*"`
+}
+
+// Retrieves the details of an scheduled query run.
+type SigmaScheduledQueryRunParams struct {
+	Params `form:"*"`
 }
 type SigmaScheduledQueryRunError struct {
 	Message string `json:"message"`
 }
 
-// SigmaScheduledQueryRun is the resource representing a scheduled query run.
+// If you have [scheduled a Sigma query](https://stripe.com/docs/sigma/scheduled-queries), you'll
+// receive a `sigma.scheduled_query_run.created` webhook each time the query
+// runs. The webhook contains a `ScheduledQueryRun` object, which you can use to
+// retrieve the query results.
 type SigmaScheduledQueryRun struct {
 	APIResource
 	Created              int64                        `json:"created"`
@@ -49,7 +52,7 @@ type SigmaScheduledQueryRun struct {
 	Title                string                       `json:"title"`
 }
 
-// SigmaScheduledQueryRunList is a list of scheduled query runs as retrieved from a list endpoint.
+// SigmaScheduledQueryRunList is a list of ScheduledQueryRuns as retrieved from a list endpoint.
 type SigmaScheduledQueryRunList struct {
 	APIResource
 	ListMeta

@@ -8,6 +8,7 @@ package stripe
 
 import "encoding/json"
 
+// Surfaces if automatic tax computation is possible given the current customer location information.
 type CustomerTaxAutomaticTax string
 
 // List of values that CustomerTaxAutomaticTax can take
@@ -18,6 +19,7 @@ const (
 	CustomerTaxAutomaticTaxUnrecognizedLocation CustomerTaxAutomaticTax = "unrecognized_location"
 )
 
+// The data source used to infer the customer's location.
 type CustomerTaxLocationSource string
 
 // List of values that CustomerTaxLocationSource can take
@@ -28,18 +30,64 @@ const (
 	CustomerTaxLocationSourceShippingDestination CustomerTaxLocationSource = "shipping_destination"
 )
 
-// CustomerTaxExempt is the type of tax exemption associated with a customer.
+// Describes the customer's tax exemption status. One of `none`, `exempt`, or `reverse`. When set to `reverse`, invoice and receipt PDFs include the text **"Reverse charge"**.
 type CustomerTaxExempt string
 
-// List of values that CustomerTaxExempt can take.
+// List of values that CustomerTaxExempt can take
 const (
 	CustomerTaxExemptExempt  CustomerTaxExempt = "exempt"
 	CustomerTaxExemptNone    CustomerTaxExempt = "none"
 	CustomerTaxExemptReverse CustomerTaxExempt = "reverse"
 )
 
-// CustomerParams is the set of parameters that can be used when creating or updating a customer.
-// For more details see https://stripe.com/docs/api#create_customer and https://stripe.com/docs/api#update_customer.
+// Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.
+type CustomerListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	Email        *string           `form:"email"`
+}
+
+// Default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
+type CustomerInvoiceCustomFieldParams struct {
+	Name  *string `form:"name"`
+	Value *string `form:"value"`
+}
+
+// Default invoice settings for this customer.
+type CustomerInvoiceSettingsParams struct {
+	CustomFields         []*CustomerInvoiceCustomFieldParams `form:"custom_fields"`
+	DefaultPaymentMethod *string                             `form:"default_payment_method"`
+	Footer               *string                             `form:"footer"`
+}
+
+// The customer's shipping information. Appears on invoices emailed to this customer.
+type CustomerShippingDetailsParams struct {
+	Address *AddressParams `form:"address"`
+	Name    *string        `form:"name"`
+	Phone   *string        `form:"phone"`
+}
+
+// Tax details about the customer.
+type CustomerTaxParams struct {
+	IPAddress *string `form:"ip_address"`
+}
+
+// The customer's tax IDs.
+type CustomerTaxIDDataParams struct {
+	Type  *string `form:"type"`
+	Value *string `form:"value"`
+}
+
+// SetSource adds valid sources to a CustomerParams object,
+// returning an error for unsupported sources.
+func (cp *CustomerParams) SetSource(sp interface{}) error {
+	source, err := SourceParamsFor(sp)
+	cp.Source = source
+	return err
+}
+
+// Creates a new customer object.
 type CustomerParams struct {
 	Params              `form:"*"`
 	Address             *AddressParams                 `form:"address"`
@@ -64,61 +112,29 @@ type CustomerParams struct {
 	Token               *string                        `form:"-"` // This doesn't seem to be used?
 }
 
-// CustomerInvoiceCustomFieldParams represents the parameters associated with one custom field on
-// the customer's invoices.
-type CustomerInvoiceCustomFieldParams struct {
-	Name  *string `form:"name"`
-	Value *string `form:"value"`
-}
-
-// CustomerInvoiceSettingsParams is the structure containing the default settings for invoices
-// associated with this customer.
-type CustomerInvoiceSettingsParams struct {
-	CustomFields         []*CustomerInvoiceCustomFieldParams `form:"custom_fields"`
-	DefaultPaymentMethod *string                             `form:"default_payment_method"`
-	Footer               *string                             `form:"footer"`
-}
-
-// CustomerShippingDetailsParams is the structure containing shipping information.
-type CustomerShippingDetailsParams struct {
-	Address *AddressParams `form:"address"`
-	Name    *string        `form:"name"`
-	Phone   *string        `form:"phone"`
-}
-
-// Tax details about the customer.
-type CustomerTaxParams struct {
-	IPAddress *string `form:"ip_address"`
-}
-
-// CustomerTaxIDDataParams lets you pass the tax id details associated with a Customer.
-type CustomerTaxIDDataParams struct {
-	Type  *string `form:"type"`
-	Value *string `form:"value"`
-}
-
-// SetSource adds valid sources to a CustomerParams object,
-// returning an error for unsupported sources.
-func (cp *CustomerParams) SetSource(sp interface{}) error {
-	source, err := SourceParamsFor(sp)
-	cp.Source = source
-	return err
-}
-
-// CustomerListParams is the set of parameters that can be used when listing customers.
-// For more details see https://stripe.com/docs/api#list_customers.
-type CustomerListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	Email        *string           `form:"email"`
-}
-
 // Returns a list of PaymentMethods for a given Customer
 type CustomerListPaymentMethodsParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
 	Type       *string `form:"type"`
+}
+
+// Default custom fields to be displayed on invoices for this customer.
+type CustomerInvoiceCustomField struct {
+	Name  *string `form:"name"`
+	Value *string `form:"value"`
+}
+type CustomerInvoiceSettings struct {
+	CustomFields         []*CustomerInvoiceCustomField `json:"custom_fields"`
+	DefaultPaymentMethod *PaymentMethod                `json:"default_payment_method"`
+	Footer               string                        `json:"footer"`
+}
+
+// Mailing and shipping address for the customer. Appears on invoices emailed to this customer.
+type CustomerShippingDetails struct {
+	Address Address `json:"address"`
+	Name    string  `json:"name"`
+	Phone   string  `json:"phone"`
 }
 
 // The customer's location as identified by Stripe Tax.
@@ -133,8 +149,9 @@ type CustomerTax struct {
 	Location     *CustomerTaxLocation    `json:"location"`
 }
 
-// Customer is the resource representing a Stripe customer.
-// For more details see https://stripe.com/docs/api#customers.
+// This object represents a customer of your business. It lets you create recurring charges and track payments that belong to the same customer.
+//
+// Related guide: [Save a card during payment](https://stripe.com/docs/payments/save-during-payment).
 type Customer struct {
 	APIResource
 	Address             Address                  `json:"address"`
@@ -165,28 +182,7 @@ type Customer struct {
 	TaxIDs              *TaxIDList               `json:"tax_ids"`
 }
 
-// CustomerInvoiceCustomField represents a custom field associated with the customer's invoices.
-type CustomerInvoiceCustomField struct {
-	Name  *string `form:"name"`
-	Value *string `form:"value"`
-}
-
-// CustomerInvoiceSettings is the structure containing the default settings for invoices associated
-// with this customer.
-type CustomerInvoiceSettings struct {
-	CustomFields         []*CustomerInvoiceCustomField `json:"custom_fields"`
-	DefaultPaymentMethod *PaymentMethod                `json:"default_payment_method"`
-	Footer               string                        `json:"footer"`
-}
-
-// CustomerShippingDetails is the structure containing shipping information.
-type CustomerShippingDetails struct {
-	Address Address `json:"address"`
-	Name    string  `json:"name"`
-	Phone   string  `json:"phone"`
-}
-
-// CustomerList is a list of customers as retrieved from a list endpoint.
+// CustomerList is a list of Customers as retrieved from a list endpoint.
 type CustomerList struct {
 	APIResource
 	ListMeta

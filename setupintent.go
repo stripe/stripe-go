@@ -8,10 +8,10 @@ package stripe
 
 import "encoding/json"
 
-// SetupIntentCancellationReason is the list of allowed values for the cancelation reason.
+// Reason for cancellation of this SetupIntent, one of `abandoned`, `requested_by_customer`, or `duplicate`.
 type SetupIntentCancellationReason string
 
-// List of values that SetupIntentCancellationReason can take.
+// List of values that SetupIntentCancellationReason can take
 const (
 	SetupIntentCancellationReasonAbandoned           SetupIntentCancellationReason = "abandoned"
 	SetupIntentCancellationReasonDuplicate           SetupIntentCancellationReason = "duplicate"
@@ -20,10 +20,10 @@ const (
 	SetupIntentCancellationReasonRequestedByCustomer SetupIntentCancellationReason = "requested_by_customer"
 )
 
-// SetupIntentNextActionType is the list of allowed values for the next action's type.
+// Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 type SetupIntentNextActionType string
 
-// List of values that SetupIntentNextActionType can take.
+// List of values that SetupIntentNextActionType can take
 const (
 	SetupIntentNextActionTypeRedirectToURL SetupIntentNextActionType = "redirect_to_url"
 )
@@ -46,53 +46,49 @@ const (
 	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsDefaultForSubscription SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor = "subscription"
 )
 
-// SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule is the list of allowed values
-// for payment_schedule on mandate_options.
+// Payment schedule for the mandate.
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
 
-// List of values that SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule can take.
+// List of values that SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule can take
 const (
 	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleCombined SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "combined"
 	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleInterval SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "interval"
 	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleSporadic SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "sporadic"
 )
 
-// SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType is the list of allowed values for
-// transaction_type on mandate_options.
+// Transaction type of the mandate.
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType string
 
-// List of values that SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType can take.
+// List of values that SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType can take
 const (
 	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypeBusiness SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "business"
 	SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
 )
 
-// SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod is the list of allowed values for
-// verification_method on acss_debit.
+// Bank account verification method.
 type SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod string
 
-// List of values that SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod can take.
+// List of values that SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod can take
 const (
 	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodAutomatic     SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "automatic"
 	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodInstant       SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "instant"
 	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
-// SetupIntentPaymentMethodOptionsCardRequestThreeDSecure is the list of allowed values controlling
-// when to request 3D Secure on a SetupIntent.
+// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type SetupIntentPaymentMethodOptionsCardRequestThreeDSecure string
 
-// List of values that SetupIntentNextActionType can take.
+// List of values that SetupIntentPaymentMethodOptionsCardRequestThreeDSecure can take
 const (
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureAny           SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic     SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge_only"
 )
 
-// SetupIntentStatus is the list of allowed values for the setup intent's status.
+// [Status](https://stripe.com/docs/payments/intents#intent-statuses) of this SetupIntent, one of `requires_payment_method`, `requires_confirmation`, `requires_action`, `processing`, `canceled`, or `succeeded`.
 type SetupIntentStatus string
 
-// List of values that SetupIntentStatus can take.
+// List of values that SetupIntentStatus can take
 const (
 	SetupIntentStatusCanceled              SetupIntentStatus = "canceled"
 	SetupIntentStatusProcessing            SetupIntentStatus = "processing"
@@ -102,43 +98,27 @@ const (
 	SetupIntentStatusSucceeded             SetupIntentStatus = "succeeded"
 )
 
-// SetupIntentUsage is the list of allowed values for the setup intent's usage.
+// Indicates how the payment method is intended to be used in the future.
+//
+// Use `on_session` if you intend to only reuse the payment method when the customer is in your checkout flow. Use `off_session` if your customer may or may not be in your checkout flow. If not provided, this value defaults to `off_session`.
 type SetupIntentUsage string
 
-// List of values that SetupIntentUsage can take.
+// List of values that SetupIntentUsage can take
 const (
 	SetupIntentUsageOffSession SetupIntentUsage = "off_session"
 	SetupIntentUsageOnSession  SetupIntentUsage = "on_session"
 )
 
-// SetupIntentCancelParams is the set of parameters that can be used when canceling a setup intent.
-type SetupIntentCancelParams struct {
-	Params             `form:"*"`
-	CancellationReason *string `form:"cancellation_reason"`
-}
-
-// SetupIntentConfirmParams is the set of parameters that can be used when confirming a setup intent.
-type SetupIntentConfirmParams struct {
-	Params               `form:"*"`
-	MandateData          *SetupIntentMandateDataParams          `form:"mandate_data"`
-	PaymentMethod        *string                                `form:"payment_method"`
-	PaymentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
-	ReturnURL            *string                                `form:"return_url"`
-}
-
-// SetupIntentMandateDataCustomerAcceptanceOfflineParams is the set of parameters for the customer
-// acceptance of an offline mandate.
+// If this is a Mandate accepted offline, this hash contains details about the offline acceptance.
 type SetupIntentMandateDataCustomerAcceptanceOfflineParams struct{}
 
-// SetupIntentMandateDataCustomerAcceptanceOnlineParams is the set of parameters for the customer
-// acceptance of an online mandate.
+// If this is a Mandate accepted online, this hash contains details about the online acceptance.
 type SetupIntentMandateDataCustomerAcceptanceOnlineParams struct {
 	IPAddress *string `form:"ip_address"`
 	UserAgent *string `form:"user_agent"`
 }
 
-// SetupIntentMandateDataCustomerAcceptanceParams is the set of parameters for the customer
-// acceptance of a mandate.
+// This hash contains details about the customer acceptance of the Mandate.
 type SetupIntentMandateDataCustomerAcceptanceParams struct {
 	AcceptedAt int64                                                  `form:"accepted_at"`
 	Offline    *SetupIntentMandateDataCustomerAcceptanceOfflineParams `form:"offline"`
@@ -146,8 +126,12 @@ type SetupIntentMandateDataCustomerAcceptanceParams struct {
 	Type       MandateCustomerAcceptanceType                          `form:"type"`
 }
 
-// SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams is the set of parameters for
-// mandate_options on acss_debit.
+// This hash contains details about the Mandate to create. This parameter can only be used with [`confirm=true`](https://stripe.com/docs/api/setup_intents/create#create_setup_intent-confirm).
+type SetupIntentMandateDataParams struct {
+	CustomerAcceptance *SetupIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
+}
+
+// Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	CustomMandateURL    *string   `form:"custom_mandate_url"`
 	DefaultFor          []*string `form:"default_for"`
@@ -156,22 +140,14 @@ type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	TransactionType     *string   `form:"transaction_type"`
 }
 
-// SetupIntentPaymentMethodOptionsACSSDebitParams is the set of parameters for acss debit on
-// payment_method_options.
+// If this is a `acss_debit` SetupIntent, this sub-hash contains details about the ACSS Debit payment method options.
 type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 	Currency           *string                                                       `form:"currency"`
 	MandateOptions     *SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
 	VerificationMethod *string                                                       `form:"verification_method"`
 }
 
-// SetupIntentMandateDataParams is the set of parameters controlling the creation of the mandate
-// associated with this SetupIntent.
-type SetupIntentMandateDataParams struct {
-	CustomerAcceptance *SetupIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
-}
-
-// SetupIntentPaymentMethodOptionsCardParams represents the card-specific options applied to a
-// SetupIntent.
+// Configuration for any card setup attempted on this SetupIntent.
 type SetupIntentPaymentMethodOptionsCardParams struct {
 	MOTO                *bool   `form:"moto"`
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
@@ -185,21 +161,23 @@ type SetupIntentPaymentMethodOptionsSepaDebitParams struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSepaDebitMandateOptionsParams `form:"mandate_options"`
 }
 
-// SetupIntentPaymentMethodOptionsParams represents the type-specific payment method options
-// applied to a SetupIntent.
+// Payment-method-specific configuration for this SetupIntent.
 type SetupIntentPaymentMethodOptionsParams struct {
 	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
 	Card      *SetupIntentPaymentMethodOptionsCardParams      `form:"card"`
 	SepaDebit *SetupIntentPaymentMethodOptionsSepaDebitParams `form:"sepa_debit"`
 }
 
-// SetupIntentSingleUseParams represents the single-use mandate-specific parameters.
+// If this hash is populated, this SetupIntent will generate a single_use Mandate on success.
 type SetupIntentSingleUseParams struct {
 	Amount   *int64  `form:"amount"`
 	Currency *string `form:"currency"`
 }
 
-// SetupIntentParams is the set of parameters that can be used when handling a setup intent.
+// Creates a SetupIntent object.
+//
+// After the SetupIntent is created, attach a payment method and [confirm](https://stripe.com/docs/api/setup_intents/confirm)
+// to collect any required permissions to charge the payment method later.
 type SetupIntentParams struct {
 	Params               `form:"*"`
 	ClientSecret         *string                                `form:"client_secret"`
@@ -216,8 +194,7 @@ type SetupIntentParams struct {
 	Usage                *string                                `form:"usage"`
 }
 
-// SetupIntentListParams is the set of parameters that can be used when listing setup intents.
-// For more details see https://stripe.com/docs/api#list_payouts.
+// Returns a list of SetupIntents.
 type SetupIntentListParams struct {
 	ListParams    `form:"*"`
 	Created       *int64            `form:"created"`
@@ -226,34 +203,53 @@ type SetupIntentListParams struct {
 	PaymentMethod *string           `form:"payment_method"`
 }
 
-// SetupIntentNextActionRedirectToURL represents the resource for the next action of type
-// "redirect_to_url".
+// Confirm that your customer intends to set up the current or
+// provided payment method. For example, you would confirm a SetupIntent
+// when a customer hits the “Save” button on a payment method management
+// page on your website.
+//
+// If the selected payment method does not require any additional
+// steps from the customer, the SetupIntent will transition to the
+// succeeded status.
+//
+// Otherwise, it will transition to the requires_action status and
+// suggest additional actions via next_action. If setup fails,
+// the SetupIntent will transition to the
+// requires_payment_method status.
+type SetupIntentConfirmParams struct {
+	Params               `form:"*"`
+	MandateData          *SetupIntentMandateDataParams          `form:"mandate_data"`
+	PaymentMethod        *string                                `form:"payment_method"`
+	PaymentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
+	ReturnURL            *string                                `form:"return_url"`
+}
+
+// A SetupIntent object can be canceled when it is in one of these statuses: requires_payment_method, requires_confirmation, or requires_action.
+//
+// Once canceled, setup is abandoned and any operations on the SetupIntent will fail with an error.
+type SetupIntentCancelParams struct {
+	Params             `form:"*"`
+	CancellationReason *string `form:"cancellation_reason"`
+}
 type SetupIntentNextActionRedirectToURL struct {
 	ReturnURL string `json:"return_url"`
 	URL       string `json:"url"`
 }
 
-// SetupIntentNextActionUseStripeSDK represents the resource for the next action of type
-// "use_stripe_sdk".
+// When confirming a SetupIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
 type SetupIntentNextActionUseStripeSDK struct{}
-
-// SetupIntentNextActionVerifyWithMicrodeposits represents the resource for the next action
-// of type "verify_with_microdeposits".
 type SetupIntentNextActionVerifyWithMicrodeposits struct {
 	ArrivalDate           int64  `json:"arrival_date"`
 	HostedVerificationURL string `json:"hosted_verification_url"`
 }
 
-// SetupIntentNextAction represents the type of action to take on a setup intent.
+// If present, this property tells you what actions you need to take in order for your customer to continue payment setup.
 type SetupIntentNextAction struct {
 	RedirectToURL           *SetupIntentNextActionRedirectToURL           `json:"redirect_to_url"`
 	Type                    SetupIntentNextActionType                     `json:"type"`
 	UseStripeSDK            *SetupIntentNextActionUseStripeSDK            `json:"use_stripe_sdk"`
 	VerifyWithMicrodeposits *SetupIntentNextActionVerifyWithMicrodeposits `json:"verify_with_microdeposits"`
 }
-
-// SetupIntentPaymentMethodOptionsACSSDebitMandateOptions describe the mandate options for
-// acss debit associated with a setup intent.
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 	CustomMandateURL    string                                                                `json:"custom_mandate_url"`
 	DefaultFor          []SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor    `json:"default_for"`
@@ -261,18 +257,12 @@ type SetupIntentPaymentMethodOptionsACSSDebitMandateOptions struct {
 	PaymentSchedule     SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule `json:"payment_schedule"`
 	TransactionType     SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
 }
-
-// SetupIntentPaymentMethodOptionsACSSDebit represents the ACSS debit-specific options applied
-// to a SetupIntent.
 type SetupIntentPaymentMethodOptionsACSSDebit struct {
 	// See SetupIntentPaymentMethodOptionsACSSDebitCurrency for allowed values
 	Currency           string                                                     `json:"currency"`
 	MandateOptions     *SetupIntentPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
 	VerificationMethod SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
-
-// SetupIntentPaymentMethodOptionsCard represents the card-specific options applied to a
-// SetupIntent.
 type SetupIntentPaymentMethodOptionsCard struct {
 	RequestThreeDSecure SetupIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
@@ -281,16 +271,35 @@ type SetupIntentPaymentMethodOptionsSepaDebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSepaDebitMandateOptions `json:"mandate_options"`
 }
 
-// SetupIntentPaymentMethodOptions represents the type-specific payment method options applied to a
-// SetupIntent.
+// Payment-method-specific configuration for this SetupIntent.
 type SetupIntentPaymentMethodOptions struct {
 	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 	Card      *SetupIntentPaymentMethodOptionsCard      `json:"card"`
 	SepaDebit *SetupIntentPaymentMethodOptionsSepaDebit `json:"sepa_debit"`
 }
 
-// SetupIntent is the resource representing a Stripe payout.
-// For more details see https://stripe.com/docs/api#payment_intents.
+// A SetupIntent guides you through the process of setting up and saving a customer's payment credentials for future payments.
+// For example, you could use a SetupIntent to set up and save your customer's card without immediately collecting a payment.
+// Later, you can use [PaymentIntents](https://stripe.com/docs/api#payment_intents) to drive the payment flow.
+//
+// Create a SetupIntent as soon as you're ready to collect your customer's payment credentials.
+// Do not maintain long-lived, unconfirmed SetupIntents as they may no longer be valid.
+// The SetupIntent then transitions through multiple [statuses](https://stripe.com/docs/payments/intents#intent-statuses) as it guides
+// you through the setup process.
+//
+// Successful SetupIntents result in payment credentials that are optimized for future payments.
+// For example, cardholders in [certain regions](https://stripe.com/guides/strong-customer-authentication) may need to be run through
+// [Strong Customer Authentication](https://stripe.com/docs/strong-customer-authentication) at the time of payment method collection
+// in order to streamline later [off-session payments](https://stripe.com/docs/payments/setup-intents).
+// If the SetupIntent is used with a [Customer](https://stripe.com/docs/api#setup_intent_object-customer), upon success,
+// it will automatically attach the resulting payment method to that Customer.
+// We recommend using SetupIntents or [setup_future_usage](https://stripe.com/docs/api#payment_intent_object-setup_future_usage) on
+// PaymentIntents to save payment methods in order to prevent saving invalid or unoptimized payment methods.
+//
+// By using SetupIntents, you ensure that your customers experience the minimum set of required friction,
+// even as regulations change over time.
+//
+// Related guide: [Setup Intents API](https://stripe.com/docs/payments/setup-intents).
 type SetupIntent struct {
 	APIResource
 	Application          *Application                     `json:"application"`
@@ -316,7 +325,7 @@ type SetupIntent struct {
 	Usage                SetupIntentUsage                 `json:"usage"`
 }
 
-// SetupIntentList is a list of setup intents as retrieved from a list endpoint.
+// SetupIntentList is a list of SetupIntents as retrieved from a list endpoint.
 type SetupIntentList struct {
 	APIResource
 	ListMeta

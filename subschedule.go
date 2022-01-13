@@ -11,10 +11,19 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// SubscriptionScheduleEndBehavior describe what happens to a schedule when it ends.
+// Possible values are `phase_start` or `automatic`. If `phase_start` then billing cycle anchor of the subscription is set to the start of the phase when entering the phase. If `automatic` then the billing cycle anchor is automatically modified as needed when entering the phase. For more information, see the billing cycle [documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle).
+type SubscriptionSchedulePhaseBillingCycleAnchor string
+
+// List of values that SubscriptionSchedulePhaseBillingCycleAnchor can take
+const (
+	SubscriptionSchedulePhaseBillingCycleAnchorAutomatic  SubscriptionSchedulePhaseBillingCycleAnchor = "automatic"
+	SubscriptionSchedulePhaseBillingCycleAnchorPhaseStart SubscriptionSchedulePhaseBillingCycleAnchor = "phase_start"
+)
+
+// Behavior of the subscription schedule and underlying subscription when it ends. Possible values are `release` and `cancel`.
 type SubscriptionScheduleEndBehavior string
 
-// List of values that SubscriptionScheduleEndBehavior can take.
+// List of values that SubscriptionScheduleEndBehavior can take
 const (
 	SubscriptionScheduleEndBehaviorCancel  SubscriptionScheduleEndBehavior = "cancel"
 	SubscriptionScheduleEndBehaviorNone    SubscriptionScheduleEndBehavior = "none"
@@ -32,10 +41,10 @@ const (
 	SubscriptionSchedulePhaseProrationBehaviorNone             SubscriptionSchedulePhaseProrationBehavior = "none"
 )
 
-// SubscriptionScheduleStatus is the list of allowed values for the schedule's status.
+// The present status of the subscription schedule. Possible values are `not_started`, `active`, `completed`, `released`, and `canceled`. You can read more about the different states in our [behavior guide](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
 type SubscriptionScheduleStatus string
 
-// List of values that SubscriptionScheduleStatus can take.
+// List of values that SubscriptionScheduleStatus can take
 const (
 	SubscriptionScheduleStatusActive     SubscriptionScheduleStatus = "active"
 	SubscriptionScheduleStatusCanceled   SubscriptionScheduleStatus = "canceled"
@@ -44,24 +53,27 @@ const (
 	SubscriptionScheduleStatusReleased   SubscriptionScheduleStatus = "released"
 )
 
-// SubscriptionSchedulePhaseBillingCycleAnchor is the list of allowed values for the
-// schedule's billing_cycle_anchor.
-type SubscriptionSchedulePhaseBillingCycleAnchor string
+// Retrieves the list of your subscription schedules.
+type SubscriptionScheduleListParams struct {
+	ListParams       `form:"*"`
+	CanceledAt       int64             `form:"canceled_at"`
+	CanceledAtRange  *RangeQueryParams `form:"canceled_at"`
+	CompletedAt      int64             `form:"completed_at"`
+	CompletedAtRange *RangeQueryParams `form:"completed_at"`
+	Created          int64             `form:"created"`
+	CreatedRange     *RangeQueryParams `form:"created"`
+	Customer         string            `form:"customer"`
+	ReleasedAt       int64             `form:"released_at"`
+	ReleasedAtRange  *RangeQueryParams `form:"released_at"`
+	Scheduled        *bool             `form:"scheduled"`
+}
 
-// List of values for SubscriptionSchedulePhaseBillingCycleAnchor
-const (
-	SubscriptionSchedulePhaseBillingCycleAnchorAutomatic  SubscriptionSchedulePhaseBillingCycleAnchor = "automatic"
-	SubscriptionSchedulePhaseBillingCycleAnchorPhaseStart SubscriptionSchedulePhaseBillingCycleAnchor = "phase_start"
-)
-
-// SubscriptionScheduleInvoiceSettingsParams is a structure representing the parameters allowed to
-// control invoice settings on invoices associated with a subscription schedule.
+// All invoices will be billed using the specified settings.
 type SubscriptionScheduleInvoiceSettingsParams struct {
 	DaysUntilDue *int64 `form:"days_until_due"`
 }
 
-// SubscriptionScheduleDefaultSettingsParams is the set of parameters
-// representing the subscription schedule’s default settings.
+// Object representing the subscription schedule's default settings.
 type SubscriptionScheduleDefaultSettingsParams struct {
 	Params                `form:"*"`
 	ApplicationFeePercent *float64                                   `form:"application_fee_percent,high_precision"`
@@ -95,8 +107,7 @@ type SubscriptionSchedulePhaseAddInvoiceItemPriceDataParams struct {
 	UnitAmountDecimal *float64                                                         `form:"unit_amount_decimal,high_precision"`
 }
 
-// SubscriptionSchedulePhaseAddInvoiceItemParams is a structure representing the parameters allowed to control
-// the invoice items to add at the start of a phase.
+// A list of prices and quantities that will generate invoice items appended to the next invoice. You may pass up to 20 items.
 type SubscriptionSchedulePhaseAddInvoiceItemParams struct {
 	Price     *string                     `form:"price"`
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
@@ -109,8 +120,7 @@ type SubscriptionSchedulePhaseAutomaticTaxParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// SubscriptionSchedulePhaseItemParams is a structure representing the parameters allowed to control
-// a specic plan on a phase on a subscription schedule.
+// List of configuration items, each with an attached price, to apply during this phase of the subscription schedule.
 type SubscriptionSchedulePhaseItemParams struct {
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
 	Plan              *string                                  `form:"plan"`
@@ -120,8 +130,7 @@ type SubscriptionSchedulePhaseItemParams struct {
 	TaxRates          []*string                                `form:"tax_rates"`
 }
 
-// SubscriptionSchedulePhaseParams is a structure representing the parameters allowed to control
-// a phase on a subscription schedule.
+// List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the `end_date` of one phase will always equal the `start_date` of the next phase.
 type SubscriptionSchedulePhaseParams struct {
 	AddInvoiceItems       []*SubscriptionSchedulePhaseAddInvoiceItemParams `form:"add_invoice_items"`
 	ApplicationFeePercent *float64                                         `form:"application_fee_percent"`
@@ -159,8 +168,7 @@ func (s *SubscriptionSchedulePhaseParams) AppendTo(body *form.Values, keyParts [
 	}
 }
 
-// SubscriptionScheduleParams is the set of parameters that can be used when creating or updating a
-// subscription schedule.
+// Creates a new subscription schedule object. Each customer can have up to 500 active or scheduled subscriptions.
 type SubscriptionScheduleParams struct {
 	Params            `form:"*"`
 	Customer          *string                                    `form:"customer"`
@@ -180,51 +188,29 @@ func (s *SubscriptionScheduleParams) AppendTo(body *form.Values, keyParts []stri
 	}
 }
 
-// SubscriptionScheduleCancelParams is the set of parameters that can be used when canceling a
-// subscription schedule.
+// Cancels a subscription schedule and its associated subscription immediately (if the subscription schedule has an active subscription). A subscription schedule can only be canceled if its status is not_started or active.
 type SubscriptionScheduleCancelParams struct {
 	Params     `form:"*"`
 	InvoiceNow *bool `form:"invoice_now"`
 	Prorate    *bool `form:"prorate"`
 }
 
-// SubscriptionScheduleReleaseParams is the set of parameters that can be used when releasing a
-// subscription schedule.
+// Releases the subscription schedule immediately, which will stop scheduling of its phases, but leave any existing subscription in place. A schedule can only be released if its status is not_started or active. If the subscription schedule is currently associated with a subscription, releasing it will remove its subscription property and set the subscription's ID to the released_subscription property.
 type SubscriptionScheduleReleaseParams struct {
 	Params             `form:"*"`
 	PreserveCancelDate *bool `form:"preserve_cancel_date"`
 }
 
-// SubscriptionScheduleListParams is the set of parameters that can be used when listing
-// subscription schedules.
-type SubscriptionScheduleListParams struct {
-	ListParams       `form:"*"`
-	CanceledAt       int64             `form:"canceled_at"`
-	CanceledAtRange  *RangeQueryParams `form:"canceled_at"`
-	CompletedAt      int64             `form:"completed_at"`
-	CompletedAtRange *RangeQueryParams `form:"completed_at"`
-	Created          int64             `form:"created"`
-	CreatedRange     *RangeQueryParams `form:"created"`
-	Customer         string            `form:"customer"`
-	ReleasedAt       int64             `form:"released_at"`
-	ReleasedAtRange  *RangeQueryParams `form:"released_at"`
-	Scheduled        *bool             `form:"scheduled"`
-}
-
-// SubscriptionScheduleCurrentPhase is a structure the current phase's period.
+// Object representing the start and end dates for the current phase of the subscription schedule, if it is `active`.
 type SubscriptionScheduleCurrentPhase struct {
 	EndDate   int64 `json:"end_date"`
 	StartDate int64 `json:"start_date"`
 }
 
-// SubscriptionScheduleInvoiceSettings is a structure representing the settings applied to invoices
-// associated with a subscription schedule.
+// The subscription schedule's default invoice settings.
 type SubscriptionScheduleInvoiceSettings struct {
 	DaysUntilDue int64 `json:"days_until_due"`
 }
-
-// SubscriptionScheduleDefaultSettings is a structure representing the
-// subscription schedule’s default settings.
 type SubscriptionScheduleDefaultSettings struct {
 	ApplicationFeePercent float64                                     `json:"application_fee_percent,string"`
 	AutomaticTax          *SubscriptionAutomaticTax                   `json:"automatic_tax"`
@@ -236,14 +222,14 @@ type SubscriptionScheduleDefaultSettings struct {
 	TransferData          *SubscriptionTransferData                   `json:"transfer_data"`
 }
 
-// SubscriptionSchedulePhaseAddInvoiceItem represents the invoice items to add when the phase starts.
+// A list of prices and quantities that will generate invoice items appended to the first invoice for this phase.
 type SubscriptionSchedulePhaseAddInvoiceItem struct {
 	Price    *Price     `json:"price"`
 	Quantity int64      `json:"quantity"`
 	TaxRates []*TaxRate `json:"tax_rates"`
 }
 
-// SubscriptionSchedulePhaseItem represents plan details for a given phase
+// Subscription items to configure the subscription to during this phase of the subscription schedule.
 type SubscriptionSchedulePhaseItem struct {
 	BillingThresholds *SubscriptionItemBillingThresholds `json:"billing_thresholds"`
 	Plan              *Plan                              `json:"plan"`
@@ -252,7 +238,7 @@ type SubscriptionSchedulePhaseItem struct {
 	TaxRates          []*TaxRate                         `json:"tax_rates"`
 }
 
-// SubscriptionSchedulePhase is a structure a phase of a subscription schedule.
+// Configuration for the subscription schedule's phases.
 type SubscriptionSchedulePhase struct {
 	AddInvoiceItems       []*SubscriptionSchedulePhaseAddInvoiceItem  `json:"add_invoice_items"`
 	ApplicationFeePercent float64                                     `json:"application_fee_percent"`
@@ -272,7 +258,9 @@ type SubscriptionSchedulePhase struct {
 	TrialEnd              int64                                       `json:"trial_end"`
 }
 
-// SubscriptionSchedule is the resource representing a Stripe subscription schedule.
+// A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.
+//
+// Related guide: [Subscription Schedules](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
 type SubscriptionSchedule struct {
 	APIResource
 	CanceledAt           int64                                `json:"canceled_at"`
@@ -293,7 +281,7 @@ type SubscriptionSchedule struct {
 	Subscription         *Subscription                        `json:"subscription"`
 }
 
-// SubscriptionScheduleList is a list object for subscription schedules.
+// SubscriptionScheduleList is a list of SubscriptionSchedules as retrieved from a list endpoint.
 type SubscriptionScheduleList struct {
 	APIResource
 	ListMeta

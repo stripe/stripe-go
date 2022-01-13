@@ -8,10 +8,16 @@ package stripe
 
 import "encoding/json"
 
-// CapabilityDisabledReason describes why a capability is disabled.
+// If the capability is disabled, this string describes why. Can be `requirements.past_due`, `requirements.pending_verification`, `listed`, `platform_paused`, `rejected.fraud`, `rejected.listed`, `rejected.terms_of_service`, `rejected.other`, `under_review`, or `other`.
+//
+// `rejected.unsupported_business` means that the account's business is not supported by the capability. For example, payment methods may restrict the businesses they support in their terms of service:
+//
+// - [Afterpay Clearpay's terms of service](https://stripe.com/afterpay-clearpay/legal#restricted-businesses)
+//
+// If you believe that the rejection is in error, please contact support at https://support.stripe.com/contact/ for assistance.
 type CapabilityDisabledReason string
 
-// List of values that CapabilityDisabledReason can take.
+// List of values that CapabilityDisabledReason can take
 const (
 	CapabilityDisabledReasonPendingOnboarding        CapabilityDisabledReason = "pending.onboarding"
 	CapabilityDisabledReasonPendingReview            CapabilityDisabledReason = "pending.review"
@@ -21,10 +27,10 @@ const (
 	CapabilityDisabledReasonRequirementsFieldsNeeded CapabilityDisabledReason = "requirement.fields_needed"
 )
 
-// CapabilityStatus describes the different statuses for a capability's status.
+// The status of the capability. Can be `active`, `inactive`, `pending`, or `unrequested`.
 type CapabilityStatus string
 
-// List of values that CapabilityStatus can take.
+// List of values that CapabilityStatus can take
 const (
 	CapabilityStatusActive      CapabilityStatus = "active"
 	CapabilityStatusDisabled    CapabilityStatus = "disabled"
@@ -33,19 +39,17 @@ const (
 	CapabilityStatusUnrequested CapabilityStatus = "unrequested"
 )
 
-// CapabilityParams is the set of parameters that can be used when updating a capability.
-// For more details see https://stripe.com/docs/api/capabilities/update
+// Returns a list of capabilities associated with the account. The capabilities are returned sorted by creation date, with the most recent capability appearing first.
+type CapabilityListParams struct {
+	ListParams `form:"*"`
+	Account    *string `form:"-"` // Included in URL
+}
+
+// Retrieves information about the specified Account Capability.
 type CapabilityParams struct {
 	Params    `form:"*"`
 	Account   *string `form:"-"` // Included in URL
 	Requested *bool   `form:"requested"`
-}
-
-// CapabilityListParams is the set of parameters that can be used when listing capabilities.
-// For more detail see https://stripe.com/docs/api/capabilities/list
-type CapabilityListParams struct {
-	ListParams `form:"*"`
-	Account    *string `form:"-"` // Included in URL
 }
 
 // Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
@@ -76,8 +80,6 @@ type CapabilityRequirementsAlternative struct {
 	AlternativeFieldsDue []string `json:"alternative_fields_due"`
 	OriginalFieldsDue    []string `json:"original_fields_due"`
 }
-
-// CapabilityRequirements represents information that needs to be collected for a capability.
 type CapabilityRequirements struct {
 	Alternatives        []*CapabilityRequirementsAlternative `json:"alternatives"`
 	CurrentDeadline     int64                                `json:"current_deadline"`
@@ -89,8 +91,9 @@ type CapabilityRequirements struct {
 	PendingVerification []string                             `json:"pending_verification"`
 }
 
-// Capability is the resource representing a Stripe capability.
-// For more details see https://stripe.com/docs/api/capabilities
+// This is an object representing a capability for a Stripe account.
+//
+// Related guide: [Account capabilities](https://stripe.com/docs/connect/account-capabilities).
 type Capability struct {
 	APIResource
 	Account            *Account                      `json:"account"`
@@ -103,7 +106,7 @@ type Capability struct {
 	Status             CapabilityStatus              `json:"status"`
 }
 
-// CapabilityList is a list of capabilities as retrieved from a list endpoint.
+// CapabilityList is a list of Capabilities as retrieved from a list endpoint.
 type CapabilityList struct {
 	APIResource
 	ListMeta

@@ -8,14 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// ApplicationFeeParams is the set of parameters that can be used when refunding an application fee.
-// For more details see https://stripe.com/docs/api#refund_application_fee.
-type ApplicationFeeParams struct {
-	Params `form:"*"`
-}
-
-// ApplicationFeeListParams is the set of parameters that can be used when listing application fees.
-// For more details see https://stripe.com/docs/api#list_application_fees.
+// Returns a list of application fees you've previously collected. The application fees are returned in sorted order, with the most recent fees appearing first.
 type ApplicationFeeListParams struct {
 	ListParams   `form:"*"`
 	Charge       *string           `form:"charge"`
@@ -23,8 +16,10 @@ type ApplicationFeeListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 }
 
-// ApplicationFee is the resource representing a Stripe application fee.
-// For more details see https://stripe.com/docs/api#application_fees.
+// Retrieves the details of an application fee that your account has collected. The same information is returned when refunding the application fee.
+type ApplicationFeeParams struct {
+	Params `form:"*"`
+}
 type ApplicationFee struct {
 	APIResource
 	Account                *Account            `json:"account"`
@@ -43,7 +38,7 @@ type ApplicationFee struct {
 	Refunds                *FeeRefundList      `json:"refunds"`
 }
 
-// ApplicationFeeList is a list of application fees as retrieved from a list endpoint.
+// ApplicationFeeList is a list of ApplicationFees as retrieved from a list endpoint.
 type ApplicationFeeList struct {
 	APIResource
 	ListMeta

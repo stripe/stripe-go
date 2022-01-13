@@ -8,19 +8,20 @@ package stripe
 
 import "encoding/json"
 
-// SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlow indicates the type of 3D Secure authentication performed.
+// For authenticated transactions: how the customer was authenticated by
+// the issuing bank.
 type SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
 
-// List of values that SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlow can take.
+// List of values that SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlow can take
 const (
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlowChallenge    SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlow = "challenge"
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlowFrictionless SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlow = "frictionless"
 )
 
-// SetupAttemptPaymentMethodDetailsCardThreeDSecureResult indicates the outcome of 3D Secure authentication.
+// Indicates the outcome of 3D Secure authentication.
 type SetupAttemptPaymentMethodDetailsCardThreeDSecureResult string
 
-// List of values that SetupAttemptPaymentMethodDetailsCardThreeDSecureResult can take.
+// List of values that SetupAttemptPaymentMethodDetailsCardThreeDSecureResult can take
 const (
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultAuthenticated       SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "authenticated"
@@ -29,10 +30,11 @@ const (
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultProcessingError     SetupAttemptPaymentMethodDetailsCardThreeDSecureResult = "processing_error"
 )
 
-// SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReason represents dditional information about why 3D Secure succeeded or failed
+// Additional information about why 3D Secure succeeded or failed based
+// on the `result`.
 type SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReason string
 
-// List of values that SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReason can take.
+// List of values that SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReason can take
 const (
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReasonAbandoned           SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReason = "abandoned"
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReasonBypassed            SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReason = "bypassed"
@@ -43,27 +45,18 @@ const (
 	SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReasonRejected            SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
 )
 
-// SetupAttemptPaymentMethodDetailsType is the type of the payment method associated with the setup attempt's payment method details.
+// The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.
 type SetupAttemptPaymentMethodDetailsType string
 
-// List of values that SetupAttemptPaymentMethodDetailsType can take.
+// List of values that SetupAttemptPaymentMethodDetailsType can take
 const (
 	SetupAttemptPaymentMethodDetailsTypeCard SetupAttemptPaymentMethodDetailsType = "card"
 )
 
-// SetupAttemptUsage is the list of allowed values for usage.
-type SetupAttemptUsage string
-
-// List of values that SetupAttemptUsage can take.
-const (
-	SetupAttemptUsageOffSession SetupAttemptUsage = "off_session"
-	SetupAttemptUsageOnSession  SetupAttemptUsage = "on_session"
-)
-
-// SetupAttemptStatus is the list of allowed values for the setup attempt's status.
+// Status of this SetupAttempt, one of `requires_confirmation`, `requires_action`, `processing`, `succeeded`, `failed`, or `abandoned`.
 type SetupAttemptStatus string
 
-// List of values that SetupAttemptStatus can take.
+// List of values that SetupAttemptStatus can take
 const (
 	SetupAttemptStatusAbandoned            SetupAttemptStatus = "abandoned"
 	SetupAttemptStatusFailed               SetupAttemptStatus = "failed"
@@ -73,27 +66,25 @@ const (
 	SetupAttemptStatusSucceeded            SetupAttemptStatus = "succeeded"
 )
 
-// SetupAttemptListParams is the set of parameters that can be used when listing setup attempts.
+// The value of [usage](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-usage) on the SetupIntent at the time of this confirmation, one of `off_session` or `on_session`.
+type SetupAttemptUsage string
+
+// List of values that SetupAttemptUsage can take
+const (
+	SetupAttemptUsageOffSession SetupAttemptUsage = "off_session"
+	SetupAttemptUsageOnSession  SetupAttemptUsage = "on_session"
+)
+
+// Returns a list of SetupAttempts associated with a provided SetupIntent.
 type SetupAttemptListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 	SetupIntent  *string           `form:"setup_intent"`
 }
-type SetupAttemptPaymentMethodDetailsBoleto struct{}
-
-// SetupAttemptPaymentMethodDetailsCardThreeDSecure represents details about 3DS associated with the setup attempt's payment method.
-type SetupAttemptPaymentMethodDetailsCardThreeDSecure struct {
-	AuthenticationFlow SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlow `json:"authentication_flow"`
-	Result             SetupAttemptPaymentMethodDetailsCardThreeDSecureResult             `json:"result"`
-	ResultReason       SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReason       `json:"result_reason"`
-	Version            string                                                             `json:"version"`
-}
 type SetupAttemptPaymentMethodDetailsACSSDebit struct{}
 type SetupAttemptPaymentMethodDetailsAUBECSDebit struct{}
 type SetupAttemptPaymentMethodDetailsBACSDebit struct{}
-
-// SetupAttemptPaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.
 type SetupAttemptPaymentMethodDetailsBancontact struct {
 	BankCode                  string         `json:"bank_code"`
 	BankName                  string         `json:"bank_name"`
@@ -104,16 +95,21 @@ type SetupAttemptPaymentMethodDetailsBancontact struct {
 	PreferredLanguage         string         `json:"preferred_language"`
 	VerifiedName              string         `json:"verified_name"`
 }
+type SetupAttemptPaymentMethodDetailsBoleto struct{}
 
-// SetupAttemptPaymentMethodDetailsCard represents details about the Card PaymentMethod.
+// Populated if this authorization used 3D Secure authentication.
+type SetupAttemptPaymentMethodDetailsCardThreeDSecure struct {
+	AuthenticationFlow SetupAttemptPaymentMethodDetailsCardThreeDSecureAuthenticationFlow `json:"authentication_flow"`
+	Result             SetupAttemptPaymentMethodDetailsCardThreeDSecureResult             `json:"result"`
+	ResultReason       SetupAttemptPaymentMethodDetailsCardThreeDSecureResultReason       `json:"result_reason"`
+	Version            string                                                             `json:"version"`
+}
 type SetupAttemptPaymentMethodDetailsCard struct {
 	ThreeDSecure *SetupAttemptPaymentMethodDetailsCardThreeDSecure `json:"three_d_secure"`
 }
 type SetupAttemptPaymentMethodDetailsCardPresent struct {
 	GeneratedCard *PaymentMethod `json:"generated_card"`
 }
-
-// SetupAttemptPaymentMethodDetailsIdeal represents details about the Bancontact PaymentMethod.
 type SetupAttemptPaymentMethodDetailsIdeal struct {
 	Bank                      string         `json:"bank"`
 	Bic                       string         `json:"bic"`
@@ -123,8 +119,6 @@ type SetupAttemptPaymentMethodDetailsIdeal struct {
 	VerifiedName              string         `json:"verified_name"`
 }
 type SetupAttemptPaymentMethodDetailsSepaDebit struct{}
-
-// SetupAttemptPaymentMethodDetailsSofort represents details about the Bancontact PaymentMethod.
 type SetupAttemptPaymentMethodDetailsSofort struct {
 	BankCode                  string         `json:"bank_code"`
 	BankName                  string         `json:"bank_name"`
@@ -135,8 +129,6 @@ type SetupAttemptPaymentMethodDetailsSofort struct {
 	PreferredLanguage         string         `json:"preferred_language"`
 	VerifiedName              string         `json:"verified_name"`
 }
-
-// SetupAttemptPaymentMethodDetails represents the details about the PaymentMethod associated with the setup attempt.
 type SetupAttemptPaymentMethodDetails struct {
 	ACSSDebit   *SetupAttemptPaymentMethodDetailsACSSDebit   `json:"acss_debit"`
 	AUBECSDebit *SetupAttemptPaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
@@ -151,7 +143,10 @@ type SetupAttemptPaymentMethodDetails struct {
 	Type        SetupAttemptPaymentMethodDetailsType         `json:"type"`
 }
 
-// SetupAttempt is the resource representing a Stripe setup attempt.
+// A SetupAttempt describes one attempted confirmation of a SetupIntent,
+// whether that confirmation was successful or unsuccessful. You can use
+// SetupAttempts to inspect details of a specific attempt at setting up a
+// payment method using a SetupIntent.
 type SetupAttempt struct {
 	APIResource
 	Application          *Application                      `json:"application"`
@@ -169,7 +164,7 @@ type SetupAttempt struct {
 	Usage                SetupAttemptUsage                 `json:"usage"`
 }
 
-// SetupAttemptList is a list of setup attempts as retrieved from a list endpoint.
+// SetupAttemptList is a list of SetupAttempts as retrieved from a list endpoint.
 type SetupAttemptList struct {
 	APIResource
 	ListMeta

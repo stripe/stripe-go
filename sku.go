@@ -8,34 +8,27 @@ package stripe
 
 import "encoding/json"
 
-// SKUInventoryType describe's the possible value for inventory type
+// Inventory type. Possible values are `finite`, `bucket` (not quantified), and `infinite`.
 type SKUInventoryType string
 
-// List of values that SKUInventoryType can take.
+// List of values that SKUInventoryType can take
 const (
 	SKUInventoryTypeBucket   SKUInventoryType = "bucket"
 	SKUInventoryTypeFinite   SKUInventoryType = "finite"
 	SKUInventoryTypeInfinite SKUInventoryType = "infinite"
 )
 
-// SKUInventoryValue describe's the possible value for inventory value
+// An indicator of the inventory available. Possible values are `in_stock`, `limited`, and `out_of_stock`. Will be present if and only if `type` is `bucket`.
 type SKUInventoryValue string
 
-// List of values that SKUInventoryValue can take.
+// List of values that SKUInventoryValue can take
 const (
 	SKUInventoryValueInStock    SKUInventoryValue = "in_stock"
 	SKUInventoryValueLimited    SKUInventoryValue = "limited"
 	SKUInventoryValueOutOfStock SKUInventoryValue = "out_of_stock"
 )
 
-// InventoryParams is the set of parameters allowed as inventory on a SKU.
-type InventoryParams struct {
-	Quantity *int64  `form:"quantity"`
-	Type     *string `form:"type"`
-	Value    *string `form:"value"`
-}
-
-// SKUParams is the set of parameters allowed on SKU creation or update.
+// Retrieves the details of an existing SKU. Supply the unique SKU identifier from either a SKU creation request or from the product, and Stripe will return the corresponding SKU information.
 type SKUParams struct {
 	Params            `form:"*"`
 	Active            *bool                    `form:"active"`
@@ -50,7 +43,14 @@ type SKUParams struct {
 	Product           *string                  `form:"product"`
 }
 
-// SKUListParams is the set of parameters that can be used when listing SKUs.
+// Description of the SKU's inventory.
+type InventoryParams struct {
+	Quantity *int64  `form:"quantity"`
+	Type     *string `form:"type"`
+	Value    *string `form:"value"`
+}
+
+// Returns a list of your SKUs. The SKUs are returned sorted by creation date, with the most recently created SKUs appearing first.
 type SKUListParams struct {
 	ListParams `form:"*"`
 	Active     *bool             `form:"active"`
@@ -59,16 +59,20 @@ type SKUListParams struct {
 	InStock    *bool             `form:"in_stock"`
 	Product    *string           `form:"product"`
 }
-
-// Inventory represents the inventory options of a SKU.
 type Inventory struct {
 	Quantity int64             `json:"quantity"`
 	Type     SKUInventoryType  `json:"type"`
 	Value    SKUInventoryValue `json:"value"`
 }
 
-// SKU is the resource representing a SKU.
-// For more details see https://stripe.com/docs/api#skus.
+// Stores representations of [stock keeping units](http://en.wikipedia.org/wiki/Stock_keeping_unit).
+// SKUs describe specific product variations, taking into account any combination of: attributes,
+// currency, and cost. For example, a product may be a T-shirt, whereas a specific SKU represents
+// the `size: large`, `color: red` version of that shirt.
+//
+// Can also be used to manage inventory.
+//
+// Related guide: [Tax, Shipping, and Inventory](https://stripe.com/docs/orders).
 type SKU struct {
 	APIResource
 	Active            bool               `json:"active"`
@@ -89,7 +93,7 @@ type SKU struct {
 	Updated           int64              `json:"updated"`
 }
 
-// SKUList is a list of SKUs as returned from a list endpoint.
+// SKUList is a list of Skus as retrieved from a list endpoint.
 type SKUList struct {
 	APIResource
 	ListMeta

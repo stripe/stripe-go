@@ -8,11 +8,10 @@ package stripe
 
 import "encoding/json"
 
-// CustomerBalanceTransactionType is the list of allowed values for the customer's balance
-// transaction type.
+// Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, or `unapplied_from_invoice`. See the [Customer Balance page](https://stripe.com/docs/billing/customer/balance#types) to learn more about transaction types.
 type CustomerBalanceTransactionType string
 
-// List of values that CustomerBalanceTransactionDuration can take.
+// List of values that CustomerBalanceTransactionType can take
 const (
 	CustomerBalanceTransactionTypeAdjustment            CustomerBalanceTransactionType = "adjustment"
 	CustomerBalanceTransactionTypeAppliedToInvoice      CustomerBalanceTransactionType = "applied_to_invoice"
@@ -25,9 +24,7 @@ const (
 	CustomerBalanceTransactionTypeUnspentReceiverCredit CustomerBalanceTransactionType = "unspent_receiver_credit"
 )
 
-// CustomerBalanceTransactionParams is the set of parameters that can be used when creating or
-// updating a customer balance transactions.
-// For more details see https://stripe.com/docs/api/customers/create_customer_balance_transaction
+// Retrieves a specific customer balance transaction that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
 type CustomerBalanceTransactionParams struct {
 	Params      `form:"*"`
 	Customer    *string `form:"-"` // Included in URL
@@ -36,16 +33,18 @@ type CustomerBalanceTransactionParams struct {
 	Description *string `form:"description"`
 }
 
-// CustomerBalanceTransactionListParams is the set of parameters that can be used when listing
-// customer balance transactions.
-// For more detail see https://stripe.com/docs/api/customers/customer_balance_transactions
+// Returns a list of transactions that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
 type CustomerBalanceTransactionListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
 }
 
-// CustomerBalanceTransaction is the resource representing a customer balance transaction.
-// For more details see https://stripe.com/docs/api/customers/customer_balance_transaction_object
+// Each customer has a [`balance`](https://stripe.com/docs/api/customers/object#customer_object-balance) value,
+// which denotes a debit or credit that's automatically applied to their next invoice upon finalization.
+// You may modify the value directly by using the [update customer API](https://stripe.com/docs/api/customers/update),
+// or by creating a Customer Balance Transaction, which increments or decrements the customer's `balance` by the specified `amount`.
+//
+// Related guide: [Customer Balance](https://stripe.com/docs/billing/customer/balance) to learn more.
 type CustomerBalanceTransaction struct {
 	APIResource
 	Amount        int64                          `json:"amount"`
@@ -63,8 +62,7 @@ type CustomerBalanceTransaction struct {
 	Type          CustomerBalanceTransactionType `json:"type"`
 }
 
-// CustomerBalanceTransactionList is a list of customer balance transactions as retrieved from a
-// list endpoint.
+// CustomerBalanceTransactionList is a list of CustomerBalanceTransactions as retrieved from a list endpoint.
 type CustomerBalanceTransactionList struct {
 	APIResource
 	ListMeta

@@ -8,10 +8,10 @@ package stripe
 
 import "encoding/json"
 
-// IssuingTransactionPurchaseDetailsFuelType is the type of fuel purchased in a transaction.
+// The type of fuel that was purchased. One of `diesel`, `unleaded_plus`, `unleaded_regular`, `unleaded_super`, or `other`.
 type IssuingTransactionPurchaseDetailsFuelType string
 
-// List of values that IssuingTransactionType can take.
+// List of values that IssuingTransactionPurchaseDetailsFuelType can take
 const (
 	IssuingTransactionPurchaseDetailsFuelTypeDiesel          IssuingTransactionPurchaseDetailsFuelType = "diesel"
 	IssuingTransactionPurchaseDetailsFuelTypeOther           IssuingTransactionPurchaseDetailsFuelType = "other"
@@ -20,19 +20,19 @@ const (
 	IssuingTransactionPurchaseDetailsFuelTypeUnleadedSuper   IssuingTransactionPurchaseDetailsFuelType = "unleaded_super"
 )
 
-// IssuingTransactionPurchaseDetailsFuelUnit is the unit of fuel purchased in a transaction.
+// The units for `volume_decimal`. One of `us_gallon` or `liter`.
 type IssuingTransactionPurchaseDetailsFuelUnit string
 
-// List of values that IssuingTransactionPurchaseDetailsFuelUnit can take.
+// List of values that IssuingTransactionPurchaseDetailsFuelUnit can take
 const (
 	IssuingTransactionPurchaseDetailsFuelUnitLiter    IssuingTransactionPurchaseDetailsFuelUnit = "liter"
 	IssuingTransactionPurchaseDetailsFuelUnitUSGallon IssuingTransactionPurchaseDetailsFuelUnit = "us_gallon"
 )
 
-// IssuingTransactionType is the type of an issuing transaction.
+// The nature of the transaction.
 type IssuingTransactionType string
 
-// List of values that IssuingTransactionType can take.
+// List of values that IssuingTransactionType can take
 const (
 	IssuingTransactionTypeCapture IssuingTransactionType = "capture"
 	IssuingTransactionTypeRefund  IssuingTransactionType = "refund"
@@ -48,12 +48,7 @@ const (
 	IssuingTransactionWalletSamsungPay IssuingTransactionWallet = "samsung_pay"
 )
 
-// IssuingTransactionParams is the set of parameters that can be used when creating or updating an issuing transaction.
-type IssuingTransactionParams struct {
-	Params `form:"*"`
-}
-
-// IssuingTransactionListParams is the set of parameters that can be used when listing issuing transactions.
+// Returns a list of Issuing Transaction objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type IssuingTransactionListParams struct {
 	ListParams   `form:"*"`
 	Card         *string           `form:"card"`
@@ -63,12 +58,17 @@ type IssuingTransactionListParams struct {
 	Type         *string           `form:"type"`
 }
 
-// IssuingTransactionAmountDetails is the resource representing the breakdown of the amount.
+// Retrieves an Issuing Transaction object.
+type IssuingTransactionParams struct {
+	Params `form:"*"`
+}
+
+// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 type IssuingTransactionAmountDetails struct {
 	ATMFee int64 `json:"atm_fee"`
 }
 
-// IssuingTransactionPurchaseDetailsFlightSegment contains extra information about the flight in this transaction.
+// The legs of the trip.
 type IssuingTransactionPurchaseDetailsFlightSegment struct {
 	ArrivalAirportCode   string `json:"arrival_airport_code"`
 	Carrier              string `json:"carrier"`
@@ -78,7 +78,7 @@ type IssuingTransactionPurchaseDetailsFlightSegment struct {
 	StopoverAllowed      bool   `json:"stopover_allowed"`
 }
 
-// IssuingTransactionPurchaseDetailsFlight contains extra information about the flight in this transaction.
+// Information about the flight that was purchased with this transaction.
 type IssuingTransactionPurchaseDetailsFlight struct {
 	DepartureAt   int64                                             `json:"departure_at"`
 	PassengerName string                                            `json:"passenger_name"`
@@ -87,7 +87,7 @@ type IssuingTransactionPurchaseDetailsFlight struct {
 	TravelAgency  string                                            `json:"travel_agency"`
 }
 
-// IssuingTransactionPurchaseDetailsFuel contains extra information about the fuel purchase in this transaction.
+// Information about fuel that was purchased with this transaction.
 type IssuingTransactionPurchaseDetailsFuel struct {
 	Type            IssuingTransactionPurchaseDetailsFuelType `json:"type"`
 	Unit            IssuingTransactionPurchaseDetailsFuelUnit `json:"unit"`
@@ -95,13 +95,13 @@ type IssuingTransactionPurchaseDetailsFuel struct {
 	VolumeDecimal   float64                                   `json:"volume_decimal,string"`
 }
 
-// IssuingTransactionPurchaseDetailsLodging contains extra information about the lodging purchase in this transaction.
+// Information about lodging that was purchased with this transaction.
 type IssuingTransactionPurchaseDetailsLodging struct {
 	CheckInAt int64 `json:"check_in_at"`
 	Nights    int64 `json:"nights"`
 }
 
-// IssuingTransactionPurchaseDetailsReceipt contains extra information about the line items this transaction.
+// The line items in the purchase.
 type IssuingTransactionPurchaseDetailsReceipt struct {
 	Description string  `json:"description"`
 	Quantity    float64 `json:"quantity"`
@@ -109,7 +109,7 @@ type IssuingTransactionPurchaseDetailsReceipt struct {
 	UnitCost    int64   `json:"unit_cost"`
 }
 
-// IssuingTransactionPurchaseDetails contains extra information provided by the merchant.
+// Additional purchase information that is optionally provided by the merchant.
 type IssuingTransactionPurchaseDetails struct {
 	Flight    *IssuingTransactionPurchaseDetailsFlight    `json:"flight"`
 	Fuel      *IssuingTransactionPurchaseDetailsFuel      `json:"fuel"`
@@ -118,7 +118,11 @@ type IssuingTransactionPurchaseDetails struct {
 	Reference string                                      `json:"reference"`
 }
 
-// IssuingTransaction is the resource representing a Stripe issuing transaction.
+// Any use of an [issued card](https://stripe.com/docs/issuing) that results in funds entering or leaving
+// your Stripe account, such as a completed purchase or refund, is represented by an Issuing
+// `Transaction` object.
+//
+// Related guide: [Issued Card Transactions](https://stripe.com/docs/issuing/purchases/transactions).
 type IssuingTransaction struct {
 	APIResource
 	Amount             int64                              `json:"amount"`
@@ -142,7 +146,7 @@ type IssuingTransaction struct {
 	Wallet             IssuingTransactionWallet           `json:"wallet"`
 }
 
-// IssuingTransactionList is a list of issuing transactions as retrieved from a list endpoint.
+// IssuingTransactionList is a list of Transactions as retrieved from a list endpoint.
 type IssuingTransactionList struct {
 	APIResource
 	ListMeta

@@ -19,26 +19,33 @@ const (
 // BalanceTransactionStatus is the list of allowed values for the balance transaction's status.
 type BalanceTransactionStatus string
 
-// BalanceParams is the set of parameters that can be used when retrieving a balance.
-// For more details see https://stripe.com/docs/api#balance.
+// Retrieves the current account balance, based on the authentication that was used to make the request.
+//  For a sample request, see [Accounting for negative balances](https://stripe.com/docs/connect/account-balances#accounting-for-negative-balances).
 type BalanceParams struct {
 	Params `form:"*"`
 }
 
-// Amount is a structure wrapping an amount value and its currency.
+// Funds that are available to be transferred or paid out, whether automatically by Stripe or explicitly via the [Transfers API](https://stripe.com/docs/api#transfers) or [Payouts API](https://stripe.com/docs/api#payouts). The available balance for each currency and payment type can be found in the `source_types` property.
 type Amount struct {
 	Value       int64                       `json:"amount"`
 	Currency    Currency                    `json:"currency"`
 	SourceTypes map[BalanceSourceType]int64 `json:"source_types"`
 }
-
-// BalanceDetails is the resource representing details about a specific product's balance.
 type BalanceDetails struct {
 	Available []*Amount `json:"available"`
 }
 
-// Balance is the resource representing your Stripe balance.
-// For more details see https://stripe.com/docs/api/#balance.
+// This is an object representing your Stripe balance. You can retrieve it to see
+// the balance currently on your Stripe account.
+//
+// You can also retrieve the balance history, which contains a list of
+// [transactions](https://stripe.com/docs/reporting/balance-transaction-types) that contributed to the balance
+// (charges, payouts, and so forth).
+//
+// The available and pending amounts for each currency are broken down further by
+// payment source types.
+//
+// Related guide: [Understanding Connect Account Balances](https://stripe.com/docs/connect/account-balances).
 type Balance struct {
 	APIResource
 	Available        []*Amount       `json:"available"`

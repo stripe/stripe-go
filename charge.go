@@ -8,48 +8,37 @@ package stripe
 
 import "encoding/json"
 
-// ChargeFraudUserReport is the list of allowed values for reporting fraud.
+// Assessments from Stripe. If set, the value is `fraudulent`.
+type ChargeFraudStripeReport string
+
+// List of values that ChargeFraudStripeReport can take
+const (
+	ChargeFraudStripeReportFraudulent ChargeFraudStripeReport = "fraudulent"
+)
+
+// Assessments reported by you. If set, possible values of are `safe` and `fraudulent`.
 type ChargeFraudUserReport string
 
-// List of values that ChargeFraudUserReport can take.
+// List of values that ChargeFraudUserReport can take
 const (
 	ChargeFraudUserReportFraudulent ChargeFraudUserReport = "fraudulent"
 	ChargeFraudUserReportSafe       ChargeFraudUserReport = "safe"
 )
 
-// ChargeFraudStripeReport is the list of allowed values for reporting fraud.
-type ChargeFraudStripeReport string
-
-// List of values that ChargeFraudStripeReport can take.
-const (
-	ChargeFraudStripeReportFraudulent ChargeFraudStripeReport = "fraudulent"
-)
-
-// ChargePaymentMethodDetailsCardPresentReceiptAccountType indicates the type of account backing a card present transaction.
-type ChargePaymentMethodDetailsCardPresentReceiptAccountType string
-
-// List of values that ChargePaymentMethodDetailsCardThreeDSecureResult can take.
-const (
-	ChargePaymentMethodDetailsCardPresentReceiptAccountTypeChecking ChargePaymentMethodDetailsCardPresentReceiptAccountType = "checking"
-	ChargePaymentMethodDetailsCardPresentReceiptAccountTypeCredit   ChargePaymentMethodDetailsCardPresentReceiptAccountType = "credit"
-	ChargePaymentMethodDetailsCardPresentReceiptAccountTypePrepaid  ChargePaymentMethodDetailsCardPresentReceiptAccountType = "prepaid"
-	ChargePaymentMethodDetailsCardPresentReceiptAccountTypeUnknown  ChargePaymentMethodDetailsCardPresentReceiptAccountType = "unknown"
-)
-
-// ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow indicates the type of 3D Secure
-// authentication performed.
+// For authenticated transactions: how the customer was authenticated by
+// the issuing bank.
 type ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow string
 
-// List of values that ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow can take.
+// List of values that ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow can take
 const (
 	ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlowChallenge    ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow = "challenge"
 	ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlowFrictionless ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow = "frictionless"
 )
 
-// ChargePaymentMethodDetailsCardThreeDSecureResult indicates the outcome of 3D Secure authentication.
+// Indicates the outcome of 3D Secure authentication.
 type ChargePaymentMethodDetailsCardThreeDSecureResult string
 
-// List of values that ChargePaymentMethodDetailsCardThreeDSecureResult can take.
+// List of values that ChargePaymentMethodDetailsCardThreeDSecureResult can take
 const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultAttemptAcknowledged ChargePaymentMethodDetailsCardThreeDSecureResult = "attempt_acknowledged"
 	ChargePaymentMethodDetailsCardThreeDSecureResultAuthenticated       ChargePaymentMethodDetailsCardThreeDSecureResult = "authenticated"
@@ -58,11 +47,11 @@ const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultProcessingError     ChargePaymentMethodDetailsCardThreeDSecureResult = "processing_error"
 )
 
-// ChargePaymentMethodDetailsCardThreeDSecureResultReason represents dditional information about why
-// 3D Secure succeeded or failed
+// Additional information about why 3D Secure succeeded or failed based
+// on the `result`.
 type ChargePaymentMethodDetailsCardThreeDSecureResultReason string
 
-// List of values that ChargePaymentMethodDetailsCardThreeDSecureResultReason can take.
+// List of values that ChargePaymentMethodDetailsCardThreeDSecureResultReason can take
 const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonAbandoned           ChargePaymentMethodDetailsCardThreeDSecureResultReason = "abandoned"
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonBypassed            ChargePaymentMethodDetailsCardThreeDSecureResultReason = "bypassed"
@@ -71,6 +60,17 @@ const (
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonNetworkNotSupported ChargePaymentMethodDetailsCardThreeDSecureResultReason = "network_not_supported"
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonProtocolError       ChargePaymentMethodDetailsCardThreeDSecureResultReason = "protocol_error"
 	ChargePaymentMethodDetailsCardThreeDSecureResultReasonRejected            ChargePaymentMethodDetailsCardThreeDSecureResultReason = "rejected"
+)
+
+// The type of account being debited or credited
+type ChargePaymentMethodDetailsCardPresentReceiptAccountType string
+
+// List of values that ChargePaymentMethodDetailsCardPresentReceiptAccountType can take
+const (
+	ChargePaymentMethodDetailsCardPresentReceiptAccountTypeChecking ChargePaymentMethodDetailsCardPresentReceiptAccountType = "checking"
+	ChargePaymentMethodDetailsCardPresentReceiptAccountTypeCredit   ChargePaymentMethodDetailsCardPresentReceiptAccountType = "credit"
+	ChargePaymentMethodDetailsCardPresentReceiptAccountTypePrepaid  ChargePaymentMethodDetailsCardPresentReceiptAccountType = "prepaid"
+	ChargePaymentMethodDetailsCardPresentReceiptAccountTypeUnknown  ChargePaymentMethodDetailsCardPresentReceiptAccountType = "unknown"
 )
 
 // The Klarna payment method used for this transaction.
@@ -85,11 +85,12 @@ const (
 	ChargePaymentMethodDetailsKlarnaPaymentMethodCategoryPayInInstallments ChargePaymentMethodDetailsKlarnaPaymentMethodCategory = "pay_in_installments"
 )
 
-// ChargePaymentMethodDetailsType is the type of the PaymentMethod associated with the Charge's
-// payment method details.
+// The type of transaction-specific details of the payment method used in the payment, one of `ach_credit_transfer`, `ach_debit`, `acss_debit`, `alipay`, `au_becs_debit`, `bancontact`, `card`, `card_present`, `eps`, `giropay`, `ideal`, `klarna`, `multibanco`, `p24`, `sepa_debit`, `sofort`, `stripe_account`, or `wechat`.
+// An additional hash is included on `payment_method_details` with a name matching this value.
+// It contains information specific to the payment method.
 type ChargePaymentMethodDetailsType string
 
-// List of values that ChargePaymentMethodDetailsType can take.
+// List of values that ChargePaymentMethodDetailsType can take
 const (
 	ChargePaymentMethodDetailsTypeAchCreditTransfer ChargePaymentMethodDetailsType = "ach_credit_transfer"
 	ChargePaymentMethodDetailsTypeAchDebit          ChargePaymentMethodDetailsType = "ach_debit"
@@ -115,7 +116,26 @@ const (
 	ChargePaymentMethodDetailsTypeWechat            ChargePaymentMethodDetailsType = "wechat"
 )
 
-// ChargeLevel3LineItemsParams is the set of parameters that represent a line item on level III data.
+// Returns a list of charges you've previously created. The charges are returned in sorted order, with the most recent charges appearing first.
+type ChargeListParams struct {
+	ListParams    `form:"*"`
+	Created       *int64            `form:"created"`
+	CreatedRange  *RangeQueryParams `form:"created"`
+	Customer      *string           `form:"customer"`
+	PaymentIntent *string           `form:"payment_intent"`
+	TransferGroup *string           `form:"transfer_group"`
+}
+type DestinationParams struct {
+	Account *string `form:"account"`
+	Amount  *int64  `form:"amount"`
+}
+
+// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
+type ChargeTransferDataParams struct {
+	Amount *int64 `form:"amount"`
+	// This parameter can only be used on Charge creation.
+	Destination *string `form:"destination"`
+}
 type ChargeLevel3LineItemsParams struct {
 	DiscountAmount     *int64  `form:"discount_amount"`
 	ProductCode        *string `form:"product_code"`
@@ -124,8 +144,6 @@ type ChargeLevel3LineItemsParams struct {
 	TaxAmount          *int64  `form:"tax_amount"`
 	UnitCost           *int64  `form:"unit_cost"`
 }
-
-// ChargeLevel3Params is the set of parameters that can be used for the Level III data.
 type ChargeLevel3Params struct {
 	CustomerReference  *string                        `form:"customer_reference"`
 	LineItems          []*ChargeLevel3LineItemsParams `form:"line_items"`
@@ -135,14 +153,7 @@ type ChargeLevel3Params struct {
 	ShippingFromZip    *string                        `form:"shipping_from_zip"`
 }
 
-// ChargeTransferDataParams is the set of parameters allowed for the transfer_data hash.
-type ChargeTransferDataParams struct {
-	Amount *int64 `form:"amount"`
-	// This parameter can only be used on Charge creation.
-	Destination *string `form:"destination"`
-}
-
-// ChargeParams is the set of parameters that can be used when creating or updating a charge.
+// To charge a credit card or other payment source, you create a Charge object. If your API key is in test mode, the supplied payment source (e.g., card) won't actually be charged, although everything else will occur as if in live mode. (Stripe assumes that the charge would have completed successfully).
 type ChargeParams struct {
 	Params                    `form:"*"`
 	Amount                    *int64                    `form:"amount"`
@@ -174,28 +185,14 @@ func (p *ChargeParams) SetSource(sp interface{}) error {
 	return err
 }
 
-// DestinationParams describes the parameters available for the destination hash when creating a charge.
-type DestinationParams struct {
-	Account *string `form:"account"`
-	Amount  *int64  `form:"amount"`
-}
-
-// FraudDetailsParams provides information on the fraud details for a charge.
+// A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a `user_report` key with a value of `fraudulent`. If you believe a charge is safe, include a `user_report` key with a value of `safe`. Stripe will use the information you send to improve our fraud detection algorithms.
 type FraudDetailsParams struct {
 	UserReport *string `form:"user_report"`
 }
 
-// ChargeListParams is the set of parameters that can be used when listing charges.
-type ChargeListParams struct {
-	ListParams    `form:"*"`
-	Created       *int64            `form:"created"`
-	CreatedRange  *RangeQueryParams `form:"created"`
-	Customer      *string           `form:"customer"`
-	PaymentIntent *string           `form:"payment_intent"`
-	TransferGroup *string           `form:"transfer_group"`
-}
-
-// CaptureParams is the set of parameters that can be used when capturing a charge.
+// Capture the payment of an existing, uncaptured, charge. This is the second half of the two-step payment flow, where first you [created a charge](https://stripe.com/docs/api#create_charge) with the capture option set to false.
+//
+// Uncaptured payments expire a set number of days after they are created ([7 by default](https://stripe.com/docs/charges/placing-a-hold)). If they are not captured by that point in time, they will be marked as refunded and will no longer be capturable.
 type CaptureParams struct {
 	Params                    `form:"*"`
 	Amount                    *int64                    `form:"amount"`
@@ -209,8 +206,11 @@ type CaptureParams struct {
 	TransferGroup             *string                   `form:"transfer_group"`
 }
 
-// ChargeLevel3LineItem represents a line item on level III data.
-// This is in private beta and would be empty for most integrations
+// Information on fraud assessments for the charge.
+type FraudDetails struct {
+	StripeReport ChargeFraudStripeReport `json:"stripe_report"`
+	UserReport   ChargeFraudUserReport   `json:"user_report"`
+}
 type ChargeLevel3LineItem struct {
 	DiscountAmount     int64  `json:"discount_amount"`
 	ProductCode        string `json:"product_code"`
@@ -219,9 +219,6 @@ type ChargeLevel3LineItem struct {
 	TaxAmount          int64  `json:"tax_amount"`
 	UnitCost           int64  `json:"unit_cost"`
 }
-
-// ChargeLevel3 represents the Level III data.
-// This is in private beta and would be empty for most integrations
 type ChargeLevel3 struct {
 	CustomerReference  string                  `json:"customer_reference"`
 	LineItems          []*ChargeLevel3LineItem `json:"line_items"`
@@ -231,16 +228,49 @@ type ChargeLevel3 struct {
 	ShippingFromZip    string                  `json:"shipping_from_zip"`
 }
 
-// ChargePaymentMethodDetailsAchCreditTransfer represents details about the ACH Credit Transfer
-// PaymentMethod.
+// The ID of the Radar rule that matched the payment, if applicable.
+type ChargeOutcomeRule struct {
+	Action    string `json:"action"`
+	ID        string `json:"id"`
+	Predicate string `json:"predicate"`
+}
+
+// Details about whether the payment was accepted, and why. See [understanding declines](https://stripe.com/docs/declines) for details.
+type ChargeOutcome struct {
+	NetworkStatus string             `json:"network_status"`
+	Reason        string             `json:"reason"`
+	RiskLevel     string             `json:"risk_level"`
+	RiskScore     int64              `json:"risk_score"`
+	Rule          *ChargeOutcomeRule `json:"rule"`
+	SellerMessage string             `json:"seller_message"`
+	Type          string             `json:"type"`
+}
+
+// UnmarshalJSON handles deserialization of a ChargeOutcomeRule.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or the full struct if it was expanded.
+func (c *ChargeOutcomeRule) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		c.ID = id
+		return nil
+	}
+
+	type chargeOutcomeRule ChargeOutcomeRule
+	var v chargeOutcomeRule
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	*c = ChargeOutcomeRule(v)
+	return nil
+}
+
 type ChargePaymentMethodDetailsAchCreditTransfer struct {
 	AccountNumber string `json:"account_number"`
 	BankName      string `json:"bank_name"`
 	RoutingNumber string `json:"routing_number"`
 	SwiftCode     string `json:"swift_code"`
 }
-
-// ChargePaymentMethodDetailsAchDebit represents details about the ACH Debit PaymentMethod.
 type ChargePaymentMethodDetailsAchDebit struct {
 	AccountHolderType BankAccountAccountHolderType `json:"account_holder_type"`
 	BankName          string                       `json:"bank_name"`
@@ -249,8 +279,6 @@ type ChargePaymentMethodDetailsAchDebit struct {
 	Last4             string                       `json:"last4"`
 	RoutingNumber     string                       `json:"routing_number"`
 }
-
-// ChargePaymentMethodDetailsAcssDebit represents details about the ACSS Debit PaymentMethod.
 type ChargePaymentMethodDetailsAcssDebit struct {
 	BankName          string `json:"bank_name"`
 	Fingerprint       string `json:"fingerprint"`
@@ -259,36 +287,26 @@ type ChargePaymentMethodDetailsAcssDebit struct {
 	Mandate           string `json:"mandate"`
 	TransitNumber     string `json:"transit_number"`
 }
-
-// ChargePaymentMethodDetailsAfterpayClearpay represents details about the AfterpayClearpay PaymentMethod.
 type ChargePaymentMethodDetailsAfterpayClearpay struct {
 	Reference string `json:"reference"`
 }
-
-// ChargePaymentMethodDetailsAlipay represents details about the Alipay PaymentMethod.
 type ChargePaymentMethodDetailsAlipay struct {
 	BuyerID       string `json:"buyer_id"`
 	Fingerprint   string `json:"fingerprint"`
 	TransactionID string `json:"transaction_id"`
 }
-
-// ChargePaymentMethodDetailsAUBECSDebit represents details about the AU BECS DD PaymentMethod.
 type ChargePaymentMethodDetailsAUBECSDebit struct {
 	BSBNumber   string `json:"bsb_number"`
 	Fingerprint string `json:"fingerprint"`
 	Last4       string `json:"last4"`
 	Mandate     string `json:"mandate"`
 }
-
-// ChargePaymentMethodDetailsBACSDebit represents details about the BECS Debit PaymentMethod.
 type ChargePaymentMethodDetailsBACSDebit struct {
 	Fingerprint string `json:"fingerprint"`
 	Last4       string `json:"last4"`
 	Mandate     string `json:"mandate"`
 	SortCode    string `json:"sort_code"`
 }
-
-// ChargePaymentMethodDetailsBancontact represents details about the Bancontact PaymentMethod.
 type ChargePaymentMethodDetailsBancontact struct {
 	BankCode                  string         `json:"bank_code"`
 	BankName                  string         `json:"bank_name"`
@@ -299,58 +317,41 @@ type ChargePaymentMethodDetailsBancontact struct {
 	PreferredLanguage         string         `json:"preferred_language"`
 	VerifiedName              string         `json:"verified_name"`
 }
-
-// ChargePaymentMethodDetailsBoleto represents details about the Boleto PaymentMethod.
 type ChargePaymentMethodDetailsBoleto struct {
 	TaxID string `json:"tax_id"`
 }
 
-// ChargePaymentMethodDetailsCardChecks represents the checks associated with the charge's Card
-// PaymentMethod.
+// Check results by Card networks on Card address and CVC at time of payment.
 type ChargePaymentMethodDetailsCardChecks struct {
 	AddressLine1Check      CardVerification `json:"address_line1_check"`
 	AddressPostalCodeCheck CardVerification `json:"address_postal_code_check"`
 	CVCCheck               CardVerification `json:"cvc_check"`
 }
 
-// ChargePaymentMethodDetailsCardInstallments represents details about the installment plan chosen
-// for this charge.
+// Installment details for this payment (Mexico only).
+//
+// For more information, see the [installments integration guide](https://stripe.com/docs/payments/installments).
 type ChargePaymentMethodDetailsCardInstallments struct {
 	Plan *PaymentIntentPaymentMethodOptionsCardInstallmentsPlan `json:"plan"`
 }
 
-// ChargePaymentMethodDetailsCardThreeDSecure represents details about 3DS associated with the
-// charge's PaymentMethod.
+// Populated if this transaction used 3D Secure authentication.
 type ChargePaymentMethodDetailsCardThreeDSecure struct {
 	AuthenticationFlow ChargePaymentMethodDetailsCardThreeDSecureAuthenticationFlow `json:"authentication_flow"`
 	Result             ChargePaymentMethodDetailsCardThreeDSecureResult             `json:"result"`
 	ResultReason       ChargePaymentMethodDetailsCardThreeDSecureResultReason       `json:"result_reason"`
 	Version            string                                                       `json:"version"`
 }
-
-// ChargePaymentMethodDetailsCardWalletAmexExpressCheckout represents the details of the Amex
-// Express Checkout wallet.
 type ChargePaymentMethodDetailsCardWalletAmexExpressCheckout struct{}
-
-// ChargePaymentMethodDetailsCardWalletApplePay represents the details of the Apple Pay wallet.
 type ChargePaymentMethodDetailsCardWalletApplePay struct{}
-
-// ChargePaymentMethodDetailsCardWalletGooglePay represents the details of the Google Pay wallet.
 type ChargePaymentMethodDetailsCardWalletGooglePay struct{}
-
-// ChargePaymentMethodDetailsCardWalletMasterpass represents the details of the Masterpass wallet.
 type ChargePaymentMethodDetailsCardWalletMasterpass struct {
 	BillingAddress  *Address `json:"billing_address"`
 	Email           string   `json:"email"`
 	Name            string   `json:"name"`
 	ShippingAddress *Address `json:"shipping_address"`
 }
-
-// ChargePaymentMethodDetailsCardWalletSamsungPay represents the details of the Samsung Pay wallet.
 type ChargePaymentMethodDetailsCardWalletSamsungPay struct{}
-
-// ChargePaymentMethodDetailsCardWalletVisaCheckout represents the details of the Visa Checkout
-// wallet.
 type ChargePaymentMethodDetailsCardWalletVisaCheckout struct {
 	BillingAddress  *Address `json:"billing_address"`
 	Email           string   `json:"email"`
@@ -358,8 +359,7 @@ type ChargePaymentMethodDetailsCardWalletVisaCheckout struct {
 	ShippingAddress *Address `json:"shipping_address"`
 }
 
-// ChargePaymentMethodDetailsCardWallet represents the details of the card wallet if this Card
-// PaymentMethod is part of a card wallet.
+// If this Card is part of a card wallet, this contains the details of the card wallet.
 type ChargePaymentMethodDetailsCardWallet struct {
 	AmexExpressCheckout *ChargePaymentMethodDetailsCardWalletAmexExpressCheckout `json:"amex_express_checkout"`
 	ApplePay            *ChargePaymentMethodDetailsCardWalletApplePay            `json:"apple_pay"`
@@ -370,8 +370,6 @@ type ChargePaymentMethodDetailsCardWallet struct {
 	Type                PaymentMethodCardWalletType                              `json:"type"`
 	VisaCheckout        *ChargePaymentMethodDetailsCardWalletVisaCheckout        `json:"visa_checkout"`
 }
-
-// ChargePaymentMethodDetailsCard represents details about the Card PaymentMethod.
 type ChargePaymentMethodDetailsCard struct {
 	Brand        PaymentMethodCardBrand                      `json:"brand"`
 	Checks       *ChargePaymentMethodDetailsCardChecks       `json:"checks"`
@@ -394,8 +392,7 @@ type ChargePaymentMethodDetailsCard struct {
 	Issuer      string `json:"issuer"`
 }
 
-// ChargePaymentMethodDetailsCardPresentReceipt represents details about the receipt on a
-// Card Present PaymentMethod.
+// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
 type ChargePaymentMethodDetailsCardPresentReceipt struct {
 	AccountType                  ChargePaymentMethodDetailsCardPresentReceiptAccountType `json:"account_type"`
 	ApplicationCryptogram        string                                                  `json:"application_cryptogram"`
@@ -407,8 +404,6 @@ type ChargePaymentMethodDetailsCardPresentReceipt struct {
 	TerminalVerificationResults  string                                                  `json:"terminal_verification_results"`
 	TransactionStatusInformation string                                                  `json:"transaction_status_information"`
 }
-
-// ChargePaymentMethodDetailsCardPresent represents details about the Card Present PaymentMethod.
 type ChargePaymentMethodDetailsCardPresent struct {
 	AmountAuthorized     int64                                         `json:"amount_authorized"`
 	Brand                PaymentMethodCardBrand                        `json:"brand"`
@@ -432,34 +427,24 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	IIN         string `json:"iin"`
 	Issuer      string `json:"issuer"`
 }
-
-// ChargePaymentMethodDetailsEps represents details about the EPS PaymentMethod.
 type ChargePaymentMethodDetailsEps struct {
 	Bank         string `json:"bank"`
 	VerifiedName string `json:"verified_name"`
 }
-
-// ChargePaymentMethodDetailsFPX represents details about the FPX PaymentMethod.
 type ChargePaymentMethodDetailsFPX struct {
 	AccountHolderType PaymentMethodFPXAccountHolderType `json:"account_holder_type"`
 	Bank              string                            `json:"bank"`
 	TransactionID     string                            `json:"transaction_id"`
 }
-
-// ChargePaymentMethodDetailsGiropay represents details about the Giropay PaymentMethod.
 type ChargePaymentMethodDetailsGiropay struct {
 	BankCode     string `json:"bank_code"`
 	BankName     string `json:"bank_name"`
 	Bic          string `json:"bic"`
 	VerifiedName string `json:"verified_name"`
 }
-
-// ChargePaymentMethodDetailsGrabpay represents details about the Grabpay PaymentMethod.
 type ChargePaymentMethodDetailsGrabpay struct {
 	TransactionID string `json:"transaction_id"`
 }
-
-// ChargePaymentMethodDetailsIdeal represents details about the Ideal PaymentMethod.
 type ChargePaymentMethodDetailsIdeal struct {
 	Bank                      string         `json:"bank"`
 	Bic                       string         `json:"bic"`
@@ -469,7 +454,18 @@ type ChargePaymentMethodDetailsIdeal struct {
 	VerifiedName              string         `json:"verified_name"`
 }
 
-// ChargePaymentMethodDetailsInteracPresent represents details about the InteracPresent PaymentMethod.
+// A collection of fields required to be displayed on receipts. Only required for EMV transactions.
+type ChargePaymentMethodDetailsInteracPresentReceipt struct {
+	AccountType                  string `json:"account_type"`
+	ApplicationCryptogram        string `json:"application_cryptogram"`
+	ApplicationPreferredName     string `json:"application_preferred_name"`
+	AuthorizationCode            string `json:"authorization_code"`
+	AuthorizationResponseCode    string `json:"authorization_response_code"`
+	CardholderVerificationMethod string `json:"cardholder_verification_method"`
+	DedicatedFileName            string `json:"dedicated_file_name"`
+	TerminalVerificationResults  string `json:"terminal_verification_results"`
+	TransactionStatusInformation string `json:"transaction_status_information"`
+}
 type ChargePaymentMethodDetailsInteracPresent struct {
 	Brand            string                                           `json:"brand"`
 	CardholderName   string                                           `json:"cardholder_name"`
@@ -492,39 +488,17 @@ type ChargePaymentMethodDetailsInteracPresent struct {
 	IIN         string `json:"iin"`
 	Issuer      string `json:"issuer"`
 }
-
-// ChargePaymentMethodDetailsInteracPresentReceipt represents details about the InteracPresent Receipt.
-type ChargePaymentMethodDetailsInteracPresentReceipt struct {
-	AccountType                  string `json:"account_type"`
-	ApplicationCryptogram        string `json:"application_cryptogram"`
-	ApplicationPreferredName     string `json:"application_preferred_name"`
-	AuthorizationCode            string `json:"authorization_code"`
-	AuthorizationResponseCode    string `json:"authorization_response_code"`
-	CardholderVerificationMethod string `json:"cardholder_verification_method"`
-	DedicatedFileName            string `json:"dedicated_file_name"`
-	TerminalVerificationResults  string `json:"terminal_verification_results"`
-	TransactionStatusInformation string `json:"transaction_status_information"`
-}
-
-// ChargePaymentMethodDetailsKlarna represents details for the Klarna
-// PaymentMethod.
 type ChargePaymentMethodDetailsKlarna struct {
 	PaymentMethodCategory ChargePaymentMethodDetailsKlarnaPaymentMethodCategory `json:"payment_method_category"`
 	PreferredLocale       string                                                `json:"preferred_locale"`
 }
-
-// ChargePaymentMethodDetailsMultibanco represents details about the Multibanco PaymentMethod.
 type ChargePaymentMethodDetailsMultibanco struct {
 	Entity    string `json:"entity"`
 	Reference string `json:"reference"`
 }
-
-// ChargePaymentMethodDetailsOXXO represents details about the OXXO PaymentMethod.
 type ChargePaymentMethodDetailsOXXO struct {
 	Number string `json:"number"`
 }
-
-// ChargePaymentMethodDetailsP24 represents details about the P24 PaymentMethod.
 type ChargePaymentMethodDetailsP24 struct {
 	Bank         string `json:"bank"`
 	Reference    string `json:"reference"`
@@ -535,8 +509,6 @@ type ChargePaymentMethodDetailsSepaCreditTransfer struct {
 	Bic      string `json:"bic"`
 	Iban     string `json:"iban"`
 }
-
-// ChargePaymentMethodDetailsSepaDebit represents details about the Sepa Debit PaymentMethod.
 type ChargePaymentMethodDetailsSepaDebit struct {
 	BankCode    string   `json:"bank_code"`
 	BranchCode  string   `json:"branch_code"`
@@ -545,8 +517,6 @@ type ChargePaymentMethodDetailsSepaDebit struct {
 	Last4       string   `json:"last4"`
 	Mandate     *Mandate `json:"mandate"`
 }
-
-// ChargePaymentMethodDetailsSofort represents details about the Sofort PaymentMethod.
 type ChargePaymentMethodDetailsSofort struct {
 	BankCode                  string         `json:"bank_code"`
 	BankName                  string         `json:"bank_name"`
@@ -558,21 +528,14 @@ type ChargePaymentMethodDetailsSofort struct {
 	PreferredLanguage         string         `json:"preferred_language"`
 	VerifiedName              string         `json:"verified_name"`
 }
-
-// ChargePaymentMethodDetailsStripeAccount represents details about the StripeAccount PaymentMethod.
 type ChargePaymentMethodDetailsStripeAccount struct{}
-
-// ChargePaymentMethodDetailsWechat represents details about the Wechat PaymentMethod.
 type ChargePaymentMethodDetailsWechat struct{}
-
-// ChargePaymentMethodDetailsWechatPay represents details about the WechatPay PaymentMethod.
 type ChargePaymentMethodDetailsWechatPay struct {
 	Fingerprint   string `json:"fingerprint"`
 	TransactionID string `json:"transaction_id"`
 }
 
-// ChargePaymentMethodDetails represents the details about the PaymentMethod associated with the
-// charge.
+// Details about the payment method at the time of the transaction.
 type ChargePaymentMethodDetails struct {
 	AchCreditTransfer  *ChargePaymentMethodDetailsAchCreditTransfer  `json:"ach_credit_transfer"`
 	AchDebit           *ChargePaymentMethodDetailsAchDebit           `json:"ach_debit"`
@@ -604,14 +567,17 @@ type ChargePaymentMethodDetails struct {
 	WechatPay          *ChargePaymentMethodDetailsWechatPay          `json:"wechat_pay"`
 }
 
-// ChargeTransferData represents the information for the transfer_data associated with a charge.
+// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
 type ChargeTransferData struct {
 	Amount      int64    `json:"amount"`
 	Destination *Account `json:"destination"`
 }
 
-// Charge is the resource representing a Stripe charge.
-// For more details see https://stripe.com/docs/api#charges.
+// To charge a credit or a debit card, you create a `Charge` object. You can
+// retrieve and refund individual charges as well as list all charges. Charges
+// are identified by a unique, random ID.
+//
+// Related guide: [Accept a payment with the Charges API](https://stripe.com/docs/payments/accept-a-payment-charges).
 type Charge struct {
 	APIResource
 	Amount                        int64                       `json:"amount"`
@@ -665,51 +631,7 @@ type Charge struct {
 	TransferGroup                 string                      `json:"transfer_group"`
 }
 
-// FraudDetails is the structure detailing fraud status.
-type FraudDetails struct {
-	StripeReport ChargeFraudStripeReport `json:"stripe_report"`
-	UserReport   ChargeFraudUserReport   `json:"user_report"`
-}
-
-// ChargeOutcomeRule tells you the Radar rule that blocked the charge, if any.
-type ChargeOutcomeRule struct {
-	Action    string `json:"action"`
-	ID        string `json:"id"`
-	Predicate string `json:"predicate"`
-}
-
-// ChargeOutcome is the charge's outcome that details whether a payment
-// was accepted and why.
-type ChargeOutcome struct {
-	NetworkStatus string             `json:"network_status"`
-	Reason        string             `json:"reason"`
-	RiskLevel     string             `json:"risk_level"`
-	RiskScore     int64              `json:"risk_score"`
-	Rule          *ChargeOutcomeRule `json:"rule"`
-	SellerMessage string             `json:"seller_message"`
-	Type          string             `json:"type"`
-}
-
-// UnmarshalJSON handles deserialization of a ChargeOutcomeRule.
-// This custom unmarshaling is needed because the resulting
-// property may be an id or the full struct if it was expanded.
-func (c *ChargeOutcomeRule) UnmarshalJSON(data []byte) error {
-	if id, ok := ParseID(data); ok {
-		c.ID = id
-		return nil
-	}
-
-	type chargeOutcomeRule ChargeOutcomeRule
-	var v chargeOutcomeRule
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-
-	*c = ChargeOutcomeRule(v)
-	return nil
-}
-
-// ChargeList is a list of charges as retrieved from a list endpoint.
+// ChargeList is a list of Charges as retrieved from a list endpoint.
 type ChargeList struct {
 	APIResource
 	ListMeta

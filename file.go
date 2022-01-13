@@ -16,10 +16,10 @@ import (
 	"path/filepath"
 )
 
-// FilePurpose is the purpose of a particular file.
+// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
 type FilePurpose string
 
-// List of values that FilePurpose can take.
+// List of values that FilePurpose can take
 const (
 	FilePurposeAccountRequirement               FilePurpose = "account_requirement"
 	FilePurposeAdditionalVerification           FilePurpose = "additional_verification"
@@ -38,6 +38,14 @@ const (
 	FilePurposeTaxDocumentUserUpload            FilePurpose = "tax_document_user_upload"
 )
 
+// Returns a list of the files that your account has access to. The files are returned sorted by creation date, with the most recently created files appearing first.
+type FileListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	Purpose      *string           `form:"purpose"`
+}
+
 // FileFileLinkDataParams is the set of parameters allowed for the
 // file_link_data hash.
 type FileFileLinkDataParams struct {
@@ -46,8 +54,9 @@ type FileFileLinkDataParams struct {
 	ExpiresAt *int64 `form:"expires_at"`
 }
 
-// FileParams is the set of parameters that can be used when creating a file.
-// For more details see https://stripe.com/docs/api#create_file.
+// To upload a file to Stripe, you'll need to send a request of type multipart/form-data. The request should contain the file you would like to upload, as well as the parameters for creating a file.
+//
+// All of Stripe's officially supported Client libraries should have support for sending multipart/form-data.
 type FileParams struct {
 	Params `form:"*"`
 
@@ -60,17 +69,13 @@ type FileParams struct {
 	FileLinkData *FileFileLinkDataParams
 }
 
-// FileListParams is the set of parameters that can be used when listing
-// files. For more details see https://stripe.com/docs/api#list_files.
-type FileListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	Purpose      *string           `form:"purpose"`
-}
-
-// File is the resource representing a Stripe file.
-// For more details see https://stripe.com/docs/api#file_object.
+// This is an object representing a file hosted on Stripe's servers. The
+// file may have been uploaded by yourself using the [create file](https://stripe.com/docs/api#create_file)
+// request (for example, when uploading dispute evidence) or it may have
+// been created by Stripe (for example, the results of a [Sigma scheduled
+// query](https://stripe.com/docs/api#scheduled_queries)).
+//
+// Related guide: [File Upload Guide](https://stripe.com/docs/file-upload).
 type File struct {
 	APIResource
 	Created   int64         `json:"created"`
@@ -86,7 +91,7 @@ type File struct {
 	URL       string        `json:"url"`
 }
 
-// FileList is a list of files as retrieved from a list endpoint.
+// FileList is a list of Files as retrieved from a list endpoint.
 type FileList struct {
 	APIResource
 	ListMeta

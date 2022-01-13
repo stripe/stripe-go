@@ -11,20 +11,20 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// SourceCodeVerificationFlowStatus represents the possible statuses of a code verification flow.
+// The status of the code verification, either `pending` (awaiting verification, `attempts_remaining` should be greater than 0), `succeeded` (successful verification) or `failed` (failed verification, cannot be verified anymore as `attempts_remaining` should be 0).
 type SourceCodeVerificationFlowStatus string
 
-// List of values that SourceCodeVerificationFlowStatus can take.
+// List of values that SourceCodeVerificationFlowStatus can take
 const (
 	SourceCodeVerificationFlowStatusFailed    SourceCodeVerificationFlowStatus = "failed"
 	SourceCodeVerificationFlowStatusPending   SourceCodeVerificationFlowStatus = "pending"
 	SourceCodeVerificationFlowStatusSucceeded SourceCodeVerificationFlowStatus = "succeeded"
 )
 
-// SourceFlow represents the possible flows of a source object.
+// The authentication `flow` of the source. `flow` is one of `redirect`, `receiver`, `code_verification`, `none`.
 type SourceFlow string
 
-// List of values that SourceFlow can take.
+// List of values that SourceFlow can take
 const (
 	SourceFlowCodeVerification SourceFlow = "code_verification"
 	SourceFlowNone             SourceFlow = "none"
@@ -51,32 +51,39 @@ const (
 	SourceMandateNotificationMethodNone   SourceMandateNotificationMethod = "none"
 )
 
-// SourceSourceOrderItemType describes the type of source order items on source
-// orders for sources.
-type SourceSourceOrderItemType string
+// Type of refund attribute method, one of `email`, `manual`, or `none`.
+type SourceRefundAttributesMethod string
 
-// The list of possible values for source order item types.
+// List of values that SourceRefundAttributesMethod can take
 const (
-	SourceSourceOrderItemTypeDiscount SourceSourceOrderItemType = "discount"
-	SourceSourceOrderItemTypeSKU      SourceSourceOrderItemType = "sku"
-	SourceSourceOrderItemTypeShipping SourceSourceOrderItemType = "shipping"
-	SourceSourceOrderItemTypeTax      SourceSourceOrderItemType = "tax"
+	SourceRefundAttributesMethodEmail  SourceRefundAttributesMethod = "email"
+	SourceRefundAttributesMethodManual SourceRefundAttributesMethod = "manual"
 )
 
-// SourceRedirectFlowFailureReason represents the possible failure reasons of a redirect flow.
+// Type of refund attribute status, one of `missing`, `requested`, or `available`.
+type SourceRefundAttributesStatus string
+
+// List of values that SourceRefundAttributesStatus can take
+const (
+	SourceRefundAttributesStatusAvailable SourceRefundAttributesStatus = "available"
+	SourceRefundAttributesStatusMissing   SourceRefundAttributesStatus = "missing"
+	SourceRefundAttributesStatusRequested SourceRefundAttributesStatus = "requested"
+)
+
+// The failure reason for the redirect, either `user_abort` (the customer aborted or dropped out of the redirect flow), `declined` (the authentication failed or the transaction was declined), or `processing_error` (the redirect failed due to a technical error). Present only if the redirect status is `failed`.
 type SourceRedirectFlowFailureReason string
 
-// List of values that SourceRedirectFlowFailureReason can take.
+// List of values that SourceRedirectFlowFailureReason can take
 const (
 	SourceRedirectFlowFailureReasonDeclined        SourceRedirectFlowFailureReason = "declined"
 	SourceRedirectFlowFailureReasonProcessingError SourceRedirectFlowFailureReason = "processing_error"
 	SourceRedirectFlowFailureReasonUserAbort       SourceRedirectFlowFailureReason = "user_abort"
 )
 
-// SourceRedirectFlowStatus represents the possible statuses of a redirect flow.
+// The status of the redirect, either `pending` (ready to be used by your customer to authenticate the transaction), `succeeded` (succesful authentication, cannot be reused) or `not_required` (redirect should not be used) or `failed` (failed authentication, cannot be reused).
 type SourceRedirectFlowStatus string
 
-// List of values that SourceRedirectFlowStatus can take.
+// List of values that SourceRedirectFlowStatus can take
 const (
 	SourceRedirectFlowStatusFailed      SourceRedirectFlowStatus = "failed"
 	SourceRedirectFlowStatusNotRequired SourceRedirectFlowStatus = "not_required"
@@ -84,29 +91,21 @@ const (
 	SourceRedirectFlowStatusSucceeded   SourceRedirectFlowStatus = "succeeded"
 )
 
-// SourceRefundAttributesMethod are the possible method to retrieve a receiver's refund attributes.
-type SourceRefundAttributesMethod string
+// The type of this order item. Must be `sku`, `tax`, or `shipping`.
+type SourceSourceOrderItemType string
 
-// List of values that SourceRefundAttributesMethod can take.
+// List of values that SourceSourceOrderItemType can take
 const (
-	SourceRefundAttributesMethodEmail  SourceRefundAttributesMethod = "email"
-	SourceRefundAttributesMethodManual SourceRefundAttributesMethod = "manual"
+	SourceSourceOrderItemTypeDiscount SourceSourceOrderItemType = "discount"
+	SourceSourceOrderItemTypeSKU      SourceSourceOrderItemType = "sku"
+	SourceSourceOrderItemTypeShipping SourceSourceOrderItemType = "shipping"
+	SourceSourceOrderItemTypeTax      SourceSourceOrderItemType = "tax"
 )
 
-// SourceRefundAttributesStatus are the possible status of a receiver's refund attributes.
-type SourceRefundAttributesStatus string
-
-// List of values that SourceRefundAttributesStatus can take.
-const (
-	SourceRefundAttributesStatusAvailable SourceRefundAttributesStatus = "available"
-	SourceRefundAttributesStatusMissing   SourceRefundAttributesStatus = "missing"
-	SourceRefundAttributesStatusRequested SourceRefundAttributesStatus = "requested"
-)
-
-// SourceStatus represents the possible statuses of a source object.
+// The status of the source, one of `canceled`, `chargeable`, `consumed`, `failed`, or `pending`. Only `chargeable` sources can be used to create a charge.
 type SourceStatus string
 
-// List of values that SourceStatus can take.
+// List of values that SourceStatus can take
 const (
 	SourceStatusCanceled   SourceStatus = "canceled"
 	SourceStatusChargeable SourceStatus = "chargeable"
@@ -115,49 +114,22 @@ const (
 	SourceStatusPending    SourceStatus = "pending"
 )
 
-// SourceUsage represents the possible usages of a source object.
+// Either `reusable` or `single_use`. Whether this source should be reusable or not. Some source types may or may not be reusable by construction, while others may leave the option at creation. If an incompatible value is passed, an error will be returned.
 type SourceUsage string
 
-// List of values that SourceUsage can take.
+// List of values that SourceUsage can take
 const (
 	SourceUsageReusable  SourceUsage = "reusable"
 	SourceUsageSingleUse SourceUsage = "single_use"
 )
 
-// SourceOwnerParams is the set of parameters allowed for the owner hash on
-// source creation or update.
-type SourceOwnerParams struct {
-	Address *AddressParams `form:"address"`
-	Email   *string        `form:"email"`
-	Name    *string        `form:"name"`
-	Phone   *string        `form:"phone"`
+// Delete a specified source for a given customer.
+type SourceObjectDetachParams struct {
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
 }
 
-// RedirectParams is the set of parameters allowed for the redirect hash on
-// source creation or update.
-type RedirectParams struct {
-	ReturnURL *string `form:"return_url"`
-}
-
-// SourceOrderItemsParams is the set of parameters allowed for the items on a
-// source order for a source.
-type SourceOrderItemsParams struct {
-	Amount      *int64  `form:"amount"`
-	Currency    *string `form:"currency"`
-	Description *string `form:"description"`
-	Parent      *string `form:"parent"`
-	Quantity    *int64  `form:"quantity"`
-	Type        *string `form:"type"`
-}
-
-// SourceOrderParams is the set of parameters allowed for the source order of a
-// source.
-type SourceOrderParams struct {
-	Items    []*SourceOrderItemsParams `form:"items"`
-	Shipping *ShippingDetailsParams    `form:"shipping"`
-}
-
-// SourceObjectParams is the set of parameters allowed on source creation or update.
+// Retrieves an existing source object. Supply the unique source ID from a source creation request and Stripe will return the corresponding up-to-date source object information.
 type SourceObjectParams struct {
 	Params              `form:"*"`
 	Amount              *int64                `form:"amount"`
@@ -178,8 +150,19 @@ type SourceObjectParams struct {
 	Usage               *string               `form:"usage"`
 }
 
-// SourceMandateAcceptanceParams describes the set of parameters allowed for the `acceptance`
-// hash on source creation or update.
+// The parameters required to store a mandate accepted offline. Should only be set if `mandate[type]` is `offline`
+type SourceMandateAcceptanceOfflineParams struct {
+	ContactEmail *string `form:"contact_email"`
+}
+
+// The parameters required to store a mandate accepted online. Should only be set if `mandate[type]` is `online`
+type SourceMandateAcceptanceOnlineParams struct {
+	Date      *int64  `form:"date"`
+	IP        *string `form:"ip"`
+	UserAgent *string `form:"user_agent"`
+}
+
+// The parameters required to notify Stripe of a mandate acceptance or refusal by the customer.
 type SourceMandateAcceptanceParams struct {
 	Date      *int64                                `form:"date"`
 	IP        *string                               `form:"ip"`
@@ -190,20 +173,7 @@ type SourceMandateAcceptanceParams struct {
 	UserAgent *string                               `form:"user_agent"`
 }
 
-// SourceMandateAcceptanceOnlineParams describes the set of parameters for online accepted mandate
-type SourceMandateAcceptanceOnlineParams struct {
-	Date      *int64  `form:"date"`
-	IP        *string `form:"ip"`
-	UserAgent *string `form:"user_agent"`
-}
-
-// SourceMandateAcceptanceOfflineParams describes the set of parameters for offline accepted mandate
-type SourceMandateAcceptanceOfflineParams struct {
-	ContactEmail *string `form:"contact_email"`
-}
-
-// SourceMandateParams describes the set of parameters allowed for the `mandate` hash on
-// source creation or update.
+// Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.
 type SourceMandateParams struct {
 	Acceptance         *SourceMandateAcceptanceParams `form:"acceptance"`
 	Amount             *int64                         `form:"amount"`
@@ -212,50 +182,39 @@ type SourceMandateParams struct {
 	NotificationMethod *string                        `form:"notification_method"`
 }
 
-// SourceReceiverParams is the set of parameters allowed for the `receiver` hash on
-// source creation or update.
+// Information about the owner of the payment instrument that may be used or required by particular source types.
+type SourceOwnerParams struct {
+	Address *AddressParams `form:"address"`
+	Email   *string        `form:"email"`
+	Name    *string        `form:"name"`
+	Phone   *string        `form:"phone"`
+}
+
+// List of items constituting the order.
+type SourceOrderItemsParams struct {
+	Amount      *int64  `form:"amount"`
+	Currency    *string `form:"currency"`
+	Description *string `form:"description"`
+	Parent      *string `form:"parent"`
+	Quantity    *int64  `form:"quantity"`
+	Type        *string `form:"type"`
+}
+
+// Information about the items and shipping associated with the source. Required for transactional credit (for example Klarna) sources before you can charge it.
+type SourceOrderParams struct {
+	Items    []*SourceOrderItemsParams `form:"items"`
+	Shipping *ShippingDetailsParams    `form:"shipping"`
+}
+
+// Optional parameters for the receiver flow. Can be set only if the source is a receiver (`flow` is `receiver`).
 type SourceReceiverParams struct {
 	RefundAttributesMethod *string `form:"refund_attributes_method"`
 }
 
-// SourceObjectDetachParams is the set of parameters that can be used when detaching
-// a source from a customer.
-type SourceObjectDetachParams struct {
-	Params   `form:"*"`
-	Customer *string `form:"-"` // Included in URL
+// Parameters required for the redirect flow. Required if the source is authenticated by a redirect (`flow` is `redirect`).
+type RedirectParams struct {
+	ReturnURL *string `form:"return_url"`
 }
-
-// SourceOwner describes the owner hash on a source.
-type SourceOwner struct {
-	Address         *Address `json:"address,omitempty"`
-	Email           string   `json:"email"`
-	Name            string   `json:"name"`
-	Phone           string   `json:"phone"`
-	VerifiedAddress *Address `json:"verified_address,omitempty"`
-	VerifiedEmail   string   `json:"verified_email"`
-	VerifiedName    string   `json:"verified_name"`
-	VerifiedPhone   string   `json:"verified_phone"`
-}
-
-// RedirectFlow informs of the state of a redirect authentication flow.
-type RedirectFlow struct {
-	FailureReason SourceRedirectFlowFailureReason `json:"failure_reason"`
-	ReturnURL     string                          `json:"return_url"`
-	Status        SourceRedirectFlowStatus        `json:"status"`
-	URL           string                          `json:"url"`
-}
-
-// ReceiverFlow informs of the state of a receiver authentication flow.
-type ReceiverFlow struct {
-	Address                string                       `json:"address"`
-	AmountCharged          int64                        `json:"amount_charged"`
-	AmountReceived         int64                        `json:"amount_received"`
-	AmountReturned         int64                        `json:"amount_returned"`
-	RefundAttributesMethod SourceRefundAttributesMethod `json:"refund_attributes_method"`
-	RefundAttributesStatus SourceRefundAttributesStatus `json:"refund_attributes_status"`
-}
-
-// CodeVerificationFlow informs of the state of a verification authentication flow.
 type CodeVerificationFlow struct {
 	AttemptsRemaining int64                            `json:"attempts_remaining"`
 	Status            SourceCodeVerificationFlowStatus `json:"status"`
@@ -277,7 +236,33 @@ type SourceMandate struct {
 	URL                string                          `json:"url"`
 }
 
-// SourceSourceOrderItems describes the items on source orders for sources.
+// Information about the owner of the payment instrument that may be used or required by particular source types.
+type SourceOwner struct {
+	Address         *Address `json:"address,omitempty"`
+	Email           string   `json:"email"`
+	Name            string   `json:"name"`
+	Phone           string   `json:"phone"`
+	VerifiedAddress *Address `json:"verified_address,omitempty"`
+	VerifiedEmail   string   `json:"verified_email"`
+	VerifiedName    string   `json:"verified_name"`
+	VerifiedPhone   string   `json:"verified_phone"`
+}
+type ReceiverFlow struct {
+	Address                string                       `json:"address"`
+	AmountCharged          int64                        `json:"amount_charged"`
+	AmountReceived         int64                        `json:"amount_received"`
+	AmountReturned         int64                        `json:"amount_returned"`
+	RefundAttributesMethod SourceRefundAttributesMethod `json:"refund_attributes_method"`
+	RefundAttributesStatus SourceRefundAttributesStatus `json:"refund_attributes_status"`
+}
+type RedirectFlow struct {
+	FailureReason SourceRedirectFlowFailureReason `json:"failure_reason"`
+	ReturnURL     string                          `json:"return_url"`
+	Status        SourceRedirectFlowStatus        `json:"status"`
+	URL           string                          `json:"url"`
+}
+
+// List of items constituting the order.
 type SourceSourceOrderItems struct {
 	Amount      int64                     `json:"amount"`
 	Currency    Currency                  `json:"currency"`
@@ -286,8 +271,6 @@ type SourceSourceOrderItems struct {
 	Quantity    int64                     `json:"quantity"`
 	Type        SourceSourceOrderItemType `json:"type"`
 }
-
-// SourceSourceOrder describes a source order for a source.
 type SourceSourceOrder struct {
 	Amount   int64                     `json:"amount"`
 	Currency Currency                  `json:"currency"`
@@ -296,8 +279,12 @@ type SourceSourceOrder struct {
 	Shipping *ShippingDetails          `json:"shipping"`
 }
 
-// Source is the resource representing a Source.
-// For more details see https://stripe.com/docs/api#sources.
+// `Source` objects allow you to accept a variety of payment methods. They
+// represent a customer's payment instrument, and can be used with the Stripe API
+// just like a `Card` object: once chargeable, they can be charged, or can be
+// attached to customers.
+//
+// Related guides: [Sources API](https://stripe.com/docs/sources) and [Sources & Customers](https://stripe.com/docs/sources/customers).
 type Source struct {
 	APIResource
 	Amount              int64                 `json:"amount"`

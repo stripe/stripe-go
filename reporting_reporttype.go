@@ -6,17 +6,24 @@
 
 package stripe
 
-// ReportTypeListParams is the set of parameters that can be used when listing report types.
-type ReportTypeListParams struct {
-	ListParams `form:"*"`
-}
-
-// ReportTypeParams is the set of parameters that can be used when retrieving a report type.
+// Retrieves the details of a Report Type. (Certain report types require a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).)
 type ReportTypeParams struct {
 	Params `form:"*"`
 }
 
-// ReportType is the resource representing a report type.
+// Returns a full list of Report Types.
+type ReportTypeListParams struct {
+	ListParams `form:"*"`
+}
+
+// The Report Type resource corresponds to a particular type of report, such as
+// the "Activity summary" or "Itemized payouts" reports. These objects are
+// identified by an ID belonging to a set of enumerated values. See
+// [API Access to Reports documentation](https://stripe.com/docs/reporting/statements/api)
+// for those Report Type IDs, along with required and optional parameters.
+//
+// Note that certain report types can only be run based on your live-mode data (not test-mode
+// data), and will error when queried without a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).
 type ReportType struct {
 	APIResource
 	Created            int64    `json:"created"`
@@ -31,7 +38,7 @@ type ReportType struct {
 	Version            int64    `json:"version"`
 }
 
-// ReportTypeList is a list of report types as retrieved from a list endpoint.
+// ReportTypeList is a list of ReportTypes as retrieved from a list endpoint.
 type ReportTypeList struct {
 	APIResource
 	ListMeta

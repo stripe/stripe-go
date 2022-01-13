@@ -6,14 +6,7 @@
 
 package stripe
 
-// RadarValueListItemParams is the set of parameters that can be used when creating a value list item.
-type RadarValueListItemParams struct {
-	Params         `form:"*"`
-	RadarValueList *string `form:"value_list"`
-	Value          *string `form:"value"`
-}
-
-// RadarValueListItemListParams is the set of parameters that can be used when listing value list items.
+// Returns a list of ValueListItem objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type RadarValueListItemListParams struct {
 	ListParams     `form:"*"`
 	Created        *int64            `form:"created"`
@@ -22,7 +15,16 @@ type RadarValueListItemListParams struct {
 	Value          *string           `form:"value"`
 }
 
-// RadarValueListItem is the resource representing a value list item.
+// Creates a new ValueListItem object, which is added to the specified parent value list.
+type RadarValueListItemParams struct {
+	Params         `form:"*"`
+	RadarValueList *string `form:"value_list"`
+	Value          *string `form:"value"`
+}
+
+// Value list items allow you to add specific values to a given Radar value list, which can then be used in rules.
+//
+// Related guide: [Managing List Items](https://stripe.com/docs/radar/lists#managing-list-items).
 type RadarValueListItem struct {
 	APIResource
 	Created        int64  `json:"created"`
@@ -36,7 +38,7 @@ type RadarValueListItem struct {
 	Value          string `json:"value"`
 }
 
-// RadarValueListItemList is a list of value list items as retrieved from a list endpoint.
+// RadarValueListItemList is a list of ValueListItems as retrieved from a list endpoint.
 type RadarValueListItemList struct {
 	APIResource
 	ListMeta

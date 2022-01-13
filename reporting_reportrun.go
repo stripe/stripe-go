@@ -6,17 +6,26 @@
 
 package stripe
 
-// ReportRunStatus is the possible values for status on a report run.
+// Status of this report run. This will be `pending` when the run is initially created.
+//  When the run finishes, this will be set to `succeeded` and the `result` field will be populated.
+//  Rarely, we may encounter an error, at which point this will be set to `failed` and the `error` field will be populated.
 type ReportRunStatus string
 
-// List of values that ReportRunStatus can take.
+// List of values that ReportRunStatus can take
 const (
 	ReportRunStatusFailed    ReportRunStatus = "failed"
 	ReportRunStatusPending   ReportRunStatus = "pending"
 	ReportRunStatusSucceeded ReportRunStatus = "succeeded"
 )
 
-// ReportRunParametersParams is the set of parameters that can be used when creating a report run.
+// Retrieves the details of an existing Report Run.
+type ReportRunParams struct {
+	Params     `form:"*"`
+	Parameters *ReportRunParametersParams `form:"parameters"`
+	ReportType *string                    `form:"report_type"`
+}
+
+// Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https://stripe.com/docs/reporting/statements/api) documentation.
 type ReportRunParametersParams struct {
 	Columns           []*string `form:"columns"`
 	ConnectedAccount  *string   `form:"connected_account"`
@@ -28,21 +37,12 @@ type ReportRunParametersParams struct {
 	Timezone          *string   `form:"timezone"`
 }
 
-// ReportRunParams is the set of parameters that can be used when creating a report run.
-type ReportRunParams struct {
-	Params     `form:"*"`
-	Parameters *ReportRunParametersParams `form:"parameters"`
-	ReportType *string                    `form:"report_type"`
-}
-
-// ReportRunListParams is the set of parameters that can be used when listing report runs.
+// Returns a list of Report Runs, with the most recent appearing first.
 type ReportRunListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 }
-
-// ReportRunParameters describes the parameters hash on a report run.
 type ReportRunParameters struct {
 	Columns           []string `json:"columns"`
 	ConnectedAccount  string   `json:"connected_account"`
@@ -54,7 +54,14 @@ type ReportRunParameters struct {
 	Timezone          string   `json:"timezone"`
 }
 
-// ReportRun is the resource representing a report run.
+// The Report Run object represents an instance of a report type generated with
+// specific run parameters. Once the object is created, Stripe begins processing the report.
+// When the report has finished running, it will give you a reference to a file
+// where you can retrieve your results. For an overview, see
+// [API Access to Reports](https://stripe.com/docs/reporting/statements/api).
+//
+// Note that certain report types can only be run based on your live-mode data (not test-mode
+// data), and will error when queried without a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).
 type ReportRun struct {
 	APIResource
 	Created     int64                `json:"created"`
@@ -69,7 +76,7 @@ type ReportRun struct {
 	SucceededAt int64                `json:"succeeded_at"`
 }
 
-// ReportRunList is a list of report runs as retrieved from a list endpoint.
+// ReportRunList is a list of ReportRuns as retrieved from a list endpoint.
 type ReportRunList struct {
 	APIResource
 	ListMeta

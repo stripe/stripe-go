@@ -8,10 +8,10 @@ package stripe
 
 import "encoding/json"
 
-// TopupStatus is a status of a Topup.
+// The status of the top-up is either `canceled`, `failed`, `pending`, `reversed`, or `succeeded`.
 type TopupStatus string
 
-// List of values that TopupStatus can take.
+// List of values that TopupStatus can take
 const (
 	TopupStatusCanceled  TopupStatus = "canceled"
 	TopupStatusFailed    TopupStatus = "failed"
@@ -20,8 +20,7 @@ const (
 	TopupStatusSucceeded TopupStatus = "succeeded"
 )
 
-// TopupParams is the set of parameters that can be used when creating or updating a top-up.
-// For more details see https://stripe.com/docs/api#create_topup and https://stripe.com/docs/api#update_topup.
+// Top up the balance of an account
 type TopupParams struct {
 	Params              `form:"*"`
 	Amount              *int64        `form:"amount"`
@@ -40,8 +39,7 @@ func (p *TopupParams) SetSource(sp interface{}) error {
 	return err
 }
 
-// TopupListParams is the set of parameters that can be used when listing top-ups.
-// For more details see https://stripe.com/docs/api#list_topups.
+// Returns a list of top-ups.
 type TopupListParams struct {
 	ListParams   `form:"*"`
 	Amount       *int64            `form:"amount"`
@@ -51,8 +49,11 @@ type TopupListParams struct {
 	Status       *string           `form:"status"`
 }
 
-// Topup is the resource representing a Stripe top-up.
-// For more details see https://stripe.com/docs/api#topups.
+// To top up your Stripe balance, you create a top-up object. You can retrieve
+// individual top-ups, as well as list all top-ups. Top-ups are identified by a
+// unique, random ID.
+//
+// Related guide: [Topping Up your Platform Account](https://stripe.com/docs/connect/top-ups).
 type Topup struct {
 	APIResource
 	Amount                   int64               `json:"amount"`
@@ -76,7 +77,7 @@ type Topup struct {
 	ArrivalDate int64 `json:"arrival_date"`
 }
 
-// TopupList is a list of top-ups as retrieved from a list endpoint.
+// TopupList is a list of Topups as retrieved from a list endpoint.
 type TopupList struct {
 	APIResource
 	ListMeta

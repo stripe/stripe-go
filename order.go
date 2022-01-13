@@ -20,16 +20,35 @@ const (
 	OrderStatusReturned  OrderStatus = "returned"
 )
 
-// OrderDeliveryEstimateType represents the type of delivery estimate for shipping methods
+// The type of estimate. Must be either `"range"` or `"exact"`.
 type OrderDeliveryEstimateType string
 
-// List of values that OrderDeliveryEstimateType can take.
+// List of values that OrderDeliveryEstimateType can take
 const (
 	OrderDeliveryEstimateTypeExact OrderDeliveryEstimateType = "exact"
 	OrderDeliveryEstimateTypeRange OrderDeliveryEstimateType = "range"
 )
 
-// OrderParams is the set of parameters that can be used when creating an order.
+// List of items constituting the order. An order can have up to 25 items.
+type OrderItemParams struct {
+	Amount      *int64  `form:"amount"`
+	Currency    *string `form:"currency"`
+	Description *string `form:"description"`
+	Parent      *string `form:"parent"`
+	Quantity    *int64  `form:"quantity"`
+	Type        *string `form:"type"`
+}
+
+// Shipping address for the order. Required if any of the SKUs are for products that have `shippable` set to true.
+type ShippingParams struct {
+	Address        *AddressParams `form:"address"`
+	Carrier        *string        `form:"carrier"`
+	Name           *string        `form:"name"`
+	Phone          *string        `form:"phone"`
+	TrackingNumber *string        `form:"tracking_number"`
+}
+
+// Creates a new order object.
 type OrderParams struct {
 	Params                 `form:"*"`
 	Coupon                 *string            `form:"coupon"`
@@ -42,29 +61,7 @@ type OrderParams struct {
 	Status                 *string            `form:"status"`
 }
 
-// ShippingParams is the set of parameters that can be used for the shipping hash
-// on order creation.
-type ShippingParams struct {
-	Address        *AddressParams `form:"address"`
-	Carrier        *string        `form:"carrier"`
-	Name           *string        `form:"name"`
-	Phone          *string        `form:"phone"`
-	TrackingNumber *string        `form:"tracking_number"`
-}
-
-// OrderListParams is the set of parameters that can be used when listing orders.
-type OrderListParams struct {
-	ListParams        `form:"*"`
-	Created           *int64                         `form:"created"`
-	CreatedRange      *RangeQueryParams              `form:"created"`
-	Customer          *string                        `form:"customer"`
-	IDs               []*string                      `form:"ids"`
-	Status            *string                        `form:"status"`
-	StatusTransitions *StatusTransitionsFilterParams `form:"status_transitions"`
-	UpstreamIDs       []*string                      `form:"upstream_ids"`
-}
-
-// StatusTransitionsFilterParams are parameters that can used to filter on status_transition when listing orders.
+// Filter orders based on when they were paid, fulfilled, canceled, or returned.
 type StatusTransitionsFilterParams struct {
 	Canceled       *int64            `form:"canceled"`
 	CanceledRange  *RangeQueryParams `form:"canceled"`
@@ -76,7 +73,19 @@ type StatusTransitionsFilterParams struct {
 	ReturnedRange  *RangeQueryParams `form:"returned"`
 }
 
-// OrderPayParams is the set of parameters that can be used when paying orders.
+// Returns a list of your orders. The orders are returned sorted by creation date, with the most recently created orders appearing first.
+type OrderListParams struct {
+	ListParams        `form:"*"`
+	Created           *int64                         `form:"created"`
+	CreatedRange      *RangeQueryParams              `form:"created"`
+	Customer          *string                        `form:"customer"`
+	IDs               []*string                      `form:"ids"`
+	Status            *string                        `form:"status"`
+	StatusTransitions *StatusTransitionsFilterParams `form:"status_transitions"`
+	UpstreamIDs       []*string                      `form:"upstream_ids"`
+}
+
+// Pay an order by providing a source to create a payment.
 type OrderPayParams struct {
 	Params         `form:"*"`
 	ApplicationFee *int64        `form:"application_fee"`
@@ -93,17 +102,17 @@ func (p *OrderPayParams) SetSource(sp interface{}) error {
 	return err
 }
 
-// OrderItemParams is the set of parameters describing an order item on order creation or update.
-type OrderItemParams struct {
-	Amount      *int64  `form:"amount"`
-	Currency    *string `form:"currency"`
-	Description *string `form:"description"`
-	Parent      *string `form:"parent"`
-	Quantity    *int64  `form:"quantity"`
-	Type        *string `form:"type"`
+// The estimated delivery date for the given shipping method. Can be either a specific date or a range.
+type DeliveryEstimate struct {
+	// If Type == Exact
+	Date string `json:"date"`
+	// If Type == Range
+	Earliest string                    `json:"earliest"`
+	Latest   string                    `json:"latest"`
+	Type     OrderDeliveryEstimateType `json:"type"`
 }
 
-// ShippingMethod describes a shipping method as available on an order.
+// A list of supported shipping methods for this order. The desired shipping method can be specified either by updating the order, or when paying it.
 type ShippingMethod struct {
 	Amount           int64             `json:"amount"`
 	Currency         Currency          `json:"currency"`
@@ -112,15 +121,12 @@ type ShippingMethod struct {
 	ID               string            `json:"id"`
 }
 
-// DeliveryEstimate represent the properties available for a shipping method's
-// estimated delivery.
-type DeliveryEstimate struct {
-	// If Type == Exact
-	Date string `json:"date"`
-	// If Type == Range
-	Earliest string                    `json:"earliest"`
-	Latest   string                    `json:"latest"`
-	Type     OrderDeliveryEstimateType `json:"type"`
+// The timestamps at which the order status was updated.
+type StatusTransitions struct {
+	Canceled  int64 `json:"canceled"`
+	Fulfilled int64 `json:"fulfilled"`
+	Paid      int64 `json:"paid"`
+	Returned  int64 `json:"returned"`
 }
 
 // OrderUpdateParams is the set of parameters that can be used when updating an order.
@@ -148,8 +154,11 @@ type Shipping struct {
 	TrackingNumber string   `json:"tracking_number"`
 }
 
-// Order is the resource representing a Stripe charge.
-// For more details see https://stripe.com/docs/api#orders_legacy.
+// Order objects are created to handle end customers' purchases of previously
+// defined [products](https://stripe.com/docs/api#products). You can create, retrieve, and pay individual orders, as well
+// as list all orders. Orders are identified by a unique, random ID.
+//
+// Related guide: [Tax, Shipping, and Inventory](https://stripe.com/docs/orders).
 type Order struct {
 	APIResource
 	Amount                 int64             `json:"amount"`
@@ -177,15 +186,7 @@ type Order struct {
 	UpstreamID             string            `json:"upstream_id"`
 }
 
-// StatusTransitions are the timestamps at which the order status was updated.
-type StatusTransitions struct {
-	Canceled  int64 `json:"canceled"`
-	Fulfilled int64 `json:"fulfilled"`
-	Paid      int64 `json:"paid"`
-	Returned  int64 `json:"returned"`
-}
-
-// OrderList is a list of orders as retrieved from a list endpoint.
+// OrderList is a list of Orders as retrieved from a list endpoint.
 type OrderList struct {
 	APIResource
 	ListMeta

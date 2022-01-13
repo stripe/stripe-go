@@ -11,14 +11,15 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// AccountType is the type of an account.
-type AccountType string
+// The business type.
+type AccountBusinessType string
 
-// List of values that AccountType can take.
+// List of values that AccountBusinessType can take
 const (
-	AccountTypeCustom   AccountType = "custom"
-	AccountTypeExpress  AccountType = "express"
-	AccountTypeStandard AccountType = "standard"
+	AccountBusinessTypeCompany          AccountBusinessType = "company"
+	AccountBusinessTypeGovernmentEntity AccountBusinessType = "government_entity"
+	AccountBusinessTypeIndividual       AccountBusinessType = "individual"
+	AccountBusinessTypeNonProfit        AccountBusinessType = "non_profit"
 )
 
 // AccountCapability maps to a given capability for an account.
@@ -49,40 +50,20 @@ const (
 	AccountCapabilityTransfers               AccountCapability = "transfers"
 )
 
-// AccountCapabilityStatus is the status a given capability can have
+// The status of the Canadian pre-authorized debits payments capability of the account, or whether the account can directly process Canadian pre-authorized debits charges.
 type AccountCapabilityStatus string
 
-// List of values that AccountCapabilityStatus can take.
+// List of values that AccountCapabilityStatus can take
 const (
 	AccountCapabilityStatusActive   AccountCapabilityStatus = "active"
 	AccountCapabilityStatusInactive AccountCapabilityStatus = "inactive"
 	AccountCapabilityStatusPending  AccountCapabilityStatus = "pending"
 )
 
-// ExternalAccountType is the type of an external account.
-type ExternalAccountType string
-
-// List of values that ExternalAccountType can take.
-const (
-	ExternalAccountTypeBankAccount ExternalAccountType = "bank_account"
-	ExternalAccountTypeCard        ExternalAccountType = "card"
-)
-
-// AccountBusinessType describes the business type associated with an account.
-type AccountBusinessType string
-
-// List of values that AccountBusinessType can take.
-const (
-	AccountBusinessTypeCompany          AccountBusinessType = "company"
-	AccountBusinessTypeGovernmentEntity AccountBusinessType = "government_entity"
-	AccountBusinessTypeIndividual       AccountBusinessType = "individual"
-	AccountBusinessTypeNonProfit        AccountBusinessType = "non_profit"
-)
-
-// AccountCompanyStructure describes the structure associated with a company.
+// The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 type AccountCompanyStructure string
 
-// List of values that AccountCompanyStructure can take.
+// List of values that AccountCompanyStructure can take
 const (
 	AccountCompanyStructureFreeZoneEstablishment              AccountCompanyStructure = "free_zone_establishment"
 	AccountCompanyStructureFreeZoneLLC                        AccountCompanyStructure = "free_zone_llc"
@@ -106,41 +87,6 @@ const (
 	AccountCompanyStructureUnincorporatedNonProfit            AccountCompanyStructure = "unincorporated_non_profit"
 )
 
-// AccountControllerType describes the controller type of the account.
-type AccountControllerType string
-
-// List of values that AccountControllerType can take.
-const (
-	AccountControllerTypeAccount     AccountControllerType = "account"
-	AccountControllerTypeApplication AccountControllerType = "application"
-)
-
-// AccountRequirementsDisabledReason describes why an account is disabled.
-type AccountRequirementsDisabledReason string
-
-// List of values that AccountRequirementsDisabledReason can take.
-const (
-	AccountRequirementsDisabledReasonFieldsNeeded           AccountRequirementsDisabledReason = "fields_needed"
-	AccountRequirementsDisabledReasonListed                 AccountRequirementsDisabledReason = "listed"
-	AccountRequirementsDisabledReasonOther                  AccountRequirementsDisabledReason = "other"
-	AccountRequirementsDisabledReasonRejectedFraud          AccountRequirementsDisabledReason = "rejected.fraud"
-	AccountRequirementsDisabledReasonRejectedListed         AccountRequirementsDisabledReason = "rejected.listed"
-	AccountRequirementsDisabledReasonRejectedOther          AccountRequirementsDisabledReason = "rejected.other"
-	AccountRequirementsDisabledReasonRejectedTermsOfService AccountRequirementsDisabledReason = "rejected.terms_of_service"
-	AccountRequirementsDisabledReasonUnderReview            AccountRequirementsDisabledReason = "under_review"
-)
-
-// PayoutInterval describes the payout interval.
-type PayoutInterval string
-
-// List of values that PayoutInterval can take.
-const (
-	PayoutIntervalDaily   PayoutInterval = "daily"
-	PayoutIntervalManual  PayoutInterval = "manual"
-	PayoutIntervalMonthly PayoutInterval = "monthly"
-	PayoutIntervalWeekly  PayoutInterval = "weekly"
-)
-
 // AccountRejectReason describes the valid reason to reject an account
 type AccountRejectReason string
 
@@ -151,11 +97,10 @@ const (
 	AccountRejectReasonTermsOfService AccountRejectReason = "terms_of_service"
 )
 
-// AccountCompanyVerificationDocumentDetailsCode is a machine-readable code specifying the
-// verification state of a document associated with a company.
+// One of `document_corrupt`, `document_expired`, `document_failed_copy`, `document_failed_greyscale`, `document_failed_other`, `document_failed_test_mode`, `document_fraudulent`, `document_incomplete`, `document_invalid`, `document_manipulated`, `document_not_readable`, `document_not_uploaded`, `document_type_not_supported`, or `document_too_large`. A machine-readable code specifying the verification state for this document.
 type AccountCompanyVerificationDocumentDetailsCode string
 
-// List of values that AccountCompanyVerificationDocumentDetailsCode can take.
+// List of values that AccountCompanyVerificationDocumentDetailsCode can take
 const (
 	AccountCompanyVerificationDocumentDetailsCodeDocumentCorrupt        AccountCompanyVerificationDocumentDetailsCode = "document_corrupt"
 	AccountCompanyVerificationDocumentDetailsCodeDocumentFailedCopy     AccountCompanyVerificationDocumentDetailsCode = "document_failed_copy"
@@ -169,16 +114,90 @@ const (
 	AccountCompanyVerificationDocumentDetailsCodeDocumentTooLarge       AccountCompanyVerificationDocumentDetailsCode = "document_too_large"
 )
 
-// AccountTOSAcceptanceServiceAgreement describes the TOS Service agreement of an account
+// The controller type. Can be `application`, if a Connect application controls the account, or `account`, if the account controls itself.
+type AccountControllerType string
+
+// List of values that AccountControllerType can take
+const (
+	AccountControllerTypeAccount     AccountControllerType = "account"
+	AccountControllerTypeApplication AccountControllerType = "application"
+)
+
+type ExternalAccountType string
+
+// List of values that ExternalAccountType can take
+const (
+	ExternalAccountTypeBankAccount ExternalAccountType = "bank_account"
+	ExternalAccountTypeCard        ExternalAccountType = "card"
+)
+
+// If the account is disabled, this string describes why. Can be `requirements.past_due`, `requirements.pending_verification`, `listed`, `platform_paused`, `rejected.fraud`, `rejected.listed`, `rejected.terms_of_service`, `rejected.other`, `under_review`, or `other`.
+type AccountRequirementsDisabledReason string
+
+// List of values that AccountRequirementsDisabledReason can take
+const (
+	AccountRequirementsDisabledReasonFieldsNeeded           AccountRequirementsDisabledReason = "fields_needed"
+	AccountRequirementsDisabledReasonListed                 AccountRequirementsDisabledReason = "listed"
+	AccountRequirementsDisabledReasonOther                  AccountRequirementsDisabledReason = "other"
+	AccountRequirementsDisabledReasonRejectedFraud          AccountRequirementsDisabledReason = "rejected.fraud"
+	AccountRequirementsDisabledReasonRejectedListed         AccountRequirementsDisabledReason = "rejected.listed"
+	AccountRequirementsDisabledReasonRejectedOther          AccountRequirementsDisabledReason = "rejected.other"
+	AccountRequirementsDisabledReasonRejectedTermsOfService AccountRequirementsDisabledReason = "rejected.terms_of_service"
+	AccountRequirementsDisabledReasonUnderReview            AccountRequirementsDisabledReason = "under_review"
+)
+
+// How frequently funds will be paid out. One of `manual` (payouts only created via API call), `daily`, `weekly`, or `monthly`.
+type PayoutInterval string
+
+// List of values that PayoutInterval can take
+const (
+	PayoutIntervalDaily   PayoutInterval = "daily"
+	PayoutIntervalManual  PayoutInterval = "manual"
+	PayoutIntervalMonthly PayoutInterval = "monthly"
+	PayoutIntervalWeekly  PayoutInterval = "weekly"
+)
+
+// The user's service agreement type
 type AccountTOSAcceptanceServiceAgreement string
 
-// List of values that AccountTOSAcceptanceServiceAgreement can take.
+// List of values that AccountTOSAcceptanceServiceAgreement can take
 const (
 	AccountTOSAcceptanceServiceAgreementFull      AccountTOSAcceptanceServiceAgreement = "full"
 	AccountTOSAcceptanceServiceAgreementRecipient AccountTOSAcceptanceServiceAgreement = "recipient"
 )
 
-// AccountBusinessProfileParams are the parameters allowed for an account's business information
+// The Stripe account type. Can be `standard`, `express`, or `custom`.
+type AccountType string
+
+// List of values that AccountType can take
+const (
+	AccountTypeCustom   AccountType = "custom"
+	AccountTypeExpress  AccountType = "express"
+	AccountTypeStandard AccountType = "standard"
+)
+
+// Retrieves the details of an account.
+type AccountParams struct {
+	Params          `form:"*"`
+	AccountToken    *string                       `form:"account_token"`
+	BusinessProfile *AccountBusinessProfileParams `form:"business_profile"`
+	BusinessType    *string                       `form:"business_type"`
+	Capabilities    *AccountCapabilitiesParams    `form:"capabilities"`
+	Company         *AccountCompanyParams         `form:"company"`
+	Country         *string                       `form:"country"`
+	DefaultCurrency *string                       `form:"default_currency"`
+	Documents       *AccountDocumentsParams       `form:"documents"`
+	Email           *string                       `form:"email"`
+	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
+	Individual      *PersonParams                 `form:"individual"`
+	Settings        *AccountSettingsParams        `form:"settings"`
+	TOSAcceptance   *AccountTOSAcceptanceParams   `form:"tos_acceptance"`
+	Type            *string                       `form:"type"`
+	// This parameter is deprecated. Prefer using Capabilities instead.
+	RequestedCapabilities []*string `form:"requested_capabilities"`
+}
+
+// Business information about the account.
 type AccountBusinessProfileParams struct {
 	MCC                *string        `form:"mcc"`
 	Name               *string        `form:"name"`
@@ -190,7 +209,7 @@ type AccountBusinessProfileParams struct {
 	URL                *string        `form:"url"`
 }
 
-// AccountCapabilitiesACSSDebitPaymentsParams represent allowed parameters to configure the ACSS Debit capability on an account.
+// The acss_debit_payments capability.
 type AccountCapabilitiesACSSDebitPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
@@ -200,67 +219,67 @@ type AccountCapabilitiesAfterpayClearpayPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesAUBECSDebitPaymentsParams represent allowed parameters to configure the AU BECS Debit capability on an account.
+// The au_becs_debit_payments capability.
 type AccountCapabilitiesAUBECSDebitPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesBACSDebitPaymentsParams represent allowed parameters to configure the BACS Debit capability on an account.
+// The bacs_debit_payments capability.
 type AccountCapabilitiesBACSDebitPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesBancontactPaymentsParams represent allowed parameters to configure the bancontact payments capability on an account.
+// The bancontact_payments capability.
 type AccountCapabilitiesBancontactPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesBoletoPaymentsParams represent allowed parameters to configure the boleto payments capability on an account.
+// The boleto_payments capability.
 type AccountCapabilitiesBoletoPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesCardIssuingParams represent allowed parameters to configure the Issuing capability on an account.
+// The card_issuing capability.
 type AccountCapabilitiesCardIssuingParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesCardPaymentsParams represent allowed parameters to configure the card payments capability on an account.
+// The card_payments capability.
 type AccountCapabilitiesCardPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesCartesBancairesPaymentsParams represent allowed parameters to configure the Cartes Bancaires payments capability on an account.
+// The cartes_bancaires_payments capability.
 type AccountCapabilitiesCartesBancairesPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesEPSPaymentsParams represent allowed parameters to configure the EPS payments capability on an account.
+// The eps_payments capability.
 type AccountCapabilitiesEPSPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesFPXPaymentsParams represent allowed parameters to configure the FPX payments capability on an account.
+// The fpx_payments capability.
 type AccountCapabilitiesFPXPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesGiropayPaymentsParams represent allowed parameters to configure the giropay payments capability on an account.
+// The giropay_payments capability.
 type AccountCapabilitiesGiropayPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesGrabpayPaymentsParams represent allowed parameters to configure the grabpay payments capability on an account.
+// The grabpay_payments capability.
 type AccountCapabilitiesGrabpayPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesIdealPaymentsParams represent allowed parameters to configure the ideal payments capability on an account.
+// The ideal_payments capability.
 type AccountCapabilitiesIdealPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesJCBPaymentsParams represent allowed parameters to configure the JCB payments capability on an account.
+// The jcb_payments capability.
 type AccountCapabilitiesJCBPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
@@ -270,47 +289,47 @@ type AccountCapabilitiesKlarnaPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesLegacyPaymentsParams represent allowed parameters to configure the legacy payments capability on an account.
+// The legacy_payments capability.
 type AccountCapabilitiesLegacyPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesOXXOPaymentsParams represent allowed parameters to configure the OXXO capability on an account.
+// The oxxo_payments capability.
 type AccountCapabilitiesOXXOPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesP24PaymentsParams represent allowed parameters to configure the P24 payments capability on an account.
+// The p24_payments capability.
 type AccountCapabilitiesP24PaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesSEPADebitPaymentsParams represent allowed parameters to configure the SEPA Debit payments capability on an account.
+// The sepa_debit_payments capability.
 type AccountCapabilitiesSEPADebitPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesSofortPaymentsParams represent allowed parameters to configure the sofort payments capability on an account.
+// The sofort_payments capability.
 type AccountCapabilitiesSofortPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesTaxReportingUS1099KParams represent allowed parameters to configure the 1099-K capability on an account.
+// The tax_reporting_us_1099_k capability.
 type AccountCapabilitiesTaxReportingUS1099KParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesTaxReportingUS1099MISCParams represent allowed parameters to configure the 1099-Misc capability on an account.
+// The tax_reporting_us_1099_misc capability.
 type AccountCapabilitiesTaxReportingUS1099MISCParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesTransfersParams represent allowed parameters to configure the transfers capability on an account.
+// The transfers capability.
 type AccountCapabilitiesTransfersParams struct {
 	Requested *bool `form:"requested"`
 }
 
-// AccountCapabilitiesParams represent allowed parameters to configure capabilities on an account.
+// Each key of the dictionary represents a capability, and each capability maps to its settings (e.g. whether it has been requested or not). Each capability will be inactive until you have provided its specific requirements and Stripe has verified them. An account may have some of its requested capabilities be active and some be inactive.
 type AccountCapabilitiesParams struct {
 	ACSSDebitPayments        *AccountCapabilitiesACSSDebitPaymentsParams        `form:"acss_debit_payments"`
 	AfterpayClearpayPayments *AccountCapabilitiesAfterpayClearpayPaymentsParams `form:"afterpay_clearpay_payments"`
@@ -338,6 +357,19 @@ type AccountCapabilitiesParams struct {
 	Transfers                *AccountCapabilitiesTransfersParams                `form:"transfers"`
 }
 
+// The Kana variation of the company's primary address (Japan only).
+type AccountAddressParams struct {
+	City       *string `form:"city"`
+	Country    *string `form:"country"`
+	Line1      *string `form:"line1"`
+	Line2      *string `form:"line2"`
+	PostalCode *string `form:"postal_code"`
+	State      *string `form:"state"`
+	// Town/cho-me. Note that this is only used for Kana/Kanji representations
+	// of an address.
+	Town *string `form:"town"`
+}
+
 // This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
 type AccountCompanyOwnershipDeclarationParams struct {
 	Date      *int64  `form:"date"`
@@ -345,19 +377,18 @@ type AccountCompanyOwnershipDeclarationParams struct {
 	UserAgent *string `form:"user_agent"`
 }
 
-// AccountCompanyVerificationDocumentParams are the parameters allowed to pass for a document
-// verifying a company.
+// A document verifying the business.
 type AccountCompanyVerificationDocumentParams struct {
 	Back  *string `form:"back"`
 	Front *string `form:"front"`
 }
 
-// AccountCompanyVerificationParams are the parameters allowed to verify a company.
+// Information on the verification state of the company.
 type AccountCompanyVerificationParams struct {
 	Document *AccountCompanyVerificationDocumentParams `form:"document"`
 }
 
-// AccountCompanyParams are the parameters describing the company associated with the account.
+// Information about the company or business. This field is available for any `business_type`.
 type AccountCompanyParams struct {
 	Address              *AccountAddressParams                     `form:"address"`
 	AddressKana          *AccountAddressParams                     `form:"address_kana"`
@@ -380,47 +411,32 @@ type AccountCompanyParams struct {
 	Verification                       *AccountCompanyVerificationParams `form:"verification"`
 }
 
-// AccountDeclineSettingsParams represents the parameters allowed for configuring
-// card declines on connected accounts.
-type AccountDeclineSettingsParams struct {
-	AVSFailure *bool `form:"avs_failure"`
-	CVCFailure *bool `form:"cvc_failure"`
-}
-
-// AccountDocumentsBankAccountOwnershipVerificationParams represents the
-// parameters allowed for passing bank account ownership verification documents
-// on an account.
+// One or more documents that support the [Bank account ownership verification](https://support.stripe.com/questions/bank-account-ownership-verification) requirement. Must be a document associated with the account's primary active bank account that displays the last 4 digits of the account number, either a statement or a voided check.
 type AccountDocumentsBankAccountOwnershipVerificationParams struct {
 	Files []*string `form:"files"`
 }
 
-// AccountDocumentsCompanyLicenseParams represents the parameters allowed for
-// passing company license verification documents on an account.
+// One or more documents that demonstrate proof of a company's license to operate.
 type AccountDocumentsCompanyLicenseParams struct {
 	Files []*string `form:"files"`
 }
 
-// AccountDocumentsCompanyMemorandumOfAssociationParams represents the
-// parameters allowed for passing company memorandum of association documents
-// on an account.
+// One or more documents showing the company's Memorandum of Association.
 type AccountDocumentsCompanyMemorandumOfAssociationParams struct {
 	Files []*string `form:"files"`
 }
 
-// AccountDocumentsCompanyMinisterialDecreeParams represents the parameters
-// allowed for passing company ministerial decree documents on an account.
+// (Certain countries only) One or more documents showing the ministerial decree legalizing the company's establishment.
 type AccountDocumentsCompanyMinisterialDecreeParams struct {
 	Files []*string `form:"files"`
 }
 
-// AccountDocumentsCompanyRegistrationVerificationParams represents the
-// parameters allowed for passing company registration verification documents.
+// One or more documents that demonstrate proof of a company's registration with the appropriate local authorities.
 type AccountDocumentsCompanyRegistrationVerificationParams struct {
 	Files []*string `form:"files"`
 }
 
-// AccountDocumentsCompanyTaxIDVerificationParams represents the parameters
-// allowed for passing company tax id verification documents on an account.
+// One or more documents that demonstrate proof of a company's tax ID.
 type AccountDocumentsCompanyTaxIDVerificationParams struct {
 	Files []*string `form:"files"`
 }
@@ -430,7 +446,7 @@ type AccountDocumentsProofOfRegistrationParams struct {
 	Files []*string `form:"files"`
 }
 
-// AccountDocumentsParams represents the parameters allowed for passing additional documents on an account.
+// Documents that may be submitted to satisfy various informational requests.
 type AccountDocumentsParams struct {
 	BankAccountOwnershipVerification *AccountDocumentsBankAccountOwnershipVerificationParams `form:"bank_account_ownership_verification"`
 	CompanyLicense                   *AccountDocumentsCompanyLicenseParams                   `form:"company_license"`
@@ -447,8 +463,7 @@ type AccountSettingsBACSDebitPaymentsParams struct {
 	DisplayName *string `form:"display_name"`
 }
 
-// AccountSettingsBrandingParams represent allowed parameters to configure settings specific to the
-// account’s branding.
+// Settings used to apply the account's branding to email receipts, invoices, Checkout, and other products.
 type AccountSettingsBrandingParams struct {
 	Icon           *string `form:"icon"`
 	Logo           *string `form:"logo"`
@@ -456,13 +471,26 @@ type AccountSettingsBrandingParams struct {
 	SecondaryColor *string `form:"secondary_color"`
 }
 
-// AccountSettingsCardIssuingParams represent allowed parameters relating to the acceptance of the terms of service agreement.
+// Details on the account's acceptance of the [Stripe Issuing Terms and Disclosures](https://stripe.com/docs/issuing/connect/tos_acceptance).
+type AccountTOSAcceptanceParams struct {
+	Date             *int64  `form:"date"`
+	IP               *string `form:"ip"`
+	ServiceAgreement *string `form:"service_agreement"`
+	UserAgent        *string `form:"user_agent"`
+}
+
+// Settings specific to the account's use of the Card Issuing product.
 type AccountSettingsCardIssuingParams struct {
 	TOSAcceptance *AccountTOSAcceptanceParams `form:"tos_acceptance"`
 }
 
-// AccountSettingsCardPaymentsParams represent allowed parameters to configure settings specific to
-// card charging on the account.
+// Automatically declines certain charge types regardless of whether the card issuer accepted or declined the charge.
+type AccountDeclineSettingsParams struct {
+	AVSFailure *bool `form:"avs_failure"`
+	CVCFailure *bool `form:"cvc_failure"`
+}
+
+// Settings specific to card charging on the account.
 type AccountSettingsCardPaymentsParams struct {
 	DeclineOn                 *AccountDeclineSettingsParams `form:"decline_on"`
 	StatementDescriptorPrefix *string                       `form:"statement_descriptor_prefix"`
@@ -475,34 +503,14 @@ type AccountSettingsDashboardParams struct {
 	Timezone    *string `form:"timezone"`
 }
 
-// AccountSettingsPaymentsParams represent allowed parameters to configure settings  across payment
-// methods for charging on the account.
+// Settings that apply across payment methods for charging on the account.
 type AccountSettingsPaymentsParams struct {
 	StatementDescriptor      *string `form:"statement_descriptor"`
 	StatementDescriptorKana  *string `form:"statement_descriptor_kana"`
 	StatementDescriptorKanji *string `form:"statement_descriptor_kanji"`
 }
 
-// AccountSettingsPayoutsParams represent allowed parameters to configure settings specific to the
-// account’s payouts.
-type AccountSettingsPayoutsParams struct {
-	DebitNegativeBalances *bool                 `form:"debit_negative_balances"`
-	Schedule              *PayoutScheduleParams `form:"schedule"`
-	StatementDescriptor   *string               `form:"statement_descriptor"`
-}
-
-// AccountSettingsParams are the parameters allowed for the account's settings.
-type AccountSettingsParams struct {
-	BACSDebitPayments *AccountSettingsBACSDebitPaymentsParams `form:"bacs_debit_payments"`
-	Branding          *AccountSettingsBrandingParams          `form:"branding"`
-	CardIssuing       *AccountSettingsCardIssuingParams       `form:"card_issuing"`
-	CardPayments      *AccountSettingsCardPaymentsParams      `form:"card_payments"`
-	Dashboard         *AccountSettingsDashboardParams         `form:"dashboard"`
-	Payments          *AccountSettingsPaymentsParams          `form:"payments"`
-	Payouts           *AccountSettingsPayoutsParams           `form:"payouts"`
-}
-
-// PayoutScheduleParams are the parameters allowed for payout schedules.
+// Details on when funds from charges are available, and when they are paid out to an external account. For details, see our [Setting Bank and Debit Card Payouts](https://stripe.com/docs/connect/bank-transfers#payout-information) documentation.
 type PayoutScheduleParams struct {
 	DelayDays        *int64  `form:"delay_days"`
 	DelayDaysMinimum *bool   `form:"-"` // See custom AppendTo
@@ -518,56 +526,34 @@ func (p *PayoutScheduleParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
-// AccountParams are the parameters allowed during account creation/updates.
-type AccountParams struct {
-	Params          `form:"*"`
-	AccountToken    *string                       `form:"account_token"`
-	BusinessProfile *AccountBusinessProfileParams `form:"business_profile"`
-	BusinessType    *string                       `form:"business_type"`
-	Capabilities    *AccountCapabilitiesParams    `form:"capabilities"`
-	Company         *AccountCompanyParams         `form:"company"`
-	Country         *string                       `form:"country"`
-	DefaultCurrency *string                       `form:"default_currency"`
-	Documents       *AccountDocumentsParams       `form:"documents"`
-	Email           *string                       `form:"email"`
-	ExternalAccount *AccountExternalAccountParams `form:"external_account"`
-	Individual      *PersonParams                 `form:"individual"`
-	Settings        *AccountSettingsParams        `form:"settings"`
-	TOSAcceptance   *AccountTOSAcceptanceParams   `form:"tos_acceptance"`
-	Type            *string                       `form:"type"`
-	// This parameter is deprecated. Prefer using Capabilities instead.
-	RequestedCapabilities []*string `form:"requested_capabilities"`
+// Settings specific to the account's payouts.
+type AccountSettingsPayoutsParams struct {
+	DebitNegativeBalances *bool                 `form:"debit_negative_balances"`
+	Schedule              *PayoutScheduleParams `form:"schedule"`
+	StatementDescriptor   *string               `form:"statement_descriptor"`
 }
 
-// AccountAddressParams represents an address during account creation/updates.
-type AccountAddressParams struct {
-	City       *string `form:"city"`
-	Country    *string `form:"country"`
-	Line1      *string `form:"line1"`
-	Line2      *string `form:"line2"`
-	PostalCode *string `form:"postal_code"`
-	State      *string `form:"state"`
-	// Town/cho-me. Note that this is only used for Kana/Kanji representations
-	// of an address.
-	Town *string `form:"town"`
+// Options for customizing how the account functions within Stripe.
+type AccountSettingsParams struct {
+	BACSDebitPayments *AccountSettingsBACSDebitPaymentsParams `form:"bacs_debit_payments"`
+	Branding          *AccountSettingsBrandingParams          `form:"branding"`
+	CardIssuing       *AccountSettingsCardIssuingParams       `form:"card_issuing"`
+	CardPayments      *AccountSettingsCardPaymentsParams      `form:"card_payments"`
+	Dashboard         *AccountSettingsDashboardParams         `form:"dashboard"`
+	Payments          *AccountSettingsPaymentsParams          `form:"payments"`
+	Payouts           *AccountSettingsPayoutsParams           `form:"payouts"`
 }
 
-// AccountTOSAcceptanceParams represents tos_acceptance during account creation/updates.
-type AccountTOSAcceptanceParams struct {
-	Date             *int64  `form:"date"`
-	IP               *string `form:"ip"`
-	ServiceAgreement *string `form:"service_agreement"`
-	UserAgent        *string `form:"user_agent"`
-}
-
-// AccountListParams are the parameters allowed during account listing.
+// Returns a list of accounts connected to your platform via [Connect](https://stripe.com/docs/connect). If you're not a platform, the list is empty.
 type AccountListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
 }
 
-// AccountRejectParams is the structure for the Reject function.
+// With [Connect](https://stripe.com/docs/connect), you may flag accounts as suspicious.
+//
+// Test-mode Custom and Express accounts can be rejected at any time. Accounts created using live-mode keys may only be rejected once all balances are zero.
 type AccountRejectParams struct {
 	Params `form:"*"`
 	Reason *string `form:"reason"`
@@ -598,7 +584,7 @@ func (p *AccountExternalAccountParams) AppendTo(body *form.Values, keyParts []st
 	}
 }
 
-// AccountBusinessProfile represents optional information related to the business.
+// Business information about the account.
 type AccountBusinessProfile struct {
 	MCC                string   `json:"mcc"`
 	Name               string   `json:"name"`
@@ -609,8 +595,6 @@ type AccountBusinessProfile struct {
 	SupportURL         string   `json:"support_url"`
 	URL                string   `json:"url"`
 }
-
-// AccountCapabilities is the resource representing the capabilities enabled on that account.
 type AccountCapabilities struct {
 	ACSSDebitPayments        AccountCapabilityStatus `json:"acss_debit_payments"`
 	AfterpayClearpayPayments AccountCapabilityStatus `json:"afterpay_clearpay_payments"`
@@ -638,14 +622,25 @@ type AccountCapabilities struct {
 	Transfers                AccountCapabilityStatus `json:"transfers"`
 }
 
+// The Kana variation of the company's primary address (Japan only).
+type AccountAddress struct {
+	City       string `json:"city"`
+	Country    string `json:"country"`
+	Line1      string `json:"line1"`
+	Line2      string `json:"line2"`
+	PostalCode string `json:"postal_code"`
+	State      string `json:"state"`
+	// Town/cho-me. Note that this is only used for Kana/Kanji representations
+	// of an address.
+	Town string `json:"town"`
+}
+
 // This hash is used to attest that the beneficial owner information provided to Stripe is both current and correct.
 type AccountCompanyOwnershipDeclaration struct {
 	Date      int64  `json:"date"`
 	IP        string `json:"ip"`
 	UserAgent string `json:"user_agent"`
 }
-
-// AccountCompanyVerificationDocument represents details about a company's verification state.
 type AccountCompanyVerificationDocument struct {
 	Back        *File                                         `json:"back"`
 	Details     string                                        `json:"details"`
@@ -653,12 +648,10 @@ type AccountCompanyVerificationDocument struct {
 	Front       *File                                         `json:"front"`
 }
 
-// AccountCompanyVerification represents details about a company's verification state.
+// Information on the verification state of the company.
 type AccountCompanyVerification struct {
 	Document *AccountCompanyVerificationDocument `json:"document"`
 }
-
-// AccountCompany represents details about the company or business associated with the account.
 type AccountCompany struct {
 	Address              *AccountAddress                     `json:"address"`
 	AddressKana          *AccountAddress                     `json:"address_kana"`
@@ -678,25 +671,9 @@ type AccountCompany struct {
 	VATIDProvided        bool                                `json:"vat_id_provided"`
 	Verification         *AccountCompanyVerification         `json:"verification"`
 }
-
-// AccountController contains information about the control of the account.
 type AccountController struct {
 	IsController bool                  `json:"is_controller"`
 	Type         AccountControllerType `json:"type"`
-}
-
-// AccountDeclineOn represents card charges decline behavior for that account.
-type AccountDeclineOn struct {
-	AVSFailure bool `json:"avs_failure"`
-	CVCFailure bool `json:"cvc_failure"`
-}
-
-// AccountPayoutSchedule is the structure for an account's payout schedule.
-type AccountPayoutSchedule struct {
-	DelayDays     int64          `json:"delay_days"`
-	Interval      PayoutInterval `json:"interval"`
-	MonthlyAnchor int64          `json:"monthly_anchor"`
-	WeeklyAnchor  string         `json:"weekly_anchor"`
 }
 
 // Fields that are due and can be satisfied by providing the corresponding alternative fields instead.
@@ -728,14 +705,12 @@ type AccountRequirementsAlternative struct {
 	OriginalFieldsDue    []string `json:"original_fields_due"`
 }
 
-// AccountRequirementsError represents details about an error with a requirement.
+// Fields that are `currently_due` and need to be collected again because validation or verification failed.
 type AccountRequirementsError struct {
 	Code        string `json:"code"`
 	Reason      string `json:"reason"`
 	Requirement string `json:"requirement"`
 }
-
-// AccountRequirements represents information that needs to be collected for an account.
 type AccountRequirements struct {
 	Alternatives        []*AccountRequirementsAlternative `json:"alternatives"`
 	CurrentDeadline     int64                             `json:"current_deadline"`
@@ -746,60 +721,57 @@ type AccountRequirements struct {
 	PastDue             []string                          `json:"past_due"`
 	PendingVerification []string                          `json:"pending_verification"`
 }
-
-// AccountSettingsBACSDebitPayments represents settings specific to the account’s charging
-// via BACS Debit.
 type AccountSettingsBACSDebitPayments struct {
 	DisplayName string `json:"display_name"`
 }
-
-// AccountSettingsBranding represents settings specific to the account's branding.
 type AccountSettingsBranding struct {
 	Icon           *File  `json:"icon"`
 	Logo           *File  `json:"logo"`
 	PrimaryColor   string `json:"primary_color"`
 	SecondaryColor string `json:"secondary_color"`
 }
-
-// AccountSettingsCardIssuing represents settings specific to card issuing on the account.
+type AccountTOSAcceptance struct {
+	Date             int64                                `json:"date"`
+	IP               string                               `json:"ip"`
+	ServiceAgreement AccountTOSAcceptanceServiceAgreement `json:"service_agreement"`
+	UserAgent        string                               `json:"user_agent"`
+}
 type AccountSettingsCardIssuing struct {
 	TOSAcceptance *AccountTOSAcceptance `json:"tos_acceptance"`
 }
-
-// AccountSettingsCardPayments represents settings specific to card charging on the account.
+type AccountDeclineOn struct {
+	AVSFailure bool `json:"avs_failure"`
+	CVCFailure bool `json:"cvc_failure"`
+}
 type AccountSettingsCardPayments struct {
 	DeclineOn                 *AccountDeclineOn `json:"decline_on"`
 	StatementDescriptorPrefix string            `json:"statement_descriptor_prefix"`
 }
-
-// AccountSettingsDashboard represents settings specific to the account's Dashboard.
 type AccountSettingsDashboard struct {
 	DisplayName string `json:"display_name"`
 	Timezone    string `json:"timezone"`
 }
-
-// AccountSettingsPayments represents settings that apply across payment methods for charging on
-// the account.
 type AccountSettingsPayments struct {
 	StatementDescriptor      string `json:"statement_descriptor"`
 	StatementDescriptorKana  string `json:"statement_descriptor_kana"`
 	StatementDescriptorKanji string `json:"statement_descriptor_kanji"`
 }
-
-// AccountSettingsPayouts represents settings specific to the account’s payouts.
+type AccountPayoutSchedule struct {
+	DelayDays     int64          `json:"delay_days"`
+	Interval      PayoutInterval `json:"interval"`
+	MonthlyAnchor int64          `json:"monthly_anchor"`
+	WeeklyAnchor  string         `json:"weekly_anchor"`
+}
 type AccountSettingsPayouts struct {
 	DebitNegativeBalances bool                   `json:"debit_negative_balances"`
 	Schedule              *AccountPayoutSchedule `json:"schedule"`
 	StatementDescriptor   string                 `json:"statement_descriptor"`
 }
-
-// AccountSettingsSEPADebitPayments represents settings specific to the account’s charging
-// via SEPA Debit.
 type AccountSettingsSEPADebitPayments struct {
 	CreditorID string `json:"creditor_id"`
 }
 
-// AccountSettings represents options for customizing how the account functions within Stripe.
+// Options for customizing how the account functions within Stripe.
 type AccountSettings struct {
 	BACSDebitPayments *AccountSettingsBACSDebitPayments `json:"bacs_debit_payments"`
 	Branding          *AccountSettingsBranding          `json:"branding"`
@@ -811,16 +783,12 @@ type AccountSettings struct {
 	SEPADebitPayments *AccountSettingsSEPADebitPayments `json:"sepa_debit_payments"`
 }
 
-// AccountTOSAcceptance represents status of acceptance of our terms of services for the account.
-type AccountTOSAcceptance struct {
-	Date             int64                                `json:"date"`
-	IP               string                               `json:"ip"`
-	ServiceAgreement AccountTOSAcceptanceServiceAgreement `json:"service_agreement"`
-	UserAgent        string                               `json:"user_agent"`
-}
-
-// Account is the resource representing your Stripe account.
-// For more details see https://stripe.com/docs/api/#account.
+// This is an object representing a Stripe account. You can retrieve it to see
+// properties on the account like its current e-mail address or if the account is
+// enabled yet to make live charges.
+//
+// Some properties, marked below, are available only to platforms that want to
+// [create and manage Express or Custom accounts](https://stripe.com/docs/connect/accounts).
 type Account struct {
 	APIResource
 	BusinessProfile    *AccountBusinessProfile    `json:"business_profile"`
@@ -847,10 +815,6 @@ type Account struct {
 	TOSAcceptance      *AccountTOSAcceptance      `json:"tos_acceptance"`
 	Type               AccountType                `json:"type"`
 }
-
-// ExternalAccount is an external account (a bank account or card) that's
-// attached to an account. It contains fields that will be conditionally
-// populated depending on its type.
 type ExternalAccount struct {
 	ID   string              `json:"id"`
 	Type ExternalAccountType `json:"object"`
@@ -863,20 +827,7 @@ type ExternalAccount struct {
 	Card *Card `json:"-"`
 }
 
-// AccountAddress is the structure for an account address.
-type AccountAddress struct {
-	City       string `json:"city"`
-	Country    string `json:"country"`
-	Line1      string `json:"line1"`
-	Line2      string `json:"line2"`
-	PostalCode string `json:"postal_code"`
-	State      string `json:"state"`
-	// Town/cho-me. Note that this is only used for Kana/Kanji representations
-	// of an address.
-	Town string `json:"town"`
-}
-
-// AccountList is a list of accounts as returned from a list endpoint.
+// AccountList is a list of Accounts as retrieved from a list endpoint.
 type AccountList struct {
 	APIResource
 	ListMeta

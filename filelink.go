@@ -11,7 +11,7 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// FileLinkParams is the set of parameters that can be used when creating or updating a file link.
+// Retrieves the file link with the given ID.
 type FileLinkParams struct {
 	Params       `form:"*"`
 	ExpiresAt    *int64  `form:"expires_at"`
@@ -26,7 +26,7 @@ func (f *FileLinkParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
-// FileLinkListParams is the set of parameters that can be used when listing file links.
+// Returns a list of file links.
 type FileLinkListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
@@ -35,8 +35,9 @@ type FileLinkListParams struct {
 	File         *string           `form:"file"`
 }
 
-// FileLink is the resource representing a Stripe file link.
-// For more details see https://stripe.com/docs/api#file_links.
+// To share the contents of a `File` object with non-Stripe users, you can
+// create a `FileLink`. `FileLink`s contain a URL that can be used to
+// retrieve the contents of the file without authentication.
 type FileLink struct {
 	APIResource
 	Created   int64             `json:"created"`
@@ -69,7 +70,7 @@ func (f *FileLink) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// FileLinkList is a list of file links as retrieved from a list endpoint.
+// FileLinkList is a list of FileLinks as retrieved from a list endpoint.
 type FileLinkList struct {
 	APIResource
 	ListMeta

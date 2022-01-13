@@ -6,15 +6,24 @@
 
 package stripe
 
-// SubscriptionItemPriceDataRecurringParams is a structure representing the parameters to create
-// an inline recurring price for a subscription item.
+// Returns a list of your subscription items for a given subscription.
+type SubscriptionItemListParams struct {
+	ListParams   `form:"*"`
+	Subscription *string `form:"subscription"`
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
+type SubscriptionItemBillingThresholdsParams struct {
+	UsageGTE *int64 `form:"usage_gte"`
+}
+
+// The recurring components of a price such as `interval` and `usage_type`.
 type SubscriptionItemPriceDataRecurringParams struct {
 	Interval      *string `form:"interval"`
 	IntervalCount *int64  `form:"interval_count"`
 }
 
-// SubscriptionItemPriceDataParams is a structure representing the parameters to create an inline
-// price for a subscription item.
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline.
 type SubscriptionItemPriceDataParams struct {
 	Currency          *string                                   `form:"currency"`
 	Product           *string                                   `form:"product"`
@@ -24,8 +33,7 @@ type SubscriptionItemPriceDataParams struct {
 	UnitAmountDecimal *float64                                  `form:"unit_amount_decimal,high_precision"`
 }
 
-// SubscriptionItemParams is the set of parameters that can be used when creating or updating a subscription item.
-// For more details see https://stripe.com/docs/api#create_subscription_item and https://stripe.com/docs/api#update_subscription_item.
+// Adds a new item to an existing subscription. No existing items will be changed or replaced.
 type SubscriptionItemParams struct {
 	Params            `form:"*"`
 	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
@@ -44,21 +52,13 @@ type SubscriptionItemParams struct {
 	ID *string `form:"-"` // Deprecated
 }
 
-// SubscriptionItemBillingThresholdsParams is a structure representing the parameters allowed to
-// control billing thresholds for a subscription item.
-type SubscriptionItemBillingThresholdsParams struct {
-	UsageGTE *int64 `form:"usage_gte"`
+// Define thresholds at which an invoice will be sent, and the related subscription advanced to a new billing period
+type SubscriptionItemBillingThresholds struct {
+	UsageGTE int64 `form:"usage_gte"`
 }
 
-// SubscriptionItemListParams is the set of parameters that can be used when listing invoice items.
-// For more details see https://stripe.com/docs/api#list_invoiceitems.
-type SubscriptionItemListParams struct {
-	ListParams   `form:"*"`
-	Subscription *string `form:"subscription"`
-}
-
-// SubscriptionItem is the resource representing a Stripe subscription item.
-// For more details see https://stripe.com/docs/api#subscription_items.
+// Subscription items allow you to create customer subscriptions with more than
+// one plan, making it easy to represent complex billing relationships.
 type SubscriptionItem struct {
 	APIResource
 	BillingThresholds SubscriptionItemBillingThresholds `json:"billing_thresholds"`
@@ -74,13 +74,7 @@ type SubscriptionItem struct {
 	TaxRates          []*TaxRate                        `json:"tax_rates"`
 }
 
-// SubscriptionItemBillingThresholds is a structure representing the billing thresholds for a
-// subscription item.
-type SubscriptionItemBillingThresholds struct {
-	UsageGTE int64 `form:"usage_gte"`
-}
-
-// SubscriptionItemList is a list of invoice items as retrieved from a list endpoint.
+// SubscriptionItemList is a list of SubscriptionItems as retrieved from a list endpoint.
 type SubscriptionItemList struct {
 	APIResource
 	ListMeta

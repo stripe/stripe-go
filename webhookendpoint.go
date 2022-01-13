@@ -8,8 +8,14 @@ package stripe
 
 import "encoding/json"
 
-// WebhookEndpointParams is the set of parameters that can be used when creating a webhook endpoint.
-// For more details see https://stripe.com/docs/api#create_webhook_endpoint.
+// Returns a list of your webhook endpoints.
+type WebhookEndpointListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+}
+
+// A webhook endpoint must have a url and a list of enabled_events. You may optionally specify the Boolean connect parameter. If set to true, then a Connect webhook endpoint that notifies the specified url about events from all connected accounts is created; otherwise an account webhook endpoint that notifies the specified url only about events from your account is created. You can also create webhook endpoints in the [webhooks settings](https://dashboard.stripe.com/account/webhooks) section of the Dashboard.
 type WebhookEndpointParams struct {
 	Params        `form:"*"`
 	Connect       *bool     `form:"connect"`
@@ -23,16 +29,13 @@ type WebhookEndpointParams struct {
 	APIVersion *string `form:"api_version"`
 }
 
-// WebhookEndpointListParams is the set of parameters that can be used when listing webhook endpoints.
-// For more detail see https://stripe.com/docs/api#list_webhook_endpoints.
-type WebhookEndpointListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-}
-
-// WebhookEndpoint is the resource representing a Stripe webhook endpoint.
-// For more details see https://stripe.com/docs/api#webhook_endpoints.
+// You can configure [webhook endpoints](https://stripe.com/docs/webhooks/) via the API to be
+// notified about events that happen in your Stripe account or connected
+// accounts.
+//
+// Most users configure webhooks from [the dashboard](https://dashboard.stripe.com/webhooks), which provides a user interface for registering and testing your webhook endpoints.
+//
+// Related guide: [Setting up Webhooks](https://stripe.com/docs/webhooks/configure).
 type WebhookEndpoint struct {
 	APIResource
 	APIVersion    string            `json:"api_version"`
@@ -51,7 +54,7 @@ type WebhookEndpoint struct {
 	URL           string            `json:"url"`
 }
 
-// WebhookEndpointList is a list of webhook endpoints as retrieved from a list endpoint.
+// WebhookEndpointList is a list of WebhookEndpoints as retrieved from a list endpoint.
 type WebhookEndpointList struct {
 	APIResource
 	ListMeta

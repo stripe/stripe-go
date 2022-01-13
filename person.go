@@ -8,11 +8,19 @@ package stripe
 
 import "encoding/json"
 
-// VerificationDocumentDetailsCode is a machine-readable code specifying the verification state of
-// a document associated with a person.
+// Indicates if the person or any of their representatives, family members, or other closely related persons, declares that they hold or have held an important public job or function, in any jurisdiction.
+type PersonPoliticalExposure string
+
+// List of values that PersonPoliticalExposure can take
+const (
+	PersonPoliticalExposureExisting PersonPoliticalExposure = "existing"
+	PersonPoliticalExposureNone     PersonPoliticalExposure = "none"
+)
+
+// One of `document_corrupt`, `document_country_not_supported`, `document_expired`, `document_failed_copy`, `document_failed_other`, `document_failed_test_mode`, `document_fraudulent`, `document_failed_greyscale`, `document_incomplete`, `document_invalid`, `document_manipulated`, `document_missing_back`, `document_missing_front`, `document_not_readable`, `document_not_uploaded`, `document_photo_mismatch`, `document_too_large`, or `document_type_not_supported`. A machine-readable code specifying the verification state for this document.
 type VerificationDocumentDetailsCode string
 
-// List of values that IdentityVerificationDetailsCode can take.
+// List of values that VerificationDocumentDetailsCode can take
 const (
 	VerificationDocumentDetailsCodeDocumentCorrupt               VerificationDocumentDetailsCode = "document_corrupt"
 	VerificationDocumentDetailsCodeDocumentFailedCopy            VerificationDocumentDetailsCode = "document_failed_copy"
@@ -30,37 +38,42 @@ const (
 	VerificationDocumentDetailsCodeDocumentTooLarge              VerificationDocumentDetailsCode = "document_too_large"
 )
 
-// PersonPoliticalExposure describes the political exposure of a given person.
-type PersonPoliticalExposure string
-
-// List of values that IdentityVerificationStatus can take.
-const (
-	PersonPoliticalExposureExisting PersonPoliticalExposure = "existing"
-	PersonPoliticalExposureNone     PersonPoliticalExposure = "none"
-)
-
-// PersonVerificationDetailsCode is a machine-readable code specifying the verification state of a
-// person.
+// One of `document_address_mismatch`, `document_dob_mismatch`, `document_duplicate_type`, `document_id_number_mismatch`, `document_name_mismatch`, `document_nationality_mismatch`, `failed_keyed_identity`, or `failed_other`. A machine-readable code specifying the verification state for the person.
 type PersonVerificationDetailsCode string
 
-// List of values that IdentityVerificationDetailsCode can take.
+// List of values that PersonVerificationDetailsCode can take
 const (
 	PersonVerificationDetailsCodeFailedKeyedIdentity PersonVerificationDetailsCode = "failed_keyed_identity"
 	PersonVerificationDetailsCodeFailedOther         PersonVerificationDetailsCode = "failed_other"
 	PersonVerificationDetailsCodeScanNameMismatch    PersonVerificationDetailsCode = "scan_name_mismatch"
 )
 
-// IdentityVerificationStatus describes the different statuses for identity verification.
+// The state of verification for the person. Possible values are `unverified`, `pending`, or `verified`.
 type IdentityVerificationStatus string
 
-// List of values that IdentityVerificationStatus can take.
+// List of values that IdentityVerificationStatus can take
 const (
 	IdentityVerificationStatusPending    IdentityVerificationStatus = "pending"
 	IdentityVerificationStatusUnverified IdentityVerificationStatus = "unverified"
 	IdentityVerificationStatusVerified   IdentityVerificationStatus = "verified"
 )
 
-// DOBParams represents a DOB during account creation/updates.
+// Filters on the list of people returned based on the person's relationship to the account's company.
+type RelationshipListParams struct {
+	Director       *bool `form:"director"`
+	Executive      *bool `form:"executive"`
+	Owner          *bool `form:"owner"`
+	Representative *bool `form:"representative"`
+}
+
+// Returns a list of people associated with the account's legal entity. The people are returned sorted by creation date, with the most recent people appearing first.
+type PersonListParams struct {
+	ListParams   `form:"*"`
+	Account      *string                 `form:"-"` // Included in URL
+	Relationship *RelationshipListParams `form:"relationship"`
+}
+
+// The person's date of birth.
 type DOBParams struct {
 	Day   *int64 `form:"day"`
 	Month *int64 `form:"month"`
@@ -89,7 +102,7 @@ type DocumentsParams struct {
 	Visa                 *DocumentsVisaParams                 `form:"visa"`
 }
 
-// RelationshipParams is used to set the relationship between an account and a person.
+// The relationship that this person has with the account's legal entity.
 type RelationshipParams struct {
 	Director         *bool    `form:"director"`
 	Executive        *bool    `form:"executive"`
@@ -99,22 +112,19 @@ type RelationshipParams struct {
 	Title            *string  `form:"title"`
 }
 
-// PersonVerificationDocumentParams represents the parameters available for the document verifying
-// a person's identity.
+// A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type PersonVerificationDocumentParams struct {
 	Back  *string `form:"back"`
 	Front *string `form:"front"`
 }
 
-// PersonVerificationParams is used to represent parameters associated with a person's verification
-// details.
+// The person's verification status.
 type PersonVerificationParams struct {
 	AdditionalDocument *PersonVerificationDocumentParams `form:"additional_document"`
 	Document           *PersonVerificationDocumentParams `form:"document"`
 }
 
-// PersonParams is the set of parameters that can be used when creating or updating a person.
-// For more details see https://stripe.com/docs/api#create_person.
+// Creates a new person.
 type PersonParams struct {
 	Params            `form:"*"`
 	Account           *string                   `form:"-"` // Included in URL
@@ -142,24 +152,6 @@ type PersonParams struct {
 	SSNLast4          *string                   `form:"ssn_last_4"`
 	Verification      *PersonVerificationParams `form:"verification"`
 }
-
-// RelationshipListParams is used to filter persons by the relationship
-type RelationshipListParams struct {
-	Director       *bool `form:"director"`
-	Executive      *bool `form:"executive"`
-	Owner          *bool `form:"owner"`
-	Representative *bool `form:"representative"`
-}
-
-// PersonListParams is the set of parameters that can be used when listing persons.
-// For more detail see https://stripe.com/docs/api#list_persons.
-type PersonListParams struct {
-	ListParams   `form:"*"`
-	Account      *string                 `form:"-"` // Included in URL
-	Relationship *RelationshipListParams `form:"relationship"`
-}
-
-// DOB represents a Person's date of birth.
 type DOB struct {
 	Day   int64 `json:"day"`
 	Month int64 `json:"month"`
@@ -188,8 +180,6 @@ type PersonFutureRequirements struct {
 	PastDue             []string                               `json:"past_due"`
 	PendingVerification []string                               `json:"pending_verification"`
 }
-
-// Relationship represents how the Person relates to the business.
 type Relationship struct {
 	Director         bool    `json:"director"`
 	Executive        bool    `json:"executive"`
@@ -205,7 +195,7 @@ type PersonRequirementsAlternative struct {
 	OriginalFieldsDue    []string `json:"original_fields_due"`
 }
 
-// Requirements represents what's missing to verify a Person.
+// Information about the requirements for this person, including what information needs to be collected, and by when.
 type Requirements struct {
 	Alternatives        []*PersonRequirementsAlternative `json:"alternatives"`
 	CurrentlyDue        []string                         `json:"currently_due"`
@@ -215,15 +205,13 @@ type Requirements struct {
 	PendingVerification []string                         `json:"pending_verification"`
 }
 
-// PersonVerificationDocument represents the documents associated with a Person.
+// A document showing address, either a passport, local ID card, or utility bill from a well-known utility company.
 type PersonVerificationDocument struct {
 	Back        *File                           `json:"back"`
 	Details     string                          `json:"details"`
 	DetailsCode VerificationDocumentDetailsCode `json:"details_code"`
 	Front       *File                           `json:"front"`
 }
-
-// PersonVerification is the structure for a person's verification details.
 type PersonVerification struct {
 	AdditionalDocument *PersonVerificationDocument   `json:"additional_document"`
 	Details            string                        `json:"details"`
@@ -232,8 +220,12 @@ type PersonVerification struct {
 	Status             IdentityVerificationStatus    `json:"status"`
 }
 
-// Person is the resource representing a Stripe person.
-// For more details see https://stripe.com/docs/api#persons.
+// This is an object representing a person associated with a Stripe account.
+//
+// A platform cannot access a Standard or Express account's persons after the account starts onboarding, such as after generating an account link for the account.
+// See the [Standard onboarding](https://stripe.com/docs/connect/standard-accounts) or [Express onboarding documentation](https://stripe.com/docs/connect/express-accounts) for information about platform pre-filling and account onboarding steps.
+//
+// Related guide: [Handling Identity Verification with the API](https://stripe.com/docs/connect/identity-verification-api#person-information).
 type Person struct {
 	APIResource
 	Account            string                    `json:"account"`
@@ -267,7 +259,7 @@ type Person struct {
 	Verification       *PersonVerification       `json:"verification"`
 }
 
-// PersonList is a list of persons as retrieved from a list endpoint.
+// PersonList is a list of Persons as retrieved from a list endpoint.
 type PersonList struct {
 	APIResource
 	ListMeta

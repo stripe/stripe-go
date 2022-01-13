@@ -8,11 +8,10 @@ package stripe
 
 import "encoding/json"
 
-// IssuingAuthorizationAuthorizationMethod is the list of possible values for the authorization method
-// on an issuing authorization.
+// How the card details were provided.
 type IssuingAuthorizationAuthorizationMethod string
 
-// List of values that IssuingAuthorizationAuthorizationMethod can take.
+// List of values that IssuingAuthorizationAuthorizationMethod can take
 const (
 	IssuingAuthorizationAuthorizationMethodChip        IssuingAuthorizationAuthorizationMethod = "chip"
 	IssuingAuthorizationAuthorizationMethodContactless IssuingAuthorizationAuthorizationMethod = "contactless"
@@ -45,11 +44,10 @@ const (
 	IssuingAuthorizationRequestHistoryViolatedAuthorizationControlNameSpendingLimits    IssuingAuthorizationRequestHistoryViolatedAuthorizationControlName = "spending_limits"
 )
 
-// IssuingAuthorizationRequestHistoryReason is the list of possible values for the request history
-// reason on an issuing authorization.
+// The reason for the approval or decline.
 type IssuingAuthorizationRequestHistoryReason string
 
-// List of values that IssuingAuthorizationRequestHistoryReason can take.
+// List of values that IssuingAuthorizationRequestHistoryReason can take
 const (
 	IssuingAuthorizationRequestHistoryReasonAccountDisabled                IssuingAuthorizationRequestHistoryReason = "account_disabled"
 	IssuingAuthorizationRequestHistoryReasonCardActive                     IssuingAuthorizationRequestHistoryReason = "card_active"
@@ -66,54 +64,37 @@ const (
 	IssuingAuthorizationRequestHistoryReasonWebhookTimeout                 IssuingAuthorizationRequestHistoryReason = "webhook_timeout"
 )
 
-// IssuingAuthorizationStatus is the possible values for status for an issuing authorization.
+// The current status of the authorization in its lifecycle.
 type IssuingAuthorizationStatus string
 
-// List of values that IssuingAuthorizationStatus can take.
+// List of values that IssuingAuthorizationStatus can take
 const (
 	IssuingAuthorizationStatusClosed   IssuingAuthorizationStatus = "closed"
 	IssuingAuthorizationStatusPending  IssuingAuthorizationStatus = "pending"
 	IssuingAuthorizationStatusReversed IssuingAuthorizationStatus = "reversed"
 )
 
-// IssuingAuthorizationVerificationDataCheck is the list of possible values for result of a check
-// for verification data on an issuing authorization.
+// Whether the cardholder provided an address first line and if it matched the cardholder's `billing.address.line1`.
 type IssuingAuthorizationVerificationDataCheck string
 
-// List of values that IssuingAuthorizationVerificationDataCheck can take.
+// List of values that IssuingAuthorizationVerificationDataCheck can take
 const (
 	IssuingAuthorizationVerificationDataCheckMatch       IssuingAuthorizationVerificationDataCheck = "match"
 	IssuingAuthorizationVerificationDataCheckMismatch    IssuingAuthorizationVerificationDataCheck = "mismatch"
 	IssuingAuthorizationVerificationDataCheckNotProvided IssuingAuthorizationVerificationDataCheck = "not_provided"
 )
 
-// IssuingAuthorizationWalletType is the list of possible values for the authorization's wallet provider.
+// The digital wallet used for this authorization. One of `apple_pay`, `google_pay`, or `samsung_pay`.
 type IssuingAuthorizationWalletType string
 
-// List of values that IssuingAuthorizationWalletType can take.
+// List of values that IssuingAuthorizationWalletType can take
 const (
 	IssuingAuthorizationWalletTypeApplePay   IssuingAuthorizationWalletType = "apple_pay"
 	IssuingAuthorizationWalletTypeGooglePay  IssuingAuthorizationWalletType = "google_pay"
 	IssuingAuthorizationWalletTypeSamsungPay IssuingAuthorizationWalletType = "samsung_pay"
 )
 
-// IssuingAuthorizationParams is the set of parameters that can be used when updating an issuing authorization.
-type IssuingAuthorizationParams struct {
-	Params `form:"*"`
-}
-
-// IssuingAuthorizationApproveParams is the set of parameters that can be used when approving an issuing authorization.
-type IssuingAuthorizationApproveParams struct {
-	Params `form:"*"`
-	Amount *int64 `form:"amount"`
-}
-
-// IssuingAuthorizationDeclineParams is the set of parameters that can be used when declining an issuing authorization.
-type IssuingAuthorizationDeclineParams struct {
-	Params `form:"*"`
-}
-
-// IssuingAuthorizationListParams is the set of parameters that can be used when listing issuing authorizations.
+// Returns a list of Issuing Authorization objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type IssuingAuthorizationListParams struct {
 	ListParams   `form:"*"`
 	Card         *string           `form:"card"`
@@ -123,12 +104,26 @@ type IssuingAuthorizationListParams struct {
 	Status       *string           `form:"status"`
 }
 
-// IssuingAuthorizationAmountDetails is the resource representing the breakdown of the amount.
+// Retrieves an Issuing Authorization object.
+type IssuingAuthorizationParams struct {
+	Params `form:"*"`
+}
+
+// Approves a pending Issuing Authorization object. This request should be made within the timeout window of the [real-time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
+type IssuingAuthorizationApproveParams struct {
+	Params `form:"*"`
+	Amount *int64 `form:"amount"`
+}
+
+// Declines a pending Issuing Authorization object. This request should be made within the timeout window of the [real time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
+type IssuingAuthorizationDeclineParams struct {
+	Params `form:"*"`
+}
+
+// Detailed breakdown of amount components. These amounts are denominated in `currency` and in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
 type IssuingAuthorizationAmountDetails struct {
 	ATMFee int64 `json:"atm_fee"`
 }
-
-// IssuingAuthorizationMerchantData is the resource representing merchant data on Issuing APIs.
 type IssuingAuthorizationMerchantData struct {
 	Category     string `json:"category"`
 	CategoryCode string `json:"category_code"`
@@ -140,7 +135,7 @@ type IssuingAuthorizationMerchantData struct {
 	State        string `json:"state"`
 }
 
-// IssuingAuthorizationPendingRequest is the resource representing details about the pending authorization request.
+// The pending authorization request. This field will only be non-null during an `issuing_authorization.request` webhook.
 type IssuingAuthorizationPendingRequest struct {
 	Amount               int64                              `json:"amount"`
 	AmountDetails        *IssuingAuthorizationAmountDetails `json:"amount_details"`
@@ -150,7 +145,7 @@ type IssuingAuthorizationPendingRequest struct {
 	MerchantCurrency     Currency                           `json:"merchant_currency"`
 }
 
-// IssuingAuthorizationRequestHistory is the resource representing a request history on an issuing authorization.
+// History of every time `pending_request` was approved/denied, either by you directly or by Stripe (e.g. based on your `spending_controls`). If the merchant changes the authorization by performing an [incremental authorization](https://stripe.com/docs/issuing/purchases/authorizations), you can look at this field to see the previous requests for the authorization.
 type IssuingAuthorizationRequestHistory struct {
 	Amount           int64                                    `json:"amount"`
 	AmountDetails    *IssuingAuthorizationAmountDetails       `json:"amount_details"`
@@ -161,8 +156,6 @@ type IssuingAuthorizationRequestHistory struct {
 	MerchantCurrency Currency                                 `json:"merchant_currency"`
 	Reason           IssuingAuthorizationRequestHistoryReason `json:"reason"`
 }
-
-// IssuingAuthorizationVerificationData is the resource representing verification data on an issuing authorization.
 type IssuingAuthorizationVerificationData struct {
 	AddressLine1Check      IssuingAuthorizationVerificationDataCheck `json:"address_line1_check"`
 	AddressPostalCodeCheck IssuingAuthorizationVerificationDataCheck `json:"address_postal_code_check"`
@@ -170,7 +163,11 @@ type IssuingAuthorizationVerificationData struct {
 	ExpiryCheck            IssuingAuthorizationVerificationDataCheck `json:"expiry_check"`
 }
 
-// IssuingAuthorization is the resource representing a Stripe issuing authorization.
+// When an [issued card](https://stripe.com/docs/issuing) is used to make a purchase, an Issuing `Authorization`
+// object is created. [Authorizations](https://stripe.com/docs/issuing/purchases/authorizations) must be approved for the
+// purchase to be completed successfully.
+//
+// Related guide: [Issued Card Authorizations](https://stripe.com/docs/issuing/purchases/authorizations).
 type IssuingAuthorization struct {
 	APIResource
 	Amount              int64                                   `json:"amount"`
@@ -197,7 +194,7 @@ type IssuingAuthorization struct {
 	Wallet              IssuingAuthorizationWalletType          `json:"wallet"`
 }
 
-// IssuingAuthorizationList is a list of issuing authorizations as retrieved from a list endpoint.
+// IssuingAuthorizationList is a list of Authorizations as retrieved from a list endpoint.
 type IssuingAuthorizationList struct {
 	APIResource
 	ListMeta

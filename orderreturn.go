@@ -8,14 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// OrderReturnParams is the set of parameters that can be used when returning orders.
-type OrderReturnParams struct {
-	Params `form:"*"`
-	Items  []*OrderItemParams `form:"items"`
-	Order  *string            `form:"-"` // Included in the URL
-}
-
-// OrderReturnListParams is the set of parameters that can be used when listing order returns.
+// Returns a list of your order returns. The returns are returned sorted by creation date, with the most recently created return appearing first.
 type OrderReturnListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
@@ -23,8 +16,17 @@ type OrderReturnListParams struct {
 	Order        *string           `form:"order"`
 }
 
-// OrderReturn is the resource representing an order return.
-// For more details see https://stripe.com/docs/api#order_returns.
+// Retrieves the details of an existing order return. Supply the unique order ID from either an order return creation request or the order return list, and Stripe will return the corresponding order information.
+type OrderReturnParams struct {
+	Params `form:"*"`
+	Items  []*OrderItemParams `form:"items"`
+	Order  *string            `form:"-"` // Included in the URL
+}
+
+// A return represents the full or partial return of a number of [order items](https://stripe.com/docs/api#order_items).
+// Returns always belong to an order, and may optionally contain a refund.
+//
+// Related guide: [Handling Returns](https://stripe.com/docs/orders/guide#handling-returns).
 type OrderReturn struct {
 	APIResource
 	Amount   int64        `json:"amount"`
@@ -38,7 +40,7 @@ type OrderReturn struct {
 	Refund   *Refund      `json:"refund"`
 }
 
-// OrderReturnList is a list of order returns as retrieved from a list endpoint.
+// OrderReturnList is a list of OrderReturns as retrieved from a list endpoint.
 type OrderReturnList struct {
 	APIResource
 	ListMeta

@@ -6,10 +6,10 @@
 
 package stripe
 
-// RadarValueListItemType is the possible values for a type of value list items.
+// The type of items in the value list. One of `card_fingerprint`, `card_bin`, `email`, `ip_address`, `country`, `string`, `case_sensitive_string`, or `customer_id`.
 type RadarValueListItemType string
 
-// List of values that RadarValueListItemType can take.
+// List of values that RadarValueListItemType can take
 const (
 	RadarValueListItemTypeCardBin             RadarValueListItemType = "card_bin"
 	RadarValueListItemTypeCardFingerprint     RadarValueListItemType = "card_fingerprint"
@@ -21,15 +21,7 @@ const (
 	RadarValueListItemTypeString              RadarValueListItemType = "string"
 )
 
-// RadarValueListParams is the set of parameters that can be used when creating a value list.
-type RadarValueListParams struct {
-	Params   `form:"*"`
-	Alias    *string `form:"alias"`
-	ItemType *string `form:"item_type"`
-	Name     *string `form:"name"`
-}
-
-// RadarValueListListParams is the set of parameters that can be used when listing value lists.
+// Returns a list of ValueList objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type RadarValueListListParams struct {
 	ListParams   `form:"*"`
 	Alias        *string           `form:"alias"`
@@ -38,7 +30,17 @@ type RadarValueListListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 }
 
-// RadarValueList is the resource representing a value list.
+// Creates a new ValueList object, which can then be referenced in rules.
+type RadarValueListParams struct {
+	Params   `form:"*"`
+	Alias    *string `form:"alias"`
+	ItemType *string `form:"item_type"`
+	Name     *string `form:"name"`
+}
+
+// Value lists allow you to group values together which can then be referenced in rules.
+//
+// Related guide: [Default Stripe Lists](https://stripe.com/docs/radar/lists#managing-list-items).
 type RadarValueList struct {
 	APIResource
 	Alias     string                  `json:"alias"`
@@ -56,7 +58,7 @@ type RadarValueList struct {
 	UpdatedBy string                  `json:"updated_by"`
 }
 
-// RadarValueListList is a list of value lists as retrieved from a list endpoint.
+// RadarValueListList is a list of ValueLists as retrieved from a list endpoint.
 type RadarValueListList struct {
 	APIResource
 	ListMeta

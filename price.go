@@ -11,19 +11,19 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// PriceBillingScheme is the list of allowed values for a price's billing scheme.
+// Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
 type PriceBillingScheme string
 
-// List of values that PriceBillingScheme can take.
+// List of values that PriceBillingScheme can take
 const (
 	PriceBillingSchemePerUnit PriceBillingScheme = "per_unit"
 	PriceBillingSchemeTiered  PriceBillingScheme = "tiered"
 )
 
-// PriceRecurringAggregateUsage is the list of allowed values for a price's aggregate usage.
+// Specifies a usage aggregation strategy for prices of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
 type PriceRecurringAggregateUsage string
 
-// List of values that PriceRecurringAggregateUsage can take.
+// List of values that PriceRecurringAggregateUsage can take
 const (
 	PriceRecurringAggregateUsageLastDuringPeriod PriceRecurringAggregateUsage = "last_during_period"
 	PriceRecurringAggregateUsageLastEver         PriceRecurringAggregateUsage = "last_ever"
@@ -31,10 +31,10 @@ const (
 	PriceRecurringAggregateUsageSum              PriceRecurringAggregateUsage = "sum"
 )
 
-// PriceRecurringInterval is the list of allowed values for a price's recurring interval.
+// The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`.
 type PriceRecurringInterval string
 
-// List of values that PriceRecurringInterval can take.
+// List of values that PriceRecurringInterval can take
 const (
 	PriceRecurringIntervalDay   PriceRecurringInterval = "day"
 	PriceRecurringIntervalMonth PriceRecurringInterval = "month"
@@ -42,15 +42,16 @@ const (
 	PriceRecurringIntervalYear  PriceRecurringInterval = "year"
 )
 
-// PriceRecurringUsageType is the list of allowed values for a price's usage type.
+// Configures how the quantity per period should be determined. Can be either `metered` or `licensed`. `licensed` automatically bills the `quantity` set when adding it to a subscription. `metered` aggregates the total usage based on usage records. Defaults to `licensed`.
 type PriceRecurringUsageType string
 
-// List of values that PriceUsageType can take.
+// List of values that PriceRecurringUsageType can take
 const (
 	PriceRecurringUsageTypeLicensed PriceRecurringUsageType = "licensed"
 	PriceRecurringUsageTypeMetered  PriceRecurringUsageType = "metered"
 )
 
+// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 type PriceTaxBehavior string
 
 // List of values that PriceTaxBehavior can take
@@ -60,34 +61,53 @@ const (
 	PriceTaxBehaviorUnspecified PriceTaxBehavior = "unspecified"
 )
 
-// PriceTiersMode is the list of allowed values for a price's tiers mode.
+// Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price. In `graduated` tiering, pricing can change as the quantity grows.
 type PriceTiersMode string
 
-// List of values that PriceTiersMode can take.
+// List of values that PriceTiersMode can take
 const (
 	PriceTiersModeGraduated PriceTiersMode = "graduated"
 	PriceTiersModeVolume    PriceTiersMode = "volume"
 )
 
-// PriceTransformQuantityRound is the list of allowed values for a price's transform quantity rounding logic.
+// After division, either round the result `up` or `down`.
 type PriceTransformQuantityRound string
 
-// List of values that PriceTransformQuantityRound can take.
+// List of values that PriceTransformQuantityRound can take
 const (
 	PriceTransformQuantityRoundDown PriceTransformQuantityRound = "down"
 	PriceTransformQuantityRoundUp   PriceTransformQuantityRound = "up"
 )
 
-// PriceType is the list of allowed values for a price's type.
+// One of `one_time` or `recurring` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.
 type PriceType string
 
-// List of values that PriceType can take.
+// List of values that PriceType can take
 const (
 	PriceTypeOneTime   PriceType = "one_time"
 	PriceTypeRecurring PriceType = "recurring"
 )
 
-// PriceProductDataParams is the set of parameters that can be used when creating a product inside a price.
+// Only return prices with these recurring fields.
+type PriceRecurringListParams struct {
+	Interval  *string `form:"interval"`
+	UsageType *string `form:"usage_type"`
+}
+
+// Returns a list of your prices.
+type PriceListParams struct {
+	ListParams   `form:"*"`
+	Active       *bool                     `form:"active"`
+	Created      *int64                    `form:"created"`
+	CreatedRange *RangeQueryParams         `form:"created"`
+	Currency     *string                   `form:"currency"`
+	LookupKeys   []*string                 `form:"lookup_keys"`
+	Product      *string                   `form:"product"`
+	Recurring    *PriceRecurringListParams `form:"recurring"`
+	Type         *string                   `form:"type"`
+}
+
+// These fields can be used to create a new product that this price will belong to.
 type PriceProductDataParams struct {
 	Active              *bool             `form:"active"`
 	ID                  *string           `form:"id"`
@@ -98,7 +118,7 @@ type PriceProductDataParams struct {
 	UnitLabel           *string           `form:"unit_label"`
 }
 
-// PriceRecurringParams is the set of parameters for the recurring components of a price.
+// The recurring components of a price such as `interval` and `usage_type`.
 type PriceRecurringParams struct {
 	AggregateUsage  *string `form:"aggregate_usage"`
 	Interval        *string `form:"interval"`
@@ -107,7 +127,7 @@ type PriceRecurringParams struct {
 	UsageType       *string `form:"usage_type"`
 }
 
-// PriceTierParams configures tiered pricing
+// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 type PriceTierParams struct {
 	FlatAmount        *int64   `form:"flat_amount"`
 	FlatAmountDecimal *float64 `form:"flat_amount_decimal,high_precision"`
@@ -124,14 +144,13 @@ func (p *PriceTierParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
-// PriceTransformQuantityParams represents the parameter controlling the calculation of the final amount based on the quantity.
+// Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with `tiers`.
 type PriceTransformQuantityParams struct {
 	DivideBy *int64  `form:"divide_by"`
 	Round    *string `form:"round"`
 }
 
-// PriceParams is the set of parameters that can be used when creating or updating a price.
-// For more details see https://stripe.com/docs/api#create_price and https://stripe.com/docs/api#update_price.
+// Creates a new price for an existing product. The price can be recurring or one-time.
 type PriceParams struct {
 	Params            `form:"*"`
 	Active            *bool                         `form:"active"`
@@ -151,27 +170,7 @@ type PriceParams struct {
 	UnitAmountDecimal *float64                      `form:"unit_amount_decimal,high_precision"`
 }
 
-// PriceRecurringListParams is the set of parameters that can be used when listing recurring prices.
-type PriceRecurringListParams struct {
-	Interval  *string `form:"interval"`
-	UsageType *string `form:"usage_type"`
-}
-
-// PriceListParams is the set of parameters that can be used when listing prices.
-// For more details see https://stripe.com/docs/api#list_prices.
-type PriceListParams struct {
-	ListParams   `form:"*"`
-	Active       *bool                     `form:"active"`
-	Created      *int64                    `form:"created"`
-	CreatedRange *RangeQueryParams         `form:"created"`
-	Currency     *string                   `form:"currency"`
-	LookupKeys   []*string                 `form:"lookup_keys"`
-	Product      *string                   `form:"product"`
-	Recurring    *PriceRecurringListParams `form:"recurring"`
-	Type         *string                   `form:"type"`
-}
-
-// PriceRecurring represents the recurring components of a price.
+// The recurring components of a price such as `interval` and `usage_type`.
 type PriceRecurring struct {
 	AggregateUsage  PriceRecurringAggregateUsage `json:"aggregate_usage"`
 	Interval        PriceRecurringInterval       `json:"interval"`
@@ -180,7 +179,7 @@ type PriceRecurring struct {
 	UsageType       PriceRecurringUsageType      `json:"usage_type"`
 }
 
-// PriceTier configures tiered pricing
+// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`.
 type PriceTier struct {
 	FlatAmount        int64   `json:"flat_amount"`
 	FlatAmountDecimal float64 `json:"flat_amount_decimal,string"`
@@ -189,14 +188,18 @@ type PriceTier struct {
 	UpTo              int64   `json:"up_to"`
 }
 
-// PriceTransformQuantity represents how to calculate the final amount based on the quantity.
+// Apply a transformation to the reported usage or set quantity before computing the amount billed. Cannot be combined with `tiers`.
 type PriceTransformQuantity struct {
 	DivideBy int64                       `json:"divide_by"`
 	Round    PriceTransformQuantityRound `json:"round"`
 }
 
-// Price is the resource representing a Stripe price.
-// For more details see https://stripe.com/docs/api#prices.
+// Prices define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of products.
+// [Products](https://stripe.com/docs/api#products) help you track inventory or provisioning, and prices help you track payment terms. Different physical goods or levels of service should be represented by products, and pricing options should be represented by prices. This approach lets you change prices without having to change your provisioning scheme.
+//
+// For example, you might have a single "gold" product that has prices for $10/month, $100/year, and €9 once.
+//
+// Related guides: [Set up a subscription](https://stripe.com/docs/billing/subscriptions/set-up-subscription), [create an invoice](https://stripe.com/docs/billing/invoices/create), and more about [products and prices](https://stripe.com/docs/billing/prices-guide).
 type Price struct {
 	APIResource
 	Active            bool                    `json:"active"`
@@ -221,7 +224,7 @@ type Price struct {
 	UnitAmountDecimal float64                 `json:"unit_amount_decimal,string"`
 }
 
-// PriceList is a list of prices as returned from a list endpoint.
+// PriceList is a list of Prices as retrieved from a list endpoint.
 type PriceList struct {
 	APIResource
 	ListMeta

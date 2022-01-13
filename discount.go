@@ -8,13 +8,16 @@ package stripe
 
 import "encoding/json"
 
-// DiscountParams is the set of parameters that can be used when deleting a discount.
+// Removes the currently applied discount on a customer.
 type DiscountParams struct {
 	Params `form:"*"`
 }
 
-// Discount is the resource representing a Stripe discount.
-// For more details see https://stripe.com/docs/api#discounts.
+// A discount represents the actual application of a coupon to a particular
+// customer. It contains information about when the discount began and when it
+// will end.
+//
+// Related guide: [Applying Discounts to Subscriptions](https://stripe.com/docs/billing/subscriptions/discounts).
 type Discount struct {
 	APIResource
 	CheckoutSession *CheckoutSession `json:"checkout_session"`

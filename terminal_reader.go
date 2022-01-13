@@ -6,7 +6,7 @@
 
 package stripe
 
-// TerminalReaderDeviceType is the type of the terminal read.er device.
+// Type of reader, one of `bbpos_chipper2x`, `bbpos_wisepos_e`, or `verifone_P400`.
 type TerminalReaderDeviceType string
 
 // List of values that TerminalReaderDeviceType can take
@@ -16,7 +16,7 @@ const (
 	TerminalReaderDeviceTypeVerifoneP400   TerminalReaderDeviceType = "verifone_P400"
 )
 
-// TerminalReaderParams is the set of parameters that can be used for creating or updating a terminal reader.
+// Updates a Reader object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
 type TerminalReaderParams struct {
 	Params           `form:"*"`
 	Label            *string `form:"label"`
@@ -29,7 +29,7 @@ type TerminalReaderGetParams struct {
 	Params `form:"*"`
 }
 
-// TerminalReaderListParams is the set of parameters that can be used when listing temrinal readers.
+// Returns a list of Reader objects.
 type TerminalReaderListParams struct {
 	ListParams `form:"*"`
 	DeviceType *string `form:"device_type"`
@@ -37,7 +37,9 @@ type TerminalReaderListParams struct {
 	Status     *string `form:"status"`
 }
 
-// TerminalReader is the resource representing a Stripe terminal reader.
+// A Reader represents a physical device for accepting payment details.
+//
+// Related guide: [Connecting to a Reader](https://stripe.com/docs/terminal/payments/connect-reader).
 type TerminalReader struct {
 	APIResource
 	Deleted         bool                     `json:"deleted"`
@@ -54,7 +56,7 @@ type TerminalReader struct {
 	Status          string                   `json:"status"`
 }
 
-// TerminalReaderList is a list of terminal readers as retrieved from a list endpoint.
+// TerminalReaderList is a list of Readers as retrieved from a list endpoint.
 type TerminalReaderList struct {
 	APIResource
 	ListMeta

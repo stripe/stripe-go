@@ -11,34 +11,19 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// SubscriptionStatus is the list of allowed values for the subscription's status.
-type SubscriptionStatus string
-
-// List of values that SubscriptionStatus can take.
-const (
-	SubscriptionStatusActive            SubscriptionStatus = "active"
-	SubscriptionStatusAll               SubscriptionStatus = "all"
-	SubscriptionStatusCanceled          SubscriptionStatus = "canceled"
-	SubscriptionStatusIncomplete        SubscriptionStatus = "incomplete"
-	SubscriptionStatusIncompleteExpired SubscriptionStatus = "incomplete_expired"
-	SubscriptionStatusPastDue           SubscriptionStatus = "past_due"
-	SubscriptionStatusTrialing          SubscriptionStatus = "trialing"
-	SubscriptionStatusUnpaid            SubscriptionStatus = "unpaid"
-)
-
-// SubscriptionCollectionMethod is the type of collection method for this subscription's invoices.
+// Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions.
 type SubscriptionCollectionMethod string
 
-// List of values that SubscriptionCollectionMethod can take.
+// List of values that SubscriptionCollectionMethod can take
 const (
 	SubscriptionCollectionMethodChargeAutomatically SubscriptionCollectionMethod = "charge_automatically"
 	SubscriptionCollectionMethodSendInvoice         SubscriptionCollectionMethod = "send_invoice"
 )
 
-// SubscriptionPauseCollectionBehavior is the payment collection behavior a paused subscription.
+// The payment collection behavior for this subscription while paused. One of `keep_as_draft`, `mark_uncollectible`, or `void`.
 type SubscriptionPauseCollectionBehavior string
 
-// List of values that SubscriptionPauseCollectionBehavior can take.
+// List of values that SubscriptionPauseCollectionBehavior can take
 const (
 	SubscriptionPauseCollectionBehaviorKeepAsDraft       SubscriptionPauseCollectionBehavior = "keep_as_draft"
 	SubscriptionPauseCollectionBehaviorMarkUncollectible SubscriptionPauseCollectionBehavior = "mark_uncollectible"
@@ -125,11 +110,10 @@ const (
 	SubscriptionProrationBehaviorNone             SubscriptionProrationBehavior = "none"
 )
 
-// SubscriptionPendingInvoiceItemIntervalInterval controls the interval at which pending invoice
-// items should be invoiced.
+// Specifies invoicing frequency. Either `day`, `week`, `month` or `year`.
 type SubscriptionPendingInvoiceItemIntervalInterval string
 
-// List of values that SubscriptionPendingInvoiceItemIntervalInterval can take.
+// List of values that SubscriptionPendingInvoiceItemIntervalInterval can take
 const (
 	SubscriptionPendingInvoiceItemIntervalIntervalDay   SubscriptionPendingInvoiceItemIntervalInterval = "day"
 	SubscriptionPendingInvoiceItemIntervalIntervalMonth SubscriptionPendingInvoiceItemIntervalInterval = "month"
@@ -137,8 +121,46 @@ const (
 	SubscriptionPendingInvoiceItemIntervalIntervalYear  SubscriptionPendingInvoiceItemIntervalInterval = "year"
 )
 
-// SubscriptionAddInvoiceItemParams is a structure representing the parameters allowed to control
-// the invoice items to add at to a subscription's first invoice.
+// Possible values are `incomplete`, `incomplete_expired`, `trialing`, `active`, `past_due`, `canceled`, or `unpaid`.
+//
+// For `collection_method=charge_automatically` a subscription moves into `incomplete` if the initial payment attempt fails. A subscription in this state can only have metadata and default_source updated. Once the first invoice is paid, the subscription moves into an `active` state. If the first invoice is not paid within 23 hours, the subscription transitions to `incomplete_expired`. This is a terminal state, the open invoice will be voided and no further invoices will be generated.
+//
+// A subscription that is currently in a trial period is `trialing` and moves to `active` when the trial period is over.
+//
+// If subscription `collection_method=charge_automatically` it becomes `past_due` when payment to renew it fails and `canceled` or `unpaid` (depending on your subscriptions settings) when Stripe has exhausted all payment retry attempts.
+//
+// If subscription `collection_method=send_invoice` it becomes `past_due` when its invoice is not paid by the due date, and `canceled` or `unpaid` if it is still not paid by an additional deadline after that. Note that when a subscription has a status of `unpaid`, no subsequent invoices will be attempted (invoices will be created, but then immediately automatically closed). After receiving updated payment information from a customer, you may choose to reopen and pay their closed invoices.
+type SubscriptionStatus string
+
+// List of values that SubscriptionStatus can take
+const (
+	SubscriptionStatusActive            SubscriptionStatus = "active"
+	SubscriptionStatusAll               SubscriptionStatus = "all"
+	SubscriptionStatusCanceled          SubscriptionStatus = "canceled"
+	SubscriptionStatusIncomplete        SubscriptionStatus = "incomplete"
+	SubscriptionStatusIncompleteExpired SubscriptionStatus = "incomplete_expired"
+	SubscriptionStatusPastDue           SubscriptionStatus = "past_due"
+	SubscriptionStatusTrialing          SubscriptionStatus = "trialing"
+	SubscriptionStatusUnpaid            SubscriptionStatus = "unpaid"
+)
+
+// By default, returns a list of subscriptions that have not been canceled. In order to list canceled subscriptions, specify status=canceled.
+type SubscriptionListParams struct {
+	ListParams              `form:"*"`
+	CollectionMethod        *string           `form:"collection_method"`
+	Created                 int64             `form:"created"`
+	CreatedRange            *RangeQueryParams `form:"created"`
+	CurrentPeriodEnd        *int64            `form:"current_period_end"`
+	CurrentPeriodEndRange   *RangeQueryParams `form:"current_period_end"`
+	CurrentPeriodStart      *int64            `form:"current_period_start"`
+	CurrentPeriodStartRange *RangeQueryParams `form:"current_period_start"`
+	Customer                string            `form:"customer"`
+	Plan                    string            `form:"plan"`
+	Price                   string            `form:"price"`
+	Status                  string            `form:"status"`
+}
+
+// A list of prices and quantities that will generate invoice items appended to the first invoice for this subscription. You may pass up to 20 items.
 type SubscriptionAddInvoiceItemParams struct {
 	Price     *string                     `form:"price"`
 	PriceData *InvoiceItemPriceDataParams `form:"price_data"`
@@ -146,10 +168,30 @@ type SubscriptionAddInvoiceItemParams struct {
 	TaxRates  []*string                   `form:"tax_rates"`
 }
 
-// SubscriptionPauseCollectionParams is the set of parameters allowed for the pause_collection hash.
-type SubscriptionPauseCollectionParams struct {
-	Behavior  *string `form:"behavior"`
-	ResumesAt *int64  `form:"resumes_at"`
+// Automatic tax settings for this subscription.
+type SubscriptionAutomaticTaxParams struct {
+	Enabled *bool `form:"enabled"`
+}
+
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
+type SubscriptionBillingThresholdsParams struct {
+	AmountGTE               *int64 `form:"amount_gte"`
+	ResetBillingCycleAnchor *bool  `form:"reset_billing_cycle_anchor"`
+}
+
+// A list of up to 20 subscription items, each with an attached price.
+type SubscriptionItemsParams struct {
+	Params            `form:"*"`
+	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
+	ClearUsage        *bool                                    `form:"clear_usage"`
+	Deleted           *bool                                    `form:"deleted"`
+	ID                *string                                  `form:"id"`
+	Metadata          map[string]string                        `form:"metadata"`
+	Plan              *string                                  `form:"plan"`
+	Price             *string                                  `form:"price"`
+	PriceData         *SubscriptionItemPriceDataParams         `form:"price_data"`
+	Quantity          *int64                                   `form:"quantity"`
+	TaxRates          []*string                                `form:"tax_rates"`
 }
 
 // Additional fields for Mandate creation
@@ -194,20 +236,19 @@ type SubscriptionPaymentSettingsParams struct {
 	PaymentMethodTypes   []*string                                              `form:"payment_method_types"`
 }
 
-// SubscriptionPendingInvoiceItemIntervalParams is the set of parameters allowed for the transfer_data hash.
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://stripe.com/docs/api#create_invoice) for the given subscription at the specified interval.
 type SubscriptionPendingInvoiceItemIntervalParams struct {
 	Interval      *string `form:"interval"`
 	IntervalCount *int64  `form:"interval_count"`
 }
 
-// SubscriptionTransferDataParams is the set of parameters allowed for the transfer_data hash.
+// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 type SubscriptionTransferDataParams struct {
 	AmountPercent *float64 `form:"amount_percent"`
 	Destination   *string  `form:"destination"`
 }
 
-// SubscriptionParams is the set of parameters that can be used when creating or updating a subscription.
-// For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
+// Creates a new subscription on an existing customer. Each customer can have up to 500 active or scheduled subscriptions.
 type SubscriptionParams struct {
 	Params                      `form:"*"`
 	AddInvoiceItems             []*SubscriptionAddInvoiceItemParams           `form:"add_invoice_items"`
@@ -260,60 +301,33 @@ func (s *SubscriptionParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
-// Automatic tax settings for this subscription.
-type SubscriptionAutomaticTaxParams struct {
-	Enabled *bool `form:"enabled"`
+// If specified, payment collection for this subscription will be paused.
+type SubscriptionPauseCollectionParams struct {
+	Behavior  *string `form:"behavior"`
+	ResumesAt *int64  `form:"resumes_at"`
 }
 
-// SubscriptionBillingThresholdsParams is a structure representing the parameters allowed to control
-// billing thresholds for a subscription.
-type SubscriptionBillingThresholdsParams struct {
-	AmountGTE               *int64 `form:"amount_gte"`
-	ResetBillingCycleAnchor *bool  `form:"reset_billing_cycle_anchor"`
-}
-
-// SubscriptionCancelParams is the set of parameters that can be used when canceling a subscription.
-// For more details see https://stripe.com/docs/api#cancel_subscription
+// Cancels a customer's subscription immediately. The customer will not be charged again for the subscription.
+//
+// Note, however, that any pending invoice items that you've created will still be charged for at the end of the period, unless manually [deleted](https://stripe.com/docs/api#delete_invoiceitem). If you've set the subscription to cancel at the end of the period, any pending prorations will also be left in place and collected at the end of the period. But if the subscription is set to cancel immediately, pending prorations will be removed.
+//
+// By default, upon subscription cancellation, Stripe will stop automatic collection of all finalized invoices for the customer. This is intended to prevent unexpected payment attempts after the customer has canceled a subscription. However, you can resume automatic collection of the invoices manually after subscription cancellation to have us proceed. Or, you could check for unpaid invoices before allowing the customer to cancel the subscription at all.
 type SubscriptionCancelParams struct {
 	Params     `form:"*"`
 	InvoiceNow *bool `form:"invoice_now"`
 	Prorate    *bool `form:"prorate"`
 }
-
-// SubscriptionItemsParams is the set of parameters that can be used when creating or updating a subscription item on a subscription
-// For more details see https://stripe.com/docs/api#create_subscription and https://stripe.com/docs/api#update_subscription.
-type SubscriptionItemsParams struct {
-	Params            `form:"*"`
-	BillingThresholds *SubscriptionItemBillingThresholdsParams `form:"billing_thresholds"`
-	ClearUsage        *bool                                    `form:"clear_usage"`
-	Deleted           *bool                                    `form:"deleted"`
-	ID                *string                                  `form:"id"`
-	Metadata          map[string]string                        `form:"metadata"`
-	Plan              *string                                  `form:"plan"`
-	Price             *string                                  `form:"price"`
-	PriceData         *SubscriptionItemPriceDataParams         `form:"price_data"`
-	Quantity          *int64                                   `form:"quantity"`
-	TaxRates          []*string                                `form:"tax_rates"`
+type SubscriptionAutomaticTax struct {
+	Enabled bool `json:"enabled"`
 }
 
-// SubscriptionListParams is the set of parameters that can be used when listing active subscriptions.
-// For more details see https://stripe.com/docs/api#list_subscriptions.
-type SubscriptionListParams struct {
-	ListParams              `form:"*"`
-	CollectionMethod        *string           `form:"collection_method"`
-	Created                 int64             `form:"created"`
-	CreatedRange            *RangeQueryParams `form:"created"`
-	CurrentPeriodEnd        *int64            `form:"current_period_end"`
-	CurrentPeriodEndRange   *RangeQueryParams `form:"current_period_end"`
-	CurrentPeriodStart      *int64            `form:"current_period_start"`
-	CurrentPeriodStartRange *RangeQueryParams `form:"current_period_start"`
-	Customer                string            `form:"customer"`
-	Plan                    string            `form:"plan"`
-	Price                   string            `form:"price"`
-	Status                  string            `form:"status"`
+// Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
+type SubscriptionBillingThresholds struct {
+	AmountGTE               int64 `json:"amount_gte"`
+	ResetBillingCycleAnchor bool  `json:"reset_billing_cycle_anchor"`
 }
 
-// SubscriptionPauseCollection if specified, payment collection for this subscription will be paused.
+// If specified, payment collection for this subscription will be paused.
 type SubscriptionPauseCollection struct {
 	Behavior  SubscriptionPauseCollectionBehavior `json:"behavior"`
 	ResumesAt int64                               `json:"resumes_at"`
@@ -357,14 +371,13 @@ type SubscriptionPaymentSettings struct {
 	PaymentMethodTypes   []SubscriptionPaymentSettingsPaymentMethodType   `json:"payment_method_types"`
 }
 
-// SubscriptionPendingInvoiceItemInterval represents the interval at which to invoice pending invoice
-// items.
+// Specifies an interval for how often to bill for any pending invoice items. It is analogous to calling [Create an invoice](https://stripe.com/docs/api#create_invoice) for the given subscription at the specified interval.
 type SubscriptionPendingInvoiceItemInterval struct {
 	Interval      SubscriptionPendingInvoiceItemIntervalInterval `json:"interval"`
 	IntervalCount int64                                          `json:"interval_count"`
 }
 
-// SubscriptionPendingUpdate represents deferred changes that will be applied when latest invoice is paid.
+// If specified, [pending updates](https://stripe.com/docs/billing/subscriptions/pending-updates) that will be applied to the subscription once the `latest_invoice` has been paid.
 type SubscriptionPendingUpdate struct {
 	BillingCycleAnchor int64               `json:"billing_cycle_anchor"`
 	ExpiresAt          int64               `json:"expires_at"`
@@ -373,14 +386,15 @@ type SubscriptionPendingUpdate struct {
 	TrialFromPlan      bool                `json:"trial_from_plan"`
 }
 
-// SubscriptionTransferData represents the information for the transfer_data associated with a subscription.
+// The account (if any) the subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 type SubscriptionTransferData struct {
 	AmountPercent float64  `json:"amount_percent"`
 	Destination   *Account `json:"destination"`
 }
 
-// Subscription is the resource representing a Stripe subscription.
-// For more details see https://stripe.com/docs/api#subscriptions.
+// Subscriptions allow you to charge a customer on a recurring basis.
+//
+// Related guide: [Creating Subscriptions](https://stripe.com/docs/billing/subscriptions/creating).
 type Subscription struct {
 	APIResource
 	ApplicationFeePercent         float64                                `json:"application_fee_percent"`
@@ -423,17 +437,8 @@ type Subscription struct {
 	TrialEnd                      int64                                  `json:"trial_end"`
 	TrialStart                    int64                                  `json:"trial_start"`
 }
-type SubscriptionAutomaticTax struct {
-	Enabled bool `json:"enabled"`
-}
 
-// SubscriptionBillingThresholds is a structure representing the billing thresholds for a subscription.
-type SubscriptionBillingThresholds struct {
-	AmountGTE               int64 `json:"amount_gte"`
-	ResetBillingCycleAnchor bool  `json:"reset_billing_cycle_anchor"`
-}
-
-// SubscriptionList is a list object for subscriptions.
+// SubscriptionList is a list of Subscriptions as retrieved from a list endpoint.
 type SubscriptionList struct {
 	APIResource
 	ListMeta

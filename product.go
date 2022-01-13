@@ -8,17 +8,16 @@ package stripe
 
 import "encoding/json"
 
-// ProductType is the type of a product.
+// The type of the product. The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans.
 type ProductType string
 
-// List of values that ProductType can take.
+// List of values that ProductType can take
 const (
 	ProductTypeGood    ProductType = "good"
 	ProductTypeService ProductType = "service"
 )
 
-// PackageDimensionsParams represents the set of parameters for the the dimension of a
-// product or a SKU from the perspective of shipping .
+// The dimensions of this product for shipping purposes.
 type PackageDimensionsParams struct {
 	Height *float64 `form:"height"`
 	Length *float64 `form:"length"`
@@ -26,7 +25,7 @@ type PackageDimensionsParams struct {
 	Width  *float64 `form:"width"`
 }
 
-// ProductParams is the set of parameters that can be used when creating or updating a product.
+// Creates a new product object.
 type ProductParams struct {
 	Params              `form:"*"`
 	Active              *bool                    `form:"active"`
@@ -46,7 +45,7 @@ type ProductParams struct {
 	URL                 *string                  `form:"url"`
 }
 
-// ProductListParams is the set of parameters that can be used when listing products.
+// Returns a list of your products. The products are returned sorted by creation date, with the most recently created products appearing first.
 type ProductListParams struct {
 	ListParams   `form:"*"`
 	Active       *bool             `form:"active"`
@@ -58,8 +57,7 @@ type ProductListParams struct {
 	URL          *string           `form:"url"`
 }
 
-// PackageDimensions represents the dimension of a product or a SKU from the
-// perspective of shipping.
+// The dimensions of this product for shipping purposes.
 type PackageDimensions struct {
 	Height float64 `json:"height"`
 	Length float64 `json:"length"`
@@ -67,8 +65,11 @@ type PackageDimensions struct {
 	Width  float64 `json:"width"`
 }
 
-// Product is the resource representing a Stripe product.
-// For more details see https://stripe.com/docs/api#products.
+// Products describe the specific goods or services you offer to your customers.
+// For example, you might offer a Standard and Premium version of your goods or service; each version would be a separate Product.
+// They can be used in conjunction with [Prices](https://stripe.com/docs/api#prices) to configure pricing in Checkout and Subscriptions.
+//
+// Related guides: [Set up a subscription](https://stripe.com/docs/billing/subscriptions/set-up-subscription) or accept [one-time payments with Checkout](https://stripe.com/docs/payments/checkout/client#create-products) and more about [Products and Prices](https://stripe.com/docs/billing/prices-guide)
 type Product struct {
 	APIResource
 	Active              bool               `json:"active"`
@@ -94,7 +95,7 @@ type Product struct {
 	URL                 string             `json:"url"`
 }
 
-// ProductList is a list of products as retrieved from a list endpoint.
+// ProductList is a list of Products as retrieved from a list endpoint.
 type ProductList struct {
 	APIResource
 	ListMeta

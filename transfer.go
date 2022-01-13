@@ -8,18 +8,17 @@ package stripe
 
 import "encoding/json"
 
-// TransferSourceType is the list of allowed values for the transfer's source_type field.
+// The source balance this transfer came from. One of `card`, `fpx`, or `bank_account`.
 type TransferSourceType string
 
-// List of values that TransferSourceType can take.
+// List of values that TransferSourceType can take
 const (
 	TransferSourceTypeBankAccount TransferSourceType = "bank_account"
 	TransferSourceTypeCard        TransferSourceType = "card"
 	TransferSourceTypeFPX         TransferSourceType = "fpx"
 )
 
-// TransferParams is the set of parameters that can be used when creating or updating a transfer.
-// For more details see https://stripe.com/docs/api#create_transfer and https://stripe.com/docs/api#update_transfer.
+// To send funds from your Stripe account to a connected account, you create a new transfer object. Your [Stripe balance](https://stripe.com/docs/api#balance) must be able to cover the transfer amount, or you'll receive an “Insufficient Funds” error.
 type TransferParams struct {
 	Params            `form:"*"`
 	Amount            *int64  `form:"amount"`
@@ -31,8 +30,7 @@ type TransferParams struct {
 	TransferGroup     *string `form:"transfer_group"`
 }
 
-// TransferListParams is the set of parameters that can be used when listing transfers.
-// For more details see https://stripe.com/docs/api#list_transfers.
+// Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.
 type TransferListParams struct {
 	ListParams    `form:"*"`
 	Created       *int64            `form:"created"`
@@ -41,17 +39,16 @@ type TransferListParams struct {
 	TransferGroup *string           `form:"transfer_group"`
 }
 
-// TransferDestination describes the destination of a Transfer.
-// The Type should indicate which object is fleshed out
-// For more details see https://stripe.com/docs/api/?lang=go#transfer_object
-type TransferDestination struct {
-	ID string `json:"id"`
-
-	Account *Account `json:"-"`
-}
-
-// Transfer is the resource representing a Stripe transfer.
-// For more details see https://stripe.com/docs/api#transfers.
+// A `Transfer` object is created when you move funds between Stripe accounts as
+// part of Connect.
+//
+// Before April 6, 2017, transfers also represented movement of funds from a
+// Stripe account to a card or bank account. This behavior has since been split
+// out into a [Payout](https://stripe.com/docs/api#payout_object) object, with corresponding payout endpoints. For more
+// information, read about the
+// [transfer/payout split](https://stripe.com/docs/transfer-payout-split).
+//
+// Related guide: [Creating Separate Charges and Transfers](https://stripe.com/docs/connect/charges-transfers).
 type Transfer struct {
 	APIResource
 	Amount             int64                     `json:"amount"`
@@ -72,8 +69,13 @@ type Transfer struct {
 	SourceType         TransferSourceType        `json:"source_type"`
 	TransferGroup      string                    `json:"transfer_group"`
 }
+type TransferDestination struct {
+	ID string `json:"id"`
 
-// TransferList is a list of transfers as retrieved from a list endpoint.
+	Account *Account `json:"-"`
+}
+
+// TransferList is a list of Transfers as retrieved from a list endpoint.
 type TransferList struct {
 	APIResource
 	ListMeta

@@ -8,13 +8,16 @@ package stripe
 
 import "encoding/json"
 
-// SourceTransactionListParams is the set of parameters that can be used when listing SourceTransactions.
+// List source transactions for a given source.
 type SourceTransactionListParams struct {
 	ListParams `form:"*"`
 	Source     *string `form:"-"` // Included in URL
 }
 
-// SourceTransaction is the resource representing a Stripe source transaction.
+// Some payment methods have no required amount that a customer must send.
+// Customers can be instructed to send any amount, and it can be made up of
+// multiple transactions. As such, sources can have multiple associated
+// transactions.
 type SourceTransaction struct {
 	Amount   int64    `json:"amount"`
 	Created  int64    `json:"created"`
@@ -59,7 +62,7 @@ func (t *SourceTransaction) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// SourceTransactionList is a list object for SourceTransactions.
+// SourceTransactionList is a list of SourceTransactions as retrieved from a list endpoint.
 type SourceTransactionList struct {
 	APIResource
 	ListMeta

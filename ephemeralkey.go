@@ -8,17 +8,13 @@ package stripe
 
 import "encoding/json"
 
-// EphemeralKeyParams is the set of parameters that can be used when creating
-// an ephemeral key.
+// Creates a short-lived API key for a given resource.
 type EphemeralKeyParams struct {
 	Params        `form:"*"`
 	Customer      *string `form:"customer"`
 	IssuingCard   *string `form:"issuing_card"`
 	StripeVersion *string `form:"-"` // This goes in the `Stripe-Version` header
 }
-
-// EphemeralKey is the resource representing a Stripe ephemeral key. This is used by Mobile SDKs
-// to for example manage a Customer's payment methods.
 type EphemeralKey struct {
 	APIResource
 	AssociatedObjects []struct {

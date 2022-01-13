@@ -8,6 +8,7 @@ package stripe
 
 import "encoding/json"
 
+// A short machine-readable string giving the reason for the verification failure.
 type IdentityVerificationReportDocumentErrorCode string
 
 // List of values that IdentityVerificationReportDocumentErrorCode can take
@@ -17,6 +18,7 @@ const (
 	IdentityVerificationReportDocumentErrorCodeDocumentUnverifiedOther  IdentityVerificationReportDocumentErrorCode = "document_unverified_other"
 )
 
+// Status of this `document` check.
 type IdentityVerificationReportDocumentStatus string
 
 // List of values that IdentityVerificationReportDocumentStatus can take
@@ -25,6 +27,7 @@ const (
 	IdentityVerificationReportDocumentStatusVerified   IdentityVerificationReportDocumentStatus = "verified"
 )
 
+// Type of the document.
 type IdentityVerificationReportDocumentType string
 
 // List of values that IdentityVerificationReportDocumentType can take
@@ -34,6 +37,7 @@ const (
 	IdentityVerificationReportDocumentTypePassport       IdentityVerificationReportDocumentType = "passport"
 )
 
+// A short machine-readable string giving the reason for the verification failure.
 type IdentityVerificationReportIDNumberErrorCode string
 
 // List of values that IdentityVerificationReportIDNumberErrorCode can take
@@ -43,6 +47,7 @@ const (
 	IdentityVerificationReportIDNumberErrorCodeIDNumberUnverifiedOther          IdentityVerificationReportIDNumberErrorCode = "id_number_unverified_other"
 )
 
+// Type of ID number.
 type IdentityVerificationReportIDNumberIDNumberType string
 
 // List of values that IdentityVerificationReportIDNumberIDNumberType can take
@@ -52,6 +57,7 @@ const (
 	IdentityVerificationReportIDNumberIDNumberTypeUSSSN  IdentityVerificationReportIDNumberIDNumberType = "us_ssn"
 )
 
+// Status of this `id_number` check.
 type IdentityVerificationReportIDNumberStatus string
 
 // List of values that IdentityVerificationReportIDNumberStatus can take
@@ -60,6 +66,7 @@ const (
 	IdentityVerificationReportIDNumberStatusVerified   IdentityVerificationReportIDNumberStatus = "verified"
 )
 
+// Array of strings of allowed identity document types. If the provided identity document isn't one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
 type IdentityVerificationReportOptionsDocumentAllowedType string
 
 // List of values that IdentityVerificationReportOptionsDocumentAllowedType can take
@@ -69,6 +76,7 @@ const (
 	IdentityVerificationReportOptionsDocumentAllowedTypePassport       IdentityVerificationReportOptionsDocumentAllowedType = "passport"
 )
 
+// A short machine-readable string giving the reason for the verification failure.
 type IdentityVerificationReportSelfieErrorCode string
 
 // List of values that IdentityVerificationReportSelfieErrorCode can take
@@ -79,6 +87,7 @@ const (
 	IdentityVerificationReportSelfieErrorCodeSelfieUnverifiedOther      IdentityVerificationReportSelfieErrorCode = "selfie_unverified_other"
 )
 
+// Status of this `selfie` check.
 type IdentityVerificationReportSelfieStatus string
 
 // List of values that IdentityVerificationReportSelfieStatus can take
@@ -87,6 +96,7 @@ const (
 	IdentityVerificationReportSelfieStatusVerified   IdentityVerificationReportSelfieStatus = "verified"
 )
 
+// Type of report.
 type IdentityVerificationReportType string
 
 // List of values that IdentityVerificationReportType can take

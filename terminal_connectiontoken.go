@@ -6,13 +6,15 @@
 
 package stripe
 
-// TerminalConnectionTokenParams is the set of parameters that can be used when creating a terminal connection token.
+// To connect to a reader the Stripe Terminal SDK needs to retrieve a short-lived connection token from Stripe, proxied through your server. On your backend, add an endpoint that creates and returns a connection token.
 type TerminalConnectionTokenParams struct {
 	Params   `form:"*"`
 	Location string `form:"location"`
 }
 
-// TerminalConnectionToken is the resource representing a Stripe terminal connection token.
+// A Connection Token is used by the Stripe Terminal SDK to connect to a reader.
+//
+// Related guide: [Fleet Management](https://stripe.com/docs/terminal/fleet/locations).
 type TerminalConnectionToken struct {
 	APIResource
 	Location string `json:"location"`

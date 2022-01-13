@@ -8,11 +8,10 @@ package stripe
 
 import "encoding/json"
 
-// MandateCustomerAcceptanceType is the list of allowed values for the type of customer acceptance
-// for a given mandate.
+// The type of customer acceptance information included with the Mandate. One of `online` or `offline`.
 type MandateCustomerAcceptanceType string
 
-// List of values that MandateStatus can take.
+// List of values that MandateCustomerAcceptanceType can take
 const (
 	MandateCustomerAcceptanceTypeOffline MandateCustomerAcceptanceType = "offline"
 	MandateCustomerAcceptanceTypeOnline  MandateCustomerAcceptanceType = "online"
@@ -27,7 +26,7 @@ const (
 	MandatePaymentMethodDetailsACSSDebitDefaultForSubscription MandatePaymentMethodDetailsACSSDebitDefaultFor = "subscription"
 )
 
-// MandatePaymentMethodDetailsACSSDebitPaymentSchedule is the list of allowed values for an acss debit payment_schedule on payment_method_details
+// Payment schedule for the mandate.
 type MandatePaymentMethodDetailsACSSDebitPaymentSchedule string
 
 // List of values that MandatePaymentMethodDetailsACSSDebitPaymentSchedule can take
@@ -37,7 +36,7 @@ const (
 	MandatePaymentMethodDetailsACSSDebitPaymentScheduleSporadic MandatePaymentMethodDetailsACSSDebitPaymentSchedule = "sporadic"
 )
 
-// MandatePaymentMethodDetailsACSSDebitTransactionType is the list of allowed values for an acss debit transaction type
+// Transaction type of the mandate.
 type MandatePaymentMethodDetailsACSSDebitTransactionType string
 
 // List of values that MandatePaymentMethodDetailsACSSDebitTransactionType can take
@@ -46,11 +45,10 @@ const (
 	MandatePaymentMethodDetailsACSSDebitTransactionTypePersonal MandatePaymentMethodDetailsACSSDebitTransactionType = "personal"
 )
 
-// MandatePaymentMethodDetailsBACSDebitNetworkStatus is the list of allowed values for the status
-// with the network for a given mandate.
+// The status of the mandate on the Bacs network. Can be one of `pending`, `revoked`, `refused`, or `accepted`.
 type MandatePaymentMethodDetailsBACSDebitNetworkStatus string
 
-// List of values that MandateStatus can take.
+// List of values that MandatePaymentMethodDetailsBACSDebitNetworkStatus can take
 const (
 	MandatePaymentMethodDetailsBACSDebitNetworkStatusAccepted MandatePaymentMethodDetailsBACSDebitNetworkStatus = "accepted"
 	MandatePaymentMethodDetailsBACSDebitNetworkStatusPending  MandatePaymentMethodDetailsBACSDebitNetworkStatus = "pending"
@@ -58,86 +56,60 @@ const (
 	MandatePaymentMethodDetailsBACSDebitNetworkStatusRevoked  MandatePaymentMethodDetailsBACSDebitNetworkStatus = "revoked"
 )
 
-// MandateStatus is the list of allowed values for the mandate status.
+// The status of the mandate, which indicates whether it can be used to initiate a payment.
 type MandateStatus string
 
-// List of values that MandateStatus can take.
+// List of values that MandateStatus can take
 const (
 	MandateStatusActive   MandateStatus = "active"
 	MandateStatusInactive MandateStatus = "inactive"
 	MandateStatusPending  MandateStatus = "pending"
 )
 
-// MandateType is the list of allowed values for the mandate type.
+// The type of the mandate.
 type MandateType string
 
-// List of values that MandateType can take.
+// List of values that MandateType can take
 const (
 	MandateTypeMultiUse  MandateType = "multi_use"
 	MandateTypeSingleUse MandateType = "single_use"
 )
 
-// MandateParams is the set of parameters that can be used when retrieving a mandate.
+// Retrieves a Mandate object.
 type MandateParams struct {
 	Params `form:"*"`
 }
-
-// MandateCustomerAcceptanceOffline represents details about the customer acceptance of an offline
-// mandate.
 type MandateCustomerAcceptanceOffline struct{}
-
-// MandateCustomerAcceptanceOnline represents details about the customer acceptance of an online
-// mandate.
 type MandateCustomerAcceptanceOnline struct {
 	IPAddress string `json:"ip_address"`
 	UserAgent string `json:"user_agent"`
 }
-
-// MandateCustomerAcceptance represents details about the customer acceptance for a mandate.
 type MandateCustomerAcceptance struct {
 	AcceptedAt int64                             `json:"accepted_at"`
 	Offline    *MandateCustomerAcceptanceOffline `json:"offline"`
 	Online     *MandateCustomerAcceptanceOnline  `json:"online"`
 	Type       MandateCustomerAcceptanceType     `json:"type"`
 }
-
-// MandateMultiUse represents details about a multi-use mandate.
 type MandateMultiUse struct{}
-
-// MandatePaymentMethodDetailsACSSDebit represent details about the acss debit associated with this mandate.
 type MandatePaymentMethodDetailsACSSDebit struct {
 	DefaultFor          []MandatePaymentMethodDetailsACSSDebitDefaultFor    `json:"default_for"`
 	IntervalDescription string                                              `json:"interval_description"`
 	PaymentSchedule     MandatePaymentMethodDetailsACSSDebitPaymentSchedule `json:"payment_schedule"`
 	TransactionType     MandatePaymentMethodDetailsACSSDebitTransactionType `json:"transaction_type"`
 }
-
-// MandatePaymentMethodDetailsAUBECSDebit represents details about the Australia BECS debit account
-// associated with this mandate.
 type MandatePaymentMethodDetailsAUBECSDebit struct {
 	URL string `json:"url"`
 }
-
-// MandatePaymentMethodDetailsBACSDebit represents details about the BACS debit account
-// associated with this mandate.
 type MandatePaymentMethodDetailsBACSDebit struct {
 	NetworkStatus MandatePaymentMethodDetailsBACSDebitNetworkStatus `json:"network_status"`
 	Reference     string                                            `json:"reference"`
 	URL           string                                            `json:"url"`
 }
-
-// MandatePaymentMethodDetailsCard represents details about the card associated with this mandate.
 type MandatePaymentMethodDetailsCard struct{}
-
-// MandatePaymentMethodDetailsSepaDebit represents details about the SEPA debit bank account
-// associated with this mandate.
 type MandatePaymentMethodDetailsSepaDebit struct {
 	Reference string `json:"reference"`
 	URL       string `json:"url"`
 }
-
-// MandatePaymentMethodDetails represents details about the payment method associated with this
-// mandate.
 type MandatePaymentMethodDetails struct {
 	ACSSDebit   *MandatePaymentMethodDetailsACSSDebit   `json:"acss_debit"`
 	AUBECSDebit *MandatePaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
@@ -146,14 +118,12 @@ type MandatePaymentMethodDetails struct {
 	SepaDebit   *MandatePaymentMethodDetailsSepaDebit   `json:"sepa_debit"`
 	Type        PaymentMethodType                       `json:"type"`
 }
-
-// MandateSingleUse represents details about a single-use mandate.
 type MandateSingleUse struct {
 	Amount   int64    `json:"amount"`
 	Currency Currency `json:"currency"`
 }
 
-// Mandate is the resource representing a Mandate.
+// A Mandate is a record of the permission a customer has given you to debit their payment method.
 type Mandate struct {
 	APIResource
 	CustomerAcceptance   *MandateCustomerAcceptance   `json:"customer_acceptance"`

@@ -8,11 +8,59 @@ package stripe
 
 import "encoding/json"
 
-// CheckoutSessionCustomerDetailsTaxIDsType is the list of allowed values for type
-// on the tax_ids inside customer_details of a checkout session.
+// The status of the most recent automated tax calculation for this session.
+type CheckoutSessionAutomaticTaxStatus string
+
+// List of values that CheckoutSessionAutomaticTaxStatus can take
+const (
+	CheckoutSessionAutomaticTaxStatusComplete               CheckoutSessionAutomaticTaxStatus = "complete"
+	CheckoutSessionAutomaticTaxStatusFailed                 CheckoutSessionAutomaticTaxStatus = "failed"
+	CheckoutSessionAutomaticTaxStatusRequiresLocationInputs CheckoutSessionAutomaticTaxStatus = "requires_location_inputs"
+)
+
+// Describes whether Checkout should collect the customer's billing address.
+type CheckoutSessionBillingAddressCollection string
+
+// List of values that CheckoutSessionBillingAddressCollection can take
+const (
+	CheckoutSessionBillingAddressCollectionAuto     CheckoutSessionBillingAddressCollection = "auto"
+	CheckoutSessionBillingAddressCollectionRequired CheckoutSessionBillingAddressCollection = "required"
+)
+
+// If `opt_in`, the customer consents to receiving promotional communications
+// from the merchant about this Checkout Session.
+type CheckoutSessionConsentPromotions string
+
+// List of values that CheckoutSessionConsentPromotions can take
+const (
+	CheckoutSessionConsentPromotionsOptIn  CheckoutSessionConsentPromotions = "opt_in"
+	CheckoutSessionConsentPromotionsOptOut CheckoutSessionConsentPromotions = "opt_out"
+)
+
+// If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
+// Session will determine whether to display an option to opt into promotional communication
+// from the merchant depending on the customer's locale. Only available to US merchants.
+type CheckoutSessionConsentCollectionPromotions string
+
+// List of values that CheckoutSessionConsentCollectionPromotions can take
+const (
+	CheckoutSessionConsentCollectionPromotionsAuto CheckoutSessionConsentCollectionPromotions = "auto"
+)
+
+// The customer's tax exempt status at time of checkout.
+type CheckoutSessionCustomerDetailsTaxExempt string
+
+// List of values that CheckoutSessionCustomerDetailsTaxExempt can take
+const (
+	CheckoutSessionCustomerDetailsTaxExemptExempt  CheckoutSessionCustomerDetailsTaxExempt = "exempt"
+	CheckoutSessionCustomerDetailsTaxExemptNone    CheckoutSessionCustomerDetailsTaxExempt = "none"
+	CheckoutSessionCustomerDetailsTaxExemptReverse CheckoutSessionCustomerDetailsTaxExempt = "reverse"
+)
+
+// The type of the tax ID, one of `eu_vat`, `br_cnpj`, `br_cpf`, `gb_vat`, `nz_gst`, `au_abn`, `au_arn`, `in_gst`, `no_vat`, `za_vat`, `ch_vat`, `mx_rfc`, `sg_uen`, `ru_inn`, `ru_kpp`, `ca_bn`, `hk_br`, `es_cif`, `tw_vat`, `th_vat`, `jp_cn`, `jp_rn`, `li_uid`, `my_itn`, `us_ein`, `kr_brn`, `ca_qst`, `ca_gst_hst`, `ca_pst_bc`, `ca_pst_mb`, `ca_pst_sk`, `my_sst`, `sg_gst`, `ae_trn`, `cl_tin`, `sa_vat`, `id_npwp`, `my_frp`, `il_vat`, `ge_vat`, `ua_vat`, or `unknown`
 type CheckoutSessionCustomerDetailsTaxIDsType string
 
-// List of values that CheckoutSessionCustomerDetailsTaxIDsType can take.
+// List of values that CheckoutSessionCustomerDetailsTaxIDsType can take
 const (
 	CheckoutSessionCustomerDetailsTaxIDsTypeAETRN    CheckoutSessionCustomerDetailsTaxIDsType = "ae_trn"
 	CheckoutSessionCustomerDetailsTaxIDsTypeAUABN    CheckoutSessionCustomerDetailsTaxIDsType = "au_abn"
@@ -58,68 +106,10 @@ const (
 	CheckoutSessionCustomerDetailsTaxIDsTypeZAVAT    CheckoutSessionCustomerDetailsTaxIDsType = "za_vat"
 )
 
-type CheckoutSessionAutomaticTaxStatus string
-
-// List of values that CheckoutSessionAutomaticTaxStatus can take
-const (
-	CheckoutSessionAutomaticTaxStatusComplete               CheckoutSessionAutomaticTaxStatus = "complete"
-	CheckoutSessionAutomaticTaxStatusFailed                 CheckoutSessionAutomaticTaxStatus = "failed"
-	CheckoutSessionAutomaticTaxStatusRequiresLocationInputs CheckoutSessionAutomaticTaxStatus = "requires_location_inputs"
-)
-
-// Describes whether Checkout should collect the customer's billing address.
-type CheckoutSessionBillingAddressCollection string
-
-// List of values that CheckoutSessionBillingAddressCollection can take
-const (
-	CheckoutSessionBillingAddressCollectionAuto     CheckoutSessionBillingAddressCollection = "auto"
-	CheckoutSessionBillingAddressCollectionRequired CheckoutSessionBillingAddressCollection = "required"
-)
-
-// If `opt_in`, the customer consents to receiving promotional communications
-// from the merchant about this Checkout Session.
-type CheckoutSessionConsentPromotions string
-
-// List of values that CheckoutSessionConsentPromotions can take
-const (
-	CheckoutSessionConsentPromotionsOptIn  CheckoutSessionConsentPromotions = "opt_in"
-	CheckoutSessionConsentPromotionsOptOut CheckoutSessionConsentPromotions = "opt_out"
-)
-
-// If set to `auto`, enables the collection of customer consent for promotional communications. The Checkout
-// Session will determine whether to display an option to opt into promotional communication
-// from the merchant depending on the customer's locale. Only available to US merchants.
-type CheckoutSessionConsentCollectionPromotions string
-
-// List of values that CheckoutSessionConsentCollectionPromotions can take
-const (
-	CheckoutSessionConsentCollectionPromotionsAuto CheckoutSessionConsentCollectionPromotions = "auto"
-)
-
-// Configure whether a Checkout Session creates a Customer when the Checkout Session completes.
-type CheckoutSessionCustomerCreation string
-
-// List of values that CheckoutSessionCustomerCreation can take
-const (
-	CheckoutSessionCustomerCreationAlways     CheckoutSessionCustomerCreation = "always"
-	CheckoutSessionCustomerCreationIfRequired CheckoutSessionCustomerCreation = "if_required"
-)
-
-// CheckoutSessionCustomerDetailsTaxExempt is the list of allowed values for
-// tax_exempt inside customer_details of a checkout session.
-type CheckoutSessionCustomerDetailsTaxExempt string
-
-// List of values that CheckoutSessionCustomerDetailsTaxExempt can take.
-const (
-	CheckoutSessionCustomerDetailsTaxExemptExempt  CheckoutSessionCustomerDetailsTaxExempt = "exempt"
-	CheckoutSessionCustomerDetailsTaxExemptNone    CheckoutSessionCustomerDetailsTaxExempt = "none"
-	CheckoutSessionCustomerDetailsTaxExemptReverse CheckoutSessionCustomerDetailsTaxExempt = "reverse"
-)
-
-// CheckoutSessionMode is the list of allowed values for the mode on a Session.
+// The mode of the Checkout Session.
 type CheckoutSessionMode string
 
-// List of values that CheckoutSessionMode can take.
+// List of values that CheckoutSessionMode can take
 const (
 	CheckoutSessionModePayment      CheckoutSessionMode = "payment"
 	CheckoutSessionModeSetup        CheckoutSessionMode = "setup"
@@ -135,7 +125,7 @@ const (
 	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsDefaultForSubscription CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor = "subscription"
 )
 
-// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule is the list of allowed values for payment_schedule
+// Payment schedule for the mandate.
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule string
 
 // List of values that CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule can take
@@ -145,7 +135,7 @@ const (
 	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentScheduleSporadic CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule = "sporadic"
 )
 
-// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType is the list of allowed values for transaction_type
+// Transaction type of the mandate.
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType string
 
 // List of values that CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType can take
@@ -154,7 +144,7 @@ const (
 	CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionTypePersonal CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType = "personal"
 )
 
-// CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod is the list of allowed values for verification_method
+// Bank account verification method.
 type CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod string
 
 // List of values that CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod can take
@@ -164,10 +154,11 @@ const (
 	CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
-// CheckoutSessionPaymentStatus is the list of allowed values for the payment status on a Session.`
+// The payment status of the Checkout Session, one of `paid`, `unpaid`, or `no_payment_required`.
+// You can use this value to decide when to fulfill your customer's order.
 type CheckoutSessionPaymentStatus string
 
-// List of values that CheckoutSessionPaymentStatus can take.
+// List of values that CheckoutSessionPaymentStatus can take
 const (
 	CheckoutSessionPaymentStatusNoPaymentRequired CheckoutSessionPaymentStatus = "no_payment_required"
 	CheckoutSessionPaymentStatusPaid              CheckoutSessionPaymentStatus = "paid"
@@ -184,10 +175,13 @@ const (
 	CheckoutSessionStatusOpen     CheckoutSessionStatus = "open"
 )
 
-// CheckoutSessionSubmitType is the list of allowed values for the submit type on  a Session.
+// Describes the type of transaction being performed by Checkout in order to customize
+// relevant text on the page, such as the submit button. `submit_type` can only be
+// specified on Checkout Sessions in `payment` mode, but not Checkout Sessions
+// in `subscription` or `setup` mode.
 type CheckoutSessionSubmitType string
 
-// List of values that CheckoutSessionSubmitType can take.
+// List of values that CheckoutSessionSubmitType can take
 const (
 	CheckoutSessionSubmitTypeAuto   CheckoutSessionSubmitType = "auto"
 	CheckoutSessionSubmitTypeBook   CheckoutSessionSubmitType = "book"
@@ -195,44 +189,11 @@ const (
 	CheckoutSessionSubmitTypePay    CheckoutSessionSubmitType = "pay"
 )
 
-// CheckoutSessionLineItemAdjustableQuantityParams represents the parameters for
-// an adjustable quantity on a checkout session's line items.
-type CheckoutSessionLineItemAdjustableQuantityParams struct {
-	Enabled *bool  `form:"enabled"`
-	Maximum *int64 `form:"maximum"`
-	Minimum *int64 `form:"minimum"`
-}
-
-// CheckoutSessionLineItemPriceDataProductDataParams is the set of parameters that can be used when
-// creating a product created inline for a line item.
-type CheckoutSessionLineItemPriceDataProductDataParams struct {
-	Description *string           `form:"description"`
-	Images      []*string         `form:"images"`
-	Metadata    map[string]string `form:"metadata"`
-	Name        *string           `form:"name"`
-	TaxCode     *string           `form:"tax_code"`
-}
-
-// CheckoutSessionLineItemPriceDataRecurringParams is the set of parameters for the recurring
-// components of a price created inline for a line item.
-type CheckoutSessionLineItemPriceDataRecurringParams struct {
-	AggregateUsage  *string `form:"aggregate_usage"`
-	Interval        *string `form:"interval"`
-	IntervalCount   *int64  `form:"interval_count"`
-	TrialPeriodDays *int64  `form:"trial_period_days"`
-	UsageType       *string `form:"usage_type"`
-}
-
-// CheckoutSessionLineItemPriceDataParams is a structure representing the parameters to create
-// an inline price for a line item.
-type CheckoutSessionLineItemPriceDataParams struct {
-	Currency          *string                                            `form:"currency"`
-	Product           *string                                            `form:"product"`
-	ProductData       *CheckoutSessionLineItemPriceDataProductDataParams `form:"product_data"`
-	Recurring         *CheckoutSessionLineItemPriceDataRecurringParams   `form:"recurring"`
-	TaxBehavior       *string                                            `form:"tax_behavior"`
-	UnitAmount        *int64                                             `form:"unit_amount"`
-	UnitAmountDecimal *float64                                           `form:"unit_amount_decimal,high_precision"`
+// Returns a list of Checkout Sessions.
+type CheckoutSessionListParams struct {
+	ListParams    `form:"*"`
+	PaymentIntent *string `form:"payment_intent"`
+	Subscription  *string `form:"subscription"`
 }
 
 // Configure a Checkout Session that can be used to recover an expired session.
@@ -263,15 +224,53 @@ type CheckoutSessionCustomerUpdateParams struct {
 	Shipping *string `form:"shipping"`
 }
 
-// CheckoutSessionDiscountParams is the set of parameters allowed for discounts on
-// a checkout session.
+// The coupon or promotion code to apply to this Session. Currently, only up to one may be specified.
 type CheckoutSessionDiscountParams struct {
 	Coupon        *string `form:"coupon"`
 	PromotionCode *string `form:"promotion_code"`
 }
 
-// CheckoutSessionLineItemParams is the set of parameters allowed for a line item
-// on a checkout session.
+// When set, provides configuration for this item's quantity to be adjusted by the customer during Checkout.
+type CheckoutSessionLineItemAdjustableQuantityParams struct {
+	Enabled *bool  `form:"enabled"`
+	Maximum *int64 `form:"maximum"`
+	Minimum *int64 `form:"minimum"`
+}
+
+// Data used to generate a new product object inline. One of `product` or `product_data` is required.
+type CheckoutSessionLineItemPriceDataProductDataParams struct {
+	Description *string           `form:"description"`
+	Images      []*string         `form:"images"`
+	Metadata    map[string]string `form:"metadata"`
+	Name        *string           `form:"name"`
+	TaxCode     *string           `form:"tax_code"`
+}
+
+// The recurring components of a price such as `interval` and `usage_type`.
+type CheckoutSessionLineItemPriceDataRecurringParams struct {
+	AggregateUsage  *string `form:"aggregate_usage"`
+	Interval        *string `form:"interval"`
+	IntervalCount   *int64  `form:"interval_count"`
+	TrialPeriodDays *int64  `form:"trial_period_days"`
+	UsageType       *string `form:"usage_type"`
+}
+
+// Data used to generate a new [Price](https://stripe.com/docs/api/prices) object inline. One of `price` or `price_data` is required.
+type CheckoutSessionLineItemPriceDataParams struct {
+	Currency          *string                                            `form:"currency"`
+	Product           *string                                            `form:"product"`
+	ProductData       *CheckoutSessionLineItemPriceDataProductDataParams `form:"product_data"`
+	Recurring         *CheckoutSessionLineItemPriceDataRecurringParams   `form:"recurring"`
+	TaxBehavior       *string                                            `form:"tax_behavior"`
+	UnitAmount        *int64                                             `form:"unit_amount"`
+	UnitAmountDecimal *float64                                           `form:"unit_amount_decimal,high_precision"`
+}
+
+// A list of items the customer is purchasing. Use this parameter to pass one-time or recurring [Prices](https://stripe.com/docs/api/prices).
+//
+// For `payment` mode, there is a maximum of 100 line items, however it is recommended to consolidate line items if there are more than a few dozen.
+//
+// For `subscription` mode, there is a maximum of 20 line items with recurring Prices and 20 line items with one-time Prices. Line items with one-time Prices in will be on the initial invoice only.
 type CheckoutSessionLineItemParams struct {
 	AdjustableQuantity *CheckoutSessionLineItemAdjustableQuantityParams `form:"adjustable_quantity"`
 	Amount             *int64                                           `form:"amount"`
@@ -286,15 +285,14 @@ type CheckoutSessionLineItemParams struct {
 	TaxRates           []*string                                        `form:"tax_rates"`
 }
 
-// CheckoutSessionPaymentIntentDataTransferDataParams is the set of parameters allowed for the
-// transfer_data hash.
+// The parameters used to automatically create a Transfer when the payment succeeds.
+// For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 type CheckoutSessionPaymentIntentDataTransferDataParams struct {
 	Amount      *int64  `form:"amount"`
 	Destination *string `form:"destination"`
 }
 
-// CheckoutSessionPaymentIntentDataParams is the set of parameters allowed for the
-// payment intent creation on a checkout session.
+// A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 type CheckoutSessionPaymentIntentDataParams struct {
 	Params                    `form:"*"`
 	ApplicationFeeAmount      *int64                                              `form:"application_fee_amount"`
@@ -311,7 +309,7 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	TransferGroup             *string                                             `form:"transfer_group"`
 }
 
-// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams is the set of parameters allowed for mandate_options for acss debit.
+// Additional fields for Mandate creation
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	CustomMandateURL    *string   `form:"custom_mandate_url"`
 	DefaultFor          []*string `form:"default_for"`
@@ -320,30 +318,30 @@ type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	TransactionType     *string   `form:"transaction_type"`
 }
 
-// CheckoutSessionPaymentMethodOptionsACSSDebitParams is the set of parameters allowed for acss_debit on payment_method_options.
+// contains details about the ACSS Debit payment method options.
 type CheckoutSessionPaymentMethodOptionsACSSDebitParams struct {
 	Currency           *string                                                           `form:"currency"`
 	MandateOptions     *CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsParams `form:"mandate_options"`
 	VerificationMethod *string                                                           `form:"verification_method"`
 }
 
-// CheckoutSessionPaymentMethodOptionsBoletoParams is the set of parameters allowed for boleto on payment_method_options.
+// contains details about the Boleto payment method options.
 type CheckoutSessionPaymentMethodOptionsBoletoParams struct {
 	ExpiresAfterDays *int64 `form:"expires_after_days"`
 }
 
-// CheckoutSessionPaymentMethodOptionsOXXOParams is the set of parameters allowed for oxxo on payment_method_options.
+// contains details about the OXXO payment method options.
 type CheckoutSessionPaymentMethodOptionsOXXOParams struct {
 	ExpiresAfterDays *int64 `form:"expires_after_days"`
 }
 
-// CheckoutSessionPaymentMethodOptionsWechatPayParams is the set of parameters allowed for wechat_pay on payment_method_options.
+// contains details about the Wechat Pay payment method options.
 type CheckoutSessionPaymentMethodOptionsWechatPayParams struct {
 	AppID  *string `form:"app_id"`
 	Client *string `form:"client"`
 }
 
-// CheckoutSessionPaymentMethodOptionsParams is the set of allowed parameters for payment_method_options on a checkout session.
+// Payment-method-specific configuration.
 type CheckoutSessionPaymentMethodOptionsParams struct {
 	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
 	Boleto    *CheckoutSessionPaymentMethodOptionsBoletoParams    `form:"boleto"`
@@ -359,16 +357,14 @@ type CheckoutSessionPhoneNumberCollectionParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// CheckoutSessionSetupIntentDataParams is the set of parameters allowed for the setup intent
-// creation on a checkout session.
+// A subset of parameters to be passed to SetupIntent creation for Checkout Sessions in `setup` mode.
 type CheckoutSessionSetupIntentDataParams struct {
 	Params      `form:"*"`
 	Description *string `form:"description"`
 	OnBehalfOf  *string `form:"on_behalf_of"`
 }
 
-// CheckoutSessionShippingAddressCollectionParams is the set of parameters allowed for the
-// shipping address collection.
+// When set, provides configuration for Checkout to collect a shipping address from a customer.
 type CheckoutSessionShippingAddressCollectionParams struct {
 	AllowedCountries []*string `form:"allowed_countries"`
 }
@@ -414,23 +410,20 @@ type CheckoutSessionShippingOptionParams struct {
 	ShippingRateData *CheckoutSessionShippingOptionShippingRateDataParams `form:"shipping_rate_data"`
 }
 
-// CheckoutSessionSubscriptionDataItemsParams is the set of parameters allowed for one item on a
-// checkout session associated with a subscription.
+// A list of items, each with an attached plan, that the customer is subscribing to. Prefer using `line_items`.
 type CheckoutSessionSubscriptionDataItemsParams struct {
 	Plan     *string   `form:"plan"`
 	Quantity *int64    `form:"quantity"`
 	TaxRates []*string `form:"tax_rates"`
 }
 
-// CheckoutSessionSubscriptionDataTransferDataParams is the set of parameters allowed
-// for the transfer_data hash.
+// If specified, the funds from the subscription's invoices will be transferred to the destination and the ID of the resulting transfers will be found on the resulting charges.
 type CheckoutSessionSubscriptionDataTransferDataParams struct {
 	AmountPercent *float64 `form:"amount_percent"`
 	Destination   *string  `form:"destination"`
 }
 
-// CheckoutSessionSubscriptionDataParams is the set of parameters allowed for the subscription
-// creation on a checkout session.
+// A subset of parameters to be passed to subscription creation for Checkout Sessions in `subscription` mode.
 type CheckoutSessionSubscriptionDataParams struct {
 	Params                `form:"*"`
 	ApplicationFeePercent *float64                                           `form:"application_fee_percent"`
@@ -449,9 +442,7 @@ type CheckoutSessionTaxIDCollectionParams struct {
 	Enabled *bool `form:"enabled"`
 }
 
-// CheckoutSessionParams is the set of parameters that can be used when creating
-// a checkout session.
-// For more details see https://stripe.com/docs/api/checkout/sessions/create
+// Creates a Session object.
 type CheckoutSessionParams struct {
 	Params                    `form:"*"`
 	AfterExpiration           *CheckoutSessionAfterExpirationParams           `form:"after_expiration"`
@@ -462,7 +453,6 @@ type CheckoutSessionParams struct {
 	ClientReferenceID         *string                                         `form:"client_reference_id"`
 	ConsentCollection         *CheckoutSessionConsentCollectionParams         `form:"consent_collection"`
 	Customer                  *string                                         `form:"customer"`
-	CustomerCreation          *string                                         `form:"customer_creation"`
 	CustomerEmail             *string                                         `form:"customer_email"`
 	CustomerUpdate            *CheckoutSessionCustomerUpdateParams            `form:"customer_update"`
 	Discounts                 []*CheckoutSessionDiscountParams                `form:"discounts"`
@@ -491,20 +481,10 @@ type CheckoutSessionExpireParams struct {
 	Params `form:"*"`
 }
 
-// CheckoutSessionListLineItemsParams is the set of parameters that can be
-// used when listing line items on a session.
+// When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
 type CheckoutSessionListLineItemsParams struct {
 	ListParams `form:"*"`
 	Session    *string `form:"-"` // Included in URL
-}
-
-// CheckoutSessionListParams is the set of parameters that can be
-// used when listing sessions.
-// For more details see: https://stripe.com/docs/api/checkout/sessions/list
-type CheckoutSessionListParams struct {
-	ListParams    `form:"*"`
-	PaymentIntent *string `form:"payment_intent"`
-	Subscription  *string `form:"subscription"`
 }
 
 // When set, configuration used to recover the Checkout Session on expiry.
@@ -534,23 +514,19 @@ type CheckoutSessionConsentCollection struct {
 	Promotions CheckoutSessionConsentCollectionPromotions `json:"promotions"`
 }
 
-// CheckoutSessionCustomerDetailsTaxIDs represent customer's tax IDs at the
-// time of checkout.
+// The customer's tax IDs at time of checkout.
 type CheckoutSessionCustomerDetailsTaxIDs struct {
 	Type  CheckoutSessionCustomerDetailsTaxIDsType `json:"type"`
 	Value string                                   `json:"value"`
 }
 
-// CheckoutSessionCustomerDetails represent the customer details including
-// the tax exempt status and the customer's tax IDs.
+// The customer details including the customer's tax exempt status and the customer's tax IDs. Only present on Sessions in `payment` or `subscription` mode.
 type CheckoutSessionCustomerDetails struct {
 	Email     string                                  `json:"email"`
 	Phone     string                                  `json:"phone"`
 	TaxExempt CheckoutSessionCustomerDetailsTaxExempt `json:"tax_exempt"`
 	TaxIDs    []*CheckoutSessionCustomerDetailsTaxIDs `json:"tax_ids"`
 }
-
-// CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions represent mandate options for acss debit.
 type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions struct {
 	CustomMandateURL    string                                                                    `json:"custom_mandate_url"`
 	DefaultFor          []CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsDefaultFor    `json:"default_for"`
@@ -558,25 +534,19 @@ type CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions struct {
 	PaymentSchedule     CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsPaymentSchedule `json:"payment_schedule"`
 	TransactionType     CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptionsTransactionType `json:"transaction_type"`
 }
-
-// CheckoutSessionPaymentMethodOptionsACSSDebit represent the options for acss debit on payment_method_options.
 type CheckoutSessionPaymentMethodOptionsACSSDebit struct {
 	Currency           string                                                         `json:"currency"`
 	MandateOptions     *CheckoutSessionPaymentMethodOptionsACSSDebitMandateOptions    `json:"mandate_options"`
 	VerificationMethod CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
-
-// CheckoutSessionPaymentMethodOptionsBoleto represent the options for boleto on payment_method_options.
 type CheckoutSessionPaymentMethodOptionsBoleto struct {
 	ExpiresAfterDays int64 `json:"expires_after_days"`
 }
-
-// CheckoutSessionPaymentMethodOptionsOXXO represent the options for oxxo on payment_method_options.
 type CheckoutSessionPaymentMethodOptionsOXXO struct {
 	ExpiresAfterDays int64 `json:"expires_after_days"`
 }
 
-// CheckoutSessionPaymentMethodOptions represent payment-method-specific options for a checkout session.
+// Payment-method-specific configuration for the PaymentIntent or SetupIntent of this CheckoutSession.
 type CheckoutSessionPaymentMethodOptions struct {
 	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 	Boleto    *CheckoutSessionPaymentMethodOptionsBoleto    `json:"boleto"`
@@ -586,8 +556,7 @@ type CheckoutSessionPhoneNumberCollection struct {
 	Enabled bool `json:"enabled"`
 }
 
-// CheckoutSessionShippingAddressCollection is the set of parameters allowed for the
-// shipping address collection.
+// When set, provides configuration for Checkout to collect a shipping address from a customer.
 type CheckoutSessionShippingAddressCollection struct {
 	AllowedCountries []string `json:"allowed_countries"`
 }
@@ -601,26 +570,24 @@ type CheckoutSessionTaxIDCollection struct {
 	Enabled bool `json:"enabled"`
 }
 
-// CheckoutSessionTotalDetailsBreakdownDiscount represent the details of one discount applied to a session.
+// The aggregated line item discounts.
 type CheckoutSessionTotalDetailsBreakdownDiscount struct {
 	Amount   int64     `json:"amount"`
 	Discount *Discount `json:"discount"`
 }
 
-// CheckoutSessionTotalDetailsBreakdownTax represent the details of tax rate applied to a session.
+// The aggregated line item tax amounts by rate.
 type CheckoutSessionTotalDetailsBreakdownTax struct {
 	Amount  int64    `json:"amount"`
 	Rate    *TaxRate `json:"rate"`
 	TaxRate *TaxRate `json:"tax_rate"` // Do not use: use `Rate`
 }
-
-// CheckoutSessionTotalDetailsBreakdown is the set of properties detailing a breakdown of taxes and discounts applied to a session if any.
 type CheckoutSessionTotalDetailsBreakdown struct {
 	Discounts []*CheckoutSessionTotalDetailsBreakdownDiscount `json:"discounts"`
 	Taxes     []*CheckoutSessionTotalDetailsBreakdownTax      `json:"taxes"`
 }
 
-// CheckoutSessionTotalDetails is the set of properties detailing how the amounts were calculated.
+// Tax and discount details for the computed total amount.
 type CheckoutSessionTotalDetails struct {
 	AmountDiscount int64                                 `json:"amount_discount"`
 	AmountShipping int64                                 `json:"amount_shipping"`
@@ -628,8 +595,20 @@ type CheckoutSessionTotalDetails struct {
 	Breakdown      *CheckoutSessionTotalDetailsBreakdown `json:"breakdown"`
 }
 
-// CheckoutSession is the resource representing a Stripe checkout session.
-// For more details see https://stripe.com/docs/api/checkout/sessions/object
+// A Checkout Session represents your customer's session as they pay for
+// one-time purchases or subscriptions through [Checkout](https://stripe.com/docs/payments/checkout)
+// or [Payment Links](https://stripe.com/docs/payments/payment-links). We recommend creating a
+// new Session each time your customer attempts to pay.
+//
+// Once payment is successful, the Checkout Session will contain a reference
+// to the [Customer](https://stripe.com/docs/api/customers), and either the successful
+// [PaymentIntent](https://stripe.com/docs/api/payment_intents) or an active
+// [Subscription](https://stripe.com/docs/api/subscriptions).
+//
+// You can create a Checkout Session on your server and pass its ID to the
+// client to begin Checkout.
+//
+// Related guide: [Checkout Server Quickstart](https://stripe.com/docs/payments/checkout/api).
 type CheckoutSession struct {
 	APIResource
 	AfterExpiration           *CheckoutSessionAfterExpiration           `json:"after_expiration"`
@@ -644,7 +623,6 @@ type CheckoutSession struct {
 	ConsentCollection         *CheckoutSessionConsentCollection         `json:"consent_collection"`
 	Currency                  Currency                                  `json:"currency"`
 	Customer                  *Customer                                 `json:"customer"`
-	CustomerCreation          CheckoutSessionCustomerCreation           `json:"customer_creation"`
 	CustomerDetails           *CheckoutSessionCustomerDetails           `json:"customer_details"`
 	CustomerEmail             string                                    `json:"customer_email"`
 	Deleted                   bool                                      `json:"deleted"`
@@ -695,7 +673,7 @@ func (c *CheckoutSession) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// CheckoutSessionList is a list of sessions as retrieved from a list endpoint.
+// CheckoutSessionList is a list of Sessions as retrieved from a list endpoint.
 type CheckoutSessionList struct {
 	APIResource
 	ListMeta

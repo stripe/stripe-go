@@ -8,14 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// PromotionCodeRestrictionsParams is the set of parameters for restrictions on a promotion code.
-type PromotionCodeRestrictionsParams struct {
-	FirstTimeTransaction  *bool   `form:"first_time_transaction"`
-	MinimumAmount         *int64  `form:"minimum_amount"`
-	MinimumAmountCurrency *string `form:"minimum_amount_currency"`
-}
-
-// PromotionCodeParams is the set of parameters that can be used when creating a promotion code.
+// Retrieves the promotion code with the given ID. In order to retrieve a promotion code by the customer-facing code use [list](https://stripe.com/docs/api/promotion_codes/list) with the desired code.
 type PromotionCodeParams struct {
 	Params         `form:"*"`
 	Active         *bool                            `form:"active"`
@@ -27,7 +20,14 @@ type PromotionCodeParams struct {
 	Restrictions   *PromotionCodeRestrictionsParams `form:"restrictions"`
 }
 
-// PromotionCodeListParams is the set of parameters that can be used when listing promotion codes.
+// Settings that restrict the redemption of the promotion code.
+type PromotionCodeRestrictionsParams struct {
+	FirstTimeTransaction  *bool   `form:"first_time_transaction"`
+	MinimumAmount         *int64  `form:"minimum_amount"`
+	MinimumAmountCurrency *string `form:"minimum_amount_currency"`
+}
+
+// Returns a list of your promotion codes.
 type PromotionCodeListParams struct {
 	ListParams   `form:"*"`
 	Active       *bool             `form:"active"`
@@ -37,15 +37,14 @@ type PromotionCodeListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	Customer     *string           `form:"customer"`
 }
-
-// PromotionCodeRestrictions is the set of restrictions associated with a promotion code.
 type PromotionCodeRestrictions struct {
 	FirstTimeTransaction  bool     `json:"first_time_transaction"`
 	MinimumAmount         int64    `json:"minimum_amount"`
 	MinimumAmountCurrency Currency `json:"minimum_amount_currency"`
 }
 
-// PromotionCode is the resource representing a Stripe promotion code.
+// A Promotion Code represents a customer-redeemable code for a coupon. It can be used to
+// create multiple codes for a single coupon.
 type PromotionCode struct {
 	APIResource
 	Active         bool                       `json:"active"`
@@ -63,7 +62,7 @@ type PromotionCode struct {
 	TimesRedeemed  int64                      `json:"times_redeemed"`
 }
 
-// PromotionCodeList is a list of promotion codes as retrieved from a list endpoint.
+// PromotionCodeList is a list of PromotionCodes as retrieved from a list endpoint.
 type PromotionCodeList struct {
 	APIResource
 	ListMeta

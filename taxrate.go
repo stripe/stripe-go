@@ -8,6 +8,7 @@ package stripe
 
 import "encoding/json"
 
+// The high-level tax type, such as `vat` or `sales_tax`.
 type TaxRateTaxType string
 
 // List of values that TaxRateTaxType can take
@@ -22,8 +23,16 @@ const (
 	TaxRateTaxTypeVAT      TaxRateTaxType = "vat"
 )
 
-// TaxRateParams is the set of parameters that can be used when creating a tax rate.
-// For more details see https://stripe.com/docs/api/tax_rates/create.
+// Returns a list of your tax rates. Tax rates are returned sorted by creation date, with the most recently created tax rates appearing first.
+type TaxRateListParams struct {
+	ListParams   `form:"*"`
+	Active       *bool             `form:"active"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	Inclusive    *bool             `form:"inclusive"`
+}
+
+// Creates a new tax rate.
 type TaxRateParams struct {
 	Params       `form:"*"`
 	Active       *bool    `form:"active"`
@@ -37,18 +46,9 @@ type TaxRateParams struct {
 	TaxType      *string  `form:"tax_type"`
 }
 
-// TaxRateListParams is the set of parameters that can be used when listing tax rates.
-// For more detail see https://stripe.com/docs/api/tax_rates/list.
-type TaxRateListParams struct {
-	ListParams   `form:"*"`
-	Active       *bool             `form:"active"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	Inclusive    *bool             `form:"inclusive"`
-}
-
-// TaxRate is the resource representing a Stripe tax rate.
-// For more details see https://stripe.com/docs/api/tax_rates/object.
+// Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
+//
+// Related guide: [Tax Rates](https://stripe.com/docs/billing/taxes/tax-rates).
 type TaxRate struct {
 	APIResource
 	Active       bool              `json:"active"`
@@ -67,7 +67,7 @@ type TaxRate struct {
 	TaxType      TaxRateTaxType    `json:"tax_type"`
 }
 
-// TaxRateList is a list of tax rates as retrieved from a list endpoint.
+// TaxRateList is a list of TaxRates as retrieved from a list endpoint.
 type TaxRateList struct {
 	APIResource
 	ListMeta

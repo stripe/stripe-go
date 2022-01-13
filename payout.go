@@ -8,19 +8,18 @@ package stripe
 
 import "encoding/json"
 
-// PayoutDestinationType consts represent valid payout destinations.
 type PayoutDestinationType string
 
-// List of values that PayoutDestinationType can take.
+// List of values that PayoutDestinationType can take
 const (
 	PayoutDestinationTypeBankAccount PayoutDestinationType = "bank_account"
 	PayoutDestinationTypeCard        PayoutDestinationType = "card"
 )
 
-// PayoutFailureCode is the list of allowed values for the payout's failure code.
+// Error code explaining reason for payout failure if available. See [Types of payout failures](https://stripe.com/docs/api#payout_failures) for a list of failure codes.
 type PayoutFailureCode string
 
-// List of values that PayoutFailureCode can take.
+// List of values that PayoutFailureCode can take
 const (
 	PayoutFailureCodeAccountClosed         PayoutFailureCode = "account_closed"
 	PayoutFailureCodeAccountFrozen         PayoutFailureCode = "account_frozen"
@@ -34,20 +33,29 @@ const (
 	PayoutFailureCodeNoAccount             PayoutFailureCode = "no_account"
 )
 
-// PayoutSourceType is the list of allowed values for the payout's source_type field.
+// The method used to send this payout, which can be `standard` or `instant`. `instant` is only supported for payouts to debit cards. (See [Instant payouts for marketplaces](https://stripe.com/blog/instant-payouts-for-marketplaces) for more information.)
+type PayoutMethodType string
+
+// List of values that PayoutMethodType can take
+const (
+	PayoutMethodInstant  PayoutMethodType = "instant"
+	PayoutMethodStandard PayoutMethodType = "standard"
+)
+
+// The source balance this payout came from. One of `card`, `fpx`, or `bank_account`.
 type PayoutSourceType string
 
-// List of values that PayoutSourceType can take.
+// List of values that PayoutSourceType can take
 const (
 	PayoutSourceTypeBankAccount PayoutSourceType = "bank_account"
 	PayoutSourceTypeCard        PayoutSourceType = "card"
 	PayoutSourceTypeFPX         PayoutSourceType = "fpx"
 )
 
-// PayoutStatus is the list of allowed values for the payout's status.
+// Current status of the payout: `paid`, `pending`, `in_transit`, `canceled` or `failed`. A payout is `pending` until it is submitted to the bank, when it becomes `in_transit`. The status then changes to `paid` if the transaction goes through, or to `failed` or `canceled` (within 5 business days). Some failed payouts may initially show as `paid` but then change to `failed`.
 type PayoutStatus string
 
-// List of values that PayoutStatus can take.
+// List of values that PayoutStatus can take
 const (
 	PayoutStatusCanceled  PayoutStatus = "canceled"
 	PayoutStatusFailed    PayoutStatus = "failed"
@@ -56,26 +64,16 @@ const (
 	PayoutStatusPending   PayoutStatus = "pending"
 )
 
-// PayoutType is the list of allowed values for the payout's type.
+// Can be `bank_account` or `card`.
 type PayoutType string
 
-// List of values that PayoutType can take.
+// List of values that PayoutType can take
 const (
 	PayoutTypeBank PayoutType = "bank_account"
 	PayoutTypeCard PayoutType = "card"
 )
 
-// PayoutMethodType represents the type of payout
-type PayoutMethodType string
-
-// List of values that PayoutMethodType can take.
-const (
-	PayoutMethodInstant  PayoutMethodType = "instant"
-	PayoutMethodStandard PayoutMethodType = "standard"
-)
-
-// PayoutParams is the set of parameters that can be used when creating or updating a payout.
-// For more details see https://stripe.com/docs/api#create_payout and https://stripe.com/docs/api#update_payout.
+// Retrieves the details of an existing payout. Supply the unique payout ID from either a payout creation request or the payout list, and Stripe will return the corresponding payout information.
 type PayoutParams struct {
 	Params              `form:"*"`
 	Amount              *int64  `form:"amount"`
@@ -87,8 +85,7 @@ type PayoutParams struct {
 	StatementDescriptor *string `form:"statement_descriptor"`
 }
 
-// PayoutListParams is the set of parameters that can be used when listing payouts.
-// For more details see https://stripe.com/docs/api#list_payouts.
+// Returns a list of existing payouts sent to third-party bank accounts or that Stripe has sent you. The payouts are returned in sorted order, with the most recently created payouts appearing first.
 type PayoutListParams struct {
 	ListParams       `form:"*"`
 	ArrivalDate      *int64            `form:"arrival_date"`
@@ -99,24 +96,21 @@ type PayoutListParams struct {
 	Status           *string           `form:"status"`
 }
 
-// PayoutReverseParams is the set of parameters that can be used when reversing a payout.
+// Reverses a payout by debiting the destination bank account. Only payouts for connected accounts to US bank accounts may be reversed at this time. If the payout is in the pending status, /v1/payouts/:id/cancel should be used instead.
+//
+// By requesting a reversal via /v1/payouts/:id/reverse, you confirm that the authorized signatory of the selected bank account has authorized the debit on the bank account and that no other authorization is required.
 type PayoutReverseParams struct {
 	Params `form:"*"`
 }
 
-// PayoutDestination describes the destination of a Payout.
-// The Type should indicate which object is fleshed out
-// For more details see https://stripe.com/docs/api/?lang=go#payout_object
-type PayoutDestination struct {
-	ID   string                `json:"id"`
-	Type PayoutDestinationType `json:"object"`
-
-	BankAccount *BankAccount `json:"-"`
-	Card        *Card        `json:"-"`
-}
-
-// Payout is the resource representing a Stripe payout.
-// For more details see https://stripe.com/docs/api#payouts.
+// A `Payout` object is created when you receive funds from Stripe, or when you
+// initiate a payout to either a bank account or debit card of a [connected
+// Stripe account](https://stripe.com/docs/connect/bank-debit-card-payouts). You can retrieve individual payouts,
+// as well as list all payouts. Payouts are made on [varying
+// schedules](https://stripe.com/docs/connect/manage-payout-schedule), depending on your country and
+// industry.
+//
+// Related guide: [Receiving Payouts](https://stripe.com/docs/payouts).
 type Payout struct {
 	APIResource
 	Amount                    int64               `json:"amount"`
@@ -144,8 +138,15 @@ type Payout struct {
 	Status                    PayoutStatus        `json:"status"`
 	Type                      PayoutType          `json:"type"`
 }
+type PayoutDestination struct {
+	ID   string                `json:"id"`
+	Type PayoutDestinationType `json:"object"`
 
-// PayoutList is a list of payouts as retrieved from a list endpoint.
+	BankAccount *BankAccount `json:"-"`
+	Card        *Card        `json:"-"`
+}
+
+// PayoutList is a list of Payouts as retrieved from a list endpoint.
 type PayoutList struct {
 	APIResource
 	ListMeta

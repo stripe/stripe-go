@@ -12,19 +12,30 @@ import (
 	"strconv"
 )
 
-// CardAvailablePayoutMethod is a set of available payout methods for the card.
+// If `address_line1` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.
+type CardVerification string
+
+// List of values that CardVerification can take
+const (
+	CardVerificationFail        CardVerification = "fail"
+	CardVerificationPass        CardVerification = "pass"
+	CardVerificationUnavailable CardVerification = "unavailable"
+	CardVerificationUnchecked   CardVerification = "unchecked"
+)
+
+// A set of available payout methods for this card. Only values from this set should be passed as the `method` when creating a payout.
 type CardAvailablePayoutMethod string
 
-// List of values that CardAvailablePayoutMethod can take.
+// List of values that CardAvailablePayoutMethod can take
 const (
 	CardAvailablePayoutMethodInstant  CardAvailablePayoutMethod = "instant"
 	CardAvailablePayoutMethodStandard CardAvailablePayoutMethod = "standard"
 )
 
-// CardBrand is the list of allowed values for the card's brand.
+// Card brand. Can be `American Express`, `Diners Club`, `Discover`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
 type CardBrand string
 
-// List of values that CardBrand can take.
+// List of values that CardBrand can take
 const (
 	CardBrandAmex       CardBrand = "American Express"
 	CardBrandDiscover   CardBrand = "Discover"
@@ -36,10 +47,10 @@ const (
 	CardBrandVisa       CardBrand = "Visa"
 )
 
-// CardFunding is the list of allowed values for the card's funding.
+// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
 type CardFunding string
 
-// List of values that CardFunding can take.
+// List of values that CardFunding can take
 const (
 	CardFundingCredit  CardFunding = "credit"
 	CardFundingDebit   CardFunding = "debit"
@@ -47,24 +58,13 @@ const (
 	CardFundingUnknown CardFunding = "unknown"
 )
 
-// CardTokenizationMethod is the list of allowed values for the card's tokenization method.
+// If the card number is tokenized, this is the method that was used. Can be `android_pay` (includes Google Pay), `apple_pay`, `masterpass`, `visa_checkout`, or null.
 type CardTokenizationMethod string
 
-// List of values that CardTokenizationMethod can take.
+// List of values that CardTokenizationMethod can take
 const (
 	TokenizationMethodAndroidPay CardTokenizationMethod = "android_pay"
 	TokenizationMethodApplePay   CardTokenizationMethod = "apple_pay"
-)
-
-// CardVerification is the list of allowed verification responses.
-type CardVerification string
-
-// List of values that CardVerification can take.
-const (
-	CardVerificationFail        CardVerification = "fail"
-	CardVerificationPass        CardVerification = "pass"
-	CardVerificationUnavailable CardVerification = "unavailable"
-	CardVerificationUnchecked   CardVerification = "unchecked"
 )
 
 type CardOwnerParams struct {
@@ -78,12 +78,7 @@ type CardOwnerParams struct {
 // constant just to make mistakes less likely.
 const cardSource = "source"
 
-// CardParams is the set of parameters that can be used when creating or updating a card.
-// For more details see https://stripe.com/docs/api#create_card and https://stripe.com/docs/api#update_card.
-//
-// Note that while form annotations are used for tokenization and updates,
-// cards have some unusual logic on creates that necessitates manual handling
-// of all parameters. See AppendToAsCardSourceOrExternalAccount.
+// Update a specified source for a given customer.
 type CardParams struct {
 	Params             `form:"*"`
 	Account            *string          `form:"-"` // Included in URL
@@ -215,8 +210,6 @@ func (c *CardParams) AppendToAsCardSourceOrExternalAccount(body *form.Values, ke
 	}
 }
 
-// CardListParams is the set of parameters that can be used when listing cards.
-// For more details see https://stripe.com/docs/api#list_cards.
 type CardListParams struct {
 	ListParams `form:"*"`
 	Account    *string `form:"-"` // Included in URL
@@ -232,8 +225,11 @@ func (p *CardListParams) AppendTo(body *form.Values, keyParts []string) {
 	}
 }
 
-// Card is the resource representing a Stripe credit/debit card.
-// For more details see https://stripe.com/docs/api#cards.
+// You can store multiple cards on a customer in order to charge the customer
+// later. You can also store multiple debit cards on a recipient in order to
+// transfer to those cards later.
+//
+// Related guide: [Card Payments with Sources](https://stripe.com/docs/sources/cards).
 type Card struct {
 	APIResource
 	Account                *Account                    `json:"account"`
@@ -281,7 +277,7 @@ type Card struct {
 	TokenizationMethod CardTokenizationMethod `json:"tokenization_method"`
 }
 
-// CardList is a list object for cards.
+// CardList is a list of Cards as retrieved from a list endpoint.
 type CardList struct {
 	APIResource
 	ListMeta

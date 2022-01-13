@@ -8,60 +8,46 @@ package stripe
 
 import "encoding/json"
 
-// IssuingDisputeEvidenceReason is the list of allowed reasons for the evidence on an issuing dispute.
-type IssuingDisputeEvidenceReason string
-
-// List of values that IssuingDisputeEvidenceReason can take.
-const (
-	IssuingDisputeEvidenceReasonCanceled                  IssuingDisputeEvidenceReason = "canceled"
-	IssuingDisputeEvidenceReasonDuplicate                 IssuingDisputeEvidenceReason = "duplicate"
-	IssuingDisputeEvidenceReasonFraudulent                IssuingDisputeEvidenceReason = "fraudulent"
-	IssuingDisputeEvidenceReasonMerchandiseNotAsDescribed IssuingDisputeEvidenceReason = "merchandise_not_as_described"
-	IssuingDisputeEvidenceReasonNotReceived               IssuingDisputeEvidenceReason = "not_received"
-	IssuingDisputeEvidenceReasonOther                     IssuingDisputeEvidenceReason = "other"
-	IssuingDisputeEvidenceReasonServiceNotAsDescribed     IssuingDisputeEvidenceReason = "service_not_as_described"
-)
-
-// IssuingDisputeEvidenceCanceledProductType is the list of allowed product types on an issuing dispute of type canceled.
+// Whether the product was a merchandise or service.
 type IssuingDisputeEvidenceCanceledProductType string
 
-// List of values that IssuingDisputeEvidenceProductType can take.
+// List of values that IssuingDisputeEvidenceCanceledProductType can take
 const (
 	IssuingDisputeEvidenceCanceledProductTypeMerchandise IssuingDisputeEvidenceCanceledProductType = "merchandise"
 	IssuingDisputeEvidenceCanceledProductTypeService     IssuingDisputeEvidenceCanceledProductType = "service"
 )
 
-// IssuingDisputeEvidenceCanceledReturnStatus is the list of allowed return status on an issuing dispute of type canceled.
+// Result of cardholder's attempt to return the product.
 type IssuingDisputeEvidenceCanceledReturnStatus string
 
-// List of values that IssuingDisputeEvidenceCanceledReturnStatus can take.
+// List of values that IssuingDisputeEvidenceCanceledReturnStatus can take
 const (
 	IssuingDisputeEvidenceCanceledReturnStatusMerchantRejected IssuingDisputeEvidenceCanceledReturnStatus = "merchant_rejected"
 	IssuingDisputeEvidenceCanceledReturnStatusSuccessful       IssuingDisputeEvidenceCanceledReturnStatus = "successful"
 )
 
-// IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatus is the list of allowed return status on an issuing dispute of type merchandise not as described.
+// Result of cardholder's attempt to return the product.
 type IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatus string
 
-// List of values that IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatus can take.
+// List of values that IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatus can take
 const (
 	IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatusMerchantRejected IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatus = "merchant_rejected"
 	IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatusSuccessful       IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatus = "successful"
 )
 
-// IssuingDisputeEvidenceNotReceivedProductType is the list of allowed product types on an issuing dispute of type not received.
+// Whether the product was a merchandise or service.
 type IssuingDisputeEvidenceNotReceivedProductType string
 
-// List of values that IssuingDisputeEvidenceNotReceivedProductType can take.
+// List of values that IssuingDisputeEvidenceNotReceivedProductType can take
 const (
 	IssuingDisputeEvidenceNotReceivedProductTypeMerchandise IssuingDisputeEvidenceNotReceivedProductType = "merchandise"
 	IssuingDisputeEvidenceNotReceivedProductTypeService     IssuingDisputeEvidenceNotReceivedProductType = "service"
 )
 
-// IssuingDisputeEvidenceOtherProductType is the list of allowed product types on an issuing dispute of type other.
+// Whether the product was a merchandise or service.
 type IssuingDisputeEvidenceOtherProductType string
 
-// List of values that IssuingDisputeEvidenceNotReceivedProductType can take.
+// List of values that IssuingDisputeEvidenceOtherProductType can take
 const (
 	IssuingDisputeEvidenceOtherProductTypeMerchandise IssuingDisputeEvidenceOtherProductType = "merchandise"
 	IssuingDisputeEvidenceOtherProductTypeService     IssuingDisputeEvidenceOtherProductType = "service"
@@ -76,10 +62,24 @@ const (
 	IssuingDisputeEvidenceServiceNotAsDescribedProductTypeService     IssuingDisputeEvidenceServiceNotAsDescribedProductType = "service"
 )
 
-// IssuingDisputeStatus is the list of allowed values for status on an issuing dispute.
+// The reason for filing the dispute. Its value will match the field containing the evidence.
+type IssuingDisputeEvidenceReason string
+
+// List of values that IssuingDisputeEvidenceReason can take
+const (
+	IssuingDisputeEvidenceReasonCanceled                  IssuingDisputeEvidenceReason = "canceled"
+	IssuingDisputeEvidenceReasonDuplicate                 IssuingDisputeEvidenceReason = "duplicate"
+	IssuingDisputeEvidenceReasonFraudulent                IssuingDisputeEvidenceReason = "fraudulent"
+	IssuingDisputeEvidenceReasonMerchandiseNotAsDescribed IssuingDisputeEvidenceReason = "merchandise_not_as_described"
+	IssuingDisputeEvidenceReasonNotReceived               IssuingDisputeEvidenceReason = "not_received"
+	IssuingDisputeEvidenceReasonOther                     IssuingDisputeEvidenceReason = "other"
+	IssuingDisputeEvidenceReasonServiceNotAsDescribed     IssuingDisputeEvidenceReason = "service_not_as_described"
+)
+
+// Current status of the dispute.
 type IssuingDisputeStatus string
 
-// List of values that IssuingDisputeStatus can take.
+// List of values that IssuingDisputeStatus can take
 const (
 	IssuingDisputeStatusExpired     IssuingDisputeStatus = "expired"
 	IssuingDisputeStatusLost        IssuingDisputeStatus = "lost"
@@ -88,7 +88,16 @@ const (
 	IssuingDisputeStatusWon         IssuingDisputeStatus = "won"
 )
 
-// IssuingDisputeEvidenceCanceledParams is the resource representing the evidence of an issuing dispute with a reason set to canceled.
+// Returns a list of Issuing Dispute objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
+type IssuingDisputeListParams struct {
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	Status       *string           `form:"status"`
+	Transaction  *string           `form:"transaction"`
+}
+
+// Evidence provided when `reason` is 'canceled'.
 type IssuingDisputeEvidenceCanceledParams struct {
 	AdditionalDocumentation    *string `form:"additional_documentation"`
 	CanceledAt                 *int64  `form:"canceled_at"`
@@ -102,7 +111,7 @@ type IssuingDisputeEvidenceCanceledParams struct {
 	ReturnStatus               *string `form:"return_status"`
 }
 
-// IssuingDisputeEvidenceDuplicateParams is the resource representing the evidence of an issuing dispute with a reason set to duplicate.
+// Evidence provided when `reason` is 'duplicate'.
 type IssuingDisputeEvidenceDuplicateParams struct {
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	CardStatement           *string `form:"card_statement"`
@@ -112,13 +121,13 @@ type IssuingDisputeEvidenceDuplicateParams struct {
 	OriginalTransaction     *string `form:"original_transaction"`
 }
 
-// IssuingDisputeEvidenceFraudulentParams is the resource representing the evidence of an issuing dispute with a reason set to fraudulent.
+// Evidence provided when `reason` is 'fraudulent'.
 type IssuingDisputeEvidenceFraudulentParams struct {
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	Explanation             *string `form:"explanation"`
 }
 
-// IssuingDisputeEvidenceMerchandiseNotAsDescribedParams is the resource representing the evidence of an issuing dispute with a reason set to merchandise not as described.
+// Evidence provided when `reason` is 'merchandise_not_as_described'.
 type IssuingDisputeEvidenceMerchandiseNotAsDescribedParams struct {
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	Explanation             *string `form:"explanation"`
@@ -128,7 +137,7 @@ type IssuingDisputeEvidenceMerchandiseNotAsDescribedParams struct {
 	ReturnStatus            *string `form:"return_status"`
 }
 
-// IssuingDisputeEvidenceNotReceivedParams is the resource representing the evidence of an issuing dispute with a reason set to not received.
+// Evidence provided when `reason` is 'not_received'.
 type IssuingDisputeEvidenceNotReceivedParams struct {
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	ExpectedAt              *int64  `form:"expected_at"`
@@ -137,7 +146,7 @@ type IssuingDisputeEvidenceNotReceivedParams struct {
 	ProductType             *string `form:"product_type"`
 }
 
-// IssuingDisputeEvidenceOtherParams is the resource representing the evidence of an issuing dispute with a reason set to other.
+// Evidence provided when `reason` is 'other'.
 type IssuingDisputeEvidenceOtherParams struct {
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	Explanation             *string `form:"explanation"`
@@ -145,7 +154,7 @@ type IssuingDisputeEvidenceOtherParams struct {
 	ProductType             *string `form:"product_type"`
 }
 
-// IssuingDisputeEvidenceServiceNotAsDescribedParams is the resource representing the evidence of an issuing dispute with a reason set to service not as described.
+// Evidence provided when `reason` is 'service_not_as_described'.
 type IssuingDisputeEvidenceServiceNotAsDescribedParams struct {
 	AdditionalDocumentation *string `form:"additional_documentation"`
 	CanceledAt              *int64  `form:"canceled_at"`
@@ -156,7 +165,7 @@ type IssuingDisputeEvidenceServiceNotAsDescribedParams struct {
 	ReceivedAt              *int64  `form:"received_at"`
 }
 
-// IssuingDisputeEvidenceParams is the set of parameters for the evidence on an issuing dispute
+// Evidence provided for the dispute.
 type IssuingDisputeEvidenceParams struct {
 	Canceled                  *IssuingDisputeEvidenceCanceledParams                  `form:"canceled"`
 	Duplicate                 *IssuingDisputeEvidenceDuplicateParams                 `form:"duplicate"`
@@ -168,28 +177,17 @@ type IssuingDisputeEvidenceParams struct {
 	ServiceNotAsDescribed     *IssuingDisputeEvidenceServiceNotAsDescribedParams     `form:"service_not_as_described"`
 }
 
-// IssuingDisputeParams is the set of parameters that can be used when creating or updating an issuing dispute.
+// Creates an Issuing Dispute object. Individual pieces of evidence within the evidence object are optional at this point. Stripe only validates that required evidence is present during submission. Refer to [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence) for more details about evidence requirements.
 type IssuingDisputeParams struct {
 	Params      `form:"*"`
 	Evidence    *IssuingDisputeEvidenceParams `form:"evidence"`
 	Transaction *string                       `form:"transaction"`
 }
 
-// IssuingDisputeListParams is the set of parameters that can be used when listing issuing dispute.
-type IssuingDisputeListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	Status       *string           `form:"status"`
-	Transaction  *string           `form:"transaction"`
-}
-
-// IssuingDisputeSubmitParams is the set of parameters that can be used when submitting an issuing dispute.
+// Submits an Issuing Dispute to the card network. Stripe validates that all evidence fields required for the dispute's reason are present. For more details, see [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence).
 type IssuingDisputeSubmitParams struct {
 	Params `form:"*"`
 }
-
-// IssuingDisputeEvidenceCanceled is the resource representing the evidence of an issuing dispute with a reason set to canceled.
 type IssuingDisputeEvidenceCanceled struct {
 	AdditionalDocumentation    *File                                      `json:"additional_documentation"`
 	CanceledAt                 int64                                      `json:"canceled_at"`
@@ -202,8 +200,6 @@ type IssuingDisputeEvidenceCanceled struct {
 	ReturnedAt                 int64                                      `json:"returned_at"`
 	ReturnStatus               IssuingDisputeEvidenceCanceledReturnStatus `json:"return_status"`
 }
-
-// IssuingDisputeEvidenceDuplicate is the resource representing the evidence of an issuing dispute with a reason set to duplicate.
 type IssuingDisputeEvidenceDuplicate struct {
 	AdditionalDocumentation *File  `json:"additional_documentation"`
 	CardStatement           *File  `json:"card_statement"`
@@ -212,14 +208,10 @@ type IssuingDisputeEvidenceDuplicate struct {
 	Explanation             string `json:"explanation"`
 	OriginalTransaction     string `json:"original_transaction"`
 }
-
-// IssuingDisputeEvidenceFraudulent is the resource representing the evidence of an issuing dispute with a reason set to fraudulent.
 type IssuingDisputeEvidenceFraudulent struct {
 	AdditionalDocumentation *File  `json:"additional_documentation"`
 	Explanation             string `json:"explanation"`
 }
-
-// IssuingDisputeEvidenceMerchandiseNotAsDescribed is the resource representing the evidence of an issuing dispute with a reason set to merchandise not as described.
 type IssuingDisputeEvidenceMerchandiseNotAsDescribed struct {
 	AdditionalDocumentation *File                                                       `json:"additional_documentation"`
 	Explanation             string                                                      `json:"explanation"`
@@ -228,8 +220,6 @@ type IssuingDisputeEvidenceMerchandiseNotAsDescribed struct {
 	ReturnedAt              int64                                                       `json:"returned_at"`
 	ReturnStatus            IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatus `json:"return_status"`
 }
-
-// IssuingDisputeEvidenceNotReceived is the resource representing the evidence of an issuing dispute with a reason set to not received.
 type IssuingDisputeEvidenceNotReceived struct {
 	AdditionalDocumentation *File                                        `json:"additional_documentation"`
 	ExpectedAt              int64                                        `json:"expected_at"`
@@ -237,16 +227,12 @@ type IssuingDisputeEvidenceNotReceived struct {
 	ProductDescription      string                                       `json:"product_description"`
 	ProductType             IssuingDisputeEvidenceNotReceivedProductType `json:"product_type"`
 }
-
-// IssuingDisputeEvidenceOther is the resource representing the evidence of an issuing dispute with a reason set to other.
 type IssuingDisputeEvidenceOther struct {
 	AdditionalDocumentation *File                                  `json:"additional_documentation"`
 	Explanation             string                                 `json:"explanation"`
 	ProductDescription      string                                 `json:"product_description"`
 	ProductType             IssuingDisputeEvidenceOtherProductType `json:"product_type"`
 }
-
-// IssuingDisputeEvidenceServiceNotAsDescribed is the resource representing the evidence of an issuing dispute with a reason set to service not as described.
 type IssuingDisputeEvidenceServiceNotAsDescribed struct {
 	AdditionalDocumentation *File                                                  `json:"additional_documentation"`
 	CanceledAt              int64                                                  `json:"canceled_at"`
@@ -256,8 +242,6 @@ type IssuingDisputeEvidenceServiceNotAsDescribed struct {
 	ProductType             IssuingDisputeEvidenceServiceNotAsDescribedProductType `json:"product_type"`
 	ReceivedAt              int64                                                  `json:"received_at"`
 }
-
-// IssuingDisputeEvidence is the resource representing the evidence of an issuing dispute.
 type IssuingDisputeEvidence struct {
 	Canceled                  *IssuingDisputeEvidenceCanceled                  `json:"canceled"`
 	Duplicate                 *IssuingDisputeEvidenceDuplicate                 `json:"duplicate"`
@@ -269,7 +253,9 @@ type IssuingDisputeEvidence struct {
 	ServiceNotAsDescribed     *IssuingDisputeEvidenceServiceNotAsDescribed     `json:"service_not_as_described"`
 }
 
-// IssuingDispute is the resource representing an issuing dispute.
+// As a [card issuer](https://stripe.com/docs/issuing), you can dispute transactions that the cardholder does not recognize, suspects to be fraudulent, or has other issues with.
+//
+// Related guide: [Disputing Transactions](https://stripe.com/docs/issuing/purchases/disputes)
 type IssuingDispute struct {
 	APIResource
 	Amount              int64                   `json:"amount"`
@@ -285,7 +271,7 @@ type IssuingDispute struct {
 	Transaction         *IssuingTransaction     `json:"transaction"`
 }
 
-// IssuingDisputeList is a list of issuing disputes as retrieved from a list endpoint.
+// IssuingDisputeList is a list of Disputes as retrieved from a list endpoint.
 type IssuingDisputeList struct {
 	APIResource
 	ListMeta

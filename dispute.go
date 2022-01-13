@@ -8,10 +8,10 @@ package stripe
 
 import "encoding/json"
 
-// DisputeReason is the list of allowed values for a discount's reason.
+// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Read more about [dispute reasons](https://stripe.com/docs/disputes/categories).
 type DisputeReason string
 
-// List of values that DisputeReason can take.
+// List of values that DisputeReason can take
 const (
 	DisputeReasonBankCannotProcess       DisputeReason = "bank_cannot_process"
 	DisputeReasonCheckReturned           DisputeReason = "check_returned"
@@ -29,10 +29,10 @@ const (
 	DisputeReasonUnrecognized            DisputeReason = "unrecognized"
 )
 
-// DisputeStatus is the list of allowed values for a discount's status.
+// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `charge_refunded`, `won`, or `lost`.
 type DisputeStatus string
 
-// List of values that DisputeStatus can take.
+// List of values that DisputeStatus can take
 const (
 	DisputeStatusChargeRefunded       DisputeStatus = "charge_refunded"
 	DisputeStatusLost                 DisputeStatus = "lost"
@@ -44,16 +44,23 @@ const (
 	DisputeStatusWon                  DisputeStatus = "won"
 )
 
-// DisputeParams is the set of parameters that can be used when updating a dispute.
-// For more details see https://stripe.com/docs/api#update_dispute.
+// Returns a list of your disputes.
+type DisputeListParams struct {
+	ListParams    `form:"*"`
+	Charge        *string           `form:"charge"`
+	Created       *int64            `form:"created"`
+	CreatedRange  *RangeQueryParams `form:"created"`
+	PaymentIntent *string           `form:"payment_intent"`
+}
+
+// Retrieves the dispute with the given ID.
 type DisputeParams struct {
 	Params   `form:"*"`
 	Evidence *DisputeEvidenceParams `form:"evidence"`
 	Submit   *bool                  `form:"submit"`
 }
 
-// DisputeEvidenceParams is the set of parameters that can be used when submitting
-// evidence for disputes.
+// Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
 type DisputeEvidenceParams struct {
 	AccessActivityLog            *string `form:"access_activity_log"`
 	BillingAddress               *string `form:"billing_address"`
@@ -83,52 +90,6 @@ type DisputeEvidenceParams struct {
 	UncategorizedFile            *string `form:"uncategorized_file"`
 	UncategorizedText            *string `form:"uncategorized_text"`
 }
-
-// DisputeListParams is the set of parameters that can be used when listing disputes.
-// For more details see https://stripe.com/docs/api#list_disputes.
-type DisputeListParams struct {
-	ListParams    `form:"*"`
-	Charge        *string           `form:"charge"`
-	Created       *int64            `form:"created"`
-	CreatedRange  *RangeQueryParams `form:"created"`
-	PaymentIntent *string           `form:"payment_intent"`
-}
-
-// Dispute is the resource representing a Stripe dispute.
-// For more details see https://stripe.com/docs/api#disputes.
-type Dispute struct {
-	APIResource
-	Amount              int64                 `json:"amount"`
-	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
-	Charge              *Charge               `json:"charge"`
-	Created             int64                 `json:"created"`
-	Currency            Currency              `json:"currency"`
-	Evidence            *DisputeEvidence      `json:"evidence"`
-	EvidenceDetails     *EvidenceDetails      `json:"evidence_details"`
-	ID                  string                `json:"id"`
-	IsChargeRefundable  bool                  `json:"is_charge_refundable"`
-	Livemode            bool                  `json:"livemode"`
-	Metadata            map[string]string     `json:"metadata"`
-	NetworkReasonCode   string                `json:"network_reason_code"`
-	Object              string                `json:"object"`
-	PaymentIntent       *PaymentIntent        `json:"payment_intent"`
-	Reason              DisputeReason         `json:"reason"`
-	Status              DisputeStatus         `json:"status"`
-}
-
-// EvidenceDetails is the structure representing more details about
-// the dispute.
-type EvidenceDetails struct {
-	DueBy           int64 `json:"due_by"`
-	HasEvidence     bool  `json:"has_evidence"`
-	PastDue         bool  `json:"past_due"`
-	SubmissionCount int64 `json:"submission_count"`
-}
-
-// DisputeEvidence is the structure that contains various details about
-// the evidence submitted for the dispute.
-// Almost all fields are strings since there structures (i.e. address)
-// do not typically get parsed by anyone and are thus presented as-received.
 type DisputeEvidence struct {
 	AccessActivityLog            string `json:"access_activity_log"`
 	BillingAddress               string `json:"billing_address"`
@@ -158,8 +119,41 @@ type DisputeEvidence struct {
 	UncategorizedFile            *File  `json:"uncategorized_file"`
 	UncategorizedText            string `json:"uncategorized_text"`
 }
+type EvidenceDetails struct {
+	DueBy           int64 `json:"due_by"`
+	HasEvidence     bool  `json:"has_evidence"`
+	PastDue         bool  `json:"past_due"`
+	SubmissionCount int64 `json:"submission_count"`
+}
 
-// DisputeList is a list of disputes as retrieved from a list endpoint.
+// A dispute occurs when a customer questions your charge with their card issuer.
+// When this happens, you're given the opportunity to respond to the dispute with
+// evidence that shows that the charge is legitimate. You can find more
+// information about the dispute process in our [Disputes and
+// Fraud](https://stripe.com/docs/disputes) documentation.
+//
+// Related guide: [Disputes and Fraud](https://stripe.com/docs/disputes).
+type Dispute struct {
+	APIResource
+	Amount              int64                 `json:"amount"`
+	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
+	Charge              *Charge               `json:"charge"`
+	Created             int64                 `json:"created"`
+	Currency            Currency              `json:"currency"`
+	Evidence            *DisputeEvidence      `json:"evidence"`
+	EvidenceDetails     *EvidenceDetails      `json:"evidence_details"`
+	ID                  string                `json:"id"`
+	IsChargeRefundable  bool                  `json:"is_charge_refundable"`
+	Livemode            bool                  `json:"livemode"`
+	Metadata            map[string]string     `json:"metadata"`
+	NetworkReasonCode   string                `json:"network_reason_code"`
+	Object              string                `json:"object"`
+	PaymentIntent       *PaymentIntent        `json:"payment_intent"`
+	Reason              DisputeReason         `json:"reason"`
+	Status              DisputeStatus         `json:"status"`
+}
+
+// DisputeList is a list of Disputes as retrieved from a list endpoint.
 type DisputeList struct {
 	APIResource
 	ListMeta

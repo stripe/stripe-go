@@ -24,7 +24,7 @@ const (
 	AccountLinkCollectEventuallyDue AccountLinkCollect = "eventually_due"
 )
 
-// AccountLinkParams are the parameters allowed during an account link creation.
+// Creates an AccountLink object that includes a single-use Stripe URL that the platform can redirect their user to in order to take them through the Connect Onboarding flow.
 type AccountLinkParams struct {
 	Params     `form:"*"`
 	Account    *string `form:"account"`
@@ -34,8 +34,10 @@ type AccountLinkParams struct {
 	Type       *string `form:"type"`
 }
 
-// AccountLink is the resource representing an account link.
-// For more details see https://stripe.com/docs/api/#account_links.
+// Account Links are the means by which a Connect platform grants a connected account permission to access
+// Stripe-hosted applications, such as Connect Onboarding.
+//
+// Related guide: [Connect Onboarding](https://stripe.com/docs/connect/connect-onboarding).
 type AccountLink struct {
 	APIResource
 	Created   int64  `json:"created"`
