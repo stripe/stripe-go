@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   default_url_options protocol: :https
 
   root to: 'sessions#root_action'
-  get '/auth', to: 'sessions#login_entrypoint'
+  get '/auth/:oauth_type', to: 'sessions#login_entrypoint', as: :omniauth
   get '/auth/salesforce/callback', to: 'sessions#salesforce_callback'
   get '/auth/salesforcesandbox/callback', to: 'sessions#salesforce_callback'
   get '/auth/stripe/callback', to: 'sessions#stripe_callback'
