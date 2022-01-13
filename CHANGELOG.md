@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.83.0 - 2022-01-13
+* [#1404](https://github.com/stripe/stripe-go/pull/1404) API Updates
+  * Add support for `PaidOutOfBand` on `Invoice`
+
 ## 72.82.0 - 2022-01-12
 * [#1403](https://github.com/stripe/stripe-go/pull/1403) API Updates
   * Add support for `CustomerCreation` on `CheckoutSessionParams` and `CheckoutSession`
