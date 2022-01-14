@@ -8,29 +8,33 @@ package stripe
 
 import "encoding/json"
 
-// EphemeralKeyParams is the set of parameters that can be used when creating
-// an ephemeral key.
+// Creates a short-lived API key for a given resource.
 type EphemeralKeyParams struct {
-	Params        `form:"*"`
-	Customer      *string `form:"customer"`
+	Params `form:"*"`
+	// The ID of the Customer you'd like to modify using the resulting ephemeral key.
+	Customer *string `form:"customer"`
+	// The ID of the Issuing Card you'd like to access using the resulting ephemeral key.
 	IssuingCard   *string `form:"issuing_card"`
 	StripeVersion *string `form:"-"` // This goes in the `Stripe-Version` header
 }
-
-// EphemeralKey is the resource representing a Stripe ephemeral key. This is used by Mobile SDKs
-// to for example manage a Customer's payment methods.
 type EphemeralKey struct {
 	APIResource
 	AssociatedObjects []struct {
 		ID   string `json:"id"`
 		Type string `json:"type"`
 	} `json:"associated_objects"`
-	Created  int64  `json:"created"`
-	Expires  int64  `json:"expires"`
-	ID       string `json:"id"`
-	Livemode bool   `json:"livemode"`
-	Object   string `json:"object"`
-	Secret   string `json:"secret"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// Time at which the key will expire. Measured in seconds since the Unix epoch.
+	Expires int64 `json:"expires"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// The key's secret. You can use this value to make authorized requests to the Stripe API.
+	Secret string `json:"secret"`
 	// RawJSON is provided so that it may be passed back to the frontend
 	// unchanged.  Ephemeral keys are issued on behalf of another client which
 	// may be running a different version of the bindings and thus expect a

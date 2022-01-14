@@ -6,19 +6,21 @@
 
 package stripe
 
-// LoginLinkParams is the set of parameters that can be used when creating a login_link.
-// For more details see https://stripe.com/docs/api#create_login_link.
+// Creates a single-use login link for an Express account to access their Stripe dashboard.
+//
+// You may only create login links for [Express accounts](https://stripe.com/docs/connect/express-accounts) connected to your platform.
 type LoginLinkParams struct {
-	Params      `form:"*"`
-	Account     *string `form:"-"` // Included in URL
+	Params  `form:"*"`
+	Account *string `form:"-"` // Included in URL
+	// Where to redirect the user after they log out of their dashboard.
 	RedirectURL *string `form:"redirect_url"`
 }
-
-// LoginLink is the resource representing a login link for Express accounts.
-// For more details see https://stripe.com/docs/api#login_link_object
 type LoginLink struct {
 	APIResource
-	Created int64  `json:"created"`
-	Object  string `json:"object"`
-	URL     string `json:"url"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// The URL for the login link.
+	URL string `json:"url"`
 }

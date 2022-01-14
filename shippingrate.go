@@ -52,68 +52,95 @@ const (
 
 // Returns a list of your shipping rates.
 type ShippingRateListParams struct {
-	ListParams   `form:"*"`
-	Active       *bool             `form:"active"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Only return shipping rates that are active or inactive.
+	Active *bool `form:"active"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+	Created *int64 `form:"created"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
 	CreatedRange *RangeQueryParams `form:"created"`
-	Currency     *string           `form:"currency"`
+	// Only return shipping rates for the given currency.
+	Currency *string `form:"currency"`
 }
 
 // The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
 type ShippingRateDeliveryEstimateMaximumParams struct {
-	Unit  *string `form:"unit"`
-	Value *int64  `form:"value"`
+	// A unit of time.
+	Unit *string `form:"unit"`
+	// Must be greater than 0.
+	Value *int64 `form:"value"`
 }
 
 // The lower bound of the estimated range. If empty, represents no lower bound.
 type ShippingRateDeliveryEstimateMinimumParams struct {
-	Unit  *string `form:"unit"`
-	Value *int64  `form:"value"`
+	// A unit of time.
+	Unit *string `form:"unit"`
+	// Must be greater than 0.
+	Value *int64 `form:"value"`
 }
 
 // The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
 type ShippingRateDeliveryEstimateParams struct {
+	// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
 	Maximum *ShippingRateDeliveryEstimateMaximumParams `form:"maximum"`
+	// The lower bound of the estimated range. If empty, represents no lower bound.
 	Minimum *ShippingRateDeliveryEstimateMinimumParams `form:"minimum"`
 }
 
 // Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
 type ShippingRateFixedAmountParams struct {
-	Amount   *int64  `form:"amount"`
+	// A non-negative integer in cents representing how much to charge.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 }
 
 // Creates a new shipping rate object.
 type ShippingRateParams struct {
-	Params           `form:"*"`
-	Active           *bool                               `form:"active"`
+	Params `form:"*"`
+	// Whether the shipping rate can be used for new purchases. Defaults to `true`.
+	Active *bool `form:"active"`
+	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
 	DeliveryEstimate *ShippingRateDeliveryEstimateParams `form:"delivery_estimate"`
-	DisplayName      *string                             `form:"display_name"`
-	FixedAmount      *ShippingRateFixedAmountParams      `form:"fixed_amount"`
-	TaxBehavior      *string                             `form:"tax_behavior"`
-	TaxCode          *string                             `form:"tax_code"`
-	Type             *string                             `form:"type"`
+	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
+	DisplayName *string `form:"display_name"`
+	// Describes a fixed amount to charge for shipping. Must be present if type is `fixed_amount`.
+	FixedAmount *ShippingRateFixedAmountParams `form:"fixed_amount"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior *string `form:"tax_behavior"`
+	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID. The Shipping tax code is `txcd_92010001`.
+	TaxCode *string `form:"tax_code"`
+	// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
+	Type *string `form:"type"`
 }
 
 // The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
 type ShippingRateDeliveryEstimateMaximum struct {
-	Unit  ShippingRateDeliveryEstimateMaximumUnit `json:"unit"`
-	Value int64                                   `json:"value"`
+	// A unit of time.
+	Unit ShippingRateDeliveryEstimateMaximumUnit `json:"unit"`
+	// Must be greater than 0.
+	Value int64 `json:"value"`
 }
 
 // The lower bound of the estimated range. If empty, represents no lower bound.
 type ShippingRateDeliveryEstimateMinimum struct {
-	Unit  ShippingRateDeliveryEstimateMinimumUnit `json:"unit"`
-	Value int64                                   `json:"value"`
+	// A unit of time.
+	Unit ShippingRateDeliveryEstimateMinimumUnit `json:"unit"`
+	// Must be greater than 0.
+	Value int64 `json:"value"`
 }
 
 // The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
 type ShippingRateDeliveryEstimate struct {
+	// The upper bound of the estimated range. If empty, represents no upper bound i.e., infinite.
 	Maximum *ShippingRateDeliveryEstimateMaximum `json:"maximum"`
+	// The lower bound of the estimated range. If empty, represents no lower bound.
 	Minimum *ShippingRateDeliveryEstimateMinimum `json:"minimum"`
 }
 type ShippingRateFixedAmount struct {
-	Amount   int64    `json:"amount"`
+	// A non-negative integer in cents representing how much to charge.
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
 }
 
@@ -121,18 +148,29 @@ type ShippingRateFixedAmount struct {
 // applied to [Checkout Sessions](https://stripe.com/docs/payments/checkout/shipping) to collect shipping costs.
 type ShippingRate struct {
 	APIResource
-	Active           bool                          `json:"active"`
-	Created          int64                         `json:"created"`
+	// Whether the shipping rate can be used for new purchases. Defaults to `true`.
+	Active bool `json:"active"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// The estimated range for how long shipping will take, meant to be displayable to the customer. This will appear on CheckoutSessions.
 	DeliveryEstimate *ShippingRateDeliveryEstimate `json:"delivery_estimate"`
-	DisplayName      string                        `json:"display_name"`
-	FixedAmount      *ShippingRateFixedAmount      `json:"fixed_amount"`
-	ID               string                        `json:"id"`
-	Livemode         bool                          `json:"livemode"`
-	Metadata         map[string]string             `json:"metadata"`
-	Object           string                        `json:"object"`
-	TaxBehavior      ShippingRateTaxBehavior       `json:"tax_behavior"`
-	TaxCode          *TaxCode                      `json:"tax_code"`
-	Type             ShippingRateType              `json:"type"`
+	// The name of the shipping rate, meant to be displayable to the customer. This will appear on CheckoutSessions.
+	DisplayName string                   `json:"display_name"`
+	FixedAmount *ShippingRateFixedAmount `json:"fixed_amount"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
+	TaxBehavior ShippingRateTaxBehavior `json:"tax_behavior"`
+	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID. The Shipping tax code is `txcd_92010001`.
+	TaxCode *TaxCode `json:"tax_code"`
+	// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
+	Type ShippingRateType `json:"type"`
 }
 
 // ShippingRateList is a list of ShippingRates as retrieved from a list endpoint.

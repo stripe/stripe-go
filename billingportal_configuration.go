@@ -8,11 +8,10 @@ package stripe
 
 import "encoding/json"
 
-// BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate describes a
-// type of customer updates that may be supported on a portal configuration
+// The types of customer updates that are supported. When empty, customers are not updateable.
 type BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate string
 
-// List of values that BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate can take.
+// List of values that BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate can take
 const (
 	BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateAddress  BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate = "address"
 	BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateEmail    BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate = "email"
@@ -36,225 +35,217 @@ const (
 	BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOptionUnused          BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption = "unused"
 )
 
-// BillingPortalConfigurationFeaturesSubscriptionCancelMode describes whether
-// to cancel subscriptions immediately or at the end of the billing period.
+// Whether to cancel subscriptions immediately or at the end of the billing period.
 type BillingPortalConfigurationFeaturesSubscriptionCancelMode string
 
-// List of values that BillingPortalConfigurationFeaturesSubscriptionCancelMode can take.
+// List of values that BillingPortalConfigurationFeaturesSubscriptionCancelMode can take
 const (
 	BillingPortalConfigurationFeaturesSubscriptionCancelModeAtPeriodEnd BillingPortalConfigurationFeaturesSubscriptionCancelMode = "at_period_end"
 	BillingPortalConfigurationFeaturesSubscriptionCancelModeImmediately BillingPortalConfigurationFeaturesSubscriptionCancelMode = "immediately"
 )
 
-// BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior describes
-// whether to create prorations when canceling subscriptions.
+// Whether to create prorations when canceling subscriptions. Possible values are `none` and `create_prorations`.
 type BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior string
 
-// List of values that BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior can take.
+// List of values that BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior can take
 const (
 	BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorAlwaysInvoice    BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior = "always_invoice"
 	BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorCreateProrations BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior = "create_prorations"
 	BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehaviorNone             BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior = "none"
 )
 
-// BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate describes
-// a type of subscription update that may be supported on a portal configuration.
+// The types of subscription updates that are supported for items listed in the `products` attribute. When empty, subscriptions are not updateable.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate string
 
-// List of values that BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate can take.
+// List of values that BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate can take
 const (
 	BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdatePrice         BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate = "price"
 	BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdatePromotionCode BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate = "promotion_code"
 	BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdateQuantity      BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate = "quantity"
 )
 
-// BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior determines
-// how to handle prorations resulting from subscription updates.
+// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior string
 
-// List of values that BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior can take.
+// List of values that BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior can take
 const (
 	BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehaviorAlwaysInvoice    BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior = "always_invoice"
 	BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehaviorCreateProrations BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior = "create_prorations"
 	BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehaviorNone             BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior = "none"
 )
 
-// BillingPortalConfigurationListParams is the set of parameters that can be
-// used when listing portal configurations.
+// Returns a list of configurations that describe the functionality of the customer portal.
 type BillingPortalConfigurationListParams struct {
 	ListParams `form:"*"`
-	Active     *bool `form:"active"`
-	IsDefault  *bool `form:"is_default"`
+	// Only return configurations that are active or inactive (e.g., pass `true` to only list active configurations).
+	Active *bool `form:"active"`
+	// Only return the default or non-default configurations (e.g., pass `true` to only list the default configuration).
+	IsDefault *bool `form:"is_default"`
 }
 
-// BillingPortalConfigurationBusinessProfileParams lets you pass the business
-// profile details associated with a portal configuration.
+// The business information shown to customers in the portal.
 type BillingPortalConfigurationBusinessProfileParams struct {
-	Headline          *string `form:"headline"`
-	PrivacyPolicyURL  *string `form:"privacy_policy_url"`
+	// The messaging shown to customers in the portal.
+	Headline *string `form:"headline"`
+	// A link to the business's publicly available privacy policy.
+	PrivacyPolicyURL *string `form:"privacy_policy_url"`
+	// A link to the business's publicly available terms of service.
 	TermsOfServiceURL *string `form:"terms_of_service_url"`
 }
 
-// BillingPortalConfigurationFeaturesCustomerUpdateParams lets you pass the
-// customer update details on a portal configuration.
+// Information about updating the customer details in the portal.
 type BillingPortalConfigurationFeaturesCustomerUpdateParams struct {
+	// The types of customer updates that are supported. When empty, customers are not updateable.
 	AllowedUpdates []*string `form:"allowed_updates"`
-	Enabled        *bool     `form:"enabled"`
-}
-
-// BillingPortalConfigurationFeaturesInvoiceHistoryParams lets you pass the
-// invoice history details on a portal configuration.
-type BillingPortalConfigurationFeaturesInvoiceHistoryParams struct {
+	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 }
 
-// BillingPortalConfigurationFeaturesPaymentMethodUpdateParams lets you pass
-// the payment method update details on a portal configuration.
+// Information about showing the billing history in the portal.
+type BillingPortalConfigurationFeaturesInvoiceHistoryParams struct {
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+}
+
+// Information about updating payment methods in the portal.
 type BillingPortalConfigurationFeaturesPaymentMethodUpdateParams struct {
+	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 }
 
 // Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer
 type BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParams struct {
-	Enabled *bool     `form:"enabled"`
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+	// Which cancellation reasons will be given as options to the customer.
 	Options []*string `form:"options"`
 }
 
-// BillingPortalConfigurationFeaturesSubscriptionCancelParams lets you pass the
-// subscription cancel deetails on a portal configuration.
+// Information about canceling subscriptions in the portal.
 type BillingPortalConfigurationFeaturesSubscriptionCancelParams struct {
+	// Whether the cancellation reasons will be collected in the portal and which options are exposed to the customer
 	CancellationReason *BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonParams `form:"cancellation_reason"`
-	Enabled            *bool                                                                         `form:"enabled"`
-	Mode               *string                                                                       `form:"mode"`
-	ProrationBehavior  *string                                                                       `form:"proration_behavior"`
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+	// Whether to cancel subscriptions immediately or at the end of the billing period.
+	Mode *string `form:"mode"`
+	// Whether to create prorations when canceling subscriptions. Possible values are `none` and `create_prorations`, which is only compatible with `mode=immediately`. No prorations are generated when canceling a subscription at the end of its natural billing period.
+	ProrationBehavior *string `form:"proration_behavior"`
 }
 
-// BillingPortalConfigurationFeaturesSubscriptionPauseParams lets you pass details on the
-// subscription pause on a portal configuration.
+// Information about pausing subscriptions in the portal.
 type BillingPortalConfigurationFeaturesSubscriptionPauseParams struct {
+	// Whether the feature is enabled.
 	Enabled *bool `form:"enabled"`
 }
 
-// BillingPortalConfigurationFeaturesSubscriptionUpdateProductParams lets you
-// pass product details on the subscription update on a portal configuration.
+// The list of products that support subscription updates.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProductParams struct {
-	Prices  []*string `form:"prices"`
-	Product *string   `form:"product"`
+	// The list of prices IDs that a subscription can be updated to.
+	Prices []*string `form:"prices"`
+	// The product id.
+	Product *string `form:"product"`
 }
 
-// BillingPortalConfigurationFeaturesSubscriptionUpdateParams lets you pass
-// subscription update details on a portal configuration.
+// Information about updating subscriptions in the portal.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateParams struct {
-	DefaultAllowedUpdates []*string                                                            `form:"default_allowed_updates"`
-	Enabled               *bool                                                                `form:"enabled"`
-	Products              []*BillingPortalConfigurationFeaturesSubscriptionUpdateProductParams `form:"products"`
-	ProrationBehavior     *string                                                              `form:"proration_behavior"`
+	// The types of subscription updates that are supported. When empty, subscriptions are not updateable.
+	DefaultAllowedUpdates []*string `form:"default_allowed_updates"`
+	// Whether the feature is enabled.
+	Enabled *bool `form:"enabled"`
+	// The list of products that support subscription updates.
+	Products []*BillingPortalConfigurationFeaturesSubscriptionUpdateProductParams `form:"products"`
+	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
+	ProrationBehavior *string `form:"proration_behavior"`
 }
 
-// BillingPortalConfigurationFeaturesParams lets you pass details about the
-// features available in the portal.
+// Information about the features available in the portal.
 type BillingPortalConfigurationFeaturesParams struct {
-	CustomerUpdate      *BillingPortalConfigurationFeaturesCustomerUpdateParams      `form:"customer_update"`
-	InvoiceHistory      *BillingPortalConfigurationFeaturesInvoiceHistoryParams      `form:"invoice_history"`
+	// Information about updating the customer details in the portal.
+	CustomerUpdate *BillingPortalConfigurationFeaturesCustomerUpdateParams `form:"customer_update"`
+	// Information about showing the billing history in the portal.
+	InvoiceHistory *BillingPortalConfigurationFeaturesInvoiceHistoryParams `form:"invoice_history"`
+	// Information about updating payment methods in the portal.
 	PaymentMethodUpdate *BillingPortalConfigurationFeaturesPaymentMethodUpdateParams `form:"payment_method_update"`
-	SubscriptionCancel  *BillingPortalConfigurationFeaturesSubscriptionCancelParams  `form:"subscription_cancel"`
-	SubscriptionPause   *BillingPortalConfigurationFeaturesSubscriptionPauseParams   `form:"subscription_pause"`
-	SubscriptionUpdate  *BillingPortalConfigurationFeaturesSubscriptionUpdateParams  `form:"subscription_update"`
+	// Information about canceling subscriptions in the portal.
+	SubscriptionCancel *BillingPortalConfigurationFeaturesSubscriptionCancelParams `form:"subscription_cancel"`
+	// Information about pausing subscriptions in the portal.
+	SubscriptionPause *BillingPortalConfigurationFeaturesSubscriptionPauseParams `form:"subscription_pause"`
+	// Information about updating subscriptions in the portal.
+	SubscriptionUpdate *BillingPortalConfigurationFeaturesSubscriptionUpdateParams `form:"subscription_update"`
 }
 
-// BillingPortalConfigurationParams is the set of parameters that can be passed
-// when creating or updating a portal configuration.
+// Creates a configuration that describes the functionality and behavior of a PortalSession
 type BillingPortalConfigurationParams struct {
-	Params           `form:"*"`
-	Active           *bool                                            `form:"active"`
-	BusinessProfile  *BillingPortalConfigurationBusinessProfileParams `form:"business_profile"`
-	DefaultReturnURL *string                                          `form:"default_return_url"`
-	Features         *BillingPortalConfigurationFeaturesParams        `form:"features"`
+	Params `form:"*"`
+	// Whether the configuration is active and can be used to create portal sessions.
+	Active *bool `form:"active"`
+	// The business information shown to customers in the portal.
+	BusinessProfile *BillingPortalConfigurationBusinessProfileParams `form:"business_profile"`
+	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://stripe.com/docs/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
+	DefaultReturnURL *string `form:"default_return_url"`
+	// Information about the features available in the portal.
+	Features *BillingPortalConfigurationFeaturesParams `form:"features"`
 }
-
-// BillingPortalConfiguration is a configuration that describes the
-// functionality and behavior of a PortalSession. For more details see
-// https://stripe.com/docs/api/customer_portal.
-type BillingPortalConfiguration struct {
-	APIResource
-	Active           bool                                       `json:"active"`
-	Application      string                                     `json:"application"`
-	BusinessProfile  *BillingPortalConfigurationBusinessProfile `json:"business_profile"`
-	Created          int64                                      `json:"created"`
-	DefaultReturnURL string                                     `json:"default_return_url"`
-	Features         *BillingPortalConfigurationFeatures        `json:"features"`
-	ID               string                                     `json:"id"`
-	IsDefault        bool                                       `json:"is_default"`
-	Livemode         bool                                       `json:"livemode"`
-	Metadata         map[string]string                          `json:"metadata"`
-	Object           string                                     `json:"object"`
-	Updated          int64                                      `json:"updated"`
-}
-
-// BillingPortalConfigurationBusinessProfile represents the business profile
-// details on a portal configuration.
 type BillingPortalConfigurationBusinessProfile struct {
-	Headline          string `json:"headline"`
-	PrivacyPolicyURL  string `json:"privacy_policy_url"`
+	// The messaging shown to customers in the portal.
+	Headline string `json:"headline"`
+	// A link to the business's publicly available privacy policy.
+	PrivacyPolicyURL string `json:"privacy_policy_url"`
+	// A link to the business's publicly available terms of service.
 	TermsOfServiceURL string `json:"terms_of_service_url"`
 }
-
-// BillingPortalConfigurationFeaturesCustomerUpdate represents the customer
-// update details on a portal configuration.
 type BillingPortalConfigurationFeaturesCustomerUpdate struct {
+	// The types of customer updates that are supported. When empty, customers are not updateable.
 	AllowedUpdates []BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdate `json:"allowed_updates"`
-	Enabled        bool                                                            `json:"enabled"`
-}
-
-// BillingPortalConfigurationFeaturesInvoiceHistory represents the invoice
-// history details on a portal configuration.
-type BillingPortalConfigurationFeaturesInvoiceHistory struct {
+	// Whether the feature is enabled.
 	Enabled bool `json:"enabled"`
 }
-
-// BillingPortalConfigurationFeaturesPaymentMethodUpdate represents the payment
-// method update details on a portal configuration.
+type BillingPortalConfigurationFeaturesInvoiceHistory struct {
+	// Whether the feature is enabled.
+	Enabled bool `json:"enabled"`
+}
 type BillingPortalConfigurationFeaturesPaymentMethodUpdate struct {
+	// Whether the feature is enabled.
 	Enabled bool `json:"enabled"`
 }
 type BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReason struct {
-	Enabled bool                                                                           `json:"enabled"`
+	// Whether the feature is enabled.
+	Enabled bool `json:"enabled"`
+	// Which cancellation reasons will be given as options to the customer.
 	Options []BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReasonOption `json:"options"`
 }
-
-// BillingPortalConfigurationFeaturesSubscriptionCancel represents the
-// subscription cancel details on a portal configuration.
 type BillingPortalConfigurationFeaturesSubscriptionCancel struct {
 	CancellationReason *BillingPortalConfigurationFeaturesSubscriptionCancelCancellationReason `json:"cancellation_reason"`
-	Enabled            bool                                                                    `json:"enabled"`
-	Mode               BillingPortalConfigurationFeaturesSubscriptionCancelMode                `json:"mode"`
-	ProrationBehavior  BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior   `json:"proration_behavior"`
+	// Whether the feature is enabled.
+	Enabled bool `json:"enabled"`
+	// Whether to cancel subscriptions immediately or at the end of the billing period.
+	Mode BillingPortalConfigurationFeaturesSubscriptionCancelMode `json:"mode"`
+	// Whether to create prorations when canceling subscriptions. Possible values are `none` and `create_prorations`.
+	ProrationBehavior BillingPortalConfigurationFeaturesSubscriptionCancelProrationBehavior `json:"proration_behavior"`
 }
-
-// BillingPortalConfigurationFeaturesSubscriptionPause lets you pass pause details
-// on the subscription update on a portal configuration.
 type BillingPortalConfigurationFeaturesSubscriptionPause struct {
+	// Whether the feature is enabled.
 	Enabled bool `json:"enabled"`
 }
 
-// BillingPortalConfigurationFeaturesSubscriptionUpdateProduct represents the
-// subscription update details on a portal configuration.
+// The list of products that support subscription updates.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProduct struct {
-	Prices  []string `json:"prices"`
-	Product string   `json:"product"`
+	// The list of price IDs which, when subscribed to, a subscription can be updated.
+	Prices []string `json:"prices"`
+	// The product ID.
+	Product string `json:"product"`
 }
-
-// BillingPortalConfigurationFeaturesSubscriptionUpdate represents the
-// subscription update details on a portal configuration.
 type BillingPortalConfigurationFeaturesSubscriptionUpdate struct {
+	// The types of subscription updates that are supported for items listed in the `products` attribute. When empty, subscriptions are not updateable.
 	DefaultAllowedUpdates []BillingPortalConfigurationFeaturesSubscriptionUpdateDefaultAllowedUpdate `json:"default_allowed_updates"`
-	Enabled               bool                                                                       `json:"enabled"`
-	Products              []*BillingPortalConfigurationFeaturesSubscriptionUpdateProduct             `json:"products"`
-	ProrationBehavior     BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior      `json:"proration_behavior"`
+	// Whether the feature is enabled.
+	Enabled bool `json:"enabled"`
+	// The list of products that support subscription updates.
+	Products []*BillingPortalConfigurationFeaturesSubscriptionUpdateProduct `json:"products"`
+	// Determines how to handle prorations resulting from subscription updates. Valid values are `none`, `create_prorations`, and `always_invoice`.
+	ProrationBehavior BillingPortalConfigurationFeaturesSubscriptionUpdateProrationBehavior `json:"proration_behavior"`
 }
-
-// BillingPortalConfigurationFeatures represents details about the features
-// enabled in the portal configuration.
 type BillingPortalConfigurationFeatures struct {
 	CustomerUpdate      *BillingPortalConfigurationFeaturesCustomerUpdate      `json:"customer_update"`
 	InvoiceHistory      *BillingPortalConfigurationFeaturesInvoiceHistory      `json:"invoice_history"`
@@ -264,8 +255,34 @@ type BillingPortalConfigurationFeatures struct {
 	SubscriptionUpdate  *BillingPortalConfigurationFeaturesSubscriptionUpdate  `json:"subscription_update"`
 }
 
-// BillingPortalConfigurationList is a list of portal configurations as
-// returned from a list endpoint.
+// A portal configuration describes the functionality and behavior of a portal session.
+type BillingPortalConfiguration struct {
+	APIResource
+	// Whether the configuration is active and can be used to create portal sessions.
+	Active bool `json:"active"`
+	// ID of the Connect Application that created the configuration.
+	Application     string                                     `json:"application"`
+	BusinessProfile *BillingPortalConfigurationBusinessProfile `json:"business_profile"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// The default URL to redirect customers to when they click on the portal's link to return to your website. This can be [overriden](https://stripe.com/docs/api/customer_portal/sessions/create#create_portal_session-return_url) when creating the session.
+	DefaultReturnURL string                              `json:"default_return_url"`
+	Features         *BillingPortalConfigurationFeatures `json:"features"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Whether the configuration is the default. If `true`, this configuration can be managed in the Dashboard and portal sessions will use this configuration unless it is overriden when creating the session.
+	IsDefault bool `json:"is_default"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// Time at which the object was last updated. Measured in seconds since the Unix epoch.
+	Updated int64 `json:"updated"`
+}
+
+// BillingPortalConfigurationList is a list of Configurations as retrieved from a list endpoint.
 type BillingPortalConfigurationList struct {
 	APIResource
 	ListMeta

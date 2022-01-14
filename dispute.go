@@ -8,10 +8,10 @@ package stripe
 
 import "encoding/json"
 
-// DisputeReason is the list of allowed values for a discount's reason.
+// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Read more about [dispute reasons](https://stripe.com/docs/disputes/categories).
 type DisputeReason string
 
-// List of values that DisputeReason can take.
+// List of values that DisputeReason can take
 const (
 	DisputeReasonBankCannotProcess       DisputeReason = "bank_cannot_process"
 	DisputeReasonCheckReturned           DisputeReason = "check_returned"
@@ -29,10 +29,10 @@ const (
 	DisputeReasonUnrecognized            DisputeReason = "unrecognized"
 )
 
-// DisputeStatus is the list of allowed values for a discount's status.
+// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `charge_refunded`, `won`, or `lost`.
 type DisputeStatus string
 
-// List of values that DisputeStatus can take.
+// List of values that DisputeStatus can take
 const (
 	DisputeStatusChargeRefunded       DisputeStatus = "charge_refunded"
 	DisputeStatusLost                 DisputeStatus = "lost"
@@ -44,122 +44,192 @@ const (
 	DisputeStatusWon                  DisputeStatus = "won"
 )
 
-// DisputeParams is the set of parameters that can be used when updating a dispute.
-// For more details see https://stripe.com/docs/api#update_dispute.
-type DisputeParams struct {
-	Params   `form:"*"`
-	Evidence *DisputeEvidenceParams `form:"evidence"`
-	Submit   *bool                  `form:"submit"`
-}
-
-// DisputeEvidenceParams is the set of parameters that can be used when submitting
-// evidence for disputes.
-type DisputeEvidenceParams struct {
-	AccessActivityLog            *string `form:"access_activity_log"`
-	BillingAddress               *string `form:"billing_address"`
-	CancellationPolicy           *string `form:"cancellation_policy"`
-	CancellationPolicyDisclosure *string `form:"cancellation_policy_disclosure"`
-	CancellationRebuttal         *string `form:"cancellation_rebuttal"`
-	CustomerCommunication        *string `form:"customer_communication"`
-	CustomerEmailAddress         *string `form:"customer_email_address"`
-	CustomerName                 *string `form:"customer_name"`
-	CustomerPurchaseIP           *string `form:"customer_purchase_ip"`
-	CustomerSignature            *string `form:"customer_signature"`
-	DuplicateChargeDocumentation *string `form:"duplicate_charge_documentation"`
-	DuplicateChargeExplanation   *string `form:"duplicate_charge_explanation"`
-	DuplicateChargeID            *string `form:"duplicate_charge_id"`
-	ProductDescription           *string `form:"product_description"`
-	Receipt                      *string `form:"receipt"`
-	RefundPolicy                 *string `form:"refund_policy"`
-	RefundPolicyDisclosure       *string `form:"refund_policy_disclosure"`
-	RefundRefusalExplanation     *string `form:"refund_refusal_explanation"`
-	ServiceDate                  *string `form:"service_date"`
-	ServiceDocumentation         *string `form:"service_documentation"`
-	ShippingAddress              *string `form:"shipping_address"`
-	ShippingCarrier              *string `form:"shipping_carrier"`
-	ShippingDate                 *string `form:"shipping_date"`
-	ShippingDocumentation        *string `form:"shipping_documentation"`
-	ShippingTrackingNumber       *string `form:"shipping_tracking_number"`
-	UncategorizedFile            *string `form:"uncategorized_file"`
-	UncategorizedText            *string `form:"uncategorized_text"`
-}
-
-// DisputeListParams is the set of parameters that can be used when listing disputes.
-// For more details see https://stripe.com/docs/api#list_disputes.
+// Returns a list of your disputes.
 type DisputeListParams struct {
-	ListParams    `form:"*"`
-	Charge        *string           `form:"charge"`
-	Created       *int64            `form:"created"`
-	CreatedRange  *RangeQueryParams `form:"created"`
-	PaymentIntent *string           `form:"payment_intent"`
+	ListParams `form:"*"`
+	// Only return disputes associated to the charge specified by this charge ID.
+	Charge       *string           `form:"charge"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Only return disputes associated to the PaymentIntent specified by this PaymentIntent ID.
+	PaymentIntent *string `form:"payment_intent"`
 }
 
-// Dispute is the resource representing a Stripe dispute.
-// For more details see https://stripe.com/docs/api#disputes.
-type Dispute struct {
-	APIResource
-	Amount              int64                 `json:"amount"`
-	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
-	Charge              *Charge               `json:"charge"`
-	Created             int64                 `json:"created"`
-	Currency            Currency              `json:"currency"`
-	Evidence            *DisputeEvidence      `json:"evidence"`
-	EvidenceDetails     *EvidenceDetails      `json:"evidence_details"`
-	ID                  string                `json:"id"`
-	IsChargeRefundable  bool                  `json:"is_charge_refundable"`
-	Livemode            bool                  `json:"livemode"`
-	Metadata            map[string]string     `json:"metadata"`
-	NetworkReasonCode   string                `json:"network_reason_code"`
-	Object              string                `json:"object"`
-	PaymentIntent       *PaymentIntent        `json:"payment_intent"`
-	Reason              DisputeReason         `json:"reason"`
-	Status              DisputeStatus         `json:"status"`
+// Retrieves the dispute with the given ID.
+type DisputeParams struct {
+	Params `form:"*"`
+	// Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
+	Evidence *DisputeEvidenceParams `form:"evidence"`
+	// Whether to immediately submit evidence to the bank. If `false`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to `true` (the default).
+	Submit *bool `form:"submit"`
 }
 
-// EvidenceDetails is the structure representing more details about
-// the dispute.
+// Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
+type DisputeEvidenceParams struct {
+	// Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity. Has a maximum character count of 20,000.
+	AccessActivityLog *string `form:"access_activity_log"`
+	// The billing address provided by the customer.
+	BillingAddress *string `form:"billing_address"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Your subscription cancellation policy, as shown to the customer.
+	CancellationPolicy *string `form:"cancellation_policy"`
+	// An explanation of how and when the customer was shown your refund policy prior to purchase. Has a maximum character count of 20,000.
+	CancellationPolicyDisclosure *string `form:"cancellation_policy_disclosure"`
+	// A justification for why the customer's subscription was not canceled. Has a maximum character count of 20,000.
+	CancellationRebuttal *string `form:"cancellation_rebuttal"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any communication with the customer that you feel is relevant to your case. Examples include emails proving that the customer received the product or service, or demonstrating their use of or satisfaction with the product or service.
+	CustomerCommunication *string `form:"customer_communication"`
+	// The email address of the customer.
+	CustomerEmailAddress *string `form:"customer_email_address"`
+	// The name of the customer.
+	CustomerName *string `form:"customer_name"`
+	// The IP address that the customer used when making the purchase.
+	CustomerPurchaseIP *string `form:"customer_purchase_ip"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) A relevant document or contract showing the customer's signature.
+	CustomerSignature *string `form:"customer_signature"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Documentation for the prior charge that can uniquely identify the charge, such as a receipt, shipping label, work order, etc. This document should be paired with a similar document from the disputed payment that proves the two payments are separate.
+	DuplicateChargeDocumentation *string `form:"duplicate_charge_documentation"`
+	// An explanation of the difference between the disputed charge versus the prior charge that appears to be a duplicate. Has a maximum character count of 20,000.
+	DuplicateChargeExplanation *string `form:"duplicate_charge_explanation"`
+	// The Stripe ID for the prior charge which appears to be a duplicate of the disputed charge.
+	DuplicateChargeID *string `form:"duplicate_charge_id"`
+	// A description of the product or service that was sold. Has a maximum character count of 20,000.
+	ProductDescription *string `form:"product_description"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any receipt or message sent to the customer notifying them of the charge.
+	Receipt *string `form:"receipt"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Your refund policy, as shown to the customer.
+	RefundPolicy *string `form:"refund_policy"`
+	// Documentation demonstrating that the customer was shown your refund policy prior to purchase. Has a maximum character count of 20,000.
+	RefundPolicyDisclosure *string `form:"refund_policy_disclosure"`
+	// A justification for why the customer is not entitled to a refund. Has a maximum character count of 20,000.
+	RefundRefusalExplanation *string `form:"refund_refusal_explanation"`
+	// The date on which the customer received or began receiving the purchased service, in a clear human-readable format.
+	ServiceDate *string `form:"service_date"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Documentation showing proof that a service was provided to the customer. This could include a copy of a signed contract, work order, or other form of written agreement.
+	ServiceDocumentation *string `form:"service_documentation"`
+	// The address to which a physical product was shipped. You should try to include as complete address information as possible.
+	ShippingAddress *string `form:"shipping_address"`
+	// The delivery service that shipped a physical product, such as Fedex, UPS, USPS, etc. If multiple carriers were used for this purchase, please separate them with commas.
+	ShippingCarrier *string `form:"shipping_carrier"`
+	// The date on which a physical product began its route to the shipping address, in a clear human-readable format.
+	ShippingDate *string `form:"shipping_date"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Documentation showing proof that a product was shipped to the customer at the same address the customer provided to you. This could include a copy of the shipment receipt, shipping label, etc. It should show the customer's full shipping address, if possible.
+	ShippingDocumentation *string `form:"shipping_documentation"`
+	// The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas.
+	ShippingTrackingNumber *string `form:"shipping_tracking_number"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any additional evidence or statements.
+	UncategorizedFile *string `form:"uncategorized_file"`
+	// Any additional evidence or statements. Has a maximum character count of 20,000.
+	UncategorizedText *string `form:"uncategorized_text"`
+}
+type DisputeEvidence struct {
+	// Any server or activity logs showing proof that the customer accessed or downloaded the purchased digital product. This information should include IP addresses, corresponding timestamps, and any detailed recorded activity.
+	AccessActivityLog string `json:"access_activity_log"`
+	// The billing address provided by the customer.
+	BillingAddress string `json:"billing_address"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Your subscription cancellation policy, as shown to the customer.
+	CancellationPolicy *File `json:"cancellation_policy"`
+	// An explanation of how and when the customer was shown your refund policy prior to purchase.
+	CancellationPolicyDisclosure string `json:"cancellation_policy_disclosure"`
+	// A justification for why the customer's subscription was not canceled.
+	CancellationRebuttal string `json:"cancellation_rebuttal"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any communication with the customer that you feel is relevant to your case. Examples include emails proving that the customer received the product or service, or demonstrating their use of or satisfaction with the product or service.
+	CustomerCommunication *File `json:"customer_communication"`
+	// The email address of the customer.
+	CustomerEmailAddress string `json:"customer_email_address"`
+	// The name of the customer.
+	CustomerName string `json:"customer_name"`
+	// The IP address that the customer used when making the purchase.
+	CustomerPurchaseIP string `json:"customer_purchase_ip"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) A relevant document or contract showing the customer's signature.
+	CustomerSignature *File `json:"customer_signature"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Documentation for the prior charge that can uniquely identify the charge, such as a receipt, shipping label, work order, etc. This document should be paired with a similar document from the disputed payment that proves the two payments are separate.
+	DuplicateChargeDocumentation *File `json:"duplicate_charge_documentation"`
+	// An explanation of the difference between the disputed charge versus the prior charge that appears to be a duplicate.
+	DuplicateChargeExplanation string `json:"duplicate_charge_explanation"`
+	// The Stripe ID for the prior charge which appears to be a duplicate of the disputed charge.
+	DuplicateChargeID string `json:"duplicate_charge_id"`
+	// A description of the product or service that was sold.
+	ProductDescription string `json:"product_description"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any receipt or message sent to the customer notifying them of the charge.
+	Receipt *File `json:"receipt"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Your refund policy, as shown to the customer.
+	RefundPolicy *File `json:"refund_policy"`
+	// Documentation demonstrating that the customer was shown your refund policy prior to purchase.
+	RefundPolicyDisclosure string `json:"refund_policy_disclosure"`
+	// A justification for why the customer is not entitled to a refund.
+	RefundRefusalExplanation string `json:"refund_refusal_explanation"`
+	// The date on which the customer received or began receiving the purchased service, in a clear human-readable format.
+	ServiceDate string `json:"service_date"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Documentation showing proof that a service was provided to the customer. This could include a copy of a signed contract, work order, or other form of written agreement.
+	ServiceDocumentation *File `json:"service_documentation"`
+	// The address to which a physical product was shipped. You should try to include as complete address information as possible.
+	ShippingAddress string `json:"shipping_address"`
+	// The delivery service that shipped a physical product, such as Fedex, UPS, USPS, etc. If multiple carriers were used for this purchase, please separate them with commas.
+	ShippingCarrier string `json:"shipping_carrier"`
+	// The date on which a physical product began its route to the shipping address, in a clear human-readable format.
+	ShippingDate string `json:"shipping_date"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Documentation showing proof that a product was shipped to the customer at the same address the customer provided to you. This could include a copy of the shipment receipt, shipping label, etc. It should show the customer's full shipping address, if possible.
+	ShippingDocumentation *File `json:"shipping_documentation"`
+	// The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas.
+	ShippingTrackingNumber string `json:"shipping_tracking_number"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Any additional evidence or statements.
+	UncategorizedFile *File `json:"uncategorized_file"`
+	// Any additional evidence or statements.
+	UncategorizedText string `json:"uncategorized_text"`
+}
 type EvidenceDetails struct {
-	DueBy           int64 `json:"due_by"`
-	HasEvidence     bool  `json:"has_evidence"`
-	PastDue         bool  `json:"past_due"`
+	// Date by which evidence must be submitted in order to successfully challenge dispute. Will be null if the customer's bank or credit card company doesn't allow a response for this particular dispute.
+	DueBy int64 `json:"due_by"`
+	// Whether evidence has been staged for this dispute.
+	HasEvidence bool `json:"has_evidence"`
+	// Whether the last evidence submission was submitted past the due date. Defaults to `false` if no evidence submissions have occurred. If `true`, then delivery of the latest evidence is *not* guaranteed.
+	PastDue bool `json:"past_due"`
+	// The number of times evidence has been submitted. Typically, you may only submit evidence once.
 	SubmissionCount int64 `json:"submission_count"`
 }
 
-// DisputeEvidence is the structure that contains various details about
-// the evidence submitted for the dispute.
-// Almost all fields are strings since there structures (i.e. address)
-// do not typically get parsed by anyone and are thus presented as-received.
-type DisputeEvidence struct {
-	AccessActivityLog            string `json:"access_activity_log"`
-	BillingAddress               string `json:"billing_address"`
-	CancellationPolicy           *File  `json:"cancellation_policy"`
-	CancellationPolicyDisclosure string `json:"cancellation_policy_disclosure"`
-	CancellationRebuttal         string `json:"cancellation_rebuttal"`
-	CustomerCommunication        *File  `json:"customer_communication"`
-	CustomerEmailAddress         string `json:"customer_email_address"`
-	CustomerName                 string `json:"customer_name"`
-	CustomerPurchaseIP           string `json:"customer_purchase_ip"`
-	CustomerSignature            *File  `json:"customer_signature"`
-	DuplicateChargeDocumentation *File  `json:"duplicate_charge_documentation"`
-	DuplicateChargeExplanation   string `json:"duplicate_charge_explanation"`
-	DuplicateChargeID            string `json:"duplicate_charge_id"`
-	ProductDescription           string `json:"product_description"`
-	Receipt                      *File  `json:"receipt"`
-	RefundPolicy                 *File  `json:"refund_policy"`
-	RefundPolicyDisclosure       string `json:"refund_policy_disclosure"`
-	RefundRefusalExplanation     string `json:"refund_refusal_explanation"`
-	ServiceDate                  string `json:"service_date"`
-	ServiceDocumentation         *File  `json:"service_documentation"`
-	ShippingAddress              string `json:"shipping_address"`
-	ShippingCarrier              string `json:"shipping_carrier"`
-	ShippingDate                 string `json:"shipping_date"`
-	ShippingDocumentation        *File  `json:"shipping_documentation"`
-	ShippingTrackingNumber       string `json:"shipping_tracking_number"`
-	UncategorizedFile            *File  `json:"uncategorized_file"`
-	UncategorizedText            string `json:"uncategorized_text"`
+// A dispute occurs when a customer questions your charge with their card issuer.
+// When this happens, you're given the opportunity to respond to the dispute with
+// evidence that shows that the charge is legitimate. You can find more
+// information about the dispute process in our [Disputes and
+// Fraud](https://stripe.com/docs/disputes) documentation.
+//
+// Related guide: [Disputes and Fraud](https://stripe.com/docs/disputes).
+type Dispute struct {
+	APIResource
+	// Disputed amount. Usually the amount of the charge, but can differ (usually because of currency fluctuation or because only part of the order is disputed).
+	Amount int64 `json:"amount"`
+	// List of zero, one, or two balance transactions that show funds withdrawn and reinstated to your Stripe account as a result of this dispute.
+	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
+	// ID of the charge that was disputed.
+	Charge *Charge `json:"charge"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency        Currency         `json:"currency"`
+	Evidence        *DisputeEvidence `json:"evidence"`
+	EvidenceDetails *EvidenceDetails `json:"evidence_details"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// If true, it is still possible to refund the disputed payment. Once the payment has been fully refunded, no further funds will be withdrawn from your Stripe account as a result of this dispute.
+	IsChargeRefundable bool `json:"is_charge_refundable"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// Network-dependent reason code for the dispute.
+	NetworkReasonCode string `json:"network_reason_code"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// ID of the PaymentIntent that was disputed.
+	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	// Reason given by cardholder for dispute. Possible values are `bank_cannot_process`, `check_returned`, `credit_not_processed`, `customer_initiated`, `debit_not_authorized`, `duplicate`, `fraudulent`, `general`, `incorrect_account_details`, `insufficient_funds`, `product_not_received`, `product_unacceptable`, `subscription_canceled`, or `unrecognized`. Read more about [dispute reasons](https://stripe.com/docs/disputes/categories).
+	Reason DisputeReason `json:"reason"`
+	// Current status of dispute. Possible values are `warning_needs_response`, `warning_under_review`, `warning_closed`, `needs_response`, `under_review`, `charge_refunded`, `won`, or `lost`.
+	Status DisputeStatus `json:"status"`
 }
 
-// DisputeList is a list of disputes as retrieved from a list endpoint.
+// DisputeList is a list of Disputes as retrieved from a list endpoint.
 type DisputeList struct {
 	APIResource
 	ListMeta
