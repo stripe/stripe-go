@@ -10,36 +10,55 @@ import "encoding/json"
 
 // Retrieves the promotion code with the given ID. In order to retrieve a promotion code by the customer-facing code use [list](https://stripe.com/docs/api/promotion_codes/list) with the desired code.
 type PromotionCodeParams struct {
-	Params         `form:"*"`
-	Active         *bool                            `form:"active"`
-	Code           *string                          `form:"code"`
-	Coupon         *string                          `form:"coupon"`
-	Customer       *string                          `form:"customer"`
-	ExpiresAt      *int64                           `form:"expires_at"`
-	MaxRedemptions *int64                           `form:"max_redemptions"`
-	Restrictions   *PromotionCodeRestrictionsParams `form:"restrictions"`
+	Params `form:"*"`
+	// Whether the promotion code is currently active.
+	Active *bool `form:"active"`
+	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for a specific customer. If left blank, we will generate one automatically.
+	Code *string `form:"code"`
+	// The coupon for this promotion code.
+	Coupon *string `form:"coupon"`
+	// The customer that this promotion code can be used by. If not set, the promotion code can be used by all customers.
+	Customer *string `form:"customer"`
+	// The timestamp at which this promotion code will expire. If the coupon has specified a `redeems_by`, then this value cannot be after the coupon's `redeems_by`.
+	ExpiresAt *int64 `form:"expires_at"`
+	// A positive integer specifying the number of times the promotion code can be redeemed. If the coupon has specified a `max_redemptions`, then this value cannot be greater than the coupon's `max_redemptions`.
+	MaxRedemptions *int64 `form:"max_redemptions"`
+	// Settings that restrict the redemption of the promotion code.
+	Restrictions *PromotionCodeRestrictionsParams `form:"restrictions"`
 }
 
 // Settings that restrict the redemption of the promotion code.
 type PromotionCodeRestrictionsParams struct {
-	FirstTimeTransaction  *bool   `form:"first_time_transaction"`
-	MinimumAmount         *int64  `form:"minimum_amount"`
+	// A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
+	FirstTimeTransaction *bool `form:"first_time_transaction"`
+	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
+	MinimumAmount *int64 `form:"minimum_amount"`
+	// Three-letter [ISO code](https://stripe.com/docs/currencies) for minimum_amount
 	MinimumAmountCurrency *string `form:"minimum_amount_currency"`
 }
 
 // Returns a list of your promotion codes.
 type PromotionCodeListParams struct {
-	ListParams   `form:"*"`
-	Active       *bool             `form:"active"`
-	Code         *string           `form:"code"`
-	Coupon       *string           `form:"coupon"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Filter promotion codes by whether they are active.
+	Active *bool `form:"active"`
+	// Only return promotion codes that have this case-insensitive code.
+	Code *string `form:"code"`
+	// Only return promotion codes for this coupon.
+	Coupon *string `form:"coupon"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+	Created *int64 `form:"created"`
+	// A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
 	CreatedRange *RangeQueryParams `form:"created"`
-	Customer     *string           `form:"customer"`
+	// Only return promotion codes that are restricted to this customer.
+	Customer *string `form:"customer"`
 }
 type PromotionCodeRestrictions struct {
-	FirstTimeTransaction  bool     `json:"first_time_transaction"`
-	MinimumAmount         int64    `json:"minimum_amount"`
+	// A Boolean indicating if the Promotion Code should only be redeemed for Customers without any successful payments or invoices
+	FirstTimeTransaction bool `json:"first_time_transaction"`
+	// Minimum amount required to redeem this Promotion Code into a Coupon (e.g., a purchase must be $100 or more to work).
+	MinimumAmount int64 `json:"minimum_amount"`
+	// Three-letter [ISO code](https://stripe.com/docs/currencies) for minimum_amount
 	MinimumAmountCurrency Currency `json:"minimum_amount_currency"`
 }
 
@@ -47,19 +66,33 @@ type PromotionCodeRestrictions struct {
 // create multiple codes for a single coupon.
 type PromotionCode struct {
 	APIResource
-	Active         bool                       `json:"active"`
-	Code           string                     `json:"code"`
-	Coupon         *Coupon                    `json:"coupon"`
-	Created        int64                      `json:"created"`
-	Customer       *Customer                  `json:"customer"`
-	ExpiresAt      int64                      `json:"expires_at"`
-	ID             string                     `json:"id"`
-	Livemode       bool                       `json:"livemode"`
-	MaxRedemptions int64                      `json:"max_redemptions"`
-	Metadata       map[string]string          `json:"metadata"`
-	Object         string                     `json:"object"`
-	Restrictions   *PromotionCodeRestrictions `json:"restrictions"`
-	TimesRedeemed  int64                      `json:"times_redeemed"`
+	// Whether the promotion code is currently active. A promotion code is only active if the coupon is also valid.
+	Active bool `json:"active"`
+	// The customer-facing code. Regardless of case, this code must be unique across all active promotion codes for each customer.
+	Code string `json:"code"`
+	// A coupon contains information about a percent-off or amount-off discount you
+	// might want to apply to a customer. Coupons may be applied to [invoices](https://stripe.com/docs/api#invoices) or
+	// [orders](https://stripe.com/docs/api#create_order_legacy-coupon). Coupons do not work with conventional one-off [charges](https://stripe.com/docs/api#create_charge).
+	Coupon *Coupon `json:"coupon"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// The customer that this promotion code can be used by.
+	Customer *Customer `json:"customer"`
+	// Date at which the promotion code can no longer be redeemed.
+	ExpiresAt int64 `json:"expires_at"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// Maximum number of times this promotion code can be redeemed.
+	MaxRedemptions int64 `json:"max_redemptions"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object       string                     `json:"object"`
+	Restrictions *PromotionCodeRestrictions `json:"restrictions"`
+	// Number of times this promotion code has been used.
+	TimesRedeemed int64 `json:"times_redeemed"`
 }
 
 // PromotionCodeList is a list of PromotionCodes as retrieved from a list endpoint.

@@ -20,35 +20,47 @@ const (
 
 // Retrieves the token with the given ID.
 type TokenParams struct {
-	Params      `form:"*"`
-	Account     *TokenAccountParams   `form:"account"`
-	BankAccount *BankAccountParams    `form:"bank_account"`
-	Card        *CardParams           `form:"card"`
-	Customer    *string               `form:"customer"`
-	CVCUpdate   *TokenCVCUpdateParams `form:"cvc_update"`
+	Params `form:"*"`
+	// Information for the account this token will represent.
+	Account *TokenAccountParams `form:"account"`
+	// The bank account this token will represent.
+	BankAccount *BankAccountParams `form:"bank_account"`
+	Card        *CardParams        `form:"card"`
+	// The customer (owned by the application's account) for which to create a token. This can be used only with an [OAuth access token](https://stripe.com/docs/connect/standard-accounts) or [Stripe-Account header](https://stripe.com/docs/connect/authentication). For more details, see [Cloning Saved Payment Methods](https://stripe.com/docs/connect/cloning-saved-payment-methods).
+	Customer *string `form:"customer"`
+	// The updated CVC value this token will represent.
+	CVCUpdate *TokenCVCUpdateParams `form:"cvc_update"`
 	// Email is an undocumented parameter used by Stripe Checkout
 	// It may be removed from the API without notice.
-	Email  *string       `form:"email"`
+	Email *string `form:"email"`
+	// Information for the person this token will represent.
 	Person *PersonParams `form:"person"`
-	PII    *PIIParams    `form:"pii"`
+	// The PII this token will represent.
+	PII *PIIParams `form:"pii"`
 }
 
 // Information for the account this token will represent.
 type TokenAccountParams struct {
-	BusinessType        *string               `form:"business_type"`
-	Company             *AccountCompanyParams `form:"company"`
-	Individual          *PersonParams         `form:"individual"`
-	TOSShownAndAccepted *bool                 `form:"tos_shown_and_accepted"`
+	// The business type.
+	BusinessType *string `form:"business_type"`
+	// Information about the company or business.
+	Company *AccountCompanyParams `form:"company"`
+	// Information about the person represented by the account.
+	Individual *PersonParams `form:"individual"`
+	// Whether the user described by the data in the token has been shown [the Stripe Connected Account Agreement](https://stripe.com/docs/connect/account-tokens#stripe-connected-account-agreement). When creating an account token to create a new Connect account, this value must be `true`.
+	TOSShownAndAccepted *bool `form:"tos_shown_and_accepted"`
 }
 
 // The updated CVC value this token will represent.
 type TokenCVCUpdateParams struct {
+	// The CVC value, in string form.
 	CVC *string `form:"cvc"`
 }
 
 // The PII this token will represent.
 type PIIParams struct {
-	Params   `form:"*"`
+	Params `form:"*"`
+	// The `id_number` for the PII, in string form.
 	IDNumber *string `form:"id_number"`
 }
 
@@ -76,16 +88,35 @@ type PIIParams struct {
 // Related guide: [Accept a payment](https://stripe.com/docs/payments/accept-a-payment-charges#web-create-token)
 type Token struct {
 	APIResource
+	// These bank accounts are payment methods on `Customer` objects.
+	//
+	// On the other hand [External Accounts](https://stripe.com/docs/api#external_accounts) are transfer
+	// destinations on `Account` objects for [Custom accounts](https://stripe.com/docs/connect/custom-accounts).
+	// They can be bank accounts or debit cards as well, and are documented in the links above.
+	//
+	// Related guide: [Bank Debits and Transfers](https://stripe.com/docs/payments/bank-debits-transfers).
 	BankAccount *BankAccount `json:"bank_account"`
-	Card        *Card        `json:"card"`
-	ClientIP    string       `json:"client_ip"`
-	Created     int64        `json:"created"`
+	// You can store multiple cards on a customer in order to charge the customer
+	// later. You can also store multiple debit cards on a recipient in order to
+	// transfer to those cards later.
+	//
+	// Related guide: [Card Payments with Sources](https://stripe.com/docs/sources/cards).
+	Card *Card `json:"card"`
+	// IP address of the client that generated the token.
+	ClientIP string `json:"client_ip"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
 	// Email is an undocumented field but included for all tokens created
 	// with Stripe Checkout.
-	Email    string    `json:"email"`
-	ID       string    `json:"id"`
-	Livemode bool      `json:"livemode"`
-	Object   string    `json:"object"`
-	Type     TokenType `json:"type"`
-	Used     bool      `json:"used"`
+	Email string `json:"email"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// Type of the token: `account`, `bank_account`, `card`, or `pii`.
+	Type TokenType `json:"type"`
+	// Whether this token has already been used (tokens can be used only once).
+	Used bool `json:"used"`
 }

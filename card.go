@@ -68,10 +68,14 @@ const (
 )
 
 type CardOwnerParams struct {
+	// Owner's address.
 	Address *AddressParams `form:"address"`
-	Email   *string        `form:"email"`
-	Name    *string        `form:"name"`
-	Phone   *string        `form:"phone"`
+	// Owner's email address.
+	Email *string `form:"email"`
+	// Owner's full name.
+	Name *string `form:"name"`
+	// Owner's phone number.
+	Phone *string `form:"phone"`
 }
 
 // cardSource is a string that's used to build card form parameters. It's a
@@ -80,27 +84,38 @@ const cardSource = "source"
 
 // Update a specified source for a given customer.
 type CardParams struct {
-	Params             `form:"*"`
-	Account            *string          `form:"-"` // Included in URL
-	Token              *string          `form:"-"` // Included in URL
-	Customer           *string          `form:"-"` // Included in URL
-	AccountHolderName  *string          `form:"account_holder_name"`
-	AccountHolderType  *string          `form:"account_holder_type"`
-	AccountType        *string          `form:"account_type"`
-	AddressCity        *string          `form:"address_city"`
-	AddressCountry     *string          `form:"address_country"`
-	AddressLine1       *string          `form:"address_line1"`
-	AddressLine2       *string          `form:"address_line2"`
-	AddressState       *string          `form:"address_state"`
-	AddressZip         *string          `form:"address_zip"`
-	Currency           *string          `form:"currency"`
-	CVC                *string          `form:"cvc"`
-	DefaultForCurrency *bool            `form:"default_for_currency"`
-	ExpMonth           *string          `form:"exp_month"`
-	ExpYear            *string          `form:"exp_year"`
-	Name               *string          `form:"name"`
-	Number             *string          `form:"number"`
-	Owner              *CardOwnerParams `form:"owner"`
+	Params   `form:"*"`
+	Account  *string `form:"-"` // Included in URL
+	Token    *string `form:"-"` // Included in URL
+	Customer *string `form:"-"` // Included in URL
+	// The name of the person or business that owns the bank account.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The type of entity that holds the account. This can be either `individual` or `company`.
+	AccountHolderType *string `form:"account_holder_type"`
+	AccountType       *string `form:"account_type"`
+	// City/District/Suburb/Town/Village.
+	AddressCity *string `form:"address_city"`
+	// Billing address country, if provided when creating card.
+	AddressCountry *string `form:"address_country"`
+	// Address line 1 (Street address/PO Box/Company name).
+	AddressLine1 *string `form:"address_line1"`
+	// Address line 2 (Apartment/Suite/Unit/Building).
+	AddressLine2 *string `form:"address_line2"`
+	// State/County/Province/Region.
+	AddressState *string `form:"address_state"`
+	// ZIP or postal code.
+	AddressZip         *string `form:"address_zip"`
+	Currency           *string `form:"currency"`
+	CVC                *string `form:"cvc"`
+	DefaultForCurrency *bool   `form:"default_for_currency"`
+	// Two digit number representing the card's expiration month.
+	ExpMonth *string `form:"exp_month"`
+	// Four digit number representing the card's expiration year.
+	ExpYear *string `form:"exp_year"`
+	// Cardholder name.
+	Name   *string          `form:"name"`
+	Number *string          `form:"number"`
+	Owner  *CardOwnerParams `form:"owner"`
 	// ID is used when tokenizing a card for shared customers
 	ID string `form:"*"`
 }
@@ -232,48 +247,80 @@ func (p *CardListParams) AppendTo(body *form.Values, keyParts []string) {
 // Related guide: [Card Payments with Sources](https://stripe.com/docs/sources/cards).
 type Card struct {
 	APIResource
-	Account                *Account                    `json:"account"`
-	AddressCity            string                      `json:"address_city"`
-	AddressCountry         string                      `json:"address_country"`
-	AddressLine1           string                      `json:"address_line1"`
-	AddressLine1Check      CardVerification            `json:"address_line1_check"`
-	AddressLine2           string                      `json:"address_line2"`
-	AddressState           string                      `json:"address_state"`
-	AddressZip             string                      `json:"address_zip"`
-	AddressZipCheck        CardVerification            `json:"address_zip_check"`
+	// The account this card belongs to. This attribute will not be in the card object if the card belongs to a customer or recipient instead.
+	Account *Account `json:"account"`
+	// City/District/Suburb/Town/Village.
+	AddressCity string `json:"address_city"`
+	// Billing address country, if provided when creating card.
+	AddressCountry string `json:"address_country"`
+	// Address line 1 (Street address/PO Box/Company name).
+	AddressLine1 string `json:"address_line1"`
+	// If `address_line1` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.
+	AddressLine1Check CardVerification `json:"address_line1_check"`
+	// Address line 2 (Apartment/Suite/Unit/Building).
+	AddressLine2 string `json:"address_line2"`
+	// State/County/Province/Region.
+	AddressState string `json:"address_state"`
+	// ZIP or postal code.
+	AddressZip string `json:"address_zip"`
+	// If `address_zip` was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`.
+	AddressZipCheck CardVerification `json:"address_zip_check"`
+	// A set of available payout methods for this card. Only values from this set should be passed as the `method` when creating a payout.
 	AvailablePayoutMethods []CardAvailablePayoutMethod `json:"available_payout_methods"`
-	Brand                  CardBrand                   `json:"brand"`
-	Country                string                      `json:"country"`
-	Currency               Currency                    `json:"currency"`
-	Customer               *Customer                   `json:"customer"`
-	CVCCheck               CardVerification            `json:"cvc_check"`
-	DefaultForCurrency     bool                        `json:"default_for_currency"`
-	Deleted                bool                        `json:"deleted"`
+	// Card brand. Can be `American Express`, `Diners Club`, `Discover`, `JCB`, `MasterCard`, `UnionPay`, `Visa`, or `Unknown`.
+	Brand CardBrand `json:"brand"`
+	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.
+	Country string `json:"country"`
+	// Three-letter [ISO code for currency](https://stripe.com/docs/payouts). Only applicable on accounts (not customers or recipients). The card can be used as a transfer destination for funds in this currency.
+	Currency Currency `json:"currency"`
+	// The customer that this card belongs to. This attribute will not be in the card object if the card belongs to an account or recipient instead.
+	Customer *Customer `json:"customer"`
+	// If a CVC was provided, results of the check: `pass`, `fail`, `unavailable`, or `unchecked`. A result of unchecked indicates that CVC was provided but hasn't been checked yet. Checks are typically performed when attaching a card to a Customer object, or when creating a charge. For more details, see [Check if a card is valid without a charge](https://support.stripe.com/questions/check-if-a-card-is-valid-without-a-charge).
+	CVCCheck CardVerification `json:"cvc_check"`
+	// Whether this card is the default external account for its currency.
+	DefaultForCurrency bool `json:"default_for_currency"`
+	Deleted            bool `json:"deleted"`
 	// Description is a succinct summary of the card's information.
 	//
 	// Please note that this field is for internal use only and is not returned
 	// as part of standard API requests.
-	Description  string      `json:"description"`
-	DynamicLast4 string      `json:"dynamic_last4"`
-	ExpMonth     uint8       `json:"exp_month"`
-	ExpYear      uint16      `json:"exp_year"`
-	Fingerprint  string      `json:"fingerprint"`
-	Funding      CardFunding `json:"funding"`
-	ID           string      `json:"id"`
+	// A high-level description of the type of cards issued in this range. (For internal use only and not typically available in standard API requests.)
+	Description string `json:"description"`
+	// (For tokenized numbers only.) The last four digits of the device account number.
+	DynamicLast4 string `json:"dynamic_last4"`
+	// Two-digit number representing the card's expiration month.
+	ExpMonth uint8 `json:"exp_month"`
+	// Four-digit number representing the card's expiration year.
+	ExpYear uint16 `json:"exp_year"`
+	// Uniquely identifies this particular card number. You can use this attribute to check whether two customers who've signed up with you are using the same card number, for example. For payment methods that tokenize card information (Apple Pay, Google Pay), the tokenized number might be provided instead of the underlying card number.
+	//
+	// *Starting May 1, 2021, card fingerprint in India for Connect will change to allow two fingerprints for the same card --- one for India and one for the rest of the world.*
+	Fingerprint string `json:"fingerprint"`
+	// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+	Funding CardFunding `json:"funding"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
 	// IIN is the card's "Issuer Identification Number".
 	//
 	// Please note that this field is for internal use only and is not returned
 	// as part of standard API requests.
+	// Issuer identification number of the card. (For internal use only and not typically available in standard API requests.)
 	IIN string `json:"iin"`
 	// Issuer is a bank or financial institution that provides the card.
 	//
 	// Please note that this field is for internal use only and is not returned
 	// as part of standard API requests.
-	Issuer             string                 `json:"issuer"`
-	Last4              string                 `json:"last4"`
-	Metadata           map[string]string      `json:"metadata"`
-	Name               string                 `json:"name"`
-	Object             string                 `json:"object"`
+	// The name of the card's issuing bank. (For internal use only and not typically available in standard API requests.)
+	Issuer string `json:"issuer"`
+	// The last four digits of the card.
+	Last4 string `json:"last4"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// Cardholder name.
+	Name string `json:"name"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// If the card number is tokenized, this is the method that was used. Can be `android_pay` (includes Google Pay), `apple_pay`, `masterpass`, `visa_checkout`, or null.
 	TokenizationMethod CardTokenizationMethod `json:"tokenization_method"`
 }
 

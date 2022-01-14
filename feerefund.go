@@ -20,7 +20,8 @@ import "encoding/json"
 type FeeRefundParams struct {
 	Params         `form:"*"`
 	ApplicationFee *string `form:"-"` // Included in URL
-	Amount         *int64  `form:"amount"`
+	// A positive integer, in _%s_, representing how much of this fee to refund. Can refund only up to the remaining unrefunded amount of the fee.
+	Amount *int64 `form:"amount"`
 }
 
 // You can see a list of the refunds belonging to a specific application fee. Note that the 10 most recent refunds are always available by default on the application fee object. If you need more than those 10, you can use this API method and the limit and starting_after parameters to page through additional refunds.
@@ -36,14 +37,22 @@ type FeeRefundListParams struct {
 // Related guide: [Refunding Application Fees](https://stripe.com/docs/connect/destination-charges#refunding-app-fee).
 type FeeRefund struct {
 	APIResource
-	Amount             int64               `json:"amount"`
+	// Amount, in %s.
+	Amount int64 `json:"amount"`
+	// Balance transaction that describes the impact on your account balance.
 	BalanceTransaction *BalanceTransaction `json:"balance_transaction"`
-	Created            int64               `json:"created"`
-	Currency           Currency            `json:"currency"`
-	Fee                *ApplicationFee     `json:"fee"`
-	ID                 string              `json:"id"`
-	Metadata           map[string]string   `json:"metadata"`
-	Object             string              `json:"object"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// ID of the application fee that was refunded.
+	Fee *ApplicationFee `json:"fee"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
 }
 
 // FeeRefundList is a list of FeeRefunds as retrieved from a list endpoint.

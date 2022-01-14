@@ -26,7 +26,8 @@ const (
 type SourceListParams struct {
 	ListParams `form:"*"`
 	Customer   *string `form:"-"` // Included in URL
-	Object     *string `form:"object"`
+	// Filter sources according to a particular object type.
+	Object *string `form:"object"`
 }
 
 // SetSource adds valid sources to a CustomerSourceParams object,
@@ -81,35 +82,52 @@ func (p *SourceParams) AppendTo(body *form.Values, keyParts []string) {
 // However, if the owner already has a default, then it will not change.
 // To change the default, you should [update the customer](https://stripe.com/docs/api#update_customer) to have a new default_source.
 type CustomerSourceParams struct {
-	Params            `form:"*"`
-	Customer          *string                   `form:"-"` // Included in URL
-	AccountHolderName *string                   `form:"account_holder_name"`
-	AccountHolderType *string                   `form:"account_holder_type"`
-	AddressCity       *string                   `form:"address_city"`
-	AddressCountry    *string                   `form:"address_country"`
-	AddressLine1      *string                   `form:"address_line1"`
-	AddressLine2      *string                   `form:"address_line2"`
-	AddressState      *string                   `form:"address_state"`
-	AddressZip        *string                   `form:"address_zip"`
-	ExpMonth          *string                   `form:"exp_month"`
-	ExpYear           *string                   `form:"exp_year"`
-	Name              *string                   `form:"name"`
-	Owner             *PaymentSourceOwnerParams `form:"owner"`
-	Source            *SourceParams             `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// The name of the person or business that owns the bank account.
+	AccountHolderName *string `form:"account_holder_name"`
+	// The type of entity that holds the account. This can be either `individual` or `company`.
+	AccountHolderType *string `form:"account_holder_type"`
+	// City/District/Suburb/Town/Village.
+	AddressCity *string `form:"address_city"`
+	// Billing address country, if provided when creating card.
+	AddressCountry *string `form:"address_country"`
+	// Address line 1 (Street address/PO Box/Company name).
+	AddressLine1 *string `form:"address_line1"`
+	// Address line 2 (Apartment/Suite/Unit/Building).
+	AddressLine2 *string `form:"address_line2"`
+	// State/County/Province/Region.
+	AddressState *string `form:"address_state"`
+	// ZIP or postal code.
+	AddressZip *string `form:"address_zip"`
+	// Two digit number representing the card's expiration month.
+	ExpMonth *string `form:"exp_month"`
+	// Four digit number representing the card's expiration year.
+	ExpYear *string `form:"exp_year"`
+	// Cardholder name.
+	Name  *string                   `form:"name"`
+	Owner *PaymentSourceOwnerParams `form:"owner"`
+	// Please refer to full [documentation](https://stripe.com/docs/api) instead.
+	Source *SourceParams `form:"*"` // SourceParams has custom encoding so brought to top level with "*"
 }
 type PaymentSourceOwnerParams struct {
+	// Owner's address.
 	Address *AddressParams `form:"address"`
-	Email   *string        `form:"email"`
-	Name    *string        `form:"name"`
-	Phone   *string        `form:"phone"`
+	// Owner's email address.
+	Email *string `form:"email"`
+	// Owner's full name.
+	Name *string `form:"name"`
+	// Owner's phone number.
+	Phone *string `form:"phone"`
 }
 
 // Verify a specified bank account for a given customer.
 type SourceVerifyParams struct {
 	Params   `form:"*"`
-	Customer *string   `form:"-"`       // Included in URL
-	Amounts  [2]int64  `form:"amounts"` // Amounts is used when verifying bank accounts
-	Values   []*string `form:"values"`  // Values is used when verifying sources
+	Customer *string `form:"-"` // Included in URL
+	// Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
+	Amounts [2]int64  `form:"amounts"` // Amounts is used when verifying bank accounts
+	Values  []*string `form:"values"`  // Values is used when verifying sources
 }
 type PaymentSource struct {
 	APIResource

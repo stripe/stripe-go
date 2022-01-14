@@ -24,10 +24,13 @@ const (
 type UsageRecordParams struct {
 	Params           `form:"*"`
 	SubscriptionItem *string `form:"-"` // Included in URL
-	Action           *string `form:"action"`
-	Quantity         *int64  `form:"quantity"`
-	Timestamp        *int64  `form:"timestamp"`
-	TimestampNow     *bool   `form:"-"` // See custom AppendTo
+	// Valid values are `increment` (default) or `set`. When using `increment` the specified `quantity` will be added to the usage at the specified timestamp. The `set` action will overwrite the usage quantity at that timestamp. If the subscription has [billing thresholds](https://stripe.com/docs/api/subscriptions/object#subscription_object-billing_thresholds), `increment` is the only allowed value.
+	Action *string `form:"action"`
+	// The usage quantity for the specified timestamp.
+	Quantity *int64 `form:"quantity"`
+	// The timestamp for the usage event. This timestamp must be within the current billing period of the subscription of the provided `subscription_item`, and must not be in the future. When passing `"now"`, Stripe records usage for the current time. Default is `"now"` if a value is not provided.
+	Timestamp    *int64 `form:"timestamp"`
+	TimestampNow *bool  `form:"-"` // See custom AppendTo
 }
 
 // AppendTo implements custom encoding logic for UsageRecordParams.
@@ -43,10 +46,16 @@ func (u *UsageRecordParams) AppendTo(body *form.Values, keyParts []string) {
 // Related guide: [Metered Billing](https://stripe.com/docs/billing/subscriptions/metered-billing).
 type UsageRecord struct {
 	APIResource
-	ID               string `json:"id"`
-	Livemode         bool   `json:"livemode"`
-	Object           string `json:"object"`
-	Quantity         int64  `json:"quantity"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// The usage quantity for the specified date.
+	Quantity int64 `json:"quantity"`
+	// The ID of the subscription item this usage record contains data for.
 	SubscriptionItem string `json:"subscription_item"`
-	Timestamp        int64  `json:"timestamp"`
+	// The timestamp when this usage occurred.
+	Timestamp int64 `json:"timestamp"`
 }

@@ -108,15 +108,21 @@ const (
 //
 // Note that this endpoint was previously called “Balance history” and used the path /v1/balance/history.
 type BalanceTransactionListParams struct {
-	ListParams       `form:"*"`
-	AvailableOn      *int64            `form:"available_on"`
+	ListParams `form:"*"`
+	// This parameter is deprecated and we recommend listing by created and filtering in memory instead.
+	AvailableOn *int64 `form:"available_on"`
+	// This parameter is deprecated and we recommend listing by created and filtering in memory instead.
 	AvailableOnRange *RangeQueryParams `form:"available_on"`
 	Created          *int64            `form:"created"`
 	CreatedRange     *RangeQueryParams `form:"created"`
-	Currency         *string           `form:"currency"`
-	Payout           *string           `form:"payout"`
-	Source           *string           `form:"source"`
-	Type             *string           `form:"type"`
+	// Only return transactions in a certain currency. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// For automatic Stripe payouts only, only returns transactions that were paid out on the specified payout ID.
+	Payout *string `form:"payout"`
+	// Only returns the original transaction.
+	Source *string `form:"source"`
+	// Only returns transactions of the given type. One of: `adjustment`, `advance`, `advance_funding`, `anticipation_repayment`, `application_fee`, `application_fee_refund`, `charge`, `connect_collection_transfer`, `contribution`, `issuing_authorization_hold`, `issuing_authorization_release`, `issuing_dispute`, `issuing_transaction`, `payment`, `payment_failure_refund`, `payment_refund`, `payout`, `payout_cancel`, `payout_failure`, `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`, `stripe_fee`, `stripe_fx_fee`, `tax_fee`, `topup`, `topup_reversal`, `transfer`, `transfer_cancel`, `transfer_failure`, or `transfer_refund`.
+	Type *string `form:"type"`
 }
 
 // Retrieves the balance transaction with the given ID.
@@ -128,11 +134,16 @@ type BalanceTransactionParams struct {
 
 // Fees (in %s) paid for this transaction.
 type BalanceTransactionFee struct {
-	Amount      int64    `json:"amount"`
-	Application string   `json:"application"`
-	Currency    Currency `json:"currency"`
-	Description string   `json:"description"`
-	Type        string   `json:"type"`
+	// Amount of the fee, in cents.
+	Amount int64 `json:"amount"`
+	// ID of the Connect application that earned the fee.
+	Application string `json:"application"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description string `json:"description"`
+	// Type of the fee, one of: `application_fee`, `stripe_fee` or `tax`.
+	Type string `json:"type"`
 }
 
 // Balance transactions represent funds moving through your Stripe account.
@@ -141,21 +152,36 @@ type BalanceTransactionFee struct {
 // Related guide: [Balance Transaction Types](https://stripe.com/docs/reports/balance-transaction-types).
 type BalanceTransaction struct {
 	APIResource
-	Amount            int64                               `json:"amount"`
-	AvailableOn       int64                               `json:"available_on"`
-	Created           int64                               `json:"created"`
-	Currency          Currency                            `json:"currency"`
-	Description       string                              `json:"description"`
-	ExchangeRate      float64                             `json:"exchange_rate"`
-	Fee               int64                               `json:"fee"`
-	FeeDetails        []*BalanceTransactionFee            `json:"fee_details"`
-	ID                string                              `json:"id"`
-	Net               int64                               `json:"net"`
-	Object            string                              `json:"object"`
+	// Gross amount of the transaction, in %s.
+	Amount int64 `json:"amount"`
+	// The date the transaction's net funds will become available in the Stripe balance.
+	AvailableOn int64 `json:"available_on"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description string `json:"description"`
+	// The exchange rate used, if applicable, for this transaction. Specifically, if money was converted from currency A to currency B, then the `amount` in currency A, times `exchange_rate`, would be the `amount` in currency B. For example, suppose you charged a customer 10.00 EUR. Then the PaymentIntent's `amount` would be `1000` and `currency` would be `eur`. Suppose this was converted into 12.34 USD in your Stripe account. Then the BalanceTransaction's `amount` would be `1234`, `currency` would be `usd`, and `exchange_rate` would be `1.234`.
+	ExchangeRate float64 `json:"exchange_rate"`
+	// Fees (in %s) paid for this transaction.
+	Fee int64 `json:"fee"`
+	// Detailed breakdown of fees (in %s) paid for this transaction.
+	FeeDetails []*BalanceTransactionFee `json:"fee_details"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Net amount of the transaction, in %s.
+	Net int64 `json:"net"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// [Learn more](https://stripe.com/docs/reports/reporting-categories) about how reporting categories can help you understand balance transactions from an accounting perspective.
 	ReportingCategory BalanceTransactionReportingCategory `json:"reporting_category"`
-	Source            *BalanceTransactionSource           `json:"source"`
-	Status            BalanceTransactionStatus            `json:"status"`
-	Type              BalanceTransactionType              `json:"type"`
+	// The Stripe object to which this transaction is related.
+	Source *BalanceTransactionSource `json:"source"`
+	// If the transaction's net funds are available in the Stripe balance yet. Either `available` or `pending`.
+	Status BalanceTransactionStatus `json:"status"`
+	// Transaction type: `adjustment`, `advance`, `advance_funding`, `anticipation_repayment`, `application_fee`, `application_fee_refund`, `charge`, `connect_collection_transfer`, `contribution`, `issuing_authorization_hold`, `issuing_authorization_release`, `issuing_dispute`, `issuing_transaction`, `payment`, `payment_failure_refund`, `payment_refund`, `payout`, `payout_cancel`, `payout_failure`, `refund`, `refund_failure`, `reserve_transaction`, `reserved_funds`, `stripe_fee`, `stripe_fx_fee`, `tax_fee`, `topup`, `topup_reversal`, `transfer`, `transfer_cancel`, `transfer_failure`, or `transfer_refund`. [Learn more](https://stripe.com/docs/reports/balance-transaction-types) about balance transaction types and what they represent. If you are looking to classify transactions for accounting purposes, you might want to consider `reporting_category` instead.
+	Type BalanceTransactionType `json:"type"`
 }
 type BalanceTransactionSource struct {
 	ID   string                       `json:"id"`

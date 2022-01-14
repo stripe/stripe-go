@@ -90,98 +90,150 @@ const (
 
 // Returns a list of Issuing Dispute objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type IssuingDisputeListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Select Issuing disputes that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Select Issuing disputes that were created during the given date interval.
 	CreatedRange *RangeQueryParams `form:"created"`
-	Status       *string           `form:"status"`
-	Transaction  *string           `form:"transaction"`
+	// Select Issuing disputes with the given status.
+	Status *string `form:"status"`
+	// Select the Issuing dispute for the given transaction.
+	Transaction *string `form:"transaction"`
 }
 
 // Evidence provided when `reason` is 'canceled'.
 type IssuingDisputeEvidenceCanceledParams struct {
-	AdditionalDocumentation    *string `form:"additional_documentation"`
-	CanceledAt                 *int64  `form:"canceled_at"`
-	CancellationPolicyProvided *bool   `form:"cancellation_policy_provided"`
-	CancellationReason         *string `form:"cancellation_reason"`
-	ExpectedAt                 *int64  `form:"expected_at"`
-	Explanation                *string `form:"explanation"`
-	ProductDescription         *string `form:"product_description"`
-	ProductType                *string `form:"product_type"`
-	ReturnedAt                 *int64  `form:"returned_at"`
-	ReturnStatus               *string `form:"return_status"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *string `form:"additional_documentation"`
+	// Date when order was canceled.
+	CanceledAt *int64 `form:"canceled_at"`
+	// Whether the cardholder was provided with a cancellation policy.
+	CancellationPolicyProvided *bool `form:"cancellation_policy_provided"`
+	// Reason for canceling the order.
+	CancellationReason *string `form:"cancellation_reason"`
+	// Date when the cardholder expected to receive the product.
+	ExpectedAt *int64 `form:"expected_at"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Description of the merchandise or service that was purchased.
+	ProductDescription *string `form:"product_description"`
+	// Whether the product was a merchandise or service.
+	ProductType *string `form:"product_type"`
+	// Date when the product was returned or attempted to be returned.
+	ReturnedAt *int64 `form:"returned_at"`
+	// Result of cardholder's attempt to return the product.
+	ReturnStatus *string `form:"return_status"`
 }
 
 // Evidence provided when `reason` is 'duplicate'.
 type IssuingDisputeEvidenceDuplicateParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
-	CardStatement           *string `form:"card_statement"`
-	CashReceipt             *string `form:"cash_receipt"`
-	CheckImage              *string `form:"check_image"`
-	Explanation             *string `form:"explanation"`
-	OriginalTransaction     *string `form:"original_transaction"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the card statement showing that the product had already been paid for.
+	CardStatement *string `form:"card_statement"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the receipt showing that the product had been paid for in cash.
+	CashReceipt *string `form:"cash_receipt"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Image of the front and back of the check that was used to pay for the product.
+	CheckImage *string `form:"check_image"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Transaction (e.g., ipi_...) that the disputed transaction is a duplicate of. Of the two or more transactions that are copies of each other, this is original undisputed one.
+	OriginalTransaction *string `form:"original_transaction"`
 }
 
 // Evidence provided when `reason` is 'fraudulent'.
 type IssuingDisputeEvidenceFraudulentParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
-	Explanation             *string `form:"explanation"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
 }
 
 // Evidence provided when `reason` is 'merchandise_not_as_described'.
 type IssuingDisputeEvidenceMerchandiseNotAsDescribedParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
-	Explanation             *string `form:"explanation"`
-	ReceivedAt              *int64  `form:"received_at"`
-	ReturnDescription       *string `form:"return_description"`
-	ReturnedAt              *int64  `form:"returned_at"`
-	ReturnStatus            *string `form:"return_status"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Date when the product was received.
+	ReceivedAt *int64 `form:"received_at"`
+	// Description of the cardholder's attempt to return the product.
+	ReturnDescription *string `form:"return_description"`
+	// Date when the product was returned or attempted to be returned.
+	ReturnedAt *int64 `form:"returned_at"`
+	// Result of cardholder's attempt to return the product.
+	ReturnStatus *string `form:"return_status"`
 }
 
 // Evidence provided when `reason` is 'not_received'.
 type IssuingDisputeEvidenceNotReceivedParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
-	ExpectedAt              *int64  `form:"expected_at"`
-	Explanation             *string `form:"explanation"`
-	ProductDescription      *string `form:"product_description"`
-	ProductType             *string `form:"product_type"`
+	// Date when the cardholder expected to receive the product.
+	ExpectedAt *int64 `form:"expected_at"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Description of the merchandise or service that was purchased.
+	ProductDescription *string `form:"product_description"`
+	// Whether the product was a merchandise or service.
+	ProductType *string `form:"product_type"`
 }
 
 // Evidence provided when `reason` is 'other'.
 type IssuingDisputeEvidenceOtherParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
-	Explanation             *string `form:"explanation"`
-	ProductDescription      *string `form:"product_description"`
-	ProductType             *string `form:"product_type"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation *string `form:"explanation"`
+	// Description of the merchandise or service that was purchased.
+	ProductDescription *string `form:"product_description"`
+	// Whether the product was a merchandise or service.
+	ProductType *string `form:"product_type"`
 }
 
 // Evidence provided when `reason` is 'service_not_as_described'.
 type IssuingDisputeEvidenceServiceNotAsDescribedParams struct {
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
 	AdditionalDocumentation *string `form:"additional_documentation"`
-	CanceledAt              *int64  `form:"canceled_at"`
-	CancellationReason      *string `form:"cancellation_reason"`
-	Explanation             *string `form:"explanation"`
-	ProductDescription      *string `form:"product_description"`
-	ProductType             *string `form:"product_type"`
-	ReceivedAt              *int64  `form:"received_at"`
+	// Date when order was canceled.
+	CanceledAt *int64 `form:"canceled_at"`
+	// Reason for canceling the order.
+	CancellationReason *string `form:"cancellation_reason"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation        *string `form:"explanation"`
+	ProductDescription *string `form:"product_description"`
+	ProductType        *string `form:"product_type"`
+	// Date when the product was received.
+	ReceivedAt *int64 `form:"received_at"`
 }
 
 // Evidence provided for the dispute.
 type IssuingDisputeEvidenceParams struct {
-	Canceled                  *IssuingDisputeEvidenceCanceledParams                  `form:"canceled"`
-	Duplicate                 *IssuingDisputeEvidenceDuplicateParams                 `form:"duplicate"`
-	Fraudulent                *IssuingDisputeEvidenceFraudulentParams                `form:"fraudulent"`
+	// Evidence provided when `reason` is 'canceled'.
+	Canceled *IssuingDisputeEvidenceCanceledParams `form:"canceled"`
+	// Evidence provided when `reason` is 'duplicate'.
+	Duplicate *IssuingDisputeEvidenceDuplicateParams `form:"duplicate"`
+	// Evidence provided when `reason` is 'fraudulent'.
+	Fraudulent *IssuingDisputeEvidenceFraudulentParams `form:"fraudulent"`
+	// Evidence provided when `reason` is 'merchandise_not_as_described'.
 	MerchandiseNotAsDescribed *IssuingDisputeEvidenceMerchandiseNotAsDescribedParams `form:"merchandise_not_as_described"`
-	NotReceived               *IssuingDisputeEvidenceNotReceivedParams               `form:"not_received"`
-	Other                     *IssuingDisputeEvidenceOtherParams                     `form:"other"`
-	Reason                    *string                                                `form:"reason"`
-	ServiceNotAsDescribed     *IssuingDisputeEvidenceServiceNotAsDescribedParams     `form:"service_not_as_described"`
+	// Evidence provided when `reason` is 'not_received'.
+	NotReceived *IssuingDisputeEvidenceNotReceivedParams `form:"not_received"`
+	// Evidence provided when `reason` is 'other'.
+	Other *IssuingDisputeEvidenceOtherParams `form:"other"`
+	// The reason for filing the dispute. The evidence should be submitted in the field of the same name.
+	Reason *string `form:"reason"`
+	// Evidence provided when `reason` is 'service_not_as_described'.
+	ServiceNotAsDescribed *IssuingDisputeEvidenceServiceNotAsDescribedParams `form:"service_not_as_described"`
 }
 
 // Creates an Issuing Dispute object. Individual pieces of evidence within the evidence object are optional at this point. Stripe only validates that required evidence is present during submission. Refer to [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence) for more details about evidence requirements.
 type IssuingDisputeParams struct {
-	Params      `form:"*"`
-	Evidence    *IssuingDisputeEvidenceParams `form:"evidence"`
-	Transaction *string                       `form:"transaction"`
+	Params `form:"*"`
+	// Evidence provided for the dispute.
+	Evidence *IssuingDisputeEvidenceParams `form:"evidence"`
+	// The ID of the issuing transaction to create a dispute for.
+	Transaction *string `form:"transaction"`
 }
 
 // Submits an Issuing Dispute to the card network. Stripe validates that all evidence fields required for the dispute's reason are present. For more details, see [Dispute reasons and evidence](https://stripe.com/docs/issuing/purchases/disputes#dispute-reasons-and-evidence).
@@ -189,58 +241,96 @@ type IssuingDisputeSubmitParams struct {
 	Params `form:"*"`
 }
 type IssuingDisputeEvidenceCanceled struct {
-	AdditionalDocumentation    *File                                      `json:"additional_documentation"`
-	CanceledAt                 int64                                      `json:"canceled_at"`
-	CancellationPolicyProvided bool                                       `json:"cancellation_policy_provided"`
-	CancellationReason         string                                     `json:"cancellation_reason"`
-	ExpectedAt                 int64                                      `json:"expected_at"`
-	Explanation                string                                     `json:"explanation"`
-	ProductDescription         string                                     `json:"product_description"`
-	ProductType                IssuingDisputeEvidenceCanceledProductType  `json:"product_type"`
-	ReturnedAt                 int64                                      `json:"returned_at"`
-	ReturnStatus               IssuingDisputeEvidenceCanceledReturnStatus `json:"return_status"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *File `json:"additional_documentation"`
+	// Date when order was canceled.
+	CanceledAt int64 `json:"canceled_at"`
+	// Whether the cardholder was provided with a cancellation policy.
+	CancellationPolicyProvided bool `json:"cancellation_policy_provided"`
+	// Reason for canceling the order.
+	CancellationReason string `json:"cancellation_reason"`
+	// Date when the cardholder expected to receive the product.
+	ExpectedAt int64 `json:"expected_at"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation string `json:"explanation"`
+	// Description of the merchandise or service that was purchased.
+	ProductDescription string `json:"product_description"`
+	// Whether the product was a merchandise or service.
+	ProductType IssuingDisputeEvidenceCanceledProductType `json:"product_type"`
+	// Date when the product was returned or attempted to be returned.
+	ReturnedAt int64 `json:"returned_at"`
+	// Result of cardholder's attempt to return the product.
+	ReturnStatus IssuingDisputeEvidenceCanceledReturnStatus `json:"return_status"`
 }
 type IssuingDisputeEvidenceDuplicate struct {
-	AdditionalDocumentation *File  `json:"additional_documentation"`
-	CardStatement           *File  `json:"card_statement"`
-	CashReceipt             *File  `json:"cash_receipt"`
-	CheckImage              *File  `json:"check_image"`
-	Explanation             string `json:"explanation"`
-	OriginalTransaction     string `json:"original_transaction"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *File `json:"additional_documentation"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the card statement showing that the product had already been paid for.
+	CardStatement *File `json:"card_statement"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Copy of the receipt showing that the product had been paid for in cash.
+	CashReceipt *File `json:"cash_receipt"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Image of the front and back of the check that was used to pay for the product.
+	CheckImage *File `json:"check_image"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation string `json:"explanation"`
+	// Transaction (e.g., ipi_...) that the disputed transaction is a duplicate of. Of the two or more transactions that are copies of each other, this is original undisputed one.
+	OriginalTransaction string `json:"original_transaction"`
 }
 type IssuingDisputeEvidenceFraudulent struct {
-	AdditionalDocumentation *File  `json:"additional_documentation"`
-	Explanation             string `json:"explanation"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *File `json:"additional_documentation"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation string `json:"explanation"`
 }
 type IssuingDisputeEvidenceMerchandiseNotAsDescribed struct {
-	AdditionalDocumentation *File                                                       `json:"additional_documentation"`
-	Explanation             string                                                      `json:"explanation"`
-	ReceivedAt              int64                                                       `json:"received_at"`
-	ReturnDescription       string                                                      `json:"return_description"`
-	ReturnedAt              int64                                                       `json:"returned_at"`
-	ReturnStatus            IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatus `json:"return_status"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *File `json:"additional_documentation"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation string `json:"explanation"`
+	// Date when the product was received.
+	ReceivedAt int64 `json:"received_at"`
+	// Description of the cardholder's attempt to return the product.
+	ReturnDescription string `json:"return_description"`
+	// Date when the product was returned or attempted to be returned.
+	ReturnedAt int64 `json:"returned_at"`
+	// Result of cardholder's attempt to return the product.
+	ReturnStatus IssuingDisputeEvidenceMerchandiseNotAsDescribedReturnStatus `json:"return_status"`
 }
 type IssuingDisputeEvidenceNotReceived struct {
-	AdditionalDocumentation *File                                        `json:"additional_documentation"`
-	ExpectedAt              int64                                        `json:"expected_at"`
-	Explanation             string                                       `json:"explanation"`
-	ProductDescription      string                                       `json:"product_description"`
-	ProductType             IssuingDisputeEvidenceNotReceivedProductType `json:"product_type"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *File `json:"additional_documentation"`
+	// Date when the cardholder expected to receive the product.
+	ExpectedAt int64 `json:"expected_at"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation string `json:"explanation"`
+	// Description of the merchandise or service that was purchased.
+	ProductDescription string `json:"product_description"`
+	// Whether the product was a merchandise or service.
+	ProductType IssuingDisputeEvidenceNotReceivedProductType `json:"product_type"`
 }
 type IssuingDisputeEvidenceOther struct {
-	AdditionalDocumentation *File                                  `json:"additional_documentation"`
-	Explanation             string                                 `json:"explanation"`
-	ProductDescription      string                                 `json:"product_description"`
-	ProductType             IssuingDisputeEvidenceOtherProductType `json:"product_type"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *File `json:"additional_documentation"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation string `json:"explanation"`
+	// Description of the merchandise or service that was purchased.
+	ProductDescription string `json:"product_description"`
+	// Whether the product was a merchandise or service.
+	ProductType IssuingDisputeEvidenceOtherProductType `json:"product_type"`
 }
 type IssuingDisputeEvidenceServiceNotAsDescribed struct {
-	AdditionalDocumentation *File                                                  `json:"additional_documentation"`
-	CanceledAt              int64                                                  `json:"canceled_at"`
-	CancellationReason      string                                                 `json:"cancellation_reason"`
-	Explanation             string                                                 `json:"explanation"`
-	ProductDescription      string                                                 `json:"product_description"`
-	ProductType             IssuingDisputeEvidenceServiceNotAsDescribedProductType `json:"product_type"`
-	ReceivedAt              int64                                                  `json:"received_at"`
+	// (ID of a [file upload](https://stripe.com/docs/guides/file-upload)) Additional documentation supporting the dispute.
+	AdditionalDocumentation *File `json:"additional_documentation"`
+	// Date when order was canceled.
+	CanceledAt int64 `json:"canceled_at"`
+	// Reason for canceling the order.
+	CancellationReason string `json:"cancellation_reason"`
+	// Explanation of why the cardholder is disputing this transaction.
+	Explanation        string                                                 `json:"explanation"`
+	ProductDescription string                                                 `json:"product_description"`
+	ProductType        IssuingDisputeEvidenceServiceNotAsDescribedProductType `json:"product_type"`
+	// Date when the product was received.
+	ReceivedAt int64 `json:"received_at"`
 }
 type IssuingDisputeEvidence struct {
 	Canceled                  *IssuingDisputeEvidenceCanceled                  `json:"canceled"`
@@ -249,8 +339,9 @@ type IssuingDisputeEvidence struct {
 	MerchandiseNotAsDescribed *IssuingDisputeEvidenceMerchandiseNotAsDescribed `json:"merchandise_not_as_described"`
 	NotReceived               *IssuingDisputeEvidenceNotReceived               `json:"not_received"`
 	Other                     *IssuingDisputeEvidenceOther                     `json:"other"`
-	Reason                    IssuingDisputeEvidenceReason                     `json:"reason"`
-	ServiceNotAsDescribed     *IssuingDisputeEvidenceServiceNotAsDescribed     `json:"service_not_as_described"`
+	// The reason for filing the dispute. Its value will match the field containing the evidence.
+	Reason                IssuingDisputeEvidenceReason                 `json:"reason"`
+	ServiceNotAsDescribed *IssuingDisputeEvidenceServiceNotAsDescribed `json:"service_not_as_described"`
 }
 
 // As a [card issuer](https://stripe.com/docs/issuing), you can dispute transactions that the cardholder does not recognize, suspects to be fraudulent, or has other issues with.
@@ -258,17 +349,27 @@ type IssuingDisputeEvidence struct {
 // Related guide: [Disputing Transactions](https://stripe.com/docs/issuing/purchases/disputes)
 type IssuingDispute struct {
 	APIResource
-	Amount              int64                   `json:"amount"`
-	BalanceTransactions []*BalanceTransaction   `json:"balance_transactions"`
-	Created             int64                   `json:"created"`
-	Currency            Currency                `json:"currency"`
-	Evidence            *IssuingDisputeEvidence `json:"evidence"`
-	ID                  string                  `json:"id"`
-	Livemode            bool                    `json:"livemode"`
-	Metadata            map[string]string       `json:"metadata"`
-	Object              string                  `json:"object"`
-	Status              *IssuingDisputeStatus   `json:"status"`
-	Transaction         *IssuingTransaction     `json:"transaction"`
+	// Disputed amount. Usually the amount of the `transaction`, but can differ (usually because of currency fluctuation).
+	Amount int64 `json:"amount"`
+	// List of balance transactions associated with the dispute.
+	BalanceTransactions []*BalanceTransaction `json:"balance_transactions"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// The currency the `transaction` was made in.
+	Currency Currency                `json:"currency"`
+	Evidence *IssuingDisputeEvidence `json:"evidence"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// Current status of the dispute.
+	Status *IssuingDisputeStatus `json:"status"`
+	// The transaction being disputed.
+	Transaction *IssuingTransaction `json:"transaction"`
 }
 
 // IssuingDisputeList is a list of Disputes as retrieved from a list endpoint.

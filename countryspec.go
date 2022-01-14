@@ -34,14 +34,21 @@ type VerificationFieldsList struct {
 // guide](https://stripe.com/docs/connect/required-verification-information).
 type CountrySpec struct {
 	APIResource
-	DefaultCurrency                Currency                                        `json:"default_currency"`
-	ID                             string                                          `json:"id"`
-	Object                         string                                          `json:"object"`
-	SupportedBankAccountCurrencies map[Currency][]Country                          `json:"supported_bank_account_currencies"`
-	SupportedPaymentCurrencies     []Currency                                      `json:"supported_payment_currencies"`
-	SupportedPaymentMethods        []string                                        `json:"supported_payment_methods"`
-	SupportedTransferCountries     []string                                        `json:"supported_transfer_countries"`
-	VerificationFields             map[AccountBusinessType]*VerificationFieldsList `json:"verification_fields"`
+	// The default currency for this country. This applies to both payment methods and bank accounts.
+	DefaultCurrency Currency `json:"default_currency"`
+	// Unique identifier for the object. Represented as the ISO country code for this country.
+	ID string `json:"id"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// Currencies that can be accepted in the specific country (for transfers).
+	SupportedBankAccountCurrencies map[Currency][]Country `json:"supported_bank_account_currencies"`
+	// Currencies that can be accepted in the specified country (for payments).
+	SupportedPaymentCurrencies []Currency `json:"supported_payment_currencies"`
+	// Payment methods available in the specified country. You may need to enable some payment methods (e.g., [ACH](https://stripe.com/docs/ach)) on your account before they appear in this list. The `stripe` payment method refers to [charging through your platform](https://stripe.com/docs/connect/destination-charges).
+	SupportedPaymentMethods []string `json:"supported_payment_methods"`
+	// Countries that can accept transfers from the specified country.
+	SupportedTransferCountries []string                                        `json:"supported_transfer_countries"`
+	VerificationFields         map[AccountBusinessType]*VerificationFieldsList `json:"verification_fields"`
 }
 
 // CountrySpecList is a list of CountrySpecs as retrieved from a list endpoint.

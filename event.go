@@ -14,12 +14,15 @@ import (
 
 // List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://stripe.com/docs/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
 type EventListParams struct {
-	ListParams      `form:"*"`
-	Created         *int64            `form:"created"`
-	CreatedRange    *RangeQueryParams `form:"created"`
-	DeliverySuccess *bool             `form:"delivery_success"`
-	Type            *string           `form:"type"`
-	Types           []*string         `form:"types"`
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Filter events by whether all webhooks were successfully delivered. If false, events which are still pending or have failed all delivery attempts to a webhook endpoint will be returned.
+	DeliverySuccess *bool `form:"delivery_success"`
+	// A string containing a specific event name, or group of events using * as a wildcard. The list will be filtered to include only events with a matching event property.
+	Type *string `form:"type"`
+	// An array of up to 20 strings containing specific event names. The list will be filtered to include only events with a matching event property. You may pass either `type` or `types`, but not both.
+	Types []*string `form:"types"`
 }
 
 // Retrieves the details of an event. Supply the unique identifier of the event, which you might have received in a webhook.
@@ -30,7 +33,9 @@ type EventData struct {
 	// Object is a raw mapping of the API resource contained in the event.
 	// Although marked with json:"-", it's still populated independently by
 	// a custom UnmarshalJSON implementation.
-	Object             map[string]interface{} `json:"-"`
+	// Object containing the API resource relevant to the event. For example, an `invoice.created` event will have a full [invoice object](https://stripe.com/docs/api#invoice_object) as the value of the object key.
+	Object map[string]interface{} `json:"-"`
+	// Object containing the names of the attributes that have changed, and their previous values (sent along only with *.updated events).
 	PreviousAttributes map[string]interface{} `json:"previous_attributes"`
 	Raw                json.RawMessage        `json:"object"`
 }
@@ -39,11 +44,13 @@ type EventData struct {
 type EventRequest struct {
 	// ID is the request ID of the request that created an event, if the event
 	// was created by a request.
+	// ID of the API request that caused the event. If null, the event was automatic (e.g., Stripe's automatic subscription handling). Request logs are available in the [dashboard](https://dashboard.stripe.com/logs), but currently not in the API.
 	ID string `json:"id"`
 
 	// IdempotencyKey is the idempotency key of the request that created an
 	// event, if the event was created by a request and if an idempotency key
 	// was specified for that request.
+	// The idempotency key transmitted during the request, if any. *Note: This property is populated only for events on or after May 23, 2017*.
 	IdempotencyKey string `json:"idempotency_key"`
 }
 
@@ -78,16 +85,25 @@ type EventRequest struct {
 // guaranteed only for 30 days.
 type Event struct {
 	APIResource
-	Account         string        `json:"account"`
-	APIVersion      string        `json:"api_version"`
-	Created         int64         `json:"created"`
-	Data            *EventData    `json:"data"`
-	ID              string        `json:"id"`
-	Livemode        bool          `json:"livemode"`
-	Object          string        `json:"object"`
-	PendingWebhooks int64         `json:"pending_webhooks"`
-	Request         *EventRequest `json:"request"`
-	Type            string        `json:"type"`
+	// The connected account that originated the event.
+	Account string `json:"account"`
+	// The Stripe API version used to render `data`. *Note: This property is populated only for events on or after October 31, 2014*.
+	APIVersion string `json:"api_version"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64      `json:"created"`
+	Data    *EventData `json:"data"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// Number of webhooks that have yet to be successfully delivered (i.e., to return a 20x response) to the URLs you've specified.
+	PendingWebhooks int64 `json:"pending_webhooks"`
+	// Information on the API request that instigated the event.
+	Request *EventRequest `json:"request"`
+	// Description of the event (e.g., `invoice.created` or `charge.refunded`).
+	Type string `json:"type"`
 }
 
 // EventList is a list of Events as retrieved from a list endpoint.

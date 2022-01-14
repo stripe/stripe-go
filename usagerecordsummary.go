@@ -14,13 +14,19 @@ type UsageRecordSummaryListParams struct {
 	SubscriptionItem *string `form:"-"` // Included in URL
 }
 type UsageRecordSummary struct {
-	ID               string  `json:"id"`
-	Invoice          string  `json:"invoice"`
-	Livemode         bool    `json:"livemode"`
-	Object           string  `json:"object"`
-	Period           *Period `json:"period"`
-	SubscriptionItem string  `json:"subscription_item"`
-	TotalUsage       int64   `json:"total_usage"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// The invoice in which this usage period has been billed for.
+	Invoice string `json:"invoice"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string  `json:"object"`
+	Period *Period `json:"period"`
+	// The ID of the subscription item this summary is describing.
+	SubscriptionItem string `json:"subscription_item"`
+	// The total usage within this usage period.
+	TotalUsage int64 `json:"total_usage"`
 }
 
 // UsageRecordSummaryList is a list of UsageRecordSummaries as retrieved from a list endpoint.

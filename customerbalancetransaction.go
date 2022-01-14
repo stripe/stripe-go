@@ -26,10 +26,13 @@ const (
 
 // Retrieves a specific customer balance transaction that updated the customer's [balances](https://stripe.com/docs/billing/customer/balance).
 type CustomerBalanceTransactionParams struct {
-	Params      `form:"*"`
-	Customer    *string `form:"-"` // Included in URL
-	Amount      *int64  `form:"amount"`
-	Currency    *string `form:"currency"`
+	Params   `form:"*"`
+	Customer *string `form:"-"` // Included in URL
+	// The integer amount in **%s** to apply to the customer's credit balance.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). If the customer's [`currency`](https://stripe.com/docs/api/customers/object#customer_object-currency) is set, this value must match it. If the customer's `currency` is not set, it will be updated to this value.
+	Currency *string `form:"currency"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
 	Description *string `form:"description"`
 }
 
@@ -47,19 +50,32 @@ type CustomerBalanceTransactionListParams struct {
 // Related guide: [Customer Balance](https://stripe.com/docs/billing/customer/balance) to learn more.
 type CustomerBalanceTransaction struct {
 	APIResource
-	Amount        int64                          `json:"amount"`
-	Created       int64                          `json:"created"`
-	CreditNote    *CreditNote                    `json:"credit_note"`
-	Currency      Currency                       `json:"currency"`
-	Customer      *Customer                      `json:"customer"`
-	Description   string                         `json:"description"`
-	EndingBalance int64                          `json:"ending_balance"`
-	ID            string                         `json:"id"`
-	Invoice       *Invoice                       `json:"invoice"`
-	Livemode      bool                           `json:"livemode"`
-	Metadata      map[string]string              `json:"metadata"`
-	Object        string                         `json:"object"`
-	Type          CustomerBalanceTransactionType `json:"type"`
+	// The amount of the transaction. A negative value is a credit for the customer's balance, and a positive value is a debit to the customer's `balance`.
+	Amount int64 `json:"amount"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// The ID of the credit note (if any) related to the transaction.
+	CreditNote *CreditNote `json:"credit_note"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// The ID of the customer the transaction belongs to.
+	Customer *Customer `json:"customer"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description string `json:"description"`
+	// The customer's `balance` after the transaction was applied. A negative value decreases the amount due on the customer's next invoice. A positive value increases the amount due on the customer's next invoice.
+	EndingBalance int64 `json:"ending_balance"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// The ID of the invoice (if any) related to the transaction.
+	Invoice *Invoice `json:"invoice"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// Transaction type: `adjustment`, `applied_to_invoice`, `credit_note`, `initial`, `invoice_too_large`, `invoice_too_small`, `unspent_receiver_credit`, or `unapplied_from_invoice`. See the [Customer Balance page](https://stripe.com/docs/billing/customer/balance#types) to learn more about transaction types.
+	Type CustomerBalanceTransactionType `json:"type"`
 }
 
 // CustomerBalanceTransactionList is a list of CustomerBalanceTransactions as retrieved from a list endpoint.

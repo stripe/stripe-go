@@ -17,32 +17,54 @@ const (
 
 // The amount of discount calculated per discount for this line item.
 type InvoiceLineDiscountAmount struct {
-	Amount   int64     `json:"amount"`
+	// The amount, in %s, of the discount.
+	Amount int64 `json:"amount"`
+	// The discount that was applied to get this discount amount.
 	Discount *Discount `json:"discount"`
 }
 type InvoiceLine struct {
-	Amount           int64                        `json:"amount"`
-	Currency         Currency                     `json:"currency"`
-	Description      string                       `json:"description"`
-	Discountable     bool                         `json:"discountable"`
-	DiscountAmounts  []*InvoiceLineDiscountAmount `json:"discount_amounts"`
-	Discounts        []*Discount                  `json:"discounts"`
-	ID               string                       `json:"id"`
-	InvoiceItem      string                       `json:"invoice_item"`
-	Livemode         bool                         `json:"livemode"`
-	Metadata         map[string]string            `json:"metadata"`
-	Object           string                       `json:"object"`
-	Period           *Period                      `json:"period"`
-	Plan             *Plan                        `json:"plan"`
-	Price            *Price                       `json:"price"`
-	Proration        bool                         `json:"proration"`
-	Quantity         int64                        `json:"quantity"`
-	Subscription     string                       `json:"subscription"`
-	SubscriptionItem string                       `json:"subscription_item"`
-	TaxAmounts       []*InvoiceTaxAmount          `json:"tax_amounts"`
-	TaxRates         []*TaxRate                   `json:"tax_rates"`
-	Type             InvoiceLineType              `json:"type"`
-	UnifiedProration bool                         `json:"unified_proration"`
+	// The amount, in %s.
+	Amount int64 `json:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description string `json:"description"`
+	// If true, discounts will apply to this line item. Always false for prorations.
+	Discountable bool `json:"discountable"`
+	// The amount of discount calculated per discount for this line item.
+	DiscountAmounts []*InvoiceLineDiscountAmount `json:"discount_amounts"`
+	// The discounts applied to the invoice line item. Line item discounts are applied before invoice discounts. Use `expand[]=discounts` to expand each discount.
+	Discounts []*Discount `json:"discounts"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// The ID of the [invoice item](https://stripe.com/docs/api/invoiceitems) associated with this line item if any.
+	InvoiceItem string `json:"invoice_item"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Note that for line items with `type=subscription` this will reflect the metadata of the subscription that caused the line item to be created.
+	Metadata map[string]string `json:"metadata"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string  `json:"object"`
+	Period *Period `json:"period"`
+	// The plan of the subscription, if the line item is a subscription or a proration.
+	Plan *Plan `json:"plan"`
+	// The price of the line item.
+	Price *Price `json:"price"`
+	// Whether this is a proration.
+	Proration bool `json:"proration"`
+	// The quantity of the subscription, if the line item is a subscription or a proration.
+	Quantity int64 `json:"quantity"`
+	// The subscription that the invoice item pertains to, if any.
+	Subscription string `json:"subscription"`
+	// The subscription item that generated this invoice item. Left empty if the line item is not an explicit result of a subscription.
+	SubscriptionItem string `json:"subscription_item"`
+	// The amount of tax calculated per tax rate for this line item
+	TaxAmounts []*InvoiceTaxAmount `json:"tax_amounts"`
+	// The tax rates which apply to the line item.
+	TaxRates []*TaxRate `json:"tax_rates"`
+	// A string identifying the type of the source of this line item, either an `invoiceitem` or a `subscription`.
+	Type             InvoiceLineType `json:"type"`
+	UnifiedProration bool            `json:"unified_proration"`
 }
 
 // Period is a structure representing a start and end dates.

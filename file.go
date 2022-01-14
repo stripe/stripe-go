@@ -43,7 +43,8 @@ type FileListParams struct {
 	ListParams   `form:"*"`
 	Created      *int64            `form:"created"`
 	CreatedRange *RangeQueryParams `form:"created"`
-	Purpose      *string           `form:"purpose"`
+	// The file purpose to filter queries by. If none is provided, files will not be filtered by purpose.
+	Purpose *string `form:"purpose"`
 }
 
 // FileFileLinkDataParams is the set of parameters allowed for the
@@ -78,17 +79,28 @@ type FileParams struct {
 // Related guide: [File Upload Guide](https://stripe.com/docs/file-upload).
 type File struct {
 	APIResource
-	Created   int64         `json:"created"`
-	ExpiresAt int64         `json:"expires_at"`
-	Filename  string        `json:"filename"`
-	ID        string        `json:"id"`
-	Links     *FileLinkList `json:"links"`
-	Object    string        `json:"object"`
-	Purpose   FilePurpose   `json:"purpose"`
-	Size      int64         `json:"size"`
-	Title     string        `json:"title"`
-	Type      string        `json:"type"`
-	URL       string        `json:"url"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// The time at which the file expires and is no longer available in epoch seconds.
+	ExpiresAt int64 `json:"expires_at"`
+	// A filename for the file, suitable for saving to a filesystem.
+	Filename string `json:"filename"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// A list of [file links](https://stripe.com/docs/api#file_links) that point at this file.
+	Links *FileLinkList `json:"links"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// The [purpose](https://stripe.com/docs/file-upload#uploading-a-file) of the uploaded file.
+	Purpose FilePurpose `json:"purpose"`
+	// The size in bytes of the file object.
+	Size int64 `json:"size"`
+	// A user friendly title for the document.
+	Title string `json:"title"`
+	// The type of the file returned (e.g., `csv`, `pdf`, `jpg`, or `png`).
+	Type string `json:"type"`
+	// The URL from which the file can be downloaded using your live secret API key.
+	URL string `json:"url"`
 }
 
 // FileList is a list of Files as retrieved from a list endpoint.

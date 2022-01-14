@@ -9,8 +9,11 @@ package stripe
 import "encoding/json"
 
 type Application struct {
-	ID     string `json:"id"`
-	Name   string `json:"name"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// The name of the application.
+	Name string `json:"name"`
+	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 }
 

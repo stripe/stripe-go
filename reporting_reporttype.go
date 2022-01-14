@@ -26,16 +26,25 @@ type ReportTypeListParams struct {
 // data), and will error when queried without a [live-mode API key](https://stripe.com/docs/keys#test-live-modes).
 type ReportType struct {
 	APIResource
-	Created            int64    `json:"created"`
-	DataAvailableEnd   int64    `json:"data_available_end"`
-	DataAvailableStart int64    `json:"data_available_start"`
-	DefaultColumns     []string `json:"default_columns"`
-	ID                 string   `json:"id"`
-	Livemode           bool     `json:"livemode"`
-	Name               string   `json:"name"`
-	Object             string   `json:"object"`
-	Updated            int64    `json:"updated"`
-	Version            int64    `json:"version"`
+	Created int64 `json:"created"`
+	// Most recent time for which this Report Type is available. Measured in seconds since the Unix epoch.
+	DataAvailableEnd int64 `json:"data_available_end"`
+	// Earliest time for which this Report Type is available. Measured in seconds since the Unix epoch.
+	DataAvailableStart int64 `json:"data_available_start"`
+	// List of column names that are included by default when this Report Type gets run. (If the Report Type doesn't support the `columns` parameter, this will be null.)
+	DefaultColumns []string `json:"default_columns"`
+	// The [ID of the Report Type](https://stripe.com/docs/reporting/statements/api#available-report-types), such as `balance.summary.1`.
+	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// Human-readable name of the Report Type
+	Name string `json:"name"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// When this Report Type was latest updated. Measured in seconds since the Unix epoch.
+	Updated int64 `json:"updated"`
+	// Version of the Report Type. Different versions report with the same ID will have the same purpose, but may take different run parameters or have different result schemas.
+	Version int64 `json:"version"`
 }
 
 // ReportTypeList is a list of ReportTypes as retrieved from a list endpoint.

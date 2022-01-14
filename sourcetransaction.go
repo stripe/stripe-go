@@ -19,15 +19,24 @@ type SourceTransactionListParams struct {
 // multiple transactions. As such, sources can have multiple associated
 // transactions.
 type SourceTransaction struct {
-	Amount   int64    `json:"amount"`
-	Created  int64    `json:"created"`
+	// A positive integer in the smallest currency unit (that is, 100 cents for $1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the amount your customer has pushed to the receiver.
+	Amount int64 `json:"amount"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency Currency `json:"currency"`
-	ID       string   `json:"id"`
-	Livemode bool     `json:"livemode"`
-	Object   string   `json:"object"`
-	Source   string   `json:"source"`
-	Status   string   `json:"status"`
-	Type     string   `json:"type"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// The ID of the source this transaction is attached to.
+	Source string `json:"source"`
+	// The status of the transaction, one of `succeeded`, `pending`, or `failed`.
+	Status string `json:"status"`
+	// The type of source this transaction is attached to.
+	Type string `json:"type"`
 
 	// See custom UnmarshalJSON
 	TypeData map[string]interface{}

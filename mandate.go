@@ -81,34 +81,48 @@ type MandateParams struct {
 }
 type MandateCustomerAcceptanceOffline struct{}
 type MandateCustomerAcceptanceOnline struct {
+	// The IP address from which the Mandate was accepted by the customer.
 	IPAddress string `json:"ip_address"`
+	// The user agent of the browser from which the Mandate was accepted by the customer.
 	UserAgent string `json:"user_agent"`
 }
 type MandateCustomerAcceptance struct {
+	// The time at which the customer accepted the Mandate.
 	AcceptedAt int64                             `json:"accepted_at"`
 	Offline    *MandateCustomerAcceptanceOffline `json:"offline"`
 	Online     *MandateCustomerAcceptanceOnline  `json:"online"`
-	Type       MandateCustomerAcceptanceType     `json:"type"`
+	// The type of customer acceptance information included with the Mandate. One of `online` or `offline`.
+	Type MandateCustomerAcceptanceType `json:"type"`
 }
 type MandateMultiUse struct{}
 type MandatePaymentMethodDetailsACSSDebit struct {
-	DefaultFor          []MandatePaymentMethodDetailsACSSDebitDefaultFor    `json:"default_for"`
-	IntervalDescription string                                              `json:"interval_description"`
-	PaymentSchedule     MandatePaymentMethodDetailsACSSDebitPaymentSchedule `json:"payment_schedule"`
-	TransactionType     MandatePaymentMethodDetailsACSSDebitTransactionType `json:"transaction_type"`
+	// List of Stripe products where this mandate can be selected automatically.
+	DefaultFor []MandatePaymentMethodDetailsACSSDebitDefaultFor `json:"default_for"`
+	// Description of the interval. Only required if the 'payment_schedule' parameter is 'interval' or 'combined'.
+	IntervalDescription string `json:"interval_description"`
+	// Payment schedule for the mandate.
+	PaymentSchedule MandatePaymentMethodDetailsACSSDebitPaymentSchedule `json:"payment_schedule"`
+	// Transaction type of the mandate.
+	TransactionType MandatePaymentMethodDetailsACSSDebitTransactionType `json:"transaction_type"`
 }
 type MandatePaymentMethodDetailsAUBECSDebit struct {
+	// The URL of the mandate. This URL generally contains sensitive information about the customer and should be shared with them exclusively.
 	URL string `json:"url"`
 }
 type MandatePaymentMethodDetailsBACSDebit struct {
+	// The status of the mandate on the Bacs network. Can be one of `pending`, `revoked`, `refused`, or `accepted`.
 	NetworkStatus MandatePaymentMethodDetailsBACSDebitNetworkStatus `json:"network_status"`
-	Reference     string                                            `json:"reference"`
-	URL           string                                            `json:"url"`
+	// The unique reference identifying the mandate on the Bacs network.
+	Reference string `json:"reference"`
+	// The URL that will contain the mandate that the customer has signed.
+	URL string `json:"url"`
 }
 type MandatePaymentMethodDetailsCard struct{}
 type MandatePaymentMethodDetailsSepaDebit struct {
+	// The unique reference of the mandate.
 	Reference string `json:"reference"`
-	URL       string `json:"url"`
+	// The URL of the mandate. This URL generally contains sensitive information about the customer and should be shared with them exclusively.
+	URL string `json:"url"`
 }
 type MandatePaymentMethodDetails struct {
 	ACSSDebit   *MandatePaymentMethodDetailsACSSDebit   `json:"acss_debit"`
@@ -116,26 +130,35 @@ type MandatePaymentMethodDetails struct {
 	BACSDebit   *MandatePaymentMethodDetailsBACSDebit   `json:"bacs_debit"`
 	Card        *MandatePaymentMethodDetailsCard        `json:"card"`
 	SepaDebit   *MandatePaymentMethodDetailsSepaDebit   `json:"sepa_debit"`
-	Type        PaymentMethodType                       `json:"type"`
+	// The type of the payment method associated with this mandate. An additional hash is included on `payment_method_details` with a name matching this value. It contains mandate information specific to the payment method.
+	Type PaymentMethodType `json:"type"`
 }
 type MandateSingleUse struct {
-	Amount   int64    `json:"amount"`
+	// On a single use mandate, the amount of the payment.
+	Amount int64 `json:"amount"`
+	// On a single use mandate, the currency of the payment.
 	Currency Currency `json:"currency"`
 }
 
 // A Mandate is a record of the permission a customer has given you to debit their payment method.
 type Mandate struct {
 	APIResource
-	CustomerAcceptance   *MandateCustomerAcceptance   `json:"customer_acceptance"`
-	ID                   string                       `json:"id"`
-	Livemode             bool                         `json:"livemode"`
-	MultiUse             *MandateMultiUse             `json:"multi_use"`
-	Object               string                       `json:"object"`
+	CustomerAcceptance *MandateCustomerAcceptance `json:"customer_acceptance"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool             `json:"livemode"`
+	MultiUse *MandateMultiUse `json:"multi_use"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// ID of the payment method associated with this mandate.
 	PaymentMethod        *PaymentMethod               `json:"payment_method"`
 	PaymentMethodDetails *MandatePaymentMethodDetails `json:"payment_method_details"`
 	SingleUse            *MandateSingleUse            `json:"single_use"`
-	Status               MandateStatus                `json:"status"`
-	Type                 MandateType                  `json:"type"`
+	// The status of the mandate, which indicates whether it can be used to initiate a payment.
+	Status MandateStatus `json:"status"`
+	// The type of the mandate.
+	Type MandateType `json:"type"`
 }
 
 // UnmarshalJSON handles deserialization of a Mandate.

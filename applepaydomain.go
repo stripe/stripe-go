@@ -19,12 +19,16 @@ type ApplePayDomainParams struct {
 }
 type ApplePayDomain struct {
 	APIResource
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created    int64  `json:"created"`
 	Deleted    bool   `json:"deleted"`
 	DomainName string `json:"domain_name"`
-	ID         string `json:"id"`
-	Livemode   bool   `json:"livemode"`
-	Object     string `json:"object"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
 }
 
 // ApplePayDomainList is a list of ApplePayDomains as retrieved from a list endpoint.

@@ -10,10 +10,13 @@ import "encoding/json"
 
 // Returns a list of your order returns. The returns are returned sorted by creation date, with the most recently created return appearing first.
 type OrderReturnListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
+	ListParams `form:"*"`
+	// Date this return was created.
+	Created *int64 `form:"created"`
+	// Date this return was created.
 	CreatedRange *RangeQueryParams `form:"created"`
-	Order        *string           `form:"order"`
+	// The order to retrieve returns for.
+	Order *string `form:"order"`
 }
 
 // Retrieves the details of an existing order return. Supply the unique order ID from either an order return creation request or the order return list, and Stripe will return the corresponding order information.
@@ -29,15 +32,24 @@ type OrderReturnParams struct {
 // Related guide: [Handling Returns](https://stripe.com/docs/orders/guide#handling-returns).
 type OrderReturn struct {
 	APIResource
-	Amount   int64        `json:"amount"`
-	Created  int64        `json:"created"`
-	Currency Currency     `json:"currency"`
-	ID       string       `json:"id"`
-	Items    []*OrderItem `json:"items"`
-	Livemode bool         `json:"livemode"`
-	Object   string       `json:"object"`
-	Order    *Order       `json:"order"`
-	Refund   *Refund      `json:"refund"`
+	// A positive integer in the smallest currency unit (that is, 100 cents for $1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount for the returned line item.
+	Amount int64 `json:"amount"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// The items included in this order return.
+	Items []*OrderItem `json:"items"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// The order that this return includes items from.
+	Order *Order `json:"order"`
+	// The ID of the refund issued for this return.
+	Refund *Refund `json:"refund"`
 }
 
 // OrderReturnList is a list of OrderReturns as retrieved from a list endpoint.
