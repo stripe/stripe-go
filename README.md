@@ -19,6 +19,10 @@ sfdx force:source:retrieve -m CustomField:Order.Stripe_Transaction_ID\_\_c
 
 # Development
 
+## Deployment
+
+`git remote add heroku https://git.heroku.com/stripe-force.git`
+
 ## Helpful Scripts
 
 Checkout `scripts/` and `bin/` for helpful scripts to aid development.
