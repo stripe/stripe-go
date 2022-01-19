@@ -30,6 +30,7 @@ import (
 	order "github.com/stripe/stripe-go/v72/order"
 	orderreturn "github.com/stripe/stripe-go/v72/orderreturn"
 	paymentintent "github.com/stripe/stripe-go/v72/paymentintent"
+	paymentlink "github.com/stripe/stripe-go/v72/paymentlink"
 	paymentmethod "github.com/stripe/stripe-go/v72/paymentmethod"
 	payout "github.com/stripe/stripe-go/v72/payout"
 	person "github.com/stripe/stripe-go/v72/person"
@@ -1528,5 +1529,18 @@ func TestPaymentIntentCreate2(t *testing.T) {
 		},
 	}
 	result, _ := paymentintent.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestPaymentLinkCreate(t *testing.T) {
+	params := &stripe.PaymentLinkParams{
+		LineItems: []*stripe.PaymentLinkLineItemParams{
+			&stripe.PaymentLinkLineItemParams{
+				Price:    stripe.String("price_xxxxxxxxxxxxx"),
+				Quantity: stripe.Int64(1),
+			},
+		},
+	}
+	result, _ := paymentlink.New(params)
 	assert.NotNil(t, result)
 }
