@@ -116,6 +116,16 @@ const (
 	ChargePaymentMethodDetailsTypeWechat            ChargePaymentMethodDetailsType = "wechat"
 )
 
+// The status of the payment is either `succeeded`, `pending`, or `failed`.
+type ChargeStatus string
+
+// List of values that ChargeStatus can take
+const (
+	ChargeStatusFailed    ChargeStatus = "failed"
+	ChargeStatusPending   ChargeStatus = "pending"
+	ChargeStatusSucceeded ChargeStatus = "succeeded"
+)
+
 // Returns a list of charges you've previously created. The charges are returned in sorted order, with the most recent charges appearing first.
 type ChargeListParams struct {
 	ListParams   `form:"*"`
@@ -894,7 +904,7 @@ type Charge struct {
 	// Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
 	StatementDescriptorSuffix string `json:"statement_descriptor_suffix"`
 	// The status of the payment is either `succeeded`, `pending`, or `failed`.
-	Status string `json:"status"`
+	Status ChargeStatus `json:"status"`
 	// ID of the transfer to the `destination` account (only applicable if the charge was created using the `destination` parameter).
 	Transfer *Transfer `json:"transfer"`
 	// An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.

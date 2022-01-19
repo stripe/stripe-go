@@ -292,6 +292,9 @@ type PaymentIntentPaymentMethodOptionsAlipayParams struct{}
 // If this is a `au_becs_debit` PaymentMethod, this sub-hash contains details about the AU BECS Direct Debit payment method options.
 type PaymentIntentPaymentMethodOptionsAUBECSDebitParams struct{}
 
+// If this is a `bacs_debit` PaymentMethod, this sub-hash contains details about the BACS Debit payment method options.
+type PaymentIntentPaymentMethodOptionsBACSDebitParams struct{}
+
 // If this is a `bancontact` PaymentMethod, this sub-hash contains details about the Bancontact payment method options.
 type PaymentIntentPaymentMethodOptionsBancontactParams struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
@@ -358,8 +361,17 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct{}
 
+// If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
+type PaymentIntentPaymentMethodOptionsEPSParams struct{}
+
+// If this is a `fpx` PaymentMethod, this sub-hash contains details about the FPX payment method options.
+type PaymentIntentPaymentMethodOptionsFPXParams struct{}
+
 // If this is a `giropay` PaymentMethod, this sub-hash contains details about the Giropay payment method options.
 type PaymentIntentPaymentMethodOptionsGiropayParams struct{}
+
+// If this is a `grabpay` PaymentMethod, this sub-hash contains details about the Grabpay payment method options.
+type PaymentIntentPaymentMethodOptionsGrabpayParams struct{}
 
 // If this is a `ideal` PaymentMethod, this sub-hash contains details about the Ideal payment method options.
 type PaymentIntentPaymentMethodOptionsIdealParams struct{}
@@ -418,6 +430,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Alipay *PaymentIntentPaymentMethodOptionsAlipayParams `form:"alipay"`
 	// If this is a `au_becs_debit` PaymentMethod, this sub-hash contains details about the AU BECS Direct Debit payment method options.
 	AUBECSDebit *PaymentIntentPaymentMethodOptionsAUBECSDebitParams `form:"au_becs_debit"`
+	// If this is a `bacs_debit` PaymentMethod, this sub-hash contains details about the BACS Debit payment method options.
+	BACSDebit *PaymentIntentPaymentMethodOptionsBACSDebitParams `form:"bacs_debit"`
 	// If this is a `bancontact` PaymentMethod, this sub-hash contains details about the Bancontact payment method options.
 	Bancontact *PaymentIntentPaymentMethodOptionsBancontactParams `form:"bancontact"`
 	// If this is a `boleto` PaymentMethod, this sub-hash contains details about the Boleto payment method options.
@@ -426,8 +440,14 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Card *PaymentIntentPaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 	CardPresent *PaymentIntentPaymentMethodOptionsCardPresentParams `form:"card_present"`
+	// If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
+	EPS *PaymentIntentPaymentMethodOptionsEPSParams `form:"eps"`
+	// If this is a `fpx` PaymentMethod, this sub-hash contains details about the FPX payment method options.
+	FPX *PaymentIntentPaymentMethodOptionsFPXParams `form:"fpx"`
 	// If this is a `giropay` PaymentMethod, this sub-hash contains details about the Giropay payment method options.
 	Giropay *PaymentIntentPaymentMethodOptionsGiropayParams `form:"giropay"`
+	// If this is a `grabpay` PaymentMethod, this sub-hash contains details about the Grabpay payment method options.
+	Grabpay *PaymentIntentPaymentMethodOptionsGrabpayParams `form:"grabpay"`
 	// If this is a `ideal` PaymentMethod, this sub-hash contains details about the Ideal payment method options.
 	Ideal *PaymentIntentPaymentMethodOptionsIdealParams `form:"ideal"`
 	// If this is a `interac_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
@@ -697,6 +717,10 @@ type PaymentIntentNextActionWechatPayDisplayQRCode struct {
 	Data string `json:"data"`
 	// The base64 image data for a pre-generated QR code
 	ImageDataURL string `json:"image_data_url"`
+	// The image_url_png string used to render QR code, can be used as <img src="…" />
+	ImageURLPng string `json:"image_url_png"`
+	// The image_url_svg string used to render QR code, can be used as <img src="…" />
+	ImageURLSvg string `json:"image_url_svg"`
 }
 type PaymentIntentNextActionWechatPayRedirectToAndroidApp struct {
 	// app_id is the APP ID registered on WeChat open platform
@@ -756,6 +780,7 @@ type PaymentIntentPaymentMethodOptionsAfterpayClearpay struct {
 }
 type PaymentIntentPaymentMethodOptionsAlipay struct{}
 type PaymentIntentPaymentMethodOptionsAUBECSDebit struct{}
+type PaymentIntentPaymentMethodOptionsBACSDebit struct{}
 type PaymentIntentPaymentMethodOptionsBancontact struct {
 	// Preferred language of the Bancontact authorization page that the customer is redirected to.
 	PreferredLanguage string `json:"preferred_language"`
@@ -807,7 +832,10 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 // PaymentIntentPaymentMethodOptionsCardPresent is the set of Card Present-specific options associated
 // with that payment intent.
 type PaymentIntentPaymentMethodOptionsCardPresent struct{}
+type PaymentIntentPaymentMethodOptionsEPS struct{}
+type PaymentIntentPaymentMethodOptionsFPX struct{}
 type PaymentIntentPaymentMethodOptionsGiropay struct{}
+type PaymentIntentPaymentMethodOptionsGrabpay struct{}
 
 // PaymentIntentPaymentMethodOptionsIdeal is the set of Ideal-specific options associated
 // with that payment intent.
@@ -852,11 +880,15 @@ type PaymentIntentPaymentMethodOptions struct {
 	AfterpayClearpay *PaymentIntentPaymentMethodOptionsAfterpayClearpay `json:"afterpay_clearpay"`
 	Alipay           *PaymentIntentPaymentMethodOptionsAlipay           `json:"alipay"`
 	AUBECSDebit      *PaymentIntentPaymentMethodOptionsAUBECSDebit      `json:"au_becs_debit"`
+	BACSDebit        *PaymentIntentPaymentMethodOptionsBACSDebit        `json:"bacs_debit"`
 	Bancontact       *PaymentIntentPaymentMethodOptionsBancontact       `json:"bancontact"`
 	Boleto           *PaymentIntentPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
 	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresent      `json:"card_present"`
+	EPS              *PaymentIntentPaymentMethodOptionsEPS              `json:"eps"`
+	FPX              *PaymentIntentPaymentMethodOptionsFPX              `json:"fpx"`
 	Giropay          *PaymentIntentPaymentMethodOptionsGiropay          `json:"giropay"`
+	Grabpay          *PaymentIntentPaymentMethodOptionsGrabpay          `json:"grabpay"`
 	Ideal            *PaymentIntentPaymentMethodOptionsIdeal            `json:"ideal"`
 	InteracPresent   *PaymentIntentPaymentMethodOptionsInteracPresent   `json:"interac_present"`
 	Klarna           *PaymentIntentPaymentMethodOptionsKlarna           `json:"klarna"`

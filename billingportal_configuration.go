@@ -141,7 +141,7 @@ type BillingPortalConfigurationFeaturesSubscriptionPauseParams struct {
 
 // The list of products that support subscription updates.
 type BillingPortalConfigurationFeaturesSubscriptionUpdateProductParams struct {
-	// The list of prices IDs that a subscription can be updated to.
+	// The list of price IDs for the product that a subscription can be updated to.
 	Prices []*string `form:"prices"`
 	// The product id.
 	Product *string `form:"product"`

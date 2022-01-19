@@ -669,6 +669,8 @@ type Invoice struct {
 	OnBehalfOf *Account `json:"on_behalf_of"`
 	// Whether payment was successfully collected for this invoice. An invoice can be paid (most commonly) with a charge or with credit from the customer's account balance.
 	Paid bool `json:"paid"`
+	// Returns true if the invoice was manually marked paid, returns false if the invoice hasn't been paid yet or was paid on Stripe.
+	PaidOutOfBand bool `json:"paid_out_of_band"`
 	// The PaymentIntent associated with this invoice. The PaymentIntent is generated when the invoice is finalized, and can then be used to pay the invoice. Note that voiding an invoice will cancel the PaymentIntent.
 	PaymentIntent   *PaymentIntent          `json:"payment_intent"`
 	PaymentSettings *InvoicePaymentSettings `json:"payment_settings"`
