@@ -1,5 +1,13 @@
 # Changelog
 
+## 72.84.0 - 2022-01-19
+* [#1407](https://github.com/stripe/stripe-go/pull/1407) API Updates
+  * Change type of `ChargeStatus` from `string` to `enum('failed'|'pending'|'succeeded')`
+  * Add support for `BACSDebit` and `EPS` on `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, and `PaymentIntentPaymentMethodOptions`
+  * Add support for `ImageURLPNG` and `ImageURLSVG` on `PaymentIntentNextActionWechatPayDisplayQRCode`
+  
+* [#1405](https://github.com/stripe/stripe-go/pull/1405) Generate struct field docstrings
+
 ## 72.83.0 - 2022-01-13
 * [#1404](https://github.com/stripe/stripe-go/pull/1404) API Updates
   * Add support for `PaidOutOfBand` on `Invoice`
