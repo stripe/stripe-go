@@ -47,6 +47,15 @@ const (
 	CheckoutSessionConsentCollectionPromotionsAuto CheckoutSessionConsentCollectionPromotions = "auto"
 )
 
+// Configure whether a Checkout Session creates a Customer when the Checkout Session completes.
+type CheckoutSessionCustomerCreation string
+
+// List of values that CheckoutSessionCustomerCreation can take
+const (
+	CheckoutSessionCustomerCreationAlways     CheckoutSessionCustomerCreation = "always"
+	CheckoutSessionCustomerCreationIfRequired CheckoutSessionCustomerCreation = "if_required"
+)
+
 // The customer's tax exempt status at time of checkout.
 type CheckoutSessionCustomerDetailsTaxExempt string
 
@@ -376,9 +385,12 @@ type CheckoutSessionPaymentIntentDataParams struct {
 	// customer that their payment details will be saved and used for future
 	// payments.
 	//
-	// For both values, Checkout will attach the payment method to either the
-	// provided Customer for the session, or a new Customer created by Checkout
-	// if one has not been provided.
+	// If a Customer has been provided or Checkout creates a new Customer,
+	// Checkout will attach the payment method to the Customer.
+	//
+	// If Checkout does not create a Customer, the payment method is not attached
+	// to a Customer. To reuse the payment method, you can retrieve it from the
+	// Checkout Session's PaymentIntent.
 	//
 	// When processing card payments, Checkout also uses `setup_future_usage`
 	// to dynamically optimize your payment flow and comply with regional
@@ -616,7 +628,7 @@ type CheckoutSessionParams struct {
 	// ID of an existing Customer, if one exists. In `payment` mode, the customer's most recent card
 	// payment method will be used to prefill the email, name, card details, and billing address
 	// on the Checkout page. In `subscription` mode, the customer's [default payment method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method)
-	// will be used if it's a card, and otherwise the most recent card will be used. A valid billing address is required for Checkout to prefill the customer's card details.
+	// will be used if it's a card, and otherwise the most recent card will be used. A valid billing address, billing name and billing email are required on the payment method for Checkout to prefill the customer's card details.
 	//
 	// If the Customer already has a valid [email](https://stripe.com/docs/api/customers/object#customer_object-email) set, the email will be prefilled and not editable in Checkout.
 	// If the Customer does not have a valid `email`, Checkout will set the email entered during the session on the Customer.
@@ -625,6 +637,15 @@ type CheckoutSessionParams struct {
 	//
 	// You can set [`payment_intent_data.setup_future_usage`](https://stripe.com/docs/api/checkout/sessions/create#create_checkout_session-payment_intent_data-setup_future_usage) to have Checkout automatically attach the payment method to the Customer you pass in for future reuse.
 	Customer *string `form:"customer"`
+	// Configure whether a Checkout Session creates a [Customer](https://stripe.com/docs/api/customers) during Session confirmation.
+	//
+	// When a Customer is not created, you can still retrieve email, address, and other customer data entered in Checkout
+	// with [customer_details](https://stripe.com/docs/api/checkout/sessions/object#checkout_session_object-customer_details).
+	//
+	// Sessions that do not create Customers will instead create [Guest Customers](https://support.stripe.com/questions/guest-customer-faq) in the Dashboard.
+	//
+	// Can only be set in `payment` and `setup` mode.
+	CustomerCreation *string `form:"customer_creation"`
 	// If provided, this value will be used when the Customer object is created.
 	// If not provided, customers will be asked to enter their email address.
 	// Use this parameter to prefill customer data if you already have an email
@@ -905,6 +926,8 @@ type CheckoutSession struct {
 	// during the payment flow unless an existing customer was provided when
 	// the Session was created.
 	Customer *Customer `json:"customer"`
+	// Configure whether a Checkout Session creates a Customer when the Checkout Session completes.
+	CustomerCreation CheckoutSessionCustomerCreation `json:"customer_creation"`
 	// The customer details including the customer's tax exempt status and the customer's tax IDs. Only present on Sessions in `payment` or `subscription` mode.
 	CustomerDetails *CheckoutSessionCustomerDetails `json:"customer_details"`
 	// If provided, this value will be used when the Customer object is created.
