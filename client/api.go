@@ -49,6 +49,7 @@ import (
 	"github.com/stripe/stripe-go/v72/order"
 	"github.com/stripe/stripe-go/v72/orderreturn"
 	"github.com/stripe/stripe-go/v72/paymentintent"
+	"github.com/stripe/stripe-go/v72/paymentlink"
 	"github.com/stripe/stripe-go/v72/paymentmethod"
 	"github.com/stripe/stripe-go/v72/paymentsource"
 	"github.com/stripe/stripe-go/v72/payout"
@@ -172,6 +173,8 @@ type API struct {
 	Orders *order.Client
 	// PaymentIntents is the client used to invoke /payment_intents APIs.
 	PaymentIntents *paymentintent.Client
+	// PaymentLinks is the client used to invoke /payment_links APIs.
+	PaymentLinks *paymentlink.Client
 	// PaymentMethods is the client used to invoke /payment_methods APIs.
 	PaymentMethods *paymentmethod.Client
 	// PaymentSource is the client used to invoke /customers/{customer}/sources APIs.
@@ -302,6 +305,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.OrderReturns = &orderreturn.Client{B: backends.API, Key: key}
 	a.Orders = &order.Client{B: backends.API, Key: key}
 	a.PaymentIntents = &paymentintent.Client{B: backends.API, Key: key}
+	a.PaymentLinks = &paymentlink.Client{B: backends.API, Key: key}
 	a.PaymentMethods = &paymentmethod.Client{B: backends.API, Key: key}
 	a.PaymentSource = &paymentsource.Client{B: backends.API, Key: key}
 	a.Payouts = &payout.Client{B: backends.API, Key: key}

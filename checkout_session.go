@@ -956,6 +956,8 @@ type CheckoutSession struct {
 	Object string `json:"object"`
 	// The ID of the PaymentIntent for Checkout Sessions in `payment` mode.
 	PaymentIntent *PaymentIntent `json:"payment_intent"`
+	// The ID of the Payment Link that created this Session.
+	PaymentLink *PaymentLink `json:"payment_link"`
 	// Payment-method-specific configuration for the PaymentIntent or SetupIntent of this CheckoutSession.
 	PaymentMethodOptions *CheckoutSessionPaymentMethodOptions `json:"payment_method_options"`
 	// A list of the types of payment methods (e.g. card) this Checkout
