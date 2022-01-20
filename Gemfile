@@ -60,7 +60,7 @@ group :test do
   gem 'minitest', '~> 5.15.0'
   gem 'minitest-ci', '~> 3.4.0'
   gem 'minitest-profile'
-  gem 'minitest-reporters', '~> 1.4.2'
+  gem 'minitest-reporters', '~> 1.5.0'
   gem 'minitest-rails', '~> 6.1.0'
 
   # feature test

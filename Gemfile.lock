@@ -179,7 +179,7 @@ GEM
     minitest-rails (6.1.0)
       minitest (~> 5.10)
       railties (~> 6.1.0)
-    minitest-reporters (1.4.3)
+    minitest-reporters (1.5.0)
       ansi
       builder
       minitest (>= 5.0)
@@ -434,7 +434,7 @@ DEPENDENCIES
   minitest-ci (~> 3.4.0)
   minitest-profile
   minitest-rails (~> 6.1.0)
-  minitest-reporters (~> 1.4.2)
+  minitest-reporters (~> 1.5.0)
   mocha (~> 1.9)
   nokogiri (>= 1.13.0)
   omniauth (~> 2.0.4)
