@@ -1544,3 +1544,15 @@ func TestPaymentLinkCreate(t *testing.T) {
 	result, _ := paymentlink.New(params)
 	assert.NotNil(t, result)
 }
+
+func TestPaymentLinkListLineItems(t *testing.T) {
+	params := &stripe.PaymentLinkListLineItemsParams{}
+	result := paymentlink.ListLineItems(params)
+	assert.NotNil(t, result)
+}
+
+func TestPaymentLinkRetrieve(t *testing.T) {
+	params := &stripe.PaymentLinkParams{}
+	result, _ := paymentlink.Get("pl_xyz", params)
+	assert.NotNil(t, result)
+}
