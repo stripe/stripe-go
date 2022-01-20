@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.85.0 - 2022-01-20
+* [#1408](https://github.com/stripe/stripe-go/pull/1408) API Updates
+  * Add support for new resource `PaymentLink`
+  * Add support for `PaymentLink` on `CheckoutSession`
+
 ## 72.84.0 - 2022-01-19
 * [#1407](https://github.com/stripe/stripe-go/pull/1407) API Updates
   * Change type of `ChargeStatus` from `string` to `enum('failed'|'pending'|'succeeded')`
