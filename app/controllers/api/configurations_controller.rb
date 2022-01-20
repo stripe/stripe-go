@@ -126,7 +126,18 @@ module Api
         field_mappings: @user.field_mappings,
         field_defaults: @user.field_defaults,
         default_mapping: {
-
+          # TODO this needs to be moved to be dynamic based on user ff config
+          customer: {
+            name: 'Name',
+          },
+          product: {
+            name: 'Name',
+            description: 'Description',
+          },
+          subscription: {
+            start_date: 'SBQQ__StartDate__c',
+            subscription_iterations: 'SBQQ__SubscriptionTerm__c',
+          },
         },
         required_mapping: {
 
@@ -135,6 +146,8 @@ module Api
         connection_status: {
           salesforce: true,
           stripe: true,
+          last_synced: Time.now.to_i,
+          stripe_account_id: @user.stripe_account_id,
         },
       }
     end
