@@ -149,6 +149,13 @@ module Api
           last_synced: Time.now.to_i,
           stripe_account_id: @user.stripe_account_id,
         },
+        # TODO need to be dynamic values
+        settings: {
+          api_percentage_limit: 95,
+          sync_start_date: Time.now.to_i,
+          sync_record_retention: 10_000,
+          default_currency: 'USD',
+        },
       }
     end
 
