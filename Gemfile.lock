@@ -345,9 +345,9 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sentry-rails (4.9.0)
+    sentry-rails (4.9.2)
       railties (>= 5.0)
-      sentry-ruby-core (~> 4.9.0)
+      sentry-ruby-core (~> 4.9.2)
     sentry-resque (4.9.0)
       resque (>= 1.24)
       sentry-ruby-core (~> 4.9.0)
@@ -464,7 +464,7 @@ DEPENDENCIES
   rubocop-daemon
   rubocop-minitest
   selenium-webdriver (~> 3.142.7)
-  sentry-rails (~> 4.9.0)
+  sentry-rails (~> 4.9.2)
   sentry-resque (~> 4.9.0)
   sentry-ruby (~> 4.9.2)
   sequel (= 5.52.0)
