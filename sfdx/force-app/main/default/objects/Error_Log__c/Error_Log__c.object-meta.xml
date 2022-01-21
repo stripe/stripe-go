@@ -158,7 +158,7 @@
         <label>Error Log Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Error_Log</pluralLabel>
+    <pluralLabel>Error Logs</pluralLabel>
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

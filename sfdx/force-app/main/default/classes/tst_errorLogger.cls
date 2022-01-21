@@ -12,8 +12,8 @@ public with sharing class tst_errorLogger {
         }
         Test.stopTest();
 
-        List<Error_Log__c> errorLogs = [SELECT Id FROM Error_Log__c];
+        List<Error_Log__c> ErrorLogs = [SELECT Id FROM Error_Log__c];
 
-        System.assertEquals(0, errorLogs.size());
+        System.assertEquals(0, ErrorLogs.size());
     }
 }

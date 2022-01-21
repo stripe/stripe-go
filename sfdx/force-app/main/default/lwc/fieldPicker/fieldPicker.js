@@ -1,6 +1,11 @@
+/* 
+    * Purpose and Expected Behavior: 
+    Selection input that provides a user with a filterable dropdown list of fields based on a provided Root object. Generates an object relation hash (String) based on a user's field selections. 
+    A selection is not considered complete until a user selects a non-lookup field using Field Picker. Selection of a Lookup field will change the picker context to the new object and provide the relevant list of fields for the user to continue selection. 
+*/
 import { LightningElement, api, track } from 'lwc';
 
-export default class Picklist extends LightningElement {
+export default class fieldPicker extends LightningElement {
     @api get searchable() {
         return this._searchable;
     }
@@ -40,13 +45,21 @@ export default class Picklist extends LightningElement {
     @api stickyDropdown = false;
 
     @api label = "";
+    @track _options = [];
     @api
     get options() {
         return this._options || [];
     }
     set options(options) {
-        this._options = JSON.parse(JSON.stringify(options));
-        this.valueLabel = this.getLabel(this._value);
+        let formattedOptions = JSON.parse(JSON.stringify(options));
+        if(this.selectionList.length >= this.maxSelectionDepth) {
+            formattedOptions.forEach(option => {
+                if(option.type === 'reference') {
+                    option.disabled = true;
+                }
+            });
+        } 
+        this._options = formattedOptions;
     }
 
     @track validity = true;
@@ -75,8 +88,12 @@ export default class Picklist extends LightningElement {
         if(event) {
             this.preventDefaultStopProp(event);
         }
-        this.validity = !this.required || (this.value && this.required);
-        this.blurTimeout = setTimeout(() => this.hideMenu(), 100);
+        this.validity = !this.required || (this.hash && this.required);
+        this.blurTimeout = setTimeout(() => {
+            this.hideMenu();
+            this.clearPath();
+            this.display = this.generateDisplay(this.hash);
+        }, 100);
     }
 
     @api
@@ -90,22 +107,20 @@ export default class Picklist extends LightningElement {
     }
 
     @api
-    get value() {
-        return this._value;
+    get hash() {
+        return this._hash;
     }
 
-    set value(value) {
-        if (this._value === value) {
-            return;
-        }
-
-        this._value = value || value === 0 ? value.toString() : "";
-        this.valueLabel = this.getLabel(this._value);
+    set hash(value) {
+        this._hash = value;
+        this.display = this.generateDisplay(this._hash);
     }
+
     @track valueLabel;
 
     connectedCallback() {
-        this.valueLabel = this.getLabel(this._value);
+        this.display = this.generateDisplay(this.hash);
+        this.currentObject = this.rootObject;
     }
 
     repositionDropdown = (() => {
@@ -180,27 +195,42 @@ export default class Picklist extends LightningElement {
         let selectedOption = JSON.parse(
             JSON.stringify(event.detail.selectedOption)
         );
-        let value = selectedOption.value.toString();
         let index = this.focusIndex;
 
         this.validity = !this.required || (value && this.required);
-        this.hideMenu();
-        
-        if(this.value === value) {
-            return;
-        }
+        if(selectedOption.type !== 'reference') {
+            this.hideMenu();
+            
+            this.appendSelection(selectedOption);
+            this.hash = this.generateHash(this.selectionList);
+            this.clearPath();
 
-        let evt = new CustomEvent("select", {
-            detail: {
-                value: value,
-                index: index,
-                label: this.getLabel(value)
+            let evt = new CustomEvent("select", {
+                detail: {
+                    value: this.hash,
+                    index: index,
+                    label: this.getLabel(this.hash)
+                }
+            });
+            this.dispatchEvent(evt);
+        } else {
+            this.appendSelection(selectedOption);
+            this.display = this.generateDisplay(this.selectionList);
+            if(selectedOption.object) {
+                this.currentObject = selectedOption.object;
             }
-        });
-        this.dispatchEvent(evt);
+            let evt = new CustomEvent("objectchange", {
+                detail: {
+                    object: selectedOption.object.toString()
+                }
+            });
+            this.dispatchEvent(evt);
+        }
     }
 
     handleKeyupOnInput(event) {
+        // Handles Key Press events when the main input is focused 
+        // Keycode Ref: 27 -> 'Escape'; 32 -> 'Space'; 38 -> 'ArrowUp'; 40 -> 'ArrowDown'
         let keyCode = event.keyCode;
         if (keyCode !== 38 && keyCode !== 40 && keyCode !== 27) {
             if (this.searchTerm !== event.currentTarget.value) {
@@ -215,6 +245,8 @@ export default class Picklist extends LightningElement {
     }
 
     handleKeyupOnPicklist(event) {
+        // Handles Key Press events when the dropdown list is focused
+        // Keycode Ref: 13 -> 'Enter'; 27 -> 'Escape'; 32 -> 'Space'; 38 -> 'ArrowUp'; 40 -> 'ArrowDown'
         if (
             (event.keyCode === 13 || event.keyCode === 32) &&
             this.focusIndex < 0
@@ -242,7 +274,7 @@ export default class Picklist extends LightningElement {
             } else if (event.keyCode === 13 && this.focusIndex > -1) {
                 this.preventDefaultStopProp(event);
                 let picklistOptions = this.template.querySelectorAll(
-                    "c-picklist-option"
+                    "c-field-picker-option"
                 );
                 if (this.focusIndex < picklistOptions.length) {
                     picklistOptions[this.focusIndex].select();
@@ -252,8 +284,10 @@ export default class Picklist extends LightningElement {
     }
 
     handleKeydownOnInput(event) {
+        // Allows Picker to handle certain key press events when main input is focused, preventing unexpected browser behavior 
+        // Keycode Ref: 13 -> 'Enter'; 27 -> 'Escape'; 32 -> 'Space'; 38 -> 'ArrowUp'; 40 -> 'ArrowDown'
         let keyCode = event.keyCode;
-        //prevent default on enter, esc, up and down. stopProp on space
+        // prevent default on enter, esc, up and down. stopProp on space
         if (
             keyCode === 13 ||
             keyCode === 27 ||
@@ -267,6 +301,8 @@ export default class Picklist extends LightningElement {
     }
 
     handleKeydownOnPicklist(event) {
+        // Allows Picker to handle certain key press events when dropdown list is focused, preventing unexpected browser behavior 
+        // Keycode Ref: 13 -> 'Enter'; 27 -> 'Escape'; 32 -> 'Space'; 38 -> 'ArrowUp'; 40 -> 'ArrowDown'
         let keyCode = event.keyCode;
         //prevent default on enter, esc, space, up and down
         if (
@@ -290,6 +326,13 @@ export default class Picklist extends LightningElement {
         this.preventDefaultStopProp(event);
 
         this.dispatchEvent(new Event("picklistclick"));
+        this.display = this.generateDisplay(this.selectionList);
+        let evt = new CustomEvent("objectchange", {
+            detail: {
+                object: this.rootObject
+            }
+        });
+        this.dispatchEvent(evt);
         this.toggleMenu();
     }
 
@@ -301,7 +344,7 @@ export default class Picklist extends LightningElement {
         this.keyboardMode = true;
 
         let picklistOptions = this.template.querySelectorAll(
-            "c-picklist-option"
+            "c-field-picker-option"
         );
         let focusIndex = this.focusIndex;
 
@@ -325,7 +368,7 @@ export default class Picklist extends LightningElement {
         if (!this.keyboardMode) {
             let focusedValue = event.detail;
             let picklistOptions = this.template.querySelectorAll(
-                "c-picklist-option"
+                "c-field-picker-option"
             );
             picklistOptions.forEach((option, index) => {
                 if (option.getValue() === focusedValue) {
@@ -352,16 +395,10 @@ export default class Picklist extends LightningElement {
             setTimeout(() => {
                 //focus and add slds-has-focus to correct option
                 let picklistOptions = this.template.querySelectorAll(
-                    "c-picklist-option"
+                    "c-field-picker-option"
                 );
-                picklistOptions.forEach((option, index) => {
-                    if (option.getValue() === this.value) {
-                        this.focusIndex = index;
-                        option.addFocus();
-                        this.template.querySelector('.sp-scrollable-list').scrollTop = option.offsetTop;
-                    } else {
-                        option.removeFocus();
-                    }
+                picklistOptions.forEach((option) => {
+                    option.removeFocus();
                 });
 
                 if(this.stickyDropdown) {
@@ -412,8 +449,8 @@ export default class Picklist extends LightningElement {
 
         this.previousSearchTerm = searchTerm;
 
-        if(this.options && this.options.length > 0 && searchTerm) {
-            filteredOptions = JSON.parse(JSON.stringify(this.options)).filter(option => {
+        if(this._options && this._options.length > 0 && searchTerm) {
+            filteredOptions = JSON.parse(JSON.stringify(this._options)).filter(option => {
                 if (option.isOptGroup) {
                     let groupOptions = option.options.filter(
                         (groupOption) => {
@@ -433,7 +470,7 @@ export default class Picklist extends LightningElement {
                 }
             });
         } else {
-            filteredOptions = JSON.parse(JSON.stringify(this.options));
+            filteredOptions = JSON.parse(JSON.stringify(this._options));
         }
 
         if(scrollableList && searchTermChanged) {
@@ -495,7 +532,7 @@ export default class Picklist extends LightningElement {
     }
 
     get valueLabelClassList() {
-        return "slds-truncate" + (this.value ? "" : " sp-placeholder");
+        return "slds-truncate" + (this.hash ? "" : " sp-placeholder");
     }
 
     handleDropdownMouseDown(event) {
@@ -546,5 +583,168 @@ export default class Picklist extends LightningElement {
             case 'both-exact':
                 return labelExactMatch || valueExactMatch;
         }
+    }
+
+    // FIELD PICKER METHODS //
+    display = ''; // Display string for input
+    selectionList = []; // Selection List being constructed; cleared when input not in use
+    @track currentObject = ''; // Current object context of field picker; updates as picker traverses objects
+    maxSelectionDepth = 4; // Maximum number of lookup fields that can be used in a single selection; used to disable lookup field options to prevent overly complex selections
+
+    @api 
+    get rootObject() {
+        return this._rootObject;
+    }
+
+    set rootObject(value) {
+        value != undefined ? this._rootObject = value : this._rootObject = '';
+    }
+
+    clearPath() {
+        this.selectionList = [];
+        this.currentObject = this.rootObject;
+    }
+
+    backClick() {
+        // Click handler for managing in-progress selection path
+        this.selectionList.pop();
+        let previousObject = '';
+        if (this.selectionList.length > 0) {
+            previousObject = this.selectionList[this.selectionList.length - 1].object.toString();
+        } else {
+            previousObject = this.rootObject;
+        }
+        let evt = new CustomEvent("objectchange", {
+            detail: {
+                object: previousObject
+            }
+        });
+        this.dispatchEvent(evt);
+        this.display = this.generateDisplay(this.selectionList);
+    }
+
+    clearPathClick() {
+        // Click handler for managing in-progress selection path
+        this.clearPath();
+        this.display = this.generateDisplay(this.selectionList);
+        let evt = new CustomEvent("objectchange", {
+            detail: {
+                object: this.rootObject
+            }
+        });
+        this.dispatchEvent(evt);
+    }
+
+    clearValue(event) {
+        // Click handler for managing a saved selection value
+        event.stopPropagation();
+        this.hash = '';
+        this.display = this.generateDisplay();
+        
+        let evt = new CustomEvent("objectchange", {
+            detail: {
+                object: this.rootObject
+            }
+        });
+        this.dispatchEvent(evt);
+        this.toggleMenu();
+    }
+
+    appendSelection(selection) {
+        // Remove the last (non-lookup) selection before appending a new selection //
+        let lastSelection = this.selectionList[this.selectionList.length - 1];
+        if (lastSelection && lastSelection.type != 'reference') {
+            this.selectionList.pop();
+        }
+        this.selectionList.push(selection);
+    }
+
+    generateDisplay(value) {
+        // Generate the string to be displayed in the UI
+        // Display format: '[RootObjectName] > [ObjectName] > [...] > fieldname'
+        let displayString = '';
+        if(value) {
+            let valueArray = [];
+            // Convert a hash string to an array before reading
+            if (typeof value == 'string') {
+                valueArray = value.split('.');
+            } else {
+                valueArray = value;
+            }
+
+            // Start with Root Object for reference (not needed for Hash)
+            displayString += `[${this.rootObject.toString()}] > `;
+            // If Object, reading selectionList
+            if (typeof valueArray[0] == 'object') {
+                valueArray.forEach((item) => {
+                    if (item.type == 'reference') {
+                        // If lookup, use Object formatting and expect another value 
+                        displayString += `[${item.object}] > `;
+                    } else {
+                        // Else, use Field formatting for non-lookup field
+                        displayString += `${item.value}`;
+                    }
+                })
+            } 
+            // If not an Object, reading a Hash
+            else {
+                valueArray.forEach((item, index) => {
+                    // If not the last item, separate with ' > '
+                    if(index < (valueArray.length - 1)) {
+                        // If more than one item in a Hash, everything before the last item is an object reference
+                        displayString += `[${item}] > `;
+                    } else {
+                        // Else reading last item, which will always be a non-lookup field in a Hash
+                        displayString += item;
+                    }
+                })
+            }
+        } else {
+            // If no value provided, reset to placeholder 
+            displayString = this.placeholder;
+        }
+        return displayString;
+    }
+
+    generateHash(selectionList) {
+        // Convert current list of selected fields to hash
+        // Hash format: 'objectname.objectname [...] .objectname.fieldname'
+        let hashString = '';
+        if(selectionList.length) {
+            selectionList.forEach((selectionItem, index) => {
+                if (selectionItem.type == 'reference') {
+                    // If type: reference, dealing with a lookup selection; get the object name
+                    if(selectionItem.isObjectCustom === true) {
+                        // Format Custom Object names
+                        selectionItem.object = selectionItem.object.replace('__c','__r');
+                    }
+                    hashString += `${selectionItem.object}`;
+                } else {
+                    // If not a type: reference, get the field name
+                    hashString += `${selectionItem.value}`;
+                }
+                // If not the last item, separate with '.'
+                if(index < (selectionList.length - 1)) {
+                    hashString += '.';
+                }
+            });
+        } 
+        return hashString;
+    }
+
+    get showClearPath() {
+        return (this.selectionList.length);
+    }
+
+    get showClearValue() {
+        return (this.hash);
+    }
+
+    get backDisabled() {
+        return this.selectionList.length == 0;
+    }
+
+    get currentObjectIcon() {
+        return (this.currentObject ? `standard:${this.currentObject.toLowerCase()}` : '');
     }
 }

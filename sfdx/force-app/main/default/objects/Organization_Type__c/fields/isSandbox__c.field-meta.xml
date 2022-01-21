@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Stripe_Connected__c</fullName>
+    <fullName>isSandbox__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <fieldManageability>DeveloperControlled</fieldManageability>
-    <label>Stripe Connected</label>
+    <label>isSandbox</label>
+    <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

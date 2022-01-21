@@ -26,7 +26,8 @@ public with sharing class tst_restService {
             SBQQ__EndDate__c = date.parse('06/10/2026'),
             SBQQ__PricebookId__c = pricebookId,
             SBQQ__Opportunity2__c = opportunity.id,
-            SBQQ__SubscriptionTerm__c = 2
+            SBQQ__SubscriptionTerm__c = 2,
+            SBQQ__Primary__c = true
         );
         insert quote;
        
@@ -97,13 +98,14 @@ public with sharing class tst_restService {
             BillToContactId = contact.id,
             ContractId = contract.id,
             OpportunityId = opportunity.id,
-            
             status = 'Draft',
             EffectiveDate = system.today(),
             EndDate = system.today() + 40,
-            Pricebook2Id =  pricebookId 
+            Pricebook2Id =  pricebookId,
+            SBQQ__Quote__c = quote.id
         );
         insert order;
+
         Order order2 = new Order(
             Name = 'testOrder2',
             AccountId = account.id,
@@ -113,7 +115,8 @@ public with sharing class tst_restService {
             status = 'Draft',
             EffectiveDate = system.today(),
             EndDate = system.today() + 40,
-            Pricebook2Id =  pricebookId 
+            Pricebook2Id =  pricebookId,
+            SBQQ__Quote__c = quote.id
         );
         insert order2;
         OrderItem orderItem = new OrderItem(
@@ -273,7 +276,7 @@ public with sharing class tst_restService {
                         System.assertEquals((String)recordMap.get('Id'), (String)opportunity.id);
                         System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
                         System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
-                        System.assertEquals((String)recordMap.get('StageName'), 'prospecting');
+                        System.assertEquals((String)recordMap.get('StageName'), 'Prospecting');
                         System.assertEquals((String)recordMap.get('Name'), 'testOpportunity');
                         System.assertEquals((String)recordMap.get('CloseDate'), string.valueOf(system.today() + 4));
                     }

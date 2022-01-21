@@ -33,11 +33,88 @@ public with sharing class utilities {
                     continue;
                 }
             }
-
             objMap.put(field, String.isEmpty(value) ? null : value);
         }
-
         return (sObject)JSON.deserialize(JSON.serialize(objMap), Type.forName(sObjectName));
+    }
+
+      /*gets us a map of all the fields and only gets lookup relationships that we care about*/
+    public static Set<Object> getListOfFieldsByObject(String objectApiName) {
+        Set<Object> objectFieldMapList = new Set<Object>(); 
+        //check if we have access to the object 
+        if (Schema.describeSObjects(new List<String>{ objectApiName })[0].isAccessible()) {
+            //get all fields on object
+            Map<String, Schema.SObjectType> objectSchemaMap = Schema.getGlobalDescribe();
+            Schema.SObjectType objectSchema = objectSchemaMap.get(objectApiName);
+            Map<String, Schema.SObjectField> objectApiFieldMap = objectSchema.getDescribe().fields.getMap();
+            Boolean isObjectCustom = (Boolean)objectSchema.getDescribe().isCustom();
+            for (String objectFieldName : objectApiFieldMap.keySet()) {
+                 Map<String, Object> objectFieldMap = new Map<String,Object>(); 
+                //check we have access to the field
+                if(objectApiFieldMap.get(objectFieldName).getDescribe().isAccessible()) {
+                    //get field type 
+                    String typeOfField = string.valueOf(objectApiFieldMap.get(objectFieldName).getDescribe().getType()).toLowercase();
+                    //check if field is a custom field or not
+                    Boolean isFieldCustom = (Boolean)objectApiFieldMap.get(objectFieldName).getDescribe().isCustom();
+                    //check if its a lookup field
+                    if(typeOfField == 'reference') {
+                        //get list of objects that the field looks up to 
+                        List<Object> objectsFieldReferences = objectApiFieldMap.get(objectFieldName).getDescribe().getReferenceTo();
+                        //iterate over objects the field looks up to and only add to list if its a field we care about
+                        for(Object referencedObject : objectsFieldReferences) {
+                            //make sure the field only looks up to 1 object before adding it to map 
+                            if(objectsFieldReferences.size() == 1) {
+                                String stringReferncedObjecect = string.valueOf(referencedObject);
+                                //use this list to target lookup fields based on the object the look up to 
+                                List<String> listOfImportantObjectsApiNames = new List<String> {
+                                    'Product2', 
+                                    'Contract',
+                                    'Order',
+                                    'OrderItem',
+                                    'PricebookEntry',
+                                    'SBQQ__QuoteLine__c',
+                                    'Account',
+                                    'Contact',
+                                    'SBQQ__Subscription__c',
+                                    'SBQQ__Quote__c',
+                                    'Opportunity',
+                                    'Pricebook2',
+                                    'ContractLineItem',
+                                    'OpportunityLineItem',
+                                    'ProductItem'
+                                };
+                                if(listOfImportantObjectsApiNames.contains(stringReferncedObjecect)) {
+                                    objectFieldMap.put('label',objectApiFieldMap.get(objectFieldName).getDescribe().getLabel());
+                                    objectFieldMap.put('value',objectFieldName);
+                                    objectFieldMap.put('isFieldCustom',isFieldCustom);
+                                    objectFieldMap.put('isObjectCustom',isObjectCustom);
+                                    objectFieldMap.put('type',typeOfField);
+                                    objectFieldMap.put('object',stringReferncedObjecect);
+                                } 
+                            } else {
+                                //in this case we now the field looks up to more than one object and we will not support traversals 
+                                objectFieldMap.put('label',objectApiFieldMap.get(objectFieldName).getDescribe().getLabel());
+                                objectFieldMap.put('value',objectFieldName);
+                                objectFieldMap.put('isFieldCustom',isFieldCustom);
+                                objectFieldMap.put('isObjectCustom',isObjectCustom);
+                                objectFieldMap.put('type','polymorphic');
+                            }
+                        }
+                    } else {
+                        //in this case we know the field is not a look up so we add to field map
+                        objectFieldMap.put('label',objectApiFieldMap.get(objectFieldName).getDescribe().getLabel());
+                        objectFieldMap.put('value',objectFieldName);
+                        objectFieldMap.put('type',typeOfField);
+                        objectFieldMap.put('isFieldCustom',isFieldCustom);
+                        objectFieldMap.put('isObjectCustom',isObjectCustom);
+                    }
+                }
+                //add field map to list to be returned 
+                if(objectFieldMap != null && !objectFieldMap.isEmpty())objectFieldMapList.add(objectFieldMap);
+            }
+        }
+        objectFieldMapList.remove(null);
+        return objectFieldMapList;
     }
 
     @AuraEnabled
@@ -46,7 +123,7 @@ public with sharing class utilities {
         try {
             //just check if the namespace of SBQQ exists in the org 
             List<PackageLicense> listOfOrgPackageLicenses = [SELECT Id, NamespacePrefix FROM PackageLicense];
-            if(!listOfOrgPackageLicenses.isEmpty()){
+            if(!listOfOrgPackageLicenses.isEmpty()) {
                 for(SObject packageLicenseRecord : listOfOrgPackageLicenses){
                     if(string.valueOf(packageLicenseRecord.get('NamespacePrefix')).substring(0,4) == 'SBQQ') {
                         rd.put('isCpqInstalled',true);
@@ -59,6 +136,26 @@ public with sharing class utilities {
             rd.addError(e);
         }
         return rd.getJsonString();
+    }
+
+    @AuraEnabled
+    public static String setOrgType() {
+        responseData rd = new responseData();
+        try {
+            Organization_Type__c orgTypeSetting = Organization_Type__c.getOrgDefaults();
+            orgTypeSetting.isSandbox__c = (Boolean)constants.IS_SANDBOX;
+            upsert orgTypeSetting;
+            
+        } catch (Exception e) {
+            rd.addError(e);
+        }
+        return rd.getJsonString();
+    }
+
+    public static List<Setup_Connection_Data__mdt> getStripeConnectionKey() {
+        return [SELECT Global_Key__c
+                FROM Setup_Connection_Data__mdt
+                LIMIT 1];  
     }
 
     public static HttpResponse makeCallout(String endPoint, String method){
@@ -96,19 +193,22 @@ public with sharing class utilities {
         } else {
             /* these standard headers will be add to the request if none are provided
              the ruby service expects these headers for all requests. */
-            List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
-                                                                FROM Setup_Connection_Data__mdt
-                                                                WITH SECURITY_ENFORCED];    
-            if(!setupConfigList.isEmpty()) {
+            List<Setup_Connection_Data__mdt> setupConfigList = getStripeConnectionKey();  
+
+            //lets us create custom metadata record if we are in test context
+            if(Test.isRunningTest()) {  
+                setupConfigList = setupConfigMetadata;
+            }
+
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults(); 
+
+            if(!setupConfigList.isEmpty() && stripeConnectRec.Id != null) {
                 Setup_Connection_Data__mdt setupData = setupConfigList[0];
-                String orgId = constants.ORG_ID;
-                String globalKey = setupData.Global_Key__c;
-                String packageGuidKey = setupData.API_Key__c;
-                req.setHeader('Salesforce-Account-Id', orgId);
-                req.setHeader('Salesforce-Key', globalKey);
+                req.setHeader('Salesforce-Account-Id', (String)constants.ORG_ID);
+                req.setHeader('Salesforce-Key', (String)setupData.Global_Key__c);
                 if(!String.isEmpty(constants.NAMESPACE_API)) {
                     String packageID = setupAssistant.getPackageVersion();
-                    req.setHeader('Package-Id', packageID);
+                    req.setHeader('Package-Id', (String)stripeConnectRec.API_Key__c);
                 }
             } else {
                 throw new SetupIsNotCompleteException('Setup is not complete, contact your Salesforce administrator for further assistance.');
@@ -119,6 +219,11 @@ public with sharing class utilities {
  
         return res;
     }
- 
+    @testVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata { 
+        get {
+            if (setupConfigMetadata == null)
+                setupConfigMetadata = getStripeConnectionKey(); 
+            return setupConfigMetadata;
+        } set; }
  
 }

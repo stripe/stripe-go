@@ -9,12 +9,11 @@
                 <!-- Hero -->
                 <div class="slds-p-vertical_xx-large slds-text-align_center">
                     <!-- Logo -->
-                    <div class="strike-logo-container slds-m-bottom_medium">
+                    <div class="strike-logo-container">
                         <img src={companyLogo}/>
                         <!-- Don't forget to add this static resource! -->
                     </div>
                     <!-- /Logo -->
-                    <p class="strike-version-number slds-text-body_small slds-text-color_weak slds-p-top_xxx-small">Package Version: {packageVersion}</p>
                     <!-- Start Button -->
                     <div if:true={showStartButton}>
                         <button class="slds-button slds-button_brand slds-p-horizontal_large slds-p-vertical_small slds-text-heading_small slds-m-top_medium" onclick={showWizard}>Get Started</button>
@@ -66,54 +65,9 @@
                 </ol>
             </div>
             <!-- /Setup Assistant -->
-
-            <!-- Body -->
-            <!-- Help Section -->
-            <div class="strike-help slds-box slds-m-vertical_large slds-theme_default">
-                <!-- Header -->
-                <div class="strike-help__header slds-theme_info">
-                    <div class="slds-grid slds-gutters_direct slds-p-around_large">
-                        <div class="slds-col">
-                            <h3 class="slds-text-heading_medium">Need help?</h3>
-                        </div>
-                        <div class="slds-col slds-no-flex">
-                            <ul class="slds-list_horizontal slds-has-dividers">
-                                <li class="slds-list__item">
-                                    <a href="mailto:info@appiphony.com">info@appiphony.com</a>
-                                </li>
-                                <li class="slds-list__item">
-                                    <a href="tel:1-800-555-5555">1-800-555-5555</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Header -->
-
-                <!-- Body -->
-                <div class="strike-help__body slds-text-body_small">
-                    <div class="slds-grid slds-p-around_large slds-wrap slds-gutters_small">
-                        <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-text-longform">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere voluptate libero vel saepe accusamus amet.</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente unde maxime ad, nam soluta repellendus.</p>
-                        </div>
-                        <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2">
-                            <h4 class="slds-text-heading_small">Helpful Links</h4>
-                            <ul class="slds-list_dotted slds-m-top_x-small">
-                                <li class="slds-item">
-                                    <a href="https://salesforce.com/" target="_blank">Salesforce Homepage</a> — Describe why this link is relevant
-                                </li>
-                                <li class="slds-item">
-                                    <a href="https://google.com/" target="_blank">Google Homepage</a> — Describe why this link is relevant
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Body -->
-            </div>
-            <!-- /Help Section -->
-            <!-- /Body -->
+            <!-- Package Version -->
+            <p class="strike-version-number slds-text-align_center slds-text-body_small slds-text-color_weak slds-m-top_large">Package Version: {packageVersion}</p>
+            <!-- /Package Version -->
         </template>
     </div>
 </template>

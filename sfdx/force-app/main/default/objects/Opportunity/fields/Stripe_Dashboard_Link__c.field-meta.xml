@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Stripe_Dashboard_Link__c</fullName>
     <externalId>false</externalId>
-    <formula>&quot;https://dashboard.stripe.com/test/id/&quot;&amp;Stripe_ID__c</formula>
+    <formula>&quot;https://dashboard.stripe.com/&quot; &amp; IF($Setup.Organization_Type__c.isSandbox__c, &quot;test/&quot;, &quot;&quot;) &amp; &quot;id/&quot;&amp;Stripe_ID__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Stripe Dashboard Link</label>
     <required>false</required>

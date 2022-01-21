@@ -1,0 +1,4 @@
+**/jsconfig.json
+.sfdx/
+sfdx/.sfdx/
+**/.eslintrc.json

@@ -1,3 +1,4 @@
+import setOrgType from '@salesforce/apex/utilities.setOrgType';
 import { LightningElement } from 'lwc';
 
 export default class Setup extends LightningElement {
@@ -19,6 +20,17 @@ export default class Setup extends LightningElement {
             this._init = true;
             this.template.querySelector('c-landing').init(this.wizards);
         }
+        (async () => {
+            try {
+                const setOrganizationType = await setOrgType();
+                this.data =  JSON.parse(setOrganizationType);
+                if(!this.data.isSuccess) {
+                    this.showToast(this.data.error, 'error');
+                }
+            } catch (error) {
+                this.showToast(error, 'error');
+            }
+        })();
     }
 
     showLanding() {
@@ -29,4 +41,13 @@ export default class Setup extends LightningElement {
         let toast = event.detail.toast;
         this.template.querySelector('c-toast').show(toast.message, toast.variant, toast.mode);
     }
+
+    fetchPicklistValues() {
+        setTimeout(() => {
+            this.template.querySelector('c-data-mapping-step').getPicklistValuesForMapper(true, ''); 
+        }, 4000);
+       
+    }
+
+
 }

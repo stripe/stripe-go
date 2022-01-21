@@ -27,10 +27,11 @@ public with sharing class setupAssistant {
         try {
              if (setupData != null) {
                 List<Setup_Configuration_Data__mdt> data = [SELECT Id, Steps_Completed__c, label FROM Setup_Configuration_Data__mdt WHERE label = 'Default' WITH SECURITY_ENFORCED];
-                if(!data.isEmpty()){
+                if(!data.isEmpty()) {
+                    Setup_Configuration_Data__mdt setupConfigurationRecord = data[0];
                     Setup_Configuration_Data__mdt dataObj = (Setup_Configuration_Data__mdt)utilities.getSobjectByMap(setupData, constants.NAMESPACE_API + 'Setup_Configuration_Data__mdt');
-                    if (!String.isEmpty(dataObj.Steps_Completed__c) && !String.isEmpty(data[0].Steps_Completed__c)) {
-                        Map<String, Object> stepsCompleted = (Map<String, Object>)JSON.deserializeUntyped(data[0].Steps_Completed__c);
+                    if (!String.isEmpty(dataObj.Steps_Completed__c) && !String.isEmpty(setupConfigurationRecord.Steps_Completed__c)) {
+                        Map<String, Object> stepsCompleted = (Map<String, Object>)JSON.deserializeUntyped(setupConfigurationRecord.Steps_Completed__c);
                         Map<String, Object> newStepsCompleted = (Map<String, Object>)JSON.deserializeUntyped(dataObj.Steps_Completed__c);
                         newStepsCompleted.putAll(stepsCompleted);
                         setupData.put('Steps_Completed__c',json.serialize(newStepsCompleted));
@@ -72,40 +73,25 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
-    //used to create metadata record for test classes
-    @testVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata { 
-        get {
-            if (setupConfigMetadata == null)
-                setupConfigMetadata = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
-                                       FROM Setup_Connection_Data__mdt
-                                       WITH SECURITY_ENFORCED]; 
-            return setupConfigMetadata;
-        } set; }
 
     //validates connection status 
     @AuraEnabled
     public static String validateConnectionStatus(Boolean isConnectedCallback) {
         responseData rd = new responseData();
         try {
-            List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
-                                                                FROM Setup_Connection_Data__mdt
-                                                                WITH SECURITY_ENFORCED];      
-                                                                
-            //lets us create custom metadata record if we are in test context                                                    
-            if(Test.isRunningTest()){  
-                setupConfigList = setupConfigMetadata;
-            }
+            //gets custom setting record to determin if we are in a sandbox or production org
+            rd.put('isSandbox',constants.IS_SANDBOX);
 
-            if(!setupConfigList.isEmpty()) {
-                Setup_Connection_Data__mdt setupData = setupConfigList[0];
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
 
+            if(stripeConnectRec.Id != null) {
                 /*checks to see if the user is already connected this runs on render of the component 
                 by passing a boolean param to denote this is being called on render*/
-                if((setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) && isConnectedCallback == true) {
+                if((stripeConnectRec.Salesforce_Connected__c == true && stripeConnectRec.Stripe_Connected__c == true) && isConnectedCallback == true) {
                     rd.put('isConnected',true);
                     return rd.getJsonString();
-                } else if ((setupData.Salesforce_Connected__c != true && setupData.Stripe_Connected__c != true) && isConnectedCallback == true) {
-                    rd.put('isConnected',false);
+                } else if ((stripeConnectRec.Salesforce_Connected__c != true && stripeConnectRec.Stripe_Connected__c != true) && isConnectedCallback == true) {
+                    rd.put('isConnected',false);                
                     return rd.getJsonString();
                 }
                 //make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
@@ -120,33 +106,53 @@ public with sharing class setupAssistant {
                 if(response.getStatusCode() == 200) {
                     responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
                     Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
-                    if((Boolean)connectionStatus.get('salesforce') == true)setupData.Salesforce_Connected__c = true; 
-                    if((Boolean)connectionStatus.get('stripe') == true)setupData.Stripe_Connected__c = true; 
+                    if((Boolean)connectionStatus.get('salesforce') == true)stripeConnectRec.Salesforce_Connected__c = true; 
+                    if((Boolean)connectionStatus.get('stripe') == true)stripeConnectRec.Stripe_Connected__c = true; 
 
                     /*if the response shows they are connected we will udpate the Setup Connection metadata record to signify they are connected. 
                     We return a connection status of fresh to determine if we should show a toast message of success or not*/
                     if(((Boolean)connectionStatus.get('stripe') == true) && ((Boolean)connectionStatus.get('salesforce') == true)) {
                         rd.put('isConnected','fresh');
                     } else {
-                        rd.put('isConnected','notConnected');
+                        rd.put('isConnected',false);
                     }
-                    Map<String, Object> setupConfigMap = new Map<String, Object> {
-                        'Salesforce_Connected__c' => setupData.Salesforce_Connected__c,
-                        'Stripe_Connected__c' => setupData.Stripe_Connected__c 
-                    };
-                    //update record 
-                    metadataCRUD.saveSetupConfigData(setupConfigMap, 'Setup_Connection_Data__mdt.Default');
+                    upsert stripeConnectRec;
+
                 } else {
-                    /*if we do not get a 200 status code back we create an error log record to show we did not get a success
+                    /*if we do not get a 200 status code back we create an Error Log record to show we did not get a success
                     response from the ruby service and send a status of failed to signify to show an error toast*/
                     rd.put('isConnected','failed');
                     errorLogger.create('validateConnectionStatus', string.valueOf(response.getStatusCode()), (String)response.getStatus(), JSON.serialize(response));
                 }
-                
             } else {
                 //if there is no record saved we are not connected
                 rd.put('isConnected',false);
-                return rd.getJsonString();
+                //if there is no record we need to go get a new package level key 
+                List<Setup_Connection_Data__mdt> setupConfigList = utilities.getStripeConnectionKey(); 
+                Setup_Connection_Data__mdt setupData = setupConfigList[0];
+
+                // generate unique key for this organization used to authenticate against the integration service
+                Blob blb = Crypto.GenerateAESKey(128);
+                String packageGuidKey = EncodingUtil.ConvertTohex(blb);
+                
+                String route = constants.RUBY_SERVICE_BASE_URI+'post-install';
+                
+                Map<String, Object> body = new Map<String, Object>{
+                'key' => packageGuidKey
+                };
+
+                String globalKey = setupData.Global_Key__c;
+                Map<String, String> headers = new Map<String, String>{
+                    'Salesforce-Account-Id' => (String)constants.ORG_ID,
+                    'Salesforce-Key' => globalKey
+                };
+                HttpResponse response =  utilities.makeCallout(route, 'POST', JSON.serialize(body), headers);
+    
+                Map<String, Object> errorBody; 
+                if(response.getStatusCode() == 200) {     
+                    stripeConnectRec.API_Key__c = packageGuidKey;
+                    upsert stripeConnectRec;
+                } 
             }
         } catch (Exception e) {
             rd.addError(e);
@@ -154,68 +160,87 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
+    /*gets object fields to populate picklist in mapper
+    NOTE: This can be sped up to reduce load time potentially by making this method async (by annotating it with this @future) 
+    and only called on page load*/
+    @AuraEnabled
+    public static String getPicklistValuesForMapper(Boolean isConnectedCallback, String ObjectApiName) {
+        responseData rd = new responseData();
+        try {
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
+
+            if(stripeConnectRec.Id != null) {
+                if(stripeConnectRec.Salesforce_Connected__c == true && stripeConnectRec.Stripe_Connected__c == true) {  
+                    rd.put('isConnected',true);  
+                    if(isConnectedCallback == true) {
+                        //builds a map of fields lists by object    
+                        Map<String, Set<Object>> fieldListByObjectMap = new Map<String, Set<Object>>{
+                            'OrderItem' => utilities.getListOfFieldsByObject('OrderItem'),
+                            'Order' => utilities.getListOfFieldsByObject('Order'),
+                            'Account' => utilities.getListOfFieldsByObject('Account'),
+                            'Product2' => utilities.getListOfFieldsByObject('Product2'),
+                            'PricebookEntry' => utilities.getListOfFieldsByObject('PricebookEntry')
+                        };   
+                        rd.put('fieldListByObjectMap',fieldListByObjectMap);
+                    } else {
+                        rd.put('ObjectApiName',ObjectApiName);
+                        rd.put('listOfObjectFields',utilities.getListOfFieldsByObject(ObjectApiName));
+                    }
+                } else {
+                    rd.put('isConnected',false);  
+                }
+            }
+        } catch (Exception e) {
+            rd.addError(e);
+        }
+        return rd.getJsonString();
+    }
+
+    //gets all saved mappings from ruby service
     @AuraEnabled
     public static String getMappingConfigurations() {
         responseData rd = new responseData();
         try {
-            List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
-                                                                FROM Setup_Connection_Data__mdt
-                                                                WITH SECURITY_ENFORCED];   
-                                                                
-            if(Test.isRunningTest()){  
-                setupConfigList = setupConfigMetadata;
-            }
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
 
-            if(!setupConfigList.isEmpty()) {
-                Setup_Connection_Data__mdt setupData = setupConfigList[0];
-                if(setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) {                
+            if(stripeConnectRec.Id != null) {
+                //used to store configuration maps from response
+                Map<String, Object> allMappingConfigurations = new Map<String, Object>();
+                //construct call out to rubys configuration endpoint
+                if(stripeConnectRec.Salesforce_Connected__c == true && stripeConnectRec.Stripe_Connected__c == true) {  
+                    rd.put('isConnected',true);               
                     String route = constants.RUBY_SERVICE_BASE_URI+'configuration';
                     HttpResponse response =  utilities.makeCallout(route,'GET');
 
+                    //if the call out is successful pull out all mapping objects and add to list 
                     Map<String, Object> responseBody;
                     if(response.getStatusCode() == 200) {
                         responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
                         Map<String, Object> fieldMappingsMap = (Map<String,Object>)responseBody.get('field_mappings');
-                        Map<String,String> componentFieldMappings = new Map<String,String>();
-                        if (fieldMappingsMap != null || !fieldMappingsMap.isEmpty()) { 
-                            for(String key: fieldMappingsMap.keySet()) {
-                                componentFieldMappings.put(string.valueOf(key),string.valueOf(fieldMappingsMap.get(key)));
-                            }
-                            rd.put('componentFieldMappings',componentFieldMappings);
+                        if (fieldMappingsMap != null && !fieldMappingsMap.isEmpty()) { 
+                            allMappingConfigurations.put('field_mappings', fieldMappingsMap);
+                        }
+                        Map<String, Object> defaultMappingsMap = (Map<String,Object>)responseBody.get('default_mappings');
+                        if (defaultMappingsMap != null && !defaultMappingsMap.isEmpty()) { 
+                            allMappingConfigurations.put('default_mappings', defaultMappingsMap);
                         }
 
-                        Map<String, Object> defualtMappingsMap = (Map<String,Object>)responseBody.get('default_mapping');
-                        Map<String,String> componentDefaultMappings = new Map<String,String>();
-                        if (defualtMappingsMap != null || !defualtMappingsMap.isEmpty()) { 
-                            for(String key: defualtMappingsMap.keySet()) {
-                                componentDefaultMappings.put(string.valueOf(key),string.valueOf(defualtMappingsMap.get(key)));
-                            }
-                            rd.put('componentDefaultMappings',componentDefaultMappings);
-                        }
-
-                        Map<String, Object> requiredMappingsMap = (Map<String,Object>)responseBody.get('required_mapping');
-                        Map<String,String> componentRequiredMappings = new Map<String,String>();
-                        if (requiredMappingsMap != null || !requiredMappingsMap.isEmpty()) { 
-                            for(String key: requiredMappingsMap.keySet()) {
-                                componentRequiredMappings.put(string.valueOf(key),string.valueOf(requiredMappingsMap.get(key)));
-                            }
-                            rd.put('componentRequiredMappings',componentRequiredMappings);
+                        Map<String, Object> requiredMappingsMap = (Map<String,Object>)responseBody.get('required_mappings');
+                        if (requiredMappingsMap != null && !requiredMappingsMap.isEmpty()) { 
+                            allMappingConfigurations.put('required_mappings', requiredMappingsMap);
                         }
 
                         Map<String, Object> fieldDefaultsMappingsMap = (Map<String,Object>)responseBody.get('field_defaults');
-                        if (fieldDefaultsMappingsMap != null || !fieldDefaultsMappingsMap.isEmpty()) {
-                            Map<String, Object> subscriptionSchedMappingsMap = (Map<String,Object>)responseBody.get('subscription_schedule');
-                            Map<String,String> componentSubscriptionMappings = new Map<String,String>();
-                            if (subscriptionSchedMappingsMap != null || !subscriptionSchedMappingsMap.isEmpty()) {
-                                for(String key: subscriptionSchedMappingsMap.keySet()) {
-                                    componentSubscriptionMappings.put(string.valueOf(key),string.valueOf(subscriptionSchedMappingsMap.get(key)));
-                                }
-                                rd.put('componentSubscriptionMappings',componentSubscriptionMappings);
-                            }
+                        if (fieldDefaultsMappingsMap != null  && !fieldDefaultsMappingsMap.isEmpty()) {
+                            allMappingConfigurations.put('field_defaults', fieldDefaultsMappingsMap);
                         }
+                        rd.put('allMappingConfigurations',allMappingConfigurations); 
+                        
                     } else {
                         errorLogger.create('getMappingConfigurations', string.valueOf(response.getStatusCode()), (String)response.getStatus(), JSON.serialize(response));
                     }
+                } else {
+                    rd.put('isConnected',false); 
                 }
             }
         } catch (Exception e) {
@@ -224,72 +249,25 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
+    //saves mappings and sends them to the ruby service to store 
     @AuraEnabled
-    public static String saveMappingConfigurations(String jsonMapObj) {
+    public static String saveMappingConfigurations(String jsonMappingConfigurationsObject) {
         responseData rd = new responseData();
         try {
-            List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
-                                                                FROM Setup_Connection_Data__mdt
-                                                                WITH SECURITY_ENFORCED];   
-                                                                
-            if(Test.isRunningTest()){  
-                setupConfigList = setupConfigMetadata;
-            }
-
-            if(!setupConfigList.isEmpty()) {
-                Setup_Connection_Data__mdt setupData = setupConfigList[0];
-                if(setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) {                
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();  
+            if(stripeConnectRec.Id != null) {
+                if(stripeConnectRec.Salesforce_Connected__c == true && stripeConnectRec.Stripe_Connected__c == true) {                
                     String route = constants.RUBY_SERVICE_BASE_URI+'configuration';
-                    HttpResponse response =  utilities.makeCallout(route,'PUT',jsonMapObj);
-
-                    Map<String, Object> responseBody;
+                    HttpResponse response =  utilities.makeCallout(route,'PUT',jsonMappingConfigurationsObject);
                     if(response.getStatusCode() == 200) {
-                        //ARNOLD THINK ABOUT THIS DO WE WANT TO REPOPULATE MAPPER AFTER SAVE WITH WHATS RETURNED???
-                        //OR SHOULD WE JUST RETURN SOME SORT OF BOOLEAN DENOTING WE GOT A 200 RESPONSE. 
-                        responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
-                        Map<String, Object> fieldMappingsMap = (Map<String,Object>)responseBody.get('field_mappings');
-                        Map<String,String> componentFieldMappings = new Map<String,String>();
-                        if (fieldMappingsMap != null || !fieldMappingsMap.isEmpty()) { 
-                            for(String key: fieldMappingsMap.keySet()) {
-                                componentFieldMappings.put(string.valueOf(key),string.valueOf(fieldMappingsMap.get(key)));
-                            }
-                            rd.put('componentFieldMappings',componentFieldMappings);
-                        }
-
-                        Map<String, Object> defualtMappingsMap = (Map<String,Object>)responseBody.get('default_mapping');
-                        Map<String,String> componentDefaultMappings = new Map<String,String>();
-                        if (defualtMappingsMap != null || !defualtMappingsMap.isEmpty()) { 
-                            for(String key: defualtMappingsMap.keySet()) {
-                                componentDefaultMappings.put(string.valueOf(key),string.valueOf(defualtMappingsMap.get(key)));
-                            }
-                            rd.put('componentDefaultMappings',componentDefaultMappings);
-                        }
-
-                        Map<String, Object> requiredMappingsMap = (Map<String,Object>)responseBody.get('required_mapping');
-                        Map<String,String> componentRequiredMappings = new Map<String,String>();
-                        if (requiredMappingsMap != null || !requiredMappingsMap.isEmpty()) { 
-                            for(String key: requiredMappingsMap.keySet()) {
-                                componentRequiredMappings.put(string.valueOf(key),string.valueOf(requiredMappingsMap.get(key)));
-                            }
-                            rd.put('componentRequiredMappings',componentRequiredMappings);
-                        }
-
-                        Map<String, Object> fieldDefaultsMappingsMap = (Map<String,Object>)responseBody.get('field_defaults');
-                        if (fieldDefaultsMappingsMap != null || !fieldDefaultsMappingsMap.isEmpty()) {
-                            Map<String, Object> subscriptionSchedMappingsMap = (Map<String,Object>)responseBody.get('subscription_schedule');
-                            Map<String,String> componentSubscriptionMappings = new Map<String,String>();
-                            if (subscriptionSchedMappingsMap != null || !subscriptionSchedMappingsMap.isEmpty()) {
-                                for(String key: subscriptionSchedMappingsMap.keySet()) {
-                                    componentSubscriptionMappings.put(string.valueOf(key),string.valueOf(subscriptionSchedMappingsMap.get(key)));
-                                }
-                                rd.put('componentSubscriptionMappings',componentSubscriptionMappings);
-                            }
-                        }
+                        rd.put('isConfigSaved',true);
                     } else {
+                        rd.put('isConfigSaved',false);
                         errorLogger.create('saveMappingConfigurations', string.valueOf(response.getStatusCode()), (String)response.getStatus(), JSON.serialize(response));
                     }
                 }
             }
+        
         } catch (Exception e) {
             rd.addError(e);
         }
@@ -300,31 +278,21 @@ public with sharing class setupAssistant {
     public static String manualRetry(String jsonMapObj) {
         responseData rd = new responseData();
         try {
-            List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Salesforce_Connected__c, Stripe_Connected__c, Global_Key__c, API_Key__c
-                                                                FROM Setup_Connection_Data__mdt
-                                                                WITH SECURITY_ENFORCED];                                                                  
-            if(Test.isRunningTest()) {  
-                setupConfigList = setupConfigMetadata;
-            }
-
-            if(!setupConfigList.isEmpty()) {
-                Setup_Connection_Data__mdt setupData = setupConfigList[0];
-                if(setupData.Salesforce_Connected__c == true && setupData.Stripe_Connected__c == true) {  
-                    //ARNOLD MIGHT NEED TO GET THE OBJECT CONFIG IF THERE IS NO CLEVER WAY TO PASS IT IN AS THE jsonMapObj param              
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults(); 
+            
+            if(stripeConnectRec.Id != null) {
+                if(stripeConnectRec.Salesforce_Connected__c == true && stripeConnectRec.Stripe_Connected__c == true) {             
                     String route = constants.RUBY_SERVICE_BASE_URI+'translate';
                     HttpResponse response =  utilities.makeCallout(route,'POST',jsonMapObj);
-                    System.debug('response');
-                    System.debug(response);
-
                     Map<String, Object> responseBody;
                     if(response.getStatusCode() == 200) {
-
 
                     } else {
                         errorLogger.create('manualRetry', string.valueOf(response.getStatusCode()), (String)response.getStatus(), JSON.serialize(response));
                     }
                 }
             }
+        
         } catch (Exception e) {
             rd.addError(e);
         }

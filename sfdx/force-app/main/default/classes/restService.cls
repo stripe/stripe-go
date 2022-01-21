@@ -1,5 +1,5 @@
 /*you can hit this endpoint  per org by authenticating into the org and makeing a GET request to 
-https://{org domain}.my.salesforce.com/services/apexrest/batchApi*/
+https://{orgDomain}.my.salesforce.com/services/apexrest/batchApi*/
 @RestResource(urlMapping='/batchApi')
 global with sharing class restService {
     //custom exception
@@ -84,7 +84,7 @@ global with sharing class restService {
 
                 //adding modified order record to payload 
                 for(Map<String, Object> modifiedOrderRec : listOforderRecordMapRecords) {
-                    if(modifiedOrderRec != null || !modifiedOrderRec.isEmpty()) responseJsonPayloadRecords.add((Object)modifiedOrderRec);
+                    if(modifiedOrderRec != null && !modifiedOrderRec.isEmpty()) responseJsonPayloadRecords.add((Object)modifiedOrderRec);
                 }
                  
             } else {
@@ -241,7 +241,7 @@ global with sharing class restService {
             
             for(Map<String,Object> modifiedQuoteRecordMap : listOfQuoteRecordMaps) {
                 //add modified quote record with lookup ID lists to records param in payload
-                if(modifiedQuoteRecordMap != null || !modifiedQuoteRecordMap.isEmpty())responseJsonPayloadRecords.add((Object)modifiedQuoteRecordMap);
+                if(modifiedQuoteRecordMap != null && !modifiedQuoteRecordMap.isEmpty())responseJsonPayloadRecords.add((Object)modifiedQuoteRecordMap);
             }
         }
         return listOforderRecordMapRecords;
@@ -303,7 +303,7 @@ global with sharing class restService {
 
         //adds each modified order record to payload
         for(Map<String, Object> modifiedOrderItem : listOfOrderItemRecordMapRecords) {
-            if(modifiedOrderItem != null || !modifiedOrderItem.isEmpty()) responseJsonPayloadRecords.add((Object)modifiedOrderItem);
+            if(modifiedOrderItem != null && !modifiedOrderItem.isEmpty()) responseJsonPayloadRecords.add((Object)modifiedOrderItem);
         }
 
         return listOfOrderRecordMapRecords;

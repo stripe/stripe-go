@@ -6,12 +6,14 @@ import validateConnectionStatus from '@salesforce/apex/setupAssistant.validateCo
 export default class OutboundStep extends LightningElement {
     @api isAuthComplete = false;
     @track connectWindow;
+    @track nextDisabled = true;
+    @track isSandbox;
 
     connectedCallback() {
         this.checkIfCPQIsEnabled();
     }
 
-   stripeConnectedAppCallback(isCpqEnabled) {
+    stripeConnectedAppCallback(isCpqEnabled) {
         const rubyServiceAuthOriginURI = 'https://stripe-force.herokuapp.com'
         if(isCpqEnabled === true) {
             this.validateConnectionStatus(true);
@@ -20,7 +22,6 @@ export default class OutboundStep extends LightningElement {
                     this.connectWindow.close()
                     this.validateConnectionStatus(false);
                 }  
-                console.log('Can we see dis in connectedCallback??')
             } 
             window.addEventListener("message", this.postMessageListener.bind(this));
         }
@@ -31,9 +32,8 @@ export default class OutboundStep extends LightningElement {
     }
 
     connectToStripe() {
-        //'https://stripe-force.herokuapp.com/auth/salesforce'; //production 
-        const rubyAuthURI = 'https://stripe-force.herokuapp.com/auth/salesforcesandbox'; //sandbox
-        this.connectWindow = window.open(rubyAuthURI, '"_blank"');
+        const rubyAuthURI = 'https://stripe-force.herokuapp.com/auth/'; 
+        this.connectWindow = this.isSandbox ? window.open(rubyAuthURI+'salesforcesandbox', '"_blank"') : window.open(rubyAuthURI+'salesforce', '"_blank"');
     }
 
     async validateConnectionStatus(isConnectedCallback) {
@@ -41,13 +41,15 @@ export default class OutboundStep extends LightningElement {
         try {
             const validateConnection = await validateConnectionStatus({
                 isConnectedCallback : isConnectedCallback
-            });
+            }); 
             this.data =  JSON.parse(validateConnection);
             if(this.data.isSuccess) {
                 let isConnected = this.data.results.isConnected;
+                this.isSandbox = this.data.results.isSandbox
                 if(isConnected === 'fresh') {
                     this.isAuthComplete = true;
                     this.showToast('Authorization successfully completed', 'success');
+                    this.dispatchEvent(new CustomEvent('fetchpicklistvalues'));
                 } else if(isConnected === 'notConnected') {
                     this.isAuthComplete = false;
                     this.showToast('Your authorization expired, please reauthorize your stripe & salesforce accounts', 'error');
@@ -57,12 +59,13 @@ export default class OutboundStep extends LightningElement {
                 } else if (isConnected === true) {
                     this.isAuthComplete = true;
                 } 
-                this.loading = false;
-            } else {
+            } else { 
                 this.showToast(this.data.error, 'error');
             }
         } catch (error) {
             this.showToast(error, 'error');
+        } finally {
+            this.nextDisabled = !this.isAuthComplete
         }
     }
 
@@ -114,6 +117,13 @@ export default class OutboundStep extends LightningElement {
                 this.showToast(error, 'error');
             }
         }
+    }
+
+    back() {
+        this.dispatchEvent(new CustomEvent('exit', {
+            bubbles: true,
+            composed: true
+        }));
     }
 
 

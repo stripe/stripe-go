@@ -1,0 +1,15 @@
+<template>
+    <li role="presentation" class={listItemClassList} onmousedown={preventDefault} onclick={select} onmouseenter={updateFocusIndex} onmouseover={preventDefault}>
+        <div class={optionClasslist} role="option">
+            <span class="slds-media__body">
+                <template if:true={option.iconName}>
+                    <lightning-icon icon-name={option.iconName} size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                </template>
+                <span class="slds-truncate" title={option.label}>
+                    {option.label}
+                </span>
+                <lightning-icon if:true={isLookup} icon-name="utility:chevronright" size="xx-small" class="slds-m-left_small sp-icon_inline"></lightning-icon>
+            </span>
+        </div>
+    </li>
+</template>

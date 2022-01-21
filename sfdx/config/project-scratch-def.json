@@ -10,5 +10,5 @@
         }
     },
     "hasSampleData": true,
-    "features": ["LightningServiceConsole","LiveAgent","Chatbot","ServiceCloud"]
+    "features": ["LightningServiceConsole","LiveAgent","ServiceCloud"]
 }

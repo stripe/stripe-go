@@ -1,6 +1,6 @@
 <template>
-    <c-step header="Connect Salesforce to Stripe" container-size="small" back-hidden onnext={next}>
-        <p slot="description">Log in to your Stripe Billing instance to grant Salesforce access to Stripe.</p>
+    <c-step header="Connect Salesforce and Stripe" container-size="small" onnext={next} onback={back} next-disabled={nextDisabled} next-label="Finish" next-icon-name="utility:check">
+        <p slot="description">This step will collect the required information to allow your Salesforce org and Stripe to communicate. First, you will be granting Stripe the necessary access to your Salesforce org. Second, you will be asked to log into Stripe to allow Salesforce to access your Stripe instance. Click 'Authorize' and follow the provided steps to establish these connections.</p>
         
         <div class="slds-p-around_medium">
             <c-connector
