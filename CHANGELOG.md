@@ -1,5 +1,11 @@
 # Changelog
 
+## 72.86.0 - 2022-01-25
+* [#1411](https://github.com/stripe/stripe-go/pull/1411) API Updates
+  * Add support for `PhoneNumberCollection` on `PaymentLinkParams` and `PaymentLink`
+  * Add support for new value `is_vat` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, and `TaxIdType`
+* [#1384](https://github.com/stripe/stripe-go/pull/1384) godoc is no more
+
 ## 72.85.0 - 2022-01-20
 * [#1408](https://github.com/stripe/stripe-go/pull/1408) API Updates
   * Add support for new resource `PaymentLink`
