@@ -26,7 +26,7 @@ const (
 	PaymentLinkBillingAddressCollectionRequired PaymentLinkBillingAddressCollection = "required"
 )
 
-// The list of payment method types that customers can use. When `null`, your [payment methods settings](https://dashboard.stripe.com/settings/payment_methods) will be used.
+// The list of payment method types that customers can use. When `null`, Stripe will dynamically show relevant payment methods you've enabled in your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 type PaymentLinkPaymentMethodType string
 
 // List of values that PaymentLinkPaymentMethodType can take
@@ -75,7 +75,7 @@ type PaymentLinkLineItemAdjustableQuantityParams struct {
 	Enabled *bool `form:"enabled"`
 	// The maximum quantity the customer can purchase. By default this value is 99. You can specify a value up to 99.
 	Maximum *int64 `form:"maximum"`
-	// The minimum quantity the customer can purchase. By default this value is 0. You can specify a value up to 98.
+	// The minimum quantity the customer can purchase. By default this value is 0. You can specify a value up to 98. If there is only one item in the cart then that item's quantity cannot go down to 0.
 	Minimum *int64 `form:"minimum"`
 }
 
@@ -87,8 +87,16 @@ type PaymentLinkLineItemParams struct {
 	ID *string `form:"id"`
 	// The ID of the [Price](https://stripe.com/docs/api/prices) or [Plan](https://stripe.com/docs/api/plans) object.
 	Price *string `form:"price"`
-	// The quantity of the line item being purchased. Only `1` is supported.
+	// The quantity of the line item being purchased.
 	Quantity *int64 `form:"quantity"`
+}
+
+// Controls phone number collection settings during checkout.
+//
+// We recommend that you review your privacy policy and check with your legal contacts.
+type PaymentLinkPhoneNumberCollectionParams struct {
+	// Set to `true` to enable phone number collection.
+	Enabled *bool `form:"enabled"`
 }
 
 // Configuration for collecting the customer's shipping address.
@@ -118,7 +126,7 @@ type PaymentLinkTransferDataParams struct {
 // Creates a payment link.
 type PaymentLinkParams struct {
 	Params `form:"*"`
-	// Whether the payment link's `url` is active. If `false`, customers visiting the url will be redirected.
+	// Whether the payment link's `url` is active. If `false`, customers visiting the URL will be shown a page saying that the link has been deactivated.
 	Active *bool `form:"active"`
 	// Behavior after the purchase is complete.
 	AfterCompletion *PaymentLinkAfterCompletionParams `form:"after_completion"`
@@ -136,8 +144,12 @@ type PaymentLinkParams struct {
 	LineItems []*PaymentLinkLineItemParams `form:"line_items"`
 	// The account on behalf of which to charge.
 	OnBehalfOf *string `form:"on_behalf_of"`
-	// The list of payment method types (e.g., card) that customers can use. Only `card` is supported. Pass an empty string to enable automatic payment methods that use your [payment methods settings](https://dashboard.stripe.com/settings/payment_methods).
+	// The list of payment method types that customers can use. Only `card` is supported. Pass an empty string to enable automatic payment methods that use your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
 	PaymentMethodTypes []*string `form:"payment_method_types"`
+	// Controls phone number collection settings during checkout.
+	//
+	// We recommend that you review your privacy policy and check with your legal contacts.
+	PhoneNumberCollection *PaymentLinkPhoneNumberCollectionParams `form:"phone_number_collection"`
 	// Configuration for collecting the customer's shipping address.
 	ShippingAddressCollection *PaymentLinkShippingAddressCollectionParams `form:"shipping_address_collection"`
 	// When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
@@ -156,7 +168,7 @@ type PaymentLinkAfterCompletionHostedConfirmation struct {
 	CustomMessage string `json:"custom_message"`
 }
 type PaymentLinkAfterCompletionRedirect struct {
-	// The `url` the customer will be redirected to after the purchase is complete.
+	// The URL the customer will be redirected to after the purchase is complete.
 	URL string `json:"url"`
 }
 type PaymentLinkAfterCompletion struct {
@@ -169,6 +181,10 @@ type PaymentLinkAutomaticTax struct {
 	// If `true`, tax will be calculated automatically using the customer's location.
 	Enabled bool `json:"enabled"`
 }
+type PaymentLinkPhoneNumberCollection struct {
+	// If `true`, a phone number will be collected during checkout.
+	Enabled bool `json:"enabled"`
+}
 
 // Configuration for collecting the customer's shipping address.
 type PaymentLinkShippingAddressCollection struct {
@@ -178,7 +194,7 @@ type PaymentLinkShippingAddressCollection struct {
 
 // When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 type PaymentLinkSubscriptionData struct {
-	// When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
+	// Integer representing the number of trial period days before the customer is charged for the first time.
 	TrialPeriodDays int64 `json:"trial_period_days"`
 }
 
@@ -190,10 +206,14 @@ type PaymentLinkTransferData struct {
 	Destination *Account `json:"destination"`
 }
 
-// A payment link allows you create payment pages through a url you can share with customers.
+// A payment link is a shareable URL that will take your customers to a hosted payment page. A payment link can be shared and used multiple times.
+//
+// When a customer opens a payment link it will open a new [checkout session](https://stripe.com/docs/api/checkout/sessions) to render the payment page. You can use [checkout session events](https://stripe.com/docs/api/events/types#event_types-checkout.session.completed) to track payments through payment links.
+//
+// Related guide: [Payment Links API](https://stripe.com/docs/payments/payment-links/api)
 type PaymentLink struct {
 	APIResource
-	// Whether the payment link's `url` is active. If `false`, customers visiting the url will be redirected.
+	// Whether the payment link's `url` is active. If `false`, customers visiting the URL will be shown a page saying that the link has been deactivated.
 	Active          bool                        `json:"active"`
 	AfterCompletion *PaymentLinkAfterCompletion `json:"after_completion"`
 	// Whether user redeemable promotion codes are enabled.
@@ -217,15 +237,16 @@ type PaymentLink struct {
 	Object string `json:"object"`
 	// The account on behalf of which to charge. See the [Connect documentation](https://support.stripe.com/questions/sending-invoices-on-behalf-of-connected-accounts) for details.
 	OnBehalfOf *Account `json:"on_behalf_of"`
-	// The list of payment method types that customers can use. When `null`, your [payment methods settings](https://dashboard.stripe.com/settings/payment_methods) will be used.
-	PaymentMethodTypes []PaymentLinkPaymentMethodType `json:"payment_method_types"`
+	// The list of payment method types that customers can use. When `null`, Stripe will dynamically show relevant payment methods you've enabled in your [payment method settings](https://dashboard.stripe.com/settings/payment_methods).
+	PaymentMethodTypes    []PaymentLinkPaymentMethodType    `json:"payment_method_types"`
+	PhoneNumberCollection *PaymentLinkPhoneNumberCollection `json:"phone_number_collection"`
 	// Configuration for collecting the customer's shipping address.
 	ShippingAddressCollection *PaymentLinkShippingAddressCollection `json:"shipping_address_collection"`
 	// When creating a subscription, the specified configuration data will be used. There must be at least one line item with a recurring price to use `subscription_data`.
 	SubscriptionData *PaymentLinkSubscriptionData `json:"subscription_data"`
 	// The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to.
 	TransferData *PaymentLinkTransferData `json:"transfer_data"`
-	// The public url that can be shared with customers.
+	// The public URL that can be shared with customers.
 	URL string `json:"url"`
 }
 

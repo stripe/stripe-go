@@ -717,9 +717,9 @@ type PaymentIntentNextActionWechatPayDisplayQRCode struct {
 	Data string `json:"data"`
 	// The base64 image data for a pre-generated QR code
 	ImageDataURL string `json:"image_data_url"`
-	// The image_url_png string used to render QR code, can be used as <img src="…" />
+	// The image_url_png string used to render QR code
 	ImageURLPNG string `json:"image_url_png"`
-	// The image_url_svg string used to render QR code, can be used as <img src="…" />
+	// The image_url_svg string used to render QR code
 	ImageURLSVG string `json:"image_url_svg"`
 }
 type PaymentIntentNextActionWechatPayRedirectToAndroidApp struct {
