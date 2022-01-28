@@ -105,7 +105,7 @@ class SessionsController < ApplicationController
       <p>Navigate to SalesForce to configure this connector.</p>
     </div>
     <script type="application/javascript">
-    window.opener.postMessage("connectionSuccessful", "https://#{user.sf_subdomain}--QaStripeConnect.visualforce.com")
+    window.opener.postMessage("connectionSuccessful", "https://#{user.sf_subdomain}--stripeConnector.visualforce.com")
     </script>
     EOL
   end
