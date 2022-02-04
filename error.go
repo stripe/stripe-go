@@ -8,13 +8,18 @@ type ErrorType string
 // List of values that ErrorType can take.
 const (
 	ErrorTypeAPI            ErrorType = "api_error"
-	ErrorTypeAPIConnection  ErrorType = "api_connection_error"
-	ErrorTypeAuthentication ErrorType = "authentication_error"
 	ErrorTypeCard           ErrorType = "card_error"
 	ErrorTypeIdempotency    ErrorType = "idempotency_error"
 	ErrorTypeInvalidRequest ErrorType = "invalid_request_error"
-	ErrorTypePermission     ErrorType = "more_permissions_required"
-	ErrorTypeRateLimit      ErrorType = "rate_limit_error"
+
+	// error type api_connection_error is deprecated and will be removed in the next version
+	ErrorTypeAPIConnection ErrorType = "api_connection_error"
+	// error type authentication_error is deprecated and will be removed in the next version
+	ErrorTypeAuthentication ErrorType = "authentication_error"
+	// error type more_permissions_required is deprecated and will be removed in the next version
+	ErrorTypePermission ErrorType = "more_permissions_required"
+	// error type rate_limit_error is deprecated and will be removed in the next version
+	ErrorTypeRateLimit ErrorType = "rate_limit_error"
 )
 
 // ErrorCode is the list of allowed values for the error's code.
