@@ -358,11 +358,7 @@ type CheckoutSessionPaymentIntentDataTransferDataParams struct {
 // A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in `payment` mode.
 type CheckoutSessionPaymentIntentDataParams struct {
 	Params `form:"*"`
-	// The amount of the application fee (if any) that will be requested to be applied to the payment and
-	// transferred to the application owner's Stripe account. The amount of the application fee collected
-	// will be capped at the total payment amount. To use an application fee, the request must be made on
-	// behalf of another account, using the `Stripe-Account` header or an OAuth key. For more information,
-	// see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
 	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
 	// Controls when the funds will be captured from the customer's account.
 	CaptureMethod *string `form:"capture_method"`

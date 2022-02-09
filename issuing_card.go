@@ -184,6 +184,8 @@ type IssuingCardParams struct {
 	Cardholder *string `form:"cardholder"`
 	// The currency for the card.
 	Currency *string `form:"currency"`
+	// The desired new PIN for this card.
+	PIN *IssuingCardPINParams `form:"pin"`
 	// The card this is meant to be a replacement for (if any).
 	ReplacementFor *string `form:"replacement_for"`
 	// If `replacement_for` is specified, this should indicate why that card is being replaced.
@@ -199,6 +201,12 @@ type IssuingCardParams struct {
 	// The following parameter is only supported when updating a card
 	// Reason why the `status` of this card is `canceled`.
 	CancellationReason *string `form:"cancellation_reason"`
+}
+
+// The desired new PIN for this card.
+type IssuingCardPINParams struct {
+	// The card's desired new PIN, encrypted under Stripe's public key.
+	EncryptedNumber *string `form:"encrypted_number"`
 }
 
 // Where and how the card will be shipped.
