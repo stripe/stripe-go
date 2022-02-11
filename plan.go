@@ -205,7 +205,7 @@ type PlanTransformUsage struct {
 //
 // For example, you might have a single "gold" product that has plans for $10/month, $100/year, €9/month, and €90/year.
 //
-// Related guides: [Set up a subscription](https://stripe.com/docs/billing/subscriptions/set-up-subscription) and more about [products and prices](https://stripe.com/docs/billing/prices-guide).
+// Related guides: [Set up a subscription](https://stripe.com/docs/billing/subscriptions/set-up-subscription) and more about [products and prices](https://stripe.com/docs/products-prices/overview).
 type Plan struct {
 	APIResource
 	// Whether the plan can be used for new purchases.
