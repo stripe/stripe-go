@@ -283,13 +283,6 @@ type SetupIntentCancelParams struct {
 	// Reason for canceling this SetupIntent. Possible values are `abandoned`, `requested_by_customer`, or `duplicate`
 	CancellationReason *string `form:"cancellation_reason"`
 }
-
-// Verifies microdeposits on a SetupIntent object.
-type SetupIntentVerifyMicrodepositsParams struct {
-	Params `form:"*"`
-	// Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
-	Amounts []*int64 `form:"amounts"`
-}
 type SetupIntentNextActionRedirectToURL struct {
 	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
 	ReturnURL string `json:"return_url"`

@@ -103,22 +103,6 @@ func (c Client) Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*
 	return paymentintent, err
 }
 
-// VerifyMicrodeposits is the method for the `POST /v1/payment_intents/{intent}/verify_microdeposits` API.
-func VerifyMicrodeposits(id string, params *stripe.PaymentIntentVerifyMicrodepositsParams) (*stripe.PaymentIntent, error) {
-	return getC().VerifyMicrodeposits(id, params)
-}
-
-// VerifyMicrodeposits is the method for the `POST /v1/payment_intents/{intent}/verify_microdeposits` API.
-func (c Client) VerifyMicrodeposits(id string, params *stripe.PaymentIntentVerifyMicrodepositsParams) (*stripe.PaymentIntent, error) {
-	path := stripe.FormatURLPath(
-		"/v1/payment_intents/%s/verify_microdeposits",
-		id,
-	)
-	paymentintent := &stripe.PaymentIntent{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
-	return paymentintent, err
-}
-
 // List returns a list of payment intents.
 func List(params *stripe.PaymentIntentListParams) *Iter {
 	return getC().List(params)

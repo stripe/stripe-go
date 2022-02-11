@@ -664,13 +664,6 @@ type PaymentIntentCaptureParams struct {
 	TransferData *PaymentIntentTransferDataParams `form:"transfer_data"`
 }
 
-// Verifies microdeposits on a PaymentIntent object.
-type PaymentIntentVerifyMicrodepositsParams struct {
-	Params `form:"*"`
-	// Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
-	Amounts []*int64 `form:"amounts"`
-}
-
 // Settings to configure compatible payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods)
 type PaymentIntentAutomaticPaymentMethods struct {
 	// Automatically calculates compatible payment methods
