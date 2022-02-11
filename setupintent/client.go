@@ -90,6 +90,19 @@ func (c Client) Confirm(id string, params *stripe.SetupIntentConfirmParams) (*st
 	return setupintent, err
 }
 
+// VerifyMicrodeposits is the method for the `POST /v1/setup_intents/{intent}/verify_microdeposits` API.
+func VerifyMicrodeposits(id string, params *stripe.SetupIntentVerifyMicrodepositsParams) (*stripe.SetupIntent, error) {
+	return getC().VerifyMicrodeposits(id, params)
+}
+
+// VerifyMicrodeposits is the method for the `POST /v1/setup_intents/{intent}/verify_microdeposits` API.
+func (c Client) VerifyMicrodeposits(id string, params *stripe.SetupIntentVerifyMicrodepositsParams) (*stripe.SetupIntent, error) {
+	path := stripe.FormatURLPath("/v1/setup_intents/%s/verify_microdeposits", id)
+	setupintent := &stripe.SetupIntent{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, setupintent)
+	return setupintent, err
+}
+
 // List returns a list of setup intents.
 func List(params *stripe.SetupIntentListParams) *Iter {
 	return getC().List(params)
