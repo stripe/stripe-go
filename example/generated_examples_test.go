@@ -1556,3 +1556,15 @@ func TestPaymentLinkRetrieve(t *testing.T) {
 	result, _ := paymentlink.Get("pl_xyz", params)
 	assert.NotNil(t, result)
 }
+
+func TestPaymentIntentVerifyMicrodeposits(t *testing.T) {
+	params := &stripe.PaymentIntentVerifyMicrodepositsParams{}
+	result, _ := paymentintent.VerifyMicrodeposits("pi_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestSetupIntentVerifyMicrodeposits(t *testing.T) {
+	params := &stripe.SetupIntentVerifyMicrodepositsParams{}
+	result, _ := setupintent.VerifyMicrodeposits("seti_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
