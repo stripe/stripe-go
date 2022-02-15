@@ -1,5 +1,14 @@
 # Changelog
 
+## 72.87.0 - 2022-02-15
+* [#1419](https://github.com/stripe/stripe-go/pull/1419) Add tests for verify_microdeposits
+* [#1416](https://github.com/stripe/stripe-go/pull/1416) API Updates
+  * Add support for `VerifyMicrodeposits` method on resources `PaymentIntent` and `SetupIntent`
+  * Add support for new value `grabpay` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+* [#1415](https://github.com/stripe/stripe-go/pull/1415) API Updates
+  * Add support for `PIN` on `IssuingCardParams`
+* [#1414](https://github.com/stripe/stripe-go/pull/1414) Add comments for deprecated error types
+
 ## 72.86.0 - 2022-01-25
 * [#1411](https://github.com/stripe/stripe-go/pull/1411) API Updates
   * Add support for `PhoneNumberCollection` on `PaymentLinkParams` and `PaymentLink`
