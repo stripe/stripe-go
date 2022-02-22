@@ -13,7 +13,7 @@ gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
 gem 'lograge'
 
 group :production do
-  gem 'puma', '~> 5.0'
+  gem 'puma', '~> 5.6'
 end
 
 # sentry
