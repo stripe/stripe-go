@@ -290,6 +290,12 @@ type SubscriptionTransferDataParams struct {
 }
 
 // Creates a new subscription on an existing customer. Each customer can have up to 500 active or scheduled subscriptions.
+//
+// When you create a subscription with collection_method=charge_automatically, the first invoice is finalized as part of the request.
+// The payment_behavior parameter determines the exact behavior of the initial payment.
+//
+// To start subscriptions where the first invoice always begins in a draft status, use [subscription schedules](https://stripe.com/docs/billing/subscriptions/subscription-schedules#managing) instead.
+// Schedules provide the flexibility to model more complex billing configurations that change over time.
 type SubscriptionParams struct {
 	Params `form:"*"`
 	// A list of prices and quantities that will generate invoice items appended to the first invoice for this subscription. You may pass up to 20 items.
