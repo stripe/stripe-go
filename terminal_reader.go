@@ -6,13 +6,15 @@
 
 package stripe
 
-// Type of reader, one of `bbpos_chipper2x`, `bbpos_wisepos_e`, or `verifone_P400`.
+// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `bbpos_chipper2x`, `bbpos_wisepos_e`, or `verifone_P400`.
 type TerminalReaderDeviceType string
 
 // List of values that TerminalReaderDeviceType can take
 const (
 	TerminalReaderDeviceTypeBBPOSChipper2X TerminalReaderDeviceType = "bbpos_chipper2x"
+	TerminalReaderDeviceTypeBBPOSWisepad3  TerminalReaderDeviceType = "bbpos_wisepad3"
 	TerminalReaderDeviceTypeBBPOSWisePOSE  TerminalReaderDeviceType = "bbpos_wisepos_e"
+	TerminalReaderDeviceTypeStripeM2       TerminalReaderDeviceType = "stripe_m2"
 	TerminalReaderDeviceTypeVerifoneP400   TerminalReaderDeviceType = "verifone_P400"
 )
 
@@ -51,7 +53,7 @@ type TerminalReader struct {
 	Deleted bool `json:"deleted"`
 	// The current software version of the reader.
 	DeviceSwVersion string `json:"device_sw_version"`
-	// Type of reader, one of `bbpos_chipper2x`, `bbpos_wisepos_e`, or `verifone_P400`.
+	// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `bbpos_chipper2x`, `bbpos_wisepos_e`, or `verifone_P400`.
 	DeviceType TerminalReaderDeviceType `json:"device_type"`
 	// Unique identifier for the object.
 	ID string `json:"id"`

@@ -323,9 +323,7 @@ type CheckoutSessionLineItemParams struct {
 	Amount *int64 `form:"amount"`
 	// [Deprecated] Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies). Required if `amount` is passed.
 	Currency *string `form:"currency"`
-	// The description for the line item, to be displayed on the Checkout page.
-	//
-	// If using `price` or `price_data`, will default to the name of the associated product.
+	// [Deprecated] The description for the line item, to be displayed on the Checkout page.
 	Description *string `form:"description"`
 	// The [tax rates](https://stripe.com/docs/api/tax_rates) that will be applied to this line item depending on the customer's billing/shipping address. We currently support the following countries: US, GB, AU, and all countries in the EU.
 	DynamicTaxRates []*string `form:"dynamic_tax_rates"`
@@ -447,7 +445,7 @@ type CheckoutSessionPaymentMethodOptionsOXXOParams struct {
 	ExpiresAfterDays *int64 `form:"expires_after_days"`
 }
 
-// contains details about the Wechat Pay payment method options.
+// contains details about the WeChat Pay payment method options.
 type CheckoutSessionPaymentMethodOptionsWechatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
 	AppID *string `form:"app_id"`
@@ -463,7 +461,7 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Boleto *CheckoutSessionPaymentMethodOptionsBoletoParams `form:"boleto"`
 	// contains details about the OXXO payment method options.
 	OXXO *CheckoutSessionPaymentMethodOptionsOXXOParams `form:"oxxo"`
-	// contains details about the Wechat Pay payment method options.
+	// contains details about the WeChat Pay payment method options.
 	WechatPay *CheckoutSessionPaymentMethodOptionsWechatPayParams `form:"wechat_pay"`
 }
 
