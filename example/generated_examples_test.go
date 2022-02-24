@@ -375,8 +375,10 @@ func TestPriceCreate(t *testing.T) {
 	params := &stripe.PriceParams{
 		UnitAmount: stripe.Int64(2000),
 		Currency:   stripe.String(string(stripe.CurrencyUSD)),
-		Recurring:  &stripe.PriceRecurringParams{Interval: stripe.String("month")},
-		Product:    stripe.String("prod_xxxxxxxxxxxxx"),
+		Recurring: &stripe.PriceRecurringParams{
+			Interval: stripe.String(string(stripe.PriceRecurringIntervalMonth)),
+		},
+		Product: stripe.String("prod_xxxxxxxxxxxxx"),
 	}
 	result, _ := price.New(params)
 	assert.NotNil(t, result)
@@ -444,7 +446,7 @@ func TestPaymentMethodUpdate(t *testing.T) {
 func TestPaymentMethodList(t *testing.T) {
 	params := &stripe.PaymentMethodListParams{
 		Customer: stripe.String("cus_xxxxxxxxxxxxx"),
-		Type:     stripe.String("card"),
+		Type:     stripe.String(string(stripe.PaymentMethodTypeCard)),
 	}
 	result := paymentmethod.List(params)
 	assert.NotNil(t, result)
@@ -493,7 +495,7 @@ func TestCheckoutSessionList(t *testing.T) {
 func TestCouponCreate(t *testing.T) {
 	params := &stripe.CouponParams{
 		PercentOff:       stripe.Float64(25),
-		Duration:         stripe.String("repeating"),
+		Duration:         stripe.String(string(stripe.CouponDurationRepeating)),
 		DurationInMonths: stripe.Int64(3),
 	}
 	result, _ := coupon.New(params)
@@ -569,8 +571,8 @@ func TestBillingPortalConfigurationCreate(t *testing.T) {
 		Features: &stripe.BillingPortalConfigurationFeaturesParams{
 			CustomerUpdate: &stripe.BillingPortalConfigurationFeaturesCustomerUpdateParams{
 				AllowedUpdates: []*string{
-					stripe.String("email"),
-					stripe.String("tax_id"),
+					stripe.String(string(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateEmail)),
+					stripe.String(string(stripe.BillingPortalConfigurationFeaturesCustomerUpdateAllowedUpdateTaxID)),
 				},
 				Enabled: stripe.Bool(true),
 			},
@@ -613,7 +615,7 @@ func TestBillingPortalConfigurationList(t *testing.T) {
 
 func TestTaxIDCreate(t *testing.T) {
 	params := &stripe.TaxIDParams{
-		Type:  stripe.String("eu_vat"),
+		Type:  stripe.String(string(stripe.TaxIDTypeEUVAT)),
 		Value: stripe.String("DE123456789"),
 	}
 	result, _ := taxid.New(params)
@@ -740,7 +742,7 @@ func TestPlanCreate(t *testing.T) {
 	params := &stripe.PlanParams{
 		Amount:   stripe.Int64(2000),
 		Currency: stripe.String(string(stripe.CurrencyUSD)),
-		Interval: stripe.String("month"),
+		Interval: stripe.String(string(stripe.PlanIntervalMonth)),
 		Product:  &stripe.PlanProductParams{ID: stripe.String("prod_xxxxxxxxxxxxx")},
 	}
 	result, _ := plan.New(params)
@@ -848,7 +850,7 @@ func TestUsageRecordSummaryList(t *testing.T) {
 
 func TestAccountCreate(t *testing.T) {
 	params := &stripe.AccountParams{
-		Type:    stripe.String("custom"),
+		Type:    stripe.String(string(stripe.AccountTypeCustom)),
 		Country: stripe.String("US"),
 		Email:   stripe.String("jenny.rosen@example.com"),
 		Capabilities: &stripe.AccountCapabilitiesParams{
@@ -1115,7 +1117,7 @@ func TestIssuingAuthorizationList(t *testing.T) {
 
 func TestIssuingCardholderCreate(t *testing.T) {
 	params := &stripe.IssuingCardholderParams{
-		Type:        stripe.String("individual"),
+		Type:        stripe.String(string(stripe.IssuingCardholderTypeIndividual)),
 		Name:        stripe.String("Jenny Rosen"),
 		Email:       stripe.String("jenny.rosen@example.com"),
 		PhoneNumber: stripe.String("+18888675309"),
@@ -1157,7 +1159,7 @@ func TestIssuingCardCreate(t *testing.T) {
 	params := &stripe.IssuingCardParams{
 		Cardholder: stripe.String("ich_xxxxxxxxxxxxx"),
 		Currency:   stripe.String(string(stripe.CurrencyUSD)),
-		Type:       stripe.String("virtual"),
+		Type:       stripe.String(string(stripe.IssuingCardTypeVirtual)),
 	}
 	result, _ := issuing_card.New(params)
 	assert.NotNil(t, result)
@@ -1187,7 +1189,7 @@ func TestIssuingDisputeCreate(t *testing.T) {
 	params := &stripe.IssuingDisputeParams{
 		Transaction: stripe.String("ipi_xxxxxxxxxxxxx"),
 		Evidence: &stripe.IssuingDisputeEvidenceParams{
-			Reason: stripe.String("fraudulent"),
+			Reason: stripe.String(string(stripe.IssuingDisputeEvidenceReasonFraudulent)),
 			Fraudulent: &stripe.IssuingDisputeEvidenceFraudulentParams{
 				Explanation: stripe.String("Purchase was unrecognized."),
 			},
@@ -1212,12 +1214,12 @@ func TestIssuingDisputeRetrieve(t *testing.T) {
 func TestIssuingDisputeUpdate(t *testing.T) {
 	params := &stripe.IssuingDisputeParams{
 		Evidence: &stripe.IssuingDisputeEvidenceParams{
-			Reason: stripe.String("not_received"),
+			Reason: stripe.String(string(stripe.IssuingDisputeEvidenceReasonNotReceived)),
 			NotReceived: &stripe.IssuingDisputeEvidenceNotReceivedParams{
 				ExpectedAt:         stripe.Int64(1590000000),
 				Explanation:        stripe.String(""),
 				ProductDescription: stripe.String("Baseball cap"),
-				ProductType:        stripe.String("merchandise"),
+				ProductType:        stripe.String(string(stripe.IssuingDisputeEvidenceNotReceivedProductTypeMerchandise)),
 			},
 		},
 	}
