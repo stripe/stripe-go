@@ -20,33 +20,6 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
-    //saves steps completed as a setup data metadata record to manage/presist states
-    @AuraEnabled
-    public static String saveData(Map<String, Object> setupData) {
-        responseData rd = new responseData();
-        try {
-             if (setupData != null) {
-                List<Setup_Configuration_Data__mdt> data = [SELECT Id, Steps_Completed__c, label FROM Setup_Configuration_Data__mdt WHERE label = 'Default' WITH SECURITY_ENFORCED];
-                if(!data.isEmpty()) {
-                    Setup_Configuration_Data__mdt setupConfigurationRecord = data[0];
-                    Setup_Configuration_Data__mdt dataObj = (Setup_Configuration_Data__mdt)utilities.getSobjectByMap(setupData, constants.NAMESPACE_API + 'Setup_Configuration_Data__mdt');
-                    if (!String.isEmpty(dataObj.Steps_Completed__c) && !String.isEmpty(setupConfigurationRecord.Steps_Completed__c)) {
-                        Map<String, Object> stepsCompleted = (Map<String, Object>)JSON.deserializeUntyped(setupConfigurationRecord.Steps_Completed__c);
-                        Map<String, Object> newStepsCompleted = (Map<String, Object>)JSON.deserializeUntyped(dataObj.Steps_Completed__c);
-                        newStepsCompleted.putAll(stepsCompleted);
-                        setupData.put('Steps_Completed__c',json.serialize(newStepsCompleted));
-                    }          
-                }
-                metadataCRUD.saveSetupConfigData(setupData, 'Setup_Configuration_Data.Default');
-            }
-            return getSetupData();
-        } catch (Exception e) {
-            rd.addError(e);
-        }
-
-        return rd.getJsonString();
-    }
-
     //gets steps completed from setup data to manage/presist states
     @AuraEnabled
     public static String getSetupData() {
@@ -56,13 +29,13 @@ public with sharing class setupAssistant {
                 'Id',
                 'Steps_Completed__c'
             };
-            String query = 'SELECT ' + String.join(new List<String>(fields), ',') + ' FROM ' + constants.NAMESPACE_API + 'Setup_Configuration_Data__mdt WHERE label = \'Default\' WITH SECURITY_ENFORCED';
-            List<Setup_Configuration_Data__mdt> data = Database.query(query);
-            Setup_Configuration_Data__mdt setupData = new Setup_Configuration_Data__mdt();
+            String query = 'SELECT ' + String.join(new List<String>(fields), ',') + ' FROM ' + constants.NAMESPACE_API + 'Setup_Data__c WHERE Name = \'Default\' WITH SECURITY_ENFORCED';
+            List<Setup_Data__c> data = Database.query(query);
+            Setup_Data__c setupData = new Setup_Data__c();
             if (!data.isEmpty()) {
                 setupData = data[0];
             }
-            setupData.label = 'Default';
+            setupData.Name = 'Default';
             if (String.isEmpty(setupData.Steps_Completed__c)) {
                 setupData.Steps_Completed__c = '{}';
             }
@@ -71,8 +44,43 @@ public with sharing class setupAssistant {
             rd.addError(e);
         }
         return rd.getJsonString();
-    }
+    } 
 
+    //saves steps completed as a setup data record to manage/presist states
+    @AuraEnabled
+    public static String saveData(Map<String, Object> newSetupDataRec) {
+        responseData rd = new responseData();
+        try {
+            if (newSetupDataRec != null) {
+                Setup_Data__c setupData = (Setup_Data__c)utilities.getSobjectByMap(newSetupDataRec, constants.NAMESPACE_API + 'Setup_Data__c');
+            
+                List<Setup_Data__c> data = [SELECT Id, Steps_Completed__c FROM Setup_Data__c WHERE Name = 'Default' WITH SECURITY_ENFORCED];
+
+                if (!data.isEmpty()) {
+                    // override id
+                    setupData.Id = data[0].Id;
+
+                    // merge completed steps
+                    if (!String.isEmpty(setupData.Steps_Completed__c) && !String.isEmpty(data[0].Steps_Completed__c)) {
+                        Map<String, Object> stepsCompleted = (Map<String, Object>)JSON.deserializeUntyped(data[0].Steps_Completed__c);
+                        Map<String, Object> newStepsCompleted = (Map<String, Object>)JSON.deserializeUntyped(setupData.Steps_Completed__c);
+                        newStepsCompleted.putAll(stepsCompleted);
+                        setupData.Steps_Completed__c = JSON.serialize(newStepsCompleted);
+                    }
+                }
+
+                // override name
+                setupData.Name = 'Default';
+
+                upsert setupData;
+            }
+            return getSetupData();
+        } catch (Exception e) {
+            rd.addError(e);
+        }
+
+        return rd.getJsonString();
+    }
 
     //validates connection status 
     @AuraEnabled
@@ -129,6 +137,7 @@ public with sharing class setupAssistant {
                 rd.put('isConnected',false);
                 //if there is no record we need to go get a new package level key 
                 List<Setup_Connection_Data__mdt> setupConfigList = utilities.getStripeConnectionKey(); 
+                if(Test.isRunningTest())setupConfigList = setupConfigMetadata;
                 Setup_Connection_Data__mdt setupData = setupConfigList[0];
 
                 // generate unique key for this organization used to authenticate against the integration service
@@ -220,9 +229,9 @@ public with sharing class setupAssistant {
                         if (fieldMappingsMap != null && !fieldMappingsMap.isEmpty()) { 
                             allMappingConfigurations.put('field_mappings', fieldMappingsMap);
                         }
-                        Map<String, Object> defaultMappingsMap = (Map<String,Object>)responseBody.get('default_mappings');
-                        if (defaultMappingsMap != null && !defaultMappingsMap.isEmpty()) { 
-                            allMappingConfigurations.put('default_mappings', defaultMappingsMap);
+                        Map<String, Object> defaultMappingMap = (Map<String,Object>)responseBody.get('default_mapping');
+                        if (defaultMappingMap != null && !defaultMappingMap.isEmpty()) { 
+                            allMappingConfigurations.put('default_mapping', defaultMappingMap);
                         }
 
                         Map<String, Object> requiredMappingsMap = (Map<String,Object>)responseBody.get('required_mappings');
@@ -298,4 +307,11 @@ public with sharing class setupAssistant {
         }
         return rd.getJsonString();
     }
+    //Creates a test metadata record in test context
+    @testVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata { 
+        get {
+            if (setupConfigMetadata == null)
+                setupConfigMetadata = utilities.getStripeConnectionKey(); 
+            return setupConfigMetadata;
+        } set; }
 }

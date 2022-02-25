@@ -219,12 +219,16 @@ export default class fieldPicker extends LightningElement {
             if(selectedOption.object) {
                 this.currentObject = selectedOption.object;
             }
+            this.searchTerm = '';
+            this.template.querySelector('.sp-scrollable-list').scrollTop = 0;
+
             let evt = new CustomEvent("objectchange", {
                 detail: {
                     object: selectedOption.object.toString()
                 }
             });
             this.dispatchEvent(evt);
+            this._dropdownLoading = true;
         }
     }
 
@@ -333,6 +337,7 @@ export default class fieldPicker extends LightningElement {
             }
         });
         this.dispatchEvent(evt);
+        this._dropdownLoading = true;
         this.toggleMenu();
     }
 
@@ -494,7 +499,7 @@ export default class fieldPicker extends LightningElement {
 
     get picklistClassList() {
         return (
-            "slds-picklist slds-dropdown-trigger slds-dropdown-trigger_click" +
+            "slds-picklist slds-dropdown-trigger slds-dropdown-trigger_click slds-is-relative" +
             (this.showMenu ? " slds-is-open" : "") +
             (this.disabled
                 ? " sp-disabled"
@@ -590,6 +595,13 @@ export default class fieldPicker extends LightningElement {
     selectionList = []; // Selection List being constructed; cleared when input not in use
     @track currentObject = ''; // Current object context of field picker; updates as picker traverses objects
     maxSelectionDepth = 4; // Maximum number of lookup fields that can be used in a single selection; used to disable lookup field options to prevent overly complex selections
+    @api  // Tracks whether field picker is waiting for a list of options while the dropdown is open
+    get dropdownLoading() {
+        return this._dropdownLoading;
+    }
+    set dropdownLoading(value) {
+        this._dropdownLoading = value;
+    }
 
     @api 
     get rootObject() {
@@ -620,6 +632,8 @@ export default class fieldPicker extends LightningElement {
             }
         });
         this.dispatchEvent(evt);
+        this._dropdownLoading = true;
+        this.currentObject = previousObject;
         this.display = this.generateDisplay(this.selectionList);
     }
 
@@ -633,6 +647,7 @@ export default class fieldPicker extends LightningElement {
             }
         });
         this.dispatchEvent(evt);
+        this._dropdownLoading = true;
     }
 
     clearValue(event) {
@@ -647,6 +662,7 @@ export default class fieldPicker extends LightningElement {
             }
         });
         this.dispatchEvent(evt);
+        this._dropdownLoading = true;
         this.toggleMenu();
     }
 
@@ -679,7 +695,7 @@ export default class fieldPicker extends LightningElement {
                 valueArray.forEach((item) => {
                     if (item.type == 'reference') {
                         // If lookup, use Object formatting and expect another value 
-                        displayString += `[${item.object}] > `;
+                        displayString += `[${item.relationshipName}] > `;
                     } else {
                         // Else, use Field formatting for non-lookup field
                         displayString += `${item.value}`;
@@ -712,19 +728,7 @@ export default class fieldPicker extends LightningElement {
         let hashString = '';
         if(selectionList.length) {
             selectionList.forEach((selectionItem, index) => {
-                if (selectionItem.type == 'reference') {
-                    // If type: reference, dealing with a lookup selection; get the object name
-                    if(selectionItem.isObjectCustom === true) {
-                        // Format Custom Object names
-                        selectionItem.object = selectionItem.object.replace('__c','__r');
-                    }
-                    hashString += `${selectionItem.object}`;
-                } else {
-                    // If not a type: reference, get the field name
-                    hashString += `${selectionItem.value}`;
-                }
-                // If not the last item, separate with '.'
-                if(index < (selectionList.length - 1)) {
+                if(selectionItem.type !== 'reference' && index < (selectionList.length - 1)) {
                     hashString += '.';
                 }
             });
@@ -746,5 +750,9 @@ export default class fieldPicker extends LightningElement {
 
     get currentObjectIcon() {
         return (this.currentObject ? `standard:${this.currentObject.toLowerCase()}` : '');
+    }
+
+    get enablePopover() {
+        return (this.hash && !this.showMenu);
     }
 }

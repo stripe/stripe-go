@@ -127,3 +127,18 @@
     top: 50%;
     margin-top: -0.375rem;
 }
+
+.slds-picklist .slds-popover {
+    display: none; 
+    bottom: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.slds-picklist:hover .slds-popover {
+    display: block;
+}
+
+.sfp-spinner-container {
+    height: 100px;
+}

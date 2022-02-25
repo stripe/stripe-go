@@ -253,7 +253,6 @@ public with sharing class tst_restService {
                             System.assertEquals((String)OrderItems[0], (String)orderItem.id);
                             System.assertEquals((String)ContractOrders[0], (String)order2.id);
                         } else {
-                            System.debug(json.serialize(recordMap));
                             System.assertEquals((String)recordMap.get('Id'), (String)order2.id);
                             System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
                             System.assertEquals((String)recordMap.get('BillToContactId'), (String)contact.id);

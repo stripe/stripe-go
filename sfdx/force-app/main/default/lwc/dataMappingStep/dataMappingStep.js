@@ -1,8 +1,10 @@
 import { LightningElement, api, track } from 'lwc';
+import { loadScript } from 'lightning/platformResourceLoader'
 import getPicklistValuesForMapper from '@salesforce/apex/setupAssistant.getPicklistValuesForMapper';
 import getMappingConfigurations from '@salesforce/apex/setupAssistant.getMappingConfigurations';
 import saveMappingConfigurations from '@salesforce/apex/setupAssistant.saveMappingConfigurations';
 import saveData from '@salesforce/apex/setupAssistant.saveData';
+import showdownJs from '@salesforce/resourceUrl/showdownJS';
 
 export default class DataMappingStep extends LightningElement {
     @track activeObject = '';
@@ -39,6 +41,7 @@ export default class DataMappingStep extends LightningElement {
     @track fieldListByObjectMap;
     @track allMappingConfigurations
     @track isConnected = false;
+    markdownConverter;  // Stores instance of Showdown Markdown converter; set on connectedCallback 
 
     @track allMappingList = {
         field_defaults: {
@@ -192,25 +195,37 @@ export default class DataMappingStep extends LightningElement {
         }
     }
 
-    updateFieldList(event) {
+    updateFieldList(event) { 
         this.sfFieldOptions = [];
         let selectedObject = event.detail.object;
+        this.targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
+        this.targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
+        this.stripeObjectField = this.activeObjectFields[this.targetSectionIndex].fields[this.targetFieldIndex];
+        let targetInput = event.currentTarget;
         if(this.fieldListByObjectMap[selectedObject]) {
             this.sfFieldOptions = this.fieldListByObjectMap[selectedObject];
             this.filterSfOptionsByStripeFieldType();
+            // Push updating the child loading attribute to the next render cycle 
+            setTimeout(() => {
+                targetInput.dropdownLoading = false;
+            }, 1);
         } else {
-            this.getPicklistValuesForMapper(false, selectedObject, false);
+            this.getPicklistValuesForMapper(false, selectedObject, false, targetInput);
         }
     }
 
     updateMetadataFieldList(event) {
         this.sfFieldOptions = [];
         let selectedObject = event.detail.object;
+        let targetInput = event.currentTarget;
         if(this.fieldListByObjectMap[selectedObject]) {
             this.sfFieldOptions = this.fieldListByObjectMap[selectedObject];
-            this.unfilterListForMetadataPicklist();
+            // Push updating the child loading attribute to the next render cycle 
+            setTimeout(() => {
+                targetInput.dropdownLoading = false;
+            }, 1);
         } else {
-            this.getPicklistValuesForMapper(false, selectedObject, true);
+            this.getPicklistValuesForMapper(false, selectedObject, true, targetInput);
         }
     }
 
@@ -316,47 +331,17 @@ export default class DataMappingStep extends LightningElement {
         this.filterSfOptionsByStripeFieldType()
     }
 
-    unfilterListForMetadataPicklist() {
-        //has to be a copy to force a rerender
-        let modifiedFieldOptions = JSON.parse(JSON.stringify(this.sfFieldOptions))
-        modifiedFieldOptions.forEach(function(fieldOptions) {
-            fieldOptions['disabled'] = false;
-        })
-        this.sfFieldOptions = modifiedFieldOptions;
-    }
     filterSfOptionsByStripeFieldType() {
         var fieldType = this.stripeObjectField.type.toLowerCase()
         //has to be a copy to force a rerender
         let modifiedFieldOptions = JSON.parse(JSON.stringify(this.sfFieldOptions))
         if(fieldType === 'integer' || fieldType === 'decimal' || fieldType === 'number') {
-            modifiedFieldOptions.forEach(function(fieldOptions) {
-                if(fieldOptions.type !== 'double' && fieldOptions.type !== 'reference')
-                fieldOptions['disabled'] = true;
-            })
-            this.sfFieldOptions = modifiedFieldOptions;
+            this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'double' ||fieldOptions.type === 'reference') 
         } else if (fieldType === 'timestamp') {
-            modifiedFieldOptions.forEach(function(fieldOptions) {
-                if(!fieldOptions.type.includes('date') && fieldOptions.type !== 'reference')
-                fieldOptions['disabled'] = true;
-            })
-            this.sfFieldOptions = modifiedFieldOptions;
+            this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type.includes('date') || fieldOptions.type === 'reference' ) 
         } else if (fieldType === 'boolean') {
-            modifiedFieldOptions.forEach(function(fieldOptions) {
-                if(fieldOptions.type !== 'boolean' && fieldOptions.type !== 'reference')
-                fieldOptions['disabled'] = true;
-            })
-            this.sfFieldOptions = modifiedFieldOptions;
-        } else if (fieldType === 'string') {
-            modifiedFieldOptions.forEach(function(fieldOptions) {
-                fieldOptions['disabled'] = false;
-            })
-            this.sfFieldOptions = modifiedFieldOptions;
-        } else {
-            modifiedFieldOptions.forEach(function(fieldOptions) {
-                fieldOptions['disabled'] = false;
-            })
-            this.sfFieldOptions = modifiedFieldOptions;
-        }
+            this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'boolean' || fieldOptions.type === 'reference' ) 
+        } 
     }
 
     updateMetaPicklist(event) {
@@ -414,7 +399,12 @@ export default class DataMappingStep extends LightningElement {
                     return a.label.localeCompare(b.label);
             });
             this.sfFieldOptions = this.fieldListByObjectMap.Order
-            if(this.fieldListByObjectMap)this.setFieldMappings('subscription_schedule', this.stripeSubscriptionMappings, this.subscriptionMetadataFields.metadataMapping.fields);
+            if(this.fieldListByObjectMap) {
+                //Arnold delete this when mike fixed nomenclature in ruby service
+                this.setFieldMappings('subscription', this.stripeSubscriptionMappings, this.subscriptionMetadataFields.metadataMapping.fields);
+                this.setFieldMappings('subscription_schedule', this.stripeSubscriptionMappings, this.subscriptionMetadataFields.metadataMapping.fields);
+                 
+            }
          } else if(this.activeObject === 'subscription-item' && this.fieldListByObjectMap) {
             this.defaultSfObject = 'Order Item';
             this.fieldListByObjectMap.OrderItem.sort(function(a, b) {
@@ -443,7 +433,7 @@ export default class DataMappingStep extends LightningElement {
                 this.stripeProductMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['product']['properties']);
                 this.stripeSubscriptionMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['subscription']['properties']);
                 this.stripeSubscriptionItemMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['subscription_item']['properties']);
-                this.stripePriceMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['price']['påroperties']);
+                this.stripePriceMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['price']['properties']);
                 this.getPicklistValuesForMapper(true, '', false);
             } catch (error) {
                 this.showToast(this.error, 'error');
@@ -452,6 +442,10 @@ export default class DataMappingStep extends LightningElement {
                 this.activeObject = 'customer';
             }
         })();
+        loadScript(this, showdownJs + '/showdown-1.9.1/dist/showdown.js').then(()=> {
+            this.markdownConverter = new showdown.Converter();
+        });
+
     }
 
     formatStripeObjectsForMapper(objectJsonConfigMap) {
@@ -479,7 +473,7 @@ export default class DataMappingStep extends LightningElement {
                         sfValue: '',
                         sfValueType: ''
                     };
-                    if(objectJsonConfigMap[field]['description'])fieldMap['description'] = objectJsonConfigMap[field]['description']
+                    if(objectJsonConfigMap[field]['description'])fieldMap['description'] = this.markdownConverter.makeHtml(objectJsonConfigMap[field]['description']);
                     fieldMap['type'] = objectJsonConfigMap[field]['type']    
                     stripeObjectMappings[0].fields.push(fieldMap)
                     stripeObjectMappings[0].fields.sort(function(a, b) {
@@ -514,7 +508,7 @@ export default class DataMappingStep extends LightningElement {
                             sfValue: '',
                             sfValueType: ''
                         };
-                        if(expandableSchemaFieldMap[expandableField]['description'])fieldExpandableMap['description'] = expandableSchemaFieldMap[expandableField]['description']
+                        if(expandableSchemaFieldMap[expandableField]['description'])fieldExpandableMap['description'] = this.markdownConverter.makeHtml(expandableSchemaFieldMap[expandableField]['description']);
                         fieldExpandableMap['type'] = expandableSchemaFieldMap[expandableField]['type'] 
                         if(expandableSchemaFieldMap[expandableField]['properties']) {  
                             stripeObjectMappings = this.checkForNestedProperties(expandableField,expandableSchemaFieldMap,stripeObjectMappings);
@@ -573,7 +567,7 @@ export default class DataMappingStep extends LightningElement {
                         };
 
 
-                        fieldExpandableMap['description'] = nestedExpandableFieldMap[expandableField]['description']
+                        fieldExpandableMap['description'] = this.markdownConverter.makeHtml(nestedExpandableFieldMap[expandableField]['description']);
                         fieldExpandableMap['type'] = nestedExpandableFieldMap[expandableField]['type']  
                         
                         stripeObjectMappings[stripeObjectMappings.length-1].fields.sort(function(a, b) {
@@ -601,11 +595,8 @@ export default class DataMappingStep extends LightningElement {
         
         return stripeObjectMappings; 
     }
-
-   
     
-    
-    @api async getPicklistValuesForMapper(isConnectedCallback, ObjectName, isMetadataRow) {
+    @api async getPicklistValuesForMapper(isConnectedCallback, ObjectName, isMetadataRow, targetElement) {
         this.loading = true;
         try {
             const getPicklistValues = await getPicklistValuesForMapper({ 
@@ -630,7 +621,7 @@ export default class DataMappingStep extends LightningElement {
                         this.sfFieldOptions.sort(function(a, b) {
                             return a.label.localeCompare(b.label);
                         });
-                        isMetadataRow ? this.unfilterListForMetadataPicklist() : this.filterSfOptionsByStripeFieldType();
+                        if(!isMetadataRow)this.filterSfOptionsByStripeFieldType();
                     }
                 }
             } else {
@@ -650,14 +641,17 @@ export default class DataMappingStep extends LightningElement {
         } catch (error) {
             this.showToast(error, 'error');
         } finally {
-            this.loading = false;
+            if(targetElement) targetElement.dropdownLoading = false;
         }
     }
     
     setFieldMappings(stripeObject, stripeObjectMap, metadataFieldList) {
         for(let i = 0; i < stripeObjectMap.length; i++) {
             for(let j = 0; j < stripeObjectMap[i].fields.length; j++) {
-                if(this.allMappingConfigurations.default_mapping && this.allMappingConfigurations.default_mapping[stripeObject].length !== 0) {
+                if(this.allMappingConfigurations.default_mapping && 
+                   this.allMappingConfigurations.default_mapping[stripeObject] && 
+                   this.allMappingConfigurations.default_mapping[stripeObject].length !== 0) {
+
                     for(const value in this.allMappingConfigurations.default_mapping[stripeObject]) {
                         if(stripeObjectMap[i].fields[j].value === value && this.allMappingConfigurations.default_mapping[stripeObject][value]) {
                             stripeObjectMap[i].fields[j].sfValue = '';
@@ -673,8 +667,12 @@ export default class DataMappingStep extends LightningElement {
                         if(stripeObjectMap[i].fields[j].value === value) {
                             stripeObjectMap[i].fields[j].staticValue = true
                             stripeObjectMap[i].fields[j].sfValue = this.allMappingConfigurations.field_defaults[stripeObject][value];
-                            if(stripeObjectMap[i].fields[j].sfValue)stripeObjectMap[i].fields[j].hasSfValue = true
-                            if(stripeObjectMap[i].fields[j].defaultValue)stripeObjectMap[i].fields[j].hasOverride = true
+                            if(stripeObjectMap[i].fields[j].sfValue) {
+                                stripeObjectMap[i].fields[j].hasSfValue = true
+                            }
+                            if(stripeObjectMap[i].fields[j].defaultValue) {
+                                stripeObjectMap[i].fields[j].hasOverride = true
+                            }
                         } else if (value.startsWith('metadata.')) {
                             let realfieldMapValue = value.replace('metadata.','')
                             let metadataFieldObj = {
@@ -751,7 +749,7 @@ export default class DataMappingStep extends LightningElement {
             }
 
             const saveSetupData = await saveData({
-                setupData: {
+                newSetupDataRec: {
                     Steps_Completed__c: JSON.stringify({
                         'C-DATA-MAPPING-STEP': 2
                     })

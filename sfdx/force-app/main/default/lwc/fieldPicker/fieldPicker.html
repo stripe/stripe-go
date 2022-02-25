@@ -7,6 +7,13 @@
             <label class="slds-form-element__label">{label}</label>
         </template>
         <div class={picklistClassList} aria-expanded="true" onkeyup={handleKeyupOnPicklist} onkeydown={handleKeydownOnPicklist}>
+            <!-- Value Tooltip -->
+            <template if:true={enablePopover}>
+                <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom slds-is-absolute" role="tooltip">
+                    <div class="slds-popover__body">{display}</div>
+                </div>
+            </template>
+            <!-- /Value Tooltip -->
             <div class="slds-form-element__control" onblur={blur}>
                 <div class="slds-button slds-button_neutral slds-input slds-picklist__input slds-text-color_default slds-picklist__label sp-menu-button" aria-haspopup="true" tabindex="0" onblur={blur} onfocus={focus} onclick={click}>
                     <span class={valueLabelClassList} title={valueLabel}>
@@ -62,32 +69,39 @@
                         <div class="slds-form-element slds-m-vertical_x-small slds-m-horizontal_small">
                             <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
                                 <lightning-icon class="slds-input__icon slds-icon-text-default" icon-name="utility:search" size="x-small"></lightning-icon>
-                                <input class="slds-input sp-input" type="text" onfocus={clearBlurTimeout} onblur={blur} onkeyup={handleKeyupOnInput} onkeydown={handleKeydownOnInput}>
+                                <input class="slds-input sp-input" type="text" onfocus={clearBlurTimeout} onblur={blur} onkeyup={handleKeyupOnInput} onkeydown={handleKeydownOnInput} value={searchTerm}>
                             </div>
                         </div>
                     </div>
                     <div class="sp-scrollable-list slds-is-relative" style={dropdownMenuStyles} onscroll={preventDefaultStopProp}>
+                        <!-- List Loading State -->
+                        <div if:true={dropdownLoading} class="sfp-spinner-container slds-is-relative">
+                            <lightning-spinner size="small" alternative-text="Loading Options..."></lightning-spinner>
+                        </div>
+                        <!-- /List Loading State -->
                         <ul role="menu">
-                            <template if:false={hasResults}>
-                                <li role="presentation">
-                                    <div class="sp-no-results slds-lookup__result-text">
-                                        No results found
-                                    </div>
-                                </li>
-                            </template>
-                            <template for:each={filteredOptions} for:item="option">
-                                <template if:true={option.isOptGroup}>
-                                    <li key={option.label} role="presentation" class="slds-listbox__item">
-                                        <div  role="presentation" class="slds-media slds-listbox__option slds-listbox__option_plain">
-                                            <h3 class="slds-listbox__option-header slds-truncate" role="presentation" title={option.label}>{option.label}</h3>
+                            <template if:false={dropdownLoading}>
+                                <template if:false={hasResults}>
+                                    <li role="presentation">
+                                        <div class="sp-no-results slds-lookup__result-text">
+                                            No results found
                                         </div>
                                     </li>
-                                    <template for:each={option.options} for:item="groupOption">
-                                        <c-field-picker-option key={groupOption.value} option={groupOption} onselect={select} onupdatefocusindex={updateFocusIndex}></c-field-picker-option>
-                                    </template>
                                 </template>
-                                <template if:false={option.isOptGroup}>
-                                    <c-field-picker-option key={option.value} option={option} onselect={select} onupdatefocusindex={updateFocusIndex}></c-field-picker-option>
+                                <template for:each={filteredOptions} for:item="option">
+                                    <template if:true={option.isOptGroup}>
+                                        <li key={option.label} role="presentation" class="slds-listbox__item">
+                                            <div  role="presentation" class="slds-media slds-listbox__option slds-listbox__option_plain">
+                                                <h3 class="slds-listbox__option-header slds-truncate" role="presentation" title={option.label}>{option.label}</h3>
+                                            </div>
+                                        </li>
+                                        <template for:each={option.options} for:item="groupOption">
+                                            <c-field-picker-option key={groupOption.value} option={groupOption} onselect={select} onupdatefocusindex={updateFocusIndex}></c-field-picker-option>
+                                        </template>
+                                    </template>
+                                    <template if:false={option.isOptGroup}>
+                                        <c-field-picker-option key={option.value} option={option} onselect={select} onupdatefocusindex={updateFocusIndex}></c-field-picker-option>
+                                    </template>
                                 </template>
                             </template>
                         </ul>

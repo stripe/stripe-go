@@ -65,6 +65,10 @@ public with sharing class utilities {
                             //make sure the field only looks up to 1 object before adding it to map 
                             if(objectsFieldReferences.size() == 1) {
                                 String stringReferncedObjecect = string.valueOf(referencedObject);
+
+                                //gets relationship Nam
+                                String relationshipName = objectApiFieldMap.get(objectFieldName).getDescribe().getRelationshipName();
+
                                 //use this list to target lookup fields based on the object the look up to 
                                 List<String> listOfImportantObjectsApiNames = new List<String> {
                                     'Product2', 
@@ -90,6 +94,7 @@ public with sharing class utilities {
                                     objectFieldMap.put('isObjectCustom',isObjectCustom);
                                     objectFieldMap.put('type',typeOfField);
                                     objectFieldMap.put('object',stringReferncedObjecect);
+                                    objectFieldMap.put('relationshipName',relationshipName);
                                 } 
                             } else {
                                 //in this case we now the field looks up to more than one object and we will not support traversals 
@@ -171,24 +176,24 @@ public with sharing class utilities {
     }
  
     public static HttpResponse makeCallout(String endPoint, String method, String body, Map<String, String> headers){
-        Http h = new Http();
-        HttpRequest req = new HttpRequest();
+        Http httpMethod = new Http();
+        HttpRequest request = new HttpRequest();
  
-        req.setEndpoint(endPoint);
-        req.setMethod(method);
-        req.setTimeout(60000);
+        request.setEndpoint(endPoint);
+        request.setMethod(method);
+        request.setTimeout(60000);
  
         if(body != null) {
             //these headers are required for the API to respond properly 
-            req.setHeader('Content-Type', 'application/json');
-            req.setHeader('Accept', 'application/json');
-            req.setBody(body);
+            request.setHeader('Content-Type', 'application/json');
+            request.setHeader('Accept', 'application/json');
+            request.setBody(body);
         }
  
         if(headers != null) {
             //add headers to request if they exist
             for(String header : headers.keySet()) {
-                req.setHeader(header, headers.get(header));
+                request.setHeader(header, headers.get(header));
             }
         } else {
             /* these standard headers will be add to the request if none are provided
@@ -204,21 +209,21 @@ public with sharing class utilities {
 
             if(!setupConfigList.isEmpty() && stripeConnectRec.Id != null) {
                 Setup_Connection_Data__mdt setupData = setupConfigList[0];
-                req.setHeader('Salesforce-Account-Id', (String)constants.ORG_ID);
-                req.setHeader('Salesforce-Key', (String)setupData.Global_Key__c);
+                request.setHeader('Salesforce-Account-Id', (String)constants.ORG_ID);
+                request.setHeader('Salesforce-Key', (String)setupData.Global_Key__c);
+                request.setHeader('key' , (String)stripeConnectRec.API_Key__c);
                 if(!String.isEmpty(constants.NAMESPACE_API)) {
-                    String packageID = setupAssistant.getPackageVersion();
-                    req.setHeader('Package-Id', (String)stripeConnectRec.API_Key__c);
+                    request.setHeader('Package-Id', (String)setupAssistant.getPackageVersion());
                 }
             } else {
                 throw new SetupIsNotCompleteException('Setup is not complete, contact your Salesforce administrator for further assistance.');
             }
         }
- 
-        HttpResponse res = h.send(req);
- 
-        return res;
+        HttpResponse response = httpMethod.send(request);
+        return response;
     }
+
+    //Creates a test metadata record in test context
     @testVisible static List<Setup_Connection_Data__mdt> setupConfigMetadata { 
         get {
             if (setupConfigMetadata == null)

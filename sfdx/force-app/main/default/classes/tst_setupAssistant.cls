@@ -143,9 +143,39 @@ public with sharing class tst_setupAssistant {
         Test.stopTest();
 
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
-        System.assertEquals((Boolean)responseMap.get('isSuccess'), true);
+        System.assert((Boolean)responseMap.get('isSuccess'));
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
         System.assertEquals(false, resultsMap.get('isConnected'));
+    }
+
+    @isTest
+    static public void testSetupAssistant_Disconnected() {
+        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
+        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
+        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
+        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
+        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
+        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
+        
+        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
+                                                            FROM Setup_Connection_Data__mdt];  
+        if(!setupConfigList.isEmpty()) {
+            setupAssistant.setupConfigMetadata[0] = testSetupData;
+        } else {
+            setupAssistant.setupConfigMetadata.add(testSetupData);  
+        }
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
+        String connectedCallbackResponse = setupAssistant.validateConnectionStatus(true);
+        String response = setupAssistant.validateConnectionStatus(false);
+        Test.stopTest();
+        
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        Map<String, Object> connectedCallbackResponseMap = (Map<String, Object>)JSON.deserializeUntyped(connectedCallbackResponse);
+        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+        Map<String, Object> connectecCallbackResultsMap = (Map<String, Object>)connectedCallbackResponseMap.get('results');
+
     }
 
     @isTest
@@ -328,7 +358,7 @@ public with sharing class tst_setupAssistant {
 
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
         Map<String, Object> allMappingConfigurations = (Map<String, Object>)resultsMap.get('allMappingConfigurations');
-        Map<String, Object> default_mappings = (Map<String, Object>)allMappingConfigurations.get('default_mappings');
+        Map<String, Object> default_mappings = (Map<String, Object>)allMappingConfigurations.get('default_mapping');
         Map<String, Object> field_defaults = (Map<String, Object>)allMappingConfigurations.get('field_defaults');
         Map<String, Object> field_mappings = (Map<String, Object>)allMappingConfigurations.get('field_mappings');
         Map<String, Object> required_mappings = (Map<String, Object>)allMappingConfigurations.get('required_mappings');
@@ -404,15 +434,10 @@ public with sharing class tst_setupAssistant {
 
         System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
 
-        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
-
-        System.debug(resultsMap);
-        //System.assertNotEquals(allMappingConfigurations, null);
     }
 
     private class stripeConnectionSuccessMock implements HttpCalloutMock {
         public HttpResponse respond(HttpRequest req) {
-            system.debug(req.getEndpoint());
             HttpResponse res = new HttpResponse();
             if(req.getEndpoint().endsWith('configuration')) {
                 Map<String,Object> responseObject = new Map<String,Object>();
@@ -431,7 +456,6 @@ public with sharing class tst_setupAssistant {
 
     private class stripeRetrySuccessMock implements HttpCalloutMock {
         public HttpResponse respond(HttpRequest req) {
-            system.debug(req.getEndpoint());
             HttpResponse res = new HttpResponse();
             if(req.getEndpoint().endsWith('translate')) {
                 Map<String,Object> responseObject = new Map<String,Object>();
@@ -449,7 +473,6 @@ public with sharing class tst_setupAssistant {
 
         private class stripeMappingSuccessMock implements HttpCalloutMock {
             public HttpResponse respond(HttpRequest req) {
-                system.debug(req.getEndpoint());
                 HttpResponse res = new HttpResponse();
                 if (req.getEndpoint().endsWith('configuration')) {
                     Map<String,Object> fieldMap = new Map<String,Object>();
@@ -460,7 +483,7 @@ public with sharing class tst_setupAssistant {
                     Map<String,Object> defaultMap = new Map<String,Object>();
                     Map<String,Object> testdefaultMap = new Map<String,Object>();
                     testdefaultMap.put('testDefaultMap', 'test');
-                    defaultMap.put('default_mappings',(Object)testdefaultMap);
+                    defaultMap.put('default_mapping',(Object)testdefaultMap);
 
                     Map<String,Object> requiredMapping = new Map<String,Object>();
                     Map<String,Object> testRequiredMapping = new Map<String,Object>();
@@ -474,7 +497,7 @@ public with sharing class tst_setupAssistant {
         
                     Map<String,Object> responseBody = new Map<String,Object>();
                     responseBody.put('field_mappings', (Object)fieldMap);
-                    responseBody.put('default_mappings', (Object)defaultMap);
+                    responseBody.put('default_mapping', (Object)defaultMap);
                     responseBody.put('required_mappings', (Object)requiredMapping);
                     responseBody.put('field_defaults', (Object)fieldDefaultMap);
         

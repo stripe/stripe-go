@@ -96,7 +96,7 @@ export default class OutboundStep extends LightningElement {
             event.stopPropagation();
             try {
                 const saveSetupData = await saveData({
-                    setupData: {
+                    newSetupDataRec: {
                         Steps_Completed__c: JSON.stringify({
                             'C-OUTBOUND-STEP': 1
                         })
