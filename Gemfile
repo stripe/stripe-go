@@ -30,7 +30,7 @@ gem 'resque-heroku-signals', '~> 2.2.0'
 gem 'redis', '~> 4.5.0'
 
 # database
-gem 'pg', '~> 1.2.3'
+gem 'pg', '~> 1.3.3'
 gem 'sequel', '5.52.0'
 
 # auth
