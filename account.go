@@ -60,6 +60,16 @@ const (
 	AccountCapabilityStatusPending  AccountCapabilityStatus = "pending"
 )
 
+// The status of the konbini payments capability of the account, or whether the account can directly process konbini charges.
+type AccountCapabilitiesKonbiniPayments string
+
+// List of values that AccountCapabilitiesKonbiniPayments can take
+const (
+	AccountCapabilitiesKonbiniPaymentsActive   AccountCapabilitiesKonbiniPayments = "active"
+	AccountCapabilitiesKonbiniPaymentsInactive AccountCapabilitiesKonbiniPayments = "inactive"
+	AccountCapabilitiesKonbiniPaymentsPending  AccountCapabilitiesKonbiniPayments = "pending"
+)
+
 // The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 type AccountCompanyStructure string
 
@@ -329,6 +339,12 @@ type AccountCapabilitiesKlarnaPaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The konbini_payments capability.
+type AccountCapabilitiesKonbiniPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The legacy_payments capability.
 type AccountCapabilitiesLegacyPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -411,6 +427,8 @@ type AccountCapabilitiesParams struct {
 	JCBPayments *AccountCapabilitiesJCBPaymentsParams `form:"jcb_payments"`
 	// The klarna_payments capability.
 	KlarnaPayments *AccountCapabilitiesKlarnaPaymentsParams `form:"klarna_payments"`
+	// The konbini_payments capability.
+	KonbiniPayments *AccountCapabilitiesKonbiniPaymentsParams `form:"konbini_payments"`
 	// The legacy_payments capability.
 	LegacyPayments *AccountCapabilitiesLegacyPaymentsParams `form:"legacy_payments"`
 	// The oxxo_payments capability.
@@ -781,6 +799,8 @@ type AccountCapabilities struct {
 	JCBPayments AccountCapabilityStatus `json:"jcb_payments"`
 	// The status of the Klarna payments capability of the account, or whether the account can directly process Klarna charges.
 	KlarnaPayments AccountCapabilityStatus `json:"klarna_payments"`
+	// The status of the konbini payments capability of the account, or whether the account can directly process konbini charges.
+	KonbiniPayments AccountCapabilitiesKonbiniPayments `json:"konbini_payments"`
 	// The status of the legacy payments capability of the account.
 	LegacyPayments AccountCapabilityStatus `json:"legacy_payments"`
 	// The status of the OXXO payments capability of the account, or whether the account can directly process OXXO charges.

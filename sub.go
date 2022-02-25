@@ -84,6 +84,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeGiropay            SubscriptionPaymentSettingsPaymentMethodType = "giropay"
 	SubscriptionPaymentSettingsPaymentMethodTypeGrabpay            SubscriptionPaymentSettingsPaymentMethodType = "grabpay"
 	SubscriptionPaymentSettingsPaymentMethodTypeIdeal              SubscriptionPaymentSettingsPaymentMethodType = "ideal"
+	SubscriptionPaymentSettingsPaymentMethodTypeKonbini            SubscriptionPaymentSettingsPaymentMethodType = "konbini"
 	SubscriptionPaymentSettingsPaymentMethodTypeSepaCreditTransfer SubscriptionPaymentSettingsPaymentMethodType = "sepa_credit_transfer"
 	SubscriptionPaymentSettingsPaymentMethodTypeSepaDebit          SubscriptionPaymentSettingsPaymentMethodType = "sepa_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeSofort             SubscriptionPaymentSettingsPaymentMethodType = "sofort"
@@ -255,6 +256,9 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 }
 
+// This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
+
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -263,6 +267,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
+	// This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
+	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
 }
 
 // Payment settings to pass to invoices created by the subscription.
@@ -459,6 +465,9 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCard struct {
 	RequestThreeDSecure SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
 
+// This sub-hash contains details about the Konbini payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsKonbini struct{}
+
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to invoices created by the subscription.
@@ -467,6 +476,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
 	// This sub-hash contains details about the Card payment method options to pass to invoices created by the subscription.
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCard `json:"card"`
+	// This sub-hash contains details about the Konbini payment method options to pass to invoices created by the subscription.
+	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
 }
 
 // Payment settings passed on to invoices created by the subscription.
