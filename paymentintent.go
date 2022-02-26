@@ -300,6 +300,18 @@ const (
 // Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
 //
 // When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsKonbiniSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsKonbiniSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsKonbiniSetupFutureUsageNone PaymentIntentPaymentMethodOptionsKonbiniSetupFutureUsage = "none"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+//
+// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 type PaymentIntentPaymentMethodOptionsOXXOSetupFutureUsage string
 
 // List of values that PaymentIntentPaymentMethodOptionsOXXOSetupFutureUsage can take
@@ -436,6 +448,9 @@ type PaymentIntentMandateDataParams struct {
 	CustomerAcceptance *PaymentIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
 }
 
+// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
+type PaymentIntentPaymentMethodDataKonbiniParams struct{}
+
 // If provided, this hash will be used to create a PaymentMethod. The new PaymentMethod will appear
 // in the [payment_method](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-payment_method)
 // property on the PaymentIntent.
@@ -471,6 +486,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
 	Klarna *PaymentMethodKlarnaParams `form:"klarna"`
+	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
+	Konbini *PaymentIntentPaymentMethodDataKonbiniParams `form:"konbini"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
@@ -727,6 +744,26 @@ type PaymentIntentPaymentMethodOptionsKlarnaParams struct {
 	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
+// If this is a `konbini` PaymentMethod, this sub-hash contains details about the Konbini payment method options.
+type PaymentIntentPaymentMethodOptionsKonbiniParams struct {
+	// An optional 10 to 11 digit numeric-only string determining the confirmation code at applicable convenience stores. Must not consist of only zeroes and could be rejected in case of insufficient uniqueness. We recommend to use the customer's phone number.
+	ConfirmationNumber *string `form:"confirmation_number"`
+	// The number of calendar days (between 1 and 60) after which Konbini payment instructions will expire. For example, if a PaymentIntent is confirmed with Konbini and `expires_after_days` set to 2 on Monday JST, the instructions will expire on Wednesday 23:59:59 JST. Defaults to 3 days.
+	ExpiresAfterDays *int64 `form:"expires_after_days"`
+	// The timestamp at which the Konbini payment instructions will expire. Only one of `expires_after_days` or `expires_at` may be set.
+	ExpiresAt *int64 `form:"expires_at"`
+	// A product descriptor of up to 22 characters, which will appear to customers at the convenience store.
+	ProductDescription *string `form:"product_description"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
+}
+
 // If this is a `oxxo` PaymentMethod, this sub-hash contains details about the OXXO payment method options.
 type PaymentIntentPaymentMethodOptionsOXXOParams struct {
 	// The number of calendar days before an OXXO voucher expires. For example, if you create an OXXO voucher on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
@@ -836,6 +873,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	InteracPresent *PaymentIntentPaymentMethodOptionsInteracPresentParams `form:"interac_present"`
 	// If this is a `klarna` PaymentMethod, this sub-hash contains details about the Klarna payment method options.
 	Klarna *PaymentIntentPaymentMethodOptionsKlarnaParams `form:"klarna"`
+	// If this is a `konbini` PaymentMethod, this sub-hash contains details about the Konbini payment method options.
+	Konbini *PaymentIntentPaymentMethodOptionsKonbiniParams `form:"konbini"`
 	// If this is a `oxxo` PaymentMethod, this sub-hash contains details about the OXXO payment method options.
 	OXXO *PaymentIntentPaymentMethodOptionsOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this sub-hash contains details about the Przelewy24 payment method options.
@@ -1078,6 +1117,55 @@ type PaymentIntentNextActionBoletoDisplayDetails struct {
 	// The URL to the downloadable boleto voucher PDF.
 	PDF string `json:"pdf"`
 }
+
+// FamilyMart instruction details.
+type PaymentIntentNextActionKonbiniDisplayDetailsStoresFamilyMart struct {
+	// The confirmation number.
+	ConfirmationNumber string `json:"confirmation_number"`
+	// The payment code.
+	PaymentCode string `json:"payment_code"`
+}
+
+// Lawson instruction details.
+type PaymentIntentNextActionKonbiniDisplayDetailsStoresLawson struct {
+	// The confirmation number.
+	ConfirmationNumber string `json:"confirmation_number"`
+	// The payment code.
+	PaymentCode string `json:"payment_code"`
+}
+
+// Ministop instruction details.
+type PaymentIntentNextActionKonbiniDisplayDetailsStoresMinistop struct {
+	// The confirmation number.
+	ConfirmationNumber string `json:"confirmation_number"`
+	// The payment code.
+	PaymentCode string `json:"payment_code"`
+}
+
+// Seicomart instruction details.
+type PaymentIntentNextActionKonbiniDisplayDetailsStoresSeicomart struct {
+	// The confirmation number.
+	ConfirmationNumber string `json:"confirmation_number"`
+	// The payment code.
+	PaymentCode string `json:"payment_code"`
+}
+type PaymentIntentNextActionKonbiniDisplayDetailsStores struct {
+	// FamilyMart instruction details.
+	FamilyMart *PaymentIntentNextActionKonbiniDisplayDetailsStoresFamilyMart `json:"familymart"`
+	// Lawson instruction details.
+	Lawson *PaymentIntentNextActionKonbiniDisplayDetailsStoresLawson `json:"lawson"`
+	// Ministop instruction details.
+	Ministop *PaymentIntentNextActionKonbiniDisplayDetailsStoresMinistop `json:"ministop"`
+	// Seicomart instruction details.
+	Seicomart *PaymentIntentNextActionKonbiniDisplayDetailsStoresSeicomart `json:"seicomart"`
+}
+type PaymentIntentNextActionKonbiniDisplayDetails struct {
+	// The timestamp at which the pending Konbini payment expires.
+	ExpiresAt int64 `json:"expires_at"`
+	// The URL for the Konbini payment instructions page, which allows customers to view and print a Konbini voucher.
+	HostedVoucherURL string                                              `json:"hosted_voucher_url"`
+	Stores           *PaymentIntentNextActionKonbiniDisplayDetailsStores `json:"stores"`
+}
 type PaymentIntentNextActionOXXODisplayDetails struct {
 	// The timestamp after which the OXXO voucher expires.
 	ExpiresAfter int64 `json:"expires_after"`
@@ -1134,10 +1222,11 @@ type PaymentIntentNextActionWechatPayRedirectToIOSApp struct {
 
 // If present, this property tells you what actions you need to take in order for your customer to fulfill a payment using the provided source.
 type PaymentIntentNextAction struct {
-	AlipayHandleRedirect *PaymentIntentNextActionAlipayHandleRedirect `json:"alipay_handle_redirect"`
-	BoletoDisplayDetails *PaymentIntentNextActionBoletoDisplayDetails `json:"boleto_display_details"`
-	OXXODisplayDetails   *PaymentIntentNextActionOXXODisplayDetails   `json:"oxxo_display_details"`
-	RedirectToURL        *PaymentIntentNextActionRedirectToURL        `json:"redirect_to_url"`
+	AlipayHandleRedirect  *PaymentIntentNextActionAlipayHandleRedirect  `json:"alipay_handle_redirect"`
+	BoletoDisplayDetails  *PaymentIntentNextActionBoletoDisplayDetails  `json:"boleto_display_details"`
+	KonbiniDisplayDetails *PaymentIntentNextActionKonbiniDisplayDetails `json:"konbini_display_details"`
+	OXXODisplayDetails    *PaymentIntentNextActionOXXODisplayDetails    `json:"oxxo_display_details"`
+	RedirectToURL         *PaymentIntentNextActionRedirectToURL         `json:"redirect_to_url"`
 	// Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 	Type PaymentIntentNextActionType `json:"type"`
 	// When confirming a PaymentIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
@@ -1323,6 +1412,22 @@ type PaymentIntentPaymentMethodOptionsKlarna struct {
 	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
 	SetupFutureUsage PaymentIntentPaymentMethodOptionsKlarnaSetupFutureUsage `json:"setup_future_usage"`
 }
+type PaymentIntentPaymentMethodOptionsKonbini struct {
+	// An optional 10 to 11 digit numeric-only string determining the confirmation code at applicable convenience stores.
+	ConfirmationNumber string `json:"confirmation_number"`
+	// The number of calendar days (between 1 and 60) after which Konbini payment instructions will expire. For example, if a PaymentIntent is confirmed with Konbini and `expires_after_days` set to 2 on Monday JST, the instructions will expire on Wednesday 23:59:59 JST.
+	ExpiresAfterDays int64 `json:"expires_after_days"`
+	// The timestamp at which the Konbini payment instructions will expire. Only one of `expires_after_days` or `expires_at` may be set.
+	ExpiresAt int64 `json:"expires_at"`
+	// A product descriptor of up to 22 characters, which will appear to customers at the convenience store.
+	ProductDescription string `json:"product_description"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsKonbiniSetupFutureUsage `json:"setup_future_usage"`
+}
 type PaymentIntentPaymentMethodOptionsOXXO struct {
 	// The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
@@ -1398,6 +1503,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Ideal            *PaymentIntentPaymentMethodOptionsIdeal            `json:"ideal"`
 	InteracPresent   *PaymentIntentPaymentMethodOptionsInteracPresent   `json:"interac_present"`
 	Klarna           *PaymentIntentPaymentMethodOptionsKlarna           `json:"klarna"`
+	Konbini          *PaymentIntentPaymentMethodOptionsKonbini          `json:"konbini"`
 	OXXO             *PaymentIntentPaymentMethodOptionsOXXO             `json:"oxxo"`
 	P24              *PaymentIntentPaymentMethodOptionsP24              `json:"p24"`
 	SepaDebit        *PaymentIntentPaymentMethodOptionsSepaDebit        `json:"sepa_debit"`

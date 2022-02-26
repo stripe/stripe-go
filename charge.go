@@ -85,6 +85,17 @@ const (
 	ChargePaymentMethodDetailsKlarnaPaymentMethodCategoryPayInInstallments ChargePaymentMethodDetailsKlarnaPaymentMethodCategory = "pay_in_installments"
 )
 
+// The name of the convenience store chain where the payment was completed.
+type ChargePaymentMethodDetailsKonbiniStoreChain string
+
+// List of values that ChargePaymentMethodDetailsKonbiniStoreChain can take
+const (
+	ChargePaymentMethodDetailsKonbiniStoreChainFamilyMart ChargePaymentMethodDetailsKonbiniStoreChain = "familymart"
+	ChargePaymentMethodDetailsKonbiniStoreChainLawson     ChargePaymentMethodDetailsKonbiniStoreChain = "lawson"
+	ChargePaymentMethodDetailsKonbiniStoreChainMinistop   ChargePaymentMethodDetailsKonbiniStoreChain = "ministop"
+	ChargePaymentMethodDetailsKonbiniStoreChainSeicomart  ChargePaymentMethodDetailsKonbiniStoreChain = "seicomart"
+)
+
 // The type of transaction-specific details of the payment method used in the payment, one of `ach_credit_transfer`, `ach_debit`, `acss_debit`, `alipay`, `au_becs_debit`, `bancontact`, `card`, `card_present`, `eps`, `giropay`, `ideal`, `klarna`, `multibanco`, `p24`, `sepa_debit`, `sofort`, `stripe_account`, or `wechat`.
 // An additional hash is included on `payment_method_details` with a name matching this value.
 // It contains information specific to the payment method.
@@ -692,6 +703,16 @@ type ChargePaymentMethodDetailsKlarna struct {
 	// Can be one of `de-AT`, `en-AT`, `nl-BE`, `fr-BE`, `en-BE`, `de-DE`, `en-DE`, `da-DK`, `en-DK`, `es-ES`, `en-ES`, `fi-FI`, `sv-FI`, `en-FI`, `en-GB`, `en-IE`, `it-IT`, `en-IT`, `nl-NL`, `en-NL`, `nb-NO`, `en-NO`, `sv-SE`, `en-SE`, `en-US`, `es-US`, `fr-FR`, or `en-FR`
 	PreferredLocale string `json:"preferred_locale"`
 }
+
+// If the payment succeeded, this contains the details of the convenience store where the payment was completed.
+type ChargePaymentMethodDetailsKonbiniStore struct {
+	// The name of the convenience store chain where the payment was completed.
+	Chain ChargePaymentMethodDetailsKonbiniStoreChain `json:"chain"`
+}
+type ChargePaymentMethodDetailsKonbini struct {
+	// If the payment succeeded, this contains the details of the convenience store where the payment was completed.
+	Store *ChargePaymentMethodDetailsKonbiniStore `json:"store"`
+}
 type ChargePaymentMethodDetailsMultibanco struct {
 	// Entity number associated with this Multibanco payment.
 	Entity string `json:"entity"`
@@ -785,6 +806,7 @@ type ChargePaymentMethodDetails struct {
 	Ideal              *ChargePaymentMethodDetailsIdeal              `json:"ideal"`
 	InteracPresent     *ChargePaymentMethodDetailsInteracPresent     `json:"interac_present"`
 	Klarna             *ChargePaymentMethodDetailsKlarna             `json:"klarna"`
+	Konbini            *ChargePaymentMethodDetailsKonbini            `json:"konbini"`
 	Multibanco         *ChargePaymentMethodDetailsMultibanco         `json:"multibanco"`
 	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo"`
 	P24                *ChargePaymentMethodDetailsP24                `json:"p24"`

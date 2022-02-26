@@ -82,6 +82,7 @@ const (
 	PaymentMethodTypeIdeal            PaymentMethodType = "ideal"
 	PaymentMethodTypeInteracPresent   PaymentMethodType = "interac_present"
 	PaymentMethodTypeKlarna           PaymentMethodType = "klarna"
+	PaymentMethodTypeKonbini          PaymentMethodType = "konbini"
 	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
 	PaymentMethodTypeSepaDebit        PaymentMethodType = "sepa_debit"
@@ -200,6 +201,9 @@ type PaymentMethodKlarnaParams struct {
 	DOB *PaymentMethodKlarnaDOBParams `form:"dob"`
 }
 
+// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
+type PaymentMethodKonbiniParams struct{}
+
 // If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 type PaymentMethodOXXOParams struct{}
 
@@ -262,6 +266,8 @@ type PaymentMethodParams struct {
 	InteracPresent *PaymentMethodInteracPresentParams `form:"interac_present"`
 	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
 	Klarna *PaymentMethodKlarnaParams `form:"klarna"`
+	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
+	Konbini *PaymentMethodKonbiniParams `form:"konbini"`
 	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
 	OXXO *PaymentMethodOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
@@ -487,6 +493,7 @@ type PaymentMethodKlarna struct {
 	// The customer's date of birth, if provided.
 	DOB *PaymentMethodKlarnaDOB `json:"dob"`
 }
+type PaymentMethodKonbini struct{}
 type PaymentMethodOXXO struct{}
 type PaymentMethodP24 struct {
 	// The customer's bank, if provided.
@@ -550,6 +557,7 @@ type PaymentMethod struct {
 	Ideal          *PaymentMethodIdeal          `json:"ideal"`
 	InteracPresent *PaymentMethodInteracPresent `json:"interac_present"`
 	Klarna         *PaymentMethodKlarna         `json:"klarna"`
+	Konbini        *PaymentMethodKonbini        `json:"konbini"`
 	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.

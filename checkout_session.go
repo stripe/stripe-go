@@ -439,6 +439,12 @@ type CheckoutSessionPaymentMethodOptionsBoletoParams struct {
 	ExpiresAfterDays *int64 `form:"expires_after_days"`
 }
 
+// contains details about the Konbini payment method options.
+type CheckoutSessionPaymentMethodOptionsKonbiniParams struct {
+	// The number of calendar days (between 1 and 60) after which Konbini payment instructions will expire. For example, if a PaymentIntent is confirmed with Konbini and `expires_after_days` set to 2 on Monday JST, the instructions will expire on Wednesday 23:59:59 JST. Defaults to 3 days.
+	ExpiresAfterDays *int64 `form:"expires_after_days"`
+}
+
 // contains details about the OXXO payment method options.
 type CheckoutSessionPaymentMethodOptionsOXXOParams struct {
 	// The number of calendar days before an OXXO voucher expires. For example, if you create an OXXO voucher on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
@@ -459,6 +465,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebitParams `form:"acss_debit"`
 	// contains details about the Boleto payment method options.
 	Boleto *CheckoutSessionPaymentMethodOptionsBoletoParams `form:"boleto"`
+	// contains details about the Konbini payment method options.
+	Konbini *CheckoutSessionPaymentMethodOptionsKonbiniParams `form:"konbini"`
 	// contains details about the OXXO payment method options.
 	OXXO *CheckoutSessionPaymentMethodOptionsOXXOParams `form:"oxxo"`
 	// contains details about the WeChat Pay payment method options.
@@ -801,6 +809,10 @@ type CheckoutSessionPaymentMethodOptionsBoleto struct {
 	// The number of calendar days before a Boleto voucher expires. For example, if you create a Boleto voucher on Monday and you set expires_after_days to 2, the Boleto voucher will expire on Wednesday at 23:59 America/Sao_Paulo time.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
 }
+type CheckoutSessionPaymentMethodOptionsKonbini struct {
+	// The number of calendar days (between 1 and 60) after which Konbini payment instructions will expire. For example, if a PaymentIntent is confirmed with Konbini and `expires_after_days` set to 2 on Monday JST, the instructions will expire on Wednesday 23:59:59 JST.
+	ExpiresAfterDays int64 `json:"expires_after_days"`
+}
 type CheckoutSessionPaymentMethodOptionsOXXO struct {
 	// The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
@@ -810,6 +822,7 @@ type CheckoutSessionPaymentMethodOptionsOXXO struct {
 type CheckoutSessionPaymentMethodOptions struct {
 	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebit `json:"acss_debit"`
 	Boleto    *CheckoutSessionPaymentMethodOptionsBoleto    `json:"boleto"`
+	Konbini   *CheckoutSessionPaymentMethodOptionsKonbini   `json:"konbini"`
 	OXXO      *CheckoutSessionPaymentMethodOptionsOXXO      `json:"oxxo"`
 }
 type CheckoutSessionPhoneNumberCollection struct {
