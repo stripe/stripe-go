@@ -42,7 +42,7 @@ gem 'rack-attack', '~> 6.5.0'
 
 # translation
 gem 'restforce', '~> 5.2.3'
-gem 'stripe', '~> 5.43.0'
+gem 'stripe', '~> 5.44.0'
 gem 'rest-client', '~> 2.1.0'
 
 # Reduces boot times through caching; required in config/boot.rb
