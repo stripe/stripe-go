@@ -55,7 +55,7 @@ gem 'nokogiri', '>= 1.13.0'
 
 group :test do
   gem 'bundler-audit', '~> 0.9.0.1', require: false
-  gem 'brakeman', '~> 5.2.0', require: false
+  gem 'brakeman', '~> 5.2.1', require: false
 
   gem 'minitest', '~> 5.15.0'
   gem 'minitest-ci', '~> 3.4.0'
