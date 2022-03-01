@@ -47,6 +47,8 @@ type TestHelpersTestClock struct {
 	// Time at which the object was created. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	Deleted bool  `json:"deleted"`
+	// Time at which this clock is scheduled to auto delete.
+	DeletesAfter int64 `json:"deletes_after"`
 	// Time at which all objects belonging to this clock are frozen.
 	FrozenTime int64 `json:"frozen_time"`
 	// Unique identifier for the object.
