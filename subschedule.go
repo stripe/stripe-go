@@ -385,6 +385,8 @@ type SubscriptionSchedule struct {
 	Status SubscriptionScheduleStatus `json:"status"`
 	// ID of the subscription managed by the subscription schedule.
 	Subscription *Subscription `json:"subscription"`
+	// ID of the test clock this subscription schedule belongs to.
+	TestClock *TestHelpersTestClock `json:"test_clock"`
 }
 
 // SubscriptionScheduleList is a list of SubscriptionSchedules as retrieved from a list endpoint.

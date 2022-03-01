@@ -53,6 +53,7 @@ import (
 	terminal_connectiontoken "github.com/stripe/stripe-go/v72/terminal/connectiontoken"
 	terminal_location "github.com/stripe/stripe-go/v72/terminal/location"
 	terminal_reader "github.com/stripe/stripe-go/v72/terminal/reader"
+	testhelpers_testclock "github.com/stripe/stripe-go/v72/testhelpers/testclock"
 	_ "github.com/stripe/stripe-go/v72/testing"
 	topup "github.com/stripe/stripe-go/v72/topup"
 	transfer "github.com/stripe/stripe-go/v72/transfer"
@@ -1568,5 +1569,40 @@ func TestPaymentIntentVerifyMicrodeposits(t *testing.T) {
 func TestSetupIntentVerifyMicrodeposits(t *testing.T) {
 	params := &stripe.SetupIntentVerifyMicrodepositsParams{}
 	result, _ := setupintent.VerifyMicrodeposits("seti_xxxxxxxxxxxxx", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTestClockCreate(t *testing.T) {
+	params := &stripe.TestHelpersTestClockParams{
+		FrozenTime: stripe.Int64(123),
+		Name:       stripe.String("cogsworth"),
+	}
+	result, _ := testhelpers_testclock.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTestClockRetrieve(t *testing.T) {
+	params := &stripe.TestHelpersTestClockParams{}
+	result, _ := testhelpers_testclock.Get("clock_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTestClockList(t *testing.T) {
+	params := &stripe.TestHelpersTestClockListParams{}
+	result := testhelpers_testclock.List(params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTestClockDelete(t *testing.T) {
+	params := &stripe.TestHelpersTestClockParams{}
+	result, _ := testhelpers_testclock.Del("clock_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersTestClockAdvance(t *testing.T) {
+	params := &stripe.TestHelpersTestClockAdvanceParams{
+		FrozenTime: stripe.Int64(142),
+	}
+	result, _ := testhelpers_testclock.Advance("clock_xyz", params)
 	assert.NotNil(t, result)
 }

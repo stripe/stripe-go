@@ -599,6 +599,8 @@ type Subscription struct {
 	//
 	// If subscription `collection_method=send_invoice` it becomes `past_due` when its invoice is not paid by the due date, and `canceled` or `unpaid` if it is still not paid by an additional deadline after that. Note that when a subscription has a status of `unpaid`, no subsequent invoices will be attempted (invoices will be created, but then immediately automatically closed). After receiving updated payment information from a customer, you may choose to reopen and pay their closed invoices.
 	Status SubscriptionStatus `json:"status"`
+	// ID of the test clock this subscription belongs to.
+	TestClock *TestHelpersTestClock `json:"test_clock"`
 	// The account (if any) the subscription's payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the subscription's invoices.
 	TransferData *SubscriptionTransferData `json:"transfer_data"`
 	// If the subscription has a trial, the end of that trial.

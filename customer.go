@@ -141,7 +141,9 @@ type CustomerParams struct {
 	TaxExempt *string `form:"tax_exempt"`
 	// The customer's tax IDs.
 	TaxIDData []*CustomerTaxIDDataParams `form:"tax_id_data"`
-	Token     *string                    `form:"-"` // This doesn't seem to be used?
+	// ID of the test clock to attach to the customer.
+	TestClock *string `form:"test_clock"`
+	Token     *string `form:"-"` // This doesn't seem to be used?
 }
 
 // Returns a list of PaymentMethods for a given Customer
@@ -250,6 +252,8 @@ type Customer struct {
 	TaxExempt CustomerTaxExempt `json:"tax_exempt"`
 	// The customer's tax IDs.
 	TaxIDs *TaxIDList `json:"tax_ids"`
+	// ID of the test clock this customer belongs to.
+	TestClock *TestHelpersTestClock `json:"test_clock"`
 }
 
 // CustomerList is a list of Customers as retrieved from a list endpoint.

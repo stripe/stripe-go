@@ -87,6 +87,8 @@ type QuoteParams struct {
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// When creating a subscription or subscription schedule, the specified configuration data will be used. There must be at least one line item with a recurring price for a subscription or subscription schedule to be created. A subscription schedule is created if `subscription_data[effective_date]` is present and in the future, otherwise a subscription is created.
 	SubscriptionData *QuoteSubscriptionDataParams `form:"subscription_data"`
+	// ID of the test clock to attach to the quote.
+	TestClock *string `form:"test_clock"`
 	// The data with which to automatically create a Transfer for each of the invoices.
 	TransferData *QuoteTransferDataParams `form:"transfer_data"`
 }
@@ -470,7 +472,9 @@ type Quote struct {
 	SubscriptionData *QuoteSubscriptionData `json:"subscription_data"`
 	// The subscription schedule that was created or updated from this quote.
 	SubscriptionSchedule *SubscriptionSchedule `json:"subscription_schedule"`
-	TotalDetails         *QuoteTotalDetails    `json:"total_details"`
+	// ID of the test clock this quote belongs to.
+	TestClock    *TestHelpersTestClock `json:"test_clock"`
+	TotalDetails *QuoteTotalDetails    `json:"total_details"`
 	// The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the invoices.
 	TransferData *QuoteTransferData `json:"transfer_data"`
 }

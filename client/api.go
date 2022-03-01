@@ -83,6 +83,7 @@ import (
 	terminalconnectiontoken "github.com/stripe/stripe-go/v72/terminal/connectiontoken"
 	terminallocation "github.com/stripe/stripe-go/v72/terminal/location"
 	terminalreader "github.com/stripe/stripe-go/v72/terminal/reader"
+	testhelperstestclock "github.com/stripe/stripe-go/v72/testhelpers/testclock"
 	"github.com/stripe/stripe-go/v72/token"
 	"github.com/stripe/stripe-go/v72/topup"
 	"github.com/stripe/stripe-go/v72/transfer"
@@ -241,6 +242,8 @@ type API struct {
 	TerminalLocations *terminallocation.Client
 	// TerminalReaders is the client used to invoke /terminal/readers APIs.
 	TerminalReaders *terminalreader.Client
+	// TestHelpersTestClocks is the client used to invoke /test_helpers/test_clocks APIs.
+	TestHelpersTestClocks *testhelperstestclock.Client
 	// Tokens is the client used to invoke /tokens APIs.
 	Tokens *token.Client
 	// Topups is the client used to invoke /topups APIs.
@@ -339,6 +342,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.TerminalConnectionTokens = &terminalconnectiontoken.Client{B: backends.API, Key: key}
 	a.TerminalLocations = &terminallocation.Client{B: backends.API, Key: key}
 	a.TerminalReaders = &terminalreader.Client{B: backends.API, Key: key}
+	a.TestHelpersTestClocks = &testhelperstestclock.Client{B: backends.API, Key: key}
 	a.Tokens = &token.Client{B: backends.API, Key: key}
 	a.Topups = &topup.Client{B: backends.API, Key: key}
 	a.Transfers = &transfer.Client{B: backends.API, Key: key}
