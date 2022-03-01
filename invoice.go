@@ -245,6 +245,8 @@ type InvoiceParams struct {
 	Paid       *bool   `form:"paid"`
 	// Configuration settings for the PaymentIntent that is generated when the invoice is finalized.
 	PaymentSettings *InvoicePaymentSettingsParams `form:"payment_settings"`
+	// How to handle pending invoice items on invoice creation. One of `include`, `include_and_require`, or `exclude`. `include` will include any pending invoice items, and will create an empty draft invoice if no pending invoice items exist. `include_and_require` will include any pending invoice items, if no pending invoice items exist then the request will fail. `exclude` will always create an empty invoice draft regardless if there are pending invoice items or not. Defaults to `include_and_require` if the parameter is omitted.
+	PendingInvoiceItemsBehavior *string `form:"pending_invoice_items_behavior"`
 	// The identifier of the unstarted schedule whose upcoming invoice you'd like to retrieve. Cannot be used with subscription or subscription fields.
 	Schedule *string `form:"schedule"`
 	// Extra information about a charge for the customer's credit card statement. It must contain at least one letter. If not specified and this invoice is part of a subscription, the default `statement_descriptor` will be set to the first subscription item's product's `statement_descriptor`.
@@ -712,7 +714,9 @@ type Invoice struct {
 	// Total of all subscriptions, invoice items, and prorations on the invoice before any invoice level discount or tax is applied. Item discounts are already incorporated
 	Subtotal int64 `json:"subtotal"`
 	// The amount of tax on this invoice. This is the sum of all the tax amounts on this invoice.
-	Tax              int64                   `json:"tax"`
+	Tax int64 `json:"tax"`
+	// ID of the test clock this invoice belongs to.
+	TestClock        *TestHelpersTestClock   `json:"test_clock"`
 	ThreasholdReason *InvoiceThresholdReason `json:"threshold_reason"`
 	// Total after discounts and taxes.
 	Total int64 `json:"total"`

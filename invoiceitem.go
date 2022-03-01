@@ -135,6 +135,8 @@ type InvoiceItem struct {
 	SubscriptionItem string `json:"subscription_item"`
 	// The tax rates which apply to the invoice item. When set, the `default_tax_rates` on the invoice do not apply to this invoice item.
 	TaxRates []*TaxRate `json:"tax_rates"`
+	// ID of the test clock this invoice item belongs to.
+	TestClock *TestHelpersTestClock `json:"test_clock"`
 	// Unit amount (in the `currency` specified) of the invoice item.
 	UnitAmount int64 `json:"unit_amount"`
 	// Same as `unit_amount`, but contains a decimal value with at most 12 decimal places.

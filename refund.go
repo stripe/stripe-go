@@ -61,6 +61,25 @@ type RefundParams struct {
 	RefundApplicationFee *bool   `form:"refund_application_fee"`
 	ReverseTransfer      *bool   `form:"reverse_transfer"`
 }
+type RefundNextActionDisplayDetailsEmailSent struct {
+	// The timestamp when the email was sent.
+	EmailSentAt int64 `json:"email_sent_at"`
+	// The recipient's email address.
+	EmailSentTo string `json:"email_sent_to"`
+}
+
+// Contains the refund details.
+type RefundNextActionDisplayDetails struct {
+	EmailSent *RefundNextActionDisplayDetailsEmailSent `json:"email_sent"`
+	// The expiry timestamp.
+	ExpiresAt int64 `json:"expires_at"`
+}
+type RefundNextAction struct {
+	// Contains the refund details.
+	DisplayDetails *RefundNextActionDisplayDetails `json:"display_details"`
+	// Type of the next action to perform.
+	Type string `json:"type"`
+}
 
 // `Refund` objects allow you to refund a charge that has previously been created
 // but not yet refunded. Funds will be refunded to the credit or debit card that
@@ -88,7 +107,8 @@ type Refund struct {
 	// Unique identifier for the object.
 	ID string `json:"id"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-	Metadata map[string]string `json:"metadata"`
+	Metadata   map[string]string `json:"metadata"`
+	NextAction *RefundNextAction `json:"next_action"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// ID of the PaymentIntent that was refunded.
