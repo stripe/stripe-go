@@ -27,7 +27,7 @@ gem 'resque', '~> 2.2.0'
 gem 'resque-scheduler', "~> 4.5.0"
 gem 'resque-retry', '~> 1.7.6'
 gem 'resque-heroku-signals', '~> 2.2.0'
-gem 'redis', '~> 4.5.0'
+gem 'redis', '~> 4.6.0'
 
 # database
 gem 'pg', '~> 1.3.3'
