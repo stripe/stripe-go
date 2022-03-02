@@ -1,5 +1,11 @@
 # Changelog
 
+## 72.91.0 - 2022-03-02
+* [#1425](https://github.com/stripe/stripe-go/pull/1425) API Updates
+  * Add support for new resources `InvoiceLineProrationDetails` and `InvoiceLineProrationDetailsCreditedItems`
+  * Add support for `ProrationDetails` on `InvoiceLine`
+  
+
 ## 72.90.0 - 2022-03-01
 * [#1423](https://github.com/stripe/stripe-go/pull/1423) [#1424](https://github.com/stripe/stripe-go/pull/1424) API Updates
   * Add support for new resource `TestHelpers.TestClock`
