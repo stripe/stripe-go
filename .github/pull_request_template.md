@@ -22,6 +22,8 @@ For example:
 
 <!-- What does the code do? What have you changed? -->
 
+Sandbox URL: <!-- include link to salesforce sandbox account with this PR -->
+
 ### Motivation
 
 <!-- Why are you making this change? Link to GitHub issue(s) if they exist  -->
@@ -32,6 +34,7 @@ Before requested a review from Stripe engineering, ensure all of the below items
 
 - [ ] Remove any code that is unneeded/commented out, including unnecessary log entries.
 - [ ] Prefer top-level conditional checks vs nested `if`s
+- [ ] Ensure there are no secrets/keys in the code
 - [ ] Ensure there there are no merge conflicts
 - [ ] All variable and test names are descriptive
 - [ ] Avoid any variable or method names like `order2`. Always name the object what it represents.
@@ -40,7 +43,7 @@ Before requested a review from Stripe engineering, ensure all of the below items
 - [ ] Don't use instance variables unless they are required. Prefer `const` or locally scoped variables.
 - [ ] Automated tests are all passing
 - [ ] Code review from Appiphony
-- [ ] Product review from Stripe. Make sure this PR is installed on a
+- [ ] Product review from Stripe. Make sure this PR is installed on a sandbox account which Stripe has access to and indicate which sandbox account is used in the PR.
 
 ### Test plan
 
