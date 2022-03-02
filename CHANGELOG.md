@@ -1,5 +1,13 @@
 # Changelog
 
+## 72.90.0 - 2022-03-01
+* [#1423](https://github.com/stripe/stripe-go/pull/1423) [#1424](https://github.com/stripe/stripe-go/pull/1424) API Updates
+  * Add support for new resource `TestHelpers.TestClock`
+  * Add support for `TestClock` on `CustomerParams`, `Customer`, `Invoice`, `InvoiceItem`, `QuoteParams`, `Quote`, `Subscription`, and `SubscriptionSchedule`
+  * Add support for `PendingInvoiceItemsBehavior` on `InvoiceParams`
+  * Change type of `ProductUrlParams` from `string` to `emptyStringable(string)`
+  * Add support for `NextAction` on `Refund`
+
 ## 72.89.0 - 2022-02-25
 * [#1422](https://github.com/stripe/stripe-go/pull/1422) API Updates
   * Add support for `KonbiniPayments` on `AccountCapabilitiesParams`, and `AccountCapabilities`
