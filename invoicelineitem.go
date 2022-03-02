@@ -22,6 +22,20 @@ type InvoiceLineDiscountAmount struct {
 	// The discount that was applied to get this discount amount.
 	Discount *Discount `json:"discount"`
 }
+
+// For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
+type InvoiceLineProrationDetailsCreditedItems struct {
+	// Invoice containing the credited invoice line items
+	Invoice string `json:"invoice"`
+	// Credited invoice line items
+	InvoiceLineItems []string `json:"invoice_line_items"`
+}
+
+// Additional details for proration line items
+type InvoiceLineProrationDetails struct {
+	// For a credit proration `line_item`, the original debit line_items to which the credit proration applies.
+	CreditedItems *InvoiceLineProrationDetailsCreditedItems `json:"credited_items"`
+}
 type InvoiceLine struct {
 	// The amount, in %s.
 	Amount int64 `json:"amount"`
@@ -52,6 +66,8 @@ type InvoiceLine struct {
 	Price *Price `json:"price"`
 	// Whether this is a proration.
 	Proration bool `json:"proration"`
+	// Additional details for proration line items
+	ProrationDetails *InvoiceLineProrationDetails `json:"proration_details"`
 	// The quantity of the subscription, if the line item is a subscription or a proration.
 	Quantity int64 `json:"quantity"`
 	// The subscription that the invoice item pertains to, if any.
