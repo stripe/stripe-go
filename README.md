@@ -6,6 +6,15 @@ https://stripe-force.herokuapp.com/auth/salesforce
 
 http://localhost:3100/
 
+# PR Review Conventions
+
+Here are some of the 'tags' that PR comments will be prefixed with to provide more context:
+
+- no tag: requested change that requires either an explanation or fix
+- `fyi` sharing some sort of domain or product knowledge that may be helpful
+- `nit` non-blocking style or small change
+- `future` something to consider or implement in the future
+
 # SalesForce
 
 ## Connecting to a different org
