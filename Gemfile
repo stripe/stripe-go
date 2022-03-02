@@ -31,7 +31,7 @@ gem 'redis', '~> 4.5.0'
 
 # database
 gem 'pg', '~> 1.3.3'
-gem 'sequel', '5.52.0'
+gem 'sequel', '5.53.0'
 
 # auth
 # TODO hack to get around https://github.com/realdoug/omniauth-salesforce/issues/31
