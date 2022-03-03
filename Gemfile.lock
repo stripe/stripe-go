@@ -211,7 +211,7 @@ GEM
     omniauth-oauth2 (1.7.2)
       oauth2 (~> 1.4)
       omniauth (>= 1.9, < 3)
-    omniauth-rails_csrf_protection (1.0.0)
+    omniauth-rails_csrf_protection (1.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
     omniauth-stripe (0.1.0)
@@ -438,7 +438,7 @@ DEPENDENCIES
   mocha (~> 1.9)
   nokogiri (>= 1.13.0)
   omniauth (~> 2.0.4)
-  omniauth-rails_csrf_protection (~> 1.0.0)
+  omniauth-rails_csrf_protection (~> 1.0.1)
   omniauth-salesforce!
   omniauth-stripe
   pg (~> 1.3.3)

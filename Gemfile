@@ -35,7 +35,7 @@ gem 'sequel', '5.53.0'
 
 # auth
 # TODO hack to get around https://github.com/realdoug/omniauth-salesforce/issues/31
-gem 'omniauth-rails_csrf_protection', '~> 1.0.0'
+gem 'omniauth-rails_csrf_protection', '~> 1.0.1'
 gem 'omniauth-salesforce', github: 'accel-com/omniauth-salesforce'
 gem 'omniauth-stripe'
 gem 'rack-attack', '~> 6.6.0'
