@@ -30,6 +30,8 @@ Sandbox URL: <!-- include link to salesforce sandbox account with this PR -->
 
 ### Pre-flight checklist
 
+[Full code review guidelines are here.](https://docs.google.com/document/d/1m87sHnXA25hhKMmR-0C8dmBtTYLQXDkz4FeBH9mxcro/edit#heading=h.cz1xkpga7giy)
+
 Before requested a review from Stripe engineering, ensure all of the below items are complete:
 
 - [ ] Remove any code that is unneeded/commented out, including unnecessary log entries.
