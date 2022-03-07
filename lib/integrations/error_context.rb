@@ -22,7 +22,7 @@ module Integrations
       report_error(Integrations::Errors::FeatureUsage, message, stripe_resource: stripe_resource, integration_record: integration_record, metadata: metadata)
     end
 
-    sig { params(error_class: T.class_of(Integrations::Errors::BaseIntegrationError), message: String, stripe_resource: T.nilable(Stripe::StripeObject), integration_record: T.nilable(T.untyped), metadata: T.nilable(Hash)).returns(T.nilable(T.any(Sentry::Event, T::Boolean))) }
+    sig { params(error_class: T.class_of(Integrations::Errors::BaseIntegrationError), message: String, stripe_resource: T.nilable(Stripe::StripeObject), integration_record: T.untyped, metadata: T.nilable(Hash)).returns(T.nilable(T.any(Sentry::Event, T::Boolean))) }
     def report_error(error_class, message, stripe_resource: nil, integration_record: nil, metadata: nil)
       sentry_options = {tags: metadata&.delete(:tags)}.compact
 

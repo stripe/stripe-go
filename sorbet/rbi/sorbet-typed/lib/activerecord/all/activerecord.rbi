@@ -921,7 +921,7 @@ module ActiveRecord::Persistence::ClassMethods
     params(
       attributes: T::Array[T::Hash[T.any(Symbol, String), T.untyped]],
       returning: T.nilable(T.any(FalseClass, T::Array[T.any(Symbol, String)])),
-      unique_by: T.nilable(T.untyped)
+      unique_by: T.untyped
     ).returns(ActiveRecord::Result)
   end
   def insert_all(attributes, returning: nil, unique_by: nil); end
@@ -930,7 +930,7 @@ module ActiveRecord::Persistence::ClassMethods
     params(
       attributes: T::Hash[T.any(Symbol, String), T.untyped],
       returning: T.nilable(T.any(FalseClass, T::Array[T.any(Symbol, String)])),
-      unique_by: T.nilable(T.untyped)
+      unique_by: T.untyped
     ).returns(ActiveRecord::Result)
   end
   def insert!(attributes, returning: nil, unique_by: nil); end
@@ -939,7 +939,7 @@ module ActiveRecord::Persistence::ClassMethods
     params(
       attributes: T::Hash[T.any(Symbol, String), T.untyped],
       returning: T.nilable(T.any(FalseClass, T::Array[T.any(Symbol, String)])),
-      unique_by: T.nilable(T.untyped)
+      unique_by: T.untyped
     ).returns(ActiveRecord::Result)
   end
   def insert(attributes, returning: nil, unique_by: nil); end
@@ -963,7 +963,7 @@ module ActiveRecord::Persistence::ClassMethods
     params(
       attributes: T::Array[T::Hash[T.any(Symbol, String), T.untyped]],
       returning: T.nilable(T.any(FalseClass, T::Array[T.any(Symbol, String)])),
-      unique_by: T.nilable(T.untyped)
+      unique_by: T.untyped
     ).returns(ActiveRecord::Result)
   end
   def upsert_all(attributes, returning: nil, unique_by: nil); end
@@ -972,7 +972,7 @@ module ActiveRecord::Persistence::ClassMethods
     params(
       attributes: T::Hash[T.any(Symbol, String), T.untyped],
       returning: T.nilable(T.any(FalseClass, T::Array[T.any(Symbol, String)])),
-      unique_by: T.nilable(T.untyped)
+      unique_by: T.untyped
     ).returns(ActiveRecord::Result)
   end
   def upsert(attributes, returning: nil, unique_by: nil); end
