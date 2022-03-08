@@ -1,5 +1,5 @@
 @isTest
-public with sharing class tst_errorLogger {
+public with sharing class test_errorLogger {
     @isTest
     public static void testCreate() {
         String dump = 'dump test';

@@ -28,9 +28,6 @@ export default class DataMappingStep extends LightningElement {
     @track body
     @track staticValue
     @track picklistIndex;
-    @track targetFieldIndex
-    @track targetSection
-    @track targetSectionIndex
     @track stripeObjectField
     @track stripeCustomerMappings;
     @track stripeProductMappings;
@@ -188,32 +185,36 @@ export default class DataMappingStep extends LightningElement {
 
 
     toggleMetaStaticValue(event) {
-        this.targetFieldIndex = event.currentTarget.closest('tr').dataset.index; 
-        if (this.targetFieldIndex ) {
-            this.activeMetadataObjectFields.metadataMapping.fields[parseInt(this.targetFieldIndex)].staticValue = !this.activeMetadataObjectFields.metadataMapping.fields[parseInt(this.targetFieldIndex)].staticValue;
-            if(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(this.targetFieldIndex)].staticValue === true)this.activeMetadataObjectFields.metadataMapping.fields[parseInt(this.targetFieldIndex)].sfValue = ''; 
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index; 
+        if (targetFieldIndex ) {
+            this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].staticValue = !this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].staticValue;
+            if(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].staticValue === true)this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].sfValue = ''; 
         }
+    }
+
+    debounce() {
+        setTimeout(() => {
+            targetInput.dropdownLoading = false;
+        }, 1);
     }
 
     updateFieldList(event) { 
         this.sfFieldOptions = [];
-        let selectedObject = event.detail.object;
-        this.targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
-        this.targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
-        this.stripeObjectField = this.activeObjectFields[this.targetSectionIndex].fields[this.targetFieldIndex];
+        const  selectedObject = event.detail.object;
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
+        const targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
+        this.stripeObjectField = this.activeObjectFields[targetSectionIndex].fields[targetFieldIndex];
         let targetInput = event.currentTarget;
         if(this.fieldListByObjectMap[selectedObject]) {
             this.sfFieldOptions = this.fieldListByObjectMap[selectedObject];
             this.filterSfOptionsByStripeFieldType();
             // Push updating the child loading attribute to the next render cycle 
-            setTimeout(() => {
-                targetInput.dropdownLoading = false;
-            }, 1);
+            this.debounce();
         } else {
             this.getPicklistValuesForMapper(false, selectedObject, false, targetInput);
         }
     }
-
+    
     updateMetadataFieldList(event) {
         this.sfFieldOptions = [];
         let selectedObject = event.detail.object;
@@ -221,85 +222,83 @@ export default class DataMappingStep extends LightningElement {
         if(this.fieldListByObjectMap[selectedObject]) {
             this.sfFieldOptions = this.fieldListByObjectMap[selectedObject];
             // Push updating the child loading attribute to the next render cycle 
-            setTimeout(() => {
-                targetInput.dropdownLoading = false;
-            }, 1);
+            this.debounce();
         } else {
             this.getPicklistValuesForMapper(false, selectedObject, true, targetInput);
         }
     }
 
     toggleStaticValue(event) {
-        this.targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
-        this.targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
-        if (this.targetSectionIndex && this.targetFieldIndex ) {
-            let updatedSelection = {
+        const targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
+        if (targetSectionIndex && targetFieldIndex ) {
+            const updatedSelection = {
                 hasSfValue: true, 
                 hasOverride: true,
                 staticValue: true,
                 sfValue: '',
                 sfValueType: 'static'
             };
-            updatedSelection.hasOverride = this.activeObjectFields[parseInt(this.targetSectionIndex)].fields[parseInt(this.targetFieldIndex)].defaultValue ? true : false;
-            updatedSelection.staticValue = !this.activeObjectFields[parseInt(this.targetSectionIndex)].fields[parseInt(this.targetFieldIndex)].staticValue;
-            Object.assign(this.activeObjectFields[this.targetSectionIndex].fields[parseInt(this.targetFieldIndex)] , updatedSelection);  
+            updatedSelection.hasOverride = this.activeObjectFields[parseInt(targetSectionIndex)].fields[parseInt(targetFieldIndex)].defaultValue ? true : false;
+            updatedSelection.staticValue = !this.activeObjectFields[parseInt(targetSectionIndex)].fields[parseInt(targetFieldIndex)].staticValue;
+            Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)] , updatedSelection);  
         }
     }
 
     removeMetaRow(event) {
-        this.targetFieldIndex = event.currentTarget.closest('tr').dataset.index; 
-        if (this.targetFieldIndex ) {
-            let value = this.activeMetadataObjectFields.metadataMapping.fields[parseInt(this.targetFieldIndex)];
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index; 
+        if (targetFieldIndex ) {
+            const value = this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)];
             this.activeMetadataObjectFields.metadataMapping.fields.splice(this.activeMetadataObjectFields.metadataMapping.fields.findIndex(metadataField => metadataField.name === value.name),1);
         }
     }
 
     updateStripeMetadataName(event) {
         this.staticValue = event.target.value;
-        this.targetFieldIndex = event.currentTarget.closest('tr').dataset.index; 
-        if (this.targetFieldIndex ) {
-            let updatedSelection = {
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index; 
+        if (targetFieldIndex ) {
+            const updatedSelection = {
                 name: this.staticValue, 
                 value: this.staticValue
             };
-            Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(this.targetFieldIndex)] , updatedSelection); 
+            Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)] , updatedSelection); 
         }
     }
 
     updateMetaStaticValueChoice(event) {
         this.staticValue = event.target.value;
-        this.targetFieldIndex = event.currentTarget.closest('tr').dataset.index; 
-        if (this.targetFieldIndex ) {
-            let updatedSelection = {
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index; 
+        if (targetFieldIndex ) {
+            const updatedSelection = {
                 staticValue: true, 
                 sfValue: this.staticValue,
                 sfValueType: 'staticMetadata'
             };
-            Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(this.targetFieldIndex)] , updatedSelection); 
+            Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)] , updatedSelection); 
         }
     }
 
     updateStaticValueChoice(event) {
         this[event.target.name] = event.target.value;
         this.staticValue = this[event.target.name];
-        this.targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
-        this.targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
-        if (this.targetSectionIndex && this.targetFieldIndex ) {
+        const targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
+        if (targetSectionIndex && targetFieldIndex ) {
             let updatedSelection = {
                 hasSfValue: true, 
                 staticValue: true,
                 sfValue: this.staticValue,
                 sfValueType: 'static'
             };
-            Object.assign(this.activeObjectFields[this.targetSectionIndex].fields[parseInt(this.targetFieldIndex)] , updatedSelection)
+            Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)] , updatedSelection)
         }
     }
 
     resetToDefault(event) {
-        let targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
-        let targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
+        const targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
         if (targetSectionIndex && targetFieldIndex) {
-            let updatedSelection = {
+            const updatedSelection = {
                 hasSfValue: false, 
                 staticValue: false,
                 hasOverride: false,
@@ -311,10 +310,10 @@ export default class DataMappingStep extends LightningElement {
     }
 
     toggleOverride(event) {
-        let targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
-        let targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
+        const targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
         if (targetSectionIndex && targetFieldIndex) {
-            let updatedSelection = {
+            const updatedSelection = {
                 hasSfValue: true, 
                 hasOverride: true,
                 staticValue: false
@@ -325,9 +324,9 @@ export default class DataMappingStep extends LightningElement {
     }
 
     updatePicklistChoices(event) {
-        this.targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
-        this.targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
-        this.stripeObjectField = this.activeObjectFields[this.targetSectionIndex].fields[this.targetFieldIndex];
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
+        const targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
+        this.stripeObjectField = this.activeObjectFields[targetSectionIndex].fields[targetFieldIndex];
         this.filterSfOptionsByStripeFieldType()
     }
 
@@ -345,27 +344,27 @@ export default class DataMappingStep extends LightningElement {
     }
 
     updateMetaPicklist(event) {
-        this.targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
         if (this.targetFieldIndex ) {
-            this.activeMetadataObjectFields.metadataMapping.fields[parseInt(this.targetFieldIndex)].sfValue = event.detail.value;
+            this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].sfValue = event.detail.value;
         }
     }
 
     updatePicklist(event) {
-        this.targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
-        this.targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
-        if (this.targetSectionIndex && this.targetFieldIndex) {         
-            let updatedSelection = {
+        const targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
+        if(targetSectionIndex && targetFieldIndex) {         
+            const updatedSelection = {
                 hasSfValue: true,
                 sfValue: event.detail.value,
                 sfValueType: this.sfFieldOptions[event.detail.index].type
             };
-            Object.assign(this.activeObjectFields[this.targetSectionIndex].fields[parseInt(this.targetFieldIndex)] , updatedSelection);
+            Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)] , updatedSelection);
         }
     }
 
     addMetadataRow() {
-        let metadataFieldObj = {
+        const metadataFieldObj = {
             name: '',
             value: '',
             type: 'metadata',
@@ -422,30 +421,28 @@ export default class DataMappingStep extends LightningElement {
         }
     }
 
-    connectedCallback() {
-        (async () => {
-            try {
-                const stripeOpenSpecEndPoint = "https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json";
-                const response = await fetch(stripeOpenSpecEndPoint);
-                const repos = await response.json();
-                this.body = repos;
-                this.stripeCustomerMappings = this.formatStripeObjectsForMapper( this.body['components']['schemas']['customer']['properties']);
-                this.stripeProductMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['product']['properties']);
-                this.stripeSubscriptionMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['subscription']['properties']);
-                this.stripeSubscriptionItemMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['subscription_item']['properties']);
-                this.stripePriceMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['price']['properties']);
-                this.getPicklistValuesForMapper(true, '', false);
-            } catch (error) {
-                this.showToast(this.error, 'error');
-            } finally {
-                this.isLoaded = true;
-                this.activeObject = 'customer';
-            }
-        })();
-        loadScript(this, showdownJs + '/showdown-1.9.1/dist/showdown.js').then(()=> {
-            this.markdownConverter = new showdown.Converter();
-        });
+    async connectedCallback() {
+        try {
+            loadScript(this, showdownJs + '/showdown-1.9.1/dist/showdown.js').then(()=> {
+                this.markdownConverter = new showdown.Converter();
+            });
 
+            const stripeOpenSpecEndPoint = "https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json";
+            const response = await fetch(stripeOpenSpecEndPoint);
+            const repos = await response.json();
+            this.body = repos;
+            this.stripeCustomerMappings = this.formatStripeObjectsForMapper( this.body['components']['schemas']['customer']['properties']);
+            this.stripeProductMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['product']['properties']);
+            this.stripeSubscriptionMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['subscription']['properties']);
+            this.stripeSubscriptionItemMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['subscription_item']['properties']);
+            this.stripePriceMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['price']['properties']);
+            this.getPicklistValuesForMapper(true, '', false);
+        } catch (error) {
+            this.showToast(error.message, 'error');
+        } finally {
+            this.isLoaded = true;
+            this.activeObject = 'customer';
+        }
     }
 
     formatStripeObjectsForMapper(objectJsonConfigMap) {
@@ -639,7 +636,7 @@ export default class DataMappingStep extends LightningElement {
                 this.showToast(this.data.error, 'error');
             }
         } catch (error) {
-            this.showToast(error, 'error');
+            this.showToast(error.message, 'error');
         } finally {
             if(targetElement) targetElement.dropdownLoading = false;
         }
@@ -766,7 +763,7 @@ export default class DataMappingStep extends LightningElement {
                 this.showToast(this.data.error, 'error');
             }
         } catch (error) {
-            this.showToast(error, 'error');
+            this.showToast(error.message, 'error');
         } finally {
             this.loading = false;
         }

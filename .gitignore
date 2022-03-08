@@ -35,3 +35,4 @@ irb.log
 
 .env
 test/reports/
+sfdx/force-app/.DS_Store

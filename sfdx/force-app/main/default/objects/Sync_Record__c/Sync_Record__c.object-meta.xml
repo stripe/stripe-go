@@ -149,16 +149,17 @@
     <enableHistory>false</enableHistory>
     <enableLicensing>false</enableLicensing>
     <enableReports>false</enableReports>
-    <enableSearch>false</enableSearch>
+    <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Error Log</label>
+    <label>Sync Record</label>
     <nameField>
-        <label>Error Log Name</label>
-        <type>Text</type>
+        <displayFormat>SR-{000000}</displayFormat>
+        <label>Sync Record</label>
+        <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Connection Error Log</pluralLabel>
+    <pluralLabel>Sync Management</pluralLabel>
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

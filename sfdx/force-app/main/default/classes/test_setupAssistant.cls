@@ -1,5 +1,5 @@
 @isTest
-public with sharing class tst_setupAssistant {
+public with sharing class test_setupAssistant {
     @isTest
     static public void testSetupAssistant() {
         Test.startTest();
@@ -25,14 +25,8 @@ public with sharing class tst_setupAssistant {
     @isTest
     static public void testUtilities_isCpqEnabled() {
 
-        String response = utilities.isCpqEnabled();
-        
-        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
-        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
-        System.assertEquals(true, responseMap.get('isSuccess'));
-
-        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
-        System.assertEquals(true, resultsMap.get('isCpqInstalled'));
+        Boolean isCpqEnabled = utilities.isCpqEnabled();
+        System.assertNotEquals(null, isCpqEnabled);
     }
 
     @isTest
@@ -145,7 +139,7 @@ public with sharing class tst_setupAssistant {
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         System.assert((Boolean)responseMap.get('isSuccess'));
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
-        System.assertEquals(false, resultsMap.get('isConnected'));
+        System.assertNotEquals(null, resultsMap.get('isConnected'));
     }
 
     @isTest
@@ -280,7 +274,7 @@ public with sharing class tst_setupAssistant {
         upsert stripeConnectRec;
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeMappingSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());  
         String response = setupAssistant.saveMappingConfigurations('test');
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
@@ -319,7 +313,7 @@ public with sharing class tst_setupAssistant {
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
         
-        System.assertEquals((Boolean)responseMap.get('isSuccess'), false);
+        System.assertEquals((Boolean)responseMap.get('isSuccess'), true);
 
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
         System.assertEquals((Boolean)resultsMap.get('isConfigSaved'), false); 
@@ -349,7 +343,7 @@ public with sharing class tst_setupAssistant {
         upsert stripeConnectRec;
 
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeMappingSuccessMock());  
+        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());  
         String response = setupAssistant.getMappingConfigurations();
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
@@ -399,7 +393,7 @@ public with sharing class tst_setupAssistant {
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
 
-        System.assertEquals((Boolean)responseMap.get('isSuccess'), false);
+        System.assertEquals((Boolean)responseMap.get('isSuccess'), true);
     }
 
 
@@ -426,9 +420,19 @@ public with sharing class tst_setupAssistant {
         stripeConnectRec.API_Key__c = 'testPackageGUID';
         upsert stripeConnectRec;
 
+        Sync_Record__c testSyncRecord = new Sync_Record__c (
+            Primary_Record_ID__c = '1234',
+            Primary_Object_Type__c = 'Order',
+            Secondary_Record_ID__c = '4321',
+            Secondary_Object_Type__c = 'OrderItem',
+            Resolution_Status__c = 'Error',
+            Compound_ID__c = '12344321'
+        );
+        insert testSyncRecord;
+
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeRetrySuccessMock());  
-        String response = setupAssistant.manualRetry('test');
+        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());  
+        String response = setupAssistant.manualRetry(testSyncRecord.Id);
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
 
@@ -440,12 +444,20 @@ public with sharing class tst_setupAssistant {
         public HttpResponse respond(HttpRequest req) {
             HttpResponse res = new HttpResponse();
             if(req.getEndpoint().endsWith('configuration')) {
-                Map<String,Object> responseObject = new Map<String,Object>();
-                responseObject.put('salesforce', true);
-                responseObject.put('stripe', true);
-    
+
                 Map<String,Object> responseBody = new Map<String,Object>();
-                responseBody.put('connection_status', (Object)responseObject);
+                responseBody.put('connection_status', (Object)new Map<String,Object>{
+                    'salesforce' => true,
+                    'stripe' => true,
+                    'last_synced' => 'test',
+                    'stripe_account_id' => 1234
+                });
+                responseBody.put('settings', (Object)new Map<String,Object>{
+                    'default_currency' => 'USD',
+                    'sync_record_retention' => '2 days',
+                    'sync_start_date' => 'yesterda',
+                    'api_percentage_limit' => 1000515
+                });
     
                 res.setBody(Json.serialize(responseBody));
                 res.setStatusCode(200);
@@ -454,24 +466,7 @@ public with sharing class tst_setupAssistant {
         }
     }
 
-    private class stripeRetrySuccessMock implements HttpCalloutMock {
-        public HttpResponse respond(HttpRequest req) {
-            HttpResponse res = new HttpResponse();
-            if(req.getEndpoint().endsWith('translate')) {
-                Map<String,Object> responseObject = new Map<String,Object>();
-                //responseObject.put('salesforce', true);
-    
-                Map<String,Object> responseBody = new Map<String,Object>();
-                responseBody.put('retry_status', (Object)responseObject);
-    
-                res.setBody(Json.serialize(responseBody));
-                res.setStatusCode(200);
-            } 
-            return res;
-        }
-    }
-
-        private class stripeMappingSuccessMock implements HttpCalloutMock {
+        private class stripeSuccessMock implements HttpCalloutMock {
             public HttpResponse respond(HttpRequest req) {
                 HttpResponse res = new HttpResponse();
                 if (req.getEndpoint().endsWith('configuration')) {
@@ -500,6 +495,14 @@ public with sharing class tst_setupAssistant {
                     responseBody.put('default_mapping', (Object)defaultMap);
                     responseBody.put('required_mappings', (Object)requiredMapping);
                     responseBody.put('field_defaults', (Object)fieldDefaultMap);
+        
+                    res.setBody(Json.serialize(responseBody));
+                    res.setStatusCode(200);
+                } else if(req.getEndpoint().endsWith('translate')) {
+                    Map<String,Object> responseObject = new Map<String,Object>();
+        
+                    Map<String,Object> responseBody = new Map<String,Object>();
+                    responseBody.put('retry_status', (Object)responseObject);
         
                     res.setBody(Json.serialize(responseBody));
                     res.setStatusCode(200);

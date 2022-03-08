@@ -65,8 +65,6 @@ public with sharing class utilities {
                             //make sure the field only looks up to 1 object before adding it to map 
                             if(objectsFieldReferences.size() == 1) {
                                 String stringReferncedObjecect = string.valueOf(referencedObject);
-
-                                //gets relationship Nam
                                 String relationshipName = objectApiFieldMap.get(objectFieldName).getDescribe().getRelationshipName();
 
                                 //use this list to target lookup fields based on the object the look up to 
@@ -122,35 +120,26 @@ public with sharing class utilities {
         return objectFieldMapList;
     }
 
-    @AuraEnabled
-    public static String isCpqEnabled() {
-        responseData rd = new responseData();
-        try {
-            //just check if the namespace of SBQQ exists in the org 
-            List<PackageLicense> listOfOrgPackageLicenses = [SELECT Id, NamespacePrefix FROM PackageLicense];
-            if(!listOfOrgPackageLicenses.isEmpty()) {
-                for(SObject packageLicenseRecord : listOfOrgPackageLicenses){
-                    if(string.valueOf(packageLicenseRecord.get('NamespacePrefix')).substring(0,4) == 'SBQQ') {
-                        rd.put('isCpqInstalled',true);
-                        return rd.getJsonString();
-                    }
-                }
-            }
-            rd.put('isCpqInstalled',false);
-        } catch (Exception e) {
-            rd.addError(e);
-        }
-        return rd.getJsonString();
+    public static Boolean isCpqEnabled() {
+        //checks if the namespace of the CPQ package exists (all CPQ package namespaces start with 'SBQQ'
+        // if a non-admin installs this package, this check would fail
+        // we are using a wildcard because there are variants of the CPQ package which have a unique namespace (SBQQW)
+        Integer sbqqPackageCount = [SELECT COUNT() FROM PackageLicense WHERE NamespacePrefix LIKE 'SBQQ%'];
+        return sbqqPackageCount > 0;
     }
 
+    /* gets the organization type (sandbox or production) we are using a custom setting object so this record
+    will not be copied over to newly generated sandboxes instead a new record will be created for each instance*/
     @AuraEnabled
     public static String setOrgType() {
         responseData rd = new responseData();
         try {
             Organization_Type__c orgTypeSetting = Organization_Type__c.getOrgDefaults();
-            orgTypeSetting.isSandbox__c = (Boolean)constants.IS_SANDBOX;
-            upsert orgTypeSetting;
-            
+            //only set value if the record doesn't exist yet
+            if (orgTypeSetting.Id == null) {
+                orgTypeSetting.isSandbox__c = (Boolean)constants.IS_SANDBOX;
+                upsert orgTypeSetting;
+            } 
         } catch (Exception e) {
             rd.addError(e);
         }
@@ -164,24 +153,17 @@ public with sharing class utilities {
     }
 
     public static HttpResponse makeCallout(String endPoint, String method){
-        return makeCallout(endPoint, method, null, null);
+        return makeCallout(endPoint, method, null);
     }
- 
+
     public static HttpResponse makeCallout(String endPoint, String method, String body){
-        return makeCallout(endPoint, method, body, null);
-    }
- 
-    public static HttpResponse makeCallout(String endPoint, String method, Map<String, String> headers){
-        return makeCallout(endPoint, method, null, headers);
-    }
- 
-    public static HttpResponse makeCallout(String endPoint, String method, String body, Map<String, String> headers){
         Http httpMethod = new Http();
         HttpRequest request = new HttpRequest();
  
+        Integer requestTimeoutLength = 500;
         request.setEndpoint(endPoint);
         request.setMethod(method);
-        request.setTimeout(60000);
+        request.setTimeout(requestTimeoutLength);
  
         if(body != null) {
             //these headers are required for the API to respond properly 
@@ -190,35 +172,27 @@ public with sharing class utilities {
             request.setBody(body);
         }
  
-        if(headers != null) {
-            //add headers to request if they exist
-            for(String header : headers.keySet()) {
-                request.setHeader(header, headers.get(header));
+     
+        /* these standard headers will be add to the request if none are provided
+            the ruby service expects these headers for all requests. */
+        List<Setup_Connection_Data__mdt> setupConfigList = getStripeConnectionKey();  
+
+        //lets us create custom metadata record if we are in test context
+        if(Test.isRunningTest()) {  
+            setupConfigList = setupConfigMetadata;
+        }
+        
+        if(!setupConfigList.isEmpty()) {
+            Setup_Connection_Data__mdt setupData = setupConfigList[0];
+            request.setHeader('Salesforce-Account-Id', (String)constants.ORG_ID);
+            request.setHeader('Salesforce-Key', (String)setupData.Global_Key__c);
+            if(!String.isEmpty(constants.NAMESPACE_API)) {
+                request.setHeader('Package-Id', (String)setupAssistant.getPackageVersion());
             }
         } else {
-            /* these standard headers will be add to the request if none are provided
-             the ruby service expects these headers for all requests. */
-            List<Setup_Connection_Data__mdt> setupConfigList = getStripeConnectionKey();  
-
-            //lets us create custom metadata record if we are in test context
-            if(Test.isRunningTest()) {  
-                setupConfigList = setupConfigMetadata;
-            }
-
-            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults(); 
-
-            if(!setupConfigList.isEmpty() && stripeConnectRec.Id != null) {
-                Setup_Connection_Data__mdt setupData = setupConfigList[0];
-                request.setHeader('Salesforce-Account-Id', (String)constants.ORG_ID);
-                request.setHeader('Salesforce-Key', (String)setupData.Global_Key__c);
-                request.setHeader('key' , (String)stripeConnectRec.API_Key__c);
-                if(!String.isEmpty(constants.NAMESPACE_API)) {
-                    request.setHeader('Package-Id', (String)setupAssistant.getPackageVersion());
-                }
-            } else {
-                throw new SetupIsNotCompleteException('Setup is not complete, contact your Salesforce administrator for further assistance.');
-            }
+            throw new SetupIsNotCompleteException('Setup is not complete, contact your Salesforce administrator for further assistance.');
         }
+    
         HttpResponse response = httpMethod.send(request);
         return response;
     }

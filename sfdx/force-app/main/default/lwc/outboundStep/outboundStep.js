@@ -1,6 +1,5 @@
 import { LightningElement, track, api, wire } from 'lwc';
 import saveData from '@salesforce/apex/setupAssistant.saveData';
-import isCpqEnabled from '@salesforce/apex/utilities.isCpqEnabled';
 import validateConnectionStatus from '@salesforce/apex/setupAssistant.validateConnectionStatus';
 
 export default class OutboundStep extends LightningElement {
@@ -10,7 +9,7 @@ export default class OutboundStep extends LightningElement {
     @track isSandbox;
 
     connectedCallback() {
-        this.checkIfCPQIsEnabled();
+        this.stripeConnectedAppCallback(true);
     }
 
     stripeConnectedAppCallback(isCpqEnabled) {
@@ -63,32 +62,10 @@ export default class OutboundStep extends LightningElement {
                 this.showToast(this.data.error, 'error');
             }
         } catch (error) {
-            this.showToast(error, 'error');
+            this.showToast(error.message, 'error');
         } finally {
             this.nextDisabled = !this.isAuthComplete
         }
-    }
-
-    checkIfCPQIsEnabled() {
-       /* This is the cpq check to determine if we should show an error toast or not
-       commented this out for now in case we decide we want to add this check back  
-        try {
-            const checkIfCpqIsEnabled = await isCpqEnabled();
-            this.data =  JSON.parse(checkIfCpqIsEnabled);
-            if(this.data.isSuccess) {
-                let isCpqInstalled = this.data.isCpqInstalled;
-                if(isCpqInstalled === true) {
-                    this.stripeConnectedAppCallback(true);
-                } else {
-                    this.showToast('The CPQ package is not installed in this org', 'error');
-                }
-            } else {
-                this.showToast(this.data.error, 'error');
-            }
-        } catch (error) {
-            this.showToast(error, 'error');
-        }*/
-        this.stripeConnectedAppCallback(true);
     }
 
     async next(event) {
@@ -114,7 +91,7 @@ export default class OutboundStep extends LightningElement {
                     this.showToast(this.data.error, 'error');
                 }
             } catch (error) {
-                this.showToast(error, 'error');
+                this.showToast(error.message, 'error');
             }
         }
     }

@@ -15,22 +15,20 @@ export default class Setup extends LightningElement {
         this.template.addEventListener('finish', this.showLanding.bind(this));
     }
 
-    renderedCallback() {
+    async renderedCallback() {
         if (this._init !== true) {
             this._init = true;
             this.template.querySelector('c-landing').init(this.wizards);
         }
-        (async () => {
-            try {
-                const setOrganizationType = await setOrgType();
-                this.data =  JSON.parse(setOrganizationType);
-                if(!this.data.isSuccess) {
-                    this.showToast(this.data.error, 'error');
-                }
-            } catch (error) {
-                this.showToast(error, 'error');
+        try {
+            const setOrganizationType = await setOrgType();
+            this.data =  JSON.parse(setOrganizationType);
+            if(!this.data.isSuccess) {
+                this.showToast(this.data.error, 'error');
             }
-        })();
+        } catch (error) {
+            this.showToast(error.message, 'error');
+        }
     }
 
     showLanding() {

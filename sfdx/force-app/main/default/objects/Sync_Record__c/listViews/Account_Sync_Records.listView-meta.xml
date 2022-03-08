@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Sync_Records</fullName>
+    <columns>NAME</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Resolution_Status__c</columns>
+    <columns>Primary_Object_Type__c</columns>
+    <columns>Primary_Record__c</columns>
+    <columns>Secondary_Object_Type__c</columns> 
+    <columns>Secondary_Record__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Primary_Object_Type__c</field>
+        <operation>equals</operation>
+        <value>Account</value>
+    </filters>
+    <filters>
+        <field>Secondary_Object_Type__c</field>
+        <operation>equals</operation>
+        <value>Account</value>
+    </filters>
+    <label>Account Sync Records</label>
+</ListView>
