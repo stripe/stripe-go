@@ -9,7 +9,7 @@ gem 'sorbet', '~> 0.5.9724', group: :development
 gem 'sorbet-rails', '~> 0.7.32'
 
 gem 'dotenv-rails', '2.7.6', groups: [:development, :test]
-gem 'rails', '~> 6.1.4'
+gem 'rails', '~> 6.1.4.7'
 gem 'lograge'
 
 group :production do
