@@ -47,7 +47,7 @@ type CustomerListParams struct {
 	CreatedRange *RangeQueryParams `form:"created"`
 	// A case-sensitive filter on the list based on the customer's `email` field. The value must be a string.
 	Email *string `form:"email"`
-	// Provides a list of customers that are associated with the specified test clock. If no list is provided, the response won't include customers with test clocks.
+	// Provides a list of customers that are associated with the specified test clock. The response will not include customers with test clocks if this parameter is not set.
 	TestClock *string `form:"test_clock"`
 }
 
