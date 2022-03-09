@@ -313,7 +313,7 @@ type PaymentMethodAttachParams struct {
 	Customer *string `form:"customer"`
 }
 
-// Detaches a PaymentMethod object from a Customer.
+// Detaches a PaymentMethod object from a Customer. After a PaymentMethod is detached, it can no longer be used for a payment or re-attached to a Customer.
 type PaymentMethodDetachParams struct {
 	Params `form:"*"`
 }

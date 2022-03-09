@@ -282,7 +282,7 @@ type CheckoutSessionLineItemPriceDataProductDataParams struct {
 	TaxCode *string `form:"tax_code"`
 }
 
-// The recurring components of a price such as `interval` and `usage_type`.
+// The recurring components of a price such as `interval` and `interval_count`.
 type CheckoutSessionLineItemPriceDataRecurringParams struct {
 	AggregateUsage *string `form:"aggregate_usage"`
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
@@ -301,7 +301,7 @@ type CheckoutSessionLineItemPriceDataParams struct {
 	Product *string `form:"product"`
 	// Data used to generate a new product object inline. One of `product` or `product_data` is required.
 	ProductData *CheckoutSessionLineItemPriceDataProductDataParams `form:"product_data"`
-	// The recurring components of a price such as `interval` and `usage_type`.
+	// The recurring components of a price such as `interval` and `interval_count`.
 	Recurring *CheckoutSessionLineItemPriceDataRecurringParams `form:"recurring"`
 	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
