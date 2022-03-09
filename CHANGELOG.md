@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.92.0 - 2022-03-09
+* [#1430](https://github.com/stripe/stripe-go/pull/1430) API Updates
+  * Add support for `TestClock` on `CustomerListParams`
+* [#1429](https://github.com/stripe/stripe-go/pull/1429) Fix unmarshalling error on schedule create from subscription (ApplicationFeePercent)
+
 ## 72.91.0 - 2022-03-02
 * [#1425](https://github.com/stripe/stripe-go/pull/1425) API Updates
   * Add support for new resources `InvoiceLineProrationDetails` and `InvoiceLineProrationDetailsCreditedItems`
