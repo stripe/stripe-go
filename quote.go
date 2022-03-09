@@ -113,7 +113,7 @@ type QuoteInvoiceSettingsParams struct {
 	DaysUntilDue *int64 `form:"days_until_due"`
 }
 
-// The recurring components of a price such as `interval` and `usage_type`.
+// The recurring components of a price such as `interval` and `interval_count`.
 type QuoteLineItemPriceDataRecurringParams struct {
 	// Specifies billing frequency. Either `day`, `week`, `month` or `year`.
 	Interval *string `form:"interval"`
@@ -127,7 +127,7 @@ type QuoteLineItemPriceDataParams struct {
 	Currency *string `form:"currency"`
 	// The ID of the product that this price will belong to.
 	Product *string `form:"product"`
-	// The recurring components of a price such as `interval` and `usage_type`.
+	// The recurring components of a price such as `interval` and `interval_count`.
 	Recurring *QuoteLineItemPriceDataRecurringParams `form:"recurring"`
 	// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
 	TaxBehavior *string `form:"tax_behavior"`
