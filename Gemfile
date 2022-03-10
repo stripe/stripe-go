@@ -2,7 +2,7 @@
 source 'https://rubygems.org'
 git_source(:github) {|repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.8'
+ruby '2.6.9'
 
 gem 'sorbet', '~> 0.5.9724', group: :development
 # gem 'sorbet-runtime', '~> 0.5.9318', require: true

@@ -380,6 +380,7 @@ GEM
       sorbet-runtime (>= 0.5)
     sorbet-runtime (0.5.9694)
     sorbet-static (0.5.9724-universal-darwin-20)
+    sorbet-static (0.5.9724-universal-darwin-21)
     sorbet-static (0.5.9724-x86_64-linux)
     spring (3.1.1)
     sprockets (4.0.3)
@@ -416,6 +417,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-20
+  x86_64-darwin-21
   x86_64-linux
 
 DEPENDENCIES
@@ -476,7 +478,7 @@ DEPENDENCIES
   webdrivers (~> 4.7.0)
 
 RUBY VERSION
-   ruby 2.6.8p205
+   ruby 2.6.9p207
 
 BUNDLED WITH
-   2.2.29
+   2.2.33
