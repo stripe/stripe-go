@@ -17,9 +17,9 @@ group :production do
 end
 
 # sentry
-gem "sentry-ruby", "~> 4.9.2"
-gem "sentry-rails", "~> 4.9.2"
-gem "sentry-resque", "~> 4.9.2"
+gem "sentry-ruby", "~> 5.1.1"
+gem "sentry-rails", "~> 5.1.1"
+gem "sentry-resque", "~> 5.1.1"
 gem 'simple_structured_logger'
 
 # resque
