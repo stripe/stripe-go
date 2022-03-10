@@ -5,6 +5,7 @@ module StripeForce
   module Constants
     SF_ORDER = 'Order'
     SF_PRODUCT = 'Product2'
+    SF_ACCOUNT = 'Account'
     SF_PRICEBOOK_ENTRY = 'PricebookEntry'
 
     CPQ_QUOTE = 'SBQQ__Quote__c'

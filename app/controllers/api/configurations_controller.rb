@@ -22,7 +22,7 @@ module Api
     def translate
       sf_record_type, sf_record_ids = params.require([:object_type, :object_ids])
 
-      if ![SF_ORDER].include?(sf_record_type)
+      if ![SF_ORDER, SF_ACCOUNT, SF_PRODUCT].include?(sf_record_type)
         log.error 'invalid object type', object_type: sf_record_type
         head :bad_request
         return
@@ -36,7 +36,7 @@ module Api
 
       sf_record_ids.each do |sf_record_id|
         # TODO validate that SF IDs look correct?
-        log.info 'queuing order', order_id: sf_record_id
+        log.info 'queuing object', salesforce_id: sf_record_id, salesforce_type: sf_record_type
         SalesforceTranslateRecordJob.work(@user, sf_record_type, sf_record_id)
       end
 

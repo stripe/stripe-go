@@ -42,6 +42,20 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       post api_translate_path, as: :json, params: { object_type: 'Order', object_ids: order_ids }, headers: authentication_headers
       assert_response :success
     end
+
+    it 'accepts account reference' do
+      SalesforceTranslateRecordJob.expects(:work)
+
+      post api_translate_path, as: :json, params: { object_type: SF_ACCOUNT, object_ids: [create_salesforce_id] }, headers: authentication_headers
+      assert_response :success
+    end
+
+    it 'accepts product reference' do
+      SalesforceTranslateRecordJob.expects(:work)
+
+      post api_translate_path, as: :json, params: { object_type: SF_PRODUCT, object_ids: [create_salesforce_id] }, headers: authentication_headers
+      assert_response :success
+    end
   end
 
   describe '#post_install' do
