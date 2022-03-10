@@ -125,7 +125,7 @@ module Api
         salesforce_account_id: @user.salesforce_account_id,
         field_mappings: @user.field_mappings,
         field_defaults: @user.field_defaults,
-        default_mapping: {
+        default_mappings: {
           # TODO this needs to be moved to be dynamic based on user ff config
           customer: {
             name: 'Name',

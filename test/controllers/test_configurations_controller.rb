@@ -127,6 +127,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       assert_response :success
 
       result = parsed_json
+      refute_nil(result['default_mappings'])
       assert_equal(@user.salesforce_account_id, result["salesforce_account_id"])
       assert_equal(@user.field_mappings, result["field_mappings"])
       assert_equal(@user.field_defaults, result["field_defaults"])
