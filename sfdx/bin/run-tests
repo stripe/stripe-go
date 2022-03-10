@@ -1,0 +1,53 @@
+#!/bin/bash
+
+set -eu -o pipefail
+
+if [ -z "$CI" ]; then
+  echo "This should only be run on CircleCI"
+  exit 1
+fi
+
+if ! command -v sfdx &> /dev/null
+then
+  echo "SFDX is not installed please follow this link to install"
+  echo "https://developer.salesforce.com/docs/atlas.en-us.234.0.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm"
+  exit 1
+else
+  echo "sfdx installed. version:"
+  sfdx --version
+fi
+
+cd sfdx
+export SFDX_IMPROVED_CODE_COVERAGE=true
+
+# set `SF_JWT_KEY` on CI to `cat sfdx/jwt-cert/private_key.pem | base64`
+echo $SF_JWT_KEY | base64 --decode --ignore-garbage > ./private.key
+
+# grab a `accessToken` from a auth'd account in ~/.sfdx/ to test this logic locally
+# `sfdx auth:logout -u alias` to remove the org so can reauth
+
+function authorize {
+  username=$1
+  salesforceAlias=$(echo "$username" | perl -nle 'm/\+([^@]+)/; print $1')
+  echo "Authorizing using alias: $salesforceAlias"
+  sfdx auth:jwt:grant --clientid $SF_CONSUMER_KEY --jwtkeyfile=./private.key --username="$username" --setalias="$salesforceAlias"
+}
+
+# https://circleci.com/developer/orbs/orb/circleci/salesforce-apex#commands-source-push
+
+function deploySource {
+  orgAlias=$1
+  echo "\nDeploying source..."
+  sfdx force:source:deploy -p force-app/main/default/ -u $orgAlias
+}
+
+function runTests {
+  orgAlias=$1
+  echo "\nRunning tests..."
+  mkdir -p test-results
+  sfdx force:apex:test:run --codecoverage --testlevel RunLocalTests -u $orgAlias --resultformat human --outputdir=test-results
+}
+
+authorize "$1"
+deploySource "$1"
+runTests "$1"

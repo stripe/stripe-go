@@ -36,3 +36,4 @@ irb.log
 .env
 test/reports/
 .DS_Store
+sfdx/jwt-cert/private_key.pem

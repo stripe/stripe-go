@@ -6,6 +6,8 @@ version: 2.1
 orbs:
   ruby: circleci/ruby@1.1.4
   browser-tools: circleci/browser-tools@1.2.2
+  # https://circleci.com/developer/orbs/orb/circleci/salesforce-apex#commands-test
+  sfdx: circleci/salesforce-sfdx@2.2.0
 workflows:
   version: 2
   build_typecheck_rubocop:
@@ -24,6 +26,13 @@ workflows:
             - typecheck
       - typecheck
       - rubocop
+      - salesforce:
+          name: salesforce-<< matrix.account >>
+          matrix:
+            parameters:
+              # https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0
+              account: ["mbianco+standardcpq@stripe.com", "mbianco+cpqmulticurrency@stripe.com", "mbianco+cpqplus@stripe.com", "mbianco+noncpq@stripe.com", "mbianco+cpqubp@stripe.com"]
+
 
   nightly:
     jobs: *build_typecheck_rubocop_jobs
@@ -51,6 +60,21 @@ jobs:
       - checkout
       - ruby/install-deps
       - run: bundle exec rubocop
+  salesforce:
+    parameters:
+      account:
+        type: string
+    executor: sfdx/default
+    steps:
+      - checkout
+      - sfdx/install
+      - run: sfdx/bin/run-tests <<parameters.account>>
+      - store_test_results:
+          path: sfdx/test-results
+      - store_artifacts:
+          destination: apex-test-results
+          path: sfdx/test-results
+
   build:
     working_directory: ~/stripe-netsuite
     parallelism: 1
@@ -78,12 +102,12 @@ jobs:
     docker:
       # replace `:.*` with `@sha256:THE_SHA` to lock the build to a specific container SHA
     - image: cimg/ruby:2.6.9-browsers
-    - image: circleci/postgres:13.2
+    - image: cimg/postgres:13.5
       environment:
         POSTGRES_DB: circle_test
         POSTGRES_USER: ubuntu
         POSTGRES_PASSWORD: pg_password
-    - image: circleci/redis:6.2.3
+    - image: cimg/redis:6.2
 
     steps:
     - browser-tools/install-chrome

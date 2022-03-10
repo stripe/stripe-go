@@ -1,0 +1,9 @@
+# https://github.com/openssl/openssl/issues/3536
+
+[req]
+distinguished_name = req_distinguished_name
+prompt = no
+
+[req_distinguished_name]
+countryName = US
+commonName = JwtCILogin
