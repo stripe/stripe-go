@@ -190,6 +190,7 @@ public with sharing class utilities {
                 request.setHeader('Package-Id', (String)setupAssistant.getPackageVersion());
             }
         } else {
+            // TODO log.info missing metadata could be the issue
             throw new SetupIsNotCompleteException('Setup is not complete, contact your Salesforce administrator for further assistance.');
         }
     

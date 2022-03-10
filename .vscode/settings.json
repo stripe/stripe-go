@@ -4,6 +4,11 @@
   "ruby.rubocop.executePath": "/Users/mbianco/stripe/stripe-force/bin/rubocop-daemon-wrapper/",
   // "editor.formatOnSaveTimeout": 1000,
   "editor.formatOnSave": true,
+  "[apex]": {
+    // don't mess with appiphony's formatting
+    "files.trimTrailingWhitespace": false,
+    "files.trimFinalNewlines": false
+  },
   "cSpell.ignorePaths":[
     "node_modules",
     ".vscode",
