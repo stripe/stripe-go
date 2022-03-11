@@ -48,14 +48,14 @@ workflows:
 jobs:
   typecheck:
     docker:
-    - image: cimg/ruby:2.6.9
+    - image: cimg/ruby:2.7.3
     steps:
       - checkout
       - ruby/install-deps
       - run: bundle exec srb tc
   rubocop:
     docker:
-    - image: cimg/ruby:2.6.9
+    - image: cimg/ruby:2.7.3
     steps:
       - checkout
       - ruby/install-deps
@@ -101,7 +101,7 @@ jobs:
     # TODO possibly use the heroku image instead?
     docker:
       # replace `:.*` with `@sha256:THE_SHA` to lock the build to a specific container SHA
-    - image: cimg/ruby:2.6.9-browsers
+    - image: cimg/ruby:2.7.3-browsers
     - image: cimg/postgres:13.5
       environment:
         POSTGRES_DB: circle_test
