@@ -88,11 +88,12 @@ module Api
     end
 
     def update
-      field_defaults, field_mappings = params.require([:field_defaults, :field_mappings])
+      field_defaults, field_mappings, settings = params.require([:field_defaults, :field_mappings, :settings])
 
       @user.update(
         field_defaults: field_defaults,
-        field_mappings: field_mappings
+        field_mappings: field_mappings,
+        connector_settings: settings
       )
 
       render json: user_configuration_json
@@ -149,13 +150,7 @@ module Api
           last_synced: Time.now.to_i,
           stripe_account_id: @user.stripe_account_id,
         },
-        # TODO need to be dynamic values
-        settings: {
-          api_percentage_limit: 95,
-          sync_start_date: Time.now.to_i,
-          sync_record_retention: 10_000,
-          default_currency: 'USD',
-        },
+        settings: @user.connector_settings,
       }
     end
 

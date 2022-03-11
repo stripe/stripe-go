@@ -2,6 +2,12 @@
 # Please rerun bundle exec scripts/sequel-types.rb to regenerate
 # typed: strong
 module StripeForce::User::GeneratedAttributeMethods
+  sig { returns(T.any(T::Array[T.untyped], T::Hash[String, T.untyped])) }
+  def connector_settings; end
+
+  sig { params(value: T.any(T::Array[T.untyped], T::Hash[String, T.untyped])).void }
+  def connector_settings=(value); end
+
   sig { returns(DateTime) }
   def created_at; end
 

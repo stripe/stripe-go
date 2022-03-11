@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # install: cp bin/pre-push .git/hooks/pre-push
 
-changed_files=$(git diff-tree -r --no-commit-id --name-only head origin/master | grep '\.rb$' | xargs ls -d 2>/dev/null)
+changed_files=$(git diff-tree -r --no-commit-id --name-only --diff-filter=D head origin/master | grep '\.rb$' | xargs ls -d 2>/dev/null)
 
 set -e
 

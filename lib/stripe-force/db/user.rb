@@ -13,6 +13,7 @@ module StripeForce
     plugin :serialization, :json, :feature_flags
     plugin :serialization, :json, :field_defaults
     plugin :serialization, :json, :field_mappings
+    plugin :serialization, :json, :connector_settings
 
     SF_CONSUMER_KEY = ENV.fetch('SF_CONSUMER_KEY')
     SF_CONSUMER_SECRET = ENV.fetch('SF_CONSUMER_SECRET')
@@ -20,6 +21,12 @@ module StripeForce
     def after_initialize
       if self.new?
         self.enable_feature(:loud_sandbox_logging)
+        self.connector_settings = {
+          api_percentage_limit: 95,
+          sync_start_date: Time.now.to_i,
+          sync_record_retention: 10_000,
+          default_currency: 'USD',
+        }
       end
 
       self.feature_flags.map!(&:to_sym)

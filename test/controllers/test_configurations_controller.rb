@@ -127,10 +127,17 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       assert_response :success
 
       result = parsed_json
+
       refute_nil(result['default_mappings'])
+
       assert_equal(@user.salesforce_account_id, result["salesforce_account_id"])
       assert_equal(@user.field_mappings, result["field_mappings"])
       assert_equal(@user.field_defaults, result["field_defaults"])
+
+      assert_equal(result['settings']['api_percentage_limit'], 95)
+      assert_equal(result['settings']['sync_record_retention'], 10_000)
+      assert_equal(result['settings']['default_currency'], 'USD')
+      assert(result['settings']['sync_start_date'] > Time.now.to_i - 1)
     end
 
     it 'updates user status JSON' do
@@ -146,9 +153,17 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         }
       }
 
+      future_time = Time.now.to_i + 3600
+
       put api_configuration_path, params: {
         field_mappings: updated_field_mapping,
         field_defaults: updated_field_defaults,
+        settings: {
+          api_percentage_limit: 90,
+          sync_start_date: future_time,
+          sync_record_retention: 1_000,
+          default_currency: 'EUR',
+        }
       }, as: :json, headers: authentication_headers
 
       assert_response :success
@@ -162,6 +177,11 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
 
       assert_equal(@user.field_mappings, result["field_mappings"])
       assert_equal(@user.field_defaults, result["field_defaults"])
+
+      assert_equal(result['settings']['api_percentage_limit'], 90)
+      assert_equal(result['settings']['sync_record_retention'], 1_000)
+      assert_equal(result['settings']['default_currency'], 'EUR')
+      assert_equal(result['settings']['sync_start_date'], future_time)
     end
   end
 end
