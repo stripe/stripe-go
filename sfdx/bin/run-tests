@@ -17,11 +17,10 @@ else
   sfdx --version
 fi
 
+./sfdx/bin/extract-private-key
+
 cd sfdx
 export SFDX_IMPROVED_CODE_COVERAGE=true
-
-# set `SF_JWT_KEY` on CI to `cat sfdx/jwt-cert/private_key.pem | base64`
-echo $SF_JWT_KEY | base64 --decode --ignore-garbage > ./private.key
 
 # grab a `accessToken` from a auth'd account in ~/.sfdx/ to test this logic locally
 # `sfdx auth:logout -u alias` to remove the org so can reauth

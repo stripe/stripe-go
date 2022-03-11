@@ -8,6 +8,7 @@ orbs:
   browser-tools: circleci/browser-tools@1.2.2
   # https://circleci.com/developer/orbs/orb/circleci/salesforce-apex#commands-test
   sfdx: circleci/salesforce-sfdx@2.2.0
+  jq: circleci/jq@2.2.0
 workflows:
   version: 2
   build_typecheck_rubocop:
@@ -96,8 +97,7 @@ jobs:
       RACK_ENV: test
       DISABLE_SPRING: 'true'
       STRIPE_ACCOUNT_ID: acct_15uapDIsgf92XbAO
-      SF_INSTANCE_ID: 00D5e000003V0C7EAK
-      SF_INSTANCE_DOMAIN: biancodevorg-dev-ed
+      SF_USERNAME: mbianco+standardcpq@stripe.com
     # TODO possibly use the heroku image instead?
     docker:
       # replace `:.*` with `@sha256:THE_SHA` to lock the build to a specific container SHA
@@ -113,6 +113,8 @@ jobs:
     - browser-tools/install-chrome
     - browser-tools/install-chromedriver
     - checkout
+    - sfdx/install
+    - jq/install
     - run:
         working_directory: ~/stripe-netsuite
         command: |
@@ -151,6 +153,32 @@ jobs:
           bundle exec ruby db/migration.rb
           # bundle exec sequel -m migrations $TEST_DATABASE_URL
 
+    - run:
+        name: Setup Salesforce Access
+        command: |
+          ./sfdx/bin/extract-private-key
+
+          SF_JWT_PRIVATE_KEY_PATH=./sfdx/private.key
+
+          # not required to get an access token, but useful for domain and instance ID extraction
+          sfdx auth:jwt:grant --clientid $SF_CONSUMER_KEY --jwtkeyfile=$SF_JWT_PRIVATE_KEY_PATH --username="$SF_USERNAME"
+
+          # for debugging purposes
+          sfdx auth:list --json
+
+          export SF_INSTANCE_DOMAIN=$(sfdx auth:list --json | jq '.result[] | select(.username=="'$SF_USERNAME'").instanceUrl' | perl -nle 'm/https:\/\/(.*)\.my.salesforce.com/; print $1')
+          export SF_INSTANCE_ID=$(sfdx auth:list --json | jq '.result[] | select(.username=="'$SF_USERNAME'").orgId')
+
+          # now, we need to swap our jwt token for a access token
+          $(cd sfdx/bin/jwt-generator && npm install &>/dev/null)
+          export SF_ACCESS_TOKEN=$(SF_JWT_PRIVATE_KEY_PATH=$SF_JWT_PRIVATE_KEY_PATH node sfdx/bin/jwt-generator/index.js)
+
+          # persist environment vars to the next job run
+          # this is a hack but the best option circleci provides
+          echo "export SF_ACCESS_TOKEN=$SF_ACCESS_TOKEN" >> $BASH_ENV
+          echo "export SF_INSTANCE_DOMAIN=$SF_INSTANCE_DOMAIN" >> $BASH_ENV
+          echo "export SF_INSTANCE_ID=$SF_INSTANCE_ID" >> $BASH_ENV
+
     # always run bundle-audit in case new security issues are found without a Gemfile change
     # https://github.com/stripe/stripe-netsuite/issues/1713
     - run:
@@ -171,6 +199,10 @@ jobs:
         when: always
         no_output_timeout: "20m"
         command: |
+          echo "Instance Domain: $SF_INSTANCE_DOMAIN"
+          echo "Instance Id: $SF_INSTANCE_ID"
+          echo "Access Token: $SF_ACCESS_TOKEN"
+
           # https://discuss.circleci.com/t/test-timings-are-still-missing-with-2-0-and-workflows/21247/14
           # https://github.com/CircleCI-Public/circleci-cli/blob/master/cmd/tests.go#L54
           SPLIT_TEST_FILES=$(circleci tests glob "test/**/test*.rb" | circleci tests split --split-by=timings --timings-type=filename)

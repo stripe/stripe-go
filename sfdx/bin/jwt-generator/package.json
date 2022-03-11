@@ -1,0 +1,11 @@
+{
+  "name": "jwt-generator",
+  "version": "1.0.0",
+  "description": "Generate an access token from a JWT token",
+  "main": "index.js",
+  "type": "module",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "node-fetch": "^3.2.2"
+  }
+}
