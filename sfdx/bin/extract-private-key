@@ -2,5 +2,10 @@
 
 set -eu -o pipefail
 
+if [ -z "$CI" ]; then
+  echo "This should only be run on CircleCI"
+  exit 1
+fi
+
 # set `SF_JWT_KEY` on CI to `cat sfdx/jwt-cert/private_key.pem | base64`
 echo $SF_JWT_KEY | base64 --decode --ignore-garbage > ./sfdx/private.key

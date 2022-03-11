@@ -7,14 +7,20 @@ require File.expand_path('../config/environment', __dir__)
 
 include StripeForce::Constants
 
-user = StripeForce::User.find(salesforce_account_id: ENV.fetch('SF_INSTANCE_ID'))
+if ARGV[0]
+  prefix = "SF_#{ARGV[0].upcase}_"
+else
+  prefix = "SF_"
+end
+
+user = StripeForce::User.find(salesforce_account_id: ENV.fetch(prefix + 'INSTANCE_ID'))
 
 # most likely, the local creds will be expired
 user ||= StripeForce::User.new(
-  salesforce_account_id: ENV.fetch('SF_INSTANCE_ID'),
-  salesforce_token: ENV.fetch('SF_ACCESS_TOKEN'),
-  salesforce_refresh_token: ENV['SF_REFRESH_TOKEN'],
-  salesforce_instance_url: "https://#{ENV.fetch('SF_INSTANCE_DOMAIN')}.my.salesforce.com",
+  salesforce_account_id: ENV.fetch(prefix + 'INSTANCE_ID'),
+  salesforce_token: ENV.fetch(prefix + 'ACCESS_TOKEN'),
+  salesforce_refresh_token: ENV[prefix + 'REFRESH_TOKEN'],
+  salesforce_instance_url: "https://#{ENV.fetch(prefix + 'INSTANCE_DOMAIN')}.my.salesforce.com",
 
   stripe_account_id: ENV.fetch('STRIPE_ACCOUNT_ID')
 )

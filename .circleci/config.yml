@@ -32,7 +32,12 @@ workflows:
           matrix:
             parameters:
               # https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0
-              account: ["mbianco+standardcpq@stripe.com", "mbianco+cpqmulticurrency@stripe.com", "mbianco+cpqplus@stripe.com", "mbianco+noncpq@stripe.com", "mbianco+cpqubp@stripe.com"]
+              account:
+                - mbianco+standardcpq@stripe.com
+                - mbianco+cpqmulticurrency@stripe.com
+                - mbianco+cpqplus@stripe.com
+                - mbianco+noncpq@stripe.com
+                - mbianco+cpqubp@stripe.com
 
 
   nightly:

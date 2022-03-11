@@ -20,6 +20,8 @@ Note that any changes to the app can take some time to persist on the Salesforce
 
 In order for JWT authorization to work on CI you need to 'preauthorize' the app against each SF account you want to use it in.
 
+Visiting https://stripe-force.herokuapp.com/auth/salesforce on the account should be all you need to do.
+
 ## Related:
 
 - https://medium.com/@tou_sfdx/salesforce-oauth-jwt-bearer-flow-cc70bfc626c2
