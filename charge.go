@@ -511,6 +511,8 @@ type ChargePaymentMethodDetailsCard struct {
 	Installments *ChargePaymentMethodDetailsCardInstallments `json:"installments"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
+	// ID of the mandate used to make this payment or created by it.
+	Mandate string `json:"mandate"`
 	// True if this payment was marked as MOTO and out of scope for SCA.
 	MOTO bool `json:"moto"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.

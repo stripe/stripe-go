@@ -75,6 +75,35 @@ const (
 	SetupIntentPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
+// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+type SetupIntentPaymentMethodOptionsCardMandateOptionsAmountType string
+
+// List of values that SetupIntentPaymentMethodOptionsCardMandateOptionsAmountType can take
+const (
+	SetupIntentPaymentMethodOptionsCardMandateOptionsAmountTypeFixed   SetupIntentPaymentMethodOptionsCardMandateOptionsAmountType = "fixed"
+	SetupIntentPaymentMethodOptionsCardMandateOptionsAmountTypeMaximum SetupIntentPaymentMethodOptionsCardMandateOptionsAmountType = "maximum"
+)
+
+// Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`.
+type SetupIntentPaymentMethodOptionsCardMandateOptionsInterval string
+
+// List of values that SetupIntentPaymentMethodOptionsCardMandateOptionsInterval can take
+const (
+	SetupIntentPaymentMethodOptionsCardMandateOptionsIntervalDay      SetupIntentPaymentMethodOptionsCardMandateOptionsInterval = "day"
+	SetupIntentPaymentMethodOptionsCardMandateOptionsIntervalMonth    SetupIntentPaymentMethodOptionsCardMandateOptionsInterval = "month"
+	SetupIntentPaymentMethodOptionsCardMandateOptionsIntervalSporadic SetupIntentPaymentMethodOptionsCardMandateOptionsInterval = "sporadic"
+	SetupIntentPaymentMethodOptionsCardMandateOptionsIntervalWeek     SetupIntentPaymentMethodOptionsCardMandateOptionsInterval = "week"
+	SetupIntentPaymentMethodOptionsCardMandateOptionsIntervalYear     SetupIntentPaymentMethodOptionsCardMandateOptionsInterval = "year"
+)
+
+// Specifies the type of mandates supported. Possible values are `india`.
+type SetupIntentPaymentMethodOptionsCardMandateOptionsSupportedType string
+
+// List of values that SetupIntentPaymentMethodOptionsCardMandateOptionsSupportedType can take
+const (
+	SetupIntentPaymentMethodOptionsCardMandateOptionsSupportedTypeIndia SetupIntentPaymentMethodOptionsCardMandateOptionsSupportedType = "india"
+)
+
 // We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 type SetupIntentPaymentMethodOptionsCardRequestThreeDSecure string
 
@@ -164,8 +193,34 @@ type SetupIntentPaymentMethodOptionsACSSDebitParams struct {
 	VerificationMethod *string `form:"verification_method"`
 }
 
+// Configuration options for setting up an eMandate for cards issued in India.
+type SetupIntentPaymentMethodOptionsCardMandateOptionsParams struct {
+	// Amount to be charged for future payments.
+	Amount *int64 `form:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType *string `form:"amount_type"`
+	// Currency in which future payments will be charged. Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description *string `form:"description"`
+	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate *int64 `form:"end_date"`
+	// Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`.
+	Interval *string `form:"interval"`
+	// The number of intervals between payments. For example, `interval=month` and `interval_count=3` indicates one payment every three months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks). This parameter is optional when `interval=sporadic`.
+	IntervalCount *int64 `form:"interval_count"`
+	// Unique identifier for the mandate or subscription.
+	Reference *string `form:"reference"`
+	// Start date of the mandate or subscription. Start date should not be lesser than yesterday.
+	StartDate *int64 `form:"start_date"`
+	// Specifies the type of mandates supported. Possible values are `india`.
+	SupportedTypes []*string `form:"supported_types"`
+}
+
 // Configuration for any card setup attempted on this SetupIntent.
 type SetupIntentPaymentMethodOptionsCardParams struct {
+	// Configuration options for setting up an eMandate for cards issued in India.
+	MandateOptions *SetupIntentPaymentMethodOptionsCardMandateOptionsParams `form:"mandate_options"`
 	// When specified, this parameter signals that a card has been collected
 	// as MOTO (Mail Order Telephone Order) and thus out of scope for SCA. This
 	// parameter can only be provided during confirmation.
@@ -334,7 +389,33 @@ type SetupIntentPaymentMethodOptionsACSSDebit struct {
 	// Bank account verification method.
 	VerificationMethod SetupIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
+
+// Configuration options for setting up an eMandate for cards issued in India.
+type SetupIntentPaymentMethodOptionsCardMandateOptions struct {
+	// Amount to be charged for future payments.
+	Amount int64 `json:"amount"`
+	// One of `fixed` or `maximum`. If `fixed`, the `amount` param refers to the exact amount to be charged in future payments. If `maximum`, the amount charged can be up to the value passed for the `amount` param.
+	AmountType SetupIntentPaymentMethodOptionsCardMandateOptionsAmountType `json:"amount_type"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A description of the mandate or subscription that is meant to be displayed to the customer.
+	Description string `json:"description"`
+	// End date of the mandate or subscription. If not provided, the mandate will be active until canceled. If provided, end date should be after start date.
+	EndDate int64 `json:"end_date"`
+	// Specifies payment frequency. One of `day`, `week`, `month`, `year`, or `sporadic`.
+	Interval SetupIntentPaymentMethodOptionsCardMandateOptionsInterval `json:"interval"`
+	// The number of intervals between payments. For example, `interval=month` and `interval_count=3` indicates one payment every three months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks). This parameter is optional when `interval=sporadic`.
+	IntervalCount int64 `json:"interval_count"`
+	// Unique identifier for the mandate or subscription.
+	Reference string `json:"reference"`
+	// Start date of the mandate or subscription. Start date should not be lesser than yesterday.
+	StartDate int64 `json:"start_date"`
+	// Specifies the type of mandates supported. Possible values are `india`.
+	SupportedTypes []SetupIntentPaymentMethodOptionsCardMandateOptionsSupportedType `json:"supported_types"`
+}
 type SetupIntentPaymentMethodOptionsCard struct {
+	// Configuration options for setting up an eMandate for cards issued in India.
+	MandateOptions *SetupIntentPaymentMethodOptionsCardMandateOptions `json:"mandate_options"`
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Permitted values include: `automatic` or `any`. If not provided, defaults to `automatic`. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure SetupIntentPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
