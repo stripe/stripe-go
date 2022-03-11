@@ -192,7 +192,7 @@ export default class DataMappingStep extends LightningElement {
         }
     }
 
-    debounce() {
+    debounce(targetInput) {
         setTimeout(() => {
             targetInput.dropdownLoading = false;
         }, 1);
@@ -209,7 +209,7 @@ export default class DataMappingStep extends LightningElement {
             this.sfFieldOptions = this.fieldListByObjectMap[selectedObject];
             this.filterSfOptionsByStripeFieldType();
             // Push updating the child loading attribute to the next render cycle 
-            this.debounce();
+            this.debounce(targetInput);
         } else {
             this.getPicklistValuesForMapper(false, selectedObject, false, targetInput);
         }
@@ -222,7 +222,7 @@ export default class DataMappingStep extends LightningElement {
         if(this.fieldListByObjectMap[selectedObject]) {
             this.sfFieldOptions = this.fieldListByObjectMap[selectedObject];
             // Push updating the child loading attribute to the next render cycle 
-            this.debounce();
+            this.debounce(targetInput);
         } else {
             this.getPicklistValuesForMapper(false, selectedObject, true, targetInput);
         }

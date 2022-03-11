@@ -228,7 +228,7 @@ export default class fieldPicker extends LightningElement {
                 }
             });
             this.dispatchEvent(evt);
-            this._dropdownLoading = true;
+            this.dropdownLoading = true;
         }
     }
 
@@ -337,7 +337,7 @@ export default class fieldPicker extends LightningElement {
             }
         });
         this.dispatchEvent(evt);
-        this._dropdownLoading = true;
+        this.dropdownLoading = true;
         this.toggleMenu();
     }
 
@@ -595,13 +595,7 @@ export default class fieldPicker extends LightningElement {
     selectionList = []; // Selection List being constructed; cleared when input not in use
     @track currentObject = ''; // Current object context of field picker; updates as picker traverses objects
     maxSelectionDepth = 4; // Maximum number of lookup fields that can be used in a single selection; used to disable lookup field options to prevent overly complex selections
-    @api  // Tracks whether field picker is waiting for a list of options while the dropdown is open
-    get dropdownLoading() {
-        return this._dropdownLoading;
-    }
-    set dropdownLoading(value) {
-        this._dropdownLoading = value;
-    }
+    @api dropdownLoading; // Tracks whether field picker is waiting for a list of options while the dropdown is open
 
     @api 
     get rootObject() {
@@ -632,7 +626,7 @@ export default class fieldPicker extends LightningElement {
             }
         });
         this.dispatchEvent(evt);
-        this._dropdownLoading = true;
+        this.dropdownLoading = true;
         this.currentObject = previousObject;
         this.display = this.generateDisplay(this.selectionList);
     }
@@ -647,7 +641,7 @@ export default class fieldPicker extends LightningElement {
             }
         });
         this.dispatchEvent(evt);
-        this._dropdownLoading = true;
+        this.dropdownLoading = true;
     }
 
     clearValue(event) {
@@ -662,7 +656,7 @@ export default class fieldPicker extends LightningElement {
             }
         });
         this.dispatchEvent(evt);
-        this._dropdownLoading = true;
+        this.dropdownLoading = true;
         this.toggleMenu();
     }
 
