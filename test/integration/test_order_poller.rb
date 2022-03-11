@@ -123,6 +123,8 @@ class Critic::OrderPollerTest < Critic::UnitTest
     end
 
     it 'SuiteSync::CashSalePoller' do
+      skip("stop referencing netsuite")
+
       initial_poll = set_initial_poll_timestamp(NetSuite::Records::CashSale)
 
       stub_netsuite_batch_search_result(NetSuite::Records::CashSale)
@@ -141,6 +143,8 @@ class Critic::OrderPollerTest < Critic::UnitTest
     end
 
     it 'SuiteSync::CashRefundPoller' do
+      skip("stop referencing netsuite")
+
       initial_poll = set_initial_poll_timestamp(NetSuite::Records::CashRefund)
 
       stub_netsuite_batch_search_result(NetSuite::Records::CashRefund)
@@ -159,6 +163,8 @@ class Critic::OrderPollerTest < Critic::UnitTest
     end
 
     it 'SuiteSync::CreditMemoPoller' do
+      skip("stop referencing netsuite")
+
       initial_poll = set_initial_poll_timestamp(NetSuite::Records::CreditMemo)
 
       stub_netsuite_batch_search_result(NetSuite::Records::CreditMemo)
@@ -177,6 +183,8 @@ class Critic::OrderPollerTest < Critic::UnitTest
     end
 
     it 'SuiteSync::SalesOrderPoller' do
+      skip("stop referencing netsuite")
+
       initial_poll = set_initial_poll_timestamp(NetSuite::Records::SalesOrder)
 
       stub_netsuite_batch_search_result(NetSuite::Records::SalesOrder)
@@ -195,6 +203,8 @@ class Critic::OrderPollerTest < Critic::UnitTest
     end
 
     it 'SuiteSync::CustomerRefundPoller' do
+      skip("stop referencing netsuite")
+
       initial_poll = set_initial_poll_timestamp(NetSuite::Records::CustomerRefund)
 
       stub_netsuite_batch_search_result(NetSuite::Records::CustomerRefund)
