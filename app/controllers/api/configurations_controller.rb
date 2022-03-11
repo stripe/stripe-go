@@ -145,8 +145,10 @@ module Api
         },
         feature_flags: @user.feature_flags,
         connection_status: {
-          salesforce: true,
-          stripe: true,
+          # TODO use dynamic connection status
+          salesforce: @user.salesforce_token.present?,
+          stripe: @user.stripe_account_id.present?,
+
           last_synced: Time.now.to_i,
           stripe_account_id: @user.stripe_account_id,
         },
