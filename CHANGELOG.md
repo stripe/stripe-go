@@ -1,5 +1,12 @@
 # Changelog
 
+## 72.93.0 - 2022-03-11
+* [#1431](https://github.com/stripe/stripe-go/pull/1431) API Updates
+  * Add support for `Mandate` on `ChargePaymentMethodDetailsCard`
+  * Add support for `MandateOptions` on `SetupIntentPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCardParams`, `PaymentIntentConfirmPaymentMethodOptionsCardParams`, `PaymentIntentPaymentMethodOptionsCard`, SetupIntentConfirmPaymentMethodOptionsCardParams`, and `SetupIntentPaymentMethodOptionsCard`
+  * Add support for `CardAwaitNotification` on `PaymentIntentNextAction`
+  * Add support for `CustomerNotification` on `PaymentIntentProcessingCard`
+
 ## 72.92.0 - 2022-03-09
 * [#1430](https://github.com/stripe/stripe-go/pull/1430) API Updates
   * Add support for `TestClock` on `CustomerListParams`
