@@ -1,0 +1,14 @@
+{
+  "name": "openapi-spec-generator",
+  "version": "1.0.0",
+  "description": "Converts the Stripe Open API Spec into a JSON file for the data mapper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "showdown": "^2.0.3"
+  }
+}
