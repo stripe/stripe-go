@@ -40,3 +40,7 @@ class Restforce::SObject
   # this is inherited from Mash, I don't know why sorbet isn't picking this up
   def initialize(source_hash = nil, client = nil, default = nil, &blk); end
 end
+
+module GeneratedUrlHelpers
+  def omniauth_path(*args); end
+end

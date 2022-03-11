@@ -141,7 +141,7 @@ module Integrations
         log.default_tags.merge!(tags)
       end
 
-      env_log_level = ENV['LOG_LEVEL']
+      env_log_level = ENV['LOG_LEVEL']&.upcase
 
       if !env_log_level.nil? && Logger::Severity.const_defined?(env_log_level)
         log.level(Logger::Severity.const_get(env_log_level))

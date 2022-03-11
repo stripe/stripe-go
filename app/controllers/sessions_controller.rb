@@ -41,12 +41,17 @@ class SessionsController < ApplicationController
 
     user = StripeForce::User.find(salesforce_account_id: sf_account_id)
 
+    log.default_tags[:sf_account_id] = sf_account_id
+
     if !user
-      log.info 'creating new user', sf_account_id: sf_account_id
+      log.info 'creating new user'
       user = StripeForce::User.new(salesforce_account_id: sf_account_id)
 
+      # TODO log name of user
       report_feature_usage("new user #{sf_account_id}")
     end
+
+    log.info 'updating existing user'
 
     sf_credentials = sf_auth["credentials"]
     sf_refresh_token = sf_credentials['refresh_token']
@@ -108,6 +113,10 @@ class SessionsController < ApplicationController
     window.opener.postMessage("connectionSuccessful", "https://#{user.sf_subdomain}--stripeConnector.visualforce.com")
     </script>
     EOL
+  end
+
+  def failure
+    render inline: 'Authorization Failure'
   end
 
   # TODO need to handle failure flows more cleanly

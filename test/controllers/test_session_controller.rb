@@ -13,10 +13,11 @@ class SessionsControllerTest < ApplicationIntegrationTest
   end
 
   def mock_omniauth_salesforce
+    OmniAuth.config.mock_auth.delete :default
     OmniAuth.config.mock_auth[:salesforce] = OmniAuth::AuthHash.new(
       {"provider" => "salesforce",
        "uid" =>
-         "https://login.salesforce.com/id/00D5e000003V0C7EAK/0055e000005HBroAAG",
+         "https://login.salesforce.com/id/#{sf_account_id}/0055e000005HBroAAG",
        "info" =>
          {"name" => "Michael Bianco",
           "email" => "pbo+billing@stripe.com",
@@ -156,7 +157,18 @@ class SessionsControllerTest < ApplicationIntegrationTest
     )
   end
 
-  # the account
+  def assert_post_redirect(path)
+    assert_includes(response.body, path)
+    assert_includes(response.body, "document.getElementById('js-submission').submit()")
+  end
+
+  it 'submits a POST request if a GET method is used to initiate oauth' do
+    get omniauth_path(:salesforce)
+
+    assert_response :success
+    assert_post_redirect(omniauth_path(:salesforce))
+  end
+
   it 'creates a new user when it is authorized with salesforce' do
     user = create_post_install_user
 
@@ -164,9 +176,8 @@ class SessionsControllerTest < ApplicationIntegrationTest
 
     get auth_salesforce_callback_path
 
-    assert_response :redirect
-
-    assert_match(%r{/auth/stripe$}, response.headers['Location'])
+    assert_response :success
+    assert_post_redirect(omniauth_path(:stripe))
 
     user = T.must(StripeForce::User[user.id])
 
