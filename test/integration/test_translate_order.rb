@@ -25,7 +25,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
 
     account_id = sf.create!('Account', Name: "REST Customer #{DateTime.now}")
     opportunity_id = sf.create!('Opportunity', {Name: "REST Oppt #{DateTime.now}", "CloseDate": DateTime.now.iso8601, AccountId: account_id, StageName: "Closed/Won"})
-    contact_id = sf.create!('Contact', {LastName: 'Bianco', Email: 'mbianco@stripe.com'})
+    contact_id = sf.create!('Contact', {LastName: 'Bianco', Email: "#{DateTime.now.to_i}@example.com"})
 
     # you can create a quote without *any* fields, which seems completely silly
     quote_id = sf.create!(CPQ_QUOTE, {
