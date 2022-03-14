@@ -18,18 +18,6 @@
           "sfValueType": ""
         },
         {
-          "name": "created",
-          "value": "created",
-          "description": "<p>Time at which the object was created. Measured in seconds since the Unix epoch.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
           "name": "currency",
           "value": "currency",
           "description": "<p>Three-letter <a href=\"https://stripe.com/docs/currencies\">ISO code for the currency</a> the customer can be charged in for recurring billing purposes.</p>",
@@ -561,18 +549,6 @@
           "sfValueType": ""
         },
         {
-          "name": "created",
-          "value": "created",
-          "description": "<p>Time at which the object was created. Measured in seconds since the Unix epoch.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
           "name": "description",
           "value": "description",
           "description": "<p>The product's description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.</p>",
@@ -821,18 +797,6 @@
           "value": "collection_method",
           "description": "<p>Either <code>charge_automatically</code>, or <code>send_invoice</code>. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions.</p>",
           "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "created",
-          "value": "created",
-          "description": "<p>Time at which the object was created. Measured in seconds since the Unix epoch.</p>",
-          "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -1283,18 +1247,6 @@
       "description": "",
       "fields": [
         {
-          "name": "created",
-          "value": "created",
-          "description": "<p>Time at which the object was created. Measured in seconds since the Unix epoch.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
           "name": "id",
           "value": "id",
           "description": "<p>Unique identifier for the object.</p>",
@@ -1385,18 +1337,6 @@
           "value": "price.billing_scheme",
           "description": "<p>Describes how to compute the price per period. Either <code>per_unit</code> or <code>tiered</code>. <code>per_unit</code> indicates that the fixed amount (specified in <code>unit_amount</code> or <code>unit_amount_decimal</code>) will be charged per unit in <code>quantity</code> (for prices with <code>usage_type=licensed</code>), or per unit of total usage (for prices with <code>usage_type=metered</code>). <code>tiered</code> indicates that the unit pricing will be computed using a tiering strategy as defined using the <code>tiers</code> and <code>tiers_mode</code> attributes.</p>",
           "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "created",
-          "value": "price.created",
-          "description": "<p>Time at which the object was created. Measured in seconds since the Unix epoch.</p>",
-          "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -1562,18 +1502,6 @@
           "value": "billing_scheme",
           "description": "<p>Describes how to compute the price per period. Either <code>per_unit</code> or <code>tiered</code>. <code>per_unit</code> indicates that the fixed amount (specified in <code>unit_amount</code> or <code>unit_amount_decimal</code>) will be charged per unit in <code>quantity</code> (for prices with <code>usage_type=licensed</code>), or per unit of total usage (for prices with <code>usage_type=metered</code>). <code>tiered</code> indicates that the unit pricing will be computed using a tiering strategy as defined using the <code>tiers</code> and <code>tiers_mode</code> attributes.</p>",
           "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "created",
-          "value": "created",
-          "description": "<p>Time at which the object was created. Measured in seconds since the Unix epoch.</p>",
-          "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,

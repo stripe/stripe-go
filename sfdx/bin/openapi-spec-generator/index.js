@@ -3,7 +3,7 @@
 const HTTPS = require('https')
 const showdown = require('showdown');
 const markdownConverter = new showdown.Converter();
-
+const listOfExcludedReadOnlyFields = ['created'];
 const OPTIONS = {
     hostname: 'raw.githubusercontent.com',
     port: 443,
@@ -44,8 +44,8 @@ function formatStripeObjectsForMapper(stripeObjectToFormat) {
         description: '',
         fields: []
     }];
-    for (const field in stripeObjectToFormat) {
-        if (!stripeObjectToFormat[field]['$ref'] && !stripeObjectToFormat[field]['anyOf']) {
+    for (const field in stripeObjectToFormat) { 
+        if (!stripeObjectToFormat[field]['$ref'] && !stripeObjectToFormat[field]['anyOf'] && !listOfExcludedReadOnlyFields.includes(field)) {
             if (stripeObjectToFormat[field]['type'] && stripeObjectToFormat[field]['type'] !== 'object' && stripeObjectToFormat[field]['type'] !== 'array') {
                 var fieldMap = {
                     name: field.replace(/_+/g, ' '),
@@ -80,7 +80,8 @@ function formatStripeObjectsForMapper(stripeObjectToFormat) {
             stripeObjectMappings.push(newSection);
 
             for (const expandableField in expandableSchemaFieldMap) {
-                if (expandableSchemaFieldMap[expandableField]['type'] && expandableSchemaFieldMap[expandableField]['type'] !== 'object' && expandableSchemaFieldMap[expandableField]['type'] !== 'array') {
+                if (expandableSchemaFieldMap[expandableField]['type'] && expandableSchemaFieldMap[expandableField]['type'] !== 'object' 
+                && expandableSchemaFieldMap[expandableField]['type'] !== 'array' && !listOfExcludedReadOnlyFields.includes(expandableField)) {
                     var hashFieldName = expandableField.replace(/_+/g, ' ');
                     var hashFieldValue = field + '.' + expandableField;
                     let fieldExpandableMap = {
@@ -138,8 +139,9 @@ function checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings,
     };
     stripeObjectMappings.push(NEWSECTION);
     for (const expandableField in nestedExpandableFieldMap) {
-        if (nestedExpandableFieldMap[expandableField]['description']) {
-            if ((nestedExpandableFieldMap[expandableField]['type'] && nestedExpandableFieldMap[expandableField]['type'] !== 'object' && nestedExpandableFieldMap[expandableField]['type'] !== 'array')) {
+        if (nestedExpandableFieldMap[expandableField]['description'] && !listOfExcludedReadOnlyFields.includes(expandableField)) {
+            if ((nestedExpandableFieldMap[expandableField]['type'] && nestedExpandableFieldMap[expandableField]['type'] !== 'object' 
+            && nestedExpandableFieldMap[expandableField]['type'] !== 'array')) {
                 var hashFieldName = expandableField.replace(/_+/g, ' ');
                 var hashFieldValue = field + '.' + expandableField;
                 var fieldExpandableMap = {
