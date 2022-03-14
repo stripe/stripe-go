@@ -23,10 +23,10 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       post api_translate_path, as: :json, headers: authentication_headers
       assert_response :bad_request
 
-      post api_translate_path, as: :json, params: { object_type: 'invalid', object_ids: ["123"] }, headers: authentication_headers
+      post api_translate_path, as: :json, params: {object_type: 'invalid', object_ids: ["123"]}, headers: authentication_headers
       assert_response :bad_request
 
-      post api_translate_path, as: :json, params: { object_type: 'Order', object_ids: 'not an array' }, headers: authentication_headers
+      post api_translate_path, as: :json, params: {object_type: 'Order', object_ids: 'not an array'}, headers: authentication_headers
       assert_response :bad_request
     end
 
@@ -39,45 +39,45 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
 
       SalesforceTranslateRecordJob.expects(:work).times(number_of_orders)
 
-      post api_translate_path, as: :json, params: { object_type: 'Order', object_ids: order_ids }, headers: authentication_headers
+      post api_translate_path, as: :json, params: {object_type: 'Order', object_ids: order_ids}, headers: authentication_headers
       assert_response :success
     end
 
     it 'accepts account reference' do
       SalesforceTranslateRecordJob.expects(:work)
 
-      post api_translate_path, as: :json, params: { object_type: SF_ACCOUNT, object_ids: [create_salesforce_id] }, headers: authentication_headers
+      post api_translate_path, as: :json, params: {object_type: SF_ACCOUNT, object_ids: [create_salesforce_id]}, headers: authentication_headers
       assert_response :success
     end
 
     it 'accepts product reference' do
       SalesforceTranslateRecordJob.expects(:work)
 
-      post api_translate_path, as: :json, params: { object_type: SF_PRODUCT, object_ids: [create_salesforce_id] }, headers: authentication_headers
+      post api_translate_path, as: :json, params: {object_type: SF_PRODUCT, object_ids: [create_salesforce_id]}, headers: authentication_headers
       assert_response :success
     end
   end
 
   describe '#post_install' do
     it 'rejects a invalid request' do
-      post api_post_install_path, as: :json, headers: { Api::Controller::SALESFORCE_KEY_HEADER => '123'}
+      post api_post_install_path, as: :json, headers: {Api::Controller::SALESFORCE_KEY_HEADER => '123'}
       assert_response :not_found
 
       post api_post_install_path, as: :json
       assert_response :not_found
 
-      post api_post_install_path, params: 'I am not json', headers: { Api::Controller::SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
+      post api_post_install_path, params: 'I am not json', headers: {Api::Controller::SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
       assert_response :not_acceptable
     end
 
     it 'rejects a request with no organization api key' do
-      post api_post_install_path, params: {  }, as: :json, headers: { Api::Controller::SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
+      post api_post_install_path, params: {}, as: :json, headers: {Api::Controller::SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
       assert_response :bad_request
     end
 
     it 'creates a new user with a valid organizatiopn API key' do
       api_key = SecureRandom.alphanumeric(16)
-      post api_post_install_path, params: { key: api_key }, as: :json, headers: { Api::Controller::SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
+      post api_post_install_path, params: {key: api_key}, as: :json, headers: {Api::Controller::SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
 
       assert_equal(1, StripeForce::User.count)
       user = T.must(StripeForce::User.first)
@@ -91,15 +91,15 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
     before do
       @user = make_user
       @user.field_defaults = {
-        "customer" =>{
-          "metadata.from_salesforce" => true
-        }
+        "customer" => {
+          "metadata.from_salesforce" => true,
+        },
       }
 
       @user.field_mappings = {
         "customer" => {
-          "FromSalesforce" => "metadata.from_salesforce"
-        }
+          "FromSalesforce" => "metadata.from_salesforce",
+        },
       }
       @user.save
     end
@@ -134,36 +134,52 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       assert_equal(@user.field_mappings, result["field_mappings"])
       assert_equal(@user.field_defaults, result["field_defaults"])
 
-      assert_equal(result['settings']['api_percentage_limit'], 95)
-      assert_equal(result['settings']['sync_record_retention'], 10_000)
-      assert_equal(result['settings']['default_currency'], 'USD')
+      assert_equal(95, result['settings']['api_percentage_limit'])
+      assert_equal(10_000, result['settings']['sync_record_retention'])
+      assert_equal('USD', result['settings']['default_currency'])
       assert(result['settings']['sync_start_date'] > Time.now.to_i - 1)
     end
 
-    it 'updates user status JSON' do
-      updated_field_mapping = {
-        "subscription_schedule" => {
-          "Email" => "email"
-        }
-      }
-
-      updated_field_defaults = {
-        "customer" => {
-          "phone" => "1231231234"
-        }
-      }
-
+    it 'updates settings' do
       future_time = Time.now.to_i + 3600
 
       put api_configuration_path, params: {
-        field_mappings: updated_field_mapping,
-        field_defaults: updated_field_defaults,
         settings: {
           api_percentage_limit: 90,
           sync_start_date: future_time,
           sync_record_retention: 1_000,
           default_currency: 'EUR',
-        }
+        },
+      }, as: :json, headers: authentication_headers
+
+      assert_response :success
+
+      result = parsed_json
+
+      @user = T.must(StripeForce::User[@user.id])
+
+      assert_equal(90, result['settings']['api_percentage_limit'])
+      assert_equal(1_000, result['settings']['sync_record_retention'])
+      assert_equal('EUR', result['settings']['default_currency'])
+      assert_equal(result['settings']['sync_start_date'], future_time)
+    end
+
+    it 'updates mappings and defaults' do
+      updated_field_mapping = {
+        "subscription_schedule" => {
+          "Email" => "email",
+        },
+      }
+
+      updated_field_defaults = {
+        "customer" => {
+          "phone" => "1231231234",
+        },
+      }
+
+      put api_configuration_path, params: {
+        field_mappings: updated_field_mapping,
+        field_defaults: updated_field_defaults,
       }, as: :json, headers: authentication_headers
 
       assert_response :success
@@ -177,11 +193,6 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
 
       assert_equal(@user.field_mappings, result["field_mappings"])
       assert_equal(@user.field_defaults, result["field_defaults"])
-
-      assert_equal(result['settings']['api_percentage_limit'], 90)
-      assert_equal(result['settings']['sync_record_retention'], 1_000)
-      assert_equal(result['settings']['default_currency'], 'EUR')
-      assert_equal(result['settings']['sync_start_date'], future_time)
     end
   end
 end

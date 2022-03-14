@@ -88,13 +88,18 @@ module Api
     end
 
     def update
-      field_defaults, field_mappings, settings = params.require([:field_defaults, :field_mappings, :settings])
+      update_hash = params.permit(settings: {}, field_defaults: {}, field_mappings: {}).to_h
 
-      @user.update(
-        field_defaults: field_defaults,
-        field_mappings: field_mappings,
-        connector_settings: settings
-      )
+      if update_hash.keys != %w{field_defaults field_mappings} && update_hash.keys != ['settings']
+        log.info 'invalid parameters passed', keys: update_hash.keys
+        head :bad_request
+        return
+      end
+
+      # `settings` is too general for our model, but unnecessary in the API schema
+      update_hash["connector_settings"] = update_hash.delete("settings") if update_hash.key?("settings")
+
+      @user.update(update_hash)
 
       render json: user_configuration_json
     end
