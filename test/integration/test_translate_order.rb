@@ -8,31 +8,49 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     @user = make_user(save: true)
   end
 
-  def standalone_item_id
-    '01t5e000002bEQTAA2'
+  def salesforce_recurring_product_with_price
+    external_id = "recurring-product"
+
+    # TODO we should add a field to track the external ID
+    # sf.find(SF_PRODUCT, external_id, 'THE_FIELD')
+
+    # blanking out the subscription type ensures it is a one-time product
+    product_id = create_salesforce_product
+    pricebook_entry = create_salesforce_price(sf_product_id: product_id)
+    product_id
   end
 
-  def default_pricebook_id
-    '01s5e00000BAoBWAA1'
+  def salesforce_standalone_product_with_price_id(price: 100_00)
+    external_id = "standalone-product-id-#{price}"
+
+    # TODO we should add a field to track the external ID
+    # sf.find(SF_PRODUCT, external_id, 'THE_FIELD')
+
+    # blanking out the subscription type ensures it is a one-time product
+    product_id = create_salesforce_product(additional_fields: {
+      CPQ_PRODUCT_SUBSCRIPTION_TYPE => "",
+    })
+
+    pricebook_entry = create_salesforce_price(sf_product_id: product_id)
+
+    product_id
   end
 
-  def create_salesforce_order(sf_product_id: nil, additional_order_fields: {})
-    # https://github.com/sseixas/CPQ-JS
+  # https://github.com/sseixas/CPQ-JS
+  def create_salesforce_order(sf_product_id: nil, sf_pricebook_id: nil, additional_order_fields: {})
+    sf_pricebook_id ||= default_pricebook_id
 
-    # TODO pull these dynamically
-    sf_product_id ||= '01t5e000003DsarAAC'
-    pricebook_id = default_pricebook_id
-
-    account_id = sf.create!('Account', Name: "REST Customer #{DateTime.now}")
-    opportunity_id = sf.create!('Opportunity', {Name: "REST Oppt #{DateTime.now}", "CloseDate": DateTime.now.iso8601, AccountId: account_id, StageName: "Closed/Won"})
-    contact_id = sf.create!('Contact', {LastName: 'Bianco', Email: "#{DateTime.now.to_i}@example.com"})
+    account_id = create_salesforce_account
+    opportunity_id = create_salesforce_opportunity(sf_account_id: account_id)
+    contact_id = create_salesforce_contact
 
     # you can create a quote without *any* fields, which seems completely silly
     quote_id = sf.create!(CPQ_QUOTE, {
-      "SBQQ__Opportunity2__c": opportunity_id,
       CPQ_QUOTE_PRIMARY => true,
+
+      "SBQQ__Opportunity2__c": opportunity_id,
       'SBQQ__PrimaryContact__c' => contact_id,
-      'SBQQ__PricebookId__c' => pricebook_id,
+      'SBQQ__PricebookId__c' => sf_pricebook_id,
     }.merge(additional_order_fields))
 
     # https://developer.salesforce.com/docs/atlas.en-us.cpq_api_dev.meta/cpq_api_dev/cpq_api_read_quote.htm
@@ -42,7 +60,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     cpq_product_representation = JSON.parse(sf.patch("services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.ProductAPI.ProductLoader&uid=#{sf_product_id}", {
       context: {
         # productId: product_id,
-        pricebookId: pricebook_id,
+        pricebookId: sf_pricebook_id,
         # currencyCode:
       }.to_json,
     }).body)
@@ -123,9 +141,9 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   end
 
   it 'integrates a subscription order' do
-    price_in_dollars = 240
+    price = 240_00
     sf_product_id = create_salesforce_product
-    sf_pricebook_entry_id = create_salesforce_price(sf_product_id: sf_product_id, price: price_in_dollars)
+    sf_pricebook_entry_id = create_salesforce_price(sf_product_id: sf_product_id, price: price)
 
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
@@ -158,21 +176,22 @@ class Critic::OrderTranslation < Critic::FunctionalTest
 
     line = invoice.lines.data[-1]
     assert_equal(1, line.quantity)
-    assert_equal(price_in_dollars, line.amount / 100.0)
+    assert_equal(price, line.amount)
 
     # right now, price translation is tied to both a pricebook and order line in SF
     # test the price translation logic here right now instead of in a separate price test
-    price = line.price
-    assert_equal(price_in_dollars, price.unit_amount / 100)
-    assert_equal("recurring", price.type)
-    assert_equal("month", price.recurring.interval)
-    assert_equal(1, price.recurring.interval_count)
-    assert_equal("licensed", price.recurring.usage_type)
+    stripe_price = line.price
+    assert_equal(price, stripe_price.unit_amount)
+    assert_equal("recurring", stripe_price.type)
+    assert_equal("month", stripe_price.recurring.interval)
+    assert_equal(1, stripe_price.recurring.interval_count)
+    assert_equal("licensed", stripe_price.recurring.usage_type)
   end
 
   describe 'failures' do
     it 'gracefully fails when the subscription term and start date does not exist' do
-      sf_order = create_salesforce_order
+      sf_product_id = salesforce_recurring_product_with_price
+      sf_order = create_salesforce_order(sf_product_id: sf_product_id)
 
       assert_raises(Integrations::Errors::MissingRequiredFields) do
         SalesforceTranslateRecordJob.translate(@user, sf_order)
@@ -190,17 +209,21 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   # TODO subscription term specified
 
   it 'integrates a invoice order' do
-    sf_order = create_salesforce_order(sf_product_id: standalone_item_id)
+    sf_order = create_salesforce_order(sf_product_id: salesforce_standalone_product_with_price_id)
 
     SalesforceTranslateRecordJob.translate(@user, sf_order)
 
     # TODO add refresh to library
-    sf_order = sf.find('Order', sf_order.Id)
+    sf_order = sf.find(SF_ORDER, sf_order.Id)
 
     stripe_id = sf_order[GENERIC_STRIPE_ID]
     invoice = Stripe::Invoice.retrieve(stripe_id, @user.stripe_credentials)
     customer = Stripe::Customer.retrieve(invoice.customer, @user.stripe_credentials)
+
+    assert_equal(1, invoice.lines.count)
+
     line = invoice.lines.first
+    assert_equal("one_time", line.price.type)
 
     puts sf_order.Id
   end

@@ -902,10 +902,7 @@ module Selenium::WebDriver::Firefox
   def self.driver_path=(path); end
   def self.path=(path); end
 end
-module Selenium::WebDriver::Firefox::Driver
-  def self.marionette?(opts); end
-  def self.new(**opts); end
-end
+
 module Selenium::WebDriver::Firefox::Util
   def app_data_path; end
   def self.app_data_path; end

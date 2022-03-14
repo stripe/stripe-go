@@ -6,6 +6,8 @@ module StripeForce
     SF_ORDER = 'Order'
     SF_PRODUCT = 'Product2'
     SF_ACCOUNT = 'Account'
+    SF_OPPORTUNITY = 'Opportunity'
+    SF_PRICEBOOK = 'Pricebook2'
     SF_PRICEBOOK_ENTRY = 'PricebookEntry'
 
     CPQ_QUOTE = 'SBQQ__Quote__c'
@@ -18,6 +20,7 @@ module StripeForce
     CPQ_QUOTE_SUBSCRIPTION_TERM = 'SBQQ__SubscriptionTerm__c'
 
     CPQ_PRODUCT_SUBSCRIPTION_TYPE = 'SBQQ__SubscriptionType__c'
+    CPQ_PRODUCT_SUBSCRIPTION_TYPE_RENEWABLE = 'Renewable'
     CPQ_PRODUCT_SUBSCRIPTION_TERM = 'SBQQ__SubscriptionTerm__c'
 
     CPQ_QUOTE_LINE = 'SBQQ__QuoteLine__c'
