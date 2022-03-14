@@ -380,7 +380,7 @@ GEM
     sorbet-static (0.5.9760-universal-darwin-20)
     sorbet-static (0.5.9760-universal-darwin-21)
     sorbet-static (0.5.9760-x86_64-linux)
-    spring (3.1.1)
+    spring (4.0.0)
     sprockets (4.0.3)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
