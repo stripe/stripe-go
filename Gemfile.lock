@@ -97,7 +97,7 @@ GEM
     capybara-screenshot (1.0.26)
       capybara (>= 1.0, < 4)
       launchy
-    childprocess (3.0.0)
+    childprocess (4.1.0)
     coderay (1.1.3)
     commander (4.6.0)
       highline (~> 2.0.0)
@@ -342,8 +342,9 @@ GEM
     rufus-scheduler (3.6.0)
       fugit (~> 1.1, >= 1.1.6)
     safe_type (1.1.1)
-    selenium-webdriver (3.142.7)
-      childprocess (>= 0.5, < 4.0)
+    selenium-webdriver (4.1.0)
+      childprocess (>= 0.5, < 5.0)
+      rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
     sentry-rails (5.2.0)
       railties (>= 5.0)
@@ -463,7 +464,7 @@ DEPENDENCIES
   rubocop (= 0.89.1)
   rubocop-daemon
   rubocop-minitest
-  selenium-webdriver (~> 3.142.7)
+  selenium-webdriver (~> 4.1.0)
   sentry-rails (~> 5.2.0)
   sentry-resque (~> 5.2.0)
   sentry-ruby (~> 5.2.0)

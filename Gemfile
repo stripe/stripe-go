@@ -66,7 +66,7 @@ group :test do
   # feature test
   gem 'capybara', '~> 3.36.0'
   gem 'webdrivers', '~> 4.7.0'
-  gem 'selenium-webdriver', '~> 3.142.7'
+  gem 'selenium-webdriver', '~> 4.1.0'
   gem 'capybara-screenshot', '~> 1.0.26'
 
   gem 'mocha', '~> 1.9'
