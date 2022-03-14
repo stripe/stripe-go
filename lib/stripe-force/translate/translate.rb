@@ -103,9 +103,8 @@ class StripeForce::Translate
     stripe_product
   end
 
-  # TODO this is defined globally in SF and needs to be pulled dynamically
   def sf_cpq_term_interval
-    'month'
+    @user.connector_settings['cpq_term_interval']
   end
 
   # TODO what if the list price is updated in SF? We shouldn't probably create a new price object

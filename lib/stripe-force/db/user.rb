@@ -26,6 +26,7 @@ module StripeForce
           sync_start_date: Time.now.to_i,
           sync_record_retention: 10_000,
           default_currency: 'USD',
+          cpq_term_interval: 'month',
         }
       end
 
