@@ -10,7 +10,6 @@ Sentry.init do |config|
   config.enabled_environments = %w{production staging}
   config.excluded_exceptions = []
 
-  # `drain_and_shutdown` allows us to async report errors, otherwise we'd need to report them sync
   # config.background_worker_threads = 0
 
   # `DYNO` is formatted as `worker.12`, `scheduler.1`, etc

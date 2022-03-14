@@ -3,7 +3,6 @@
 class StripeForce::InitiatePollsJobs
   include Integrations::Log
   extend Integrations::ErrorContext
-  extend Integrations::Metrics::ResqueHooks
 
   @queue = :high
 
