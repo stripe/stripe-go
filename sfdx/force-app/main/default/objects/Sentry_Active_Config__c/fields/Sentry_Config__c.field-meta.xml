@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sentry_Config__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <defaultValue>&quot;Default&quot;</defaultValue>
+    <description>The DeveloperName of the Sentry_Config__mdt entry to use for configuration.</description>
+    <externalId>false</externalId>
+    <label>Sentry Config DeveloperName</label>
+    <length>80</length>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

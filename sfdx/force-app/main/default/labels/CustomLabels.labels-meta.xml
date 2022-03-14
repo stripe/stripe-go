@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Sentry_could_not_find_a_configuration_to_use</fullName>
+        <categories>Sentry</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sentry could not find a configuration to use</shortDescription>
+        <value>Sentry could not find a configuration to use.</value>
+    </labels>
+</CustomLabels>

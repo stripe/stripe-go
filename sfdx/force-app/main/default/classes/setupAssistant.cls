@@ -77,7 +77,6 @@ public with sharing class setupAssistant {
         } catch (Exception e) {
             rd.addError(e);
         }
-
         return rd.getJsonString();
     }
     //validates connection status 
@@ -276,7 +275,7 @@ public with sharing class setupAssistant {
             } else {
                 rd.put('isConnected',false); 
             }
-        } catch (Exception e) {
+        } catch (Exception e) {     
             rd.addError(e);
         }
         return rd.getJsonString();
@@ -341,7 +340,7 @@ public with sharing class setupAssistant {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e) {  
             rd.addError(e);
         }
         return rd.getJsonString();

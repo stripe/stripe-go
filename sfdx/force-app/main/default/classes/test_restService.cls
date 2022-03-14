@@ -67,7 +67,7 @@ public with sharing class test_restService {
         product.put('Name','testProduct');
         product.put('Description','testProductEntry');
         product.put('productCode','ABC');
-        product.put('SBQQ__DefaultQuantity__c',12.000);
+        if(isCpqInstalled)product.put('SBQQ__DefaultQuantity__c',12.000);
         product.put('isActive',true);
         insert product;
 

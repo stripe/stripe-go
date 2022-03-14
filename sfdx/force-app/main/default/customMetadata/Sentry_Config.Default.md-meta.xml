@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Default</label>
+    <protected>false</protected>
+    <values>
+        <field>DSN__c</field>
+        <value xsi:type="xsd:string">https://69da53868de24c6981309bfd216ea426:c728fda0c9264b6f8acab7a99d2f4783@errors.prod.stripe.io/610</value>
+    </values>
+</CustomMetadata>

@@ -25,6 +25,6 @@ trigger syncRecordRetention on Sync_Record__c (before insert) {
             }
         }
     } catch (Exception e) {
-        errorLogger.create('syncRecordRetentionTrigger', '', string.valueOf(e.getLineNumber()), e.getMessage());
+        errorLogger.create('syncRecordRetentionTrigger', e);
     }
 }

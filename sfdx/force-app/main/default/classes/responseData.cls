@@ -10,6 +10,7 @@ public with sharing class responseData {
     }
 
     public void addError(Exception e) {
+        if(!Test.isRunningTest())Sentry.record(e);
         this.error = e.getMessage();
         this.isSuccess = false;
     }

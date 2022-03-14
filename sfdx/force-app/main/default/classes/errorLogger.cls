@@ -4,6 +4,7 @@ public virtual with sharing class errorLogger {
         try {
             checkAccess();
         } catch (Exception e) {
+            if(!Test.isRunningTest())Sentry.record(e);
             return;
         }
         insert new Error_Log__c(
@@ -21,6 +22,10 @@ public virtual with sharing class errorLogger {
                     WHERE CreatedDate < LAST_N_DAYS:7
                     LIMIT :dmlLimit];
         }
+    }
+    public static void create(String errorName, Exception excep) {
+        if(!Test.isRunningTest())Sentry.record(excep);
+        errorLogger.create(errorName, '', string.valueOf(excep.getLineNumber()), excep.getMessage());
     }
 
     public static void checkAccess() {

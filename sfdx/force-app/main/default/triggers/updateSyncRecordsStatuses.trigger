@@ -33,6 +33,6 @@ trigger updateSyncRecordsStatuses on Sync_Record__c (after update) {
         update allUnresolvedSyncRecords;
 
     } catch (Exception e) {
-        errorLogger.create('updateSyncRecordsStatusesTrigger', '', string.valueOf(e.getLineNumber()), e.getMessage());
+        errorLogger.create('updateSyncRecordsStatusesTrigger', e);
     }
 }

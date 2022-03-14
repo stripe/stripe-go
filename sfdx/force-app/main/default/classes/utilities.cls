@@ -140,6 +140,15 @@ public with sharing class utilities {
                 orgTypeSetting.isSandbox__c = (Boolean)constants.IS_SANDBOX;
                 upsert orgTypeSetting;
             } 
+            /*sets custom setting record that controls weather sending errors to sentry is live or not*/
+            Sentry_Active_Config__c activateSentrySetting = Sentry_Active_Config__c.getOrgDefaults();
+            if (activateSentrySetting.Id == null) {
+                activateSentrySetting.IsDebug__c = false;
+                activateSentrySetting.Environment_Name__c = (String)constants.ORG_ID;
+                activateSentrySetting.IsIssueCreationDisabled__c = false;
+                activateSentrySetting.Sentry_Config__c = (String)constants.ORG_ID;
+                upsert activateSentrySetting;
+            } 
         } catch (Exception e) {
             rd.addError(e);
         }

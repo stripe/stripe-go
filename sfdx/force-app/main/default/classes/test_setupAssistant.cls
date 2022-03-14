@@ -24,7 +24,6 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testUtilities_isCpqEnabled() {
-
         Boolean isCpqEnabled = utilities.isCpqEnabled();
         System.assertNotEquals(null, isCpqEnabled);
     }
@@ -158,18 +157,16 @@ public with sharing class test_setupAssistant {
         } else {
             setupAssistant.setupConfigMetadata.add(testSetupData);  
         }
+
+        Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults(); 
+        if(stripeConnectRec.Id != null) delete stripeConnectRec;
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
-        String connectedCallbackResponse = setupAssistant.validateConnectionStatus(true);
-        String response = setupAssistant.validateConnectionStatus(false);
+        String response = setupAssistant.validateConnectionStatus(true);
         Test.stopTest();
         
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
-        Map<String, Object> connectedCallbackResponseMap = (Map<String, Object>)JSON.deserializeUntyped(connectedCallbackResponse);
-        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
-        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
-        Map<String, Object> connectecCallbackResultsMap = (Map<String, Object>)connectedCallbackResponseMap.get('results');
-
+        System.assert((Boolean)responseMap.get('isSuccess'));
     }
 
     @isTest
