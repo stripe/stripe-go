@@ -29,7 +29,7 @@ inherit_mode:
   - Exclude
 
 AllCops:
-  TargetRubyVersion: 2.7.3
+  TargetRubyVersion: 2.7.5
   DisplayCopNames: true
   Include:
     - Gemfile
