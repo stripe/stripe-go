@@ -195,6 +195,8 @@ public with sharing class utilities {
             Setup_Connection_Data__mdt setupData = setupConfigList[0];
             request.setHeader('Salesforce-Account-Id', (String)constants.ORG_ID);
             request.setHeader('Salesforce-Key', (String)setupData.Global_Key__c);
+            request.setHeader('Salesforce-Type', String.valueOf(Sentry_Environment.getInstanceType()));
+            request.setHeader('Salesforce-Package-Namespace', constants.NAMESPACE_API);
             if(!String.isEmpty(constants.NAMESPACE_API)) {
                 request.setHeader('Package-Id', (String)setupAssistant.getPackageVersion());
             }
