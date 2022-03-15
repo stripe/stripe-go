@@ -1,7 +1,14 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package source provides the /sources APIs
 package source
 
 import (
-	"errors"
+	"fmt"
 	"net/http"
 
 	stripe "github.com/stripe/stripe-go/v72"
@@ -20,9 +27,9 @@ func New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
 
 // New creates a new source.
 func (c Client) New(params *stripe.SourceObjectParams) (*stripe.Source, error) {
-	p := &stripe.Source{}
-	err := c.B.Call(http.MethodPost, "/v1/sources", c.Key, params, p)
-	return p, err
+	source := &stripe.Source{}
+	err := c.B.Call(http.MethodPost, "/v1/sources", c.Key, params, source)
+	return source, err
 }
 
 // Get returns the details of a source.
@@ -51,19 +58,23 @@ func (c Client) Update(id string, params *stripe.SourceObjectParams) (*stripe.So
 	return source, err
 }
 
-// Detach detaches the source from a customer.
+// Detach is the method for the `DELETE /v1/customers/{customer}/sources/{id}` API.
 func Detach(id string, params *stripe.SourceObjectDetachParams) (*stripe.Source, error) {
 	return getC().Detach(id, params)
 }
 
-// Detach detaches the source from a customer.
+// Detach is the method for the `DELETE /v1/customers/{customer}/sources/{id}` API.
 func (c Client) Detach(id string, params *stripe.SourceObjectDetachParams) (*stripe.Source, error) {
 	if params.Customer == nil {
-		return nil, errors.New("Invalid source detach params: Customer needs to be set")
+		return nil, fmt.Errorf(
+			"Invalid source detach params: Customer needs to be set",
+		)
 	}
-
-	path := stripe.FormatURLPath("/v1/customers/%s/sources/%s",
-		stripe.StringValue(params.Customer), id)
+	path := stripe.FormatURLPath(
+		"/v1/customers/%s/sources/%s",
+		stripe.StringValue(params.Customer),
+		id,
+	)
 	source := &stripe.Source{}
 	err := c.B.Call(http.MethodDelete, path, c.Key, params, source)
 	return source, err

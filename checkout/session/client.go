@@ -52,6 +52,19 @@ func (c Client) Get(id string, params *stripe.CheckoutSessionParams) (*stripe.Ch
 	return session, err
 }
 
+// Expire is the method for the `POST /v1/checkout/sessions/{session}/expire` API.
+func Expire(id string, params *stripe.CheckoutSessionExpireParams) (*stripe.CheckoutSession, error) {
+	return getC().Expire(id, params)
+}
+
+// Expire is the method for the `POST /v1/checkout/sessions/{session}/expire` API.
+func (c Client) Expire(id string, params *stripe.CheckoutSessionExpireParams) (*stripe.CheckoutSession, error) {
+	path := stripe.FormatURLPath("/v1/checkout/sessions/%s/expire", id)
+	session := &stripe.CheckoutSession{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, session)
+	return session, err
+}
+
 // List returns a list of checkout sessions.
 func List(params *stripe.CheckoutSessionListParams) *Iter {
 	return getC().List(params)

@@ -1,6 +1,10 @@
-// Package account provides API functions related to accounts.
 //
-// For more details, see: https://stripe.com/docs/api/go#accounts.
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package account provides the /accounts APIs
 package account
 
 import (
@@ -10,7 +14,7 @@ import (
 	"github.com/stripe/stripe-go/v72/form"
 )
 
-// Client is used to invoke APIs related to accounts.
+// Client is used to invoke /accounts APIs.
 type Client struct {
 	B   stripe.Backend
 	Key string
@@ -23,9 +27,9 @@ func New(params *stripe.AccountParams) (*stripe.Account, error) {
 
 // New creates a new account.
 func (c Client) New(params *stripe.AccountParams) (*stripe.Account, error) {
-	acct := &stripe.Account{}
-	err := c.B.Call(http.MethodPost, "/v1/accounts", c.Key, params, acct)
-	return acct, err
+	account := &stripe.Account{}
+	err := c.B.Call(http.MethodPost, "/v1/accounts", c.Key, params, account)
+	return account, err
 }
 
 // Get retrieves the authenticating account.
@@ -40,12 +44,12 @@ func (c Client) Get() (*stripe.Account, error) {
 	return account, err
 }
 
-// GetByID retrieves an account.
+// GetByID returns the details of an account.
 func GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	return getC().GetByID(id, params)
 }
 
-// GetByID retrieves an account.
+// GetByID returns the details of an account.
 func (c Client) GetByID(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	path := stripe.FormatURLPath("/v1/accounts/%s", id)
 	account := &stripe.Account{}
@@ -53,63 +57,65 @@ func (c Client) GetByID(id string, params *stripe.AccountParams) (*stripe.Accoun
 	return account, err
 }
 
-// Update updates an account.
+// Update updates an account's properties.
 func Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	return getC().Update(id, params)
 }
 
-// Update updates an account.
+// Update updates an account's properties.
 func (c Client) Update(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	path := stripe.FormatURLPath("/v1/accounts/%s", id)
-	acct := &stripe.Account{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, acct)
-	return acct, err
+	account := &stripe.Account{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	return account, err
 }
 
-// Del deletes an account.
+// Del removes an account.
 func Del(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	return getC().Del(id, params)
 }
 
-// Del deletes an account.
+// Del removes an account.
 func (c Client) Del(id string, params *stripe.AccountParams) (*stripe.Account, error) {
 	path := stripe.FormatURLPath("/v1/accounts/%s", id)
-	acct := &stripe.Account{}
-	err := c.B.Call(http.MethodDelete, path, c.Key, params, acct)
-	return acct, err
+	account := &stripe.Account{}
+	err := c.B.Call(http.MethodDelete, path, c.Key, params, account)
+	return account, err
 }
 
-// Reject rejects an account.
+// Reject is the method for the `POST /v1/accounts/{account}/reject` API.
 func Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
 	return getC().Reject(id, params)
 }
 
-// Reject rejects an account.
+// Reject is the method for the `POST /v1/accounts/{account}/reject` API.
 func (c Client) Reject(id string, params *stripe.AccountRejectParams) (*stripe.Account, error) {
 	path := stripe.FormatURLPath("/v1/accounts/%s/reject", id)
-	acct := &stripe.Account{}
-	err := c.B.Call(http.MethodPost, path, c.Key, params, acct)
-	return acct, err
+	account := &stripe.Account{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, account)
+	return account, err
 }
 
-// List returns an iterator that iterates all accounts.
+// List returns a list of accounts.
 func List(params *stripe.AccountListParams) *Iter {
 	return getC().List(params)
 }
 
-// List returns an iterator that iterates all accounts.
+// List returns a list of accounts.
 func (c Client) List(listParams *stripe.AccountListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.AccountList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/accounts", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.AccountList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/accounts", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for accounts.
@@ -122,9 +128,9 @@ func (i *Iter) Account() *stripe.Account {
 	return i.Current().(*stripe.Account)
 }
 
-// AccountList returns the current list object which the iterator is currently
-// using. List objects will change as new API calls are made to continue
-// pagination.
+// AccountList returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
 func (i *Iter) AccountList() *stripe.AccountList {
 	return i.List().(*stripe.AccountList)
 }

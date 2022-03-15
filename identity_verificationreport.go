@@ -8,6 +8,7 @@ package stripe
 
 import "encoding/json"
 
+// A short machine-readable string giving the reason for the verification failure.
 type IdentityVerificationReportDocumentErrorCode string
 
 // List of values that IdentityVerificationReportDocumentErrorCode can take
@@ -17,6 +18,7 @@ const (
 	IdentityVerificationReportDocumentErrorCodeDocumentUnverifiedOther  IdentityVerificationReportDocumentErrorCode = "document_unverified_other"
 )
 
+// Status of this `document` check.
 type IdentityVerificationReportDocumentStatus string
 
 // List of values that IdentityVerificationReportDocumentStatus can take
@@ -25,6 +27,7 @@ const (
 	IdentityVerificationReportDocumentStatusVerified   IdentityVerificationReportDocumentStatus = "verified"
 )
 
+// Type of the document.
 type IdentityVerificationReportDocumentType string
 
 // List of values that IdentityVerificationReportDocumentType can take
@@ -34,6 +37,7 @@ const (
 	IdentityVerificationReportDocumentTypePassport       IdentityVerificationReportDocumentType = "passport"
 )
 
+// A short machine-readable string giving the reason for the verification failure.
 type IdentityVerificationReportIDNumberErrorCode string
 
 // List of values that IdentityVerificationReportIDNumberErrorCode can take
@@ -43,6 +47,7 @@ const (
 	IdentityVerificationReportIDNumberErrorCodeIDNumberUnverifiedOther          IdentityVerificationReportIDNumberErrorCode = "id_number_unverified_other"
 )
 
+// Type of ID number.
 type IdentityVerificationReportIDNumberIDNumberType string
 
 // List of values that IdentityVerificationReportIDNumberIDNumberType can take
@@ -52,6 +57,7 @@ const (
 	IdentityVerificationReportIDNumberIDNumberTypeUSSSN  IdentityVerificationReportIDNumberIDNumberType = "us_ssn"
 )
 
+// Status of this `id_number` check.
 type IdentityVerificationReportIDNumberStatus string
 
 // List of values that IdentityVerificationReportIDNumberStatus can take
@@ -60,6 +66,7 @@ const (
 	IdentityVerificationReportIDNumberStatusVerified   IdentityVerificationReportIDNumberStatus = "verified"
 )
 
+// Array of strings of allowed identity document types. If the provided identity document isn't one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
 type IdentityVerificationReportOptionsDocumentAllowedType string
 
 // List of values that IdentityVerificationReportOptionsDocumentAllowedType can take
@@ -69,6 +76,7 @@ const (
 	IdentityVerificationReportOptionsDocumentAllowedTypePassport       IdentityVerificationReportOptionsDocumentAllowedType = "passport"
 )
 
+// A short machine-readable string giving the reason for the verification failure.
 type IdentityVerificationReportSelfieErrorCode string
 
 // List of values that IdentityVerificationReportSelfieErrorCode can take
@@ -79,6 +87,7 @@ const (
 	IdentityVerificationReportSelfieErrorCodeSelfieUnverifiedOther      IdentityVerificationReportSelfieErrorCode = "selfie_unverified_other"
 )
 
+// Status of this `selfie` check.
 type IdentityVerificationReportSelfieStatus string
 
 // List of values that IdentityVerificationReportSelfieStatus can take
@@ -87,6 +96,7 @@ const (
 	IdentityVerificationReportSelfieStatusVerified   IdentityVerificationReportSelfieStatus = "verified"
 )
 
+// Type of report.
 type IdentityVerificationReportType string
 
 // List of values that IdentityVerificationReportType can take
@@ -102,84 +112,125 @@ type IdentityVerificationReportParams struct {
 
 // List all verification reports.
 type IdentityVerificationReportListParams struct {
-	ListParams          `form:"*"`
-	Created             *int64            `form:"created"`
-	CreatedRange        *RangeQueryParams `form:"created"`
-	Type                *string           `form:"type"`
-	VerificationSession *string           `form:"verification_session"`
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Only return VerificationReports of this type
+	Type *string `form:"type"`
+	// Only return VerificationReports created by this VerificationSession ID. It is allowed to provide a VerificationIntent ID.
+	VerificationSession *string `form:"verification_session"`
 }
 
 // Date of birth as it appears in the document.
 type IdentityVerificationReportDocumentDOB struct {
-	Day   int64 `json:"day"`
+	// Numerical day between 1 and 31.
+	Day int64 `json:"day"`
+	// Numerical month between 1 and 12.
 	Month int64 `json:"month"`
-	Year  int64 `json:"year"`
+	// The four-digit year.
+	Year int64 `json:"year"`
 }
 
 // Details on the verification error. Present when status is `unverified`.
 type IdentityVerificationReportDocumentError struct {
-	Code   IdentityVerificationReportDocumentErrorCode `json:"code"`
-	Reason string                                      `json:"reason"`
+	// A short machine-readable string giving the reason for the verification failure.
+	Code IdentityVerificationReportDocumentErrorCode `json:"code"`
+	// A human-readable message giving the reason for the failure. These messages can be shown to your users.
+	Reason string `json:"reason"`
 }
 
 // Expiration date of the document.
 type IdentityVerificationReportDocumentExpirationDate struct {
-	Day   int64 `json:"day"`
+	// Numerical day between 1 and 31.
+	Day int64 `json:"day"`
+	// Numerical month between 1 and 12.
 	Month int64 `json:"month"`
-	Year  int64 `json:"year"`
+	// The four-digit year.
+	Year int64 `json:"year"`
 }
 
 // Issued date of the document.
 type IdentityVerificationReportDocumentIssuedDate struct {
-	Day   int64 `json:"day"`
+	// Numerical day between 1 and 31.
+	Day int64 `json:"day"`
+	// Numerical month between 1 and 12.
 	Month int64 `json:"month"`
-	Year  int64 `json:"year"`
+	// The four-digit year.
+	Year int64 `json:"year"`
 }
 
 // Result from a document check
 type IdentityVerificationReportDocument struct {
-	Address        *Address                                          `json:"address"`
-	DOB            *IdentityVerificationReportDocumentDOB            `json:"dob"`
-	Error          *IdentityVerificationReportDocumentError          `json:"error"`
+	// Address as it appears in the document.
+	Address *Address `json:"address"`
+	// Date of birth as it appears in the document.
+	DOB *IdentityVerificationReportDocumentDOB `json:"dob"`
+	// Details on the verification error. Present when status is `unverified`.
+	Error *IdentityVerificationReportDocumentError `json:"error"`
+	// Expiration date of the document.
 	ExpirationDate *IdentityVerificationReportDocumentExpirationDate `json:"expiration_date"`
-	Files          []string                                          `json:"files"`
-	FirstName      string                                            `json:"first_name"`
-	IssuedDate     *IdentityVerificationReportDocumentIssuedDate     `json:"issued_date"`
-	IssuingCountry string                                            `json:"issuing_country"`
-	LastName       string                                            `json:"last_name"`
-	Number         string                                            `json:"number"`
-	Status         IdentityVerificationReportDocumentStatus          `json:"status"`
-	Type           IdentityVerificationReportDocumentType            `json:"type"`
+	// Array of [File](https://stripe.com/docs/api/files) ids containing images for this document.
+	Files []string `json:"files"`
+	// First name as it appears in the document.
+	FirstName string `json:"first_name"`
+	// Issued date of the document.
+	IssuedDate *IdentityVerificationReportDocumentIssuedDate `json:"issued_date"`
+	// Issuing country of the document.
+	IssuingCountry string `json:"issuing_country"`
+	// Last name as it appears in the document.
+	LastName string `json:"last_name"`
+	// Document ID number.
+	Number string `json:"number"`
+	// Status of this `document` check.
+	Status IdentityVerificationReportDocumentStatus `json:"status"`
+	// Type of the document.
+	Type IdentityVerificationReportDocumentType `json:"type"`
 }
 
 // Date of birth.
 type IdentityVerificationReportIDNumberDOB struct {
-	Day   int64 `json:"day"`
+	// Numerical day between 1 and 31.
+	Day int64 `json:"day"`
+	// Numerical month between 1 and 12.
 	Month int64 `json:"month"`
-	Year  int64 `json:"year"`
+	// The four-digit year.
+	Year int64 `json:"year"`
 }
 
 // Details on the verification error. Present when status is `unverified`.
 type IdentityVerificationReportIDNumberError struct {
-	Code   IdentityVerificationReportIDNumberErrorCode `json:"code"`
-	Reason string                                      `json:"reason"`
+	// A short machine-readable string giving the reason for the verification failure.
+	Code IdentityVerificationReportIDNumberErrorCode `json:"code"`
+	// A human-readable message giving the reason for the failure. These messages can be shown to your users.
+	Reason string `json:"reason"`
 }
 
 // Result from an id_number check
 type IdentityVerificationReportIDNumber struct {
-	DOB          *IdentityVerificationReportIDNumberDOB         `json:"dob"`
-	Error        *IdentityVerificationReportIDNumberError       `json:"error"`
-	FirstName    string                                         `json:"first_name"`
-	IDNumber     string                                         `json:"id_number"`
+	// Date of birth.
+	DOB *IdentityVerificationReportIDNumberDOB `json:"dob"`
+	// Details on the verification error. Present when status is `unverified`.
+	Error *IdentityVerificationReportIDNumberError `json:"error"`
+	// First name.
+	FirstName string `json:"first_name"`
+	// ID number.
+	IDNumber string `json:"id_number"`
+	// Type of ID number.
 	IDNumberType IdentityVerificationReportIDNumberIDNumberType `json:"id_number_type"`
-	LastName     string                                         `json:"last_name"`
-	Status       IdentityVerificationReportIDNumberStatus       `json:"status"`
+	// Last name.
+	LastName string `json:"last_name"`
+	// Status of this `id_number` check.
+	Status IdentityVerificationReportIDNumberStatus `json:"status"`
 }
 type IdentityVerificationReportOptionsDocument struct {
-	AllowedTypes          []IdentityVerificationReportOptionsDocumentAllowedType `json:"allowed_types"`
-	RequireIDNumber       bool                                                   `json:"require_id_number"`
-	RequireLiveCapture    bool                                                   `json:"require_live_capture"`
-	RequireMatchingSelfie bool                                                   `json:"require_matching_selfie"`
+	// Array of strings of allowed identity document types. If the provided identity document isn't one of the allowed types, the verification check will fail with a document_type_not_allowed error code.
+	AllowedTypes []IdentityVerificationReportOptionsDocumentAllowedType `json:"allowed_types"`
+	// Collect an ID number and perform an [ID number check](https://stripe.com/docs/identity/verification-checks?type=id-number) with the document's extracted name and date of birth.
+	RequireIDNumber bool `json:"require_id_number"`
+	// Disable image uploads, identity document images have to be captured using the device's camera.
+	RequireLiveCapture bool `json:"require_live_capture"`
+	// Capture a face image and perform a [selfie check](https://stripe.com/docs/identity/verification-checks?type=selfie) comparing a photo ID and a picture of your user's face. [Learn more](https://stripe.com/docs/identity/selfie).
+	RequireMatchingSelfie bool `json:"require_matching_selfie"`
 }
 type IdentityVerificationReportOptionsIDNumber struct{}
 type IdentityVerificationReportOptions struct {
@@ -189,16 +240,22 @@ type IdentityVerificationReportOptions struct {
 
 // Details on the verification error. Present when status is `unverified`.
 type IdentityVerificationReportSelfieError struct {
-	Code   IdentityVerificationReportSelfieErrorCode `json:"code"`
-	Reason string                                    `json:"reason"`
+	// A short machine-readable string giving the reason for the verification failure.
+	Code IdentityVerificationReportSelfieErrorCode `json:"code"`
+	// A human-readable message giving the reason for the failure. These messages can be shown to your users.
+	Reason string `json:"reason"`
 }
 
 // Result from a selfie check
 type IdentityVerificationReportSelfie struct {
-	Document string                                 `json:"document"`
-	Error    *IdentityVerificationReportSelfieError `json:"error"`
-	Selfie   string                                 `json:"selfie"`
-	Status   IdentityVerificationReportSelfieStatus `json:"status"`
+	// ID of the [File](https://stripe.com/docs/api/files) holding the image of the identity document used in this check.
+	Document string `json:"document"`
+	// Details on the verification error. Present when status is `unverified`.
+	Error *IdentityVerificationReportSelfieError `json:"error"`
+	// ID of the [File](https://stripe.com/docs/api/files) holding the image of the selfie used in this check.
+	Selfie string `json:"selfie"`
+	// Status of this `selfie` check.
+	Status IdentityVerificationReportSelfieStatus `json:"status"`
 }
 
 // A VerificationReport is the result of an attempt to collect and verify data from a user.
@@ -214,16 +271,25 @@ type IdentityVerificationReportSelfie struct {
 // Related guides: [Accessing verification results](https://stripe.com/docs/identity/verification-sessions#results).
 type IdentityVerificationReport struct {
 	APIResource
-	Created             int64                               `json:"created"`
-	Document            *IdentityVerificationReportDocument `json:"document"`
-	ID                  string                              `json:"id"`
-	IDNumber            *IdentityVerificationReportIDNumber `json:"id_number"`
-	Livemode            bool                                `json:"livemode"`
-	Object              string                              `json:"object"`
-	Options             *IdentityVerificationReportOptions  `json:"options"`
-	Selfie              *IdentityVerificationReportSelfie   `json:"selfie"`
-	Type                IdentityVerificationReportType      `json:"type"`
-	VerificationSession string                              `json:"verification_session"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// Result from a document check
+	Document *IdentityVerificationReportDocument `json:"document"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Result from an id_number check
+	IDNumber *IdentityVerificationReportIDNumber `json:"id_number"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object  string                             `json:"object"`
+	Options *IdentityVerificationReportOptions `json:"options"`
+	// Result from a selfie check
+	Selfie *IdentityVerificationReportSelfie `json:"selfie"`
+	// Type of report.
+	Type IdentityVerificationReportType `json:"type"`
+	// ID of the VerificationSession that created this report.
+	VerificationSession string `json:"verification_session"`
 }
 
 // IdentityVerificationReportList is a list of VerificationReports as retrieved from a list endpoint.

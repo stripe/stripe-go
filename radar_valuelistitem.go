@@ -6,37 +6,50 @@
 
 package stripe
 
-// RadarValueListItemParams is the set of parameters that can be used when creating a value list item.
-type RadarValueListItemParams struct {
-	Params         `form:"*"`
-	RadarValueList *string `form:"value_list"`
-	Value          *string `form:"value"`
-}
-
-// RadarValueListItemListParams is the set of parameters that can be used when listing value list items.
+// Returns a list of ValueListItem objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
 type RadarValueListItemListParams struct {
-	ListParams     `form:"*"`
-	Created        *int64            `form:"created"`
-	CreatedRange   *RangeQueryParams `form:"created"`
-	RadarValueList *string           `form:"value_list"`
-	Value          *string           `form:"value"`
+	ListParams   `form:"*"`
+	Created      *int64            `form:"created"`
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Identifier for the parent value list this item belongs to.
+	RadarValueList *string `form:"value_list"`
+	// Return items belonging to the parent list whose value matches the specified value (using an "is like" match).
+	Value *string `form:"value"`
 }
 
-// RadarValueListItem is the resource representing a value list item.
+// Creates a new ValueListItem object, which is added to the specified parent value list.
+type RadarValueListItemParams struct {
+	Params `form:"*"`
+	// The identifier of the value list which the created item will be added to.
+	RadarValueList *string `form:"value_list"`
+	// The value of the item (whose type must match the type of the parent value list).
+	Value *string `form:"value"`
+}
+
+// Value list items allow you to add specific values to a given Radar value list, which can then be used in rules.
+//
+// Related guide: [Managing List Items](https://stripe.com/docs/radar/lists#managing-list-items).
 type RadarValueListItem struct {
 	APIResource
-	Created        int64  `json:"created"`
-	CreatedBy      string `json:"created_by"`
-	Deleted        bool   `json:"deleted"`
-	ID             string `json:"id"`
-	Livemode       bool   `json:"livemode"`
-	Name           string `json:"name"`
-	Object         string `json:"object"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// The name or email address of the user who added this item to the value list.
+	CreatedBy string `json:"created_by"`
+	Deleted   bool   `json:"deleted"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool   `json:"livemode"`
+	Name     string `json:"name"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// The identifier of the value list this item belongs to.
 	RadarValueList string `json:"value_list"`
-	Value          string `json:"value"`
+	// The value of the item.
+	Value string `json:"value"`
 }
 
-// RadarValueListItemList is a list of value list items as retrieved from a list endpoint.
+// RadarValueListItemList is a list of ValueListItems as retrieved from a list endpoint.
 type RadarValueListItemList struct {
 	APIResource
 	ListMeta

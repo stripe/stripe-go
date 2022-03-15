@@ -8,22 +8,20 @@ package stripe
 
 import "encoding/json"
 
-// IssuingCardholderRequirementsDisabledReason is the possible values for the disabled reason on an
-// issuing cardholder.
+// If `disabled_reason` is present, all cards will decline authorizations with `cardholder_verification_required` reason.
 type IssuingCardholderRequirementsDisabledReason string
 
-// List of values that IssuingCardholderRequirementsDisabledReason can take.
+// List of values that IssuingCardholderRequirementsDisabledReason can take
 const (
 	IssuingCardholderRequirementsDisabledReasonListed         IssuingCardholderRequirementsDisabledReason = "listed"
 	IssuingCardholderRequirementsDisabledReasonRejectedListed IssuingCardholderRequirementsDisabledReason = "rejected.listed"
 	IssuingCardholderRequirementsDisabledReasonUnderReview    IssuingCardholderRequirementsDisabledReason = "under_review"
 )
 
-// IssuingCardholderSpendingControlsSpendingLimitInterval is the list of possible values for the interval
-// for a spending limit on an issuing cardholder.
+// Interval (or event) to which the amount applies.
 type IssuingCardholderSpendingControlsSpendingLimitInterval string
 
-// List of values that IssuingCardShippingStatus can take.
+// List of values that IssuingCardholderSpendingControlsSpendingLimitInterval can take
 const (
 	IssuingCardholderSpendingControlsSpendingLimitIntervalAllTime          IssuingCardholderSpendingControlsSpendingLimitInterval = "all_time"
 	IssuingCardholderSpendingControlsSpendingLimitIntervalDaily            IssuingCardholderSpendingControlsSpendingLimitInterval = "daily"
@@ -33,191 +31,244 @@ const (
 	IssuingCardholderSpendingControlsSpendingLimitIntervalYearly           IssuingCardholderSpendingControlsSpendingLimitInterval = "yearly"
 )
 
-// IssuingCardholderStatus is the possible values for status on an issuing cardholder.
+// Specifies whether to permit authorizations on this cardholder's cards.
 type IssuingCardholderStatus string
 
-// List of values that IssuingCardholderStatus can take.
+// List of values that IssuingCardholderStatus can take
 const (
 	IssuingCardholderStatusActive   IssuingCardholderStatus = "active"
 	IssuingCardholderStatusBlocked  IssuingCardholderStatus = "blocked"
 	IssuingCardholderStatusInactive IssuingCardholderStatus = "inactive"
 )
 
-// IssuingCardholderType is the type of an issuing cardholder.
+// One of `individual` or `company`.
 type IssuingCardholderType string
 
-// List of values that IssuingCardholderType can take.
+// List of values that IssuingCardholderType can take
 const (
 	IssuingCardholderTypeCompany    IssuingCardholderType = "company"
 	IssuingCardholderTypeIndividual IssuingCardholderType = "individual"
 )
 
-// IssuingCardholderBillingParams is the set of parameters that can be used for billing with the Issuing APIs.
+// Returns a list of Issuing Cardholder objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
+type IssuingCardholderListParams struct {
+	ListParams `form:"*"`
+	// Only return cardholders that were created during the given date interval.
+	Created *int64 `form:"created"`
+	// Only return cardholders that were created during the given date interval.
+	CreatedRange *RangeQueryParams `form:"created"`
+	// Only return cardholders that have the given email address.
+	Email *string `form:"email"`
+	// Only return cardholders that have the given phone number.
+	PhoneNumber *string `form:"phone_number"`
+	// Only return cardholders that have the given status. One of `active`, `inactive`, or `blocked`.
+	Status *string `form:"status"`
+	// Only return cardholders that have the given type. One of `individual` or `company`.
+	Type *string `form:"type"`
+}
+
+// The cardholder's billing address.
 type IssuingCardholderBillingParams struct {
+	// The cardholder's billing address.
 	Address *AddressParams `form:"address"`
 }
 
-// IssuingCardholderCompanyParams represents additional information about a company cardholder.
+// Additional information about a `company` cardholder.
 type IssuingCardholderCompanyParams struct {
+	// The entity's business ID number.
 	TaxID *string `form:"tax_id"`
 }
 
-// IssuingCardholderIndividualDOBParams represents the date of birth of the
-// cardholder individual.
+// The date of birth of this cardholder.
 type IssuingCardholderIndividualDOBParams struct {
-	Day   *int64 `form:"day"`
+	// The day of birth, between 1 and 31.
+	Day *int64 `form:"day"`
+	// The month of birth, between 1 and 12.
 	Month *int64 `form:"month"`
-	Year  *int64 `form:"year"`
+	// The four-digit year of birth.
+	Year *int64 `form:"year"`
 }
 
-// IssuingCardholderIndividualVerificationDocumentParams represents an
-// identifying document, either a passport or local ID card.
+// An identifying document, either a passport or local ID card.
 type IssuingCardholderIndividualVerificationDocumentParams struct {
-	Back  *string `form:"back"`
+	// The back of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`.
+	Back *string `form:"back"`
+	// The front of an ID returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`.
 	Front *string `form:"front"`
 }
 
-// IssuingCardholderIndividualVerificationParams represents government-issued ID
-// document for this cardholder.
+// Government-issued ID document for this cardholder.
 type IssuingCardholderIndividualVerificationParams struct {
+	// An identifying document, either a passport or local ID card.
 	Document *IssuingCardholderIndividualVerificationDocumentParams `form:"document"`
 }
 
-// IssuingCardholderIndividualParams represents additional information about an
-// `individual` cardholder.
+// Additional information about an `individual` cardholder.
 type IssuingCardholderIndividualParams struct {
-	DOB          *IssuingCardholderIndividualDOBParams          `form:"dob"`
-	FirstName    *string                                        `form:"first_name"`
-	LastName     *string                                        `form:"last_name"`
+	// The date of birth of this cardholder.
+	DOB *IssuingCardholderIndividualDOBParams `form:"dob"`
+	// The first name of this cardholder.
+	FirstName *string `form:"first_name"`
+	// The last name of this cardholder.
+	LastName *string `form:"last_name"`
+	// Government-issued ID document for this cardholder.
 	Verification *IssuingCardholderIndividualVerificationParams `form:"verification"`
 }
 
-// IssuingCardholderSpendingControlsSpendingLimitParams is the set of parameters that can be used to
-// represent a given spending limit for an issuing cardholder.
+// Limit spending with amount-based rules that apply across this cardholder's cards.
 type IssuingCardholderSpendingControlsSpendingLimitParams struct {
-	Amount     *int64    `form:"amount"`
+	// Maximum amount allowed to spend per interval.
+	Amount *int64 `form:"amount"`
+	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
 	Categories []*string `form:"categories"`
-	Interval   *string   `form:"interval"`
+	// Interval (or event) to which the amount applies.
+	Interval *string `form:"interval"`
 }
 
-// IssuingCardholderSpendingControlsParams is the set of parameters that can be used to configure
-// the spending controls for an issuing cardholder
+// Rules that control spending across this cardholder's cards. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 type IssuingCardholderSpendingControlsParams struct {
-	AllowedCategories      []*string                                               `form:"allowed_categories"`
-	BlockedCategories      []*string                                               `form:"blocked_categories"`
-	SpendingLimits         []*IssuingCardholderSpendingControlsSpendingLimitParams `form:"spending_limits"`
-	SpendingLimitsCurrency *string                                                 `form:"spending_limits_currency"`
+	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
+	AllowedCategories []*string `form:"allowed_categories"`
+	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
+	BlockedCategories []*string `form:"blocked_categories"`
+	// Limit spending with amount-based rules that apply across this cardholder's cards.
+	SpendingLimits []*IssuingCardholderSpendingControlsSpendingLimitParams `form:"spending_limits"`
+	// Currency of amounts within `spending_limits`. Defaults to your merchant country's currency.
+	SpendingLimitsCurrency *string `form:"spending_limits_currency"`
 }
 
-// IssuingCardholderParams is the set of parameters that can be used when creating or updating an issuing cardholder.
+// Creates a new Issuing Cardholder object that can be issued cards.
 type IssuingCardholderParams struct {
-	Params           `form:"*"`
-	Billing          *IssuingCardholderBillingParams          `form:"billing"`
-	Company          *IssuingCardholderCompanyParams          `form:"company"`
-	Email            *string                                  `form:"email"`
-	Individual       *IssuingCardholderIndividualParams       `form:"individual"`
-	Name             *string                                  `form:"name"`
-	PhoneNumber      *string                                  `form:"phone_number"`
+	Params `form:"*"`
+	// The cardholder's billing address.
+	Billing *IssuingCardholderBillingParams `form:"billing"`
+	// Additional information about a `company` cardholder.
+	Company *IssuingCardholderCompanyParams `form:"company"`
+	// The cardholder's email address.
+	Email *string `form:"email"`
+	// Additional information about an `individual` cardholder.
+	Individual *IssuingCardholderIndividualParams `form:"individual"`
+	// The cardholder's name. This will be printed on cards issued to them. The maximum length of this field is 24 characters.
+	Name *string `form:"name"`
+	// The cardholder's phone number. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://stripe.com/docs/issuing/3d-secure) for more details.
+	PhoneNumber *string `form:"phone_number"`
+	// Rules that control spending across this cardholder's cards. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardholderSpendingControlsParams `form:"spending_controls"`
-	Status           *string                                  `form:"status"`
-	Type             *string                                  `form:"type"`
+	// Specifies whether to permit authorizations on this cardholder's cards.
+	Status *string `form:"status"`
+	// One of `individual` or `company`.
+	Type *string `form:"type"`
 }
-
-// IssuingCardholderListParams is the set of parameters that can be used when listing issuing cardholders.
-type IssuingCardholderListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	Email        *string           `form:"email"`
-	PhoneNumber  *string           `form:"phone_number"`
-	Status       *string           `form:"status"`
-	Type         *string           `form:"type"`
-}
-
-// IssuingCardholderBilling is the resource representing the billing hash with the Issuing APIs.
 type IssuingCardholderBilling struct {
 	Address *Address `json:"address"`
 }
 
-// IssuingCardholderCompany represents additional information about a company cardholder.
+// Additional information about a `company` cardholder.
 type IssuingCardholderCompany struct {
+	// Whether the company's business ID number was provided.
 	TaxIDProvided bool `json:"tax_id_provided"`
 }
 
-// IssuingCardholderIndividualDOB represents the date of birth of the issuing card hoder
-// individual.
+// The date of birth of this cardholder.
 type IssuingCardholderIndividualDOB struct {
-	Day   int64 `json:"day"`
+	// The day of birth, between 1 and 31.
+	Day int64 `json:"day"`
+	// The month of birth, between 1 and 12.
 	Month int64 `json:"month"`
-	Year  int64 `json:"year"`
+	// The four-digit year of birth.
+	Year int64 `json:"year"`
 }
 
-// IssuingCardholderIndividualVerificationDocument represents an identifying
-// document, either a passport or local ID card.
+// An identifying document, either a passport or local ID card.
 type IssuingCardholderIndividualVerificationDocument struct {
-	Back  *File `json:"back"`
+	// The back of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`.
+	Back *File `json:"back"`
+	// The front of a document returned by a [file upload](https://stripe.com/docs/api#create_file) with a `purpose` value of `identity_document`.
 	Front *File `json:"front"`
 }
 
-// IssuingCardholderIndividualVerification represents the Government-issued ID
-// document for this cardholder
+// Government-issued ID document for this cardholder.
 type IssuingCardholderIndividualVerification struct {
+	// An identifying document, either a passport or local ID card.
 	Document *IssuingCardholderIndividualVerificationDocument `json:"document"`
 }
 
-// IssuingCardholderIndividual represents additional information about an
-// individual cardholder.
+// Additional information about an `individual` cardholder.
 type IssuingCardholderIndividual struct {
-	DOB          *IssuingCardholderIndividualDOB          `json:"dob"`
-	FirstName    string                                   `json:"first_name"`
-	LastName     string                                   `json:"last_name"`
+	// The date of birth of this cardholder.
+	DOB *IssuingCardholderIndividualDOB `json:"dob"`
+	// The first name of this cardholder.
+	FirstName string `json:"first_name"`
+	// The last name of this cardholder.
+	LastName string `json:"last_name"`
+	// Government-issued ID document for this cardholder.
 	Verification *IssuingCardholderIndividualVerification `json:"verification"`
 }
-
-// IssuingCardholderRequirements contains the verification requirements for the cardholder.
 type IssuingCardholderRequirements struct {
+	// If `disabled_reason` is present, all cards will decline authorizations with `cardholder_verification_required` reason.
 	DisabledReason IssuingCardholderRequirementsDisabledReason `json:"disabled_reason"`
-	PastDue        []string                                    `json:"past_due"`
+	// Array of fields that need to be collected in order to verify and re-enable the cardholder.
+	PastDue []string `json:"past_due"`
 }
 
-// IssuingCardholderSpendingControlsSpendingLimit is the resource representing a spending limit
-// for an issuing cardholder.
+// Limit spending with amount-based rules that apply across this cardholder's cards.
 type IssuingCardholderSpendingControlsSpendingLimit struct {
-	Amount     int64                                                  `json:"amount"`
-	Categories []string                                               `json:"categories"`
-	Interval   IssuingCardholderSpendingControlsSpendingLimitInterval `json:"interval"`
+	// Maximum amount allowed to spend per interval.
+	Amount int64 `json:"amount"`
+	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) this limit applies to. Omitting this field will apply the limit to all categories.
+	Categories []string `json:"categories"`
+	// Interval (or event) to which the amount applies.
+	Interval IssuingCardholderSpendingControlsSpendingLimitInterval `json:"interval"`
 }
 
-// IssuingCardholderSpendingControls is the resource representing spending controls
-// for an issuing cardholder.
+// Rules that control spending across this cardholder's cards. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 type IssuingCardholderSpendingControls struct {
-	AllowedCategories      []string                                          `json:"allowed_categories"`
-	BlockedCategories      []string                                          `json:"blocked_categories"`
-	SpendingLimits         []*IssuingCardholderSpendingControlsSpendingLimit `json:"spending_limits"`
-	SpendingLimitsCurrency Currency                                          `json:"spending_limits_currency"`
+	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to allow. All other categories will be blocked. Cannot be set with `blocked_categories`.
+	AllowedCategories []string `json:"allowed_categories"`
+	// Array of strings containing [categories](https://stripe.com/docs/api#issuing_authorization_object-merchant_data-category) of authorizations to decline. All other categories will be allowed. Cannot be set with `allowed_categories`.
+	BlockedCategories []string `json:"blocked_categories"`
+	// Limit spending with amount-based rules that apply across this cardholder's cards.
+	SpendingLimits []*IssuingCardholderSpendingControlsSpendingLimit `json:"spending_limits"`
+	// Currency of the amounts within `spending_limits`.
+	SpendingLimitsCurrency Currency `json:"spending_limits_currency"`
 }
 
-// IssuingCardholder is the resource representing a Stripe issuing cardholder.
+// An Issuing `Cardholder` object represents an individual or business entity who is [issued](https://stripe.com/docs/issuing) cards.
+//
+// Related guide: [How to create a Cardholder](https://stripe.com/docs/issuing/cards#create-cardholder)
 type IssuingCardholder struct {
 	APIResource
-	Billing          *IssuingCardholderBilling          `json:"billing"`
-	Company          *IssuingCardholderCompany          `json:"company"`
-	Created          int64                              `json:"created"`
-	Email            string                             `json:"email"`
-	ID               string                             `json:"id"`
-	Individual       *IssuingCardholderIndividual       `json:"individual"`
-	Livemode         bool                               `json:"livemode"`
-	Metadata         map[string]string                  `json:"metadata"`
-	Name             string                             `json:"name"`
-	Object           string                             `json:"object"`
-	PhoneNumber      string                             `json:"phone_number"`
-	Requirements     *IssuingCardholderRequirements     `json:"requirements"`
+	Billing *IssuingCardholderBilling `json:"billing"`
+	// Additional information about a `company` cardholder.
+	Company *IssuingCardholderCompany `json:"company"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// The cardholder's email address.
+	Email string `json:"email"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// Additional information about an `individual` cardholder.
+	Individual *IssuingCardholderIndividual `json:"individual"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// The cardholder's name. This will be printed on cards issued to them.
+	Name string `json:"name"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// The cardholder's phone number. This is required for all cardholders who will be creating EU cards. See the [3D Secure documentation](https://stripe.com/docs/issuing/3d-secure#when-is-3d-secure-applied) for more details.
+	PhoneNumber  string                         `json:"phone_number"`
+	Requirements *IssuingCardholderRequirements `json:"requirements"`
+	// Rules that control spending across this cardholder's cards. Refer to our [documentation](https://stripe.com/docs/issuing/controls/spending-controls) for more details.
 	SpendingControls *IssuingCardholderSpendingControls `json:"spending_controls"`
-	Status           IssuingCardholderStatus            `json:"status"`
-	Type             IssuingCardholderType              `json:"type"`
+	// Specifies whether to permit authorizations on this cardholder's cards.
+	Status IssuingCardholderStatus `json:"status"`
+	// One of `individual` or `company`.
+	Type IssuingCardholderType `json:"type"`
 }
 
-// IssuingCardholderList is a list of issuing cardholders as retrieved from a list endpoint.
+// IssuingCardholderList is a list of Cardholders as retrieved from a list endpoint.
 type IssuingCardholderList struct {
 	APIResource
 	ListMeta

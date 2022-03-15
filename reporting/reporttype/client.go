@@ -1,6 +1,10 @@
-// Package reporttype provides API functions related to report types.
 //
-// For more details, see: https://stripe.com/docs/api/go#reporting_report_type
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package reporttype provides the /reporting/report_types APIs
 package reporttype
 
 import (
@@ -36,17 +40,19 @@ func List(params *stripe.ReportTypeListParams) *Iter {
 
 // List returns a list of report types.
 func (c Client) List(listParams *stripe.ReportTypeListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.ReportTypeList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/reporting/report_types", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.ReportTypeList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/reporting/report_types", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for report types.

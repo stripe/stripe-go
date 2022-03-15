@@ -1,11 +1,17 @@
+//
+//
+// File generated from our OpenAPI spec
+//
+//
+
 package stripe
 
 import "encoding/json"
 
-// CreditNoteReason is the reason why a given credit note was created.
+// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
 type CreditNoteReason string
 
-// List of values that CreditNoteReason can take.
+// List of values that CreditNoteReason can take
 const (
 	CreditNoteReasonDuplicate             CreditNoteReason = "duplicate"
 	CreditNoteReasonFraudulent            CreditNoteReason = "fraudulent"
@@ -13,209 +19,244 @@ const (
 	CreditNoteReasonProductUnsatisfactory CreditNoteReason = "product_unsatisfactory"
 )
 
-// CreditNoteStatus is the list of allowed values for the credit note's status.
+// Status of this credit note, one of `issued` or `void`. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
 type CreditNoteStatus string
 
-// List of values that CreditNoteStatus can take.
+// List of values that CreditNoteStatus can take
 const (
 	CreditNoteStatusIssued CreditNoteStatus = "issued"
 	CreditNoteStatusVoid   CreditNoteStatus = "void"
 )
 
-// CreditNoteType is the list of allowed values for the credit note's type.
+// Type of this credit note, one of `pre_payment` or `post_payment`. A `pre_payment` credit note means it was issued when the invoice was open. A `post_payment` credit note means it was issued when the invoice was paid.
 type CreditNoteType string
 
-// List of values that CreditNoteType can take.
+// List of values that CreditNoteType can take
 const (
 	CreditNoteTypePostPayment CreditNoteType = "post_payment"
 	CreditNoteTypePrePayment  CreditNoteType = "pre_payment"
 )
 
-// CreditNoteLineItemType is the list of allowed values for the credit note line item's type.
-type CreditNoteLineItemType string
-
-// List of values that CreditNoteType can take.
-const (
-	CreditNoteLineItemTypeCustomLineItem  CreditNoteLineItemType = "custom_line_item"
-	CreditNoteLineItemTypeInvoiceLineItem CreditNoteLineItemType = "invoice_line_item"
-)
-
-// CreditNoteParams is the set of parameters that can be used when creating or updating a credit note.
-// For more details see https://stripe.com/docs/api/credit_notes/create, https://stripe.com/docs/api/credit_notes/update.
-type CreditNoteParams struct {
-	Params          `form:"*"`
-	Amount          *int64                  `form:"amount"`
-	CreditAmount    *int64                  `form:"credit_amount"`
-	Invoice         *string                 `form:"invoice"`
-	Lines           []*CreditNoteLineParams `form:"lines"`
-	Memo            *string                 `form:"memo"`
-	OutOfBandAmount *int64                  `form:"out_of_band_amount"`
-	Reason          *string                 `form:"reason"`
-	Refund          *string                 `form:"refund"`
-	RefundAmount    *int64                  `form:"refund_amount"`
+// Line items that make up the credit note.
+type CreditNoteLineParams struct {
+	// The line item amount to credit. Only valid when `type` is `invoice_line_item`.
+	Amount *int64 `form:"amount"`
+	// The description of the credit note line item. Only valid when the `type` is `custom_line_item`.
+	Description *string `form:"description"`
+	// The invoice line item to credit. Only valid when the `type` is `invoice_line_item`.
+	InvoiceLineItem *string `form:"invoice_line_item"`
+	// The line item quantity to credit.
+	Quantity *int64 `form:"quantity"`
+	// The tax rates which apply to the credit note line item. Only valid when the `type` is `custom_line_item`.
+	TaxRates []*string `form:"tax_rates"`
+	// Type of the credit note line item, one of `invoice_line_item` or `custom_line_item`
+	Type *string `form:"type"`
+	// The integer unit amount in %s of the credit note line item. This `unit_amount` will be multiplied by the quantity to get the full amount to credit for this line item. Only valid when `type` is `custom_line_item`.
+	UnitAmount *int64 `form:"unit_amount"`
+	// Same as `unit_amount`, but accepts a decimal value in %s with at most 12 decimal places. Only one of `unit_amount` and `unit_amount_decimal` can be set.
+	UnitAmountDecimal *float64 `form:"unit_amount_decimal,high_precision"`
 }
 
-// CreditNoteListParams is the set of parameters that can be used when listing credit notes.
-// For more details see https://stripe.com/docs/api/credit_notes/list.
+// Issue a credit note to adjust the amount of a finalized invoice. For a status=open invoice, a credit note reduces
+// its amount_due. For a status=paid invoice, a credit note does not affect its amount_due. Instead, it can result
+// in any combination of the following:
+//
+//
+// Refund: create a new refund (using refund_amount) or link an existing refund (using refund).
+// Customer balance credit: credit the customer's balance (using credit_amount) which will be automatically applied to their next invoice when it's finalized.
+// Outside of Stripe credit: record the amount that is or will be credited outside of Stripe (using out_of_band_amount).
+//
+//
+// For post-payment credit notes the sum of the refund, credit and outside of Stripe amounts must equal the credit note total.
+//
+// You may issue multiple credit notes for an invoice. Each credit note will increment the invoice's pre_payment_credit_notes_amount
+// or post_payment_credit_notes_amount depending on its status at the time of credit note creation.
+type CreditNoteParams struct {
+	Params `form:"*"`
+	// The integer amount in %s representing the total amount of the credit note.
+	Amount *int64 `form:"amount"`
+	// The integer amount in %s representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
+	CreditAmount *int64 `form:"credit_amount"`
+	// ID of the invoice.
+	Invoice *string `form:"invoice"`
+	// Line items that make up the credit note.
+	Lines []*CreditNoteLineParams `form:"lines"`
+	// Credit note memo.
+	Memo *string `form:"memo"`
+	// The integer amount in %s representing the amount that is credited outside of Stripe.
+	OutOfBandAmount *int64 `form:"out_of_band_amount"`
+	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
+	Reason *string `form:"reason"`
+	// ID of an existing refund to link this credit note to.
+	Refund *string `form:"refund"`
+	// The integer amount in %s representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
+	RefundAmount *int64 `form:"refund_amount"`
+}
+
+// Returns a list of credit notes.
 type CreditNoteListParams struct {
 	ListParams `form:"*"`
-	Customer   *string `form:"customer"`
-	Invoice    *string `form:"invoice"`
+	// Only return credit notes for the customer specified by this customer ID.
+	Customer *string `form:"customer"`
+	// Only return credit notes for the invoice specified by this invoice ID.
+	Invoice *string `form:"invoice"`
 }
 
-// CreditNoteLineItemListParams is the set of parameters that can be used when listing credit note line items.
-type CreditNoteLineItemListParams struct {
-	ListParams `form:"*"`
-
-	// ID is the credit note ID to list line items for.
-	ID *string `form:"-"` // Goes in the URL
-}
-
-// CreditNoteLineItemListPreviewParams is the set of parameters that can be used when previewing a credit note's line items
-type CreditNoteLineItemListPreviewParams struct {
-	ListParams      `form:"*"`
-	Amount          *int64                  `form:"amount"`
-	CreditAmount    *int64                  `form:"credit_amount"`
-	Invoice         *string                 `form:"invoice"`
-	Lines           []*CreditNoteLineParams `form:"lines"`
-	Memo            *string                 `form:"memo"`
-	OutOfBandAmount *int64                  `form:"out_of_band_amount"`
-	Reason          *string                 `form:"reason"`
-	Refund          *string                 `form:"refund"`
-	RefundAmount    *int64                  `form:"refund_amount"`
-}
-
-// CreditNoteLineParams is the set of parameters that can be used for a line item when creating
-// or previewing a credit note.
-type CreditNoteLineParams struct {
-	Amount            *int64    `form:"amount"`
-	Description       *string   `form:"description"`
-	InvoiceLineItem   *string   `form:"invoice_line_item"`
-	Quantity          *int64    `form:"quantity"`
-	TaxRates          []*string `form:"tax_rates"`
-	UnitAmount        *int64    `form:"unit_amount"`
-	UnitAmountDecimal *float64  `form:"unit_amount_decimal,high_precision"`
-	Type              *string   `form:"type"`
-}
-
-// CreditNotePreviewParams is the set of parameters that can be used when previewing a credit note.
-// For more details see https://stripe.com/docs/api/credit_notes/preview.
+// Get a preview of a credit note without creating it.
 type CreditNotePreviewParams struct {
-	Params          `form:"*"`
-	Amount          *int64                  `form:"amount"`
-	CreditAmount    *int64                  `form:"credit_amount"`
-	Invoice         *string                 `form:"invoice"`
-	Lines           []*CreditNoteLineParams `form:"lines"`
-	Memo            *string                 `form:"memo"`
-	OutOfBandAmount *int64                  `form:"out_of_band_amount"`
-	Reason          *string                 `form:"reason"`
-	Refund          *string                 `form:"refund"`
-	RefundAmount    *int64                  `form:"refund_amount"`
+	Params `form:"*"`
+	// The integer amount in %s representing the total amount of the credit note.
+	Amount *int64 `form:"amount"`
+	// The integer amount in %s representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
+	CreditAmount *int64 `form:"credit_amount"`
+	// ID of the invoice.
+	Invoice *string `form:"invoice"`
+	// Line items that make up the credit note.
+	Lines []*CreditNoteLineParams `form:"lines"`
+	// The credit note's memo appears on the credit note PDF.
+	Memo *string `form:"memo"`
+	// The integer amount in %s representing the amount that is credited outside of Stripe.
+	OutOfBandAmount *int64 `form:"out_of_band_amount"`
+	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
+	Reason *string `form:"reason"`
+	// ID of an existing refund to link this credit note to.
+	Refund *string `form:"refund"`
+	// The integer amount in %s representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
+	RefundAmount *int64 `form:"refund_amount"`
 }
 
-// CreditNoteVoidParams is the set of parameters that can be used when voiding invoices.
+// Marks a credit note as void. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
 type CreditNoteVoidParams struct {
 	Params `form:"*"`
 }
 
-// CreditNoteDiscountAmount represents the aggregate amounts calculated per discount for all line items.
+// When retrieving a credit note preview, you'll get a lines property containing the first handful of those items. This URL you can retrieve the full (paginated) list of line items.
+type CreditNoteLineItemListPreviewParams struct {
+	ListParams `form:"*"`
+	// The integer amount in %s representing the total amount of the credit note.
+	Amount *int64 `form:"amount"`
+	// The integer amount in %s representing the amount to credit the customer's balance, which will be automatically applied to their next invoice.
+	CreditAmount *int64 `form:"credit_amount"`
+	// ID of the invoice.
+	Invoice *string `form:"invoice"`
+	// Line items that make up the credit note.
+	Lines []*CreditNoteLineParams `form:"lines"`
+	// The credit note's memo appears on the credit note PDF.
+	Memo *string `form:"memo"`
+	// The integer amount in %s representing the amount that is credited outside of Stripe.
+	OutOfBandAmount *int64 `form:"out_of_band_amount"`
+	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
+	Reason *string `form:"reason"`
+	// ID of an existing refund to link this credit note to.
+	Refund *string `form:"refund"`
+	// The integer amount in %s representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
+	RefundAmount *int64 `form:"refund_amount"`
+}
+
+// When retrieving a credit note, you'll get a lines property containing the the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
+type CreditNoteLineItemListParams struct {
+	ListParams `form:"*"`
+	// ID is the credit note ID to list line items for.
+	ID *string `form:"-"` // Included in URL
+}
+
+// The integer amount in %s representing the total amount of discount that was credited.
 type CreditNoteDiscountAmount struct {
-	Amount   int64     `json:"amount"`
+	// The amount, in %s, of the discount.
+	Amount int64 `json:"amount"`
+	// The discount that was applied to get this discount amount.
 	Discount *Discount `json:"discount"`
 }
 
-// CreditNoteTaxAmount represent the tax amount applied to a credit note.
+// The aggregate amounts calculated per tax rate for all line items.
 type CreditNoteTaxAmount struct {
-	Amount    int64    `json:"amount"`
-	Inclusive bool     `json:"inclusive"`
-	TaxRate   *TaxRate `json:"tax_rate"`
+	// The amount, in %s, of the tax.
+	Amount int64 `json:"amount"`
+	// Whether this tax amount is inclusive or exclusive.
+	Inclusive bool `json:"inclusive"`
+	// The tax rate that was applied to get this tax amount.
+	TaxRate *TaxRate `json:"tax_rate"`
 }
 
-// CreditNote is the resource representing a Stripe credit note.
-// For more details see https://stripe.com/docs/api/credit_notes/object.
+// Issue a credit note to adjust an invoice's amount after the invoice is finalized.
+//
+// Related guide: [Credit Notes](https://stripe.com/docs/billing/invoices/credit-notes).
 type CreditNote struct {
 	APIResource
-	Amount                     int64                       `json:"amount"`
-	Created                    int64                       `json:"created"`
-	Currency                   Currency                    `json:"currency"`
-	Customer                   *Customer                   `json:"customer"`
+	// The integer amount in %s representing the total amount of the credit note, including tax.
+	Amount int64 `json:"amount"`
+	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	Created int64 `json:"created"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// ID of the customer.
+	Customer *Customer `json:"customer"`
+	// Customer balance transaction related to this credit note.
 	CustomerBalanceTransaction *CustomerBalanceTransaction `json:"customer_balance_transaction"`
-	DiscountAmount             int64                       `json:"discount_amount"`
-	DiscountAmounts            []*CreditNoteDiscountAmount `json:"discount_amounts"`
-	Invoice                    *Invoice                    `json:"invoice"`
-	ID                         string                      `json:"id"`
-	Lines                      *CreditNoteLineItemList     `json:"lines"`
-	Livemode                   bool                        `json:"livemode"`
-	Memo                       string                      `json:"memo"`
-	Metadata                   map[string]string           `json:"metadata"`
-	Number                     string                      `json:"number"`
-	Object                     string                      `json:"object"`
-	OutOfBandAmount            int64                       `json:"out_of_band_amount"`
-	PDF                        string                      `json:"pdf"`
-	Reason                     CreditNoteReason            `json:"reason"`
-	Refund                     *Refund                     `json:"refund"`
-	Status                     CreditNoteStatus            `json:"status"`
-	Subtotal                   int64                       `json:"subtotal"`
-	TaxAmounts                 []*CreditNoteTaxAmount      `json:"tax_amounts"`
-	Total                      int64                       `json:"total"`
-	Type                       CreditNoteType              `json:"type"`
-	VoidedAt                   int64                       `json:"voided_at"`
+	// The integer amount in %s representing the total amount of discount that was credited.
+	DiscountAmount int64 `json:"discount_amount"`
+	// The aggregate amounts calculated per discount for all line items.
+	DiscountAmounts []*CreditNoteDiscountAmount `json:"discount_amounts"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
+	// ID of the invoice.
+	Invoice *Invoice `json:"invoice"`
+	// Line items that make up the credit note
+	Lines *CreditNoteLineItemList `json:"lines"`
+	// Has the value `true` if the object exists in live mode or the value `false` if the object exists in test mode.
+	Livemode bool `json:"livemode"`
+	// Customer-facing text that appears on the credit note PDF.
+	Memo string `json:"memo"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+	Metadata map[string]string `json:"metadata"`
+	// A unique number that identifies this particular credit note and appears on the PDF of the credit note and its associated invoice.
+	Number string `json:"number"`
+	// String representing the object's type. Objects of the same type share the same value.
+	Object string `json:"object"`
+	// Amount that was credited outside of Stripe.
+	OutOfBandAmount int64 `json:"out_of_band_amount"`
+	// The link to download the PDF of the credit note.
+	PDF string `json:"pdf"`
+	// Reason for issuing this credit note, one of `duplicate`, `fraudulent`, `order_change`, or `product_unsatisfactory`
+	Reason CreditNoteReason `json:"reason"`
+	// Refund related to this credit note.
+	Refund *Refund `json:"refund"`
+	// Status of this credit note, one of `issued` or `void`. Learn more about [voiding credit notes](https://stripe.com/docs/billing/invoices/credit-notes#voiding).
+	Status CreditNoteStatus `json:"status"`
+	// The integer amount in %s representing the amount of the credit note, excluding tax and invoice level discounts.
+	Subtotal int64 `json:"subtotal"`
+	// The aggregate amounts calculated per tax rate for all line items.
+	TaxAmounts []*CreditNoteTaxAmount `json:"tax_amounts"`
+	// The integer amount in %s representing the total amount of the credit note, including tax and all discount.
+	Total int64 `json:"total"`
+	// Type of this credit note, one of `pre_payment` or `post_payment`. A `pre_payment` credit note means it was issued when the invoice was open. A `post_payment` credit note means it was issued when the invoice was paid.
+	Type CreditNoteType `json:"type"`
+	// The time that the credit note was voided.
+	VoidedAt int64 `json:"voided_at"`
 }
 
-// CreditNoteLineItemDiscountAmount represents the amount of discount calculated per discount for this line item.
-type CreditNoteLineItemDiscountAmount struct {
-	Amount   int64     `json:"amount"`
-	Discount *Discount `json:"discount"`
-}
-
-// CreditNoteLineItem is the resource representing a Stripe credit note line item.
-// For more details see https://stripe.com/docs/api/credit_notes/line_item
-type CreditNoteLineItem struct {
-	Amount            int64                               `json:"amount"`
-	Description       string                              `json:"description"`
-	DiscountAmount    int64                               `json:"discount_amount"`
-	DiscountAmounts   []*CreditNoteLineItemDiscountAmount `json:"discount_amounts"`
-	ID                string                              `json:"id"`
-	InvoiceLineItem   string                              `json:"invoice_line_item"`
-	Livemode          bool                                `json:"livemode"`
-	Object            string                              `json:"object"`
-	Quantity          int64                               `json:"quantity"`
-	TaxAmounts        []*CreditNoteTaxAmount              `json:"tax_amounts"`
-	TaxRates          []*TaxRate                          `json:"tax_rates"`
-	Type              CreditNoteLineItemType              `json:"type"`
-	UnitAmount        int64                               `json:"unit_amount"`
-	UnitAmountDecimal float64                             `json:"unit_amount_decimal,string"`
-}
-
-// CreditNoteList is a list of credit notes as retrieved from a list endpoint.
+// CreditNoteList is a list of CreditNotes as retrieved from a list endpoint.
 type CreditNoteList struct {
 	APIResource
 	ListMeta
 	Data []*CreditNote `json:"data"`
 }
 
-// CreditNoteLineItemList is a list of credit note line items as retrieved from a list endpoint.
-type CreditNoteLineItemList struct {
-	APIResource
-	ListMeta
-	Data []*CreditNoteLineItem `json:"data"`
-}
-
 // UnmarshalJSON handles deserialization of a CreditNote.
 // This custom unmarshaling is needed because the resulting
 // property may be an id or the full struct if it was expanded.
-func (i *CreditNote) UnmarshalJSON(data []byte) error {
+func (c *CreditNote) UnmarshalJSON(data []byte) error {
 	if id, ok := ParseID(data); ok {
-		i.ID = id
+		c.ID = id
 		return nil
 	}
 
-	type note CreditNote
-	var v note
+	type creditNote CreditNote
+	var v creditNote
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 
-	*i = CreditNote(v)
+	*c = CreditNote(v)
 	return nil
 }

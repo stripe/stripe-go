@@ -1,6 +1,10 @@
-// Package dispute provides API functions related to issuing disputes.
 //
-// For more details, see: https://stripe.com/docs/api/go#issuing_disputes
+//
+// File generated from our OpenAPI spec
+//
+//
+
+// Package dispute provides the /issuing/disputes APIs
 package dispute
 
 import (
@@ -24,7 +28,13 @@ func New(params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 // New creates a new issuing dispute.
 func (c Client) New(params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
 	dispute := &stripe.IssuingDispute{}
-	err := c.B.Call(http.MethodPost, "/v1/issuing/disputes", c.Key, params, dispute)
+	err := c.B.Call(
+		http.MethodPost,
+		"/v1/issuing/disputes",
+		c.Key,
+		params,
+		dispute,
+	)
 	return dispute, err
 }
 
@@ -41,27 +51,27 @@ func (c Client) Get(id string, params *stripe.IssuingDisputeParams) (*stripe.Iss
 	return dispute, err
 }
 
-// Submit dismisses a dispute in the customer's favor.
-func Submit(id string, params *stripe.IssuingDisputeSubmitParams) (*stripe.IssuingDispute, error) {
-	return getC().Submit(id, params)
+// Update updates an issuing dispute's properties.
+func Update(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
+	return getC().Update(id, params)
 }
 
-// Submit dismisses a dispute in the customer's favor.
-func (c Client) Submit(id string, params *stripe.IssuingDisputeSubmitParams) (*stripe.IssuingDispute, error) {
-	path := stripe.FormatURLPath("/v1/issuing/disputes/%s/submit", id)
+// Update updates an issuing dispute's properties.
+func (c Client) Update(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
+	path := stripe.FormatURLPath("/v1/issuing/disputes/%s", id)
 	dispute := &stripe.IssuingDispute{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
 	return dispute, err
 }
 
-// Update updates an issuing dispute.
-func Update(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
-	return getC().Update(id, params)
+// Submit is the method for the `POST /v1/issuing/disputes/{dispute}/submit` API.
+func Submit(id string, params *stripe.IssuingDisputeSubmitParams) (*stripe.IssuingDispute, error) {
+	return getC().Submit(id, params)
 }
 
-// Update updates an issuing dispute.
-func (c Client) Update(id string, params *stripe.IssuingDisputeParams) (*stripe.IssuingDispute, error) {
-	path := stripe.FormatURLPath("/v1/issuing/disputes/%s", id)
+// Submit is the method for the `POST /v1/issuing/disputes/{dispute}/submit` API.
+func (c Client) Submit(id string, params *stripe.IssuingDisputeSubmitParams) (*stripe.IssuingDispute, error) {
+	path := stripe.FormatURLPath("/v1/issuing/disputes/%s/submit", id)
 	dispute := &stripe.IssuingDispute{}
 	err := c.B.Call(http.MethodPost, path, c.Key, params, dispute)
 	return dispute, err
@@ -74,17 +84,19 @@ func List(params *stripe.IssuingDisputeListParams) *Iter {
 
 // List returns a list of issuing disputes.
 func (c Client) List(listParams *stripe.IssuingDisputeListParams) *Iter {
-	return &Iter{stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
-		list := &stripe.IssuingDisputeList{}
-		err := c.B.CallRaw(http.MethodGet, "/v1/issuing/disputes", c.Key, b, p, list)
+	return &Iter{
+		Iter: stripe.GetIter(listParams, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.ListContainer, error) {
+			list := &stripe.IssuingDisputeList{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/issuing/disputes", c.Key, b, p, list)
 
-		ret := make([]interface{}, len(list.Data))
-		for i, v := range list.Data {
-			ret[i] = v
-		}
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
 
-		return ret, list, err
-	})}
+			return ret, list, err
+		}),
+	}
 }
 
 // Iter is an iterator for issuing disputes.
