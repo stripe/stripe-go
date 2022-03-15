@@ -18,7 +18,7 @@ type SearchContainer interface {
 // SearchMeta is the structure that contains the common properties of the search iterators
 type SearchMeta struct {
 	HasMore  bool    `json:"has_more"`
-	NextPage *string `form:"next_page"`
+	NextPage *string `json:"next_page"`
 	URL      string  `json:"url"`
 }
 
@@ -47,7 +47,7 @@ type SearchParams struct {
 	SearchWindow *string   `form:"search_window"`
 	SortOrder    *string   `form:"sort_order"`
 	Limit        *int64    `form:"limit"`
-	NextPage     *string   `form:"next_page"`
+	Page     	 *string   `form:"page"`
 
 	// Single specifies whether this is a single page iterator. By default,
 	// listing through an iterator will automatically grab additional pages as

@@ -1,6 +1,9 @@
 package stripe
 
 import (
+	"fmt"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	assert "github.com/stretchr/testify/require"
@@ -104,6 +107,42 @@ func TestSearchIterListAndMeta(t *testing.T) {
 	assert.Equal(t, listMeta, it.Meta())
 }
 
+func TestSearchIterMultiplePages(t *testing.T) {
+	// Create an ephemeral test server so that we can inspect request attributes.
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.RawQuery == "query=my+query" {
+			w.Write([]byte(`{"data":[{"id": "1"}, {"id":"2"}], "has_more":true, "next_page":"page2" }`))
+			return
+		} else if r.URL.RawQuery == "query=my+query&page=page2" {
+			w.Write([]byte(`{"data":[{"id": "3"}, {"id":"4"}], "has_more":false, "next_page":null }`))
+			return
+		}
+		assert.Fail(t, "shouldn't be hit")
+	}))
+	defer ts.Close()
+
+	// Configure the stripe client to use the ephemeral backend.
+	backend := GetBackendWithConfig(APIBackend, &BackendConfig{
+		URL: String(ts.URL),
+	})
+	client := Client{B: backend, Key: Key}
+
+	p := &OrderReturnParams{}
+	p.SetStripeAccount("acct_123")
+
+	iter := client.Search(&SearchParams{
+		Query: "my query",
+	})
+	cnt := 0
+	for iter.Next() {
+		e := iter.Current().(*TestEntity)
+		cnt += 1
+		assert.Equal(t, fmt.Sprint(cnt), e.ID)
+	}
+
+	assert.Equal(t, 4, cnt)
+}
+
 type testSearchQuery []struct {
 	v []interface{}
 	m SearchContainer
@@ -114,4 +153,44 @@ func (tq *testSearchQuery) query(*Params, *form.Values) ([]interface{}, SearchCo
 	x := (*tq)[0]
 	*tq = (*tq)[1:]
 	return x.v, x.m, x.e
+}
+
+// Client is used to invoke /charges APIs.
+type Client struct {
+	B   Backend
+	Key string
+}
+
+// SearchIter is an iterator for charges.
+type TestSearchIter struct {
+	*SearchIter
+}
+
+// Search returns a search result containing charges.
+func (c Client) Search(params *SearchParams) *TestSearchIter {
+	return &TestSearchIter{
+		SearchIter: GetSearchIter(params, func(p *Params, b *form.Values) ([]interface{}, SearchContainer, error) {
+			list := &TestSearchResult{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/something/search", c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+type TestEntity struct {
+	APIResource
+	// Amount intended to be collected by this payment. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
+	ID string `json:"id"`
+}
+
+type TestSearchResult struct {
+	APIResource
+	SearchMeta
+	Data []*TestEntity `json:"data"`
 }

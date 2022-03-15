@@ -12,7 +12,7 @@ import (
 
 // Contains constants for the names of parameters used for pagination in search APIs.
 const (
-	NextPage = "next_page"
+	Page = "page"
 )
 
 //
@@ -71,7 +71,7 @@ func (it *SearchIter) Meta() *SearchMeta {
 func (it *SearchIter) Next() bool {
 	if len(it.values) == 0 && it.meta.HasMore && !it.searchParams.Single {
 		if it.meta.NextPage != nil {
-			it.formValues.Set(NextPage, *it.meta.NextPage)
+			it.formValues.Set(Page, *it.meta.NextPage)
 			it.getPage()
 		}
 	}
