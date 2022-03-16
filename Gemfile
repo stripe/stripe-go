@@ -8,6 +8,9 @@ gem 'sorbet', '~> 0.5.9760', group: :development
 # gem 'sorbet-runtime', '~> 0.5.9318', require: true
 gem 'sorbet-rails', '~> 0.7.32'
 
+# https://github.com/ruby/irb/issues/43
+gem 'reline', '~> 0.3.1'
+
 gem 'dotenv-rails', '2.7.6', groups: [:development, :test]
 gem 'rails', '~> 6.1.5'
 gem 'lograge'

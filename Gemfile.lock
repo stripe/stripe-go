@@ -149,6 +149,7 @@ GEM
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
     interception (0.5)
+    io-console (0.5.11)
     jwt (2.3.0)
     launchy (2.5.0)
       addressable (~> 2.7)
@@ -292,6 +293,8 @@ GEM
     redis-namespace (1.8.2)
       redis (>= 3.0.4)
     regexp_parser (2.2.0)
+    reline (0.3.1)
+      io-console (~> 0.5)
     request_store (1.5.0)
       rack (>= 1.4)
     resque (2.2.0)
@@ -455,6 +458,7 @@ DEPENDENCIES
   rack-test (~> 1.1.0)
   rails (~> 6.1.5)
   redis (~> 4.6.0)
+  reline (~> 0.3.1)
   resque (~> 2.2.0)
   resque-heroku-signals (~> 2.2.0)
   resque-retry (~> 1.7.6)
@@ -480,4 +484,4 @@ RUBY VERSION
    ruby 2.7.5p207
 
 BUNDLED WITH
-   2.2.33
+   2.3.9
