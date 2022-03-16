@@ -42,12 +42,9 @@ type SearchParams struct {
 	// key or query the state of the API.
 	Context context.Context `form:"-"`
 
-	Query        string    `form:"query"`
-	Expand       []*string `form:"expand"`
-	SearchWindow *string   `form:"search_window"`
-	SortOrder    *string   `form:"sort_order"`
-	Limit        *int64    `form:"limit"`
-	Page     	 *string   `form:"page"`
+	Query string  `form:"query"`
+	Limit *int64  `form:"limit"`
+	Page  *string `form:"page"`
 
 	// Single specifies whether this is a single page iterator. By default,
 	// listing through an iterator will automatically grab additional pages as
