@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Stripe_Account_Id__c</fullName>
+    <fullName>isSetupComplete__c</fullName>
+    <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Stripe Account Id</label>
-    <required>false</required>
+    <label>isSetupComplete</label>
     <trackTrending>false</trackTrending>
-    <type>TextArea</type>
+    <type>Checkbox</type>
 </CustomField>

@@ -1,0 +1,8 @@
+.stripe-settings__item > .slds-col:last-child:not(.slds-col:only-child) {
+    max-width: 400px;
+    min-width: 250px;
+}
+
+.stripe-settings__item + .stripe-settings__item {
+    margin-top: var(--lwc-spacingXLarge, 2rem);
+}

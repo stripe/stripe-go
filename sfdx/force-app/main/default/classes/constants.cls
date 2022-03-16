@@ -24,6 +24,9 @@ public with sharing class constants {
 
     //Stripe Ruby URIS
     public static FINAL String RUBY_SERVICE_BASE_URI = 'https://stripe-force.herokuapp.com/v1/';
+
+    //Setup Data Record Name
+    public static FINAL String  SETUP_DATA_RECORD_NAME = 'SetupData';
    
 
     // Blur

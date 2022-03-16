@@ -77,7 +77,8 @@ export default class OutboundStep extends LightningElement {
                         Steps_Completed__c: JSON.stringify({
                             'C-OUTBOUND-STEP': 1
                         })
-                    }
+                    },
+                    isSetupComplete: false
                 });
                 this.data =  JSON.parse(saveSetupData);
                 if(this.data.isSuccess) {

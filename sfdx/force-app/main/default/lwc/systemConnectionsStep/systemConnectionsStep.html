@@ -1,0 +1,59 @@
+<template>
+    <div class="slds-p-horizontal_large slds-p-vertical_xx-large slds-container slds-container_center slds-container_medium">
+        <!-- Salesforce Connection -->
+        <template if:true={salesforceComplete}>
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_success" role="alert">
+                <span class="slds-assistive-text">success</span>
+                <span>
+                    <lightning-icon class="slds-m-right_x-small" icon-name="utility:success" size="small" variant="inverse" alternative-text="success" title="success"></lightning-icon>
+                </span>
+                <h2>
+                    Salesforce: Connected
+                </h2>
+            </div>
+        </template>
+        <template if:false={salesforceComplete}>
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_offline" role="alert">
+                <span class="slds-assistive-text">offline</span>
+                <span>
+                    <lightning-icon class="slds-m-right_x-small" icon-name="utility:offline" size="small" variant="inverse" alternative-text="offline" title="offline"></lightning-icon>
+                </span>
+                <h2>
+                    Salesforce: Not Connected
+                </h2>
+            </div>
+        </template>
+        <!-- /Salesforce Connection -->
+        <!-- Stripe Connection -->
+        <template if:true={stripeComplete}>
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_success" role="alert">
+                <span class="slds-assistive-text">success</span>
+                <span>
+                    <lightning-icon class="slds-m-right_x-small" icon-name="utility:success" size="small" variant="inverse" alternative-text="success" title="success"></lightning-icon>
+                </span>
+                <h2>
+                    Stripe: Connected
+                </h2>
+            </div>
+        </template>
+        <template if:false={stripeComplete}>
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_offline" role="alert">
+                <span class="slds-assistive-text">offline</span>
+                <span>
+                    <lightning-icon class="slds-m-right_x-small" icon-name="utility:offline" size="small" variant="inverse" alternative-text="offline" title="offline"></lightning-icon>
+                </span>
+                <h2>
+                    Stripe: Not Connected
+                </h2>
+            </div>
+        </template>
+        <!-- /Stripe Connection -->
+        <!-- Primary Action -->
+        <template if:false={hideAction}>
+            <div class="stripe-primary-action slds-text-align_center">
+                <lightning-button label={actionLabel} variant="brand" onclick={connectToStripe}></lightning-button>
+            </div>
+        </template>
+        <!-- /Primary Action -->
+    </div>
+</template>

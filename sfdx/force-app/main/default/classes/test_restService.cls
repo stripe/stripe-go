@@ -309,7 +309,7 @@ public with sharing class test_restService {
                     when 'Contract' {
                         System.assertEquals((String)recordMap.get('Id'), (String)contract.id);
                         System.assertEquals(recordMap.get('ContractTerm'), 12);
-                        System.assertEquals((String)recordMap.get('StartDate'), string.valueOf(system.today()));
+                        System.assertEquals((String)recordMap.get('StartDate'), String.valueOf(system.today()));
                         System.assertEquals((String)recordMap.get('AccountId'), (String)account.id);
                         if(isCpqInstalled) {
                             System.assertEquals((String)recordMap.get('SBQQ__RenewalPricebookId__c'), pricebookId);
@@ -348,8 +348,8 @@ public with sharing class test_restService {
                             System.assertEquals((String)recordMap.get('PricebookEntryId'), (String)standardPrice.id);
                             System.assertEquals(recordMap.get('Quantity'), 24);
                             System.assertEquals(recordMap.get('UnitPrice'), 240);
-                            System.assertEquals((String)recordMap.get('ServiceDate'), string.valueOf(system.today() + 4));
-                            System.assertEquals((String)recordMap.get('EndDate'), string.valueOf(system.today() + 14));
+                            System.assertEquals((String)recordMap.get('ServiceDate'), String.valueOf(system.today() + 4));
+                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 14));
                             List<Object> Products = (List<Object>)recordMap.get('Products');
                             List<Object> PricebookEntries = (List<Object>)recordMap.get('PricebookEntries');
                             System.assertEquals((String)Products[0], (String)product.id);
@@ -361,8 +361,8 @@ public with sharing class test_restService {
                             //checking that we get the updated quantity and price 
                             System.assertEquals(recordMap.get('Quantity'), 80);
                             System.assertEquals(recordMap.get('UnitPrice'), 500);
-                            System.assertEquals((String)recordMap.get('ServiceDate'), string.valueOf(system.today() + 4));
-                            System.assertEquals((String)recordMap.get('EndDate'), string.valueOf(system.today() + 14));
+                            System.assertEquals((String)recordMap.get('ServiceDate'), String.valueOf(system.today() + 4));
+                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 14));
                             List<Object> Products = (List<Object>)recordMap.get('Products');
                             List<Object> PricebookEntries = (List<Object>)recordMap.get('PricebookEntries');
                             System.assertEquals((String)Products[0], (String)product.id);
@@ -376,8 +376,8 @@ public with sharing class test_restService {
                             System.assertEquals((String)recordMap.get('BillToContactId'), (String)contact.id);
                             System.assertEquals((String)recordMap.get('ContractId'), (String)contract.id);
                             System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
-                            System.assertEquals((String)recordMap.get('EffectiveDate'), string.valueOf(system.today()));
-                            System.assertEquals((String)recordMap.get('EndDate'), string.valueOf(system.today() + 40));
+                            System.assertEquals((String)recordMap.get('EffectiveDate'), String.valueOf(system.today()));
+                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 40));
                             System.assertEquals((String)recordMap.get('Name'), 'testOrder');
                             List<Object> Contracts = (List<Object>)recordMap.get('Contracts');
                             List<Object> Accounts = (List<Object>)recordMap.get('Accounts');
@@ -395,8 +395,8 @@ public with sharing class test_restService {
                             System.assertEquals((String)recordMap.get('BillToContactId'), (String)contact.id);
                             System.assertEquals((String)recordMap.get('ContractId'), (String)contract.id);
                             System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
-                            System.assertEquals((String)recordMap.get('EffectiveDate'), string.valueOf(system.today()));
-                            System.assertEquals((String)recordMap.get('EndDate'), string.valueOf(system.today() + 40));
+                            System.assertEquals((String)recordMap.get('EffectiveDate'), String.valueOf(system.today()));
+                            System.assertEquals((String)recordMap.get('EndDate'), String.valueOf(system.today() + 40));
                             System.assertEquals((String)recordMap.get('Name'), 'testOrder2');
                             List<Object> Contracts = (List<Object>)recordMap.get('Contracts');
                             List<Object> Accounts = (List<Object>)recordMap.get('Accounts');
@@ -414,7 +414,7 @@ public with sharing class test_restService {
                         System.assertEquals((String)recordMap.get('Pricebook2Id'), (String)pricebookId);
                         System.assertEquals((String)recordMap.get('StageName'), 'Prospecting');
                         System.assertEquals((String)recordMap.get('Name'), 'testOpportunity');
-                        System.assertEquals((String)recordMap.get('CloseDate'), string.valueOf(system.today() + 4));
+                        System.assertEquals((String)recordMap.get('CloseDate'), String.valueOf(system.today() + 4));
                     }
                 }
             } 

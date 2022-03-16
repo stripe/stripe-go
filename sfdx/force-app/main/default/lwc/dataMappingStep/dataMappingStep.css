@@ -6,7 +6,6 @@
 .stripe-table_mapping thead th,
 .stripe-table_metadata thead th {
     background-color: #fafaf9;
-    color: #514f4d;
 }
 
 .stripe-table_mapping thead th:nth-child(1) {
@@ -23,18 +22,30 @@
     width: 1px;
 }
 
+.stripe-table_mapping.slds-table td {
+    white-space: normal;
+    vertical-align: top;
+}
+
 .stripe-table_mapping.slds-table td,
 .stripe-table_metadata.slds-table td  {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: var(--lwc-spacingMedium, 1rem);
+    padding-bottom: var(--lwc-spacingMedium, 1rem);
 }
 
 .stripe-table_mapping.slds-table td:nth-child(3), 
 .stripe-table_metadata.slds-table td:nth-child(3) {
-    max-width: 1px;
+    max-width: 1px;     /* Fixes issue where contents overflow cell/ don't respect layout widths */ 
 }
 
-.stripe-table_mapping.slds-table td {
-    white-space: normal;
-    vertical-align: top;
+.stripe-input_toggle + .stripe-input__tooltip {
+    display: none;
+    bottom: 38px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.stripe-input_toggle:hover + .stripe-input__tooltip {
+    display: block;
 }

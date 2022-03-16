@@ -401,6 +401,11 @@
         <field>Setup_Data__c.Steps_Completed__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Setup_Data__c.IsSetupComplete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>Error_Log__c-Error Log Layout</layout>
     </layoutAssignments>

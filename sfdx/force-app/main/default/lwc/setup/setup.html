@@ -1,13 +1,252 @@
 <template>
-    <c-landing is-classic={isClassic}></c-landing>
-
-    <!-- Wizards and Steps -->
+    <!-- Toast -->
     <c-toast></c-toast>
-    <c-wizard title="System Connections" description="Manage the connection between Stripe &amp; Salesforce" setup show-close>
-        <c-outbound-step onshowtoast={showToast} onfetchpicklistvalues={fetchPicklistValues}></c-outbound-step>
-    </c-wizard>
-    <c-wizard title="Data Mapping" description="Set default field values &amp; configure custom field mappings between Stripe &amp; Salesforce" setup show-close>
-        <c-data-mapping-step onshowtoast={showToast}></c-data-mapping-step>
-    </c-wizard>
-    <!-- /Wizards and Steps -->
+    <div class="slds-grid slds-grid_vertical">
+        <!-- Global Header -->
+        <template if:false={showSetupLanding}>
+            <div class="slds-col slds-no-flex">
+                <div class="stripe-global-header slds-theme_default">
+                    <div class="slds-text-align_center">
+                        <img src={logoUrl} alt="Stripe Logo"/>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <!-- /Global Header -->
+        <div class="slds-col slds-p-top_x-large slds-scrollable_y slds-is-relative">
+            <!-- Loading State -->
+            <template if:true={loading}>
+                <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+            </template>
+            <!-- /Loading State -->
+            <div class={contentClasslist}>
+                <!-- First Time Setup Landing -->
+                <template if:true={showSetupLanding}>
+                    <div class="stripe-landing slds-is-absolute">
+                        <div class="slds-box slds-theme_default">
+                            <!-- Logo -->
+                            <div class="stripe-logo-container slds-text-align_center">
+                                <img src={logoUrl} alt="Stripe Logo"/>
+                            </div>
+                            <!-- Title -->
+                            <div class="slds-text-heading_medium slds-text-align_center slds-m-top_large">
+                                Welcome to Stripe Billing Setup for Salesforce
+                            </div>
+                            <!-- Intro Block -->
+                            <div class="slds-text-align_center slds-m-top_medium slds-m-bottom_x-large">
+                                <p>
+                                    Before your users can start using Stripe Billing in Salesforce, a few things need to be connected and configured. You will be walked through the following steps to set up how Stripe and Salesforce will interact. 
+                                </p>
+                                <p class="slds-m-top_x-small">
+                                    You will be able to return to this page at any time after initial setup to review or adjust any settings.
+                                </p>
+                            </div>
+                            <div class="stripe-progress-list">
+                                <!-- Setup Steps -->
+                                <template for:each={steps} for:item="step">
+                                    <div key={step.name} class="stripe-progress-item slds-media slds-media_center">
+                                        <div class="slds-media__figure">
+                                            <template if:true={step.isComplete}>
+                                                <div class="stripe-progress-item__counter stripe-progress-item__counter_completed slds-is-relative">
+                                                    <span class="slds-is-absolute slds-text-heading_small">
+                                                        <lightning-icon icon-name="utility:check" size="x-small" variant="inverse" alternative-text="Completed"></lightning-icon>
+                                                    </span>
+                                                </div>
+                                            </template>
+                                            <template if:false={step.isComplete}>
+                                                <div class="stripe-progress-item__counter slds-is-relative">
+                                                    <span class="slds-is-absolute slds-text-heading_small">
+                                                        {step.orderIndex}
+                                                    </span>
+                                                </div>
+                                            </template>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <div class="slds-text-heading_small">
+                                                {step.title}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <!-- /Setup Steps -->
+                            </div>
+                            <div class="slds-text-align_center slds-m-top_x-large">
+                                <button class="slds-button slds-button_brand" onclick={continueSetup}>
+                                    {landingButtonLabel}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <!-- /First Time Setup Landing -->
+
+                <div class={stepContentClasslist}>
+                    <div class="slds-grid slds-gutters_direct-large slds-grid_pull-padded-large">
+                        <!-- Page Sidebar -->
+                        <div class={sidebarClasslist}>
+                            <div class="stripe-sticky-top">
+                                <!-- First Time Setup Steps -->
+                                <template if:false={setupComplete}>
+                                    <div class="slds-progress slds-progress_vertical">
+                                        <ol class="slds-progress__list">
+                                            <template for:each={steps} for:item="step" for:index="index">
+                                                <!-- Completed Item  -->
+                                                <li key={step.title} if:true={step.isComplete} class="slds-progress__item slds-is-completed">
+                                                    <lightning-icon icon-name="utility:success" size="xx-small" class="slds-progress__marker slds-progress__marker_icon" title="Complete" alternative-text="Complete"></lightning-icon>
+                                                    <div class="slds-progress__item_content slds-grid slds-grid_align-spread">{step.title}</div>
+                                                </li>
+                                                <!-- /Completed Item  -->
+                                                <!-- Active Item -->
+                                                <li key={step.title} if:true={step.isActive} class="slds-progress__item slds-is-active">
+                                                    <div class="slds-progress__marker">
+                                                        <span class="slds-assistive-text">Active</span>
+                                                    </div>
+                                                    <div class="slds-progress__item_content slds-grid slds-grid_align-spread"><strong>{step.title}</strong></div>
+                                                </li>
+                                                <!-- /Active Item -->
+                                                <!-- Inactive Item -->
+                                                <template if:false={step.isComplete}>
+                                                    <template if:false={step.isActive}>
+                                                        <li key={step.title} class="slds-progress__item">
+                                                            <div class="slds-progress__marker"></div>
+                                                            <div class="slds-progress__item_content slds-grid slds-grid_align-spread">{step.title}</div>
+                                                        </li>
+                                                    </template>
+                                                </template>
+                                                <!-- /Inactive Item -->
+                                            </template>
+                                        </ol>
+                                    </div>
+                                </template>
+                                <!-- /First Time Setup Steps -->
+                
+                                <!-- Settings Page Navigation -->
+                                <template if:true={setupComplete}>
+                                    <div class="slds-media slds-media_center slds-m-bottom_large">
+                                        <div class="slds-media__figure">
+                                            <lightning-icon icon-name="utility:settings" size="small" class="stripe-icon slds-current-color" alternative-text="Settings"></lightning-icon>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h3 class="slds-text-heading_medium">
+                                                Settings
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    <ul class="stripe-navigation">
+                                        <li class="stripe-navigation-item" data-index="0" data-section-name="systemConnections" onclick={sectionNavigate}>
+                                            <span>System Connections</span>
+                                        </li>
+                                        <li class="stripe-navigation-item" data-index="1" data-section-name="dataMapping" onclick={sectionNavigate}>
+                                            <span>Data Mapping</span>
+                                        </li>
+                                        <li class="stripe-navigation-item" data-index="2" data-section-name="syncPreferences" onclick={sectionNavigate}>
+                                            <span>Sync Preferences</span>
+                                        </li>
+                                    </ul>
+                                </template>
+                                <!-- /Settings Page Navigation -->
+                            </div>
+                        </div>
+                        <!-- /Page Sidebar -->
+                        <!-- Page Content -->
+                        <div class="slds-col">
+                            <!-- First Time Setup Steps -->
+                            <template if:false={setupComplete}>
+                                <c-step step-name="Connect Stripe and Salesforce" data-index="0" setup-complete={setupComplete} onnext={next} next-disabled={nextDisabled}  back-disabled class="slds-hide" show-intro illustration-url={systemConnectionsIllustration}>
+                                    <p slot="description">
+                                        Allow your Salesforce org and Stripe to communicate. This step will collect the required information to allow your Salesforce org and Stripe to communicate. First, you will be granting Stripe the necessary access to your Salesforce org. Second, you will be asked to log into Stripe to allow Salesforce to access your Stripe instance. Click "Authorize" and follow the provided steps to establish these connections.
+                                    </p>
+                                    <p slot="intro-description">
+                                        This step will collect the required information to allow your Salesforce org and Stripe account to communicate. Log in to your Stripe account and grant access to your Salesforce org to connect the two systems.
+                                    </p>
+                                    <c-system-connections-step 
+                                        ongetmappingconfigurations={getmappingconfigurations}
+                                        onenabelnext={enabelnext}
+                                        onshowtoast={showToast}>
+                                    </c-system-connections-step>
+                                </c-step>
+                                <c-step step-name="Define Data Mapping" data-index="1" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" show-intro illustration-url={dataMappingIllustration}>
+                                    <p slot="description">
+                                        Determine how Stripe data is mapped to your Salesforce org. A set of default field mappings have been provided for each Stripe object. These default values can be overwritten to better represent the structure of your Salesforce org. Field mappings can either be a Salesforce field, which reads Salesforce data on a per-record basis, or a static value, which will apply the same value to all records.
+                                    </p>
+                                    <p slot="description">
+                                        Once all Stripe objects have been mapped, click "Next" to apply the data mapping to your org and finish the mapping process.
+                                    </p>
+                                    <p slot="intro-description">
+                                        Determine how Stripe data is mapped to records in your Salesforce org. Each object in Stripe is related to an object in Salesforce, review the relation mappings and customize them to best suit your org structure.
+                                    </p>
+                                    <c-data-mapping-step
+                                    onshowtoast={showToast}>
+                                    </c-data-mapping-step>
+                                </c-step>
+                                <c-step step-name="Configure Sync Preferences" data-index="2" setup-complete={setupComplete} onnext={next} onback={back} next-label="Finish" class="slds-hide" show-intro illustration-url={syncPreferencesIllustration}>
+                                    <p slot="description">
+                                        Determine how and when data is synced between Stripe and Salesforce. A set of default settings has been provided; review and make any adjustments to these settings to suit your org before proceeding.
+                                    </p>
+                                    <p slot="intro-description">
+                                        Determine how and when data is synced between Stripe and Salesforce. Review and make any adjustments to the default settings to best suit your Salesforce org.
+                                    </p>
+                                    <c-sync-preferences-step
+                                        onshowtoast={showToast}>
+                                    </c-sync-preferences-step>
+                                </c-step>
+                            </template>
+                            <!-- /First Time Setup Steps -->
+
+                            <!-- Settings Page Sections -->
+                            <template if:true={setupComplete}>
+                                <!-- Landing Page -->
+                                <template if:true={showSettingsLanding}>
+                                    <div class="stripe-landing_settings">
+                                        <div class="slds-box slds-theme_default">
+                                            <div class="slds-col">
+                                                <div class="stripe-logo-container slds-text-align_center">
+                                                    <img src={logoUrl} alt="Stripe Logo"/>
+                                                </div>
+                                                <div class="slds-text-align_center">
+                                                    <h1 class="slds-text-heading_medium slds-m-top_x-large">Connected App Settings</h1>
+                                                    <p class="slds-text-body_default slds-m-top_small">Customize how Stripe Billing interacts with your Salesforce org. Select an option to view and adjust the current app settings.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <!-- /Landing Page -->
+                                <div class={settingsContentClasslist}>
+                                    <c-step step-name="Connect Stripe and Salesforce" class="slds-hide" data-index="0" setup-complete footer-hidden>
+                                        <p slot="description">
+                                            Allow your Salesforce org and Stripe to communicate. Review the current connection status for both Stripe and Salesforce. If there is an issue, you may need to reconnect one or both accounts. 
+                                        </p>
+                                        <c-system-connections-step 
+                                            onshowtoast={showToast}>
+                                        </c-system-connections-step>
+                                    </c-step> 
+                                    <c-step step-name="Define Data Mapping" setup-complete onsave={save} save-disabled={saveDisabled} class="slds-hide" data-index="1">
+                                        <p slot="description">
+                                            Determine how Stripe data is mapped to your Salesforce org. Mappings are grouped by Stripe object, each of which has its own set of mapping groups. Field mappings can either be a Salesforce field, which reads Salesforce data on a per-record basis, or a static value, which will apply the same value to all records.
+                                        </p>
+                                        <c-data-mapping-step 
+                                            onenablesave={enablesave}
+                                            onshowtoast={showToast}>
+                                        </c-data-mapping-step>
+                                    </c-step>
+                                    <c-step step-name="Configure Sync Preferences" setup-complete class="slds-hide" onsave={save} save-disabled={saveDisabled} data-index="2">
+                                        <p slot="description">
+                                            Determine how and when data is synced between Stripe and Salesforce. Adjust when Stripe data should start to sync, how many records are saved in your org at one time, how many Salesforce API calls Stripe is allowed to make, and more. Default values have been provided; be sure to review and adjust sync settings to suit your Salesforce org's needs.
+                                        </p>
+                                        <c-sync-preferences-step 
+                                            onenablesave={enablesave}
+                                            onshowtoast={showToast}>
+                                        </c-sync-preferences-step>
+                                    </c-step>
+                                </div>
+                            </template>
+                            <!-- /Settings Page Sections -->
+                        </div>
+                        <!-- /Page Content -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>

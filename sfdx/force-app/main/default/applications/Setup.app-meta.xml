@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <brand>
-        <headerColor>#645AFF</headerColor>
+        <headerColor>#FFC148</headerColor>
         <logo>Billing_for_light_background</logo>
         <logoVersion>1</logoVersion>
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
-    <description>Configure settings for the Stripe Connector for Salesforce</description>
+    <description>Manage settings for Stripe Billing in Salesforce</description>
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
-    <label>Stripe Setup</label>
+    <label>Stripe Billing Setup</label>
     <navType>Standard</navType>
     <tabs>Setup</tabs>
     <tabs>Error_Log__c</tabs>

@@ -15,7 +15,7 @@
             </template>
             <!-- /Value Tooltip -->
             <div class="slds-form-element__control" onblur={blur}>
-                <div class="slds-button slds-button_neutral slds-input slds-picklist__input slds-text-color_default slds-picklist__label sp-menu-button" aria-haspopup="true" tabindex="0" onblur={blur} onfocus={focus} onclick={click}>
+                <div class="slds-button slds-input slds-picklist__input slds-text-color_default slds-picklist__label sp-menu-button" aria-haspopup="true" tabindex="0" onblur={blur} onfocus={focus} onclick={click}>
                     <span class={valueLabelClassList} title={valueLabel}>
                         <input name={name} value={hash} class="slds-hide"/>
                         {display}
@@ -26,7 +26,7 @@
                                 <lightning-icon class="sp-dropdown-icon" icon-name="utility:search" size="xx-small"></lightning-icon>
                             </template>
                             <template if:true={hash.length}>
-                                <lightning-button-icon class="sfp-dropdown-icon_clear slds-is-absolute" icon-class="slds-icon-text-error" icon-name="utility:close" variant="bare" size="small" onclick={clearValue}></lightning-button-icon>
+                                <lightning-button-icon class="sfp-dropdown-icon_clear slds-is-absolute" icon-name="utility:close" variant="bare" size="small" onclick={clearValue}></lightning-button-icon>
                             </template>
                         </template>
                     </template>
@@ -63,6 +63,20 @@
                             <lightning-button label="Clear" variant="base" onclick={clearPathClick}></lightning-button>
                         </div>
                     </div>
+                    <!-- Max Lookup Warning -->
+                    <template if:true={isMaxSelection}>
+                        <div class="slds-media slds-p-horizontal_medium slds-m-top_xx-small">
+                            <div class="slds-media__figure">
+                                <lightning-icon icon-name="utility:warning" variant="warning" size="xx-small" alternative-text="Warning"></lightning-icon>
+                            </div>
+                            <div class="slds-media__body">
+                                <div class="slds-text-title">
+                                    Lookup limit reached: lookup fields not shown
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- /Max Lookup Warning -->
                     <!-- /PICKER CONTEXT AND NAV -->
 
                     <div class={inputClassList}>

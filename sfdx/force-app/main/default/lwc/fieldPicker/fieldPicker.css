@@ -38,8 +38,14 @@
     top: initial;
 }
 
-.slds-button.slds-button_neutral.slds-picklist__label {
+.slds-button.slds-picklist__label {
     width: 100%;
+}
+
+.slds-button.slds-picklist__label:active {
+    width: 100%;
+    background-color: var(--slds-c-button-neutral-color-background-active, var(--sds-c-button-neutral-color-background-active, var(--lwc-colorBackgroundButtonDefaultActive,rgb(243, 243, 243))));
+    border-color: var(--slds-c-button-neutral-color-border-active, var(--sds-c-button-neutral-color-border-active,rgb(243, 243, 243)));
 }
 
 .slds-form-element .slds-picklist .slds-dropdown.slds-listbox {

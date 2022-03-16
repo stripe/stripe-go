@@ -45,7 +45,7 @@
 
         $Lightning.use('{!JSENCODE(namespace)}:lightningOut', function () {
             document.getElementById('lightning').style.display = 'block';
-            $Lightning.createComponent('{!JSENCODE(namespace)}:setupAssistant', {
+            $Lightning.createComponent('{!JSENCODE(namespace)}:setup', {
                 isClassic: {!'Theme3' == $User.UIThemeDisplayed}
             }, 'lightning', function (component, status, errorMessage) {
                 document.getElementById('spinner').style.display = 'none';

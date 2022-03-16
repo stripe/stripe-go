@@ -11,7 +11,13 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_getSetupData() {
-        setupAssistant.saveData(new Map<String, Object>());
+        setupAssistant.saveData(new Map<String, Object>(), false);
+
+        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
+        stripeConnectRec.Stripe_Connected__c = true;
+        stripeConnectRec.Salesforce_Connected__c = true;
+        stripeConnectRec.API_Key__c = 'testPackageGUID';
+        upsert stripeConnectRec;
 
         String response = setupAssistant.getSetupData();
 
@@ -24,6 +30,7 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testUtilities_isCpqEnabled() {
+
         Boolean isCpqEnabled = utilities.isCpqEnabled();
         System.assertNotEquals(null, isCpqEnabled);
     }
@@ -41,15 +48,20 @@ public with sharing class test_setupAssistant {
         System.assertNotEquals(orgTypeSetting.isSandbox__c, null);
     }
 
-    @isTest
-    static public void testSetupAssistant_validateConnectionStatus() {
+    public static Setup_Connection_Data__mdt getTestStripeConnectionKey() {
         Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
         Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
         fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
         fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
         fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
         testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
+        return testSetupData;
+    }
+
+    @isTest
+    static public void testSetupAssistant_validateConnectionStatus() {
         
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
                                                             FROM Setup_Connection_Data__mdt];  
         if(!setupConfigList.isEmpty()) {
@@ -81,12 +93,7 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_connected() {
-        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
-        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
-        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
-        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
                                                             FROM Setup_Connection_Data__mdt];  
@@ -115,12 +122,7 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_failConnected() {
-        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
-        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
-        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
-        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
                                                             FROM Setup_Connection_Data__mdt];  
@@ -137,18 +139,13 @@ public with sharing class test_setupAssistant {
 
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         System.assert((Boolean)responseMap.get('isSuccess'));
-        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
-        System.assertNotEquals(null, resultsMap.get('isConnected'));
     }
 
+    /*this is the case there is no 'connected' custom setting record stored
+    in this case we generate an api key -> send it the ruby post-install endpoint -> then create the record*/
     @isTest
-    static public void testSetupAssistant_Disconnected() {
-        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
-        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
-        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
-        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
+    static public void testSetupAssistant_generateApiKey() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
                                                             FROM Setup_Connection_Data__mdt];  
@@ -157,26 +154,19 @@ public with sharing class test_setupAssistant {
         } else {
             setupAssistant.setupConfigMetadata.add(testSetupData);  
         }
-
-        Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults(); 
-        if(stripeConnectRec.Id != null) delete stripeConnectRec;
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
         String response = setupAssistant.validateConnectionStatus(true);
         Test.stopTest();
         
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
-        System.assert((Boolean)responseMap.get('isSuccess'));
-    }
+        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
 
+    }
     @isTest
     static public void testSetupAssistant_getPicklistValuesForMapperConnectedCallback() {
-        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
-        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
-        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
-        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
                                                             FROM Setup_Connection_Data__mdt];  
@@ -210,12 +200,7 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_getPicklistValuesForMapper() {
-        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
-        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
-        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
-        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
                                                             FROM Setup_Connection_Data__mdt];  
@@ -249,12 +234,7 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_saveMappingConfigurations() {
-        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
-        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
-        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
-        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
                                                             FROM Setup_Connection_Data__mdt];  
@@ -283,12 +263,7 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_failSaveMappingConfigurations() {
-        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
-        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
-        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
-        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
                                                             FROM Setup_Connection_Data__mdt];  
@@ -318,12 +293,7 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_getMappingConfigurations() {
-        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
-        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
-        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
-        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
                                                             FROM Setup_Connection_Data__mdt];  
@@ -349,7 +319,7 @@ public with sharing class test_setupAssistant {
 
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
         Map<String, Object> allMappingConfigurations = (Map<String, Object>)resultsMap.get('allMappingConfigurations');
-        Map<String, Object> default_mappings = (Map<String, Object>)allMappingConfigurations.get('default_mapping');
+        Map<String, Object> default_mappings = (Map<String, Object>)allMappingConfigurations.get('default_mappings');
         Map<String, Object> field_defaults = (Map<String, Object>)allMappingConfigurations.get('field_defaults');
         Map<String, Object> field_mappings = (Map<String, Object>)allMappingConfigurations.get('field_mappings');
         Map<String, Object> required_mappings = (Map<String, Object>)allMappingConfigurations.get('required_mappings');
@@ -363,12 +333,7 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_failGetMappingConfigurations() {
-        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
-        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
-        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
-        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
                                                             FROM Setup_Connection_Data__mdt];  
@@ -393,15 +358,55 @@ public with sharing class test_setupAssistant {
         System.assertEquals((Boolean)responseMap.get('isSuccess'), true);
     }
 
+    @isTest
+    static public void testSetupAssistant_getSyncPreferences() {
+        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
+        stripeConnectRec.Stripe_Connected__c = true;
+        stripeConnectRec.Salesforce_Connected__c = true;
+        upsert stripeConnectRec;
+
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
+        String response = setupAssistant.getSyncPreferences();
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        Test.stopTest();
+
+        System.assert((Boolean)responseMap.get('isSuccess'));
+
+        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+        System.assertEquals('1234', (String)resultsMap.get('stripe_account_id'));
+        System.assertEquals('test', (String)resultsMap.get('last_synced'));
+        System.assertEquals('USD', (String)resultsMap.get('default_currency'));
+        System.assertEquals('2 days', (String)resultsMap.get('sync_record_retention'));
+        System.assertEquals('yesterday', (String)resultsMap.get('sync_start_date'));
+        System.assertEquals('1000515', (String)resultsMap.get('api_percentage_limit'));
+    }
+
+ @isTest
+    static public void testSetupAssistant_getMulticurrencySelectionOptions() {
+
+        Test.startTest();
+        String response = setupAssistant.getMulticurrencySelectionOptions();
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        Test.stopTest();
+
+        System.assert((Boolean)responseMap.get('isSuccess'));
+
+        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+         Boolean multiCurrencyEnabled = UserInfo.isMultiCurrencyOrganization();
+
+        if (multiCurrencyEnabled) {
+            System.assertEquals(true, (Boolean)resultsMap.get('isMultiCurrencyEnabled'));
+        } else {
+            System.assertEquals(false, (Boolean)resultsMap.get('isMultiCurrencyEnabled'));
+        }
+
+    }
+
 
     @isTest
     static public void testSetupAssistant_manualRetry() {
-        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
-        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
-        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
-        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
                                                             FROM Setup_Connection_Data__mdt];  
@@ -437,6 +442,37 @@ public with sharing class test_setupAssistant {
 
     }
 
+    @isTest
+    static public void testSetupAssistant_saveSyncPreferences() {
+        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
+        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
+        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
+        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
+        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
+        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
+        
+        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
+                                                            FROM Setup_Connection_Data__mdt];  
+        if(!setupConfigList.isEmpty()) {
+            utilities.setupConfigMetadata[0] = testSetupData;
+        } else {
+            utilities.setupConfigMetadata.add(testSetupData);  
+        }
+
+        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
+        stripeConnectRec.Stripe_Connected__c = true;
+        stripeConnectRec.Salesforce_Connected__c = true;
+        stripeConnectRec.API_Key__c = 'testPackageGUID'; 
+        insert stripeConnectRec;
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
+        String response = setupAssistant.saveSyncPreferences('TEST','10000', '1644854972', '95');
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        Test.stopTest();
+
+        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+    }
+
     private class stripeConnectionSuccessMock implements HttpCalloutMock {
         public HttpResponse respond(HttpRequest req) {
             HttpResponse res = new HttpResponse();
@@ -452,13 +488,16 @@ public with sharing class test_setupAssistant {
                 responseBody.put('settings', (Object)new Map<String,Object>{
                     'default_currency' => 'USD',
                     'sync_record_retention' => '2 days',
-                    'sync_start_date' => 'yesterda',
+                    'sync_start_date' => 'yesterday',
                     'api_percentage_limit' => 1000515
                 });
     
                 res.setBody(Json.serialize(responseBody));
                 res.setStatusCode(200);
             } 
+            if(req.getEndpoint().endsWith('post-install')) {
+                res.setStatusCode(200);
+            }
             return res;
         }
     }
@@ -475,7 +514,7 @@ public with sharing class test_setupAssistant {
                     Map<String,Object> defaultMap = new Map<String,Object>();
                     Map<String,Object> testdefaultMap = new Map<String,Object>();
                     testdefaultMap.put('testDefaultMap', 'test');
-                    defaultMap.put('default_mapping',(Object)testdefaultMap);
+                    defaultMap.put('default_mappings',(Object)testdefaultMap);
 
                     Map<String,Object> requiredMapping = new Map<String,Object>();
                     Map<String,Object> testRequiredMapping = new Map<String,Object>();
@@ -489,7 +528,7 @@ public with sharing class test_setupAssistant {
         
                     Map<String,Object> responseBody = new Map<String,Object>();
                     responseBody.put('field_mappings', (Object)fieldMap);
-                    responseBody.put('default_mapping', (Object)defaultMap);
+                    responseBody.put('default_mappings', (Object)defaultMap);
                     responseBody.put('required_mappings', (Object)requiredMapping);
                     responseBody.put('field_defaults', (Object)fieldDefaultMap);
         

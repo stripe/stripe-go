@@ -53,7 +53,7 @@ public with sharing class utilities {
                 //check we have access to the field
                 if(objectApiFieldMap.get(objectFieldName).getDescribe().isAccessible()) {
                     //get field type 
-                    String typeOfField = string.valueOf(objectApiFieldMap.get(objectFieldName).getDescribe().getType()).toLowercase();
+                    String typeOfField = String.valueOf(objectApiFieldMap.get(objectFieldName).getDescribe().getType()).toLowercase();
                     //check if field is a custom field or not
                     Boolean isFieldCustom = (Boolean)objectApiFieldMap.get(objectFieldName).getDescribe().isCustom();
                     //check if its a lookup field
@@ -64,7 +64,7 @@ public with sharing class utilities {
                         for(Object referencedObject : objectsFieldReferences) {
                             //make sure the field only looks up to 1 object before adding it to map 
                             if(objectsFieldReferences.size() == 1) {
-                                String stringReferncedObjecect = string.valueOf(referencedObject);
+                                String stringReferncedObjecect = String.valueOf(referencedObject);
                                 String relationshipName = objectApiFieldMap.get(objectFieldName).getDescribe().getRelationshipName();
 
                                 //use this list to target lookup fields based on the object the look up to 
@@ -146,7 +146,7 @@ public with sharing class utilities {
                 activateSentrySetting.IsDebug__c = false;
                 activateSentrySetting.Environment_Name__c = (String)constants.ORG_ID;
                 activateSentrySetting.IsIssueCreationDisabled__c = false;
-                activateSentrySetting.Sentry_Config__c = (String)constants.ORG_ID;
+                activateSentrySetting.Sentry_Config__c = 'Default';
                 upsert activateSentrySetting;
             } 
         } catch (Exception e) {
@@ -180,7 +180,6 @@ public with sharing class utilities {
             request.setHeader('Accept', 'application/json');
             request.setBody(body);
         }
- 
      
         /* these standard headers will be add to the request if none are provided
             the ruby service expects these headers for all requests. */

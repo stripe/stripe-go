@@ -1,0 +1,94 @@
+<template>
+    <div class="slds-p-around_large">
+        <div class="stripe-settings__item slds-grid">
+            <div class="slds-col_bump-right">
+                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                    Stripe Account
+                </h4>
+                <p>
+                    The Stripe account currently connected to Salesforce. This account will contain the Stripe data being synced with your Salesforce org.
+                </p>
+            </div>
+            <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                <lightning-input type="text" label="Stripe Account" value={stripeAccountId} variant="label-hidden" placeholder="No Stripe Account Found" disabled></lightning-input>
+            </div>
+        </div>
+
+        <div class="stripe-settings__item slds-grid">
+            <div class="slds-col_bump-right">
+                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                    Last Synced
+                </h4>
+                <p>
+                    The last time Stripe data was synced with this Salesforce org.
+                </p>
+            </div>
+            <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                <lightning-input label="Last Synced" type="text" variant="label-hidden" value={lastSynced} disabled></lightning-input>
+            </div>
+        </div>
+
+        <div class="stripe-settings__item slds-grid">
+            <div class="slds-col_bump-right">
+                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                    Default Currency
+                </h4>
+                <p>
+                    Currency to be used for Salesforce data being synced with Stripe. If multiple currencies are enabled in your Salesforce org, select the default currency from the list of currencies enabled in your org. This setting defaults to the default currency set in your org.
+                </p>
+            </div>
+            <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                <c-picklist if:true={isMultiCurrencyEnabled} label="Default Currency" options={currencyOptions} variant="label-hidden" value={defaultCurrency} onselect={updateDefaultCurrency} placeholder="Select default currency..." searchable></c-picklist>
+                <lightning-input if:false={isMultiCurrencyEnabled} type="text" label="Default Currency" value={defaultCurrency} variant="label-hidden" disabled></lightning-input>
+            </div>
+        </div>
+
+        <div class="stripe-settings__item slds-grid">
+            <div class="slds-col_bump-right">
+                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                    Sync Record Retention
+                </h4>
+                <p>
+                    The number of sync records retained in your Salesforce org. A sync record is created each time Stripe data is synced with Salesforce.
+                </p>
+            </div>
+            <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                <lightning-input label="Sync Record Retention" type="number" variant="label-hidden" value={syncRecordRetention} onchange={updateSyncRecordRetention} placeholder="Enter a value..." max="1000000" min="0" step="1"></lightning-input>
+                <div class="slds-text-title slds-m-top_xx-small slds-p-left_xx-small">
+                    Max 1,000,000 records
+                </div>
+            </div>
+        </div>
+
+        <div class="stripe-settings__item slds-grid">
+            <div class="slds-col_bump-right">
+                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                    Sync Start Date
+                </h4>
+                <p>
+                    The date on which Stripe data will begin syncing with Salesforce. This setting is progressive, meaning all relevant data from this date moving forward will be synced, while any data before the specified date will be ignored. 
+                </p>
+            </div>
+            <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                <lightning-input label="Sync Start Date" type="date" date-style="short" variant="label-hidden" value={syncStartDate} onchange={updateSyncStartDate} placeholder="Select Sync Start Date..."></lightning-input>
+            </div>
+        </div>
+
+        <div class="stripe-settings__item slds-grid">
+            <div class="slds-col_bump-right">
+                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                    API Percentage Limit (%)
+                </h4>
+                <p>
+                    The maximum percent of all available Salesforce API calls to be allocated to Stripe. Salesforce orgs have a limited number of API calls in a 24 hour period of time. If there are other call-intensive processes, consider reducing this setting to avoid hitting the org API limits. 
+                </p>
+            </div>
+            <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                <lightning-input label="API Percentage Limit (%)" type="number" formatter="percent-fixed" step="1" min="1" max="100" variant="label-hidden" value={apiPercentageLimit} onchange={updateApiPercentageLimit} placeholder="Set API Limit (%)..."></lightning-input>
+                <div class="slds-text-title slds-m-top_xx-small slds-p-left_xx-small">
+                    Allowing {apiLimitCount} of {totalApiCalls} available API calls
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

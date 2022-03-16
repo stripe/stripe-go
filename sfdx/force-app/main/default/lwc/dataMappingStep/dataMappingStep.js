@@ -3,7 +3,6 @@ import { loadScript } from 'lightning/platformResourceLoader'
 import getPicklistValuesForMapper from '@salesforce/apex/setupAssistant.getPicklistValuesForMapper';
 import getMappingConfigurations from '@salesforce/apex/setupAssistant.getMappingConfigurations';
 import saveMappingConfigurations from '@salesforce/apex/setupAssistant.saveMappingConfigurations';
-import saveData from '@salesforce/apex/setupAssistant.saveData';
 import showdownJs from '@salesforce/resourceUrl/showdownJS';
 
 export default class DataMappingStep extends LightningElement {
@@ -34,10 +33,11 @@ export default class DataMappingStep extends LightningElement {
     @track stripeSubscriptionMappings;
     @track stripeSubscriptionItemMappings;
     @track stripePriceMappings;
-    @track defaultSfObject;
     @track fieldListByObjectMap;
-    @track allMappingConfigurations
+    @track allMappingConfigurations;
+    @track defaultSfObject;
     @track isConnected = false;
+    @track isMappingsUpdated = false;
     markdownConverter;  // Stores instance of Showdown Markdown converter; set on connectedCallback 
 
     @track allMappingList = {
@@ -55,7 +55,7 @@ export default class DataMappingStep extends LightningElement {
             subscription_item: {},
             price: {}
         },
-        default_mappings: {
+        default_mappingss: {
             customer: {},
             product: {},
             subscription_schedule: {},
@@ -155,6 +155,19 @@ export default class DataMappingStep extends LightningElement {
         this[activeObjectName + 'MetadataFields'] = parsedVal;
     } 
 
+    enablesave() {
+        if(!this.isMappingsUpdated) {
+            this.isMappingsUpdated = true;
+            this.dispatchEvent(new CustomEvent('enablesave'));
+        }
+    }
+
+    debounce(targetInput) {
+        setTimeout(() => {
+            targetInput.dropdownLoading = false;
+        }, 1);
+    }
+
     saveObjectMappings(stripeObjectMappings, listOfAllMappings, listOfMetadataFields, stripeObjectName) {
         for(let i = 0; i < stripeObjectMappings.length; i++) {
             for(let j = 0; j < stripeObjectMappings[i].fields.length; j++) {
@@ -164,7 +177,7 @@ export default class DataMappingStep extends LightningElement {
                     } else {
                         listOfAllMappings.field_mappings[stripeObjectName][stripeObjectMappings[i].fields[j].value] = stripeObjectMappings[i].fields[j].sfValue;
                     }
-                    if(stripeObjectMappings[i].fields[j].defaultValue)listOfAllMappings.default_mappings[stripeObjectName][stripeObjectMappings[i].fields[j].value] = stripeObjectMappings[i].fields[j].defaultValue;
+                    if(stripeObjectMappings[i].fields[j].defaultValue)listOfAllMappings.default_mappingss[stripeObjectName][stripeObjectMappings[i].fields[j].value] = stripeObjectMappings[i].fields[j].defaultValue;
                 }
             }
         }
@@ -177,12 +190,11 @@ export default class DataMappingStep extends LightningElement {
                     } else {
                         listOfAllMappings.field_mappings[stripeObjectName]['metadata.'+listOfMetadataFields.metadataMapping.fields[i].value] = listOfMetadataFields.metadataMapping.fields[i].sfValue;
                     }
-                    if(listOfMetadataFields.metadataMapping.fields[i].defaultValue)listOfAllMappings.default_mappings[stripeObjectName]['metadata.'+listOfMetadataFields.metadataMapping.fields[i].value] = listOfMetadataFields.metadataMapping.fields[i].defaultValue;
+                    if(listOfMetadataFields.metadataMapping.fields[i].defaultValue)listOfAllMappings.default_mappingss[stripeObjectName]['metadata.'+listOfMetadataFields.metadataMapping.fields[i].value] = listOfMetadataFields.metadataMapping.fields[i].defaultValue;
                 }
             } 
         }
     }
-
 
     toggleMetaStaticValue(event) {
         const targetFieldIndex = event.currentTarget.closest('tr').dataset.index; 
@@ -340,7 +352,9 @@ export default class DataMappingStep extends LightningElement {
             this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type.includes('date') || fieldOptions.type === 'reference' ) 
         } else if (fieldType === 'boolean') {
             this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'boolean' || fieldOptions.type === 'reference' ) 
-        } 
+        } else {
+            this.sfFieldOptions = modifiedFieldOptions
+        }
     }
 
     updateMetaPicklist(event) {
@@ -392,27 +406,25 @@ export default class DataMappingStep extends LightningElement {
             });
             this.sfFieldOptions = this.fieldListByObjectMap.Product2
             if(this.fieldListByObjectMap)this.setFieldMappings('product', this.stripeProductMappings, this.productMetadataFields.metadataMapping.fields);
+
          } else if(this.activeObject === 'subscription' && this.fieldListByObjectMap) {
             this.defaultSfObject = 'Order';
             this.fieldListByObjectMap.Order.sort(function(a, b) {
                     return a.label.localeCompare(b.label);
             });
             this.sfFieldOptions = this.fieldListByObjectMap.Order
-            if(this.fieldListByObjectMap) {
-                //Arnold delete this when mike fixed nomenclature in ruby service
-                this.setFieldMappings('subscription', this.stripeSubscriptionMappings, this.subscriptionMetadataFields.metadataMapping.fields);
-                this.setFieldMappings('subscription_schedule', this.stripeSubscriptionMappings, this.subscriptionMetadataFields.metadataMapping.fields);
-                 
-            }
+            if(this.fieldListByObjectMap)this.setFieldMappings('subscription', this.stripeSubscriptionMappings, this.subscriptionMetadataFields.metadataMapping.fields);
+
          } else if(this.activeObject === 'subscription-item' && this.fieldListByObjectMap) {
-            this.defaultSfObject = 'Order Item';
+            this.defaultSfObject = 'OrderItem';
             this.fieldListByObjectMap.OrderItem.sort(function(a, b) {
                     return a.label.localeCompare(b.label);
             });
             this.sfFieldOptions = this.fieldListByObjectMap.OrderItem
             if(this.fieldListByObjectMap)this.setFieldMappings('subscription_item', this.stripeSubscriptionItemMappings, this.subscriptionItemMetadataFields.metadataMapping.fields);
+            
          } else if(this.activeObject === 'price' && this.fieldListByObjectMap) {
-            this.defaultSfObject = 'Pricebook Entry';
+            this.defaultSfObject = 'PricebookEntry';
             this.fieldListByObjectMap.PricebookEntry.sort(function(a, b) {
                    return a.label.localeCompare(b.label);
            });
@@ -622,7 +634,7 @@ export default class DataMappingStep extends LightningElement {
                     }
                 }
             } else {
-                this.showToast(this.data.error, 'error');
+                this.showToast(this.data.error, 'error', 'sticky');
             }
 
             const getMappingConfigs = await getMappingConfigurations();
@@ -633,10 +645,10 @@ export default class DataMappingStep extends LightningElement {
                     this.setFieldMappings('customer', this.stripeCustomerMappings, this.customerMetadataFields.metadataMapping.fields)
                 }
             } else {
-                this.showToast(this.data.error, 'error');
+                this.showToast(this.data.error, 'error', 'sticky');
             }
         } catch (error) {
-            this.showToast(error.message, 'error');
+            this.showToast(error.message, 'error', 'sticky');
         } finally {
             if(targetElement) targetElement.dropdownLoading = false;
         }
@@ -645,17 +657,17 @@ export default class DataMappingStep extends LightningElement {
     setFieldMappings(stripeObject, stripeObjectMap, metadataFieldList) {
         for(let i = 0; i < stripeObjectMap.length; i++) {
             for(let j = 0; j < stripeObjectMap[i].fields.length; j++) {
-                if(this.allMappingConfigurations.default_mapping && 
-                   this.allMappingConfigurations.default_mapping[stripeObject] && 
-                   this.allMappingConfigurations.default_mapping[stripeObject].length !== 0) {
+                if(this.allMappingConfigurations.default_mappings && 
+                   this.allMappingConfigurations.default_mappings[stripeObject] && 
+                   this.allMappingConfigurations.default_mappings[stripeObject].length !== 0) {
 
-                    for(const value in this.allMappingConfigurations.default_mapping[stripeObject]) {
-                        if(stripeObjectMap[i].fields[j].value === value && this.allMappingConfigurations.default_mapping[stripeObject][value]) {
+                    for(const value in this.allMappingConfigurations.default_mappings[stripeObject]) {
+                        if(stripeObjectMap[i].fields[j].value === value && this.allMappingConfigurations.default_mappings[stripeObject][value]) {
                             stripeObjectMap[i].fields[j].sfValue = '';
                             stripeObjectMap[i].fields[j].hasOverride = false; 
                             stripeObjectMap[i].fields[j].hasSfValue = false; 
                             stripeObjectMap[i].fields[j].staticValue = false; 
-                            stripeObjectMap[i].fields[j].defaultValue = this.allMappingConfigurations.default_mapping[stripeObject][value];
+                            stripeObjectMap[i].fields[j].defaultValue = this.allMappingConfigurations.default_mappings[stripeObject][value];
                         } 
                     }
                 }
@@ -721,8 +733,7 @@ export default class DataMappingStep extends LightningElement {
         }
     }
 
-    async next(event) {
-        event.stopPropagation();
+    @api async saveCongfiguredMappings() {
         this.loading = true;
         this.saveObjectMappings(this.stripeCustomerMappings,this.allMappingList,this.customerMetadataFields,'customer');
         this.saveObjectMappings(this.stripeProductMappings,this.allMappingList,this.productMetadataFields,'product');
@@ -737,56 +748,32 @@ export default class DataMappingStep extends LightningElement {
             if(this.data.isSuccess) {
                 let isConfigSaved = this.data.results.isConfigSaved;
                 if(isConfigSaved === true) {
-                    this.showToast('Saved successfully', 'success')
+                    this.showToast('Data mapping was successfully saved', 'success')
+                    this.isMappingsUpdated = false;
                 } else {
-                    this.showToast('The mappings were not saved successfully', 'error')
+                    this.showToast('There was a problem saving data mapping', 'error', 'sticky')
                 }
             } else {
-                this.showToast(this.data.error, 'error');
-            }
-
-            const saveSetupData = await saveData({
-                newSetupDataRec: {
-                    Steps_Completed__c: JSON.stringify({
-                        'C-DATA-MAPPING-STEP': 2
-                    })
-                }
-            });
-            this.data =  JSON.parse(saveSetupData);
-            if(this.data.isSuccess) {
-                this.setupData = this.data.setupData;
-                this.dispatchEvent(new CustomEvent('next', {
-                    bubbles: true,
-                    composed: true
-                }));
-            } else {
-                this.showToast(this.data.error, 'error');
+                this.showToast(this.data.error, 'error', 'sticky');
             }
         } catch (error) {
-            this.showToast(error.message, 'error');
+            this.showToast(error.message, 'error', 'sticky');
         } finally {
             this.loading = false;
         }
-    }
-
-    back() {
-        this.dispatchEvent(new CustomEvent('exit', {
-            bubbles: true,
-            composed: true
-        }));
     }
 
     showToast(message, variant, mode) {
         this.dispatchEvent(new CustomEvent('showtoast', {
             bubbles: true,
             composed: true,
-            detail: { 
+            detail: {
                 toast: {
                     message: message,
-                    variant: variant,
-                    mode: mode
+                    variant: variant ? variant : 'info',
+                    mode: mode ? mode : 'dismissible'
                 }
             }
-        })); 
+        }));
     }
 }

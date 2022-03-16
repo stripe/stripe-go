@@ -1,0 +1,173 @@
+:host > .slds-grid_vertical {
+    height: 100vh;
+}
+
+:host > .slds-grid_vertical > .slds-col:first-child {
+    z-index: 1;
+}
+
+.stripe-global-header {
+    padding: var(--lwc-spacingSmall, .75rem);
+    box-shadow: 0px 3px 10px rgba(0,0,0,.1);
+}
+
+.stripe-global-header img {
+    max-height: 30px;
+    width: auto;
+}
+
+.stripe-page-container {
+    width: 90%;
+    max-width: 1400px;
+    height: 100%;
+}
+
+.stripe-sticky-top {
+    position: sticky;
+    top: 0;
+}
+
+
+/*** Landing Styles - First Time Setup and Settings ***/
+.stripe-landing {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 48rem;
+}
+
+.stripe-landing > .slds-box,
+.stripe-landing_settings > .slds-box {
+    padding: var(--lwc-spacingXLarge, 2rem)
+}
+
+.stripe-landing .stripe-logo-container {
+    width: 300px;
+    height: auto;
+    margin: 3rem auto;
+}
+
+/* First Time Setup Progress Styles (Landing) */
+.stripe-progress-list {
+    width: max-content;
+    margin: 0 auto;
+}
+
+.stripe-progress-item + .stripe-progress-item {
+    margin-top: 1rem;
+}
+
+.stripe-progress-item__counter {
+    height: 30px;
+    width: 30px;
+    border: 1px solid var(--lwc-colorBorderBrand, #1b96ff);
+    border-radius: 50%;
+}
+
+.stripe-progress-item__counter.stripe-progress-item__counter_completed {
+    border-color: #2e844a;
+    color: #ffffff;
+    background-color: #2e844a;
+}
+
+.stripe-progress-item__counter > .slds-is-absolute {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.stripe-progress-item__counter:not(.stripe-progress-item__counter_completed) > .slds-is-absolute {
+    color: #1b96ff;
+}
+/* End: First Time Setup Progress Styles (Landing) */
+
+/* Settings Page Landing Styles */
+.stripe-landing_settings > .slds-box {
+    min-height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.stripe-landing_settings .stripe-logo-container {
+    width: 300px;
+    height: auto;
+    margin: 0 auto;
+}
+/* End: Settings Page Landing Styles */
+
+.stripe-landing .slds-button {
+    padding: .5rem 2.75rem;
+    font-size: 1rem;
+}
+/*** End: Landing Styles ***/
+
+
+/*** First Time Setup Progress Styles ***/
+.stripe-sidebar_progress {
+    max-width: 300px;
+}
+
+.slds-progress__marker {
+    border-color: #f9f9fa;  /* To match page background */
+}
+
+.slds-progress__item.slds-is-completed .slds-progress__marker_icon {
+    border-color: #f9f9fa; /* To match page background */
+}
+
+.slds-progress__item.slds-is-completed .slds-progress__marker {
+    background-color: #f9f9fa; /* To match page background */
+}
+
+.slds-progress__item.slds-is-active .slds-progress__marker {
+    box-shadow: #f9f9fa 0 0 0 4px;  /* To match page background */
+}
+/*** End: First Time Setup Progress Styles ***/
+
+
+/*** Settings Page Styles ***/
+.stripe-sidebar_navigation {
+    max-width: 250px;
+}
+
+.stripe-sidebar_navigation .slds-media .slds-media__figure {
+    color: var(--lwc-colorTextInputIcon,rgb(171, 173, 176));
+}
+
+.stripe-navigation-item {
+    cursor: pointer;
+    padding: .5rem 0;
+}
+
+.stripe-navigation-item span {
+    background-color: transparent;
+    padding: var(--lwc-spacingXSmall,0.5rem) var(--lwc-spacingMedium,1rem);
+    border-width: var(--sds-c-badge-sizing-border, var(--lwc-borderWidthThin,1px));
+    border-style: solid;
+    border-color: var(--sds-c-badge-color-border, transparent);
+    border-radius: var(--sds-c-badge-radius-border, var(--lwc-borderRadiusPill,15rem));
+    font-size: .875rem;
+    line-height: var(--sds-c-badge-line-height, normal);
+    color: var(--sds-c-badge-text-color, var(--lwc-colorTextDefault,rgb(3, 45, 96)));
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+}
+
+.stripe-navigation-item:hover span {
+    background-color: #f3f3f3;  /* Value of (internal use only) token: '--lwc-colorBackgroundRowHover' */
+}
+
+.stripe-navigation-item.stripe-navigation-item_active span {
+    background-color: var(--lwc-brandAccessible, #0176d3);
+    color: var(--lwc-colorTextInverse, #ffffff);
+    font-weight: var(--lwc-fontWeightBold, 700);
+}
+
+.stripe-navigation-item.stripe-navigation-item_active:hover span {
+    background-color: var(--lwc-brandAccessibleActive, #014486);
+}
+/*** End: Settings Page Styles ***/

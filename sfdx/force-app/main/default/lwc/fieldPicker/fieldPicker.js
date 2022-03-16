@@ -47,19 +47,19 @@ export default class fieldPicker extends LightningElement {
     @api label = "";
     @track _options = [];
     @api
-    get options() {
+    get options() { 
         return this._options || [];
     }
+
     set options(options) {
         let formattedOptions = JSON.parse(JSON.stringify(options));
+        
         if(this.selectionList.length >= this.maxSelectionDepth) {
-            formattedOptions.forEach(option => {
-                if(option.type === 'reference') {
-                    option.disabled = true;
-                }
-            });
-        } 
-        this._options = formattedOptions;
+            let filteredOptions = formattedOptions.filter(fieldOptions => fieldOptions.type !== 'reference');
+            this._options = filteredOptions; 
+        } else {
+            this._options = formattedOptions;
+        }
     }
 
     @track validity = true;
@@ -191,6 +191,7 @@ export default class fieldPicker extends LightningElement {
 
     select(event) {
         clearTimeout(this.blurTimeout);
+        
 
         let selectedOption = JSON.parse(
             JSON.stringify(event.detail.selectedOption)
@@ -199,6 +200,7 @@ export default class fieldPicker extends LightningElement {
 
         this.validity = !this.required || (value && this.required);
         if(selectedOption.type !== 'reference') {
+
             this.hideMenu();
             
             this.appendSelection(selectedOption);
@@ -221,7 +223,6 @@ export default class fieldPicker extends LightningElement {
             }
             this.searchTerm = '';
             this.template.querySelector('.sp-scrollable-list').scrollTop = 0;
-
             let evt = new CustomEvent("objectchange", {
                 detail: {
                     object: selectedOption.object.toString()
@@ -592,7 +593,7 @@ export default class fieldPicker extends LightningElement {
 
     // FIELD PICKER METHODS //
     display = ''; // Display string for input
-    selectionList = []; // Selection List being constructed; cleared when input not in use
+    @track selectionList = []; // Selection List being constructed; cleared when input not in use
     @track currentObject = ''; // Current object context of field picker; updates as picker traverses objects
     maxSelectionDepth = 4; // Maximum number of lookup fields that can be used in a single selection; used to disable lookup field options to prevent overly complex selections
     @api dropdownLoading; // Tracks whether field picker is waiting for a list of options while the dropdown is open
@@ -755,5 +756,9 @@ export default class fieldPicker extends LightningElement {
 
     get enablePopover() {
         return (this.hash && !this.showMenu);
+    }
+
+    get isMaxSelection() {
+        return (this.selectionList.length >= this.maxSelectionDepth);
     }
 }
