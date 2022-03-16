@@ -165,7 +165,13 @@ func (tq *testQuery) query(*Params, *form.Values) ([]interface{}, ListContainer,
 	return x.v, x.m, x.e
 }
 
-func collect(it *Iter) ([]interface{}, error) {
+type collectable interface {
+	Next() bool
+	Current() interface{}
+	Err() error
+}
+
+func collect(it collectable) ([]interface{}, error) {
 	var g []interface{}
 	for it.Next() {
 		g = append(g, it.Current())
