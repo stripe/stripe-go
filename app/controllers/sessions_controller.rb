@@ -127,4 +127,16 @@ class SessionsController < ApplicationController
   protected def auth_hash
     request.env['omniauth.auth']
   end
+
+  # https://github.com/stripe/stripe-salesforce/pull/171
+  protected def subdomain_namespace
+    case namespace = request.headers[SALESFORCE_PACKAGE_NAMESPACE_HEADER]
+    when nil
+      raise "namespace header is always expected"
+    when ""
+      "c"
+    else
+      namespace
+    end
+  end
 end

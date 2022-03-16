@@ -3,6 +3,10 @@
 
 module StripeForce
   module Constants
+    SALESFORCE_ACCOUNT_ID_HEADER = 'Salesforce-Account-Id'
+    SALESFORCE_KEY_HEADER = 'Salesforce-Key'
+    SALESFORCE_PACKAGE_NAMESPACE_HEADER = "Salesforce-Package-Namespace"
+
     SF_ORDER = 'Order'
     SF_PRODUCT = 'Product2'
     SF_ACCOUNT = 'Account'

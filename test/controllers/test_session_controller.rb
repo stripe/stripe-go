@@ -14,6 +14,11 @@ class SessionsControllerTest < ApplicationIntegrationTest
 
   def mock_omniauth_salesforce
     OmniAuth.config.mock_auth.delete :default
+
+    OmniAuth.config.mock_auth[:stripe] = OmniAuth::AuthHash.new({
+      "uid" => ENV.fetch('STRIPE_ACCOUNT_ID')
+    })
+
     OmniAuth.config.mock_auth[:salesforce] = OmniAuth::AuthHash.new(
       {"provider" => "salesforce",
        "uid" =>
@@ -190,6 +195,23 @@ class SessionsControllerTest < ApplicationIntegrationTest
 
     refute_nil(user.name)
     refute_nil(user.email)
+  end
+
+  it 'updates the stripe account id after the stripe account is authenticated' do
+    user = create_post_install_user
+
+    mock_omniauth_salesforce
+
+    get auth_salesforce_callback_path
+    assert_response :success
+
+    get auth_stripe_callback_path
+    assert_response :success
+
+    assert_equal(1, StripeForce::User.count)
+
+    user = T.must(StripeForce::User[user.id])
+    assert_equal(OmniAuth.config.mock_auth[:stripe]["uid"], user.stripe_account_id)
   end
 
   it 'updates an existing user with stripe oauth information if the account is already authorized with salesforce' do

@@ -4,10 +4,6 @@
 require_relative '../test_helper'
 
 class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
-  def authentication_headers
-    {Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => @user.salesforce_account_id}
-  end
-
   describe '#translate' do
     before do
       @user = make_user(save: true)
@@ -60,24 +56,24 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
 
   describe '#post_install' do
     it 'rejects a invalid request' do
-      post api_post_install_path, as: :json, headers: {Api::Controller::SALESFORCE_KEY_HEADER => '123'}
+      post api_post_install_path, as: :json, headers: {SALESFORCE_KEY_HEADER => '123'}
       assert_response :not_found
 
       post api_post_install_path, as: :json
       assert_response :not_found
 
-      post api_post_install_path, params: 'I am not json', headers: {Api::Controller::SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
+      post api_post_install_path, params: 'I am not json', headers: {SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
       assert_response :not_acceptable
     end
 
     it 'rejects a request with no organization api key' do
-      post api_post_install_path, params: {}, as: :json, headers: {Api::Controller::SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
+      post api_post_install_path, params: {}, as: :json, headers: {SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
       assert_response :bad_request
     end
 
-    it 'creates a new user with a valid organizatiopn API key' do
+    it 'creates a new user with a valid organization API key' do
       api_key = SecureRandom.alphanumeric(16)
-      post api_post_install_path, params: {key: api_key}, as: :json, headers: {Api::Controller::SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
+      post api_post_install_path, params: {key: api_key}, as: :json, headers: {SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
 
       assert_equal(1, StripeForce::User.count)
       user = T.must(StripeForce::User.first)
@@ -111,7 +107,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       end
 
       it 'throws a 404 if invalid user is passed' do
-        get api_configuration_path, headers: {Api::Controller::SALESFORCE_ACCOUNT_ID_HEADER => create_salesforce_id}
+        get api_configuration_path, headers: authentication_headers.merge({SALESFORCE_ACCOUNT_ID_HEADER => create_salesforce_id})
         assert_response :not_found
       end
 

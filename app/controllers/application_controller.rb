@@ -4,6 +4,7 @@
 class ApplicationController < ActionController::Base
   include Integrations::ErrorContext
   include Integrations::Log
+  include StripeForce::Constants
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.

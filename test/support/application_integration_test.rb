@@ -21,4 +21,9 @@ class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
   def teardown
     common_teardown
   end
+
+  def authentication_headers
+    {SALESFORCE_ACCOUNT_ID_HEADER => @user.salesforce_account_id, SALESFORCE_PACKAGE_NAMESPACE_HEADER => ""}
+  end
+
 end

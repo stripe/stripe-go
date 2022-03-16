@@ -6,8 +6,5 @@ module Api
     include StripeForce::Constants
     include Integrations::ErrorContext
     include Integrations::Log
-
-    SALESFORCE_ACCOUNT_ID_HEADER = 'Salesforce-Account-Id'
-    SALESFORCE_KEY_HEADER = 'Salesforce-Key'
   end
 end
