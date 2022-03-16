@@ -30,18 +30,6 @@
           "sfValueType": ""
         },
         {
-          "name": "delinquent",
-          "value": "delinquent",
-          "description": "<p>When the customer's latest invoice is billed by charging automatically, <code>delinquent</code> is <code>true</code> if the invoice's latest charge failed. When the customer's latest invoice is billed by sending an invoice, <code>delinquent</code> is <code>true</code> if the invoice isn't paid by its due date.</p>\n<p>If an invoice is marked uncollectible by <a href=\"https://stripe.com/docs/billing/automatic-collection\">dunning</a>, <code>delinquent</code> doesn't get reset to <code>false</code>.</p>",
-          "type": "boolean",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
           "name": "description",
           "value": "description",
           "description": "<p>An arbitrary string attached to the object. Often useful for displaying to users.</p>",
@@ -82,18 +70,6 @@
           "value": "invoice_prefix",
           "description": "<p>The prefix for the customer used to generate unique invoice numbers.</p>",
           "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "livemode",
-          "value": "livemode",
-          "description": "<p>Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.</p>",
-          "type": "boolean",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -573,18 +549,6 @@
           "sfValueType": ""
         },
         {
-          "name": "livemode",
-          "value": "livemode",
-          "description": "<p>Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.</p>",
-          "type": "boolean",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
           "name": "name",
           "value": "name",
           "description": "<p>The product's name, meant to be displayable to the customer. Whenever this product is sold via a subscription, name will show up on associated invoice line item descriptions.</p>",
@@ -857,18 +821,6 @@
           "value": "id",
           "description": "<p>Unique identifier for the object.</p>",
           "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "livemode",
-          "value": "livemode",
-          "description": "<p>Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.</p>",
-          "type": "boolean",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -1369,18 +1321,6 @@
           "sfValueType": ""
         },
         {
-          "name": "livemode",
-          "value": "price.livemode",
-          "description": "<p>Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.</p>",
-          "type": "boolean",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
           "name": "lookup key",
           "value": "price.lookup_key",
           "description": "<p>A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.</p>",
@@ -1526,18 +1466,6 @@
           "value": "id",
           "description": "<p>Unique identifier for the object.</p>",
           "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "livemode",
-          "value": "livemode",
-          "description": "<p>Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.</p>",
-          "type": "boolean",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,

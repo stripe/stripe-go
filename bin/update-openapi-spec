@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -eu -o pipefail
+
+if [[ -v CI ]]; then
+  echo "This should only be run locally"
+  exit 1
+fi
+
+cd sfdx/bin/openapi-spec-generator
+npm install
+node index.js | jq > ../../../public/openapi.json

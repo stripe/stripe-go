@@ -1,9 +1,31 @@
-//node config/gmetStripeObjectConfig.js
-
 const HTTPS = require('https')
 const showdown = require('showdown');
 const markdownConverter = new showdown.Converter();
-const listOfExcludedReadOnlyFields = ['created'];
+const listOfExcludedReadOnlyFields = [
+    'created',
+    // TODO excluding this field is causing an error
+    // 'object',
+    'livemode',
+
+    // customer
+    'delinquent',
+    'discount'
+];
+
+const excludedReadOnlyFields = {
+    // special key that applies to all objects
+    all: [
+        'created',
+        'object',
+        'livemode',
+    ],
+
+    customer: [
+        'delinquent',
+        'discount'
+    ]
+}
+
 const OPTIONS = {
     hostname: 'raw.githubusercontent.com',
     port: 443,
@@ -44,7 +66,7 @@ function formatStripeObjectsForMapper(stripeObjectToFormat) {
         description: '',
         fields: []
     }];
-    for (const field in stripeObjectToFormat) { 
+    for (const field in stripeObjectToFormat) {
         if (!stripeObjectToFormat[field]['$ref'] && !stripeObjectToFormat[field]['anyOf'] && !listOfExcludedReadOnlyFields.includes(field)) {
             if (stripeObjectToFormat[field]['type'] && stripeObjectToFormat[field]['type'] !== 'object' && stripeObjectToFormat[field]['type'] !== 'array') {
                 var fieldMap = {
@@ -80,7 +102,7 @@ function formatStripeObjectsForMapper(stripeObjectToFormat) {
             stripeObjectMappings.push(newSection);
 
             for (const expandableField in expandableSchemaFieldMap) {
-                if (expandableSchemaFieldMap[expandableField]['type'] && expandableSchemaFieldMap[expandableField]['type'] !== 'object' 
+                if (expandableSchemaFieldMap[expandableField]['type'] && expandableSchemaFieldMap[expandableField]['type'] !== 'object'
                 && expandableSchemaFieldMap[expandableField]['type'] !== 'array' && !listOfExcludedReadOnlyFields.includes(expandableField)) {
                     var hashFieldName = expandableField.replace(/_+/g, ' ');
                     var hashFieldValue = field + '.' + expandableField;
@@ -140,7 +162,7 @@ function checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings,
     stripeObjectMappings.push(NEWSECTION);
     for (const expandableField in nestedExpandableFieldMap) {
         if (nestedExpandableFieldMap[expandableField]['description'] && !listOfExcludedReadOnlyFields.includes(expandableField)) {
-            if ((nestedExpandableFieldMap[expandableField]['type'] && nestedExpandableFieldMap[expandableField]['type'] !== 'object' 
+            if ((nestedExpandableFieldMap[expandableField]['type'] && nestedExpandableFieldMap[expandableField]['type'] !== 'object'
             && nestedExpandableFieldMap[expandableField]['type'] !== 'array')) {
                 var hashFieldName = expandableField.replace(/_+/g, ' ');
                 var hashFieldValue = field + '.' + expandableField;

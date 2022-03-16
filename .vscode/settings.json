@@ -9,6 +9,9 @@
     "files.trimTrailingWhitespace": false,
     "files.trimFinalNewlines": false
   },
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
   "cSpell.ignorePaths":[
     "node_modules",
     ".vscode",
