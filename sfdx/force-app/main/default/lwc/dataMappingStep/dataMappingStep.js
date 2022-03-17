@@ -443,6 +443,7 @@ export default class DataMappingStep extends LightningElement {
                     this.stripeSubscriptionMappings = this.data.results.formattedStripeSubscriptionFields;
                     this.stripeSubscriptionItemMappings = this.data.results.formattedStripeSubscriptionItemFields;
                     this.stripePriceMappings = this.data.results.formattedStripePriceFields
+                    this.getPicklistValuesForMapper(true, '', false);
             } else {
                 this.showToast(this.data.error, 'error', 'sticky');
             }
