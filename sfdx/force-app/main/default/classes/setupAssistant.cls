@@ -6,7 +6,7 @@ public with sharing class setupAssistant {
         namespace = constants.NAMESPACE;
     }
 
-    //gets package version
+    // passed to the ruby service as metadata for debuggin
     @AuraEnabled
     public static String getPackageVersion() {
         responseData rd = new responseData();
