@@ -17,6 +17,11 @@ Here are some of the 'tags' that PR comments will be prefixed with to provide mo
 
 # SalesForce
 
+## Creating a stratch org
+
+- Specify your dev hub via `sfdx force:config:set --defaultdevusername`. This can be any salesforce dev org.
+- Then use `sfdx force:org:create -s -f config/project-scratch-def.json -a cool-alias -d 30` to create a stratch org. Lasts for a max of 30d.
+
 ## Connecting to a different org
 
 - `sfdx/sfdx-project.json` edit the `sfdcLoginUrl` to match the URL you are logging in against
