@@ -122,7 +122,7 @@ public with sharing class setupAssistant {
                     return rd.getJsonString();
                 }
                 //make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
-                String route = constants.RUBY_SERVICE_BASE_URI + 'configuration';
+                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
                 HttpResponse response =  utilities.makeCallout(route, 'GET');
 
                 Map<String, Object> errorBody; 
@@ -177,7 +177,7 @@ public with sharing class setupAssistant {
         Blob blb = Crypto.GenerateAESKey(128);
         String packageKey  = EncodingUtil.ConvertTohex(blb);
         
-        String route = constants.RUBY_SERVICE_BASE_URI + 'post-install';
+        String route = constants.RUBY_SERVICE_BASE_URI + '/v1/post-install';
         
         Map<String, Object> body = new Map<String, Object> {
             'key' => packageKey
@@ -226,6 +226,32 @@ public with sharing class setupAssistant {
         return rd.getJsonString();
     }
 
+
+    //gets formatted stripe object fields
+    @AuraEnabled
+    public static String getFormattedStripeObjectFields() {
+        responseData rd = new responseData();
+        try {
+            String route = constants.RUBY_SERVICE_BASE_URI + '/openapi.json';
+            HttpResponse response =  utilities.makeCallout(route,'GET');
+            
+            Map<String, Object> responseBody;
+            if(response.getStatusCode() == 200) {
+                responseBody = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
+                rd.put('formattedStripeCustomerFields', (List<Object>)responseBody.get('formattedStripeCustomerFields'));
+                rd.put('formattedStripeProductItemFields', (List<Object>)responseBody.get('formattedStripeProductItemFields'));
+                rd.put('formattedStripeSubscriptionFields', (List<Object>)responseBody.get('formattedStripeSubscriptionFields'));
+                rd.put('formattedStripeSubscriptionItemFields', (List<Object>)responseBody.get('formattedStripeSubscriptionItemFields'));
+                rd.put('formattedStripePriceFields', (List<Object>)responseBody.get('formattedStripePriceFields'));
+            } else {
+                errorLogger.create('getFormattedStripeObjectFields', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get mapping configuration from ruby service.');
+            }
+        } catch (Exception e) {     
+            rd.addError(e);
+        }
+        return rd.getJsonString();
+    }
+
     //gets all saved mappings from ruby service
     @AuraEnabled
     public static String getMappingConfigurations() {
@@ -239,7 +265,7 @@ public with sharing class setupAssistant {
 
                 //construct call out to rubys configuration endpoint
                 rd.put('isConnected',true);               
-                String route = constants.RUBY_SERVICE_BASE_URI+'configuration';
+                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
                 HttpResponse response =  utilities.makeCallout(route,'GET');
 
                 //if the call out is successful pull out all mapping objects and add to list 
@@ -288,7 +314,7 @@ public with sharing class setupAssistant {
         try {
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();  
             if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {     
-                String route = constants.RUBY_SERVICE_BASE_URI+'configuration';
+                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
                 HttpResponse response =  utilities.makeCallout(route,'PUT',jsonMappingConfigurationsObject);
                 if(response.getStatusCode() == 200) {
                     rd.put('isConfigSaved', true);
@@ -314,7 +340,7 @@ public with sharing class setupAssistant {
             if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {  
 
                 //make callout to ruby services configuration endpoint to get stored stripe setting values
-                String route = constants.RUBY_SERVICE_BASE_URI + 'configuration';
+                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
                 HttpResponse response =  utilities.makeCallout(route, 'GET');
 
                 Map<String, Object> errorBody; 
@@ -426,7 +452,7 @@ public with sharing class setupAssistant {
                         'default_currency' => defaultCurrency
                     }
                 };
-                String route = constants.RUBY_SERVICE_BASE_URI + 'configuration';
+                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
                 HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(resquestBody));
 
                 if(response.getStatusCode() == 200) {
@@ -460,7 +486,7 @@ public with sharing class setupAssistant {
 
                 if(!syncRecordList.isEmpty()) {
                     Sync_Record__c recordToSync = syncRecordList[0];
-                    String route = constants.RUBY_SERVICE_BASE_URI + 'translate';
+                    String route = constants.RUBY_SERVICE_BASE_URI + '/v1/translate';
             
                     Map<String, Object> body = new Map<String, Object>{
                         'object_type' => (String)recordToSync.Primary_Object_Type__c,

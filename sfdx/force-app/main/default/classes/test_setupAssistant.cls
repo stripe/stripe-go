@@ -359,6 +359,41 @@ public with sharing class test_setupAssistant {
     }
 
     @isTest
+    static public void testSetupAssistant_getFormattedStripeObjectFields() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        
+        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
+                                                            FROM Setup_Connection_Data__mdt];  
+        if(!setupConfigList.isEmpty()) {
+            utilities.setupConfigMetadata[0] = testSetupData;
+        } else {
+            utilities.setupConfigMetadata.add(testSetupData);  
+        }
+
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());  
+        String response = setupAssistant.getFormattedStripeObjectFields();
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        Test.stopTest();
+
+        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+
+        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+        List<Object> testCustomerFields =  (List<Object>)resultsMap.get('formattedStripeCustomerFields');
+        List<Object> testProductFields =  (List<Object>)resultsMap.get('formattedStripeProductItemFields');
+        List<Object> testSubscriptionFields =  (List<Object>)resultsMap.get('formattedStripeSubscriptionFields');
+        List<Object> testSubscriptionItemFields =  (List<Object>)resultsMap.get('formattedStripeSubscriptionItemFields');
+        List<Object> testPriceFields =  (List<Object>)resultsMap.get('formattedStripePriceFields');
+
+        System.assertEquals(5, testCustomerFields.size());
+        System.assertEquals(5, testProductFields.size());
+        System.assertEquals(5, testSubscriptionFields.size());
+        System.assertEquals(5, testSubscriptionItemFields.size());
+        System.assertEquals(5, testPriceFields.size());
+    }
+
+
+    @isTest
     static public void testSetupAssistant_getSyncPreferences() {
         Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
         stripeConnectRec.Stripe_Connected__c = true;
@@ -540,6 +575,22 @@ public with sharing class test_setupAssistant {
                     Map<String,Object> responseBody = new Map<String,Object>();
                     responseBody.put('retry_status', (Object)responseObject);
         
+                    res.setBody(Json.serialize(responseBody));
+                    res.setStatusCode(200);
+                } else if(req.getEndpoint().endsWith('openapi.json')) {
+                    List<Object> testFormattedFieldsList = new List<Object> {
+                        'testField1',
+                        'testField2',
+                        'testField3',
+                        'testField4',
+                        'testField5'
+                    };
+                    Map<String,Object> responseBody = new Map<String,Object>();
+                    responseBody.put('formattedStripeCustomerFields', (Object)testFormattedFieldsList);
+                    responseBody.put('formattedStripeProductItemFields', (Object)testFormattedFieldsList);
+                    responseBody.put('formattedStripeSubscriptionFields', (Object)testFormattedFieldsList);
+                    responseBody.put('formattedStripeSubscriptionItemFields', (Object)testFormattedFieldsList);
+                    responseBody.put('formattedStripePriceFields', (Object)testFormattedFieldsList);
                     res.setBody(Json.serialize(responseBody));
                     res.setStatusCode(200);
                 }

@@ -1,9 +1,9 @@
 import { LightningElement, api, track } from 'lwc';
 import { loadScript } from 'lightning/platformResourceLoader'
 import getPicklistValuesForMapper from '@salesforce/apex/setupAssistant.getPicklistValuesForMapper';
+import getFormattedStripeObjectFields from '@salesforce/apex/setupAssistant.getFormattedStripeObjectFields';
 import getMappingConfigurations from '@salesforce/apex/setupAssistant.getMappingConfigurations';
 import saveMappingConfigurations from '@salesforce/apex/setupAssistant.saveMappingConfigurations';
-import showdownJs from '@salesforce/resourceUrl/showdownJS';
 
 export default class DataMappingStep extends LightningElement {
     @track activeObject = '';
@@ -422,7 +422,7 @@ export default class DataMappingStep extends LightningElement {
             });
             this.sfFieldOptions = this.fieldListByObjectMap.OrderItem
             if(this.fieldListByObjectMap)this.setFieldMappings('subscription_item', this.stripeSubscriptionItemMappings, this.subscriptionItemMetadataFields.metadataMapping.fields);
-            
+
          } else if(this.activeObject === 'price' && this.fieldListByObjectMap) {
             this.defaultSfObject = 'PricebookEntry';
             this.fieldListByObjectMap.PricebookEntry.sort(function(a, b) {
@@ -435,20 +435,17 @@ export default class DataMappingStep extends LightningElement {
 
     async connectedCallback() {
         try {
-            loadScript(this, showdownJs + '/showdown-1.9.1/dist/showdown.js').then(()=> {
-                this.markdownConverter = new showdown.Converter();
-            });
-
-            const stripeOpenSpecEndPoint = "https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json";
-            const response = await fetch(stripeOpenSpecEndPoint);
-            const repos = await response.json();
-            this.body = repos;
-            this.stripeCustomerMappings = this.formatStripeObjectsForMapper( this.body['components']['schemas']['customer']['properties']);
-            this.stripeProductMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['product']['properties']);
-            this.stripeSubscriptionMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['subscription']['properties']);
-            this.stripeSubscriptionItemMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['subscription_item']['properties']);
-            this.stripePriceMappings = this.formatStripeObjectsForMapper(this.body['components']['schemas']['price']['properties']);
-            this.getPicklistValuesForMapper(true, '', false);
+            const getFormattedStripeObjects = await getFormattedStripeObjectFields();
+            this.data =  JSON.parse(getFormattedStripeObjects);
+            if(this.data.isSuccess) {
+                    this.stripeCustomerMappings = this.data.results.formattedStripeCustomerFields;
+                    this.stripeProductMappings = this.data.results.formattedStripeProductItemFields;
+                    this.stripeSubscriptionMappings = this.data.results.formattedStripeSubscriptionFields;
+                    this.stripeSubscriptionItemMappings = this.data.results.formattedStripeSubscriptionItemFields;
+                    this.stripePriceMappings = this.data.results.formattedStripePriceFields
+            } else {
+                this.showToast(this.data.error, 'error', 'sticky');
+            }
         } catch (error) {
             this.showToast(error.message, 'error');
         } finally {
@@ -457,154 +454,6 @@ export default class DataMappingStep extends LightningElement {
         }
     }
 
-    formatStripeObjectsForMapper(objectJsonConfigMap) {
-        var stripeObjectMappings = [
-            {
-                label: 'Standard Mappings',
-                name: 'standard',
-                description: '',
-                fields: []
-            }
-        ]
-    
-        for (const field in objectJsonConfigMap) { 
-            if(!objectJsonConfigMap[field]['$ref'] && !objectJsonConfigMap[field]['anyOf']) {
-                if(objectJsonConfigMap[field]['type'] && objectJsonConfigMap[field]['type'] !== 'object' && objectJsonConfigMap[field]['type'] !== 'array') {
-                    let fieldMap = {
-                        name: field.replaceAll('_',' '),
-                        value: field,
-                        description: '',
-                        type: '',
-                        defaultValue: '',
-                        hasOverride: false,
-                        staticValue: false,
-                        hasSfValue: false,
-                        sfValue: '',
-                        sfValueType: ''
-                    };
-                    if(objectJsonConfigMap[field]['description'])fieldMap['description'] = this.markdownConverter.makeHtml(objectJsonConfigMap[field]['description']);
-                    fieldMap['type'] = objectJsonConfigMap[field]['type']    
-                    stripeObjectMappings[0].fields.push(fieldMap)
-                    stripeObjectMappings[0].fields.sort(function(a, b) {
-                        return a.name.localeCompare(b.name);
-                    });
-
-                }
-            } else if(objectJsonConfigMap[field]['$ref']) {         
-                var expandableSchemaFieldName = objectJsonConfigMap[field]['$ref'].split('/').pop();
-                var  expandableSchemaFieldMap = this.body['components']['schemas'][expandableSchemaFieldName]['properties']
-
-                let newSection = {
-                    label: field.charAt(0).toUpperCase() + field.slice(1).replaceAll('_',' '),
-                    name: field,
-                    description: '',
-                    fields: []
-                }
-                stripeObjectMappings.push(newSection)
-                for (const expandableField in expandableSchemaFieldMap) {
-                    if(expandableSchemaFieldMap[expandableField]['type'] && expandableSchemaFieldMap[expandableField]['type'] !== 'object' && expandableSchemaFieldMap[expandableField]['type'] !== 'array') {
-                        var hashFieldName = expandableField.replaceAll('_',' ')
-                        var hashFieldValue = field+'.'+expandableField;
-                        let fieldExpandableMap = {
-                            name: hashFieldName,
-                            value: hashFieldValue,
-                            description: '',
-                            type: '',
-                            defaultValue: '',
-                            hasOverride: false,
-                            staticValue: false,
-                            hasSfValue: false,
-                            sfValue: '',
-                            sfValueType: ''
-                        };
-                        if(expandableSchemaFieldMap[expandableField]['description'])fieldExpandableMap['description'] = this.markdownConverter.makeHtml(expandableSchemaFieldMap[expandableField]['description']);
-                        fieldExpandableMap['type'] = expandableSchemaFieldMap[expandableField]['type'] 
-                        if(expandableSchemaFieldMap[expandableField]['properties']) {  
-                            stripeObjectMappings = this.checkForNestedProperties(expandableField,expandableSchemaFieldMap,stripeObjectMappings);
-                        } else {
-                             var index = stripeObjectMappings.findIndex(objectSection => {
-                            return objectSection.name === field;
-                            });
-                            if(index) {
-                                stripeObjectMappings[index].fields.push(fieldExpandableMap);
-                            } else {
-                                stripeObjectMappings[stripeObjectMappings.length-1].fields.push(fieldExpandableMap);
-                            }
-                        }
-                    }
-                }
-            } else if(objectJsonConfigMap[field]['anyOf']) {
-                if(objectJsonConfigMap[field]['anyOf'].length && objectJsonConfigMap[field]['anyOf'][0]['$ref']) {         
-                    var  nestedExpandableField = objectJsonConfigMap[field]['anyOf'][0]['$ref'].split('/').pop()
-                    var nestedExpandableFieldMap = this.body['components']['schemas'][nestedExpandableField]['properties']
-                    if(nestedExpandableFieldMap)stripeObjectMappings = this.checkforNestedFields(field,objectJsonConfigMap,stripeObjectMappings, nestedExpandableFieldMap)
-                }
-
-            }        
-        }
-          stripeObjectMappings = stripeObjectMappings.filter(function( section ) {
-            return section.fields.length;
-        });
-          
-        return stripeObjectMappings
-    }
-
-    checkforNestedFields(field, objectJsonConfigMap, stripeObjectMappings, nestedExpandableFieldMap) {
-            let newSection = {
-                label: field.charAt(0).toUpperCase() + field.slice(1).replaceAll('_',' ').replaceAll('.',' '),
-                name: field,
-                description: '',
-                fields: []
-            }
-            stripeObjectMappings.push(newSection)
-            for (const expandableField in nestedExpandableFieldMap) {
-                if(nestedExpandableFieldMap[expandableField]['description']) {
-                    if( (nestedExpandableFieldMap[expandableField]['type'] && nestedExpandableFieldMap[expandableField]['type'] !== 'object' && nestedExpandableFieldMap[expandableField]['type'] !== 'array')) {
-                        var hashFieldName = expandableField.replaceAll('_',' ')
-                        var hashFieldValue = field+'.'+expandableField;
-                        let fieldExpandableMap = {
-                            name: hashFieldName,
-                            value: hashFieldValue,
-                            description: '',
-                            type: '',
-                            defaultValue: '',
-                            hasOverride: false,
-                            staticValue: false,
-                            hasSfValue: false,
-                            sfValue: '',
-                            sfValueType: ''
-                        };
-
-
-                        fieldExpandableMap['description'] = this.markdownConverter.makeHtml(nestedExpandableFieldMap[expandableField]['description']);
-                        fieldExpandableMap['type'] = nestedExpandableFieldMap[expandableField]['type']  
-                        
-                        stripeObjectMappings[stripeObjectMappings.length-1].fields.sort(function(a, b) {
-                            return a.name.localeCompare(b.name);
-                        });
-
-                        var index = stripeObjectMappings.findIndex(objectSection => {
-                            return objectSection.name === field;
-                        });
-                        if(index) {
-                            stripeObjectMappings[index].fields.push(fieldExpandableMap);
-                        } else {
-                            stripeObjectMappings[stripeObjectMappings.length-1].fields.push(fieldExpandableMap);
-                        }
-                    }
-                } else {
-                    //HERE WE EXPLICTLY EXCLUDE NESTED (I.E Shipping.Adresss.Countty)
-                    if(this.body['components']['schemas'][expandableField]['properties'] && expandableField !== 'coupon') {
-                        var newNestedExpandableFieldMap = this.body['components']['schemas'][expandableField]['properties'];
-                        var newNestedFieldName = field+'.'+expandableField.charAt(0).toUpperCase() + expandableField.slice(1).replaceAll('_',' ');
-                        stripeObjectMappings = this.checkforNestedFields(newNestedFieldName,objectJsonConfigMap,stripeObjectMappings, newNestedExpandableFieldMap);
-                    }
-                }
-            }
-        
-        return stripeObjectMappings; 
-    }
-    
     @api async getPicklistValuesForMapper(isConnectedCallback, ObjectName, isMetadataRow, targetElement) {
         this.loading = true;
         try {

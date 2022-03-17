@@ -23,7 +23,7 @@ public with sharing class constants {
     public static FINAL String SALESFORCE_OAUTH_URI = SALESFORCE_BASE_URI + '/services/oauth2';
 
     //Stripe Ruby URIS
-    public static FINAL String RUBY_SERVICE_BASE_URI = 'https://stripe-force.herokuapp.com/v1/';
+    public static FINAL String RUBY_SERVICE_BASE_URI = 'https://stripe-force.herokuapp.com';
 
     //Setup Data Record Name
     public static FINAL String  SETUP_DATA_RECORD_NAME = 'SetupData';
