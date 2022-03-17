@@ -11,6 +11,17 @@ class ActiveSupport::StringInquirer
   def production?; end
 end
 
+# TODO for some reason this class is excluded from the autogen's rbis
+#      hopefully we can remove this hack in the future
+class ActionDispatch::SystemTestCase
+  include ::Capybara::DSL
+  include ::Capybara::Minitest::Assertions
+  include ::ActionDispatch::SystemTesting::TestHelpers::SetupAndTeardown
+  include ::ActionDispatch::SystemTesting::TestHelpers::ScreenshotHelper
+  include ::Minitest::Reportable
+  include ::Minitest::Assertions
+end
+
 class ApplicationIntegrationTest
   # include ActionController::Metal
   def response; end

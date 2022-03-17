@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -eu -o pipefail
+
+if [[ ! -v CI ]]; then
+  echo "This should only be run on CircleCI"
+  exit 1
+fi
+
+# TODO should make the port dynamic
+# TODO https should be used on CI
+
+rg 'https://stripe-force.herokuapp.com' --files-with-matches -g '!bin/*' | \
+  xargs sed -i '' 's|https://stripe-force.herokuapp.com|http://localhost:4000|g'
