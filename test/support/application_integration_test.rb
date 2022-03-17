@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 # typed: true
 
+require_relative './common_helpers'
+
 class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
   include CommonHelpers
 
