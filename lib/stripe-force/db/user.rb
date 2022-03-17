@@ -33,6 +33,17 @@ module StripeForce
       self.feature_flags.map!(&:to_sym)
     end
 
+    sig { returns(String) }
+    def metadata_prefix
+      # only use sandbox prefix when translating to sandbox in livemode
+      # https://stripe.slack.com/archives/netsuite/p1446678774000004
+      if self.sandbox? && self.livemode
+        "salesforce_sandbox_"
+      else
+        "salesforce_"
+      end
+    end
+
     def sf_client
       @client ||= Restforce.new(
         oauth_token: salesforce_token,

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 # typed: true
 
+require_relative './utilities/metadata'
+
 class StripeForce::Translate
   extend T::Sig
 
@@ -9,6 +11,7 @@ class StripeForce::Translate
   include Integrations::Utilities::Currency
 
   include StripeForce::Constants
+  include StripeForce::Utilities::Metadata
 
   def self.perform(user:, sf_object:, locker:)
     interactor = self.new(user, locker)
@@ -48,19 +51,18 @@ class StripeForce::Translate
     create_product_from_sf_product(sf_product)
   end
 
-  def sf_metadata(sf_object)
-    {
-      salesforce_id: sf_object.Id,
-      salesforce_url: "#{@user.sf_endpoint}/#{sf_object.Id}",
-    }
+  def translate_account(sf_account)
+    raise 'creating customers from an order reference is all that is supported right now'
   end
 
   def create_customer_from_sf_order(sf_order)
-    # opportunity, instead of contact/customer, is used here since {customer, contact} pairs don't map to Stripe a customer`
+    # opportunity, instead of contact/customer, is used here since {account, contact} pairs don't map to Stripe a customer`
     # each oppt can use a unique contact/customer pair, this feels like the best fit for now
     sf_quote = sf.find(CPQ_QUOTE, sf_order[CPQ_QUOTE])
     sf_opportunity = sf.find('Opportunity', sf_quote[CPQ_QUOTE_OPPORTUNITY])
 
+    # TODO most likely we are going to have to support multiple customer mappings
+    # TODO not sure if we should use a generic Stripe ID field here, maybe something specific since this is an edge case?
     stripe_customer_id = sf_opportunity[GENERIC_STRIPE_ID]
     if !stripe_customer_id.nil?
       return Stripe::Customer.retrieve(stripe_customer_id, @user.stripe_credentials)
@@ -69,10 +71,14 @@ class StripeForce::Translate
     sf_account = sf.find('Account', sf_order.AccountId)
     sf_primary_contact = sf.find('Contact', sf_quote[CPQ_QUOTE_PRIMARY_CONTACT])
 
+    extract_salesforce_params!(sf_account, {
+      name: 'Name',
+    })
+
     customer = Stripe::Customer.create({
       email: sf_primary_contact.Email,
       name: sf_account.Name,
-      metadata: sf_metadata(sf_opportunity),
+      metadata: stripe_metadata_for_sf_object(sf_opportunity),
     }, @user.stripe_credentials)
 
     sf.update!('Opportunity', {
@@ -95,7 +101,7 @@ class StripeForce::Translate
       id: sf_product.Id,
       name: sf_product.Name,
       description: sf_product.Description,
-      metadata: sf_metadata(sf_product),
+      metadata: stripe_metadata_for_sf_object(sf_product),
     }, @user.stripe_credentials)
 
     sf.update!(SF_PRODUCT, 'Id' => sf_product.Id, GENERIC_STRIPE_ID => stripe_product.id)
@@ -103,6 +109,7 @@ class StripeForce::Translate
     stripe_product
   end
 
+  # TODO this is defined globally in SF and needs to be pulled dynamically from our configuration
   def sf_cpq_term_interval
     @user.connector_settings['cpq_term_interval']
   end
@@ -133,6 +140,10 @@ class StripeForce::Translate
       # TODO this will probably require us to use `unit_price_decimal` on the price
       raise 'float prices with more than two decimals of precision are not supported'
     end
+
+    # TODO detect billing type
+    # https://help.salesforce.com/s/articleView?id=sf.cpq_order_product_fields.htm&type=5
+    # if billing type = 'metered/areers'
 
     # TODO shouldn't be `to_s`ing this here, need to determine if SF is sending this as a float or what
     unit_price_for_stripe = normalize_float_amount_for_stripe(sf_pricebook_entry.UnitPrice.to_s, @user)
@@ -194,7 +205,7 @@ class StripeForce::Translate
       # using a `lookup_key` here would allow users to easily update prices
       # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
 
-      metadata: sf_metadata(sf_pricebook_entry),
+      metadata: stripe_metadata_for_sf_object(sf_pricebook_entry),
     }.merge(optional_params), @user.stripe_credentials)
 
     # TODO should probably figure out the best pattern here and wrap this
@@ -302,6 +313,7 @@ class StripeForce::Translate
         end_behavior: 'cancel',
 
         phases: [
+          # TODO we should map this, and probably add it to the data mapper
           {
             items: stripe_prices,
             # TODO we should ensure integer terms in SF
@@ -314,7 +326,7 @@ class StripeForce::Translate
         # collection_method: 'send_invoice',
         # days_until_due: 30
 
-        metadata: sf_metadata(sf_order),
+        metadata: stripe_metadata_for_sf_object(sf_order),
       }, @user.stripe_credentials)
 
       # TODO should we propogate the metadata down to the subscription?
@@ -338,7 +350,7 @@ class StripeForce::Translate
 
       stripe_transaction = Stripe::Invoice.create({
         customer: stripe_customer,
-        metadata: sf_metadata(sf_order),
+        metadata: stripe_metadata_for_sf_object(sf_order),
 
         collection_method: 'send_invoice',
         days_until_due: 30,

@@ -17,9 +17,8 @@ class Critic::ProductTranslation < Critic::FunctionalTest
 
     stripe_product = StripeForce::Translate.perform(user: @user, sf_object: sf_product, locker: @locker)
 
-    # TODO this will break when we create dynamic
-    refute_nil(stripe_product.metadata['salesforce_id'])
-    refute_nil(stripe_product.metadata['salesforce_url'])
+    assert_match(sf_product_id, stripe_product.metadata['salesforce_product2_link'])
+    assert_equal(stripe_product.metadata['salesforce_product2_id'], sf_product_id)
 
     assert_equal(stripe_product.id, sf_product_id)
     assert_equal(stripe_product.description, sf_product.Description)

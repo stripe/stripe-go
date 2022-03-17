@@ -24,7 +24,8 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     external_id = "standalone-product-id-#{price}"
 
     # TODO we should add a field to track the external ID
-    # sf.find(SF_PRODUCT, external_id, 'THE_FIELD')
+    # product_id = sf.find(SF_PRODUCT, external_id, 'THE_FIELD__C')
+    # return product_id if product_id
 
     # blanking out the subscription type ensures it is a one-time product
     product_id = create_salesforce_product(additional_fields: {
@@ -37,11 +38,11 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   end
 
   # https://github.com/sseixas/CPQ-JS
-  def create_salesforce_order(sf_product_id: nil, sf_pricebook_id: nil, additional_order_fields: {})
+  def create_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, additional_order_fields: {})
     sf_pricebook_id ||= default_pricebook_id
+    sf_account_id ||= create_salesforce_account
 
-    account_id = create_salesforce_account
-    opportunity_id = create_salesforce_opportunity(sf_account_id: account_id)
+    opportunity_id = create_salesforce_opportunity(sf_account_id: sf_account_id)
     contact_id = create_salesforce_contact
 
     # you can create a quote without *any* fields, which seems completely silly
@@ -52,6 +53,10 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       'SBQQ__PrimaryContact__c' => contact_id,
       'SBQQ__PricebookId__c' => sf_pricebook_id,
     }.merge(additional_order_fields))
+
+    # this error indicates that the SF account disconnected from the steelbrick REST service
+    # reauth via: https://brick-rest.steelbrick.com/oauth/auth
+    # Restforce::ErrorCode::ApexError: APEX_ERROR: SBQQ.RestClient.RefreshTokenNilException: Invalid nil argument: OAuth Refresh Token
 
     # https://developer.salesforce.com/docs/atlas.en-us.cpq_api_dev.meta/cpq_api_dev/cpq_api_read_quote.htm
     # get CPQ version of the quote
@@ -65,6 +70,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       }.to_json,
     }).body)
 
+    # TODO how can I specify quantity?
     # https://gist.github.com/paustint/bd18bd281134a180e014829b49ed043a
     quote_with_product = JSON.parse(sf.patch('/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.QuoteAPI.QuoteProductAdder', {
       context: {
@@ -142,11 +148,14 @@ class Critic::OrderTranslation < Critic::FunctionalTest
 
   it 'integrates a subscription order' do
     price = 240_00
+
     sf_product_id = create_salesforce_product
     sf_pricebook_entry_id = create_salesforce_price(sf_product_id: sf_product_id, price: price)
 
+    sf_account_id = create_salesforce_account
     sf_order = create_salesforce_order(
       sf_product_id: sf_product_id,
+      sf_account_id: sf_account_id,
 
       additional_order_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => "2021-10-01",
@@ -156,25 +165,51 @@ class Critic::OrderTranslation < Critic::FunctionalTest
 
     SalesforceTranslateRecordJob.translate(@user, sf_order)
 
-    # TODO add refresh to library
-    sf_order = sf.find('Order', sf_order.Id)
+    # TODO add `refresh` to salesforce library
+    sf_order = sf.find(SF_ORDER, sf_order.Id)
+    sf_product = sf.find(SF_PRODUCT, sf_product_id)
+    sf_pricebook_entry = sf.find(SF_PRICEBOOK_ENTRY, sf_pricebook_entry_id)
 
     stripe_id = sf_order[GENERIC_STRIPE_ID]
     subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
     customer = Stripe::Customer.retrieve(T.cast(subscription_schedule.customer, String), @user.stripe_credentials)
-    # line = subscription.items.first
 
+    # basic customer creation check
+    refute_empty(customer.name)
+    refute_empty(customer.email)
+
+    assert_match(sf_order.OpportunityId, customer.metadata['salesforce_opportunity_link'])
+    assert_equal(customer.metadata['salesforce_opportunity_id'], sf_order.OpportunityId)
     # TODO customer address assertions once mapping is complete
+
+    # top level subscription fields
+    assert_match(sf_order.Id, subscription_schedule.metadata['salesforce_order_link'])
+    assert_equal(subscription_schedule.metadata['salesforce_order_id'], sf_order.Id)
+
+    # line-level subscription phase data
+    assert_equal(1, subscription_schedule.phases.count)
+    phase = T.must(subscription_schedule.phases.first)
+
+    assert_equal(1, phase.items.count)
+    phase_item = T.must(phase.items.first)
+    assert_equal(sf_pricebook_entry[GENERIC_STRIPE_ID], phase_item.plan)
+    assert_equal(sf_pricebook_entry[GENERIC_STRIPE_ID], phase_item.price)
+    assert_equal(1, phase_item.quantity)
 
     invoices = Stripe::Invoice.list({subscription: subscription_schedule.subscription}, @user.stripe_credentials)
 
     assert_equal(1, invoices.count)
     invoice = invoices.first
 
+    # the stripe invoice is not 1:1 linked with any SF record
+    assert_empty(invoice.metadata.to_h)
+
     # should be two lines since we are backdating the invoice
     assert_equal(2, invoice.lines.count)
 
-    line = invoice.lines.data[-1]
+    # TODO test first line as well
+
+    line = invoice.lines.data.last
     assert_equal(1, line.quantity)
     assert_equal(price, line.amount)
 
@@ -186,6 +221,10 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     assert_equal("month", stripe_price.recurring.interval)
     assert_equal(1, stripe_price.recurring.interval_count)
     assert_equal("licensed", stripe_price.recurring.usage_type)
+
+    assert_match(@user.salesforce_instance_url, stripe_price.metadata['salesforce_pricebook_entry_link'])
+    assert_match(sf_pricebook_entry_id, stripe_price.metadata['salesforce_pricebook_entry_link'])
+    assert_equal(stripe_price.metadata['salesforce_pricebook_entry_id'], sf_pricebook_entry_id)
   end
 
   describe 'failures' do

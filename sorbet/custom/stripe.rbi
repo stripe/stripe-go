@@ -13,6 +13,24 @@ class Stripe::Customer
   def currency; end
 end
 
+# these are NOT the exact same structure as a subscription item
+# TODO report this as a bug, this is confusing
+class Stripe::SubscriptionSchedulePhaseSubscriptionItem
+  sig { returns(String) }
+  def price; end
+
+  sig { returns(String) }
+  def plan; end
+
+  sig { returns(Integer) }
+  def quantity; end
+end
+
+class Stripe::SubscriptionSchedulePhase
+  sig { returns(T::Array[Stripe::SubscriptionSchedulePhaseSubscriptionItem])}
+  def items; end
+end
+
 class Stripe::SubscriptionScheduleSettings
   sig { returns(String) }
   def collection_method; end
@@ -28,6 +46,9 @@ class Stripe::SubscriptionSchedule
   # TODO can this be nil in specific situations?
   sig { returns(T.any(Stripe::Subscription, String))}
   def subscription; end
+
+  sig { returns(T::Array[Stripe::SubscriptionSchedulePhase])}
+  def phases; end
 
   sig { returns(Stripe::SubscriptionSchedule).params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
   def self.retrieve(id, opts={}); end
