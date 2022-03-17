@@ -6,6 +6,7 @@ export default class SystemConnectionsStep extends LightningElement {
     @track stripeComplete = false;
     @track connectWindow;
     @track isSandbox;
+    @track rubyBaseURI = 'https://stripe-force.herokuapp.com'; 
     @api hideAction = false;
 
     connectedCallback() {
@@ -13,10 +14,9 @@ export default class SystemConnectionsStep extends LightningElement {
     }
 
     stripeConnectedAppCallback() {
-        const rubyServiceAuthOriginURI = 'https://stripe-force.herokuapp.com';
         this.validateConnectionStatus(true);
         this.postMessageListener = (event) => {
-            if(event.origin === rubyServiceAuthOriginURI && event.data === 'connectionSuccessful') {
+            if(event.origin === this.rubyBaseURI && event.data === 'connectionSuccessful') {
                 this.connectWindow.close();
                 this.validateConnectionStatus(false);
             }  
@@ -29,8 +29,7 @@ export default class SystemConnectionsStep extends LightningElement {
     }
 
     connectToStripe(event) {
-        const rubyAuthURI = 'https://stripe-force.herokuapp.com/auth/'; 
-        this.connectWindow = this.isSandbox ? window.open(rubyAuthURI + 'salesforcesandbox', '"_blank"') : window.open(rubyAuthURI + 'salesforce', '"_blank"');
+        this.connectWindow = this.isSandbox ? window.open(this.rubyBaseURI + '/auth/salesforcesandbox', '"_blank"') : window.open(this.rubyBaseURI + '/auth/salesforce', '"_blank"');
     }
 
     async validateConnectionStatus(isConnectedCallback) {
