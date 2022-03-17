@@ -1,19 +1,7 @@
 const HTTPS = require('https')
 const showdown = require('showdown');
 const markdownConverter = new showdown.Converter();
-const listOfExcludedReadOnlyFields = [
-    'created',
-    // TODO excluding this field is causing an error
-    // 'object',
-    'livemode',
-
-    // customer
-    'delinquent',
-    'discount'
-];
-
 const excludedReadOnlyFields = {
-    // special key that applies to all objects
     all: [
         'created',
         'object',
@@ -23,7 +11,15 @@ const excludedReadOnlyFields = {
     customer: [
         'delinquent',
         'discount'
-    ]
+    ],
+
+    product: [],
+
+    subscription: [],
+
+    subscription_item: [],
+
+    price: [],
 }
 
 const OPTIONS = {
@@ -41,11 +37,11 @@ const HTTPREQUEST = HTTPS.request(OPTIONS, HttpResponse => {
     HttpResponse.on('end', () => {
         responseJson = JSON.parse(responseJson);
         var formattedStripeObjectsForMapper = {
-            formattedStripeCustomerFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['customer']['properties']),
-            formattedStripeProductItemFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['product']['properties']),
-            formattedStripeSubscriptionFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['subscription']['properties']),
-            formattedStripeSubscriptionItemFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['subscription_item']['properties']),
-            formattedStripePriceFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['price']['properties'])
+            formattedStripeCustomerFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['customer']['properties'], excludedReadOnlyFields.customer),
+            formattedStripeProductItemFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['product']['properties'], excludedReadOnlyFields.product),
+            formattedStripeSubscriptionFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['subscription']['properties'], excludedReadOnlyFields.subscription),
+            formattedStripeSubscriptionItemFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['subscription_item']['properties'], excludedReadOnlyFields.subscription_item),
+            formattedStripePriceFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['price']['properties'], excludedReadOnlyFields.price)
         };
         formattedStripeObjectsForMapper = JSON.stringify(formattedStripeObjectsForMapper);
         console.log(formattedStripeObjectsForMapper);
@@ -59,7 +55,7 @@ HTTPREQUEST.on('error', error => {
 
 HTTPREQUEST.end();
 
-function formatStripeObjectsForMapper(stripeObjectToFormat) {
+function formatStripeObjectsForMapper(stripeObjectToFormat, objectExcludedReadOnlyFields) {
     var stripeObjectMappings = [{
         label: 'Standard Mappings',
         name: 'standard',
@@ -67,7 +63,7 @@ function formatStripeObjectsForMapper(stripeObjectToFormat) {
         fields: []
     }];
     for (const field in stripeObjectToFormat) {
-        if (!stripeObjectToFormat[field]['$ref'] && !stripeObjectToFormat[field]['anyOf'] && !listOfExcludedReadOnlyFields.includes(field)) {
+        if (!stripeObjectToFormat[field]['$ref'] && !stripeObjectToFormat[field]['anyOf'] && !excludedReadOnlyFields.all.includes(field) && !objectExcludedReadOnlyFields.includes(field)) {
             if (stripeObjectToFormat[field]['type'] && stripeObjectToFormat[field]['type'] !== 'object' && stripeObjectToFormat[field]['type'] !== 'array') {
                 var fieldMap = {
                     name: field.replace(/_+/g, ' '),
@@ -103,7 +99,7 @@ function formatStripeObjectsForMapper(stripeObjectToFormat) {
 
             for (const expandableField in expandableSchemaFieldMap) {
                 if (expandableSchemaFieldMap[expandableField]['type'] && expandableSchemaFieldMap[expandableField]['type'] !== 'object'
-                && expandableSchemaFieldMap[expandableField]['type'] !== 'array' && !listOfExcludedReadOnlyFields.includes(expandableField)) {
+                && expandableSchemaFieldMap[expandableField]['type'] !== 'array' && !excludedReadOnlyFields.all.includes(expandableField) && !objectExcludedReadOnlyFields.includes(expandableField)) {
                     var hashFieldName = expandableField.replace(/_+/g, ' ');
                     var hashFieldValue = field + '.' + expandableField;
                     let fieldExpandableMap = {
@@ -141,7 +137,7 @@ function formatStripeObjectsForMapper(stripeObjectToFormat) {
                 var nestedExpandableField = stripeObjectToFormat[field]['anyOf'][0]['$ref'].split('/').pop();
                 var nestedExpandableFieldMap = responseJson['components']['schemas'][nestedExpandableField]['properties'];
                 if (nestedExpandableFieldMap) {
-                    stripeObjectMappings = checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings, nestedExpandableFieldMap);
+                    stripeObjectMappings = checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings, nestedExpandableFieldMap, objectExcludedReadOnlyFields);
                 }
             }
         }
@@ -152,7 +148,7 @@ function formatStripeObjectsForMapper(stripeObjectToFormat) {
     return stripeObjectMappings;
 }
 
-function checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings, nestedExpandableFieldMap) {
+function checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings, nestedExpandableFieldMap, objectExcludedReadOnlyFields) {
     const NEWSECTION = {
         label: field.charAt(0).toUpperCase() + field.slice(1).replace(/_+/g, ' ').replace(/\./g, ' '),
         name: field,
@@ -161,7 +157,7 @@ function checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings,
     };
     stripeObjectMappings.push(NEWSECTION);
     for (const expandableField in nestedExpandableFieldMap) {
-        if (nestedExpandableFieldMap[expandableField]['description'] && !listOfExcludedReadOnlyFields.includes(expandableField)) {
+        if (nestedExpandableFieldMap[expandableField]['description'] && !excludedReadOnlyFields.all.includes(expandableField) && !objectExcludedReadOnlyFields.includes(expandableField)) {
             if ((nestedExpandableFieldMap[expandableField]['type'] && nestedExpandableFieldMap[expandableField]['type'] !== 'object'
             && nestedExpandableFieldMap[expandableField]['type'] !== 'array')) {
                 var hashFieldName = expandableField.replace(/_+/g, ' ');
@@ -194,10 +190,11 @@ function checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings,
                 }
             }
         } else {
-            if (responseJson['components']['schemas'][expandableField]['properties'] && expandableField !== 'coupon') {
+            if (responseJson['components']['schemas'][expandableField] && responseJson['components']['schemas'][expandableField]['properties'] 
+            && expandableField !== 'coupon'&& !excludedReadOnlyFields.all.includes(expandableField) && !objectExcludedReadOnlyFields.includes(expandableField)) {
                 var newNestedExpandableFieldMap = responseJson['components']['schemas'][expandableField]['properties'];
                 var newNestedFieldName = field + '.' + expandableField.charAt(0).toUpperCase() + expandableField.slice(1).replace(/_+/g, ' ');
-                stripeObjectMappings = checkforNestedFields(newNestedFieldName, stripeObjectToFormat, stripeObjectMappings, newNestedExpandableFieldMap);
+                stripeObjectMappings = checkforNestedFields(newNestedFieldName, stripeObjectToFormat, stripeObjectMappings, newNestedExpandableFieldMap, objectExcludedReadOnlyFields);
             }
         }
     }

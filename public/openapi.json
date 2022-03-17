@@ -102,18 +102,6 @@
           "sfValueType": ""
         },
         {
-          "name": "object",
-          "value": "object",
-          "description": "<p>String representing the object's type. Objects of the same type share the same value.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
           "name": "phone",
           "value": "phone",
           "description": "<p>The customer's phone number.</p>",
@@ -275,18 +263,6 @@
           "name": "invoice item",
           "value": "discount.invoice_item",
           "description": "<p>The invoice item <code>id</code> (or invoice line item <code>id</code> for invoice line items of type='subscription') that the discount's coupon was applied to, if it was applied directly to a particular invoice item or invoice line item.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "object",
-          "value": "discount.object",
-          "description": "<p>String representing the object's type. Objects of the same type share the same value.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -552,18 +528,6 @@
           "name": "name",
           "value": "name",
           "description": "<p>The product's name, meant to be displayable to the customer. Whenever this product is sold via a subscription, name will show up on associated invoice line item descriptions.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "object",
-          "value": "object",
-          "description": "<p>String representing the object's type. Objects of the same type share the same value.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -841,18 +805,6 @@
           "sfValueType": ""
         },
         {
-          "name": "object",
-          "value": "object",
-          "description": "<p>String representing the object's type. Objects of the same type share the same value.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
           "name": "start date",
           "value": "start_date",
           "description": "<p>Date when the subscription was first created. The date might differ from the <code>created</code> date due to backdating.</p>",
@@ -1009,18 +961,6 @@
           "name": "invoice item",
           "value": "discount.invoice_item",
           "description": "<p>The invoice item <code>id</code> (or invoice line item <code>id</code> for invoice line items of type='subscription') that the discount's coupon was applied to, if it was applied directly to a particular invoice item or invoice line item.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "object",
-          "value": "discount.object",
-          "description": "<p>String representing the object's type. Objects of the same type share the same value.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -1211,18 +1151,6 @@
           "sfValueType": ""
         },
         {
-          "name": "object",
-          "value": "object",
-          "description": "<p>String representing the object's type. Objects of the same type share the same value.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
           "name": "quantity",
           "value": "quantity",
           "description": "<p>The <a href=\"https://stripe.com/docs/subscriptions/quantities\">quantity</a> of the plan to which the customer should be subscribed.</p>",
@@ -1336,18 +1264,6 @@
           "name": "nickname",
           "value": "price.nickname",
           "description": "<p>A brief description of the price, hidden from customers.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "object",
-          "value": "price.object",
-          "description": "<p>String representing the object's type. Objects of the same type share the same value.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -1489,18 +1405,6 @@
           "name": "nickname",
           "value": "nickname",
           "description": "<p>A brief description of the price, hidden from customers.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "object",
-          "value": "object",
-          "description": "<p>String representing the object's type. Objects of the same type share the same value.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
