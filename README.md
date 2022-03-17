@@ -18,8 +18,8 @@ Then, reference stripe-go in a Go program with `import`:
 
 ``` go
 import (
-    "github.com/stripe/stripe-go/v72"
-    "github.com/stripe/stripe-go/v72/customer"
+	"github.com/stripe/stripe-go/v72"
+	"github.com/stripe/stripe-go/v72/customer"
 )
 ```
 
@@ -28,7 +28,7 @@ toolchain will resolve and fetch the stripe-go module automatically.
 
 Alternatively, you can also explicitly `go get` the package into a project:
 
-```
+```bash
 go get -u github.com/stripe/stripe-go/v72
 ```
 
@@ -48,18 +48,19 @@ Below are a few simple examples:
 
 ```go
 params := &stripe.CustomerParams{
-	Description: stripe.String("Stripe Developer"),
-	Email:       stripe.String("gostripe@stripe.com"),
+	Description:      stripe.String("Stripe Developer"),
+	Email:            stripe.String("gostripe@stripe.com"),
+	PreferredLocales: stripe.StringSlice([]string{"en", "es"}),
 }
 
-customer, err := customer.New(params)
+c, err := customer.New(params)
 ```
 
 ### PaymentIntents
 
 ```go
 params := &stripe.PaymentIntentListParams{
-    Customer: stripe.String(customer.ID),
+	Customer: stripe.String(customer.ID),
 }
 
 // set this so you can easily retry your request in case of a timeout
@@ -147,20 +148,20 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-        c := appengine.NewContext(r)
-        httpClient := urlfetch.Client(c)
+	c := appengine.NewContext(r)
+	httpClient := urlfetch.Client(c)
 
-        sc := stripeClient.New("sk_test_123", stripe.NewBackends(httpClient))
+	sc := stripeClient.New("sk_test_123", stripe.NewBackends(httpClient))
 
-        params := &stripe.CustomerParams{
-            Description: stripe.String("Stripe Developer"),
-            Email:       stripe.String("gostripe@stripe.com"),
-        }
-        customer, err := sc.Customers.New(params)
-        if err != nil {
-            fmt.Fprintf(w, "Could not create customer: %v", err)
-        }
-        fmt.Fprintf(w, "Customer created: %v", customer.ID)
+	params := &stripe.CustomerParams{
+		Description: stripe.String("Stripe Developer"),
+		Email:       stripe.String("gostripe@stripe.com"),
+	}
+	customer, err := sc.Customers.New(params)
+	if err != nil {
+		fmt.Fprintf(w, "Could not create customer: %v", err)
+	}
+	fmt.Fprintf(w, "Customer created: %v", customer.ID)
 }
 ```
 
@@ -254,7 +255,7 @@ Use `LastResponse` on any `APIResource` to look at the API response that
 generated the current object:
 
 ``` go
-coupon, err := coupon.New(...)
+c, err := coupon.New(...)
 requestID := coupon.LastResponse.RequestID
 ```
 
@@ -378,9 +379,9 @@ identified using `stripe.SetAppInfo`:
 
 ```go
 stripe.SetAppInfo(&stripe.AppInfo{
-    Name:    "MyAwesomePlugin",
-    URL:     "https://myawesomeplugin.info",
-    Version: "1.2.34",
+	Name:    "MyAwesomePlugin",
+	URL:     "https://myawesomeplugin.info",
+	Version: "1.2.34",
 })
 ```
 
