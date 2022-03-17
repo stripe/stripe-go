@@ -107,10 +107,12 @@ public with sharing class setupAssistant {
         responseData rd = new responseData();
         try {
             //gets custom setting record to determin if we are in a sandbox or production org
-            rd.put('isSandbox',constants.IS_SANDBOX);
+            rd.put('isSandbox', constants.IS_SANDBOX);
+            rd.put('salesforceNamespace', constants.NAMESPACE);
 
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
 
+            // checks if we have a package-level API key generated
             if(stripeConnectRec.Id != null) {
                 /*checks to see if the user is already connected this runs on render of the component 
                 by passing a boolean param to denote this is being called on render*/

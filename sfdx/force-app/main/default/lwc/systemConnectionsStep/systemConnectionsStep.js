@@ -6,7 +6,8 @@ export default class SystemConnectionsStep extends LightningElement {
     @track stripeComplete = false;
     @track connectWindow;
     @track isSandbox;
-    @track rubyBaseURI = 'https://stripe-force.herokuapp.com'; 
+    @track rubyBaseURI = 'https://stripe-force.herokuapp.com';
+    @track salesforceNamespace;
     @api hideAction = false;
 
     connectedCallback() {
@@ -19,8 +20,8 @@ export default class SystemConnectionsStep extends LightningElement {
             if(event.origin === this.rubyBaseURI && event.data === 'connectionSuccessful') {
                 this.connectWindow.close();
                 this.validateConnectionStatus(false);
-            }  
-        }  
+            }
+        }
         window.addEventListener("message", this.postMessageListener.bind(this));
     }
 
@@ -29,7 +30,17 @@ export default class SystemConnectionsStep extends LightningElement {
     }
 
     connectToStripe(event) {
-        this.connectWindow = this.isSandbox ? window.open(this.rubyBaseURI + '/auth/salesforcesandbox', '"_blank"') : window.open(this.rubyBaseURI + '/auth/salesforce', '"_blank"');
+        let oauthConnectionURL = this.rubyBaseURI;
+
+        if(this.isSandbox) {
+            oauthConnectionURL += '/auth/salesforcesandbox'
+        } else {
+            oauthConnectionURL += '/auth/salesforce'
+        }
+
+        oauthConnectionURL += "?salesforceNamespace=" + this.salesforceNamespace
+
+        this.connectWindow = window.open(oauthConnectionURL, '"_blank"');
     }
 
     async validateConnectionStatus(isConnectedCallback) {
@@ -37,11 +48,14 @@ export default class SystemConnectionsStep extends LightningElement {
         try {
             const validateConnection = await validateConnectionStatus({
                 isConnectedCallback : isConnectedCallback
-            }); 
-            this.data =  JSON.parse(validateConnection);
-            if(this.data.isSuccess) {
-                let isConnected = this.data.results.isConnected;
-                this.isSandbox = this.data.results.isSandbox
+            });
+            const responseData = JSON.parse(validateConnection);
+
+            if(responseData.isSuccess) {
+                const isConnected = responseData.results.isConnected;
+                this.isSandbox = responseData.results.isSandbox
+                this.salesforceNamespace = responseData.results.salesforceNamespace
+
                 if (isConnected === 'fresh') {
                     this.salesforceComplete = true;
                     this.stripeComplete = true;
@@ -59,13 +73,13 @@ export default class SystemConnectionsStep extends LightningElement {
                     this.salesforceComplete = true;
                     this.stripeComplete = true;
                     this.dispatchEvent(new CustomEvent("enablenext"));
-                } 
-            } else { 
-                this.showToast(this.data.error, 'error', 'sticky');
+                }
+            } else {
+                this.showToast(responseData.error, 'error', 'sticky');
             }
         } catch (error) {
             this.showToast(error.message, 'error', 'sticky');
-        } 
+        }
     }
 
     showToast(message, variant, mode) {
