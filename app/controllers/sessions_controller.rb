@@ -143,7 +143,7 @@ class SessionsController < ApplicationController
     case raw_namespace
     when nil, ""
       "stripeConnector"
-    when "c", "stripeConnector", "stripeConnectorQA"
+    when "c", "stripeConnector", "stripeConnectQA"
       raw_namespace
     else
       raise "unexpected namespace #{raw_namespace}"
