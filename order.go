@@ -204,7 +204,7 @@ type Shipping struct {
 // defined [products](https://stripe.com/docs/api#products). You can create, retrieve, and pay individual orders, as well
 // as list all orders. Orders are identified by a unique, random ID.
 //
-// Related guide: [Tax, Shipping, and Inventory](https://stripe.com/docs/orders).
+// Related guide: [Tax, Shipping, and Inventory](https://stripe.com/docs/orders-legacy).
 type Order struct {
 	APIResource
 	// A positive integer in the smallest currency unit (that is, 100 cents for $1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount for the order.
