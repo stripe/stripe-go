@@ -167,11 +167,28 @@ class SessionsControllerTest < ApplicationIntegrationTest
     assert_includes(response.body, "document.getElementById('js-submission').submit()")
   end
 
-  it 'submits a POST request if a GET method is used to initiate oauth' do
-    get omniauth_path(:salesforce)
+  describe 'initial login redirect' do
+    it 'submits a POST request and persists namespace if a GET method is used to initiate oauth' do
+      get omniauth_path(:salesforce, salesforceNamespace: "c")
 
-    assert_response :success
-    assert_post_redirect(omniauth_path(:salesforce))
+      assert_response :success
+      assert_post_redirect(omniauth_path(:salesforce))
+      assert_equal("c", session[:salesforce_namespace])
+    end
+
+    it 'submits a POST request with a default namespace if one is not defined' do
+      get omniauth_path(:salesforce)
+
+      assert_response :success
+      assert_post_redirect(omniauth_path(:salesforce))
+      assert_equal("stripeConnector", session[:salesforce_namespace])
+    end
+
+    it 'fails if an invalid namespace is provided' do
+      get omniauth_path(:salesforce, salesforceNamespace: "invalid")
+
+      assert_response :error
+    end
   end
 
   it 'creates a new user when it is authorized with salesforce' do
@@ -198,6 +215,9 @@ class SessionsControllerTest < ApplicationIntegrationTest
   end
 
   it 'updates the stripe account id after the stripe account is authenticated' do
+    # in order to set the session, which cannot be set via the test suite
+    get omniauth_path(:salesforce, salesforceNamespace: "c")
+
     user = create_post_install_user
 
     mock_omniauth_salesforce
@@ -212,6 +232,8 @@ class SessionsControllerTest < ApplicationIntegrationTest
 
     user = T.must(StripeForce::User[user.id])
     assert_equal(OmniAuth.config.mock_auth[:stripe]["uid"], user.stripe_account_id)
+
+    assert_includes(response.body, "--c")
   end
 
   it 'updates an existing user with stripe oauth information if the account is already authorized with salesforce' do

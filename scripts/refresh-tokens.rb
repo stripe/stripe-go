@@ -39,6 +39,6 @@ puts shell_vars
 if Rails.env.development?
   shell_vars.split("\n").each do |var|
     name, value = var.split("=", 2)
-    `sed -i '' -e 's/#{name}.*/#{name}=#{value}/' '.env'`
+    `sed -i '' -e 's/^#{name}.*/#{name}=#{value}/' '.env'`
   end
 end

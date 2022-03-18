@@ -1,0 +1,5 @@
+# https://salesforce.stackexchange.com/questions/67766/how-to-get-sobject-type-from-object-id-using-rest-api
+getSObjectType().getDescribe().getName()
+
+Alternatively, since objects are identified by the first 3 characters of the ID, you could maintain a dictionary of the object prefixes to object names. (documentation)
+Lastly, you can call the GET /sobjects endpoint, which is a standard Salesforce REST endpoint, which returns an array of all the SObjects, each of which contain a keyPrefix parameter, which you could use to match to the ID you’re operating on

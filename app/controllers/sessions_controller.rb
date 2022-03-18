@@ -18,7 +18,14 @@ class SessionsController < ApplicationController
   end
 
   def login_entrypoint
-    render_oauth_post_redirect(params[:oauth_type])
+    oauth_type = params.require(:oauth_type)
+
+    # the namespace can change depending on what SF environment we are in
+    # we need to postMessage to the correct domain when auth is complete
+    salesforce_namespace = subdomain_namespace_from_param(params.permit(:salesforceNamespace)["salesforceNamespace"])
+    session[:salesforce_namespace] = salesforce_namespace
+
+    render_oauth_post_redirect(oauth_type)
   end
 
   def render_oauth_post_redirect(oauth_type)
@@ -78,8 +85,11 @@ class SessionsController < ApplicationController
   def stripe_callback
     user_id = session[:user_id]
 
+    salesforce_namespace = subdomain_namespace_from_param(session[:salesforce_namespace])
+
     if user_id.blank?
-      log.warn 'callback requested with empty user id'
+      log.warn 'callback requested with empty user_id',
+        user_id: user_id
       head :not_found
       return
     end
@@ -110,7 +120,7 @@ class SessionsController < ApplicationController
       <p>Navigate to SalesForce to configure this connector.</p>
     </div>
     <script type="application/javascript">
-    window.opener.postMessage("connectionSuccessful", "https://#{user.sf_subdomain}--stripeConnector.visualforce.com")
+    window.opener.postMessage("connectionSuccessful", "https://#{user.sf_subdomain}--#{salesforce_namespace}.visualforce.com")
     </script>
     EOL
   end
@@ -129,14 +139,14 @@ class SessionsController < ApplicationController
   end
 
   # https://github.com/stripe/stripe-salesforce/pull/171
-  protected def subdomain_namespace
-    case namespace = request.headers[SALESFORCE_PACKAGE_NAMESPACE_HEADER]
-    when nil
-      raise "namespace header is always expected"
-    when ""
-      "c"
+  protected def subdomain_namespace_from_param(raw_namespace)
+    case raw_namespace
+    when nil, ""
+      "stripeConnector"
+    when "c", "stripeConnector", "stripeConnectorQA"
+      raw_namespace
     else
-      namespace
+      raise "unexpected namespace #{raw_namespace}"
     end
   end
 end

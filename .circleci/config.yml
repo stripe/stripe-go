@@ -29,6 +29,7 @@ workflows:
       - rubocop
       - salesforce:
           name: salesforce-<< matrix.account >>
+          requires: ["block_workflow"]
           matrix:
             parameters:
               # https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0

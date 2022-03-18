@@ -24,7 +24,11 @@ end
 
 class ApplicationIntegrationTest
   # include ActionController::Metal
+  # sig { returns(ActionDispatch::TestResponse) }
   def response; end
+
+  sig { returns(ActionDispatch::Request::Session) }
+  def session; end
 
   def https!(flag = nil); end
 
