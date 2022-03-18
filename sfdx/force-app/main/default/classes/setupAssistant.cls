@@ -460,7 +460,7 @@ public with sharing class setupAssistant {
                 if(response.getStatusCode() == 200) {
                     stripeConnectRec.Sync_Record_Retention__c = syncRecordRetention;
                     upsert stripeConnectRec;
-                } {
+                } else {
                     errorLogger.create('saveSyncPreferences', String.valueOf(response.getStatusCode()), (String)response.getStatus(), '');
                 }
             }
