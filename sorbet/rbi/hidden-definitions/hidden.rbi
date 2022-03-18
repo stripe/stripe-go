@@ -38213,6 +38213,7 @@ class StripeForce::User
   include ::Sequel::Plugins::DefaultsSetter::InstanceMethods
   include ::Sequel::Plugins::Serialization::InstanceMethods
   def concurrent_connections(); end
+  def default_mappings(); end
 
   def disable_feature(*args, &blk); end
 

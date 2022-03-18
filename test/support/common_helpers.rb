@@ -13,7 +13,7 @@ module CommonHelpers
     ENV.fetch('SF_INSTANCE_ID')
   end
 
-  sig { params(sandbox: T::Boolean, save: T::Boolean, random_user_id: T::Boolean).returns(StripeForce::User)}
+  sig { params(sandbox: T::Boolean, save: T::Boolean, random_user_id: T::Boolean).returns(StripeForce::User) }
   def make_user(sandbox: false, save: false, random_user_id: false)
     user = StripeForce::User.new(
       livemode: false,

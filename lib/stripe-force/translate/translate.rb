@@ -36,6 +36,8 @@ class StripeForce::Translate
       translate_order(sf_object)
     when SF_PRODUCT
       translate_product(sf_object)
+    when SF_ACCOUNT
+      translate_account(sf_object)
     else
       raise 'only order translation is supported right now'
     end
@@ -55,56 +57,76 @@ class StripeForce::Translate
     raise 'creating customers from an order reference is all that is supported right now'
   end
 
-  def create_customer_from_sf_order(sf_order)
-    # opportunity, instead of contact/customer, is used here since {account, contact} pairs don't map to Stripe a customer`
-    # each oppt can use a unique contact/customer pair, this feels like the best fit for now
-    sf_quote = sf.find(CPQ_QUOTE, sf_order[CPQ_QUOTE])
-    sf_opportunity = sf.find('Opportunity', sf_quote[CPQ_QUOTE_OPPORTUNITY])
-
-    # TODO most likely we are going to have to support multiple customer mappings
-    # TODO not sure if we should use a generic Stripe ID field here, maybe something specific since this is an edge case?
-    stripe_customer_id = sf_opportunity[GENERIC_STRIPE_ID]
-    if !stripe_customer_id.nil?
-      return Stripe::Customer.retrieve(stripe_customer_id, @user.stripe_credentials)
+  def update_sf_stripe_id(sf_object, stripe_object, additional_salesforce_updates: {})
+    if sf_object[GENERIC_STRIPE_ID]
+      log.info 'stripe id already exists on object, overwritting',
+        old_stripe_id: sf_object[GENERIC_STRIPE_ID],
+        new_stripe_id: stripe_object.id
     end
 
-    sf_account = sf.find('Account', sf_order.AccountId)
-    sf_primary_contact = sf.find('Contact', sf_quote[CPQ_QUOTE_PRIMARY_CONTACT])
+    sf.update!(sf_object.sobject_type, {
+      'Id' => sf_object.Id,
+      GENERIC_STRIPE_ID => stripe_object.id,
+    }.merge(additional_salesforce_updates))
 
-    extract_salesforce_params!(sf_account, {
-      name: 'Name',
-    })
+    log.info 'updated with stripe id',
+      sf_resource: sf_object,
+      stripe_id: stripe_object.id
+  end
 
-    customer = Stripe::Customer.create({
-      email: sf_primary_contact.Email,
-      name: sf_account.Name,
-      metadata: stripe_metadata_for_sf_object(sf_opportunity),
-    }, @user.stripe_credentials)
+  def create_stripe_object(stripe_class, sf_object, additional_stripe_params: {})
+    stripe_key = stripe_class.to_s.demodulize.underscore
+    default_mappings = @user.default_mappings[stripe_key]
 
-    sf.update!('Opportunity', {
-      'Id' => sf_opportunity.Id,
-      GENERIC_STRIPE_ID => customer.id,
-    })
+    if default_mappings.nil?
+      raise 'expected mappings but they were nil'
+    end
+
+    stripe_fields = extract_salesforce_params!(sf_object, default_mappings)
+
+    stripe_object = stripe_class.construct_from(additional_stripe_params.merge(stripe_fields))
+    stripe_object.metadata = stripe_metadata_for_sf_object(sf_object)
+
+    apply_mapping(stripe_object, sf_object)
+
+    log.info 'creating stripe object', sf_resource: sf_object
+
+    # there's a decent chance this causes us issues down the road: we shouldn't be using `construct_from`
+    # and then converting the finalized object into a parameters hash. However, without using `construct_from`
+    # we'd have to pass the object type around when mapping which is equally as bad.
+    stripe_object.dirty!
+    stripe_class.create(stripe_object.serialize_params, @user.stripe_credentials)
+  end
+
+  def retrieve_from_stripe(stripe_class, sf_object)
+    begin
+      stripe_class.retrieve(sf_object.Id, @user.stripe_credentials)
+    rescue Stripe::InvalidRequestError => e
+      raise if e.code != 'resource_missing'
+      nil
+    end
+  end
+
+  def create_customer_from_sf_account(sf_account)
+    if (stripe_customer = retrieve_from_stripe(Stripe::Customer, sf_account))
+      return stripe_customer
+    end
+
+    customer = create_stripe_object(Stripe::Customer, sf_account)
+
+    update_sf_stripe_id(sf_account, customer)
 
     customer
   end
 
   def create_product_from_sf_product(sf_product)
-    begin
-      return Stripe::Product.retrieve(sf_product.Id, @user.stripe_credentials)
-    rescue Stripe::InvalidRequestError => e
-      raise if e.code != 'resource_missing'
+    if (stripe_product = retrieve_from_stripe(Stripe::Product, sf_product))
+      return stripe_product
     end
 
-    stripe_product = Stripe::Product.create({
-      # TODO setting custom Ids may not be the best idea here
-      id: sf_product.Id,
-      name: sf_product.Name,
-      description: sf_product.Description,
-      metadata: stripe_metadata_for_sf_object(sf_product),
-    }, @user.stripe_credentials)
+    stripe_product = create_stripe_object(Stripe::Product, sf_product)
 
-    sf.update!(SF_PRODUCT, 'Id' => sf_product.Id, GENERIC_STRIPE_ID => stripe_product.id)
+    update_sf_stripe_id(sf_product, stripe_product)
 
     stripe_product
   end
@@ -171,52 +193,37 @@ class StripeForce::Translate
     # TODO the pricebook entry is really a 'suggested' price and it can be overwritten by the quote or order line
     # TODO if the list price is used, we shoudl try to create a price for this in Stripe, otherwise we'll create a price and use that
 
-    optional_params = {}
+    optional_price_params = {}
 
     # by omitting the recurring params it sets `type: one_time`
     # this param cannot be set directly
     if recurring_item?(sf_order_item)
-      optional_params[:recurring] = {
+      optional_price_params[:recurring] = {
         interval: sf_cpq_term_interval,
       }
 
       if sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TERM].nil?
-        log.error 'no subscription term specified', salesforce_record: sf_order_item
+        log.error 'no subscription term specified', sf_resource: sf_order_item
       else
         # TODO need to some input validation here
-        optional_params[:recurring][:interval_count] = sf_product[CPQ_PRODUCT_SUBSCRIPTION_TERM].to_i
+        optional_price_params[:recurring][:interval_count] = sf_product[CPQ_PRODUCT_SUBSCRIPTION_TERM].to_i
       end
     end
 
-    log.info 'creating price in stripe', sf_resource: sf_pricebook_entry
-
-    price = Stripe::Price.construct_from({
-      # TODO there is an undocumented id param, but it doesn't seem to work
-      # id: sf_pricebook_entry.Id,
-
-      product: product,
+    price = create_stripe_object(Stripe::Price, sf_pricebook_entry, additional_stripe_params: {
+      product: product.id,
 
       unit_amount: unit_price_for_stripe,
 
       # TODO most likely need to pass the order over? Can
-      # TODO not seeing currency anywhere? This is only enabled on certain accounts
+      # TODO not seeing currency anywhere? This is only enab  led on certain accounts
       currency: base_currency_iso(@user),
 
-      # using a `lookup_key` here would allow users to easily update prices
+      # TODO using a `lookup_key` here would allow users to easily update prices
       # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
+    }.merge(optional_price_params))
 
-      metadata: stripe_metadata_for_sf_object(sf_pricebook_entry),
-    }.merge(optional_params), @user.stripe_credentials)
-
-    # TODO should probably figure out the best pattern here and wrap this
-    apply_mapping(price, sf_pricebook_entry)
-    price.dirty!
-    price.save
-
-    sf.update!(SF_PRICEBOOK_ENTRY,
-      'Id' => sf_pricebook_entry.Id,
-      GENERIC_STRIPE_ID => price.id
-    )
+    update_sf_stripe_id(sf_pricebook_entry, price)
 
     price
   end
@@ -257,7 +264,9 @@ class StripeForce::Translate
     end
 
     sf_quote = sf.find(CPQ_QUOTE, sf_order[CPQ_QUOTE])
-    stripe_customer = create_customer_from_sf_order(sf_order)
+    sf_account = sf.find(SF_ACCOUNT, sf_order['AccountId'])
+
+    stripe_customer = create_customer_from_sf_account(sf_account)
 
     # https://github.com/Neuralab/WooCommerce-Salesforce-integration/blob/3af9ecf491f770ece9cdce993c21cee45f2647a0/includes/controllers/core/class-nwsi-salesforce-object-manager.php#L306
     # https://salesforce.stackexchange.com/questions/251904/get-sales-order-line-on-rest-api
@@ -293,7 +302,6 @@ class StripeForce::Translate
     end
 
     order_update_params = {}
-
 
     if is_recurring_order
       log.info 'recurring items found, creating subscription schedule'
@@ -348,13 +356,13 @@ class StripeForce::Translate
     else
       log.info 'no recurring items found, creating a one-time invoice'
 
-      stripe_transaction = Stripe::Invoice.create({
-        customer: stripe_customer,
-        metadata: stripe_metadata_for_sf_object(sf_order),
+      stripe_transaction = create_stripe_object(Stripe::Invoice, sf_order, additional_stripe_params: {
+        customer: stripe_customer.id,
+      })
 
-        collection_method: 'send_invoice',
-        days_until_due: 30,
-      }, @user.stripe_credentials)
+      # TODO we should move these somewhere
+      # stripe_transaction.collection_method = 'send_invoice'
+      # stripe_transaction.days_until_due = 30
 
       stripe_transaction.finalize_invoice
 
@@ -363,16 +371,12 @@ class StripeForce::Translate
 
     log.info 'stripe subscription or invoice created', stripe_resource_id: stripe_transaction.id
 
-    sf.update!('Order', {
-      'Id' => sf_order.Id,
-      GENERIC_STRIPE_ID => stripe_transaction.id,
-    }.merge(order_update_params))
-
-    log.info 'sales order updated with stripe transaction', salesforce_resource: sf_order
+    update_sf_stripe_id(sf_order, stripe_transaction, additional_salesforce_updates: order_update_params)
 
     stripe_transaction
   end
 
+  # TODO maybe build this into the mapper?
   def extract_salesforce_params!(sf_record, param_mapping)
     result_params = param_mapping.transform_values do |sf_key|
       sf_record[sf_key]
@@ -381,6 +385,7 @@ class StripeForce::Translate
     missing_fields = result_params.select {|_k, v| v.nil? }
 
     if missing_fields.present?
+      # TODO include origin & current object in the error so we can create a sync record
       raise Integrations::Errors::MissingRequiredFields.new("missing required params #{missing_fields}")
     end
 
@@ -388,6 +393,7 @@ class StripeForce::Translate
   end
 
   # TODO allow for multiple records to be linked?
+  sig { params(record_to_map: Stripe::StripeObject, source_record: T.untyped).void }
   def apply_mapping(record_to_map, source_record)
     @mapper ||= Integrations::Mapper.new(@user)
     @mapper.apply_mapping(record_to_map, source_record)

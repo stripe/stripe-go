@@ -31,8 +31,8 @@ module Critic
       "REST #{sf_object_name} #{DateTime.now}"
     end
 
-    def create_salesforce_account
-      account_id = sf.create!(SF_ACCOUNT, Name: sf_randomized_name(SF_ACCOUNT))
+    def create_salesforce_account(additional_fields: {})
+      account_id = sf.create!(SF_ACCOUNT, {Name: sf_randomized_name(SF_ACCOUNT)}.merge(additional_fields))
     end
 
     def create_salesforce_contact

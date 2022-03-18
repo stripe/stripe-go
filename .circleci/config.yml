@@ -103,6 +103,7 @@ jobs:
       DISABLE_SPRING: 'true'
       STRIPE_ACCOUNT_ID: acct_15uapDIsgf92XbAO
       SF_USERNAME: mbianco+standardcpq@stripe.com
+      # SF_PASSWORD
     # TODO possibly use the heroku image instead?
     docker:
       # replace `:.*` with `@sha256:THE_SHA` to lock the build to a specific container SHA

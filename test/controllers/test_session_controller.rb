@@ -16,7 +16,7 @@ class SessionsControllerTest < ApplicationIntegrationTest
     OmniAuth.config.mock_auth.delete :default
 
     OmniAuth.config.mock_auth[:stripe] = OmniAuth::AuthHash.new({
-      "uid" => ENV.fetch('STRIPE_ACCOUNT_ID')
+      "uid" => ENV.fetch('STRIPE_ACCOUNT_ID'),
     })
 
     OmniAuth.config.mock_auth[:salesforce] = OmniAuth::AuthHash.new(

@@ -119,7 +119,7 @@ module Critic
 
       if block_given?
         using_wait_time(130) do
-          assert_equal(true, yield)
+          assert(yield)
         end
       end
 
@@ -145,7 +145,7 @@ module Critic
       end
 
       using_wait_time(wait) do
-        assert_equal(false, yield)
+        refute(yield)
       end
     end
 

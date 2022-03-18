@@ -22,10 +22,10 @@ module Critic::Unit
       7.times { @metrics.track_gauge('bar', 1.0) }
 
       data = drain_queue
-      assert_equal(data.length, 12)
+      assert_equal(12, data.length)
       data = collate_queue(data)
-      assert_equal(data[:counter].length, 5)
-      assert_equal(data[:gauge].length, 7)
+      assert_equal(5, data[:counter].length)
+      assert_equal(7, data[:gauge].length)
     end
 
     it "handles additional dimensions" do
@@ -53,28 +53,28 @@ module Critic::Unit
     end
 
     it 'drains the queue' do
-      assert_equal(drain_queue, [])
+      assert_equal([], drain_queue)
       10.times { @metrics.track_counter('foo') }
-      assert_equal(drain_queue.length, 10)
-      assert_equal(drain_queue, [])
+      assert_equal(10, drain_queue.length)
+      assert_equal([], drain_queue)
     end
 
     it 'respects maximum queue length' do
       original_max_queue = @metrics.max_queue_length
       @metrics.max_queue_length = 5
       10.times { @metrics.track_counter('foo') }
-      assert_equal(@metrics.queue.length, 5)
-      assert_equal(drain_queue.length, 5)
+      assert_equal(5, @metrics.queue.length)
+      assert_equal(5, drain_queue.length)
     end
 
     it 'handles basic functionality' do
       5.times { @metrics.track_counter('foo') }
       7.times { @metrics.track_gauge('bar', 1.0) }
 
-      assert_equal(@metrics.queue.length, 12)
+      assert_equal(12, @metrics.queue.length)
       RestClient::Request.expects(:execute)
       @metrics.send(:process)
-      assert_equal(@metrics.queue.length, 0)
+      assert_equal(0, @metrics.queue.length)
     end
 
     it 'allows metrics to be sent synchronously' do
@@ -86,7 +86,7 @@ module Critic::Unit
 
       @metrics.send_metrics_synchronously
 
-      assert_equal(@metrics.queue.length, 0)
+      assert_equal(0, @metrics.queue.length)
     end
 
     describe '#time' do

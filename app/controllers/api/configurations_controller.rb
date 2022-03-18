@@ -131,23 +131,8 @@ module Api
         salesforce_account_id: @user.salesforce_account_id,
         field_mappings: @user.field_mappings,
         field_defaults: @user.field_defaults,
-        default_mappings: {
-          # TODO this needs to be moved to be dynamic based on user ff config
-          customer: {
-            name: 'Name',
-          },
-          product: {
-            name: 'Name',
-            description: 'Description',
-          },
-          subscription: {
-            start_date: 'SBQQ__StartDate__c',
-            subscription_iterations: 'SBQQ__SubscriptionTerm__c',
-          },
-        },
-        required_mapping: {
-
-        },
+        default_mappings: @user.default_mappings,
+        required_mapping: {},
         feature_flags: @user.feature_flags,
         connection_status: {
           # TODO use dynamic connection status

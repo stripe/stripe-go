@@ -175,11 +175,12 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     customer = Stripe::Customer.retrieve(T.cast(subscription_schedule.customer, String), @user.stripe_credentials)
 
     # basic customer creation check
+    # without a 1:1 contact relationship, the email is nil
     refute_empty(customer.name)
-    refute_empty(customer.email)
+    assert_nil(customer.email)
 
-    assert_match(sf_order.OpportunityId, customer.metadata['salesforce_opportunity_link'])
-    assert_equal(customer.metadata['salesforce_opportunity_id'], sf_order.OpportunityId)
+    assert_match(sf_account_id, customer.metadata['salesforce_account_link'])
+    assert_equal(customer.metadata['salesforce_account_id'], sf_account_id)
     # TODO customer address assertions once mapping is complete
 
     # top level subscription fields
@@ -248,16 +249,28 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   # TODO subscription term specified
 
   it 'integrates a invoice order' do
-    sf_order = create_salesforce_order(sf_product_id: salesforce_standalone_product_with_price_id)
+    @user.update(field_mappings: {
+      customer: {
+        # if accounts are mapped to customer, there is no default email field
+        "Description": "email",
+      },
+    })
+
+    sf_account_id = create_salesforce_account(additional_fields: {
+      "Description" => "#{Time.now.to_i}@example.com",
+    })
+
+    sf_order = create_salesforce_order(sf_account_id: sf_account_id, sf_product_id: salesforce_standalone_product_with_price_id)
 
     SalesforceTranslateRecordJob.translate(@user, sf_order)
 
-    # TODO add refresh to library
     sf_order = sf.find(SF_ORDER, sf_order.Id)
 
-    stripe_id = sf_order[GENERIC_STRIPE_ID]
-    invoice = Stripe::Invoice.retrieve(stripe_id, @user.stripe_credentials)
+    stripe_invoice_id = sf_order[GENERIC_STRIPE_ID]
+    invoice = Stripe::Invoice.retrieve(stripe_invoice_id, @user.stripe_credentials)
     customer = Stripe::Customer.retrieve(invoice.customer, @user.stripe_credentials)
+
+    refute_empty(customer.email)
 
     assert_equal(1, invoice.lines.count)
 

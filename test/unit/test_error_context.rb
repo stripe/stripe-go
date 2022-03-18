@@ -27,7 +27,7 @@ class Critic::ErrorContextTest < Critic::UnitTest
     error_context.set_error_context(user: user, custom: 'unique_tag', integration_record: sf_record, stripe_resource: stripe_resource)
 
     # avoid testing configuration too deeply: if custom tags are set, the rest of the configuration should be correct as well
-    refute(Sentry.get_current_scope.tags.empty?)
+    refute_empty(Sentry.get_current_scope.tags)
 
     stdout, _ = capture_subprocess_io do
       error_context.log.info 'error with tagging'

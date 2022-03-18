@@ -62,7 +62,7 @@ module Critic::Unit
       @mapper.apply_mapping(stripe_price)
 
       assert_equal("123 Great Street", T.must(stripe_customer.address).line1)
-      assert_equal(true, stripe_customer.metadata["from_salesforce"])
+      assert(stripe_customer.metadata["from_salesforce"])
       assert_equal("global@email.com", stripe_customer.email)
       assert_equal("usd", stripe_customer.currency)
 
@@ -119,8 +119,8 @@ module Critic::Unit
       assert_equal("104", ns_customer.custom_field_list.custentity_invoiceform.value.internal_id)
       assert_equal("Kyle", ns_customer.custom_field_list.custentity_string_custom.value)
       assert_equal("body field without underscore", ns_customer.custom_field_list.custbodynounderscore.value)
-      assert_equal(false, ns_customer.custom_field_list.respond_to?(:custentity_not_used))
-      assert_equal(true, ns_customer.is_person)
+      refute_respond_to(ns_customer.custom_field_list, :custentity_not_used)
+      assert(ns_customer.is_person)
 
       assert_equal("body field with underscore", ns_credit_memo.custom_field_list.custbody_field.value)
       assert_equal("2", ns_credit_memo.location.internal_id)
@@ -292,7 +292,7 @@ module Critic::Unit
 
       @annotator.annotate(ns_customer_payment, charge)
 
-      assert_equal(ns_customer_payment.custom_field_list.custbody_foo.value, 'bar')
+      assert_equal('bar', ns_customer_payment.custom_field_list.custbody_foo.value)
     end
   end
 end

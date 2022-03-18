@@ -85,6 +85,27 @@ module StripeForce
       livemode && !sandbox?
     end
 
+    # TODO needs to be dynamic based off FF configuration, but for now we don't have any flags :)
+    def default_mappings
+      {
+        "customer" => {
+          "name" => "Name",
+        },
+        "product" => {
+          # TODO setting custom Ids may not be the best idea here
+          "id" => "Id",
+          "name" => 'Name',
+          "description" => 'Description',
+        },
+        "price" => {},
+        "subscription" => {
+          "start_date" => 'SBQQ__StartDate__c',
+          "subscription_iterations" => 'SBQQ__SubscriptionTerm__c',
+        },
+        "invoice" => {},
+      }
+    end
+
     sig { params(feature: Symbol, update: T::Boolean).void }
     def enable_feature(feature, update: false)
       if !feature_flags.include?(feature)

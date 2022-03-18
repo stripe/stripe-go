@@ -99,7 +99,7 @@ class Critic::OrderPollerTest < Critic::UnitTest
   it 'does not run polls if salesforce credentials are invalid' do
     skip("implement after polling is in a separate job")
 
-    assert_equal(false, @user.status.valid_netsuite_credentials?(refresh: true))
+    refute(@user.status.valid_netsuite_credentials?(refresh: true))
 
     SuiteSync::InvoicePoller.expects(:perform).never
 
