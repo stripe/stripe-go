@@ -1112,6 +1112,8 @@ type PaymentIntentConfirmParams struct {
 // A PaymentIntent object can be canceled when it is in one of these statuses: requires_payment_method, requires_capture, requires_confirmation, requires_action, or processing.
 //
 // Once canceled, no additional charges will be made by the PaymentIntent and any operations on the PaymentIntent will fail with an error. For PaymentIntents with status='requires_capture', the remaining amount_capturable will automatically be refunded.
+//
+// You cannot cancel the PaymentIntent for a Checkout Session. [Expire the Checkout Session](https://stripe.com/docs/api/checkout/sessions/expire) instead
 type PaymentIntentCancelParams struct {
 	Params `form:"*"`
 	// Reason for canceling this PaymentIntent. Possible values are `duplicate`, `fraudulent`, `requested_by_customer`, or `abandoned`
@@ -1318,7 +1320,7 @@ type PaymentIntentPaymentMethodOptionsACSSDebit struct {
 	VerificationMethod PaymentIntentPaymentMethodOptionsACSSDebitVerificationMethod `json:"verification_method"`
 }
 type PaymentIntentPaymentMethodOptionsAfterpayClearpay struct {
-	// Order identifier shown to the merchant in Afterpay's online portal. We recommend using a value that helps you answer any questions a customer might have about
+	// Order identifier shown to the customer in Afterpay's online portal. We recommend using a value that helps you answer any questions a customer might have about
 	// the payment. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.
 	Reference string `json:"reference"`
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.

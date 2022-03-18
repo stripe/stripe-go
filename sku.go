@@ -92,7 +92,7 @@ type Inventory struct {
 //
 // Can also be used to manage inventory.
 //
-// Related guide: [Tax, Shipping, and Inventory](https://stripe.com/docs/orders).
+// Related guide: [Tax, Shipping, and Inventory](https://stripe.com/docs/orders-legacy).
 type SKU struct {
 	APIResource
 	// Whether the SKU is available for purchase.
