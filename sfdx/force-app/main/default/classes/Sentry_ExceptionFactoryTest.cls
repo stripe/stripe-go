@@ -28,7 +28,11 @@ public with sharing class Sentry_ExceptionFactoryTest {
         System.assert(sentryException instanceof Sentry_Exception);
         System.assert(sentryExceptionFromString instanceof Sentry_Exception);
         System.assert(basic instanceof BasicException);
-        System.assert(extended instanceof ExtendedException);
-        System.assertEquals('Sentry_ExceptionFactoryTest', ex.context.get('exceptionClass'));
+        System.assert(extended instanceof ExtendedException); 
+        if(!String.isEmpty(constants.NAMESPACE_API)) {
+            System.assertEquals(constants.NAMESPACE + '.Sentry_ExceptionFactoryTest', ex.context.get('exceptionClass'));
+        } else {
+            System.assertEquals('Sentry_ExceptionFactoryTest', ex.context.get('exceptionClass'));
+        }
     }
 }
