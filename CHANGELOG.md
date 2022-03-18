@@ -1,5 +1,11 @@
 # Changelog
 
+## 72.94.0 - 2022-03-18
+* [#1433](https://github.com/stripe/stripe-go/pull/1433) API Updates
+  * Add support for `Status` on `Card`
+* [#1432](https://github.com/stripe/stripe-go/pull/1432) Add StringSlice example to readme
+* [#1324](https://github.com/stripe/stripe-go/pull/1324) Add support for SearchResult objects
+
 ## 72.93.0 - 2022-03-11
 * [#1431](https://github.com/stripe/stripe-go/pull/1431) API Updates
   * Add support for `Mandate` on `ChargePaymentMethodDetailsCard`
