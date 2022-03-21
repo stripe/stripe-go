@@ -75,6 +75,11 @@ module StripeForce
       10
     end
 
+    # TODO should move to a status service
+    def has_cpq_installed?
+      sf.query("SELECT COUNT() FROM PackageLicense WHERE NamespacePrefix LIKE 'SBQQ%'").count >= 1
+    end
+
     def sandbox?
       # TODO cache this state in a status service or something
       # [SELECT IsSandbox FROM Organization]
