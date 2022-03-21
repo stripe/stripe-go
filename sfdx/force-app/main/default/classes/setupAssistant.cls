@@ -451,7 +451,8 @@ public with sharing class setupAssistant {
                         'api_percentage_limit' => apiPercentageLimit,
                         'sync_start_date' => syncStartDate,
                         'sync_record_retention' => syncRecordRetention,
-                        'default_currency' => defaultCurrency
+                        'default_currency' => defaultCurrency,
+                        'multicurrency_enabled' => UserInfo.isMultiCurrencyOrganization()
                     }
                 };
                 String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
