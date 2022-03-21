@@ -7,7 +7,7 @@ class SalesforceTranslateRecordJob < StripeForce::BaseJob
     Resque.enqueue(
       self,
 
-      user.stripe_account_id, user.livemode,
+      user.salesforce_account_id, user.stripe_account_id, user.livemode,
       sf_record_type, sf_record_id
     )
   end
@@ -16,10 +16,10 @@ class SalesforceTranslateRecordJob < StripeForce::BaseJob
     self.work(user, sf_record.sobject_type, sf_record.to_sparam)
   end
 
-  def self.perform(stripe_user_id, livemode, sf_record_type, sf_record_id)
+  def self.perform(salesforce_account_id, stripe_user_id, livemode, sf_record_type, sf_record_id)
     set_error_context
 
-    user = user_reference(stripe_user_id, livemode)
+    user = user_reference(salesforce_account_id, stripe_user_id, livemode)
 
     set_error_context(user: user)
 

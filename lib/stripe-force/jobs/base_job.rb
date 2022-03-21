@@ -29,12 +29,16 @@ class StripeForce::BaseJob
 
   abstract!
 
-  sig { abstract.params(stripe_account_id: String, stripe_livemode: T::Boolean, sf_record_type: String, sf_record_id: String).void }
-  def self.perform(stripe_account_id, stripe_livemode, sf_record_type, sf_record_id); end
+  sig { abstract.params(salesforce_account_id: String, stripe_account_id: String, stripe_livemode: T::Boolean, sf_record_type: String, sf_record_id: String).void }
+  def self.perform(salesforce_account_id, stripe_account_id, stripe_livemode, sf_record_type, sf_record_id); end
 
-  sig { params(stripe_account_id: String, livemode: T::Boolean).returns(StripeForce::User) }
-  def self.user_reference(stripe_account_id, livemode)
-    user = StripeForce::User.find(stripe_account_id: stripe_account_id, livemode: livemode)
+  sig { params(salesforce_account_id: String, stripe_account_id: String, livemode: T::Boolean).returns(StripeForce::User) }
+  def self.user_reference(salesforce_account_id, stripe_account_id, livemode)
+    user = StripeForce::User.find(
+      salesforce_account_id: salesforce_account_id,
+      stripe_account_id: stripe_account_id,
+      livemode: livemode
+    )
 
     if user.nil?
       raise StripeForce::Errors::UserError.new("#{stripe_account_id} not available for specified mode. livemode=#{livemode}")
@@ -44,6 +48,7 @@ class StripeForce::BaseJob
   end
 
   def self.valid_system_credentials!(user)
+    # TODO actually check SF & Stripe credentials
     true
   end
 end
