@@ -11,10 +11,22 @@ export default class SyncPreferencesStep extends LightningElement {
     @track syncRecordRetention;
     @track syncStartDate;
     @track apiPercentageLimit;
+    @track cpqTermUnit;
     @track isMultiCurrencyEnabled;
     @track isPreferencesUpdated = false;
-    @track totalApiCalls;
+    @track totalApiCalls; 
     @track currencyOptions;
+    @track isCpqInstalled;
+    @track intervalOptions = [
+        {
+            label: 'Month',
+            value: 'Month'
+        },
+        {
+            label: 'Day',
+            value: 'Day'
+        }
+    ];
  
     async connectedCallback() {
         try {
@@ -27,6 +39,8 @@ export default class SyncPreferencesStep extends LightningElement {
                 this.syncRecordRetention = this.data.results.sync_record_retention;
                 this.syncStartDate = new Date(this.data.results.sync_start_date * 1000).toISOString();
                 this.apiPercentageLimit = this.data.results.api_percentage_limit;
+                this.cpqTermUnit = this.data.results.cpq_term_interval;
+                this.isCpqInstalled = this.data.results.isCpqInstalled;
 
                 const multiCurrencyCheck = await getMulticurrencySelectionOptions();
                 this.data = JSON.parse(multiCurrencyCheck);
@@ -70,6 +84,12 @@ export default class SyncPreferencesStep extends LightningElement {
         this.apiPercentageLimit = updatedValue;
     }
 
+    updateCpqTermInterval(event) {
+        let updatedValue = this.enablesave(this.cpqTermUnit, event.detail.value)
+        this.cpqTermUnit = updatedValue;
+    }
+
+
     enablesave(savedValue, updatedValue) {
         if(savedValue !== updatedValue) {
             this.dispatchEvent(new CustomEvent('enablesave'));
@@ -85,6 +105,7 @@ export default class SyncPreferencesStep extends LightningElement {
     @api async saveModifiedSyncPreferences() {
         try {
             const updatedSyncPreferences = await saveSyncPreferences({
+                cpqTermUnit: this.cpqTermUnit,
                 defaultCurrency: this.defaultCurrency,
                 syncRecordRetention: this.syncRecordRetention,
                 syncStartDate: (new Date(this.syncStartDate).getTime() / 1000),

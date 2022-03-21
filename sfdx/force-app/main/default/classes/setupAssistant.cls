@@ -365,7 +365,8 @@ public with sharing class setupAssistant {
                             'default_currency',
                             'sync_record_retention',
                             'sync_start_date',
-                            'api_percentage_limit'
+                            'api_percentage_limit',
+                            'cpq_term_unit'
                         };
 
                         List<String> connectionReadOnlyFields = new List<String> {
@@ -394,6 +395,7 @@ public with sharing class setupAssistant {
                     }
                 } 
             }
+            rd.put('isCpqInstalled', utilities.isCpqEnabled());
             rd.put('isConnected', isConnected);
         } catch (Exception e) {
             rd.addError(e);
@@ -441,7 +443,7 @@ public with sharing class setupAssistant {
 
     //sends updated sync preference data to the ruby service and saves the values 
     @AuraEnabled
-    public static String saveSyncPreferences(String defaultCurrency, String syncRecordRetention, String syncStartDate, String apiPercentageLimit) {
+    public static String saveSyncPreferences(String defaultCurrency, String syncRecordRetention, String syncStartDate, String apiPercentageLimit, String cpqTermUnit) {
         responseData rd = new responseData();
         try {
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults(); 
@@ -452,7 +454,8 @@ public with sharing class setupAssistant {
                         'sync_start_date' => syncStartDate,
                         'sync_record_retention' => syncRecordRetention,
                         'default_currency' => defaultCurrency,
-                        'multicurrency_enabled' => UserInfo.isMultiCurrencyOrganization()
+                        'multicurrency_enabled' => UserInfo.isMultiCurrencyOrganization(),
+                        'cpq_term_unit' => cpqTermUnit
                     }
                 };
                 String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';

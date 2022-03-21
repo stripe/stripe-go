@@ -90,5 +90,18 @@
                 </div>
             </div>
         </div>
+        <div if:true={isCpqInstalled} class="stripe-settings__item slds-grid">
+            <div class="slds-col_bump-right">
+                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                    CPQ Term Interval
+                </h4>
+                <p>
+                    The unit of time used for subscription terms in your org. This value can be found in the <a href="/lightning/setup/ImportedPackage/home" target="_blank">Installed Packages <lightning-icon icon-name="utility:new_window" class="stripe-icon_inline slds-current-color" size="xx-small"></lightning-icon></a> section of your Salesforce Org Setup. Find the Salesforce CPQ package, click 'Configure' next to the package name, and navigate to 'Subscriptions and Renewals'. The 'Subscription Term Unit' is the value needed for this setting. 
+                </p>
+            </div>
+            <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                <c-picklist label="CPQ Term Interval" options={intervalOptions} variant="label-hidden" value={cpqTermUnit} onselect={updateCpqTermInterval} placeholder="Select default interval..." searchable></c-picklist>
+            </div>
+        </div>
     </div>
 </template>

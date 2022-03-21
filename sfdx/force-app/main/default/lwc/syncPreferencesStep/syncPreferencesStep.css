@@ -6,3 +6,7 @@
 .stripe-settings__item + .stripe-settings__item {
     margin-top: var(--lwc-spacingXLarge, 2rem);
 }
+
+.stripe-icon_inline {
+    transform: translateY(-2px);
+}

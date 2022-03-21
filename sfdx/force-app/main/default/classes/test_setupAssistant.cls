@@ -415,6 +415,7 @@ public with sharing class test_setupAssistant {
         System.assertEquals('2 days', (String)resultsMap.get('sync_record_retention'));
         System.assertEquals('yesterday', (String)resultsMap.get('sync_start_date'));
         System.assertEquals('1000515', (String)resultsMap.get('api_percentage_limit'));
+        System.assertEquals('monthly', (String)resultsMap.get('cpq_term_unit'));
     }
 
  @isTest
@@ -501,7 +502,7 @@ public with sharing class test_setupAssistant {
         insert stripeConnectRec;
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
-        String response = setupAssistant.saveSyncPreferences('TEST','10000', '1644854972', '95');
+        String response = setupAssistant.saveSyncPreferences('TEST','10000', '1644854972', '95', 'monthly');
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
 
@@ -524,7 +525,8 @@ public with sharing class test_setupAssistant {
                     'default_currency' => 'USD',
                     'sync_record_retention' => '2 days',
                     'sync_start_date' => 'yesterday',
-                    'api_percentage_limit' => 1000515
+                    'api_percentage_limit' => 1000515,
+                    'cpq_term_unit' => 'monthly' 
                 });
     
                 res.setBody(Json.serialize(responseBody));
