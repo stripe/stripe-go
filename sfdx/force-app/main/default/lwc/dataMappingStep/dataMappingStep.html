@@ -40,7 +40,7 @@
                                 </thead>
                                 <tbody>
                                     <template for:each={section.fields} for:item="field" for:index="fieldIndex">
-                                        <tr key={field.value} data-index={fieldIndex}>
+                                        <tr key={field.value} data-index={fieldIndex} data-section-name={section.name} data-field-name={field.name}>
                                             <td>
                                                 <div class="slds-truncate slds-text-heading_small">{field.name} <span class="slds-badge slds-m-left_xx-small">{field.type}</span></div>
                                                 <p class="slds-text-title slds-m-top_x-small">
@@ -215,7 +215,7 @@
                                 </thead>
                                 <tbody>
                                     <template for:each={section.fields} for:item="field" for:index="fieldIndex">
-                                        <tr key={field.value} data-index={fieldIndex}>
+                                        <tr key={field.value} data-index={fieldIndex} data-section-name={section.name} data-field-name={field.name}>
                                             <td>
                                                 <div class="slds-truncate slds-text-heading_small">{field.name} <span class="slds-badge slds-m-left_xx-small">{field.type}</span></div>
                                                 <p class="slds-text-title slds-m-top_x-small">
@@ -388,7 +388,7 @@
                                 </thead>
                                 <tbody>
                                     <template for:each={section.fields} for:item="field" for:index="fieldIndex">
-                                        <tr key={field.value} data-index={fieldIndex}>
+                                        <tr key={field.value} data-index={fieldIndex} data-section-name={section.name} data-field-name={field.name}>
                                             <td>
                                                 <div class="slds-truncate slds-text-heading_small">{field.name} <span class="slds-badge slds-m-left_xx-small">{field.type}</span></div>
                                                 <p class="slds-text-title slds-m-top_x-small">
@@ -561,7 +561,7 @@
                                 </thead>
                                 <tbody>
                                     <template for:each={section.fields} for:item="field" for:index="fieldIndex">
-                                        <tr key={field.value} data-index={fieldIndex}>
+                                        <tr key={field.value} data-index={fieldIndex} data-section-name={section.name} data-field-name={field.name}>
                                             <td>
                                                 <div class="slds-truncate slds-text-heading_small">{field.name} <span class="slds-badge slds-m-left_xx-small">{field.type}</span></div>
                                                 <p class="slds-text-title slds-m-top_x-small">
@@ -734,7 +734,7 @@
                                 </thead>
                                 <tbody>
                                     <template for:each={section.fields} for:item="field" for:index="fieldIndex">
-                                        <tr key={field.value} data-index={fieldIndex}>
+                                        <tr key={field.value} data-index={fieldIndex} data-section-name={section.name} data-field-name={field.name}>
                                             <td>
                                                 <div class="slds-truncate slds-text-heading_small">{field.name} <span class="slds-badge slds-m-left_xx-small">{field.type}</span></div>
                                                 <p class="slds-text-title slds-m-top_x-small">
