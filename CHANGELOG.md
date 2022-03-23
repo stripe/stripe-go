@@ -1,5 +1,11 @@
 # Changelog
 
+## 72.95.0 - 2022-03-23
+* [#1436](https://github.com/stripe/stripe-go/pull/1436) API Updates
+  * Add support for `Cancel` method on resource `Refund`
+  * Add support for new values `bg_uic`, `hu_tin`, and `si_tin` on enums `CheckoutSessionCustomerDetailsTaxIdsType`, `InvoiceCustomerTaxIdsType`, and `TaxIdType`
+  * Add support for `TestClock` on `QuoteListParams`
+
 ## 72.94.0 - 2022-03-18
 * [#1433](https://github.com/stripe/stripe-go/pull/1433) API Updates
   * Add support for `Status` on `Card`
