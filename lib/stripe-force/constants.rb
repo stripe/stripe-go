@@ -14,6 +14,8 @@ module StripeForce
     SF_PRICEBOOK = 'Pricebook2'
     SF_PRICEBOOK_ENTRY = 'PricebookEntry'
 
+    SF_ID = 'Id'
+
     CPQ_QUOTE = 'SBQQ__Quote__c'
 
     CPQ_QUOTE_PRIMARY_CONTACT = 'SBQQ__PrimaryContact__c'
@@ -63,6 +65,17 @@ module StripeForce
     class OrderStatusOptions < T::Enum
       enums do
         ACTIVATED = new("Activated")
+      end
+    end
+
+    # non-cpq constants
+    CONNECTOR_SETTING_SALESFORCE_NAMESPACE = "salesforce_namespace"
+
+    class SalesforceNamespaceOptions < T::Enum
+      enums do
+        QA = new("stripeConnectQA")
+        PRODUCTION = new("stripeConnector")
+        NONE = new("c")
       end
     end
   end

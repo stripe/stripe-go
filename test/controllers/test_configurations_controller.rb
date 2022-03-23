@@ -94,12 +94,12 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         # not using `authentication_headers` since the user is not created
         SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'),
         SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id,
-        SALESFORCE_PACKAGE_NAMESPACE_HEADER => "stripeConnectQA",
+        SALESFORCE_PACKAGE_NAMESPACE_HEADER => SalesforceNamespaceOptions::QA.serialize,
       }
 
       assert_equal(1, StripeForce::User.count)
       user = T.must(StripeForce::User.first)
-      assert_equal("stripeConnectQA", user.connector_settings['salesforce_namespace'])
+      assert_equal(SalesforceNamespaceOptions::QA.serialize, user.connector_settings['salesforce_namespace'])
     end
   end
 
@@ -181,7 +181,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
     end
 
     it 'does not remove settings which are not present in the incoming hash' do
-      @user.connector_settings['salesforce_namespace'] = 'stripeConnectQA'
+      @user.connector_settings['salesforce_namespace'] = SalesforceNamespaceOptions::QA.serialize
       @user.save
 
       put api_configuration_path, params: {
@@ -197,7 +197,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       @user = T.must(StripeForce::User[@user.id])
 
       assert_equal('EUR', @user.connector_settings['default_currency'])
-      assert_equal('stripeConnectQA', @user.connector_settings['salesforce_namespace'])
+      assert_equal(SalesforceNamespaceOptions::QA.serialize, @user.connector_settings['salesforce_namespace'])
     end
 
     it 'updates mappings and defaults without settings' do

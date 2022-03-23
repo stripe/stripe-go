@@ -37,7 +37,6 @@ AllCops:
     - '**/*.rb'
   Exclude:
     - 'scripts/**/*'
-    - 'test/**/*'
     - 'bin/*'
     - 'db/*'
     - '**/node_modules/**/*'
@@ -50,6 +49,9 @@ AllCops:
     - 'sorbet/**/*.rbi'
   AllowSymlinksInCacheRootDirectory: true
 
+Lint/UselessAssignment:
+  Exclude:
+    - 'test/**/*'
 
 ########################################################
 # Severity

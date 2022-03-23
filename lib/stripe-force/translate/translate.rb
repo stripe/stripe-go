@@ -57,16 +57,31 @@ class StripeForce::Translate
     create_customer_from_sf_account(sf_account)
   end
 
+  sig { params(sf_object: T.untyped, stripe_object: Stripe::APIResource, additional_salesforce_updates: Hash).void }
   def update_sf_stripe_id(sf_object, stripe_object, additional_salesforce_updates: {})
-    if sf_object[GENERIC_STRIPE_ID]
+    custom_field_prefix = case (salesforce_namespace = @user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE])
+    when nil
+      report_edge_case("expected namespace to be defined, using fallback")
+      ""
+    when "c"
+      ""
+    else
+      # `stripeConnector_Stripe_ID__c` is the expected field name
+      salesforce_namespace + "_"
+    end
+
+    stripe_id_field = custom_field_prefix + GENERIC_STRIPE_ID
+
+    if sf_object[stripe_id_field]
       log.info 'stripe id already exists on object, overwritting',
-        old_stripe_id: sf_object[GENERIC_STRIPE_ID],
-        new_stripe_id: stripe_object.id
+        old_stripe_id: sf_object[stripe_id_field],
+        new_stripe_id: stripe_object.id,
+        field_name: stripe_id_field
     end
 
     sf.update!(sf_object.sobject_type, {
-      'Id' => sf_object.Id,
-      GENERIC_STRIPE_ID => stripe_object.id,
+      SF_ID => sf_object.Id,
+      stripe_id_field => stripe_object.id,
     }.merge(additional_salesforce_updates))
 
     log.info 'updated with stripe id',
