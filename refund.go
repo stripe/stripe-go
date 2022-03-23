@@ -61,6 +61,13 @@ type RefundParams struct {
 	RefundApplicationFee *bool   `form:"refund_application_fee"`
 	ReverseTransfer      *bool   `form:"reverse_transfer"`
 }
+
+// Cancels a refund with a status of requires_action.
+//
+// Refunds in other states cannot be canceled, and only refunds for payment methods that require customer action will enter the requires_action state.
+type RefundCancelParams struct {
+	Params `form:"*"`
+}
 type RefundNextActionDisplayDetailsEmailSent struct {
 	// The timestamp when the email was sent.
 	EmailSentAt int64 `json:"email_sent_at"`

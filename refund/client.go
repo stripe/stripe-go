@@ -58,6 +58,19 @@ func (c Client) Update(id string, params *stripe.RefundParams) (*stripe.Refund, 
 	return refund, err
 }
 
+// Cancel is the method for the `POST /v1/refunds/{refund}/cancel` API.
+func Cancel(id string, params *stripe.RefundCancelParams) (*stripe.Refund, error) {
+	return getC().Cancel(id, params)
+}
+
+// Cancel is the method for the `POST /v1/refunds/{refund}/cancel` API.
+func (c Client) Cancel(id string, params *stripe.RefundCancelParams) (*stripe.Refund, error) {
+	path := stripe.FormatURLPath("/v1/refunds/%s/cancel", id)
+	refund := &stripe.Refund{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, refund)
+	return refund, err
+}
+
 // List returns a list of refunds.
 func List(params *stripe.RefundListParams) *Iter {
 	return getC().List(params)

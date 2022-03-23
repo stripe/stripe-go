@@ -192,6 +192,8 @@ type QuoteListParams struct {
 	Customer *string `form:"customer"`
 	// The status of the quote.
 	Status *string `form:"status"`
+	// Provides a list of quotes that are associated with the specified test clock. The response will not include quotes with test clocks if this and the customer parameter is not set.
+	TestClock *string `form:"test_clock"`
 }
 
 // Cancels the quote.
