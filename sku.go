@@ -91,8 +91,6 @@ type Inventory struct {
 // the `size: large`, `color: red` version of that shirt.
 //
 // Can also be used to manage inventory.
-//
-// Related guide: [Tax, Shipping, and Inventory](https://stripe.com/docs/orders-legacy).
 type SKU struct {
 	APIResource
 	// Whether the SKU is available for purchase.
