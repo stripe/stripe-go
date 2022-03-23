@@ -96,7 +96,8 @@ export default class FirstTimeSetup extends LightningElement {
     }
 
     getmappingconfigurations() {
-        this.template.querySelector('c-data-mapping-step').getPicklistValuesForMapper(true, ''); 
+        this.template.querySelector('c-data-mapping-step').getPicklistValuesForMapper(true, '');
+        this.template.querySelector('c-sync-preferences-step').connectedCallback();  
         this.nextDisabled = false;
     }
 
@@ -205,11 +206,7 @@ export default class FirstTimeSetup extends LightningElement {
                     this.steps[this.activeStepIndex].isComplete = true;
                     this.nextDisabled = true;     
                     this.setupComplete = true;
-                    this.showSetupToast('Setup is complete', 'success')
-                    //setting timeout to force next render cycle
-                    setTimeout(() => {
-                        this.template.querySelector('c-step[data-index="' + this.activeSectionIndex + '"]').classList.remove('slds-hide')},
-                         1);
+                    this.showSetupToast('Setup completed', 'success')
                     break;
                 default:
                     break;

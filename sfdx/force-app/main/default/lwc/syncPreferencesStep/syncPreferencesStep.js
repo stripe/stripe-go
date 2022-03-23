@@ -28,7 +28,7 @@ export default class SyncPreferencesStep extends LightningElement {
         }
     ];
  
-    async connectedCallback() {
+    @api async connectedCallback() {
         try {
             const syncPreferences = await getSyncPreferences();
             this.data = JSON.parse(syncPreferences);
@@ -46,7 +46,8 @@ export default class SyncPreferencesStep extends LightningElement {
                 this.data = JSON.parse(multiCurrencyCheck);
                 if(this.data.isSuccess) {
                     this.totalApiCalls = this.data.results.orgMaxApiLimit;
-                    if (this.data.results.isMultiCurrencyEnabled) {
+                    this.isMultiCurrencyEnabled = this.data.results.isMultiCurrencyEnabled;
+                    if (this.isMultiCurrencyEnabled) {
                         this.currencyOptions = this.data.results.supportedISOCodes;
                     }
                 } else if(this.data.error) { 

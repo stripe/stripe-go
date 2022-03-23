@@ -194,6 +194,7 @@ export default class DataMappingStep extends LightningElement {
                 }
             } 
         }
+        return listOfAllMappings;
     }
 
     toggleMetaStaticValue(event) {
@@ -201,6 +202,7 @@ export default class DataMappingStep extends LightningElement {
         if (targetFieldIndex ) {
             this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].staticValue = !this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].staticValue;
             if(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].staticValue === true)this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].sfValue = ''; 
+            this.enablesave();
         }
     }
 
@@ -253,7 +255,8 @@ export default class DataMappingStep extends LightningElement {
             };
             updatedSelection.hasOverride = this.activeObjectFields[parseInt(targetSectionIndex)].fields[parseInt(targetFieldIndex)].defaultValue ? true : false;
             updatedSelection.staticValue = !this.activeObjectFields[parseInt(targetSectionIndex)].fields[parseInt(targetFieldIndex)].staticValue;
-            Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)] , updatedSelection);  
+            Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)] , updatedSelection); 
+            this.enablesave(); 
         }
     }
 
@@ -274,6 +277,7 @@ export default class DataMappingStep extends LightningElement {
                 value: this.staticValue
             };
             Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)] , updatedSelection); 
+            this.enablesave();
         }
     }
 
@@ -287,6 +291,7 @@ export default class DataMappingStep extends LightningElement {
                 sfValueType: 'staticMetadata'
             };
             Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)] , updatedSelection); 
+            this.enablesave();
         }
     }
 
@@ -303,6 +308,7 @@ export default class DataMappingStep extends LightningElement {
                 sfValueType: 'static'
             };
             Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)] , updatedSelection)
+            this.enablesave();
         }
     }
 
@@ -359,8 +365,14 @@ export default class DataMappingStep extends LightningElement {
 
     updateMetaPicklist(event) {
         const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
-        if (this.targetFieldIndex ) {
-            this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].sfValue = event.detail.value;
+        if (targetFieldIndex ) {
+            const updatedSelection = {
+                hasSfValue: true,
+                sfValue: event.detail.value,
+                sfValueType: this.sfFieldOptions[event.detail.index].type
+            };
+            Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)] , updatedSelection);
+            this.enablesave();
         }
     }
 
@@ -374,6 +386,7 @@ export default class DataMappingStep extends LightningElement {
                 sfValueType: this.sfFieldOptions[event.detail.index].type
             };
             Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)] , updatedSelection);
+            this.enablesave();
         }
     }
 
@@ -414,6 +427,7 @@ export default class DataMappingStep extends LightningElement {
             });
             this.sfFieldOptions = this.fieldListByObjectMap.Order
             if(this.fieldListByObjectMap)this.setFieldMappings('subscription', this.stripeSubscriptionMappings, this.subscriptionMetadataFields.metadataMapping.fields);
+            if(this.fieldListByObjectMap)this.setFieldMappings('subscription_schedule', this.stripeSubscriptionMappings, this.subscriptionMetadataFields.metadataMapping.fields);
 
          } else if(this.activeObject === 'subscription-item' && this.fieldListByObjectMap) {
             this.defaultSfObject = 'OrderItem';
@@ -585,11 +599,11 @@ export default class DataMappingStep extends LightningElement {
 
     @api async saveCongfiguredMappings() {
         this.loading = true;
-        this.saveObjectMappings(this.stripeCustomerMappings,this.allMappingList,this.customerMetadataFields,'customer');
-        this.saveObjectMappings(this.stripeProductMappings,this.allMappingList,this.productMetadataFields,'product');
-        this.saveObjectMappings(this.stripeSubscriptionMappings,this.allMappingList,this.subscriptionMetadataFields,'subscription_schedule');
-        this.saveObjectMappings(this.stripeSubscriptionItemMappings,this.allMappingList,this.subscriptionItemMetadataFields,'subscription_item');
-        this.saveObjectMappings(this.stripePriceMappings,this.allMappingList,this.priceMetadataFields,'price');
+        this.allMappingList = this.saveObjectMappings(this.stripeCustomerMappings,this.allMappingList,this.customerMetadataFields,'customer');
+        this.allMappingList = this.saveObjectMappings(this.stripeProductMappings,this.allMappingList,this.productMetadataFields,'product');
+        this.allMappingList = this.saveObjectMappings(this.stripeSubscriptionMappings,this.allMappingList,this.subscriptionMetadataFields,'subscription_schedule');
+        this.allMappingList = this.saveObjectMappings(this.stripeSubscriptionItemMappings,this.allMappingList,this.subscriptionItemMetadataFields,'subscription_item');
+        this.allMappingList = this.saveObjectMappings(this.stripePriceMappings,this.allMappingList,this.priceMetadataFields,'price');
         try {
             const saveMappingData = await saveMappingConfigurations({ 
                 jsonMappingConfigurationsObject: JSON.stringify(this.allMappingList)

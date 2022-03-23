@@ -84,10 +84,16 @@ export default class RelatedSyncRecords extends NavigationMixin(LightningElement
 
     navToSyncRecord(event) {
         let index = event.currentTarget.dataset.index;
+        var record;
+        if (event.currentTarget.dataset.name === 'all') {
+            record = this.listOfSyncRecords[index];
+        } else {
+            record = this.listOfDisplayFailedRecords[index];
+        }
         this[NavigationMixin.Navigate]({
             type: 'standard__recordPage',
             attributes: {
-                recordId: this.listOfSyncRecords[index].Id,
+                recordId: record.Id,
                 actionName: 'view'
             }
         })
