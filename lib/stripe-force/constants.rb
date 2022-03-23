@@ -24,8 +24,25 @@ module StripeForce
     CPQ_QUOTE_SUBSCRIPTION_TERM = 'SBQQ__SubscriptionTerm__c'
 
     CPQ_PRODUCT_SUBSCRIPTION_TYPE = 'SBQQ__SubscriptionType__c'
-    CPQ_PRODUCT_SUBSCRIPTION_TYPE_RENEWABLE = 'Renewable'
+    class CPQProductSubscriptionTypeOptions < T::Enum
+      enums do
+        RENEWABLE = new("Renewable")
+      end
+    end
+
     CPQ_PRODUCT_SUBSCRIPTION_TERM = 'SBQQ__SubscriptionTerm__c'
+    CPQ_PRODUCT_CHARGE_TYPE = 'SBQQ__ChargeType__c'
+
+    # https://help.salesforce.com/s/articleView?id=sf.cpq_subscription_fields.htm&type=5
+    CPQ_PRODUCT_BILLING_TYPE = 'SBQQ__BillingType__c'
+    class CPQProductBillingTypeOptions < T::Enum
+      enums do
+        # licensed
+        ADVANCE = new("Advance")
+        # metered
+        ARREARS = new("Arrears")
+      end
+    end
 
     CPQ_QUOTE_LINE = 'SBQQ__QuoteLine__c'
     CPQ_QUOTE_LINE_PRODUCT = 'SBQQ__Product__c'
@@ -35,5 +52,18 @@ module StripeForce
     GENERIC_STRIPE_ID = 'Stripe_ID__c'
     ORDER_INVOICE_PAYMENT_LINK = 'Stripe_Invoice_Payment_Link__c'
     ORDER_SUBSCRIPTION_PAYMENT_LINK = 'Stripe_Subscription_Payment_Link__c'
+
+    # https://developer.salesforce.com/docs/atlas.en-us.packagingGuide.meta/packagingGuide/coa_order_type.htm
+    class OrderTypeOptions < T::Enum
+      enums do
+        NEW = new("New")
+      end
+    end
+
+    class OrderStatusOptions < T::Enum
+      enums do
+        ACTIVATED = new("Activated")
+      end
+    end
   end
 end

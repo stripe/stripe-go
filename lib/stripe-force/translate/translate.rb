@@ -54,7 +54,7 @@ class StripeForce::Translate
   end
 
   def translate_account(sf_account)
-    raise 'creating customers from an order reference is all that is supported right now'
+    create_customer_from_sf_account(sf_account)
   end
 
   def update_sf_stripe_id(sf_object, stripe_object, additional_salesforce_updates: {})
@@ -163,6 +163,10 @@ class StripeForce::Translate
       raise 'float prices with more than two decimals of precision are not supported'
     end
 
+    if metered_billing?(sf_order_item)
+      raise "metered billing not yet supported"
+    end
+
     # TODO detect billing type
     # https://help.salesforce.com/s/articleView?id=sf.cpq_order_product_fields.htm&type=5
     # if billing type = 'metered/areers'
@@ -228,9 +232,13 @@ class StripeForce::Translate
     price
   end
 
+  def metered_billing?(sf_order_item)
+    sf_order_item[CPQ_PRODUCT_BILLING_TYPE] == CPQProductBillingTypeOptions::ARREARS.serialize
+  end
+
   def recurring_item?(sf_order_item)
     # TODO unsure why ChargeType is nil? do we actually need to check this?
-    !sf_order_item.SBQQ__ChargeType__c.nil? || !sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TYPE].nil?
+    !sf_order_item[CPQ_PRODUCT_CHARGE_TYPE].nil? || !sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TYPE].nil?
   end
 
   def integer_quantity?(sf_order_item)
@@ -252,9 +260,13 @@ class StripeForce::Translate
 
   # TODO How can we organize code to support CPQ & non-CPQ use-cases? how can this be abstracted away from the order?
   def create_stripe_transaction_from_sf_order(sf_order)
-    if sf_order.Status != 'Activated'
+    if sf_order.Status != OrderStatusOptions::ACTIVATED.serialize
       log.info 'order is not activated, skipping'
       return
+    end
+
+    if sf_order.Type != OrderTypeOptions::NEW.serialize
+      raise "only initial orders are supported right now"
     end
 
     stripe_transaction_id = sf_order[GENERIC_STRIPE_ID]

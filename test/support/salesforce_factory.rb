@@ -83,8 +83,7 @@ module Critic
         "Description" => "A great description",
         'ProductCode' => "Prod#{Time.now.to_i}",
 
-        # this field is an enum/picklist in SF
-        CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQ_PRODUCT_SUBSCRIPTION_TYPE_RENEWABLE,
+        CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::RENEWABLE,
       }.merge(additional_fields))
     end
 
