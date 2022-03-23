@@ -191,6 +191,10 @@ public with sharing class setupAssistant {
         if(response.getStatusCode() == 200) {     
             stripeConnectRec.API_Key__c = packageKey;
             upsert stripeConnectRec;
+
+            //schedules the batch job that will clean up sync records
+            scheduleSyncRecordDeletion.scheduleJob();
+            
         } else {
             errorLogger.create('generatePackageKey', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get package level API key from ruby service.');
         }
