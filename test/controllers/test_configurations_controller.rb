@@ -73,13 +73,33 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
 
     it 'creates a new user with a valid organization API key' do
       api_key = SecureRandom.alphanumeric(16)
-      post api_post_install_path, params: {key: api_key}, as: :json, headers: {SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'), SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id}
+      post api_post_install_path, params: {key: api_key}, as: :json, headers: {
+        # not using `authentication_headers` since the user is not created
+        SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'),
+        SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id,
+        SALESFORCE_PACKAGE_NAMESPACE_HEADER => "",
+      }
 
       assert_equal(1, StripeForce::User.count)
       user = T.must(StripeForce::User.first)
 
       assert_equal(sf_account_id, user.salesforce_account_id)
       assert_equal(api_key, user.salesforce_organization_key)
+      assert_equal("stripeConnector", user.connector_settings['salesforce_namespace'])
+    end
+
+    it 'persists the salesforce namespace when in QA' do
+      api_key = SecureRandom.alphanumeric(16)
+      post api_post_install_path, params: {key: api_key}, as: :json, headers: {
+        # not using `authentication_headers` since the user is not created
+        SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'),
+        SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id,
+        SALESFORCE_PACKAGE_NAMESPACE_HEADER => "stripeConnectQA",
+      }
+
+      assert_equal(1, StripeForce::User.count)
+      user = T.must(StripeForce::User.first)
+      assert_equal("stripeConnectQA", user.connector_settings['salesforce_namespace'])
     end
   end
 
@@ -160,7 +180,27 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       assert_equal(result['settings']['sync_start_date'], future_time)
     end
 
-    it 'updates mappings and defaults' do
+    it 'does not remove settings which are not present in the incoming hash' do
+      @user.connector_settings['salesforce_namespace'] = 'stripeConnectQA'
+      @user.save
+
+      put api_configuration_path, params: {
+        settings: {
+          default_currency: 'EUR',
+        },
+      }, as: :json, headers: authentication_headers
+
+      assert_response :success
+
+      result = parsed_json
+
+      @user = T.must(StripeForce::User[@user.id])
+
+      assert_equal('EUR', @user.connector_settings['default_currency'])
+      assert_equal('stripeConnectQA', @user.connector_settings['salesforce_namespace'])
+    end
+
+    it 'updates mappings and defaults without settings' do
       updated_field_mapping = {
         "subscription_schedule" => {
           "Email" => "email",

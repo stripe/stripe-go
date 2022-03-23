@@ -137,16 +137,4 @@ class SessionsController < ApplicationController
   protected def auth_hash
     request.env['omniauth.auth']
   end
-
-  # https://github.com/stripe/stripe-salesforce/pull/171
-  protected def subdomain_namespace_from_param(raw_namespace)
-    case raw_namespace
-    when nil, ""
-      "stripeConnector"
-    when "c", "stripeConnector", "stripeConnectQA"
-      raw_namespace
-    else
-      raise "unexpected namespace #{raw_namespace}"
-    end
-  end
 end

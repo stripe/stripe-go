@@ -73,10 +73,12 @@ module Api
 
       set_error_context(user: user)
 
-      unless user.new?
-        report_edge_case("updating api key for user")
+      # this can happen if two users are in the setup page at the same time
+      if user.new?
+        report_edge_case("updating api key for user, but is already set")
       end
 
+      user.connector_settings['salesforce_namespace'] = subdomain_namespace_from_param(request.headers[SALESFORCE_PACKAGE_NAMESPACE_HEADER])
       user.salesforce_organization_key = salesforce_organization_key
       user.save
 
@@ -97,7 +99,11 @@ module Api
       end
 
       # `settings` is too general for our model, but unnecessary in the API schema
-      update_hash["connector_settings"] = update_hash.delete("settings") if update_hash.key?("settings")
+      # this is why `connector_settings` is used on the backend but `settings` is the frontend key
+      if update_hash.key?("settings")
+        # the existing settings should be merged, not replaced
+        update_hash["connector_settings"] = @user.connector_settings.merge(update_hash.delete("settings"))
+      end
 
       @user.update(update_hash)
 
