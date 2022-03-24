@@ -10,16 +10,23 @@ const excludedReadOnlyFields = {
 
     customer: [
         'delinquent',
-        'discount'
+        'discount',
+        'tax.ip_address'
     ],
 
     product: [],
 
-    subscription: [],
+    subscription: [
+        'id',
+        'current_period_end',
+        'current_period_start',
+        'ended_at',
+        'status'
+    ],
 
     subscription_item: [],
 
-    price: [],
+    price: ['id'],
 }
 
 const OPTIONS = {
@@ -190,7 +197,7 @@ function checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings,
                 }
             }
         } else {
-            if (responseJson['components']['schemas'][expandableField] && responseJson['components']['schemas'][expandableField]['properties'] 
+            if (responseJson['components']['schemas'][expandableField] && responseJson['components']['schemas'][expandableField]['properties']
             && expandableField !== 'coupon'&& !excludedReadOnlyFields.all.includes(expandableField) && !objectExcludedReadOnlyFields.includes(expandableField)) {
                 var newNestedExpandableFieldMap = responseJson['components']['schemas'][expandableField]['properties'];
                 var newNestedFieldName = field + '.' + expandableField.charAt(0).toUpperCase() + expandableField.slice(1).replace(/_+/g, ' ');
