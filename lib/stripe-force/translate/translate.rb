@@ -2,6 +2,7 @@
 # typed: true
 
 require_relative './utilities/metadata'
+require_relative './utilities/stripe_util'
 
 class StripeForce::Translate
   extend T::Sig
@@ -12,6 +13,7 @@ class StripeForce::Translate
 
   include StripeForce::Constants
   include StripeForce::Utilities::Metadata
+  include StripeForce::Utilities::StripeUtil
 
   def self.perform(user:, sf_object:, locker:)
     interactor = self.new(user, locker)
@@ -57,8 +59,8 @@ class StripeForce::Translate
     create_customer_from_sf_account(sf_account)
   end
 
-  sig { params(sf_object: T.untyped, stripe_object: Stripe::APIResource, additional_salesforce_updates: Hash).void }
-  def update_sf_stripe_id(sf_object, stripe_object, additional_salesforce_updates: {})
+  sig { returns(String) }
+  def prefixed_stripe_id_field
     custom_field_prefix = case (salesforce_namespace = @user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE])
     when nil
       report_edge_case("expected namespace to be defined, using fallback")
@@ -70,7 +72,12 @@ class StripeForce::Translate
       salesforce_namespace + "_"
     end
 
-    stripe_id_field = custom_field_prefix + GENERIC_STRIPE_ID
+    custom_field_prefix + GENERIC_STRIPE_ID
+  end
+
+  sig { params(sf_object: T.untyped, stripe_object: Stripe::APIResource, additional_salesforce_updates: Hash).void }
+  def update_sf_stripe_id(sf_object, stripe_object, additional_salesforce_updates: {})
+    stripe_id_field = prefixed_stripe_id_field
 
     if sf_object[stripe_id_field]
       log.info 'stripe id already exists on object, overwritting',
@@ -190,7 +197,7 @@ class StripeForce::Translate
     unit_price_for_stripe = normalize_float_amount_for_stripe(sf_pricebook_entry.UnitPrice.to_s, @user)
 
     # have we already pushed this to Stripe?
-    stripe_price_id = sf_pricebook_entry[GENERIC_STRIPE_ID]
+    stripe_price_id = sf_pricebook_entry[prefixed_stripe_id_field]
     if stripe_price_id.present?
       log.info 'price already pushed, retrieving from stripe', stripe_resource_id: stripe_price_id
 
@@ -284,10 +291,20 @@ class StripeForce::Translate
       raise "only initial orders are supported right now"
     end
 
-    stripe_transaction_id = sf_order[GENERIC_STRIPE_ID]
-    if !stripe_transaction_id.nil?
-      log.info 'order already translated', stripe_resource_id: stripe_transaction_id
+    stripe_transaction_id = sf_order[prefixed_stripe_id_field]
+    stripe_transaction = stripe_object_from_id(stripe_transaction_id)
+
+    if !stripe_transaction.nil? && [Stripe::SubscriptionSchedule, Stripe::Invoice].include?(stripe_transaction.class)
+      log.info 'order already translated',
+        stripe_resource_id: stripe_transaction_id,
+        salesforce_order_id: sf_order.Id
       return
+    end
+
+    if !stripe_transaction.nil?
+      log.info 'order contains incorrect stripe object reference, overwriting',
+        stripe_resource_id: stripe_transaction_id,
+        salesforce_order_id: sf_order.Id
     end
 
     sf_quote = sf.find(CPQ_QUOTE, sf_order[CPQ_QUOTE])

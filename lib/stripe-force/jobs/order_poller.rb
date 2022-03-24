@@ -32,7 +32,7 @@ class StripeForce::OrderPoller < StripeForce::PollerBase
       SalesforceTranslateRecordJob.work(@user, SF_ORDER, sf_order_id)
     end
 
-    log.info 'poll complete'
+    log.info 'poll complete', poll_size: updated_orders.count
 
     poll_record.update(last_polled_at: execution_time)
 

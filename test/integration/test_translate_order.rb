@@ -9,11 +9,6 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   end
 
   def salesforce_recurring_product_with_price
-    external_id = "recurring-product"
-
-    # TODO we should add a field to track the external ID
-    # sf.find(SF_PRODUCT, external_id, 'THE_FIELD')
-
     # blanking out the subscription type ensures it is a one-time product
     product_id = create_salesforce_product
     pricebook_entry = create_salesforce_price(sf_product_id: product_id)
@@ -21,12 +16,6 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   end
 
   def salesforce_standalone_product_with_price_id(price: 100_00)
-    external_id = "standalone-product-id-#{price}"
-
-    # TODO we should add a field to track the external ID
-    # product_id = sf.find(SF_PRODUCT, external_id, 'THE_FIELD__C')
-    # return product_id if product_id
-
     # blanking out the subscription type ensures it is a one-time product
     product_id = create_salesforce_product(additional_fields: {
       CPQ_PRODUCT_SUBSCRIPTION_TYPE => "",
@@ -38,7 +27,8 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   end
 
   # https://github.com/sseixas/CPQ-JS
-  def create_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, additional_order_fields: {})
+  def create_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, additional_quote_fields: {})
+    sf_product_id ||= salesforce_recurring_product_with_price
     sf_pricebook_id ||= default_pricebook_id
     sf_account_id ||= create_salesforce_account
 
@@ -49,10 +39,10 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     quote_id = sf.create!(CPQ_QUOTE, {
       CPQ_QUOTE_PRIMARY => true,
 
-      "SBQQ__Opportunity2__c": opportunity_id,
-      'SBQQ__PrimaryContact__c' => contact_id,
+      CPQ_QUOTE_OPPORTUNITY => opportunity_id,
+      CPQ_QUOTE_PRIMARY_CONTACT => contact_id,
       'SBQQ__PricebookId__c' => sf_pricebook_id,
-    }.merge(additional_order_fields))
+    }.merge(additional_quote_fields))
 
     # this error indicates that the SF account disconnected from the steelbrick REST service
     # reauth via: https://brick-rest.steelbrick.com/oauth/auth
@@ -157,7 +147,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       sf_product_id: sf_product_id,
       sf_account_id: sf_account_id,
 
-      additional_order_fields: {
+      additional_quote_fields: {
         CPQ_QUOTE_SUBSCRIPTION_START_DATE => "2021-10-01",
         CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
       }
@@ -226,6 +216,50 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     assert_match(@user.salesforce_instance_url, stripe_price.metadata['salesforce_pricebook_entry_link'])
     assert_match(sf_pricebook_entry_id, stripe_price.metadata['salesforce_pricebook_entry_link'])
     assert_equal(stripe_price.metadata['salesforce_pricebook_entry_id'], sf_pricebook_entry_id)
+  end
+
+  describe 'integration overrides' do
+    it 'integrates a subscription order when an invalid ID is entered in the stripe ID field' do
+      sf_order = create_salesforce_order(additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now.strftime("%Y-%m-%d"),
+        CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
+      })
+
+      sf.update!(sf_order.sobject_type, {
+        SF_ID => sf_order.Id,
+        # insert a random ID that does not represent a stripe object
+        GENERIC_STRIPE_ID => SecureRandom.alphanumeric(16),
+      })
+
+      SalesforceTranslateRecordJob.translate(@user, sf_order)
+
+      sf_order.refresh
+
+      assert_match(/^sub_sched_/, sf_order[GENERIC_STRIPE_ID])
+      schedule = Stripe::SubscriptionSchedule.retrieve(sf_order[GENERIC_STRIPE_ID], @user.stripe_credentials)
+    end
+
+    it 'ignores a valid stripe ID of the wrong object type' do
+      stripe_customer = Stripe::Customer.create({}, @user.stripe_credentials)
+
+      sf_order = create_salesforce_order(additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now.strftime("%Y-%m-%d"),
+        CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
+      })
+
+      sf.update!(sf_order.sobject_type, {
+        SF_ID => sf_order.Id,
+        # insert a ID that represents a valid stripe object of the wrong type
+        GENERIC_STRIPE_ID => stripe_customer.id,
+      })
+
+      SalesforceTranslateRecordJob.translate(@user, sf_order)
+
+      sf_order.refresh
+
+      assert_match(/^sub_sched_/, sf_order[GENERIC_STRIPE_ID])
+      schedule = Stripe::SubscriptionSchedule.retrieve(sf_order[GENERIC_STRIPE_ID], @user.stripe_credentials)
+    end
   end
 
   describe 'failures' do
