@@ -66,34 +66,34 @@ export default class SyncPreferencesStep extends LightningElement {
     }
 
     updateDefaultCurrency(event) {
-        let updatedValue = this.enablesave(this.defaultCurrency, event.detail.value)
+        let updatedValue = this.valueChange(this.defaultCurrency, event.detail.value)
         this.defaultCurrency = updatedValue;
     }
 
     updateSyncRecordRetention(event) {
-        let updatedValue = this.enablesave(this.syncRecordRetention, event.target.value)
+        let updatedValue = this.valueChange(this.syncRecordRetention, event.target.value)
         this.syncRecordRetention = updatedValue;
     }
 
     updateSyncStartDate(event) {
-        let updatedValue = this.enablesave(this.syncStartDate, event.target.value)
+        let updatedValue = this.valueChange(this.syncStartDate, event.target.value)
         this.syncStartDate = updatedValue;
     }
 
     updateApiPercentageLimit(event) {
-        let updatedValue = this.enablesave(this.apiPercentageLimit, event.target.value)
+        let updatedValue = this.valueChange(this.apiPercentageLimit, event.target.value)
         this.apiPercentageLimit = updatedValue;
     }
 
     updateCpqTermInterval(event) {
-        let updatedValue = this.enablesave(this.cpqTermUnit, event.detail.value)
+        let updatedValue = this.valueChange(this.cpqTermUnit, event.detail.value)
         this.cpqTermUnit = updatedValue;
     }
 
 
-    enablesave(savedValue, updatedValue) {
+    valueChange(savedValue, updatedValue) {
         if(savedValue !== updatedValue) {
-            this.dispatchEvent(new CustomEvent('enablesave'));
+            this.dispatchEvent(new CustomEvent('valuechange'));
             return updatedValue;
         }
         return savedValue;
@@ -120,7 +120,9 @@ export default class SyncPreferencesStep extends LightningElement {
             }
         } catch (error) {
             this.showToast(error.message, 'error', 'sticky');
-        } 
+        } finally {
+            this.dispatchEvent(new CustomEvent('savecomplete'));
+        }
     }
 
     showToast(message, variant, mode) {

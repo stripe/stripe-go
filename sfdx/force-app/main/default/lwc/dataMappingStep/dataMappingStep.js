@@ -38,7 +38,6 @@ export default class DataMappingStep extends LightningElement {
     @track defaultSfObject;
     @track isConnected = false;
     @track isMappingsUpdated = false;
-    markdownConverter;  // Stores instance of Showdown Markdown converter; set on connectedCallback 
 
     @track allMappingList = {
         field_defaults: {
@@ -155,10 +154,10 @@ export default class DataMappingStep extends LightningElement {
         this[activeObjectName + 'MetadataFields'] = parsedVal;
     } 
 
-    enablesave() {
+    valueChange() {
         if(!this.isMappingsUpdated) {
             this.isMappingsUpdated = true;
-            this.dispatchEvent(new CustomEvent('enablesave'));
+            this.dispatchEvent(new CustomEvent('valuechange'));
         }
     }
 
@@ -202,7 +201,7 @@ export default class DataMappingStep extends LightningElement {
         if (targetFieldIndex ) {
             this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].staticValue = !this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].staticValue;
             if(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].staticValue === true)this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].sfValue = ''; 
-            this.enablesave();
+            this.valueChange();
         }
     }
 
@@ -256,7 +255,7 @@ export default class DataMappingStep extends LightningElement {
             updatedSelection.hasOverride = this.activeObjectFields[parseInt(targetSectionIndex)].fields[parseInt(targetFieldIndex)].defaultValue ? true : false;
             updatedSelection.staticValue = !this.activeObjectFields[parseInt(targetSectionIndex)].fields[parseInt(targetFieldIndex)].staticValue;
             Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)] , updatedSelection); 
-            this.enablesave(); 
+            this.valueChange(); 
         }
     }
 
@@ -277,7 +276,7 @@ export default class DataMappingStep extends LightningElement {
                 value: this.staticValue
             };
             Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)] , updatedSelection); 
-            this.enablesave();
+            this.valueChange();
         }
     }
 
@@ -291,7 +290,7 @@ export default class DataMappingStep extends LightningElement {
                 sfValueType: 'staticMetadata'
             };
             Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)] , updatedSelection); 
-            this.enablesave();
+            this.valueChange();
         }
     }
 
@@ -308,7 +307,7 @@ export default class DataMappingStep extends LightningElement {
                 sfValueType: 'static'
             };
             Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)] , updatedSelection)
-            this.enablesave();
+            this.valueChange();
         }
     }
 
@@ -372,7 +371,7 @@ export default class DataMappingStep extends LightningElement {
                 sfValueType: this.sfFieldOptions[event.detail.index].type
             };
             Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)] , updatedSelection);
-            this.enablesave();
+            this.valueChange();
         }
     }
 
@@ -386,7 +385,7 @@ export default class DataMappingStep extends LightningElement {
                 sfValueType: this.sfFieldOptions[event.detail.index].type
             };
             Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)] , updatedSelection);
-            this.enablesave();
+            this.valueChange();
         }
     }
 
@@ -624,6 +623,7 @@ export default class DataMappingStep extends LightningElement {
             this.showToast(error.message, 'error', 'sticky');
         } finally {
             this.loading = false;
+            this.dispatchEvent(new CustomEvent('savecomplete'));
         }
     }
 

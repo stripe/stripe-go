@@ -152,7 +152,7 @@
                         <div class="slds-col">
                             <!-- First Time Setup Steps -->
                             <template if:false={setupComplete}>
-                                <c-step step-name="Connect Stripe and Salesforce" data-index="0" setup-complete={setupComplete} onnext={next} next-disabled={nextDisabled}  back-disabled class="slds-hide" show-intro illustration-url={systemConnectionsIllustration}>
+                                <c-step step-name="Connect Stripe and Salesforce" data-index="0" setup-complete={setupComplete} onnext={next} class="slds-hide" next-disabled={nextDisabled} loading={contentLoading} illustration-url={systemConnectionsIllustration} back-disabled show-intro>
                                     <p slot="description">
                                         Allow your Salesforce org and Stripe to communicate. This step will collect the required information to allow your Salesforce org and Stripe to communicate. First, you will be granting Stripe the necessary access to your Salesforce org. Second, you will be asked to log into Stripe to allow Salesforce to access your Stripe instance. Click "Authorize" and follow the provided steps to establish these connections.
                                     </p>
@@ -165,7 +165,7 @@
                                         onshowtoast={showToast}>
                                     </c-system-connections-step>
                                 </c-step>
-                                <c-step step-name="Define Data Mapping" data-index="1" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" show-intro illustration-url={dataMappingIllustration}>
+                                <c-step step-name="Define Data Mapping" data-index="1" setup-complete={setupComplete} onnext={next} onback={back} class="slds-hide" loading={contentLoading} illustration-url={dataMappingIllustration} show-intro>
                                     <p slot="description">
                                         Determine how Stripe data is mapped to your Salesforce org. A set of default field mappings have been provided for each Stripe object. These default values can be overwritten to better represent the structure of your Salesforce org. Field mappings can either be a Salesforce field, which reads Salesforce data on a per-record basis, or a static value, which will apply the same value to all records.
                                     </p>
@@ -176,10 +176,10 @@
                                         Determine how Stripe data is mapped to records in your Salesforce org. Each object in Stripe is related to an object in Salesforce, review the relation mappings and customize them to best suit your org structure.
                                     </p>
                                     <c-data-mapping-step
-                                    onshowtoast={showToast}>
+                                        onshowtoast={showToast}>
                                     </c-data-mapping-step>
                                 </c-step>
-                                <c-step step-name="Configure Sync Preferences" data-index="2" setup-complete={setupComplete} onnext={next} onback={back} next-label="Finish" class="slds-hide" show-intro illustration-url={syncPreferencesIllustration}>
+                                <c-step step-name="Configure Sync Preferences" data-index="2" setup-complete={setupComplete} onnext={next} onback={back} next-label="Finish" class="slds-hide" loading={contentLoading} illustration-url={syncPreferencesIllustration} show-intro>
                                     <p slot="description">
                                         Determine how and when data is synced between Stripe and Salesforce. A set of default settings has been provided; review and make any adjustments to these settings to suit your org before proceeding.
                                     </p>
@@ -213,7 +213,7 @@
                                 </template>
                                 <!-- /Landing Page -->
                                 <div class={settingsContentClasslist}>
-                                    <c-step step-name="Connect Stripe and Salesforce" class="slds-hide" data-index="0" setup-complete footer-hidden>
+                                    <c-step step-name="Connect Stripe and Salesforce" class="slds-hide" data-index="0" loading={contentLoading} setup-complete footer-hidden>
                                         <p slot="description">
                                             Allow your Salesforce org and Stripe to communicate. Review the current connection status for both Stripe and Salesforce. If there is an issue, you may need to reconnect one or both accounts. 
                                         </p>
@@ -221,21 +221,23 @@
                                             onshowtoast={showToast}>
                                         </c-system-connections-step>
                                     </c-step> 
-                                    <c-step step-name="Define Data Mapping" setup-complete onsave={save} save-disabled={saveDisabled} class="slds-hide" data-index="1">
+                                    <c-step step-name="Define Data Mapping" setup-complete onsave={save} save-disabled={saveDisabled} class="slds-hide" data-index="1" loading={contentLoading}>
                                         <p slot="description">
                                             Determine how Stripe data is mapped to your Salesforce org. Mappings are grouped by Stripe object, each of which has its own set of mapping groups. Field mappings can either be a Salesforce field, which reads Salesforce data on a per-record basis, or a static value, which will apply the same value to all records.
                                         </p>
                                         <c-data-mapping-step 
-                                            onenablesave={enablesave}
+                                            onvaluechange={enableSave}
+                                            onsavecomplete={completeSave}
                                             onshowtoast={showToast}>
                                         </c-data-mapping-step>
                                     </c-step>
-                                    <c-step step-name="Configure Sync Preferences" setup-complete class="slds-hide" onsave={save} save-disabled={saveDisabled} data-index="2">
+                                    <c-step step-name="Configure Sync Preferences" setup-complete class="slds-hide" onsave={save} save-disabled={saveDisabled} data-index="2" loading={contentLoading}>
                                         <p slot="description">
                                             Determine how and when data is synced between Stripe and Salesforce. Adjust when Stripe data should start to sync, how many records are saved in your org at one time, how many Salesforce API calls Stripe is allowed to make, and more. Default values have been provided; be sure to review and adjust sync settings to suit your Salesforce org's needs.
                                         </p>
                                         <c-sync-preferences-step 
-                                            onenablesave={enablesave}
+                                            onvaluechange={enableSave}
+                                            onsavecomplete={completeSave}
                                             onshowtoast={showToast}>
                                         </c-sync-preferences-step>
                                     </c-step>

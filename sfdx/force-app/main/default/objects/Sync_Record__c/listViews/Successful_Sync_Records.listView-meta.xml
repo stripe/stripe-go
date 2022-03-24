@@ -6,18 +6,13 @@
     <columns>Resolution_Status__c</columns>
     <columns>Primary_Object_Type__c</columns>
     <columns>Primary_Record__c</columns>
-    <columns>Secondary_Object_Type__c</columns> 
+    <columns>Secondary_Object_Type__c</columns>
     <columns>Secondary_Record__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Resolution_Status__c</field>
         <operation>equals</operation>
-        <value>Success</value>
-    </filters>
-    <filters>
-        <field>Resolution_Status__c</field>
-        <operation>equals</operation>
-        <value>Resolved</value>
+        <value>Resolved,Success</value>
     </filters>
     <label>Successful Sync Records</label>
 </ListView>

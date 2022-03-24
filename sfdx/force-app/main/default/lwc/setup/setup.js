@@ -19,6 +19,7 @@ export default class FirstTimeSetup extends LightningElement {
     @track nextDisabled = true;
     @track saveDisabled = true;
     @track loading = true;
+    @track contentLoading = false;
     @track steps = [
         {
             title: 'Connect Stripe and Salesforce',
@@ -91,8 +92,13 @@ export default class FirstTimeSetup extends LightningElement {
     enableNext() {
         this.nextDisabled = false;
     }
-    enablesave() {
+
+    enableSave() {
         this.saveDisabled = false;
+    }
+
+    completeSave() {
+        this.contentLoading = false;
     }
 
     getmappingconfigurations() {
@@ -167,10 +173,12 @@ export default class FirstTimeSetup extends LightningElement {
         } else if(this.activeSectionIndex == 2) {
             this.template.querySelector('c-sync-preferences-step').saveModifiedSyncPreferences();
         }
+        this.contentLoading = true;
         this.saveDisabled = true;
     }
 
     async next(event) { 
+        this.contentLoading = true;
         if(this.activeStepIndex <= (this.steps.length - 1)) {
             let stepName = this.steps[this.activeStepIndex].name; 
             let stepNumber = this.activeStepIndex + 1;
@@ -214,11 +222,13 @@ export default class FirstTimeSetup extends LightningElement {
                 if(this.activeStepIndex < (this.steps.length - 1)) {
                     this.showNextStep();
                 }
+                this.contentLoading = false;
             }
         }
     }
 
     back() {
+        this.contentLoading = true;
         if(this.activeStepIndex > 0) {
             const lastActiveStep = this.template.querySelector('c-step[data-index="' + this.activeStepIndex + '"]');
             this.activeStepIndex--;
@@ -232,6 +242,7 @@ export default class FirstTimeSetup extends LightningElement {
                 newActiveStep.classList.remove('slds-hide');
             }
         }
+        this.contentLoading = false;
     }
 
     sectionNavigate(event) {

@@ -24,7 +24,7 @@
                 </p>
             </div>
             <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
-                <lightning-input label="Last Synced" type="text" variant="label-hidden" value={lastSynced} disabled></lightning-input>
+                <lightning-input label="Last Synced" type="text" variant="label-hidden" value={lastSynced} placeholder="N/A" disabled></lightning-input>
             </div>
         </div>
 
@@ -38,8 +38,8 @@
                 </p>
             </div>
             <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
-                <c-picklist if:true={isMultiCurrencyEnabled} label="Default Currency" options={currencyOptions} variant="label-hidden" value={defaultCurrency} onselect={updateDefaultCurrency} placeholder="Select default currency..." searchable></c-picklist>
-                <lightning-input if:false={isMultiCurrencyEnabled} type="text" label="Default Currency" value={defaultCurrency} variant="label-hidden" disabled></lightning-input>
+                <c-picklist if:true={isMultiCurrencyEnabled} label="Default Currency" options={currencyOptions} variant="label-hidden" value={defaultCurrency} onselect={updateDefaultCurrency} placeholder="Select Default Currency..." searchable></c-picklist>
+                <lightning-input if:false={isMultiCurrencyEnabled} type="text" label="Default Currency" value={defaultCurrency} variant="label-hidden" placeholder="N/A" disabled></lightning-input>
             </div>
         </div>
 
@@ -53,7 +53,7 @@
                 </p>
             </div>
             <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
-                <lightning-input label="Sync Record Retention" type="number" variant="label-hidden" value={syncRecordRetention} onchange={updateSyncRecordRetention} placeholder="Enter a value..." max="1000000" min="0" step="1"></lightning-input>
+                <lightning-input label="Sync Record Retention" type="number" variant="label-hidden" value={syncRecordRetention} onchange={updateSyncRecordRetention} placeholder="Enter a Value..." max="1000000" min="100" step="1"></lightning-input>
                 <div class="slds-text-title slds-m-top_xx-small slds-p-left_xx-small">
                     Max 1,000,000 records
                 </div>
@@ -100,7 +100,7 @@
                 </p>
             </div>
             <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
-                <c-picklist label="CPQ Term Interval" options={intervalOptions} variant="label-hidden" value={cpqTermUnit} onselect={updateCpqTermInterval} placeholder="Select default interval..." searchable></c-picklist>
+                <c-picklist label="CPQ Term Interval" options={intervalOptions} variant="label-hidden" value={cpqTermUnit} onselect={updateCpqTermInterval} placeholder="Select Interval..." searchable></c-picklist>
             </div>
         </div>
     </div>

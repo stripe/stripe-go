@@ -1,3 +1,9 @@
+.stripe-settings.stripe-is-loading {
+    overflow: hidden;
+    max-height: calc(100vh - 86px);    /*  Take up full height minus other elements (padding, margin. header, etc.) */ 
+    margin-bottom: 0;
+}
+
 .stripe-intro-card .slds-text-longform p {
     margin-top: var(--lwc-spacingXLarge, 2rem);
     margin-bottom: var(--lwc-spacingXLarge, 2rem);

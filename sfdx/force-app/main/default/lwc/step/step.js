@@ -11,7 +11,7 @@ export default class SetupStep extends LightningElement {
     @api footerHidden = false;
     @api introButtonLabel = 'Get Started';
     @api illustrationUrl = '';
-    loading = false;
+    @api loading = false;
     @track _showIntro;
     
     @api 
@@ -21,6 +21,10 @@ export default class SetupStep extends LightningElement {
 
     set showIntro(value) {
         this._showIntro = value;
+    }
+
+    get componentClasslist() {
+        return 'stripe-settings slds-card slds-m-bottom_x-large slds-is-relative' + (this.loading ? ' stripe-is-loading' : '');
     }
 
     get stepContentClasslist() {
