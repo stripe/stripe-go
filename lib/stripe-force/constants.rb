@@ -8,6 +8,7 @@ module StripeForce
     SALESFORCE_PACKAGE_NAMESPACE_HEADER = "Salesforce-Package-Namespace"
 
     SF_ORDER = 'Order'
+    SF_ORDER_ITEM = 'OrderItem'
     SF_PRODUCT = 'Product2'
     SF_ACCOUNT = 'Account'
     SF_OPPORTUNITY = 'Opportunity'
@@ -19,6 +20,7 @@ module StripeForce
     CPQ_QUOTE = 'SBQQ__Quote__c'
 
     CPQ_QUOTE_PRIMARY_CONTACT = 'SBQQ__PrimaryContact__c'
+    CPQ_QUOTE_PRICEBOOK = "SBQQ__PricebookId__c"
     CPQ_QUOTE_OPPORTUNITY = 'SBQQ__Opportunity2__c'
     CPQ_QUOTE_ORDERED = 'SBQQ__Ordered__c'
     CPQ_QUOTE_PRIMARY = 'SBQQ__Primary__c'
@@ -29,6 +31,7 @@ module StripeForce
     class CPQProductSubscriptionTypeOptions < T::Enum
       enums do
         RENEWABLE = new("Renewable")
+        ONE_TIME = new("")
       end
     end
 
@@ -54,6 +57,22 @@ module StripeForce
     GENERIC_STRIPE_ID = 'Stripe_ID__c'
     ORDER_INVOICE_PAYMENT_LINK = 'Stripe_Invoice_Payment_Link__c'
     ORDER_SUBSCRIPTION_PAYMENT_LINK = 'Stripe_Subscription_Payment_Link__c'
+
+    SYNC_RECORD = 'Sync_Record__c'
+    class SyncRecordFields < T::Enum
+      enums do
+        COMPOUND_ID = new('Compound_ID__c')
+
+        PRIMARY_RECORD_ID = new("Primary_Record_ID__c")
+        PRIMARY_OBJECT_TYPE = new("Primary_Object_Type__c")
+
+        SECONDARY_RECORD_ID = new("Secondary_Record_ID__c")
+        SECONDARY_OBJECT_TYPE = new("Secondary_Object_Type__c")
+
+        RESOLUTION_MESSAGE = new("Resolution_Message__c")
+        RESOLUTION_STATUS = new("Resolution_Status__c")
+      end
+    end
 
     # https://developer.salesforce.com/docs/atlas.en-us.packagingGuide.meta/packagingGuide/coa_order_type.htm
     class OrderTypeOptions < T::Enum

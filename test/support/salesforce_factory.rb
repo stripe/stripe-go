@@ -82,8 +82,6 @@ module Critic
         'IsActive' => true,
         "Description" => "A great description",
         'ProductCode' => "Prod#{Time.now.to_i}",
-
-        CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::RENEWABLE,
       }.merge(additional_fields))
     end
 

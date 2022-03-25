@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 # typed: true
 
+require_relative './stripe_factory'
+
 # ActiveSupport::TestCase gives us the ability to run tests by line number
 class Critic::UnitTest < ActiveSupport::TestCase
   include CommonHelpers

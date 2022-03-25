@@ -23,7 +23,7 @@ module Critic::Unit
 
         @translator.sf.expects(:update!).with do |name, params|
           assert_equal(SF_ACCOUNT, name)
-          assert_equal(stripe_customer.id, params["#{SalesforceNamespaceOptions::QA.serialize}_#{GENERIC_STRIPE_ID}"])
+          assert_equal(stripe_customer.id, params["#{SalesforceNamespaceOptions::QA.serialize}__#{GENERIC_STRIPE_ID}"])
         end
 
         @translator.update_sf_stripe_id(customer, stripe_customer)
@@ -37,7 +37,7 @@ module Critic::Unit
 
         @translator.sf.expects(:update!).with do |name, params|
           assert_equal(SF_ACCOUNT, name)
-          assert_equal(stripe_customer.id, params["#{SalesforceNamespaceOptions::PRODUCTION.serialize}_#{GENERIC_STRIPE_ID}"])
+          assert_equal(stripe_customer.id, params["#{SalesforceNamespaceOptions::PRODUCTION.serialize}__#{GENERIC_STRIPE_ID}"])
         end
 
         @translator.update_sf_stripe_id(customer, stripe_customer)
@@ -55,7 +55,6 @@ module Critic::Unit
         end
 
         @translator.update_sf_stripe_id(customer, stripe_customer)
-
       end
     end
   end

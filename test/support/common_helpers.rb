@@ -4,10 +4,14 @@
 require_relative './salesforce_factory'
 
 module CommonHelpers
-  include StripeForce::Constants
-  include Critic::SalesforceFactory
   include Kernel
   extend T::Sig
+
+  include StripeForce::Constants
+  include Critic::SalesforceFactory
+
+  # NOTE this is a little dangerous: we are only doing this for `prefixed_stripe_field` right now
+  include StripeForce::Utilities::SalesforceUtil
 
   def sf_account_id
     ENV.fetch('SF_INSTANCE_ID')
@@ -30,8 +34,15 @@ module CommonHelpers
       end
     )
 
+    user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = 'c'
+
     # TODO major hack until we figure out what we are doing with sandboxes
     user.instance_variable_set('@sandbox', sandbox)
+
+    # mbianco+cpqpackage@stripe.com
+    if user.salesforce_account_id == "00D8c000006J9X9EAK"
+      user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = 'stripeConnectQA'
+    end
 
     user.save if save
 

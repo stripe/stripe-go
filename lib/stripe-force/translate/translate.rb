@@ -3,6 +3,7 @@
 
 require_relative './utilities/metadata'
 require_relative './utilities/stripe_util'
+require_relative './utilities/salesforce_util'
 
 class StripeForce::Translate
   extend T::Sig
@@ -14,6 +15,7 @@ class StripeForce::Translate
   include StripeForce::Constants
   include StripeForce::Utilities::Metadata
   include StripeForce::Utilities::StripeUtil
+  include StripeForce::Utilities::SalesforceUtil
 
   def self.perform(user:, sf_object:, locker:)
     interactor = self.new(user, locker)
@@ -33,6 +35,8 @@ class StripeForce::Translate
   end
 
   def translate(sf_object)
+    @origin_salesforce_object = sf_object
+
     case sf_object.sobject_type
     when SF_ORDER
       translate_order(sf_object)
@@ -41,8 +45,15 @@ class StripeForce::Translate
     when SF_ACCOUNT
       translate_account(sf_object)
     else
-      raise 'only order translation is supported right now'
+      raise 'unsupported translation type'
     end
+  rescue Integrations::Errors::MissingRequiredFields => e
+    create_user_failure(
+      salesforce_object: e.salesforce_object,
+      message: "The following required fields are missing from this Salesforce record: #{e.missing_salesforce_fields.join(', ')}",
+    )
+
+    raise
   end
 
   def translate_order(sf_object)
@@ -59,25 +70,59 @@ class StripeForce::Translate
     create_customer_from_sf_account(sf_account)
   end
 
-  sig { returns(String) }
-  def prefixed_stripe_id_field
-    custom_field_prefix = case (salesforce_namespace = @user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE])
-    when nil
-      report_edge_case("expected namespace to be defined, using fallback")
-      ""
-    when "c"
-      ""
-    else
-      # `stripeConnector_Stripe_ID__c` is the expected field name
-      salesforce_namespace + "_"
+  def create_user_failure(stripe_resource: nil, salesforce_object:, message:)
+    if @origin_salesforce_object&.Id.blank?
+      raise "origin salesforce object is blank, cannot record error"
     end
 
-    custom_field_prefix + GENERIC_STRIPE_ID
+    compound_external_id = "#{@origin_salesforce_object.Id}-#{salesforce_object.Id}"
+
+    sf.create!(prefixed_stripe_field(SYNC_RECORD), {
+      SyncRecordFields::COMPOUND_ID.serialize => compound_external_id,
+
+      SyncRecordFields::PRIMARY_RECORD_ID.serialize => @origin_salesforce_object.Id,
+      SyncRecordFields::PRIMARY_OBJECT_TYPE.serialize => @origin_salesforce_object.sobject_type,
+
+      SyncRecordFields::SECONDARY_RECORD_ID.serialize => salesforce_object.Id,
+      SyncRecordFields::SECONDARY_OBJECT_TYPE.serialize => salesforce_object.sobject_type,
+
+      SyncRecordFields::RESOLUTION_MESSAGE.serialize => message,
+      SyncRecordFields::RESOLUTION_STATUS.serialize => 'Error',
+    }.transform_keys!(&method(:prefixed_stripe_field)))
+
+    log.error 'translation failed', {
+      metric: 'error.user',
+      stripe_resource: stripe_resource,
+      secondary_salesforce_id: salesforce_object.Id,
+      secondary_salesforce_type: salesforce_object.sobject_type,
+      error_message: message,
+    }
+  end
+
+  # NOTE ns_record OR ns_class must be provided
+  def throw_user_failure!(stripe_resource: nil, salesforce_object:, message:, error_class: nil)
+    create_user_failure(
+      stripe_resource: stripe_resource,
+      salesforce_object: salesforce_object,
+      message: message,
+    )
+
+    # TODO right now all attempt/audit log information is stored in salesforce
+    #      it may make sense to change that at some point in the future
+
+    error_class ||= Integrations::Errors::UserError
+
+    raise error_class.new(
+      message,
+
+      stripe_resource: stripe_resource,
+      salesforce_object: salesforce_object
+    )
   end
 
   sig { params(sf_object: T.untyped, stripe_object: Stripe::APIResource, additional_salesforce_updates: Hash).void }
   def update_sf_stripe_id(sf_object, stripe_object, additional_salesforce_updates: {})
-    stripe_id_field = prefixed_stripe_id_field
+    stripe_id_field = prefixed_stripe_field(GENERIC_STRIPE_ID)
 
     if sf_object[stripe_id_field]
       log.info 'stripe id already exists on object, overwritting',
@@ -92,7 +137,7 @@ class StripeForce::Translate
     }.merge(additional_salesforce_updates))
 
     log.info 'updated with stripe id',
-      sf_resource: sf_object,
+      salesforce_object: sf_object,
       stripe_id: stripe_object.id
   end
 
@@ -111,7 +156,7 @@ class StripeForce::Translate
 
     apply_mapping(stripe_object, sf_object)
 
-    log.info 'creating stripe object', sf_resource: sf_object
+    log.info 'creating stripe object', salesforce_object: sf_object
 
     # there's a decent chance this causes us issues down the road: we shouldn't be using `construct_from`
     # and then converting the finalized object into a parameters hash. However, without using `construct_from`
@@ -197,7 +242,7 @@ class StripeForce::Translate
     unit_price_for_stripe = normalize_float_amount_for_stripe(sf_pricebook_entry.UnitPrice.to_s, @user)
 
     # have we already pushed this to Stripe?
-    stripe_price_id = sf_pricebook_entry[prefixed_stripe_id_field]
+    stripe_price_id = sf_pricebook_entry[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     if stripe_price_id.present?
       log.info 'price already pushed, retrieving from stripe', stripe_resource_id: stripe_price_id
 
@@ -212,7 +257,7 @@ class StripeForce::Translate
       # TODO we probably shouldn't overwrite the price on the SF object in this case, need to think this through
       if stripe_price && stripe_price.unit_amount != unit_price_for_stripe
         report_edge_case("specified price is different than stripe price", integration_record: sf_order_item, stripe_resource: stripe_price)
-        stripe_price = nil # rubocop:disable Lint/UselessAssignment
+        stripe_price = nil # rubocop:disable Lint/UselessAssignment:
       end
     end
 
@@ -224,16 +269,22 @@ class StripeForce::Translate
     # by omitting the recurring params it sets `type: one_time`
     # this param cannot be set directly
     if recurring_item?(sf_order_item)
+      recurring_price_params = extract_salesforce_params!(sf_order_item, {
+        'interval_count' => CPQ_PRODUCT_SUBSCRIPTION_TERM,
+      })
+
+      interval_count = recurring_price_params['interval_count']
+
+      # I don't think this can actually occur, but let's keep an eye out
+      if !is_integer_value?(interval_count)
+        raise 'intervals need to be floats'
+      end
+
       optional_price_params[:recurring] = {
         interval: sf_cpq_term_interval,
+        # TODO maybe we should move the formatting stuff into the `extract_salesforce_params!`
+        interval_count: interval_count.to_i,
       }
-
-      if sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TERM].nil?
-        log.error 'no subscription term specified', sf_resource: sf_order_item
-      else
-        # TODO need to some input validation here
-        optional_price_params[:recurring][:interval_count] = sf_product[CPQ_PRODUCT_SUBSCRIPTION_TERM].to_i
-      end
     end
 
     price = create_stripe_object(Stripe::Price, sf_pricebook_entry, additional_stripe_params: {
@@ -265,13 +316,17 @@ class StripeForce::Translate
 
   def integer_quantity?(sf_order_item)
     # TODO this is naive, should investigate this logic further
-    is_float_quantity = sf_order_item.Quantity.to_i == sf_order_item.Quantity.to_f
+    is_integer_quantity = is_integer_value?(sf_order_item.Quantity)
 
-    if is_float_quantity
+    if is_integer_quantity
       log.warn 'user has float quantities defined on the line level'
     end
 
-    is_float_quantity
+    is_integer_quantity
+  end
+
+  def is_integer_value?(value)
+    value.to_i == value.to_f
   end
 
   def high_precision_float?(sf_order_item)
@@ -291,7 +346,7 @@ class StripeForce::Translate
       raise "only initial orders are supported right now"
     end
 
-    stripe_transaction_id = sf_order[prefixed_stripe_id_field]
+    stripe_transaction_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     stripe_transaction = stripe_object_from_id(stripe_transaction_id)
 
     if !stripe_transaction.nil? && [Stripe::SubscriptionSchedule, Stripe::Invoice].include?(stripe_transaction.class)
@@ -312,6 +367,7 @@ class StripeForce::Translate
 
     stripe_customer = create_customer_from_sf_account(sf_account)
 
+    # TODO should use batch service for this instead
     # https://github.com/Neuralab/WooCommerce-Salesforce-integration/blob/3af9ecf491f770ece9cdce993c21cee45f2647a0/includes/controllers/core/class-nwsi-salesforce-object-manager.php#L306
     # https://salesforce.stackexchange.com/questions/251904/get-sales-order-line-on-rest-api
     # https://developer.salesforce.com/docs/atlas.en-us.api_placeorder.meta/api_placeorder/sforce_placeorder_rest_api_get_details_order.htm
@@ -321,29 +377,30 @@ class StripeForce::Translate
     # the OrderItems from the commerce API is some sort of limited version
     sf_order_items = sf_order_items.map {|o| sf.find('OrderItem', o.Id) }
 
-    sf_recurring_items, _sf_one_time_items = sf_order_items.partition {|i| recurring_item?(i) }
-    is_recurring_order = !sf_recurring_items.empty?
+    invoice_items = []
     subscription_items = []
 
-    stripe_prices = sf_order_items.map do |sf_order_item|
+    sf_order_items.map do |sf_order_item|
       price = create_price_for_order_item(sf_order_item)
 
+      # TODO we need to document this or just prevent this from happening
       # if the quantity is specified as a float, we normalize it to 1 since Stripe does not support quantities
       quantity = integer_quantity?(sf_order_item) ? sf_order_item.Quantity.to_i : 1
 
-      if !is_recurring_order
-        Stripe::InvoiceItem.create({
-          price: price,
-          customer: stripe_customer,
-          quantity: quantity,
-        }, @user.stripe_credentials)
-      else
+      if recurring_item?(sf_order_item)
         subscription_items << {
+          price: price,
+          quantity: quantity,
+        }
+      else
+        invoice_items << {
           price: price,
           quantity: quantity,
         }
       end
     end
+
+    is_recurring_order = !subscription_items.empty?
 
     order_update_params = {}
 
@@ -351,6 +408,7 @@ class StripeForce::Translate
       log.info 'recurring items found, creating subscription schedule'
 
       # TODO right now this just reports errors, but we should reference this for values in the future
+      # TODO at minimum we should pull this hash from the default_mappings
       extract_salesforce_params!(sf_quote, {
         start_date: CPQ_QUOTE_SUBSCRIPTION_START_DATE,
         subscription_iterations: CPQ_QUOTE_SUBSCRIPTION_TERM,
@@ -361,22 +419,24 @@ class StripeForce::Translate
         customer: stripe_customer,
 
         # TODO can we assume a consistent date format? What about TZs here?
+        # TODO extract this out to a separate method to format a date for Stripe
         start_date: DateTime.parse(sf_quote[CPQ_QUOTE_SUBSCRIPTION_START_DATE]).to_time.to_i,
+
+        # TODO this should be specified in the defaults hash... we should create a defaults hash
         end_behavior: 'cancel',
 
+        # TODO we need to handle multiple items here
         phases: [
-          # TODO we should map this, and probably add it to the data mapper
+          # this is the initial order, so there is only a single phase
+          # TODO if metadata is added to the subscription schedule phase items, we should add this to the data mapper
           {
-            items: stripe_prices,
+            add_invoice_items: invoice_items,
+            items: subscription_items,
             # TODO we should ensure integer terms in SF
             # TODO is the restforce gem somehow formatting everything as a float?
             iterations: sf_quote[CPQ_QUOTE_SUBSCRIPTION_TERM].to_i,
           },
         ],
-
-        # TODO mainly to avoid having to add a card right now, will need to map thi
-        # collection_method: 'send_invoice',
-        # days_until_due: 30
 
         metadata: stripe_metadata_for_sf_object(sf_order),
       }, @user.stripe_credentials)
@@ -386,31 +446,32 @@ class StripeForce::Translate
       # TODO should we conditionally do this based on user config?
       # TODO shluld we conditionally do this depending on if the user already has a payment method setup?
 
-      stripe_checkout_session = Stripe::Checkout::Session.create({
-        # TODO these will need to specified by the customer
-        success_url: 'https://example.com/success',
-        cancel_url: 'https://example.com/cancel',
+      # stripe_checkout_session = Stripe::Checkout::Session.create({
+      #   # TODO these will need to specified by the customer
+      #   success_url: 'https://example.com/success',
+      #   cancel_url: 'https://example.com/cancel',
 
-        customer: stripe_customer,
-        mode: 'setup',
-        payment_method_types: ['card'],
-      }, @user.stripe_credentials)
+      #   customer: stripe_customer,
+      #   mode: 'setup',
+      #   payment_method_types: ['card'],
+      # }, @user.stripe_credentials)
 
-      order_update_params[ORDER_SUBSCRIPTION_PAYMENT_LINK] = stripe_checkout_session.url
+      # order_update_params[prefixed_stripe_field(ORDER_SUBSCRIPTION_PAYMENT_LINK)] = stripe_checkout_session.url
     else
       log.info 'no recurring items found, creating a one-time invoice'
+
+      invoice_items.each do |invoice_item_params|
+        # TODO idempotency keys https://jira.corp.stripe.com/browse/PLATINT-1474
+        Stripe::InvoiceItem.create({customer: stripe_customer}.merge(invoice_item_params), @user.stripe_credentials)
+      end
 
       stripe_transaction = create_stripe_object(Stripe::Invoice, sf_order, additional_stripe_params: {
         customer: stripe_customer.id,
       })
 
-      # TODO we should move these somewhere
-      # stripe_transaction.collection_method = 'send_invoice'
-      # stripe_transaction.days_until_due = 30
-
       stripe_transaction.finalize_invoice
 
-      order_update_params[ORDER_INVOICE_PAYMENT_LINK] = stripe_transaction.hosted_invoice_url
+      order_update_params[prefixed_stripe_field(ORDER_INVOICE_PAYMENT_LINK)] = stripe_transaction.hosted_invoice_url
     end
 
     log.info 'stripe subscription or invoice created', stripe_resource_id: stripe_transaction.id
@@ -421,16 +482,21 @@ class StripeForce::Translate
   end
 
   # TODO maybe build this into the mapper?
+  # param_mapping: { stripe_key_name => salesforce_field_name }
   def extract_salesforce_params!(sf_record, param_mapping)
     result_params = param_mapping.transform_values do |sf_key|
       sf_record[sf_key]
     end
 
-    missing_fields = result_params.select {|_k, v| v.nil? }
+    missing_stripe_fields = result_params.select {|_k, v| v.nil? }
 
-    if missing_fields.present?
-      # TODO include origin & current object in the error so we can create a sync record
-      raise Integrations::Errors::MissingRequiredFields.new("missing required params #{missing_fields}")
+    if missing_stripe_fields.present?
+      missing_salesforce_fields = missing_stripe_fields.keys.map {|k| param_mapping[k] }
+
+      raise Integrations::Errors::MissingRequiredFields.new(
+        salesforce_object: sf_record,
+        missing_salesforce_fields: missing_salesforce_fields
+      )
     end
 
     result_params
