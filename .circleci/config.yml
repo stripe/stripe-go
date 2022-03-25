@@ -98,13 +98,13 @@ jobs:
       RAISE_EXCEPTIONS: 'true'
       # providing a fake DSN ensures sentry tests run with production parity
       SENTRY_DSN: stdout://12345:67890@sentry.localdomain/prefix/sentry/42
-      SIGNALFX_TOKEN: foo
       RAILS_ENV: test
       RACK_ENV: test
       DISABLE_SPRING: 'true'
       STRIPE_ACCOUNT_ID: acct_15uapDIsgf92XbAO
       SF_USERNAME: mbianco+standardcpq@stripe.com
       # SF_PASSWORD
+      # SIGNALFX_TOKEN
     # TODO possibly use the heroku image instead?
     docker:
       # replace `:.*` with `@sha256:THE_SHA` to lock the build to a specific container SHA

@@ -54,4 +54,12 @@ def example_sf_order
   # @sf.find('Order', '8015e000000IIpgAAG')
 end
 
+def delete_sync_records
+  result = @sf.query("SELECT Id FROM Sync_Record__c")
+  result.each do |sync_record|
+    puts "destroying\t#{sync_record.Id}"
+    sync_record.destroy
+  end
+end
+
 Pry.start

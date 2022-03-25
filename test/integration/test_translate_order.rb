@@ -11,16 +11,20 @@ class Critic::OrderTranslation < Critic::FunctionalTest
   def salesforce_recurring_product_with_price
     # blanking out the subscription type ensures it is a one-time product
     product_id = create_salesforce_product(additional_fields: {
+      # anything non-nil indicates subscription/recurring pricing
+      CPQ_QUOTE_SUBSCRIPTION_PRICING => 'Fixed Price',
+
       CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::RENEWABLE,
+
       # one year
-      CPQ_PRODUCT_SUBSCRIPTION_TERM => 12,
+      CPQ_QUOTE_SUBSCRIPTION_TERM => 12,
     })
 
     pricebook_entry_id = create_salesforce_price(sf_product_id: product_id)
     [product_id, pricebook_entry_id]
   end
 
-  def salesforce_standalone_product_with_price_id(price: 100_00)
+  def salesforce_standalone_product_with_price(price: 100_00)
     # blanking out the subscription type ensures it is a one-time product
     product_id = create_salesforce_product(additional_fields: {
       CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::ONE_TIME,
@@ -38,15 +42,81 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     })
   end
 
-  # https://github.com/sseixas/CPQ-JS
-  def create_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, additional_quote_fields: {})
-    if !sf_product_id
-      sf_product_id, _ = salesforce_recurring_product_with_price
-    end
-
+  def add_product_to_cpq_quote(quote_id, sf_product_id:, sf_pricebook_id: nil)
     sf_pricebook_id ||= default_pricebook_id
-    sf_account_id ||= create_salesforce_account
 
+    # this error indicates that the SF account disconnected from the steelbrick REST service
+    # reauth via: https://brick-rest.steelbrick.com/oauth/auth
+    # Restforce::ErrorCode::ApexError: APEX_ERROR: SBQQ.RestClient.RefreshTokenNilException: Invalid nil argument: OAuth Refresh Token
+
+    # https://developer.salesforce.com/docs/atlas.en-us.cpq_api_dev.meta/cpq_api_dev/cpq_api_read_quote.htm
+    # get CPQ version of the quote
+    quote_data = JSON.parse(sf.get("services/apexrest/SBQQ/ServiceRouter?reader=SBQQ.QuoteAPI.QuoteReader&uid=#{quote_id}").body)
+
+    cpq_product_representation = JSON.parse(sf.patch("services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.ProductAPI.ProductLoader&uid=#{sf_product_id}", {
+      context: {
+        # currencyCode:
+        pricebookId: sf_pricebook_id,
+      }.to_json,
+    }).body)
+
+    # TODO how can I specify quantity?
+    # https://gist.github.com/paustint/bd18bd281134a180e014829b49ed043a
+    quote_with_product = JSON.parse(sf.patch('/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.QuoteAPI.QuoteProductAdder', {
+      context: {
+        "quote": quote_data,
+        "products": [
+          cpq_product_representation,
+        ],
+        "groupKey": 0,
+        "ignoreCalculate": false,
+      }.to_json,
+    }).body)
+
+    quote_with_product
+  end
+
+  def calculate_and_save_cpq_quote(quote_data)
+    # https://developer.salesforce.com/docs/atlas.en-us.cpq_dev_api.meta/cpq_dev_api/cpq_quote_api_calculate_final.htm
+    calculated_quote = JSON.parse(sf.patch('/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.QuoteAPI.QuoteCalculator', {
+      # "context": quote_with_product.to_json
+      # "context": saved_quote.to_json
+      # "context": sf.get("services/apexrest/SBQQ/ServiceRouter?reader=SBQQ.QuoteAPI.QuoteReader&uid=#{quote_id}").body
+      "context": {"quote" => quote_data}.to_json,
+    }).body)
+
+    # https://developer.salesforce.com/docs/atlas.en-us.cpq_dev_api.meta/cpq_dev_api/cpq_quote_api_save_final.htm
+    saved_quote = JSON.parse(sf.post('/services/apexrest/SBQQ/ServiceRouter', {
+      "saver": "SBQQ.QuoteAPI.QuoteSaver",
+      "model": calculated_quote.to_json,
+    }).body)
+
+    refute(saved_quote["calculationRequired"])
+  end
+
+  def create_order_from_cpq_quote(sf_quote_id)
+    # it looks like there is additional field validation triggered here when `ordered` is set to true
+    sf.update!(CPQ_QUOTE, {
+      SF_ID => sf_quote_id,
+      CPQ_QUOTE_ORDERED => true,
+    })
+
+    sf_quote = sf.find(CPQ_QUOTE, sf_quote_id)
+
+    # TODO this is silly, I should do a simple SOQL query and grab the result
+    # https://salesforce.stackexchange.com/questions/251904/get-sales-order-line-on-rest-api
+    # TODO note that looking in the UI is the easiest way to get these magic relational values
+    related_orders = sf.get("/services/data/v52.0/sobjects/#{CPQ_QUOTE}/#{sf_quote_id}/SBQQ__Orders__r")
+    sf_order = related_orders.body.first
+
+    sf.update!('Order', 'Id' => sf_order.Id, 'Status' => 'Activated')
+
+    sf_order.refresh
+    sf_order
+  end
+
+  def create_salesforce_quote(sf_pricebook_id: nil, sf_account_id:, additional_quote_fields: {})
+    sf_pricebook_id ||= default_pricebook_id
     opportunity_id = create_salesforce_opportunity(sf_account_id: sf_account_id)
     contact_id = create_salesforce_contact
 
@@ -57,95 +127,24 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       CPQ_QUOTE_PRIMARY_CONTACT => contact_id,
       CPQ_QUOTE_PRICEBOOK => sf_pricebook_id,
     }.merge(additional_quote_fields))
+  end
 
-    # this error indicates that the SF account disconnected from the steelbrick REST service
-    # reauth via: https://brick-rest.steelbrick.com/oauth/auth
-    # Restforce::ErrorCode::ApexError: APEX_ERROR: SBQQ.RestClient.RefreshTokenNilException: Invalid nil argument: OAuth Refresh Token
+  # https://github.com/sseixas/CPQ-JS
+  def create_salesforce_order(sf_product_id: nil, sf_account_id: nil, sf_pricebook_id: nil, additional_quote_fields: {})
+    if !sf_product_id
+      sf_product_id, _ = salesforce_recurring_product_with_price
+    end
 
-    # https://developer.salesforce.com/docs/atlas.en-us.cpq_api_dev.meta/cpq_api_dev/cpq_api_read_quote.htm
-    # get CPQ version of the quote
-    cpq_quote_representation = JSON.parse(sf.get("services/apexrest/SBQQ/ServiceRouter?reader=SBQQ.QuoteAPI.QuoteReader&uid=#{quote_id}").body)
+    sf_pricebook_id ||= default_pricebook_id
+    sf_account_id ||= create_salesforce_account
 
-    cpq_product_representation = JSON.parse(sf.patch("services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.ProductAPI.ProductLoader&uid=#{sf_product_id}", {
-      context: {
-        # productId: product_id,
-        pricebookId: sf_pricebook_id,
-        # currencyCode:
-      }.to_json,
-    }).body)
+    quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: additional_quote_fields)
 
-    # TODO how can I specify quantity?
-    # https://gist.github.com/paustint/bd18bd281134a180e014829b49ed043a
-    quote_with_product = JSON.parse(sf.patch('/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.QuoteAPI.QuoteProductAdder', {
-      context: {
-        "quote": cpq_quote_representation,
-        "products": [
-          cpq_product_representation,
-        ],
-        "groupKey": 0,
-        "ignoreCalculate": false,
-        # quote: {
-        #   record: {
-        #     Id: quote_id,
-        #     attributes: {
-        #       type: CPQ_QUOTE,
-        #     }
-        #   }
-        # },
-        # products: [
-        #   {
-        #     record: {
-        #       Id: product_id
-        #     }
-        #   }
-        # ],
-        # ignoreCalculate: true
-      }.to_json,
-    }).body)
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id)
 
-    # https://developer.salesforce.com/docs/atlas.en-us.cpq_dev_api.meta/cpq_dev_api/cpq_quote_api_calculate_final.htm
-    calculated_quote = JSON.parse(sf.patch('/services/apexrest/SBQQ/ServiceRouter?loader=SBQQ.QuoteAPI.QuoteCalculator', {
-      # "context": quote_with_product.to_json
-      # "context": saved_quote.to_json
-      # "context": sf.get("services/apexrest/SBQQ/ServiceRouter?reader=SBQQ.QuoteAPI.QuoteReader&uid=#{quote_id}").body
-      "context": {"quote" => quote_with_product}.to_json,
-    }).body)
+    calculate_and_save_cpq_quote(quote_with_product)
 
-    # https://developer.salesforce.com/docs/atlas.en-us.cpq_dev_api.meta/cpq_dev_api/cpq_quote_api_save_final.htm
-    saved_quote = JSON.parse(sf.post('/services/apexrest/SBQQ/ServiceRouter', {
-      "saver": "SBQQ.QuoteAPI.QuoteSaver",
-      "model": calculated_quote.to_json,
-    }).body)
-
-    refute(saved_quote["calculationRequired"])
-
-    # sf.create!(CPQ_QUOTE_LINE, {
-    #   CPQ_QUOTE => quote_id,
-    #   CPQ_QUOTE_LINE_PRODUCT => product_id,
-    #   CPQ_QUOTE_LINE_PRICEBOOK_ENTRY => pricebook_entry_id
-    # })
-
-    # give CPQ some time to calculate...
-    # sleep(5)
-
-    # it looks like there is additional field validation triggered here when `ordered` is set to true
-    sf.update!(CPQ_QUOTE, {
-      SF_ID => quote_id,
-      CPQ_QUOTE_ORDERED => true,
-    })
-
-    sf_quote = sf.find(CPQ_QUOTE, quote_id)
-
-    # TODO this is silly, I should do a simple SOQL query and grab the result
-    # https://salesforce.stackexchange.com/questions/251904/get-sales-order-line-on-rest-api
-    # TODO note that looking in the UI is the easiest way to get these magic relational values
-    related_orders = sf.get("/services/data/v52.0/sobjects/#{CPQ_QUOTE}/#{quote_id}/SBQQ__Orders__r")
-    sf_order = related_orders.body.first
-
-    sf.update!('Order', 'Id' => sf_order.Id, 'Status' => 'Activated')
-
-    # TODO need refresh here
-    sf.find('Order', sf_order.Id)
+    create_order_from_cpq_quote(quote_id)
 
     # contract_id = salesforce_client.create!('Contract', accountId: account_id)
     # order_id = salesforce_client.create!('Order', {Status: "Draft", EffectiveDate: "2021-09-21", AccountId: account_id, ContractId: contract_id})
@@ -234,6 +233,57 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     assert_equal(stripe_price.metadata['salesforce_pricebook_entry_id'], sf_pricebook_entry_id)
   end
 
+  it 'integrates a subscription order with multiple lines' do
+    sf_product_id_1, sf_pricebook_id_1 = salesforce_recurring_product_with_price
+    sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_product_with_price
+    sf_product_id_3, sf_pricebook_id_3 = salesforce_standalone_product_with_price
+
+    sf_account_id = create_salesforce_account
+
+    quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
+      CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now,
+      CPQ_QUOTE_SUBSCRIPTION_TERM => 12.0,
+    })
+
+    # set first product quantity to 5
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_1)
+    quote_with_product["lineItems"].first["record"]["SBQQ__Quantity__c"] = 5.0
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_2)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    quote_with_product = add_product_to_cpq_quote(quote_id, sf_product_id: sf_product_id_3)
+    calculate_and_save_cpq_quote(quote_with_product)
+
+    sf_order = create_order_from_cpq_quote(quote_id)
+
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
+
+    sf_order.refresh
+    stripe_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+
+    subscription_schedule = Stripe::SubscriptionSchedule.retrieve(stripe_id, @user.stripe_credentials)
+
+    assert_equal(1, subscription_schedule.phases.count)
+    phase = T.must(subscription_schedule.phases.first)
+
+    assert_equal(2, phase.items.count)
+    assert_equal(1, phase.add_invoice_items.count)
+
+    phase_item_with_five = T.must(phase.items.detect {|i| i.quantity == 5 })
+    price_1 = Stripe::Price.retrieve(phase_item_with_five.price, @user.stripe_credentials)
+    assert_equal(sf_pricebook_id_1, price_1.metadata['salesforce_pricebook_entry_id'])
+
+    phase_item_with_one = T.must(phase.items.detect {|i| i.quantity == 1 })
+    price_2 = Stripe::Price.retrieve(phase_item_with_one.price, @user.stripe_credentials)
+    assert_equal(sf_pricebook_id_2, price_2.metadata['salesforce_pricebook_entry_id'])
+
+    standalone_item = T.must(phase.add_invoice_items.first)
+    price_3 = Stripe::Price.retrieve(standalone_item.price, @user.stripe_credentials)
+    assert_equal(sf_pricebook_id_3, price_3.metadata['salesforce_pricebook_entry_id'])
+  end
+
   describe 'integration overrides' do
     it 'integrates a subscription order when an invalid ID is entered in the stripe ID field' do
       sf_order = create_subscription_order
@@ -305,14 +355,12 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       assert_match("The following required fields are missing from this Salesforce record: SBQQ__StartDate__c", sync_record[prefixed_stripe_field(SyncRecordFields::RESOLUTION_MESSAGE.serialize)])
     end
 
-    it 'creates a user error when the subscription term does not exist' do
-      sf_product_id, = create_salesforce_product(additional_fields: {
-        CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::RENEWABLE,
-        # by omitting the term here a term will fail to be set on the OrderLine
+    # it looks like there are field validations in place to protect against the term being nil'd out on the order line
+    it 'creates a user error when the subscription term does not exist on the order line level' do
+      sf_order = create_salesforce_order(additional_quote_fields: {
+        CPQ_QUOTE_SUBSCRIPTION_START_DATE => DateTime.now.strftime("%Y-%m-%d"),
+        # omit subscription term
       })
-      sf_pricebook_id = create_salesforce_price(sf_product_id: sf_product_id)
-
-      sf_order = create_salesforce_order(sf_product_id: sf_product_id)
 
       exception = assert_raises(Integrations::Errors::MissingRequiredFields) do
         SalesforceTranslateRecordJob.translate(@user, sf_order)
@@ -321,7 +369,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       sync_record = get_sync_record_by_primary_id(sf_order.Id)
 
       assert_equal(SF_ORDER, sync_record[prefixed_stripe_field(SyncRecordFields::PRIMARY_OBJECT_TYPE.serialize)])
-      assert_equal(SF_ORDER_ITEM, sync_record[prefixed_stripe_field(SyncRecordFields::SECONDARY_OBJECT_TYPE.serialize)])
+      assert_equal(CPQ_QUOTE, sync_record[prefixed_stripe_field(SyncRecordFields::SECONDARY_OBJECT_TYPE.serialize)])
 
       assert_equal(sf_order.Id, sync_record[prefixed_stripe_field(SyncRecordFields::PRIMARY_RECORD_ID.serialize)])
       assert_match(sf_order.Id, sync_record[prefixed_stripe_field(SyncRecordFields::COMPOUND_ID.serialize)])
@@ -351,7 +399,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
       "Description" => "#{Time.now.to_i}@example.com",
     })
 
-    sf_product_id, _ = salesforce_standalone_product_with_price_id
+    sf_product_id, _ = salesforce_standalone_product_with_price
 
     sf_order = create_salesforce_order(
       sf_account_id: sf_account_id,

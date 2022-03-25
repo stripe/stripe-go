@@ -17,6 +17,8 @@ class StripeForce::Translate
   include StripeForce::Utilities::StripeUtil
   include StripeForce::Utilities::SalesforceUtil
 
+  def self.perform_inline(user:, sf_object_id:, sf_object_type:); end
+
   def self.perform(user:, sf_object:, locker:)
     interactor = self.new(user, locker)
     interactor.translate(sf_object)
@@ -77,7 +79,7 @@ class StripeForce::Translate
 
     compound_external_id = "#{@origin_salesforce_object.Id}-#{salesforce_object.Id}"
 
-    sf.create!(prefixed_stripe_field(SYNC_RECORD), {
+    sf.upsert!(prefixed_stripe_field(SYNC_RECORD), prefixed_stripe_field(SyncRecordFields::COMPOUND_ID.serialize), {
       SyncRecordFields::COMPOUND_ID.serialize => compound_external_id,
 
       SyncRecordFields::PRIMARY_RECORD_ID.serialize => @origin_salesforce_object.Id,
@@ -210,7 +212,7 @@ class StripeForce::Translate
 
     sf_pricebook_entry = sf.find(SF_PRICEBOOK_ENTRY, sf_order_item.PricebookEntryId)
 
-    if sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TERM] != sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TERM]
+    if sf_order_item[CPQ_QUOTE_SUBSCRIPTION_TERM] != sf_order_item[CPQ_QUOTE_SUBSCRIPTION_TERM]
       raise 'subscription term differs between pricebook and order item'
     end
 
@@ -270,7 +272,7 @@ class StripeForce::Translate
     # this param cannot be set directly
     if recurring_item?(sf_order_item)
       recurring_price_params = extract_salesforce_params!(sf_order_item, {
-        'interval_count' => CPQ_PRODUCT_SUBSCRIPTION_TERM,
+        'interval_count' => CPQ_QUOTE_SUBSCRIPTION_TERM,
       })
 
       interval_count = recurring_price_params['interval_count']
@@ -309,16 +311,16 @@ class StripeForce::Translate
     sf_order_item[CPQ_PRODUCT_BILLING_TYPE] == CPQProductBillingTypeOptions::ARREARS.serialize
   end
 
+  # according to the salesforce documentation, if this field is non-nil ("empty") than it's a subscription item
   def recurring_item?(sf_order_item)
-    # TODO unsure why ChargeType is nil? do we actually need to check this?
-    !sf_order_item[CPQ_PRODUCT_CHARGE_TYPE].nil? || !sf_order_item[CPQ_PRODUCT_SUBSCRIPTION_TYPE].nil?
+    !sf_order_item[CPQ_QUOTE_SUBSCRIPTION_PRICING].nil?
   end
 
   def integer_quantity?(sf_order_item)
     # TODO this is naive, should investigate this logic further
     is_integer_quantity = is_integer_value?(sf_order_item.Quantity)
 
-    if is_integer_quantity
+    if !is_integer_quantity
       log.warn 'user has float quantities defined on the line level'
     end
 

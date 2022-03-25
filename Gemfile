@@ -13,7 +13,7 @@ gem 'reline', '~> 0.3.1'
 
 gem 'dotenv-rails', '2.7.6', groups: [:development, :test]
 gem 'rails', '~> 6.1.5'
-gem 'lograge'
+gem 'lograge', github: 'roidrage/lograge'
 
 group :production do
   gem 'puma', '~> 5.6'

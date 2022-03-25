@@ -26,6 +26,7 @@ module StripeForce
     CPQ_QUOTE_PRIMARY = 'SBQQ__Primary__c'
     CPQ_QUOTE_SUBSCRIPTION_START_DATE = 'SBQQ__StartDate__c'
     CPQ_QUOTE_SUBSCRIPTION_TERM = 'SBQQ__SubscriptionTerm__c'
+    CPQ_QUOTE_SUBSCRIPTION_PRICING = 'SBQQ__SubscriptionPricing__c'
 
     CPQ_PRODUCT_SUBSCRIPTION_TYPE = 'SBQQ__SubscriptionType__c'
     class CPQProductSubscriptionTypeOptions < T::Enum
@@ -35,7 +36,6 @@ module StripeForce
       end
     end
 
-    CPQ_PRODUCT_SUBSCRIPTION_TERM = 'SBQQ__SubscriptionTerm__c'
     CPQ_PRODUCT_CHARGE_TYPE = 'SBQQ__ChargeType__c'
 
     # https://help.salesforce.com/s/articleView?id=sf.cpq_subscription_fields.htm&type=5
