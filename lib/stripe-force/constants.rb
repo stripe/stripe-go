@@ -92,7 +92,7 @@ module StripeForce
 
     class SalesforceNamespaceOptions < T::Enum
       enums do
-        QA = new("stripeConnectQA")
+        QA = new("QaStripeConnect")
         PRODUCTION = new("stripeConnector")
         NONE = new("c")
       end

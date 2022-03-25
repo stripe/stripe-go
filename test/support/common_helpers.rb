@@ -41,7 +41,7 @@ module CommonHelpers
 
     # mbianco+cpqpackage@stripe.com
     if user.salesforce_account_id == "00D8c000006J9X9EAK"
-      user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = 'stripeConnectQA'
+      user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::QA.serialize
     end
 
     user.save if save
