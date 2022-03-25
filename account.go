@@ -70,6 +70,26 @@ const (
 	AccountCapabilitiesKonbiniPaymentsPending  AccountCapabilitiesKonbiniPayments = "pending"
 )
 
+// The status of the paynow payments capability of the account, or whether the account can directly process paynow charges.
+type AccountCapabilitiesPayNowPayments string
+
+// List of values that AccountCapabilitiesPayNowPayments can take
+const (
+	AccountCapabilitiesPayNowPaymentsActive   AccountCapabilitiesPayNowPayments = "active"
+	AccountCapabilitiesPayNowPaymentsInactive AccountCapabilitiesPayNowPayments = "inactive"
+	AccountCapabilitiesPayNowPaymentsPending  AccountCapabilitiesPayNowPayments = "pending"
+)
+
+// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
+type AccountCapabilitiesUSBankAccountAchPayments string
+
+// List of values that AccountCapabilitiesUSBankAccountAchPayments can take
+const (
+	AccountCapabilitiesUSBankAccountAchPaymentsActive   AccountCapabilitiesUSBankAccountAchPayments = "active"
+	AccountCapabilitiesUSBankAccountAchPaymentsInactive AccountCapabilitiesUSBankAccountAchPayments = "inactive"
+	AccountCapabilitiesUSBankAccountAchPaymentsPending  AccountCapabilitiesUSBankAccountAchPayments = "pending"
+)
+
 // The category identifying the legal structure of the company or legal entity. See [Business structure](https://stripe.com/docs/connect/identity-verification#business-structure) for more details.
 type AccountCompanyStructure string
 
@@ -363,6 +383,12 @@ type AccountCapabilitiesP24PaymentsParams struct {
 	Requested *bool `form:"requested"`
 }
 
+// The paynow_payments capability.
+type AccountCapabilitiesPayNowPaymentsParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
 // The sepa_debit_payments capability.
 type AccountCapabilitiesSEPADebitPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
@@ -389,6 +415,12 @@ type AccountCapabilitiesTaxReportingUS1099MISCParams struct {
 
 // The transfers capability.
 type AccountCapabilitiesTransfersParams struct {
+	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
+	Requested *bool `form:"requested"`
+}
+
+// The us_bank_account_ach_payments capability.
+type AccountCapabilitiesUSBankAccountAchPaymentsParams struct {
 	// Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the `requirements` arrays.
 	Requested *bool `form:"requested"`
 }
@@ -435,6 +467,8 @@ type AccountCapabilitiesParams struct {
 	OXXOPayments *AccountCapabilitiesOXXOPaymentsParams `form:"oxxo_payments"`
 	// The p24_payments capability.
 	P24Payments *AccountCapabilitiesP24PaymentsParams `form:"p24_payments"`
+	// The paynow_payments capability.
+	PayNowPayments *AccountCapabilitiesPayNowPaymentsParams `form:"paynow_payments"`
 	// The sepa_debit_payments capability.
 	SEPADebitPayments *AccountCapabilitiesSEPADebitPaymentsParams `form:"sepa_debit_payments"`
 	// The sofort_payments capability.
@@ -445,6 +479,8 @@ type AccountCapabilitiesParams struct {
 	TaxReportingUS1099MISC *AccountCapabilitiesTaxReportingUS1099MISCParams `form:"tax_reporting_us_1099_misc"`
 	// The transfers capability.
 	Transfers *AccountCapabilitiesTransfersParams `form:"transfers"`
+	// The us_bank_account_ach_payments capability.
+	USBankAccountAchPayments *AccountCapabilitiesUSBankAccountAchPaymentsParams `form:"us_bank_account_ach_payments"`
 }
 
 // The Kana variation of the company's primary address (Japan only).
@@ -807,6 +843,8 @@ type AccountCapabilities struct {
 	OXXOPayments AccountCapabilityStatus `json:"oxxo_payments"`
 	// The status of the P24 payments capability of the account, or whether the account can directly process P24 charges.
 	P24Payments AccountCapabilityStatus `json:"p24_payments"`
+	// The status of the paynow payments capability of the account, or whether the account can directly process paynow charges.
+	PayNowPayments AccountCapabilitiesPayNowPayments `json:"paynow_payments"`
 	// The status of the SEPA Direct Debits payments capability of the account, or whether the account can directly process SEPA Direct Debits charges.
 	SEPADebitPayments AccountCapabilityStatus `json:"sepa_debit_payments"`
 	// The status of the Sofort payments capability of the account, or whether the account can directly process Sofort charges.
@@ -817,6 +855,8 @@ type AccountCapabilities struct {
 	TaxReportingUS1099MISC AccountCapabilityStatus `json:"tax_reporting_us_1099_misc"`
 	// The status of the transfers capability of the account, or whether your platform can transfer funds to the account.
 	Transfers AccountCapabilityStatus `json:"transfers"`
+	// The status of the US bank account ACH payments capability of the account, or whether the account can directly process US bank account charges.
+	USBankAccountAchPayments AccountCapabilitiesUSBankAccountAchPayments `json:"us_bank_account_ach_payments"`
 }
 
 // The Kana variation of the company's primary address (Japan only).
@@ -1080,7 +1120,7 @@ type Account struct {
 	Controller     *AccountController `json:"controller"`
 	// The account's country.
 	Country string `json:"country"`
-	// Time at which the object was created. Measured in seconds since the Unix epoch.
+	// Time at which the account was connected. Measured in seconds since the Unix epoch.
 	Created int64 `json:"created"`
 	// Three-letter ISO currency code representing the default currency for the account. This must be a currency that [Stripe supports in the account's country](https://stripe.com/docs/payouts).
 	DefaultCurrency Currency `json:"default_currency"`
