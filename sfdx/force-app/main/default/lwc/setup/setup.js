@@ -20,6 +20,7 @@ export default class FirstTimeSetup extends LightningElement {
     @track saveDisabled = true;
     @track loading = true;
     @track contentLoading = false;
+    @track stepName;
     @track steps = [
         {
             title: 'Connect Stripe and Salesforce',
@@ -97,8 +98,15 @@ export default class FirstTimeSetup extends LightningElement {
         this.saveDisabled = false;
     }
 
-    completeSave() {
+    completeSave(event) {
         this.contentLoading = false;
+        if(event.detail.saveSuccess && this.setupComplete === true) {
+            this.saveDisabled = true;
+        } else if (event.detail.saveSuccess && this.setupComplete === false) {
+            this.nextNavigate();
+        } else {
+            this.showSetupToast('There was a problem saving your changes. Make sure that all updated values are valid before saving.', 'error', 'sticky');
+        }
     }
 
     getmappingconfigurations() {
@@ -167,30 +175,46 @@ export default class FirstTimeSetup extends LightningElement {
         }
     }    
 
-    save() { 
+    save() {
+        this.contentLoading = true;
         if(this.activeSectionIndex == 1) {
             this.template.querySelector('c-data-mapping-step').saveCongfiguredMappings();
         } else if(this.activeSectionIndex == 2) {
             this.template.querySelector('c-sync-preferences-step').saveModifiedSyncPreferences();
         }
-        this.contentLoading = true;
-        this.saveDisabled = true;
     }
 
-    async next(event) { 
+    next() { 
         this.contentLoading = true;
-        if(this.activeStepIndex <= (this.steps.length - 1)) {
-            let stepName = this.steps[this.activeStepIndex].name; 
-            let stepNumber = this.activeStepIndex + 1;
-            let isLastStep = false;
-            if (stepNumber === (this.steps.length)) {
-                 isLastStep = true
+        this.stepName = this.steps[this.activeStepIndex].name;
+        if(this.stepName === 'C-DATA-MAPPING-STEP') {
+            this.template.querySelector('c-data-mapping-step').saveCongfiguredMappings();
+        } else if(this.stepName === 'C-SYNC-PREFERENCES-STEP') {
+            this.template.querySelector('c-sync-preferences-step').saveModifiedSyncPreferences();
+        } else {
+            this.nextNavigate();
+        }       
+    }
+
+    async nextNavigate() {
+        try {
+            if(this.activeStepIndex <= (this.steps.length - 1)) {
+                 
+                let stepNumber = this.activeStepIndex + 1;
+                let isLastStep = false;
+                if (stepNumber === (this.steps.length)) {
+                    isLastStep = true
+                    this.steps[this.activeStepIndex].isActive = false;
+                    this.steps[this.activeStepIndex].isComplete = true;
+                    this.nextDisabled = true;     
+                    this.setupComplete = true;
+                    this.showSetupToast('Setup completed', 'success');
                 }
-            try {
+            
                 const saveSetupData = await saveData({
                     newSetupDataRec: {
                         Steps_Completed__c: JSON.stringify({
-                            [stepName]: stepNumber
+                            [this.stepName]: stepNumber
                         })
                     },
                     isSetupComplete: isLastStep
@@ -201,29 +225,14 @@ export default class FirstTimeSetup extends LightningElement {
                 } else {
                     this.showSetupToast(this.data.error, 'error', 'sticky');
                 }
-            } catch (error) {
-                this.showSetupToast(error.message, 'error', 'sticky');
-            } finally {
-                switch (stepName) {
-                case 'C-DATA-MAPPING-STEP':
-                    this.template.querySelector('c-data-mapping-step').saveCongfiguredMappings();
-                    break; 
-                case 'C-SYNC-PREFERENCES-STEP':
-                    this.template.querySelector('c-sync-preferences-step').saveModifiedSyncPreferences();
-                    this.steps[this.activeStepIndex].isActive = false;
-                    this.steps[this.activeStepIndex].isComplete = true;
-                    this.nextDisabled = true;     
-                    this.setupComplete = true;
-                    this.showSetupToast('Setup completed', 'success')
-                    break;
-                default:
-                    break;
-                }
-                if(this.activeStepIndex < (this.steps.length - 1)) {
-                    this.showNextStep();
-                }
-                this.contentLoading = false;
             }
+        } catch (error) {
+            this.showSetupToast(error.message, 'error', 'sticky');
+        } finally {
+            if(this.activeStepIndex < (this.steps.length - 1)) {
+                this.showNextStep();
+            }
+            this.contentLoading = false;
         }
     }
 

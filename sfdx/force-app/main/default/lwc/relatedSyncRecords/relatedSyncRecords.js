@@ -6,9 +6,9 @@ export default class RelatedSyncRecords extends NavigationMixin(LightningElement
   @api recordId;
   @track addXMore = 10;
   @track listOfSyncRecords = [];
+  @track listOfDisplayRecords = [];
   @track listOfFailedSyncRecords = [];
   @track listOfDisplayFailedRecords = [];
-  @track listOfDisplayRecords = [];
   @track loading = false;
   @track errorMessage = '';
   @track missingPermSet = false;
@@ -20,7 +20,7 @@ export default class RelatedSyncRecords extends NavigationMixin(LightningElement
             recordId: this.recordId
             });
             this.data = JSON.parse(allRelatedSyncRecords);
-            if(this.data.isSuccess && this.data.results.syncRecordList.length) {
+            if(this.data.isSuccess && this.data.results.hasSyncRecords) {
                 let syncRecords = this.data.results.syncRecordList;
                 for (let i = 0; i < syncRecords.length; i++) {           
                     //created date is not writable in apex so we format the date here 
@@ -61,6 +61,7 @@ export default class RelatedSyncRecords extends NavigationMixin(LightningElement
             this.loading = false;
         }
     }
+
     loadMoreRecords() {
         this.addRecordsToDisplayList(this.listOfDisplayRecords, this.listOfSyncRecords); 
     }
@@ -115,10 +116,18 @@ export default class RelatedSyncRecords extends NavigationMixin(LightningElement
     }
 
     get issuesTabLabel() {
-        return `Issues (${this.listOfDisplayFailedRecords ? this.listOfDisplayFailedRecords.length : '0'})`;
+        return `Issues (${this.listOfFailedSyncRecords ? this.listOfFailedSyncRecords.length : '0'})`;
     }
 
     get showComponentMessage() {
         return this.errorMessage || this.missingPermSet;
+    }
+
+    get moreToLoad() {
+        return this.listOfSyncRecords.length > this.listOfDisplayRecords.length;
+    }
+
+    get moreErrorsToLoad() {
+        return this.listOfFailedSyncRecords.length > this.listOfDisplayFailedRecords.length;
     }
 } 

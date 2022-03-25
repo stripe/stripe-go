@@ -13,7 +13,6 @@
     <label>Stripe Billing Setup</label>
     <navType>Standard</navType>
     <tabs>Setup</tabs>
-    <tabs>Error_Log__c</tabs>
     <tabs>Sync_Record__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

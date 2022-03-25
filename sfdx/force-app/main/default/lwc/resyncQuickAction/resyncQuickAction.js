@@ -19,7 +19,7 @@ export default class ResyncQuickAction extends LightningElement {
             this.data =  JSON.parse(manualRetryRequest);
             if(this.data.isSuccess) {
                 if(this.data.results.isSyncRecordDispactched) {
-                    this.showToast('Resync Successfully Scheculed', 'This record has successfully been scheculed for resynchronization', 'success');
+                    this.showToast('Resync Successfully Scheduled', 'This record has successfully been scheduled for resynchronization', 'success');
                 }
             } else {
                 this.showToast('Resync Error', this.data.error, 'error');

@@ -100,28 +100,40 @@ export default class SyncPreferencesStep extends LightningElement {
     }
 
     get apiLimitCount() {
-        return Math.floor(this.totalApiCalls * (this.apiPercentageLimit / 100));
+        if (this.apiPercentageLimit > 0) {
+            return Math.floor(this.totalApiCalls * (this.apiPercentageLimit / 100));
+        } else {
+            return 0;
+        }
     }
 
     @api async saveModifiedSyncPreferences() {
+        let saveSuccess = false;
         try {
-            const updatedSyncPreferences = await saveSyncPreferences({
-                cpqTermUnit: this.cpqTermUnit,
-                defaultCurrency: this.defaultCurrency,
-                syncRecordRetention: this.syncRecordRetention,
-                syncStartDate: (new Date(this.syncStartDate).getTime() / 1000),
-                apiPercentageLimit: this.apiPercentageLimit
-            });
-            this.data =  JSON.parse(updatedSyncPreferences);
-            if(this.data.isSuccess) {
-                this.showToast('Changes were successfully saved', 'success');
-            } else {
-                this.showToast(this.data.error, 'error', 'sticky');
-            }
+            if((this.apiPercentageLimit < 100 && this.apiPercentageLimit > 0) && (this.syncRecordRetention < 1000000 && this.syncRecordRetention > 100)) {
+                const updatedSyncPreferences = await saveSyncPreferences({
+                    cpqTermUnit: this.cpqTermUnit,
+                    defaultCurrency: this.defaultCurrency,
+                    syncRecordRetention: this.syncRecordRetention,
+                    syncStartDate: (new Date(this.syncStartDate).getTime() / 1000),
+                    apiPercentageLimit: this.apiPercentageLimit
+                });
+                this.data =  JSON.parse(updatedSyncPreferences);
+                if(this.data.isSuccess) {
+                    saveSuccess = true;
+                    this.showToast('Changes were successfully saved', 'success');
+                } else {
+                    this.showToast(this.data.error, 'error', 'sticky');
+                } 
+            }  
         } catch (error) {
             this.showToast(error.message, 'error', 'sticky');
         } finally {
-            this.dispatchEvent(new CustomEvent('savecomplete'));
+            this.dispatchEvent(new CustomEvent('savecomplete', {
+                detail: {
+                    saveSuccess: saveSuccess
+                }
+            }));
         }
     }
 

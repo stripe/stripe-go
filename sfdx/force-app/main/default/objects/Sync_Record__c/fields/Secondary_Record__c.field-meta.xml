@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Secondary_Record__c</fullName>
     <externalId>false</externalId>
-    <formula>HYPERLINK(LEFT($Api.Partner_Server_URL_260, FIND( &apos;/services&apos;, $Api.Partner_Server_URL_260)) + &quot;/lightning/r/&quot; + Secondary_Object_Type__c + &quot;/&quot; + Secondary_Record_ID__c + &quot;/view﻿&quot;, Secondary_Record_ID__c)</formula>
+    <formula>HYPERLINK(LEFT($Api.Partner_Server_URL_260, FIND( &apos;/services&apos;, $Api.Partner_Server_URL_260)) + &quot;lightning/r/&quot; + Secondary_Object_Type__c + &quot;/&quot; + Secondary_Record_ID__c + &quot;/view﻿&quot;, Secondary_Record_ID__c)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Secondary Record</label>
     <required>false</required>

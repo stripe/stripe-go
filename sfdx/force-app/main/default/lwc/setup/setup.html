@@ -176,6 +176,7 @@
                                         Determine how Stripe data is mapped to records in your Salesforce org. Each object in Stripe is related to an object in Salesforce, review the relation mappings and customize them to best suit your org structure.
                                     </p>
                                     <c-data-mapping-step
+                                        onsavecomplete={completeSave}
                                         onshowtoast={showToast}>
                                     </c-data-mapping-step>
                                 </c-step>
@@ -187,6 +188,7 @@
                                         Determine how and when data is synced between Stripe and Salesforce. Review and make any adjustments to the default settings to best suit your Salesforce org.
                                     </p>
                                     <c-sync-preferences-step
+                                        onsavecomplete={completeSave}
                                         onshowtoast={showToast}>
                                     </c-sync-preferences-step>
                                 </c-step>

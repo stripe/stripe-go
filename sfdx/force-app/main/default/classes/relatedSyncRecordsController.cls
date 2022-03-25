@@ -14,7 +14,12 @@ public with sharing class relatedSyncRecordsController {
                                                         WITH SECURITY_ENFORCED
                                                         ORDER BY CreatedDate DESC];   
 
-                rd.put('syncRecordList',syncRecordList); 
+                if (!syncRecordList.isEmpty()) {
+                    rd.put('hasSyncRecords',true);
+                    rd.put('syncRecordList',syncRecordList); 
+                } else {
+                    rd.put('hasSyncRecords',false);
+                }
             }
         } catch(QueryException e) {  
             rd.put('missingPermSet',true);  

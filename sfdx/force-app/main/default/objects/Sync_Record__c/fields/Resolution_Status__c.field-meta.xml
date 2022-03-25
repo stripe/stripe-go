@@ -12,7 +12,7 @@
             <sorted>false</sorted>
             <value>
                 <fullName>Error</fullName>
-                <default>false</default>
+                <default>true</default>
                 <label>Error</label>
             </value>
             <value>

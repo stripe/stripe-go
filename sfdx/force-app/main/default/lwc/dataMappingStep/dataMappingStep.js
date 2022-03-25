@@ -603,6 +603,7 @@ export default class DataMappingStep extends LightningElement {
         this.allMappingList = this.saveObjectMappings(this.stripeSubscriptionMappings,this.allMappingList,this.subscriptionMetadataFields,'subscription_schedule');
         this.allMappingList = this.saveObjectMappings(this.stripeSubscriptionItemMappings,this.allMappingList,this.subscriptionItemMetadataFields,'subscription_item');
         this.allMappingList = this.saveObjectMappings(this.stripePriceMappings,this.allMappingList,this.priceMetadataFields,'price');
+        let saveSuccess = false;
         try {
             const saveMappingData = await saveMappingConfigurations({ 
                 jsonMappingConfigurationsObject: JSON.stringify(this.allMappingList)
@@ -612,6 +613,7 @@ export default class DataMappingStep extends LightningElement {
                 let isConfigSaved = this.data.results.isConfigSaved;
                 if(isConfigSaved === true) {
                     this.showToast('Data mapping was successfully saved', 'success')
+                    saveSuccess = true;
                     this.isMappingsUpdated = false;
                 } else {
                     this.showToast('There was a problem saving data mapping', 'error', 'sticky')
@@ -623,7 +625,11 @@ export default class DataMappingStep extends LightningElement {
             this.showToast(error.message, 'error', 'sticky');
         } finally {
             this.loading = false;
-            this.dispatchEvent(new CustomEvent('savecomplete'));
+            this.dispatchEvent(new CustomEvent('savecomplete', {
+                detail: {
+                    saveSuccess: saveSuccess
+                }
+            }));
         }
     }
 

@@ -20,7 +20,10 @@
     padding-bottom: .5rem;
 }
 
-.slds-table tbody td:nth-child(2), 
+.slds-table tbody td:nth-child(3) {
+    width: 90px;
+}
+
 .slds-table tbody td:last-child {
     max-width: 1px;
 }
