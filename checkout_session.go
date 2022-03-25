@@ -167,6 +167,15 @@ const (
 	CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethodMicrodeposits CheckoutSessionPaymentMethodOptionsACSSDebitVerificationMethod = "microdeposits"
 )
 
+// Bank account verification method.
+type CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod string
+
+// List of values that CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod can take
+const (
+	CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethodAutomatic CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod = "automatic"
+	CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethodInstant   CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod = "instant"
+)
+
 // The payment status of the Checkout Session, one of `paid`, `unpaid`, or `no_payment_required`.
 // You can use this value to decide when to fulfill your customer's order.
 type CheckoutSessionPaymentStatus string
@@ -454,6 +463,12 @@ type CheckoutSessionPaymentMethodOptionsOXXOParams struct {
 	ExpiresAfterDays *int64 `form:"expires_after_days"`
 }
 
+// contains details about the Us Bank Account payment method options.
+type CheckoutSessionPaymentMethodOptionsUSBankAccountParams struct {
+	// Verification method for the intent
+	VerificationMethod *string `form:"verification_method"`
+}
+
 // contains details about the WeChat Pay payment method options.
 type CheckoutSessionPaymentMethodOptionsWechatPayParams struct {
 	// The app ID registered with WeChat Pay. Only required when client is ios or android.
@@ -472,6 +487,8 @@ type CheckoutSessionPaymentMethodOptionsParams struct {
 	Konbini *CheckoutSessionPaymentMethodOptionsKonbiniParams `form:"konbini"`
 	// contains details about the OXXO payment method options.
 	OXXO *CheckoutSessionPaymentMethodOptionsOXXOParams `form:"oxxo"`
+	// contains details about the Us Bank Account payment method options.
+	USBankAccount *CheckoutSessionPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 	// contains details about the WeChat Pay payment method options.
 	WechatPay *CheckoutSessionPaymentMethodOptionsWechatPayParams `form:"wechat_pay"`
 }
@@ -820,13 +837,18 @@ type CheckoutSessionPaymentMethodOptionsOXXO struct {
 	// The number of calendar days before an OXXO invoice expires. For example, if you create an OXXO invoice on Monday and you set expires_after_days to 2, the OXXO invoice will expire on Wednesday at 23:59 America/Mexico_City time.
 	ExpiresAfterDays int64 `json:"expires_after_days"`
 }
+type CheckoutSessionPaymentMethodOptionsUSBankAccount struct {
+	// Bank account verification method.
+	VerificationMethod CheckoutSessionPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
+}
 
 // Payment-method-specific configuration for the PaymentIntent or SetupIntent of this CheckoutSession.
 type CheckoutSessionPaymentMethodOptions struct {
-	ACSSDebit *CheckoutSessionPaymentMethodOptionsACSSDebit `json:"acss_debit"`
-	Boleto    *CheckoutSessionPaymentMethodOptionsBoleto    `json:"boleto"`
-	Konbini   *CheckoutSessionPaymentMethodOptionsKonbini   `json:"konbini"`
-	OXXO      *CheckoutSessionPaymentMethodOptionsOXXO      `json:"oxxo"`
+	ACSSDebit     *CheckoutSessionPaymentMethodOptionsACSSDebit     `json:"acss_debit"`
+	Boleto        *CheckoutSessionPaymentMethodOptionsBoleto        `json:"boleto"`
+	Konbini       *CheckoutSessionPaymentMethodOptionsKonbini       `json:"konbini"`
+	OXXO          *CheckoutSessionPaymentMethodOptionsOXXO          `json:"oxxo"`
+	USBankAccount *CheckoutSessionPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
 type CheckoutSessionPhoneNumberCollection struct {
 	// Indicates whether phone number collection is enabled for the session

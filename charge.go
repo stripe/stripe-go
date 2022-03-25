@@ -127,6 +127,24 @@ const (
 	ChargePaymentMethodDetailsTypeWechat            ChargePaymentMethodDetailsType = "wechat"
 )
 
+// Account holder type: individual or company.
+type ChargePaymentMethodDetailsUSBankAccountAccountHolderType string
+
+// List of values that ChargePaymentMethodDetailsUSBankAccountAccountHolderType can take
+const (
+	ChargePaymentMethodDetailsUSBankAccountAccountHolderTypeCompany    ChargePaymentMethodDetailsUSBankAccountAccountHolderType = "company"
+	ChargePaymentMethodDetailsUSBankAccountAccountHolderTypeIndividual ChargePaymentMethodDetailsUSBankAccountAccountHolderType = "individual"
+)
+
+// Account type: checkings or savings. Defaults to checking if omitted.
+type ChargePaymentMethodDetailsUSBankAccountAccountType string
+
+// List of values that ChargePaymentMethodDetailsUSBankAccountAccountType can take
+const (
+	ChargePaymentMethodDetailsUSBankAccountAccountTypeChecking ChargePaymentMethodDetailsUSBankAccountAccountType = "checking"
+	ChargePaymentMethodDetailsUSBankAccountAccountTypeSavings  ChargePaymentMethodDetailsUSBankAccountAccountType = "savings"
+)
+
 // The status of the payment is either `succeeded`, `pending`, or `failed`.
 type ChargeStatus string
 
@@ -735,6 +753,10 @@ type ChargePaymentMethodDetailsP24 struct {
 	// Przelewy24 rarely provides this information so the attribute is usually empty.
 	VerifiedName string `json:"verified_name"`
 }
+type ChargePaymentMethodDetailsPayNow struct {
+	// Reference number associated with this PayNow payment
+	Reference string `json:"reference"`
+}
 type ChargePaymentMethodDetailsSepaCreditTransfer struct {
 	// Name of the bank associated with the bank account.
 	BankName string `json:"bank_name"`
@@ -780,6 +802,20 @@ type ChargePaymentMethodDetailsSofort struct {
 	VerifiedName string `json:"verified_name"`
 }
 type ChargePaymentMethodDetailsStripeAccount struct{}
+type ChargePaymentMethodDetailsUSBankAccount struct {
+	// Account holder type: individual or company.
+	AccountHolderType ChargePaymentMethodDetailsUSBankAccountAccountHolderType `json:"account_holder_type"`
+	// Account type: checkings or savings. Defaults to checking if omitted.
+	AccountType ChargePaymentMethodDetailsUSBankAccountAccountType `json:"account_type"`
+	// Name of the bank associated with the bank account.
+	BankName string `json:"bank_name"`
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// Routing number of the bank account.
+	RoutingNumber string `json:"routing_number"`
+}
 type ChargePaymentMethodDetailsWechat struct{}
 type ChargePaymentMethodDetailsWechatPay struct {
 	// Uniquely identifies this particular WeChat Pay account. You can use this attribute to check whether two WeChat accounts are the same.
@@ -812,6 +848,7 @@ type ChargePaymentMethodDetails struct {
 	Multibanco         *ChargePaymentMethodDetailsMultibanco         `json:"multibanco"`
 	OXXO               *ChargePaymentMethodDetailsOXXO               `json:"oxxo"`
 	P24                *ChargePaymentMethodDetailsP24                `json:"p24"`
+	PayNow             *ChargePaymentMethodDetailsPayNow             `json:"paynow"`
 	SepaCreditTransfer *ChargePaymentMethodDetailsSepaCreditTransfer `json:"sepa_credit_transfer"`
 	SepaDebit          *ChargePaymentMethodDetailsSepaDebit          `json:"sepa_debit"`
 	Sofort             *ChargePaymentMethodDetailsSofort             `json:"sofort"`
@@ -819,9 +856,10 @@ type ChargePaymentMethodDetails struct {
 	// The type of transaction-specific details of the payment method used in the payment, one of `ach_credit_transfer`, `ach_debit`, `acss_debit`, `alipay`, `au_becs_debit`, `bancontact`, `card`, `card_present`, `eps`, `giropay`, `ideal`, `klarna`, `multibanco`, `p24`, `sepa_debit`, `sofort`, `stripe_account`, or `wechat`.
 	// An additional hash is included on `payment_method_details` with a name matching this value.
 	// It contains information specific to the payment method.
-	Type      ChargePaymentMethodDetailsType       `json:"type"`
-	Wechat    *ChargePaymentMethodDetailsWechat    `json:"wechat"`
-	WechatPay *ChargePaymentMethodDetailsWechatPay `json:"wechat_pay"`
+	Type          ChargePaymentMethodDetailsType           `json:"type"`
+	USBankAccount *ChargePaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
+	Wechat        *ChargePaymentMethodDetailsWechat        `json:"wechat"`
+	WechatPay     *ChargePaymentMethodDetailsWechatPay     `json:"wechat_pay"`
 }
 
 // An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https://stripe.com/docs/connect/destination-charges) for details.
@@ -874,6 +912,8 @@ type Charge struct {
 	Dispute *Dispute `json:"dispute"`
 	// Whether the charge has been disputed.
 	Disputed bool `json:"disputed"`
+	// ID of the balance transaction that describes the reversal of the balance on your account due to payment failure.
+	FailureBalanceTransaction *BalanceTransaction `json:"failure_balance_transaction"`
 	// Error code explaining reason for charge failure if available (see [the errors section](https://stripe.com/docs/api#errors) for a list of codes).
 	FailureCode string `json:"failure_code"`
 	// Message to user further explaining reason for charge failure if available.

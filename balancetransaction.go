@@ -45,18 +45,19 @@ type BalanceTransactionSourceType string
 
 // List of values that BalanceTransactionSourceType can take
 const (
-	BalanceTransactionSourceTypeApplicationFee       BalanceTransactionSourceType = "application_fee"
-	BalanceTransactionSourceTypeCharge               BalanceTransactionSourceType = "charge"
-	BalanceTransactionSourceTypeDispute              BalanceTransactionSourceType = "dispute"
-	BalanceTransactionSourceTypeFeeRefund            BalanceTransactionSourceType = "fee_refund"
-	BalanceTransactionSourceTypeIssuingAuthorization BalanceTransactionSourceType = "issuing.authorization"
-	BalanceTransactionSourceTypeIssuingDispute       BalanceTransactionSourceType = "issuing.dispute"
-	BalanceTransactionSourceTypeIssuingTransaction   BalanceTransactionSourceType = "issuing.transaction"
-	BalanceTransactionSourceTypePayout               BalanceTransactionSourceType = "payout"
-	BalanceTransactionSourceTypeRefund               BalanceTransactionSourceType = "refund"
-	BalanceTransactionSourceTypeReversal             BalanceTransactionSourceType = "reversal"
-	BalanceTransactionSourceTypeTopup                BalanceTransactionSourceType = "topup"
-	BalanceTransactionSourceTypeTransfer             BalanceTransactionSourceType = "transfer"
+	BalanceTransactionSourceTypeApplicationFee            BalanceTransactionSourceType = "application_fee"
+	BalanceTransactionSourceTypeCharge                    BalanceTransactionSourceType = "charge"
+	BalanceTransactionSourceTypeConnectCollectionTransfer BalanceTransactionSourceType = "connect_collection_transfer"
+	BalanceTransactionSourceTypeDispute                   BalanceTransactionSourceType = "dispute"
+	BalanceTransactionSourceTypeFeeRefund                 BalanceTransactionSourceType = "fee_refund"
+	BalanceTransactionSourceTypeIssuingAuthorization      BalanceTransactionSourceType = "issuing.authorization"
+	BalanceTransactionSourceTypeIssuingDispute            BalanceTransactionSourceType = "issuing.dispute"
+	BalanceTransactionSourceTypeIssuingTransaction        BalanceTransactionSourceType = "issuing.transaction"
+	BalanceTransactionSourceTypePayout                    BalanceTransactionSourceType = "payout"
+	BalanceTransactionSourceTypeRefund                    BalanceTransactionSourceType = "refund"
+	BalanceTransactionSourceTypeReversal                  BalanceTransactionSourceType = "reversal"
+	BalanceTransactionSourceTypeTopup                     BalanceTransactionSourceType = "topup"
+	BalanceTransactionSourceTypeTransfer                  BalanceTransactionSourceType = "transfer"
 )
 
 // List of values that BalanceTransactionStatus can take
@@ -187,18 +188,19 @@ type BalanceTransactionSource struct {
 	ID   string                       `json:"id"`
 	Type BalanceTransactionSourceType `json:"object"`
 
-	ApplicationFee       *ApplicationFee       `json:"-"`
-	Charge               *Charge               `json:"-"`
-	Dispute              *Dispute              `json:"-"`
-	FeeRefund            *FeeRefund            `json:"-"`
-	IssuingAuthorization *IssuingAuthorization `json:"-"`
-	IssuingDispute       *IssuingDispute       `json:"-"`
-	IssuingTransaction   *IssuingAuthorization `json:"-"`
-	Payout               *Payout               `json:"-"`
-	Refund               *Refund               `json:"-"`
-	Reversal             *Reversal             `json:"-"`
-	Topup                *Topup                `json:"-"`
-	Transfer             *Transfer             `json:"-"`
+	ApplicationFee            *ApplicationFee            `json:"-"`
+	Charge                    *Charge                    `json:"-"`
+	ConnectCollectionTransfer *ConnectCollectionTransfer `json:"-"`
+	Dispute                   *Dispute                   `json:"-"`
+	FeeRefund                 *FeeRefund                 `json:"-"`
+	IssuingAuthorization      *IssuingAuthorization      `json:"-"`
+	IssuingDispute            *IssuingDispute            `json:"-"`
+	IssuingTransaction        *IssuingAuthorization      `json:"-"`
+	Payout                    *Payout                    `json:"-"`
+	Refund                    *Refund                    `json:"-"`
+	Reversal                  *Reversal                  `json:"-"`
+	Topup                     *Topup                     `json:"-"`
+	Transfer                  *Transfer                  `json:"-"`
 }
 
 // BalanceTransactionList is a list of BalanceTransactions as retrieved from a list endpoint.
@@ -250,6 +252,8 @@ func (b *BalanceTransactionSource) UnmarshalJSON(data []byte) error {
 		err = json.Unmarshal(data, &b.ApplicationFee)
 	case BalanceTransactionSourceTypeCharge:
 		err = json.Unmarshal(data, &b.Charge)
+	case BalanceTransactionSourceTypeConnectCollectionTransfer:
+		err = json.Unmarshal(data, &b.ConnectCollectionTransfer)
 	case BalanceTransactionSourceTypeDispute:
 		err = json.Unmarshal(data, &b.Dispute)
 	case BalanceTransactionSourceTypeFeeRefund:

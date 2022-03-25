@@ -124,6 +124,7 @@ type MandatePaymentMethodDetailsSepaDebit struct {
 	// The URL of the mandate. This URL generally contains sensitive information about the customer and should be shared with them exclusively.
 	URL string `json:"url"`
 }
+type MandatePaymentMethodDetailsUSBankAccount struct{}
 type MandatePaymentMethodDetails struct {
 	ACSSDebit   *MandatePaymentMethodDetailsACSSDebit   `json:"acss_debit"`
 	AUBECSDebit *MandatePaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
@@ -131,7 +132,8 @@ type MandatePaymentMethodDetails struct {
 	Card        *MandatePaymentMethodDetailsCard        `json:"card"`
 	SepaDebit   *MandatePaymentMethodDetailsSepaDebit   `json:"sepa_debit"`
 	// The type of the payment method associated with this mandate. An additional hash is included on `payment_method_details` with a name matching this value. It contains mandate information specific to the payment method.
-	Type PaymentMethodType `json:"type"`
+	Type          PaymentMethodType                         `json:"type"`
+	USBankAccount *MandatePaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
 }
 type MandateSingleUse struct {
 	// On a single use mandate, the amount of the payment.

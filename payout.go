@@ -21,16 +21,21 @@ type PayoutFailureCode string
 
 // List of values that PayoutFailureCode can take
 const (
-	PayoutFailureCodeAccountClosed         PayoutFailureCode = "account_closed"
-	PayoutFailureCodeAccountFrozen         PayoutFailureCode = "account_frozen"
-	PayoutFailureCodeBankAccountRestricted PayoutFailureCode = "bank_account_restricted"
-	PayoutFailureCodeBankOwnershipChanged  PayoutFailureCode = "bank_ownership_changed"
-	PayoutFailureCodeCouldNotProcess       PayoutFailureCode = "could_not_process"
-	PayoutFailureCodeDebitNotAuthorized    PayoutFailureCode = "debit_not_authorized"
-	PayoutFailureCodeInsufficientFunds     PayoutFailureCode = "insufficient_funds"
-	PayoutFailureCodeInvalidAccountNumber  PayoutFailureCode = "invalid_account_number"
-	PayoutFailureCodeInvalidCurrency       PayoutFailureCode = "invalid_currency"
-	PayoutFailureCodeNoAccount             PayoutFailureCode = "no_account"
+	PayoutFailureCodeAccountClosed                 PayoutFailureCode = "account_closed"
+	PayoutFailureCodeAccountFrozen                 PayoutFailureCode = "account_frozen"
+	PayoutFailureCodeBankAccountRestricted         PayoutFailureCode = "bank_account_restricted"
+	PayoutFailureCodeBankOwnershipChanged          PayoutFailureCode = "bank_ownership_changed"
+	PayoutFailureCodeCouldNotProcess               PayoutFailureCode = "could_not_process"
+	PayoutFailureCodeDebitNotAuthorized            PayoutFailureCode = "debit_not_authorized"
+	PayoutFailureCodeDeclined                      PayoutFailureCode = "declined"
+	PayoutFailureCodeInsufficientFunds             PayoutFailureCode = "insufficient_funds"
+	PayoutFailureCodeInvalidAccountNumber          PayoutFailureCode = "invalid_account_number"
+	PayoutFailureCodeIncorrectAccountHolderName    PayoutFailureCode = "incorrect_account_holder_name"
+	PayoutFailureCodeIncorrectAccountHolderAddress PayoutFailureCode = "incorrect_account_holder_address"
+	PayoutFailureCodeIncorrectAccountHolderTaxID   PayoutFailureCode = "incorrect_account_holder_tax_id"
+	PayoutFailureCodeInvalidCurrency               PayoutFailureCode = "invalid_currency"
+	PayoutFailureCodeNoAccount                     PayoutFailureCode = "no_account"
+	PayoutFailureCodeUnsupportedCard               PayoutFailureCode = "unsupported_card"
 )
 
 // The method used to send this payout, which can be `standard` or `instant`. `instant` is only supported for payouts to debit cards. (See [Instant payouts for marketplaces](https://stripe.com/blog/instant-payouts-for-marketplaces) for more information.)

@@ -172,6 +172,7 @@ type SetupAttemptPaymentMethodDetailsSofort struct {
 	// (if supported) at the time of authorization or settlement. They cannot be set or mutated.
 	VerifiedName string `json:"verified_name"`
 }
+type SetupAttemptPaymentMethodDetailsUSBankAccount struct{}
 type SetupAttemptPaymentMethodDetails struct {
 	ACSSDebit   *SetupAttemptPaymentMethodDetailsACSSDebit   `json:"acss_debit"`
 	AUBECSDebit *SetupAttemptPaymentMethodDetailsAUBECSDebit `json:"au_becs_debit"`
@@ -184,7 +185,8 @@ type SetupAttemptPaymentMethodDetails struct {
 	SepaDebit   *SetupAttemptPaymentMethodDetailsSepaDebit   `json:"sepa_debit"`
 	Sofort      *SetupAttemptPaymentMethodDetailsSofort      `json:"sofort"`
 	// The type of the payment method used in the SetupIntent (e.g., `card`). An additional hash is included on `payment_method_details` with a name matching this value. It contains confirmation-specific information for the payment method.
-	Type SetupAttemptPaymentMethodDetailsType `json:"type"`
+	Type          SetupAttemptPaymentMethodDetailsType           `json:"type"`
+	USBankAccount *SetupAttemptPaymentMethodDetailsUSBankAccount `json:"us_bank_account"`
 }
 
 // A SetupAttempt describes one attempted confirmation of a SetupIntent,

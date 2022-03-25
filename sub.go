@@ -67,6 +67,16 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecureAutomatic SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
 )
 
+// Bank account verification method.
+type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethodAutomatic     SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod = "automatic"
+	SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethodInstant       SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod = "instant"
+	SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethodMicrodeposits SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod = "microdeposits"
+)
+
 // The list of payment method types to provide to every invoice created by the subscription. If not set, Stripe attempts to automatically determine the types to use by looking at the invoice's default payment method, the subscription's default payment method, the customer's default payment method, and your [invoice template settings](https://dashboard.stripe.com/settings/billing/invoice).
 type SubscriptionPaymentSettingsPaymentMethodType string
 
@@ -85,9 +95,11 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeGrabpay            SubscriptionPaymentSettingsPaymentMethodType = "grabpay"
 	SubscriptionPaymentSettingsPaymentMethodTypeIdeal              SubscriptionPaymentSettingsPaymentMethodType = "ideal"
 	SubscriptionPaymentSettingsPaymentMethodTypeKonbini            SubscriptionPaymentSettingsPaymentMethodType = "konbini"
+	SubscriptionPaymentSettingsPaymentMethodTypePayNow             SubscriptionPaymentSettingsPaymentMethodType = "paynow"
 	SubscriptionPaymentSettingsPaymentMethodTypeSepaCreditTransfer SubscriptionPaymentSettingsPaymentMethodType = "sepa_credit_transfer"
 	SubscriptionPaymentSettingsPaymentMethodTypeSepaDebit          SubscriptionPaymentSettingsPaymentMethodType = "sepa_debit"
 	SubscriptionPaymentSettingsPaymentMethodTypeSofort             SubscriptionPaymentSettingsPaymentMethodType = "sofort"
+	SubscriptionPaymentSettingsPaymentMethodTypeUSBankAccount      SubscriptionPaymentSettingsPaymentMethodType = "us_bank_account"
 	SubscriptionPaymentSettingsPaymentMethodTypeWechatPay          SubscriptionPaymentSettingsPaymentMethodType = "wechat_pay"
 )
 
@@ -165,6 +177,8 @@ type SubscriptionListParams struct {
 	Price string `form:"price"`
 	// The status of the subscriptions to retrieve. Passing in a value of `canceled` will return all canceled subscriptions, including those belonging to deleted customers. Pass `ended` to find subscriptions that are canceled and subscriptions that are expired due to [incomplete payment](https://stripe.com/docs/billing/subscriptions/overview#subscription-statuses). Passing in a value of `all` will return subscriptions of all statuses. If no value is supplied, all subscriptions that have not been canceled are returned.
 	Status string `form:"status"`
+	// Filter for subscriptions that are associated with the specified test clock. The response will not include subscriptions with test clocks if this and the customer parameter is not set.
+	TestClock *string `form:"test_clock"`
 }
 
 // A list of prices and quantities that will generate invoice items appended to the first invoice for this subscription. You may pass up to 20 items.
@@ -259,6 +273,12 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCardParams struct {
 // This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 
+// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountParams struct {
+	// Verification method for the intent
+	VerificationMethod *string `form:"verification_method"`
+}
+
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to the invoice's PaymentIntent.
@@ -269,6 +289,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
 	// This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
+	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
+	USBankAccount *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
 
 // Payment settings to pass to invoices created by the subscription.
@@ -468,6 +490,12 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCard struct {
 // This sub-hash contains details about the Konbini payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsKonbini struct{}
 
+// This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccount struct {
+	// Bank account verification method.
+	VerificationMethod SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
+}
+
 // Payment-method-specific configuration to provide to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	// This sub-hash contains details about the Canadian pre-authorized debit payment method options to pass to invoices created by the subscription.
@@ -478,6 +506,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCard `json:"card"`
 	// This sub-hash contains details about the Konbini payment method options to pass to invoices created by the subscription.
 	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
+	// This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription.
+	USBankAccount *SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
 
 // Payment settings passed on to invoices created by the subscription.

@@ -28,6 +28,15 @@ const (
 	SetupIntentNextActionTypeRedirectToURL SetupIntentNextActionType = "redirect_to_url"
 )
 
+// The type of the microdeposit sent to the customer. Used to distinguish between different verification methods.
+type SetupIntentNextActionVerifyWithMicrodepositsMicrodepositType string
+
+// List of values that SetupIntentNextActionVerifyWithMicrodepositsMicrodepositType can take
+const (
+	SetupIntentNextActionVerifyWithMicrodepositsMicrodepositTypeAmounts        SetupIntentNextActionVerifyWithMicrodepositsMicrodepositType = "amounts"
+	SetupIntentNextActionVerifyWithMicrodepositsMicrodepositTypeDescriptorCode SetupIntentNextActionVerifyWithMicrodepositsMicrodepositType = "descriptor_code"
+)
+
 // Currency supported by the bank account
 type SetupIntentPaymentMethodOptionsACSSDebitCurrency string
 
@@ -112,6 +121,16 @@ const (
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureAny           SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "any"
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureAutomatic     SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
 	SetupIntentPaymentMethodOptionsCardRequestThreeDSecureChallengeOnly SetupIntentPaymentMethodOptionsCardRequestThreeDSecure = "challenge_only"
+)
+
+// Bank account verification method.
+type SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod string
+
+// List of values that SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod can take
+const (
+	SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethodAutomatic     SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "automatic"
+	SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethodInstant       SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "instant"
+	SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethodMicrodeposits SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod = "microdeposits"
 )
 
 // [Status](https://stripe.com/docs/payments/intents#intent-statuses) of this SetupIntent, one of `requires_payment_method`, `requires_confirmation`, `requires_action`, `processing`, `canceled`, or `succeeded`.
@@ -238,6 +257,12 @@ type SetupIntentPaymentMethodOptionsSepaDebitParams struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSepaDebitMandateOptionsParams `form:"mandate_options"`
 }
 
+// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
+type SetupIntentPaymentMethodOptionsUSBankAccountParams struct {
+	// Verification method for the intent
+	VerificationMethod *string `form:"verification_method"`
+}
+
 // Payment-method-specific configuration for this SetupIntent.
 type SetupIntentPaymentMethodOptionsParams struct {
 	// If this is a `acss_debit` SetupIntent, this sub-hash contains details about the ACSS Debit payment method options.
@@ -246,6 +271,8 @@ type SetupIntentPaymentMethodOptionsParams struct {
 	Card *SetupIntentPaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `sepa_debit` SetupIntent, this sub-hash contains details about the SEPA Debit payment method options.
 	SepaDebit *SetupIntentPaymentMethodOptionsSepaDebitParams `form:"sepa_debit"`
+	// If this is a `us_bank_account` SetupIntent, this sub-hash contains details about the US bank account payment method options.
+	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccountParams `form:"us_bank_account"`
 }
 
 // If this hash is populated, this SetupIntent will generate a single_use Mandate on success.
@@ -344,6 +371,8 @@ type SetupIntentVerifyMicrodepositsParams struct {
 	Params `form:"*"`
 	// Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
 	Amounts []*int64 `form:"amounts"`
+	// A six-character code starting with SM present in the microdeposit sent to the bank account.
+	DescriptorCode *string `form:"descriptor_code"`
 }
 type SetupIntentNextActionRedirectToURL struct {
 	// If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
@@ -359,6 +388,8 @@ type SetupIntentNextActionVerifyWithMicrodeposits struct {
 	ArrivalDate int64 `json:"arrival_date"`
 	// The URL for the hosted verification page, which allows customers to verify their bank account.
 	HostedVerificationURL string `json:"hosted_verification_url"`
+	// The type of the microdeposit sent to the customer. Used to distinguish between different verification methods.
+	MicrodepositType SetupIntentNextActionVerifyWithMicrodepositsMicrodepositType `json:"microdeposit_type"`
 }
 
 // If present, this property tells you what actions you need to take in order for your customer to continue payment setup.
@@ -423,12 +454,17 @@ type SetupIntentPaymentMethodOptionsSepaDebitMandateOptions struct{}
 type SetupIntentPaymentMethodOptionsSepaDebit struct {
 	MandateOptions *SetupIntentPaymentMethodOptionsSepaDebitMandateOptions `json:"mandate_options"`
 }
+type SetupIntentPaymentMethodOptionsUSBankAccount struct {
+	// Bank account verification method.
+	VerificationMethod SetupIntentPaymentMethodOptionsUSBankAccountVerificationMethod `json:"verification_method"`
+}
 
 // Payment-method-specific configuration for this SetupIntent.
 type SetupIntentPaymentMethodOptions struct {
-	ACSSDebit *SetupIntentPaymentMethodOptionsACSSDebit `json:"acss_debit"`
-	Card      *SetupIntentPaymentMethodOptionsCard      `json:"card"`
-	SepaDebit *SetupIntentPaymentMethodOptionsSepaDebit `json:"sepa_debit"`
+	ACSSDebit     *SetupIntentPaymentMethodOptionsACSSDebit     `json:"acss_debit"`
+	Card          *SetupIntentPaymentMethodOptionsCard          `json:"card"`
+	SepaDebit     *SetupIntentPaymentMethodOptionsSepaDebit     `json:"sepa_debit"`
+	USBankAccount *SetupIntentPaymentMethodOptionsUSBankAccount `json:"us_bank_account"`
 }
 
 // A SetupIntent guides you through the process of setting up and saving a customer's payment credentials for future payments.

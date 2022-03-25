@@ -85,9 +85,29 @@ const (
 	PaymentMethodTypeKonbini          PaymentMethodType = "konbini"
 	PaymentMethodTypeOXXO             PaymentMethodType = "oxxo"
 	PaymentMethodTypeP24              PaymentMethodType = "p24"
+	PaymentMethodTypePayNow           PaymentMethodType = "paynow"
 	PaymentMethodTypeSepaDebit        PaymentMethodType = "sepa_debit"
 	PaymentMethodTypeSofort           PaymentMethodType = "sofort"
+	PaymentMethodTypeUSBankAccount    PaymentMethodType = "us_bank_account"
 	PaymentMethodTypeWechatPay        PaymentMethodType = "wechat_pay"
+)
+
+// Account holder type: individual or company.
+type PaymentMethodUSBankAccountAccountHolderType string
+
+// List of values that PaymentMethodUSBankAccountAccountHolderType can take
+const (
+	PaymentMethodUSBankAccountAccountHolderTypeCompany    PaymentMethodUSBankAccountAccountHolderType = "company"
+	PaymentMethodUSBankAccountAccountHolderTypeIndividual PaymentMethodUSBankAccountAccountHolderType = "individual"
+)
+
+// Account type: checkings or savings. Defaults to checking if omitted.
+type PaymentMethodUSBankAccountAccountType string
+
+// List of values that PaymentMethodUSBankAccountAccountType can take
+const (
+	PaymentMethodUSBankAccountAccountTypeChecking PaymentMethodUSBankAccountAccountType = "checking"
+	PaymentMethodUSBankAccountAccountTypeSavings  PaymentMethodUSBankAccountAccountType = "savings"
 )
 
 // If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
@@ -214,6 +234,9 @@ type PaymentMethodP24Params struct {
 	TOSShownAndAccepted *bool   `form:"tos_shown_and_accepted"`
 }
 
+// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
+type PaymentMethodPayNowParams struct{}
+
 // If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
 type PaymentMethodSepaDebitParams struct {
 	// IBAN of the bank account.
@@ -224,6 +247,18 @@ type PaymentMethodSepaDebitParams struct {
 type PaymentMethodSofortParams struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country *string `form:"country"`
+}
+
+// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
+type PaymentMethodUSBankAccountParams struct {
+	// Bank account type.
+	AccountHolderType *string `form:"account_holder_type"`
+	// Account number of the bank account.
+	AccountNumber *string `form:"account_number"`
+	// Account type: checkings or savings. Defaults to checking if omitted.
+	AccountType *string `form:"account_type"`
+	// Routing number of the bank account.
+	RoutingNumber *string `form:"routing_number"`
 }
 
 // If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
@@ -272,12 +307,16 @@ type PaymentMethodParams struct {
 	OXXO *PaymentMethodOXXOParams `form:"oxxo"`
 	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
 	P24 *PaymentMethodP24Params `form:"p24"`
+	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
+	PayNow *PaymentMethodPayNowParams `form:"paynow"`
 	// This is a legacy parameter that will be removed in the future. It is a hash that does not accept any keys.
 	SepaDebit *PaymentMethodSepaDebitParams `form:"sepa_debit"`
 	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
 	Sofort *PaymentMethodSofortParams `form:"sofort"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
 	Type *string `form:"type"`
+	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
+	USBankAccount *PaymentMethodUSBankAccountParams `form:"us_bank_account"`
 	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
 	WechatPay *PaymentMethodWechatPayParams `form:"wechat_pay"`
 	// The following parameters are used when cloning a PaymentMethod to the connected account
@@ -499,6 +538,7 @@ type PaymentMethodP24 struct {
 	// The customer's bank, if provided.
 	Bank string `json:"bank"`
 }
+type PaymentMethodPayNow struct{}
 
 // Information about the object that generated this PaymentMethod.
 type PaymentMethodSepaDebitGeneratedFrom struct {
@@ -524,6 +564,20 @@ type PaymentMethodSepaDebit struct {
 type PaymentMethodSofort struct {
 	// Two-letter ISO code representing the country the bank account is located in.
 	Country string `json:"country"`
+}
+type PaymentMethodUSBankAccount struct {
+	// Account holder type: individual or company.
+	AccountHolderType PaymentMethodUSBankAccountAccountHolderType `json:"account_holder_type"`
+	// Account type: checkings or savings. Defaults to checking if omitted.
+	AccountType PaymentMethodUSBankAccountAccountType `json:"account_type"`
+	// The name of the bank.
+	BankName string `json:"bank_name"`
+	// Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
+	Fingerprint string `json:"fingerprint"`
+	// Last four digits of the bank account number.
+	Last4 string `json:"last4"`
+	// Routing number of the bank account.
+	RoutingNumber string `json:"routing_number"`
 }
 type PaymentMethodWechatPay struct{}
 
@@ -566,11 +620,13 @@ type PaymentMethod struct {
 	Object    string                  `json:"object"`
 	OXXO      *PaymentMethodOXXO      `json:"oxxo"`
 	P24       *PaymentMethodP24       `json:"p24"`
+	PayNow    *PaymentMethodPayNow    `json:"paynow"`
 	SepaDebit *PaymentMethodSepaDebit `json:"sepa_debit"`
 	Sofort    *PaymentMethodSofort    `json:"sofort"`
 	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
-	Type      PaymentMethodType       `json:"type"`
-	WechatPay *PaymentMethodWechatPay `json:"wechat_pay"`
+	Type          PaymentMethodType           `json:"type"`
+	USBankAccount *PaymentMethodUSBankAccount `json:"us_bank_account"`
+	WechatPay     *PaymentMethodWechatPay     `json:"wechat_pay"`
 }
 
 // PaymentMethodList is a list of PaymentMethods as retrieved from a list endpoint.
