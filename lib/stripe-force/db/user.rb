@@ -5,6 +5,9 @@ module StripeForce
   class User < Sequel::Model
     extend T::Sig
 
+    include StripeForce::Constants
+    include Integrations::ErrorContext
+
     plugin :timestamps, update_on_create: true
     plugin :after_initialize
     plugin :defaults_setter
@@ -26,7 +29,7 @@ module StripeForce
           sync_start_date: Time.now.to_i,
           sync_record_retention: 10_000,
           default_currency: 'USD',
-          cpq_term_interval: 'month',
+          CONNECTOR_SETTING_CPQ_TERM_UNIT => 'month',
         }
       end
 
@@ -45,7 +48,13 @@ module StripeForce
     end
 
     def sf_client
-      @client ||= Restforce.new(
+      optional_client_params = {}
+
+      if sandbox?
+        optional_client_params[:host] = 'test.salesforce.com'
+      end
+
+      @client ||= Restforce.new({
         oauth_token: salesforce_token,
         refresh_token: salesforce_refresh_token,
         instance_url: sf_endpoint,
@@ -53,15 +62,15 @@ module StripeForce
         client_id: SF_CONSUMER_KEY,
         client_secret: SF_CONSUMER_SECRET,
 
-        # authentication_callback: Proc.new { |x| Rails.logger.debug x.to_s },
+        # authentication_callback: proc {|x| log.info x.to_s },
 
         # https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_versions.htm
         # `http https://biancodevorg-dev-ed.my.salesforce.com/services/data`
         api_version: '52.0',
 
         log: true,
-        log_level: :debug
-      )
+        log_level: :debug,
+      }.merge(optional_client_params))
 
       # TODO should we conditionally do this?
       # @client.authenticate!
@@ -77,13 +86,22 @@ module StripeForce
 
     # TODO should move to a status service
     def has_cpq_installed?
-      sf.query("SELECT COUNT() FROM PackageLicense WHERE NamespacePrefix LIKE 'SBQQ%'").count >= 1
+      sf_client.query("SELECT COUNT() FROM PackageLicense WHERE NamespacePrefix LIKE 'SBQQ%'").count >= 1
     end
 
+    # although you can write the logic to extract this in REST, we need this value to properly
+    # establish a connection.
+    def salesforce_instance_type
+      if connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE].nil?
+        report_edge_case("instance type should not be empty")
+      end
+
+      connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE]
+    end
+
+    # for our purposes a sandbox is anything that isn't a production account
     def sandbox?
-      # TODO cache this state in a status service or something
-      # [SELECT IsSandbox FROM Organization]
-      !!@sandbox
+      salesforce_instance_type != SFInstanceTypes::PRODUCTION.serialize
     end
 
     def in_production?
@@ -95,10 +113,15 @@ module StripeForce
       {
         "customer" => {
           "name" => "Name",
+          # TODO may need to split BillingStreet into `line2` if multiple lines
+          # "address.line1" => "BillingStreet",
+          # "address.state" => "BillingState",
+          # "address.postal_code" => "BillingPostalCode",
+          # "address.country" => "BillingCountry",
         },
         "product" => {
           # TODO setting custom Ids may not be the best idea here
-          "id" => "Id",
+          # "id" => "Id",
           "name" => 'Name',
           "description" => 'Description',
         },

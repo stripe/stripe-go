@@ -78,7 +78,8 @@ module Api
         report_edge_case("updating api key for user, but is already set")
       end
 
-      user.connector_settings['salesforce_namespace'] = subdomain_namespace_from_param(request.headers[SALESFORCE_PACKAGE_NAMESPACE_HEADER])
+      user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE] = salesforce_instance_type_from_headers(request.headers[SALESFORCE_INSTANCE_TYPE_HEADER])
+      user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = subdomain_namespace_from_param(request.headers[SALESFORCE_PACKAGE_NAMESPACE_HEADER])
       user.salesforce_organization_key = salesforce_organization_key
       user.save
 
@@ -160,6 +161,10 @@ module Api
 
       log.warn 'not json, rejecting request'
       head :not_acceptable
+    end
+
+    private def salesforce_instance_type_from_headers(raw_header)
+      SFInstanceTypes.try_deserialize(raw_header)&.serialize
     end
   end
 end

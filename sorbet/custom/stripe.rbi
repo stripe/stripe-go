@@ -32,6 +32,12 @@ class Stripe::SubscriptionSchedulePhase
 
   sig { returns(T::Array[Stripe::SubscriptionSchedulePhaseSubscriptionItem])}
   def add_invoice_items; end
+
+  sig { returns(Integer)}
+  def start_date; end
+
+  sig { returns(Integer)}
+  def end_date; end
 end
 
 class Stripe::SubscriptionScheduleSettings

@@ -56,6 +56,18 @@ class StripeForce::Translate
     )
 
     raise
+  rescue Stripe::InvalidRequestError => e
+    create_user_failure(
+      salesforce_object: @origin_salesforce_object,
+      message: e.message
+    )
+
+    # TODO probably remove this in the future, but I want to understand the error codes that are coming through
+    log.warn 'stripe error',
+      code: e.code,
+      message: e.message
+
+    raise
   end
 
   def translate_order(sf_object)
@@ -168,8 +180,11 @@ class StripeForce::Translate
   end
 
   def retrieve_from_stripe(stripe_class, sf_object)
+    stripe_id = sf_object[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    return if stripe_id.nil?
+
     begin
-      stripe_class.retrieve(sf_object.Id, @user.stripe_credentials)
+      stripe_class.retrieve(sf_object[prefixed_stripe_field(GENERIC_STRIPE_ID)], @user.stripe_credentials)
     rescue Stripe::InvalidRequestError => e
       raise if e.code != 'resource_missing'
       nil
@@ -202,7 +217,8 @@ class StripeForce::Translate
 
   # TODO this is defined globally in SF and needs to be pulled dynamically from our configuration
   def sf_cpq_term_interval
-    @user.connector_settings['cpq_term_interval']
+    # TODO move sanitization somewhere else
+    @user.connector_settings[CONNECTOR_SETTING_CPQ_TERM_UNIT].downcase
   end
 
   # TODO what if the list price is updated in SF? We shouldn't probably create a new price object
@@ -271,19 +287,36 @@ class StripeForce::Translate
     # by omitting the recurring params it sets `type: one_time`
     # this param cannot be set directly
     if recurring_item?(sf_order_item)
+      # NOTE on the price level, we are not concerned with the billing term
+      #      that can be defined (as a default) on the product, but it only comes into play with the subscription schedule
+      if sf_cpq_term_interval != 'month'
+        raise 'unsupported global term uniq'
+      end
+
       recurring_price_params = extract_salesforce_params!(sf_order_item, {
-        'interval_count' => CPQ_QUOTE_SUBSCRIPTION_TERM,
+        'interval_count' => CPQ_QUOTE_BILLING_FREQUENCY,
       })
 
-      interval_count = recurring_price_params['interval_count']
-
-      # I don't think this can actually occur, but let's keep an eye out
-      if !is_integer_value?(interval_count)
-        raise 'intervals need to be floats'
+      # convert picklist description of frequency to month integers
+      interval_count = case CPQBillingFrequencyOptions.try_deserialize(recurring_price_params['interval_count'])
+      when CPQBillingFrequencyOptions::MONTHLY
+        1
+      when CPQBillingFrequencyOptions::QUARTERLY
+        3
+      when CPQBillingFrequencyOptions::SEMIANNUAL
+        6
+      when CPQBillingFrequencyOptions::ANNUAL
+        12
+      else
+        raise "unexpected billing frequency #{recurring_price_params['interval_count']}"
       end
 
       optional_price_params[:recurring] = {
+        # frequency: monthly or daily, defined on the CPQ
         interval: sf_cpq_term_interval,
+
+        # this represents how often the price is billed: i.e. if `interval` is month and `interval_count`
+        # is 2, then this price is billed every two months.
         # TODO maybe we should move the formatting stuff into the `extract_salesforce_params!`
         interval_count: interval_count.to_i,
       }

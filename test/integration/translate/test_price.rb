@@ -26,4 +26,7 @@ class Critic::PriceTranslation < Critic::FunctionalTest
     refute_equal(stripe_price.id, sf_pricebook_entry_id)
     # TODO assert on price, recurrance, etc
   end
+
+  it 'sets the interval_count based on the billing frequency selected'
+  it 'handles daily CPQ terms'
 end

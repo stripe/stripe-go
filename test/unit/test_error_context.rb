@@ -20,6 +20,7 @@ class Critic::ErrorContextTest < Critic::UnitTest
 
   it 'sets context with a user, stripe, netsuite reference' do
     user = make_user
+    user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE] = SFInstanceTypes::PRODUCTION.serialize
     refute(user.sandbox?)
 
     sf_record = create_mock_salesforce_order

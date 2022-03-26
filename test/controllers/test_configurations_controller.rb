@@ -77,6 +77,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         # not using `authentication_headers` since the user is not created
         SALESFORCE_KEY_HEADER => ENV.fetch('SF_MANAGED_PACKAGE_API_KEY'),
         SALESFORCE_ACCOUNT_ID_HEADER => sf_account_id,
+        SALESFORCE_INSTANCE_TYPE_HEADER => SFInstanceTypes::SANDBOX.serialize,
         SALESFORCE_PACKAGE_NAMESPACE_HEADER => "",
       }
 
@@ -85,7 +86,8 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
 
       assert_equal(sf_account_id, user.salesforce_account_id)
       assert_equal(api_key, user.salesforce_organization_key)
-      assert_equal("stripeConnector", user.connector_settings['salesforce_namespace'])
+      assert_equal(SalesforceNamespaceOptions::PRODUCTION.serialize, user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE])
+      assert_equal(SFInstanceTypes::SANDBOX.serialize, user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE])
     end
 
     it 'persists the salesforce namespace when in QA' do

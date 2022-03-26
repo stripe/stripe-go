@@ -20,7 +20,7 @@ class Critic::ProductTranslation < Critic::FunctionalTest
     assert_match(sf_product_id, stripe_product.metadata['salesforce_product2_link'])
     assert_equal(stripe_product.metadata['salesforce_product2_id'], sf_product_id)
 
-    assert_equal(stripe_product.id, sf_product_id)
+    refute_equal(stripe_product.id, sf_product_id)
     assert_equal(stripe_product.description, sf_product.Description)
     assert_equal(stripe_product.name, sf_product.Name)
   end

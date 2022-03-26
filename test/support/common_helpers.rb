@@ -34,16 +34,14 @@ module CommonHelpers
       end
     )
 
-    user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = 'c'
-
-    # TODO major hack until we figure out what we are doing with sandboxes
-    user.instance_variable_set('@sandbox', sandbox)
-
     # mbianco+cpqpackage@stripe.com
     if user.salesforce_account_id == "00D8c000006J9X9EAK"
       user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::QA.serialize
+    else
+      user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = SalesforceNamespaceOptions::NONE.serialize
     end
 
+    user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE] = SFInstanceTypes::SANDBOX.serialize
     user.save if save
 
     user

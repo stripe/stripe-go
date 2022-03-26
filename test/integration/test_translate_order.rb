@@ -16,8 +16,11 @@ class Critic::OrderTranslation < Critic::FunctionalTest
 
       CPQ_PRODUCT_SUBSCRIPTION_TYPE => CPQProductSubscriptionTypeOptions::RENEWABLE,
 
-      # one year
+      # default term of one year
       CPQ_QUOTE_SUBSCRIPTION_TERM => 12,
+
+      # one month
+      CPQ_QUOTE_BILLING_FREQUENCY => CPQBillingFrequencyOptions::MONTHLY.serialize,
     })
 
     pricebook_entry_id = create_salesforce_price(sf_product_id: product_id)
@@ -195,6 +198,10 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     # line-level subscription phase data
     assert_equal(1, subscription_schedule.phases.count)
     phase = T.must(subscription_schedule.phases.first)
+    # NOTE iterations does not exist on the phase! https://jira.corp.stripe.com/browse/PLATINT-1479
+    # TODO I have no idea why the math requires rounding here. This doesn't make any sense. https://jira.corp.stripe.com/browse/PLATINT-1480
+    phase_iterations = ((phase.end_date - phase.start_date) / 1.month.to_f).round
+    assert_equal(terms, phase_iterations)
 
     assert_equal(1, phase.items.count)
     phase_item = T.must(phase.items.first)
@@ -225,7 +232,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     assert_equal(price, stripe_price.unit_amount)
     assert_equal("recurring", stripe_price.type)
     assert_equal("month", stripe_price.recurring.interval)
-    assert_equal(terms, stripe_price.recurring.interval_count)
+    assert_equal(1, stripe_price.recurring.interval_count)
     assert_equal("licensed", stripe_price.recurring.usage_type)
 
     assert_match(@user.salesforce_instance_url, stripe_price.metadata['salesforce_pricebook_entry_link'])

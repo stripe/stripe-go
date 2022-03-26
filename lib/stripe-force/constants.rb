@@ -6,6 +6,16 @@ module StripeForce
     SALESFORCE_ACCOUNT_ID_HEADER = 'Salesforce-Account-Id'
     SALESFORCE_KEY_HEADER = 'Salesforce-Key'
     SALESFORCE_PACKAGE_NAMESPACE_HEADER = "Salesforce-Package-Namespace"
+    SALESFORCE_INSTANCE_TYPE_HEADER = 'Salesforce-Type'
+
+    class SFInstanceTypes < T::Enum
+      enums do
+        SANDBOX = new("SANDBOX")
+        SCRATCH_ORG = new("SCRATCH_ORG")
+        TRIAL = new("TRIAL")
+        PRODUCTION = new("PRODUCTION")
+      end
+    end
 
     SF_ORDER = 'Order'
     SF_ORDER_ITEM = 'OrderItem'
@@ -28,6 +38,17 @@ module StripeForce
     CPQ_QUOTE_SUBSCRIPTION_TERM = 'SBQQ__SubscriptionTerm__c'
     CPQ_QUOTE_SUBSCRIPTION_PRICING = 'SBQQ__SubscriptionPricing__c'
 
+    CPQ_QUOTE_BILLING_FREQUENCY = 'SBQQ__BillingFrequency__c'
+    class CPQBillingFrequencyOptions < T::Enum
+      enums do
+        MONTHLY = new("Monthly")
+        QUARTERLY = new("Quarterly")
+        SEMIANNUAL = new("Semiannual")
+        ANNUAL = new("Annual")
+        INVOICE_PLAN = new("Invoice Plan")
+      end
+    end
+
     CPQ_PRODUCT_SUBSCRIPTION_TYPE = 'SBQQ__SubscriptionType__c'
     class CPQProductSubscriptionTypeOptions < T::Enum
       enums do
@@ -44,6 +65,7 @@ module StripeForce
       enums do
         # licensed
         ADVANCE = new("Advance")
+
         # metered
         ARREARS = new("Arrears")
       end
@@ -89,6 +111,8 @@ module StripeForce
 
     # non-cpq constants
     CONNECTOR_SETTING_SALESFORCE_NAMESPACE = "salesforce_namespace"
+    CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE = 'salesforce_instance_type'
+    CONNECTOR_SETTING_CPQ_TERM_UNIT = 'cpq_term_unit'
 
     class SalesforceNamespaceOptions < T::Enum
       enums do
