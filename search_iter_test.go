@@ -111,7 +111,7 @@ func TestSearchIterMultiplePages(t *testing.T) {
 	// Create an ephemeral test server so that we can inspect request attributes.
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.RawQuery == "query=my+query" {
-			w.Write([]byte(`{"data":[{"id": "1"}, {"id":"2"}], "has_more":true, "next_page":"page2" }`))
+			w.Write([]byte(`{"data":[{"id": "1"}, {"id":"2"}], "has_more":true, "next_page":"page2", "total_count": 4 }`))
 			return
 		} else if r.URL.RawQuery == "query=my+query&page=page2" {
 			w.Write([]byte(`{"data":[{"id": "3"}, {"id":"4"}], "has_more":false, "next_page":null }`))
@@ -133,6 +133,7 @@ func TestSearchIterMultiplePages(t *testing.T) {
 	iter := client.Search(&SearchParams{
 		Query: "my query",
 	})
+	assert.Equal(t, iter.Meta().TotalCount, 4)
 	cnt := 0
 	for iter.Next() {
 		e := iter.Current().(*TestEntity)
