@@ -110,6 +110,45 @@ func (i *Iter) ChargeList() *stripe.ChargeList {
 	return i.List().(*stripe.ChargeList)
 }
 
+// Search returns a search result containing charges.
+func Search(params *stripe.ChargeSearchParams) *SearchIter {
+	return getC().Search(params)
+}
+
+// Search returns a search result containing charges.
+func (c Client) Search(params *stripe.ChargeSearchParams) *SearchIter {
+	return &SearchIter{
+		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
+			list := &stripe.ChargeSearchResult{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/charges/search", c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// SearchIter is an iterator for charges.
+type SearchIter struct {
+	*stripe.SearchIter
+}
+
+// Charge returns the charge which the iterator is currently pointing to.
+func (i *SearchIter) Charge() *stripe.Charge {
+	return i.Current().(*stripe.Charge)
+}
+
+// ChargeSearchResult returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *SearchIter) ChargeSearchResult() *stripe.ChargeSearchResult {
+	return i.SearchResult().(*stripe.ChargeSearchResult)
+}
+
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

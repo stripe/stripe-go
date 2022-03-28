@@ -17,6 +17,13 @@ const (
 	ProductTypeService ProductType = "service"
 )
 
+// Search for products you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language)
+type ProductSearchParams struct {
+	SearchParams `form:"*"`
+	// A cursor for pagination across multiple pages of results. Do not include this parameter on the first call. Use the next_page value returned in a response to request subsequent results.
+	Page *string `form:"page"`
+}
+
 // The dimensions of this product for shipping purposes.
 type PackageDimensionsParams struct {
 	// Height, in inches. Maximum precision is 2 decimal places.
@@ -155,6 +162,13 @@ type Product struct {
 type ProductList struct {
 	APIResource
 	ListMeta
+	Data []*Product `json:"data"`
+}
+
+// ProductSearchResult is a list of Product search results as retrieved from a search endpoint.
+type ProductSearchResult struct {
+	APIResource
+	SearchMeta
 	Data []*Product `json:"data"`
 }
 

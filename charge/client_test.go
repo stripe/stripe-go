@@ -32,6 +32,19 @@ func TestChargeList(t *testing.T) {
 	assert.NotNil(t, i.ChargeList())
 }
 
+func TestChargeSearch(t *testing.T) {
+	i := Search(&stripe.ChargeSearchParams{SearchParams: stripe.SearchParams{
+		Query: "currency:\"USD\"",
+	}})
+
+	// Verify that we got a charge
+	assert.Equal(t, *i.Meta().TotalCount, uint32(1))
+	assert.True(t, i.Next())
+	assert.Nil(t, i.Err())
+	assert.NotNil(t, i.Charge())
+	assert.False(t, i.Next())
+}
+
 func TestChargeNew(t *testing.T) {
 	charge, err := New(&stripe.ChargeParams{
 		Amount:   stripe.Int64(11700),

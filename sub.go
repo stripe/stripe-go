@@ -158,6 +158,13 @@ const (
 	SubscriptionStatusUnpaid            SubscriptionStatus = "unpaid"
 )
 
+// Search for subscriptions you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language)
+type SubscriptionSearchParams struct {
+	SearchParams `form:"*"`
+	// A cursor for pagination across multiple pages of results. Do not include this parameter on the first call. Use the next_page value returned in a response to request subsequent results.
+	Page *string `form:"page"`
+}
+
 // By default, returns a list of subscriptions that have not been canceled. In order to list canceled subscriptions, specify status=canceled.
 type SubscriptionListParams struct {
 	ListParams `form:"*"`
@@ -643,6 +650,13 @@ type Subscription struct {
 type SubscriptionList struct {
 	APIResource
 	ListMeta
+	Data []*Subscription `json:"data"`
+}
+
+// SubscriptionSearchResult is a list of Subscription search results as retrieved from a search endpoint.
+type SubscriptionSearchResult struct {
+	APIResource
+	SearchMeta
 	Data []*Subscription `json:"data"`
 }
 

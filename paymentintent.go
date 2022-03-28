@@ -513,6 +513,13 @@ const (
 	PaymentIntentStatusSucceeded             PaymentIntentStatus = "succeeded"
 )
 
+// Search for PaymentIntents you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language)
+type PaymentIntentSearchParams struct {
+	SearchParams `form:"*"`
+	// A cursor for pagination across multiple pages of results. Do not include this parameter on the first call. Use the next_page value returned in a response to request subsequent results.
+	Page *string `form:"page"`
+}
+
 // When enabled, this PaymentIntent will accept payment methods that you have enabled in the Dashboard and are compatible with this PaymentIntent's other parameters.
 type PaymentIntentAutomaticPaymentMethodsParams struct {
 	// Whether this feature is enabled.
@@ -1904,6 +1911,13 @@ type PaymentIntent struct {
 type PaymentIntentList struct {
 	APIResource
 	ListMeta
+	Data []*PaymentIntent `json:"data"`
+}
+
+// PaymentIntentSearchResult is a list of PaymentIntent search results as retrieved from a search endpoint.
+type PaymentIntentSearchResult struct {
+	APIResource
+	SearchMeta
 	Data []*PaymentIntent `json:"data"`
 }
 

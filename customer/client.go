@@ -153,6 +153,45 @@ func (i *PaymentMethodIter) PaymentMethodList() *stripe.PaymentMethodList {
 	return i.List().(*stripe.PaymentMethodList)
 }
 
+// Search returns a search result containing customers.
+func Search(params *stripe.CustomerSearchParams) *SearchIter {
+	return getC().Search(params)
+}
+
+// Search returns a search result containing customers.
+func (c Client) Search(params *stripe.CustomerSearchParams) *SearchIter {
+	return &SearchIter{
+		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
+			list := &stripe.CustomerSearchResult{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/customers/search", c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// SearchIter is an iterator for customers.
+type SearchIter struct {
+	*stripe.SearchIter
+}
+
+// Customer returns the customer which the iterator is currently pointing to.
+func (i *SearchIter) Customer() *stripe.Customer {
+	return i.Current().(*stripe.Customer)
+}
+
+// CustomerSearchResult returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *SearchIter) CustomerSearchResult() *stripe.CustomerSearchResult {
+	return i.SearchResult().(*stripe.CustomerSearchResult)
+}
+
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }
