@@ -34,7 +34,7 @@ func TestChargeList(t *testing.T) {
 
 func TestChargeSearch(t *testing.T) {
 	i := Search(&stripe.ChargeSearchParams{SearchParams: stripe.SearchParams{
-		Query: "currency:USD",
+		Query: "currency:\"USD\"",
 	}})
 
 	// Verify that we got a charge
