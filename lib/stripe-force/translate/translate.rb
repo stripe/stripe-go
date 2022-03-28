@@ -17,7 +17,48 @@ class StripeForce::Translate
   include StripeForce::Utilities::StripeUtil
   include StripeForce::Utilities::SalesforceUtil
 
-  def self.perform_inline(user:, sf_object_id:, sf_object_type:); end
+  def self.salesforce_type_from_id(sf_id)
+    case sf_id
+    when /^01s/
+      SF_PRICEBOOK
+    when /^01t/
+      SF_PRODUCT
+    when /^001/
+      SF_ACCOUNT
+    when /^003/
+      "Contact"
+    when /^801/
+      SF_ORDER
+    when /^802/
+      SF_ORDER_ITEM
+    else
+      # https://help.salesforce.com/s/articleView?id=000325244&type=1
+      raise "unknown object type #{sf_id}"
+    end
+  end
+
+  # convenience method for console debugging
+  def self.sf_get(user, sf_id)
+    sf_type = salesforce_type_from_id(sf_id)
+    user.sf_client.find(sf_type, sf_id)
+  end
+
+  # convenience method for console debugging
+  def self.perform_inline(user, sf_id)
+    sf_type = salesforce_type_from_id(sf_id)
+    sf_object = user.sf_client.find(sf_type, sf_id)
+    locker = Integrations::Locker.new(user)
+
+    result = self.perform(
+      user: user,
+      locker: locker,
+      sf_object: sf_object
+    )
+
+    locker.clear_locked_resources
+
+    result
+  end
 
   def self.perform(user:, sf_object:, locker:)
     interactor = self.new(user, locker)
@@ -57,21 +98,28 @@ class StripeForce::Translate
 
     raise
   rescue Stripe::InvalidRequestError => e
-    create_user_failure(
-      salesforce_object: @origin_salesforce_object,
-      message: e.message
-    )
-
     # TODO probably remove this in the future, but I want to understand the error codes that are coming through
     log.warn 'stripe error',
       code: e.code,
       message: e.message
 
+    create_user_failure(
+      salesforce_object: @origin_salesforce_object,
+      message: e.message
+    )
+
+    raise
+  rescue Restforce::ResponseError => e
+    create_user_failure(
+      salesforce_object: @origin_salesforce_object,
+      message: e.message
+    )
+
     raise
   end
 
   def translate_order(sf_object)
-    log.info 'translating order'
+    log.info 'translating order', salesforce_object: sf_object
 
     create_stripe_transaction_from_sf_order(sf_object)
   end
@@ -89,6 +137,14 @@ class StripeForce::Translate
       raise "origin salesforce object is blank, cannot record error"
     end
 
+    log.error 'translation failed', {
+      metric: 'error.user',
+      stripe_resource: stripe_resource,
+      secondary_salesforce_id: salesforce_object.Id,
+      secondary_salesforce_type: salesforce_object.sobject_type,
+      error_message: message,
+    }
+
     compound_external_id = "#{@origin_salesforce_object.Id}-#{salesforce_object.Id}"
 
     sf.upsert!(prefixed_stripe_field(SYNC_RECORD), prefixed_stripe_field(SyncRecordFields::COMPOUND_ID.serialize), {
@@ -103,14 +159,6 @@ class StripeForce::Translate
       SyncRecordFields::RESOLUTION_MESSAGE.serialize => message,
       SyncRecordFields::RESOLUTION_STATUS.serialize => 'Error',
     }.transform_keys!(&method(:prefixed_stripe_field)))
-
-    log.error 'translation failed', {
-      metric: 'error.user',
-      stripe_resource: stripe_resource,
-      secondary_salesforce_id: salesforce_object.Id,
-      secondary_salesforce_type: salesforce_object.sobject_type,
-      error_message: message,
-    }
   end
 
   # NOTE ns_record OR ns_class must be provided
@@ -192,6 +240,8 @@ class StripeForce::Translate
   end
 
   def create_customer_from_sf_account(sf_account)
+    log.info 'translating customer', salesforce_object: sf_account
+
     if (stripe_customer = retrieve_from_stripe(Stripe::Customer, sf_account))
       return stripe_customer
     end
@@ -204,6 +254,8 @@ class StripeForce::Translate
   end
 
   def create_product_from_sf_product(sf_product)
+    log.info 'translating product', salesforce_object: sf_product
+
     if (stripe_product = retrieve_from_stripe(Stripe::Product, sf_product))
       return stripe_product
     end
@@ -223,10 +275,16 @@ class StripeForce::Translate
 
   # TODO what if the list price is updated in SF? We shouldn't probably create a new price object
   def create_price_for_order_item(sf_order_item)
+    log.info 'translating price via order line', salesforce_object: sf_order_item
+
     sf_product = sf.find(SF_PRODUCT, sf_order_item.Product2Id)
     product = create_product_from_sf_product(sf_product)
 
     sf_pricebook_entry = sf.find(SF_PRICEBOOK_ENTRY, sf_order_item.PricebookEntryId)
+
+    log.info 'product and pricebook references',
+      salesforce_product_id: sf_product.Id,
+      salesforce_pricebook_id: sf_pricebook_entry.Id
 
     if sf_order_item[CPQ_QUOTE_SUBSCRIPTION_TERM] != sf_order_item[CPQ_QUOTE_SUBSCRIPTION_TERM]
       raise 'subscription term differs between pricebook and order item'
@@ -258,6 +316,12 @@ class StripeForce::Translate
 
     # TODO shouldn't be `to_s`ing this here, need to determine if SF is sending this as a float or what
     unit_price_for_stripe = normalize_float_amount_for_stripe(sf_pricebook_entry.UnitPrice.to_s, @user)
+
+    # TODO write test for this case
+    if unit_price_for_stripe <= 0
+      # TODO https://jira.corp.stripe.com/browse/PLATINT-1483
+      log.warn 'negative prices are not yet supported'
+    end
 
     # have we already pushed this to Stripe?
     stripe_price_id = sf_pricebook_entry[prefixed_stripe_field(GENERIC_STRIPE_ID)]
@@ -293,12 +357,15 @@ class StripeForce::Translate
         raise 'unsupported global term uniq'
       end
 
-      recurring_price_params = extract_salesforce_params!(sf_order_item, {
-        'interval_count' => CPQ_QUOTE_BILLING_FREQUENCY,
-      })
+      # recurring_price_params = extract_salesforce_params!(sf_order_item, {
+      #   'interval_count' => CPQ_QUOTE_BILLING_FREQUENCY,
+      # })
+
+      raw_interval_count = sf_order_item[CPQ_QUOTE_BILLING_FREQUENCY]
+      raw_interval_count ||= CPQBillingFrequencyOptions::MONTHLY.serialize
 
       # convert picklist description of frequency to month integers
-      interval_count = case CPQBillingFrequencyOptions.try_deserialize(recurring_price_params['interval_count'])
+      interval_count = case CPQBillingFrequencyOptions.try_deserialize(raw_interval_count)
       when CPQBillingFrequencyOptions::MONTHLY
         1
       when CPQBillingFrequencyOptions::QUARTERLY
@@ -308,7 +375,7 @@ class StripeForce::Translate
       when CPQBillingFrequencyOptions::ANNUAL
         12
       else
-        raise "unexpected billing frequency #{recurring_price_params['interval_count']}"
+        raise "unexpected billing frequency #{raw_interval_count}"
       end
 
       optional_price_params[:recurring] = {
@@ -402,20 +469,21 @@ class StripeForce::Translate
 
     stripe_customer = create_customer_from_sf_account(sf_account)
 
-    # TODO should use batch service for this instead
-    # https://github.com/Neuralab/WooCommerce-Salesforce-integration/blob/3af9ecf491f770ece9cdce993c21cee45f2647a0/includes/controllers/core/class-nwsi-salesforce-object-manager.php#L306
     # https://salesforce.stackexchange.com/questions/251904/get-sales-order-line-on-rest-api
-    # https://developer.salesforce.com/docs/atlas.en-us.api_placeorder.meta/api_placeorder/sforce_placeorder_rest_api_get_details_order.htm
-    sf_order_with_lines = sf.api_get("commerce/sale/order/#{sf_order.Id}").body.first
-    sf_order_items = sf_order_with_lines.OrderItems
 
-    # the OrderItems from the commerce API is some sort of limited version
-    sf_order_items = sf_order_items.map {|o| sf.find('OrderItem', o.Id) }
+    # TODO should move to cache service
+    sf_order_items = sf.query("SELECT Id FROM OrderItem WHERE OrderID = '#{sf_order.Id}'").map(&:Id).map do |order_line_id|
+      sf.find(SF_ORDER_ITEM, order_line_id)
+    end
 
     invoice_items = []
     subscription_items = []
 
     sf_order_items.map do |sf_order_item|
+      # TODO these need to be partitioned and created as discounts
+      # TODO should respect customized price mapping here
+      next if sf_order_item.UnitPrice <= 0
+
       price = create_price_for_order_item(sf_order_item)
 
       # TODO we need to document this or just prevent this from happening
