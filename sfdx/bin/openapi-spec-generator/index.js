@@ -44,11 +44,11 @@ const HTTPREQUEST = HTTPS.request(OPTIONS, HttpResponse => {
     HttpResponse.on('end', () => {
         responseJson = JSON.parse(responseJson);
         var formattedStripeObjectsForMapper = {
-            formattedStripeCustomerFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['customer']['properties'], excludedReadOnlyFields.customer),
-            formattedStripeProductItemFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['product']['properties'], excludedReadOnlyFields.product),
-            formattedStripeSubscriptionFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['subscription']['properties'], excludedReadOnlyFields.subscription),
-            formattedStripeSubscriptionItemFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['subscription_item']['properties'], excludedReadOnlyFields.subscription_item),
-            formattedStripePriceFields: formatStripeObjectsForMapper(responseJson['components']['schemas']['price']['properties'], excludedReadOnlyFields.price)
+            formattedStripeCustomerFields: formatStripeObjectsForMapper(responseJson['paths']['/v1/customers']['post']['requestBody']['content']['application/x-www-form-urlencoded']['schema']['properties'], excludedReadOnlyFields.customer),
+            formattedStripeProductItemFields: formatStripeObjectsForMapper(responseJson['paths']['/v1/products']['post']['requestBody']['content']['application/x-www-form-urlencoded']['schema']['properties'], excludedReadOnlyFields.product),
+            formattedStripeSubscriptionFields: formatStripeObjectsForMapper(responseJson['paths']['/v1/subscriptions']['post']['requestBody']['content']['application/x-www-form-urlencoded']['schema']['properties'], excludedReadOnlyFields.subscription),
+            formattedStripeSubscriptionItemFields: formatStripeObjectsForMapper(responseJson['paths']['/v1/subscription_items']['post']['requestBody']['content']['application/x-www-form-urlencoded']['schema']['properties'], excludedReadOnlyFields.subscription_item),
+            formattedStripePriceFields: formatStripeObjectsForMapper(responseJson['paths']['/v1/prices']['post']['requestBody']['content']['application/x-www-form-urlencoded']['schema']['properties'], excludedReadOnlyFields.price)
         };
         formattedStripeObjectsForMapper = JSON.stringify(formattedStripeObjectsForMapper);
         console.log(formattedStripeObjectsForMapper);

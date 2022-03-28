@@ -8,7 +8,7 @@
         {
           "name": "balance",
           "value": "balance",
-          "description": "<p>Current balance, if any, being stored on the customer. If negative, the customer has credit to apply to their next invoice. If positive, the customer has an amount owed that will be added to their next invoice. The balance does not refer to any unpaid invoices; it solely takes into account amounts that have yet to be successfully applied to any invoice. This balance is only taken into account as invoices are finalized.</p>",
+          "description": "<p>An integer amount in %s that represents the customer's current balance, which affect the customer's future invoices. A negative amount represents a credit that decreases the amount due on an invoice; a positive amount increases the amount due on an invoice.</p>",
           "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
@@ -18,9 +18,9 @@
           "sfValueType": ""
         },
         {
-          "name": "currency",
-          "value": "currency",
-          "description": "<p>Three-letter <a href=\"https://stripe.com/docs/currencies\">ISO code for the currency</a> the customer can be charged in for recurring billing purposes.</p>",
+          "name": "coupon",
+          "value": "coupon",
+          "description": "",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -32,7 +32,7 @@
         {
           "name": "description",
           "value": "description",
-          "description": "<p>An arbitrary string attached to the object. Often useful for displaying to users.</p>",
+          "description": "<p>An arbitrary string that you can attach to a customer object. It is displayed alongside the customer in the dashboard.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -44,19 +44,7 @@
         {
           "name": "email",
           "value": "email",
-          "description": "<p>The customer's email address.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "id",
-          "value": "id",
-          "description": "<p>Unique identifier for the object.</p>",
+          "description": "<p>Customer's email address. It's displayed alongside the customer in your dashboard and can be useful for searching and tracking. This may be up to <em>512 characters</em>.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -68,7 +56,7 @@
         {
           "name": "invoice prefix",
           "value": "invoice_prefix",
-          "description": "<p>The prefix for the customer used to generate unique invoice numbers.</p>",
+          "description": "<p>The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -92,8 +80,20 @@
         {
           "name": "next invoice sequence",
           "value": "next_invoice_sequence",
-          "description": "<p>The suffix of the customer's next invoice number, e.g., 0001.</p>",
+          "description": "<p>The sequence to be used on the customer's next invoice. Defaults to 1.</p>",
           "type": "integer",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "payment method",
+          "value": "payment_method",
+          "description": "",
+          "type": "string",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -114,28 +114,33 @@
           "sfValueType": ""
         },
         {
+          "name": "promotion code",
+          "value": "promotion_code",
+          "description": "<p>The API ID of a promotion code to apply to the customer. The customer will have a discount applied on all recurring payments. Charges you create through the API will not have the discount.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "source",
+          "value": "source",
+          "description": "",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
           "name": "tax exempt",
           "value": "tax_exempt",
-          "description": "<p>Describes the customer's tax exemption status. One of <code>none</code>, <code>exempt</code>, or <code>reverse</code>. When set to <code>reverse</code>, invoice and receipt PDFs include the text <strong>\"Reverse charge\"</strong>.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Address",
-      "name": "address",
-      "description": "",
-      "fields": [
-        {
-          "name": "city",
-          "value": "address.city",
-          "description": "<p>City, district, suburb, town, or village.</p>",
+          "description": "<p>The customer's tax exemption. One of <code>none</code>, <code>exempt</code>, or <code>reverse</code>.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -145,332 +150,9 @@
           "sfValueType": ""
         },
         {
-          "name": "country",
-          "value": "address.country",
-          "description": "<p>Two-letter country code (<a href=\"https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2\">ISO 3166-1 alpha-2</a>).</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "line1",
-          "value": "address.line1",
-          "description": "<p>Address line 1 (e.g., street, PO Box, or company name).</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "line2",
-          "value": "address.line2",
-          "description": "<p>Address line 2 (e.g., apartment, suite, unit, or building).</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "postal code",
-          "value": "address.postal_code",
-          "description": "<p>ZIP or postal code.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "state",
-          "value": "address.state",
-          "description": "<p>State, county, province, or region.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Discount",
-      "name": "discount",
-      "description": "",
-      "fields": [
-        {
-          "name": "checkout session",
-          "value": "discount.checkout_session",
-          "description": "<p>The Checkout session that this coupon is applied to, if it is applied to a particular session in payment mode. Will not be present for subscription mode.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "end",
-          "value": "discount.end",
-          "description": "<p>If the coupon has a duration of <code>repeating</code>, the date that this discount will end. If the coupon has a duration of <code>once</code> or <code>forever</code>, this attribute will be null.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "id",
-          "value": "discount.id",
-          "description": "<p>The ID of the discount object. Discounts cannot be fetched by ID. Use <code>expand[]=discounts</code> in API calls to expand discount IDs in an array.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "invoice",
-          "value": "discount.invoice",
-          "description": "<p>The invoice that the discount's coupon was applied to, if it was applied directly to a particular invoice.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "invoice item",
-          "value": "discount.invoice_item",
-          "description": "<p>The invoice item <code>id</code> (or invoice line item <code>id</code> for invoice line items of type='subscription') that the discount's coupon was applied to, if it was applied directly to a particular invoice item or invoice line item.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "start",
-          "value": "discount.start",
-          "description": "<p>Date that the coupon was applied.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "subscription",
-          "value": "discount.subscription",
-          "description": "<p>The subscription that this coupon is applied to, if it is applied to a particular subscription.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Invoice settings",
-      "name": "invoice_settings",
-      "description": "",
-      "fields": [
-        {
-          "name": "footer",
-          "value": "invoice_settings.footer",
-          "description": "<p>Default footer to be displayed on invoices for this customer.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Shipping",
-      "name": "shipping",
-      "description": "",
-      "fields": [
-        {
-          "name": "carrier",
-          "value": "shipping.carrier",
-          "description": "<p>The delivery service that shipped a physical product, such as Fedex, UPS, USPS, etc.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "name",
-          "value": "shipping.name",
-          "description": "<p>Recipient name.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "phone",
-          "value": "shipping.phone",
-          "description": "<p>Recipient phone (including extension).</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "tracking number",
-          "value": "shipping.tracking_number",
-          "description": "<p>The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Shipping Address",
-      "name": "shipping.Address",
-      "description": "",
-      "fields": [
-        {
-          "name": "city",
-          "value": "shipping.Address.city",
-          "description": "<p>City, district, suburb, town, or village.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "country",
-          "value": "shipping.Address.country",
-          "description": "<p>Two-letter country code (<a href=\"https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2\">ISO 3166-1 alpha-2</a>).</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "line1",
-          "value": "shipping.Address.line1",
-          "description": "<p>Address line 1 (e.g., street, PO Box, or company name).</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "line2",
-          "value": "shipping.Address.line2",
-          "description": "<p>Address line 2 (e.g., apartment, suite, unit, or building).</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "postal code",
-          "value": "shipping.Address.postal_code",
-          "description": "<p>ZIP or postal code.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "state",
-          "value": "shipping.Address.state",
-          "description": "<p>State, county, province, or region.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Tax",
-      "name": "tax",
-      "description": "",
-      "fields": [
-        {
-          "name": "automatic tax",
-          "value": "tax.automatic_tax",
-          "description": "<p>Surfaces if automatic tax computation is possible given the current customer location information.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "ip address",
-          "value": "tax.ip_address",
-          "description": "<p>A recent IP address of the customer used for tax reporting and tax location inference.</p>",
+          "name": "test clock",
+          "value": "test_clock",
+          "description": "<p>ID of the test clock to attach to the customer.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -491,7 +173,7 @@
         {
           "name": "active",
           "value": "active",
-          "description": "<p>Whether the product is currently available for purchase.</p>",
+          "description": "<p>Whether the product is currently available for purchase. Defaults to <code>true</code>.</p>",
           "type": "boolean",
           "defaultValue": "",
           "hasOverride": false,
@@ -515,7 +197,7 @@
         {
           "name": "id",
           "value": "id",
-          "description": "<p>Unique identifier for the object.</p>",
+          "description": "<p>An identifier will be randomly generated by Stripe. You can optionally override this ID, but the ID must be unique across all products in your Stripe account.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -551,7 +233,19 @@
         {
           "name": "statement descriptor",
           "value": "statement_descriptor",
-          "description": "<p>Extra information about a product which will appear on your customer's credit card statement. In the case that multiple products are billed at once, the first statement descriptor will be used.</p>",
+          "description": "<p>An arbitrary string to be displayed on your customer's credit card or bank statement. While most banks display this information consistently, some may display it incorrectly or not at all.</p>\n<p>This may be up to 22 characters. The statement description may not include <code>&lt;</code>, <code>&gt;</code>, <code>\\</code>, <code>\"</code>, <code>'</code> characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.\n It must contain at least one letter.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "tax code",
+          "value": "tax_code",
+          "description": "<p>A <a href=\"https://stripe.com/docs/tax/tax-codes\">tax code</a> ID.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -573,77 +267,10 @@
           "sfValueType": ""
         },
         {
-          "name": "updated",
-          "value": "updated",
-          "description": "<p>Time at which the object was last updated. Measured in seconds since the Unix epoch.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
           "name": "url",
           "value": "url",
           "description": "<p>A URL of a publicly-accessible webpage for this product.</p>",
           "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Package dimensions",
-      "name": "package_dimensions",
-      "description": "",
-      "fields": [
-        {
-          "name": "height",
-          "value": "package_dimensions.height",
-          "description": "<p>Height, in inches.</p>",
-          "type": "number",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "length",
-          "value": "package_dimensions.length",
-          "description": "<p>Length, in inches.</p>",
-          "type": "number",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "weight",
-          "value": "package_dimensions.weight",
-          "description": "<p>Weight, in ounces.</p>",
-          "type": "number",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "width",
-          "value": "package_dimensions.width",
-          "description": "<p>Width, in inches.</p>",
-          "type": "number",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -663,8 +290,20 @@
         {
           "name": "application fee percent",
           "value": "application_fee_percent",
-          "description": "<p>A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account.</p>",
+          "description": "<p>A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees <a href=\"https://stripe.com/docs/connect/subscriptions#collecting-fees-on-subscriptions\">documentation</a>.</p>",
           "type": "number",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "backdate start date",
+          "value": "backdate_start_date",
+          "description": "<p>For new subscriptions, a past timestamp to backdate the subscription's start date to. If set, the first invoice will contain a proration for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.</p>",
+          "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -675,7 +314,7 @@
         {
           "name": "billing cycle anchor",
           "value": "billing_cycle_anchor",
-          "description": "<p>Determines the date of the first full invoice, and, for plans with <code>month</code> or <code>year</code> intervals, the day of the month for subsequent invoices.</p>",
+          "description": "<p>A future timestamp to anchor the subscription's <a href=\"https://stripe.com/docs/subscriptions/billing-cycle\">billing cycle</a>. This is used to determine the date of the first full invoice, and, for plans with <code>month</code> or <code>year</code> intervals, the day of the month for subsequent invoices.</p>",
           "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
@@ -687,7 +326,7 @@
         {
           "name": "cancel at",
           "value": "cancel_at",
-          "description": "<p>A date in the future at which the subscription will automatically get canceled</p>",
+          "description": "<p>A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using <code>proration_behavior</code>. If set during a future period, this will always cause a proration for that period.</p>",
           "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
@@ -699,20 +338,8 @@
         {
           "name": "cancel at period end",
           "value": "cancel_at_period_end",
-          "description": "<p>If the subscription has been canceled with the <code>at_period_end</code> flag set to <code>true</code>, <code>cancel_at_period_end</code> on the subscription will be true. You can use this attribute to determine whether a subscription that has a status of active is scheduled to be canceled at the end of the current period.</p>",
+          "description": "<p>Boolean indicating whether this subscription should cancel at the end of the current period.</p>",
           "type": "boolean",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "canceled at",
-          "value": "canceled_at",
-          "description": "<p>If the subscription has been canceled, the date of that cancellation. If the subscription was canceled with <code>cancel_at_period_end</code>, <code>canceled_at</code> will reflect the time of the most recent update request, not the end of the subscription period when the subscription is automatically moved to a canceled state.</p>",
-          "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -723,7 +350,31 @@
         {
           "name": "collection method",
           "value": "collection_method",
-          "description": "<p>Either <code>charge_automatically</code>, or <code>send_invoice</code>. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions.</p>",
+          "description": "<p>Either <code>charge_automatically</code>, or <code>send_invoice</code>. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions. Defaults to <code>charge_automatically</code>.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "coupon",
+          "value": "coupon",
+          "description": "<p>The ID of the coupon to apply to this subscription. A coupon applied to a subscription will only affect invoices created for that particular subscription.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "customer",
+          "value": "customer",
+          "description": "<p>The identifier of the customer to subscribe.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -735,7 +386,7 @@
         {
           "name": "days until due",
           "value": "days_until_due",
-          "description": "<p>Number of days a customer has to pay invoices generated by this subscription. This value will be <code>null</code> for subscriptions where <code>collection_method=charge_automatically</code>.</p>",
+          "description": "<p>Number of days a customer has to pay invoices generated by this subscription. Valid only for subscriptions where <code>collection_method</code> is set to <code>send_invoice</code>.</p>",
           "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
@@ -745,10 +396,10 @@
           "sfValueType": ""
         },
         {
-          "name": "next pending invoice item invoice",
-          "value": "next_pending_invoice_item_invoice",
-          "description": "<p>Specifies the approximate timestamp on which any pending invoice items will be billed according to the schedule provided at <code>pending_invoice_item_interval</code>.</p>",
-          "type": "integer",
+          "name": "default payment method",
+          "value": "default_payment_method",
+          "description": "<p>ID of the default payment method for the subscription. It must belong to the customer associated with the subscription. This takes precedence over <code>default_source</code>. If neither are set, invoices will use the customer's <a href=\"https://stripe.com/docs/api/customers/object#customer_object-invoice_settings-default_payment_method\">invoice<em>settings.default</em>payment<em>method</a> or <a href=\"https://stripe.com/docs/api/customers/object#customer_object-default_source\">default</em>source</a>.</p>",
+          "type": "string",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -757,10 +408,10 @@
           "sfValueType": ""
         },
         {
-          "name": "start date",
-          "value": "start_date",
-          "description": "<p>Date when the subscription was first created. The date might differ from the <code>created</code> date due to backdating.</p>",
-          "type": "integer",
+          "name": "default source",
+          "value": "default_source",
+          "description": "<p>ID of the default payment source for the subscription. It must belong to the customer associated with the subscription and be in a chargeable state. If <code>default_payment_method</code> is also set, <code>default_payment_method</code> will take precedence. If neither are set, invoices will use the customer's <a href=\"https://stripe.com/docs/api/customers/object#customer_object-invoice_settings-default_payment_method\">invoice<em>settings.default</em>payment<em>method</a> or <a href=\"https://stripe.com/docs/api/customers/object#customer_object-default_source\">default</em>source</a>.</p>",
+          "type": "string",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -769,40 +420,9 @@
           "sfValueType": ""
         },
         {
-          "name": "trial end",
-          "value": "trial_end",
-          "description": "<p>If the subscription has a trial, the end of that trial.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "trial start",
-          "value": "trial_start",
-          "description": "<p>If the subscription has a trial, the beginning of that trial.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Automatic tax",
-      "name": "automatic_tax",
-      "description": "",
-      "fields": [
-        {
-          "name": "enabled",
-          "value": "automatic_tax.enabled",
-          "description": "<p>Whether Stripe automatically computes tax on this subscription.</p>",
+          "name": "off session",
+          "value": "off_session",
+          "description": "<p>Indicates if a customer is on or off-session while an invoice payment is attempted.</p>",
           "type": "boolean",
           "defaultValue": "",
           "hasOverride": false,
@@ -810,49 +430,11 @@
           "hasSfValue": false,
           "sfValue": "",
           "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Billing thresholds",
-      "name": "billing_thresholds",
-      "description": "",
-      "fields": [
-        {
-          "name": "amount gte",
-          "value": "billing_thresholds.amount_gte",
-          "description": "<p>Monetary threshold that triggers the subscription to create an invoice</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
         },
         {
-          "name": "reset billing cycle anchor",
-          "value": "billing_thresholds.reset_billing_cycle_anchor",
-          "description": "<p>Indicates if the <code>billing_cycle_anchor</code> should be reset when a threshold is reached. If true, <code>billing_cycle_anchor</code> will be updated to the date/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be <code>true</code> if the subscription contains items with plans that have <code>aggregate_usage=last_ever</code>.</p>",
-          "type": "boolean",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Discount",
-      "name": "discount",
-      "description": "",
-      "fields": [
-        {
-          "name": "checkout session",
-          "value": "discount.checkout_session",
-          "description": "<p>The Checkout session that this coupon is applied to, if it is applied to a particular session in payment mode. Will not be present for subscription mode.</p>",
+          "name": "payment behavior",
+          "value": "payment_behavior",
+          "description": "<p>Use <code>allow_incomplete</code> to create subscriptions with <code>status=incomplete</code> if the first invoice cannot be paid. Creating subscriptions with this status allows you to manage scenarios where additional user actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the <a href=\"https://stripe.com/docs/billing/migration/strong-customer-authentication\">SCA Migration Guide</a> for Billing to learn more. This is the default behavior.</p>\n<p>Use <code>default_incomplete</code> to create Subscriptions with <code>status=incomplete</code> when the first invoice requires payment, otherwise start as active. Subscriptions transition to <code>status=active</code> when successfully confirming the payment intent on the first invoice. This allows simpler management of scenarios where additional user actions are needed to pay a subscription’s invoice. Such as failed payments, <a href=\"https://stripe.com/docs/billing/migration/strong-customer-authentication\">SCA regulation</a>, or collecting a mandate for a bank debit payment method. If the payment intent is not confirmed within 23 hours subscriptions transition to <code>status=incomplete_expired</code>, which is a terminal state.</p>\n<p>Use <code>error_if_incomplete</code> if you want Stripe to return an HTTP 402 status code if a subscription's first invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not create a subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the <a href=\"https://stripe.com/docs/upgrades#2019-03-14\">changelog</a> to learn more.</p>\n<p><code>pending_if_incomplete</code> is only used with updates and cannot be passed when creating a subscription.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -862,21 +444,9 @@
           "sfValueType": ""
         },
         {
-          "name": "end",
-          "value": "discount.end",
-          "description": "<p>If the coupon has a duration of <code>repeating</code>, the date that this discount will end. If the coupon has a duration of <code>once</code> or <code>forever</code>, this attribute will be null.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "invoice",
-          "value": "discount.invoice",
-          "description": "<p>The invoice that the discount's coupon was applied to, if it was applied directly to a particular invoice.</p>",
+          "name": "promotion code",
+          "value": "promotion_code",
+          "description": "<p>The API ID of a promotion code to apply to this subscription. A promotion code applied to a subscription will only affect invoices created for that particular subscription.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -886,139 +456,10 @@
           "sfValueType": ""
         },
         {
-          "name": "invoice item",
-          "value": "discount.invoice_item",
-          "description": "<p>The invoice item <code>id</code> (or invoice line item <code>id</code> for invoice line items of type='subscription') that the discount's coupon was applied to, if it was applied directly to a particular invoice item or invoice line item.</p>",
+          "name": "proration behavior",
+          "value": "proration_behavior",
+          "description": "<p>Determines how to handle <a href=\"https://stripe.com/docs/subscriptions/billing-cycle#prorations\">prorations</a> resulting from the <code>billing_cycle_anchor</code>. Valid values are <code>create_prorations</code> or <code>none</code>.</p>\n<p>Passing <code>create_prorations</code> will cause proration invoice items to be created when applicable. Prorations can be disabled by passing <code>none</code>. If no value is passed, the default is <code>create_prorations</code>.</p>",
           "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "start",
-          "value": "discount.start",
-          "description": "<p>Date that the coupon was applied.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "subscription",
-          "value": "discount.subscription",
-          "description": "<p>The subscription that this coupon is applied to, if it is applied to a particular subscription.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Pause collection",
-      "name": "pause_collection",
-      "description": "",
-      "fields": [
-        {
-          "name": "behavior",
-          "value": "pause_collection.behavior",
-          "description": "<p>The payment collection behavior for this subscription while paused. One of <code>keep_as_draft</code>, <code>mark_uncollectible</code>, or <code>void</code>.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "resumes at",
-          "value": "pause_collection.resumes_at",
-          "description": "<p>The time after which the subscription will resume collecting payments.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Pending invoice item interval",
-      "name": "pending_invoice_item_interval",
-      "description": "",
-      "fields": [
-        {
-          "name": "interval",
-          "value": "pending_invoice_item_interval.interval",
-          "description": "<p>Specifies invoicing frequency. Either <code>day</code>, <code>week</code>, <code>month</code> or <code>year</code>.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "interval count",
-          "value": "pending_invoice_item_interval.interval_count",
-          "description": "<p>The number of intervals between invoices. For example, <code>interval=month</code> and <code>interval_count=3</code> bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Pending update",
-      "name": "pending_update",
-      "description": "",
-      "fields": [
-        {
-          "name": "billing cycle anchor",
-          "value": "pending_update.billing_cycle_anchor",
-          "description": "<p>If the update is applied, determines the date of the first full invoice, and, for plans with <code>month</code> or <code>year</code> intervals, the day of the month for subsequent invoices.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "expires at",
-          "value": "pending_update.expires_at",
-          "description": "<p>The point after which the changes reflected by this update will be discarded and no longer applied.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "trial end",
-          "value": "pending_update.trial_end",
-          "description": "<p>Unix timestamp representing the end of the trial period the customer will get before being charged for the first time, if the update is applied.</p>",
-          "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -1028,7 +469,7 @@
         },
         {
           "name": "trial from plan",
-          "value": "pending_update.trial_from_plan",
+          "value": "trial_from_plan",
           "description": "<p>Indicates if a plan's <code>trial_period_days</code> should be applied to the subscription. Setting <code>trial_end</code> per subscription is preferred, and this defaults to <code>false</code>. Setting this flag to <code>true</code> together with <code>trial_end</code> is not allowed. See <a href=\"https://stripe.com/docs/billing/subscriptions/trials\">Using trial periods on subscriptions</a> to learn more.</p>",
           "type": "boolean",
           "defaultValue": "",
@@ -1037,19 +478,12 @@
           "hasSfValue": false,
           "sfValue": "",
           "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Transfer data",
-      "name": "transfer_data",
-      "description": "",
-      "fields": [
+        },
         {
-          "name": "amount percent",
-          "value": "transfer_data.amount_percent",
-          "description": "<p>A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the destination account. By default, the entire amount is transferred to the destination.</p>",
-          "type": "number",
+          "name": "trial period days",
+          "value": "trial_period_days",
+          "description": "<p>Integer representing the number of trial period days before the customer is charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. See <a href=\"https://stripe.com/docs/billing/subscriptions/trials\">Using trial periods on subscriptions</a> to learn more.</p>",
+          "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -1067,10 +501,46 @@
       "description": "",
       "fields": [
         {
-          "name": "id",
-          "value": "id",
-          "description": "<p>Unique identifier for the object.</p>",
+          "name": "payment behavior",
+          "value": "payment_behavior",
+          "description": "<p>Use <code>allow_incomplete</code> to transition the subscription to <code>status=past_due</code> if a payment is required but cannot be paid. This allows you to manage scenarios where additional user actions are needed to pay a subscription's invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the <a href=\"https://stripe.com/docs/billing/migration/strong-customer-authentication\">SCA Migration Guide</a> for Billing to learn more. This is the default behavior.</p>\n<p>Use <code>default_incomplete</code> to transition the subscription to <code>status=past_due</code> when payment is required and await explicit confirmation of the invoice's payment intent. This allows simpler management of scenarios where additional user actions are needed to pay a subscription’s invoice. Such as failed payments, <a href=\"https://stripe.com/docs/billing/migration/strong-customer-authentication\">SCA regulation</a>, or collecting a mandate for a bank debit payment method.</p>\n<p>Use <code>pending_if_incomplete</code> to update the subscription using <a href=\"https://stripe.com/docs/billing/subscriptions/pending-updates\">pending updates</a>. When you use <code>pending_if_incomplete</code> you can only pass the parameters <a href=\"https://stripe.com/docs/billing/pending-updates-reference#supported-attributes\">supported by pending updates</a>.</p>\n<p>Use <code>error_if_incomplete</code> if you want Stripe to return an HTTP 402 status code if a subscription's invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not update the subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the <a href=\"https://stripe.com/docs/upgrades#2019-03-14\">changelog</a> to learn more.</p>",
           "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "price",
+          "value": "price",
+          "description": "<p>The ID of the price object.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "proration behavior",
+          "value": "proration_behavior",
+          "description": "<p>Determines how to handle <a href=\"https://stripe.com/docs/subscriptions/billing-cycle#prorations\">prorations</a> when the billing cycle changes (e.g., when switching plans, resetting <code>billing_cycle_anchor=now</code>, or starting a trial), or if an item's <code>quantity</code> changes. Valid values are <code>create_prorations</code>, <code>none</code>, or <code>always_invoice</code>.</p>\n<p>Passing <code>create_prorations</code> will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under <a href=\"https://stripe.com/docs/subscriptions/upgrading-downgrading#immediate-payment\">certain conditions</a>. In order to always invoice immediately for prorations, pass <code>always_invoice</code>.</p>\n<p>Prorations can be disabled by passing <code>none</code>.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "proration date",
+          "value": "proration_date",
+          "description": "<p>If set, the proration will be calculated as though the subscription was updated at the given time. This can be used to apply the same proration that was previewed with the <a href=\"https://stripe.com/docs/api#retrieve_customer_invoice\">upcoming invoice</a> endpoint.</p>",
+          "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -1081,7 +551,7 @@
         {
           "name": "quantity",
           "value": "quantity",
-          "description": "<p>The <a href=\"https://stripe.com/docs/subscriptions/quantities\">quantity</a> of the plan to which the customer should be subscribed.</p>",
+          "description": "<p>The quantity you'd like to apply to the subscription item you're creating.</p>",
           "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
@@ -1093,165 +563,7 @@
         {
           "name": "subscription",
           "value": "subscription",
-          "description": "<p>The <code>subscription</code> this <code>subscription_item</code> belongs to.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Billing thresholds",
-      "name": "billing_thresholds",
-      "description": "",
-      "fields": [
-        {
-          "name": "usage gte",
-          "value": "billing_thresholds.usage_gte",
-          "description": "<p>Usage threshold that triggers the subscription to create an invoice</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Price",
-      "name": "price",
-      "description": "",
-      "fields": [
-        {
-          "name": "active",
-          "value": "price.active",
-          "description": "<p>Whether the price can be used for new purchases.</p>",
-          "type": "boolean",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "billing scheme",
-          "value": "price.billing_scheme",
-          "description": "<p>Describes how to compute the price per period. Either <code>per_unit</code> or <code>tiered</code>. <code>per_unit</code> indicates that the fixed amount (specified in <code>unit_amount</code> or <code>unit_amount_decimal</code>) will be charged per unit in <code>quantity</code> (for prices with <code>usage_type=licensed</code>), or per unit of total usage (for prices with <code>usage_type=metered</code>). <code>tiered</code> indicates that the unit pricing will be computed using a tiering strategy as defined using the <code>tiers</code> and <code>tiers_mode</code> attributes.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "currency",
-          "value": "price.currency",
-          "description": "<p>Three-letter <a href=\"https://www.iso.org/iso-4217-currency-codes.html\">ISO currency code</a>, in lowercase. Must be a <a href=\"https://stripe.com/docs/currencies\">supported currency</a>.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "id",
-          "value": "price.id",
-          "description": "<p>Unique identifier for the object.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "lookup key",
-          "value": "price.lookup_key",
-          "description": "<p>A lookup key used to retrieve prices dynamically from a static string. This may be up to 200 characters.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "nickname",
-          "value": "price.nickname",
-          "description": "<p>A brief description of the price, hidden from customers.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "tax behavior",
-          "value": "price.tax_behavior",
-          "description": "<p>Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of <code>inclusive</code>, <code>exclusive</code>, or <code>unspecified</code>. Once specified as either <code>inclusive</code> or <code>exclusive</code>, it cannot be changed.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "tiers mode",
-          "value": "price.tiers_mode",
-          "description": "<p>Defines if the tiering price should be <code>graduated</code> or <code>volume</code> based. In <code>volume</code>-based tiering, the maximum quantity within a period determines the per unit price. In <code>graduated</code> tiering, pricing can change as the quantity grows.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "type",
-          "value": "price.type",
-          "description": "<p>One of <code>one_time</code> or <code>recurring</code> depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "unit amount",
-          "value": "price.unit_amount",
-          "description": "<p>The unit amount in %s to be charged, represented as a whole integer if possible. Only set if <code>billing_scheme=per_unit</code>.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "unit amount decimal",
-          "value": "price.unit_amount_decimal",
-          "description": "<p>The unit amount in %s to be charged, represented as a decimal string with at most 12 decimal places. Only set if <code>billing_scheme=per_unit</code>.</p>",
+          "description": "<p>The identifier of the subscription to modify.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -1272,7 +584,7 @@
         {
           "name": "active",
           "value": "active",
-          "description": "<p>Whether the price can be used for new purchases.</p>",
+          "description": "<p>Whether the price can be used for new purchases. Defaults to <code>true</code>.</p>",
           "type": "boolean",
           "defaultValue": "",
           "hasOverride": false,
@@ -1330,6 +642,18 @@
           "sfValueType": ""
         },
         {
+          "name": "product",
+          "value": "product",
+          "description": "<p>The ID of the product that this price will belong to.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
           "name": "tax behavior",
           "value": "tax_behavior",
           "description": "<p>Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of <code>inclusive</code>, <code>exclusive</code>, or <code>unspecified</code>. Once specified as either <code>inclusive</code> or <code>exclusive</code>, it cannot be changed.</p>",
@@ -1344,7 +668,7 @@
         {
           "name": "tiers mode",
           "value": "tiers_mode",
-          "description": "<p>Defines if the tiering price should be <code>graduated</code> or <code>volume</code> based. In <code>volume</code>-based tiering, the maximum quantity within a period determines the per unit price. In <code>graduated</code> tiering, pricing can change as the quantity grows.</p>",
+          "description": "<p>Defines if the tiering price should be <code>graduated</code> or <code>volume</code> based. In <code>volume</code>-based tiering, the maximum quantity within a period determines the per unit price, in <code>graduated</code> tiering pricing can successively change as the quantity grows.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -1354,10 +678,10 @@
           "sfValueType": ""
         },
         {
-          "name": "type",
-          "value": "type",
-          "description": "<p>One of <code>one_time</code> or <code>recurring</code> depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.</p>",
-          "type": "string",
+          "name": "transfer lookup key",
+          "value": "transfer_lookup_key",
+          "description": "<p>If set to true, will atomically remove the lookup key from the existing price, and assign it to this price.</p>",
+          "type": "boolean",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -1368,7 +692,7 @@
         {
           "name": "unit amount",
           "value": "unit_amount",
-          "description": "<p>The unit amount in %s to be charged, represented as a whole integer if possible. Only set if <code>billing_scheme=per_unit</code>.</p>",
+          "description": "<p>A positive integer in %s (or 0 for a free price) representing how much to charge.</p>",
           "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
@@ -1380,93 +704,7 @@
         {
           "name": "unit amount decimal",
           "value": "unit_amount_decimal",
-          "description": "<p>The unit amount in %s to be charged, represented as a decimal string with at most 12 decimal places. Only set if <code>billing_scheme=per_unit</code>.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Recurring",
-      "name": "recurring",
-      "description": "",
-      "fields": [
-        {
-          "name": "aggregate usage",
-          "value": "recurring.aggregate_usage",
-          "description": "<p>Specifies a usage aggregation strategy for prices of <code>usage_type=metered</code>. Allowed values are <code>sum</code> for summing up all usage during a period, <code>last_during_period</code> for using the last usage record reported within a period, <code>last_ever</code> for using the last usage record ever (across period bounds) or <code>max</code> which uses the usage record with the maximum reported usage during a period. Defaults to <code>sum</code>.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "interval",
-          "value": "recurring.interval",
-          "description": "<p>The frequency at which a subscription is billed. One of <code>day</code>, <code>week</code>, <code>month</code> or <code>year</code>.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "interval count",
-          "value": "recurring.interval_count",
-          "description": "<p>The number of intervals (specified in the <code>interval</code> attribute) between subscription billings. For example, <code>interval=month</code> and <code>interval_count=3</code> bills every 3 months.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "usage type",
-          "value": "recurring.usage_type",
-          "description": "<p>Configures how the quantity per period should be determined. Can be either <code>metered</code> or <code>licensed</code>. <code>licensed</code> automatically bills the <code>quantity</code> set when adding it to a subscription. <code>metered</code> aggregates the total usage based on usage records. Defaults to <code>licensed</code>.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Transform quantity",
-      "name": "transform_quantity",
-      "description": "",
-      "fields": [
-        {
-          "name": "divide by",
-          "value": "transform_quantity.divide_by",
-          "description": "<p>Divide usage by this number.</p>",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "round",
-          "value": "transform_quantity.round",
-          "description": "<p>After division, either round the result <code>up</code> or <code>down</code>.</p>",
+          "description": "<p>Same as <code>unit_amount</code>, but accepts a decimal value in %s with at most 12 decimal places. Only one of <code>unit_amount</code> and <code>unit_amount_decimal</code> can be set.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
