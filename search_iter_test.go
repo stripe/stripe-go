@@ -133,7 +133,7 @@ func TestSearchIterMultiplePages(t *testing.T) {
 	iter := client.Search(&SearchParams{
 		Query: "my query",
 	})
-	assert.Equal(t, iter.Meta().TotalCount, 4)
+	assert.Equal(t, *iter.Meta().TotalCount, uint32(4))
 	cnt := 0
 	for iter.Next() {
 		e := iter.Current().(*TestEntity)
