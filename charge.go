@@ -155,6 +155,13 @@ const (
 	ChargeStatusSucceeded ChargeStatus = "succeeded"
 )
 
+// Search for charges you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language)
+type ChargeSearchParams struct {
+	SearchParams `form:"*"`
+	// A cursor for pagination across multiple pages of results. Do not include this parameter on the first call. Use the next_page value returned in a response to request subsequent results.
+	Page *string `form:"page"`
+}
+
 // Returns a list of charges you've previously created. The charges are returned in sorted order, with the most recent charges appearing first.
 type ChargeListParams struct {
 	ListParams   `form:"*"`
@@ -981,6 +988,13 @@ type Charge struct {
 type ChargeList struct {
 	APIResource
 	ListMeta
+	Data []*Charge `json:"data"`
+}
+
+// ChargeSearchResult is a list of Charge search results as retrieved from a search endpoint.
+type ChargeSearchResult struct {
+	APIResource
+	SearchMeta
 	Data []*Charge `json:"data"`
 }
 

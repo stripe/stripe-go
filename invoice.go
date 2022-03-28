@@ -123,6 +123,13 @@ const (
 	InvoiceStatusVoid          InvoiceStatus = "void"
 )
 
+// Search for invoices you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language)
+type InvoiceSearchParams struct {
+	SearchParams `form:"*"`
+	// A cursor for pagination across multiple pages of results. Do not include this parameter on the first call. Use the next_page value returned in a response to request subsequent results.
+	Page *string `form:"page"`
+}
+
 // You can list all invoices, or list the invoices for a specific customer. The invoices are returned sorted by creation date, with the most recently created invoices appearing first.
 type InvoiceListParams struct {
 	ListParams `form:"*"`
@@ -762,6 +769,13 @@ type Invoice struct {
 type InvoiceList struct {
 	APIResource
 	ListMeta
+	Data []*Invoice `json:"data"`
+}
+
+// InvoiceSearchResult is a list of Invoice search results as retrieved from a search endpoint.
+type InvoiceSearchResult struct {
+	APIResource
+	SearchMeta
 	Data []*Invoice `json:"data"`
 }
 

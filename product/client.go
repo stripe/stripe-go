@@ -110,6 +110,45 @@ func (i *Iter) ProductList() *stripe.ProductList {
 	return i.List().(*stripe.ProductList)
 }
 
+// Search returns a search result containing products.
+func Search(params *stripe.ProductSearchParams) *SearchIter {
+	return getC().Search(params)
+}
+
+// Search returns a search result containing products.
+func (c Client) Search(params *stripe.ProductSearchParams) *SearchIter {
+	return &SearchIter{
+		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
+			list := &stripe.ProductSearchResult{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/products/search", c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// SearchIter is an iterator for products.
+type SearchIter struct {
+	*stripe.SearchIter
+}
+
+// Product returns the product which the iterator is currently pointing to.
+func (i *SearchIter) Product() *stripe.Product {
+	return i.Current().(*stripe.Product)
+}
+
+// ProductSearchResult returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *SearchIter) ProductSearchResult() *stripe.ProductSearchResult {
+	return i.SearchResult().(*stripe.ProductSearchResult)
+}
+
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

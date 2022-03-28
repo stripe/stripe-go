@@ -158,6 +158,45 @@ func (i *Iter) PaymentIntentList() *stripe.PaymentIntentList {
 	return i.List().(*stripe.PaymentIntentList)
 }
 
+// Search returns a search result containing payment intents.
+func Search(params *stripe.PaymentIntentSearchParams) *SearchIter {
+	return getC().Search(params)
+}
+
+// Search returns a search result containing payment intents.
+func (c Client) Search(params *stripe.PaymentIntentSearchParams) *SearchIter {
+	return &SearchIter{
+		SearchIter: stripe.GetSearchIter(params, func(p *stripe.Params, b *form.Values) ([]interface{}, stripe.SearchContainer, error) {
+			list := &stripe.PaymentIntentSearchResult{}
+			err := c.B.CallRaw(http.MethodGet, "/v1/payment_intents/search", c.Key, b, p, list)
+
+			ret := make([]interface{}, len(list.Data))
+			for i, v := range list.Data {
+				ret[i] = v
+			}
+
+			return ret, list, err
+		}),
+	}
+}
+
+// SearchIter is an iterator for payment intents.
+type SearchIter struct {
+	*stripe.SearchIter
+}
+
+// PaymentIntent returns the payment intent which the iterator is currently pointing to.
+func (i *SearchIter) PaymentIntent() *stripe.PaymentIntent {
+	return i.Current().(*stripe.PaymentIntent)
+}
+
+// PaymentIntentSearchResult returns the current list object which the iterator is
+// currently using. List objects will change as new API calls are made to
+// continue pagination.
+func (i *SearchIter) PaymentIntentSearchResult() *stripe.PaymentIntentSearchResult {
+	return i.SearchResult().(*stripe.PaymentIntentSearchResult)
+}
+
 func getC() Client {
 	return Client{stripe.GetBackend(stripe.APIBackend), stripe.Key}
 }

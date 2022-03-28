@@ -40,6 +40,13 @@ const (
 	CustomerTaxExemptReverse CustomerTaxExempt = "reverse"
 )
 
+// Search for customers you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language)
+type CustomerSearchParams struct {
+	SearchParams `form:"*"`
+	// A cursor for pagination across multiple pages of results. Do not include this parameter on the first call. Use the next_page value returned in a response to request subsequent results.
+	Page *string `form:"page"`
+}
+
 // Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.
 type CustomerListParams struct {
 	ListParams   `form:"*"`
@@ -262,6 +269,13 @@ type Customer struct {
 type CustomerList struct {
 	APIResource
 	ListMeta
+	Data []*Customer `json:"data"`
+}
+
+// CustomerSearchResult is a list of Customer search results as retrieved from a search endpoint.
+type CustomerSearchResult struct {
+	APIResource
+	SearchMeta
 	Data []*Customer `json:"data"`
 }
 

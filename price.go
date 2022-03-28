@@ -88,6 +88,13 @@ const (
 	PriceTypeRecurring PriceType = "recurring"
 )
 
+// Search for prices you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language)
+type PriceSearchParams struct {
+	SearchParams `form:"*"`
+	// A cursor for pagination across multiple pages of results. Do not include this parameter on the first call. Use the next_page value returned in a response to request subsequent results.
+	Page *string `form:"page"`
+}
+
 // Only return prices with these recurring fields.
 type PriceRecurringListParams struct {
 	// Filter by billing frequency. Either `day`, `week`, `month` or `year`.
@@ -305,6 +312,13 @@ type Price struct {
 type PriceList struct {
 	APIResource
 	ListMeta
+	Data []*Price `json:"data"`
+}
+
+// PriceSearchResult is a list of Price search results as retrieved from a search endpoint.
+type PriceSearchResult struct {
+	APIResource
+	SearchMeta
 	Data []*Price `json:"data"`
 }
 
