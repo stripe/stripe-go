@@ -17,7 +17,10 @@ const (
 	ProductTypeService ProductType = "service"
 )
 
-// Search for products you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language)
+// Search for products you've previously created using Stripe's [Search Query Language](https://stripe.com/docs/search#search-query-language).
+// Don't use search in read-after-write flows where strict consistency is necessary. Under normal operating
+// conditions, data is searchable in less than a minute. Occasionally, propagation of new or updated data can be up
+// to an hour behind during outages. Search functionality is not available to merchants in India.
 type ProductSearchParams struct {
 	SearchParams `form:"*"`
 	// A cursor for pagination across multiple pages of results. Do not include this parameter on the first call. Use the next_page value returned in a response to request subsequent results.
@@ -53,7 +56,7 @@ type ProductParams struct {
 	ID *string `form:"id"`
 	// A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 	Images []*string `form:"images"`
-	// The product's name, meant to be displayable to the customer. Whenever this product is sold via a subscription, name will show up on associated invoice line item descriptions.
+	// The product's name, meant to be displayable to the customer.
 	Name *string `form:"name"`
 	// The dimensions of this product for shipping purposes.
 	PackageDimensions *PackageDimensionsParams `form:"package_dimensions"`
@@ -136,7 +139,7 @@ type Product struct {
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
-	// The product's name, meant to be displayable to the customer. Whenever this product is sold via a subscription, name will show up on associated invoice line item descriptions.
+	// The product's name, meant to be displayable to the customer.
 	Name string `json:"name"`
 	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
