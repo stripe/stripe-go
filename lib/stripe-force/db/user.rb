@@ -129,11 +129,23 @@ module StripeForce
       {
         "customer" => {
           "name" => "Name",
+          "phone" => "Phone",
+          "description" => "Description",
+
           # TODO may need to split BillingStreet into `line2` if multiple lines
-          # "address.line1" => "BillingStreet",
-          # "address.state" => "BillingState",
-          # "address.postal_code" => "BillingPostalCode",
-          # "address.country" => "BillingCountry",
+          "address.line1" => "BillingStreet",
+          "address.city" => "BillingCity",
+          "address.state" => "BillingState",
+          "address.postal_code" => "BillingPostalCode",
+          "address.country" => "BillingCountry",
+
+          "shipping.name" => "Name",
+          "shipping.phone" => "Phone",
+          "shipping.address.line1" => "ShippingStreet",
+          "shipping.address.city" => "ShippingCity",
+          "shipping.address.state" => "ShippingState",
+          "shipping.address.postal_code" => "ShippingPostalCode",
+          "shipping.address.country" => "ShippingCountry",
         },
         "product" => {
           # TODO setting custom Ids may not be the best idea here

@@ -223,6 +223,10 @@ class StripeForce::Translate
 
     apply_mapping(stripe_object, sf_object)
 
+    if block_given?
+      yield(stripe_object)
+    end
+
     log.info 'creating stripe object', salesforce_object: sf_object
 
     # there's a decent chance this causes us issues down the road: we shouldn't be using `construct_from`
@@ -278,7 +282,13 @@ class StripeForce::Translate
       return stripe_customer
     end
 
-    customer = create_stripe_object(Stripe::Customer, sf_account)
+    customer = create_stripe_object(Stripe::Customer, sf_account) do |generated_stripe_customer|
+      # passing a partial shipping hash will trigger an error
+      if !generated_stripe_customer.shipping.respond_to?(:address) || generated_stripe_customer.shipping.address.to_h.empty?
+        log.info 'no address specified on shipping hash, removing'
+        generated_stripe_customer.shipping = {}
+      end
+    end
 
     update_sf_stripe_id(sf_account, customer)
 

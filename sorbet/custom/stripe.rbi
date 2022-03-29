@@ -28,9 +28,25 @@ class Stripe::Price
   def recurring; end
 end
 
+# TODO I swear I added some of these in via the netsuite connector
 class Stripe::Customer
   sig { returns(String) }
   def currency; end
+
+  sig { returns(String) }
+  def description; end
+
+  # TODO should add proper subhash typing
+  def shipping; end
+
+  sig { returns(T.nilable(String)) }
+  def phone; end
+end
+
+# TODO the address subhash typings need to be cleaned up
+class Stripe::Address
+  sig { returns(T.nilable(String)) }
+  def phone; end
 end
 
 # these are NOT the exact same structure as a subscription item
