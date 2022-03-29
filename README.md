@@ -7,7 +7,7 @@ https://stripe-force.herokuapp.com/auth/salesforce
 http://localhost:3100/
 
 ```
-Stripe.log_level = 'debug; Restforce.log = true;
+Stripe.log_level = 'debug'; Restforce.log = true;
 ```
 
 # PR Review Conventions

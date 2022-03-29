@@ -129,7 +129,11 @@ class Critic::PriceTranslation < Critic::FunctionalTest
       new_stripe_price = Stripe::Price.retrieve(item.price, @user.stripe_credentials)
       assert_equal(150_00, new_stripe_price.unit_amount)
 
-      # TODO assert Stripe ID set on the order line level
+      order_lines = sf.query("SELECT Id FROM OrderItem WHERE OrderId = '#{sf_order.Id}'")
+      assert_equal(1, order_lines.count)
+
+      sf_order_item = sf.find(SF_ORDER_ITEM, order_lines.first.Id)
+      assert_equal(new_stripe_price.id, sf_order_item[prefixed_stripe_field(GENERIC_STRIPE_ID)])
     end
   end
 

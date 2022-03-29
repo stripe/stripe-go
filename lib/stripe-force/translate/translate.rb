@@ -474,10 +474,7 @@ class StripeForce::Translate
 
     stripe_price = create_price_from_sf_object(sf_target_for_stripe_price, sf_product, product)
 
-    # TODO need to add stripe ID to order line
-    if sf_target_for_stripe_price.sobject_type != SF_ORDER_ITEM
-      update_sf_stripe_id(sf_target_for_stripe_price, stripe_price)
-    end
+    update_sf_stripe_id(sf_target_for_stripe_price, stripe_price)
 
     stripe_price
   end
