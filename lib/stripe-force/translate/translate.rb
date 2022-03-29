@@ -23,10 +23,12 @@ class StripeForce::Translate
       SF_PRICEBOOK
     when /^01t/
       SF_PRODUCT
+    when /^01u/
+      SF_PRICEBOOK_ENTRY
     when /^001/
       SF_ACCOUNT
     when /^003/
-      "Contact"
+      SF_CONTACT
     when /^801/
       SF_ORDER
     when /^802/
@@ -85,6 +87,8 @@ class StripeForce::Translate
       translate_order(sf_object)
     when SF_PRODUCT
       translate_product(sf_object)
+    when SF_PRICEBOOK_ENTRY
+      create_price_from_pricebook(sf_object)
     when SF_ACCOUNT
       translate_account(sf_object)
     else
@@ -210,7 +214,11 @@ class StripeForce::Translate
       extract_salesforce_params!(sf_object, stripe_class)
     end
 
-    stripe_object = stripe_class.construct_from(additional_stripe_params.merge(stripe_fields))
+    stripe_object = stripe_class.construct_from(additional_stripe_params)
+
+    # the fields in the resulting hash could be dot-paths, so let's assign them using the mapper
+    mapper.assign_values_from_hash(stripe_object, stripe_fields)
+
     stripe_object.metadata = stripe_metadata_for_sf_object(sf_object)
 
     apply_mapping(stripe_object, sf_object)
@@ -229,7 +237,34 @@ class StripeForce::Translate
     return if stripe_id.nil?
 
     begin
-      stripe_class.retrieve(sf_object[prefixed_stripe_field(GENERIC_STRIPE_ID)], @user.stripe_credentials)
+      stripe_record = stripe_class.retrieve(sf_object[prefixed_stripe_field(GENERIC_STRIPE_ID)], @user.stripe_credentials)
+
+      # if this ID was provided to us by the user, the metadata does not exist in Stripe
+      stripe_record_metadata = stripe_metadata_for_sf_object(sf_object)
+
+      # `to_h` on the StripeObject symbolizes all of the keys
+      # <= is a special `includes` operator https://stackoverflow.com/questions/7584801/how-to-check-if-an-hash-is-completely-included-in-another-hash
+      unless stripe_record_metadata.symbolize_keys <= stripe_record.metadata.to_h
+        stripe_record_metadata.each do |k, v|
+          if stripe_record.metadata[k] != v
+            log.warn 'overwriting metadata value',
+              metadata_key: k,
+              old_value: stripe_record.metadata[k],
+              new_value: v
+          end
+
+          stripe_record.metadata[k] = v
+        end
+
+        log.info 'no metadata found on valid stripe record reference, adding'
+        stripe_record.save
+      end
+
+      log.info 'existing stripe record found',
+        salesforce_object: sf_object,
+        stripe_resource: stripe_record
+
+      stripe_record
     rescue Stripe::InvalidRequestError => e
       raise if e.code != 'resource_missing'
       nil
@@ -264,14 +299,141 @@ class StripeForce::Translate
     stripe_product
   end
 
+  # sf_product is required because for some fields the required value is pulled from the product
+  # TODO this should be modified to be more flexible and pull via the mapper instead https://jira.corp.stripe.com/browse/PLATINT-1485
+  sig { params(sf_object: Restforce::SObject, sf_product: Restforce::SObject).returns(Stripe::Price) }
+  def generate_price_params_from_sf_object(sf_object, sf_product)
+    # this should never happen, but provides self-documentation and extra test guards
+    if ![SF_ORDER_ITEM, SF_PRICEBOOK_ENTRY].include?(sf_object.sobject_type)
+      raise "price can only be created from an order line or pricebook entry"
+    end
+
+    # omitting price param here, this should be defined upstream
+    stripe_price = Stripe::Price.construct_from({
+      # TODO most likely need to pass the order over? Can
+      # TODO not seeing currency anywhere? This is only enab  led on certain accounts
+      currency: base_currency_iso(@user),
+
+      # TODO using a `lookup_key` here would allow users to easily update prices
+      # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
+    })
+
+    # the params are extracted here *and* we apply custom mappings because this enables the user to setup custom mappings for
+    # *everything* we sent to the price API including UnitPrice and other fields which go through custom transformations
+    price_params = extract_salesforce_params!(sf_object, Stripe::Price)
+    mapper.assign_values_from_hash(stripe_price, price_params)
+
+    # TODO this is not good: ideally we should have the product lookup defined in the mapping, but right now we don't allow arrays as the value of a mapping
+    #      for now, let's hack this and just map the object twice from different perspectives
+    #      https://jira.corp.stripe.com/browse/PLATINT-1486
+    if sf_object.sobject_type == SF_PRICEBOOK_ENTRY
+      mapper.assign_values_from_hash(stripe_price, mapper.build_dynamic_mapping_values(sf_product, {
+        "recurring.interval_count" => CPQ_QUOTE_BILLING_FREQUENCY,
+      }))
+    end
+
+    # TODO we need to document this: the price is mapped to two unique objects
+    apply_mapping(stripe_price, sf_object)
+
+    # although we are passing the amount as a decimal, the decimal amount still represents cents
+    # to_s is used here to (a) satisfy typing requirements and (b) ensure BigDecimal can parse the float properly
+    stripe_price.unit_amount_decimal = normalize_float_amount_for_stripe(stripe_price.unit_amount_decimal.to_s, @user, as_decimal: true)
+
+    # by omitting the recurring params it sets `type: one_time`
+    # this param cannot be set directly
+    if recurring_item?(sf_object.sobject_type == SF_PRICEBOOK_ENTRY ? sf_product : sf_object)
+      # NOTE on the price level, we are not concerned with the billing term
+      #      that can be defined (as a default) on the product, but it only comes into play with the subscription schedule
+      if sf_cpq_term_interval != 'month'
+        raise 'unsupported global term uniq'
+      end
+
+      # allow users to define custom mappings against
+      # if !stripe_price.respond_to?(:recurring)
+      #   stripe_price.recurring = {}
+      # end
+
+      # TODO it's possible that a custom mapping is defined for this value and it's an integer, we should support this case in the helper method
+      # this represents how often the price is billed: i.e. if `interval` is month and `interval_count`
+      # is 2, then this price is billed every two months.
+      stripe_price.recurring.interval_count = transform_salesforce_billing_frequency_to_recurring_interval(stripe_price.recurring.interval_count)
+
+      # frequency: monthly or daily, defined on the CPQ
+      stripe_price.recurring.interval = sf_cpq_term_interval
+    else
+      # TODO should we nil out any custom mapped recurring values? Let's wait and see if we get some errors
+      # stripe_price.recurring = {}
+    end
+
+    stripe_price
+  end
+
+  sig { params(raw_billing_frequency: T.nilable(String)).returns(Integer) }
+  def transform_salesforce_billing_frequency_to_recurring_interval(raw_billing_frequency)
+    raw_billing_frequency ||= begin
+      log.warn 'interval_count not defined via mapping, using monthly fallback'
+      CPQBillingFrequencyOptions::MONTHLY.serialize
+    end
+
+    # convert picklist description of frequency to month integers
+    case CPQBillingFrequencyOptions.try_deserialize(raw_billing_frequency)
+    when CPQBillingFrequencyOptions::MONTHLY
+      1
+    when CPQBillingFrequencyOptions::QUARTERLY
+      3
+    when CPQBillingFrequencyOptions::SEMIANNUAL
+      6
+    when CPQBillingFrequencyOptions::ANNUAL
+      12
+    else
+      raise "unexpected billing frequency #{raw_billing_frequency}"
+    end
+  end
+
   # TODO this is defined globally in SF and needs to be pulled dynamically from our configuration
   def sf_cpq_term_interval
     # TODO move sanitization somewhere else
     @user.connector_settings[CONNECTOR_SETTING_CPQ_TERM_UNIT].downcase
   end
 
+  # TODO https://jira.corp.stripe.com/browse/PLATINT-1485
+  def pricebook_and_order_line_identical?(sf_pricebook, sf_order_line, sf_product)
+    # generate the full params that would be sent to the price object and compare them
+    # if they aren't *exactly* the same, this will trigger a new price to be created
+    # we'll probably need to do something a bit smarter here in the future but it's not obvious what
+    # additional logic we should include here at the moment.
+    generate_price_params_from_sf_object(sf_pricebook, sf_product).serialize_params !=
+      generate_price_params_from_sf_object(sf_order_line, sf_product).serialize_params
+  end
+
+  def create_price_from_pricebook(sf_pricebook_entry)
+    stripe_price = retrieve_from_stripe(Stripe::Price, sf_pricebook_entry)
+    return stripe_price if stripe_price
+
+    sf_product = sf.find(SF_PRODUCT, sf_pricebook_entry.Product2Id)
+    stripe_product = create_product_from_sf_product(sf_product)
+
+    stripe_price = create_price_from_sf_object(sf_pricebook_entry, sf_product, stripe_product)
+
+    update_sf_stripe_id(sf_pricebook_entry, stripe_price)
+
+    stripe_price
+  end
+
   # TODO what if the list price is updated in SF? We shouldn't probably create a new price object
   def create_price_for_order_item(sf_order_item)
+    # TODO add test case for this
+    unless integer_quantity?(sf_order_item)
+      throw_user_failure!(
+        salesforce_object: sf_order_item,
+        message: "Quantity specified as a decimal value. Only integers are supported."
+      )
+    end
+
+    if metered_billing?(sf_order_item)
+      raise "metered billing not yet supported"
+    end
+
     log.info 'translating price via order line', salesforce_object: sf_order_item
 
     sf_product = sf.find(SF_PRODUCT, sf_order_item.Product2Id)
@@ -283,139 +445,83 @@ class StripeForce::Translate
       salesforce_product_id: sf_product.Id,
       salesforce_pricebook_id: sf_pricebook_entry.Id
 
-    if sf_order_item[CPQ_QUOTE_SUBSCRIPTION_TERM] != sf_order_item[CPQ_QUOTE_SUBSCRIPTION_TERM]
-      raise 'subscription term differs between pricebook and order item'
-    end
-
-    # if sf_pricebook_entry.UnitPrice != sf_order_item.UnitPrice
-    #   raise 'unit prices between pricebook and order item should not be different'
-    # end
-
     # TODO should be able to use the pricebook entries for these checks
 
-    unless integer_quantity?(sf_order_item)
-      # TODO need to think about taxes calculated in SF at this point
-      raise 'float quantities are not yet supported'
+    # if the order line and pricebook entries are identical then we can use a pre-existing price
+    # otherwise, we'll have to create a new price
+    if pricebook_and_order_line_identical?(sf_pricebook_entry, sf_order_item, sf_product)
+      log.info 'pricebook and product data is different'
+      sf_target_for_stripe_price = sf_order_item
+    else
+      log.info 'pricebook and product data is identical, attemping to use existing stripe price'
+      existing_stripe_price = retrieve_from_stripe(Stripe::Price, sf_pricebook_entry)
+      sf_target_for_stripe_price = sf_pricebook_entry
     end
 
-    if high_precision_float?(sf_order_item)
-      # TODO this will probably require us to use `unit_price_decimal` on the price
-      raise 'float prices with more than two decimals of precision are not supported'
-    end
+    if existing_stripe_price
+      generated_stripe_price = generate_price_params_from_sf_object(sf_pricebook_entry, sf_product)
 
-    if metered_billing?(sf_order_item)
-      raise "metered billing not yet supported"
-    end
-
-    # TODO detect billing type
-    # https://help.salesforce.com/s/articleView?id=sf.cpq_order_product_fields.htm&type=5
-    # if billing type = 'metered/areers'
-
-    # TODO shouldn't be `to_s`ing this here, need to determine if SF is sending this as a float or what
-    unit_price_for_stripe = normalize_float_amount_for_stripe(sf_pricebook_entry.UnitPrice.to_s, @user)
-
-    # TODO write test for this case
-    if unit_price_for_stripe <= 0
-      # TODO https://jira.corp.stripe.com/browse/PLATINT-1483
-      log.warn 'negative prices are not yet supported'
-    end
-
-    # have we already pushed this to Stripe?
-    stripe_price_id = sf_pricebook_entry[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-    if stripe_price_id.present?
-      log.info 'price already pushed, retrieving from stripe', stripe_resource_id: stripe_price_id
-
-      stripe_price = begin
-        Stripe::Price.retrieve(stripe_price_id, @user.stripe_credentials)
-      rescue => e
-        report_exception(e)
-        nil
+      # this should never happen if our identical check is correct, unless the data in Salesforce is mutated over time
+      if  BigDecimal(existing_stripe_price.unit_amount_decimal.to_s) != BigDecimal(generated_stripe_price.unit_amount_decimal.to_s) ||
+          existing_stripe_price.recurring.interval != generated_stripe_price.recurring.interval ||
+          existing_stripe_price.recurring.interval_count != generated_stripe_price.recurring.interval_count
+        raise "expected generated prices to be equal, but they differed"
       end
 
-      # TODO if line item price is different than the stripe price, we need to create a new price
-      # TODO we probably shouldn't overwrite the price on the SF object in this case, need to think this through
-      if stripe_price && stripe_price.unit_amount != unit_price_for_stripe
-        report_edge_case("specified price is different than stripe price", integration_record: sf_order_item, stripe_resource: stripe_price)
-        stripe_price = nil # rubocop:disable Lint/UselessAssignment:
-      end
+      log.info 'using existing stripe price'
+      return existing_stripe_price
     end
+
+    stripe_price = create_price_from_sf_object(sf_target_for_stripe_price, sf_product, product)
+
+    # TODO need to add stripe ID to order line
+    if sf_target_for_stripe_price.sobject_type != SF_ORDER_ITEM
+      update_sf_stripe_id(sf_target_for_stripe_price, stripe_price)
+    end
+
+    stripe_price
+  end
+
+  sig { params(sf_object: Restforce::SObject, sf_product: Restforce::SObject, stripe_product: Stripe::Product).returns(Stripe::Price) }
+  def create_price_from_sf_object(sf_object, sf_product, stripe_product)
+    if ![SF_ORDER_ITEM, SF_PRICEBOOK_ENTRY].include?(sf_object.sobject_type)
+      raise "price can only be created from an order line or pricebook entry"
+    end
+
+    log.info 'creating price', salesforce_object: sf_object
 
     # TODO the pricebook entry is really a 'suggested' price and it can be overwritten by the quote or order line
     # TODO if the list price is used, we shoudl try to create a price for this in Stripe, otherwise we'll create a price and use that
+    stripe_price = generate_price_params_from_sf_object(sf_object, sf_product)
 
-    optional_price_params = {}
-
-    # by omitting the recurring params it sets `type: one_time`
-    # this param cannot be set directly
-    if recurring_item?(sf_order_item)
-      # NOTE on the price level, we are not concerned with the billing term
-      #      that can be defined (as a default) on the product, but it only comes into play with the subscription schedule
-      if sf_cpq_term_interval != 'month'
-        raise 'unsupported global term uniq'
-      end
-
-      recurring_price_params = extract_salesforce_params!(sf_order_item, Stripe::Price)
-
-      raw_interval_count = recurring_price_params['interval_count']
-      raw_interval_count ||= CPQBillingFrequencyOptions::MONTHLY.serialize
-
-      # convert picklist description of frequency to month integers
-      interval_count = case CPQBillingFrequencyOptions.try_deserialize(raw_interval_count)
-      when CPQBillingFrequencyOptions::MONTHLY
-        1
-      when CPQBillingFrequencyOptions::QUARTERLY
-        3
-      when CPQBillingFrequencyOptions::SEMIANNUAL
-        6
-      when CPQBillingFrequencyOptions::ANNUAL
-        12
-      else
-        raise "unexpected billing frequency #{raw_interval_count}"
-      end
-
-      optional_price_params[:recurring] = {
-        # frequency: monthly or daily, defined on the CPQ
-        interval: sf_cpq_term_interval,
-
-        # this represents how often the price is billed: i.e. if `interval` is month and `interval_count`
-        # is 2, then this price is billed every two months.
-        # TODO maybe we should move the formatting stuff into the `extract_salesforce_params!`
-        interval_count: interval_count.to_i,
-      }
+    # TODO https://jira.corp.stripe.com/browse/PLATINT-1483
+    if stripe_price.unit_amount_decimal <= 0
+      raise "negative prices should never be passed for item creation"
     end
 
-    price = create_stripe_object(
-      Stripe::Price,
-      sf_pricebook_entry,
+    stripe_price.product = stripe_product.id
+    stripe_price.metadata = stripe_metadata_for_sf_object(sf_object)
 
-      skip_field_extraction: true,
+    # TODO using a `lookup_key` here would allow users to easily update prices
+    # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
 
-      additional_stripe_params: {
-        product: product.id,
-
-        unit_amount: unit_price_for_stripe,
-
-        # TODO most likely need to pass the order over? Can
-        # TODO not seeing currency anywhere? This is only enab  led on certain accounts
-        currency: base_currency_iso(@user),
-
-        # TODO using a `lookup_key` here would allow users to easily update prices
-        # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
-      }.merge(optional_price_params)
-    )
-
-    update_sf_stripe_id(sf_pricebook_entry, price)
-
-    price
+    stripe_price.dirty!
+    Stripe::Price.create(stripe_price.serialize_params, @user.stripe_credentials)
   end
 
+  # https://help.salesforce.com/s/articleView?id=sf.cpq_order_product_fields.htm&type=5
   def metered_billing?(sf_order_item)
     sf_order_item[CPQ_PRODUCT_BILLING_TYPE] == CPQProductBillingTypeOptions::ARREARS.serialize
   end
 
   # according to the salesforce documentation, if this field is non-nil ("empty") than it's a subscription item
-  def recurring_item?(sf_order_item)
-    !sf_order_item[CPQ_QUOTE_SUBSCRIPTION_PRICING].nil?
+  def recurring_item?(sf_object)
+    if ![SF_ORDER_ITEM, SF_PRODUCT].include?(sf_object.sobject_type)
+      raise "recurring definition is specified on the order item or product level only"
+    end
+
+    # TODO maybe pull this from the mapper in order to make this customizable?
+    !sf_object[CPQ_QUOTE_SUBSCRIPTION_PRICING].nil?
   end
 
   def integer_quantity?(sf_order_item)
@@ -433,10 +539,11 @@ class StripeForce::Translate
     value.to_i == value.to_f
   end
 
-  def high_precision_float?(sf_order_item)
+  # TODO we can probably remove this now that we have `unit_amount_decimal`
+  def high_precision_float?(value)
     # unfortunately the UnitPrice seems to come back as a float, so we need to `to_s`
     # TODO determine if Restforce is doing this translation or if it is us, we want the string float if we can
-    (BigDecimal(sf_order_item.UnitPrice.to_s) * 100.0).to_i != normalize_float_amount_for_stripe(sf_order_item.UnitPrice.to_s, @user)
+    (BigDecimal(value.to_s) * 100.0).to_i != normalize_float_amount_for_stripe(value.to_s, @user)
   end
 
   # TODO How can we organize code to support CPQ & non-CPQ use-cases? how can this be abstracted away from the order?

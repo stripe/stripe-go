@@ -93,7 +93,8 @@ module Integrations
       end
     end
 
-    protected def assign_values_from_hash(record, field_assignments)
+    sig { params(record: Stripe::APIResource, field_assignments: Hash).void }
+    def assign_values_from_hash(record, field_assignments)
       field_assignments.each do |raw_field_path, v|
         # TODO need to handle nil values
         # TODO think on custom fields with NetSuite suffix `_id`

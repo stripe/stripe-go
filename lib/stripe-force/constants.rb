@@ -21,6 +21,7 @@ module StripeForce
     SF_ORDER_ITEM = 'OrderItem'
     SF_PRODUCT = 'Product2'
     SF_ACCOUNT = 'Account'
+    SF_CONTACT = 'Contact'
     SF_OPPORTUNITY = 'Opportunity'
     SF_PRICEBOOK = 'Pricebook2'
     SF_PRICEBOOK_ENTRY = 'PricebookEntry'

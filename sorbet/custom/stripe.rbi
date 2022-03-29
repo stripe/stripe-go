@@ -6,6 +6,26 @@ class Stripe::Price
 
   sig { returns(Integer) }
   def unit_amount; end
+
+  sig { returns(String) }
+  def unit_amount_decimal; end
+
+  sig { returns(String) }
+  def billing_scheme; end
+
+  sig { returns(String) }
+  def type; end
+
+  sig { returns(String) }
+  def currency; end
+
+  sig { returns(T.any(Stripe::Product, String)) }
+  def product; end
+
+  # TODO maybe I should use array accessor instead of defining this? Need to look at existing pattern in typing
+  def product=(arg); end
+
+  def recurring; end
 end
 
 class Stripe::Customer

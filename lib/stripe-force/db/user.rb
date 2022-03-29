@@ -119,7 +119,7 @@ module StripeForce
           "subscription_iterations" => CPQ_QUOTE_SUBSCRIPTION_TERM,
         },
         "price" => {
-          "unit_amount" => 'UnitPrice',
+          "unit_amount_decimal" => 'UnitPrice',
         },
       }
     end
@@ -142,8 +142,8 @@ module StripeForce
           "description" => 'Description',
         },
         "price" => {
-          # default fallback is used
-          "interval_count" => CPQ_QUOTE_BILLING_FREQUENCY,
+          # default monthly fallback is used if this value is empty
+          "recurring.interval_count" => CPQ_QUOTE_BILLING_FREQUENCY,
         },
         "invoice" => {},
       }
