@@ -8,8 +8,9 @@ package stripe
 
 import (
 	"encoding/json"
-	"github.com/stripe/stripe-go/v72/form"
 	"strconv"
+
+	"github.com/stripe/stripe-go/v72/form"
 )
 
 // Specifies a usage aggregation strategy for plans of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
@@ -233,6 +234,8 @@ type Plan struct {
 	Livemode bool `json:"livemode"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
 	Metadata map[string]string `json:"metadata"`
+	// Name of plan.
+	Name string `json:"name"`
 	// A brief description of the plan, hidden from customers.
 	Nickname string `json:"nickname"`
 	// String representing the object's type. Objects of the same type share the same value.

@@ -11,6 +11,7 @@ import (
 
 func TestPlan_Unmarshal(t *testing.T) {
 	planData := map[string]interface{}{
+		"name":           "Sapphire Elite",
 		"id":             "pl_123",
 		"object":         "plan",
 		"amount":         0,
