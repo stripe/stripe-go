@@ -6,6 +6,7 @@ const excludedReadOnlyFields = {
         'created',
         'object',
         'livemode',
+        'metadata'
     ],
 
     customer: [
@@ -93,7 +94,7 @@ function formatStripeObjectsForMapper(stripeObjectToFormat, objectExcludedReadOn
                     return a.name.localeCompare(b.name);
                 });
             }
-        } else if (stripeObjectToFormat[field]['$ref']) {
+        } else if (stripeObjectToFormat[field]['$ref'] && !excludedReadOnlyFields.all.includes(field) && !objectExcludedReadOnlyFields.includes(field)) {
             var expandableSchemaFieldName = stripeObjectToFormat[field]['$ref'].split('/').pop();
             var expandableSchemaFieldMap = responseJson['components']['schemas'][expandableSchemaFieldName]['properties'];
             var newSection = {
@@ -139,10 +140,9 @@ function formatStripeObjectsForMapper(stripeObjectToFormat, objectExcludedReadOn
                     }
                 }
             }
-        } else if (stripeObjectToFormat[field]['anyOf']) {
-            if (stripeObjectToFormat[field]['anyOf'].length && stripeObjectToFormat[field]['anyOf'][0]['$ref']) {
-                var nestedExpandableField = stripeObjectToFormat[field]['anyOf'][0]['$ref'].split('/').pop();
-                var nestedExpandableFieldMap = responseJson['components']['schemas'][nestedExpandableField]['properties'];
+        } else if (stripeObjectToFormat[field]['anyOf'] && responseJson['components']['schemas'][field] && !excludedReadOnlyFields.all.includes(field) && !objectExcludedReadOnlyFields.includes(field)) {
+            if (stripeObjectToFormat[field]['anyOf'].length) {
+                var nestedExpandableFieldMap = responseJson['components']['schemas'][field]['properties'];
                 if (nestedExpandableFieldMap) {
                     stripeObjectMappings = checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings, nestedExpandableFieldMap, objectExcludedReadOnlyFields);
                 }

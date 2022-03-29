@@ -162,6 +162,219 @@
           "sfValueType": ""
         }
       ]
+    },
+    {
+      "label": "Address",
+      "name": "address",
+      "description": "",
+      "fields": [
+        {
+          "name": "city",
+          "value": "address.city",
+          "description": "<p>City, district, suburb, town, or village.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "country",
+          "value": "address.country",
+          "description": "<p>Two-letter country code (<a href=\"https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2\">ISO 3166-1 alpha-2</a>).</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "line1",
+          "value": "address.line1",
+          "description": "<p>Address line 1 (e.g., street, PO Box, or company name).</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "line2",
+          "value": "address.line2",
+          "description": "<p>Address line 2 (e.g., apartment, suite, unit, or building).</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "postal code",
+          "value": "address.postal_code",
+          "description": "<p>ZIP or postal code.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "state",
+          "value": "address.state",
+          "description": "<p>State, county, province, or region.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Shipping",
+      "name": "shipping",
+      "description": "",
+      "fields": [
+        {
+          "name": "carrier",
+          "value": "shipping.carrier",
+          "description": "<p>The delivery service that shipped a physical product, such as Fedex, UPS, USPS, etc.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "name",
+          "value": "shipping.name",
+          "description": "<p>Recipient name.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "phone",
+          "value": "shipping.phone",
+          "description": "<p>Recipient phone (including extension).</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "tracking number",
+          "value": "shipping.tracking_number",
+          "description": "<p>The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Shipping Address",
+      "name": "shipping.Address",
+      "description": "",
+      "fields": [
+        {
+          "name": "city",
+          "value": "shipping.Address.city",
+          "description": "<p>City, district, suburb, town, or village.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "country",
+          "value": "shipping.Address.country",
+          "description": "<p>Two-letter country code (<a href=\"https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2\">ISO 3166-1 alpha-2</a>).</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "line1",
+          "value": "shipping.Address.line1",
+          "description": "<p>Address line 1 (e.g., street, PO Box, or company name).</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "line2",
+          "value": "shipping.Address.line2",
+          "description": "<p>Address line 2 (e.g., apartment, suite, unit, or building).</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "postal code",
+          "value": "shipping.Address.postal_code",
+          "description": "<p>ZIP or postal code.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "state",
+          "value": "shipping.Address.state",
+          "description": "<p>State, county, province, or region.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
     }
   ],
   "formattedStripeProductItemFields": [
