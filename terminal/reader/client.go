@@ -77,6 +77,64 @@ func (c Client) Del(id string, params *stripe.TerminalReaderParams) (*stripe.Ter
 	return reader, err
 }
 
+// CancelAction is the method for the `POST /v1/terminal/readers/{reader}/cancel_action` API.
+func CancelAction(id string, params *stripe.TerminalReaderCancelActionParams) (*stripe.TerminalReader, error) {
+	return getC().CancelAction(id, params)
+}
+
+// CancelAction is the method for the `POST /v1/terminal/readers/{reader}/cancel_action` API.
+func (c Client) CancelAction(id string, params *stripe.TerminalReaderCancelActionParams) (*stripe.TerminalReader, error) {
+	path := stripe.FormatURLPath("/v1/terminal/readers/%s/cancel_action", id)
+	reader := &stripe.TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
+// ProcessPaymentIntent is the method for the `POST /v1/terminal/readers/{reader}/process_payment_intent` API.
+func ProcessPaymentIntent(id string, params *stripe.TerminalReaderProcessPaymentIntentParams) (*stripe.TerminalReader, error) {
+	return getC().ProcessPaymentIntent(id, params)
+}
+
+// ProcessPaymentIntent is the method for the `POST /v1/terminal/readers/{reader}/process_payment_intent` API.
+func (c Client) ProcessPaymentIntent(id string, params *stripe.TerminalReaderProcessPaymentIntentParams) (*stripe.TerminalReader, error) {
+	path := stripe.FormatURLPath(
+		"/v1/terminal/readers/%s/process_payment_intent",
+		id,
+	)
+	reader := &stripe.TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
+// ProcessSetupIntent is the method for the `POST /v1/terminal/readers/{reader}/process_setup_intent` API.
+func ProcessSetupIntent(id string, params *stripe.TerminalReaderProcessSetupIntentParams) (*stripe.TerminalReader, error) {
+	return getC().ProcessSetupIntent(id, params)
+}
+
+// ProcessSetupIntent is the method for the `POST /v1/terminal/readers/{reader}/process_setup_intent` API.
+func (c Client) ProcessSetupIntent(id string, params *stripe.TerminalReaderProcessSetupIntentParams) (*stripe.TerminalReader, error) {
+	path := stripe.FormatURLPath(
+		"/v1/terminal/readers/%s/process_setup_intent",
+		id,
+	)
+	reader := &stripe.TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
+// SetReaderDisplay is the method for the `POST /v1/terminal/readers/{reader}/set_reader_display` API.
+func SetReaderDisplay(id string, params *stripe.TerminalReaderSetReaderDisplayParams) (*stripe.TerminalReader, error) {
+	return getC().SetReaderDisplay(id, params)
+}
+
+// SetReaderDisplay is the method for the `POST /v1/terminal/readers/{reader}/set_reader_display` API.
+func (c Client) SetReaderDisplay(id string, params *stripe.TerminalReaderSetReaderDisplayParams) (*stripe.TerminalReader, error) {
+	path := stripe.FormatURLPath("/v1/terminal/readers/%s/set_reader_display", id)
+	reader := &stripe.TerminalReader{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, reader)
+	return reader, err
+}
+
 // List returns a list of terminal readers.
 func List(params *stripe.TerminalReaderListParams) *Iter {
 	return getC().List(params)

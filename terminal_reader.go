@@ -6,6 +6,34 @@
 
 package stripe
 
+// Type of information to be displayed by the reader.
+type TerminalReaderActionSetReaderDisplayType string
+
+// List of values that TerminalReaderActionSetReaderDisplayType can take
+const (
+	TerminalReaderActionSetReaderDisplayTypeCart TerminalReaderActionSetReaderDisplayType = "cart"
+)
+
+// Status of the action performed by the reader.
+type TerminalReaderActionStatus string
+
+// List of values that TerminalReaderActionStatus can take
+const (
+	TerminalReaderActionStatusFailed     TerminalReaderActionStatus = "failed"
+	TerminalReaderActionStatusInProgress TerminalReaderActionStatus = "in_progress"
+	TerminalReaderActionStatusSucceeded  TerminalReaderActionStatus = "succeeded"
+)
+
+// Type of action performed by the reader.
+type TerminalReaderActionType string
+
+// List of values that TerminalReaderActionType can take
+const (
+	TerminalReaderActionTypeProcessPaymentIntent TerminalReaderActionType = "process_payment_intent"
+	TerminalReaderActionTypeProcessSetupIntent   TerminalReaderActionType = "process_setup_intent"
+	TerminalReaderActionTypeSetReaderDisplay     TerminalReaderActionType = "set_reader_display"
+)
+
 // Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `bbpos_chipper2x`, `bbpos_wisepos_e`, or `verifone_P400`.
 type TerminalReaderDeviceType string
 
@@ -45,12 +73,135 @@ type TerminalReaderListParams struct {
 	Status *string `form:"status"`
 }
 
+// Configuration overrides
+type TerminalReaderProcessPaymentIntentProcessConfigParams struct {
+	// Override showing a tipping selection screen on this transaction.
+	SkipTipping *bool `form:"skip_tipping"`
+}
+
+// Initiates a payment flow on a Reader
+type TerminalReaderProcessPaymentIntentParams struct {
+	Params `form:"*"`
+	// PaymentIntent ID
+	PaymentIntent *string `form:"payment_intent"`
+	// Configuration overrides
+	ProcessConfig *TerminalReaderProcessPaymentIntentProcessConfigParams `form:"process_config"`
+}
+
+// Initiates a setup intent flow on a Reader
+type TerminalReaderProcessSetupIntentParams struct {
+	Params `form:"*"`
+	// Customer Consent Collected
+	CustomerConsentCollected *bool `form:"customer_consent_collected"`
+	// SetupIntent ID
+	SetupIntent *string `form:"setup_intent"`
+}
+
+// Cancels the current reader action
+type TerminalReaderCancelActionParams struct {
+	Params `form:"*"`
+}
+
+// Array of line items that were purchased.
+type TerminalReaderSetReaderDisplayCartLineItemParams struct {
+	// The price of the item in cents.
+	Amount *int64 `form:"amount"`
+	// The description or name of the item.
+	Description *string `form:"description"`
+	// The quantity of the line item being purchased.
+	Quantity *int64 `form:"quantity"`
+}
+
+// Cart
+type TerminalReaderSetReaderDisplayCartParams struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// Array of line items that were purchased.
+	LineItems []*TerminalReaderSetReaderDisplayCartLineItemParams `form:"line_items"`
+	// The amount of tax in cents.
+	Tax *int64 `form:"tax"`
+	// Total balance of cart due in cents.
+	Total *int64 `form:"total"`
+}
+
+// Sets reader display
+type TerminalReaderSetReaderDisplayParams struct {
+	Params `form:"*"`
+	// Cart
+	Cart *TerminalReaderSetReaderDisplayCartParams `form:"cart"`
+	// Type
+	Type *string `form:"type"`
+}
+
+// Represents a reader action to process a payment intent
+type TerminalReaderActionProcessPaymentIntent struct {
+	// Most recent PaymentIntent processed by the reader.
+	PaymentIntent *PaymentIntent `json:"payment_intent"`
+}
+
+// Represents a reader action to process a setup intent
+type TerminalReaderActionProcessSetupIntent struct {
+	GeneratedCard string `json:"generated_card"`
+	// Most recent SetupIntent processed by the reader.
+	SetupIntent *SetupIntent `json:"setup_intent"`
+}
+
+// List of line items in the cart.
+type TerminalReaderActionSetReaderDisplayCartLineItem struct {
+	// The amount of the line item. A positive integer in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	Amount int64 `json:"amount"`
+	// Description of the line item.
+	Description string `json:"description"`
+	// The quantity of the line item.
+	Quantity int64 `json:"quantity"`
+}
+
+// Cart object to be displayed by the reader.
+type TerminalReaderActionSetReaderDisplayCart struct {
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// List of line items in the cart.
+	LineItems []*TerminalReaderActionSetReaderDisplayCartLineItem `json:"line_items"`
+	// Tax amount for the entire cart. A positive integer in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	Tax int64 `json:"tax"`
+	// Total amount for the entire cart, including tax. A positive integer in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal).
+	Total int64 `json:"total"`
+}
+
+// Represents a reader action to set the reader display
+type TerminalReaderActionSetReaderDisplay struct {
+	// Cart object to be displayed by the reader.
+	Cart *TerminalReaderActionSetReaderDisplayCart `json:"cart"`
+	// Type of information to be displayed by the reader.
+	Type TerminalReaderActionSetReaderDisplayType `json:"type"`
+}
+
+// The most recent action performed by the reader.
+type TerminalReaderAction struct {
+	// Failure code, only set if status is `failed`.
+	FailureCode string `json:"failure_code"`
+	// Detailed failure message, only set if status is `failed`.
+	FailureMessage string `json:"failure_message"`
+	// Represents a reader action to process a payment intent
+	ProcessPaymentIntent *TerminalReaderActionProcessPaymentIntent `json:"process_payment_intent"`
+	// Represents a reader action to process a setup intent
+	ProcessSetupIntent *TerminalReaderActionProcessSetupIntent `json:"process_setup_intent"`
+	// Represents a reader action to set the reader display
+	SetReaderDisplay *TerminalReaderActionSetReaderDisplay `json:"set_reader_display"`
+	// Status of the action performed by the reader.
+	Status TerminalReaderActionStatus `json:"status"`
+	// Type of action performed by the reader.
+	Type TerminalReaderActionType `json:"type"`
+}
+
 // A Reader represents a physical device for accepting payment details.
 //
 // Related guide: [Connecting to a Reader](https://stripe.com/docs/terminal/payments/connect-reader).
 type TerminalReader struct {
 	APIResource
-	Deleted bool `json:"deleted"`
+	// The most recent action performed by the reader.
+	Action  *TerminalReaderAction `json:"action"`
+	Deleted bool                  `json:"deleted"`
 	// The current software version of the reader.
 	DeviceSwVersion string `json:"device_sw_version"`
 	// Type of reader, one of `bbpos_wisepad3`, `stripe_m2`, `bbpos_chipper2x`, `bbpos_wisepos_e`, or `verifone_P400`.

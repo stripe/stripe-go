@@ -288,7 +288,7 @@ type CheckoutSessionLineItemPriceDataProductDataParams struct {
 	Images []*string `form:"images"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The product's name, meant to be displayable to the customer. Whenever this product is sold via a subscription, name will show up on associated invoice line item descriptions.
+	// The product's name, meant to be displayable to the customer.
 	Name *string `form:"name"`
 	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID.
 	TaxCode *string `form:"tax_code"`
