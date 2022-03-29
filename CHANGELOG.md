@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.97.0 - 2022-03-29
+* [#1439](https://github.com/stripe/stripe-go/pull/1439) API Updates
+  * Add support for Search API
+    * Add support for `Search` method on resources `Charge`, `Customer`, `Invoice`, `PaymentIntent`, `Price`, `Product`, and `Subscription`
+
 ## 72.96.0 - 2022-03-25
 * [#1437](https://github.com/stripe/stripe-go/pull/1437) API Updates
   * Add support for PayNow and US Bank Accounts Debits payments
