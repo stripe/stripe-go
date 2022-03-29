@@ -108,6 +108,22 @@ module StripeForce
       livemode && !sandbox?
     end
 
+    def required_mappings
+      {
+        "product" => {},
+        "customer" => {},
+        "invoice" => {},
+
+        "subscription_schedule" => {
+          "start_date" => CPQ_QUOTE_SUBSCRIPTION_START_DATE,
+          "subscription_iterations" => CPQ_QUOTE_SUBSCRIPTION_TERM,
+        },
+        "price" => {
+          "unit_amount" => 'UnitPrice',
+        },
+      }
+    end
+
     # TODO needs to be dynamic based off FF configuration, but for now we don't have any flags :)
     def default_mappings
       {
@@ -125,10 +141,9 @@ module StripeForce
           "name" => 'Name',
           "description" => 'Description',
         },
-        "price" => {},
-        "subscription" => {
-          "start_date" => 'SBQQ__StartDate__c',
-          "subscription_iterations" => 'SBQQ__SubscriptionTerm__c',
+        "price" => {
+          # default fallback is used
+          "interval_count" => CPQ_QUOTE_BILLING_FREQUENCY,
         },
         "invoice" => {},
       }

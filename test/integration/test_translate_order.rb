@@ -397,7 +397,7 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     @user.update(field_mappings: {
       customer: {
         # if accounts are mapped to customer, there is no default email field
-        "Description": "email",
+        "email": "Description",
       },
     })
 

@@ -19,17 +19,20 @@ module Integrations
       @user = u
     end
 
-    sig { params(record: T.any(Stripe::APIResource, Restforce::SObject)).returns(String) }
-    def mapping_key_for_record(record)
-      if record.is_a?(Stripe::APIResource)
+    sig { params(record_or_class: T.any(Stripe::APIResource, Restforce::SObject, Class)).returns(String) }
+    def mapping_key_for_record(record_or_class)
+      if record_or_class.is_a?(Class) && record_or_class < Stripe::APIResource
+        record_or_class.to_s.demodulize.underscore
+      elsif record_or_class.is_a?(Stripe::APIResource)
         # Stripe::Charge => charge; InvoiceItem => invoice_item
-        record.class.to_s.demodulize.underscore
-      elsif record.is_a?(Restforce::SObject)
-        record.sobject_type
+        # these are the keys used in all of the mapping hashes
+        record_or_class.class.to_s.demodulize.underscore
+      elsif record_or_class.is_a?(Restforce::SObject)
+        record_or_class.sobject_type
       end
     end
 
-    sig { params(record: T.any(Stripe::APIResource, Restforce::SObject), key_path: String).returns(T.nilable(String)) }
+    sig { params(record: T.any(Stripe::APIResource, Restforce::SObject), key_path: String).returns(T.nilable(T.any(String, Integer, Float, T::Boolean))) }
     def extract_key_path_for_record(record, key_path)
       if record.is_a?(Stripe::APIResource)
         extract_stripe_resource_field(record, key_path)
@@ -65,20 +68,21 @@ module Integrations
       field_name =~ /_date$/
     end
 
-    protected def build_dynamic_mapping_values(source_record, mapping_for_record)
+    sig { params(source_record: Restforce::SObject, mapping_for_record: Hash).returns(Hash) }
+    def build_dynamic_mapping_values(source_record, mapping_for_record)
       # build annotations using stripe resource metadata and users table
       # of accepted stripe metadata values and their corresponding NS keys
-      mapping_for_record.each_with_object({}) do |(key_path, destination_field_name), assignments|
-        next if destination_field_name.to_s.empty?
+      mapping_for_record.each_with_object({}) do |(destination_field_name, source_field_path), assignments|
+        next if source_field_path.to_s.empty?
 
-        extracted_value = extract_key_path_for_record(source_record, key_path)
+        extracted_value = extract_key_path_for_record(source_record, source_field_path)
 
         next unless extracted_value
 
         # TODO should we only do this if we run into a specific field suffix?
         #      I feel like this is good default behavior. When would someone NOT want this enabled?
 
-        # convert true/false strings into boolean so the correct
+        # convert true/false strings into boolean so the correct type is carried over to the Stripe API
         if extracted_value.to_s.downcase.strip == 'true'
           extracted_value = true
         elsif extracted_value.to_s.downcase.strip == 'false'

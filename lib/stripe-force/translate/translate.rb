@@ -203,15 +203,12 @@ class StripeForce::Translate
       stripe_id: stripe_object.id
   end
 
-  def create_stripe_object(stripe_class, sf_object, additional_stripe_params: {})
-    stripe_key = stripe_class.to_s.demodulize.underscore
-    default_mappings = @user.default_mappings[stripe_key]
-
-    if default_mappings.nil?
-      raise 'expected mappings but they were nil'
+  def create_stripe_object(stripe_class, sf_object, additional_stripe_params: {}, skip_field_extraction: false)
+    stripe_fields = if skip_field_extraction
+      {}
+    else
+      extract_salesforce_params!(sf_object, stripe_class)
     end
-
-    stripe_fields = extract_salesforce_params!(sf_object, default_mappings)
 
     stripe_object = stripe_class.construct_from(additional_stripe_params.merge(stripe_fields))
     stripe_object.metadata = stripe_metadata_for_sf_object(sf_object)
@@ -357,11 +354,9 @@ class StripeForce::Translate
         raise 'unsupported global term uniq'
       end
 
-      # recurring_price_params = extract_salesforce_params!(sf_order_item, {
-      #   'interval_count' => CPQ_QUOTE_BILLING_FREQUENCY,
-      # })
+      recurring_price_params = extract_salesforce_params!(sf_order_item, Stripe::Price)
 
-      raw_interval_count = sf_order_item[CPQ_QUOTE_BILLING_FREQUENCY]
+      raw_interval_count = recurring_price_params['interval_count']
       raw_interval_count ||= CPQBillingFrequencyOptions::MONTHLY.serialize
 
       # convert picklist description of frequency to month integers
@@ -389,18 +384,25 @@ class StripeForce::Translate
       }
     end
 
-    price = create_stripe_object(Stripe::Price, sf_pricebook_entry, additional_stripe_params: {
-      product: product.id,
+    price = create_stripe_object(
+      Stripe::Price,
+      sf_pricebook_entry,
 
-      unit_amount: unit_price_for_stripe,
+      skip_field_extraction: true,
 
-      # TODO most likely need to pass the order over? Can
-      # TODO not seeing currency anywhere? This is only enab  led on certain accounts
-      currency: base_currency_iso(@user),
+      additional_stripe_params: {
+        product: product.id,
 
-      # TODO using a `lookup_key` here would allow users to easily update prices
-      # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
-    }.merge(optional_price_params))
+        unit_amount: unit_price_for_stripe,
+
+        # TODO most likely need to pass the order over? Can
+        # TODO not seeing currency anywhere? This is only enab  led on certain accounts
+        currency: base_currency_iso(@user),
+
+        # TODO using a `lookup_key` here would allow users to easily update prices
+        # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
+      }.merge(optional_price_params)
+    )
 
     update_sf_stripe_id(sf_pricebook_entry, price)
 
@@ -511,11 +513,7 @@ class StripeForce::Translate
       log.info 'recurring items found, creating subscription schedule'
 
       # TODO right now this just reports errors, but we should reference this for values in the future
-      # TODO at minimum we should pull this hash from the default_mappings
-      extract_salesforce_params!(sf_quote, {
-        start_date: CPQ_QUOTE_SUBSCRIPTION_START_DATE,
-        subscription_iterations: CPQ_QUOTE_SUBSCRIPTION_TERM,
-      })
+      extract_salesforce_params!(sf_quote, Stripe::SubscriptionSchedule)
 
       # TODO subs in SF must always have an end date
       stripe_transaction = Stripe::SubscriptionSchedule.create({
@@ -584,17 +582,22 @@ class StripeForce::Translate
     stripe_transaction
   end
 
-  # TODO maybe build this into the mapper?
   # param_mapping: { stripe_key_name => salesforce_field_name }
-  def extract_salesforce_params!(sf_record, param_mapping)
-    result_params = param_mapping.transform_values do |sf_key|
-      sf_record[sf_key]
+  def extract_salesforce_params!(sf_record, stripe_record)
+    stripe_mapping_key = mapper.mapping_key_for_record(stripe_record)
+    required_mappings = @user.required_mappings[stripe_mapping_key]
+
+    if required_mappings.nil?
+      raise "expected mappings for #{stripe_mapping_key} but they were nil"
     end
 
-    missing_stripe_fields = result_params.select {|_k, v| v.nil? }
+    # first, let's pull required mappings and check if there's anything missing
+    required_data = mapper.build_dynamic_mapping_values(sf_record, required_mappings)
+
+    missing_stripe_fields = required_mappings.select {|k, _v| required_data[k].nil? }
 
     if missing_stripe_fields.present?
-      missing_salesforce_fields = missing_stripe_fields.keys.map {|k| param_mapping[k] }
+      missing_salesforce_fields = missing_stripe_fields.keys.map {|k| required_mappings[k] }
 
       raise Integrations::Errors::MissingRequiredFields.new(
         salesforce_object: sf_record,
@@ -602,13 +605,23 @@ class StripeForce::Translate
       )
     end
 
-    result_params
+    # then, let's extract optional fields and then merge them in
+    default_mappings = @user.default_mappings[stripe_mapping_key]
+    return required_data if default_mappings.blank?
+
+    optional_data = mapper.build_dynamic_mapping_values(sf_record, default_mappings)
+
+    required_data.merge(optional_data)
   end
 
   # TODO allow for multiple records to be linked?
-  sig { params(record_to_map: Stripe::StripeObject, source_record: T.untyped).void }
+  sig { params(record_to_map: Stripe::APIResource, source_record: Restforce::SObject).void }
   def apply_mapping(record_to_map, source_record)
+    mapper.apply_mapping(record_to_map, source_record)
+  end
+
+  sig { returns(Integrations::Mapper) }
+  def mapper
     @mapper ||= Integrations::Mapper.new(@user)
-    @mapper.apply_mapping(record_to_map, source_record)
   end
 end

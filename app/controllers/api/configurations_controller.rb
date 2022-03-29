@@ -139,7 +139,7 @@ module Api
         field_mappings: @user.field_mappings,
         field_defaults: @user.field_defaults,
         default_mappings: @user.default_mappings,
-        required_mapping: {},
+        required_mapping: @user.required_mappings,
         feature_flags: @user.feature_flags,
         connection_status: {
           # TODO use dynamic connection status
