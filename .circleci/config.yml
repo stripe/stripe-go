@@ -4,8 +4,8 @@ version: 2.1
 # prevent more than a single build from running at one time
 # https://jira.corp.stripe.com/browse/REPROD-1231
 orbs:
-  ruby: circleci/ruby@1.1.4
-  browser-tools: circleci/browser-tools@1.2.2
+  ruby: circleci/ruby@1.4.0
+  browser-tools: circleci/browser-tools@1.2.4
   # https://circleci.com/developer/orbs/orb/circleci/salesforce-apex#commands-test
   sfdx: circleci/salesforce-sfdx@2.2.0
   jq: circleci/jq@2.2.0
@@ -20,11 +20,18 @@ workflows:
           # broken builds that you need to re-run
           time: '1440'
       - build:
+          matrix:
+            parameters:
+              account:
+                - mbianco+standardcpq@stripe.com
+                - mbianco+cpqpackage@stripe.com
+
           requires:
             # We will wait for the block and typecheck tasks to complete
             # We intentionally do not wait for the results of rubocop as it's not necessary
             - block_workflow
             - typecheck
+            - salesforce
       - typecheck
       - rubocop
       - salesforce:
@@ -83,9 +90,11 @@ jobs:
           path: sfdx/test-results
 
   build:
-    working_directory: ~/stripe-netsuite
     parallelism: 1
-    shell: /bin/bash --login
+    working_directory: ~/stripe-netsuite
+    parameters:
+      account:
+        type: string
     environment:
       CIRCLE_ARTIFACTS: /tmp/artifacts
       CIRCLE_TEST_REPORTS: /tmp/test-results
@@ -102,7 +111,7 @@ jobs:
       RACK_ENV: test
       DISABLE_SPRING: 'true'
       STRIPE_ACCOUNT_ID: acct_15uapDIsgf92XbAO
-      SF_USERNAME: mbianco+standardcpq@stripe.com
+      SF_USERNAME: <<parameters.account>>
       # SF_PASSWORD
       # SIGNALFX_TOKEN
     # TODO possibly use the heroku image instead?
@@ -122,24 +131,13 @@ jobs:
     - checkout
     - sfdx/install
     - jq/install
+    - ruby/install-deps:
+        bundler-version: 2.2.29
     - run:
         working_directory: ~/stripe-netsuite
         command: |
           mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
           gem install bundler -v 2.2.29
-
-    # rails circle2 example:
-    # https://github.com/CircleCI-Public/circleci-demo-ruby-rails/blob/master/.circleci/config.yml
-    - restore_cache:
-        keys:
-          - rails-bundle-{{ checksum "Gemfile.lock" }}
-    - run:
-        command: |
-          bundle check || bundle install
-    - save_cache:
-        key: rails-bundle-{{ checksum "Gemfile.lock" }}
-        paths:
-          - vendor/bundle
 
     - run:
         name: Setting up https proxy

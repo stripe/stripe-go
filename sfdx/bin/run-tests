@@ -47,6 +47,15 @@ function runTests {
   sfdx force:apex:test:run --codecoverage --testlevel RunLocalTests -u $orgAlias --resultformat human --outputdir=test-results
 }
 
+# NOTE this is not strictly associated with our test, but is important to ensure the test data
+#      created in future tests does not clog up our test accounts and create a storage limit error
+function deleteTestData {
+  orgAlias=$1
+  echo "Deleting all test data..."
+  sfdx force:apex:execute -f bin/delete_test_record_data.apex -u $orgAlias
+}
+
 authorize "$1"
 deploySource "$1"
 runTests "$1"
+deleteTestData "$1"
