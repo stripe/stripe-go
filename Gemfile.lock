@@ -397,7 +397,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    stripe (5.46.0)
+    stripe (5.47.0)
     thor (1.2.1)
     tilt (2.0.10)
     tzinfo (2.0.4)
@@ -482,7 +482,7 @@ DEPENDENCIES
   sorbet (~> 0.5.9798)
   sorbet-rails (~> 0.7.32)
   spring
-  stripe (~> 5.46.0)
+  stripe (~> 5.47.0)
   webdrivers (~> 5.0.0)
 
 RUBY VERSION
