@@ -156,6 +156,7 @@ module StripeForce
         "price" => {
           # default monthly fallback is used if this value is empty
           "recurring.interval_count" => CPQ_QUOTE_BILLING_FREQUENCY,
+          "recurring.usage_type" => CPQ_PRODUCT_BILLING_TYPE,
         },
         "invoice" => {},
       }

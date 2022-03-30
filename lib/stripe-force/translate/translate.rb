@@ -339,6 +339,7 @@ class StripeForce::Translate
     if sf_object.sobject_type == SF_PRICEBOOK_ENTRY
       mapper.assign_values_from_hash(stripe_price, mapper.build_dynamic_mapping_values(sf_product, {
         "recurring.interval_count" => CPQ_QUOTE_BILLING_FREQUENCY,
+        "recurring.usage_type" => CPQ_PRODUCT_BILLING_TYPE,
       }))
     end
 
@@ -358,10 +359,12 @@ class StripeForce::Translate
         raise 'unsupported global term uniq'
       end
 
-      # allow users to define custom mappings against
-      # if !stripe_price.respond_to?(:recurring)
-      #   stripe_price.recurring = {}
-      # end
+      # the "Billing Type" field mapped here by default is often empty, we use a nil value to default
+      if !stripe_price.recurring.respond_to?(:usage_type)
+        stripe_price.recurring.usage_type = nil
+      end
+
+      stripe_price.recurring.usage_type = transform_salesforce_billing_type_to_usage_type(stripe_price.recurring.usage_type)
 
       # TODO it's possible that a custom mapping is defined for this value and it's an integer, we should support this case in the helper method
       # this represents how often the price is billed: i.e. if `interval` is month and `interval_count`
@@ -376,6 +379,24 @@ class StripeForce::Translate
     end
 
     stripe_price
+  end
+
+  sig { params(raw_usage_type: T.nilable(String)).returns(String) }
+  def transform_salesforce_billing_type_to_usage_type(raw_usage_type)
+    # # https://help.salesforce.com/s/articleView?id=sf.cpq_order_product_fields.htm&type=5
+    raw_usage_type ||= begin
+      log.warn 'usage type not defined, defaulting to advanced (licensed)'
+      CPQProductBillingTypeOptions::ADVANCE.serialize
+    end
+
+    case CPQProductBillingTypeOptions.try_deserialize(raw_usage_type)
+    when CPQProductBillingTypeOptions::ADVANCE
+      'licensed'
+    when CPQProductBillingTypeOptions::ARREARS
+      'metered'
+    else
+      raise "unexpected billing type"
+    end
   end
 
   sig { params(raw_billing_frequency: T.nilable(String)).returns(Integer) }
@@ -406,6 +427,7 @@ class StripeForce::Translate
     @user.connector_settings[CONNECTOR_SETTING_CPQ_TERM_UNIT].downcase
   end
 
+  # TODO maybe look at "can edit price" boolean on the product? But what about custom mappings?
   # TODO https://jira.corp.stripe.com/browse/PLATINT-1485
   def pricebook_and_order_line_identical?(sf_pricebook, sf_order_line, sf_product)
     # generate the full params that would be sent to the price object and compare them
@@ -438,10 +460,6 @@ class StripeForce::Translate
         salesforce_object: sf_order_item,
         message: "Quantity specified as a decimal value. Only integers are supported."
       )
-    end
-
-    if metered_billing?(sf_order_item)
-      raise "metered billing not yet supported"
     end
 
     log.info 'translating price via order line', salesforce_object: sf_order_item
@@ -509,16 +527,12 @@ class StripeForce::Translate
     stripe_price.product = stripe_product.id
     stripe_price.metadata = stripe_metadata_for_sf_object(sf_object)
 
-    # TODO using a `lookup_key` here would allow users to easily update prices
+    # considered mapping SF pricebook ID to `lookup_key` but it's not *exactly* an external id and more presents a identifier
+    # for an externall-used price so the "latest price" for a specific price-type can be used, probably in a website form or something
     # https://jira.corp.stripe.com/browse/RUN_COREMODELS-1027
 
     stripe_price.dirty!
     Stripe::Price.create(stripe_price.serialize_params, @user.stripe_credentials)
-  end
-
-  # https://help.salesforce.com/s/articleView?id=sf.cpq_order_product_fields.htm&type=5
-  def metered_billing?(sf_order_item)
-    sf_order_item[CPQ_PRODUCT_BILLING_TYPE] == CPQProductBillingTypeOptions::ARREARS.serialize
   end
 
   # according to the salesforce documentation, if this field is non-nil ("empty") than it's a subscription item
@@ -609,7 +623,8 @@ class StripeForce::Translate
       if recurring_item?(sf_order_item)
         subscription_items << {
           price: price,
-          quantity: quantity,
+          # quantity cannot be specified if usage type is metered
+          quantity: price.recurring.usage_type == 'metered' ? nil : quantity,
         }
       else
         invoice_items << {

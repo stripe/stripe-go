@@ -100,6 +100,12 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     sf_product_id_2, sf_pricebook_id_2 = salesforce_recurring_product_with_price
     sf_product_id_3, sf_pricebook_id_3 = salesforce_standalone_product_with_price
 
+    # set the second product up as a metered billing
+    sf.update!(SF_PRODUCT, {
+      SF_ID => sf_product_id_2,
+      CPQ_PRODUCT_BILLING_TYPE => CPQProductBillingTypeOptions::ARREARS.serialize,
+    })
+
     sf_account_id = create_salesforce_account
 
     quote_id = create_salesforce_quote(sf_account_id: sf_account_id, additional_quote_fields: {
@@ -133,12 +139,12 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     assert_equal(2, phase.items.count)
     assert_equal(1, phase.add_invoice_items.count)
 
-    phase_item_with_five = T.must(phase.items.detect {|i| i.quantity == 5 })
+    phase_item_with_five = T.must(phase.items.detect {|i| i.try(:quantity) == 5 })
     price_1 = Stripe::Price.retrieve(phase_item_with_five.price, @user.stripe_credentials)
     assert_equal(sf_pricebook_id_1, price_1.metadata['salesforce_pricebook_entry_id'])
 
-    phase_item_with_one = T.must(phase.items.detect {|i| i.quantity == 1 })
-    price_2 = Stripe::Price.retrieve(phase_item_with_one.price, @user.stripe_credentials)
+    phase_item_with_metered = T.must(phase.items.detect {|i| !i.respond_to?(:quantity) })
+    price_2 = Stripe::Price.retrieve(phase_item_with_metered.price, @user.stripe_credentials)
     assert_equal(sf_pricebook_id_2, price_2.metadata['salesforce_pricebook_entry_id'])
 
     standalone_item = T.must(phase.add_invoice_items.first)

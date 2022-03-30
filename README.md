@@ -25,6 +25,10 @@ Here are some of the 'tags' that PR comments will be prefixed with to provide mo
 
 # SalesForce
 
+## Permission assignments
+
+in the org I went to setup>permission sets> stripe connector integration user> manage assignments>add assignments then I checked your user in the org > then click assign (edited)
+
 ## Creating a stratch org
 
 - Specify your dev hub via `sfdx force:config:set --defaultdevusername`. This can be any salesforce dev org.
@@ -85,6 +89,14 @@ This needs to be done when you are installing the source and not the package:
 sfdx force:source:retrieve -m CustomField:Order.Stripe_Transaction_ID\_\_c
 
 - "A restricted picklist's values are limited to only those values defined by a Salesforce admin, which prevents users from loading redundant or erroneous values through the API." per the SF documentation on it"
+
+## SOQL
+
+- `IS NOT NULL` == `field != null`
+
+## Tools
+
+https://www.pocketsoap.com/osx/soqlx/#Download
 
 # Development
 

@@ -196,6 +196,30 @@ class Critic::PriceTranslation < Critic::FunctionalTest
     assert_match(sf_product_id, stripe_product.metadata['salesforce_product2_link'])
   end
 
+  it 'handles a recurring metered pricebook entry to a stripe price' do
+    sf_product_id, sf_pricebook_entry_id = salesforce_recurring_product_with_price
+
+    sf.update!(SF_PRODUCT, {
+      SF_ID => sf_product_id,
+
+      # this is transformed into a metered billing type
+      CPQ_PRODUCT_BILLING_TYPE => CPQProductBillingTypeOptions::ARREARS,
+    })
+
+    StripeForce::Translate.perform_inline(@user, sf_pricebook_entry_id)
+
+    sf_pricebook_entry = sf.find(SF_PRICEBOOK_ENTRY, sf_pricebook_entry_id)
+    stripe_price_id = sf_pricebook_entry[prefixed_stripe_field(GENERIC_STRIPE_ID)]
+    refute_nil(stripe_price_id)
+
+    stripe_price = Stripe::Price.retrieve(stripe_price_id, @user.stripe_credentials)
+
+    assert_equal('recurring', stripe_price.type)
+    assert_equal('month', stripe_price.recurring.interval)
+    assert_equal(1, stripe_price.recurring.interval_count)
+    assert_equal('metered', stripe_price.recurring.usage_type)
+  end
+
   it 'handles decimal prices' do
     # subcent decimal prices
     price_in_cents = 100_25.55
