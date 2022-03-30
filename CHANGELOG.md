@@ -1,5 +1,10 @@
 # Changelog
 
+## 72.98.0 - 2022-03-30
+* [#1440](https://github.com/stripe/stripe-go/pull/1440) API Updates
+  * Add support for `CancelAction`, `ProcessPaymentIntent`, `ProcessSetupIntent`, and `SetReaderDisplay` methods on resource `Terminal.Reader`
+  * Add support for `Action` on `TerminalReader`
+
 ## 72.97.0 - 2022-03-29
 * [#1439](https://github.com/stripe/stripe-go/pull/1439) API Updates
   * Add support for Search API
