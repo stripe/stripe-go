@@ -29,7 +29,7 @@ type InvoiceItemDiscountParams struct {
 	Discount *string `form:"discount"`
 }
 
-// The period associated with this invoice item.
+// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
 type InvoiceItemPeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start.
 	End *int64 `form:"end"`
@@ -68,7 +68,7 @@ type InvoiceItemParams struct {
 	Discounts []*InvoiceItemDiscountParams `form:"discounts"`
 	// The ID of an existing invoice to add this invoice item to. When left blank, the invoice item will be added to the next upcoming scheduled invoice. This is useful when adding invoice items in response to an invoice.created webhook. You can only add invoice items to draft invoices and there is a maximum of 250 items per invoice.
 	Invoice *string `form:"invoice"`
-	// The period associated with this invoice item.
+	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
 	Period *InvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object.
 	Price *string `form:"price"`

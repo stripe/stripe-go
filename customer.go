@@ -46,7 +46,7 @@ const (
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 type CustomerSearchParams struct {
 	SearchParams `form:"*"`
-	// A cursor for pagination across multiple pages of results. Do not include this parameter on the first call. Use the next_page value returned in a response to request subsequent results.
+	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
 	Page *string `form:"page"`
 }
 

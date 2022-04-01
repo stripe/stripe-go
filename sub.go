@@ -67,6 +67,14 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecureAutomatic SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
 )
 
+// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
+type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType string
+
+// List of values that SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType can take
+const (
+	SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceFundingTypeBankTransfer SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType = "bank_transfer"
+)
+
 // Bank account verification method.
 type SubscriptionPaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod string
 
@@ -90,6 +98,7 @@ const (
 	SubscriptionPaymentSettingsPaymentMethodTypeBancontact         SubscriptionPaymentSettingsPaymentMethodType = "bancontact"
 	SubscriptionPaymentSettingsPaymentMethodTypeBoleto             SubscriptionPaymentSettingsPaymentMethodType = "boleto"
 	SubscriptionPaymentSettingsPaymentMethodTypeCard               SubscriptionPaymentSettingsPaymentMethodType = "card"
+	SubscriptionPaymentSettingsPaymentMethodTypeCustomerBalance    SubscriptionPaymentSettingsPaymentMethodType = "customer_balance"
 	SubscriptionPaymentSettingsPaymentMethodTypeFPX                SubscriptionPaymentSettingsPaymentMethodType = "fpx"
 	SubscriptionPaymentSettingsPaymentMethodTypeGiropay            SubscriptionPaymentSettingsPaymentMethodType = "giropay"
 	SubscriptionPaymentSettingsPaymentMethodTypeGrabpay            SubscriptionPaymentSettingsPaymentMethodType = "grabpay"
@@ -164,7 +173,7 @@ const (
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 type SubscriptionSearchParams struct {
 	SearchParams `form:"*"`
-	// A cursor for pagination across multiple pages of results. Do not include this parameter on the first call. Use the next_page value returned in a response to request subsequent results.
+	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
 	Page *string `form:"page"`
 }
 
@@ -280,6 +289,20 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 }
 
+// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
+	// The bank transfer type that can be used for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	Type *string `form:"type"`
+}
+
+// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
+type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct {
+	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+	BankTransfer *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
+	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
+	FundingType *string `form:"funding_type"`
+}
+
 // This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 
@@ -297,6 +320,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsParams struct {
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
 	// This sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
+	// This sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
+	CustomerBalance *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// This sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
@@ -496,6 +521,17 @@ type SubscriptionPaymentSettingsPaymentMethodOptionsCard struct {
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure SubscriptionPaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
+type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer struct {
+	// The bank transfer type that can be used for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	Type string `json:"type"`
+}
+
+// This sub-hash contains details about the Bank transfer payment method options to pass to invoices created by the subscription.
+type SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalance struct {
+	BankTransfer *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer `json:"bank_transfer"`
+	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
+	FundingType SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType `json:"funding_type"`
+}
 
 // This sub-hash contains details about the Konbini payment method options to pass to invoices created by the subscription.
 type SubscriptionPaymentSettingsPaymentMethodOptionsKonbini struct{}
@@ -514,6 +550,8 @@ type SubscriptionPaymentSettingsPaymentMethodOptions struct {
 	Bancontact *SubscriptionPaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
 	// This sub-hash contains details about the Card payment method options to pass to invoices created by the subscription.
 	Card *SubscriptionPaymentSettingsPaymentMethodOptionsCard `json:"card"`
+	// This sub-hash contains details about the Bank transfer payment method options to pass to invoices created by the subscription.
+	CustomerBalance *SubscriptionPaymentSettingsPaymentMethodOptionsCustomerBalance `json:"customer_balance"`
 	// This sub-hash contains details about the Konbini payment method options to pass to invoices created by the subscription.
 	Konbini *SubscriptionPaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
 	// This sub-hash contains details about the ACH direct debit payment method options to pass to invoices created by the subscription.

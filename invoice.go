@@ -74,6 +74,14 @@ const (
 	InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecureAutomatic InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure = "automatic"
 )
 
+// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
+type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType string
+
+// List of values that InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType can take
+const (
+	InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingTypeBankTransfer InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType = "bank_transfer"
+)
+
 // Bank account verification method.
 type InvoicePaymentSettingsPaymentMethodOptionsUSBankAccountVerificationMethod string
 
@@ -97,6 +105,7 @@ const (
 	InvoicePaymentSettingsPaymentMethodTypeBancontact         InvoicePaymentSettingsPaymentMethodType = "bancontact"
 	InvoicePaymentSettingsPaymentMethodTypeBoleto             InvoicePaymentSettingsPaymentMethodType = "boleto"
 	InvoicePaymentSettingsPaymentMethodTypeCard               InvoicePaymentSettingsPaymentMethodType = "card"
+	InvoicePaymentSettingsPaymentMethodTypeCustomerBalance    InvoicePaymentSettingsPaymentMethodType = "customer_balance"
 	InvoicePaymentSettingsPaymentMethodTypeFPX                InvoicePaymentSettingsPaymentMethodType = "fpx"
 	InvoicePaymentSettingsPaymentMethodTypeGiropay            InvoicePaymentSettingsPaymentMethodType = "giropay"
 	InvoicePaymentSettingsPaymentMethodTypeGrabpay            InvoicePaymentSettingsPaymentMethodType = "grabpay"
@@ -129,7 +138,7 @@ const (
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 type InvoiceSearchParams struct {
 	SearchParams `form:"*"`
-	// A cursor for pagination across multiple pages of results. Do not include this parameter on the first call. Use the next_page value returned in a response to request subsequent results.
+	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
 	Page *string `form:"page"`
 }
 
@@ -198,6 +207,20 @@ type InvoicePaymentSettingsPaymentMethodOptionsCardParams struct {
 	RequestThreeDSecure *string `form:"request_three_d_secure"`
 }
 
+// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
+	// The bank transfer type that can be used for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	Type *string `form:"type"`
+}
+
+// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceParams struct {
+	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+	BankTransfer *InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
+	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
+	FundingType *string `form:"funding_type"`
+}
+
 // If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsKonbiniParams struct{}
 
@@ -215,6 +238,8 @@ type InvoicePaymentSettingsPaymentMethodOptionsParams struct {
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontactParams `form:"bancontact"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoicePaymentSettingsPaymentMethodOptionsCardParams `form:"card"`
+	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
+	CustomerBalance *InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *InvoicePaymentSettingsPaymentMethodOptionsKonbiniParams `form:"konbini"`
 	// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
@@ -380,7 +405,7 @@ type InvoiceUpcomingCustomerDetailsParams struct {
 	TaxIDs []*InvoiceUpcomingCustomerDetailsTaxIDParams `form:"tax_ids"`
 }
 
-// The period associated with this invoice item.
+// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
 type InvoiceUpcomingInvoiceItemPeriodParams struct {
 	// The end of the period, which must be greater than or equal to the start.
 	End *int64 `form:"end"`
@@ -404,7 +429,7 @@ type InvoiceUpcomingInvoiceItemParams struct {
 	InvoiceItem *string `form:"invoiceitem"`
 	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
 	Metadata map[string]string `form:"metadata"`
-	// The period associated with this invoice item.
+	// The period associated with this invoice item. When set to different values, the period will be rendered on the invoice.
 	Period *InvoiceUpcomingInvoiceItemPeriodParams `form:"period"`
 	// The ID of the price object.
 	Price *string `form:"price"`
@@ -515,6 +540,17 @@ type InvoicePaymentSettingsPaymentMethodOptionsCard struct {
 	// We strongly recommend that you rely on our SCA Engine to automatically prompt your customers for authentication based on risk level and [other requirements](https://stripe.com/docs/strong-customer-authentication). However, if you wish to request 3D Secure based on logic from your own fraud engine, provide this option. Read our guide on [manually requesting 3D Secure](https://stripe.com/docs/payments/3d-secure#manual-three-ds) for more information on how this configuration interacts with Radar and our SCA Engine.
 	RequestThreeDSecure InvoicePaymentSettingsPaymentMethodOptionsCardRequestThreeDSecure `json:"request_three_d_secure"`
 }
+type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer struct {
+	// The bank transfer type that can be used for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	Type string `json:"type"`
+}
+
+// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
+type InvoicePaymentSettingsPaymentMethodOptionsCustomerBalance struct {
+	BankTransfer *InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceBankTransfer `json:"bank_transfer"`
+	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
+	FundingType InvoicePaymentSettingsPaymentMethodOptionsCustomerBalanceFundingType `json:"funding_type"`
+}
 
 // If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 type InvoicePaymentSettingsPaymentMethodOptionsKonbini struct{}
@@ -533,6 +569,8 @@ type InvoicePaymentSettingsPaymentMethodOptions struct {
 	Bancontact *InvoicePaymentSettingsPaymentMethodOptionsBancontact `json:"bancontact"`
 	// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the invoice's PaymentIntent.
 	Card *InvoicePaymentSettingsPaymentMethodOptionsCard `json:"card"`
+	// If paying by `customer_balance`, this sub-hash contains details about the Bank transfer payment method options to pass to the invoice's PaymentIntent.
+	CustomerBalance *InvoicePaymentSettingsPaymentMethodOptionsCustomerBalance `json:"customer_balance"`
 	// If paying by `konbini`, this sub-hash contains details about the Konbini payment method options to pass to the invoice's PaymentIntent.
 	Konbini *InvoicePaymentSettingsPaymentMethodOptionsKonbini `json:"konbini"`
 	// If paying by `us_bank_account`, this sub-hash contains details about the ACH direct debit payment method options to pass to the invoice's PaymentIntent.
