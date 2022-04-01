@@ -519,7 +519,7 @@ const (
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 type PaymentIntentSearchParams struct {
 	SearchParams `form:"*"`
-	// A cursor for pagination across multiple pages of results. Do not include this parameter on the first call. Use the next_page value returned in a response to request subsequent results.
+	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
 	Page *string `form:"page"`
 }
 
@@ -828,7 +828,10 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 }
 
 // If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
-type PaymentIntentPaymentMethodOptionsCardPresentParams struct{}
+type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
+	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
+	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
+}
 
 // If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
 type PaymentIntentPaymentMethodOptionsEPSParams struct {
@@ -1603,7 +1606,10 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 
 // PaymentIntentPaymentMethodOptionsCardPresent is the set of Card Present-specific options associated
 // with that payment intent.
-type PaymentIntentPaymentMethodOptionsCardPresent struct{}
+type PaymentIntentPaymentMethodOptionsCardPresent struct {
+	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
+	RequestExtendedAuthorization bool `json:"request_extended_authorization"`
+}
 type PaymentIntentPaymentMethodOptionsEPS struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
 	//

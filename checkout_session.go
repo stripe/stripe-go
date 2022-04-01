@@ -797,9 +797,13 @@ type CheckoutSessionCustomerDetailsTaxIDs struct {
 
 // The customer details including the customer's tax exempt status and the customer's tax IDs. Only present on Sessions in `payment` or `subscription` mode.
 type CheckoutSessionCustomerDetails struct {
+	// The customer's address at the time of checkout. Note: This property is populated only for sessions on or after March 30, 2022.
+	Address *Address `json:"address"`
 	// The email associated with the Customer, if one exists, on the Checkout Session at the time of checkout or at time of session expiry.
 	// Otherwise, if the customer has consented to promotional content, this value is the most recent valid email provided by the customer on the Checkout form.
 	Email string `json:"email"`
+	// The customer's name at the time of checkout. Note: This property is populated only for sessions on or after March 30, 2022.
+	Name string `json:"name"`
 	// The customer's phone number at the time of checkout
 	Phone string `json:"phone"`
 	// The customer's tax exempt status at time of checkout.

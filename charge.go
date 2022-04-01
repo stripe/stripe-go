@@ -161,7 +161,7 @@ const (
 // to an hour behind during outages. Search functionality is not available to merchants in India.
 type ChargeSearchParams struct {
 	SearchParams `form:"*"`
-	// A cursor for pagination across multiple pages of results. Do not include this parameter on the first call. Use the next_page value returned in a response to request subsequent results.
+	// A cursor for pagination across multiple pages of results. Don't include this parameter on the first call. Use the next_page value returned in a previous response to request subsequent results.
 	Page *string `form:"page"`
 }
 
@@ -583,6 +583,8 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	AmountAuthorized int64 `json:"amount_authorized"`
 	// Card brand. Can be `amex`, `diners`, `discover`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
 	Brand PaymentMethodCardBrand `json:"brand"`
+	// When using manual capture, a future timestamp after which the charge will be automatically refunded if uncaptured.
+	CaptureBefore int64 `json:"capture_before"`
 	// The cardholder name as read from the card, in [ISO 7813](https://en.wikipedia.org/wiki/ISO/IEC_7813) format. May include alphanumeric characters, special characters and first/last name separator (`/`). In some cases, the cardholder name may not be available depending on how the issuer has configured the card. Cardholder name is typically not available on swipe or contactless payments, such as those made with Apple Pay and Google Pay.
 	CardholderName string `json:"cardholder_name"`
 	// Two-letter ISO code representing the country of the card. You could use this attribute to get a sense of the international breakdown of cards you've collected.

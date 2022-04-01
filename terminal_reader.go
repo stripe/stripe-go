@@ -79,7 +79,7 @@ type TerminalReaderProcessPaymentIntentProcessConfigParams struct {
 	SkipTipping *bool `form:"skip_tipping"`
 }
 
-// Initiates a payment flow on a Reader
+// Initiates a payment flow on a Reader.
 type TerminalReaderProcessPaymentIntentParams struct {
 	Params `form:"*"`
 	// PaymentIntent ID
@@ -88,7 +88,7 @@ type TerminalReaderProcessPaymentIntentParams struct {
 	ProcessConfig *TerminalReaderProcessPaymentIntentProcessConfigParams `form:"process_config"`
 }
 
-// Initiates a setup intent flow on a Reader
+// Initiates a setup intent flow on a Reader.
 type TerminalReaderProcessSetupIntentParams struct {
 	Params `form:"*"`
 	// Customer Consent Collected
@@ -97,7 +97,7 @@ type TerminalReaderProcessSetupIntentParams struct {
 	SetupIntent *string `form:"setup_intent"`
 }
 
-// Cancels the current reader action
+// Cancels the current reader action.
 type TerminalReaderCancelActionParams struct {
 	Params `form:"*"`
 }
@@ -124,7 +124,7 @@ type TerminalReaderSetReaderDisplayCartParams struct {
 	Total *int64 `form:"total"`
 }
 
-// Sets reader display
+// Sets reader display to show cart details.
 type TerminalReaderSetReaderDisplayParams struct {
 	Params `form:"*"`
 	// Cart

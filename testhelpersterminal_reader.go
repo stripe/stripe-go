@@ -12,7 +12,7 @@ type TestHelpersTerminalReaderPresentPaymentMethodCardPresentParams struct {
 	Number *string `form:"number"`
 }
 
-// Presents a payment method on a simulated reader. Can be used to simulate accepting a payment, saving a card or refunding a transaction
+// Presents a payment method on a simulated reader. Can be used to simulate accepting a payment, saving a card or refunding a transaction.
 type TestHelpersTerminalReaderPresentPaymentMethodParams struct {
 	Params `form:"*"`
 	// Simulated card present data
