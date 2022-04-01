@@ -1,5 +1,14 @@
 # Changelog
 
+## 72.99.0 - 2022-04-01
+* [#1442](https://github.com/stripe/stripe-go/pull/1442) API Updates
+  * Add support for `BankTransferPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
+  * Add support for `CaptureBefore` on `ChargePaymentMethodDetailsCardPresent`
+  * Add support for `Address` and `Name` on `CheckoutSessionCustomerDetails`
+  * Add support for `CustomerBalance` on `InvoicePaymentSettingsPaymentMethodOptionsParams`, `InvoicePaymentSettingsPaymentMethodOptions`, `SubscriptionPaymentSettingsPaymentMethodOptionsParams`, and `SubscriptionPaymentSettingsPaymentMethodOptions`
+  * Add support for new value `customer_balance` on enums `InvoicePaymentSettingsPaymentMethodTypes` and `SubscriptionPaymentSettingsPaymentMethodTypes`
+  * Add support for `RequestExtendedAuthorization` on `PaymentIntentConfirmPaymentMethodOptionsCardPresentParams`, `PaymentIntentPaymentMethodOptionsCardPresentParams`, and `PaymentIntentPaymentMethodOptionsCardPresent`
+
 ## 72.98.0 - 2022-03-30
 * [#1440](https://github.com/stripe/stripe-go/pull/1440) API Updates
   * Add support for `CancelAction`, `ProcessPaymentIntent`, `ProcessSetupIntent`, and `SetReaderDisplay` methods on resource `Terminal.Reader`
