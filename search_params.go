@@ -46,9 +46,10 @@ type SearchParams struct {
 	// key or query the state of the API.
 	Context context.Context `form:"-"`
 
-	Query string  `form:"query"`
-	Limit *int64  `form:"limit"`
-	Page  *string `form:"page"`
+	Query  string    `form:"query"`
+	Limit  *int64    `form:"limit"`
+	Page   *string   `form:"page"`
+	Expand []*string `form:"expand"`
 
 	// Single specifies whether this is a single page iterator. By default,
 	// listing through an iterator will automatically grab additional pages as
@@ -61,6 +62,11 @@ type SearchParams struct {
 	// account instead of under the account of the owner of the configured
 	// Stripe key.
 	StripeAccount *string `form:"-"` // Passed as header
+}
+
+// AddExpand appends a new field to expand.
+func (p *SearchParams) AddExpand(f string) {
+	p.Expand = append(p.Expand, &f)
 }
 
 // GetSearchParams returns a SearchParams struct (itself). It exists because any
