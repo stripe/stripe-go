@@ -8,9 +8,9 @@ GIT
 
 GIT
   remote: https://github.com/roidrage/lograge.git
-  revision: bf695456660781be6c6fc0801d3f0055af881dce
+  revision: 1020dd9966b6809ea6a7a028afda623919d4f89e
   specs:
-    lograge (0.11.2)
+    lograge (0.12.0)
       actionpack (>= 4)
       activesupport (>= 4)
       railties (>= 4)
