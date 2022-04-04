@@ -1,5 +1,8 @@
 # Changelog
 
+## 72.100.0 - 2022-04-04
+* [#1443](https://github.com/stripe/stripe-go/pull/1443) Add support for passing expansions in SearchParams.
+
 ## 72.99.0 - 2022-04-01
 * [#1442](https://github.com/stripe/stripe-go/pull/1442) API Updates
   * Add support for `BankTransferPayments` on `AccountCapabilitiesParams` and `AccountCapabilities`
