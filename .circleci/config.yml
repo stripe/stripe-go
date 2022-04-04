@@ -98,9 +98,6 @@ jobs:
     environment:
       CIRCLE_ARTIFACTS: /tmp/artifacts
       CIRCLE_TEST_REPORTS: /tmp/test-results
-      BUNDLE_JOBS: 3
-      BUNDLE_RETRY: 3
-      BUNDLE_PATH: vendor/bundle
       RAILS_TEST_SERVER_PORT: 8081
       TEST_DATABASE_URL: postgres://ubuntu:@127.0.0.1:5432/circle_test
       REDIS_URL: redis://localhost:6379
@@ -114,7 +111,6 @@ jobs:
       SF_USERNAME: <<parameters.account>>
       # SF_PASSWORD
       # SIGNALFX_TOKEN
-    # TODO possibly use the heroku image instead?
     docker:
       # replace `:.*` with `@sha256:THE_SHA` to lock the build to a specific container SHA
     - image: cimg/ruby:2.7.5-browsers
@@ -137,7 +133,6 @@ jobs:
         working_directory: ~/stripe-netsuite
         command: |
           mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-          gem install bundler -v 2.2.29
 
     - run:
         name: Setting up https proxy
@@ -170,6 +165,9 @@ jobs:
 
           # for debugging purposes
           sfdx auth:list --json
+
+          echo "Deleting all test data..."
+          sfdx force:apex:execute -f sfdx/bin/delete_test_record_data.apex -u $SF_USERNAME
 
           export SF_INSTANCE_DOMAIN=$(sfdx auth:list --json | jq '.result[] | select(.username=="'$SF_USERNAME'").instanceUrl' | perl -nle 'm/https:\/\/(.*)\.my.salesforce.com/; print $1')
           export SF_INSTANCE_ID=$(sfdx auth:list --json | jq '.result[] | select(.username=="'$SF_USERNAME'").orgId')
