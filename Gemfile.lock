@@ -6,16 +6,6 @@ GIT
       omniauth (~> 2.0)
       omniauth-oauth2 (~> 1.7.1)
 
-GIT
-  remote: https://github.com/roidrage/lograge.git
-  revision: 1020dd9966b6809ea6a7a028afda623919d4f89e
-  specs:
-    lograge (0.12.0)
-      actionpack (>= 4)
-      activesupport (>= 4)
-      railties (>= 4)
-      request_store (~> 1.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -166,6 +156,11 @@ GEM
     listen (3.7.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
+    lograge (0.12.0)
+      actionpack (>= 4)
+      activesupport (>= 4)
+      railties (>= 4)
+      request_store (~> 1.0)
     loofah (2.15.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -438,7 +433,7 @@ DEPENDENCIES
   database_cleaner (~> 1.7.0)
   dotenv-rails (= 2.7.6)
   listen
-  lograge!
+  lograge (~> 0.12)
   minitest (~> 5.15.0)
   minitest-ci (~> 3.4.0)
   minitest-profile
