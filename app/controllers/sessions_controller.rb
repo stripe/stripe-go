@@ -28,16 +28,6 @@ class SessionsController < ApplicationController
     render_oauth_post_redirect(oauth_type)
   end
 
-  def render_oauth_post_redirect(oauth_type)
-    render locals: {oauth_type: oauth_type}, inline: <<-EOL
-      <%= form_tag(omniauth_path(oauth_type), method: 'post', id: 'js-submission') %>
-
-      <script>
-      document.getElementById('js-submission').submit()
-      </script>
-    EOL
-  end
-
   def salesforce_callback
     sf_auth = auth_hash
     raw_sf_account_url = sf_auth["uid"]
@@ -116,8 +106,8 @@ class SessionsController < ApplicationController
     render inline: <<-EOL
     <div style="text-align:center; font-family:'Helvetica Neue', Arial, sans-serif;">
       <h1 style="margin-top: 30%;">Great, your connected!</h1>
-      <p>Your Stripe & SalesForce accounts are connected. You can safely close this window.</p>
-      <p>Navigate to SalesForce to configure this connector.</p>
+      <p>Your Stripe & Salesforce accounts are connected. You can safely close this window.</p>
+      <p>Navigate to Salesforce to configure this connector.</p>
     </div>
     <script type="application/javascript">
     window.opener.postMessage("connectionSuccessful", "https://#{user.sf_subdomain}--#{salesforce_namespace}.visualforce.com")
@@ -127,6 +117,16 @@ class SessionsController < ApplicationController
 
   def failure
     render inline: 'Authorization Failure'
+  end
+
+  private def render_oauth_post_redirect(oauth_type)
+    render locals: {oauth_type: oauth_type}, inline: <<-EOL
+      <%= form_tag(omniauth_path(oauth_type), method: 'post', id: 'js-submission') %>
+
+      <script>
+      document.getElementById('js-submission').submit()
+      </script>
+    EOL
   end
 
   # TODO need to handle failure flows more cleanly

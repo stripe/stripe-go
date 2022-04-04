@@ -1,5 +1,7 @@
 # stripe-salesforce
 
+https://chrome.google.com/webstore/detail/salesforce-inspector/aodjmnfhjibkcdimpodiifdjnnncaafh?hl=en
+
 https://paper.dropbox.com/doc/SalesForceStripe-Connector-Architecture-A6jDl31hXxE2DOp9QKjl3
 
 https://stripe-force.herokuapp.com/auth/salesforce
