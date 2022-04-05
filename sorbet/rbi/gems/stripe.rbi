@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/stripe/all/stripe.rbi
 #
-# stripe-5.42.0
+# stripe-5.48.0
 
 module Stripe
   def self.api_base(*args, &block); end
@@ -93,6 +93,9 @@ end
 module Stripe::APIOperations::Save::ClassMethods
   def update(id, params = nil, opts = nil); end
 end
+module Stripe::APIOperations::Search
+  def _search(search_url, filters = nil, opts = nil); end
+end
 class Stripe::StripeError < StandardError
   def code; end
   def construct_error_object; end
@@ -165,6 +168,7 @@ module Stripe::Util
   def self.check_string_argument!(key); end
   def self.colorize(val, color, isatty); end
   def self.convert_to_stripe_object(data, opts = nil); end
+  def self.custom_method(resource, target, name, http_verb, http_path); end
   def self.encode_parameters(params); end
   def self.flatten_params(params, parent_key = nil); end
   def self.flatten_params_array(value, calculated_key); end
@@ -400,6 +404,21 @@ class Stripe::ListObject < Stripe::StripeObject
   include Stripe::APIOperations::List
   include Stripe::APIOperations::Request
 end
+class Stripe::SearchResultObject < Stripe::StripeObject
+  def [](key); end
+  def auto_paging_each(&blk); end
+  def each(&blk); end
+  def empty?; end
+  def filters; end
+  def filters=(arg0); end
+  def initialize(*args); end
+  def next_search_result_page(params = nil, opts = nil); end
+  def self.empty_search_result(opts = nil); end
+  extend Stripe::APIOperations::Request::ClassMethods
+  include Enumerable
+  include Stripe::APIOperations::Request
+  include Stripe::APIOperations::Search
+end
 class Stripe::ErrorObject < Stripe::StripeObject
   def charge; end
   def code; end
@@ -431,6 +450,12 @@ class Stripe::APIResource < Stripe::StripeObject
   def self.save_nested_resource(name); end
   extend Stripe::APIOperations::Request::ClassMethods
   include Stripe::APIOperations::Request
+end
+class Stripe::APIResourceTestHelpers
+  def initialize(resource); end
+  def resource_url; end
+  def self.custom_method(name, http_verb:, http_path: nil); end
+  def self.resource_url; end
 end
 class Stripe::SingletonAPIResource < Stripe::APIResource
   def resource_url; end
@@ -626,9 +651,12 @@ end
 class Stripe::Charge < Stripe::APIResource
   def capture(params = nil, opts = nil); end
   def self.capture(id, params = nil, opts = nil); end
+  def self.search(params = nil, opts = nil); end
+  def self.search_auto_paging_each(params = nil, opts = nil, &blk); end
   extend Stripe::APIOperations::Create
   extend Stripe::APIOperations::List
   extend Stripe::APIOperations::Save::ClassMethods
+  extend Stripe::APIOperations::Search
   include Stripe::APIOperations::Save
 end
 module Stripe::Checkout
@@ -683,6 +711,8 @@ class Stripe::Customer < Stripe::APIResource
   def self.retrieve_balance_transaction(id, nested_id, opts = nil); end
   def self.retrieve_source(id, nested_id, opts = nil); end
   def self.retrieve_tax_id(id, nested_id, opts = nil); end
+  def self.search(params = nil, opts = nil); end
+  def self.search_auto_paging_each(params = nil, opts = nil, &blk); end
   def self.sources_url(id, nested_id = nil); end
   def self.tax_ids_url(id, nested_id = nil); end
   def self.update_balance_transaction(id, nested_id, params = nil, opts = nil); end
@@ -693,6 +723,7 @@ class Stripe::Customer < Stripe::APIResource
   extend Stripe::APIOperations::List
   extend Stripe::APIOperations::NestedResource
   extend Stripe::APIOperations::Save::ClassMethods
+  extend Stripe::APIOperations::Search
   include Stripe::APIOperations::Delete
   include Stripe::APIOperations::Save
 end
@@ -760,6 +791,8 @@ class Stripe::Invoice < Stripe::APIResource
   def self.list_upcoming_line_items(params, opts = nil); end
   def self.mark_uncollectible(id, params = nil, opts = nil); end
   def self.pay(id, params = nil, opts = nil); end
+  def self.search(params = nil, opts = nil); end
+  def self.search_auto_paging_each(params = nil, opts = nil, &blk); end
   def self.send_invoice(id, params = nil, opts = nil); end
   def self.upcoming(params, opts = nil); end
   def self.void_invoice(id, params = nil, opts = nil); end
@@ -769,6 +802,7 @@ class Stripe::Invoice < Stripe::APIResource
   extend Stripe::APIOperations::Delete::ClassMethods
   extend Stripe::APIOperations::List
   extend Stripe::APIOperations::Save::ClassMethods
+  extend Stripe::APIOperations::Search
   include Stripe::APIOperations::Delete
   include Stripe::APIOperations::Save
 end
@@ -849,6 +883,19 @@ class Stripe::PaymentIntent < Stripe::APIResource
   def self.cancel(id, params = nil, opts = nil); end
   def self.capture(id, params = nil, opts = nil); end
   def self.confirm(id, params = nil, opts = nil); end
+  def self.search(params = nil, opts = nil); end
+  def self.search_auto_paging_each(params = nil, opts = nil, &blk); end
+  def self.verify_microdeposits(id, params = nil, opts = nil); end
+  def verify_microdeposits(params = nil, opts = nil); end
+  extend Stripe::APIOperations::Create
+  extend Stripe::APIOperations::List
+  extend Stripe::APIOperations::Save::ClassMethods
+  extend Stripe::APIOperations::Search
+  include Stripe::APIOperations::Save
+end
+class Stripe::PaymentLink < Stripe::APIResource
+  def list_line_items(params = nil, opts = nil); end
+  def self.list_line_items(id, params = nil, opts = nil); end
   extend Stripe::APIOperations::Create
   extend Stripe::APIOperations::List
   extend Stripe::APIOperations::Save::ClassMethods
@@ -891,16 +938,22 @@ class Stripe::Plan < Stripe::APIResource
   include Stripe::APIOperations::Save
 end
 class Stripe::Price < Stripe::APIResource
+  def self.search(params = nil, opts = nil); end
+  def self.search_auto_paging_each(params = nil, opts = nil, &blk); end
   extend Stripe::APIOperations::Create
   extend Stripe::APIOperations::List
   extend Stripe::APIOperations::Save::ClassMethods
+  extend Stripe::APIOperations::Search
   include Stripe::APIOperations::Save
 end
 class Stripe::Product < Stripe::APIResource
+  def self.search(params = nil, opts = nil); end
+  def self.search_auto_paging_each(params = nil, opts = nil, &blk); end
   extend Stripe::APIOperations::Create
   extend Stripe::APIOperations::Delete::ClassMethods
   extend Stripe::APIOperations::List
   extend Stripe::APIOperations::Save::ClassMethods
+  extend Stripe::APIOperations::Search
   include Stripe::APIOperations::Delete
   include Stripe::APIOperations::Save
 end
@@ -958,6 +1011,8 @@ end
 class Stripe::RecipientTransfer < Stripe::StripeObject
 end
 class Stripe::Refund < Stripe::APIResource
+  def cancel(params = nil, opts = nil); end
+  def self.cancel(id, params = nil, opts = nil); end
   extend Stripe::APIOperations::Create
   extend Stripe::APIOperations::List
   extend Stripe::APIOperations::Save::ClassMethods
@@ -994,6 +1049,8 @@ class Stripe::SetupIntent < Stripe::APIResource
   def confirm(params = nil, opts = nil); end
   def self.cancel(id, params = nil, opts = nil); end
   def self.confirm(id, params = nil, opts = nil); end
+  def self.verify_microdeposits(id, params = nil, opts = nil); end
+  def verify_microdeposits(params = nil, opts = nil); end
   extend Stripe::APIOperations::Create
   extend Stripe::APIOperations::List
   extend Stripe::APIOperations::Save::ClassMethods
@@ -1039,11 +1096,14 @@ end
 class Stripe::Subscription < Stripe::APIResource
   def delete_discount(params = nil, opts = nil); end
   def self.delete_discount(id, params = nil, opts = nil); end
+  def self.search(params = nil, opts = nil); end
+  def self.search_auto_paging_each(params = nil, opts = nil, &blk); end
   def source=(value); end
   extend Stripe::APIOperations::Create
   extend Stripe::APIOperations::Delete::ClassMethods
   extend Stripe::APIOperations::List
   extend Stripe::APIOperations::Save::ClassMethods
+  extend Stripe::APIOperations::Search
   include Stripe::APIOperations::Delete
   include Stripe::APIOperations::Save
 end
@@ -1103,12 +1163,35 @@ class Stripe::Terminal::Location < Stripe::APIResource
   include Stripe::APIOperations::Save
 end
 class Stripe::Terminal::Reader < Stripe::APIResource
+  def cancel_action(params = nil, opts = nil); end
+  def process_payment_intent(params = nil, opts = nil); end
+  def process_setup_intent(params = nil, opts = nil); end
+  def self.cancel_action(id, params = nil, opts = nil); end
+  def self.process_payment_intent(id, params = nil, opts = nil); end
+  def self.process_setup_intent(id, params = nil, opts = nil); end
+  def self.set_reader_display(id, params = nil, opts = nil); end
+  def set_reader_display(params = nil, opts = nil); end
+  def test_helpers; end
   extend Stripe::APIOperations::Create
   extend Stripe::APIOperations::Delete::ClassMethods
   extend Stripe::APIOperations::List
   extend Stripe::APIOperations::Save::ClassMethods
   include Stripe::APIOperations::Delete
   include Stripe::APIOperations::Save
+end
+class Stripe::Terminal::Reader::TestHelpers < Stripe::APIResourceTestHelpers
+  def present_payment_method(params = nil, opts = nil); end
+  def self.present_payment_method(id, params = nil, opts = nil); end
+end
+module Stripe::TestHelpers
+end
+class Stripe::TestHelpers::TestClock < Stripe::APIResource
+  def advance(params = nil, opts = nil); end
+  def self.advance(id, params = nil, opts = nil); end
+  extend Stripe::APIOperations::Create
+  extend Stripe::APIOperations::Delete::ClassMethods
+  extend Stripe::APIOperations::List
+  include Stripe::APIOperations::Delete
 end
 class Stripe::ThreeDSecure < Stripe::APIResource
   def self.resource_url; end

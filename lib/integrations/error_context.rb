@@ -141,14 +141,12 @@ module Integrations
         log.default_tags.merge!(tags)
       end
 
-      env_log_level = ENV['LOG_LEVEL']&.upcase
+      return if log.set_log_level_from_environment
 
-      if !env_log_level.nil? && Logger::Severity.const_defined?(env_log_level)
-        log.level(Logger::Severity.const_get(env_log_level))
-      elsif user&.sandbox? && !user.feature_enabled?(:loud_sandbox_logging)
-        log.level(Logger::Severity::WARN)
+      if user&.sandbox? && !user.feature_enabled?(:loud_sandbox_logging)
+        SimpleStructuredLogger.logger.level = Logger::Severity::WARN
       else
-        log.level(Logger::Severity::INFO)
+        SimpleStructuredLogger.logger.level = Logger::Severity::INFO
       end
     end
   end

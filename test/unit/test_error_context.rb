@@ -40,12 +40,18 @@ class Critic::ErrorContextTest < Critic::UnitTest
   end
 
   describe 'log level configuration' do
-    after { ENV['LOG_LEVEL'] = nil }
+    before do
+      @original_level = ENV['LOG_LEVEL']
+    end
+
+    after do
+      ENV['LOG_LEVEL'] = @original_level
+    end
 
     it 'log level is set to info by default' do
       error_context.set_error_context
 
-      assert_equal(Logger::Severity::INFO, error_context.log.level)
+      assert_equal(Logger::Severity::INFO, SimpleStructuredLogger.logger.level)
 
       stdout, _ = capture_subprocess_io do
         error_context.log.info 'log everything'
@@ -59,7 +65,7 @@ class Critic::ErrorContextTest < Critic::UnitTest
       user = make_user
       error_context.set_error_context(user: user)
 
-      assert_equal(Logger::Severity::DEBUG, error_context.log.level)
+      assert_equal(Logger::Severity::DEBUG, SimpleStructuredLogger.logger.level)
     end
 
     it 'gracefully fails when an invalid log level is specified' do
@@ -68,16 +74,20 @@ class Critic::ErrorContextTest < Critic::UnitTest
       user = make_user(sandbox: false)
       error_context.set_error_context(user: user)
 
-      assert_equal(Logger::Severity::INFO, error_context.log.level)
+      assert_equal(Logger::Severity::INFO, SimpleStructuredLogger.logger.level)
     end
 
     it 'decreases log level for sandbox users to reduce log noise' do
+      previous_log_level =
+        ENV['LOG_LEVEL'] = nil
+
       user = make_user(sandbox: true)
       user.disable_feature(:loud_sandbox_logging)
       assert(user.sandbox?)
+
       error_context.set_error_context(user: user)
 
-      assert_equal(Logger::Severity::WARN, error_context.log.level)
+      assert_equal(Logger::Severity::WARN, SimpleStructuredLogger.logger.level)
 
       stdout, _ = capture_io do
         error_context.log.debug 'everything'

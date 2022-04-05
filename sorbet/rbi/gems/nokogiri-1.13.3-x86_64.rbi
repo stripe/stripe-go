@@ -5,9 +5,9 @@
 #
 # If you would like to make changes to this file, great! Please create the gem's shim here:
 #
-#   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/nokogiri-1.13.0-x86_64/all/nokogiri-1.13.0-x86_64.rbi
+#   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/nokogiri-1.13.3-x86_64/all/nokogiri-1.13.3-x86_64.rbi
 #
-# nokogiri-1.13.0-x86_64-darwin
+# nokogiri-1.13.3-x86_64-darwin
 
 class Nokogiri::XML::ElementContent
   def c1; end
@@ -557,7 +557,6 @@ class Nokogiri::VersionInfo
   def loaded_libxslt_version; end
   def ruby_minor; end
   def self.allocate; end
-  def self.instance; end
   def self.new(*arg0); end
   def to_hash; end
   def to_markdown; end
@@ -702,7 +701,7 @@ class Nokogiri::XML::SAX::Parser
   def parse_io(io, encoding = nil); end
   def parse_memory(data); end
 end
-class Anonymous_Struct_19 < Struct
+class Anonymous_Struct_20 < Struct
   def localname; end
   def localname=(_); end
   def prefix; end
@@ -716,7 +715,7 @@ class Anonymous_Struct_19 < Struct
   def value; end
   def value=(_); end
 end
-class Nokogiri::XML::SAX::Parser::Attribute < Anonymous_Struct_19
+class Nokogiri::XML::SAX::Parser::Attribute < Anonymous_Struct_20
 end
 module Nokogiri::XML::Searchable
   def %(*args); end
@@ -815,7 +814,7 @@ class Nokogiri::XML::Builder::NodeBuilder
   def initialize(node, doc_builder); end
   def method_missing(method, *args, &block); end
 end
-class Anonymous_Struct_20 < Struct
+class Anonymous_Struct_21 < Struct
   def name; end
   def name=(_); end
   def public_id; end
@@ -827,13 +826,13 @@ class Anonymous_Struct_20 < Struct
   def system_id; end
   def system_id=(_); end
 end
-class Nokogiri::XML::Notation < Anonymous_Struct_20
+class Nokogiri::XML::Notation < Anonymous_Struct_21
 end
 module Nokogiri::HTML4
   def self.fragment(string, encoding = nil, options = nil, &block); end
   def self.parse(input, url = nil, encoding = nil, options = nil, &block); end
 end
-class Anonymous_Struct_21 < Struct
+class Anonymous_Struct_22 < Struct
   def description; end
   def description=(_); end
   def name; end
@@ -845,7 +844,7 @@ class Anonymous_Struct_21 < Struct
   def value; end
   def value=(_); end
 end
-class Nokogiri::HTML4::EntityDescription < Anonymous_Struct_21
+class Nokogiri::HTML4::EntityDescription < Anonymous_Struct_22
 end
 class Nokogiri::HTML4::Document::EncodingFound < StandardError
   def found_encoding; end
@@ -940,6 +939,7 @@ class Nokogiri::CSS::XPathVisitor
   def accept(node); end
   def config; end
   def css_class(hay, needle); end
+  def html5_element_name_needs_namespace_handling(node); end
   def initialize(builtins: nil, doctype: nil); end
   def is_of_type_pseudo_class?(node); end
   def nth(node, options = nil); end
@@ -971,59 +971,62 @@ module Nokogiri::CSS::XPathVisitorOptimallyUseBuiltins
 end
 class Nokogiri::CSS::Parser < Racc::Parser
   def _reduce_1(val, _values, result); end
+  def _reduce_10(val, _values, result); end
   def _reduce_11(val, _values, result); end
-  def _reduce_12(val, _values, result); end
   def _reduce_13(val, _values, result); end
   def _reduce_14(val, _values, result); end
   def _reduce_15(val, _values, result); end
-  def _reduce_16(val, _values, result); end
+  def _reduce_17(val, _values, result); end
   def _reduce_18(val, _values, result); end
+  def _reduce_19(val, _values, result); end
   def _reduce_2(val, _values, result); end
-  def _reduce_20(val, _values, result); end
   def _reduce_21(val, _values, result); end
-  def _reduce_22(val, _values, result); end
   def _reduce_23(val, _values, result); end
+  def _reduce_24(val, _values, result); end
   def _reduce_25(val, _values, result); end
   def _reduce_26(val, _values, result); end
-  def _reduce_27(val, _values, result); end
   def _reduce_28(val, _values, result); end
   def _reduce_29(val, _values, result); end
   def _reduce_3(val, _values, result); end
   def _reduce_30(val, _values, result); end
   def _reduce_31(val, _values, result); end
   def _reduce_32(val, _values, result); end
-  def _reduce_33(val, _values, result); end
   def _reduce_34(val, _values, result); end
   def _reduce_35(val, _values, result); end
   def _reduce_36(val, _values, result); end
   def _reduce_37(val, _values, result); end
+  def _reduce_38(val, _values, result); end
+  def _reduce_39(val, _values, result); end
   def _reduce_4(val, _values, result); end
   def _reduce_40(val, _values, result); end
   def _reduce_41(val, _values, result); end
   def _reduce_42(val, _values, result); end
-  def _reduce_43(val, _values, result); end
-  def _reduce_44(val, _values, result); end
   def _reduce_45(val, _values, result); end
+  def _reduce_47(val, _values, result); end
   def _reduce_48(val, _values, result); end
   def _reduce_49(val, _values, result); end
   def _reduce_5(val, _values, result); end
   def _reduce_50(val, _values, result); end
   def _reduce_51(val, _values, result); end
-  def _reduce_52(val, _values, result); end
+  def _reduce_54(val, _values, result); end
+  def _reduce_55(val, _values, result); end
+  def _reduce_56(val, _values, result); end
+  def _reduce_57(val, _values, result); end
   def _reduce_58(val, _values, result); end
-  def _reduce_59(val, _values, result); end
   def _reduce_6(val, _values, result); end
-  def _reduce_60(val, _values, result); end
-  def _reduce_61(val, _values, result); end
-  def _reduce_63(val, _values, result); end
   def _reduce_64(val, _values, result); end
   def _reduce_65(val, _values, result); end
   def _reduce_66(val, _values, result); end
   def _reduce_67(val, _values, result); end
-  def _reduce_68(val, _values, result); end
   def _reduce_69(val, _values, result); end
   def _reduce_7(val, _values, result); end
   def _reduce_70(val, _values, result); end
+  def _reduce_71(val, _values, result); end
+  def _reduce_72(val, _values, result); end
+  def _reduce_73(val, _values, result); end
+  def _reduce_74(val, _values, result); end
+  def _reduce_75(val, _values, result); end
+  def _reduce_76(val, _values, result); end
   def _reduce_8(val, _values, result); end
   def _reduce_9(val, _values, result); end
   def _reduce_none(val, _values, result); end

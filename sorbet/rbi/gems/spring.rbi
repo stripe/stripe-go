@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/spring/all/spring.rbi
 #
-# spring-3.1.1
+# spring-4.0.0
 
 module Spring
   def self.after_fork(&block); end

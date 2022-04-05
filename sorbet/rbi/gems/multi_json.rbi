@@ -67,7 +67,6 @@ class MultiJson::Adapter
   def self.cached_load_options(options); end
   def self.defaults(action, value); end
   def self.dump(object, options = nil); end
-  def self.instance; end
   def self.load(string, options = nil); end
   def self.new(*arg0); end
   extend MultiJson::Options
@@ -80,8 +79,6 @@ class MultiJson::Adapters::JsonCommon < MultiJson::Adapter
   def dump(object, options = nil); end
   def load(string, options = nil); end
   def self.default_load_options; end
-  def self.instance; end
 end
 class MultiJson::Adapters::JsonGem < MultiJson::Adapters::JsonCommon
-  def self.instance; end
 end

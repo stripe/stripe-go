@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/thor/all/thor.rbi
 #
-# thor-1.1.0
+# thor-1.2.1
 
 class Thor
   def help(command = nil, subcommand = nil); end
@@ -62,7 +62,7 @@ class Thor
   include Thor::Invocation
   include Thor::Shell
 end
-class Anonymous_Struct_39 < Struct
+class Anonymous_Struct_40 < Struct
   def ancestor_name; end
   def ancestor_name=(_); end
   def description; end
@@ -80,7 +80,7 @@ class Anonymous_Struct_39 < Struct
   def usage; end
   def usage=(_); end
 end
-class Thor::Command < Anonymous_Struct_39
+class Thor::Command < Anonymous_Struct_40
   def formatted_usage(klass, namespace = nil, subcommand = nil); end
   def handle_argument_error?(instance, error, caller); end
   def handle_no_method_error?(instance, error, caller); end
@@ -110,6 +110,7 @@ class Thor::CoreExt::HashWithIndifferentAccess < Hash
   def []=(key, value); end
   def convert_key(key); end
   def delete(key); end
+  def except(*keys); end
   def fetch(key, *args); end
   def initialize(hash = nil); end
   def key?(key); end
@@ -121,6 +122,9 @@ class Thor::CoreExt::HashWithIndifferentAccess < Hash
   def reverse_merge(other); end
   def to_hash; end
   def values_at(*indices); end
+end
+class Thor::NoKwargSpellChecker < DidYouMean::SpellChecker
+  def initialize(dictionary); end
 end
 class Thor::Error < StandardError
 end
@@ -250,8 +254,10 @@ class Thor::Options < Thor::Arguments
   def peek; end
   def remaining; end
   def self.to_switches(options); end
+  def shift; end
   def switch?(arg); end
   def switch_option(arg); end
+  def unshift(arg, is_value: nil); end
 end
 module Thor::Base
   def args; end
@@ -279,6 +285,7 @@ module Thor::Shell
   def print_table(*args, &block); end
   def print_wrapped(*args, &block); end
   def say(*args, &block); end
+  def say_error(*args, &block); end
   def say_status(*args, &block); end
   def set_color(*args, &block); end
   def shell; end
@@ -454,6 +461,7 @@ class Thor::Shell::Basic
   def print_wrapped(message, options = nil); end
   def quiet?; end
   def say(message = nil, color = nil, force_new_line = nil); end
+  def say_error(message = nil, color = nil, force_new_line = nil); end
   def say_status(status, message, log_status = nil); end
   def set_color(string, *arg1); end
   def show_diff(destination, content); end

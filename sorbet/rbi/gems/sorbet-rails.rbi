@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/sorbet-rails/all/sorbet-rails.rbi
 #
-# sorbet-rails-0.7.27
+# sorbet-rails-0.7.32
 
 module SorbetRails
   def self.config(&blk); end
@@ -278,7 +278,6 @@ class ActiveRecordOverrides
   def get_enum_call(klass, enum_sym); end
   def initialize; end
   def self.allocate; end
-  def self.instance; end
   def self.new(*arg0); end
   def store_enum_call(klass, kwargs); end
   extend Singleton::SingletonClassMethods
@@ -322,6 +321,7 @@ module SorbetRails::CustomFinderMethods
   def first_n(n); end
   def last_n(n); end
   def select_columns(*args); end
+  def where_missing(*args); end
 end
 module SorbetRails::PluckToTStruct
   def map_nil_values_to_default(*args, &blk); end

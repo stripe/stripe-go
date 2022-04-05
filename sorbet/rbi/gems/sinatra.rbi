@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/sinatra/all/sinatra.rbi
 #
-# sinatra-2.1.0
+# sinatra-2.2.0
 
 module Sinatra
   def self.helpers(*extensions, &block); end
@@ -19,6 +19,7 @@ class Sinatra::IndifferentHash < Hash
   def [](key); end
   def []=(key, value); end
   def assoc(key); end
+  def compact; end
   def convert_key(key); end
   def convert_value(value); end
   def default(*args); end
@@ -37,7 +38,9 @@ class Sinatra::IndifferentHash < Hash
   def merge!(*other_hashes); end
   def merge(*other_hashes, &block); end
   def rassoc(value); end
+  def reject(*args, &block); end
   def replace(other_hash); end
+  def select(*args, &block); end
   def self.[](*args); end
   def slice(*keys); end
   def store(key, value); end
@@ -96,7 +99,7 @@ class Sinatra::Response < Rack::Response
   def each; end
   def finish; end
 end
-class Anonymous_Struct_25 < Struct
+class Anonymous_Struct_26 < Struct
   def app; end
   def app=(_); end
   def self.[](*arg0); end
@@ -104,7 +107,7 @@ class Anonymous_Struct_25 < Struct
   def self.members; end
   def self.new(*arg0); end
 end
-class Sinatra::ExtendedRack < Anonymous_Struct_25
+class Sinatra::ExtendedRack < Anonymous_Struct_26
   def after_response(&block); end
   def async?(status, headers, body); end
   def call(env); end
@@ -170,6 +173,7 @@ module Sinatra::Templates
   def asciidoc(template, options = nil, locals = nil); end
   def builder(template = nil, options = nil, locals = nil, &block); end
   def coffee(template, options = nil, locals = nil); end
+  def compile_block_template(template, options, &body); end
   def compile_template(engine, data, options, views); end
   def creole(template, options = nil, locals = nil); end
   def erb(template, options = nil, locals = nil, &block); end
@@ -210,12 +214,12 @@ class Sinatra::Base
   def env; end
   def env=(arg0); end
   def error_block!(key, *block_params); end
-  def filter!(type, base = nil); end
+  def filter!(type, base = nil, &block); end
   def force_encoding(*args); end
   def forward; end
   def halt(*response); end
   def handle_exception!(boom); end
-  def initialize(app = nil); end
+  def initialize(app = nil, **kwargs); end
   def invoke; end
   def options; end
   def params; end
@@ -262,7 +266,6 @@ class Sinatra::Base
   def self.default_encoding?; end
   def self.define_singleton(name, content = nil); end
   def self.delete(path, opts = nil, &bk); end
-  def self.detect_rack_handler; end
   def self.development?; end
   def self.disable(*opts); end
   def self.dump_errors; end
@@ -311,7 +314,7 @@ class Sinatra::Base
   def self.mustermann_opts=(val); end
   def self.mustermann_opts?; end
   def self.new!(*arg0); end
-  def self.new(*args, &bk); end
+  def self.new(*args, **kwargs, &bk); end
   def self.not_found(&block); end
   def self.options(path, opts = nil, &bk); end
   def self.patch(path, opts = nil, &bk); end

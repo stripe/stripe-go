@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/sequel/all/sequel.rbi
 #
-# sequel-5.52.0
+# sequel-5.55.0
 
 module Sequel
   def self.Model(source); end
@@ -377,10 +377,10 @@ class Sequel::SQL::VirtualRow < Sequel::BasicObject
   def >(*args); end
   def >=(*args); end
   def initialize; end
-  include Anonymous_Module_17
+  include Anonymous_Module_12
   include Sequel::SQL::OperatorBuilders
 end
-module Anonymous_Module_17
+module Anonymous_Module_12
   def method_missing(m, *args); end
 end
 class Sequel::SQL::Window < Sequel::SQL::Expression

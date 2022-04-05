@@ -7,11 +7,13 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/simple_structured_logger/all/simple_structured_logger.rbi
 #
-# simple_structured_logger-0.1.5
+# simple_structured_logger-1.0.1
 
 module SimpleStructuredLogger
   def log; end
+  def self.configure(&block); end
   def self.included(klass); end
+  def self.logger; end
 end
 module SimpleStructuredLogger::Configuration
   def expand_context(&block); end
@@ -23,16 +25,15 @@ class SimpleStructuredLogger::Writer
   def default_tags; end
   def default_tags=(arg0); end
   def error(msg, opts = nil); end
-  def generate_log(msg, opts); end
   def info(msg, opts = nil); end
   def initialize; end
   def logger; end
   def logger=(arg0); end
   def reset_context!; end
   def self.allocate; end
-  def self.instance; end
   def self.new(*arg0); end
   def set_context(context); end
+  def set_log_level_from_environment; end
   def stringify_tags(additional_tags); end
   def warn(msg, opts = nil); end
   extend Singleton::SingletonClassMethods
