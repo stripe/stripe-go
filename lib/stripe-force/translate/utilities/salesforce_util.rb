@@ -21,9 +21,11 @@ module StripeForce::Utilities
         ""
       when "c"
         ""
-      else
+      when *SalesforceNamespaceOptions.values.map(&:serialize)
         # `stripeConnector_Stripe_ID__c` is the expected field name
         salesforce_namespace + "__"
+      else
+        raise "invalid namespace provided #{custom_field_prefix}"
       end
 
       custom_field_prefix + field_name

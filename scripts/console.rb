@@ -62,4 +62,14 @@ def delete_sync_records
   end
 end
 
+# TODO this doesn't seem like it works on some accounts
+# https://salesforce.stackexchange.com/questions/186025/how-to-we-get-list-of-installed-packages-and-it-version-number
+# sf.query("SELECT Id FROM InstalledSubscriberPackage")
+
+# TODO determine what users have the permission set assigned
+# u.sf_client.query("SELECT Id, AssigneeId, Assignee.Name FROM PermissionSetAssignment WHERE PermissionSet.Name = 'Stripe_Connector_Integration_User'")
+
+# dig into field level permissions "Field Permissions"
+# u.sf_client.api_get 'sobjects/'
+
 Pry.start

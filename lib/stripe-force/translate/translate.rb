@@ -151,18 +151,27 @@ class StripeForce::Translate
 
     compound_external_id = "#{@origin_salesforce_object.Id}-#{salesforce_object.Id}"
 
-    sf.upsert!(prefixed_stripe_field(SYNC_RECORD), prefixed_stripe_field(SyncRecordFields::COMPOUND_ID.serialize), {
-      SyncRecordFields::COMPOUND_ID.serialize => compound_external_id,
+    log.debug 'creating sync record'
 
-      SyncRecordFields::PRIMARY_RECORD_ID.serialize => @origin_salesforce_object.Id,
-      SyncRecordFields::PRIMARY_OBJECT_TYPE.serialize => @origin_salesforce_object.sobject_type,
+    # interestingly enough, if the external ID field does not exist we'll get a NOT_FOUND response
+    # https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_upsert.htm
 
-      SyncRecordFields::SECONDARY_RECORD_ID.serialize => salesforce_object.Id,
-      SyncRecordFields::SECONDARY_OBJECT_TYPE.serialize => salesforce_object.sobject_type,
+    sf.upsert!(
+      prefixed_stripe_field(SYNC_RECORD),
+      prefixed_stripe_field(SyncRecordFields::COMPOUND_ID.serialize),
+      {
+        SyncRecordFields::COMPOUND_ID => compound_external_id,
 
-      SyncRecordFields::RESOLUTION_MESSAGE.serialize => message,
-      SyncRecordFields::RESOLUTION_STATUS.serialize => 'Error',
-    }.transform_keys!(&method(:prefixed_stripe_field)))
+        SyncRecordFields::PRIMARY_RECORD_ID => @origin_salesforce_object.Id,
+        SyncRecordFields::PRIMARY_OBJECT_TYPE => @origin_salesforce_object.sobject_type,
+
+        SyncRecordFields::SECONDARY_RECORD_ID => salesforce_object.Id,
+        SyncRecordFields::SECONDARY_OBJECT_TYPE => salesforce_object.sobject_type,
+
+        SyncRecordFields::RESOLUTION_MESSAGE => message,
+        SyncRecordFields::RESOLUTION_STATUS => 'Error',
+      }.transform_keys(&:serialize).transform_keys(&method(:prefixed_stripe_field))
+    )
   end
 
   # NOTE ns_record OR ns_class must be provided

@@ -14,7 +14,7 @@ module ControllerHelpers
     case raw_namespace
     when nil, ""
       report_edge_case("namespace should not be empty")
-      "stripeConnector"
+      SalesforceNamespaceOptions::PRODUCTION.serialize
     when *SalesforceNamespaceOptions.values.map(&:serialize)
       raw_namespace
     else

@@ -55,6 +55,11 @@ class SessionsController < ApplicationController
     sf_instance_url = sf_credentials["instance_url"]
     sf_token = sf_credentials["token"]
 
+    # TODO it seems possible for a user to auth against the wrong account, need to investigate further
+    if !user.new? && user.salesforce_account_id != sf_account_id
+      raise "user already exists and account ID is not equal, this should never happen"
+    end
+
     user.salesforce_account_id = sf_account_id
     user.salesforce_refresh_token = sf_refresh_token
     user.salesforce_instance_url = sf_instance_url
