@@ -29,7 +29,12 @@ Here are some of the 'tags' that PR comments will be prefixed with to provide mo
 
 ## Permission assignments
 
-in the org I went to setup>permission sets> stripe connector integration user> manage assignments>add assignments then I checked your user in the org > then click assign (edited)
+In order for the ruby service to update Stripe ID fields, it needs to have the right permissions. Here are the two permissions required:
+
+- "Stripe Connector Integration User" permission set
+- Update Activated Orders
+
+In the org, go to setup>permission sets> stripe connector integration user> manage assignments>add assignments and check your user in the org > then click assign.
 
 ## Creating a stratch org
 

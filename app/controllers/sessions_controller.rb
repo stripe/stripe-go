@@ -69,13 +69,20 @@ class SessionsController < ApplicationController
 
     # TODO before redirecting to Stripe, check if there's a valid Stripe connection
 
-    render_oauth_post_redirect('stripe')
+    postmessage_domain = build_postmessage_domain(user, session[:salesforce_namespace])
+
+    render inline: <<-EOL
+    <%= form_tag(omniauth_path('stripe'), method: 'post', id: 'js-submission') %>
+
+    <script>
+    window.opener.postMessage("stripeConnectionSuccessful", "#{postmessage_domain}")
+    document.getElementById('js-submission').submit()
+    </script>
+    EOL
   end
 
   def stripe_callback
     user_id = session[:user_id]
-
-    salesforce_namespace = subdomain_namespace_from_param(session[:salesforce_namespace])
 
     if user_id.blank?
       log.warn 'callback requested with empty user_id',
@@ -97,11 +104,17 @@ class SessionsController < ApplicationController
 
     log.info 'updating stripe account ID', user_id: user.id, stripe_account_id: stripe_user_id
 
+    if user.stripe_account_id && user.stripe_account_id != stripe_user_id
+      report_edge_case("stripe account ID already set, overwriting")
+    end
+
     user.update(
       stripe_account_id: stripe_user_id,
       # TODO maybe public key?
       # stripe_refresh_token: stripe_auth[""]
     )
+
+    postmessage_domain = build_postmessage_domain(user, session[:salesforce_namespace])
 
     render inline: <<-EOL
     <div style="text-align:center; font-family:'Helvetica Neue', Arial, sans-serif;">
@@ -109,14 +122,21 @@ class SessionsController < ApplicationController
       <p>Your Stripe & Salesforce accounts are connected. You can safely close this window.</p>
       <p>Navigate to Salesforce to configure this connector.</p>
     </div>
+
     <script type="application/javascript">
-    window.opener.postMessage("connectionSuccessful", "https://#{user.sf_subdomain}--#{salesforce_namespace}.visualforce.com")
+    window.opener.postMessage("salesforceConnectionSuccessful", "#{postmessage_domain}")
+    window.opener.postMessage("connectionSuccessful", "#{postmessage_domain}")
     </script>
     EOL
   end
 
   def failure
     render inline: 'Authorization Failure'
+  end
+
+  private def build_postmessage_domain(user, raw_namespace)
+    salesforce_namespace = subdomain_namespace_from_param(raw_namespace)
+    "https://#{user.sf_subdomain}--#{salesforce_namespace}.visualforce.com"
   end
 
   private def render_oauth_post_redirect(oauth_type)
