@@ -340,7 +340,7 @@
     </pageAccesses>
     <tabSettings>
         <tab>Error_Log__c</tab>
-        <visibility>Visible</visibility>
+        <visibility>None</visibility>
     </tabSettings>
     <tabSettings>
         <tab>Setup</tab>
