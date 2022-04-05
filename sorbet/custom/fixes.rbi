@@ -59,3 +59,17 @@ end
 module GeneratedUrlHelpers
   def omniauth_path(*args); end
 end
+
+# TODO upstream to sorbet-typed
+class Critic::UnitTest
+  sig do
+    params(
+      # collection can be anything that has `includes?`
+      collection: T.any(String, T::Enumerable[T.untyped]),
+      obj: BasicObject,
+      msg: T.nilable(String)
+    )
+    .returns(TrueClass)
+  end
+  def assert_includes(collection, obj, msg = nil); end
+end

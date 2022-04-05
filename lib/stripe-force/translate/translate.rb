@@ -227,7 +227,7 @@ class StripeForce::Translate
       yield(stripe_object)
     end
 
-    log.info 'creating stripe object', salesforce_object: sf_object
+    log.info 'creating stripe object', salesforce_object: sf_object, stripe_object_type: stripe_class
 
     # there's a decent chance this causes us issues down the road: we shouldn't be using `construct_from`
     # and then converting the finalized object into a parameters hash. However, without using `construct_from`
