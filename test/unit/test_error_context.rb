@@ -42,6 +42,7 @@ class Critic::ErrorContextTest < Critic::UnitTest
   describe 'log level configuration' do
     before do
       @original_level = ENV['LOG_LEVEL']
+      ENV['LOG_LEVEL'] = nil
     end
 
     after do
@@ -78,9 +79,6 @@ class Critic::ErrorContextTest < Critic::UnitTest
     end
 
     it 'decreases log level for sandbox users to reduce log noise' do
-      previous_log_level =
-        ENV['LOG_LEVEL'] = nil
-
       user = make_user(sandbox: true)
       user.disable_feature(:loud_sandbox_logging)
       assert(user.sandbox?)
