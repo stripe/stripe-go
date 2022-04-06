@@ -15,11 +15,13 @@ export default class SystemConnectionsStep extends LightningElement {
     }
 
     stripeConnectedAppCallback() {
-        this.validateConnectionStatus(true);
+        this.validateConnectionStatus(true, '');
         this.postMessageListener = (event) => {
-            if(event.origin === this.rubyBaseURI && event.data === 'connectionSuccessful') {
+            if (event.origin === this.rubyBaseURI && event.data === 'stripeConnectionSuccessful') {
+                this.validateConnectionStatus(false, 'salesforce');
+            } else if (event.origin === this.rubyBaseURI && event.data === 'salesforceConnectionSuccessful') {
                 this.connectWindow.close();
-                this.validateConnectionStatus(false);
+                this.validateConnectionStatus(false, 'stripe');
             }
         }
         window.addEventListener("message", this.postMessageListener.bind(this));
@@ -43,37 +45,53 @@ export default class SystemConnectionsStep extends LightningElement {
         this.connectWindow = window.open(oauthConnectionURL, '"_blank"');
     }
 
-    async validateConnectionStatus(isConnectedCallback) {
+    async validateConnectionStatus(isConnectedCallback, systemConnected) {
         this.loading = true;
         try {
             const validateConnection = await validateConnectionStatus({
-                isConnectedCallback : isConnectedCallback
+                isConnectedCallback : isConnectedCallback,
+                systemConnected : systemConnected
             });
             const responseData = JSON.parse(validateConnection);
 
             if(responseData.isSuccess) {
-                const isConnected = responseData.results.isConnected;
+                const isStripeConnected = responseData.results.isStripeConnected;
+                const isSalesforceConnected = responseData.results.isSalesforceConnected;
                 this.isSandbox = responseData.results.isSandbox
                 this.salesforceNamespace = responseData.results.salesforceNamespace
 
-                if (isConnected === 'fresh') {
-                    this.salesforceComplete = true;
+                if (isStripeConnected === 'freshConnection') {
                     this.stripeComplete = true;
+                    this.showToast('Stripe to salesforce authorization successfully completed', 'success', 'dismissable');
+                } 
+
+                if (isSalesforceConnected === 'freshConnection') {
+                    this.salesforceComplete = true;
                     this.dispatchEvent(new CustomEvent('getmappingconfigurations'));
-                    this.showToast('Authorization successfully completed', 'success', 'dismissable');
-                } else if (isConnected === 'notConnected') {
-                    this.salesforceComplete = false;
+                    this.showToast('Salesforce to stripe Authorization successfully completed', 'success', 'dismissable');
+                }
+
+                if (isStripeConnected === 'stripeDisconnected') {
                     this.stripeComplete = false;
-                    this.showToast('Authorization expired. Please reauthorize your Stripe and Salesforce accounts.', 'error', 'sticky');
-                } else if (isConnected === 'failed') {
+                } else if (isStripeConnected === 'stripeConnected') {
+                    this.stripeComplete = true;
+                }
+
+                if (isSalesforceConnected === 'salesforceDisconnected') {
+                    this.salesforceComplete = false;
+                } else if (isSalesforceConnected === 'salesforceConnected') {
+                    this.salesforceComplete = true;
+                }
+
+                if (this.salesforceComplete === true && this.stripeComplete === true) {
+                    this.dispatchEvent(new CustomEvent("enablenext")); 
+                }
+
+                if (isStripeConnected === 'failed' && isSalesforceConnected === 'failed') {
                     this.salesforceComplete = false;
                     this.stripeComplete = false;
                     this.showToast('There was a problem checking connection status. Please refresh the page and try again.', 'error', 'sticky');
-                } else if (isConnected) {
-                    this.salesforceComplete = true;
-                    this.stripeComplete = true;
-                    this.dispatchEvent(new CustomEvent("enablenext"));
-                }
+                } 
             } else {
                 this.showToast(responseData.error, 'error', 'sticky');
             }

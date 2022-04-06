@@ -103,7 +103,7 @@ public with sharing class setupAssistant {
 
     //validates connection status 
     @AuraEnabled
-    public static String validateConnectionStatus(Boolean isConnectedCallback) {
+    public static String validateConnectionStatus(Boolean isConnectedCallback, String systemConnected) {
         responseData rd = new responseData();
         try {
             //gets custom setting record to determin if we are in a sandbox or production org
@@ -114,15 +114,7 @@ public with sharing class setupAssistant {
 
             // checks if we have a package-level API key generated
             if(stripeConnectRec.Id != null) {
-                /*checks to see if the user is already connected this runs on render of the component 
-                by passing a boolean param to denote this is being called on render*/
-                if((stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) && isConnectedCallback) {
-                    rd.put('isConnected', true);
-                    return rd.getJsonString();
-                } else if ((!stripeConnectRec.Salesforce_Connected__c && !stripeConnectRec.Stripe_Connected__c) && isConnectedCallback) {
-                    rd.put('isConnected', false);                
-                    return rd.getJsonString();
-                }
+
                 //make callout to ruby services configuration endpoint to see if the org is connected to Stripe and Salesforce
                 String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
                 HttpResponse response =  utilities.makeCallout(route, 'GET');
@@ -137,29 +129,56 @@ public with sharing class setupAssistant {
                     
                     //get connection status values from response
                     Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
-                    if((Boolean)connectionStatus.get('salesforce') != true) rd.put('isConnected','salesforceDisconnected');
-                    if((Boolean)connectionStatus.get('stripe') != true) rd.put('isConnected','stripeDisconnected');
+                    stripeConnectRec.Stripe_Connected__c = (Boolean)connectionStatus.get('stripe');
+                    stripeConnectRec.Salesforce_Connected__c = (Boolean)connectionStatus.get('salesforce');
+                    upsert stripeConnectRec;
 
+                    if(isConnectedCallback) {
+                        if(!(Boolean)connectionStatus.get('salesforce')) {
+                            rd.put('isSalesforceConnected','salesforceDisconnected');
+                        } else {
+                            rd.put('isSalesforceConnected','salesforceConnected');
+                        }
 
-                    /*if the response shows they are connected we will udpate the Setup Connection custom setting record to signify they are connected
-                    We return a connection status of fresh to determine if we should show a toast message of success or not*/
-                    if(!(Boolean)connectionStatus.get('stripe') || !(Boolean)connectionStatus.get('salesforce')) {
-                          rd.put('isConnected', false);
+                        if(!(Boolean)connectionStatus.get('stripe')) {
+                            rd.put('isStripeConnected','stripeDisconnected');
+                        } else {
+                            rd.put('isStripeConnected','stripeConnected');
+                        }
+
                     } else {
-                        stripeConnectRec.Stripe_Connected__c = (Boolean)connectionStatus.get('stripe');
-                        stripeConnectRec.Salesforce_Connected__c = (Boolean)connectionStatus.get('salesforce');
-                        upsert stripeConnectRec;
-                        rd.put('isConnected', 'fresh');
+                        /*if the response shows they are connected we will udpate the Setup Connection custom setting record to signify they are connected
+                        We return a connection status of freshConnection to determine if we should show a toast message of success or not*/
+                        if(systemConnected == 'stripe') {
+                            if (!(Boolean)connectionStatus.get('stripe')) {
+                                rd.put('isStripeConnected','stripeDisconnected');               
+                            } else {
+                                rd.put('isStripeConnected','freshConnection');
+                            }
+                            return rd.getJsonString();
+                        }
+                        
+                        if(systemConnected == 'salesforce') {
+                            if (!(Boolean)connectionStatus.get('salesforce')) {
+                                rd.put('isSalesforceConnected','salesforceDisconnected');
+                            } else {
+                                rd.put('isSalesforceConnected','freshConnection');
+                            }
+                            return rd.getJsonString();
+                        }
                     }
+
                 } else {
                     /*if we do not get a 200 status code back we create an Error Log record to show we did not get a success
                     response from the ruby service and send a status of failed to signify to show an error toast*/
-                    rd.put('isConnected', 'failed');
+                    rd.put('isStripeConnected','failed');
+                    rd.put('isSalesforceConnected','failed');
                     errorLogger.create('validateConnectionStatus', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Failed to get connection status from Ruby service.');
                 }
             } else {
                 //if there is no org default record we will generate the package key and create the record
-                rd.put('isConnected', false);
+                rd.put('isStripeConnected','stripeDisconnected');
+                rd.put('isSalesforceConnected','salesforceDisconnected');  
                 generatePackageKey(stripeConnectRec);
             }
         } catch (Exception e) {

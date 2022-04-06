@@ -78,17 +78,15 @@ public with sharing class test_setupAssistant {
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
-        String connectedCallbackResponse = setupAssistant.validateConnectionStatus(true);
-        String response = setupAssistant.validateConnectionStatus(false);
+        String connectedCallbackResponse = setupAssistant.validateConnectionStatus(true, '');
         Test.stopTest();
-        
-        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+
         Map<String, Object> connectedCallbackResponseMap = (Map<String, Object>)JSON.deserializeUntyped(connectedCallbackResponse);
-        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
-        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+        System.assert((Boolean)connectedCallbackResponseMap.get('isSuccess'), connectedCallbackResponseMap.get('error'));
+
         Map<String, Object> connectecCallbackResultsMap = (Map<String, Object>)connectedCallbackResponseMap.get('results');
-        System.assertEquals('fresh', resultsMap.get('isConnected'));
-        System.assertEquals(false, connectecCallbackResultsMap.get('isConnected'));
+        System.assertEquals('stripeConnected', connectecCallbackResultsMap.get('isStripeConnected'));
+        System.assertEquals('salesforceConnected', connectecCallbackResultsMap.get('isSalesforceConnected'));
     }
 
     @isTest
@@ -111,34 +109,80 @@ public with sharing class test_setupAssistant {
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
-        String response = setupAssistant.validateConnectionStatus(true);
+        String response = setupAssistant.validateConnectionStatus(true, '');
         Test.stopTest();
 
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
-        System.assertEquals(true, (Boolean)resultsMap.get('isConnected'));
+        System.assertEquals('stripeConnected', resultsMap.get('isStripeConnected'));
+        System.assertEquals('salesforceConnected', resultsMap.get('isSalesforceConnected'));
     }
 
     @isTest
-    static public void testSetupAssistant_failConnected() {
+    static public void testSetupAssistant_stripeNotConnected() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
         
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
                                                             FROM Setup_Connection_Data__mdt];  
         if(!setupConfigList.isEmpty()) {
             utilities.setupConfigMetadata[0] = testSetupData;
+            setupAssistant.setupConfigMetadata[0] = testSetupData;
         } else {
-            utilities.setupConfigMetadata.add(testSetupData);  
+            utilities.setupConfigMetadata.add(testSetupData);
+            setupAssistant.setupConfigMetadata.add(testSetupData);  
         }
 
+        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
+        stripeConnectRec.Stripe_Connected__c = true;
+        stripeConnectRec.Salesforce_Connected__c = true;
+        stripeConnectRec.API_Key__c = 'testPackageGUID';
+        upsert stripeConnectRec;
+
         Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new stripeConnectFailMock());  
-        String response = setupAssistant.validateConnectionStatus(false);
+        Test.setMock(HttpCalloutMock.class, new stripeNotConnectedMock());  
+        String stripeResponse = setupAssistant.validateConnectionStatus(false, 'stripe');
         Test.stopTest();
 
-        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
-        System.assert((Boolean)responseMap.get('isSuccess'));
+        Map<String, Object> stripeResponseMap = (Map<String, Object>)JSON.deserializeUntyped(stripeResponse);
+
+        System.assert((Boolean)stripeResponseMap.get('isSuccess'), stripeResponseMap.get('error'));
+
+        Map<String, Object> stripeResultsMap = (Map<String, Object>)stripeResponseMap.get('results');
+        System.assertEquals('stripeDisconnected', stripeResultsMap.get('isStripeConnected'));
+    }
+
+    @isTest
+    static public void testSetupAssistant_salesforceNotConnected() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        
+        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
+                                                            FROM Setup_Connection_Data__mdt];  
+        if(!setupConfigList.isEmpty()) {
+            utilities.setupConfigMetadata[0] = testSetupData;
+            setupAssistant.setupConfigMetadata[0] = testSetupData;
+        } else {
+            utilities.setupConfigMetadata.add(testSetupData);
+            setupAssistant.setupConfigMetadata.add(testSetupData);  
+        }
+
+        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
+        stripeConnectRec.Stripe_Connected__c = true;
+        stripeConnectRec.Salesforce_Connected__c = true;
+        stripeConnectRec.API_Key__c = 'testPackageGUID';
+        upsert stripeConnectRec;
+
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new stripeNotConnectedMock());  
+        String salesforceResponse = setupAssistant.validateConnectionStatus(false, 'salesforce');
+        Test.stopTest();
+
+        Map<String, Object> salesforceResponseMap = (Map<String, Object>)JSON.deserializeUntyped(salesforceResponse);
+
+        System.assert((Boolean)salesforceResponseMap.get('isSuccess'), salesforceResponseMap.get('error'));
+
+        Map<String, Object> salesforceResultsMap = (Map<String, Object>)salesforceResponseMap.get('results');
+        System.assertEquals('salesforceDisconnected', salesforceResultsMap.get('isSalesforceConnected'));
     }
 
     /*this is the case there is no 'connected' custom setting record stored
@@ -150,13 +194,16 @@ public with sharing class test_setupAssistant {
         List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
                                                             FROM Setup_Connection_Data__mdt];  
         if(!setupConfigList.isEmpty()) {
+            utilities.setupConfigMetadata[0] = testSetupData;
             setupAssistant.setupConfigMetadata[0] = testSetupData;
         } else {
+            utilities.setupConfigMetadata.add(testSetupData);
             setupAssistant.setupConfigMetadata.add(testSetupData);  
         }
+
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
-        String response = setupAssistant.validateConnectionStatus(true);
+        String response = setupAssistant.validateConnectionStatus(true, '');
         Test.stopTest();
         
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
@@ -395,9 +442,20 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_getSyncPreferences() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        
+        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
+                                                            FROM Setup_Connection_Data__mdt];  
+        if(!setupConfigList.isEmpty()) {
+            utilities.setupConfigMetadata[0] = testSetupData;
+        } else {
+            utilities.setupConfigMetadata.add(testSetupData);  
+        }
+
         Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
         stripeConnectRec.Stripe_Connected__c = true;
         stripeConnectRec.Salesforce_Connected__c = true;
+        stripeConnectRec.API_Key__c = 'testPackageGUID';
         upsert stripeConnectRec;
 
         Test.startTest();
@@ -405,7 +463,7 @@ public with sharing class test_setupAssistant {
         String response = setupAssistant.getSyncPreferences();
         Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
         Test.stopTest();
-
+        System.debug(responseMap);
         System.assert((Boolean)responseMap.get('isSuccess'));
 
         Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
@@ -596,6 +654,33 @@ public with sharing class test_setupAssistant {
                     res.setBody(Json.serialize(responseBody));
                     res.setStatusCode(200);
                 }
+                return res;
+            }
+        }
+
+        private class stripeNotConnectedMock implements HttpCalloutMock {
+            public HttpResponse respond(HttpRequest req) {
+                HttpResponse res = new HttpResponse();
+                if(req.getEndpoint().endsWith('configuration')) {
+
+                    Map<String,Object> responseBody = new Map<String,Object>();
+                    responseBody.put('connection_status', (Object)new Map<String,Object>{
+                        'salesforce' => false,
+                        'stripe' => false,
+                        'last_synced' => 'test',
+                        'stripe_account_id' => 1234
+                    });
+                    responseBody.put('settings', (Object)new Map<String,Object>{
+                        'default_currency' => 'USD',
+                        'sync_record_retention' => '2 days',
+                        'sync_start_date' => 'yesterday',
+                        'api_percentage_limit' => 1000515,
+                        'cpq_term_unit' => 'monthly' 
+                    });
+        
+                    res.setBody(Json.serialize(responseBody));
+                    res.setStatusCode(200);
+                } 
                 return res;
             }
         }
