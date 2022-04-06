@@ -368,6 +368,14 @@ class StripeForce::Translate
         raise 'unsupported global term uniq'
       end
 
+      # this can occur if interval_count and usage_type are both nil and are falling back on defaults
+      if !stripe_price.respond_to?(:recurring)
+        stripe_price.recurring = {
+          interval_count: nil,
+          usage_type: nil,
+        }
+      end
+
       # the "Billing Type" field mapped here by default is often empty, we use a nil value to default
       if !stripe_price.recurring.respond_to?(:usage_type)
         stripe_price.recurring.usage_type = nil
