@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 # typed: true
 
-def set_initial_poll_timestamp(sf_class)
+def set_initial_poll_timestamp(user, sf_class)
   poll_timestamp = StripeForce::PollTimestamp.build_with_user_and_record(
-    @user,
+    user,
     sf_class
   )
 

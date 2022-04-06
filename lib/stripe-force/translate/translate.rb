@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 # typed: true
 
+require_relative '../constants'
 require_relative './utilities/metadata'
 require_relative './utilities/stripe_util'
 require_relative './utilities/salesforce_util'
+
+require_relative './mapper'
 
 class StripeForce::Translate
   extend T::Sig
@@ -16,28 +19,6 @@ class StripeForce::Translate
   include StripeForce::Utilities::Metadata
   include StripeForce::Utilities::StripeUtil
   include StripeForce::Utilities::SalesforceUtil
-
-  def self.salesforce_type_from_id(sf_id)
-    case sf_id
-    when /^01s/
-      SF_PRICEBOOK
-    when /^01t/
-      SF_PRODUCT
-    when /^01u/
-      SF_PRICEBOOK_ENTRY
-    when /^001/
-      SF_ACCOUNT
-    when /^003/
-      SF_CONTACT
-    when /^801/
-      SF_ORDER
-    when /^802/
-      SF_ORDER_ITEM
-    else
-      # https://help.salesforce.com/s/articleView?id=000325244&type=1
-      raise "unknown object type #{sf_id}"
-    end
-  end
 
   # convenience method for console debugging
   def self.sf_get(user, sf_id)
@@ -608,11 +589,9 @@ class StripeForce::Translate
     end
 
     sf_quote = sf.find(CPQ_QUOTE, sf_order[CPQ_QUOTE])
-    sf_account = sf.find(SF_ACCOUNT, sf_order['AccountId'])
+    sf_account = sf.find(SF_ACCOUNT, sf_order[SF_ORDER_ACCOUNT])
 
     stripe_customer = create_customer_from_sf_account(sf_account)
-
-    # https://salesforce.stackexchange.com/questions/251904/get-sales-order-line-on-rest-api
 
     # TODO should move to cache service
     sf_order_items = sf.query("SELECT Id FROM OrderItem WHERE OrderID = '#{sf_order.Id}'").map(&:Id).map do |order_line_id|
@@ -703,6 +682,7 @@ class StripeForce::Translate
     else
       log.info 'no recurring items found, creating a one-time invoice'
 
+      # TODO there has got to be a way to include the lines on the invoice item create call
       invoice_items.each do |invoice_item_params|
         # TODO idempotency keys https://jira.corp.stripe.com/browse/PLATINT-1474
         Stripe::InvoiceItem.create({customer: stripe_customer}.merge(invoice_item_params), @user.stripe_credentials)
@@ -762,8 +742,8 @@ class StripeForce::Translate
     mapper.apply_mapping(record_to_map, source_record)
   end
 
-  sig { returns(Integrations::Mapper) }
+  sig { returns(StripeForce::Mapper) }
   def mapper
-    @mapper ||= Integrations::Mapper.new(@user)
+    @mapper ||= StripeForce::Mapper.new(@user)
   end
 end

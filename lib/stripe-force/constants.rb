@@ -27,6 +27,7 @@ module StripeForce
     SF_PRICEBOOK_ENTRY = 'PricebookEntry'
 
     SF_ID = 'Id'
+    SF_ORDER_ACCOUNT = 'AccountId'
 
     CPQ_QUOTE = 'SBQQ__Quote__c'
 

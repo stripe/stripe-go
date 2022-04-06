@@ -7,7 +7,7 @@ module Critic::Unit
   class MapperTest < Critic::UnitTest
     before do
       @user = make_user(random_user_id: true)
-      @mapper = Integrations::Mapper.new(@user)
+      @mapper = StripeForce::Mapper.new(@user)
     end
 
     it 'properly saves the annotator hashes' do
@@ -245,35 +245,32 @@ module Critic::Unit
       assert_equal("bar", ns_line.description)
     end
 
-    it 'allows payment intent metadata to be pulled via a charge' do
-      skip("dot syntax is not working yet")
+    it 'supports dot path syntax when extracting data from salesforce' do
+      # create a customer with a parent reference
+      parent_id = create_salesforce_account
+      child_id = create_salesforce_account
 
-      payment_intent_id = create_id(:pi)
+      sf.update!(SF_ACCOUNT, {
+        SF_ID => parent_id,
+        "Description" => "parent description",
+      })
 
-      payment_intent = Stripe::PaymentIntent.construct_from(
-        id: payment_intent_id,
-        metadata: {
-          foo: 'bar',
-        }
-      )
+      sf.update!(SF_ACCOUNT, {
+        SF_ID => child_id,
+        "ParentId" => parent_id,
+      })
 
-      Stripe::PaymentIntent.expects(:retrieve).once.returns(payment_intent)
-
-      charge = Stripe::Charge.construct_from(
-        id: create_id(:ch),
-        payment_intent: payment_intent_id,
-        metadata: {}
-      )
-
-      @user.field_mappings['customer_payment'] = {
-        'payment_intent.metadata.foo' => 'custbody_foo',
+      @user.field_mappings['customer'] = {
+        'metadata.parent_description' => 'Parent.Description',
       }
+      @user.save
 
-      ns_customer_payment = NetSuite::Records::CustomerPayment.new
+      stripe_customer = Stripe::Customer.new
+      sf_customer = sf_get(child_id)
 
-      @annotator.annotate(ns_customer_payment, charge)
+      @mapper.apply_mapping(stripe_customer, sf_customer)
 
-      assert_equal('bar', ns_customer_payment.custom_field_list.custbody_foo.value)
+      assert_equal("parent description", stripe_customer.metadata['parent_description'])
     end
   end
 end

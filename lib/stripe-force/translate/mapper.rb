@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 # typed: true
 
-require_relative './utilities'
-
-module Integrations
+module StripeForce
   class Mapper
     extend T::Sig
 
@@ -11,6 +9,8 @@ module Integrations
     include Integrations::ErrorContext
     include Integrations::Utilities
     include Integrations::Utilities::StripeUtil
+
+    include StripeForce::Utilities::SalesforceUtil
 
     attr_reader :user
 
@@ -37,9 +37,50 @@ module Integrations
       if record.is_a?(Stripe::APIResource)
         extract_stripe_resource_field(record, key_path)
       elsif record.is_a?(Restforce::SObject)
-        raise 'dot path not supported! Implement!' if key_path.include?('.')
-        record[key_path]
+        extract_salesforce_object_field(record, key_path)
       end
+    end
+
+    def extract_salesforce_object_field(sf_object, key_path)
+      components = key_path.split('.').map(&:strip)
+      target_object = sf_object
+
+      components.each_with_index do |field_name, i|
+        is_last_component = i == components.size - 1
+
+        normalized_field_name = if !is_last_component && !field_name.end_with?('__c')
+          field_name + "Id"
+        else
+          field_name
+        end
+
+        if sf_object.key?(normalized_field_name)
+          target_object = target_object[normalized_field_name]
+        else
+          log.info 'field does not exist',
+            field_component: field_name,
+            field_path: key_path,
+            target_object: target_object.class
+          target_object = nil
+        end
+
+        if target_object.nil?
+          break
+        end
+
+        # if we aren't at the last component in the key path, sniff for Stripe object references
+        # object references are always string, so we can ignore any other object types
+
+        if !is_last_component
+          target_class = salesforce_type_from_id(target_object)
+
+          if target_class
+            target_object = @user.sf_client.find(target_class, target_object)
+          end
+        end
+      end
+
+      target_object
     end
 
     sig { params(record_to_map: Stripe::APIResource, source_record: T.nilable(Restforce::SObject)).void }
