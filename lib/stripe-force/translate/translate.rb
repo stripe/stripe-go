@@ -123,8 +123,6 @@ class StripeForce::Translate
   end
 
   def translate_order(sf_object)
-    log.info 'translating order', salesforce_object: sf_object
-
     create_stripe_transaction_from_sf_order(sf_object)
   end
 
@@ -200,7 +198,7 @@ class StripeForce::Translate
     stripe_id_field = prefixed_stripe_field(GENERIC_STRIPE_ID)
 
     if sf_object[stripe_id_field]
-      log.info 'stripe id already exists on object, overwritting',
+      log.info 'stripe id already exists on object, overwriting',
         old_stripe_id: sf_object[stripe_id_field],
         new_stripe_id: stripe_object.id,
         field_name: stripe_id_field
@@ -245,6 +243,7 @@ class StripeForce::Translate
     stripe_class.create(stripe_object.serialize_params, @user.stripe_credentials)
   end
 
+  sig { params(stripe_class: T.class_of(Stripe::APIResource), sf_object: Restforce::SObject).returns(T.nilable(Stripe::APIResource)) }
   def retrieve_from_stripe(stripe_class, sf_object)
     stripe_id = sf_object[prefixed_stripe_field(GENERIC_STRIPE_ID)]
     return if stripe_id.nil?
@@ -504,10 +503,11 @@ class StripeForce::Translate
     end
 
     if existing_stripe_price
+      existing_stripe_price = T.cast(existing_stripe_price, Stripe::Price)
       generated_stripe_price = generate_price_params_from_sf_object(sf_pricebook_entry, sf_product)
 
       # this should never happen if our identical check is correct, unless the data in Salesforce is mutated over time
-      if  BigDecimal(existing_stripe_price.unit_amount_decimal.to_s) != BigDecimal(generated_stripe_price.unit_amount_decimal.to_s) ||
+      if BigDecimal(existing_stripe_price.unit_amount_decimal.to_s) != BigDecimal(generated_stripe_price.unit_amount_decimal.to_s) ||
           existing_stripe_price.recurring.interval != generated_stripe_price.recurring.interval ||
           existing_stripe_price.recurring.interval_count != generated_stripe_price.recurring.interval_count
         raise "expected generated prices to be equal, but they differed"
@@ -586,6 +586,8 @@ class StripeForce::Translate
 
   # TODO How can we organize code to support CPQ & non-CPQ use-cases? how can this be abstracted away from the order?
   def create_stripe_transaction_from_sf_order(sf_order)
+    log.info 'translating order', salesforce_object: sf_order
+
     if sf_order.Status != OrderStatusOptions::ACTIVATED.serialize
       log.info 'order is not activated, skipping'
       return
@@ -595,20 +597,14 @@ class StripeForce::Translate
       raise "only initial orders are supported right now"
     end
 
-    stripe_transaction_id = sf_order[prefixed_stripe_field(GENERIC_STRIPE_ID)]
-    stripe_transaction = stripe_object_from_id(stripe_transaction_id)
-
-    if !stripe_transaction.nil? && [Stripe::SubscriptionSchedule, Stripe::Invoice].include?(stripe_transaction.class)
-      log.info 'order already translated',
-        stripe_resource_id: stripe_transaction_id,
-        salesforce_order_id: sf_order.Id
-      return
-    end
+    stripe_transaction = retrieve_from_stripe(Stripe::Invoice, sf_order)
+    stripe_transaction ||= retrieve_from_stripe(Stripe::SubscriptionSchedule, sf_order)
 
     if !stripe_transaction.nil?
-      log.info 'order contains incorrect stripe object reference, overwriting',
-        stripe_resource_id: stripe_transaction_id,
+      log.info 'order already translated',
+        stripe_transaction_id: stripe_transaction.id,
         salesforce_order_id: sf_order.Id
+      return
     end
 
     sf_quote = sf.find(CPQ_QUOTE, sf_order[CPQ_QUOTE])
@@ -686,7 +682,7 @@ class StripeForce::Translate
         ],
 
         metadata: stripe_metadata_for_sf_object(sf_order),
-      }, @user.stripe_credentials)
+      }, @user.stripe_credentials.merge(idempotency_key: sf_order[SF_ID]))
 
       # TODO should we propogate the metadata down to the subscription?
 

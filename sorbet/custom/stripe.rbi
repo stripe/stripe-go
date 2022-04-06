@@ -1,5 +1,10 @@
 # typed: true
 
+# TODO I think this is true? Validate before pulling this into upstream
+class Stripe::APIResource
+  def save; end
+end
+
 class Stripe::Price
   sig { returns(Stripe::Price).params(id: T.any(String, T::Hash[Symbol, T.untyped]), opts: T.nilable(T::Hash[Symbol, T.untyped])) }
   def self.retrieve(id, opts={}); end

@@ -93,6 +93,11 @@ class Critic::OrderTranslation < Critic::FunctionalTest
     assert_match(@user.salesforce_instance_url, stripe_price.metadata['salesforce_pricebook_entry_link'])
     assert_match(sf_pricebook_entry_id, stripe_price.metadata['salesforce_pricebook_entry_link'])
     assert_equal(stripe_price.metadata['salesforce_pricebook_entry_id'], sf_pricebook_entry_id)
+
+    # lets ensure a duplicate subscription schedule is not created
+    Stripe::SubscriptionSchedule.expects(:create).never
+
+    SalesforceTranslateRecordJob.translate(@user, sf_order)
   end
 
   it 'integrates a subscription order with multiple lines' do
