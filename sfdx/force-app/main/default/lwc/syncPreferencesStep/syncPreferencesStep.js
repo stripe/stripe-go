@@ -20,11 +20,11 @@ export default class SyncPreferencesStep extends LightningElement {
     @track intervalOptions = [
         {
             label: 'Month',
-            value: 'Month'
+            value: 'month'
         },
         {
             label: 'Day',
-            value: 'Day'
+            value: 'day'
         }
     ];
  
