@@ -200,7 +200,7 @@ function checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings,
             if (responseJson['components']['schemas'][expandableField] && responseJson['components']['schemas'][expandableField]['properties']
             && expandableField !== 'coupon'&& !excludedReadOnlyFields.all.includes(expandableField) && !objectExcludedReadOnlyFields.includes(expandableField)) {
                 var newNestedExpandableFieldMap = responseJson['components']['schemas'][expandableField]['properties'];
-                var newNestedFieldName = field + '.' + expandableField.charAt(0).toUpperCase() + expandableField.slice(1).replace(/_+/g, ' ');
+                var newNestedFieldName = field + '.' + expandableField.charAt(0) + expandableField.slice(1).replace(/_+/g, ' ');
                 stripeObjectMappings = checkforNestedFields(newNestedFieldName, stripeObjectToFormat, stripeObjectMappings, newNestedExpandableFieldMap, objectExcludedReadOnlyFields);
             }
         }

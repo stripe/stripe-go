@@ -299,12 +299,12 @@
     },
     {
       "label": "Shipping Address",
-      "name": "shipping.Address",
+      "name": "shipping.address",
       "description": "",
       "fields": [
         {
           "name": "city",
-          "value": "shipping.Address.city",
+          "value": "shipping.address.city",
           "description": "<p>City, district, suburb, town, or village.</p>",
           "type": "string",
           "defaultValue": "",
@@ -316,7 +316,7 @@
         },
         {
           "name": "country",
-          "value": "shipping.Address.country",
+          "value": "shipping.address.country",
           "description": "<p>Two-letter country code (<a href=\"https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2\">ISO 3166-1 alpha-2</a>).</p>",
           "type": "string",
           "defaultValue": "",
@@ -328,7 +328,7 @@
         },
         {
           "name": "line1",
-          "value": "shipping.Address.line1",
+          "value": "shipping.address.line1",
           "description": "<p>Address line 1 (e.g., street, PO Box, or company name).</p>",
           "type": "string",
           "defaultValue": "",
@@ -340,7 +340,7 @@
         },
         {
           "name": "line2",
-          "value": "shipping.Address.line2",
+          "value": "shipping.address.line2",
           "description": "<p>Address line 2 (e.g., apartment, suite, unit, or building).</p>",
           "type": "string",
           "defaultValue": "",
@@ -352,7 +352,7 @@
         },
         {
           "name": "postal code",
-          "value": "shipping.Address.postal_code",
+          "value": "shipping.address.postal_code",
           "description": "<p>ZIP or postal code.</p>",
           "type": "string",
           "defaultValue": "",
@@ -364,7 +364,7 @@
         },
         {
           "name": "state",
-          "value": "shipping.Address.state",
+          "value": "shipping.address.state",
           "description": "<p>State, county, province, or region.</p>",
           "type": "string",
           "defaultValue": "",
@@ -422,7 +422,7 @@
         {
           "name": "name",
           "value": "name",
-          "description": "<p>The product's name, meant to be displayable to the customer. Whenever this product is sold via a subscription, name will show up on associated invoice line item descriptions.</p>",
+          "description": "<p>The product's name, meant to be displayable to the customer.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
