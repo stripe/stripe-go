@@ -298,7 +298,7 @@
       ]
     },
     {
-      "label": "Shipping Address",
+      "label": "Shipping address",
       "name": "shipping.address",
       "description": "",
       "fields": [

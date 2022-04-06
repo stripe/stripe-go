@@ -33,7 +33,7 @@ const excludedReadOnlyFields = {
 const OPTIONS = {
     hostname: 'raw.githubusercontent.com',
     port: 443,
-    path: 'stripe/openapi/master/openapi/spec3.json',
+    path: 'stripe/openapi/d41298323ca953bf0b475b685a63515aed1e0c73/openapi/spec3.json',
     method: 'GET'
 }
 var responseJson = '';
