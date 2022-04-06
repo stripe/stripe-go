@@ -382,7 +382,13 @@ type SetupIntentNextActionRedirectToURL struct {
 }
 
 // When confirming a SetupIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
-type SetupIntentNextActionUseStripeSDK struct{}
+type SetupIntentNextActionUseStripeSDK struct{
+	
+	Type string `json:"type"` // Should be Map, not String.
+	StripeJS string `json:"stripe_js"`
+	Source string `json:"source"`
+	
+}
 type SetupIntentNextActionVerifyWithMicrodeposits struct {
 	// The timestamp when the microdeposits are expected to land.
 	ArrivalDate int64 `json:"arrival_date"`
