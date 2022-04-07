@@ -4,6 +4,17 @@
 require_relative '../test_helper'
 
 class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
+  describe "#translate_all" do
+    before do
+      @user = make_user(save: true)
+    end
+
+    it 'queues job for translation' do
+      post api_translate_all_path, as: :json, params: {object_type: SF_ORDER}, headers: authentication_headers
+      assert_response :success
+    end
+  end
+
   describe '#translate' do
     before do
       @user = make_user(save: true)
@@ -22,7 +33,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       post api_translate_path, as: :json, params: {object_type: 'invalid', object_ids: ["123"]}, headers: authentication_headers
       assert_response :bad_request
 
-      post api_translate_path, as: :json, params: {object_type: 'Order', object_ids: 'not an array'}, headers: authentication_headers
+      post api_translate_path, as: :json, params: {object_type: SF_ORDER, object_ids: 'not an array'}, headers: authentication_headers
       assert_response :bad_request
     end
 

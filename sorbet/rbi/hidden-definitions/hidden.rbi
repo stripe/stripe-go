@@ -20155,12 +20155,6 @@ module GeneratedUrlHelpers
 
   def auth_failure_url(*args); end
 
-  def auth_salesforcesandbox_callback_path(*args); end
-
-  def auth_salesforcesandbox_callback_url(*args); end
-
-  def omniauth_url(*args); end
-
   def rails_info_path(*args); end
 
   def rails_info_properties_path(*args); end

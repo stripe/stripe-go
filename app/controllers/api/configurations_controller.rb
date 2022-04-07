@@ -18,11 +18,23 @@ module Api
       head :bad_request
     end
 
+    def translate_all
+      sf_record_type = params.require([:object_type])
+
+      if ![SF_ORDER, SF_ACCOUNT, SF_PRODUCT, SF_PRICEBOOK_ENTRY].include?(sf_record_type)
+        log.error 'invalid object type', object_type: sf_record_type
+        head :bad_request
+        nil
+      end
+
+      head :ok
+    end
+
     # TODO should really belong in a separate controller, but this is the only method that doesn't fit so we are stuffing it here
     def translate
       sf_record_type, sf_record_ids = params.require([:object_type, :object_ids])
 
-      if ![SF_ORDER, SF_ACCOUNT, SF_PRODUCT].include?(sf_record_type)
+      if ![SF_ORDER, SF_ACCOUNT, SF_PRODUCT, SF_PRICEBOOK_ENTRY].include?(sf_record_type)
         log.error 'invalid object type', object_type: sf_record_type
         head :bad_request
         return

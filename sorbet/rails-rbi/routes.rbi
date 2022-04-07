@@ -33,12 +33,26 @@ module GeneratedUrlHelpers
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def root_url(*args, **kwargs); end
 
+  # Sigs for route /auth/:oauth_type(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def omniauth_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def omniauth_url(*args, **kwargs); end
+
   # Sigs for route /auth/salesforce/callback(.:format)
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def auth_salesforce_callback_path(*args, **kwargs); end
 
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def auth_salesforce_callback_url(*args, **kwargs); end
+
+  # Sigs for route /auth/salesforcesandbox/callback(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def auth_salesforcesandbox_callback_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def auth_salesforcesandbox_callback_url(*args, **kwargs); end
 
   # Sigs for route /auth/stripe/callback(.:format)
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
@@ -67,4 +81,11 @@ module GeneratedUrlHelpers
 
   sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
   def api_translate_url(*args, **kwargs); end
+
+  # Sigs for route /v1/translate_all(.:format)
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def api_translate_all_path(*args, **kwargs); end
+
+  sig { params(args: T.untyped, kwargs: T.untyped).returns(String) }
+  def api_translate_all_url(*args, **kwargs); end
 end

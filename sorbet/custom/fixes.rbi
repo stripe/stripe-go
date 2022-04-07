@@ -56,10 +56,6 @@ class Restforce::SObject
   def initialize(source_hash = nil, client = nil, default = nil, &blk); end
 end
 
-module GeneratedUrlHelpers
-  def omniauth_path(*args); end
-end
-
 # TODO upstream to sorbet-typed
 class Critic::UnitTest
   sig do

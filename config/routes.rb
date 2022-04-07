@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     resource :configuration, only: [:show, :update]
     post 'post-install' => 'configurations#post_install'
     post 'translate' => 'configurations#translate'
+    post 'translate_all' => 'configurations#translate_all'
   end
 
   # TODO need basic auth
