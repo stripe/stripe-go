@@ -878,7 +878,7 @@ type CheckoutSessionTaxIDCollection struct {
 	Enabled bool `json:"enabled"`
 }
 
-// The aggregated line item discounts.
+// The aggregated discounts.
 type CheckoutSessionTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
@@ -890,7 +890,7 @@ type CheckoutSessionTotalDetailsBreakdownDiscount struct {
 	Discount *Discount `json:"discount"`
 }
 
-// The aggregated line item tax amounts by rate.
+// The aggregated tax amounts by rate.
 type CheckoutSessionTotalDetailsBreakdownTax struct {
 	// Amount of tax applied for this rate.
 	Amount int64 `json:"amount"`
@@ -901,19 +901,19 @@ type CheckoutSessionTotalDetailsBreakdownTax struct {
 	TaxRate *TaxRate `json:"tax_rate"` // Do not use: use `Rate`
 }
 type CheckoutSessionTotalDetailsBreakdown struct {
-	// The aggregated line item discounts.
+	// The aggregated discounts.
 	Discounts []*CheckoutSessionTotalDetailsBreakdownDiscount `json:"discounts"`
-	// The aggregated line item tax amounts by rate.
+	// The aggregated tax amounts by rate.
 	Taxes []*CheckoutSessionTotalDetailsBreakdownTax `json:"taxes"`
 }
 
 // Tax and discount details for the computed total amount.
 type CheckoutSessionTotalDetails struct {
-	// This is the sum of all the line item discounts.
+	// This is the sum of all the discounts.
 	AmountDiscount int64 `json:"amount_discount"`
-	// This is the sum of all the line item shipping amounts.
+	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
-	// This is the sum of all the line item tax amounts.
+	// This is the sum of all the tax amounts.
 	AmountTax int64                                 `json:"amount_tax"`
 	Breakdown *CheckoutSessionTotalDetailsBreakdown `json:"breakdown"`
 }
@@ -1031,7 +1031,7 @@ type CheckoutSession struct {
 	TaxIDCollection *CheckoutSessionTaxIDCollection `json:"tax_id_collection"`
 	// Tax and discount details for the computed total amount.
 	TotalDetails *CheckoutSessionTotalDetails `json:"total_details"`
-	// The URL to the Checkout Session.
+	// The URL to the Checkout Session. Redirect customers to this URL to take them to Checkout. If you're using [Custom Domains](https://stripe.com/docs/payments/checkout/custom-domains), the URL will use your subdomain. Otherwise, it'll use `checkout.stripe.com.`
 	URL string `json:"url"`
 }
 

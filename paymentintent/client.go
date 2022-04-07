@@ -64,6 +64,22 @@ func (c Client) Update(id string, params *stripe.PaymentIntentParams) (*stripe.P
 	return paymentintent, err
 }
 
+// ApplyCustomerBalance is the method for the `POST /v1/payment_intents/{intent}/apply_customer_balance` API.
+func ApplyCustomerBalance(id string, params *stripe.PaymentIntentApplyCustomerBalanceParams) (*stripe.PaymentIntent, error) {
+	return getC().ApplyCustomerBalance(id, params)
+}
+
+// ApplyCustomerBalance is the method for the `POST /v1/payment_intents/{intent}/apply_customer_balance` API.
+func (c Client) ApplyCustomerBalance(id string, params *stripe.PaymentIntentApplyCustomerBalanceParams) (*stripe.PaymentIntent, error) {
+	path := stripe.FormatURLPath(
+		"/v1/payment_intents/%s/apply_customer_balance",
+		id,
+	)
+	paymentintent := &stripe.PaymentIntent{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	return paymentintent, err
+}
+
 // Cancel is the method for the `POST /v1/payment_intents/{intent}/cancel` API.
 func Cancel(id string, params *stripe.PaymentIntentCancelParams) (*stripe.PaymentIntent, error) {
 	return getC().Cancel(id, params)

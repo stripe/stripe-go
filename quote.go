@@ -236,7 +236,7 @@ type QuoteAutomaticTax struct {
 	Status QuoteAutomaticTaxStatus `json:"status"`
 }
 
-// The aggregated line item discounts.
+// The aggregated discounts.
 type QuoteComputedRecurringTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
@@ -248,7 +248,7 @@ type QuoteComputedRecurringTotalDetailsBreakdownDiscount struct {
 	Discount *Discount `json:"discount"`
 }
 
-// The aggregated line item tax amounts by rate.
+// The aggregated tax amounts by rate.
 type QuoteComputedRecurringTotalDetailsBreakdownTax struct {
 	// Amount of tax applied for this rate.
 	Amount int64 `json:"amount"`
@@ -258,17 +258,17 @@ type QuoteComputedRecurringTotalDetailsBreakdownTax struct {
 	Rate *TaxRate `json:"rate"`
 }
 type QuoteComputedRecurringTotalDetailsBreakdown struct {
-	// The aggregated line item discounts.
+	// The aggregated discounts.
 	Discounts []*QuoteComputedRecurringTotalDetailsBreakdownDiscount `json:"discounts"`
-	// The aggregated line item tax amounts by rate.
+	// The aggregated tax amounts by rate.
 	Taxes []*QuoteComputedRecurringTotalDetailsBreakdownTax `json:"taxes"`
 }
 type QuoteComputedRecurringTotalDetails struct {
-	// This is the sum of all the line item discounts.
+	// This is the sum of all the discounts.
 	AmountDiscount int64 `json:"amount_discount"`
-	// This is the sum of all the line item shipping amounts.
+	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
-	// This is the sum of all the line item tax amounts.
+	// This is the sum of all the tax amounts.
 	AmountTax int64                                        `json:"amount_tax"`
 	Breakdown *QuoteComputedRecurringTotalDetailsBreakdown `json:"breakdown"`
 }
@@ -286,7 +286,7 @@ type QuoteComputedRecurring struct {
 	TotalDetails  *QuoteComputedRecurringTotalDetails `json:"total_details"`
 }
 
-// The aggregated line item discounts.
+// The aggregated discounts.
 type QuoteComputedUpfrontTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
@@ -298,7 +298,7 @@ type QuoteComputedUpfrontTotalDetailsBreakdownDiscount struct {
 	Discount *Discount `json:"discount"`
 }
 
-// The aggregated line item tax amounts by rate.
+// The aggregated tax amounts by rate.
 type QuoteComputedUpfrontTotalDetailsBreakdownTax struct {
 	// Amount of tax applied for this rate.
 	Amount int64 `json:"amount"`
@@ -308,17 +308,17 @@ type QuoteComputedUpfrontTotalDetailsBreakdownTax struct {
 	Rate *TaxRate `json:"rate"`
 }
 type QuoteComputedUpfrontTotalDetailsBreakdown struct {
-	// The aggregated line item discounts.
+	// The aggregated discounts.
 	Discounts []*QuoteComputedUpfrontTotalDetailsBreakdownDiscount `json:"discounts"`
-	// The aggregated line item tax amounts by rate.
+	// The aggregated tax amounts by rate.
 	Taxes []*QuoteComputedUpfrontTotalDetailsBreakdownTax `json:"taxes"`
 }
 type QuoteComputedUpfrontTotalDetails struct {
-	// This is the sum of all the line item discounts.
+	// This is the sum of all the discounts.
 	AmountDiscount int64 `json:"amount_discount"`
-	// This is the sum of all the line item shipping amounts.
+	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
-	// This is the sum of all the line item tax amounts.
+	// This is the sum of all the tax amounts.
 	AmountTax int64                                      `json:"amount_tax"`
 	Breakdown *QuoteComputedUpfrontTotalDetailsBreakdown `json:"breakdown"`
 }
@@ -365,7 +365,7 @@ type QuoteSubscriptionData struct {
 	TrialPeriodDays int64 `json:"trial_period_days"`
 }
 
-// The aggregated line item discounts.
+// The aggregated discounts.
 type QuoteTotalDetailsBreakdownDiscount struct {
 	// The amount discounted.
 	Amount int64 `json:"amount"`
@@ -377,7 +377,7 @@ type QuoteTotalDetailsBreakdownDiscount struct {
 	Discount *Discount `json:"discount"`
 }
 
-// The aggregated line item tax amounts by rate.
+// The aggregated tax amounts by rate.
 type QuoteTotalDetailsBreakdownTax struct {
 	// Amount of tax applied for this rate.
 	Amount int64 `json:"amount"`
@@ -387,17 +387,17 @@ type QuoteTotalDetailsBreakdownTax struct {
 	Rate *TaxRate `json:"rate"`
 }
 type QuoteTotalDetailsBreakdown struct {
-	// The aggregated line item discounts.
+	// The aggregated discounts.
 	Discounts []*QuoteTotalDetailsBreakdownDiscount `json:"discounts"`
-	// The aggregated line item tax amounts by rate.
+	// The aggregated tax amounts by rate.
 	Taxes []*QuoteTotalDetailsBreakdownTax `json:"taxes"`
 }
 type QuoteTotalDetails struct {
-	// This is the sum of all the line item discounts.
+	// This is the sum of all the discounts.
 	AmountDiscount int64 `json:"amount_discount"`
-	// This is the sum of all the line item shipping amounts.
+	// This is the sum of all the shipping amounts.
 	AmountShipping int64 `json:"amount_shipping"`
-	// This is the sum of all the line item tax amounts.
+	// This is the sum of all the tax amounts.
 	AmountTax int64                       `json:"amount_tax"`
 	Breakdown *QuoteTotalDetailsBreakdown `json:"breakdown"`
 }
