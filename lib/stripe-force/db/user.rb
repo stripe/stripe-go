@@ -21,16 +21,26 @@ module StripeForce
     SF_CONSUMER_KEY = ENV.fetch('SF_CONSUMER_KEY')
     SF_CONSUMER_SECRET = ENV.fetch('SF_CONSUMER_SECRET')
 
+    DEFAULT_CONNECTOR_SETTINGS = {
+      api_percentage_limit: 95,
+      sync_start_date: nil,
+      sync_record_retention: 10_000,
+      default_currency: 'USD',
+      CONNECTOR_SETTING_CPQ_TERM_UNIT => 'month',
+      "filters": {
+        SF_ACCOUNT => nil,
+        SF_ORDER => nil,
+        SF_PRODUCT => nil,
+      },
+    }.stringify_keys
+
     def after_initialize
       if self.new?
         self.enable_feature(:loud_sandbox_logging)
-        self.connector_settings = {
-          api_percentage_limit: 95,
-          sync_start_date: Time.now.to_i,
-          sync_record_retention: 10_000,
-          default_currency: 'USD',
-          CONNECTOR_SETTING_CPQ_TERM_UNIT => 'month',
-        }
+        self.connector_settings = DEFAULT_CONNECTOR_SETTINGS
+      else
+        # TODO during rapid development we want to make it easy to introduce new sets of default configuration
+        self.connector_settings = DEFAULT_CONNECTOR_SETTINGS.deep_merge(self.connector_settings)
       end
 
       self.feature_flags.map!(&:to_sym)

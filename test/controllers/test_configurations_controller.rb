@@ -166,7 +166,12 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       assert_equal(95, result['settings']['api_percentage_limit'])
       assert_equal(10_000, result['settings']['sync_record_retention'])
       assert_equal('USD', result['settings']['default_currency'])
-      assert(result['settings']['sync_start_date'] > Time.now.to_i - 1)
+      assert_nil(result['settings']['sync_start_date'])
+
+      refute_nil(result['settings']['filters'])
+      assert_nil(result['settings']['filters'][SF_ORDER])
+      assert_nil(result['settings']['filters'][SF_ACCOUNT])
+      assert_nil(result['settings']['filters'][SF_PRODUCT])
     end
 
     it 'updates settings' do
