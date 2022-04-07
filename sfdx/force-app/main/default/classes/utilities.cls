@@ -38,86 +38,88 @@ public with sharing class utilities {
         return (sObject)JSON.deserialize(JSON.serialize(objMap), Type.forName(sObjectName));
     }
 
-      /*gets us a map of all the fields and only gets lookup relationships that we care about*/
+    /*gets us a map of all the fields and only gets lookup relationships that we care about*/
     public static Set<Object> getListOfFieldsByObject(String objectApiName) {
         Set<Object> objectFieldMapList = new Set<Object>(); 
-        //check if we have access to the object 
-        if (Schema.describeSObjects(new List<String>{ objectApiName })[0].isAccessible()) {
-            //get all fields on object
-            Map<String, Schema.SObjectType> objectSchemaMap = Schema.getGlobalDescribe();
-            Schema.SObjectType objectSchema = objectSchemaMap.get(objectApiName);
-            Map<String, Schema.SObjectField> objectApiFieldMap = objectSchema.getDescribe().fields.getMap();
-            Boolean isObjectCustom = (Boolean)objectSchema.getDescribe().isCustom();
-            for (String objectFieldName : objectApiFieldMap.keySet()) {
-                 Map<String, Object> objectFieldMap = new Map<String,Object>(); 
-                //check we have access to the field
-                if(objectApiFieldMap.get(objectFieldName).getDescribe().isAccessible()) {
-                    //get field type 
-                    String typeOfField = String.valueOf(objectApiFieldMap.get(objectFieldName).getDescribe().getType()).toLowercase();
-                    //check if field is a custom field or not
-                    Boolean isFieldCustom = (Boolean)objectApiFieldMap.get(objectFieldName).getDescribe().isCustom();
-                    //check if its a lookup field
-                    if(typeOfField == 'reference') {
-                        //get list of objects that the field looks up to 
-                        List<Object> objectsFieldReferences = objectApiFieldMap.get(objectFieldName).getDescribe().getReferenceTo();
-                        //iterate over objects the field looks up to and only add to list if its a field we care about
-                        for(Object referencedObject : objectsFieldReferences) {
-                            //make sure the field only looks up to 1 object before adding it to map 
-                            if(objectsFieldReferences.size() == 1) {
-                                String stringReferncedObjecect = String.valueOf(referencedObject);
-                                String relationshipName = objectApiFieldMap.get(objectFieldName).getDescribe().getRelationshipName();
+        try {
+            //check if we have access to the object 
+            if (Schema.describeSObjects(new List<String>{ objectApiName })[0].isAccessible()) {
+                //get all fields on object
+                Map<String, Schema.SObjectType> objectSchemaMap = Schema.getGlobalDescribe();
+                Schema.SObjectType objectSchema = objectSchemaMap.get(objectApiName);
+                Map<String, Schema.SObjectField> objectApiFieldMap = objectSchema.getDescribe().fields.getMap();
+                Boolean isObjectCustom = (Boolean)objectSchema.getDescribe().isCustom();
+                for (String objectFieldName : objectApiFieldMap.keySet()) {
+                    Map<String, Object> objectFieldMap = new Map<String,Object>(); 
+                    //check we have access to the field
+                    if(objectApiFieldMap.get(objectFieldName).getDescribe().isAccessible()) {
+                        //get field type 
+                        String typeOfField = String.valueOf(objectApiFieldMap.get(objectFieldName).getDescribe().getType()).toLowercase();
+                        //check if field is a custom field or not
+                        Boolean isFieldCustom = (Boolean)objectApiFieldMap.get(objectFieldName).getDescribe().isCustom();
+                        //check if its a lookup field
+                        if(typeOfField == 'reference') {
+                            //get list of objects that the field looks up to 
+                            List<Object> objectsFieldReferences = objectApiFieldMap.get(objectFieldName).getDescribe().getReferenceTo();
+                            //iterate over objects the field looks up to and only add to list if its a field we care about
+                            for(Object referencedObject : objectsFieldReferences) {
+                                //make sure the field only looks up to 1 object before adding it to map 
+                                if(objectsFieldReferences.size() == 1) {
+                                    String stringReferncedObjecect = String.valueOf(referencedObject);
+                                    String relationshipName = objectApiFieldMap.get(objectFieldName).getDescribe().getRelationshipName();
 
-                                //use this list to target lookup fields based on the object the look up to 
-                                List<String> listOfImportantObjectsApiNames = new List<String> {
-                                    'Product2', 
-                                    'Contract',
-                                    'Order',
-                                    'OrderItem',
-                                    'PricebookEntry',
-                                    'SBQQ__QuoteLine__c',
-                                    'Account',
-                                    'Contact',
-                                    'SBQQ__Subscription__c',
-                                    'SBQQ__Quote__c',
-                                    'Opportunity',
-                                    'Pricebook2',
-                                    'ContractLineItem',
-                                    'OpportunityLineItem',
-                                    'ProductItem'
-                                };
-                                if(listOfImportantObjectsApiNames.contains(stringReferncedObjecect)) {
-                                    objectFieldMap.put('label',objectApiFieldMap.get(objectFieldName).getDescribe().getLabel());
-                                    objectFieldMap.put('value',objectFieldName);
-                                    objectFieldMap.put('isFieldCustom',isFieldCustom);
-                                    objectFieldMap.put('isObjectCustom',isObjectCustom);
-                                    objectFieldMap.put('type',typeOfField);
-                                    objectFieldMap.put('object',stringReferncedObjecect);
-                                    objectFieldMap.put('relationshipName',relationshipName);
-                                } 
-                            } else {
-                                //in this case we now the field looks up to more than one object and we will not support traversals 
-                                objectFieldMap.put('label',objectApiFieldMap.get(objectFieldName).getDescribe().getLabel());
-                                objectFieldMap.put('value',objectFieldName);
-                                objectFieldMap.put('isFieldCustom',isFieldCustom);
-                                objectFieldMap.put('isObjectCustom',isObjectCustom);
-                                objectFieldMap.put('type','polymorphic');
+                                    //use this list to target lookup fields based on the object the look up to 
+                                    List<String> listOfImportantObjectsApiNames = new List<String> {
+                                        'Product2', 
+                                        'Contract',
+                                        'Order',
+                                        'OrderItem',
+                                        'PricebookEntry',
+                                        'SBQQ__QuoteLine__c',
+                                        'Account',
+                                        'Contact',
+                                        'SBQQ__Subscription__c',
+                                        'SBQQ__Quote__c',
+                                        'Opportunity',
+                                        'Pricebook2',
+                                        'ContractLineItem',
+                                        'OpportunityLineItem',
+                                        'ProductItem'
+                                    };
+                                    if(listOfImportantObjectsApiNames.contains(stringReferncedObjecect)) {
+                                        objectFieldMap = addFieldsToObjectFieldMap(objectFieldMap, objectApiFieldMap, objectFieldName, isFieldCustom, typeOfField, isObjectCustom);
+                                        objectFieldMap.put('object',stringReferncedObjecect);
+                                        objectFieldMap.put('relationshipName',relationshipName);
+                                    } 
+                                } else {
+                                    //in this case we now the field looks up to more than one object and we will not support traversals 
+                                    objectFieldMap = addFieldsToObjectFieldMap(objectFieldMap, objectApiFieldMap, objectFieldName, isFieldCustom, 'polymorphic', isObjectCustom);
+                                }
                             }
+                        } else {
+                            //in this case we know the field is not a look up so we add to field map
+                            objectFieldMap = addFieldsToObjectFieldMap(objectFieldMap, objectApiFieldMap, objectFieldName, isFieldCustom, typeOfField, isObjectCustom);
                         }
-                    } else {
-                        //in this case we know the field is not a look up so we add to field map
-                        objectFieldMap.put('label',objectApiFieldMap.get(objectFieldName).getDescribe().getLabel());
-                        objectFieldMap.put('value',objectFieldName);
-                        objectFieldMap.put('type',typeOfField);
-                        objectFieldMap.put('isFieldCustom',isFieldCustom);
-                        objectFieldMap.put('isObjectCustom',isObjectCustom);
                     }
+                    //add field map to list to be returned 
+                    if(objectFieldMap != null && !objectFieldMap.isEmpty())objectFieldMapList.add(objectFieldMap);
                 }
-                //add field map to list to be returned 
-                if(objectFieldMap != null && !objectFieldMap.isEmpty())objectFieldMapList.add(objectFieldMap);
             }
+            objectFieldMapList.remove(null);
+        } catch (Exception e) {
+            errorLogger.create('getListOfFieldsByObject', e);
         }
-        objectFieldMapList.remove(null);
         return objectFieldMapList;
+    }
+
+    private static Map<String, Object> addFieldsToObjectFieldMap(Map<String, Object> objectFieldMap, Map<String, Schema.SObjectField> objectApiFieldMap, String objectFieldName, Boolean isFieldCustom, String typeOfField, Boolean isObjectCustom) {
+        objectFieldMap.put('label',objectApiFieldMap.get(objectFieldName).getDescribe().getLabel());
+        //REST API is case sensitive and requires CamelCase field names
+        objectFieldMap.put('value',objectApiFieldMap.get(objectFieldName).getDescribe().getName());
+        objectFieldMap.put('type',typeOfField);
+        objectFieldMap.put('isFieldCustom',isFieldCustom);
+        objectFieldMap.put('isObjectCustom',isObjectCustom);
+        return objectFieldMap;
     }
 
     public static Boolean isCpqEnabled() {
