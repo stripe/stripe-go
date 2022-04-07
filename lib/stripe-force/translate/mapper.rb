@@ -54,7 +54,7 @@ module StripeForce
           field_name
         end
 
-        if sf_object.key?(normalized_field_name)
+        if target_object.key?(normalized_field_name)
           target_object = target_object[normalized_field_name]
         else
           log.info 'field does not exist',

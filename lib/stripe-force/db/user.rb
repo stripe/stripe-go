@@ -115,8 +115,8 @@ module StripeForce
         "invoice" => {},
 
         "subscription_schedule" => {
-          "start_date" => CPQ_QUOTE_SUBSCRIPTION_START_DATE,
-          "subscription_iterations" => CPQ_QUOTE_SUBSCRIPTION_TERM,
+          "start_date" => "#{CPQ_QUOTE}.#{CPQ_QUOTE_SUBSCRIPTION_START_DATE}",
+          "iterations" => "#{CPQ_QUOTE}.#{CPQ_QUOTE_SUBSCRIPTION_TERM}",
         },
         "price" => {
           "unit_amount_decimal" => 'UnitPrice',

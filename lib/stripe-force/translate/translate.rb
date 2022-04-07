@@ -523,7 +523,7 @@ class StripeForce::Translate
     end
 
     stripe_price.product = stripe_product.id
-    stripe_price.metadata = stripe_metadata_for_sf_object(sf_object)
+    stripe_price.metadata = (stripe_price['metadata'] || {}).merge(stripe_metadata_for_sf_object(sf_object))
 
     # considered mapping SF pricebook ID to `lookup_key` but it's not *exactly* an external id and more presents a identifier
     # for an externall-used price so the "latest price" for a specific price-type can be used, probably in a website form or something
@@ -588,7 +588,6 @@ class StripeForce::Translate
       return
     end
 
-    sf_quote = sf.find(CPQ_QUOTE, sf_order[CPQ_QUOTE])
     sf_account = sf.find(SF_ACCOUNT, sf_order[SF_ORDER_ACCOUNT])
 
     stripe_customer = create_customer_from_sf_account(sf_account)
@@ -617,7 +616,7 @@ class StripeForce::Translate
           price: price,
           # quantity cannot be specified if usage type is metered
           quantity: price.recurring.usage_type == 'metered' ? nil : quantity,
-        }
+        }.compact
       else
         invoice_items << {
           price: price,
@@ -633,18 +632,21 @@ class StripeForce::Translate
     if is_recurring_order
       log.info 'recurring items found, creating subscription schedule'
 
-      # TODO right now this just reports errors, but we should reference this for values in the future
-      extract_salesforce_params!(sf_quote, Stripe::SubscriptionSchedule)
+      subscription_params = extract_salesforce_params!(sf_order, Stripe::SubscriptionSchedule)
+
+      # TODO can we assume a consistent date format? What about TZs here?
+      # TODO extract this out to a separate method to format a date for Stripe
+      subscription_params['start_date'] = DateTime.parse(subscription_params['start_date']).to_time.to_i
+
+      # TODO we should ensure integer terms in SF
+      # TODO is the restforce gem somehow formatting everything as a float? Or is this is the real value returned from SF?
+      phase_iterations = subscription_params.delete('iterations').to_i
 
       # TODO subs in SF must always have an end date
-      stripe_transaction = Stripe::SubscriptionSchedule.create({
+      stripe_transaction = Stripe::SubscriptionSchedule.construct_from(subscription_params.merge({
         customer: stripe_customer,
 
-        # TODO can we assume a consistent date format? What about TZs here?
-        # TODO extract this out to a separate method to format a date for Stripe
-        start_date: DateTime.parse(sf_quote[CPQ_QUOTE_SUBSCRIPTION_START_DATE]).to_time.to_i,
-
-        # TODO this should be specified in the defaults hash... we should create a defaults hash
+        # TODO this should be specified in the defaults hash... we should create a defaults hash https://jira.corp.stripe.com/browse/PLATINT-1501
         end_behavior: 'cancel',
 
         # TODO we need to handle multiple items here
@@ -654,17 +656,19 @@ class StripeForce::Translate
           {
             add_invoice_items: invoice_items,
             items: subscription_items,
-            # TODO we should ensure integer terms in SF
-            # TODO is the restforce gem somehow formatting everything as a float?
-            iterations: sf_quote[CPQ_QUOTE_SUBSCRIPTION_TERM].to_i,
+            iterations: phase_iterations,
           },
         ],
 
         metadata: stripe_metadata_for_sf_object(sf_order),
-      }, @user.stripe_credentials.merge(idempotency_key: sf_order[SF_ID]))
+      }))
+
+      apply_mapping(stripe_transaction, sf_order)
+
+      stripe_transaction.dirty!
+      stripe_transaction = Stripe::SubscriptionSchedule.create(stripe_transaction.serialize_params, @user.stripe_credentials.merge(idempotency_key: sf_order[SF_ID]))
 
       # TODO should we propogate the metadata down to the subscription?
-
       # TODO should we conditionally do this based on user config?
       # TODO shluld we conditionally do this depending on if the user already has a payment method setup?
 

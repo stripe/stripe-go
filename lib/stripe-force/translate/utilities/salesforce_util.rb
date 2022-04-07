@@ -36,6 +36,8 @@ module StripeForce::Utilities
           SF_CONTACT
         when /^801/
           SF_ORDER
+        when /^a0z/
+          CPQ_QUOTE
         when /^802/
           SF_ORDER_ITEM
         else
