@@ -67,7 +67,6 @@ export default class SystemConnectionsStep extends LightningElement {
 
                 if (isSalesforceConnected === 'freshConnection') {
                     this.salesforceComplete = true;
-                    this.dispatchEvent(new CustomEvent('getmappingconfigurations'));
                     this.showToast('Salesforce to stripe Authorization successfully completed', 'success', 'dismissable');
                 }
 
@@ -84,7 +83,7 @@ export default class SystemConnectionsStep extends LightningElement {
                 }
 
                 if (this.salesforceComplete === true && this.stripeComplete === true) {
-                    this.dispatchEvent(new CustomEvent("enablenext")); 
+                    this.dispatchEvent(new CustomEvent('getmappingconfigurations'));
                 }
 
                 if (isStripeConnected === 'failed' && isSalesforceConnected === 'failed') {
