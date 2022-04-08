@@ -1298,6 +1298,23 @@ type PaymentIntentVerifyMicrodepositsParams struct {
 	DescriptorCode *string `form:"descriptor_code"`
 }
 
+// Manually reconcile the remaining amount for a customer_balance PaymentIntent.
+//
+// This can be used when the cash balance for [a customer in manual reconciliation mode](docs/payments/customer-balance/reconciliation#cash-manual-reconciliation) received funds.
+type PaymentIntentApplyCustomerBalanceParams struct {
+	Params `form:"*"`
+	// Amount intended to be applied to this PaymentIntent from the customer's cash balance.
+	//
+	// A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency).
+	//
+	// The maximum amount is the amount of the PaymentIntent.
+	//
+	// When omitted, the amount defaults to the remaining amount requested on the PaymentIntent.
+	Amount *int64 `form:"amount"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+}
+
 // Settings to configure compatible payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods)
 type PaymentIntentAutomaticPaymentMethods struct {
 	// Automatically calculates compatible payment methods
