@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.101.0 - 2022-04-08
+* [#1446](https://github.com/stripe/stripe-go/pull/1446) API Updates
+  * Add support for `ApplyCustomerBalance` method on resource `PaymentIntent`
+
 ## 72.100.0 - 2022-04-04
 * [#1443](https://github.com/stripe/stripe-go/pull/1443) Add support for passing expansions in SearchParams.
 
