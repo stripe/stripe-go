@@ -119,6 +119,22 @@ func (c Client) Confirm(id string, params *stripe.PaymentIntentConfirmParams) (*
 	return paymentintent, err
 }
 
+// IncrementAuthorization is the method for the `POST /v1/payment_intents/{intent}/increment_authorization` API.
+func IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuthorizationParams) (*stripe.PaymentIntent, error) {
+	return getC().IncrementAuthorization(id, params)
+}
+
+// IncrementAuthorization is the method for the `POST /v1/payment_intents/{intent}/increment_authorization` API.
+func (c Client) IncrementAuthorization(id string, params *stripe.PaymentIntentIncrementAuthorizationParams) (*stripe.PaymentIntent, error) {
+	path := stripe.FormatURLPath(
+		"/v1/payment_intents/%s/increment_authorization",
+		id,
+	)
+	paymentintent := &stripe.PaymentIntent{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, paymentintent)
+	return paymentintent, err
+}
+
 // VerifyMicrodeposits is the method for the `POST /v1/payment_intents/{intent}/verify_microdeposits` API.
 func VerifyMicrodeposits(id string, params *stripe.PaymentIntentVerifyMicrodepositsParams) (*stripe.PaymentIntent, error) {
 	return getC().VerifyMicrodeposits(id, params)
