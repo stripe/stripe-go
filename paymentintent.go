@@ -831,6 +831,8 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
+	// Request ability to [increment](docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
+	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
 }
 
 // If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
@@ -1289,6 +1291,50 @@ type PaymentIntentCaptureParams struct {
 	TransferData *PaymentIntentTransferDataParams `form:"transfer_data"`
 }
 
+// The parameters used to automatically create a Transfer when the payment is captured.
+// For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+type PaymentIntentIncrementAuthorizationTransferDataParams struct {
+	// The amount that will be transferred automatically when a charge succeeds.
+	Amount *int64 `form:"amount"`
+}
+
+// Perform an incremental authorization on an eligible
+// [PaymentIntent](https://stripe.com/docs/api/payment_intents/object). To be eligible, the
+// PaymentIntent's status must be requires_capture and
+// [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported)
+// must be true.
+//
+// Incremental authorizations attempt to increase the authorized amount on
+// your customer's card to the new, higher amount provided. As with the
+// initial authorization, incremental authorizations may be declined. A
+// single PaymentIntent can call this endpoint multiple times to further
+// increase the authorized amount.
+//
+// If the incremental authorization succeeds, the PaymentIntent object is
+// returned with the updated
+// [amount](https://stripe.com/docs/api/payment_intents/object#payment_intent_object-amount).
+// If the incremental authorization fails, a
+// [card_declined](https://stripe.com/docs/error-codes#card-declined) error is returned, and no
+// fields on the PaymentIntent or Charge are updated. The PaymentIntent
+// object remains capturable for the previously authorized amount.
+//
+// Each PaymentIntent can have a maximum of 10 incremental authorization attempts, including declines.
+// Once captured, a PaymentIntent can no longer be incremented.
+//
+// Learn more about [incremental authorizations](https://stripe.com/docs/terminal/features/incremental-authorizations).
+type PaymentIntentIncrementAuthorizationParams struct {
+	Params `form:"*"`
+	// The updated total amount you intend to collect from the cardholder. This amount must be greater than the currently authorized amount.
+	Amount *int64 `form:"amount"`
+	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. The amount of the application fee collected will be capped at the total payment amount. For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	ApplicationFeeAmount *int64 `form:"application_fee_amount"`
+	// An arbitrary string attached to the object. Often useful for displaying to users.
+	Description *string `form:"description"`
+	// The parameters used to automatically create a Transfer when the payment is captured.
+	// For more information, see the PaymentIntents [use case for connected accounts](https://stripe.com/docs/payments/connected-accounts).
+	TransferData *PaymentIntentIncrementAuthorizationTransferDataParams `form:"transfer_data"`
+}
+
 // Verifies microdeposits on a PaymentIntent object.
 type PaymentIntentVerifyMicrodepositsParams struct {
 	Params `form:"*"`
@@ -1626,6 +1672,8 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 type PaymentIntentPaymentMethodOptionsCardPresent struct {
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization bool `json:"request_extended_authorization"`
+	// Request ability to [increment](docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
+	RequestIncrementalAuthorizationSupport bool `json:"request_incremental_authorization_support"`
 }
 type PaymentIntentPaymentMethodOptionsEPS struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1866,9 +1914,9 @@ type PaymentIntent struct {
 	Charges *ChargeList `json:"charges"`
 	// The client secret of this PaymentIntent. Used for client-side retrieval using a publishable key.
 	//
-	// The client secret can be used to complete a payment from your frontend. It should not be stored, logged, embedded in URLs, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret.
+	// The client secret can be used to complete a payment from your frontend. It should not be stored, logged, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret.
 	//
-	// Refer to our docs to [accept a payment](https://stripe.com/docs/payments/accept-a-payment?integration=elements) and learn about how `client_secret` should be handled.
+	// Refer to our docs to [accept a payment](https://stripe.com/docs/payments/accept-a-payment?ui=elements) and learn about how `client_secret` should be handled.
 	ClientSecret       string                          `json:"client_secret"`
 	ConfirmationMethod PaymentIntentConfirmationMethod `json:"confirmation_method"`
 	// Time at which the object was created. Measured in seconds since the Unix epoch.

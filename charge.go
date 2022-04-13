@@ -603,6 +603,8 @@ type ChargePaymentMethodDetailsCardPresent struct {
 	Funding CardFunding `json:"funding"`
 	// ID of a card PaymentMethod generated from the card_present PaymentMethod that may be attached to a Customer for future transactions. Only present if it was possible to generate a card PaymentMethod.
 	GeneratedCard string `json:"generated_card"`
+	// Whether this [PaymentIntent](https://stripe.com/docs/api/payment_intents) is eligible for incremental authorizations. Request support using [request_incremental_authorization_support] /docs/api/payment_intents/create#create_payment_intent-payment_method_options-card_present-request_incremental_authorization_support.
+	IncrementalAuthorizationSupported bool `json:"incremental_authorization_supported"`
 	// The last four digits of the card.
 	Last4 string `json:"last4"`
 	// Identifies which network this charge was processed on. Can be `amex`, `cartes_bancaires`, `diners`, `discover`, `interac`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
