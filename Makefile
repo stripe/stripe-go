@@ -34,7 +34,8 @@ update-version:
 	@perl -pi -e 's|github.com/stripe/stripe-go/v\d+|github.com/stripe/stripe-go/v$(MAJOR_VERSION)|' README.md
 	@perl -pi -e 's|github.com/stripe/stripe-go/v\d+|github.com/stripe/stripe-go/v$(MAJOR_VERSION)|' go.mod
 	@find . -name '*.go' -exec perl -pi -e 's|github.com/stripe/stripe-go/v\d+|github.com/stripe/stripe-go/v$(MAJOR_VERSION)|' {} +
+
 codegen-format:
 	go fmt ./...
 
-.PHONY: update-version codegen-format
+.PHONY: codegen-format update-version
