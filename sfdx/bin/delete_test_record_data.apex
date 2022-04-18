@@ -50,6 +50,28 @@ if(stripeConnectorProdPackCount > 0) {
   syncRecordApiName = 'stripeConnector__Sync_Record__c';
 } 
 
+Integer sbqqPackageCount = [SELECT COUNT() FROM PackageLicense WHERE NamespacePrefix LIKE 'SBQQ%'];
+
+
+if(sbqqPackageCount > 0) {
+    Boolean isRecordJobsUpdated = false;
+    List<SBQQ__RecordJob__c> recordJobsToDelete = [SELECT SBQQ__JobStatus__c, Id FROM SBQQ__RecordJob__c LIMIT 10000];
+    System.debug('listOfRecordJobs.size');
+    System.debug(recordJobsToDelete.size());
+    if (!recordJobsToDelete.isEmpty()) {
+        for (SBQQ__RecordJob__c recordJob : recordJobsToDelete) {
+            if(recordJob.SBQQ__JobStatus__c != 'Completed') {
+                recordJob.SBQQ__JobStatus__c = 'Completed';
+                isRecordJobsUpdated = true;
+            }
+        }
+        if (isRecordJobsUpdated) {
+            upsert recordJobsToDelete;
+        }
+        delete recordJobsToDelete;
+    }
+}
+
 List<String> listOfObjectRecordsToDelete = new List<String> {
     'Order',
     'OrderItem',
