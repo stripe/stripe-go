@@ -61,6 +61,27 @@ type CustomerListParams struct {
 	TestClock *string `form:"test_clock"`
 }
 
+// Settings controlling the behavior of the customer's cash balance,
+// such as reconciliation of funds received.
+type CustomerCashBalanceSettingsParams struct {
+	// Method for using the customer balance to pay outstanding
+	// `customer_balance` PaymentIntents. If set to `automatic`, all available
+	// funds will automatically be used to pay any outstanding PaymentIntent.
+	// If set to `manual`, only customer balance funds from bank transfers
+	// with a reference code matching
+	// `payment_intent.next_action.display_bank_transfer_intructions.reference_code` will
+	// automatically be used to pay the corresponding outstanding
+	// PaymentIntent.
+	ReconciliationMode *string `form:"reconciliation_mode"`
+}
+
+// Balance information and default balance settings for this customer.
+type CustomerCashBalanceParams struct {
+	// Settings controlling the behavior of the customer's cash balance,
+	// such as reconciliation of funds received.
+	Settings *CustomerCashBalanceSettingsParams `form:"settings"`
+}
+
 // Default custom fields to be displayed on invoices for this customer. When updating, pass an empty string to remove previously-defined fields.
 type CustomerInvoiceCustomFieldParams struct {
 	// The name of the custom field. This may be up to 30 characters.
@@ -117,8 +138,10 @@ type CustomerParams struct {
 	// The customer's address.
 	Address *AddressParams `form:"address"`
 	// An integer amount in %s that represents the customer's current balance, which affect the customer's future invoices. A negative amount represents a credit that decreases the amount due on an invoice; a positive amount increases the amount due on an invoice.
-	Balance *int64  `form:"balance"`
-	Coupon  *string `form:"coupon"`
+	Balance *int64 `form:"balance"`
+	// Balance information and default balance settings for this customer.
+	CashBalance *CustomerCashBalanceParams `form:"cash_balance"`
+	Coupon      *string                    `form:"coupon"`
 	// If you are using payment methods created via the PaymentMethods API, see the [invoice_settings.default_payment_method](https://stripe.com/docs/api/customers/update#update_customer-invoice_settings-default_payment_method) parameter.
 	//
 	// Provide the ID of a payment source already attached to this customer to make it this customer's default payment source.
@@ -164,6 +187,29 @@ type CustomerListPaymentMethodsParams struct {
 	Customer   *string `form:"-"` // Included in URL
 	// A required filter on the list, based on the object `type` field.
 	Type *string `form:"type"`
+}
+
+// Additional parameters for `bank_transfer` funding types
+type CustomerCreateFundingInstructionsBankTransferParams struct {
+	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
+	//
+	// Permitted values include: `zengin`.
+	RequestedAddressTypes []*string `form:"requested_address_types"`
+	// The type of the `bank_transfer`
+	Type *string `form:"type"`
+}
+
+// Retrieve funding instructions for a customer cash balance. If funding instructions do not yet exist for the customer, new
+// funding instructions will be created. If funding instructions have already been created for a given customer, the same
+// funding instructions will be retrieved. In other words, we will return the same funding instructions each time.
+type CustomerCreateFundingInstructionsParams struct {
+	Params `form:"*"`
+	// Additional parameters for `bank_transfer` funding types
+	BankTransfer *CustomerCreateFundingInstructionsBankTransferParams `form:"bank_transfer"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency *string `form:"currency"`
+	// The `funding_type` to get the instructions for.
+	FundingType *string `form:"funding_type"`
 }
 
 // Default custom fields to be displayed on invoices for this customer.

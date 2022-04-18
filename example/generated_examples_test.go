@@ -50,6 +50,7 @@ import (
 	source "github.com/stripe/stripe-go/v72/source"
 	taxid "github.com/stripe/stripe-go/v72/taxid"
 	taxrate "github.com/stripe/stripe-go/v72/taxrate"
+	terminal_configuration "github.com/stripe/stripe-go/v72/terminal/configuration"
 	terminal_connectiontoken "github.com/stripe/stripe-go/v72/terminal/connectiontoken"
 	terminal_location "github.com/stripe/stripe-go/v72/terminal/location"
 	terminal_reader "github.com/stripe/stripe-go/v72/terminal/reader"
@@ -1604,5 +1605,54 @@ func TestTestHelpersTestClockAdvance(t *testing.T) {
 		FrozenTime: stripe.Int64(142),
 	}
 	result, _ := testhelpers_testclock.Advance("clock_xyz", params)
+	assert.NotNil(t, result)
+}
+
+func TestCustomerCreateFundingInstructions(t *testing.T) {
+	params := &stripe.CustomerCreateFundingInstructionsParams{
+		BankTransfer: &stripe.CustomerBankTransferParams{
+			RequestedAddressTypes: []*string{stripe.String("zengin")},
+			Type:                  stripe.String("jp_bank_transfer"),
+		},
+		Currency:    stripe.String(string(stripe.CurrencyUSD)),
+		FundingType: stripe.String("bank_transfer"),
+	}
+	result, _ := customer.CreateFundingInstructions("cus_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalConfigurationList(t *testing.T) {
+	params := &stripe.TerminalConfigurationListParams{}
+	result := terminal_configuration.List(params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalConfigurationRetrieve(t *testing.T) {
+	params := &stripe.TerminalConfigurationParams{}
+	result, _ := terminal_configuration.Get("uc_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalConfigurationCreate(t *testing.T) {
+	params := &stripe.TerminalConfigurationParams{}
+	result, _ := terminal_configuration.New(params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalConfigurationUpdate(t *testing.T) {
+	params := &stripe.TerminalConfigurationParams{
+		Tipping: &stripe.TerminalConfigurationTippingParams{
+			USD: &stripe.TerminalConfigurationTippingUSDParams{
+				FixedAmounts: []*int64{stripe.Int64(10)},
+			},
+		},
+	}
+	result, _ := terminal_configuration.Update("uc_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTerminalConfigurationDelete(t *testing.T) {
+	params := &stripe.TerminalConfigurationParams{}
+	result, _ := terminal_configuration.Del("uc_123", params)
 	assert.NotNil(t, result)
 }

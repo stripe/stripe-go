@@ -71,6 +71,19 @@ func (c Client) Del(id string, params *stripe.CustomerParams) (*stripe.Customer,
 	return customer, err
 }
 
+// CreateFundingInstructions is the method for the `POST /v1/customers/{customer}/funding_instructions` API.
+func CreateFundingInstructions(id string, params *stripe.CustomerCreateFundingInstructionsParams) (*stripe.Customer, error) {
+	return getC().CreateFundingInstructions(id, params)
+}
+
+// CreateFundingInstructions is the method for the `POST /v1/customers/{customer}/funding_instructions` API.
+func (c Client) CreateFundingInstructions(id string, params *stripe.CustomerCreateFundingInstructionsParams) (*stripe.Customer, error) {
+	path := stripe.FormatURLPath("/v1/customers/%s/funding_instructions", id)
+	customer := &stripe.Customer{}
+	err := c.B.Call(http.MethodPost, path, c.Key, params, customer)
+	return customer, err
+}
+
 // List returns a list of customers.
 func List(params *stripe.CustomerListParams) *Iter {
 	return getC().List(params)

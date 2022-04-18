@@ -39,6 +39,32 @@ const (
 	PaymentIntentConfirmationMethodManual    PaymentIntentConfirmationMethod = "manual"
 )
 
+// The payment networks supported by this FinancialAddress
+type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork string
+
+// List of values that PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork can take
+const (
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkSepa   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "sepa"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetworkZengin PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork = "zengin"
+)
+
+// The type of financial address
+type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType string
+
+// List of values that PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType can take
+const (
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeIban   PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "iban"
+	PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressTypeZengin PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType = "zengin"
+)
+
+// Type of bank transfer
+type PaymentIntentNextActionDisplayBankTransferInstructionsType string
+
+// List of values that PaymentIntentNextActionDisplayBankTransferInstructionsType can take
+const (
+	PaymentIntentNextActionDisplayBankTransferInstructionsTypeJpBankTransfer PaymentIntentNextActionDisplayBankTransferInstructionsType = "jp_bank_transfer"
+)
+
 // Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 type PaymentIntentNextActionType string
 
@@ -274,6 +300,55 @@ const (
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageNone       PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "none"
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOffSession PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "off_session"
 	PaymentIntentPaymentMethodOptionsCardSetupFutureUsageOnSession  PaymentIntentPaymentMethodOptionsCardSetupFutureUsage = "on_session"
+)
+
+// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
+//
+// Permitted values include: `zengin`.
+type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType string
+
+// List of values that PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType can take
+const (
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressTypeZengin PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType = "zengin"
+)
+
+// The bank transfer type that this PaymentIntent is allowed to use for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType string
+
+// List of values that PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType can take
+const (
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeEuBankAccount  PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "eu_bank_account"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeEuBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "eu_bank_transfer"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeGbBankAccount  PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "gb_bank_account"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeGbBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "gb_bank_transfer"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeIDBankAccount  PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "id_bank_account"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeIDBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "id_bank_transfer"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeJpBankAccount  PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "jp_bank_account"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeJpBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "jp_bank_transfer"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeMxBankAccount  PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "mx_bank_account"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeMxBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "mx_bank_transfer"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeUSBankAccount  PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "us_bank_account"
+	PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferTypeUSBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType = "us_bank_transfer"
+)
+
+// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
+type PaymentIntentPaymentMethodOptionsCustomerBalanceFundingType string
+
+// List of values that PaymentIntentPaymentMethodOptionsCustomerBalanceFundingType can take
+const (
+	PaymentIntentPaymentMethodOptionsCustomerBalanceFundingTypeBankTransfer PaymentIntentPaymentMethodOptionsCustomerBalanceFundingType = "bank_transfer"
+)
+
+// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+//
+// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+//
+// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+type PaymentIntentPaymentMethodOptionsCustomerBalanceSetupFutureUsage string
+
+// List of values that PaymentIntentPaymentMethodOptionsCustomerBalanceSetupFutureUsage can take
+const (
+	PaymentIntentPaymentMethodOptionsCustomerBalanceSetupFutureUsageNone PaymentIntentPaymentMethodOptionsCustomerBalanceSetupFutureUsage = "none"
 )
 
 // Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -556,6 +631,9 @@ type PaymentIntentMandateDataParams struct {
 	CustomerAcceptance *PaymentIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
 }
 
+// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
+type PaymentIntentPaymentMethodDataCustomerBalanceParams struct{}
+
 // If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
 type PaymentIntentPaymentMethodDataKonbiniParams struct{}
 
@@ -595,6 +673,8 @@ type PaymentIntentPaymentMethodDataParams struct {
 	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
 	Boleto *PaymentMethodBoletoParams `form:"boleto"`
 	Card   *PaymentMethodCardParams   `form:"card"`
+	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
+	CustomerBalance *PaymentIntentPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
 	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
 	EPS *PaymentMethodEPSParams `form:"eps"`
 	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
@@ -831,8 +911,34 @@ type PaymentIntentPaymentMethodOptionsCardParams struct {
 type PaymentIntentPaymentMethodOptionsCardPresentParams struct {
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization *bool `form:"request_extended_authorization"`
-	// Request ability to [increment](docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
+	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport *bool `form:"request_incremental_authorization_support"`
+}
+
+// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferParams struct {
+	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
+	//
+	// Permitted values include: `zengin`.
+	RequestedAddressTypes []*string `form:"requested_address_types"`
+	// The list of bank transfer types that this PaymentIntent is allowed to use for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	Type *string `form:"type"`
+}
+
+// If this is a `customer balance` PaymentMethod, this sub-hash contains details about the customer balance payment method options.
+type PaymentIntentPaymentMethodOptionsCustomerBalanceParams struct {
+	// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
+	BankTransfer *PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferParams `form:"bank_transfer"`
+	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
+	FundingType *string `form:"funding_type"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	//
+	// If `setup_future_usage` is already set and you are performing a request using a publishable key, you may only update the value from `on_session` to `off_session`.
+	SetupFutureUsage *string `form:"setup_future_usage"`
 }
 
 // If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
@@ -1059,6 +1165,8 @@ type PaymentIntentPaymentMethodOptionsParams struct {
 	Card *PaymentIntentPaymentMethodOptionsCardParams `form:"card"`
 	// If this is a `card_present` PaymentMethod, this sub-hash contains details about the Card Present payment method options.
 	CardPresent *PaymentIntentPaymentMethodOptionsCardPresentParams `form:"card_present"`
+	// If this is a `customer balance` PaymentMethod, this sub-hash contains details about the customer balance payment method options.
+	CustomerBalance *PaymentIntentPaymentMethodOptionsCustomerBalanceParams `form:"customer_balance"`
 	// If this is a `eps` PaymentMethod, this sub-hash contains details about the EPS payment method options.
 	EPS *PaymentIntentPaymentMethodOptionsEPSParams `form:"eps"`
 	// If this is a `fpx` PaymentMethod, this sub-hash contains details about the FPX payment method options.
@@ -1360,6 +1468,13 @@ type PaymentIntentApplyCustomerBalanceParams struct {
 	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
 	Currency *string `form:"currency"`
 }
+type PaymentIntentAmountDetailsTip struct {
+	// Portion of the amount that corresponds to a tip.
+	Amount int64 `json:"amount"`
+}
+type PaymentIntentAmountDetails struct {
+	Tip *PaymentIntentAmountDetailsTip `json:"tip"`
+}
 
 // Settings to configure compatible payment methods from the [Stripe Dashboard](https://dashboard.stripe.com/settings/payment_methods)
 type PaymentIntentAutomaticPaymentMethods struct {
@@ -1391,6 +1506,31 @@ type PaymentIntentNextActionCardAwaitNotification struct {
 	ChargeAttemptAt int64 `json:"charge_attempt_at"`
 	// For payments greater than INR 5000, the customer must provide explicit approval of the payment with their bank. For payments of lower amount, no customer action is required.
 	CustomerApprovalRequired bool `json:"customer_approval_required"`
+}
+
+// Zengin Records contain Japan bank account details per the Zengin format.
+type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressZengin struct{}
+
+// A list of financial addresses that can be used to fund the customer balance
+type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress struct {
+	// The payment networks supported by this FinancialAddress
+	SupportedNetworks []PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressSupportedNetwork `json:"supported_networks"`
+	// The type of financial address
+	Type PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressType `json:"type"`
+	// Zengin Records contain Japan bank account details per the Zengin format.
+	Zengin *PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddressZengin `json:"zengin"`
+}
+type PaymentIntentNextActionDisplayBankTransferInstructions struct {
+	// The remaining amount that needs to be transferred to complete the payment.
+	AmountRemaining int64 `json:"amount_remaining"`
+	// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+	Currency Currency `json:"currency"`
+	// A list of financial addresses that can be used to fund the customer balance
+	FinancialAddresses []*PaymentIntentNextActionDisplayBankTransferInstructionsFinancialAddress `json:"financial_addresses"`
+	// A string identifying this payment. Instruct your customer to include this code in the reference or memo field of their bank transfer.
+	Reference string `json:"reference"`
+	// Type of bank transfer
+	Type PaymentIntentNextActionDisplayBankTransferInstructionsType `json:"type"`
 }
 
 // FamilyMart instruction details.
@@ -1507,13 +1647,14 @@ type PaymentIntentNextActionWechatPayRedirectToIOSApp struct {
 
 // If present, this property tells you what actions you need to take in order for your customer to fulfill a payment using the provided source.
 type PaymentIntentNextAction struct {
-	AlipayHandleRedirect  *PaymentIntentNextActionAlipayHandleRedirect  `json:"alipay_handle_redirect"`
-	BoletoDisplayDetails  *PaymentIntentNextActionBoletoDisplayDetails  `json:"boleto_display_details"`
-	CardAwaitNotification *PaymentIntentNextActionCardAwaitNotification `json:"card_await_notification"`
-	KonbiniDisplayDetails *PaymentIntentNextActionKonbiniDisplayDetails `json:"konbini_display_details"`
-	OXXODisplayDetails    *PaymentIntentNextActionOXXODisplayDetails    `json:"oxxo_display_details"`
-	PayNowDisplayQRCode   *PaymentIntentNextActionPayNowDisplayQRCode   `json:"paynow_display_qr_code"`
-	RedirectToURL         *PaymentIntentNextActionRedirectToURL         `json:"redirect_to_url"`
+	AlipayHandleRedirect            *PaymentIntentNextActionAlipayHandleRedirect            `json:"alipay_handle_redirect"`
+	BoletoDisplayDetails            *PaymentIntentNextActionBoletoDisplayDetails            `json:"boleto_display_details"`
+	CardAwaitNotification           *PaymentIntentNextActionCardAwaitNotification           `json:"card_await_notification"`
+	DisplayBankTransferInstructions *PaymentIntentNextActionDisplayBankTransferInstructions `json:"display_bank_transfer_instructions"`
+	KonbiniDisplayDetails           *PaymentIntentNextActionKonbiniDisplayDetails           `json:"konbini_display_details"`
+	OXXODisplayDetails              *PaymentIntentNextActionOXXODisplayDetails              `json:"oxxo_display_details"`
+	PayNowDisplayQRCode             *PaymentIntentNextActionPayNowDisplayQRCode             `json:"paynow_display_qr_code"`
+	RedirectToURL                   *PaymentIntentNextActionRedirectToURL                   `json:"redirect_to_url"`
 	// Type of the next action to perform, one of `redirect_to_url`, `use_stripe_sdk`, `alipay_handle_redirect`, `oxxo_display_details`, or `verify_with_microdeposits`.
 	Type PaymentIntentNextActionType `json:"type"`
 	// When confirming a PaymentIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
@@ -1672,8 +1813,27 @@ type PaymentIntentPaymentMethodOptionsCard struct {
 type PaymentIntentPaymentMethodOptionsCardPresent struct {
 	// Request ability to capture this payment beyond the standard [authorization validity window](https://stripe.com/docs/terminal/features/extended-authorizations#authorization-validity)
 	RequestExtendedAuthorization bool `json:"request_extended_authorization"`
-	// Request ability to [increment](docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
+	// Request ability to [increment](https://stripe.com/docs/terminal/features/incremental-authorizations) this PaymentIntent if the combination of MCC and card brand is eligible. Check [incremental_authorization_supported](https://stripe.com/docs/api/charges/object#charge_object-payment_method_details-card_present-incremental_authorization_supported) in the [Confirm](https://stripe.com/docs/api/payment_intents/confirm) response to verify support.
 	RequestIncrementalAuthorizationSupport bool `json:"request_incremental_authorization_support"`
+}
+type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransfer struct {
+	// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
+	//
+	// Permitted values include: `zengin`.
+	RequestedAddressTypes []PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferRequestedAddressType `json:"requested_address_types"`
+	// The bank transfer type that this PaymentIntent is allowed to use for funding. Permitted values include: `us_bank_account`, `eu_bank_account`, `id_bank_account`, `gb_bank_account`, `jp_bank_account`, `mx_bank_account`, `eu_bank_transfer`, `gb_bank_transfer`, `id_bank_transfer`, `jp_bank_transfer`, `mx_bank_transfer`, or `us_bank_transfer`.
+	Type PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransferType `json:"type"`
+}
+type PaymentIntentPaymentMethodOptionsCustomerBalance struct {
+	BankTransfer *PaymentIntentPaymentMethodOptionsCustomerBalanceBankTransfer `json:"bank_transfer"`
+	// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
+	FundingType PaymentIntentPaymentMethodOptionsCustomerBalanceFundingType `json:"funding_type"`
+	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
+	//
+	// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent's Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
+	//
+	// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
+	SetupFutureUsage PaymentIntentPaymentMethodOptionsCustomerBalanceSetupFutureUsage `json:"setup_future_usage"`
 }
 type PaymentIntentPaymentMethodOptionsEPS struct {
 	// Indicates that you intend to make future payments with this PaymentIntent's payment method.
@@ -1836,6 +1996,7 @@ type PaymentIntentPaymentMethodOptions struct {
 	Boleto           *PaymentIntentPaymentMethodOptionsBoleto           `json:"boleto"`
 	Card             *PaymentIntentPaymentMethodOptionsCard             `json:"card"`
 	CardPresent      *PaymentIntentPaymentMethodOptionsCardPresent      `json:"card_present"`
+	CustomerBalance  *PaymentIntentPaymentMethodOptionsCustomerBalance  `json:"customer_balance"`
 	EPS              *PaymentIntentPaymentMethodOptionsEPS              `json:"eps"`
 	FPX              *PaymentIntentPaymentMethodOptionsFPX              `json:"fpx"`
 	Giropay          *PaymentIntentPaymentMethodOptionsGiropay          `json:"giropay"`
@@ -1895,7 +2056,8 @@ type PaymentIntent struct {
 	// Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or [equivalent in charge currency](https://stripe.com/docs/currencies#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).
 	Amount int64 `json:"amount"`
 	// Amount that can be captured from this PaymentIntent.
-	AmountCapturable int64 `json:"amount_capturable"`
+	AmountCapturable int64                       `json:"amount_capturable"`
+	AmountDetails    *PaymentIntentAmountDetails `json:"amount_details"`
 	// Amount that was collected by this PaymentIntent.
 	AmountReceived int64 `json:"amount_received"`
 	// ID of the Connect application that created the PaymentIntent.
