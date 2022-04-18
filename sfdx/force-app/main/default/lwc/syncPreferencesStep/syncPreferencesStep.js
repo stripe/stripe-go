@@ -39,7 +39,7 @@ export default class SyncPreferencesStep extends LightningElement {
                 this.syncRecordRetention = this.data.results.sync_record_retention;
                 this.syncStartDate = new Date(this.data.results.sync_start_date * 1000).toISOString();
                 this.apiPercentageLimit = this.data.results.api_percentage_limit;
-                this.cpqTermUnit = this.data.results.cpq_term_interval;
+                this.cpqTermUnit = this.data.results.cpq_term_unit;
                 this.isCpqInstalled = this.data.results.isCpqInstalled;
 
                 const multiCurrencyCheck = await getMulticurrencySelectionOptions();
