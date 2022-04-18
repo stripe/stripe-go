@@ -51,7 +51,7 @@ gem 'rest-client', '~> 2.1.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.9.1', require: false
 
-gem 'omniauth', '~> 2.0.4'
+gem 'omniauth', '~> 2.1.0'
 
 # CVE-2019-13117 https://github.com/sparklemotion/nokogiri/issues/1943
 gem 'nokogiri', '>= 1.13.0'
