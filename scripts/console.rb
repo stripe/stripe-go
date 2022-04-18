@@ -15,6 +15,10 @@ end
 
 user = StripeForce::User.find(salesforce_account_id: ENV.fetch(prefix + 'INSTANCE_ID'))
 
+if user
+  puts "Using local user reference"
+end
+
 # most likely, the local creds will be expired
 user ||= StripeForce::User.new(
   salesforce_account_id: ENV.fetch(prefix + 'INSTANCE_ID'),
@@ -54,6 +58,12 @@ def example_sf_order
   # @sf.find('Order', '8015e000000IIpgAAG')
 end
 
+def wipe_record_tree(order_id)
+  order = sf.find(SF_ORDER, order_id)
+
+  account = sf.find(SF_ACCOUNT, order.AccountId)
+end
+
 def delete_sync_records
   result = @sf.query("SELECT Id FROM Sync_Record__c")
   result.each do |sync_record|
@@ -71,5 +81,20 @@ end
 
 # dig into field level permissions "Field Permissions"
 # u.sf_client.api_get 'sobjects/'
+def get_fields_for_object(object_name)
+  description = sf.describe(object_name)
+  description['fields'].map(&:name)
+end
+
+def get_all(object_name)
+  all_fields = get_fields_for_object(object_name).join(',')
+  sf.query("SELECT #{all_fields} FROM #{object_name}")
+end
+
+user_info = sf.user_info
+
+puts "Salesforce account information:"
+puts user_info['username']
+puts user_info['urls']['custom_domain']
 
 Pry.start

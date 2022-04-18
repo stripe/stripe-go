@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require_relative './salesforce_factory'
+require_relative './salesforce_debugging'
 
 module CommonHelpers
   include Kernel
@@ -12,6 +13,8 @@ module CommonHelpers
 
   # NOTE this is a little dangerous: we are only doing this for `prefixed_stripe_field` right now
   include StripeForce::Utilities::SalesforceUtil
+
+  include SalesforceDebugging
 
   def sf_account_id
     ENV.fetch('SF_INSTANCE_ID')
