@@ -252,7 +252,7 @@ GEM
     raabro (1.4.0)
     racc (1.6.0)
     rack (2.2.3)
-    rack-attack (6.6.0)
+    rack-attack (6.6.1)
       rack (>= 1.0, < 3)
     rack-protection (2.2.0)
       rack
@@ -454,7 +454,7 @@ DEPENDENCIES
   pry-rescue (~> 1.5.2)
   pry-stack_explorer (~> 0.6.1)
   puma (~> 5.6)
-  rack-attack (~> 6.6.0)
+  rack-attack (~> 6.6.1)
   rack-test (~> 1.1.0)
   rails (~> 6.1.5)
   redis (~> 4.5.1)

@@ -41,7 +41,7 @@ gem 'sequel', '5.55.0'
 gem 'omniauth-rails_csrf_protection', '~> 1.0.1'
 gem 'omniauth-salesforce', github: 'accel-com/omniauth-salesforce'
 gem 'omniauth-stripe'
-gem 'rack-attack', '~> 6.6.0'
+gem 'rack-attack', '~> 6.6.1'
 
 # translation
 gem 'restforce', '~> 5.2.4'
