@@ -11,6 +11,8 @@ type TerminalLocationParams struct {
 	Params `form:"*"`
 	// The full address of the location.
 	Address *AccountAddressParams `form:"address"`
+	// The ID of a configuration that will be used to customize all readers in this location.
+	ConfigurationOverrides *string `form:"configuration_overrides"`
 	// A name for the location.
 	DisplayName *string `form:"display_name"`
 }
@@ -26,7 +28,9 @@ type TerminalLocationListParams struct {
 type TerminalLocation struct {
 	APIResource
 	Address *AccountAddressParams `json:"address"`
-	Deleted bool                  `json:"deleted"`
+	// The ID of a configuration that will be used to customize all readers in this location.
+	ConfigurationOverrides string `json:"configuration_overrides"`
+	Deleted                bool   `json:"deleted"`
 	// The display name of the location.
 	DisplayName string `json:"display_name"`
 	// Unique identifier for the object.
