@@ -13,7 +13,7 @@ type TerminalConfigurationBBPOSWisePOSEParams struct {
 }
 
 // Tipping configuration for AUD
-type TerminalConfigurationTippingAudParams struct {
+type TerminalConfigurationTippingAUDParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -33,7 +33,7 @@ type TerminalConfigurationTippingCADParams struct {
 }
 
 // Tipping configuration for CHF
-type TerminalConfigurationTippingChfParams struct {
+type TerminalConfigurationTippingCHFParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -43,7 +43,7 @@ type TerminalConfigurationTippingChfParams struct {
 }
 
 // Tipping configuration for DKK
-type TerminalConfigurationTippingDkkParams struct {
+type TerminalConfigurationTippingDKKParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -53,7 +53,7 @@ type TerminalConfigurationTippingDkkParams struct {
 }
 
 // Tipping configuration for EUR
-type TerminalConfigurationTippingEurParams struct {
+type TerminalConfigurationTippingEURParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -63,7 +63,7 @@ type TerminalConfigurationTippingEurParams struct {
 }
 
 // Tipping configuration for GBP
-type TerminalConfigurationTippingGbpParams struct {
+type TerminalConfigurationTippingGBPParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -73,7 +73,7 @@ type TerminalConfigurationTippingGbpParams struct {
 }
 
 // Tipping configuration for HKD
-type TerminalConfigurationTippingHkdParams struct {
+type TerminalConfigurationTippingHKDParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -83,7 +83,7 @@ type TerminalConfigurationTippingHkdParams struct {
 }
 
 // Tipping configuration for MYR
-type TerminalConfigurationTippingMyrParams struct {
+type TerminalConfigurationTippingMYRParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -93,7 +93,7 @@ type TerminalConfigurationTippingMyrParams struct {
 }
 
 // Tipping configuration for NOK
-type TerminalConfigurationTippingNokParams struct {
+type TerminalConfigurationTippingNOKParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -103,7 +103,7 @@ type TerminalConfigurationTippingNokParams struct {
 }
 
 // Tipping configuration for NZD
-type TerminalConfigurationTippingNzdParams struct {
+type TerminalConfigurationTippingNZDParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -113,7 +113,7 @@ type TerminalConfigurationTippingNzdParams struct {
 }
 
 // Tipping configuration for SEK
-type TerminalConfigurationTippingSekParams struct {
+type TerminalConfigurationTippingSEKParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -123,7 +123,7 @@ type TerminalConfigurationTippingSekParams struct {
 }
 
 // Tipping configuration for SGD
-type TerminalConfigurationTippingSgdParams struct {
+type TerminalConfigurationTippingSGDParams struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []*int64 `form:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -145,29 +145,29 @@ type TerminalConfigurationTippingUSDParams struct {
 // Tipping configurations for readers supporting on-reader tips
 type TerminalConfigurationTippingParams struct {
 	// Tipping configuration for AUD
-	Aud *TerminalConfigurationTippingAudParams `form:"aud"`
+	AUD *TerminalConfigurationTippingAUDParams `form:"aud"`
 	// Tipping configuration for CAD
 	CAD *TerminalConfigurationTippingCADParams `form:"cad"`
 	// Tipping configuration for CHF
-	Chf *TerminalConfigurationTippingChfParams `form:"chf"`
+	CHF *TerminalConfigurationTippingCHFParams `form:"chf"`
 	// Tipping configuration for DKK
-	Dkk *TerminalConfigurationTippingDkkParams `form:"dkk"`
+	DKK *TerminalConfigurationTippingDKKParams `form:"dkk"`
 	// Tipping configuration for EUR
-	Eur *TerminalConfigurationTippingEurParams `form:"eur"`
+	EUR *TerminalConfigurationTippingEURParams `form:"eur"`
 	// Tipping configuration for GBP
-	Gbp *TerminalConfigurationTippingGbpParams `form:"gbp"`
+	GBP *TerminalConfigurationTippingGBPParams `form:"gbp"`
 	// Tipping configuration for HKD
-	Hkd *TerminalConfigurationTippingHkdParams `form:"hkd"`
+	HKD *TerminalConfigurationTippingHKDParams `form:"hkd"`
 	// Tipping configuration for MYR
-	Myr *TerminalConfigurationTippingMyrParams `form:"myr"`
+	MYR *TerminalConfigurationTippingMYRParams `form:"myr"`
 	// Tipping configuration for NOK
-	Nok *TerminalConfigurationTippingNokParams `form:"nok"`
+	NOK *TerminalConfigurationTippingNOKParams `form:"nok"`
 	// Tipping configuration for NZD
-	Nzd *TerminalConfigurationTippingNzdParams `form:"nzd"`
+	NZD *TerminalConfigurationTippingNZDParams `form:"nzd"`
 	// Tipping configuration for SEK
-	Sek *TerminalConfigurationTippingSekParams `form:"sek"`
+	SEK *TerminalConfigurationTippingSEKParams `form:"sek"`
 	// Tipping configuration for SGD
-	Sgd *TerminalConfigurationTippingSgdParams `form:"sgd"`
+	SGD *TerminalConfigurationTippingSGDParams `form:"sgd"`
 	// Tipping configuration for USD
 	USD *TerminalConfigurationTippingUSDParams `form:"usd"`
 }
@@ -199,7 +199,7 @@ type TerminalConfigurationBBPOSWisePOSE struct {
 	// A File ID representing an image you would like displayed on the reader.
 	Splashscreen *File `json:"splashscreen"`
 }
-type TerminalConfigurationTippingAud struct {
+type TerminalConfigurationTippingAUD struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -215,7 +215,7 @@ type TerminalConfigurationTippingCAD struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
-type TerminalConfigurationTippingChf struct {
+type TerminalConfigurationTippingCHF struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -223,7 +223,7 @@ type TerminalConfigurationTippingChf struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
-type TerminalConfigurationTippingDkk struct {
+type TerminalConfigurationTippingDKK struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -231,7 +231,7 @@ type TerminalConfigurationTippingDkk struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
-type TerminalConfigurationTippingEur struct {
+type TerminalConfigurationTippingEUR struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -239,7 +239,7 @@ type TerminalConfigurationTippingEur struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
-type TerminalConfigurationTippingGbp struct {
+type TerminalConfigurationTippingGBP struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -247,7 +247,7 @@ type TerminalConfigurationTippingGbp struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
-type TerminalConfigurationTippingHkd struct {
+type TerminalConfigurationTippingHKD struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -255,7 +255,7 @@ type TerminalConfigurationTippingHkd struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
-type TerminalConfigurationTippingMyr struct {
+type TerminalConfigurationTippingMYR struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -263,7 +263,7 @@ type TerminalConfigurationTippingMyr struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
-type TerminalConfigurationTippingNok struct {
+type TerminalConfigurationTippingNOK struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -271,7 +271,7 @@ type TerminalConfigurationTippingNok struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
-type TerminalConfigurationTippingNzd struct {
+type TerminalConfigurationTippingNZD struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -279,7 +279,7 @@ type TerminalConfigurationTippingNzd struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
-type TerminalConfigurationTippingSek struct {
+type TerminalConfigurationTippingSEK struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -287,7 +287,7 @@ type TerminalConfigurationTippingSek struct {
 	// Below this amount, fixed amounts will be displayed; above it, percentages will be displayed
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
-type TerminalConfigurationTippingSgd struct {
+type TerminalConfigurationTippingSGD struct {
 	// Fixed amounts displayed when collecting a tip
 	FixedAmounts []int64 `json:"fixed_amounts"`
 	// Percentages displayed when collecting a tip
@@ -304,18 +304,18 @@ type TerminalConfigurationTippingUSD struct {
 	SmartTipThreshold int64 `json:"smart_tip_threshold"`
 }
 type TerminalConfigurationTipping struct {
-	Aud *TerminalConfigurationTippingAud `json:"aud"`
+	AUD *TerminalConfigurationTippingAUD `json:"aud"`
 	CAD *TerminalConfigurationTippingCAD `json:"cad"`
-	Chf *TerminalConfigurationTippingChf `json:"chf"`
-	Dkk *TerminalConfigurationTippingDkk `json:"dkk"`
-	Eur *TerminalConfigurationTippingEur `json:"eur"`
-	Gbp *TerminalConfigurationTippingGbp `json:"gbp"`
-	Hkd *TerminalConfigurationTippingHkd `json:"hkd"`
-	Myr *TerminalConfigurationTippingMyr `json:"myr"`
-	Nok *TerminalConfigurationTippingNok `json:"nok"`
-	Nzd *TerminalConfigurationTippingNzd `json:"nzd"`
-	Sek *TerminalConfigurationTippingSek `json:"sek"`
-	Sgd *TerminalConfigurationTippingSgd `json:"sgd"`
+	CHF *TerminalConfigurationTippingCHF `json:"chf"`
+	DKK *TerminalConfigurationTippingDKK `json:"dkk"`
+	EUR *TerminalConfigurationTippingEUR `json:"eur"`
+	GBP *TerminalConfigurationTippingGBP `json:"gbp"`
+	HKD *TerminalConfigurationTippingHKD `json:"hkd"`
+	MYR *TerminalConfigurationTippingMYR `json:"myr"`
+	NOK *TerminalConfigurationTippingNOK `json:"nok"`
+	NZD *TerminalConfigurationTippingNZD `json:"nzd"`
+	SEK *TerminalConfigurationTippingSEK `json:"sek"`
+	SGD *TerminalConfigurationTippingSGD `json:"sgd"`
 	USD *TerminalConfigurationTippingUSD `json:"usd"`
 }
 type TerminalConfigurationVerifoneP400 struct {

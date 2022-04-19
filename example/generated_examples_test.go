@@ -1610,7 +1610,7 @@ func TestTestHelpersTestClockAdvance(t *testing.T) {
 
 func TestCustomerCreateFundingInstructions(t *testing.T) {
 	params := &stripe.CustomerCreateFundingInstructionsParams{
-		BankTransfer: &stripe.CustomerBankTransferParams{
+		BankTransfer: &stripe.CustomerCreateFundingInstructionsBankTransferParams{
 			RequestedAddressTypes: []*string{stripe.String("zengin")},
 			Type:                  stripe.String("jp_bank_transfer"),
 		},

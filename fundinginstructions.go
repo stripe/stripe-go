@@ -29,8 +29,8 @@ type FundingInstructionsBankTransferType string
 
 // List of values that FundingInstructionsBankTransferType can take
 const (
-	FundingInstructionsBankTransferTypeEuBankTransfer FundingInstructionsBankTransferType = "eu_bank_transfer"
-	FundingInstructionsBankTransferTypeJpBankTransfer FundingInstructionsBankTransferType = "jp_bank_transfer"
+	FundingInstructionsBankTransferTypeEUBankTransfer FundingInstructionsBankTransferType = "eu_bank_transfer"
+	FundingInstructionsBankTransferTypeJPBankTransfer FundingInstructionsBankTransferType = "jp_bank_transfer"
 )
 
 // The `funding_type` of the returned instructions
