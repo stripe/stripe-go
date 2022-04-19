@@ -21,22 +21,15 @@ class StripeForce::Translate
   include StripeForce::Utilities::SalesforceUtil
 
   # convenience method for console debugging
-  def self.sf_get(user, sf_id)
-    sf_type = salesforce_type_from_id(sf_id)
-    user.sf_client.find(sf_type, sf_id)
-  end
-
-  # convenience method for console debugging
   def self.perform_inline(user, sf_id)
-    sf_type = salesforce_type_from_id(sf_id)
-    sf_object = user.sf_client.find(sf_type, sf_id)
     locker = Integrations::Locker.new(user)
 
-    result = self.perform(
-      user: user,
-      locker: locker,
-      sf_object: sf_object
-    )
+    translator = self.new(user, locker)
+
+    sf_type = translator.salesforce_type_from_id(sf_id)
+    sf_object = user.sf_client.find(sf_type, sf_id)
+
+    result = translator.translate(sf_object)
 
     locker.clear_locked_resources
 

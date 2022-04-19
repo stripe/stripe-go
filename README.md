@@ -8,6 +8,8 @@ https://stripe-force.herokuapp.com/auth/salesforce
 
 http://localhost:3100/
 
+system level permissions https://developer.salesforce.com/docs/atlas.en-us.sfFieldRef.meta/sfFieldRef/salesforce_field_reference_PermissionSet.htm
+
 ```
 Stripe.log_level = 'debug'; Restforce.log = true;
 ```
