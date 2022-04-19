@@ -1,5 +1,21 @@
 # Changelog
 
+## 72.102.0 - 2022-04-19
+* [#1451](https://github.com/stripe/stripe-go/pull/1451) API Updates
+  * Add support for new resources `FundingInstructions` and `Terminal.Configuration`
+  * Add support for `CreateFundingInstructions` method on resource `Customer`
+  * Add support for `CustomerBalance` on `ChargePaymentMethodDetails`, `PaymentIntentConfirmPaymentMethodDataParams`, `PaymentIntentConfirmPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodDataParams`, `PaymentIntentPaymentMethodOptionsParams`, `PaymentIntentPaymentMethodOptions`, `PaymentMethodParams`, and `PaymentMethod`
+  * Add support for `CashBalance` on `CustomerParams`
+  * Add support for `AmountDetails` on `PaymentIntent`
+  * Add support for `DisplayBankTransferInstructions` on `PaymentIntentNextAction`
+  * Add support for new value `customer_balance` on enum `PaymentMethodType`
+  * Add support for `ConfigurationOverrides` on `TerminalLocationParams` and `TerminalLocation`
+
+* [#1448](https://github.com/stripe/stripe-go/pull/1448) API Updates
+  * Add support for `IncrementAuthorization` method on resource `PaymentIntent`
+  * Add support for `IncrementalAuthorizationSupported` on `ChargePaymentMethodDetailsCardPresent`
+  * Add support for `RequestIncrementalAuthorizationSupport` on `PaymentIntentConfirmPaymentMethodOptionsCardPresentParams`, `PaymentIntentPaymentMethodOptionsCardPresentParams`, and `PaymentIntentPaymentMethodOptionsCardPresent`
+
 ## 72.101.0 - 2022-04-08
 * [#1446](https://github.com/stripe/stripe-go/pull/1446) API Updates
   * Add support for `ApplyCustomerBalance` method on resource `PaymentIntent`
