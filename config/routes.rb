@@ -22,8 +22,13 @@ Rails.application.routes.draw do
     post 'translate_all' => 'configurations#translate_all'
   end
 
-  # TODO need basic auth
-  # authenticated :admin, ->(u) { u.root? } do
-  #   mount Resque::Server.new => "/resque-monitor", as: :resque_web
-  # end
+  scope :monitoring do
+    if Rails.env.production?
+      Resque::Server.use(Rack::Auth::Basic) do |_user, password|
+        password == ENV.fetch("RESQUE_MONITOR_PASSWORD")
+      end
+    end
+
+    mount Resque::Server.new => "/resque-monitor", as: :resque_web
+  end
 end
