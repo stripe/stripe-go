@@ -21,6 +21,8 @@ class StripeForce::InitiatePollsJobs
   def self.queue_polls_for_user(user)
     set_error_context(user: user)
 
+    # TODO should check if there is a valid NS + Stripe connection
+
     log.info 'queuing poll', poll_job: StripeForce::OrderPoller
 
     # TODO spit out to a separate job

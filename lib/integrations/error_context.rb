@@ -26,7 +26,7 @@ module Integrations
     def report_error(error_class, message, stripe_resource: nil, integration_record: nil, metadata: nil)
       sentry_options = {tags: metadata&.delete(:tags)}.compact
 
-      log.error message, {stripe_resource: stripe_resource, integration_record: integration_record}.merge(metadata || {})
+      log.error message, {stripe_resource: stripe_resource, integration_record: integration_record}.compact.merge(metadata || {})
 
       exception = error_class.new(
         message,
@@ -64,6 +64,8 @@ module Integrations
         user_context = {
           stripe_account_id: user&.stripe_account_id,
           salesforce_account_id: user&.salesforce_account_id,
+          salesforce_endpoint: user.sf_endpoint,
+          salesforce_namespace: user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE],
           livemode: user.livemode,
           sandbox: user.sandbox?,
           username: user.name,
