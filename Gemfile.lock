@@ -481,7 +481,7 @@ DEPENDENCIES
   webdrivers (~> 5.0.0)
 
 RUBY VERSION
-   ruby 2.7.5p207
+   ruby 2.7.6p207
 
 BUNDLED WITH
    2.3.9

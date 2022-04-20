@@ -26,32 +26,32 @@ require: rubocop-minitest
 
 inherit_mode:
   merge:
-  - Exclude
+    - Exclude
 
 AllCops:
-  TargetRubyVersion: 2.7.5
+  TargetRubyVersion: 2.7.6
   DisplayCopNames: true
   Include:
     - Gemfile
     - Rakefile.rb
-    - '**/*.rb'
+    - "**/*.rb"
   Exclude:
-    - 'scripts/**/*'
-    - 'bin/*'
-    - 'db/*'
-    - '**/node_modules/**/*'
+    - "scripts/**/*"
+    - "bin/*"
+    - "db/*"
+    - "**/node_modules/**/*"
     - build/**/*
     - tmp/**/*
     # Rubocop editor extensions use --stdin [filename] --force-exclusion, which
     # only looks at the "exclude" list to determine if a file is Rubocop-able.
     # Explicitly exclude Sorbet interface files, as large ones can cause
     # Rubocop to lock up for minutes at a time!
-    - 'sorbet/**/*.rbi'
+    - "sorbet/**/*.rbi"
   AllowSymlinksInCacheRootDirectory: true
 
 Lint/UselessAssignment:
   Exclude:
-    - 'test/**/*'
+    - "test/**/*"
 
 ########################################################
 # Severity
@@ -478,12 +478,12 @@ Lint/InheritException:
 Lint/InterpolationCheck:
   Exclude:
     # It's common to want to test interpolation strings in cop tests.
-    - 'dev/lib/prison_guard/test/**/*'
+    - "dev/lib/prison_guard/test/**/*"
 Lint/ScriptPermission:
   Exclude:
     # We only add the shebang to Gemfile-local as a hack to get rubocop to analyze the file
     - Gemfile-local
-    - 'manage/frontend/src/payments/timeline/get_charge_responses.rb'
+    - "manage/frontend/src/payments/timeline/get_charge_responses.rb"
 Lint/UnderscorePrefixedVariableName:
   AllowKeywordBlockArguments: true
 Lint/UnusedBlockArgument:
@@ -500,19 +500,19 @@ Naming/ClassAndModuleCamelCase:
     - build/dependency/autoloader/Opus/Picasso/Thrift/PicassoInterface/**/*
     # We don't control the style output by the protoc compiler and copied
     # into the autoloader files.
-    - 'build/dependency/autoloader/Opus/Autogen/Proto/**/*'
+    - "build/dependency/autoloader/Opus/Autogen/Proto/**/*"
     # These are derived from the protobuf produced classes above.
     # So we do not control their style either.
-    - 'build/bazel/proto/events/Opus/Autogen/Event/**/*'
-    - 'build/dependency/autoloader/Opus/Autogen/Event/**/*'
+    - "build/bazel/proto/events/Opus/Autogen/Event/**/*"
+    - "build/dependency/autoloader/Opus/Autogen/Event/**/*"
 # These are intentionally allowed but the rest of the codebase should follow the rule
 Naming/FileName:
   Exclude:
-    - 'build/*/autoloader/**/*'
-    - 'build/bazel/proto/events/**/*'
-    - '**/Gemfile*'
-    - 'Gemfile*'
-    - 'scripts/**/*'
+    - "build/*/autoloader/**/*"
+    - "build/bazel/proto/events/**/*"
+    - "**/Gemfile*"
+    - "Gemfile*"
+    - "scripts/**/*"
 Style/InverseMethods:
   InverseMethods:
     :blank?: :present?
@@ -524,16 +524,16 @@ Style/TrailingCommaInHashLiteral:
 # Consistently use {}
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
-    '%':  '{}'
-    '%i': '{}'
-    '%I': '{}'
-    '%q': '{}'
-    '%Q': '{}'
-    '%r': '{}'
-    '%s': '{}'
-    '%w': '{}'
-    '%W': '{}'
-    '%x': '{}'
+    "%": "{}"
+    "%i": "{}"
+    "%I": "{}"
+    "%q": "{}"
+    "%Q": "{}"
+    "%r": "{}"
+    "%s": "{}"
+    "%w": "{}"
+    "%W": "{}"
+    "%x": "{}"
 # %{} is weirder than %q{}
 Style/BarePercentLiterals:
   EnforcedStyle: percent_q
@@ -555,7 +555,7 @@ Style/TrivialAccessors:
 Style/SymbolLiteral:
   Exclude:
     # Auto gen param stubs violates this test due to existing APIs which are named in strange ways.
-    - 'api/lib/param_specs/**/*'
+    - "api/lib/param_specs/**/*"
 # `format` and `sprintf` are the same so we picked one. % leads to errors since we can't enforce the RHS to be an array.
 Style/FormatString:
   EnforcedStyle: sprintf
@@ -569,8 +569,8 @@ Style/FrozenStringLiteralComment:
   Exclude:
     # Disabled because they're hard to migrate (low or unknown test coverage),
     # or because the change would have limited value.
-    - 'migrations/**/*'
-    - 'scripts/**/*'
+    - "migrations/**/*"
+    - "scripts/**/*"
 # If you are doing it all on one line, fine
 Style/Semicolon:
   AllowAsExpressionSeparator: true
