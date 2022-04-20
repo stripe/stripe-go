@@ -149,3 +149,11 @@ export SRB_SORBET_TYPED_REVISION="mbianco/rails-fixes"
 
 - `NO_RESCUE=true bundle exec rails test "test/**/test*.rb"` will run the entire test suite
 - `NO_RESCUE=1` to avoid autoloading pry-rescue in the test suite
+
+# Heroku
+
+```
+heroku drains:add syslog+tls://logs5.papertrailapp.com:28081
+```
+
+After adding to papertrail, you'll need to rename the system to something legible. [More instructions here.](https://papertrailapp.com/systems/setup?type=system&platform=heroku)
