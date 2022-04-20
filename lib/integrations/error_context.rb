@@ -65,7 +65,7 @@ module Integrations
           stripe_account_id: user&.stripe_account_id,
           salesforce_account_id: user&.salesforce_account_id,
           salesforce_endpoint: user.sf_endpoint,
-          salesforce_namespace: user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE],
+          salesforce_namespace: user.salesforce_namespace,
           livemode: user.livemode,
           sandbox: user.sandbox?,
           username: user.name,

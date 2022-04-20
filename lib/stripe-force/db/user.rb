@@ -99,6 +99,10 @@ module StripeForce
       sf_client.query("SELECT COUNT() FROM PackageLicense WHERE NamespacePrefix LIKE 'SBQQ%'").count >= 1
     end
 
+    def salesforce_namespace
+      self.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE]
+    end
+
     # although you can write the logic to extract this in REST, we need this value to properly
     # establish a connection.
     def salesforce_instance_type
