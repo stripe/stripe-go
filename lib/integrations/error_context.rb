@@ -62,24 +62,14 @@ module Integrations
 
       if user
         user_context = {
-          id: user.stripe_account_id,
-          email: user.email,
+          stripe_account_id: user&.stripe_account_id,
+          salesforce_account_id: user&.salesforce_account_id,
           livemode: user.livemode,
-          # sandbox: user.sandbox?,
+          sandbox: user.sandbox?,
           username: user.name,
         }
 
         tags_context['production'] = user.in_production?
-
-        extra_context.merge!({
-          'netsuite_email' => user.email,
-          # 'netsuite_sandbox' => user.sandbox?,
-        })
-      end
-
-      # useful for the dashboard, add the admin user to all logging and errors
-      if @admin
-        user_context[:admin_id] = @admin.id
       end
 
       if stripe_resource
