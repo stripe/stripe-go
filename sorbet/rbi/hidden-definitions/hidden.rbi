@@ -38212,6 +38212,7 @@ class StripeForce::User
   def default_mappings(); end
 
   def required_mappings(); end
+  def salesforce_namespace(); end
 
   def disable_feature(*args, &blk); end
 
