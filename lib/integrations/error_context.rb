@@ -62,8 +62,8 @@ module Integrations
 
       if user
         user_context = {
-          stripe_account_id: user&.stripe_account_id,
-          salesforce_account_id: user&.salesforce_account_id,
+          stripe_account_id: user.stripe_account_id,
+          salesforce_account_id: user.salesforce_account_id,
           salesforce_endpoint: user.sf_endpoint,
           salesforce_namespace: user.salesforce_namespace,
           livemode: user.livemode,
