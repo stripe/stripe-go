@@ -106,7 +106,8 @@ module StripeForce
     # although you can write the logic to extract this in REST, we need this value to properly
     # establish a connection.
     def salesforce_instance_type
-      if connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE].nil?
+      # if a stripe ID is not set, it's possible that they are early on in the setup process
+      if connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE].nil? && self.stripe_account_id
         report_edge_case("instance type should not be empty")
       end
 

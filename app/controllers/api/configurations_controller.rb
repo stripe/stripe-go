@@ -90,6 +90,10 @@ module Api
         report_edge_case("updating api key for user, but is already set")
       end
 
+      if request.headers[SALESFORCE_INSTANCE_TYPE_HEADER].blank? || request.headers[SALESFORCE_PACKAGE_NAMESPACE_HEADER]
+        report_edge_case("important headers are blank on post install")
+      end
+
       # these settings are very important, especially the organization key
       user.connector_settings[CONNECTOR_SETTING_SALESFORCE_INSTANCE_TYPE] = salesforce_instance_type_from_headers(request.headers[SALESFORCE_INSTANCE_TYPE_HEADER])
       user.connector_settings[CONNECTOR_SETTING_SALESFORCE_NAMESPACE] = subdomain_namespace_from_param(request.headers[SALESFORCE_PACKAGE_NAMESPACE_HEADER])
