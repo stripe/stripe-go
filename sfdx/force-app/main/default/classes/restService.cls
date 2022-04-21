@@ -13,7 +13,7 @@ global with sharing class restService {
 
     //readonly annotation is used to increase the SOQL limit from 50k to a 100k 
     @ReadOnly
-    @HttpGet
+    @HttpPost
     global static void restServiceEvents() {
         
         RestRequest restRequest = RestContext.request;
@@ -383,8 +383,12 @@ global with sharing class restService {
                                     objectApiName = 'OrderItems';
                                 }
                             }
-                            //add list of child ids to parent record 
-                            orderRecord.put(objectApiName,(Object)listOfRelatedRecordsIds);
+
+                            //add list of child ids to parent record if it is not a direct lookup relationship
+                            Object value = orderRecord.get(objectApiName);
+                            if(value == null) {
+                                orderRecord.put(objectApiName,(Object)listOfRelatedRecordsIds);
+                            }
                         }
                     }
                 }
