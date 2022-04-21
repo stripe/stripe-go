@@ -67,7 +67,7 @@ type ProductParams struct {
 	// This may be up to 22 characters. The statement description may not include `<`, `>`, `\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
 	//  It must contain at least one letter. May only be set if `type=service`.
 	StatementDescriptor *string `form:"statement_descriptor"`
-	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID.
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 	// The type of the product. Defaults to `service` if not explicitly specified, enabling use of this product with Subscriptions and Plans. Set this parameter to `good` to use this product with Orders and SKUs. On API versions before `2018-02-05`, this field defaults to `good` for compatibility reasons.
 	Type *string `form:"type"`
@@ -149,7 +149,7 @@ type Product struct {
 	Shippable bool `json:"shippable"`
 	// Extra information about a product which will appear on your customer's credit card statement. In the case that multiple products are billed at once, the first statement descriptor will be used.
 	StatementDescriptor string `json:"statement_descriptor"`
-	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID.
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *TaxCode `json:"tax_code"`
 	// The type of the product. The product is either of type `good`, which is eligible for use with Orders and SKUs, or `service`, which is eligible for use with Subscriptions and Plans.
 	Type ProductType `json:"type"`

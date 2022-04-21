@@ -108,7 +108,7 @@ type ShippingRateParams struct {
 	FixedAmount *ShippingRateFixedAmountParams `form:"fixed_amount"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
 	TaxBehavior *string `form:"tax_behavior"`
-	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID. The Shipping tax code is `txcd_92010001`.
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
 	TaxCode *string `form:"tax_code"`
 	// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
 	Type *string `form:"type"`
@@ -167,7 +167,7 @@ type ShippingRate struct {
 	Object string `json:"object"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
 	TaxBehavior ShippingRateTaxBehavior `json:"tax_behavior"`
-	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID. The Shipping tax code is `txcd_92010001`.
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
 	TaxCode *TaxCode `json:"tax_code"`
 	// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
 	Type ShippingRateType `json:"type"`

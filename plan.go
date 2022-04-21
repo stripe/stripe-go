@@ -97,7 +97,7 @@ type PlanProductParams struct {
 	//
 	// This may be up to 22 characters. The statement description may not include `<`, `>`, `\`, `"`, `'` characters, and will appear on your customer's statement in capital letters. Non-ASCII characters are automatically stripped.
 	StatementDescriptor *string `form:"statement_descriptor"`
-	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID.
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 	// A label that represents units of this product in Stripe and on customers' receipts and invoices. When set, this will be included in associated invoice line item descriptions.
 	UnitLabel *string `form:"unit_label"`
