@@ -8,7 +8,7 @@ package stripe
 
 import "encoding/json"
 
-// A list of [all tax codes available](https://stripe.com/docs/tax/tax-codes) to add to Products in order to allow specific tax calculations.
+// A list of [all tax codes available](https://stripe.com/docs/tax/tax-categories) to add to Products in order to allow specific tax calculations.
 type TaxCodeListParams struct {
 	ListParams `form:"*"`
 }
@@ -18,7 +18,7 @@ type TaxCodeParams struct {
 	Params `form:"*"`
 }
 
-// [Tax codes](https://stripe.com/docs/tax/tax-codes) classify goods and services for tax purposes.
+// [Tax codes](https://stripe.com/docs/tax/tax-categories) classify goods and services for tax purposes.
 type TaxCode struct {
 	APIResource
 	// A detailed description of which types of products the tax code represents.

@@ -232,7 +232,7 @@ type IssuingDisputeParams struct {
 	Params `form:"*"`
 	// Evidence provided for the dispute.
 	Evidence *IssuingDisputeEvidenceParams `form:"evidence"`
-	// The ID of the issuing transaction to create a dispute for.
+	// The ID of the issuing transaction to create a dispute for. For transaction on Treasury FinancialAccounts, use `treasury.received_debit`.
 	Transaction *string `form:"transaction"`
 }
 

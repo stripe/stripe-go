@@ -290,7 +290,7 @@ type CheckoutSessionLineItemPriceDataProductDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// The product's name, meant to be displayable to the customer.
 	Name *string `form:"name"`
-	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID.
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID.
 	TaxCode *string `form:"tax_code"`
 }
 
@@ -562,7 +562,7 @@ type CheckoutSessionShippingOptionShippingRateDataParams struct {
 	Metadata map[string]string `form:"metadata"`
 	// Specifies whether the rate is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`.
 	TaxBehavior *string `form:"tax_behavior"`
-	// A [tax code](https://stripe.com/docs/tax/tax-codes) ID. The Shipping tax code is `txcd_92010001`.
+	// A [tax code](https://stripe.com/docs/tax/tax-categories) ID. The Shipping tax code is `txcd_92010001`.
 	TaxCode *string `form:"tax_code"`
 	// The type of calculation to use on the shipping rate. Can only be `fixed_amount` for now.
 	Type *string `form:"type"`
@@ -665,7 +665,8 @@ type CheckoutSessionParams struct {
 	// When a Customer is not created, you can still retrieve email, address, and other customer data entered in Checkout
 	// with [customer_details](https://stripe.com/docs/api/checkout/sessions/object#checkout_session_object-customer_details).
 	//
-	// Sessions that do not create Customers will instead create [Guest Customers](https://support.stripe.com/questions/guest-customer-faq) in the Dashboard.
+	// Sessions that don't create Customers instead create [Guest Customers](https://support.stripe.com/questions/guest-customer-faq)
+	// in the Dashboard. Promotion codes limited to first time customers will return invalid for these Sessions.
 	//
 	// Can only be set in `payment` and `setup` mode.
 	CustomerCreation *string `form:"customer_creation"`

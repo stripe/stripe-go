@@ -54,6 +54,7 @@ import (
 	terminal_connectiontoken "github.com/stripe/stripe-go/v72/terminal/connectiontoken"
 	terminal_location "github.com/stripe/stripe-go/v72/terminal/location"
 	terminal_reader "github.com/stripe/stripe-go/v72/terminal/reader"
+	testhelpers_refund "github.com/stripe/stripe-go/v72/testhelpers/refund"
 	testhelpers_testclock "github.com/stripe/stripe-go/v72/testhelpers/testclock"
 	_ "github.com/stripe/stripe-go/v72/testing"
 	topup "github.com/stripe/stripe-go/v72/topup"
@@ -1654,5 +1655,11 @@ func TestTerminalConfigurationUpdate(t *testing.T) {
 func TestTerminalConfigurationDelete(t *testing.T) {
 	params := &stripe.TerminalConfigurationParams{}
 	result, _ := terminal_configuration.Del("uc_123", params)
+	assert.NotNil(t, result)
+}
+
+func TestTestHelpersRefundExpire(t *testing.T) {
+	params := &stripe.TestHelpersRefundExpireParams{}
+	result, _ := testhelpers_refund.Expire("re_123", params)
 	assert.NotNil(t, result)
 }
