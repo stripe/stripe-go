@@ -1656,3 +1656,9 @@ func TestTerminalConfigurationDelete(t *testing.T) {
 	result, _ := terminal_configuration.Del("uc_123", params)
 	assert.NotNil(t, result)
 }
+
+func TestTestHelpersRefundExpire(t *testing.T) {
+	params := &stripe.TestHelpersRefundExpireParams{}
+	result, _ := testhelpers_refund.Expire("re_123", params)
+	assert.NotNil(t, result)
+}
