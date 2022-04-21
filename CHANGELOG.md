@@ -1,5 +1,9 @@
 # Changelog
 
+## 72.103.0 - 2022-04-21
+* [#1452](https://github.com/stripe/stripe-go/pull/1452) API Updates
+  * Add support for `Expire` test helper method on resource `Refund`
+
 ## 72.102.0 - 2022-04-19
 * [#1451](https://github.com/stripe/stripe-go/pull/1451) API Updates
   * Add support for new resources `FundingInstructions` and `Terminal.Configuration`
