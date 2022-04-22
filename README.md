@@ -10,8 +10,14 @@ http://localhost:3100/
 
 system level permissions https://developer.salesforce.com/docs/atlas.en-us.sfFieldRef.meta/sfFieldRef/salesforce_field_reference_PermissionSet.htm
 
+# Dev Snippets
+
 ```
 Stripe.log_level = 'debug'; Restforce.log = true;
+
+require_relative './test/support/salesforce_debugging'; include SalesforceDebugging
+
+@user = u = StripeForce::User[90]
 ```
 
 # PR Review Conventions
