@@ -46,9 +46,9 @@ In the org, go to setup>permission sets> stripe connector integration user> mana
 
 Apex triggers run synchronously, TODO add to notes
 
-## Creating a new package
+## Finding an existing package
 
-[Here's the full guide to creating a new package](https://developer.salesforce.com/docs/atlas.en-us.packagingGuide.meta/packagingGuide/uploading_packages.htm). Here's how to find the URL of the latest package we have:
+Here's how to find the URL of the latest package we have:
 
 - Login to the packaging org (we have QA & Prod)
 - Setup > Package Manager > Click on package name
@@ -62,6 +62,34 @@ sfdx force:package:install --upgradetype DELETE -p 04t5f000000aSFv
 ```
 
 Each version of a package has a unique URL.
+
+## Creating a new QA package
+
+[Here's the full guide to creating a new package](https://developer.salesforce.com/docs/atlas.en-us.packagingGuide.meta/packagingGuide/uploading_packages.htm). Below is the short guide.
+
+First, deploy the source to our [QA environment](https://docs.google.com/spreadsheets/d/136PUl_U7bMW7uMSwcqujisasAJNQJIOPQimGGG7iG00/edit#gid=0). You want to do this in stages to avoid errors.
+
+```shell
+cd sfdx
+sfdx force:source:deploy -p force-app/main/default/objects -u mbianco+newstripeconnectorqa@stripe.com
+```
+
+If you don't have access to that account, add access:
+
+```
+sfdx auth:web:login
+```
+
+Then create a new package in the QA org.
+
+- Setup > Package Manager
+- Click on the name of the package
+- Copy the package name field, you'll need it in the next step
+- Click on upload, then:
+  - Release Type > Managed Released
+  - Version Name: QaStripeConnect
+  - New version number will be determined automatically
+  - New Order Save Behavior: unchecked
 
 ## Manually Creating Global Key Metadata
 
