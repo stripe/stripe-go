@@ -12,12 +12,7 @@ public with sharing class test_setupAssistant {
     @isTest
     static public void testSetupAssistant_getSetupData() {
         setupAssistant.saveData(new Map<String, Object>(), false);
-
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
-        stripeConnectRec.Stripe_Connected__c = true;
-        stripeConnectRec.Salesforce_Connected__c = true;
-        stripeConnectRec.API_Key__c = 'testPackageGUID';
-        upsert stripeConnectRec;
+        insertTestConnectedRecord();
 
         String response = setupAssistant.getSetupData();
 
@@ -48,33 +43,12 @@ public with sharing class test_setupAssistant {
         System.assertNotEquals(orgTypeSetting.isSandbox__c, null);
     }
 
-    public static Setup_Connection_Data__mdt getTestStripeConnectionKey() {
-        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
-        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
-        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
-        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
-        return testSetupData;
-    }
-
     @isTest
     static public void testSetupAssistant_validateConnectionStatus() {
         
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);  
-        }
-
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
-        stripeConnectRec.Stripe_Connected__c = false;
-        stripeConnectRec.Salesforce_Connected__c = false;
-        stripeConnectRec.API_Key__c = 'testPackageGUID';
-        upsert stripeConnectRec;
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
@@ -91,21 +65,9 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_connected() {
-        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
-        
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);  
-        }
-
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
-        stripeConnectRec.Stripe_Connected__c = true;
-        stripeConnectRec.Salesforce_Connected__c = true;
-        stripeConnectRec.API_Key__c = 'testPackageGUID';
-        upsert stripeConnectRec;
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();    
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
@@ -121,23 +83,9 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_stripeNotConnected() {
-        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
-        
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-            setupAssistant.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);
-            setupAssistant.setupConfigMetadata.add(testSetupData);  
-        }
-
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
-        stripeConnectRec.Stripe_Connected__c = true;
-        stripeConnectRec.Salesforce_Connected__c = true;
-        stripeConnectRec.API_Key__c = 'testPackageGUID';
-        upsert stripeConnectRec;
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey(); 
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeNotConnectedMock());  
@@ -154,23 +102,9 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_salesforceNotConnected() {
-        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
-        
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-            setupAssistant.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);
-            setupAssistant.setupConfigMetadata.add(testSetupData);  
-        }
-
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
-        stripeConnectRec.Stripe_Connected__c = true;
-        stripeConnectRec.Salesforce_Connected__c = true;
-        stripeConnectRec.API_Key__c = 'testPackageGUID';
-        upsert stripeConnectRec;
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();    
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeNotConnectedMock());  
@@ -190,15 +124,15 @@ public with sharing class test_setupAssistant {
     @isTest
     static public void testSetupAssistant_generateApiKey() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
-        
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-            setupAssistant.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);
-            setupAssistant.setupConfigMetadata.add(testSetupData);  
+        setTestGlobalKey(testSetupData);
+
+        List<CronTrigger> scheduledBatchJobList = [SELECT id, CronJobDetail.Name 
+                                                   FROM CronTrigger 
+                                                   WHERE CronJobDetail.Name LIKE 'Stripe%'];
+        if (!scheduledBatchJobList.isEmpty()) {
+            for (CronTrigger scheduledBatchJob : scheduledBatchJobList){
+                System.abortJob(scheduledBatchJob.id);
+            }
         }
 
         Test.startTest();
@@ -214,20 +148,8 @@ public with sharing class test_setupAssistant {
     @isTest
     static public void testSetupAssistant_getPicklistValuesForMapperConnectedCallback() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
-        
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);  
-        }
-
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
-        stripeConnectRec.Stripe_Connected__c = true;
-        stripeConnectRec.Salesforce_Connected__c = true;
-        stripeConnectRec.API_Key__c = 'testPackageGUID';
-        upsert stripeConnectRec;
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
 
         Test.startTest();
         String response = setupAssistant.getPicklistValuesForMapper(true, '');
@@ -248,20 +170,8 @@ public with sharing class test_setupAssistant {
     @isTest
     static public void testSetupAssistant_getPicklistValuesForMapper() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
-        
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);  
-        }
-
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
-        stripeConnectRec.Stripe_Connected__c = true;
-        stripeConnectRec.Salesforce_Connected__c = true;
-        stripeConnectRec.API_Key__c = 'testPackageGUID';
-        upsert stripeConnectRec;
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
 
         Test.startTest();
         String response = setupAssistant.getPicklistValuesForMapper(false, 'Account');
@@ -282,20 +192,8 @@ public with sharing class test_setupAssistant {
     @isTest
     static public void testSetupAssistant_saveMappingConfigurations() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
-        
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);  
-        }
-
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
-        stripeConnectRec.Stripe_Connected__c = true;
-        stripeConnectRec.Salesforce_Connected__c = true;
-        stripeConnectRec.API_Key__c = 'testPackageGUID';
-        upsert stripeConnectRec;
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());  
@@ -311,20 +209,8 @@ public with sharing class test_setupAssistant {
     @isTest
     static public void testSetupAssistant_failSaveMappingConfigurations() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
-        
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);  
-        }
-
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
-        stripeConnectRec.Stripe_Connected__c = true;
-        stripeConnectRec.Salesforce_Connected__c = true;
-        stripeConnectRec.API_Key__c = 'testPackageGUID';
-        upsert stripeConnectRec;
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectFailMock());  
@@ -341,20 +227,8 @@ public with sharing class test_setupAssistant {
     @isTest
     static public void testSetupAssistant_getMappingConfigurations() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
-        
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);  
-        }
-
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
-        stripeConnectRec.Stripe_Connected__c = true;
-        stripeConnectRec.Salesforce_Connected__c = true;
-        stripeConnectRec.API_Key__c = 'testPackageGUID';
-        upsert stripeConnectRec;
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());  
@@ -381,20 +255,8 @@ public with sharing class test_setupAssistant {
     @isTest
     static public void testSetupAssistant_failGetMappingConfigurations() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
-        
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);  
-        }
-
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
-        stripeConnectRec.Stripe_Connected__c = true;
-        stripeConnectRec.Salesforce_Connected__c = true;
-        stripeConnectRec.API_Key__c = 'testPackageGUID';
-        upsert stripeConnectRec;
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectFailMock());  
@@ -408,14 +270,7 @@ public with sharing class test_setupAssistant {
     @isTest
     static public void testSetupAssistant_getFormattedStripeObjectFields() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
-        
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);  
-        }
+        setTestGlobalKey(testSetupData);
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());  
@@ -443,20 +298,8 @@ public with sharing class test_setupAssistant {
     @isTest
     static public void testSetupAssistant_getSyncPreferences() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
-        
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);  
-        }
-
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
-        stripeConnectRec.Stripe_Connected__c = true;
-        stripeConnectRec.Salesforce_Connected__c = true;
-        stripeConnectRec.API_Key__c = 'testPackageGUID';
-        upsert stripeConnectRec;
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
@@ -494,27 +337,13 @@ public with sharing class test_setupAssistant {
         } else {
             System.assertEquals(false, (Boolean)resultsMap.get('isMultiCurrencyEnabled'));
         }
-
     }
-
 
     @isTest
     static public void testSetupAssistant_manualRetry() {
         Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
-        
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);  
-        }
-
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
-        stripeConnectRec.Stripe_Connected__c = true;
-        stripeConnectRec.Salesforce_Connected__c = true;
-        stripeConnectRec.API_Key__c = 'testPackageGUID';
-        upsert stripeConnectRec;
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
 
         Sync_Record__c testSyncRecord = new Sync_Record__c (
             Primary_Record_ID__c = '1234',
@@ -538,26 +367,10 @@ public with sharing class test_setupAssistant {
 
     @isTest
     static public void testSetupAssistant_saveSyncPreferences() {
-        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
-        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
-        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
-        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
-        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
-        
-        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
-                                                            FROM Setup_Connection_Data__mdt];  
-        if(!setupConfigList.isEmpty()) {
-            utilities.setupConfigMetadata[0] = testSetupData;
-        } else {
-            utilities.setupConfigMetadata.add(testSetupData);  
-        }
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
 
-        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
-        stripeConnectRec.Stripe_Connected__c = true;
-        stripeConnectRec.Salesforce_Connected__c = true;
-        stripeConnectRec.API_Key__c = 'testPackageGUID'; 
-        insert stripeConnectRec;
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
         String response = setupAssistant.saveSyncPreferences('TEST','10000', '1644854972', '95', 'monthly');
@@ -565,6 +378,96 @@ public with sharing class test_setupAssistant {
         Test.stopTest();
 
         System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+    }
+
+    @isTest
+    static public void testSetupAssistant_getFilterSettings() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
+
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
+        String response = setupAssistant.getFilterSettings();
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        Test.stopTest();
+        System.debug(responseMap);
+        System.assert((Boolean)responseMap.get('isSuccess'));
+
+        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+
+        System.assertEquals('testOrderFilter', (String)resultsMap.get('Order'));
+        System.assertEquals('testAccountFilter', (String)resultsMap.get('Account'));
+        System.assertEquals('testProduct2Filter', (String)resultsMap.get('Product2'));
+    }
+    
+    @isTest
+    static public void testSetupAssistant_failSaveFilterSettings() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
+
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
+        String response = setupAssistant.saveFilterSettings('Id != null', 'Ids != null', '');
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        Test.stopTest();
+
+        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+
+        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+        System.assertEquals(false, (Boolean)resultsMap.get('isFiltersSaved'));
+        System.assertEquals(true, (Boolean)resultsMap.get('isValidationError'));
+    }
+
+    @isTest
+    static public void testSetupAssistant_successfulSaveFilterSettings() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
+
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new stripeConnectionSuccessMock());  
+        String response = setupAssistant.saveFilterSettings('Id != null', 'Id != null', 'Id != null');
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        Test.stopTest();
+
+        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+
+        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+        System.assertEquals(true, (Boolean)resultsMap.get('isFiltersSaved'));
+        System.assertEquals(false, (Boolean)resultsMap.get('isValidationError'));
+    }
+
+
+    public static Setup_Connection_Data__mdt getTestStripeConnectionKey() {
+        Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
+        Map<String,Object> fields =  (Map<String,Object>) JSON.deserializeUntyped(JSON.serializePretty(testSetupData));
+        fields.put(Setup_Connection_Data__mdt.Label.getDescribe().getName(), 'Default');
+        fields.put(Setup_Connection_Data__mdt.DeveloperName.getDescribe().getName(), 'Default');
+        fields.put(Setup_Connection_Data__mdt.Global_Key__c.getDescribe().getName(), 'testGlobalGUID');
+        testSetupData = (Setup_Connection_Data__mdt) JSON.deserialize(JSON.serialize(fields), Setup_Connection_Data__mdt.class);
+        return testSetupData;
+    }
+
+    public static void setTestGlobalKey(Setup_Connection_Data__mdt testSetupData) {
+        List<Setup_Connection_Data__mdt> setupConfigList = [SELECT Global_Key__c
+                                                            FROM Setup_Connection_Data__mdt];  
+        if(!setupConfigList.isEmpty()) {
+            utilities.setupConfigMetadata[0] = testSetupData;
+            setupAssistant.setupConfigMetadata[0] = testSetupData;
+        } else {
+            utilities.setupConfigMetadata.add(testSetupData);
+            setupAssistant.setupConfigMetadata.add(testSetupData);  
+        }
+    }
+
+    public static void insertTestConnectedRecord() {
+        Stripe_Connection__c stripeConnectRec = new Stripe_Connection__c(); 
+        stripeConnectRec.Stripe_Connected__c = true;
+        stripeConnectRec.Salesforce_Connected__c = true;
+        stripeConnectRec.API_Key__c = 'testPackageGUID'; 
+        insert stripeConnectRec;
     }
 
     private class stripeConnectionSuccessMock implements HttpCalloutMock {
@@ -584,7 +487,12 @@ public with sharing class test_setupAssistant {
                     'sync_record_retention' => '2 days',
                     'sync_start_date' => 'yesterday',
                     'api_percentage_limit' => 1000515,
-                    'cpq_term_unit' => 'monthly' 
+                    'cpq_term_unit' => 'monthly',
+                    'filters' => new Map<String,Object> {
+                        'Product2' => 'testProduct2Filter',
+                        'Order' => 'testOrderFilter',
+                        'Account' => 'testAccountFilter'
+                    } 
                 });
     
                 res.setBody(Json.serialize(responseBody));
@@ -675,7 +583,12 @@ public with sharing class test_setupAssistant {
                         'sync_record_retention' => '2 days',
                         'sync_start_date' => 'yesterday',
                         'api_percentage_limit' => 1000515,
-                        'cpq_term_unit' => 'monthly' 
+                        'cpq_term_unit' => 'monthly',
+                        'filters' => new Map<String,Object> {
+                            'Product2' => 'testProduct2Filter',
+                            'Order' => 'testOrderFilter',
+                            'Account' => 'testAccountFilter'
+                        }
                     });
         
                     res.setBody(Json.serialize(responseBody));

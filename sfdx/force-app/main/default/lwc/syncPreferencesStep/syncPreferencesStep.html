@@ -103,5 +103,53 @@
                 <c-picklist label="CPQ Term Interval" options={intervalOptions} variant="label-hidden" value={cpqTermUnit} onselect={updateCpqTermInterval} placeholder="Select Interval..." searchable></c-picklist>
             </div>
         </div>
+        <div class="stripe-settings__item slds-grid">
+            <div class="slds-col_bump-right">
+                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                    Accounts WHERE Clause SOQL
+                </h4>
+                <p>
+                    Determine which Accounts will <strong>not</strong> be synchronized. By default, all Accounts will be synchronized. Accounts that meet the criteria defined here in the <code>WHERE</code> clause will be excluded from the synchronization between Salesforce and Stripe.
+                </p>
+            </div>
+            <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                <lightning-input label="Exclude Account records where:" type="text" value={accountFilter} placeholder="Provide filter logic..." class={accountFilterClassList} onchange={updateAccountFilter}></lightning-input>
+                <div if:true={hasAccountFilterError} class="slds-form-element__help slds-text-color_error">
+                    {accountFilterError}
+                </div>
+            </div>
+        </div>
+        <div class="stripe-settings__item slds-grid">
+            <div class="slds-col_bump-right">
+                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                    Orders WHERE Clause SOQL 
+                </h4>
+                <p>
+                    Determine which Orders will <strong>not</strong> be synchronized. By default, all Orders will be synchronized. Orders that meet the criteria defined here in the <code>WHERE</code> clause will be excluded from the synchronization between Salesforce and Stripe.
+                </p>
+            </div>
+            <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                <lightning-input label="Exclude Order records where:" type="text" value={orderFilter} placeholder="Provide filter logic..." class={orderFilterClassList} onchange={updateOrderFilter}></lightning-input>
+                <div if:true={hasOrderFilterError} class="slds-form-element__help slds-text-color_error">
+                    {orderFilterError}
+                </div>
+            </div>
+        </div>
+        <div class="stripe-settings__item slds-grid">
+            <div class="slds-col_bump-right">
+                <h4 class="slds-text-heading_small slds-m-bottom_xx-small">
+                    Products WHERE Clause SOQL
+                </h4>
+                <p>
+                    Determine which Products will <strong>not</strong> be synchronized. By default, all Products will be synchronized. Products that meet the criteria defined here in the <code>WHERE</code> clause will be excluded from the synchronization between Salesforce and Stripe.
+                </p>
+            </div>
+            <div class="slds-col slds-p-left_xx-large slds-size_1-of-3">
+                <lightning-input label="Exclude Product records where:" type="text" value={productFilter} placeholder="Provide filter logic..." class={productFilterClassList} onchange={updateProductFilter}></lightning-input>
+                <div if:true={hasProductFilterError} class="slds-form-element__help slds-text-color_error">
+                    {productFilterError}
+                </div>
+            </div>
+        </div>
     </div>
 </template>

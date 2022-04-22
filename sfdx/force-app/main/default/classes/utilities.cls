@@ -100,9 +100,14 @@ public with sharing class utilities {
                             //in this case we know the field is not a look up so we add to field map
                             objectFieldMap = addFieldsToObjectFieldMap(objectFieldMap, objectApiFieldMap, objectFieldName, isFieldCustom, typeOfField, isObjectCustom);
                         }
+                    } else {
+                        //in the case the field is not accessable we will move on to the next field
+                        continue;
                     }
                     //add field map to list to be returned 
-                    if(objectFieldMap != null && !objectFieldMap.isEmpty())objectFieldMapList.add(objectFieldMap);
+                    if(objectFieldMap != null && !objectFieldMap.isEmpty()) {
+                        objectFieldMapList.add(objectFieldMap);
+                    }
                 }
             }
             objectFieldMapList.remove(null);
@@ -124,8 +129,8 @@ public with sharing class utilities {
 
     public static Boolean isCpqEnabled() {
         //checks if the namespace of the CPQ package exists (all CPQ package namespaces start with 'SBQQ'
-        // if a non-admin installs this package, this check would fail
-        // we are using a wildcard because there are variants of the CPQ package which have a unique namespace (SBQQW)
+        //if a non-admin installs this package, this check would fail
+        //we are using a wildcard because there are variants of the CPQ package which have a unique namespace (SBQQW)
         Integer sbqqPackageCount = [SELECT COUNT() FROM PackageLicense WHERE NamespacePrefix LIKE 'SBQQ%'];
         return sbqqPackageCount > 0;
     }
@@ -145,7 +150,8 @@ public with sharing class utilities {
             /*sets custom setting record that controls weather sending errors to sentry is live or not*/
             Sentry_Active_Config__c activateSentrySetting = Sentry_Active_Config__c.getOrgDefaults();
             if (activateSentrySetting.Id == null) {
-                activateSentrySetting.IsDebug__c = false;
+                /* this would be useful if you plan to log in to subscriber orgs via the PBO/LMA for debugging. This flag sets the 'sentry log' statements to be live so you can see exception details clearly in the debug logs. The details on what each of those custom setting fields control is in the readMe file inside the source code repo btw (https://github.com/jmather/SentryForSalesforce). */
+                activateSentrySetting.IsDebug__c = true;
                 activateSentrySetting.Environment_Name__c = (String)constants.ORG_ID;
                 activateSentrySetting.IsIssueCreationDisabled__c = false;
                 activateSentrySetting.Sentry_Config__c = 'Default';
@@ -202,8 +208,10 @@ public with sharing class utilities {
                 request.setHeader('Package-Id', (String)setupAssistant.getPackageVersion());
             }
         } else {
-            // TODO log.info missing metadata could be the issue
-            throw new SetupIsNotCompleteException('Setup is not complete, contact your Salesforce administrator for further assistance.');
+            /* This error should only be thrown in a scratch org when unmangaed key is deployed to 
+            an org and the custom metadata record containing the global key was not created */
+            Sentry_Log.logSentry('missing metadata record with global key');
+            throw new SetupIsNotCompleteException('Org is not setup correctly, missing custom metadata record with global key');
         }
     
         HttpResponse response = httpMethod.send(request);

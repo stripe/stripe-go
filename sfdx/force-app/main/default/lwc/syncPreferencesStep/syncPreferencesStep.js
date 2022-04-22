@@ -1,6 +1,8 @@
 import saveSyncPreferences from '@salesforce/apex/setupAssistant.saveSyncPreferences';
 import getSyncPreferences from '@salesforce/apex/setupAssistant.getSyncPreferences';
 import getMulticurrencySelectionOptions from '@salesforce/apex/setupAssistant.getMulticurrencySelectionOptions';
+import getFilterSettings from '@salesforce/apex/setupAssistant.getFilterSettings';
+import saveFilterSettings from '@salesforce/apex/setupAssistant.saveFilterSettings';
 import { LightningElement, api, track} from 'lwc';
 
 export default class SyncPreferencesStep extends LightningElement {
@@ -17,6 +19,9 @@ export default class SyncPreferencesStep extends LightningElement {
     @track totalApiCalls; 
     @track currencyOptions;
     @track isCpqInstalled;
+    @track orderFilter;
+    @track accountFilter;
+    @track productFilter;
     @track intervalOptions = [
         {
             label: 'Month',
@@ -27,6 +32,9 @@ export default class SyncPreferencesStep extends LightningElement {
             value: 'day'
         }
     ];
+    accountFilterError = '';
+    orderFilterError = '';
+    productFilterError = '';
  
     @api async connectedCallback() {
         try {
@@ -53,11 +61,19 @@ export default class SyncPreferencesStep extends LightningElement {
                 } else if(this.data.error) { 
                     this.showToast(this.data.error, 'error', 'sticky');
                 }
+
+                const filterSettings = await getFilterSettings();
+                const filterSettingsResponseData = JSON.parse(filterSettings);
+                if(filterSettingsResponseData.isSuccess) {
+                    this.orderFilter = filterSettingsResponseData.results.Order;
+                    this.accountFilter = filterSettingsResponseData.results.Account;
+                    this.productFilter = filterSettingsResponseData.results.Product2;
+                } else if(filterSettingsResponseData.error) { 
+                    this.showToast(filterSettingsResponseData.error, 'error', 'sticky');
+                }
             } else if(this.data.error) { 
                 this.showToast(this.data.error, 'error', 'sticky');
             }
-
-            
         } catch (error) {
             this.showToast(error.message, 'error', 'sticky');
         } finally {
@@ -90,6 +106,20 @@ export default class SyncPreferencesStep extends LightningElement {
         this.cpqTermUnit = updatedValue;
     }
 
+    updateAccountFilter(event) {
+        let updatedValue = this.valueChange(this.accountFilter, event.detail.value)
+        this.accountFilter = updatedValue;
+    }
+
+    updateProductFilter(event) {
+        let updatedValue = this.valueChange(this.productFilter, event.detail.value)
+        this.productFilter = updatedValue;
+    }
+
+    updateOrderFilter(event) {
+        let updatedValue = this.valueChange(this.orderFilter, event.detail.value)
+        this.orderFilter = updatedValue;
+    }
 
     valueChange(savedValue, updatedValue) {
         if(savedValue !== updatedValue) {
@@ -107,6 +137,30 @@ export default class SyncPreferencesStep extends LightningElement {
         }
     }
 
+    get hasAccountFilterError() {
+        return this.accountFilterError.length > 0;
+    }
+    
+    get hasOrderFilterError() {
+        return this.orderFilterError.length > 0;
+    }
+    
+    get hasProductFilterError  () {
+        return this.productFilterError.length > 0;
+    }
+
+    get accountFilterClassList() {
+        return (this.accountFilterError.length > 0? 'slds-has-error' : ''); 
+    }
+
+    get orderFilterClassList() {
+        return (this.orderFilterError.length > 0 ? 'slds-has-error' : ''); 
+    }
+
+    get productFilterClassList() {
+        return (this.productFilterError.length > 0 ? 'slds-has-error' : ''); 
+    }
+
     @api async saveModifiedSyncPreferences() {
         let saveSuccess = false;
         try {
@@ -118,14 +172,51 @@ export default class SyncPreferencesStep extends LightningElement {
                     syncStartDate: (new Date(this.syncStartDate).getTime() / 1000),
                     apiPercentageLimit: this.apiPercentageLimit
                 });
-                this.data =  JSON.parse(updatedSyncPreferences);
-                if(this.data.isSuccess) {
-                    saveSuccess = true;
-                    this.showToast('Changes were successfully saved', 'success');
+                const savedSyncPreferencesResponseData =  JSON.parse(updatedSyncPreferences);
+                if(savedSyncPreferencesResponseData.isSuccess) {
+                    // Reset object filter validation messages
+                    this.accountFilterError = '';
+                    this.productFilterError = '';
+                    this.orderFilterError = '';
+                    const updatedFilterSettings = await saveFilterSettings({
+                        productFilter: this.productFilter,
+                        orderFilter: this.orderFilter,
+                        accountFiter: this.accountFilter
+                    });
+                    const filterResponseData =  JSON.parse(updatedFilterSettings);
+                    if (filterResponseData.isSuccess ) {
+                        if (filterResponseData.results.isFiltersSaved) {
+                            saveSuccess = true
+                            this.showToast('Changes were successfully saved', 'success');
+                        } else {
+                            if(filterResponseData.results.isValidationError) {
+                                const listOfExceptions = filterResponseData.results.ValidationErrors;
+                                    for (let i = 0; i < listOfExceptions.length; i++) {
+                                        let objectWithError = listOfExceptions[i].Object;
+                                        let exceptionThrown = listOfExceptions[i].Error;
+                                        if (objectWithError === 'Account') {
+                                            // Set account validation message
+                                            this.accountFilterError = exceptionThrown;
+                                        } else if (objectWithError === 'Product2') {
+                                            // Set product validation message
+                                            this.productFilterError = exceptionThrown;
+                                        } else if (objectWithError === 'Order') {
+                                            // Set order validation message
+                                            this.orderFilterError = exceptionThrown;
+                                        }  
+                                    }
+                                return;
+                            }
+                        }
+                    } else {
+                        this.showToast(filterResponseData.error, 'error', 'sticky');
+                    } 
+                    
                 } else {
-                    this.showToast(this.data.error, 'error', 'sticky');
+                    this.showToast(savedSyncPreferencesResponseData.error, 'error', 'sticky');
                 } 
             }  
+
         } catch (error) {
             this.showToast(error.message, 'error', 'sticky');
         } finally {

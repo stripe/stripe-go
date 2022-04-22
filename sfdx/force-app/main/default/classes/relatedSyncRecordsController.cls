@@ -2,6 +2,7 @@ public with sharing class relatedSyncRecordsController {
     @AuraEnabled
     public static String getRelatedSyncRecords(Id recordId) {
         responseData rd = new responseData(); 
+        Boolean hasSyncRecords = false;
         try {
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults(); 
             
@@ -15,17 +16,17 @@ public with sharing class relatedSyncRecordsController {
                                                         ORDER BY CreatedDate DESC];   
 
                 if (!syncRecordList.isEmpty()) {
-                    rd.put('hasSyncRecords',true);
+                    hasSyncRecords = true;  
                     rd.put('syncRecordList',syncRecordList); 
-                } else {
-                    rd.put('hasSyncRecords',false);
-                }
+                } 
             }
         } catch(QueryException e) {  
             rd.put('missingPermSet',true);  
+            return rd.getJsonString();
         } catch (Exception e) {
             rd.addError(e);
         }
+        rd.put('hasSyncRecords',hasSyncRecords);
         return rd.getJsonString();
     }
 }
