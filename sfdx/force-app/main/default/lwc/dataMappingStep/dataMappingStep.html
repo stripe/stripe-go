@@ -189,12 +189,12 @@
             <!-- SUBSCRIPTION OBJECT -->
             <template if:true={subscriptionObjectActive}>
                 <!-- Mapper Main Content -->
-                <h1 class="slds-text-heading_medium">Subscription</h1>
+                <h1 class="slds-text-heading_medium">Subscription Schedule</h1>
                 <h4 class="slds-m-top_xx-small slds-m-bottom_small">Salesforce Object: <strong>{defaultSfObject}</strong></h4>
-                <p class="slds-m-vertical_small slds-text-color_weak">Subscriptions allow you to charge a customer on a recurring basis.</p>
+                <p class="slds-m-vertical_small slds-text-color_weak">A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.</p>
 
                 <!-- Mapping Groups -->
-                <lightning-accordion 
+                <lightning-accordion
                     active-section-name={defaultSubscriptionSections}
                     allow-multiple-sections-open>
                     <template for:each={stripeSubscriptionMappings} for:item="section" for:index="sectionIndex">
