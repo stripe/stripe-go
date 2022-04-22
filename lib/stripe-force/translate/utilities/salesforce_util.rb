@@ -8,7 +8,8 @@ module StripeForce::Utilities
     extend T::Sig
     include Kernel
 
-    abstract!
+    # TODO add abstract back in when we are done hacking on this
+    # abstract!
 
     include Integrations::ErrorContext
     include StripeForce::Constants
@@ -30,6 +31,10 @@ module StripeForce::Utilities
         SF_ORDER
       when /^802/
         SF_ORDER_ITEM
+      when /^0Mh/
+        SF_CONSUMPTION_SCHEDULE
+      when /^0Mo/
+        SF_CONSUMPTION_RATE
       else
         object_prefix = sf_id[0..2]
         object_description = @user.sf_client.api_get('sobjects').body["sobjects"].detect {|o| o["keyPrefix"] == object_prefix }

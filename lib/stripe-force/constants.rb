@@ -11,6 +11,8 @@ module StripeForce
     SF_OPPORTUNITY = 'Opportunity'
     SF_PRICEBOOK = 'Pricebook2'
     SF_PRICEBOOK_ENTRY = 'PricebookEntry'
+    SF_CONSUMPTION_SCHEDULE = 'ConsumptionSchedule'
+    SF_CONSUMPTION_RATE = 'ConsumptionRate'
 
     SF_ID = 'Id'
     SF_ORDER_ACCOUNT = 'AccountId'

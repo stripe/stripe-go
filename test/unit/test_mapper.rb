@@ -43,6 +43,7 @@ module Critic::Unit
         },
         "subscription_schedule" => {
           "default_settings.collection_method" => "send_invoice",
+          "metadata.Subscription Type" => "great_type",
         },
         "price" => {
           "metadata.tax_id" => 123,
@@ -67,6 +68,7 @@ module Critic::Unit
       assert_equal("usd", stripe_customer.currency)
 
       assert_equal("send_invoice", stripe_subscription_schedule.default_settings.collection_method)
+      assert_equal("great_type", stripe_subscription_schedule.metadata['Subscription Type'])
 
       assert_equal(123, stripe_price.metadata["tax_id"])
     end
@@ -108,17 +110,15 @@ module Critic::Unit
     end
 
     it 'defaults to the static table when metadata for the dynamic table value is not defined' do
-      skip("should use metadata v2 syntax here")
-
       @user.field_defaults = {
         "customer" => {
-          "alt_name" => "Mike",
+          "metadata.example" => "Mike",
         },
       }
 
       @user.field_mappings = {
         "customer" => {
-          "ns_alt_name" => "alt_name",
+          "metadata.example" => "Alt_Name__c",
         },
       }
 
@@ -128,14 +128,14 @@ module Critic::Unit
 
       @mapper.apply_mapping(stripe_customer, sf_customer)
 
-      assert_equal('Mike', sf_customer.alt_name)
+      assert_equal('Mike', stripe_customer.metadata['example'])
 
       sf_customer = create_mock_salesforce_customer
-      stripe_customer.metadata = {"ns_alt_name" => "Kyle"}
+      sf_customer['Alt_Name__c'] = "Kyle"
 
       @mapper.apply_mapping(stripe_customer, sf_customer)
 
-      assert_equal('Kyle', sf_customer.alt_name)
+      assert_equal('Kyle', stripe_customer.metadata['example'])
     end
 
     it 'does not annotate a user with blank annotation tables' do
@@ -154,23 +154,25 @@ module Critic::Unit
 
     # https://github.com/stripe/stripe-netsuite/issues/825
     it 'handles associated object annotation' do
-      skip("dot syntax is not working yet")
+      skip("not yet implemented")
 
-      @user.field_mappings['invoice'] = {
-        'metadata.random_thing' => 'custbody_random',
-        'metadata.random_float' => 'custbody_random_float',
-        'id' => 'custbody_invoiceid',
-        'amount' => 'tran_id',
+      @user.field_mappings = {
+        'invoice' => {
+          'metadata.random_thing' => 'custbody_random',
+          'metadata.random_float' => 'custbody_random_float',
+          'id' => 'custbody_invoiceid',
+          'amount' => 'tran_id',
 
-        # ensure a bunch of invalid mappings are testing
-        'date' => '',
-        'invalid_field' => 'other_ref_num',
-        'invalid.field' => 'other_ref_num',
-        'currency' => 2,
-        'status' => nil,
+          # ensure a bunch of invalid mappings are testing
+          'date' => '',
+          'invalid_field' => 'other_ref_num',
+          'invalid.field' => 'other_ref_num',
+          'currency' => 2,
+          'status' => nil,
 
-        'subscription.metadata.order_number' => 'custbodystripe_subscription_number',
-        'subscription.id' => 'custbody_subscriptionid',
+          'subscription.metadata.order_number' => 'custbodystripe_subscription_number',
+          'subscription.id' => 'custbody_subscriptionid',
+        },
       }
 
       @user.field_mappings['invoice_item'] = {

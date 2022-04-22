@@ -516,7 +516,7 @@ class StripeForce::Translate
     end
 
     stripe_price.product = stripe_product.id
-    stripe_price.metadata = (stripe_price['metadata'] || {}).merge(stripe_metadata_for_sf_object(sf_object))
+    stripe_price.metadata = (stripe_price['metadata'].to_h || {}).merge(stripe_metadata_for_sf_object(sf_object))
 
     # considered mapping SF pricebook ID to `lookup_key` but it's not *exactly* an external id and more presents a identifier
     # for an externall-used price so the "latest price" for a specific price-type can be used, probably in a website form or something
