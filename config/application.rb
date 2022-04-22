@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: strict
+# typed: true
 require_relative "boot"
 
 require "action_controller/railtie"
@@ -9,6 +9,8 @@ require "rails/test_unit/railtie"
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+
+require_relative '../lib/stripe-force/constants'
 
 module StripeForce
   class Application < Rails::Application
@@ -44,13 +46,23 @@ module StripeForce
     #   host: ENV.fetch('SALESFORCE_APP_DOMAIN'),
     # }
 
+    include StripeForce::Constants
+
+    SALESFORCE_HEADERS = [
+      SALESFORCE_ACCOUNT_ID_HEADER,
+      SALESFORCE_PACKAGE_NAMESPACE_HEADER,
+      SALESFORCE_INSTANCE_TYPE_HEADER,
+    ]
+
     config.lograge.enabled = true
     config.lograge.custom_options = lambda do |event|
       # NOTE lograge doesn't include params by default, we need to manually include them here
-      payload = {"params" => event.payload[:params].except('controller', 'action')}
+      custom_params = {"params" => event.payload[:params].except('controller', 'action')}
 
-      # TODO not sure exactly what is going on here...
-      payload.merge(event.payload.select {|k, v| [:salesforce_user_id, :stripe_user_id].include?(k) && v.present? })
+      # include headers which identify which account and other details the request is coming from=
+      SALESFORCE_HEADERS.each {|h| custom_params[h] = event.payload[:request].headers[h] }
+
+      custom_params.reject {|_, v| v.blank? }
     end
   end
 end
