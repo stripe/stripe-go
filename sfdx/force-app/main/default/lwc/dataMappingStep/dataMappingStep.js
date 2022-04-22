@@ -43,6 +43,7 @@ export default class DataMappingStep extends LightningElement {
         field_defaults: {
             customer: {},
             product: {},
+            subscription: {},
             subscription_schedule: {},
             subscription_item: {},
             price: {}
@@ -50,13 +51,15 @@ export default class DataMappingStep extends LightningElement {
         field_mappings: {
             customer: {},
             product: {},
+            subscription: {},
             subscription_schedule: {},
             subscription_item: {},
             price: {}
         },
-        default_mappingss: {
+        default_mappings: {
             customer: {},
             product: {},
+            subscription: {},
             subscription_schedule: {},
             subscription_item: {},
             price: {}
@@ -64,6 +67,7 @@ export default class DataMappingStep extends LightningElement {
         required_mappings: {
             customer: {},
             product: {},
+            subscription: {},
             subscription_schedule: {},
             subscription_item: {},
             price: {}

@@ -12,10 +12,11 @@ const excludedReadOnlyFields = {
     customer: [
         'delinquent',
         'discount',
-        'tax.ip_address'
     ],
 
-    product: [],
+    product: [
+        'price'
+    ],
 
     subscription: [
         'id',
@@ -36,21 +37,31 @@ const OPTIONS = {
     path: 'stripe/openapi/d41298323ca953bf0b475b685a63515aed1e0c73/openapi/spec3.json',
     method: 'GET'
 }
-var responseJson = '';
+
+let openApiSpec = '';
+
+function extractStripeObject(openApiSpec, stripeObjectType) {
+    return openApiSpec['paths'][`/v1/${stripeObjectType}s`]['post']['requestBody']['content']['application/x-www-form-urlencoded']['schema']['properties']
+}
+
+// TODO we should use async/await here instead
 const HTTPREQUEST = HTTPS.request(OPTIONS, HttpResponse => {
     HttpResponse.on('data', responseDataChunk => {
-        responseJson += responseDataChunk.toString();
+        openApiSpec += responseDataChunk.toString();
     })
 
     HttpResponse.on('end', () => {
-        responseJson = JSON.parse(responseJson);
+        openApiSpec = JSON.parse(openApiSpec);
+
+        // TODO reduce duplication here and just have a single array of mappings we support
         var formattedStripeObjectsForMapper = {
-            formattedStripeCustomerFields: formatStripeObjectsForMapper(responseJson['paths']['/v1/customers']['post']['requestBody']['content']['application/x-www-form-urlencoded']['schema']['properties'], excludedReadOnlyFields.customer),
-            formattedStripeProductItemFields: formatStripeObjectsForMapper(responseJson['paths']['/v1/products']['post']['requestBody']['content']['application/x-www-form-urlencoded']['schema']['properties'], excludedReadOnlyFields.product),
-            formattedStripeSubscriptionFields: formatStripeObjectsForMapper(responseJson['paths']['/v1/subscriptions']['post']['requestBody']['content']['application/x-www-form-urlencoded']['schema']['properties'], excludedReadOnlyFields.subscription),
-            formattedStripeSubscriptionItemFields: formatStripeObjectsForMapper(responseJson['paths']['/v1/subscription_items']['post']['requestBody']['content']['application/x-www-form-urlencoded']['schema']['properties'], excludedReadOnlyFields.subscription_item),
-            formattedStripePriceFields: formatStripeObjectsForMapper(responseJson['paths']['/v1/prices']['post']['requestBody']['content']['application/x-www-form-urlencoded']['schema']['properties'], excludedReadOnlyFields.price)
+            formattedStripeCustomerFields: formatStripeObjectsForMapper(extractStripeObject(openApiSpec, 'customer'), excludedReadOnlyFields.customer),
+            formattedStripeProductItemFields: formatStripeObjectsForMapper(extractStripeObject(openApiSpec, 'product'), excludedReadOnlyFields.product),
+            formattedStripeSubscriptionFields: formatStripeObjectsForMapper(extractStripeObject(openApiSpec, 'subscription_schedule'), excludedReadOnlyFields.subscription),
+            formattedStripeSubscriptionItemFields: formatStripeObjectsForMapper(extractStripeObject(openApiSpec, 'subscription_item'), excludedReadOnlyFields.subscription_item),
+            formattedStripePriceFields: formatStripeObjectsForMapper(extractStripeObject(openApiSpec, 'price'), excludedReadOnlyFields.price)
         };
+
         formattedStripeObjectsForMapper = JSON.stringify(formattedStripeObjectsForMapper);
         console.log(formattedStripeObjectsForMapper);
         return formattedStripeObjectsForMapper;
@@ -96,7 +107,7 @@ function formatStripeObjectsForMapper(stripeObjectToFormat, objectExcludedReadOn
             }
         } else if (stripeObjectToFormat[field]['$ref'] && !excludedReadOnlyFields.all.includes(field) && !objectExcludedReadOnlyFields.includes(field)) {
             var expandableSchemaFieldName = stripeObjectToFormat[field]['$ref'].split('/').pop();
-            var expandableSchemaFieldMap = responseJson['components']['schemas'][expandableSchemaFieldName]['properties'];
+            var expandableSchemaFieldMap = openApiSpec['components']['schemas'][expandableSchemaFieldName]['properties'];
             var newSection = {
                 label: field.charAt(0).toUpperCase() + field.slice(1).replace(/_+/g, ' '),
                 name: field,
@@ -140,9 +151,9 @@ function formatStripeObjectsForMapper(stripeObjectToFormat, objectExcludedReadOn
                     }
                 }
             }
-        } else if (stripeObjectToFormat[field]['anyOf'] && responseJson['components']['schemas'][field] && !excludedReadOnlyFields.all.includes(field) && !objectExcludedReadOnlyFields.includes(field)) {
+        } else if (stripeObjectToFormat[field]['anyOf'] && openApiSpec['components']['schemas'][field] && !excludedReadOnlyFields.all.includes(field) && !objectExcludedReadOnlyFields.includes(field)) {
             if (stripeObjectToFormat[field]['anyOf'].length) {
-                var nestedExpandableFieldMap = responseJson['components']['schemas'][field]['properties'];
+                var nestedExpandableFieldMap = openApiSpec['components']['schemas'][field]['properties'];
                 if (nestedExpandableFieldMap) {
                     stripeObjectMappings = checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings, nestedExpandableFieldMap, objectExcludedReadOnlyFields);
                 }
@@ -197,9 +208,9 @@ function checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings,
                 }
             }
         } else {
-            if (responseJson['components']['schemas'][expandableField] && responseJson['components']['schemas'][expandableField]['properties']
+            if (openApiSpec['components']['schemas'][expandableField] && openApiSpec['components']['schemas'][expandableField]['properties']
             && expandableField !== 'coupon'&& !excludedReadOnlyFields.all.includes(expandableField) && !objectExcludedReadOnlyFields.includes(expandableField)) {
-                var newNestedExpandableFieldMap = responseJson['components']['schemas'][expandableField]['properties'];
+                var newNestedExpandableFieldMap = openApiSpec['components']['schemas'][expandableField]['properties'];
                 var newNestedFieldName = field + '.' + expandableField.charAt(0) + expandableField.slice(1).replace(/_+/g, ' ');
                 stripeObjectMappings = checkforNestedFields(newNestedFieldName, stripeObjectToFormat, stripeObjectMappings, newNestedExpandableFieldMap, objectExcludedReadOnlyFields);
             }
