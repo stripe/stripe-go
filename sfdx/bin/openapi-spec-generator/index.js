@@ -1,34 +1,31 @@
 const HTTPS = require('https')
 const showdown = require('showdown');
 const markdownConverter = new showdown.Converter();
+
+// TODO this is not a list of read-only fields anymore, should be renamed
 const excludedReadOnlyFields = {
     all: [
-        'created',
         'object',
-        'livemode',
         'metadata'
     ],
 
-    customer: [
-        'delinquent',
-        'discount',
-    ],
+    customer: [],
 
     product: [
         'price'
     ],
 
-    subscription: [
-        'id',
-        'current_period_end',
-        'current_period_start',
-        'ended_at',
-        'status'
+    subscription_schedule: [
+        // the customer relationship is managed directly by the integration, omit in the UI
+        'customer'
     ],
 
     subscription_item: [],
 
-    price: ['id'],
+    price: [
+        // product<>price relationship is managed directly by the integration, we should ignore
+        'product'
+    ],
 }
 
 const OPTIONS = {
@@ -41,6 +38,9 @@ const OPTIONS = {
 let openApiSpec = '';
 
 function extractStripeObject(openApiSpec, stripeObjectType) {
+    if(stripeObjectType == 'subscription_schedule') {
+        debugger
+    }
     return openApiSpec['paths'][`/v1/${stripeObjectType}s`]['post']['requestBody']['content']['application/x-www-form-urlencoded']['schema']['properties']
 }
 
@@ -57,7 +57,7 @@ const HTTPREQUEST = HTTPS.request(OPTIONS, HttpResponse => {
         var formattedStripeObjectsForMapper = {
             formattedStripeCustomerFields: formatStripeObjectsForMapper(extractStripeObject(openApiSpec, 'customer'), excludedReadOnlyFields.customer),
             formattedStripeProductItemFields: formatStripeObjectsForMapper(extractStripeObject(openApiSpec, 'product'), excludedReadOnlyFields.product),
-            formattedStripeSubscriptionFields: formatStripeObjectsForMapper(extractStripeObject(openApiSpec, 'subscription_schedule'), excludedReadOnlyFields.subscription),
+            formattedStripeSubscriptionFields: formatStripeObjectsForMapper(extractStripeObject(openApiSpec, 'subscription_schedule'), excludedReadOnlyFields.subscription_schedule),
             formattedStripeSubscriptionItemFields: formatStripeObjectsForMapper(extractStripeObject(openApiSpec, 'subscription_item'), excludedReadOnlyFields.subscription_item),
             formattedStripePriceFields: formatStripeObjectsForMapper(extractStripeObject(openApiSpec, 'price'), excludedReadOnlyFields.price)
         };

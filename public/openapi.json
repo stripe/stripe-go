@@ -501,18 +501,6 @@
       "description": "",
       "fields": [
         {
-          "name": "customer",
-          "value": "customer",
-          "description": "<p>The identifier of the customer to create the subscription schedule for.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
           "name": "end behavior",
           "value": "end_behavior",
           "description": "<p>Configures how the subscription schedule behaves when it ends. Possible values are <code>release</code> or <code>cancel</code> with the default being <code>release</code>. <code>release</code> will end the subscription schedule and keep the underlying subscription running.<code>cancel</code> will end the subscription schedule and cancel the underlying subscription.</p>",
@@ -678,18 +666,6 @@
           "name": "nickname",
           "value": "nickname",
           "description": "<p>A brief description of the price, hidden from customers.</p>",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "product",
-          "value": "product",
-          "description": "<p>The ID of the product that this price will belong to.</p>",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
