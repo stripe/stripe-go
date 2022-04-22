@@ -158,6 +158,9 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
       result = parsed_json
 
       refute_nil(result['default_mappings'])
+      refute_nil(result['default_mappings'])
+      refute_nil(result['required_mappings'])
+      refute_nil(result['feature_flags'])
 
       assert_equal(@user.salesforce_account_id, result["salesforce_account_id"])
       assert_equal(@user.field_mappings, result["field_mappings"])
