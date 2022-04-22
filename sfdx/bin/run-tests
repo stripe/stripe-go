@@ -13,7 +13,7 @@ then
   echo "https://developer.salesforce.com/docs/atlas.en-us.234.0.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm"
   exit 1
 else
-  echo "sfdx installed. version:"
+  echo "sfdx version installed:"
   sfdx --version
 fi
 
@@ -21,6 +21,9 @@ fi
 
 cd sfdx
 export SFDX_IMPROVED_CODE_COVERAGE=true
+
+# ensure the same deploy approach is used to deploy locally, otherwise you'll run into strange errors
+sfdx config:set restDeploy=true
 
 # grab a `accessToken` from a auth'd account in ~/.sfdx/ to test this logic locally
 # `sfdx auth:logout -u alias` to remove the org so can reauth
@@ -36,13 +39,17 @@ function authorize {
 
 function deploySource {
   orgAlias=$1
-  echo "\nDeploying source..."
-  sfdx force:source:deploy -p force-app/main/default/ -u $orgAlias
+  echo '\nDeploying source...'
+
+  # make sure the same API version is used for local deployments, otherwise you'll run into weird errors
+  # for some reason, the `sfdx config:set apiVersion=52.0` doesn't work and gets overwritten
+
+  sfdx force:source:deploy -p force-app/main/default/ --apiversion=54.0 -u $orgAlias
 }
 
 function runTests {
   orgAlias=$1
-  echo "\nRunning tests..."
+  echo '\nRunning tests...'
   mkdir -p test-results
   sfdx force:apex:test:run --codecoverage --testlevel RunLocalTests -u $orgAlias --resultformat human --outputdir=test-results
 }
@@ -51,7 +58,7 @@ function runTests {
 #      created in future tests does not clog up our test accounts and create a storage limit error
 function deleteTestData {
   orgAlias=$1
-  echo "Deleting all test data..."
+  echo '\nDeleting all test data...'
   sfdx force:apex:execute -f bin/delete_test_record_data.apex -u $orgAlias
 }
 

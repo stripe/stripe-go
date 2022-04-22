@@ -78,9 +78,13 @@ jobs:
       account:
         type: string
     executor: sfdx/default
+    docker:
+      # use the same version as exists locally
+      - image: cimg/node:16.14.2
     steps:
       - checkout
-      - sfdx/install
+      - sfdx/install:
+          version: '7.147.1'
       - run: sfdx/bin/run-tests <<parameters.account>>
       - store_test_results:
           path: sfdx/test-results
