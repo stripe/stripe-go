@@ -13,7 +13,13 @@ global with sharing class restService {
 
     //readonly annotation is used to increase the SOQL limit from 50k to a 100k 
     @ReadOnly
+    
+    // TODO only keeping the GET issue to avoid metadata issues in the package, we should remove
+    @HttpGet
+
+    // using POST here to make it easier to send a JSON message body (the SF ruby gem does not support GET with body out of the box)
     @HttpPost
+
     global static void restServiceEvents() {
         
         RestRequest restRequest = RestContext.request;
