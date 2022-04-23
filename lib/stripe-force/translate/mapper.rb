@@ -19,16 +19,24 @@ module StripeForce
       @user = u
     end
 
-    sig { params(record_or_class: T.any(Stripe::APIResource, Restforce::SObject, Class)).returns(String) }
-    def mapping_key_for_record(record_or_class)
-      if record_or_class.is_a?(Class) && record_or_class < Stripe::APIResource
-        record_or_class.to_s.demodulize.underscore
-      elsif record_or_class.is_a?(Stripe::APIResource)
-        # Stripe::Charge => charge; InvoiceItem => invoice_item
-        # these are the keys used in all of the mapping hashes
-        record_or_class.class.to_s.demodulize.underscore
-      elsif record_or_class.is_a?(Restforce::SObject)
-        record_or_class.sobject_type
+    sig { params(stripe_record: T.any(Stripe::APIResource, Class), sf_record: T.nilable(Restforce::SObject)).returns(String) }
+    def mapping_key_for_record(stripe_record, sf_record)
+      stripe_record_class = if stripe_record.is_a?(Class) && stripe_record < Stripe::APIResource
+        stripe_record
+      else
+        stripe_record.class
+      end
+
+      # Stripe::Charge => charge; InvoiceItem => invoice_item
+      # these are the keys used in all of the mapping hashes
+      stripe_record_key = stripe_record_class.to_s.demodulize.underscore
+
+      compound_key = stripe_record_class == Stripe::Price && sf_record&.sobject_type == SF_ORDER_ITEM
+
+      if compound_key
+        stripe_record_key + "_" + Utilities::Metadata.sf_object_metadata_name(sf_record)
+      else
+        stripe_record_key
       end
     end
 
@@ -60,7 +68,8 @@ module StripeForce
           log.info 'field does not exist',
             field_component: field_name,
             field_path: key_path,
-            target_object: target_object.class
+            target_object: target_object.sobject_type,
+            target_object_id: target_object.Id
           target_object = nil
         end
 
@@ -83,9 +92,10 @@ module StripeForce
       target_object
     end
 
-    sig { params(record_to_map: Stripe::APIResource, source_record: T.nilable(Restforce::SObject)).void }
-    def apply_mapping(record_to_map, source_record=nil)
-      record_to_map_key = mapping_key_for_record(record_to_map)
+    sig { params(record_to_map: Stripe::APIResource, source_record: T.nilable(Restforce::SObject), compound_key: T.nilable(T::Boolean)).void }
+    def apply_mapping(record_to_map, source_record=nil, compound_key: false)
+      record_to_map_key = mapping_key_for_record(record_to_map, source_record)
+
       field_defaults_for_record = @user.field_defaults[record_to_map_key]
 
       # field defaults
@@ -117,6 +127,11 @@ module StripeForce
         next if source_field_path.to_s.empty?
 
         extracted_value = extract_key_path_for_record(source_record, source_field_path)
+
+        log.debug 'extracting value for mapping',
+          source_field_path: source_field_path,
+          destination_field_name: destination_field_name,
+          extracted_value: extracted_value
 
         next unless extracted_value
 

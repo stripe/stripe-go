@@ -22,6 +22,9 @@ module StripeForce::Utilities
       sf_object.sobject_type.underscore
     end
 
+    # TODO we should use the pattern more, so we can reference the pure-functional methods directly
+    module_function :sf_object_metadata_name
+
     def metadata_key(key)
       "#{@user.metadata_prefix}#{key}"
     end

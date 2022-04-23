@@ -81,12 +81,19 @@ module Critic::Unit
         },
         "subscription_schedule" => {
           'metadata.field_custom' => 'CustomField__c',
+          'metadata.second_custom' => 'CustomField__c',
           'default_settings.automatic_tax' => 'TaxBoolean__c',
         },
       }
 
-      stripe_customer = Stripe::Customer.new
-      stripe_subscription_schedule = Stripe::SubscriptionSchedule.new
+      stripe_customer = Stripe::Customer.construct_from(id: create_id(:cus))
+      stripe_subscription_schedule = Stripe::SubscriptionSchedule.construct_from(id: create_id(:sub_sched))
+
+      # set some previous metadata; the mapper should be additive
+      stripe_subscription_schedule.metadata = {
+        "salesforce_order_id" => "801780000006retAAA",
+        "salesforce_order_link" => "https://cloudflare--stg2.my.salesforce.com/801780000006retAAA",
+      }
 
       sf_customer = create_mock_salesforce_customer
       sf_customer['CustomField__c'] = 'a custom value'
@@ -96,9 +103,6 @@ module Critic::Unit
       sf_order['CustomField__c'] = 'another custom value'
       sf_order['TaxBoolean__c'] = true
 
-      stripe_customer = Stripe::Customer.construct_from(id: create_id(:cus))
-      stripe_subscription_schedule = Stripe::SubscriptionSchedule.construct_from(id: create_id(:sub_sched))
-
       @mapper.apply_mapping(stripe_customer, sf_customer)
       @mapper.apply_mapping(stripe_subscription_schedule, sf_order)
 
@@ -106,7 +110,11 @@ module Critic::Unit
       assert_equal("4847534128", stripe_customer.phone)
 
       assert_equal("another custom value", stripe_subscription_schedule.metadata.field_custom)
+      assert_equal("another custom value", stripe_subscription_schedule.metadata.second_custom)
       assert_equal(sf_order['TaxBoolean__c'], stripe_subscription_schedule.default_settings.automatic_tax)
+
+      refute_nil(stripe_subscription_schedule.metadata["salesforce_order_id"])
+      refute_nil(stripe_subscription_schedule.metadata["salesforce_order_link"])
     end
 
     it 'defaults to the static table when metadata for the dynamic table value is not defined' do
@@ -273,6 +281,15 @@ module Critic::Unit
       @mapper.apply_mapping(stripe_customer, sf_customer)
 
       assert_equal("parent description", stripe_customer.metadata['parent_description'])
+    end
+
+    it 'generates compound ids' do
+      stripe_record = Stripe::Price.new
+      sf_order_item = create_mock_salesforce_order_item
+
+      key = @mapper.mapping_key_for_record(stripe_record, sf_order_item)
+
+      assert_equal('price_order_item', key)
     end
   end
 end

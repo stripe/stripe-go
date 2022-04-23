@@ -20,7 +20,12 @@ module Critic
 
     def create_mock_salesforce_order
       id = create_salesforce_id
-      Restforce::SObject.new({"attributes" => {"type" => "Order", "url" => "/services/data/v52.0/sobjects/Order/#{id}", "Id" => id}})
+      Restforce::SObject.new({"attributes" => {"type" => SF_ORDER, "url" => "/services/data/v52.0/sobjects/#{SF_ORDER}/#{id}", "Id" => id}})
+    end
+
+    def create_mock_salesforce_order_item
+      id = create_salesforce_id
+      Restforce::SObject.new({"attributes" => {"type" => SF_ORDER_ITEM, "url" => "/services/data/v52.0/sobjects/#{SF_ORDER_ITEM}/#{id}", "Id" => id}})
     end
 
     def create_mock_salesforce_customer

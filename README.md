@@ -13,7 +13,7 @@ system level permissions https://developer.salesforce.com/docs/atlas.en-us.sfFie
 # Dev Snippets
 
 ```
-Stripe.log_level = 'debug'; Restforce.log = true;
+Stripe.log_level = 'debug'; Restforce.log = true; ENV['LOG_LEVEL'] = 'debug'
 
 require_relative './test/support/salesforce_debugging'; include SalesforceDebugging
 
@@ -96,6 +96,11 @@ Then create a new package in the QA org.
   - Version Name: QaStripeConnect
   - New version number will be determined automatically
   - New Order Save Behavior: unchecked
+
+#### Production Package
+
+- Release Notes
+- Security scan https://security.secure.force.com/security/tools/forcecom/scanner
 
 ## Manually Creating Global Key Metadata
 

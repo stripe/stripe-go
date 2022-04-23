@@ -136,6 +136,9 @@ module StripeForce
         "price" => {
           "unit_amount_decimal" => 'UnitPrice',
         },
+        "price_order_item" => {
+          "unit_amount_decimal" => 'UnitPrice',
+        },
       }
     end
 
@@ -163,16 +166,24 @@ module StripeForce
           "shipping.address.country" => "ShippingCountry",
         },
         "product" => {
-          # TODO setting custom Ids may not be the best idea here
-          # "id" => "Id",
           "name" => 'Name',
           "description" => 'Description',
         },
+
+        # price => pricebookentry mapping
         "price" => {
           # default monthly fallback is used if this value is empty
+          # note that `Id` is not added to the suffix of the Product2 component, this is added by the mapper
+          "recurring.interval_count" => "Product2.#{CPQ_QUOTE_BILLING_FREQUENCY}",
+          "recurring.usage_type" => "Product2.#{CPQ_PRODUCT_BILLING_TYPE}",
+        },
+
+        "price_order_item" => {
+          # these fields have identical names on the product level, which is why we can use the same constants here
           "recurring.interval_count" => CPQ_QUOTE_BILLING_FREQUENCY,
           "recurring.usage_type" => CPQ_PRODUCT_BILLING_TYPE,
         },
+
         "invoice" => {},
       }
     end

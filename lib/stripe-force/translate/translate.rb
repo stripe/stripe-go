@@ -315,18 +315,12 @@ class StripeForce::Translate
     price_params = extract_salesforce_params!(sf_object, Stripe::Price)
     mapper.assign_values_from_hash(stripe_price, price_params)
 
-    # TODO this is not good: ideally we should have the product lookup defined in the mapping, but right now we don't allow arrays as the value of a mapping
-    #      for now, let's hack this and just map the object twice from different perspectives
-    #      https://jira.corp.stripe.com/browse/PLATINT-1486
     if sf_object.sobject_type == SF_PRICEBOOK_ENTRY
-      mapper.assign_values_from_hash(stripe_price, mapper.build_dynamic_mapping_values(sf_product, {
-        "recurring.interval_count" => CPQ_QUOTE_BILLING_FREQUENCY,
-        "recurring.usage_type" => CPQ_PRODUCT_BILLING_TYPE,
-      }))
+      apply_mapping(stripe_price, sf_object)
+    else
+      # https://jira.corp.stripe.com/browse/PLATINT-1486
+      apply_mapping(stripe_price, sf_object, compound_key: true)
     end
-
-    # TODO we need to document this: the price is mapped to two unique objects
-    apply_mapping(stripe_price, sf_object)
 
     # although we are passing the amount as a decimal, the decimal amount still represents cents
     # to_s is used here to (a) satisfy typing requirements and (b) ensure BigDecimal can parse the float properly
@@ -702,8 +696,9 @@ class StripeForce::Translate
   end
 
   # param_mapping: { stripe_key_name => salesforce_field_name }
-  def extract_salesforce_params!(sf_record, stripe_record)
-    stripe_mapping_key = mapper.mapping_key_for_record(stripe_record)
+  sig { params(sf_record: Restforce::SObject, stripe_record_or_class: T.any(Class, Stripe::APIResource)).returns(Hash) }
+  def extract_salesforce_params!(sf_record, stripe_record_or_class)
+    stripe_mapping_key = mapper.mapping_key_for_record(stripe_record_or_class, sf_record)
     required_mappings = @user.required_mappings[stripe_mapping_key]
 
     if required_mappings.nil?
@@ -734,9 +729,9 @@ class StripeForce::Translate
   end
 
   # TODO allow for multiple records to be linked?
-  sig { params(record_to_map: Stripe::APIResource, source_record: Restforce::SObject).void }
-  def apply_mapping(record_to_map, source_record)
-    mapper.apply_mapping(record_to_map, source_record)
+  sig { params(record_to_map: Stripe::APIResource, source_record: Restforce::SObject, compound_key: T.nilable(T::Boolean)).void }
+  def apply_mapping(record_to_map, source_record, compound_key: false)
+    mapper.apply_mapping(record_to_map, source_record, compound_key: compound_key)
   end
 
   sig { returns(StripeForce::Mapper) }
