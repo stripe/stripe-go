@@ -243,6 +243,64 @@
       ]
     },
     {
+      "label": "Invoice settings",
+      "name": "invoice_settings",
+      "description": "",
+      "fields": [
+        {
+          "name": "default payment method",
+          "value": "invoice_settings.default_payment_method",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "footer",
+          "value": "invoice_settings.footer",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Preferred locales",
+      "name": "preferred_locales",
+      "description": "",
+      "fields": [
+        {
+          "name": "default payment method",
+          "value": "preferred_locales.default_payment_method",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "footer",
+          "value": "preferred_locales.footer",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
       "label": "Shipping",
       "name": "shipping",
       "description": "",
@@ -287,6 +345,28 @@
           "name": "tracking number",
           "value": "shipping.tracking_number",
           "description": "<p>The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "default payment method",
+          "value": "shipping.default_payment_method",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "footer",
+          "value": "shipping.footer",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
@@ -492,6 +572,57 @@
           "sfValueType": ""
         }
       ]
+    },
+    {
+      "label": "Package dimensions",
+      "name": "package_dimensions",
+      "description": "",
+      "fields": [
+        {
+          "name": "height",
+          "value": "package_dimensions.height",
+          "type": "number",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "length",
+          "value": "package_dimensions.length",
+          "type": "number",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "weight",
+          "value": "package_dimensions.weight",
+          "type": "number",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "width",
+          "value": "package_dimensions.width",
+          "type": "number",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
     }
   ],
   "formattedStripeSubscriptionFields": [
@@ -517,6 +648,82 @@
           "value": "from_subscription",
           "description": "<p>Migrate an existing subscription to be managed by a subscription schedule. If this parameter is set, a subscription schedule will be created using the subscription's item(s), set to auto-renew using the subscription's interval. When using this parameter, other parameters (such as phase values) cannot be set. To create a subscription schedule with other modifications, we recommend making two separate API calls.</p>",
           "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Default settings",
+      "name": "default_settings",
+      "description": "",
+      "fields": [
+        {
+          "name": "application fee percent",
+          "value": "default_settings.application_fee_percent",
+          "type": "number",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "enabled",
+          "value": "default_settings.automatic_tax.enabled",
+          "type": "boolean",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "days until due",
+          "value": "default_settings.invoice_settings.days_until_due",
+          "type": "integer",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Phases",
+      "name": "phases",
+      "description": "",
+      "fields": [
+        {
+          "name": "days until due",
+          "value": "phases.days_until_due",
+          "type": "integer",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Start date",
+      "name": "start_date",
+      "description": "",
+      "fields": [
+        {
+          "name": "days until due",
+          "value": "start_date.days_until_due",
+          "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -598,6 +805,86 @@
           "value": "subscription",
           "description": "<p>The identifier of the subscription to modify.</p>",
           "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Price data",
+      "name": "price_data",
+      "description": "",
+      "fields": [
+        {
+          "name": "currency",
+          "value": "price_data.currency",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "product",
+          "value": "price_data.product",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "interval",
+          "value": "price_data.recurring.interval",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "interval count",
+          "value": "price_data.recurring.interval_count",
+          "type": "integer",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Tax rates",
+      "name": "tax_rates",
+      "description": "",
+      "fields": [
+        {
+          "name": "interval",
+          "value": "tax_rates.interval",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "interval count",
+          "value": "tax_rates.interval_count",
+          "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
           "staticValue": false,
@@ -726,6 +1013,210 @@
           "name": "unit amount decimal",
           "value": "unit_amount_decimal",
           "description": "<p>Same as <code>unit_amount</code>, but accepts a decimal value in %s with at most 12 decimal places. Only one of <code>unit_amount</code> and <code>unit_amount_decimal</code> can be set.</p>",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Product data",
+      "name": "product_data",
+      "description": "",
+      "fields": [
+        {
+          "name": "active",
+          "value": "product_data.active",
+          "type": "boolean",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "id",
+          "value": "product_data.id",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "name",
+          "value": "product_data.name",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "statement descriptor",
+          "value": "product_data.statement_descriptor",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "tax code",
+          "value": "product_data.tax_code",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "unit label",
+          "value": "product_data.unit_label",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Recurring",
+      "name": "recurring",
+      "description": "",
+      "fields": [
+        {
+          "name": "aggregate usage",
+          "value": "recurring.aggregate_usage",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "interval",
+          "value": "recurring.interval",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "interval count",
+          "value": "recurring.interval_count",
+          "type": "integer",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "usage type",
+          "value": "recurring.usage_type",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Tiers",
+      "name": "tiers",
+      "description": "",
+      "fields": [
+        {
+          "name": "aggregate usage",
+          "value": "tiers.aggregate_usage",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "interval",
+          "value": "tiers.interval",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "interval count",
+          "value": "tiers.interval_count",
+          "type": "integer",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "usage type",
+          "value": "tiers.usage_type",
+          "type": "string",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        }
+      ]
+    },
+    {
+      "label": "Transform quantity",
+      "name": "transform_quantity",
+      "description": "",
+      "fields": [
+        {
+          "name": "divide by",
+          "value": "transform_quantity.divide_by",
+          "type": "integer",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
+        },
+        {
+          "name": "round",
+          "value": "transform_quantity.round",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
