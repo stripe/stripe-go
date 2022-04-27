@@ -129,11 +129,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Order.Stripe_Subscription_Payment_Link__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>PricebookEntry.Stripe_Dashboard_Link__c</field>
         <readable>true</readable>
     </fieldPermissions>
