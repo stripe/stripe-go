@@ -72,7 +72,7 @@ group :test do
   gem 'selenium-webdriver', '~> 4.1.0'
   gem 'capybara-screenshot', '~> 1.0.26'
 
-  gem 'mocha', '~> 1.9'
+  gem 'mocha', '~> 1.14'
   gem 'rack-test', '~> 1.1.0'
   gem 'database_cleaner', '~> 1.7.0'
 end

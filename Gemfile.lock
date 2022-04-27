@@ -185,7 +185,7 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
-    mocha (1.13.0)
+    mocha (1.14.0)
     mono_logger (1.1.1)
     msgpack (1.4.5)
     multi_json (1.15.0)
@@ -439,7 +439,7 @@ DEPENDENCIES
   minitest-profile
   minitest-rails (~> 6.1.0)
   minitest-reporters (~> 1.5.0)
-  mocha (~> 1.9)
+  mocha (~> 1.14)
   nokogiri (>= 1.13.0)
   omniauth (~> 2.1.0)
   omniauth-rails_csrf_protection (~> 1.0.1)
