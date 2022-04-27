@@ -265,6 +265,7 @@ export default class DataMappingStep extends LightningElement {
             const value = this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)];
             this.activeMetadataObjectFields.metadataMapping.fields.splice(this.activeMetadataObjectFields.metadataMapping.fields.findIndex(metadataField => metadataField.name === value.name),1);
         }
+        this.valueChange();
     }
 
     updateStripeMetadataName(event) {
