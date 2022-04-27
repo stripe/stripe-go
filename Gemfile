@@ -6,7 +6,7 @@ ruby '2.7.6'
 
 gem 'sorbet', '~> 0.5.9859', group: :development
 gem 'sorbet-runtime', '~> 0.5.9859', require: true
-gem 'sorbet-rails', '~> 0.7.32'
+gem 'sorbet-rails', '~> 0.7.33'
 
 # https://github.com/ruby/irb/issues/43
 gem 'reline', '~> 0.3.1'
