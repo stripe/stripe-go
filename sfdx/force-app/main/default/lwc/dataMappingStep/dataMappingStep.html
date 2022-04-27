@@ -15,7 +15,18 @@
             <!-- CUSTOMER OBJECT -->
             <template if:true={customerObjectActive}>
                 <!-- Mapper Main Content -->
-                <h1 class="slds-text-heading_medium">Customer</h1>
+                <h1 class="slds-text-heading_medium">
+                    Customer
+                    <lightning-button-icon 
+                        icon-name="utility:new_window" 
+                        variant="bare"
+                        size="medium"
+                        alternative-text="View Stripe API Documentation" 
+                        data-object="customers" 
+                        onclick={openStripeApi} 
+                        class="stripe-button_inline slds-button slds-m-left_x-small">
+                    </lightning-button-icon>
+                </h1>
                 <h4 class="slds-m-top_xx-small slds-m-bottom_small">Salesforce Object: <strong>{defaultSfObject}</strong></h4>
                 <p class="slds-m-vertical_small slds-text-color_weak">Customer objects allow you to perform recurring charges, and to track multiple charges, that are associated with the same customer. The API allows you to create, delete, and update your customers. You can retrieve individual customers as well as a list of all your customers.</p>
                 <!-- Mapping Groups -->
@@ -189,7 +200,18 @@
             <!-- SUBSCRIPTION OBJECT -->
             <template if:true={subscriptionObjectActive}>
                 <!-- Mapper Main Content -->
-                <h1 class="slds-text-heading_medium">Subscription Schedule</h1>
+                <h1 class="slds-text-heading_medium">
+                    Subscription Schedule
+                    <lightning-button-icon 
+                        icon-name="utility:new_window" 
+                        variant="bare"
+                        size="medium"
+                        alternative-text="View Stripe API Documentation" 
+                        data-object="subscriptions" 
+                        onclick={openStripeApi} 
+                        class="stripe-button_inline slds-button slds-m-left_x-small">
+                    </lightning-button-icon>
+                </h1>
                 <h4 class="slds-m-top_xx-small slds-m-bottom_small">Salesforce Object: <strong>{defaultSfObject}</strong></h4>
                 <p class="slds-m-vertical_small slds-text-color_weak">A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.</p>
 
@@ -228,7 +250,7 @@
                                                         type="toggle" 
                                                         label="Static Value" 
                                                         variant="label-hidden" 
-                                                        class="stripe-input_toggle slds-show-inline_block"
+                                                        class="stripe-input_toggle slds-show_inline-block"
                                                         message-toggle-active="" 
                                                         message-toggle-inactive=""
                                                         checked={field.staticValue}
@@ -362,7 +384,18 @@
             <!-- SUBSCRIPTION ITEM OBJECT -->
             <template if:true={subscriptionItemObjectActive}>
                 <!-- Mapper Main Content -->
-                <h1 class="slds-text-heading_medium">Subscription Item</h1>
+                <h1 class="slds-text-heading_medium">
+                    Subscription Item
+                    <lightning-button-icon 
+                        icon-name="utility:new_window" 
+                        variant="bare"
+                        size="medium"
+                        alternative-text="View Stripe API Documentation" 
+                        data-object="subscription_items" 
+                        onclick={openStripeApi} 
+                        class="stripe-button_inline slds-button slds-m-left_x-small">
+                    </lightning-button-icon>
+                </h1>
                 <h4 class="slds-m-top_xx-small slds-m-bottom_small">Salesforce Object: <strong>{defaultSfObject}</strong></h4>
                 <p class="slds-m-vertical_small slds-text-color_weak">Subscription items allow you to create customer subscriptions with more than one plan, making it easy to represent complex billing relationships.</p>
 
@@ -535,7 +568,18 @@
             <!-- PRODUCT OBJECT -->
             <template if:true={productObjectActive}>
                 <!-- Mapper Main Content -->
-                <h1 class="slds-text-heading_medium">Product</h1>
+                <h1 class="slds-text-heading_medium">
+                    Product
+                    <lightning-button-icon 
+                        icon-name="utility:new_window" 
+                        variant="bare"
+                        size="medium"
+                        alternative-text="View Stripe API Documentation" 
+                        data-object="products" 
+                        onclick={openStripeApi} 
+                        class="stripe-button_inline slds-button slds-m-left_x-small">
+                    </lightning-button-icon>
+                </h1>
                 <h4 class="slds-m-top_xx-small slds-m-bottom_small">Salesforce Object: <strong>{defaultSfObject}</strong></h4>
                 <p class="slds-m-vertical_small slds-text-color_weak">Products describe the specific goods or services you offer to your customers. For example, you might offer a Standard and Premium version of your goods or service; each version would be a separate Product. They can be used in conjunction with Prices to configure pricing in Checkout and Subscriptions.</p>
 
@@ -705,10 +749,21 @@
             </template>
             <!-- /PRODUCT OBJECT -->
 
-                <!-- PRICE OBJECT -->
-                <template if:true={priceObjectActive}>
+            <!-- PRICE OBJECT -->
+            <template if:true={priceObjectActive}>
                 <!-- Mapper Main Content -->
-                <h1 class="slds-text-heading_medium">Price</h1>
+                <h1 class="slds-text-heading_medium">
+                    Price
+                    <lightning-button-icon 
+                        icon-name="utility:new_window" 
+                        variant="bare"
+                        size="medium"
+                        alternative-text="View Stripe API Documentation" 
+                        data-object="prices" 
+                        onclick={openStripeApi} 
+                        class="stripe-button_inline slds-button slds-m-left_x-small">
+                    </lightning-button-icon>
+                </h1>
                 <h4 class="slds-m-top_xx-small slds-m-bottom_small">Salesforce Object: <strong>{defaultSfObject}</strong></h4>
                 <p class="slds-m-vertical_small slds-text-color_weak">Prices define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of products.</p>
 

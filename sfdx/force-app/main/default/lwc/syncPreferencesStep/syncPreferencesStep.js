@@ -6,6 +6,7 @@ import saveFilterSettings from '@salesforce/apex/setupAssistant.saveFilterSettin
 import { LightningElement, api, track} from 'lwc';
 
 export default class SyncPreferencesStep extends LightningElement {
+    @api setupComplete = false; 
     @track stripeConnectRecord;
     @track stripeAccountId;
     @track lastSynced;

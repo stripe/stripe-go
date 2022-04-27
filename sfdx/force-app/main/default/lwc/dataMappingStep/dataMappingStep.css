@@ -49,3 +49,7 @@
 .stripe-input_toggle:hover + .stripe-input__tooltip {
     display: block;
 }
+
+.stripe-button_inline {
+    transform: translateY(-2px);
+}

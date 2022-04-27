@@ -447,6 +447,15 @@ export default class DataMappingStep extends LightningElement {
         }
     }
 
+    openStripeApi(event) {
+        let apiUrl = 'https://stripe.com/docs/api';
+        const stripeObject = event.currentTarget.dataset.object;
+        if(stripeObject) {
+            apiUrl += '/' + stripeObject;
+        }
+        window.open(apiUrl, '_blank');
+    }
+
     async connectedCallback() {
         try {
             const getFormattedStripeObjects = await getFormattedStripeObjectFields();
@@ -594,6 +603,11 @@ export default class DataMappingStep extends LightningElement {
                     }
                 }
             }
+        }
+        // Open 'Metadata' mapping section if metadata mappings exist
+        if (metadataFieldList.length > 0) {
+            const openSectionsPropertyName = 'default' + (stripeObject.charAt(0).toUpperCase() + stripeObject.slice(1)) + 'Sections';
+            this[openSectionsPropertyName] = ['standard', 'metadata'];
         }
     }
 

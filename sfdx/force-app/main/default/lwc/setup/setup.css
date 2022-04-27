@@ -1,19 +1,5 @@
-:host > .slds-grid_vertical {
+:host > div {
     height: 100vh;
-}
-
-:host > .slds-grid_vertical > .slds-col:first-child {
-    z-index: 1;
-}
-
-.stripe-global-header {
-    padding: var(--lwc-spacingSmall, .75rem);
-    box-shadow: 0px 3px 10px rgba(0,0,0,.1);
-}
-
-.stripe-global-header img {
-    max-height: 30px;
-    width: auto;
 }
 
 .stripe-page-container {
