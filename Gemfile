@@ -12,7 +12,7 @@ gem 'sorbet-rails', '~> 0.7.33'
 gem 'reline', '~> 0.3.1'
 
 gem 'dotenv-rails', '2.7.6', groups: [:development, :test]
-gem 'rails', '~> 6.1.5'
+gem 'rails', '~> 6.1.5.1'
 gem 'lograge', '~> 0.12'
 
 group :production do
