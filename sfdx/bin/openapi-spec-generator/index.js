@@ -5,7 +5,8 @@ const markdownConverter = new showdown.Converter();
 const excludedFields = {
     all: [
         'object',
-        'metadata', 
+        // metadata is special cased in the data mapper
+        'metadata',
         'expand'
     ],
 
@@ -58,12 +59,13 @@ const HTTPREQUEST = HTTPS.request(OPTIONS, HttpResponse => {
     HttpResponse.on('end', () => {
         openApiSpec = JSON.parse(openApiSpec);
 
-        
+
         var formattedStripeObjectsForMapper = {};
-        for (const stripeObject of ListOfStripeObjects) { 
+        for (const stripeObject of ListOfStripeObjects) {
             var convertObjectName = stripeObject.charAt(0).toUpperCase() + stripeObject.slice(1);
-            //TODO change mapper response to match here so there is now need for all this formatting
-            //NOTE when this naming change is made to the mapper it will require all to upgrade package or the mapper will not work
+
+            // TODO change mapper response to match here so there is now need for all this formatting https://github.com/stripe/stripe-salesforce/issues/364
+            // NOTE when this naming change is made to the mapper it will require all to upgrade package or the mapper will not work
             switch (stripeObject) {
                 case 'subscription_schedule':
                     convertObjectName = 'Subscription'
@@ -77,7 +79,8 @@ const HTTPREQUEST = HTTPS.request(OPTIONS, HttpResponse => {
                 default:
                     break;
             }
-            formattedStripeObjectsForMapper['formattedStripe' + convertObjectName + 'Fields'] =  formatStripeObjectsForMapper(extractStripeObject(openApiSpec, stripeObject), excludedFields[stripeObject]);
+
+            formattedStripeObjectsForMapper['formattedStripe' + convertObjectName + 'Fields'] = formatStripeObjectsForMapper(extractStripeObject(openApiSpec, stripeObject), excludedFields[stripeObject]);
 
         }
         formattedStripeObjectsForMapper = JSON.stringify(formattedStripeObjectsForMapper);
@@ -93,100 +96,120 @@ HTTPREQUEST.on('error', error => {
 HTTPREQUEST.end();
 
 function formatStripeObjectsForMapper(stripeObjectToFormat, objectExcludedReadOnlyFields) {
-    var stripeObjectMappings = [{
+    let stripeObjectMappings = [{
         label: 'Standard Mappings',
         name: 'standard',
         description: '',
         fields: []
     }];
+
     for (const field in stripeObjectToFormat) {
         if (excludedFields.all.includes(field) || objectExcludedReadOnlyFields.includes(field)) {
             continue;
         }
-        
-        if (!stripeObjectToFormat[field]['$ref'] && !stripeObjectToFormat[field]['anyOf'] && stripeObjectToFormat[field]['type'] &&
-        stripeObjectToFormat[field]['type'] !== 'object' && stripeObjectToFormat[field]['type'] !== 'array') {
-            let fieldMap = getNewFieldObject(field.replace(/_+/g, ' '), field);
+
+        // mapper does not support array mapping
+        if(stripeObjectToFormat[field]['type'] === 'array') {
+            continue;
+        }
+
+        // if we don't have an object reference, then this is a standard field
+        if (
+            !stripeObjectToFormat[field]['$ref'] &&
+            !stripeObjectToFormat[field]['anyOf'] &&
+
+            stripeObjectToFormat[field]['type'] &&
+            stripeObjectToFormat[field]['type'] !== 'object'
+        ) {
+            const fieldMap = getNewFieldObject(field.replace(/_+/g, ' '), field);
+            fieldMap['type'] = stripeObjectToFormat[field]['type'];
+
             if (stripeObjectToFormat[field]['description']) {
                 fieldMap['description'] = markdownConverter.makeHtml(stripeObjectToFormat[field]['description']);
             }
-            fieldMap['type'] = stripeObjectToFormat[field]['type'];
+
+            // standard field section is always at the top of the array
             stripeObjectMappings[0].fields.push(fieldMap);
-            stripeObjectMappings[0].fields.sort(function(a, b) {
-                return a.name.localeCompare(b.name);
-            });
+            continue;
+        }
 
-        } else {
-         
-            if (stripeObjectToFormat[field]['anyOf'] && stripeObjectToFormat[field]['anyOf'].length && 
-             openApiSpec['components']['schemas'][field] ) {
-                var nestedExpandableFieldMap = openApiSpec['components']['schemas'][field]['properties'];
-                if (nestedExpandableFieldMap) {
-                    stripeObjectMappings = checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings, nestedExpandableFieldMap, objectExcludedReadOnlyFields);
-                }
+        // TODO from here on out, I believe we can assume it is an object type
+
+        if (stripeObjectToFormat[field]['anyOf'] && stripeObjectToFormat[field]['anyOf'].length &&
+            openApiSpec['components']['schemas'][field] ) {
+            var nestedExpandableFieldMap = openApiSpec['components']['schemas'][field]['properties'];
+            if (nestedExpandableFieldMap) {
+                stripeObjectMappings = checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings, nestedExpandableFieldMap, objectExcludedReadOnlyFields);
+            }
+        }
+
+        var expandableSchemaFieldName;
+        var expandableSchemaFieldMap;
+
+        /*In this case we are getting the field name assoicated with this object and going to
+        '['components']['schemas']' tree path associated with the current field to get the
+        related subfields, descriptions and types to add to them mapper*/
+        // TODO in what cases does this occur?
+        if (stripeObjectToFormat[field]['$ref']) {
+            expandableSchemaFieldName = stripeObjectToFormat[field]['$ref'].split('/').pop();
+            expandableSchemaFieldMap = openApiSpec['components']['schemas'][expandableSchemaFieldName]['properties'];
+        }
+
+        //In this case we are getting all the descriptions, subfields and types from the object directly
+        if (stripeObjectToFormat[field]['type'] === 'object' || stripeObjectToFormat[field]['properties']) {
+            expandableSchemaFieldName = field;
+            expandableSchemaFieldMap = stripeObjectToFormat[field]['properties'];
+        }
+
+        // TODO this should be separated out into it's own method
+        for (const expandableField in expandableSchemaFieldMap) {
+            if (excludedFields.all.includes(expandableField) || objectExcludedReadOnlyFields.includes(expandableField)) {
+                continue
             }
 
-            var expandableSchemaFieldName;
-            var expandableSchemaFieldMap;
-            /*In this case we are getting the field name assoicated with this object and going to
-            '['components']['schemas']' tree path associated with the current field to get the
-            related subfields, descriptions and types to add to them mapper*/
-            if (stripeObjectToFormat[field]['$ref']) {
-                expandableSchemaFieldName = stripeObjectToFormat[field]['$ref'].split('/').pop();
-                expandableSchemaFieldMap = openApiSpec['components']['schemas'][expandableSchemaFieldName]['properties'];
-            }
-            //In this case we are getting all the descriptions, subfields and types from the object directly 
-            if (stripeObjectToFormat[field]['type'] === 'object' || stripeObjectToFormat[field]['properties']) {
-                expandableSchemaFieldName = field;
-                expandableSchemaFieldMap = stripeObjectToFormat[field]['properties'];
-            }
+            if (expandableSchemaFieldMap[expandableField] && expandableSchemaFieldMap[expandableField]['type'] && expandableSchemaFieldMap[expandableField]['type'] !== 'object') {
+                var newSection = {
+                    label: field.charAt(0).toUpperCase() + field.slice(1).replace(/_+/g, ' '),
+                    name: field,
+                    description: '',
+                    fields: []
+                };
+                stripeObjectMappings.push(newSection);
+                const hashFieldName = expandableField.replace(/_+/g, ' ');
+                const hashFieldValue = field + '.' + expandableField;
+                stripeObjectMappings = addNewFieldToSection(stripeObjectMappings, hashFieldName, hashFieldValue, expandableSchemaFieldMap, expandableField, field);
 
-            for (const expandableField in expandableSchemaFieldMap) {
-                if (excludedFields.all.includes(expandableField) || objectExcludedReadOnlyFields.includes(expandableField)) {
-                    continue
-                }
-                if (expandableSchemaFieldMap[expandableField] && expandableSchemaFieldMap[expandableField]['type'] && expandableSchemaFieldMap[expandableField]['type'] !== 'object') {
+            } else if (stripeObjectToFormat[field]['properties'] && stripeObjectToFormat[field]['properties'][expandableField]['properties']) {
+                expandableSchemaFieldMap = stripeObjectToFormat[field]['properties'][expandableField]['properties'];
+
+                for (const subfield in expandableSchemaFieldMap) {
                     var newSection = {
-                        label: field.charAt(0).toUpperCase() + field.slice(1).replace(/_+/g, ' '),
-                        name: field,
+                        label: expandableField.charAt(0).toUpperCase() + expandableField.slice(1).replace(/_+/g, ' ')+ ' ' +subfield.charAt(0).toUpperCase() + subfield.slice(1).replace(/_+/g, ' '),
+                        name: [field, expandableField, subfield].join("."),
                         description: '',
                         fields: []
                     };
                     stripeObjectMappings.push(newSection);
-                    var hashFieldName = expandableField.replace(/_+/g, ' ');
-                    var hashFieldValue = field + '.' + expandableField;
-                    stripeObjectMappings = addNewFieldToSection(stripeObjectMappings, hashFieldName, hashFieldValue, expandableSchemaFieldMap, expandableField, field);
+                    var nestedHashFieldName = subfield.replace(/_+/g, ' ');
+                    var nestedHashFieldValue = field + '.' + expandableField + '.' + subfield;
+                    stripeObjectMappings = addNewFieldToSection(stripeObjectMappings, nestedHashFieldName, nestedHashFieldValue, expandableSchemaFieldMap, subfield, field);
 
-                } else {
-                    if (stripeObjectToFormat[field]['properties'] && stripeObjectToFormat[field]['properties'][expandableField]['properties']) {
-                    expandableSchemaFieldMap = stripeObjectToFormat[field]['properties'][expandableField]['properties'];
-                
-                        for (const subfield in expandableSchemaFieldMap) {
-                            var newSection = {
-                                label: expandableField.charAt(0).toUpperCase() + expandableField.slice(1).replace(/_+/g, ' ')+ ' ' +subfield.charAt(0).toUpperCase() + subfield.slice(1).replace(/_+/g, ' '),
-                                name: field + '.' + expandableField + '.' + subfield,
-                                description: '',
-                                fields: []
-                            };
-                            stripeObjectMappings.push(newSection);
-                            var nestedHashFieldName = subfield.replace(/_+/g, ' ');
-                            var nestedHashFieldValue = field + '.' + expandableField + '.' + subfield;
-                            stripeObjectMappings = addNewFieldToSection(stripeObjectMappings, nestedHashFieldName, nestedHashFieldValue, expandableSchemaFieldMap, subfield, field);
-    
-                        }
-                    } 
                 }
             }
-        }                
+        }
     }
+
     stripeObjectMappings = stripeObjectMappings.filter(function(section) {
-        return section.fields.length;
+        return section.fields.length > 0;
     });
+
+    // sort all fields alphabetically
+    stripeObjectMappings[0].fields.sort((a, b) => a.name.localeCompare(b.name));
+
     return stripeObjectMappings;
 }
 
 function checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings, nestedExpandableFieldMap, objectExcludedReadOnlyFields) {
-
     const NEWSECTION = {
         label: field.charAt(0).toUpperCase() + field.slice(1).replace(/_+/g, ' ').replace(/\./g, ' '),
         name: field,
@@ -195,11 +218,11 @@ function checkforNestedFields(field, stripeObjectToFormat, stripeObjectMappings,
     };
     stripeObjectMappings.push(NEWSECTION);
     for (const expandableField in nestedExpandableFieldMap) {
-        
+
         if (excludedFields.all.includes(expandableField) || objectExcludedReadOnlyFields.includes(expandableField)) {
             continue;
         }
-        
+
         if ((nestedExpandableFieldMap[expandableField]['type'] && nestedExpandableFieldMap[expandableField]['type'] !== 'object'
         && nestedExpandableFieldMap[expandableField]['type'] !== 'array' && nestedExpandableFieldMap[expandableField]['description'])) {
             var hashFieldName = expandableField.replace(/_+/g, ' ');

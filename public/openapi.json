@@ -272,35 +272,6 @@
       ]
     },
     {
-      "label": "Preferred locales",
-      "name": "preferred_locales",
-      "description": "",
-      "fields": [
-        {
-          "name": "default payment method",
-          "value": "preferred_locales.default_payment_method",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "footer",
-          "value": "preferred_locales.footer",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
       "label": "Shipping",
       "name": "shipping",
       "description": "",
@@ -687,24 +658,6 @@
         {
           "name": "days until due",
           "value": "default_settings.invoice_settings.days_until_due",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Phases",
-      "name": "phases",
-      "description": "",
-      "fields": [
-        {
-          "name": "days until due",
-          "value": "phases.days_until_due",
           "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
@@ -1137,57 +1090,6 @@
         {
           "name": "usage type",
           "value": "recurring.usage_type",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Tiers",
-      "name": "tiers",
-      "description": "",
-      "fields": [
-        {
-          "name": "aggregate usage",
-          "value": "tiers.aggregate_usage",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "interval",
-          "value": "tiers.interval",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "interval count",
-          "value": "tiers.interval_count",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "usage type",
-          "value": "tiers.usage_type",
           "type": "string",
           "defaultValue": "",
           "hasOverride": false,
