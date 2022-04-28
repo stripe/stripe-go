@@ -82,7 +82,7 @@ end
 # dig into field level permissions "Field Permissions"
 # u.sf_client.api_get 'sobjects/'
 def get_fields_for_object(object_name)
-  description = sf.describe(object_name)
+  description = @sf.describe(object_name)
   description['fields'].map(&:name)
 end
 
@@ -90,6 +90,9 @@ def get_all(object_name)
   all_fields = get_fields_for_object(object_name).join(',')
   sf.query("SELECT #{all_fields} FROM #{object_name}")
 end
+
+require_relative './test/support/salesforce_debugging'
+include SalesforceDebugging
 
 user_info = sf.user_info
 

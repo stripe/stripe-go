@@ -99,6 +99,8 @@ Then create a new package in the QA org.
 
 #### Production Package
 
+There are two additional steps that must be completed to launch a production package:
+
 - Release Notes
 - Security scan https://security.secure.force.com/security/tools/forcecom/scanner
 
@@ -110,7 +112,7 @@ This needs to be done when you are installing the source and not the package:
 - Setup Connection Data > Manage Records > New
 - Label: Default, Global Key: $SF_MANAGED_PACKAGE_API_KEY
 
-## Creating Metadata
+## Creating Salesforce Metadata
 
 - List all metadata within the account `sfdx force:mdapi:listmetadata -m CustomMetadata -u dev`
 - Get field information on a metadata record:
@@ -120,13 +122,27 @@ This needs to be done when you are installing the source and not the package:
 - `sfdx force:cmdt:record:create --typename Setup_Connection_Data__mdt --recordname SetupConnectionData API_Key__c="" Global_Key__c="$SF_MANAGED_PACKAGE_API_KEY" Salesforce_Connected__c="" Stripe_Connected__c="" --protected=true`
 - setup> custom metadata types> Stripe Connection Data > new and enter ‘Default’ for the label and developer name and add the key and save
 
-## OAuth Tokens
+## Platform OAuth Tokens
 
 - The Billing PBO Salesforce org holds our connected application
 - Setup > App Manager > Stripe Connector > Edit to change scopes
 - Same flow with a 'view' action to view consumer tokens
 
+## Batch Service Example
+
+```
+http -vvv POST https://appiphony15-dev-ed.my.salesforce.com/services/apexrest/batchApi 'Authorization: OAuth TOKEN' 'order_ids:=["8015f000000UNriAAG"]'
+```
+
+`TOKEN` and domain can be pulled from `.env` after refreshing tokens locally:
+
+```
+bundle exec ruby scripts/refresh-tokens.rb mbianco+biancodevorg@stripe.com
+```
+
 ## Connecting to a different org
+
+TODO this may not be applicable anymore since we've removed the `.sfdx` folder from source control:
 
 - `sfdx/sfdx-project.json` edit the `sfdcLoginUrl` to match the URL you are logging in against
 - `sfdx/.sfdx/sfdx-config.json` edit the `defaultdevhubusername` / `defaultusername` TODO confirm if this is needed

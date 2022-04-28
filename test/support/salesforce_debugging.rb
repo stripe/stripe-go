@@ -10,6 +10,12 @@ module SalesforceDebugging
     sf_object = @user.sf_client.find(sf_type, sf_id)
   end
 
+  def sf_get_recent(object_type)
+    order_id = @user.sf_client.query("SELECT Id FROM #{object_type} ORDER BY CreatedDate DESC LIMIT 1").first.Id
+    puts order_id
+    sf_get(order_id)
+  end
+
   def stripe_jump(id_or_object)
     id_or_object = id_or_object.id if id_or_object.is_a?(Stripe::APIResource)
     "https://dashboard.stripe.com/#{@user.stripe_account_id}/test/id/#{id_or_object}?account=acct_1JdEinJMQw1guJjW"

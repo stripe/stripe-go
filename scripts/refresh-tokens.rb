@@ -27,13 +27,15 @@ if ARGV[0]
   EOL
 else
   user = T.must(StripeForce::User.find(salesforce_account_id: ENV.fetch('SF_INSTANCE_ID')))
+  access_token = user.salesforce_access_token
 
   shell_vars = <<~EOL
     SF_REFRESH_TOKEN="#{user.salesforce_refresh_token}"
-    SF_ACCESS_TOKEN="#{user.salesforce_token}"
+    SF_ACCESS_TOKEN="#{access_token}"
   EOL
 end
 
+puts "# http https://#{instance_domain}.my.salesforce.com 'Authorization: OAuth #{access_token}'"
 puts shell_vars
 
 if Rails.env.development?
