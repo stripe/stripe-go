@@ -71,6 +71,34 @@ public with sharing class test_restService {
         product.put('isActive',true);
         insert product;
 
+        Map<String, Schema.SObjectType> consumptionScheduleObject = Schema.getGlobalDescribe();
+        sObject consumptionSchedule = consumptionScheduleObject.get('ConsumptionSchedule').newSObject();
+        consumptionSchedule.put('Name','testConsumptionSchedule');
+        consumptionSchedule.put('BillingTerm',5);
+        consumptionSchedule.put('isActive',false);
+        consumptionSchedule.put('BillingTermUnit','Month');
+        consumptionSchedule.put('Type','Range');
+        consumptionSchedule.put('RatingMethod','Tier');
+        insert consumptionSchedule;
+
+        Map<String, Schema.SObjectType> consumptionRateObject = Schema.getGlobalDescribe();
+        sObject consumptionRate = consumptionRateObject.get('ConsumptionRate').newSObject();
+        consumptionRate.put('Price',50.00);
+        consumptionRate.put('ConsumptionScheduleId',consumptionSchedule.Id);
+        consumptionRate.put('ProcessingOrder',1);
+        consumptionRate.put('PricingMethod','PerUnit');
+        consumptionRate.put('LowerBound',1);
+        insert consumptionRate;
+
+        consumptionSchedule.put('isActive',true);
+        upsert consumptionSchedule;
+
+        Map<String, Schema.SObjectType> productConsumptionScheduleObject = Schema.getGlobalDescribe();
+        sObject productConsumptionSchedule = productConsumptionScheduleObject.get('ProductConsumptionSchedule').newSObject();
+        productConsumptionSchedule.put('ConsumptionScheduleId',consumptionSchedule.Id);
+        productConsumptionSchedule.put('ProductId',product.Id);
+        insert productConsumptionSchedule;
+
         sObject cost;
         if(isCpqInstalled) {
             Map<String, Schema.SObjectType> costObject = Schema.getGlobalDescribe();
@@ -175,7 +203,6 @@ public with sharing class test_restService {
             insert contractedPrice;
         }
         
-        //Contract Ammendment 
         Map<String, Schema.SObjectType> amendedOpportunityObject = Schema.getGlobalDescribe();
         sObject amendedOpportunity = amendedOpportunityObject.get('Opportunity').newSObject();
         amendedOpportunity.put('Name', 'Amendment for contract #' + contract.get('Id'));
@@ -221,7 +248,6 @@ public with sharing class test_restService {
             contractedPrice.put('SBQQ__OriginalQuoteLine__c',amendedQuoteLine.Id);
             upsert contractedPrice;
         }
-        //End Contract Ammendment
 
         Map<String, Schema.SObjectType> orderObject = Schema.getGlobalDescribe();
         sObject order = orderObject.get('Order').newSObject();
@@ -262,6 +288,32 @@ public with sharing class test_restService {
         orderItem.put('EndDate',system.today() + 14);
         insert orderItem;
 
+        sObject orderItemConsumptionSchedule; 
+        sObject orderItemConsumptionRate;
+        if (isCpqInstalled) {
+            Map<String, Schema.SObjectType> orderItemConsumptionScheduleObject = Schema.getGlobalDescribe();
+            orderItemConsumptionSchedule = orderItemConsumptionScheduleObject.get('SBQQ__OrderItemConsumptionSchedule__c').newSObject();
+            orderItemConsumptionSchedule.put('Name','testOrderItemConsumptionSchedule');
+            orderItemConsumptionSchedule.put('SBQQ__BillingTerm__c',5);
+            orderItemConsumptionSchedule.put('SBQQ__BillingTermUnit__c','Monthly');
+            orderItemConsumptionSchedule.put('SBQQ__ConsumptionSchedule__c',consumptionSchedule.Id);
+            orderItemConsumptionSchedule.put('SBQQ__OrderItem__c',orderItem.id);
+            orderItemConsumptionSchedule.put('SBQQ__Type__c','Range');
+            orderItemConsumptionSchedule.put('SBQQ__RatingMethod__c','Tier');
+            orderItemConsumptionSchedule.put('SBQQ__Category__c','Rates');
+            insert orderItemConsumptionSchedule;
+
+            Map<String, Schema.SObjectType> orderItemConsumptionRateObject = Schema.getGlobalDescribe();
+            orderItemConsumptionRate = orderItemConsumptionRateObject.get('SBQQ__OrderItemConsumptionRate__c').newSObject();
+            orderItemConsumptionRate.put('Name','testOrderItemConsumptionRate');
+            orderItemConsumptionRate.put('SBQQ__Price__c',50.00);
+            orderItemConsumptionRate.put('SBQQ__OrderItemConsumptionSchedule__c',orderItemConsumptionSchedule.Id);
+            orderItemConsumptionRate.put('SBQQ__ProcessingOrder__c',1);
+            orderItemConsumptionRate.put('SBQQ__PricingMethod__c','Per Unit');
+            orderItemConsumptionRate.put('SBQQ__LowerBound__c',1);
+            insert orderItemConsumptionRate;
+        }
+
         Map<String, Schema.SObjectType> orderItem2Object = Schema.getGlobalDescribe();
         sObject orderItem2 = orderItem2Object.get('OrderItem').newSObject();
         orderItem2.put('OrderId',order2.id);
@@ -282,19 +334,22 @@ public with sharing class test_restService {
         
         //make mock request
         List<String> listOfOrderIds = new List<String>{(String)order.id};
+        List<String> listOfProductIds = new List<String>{(String)product.id};
         Map<String,Object> requestOrderMap = new Map<String,Object> {
-            'order_ids' => (Object)listOfOrderIds
+            'order_ids' => (Object)listOfOrderIds,
+            'product2_ids' => (Object)listOfProductIds
             };
         RestRequest request = new RestRequest();
         request.requestBody = Blob.valueOf(JSON.serialize(requestOrderMap));
-        request.httpMethod = 'Get';
+        request.httpMethod = 'Post';
         RestContext.request = request;
         RestContext.response = new RestResponse();
         RestResponse response = RestContext.response;
 
-        restService.restServiceEvents();
-
+        restService.executeBatchApi();
+        
         Map<String, Object> parsedReqBody = (Map<String, Object>)JSON.deserializeUntyped(response.responseBody.toString());
+        System.debug(JSON.serialize(parsedReqBody));
         List<Object> records = (List<Object>)parsedReqBody.get('records');
         System.debug(JSON.serialize(parsedReqBody.get('records')));
         
@@ -334,6 +389,12 @@ public with sharing class test_restService {
                         System.assertEquals((String)recordMap.get('Id'), (String)product.id);
                         System.assertEquals((String)recordMap.get('Name'), 'testProduct');
                         System.assertEquals((String)recordMap.get('Description'), 'testProductEntry');
+                        if (recordMap.get('ProductConsumptionSchedules') != null ) {
+                            List<Object> ProductConsumptionSchedulesList = (List<Object>)recordMap.get('ProductConsumptionSchedules');
+                            List<Object> ConsumptionSchedulesList = (List<Object>)recordMap.get('ConsumptionSchedules');
+                            System.assertEquals(ProductConsumptionSchedulesList[0], productConsumptionSchedule.Id);
+                            System.assertEquals(ConsumptionSchedulesList[0], consumptionSchedule.Id);
+                        }
                     }
                     when 'PricebookEntry' {
                         System.assertEquals((String)recordMap.get('Id'), (String)standardPrice.id);
@@ -354,6 +415,11 @@ public with sharing class test_restService {
                             List<Object> PricebookEntries = (List<Object>)recordMap.get('PricebookEntries');
                             System.assertEquals((String)Products[0], (String)product.id);
                             System.assertEquals((String)PricebookEntries[0], (String)standardPrice.id);
+                            if (isCpqInstalled && recordMap.get('OrderItemConsumptionSchedules') != null ) {
+                                List<Object> orderItemConsumptionSchedulesList = (List<Object>)recordMap.get('OrderItemConsumptionSchedules');
+                                List<Object> ConsumptionSchedulesList = (List<Object>)recordMap.get('ConsumptionSchedules');
+                                System.assertEquals(orderItemConsumptionSchedulesList[0], orderItemConsumptionSchedule.Id);
+                            }
                         } else {
                             System.assertEquals((String)recordMap.get('Id'), (String)orderItem2.id);
                             System.assertEquals((String)recordMap.get('OrderId'), (String)order2.id);
@@ -405,7 +471,7 @@ public with sharing class test_restService {
                             System.assertEquals((String)Contracts[0], (String)contract.id);
                             System.assertEquals((String)Accounts[0], (String)account.id);
                             System.assertEquals((String)Contacts[0], (String)contact.id);
-                            System.assertEquals((String)OrderItems[0], (String)orderItem2.id);
+                            System.assertEquals((String)OrderItems[1], (String)orderItem2.id);
                         }
                     }
                     when 'Opportunity' {
@@ -415,6 +481,27 @@ public with sharing class test_restService {
                         System.assertEquals((String)recordMap.get('StageName'), 'Prospecting');
                         System.assertEquals((String)recordMap.get('Name'), 'testOpportunity');
                         System.assertEquals((String)recordMap.get('CloseDate'), String.valueOf(system.today() + 4));
+                    } when 'ProductConsumptionSchedule' {
+                        System.assertEquals((String)recordMap.get('Id'), (String)productConsumptionSchedule.id);
+                        if (recordMap.get('ConsumptionScheduleId') != null ) {
+                            System.assertEquals((String)recordMap.get('ConsumptionScheduleId'), consumptionSchedule.Id);
+                        }
+                    } when 'ConsumptionSchedule' {
+                        System.assertEquals((String)recordMap.get('Id'), (String)consumptionSchedule.id);
+                        if (recordMap.get('ConsumptionRates') != null ) {
+                            List<Object> consumptionRatesList = (List<Object>)recordMap.get('ConsumptionRates');
+                            System.assertEquals(consumptionRatesList[0], consumptionRate.Id);
+                        }
+                    } when 'ConsumptionRate' {
+                        System.assertEquals((String)recordMap.get('Id'), (String)consumptionRate.id);
+                    } when 'SBQQ__OrderItemConsumptionSchedule__c' {
+                        System.assertEquals((String)recordMap.get('Id'), (String)orderItemConsumptionSchedule.id);
+                        if (recordMap.get('OrderItemConsumptionRates') != null ) {
+                            List<Object> orderItemConsumptionRatesList = (List<Object>)recordMap.get('OrderItemConsumptionRates');
+                            System.assertEquals(orderItemConsumptionRatesList[0], orderItemConsumptionRate.Id);
+                        }
+                    } when 'SBQQ__OrderItemConsumptionRate__c' {
+                        System.assertEquals((String)recordMap.get('Id'), (String)orderItemConsumptionRate.id);
                     }
                 }
             } 
