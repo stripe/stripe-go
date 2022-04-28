@@ -24,7 +24,7 @@ module Api
       if ![SF_ORDER, SF_ACCOUNT, SF_PRODUCT, SF_PRICEBOOK_ENTRY].include?(sf_record_type)
         log.error 'invalid object type', object_type: sf_record_type
         head :bad_request
-        nil
+        return
       end
 
       head :ok
