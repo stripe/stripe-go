@@ -88,14 +88,18 @@ sfdx auth:web:login
 
 Then create a new package in the QA org.
 
-- Setup > Package Manager
+- Setup > Package Manager (https://appiphonycom7-dev-ed.lightning.force.com/lightning/setup/Package/home)
 - Click on the name of the package
 - Copy the package name field, you'll need it in the next step
 - Click on upload, then:
   - Release Type > Managed Released
-  - Version Name: QaStripeConnect
+  - Version Name: `QaStripeConnect`
   - New version number will be determined automatically
-  - New Order Save Behavior: unchecked
+  - New Order Save Behavior: unchecked (this should be done by default)
+
+After rolling, make sure to install it on the packaging org dev account:
+
+https://appiphony92-dev-ed.my.salesforce.com/
 
 #### Production Package
 
