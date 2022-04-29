@@ -439,6 +439,25 @@ public with sharing class test_setupAssistant {
         System.assertEquals(false, (Boolean)resultsMap.get('isValidationError'));
     }
 
+    @isTest
+    static public void testSetupAssistant_syncAllRecords() {
+        Setup_Connection_Data__mdt testSetupData = getTestStripeConnectionKey();
+        setTestGlobalKey(testSetupData);
+        insertTestConnectedRecord();
+
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new stripeSuccessMock());  
+        String response = setupAssistant.syncAllRecords('Product2');
+        Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(response);
+        Test.stopTest();
+
+        System.assert((Boolean)responseMap.get('isSuccess'), responseMap.get('error'));
+
+        Map<String, Object> resultsMap = (Map<String, Object>)responseMap.get('results');
+        System.assertEquals(true, (Boolean)resultsMap.get('syncAllRecordsDispatched'));
+
+    }
+
 
     public static Setup_Connection_Data__mdt getTestStripeConnectionKey() {
         Setup_Connection_Data__mdt testSetupData = new Setup_Connection_Data__mdt();
@@ -561,7 +580,10 @@ public with sharing class test_setupAssistant {
                     responseBody.put('formattedStripePriceFields', (Object)testFormattedFieldsList);
                     res.setBody(Json.serialize(responseBody));
                     res.setStatusCode(200);
+                } else if(req.getEndpoint().endsWith('translate_all')) {
+                    res.setStatusCode(200);
                 }
+                
                 return res;
             }
         }

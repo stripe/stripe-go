@@ -357,6 +357,7 @@ public with sharing class setupAssistant {
          responseData rd = new responseData();
          Boolean isConnected = false;
          try {
+            rd.put('isSandbox', constants.IS_SANDBOX);
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
 
             if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {  
@@ -528,6 +529,7 @@ public with sharing class setupAssistant {
                     if(response.getStatusCode() == 200) {
                         isSyncRecordDispactched = true;           
                     } else {
+                        rd.put('isSyncRecordDispactched', false);
                         errorLogger.create('manualRetry', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Sync_Record ID that failed: '+(String)recordId);
                     }
                 }
@@ -543,56 +545,57 @@ public with sharing class setupAssistant {
      @AuraEnabled
      public static String getFilterSettings() {
          responseData rd = new responseData();
-         Boolean isConnected = false;
          try {
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults();   
 
-            if(stripeConnectRec.Id != null && stripeConnectRec.Salesforce_Connected__c && stripeConnectRec.Stripe_Connected__c) {  
-
-                //make callout to ruby services configuration endpoint to get stored stripe setting values
-                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
-                HttpResponse response =  utilities.makeCallout(route, 'GET');
-
-                Map<String, Object> errorBody; 
-                Map<String, Object> responseBody;
-
-                /*if we get a 200 response code from the ruby service we will check the connection status object
-                in the payload to determine weather the user successfully connected to stripe or not*/
-                if(response.getStatusCode() == 200) {
-                    responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
-                    
-                    //get connection status values from response
-                    Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
-
-                    //ensure we are still connected
-                    if((Boolean)connectionStatus.get('stripe') && (Boolean)connectionStatus.get('salesforce')) {
-                        isConnected = true;
-                        Map<String, Object> settings = (Map<String,Object>)responseBody.get('settings');
-
-                        Map<String, Object> filters = (Map<String,Object>)settings.get('filters');
-
-                        List<String> filterFields = new List<String> {
-                            'Product2',
-                            'Order',
-                            'Account'
-                        };
-
-                        //gets filter fields and values for front end
-                        for(String filterField : filterFields) {
-                            rd.put(filterField, String.valueOf(filters.get(filterField)));
-                        }
-                    } else {
-                        isConnected = false;
-                        stripeConnectRec.Stripe_Connected__c = (Boolean)connectionStatus.get('stripe');
-                        stripeConnectRec.Salesforce_Connected__c = (Boolean)connectionStatus.get('salesforce');
-                        upsert stripeConnectRec;
-                    }
-                } 
+            if (stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {  
+                rd.put('isConnected', false);
+                return rd.getJsonString();
             }
+
+
+            //make callout to ruby services configuration endpoint to get stored stripe setting values
+            String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
+            HttpResponse response =  utilities.makeCallout(route, 'GET');
+            
+            if(response.getStatusCode() != 200) { 
+                errorLogger.create('getFilterSettings', String.valueOf(response.getStatusCode()), (String)response.getStatus(), '');
+                rd.put('isConnected', false);
+                return rd.getJsonString();
+            }
+            Map<String, Object> responseBody = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+            
+            //get connection status values from response
+            Map<String, Object> connectionStatus = (Map<String,Object>)responseBody.get('connection_status');
+
+            //ensure we are still connected
+            if(!(Boolean)connectionStatus.get('stripe') || !(Boolean)connectionStatus.get('salesforce')) {
+                rd.put('isConnected', false);
+                stripeConnectRec.Stripe_Connected__c = (Boolean)connectionStatus.get('stripe');
+                stripeConnectRec.Salesforce_Connected__c = (Boolean)connectionStatus.get('salesforce');
+                upsert stripeConnectRec;
+                return rd.getJsonString();
+            }
+
+            Map<String, Object> settings = (Map<String,Object>)responseBody.get('settings');
+
+            Map<String, Object> filters = (Map<String,Object>)settings.get('filters');
+
+            List<String> filterFields = new List<String> {
+                'Product2',
+                'Order',
+                'Account'
+            };
+
+            //gets filter fields and values for front end
+            for(String filterField : filterFields) {
+                rd.put(filterField, String.valueOf(filters.get(filterField)));
+            }
+
         } catch (Exception e) {
             rd.addError(e);
         }
-        rd.put('isConnected', isConnected);
+        rd.put('isConnected', true);
         return rd.getJsonString();
     }
 
@@ -600,8 +603,6 @@ public with sharing class setupAssistant {
     @AuraEnabled
     public static String saveFilterSettings(String productFilter, String orderFilter, String accountFiter) {
         responseData rd = new responseData();
-        Boolean isfiltersSaved = false;
-        Boolean isValidationError = false;
         try {
             Map<String, String> queryFilterMap = new Map<String, String> {
                 'Product2' => productFilter,
@@ -613,53 +614,92 @@ public with sharing class setupAssistant {
             //Iterate through filters and run query to ensure they are valid
             for (String objectName : queryFilterMap.keySet()) {
                 
-                if (!String.isBlank(queryFilterMap.get(objectName)) && queryFilterMap.get(objectName) != null) {
-                    String whereClause = queryFilterMap.get(objectName);
-                    try {
-                        /*Using limit zero in queries so there are no records are returned therefore it 
-                        will not count against the total number of rows retrieved salesforce limitation*/
-                        List<sObject> sobjList = Database.query('SELECT Id FROM ' + objectName + ' WHERE ' + whereClause + ' WITH SECURITY_ENFORCED LIMIT 0');
-                    } catch (QueryException e) {
-                        isValidationError = true;
-                        validationErrorMapList.add(new Map<String, Object> { 
-                            'Object' => objectName,
-                            'Error' => String.valueOf(e)
-                        });
-                        
-                    } 
-                } else {
+                if (String.isBlank(queryFilterMap.get(objectName)) || queryFilterMap.get(objectName) == null) {
                     queryFilterMap.put(objectName, null);
+                    continue;
                 }
+                    
+                String whereClause = queryFilterMap.get(objectName);
+                try {
+                    /*Using limit zero in queries so there are no records are returned therefore it 
+                    will not count against the total number of rows retrieved salesforce limitation*/
+                    List<sObject> sobjList = Database.query('SELECT Id FROM ' + objectName + ' WHERE ' + whereClause + ' WITH SECURITY_ENFORCED LIMIT 0');
+                } catch (QueryException e) {
+                    validationErrorMapList.add(new Map<String, Object> { 
+                        'Object' => objectName,
+                        'Error' => String.valueOf(e)
+                    });
+                } 
             }
 
             if (!validationErrorMapList.isEmpty()) {
-                rd.put('isValidationError', isValidationError);
-                rd.put('isFiltersSaved', isfiltersSaved);
+                rd.put('isValidationError', true);
+                rd.put('isFiltersSaved', false);
                 rd.put('ValidationErrors', validationErrorMapList);
                 return rd.getJsonString();
             }
 
             Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults(); 
-            if(stripeConnectRec.Id != null) {
-                Map<String, Object> resquestBody = new Map<String, Object> {
-                    'settings' => new Map<String, Object> {
-                        'filters' => queryFilterMap
-                    }
-                };
-                String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
-                HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(resquestBody));
- 
-                if(response.getStatusCode() == 200) {
-                    isfiltersSaved = true;
-                } else {
-                    errorLogger.create('saveFilterSettings', String.valueOf(response.getStatusCode()), (String)response.getStatus(), '');
-                }
+            if (stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {  
+                rd.put('isFiltersSaved', false);
+                rd.put('isConnected', false);
+                return rd.getJsonString();
             }
+
+            Map<String, Object> resquestBody = new Map<String, Object> {
+                'settings' => new Map<String, Object> {
+                    'filters' => queryFilterMap
+                }
+            };
+            String route = constants.RUBY_SERVICE_BASE_URI + '/v1/configuration';
+            HttpResponse response =  utilities.makeCallout(route, 'PUT', JSON.serialize(resquestBody));
+
+            if(response.getStatusCode() != 200) {
+                rd.put('isValidationError', false);
+                rd.put('isFiltersSaved', false);
+                errorLogger.create('saveFilterSettings', String.valueOf(response.getStatusCode()), (String)response.getStatus(), '');
+            }
+
         } catch (Exception e) {
             rd.addError(e);
         }
-        rd.put('isFiltersSaved', isfiltersSaved);
-        rd.put('isValidationError', isValidationError);
+        rd.put('isFiltersSaved', true);
+        rd.put('isValidationError', false);
+        return rd.getJsonString();
+    }
+
+    //sends object name for all records syncing to the ruby service
+    @AuraEnabled
+    public static String syncAllRecords(String objectType) {
+        responseData rd = new responseData();
+        try {
+            Stripe_Connection__c stripeConnectRec = Stripe_Connection__c.getOrgDefaults(); 
+            
+            if (stripeConnectRec.Id == null || !stripeConnectRec.Salesforce_Connected__c || !stripeConnectRec.Stripe_Connected__c) {  
+                rd.put('isConnected', false);
+                return rd.getJsonString();
+            }
+
+            String route = constants.RUBY_SERVICE_BASE_URI + '/v1/translate_all';
+    
+            Map<String, Object> body = new Map<String, Object>{
+                'object_type' => objectType
+            };
+
+            HttpResponse response =  utilities.makeCallout(route, 'POST', JSON.serialize(body));
+
+            if (response.getStatusCode() != 200) {
+                rd.put('syncAllRecordsDispatched', false);
+                errorLogger.create('syncAllRecords', String.valueOf(response.getStatusCode()), (String)response.getStatus(), 'Object type that failed: ' + objectType);  
+                return rd.getJsonString();
+            } 
+            
+            rd.put('syncAllRecordsDispatched', true);
+            rd.put('isConnected', true);
+         
+        } catch (Exception e) {  
+            rd.addError(e);
+        }
         return rd.getJsonString();
     }
 

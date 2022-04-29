@@ -3,6 +3,7 @@ import getSyncPreferences from '@salesforce/apex/setupAssistant.getSyncPreferenc
 import getMulticurrencySelectionOptions from '@salesforce/apex/setupAssistant.getMulticurrencySelectionOptions';
 import getFilterSettings from '@salesforce/apex/setupAssistant.getFilterSettings';
 import saveFilterSettings from '@salesforce/apex/setupAssistant.saveFilterSettings';
+import syncAllRecords from '@salesforce/apex/setupAssistant.syncAllRecords';
 import { LightningElement, api, track} from 'lwc';
 
 export default class SyncPreferencesStep extends LightningElement {
@@ -23,6 +24,9 @@ export default class SyncPreferencesStep extends LightningElement {
     @track orderFilter;
     @track accountFilter;
     @track productFilter;
+    @track isSandbox;
+    @track syncProductsDisabled = false; 
+    @track syncPricebooksDisabled = false;
     @track intervalOptions = [
         {
             label: 'Month',
@@ -40,41 +44,40 @@ export default class SyncPreferencesStep extends LightningElement {
     @api async connectedCallback() {
         try {
             const syncPreferences = await getSyncPreferences();
-            this.data = JSON.parse(syncPreferences);
-            if(this.data.isSuccess && this.data.results.isConnected) {
-                this.stripeAccountId = this.data.results.stripe_account_id;
-                this.lastSynced = new Date(this.data.results.last_synced * 1000).toLocaleString(undefined, {year:'numeric', month:'numeric', day: '2-digit', hour: 'numeric', minute:'2-digit', timeZoneName:'short'});
-                this.defaultCurrency = this.data.results.default_currency;
-                this.syncRecordRetention = this.data.results.sync_record_retention;
-                this.syncStartDate = new Date(this.data.results.sync_start_date * 1000).toISOString();
-                this.apiPercentageLimit = this.data.results.api_percentage_limit;
-                this.cpqTermUnit = this.data.results.cpq_term_unit;
-                this.isCpqInstalled = this.data.results.isCpqInstalled;
-
-                const multiCurrencyCheck = await getMulticurrencySelectionOptions();
-                this.data = JSON.parse(multiCurrencyCheck);
-                if(this.data.isSuccess) {
-                    this.totalApiCalls = this.data.results.orgMaxApiLimit;
-                    this.isMultiCurrencyEnabled = this.data.results.isMultiCurrencyEnabled;
-                    if (this.isMultiCurrencyEnabled) {
-                        this.currencyOptions = this.data.results.supportedISOCodes;
-                    }
-                } else if(this.data.error) { 
-                    this.showToast(this.data.error, 'error', 'sticky');
-                }
-
-                const filterSettings = await getFilterSettings();
-                const filterSettingsResponseData = JSON.parse(filterSettings);
-                if(filterSettingsResponseData.isSuccess) {
-                    this.orderFilter = filterSettingsResponseData.results.Order;
-                    this.accountFilter = filterSettingsResponseData.results.Account;
-                    this.productFilter = filterSettingsResponseData.results.Product2;
-                } else if(filterSettingsResponseData.error) { 
-                    this.showToast(filterSettingsResponseData.error, 'error', 'sticky');
-                }
-            } else if(this.data.error) { 
-                this.showToast(this.data.error, 'error', 'sticky');
+            const responseData = JSON.parse(syncPreferences);
+            if(!responseData.isSuccess || !responseData.results.isConnected && responseData.error) {
+                this.showToast(responseData.error, 'error', 'sticky');
             }
+            this.stripeAccountId = responseData.results.stripe_account_id;
+            this.lastSynced = new Date(responseData.results.last_synced * 1000).toLocaleString(undefined, {year:'numeric', month:'numeric', day: '2-digit', hour: 'numeric', minute:'2-digit', timeZoneName:'short'});
+            this.defaultCurrency = responseData.results.default_currency;
+            this.syncRecordRetention = responseData.results.sync_record_retention;
+            this.syncStartDate = new Date(responseData.results.sync_start_date * 1000).toISOString();
+            this.apiPercentageLimit = responseData.results.api_percentage_limit;
+            this.cpqTermUnit = responseData.results.cpq_term_unit;
+            this.isCpqInstalled = responseData.results.isCpqInstalled;
+            this.isSandbox = responseData.results.isSandbox;
+
+            const multiCurrencyCheck = await getMulticurrencySelectionOptions();
+            const multiCurrencyResponseData = JSON.parse(multiCurrencyCheck);
+            if(!multiCurrencyResponseData.isSuccess && multiCurrencyResponseData.error) {
+                this.showToast(multiCurrencyResponseData.error, 'error', 'sticky');
+            }
+            this.totalApiCalls = multiCurrencyResponseData.results.orgMaxApiLimit;
+            this.isMultiCurrencyEnabled = multiCurrencyResponseData.results.isMultiCurrencyEnabled;
+            if (this.isMultiCurrencyEnabled) {
+                this.currencyOptions = multiCurrencyResponseData.results.supportedISOCodes;
+            }
+
+            const filterSettings = await getFilterSettings();
+            const filterSettingsResponseData = JSON.parse(filterSettings);
+            if(!filterSettingsResponseData.isSuccess && filterSettingsResponseData.error) {
+                this.showToast(filterSettingsResponseData.error, 'error', 'sticky');
+            }
+            this.orderFilter = filterSettingsResponseData.results.Order;
+            this.accountFilter = filterSettingsResponseData.results.Account;
+            this.productFilter = filterSettingsResponseData.results.Product2;
+
         } catch (error) {
             this.showToast(error.message, 'error', 'sticky');
         } finally {
@@ -129,6 +132,33 @@ export default class SyncPreferencesStep extends LightningElement {
         }
         return savedValue;
     }
+
+    showProductSyncModal() {
+        this.template.querySelector('.stripe-modal_product-sync').show();
+    }
+
+    showPricebookSyncModal() {
+        this.template.querySelector('.stripe-modal_pricebook-sync').show();
+    }
+
+    hideProductSyncModal() {
+        this.template.querySelector('.stripe-modal_product-sync').hide();
+    }
+
+    hidePricebookSyncModal() {
+        this.template.querySelector('.stripe-modal_pricebook-sync').hide();
+    }
+
+    syncProducts() {
+        this.syncAllRecords('Product2');
+        this.hideProductSyncModal();
+    }
+
+    syncPricebooks() {
+        this.syncAllRecords('PricebookEntry');
+        this.hidePricebookSyncModal();
+    }
+
 
     get apiLimitCount() {
         if (this.apiPercentageLimit > 0) {
@@ -207,14 +237,21 @@ export default class SyncPreferencesStep extends LightningElement {
                                         }  
                                     }
                                 return;
-                            }
+                            } else {
+                                this.showToast(filterResponseData.error, 'error', 'sticky');
+                            } 
                         }
-                    } else {
-                        this.showToast(filterResponseData.error, 'error', 'sticky');
                     } 
-                    
                 } else {
                     this.showToast(savedSyncPreferencesResponseData.error, 'error', 'sticky');
+                }
+                
+                const responseData =  JSON.parse(updatedSyncPreferences);
+                if(responseData.isSuccess) {
+                    saveSuccess = true;
+                    this.showToast('Changes were successfully saved', 'success');
+                } else {
+                    this.showToast(responseData.error, 'error', 'sticky');
                 } 
             }  
 
@@ -227,6 +264,35 @@ export default class SyncPreferencesStep extends LightningElement {
                 }
             }));
         }
+    }
+
+    async syncAllRecords(objectType) {
+        try {
+            const syncAllRecordsResponse = await syncAllRecords({
+                objectType: objectType
+            });
+            const responseData =  JSON.parse(syncAllRecordsResponse);
+            if (responseData.error) {
+                this.showToast(responseData.error, 'error', 'sticky');
+                return
+            }
+
+            if (!responseData.results.syncAllRecordsDispatched) {
+                this.showToast('There was an error dispatching the records for syncing, Please try agian.', 'error', 'sticky');
+                return
+            } 
+
+            this.showToast('All ' + objectType + ' records have been dispatched to be synced.', 'success');
+            if (objectType === 'PricebookEntry') {
+                //disable Pricebook Entry button 
+                this.syncPricebooksDisabled = true;
+                return
+            }
+            this.syncProductsDisabled = true;
+        
+        } catch (error) {
+            this.showToast(error.message, 'error', 'sticky');
+        } 
     }
 
     showToast(message, variant, mode) {
