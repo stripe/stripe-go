@@ -176,6 +176,8 @@ function formatStripeObjectsForMapper(stripeObjectToFormat, objectExcludedReadOn
         }
 
         // TODO this should be separated out into it's own method
+        // TODO the description of the fields below is NOT included, it needs to be looked up elsewhere in the schema https://github.com/stripe/stripe-salesforce/issues/376
+
         for (const expandableField in expandableSchemaFieldMap) {
             if (excludedFields.all.includes(expandableField) || objectExcludedReadOnlyFields.includes(expandableField)) {
                 continue
