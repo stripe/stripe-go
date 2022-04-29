@@ -176,7 +176,7 @@ export default class DataMappingStep extends LightningElement {
                     } else {
                         listOfAllMappings.field_mappings[stripeObjectName][stripeObjectMappings[i].fields[j].value] = stripeObjectMappings[i].fields[j].sfValue;
                     }
-                    if(stripeObjectMappings[i].fields[j].defaultValue)listOfAllMappings.default_mappingss[stripeObjectName][stripeObjectMappings[i].fields[j].value] = stripeObjectMappings[i].fields[j].defaultValue;
+                    if(stripeObjectMappings[i].fields[j].defaultValue)listOfAllMappings.default_mappings[stripeObjectName][stripeObjectMappings[i].fields[j].value] = stripeObjectMappings[i].fields[j].defaultValue;
                 }
             }
         }
@@ -189,7 +189,7 @@ export default class DataMappingStep extends LightningElement {
                     } else {
                         listOfAllMappings.field_mappings[stripeObjectName]['metadata.'+listOfMetadataFields.metadataMapping.fields[i].value] = listOfMetadataFields.metadataMapping.fields[i].sfValue;
                     }
-                    if(listOfMetadataFields.metadataMapping.fields[i].defaultValue)listOfAllMappings.default_mappingss[stripeObjectName]['metadata.'+listOfMetadataFields.metadataMapping.fields[i].value] = listOfMetadataFields.metadataMapping.fields[i].defaultValue;
+                    if(listOfMetadataFields.metadataMapping.fields[i].defaultValue)listOfAllMappings.default_mappings[stripeObjectName]['metadata.'+listOfMetadataFields.metadataMapping.fields[i].value] = listOfMetadataFields.metadataMapping.fields[i].defaultValue;
                 }
             } 
         }
