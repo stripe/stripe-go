@@ -625,6 +625,17 @@
           "hasSfValue": false,
           "sfValue": "",
           "sfValueType": ""
+        },
+        {
+          "name": "start date",
+          "value": "start_date",
+          "description": "<p>When the subscription schedule starts. We recommend using <code>now</code> so that it starts the subscription immediately. You can also use a Unix timestamp to backdate the subscription so that it starts on a past date, or set a future date for the subscription to start on.</p>",
+          "defaultValue": "",
+          "hasOverride": false,
+          "staticValue": false,
+          "hasSfValue": false,
+          "sfValue": "",
+          "sfValueType": ""
         }
       ]
     },
@@ -658,24 +669,6 @@
         {
           "name": "days until due",
           "value": "default_settings.invoice_settings.days_until_due",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Start date",
-      "name": "start_date",
-      "description": "",
-      "fields": [
-        {
-          "name": "days until due",
-          "value": "start_date.days_until_due",
           "type": "integer",
           "defaultValue": "",
           "hasOverride": false,
@@ -808,35 +801,6 @@
         {
           "name": "interval count",
           "value": "price_data.recurring.interval_count",
-          "type": "integer",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        }
-      ]
-    },
-    {
-      "label": "Tax rates",
-      "name": "tax_rates",
-      "description": "",
-      "fields": [
-        {
-          "name": "interval",
-          "value": "tax_rates.interval",
-          "type": "string",
-          "defaultValue": "",
-          "hasOverride": false,
-          "staticValue": false,
-          "hasSfValue": false,
-          "sfValue": "",
-          "sfValueType": ""
-        },
-        {
-          "name": "interval count",
-          "value": "tax_rates.interval_count",
           "type": "integer",
           "defaultValue": "",
           "hasOverride": false,

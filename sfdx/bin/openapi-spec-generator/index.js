@@ -95,6 +95,14 @@ HTTPREQUEST.on('error', error => {
 
 HTTPREQUEST.end();
 
+function arrayEquals(a, b) {
+    return Array.isArray(a) &&
+        Array.isArray(b) &&
+        a.length === b.length &&
+        a.every((val, index) => val === b[index]);
+}
+
+
 function formatStripeObjectsForMapper(stripeObjectToFormat, objectExcludedReadOnlyFields) {
     let stripeObjectMappings = [{
         label: 'Standard Mappings',
@@ -108,24 +116,30 @@ function formatStripeObjectsForMapper(stripeObjectToFormat, objectExcludedReadOn
             continue;
         }
 
+        const fieldData = stripeObjectToFormat[field];
+
+        // if `type` does not exist, `anyOf` is often provided which provides a list of options
+        // in many cases, a enum with an empty string is an option. I'm not sure why, but I believe we can safely filter these out and treat
+        // them as a type with anyOf containing the other options
+        const acceptableTypes = (fieldData['anyOf'] || []).filter(t => !arrayEquals(t.enum, [''])).map(t => t.type)
+
         // mapper does not support array mapping
-        if(stripeObjectToFormat[field]['type'] === 'array') {
+        if(fieldData['type'] === 'array' || arrayEquals(acceptableTypes, ['array'])) {
             continue;
         }
 
         // if we don't have an object reference, then this is a standard field
         if (
-            !stripeObjectToFormat[field]['$ref'] &&
-            !stripeObjectToFormat[field]['anyOf'] &&
+            !fieldData['$ref'] &&
+            !acceptableTypes.includes('object') &&
 
-            stripeObjectToFormat[field]['type'] &&
-            stripeObjectToFormat[field]['type'] !== 'object'
+            (fieldData['type'] || '') !== 'object'
         ) {
             const fieldMap = getNewFieldObject(field.replace(/_+/g, ' '), field);
-            fieldMap['type'] = stripeObjectToFormat[field]['type'];
+            fieldMap['type'] = fieldData['type'];
 
-            if (stripeObjectToFormat[field]['description']) {
-                fieldMap['description'] = markdownConverter.makeHtml(stripeObjectToFormat[field]['description']);
+            if (fieldData['description']) {
+                fieldMap['description'] = markdownConverter.makeHtml(fieldData['description']);
             }
 
             // standard field section is always at the top of the array
@@ -133,9 +147,9 @@ function formatStripeObjectsForMapper(stripeObjectToFormat, objectExcludedReadOn
             continue;
         }
 
-        // TODO from here on out, I believe we can assume it is an object type
+        // TODO we do not have the logic below adjusted for the new understanding that `acceptableTypes` could contain *just* an object reference
 
-        if (stripeObjectToFormat[field]['anyOf'] && stripeObjectToFormat[field]['anyOf'].length &&
+        if (fieldData['anyOf'] && fieldData['anyOf'].length &&
             openApiSpec['components']['schemas'][field] ) {
             var nestedExpandableFieldMap = openApiSpec['components']['schemas'][field]['properties'];
             if (nestedExpandableFieldMap) {
@@ -150,15 +164,15 @@ function formatStripeObjectsForMapper(stripeObjectToFormat, objectExcludedReadOn
         '['components']['schemas']' tree path associated with the current field to get the
         related subfields, descriptions and types to add to them mapper*/
         // TODO in what cases does this occur?
-        if (stripeObjectToFormat[field]['$ref']) {
-            expandableSchemaFieldName = stripeObjectToFormat[field]['$ref'].split('/').pop();
+        if (fieldData['$ref']) {
+            expandableSchemaFieldName = fieldData['$ref'].split('/').pop();
             expandableSchemaFieldMap = openApiSpec['components']['schemas'][expandableSchemaFieldName]['properties'];
         }
 
         //In this case we are getting all the descriptions, subfields and types from the object directly
-        if (stripeObjectToFormat[field]['type'] === 'object' || stripeObjectToFormat[field]['properties']) {
+        if (fieldData['type'] === 'object' || fieldData['properties']) {
             expandableSchemaFieldName = field;
-            expandableSchemaFieldMap = stripeObjectToFormat[field]['properties'];
+            expandableSchemaFieldMap = fieldData['properties'];
         }
 
         // TODO this should be separated out into it's own method
@@ -179,8 +193,8 @@ function formatStripeObjectsForMapper(stripeObjectToFormat, objectExcludedReadOn
                 const hashFieldValue = field + '.' + expandableField;
                 stripeObjectMappings = addNewFieldToSection(stripeObjectMappings, hashFieldName, hashFieldValue, expandableSchemaFieldMap, expandableField, field);
 
-            } else if (stripeObjectToFormat[field]['properties'] && stripeObjectToFormat[field]['properties'][expandableField]['properties']) {
-                expandableSchemaFieldMap = stripeObjectToFormat[field]['properties'][expandableField]['properties'];
+            } else if (fieldData['properties'] && fieldData['properties'][expandableField]['properties']) {
+                expandableSchemaFieldMap = fieldData['properties'][expandableField]['properties'];
 
                 for (const subfield in expandableSchemaFieldMap) {
                     var newSection = {
