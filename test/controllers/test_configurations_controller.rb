@@ -226,6 +226,7 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
         "subscription_schedule" => {
           "Email" => "email",
         },
+        "customer" => {},
       }
 
       updated_field_defaults = {
@@ -250,6 +251,35 @@ class Critic::ConfigurationsControllerTest < ApplicationIntegrationTest
 
       assert_equal(@user.field_mappings, result["field_mappings"])
       assert_equal(@user.field_defaults, result["field_defaults"])
+    end
+
+    it 'preserves keys which are not supported in the mapper' do
+      @user.field_mappings['special_key'] = {
+        'Description' => 'metadata.special_key',
+      }
+
+      # this should be replaced when a payload is passed from the mapper
+      @user.field_mappings['subscription'] = {
+        'Description' => 'metadata.normal_key',
+      }
+
+      @user.save
+
+      put api_configuration_path, params: {
+        "field_mappings" => {
+          "subscription" => {
+            'Description' => 'metadata.passed_key',
+          },
+          "customer" => {},
+        },
+        "field_defaults" => {},
+      }, as: :json, headers: authentication_headers
+
+      assert_response :success
+
+      @user = T.must(StripeForce::User[@user.id])
+      assert_equal({'Description' => 'metadata.passed_key'}, @user.field_mappings['subscription'])
+      assert_equal({'Description' => 'metadata.special_key'}, @user.field_mappings['special_key'])
     end
   end
 end

@@ -124,6 +124,11 @@ module Api
         update_hash["connector_settings"] = @user.connector_settings.merge(update_hash.delete("settings"))
       end
 
+      # top-level keys not passed by the mapper should be preserved, but all 2nd level keys should be removed
+      if update_hash.key?('field_mappings')
+        update_hash['field_mappings'] = @user.field_mappings.merge(update_hash['field_mappings'])
+      end
+
       @user.update(update_hash)
 
       render json: user_configuration_json
