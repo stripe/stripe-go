@@ -97,7 +97,7 @@ Then create a new package in the QA org.
   - New version number will be determined automatically
   - New Order Save Behavior: unchecked (this should be done by default)
 
-After rolling, make sure to install it on the packaging org dev account:
+After rolling, make sure to install it on the package org test account (distinct from the packaging org, which is used to generate the package):
 
 https://appiphony92-dev-ed.my.salesforce.com/
 
