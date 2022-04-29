@@ -77,7 +77,7 @@ First, deploy the source to our [QA environment](https://docs.google.com/spreads
 
 ```shell
 cd sfdx
-sfdx force:source:deploy -p force-app/main/default/objects -u mbianco+newstripeconnectorqa@stripe.com
+sfdx force:source:deploy -p force-app/main/default -u mbianco+newstripeconnectorqa@stripe.com
 ```
 
 If you don't have access to that account, add access:
