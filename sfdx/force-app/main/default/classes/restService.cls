@@ -1,7 +1,27 @@
-/*you can hit this endpoint  per org by authenticating into the org and makeing a POST request to 
-https://{orgDomain}.my.salesforce.com/services/apexrest/batchApi*/
+/*
+You can hit this endpoint per org by authenticating into the org and makeing a POST request to 
+https://{orgDomain}.my.salesforce.com/services/apexrest/batchApi
+
+https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_annotation_rest_resource.htm
+*/
+
 @RestResource(urlMapping='/batchApi')
 global with sharing class restService {
+    /*
+    NOTE we accidentally used GET for the route instead of POST, which made it hard to pass a message body in the ruby SF library
+         in order to get around packaging issues, we are leaving this around for now until we figure out how to remove it completely. 
+         Strangely enough, you are not supposed to be able to tag a @RestResource class with the same HTTP verb annotations twice, but we are, and it works.
+    TODO https://github.com/stripe/stripe-salesforce/issues/383
+     */
+    @HttpGet
+    @HttpPost
+    @ReadOnly
+    global static void restServiceEvents() {
+        RestResponse response = RestContext.response;
+        response.responseBody = Blob.valueOf('This route has been deprecated, use the POST route instead.');
+        return;
+    }
+
     //custom exception
     public class NoOrderIdsOrProductIdsFoundException extends Exception {}
 
@@ -16,7 +36,6 @@ global with sharing class restService {
     
     // using POST here to make it easier to send a JSON message body (the SF ruby gem does not support GET with body out of the box)
     @HttpPost
-
     global static void executeBatchApi() {
         RestRequest restRequest = RestContext.request;
         RestResponse response = RestContext.response;
