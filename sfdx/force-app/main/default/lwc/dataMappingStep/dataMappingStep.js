@@ -1,11 +1,13 @@
 import { LightningElement, api, track } from 'lwc';
-import { loadScript } from 'lightning/platformResourceLoader'
 import getPicklistValuesForMapper from '@salesforce/apex/setupAssistant.getPicklistValuesForMapper';
 import getFormattedStripeObjectFields from '@salesforce/apex/setupAssistant.getFormattedStripeObjectFields';
 import getMappingConfigurations from '@salesforce/apex/setupAssistant.getMappingConfigurations';
 import saveMappingConfigurations from '@salesforce/apex/setupAssistant.saveMappingConfigurations';
 
 export default class DataMappingStep extends LightningElement {
+    /* `@track` decorator is needed here to tell the lwc framework to observe 
+    //changes to the properties of an object and to the elements of an array */
+
     @track activeObject = '';
     @track sfFieldOptions = [];
     @track defaultCustomerSections = [
@@ -23,7 +25,6 @@ export default class DataMappingStep extends LightningElement {
     @track defaultPriceSections = [
         'standard'
     ];
-
     @track body
     @track staticValue
     @track picklistIndex;
@@ -34,12 +35,15 @@ export default class DataMappingStep extends LightningElement {
     @track stripeSubscriptionItemMappings;
     @track stripePriceMappings;
     @track fieldListByObjectMap;
+    // allMappingConfigurations holds all mappings retrieved from ruby, value is set in `getMappingConfigurations`
     @track allMappingConfigurations;
     @track defaultSfObject;
     @track isConnected = false;
     @track isMappingsUpdated = false;
-
+    
+    // allMappingList is used to retrieve and send all user mappings `saveMappingConfigurations` 
     @track allMappingList = {
+        // these are static values defined by the user in the mapper UI
         field_defaults: {
             customer: {},
             product: {},
@@ -47,6 +51,7 @@ export default class DataMappingStep extends LightningElement {
             subscription_item: {},
             price: {}
         },
+        // these are user defined mappings from Salesforce fields to Stripe fields
         field_mappings: {
             customer: {},
             product: {},
@@ -54,6 +59,7 @@ export default class DataMappingStep extends LightningElement {
             subscription_item: {},
             price: {}
         },
+        // these are default mappings sent from Ruby (can be overeidden in mapp)
         default_mappings: {
             customer: {},
             product: {},
@@ -61,6 +67,7 @@ export default class DataMappingStep extends LightningElement {
             subscription_item: {},
             price: {}
         },
+        // these are required mappings sent from Ruby 
         required_mappings: {
             customer: {},
             product: {},
@@ -69,7 +76,6 @@ export default class DataMappingStep extends LightningElement {
             price: {}
         }
     };
-
     @track customerMetadataFields = {metadataMapping: {
         label: '',
         name: '',
@@ -139,7 +145,7 @@ export default class DataMappingStep extends LightningElement {
         if (this.activeObject === 'subscription-item')activeObjectName = 'subscriptionItem'
         activeObjectName = activeObjectName.charAt(0).toUpperCase() + activeObjectName.slice(1);
         this['stripe' + activeObjectName + 'Mappings'] = parsedVal;
-    } 
+    }
 
     get activeMetadataObjectFields() {
         let activeObjectName = this.activeObject;
@@ -152,7 +158,7 @@ export default class DataMappingStep extends LightningElement {
         let activeObjectName = this.activeObject;
         if (this.activeObject === 'subscription-item')activeObjectName = 'subscriptionItem'
         this[activeObjectName + 'MetadataFields'] = parsedVal;
-    } 
+    }
 
     valueChange() {
         if(!this.isMappingsUpdated) {
@@ -170,37 +176,57 @@ export default class DataMappingStep extends LightningElement {
     saveObjectMappings(stripeObjectMappings, listOfAllMappings, listOfMetadataFields, stripeObjectName) {
         for(let i = 0; i < stripeObjectMappings.length; i++) {
             for(let j = 0; j < stripeObjectMappings[i].fields.length; j++) {
-                if(stripeObjectMappings[i].fields[j].sfValue) {
-                    if(stripeObjectMappings[i].fields[j].staticValue === true) {
-                        listOfAllMappings.field_defaults[stripeObjectName][stripeObjectMappings[i].fields[j].value] = stripeObjectMappings[i].fields[j].sfValue;
-                    } else {
-                        listOfAllMappings.field_mappings[stripeObjectName][stripeObjectMappings[i].fields[j].value] = stripeObjectMappings[i].fields[j].sfValue;
-                    }
-                    if(stripeObjectMappings[i].fields[j].defaultValue)listOfAllMappings.default_mappings[stripeObjectName][stripeObjectMappings[i].fields[j].value] = stripeObjectMappings[i].fields[j].defaultValue;
+                
+                const fieldData = stripeObjectMappings[i].fields[j];
+
+                if(!fieldData.sfValue) {
+                    continue
+                }
+
+                if(fieldData.staticValue === true) {
+                    listOfAllMappings.field_defaults[stripeObjectName][fieldData.value] = fieldData.sfValue;
+                } else {
+                    listOfAllMappings.field_mappings[stripeObjectName][fieldData.value] = fieldData.sfValue;
                 }
             }
         }
+        listOfAllMappings = this.saveMetadataMappings(listOfMetadataFields.metadataMapping.fields, listOfAllMappings, stripeObjectName);
 
-        if(listOfMetadataFields.metadataMapping.fields.length) {
-           for(let i = 0; i < listOfMetadataFields.metadataMapping.fields.length; i++) {
-                if(listOfMetadataFields.metadataMapping.fields[i].sfValue) {
-                    if(listOfMetadataFields.metadataMapping.fields[i].staticValue === true) {
-                        listOfAllMappings.field_defaults[stripeObjectName]['metadata.'+listOfMetadataFields.metadataMapping.fields[i].value] = listOfMetadataFields.metadataMapping.fields[i].sfValue;
-                    } else {
-                        listOfAllMappings.field_mappings[stripeObjectName]['metadata.'+listOfMetadataFields.metadataMapping.fields[i].value] = listOfMetadataFields.metadataMapping.fields[i].sfValue;
-                    }
-                    if(listOfMetadataFields.metadataMapping.fields[i].defaultValue)listOfAllMappings.default_mappings[stripeObjectName]['metadata.'+listOfMetadataFields.metadataMapping.fields[i].value] = listOfMetadataFields.metadataMapping.fields[i].defaultValue;
+        return listOfAllMappings;
+    }
+    
+    saveMetadataMappings(metadataFieldList, listOfAllMappings, stripeObjectName) {
+        if(metadataFieldList.length) {
+            for(let i = 0; i < metadataFieldList.length; i++) {
+                const fieldData = metadataFieldList[i];
+                const metadataKey = 'metadata.' + fieldData.value;
+
+                if(!fieldData.sfValue) {
+                    continue
                 }
-            } 
+
+                if(fieldData.staticValue === true) {
+                    listOfAllMappings.field_defaults[stripeObjectName][metadataKey] = fieldData.sfValue;
+                } else {
+                    listOfAllMappings.field_mappings[stripeObjectName][metadataKey] = fieldData.sfValue;
+                }
+            }
         }
         return listOfAllMappings;
     }
 
     toggleMetaStaticValue(event) {
-        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index; 
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
+
         if (targetFieldIndex ) {
-            this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].staticValue = !this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].staticValue;
-            if(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].staticValue === true)this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)].sfValue = ''; 
+            const intFieldIndex = parseInt(targetFieldIndex);
+            const toggledStaticValue = !this.activeMetadataObjectFields.metadataMapping.fields[intFieldIndex].staticValue;
+            this.activeMetadataObjectFields.metadataMapping.fields[intFieldIndex].staticValue = toggledStaticValue
+
+            if(toggledStaticValue === true) {
+                this.activeMetadataObjectFields.metadataMapping.fields[intFieldIndex].sfValue = '';
+            }
+
             this.valueChange();
         }
     }
@@ -211,7 +237,7 @@ export default class DataMappingStep extends LightningElement {
         }, 1);
     }
 
-    updateFieldList(event) { 
+    updateFieldList(event) {
         this.sfFieldOptions = [];
         const  selectedObject = event.detail.object;
         const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
@@ -221,20 +247,20 @@ export default class DataMappingStep extends LightningElement {
         if(this.fieldListByObjectMap[selectedObject]) {
             this.sfFieldOptions = this.fieldListByObjectMap[selectedObject];
             this.filterSfOptionsByStripeFieldType();
-            // Push updating the child loading attribute to the next render cycle 
+            // Push updating the child loading attribute to the next render cycle
             this.debounce(targetInput);
         } else {
             this.getPicklistValuesForMapper(false, selectedObject, false, targetInput);
         }
     }
-    
+
     updateMetadataFieldList(event) {
         this.sfFieldOptions = [];
         let selectedObject = event.detail.object;
         let targetInput = event.currentTarget;
         if(this.fieldListByObjectMap[selectedObject]) {
             this.sfFieldOptions = this.fieldListByObjectMap[selectedObject];
-            // Push updating the child loading attribute to the next render cycle 
+            // Push updating the child loading attribute to the next render cycle
             this.debounce(targetInput);
         } else {
             this.getPicklistValuesForMapper(false, selectedObject, true, targetInput);
@@ -246,7 +272,7 @@ export default class DataMappingStep extends LightningElement {
         const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
         if (targetSectionIndex && targetFieldIndex ) {
             const updatedSelection = {
-                hasSfValue: true, 
+                hasSfValue: true,
                 hasOverride: true,
                 staticValue: true,
                 sfValue: '',
@@ -254,13 +280,13 @@ export default class DataMappingStep extends LightningElement {
             };
             updatedSelection.hasOverride = this.activeObjectFields[parseInt(targetSectionIndex)].fields[parseInt(targetFieldIndex)].defaultValue ? true : false;
             updatedSelection.staticValue = !this.activeObjectFields[parseInt(targetSectionIndex)].fields[parseInt(targetFieldIndex)].staticValue;
-            Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)] , updatedSelection); 
-            this.valueChange(); 
+            Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)] , updatedSelection);
+            this.valueChange();
         }
     }
 
     removeMetaRow(event) {
-        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index; 
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
         if (targetFieldIndex ) {
             const value = this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)];
             this.activeMetadataObjectFields.metadataMapping.fields.splice(this.activeMetadataObjectFields.metadataMapping.fields.findIndex(metadataField => metadataField.name === value.name),1);
@@ -270,27 +296,27 @@ export default class DataMappingStep extends LightningElement {
 
     updateStripeMetadataName(event) {
         this.staticValue = event.target.value;
-        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index; 
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
         if (targetFieldIndex ) {
             const updatedSelection = {
-                name: this.staticValue, 
+                name: this.staticValue,
                 value: this.staticValue
             };
-            Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)] , updatedSelection); 
+            Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)] , updatedSelection);
             this.valueChange();
         }
     }
 
     updateMetaStaticValueChoice(event) {
         this.staticValue = event.target.value;
-        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index; 
+        const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
         if (targetFieldIndex ) {
             const updatedSelection = {
-                staticValue: true, 
+                staticValue: true,
                 sfValue: this.staticValue,
                 sfValueType: 'staticMetadata'
             };
-            Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)] , updatedSelection); 
+            Object.assign(this.activeMetadataObjectFields.metadataMapping.fields[parseInt(targetFieldIndex)] , updatedSelection);
             this.valueChange();
         }
     }
@@ -302,7 +328,7 @@ export default class DataMappingStep extends LightningElement {
         const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
         if (targetSectionIndex && targetFieldIndex ) {
             let updatedSelection = {
-                hasSfValue: true, 
+                hasSfValue: true,
                 staticValue: true,
                 sfValue: this.staticValue,
                 sfValueType: 'static'
@@ -317,7 +343,7 @@ export default class DataMappingStep extends LightningElement {
         const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
         if (targetSectionIndex && targetFieldIndex) {
             const updatedSelection = {
-                hasSfValue: false, 
+                hasSfValue: false,
                 staticValue: false,
                 hasOverride: false,
                 sfValue: '',
@@ -332,12 +358,12 @@ export default class DataMappingStep extends LightningElement {
         const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
         if (targetSectionIndex && targetFieldIndex) {
             const updatedSelection = {
-                hasSfValue: true, 
+                hasSfValue: true,
                 hasOverride: true,
                 staticValue: false
             };
             updatedSelection.hasOverride = this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)].defaultValue ? true : false;
-            Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)], updatedSelection); 
+            Object.assign(this.activeObjectFields[targetSectionIndex].fields[parseInt(targetFieldIndex)], updatedSelection);
         }
     }
 
@@ -353,11 +379,11 @@ export default class DataMappingStep extends LightningElement {
         //has to be a copy to force a rerender
         let modifiedFieldOptions = JSON.parse(JSON.stringify(this.sfFieldOptions))
         if(fieldType === 'integer' || fieldType === 'decimal' || fieldType === 'number') {
-            this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'double' ||fieldOptions.type === 'reference') 
+            this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'double' ||fieldOptions.type === 'reference')
         } else if (fieldType === 'timestamp') {
-            this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type.includes('date') || fieldOptions.type === 'reference' ) 
+            this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type.includes('date') || fieldOptions.type === 'reference' )
         } else if (fieldType === 'boolean') {
-            this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'boolean' || fieldOptions.type === 'reference' ) 
+            this.sfFieldOptions = modifiedFieldOptions.filter(fieldOptions => fieldOptions.type === 'boolean' || fieldOptions.type === 'reference' )
         } else {
             this.sfFieldOptions = modifiedFieldOptions
         }
@@ -379,7 +405,7 @@ export default class DataMappingStep extends LightningElement {
     updatePicklist(event) {
         const targetSectionIndex = event.currentTarget.closest('lightning-accordion-section').dataset.index;
         const targetFieldIndex = event.currentTarget.closest('tr').dataset.index;
-        if(targetSectionIndex && targetFieldIndex) {         
+        if(targetSectionIndex && targetFieldIndex) {
             const updatedSelection = {
                 hasSfValue: true,
                 sfValue: event.detail.value,
@@ -404,46 +430,40 @@ export default class DataMappingStep extends LightningElement {
         this.activeMetadataObjectFields.metadataMapping.fields.push(metadataFieldObj);
     }
 
+    mapperFieldSorter(a, b) {
+        return a.label.localeCompare(b.label);
+    }
+
+    // triggered on each sidebar click
     changeActiveObject(event) {
         this.activeObject = event.detail.name;
-          if(this.activeObject === 'customer' && this.fieldListByObjectMap){
-            this.defaultSfObject = 'Account';
-            this.fieldListByObjectMap.Account.sort(function(a, b) {
-                    return a.label.localeCompare(b.label);
-            });
-            this.sfFieldOptions = this.fieldListByObjectMap.Account
-         } else if(this.activeObject  === 'product' && this.fieldListByObjectMap){
-            this.defaultSfObject = 'Product2';
-            this.fieldListByObjectMap.Product2.sort(function(a, b) {
-                    return a.label.localeCompare(b.label);
-            });
-            this.sfFieldOptions = this.fieldListByObjectMap.Product2
-            if(this.fieldListByObjectMap)this.setFieldMappings('product', this.stripeProductMappings, this.productMetadataFields.metadataMapping.fields);
 
+       if(!this.fieldListByObjectMap) {
+           return;
+       }
+
+        if(this.activeObject === 'customer'){
+            this.defaultSfObject = 'Account';
+            this.fieldListByObjectMap.Account.sort(this.mapperFieldSorter);
+            this.sfFieldOptions = this.fieldListByObjectMap.Account
+         } else if(this.activeObject === 'product'){
+            this.defaultSfObject = 'Product2';
+            this.fieldListByObjectMap.Product2.sort(this.mapperFieldSorter)
+            this.sfFieldOptions = this.fieldListByObjectMap.Product2
          } else if(this.activeObject === 'subscription' && this.fieldListByObjectMap) {
             this.defaultSfObject = 'Order';
-            this.fieldListByObjectMap.Order.sort(function(a, b) {
-                    return a.label.localeCompare(b.label);
-            });
+            this.fieldListByObjectMap.Order.sort(this.mapperFieldSorter);
             this.sfFieldOptions = this.fieldListByObjectMap.Order
-            if(this.fieldListByObjectMap)this.setFieldMappings('subscription', this.stripeSubscriptionMappings, this.subscriptionMetadataFields.metadataMapping.fields);
-            if(this.fieldListByObjectMap)this.setFieldMappings('subscription_schedule', this.stripeSubscriptionMappings, this.subscriptionMetadataFields.metadataMapping.fields);
-
-         } else if(this.activeObject === 'subscription-item' && this.fieldListByObjectMap) {
+         } else if(this.activeObject === 'subscription-item') {
             this.defaultSfObject = 'OrderItem';
-            this.fieldListByObjectMap.OrderItem.sort(function(a, b) {
-                    return a.label.localeCompare(b.label);
-            });
+            this.fieldListByObjectMap.OrderItem.sort(this.mapperFieldSorter)
             this.sfFieldOptions = this.fieldListByObjectMap.OrderItem
-            if(this.fieldListByObjectMap)this.setFieldMappings('subscription_item', this.stripeSubscriptionItemMappings, this.subscriptionItemMetadataFields.metadataMapping.fields);
-
-         } else if(this.activeObject === 'price' && this.fieldListByObjectMap) {
+         } else if(this.activeObject === 'price') {
             this.defaultSfObject = 'PricebookEntry';
-            this.fieldListByObjectMap.PricebookEntry.sort(function(a, b) {
-                   return a.label.localeCompare(b.label);
-           });
-           this.sfFieldOptions = this.fieldListByObjectMap.PricebookEntry
-           if(this.fieldListByObjectMap)this.setFieldMappings('price', this.stripePriceMappings, this.priceMetadataFields.metadataMapping.fields);
+            this.fieldListByObjectMap.PricebookEntry.sort(this.mapperFieldSorter)
+            this.sfFieldOptions = this.fieldListByObjectMap.PricebookEntry
+        } else {
+            console.log("uncaught sidebar click")
         }
     }
 
@@ -459,17 +479,18 @@ export default class DataMappingStep extends LightningElement {
     async connectedCallback() {
         try {
             const getFormattedStripeObjects = await getFormattedStripeObjectFields();
-            this.data =  JSON.parse(getFormattedStripeObjects);
-            if(this.data.isSuccess) {
-                    this.stripeCustomerMappings = this.data.results.formattedStripeCustomerFields;
-                    this.stripeProductMappings = this.data.results.formattedStripeProductItemFields;
-                    this.stripeSubscriptionMappings = this.data.results.formattedStripeSubscriptionFields;
-                    this.stripeSubscriptionItemMappings = this.data.results.formattedStripeSubscriptionItemFields;
-                    this.stripePriceMappings = this.data.results.formattedStripePriceFields
-                    this.getPicklistValuesForMapper(true, '', false);
-            } else {
-                this.showToast(this.data.error, 'error', 'sticky');
+            const responseData = JSON.parse(getFormattedStripeObjects);
+            if(responseData.error) {
+                this.showToast(responseData.error, 'error', 'sticky');
+                return;
             }
+            this.stripeCustomerMappings = responseData.results.formattedStripeCustomerFields;
+            this.stripeProductMappings = responseData.results.formattedStripeProductItemFields;
+            this.stripeSubscriptionMappings = responseData.results.formattedStripeSubscriptionFields;
+            this.stripeSubscriptionItemMappings = responseData.results.formattedStripeSubscriptionItemFields;
+            this.stripePriceMappings = responseData.results.formattedStripePriceFields;
+
+            this.getPicklistValuesForMapper(true, '', false);
         } catch (error) {
             this.showToast(error.message, 'error');
         } finally {
@@ -481,125 +502,153 @@ export default class DataMappingStep extends LightningElement {
     @api async getPicklistValuesForMapper(isConnectedCallback, ObjectName, isMetadataRow, targetElement) {
         this.loading = true;
         try {
-            const getPicklistValues = await getPicklistValuesForMapper({ 
+            const getPicklistValues = await getPicklistValuesForMapper({
                 isConnectedCallback: isConnectedCallback,
                 ObjectApiName: ObjectName
             });
-            this.data =  JSON.parse(getPicklistValues);
-            if(this.data.isSuccess) {
-                if(this.data.results.isConnected) {
-                    this.isConnected = true;
-                    if(isConnectedCallback === true) {
-                        this.fieldListByObjectMap = this.data.results.fieldListByObjectMap;
-                        this.sfFieldOptions = this.fieldListByObjectMap.Account
-                        this.defaultSfObject = 'Account';
-                        this.sfFieldOptions.sort(function(a, b) {
-                            return a.label.localeCompare(b.label);
-                        });
-                    } else {
-                        this.fieldListByObjectMap[this.data.results.ObjectApiName] = this.data.results.listOfObjectFields;
-                        
-                        this.sfFieldOptions = this.fieldListByObjectMap[this.data.results.ObjectApiName]
-                        this.sfFieldOptions.sort(function(a, b) {
-                            return a.label.localeCompare(b.label);
-                        });
-                        if(!isMetadataRow)this.filterSfOptionsByStripeFieldType();
-                    }
-                }
+            const picklistValueResponseData =  JSON.parse(getPicklistValues);
+            if(picklistValueResponseData.error) {
+                this.showToast(picklistValueResponseData.error, 'error', 'sticky');
+                return;
+            }
+
+            if(!picklistValueResponseData.results.isConnected) {
+                return;
+            }
+
+            this.isConnected = true;
+            if(isConnectedCallback === true) {
+                this.fieldListByObjectMap = picklistValueResponseData.results.fieldListByObjectMap;
+                this.sfFieldOptions = this.fieldListByObjectMap.Account
+                this.defaultSfObject = 'Account';
+                this.sfFieldOptions.sort(function(a, b) {
+                    return a.label.localeCompare(b.label);
+                });
             } else {
-                this.showToast(this.data.error, 'error', 'sticky');
+                this.fieldListByObjectMap[picklistValueResponseData.results.ObjectApiName] = picklistValueResponseData.results.listOfObjectFields;
+
+                this.sfFieldOptions = this.fieldListByObjectMap[picklistValueResponseData.results.ObjectApiName]
+                this.sfFieldOptions.sort(function(a, b) {
+                    return a.label.localeCompare(b.label);
+                });
+                if(!isMetadataRow) {
+                    this.filterSfOptionsByStripeFieldType();
+                }
             }
 
             const getMappingConfigs = await getMappingConfigurations();
-            this.data =  JSON.parse(getMappingConfigs);
-            if(this.data.isSuccess) {
-                if(this.data.results.isConnected) {
-                    this.allMappingConfigurations = this.data.results.allMappingConfigurations;
-                    this.setFieldMappings('customer', this.stripeCustomerMappings, this.customerMetadataFields.metadataMapping.fields)
-                }
-            } else {
-                this.showToast(this.data.error, 'error', 'sticky');
+            const mappingConfigurationResponseData =  JSON.parse(getMappingConfigs);
+            if(mappingConfigurationResponseData.error) {
+                this.showToast(mappingConfigurationResponseData.error, 'error', 'sticky');
+                return;
             }
+            if(!mappingConfigurationResponseData.results.isConnected) {
+                return;
+            }
+            this.allMappingConfigurations = mappingConfigurationResponseData.results.allMappingConfigurations;
+            const listOfStripeMappingObjects = [
+                {
+                    object: 'customer',
+                    mappingsObject: this.stripeCustomerMappings,
+                    metadataMappingsObject: this.customerMetadataFields
+                },
+                {
+                    object: 'product',
+                    mappingsObject: this.stripeProductMappings,
+                    metadataMappingsObject: this.productMetadataFields
+                },
+                {
+                    object: 'subscription_schedule',
+                    mappingsObject: this.stripeSubscriptionMappings,
+                    metadataMappingsObject: this.subscriptionMetadataFields
+                },
+                {
+                    object: 'subscription_item',
+                    mappingsObject: this.stripeSubscriptionItemMappings,
+                    metadataMappingsObject: this.subscriptionItemMetadataFields
+                },
+                {
+                    object: 'price',
+                    mappingsObject: this.stripePriceMappings,
+                    metadataMappingsObject: this.priceMetadataFields
+                }
+            ];
+            
+            for (const mappingContainer of listOfStripeMappingObjects) {
+                this.setFieldMappings(mappingContainer.object, mappingContainer.mappingsObject, mappingContainer.metadataMappingsObject.metadataMapping.fields);
+            }
+            
+            this.allMappingList['default_mappings'] = this.allMappingConfigurations['default_mappings'];
+            this.allMappingList['required_mappings'] = this.allMappingConfigurations['required_mappings'];
+
         } catch (error) {
             this.showToast(error.message, 'error', 'sticky');
         } finally {
             if(targetElement) targetElement.dropdownLoading = false;
         }
     }
-    
+
     setFieldMappings(stripeObject, stripeObjectMap, metadataFieldList) {
+        // TODO way too many nested for loops, need to simplify this
         for(let i = 0; i < stripeObjectMap.length; i++) {
             for(let j = 0; j < stripeObjectMap[i].fields.length; j++) {
-                if(this.allMappingConfigurations.default_mappings && 
-                   this.allMappingConfigurations.default_mappings[stripeObject] && 
+                if(this.allMappingConfigurations.default_mappings &&
+                   this.allMappingConfigurations.default_mappings[stripeObject] &&
                    this.allMappingConfigurations.default_mappings[stripeObject].length !== 0) {
 
                     for(const value in this.allMappingConfigurations.default_mappings[stripeObject]) {
-                        if(stripeObjectMap[i].fields[j].value === value && this.allMappingConfigurations.default_mappings[stripeObject][value]) {
-                            stripeObjectMap[i].fields[j].sfValue = '';
-                            stripeObjectMap[i].fields[j].hasOverride = false; 
-                            stripeObjectMap[i].fields[j].hasSfValue = false; 
-                            stripeObjectMap[i].fields[j].staticValue = false; 
-                            stripeObjectMap[i].fields[j].defaultValue = this.allMappingConfigurations.default_mappings[stripeObject][value];
-                        } 
+                        const fieldData = stripeObjectMap[i].fields[j];
+                        if(fieldData.value === value && this.allMappingConfigurations.default_mappings[stripeObject][value]) {
+                            fieldData.sfValue = '';
+                            fieldData.hasOverride = false;
+                            fieldData.hasSfValue = false;
+                            fieldData.staticValue = false;
+                            fieldData.defaultValue = this.allMappingConfigurations.default_mappings[stripeObject][value];
+                        }
                     }
                 }
                 if(this.allMappingConfigurations.field_defaults && this.allMappingConfigurations.field_defaults[stripeObject]) {
                     for(const value in this.allMappingConfigurations.field_defaults[stripeObject]) {
-                        if(stripeObjectMap[i].fields[j].value === value) {
-                            stripeObjectMap[i].fields[j].staticValue = true
-                            stripeObjectMap[i].fields[j].sfValue = this.allMappingConfigurations.field_defaults[stripeObject][value];
-                            if(stripeObjectMap[i].fields[j].sfValue) {
-                                stripeObjectMap[i].fields[j].hasSfValue = true
+                        const fieldData = stripeObjectMap[i].fields[j];
+                        if(fieldData.value === value) {
+                            fieldData.staticValue = true
+                            fieldData.sfValue = this.allMappingConfigurations.field_defaults[stripeObject][value];
+                            if(fieldData.sfValue) {
+                                fieldData.hasSfValue = true
                             }
-                            if(stripeObjectMap[i].fields[j].defaultValue) {
-                                stripeObjectMap[i].fields[j].hasOverride = true
+                            if(fieldData.defaultValue) {
+                                fieldData.hasOverride = true
                             }
                         } else if (value.startsWith('metadata.')) {
                             let realfieldMapValue = value.replace('metadata.','')
-                            let metadataFieldObj = {
-                                name: realfieldMapValue,
-                                value: realfieldMapValue,
-                                type: 'metadata',
-                                defaultValue: '',
-                                hasOverride: false,
-                                staticValue: true,
-                                sfValue: this.allMappingConfigurations.field_defaults[stripeObject][value],
-                                sfValueType: 'metadata'
-                            };
+                            
+                            let metadataFieldObj = this.getFieldObject(realfieldMapValue, realfieldMapValue, 'metadata', '', false, true, this.allMappingConfigurations.field_defaults[stripeObject][value], 'metadata');
+
                             if (metadataFieldList.length && metadataFieldList.filter(field =>  field.name === realfieldMapValue ).length > 0) {
                                 //do nothing
                             } else {
                                 metadataFieldList.push(metadataFieldObj);
                             }
-                        } 
+                        }
                     }
                 }
                 if(this.allMappingConfigurations.field_mappings && this.allMappingConfigurations.field_mappings[stripeObject]) {
                     for(const value in this.allMappingConfigurations.field_mappings[stripeObject]) {
-                        if(stripeObjectMap[i].fields[j].value === value && !value.startsWith('metadata.')) {
-                            stripeObjectMap[i].fields[j].staticValue = false
-                            stripeObjectMap[i].fields[j].sfValue = this.allMappingConfigurations.field_mappings[stripeObject][value];
-                            if(stripeObjectMap[i].fields[j].sfValue)stripeObjectMap[i].fields[j].hasSfValue = true
-                            if(stripeObjectMap[i].fields[j].defaultValue)stripeObjectMap[i].fields[j].hasOverride = true
+                        const fieldData = stripeObjectMap[i].fields[j];
+                        if(fieldData.value === value && !value.startsWith('metadata.')) {
+                            fieldData.staticValue = false
+                            fieldData.sfValue = this.allMappingConfigurations.field_mappings[stripeObject][value];
+                            if(fieldData.sfValue)fieldData.hasSfValue = true
+                            if(fieldData.defaultValue)fieldData.hasOverride = true
                         } else if (value.startsWith('metadata.') ) {
                             let realValue = value.replace('metadata.','')
-                            let metadataFieldObj = {
-                                name: realValue,
-                                value: realValue,
-                                type: 'metadata',
-                                defaultValue: '',
-                                hasOverride: false,
-                                staticValue: false,
-                                sfValue: this.allMappingConfigurations.field_mappings[stripeObject][value],
-                                sfValueType: 'metadata'
-                            };
+                            let metadataFieldObj = this.getFieldObject(realValue, realValue, 'metadata', '', false, false, this.allMappingConfigurations.field_mappings[stripeObject][value], 'metadata');
                             if (metadataFieldList.length && metadataFieldList.filter(field => field.name === realValue).length > 0) {
                                 //do nothing
                             } else {
                                 metadataFieldList.push(metadataFieldObj);
                             }
-                        } 
+                        }
                     }
                 }
             }
@@ -611,31 +660,71 @@ export default class DataMappingStep extends LightningElement {
         }
     }
 
+    getFieldObject(name, value, type, defaultValue, hasOverride, staticValue, sfValue, sfValueType) {
+        let fieldObject = {
+            name: name,
+            value: value,
+            type: type,
+            defaultValue: defaultValue,
+            hasOverride: hasOverride,
+            staticValue: staticValue,
+            sfValue: sfValue,
+            sfValueType: sfValueType
+        };
+        return fieldObject;
+    }
+
     @api async saveCongfiguredMappings() {
         this.loading = true;
-        this.allMappingList = this.saveObjectMappings(this.stripeCustomerMappings,this.allMappingList,this.customerMetadataFields,'customer');
-        this.allMappingList = this.saveObjectMappings(this.stripeProductMappings,this.allMappingList,this.productMetadataFields,'product');
-        this.allMappingList = this.saveObjectMappings(this.stripeSubscriptionMappings,this.allMappingList,this.subscriptionMetadataFields,'subscription_schedule');
-        this.allMappingList = this.saveObjectMappings(this.stripeSubscriptionItemMappings,this.allMappingList,this.subscriptionItemMetadataFields,'subscription_item');
-        this.allMappingList = this.saveObjectMappings(this.stripePriceMappings,this.allMappingList,this.priceMetadataFields,'price');
         let saveSuccess = false;
+        const listOfStripeMappingObjects = [
+            {
+                object: 'customer',
+                mappingsObject: this.stripeCustomerMappings,
+                metadataMappingsObject: this.customerMetadataFields
+            },
+            {
+                object: 'product',
+                mappingsObject: this.stripeProductMappings,
+                metadataMappingsObject: this.productMetadataFields
+            },
+            {
+                object: 'subscription_schedule',
+                mappingsObject: this.stripeSubscriptionMappings,
+                metadataMappingsObject: this.subscriptionMetadataFields
+            },
+            {
+                object: 'subscription_item',
+                mappingsObject: this.stripeSubscriptionItemMappings,
+                metadataMappingsObject: this.subscriptionItemMetadataFields
+            },
+            {
+                object: 'price',
+                mappingsObject: this.stripePriceMappings,
+                metadataMappingsObject: this.priceMetadataFields
+            }
+        ];
+
+        for (const mappingContainer of listOfStripeMappingObjects) {
+            this.allMappingList = this.saveObjectMappings(mappingContainer.mappingsObject, this.allMappingList, mappingContainer.metadataMappingsObject, mappingContainer.object);
+        }
+
         try {
-            const saveMappingData = await saveMappingConfigurations({ 
+            const saveMappingData = await saveMappingConfigurations({
                 jsonMappingConfigurationsObject: JSON.stringify(this.allMappingList)
             });
-            this.data =  JSON.parse(saveMappingData);
-            if(this.data.isSuccess) {
-                let isConfigSaved = this.data.results.isConfigSaved;
-                if(isConfigSaved === true) {
-                    this.showToast('Data mapping was successfully saved', 'success')
-                    saveSuccess = true;
-                    this.isMappingsUpdated = false;
-                } else {
-                    this.showToast('There was a problem saving data mapping', 'error', 'sticky')
-                }
-            } else {
-                this.showToast(this.data.error, 'error', 'sticky');
+            const responseData = JSON.parse(saveMappingData);
+            if(responseData.error) {
+                this.showToast(responseData.error, 'error', 'sticky');
             }
+            let isConfigSaved = responseData.results.isConfigSaved;
+            if(!isConfigSaved) {
+                this.showToast('There was a problem saving data mapping', 'error', 'sticky');
+                return;  
+            } 
+            this.showToast('Data mapping was successfully saved', 'success');
+            saveSuccess = true;
+            this.isMappingsUpdated = false;
         } catch (error) {
             this.showToast(error.message, 'error', 'sticky');
         } finally {
