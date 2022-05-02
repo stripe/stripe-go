@@ -19,6 +19,7 @@ const (
 type CashBalanceParams struct {
 	Params   `form:"*"`
 	Settings *CashBalanceSettingsParams `form:"settings"`
+	Customer *string                    `form:"-"` // Included in URL
 }
 type CashBalanceSettingsParams struct {
 	// Method for using the customer balance to pay outstanding
