@@ -420,6 +420,8 @@ type Quote struct {
 	AmountSubtotal int64 `json:"amount_subtotal"`
 	// Total after discounts and taxes are applied.
 	AmountTotal int64 `json:"amount_total"`
+	// ID of the Connect Application that created the quote.
+	Application *Application `json:"application"`
 	// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. Only applicable if there are no line items with recurring prices on the quote.
 	ApplicationFeeAmount int64 `json:"application_fee_amount"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. Only applicable if there are line items with recurring prices on the quote.

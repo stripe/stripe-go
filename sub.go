@@ -601,6 +601,8 @@ type SubscriptionTransferData struct {
 // Related guide: [Creating Subscriptions](https://stripe.com/docs/billing/subscriptions/creating).
 type Subscription struct {
 	APIResource
+	// ID of the Connect Application that created the subscription.
+	Application *Application `json:"application"`
 	// A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account.
 	ApplicationFeePercent float64                   `json:"application_fee_percent"`
 	AutomaticTax          *SubscriptionAutomaticTax `json:"automatic_tax"`

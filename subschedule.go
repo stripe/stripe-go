@@ -354,6 +354,8 @@ type SubscriptionSchedulePhase struct {
 // Related guide: [Subscription Schedules](https://stripe.com/docs/billing/subscriptions/subscription-schedules).
 type SubscriptionSchedule struct {
 	APIResource
+	// ID of the Connect Application that created the schedule.
+	Application *Application `json:"application"`
 	// Time at which the subscription schedule was canceled. Measured in seconds since the Unix epoch.
 	CanceledAt int64 `json:"canceled_at"`
 	// Time at which the subscription schedule was completed. Measured in seconds since the Unix epoch.

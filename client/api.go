@@ -19,6 +19,7 @@ import (
 	billingportalsession "github.com/stripe/stripe-go/v72/billingportal/session"
 	"github.com/stripe/stripe-go/v72/capability"
 	"github.com/stripe/stripe-go/v72/card"
+	"github.com/stripe/stripe-go/v72/cashbalance"
 	"github.com/stripe/stripe-go/v72/charge"
 	checkoutsession "github.com/stripe/stripe-go/v72/checkout/session"
 	"github.com/stripe/stripe-go/v72/countryspec"
@@ -117,6 +118,8 @@ type API struct {
 	Capabilities *capability.Client
 	// Cards is the client used to invoke card related APIs.
 	Cards *card.Client
+	// CashBalances is the client used to invoke /customers/{customer}/cash_balance APIs.
+	CashBalances *cashbalance.Client
 	// Charges is the client used to invoke /charges APIs.
 	Charges *charge.Client
 	// CheckoutSessions is the client used to invoke /checkout/sessions APIs.
@@ -287,6 +290,7 @@ func (a *API) Init(key string, backends *stripe.Backends) {
 	a.BillingPortalSessions = &billingportalsession.Client{B: backends.API, Key: key}
 	a.Capabilities = &capability.Client{B: backends.API, Key: key}
 	a.Cards = &card.Client{B: backends.API, Key: key}
+	a.CashBalances = &cashbalance.Client{B: backends.API, Key: key}
 	a.Charges = &charge.Client{B: backends.API, Key: key}
 	a.CheckoutSessions = &checkoutsession.Client{B: backends.API, Key: key}
 	a.CountrySpec = &countryspec.Client{B: backends.API, Key: key}
