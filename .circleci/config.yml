@@ -78,6 +78,9 @@ jobs:
       account:
         type: string
     executor: sfdx/default
+    environment:
+      # TODO can we share this across jobs?
+      SF_JWT_PRIVATE_KEY_PATH: /home/circleci/project/private.key
     docker:
       # use the same version as exists locally
       - image: cimg/node:16.14.2
@@ -94,7 +97,6 @@ jobs:
 
   build:
     parallelism: 1
-    working_directory: ~/stripe-netsuite
     parameters:
       account:
         type: string
@@ -111,6 +113,9 @@ jobs:
       RACK_ENV: test
       DISABLE_SPRING: "true"
       STRIPE_ACCOUNT_ID: acct_15uapDIsgf92XbAO
+      # used for private key extraction and usage in the jwt generator
+      SF_JWT_PRIVATE_KEY_PATH: /home/circleci/project/private.key
+      SF_QA_PACKAGING_EMAIL: mbianco+newstripeconnectorqa@stripe.com
       SF_USERNAME: <<parameters.account>>
       # SF_PASSWORD
       # SIGNALFX_TOKEN
@@ -133,9 +138,7 @@ jobs:
       - ruby/install-deps:
           bundler-version: 2.2.29
       - run:
-          working_directory: ~/stripe-netsuite
-          command: |
-            mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+          command: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
 
       - run:
           name: Setting up https proxy
@@ -161,8 +164,6 @@ jobs:
           command: |
             ./sfdx/bin/extract-private-key
 
-            SF_JWT_PRIVATE_KEY_PATH=./sfdx/private.key
-
             # not required to get an access token, but useful for domain and instance ID extraction
             sfdx auth:jwt:grant --clientid $SF_CONSUMER_KEY --jwtkeyfile=$SF_JWT_PRIVATE_KEY_PATH --username="$SF_USERNAME"
 
@@ -177,13 +178,56 @@ jobs:
 
             # now, we need to swap our jwt token for a access token
             $(cd sfdx/bin/jwt-generator && npm install &>/dev/null)
-            export SF_ACCESS_TOKEN=$(SF_JWT_PRIVATE_KEY_PATH=$SF_JWT_PRIVATE_KEY_PATH node sfdx/bin/jwt-generator/index.js)
+            export SF_ACCESS_TOKEN=$(node sfdx/bin/jwt-generator/index.js)
 
             # persist environment vars to the next job run
             # this is a hack but the best option circleci provides
             echo "export SF_ACCESS_TOKEN=$SF_ACCESS_TOKEN" >> $BASH_ENV
             echo "export SF_INSTANCE_DOMAIN=$SF_INSTANCE_DOMAIN" >> $BASH_ENV
             echo "export SF_INSTANCE_ID=$SF_INSTANCE_ID" >> $BASH_ENV
+
+      - run:
+          name: "CPQ QA Package Deployment"
+          command: |
+            cd sfdx
+
+            sfdx auth:jwt:grant --clientid=$SF_CONSUMER_KEY --jwtkeyfile=$SF_JWT_PRIVATE_KEY_PATH --username="$SF_QA_PACKAGING_EMAIL"
+
+            # make sure the same API version is used for local deployments, otherwise you'll run into weird errors
+            # for some reason, the `sfdx config:set apiVersion=52.0` doesn't work and gets overwritten
+
+            # the current code should *always* be able to be deployed against the packaging org, if it can't be, this should block the build
+            sfdx force:source:deploy -p force-app/main/default --apiversion=54.0 -u $SF_QA_PACKAGING_EMAIL
+
+      # https://jira.corp.stripe.com/browse/PLATINT-1499
+      - run:
+          name: "CPQ Package Version Check"
+          command: |
+            SF_ACCOUNT_WITH_QA_PACKAGE_INSTALLED=mbianco+cpqpackage@stripe.com
+
+            if [ "$SF_USERNAME" != "$SF_ACCOUNT_WITH_QA_PACKAGE_INSTALLED" ]; then
+              echo "Not the packaged org, exiting"
+              exit 0
+            fi
+
+            cd sfdx
+
+            # SF_QA_PACKAGING_EMAIL is authorized in the previous step, otherwise we would need to do this here
+
+            latest_package_version=$(sfdx force:package1:version:list --json -u $SF_QA_PACKAGING_EMAIL | jq -r '.result[-1].Version')
+            installed_package_version=$(sfdx force:package:installed:list -u $SF_USERNAME --json | jq -r '.result[] | select(.SubscriberPackageName == "QaStripeConnect").SubscriberPackageVersionNumber')
+
+            # the installed package version always has `.1` appended
+            if [[ "$latest_package_version.1" != $installed_package_version ]]; then
+              echo "Latest package version ($latest_package_version) is not installed ($installed_package_version)"
+
+              latest_package_id=$(sfdx force:package1:version:list --json -u $SF_QA_PACKAGING_EMAIL | jq -r '.result[-1].MetadataPackageVersionId')
+              echo "https://appiphony92-dev-ed.lightning.force.com/packaging/installPackage.apexp?p0=$latest_package_id"
+
+              exit 1
+            fi
+
+            echo "Latest package is installed"
 
       # always run bundle-audit in case new security issues are found without a Gemfile change
       # https://github.com/stripe/stripe-netsuite/issues/1713

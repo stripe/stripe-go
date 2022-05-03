@@ -7,5 +7,10 @@ if [ -z "$CI" ]; then
   exit 1
 fi
 
+if [ -z "$SF_JWT_PRIVATE_KEY_PATH" ]; then
+  echo "JWT path should be set before usage"
+  exit 1
+fi
+
 # set `SF_JWT_KEY` on CI to `cat sfdx/jwt-cert/private_key.pem | base64`
-echo $SF_JWT_KEY | base64 --decode --ignore-garbage > ./sfdx/private.key
+echo $SF_JWT_KEY | base64 --decode --ignore-garbage > $SF_JWT_PRIVATE_KEY_PATH

@@ -32,7 +32,7 @@ function authorize {
   username=$1
   salesforceAlias=$(echo "$username" | perl -nle 'm/\+([^@]+)/; print $1')
   echo "Authorizing using alias: $salesforceAlias"
-  sfdx auth:jwt:grant --clientid $SF_CONSUMER_KEY --jwtkeyfile=./private.key --username="$username" --setalias="$salesforceAlias"
+  sfdx auth:jwt:grant --clientid $SF_CONSUMER_KEY --jwtkeyfile=$SF_JWT_PRIVATE_KEY_PATH --username="$username" --setalias="$salesforceAlias"
 }
 
 # https://circleci.com/developer/orbs/orb/circleci/salesforce-apex#commands-source-push
