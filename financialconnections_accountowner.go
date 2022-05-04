@@ -9,6 +9,7 @@ package stripe
 type FinancialConnectionsAccountOwner struct {
 	// The email address of the owner.
 	Email string `json:"email"`
+	ID    string `json:"id"`
 	// The full name of the owner.
 	Name   string `json:"name"`
 	Object string `json:"object"`
