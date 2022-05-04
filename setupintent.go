@@ -186,6 +186,206 @@ type SetupIntentMandateDataParams struct {
 	CustomerAcceptance *SetupIntentMandateDataCustomerAcceptanceParams `form:"customer_acceptance"`
 }
 
+// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
+type SetupIntentPaymentMethodDataACSSDebitParams struct {
+	// Customer's bank account number.
+	AccountNumber *string `form:"account_number"`
+	// Institution number of the customer's bank.
+	InstitutionNumber *string `form:"institution_number"`
+	// Transit number of the customer's bank.
+	TransitNumber *string `form:"transit_number"`
+}
+
+// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
+type SetupIntentPaymentMethodDataAfterpayClearpayParams struct{}
+
+// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
+type SetupIntentPaymentMethodDataAlipayParams struct{}
+
+// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
+type SetupIntentPaymentMethodDataAUBECSDebitParams struct {
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// Bank-State-Branch number of the bank account.
+	BSBNumber *string `form:"bsb_number"`
+}
+
+// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
+type SetupIntentPaymentMethodDataBACSDebitParams struct {
+	// Account number of the bank account that the funds will be debited from.
+	AccountNumber *string `form:"account_number"`
+	// Sort code of the bank account. (e.g., `10-20-30`)
+	SortCode *string `form:"sort_code"`
+}
+
+// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
+type SetupIntentPaymentMethodDataBancontactParams struct{}
+
+// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
+type SetupIntentPaymentMethodDataBillingDetailsParams struct {
+	// Billing address.
+	Address *AddressParams `form:"address"`
+	// Email address.
+	Email *string `form:"email"`
+	// Full name.
+	Name *string `form:"name"`
+	// Billing phone number (including extension).
+	Phone *string `form:"phone"`
+}
+
+// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
+type SetupIntentPaymentMethodDataBoletoParams struct {
+	// The tax ID of the customer (CPF for individual consumers or CNPJ for businesses consumers)
+	TaxID *string `form:"tax_id"`
+}
+
+// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
+type SetupIntentPaymentMethodDataCustomerBalanceParams struct{}
+
+// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
+type SetupIntentPaymentMethodDataEPSParams struct {
+	// The customer's bank.
+	Bank *string `form:"bank"`
+}
+
+// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
+type SetupIntentPaymentMethodDataFPXParams struct {
+	// Account holder type for FPX transaction
+	AccountHolderType *string `form:"account_holder_type"`
+	// The customer's bank.
+	Bank *string `form:"bank"`
+}
+
+// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
+type SetupIntentPaymentMethodDataGiropayParams struct{}
+
+// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
+type SetupIntentPaymentMethodDataGrabpayParams struct{}
+
+// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
+type SetupIntentPaymentMethodDataIdealParams struct {
+	// The customer's bank.
+	Bank *string `form:"bank"`
+}
+
+// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
+type SetupIntentPaymentMethodDataInteracPresentParams struct{}
+
+// Customer's date of birth
+type SetupIntentPaymentMethodDataKlarnaDOBParams struct {
+	// The day of birth, between 1 and 31.
+	Day *int64 `form:"day"`
+	// The month of birth, between 1 and 12.
+	Month *int64 `form:"month"`
+	// The four-digit year of birth.
+	Year *int64 `form:"year"`
+}
+
+// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
+type SetupIntentPaymentMethodDataKlarnaParams struct {
+	// Customer's date of birth
+	DOB *SetupIntentPaymentMethodDataKlarnaDOBParams `form:"dob"`
+}
+
+// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
+type SetupIntentPaymentMethodDataKonbiniParams struct{}
+
+// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
+type SetupIntentPaymentMethodDataOXXOParams struct{}
+
+// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
+type SetupIntentPaymentMethodDataP24Params struct {
+	// The customer's bank.
+	Bank *string `form:"bank"`
+}
+
+// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
+type SetupIntentPaymentMethodDataPayNowParams struct{}
+
+// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
+type SetupIntentPaymentMethodDataSepaDebitParams struct {
+	// IBAN of the bank account.
+	Iban *string `form:"iban"`
+}
+
+// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
+type SetupIntentPaymentMethodDataSofortParams struct {
+	// Two-letter ISO code representing the country the bank account is located in.
+	Country *string `form:"country"`
+}
+
+// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
+type SetupIntentPaymentMethodDataUSBankAccountParams struct {
+	// Account holder type: individual or company.
+	AccountHolderType *string `form:"account_holder_type"`
+	// Account number of the bank account.
+	AccountNumber *string `form:"account_number"`
+	// Account type: checkings or savings. Defaults to checking if omitted.
+	AccountType *string `form:"account_type"`
+	// Routing number of the bank account.
+	RoutingNumber *string `form:"routing_number"`
+}
+
+// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
+type SetupIntentPaymentMethodDataWechatPayParams struct{}
+
+// When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
+// value in the SetupIntent.
+type SetupIntentPaymentMethodDataParams struct {
+	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
+	ACSSDebit *SetupIntentPaymentMethodDataACSSDebitParams `form:"acss_debit"`
+	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
+	AfterpayClearpay *SetupIntentPaymentMethodDataAfterpayClearpayParams `form:"afterpay_clearpay"`
+	// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
+	Alipay *SetupIntentPaymentMethodDataAlipayParams `form:"alipay"`
+	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
+	AUBECSDebit *SetupIntentPaymentMethodDataAUBECSDebitParams `form:"au_becs_debit"`
+	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
+	BACSDebit *SetupIntentPaymentMethodDataBACSDebitParams `form:"bacs_debit"`
+	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
+	Bancontact *SetupIntentPaymentMethodDataBancontactParams `form:"bancontact"`
+	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
+	BillingDetails *SetupIntentPaymentMethodDataBillingDetailsParams `form:"billing_details"`
+	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
+	Boleto *SetupIntentPaymentMethodDataBoletoParams `form:"boleto"`
+	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
+	CustomerBalance *SetupIntentPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
+	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
+	EPS *SetupIntentPaymentMethodDataEPSParams `form:"eps"`
+	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
+	FPX *SetupIntentPaymentMethodDataFPXParams `form:"fpx"`
+	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
+	Giropay *SetupIntentPaymentMethodDataGiropayParams `form:"giropay"`
+	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
+	Grabpay *SetupIntentPaymentMethodDataGrabpayParams `form:"grabpay"`
+	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
+	Ideal *SetupIntentPaymentMethodDataIdealParams `form:"ideal"`
+	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
+	InteracPresent *SetupIntentPaymentMethodDataInteracPresentParams `form:"interac_present"`
+	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
+	Klarna *SetupIntentPaymentMethodDataKlarnaParams `form:"klarna"`
+	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
+	Konbini *SetupIntentPaymentMethodDataKonbiniParams `form:"konbini"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
+	OXXO *SetupIntentPaymentMethodDataOXXOParams `form:"oxxo"`
+	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
+	P24 *SetupIntentPaymentMethodDataP24Params `form:"p24"`
+	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
+	PayNow *SetupIntentPaymentMethodDataPayNowParams `form:"paynow"`
+	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
+	SepaDebit *SetupIntentPaymentMethodDataSepaDebitParams `form:"sepa_debit"`
+	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
+	Sofort *SetupIntentPaymentMethodDataSofortParams `form:"sofort"`
+	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
+	Type *string `form:"type"`
+	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
+	USBankAccount *SetupIntentPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
+	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
+	WechatPay *SetupIntentPaymentMethodDataWechatPayParams `form:"wechat_pay"`
+}
+
 // Additional fields for Mandate creation
 type SetupIntentPaymentMethodOptionsACSSDebitMandateOptionsParams struct {
 	// A URL for custom mandate text to render during confirmation step.
@@ -305,6 +505,9 @@ type SetupIntentParams struct {
 	OnBehalfOf *string `form:"on_behalf_of"`
 	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
 	PaymentMethod *string `form:"payment_method"`
+	// When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
+	// value in the SetupIntent.
+	PaymentMethodData *SetupIntentPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment-method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	// The list of payment method types (e.g. card) that this SetupIntent is allowed to set up. If this is not provided, defaults to ["card"].
@@ -330,6 +533,206 @@ type SetupIntentListParams struct {
 	PaymentMethod *string `form:"payment_method"`
 }
 
+// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
+type SetupIntentConfirmPaymentMethodDataACSSDebitParams struct {
+	// Customer's bank account number.
+	AccountNumber *string `form:"account_number"`
+	// Institution number of the customer's bank.
+	InstitutionNumber *string `form:"institution_number"`
+	// Transit number of the customer's bank.
+	TransitNumber *string `form:"transit_number"`
+}
+
+// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
+type SetupIntentConfirmPaymentMethodDataAfterpayClearpayParams struct{}
+
+// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
+type SetupIntentConfirmPaymentMethodDataAlipayParams struct{}
+
+// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
+type SetupIntentConfirmPaymentMethodDataAUBECSDebitParams struct {
+	// The account number for the bank account.
+	AccountNumber *string `form:"account_number"`
+	// Bank-State-Branch number of the bank account.
+	BSBNumber *string `form:"bsb_number"`
+}
+
+// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
+type SetupIntentConfirmPaymentMethodDataBACSDebitParams struct {
+	// Account number of the bank account that the funds will be debited from.
+	AccountNumber *string `form:"account_number"`
+	// Sort code of the bank account. (e.g., `10-20-30`)
+	SortCode *string `form:"sort_code"`
+}
+
+// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
+type SetupIntentConfirmPaymentMethodDataBancontactParams struct{}
+
+// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
+type SetupIntentConfirmPaymentMethodDataBillingDetailsParams struct {
+	// Billing address.
+	Address *AddressParams `form:"address"`
+	// Email address.
+	Email *string `form:"email"`
+	// Full name.
+	Name *string `form:"name"`
+	// Billing phone number (including extension).
+	Phone *string `form:"phone"`
+}
+
+// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
+type SetupIntentConfirmPaymentMethodDataBoletoParams struct {
+	// The tax ID of the customer (CPF for individual consumers or CNPJ for businesses consumers)
+	TaxID *string `form:"tax_id"`
+}
+
+// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
+type SetupIntentConfirmPaymentMethodDataCustomerBalanceParams struct{}
+
+// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
+type SetupIntentConfirmPaymentMethodDataEPSParams struct {
+	// The customer's bank.
+	Bank *string `form:"bank"`
+}
+
+// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
+type SetupIntentConfirmPaymentMethodDataFPXParams struct {
+	// Account holder type for FPX transaction
+	AccountHolderType *string `form:"account_holder_type"`
+	// The customer's bank.
+	Bank *string `form:"bank"`
+}
+
+// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
+type SetupIntentConfirmPaymentMethodDataGiropayParams struct{}
+
+// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
+type SetupIntentConfirmPaymentMethodDataGrabpayParams struct{}
+
+// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
+type SetupIntentConfirmPaymentMethodDataIdealParams struct {
+	// The customer's bank.
+	Bank *string `form:"bank"`
+}
+
+// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
+type SetupIntentConfirmPaymentMethodDataInteracPresentParams struct{}
+
+// Customer's date of birth
+type SetupIntentConfirmPaymentMethodDataKlarnaDOBParams struct {
+	// The day of birth, between 1 and 31.
+	Day *int64 `form:"day"`
+	// The month of birth, between 1 and 12.
+	Month *int64 `form:"month"`
+	// The four-digit year of birth.
+	Year *int64 `form:"year"`
+}
+
+// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
+type SetupIntentConfirmPaymentMethodDataKlarnaParams struct {
+	// Customer's date of birth
+	DOB *SetupIntentConfirmPaymentMethodDataKlarnaDOBParams `form:"dob"`
+}
+
+// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
+type SetupIntentConfirmPaymentMethodDataKonbiniParams struct{}
+
+// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
+type SetupIntentConfirmPaymentMethodDataOXXOParams struct{}
+
+// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
+type SetupIntentConfirmPaymentMethodDataP24Params struct {
+	// The customer's bank.
+	Bank *string `form:"bank"`
+}
+
+// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
+type SetupIntentConfirmPaymentMethodDataPayNowParams struct{}
+
+// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
+type SetupIntentConfirmPaymentMethodDataSepaDebitParams struct {
+	// IBAN of the bank account.
+	Iban *string `form:"iban"`
+}
+
+// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
+type SetupIntentConfirmPaymentMethodDataSofortParams struct {
+	// Two-letter ISO code representing the country the bank account is located in.
+	Country *string `form:"country"`
+}
+
+// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
+type SetupIntentConfirmPaymentMethodDataUSBankAccountParams struct {
+	// Account holder type: individual or company.
+	AccountHolderType *string `form:"account_holder_type"`
+	// Account number of the bank account.
+	AccountNumber *string `form:"account_number"`
+	// Account type: checkings or savings. Defaults to checking if omitted.
+	AccountType *string `form:"account_type"`
+	// Routing number of the bank account.
+	RoutingNumber *string `form:"routing_number"`
+}
+
+// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
+type SetupIntentConfirmPaymentMethodDataWechatPayParams struct{}
+
+// When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
+// value in the SetupIntent.
+type SetupIntentConfirmPaymentMethodDataParams struct {
+	// If this is an `acss_debit` PaymentMethod, this hash contains details about the ACSS Debit payment method.
+	ACSSDebit *SetupIntentConfirmPaymentMethodDataACSSDebitParams `form:"acss_debit"`
+	// If this is an `AfterpayClearpay` PaymentMethod, this hash contains details about the AfterpayClearpay payment method.
+	AfterpayClearpay *SetupIntentConfirmPaymentMethodDataAfterpayClearpayParams `form:"afterpay_clearpay"`
+	// If this is an `Alipay` PaymentMethod, this hash contains details about the Alipay payment method.
+	Alipay *SetupIntentConfirmPaymentMethodDataAlipayParams `form:"alipay"`
+	// If this is an `au_becs_debit` PaymentMethod, this hash contains details about the bank account.
+	AUBECSDebit *SetupIntentConfirmPaymentMethodDataAUBECSDebitParams `form:"au_becs_debit"`
+	// If this is a `bacs_debit` PaymentMethod, this hash contains details about the Bacs Direct Debit bank account.
+	BACSDebit *SetupIntentConfirmPaymentMethodDataBACSDebitParams `form:"bacs_debit"`
+	// If this is a `bancontact` PaymentMethod, this hash contains details about the Bancontact payment method.
+	Bancontact *SetupIntentConfirmPaymentMethodDataBancontactParams `form:"bancontact"`
+	// Billing information associated with the PaymentMethod that may be used or required by particular types of payment methods.
+	BillingDetails *SetupIntentConfirmPaymentMethodDataBillingDetailsParams `form:"billing_details"`
+	// If this is a `boleto` PaymentMethod, this hash contains details about the Boleto payment method.
+	Boleto *SetupIntentConfirmPaymentMethodDataBoletoParams `form:"boleto"`
+	// If this is a `customer_balance` PaymentMethod, this hash contains details about the CustomerBalance payment method.
+	CustomerBalance *SetupIntentConfirmPaymentMethodDataCustomerBalanceParams `form:"customer_balance"`
+	// If this is an `eps` PaymentMethod, this hash contains details about the EPS payment method.
+	EPS *SetupIntentConfirmPaymentMethodDataEPSParams `form:"eps"`
+	// If this is an `fpx` PaymentMethod, this hash contains details about the FPX payment method.
+	FPX *SetupIntentConfirmPaymentMethodDataFPXParams `form:"fpx"`
+	// If this is a `giropay` PaymentMethod, this hash contains details about the Giropay payment method.
+	Giropay *SetupIntentConfirmPaymentMethodDataGiropayParams `form:"giropay"`
+	// If this is a `grabpay` PaymentMethod, this hash contains details about the GrabPay payment method.
+	Grabpay *SetupIntentConfirmPaymentMethodDataGrabpayParams `form:"grabpay"`
+	// If this is an `ideal` PaymentMethod, this hash contains details about the iDEAL payment method.
+	Ideal *SetupIntentConfirmPaymentMethodDataIdealParams `form:"ideal"`
+	// If this is an `interac_present` PaymentMethod, this hash contains details about the Interac Present payment method.
+	InteracPresent *SetupIntentConfirmPaymentMethodDataInteracPresentParams `form:"interac_present"`
+	// If this is a `klarna` PaymentMethod, this hash contains details about the Klarna payment method.
+	Klarna *SetupIntentConfirmPaymentMethodDataKlarnaParams `form:"klarna"`
+	// If this is a `konbini` PaymentMethod, this hash contains details about the Konbini payment method.
+	Konbini *SetupIntentConfirmPaymentMethodDataKonbiniParams `form:"konbini"`
+	// Set of [key-value pairs](https://stripe.com/docs/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`.
+	Metadata map[string]string `form:"metadata"`
+	// If this is an `oxxo` PaymentMethod, this hash contains details about the OXXO payment method.
+	OXXO *SetupIntentConfirmPaymentMethodDataOXXOParams `form:"oxxo"`
+	// If this is a `p24` PaymentMethod, this hash contains details about the P24 payment method.
+	P24 *SetupIntentConfirmPaymentMethodDataP24Params `form:"p24"`
+	// If this is a `paynow` PaymentMethod, this hash contains details about the PayNow payment method.
+	PayNow *SetupIntentConfirmPaymentMethodDataPayNowParams `form:"paynow"`
+	// If this is a `sepa_debit` PaymentMethod, this hash contains details about the SEPA debit bank account.
+	SepaDebit *SetupIntentConfirmPaymentMethodDataSepaDebitParams `form:"sepa_debit"`
+	// If this is a `sofort` PaymentMethod, this hash contains details about the SOFORT payment method.
+	Sofort *SetupIntentConfirmPaymentMethodDataSofortParams `form:"sofort"`
+	// The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type.
+	Type *string `form:"type"`
+	// If this is an `us_bank_account` PaymentMethod, this hash contains details about the US bank account payment method.
+	USBankAccount *SetupIntentConfirmPaymentMethodDataUSBankAccountParams `form:"us_bank_account"`
+	// If this is an `wechat_pay` PaymentMethod, this hash contains details about the wechat_pay payment method.
+	WechatPay *SetupIntentConfirmPaymentMethodDataWechatPayParams `form:"wechat_pay"`
+}
+
 // Confirm that your customer intends to set up the current or
 // provided payment method. For example, you would confirm a SetupIntent
 // when a customer hits the “Save” button on a payment method management
@@ -349,6 +752,9 @@ type SetupIntentConfirmParams struct {
 	MandateData *SetupIntentMandateDataParams `form:"mandate_data"`
 	// ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
 	PaymentMethod *string `form:"payment_method"`
+	// When included, this hash creates a PaymentMethod that is set as the [`payment_method`](https://stripe.com/docs/api/setup_intents/object#setup_intent_object-payment_method)
+	// value in the SetupIntent.
+	PaymentMethodData *SetupIntentConfirmPaymentMethodDataParams `form:"payment_method_data"`
 	// Payment-method-specific configuration for this SetupIntent.
 	PaymentMethodOptions *SetupIntentPaymentMethodOptionsParams `form:"payment_method_options"`
 	// The URL to redirect your customer back to after they authenticate on the payment method's app or site.
