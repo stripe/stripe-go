@@ -13,6 +13,9 @@ const excludedFields = {
     customer: [],
 
     product: [
+        // not essential to exclude the ID, but not using a standard ID makes maintaining an account confusing
+        'id',
+
         'price'
     ],
 
