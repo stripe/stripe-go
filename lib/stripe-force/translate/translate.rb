@@ -56,6 +56,8 @@ class StripeForce::Translate
   def translate(sf_object)
     @origin_salesforce_object = sf_object
 
+    set_error_context(user: @user, integration_record: sf_object)
+
     case sf_object.sobject_type
     when SF_ORDER
       translate_order(sf_object)
@@ -77,7 +79,7 @@ class StripeForce::Translate
     raise
   rescue Stripe::InvalidRequestError => e
     # TODO probably remove this in the future, but I want to understand the error codes that are coming through
-    log.warn 'stripe error',
+    log.warn 'stripe api error',
       code: e.code,
       message: e.message
 

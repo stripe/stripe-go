@@ -31,8 +31,8 @@ module Integrations
 
         @max_queue_length = 500
 
-        # TODO timeout_interval doesn't have any effect https://jira.corp.stripe.com/browse/DATAIO-213
-        @timer = Concurrent::TimerTask.new(execution_interval: 1, timeout_interval: 10) do
+        # it is impossible to set timeout_interval which can cause thread exaustion when sfx is down https://jira.corp.stripe.com/browse/DATAIO-213
+        @timer = Concurrent::TimerTask.new(execution_interval: 1) do
           process
         end
 

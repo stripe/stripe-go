@@ -45,6 +45,7 @@ module Integrations
     end
 
     # TODO add an `append: ` option to avoid wiping out existing context
+    # TODO rename `integration_record` to salesforce_record or something
     sig { params(user: T.nilable(StripeForce::User), stripe_resource: T.nilable(Stripe::APIResource), integration_record: T.untyped, tags: T.untyped).void }
     def set_error_context(user: nil, stripe_resource: nil, integration_record: nil, **tags)
       # clear out all of the context
