@@ -9,9 +9,11 @@ package stripe
 type FinancialConnectionsAccountOwner struct {
 	// The email address of the owner.
 	Email string `json:"email"`
-	ID    string `json:"id"`
+	// Unique identifier for the object.
+	ID string `json:"id"`
 	// The full name of the owner.
-	Name   string `json:"name"`
+	Name string `json:"name"`
+	// String representing the object's type. Objects of the same type share the same value.
 	Object string `json:"object"`
 	// The ownership object that this owner belongs to.
 	Ownership string `json:"ownership"`
